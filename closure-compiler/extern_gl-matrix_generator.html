@@ -1,0 +1,41 @@
+<html>
+<head>
+
+<script type="text/javascript" src="../src/modules.js"></script>
+<script type="text/javascript" src="../src/third_party/gl-matrix2.js"></script>
+<script>
+
+function run() {
+    
+    s = ""
+
+    s += write_props("vec3", b2w.require("vec3"));
+    s += write_props("vec4", b2w.require("vec4"));
+    s += write_props("mat3", b2w.require("mat3"));
+    s += write_props("mat4", b2w.require("mat4"));
+    s += write_props("quat", b2w.require("quat"));
+
+    var output = document.getElementsByName("output")[0];
+    output.innerHTML = s;
+}
+
+function write_props(name, obj) {
+
+    s = "var " + name + ";\n";
+    //s += "window." + name + ";\n";
+
+    for (var prop in obj) {
+        s += name  + "." + prop + " = function() {};\n"
+    }
+
+    return s;
+}
+
+
+</script>
+</head>
+<body onload=run()>
+<textarea rows="50" cols="120" name="output">
+</textarea>
+</body>
+</html>

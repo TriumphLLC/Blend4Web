@@ -1,0 +1,228 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Анимация &mdash; User manual: Blend4Web v14.03.21</title>
+    
+    <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '14.03.21',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="top" title="User manual: Blend4Web v14.03.21" href="index.html" />
+    <link rel="next" title="Рендеринг наружных сцен" href="outdoor_rendering.html" />
+    <link rel="prev" title="Система частиц для инстансинга объектов" href="particles_instancing.html" /> 
+  </head>
+  <body>
+    <div class="header-wrapper">
+      <div class="header">
+          <p class="logo"><a href="index.html">
+            <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
+          </a></p>
+        <div class="headertitle"><a
+          href="index.html">User manual: Blend4Web v14.03.21</a></div>
+        <div class="rel">
+          <a href="particles_instancing.html" title="Система частиц для инстансинга объектов"
+             accesskey="P">previous</a> |
+          <a href="outdoor_rendering.html" title="Рендеринг наружных сцен"
+             accesskey="N">next</a> |
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a>
+        </div>
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <span class="target" id="animation"></span><div class="section" id="index-0">
+<span id="id1"></span><h1>Анимация<a class="headerlink" href="#index-0" title="Permalink to this headline">¶</a></h1>
+<p>В общем случае, к анимации относятся изменения параметров объектов во времени.
+Движком поддерживаются следующие типы анимации:</p>
+<ul class="simple">
+<li>Перемещение объекта в пространстве как единого целого (объектная анимация).
+Изменяемые параметры: координаты центра (<tt class="docutils literal"><span class="pre">Location</span></tt>), кватернион поворота
+(<tt class="docutils literal"><span class="pre">Rotation</span></tt> в режиме <tt class="docutils literal"><span class="pre">Quaternion(WXYZ)</span></tt>) и масштабирование (<tt class="docutils literal"><span class="pre">Scaling</span></tt>).</li>
+<li>Деформация объекта с помощью системы костей (скиннинг и скелетная анимация) а
+также анимация костей в арматурном объекте для вспомогательных целей.</li>
+<li>Покадровая запись деформаций объекта с последующим воспроизведением
+(вертексная анимация).</li>
+<li>Параметризация параметров источников звука. Изменяемые параметры: громкость
+(<tt class="docutils literal"><span class="pre">Volume</span></tt>) и высота звука (<tt class="docutils literal"><span class="pre">Pitch</span></tt>).</li>
+<li>Процедурная анимация в виде колебаний объекта под действием ветра. Описано
+<a class="reference internal" href="outdoor_rendering.html#wind"><em>отдельно</em></a>.</li>
+<li>Эмиссия частиц из источника. Описано в <a class="reference internal" href="particles.html#particles"><em>соответствующем разделе</em></a>.</li>
+</ul>
+<div class="section" id="id2">
+<h2>Управление анимацией<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>Управление анимацией в движке осуществляется одним из трёх способов:</p>
+<ol class="arabic simple">
+<li>Автоматически, с помощью указания свойств <tt class="docutils literal"><span class="pre">Animation:</span> <span class="pre">Use</span> <span class="pre">default</span></tt> и
+<tt class="docutils literal"><span class="pre">Animation:</span> <span class="pre">Cyclic</span></tt> в свойствах объекта. В данном случае будет осуществлён
+поиск доступного метода и в случае положительного результата, объект
+анимируется с момента загрузки сцены.</li>
+<li>Программно, используя функции модуля <tt class="docutils literal"><span class="pre">animation</span></tt>.</li>
+<li>Автоматически, с помощью редактирования файла <tt class="docutils literal"><span class="pre">assets.json</span></tt>. В настройках
+загрузки сцены добавляется свойство <tt class="docutils literal"><span class="pre">animated_objects</span></tt>, являющееся массивом
+имён объектов, либо пар [&#8220;имя объекта-дупликатора группы&#8221;, &#8220;имя объекта
+внутри группы&#8221;]. Метод подходит только для приложений, использующих
+информацию из файла <tt class="docutils literal"><span class="pre">assets.json</span></tt> (в настоящий момент к ним относится
+просмоторщик сцен <tt class="docutils literal"><span class="pre">viewer</span></tt>).</li>
+</ol>
+<p>В случае анимации меша, необходимо назначение свойства <tt class="docutils literal"><span class="pre">Do</span> <span class="pre">not</span> <span class="pre">batch</span></tt> на
+вкладке свойств объекта.</p>
+</div>
+<div class="section" id="id3">
+<h2>Объектная анимация<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>Осуществляется с помощью добавления ключей анимации в программе Blender и
+их последующего воспроизведения в движке.</p>
+<p>Поддерживаются следующие типы ключей:</p>
+<ul class="simple">
+<li><em>Location</em></li>
+<li><em>Rotation</em> &#8211; необходимо осуществлять в режиме <tt class="docutils literal"><span class="pre">Quaternion(WXYZ)</span></tt>.</li>
+<li><em>Scaling</em> &#8211; для получения корректных результатов, фактор масштабирования должен быть одинаковым вдоль любых из осей.</li>
+<li><em>LocRot</em> &#8211; комбинация <em>Location</em> и <em>Rotation</em>.</li>
+<li><em>LocScale</em> &#8211; комбинация <em>Location</em> и <em>Scale</em>.</li>
+<li><em>LocRotScale</em> &#8211; комбинация <em>Location</em>, <em>Rotation</em> и <em>Scale</em>.</li>
+<li><em>RotScale</em> &#8211; комбинация <em>Rotation</em> и <em>Scale</em>.</li>
+</ul>
+</div>
+<div class="section" id="id4">
+<h2>Скиннинг и скелетная анимация<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p>Для осуществленя скелетной анимации, кроме анимированного объекта-меша требуется
+объект-арматура. Осуществляется в четыре этапа:</p>
+<ol class="arabic simple">
+<li>Создание скелета объекта в арматурном объекте.</li>
+<li>Назначение вертексных групп в объекте-меше и их привязка к костям.</li>
+<li>Анимация костей в арматурном объекте. Используются те же ключи, что и в случае
+объектной анимации.</li>
+<li>В случае нетривиальных видов скелетной анимации, включающих инверсную кинематику,
+требуется стадия запекания анимационных акторов (блок <tt class="docutils literal"><span class="pre">Action</span></tt> в Blender).
+Запекание производится с помощью интерфейса, вызываемого через пробел:
+<tt class="docutils literal"><span class="pre">B4W</span> <span class="pre">Animation</span> <span class="pre">Bake</span></tt>.</li>
+</ol>
+</div>
+<div class="section" id="id5">
+<h2>Вертексная анимация<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<p>Позволяет зафиксировать и воспроизвести любые манипуляции с геометрией
+объекта-меша. С другой стороны, для этого требуется огромное количество
+ресурсов (прежде всего возрастает объём загружаемых файлов и количество
+используемой видео-памяти).</p>
+<p>Для запекания вертексной анимации предусмотрен инструмент <tt class="docutils literal"><span class="pre">B4W</span> <span class="pre">Vertex</span> <span class="pre">Anim</span>
+<span class="pre">Baker</span></tt>, расположенный на панели <tt class="docutils literal"><span class="pre">Object</span> <span class="pre">Tools</span></tt>.</p>
+</div>
+<div class="section" id="id6">
+<h2>Параметризация источников звука<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
+<p>На объектах-спикерах дополнительно поддерживаются следующие типы анимационных
+ключей:</p>
+<ul class="simple">
+<li><em>Volume</em> &#8211; громкость звука источника.</li>
+<li><em>Pitch</em> &#8211; высота звука источника.</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="sidebar">
+          <h3>Table Of Contents</h3>
+          <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">Функционал движка</a></li>
+<li class="toctree-l1"><a class="reference internal" href="first_steps.html">Экспресс-установка</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">Развёртывание среды разработки</a></li>
+<li class="toctree-l1"><a class="reference internal" href="working_process_stages.html">Рабочий процесс</a></li>
+<li class="toctree-l1"><a class="reference internal" href="viewer.html">Просмотрщик сцен</a></li>
+<li class="toctree-l1"><a class="reference internal" href="export_errors.html">Ошибки экспорта</a></li>
+<li class="toctree-l1"><a class="reference internal" href="objects.html">Объекты</a></li>
+<li class="toctree-l1"><a class="reference internal" href="textures.html">Текстуры</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materials.html">Материалы</a></li>
+<li class="toctree-l1"><a class="reference internal" href="node_materials.html">Нодовые материалы</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lighting.html">Освещение и тени</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Постпроцессинговые эффекты</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles.html">Система частиц</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Система частиц для инстансинга объектов</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Анимация</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">Управление анимацией</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">Объектная анимация</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">Скиннинг и скелетная анимация</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">Вертексная анимация</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">Параметризация источников звука</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Рендеринг наружных сцен</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Gamma-correction and transparency</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audio.html">Звуковая подсистема</a></li>
+<li class="toctree-l1"><a class="reference internal" href="event_model.html">Событийная модель</a></li>
+<li class="toctree-l1"><a class="reference internal" href="physics.html">Физика</a></li>
+<li class="toctree-l1"><a class="reference internal" href="assets_creation.html">Методики создания ресурсов</a></li>
+<li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Проблемы и решения</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers.html">Разработчикам</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Краткая справка по git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="roadmap.html">План развития</a></li>
+</ul>
+
+          <h3 style="margin-top: 1.5em;">Search</h3>
+          <form class="search" action="search.html" method="get">
+            <input type="text" name="q" />
+            <input type="submit" value="Go" />
+            <input type="hidden" name="check_keywords" value="yes" />
+            <input type="hidden" name="area" value="default" />
+          </form>
+          <p class="searchtip" style="font-size: 90%">
+            Enter search terms or a module, class or function name.
+          </p>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+    <div class="footer-wrapper">
+      <div class="footer">
+        <div class="left">
+          <a href="particles_instancing.html" title="Система частиц для инстансинга объектов"
+             >previous</a> |
+          <a href="outdoor_rendering.html" title="Рендеринг наружных сцен"
+             >next</a> |
+          <a href="genindex.html" title="General Index"
+             >index</a>
+        </div>
+
+        <div class="right">
+          
+    <div class="footer">
+        &copy; Copyright 2014, Triumph LLC.
+      Last updated on 2014-03-27.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+  </body>
+</html>

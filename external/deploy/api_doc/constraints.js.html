@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: ext/constraints.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: ext/constraints.js</h1>
+
+    
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>"use strict";
+
+/** 
+ * Object constraints API.
+ * @module constraints
+ */
+b4w.module["constraints"] = function(exports, require) {
+
+var constraints = require("__constraints");
+
+/**
+ * Append stiff constraint.
+ * @method module:constraints.append_stiff
+ * @param obj Object ID
+ * @param target Object ID or [Armature object ID, Bone Name]
+ * @param {vec3} offset Offset in parent local space
+ * @param {quat4} [rotation_offset] Rotation offset in parent local space
+ */
+exports["append_stiff"] = function(obj, target, offset, rotation_offset) {
+
+    if (target instanceof Array &amp;&amp; target.length == 2)
+        constraints.append_stiff_bone(obj, target[0], target[1], offset, rotation_offset);
+    else
+        constraints.append_stiff_obj(obj, target, offset, rotation_offset);
+}
+/**
+ * Append semi-stiff constraint.
+ * @method module:constraints.append_semi_stiff
+ * @param obj Object ID
+ * @param target Object ID or [Armature object ID, Bone Name]
+ * @param {vec3} offset Offset in parent local space
+ * @param {quat4} [rotation_offset] Rotation offset in parent local space
+ */
+exports["append_semi_stiff"] = function(obj, target, offset, rotation_offset) {
+    constraints.append_semi_stiff_obj(obj, target, offset, rotation_offset);
+}
+/**
+ * Append semi-stiff constraint with camera rotation clamping.
+ * @method module:constraints.append_semi_stiff_cam
+ * @param obj Object ID
+ * @param target Object ID or [Armature object ID, Bone Name]
+ * @param {vec3} offset Offset in parent local space
+ * @param {quat4} [rotation_offset] Rotation offset in parent local space
+ * @param clamp_left Clamp camera rotation left for azimuth angle
+ * @param clamp_right Clamp camera rotation right for azimuth angle
+ * @param clamp_up Clamp camera rotation up for elevation angle
+ * @param clamp_down Clamp camera rotation down for elevation angle
+ */
+exports["append_semi_stiff_cam"] = function(obj, target, offset, rotation_offset, 
+                                            clamp_left, clamp_right, 
+                                            clamp_up, clamp_down) {
+    constraints.append_semi_stiff_cam_obj(obj, target, offset, rotation_offset, 
+                                          clamp_left, clamp_right, 
+                                          clamp_up, clamp_down);
+}
+/**
+ * Append semi-soft constraint.
+ * @method module:constraints.append_semi_soft_cam
+ * @param obj Object ID
+ * @param target Object ID or [Armature object ID, Bone Name]
+ * @param {vec3} offset Offset in parent local space
+ */
+exports["append_semi_soft_cam"] = function(obj, target, offset) {
+    constraints.append_semi_soft_cam_obj(obj, target, offset);
+}
+/**
+ * Append stiff translation constraint.
+ * @method module:constraints.append_stiff_trans
+ * @param obj Object ID
+ * @param target Object ID
+ * @param {vec3} offset Offset in target local space
+ */
+exports["append_stiff_trans"] = function(obj, target, offset) {
+    constraints.append_stiff_trans_obj(obj, target, offset);
+}
+/**
+ * Append copy translatioin constraint.
+ * @method module:constraints.append_copy_trans
+ * @param obj Object ID
+ * @param target Object ID
+ * @param {vec3} offset Offset in world space
+ */
+exports["append_copy_trans"] = function(obj, target, offset) {
+    constraints.append_copy_trans_obj(obj, target, offset);
+}
+/**
+ * Append track constraint.
+ * @method module:constraints.append_track
+ * @param obj Object ID
+ * @param target Target object ID or vector
+ */
+exports["append_track"] = function(obj, target) {
+    if (target.length == 3)
+        constraints.append_track_point(obj, target);
+    else
+        constraints.append_track_obj(obj, target);
+}
+/**
+ * Append follow constraint.
+ * @method module:constraints.append_follow
+ * @param obj Object ID
+ * @param target Target object ID or vector
+ * @param {Number} offset Offset
+ */
+exports["append_follow"] = function(obj, target, offset_min, offset_max) {
+    if (target.length == 3)
+        constraints.append_follow_point(obj, target, offset_min, offset_max);
+    else
+        constraints.append_follow_obj(obj, target, offset_min, offset_max);
+}
+/**
+ * Remove object constraint if any.
+ * @method module:constraints.remove
+ * @param obj Object ID
+ */
+exports["remove"] = function(obj) {
+    if (obj._constraint)
+        constraints.remove(obj);
+}
+
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Index</a></h2><h3>Modules</h3><ul><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-pointerlock.html">pointerlock</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-util.html">util</a></li><li><a href="module-version.html">version</a></li></ul><h3><a href="global.html">Global</a></h3>
+</nav>
+
+<br clear="both">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-dev</a> on Tue Mar 25 2014 11:39:58 GMT+0400 (MSK)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

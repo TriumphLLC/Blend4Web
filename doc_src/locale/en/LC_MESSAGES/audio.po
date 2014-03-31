@@ -1,0 +1,219 @@
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: B4W 14.02.28\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-03-18 17:57\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../audio.rst:5
+msgid "Звуковая подсистема"
+msgstr ""
+
+#: ../audio.rst:7
+msgid ""
+"Создание звуковых источников осуществляется в Blender'e. Используется "
+"стандартный объект ``Speaker``."
+msgstr ""
+
+#: ../audio.rst:10
+msgid "Настройка звуковых источников"
+msgstr ""
+
+#: ../audio.rst:12
+msgid ""
+"Настройки спикера выставляются в панели ``Properties`` на вкладке ``Object "
+"Data``."
+msgstr ""
+
+#: ../audio.rst:27
+msgid "*Speaker behavior*"
+msgstr ""
+
+#: ../audio.rst:15
+msgid "Поведение звукового источника."
+msgstr ""
+
+#: ../audio.rst:17
+msgid ""
+"``Positional`` --- высококачественный звук, допускающий позиционирование и "
+"имеющий направленность (конусность). Для рендеринга используется Web Audio "
+"API. Воспроизведение подобных звуков обладает наименьшей "
+"производительностью, поэтому их использовать целесообразно только для "
+"коротких сэмплов."
+msgstr ""
+
+#: ../audio.rst:22
+msgid ""
+"``Background sound`` --- высококачественный всенаправленный звук без "
+"возможности позиционирования в пространстве. Для рендеринга используется Web"
+" Audio API. Более производителен, однако нецелесообразен для музыки."
+msgstr ""
+
+#: ../audio.rst:26
+msgid ""
+"``Background music`` --- используется для воспроизведения музыки. "
+"Максимальная производительность вследствие использования тега Audio, "
+"минимальная гибкость."
+msgstr ""
+
+#: ../audio.rst:30
+msgid "*Disable doppler*"
+msgstr ""
+
+#: ../audio.rst:30
+msgid "Игнорировать смещение частоты источника при его перемещении."
+msgstr ""
+
+#: ../audio.rst:33
+msgid "*Cyclic play*"
+msgstr ""
+
+#: ../audio.rst:33
+msgid "Зацикливать воспроизведение звука."
+msgstr ""
+
+#: ../audio.rst:36
+msgid "*Delay*"
+msgstr ""
+
+#: ../audio.rst:36
+msgid "Задержка в секундах перед началом проигрывания звука."
+msgstr ""
+
+#: ../audio.rst:40
+msgid "*Random delay*"
+msgstr ""
+
+#: ../audio.rst:39
+msgid ""
+"Дополнительная рандомизация задержки, результирующее значение определяется "
+"по формуле :math:`Delay_{result} = Delay + Delay_{random} * Random_{[0-1]}`."
+msgstr ""
+
+#: ../audio.rst:44
+msgid "*Random volume*"
+msgstr ""
+
+#: ../audio.rst:43
+msgid ""
+"Дополнительная рандомизация громкости. Результирующее значение определяется "
+"аналогично задержке."
+msgstr ""
+
+#: ../audio.rst:48
+msgid "*Random pitch*"
+msgstr ""
+
+#: ../audio.rst:47
+msgid ""
+"Дополнительная рандомизация скорости проигрывания звука. Результирующее "
+"значение определяется аналогично задержке."
+msgstr ""
+
+#: ../audio.rst:51
+msgid "*Fade-in*"
+msgstr ""
+
+#: ../audio.rst:51
+msgid "Интервал плавного включения звука."
+msgstr ""
+
+#: ../audio.rst:54
+msgid "*Fade-out*"
+msgstr ""
+
+#: ../audio.rst:54
+msgid "Интервал плавного выключения звука."
+msgstr ""
+
+#: ../audio.rst:60
+msgid "*Loop*"
+msgstr ""
+
+#: ../audio.rst:57
+msgid ""
+"Зацикливать воспроизведение звука. Отличается от ``Cyclic play``, тем, что "
+"способен обеспечить нулевую задержку при повторении. Опция доступна только "
+"для звуковых источников с поведением ``Positional`` или ``Background "
+"sound``."
+msgstr ""
+
+#: ../audio.rst:63
+msgid "*Loop count*"
+msgstr ""
+
+#: ../audio.rst:63 ../audio.rst:66 ../audio.rst:69
+msgid "Не реализовано"
+msgstr ""
+
+#: ../audio.rst:66
+msgid "*Random loop count*"
+msgstr ""
+
+#: ../audio.rst:69
+msgid "*Playlist ID*"
+msgstr ""
+
+#: ../audio.rst:74
+msgid "Обработка и кодирование"
+msgstr ""
+
+#: ../audio.rst:77
+msgid "Поддерживаемые форматы (контейнеры):"
+msgstr ""
+
+#: ../audio.rst:79
+msgid "ogg, кодек Vorbis (Chrome, Firefox)"
+msgstr ""
+
+#: ../audio.rst:80
+msgid "mp3 (Chrome, Safari)"
+msgstr ""
+
+#: ../audio.rst:81
+msgid "mp4, кодек AAC (Chrome, Safari)"
+msgstr ""
+
+#: ../audio.rst:83
+msgid ""
+"Рекомендуется использовать ogg, как наиболее распространённый в браузерах, "
+"поддерживающих WebGL (Chrome, Firefox). Оптимальным с точки зрения качества "
+"и совместимости является формат 48кГц/16. Одноканальный звук (моно) "
+"используется для хранения коротких сэмплов, двухканальный звук (стерео) - "
+"для музыкального сопровождения."
+msgstr ""
+
+#: ../audio.rst:89
+msgid ""
+"Встроенный конвертер имеет возможность преобразования исходных форматов для "
+"расширения спектра поддерживаемых платформ. Для этого необходимо выполнить "
+"команду:"
+msgstr ""
+
+#: ../audio.rst:97
+msgid "Преобразование происходит по схеме:"
+msgstr ""
+
+#: ../audio.rst:99
+msgid "ogg -> mp4"
+msgstr ""
+
+#: ../audio.rst:100
+msgid "mp3 -> ogg"
+msgstr ""
+
+#: ../audio.rst:101
+msgid "mp4 -> ogg"
+msgstr ""
+
+#: ../audio.rst:103
+msgid ""
+"Конвертация ресурсов происходит с потерей качества, поэтому "
+"сконвертированные файлы получают суффикс .lossconv."
+msgstr ""

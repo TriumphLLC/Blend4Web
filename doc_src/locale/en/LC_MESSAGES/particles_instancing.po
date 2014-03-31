@@ -1,0 +1,514 @@
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: B4W 14.02.28\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-03-18 17:57\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../particles_instancing.rst:7
+msgid "Система частиц для инстансинга объектов"
+msgstr ""
+
+#: ../particles_instancing.rst:9
+msgid ""
+"Система частиц может использоваться для создания множественных копий "
+"объектов (инстансинга)."
+msgstr ""
+
+#: ../particles_instancing.rst:17
+msgid "Настройки системы частиц"
+msgstr ""
+
+#: ../particles_instancing.rst:19 ../particles_instancing.rst:134
+#: ../particles_instancing.rst:175
+msgid "**Активация**"
+msgstr ""
+
+#: ../particles_instancing.rst:21
+msgid "На эмиттере создать систему частиц типа ``Hair``."
+msgstr ""
+
+#: ../particles_instancing.rst:22
+msgid ""
+"В панели ``Render`` выбрать тип отображения ``Object`` (или ``Group``)."
+msgstr ""
+
+#: ../particles_instancing.rst:23
+msgid ""
+"В поле ``Dupli Object`` (или ``Dupli Group``) выбрать объект (или группу "
+"объектов) для инстансинга. Поддерживаются как локальные, так и подключенные "
+"по ссылке объекты (или группы)."
+msgstr ""
+
+#: ../particles_instancing.rst:26
+msgid "**Рекомендуемые дополнительные настройки**"
+msgstr ""
+
+#: ../particles_instancing.rst:28
+msgid ""
+"Для корректного отображения размера установить значение 1.0 для параметров "
+"``Emission > Hair Length`` и ``Render > Size``."
+msgstr ""
+
+#: ../particles_instancing.rst:29
+msgid ""
+"Для установки корректной ориентации временно включить опцию ``Advanced``, "
+"активировать панель ``Rotation`` и в меню ``Initial Orientation`` выбрать "
+"``None``. Отключить опцию ``Advanced``. Также рекомендуется включить опцию "
+"``Render > Rotation``."
+msgstr ""
+
+#: ../particles_instancing.rst:38 ../particles_instancing.rst:139
+#: ../particles_instancing.rst:185
+msgid "**Настройка**"
+msgstr ""
+
+#: ../particles_instancing.rst:41
+msgid "*Render > Use Count*"
+msgstr ""
+
+#: ../particles_instancing.rst:41
+msgid ""
+"Опция доступна для групп объектов-частиц. При включении появляется интерфейс"
+" установки относительного количества входящих в группу объектов. Движок не "
+"воспроизводит точное местонахождение объектов заданных типов."
+msgstr ""
+
+#: ../particles_instancing.rst:44
+msgid "*Blend4Web > Random location and size*"
+msgstr ""
+
+#: ../particles_instancing.rst:44
+msgid ""
+"Опция устанавливает случайный характер расположения и размеров объектов. "
+"Если опция включена, движок генерирует случайные координаты и размер (в "
+"пределах ±25%) объектов-частиц. Если опция выключена, производится экспорт и"
+" использование текущих координат и размеров объектов-частиц. По умолчанию "
+"включено."
+msgstr ""
+
+#: ../particles_instancing.rst:47
+msgid "*Blend4Web > Initial random rotation*"
+msgstr ""
+
+#: ../particles_instancing.rst:47
+msgid ""
+"Опция устанавливает случайный характер вращения объектов относительно оси "
+"определяемой параметром ``Rotation type``. Если опция включена, движок "
+"генерирует случайные углы вращения объектов-частиц. Если опция выключена, "
+"устанавливается нулевой угол вращения. По умолчанию включено."
+msgstr ""
+
+#: ../particles_instancing.rst:54
+msgid "*Blend4Web > Rotation type*"
+msgstr ""
+
+#: ../particles_instancing.rst:52
+msgid ""
+"Ось случайного поворота объекта (опция доступна при включении ``Blend4Web > "
+"Initial random rotation``). Возможны 2 варианта:"
+msgstr ""
+
+#: ../particles_instancing.rst:51
+msgid ""
+"``Z axis`` - случайный поворот будет осуществлен относительно вертикальной "
+"оси Z"
+msgstr ""
+
+#: ../particles_instancing.rst:52
+msgid ""
+"``Random axis`` - случайный поворот будет осуществлен относительно случайной"
+" оси"
+msgstr ""
+
+#: ../particles_instancing.rst:54
+msgid "Значение по умолчанию ``Z axis``."
+msgstr ""
+
+#: ../particles_instancing.rst:62
+msgid "*Blend4Web > Rotation strength*"
+msgstr ""
+
+#: ../particles_instancing.rst:60
+msgid ""
+"Коэффициент, определяющий диапазон случайных углов поворота, отсчитываемых "
+"от направления на камеру (опция доступна при включении ``Blend4Web > Initial"
+" random rotation``). Например:"
+msgstr ""
+
+#: ../particles_instancing.rst:58
+msgid ""
+"``Rotation strength = 1`` - углы будут лежать в пределах :math:`[-\\pi, "
+"\\pi]`"
+msgstr ""
+
+#: ../particles_instancing.rst:59
+msgid ""
+"``Rotation strength = 0.5`` - углы будут лежать в пределах :math:`[-0.5 "
+"\\cdot \\pi, 0.5 \\cdot \\pi]`"
+msgstr ""
+
+#: ../particles_instancing.rst:60
+msgid ""
+"``Rotation strength = 0.1`` - углы будут лежать в пределах :math:`[-0.1 "
+"\\cdot \\pi, 0.1 \\cdot \\pi]`"
+msgstr ""
+
+#: ../particles_instancing.rst:62
+msgid "Значение по умолчанию 1."
+msgstr ""
+
+#: ../particles_instancing.rst:65
+msgid "*Blend4Web > Billboard*"
+msgstr ""
+
+#: ../particles_instancing.rst:65
+msgid "Включение биллбординга для частиц. По умолчанию выключено."
+msgstr ""
+
+#: ../particles_instancing.rst:73
+msgid "*Blend4Web > Billboard type*"
+msgstr ""
+
+#: ../particles_instancing.rst:71
+msgid ""
+"Тип биллбординга (опция доступна при включении ``Blend4Web > Billboard``). "
+"Доступны 3 типа:"
+msgstr ""
+
+#: ../particles_instancing.rst:69
+msgid ""
+"``Basic`` - простой односторонний биллбординг: частицы всегда будут "
+"повернуты лицевой стороной"
+msgstr ""
+
+#: ../particles_instancing.rst:70
+msgid ""
+"``Random`` - случайный двусторонний биллбординг: частицы чаще всего будут "
+"повернуты лицевой, либо обратной стороной, реже - боком; присутствует "
+"небольшой случайный поворот; модель создана специально для инстансинга травы"
+msgstr ""
+
+#: ../particles_instancing.rst:71
+msgid ""
+"``Jittered`` - односторонний биллбординг с колебанием частиц в плоскости, "
+"обращенной к наблюдателю; модель создана специально для инстансинга листвы "
+"деревьев"
+msgstr ""
+
+#: ../particles_instancing.rst:73
+msgid "Значение по умолчанию ``Basic``."
+msgstr ""
+
+#: ../particles_instancing.rst:76
+msgid "*Blend4Web > Jitter amplitude*"
+msgstr ""
+
+#: ../particles_instancing.rst:76
+msgid ""
+"Коэффициент амплитуды колебаний частиц (опция доступна при выборе типа "
+"``Jittered`` в  ``Blend4Web > Billboard type``). При увеличении параметра "
+"амплитуда растет. Значение по умолчанию 0."
+msgstr ""
+
+#: ../particles_instancing.rst:79
+msgid "*Blend4Web > Jitter frequency*"
+msgstr ""
+
+#: ../particles_instancing.rst:79
+msgid ""
+"Частота колебаний частиц, Гц (опция доступна при выборе типа ``Jittered`` в"
+"  ``Blend4Web > Billboard type``). Значение по умолчанию 0."
+msgstr ""
+
+#: ../particles_instancing.rst:86
+msgid "*Blend4Web > Billboard geometry*"
+msgstr ""
+
+#: ../particles_instancing.rst:84
+msgid ""
+"Тип вращения биллбордов (опция доступна при включении ``Blend4Web > "
+"Billboard``). Доступны 2 типа:"
+msgstr ""
+
+#: ../particles_instancing.rst:83
+msgid ""
+"``Spherical`` - сферический биллбординг, полная ориентация частиц по "
+"отношению к наблюдателю, вращение ничем не ограничено"
+msgstr ""
+
+#: ../particles_instancing.rst:84
+msgid ""
+"``Cylindrical`` - цилиндрический биллбординг, вращение частиц только "
+"относительно оси Z"
+msgstr ""
+
+#: ../particles_instancing.rst:86
+msgid "Значение по умолчанию ``Spherical``."
+msgstr ""
+
+#: ../particles_instancing.rst:89
+msgid "*Blend4Web > Dynamic Grass*"
+msgstr ""
+
+#: ../particles_instancing.rst:89
+msgid ""
+"Опция включает режим динамического рендеринга травяного покрова. По "
+"умолчанию отключено."
+msgstr ""
+
+#: ../particles_instancing.rst:96
+msgid "*Blend4Web > Wind bending*"
+msgstr ""
+
+#: ../particles_instancing.rst:94
+msgid "Наследование частицами настроек Wind bending:"
+msgstr ""
+
+#: ../particles_instancing.rst:93 ../particles_instancing.rst:100
+#: ../particles_instancing.rst:107
+msgid "``Parent`` - наследование с эмиттера"
+msgstr ""
+
+#: ../particles_instancing.rst:94 ../particles_instancing.rst:101
+#: ../particles_instancing.rst:108
+msgid "``Instance`` - наследование с объекта самой частицы"
+msgstr ""
+
+#: ../particles_instancing.rst:96 ../particles_instancing.rst:103
+#: ../particles_instancing.rst:110
+msgid "Значение по умолчанию ``Parent``."
+msgstr ""
+
+#: ../particles_instancing.rst:103
+msgid "*Blend4Web > Shadows*"
+msgstr ""
+
+#: ../particles_instancing.rst:101
+msgid "Наследование частицами настроек теней:"
+msgstr ""
+
+#: ../particles_instancing.rst:110
+msgid "*Blend4Web > Reflection*"
+msgstr ""
+
+#: ../particles_instancing.rst:108
+msgid "Наследование частицами настроек отражений:"
+msgstr ""
+
+#: ../particles_instancing.rst:118
+msgid "*Blend4Web > Vertex color*"
+msgstr ""
+
+#: ../particles_instancing.rst:115
+msgid "Наследование частицами вертексного цвета с эмиттера. Содержит 2 поля:"
+msgstr ""
+
+#: ../particles_instancing.rst:114
+msgid "``from`` - имя существующего у эмиттера вертексного цвета"
+msgstr ""
+
+#: ../particles_instancing.rst:115
+msgid "``to`` - имя существующего у частицы вертексного цвета"
+msgstr ""
+
+#: ../particles_instancing.rst:117
+msgid "По умолчанию наследования не происходит."
+msgstr ""
+
+#: ../particles_instancing.rst:123
+msgid "Травяной покров"
+msgstr ""
+
+#: ../particles_instancing.rst:125
+msgid ""
+"Инстансинг объектов может использоваться для визуализации травяного покрова "
+"на обширных площадях. При этом происходит отрисовка травы вблизи камеры по "
+"мере ее движения по ландшафту."
+msgstr ""
+
+#: ../particles_instancing.rst:136
+msgid ""
+"На отдельном объекте-плоскости создать систему частиц для инстансинга "
+"объектов. Включить опцию ``Blend4Web > Dynamic Grass``."
+msgstr ""
+
+#: ../particles_instancing.rst:137
+msgid ""
+"На предполагаемом материале ландшафта включить опцию ``Blend4Web > Terrain "
+"dynamic grass``."
+msgstr ""
+
+#: ../particles_instancing.rst:141
+msgid ""
+"Рекомендуется создать несколько плоскостей (например, 3) с размерами, "
+"соответствующими желаемому размеру каскада травяного покрова (например, 100,"
+" 150 и 250 м)."
+msgstr ""
+
+#: ../particles_instancing.rst:143
+msgid ""
+"На **материале** ландшафта при включении опции ``Blend4Web > Terrain dynamic"
+" grass`` становятся активными текстовые поля:"
+msgstr ""
+
+#: ../particles_instancing.rst:146
+msgid "*Dynamic grass size (R)*"
+msgstr ""
+
+#: ../particles_instancing.rst:146
+msgid ""
+"Название слоя вертексного цвета меша ландшафта, предназначенного для "
+"модифицирования размера травяного покрова. Размер (\"высота\") травяного "
+"покрова задается оттенками серого - чем светлее, тем больше."
+msgstr ""
+
+#: ../particles_instancing.rst:149
+msgid "*Dynamic grass color (RGB)*"
+msgstr ""
+
+#: ../particles_instancing.rst:149
+msgid ""
+"Название слоя вертексного цвета меша ландшафта, предназначенного для "
+"подкраски травяного покрова. Вертексный цвет умножается на цвет материала "
+"травы. Параметр ``Influence > Blend`` диффузной текстуры материала травы "
+"должен иметь значение ``Multiply``."
+msgstr ""
+
+#: ../particles_instancing.rst:151
+msgid ""
+"Слои вертексного цвета с такими названиями должны существовать в меше "
+"ландшафта."
+msgstr ""
+
+#: ../particles_instancing.rst:153
+msgid ""
+"Рекомендуется также отключить отображение эмиттера (опция ``Render > "
+"Emitter``)."
+msgstr ""
+
+#: ../particles_instancing.rst:164
+msgid "Листва деревьев"
+msgstr ""
+
+#: ../particles_instancing.rst:166
+msgid ""
+"Инстансинг хорошо подходит для отображения листвы на деревьях, и позволяет "
+"добиться более высокого уровня детализации."
+msgstr ""
+
+#: ../particles_instancing.rst:177
+msgid ""
+"Осуществляется как описано выше в разделе ``Настройки системы частиц -> "
+"Активация``. Здесь соответственно эмиттером будет выступать дерево, а "
+"частицами - ветки, листья и т.д."
+msgstr ""
+
+#: ../particles_instancing.rst:179
+msgid "Для эмиттера дополнительно можно сделать следующее:"
+msgstr ""
+
+#: ../particles_instancing.rst:181
+msgid ""
+"создать вертексную группу, включающую вершины, на которых будут "
+"располагаться частицы"
+msgstr ""
+
+#: ../particles_instancing.rst:182
+msgid ""
+"создать слой вертексного цвета для настройки Wind Bending дерева и листвы"
+msgstr ""
+
+#: ../particles_instancing.rst:183
+msgid ""
+"создать слой вертексного цвета для наследования его частицами (можно "
+"использовать, например, для подкраски частиц)"
+msgstr ""
+
+#: ../particles_instancing.rst:187
+msgid "``Настройки случайного поворота``"
+msgstr ""
+
+#: ../particles_instancing.rst:189
+msgid ""
+"Если включена опция ``Blend4Web > Initial random rotation``, то "
+"рекомендуется выставить вертикальную ось случайного поворота - ``Z axis`` "
+"(опция ``Blend4Web > Rotation type``). Опция ``Blend4Web > Rotation "
+"strength`` - на свое усмотрение."
+msgstr ""
+
+#: ../particles_instancing.rst:191
+msgid "``Настройки биллбординга``"
+msgstr ""
+
+#: ../particles_instancing.rst:193
+msgid ""
+"Рекомендуется включить биллбординг, выставить тип ``Jittered`` (опция "
+"``Blend4Web > Billboard type``) и сделать его сферическим - ``Spherical`` "
+"(опция ``Blend4Web > Billboard geometry``). Настройки ``Blend4Web > Jitter "
+"amplitude`` и ``Blend4Web > Jitter frequency`` - на свое усмотрение."
+msgstr ""
+
+#: ../particles_instancing.rst:195
+msgid "``Настройки расположения частиц``"
+msgstr ""
+
+#: ../particles_instancing.rst:197
+msgid ""
+"Рекомендуется выставить опцию ``Emission > Emit From`` в значение ``Verts``,"
+" а в ``Vertex Group > Density`` выбрать вертексную группу эмиттера с "
+"вершинами для расположения частиц. Также нужно отключить опцию ``Blend4Web >"
+" Random location and size``."
+msgstr ""
+
+#: ../particles_instancing.rst:199
+msgid "``Настройки Wind Bending``"
+msgstr ""
+
+#: ../particles_instancing.rst:201
+msgid ""
+"Рекомендуется включить наследование настроек из эмиттера - выставить "
+"``Parent`` в опции ``Blend4Web > Wind bending``. Затем у эмиттера в панели "
+"``Object`` выбрать опцию ``Blend4Web > Wind bending`` и настроить параметры "
+"бендинга. Для дерева достаточно указать параметры ``Blend4Web > Main Bending"
+" > Angle`` и ``Blend4Web > Main Bending > Frequency``, а также вертексный "
+"цвет для бендинга - ``Blend4Web > Main Bending > Main stiffness``."
+msgstr ""
+
+#: ../particles_instancing.rst:203
+msgid "``Настройки наследования вертексного цвета``"
+msgstr ""
+
+#: ../particles_instancing.rst:205
+msgid ""
+"Для наследования частицами вертексного цвета эмиттера нужно указать имя "
+"цвета эмиттера и имя цвета частицы соответственно в полях ``Blend4Web > "
+"Vertex Color > from`` и ``Blend4Web > Vertex Color > to``. При наследовании "
+"цвет ближайшей к частице вершины эмиттера из ``from`` будет скопирован и "
+"размножен в цвет ``to`` частицы."
+msgstr ""
+
+#: ../particles_instancing.rst:207
+msgid ""
+"Полученный таким образом вертексный цвет с именем ``Blend4Web > Vertex Color"
+" > to`` можно будет использовать в нодовом материале частицы для ее "
+"подкрашивания либо каких-то других эффектов."
+msgstr ""
+
+#: ../particles_instancing.rst:3
+msgid "система частиц"
+msgstr ""
+
+#: ../particles_instancing.rst:3
+msgid "инстансинг"
+msgstr ""
+
+#: ../particles_instancing.rst:3
+msgid "instancing"
+msgstr ""

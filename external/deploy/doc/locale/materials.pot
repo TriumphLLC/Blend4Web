@@ -1,0 +1,727 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2014, ООО "Триумф"
+# This file is distributed under the same license as the B4W package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: B4W 14.02.28\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-03-19 19:31+0400\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../materials.rst:7
+# c4d6bed19ac0498a9512817277114a7e
+msgid "Материалы"
+msgstr ""
+
+#: ../materials.rst:9
+# 2284414507ce466e9f5c4833ac6b9e74
+msgid "Материалы описывают реакцию поверхности объекта на освещение, а также содержат информацию о ее прозрачности, отражающей способности, физических и других параметрах."
+msgstr ""
+
+#: ../materials.rst:11
+# be981b3a574644d38f2b3dca8821ac10
+msgid "Меши могут использовать один или несколько материалов. В случае использования нескольких материалов назначение их различным полигонам происходит в режиме редактирования ``Edit Mode``. Для этого нужно выделить нужные полигоны, выбрать материал из списка и нажать кнопку ``Assign``."
+msgstr ""
+
+#: ../materials.rst:13
+# caae39d24601448690d6488270b07c41
+msgid "Поддерживаются следующие типы материалов: ``Surface`` (поверхность), ``Halo`` (гало)."
+msgstr ""
+
+#: ../materials.rst:20
+# 1902554f42b14d8f9754c663aeef10dd
+msgid "Параметры освещения"
+msgstr ""
+
+#: ../materials.rst:28
+# 75e2cf48f7f24fc481b915ef60967ced
+msgid "*Diffuse > Color*"
+msgstr ""
+
+#: ../materials.rst:28
+# ed27414e523b4c2eb0baef9d734e1619
+msgid "Цвет диффузного (рассеянного) света. Значение по умолчанию (0.8, 0.8, 0.8). Может взаимодействовать с цветом диффузной текстуры."
+msgstr ""
+
+#: ../materials.rst:31
+# 2574eb5390064d3a9b8bd4bada9290a7
+msgid "*Diffuse > Intensity*"
+msgstr ""
+
+#: ../materials.rst:31
+# 5c03f40c90f6451eb68bb46095151f7d
+msgid "Интенсивность диффузного (рассеянного) света. Значение по умолчанию 0.8."
+msgstr ""
+
+#: ../materials.rst:34
+# 8f1aa8aef0554cf6b574d3adfc26a730
+msgid "*Diffuse > Shader*"
+msgstr ""
+
+#: ../materials.rst:34
+# 4896a3787ba748eca2a75433525b3491
+msgid "Алгоритм расчета диффузного (рассеянного) освещения. Игнорируется движком. В движке используется алгоритм Ламберта (``Lambert``). Значение по умолчанию ``Lambert``."
+msgstr ""
+
+#: ../materials.rst:37
+# 98292afca39d44fb8597c1a5d74475db
+msgid "*Specular > Color*"
+msgstr ""
+
+#: ../materials.rst:37
+# 0d1744c767f74e3aa94d02ef0ee0fe76
+msgid "Цвет отраженного света. Значение по умолчанию (1.0, 1.0, 1.0). Может взаимодействовать с цветом карты бликов."
+msgstr ""
+
+#: ../materials.rst:40
+# d93f9f2be142467aa1b0546ec8c86371
+msgid "*Specular > Intensity*"
+msgstr ""
+
+#: ../materials.rst:40
+# 0c791f8685bf49ed9fd55bef117642cc
+msgid "Интенсивность отраженного света. Значение по умолчанию 0.5."
+msgstr ""
+
+#: ../materials.rst:43
+# ee4fc46b62b749db97dfe97000eaf335
+msgid "*Specular > Hardness*"
+msgstr ""
+
+#: ../materials.rst:43
+# e213fc9214964d768f51052e92c907af
+msgid "Степенной показатель в формуле расчета отраженного света (\"жесткость\" блика). Значение по умолчанию 50. Алгоритм применения в движке отличается от алгоритма применения в Blender'e."
+msgstr ""
+
+#: ../materials.rst:46
+# ea496e1aef1b47d4bc1f69dbee00c534
+msgid "*Specular > Shader*"
+msgstr ""
+
+#: ../materials.rst:46
+# ac05cf2b62b64b3bb1b050d3f067803d
+msgid "Алгоритм расчета отраженного освещения. Игнорируется движком. В движке используется алгоритм Фонга (``Phong``). Значение по умолчанию ``CookTorr``."
+msgstr ""
+
+#: ../materials.rst:49
+# e1201737b04b4467a0e2e3d63cd1dee8
+msgid "*Shading > Emit*"
+msgstr ""
+
+#: ../materials.rst:49
+# 696bfe17c15a4617a13b565cf9e40af3
+msgid "Интенсивность эмиссии (излучения). Значение по умолчанию 0.0."
+msgstr ""
+
+#: ../materials.rst:52
+# be44b19d1ffb4b91844762aa4dd189dc
+msgid "*Shading > Ambient*"
+msgstr ""
+
+#: ../materials.rst:52
+# 9471fcf3e19642d685632c9a4026c0f8
+msgid "Фактор влияния освещения от окружающей среды на материал. Значение по умолчанию 1.0."
+msgstr ""
+
+#: ../materials.rst:55
+# 3259253fd32046deb47ee1cc483fda04
+msgid "*Shading > Shadeless*"
+msgstr ""
+
+#: ../materials.rst:55
+# 041b3bfe1600492ab19083735691a177
+msgid "При включении материал не реагирует на освещение. По умолчанию выключено."
+msgstr ""
+
+#: ../materials.rst:58
+# 285d7c94cb354d72b04e6186a6fa8127
+msgid "*Game Settings > Backface Culling*"
+msgstr ""
+
+#: ../materials.rst:58
+# 8cd8a136cf80456f97cd0c9c71b2b8b0
+msgid "При включении обратная сторона полигона не отображается движком. По умолчанию включено."
+msgstr ""
+
+#: ../materials.rst:62
+# 3833a7b490f046a49fc663ca7add61e9
+msgid "*Options > Vertex Color Paint*"
+msgstr ""
+
+#: ../materials.rst:61
+# cf7492383fa649e884287bcc59f23cd7
+msgid "Опция включает использование вертексного цвета меша вместо диффузного цвета."
+msgstr ""
+
+#: ../materials.rst:67
+# 55a5dc4a545c464ba5d0e07df0807dc9
+msgid "Прозрачность"
+msgstr ""
+
+#: ../materials.rst:72
+# 4a9ffcd6bcd9434ba2451a6142e8fdda
+msgid "Типы"
+msgstr ""
+
+#: ../materials.rst:74
+# 22ff338f60584b6bb5cb9084a500c500
+msgid "Тип реализации прозрачности выбирается в меню ``Alpha Blend`` на панели ``Materials > Game Settings`` (в режиме ``Blender Game``)."
+msgstr ""
+
+#: ../materials.rst:76
+# 23b663b2c2f4471db99b0dcc5b1e5d11
+msgid "Движком поддерживаются следующие типы реализации прозрачности, перечисленные в порядке увеличения производительности:"
+msgstr ""
+
+#: ../materials.rst:79
+# 5289463b3fbb42a2af1f5833dce836c7
+msgid "*Alpha Sort*"
+msgstr ""
+
+#: ../materials.rst:79
+# b47974afa0464d1a9ac61b138cae2f35
+msgid "Прозрачный с градиентом. Для корректного отображения перекрывания одних прозрачных поверхностей другими движком производится сортировка треугольников по дальности от камеры. Операция требует дополнительных затрат вычислительных ресурсов. Рекомендуется применять для замкнутых прозрачных объектов (бутылка, стекла автомобиля и т.д.)."
+msgstr ""
+
+#: ../materials.rst:82
+# 032c0719cfbe47c395b514da07dba079
+msgid "*Alpha Blend*"
+msgstr ""
+
+#: ../materials.rst:82
+# 252d62debbd547618d5f4e0834a826d8
+msgid "Прозрачный с градиентом. Сортировка треугольников не производится. Рекомендуется применять для незамкнутых прозрачных объектов (поверхность воды, декали)."
+msgstr ""
+
+#: ../materials.rst:85
+# 6e5e069b8c044a978e97158fac5f338a
+msgid "*Add*"
+msgstr ""
+
+#: ../materials.rst:85
+# 6f0e5dd935cf476e899f8d1baae5e855
+msgid "Прозрачный c градиентом. Сортировка треугольников не производится. Движок отключает запись в буфер глубины, что приводит к произвольному порядку отображения прозрачных поверхностей. Рекомендуется применять для создания эффектов (системы частиц, светящиеся лучи)."
+msgstr ""
+
+#: ../materials.rst:88
+# ae20f471ed114fbcb6b9fb485da826cc
+msgid "*Alpha Clip*"
+msgstr ""
+
+#: ../materials.rst:88
+# 5e0aa6a56a36428f992d9276bba15d64
+msgid "Прозрачный без градиента. Движок отбрасывает пикселы (discard) с прозрачностью менее 0.5. Сортировка треугольников не производится. Рекомендуется применять с текстурой в качестве маски для визуализации множества мелких деталей (листва деревьев, трава)."
+msgstr ""
+
+#: ../materials.rst:91
+# 323ff6a1c24b4dd68d90f0d3c9f7ef79
+msgid "*Opaque*"
+msgstr ""
+
+#: ../materials.rst:91
+# 36305f907f3c4f92a150d381ffe0ded7
+msgid "Непрозрачный. Значение по умолчанию."
+msgstr ""
+
+#: ../materials.rst:102
+#: ../materials.rst:258
+# 13ad6d76b526409c8622a50fe8d62739
+# 7d5861d283ed487493263b17e65b7be1
+msgid "Дополнительные настройки"
+msgstr ""
+
+#: ../materials.rst:105
+# 1c2cfefe2c1547979c38bbfd4bfc35f3
+msgid "*Transparency*"
+msgstr ""
+
+#: ../materials.rst:105
+# 15d9d81bf1f9499caeea5c347d48515b
+msgid "Опция включения прозрачности требуется для отображения прозрачных объектов в Blender'e. Движок игнорирует эту опцию, используя вместо нее ``Alpha Blend``."
+msgstr ""
+
+#: ../materials.rst:108
+# 4019d86c17834865b94bf24e260b6632
+msgid "*Transparency > Alpha*"
+msgstr ""
+
+#: ../materials.rst:108
+# 56ee9b94801646d69a0dd9c2c0b9df0c
+msgid "Уровень прозрачности материала. При наличии диффузной текстуры движок (в отличие от Blender'a) игнорирует этот параметр, используя вместо него значение прозрачности текстуры."
+msgstr ""
+
+#: ../materials.rst:111
+# 14e769a9260a4490b19f11fcb1f9aa61
+msgid "*Options > Z Offset*, смещение по глубине"
+msgstr ""
+
+#: ../materials.rst:111
+# ee7e82a664f24ac7941109da9d858748
+msgid "Используется для явного указания расположения прозрачных объектов с **разными** материалами относительно друг друга с целью сортировки по глубине. Может принимать отрицательные и положительные значения. Для корректного отображения дальние объекты должны иметь меньшее значение параметра, чем ближние. Значение по умолчанию 0.0."
+msgstr ""
+
+#: ../materials.rst:114
+# c25acc6656344b6d950a065cd91297f0
+msgid "*Transparency > Fresnel*"
+msgstr ""
+
+#: ../materials.rst:114
+# b9b233d77dc04190b581a3a1529b3fda
+msgid "Степень Френеля для прозрачности. Экспортируется, но в настоящее время не используется."
+msgstr ""
+
+#: ../materials.rst:118
+# ec7c375126844794850743b014c6c0d9
+msgid "*Transparency > Blend*"
+msgstr ""
+
+#: ../materials.rst:117
+# 1e026e242cec47fb9644c73edc00f87f
+msgid "Фактор Френеля для прозрачности. Экспортируется, но в настоящее время не используется."
+msgstr ""
+
+#: ../materials.rst:125
+# 526f12507c9a4b0284bb1e2d5a78b48e
+msgid "Зеркальное отражение"
+msgstr ""
+
+#: ../materials.rst:132
+# 64958846b4364d42a48b9602e2e31ec0
+msgid "Статическое отражение"
+msgstr ""
+
+#: ../materials.rst:134
+# 620a6581a29a47c194b33e9333c01268
+msgid "Поверхность отражает одно и то же изображение вне зависимости от изменения окружающей среды. Для активации достаточно использовать :ref:`карту зеркального отражения <mirror_map>`."
+msgstr ""
+
+#: ../materials.rst:136
+#: ../materials.rst:165
+# a947ec4475044f92ae27fc7843153a56
+# 4e782d5ee0744eb58f05ddee8c62334c
+msgid ":ref:`fresnel`"
+msgstr ""
+
+#: ../materials.rst:141
+# aefc6fd3e84643ad82a54b8f6968576d
+msgid "Динамическое отражение"
+msgstr ""
+
+#: ../materials.rst:143
+# ff656089f81644a1bf97d030d441f1a8
+msgid "Поверхность отражает текущее расположение определенных объектов. Поддерживается только отражение от плоскости."
+msgstr ""
+
+#: ../materials.rst:146
+#: ../materials.rst:247
+# e6f9ebc5540f4e98bec9170073be5b80
+# 2542295588f24992aa6aab2aae3d4a34
+msgid "Активация"
+msgstr ""
+
+#: ../materials.rst:148
+# f72a71bfb2734af4b62a1e5449aaff5c
+msgid "Включить опцию ``Render reflections`` на панели ``Scene > Blend4Web``."
+msgstr ""
+
+#: ../materials.rst:149
+# a79838497f7248eb9d742b2759f5c60a
+msgid "Добавить пустой объект для задания плоскости отражения ``Add > Empty > Single Arrow``. Переименовать для удобства."
+msgstr ""
+
+#: ../materials.rst:150
+# a877fd116482499782380bf7ac3bf6c6
+msgid "Для *отражающих* объектов на панели ``Object > Blend4Web`` выставить опцию ``Reflective`` и указать имя пустого объекта в поле ``Reflection plane``."
+msgstr ""
+
+#: ../materials.rst:151
+# 39f83434acc747b5af68be891ea98b2a
+msgid "Для нужных материалов *отражающих* объектов выставить значение отражающей способности ``Mirror > Reflectivity``."
+msgstr ""
+
+#: ../materials.rst:152
+# 31827719492c4d5aa6cebe80aca20524
+msgid "Для *отражаемых* объектов на панели ``Object > Blend4Web`` выставить опцию ``Reflexible``."
+msgstr ""
+
+#: ../materials.rst:156
+# 0fa0cd98e02443c994a2b97420debfb2
+msgid "Рекомендуется также включить использование освещения от окружающей среды ``World > Environment Lighting``."
+msgstr ""
+
+#: ../materials.rst:160
+# dfd32ad3efab4170bb83109b9966ef7e
+msgid "Ограничения"
+msgstr ""
+
+#: ../materials.rst:162
+# 5f5eb4e8630a4608a62ba7d9f725e5b0
+msgid "В отраженном изображении игнорируется карта нормалей, тени."
+msgstr ""
+
+#: ../materials.rst:173
+# b819d844466349788bd65ed60d07736e
+msgid "Эффект Френеля для отражения"
+msgstr ""
+
+#: ../materials.rst:175
+# 545e2e0be6cd4c67a27703c0fafb7760
+msgid "Эффект Френеля проявляется в зависимости интенсивностей проходящего и отраженного света от угла падения. Если угол падения близок к нулю (т.е. свет падает почти перпедикулярно поверхности), доля проходящего света велика, а отраженного мала. И наоборот, если угол падения близок к 90 градусам (т.е. свет падает почти параллельно поверхности), отражается почти весь свет."
+msgstr ""
+
+#: ../materials.rst:177
+# 33d0fbf04fdc47e6a8d004d840b42784
+msgid "Движок использует приближенную формулу Шлика:"
+msgstr ""
+
+#: ../materials.rst:179
+# abdaf5e58633462c91f0fa99d83797a7
+msgid "R = R\\ :sub:`0` + (1 − R\\ :sub:`0`)(1 - cos θ)\\ :sup:`N`, где"
+msgstr ""
+
+#: ../materials.rst:181
+# b831217a450947a8b2e90ca734124b28
+msgid "R - коэффициент отражения,"
+msgstr ""
+
+#: ../materials.rst:183
+# 3aaabc3bad6048f89a1ab4aa04ac2f0b
+msgid "R\\ :sub:`0` - коэффициент отражения в случае обзора под прямым углом к поверхности (т.е. при θ = 0),"
+msgstr ""
+
+#: ../materials.rst:185
+# 9705016824524a15892ea3f7b7e2b2e7
+msgid "θ - угол падения (равный углу отражения, под которым свет попадает в камеру), рассчитывается движком,"
+msgstr ""
+
+#: ../materials.rst:187
+# b8752a7289f948a9b4aca9e8d6d19c29
+msgid "N - показатель степени."
+msgstr ""
+
+#: ../materials.rst:191
+# deff480c95af4f5d8ae3c21ef31065d0
+msgid "Настройка"
+msgstr ""
+
+#: ../materials.rst:193
+# c48802e3f4414f80926be922c4c2398c
+msgid "Эффект Френеля применяется как для статического, так и для динамического отражения."
+msgstr ""
+
+#: ../materials.rst:196
+# 7fd1675647bd443c86b117ba54cbb0ec
+msgid "*Mirror > Fresnel*"
+msgstr ""
+
+#: ../materials.rst:196
+# 7dde5e2e78934e6397326be954589f57
+msgid "Степень Френеля для отражения. Показатель степени N в формуле Шлика. В пакете Blender ограничен значениями от 0 до 5. Если этот параметр равен нулю, эффект Френеля не проявляется, происходит *полное* отражение на всех углах. Если этот параметр больше нуля, при обзоре поверхности под углами, близкими к прямому (почти перпендикулярно поверхности), материал становится менее отражающим. Чем больше этот параметр, тем больше отклонение угла от прямого, для которого наблюдается такой эффект."
+msgstr ""
+
+#: ../materials.rst:199
+# 4081e3b3cfaf403dae79a35d1452cebc
+msgid "*Mirror > Blend*"
+msgstr ""
+
+#: ../materials.rst:199
+# f7abb0bf71cb47cd991bad317b0e48a8
+msgid "Фактор Френеля для отражения. Приводится к R\\ :sub:`0` в формуле Шлика: R\\ :sub:`0` = 1 - ``Blend`` / 5. В пакете Blender ограничен значениями от 0 до 5. Этот параметр показывает интенсивность проявления эффекта Френеля: чем больше фактор ``Blend``, тем сильнее влияние эффекта Френеля. Если он равен нулю, эффект Френеля не проявляется."
+msgstr ""
+
+#: ../materials.rst:212
+# d20b3e44c8a4437a98d43ef633ec26d0
+msgid "Специальные параметры движка"
+msgstr ""
+
+#: ../materials.rst:214
+# 2ec34bd8571c4be7b78c1f26239b806d
+msgid "Располагаются в панели ``Blend4Web``."
+msgstr ""
+
+#: ../materials.rst:217
+# 0dce1bc05d7549cf9bafb2be5223624a
+msgid "*Do not export*"
+msgstr ""
+
+#: ../materials.rst:217
+# 20a238d100d44da28d96f2713b2306a3
+msgid "Не экспортировать."
+msgstr ""
+
+#: ../materials.rst:220
+# 301ced83d0c9477e9753ac72ac58f157
+msgid "*Special: Water*"
+msgstr ""
+
+#: ../materials.rst:220
+# 47a99fe336e24833a6cee5c3aa44ec15
+msgid "Специальный материал для рендеринга воды."
+msgstr ""
+
+#: ../materials.rst:225
+# bc609bcc1f3943afb4c1a63190ec2e32
+msgid "*Special: Skydome*"
+msgstr ""
+
+#: ../materials.rst:223
+# 48a1714269004cd882364a2a90aecdd3
+msgid "Специальный материал для рендеринга неба."
+msgstr ""
+
+#: ../materials.rst:225
+# 5867cdcc8a8a469cad578669b65ae2e0
+msgid ":ref:`skydome_texture`"
+msgstr ""
+
+#: ../materials.rst:230
+# ba2967d096dd4764ab05156fc29768fd
+msgid "*Special: Collision*"
+msgstr ""
+
+#: ../materials.rst:228
+# 21f3ce6dccaa4bf3a0e28597cdd4bd28
+msgid "Специальный материал для физического объекта."
+msgstr ""
+
+#: ../materials.rst:230
+# 369986e17d0a448d8cba016e51b505fa
+msgid ":ref:`physics`"
+msgstr ""
+
+#: ../materials.rst:234
+# 11d6b68fcf1348b682d3a5b06ecd8263
+msgid "*Double-sided Lighting*"
+msgstr ""
+
+#: ../materials.rst:233
+# da5c4277e564443698c171186c793421
+msgid "Включить двухстороннее освещение. Опция полезна для однослойных непросвечивающих объектов."
+msgstr ""
+
+#: ../materials.rst:241
+# 2b22aa0127464c048298f4b27724012c
+msgid "Материалы гало (Halo)"
+msgstr ""
+
+#: ../materials.rst:243
+# 5e5badc959a941cfafb6ba293c5fb8f0
+msgid "Используются в системах частиц и в статических мешах. Ниже рассматривается использование гало на статических мешах."
+msgstr ""
+
+#: ../materials.rst:249
+# 13c8c8818f384b579914a2d9e8352a37
+msgid "Выставить тип ``Halo`` во вкладке ``Materials``. Рекомендуется также выставить тип прозрачности c градиентом (``Add``, ``Alpha Blend`` или ``Alpha Sort``)."
+msgstr ""
+
+#: ../materials.rst:261
+# 2bc59869b2994d138c3c7c5dd1f198cd
+msgid "*Halo > Alpha*"
+msgstr ""
+
+#: ../materials.rst:261
+# 6f4931d8e0464039aa93818380de6ac9
+msgid "Параметр прозрачности материала. Значение по умолчанию 1.0 (непрозрачный)."
+msgstr ""
+
+#: ../materials.rst:264
+# e7cb7ed091f545919483f1697d6e21e4
+msgid "*Halo > Color*"
+msgstr ""
+
+#: ../materials.rst:264
+# 0147c4ebb9784bd39d748b28b061fe29
+msgid "Цвет материала. Значение по умолчанию (0.8, 0.8, 0.8) (почти белый)."
+msgstr ""
+
+#: ../materials.rst:267
+# e0e1921fe85f4e3d822e3c986045d30e
+msgid "*Halo > Seed*"
+msgstr ""
+
+#: ../materials.rst:267
+#: ../materials.rst:276
+# 21107283b713440d8cb41131244196ff
+# b80c8e6a34374f4b9fdb8a32dbb5269b
+msgid "Не используется."
+msgstr ""
+
+#: ../materials.rst:270
+# 0916bb8af617453eb428f949c109621c
+msgid "*Halo > Size*"
+msgstr ""
+
+#: ../materials.rst:270
+# 9ff40f5f508746a69ac203ad4fcf3301
+msgid "Размер частиц. Значение по умолчанию 0.5."
+msgstr ""
+
+#: ../materials.rst:273
+# 52bb22d3d4b348a4b7868c87d0c61918
+msgid "*Halo > Hardness*"
+msgstr ""
+
+#: ../materials.rst:273
+# 6ecfaafefd584ad3bf7ab31a2b6b4494
+msgid "Показатель степени при расчете градиента. Влияет на видимый размер частиц. Значение по умолчанию 50."
+msgstr ""
+
+#: ../materials.rst:276
+# 1b03295ca1d24beaba937f9e66e8371e
+msgid "*Halo > Add*"
+msgstr ""
+
+#: ../materials.rst:279
+# 8aaf2aa0dc6948728f76d3e8c37d6360
+msgid "*Halo > Rings*"
+msgstr ""
+
+#: ../materials.rst:279
+# 83b92d9f019d4b71b085371ab1591934
+msgid "Использовать кольца. Настраивается относительное количество и цвет."
+msgstr ""
+
+#: ../materials.rst:282
+# 8c7c0b4159de4f40a0ee26f343ea29f7
+msgid "*Halo > Lines*"
+msgstr ""
+
+#: ../materials.rst:282
+# d42fd7684b2341e686dd37976df05a10
+msgid "Использовать линии. Настраивается относительное количество и цвет."
+msgstr ""
+
+#: ../materials.rst:285
+# 6d0311cc65244bf5b261969810786cd5
+msgid "*Halo > Star Tips*"
+msgstr ""
+
+#: ../materials.rst:285
+# 4b9ead3e6d974a41b01077ff68c0bb91
+msgid "Использовать звезды. Настраивается количество концов."
+msgstr ""
+
+#: ../materials.rst:288
+# d5f2a9d24f3b47fd87bde8df571b976e
+msgid "*Blend4Web > Special: Stars*"
+msgstr ""
+
+#: ../materials.rst:288
+# ac4f8cc4160847ba855b67e91f24c64b
+msgid "Включает режим рендеринга звездного неба, при этом меш неподвижен относительно камеры. Для лампы необходимо также выставить опцию ``Blend4Web > Dynamic intensity``. Приложения должны установить ночное время суток."
+msgstr ""
+
+#: ../materials.rst:291
+# 3600deba5bed482ca83bad55676f3620
+msgid "*Blend4Web > Blending Height*"
+msgstr ""
+
+#: ../materials.rst:291
+# 21b6b19f2f4b4ae7a41376ceab8fc83f
+msgid "Диапазон высот, на котором происходит затухание яркости звезд."
+msgstr ""
+
+#: ../materials.rst:294
+# 4bfb143596ee4f899f971b214aadedf2
+msgid "*Blend4Web > Stars Minimum Height*"
+msgstr ""
+
+#: ../materials.rst:294
+# a642acca6df641c69262230b394d38fa
+msgid "Минимальная высота в локальном пространстве объекта, на которой видны звезды."
+msgstr ""
+
+#: ../materials.rst:3
+#: ../materials.rst:15
+#: ../materials.rst:64
+#: ../materials.rst:120
+#: ../materials.rst:209
+#: ../materials.rst:236
+# ddae58cc49cd4683a25db7bcb4bd3332
+# 330f74b6fb344242851805af77ff7f8c
+# 0ca1527cc1964e498ed9ab9d3be6d1ce
+# 3c7094f9df244de6b681963302d3a7ec
+# f79b7a4ab35e427c84d27e3edd51c580
+# 12ac0869c9fc45bfac040b600622df54
+msgid "материалы"
+msgstr ""
+
+#: ../materials.rst:15
+# 330f74b6fb344242851805af77ff7f8c
+msgid "параметры освещения"
+msgstr ""
+
+#: ../materials.rst:64
+#: ../materials.rst:64
+#: ../materials.rst:69
+#: ../materials.rst:99
+# 0ca1527cc1964e498ed9ab9d3be6d1ce
+# 0ca1527cc1964e498ed9ab9d3be6d1ce
+# ea2e9390b2ff4f788d661dcdb8a2a765
+# a389bec53f1a4855b588dee8ace0cad9
+msgid "прозрачность"
+msgstr ""
+
+#: ../materials.rst:69
+# ea2e9390b2ff4f788d661dcdb8a2a765
+msgid "типы"
+msgstr ""
+
+#: ../materials.rst:99
+# a389bec53f1a4855b588dee8ace0cad9
+msgid "настройка"
+msgstr ""
+
+#: ../materials.rst:120
+#: ../materials.rst:120
+#: ../materials.rst:127
+#: ../materials.rst:138
+#: ../materials.rst:168
+# 3c7094f9df244de6b681963302d3a7ec
+# 3c7094f9df244de6b681963302d3a7ec
+# 34e7259a5cb443c88a6d31442fc199e0
+# f8b24b3e52d845bfa385650264c01a4c
+# c3bcb4ddb7f0477aa07f4da64d234529
+msgid "зеркальное отражение"
+msgstr ""
+
+#: ../materials.rst:127
+# 34e7259a5cb443c88a6d31442fc199e0
+msgid "статическое"
+msgstr ""
+
+#: ../materials.rst:138
+# f8b24b3e52d845bfa385650264c01a4c
+msgid "динамическое"
+msgstr ""
+
+#: ../materials.rst:168
+#: ../materials.rst:168
+# c3bcb4ddb7f0477aa07f4da64d234529
+# c3bcb4ddb7f0477aa07f4da64d234529
+msgid "эффект Френеля"
+msgstr ""
+
+#: ../materials.rst:209
+# f79b7a4ab35e427c84d27e3edd51c580
+msgid "специальные параметры"
+msgstr ""
+
+#: ../materials.rst:236
+# 12ac0869c9fc45bfac040b600622df54
+msgid "гало"
+msgstr ""
+
+#: ../materials.rst:236
+# 12ac0869c9fc45bfac040b600622df54
+msgid "halo"
+msgstr ""
+

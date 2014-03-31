@@ -1,0 +1,171 @@
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: B4W 14.02.28\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-03-18 17:57\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../setup.rst:5
+msgid "Развёртывание среды разработки"
+msgstr ""
+
+#: ../setup.rst:7
+msgid ""
+"Для работы необходим дистрибутив движка, браузер (настроенный для локального"
+" просмотра) и Blender (с установленным аддоном)."
+msgstr ""
+
+#: ../setup.rst:13
+msgid "Установка дистрибутива"
+msgstr ""
+
+#: ../setup.rst:15
+msgid ""
+"Стабильные версии дистрибутива поставляются в виде архива "
+"``blend4web_pro.zip``. Для установки достаточно распаковать данный архив в "
+"любое место на диске."
+msgstr ""
+
+#: ../setup.rst:18
+msgid ""
+"Для установки дистрибутива участнику группы разработки необходимо "
+"клонировать репозиторий (хранилище) командой:"
+msgstr ""
+
+#: ../setup.rst:25
+msgid ""
+"В дистрибутиве находятся исходный код движка, компактная версия для "
+"приложений, скрипты к Blender'у, исходные blend-файлы группы разработки, "
+"экспортированные сцены, текстуры и звуковые файлы (см. подробную "
+":ref:`структуру репозитория <repo_file_structure>`)."
+msgstr ""
+
+#: ../setup.rst:35
+msgid "Настройка браузера"
+msgstr ""
+
+#: ../setup.rst:37
+msgid ""
+"Для работы движка требуется браузер с поддержкой WebGL (например, Chrome или"
+" Firefox). Для проверки можно перейти на страницу http://get.webgl.org/. "
+"Должна появиться надпись зеленого цвета и вращающийся куб:"
+msgstr ""
+
+#: ../setup.rst:48
+msgid ""
+"Браузер должен быть настроен для загрузки ресурсов из локальной файловой "
+"системы. Для этого нужно указать в запускном ярлыке Chrome опцию ``--allow-"
+"file-access-from-files`` (подробнее :ref:`о настройке "
+"<browser_for_local_loading>`)."
+msgstr ""
+
+#: ../setup.rst:56
+msgid "Запуск просмотрщика сцен"
+msgstr ""
+
+#: ../setup.rst:58
+msgid ""
+"Откройте файл :file:`apps_dev/viewer/viewer_dev.html` в настроенном "
+"браузере. Должна отобразиться страница с окном рендерера и элементами "
+"интерфейса."
+msgstr ""
+
+#: ../setup.rst:69
+msgid ""
+"Если страница не отображается корректно, или появляются сообщения об "
+"ошибках, необходимо предпринять действия, описанные в разделе "
+":ref:`renderer_not_working`."
+msgstr ""
+
+#: ../setup.rst:77
+msgid "Установка аддона движка"
+msgstr ""
+
+#: ../setup.rst:79
+msgid ""
+"Запустить Blender, загрузить сцену по умолчанию :file:`File > New` (горячие "
+"клавиши :file:`Ctrl-N`). Вызвать окно пользовательских настроек :file:`File "
+"> User Preferences...` (горячие клавиши :file:`Ctrl-Alt-U`). Во вкладке  "
+":file:`File` в поле  :file:`Scripts` выбрать путь к директории "
+":file:`blender_scripts`."
+msgstr ""
+
+#: ../setup.rst:87
+msgid "Нажать :file:`Save User Settings` и перезапустить Blender."
+msgstr ""
+
+#: ../setup.rst:89
+msgid "*Примечание:*"
+msgstr ""
+
+#: ../setup.rst:91
+msgid ""
+"Вместо этого можно скопировать директорию со скриптами "
+":file:`blender_scripts/addons/blend4web` в уже используемую пользовательскую"
+" директорию для скриптов или даже в установочную директорию, например:"
+msgstr ""
+
+#: ../setup.rst:93
+msgid ""
+":file:`C:\\\\Program Files\\\\Blender "
+"Foundation\\\\Blender\\\\2.69\\\\scripts\\\\addons\\\\blend4web`."
+msgstr ""
+
+#: ../setup.rst:96
+msgid ""
+"Повторно загрузить сцену по умолчанию, вызвать окно пользовательских "
+"настроек, перейти на вкладку :file:`Addons` и выбрать категорию :file"
+":`Import-Export`. Отметить галочку напротив :file:`Import-Export: "
+"Blend4Web`. Также можно указать, где находятся исходные файлы для экспорта "
+"сцены в формате html (поле :file:`Path to b4w source`). Стандартный путь для"
+" них (относительно корня движка): :file:`external/deploy/apps/embed`."
+msgstr ""
+
+#: ../setup.rst:104
+msgid "Нажать :file:`Save User Settings`. Перезапуск Blender не требуется."
+msgstr ""
+
+#: ../setup.rst:106
+msgid "*Для проверки:*"
+msgstr ""
+
+#: ../setup.rst:108
+msgid ""
+"В меню :file:`File > Export` должны появиться опции :file:`Blend4Web "
+"(.json)` и :file:`Blend4Web (.html)`. Кроме того должны появиться операторы "
+"при выполнении поиска по \"B4W\" (горячая клавиша :file:`ПРОБЕЛ`)."
+msgstr ""
+
+#: ../setup.rst:30
+msgid "браузер"
+msgstr ""
+
+#: ../setup.rst:30
+msgid "настройка"
+msgstr ""
+
+#: ../setup.rst:46
+msgid "Blend4Web"
+msgstr ""
+
+#: ../setup.rst:46 ../setup.rst:72
+msgid "установка"
+msgstr ""
+
+#: ../setup.rst:51
+msgid "просмотрщик"
+msgstr ""
+
+#: ../setup.rst:51
+msgid "запуск"
+msgstr ""
+
+#: ../setup.rst:72
+msgid "Blender"
+msgstr ""

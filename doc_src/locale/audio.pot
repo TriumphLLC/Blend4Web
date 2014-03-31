@@ -1,0 +1,237 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2014, ООО "Триумф"
+# This file is distributed under the same license as the B4W package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: B4W 14.02.28\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-03-19 19:31+0400\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../audio.rst:5
+# e58af94bffab40ecb8c7f7485674484b
+msgid "Звуковая подсистема"
+msgstr ""
+
+#: ../audio.rst:7
+# ff6e02cb96724170afb640e3ea8e0fd3
+msgid "Создание звуковых источников осуществляется в Blender'e. Используется стандартный объект ``Speaker``."
+msgstr ""
+
+#: ../audio.rst:10
+# 403ece563fa44cdfba11e62cf2e85877
+msgid "Настройка звуковых источников"
+msgstr ""
+
+#: ../audio.rst:12
+# a1de0dffe34143009913200c3535f765
+msgid "Настройки спикера выставляются в панели ``Properties`` на вкладке ``Object Data``."
+msgstr ""
+
+#: ../audio.rst:27
+# c4338ea71266437b83a064b56433e2aa
+msgid "*Speaker behavior*"
+msgstr ""
+
+#: ../audio.rst:15
+# 31450c673cf744ddb82f7d8e00df81ce
+msgid "Поведение звукового источника."
+msgstr ""
+
+#: ../audio.rst:17
+# a3c93584b63c44a485eb315710385a3f
+msgid "``Positional`` --- высококачественный звук, допускающий позиционирование и имеющий направленность (конусность). Для рендеринга используется Web Audio API. Воспроизведение подобных звуков обладает наименьшей производительностью, поэтому их использовать целесообразно только для коротких сэмплов."
+msgstr ""
+
+#: ../audio.rst:22
+# fe6607dab5d7486f969e72254b34974b
+msgid "``Background sound`` --- высококачественный всенаправленный звук без возможности позиционирования в пространстве. Для рендеринга используется Web Audio API. Более производителен, однако нецелесообразен для музыки."
+msgstr ""
+
+#: ../audio.rst:26
+# bb3eab777e9142a29a2ea7d0db465b05
+msgid "``Background music`` --- используется для воспроизведения музыки. Максимальная производительность вследствие использования тега Audio, минимальная гибкость."
+msgstr ""
+
+#: ../audio.rst:30
+# bc1457ed6f2b459f9ed6ddd77c4573b2
+msgid "*Disable doppler*"
+msgstr ""
+
+#: ../audio.rst:30
+# 040c0be1bcbf40838c138cb7ebdbc231
+msgid "Игнорировать смещение частоты источника при его перемещении."
+msgstr ""
+
+#: ../audio.rst:33
+# 95db941e7e984d3ab6746bea0a305731
+msgid "*Cyclic play*"
+msgstr ""
+
+#: ../audio.rst:33
+# 51a6393550e94e4ebd08d4350795f020
+msgid "Зацикливать воспроизведение звука."
+msgstr ""
+
+#: ../audio.rst:36
+# f7f5fb0db501406b88dbebf8c111c14d
+msgid "*Delay*"
+msgstr ""
+
+#: ../audio.rst:36
+# 2ab764ee87f44e6bbd0fea788dd76167
+msgid "Задержка в секундах перед началом проигрывания звука."
+msgstr ""
+
+#: ../audio.rst:40
+# c8477657323f41eebc61dbab8e83241e
+msgid "*Random delay*"
+msgstr ""
+
+#: ../audio.rst:39
+# 4ae3ffab937b4038999059d00b40404e
+msgid "Дополнительная рандомизация задержки, результирующее значение определяется по формуле :math:`Delay_{result} = Delay + Delay_{random} * Random_{[0-1]}`."
+msgstr ""
+
+#: ../audio.rst:44
+# e077e6f3db154c13b0fb931e1c2c69cb
+msgid "*Random volume*"
+msgstr ""
+
+#: ../audio.rst:43
+# fd06e90e4cd64c9c9c1f99339aeb2a16
+msgid "Дополнительная рандомизация громкости. Результирующее значение определяется аналогично задержке."
+msgstr ""
+
+#: ../audio.rst:48
+# 69c257d6f5994c4db53d3cfcf6d0f3d7
+msgid "*Random pitch*"
+msgstr ""
+
+#: ../audio.rst:47
+# 59b9545b72314ebfa9321d6f2f3503cb
+msgid "Дополнительная рандомизация скорости проигрывания звука. Результирующее значение определяется аналогично задержке."
+msgstr ""
+
+#: ../audio.rst:51
+# 010f8fee3bfe42cd9c3b715cd2c2cc64
+msgid "*Fade-in*"
+msgstr ""
+
+#: ../audio.rst:51
+# 5f8d0c9e57ea419b81388958a6bf6ce7
+msgid "Интервал плавного включения звука."
+msgstr ""
+
+#: ../audio.rst:54
+# 077d8d3ebf094337a22dc3eda64a025e
+msgid "*Fade-out*"
+msgstr ""
+
+#: ../audio.rst:54
+# 66ac562c921b468f80a5360b98b41935
+msgid "Интервал плавного выключения звука."
+msgstr ""
+
+#: ../audio.rst:60
+# 530d7f5559774225bd500f48fc536e58
+msgid "*Loop*"
+msgstr ""
+
+#: ../audio.rst:57
+# fb7fdac8d215415fa24690bd6beea902
+msgid "Зацикливать воспроизведение звука. Отличается от ``Cyclic play``, тем, что способен обеспечить нулевую задержку при повторении. Опция доступна только для звуковых источников с поведением ``Positional`` или ``Background sound``."
+msgstr ""
+
+#: ../audio.rst:63
+# afd1542dca94421897b1f9bd7203fbb2
+msgid "*Loop count*"
+msgstr ""
+
+#: ../audio.rst:63
+#: ../audio.rst:66
+#: ../audio.rst:69
+# e4c1dab2f396473586feae65f1cecdd4
+# c418bef9be0c416790e1ed7fa4776030
+# 4debe92e48524124b6f81fd47c90e780
+msgid "Не реализовано"
+msgstr ""
+
+#: ../audio.rst:66
+# 73fd1f6a0ee447cc8813650457617d37
+msgid "*Random loop count*"
+msgstr ""
+
+#: ../audio.rst:69
+# 0925ef71f2f8464ea7a5f6711b4b1dff
+msgid "*Playlist ID*"
+msgstr ""
+
+#: ../audio.rst:74
+# 74a04f5c8504437bb8951b7b39fc316d
+msgid "Обработка и кодирование"
+msgstr ""
+
+#: ../audio.rst:77
+# d5f9d70d41cf4c7b8af7899a67aedab2
+msgid "Поддерживаемые форматы (контейнеры):"
+msgstr ""
+
+#: ../audio.rst:79
+# 24d572d056b24e3d83af49738b1214eb
+msgid "ogg, кодек Vorbis (Chrome, Firefox)"
+msgstr ""
+
+#: ../audio.rst:80
+# bfc3608e9bfe452ca979eed103412f9c
+msgid "mp3 (Chrome, Safari)"
+msgstr ""
+
+#: ../audio.rst:81
+# c6a686c0350b4a6e86fa1a3d8cf27599
+msgid "mp4, кодек AAC (Chrome, Safari)"
+msgstr ""
+
+#: ../audio.rst:83
+# 8d9d3a5f4f804cc3aa69d917f8650973
+msgid "Рекомендуется использовать ogg, как наиболее распространённый в браузерах, поддерживающих WebGL (Chrome, Firefox). Оптимальным с точки зрения качества и совместимости является формат 48кГц/16. Одноканальный звук (моно) используется для хранения коротких сэмплов, двухканальный звук (стерео) - для музыкального сопровождения."
+msgstr ""
+
+#: ../audio.rst:89
+# e40deed10a3845639e0707f3a78919eb
+msgid "Встроенный конвертер имеет возможность преобразования исходных форматов для расширения спектра поддерживаемых платформ. Для этого необходимо выполнить команду:"
+msgstr ""
+
+#: ../audio.rst:97
+# d38e02eecf7145128db8f1db472ccc63
+msgid "Преобразование происходит по схеме:"
+msgstr ""
+
+#: ../audio.rst:99
+# abc61d852e494af8847338a4e6ab67b9
+msgid "ogg -> mp4"
+msgstr ""
+
+#: ../audio.rst:100
+# 666f14682a0949a7a6151407eabb9585
+msgid "mp3 -> ogg"
+msgstr ""
+
+#: ../audio.rst:101
+# b175cd031e274a218f9003f70e76a65e
+msgid "mp4 -> ogg"
+msgstr ""
+
+#: ../audio.rst:103
+# 105303cc17144126a484bd550e6c2b36
+msgid "Конвертация ресурсов происходит с потерей качества, поэтому сконвертированные файлы получают суффикс .lossconv."
+msgstr ""
+

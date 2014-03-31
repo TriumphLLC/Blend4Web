@@ -1,0 +1,164 @@
+body {
+    background-color: #393939;
+    overflow-y: hidden;
+}
+
+div.backgr_checker {
+    position: absolute;
+    right: 344px;
+    top: 44px;
+    width: 64px;
+    height: 64px;
+    background: url(backgr_checker.png);
+}
+
+#main_canvas_container {
+    position:absolute;
+    left: 0px;
+    top: 0px;
+}
+
+div.info_corner {
+    position: absolute;
+    width: auto;
+    height: auto;
+}
+
+div.info_corner.left_up {
+    top: 5px;
+    left: 5px;
+}
+
+div.info_corner.left_down {
+    bottom: 5px;
+    left: 5px;
+}
+
+div.info_corner.right_down {
+    bottom: 5px;
+    right: 315px;
+}
+
+div.info_corner.right_up {
+    top: 5px;
+    right: 315px;
+}
+
+div.info_corner_backgr {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+    background-color: #000;
+    opacity: 0.7;
+}
+
+span.info_corner_text {
+    position: relative;
+    font-size: 15px;
+    line-height: 20px;
+    font-weight: bold;
+    color: #00FF00;
+    padding: 0px 5px;
+    display: inline-block;
+}
+
+@media all and (min-width: 750px) {
+    #controls_container {
+        width: 250px;
+    }
+}
+
+@media all and (min-width: 1200px) {
+    #controls_container {
+        width: 320px;
+    }
+}
+
+#controls_container {
+    position:absolute;
+    right: 0px;
+    top: 0px;
+    height: 100%;
+}
+
+#manifest {
+    height: 350px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    margin: -15px -15px;
+}
+
+.ui-field-contain, .ui-mobile fieldset.ui-field-contain {
+    border-width: 0 !important;
+    padding: 0 !important;
+    margin: 5px 0 !important;
+}
+
+.text-wrapper {
+    text-align: left;
+}
+
+.text-wrapper * {
+    margin: 10px 10px;
+}
+
+.center-wrapper {
+    text-align: center;
+}
+
+.scene-settings {
+    margin: 10px 10px;
+}
+
+.color_selector {
+    position: relative;
+    width: 36px;
+    height: 36px;
+}
+
+.color_selector div {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 30px;
+    height: 30px;
+    background: url(../common/colorpicker/images/select.png) center;
+}
+
+div.colapsed_content {
+    margin-bottom: 5px;
+    min-height: 50px;
+    padding: 5px;
+}
+
+div.menu_items {
+    margin-top: -2px;
+}
+
+div.left_block_padding {
+    padding-left: 5px;
+}
+
+/* Body: Read-only lists, text inputs, collapsible content */
+.ui-body-c,
+.ui-page-theme-c .ui-body-inherit,
+html .ui-bar-c .ui-body-inherit,
+html .ui-body-c .ui-body-inherit,
+html body .ui-group-theme-c .ui-body-inherit,
+html .ui-panel-page-container-c {
+    background: #333 /*{c-body-background-color}*/;
+    border-color: #333 /*{c-body-border}*/;
+    color: #ffffff /*{c-body-color}*/;
+    text-shadow: 0 /*{c-body-shadow-x}*/ 1px /*{c-body-shadow-y}*/ 0 /*{c-body-shadow-radius}*/ #f3f3f3 /*{c-body-shadow-color}*/;
+}
+.ui-body-c {
+    border-width: 0px;
+    border-style: solid;
+}
+
+.min_font {
+    font-size: 12px;
+}

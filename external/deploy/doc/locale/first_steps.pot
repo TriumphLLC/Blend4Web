@@ -1,0 +1,92 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2014, ООО "Триумф"
+# This file is distributed under the same license as the B4W package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: B4W 14.02.28\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-03-19 19:31+0400\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../first_steps.rst:5
+# d926c8bb5b184b7a9dd613ad07d8c3eb
+msgid "Экспресс-установка"
+msgstr ""
+
+#: ../first_steps.rst:10
+# 048be1f65dae49f38351cd4aec284dad
+msgid "Установка программы Blender"
+msgstr ""
+
+#: ../first_steps.rst:12
+# 6f01a3a17c7a48aba45795beb7f5a605
+msgid "Создание 3D сцен осуществляется в графическом пакете `Blender <http://ru.wikipedia.org/wiki/Blender>`_, который является программным продуктом с открытым исходным кодом и распространяется бесплатно."
+msgstr ""
+
+#: ../first_steps.rst:14
+# f04f2d6aa04a402d86821f0501922749
+msgid "Должна использоваться текущая стабильная версия Blender. Загрузить Blender можно с `официального сайта <http://www.blender.org/download>`_."
+msgstr ""
+
+#: ../first_steps.rst:26
+# 15744e54a21046c9a4fb26b5b191bbdf
+msgid "Установка аддона движка"
+msgstr ""
+
+#: ../first_steps.rst:28
+# 367abcbec4334bf18c70c13b9b7d5b66
+msgid "Запустить Blender, загрузить сцену по умолчанию :file:`File > New`. Вызвать окно пользовательских настроек :file:`File > User Preferences...`. Во вкладке :file:`Addons` нажать :file:`Install from File...` и затем выбрать zip-архив с файлами аддона. После этого необходимо отметить галочку напротив :file:`Import-Export: Blend4Web`."
+msgstr ""
+
+#: ../first_steps.rst:36
+# d45cc2f910c34ebf9fc458cd67766a06
+msgid "Далее нажать :file:`Save User Settings` и закрыть окно пользовательских настроек."
+msgstr ""
+
+#: ../first_steps.rst:44
+# a946bc9c939a420a9545a57e49a8ff97
+msgid "Экспорт и просмотр сцены"
+msgstr ""
+
+#: ../first_steps.rst:46
+# ee2dd6b8daec4b0aa5bd84ce1c13f6fd
+msgid "Созданную сцену можно экспортировать в формате HTML. Для этого нужно выбрать опцию :file:`Export > Blend4Web (.html)` и указать путь экспорта. Полученный HTML файл можно открыть любым браузером, поддерживающим технологию WebGL."
+msgstr ""
+
+#: ../first_steps.rst:49
+# 19ffc48e8edf4a90b4db1d045076a680
+msgid ":ref:`browser_webgl_support`"
+msgstr ""
+
+#: ../first_steps.rst:21
+#: ../first_steps.rst:38
+#: ../first_steps.rst:51
+# 9fb5832d42e447689e27b363ccdd42b6
+# 6cf2cf88a4fd4e25a0682debe161db11
+# afa2ebe3f0364d1bb1e64db310225218
+msgid "экспорт"
+msgstr ""
+
+#: ../first_steps.rst:21
+# 9fb5832d42e447689e27b363ccdd42b6
+msgid "установка программы Blender"
+msgstr ""
+
+#: ../first_steps.rst:38
+# 6cf2cf88a4fd4e25a0682debe161db11
+msgid "установка аддона"
+msgstr ""
+
+#: ../first_steps.rst:51
+# afa2ebe3f0364d1bb1e64db310225218
+msgid "просмотр сцены"
+msgstr ""
+

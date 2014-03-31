@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script type="text/javascript" src="../../external/deploy/globals_detect/begin.js"></script>
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+<link rel="stylesheet" href="../../external/deploy/apps/common/jquery.mobile.min.css" />
+<script src="../../external/deploy/apps/common/jquery.min.js"></script>
+
+
+<script src="../../external/deploy/apps/common/jquery.mobile.min.js"></script>
+
+<!-- color picker begin -->
+<link rel="stylesheet" href="../../external/deploy/apps/common/colorpicker/css/colorpicker.css" type="text/css" />
+<script type="text/javascript" src="../../external/deploy/apps/common/colorpicker/colorpicker.js"></script>
+<!-- color picker end -->
+
+<link href="../../external/deploy/apps/viewer/viewer.css" rel="stylesheet" type="text/css" />
+
+
+<script type="text/javascript" src="../../src/modules.js"></script>
+<script type="text/javascript" src="../../src/version.js"></script>
+<script type="text/javascript" src="../../src/boundings.js"></script>
+<script type="text/javascript" src="../../src/constraints.js"></script>
+<script type="text/javascript" src="../../src/config.js"></script>
+<script type="text/javascript" src="../../src/controls.js"></script>
+<script type="text/javascript" src="../../src/curve.js"></script>
+<script type="text/javascript" src="../../src/debug.js"></script>
+<script type="text/javascript" src="../../src/extensions.js"></script>
+<script type="text/javascript" src="../../src/graph.js"></script>
+<script type="text/javascript" src="../../src/scenegraph.js"></script>
+<script type="text/javascript" src="../../src/ipc.js"></script>
+<script type="text/javascript" src="../../src/hud.js"></script>
+<script type="text/javascript" src="../../src/prerender.js"></script>
+<script type="text/javascript" src="../../src/print.js"></script>
+<script type="text/javascript" src="../../src/reformer.js"></script>
+<script type="text/javascript" src="../../src/renderer.js"></script>
+<script type="text/javascript" src="../../src/shaders.js"></script>
+<script type="text/javascript" src="../../src/assets.js"></script>
+<script type="text/javascript" src="../../src/geometry.js"></script>
+<script type="text/javascript" src="../../src/primitives.js"></script>
+<script type="text/javascript" src="../../src/particles.js"></script>
+<script type="text/javascript" src="../../src/textures.js"></script>
+<script type="text/javascript" src="../../src/dds.js"></script>
+<script type="text/javascript" src="../../src/loader.js"></script>
+<script type="text/javascript" src="../../src/camera.js"></script>
+<script type="text/javascript" src="../../src/lights.js"></script>
+<script type="text/javascript" src="../../src/scenes.js"></script>
+<script type="text/javascript" src="../../src/physics.js"></script>
+<script type="text/javascript" src="../../src/data.js"></script>
+<script type="text/javascript" src="../../src/batch.js"></script>
+<script type="text/javascript" src="../../src/nodemat.js"></script>
+<script type="text/javascript" src="../../src/animation.js"></script>
+<script type="text/javascript" src="../../src/transform.js"></script>
+<script type="text/javascript" src="../../src/tsr.js"></script>
+<script type="text/javascript" src="../../src/util.js"></script>
+<script type="text/javascript" src="../../src/sfx.js"></script>
+<script type="text/javascript" src="../../src/third_party/gl-matrix2.js"></script>
+<script type="text/javascript" src="../../src/third_party/gpp_eval.js"></script>
+<script type="text/javascript" src="../../src/third_party/gpp_parser.js"></script>
+<script type="text/javascript" src="../../src/third_party/md5.js"></script>
+
+<script type="text/javascript" src="../../src/ext/animation.js"></script>
+<script type="text/javascript" src="../../src/ext/assets.js"></script>
+<script type="text/javascript" src="../../src/ext/material.js"></script>
+<script type="text/javascript" src="../../src/ext/camera.js"></script>
+<script type="text/javascript" src="../../src/ext/config.js"></script>
+<script type="text/javascript" src="../../src/ext/controls.js"></script>
+<script type="text/javascript" src="../../src/ext/constraints.js"></script>
+<script type="text/javascript" src="../../src/ext/data.js"></script>
+<script type="text/javascript" src="../../src/ext/debug.js"></script>
+<script type="text/javascript" src="../../src/ext/hud.js"></script>
+<script type="text/javascript" src="../../src/ext/lights.js"></script>
+<script type="text/javascript" src="../../src/ext/physics.js"></script>
+<script type="text/javascript" src="../../src/ext/scenes.js"></script>
+<script type="text/javascript" src="../../src/ext/sfx.js"></script>
+<script type="text/javascript" src="../../src/ext/shaders.js"></script>
+<script type="text/javascript" src="../../src/ext/transform.js"></script>
+<script type="text/javascript" src="../../src/ext/util.js"></script>
+<script type="text/javascript" src="../../src/ext/version.js"></script>
+
+<script type="text/javascript" src="../../src/ext/main.js"></script>
+
+<script type="text/javascript" src="../../src/addons/camera_anim.js"></script>
+<script type="text/javascript" src="../../src/addons/mixer.js"></script>
+<script type="text/javascript" src="../../src/addons/storage.js"></script>
+<script type="text/javascript" src="../../src/addons/app.js"></script>
+
+<script type="text/javascript" src="viewer.js"></script>
+
+<script type="text/javascript" src="../../external/deploy/globals_detect/end.js"></script>
+</head>
+
+<body>
+
+<div class="backgr_checker"></div>
+
+<div id="main_canvas_container"></div>
+
+<div class="info_corner left_up">
+    <div class="info_corner_backgr"></div>
+    <span id="info_left_up" class="info_corner_text"></span>
+</div>
+
+<div class="info_corner left_down">
+    <div class="info_corner_backgr"></div>
+    <span id="info_left_down" class="info_corner_text"></span>
+</div>
+
+<div class="info_corner right_up">
+    <div class="info_corner_backgr"></div>
+    <span id="info_right_up" class="info_corner_text"></span>
+</div>
+
+<div class="info_corner right_down">
+    <div class="info_corner_backgr"></div>
+    <span id="info_right_down" class="info_corner_text"></span>
+</div>
+
+<div id="controls_container">
+
+  <div data-role="page" data-theme="b" data-content-theme="b">
+
+    <div class="text-wrapper">
+        <h4>Build: <span id="build_date"></span></h4>
+        <h4>Scene: <span id="current_file">Default</span></h4> 
+        <h4>Loaded: <span id="loading_progress"></span></h4>
+    </div>
+
+    <div class="center-wrapper">
+        <div data-role="controlgroup" data-type="horizontal">
+            <a href="" id="reset_memory" data-role="button" data-icon="home" data-mini="true">Reset</a>
+            <select id="quality" data-native-menu="false" data-mini="true" >
+              <option value="ULTRA">ULTRA Q</option>
+              <option value="HIGH">HIGH Q</option>
+              <option value="LOW">LOW Q</option>
+            </select>
+            <a href="" id="auto_rotate_cam" data-role="button" data-icon="home" data-mini="true">Auto Rotate</a>
+        </div>
+        <div data-role="controlgroup" data-type="horizontal">
+            <a href="" id="pause" data-role="button" data-icon="delete" data-mini="true">Pause</a>
+            <a href="" id="resume" data-role="button" data-icon="arrow-r" data-mini="true">Resume</a>
+            <a href="" id="auto_view" data-role="button" data-icon="search" data-mini="true">Auto View</a>
+        </div>
+    </div>
+
+    <div class="scene-settings" data-role="collapsible-set">
+
+        <div data-role="collapsible" data-collapsed="true" class="menu_items">
+          <h1>Scenes</h1>
+          <div data-role="fieldcontain">
+            <div id="manifest" data-role="collapsible-set" class="left_block_padding">
+            </div>
+          </div>
+        </div>
+
+        <div data-role="collapsible" data-collapsed="true" class="menu_items">
+            <h1>Animation</h1>
+
+            <div class="ui-grid-solo">
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="anim_active_object">Object:</label>
+                    <select id="anim_active_object" data-native-menu="false" data-mini="true"></select>
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="anim_action">Action:</label>
+                    <select id="anim_action" data-native-menu="false" data-mini="true"></select>
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="anim_cyclic">Cyclic:</label>
+                    <div><select id="anim_cyclic" data-role="slider" data-mini="true">
+                        <option value="on">Yes</option>
+                        <option value="off">No</option>
+                    </select></div>
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="anim_frame_range">Range:</label>
+                    <span id="anim_frame_range"></span>
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="anim_status">Status:</label>
+                    <span id="anim_status"></span>
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <legend>Playing animation:</legend>
+                    <div class="ui-grid-b">
+                        <input type="button" value="Play" id="anim_play" data-inline="true" data-icon="arrow-r" data-mini="true" />
+                        <input type="button" value="Stop" id="anim_stop" data-inline="true" data-icon="delete" data-mini="true" />
+                    </div>
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="anim_frame_current">Set frame:</label>
+                    <input id="anim_frame_current" data-highlight="true" value="0.0" min="0.0" max="1.0" type="range" step="1.0" data-mini="true /">
+                </div>
+
+                <h3>Max bones:</h3>
+
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <div class="ui-grid-b">
+                        <label>Max bones:</label>
+                        <span id="max_bones">?</span>
+                    </div>
+                    <div class="ui-grid-b">
+                        <label>with blending:</label>
+                        <span id="max_bones_no_blending">?</span>
+                    </div>
+                    <input type="button" value="Get Max Bones (SLOW)" id="get_max_bones" data-inline="true" data-icon="arrow-r" data-mini="true" />
+                </div>
+            </div>
+        </div>
+
+        <div data-role="collapsible" data-collapsed="true" class="menu_items">
+            <h1>Materials</h1>
+
+            <div class="ui-grid-solo">
+                <div class="ui-block-a colapsed_content ui-body ui-body-c ui-disabled">
+                    <label for="material_name">Material:</label>
+                    <select id="material_name" data-native-menu="false" data-mini="true"></select>
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c ui-disabled">
+                    <label for="material_diffuse_color">Color:</label>
+                    <div><div id="material_diffuse_color" class="color_selector"><div></div></div></div>
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c ui-disabled">
+                    <label for="material_reflectivity">Reflectivity:</label>
+                    <input id="material_reflectivity" data-highlight="true" min="0" max="1.0" value="0" type="range" step="0.01" data-mini="true /">
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c ui-disabled">
+                    <label for="material_fresnel">Fresnel:</label>
+                    <input id="material_fresnel" data-highlight="true" min="0" max="5.0" value="0" type="range" step="0.01" data-mini="true /">
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c ui-disabled">
+                    <label for="material_fresnel_factor">Fresnel factor:</label>
+                    <input id="material_fresnel_factor" data-highlight="true" min="0" max="5.0" value="0" type="range" step="0.01" data-mini="true /">
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c ui-disabled">
+                    <label for="material_parallax_scale">Parallax scale:</label>
+                    <input id="material_parallax_scale" data-highlight="true" min="0" max="0.1" value="0" type="range" step="0.001" data-mini="true /">
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c ui-disabled">
+                    <label for="material_parallax_steps">Parallax steps:</label>
+                    <input id="material_parallax_steps" data-highlight="true" min="1" max="30" value="5" type="range" step="1" data-mini="true /">
+                </div>
+            </div>
+        </div>
+
+        <div data-role="collapsible" data-collapsed="true">
+            <h1>Lighting</h1>
+
+            <div class="ui-grid-solo">
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="light_name">Light:</label>
+                    <select id="light_name" name="light_name" data-native-menu="false" data-mini="true"></select>
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="light_color">Color:</label>
+                    <div><div id="light_color" class="color_selector"><div></div></div></div>
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="light_energy">Energy:</label>
+                    <input id="light_energy" data-highlight="true" min="0" max="3.0" value="0" type="range" step="0.01" data-mini="true /">
+                </div>
+
+                <h3>For sun only:</h3>
+
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <legend>Real time sun movement:</legend>
+                    <div class="ui-grid-b">
+                        <input type="button" value="Play" id="run_sun" data-inline="true" data-icon="arrow-r" data-mini="true" />
+                        <input type="button" value="Stop" id="stop_sun" data-inline="true" data-icon="delete" data-mini="true" />
+                    </div>
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="date">Date:</label>
+                    <input type="date" id="date" value="2013-08-05" data-highlight="true" data-mini="true" />
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="day_time">Time:</label>
+                    <input type="range" id="day_time" value="12.00" min="0.0" max="24.0" step="0.001" data-highlight="true" data-mini="true" />
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="max_sun_angle">Maximum sun vertical angle:</label>
+                    <input type="range" id="max_sun_angle" value="60.0" min="0.0" max="90.0" step="0.01" data-highlight="true" data-mini="true" />
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="sun_time_multiplier">Time multiplier:</label>
+                    <input type="range" id="sun_time_multiplier" value="1.0" min="0.0" max="1000.0" step="0.1" data-highlight="true" data-mini="true" />
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="sun_horizontal_position">Horizontal position:</label>
+                    <input type="range" id="sun_horizontal_position" value="0.0" min="-180.0" max="180.0" step="0.01" data-highlight="true" data-mini="true" />
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="sun_vertical_position">Vertical position:</label>
+                    <input type="range" id="sun_vertical_position" value="0.0" min="-180.0" max="180.0" step="0.01" data-highlight="true" data-mini="true" />
+                </div>
+            </div>
+        </div>
+
+        <div data-role="collapsible" data-collapsed="true">
+            <h1>Ambient</h1>
+
+            <div class="ui-grid-solo">
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="environment_energy">Environment Energy:</label>
+                    <input type="range" id="environment_energy" value="0.0" min="0.0" max="3.0" step="0.01" data-highlight="true" data-mini="true" />
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="horizon_color">Horizon color:</label>
+                    <div><div id="horizon_color" class="color_selector"><div></div></div></div>
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="zenith_color">Zenith color:</label>
+                    <div><div id="zenith_color" class="color_selector"><div></div></div></div>
+                </div>
+            </div>
+        </div>
+
+        <div data-role="collapsible" data-collapsed="true">
+            <h1>Shadows</h1>
+
+            <div class="ui-grid-solo">
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="shadow_color">Color (unused):</label>
+                    <div><div id="shadow_color" class="color_selector"><div></div></div></div>
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="optimize_shadow_volume">Optimize shadow volume:</label>
+                    <div><select id="optimize_shadow_volume" data-role="slider" data-mini="true">
+                        <option value="on">Yes</option>
+                        <option value="off">No</option>
+                    </select></div>
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <legend>Cascades:</legend>
+                    <div class="ui-grid-b">
+                        <div class="ui-block-a"><label>Number:</label></div>
+                        <div class="ui-block-b"><span id="csm_num">?</span></div>
+                    </div>
+                    <div class="ui-grid-b">
+                        <div class=""><label>Borders:</label></div>
+                        <div class=""><span id="csm_borders">?</span></div>
+                    </div>
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="csm_near">CSM near:</label>
+                    <input id="csm_near" data-highlight="true" value="0.0" min="0.01" max="10.0" type="range" step="0.01" data-mini="true /">
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="csm_far">CSM far:</label>
+                    <input id="csm_far" data-highlight="true" value="0.0" min="1.0" max="1000.0" type="range" step="1.0" data-mini="true /">
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="csm_lambda">CSM lambda:</label>
+                    <input id="csm_lambda" data-highlight="true" value="0.0" min="0.0" max="1.0" type="range" step="0.001" data-mini="true /">
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="shadow_visibility_falloff">Visibility Falloff:</label>
+                    <input id="shadow_visibility_falloff" data-highlight="true" value="999.0" min="0.0" max="50000.0" type="range" step="1.0" data-mini="true /">
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="blur_depth_size_mult">Blur Depth Size Mult:</label>
+                    <input id="blur_depth_size_mult" data-highlight="true" value="0.0" min="0.0" max="10.0" type="range" step="0.1" data-mini="true /">
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="blur_depth_edge_size">Blur Depth Edge Size:</label>
+                    <input id="blur_depth_edge_size" data-highlight="true" value="0.0" min="0.0" max="10.0" type="range" step="0.01" data-mini="true /">
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="blur_depth_diff_threshold">Blur Depth Diff Threshold x 1000:</label>
+                    <input id="blur_depth_diff_threshold" data-highlight="true" value="0.0" min="0.0" max="1.0" type="range" step="0.001" data-mini="true /">
+                </div>
+            </div>
+        </div>
+
+
+        <div data-role="collapsible" data-collapsed="true">
+            <h1>Sky</h1>
+
+            <div class="ui-grid-solo">
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="sky_color">Sky color:</label>
+                    <div><div id="sky_color" class="color_selector"><div></div></div></div>
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="rayleigh_brightness">Rayleigh brightness:</label>
+                    <input id="rayleigh_brightness" data-highlight="true" value="3.3" min="0.0" max="5.0" type="range" step="0.01" data-mini="true /">
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="mie_brightness">Mie brightness:</label>
+                    <input id="mie_brightness" data-highlight="true" value="0.1" min="0.0" max="1.0" type="range" step="0.01" data-mini="true /">
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="spot_brightness">Spot brightness:</label>
+                    <input id="spot_brightness" data-highlight="true" value="20.0" min="0.0" max="1000.0" type="range" step="1.0" data-mini="true /">
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="scatter_strength">Scatter_strength:</label>
+                    <input id="scatter_strength" data-highlight="true" value="0.2" min="0.0" max="1.0" type="range" step="0.01" data-mini="true /">
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="rayleigh_strength">Rayleigh strength:</label>
+                    <input id="rayleigh_strength" data-highlight="true" value="0.2" min="0.0" max="1.0" type="range" step="0.01" data-mini="true /">
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="mie_strength">Mie strength:</label>
+                    <input id="mie_strength" data-highlight="true" value="0.006" min="0.0" max="0.1" type="range" step="0.0001" data-mini="true /">
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="rayleigh_collection_power">Rayleigh collection power:</label>
+                    <input id="rayleigh_collection_power" data-highlight="true" value="0.5" min="0.0" max="2.0" type="range" step="0.01" data-mini="true /">
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="mie_collection_power">Mie collection power:</label>
+                    <input id="mie_collection_power" data-highlight="true" value="0.5" min="0.0" max="2.0" type="range" step="0.01" data-mini="true /">
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="mie_distribution">Mie distribution:</label>
+                    <input id="mie_distribution" data-highlight="true" value="0.4" min="0.0" max="2.0" type="range" step="0.01" data-mini="true /">
+                </div>
+            </div>
+        </div>
+
+        <div data-role="collapsible" data-collapsed="true">
+            <h1>Sea</h1>
+
+            <div class="ui-grid-solo">
+                <div class="ui-block-a colapsed_content ui-body ui-body-c ui-disabled">
+                    <label for="shore_smoothing">Shore smoothing:</label>
+                    <div><select id="shore_smoothing" data-role="slider" data-mini="true">
+                        <option value="1" selected>Yes</option>
+                        <option value="0">No</option>
+                    </select></div>
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c ui-disabled">
+                    <label for="absorb_factor">Water absorbtion factor:</label>
+                    <input id="absorb_factor" data-highlight="true" value="6.0" min="0.0" max="100.0" type="range" step="1.0" data-mini="true /">
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c ui-disabled">
+                    <label for="water_fog_color">Underwater fog color:</label>
+                    <div><div id="water_fog_color" class="color_selector"><div></div></div></div>
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c ui-disabled">
+                    <label for="water_fog_density">Underwater fog density:</label>
+                    <input id="water_fog_density" data-highlight="true" value="0.06" min="0.0" max="1.0" type="range" step="0.0001" data-mini="true /">
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c ui-disabled">
+                    <label for="shallow_water_col">Shallow water color:</label>
+                    <div><div id="shallow_water_col" class="color_selector"><div></div></div></div>
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c ui-disabled">
+                    <label for="shallow_water_col_fac">Shallow water color factor:</label>
+                    <input id="shallow_water_col_fac" data-highlight="true" value="2.0" min="0.0" max="2.0" type="range" step="0.01" data-mini="true /">
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c ui-disabled">
+                    <label for="shore_water_col">Shore water color:</label>
+                    <div><div id="shore_water_col" class="color_selector"><div></div></div></div>
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c ui-disabled">
+                    <label for="shore_water_col_fac">Shore water color factor:</label>
+                    <input id="shore_water_col_fac" data-highlight="true" value="1.0" min="0.0" max="2.0" type="range" step="0.01" data-mini="true /">
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c ui-disabled">
+                    <label for="foam_factor">Water foam factor:</label>
+                    <input id="foam_factor" data-highlight="true" value="0.5" min="0.0" max="1.0" type="range" step="0.001" data-mini="true /">
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c ui-disabled">
+                    <label for="water_dynamic">Water dynamic:</label>
+                    <div><select id="water_dynamic" data-role="slider" data-mini="true">
+                        <option value="0">No</option>
+                        <option value="1" selected>Yes</option>
+                    </select></div>
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c ui-disabled">
+                    <label for="sss_strength">SSS strength:</label>
+                    <input id="sss_strength" data-highlight="true" value="6.0" min="0.0" max="100.0" type="range" step="0.1" data-mini="true /">
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c ui-disabled">
+                    <label for="sss_width">SSS width:</label>
+                    <input id="sss_width" data-highlight="true" value="0.2" min="0.0" max="1.0" type="range" step="0.01" data-mini="true /">
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c ui-disabled">
+                    <label for="waves_height">Waves height:</label>
+                    <input id="waves_height" data-highlight="true" value="1.0" min="0.0" max="10.0" type="range" step="0.001" data-mini="true /">
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c ui-disabled">
+                    <label for="waves_length">Waves length:</label>
+                    <input id="waves_length" data-highlight="true" value="10.0" min="0.0" max="200.0" type="range" step="1.0" data-mini="true /">
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c ui-disabled">
+                    <label for="dst_noise_scale0">Noise distant scale 0:</label>
+                    <input id="dst_noise_scale0" data-highlight="true" value="0.05" min="0.0" max="1.0" type="range" step="0.001" data-mini="true /">
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c ui-disabled">
+                    <label for="dst_noise_scale1">Noise distant scale 1:</label>
+                    <input id="dst_noise_scale1" data-highlight="true" value="0.03" min="0.0" max="1.0" type="range" step="0.001" data-mini="true /">
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c ui-disabled">
+                    <label for="dst_noise_freq0">Noise distant frequency 0:</label>
+                    <input id="dst_noise_freq0" data-highlight="true" value="1.3" min="0.0" max="10.0" type="range" step="0.01" data-mini="true /">
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c ui-disabled">
+                    <label for="dst_noise_freq1">Noise distant frequency 1:</label>
+                    <input id="dst_noise_freq1" data-highlight="true" value="1.0" min="0.0" max="10.0" type="range" step="0.01" data-mini="true /">
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c ui-disabled">
+                    <label for="dir_min_shore_fac">Directional min shore factor:</label>
+                    <input id="dir_min_shore_fac" data-highlight="true" value="0.4" min="0.0" max="1.0" type="range" step="0.001" data-mini="true /">
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c ui-disabled">
+                    <label for="dir_freq">Directional waves frequency:</label>
+                    <input id="dir_freq" data-highlight="true" value="0.5" min="0.0" max="5.0" type="range" step="0.01" data-mini="true /">
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c ui-disabled">
+                    <label for="dir_noise_scale">Directional noise scale:</label>
+                    <input id="dir_noise_scale" data-highlight="true" value="0.05" min="0.0" max="1.0" type="range" step="0.001" data-mini="true /">
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c ui-disabled">
+                    <label for="dir_noise_freq">Directional noise frequency:</label>
+                    <input id="dir_noise_freq" data-highlight="true" value="0.07" min="0.0" max="1.0" type="range" step="0.001" data-mini="true /">
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c ui-disabled">
+                    <label for="dir_min_noise_fac">Directional min noise factor:</label>
+                    <input id="dir_min_noise_fac" data-highlight="true" value="0.5" min="0.0" max="1.0" type="range" step="0.01" data-mini="true /">
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c ui-disabled">
+                    <label for="dst_min_fac">Distant waves min factor:</label>
+                    <input id="dst_min_fac" data-highlight="true" value="0.2" min="0.0" max="1.0" type="range" step="0.01" data-mini="true /">
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c ui-disabled">
+                    <label for="waves_hor_fac">Waves horizontal factor:</label>
+                    <input id="waves_hor_fac" data-highlight="true" value="20" min="0.0" max="10.0" type="range" step="0.1" data-mini="true /">
+                </div>
+            </div>
+        </div>
+
+
+        <div data-role="collapsible" data-collapsed="true">
+            <h1>Fog</h1>
+
+            <div class="ui-grid-solo">
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="fog_density">Density:</label>
+                    <input id="fog_density" data-highlight="true" value="0.0" min="0.0" max="1.0" type="range" step="0.01" data-mini="true /">
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="fog_density1000">Density x 1000:</label>
+                    <input id="fog_density1000" data-highlight="true" value="0.0" min="0.0" max="200.0" type="range" step="0.02" data-mini="true /">
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="fog_color">Color:</label>
+                    <div><div id="fog_color" class="color_selector"><div></div></div></div>
+                </div>
+            </div>
+        </div>
+
+        <div data-role="collapsible" data-collapsed="true">
+            <h1>Wind</h1>
+
+            <div class="ui-grid-solo">
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="wind_dir">Wind direction:</label>
+                    <input id="wind_dir" data-highlight="true" min="0" max="360" value="0" type="range" step="0.1" data-mini="true /">
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="wind_strength">Wind strength:</label>
+                    <input id="wind_strength" data-highlight="true" min="0.01" max="10" value="0.0" type="range" step="0.01" data-mini="true /">
+                </div>
+            </div>
+        </div>
+
+        <div data-role="collapsible" data-collapsed="true">
+            <h1>Screen Space Amb Occlus</h1>
+
+            <div class="ui-grid-solo">
+                <div class="ui-block-a colapsed_content ui-body ui-body-c ssao_quality">
+                    <label for="ssao_quality">SSAO quality:</label>
+                    <select id="ssao_quality" name="ssao_quality" data-native-menu="false" data-mini="true">
+                        <option value="SSAO_QUALITY_32">32 samples</option>
+                        <option value="SSAO_QUALITY_16">16 samples</option>
+                    </select>
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="ssao_radius_increase">Radius Increase:</label>
+                    <input id="ssao_radius_increase" data-highlight="true" value="0.0" min="0.0" max="15.0" type="range" step="0.01" data-mini="true /">
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="ssao_dithering_amount">Dithering amount x 1000:</label>
+                    <input id="ssao_dithering_amount" data-highlight="true" value="0.0" min="0.0" max="4.0" type="range" step="0.01" data-mini="true /">
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="ssao_gauss_center">Gauss center:</label>
+                    <input id="ssao_gauss_center" data-highlight="true" value="0.01" min="0.0" max="2.0" type="range" step="0.005" data-mini="true /">
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="ssao_gauss_width_square">Gauss width:</label>
+                    <input id="ssao_gauss_width_square" data-highlight="true" value="0.0" min="0.0" max="16.0" type="range" step="0.02" data-mini="true /">
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="ssao_gauss_width_left_square">Gauss width left:</label>
+                    <input id="ssao_gauss_width_left_square" data-highlight="true" value="0.0" min="0.0" max="2.0" type="range" step="0.005" data-mini="true /">
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="ssao_influence">Influence:</label>
+                    <input id="ssao_influence" data-highlight="true" value="0.0" min="0.0" max="1.0" type="range" step="0.005" data-mini="true /">
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="ssao_dist_factor">Distance factor:</label>
+                    <input id="ssao_dist_factor" data-highlight="true" value="0.0" min="0.0" max="20.0" type="range" step="0.01" data-mini="true /">
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="ssao_only">SSAO only:</label>
+                    <div><select id="ssao_only" data-role="slider" data-mini="true">
+                        <option value="on">Yes</option>
+                        <option value="off" selected>No</option>
+                    </select></div>
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="ssao_white">SSAO white:</label>
+                    <div><select id="ssao_white" data-role="slider" data-mini="true">
+                        <option value="on">Yes</option>
+                        <option value="off" selected>No</option>
+                    </select></div>
+                </div>
+            </div>
+        </div>
+
+        <div data-role="collapsible" data-collapsed="true">
+            <h1>God Rays</h1>
+
+            <div class="ui-grid-solo">
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="god_rays_intensity">Intensity:</label>
+                    <input id="god_rays_intensity" data-highlight="true" value="0.0" min="0.0" max="5.0" type="range" step="0.01" data-mini="true /">
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="god_rays_max_ray_length">Max Ray Length:</label>
+                    <input id="god_rays_max_ray_length" data-highlight="true" value="0.0" min="0.0" max="5.0" type="range" step="0.01" data-mini="true /">
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="god_rays_steps">Steps:</label>
+                    <input id="god_rays_steps" data-highlight="true" value="0.0" min="1.0" max="30.0" type="range" step="1.0" data-mini="true /">
+                </div>
+            </div>
+        </div>
+
+        <div data-role="collapsible" data-collapsed="true">
+            <h1>Bloom</h1>
+
+            <div class="ui-grid-solo">
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="bloom_key">Bloom key:</label>
+                    <input id="bloom_key" data-highlight="true" value="0.0" min="0.0" max="5.0" type="range" step="0.01" data-mini="true /">
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="bloom_blur">Bloom blur:</label>
+                    <input id="bloom_blur" data-highlight="true" value="0.0" min="0.0" max="20.0" type="range" step="0.01" data-mini="true /">
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="bloom_edge_lum">Bloom edge luminance:</label>
+                    <input id="bloom_edge_lum" data-highlight="true" value="0.0" min="0.0" max="3.0" type="range" step="0.01" data-mini="true /">
+                </div>
+            </div>
+        </div>
+
+        <div data-role="collapsible" data-collapsed="true">
+            <h1>Depth of Field</h1>
+
+            <div class="ui-grid-solo">
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="dof_distance">Distance:</label>
+                    <input id="dof_distance" data-highlight="true" value="0.0" min="0.0" max="200.0" type="range" step="0.01" data-mini="true /">
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="dof_front">Front:</label>
+                    <input id="dof_front" data-highlight="true" value="0.0" min="0.0" max="10.0" type="range" step="0.01" data-mini="true /">
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="dof_rear">Rear:</label>
+                    <input id="dof_rear" data-highlight="true" value="0.0" min="0.0" max="5000.0" type="range" step="0.01" data-mini="true /">
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="dof_power">Power:</label>
+                    <input id="dof_power" data-highlight="true" value="0.0" min="0.0" max="20.0" type="range" step="0.01" data-mini="true /">
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="dof_on">DOF_on:</label>
+                    <div><select id="dof_on" data-role="slider" data-mini="true">
+                        <option value="1">Yes</option>
+                        <option value="0" selected>No</option>
+                    </select></div>
+                </div>
+            </div>
+        </div>
+
+
+        <div data-role="collapsible" data-collapsed="true">
+            <h1>Color correction</h1>
+
+            <div class="ui-grid-solo">
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="brightness">Brightness:</label>
+                    <input id="brightness" data-highlight="true" value="0.0" min="-1.0" max="1.0" type="range" step="0.01" data-mini="true /">
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="contrast">Contrast:</label>
+                    <input id="contrast" data-highlight="true" value="0.0" min="-1.0" max="1.0" type="range" step="0.01" data-mini="true /">
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="exposure">Exposure:</label>
+                    <input id="exposure" data-highlight="true" value="0.0" min="0.0" max="2.0" type="range" step="0.01" data-mini="true /">
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="saturation">Saturation:</label>
+                    <input id="saturation" data-highlight="true" value="0.0" min="0.0" max="2.0" type="range" step="0.01" data-mini="true /">
+                </div>
+            </div>
+        </div>
+
+        <div data-role="collapsible" data-collapsed="true">
+            <h1>Anti-aliasing</h1>
+
+            <div class="ui-grid-solo">
+                <div class="ui-block-a colapsed_content ui-body ui-body-c aa_method">
+                    <label for="aa_method">AA method:</label>
+                    <select id="aa_method" name="aa_method" data-native-menu="false" data-mini="true">
+                        <option value="AA_METHOD_PASS">Pass</option>
+                        <option value="AA_METHOD_FXAA_LIGHT">FXAA "light"</option>
+                        <option value="AA_METHOD_FXAA_QUALITY">FXAA QUALITY</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div data-role="collapsible" data-collapsed="true">
+            <h1>Audio</h1>
+
+            <div class="ui-grid-solo">
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="sfx_mix_mode">Mixer:</label>
+                    <select id="sfx_mix_mode" data-role="slider" data-mini="true">
+                        <option value="on">Yes</option>
+                        <option value="off" selected>No</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div data-role="collapsible" data-collapsed="true">
+            <h1>Stereo View</h1>
+
+            <div class="ui-grid-solo">
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="anaglyph_use">Anaglyph use:</label>
+                    <select id="anaglyph_use" data-role="slider" data-mini="true">
+                        <option value="on">Yes</option>
+                        <option value="off" selected>No</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div data-role="collapsible" data-collapsed="true" class="menu_items">
+            <h1>Debug</h1>
+
+            <div class="ui-grid-solo">
+                <div class="ui-block-a colapsed_content ui-body ui-body-c wireframe_mode">
+                    <label for="wireframe_mode">Wireframe modes:</label>
+                    <select id="wireframe_mode" name="wireframe_mode" data-native-menu="false" data-mini="true">
+                        <option value="WM_NONE" selected="selected">NONE</option>
+                        <option value="WM_OPAQUE_WIREFRAME">OPAQUE WIREFRAME</option>
+                        <option value="WM_TRANSPARENT_WIREFRAME">TRANSPARENT WIREFRAME</option>
+                        <option value="WM_FRONT_BACK_VIEW">FRONT BACK VIEW</option>
+                        <option value="WM_DEBUG_SPHERES">DEBUG SPHERES</option>
+                    </select>
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="wireframe_edge_color">Wireframe edge color:</label>
+                    <div><div id="wireframe_edge_color" class="color_selector"><div></div></div></div>
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="show_hud_debug_info">HUD Info:</label>
+                    <select id="show_hud_debug_info" data-role="slider" data-mini="true">
+                        <option value="on">Yes</option>
+                        <option value="off" selected>No</option>
+                    </select>
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

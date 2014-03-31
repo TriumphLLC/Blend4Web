@@ -1,0 +1,50 @@
+<html>
+<head>
+<script>
+
+function run() {
+    
+    s = ""
+
+    var context = new webkitAudioContext();
+    var listener = context.listener;
+    var source = context.createBufferSource();
+    var panner = context.createPanner();
+    var gain_node = context.createGainNode();
+    var gain = gain_node.gain;
+    var conv = context.createConvolver();
+    var comp = context.createDynamicsCompressor();
+    
+    s += write_props(context);
+    s += write_props(listener);
+    s += write_props(source);
+    s += write_props(panner);
+    s += write_props(gain_node);
+    s += write_props(gain);
+    s += write_props(conv);
+    s += write_props(comp);
+
+    var output = document.getElementsByName("output")[0];
+    output.innerHTML = s;
+}
+
+function write_props(obj) {
+
+    var name = obj.constructor.name;
+    s = "function " + name + "() {};\n";
+
+    for (var prop in obj) {
+        s += name  + ".prototype." + prop + ";\n";// + " = function() {};"
+    }
+
+    return s;
+}
+
+
+</script>
+</head>
+<body onload=run()>
+<textarea rows="50" cols="120" name="output">
+</textarea>
+</body>
+</html>

@@ -1,0 +1,985 @@
+"use strict";
+
+/**
+ * Application add-on.
+ * Provides generic routines for engine initialization, UI and I/O.
+ * @module app
+ */
+b4w.module["app"] = function(exports, require) {
+
+var m_anim  = require("animation");
+var m_cam   = require("camera");
+var m_cfg   = require("config");
+var m_ctl   = require("controls");
+var m_data  = require("data");
+var m_dbg   = require("debug");
+var m_main  = require("main");
+var m_phy   = require("physics");
+var m_print = require("print");
+var m_scs   = require("scenes");
+var m_trans = require("transform");
+var m_util  = require("util");
+
+var m_vec3 = require("vec3");
+
+// radian/pixel
+var MOUSE_ROTATION_MULT_PX = 0.01;
+var TOUCH_ROTATION_MULT_PX = 0.007;
+
+var MOUSE_ZOOM_FACTOR = 0.1;
+var TOUCH_ZOOM_FACTOR = 0.005;
+
+var CAM_SMOOTH_ZOOM_MOUSE = 0.1;
+var CAM_SMOOTH_ZOOM_TOUCH = 0.15;
+
+var CAM_SMOOTH_ROT_MOUSE = 0.08;
+var CAM_SMOOTH_ROT_TOUCH = 0.12;
+
+// assumed there are development and release versions of htmls
+
+var _canvas_container_elem = null;
+var _canvas_elem = null;
+var _fps_logger_elem = null;
+
+var _preloader;
+
+// for internal usage
+var _vec3_tmp   = new Float32Array(3);
+
+/**
+ * Initialize engine.
+ * Options may be extended by properties from engine configuration.
+ * In that case they will be applied before engine initialization.
+ * @param {Object} [options={}] Initialization options.
+ * @param {String} [options.canvas_containter_id=null] Canvas container ID.
+ * @param {Function} [options.callback=function(){}] Initialization callback.
+ * @param {Boolean} [options.do_not_use_onload=false] Prevent registration of
+ * window.onload event handler.
+ * @param {Boolean} [options.gl_debug=false] Enable WebGL debugging.
+ * @param {Boolean} [options.show_hud_debug_info=false] Show HUD with developer info.
+ * @param {Boolean} [options.show_fps=false] Show FPS counter.
+ * @param {Boolean} [options.do_not_report_init_failure=false] Disable DIV
+ * element with failure message if WebGL is not available.
+ */
+exports.init = function(options) {
+    options = options || {};
+
+    var canvas_container_id = null;
+    var callback = function() {};
+    var do_not_use_onload = false;
+    var gl_debug = false;
+    var show_hud_debug_info = false;
+    var sfx_mix_mode = false;
+    var show_fps = false;
+    var fps_elem_id = null;
+    var show_preloader = false;
+    var preloader_elem_id = null;
+    var bar_id = null;
+    var caption_id = null;
+    var do_not_report_init_failure = false;
+
+    for (var opt in options) {
+        switch (opt) {
+        case "canvas_container_id":
+            canvas_container_id = options["canvas_container_id"];
+            break;
+        case "callback":
+            callback = options["callback"];
+            break;
+        case "do_not_use_onload":
+            do_not_use_onload = options["do_not_use_onload"];
+            break;
+        case "gl_debug":
+            gl_debug = options["gl_debug"];
+            break;
+        case "show_hud_debug_info":
+            show_hud_debug_info = options["show_hud_debug_info"];
+            break;
+        case "sfx_mix_mode":
+            sfx_mix_mode = options["sfx_mix_mode"];
+            break;
+        case "show_fps":
+            show_fps = options["show_fps"];
+            break;
+        case "fps_elem_id":
+            fps_elem_id = options["fps_elem_id"];
+            break;
+        case "show_preloader":
+            show_preloader = options["show_preloader"];
+            break;
+        case "preloader_elem_id":
+            preloader_elem_id = options["preloader_elem_id"];
+            break;
+        case "bar_id":
+            bar_id = options["bar_id"];
+            break;
+        case "caption_id":
+            caption_id = options["caption_id"];
+            break;
+        case "do_not_report_init_failure":
+            do_not_report_init_failure = options["do_not_report_init_failure"];
+            break;
+        default:
+            m_cfg.set(opt, options[opt]);
+            break;
+        }
+    }
+
+    m_cfg.set("show_hud_debug_info", show_hud_debug_info);
+    m_cfg.set("sfx_mix_mode", sfx_mix_mode);
+
+    var init_hud_canvas = show_hud_debug_info || sfx_mix_mode || null;
+
+    var onload_cb = function() {
+
+        var cont_elem = setup_canvas(canvas_container_id, init_hud_canvas, 
+                do_not_report_init_failure);
+        if (!cont_elem) {
+            callback(_canvas_elem, false);
+            return;
+        }
+
+        _canvas_container_elem = cont_elem;
+
+        m_main.set_check_gl_errors(gl_debug);
+
+        if (show_fps) {
+            create_fps_logger_elem(fps_elem_id);
+            m_main.set_fps_callback(fps_callback);
+        }
+
+        if (show_preloader)
+            exports.create_preloader(preloader_elem_id, bar_id, caption_id);
+
+        callback(_canvas_elem, true);
+    };
+
+    var onunload_cb = function() {
+        m_main.pause();
+        m_data.cleanup();
+    };
+
+    if (do_not_use_onload) {
+        onload_cb();
+        onunload_cb();
+    } else {
+        add_to_onload(onload_cb);
+        add_to_onunload(onunload_cb);
+    }
+}
+
+function add_to_onload(new_onload) {
+    var old_onload = window.onload;
+    window.onload = function() {
+        if (typeof old_onload == "function")
+            old_onload();
+        new_onload();
+    }
+}
+
+function add_to_onunload(new_onunload) {
+    var old_onunload = window.onunload;
+    window.onunload = function() {
+        if (typeof old_onunload == "function")
+            old_onunload();
+        new_onunload();
+    }
+}
+
+function setup_canvas(canvas_container_id, init_hud_canvas, 
+        do_not_report_init_failure) {
+
+    var canvas_elem = document.createElement("canvas");
+    canvas_elem.style.cssText = "position: absolute;left:0px; top:0px;"
+
+    if (init_hud_canvas) {
+        var canvas_elem_hud = document.createElement("canvas");
+        // NOTE: pointer-events only for Chrome, Firefox, Safari
+        canvas_elem_hud.style.cssText = "z-index: 2; position:absolute; " +
+            "left:0px; top:0px; pointer-events: none;"
+    } else
+        var canvas_elem_hud = null;
+
+
+    switch (m_main.init(canvas_elem, canvas_elem_hud)) {
+        case m_main.BROWSER_NOT_SUPPORTED:
+            if (!do_not_report_init_failure)
+                alert_web("Browser does not support WebGL.<p />For more info visit", 
+                          "http://get.webgl.org");
+            return false;
+        case m_main.UNDERLYING_ERROR:
+            if (!do_not_report_init_failure)
+                alert_web("Browser could not initialize WebGL. <p />For more info visit", 
+                          "http://get.webgl.org/troubleshooting");
+            return false;
+    }
+
+    _canvas_elem = canvas_elem;
+
+    var append_to = document.getElementById(canvas_container_id);
+    if (!append_to) {
+        m_print.error("Warning: canvas container \"" + canvas_container_id + 
+            "\" not found, appending to body");
+        append_to = document.body;
+    }
+    append_to.appendChild(canvas_elem);
+
+    if (canvas_elem_hud)
+        append_to.appendChild(canvas_elem_hud);
+
+    return append_to;
+}
+
+function create_fps_logger_elem(fps_elem_id) {
+
+    if (fps_elem_id)
+        _fps_logger_elem = document.getElementById(fps_elem_id);
+    else {
+        _fps_logger_elem = document.createElement("div");
+        _fps_logger_elem.innerHTML = 0;
+        _fps_logger_elem.style.cssText = " \
+            position:absolute;\
+            top: 23px;\
+            right: 20px;\
+            font-size: 45px;\
+            line-height: 50px;\
+            font-weight: bold;\
+            color: #000;\
+            z-index: 1;\
+        ";
+        document.body.appendChild(_fps_logger_elem);
+    }
+}
+
+function fps_callback(fps, phy_fps) {
+
+    var fps_str = String(fps);
+    if (phy_fps)
+        fps_str += "/" + String(phy_fps);
+
+    _fps_logger_elem.innerHTML = fps_str;
+}
+
+
+/**
+ * Create preloader bar.
+ */
+exports.create_preloader = function(preloader_elem_id, bar_id, caption_id) {
+
+    _preloader = {};
+
+    if (preloader_elem_id) {
+        var container = document.getElementById(preloader_elem_id);
+        var bar = document.getElementById(bar_id);
+        var caption = document.getElementById(caption_id);
+    } else {
+        var container = document.createElement("div");
+        var frame = document.createElement("div");
+        var bar = document.createElement("div");
+        var caption = document.createElement("div");
+
+        container.className = "preloader_container";
+        frame.className = "preloader_frame";
+        bar.className = "preloader_bar";
+        caption.className = "preloader_caption";
+
+        frame.appendChild(bar);
+        frame.appendChild(caption);
+        container.appendChild(frame);
+
+        document.body.appendChild(container);
+    }
+
+    var background_img = document.getElementById("background_image_container");
+    var fill_container = document.getElementById("fill_container");
+
+    _preloader.container = container;
+    _preloader.bar = bar;
+    _preloader.caption = caption;
+    _preloader.background_img = background_img;
+    _preloader.fill_container = fill_container;
+}
+
+/**
+ * Update preloader bar status.
+ * @param {Number} percentage New bar percentage
+ */
+exports.update_preloader = function(percentage) {
+
+    _preloader.bar.style.width = percentage + "%";
+    _preloader.caption.innerHTML = percentage + "%";
+
+    if (_preloader.fill_container)
+        _preloader.fill_container.style.width = (65 - percentage) + "%";
+
+    if (percentage == 0) {
+        _preloader.container.style.display = "";
+        _canvas_elem.style.display = "none";
+    }
+
+    if (percentage == 100) {
+        _preloader.container.style.display = "none";
+        _preloader.container.style.zIndex = 0;
+        _canvas_elem.style.display = "";
+        _canvas_elem.style.zIndex = 1;
+
+        if (_canvas_container_elem)
+            _canvas_container_elem.style.zIndex = 1;
+
+        if (_preloader.background_img)
+            _preloader.background_img.style.zIndex = 0;
+    }
+}
+
+function elem_cloned(elem_id) {
+
+    var target = document.getElementById(elem_id);
+
+    // clone to prevent adding event listeners more than once
+    var new_element = target.cloneNode(true);
+    target.parentNode.replaceChild(new_element, target);
+    
+    return new_element;
+}
+
+exports.get_canvas_container = function() {
+    return _canvas_container_elem;
+}
+
+exports.set_onclick = function(elem_id, callback) {
+    var elem = elem_cloned(elem_id);
+    elem.addEventListener("mouseup", function(e) {
+        callback(elem.value);
+    }, false);
+}
+
+exports.set_onchange = function(elem_id, callback) {
+    var elem = elem_cloned(elem_id);
+    elem.addEventListener("change", function(e) {
+        var checked = elem.checked;
+        var rslt = checked != undefined ? checked : elem.value;
+        callback(rslt);
+    }, false);
+}
+
+exports.set_onkeypress = function(elem_id, callback) {
+    var elem = elem_cloned(elem_id);
+    elem.addEventListener("keypress", function(e) {
+        callback(e.keyCode, elem.value);
+    }, false);
+}
+
+/**
+ * Enable camera keyboard and mouse controls:
+ * arrow keys, ADSW, wheel and others
+ * @param {Number} [trans_speed=1] Translation speed
+ * @param {Number} [rot_speed=1] Rotation speed
+ * @param {Number} [zoom_speed=1] Zoom speed
+ * @param {Boolean} [disable_default_pivot=false] Do not use possible 
+ * camera-defined pivot point
+ */
+exports.enable_camera_controls = function(trans_speed, rot_speed, zoom_speed,
+        disable_default_pivot) {
+
+    if (!trans_speed)
+        var trans_speed = 1;
+    if (!rot_speed)
+        var rot_speed = 1;
+    if (!zoom_speed)
+        var zoom_speed = 1;
+
+    // hack to allow fullscreen
+    document.addEventListener("keydown", on_key_fullscreen, false);
+
+    function on_key_fullscreen(e) {
+        if (e.keyCode == m_ctl.KEY_O)
+            request_fullscreen(document.body);
+        else if (e.keyCode == m_ctl.KEY_P) {
+
+            if (m_main.is_paused())
+                m_main.resume();
+            else
+                m_main.pause();
+        }
+    }
+
+    var obj = m_scs.get_active_camera();
+
+    if (disable_default_pivot)
+        var use_pivot = false;
+    else
+        var use_pivot = m_cam.get_move_style(obj) == 
+                m_cam.MS_TARGET_CONTROLS ? true : false;
+
+
+    var elapsed = m_ctl.create_elapsed_sensor();
+
+    var use_physics = m_phy.has_simulated_physics(obj);
+
+    var key_cb = function(obj, id, value, pulse) {
+        // clear forces
+        if (use_physics)
+            m_phy.apply_force(obj, 0, 0, 0);
+
+        if (pulse == 1) {
+
+            var elapsed = value;
+
+            var CAM_FORCE_MULT = [1800, 2100, 1800];
+            var t_mult = m_cam.get_trans_speed(obj);
+            var r_mult = 2.0;
+
+            switch (id) {
+            case "FORWARD":
+                if (use_physics)
+                    m_phy.apply_force(obj, 0, -CAM_FORCE_MULT[1], 0);
+                else
+                    m_trans.move_local(obj, 0, -trans_speed * t_mult * elapsed, 0);
+                break;
+            case "BACKWARD":
+                if (use_physics)
+                    m_phy.apply_force(obj, 0, CAM_FORCE_MULT[1], 0);
+                else
+                    m_trans.move_local(obj, 0, trans_speed * t_mult * elapsed, 0);
+                break;
+            case "UP":
+                if (use_physics)
+                    m_phy.apply_force(obj, 0, 0, -CAM_FORCE_MULT[2]);
+                else
+                    m_trans.move_local(obj, 0, 0, -trans_speed * t_mult * elapsed);
+                break;
+            case "DOWN":
+                if (use_physics)
+                    m_phy.apply_force(obj, 0, 0, CAM_FORCE_MULT[2]);
+                else
+                    m_trans.move_local(obj, 0, 0, trans_speed * t_mult * elapsed);
+                break;
+            case "LEFT":
+                if (use_physics)
+                    m_phy.apply_force(obj, -CAM_FORCE_MULT[0], 0, 0);
+                else
+                    m_trans.move_local(obj, -trans_speed * t_mult * elapsed, 0, 0);
+                break;
+            case "RIGHT":
+                if (use_physics)
+                    m_phy.apply_force(obj, CAM_FORCE_MULT[0], 0, 0);
+                else
+                    m_trans.move_local(obj, trans_speed * t_mult * elapsed, 0, 0);
+                break;
+            case "ROT_LEFT":
+                if (use_pivot)
+                    m_cam.rotate_pivot(obj, -rot_speed * r_mult * elapsed, 0);
+                else
+                    m_cam.rotate(obj, rot_speed * r_mult * elapsed, 0);
+                break;
+            case "ROT_RIGHT":
+                if (use_pivot)
+                    m_cam.rotate_pivot(obj, rot_speed * r_mult * elapsed, 0);
+                else
+                    m_cam.rotate(obj, -rot_speed * r_mult * elapsed, 0);
+                break;
+            case "ROT_UP":
+                if (use_pivot)
+                    m_cam.rotate_pivot(obj, 0, -rot_speed * r_mult * elapsed);
+                else
+                    m_cam.rotate(obj, 0, -rot_speed * r_mult * elapsed);
+                break;
+            case "ROT_DOWN":
+                if (use_pivot)
+                    m_cam.rotate_pivot(obj, 0, rot_speed * r_mult * elapsed);
+                else
+                    m_cam.rotate(obj, 0, rot_speed * r_mult * elapsed);
+                break;
+            case "ROT_LEFT":
+                if (use_pivot)
+                    m_cam.rotate_pivot(obj, -rot_speed * r_mult * elapsed, 0);
+                else
+                    m_cam.rotate(obj, rot_speed * r_mult * elapsed, 0);
+                break;
+            case "ROT_RIGHT":
+                if (use_pivot)
+                    m_cam.rotate_pivot(obj, rot_speed * r_mult * elapsed, 0);
+                else
+                    m_cam.rotate(obj, -rot_speed * r_mult * elapsed, 0);
+                break;
+            default:
+                break;
+            }
+        }
+    }
+
+    var key_w = m_ctl.create_keyboard_sensor(m_ctl.KEY_W);
+    var key_s = m_ctl.create_keyboard_sensor(m_ctl.KEY_S);
+    var key_a = m_ctl.create_keyboard_sensor(m_ctl.KEY_A);
+    var key_d = m_ctl.create_keyboard_sensor(m_ctl.KEY_D);
+    var key_r = m_ctl.create_keyboard_sensor(m_ctl.KEY_R);
+    var key_f = m_ctl.create_keyboard_sensor(m_ctl.KEY_F);
+
+    var key_up = m_ctl.create_keyboard_sensor(m_ctl.KEY_UP);
+    var key_down = m_ctl.create_keyboard_sensor(m_ctl.KEY_DOWN);
+    var key_left = m_ctl.create_keyboard_sensor(m_ctl.KEY_LEFT);
+    var key_right = m_ctl.create_keyboard_sensor(m_ctl.KEY_RIGHT);
+
+    var key_single_logic = null;
+    var key_double_logic = function(s) {
+        return s[0] && (s[1] || s[2]);
+    }
+
+    m_ctl.create_sensor_manifold(obj, "FORWARD", m_ctl.CT_CONTINUOUS, 
+            [elapsed, key_w], key_single_logic, key_cb);
+    m_ctl.create_sensor_manifold(obj, "BACKWARD", m_ctl.CT_CONTINUOUS,
+            [elapsed, key_s], key_single_logic, key_cb);
+
+    if (use_pivot) {
+        m_ctl.create_sensor_manifold(obj, "ROT_UP", m_ctl.CT_CONTINUOUS,
+                [elapsed, key_up, key_r], key_double_logic, key_cb);
+        m_ctl.create_sensor_manifold(obj, "ROT_DOWN", m_ctl.CT_CONTINUOUS,
+                [elapsed, key_down, key_f], key_double_logic, key_cb);
+        m_ctl.create_sensor_manifold(obj, "ROT_LEFT", m_ctl.CT_CONTINUOUS,
+                [elapsed, key_left, key_a], key_double_logic, key_cb);
+        m_ctl.create_sensor_manifold(obj, "ROT_RIGHT", m_ctl.CT_CONTINUOUS,
+                [elapsed, key_right, key_d], key_double_logic, key_cb);
+    } else {
+        m_ctl.create_sensor_manifold(obj, "UP", m_ctl.CT_CONTINUOUS,
+                [elapsed, key_r], key_double_logic, key_cb);
+        m_ctl.create_sensor_manifold(obj, "DOWN", m_ctl.CT_CONTINUOUS,
+                [elapsed, key_f], key_double_logic, key_cb);
+        m_ctl.create_sensor_manifold(obj, "LEFT", m_ctl.CT_CONTINUOUS,
+                [elapsed, key_a], key_double_logic, key_cb);
+        m_ctl.create_sensor_manifold(obj, "RIGHT", m_ctl.CT_CONTINUOUS,
+                [elapsed, key_d], key_double_logic, key_cb);
+        m_ctl.create_sensor_manifold(obj, "ROT_UP", m_ctl.CT_CONTINUOUS,
+                [elapsed, key_up], key_double_logic, key_cb);
+        m_ctl.create_sensor_manifold(obj, "ROT_DOWN", m_ctl.CT_CONTINUOUS,
+                [elapsed, key_down], key_double_logic, key_cb);
+        m_ctl.create_sensor_manifold(obj, "ROT_LEFT", m_ctl.CT_CONTINUOUS,
+                [elapsed, key_left], key_double_logic, key_cb);
+        m_ctl.create_sensor_manifold(obj, "ROT_RIGHT", m_ctl.CT_CONTINUOUS,
+                [elapsed, key_right], key_double_logic, key_cb);
+    }
+
+    // mouse wheel: camera zooming and translation speed adjusting
+    var dest_zoom_mouse = 0;
+    var mouse_wheel = m_ctl.create_mouse_wheel_sensor();
+    var mouse_wheel_cb = function(obj, id, value, pulse) {
+        if (pulse == 1) {
+            if (use_pivot) {
+                // camera zooming
+                var cam_pivot = _vec3_tmp;
+                var cam_eye = m_cam.get_eye(obj);
+                m_cam.get_pivot(obj, cam_pivot);
+                var dist = m_vec3.dist(cam_pivot, cam_eye);
+                var t_mult = -value * dist * MOUSE_ZOOM_FACTOR * trans_speed;
+                dest_zoom_mouse += t_mult;
+            } else {
+                // translation speed adjusting
+                var factor = value * zoom_speed;
+                var camera = m_scs.get_active_camera();
+                m_cam.change_trans_speed(camera, factor);
+            }
+        }
+    }
+    m_ctl.create_sensor_manifold(obj, "MOUSE_WHEEL", m_ctl.CT_LEVEL, 
+            [mouse_wheel], null, mouse_wheel_cb);
+
+
+    // camera zooming with touch
+    var dest_zoom_touch = 0;
+    var touch_zoom = m_ctl.create_touch_zoom_sensor();
+    var touch_zoom_cb = function(obj, id, value, pulse, param) {
+        if (pulse == 1) {
+            if (use_pivot) {
+                var cam_pivot = _vec3_tmp;
+                var cam_eye = m_cam.get_eye(obj);
+                m_cam.get_pivot(obj, cam_pivot);
+                var dist = m_vec3.dist(cam_pivot, cam_eye);
+                var t_mult = -value * dist * TOUCH_ZOOM_FACTOR * trans_speed;
+                dest_zoom_touch += t_mult;
+            }
+        }
+    }
+    m_ctl.create_sensor_manifold(obj, "TOUCH_ZOOM", m_ctl.CT_LEVEL, 
+            [touch_zoom], null, touch_zoom_cb);
+
+
+    // camera zoom smoothing
+    var zoom_interp_cb = function(obj, id, value, pulse) {
+
+        if (pulse == 1 && (Math.abs(dest_zoom_mouse) > 0.001 ||
+                           Math.abs(dest_zoom_touch) > 0.001)
+                       && use_pivot) {
+
+            var zoom_mouse = m_util.smooth(dest_zoom_mouse, 0, value, CAM_SMOOTH_ZOOM_MOUSE);
+            dest_zoom_mouse -= zoom_mouse;
+
+            var zoom_touch = m_util.smooth(dest_zoom_touch, 0, value, CAM_SMOOTH_ZOOM_TOUCH);
+            dest_zoom_touch -= zoom_touch;
+
+            m_trans.move_local(obj, 0, zoom_mouse + zoom_touch, 0);
+        }
+    }
+    m_ctl.create_sensor_manifold(obj, "ZOOM_INTERPOL", m_ctl.CT_CONTINUOUS,
+            [elapsed], null, zoom_interp_cb);
+
+
+    // camera rotation with mouse 
+    var dest_x_mouse = 0;
+    var dest_y_mouse = 0;
+
+    var mouse_move_x = m_ctl.create_mouse_move_sensor("X");
+    var mouse_move_y = m_ctl.create_mouse_move_sensor("Y");
+    var mouse_down = m_ctl.create_mouse_click_sensor();
+
+    var mouse_cb = function(obj, id, value, pulse, param) {
+        if (pulse == 1) {
+            if (use_pivot) {
+                var r_mult = MOUSE_ROTATION_MULT_PX * rot_speed;
+
+                dest_x_mouse += (param == "X") ? -value * r_mult : 0;
+                dest_y_mouse += (param == "Y") ? -value * r_mult : 0;
+            }
+        }
+    }
+
+    m_ctl.create_sensor_manifold(obj, "MOUSE_X", m_ctl.CT_LEVEL,
+            [mouse_move_x, mouse_down], null, mouse_cb, "X");
+    m_ctl.create_sensor_manifold(obj, "MOUSE_Y", m_ctl.CT_LEVEL,
+            [mouse_move_y, mouse_down], null, mouse_cb, "Y");
+
+
+    // camera rotation with touch 
+    var dest_x_touch = 0;
+    var dest_y_touch = 0;
+
+    var touch_move_x = m_ctl.create_touch_move_sensor("X");
+    var touch_move_y = m_ctl.create_touch_move_sensor("Y");
+
+    var touch_cb = function(obj, id, value, pulse, param) {
+        if (pulse == 1) {
+            if (use_pivot) {
+                var r_mult = TOUCH_ROTATION_MULT_PX * rot_speed;
+
+                dest_x_touch += (param == "X") ? -value * r_mult : 0;
+                dest_y_touch += (param == "Y") ? -value * r_mult : 0;
+            }
+        }
+    }
+
+    m_ctl.create_sensor_manifold(obj, "TOUCH_X", m_ctl.CT_LEVEL, 
+            [touch_move_x], null, touch_cb, "X");
+    m_ctl.create_sensor_manifold(obj, "TOUCH_Y", m_ctl.CT_LEVEL, 
+            [touch_move_y], null, touch_cb, "Y");
+
+    // camera rotation smoothing
+    var rot_interp_cb = function(obj, id, value, pulse) {
+
+        if (pulse == 1 && (Math.abs(dest_x_mouse) > 0.001 ||
+                           Math.abs(dest_y_mouse) > 0.001 ||
+                           Math.abs(dest_x_touch) > 0.001 ||
+                           Math.abs(dest_y_touch) > 0.001)
+                       && use_pivot) {
+
+            var x_mouse = m_util.smooth(dest_x_mouse, 0, value, CAM_SMOOTH_ROT_MOUSE);
+            var y_mouse = m_util.smooth(dest_y_mouse, 0, value, CAM_SMOOTH_ROT_MOUSE);
+
+            dest_x_mouse -= x_mouse;
+            dest_y_mouse -= y_mouse;
+
+            var x_touch = m_util.smooth(dest_x_touch, 0, value, CAM_SMOOTH_ROT_TOUCH);
+            var y_touch = m_util.smooth(dest_y_touch, 0, value, CAM_SMOOTH_ROT_TOUCH);
+
+            dest_x_touch -= x_touch;
+            dest_y_touch -= y_touch;
+
+            m_cam.rotate_pivot(obj, x_mouse + x_touch, y_mouse + y_touch);
+        }
+    }
+    m_ctl.create_sensor_manifold(obj, "ROT_INTERPOL", m_ctl.CT_CONTINUOUS,
+            [elapsed], null, rot_interp_cb);
+
+
+    // some additinal controls
+    m_ctl.create_kb_sensor_manifold(obj, "TOGGLE_CAMERA_COLLISION", m_ctl.CT_SHOT, 
+            m_ctl.KEY_C, function() {toggle_camera_collisions_usage();});
+
+    m_ctl.create_kb_sensor_manifold(obj, "DEC_STEREO_DIST", m_ctl.CT_SHOT, 
+            m_ctl.KEY_LEFT_SQ_BRACKET, function(obj, id, value, pulse) {
+                var dist = m_cam.get_stereo_distance(obj);
+                m_cam.set_stereo_distance(obj, 0.9 * dist);
+            });
+
+    m_ctl.create_kb_sensor_manifold(obj, "INC_STEREO_DIST", m_ctl.CT_SHOT, 
+            m_ctl.KEY_RIGHT_SQ_BRACKET, function(obj, id, value, pulse) {
+                var dist = m_cam.get_stereo_distance(obj);
+                m_cam.set_stereo_distance(obj, 1.1 * dist);
+            });
+
+}
+
+exports.enable_object_controls = function(obj) {
+    var trans_speed = 1;
+
+    var is_vehicle = m_phy.is_vehicle_chassis(obj) ||
+            m_phy.is_vehicle_hull(obj);
+
+    var key_cb = function(obj, id, value, pulse) {
+        if (pulse == 1) {
+            var elapsed = value;
+
+            switch (id) {
+            case "FORWARD":
+                if (is_vehicle)
+                    m_phy.vehicle_throttle(obj, 1);
+                else
+                    m_trans.move_local(obj, 0, 0, trans_speed * elapsed);
+                break;
+            case "BACKWARD":
+                if (is_vehicle)
+                    m_phy.vehicle_throttle(obj, -1);
+                else
+                    m_trans.move_local(obj, 0, 0, -trans_speed * elapsed);
+                break;
+            case "LEFT":
+                if (is_vehicle)
+                    m_phy.vehicle_steer(obj, -1);
+                else
+                    m_trans.move_local(obj, trans_speed * elapsed, 0, 0);
+                break;
+            case "RIGHT":
+                if (is_vehicle)
+                    m_phy.vehicle_steer(obj, 1);
+                else
+                    m_trans.move_local(obj, -trans_speed * elapsed, 0, 0);
+                break;
+            default:
+                break;
+            }
+        } else {
+            switch (id) {
+            case "FORWARD":
+            case "BACKWARD":
+                if (is_vehicle)
+                    m_phy.vehicle_throttle(obj, 0);
+                break;
+            case "LEFT":
+            case "RIGHT":
+                if (is_vehicle)
+                    m_phy.vehicle_steer(obj, 0);
+                break;
+            default:
+                break;
+            }
+        }
+    }
+
+    var elapsed = m_ctl.create_elapsed_sensor();
+
+    var key_w = m_ctl.create_keyboard_sensor(m_ctl.KEY_W);
+    var key_s = m_ctl.create_keyboard_sensor(m_ctl.KEY_S);
+    var key_a = m_ctl.create_keyboard_sensor(m_ctl.KEY_A);
+    var key_d = m_ctl.create_keyboard_sensor(m_ctl.KEY_D);
+
+    var key_up = m_ctl.create_keyboard_sensor(m_ctl.KEY_UP);
+    var key_down = m_ctl.create_keyboard_sensor(m_ctl.KEY_DOWN);
+    var key_left = m_ctl.create_keyboard_sensor(m_ctl.KEY_LEFT);
+    var key_right = m_ctl.create_keyboard_sensor(m_ctl.KEY_RIGHT);
+
+    var key_logic = function(s) {
+        return s[0] && (s[1] || s[2]);
+    }
+
+    m_ctl.create_sensor_manifold(obj, "FORWARD", m_ctl.CT_CONTINUOUS, 
+            [elapsed, key_w, key_up], key_logic, key_cb);
+    m_ctl.create_sensor_manifold(obj, "BACKWARD", m_ctl.CT_CONTINUOUS,
+            [elapsed, key_s, key_down], key_logic, key_cb);
+    m_ctl.create_sensor_manifold(obj, "LEFT", m_ctl.CT_CONTINUOUS, 
+            [elapsed, key_a, key_left], key_logic, key_cb);
+    m_ctl.create_sensor_manifold(obj, "RIGHT", m_ctl.CT_CONTINUOUS,
+            [elapsed, key_d, key_right], key_logic, key_cb);
+}
+
+/**
+ * Works for camera too
+ */
+exports.disable_object_controls = function(obj) {
+    m_ctl.remove_sensor_manifolds(obj);
+}
+
+/**
+ * Enable engine controls.
+ * Execute before using any of m_ctl.*() function
+ * @param canvas_elem Canvas element
+ */
+exports.enable_controls = function(canvas_elem) {
+    document.addEventListener("keydown", m_ctl.keydown_cb, false);
+    document.addEventListener("keyup", m_ctl.keyup_cb, false);
+
+    // NOTE: both are deprecated by feature WheelEvent
+    canvas_elem.addEventListener("mousewheel",     m_ctl.mouse_wheel_cb, false); // chrome
+    canvas_elem.addEventListener("DOMMouseScroll", m_ctl.mouse_wheel_cb, false); // firefox
+ 
+    // NOTE: register for body, while pointer lock also assign on body
+    document.body.addEventListener("mousedown", m_ctl.mouse_down_cb, false);
+    document.body.addEventListener("mouseup",   m_ctl.mouse_up_cb,   false);
+    
+    // NOTE: register for canvas to prevent panel issues in viewer
+    canvas_elem.addEventListener("mousemove", m_ctl.mouse_move_cb, false);
+    canvas_elem.addEventListener("touchstart", m_ctl.touch_start_cb, false);
+    canvas_elem.addEventListener("touchmove", m_ctl.touch_move_cb, false);
+}
+/**
+ * Disable engine controls.
+ * @param canvas_elem Canvas element
+ */
+exports.disable_controls = function(canvas_elem) {
+    document.removeEventListener("keydown", m_ctl.keydown_cb, false);
+    document.removeEventListener("keyup", m_ctl.keyup_cb, false);
+
+    // NOTE: both are deprecated by feature WheelEvent
+    canvas_elem.removeEventListener("mousewheel",     m_ctl.mouse_wheel_cb, false); // chrome
+    canvas_elem.removeEventListener("DOMMouseScroll", m_ctl.mouse_wheel_cb, false); // firefox
+    // NOTE: use document.body (canvas events disabled in fullscreen mode)
+    document.body.removeEventListener("mousedown", m_ctl.mouse_down_cb, false);
+    document.body.removeEventListener("mouseup",   m_ctl.mouse_up_cb, false);
+
+    canvas_elem.removeEventListener("mousemove", m_ctl.mouse_move_cb, false);
+    canvas_elem.removeEventListener("touchstart", m_ctl.touch_start_cb, false);
+    canvas_elem.removeEventListener("touchmove", m_ctl.touch_move_cb, false);
+}
+
+/**
+ * Enable debug controls.
+ * K - make camera debug shot
+ * L - make light debug shot
+ * M - flashback messages
+ */
+exports.enable_debug_controls = function() {
+
+    var obj = m_scs.get_active_camera();
+
+    m_ctl.create_kb_sensor_manifold(obj, "CAMERA_SHOT", m_ctl.CT_SHOT, 
+            m_ctl.KEY_K, function() {m_dbg.make_camera_frustum_shot();});
+
+    m_ctl.create_kb_sensor_manifold(obj, "LIGHT_SHOT", m_ctl.CT_SHOT, 
+            m_ctl.KEY_L, function() {m_dbg.make_light_frustum_shot();});
+
+    m_ctl.create_kb_sensor_manifold(obj, "TELEMETRY", m_ctl.CT_SHOT, 
+            m_ctl.KEY_T, function() {m_dbg.plot_telemetry();});
+}
+
+exports.request_fullscreen = request_fullscreen;
+/**
+ * Request fullscreen mode.
+ * Security issues: execute by user event.
+ * @methodOf app
+ * @param elem Element
+ * @param enabled_cb Enabled callback
+ * @param disabled_cb Disabled callback
+ */
+function request_fullscreen(elem, enabled_cb, disabled_cb) {
+
+    enabled_cb = enabled_cb || function() {};
+    disabled_cb = disabled_cb || function() {};
+
+    function on_fullscreen_change() {
+        if (document.fullscreenElement === elem ||
+                document.webkitFullScreenElement === elem ||
+                document.mozFullScreenElement === elem || document.webkitIsFullScreen) {
+            //m_print.log("Fullscreen enabled");
+            enabled_cb();
+        } else {
+            document.removeEventListener("fullscreenchange",
+                    on_fullscreen_change, false);
+            document.removeEventListener("webkitfullscreenchange",
+                    on_fullscreen_change, false);
+            document.removeEventListener("mozfullscreenchange",
+                    on_fullscreen_change, false);
+            //m_print.log("Fullscreen disabled");
+            disabled_cb();
+        }
+    }
+
+    document.addEventListener("fullscreenchange", on_fullscreen_change, false);
+    document.addEventListener("webkitfullscreenchange", on_fullscreen_change, false);
+    document.addEventListener("mozfullscreenchange", on_fullscreen_change, false);
+  
+    elem.requestFullScreen = elem.requestFullScreen ||
+            elem.webkitRequestFullScreen || elem.mozRequestFullScreen;
+ 
+    if (elem.requestFullScreen == elem.webkitRequestFullScreen)
+        elem.requestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
+    else
+        elem.requestFullScreen();
+}
+
+exports.exit_fullscreen = exit_fullscreen;
+/**
+ * Exit fullscreen mode.
+ * @methodOf app
+ */
+function exit_fullscreen() {
+
+    var exit_fs = document.exitFullscreen || document.webkitExitFullscreen || 
+            document.mozCancelFullScreen;
+
+    if (typeof exit_fs != "function")
+        throw "B2W App: exit fullscreen method is not supported";
+
+    exit_fs.apply(document);
+}
+
+function toggle_camera_collisions_usage() {
+    var camobj = m_scs.get_active_camera();
+
+    if (m_anim.is_detect_collisions_used(camobj)) {
+        m_anim.detect_collisions(camobj, false);
+    } else {
+        m_anim.detect_collisions(camobj, true);
+    }
+}
+
+function alert_web(msg, link) {
+    
+    var elem = document.createElement("div");
+    elem.innerHTML = msg + "<p />" + 
+        "<a href=\"" + link + "\">" + link + "</a>";
+    elem.style.top = "50%";
+    elem.style.width = "100%";
+    elem.style.position = "absolute";
+    elem.style.fontFamily = "Arial";
+    elem.style.lineHeight = "20px";
+    elem.style.color = "#ff9900";
+    elem.style.fontSize = "40px";
+    elem.style.textAlign = "center";
+
+    document.body.appendChild(elem);
+}
+
+/** 
+ * Retrieve params object from URL or null.
+ */
+exports.get_url_params = function() {
+
+    var url = location.href.toString();
+    if (url.indexOf("?") == -1)
+        return null;
+
+    var params = url.split("?")[1].split("&");
+
+    var out = {};
+
+    for (var i = 0; i < params.length; i++) {
+        var param = params[i].split("=");
+        out[param[0]] = param[1];
+    }
+
+    return out;
+}
+
+
+}
+
+if (window["b4w"])
+    window["b4w"]["app"] = b4w.require("app");
+else
+    throw "Failed to register app, load b4w first";

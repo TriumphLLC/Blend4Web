@@ -1,0 +1,213 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2014, ООО "Триумф"
+# This file is distributed under the same license as the B4W package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: B4W 14.02.28\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-03-19 19:31+0400\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../animation.rst:7
+# 5b3bfbf93e6a4b12b445ba205a5bf1be
+msgid "Анимация"
+msgstr ""
+
+#: ../animation.rst:9
+# 2e7effb567f84d3dbfd40cf4304d36a9
+msgid "В общем случае, к анимации относятся изменения параметров объектов во времени. Движком поддерживаются следующие типы анимации:"
+msgstr ""
+
+#: ../animation.rst:12
+# ae93cf48afda41a092c362c5fd51326b
+msgid "Перемещение объекта в пространстве как единого целого (объектная анимация). Изменяемые параметры: координаты центра (``Location``), кватернион поворота (``Rotation`` в режиме ``Quaternion(WXYZ)``) и масштабирование (``Scaling``)."
+msgstr ""
+
+#: ../animation.rst:16
+# a73c68747f734a948d993a6875263ce4
+msgid "Деформация объекта с помощью системы костей (скиннинг и скелетная анимация) а также анимация костей в арматурном объекте для вспомогательных целей."
+msgstr ""
+
+#: ../animation.rst:19
+# 3f981ffee6024308b2ff4a00220dcc6d
+msgid "Покадровая запись деформаций объекта с последующим воспроизведением (вертексная анимация)."
+msgstr ""
+
+#: ../animation.rst:22
+# a96253d7439f4d1286e68e7677b399a8
+msgid "Параметризация параметров источников звука. Изменяемые параметры: громкость (``Volume``) и высота звука (``Pitch``)."
+msgstr ""
+
+#: ../animation.rst:25
+# ee659c5faab7484ab84944abe80da622
+msgid "Процедурная анимация в виде колебаний объекта под действием ветра. Описано :ref:`отдельно <wind>`."
+msgstr ""
+
+#: ../animation.rst:28
+# 36cd1ef80a2145febc4660935a67deb2
+msgid "Эмиссия частиц из источника. Описано в :ref:`соответствующем разделе <particles>`."
+msgstr ""
+
+#: ../animation.rst:31
+# b4f58edae22549068beab6c1adddbcbe
+msgid "Управление анимацией"
+msgstr ""
+
+#: ../animation.rst:33
+# 6c0aaab50371417b860dfe660892d0d5
+msgid "Управление анимацией в движке осуществляется одним из трёх способов:"
+msgstr ""
+
+#: ../animation.rst:35
+# 7e255221302c42c08c6b90b70e3ee640
+msgid "Автоматически, с помощью указания свойств ``Animation: Use default`` и ``Animation: Cyclic`` в свойствах объекта. В данном случае будет осуществлён поиск доступного метода и в случае положительного результата, объект анимируется с момента загрузки сцены."
+msgstr ""
+
+#: ../animation.rst:40
+# 32290c83b6564feaacbd36eba08c408a
+msgid "Программно, используя функции модуля ``animation``."
+msgstr ""
+
+#: ../animation.rst:42
+# 9abc1578c0904fcca6d3d260c8b89166
+msgid "Автоматически, с помощью редактирования файла ``assets.json``. В настройках загрузки сцены добавляется свойство ``animated_objects``, являющееся массивом имён объектов, либо пар [\"имя объекта-дупликатора группы\", \"имя объекта внутри группы\"]. Метод подходит только для приложений, использующих информацию из файла ``assets.json`` (в настоящий момент к ним относится просмоторщик сцен ``viewer``)."
+msgstr ""
+
+#: ../animation.rst:49
+# bef86997f4df4a81a08e93b11ec26292
+msgid "В случае анимации меша, необходимо назначение свойства ``Do not batch`` на вкладке свойств объекта."
+msgstr ""
+
+#: ../animation.rst:53
+# 6fa8ddee1de04438a533c65f8861f673
+msgid "Объектная анимация"
+msgstr ""
+
+#: ../animation.rst:55
+# a2e6423f481c4d3f90598e3500650a51
+msgid "Осуществляется с помощью добавления ключей анимации в программе Blender и их последующего воспроизведения в движке."
+msgstr ""
+
+#: ../animation.rst:58
+# c45bc56c806b4652b299eea64712303d
+msgid "Поддерживаются следующие типы ключей:"
+msgstr ""
+
+#: ../animation.rst:60
+# f6531e09923d45e49e3684ab6aa714f8
+msgid "*Location*"
+msgstr ""
+
+#: ../animation.rst:62
+# eee134e9188b4a399f51144faae01cec
+msgid "*Rotation* -- необходимо осуществлять в режиме ``Quaternion(WXYZ)``."
+msgstr ""
+
+#: ../animation.rst:64
+# d8e95cd4854b4943807e81a4b99033a3
+msgid "*Scaling* -- для получения корректных результатов, фактор масштабирования должен быть одинаковым вдоль любых из осей."
+msgstr ""
+
+#: ../animation.rst:66
+# 09c473e336bc438a94b123a76b7ad5d1
+msgid "*LocRot* -- комбинация *Location* и *Rotation*."
+msgstr ""
+
+#: ../animation.rst:68
+# 724018bc8bc6423db9858f70dbed6780
+msgid "*LocScale* -- комбинация *Location* и *Scale*."
+msgstr ""
+
+#: ../animation.rst:70
+# 84310ab8a602423bae88504f864c414f
+msgid "*LocRotScale* -- комбинация *Location*, *Rotation* и *Scale*."
+msgstr ""
+
+#: ../animation.rst:72
+# dc10d26dca8b44ecb16d67511355d59b
+msgid "*RotScale* -- комбинация *Rotation* и *Scale*."
+msgstr ""
+
+#: ../animation.rst:75
+# 7608cf4a0950433fabcb058bc931f928
+msgid "Скиннинг и скелетная анимация"
+msgstr ""
+
+#: ../animation.rst:77
+# 10b7b2b72ad5436aa723c93ef1b8630b
+msgid "Для осуществленя скелетной анимации, кроме анимированного объекта-меша требуется объект-арматура. Осуществляется в четыре этапа:"
+msgstr ""
+
+#: ../animation.rst:80
+# 9d4f666829c24275b53bd9f1bb7ba3a4
+msgid "Создание скелета объекта в арматурном объекте."
+msgstr ""
+
+#: ../animation.rst:81
+# 11ab243a73cc4d37a6f06d346dccf235
+msgid "Назначение вертексных групп в объекте-меше и их привязка к костям."
+msgstr ""
+
+#: ../animation.rst:82
+# e744445161cd429284ecbf0a273e62e4
+msgid "Анимация костей в арматурном объекте. Используются те же ключи, что и в случае объектной анимации."
+msgstr ""
+
+#: ../animation.rst:84
+# cd734642312d43fbad1160f7f688e18f
+msgid "В случае нетривиальных видов скелетной анимации, включающих инверсную кинематику, требуется стадия запекания анимационных акторов (блок ``Action`` в Blender). Запекание производится с помощью интерфейса, вызываемого через пробел: ``B4W Animation Bake``."
+msgstr ""
+
+#: ../animation.rst:90
+# 73b4896b6eae4856af7c96a2147cdcff
+msgid "Вертексная анимация"
+msgstr ""
+
+#: ../animation.rst:92
+# d91c8271da4d462fb740b3410070fa1f
+msgid "Позволяет зафиксировать и воспроизвести любые манипуляции с геометрией объекта-меша. С другой стороны, для этого требуется огромное количество ресурсов (прежде всего возрастает объём загружаемых файлов и количество используемой видео-памяти)."
+msgstr ""
+
+#: ../animation.rst:97
+# ec9c745e0a1d4570a24be25445ff96af
+msgid "Для запекания вертексной анимации предусмотрен инструмент ``B4W Vertex Anim Baker``, расположенный на панели ``Object Tools``."
+msgstr ""
+
+#: ../animation.rst:101
+# 2d7c55d0b8c441e6b1c9496c85be885d
+msgid "Параметризация источников звука"
+msgstr ""
+
+#: ../animation.rst:103
+# f68146f29c814e9f8e4bb46461a8fb1e
+msgid "На объектах-спикерах дополнительно поддерживаются следующие типы анимационных ключей:"
+msgstr ""
+
+#: ../animation.rst:106
+# ade25320de3a4036bf1f038b746b9a3b
+msgid "*Volume* -- громкость звука источника."
+msgstr ""
+
+#: ../animation.rst:108
+# 83b504d49a1c4d61923de95ac98888bc
+msgid "*Pitch* -- высота звука источника."
+msgstr ""
+
+#: ../animation.rst:3
+# e88429b05c0a4a3ea8dcf571fa30afb2
+msgid "анимация"
+msgstr ""
+
+#: ../animation.rst:3
+# e88429b05c0a4a3ea8dcf571fa30afb2
+msgid "animation"
+msgstr ""
+

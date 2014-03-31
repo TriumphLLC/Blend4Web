@@ -1,0 +1,1608 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2014, ООО "Триумф"
+# This file is distributed under the same license as the B4W package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: B4W 14.02.28\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-03-19 19:31+0400\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../developers.rst:5
+# 7af7bcf97f9d4a7390e46b561815c3a3
+msgid "Разработчикам"
+msgstr ""
+
+#: ../developers.rst:8
+# 01ce011e03614f698327d4d4127179e7
+msgid "Подключение движка и дополнений"
+msgstr ""
+
+#: ../developers.rst:10
+# c53e3db10ca446e181806a872adb60b1
+msgid "Простейшее приложение на движке может иметь вид:"
+msgstr ""
+
+#: ../developers.rst:30
+# 256eb7367942487680d509c1f3792bf4
+msgid "Базовый модуль движка подключается с помощью тега ``<script src=\"...\">``. Далее, приложение ожидает окончания загрузки страницы и выводит сообщение с текущей версией в окне браузера."
+msgstr ""
+
+#: ../developers.rst:34
+# e049e89e6a354c53a23e25f6c9650756
+msgid "Для того, чтобы загрузить трёхмерную сцену, требуется выполнить следующую последовательность действий:"
+msgstr ""
+
+#: ../developers.rst:37
+# f35b4b6e80524ab2b1278c5f00a3d263
+msgid "Разместить на странице элемент ``<canvas>``, на котором будет производиться рендеринг."
+msgstr ""
+
+#: ../developers.rst:40
+# 48b84743d64c40799ce74e55fd237cbb
+msgid "После загрузки страницы, для инициализации контекста WebGL, вызвать функцию ``m_main.init()`` с идентификатором созданного элемента."
+msgstr ""
+
+#: ../developers.rst:43
+# 3c96b3e989d448ae8d255ace3f604a71
+msgid "Вызвать функцию ``m_data.load()`` для загрузки трёхмерной сцены."
+msgstr ""
+
+#: ../developers.rst:67
+# a5cad21186e945dbbce390b489685737
+msgid "Следует отметить, что реальное приложение должно включать в себя проверку ошибок, настройку движка перед инициализацией, а также базовую систему взаимодействия с пользователем."
+msgstr ""
+
+#: ../developers.rst:71
+# 6cddaa9d687048e08db5e8c68813127c
+msgid "Поскольку создание приложения с нуля может быть достаточно сложной операцей, особенно для начинающих пользователей, в движке существует специальное дополнение ``app.js``. Дополнение подключается аналогично основному модулю ``b4w.min.js`` и доступно в приложении через модуль ``app``:"
+msgstr ""
+
+#: ../developers.rst:104
+# 6541868d5ec8438cb754f2f71314cfcf
+msgid "В данном случае модуль ``app`` создаст элемент ``<canvas>`` внутри контейнера с указанным идентификатором ``body_id``, осуществит инициализацию движка при загрузке страницы и сообщит о её окончинии с помощью обработчика ``load_cb``."
+msgstr ""
+
+#: ../developers.rst:109
+# 9e6729ca380f4d72afbd70726258b331
+msgid "Система модулей"
+msgstr ""
+
+#: ../developers.rst:111
+# 82337f3ee8e3499f846260a0b7e5ab9b
+msgid "Несмотря на то, что движок предоставляет прикладному программисту API в объёме десятков модулей, в процессе работы он занимает в глобальном пространстве имён единственный объект ``b4w``. При необходимости обращения к модулю, последний импортируется с помощью вызова функции ``b4w.require``."
+msgstr ""
+
+#: ../developers.rst:116
+# 8a7229d262704bc0a6053f8a61325282
+msgid "Допустима регистрация сторонних модулей, если их имена не пересекаются с имеющимися. Регистрация происходит посредством вызова ``b4w.register``. Проверка наличия модуля с некоторым именем может быть осуществлена с помощью ``b4w.module_check``."
+msgstr ""
+
+#: ../developers.rst:121
+#: ../developers.rst:735
+# 808f84594c3c4f3bb3b800934108ae1d
+# 1595c5d97b3b4becade0357cbb751ebf
+msgid "Пример:"
+msgstr ""
+
+#: ../developers.rst:151
+# f2fc8d6b3ab5484e86a445e07e2eadba
+msgid "Файловая структура репозитория"
+msgstr ""
+
+#: ../developers.rst:154
+# c97500160e3f476f8ded2c30b2da0dca
+msgid "**apps_dev**"
+msgstr ""
+
+#: ../developers.rst:154
+# dda22e2731724accb247b7661020f226
+msgid "исходный код приложений"
+msgstr ""
+
+#: ../developers.rst:157
+# 33e43ae1a48141ae9136c2f102467155
+msgid "**closure-compiler**"
+msgstr ""
+
+#: ../developers.rst:157
+# 9716eadbf8754d9880d454e2f7e29287
+msgid "компилятор Google Closure, файлы исключений к нему, генераторы файлов исключений"
+msgstr ""
+
+#: ../developers.rst:160
+# 37611c5811d947ffa6fcee9d21d666d9
+msgid "**csrc**"
+msgstr ""
+
+#: ../developers.rst:160
+# cfca66072d5b4cac9a7006dacff16a1e
+msgid "исходный код бинарной части экспортера движка и других утилит на языке C"
+msgstr ""
+
+#: ../developers.rst:176
+# cc8e232fa7494eab88c1c0daa5653ad6
+msgid "**dia**"
+msgstr ""
+
+#: ../developers.rst:163
+# 0d4e39a4c8444dc59510170550cbe0ee
+msgid "файлы диаграмм"
+msgstr ""
+
+#: ../developers.rst:166
+# db7e34b7139d461a91f13b8cbd0e9ddc
+msgid "**graph.dia**"
+msgstr ""
+
+#: ../developers.rst:166
+# fb163c8ecd774ca3ada5417f72e991be
+msgid "схема рендеринга движка в формате Dia"
+msgstr ""
+
+#: ../developers.rst:169
+# 5b470c5a5a3343af8bd7554167f432ad
+msgid "**modules_graph.dia**"
+msgstr ""
+
+#: ../developers.rst:169
+# dbcd08d59d9e429aa51ab8081afcb893
+msgid "схема взаимосвязей модулей движка в формате Dia"
+msgstr ""
+
+#: ../developers.rst:172
+# 763dbf6451ec4bc9ace7709fd1a763b0
+msgid "**node_materials_limits.svg**"
+msgstr ""
+
+#: ../developers.rst:172
+# 5c7708fda06640f39f1d559c7fe481d0
+msgid "ограничения нодовых материалов"
+msgstr ""
+
+#: ../developers.rst:176
+# ec4b223c2e944722a8ea073feaa13b41
+msgid "**shader_graph.dia**"
+msgstr ""
+
+#: ../developers.rst:175
+# 51d47e73086a420db51dee0a4abcfa27
+msgid "схема системы освещения движка в формате Dia"
+msgstr ""
+
+#: ../developers.rst:179
+# 3ffab731b7ea4be78a6fd7802e2fea5c
+msgid "**doc_src**"
+msgstr ""
+
+#: ../developers.rst:179
+# 4b42c8c35b374b558c0c30692e68af36
+msgid "исходный код настоящего руководства пользователя на языке разметки reST"
+msgstr ""
+
+#: ../developers.rst:181
+# b3f6f768cee74bf5a44945e66afa3530
+msgid "**external**"
+msgstr ""
+
+#: ../developers.rst:184
+# e7bbab056dbd4d1ba400bbe72ff5317a
+msgid "**blender**"
+msgstr ""
+
+#: ../developers.rst:184
+# 36bcc34d38d24419a4244baffa04a051
+msgid "рабочие файлы художников группы разработки движка"
+msgstr ""
+
+#: ../developers.rst:187
+# f1d337eec2e547808daeab44e9bc1999
+msgid "**blender_scripts**"
+msgstr ""
+
+#: ../developers.rst:187
+# 81d3946ab92444bd98e1c0666fa26c2e
+msgid "экспортный и вспомогательные скрипты для Blender'а"
+msgstr ""
+
+#: ../developers.rst:189
+# 12436c5081354654b08c93680e248e20
+msgid "**deploy**"
+msgstr ""
+
+#: ../developers.rst:192
+# 2ff9c2812d6c4ea392112d8ef11ed58e
+msgid "**api_doc**"
+msgstr ""
+
+#: ../developers.rst:192
+# 2658571c29854d999f96482eabc5605b
+msgid "документация API движка для разработчиков в формате HTML"
+msgstr ""
+
+#: ../developers.rst:195
+# cfebe82ff4b24378889cf6cc8d29cc77
+msgid "**apps**"
+msgstr ""
+
+#: ../developers.rst:195
+# aeff3354397c4670b37a8fae3818e4e5
+msgid "3D-приложения, предназначенные для развертывания"
+msgstr ""
+
+#: ../developers.rst:202
+# 756510cb6c8340f2afdbac525ce7d192
+msgid "**assets**"
+msgstr ""
+
+#: ../developers.rst:198
+# 52a7c07ac6f34176ac8d155d46db86dd
+msgid "загружаемые ресурсы: сцены, текстуры, звуковые файлы"
+msgstr ""
+
+#: ../developers.rst:202
+# e7d820a8a37c4191a77cd8a489dc5510
+msgid "**assets.json**"
+msgstr ""
+
+#: ../developers.rst:201
+# 505c8997533447edb1aedf7021985688
+msgid "метаданные с информацией о сценах, загружаемых просмотрощиком viewer.js"
+msgstr ""
+
+#: ../developers.rst:205
+# 278aa262757f4be5b75808b160e98d08
+msgid "**doc**"
+msgstr ""
+
+#: ../developers.rst:205
+# 9499b48de3ac43d6a48b22f2be8e9ebf
+msgid "настоящее руководство пользователя в формате HTML"
+msgstr ""
+
+#: ../developers.rst:208
+# b6a304df50604382837e77495f2fc644
+msgid "**globals_detect**"
+msgstr ""
+
+#: ../developers.rst:208
+# f2e4be4f54704fa78c620a77ee9bab07
+msgid "вспомогательный код для определения глобальных переменных"
+msgstr ""
+
+#: ../developers.rst:211
+# e5096899f4dc489a95ab270d8af61453
+msgid "**webglreport**"
+msgstr ""
+
+#: ../developers.rst:211
+# edb11f64375347b289d26a6d99994761
+msgid "страница для определения WebGL параметров"
+msgstr ""
+
+#: ../developers.rst:214
+# 1fc7649b43914e4d97dc7174a5343b94
+msgid "**website**"
+msgstr ""
+
+#: ../developers.rst:214
+# 4bf61d28c53044168dbca646a29e4803
+msgid "сайт разработчиков Lixer, предназначенный для развертывания"
+msgstr ""
+
+#: ../developers.rst:217
+# dd6e0e4ad2214f489466af0faadb68aa
+msgid "**reexporter.py** и **Makefile**"
+msgstr ""
+
+#: ../developers.rst:217
+# 72e6f9650af643ceac038f0daeb5a528
+msgid "Python-скрипт и файл сборки для автоматического экспорта всех сцен в *external/deploy/assets*"
+msgstr ""
+
+#: ../developers.rst:221
+# 20c459894c4546a3a4dd6f9507750da7
+msgid "**renamer.py**"
+msgstr ""
+
+#: ../developers.rst:220
+# b9b1f277890348e8971854538c0ec99b
+msgid "Python-скрипт для автоматического переименования свойств в .blend - файлах."
+msgstr ""
+
+#: ../developers.rst:223
+# bd4739d90fde4b1895988a7dba943906
+msgid "**glsl_utils**"
+msgstr ""
+
+#: ../developers.rst:229
+# 5ae0a65fdc8c443f8e048870914a5c93
+msgid "**compiler**"
+msgstr ""
+
+#: ../developers.rst:226
+# cf726cc66a8a48789b9997aeabb93b82
+msgid "компилятор GLSL шейдеров движка"
+msgstr ""
+
+#: ../developers.rst:229
+# 414083b53b4549598eb9273dc9663847
+msgid "**out**"
+msgstr ""
+
+#: ../developers.rst:229
+# ffdb4b9ab8974bebb9088ecad5c2fdd9
+msgid "результат компиляции GLSL шейдеров движка"
+msgstr ""
+
+#: ../developers.rst:232
+# df7d35f722654a6ab32a44a082f41c2f
+msgid "**pegjs**"
+msgstr ""
+
+#: ../developers.rst:232
+# fcd86212fbcf46af8356723980f02136
+msgid "грамматики парсер-генератора PEG.js для реализации препроцессора GLSL, а также скрипт для генерации модулей парсеров из этих грамматик"
+msgstr ""
+
+#: ../developers.rst:235
+# 867bb496360948bda0216c33c8294baf
+msgid "**index.html**"
+msgstr ""
+
+#: ../developers.rst:235
+# 8c5cd213b80b45b4a02ccdb2d05ea55c
+msgid "web-страница со ссылками на 3D-приложения"
+msgstr ""
+
+#: ../developers.rst:241
+# cf6f1c096a5249bfb0eaa658027eca0b
+msgid "**js_bench**"
+msgstr ""
+
+#: ../developers.rst:238
+# 687b03bdb22d43dbbea2d52be34106aa
+msgid "тестовые файлы, баг-репорты"
+msgstr ""
+
+#: ../developers.rst:241
+# de71a0c783f9410f8233fc974b98a951
+msgid "**node_test.js**"
+msgstr ""
+
+#: ../developers.rst:241
+# 9d72938435564dd98f527400d2ffad42
+msgid "пример NodeJS-скрипта, запускающего модуль движка"
+msgstr ""
+
+#: ../developers.rst:244
+# 18f478f026a14aa099b520d93866f909
+msgid "**license**"
+msgstr ""
+
+#: ../developers.rst:244
+# 22a05ba38b5a424e9b12206a848848e1
+msgid "файлы с текстами лицензионных соглашений"
+msgstr ""
+
+#: ../developers.rst:247
+# 3ce7b2524633496eb11a9bacf1fe884b
+msgid "**Makefile**"
+msgstr ""
+
+#: ../developers.rst:247
+# 2abec1133be24d819600c10f640babbb
+msgid "файл сборки для компиляции движка, приложений, документации, развертывания на удаленном сервере"
+msgstr ""
+
+#: ../developers.rst:249
+# 4ef7349f0b894913a50c1904900c8e23
+msgid "**scripts**"
+msgstr ""
+
+#: ../developers.rst:252
+# 4278d21701c84137a7c850a04582fd2d
+msgid "**assets_cleanup.py**"
+msgstr ""
+
+#: ../developers.rst:252
+# 3e9ba60f34694a8e91eeb99aa8f110f5
+msgid "скрипт для автоматической очистки файла assets.json"
+msgstr ""
+
+#: ../developers.rst:255
+# b9144efcc91f470f985a25148a6b65a3
+msgid "**chrome_debug.sh**"
+msgstr ""
+
+#: ../developers.rst:255
+# 4277307cdb9d43d2ab0f8f482d92fc61
+msgid "скрипт, запускающий браузер Chrome в режиме отладки"
+msgstr ""
+
+#: ../developers.rst:258
+# df993a495c084b15ac17cea5e9844e8d
+msgid "**compile_b4w.sh**"
+msgstr ""
+
+#: ../developers.rst:258
+# 9230d2fe7f0d4b1e91608462e7a74b04
+msgid "скрипт для вызова Google Closure Compiler с целью минификации и обфускации кода движка и приложений"
+msgstr ""
+
+#: ../developers.rst:261
+# a9acad0f7e71411fb47ac484cdc0de0e
+msgid "**converter.py**"
+msgstr ""
+
+#: ../developers.rst:261
+# c90419df43204fa991a0aa8374a1624d
+msgid "скрипт, осуществляющий: уменьшение разрешения текстур вдвое, компрессию текстур в формат dds, конвертацию звуковых файлов в форматы mp4 и ogg"
+msgstr ""
+
+#: ../developers.rst:264
+# 318089258cf44dc3ae5d6cabc57fb87c
+msgid "**custom_json_encoder.py**"
+msgstr ""
+
+#: ../developers.rst:264
+# 4cbcf49107b24c0f923d9c4420edb745
+msgid "форк Python-модуля json, сортирует ключи по алфавиту в обратном порядке"
+msgstr ""
+
+#: ../developers.rst:268
+# 9c044fcc27914e55acdc715c58b96c63
+msgid "**gen_glmatrix.sh**"
+msgstr ""
+
+#: ../developers.rst:267
+# 04ad842d3a4b4b2ea940b7bf143b8440
+msgid "скрипт для генерации математического модуля на основе исходных файлов из репозитория glMatrix 2"
+msgstr ""
+
+#: ../developers.rst:271
+# 3909846a34944a639a5e0e2ba2ef5537
+msgid "**gpu_shader_analyzer_server.py**"
+msgstr ""
+
+#: ../developers.rst:271
+# 89996a97a71347d8bc1a525d0117bb8c
+msgid "скрипт, запускающий локальный веб-сервер, который осуществляет подсчет сложности шейдеров с помощью утилиты AMD GPUShaderAnalyzer"
+msgstr ""
+
+#: ../developers.rst:274
+# b156560fa24a46e4b4783732cf173b77
+msgid "**graph.sh**"
+msgstr ""
+
+#: ../developers.rst:274
+# 15c02ecd5ff64b6db10f47e752209a32
+msgid "генератор текущего графа сцены в формате svg"
+msgstr ""
+
+#: ../developers.rst:277
+# 292e44e37ffb4e348353abf2c2a73e40
+msgid "**listing.sh**"
+msgstr ""
+
+#: ../developers.rst:277
+# 647a568300024383868edcf8396a4f2a
+msgid "генератор листинга всех исходных кодов движка"
+msgstr ""
+
+#: ../developers.rst:280
+# 3245a2f1a77a4c888ef6c1f15d588eec
+msgid "**make_dist.sh**"
+msgstr ""
+
+#: ../developers.rst:280
+# 2991c2402a3b4df4a89db539e0d269e5
+msgid "построитель внешних дистрибутивов движка"
+msgstr ""
+
+#: ../developers.rst:283
+# 47fa46fcdde3433b9ed6a747b16103bc
+msgid "**memory.sh**"
+msgstr ""
+
+#: ../developers.rst:283
+# ec6de21fe6de45aea91beaa5b87c58ae
+msgid "скрипт для проверки обычной (RAM) и видео-памяти (VRAM)"
+msgstr ""
+
+#: ../developers.rst:286
+# 57b673be8e91492298c4029ab9a37520
+msgid "**netem.sh**"
+msgstr ""
+
+#: ../developers.rst:286
+# 20aa9e396b6e4ee3bbaf5d19a5404826
+msgid "эмулятор поведения медленных и ненадёжных каналов связи"
+msgstr ""
+
+#: ../developers.rst:289
+# 0a31f09aa57a46958869ec8fd3838866
+msgid "**plot.sh**"
+msgstr ""
+
+#: ../developers.rst:289
+# 722f9c50c23f48b7aa11de86b9862051
+msgid "построитель графиков отладочной информации"
+msgstr ""
+
+#: ../developers.rst:292
+# 17719d3f61a44ae2af2a4394ff163cf5
+msgid "**remove_alpha_channel.sh**"
+msgstr ""
+
+#: ../developers.rst:292
+# 43ea97ab72f94ac28f49a8ca69556bc9
+msgid "скрипт для удаления альфа-канала изображения"
+msgstr ""
+
+#: ../developers.rst:296
+# 5b22e8026f194f3490a730ccb47d2d0e
+msgid "**report_unused_resources.py**"
+msgstr ""
+
+#: ../developers.rst:295
+# c7f324b4147045519d6a18e39db902de
+msgid "скрипт для проверки и сообщения о неиспользуемых ресурсах (изображения и звуки, на которые ссылаются экспотируемые файлы)"
+msgstr ""
+
+#: ../developers.rst:299
+# de04f2d9df424ca3b1aec0c190898f72
+msgid "**screencast.sh**"
+msgstr ""
+
+#: ../developers.rst:299
+# 2f3d566ff3434acfa3b955a04877826a
+msgid "скрипт для записи видео с экрана"
+msgstr ""
+
+#: ../developers.rst:302
+# 236686832e45477fa483347e01e587f7
+msgid "**shaders**"
+msgstr ""
+
+#: ../developers.rst:302
+# 8a7de463494844f198f9d62722377a2a
+msgid "GLSL шейдеры движка"
+msgstr ""
+
+#: ../developers.rst:314
+# b5da6fd45a384bb7ba030fd36734ced1
+msgid "**src**"
+msgstr ""
+
+#: ../developers.rst:305
+# 5147b3ab8ffa4550856d59591903d69d
+msgid "основной исходный код ядра движка"
+msgstr ""
+
+#: ../developers.rst:308
+# e37288e727204190a89c7d21017124a1
+msgid "**addons**"
+msgstr ""
+
+#: ../developers.rst:308
+# b2086f10a31446c7b8511982b13a4954
+msgid "исходный код, являющийся внешним по отношению к ядру движка"
+msgstr ""
+
+#: ../developers.rst:311
+# bb4be2fdd6d84d64b08595b672503d62
+msgid "**ext**"
+msgstr ""
+
+#: ../developers.rst:311
+# aa9af6c5cd1f4ecdac9b6f7efb6c7500
+msgid "исходный код ядра движка, содержащий объявления API движка"
+msgstr ""
+
+#: ../developers.rst:314
+# a017901fb8264c4dbc8699851ce7d3df
+msgid "**third_party**"
+msgstr ""
+
+#: ../developers.rst:314
+# b227c915cec94952a94c5e96b79ef0bb
+msgid "код сторонних библиотек, использующихся в ядре движка"
+msgstr ""
+
+#: ../developers.rst:317
+# e478c84f5d6a4f8c8e6d395e1963fa2f
+msgid "**ubuntu_setup**"
+msgstr ""
+
+#: ../developers.rst:317
+# c22021b6f9eb43379ac39bbb58c8e287
+msgid "вспомогательный скрипт для обновления системы, файл справки, запускные файлы Chrome и Blender с настроенными путями и опциями"
+msgstr ""
+
+#: ../developers.rst:320
+# 8205125300ea49d8b7523e8a4611a874
+msgid "**uranium**"
+msgstr ""
+
+#: ../developers.rst:320
+# 11b70f5e29044d4c85cf5443d9637b20
+msgid "исходный код и скрипты сборки физического движка Uranium"
+msgstr ""
+
+#: ../developers.rst:324
+# 27a2926f43404fb5b471f287297e7975
+msgid "**website_src**"
+msgstr ""
+
+#: ../developers.rst:323
+# f22532b776074a9e955e310c8242323d
+msgid "исходный код и контент сайта разработчиков Lixer (устарел)"
+msgstr ""
+
+#: ../developers.rst:329
+# 08bbdc23067348dd819d38fde3e8107a
+msgid "Зависимости"
+msgstr ""
+
+#: ../developers.rst:331
+# 460a2490b3cd47a286c57bcfe042d958
+msgid "Для ведения эффективной разработки движка и приложений, необходим ряд сторонних программ (зависимостей). Большинство этих зависимостей находится в составе современных дистрибутивов GNU/Linux, таких как Ubuntu. В других Unix-подобных системах (Apple OS X, FreeBSD) их установка из исходных кодов или иных источников не представляет существенных проблем."
+msgstr ""
+
+#: ../developers.rst:337
+# f75d6f1202334c6490457bb19f0f370d
+msgid "В таблице ниже перечислены все зависимости, в порядке убывания важности для разработки."
+msgstr ""
+
+#: ../developers.rst:341
+# 96ab226ba1154317a656ac1ab03c6faf
+msgid "Название"
+msgstr ""
+
+#: ../developers.rst:341
+# e9f0d0f988e34dea8d1f0bd1a1034591
+msgid "Пакет в дистрибутиве Ubuntu 12.04"
+msgstr ""
+
+#: ../developers.rst:341
+# 2b8e72d4000a4ff093fe814f181283cf
+msgid "Назначение"
+msgstr ""
+
+#: ../developers.rst:344
+# 22361299790f40488866ad2fead8b9bb
+msgid "Bash"
+msgstr ""
+
+#: ../developers.rst:344
+#: ../developers.rst:346
+# 47167f9ccbe543eea9ff40d06584475e
+# 4287ba4d55b146c98349235baba9bf7e
+msgid "в составе по умолчанию"
+msgstr ""
+
+#: ../developers.rst:344
+#: ../developers.rst:346
+# 9f8229f4e5084ae18dbcce7bccced38e
+# 179d28929e2146e0a68dc37b0748bb6c
+msgid "интерпретатор скриптов"
+msgstr ""
+
+#: ../developers.rst:346
+# 1ae2a032309b45c4b60cf911d599cef4
+msgid "Python 3"
+msgstr ""
+
+#: ../developers.rst:348
+# 372d1b97685f4cad9a7bff93ae1ef2c3
+msgid "NodeJS"
+msgstr ""
+
+#: ../developers.rst:348
+# 7da762c201b043c6ba8e0a21c1229eb2
+msgid "nodejs"
+msgstr ""
+
+#: ../developers.rst:348
+# e43c72890ea3478ea0c309ef7daf4d0a
+msgid "компиляция шейдеров"
+msgstr ""
+
+#: ../developers.rst:350
+# c41cd8db458c4d089e9fc922ee0de410
+msgid "Java"
+msgstr ""
+
+#: ../developers.rst:350
+# c9d9abe42d82496ea47e5a4d73eb410d
+msgid "default-jre"
+msgstr ""
+
+#: ../developers.rst:350
+# 0dbbd064a1b74f92880ea07e7d64c572
+msgid "компиляция и обфускация модулей движка"
+msgstr ""
+
+#: ../developers.rst:353
+# 664a2dec462e4ba59d63546cc8c0a45d
+msgid "LLVM, Clang"
+msgstr ""
+
+#: ../developers.rst:353
+# b0f5e45583044ec9a2d56a809f7eb793
+msgid "llvm, clang"
+msgstr ""
+
+#: ../developers.rst:353
+#: ../developers.rst:355
+# a842fa7a8a394843abdfdf38b1fdd873
+# ae06dc9b983b43f097379ab954e93a37
+msgid "сборка Uranium"
+msgstr ""
+
+#: ../developers.rst:355
+# cba8137295df4a6aaa18860f110f2e33
+msgid "Emscripten"
+msgstr ""
+
+#: ../developers.rst:355
+#: ../developers.rst:378
+# cceb6ec2206a422195c6f6c28ad5574b
+# 14be64138183424b9ac1040444f3da9e
+msgid "из исходных текстов"
+msgstr ""
+
+#: ../developers.rst:357
+# 2f1b889f367340a594779cd19a46819b
+msgid "ImageMagick, GraphicsMagick"
+msgstr ""
+
+#: ../developers.rst:357
+# 76f50a8c562b4933b92e728c8fb8a86e
+msgid "imagemagick, graphicsmagick"
+msgstr ""
+
+#: ../developers.rst:357
+#: ../developers.rst:359
+#: ../developers.rst:361
+# f6e9031d46424e968c5eea86cf0d7dbf
+# ec4569c2a98b4ca89071d7fbb8a15b09
+# 904896ecb8e7453584853dc710d532f6
+msgid "конвертация ресурсов"
+msgstr ""
+
+#: ../developers.rst:359
+# ca5844663a134a679d4761aa107a094d
+msgid "NVIDIA Texture Tools"
+msgstr ""
+
+#: ../developers.rst:359
+# 546aa45d91894f25955a90c9164224c3
+msgid "libnvtt-bin"
+msgstr ""
+
+#: ../developers.rst:361
+# da0575602b9348c4835f83236b9d19ee
+msgid "FFmpeg (libav)"
+msgstr ""
+
+#: ../developers.rst:361
+# bdc928d8a8eb4d799bd931381bf5df8f
+msgid "ffmpeg"
+msgstr ""
+
+#: ../developers.rst:363
+# c28c44c088ed4defa00428e4b0e34ada
+msgid "Gnuplot"
+msgstr ""
+
+#: ../developers.rst:363
+# 363f87c0819540b88a6b94a9a29ac11d
+msgid "gnuplot"
+msgstr ""
+
+#: ../developers.rst:363
+#: ../developers.rst:365
+#: ../developers.rst:367
+# b0751342424042c0bf029eb7ff101742
+# 7fcc1e277e3d457f8a4ee69faf607989
+# f6d5cd666dc34ab8b98759d7ef526874
+msgid "отладка"
+msgstr ""
+
+#: ../developers.rst:365
+# 3707c38e72cb47118a0844a2c2580bd2
+msgid "Graphviz"
+msgstr ""
+
+#: ../developers.rst:365
+# 620cab442e1c41fab379278359efddbf
+msgid "graphviz"
+msgstr ""
+
+#: ../developers.rst:367
+#: ../developers.rst:367
+# ce70712300754953a8baffacad01505e
+# 22379cc263764be4a27a20ffafe0c110
+msgid "xsel"
+msgstr ""
+
+#: ../developers.rst:369
+# 05a2466c5eed460f8158f79033cd6822
+msgid "Sphinx"
+msgstr ""
+
+#: ../developers.rst:369
+# 402aaa78035649e89cc024934321bb8a
+msgid "sphinx-doc"
+msgstr ""
+
+#: ../developers.rst:369
+# 9bd38b07edc0432fb80158a1d4ed4cec
+msgid "сборка документации (HTML-версия)"
+msgstr ""
+
+#: ../developers.rst:372
+# 118203c7fb2242e0ad45edb52fca7425
+msgid "sphinx-intl"
+msgstr ""
+
+#: ../developers.rst:372
+#: ../developers.rst:383
+# 3d299e9431d84df4b9210e9f77dcbf07
+# c80ac0cbd1b84e9c932a4fb14fefc974
+msgid "устанавливается с помощью PIP"
+msgstr ""
+
+#: ../developers.rst:372
+# 3cbeaa5657e0420c877c73d4d232aa8f
+msgid "сборка документации (перевод)"
+msgstr ""
+
+#: ../developers.rst:375
+# da883c3aacde44da8cf4da3f88a8658f
+msgid "TeX Live"
+msgstr ""
+
+#: ../developers.rst:375
+# 5ba4aaa2073c440088162b7179a0e467
+msgid "texlive, texlive-latex-extra texlive-lang-cyrillic"
+msgstr ""
+
+#: ../developers.rst:375
+# 9071120248d34d03b6234431c40cf395
+msgid "сборка документации (PDF-версия)"
+msgstr ""
+
+#: ../developers.rst:378
+# 1c00f9d1e00649e1ad3c3ebf9f2f5707
+msgid "JSDoc 3"
+msgstr ""
+
+#: ../developers.rst:378
+# 78d446d367504c6b81b2aaf81470e500
+msgid "сборка документации (документация на API)"
+msgstr ""
+
+#: ../developers.rst:381
+# 220a9f562b1347ae88e51c9e26e399ab
+msgid "PIP"
+msgstr ""
+
+#: ../developers.rst:381
+# d62331602efc43ec8e6b4679bc548c8c
+msgid "python3-pip"
+msgstr ""
+
+#: ../developers.rst:381
+#: ../developers.rst:383
+# f691ee35d2274b0194c6db9e2a556124
+# 5659601154ac465d81bd377019b3a4b2
+msgid "разработка сайта"
+msgstr ""
+
+#: ../developers.rst:383
+# 42c61fd270d041a1bff411f1dc83e72d
+msgid "Django, Pillow, unidecode"
+msgstr ""
+
+#: ../developers.rst:389
+# 4076876e7e414df0b37dbc8e00667a41
+msgid "Стиль оформления кода"
+msgstr ""
+
+#: ../developers.rst:391
+# 944e1dfcffd8468d9c3a166c4baa804b
+msgid "Применяется структурное программирование. Код организуется в модули. Подходы ООП не используются, классы не определяются, наследование не осуществляется и т.п."
+msgstr ""
+
+#: ../developers.rst:393
+# c5dadb5c0e5249009e45a83f27cb8e99
+msgid "Используется `K&R стиль <http://en.wikipedia.org/wiki/1_true_brace_style#K.26R_style>`_, за исключением того, что открывающая скобка для составного оператора ставится на той же строке, например:"
+msgstr ""
+
+#: ../developers.rst:405
+# 0271005fb08441e4955afed0ec1a5a5e
+msgid "Для выравнивания используются 4 пробела (табуляция запрещена)."
+msgstr ""
+
+#: ../developers.rst:408
+# f40a83e4062b4a5599b94e64907f39a7
+msgid "Примеры"
+msgstr ""
+
+#: ../developers.rst:410
+# 872af900f38d469b82470f60503fc08c
+msgid "В именах переменных и функций используется знак подчеркивания:"
+msgstr ""
+
+#: ../developers.rst:417
+# 2cd37341e8f944d7aa6ed4ecde2223dd
+msgid "Все глобальные переменные начинаются со знака подчеркивания:"
+msgstr ""
+
+#: ../developers.rst:423
+# 80c8a772fd6149329a086177ea5be789
+msgid "Константы пишутся прописными буквами и никогда не начинаются со знака подчеркивания:"
+msgstr ""
+
+#: ../developers.rst:429
+# 0ccbe5c74eb34115a0b7641e5ccf187a
+msgid "Для внешних API названия методов и свойств пишутся как строка во избежание обфускации:"
+msgstr ""
+
+#: ../developers.rst:440
+# 42548c5496564e70aaf738e35618a542
+msgid "Комментарии"
+msgstr ""
+
+#: ../developers.rst:442
+# 81424a7745ca48268cb65a854ad7fa85
+msgid "Комментарии только на английском языке. Стиль комментирования - JSDoc."
+msgstr ""
+
+#: ../developers.rst:447
+# ab6f62aad220461dbeae3bb95c8f0c18
+msgid "Способ именования идентификаторов (функций, объектов, переменных)"
+msgstr ""
+
+#: ../developers.rst:450
+# 83d9cac853ee4d7398dc210e7730784b
+msgid "*init_*"
+msgstr ""
+
+#: ../developers.rst:450
+# 9d2b781bf9844d9d8b6069555dd3c56e
+msgid "создание абстрактного объекта."
+msgstr ""
+
+#: ../developers.rst:453
+# 571582c482624143a4dd8295c059ce3a
+msgid "*create_*"
+msgstr ""
+
+#: ../developers.rst:453
+# 852895519ff9441e99959ae5c33cc23b
+msgid "создание конкретного объекта."
+msgstr ""
+
+#: ../developers.rst:456
+# d226052494c647a1a0d42b49bf8a9530
+msgid "*update_*"
+msgstr ""
+
+#: ../developers.rst:456
+# 3b22f23efa3e4f108d98527db700cce9
+msgid "обновить состояние имеющегося объекта."
+msgstr ""
+
+#: ../developers.rst:459
+# b86b464b4d594593bfa58ad832ef3a9a
+msgid "*attach_/detach_*"
+msgstr ""
+
+#: ../developers.rst:459
+# 07c9a8a0a9d241a6b6796063d3937ef1
+msgid "добавить/удалить временное свойство к объекту."
+msgstr ""
+
+#: ../developers.rst:462
+# 9adc77a1d47f4c8992f9acdb160532bf
+msgid "*append_/remove_*"
+msgstr ""
+
+#: ../developers.rst:462
+# e5f8e6e7b1274201aff773ec4606752a
+msgid "добавить/удалить временное свойство к уже существующим подобного рода."
+msgstr ""
+
+#: ../developers.rst:465
+# f222544339304394a851591bcd039946
+msgid "*insert_/pop_*"
+msgstr ""
+
+#: ../developers.rst:465
+# 48fd45869c004524b46df38313d82fcb
+msgid "добавить/удалить элемент массива (доступ по индексу места)."
+msgstr ""
+
+#: ../developers.rst:468
+# 031be0eae837415e867ee0f38436539b
+msgid "*apply_/clear_*"
+msgstr ""
+
+#: ../developers.rst:468
+# c32f54a1034940aa8cbea9c33f24cd31
+msgid "операция с флагом, бинарной величиной или произвольным параметром."
+msgstr ""
+
+#: ../developers.rst:471
+# c26735682dad4d40b3573cd9af61dae2
+msgid "*set_/get_*"
+msgstr ""
+
+#: ../developers.rst:471
+# 3b9e77de3bc74e999dc0280e41622435
+msgid "установить/получить значение свойства/переменной."
+msgstr ""
+
+#: ../developers.rst:474
+# b6daf70d523c4d0e85e630ced6c38434
+msgid "*_tmp*"
+msgstr ""
+
+#: ../developers.rst:474
+# 2c4ae0ccc2e0424593b788c1e26f2146
+msgid "глобальная переменная-кеш в виде простого объекта (массив, вектор)."
+msgstr ""
+
+#: ../developers.rst:477
+# 0c4bc8c48e3c416490ac7fa002660033
+msgid "*_cache*"
+msgstr ""
+
+#: ../developers.rst:477
+# 3e66263bd5284289a23f2a276f07aa98
+msgid "глобальная переменная-кеш в виде сложного объекта."
+msgstr ""
+
+#: ../developers.rst:480
+# 94ce094c86984e7ea568613348e36287
+msgid "Отладка"
+msgstr ""
+
+#: ../developers.rst:482
+# 70c35e49402b4731938895086baf2e1b
+msgid "Отладка движка производится с помощью методов модуля ``debug.js``."
+msgstr ""
+
+#: ../developers.rst:484
+# 701d4cef985d41a7a6441325926eb770
+msgid "Текущий формат рендеринг-графа может быть сохранён в формате DOT с помощью вывова ``b4w.debug.scenegraph_to_dot()``. Для этого содержимое консоли после вызова данного метода сохраняется в файл с расширением .gv. Чтобы получить граф в графическом виде, необходим набор утилит `graphviz <http://www.graphviz.org/>`_. Преобразование в формат SVG выполняется с помощью вызова:"
+msgstr ""
+
+#: ../developers.rst:494
+# 13b0bff9e2cc40ada8f7a8f2fd864178
+msgid "где ``graph.gv`` имя файла с сохранённым графом."
+msgstr ""
+
+#: ../developers.rst:499
+# 5f7876d25c6749dba55b9c69295fbdea
+msgid "Шейдеры"
+msgstr ""
+
+#: ../developers.rst:504
+# 67369649f65244efbc7d57e5da61c569
+msgid "Обфускатор"
+msgstr ""
+
+#: ../developers.rst:506
+# 8beacc55d73c4065b7bb03b3f71f0aea
+msgid "Используемые в движке шейдеры подвергаются обработке обфускатором. Для запуска обфускации требуется выполнить одну из команд в корне репозитория:"
+msgstr ""
+
+#: ../developers.rst:509
+# 45eb2626a091408e9fdd73fe3e9fe14c
+msgid "``make compile_shaders`` - проверка, обфускация и экспорт скомпилированных шейдеров"
+msgstr ""
+
+#: ../developers.rst:510
+# 9c67ad9019c94f89817c4a4725fd8f18
+msgid "``make verify_shaders`` - только проверка и обфускация"
+msgstr ""
+
+#: ../developers.rst:512
+# 6c7048d3a48d45bca13df25973d1c6b7
+msgid "Обфускатор служит для сокращения объема, оптимизации и затруднения понимания glsl-кода. На данный момент в нем реализованы следующие процедуры:"
+msgstr ""
+
+#: ../developers.rst:515
+# c7825669e2e540ddbcfbf72aeee740db
+msgid "удаление лишних пробелов, переводов строк и повторяющихся символов \";\""
+msgstr ""
+
+#: ../developers.rst:516
+# 09a22817be9e4375b705fb8336fb0a4f
+msgid "замена пользовательских идентификаторов более короткими односимвольными, двухсимвольными и т.д. именами"
+msgstr ""
+
+#: ../developers.rst:517
+# 004976b752764826a57d24dbb2353228
+msgid "вывод сообщений о неиспользуемых переменных и функциях (dead code)"
+msgstr ""
+
+#: ../developers.rst:518
+# 926233f9d90e4d38808a56dc3d4238a0
+msgid "проверка синтаксиса шейдеров"
+msgstr ""
+
+#: ../developers.rst:519
+# 55f1e16847944b38b055d6e4828516fb
+msgid "поддержка import/export-механизма и проверка шейдеров на соответствие ему"
+msgstr ""
+
+#: ../developers.rst:521
+# 897410d820c84c4f8c9c341af5286120
+msgid "В процессе обфускации сначала осуществляется парсинг или синтаксический анализ текста шейдера. Соответствующий парсер строится на основе грамматики с помощью генератора `PEG.js <http://pegjs.majda.cz/>`_. Далее по данным парсинга осуществляются оптимизационные процедуры и валидация шейдеров; затем шейдеры могут быть экспортированы в виде абстрактного синтаксического дерева (АСТ) для непосредственной загрузки движком."
+msgstr ""
+
+#: ../developers.rst:524
+# 2649d2b676594795bb0efc288a2ab42d
+msgid "Расположение основных файлов в репозитории:"
+msgstr ""
+
+#: ../developers.rst:526
+# 5877705f460f4bf6abfde6718725a69f
+msgid "исходная грамматика - glsl_utils/pegjs/glsl_parser.pegjs"
+msgstr ""
+
+#: ../developers.rst:527
+# 0f8b8717a37544f18c31d42261ea51d3
+msgid "скрипт генерации парсера - glsl_utils/pegjs/gen_nodejs.sh"
+msgstr ""
+
+#: ../developers.rst:528
+# 77f79f22b7d5437a95e1006772a53d7a
+msgid "парсер - glsl_utils/compiler/glsl_parser.js"
+msgstr ""
+
+#: ../developers.rst:533
+# 01303af2e3d84af3b59bbebfa7de81e8
+msgid "Директивы import/export"
+msgstr ""
+
+#: ../developers.rst:535
+# 99b0f4c2e29f49b88305e3ae29e35a30
+msgid "В целях упорядочивания, структурирования и повышения удобочитаемости кода шейдеров в include-файлах используются директивы import и export. Они указываются в начале файла и должны выглядеть примерно следующим образом:"
+msgstr ""
+
+#: ../developers.rst:545
+# 68bc00f06fd54bb7a286cd98130f0a46
+msgid "Директива ``#import`` определяет набор идентификаторов, которые являются внешними для файла (т.е. их обявления содержатся вне этого include-файла), но доступными для использования в нем. Логичным ограничением здесь является требование обязательного объявления таких идентификаторов где-либо выше места поключения include-файла. Директива ``#export`` определяет набор идентификаторов, доступных для использования вне данного файла. Такие идентификаторы должны быть обязательно объявлены в этом файле."
+msgstr ""
+
+#: ../developers.rst:548
+# 60462dc389fe4bef94abd163915f0a7a
+msgid "Таким образом, шейдер, использующий include-файл, обязан до места подключения содержать объявления, необходимые для импорта, а после него может использовать экспортируемые идентификаторы."
+msgstr ""
+
+#: ../developers.rst:550
+# 85ac4fa6c19447a9aecf4795277039e9
+msgid "Идентификаторами могут быть как имена переменных, так и функций. По умолчанию при отсутствии директив import/export считается, что include-файл не использует внешние объявления и не предоставляет пользование внутренними."
+msgstr ""
+
+#: ../developers.rst:555
+# e3038b405567405387ed2fbfa1560b84
+msgid "Рекомендации и ограничения по использованию обфускатора"
+msgstr ""
+
+#: ../developers.rst:557
+# 2e5e6570f4854186baefd5e0d9f9425d
+msgid "В связи с наличием препроцессинга, необходимостью совместной обработки нескольких шейдеров и include-файлов, а также особенностями реализации обфускатора гарантировать работоспособность полученного на выходе кода можно только при соблюдении ряда правил или ограничений на текст исходных шейдеров:"
+msgstr ""
+
+#: ../developers.rst:559
+# 9cab734e9e614af3986e0ca50c3e6039
+msgid "Обязательное использование специальной директивы ``#var`` для описания констант, определяемых движком в момент запуска. Например:"
+msgstr ""
+
+#: ../developers.rst:566
+# 9d0c586d92034b5881ae072cd8eeaa29
+msgid "Синтаксис здесь схож с директивой #define. Смысл директивы #var в том, чтобы определяемое ею значение позволило распарсить исходный шейдер. Что это будет конкретно (например, 'unform' или 'attribute' в пример выше), не важно, т.к. на этом этапе оно все равно неизвестно. Однако, желательно указывать более-менее подходящее описание, а не что-то совершенно произвольное."
+msgstr ""
+
+#: ../developers.rst:570
+# 6bed876c19ff4eb29608b2b7a127df43
+msgid "Для констант, используемых не в коде шейдера, а в выражениях препроцессинга, директива ``#var`` не обязательна."
+msgstr ""
+
+#: ../developers.rst:572
+# a7f453b279224ab9b3ba70e0e8b10911
+msgid "Использование при необходимости директив import/export."
+msgstr ""
+
+#: ../developers.rst:573
+# f8b3d640fd7a48f6b2abe4c064ecb86a
+msgid "Не следует перегружать встроенные функции, только пользовательские."
+msgstr ""
+
+#: ../developers.rst:574
+# eab551a6c4d6442d8fded406a3f7803b
+msgid "Не следует объявлять переменные с именем одной из встроенных функций, либо main даже, если это не приводит к ошибке."
+msgstr ""
+
+#: ../developers.rst:575
+# 9f31af06962343fca3ed842791d5bf1e
+msgid "Нельзя использовать директивы #var и #define для замены отдельных символов в таких операторах, как: \"++\", \"--\", \"\\*=\", \"/=\", \"+=\", \"-=\", \"==\", \"<=\", \">=\", \"!=\", \"&&\", \"||\", \"^^\"."
+msgstr ""
+
+#: ../developers.rst:577
+# 2cdc00eb04a24b88acca7203b0d06ceb
+msgid "Например:"
+msgstr ""
+
+#: ../developers.rst:586
+# c74ff70fa7c8472fbbb07740b5ff2319
+msgid "Использование директивы #include, не должно приводить к неоднозначности при обфускации содержимого include-файла. Это может произойти в том случае, когда один и тот же файл включается в несколько разных шейдеров, и в каком-то из них могут повлиять определенные выше директивы, вроде #var или #define. Также не стоит использовать в include-файле необъявленные функции и переменные."
+msgstr ""
+
+#: ../developers.rst:588
+# f6f2af4cd04a4b6188469b20da71f719
+msgid "Использование вложенных include'ов или множественного включения одного и того же include'a в один и тот же шейдер не поддерживается."
+msgstr ""
+
+#: ../developers.rst:589
+# 2390e20ab89a4349a92e5dbc509ba503
+msgid "К неработоспособности шейдера приведет (может привести) нетривиальное использование препроцессинга, например, создающее невалидный glsl-код:"
+msgstr ""
+
+#: ../developers.rst:604
+# 4a8774eaf9cb4d878fdcff107fa6d844
+msgid "Поддержка WebGL-расширений"
+msgstr ""
+
+#: ../developers.rst:606
+# 6effcb9112b148b7a07241c7afad1e7a
+msgid "Работа обфускатора может зависеть от используемых WebGL-расширений, если они каким-либо образом влияют на шейдерный язык. На данный момент поддерживаются следующие расширения:"
+msgstr ""
+
+#: ../developers.rst:609
+# 8396ee2030d0447ea6dc2bfe1a7ba346
+msgid "OES_standard_derivatives"
+msgstr ""
+
+#: ../developers.rst:614
+# 6e71f5f4600a4e0da54278e5fd8e335f
+msgid "Ошибки обфускатора"
+msgstr ""
+
+#: ../developers.rst:616
+# ff3927cd06e94fe5ab5e480b666b56ea
+msgid "В случае ошибки обфускатор выведет соответствующее сообщение в консоли."
+msgstr ""
+
+#: ../developers.rst:618
+# a2b60d956fde41ea9705403a3c78d1f9
+msgid "Перечень возможных ошибок:"
+msgstr ""
+
+#: ../developers.rst:621
+# b77c6da2e5ab4e9b927994866df4ba5d
+msgid "Сообщение об ошибке"
+msgstr ""
+
+#: ../developers.rst:621
+# 675bde787b9e49f7ad10e403ca846932
+msgid "Причина"
+msgstr ""
+
+#: ../developers.rst:623
+# 782fa4b5676747c6a0b0497ab472d383
+msgid "Error! Ambiguous obfuscation in include file 'FILE_NAME'."
+msgstr ""
+
+#: ../developers.rst:623
+# 4c91d9bab3314242b17743fdcb914a79
+msgid "Ошибка! Неоднозначная обфускация include-файла FILE_NAME."
+msgstr ""
+
+#: ../developers.rst:626
+# b9b4d05dd15e4ca1a97b34e2294aef18
+msgid "Error! Bad preprocessing collision while obfuscation identifier: \\'NAME'. Varying/uniform or varying/attribute qualifiers combination. File: 'FILE_NAME'."
+msgstr ""
+
+#: ../developers.rst:626
+# 30f5032b9b4544a395f110650a64a8a1
+msgid "Ошибка в файле FILE_NAME. Невозможность обфускации переменной с именем NAME из-за переопределения при препроцессинге. Переопределение одной и той же переменной с разными квалификаторами. Недопустимые комбинации: varying/uniform, varying/attribute."
+msgstr ""
+
+#: ../developers.rst:634
+# 72afb4926dab43bcab5f672399712b01
+msgid "Error! Extension NAME is unsupported in obfuscator. File: 'FILE_NAME'."
+msgstr ""
+
+#: ../developers.rst:634
+# 96e93bfd4f8243059e0234f7154ea906
+msgid "Ошибка! WebGL-расширение с именем NAME, использованное в файле FILE_NAME, не поддерживается обфускатором."
+msgstr ""
+
+#: ../developers.rst:638
+# 71da46dd235b46659c397c7f172ca629
+msgid "Error! Include 'FILE_NAME' not found."
+msgstr ""
+
+#: ../developers.rst:638
+# 5c8866f0d23a4af095d84a7a62d288d3
+msgid "Ошибка! При подключении не найден include-файл FILE_NAME."
+msgstr ""
+
+#: ../developers.rst:641
+# 7c221035bcca4ea790e0ec4932d7ff2a
+msgid "Error! Undeclared TYPE: 'NAME'. File: 'FILE_NAME'."
+msgstr ""
+
+#: ../developers.rst:641
+# 0767da5c9431435d8aa63a369faf0686
+msgid "Ошибка в файле FILE_NAME. Необъявленный идентификатор типа TYPE (переменная, функция, структура, ...) с именем NAME."
+msgstr ""
+
+#: ../developers.rst:645
+# 4e347a7bd9f045839d8357af2aa21527
+msgid "Error! Undeclared TYPE: 'NAME'. Importing data missed. File: 'FILE_NAME'."
+msgstr ""
+
+#: ../developers.rst:645
+# 3dd5f58adc444964a07a732ae70d65ef
+msgid "Ошибка! Необъявленный идентификатор типа TYPE (переменная, функция, структура, ... ) с именем NAME. Отсутствует объявление идентификатора, требуемого в include-файле FILE_NAME согласно директиве ``#import``."
+msgstr ""
+
+#: ../developers.rst:652
+# 19c621baf81d43a2bca01840f5e854c1
+msgid "Error! Undeclared TYPE: 'NAME'. Possibly exporting needed in include file 'INCLUDE_NAME'. File: 'FILE_NAME'."
+msgstr ""
+
+#: ../developers.rst:652
+# f8ecb48c398c4510aff5956dd46669af
+msgid "Ошибка в файле FILE_NAME. Необъявленный идентификатор типа TYPE (переменная, функция, структура, ...) с именем NAME. Возможно требуется разрешить его экспорт в include-файле INCLUDE_NAME."
+msgstr ""
+
+#: ../developers.rst:658
+# d70e6bdf2c994938a5321b4562886fee
+msgid "Error! Undeclared TYPE: 'NAME'. Possibly importing needed. File: 'FILE_NAME'."
+msgstr ""
+
+#: ../developers.rst:658
+# 43c536b4d28c4e78aef2b54d9f9dfbc4
+msgid "Ошибка! Необъявленный идентификатор типа TYPE (переменная, функция, структура, ... ) с именем NAME. Возможно требуется указать его как импортируемый в include-файле FILE_NAME."
+msgstr ""
+
+#: ../developers.rst:664
+# 55a7d40fc89a42d5b53f52461d0ac425
+msgid "Error! Unused export token 'NAME' in include file 'FILE_NAME'."
+msgstr ""
+
+#: ../developers.rst:664
+# 295e069a2c5e49249047c513081c97ea
+msgid "Ошибка! В include-файле FILE_NAME разрешен для экспорта необъявленный идентификатор с именем NAME."
+msgstr ""
+
+#: ../developers.rst:670
+# 11095bace68a41a99e2fa61ef4aff7f5
+msgid "Error! Using reserved word in TYPE 'NAME'. File: 'FILE_NAME'."
+msgstr ""
+
+#: ../developers.rst:670
+# 96c0eac4229f4035be18fed8248dbab5
+msgid "Ошибка в файле FILE_NAME. Использование зарезервированного слова при объявлении идентификатора типа TYPE (переменная, функция, структура, ...) с именем NAME."
+msgstr ""
+
+#: ../developers.rst:675
+# aa5bc8463fe14445b16f88137db41f69
+msgid "Error! 'all' extension cannot have BEHAVIOR_TYPE behavior. File: 'FILE_NAME'."
+msgstr ""
+
+#: ../developers.rst:675
+# a3b2066bc2784b108726402501a3ec96
+msgid "Ошибка! Директива ``#extension``, указанная для всех (``all``) WebGL-расширений в файле FILE_NAME, не поддерживает поведение BEHAVIOR_TYPE."
+msgstr ""
+
+#: ../developers.rst:680
+# 111fc638d76049c7b59f81ab0ef738e3
+msgid "Syntax Error. ERROR_MESSAGE. File: FILE_NAME, line: LINE_NUMBER, column: COL_NUMBER."
+msgstr ""
+
+#: ../developers.rst:680
+# 1f391622f1f8427eab137e9da7fcceca
+msgid "Ошибка синтаксиса в строке LINE_NUMBER, столбце COL_NUMBER при парсинге шейдера FILE_NAME. Исходное описание ошибки приведено в ERROR_MESSAGE. В сообщении прилагается листинг кода в окрестности соответствующей строки (следует учитывать особенность pegjs-парсеров, указывающих чуть далее места, вызвавшего ошибку)."
+msgstr ""
+
+#: ../developers.rst:690
+# fb24c56a350d42bba42a2188d8ad9d34
+msgid "Warning! Function 'NAME' is declared in [include ]file FILE_NAME, but never used."
+msgstr ""
+
+#: ../developers.rst:690
+# b665ad01adf148b79fc69901ae015d04
+msgid "В файле FILE_NAME объявлена функция NAME, которая нигде не используется."
+msgstr ""
+
+#: ../developers.rst:694
+# 5112869032304cf3ad7e182e5f59b05b
+msgid "Warning! Include file 'FILE_NAME' not used in any shader, would be omitted!"
+msgstr ""
+
+#: ../developers.rst:694
+# 87f25b726e0248c796b153404cb40fbd
+msgid "Include-файл FILE_NAME не используется ни в одном из шейдеров, поэтому будет исключен из закомпиленной версии."
+msgstr ""
+
+#: ../developers.rst:698
+# d17c95d0269d4ad6b64253168f1aa755
+msgid "Warning! Unused import token 'NAME' in include file 'FILE_NAME'."
+msgstr ""
+
+#: ../developers.rst:698
+# 719c3d0bd25f4624a00df14804775c64
+msgid "Идентификатор с именем NAME импортируется в include-файле FILE_NAME, но нигде не используется."
+msgstr ""
+
+#: ../developers.rst:702
+# 720b2188f3ef4b28994bc4f2cddcced4
+msgid "Warning! Variable 'NAME' is declared in [include ]file FILE_NAME, but never used."
+msgstr ""
+
+#: ../developers.rst:702
+# 8570723322cd4ba4b10ad93975f90509
+msgid "В файле FILE_NAME объявлена переменная NAME, которая нигде не используется."
+msgstr ""
+
+#: ../developers.rst:710
+# 1ca2bc2691e54a0090a6c04264a7252a
+msgid "Кватернионы"
+msgstr ""
+
+#: ../developers.rst:712
+# f7cbacbf676e4d13a6b6c2bfa127cfb6
+msgid "Кватернионы представляют собой четырёхмерные векторы, используемые для осуществления поворотов. Использование кватернионов обладает рядом преимуществ перед другими способами представления поворотов:"
+msgstr ""
+
+#: ../developers.rst:714
+# 7f0808b3cfaa4a699aff2c2e252f58c2
+msgid "Не имеет неоднозначности и зависимости от порядка применения поворотов, которые имеют место в случае использования углов эйлера."
+msgstr ""
+
+#: ../developers.rst:715
+# 3c759c2d8f6d49759886f7759ddcd181
+msgid "Более эффективное использование памяти (от 2-х до 4-х раз меньше в зависимости от типа используемой матрицы)."
+msgstr ""
+
+#: ../developers.rst:716
+# 5c2466303cc049aaa428e6228c4dc62b
+msgid "Высокая эффективность вычисления серии поворотов, чем при использовании матриц."
+msgstr ""
+
+#: ../developers.rst:717
+# 21ec2b3a72c342a6aba3c9c9493743c5
+msgid "Нейтрализация ошибок умножения, возникающих вследствие неточности чисел с плавающей запятой."
+msgstr ""
+
+#: ../developers.rst:718
+# 3a88817c3b14498884236f85a8df2ea1
+msgid "Удобный метод интерполяции."
+msgstr ""
+
+#: ../developers.rst:722
+# cd82329dac284efeab148058dee6553c
+msgid "Кватернионы имеют ряд недостатков:"
+msgstr ""
+
+#: ../developers.rst:721
+# c9e6e7c6839d4ecfb0b3f024a52e3739
+msgid "Поворот вектора с помощью кватерниона более сложная в вычислительном плане операция чем поворот с использованием матрицы."
+msgstr ""
+
+#: ../developers.rst:722
+# d632866877884f518ffdc3220cc6cea3
+msgid "Использование кватернионов для представления отличных от поворота преобразований (перспективная или ортогональная проекция) затруднено."
+msgstr ""
+
+#: ../developers.rst:724
+# fae93299f8d34749b94282ba8e7ca803
+msgid "Для удобства работы с кватернионами в движке имеется ряд функций:"
+msgstr ""
+
+#: ../developers.rst:727
+# 9c01d0a436ff4cd58451682e3aa8a4c5
+msgid "*quat.multiply*"
+msgstr ""
+
+#: ../developers.rst:727
+# 38a5d38c44b74a939b348296ce1afc32
+msgid "Умножение кватернионов. Умножение кватерниона А на кватернион Б слева A*Б является поворотом на A. То есть у объекта уже имеется некий поворот Б, который мы дополняем новым поворотом на A."
+msgstr ""
+
+#: ../developers.rst:730
+# 89f48ec9e6dc4393bdf2e72380a8bb24
+msgid "*quat.setAxisAngle*"
+msgstr ""
+
+#: ../developers.rst:730
+# f5f2b3680ce24b16a2693f76e0ccf0da
+msgid "Кватернион представляет собой иную форму записи поворота относительно произвольной оси (вектора) на произвольный угол. Положительное направление поворота отсчитывается против часовой стрелки, если смотреть с конца вектора. Например вызов `quat.setAxisAngle([1,0,0], Math.PI/2, quat)` создаст кватернион, который может быть использован для осуществления поворота относительно оси X на 90 градусов (против часовой стрелки, если смотреть с конца оси X)."
+msgstr ""
+
+#: ../developers.rst:733
+# 9d97d4b02ca6438e9bbec6ecbb3be248
+msgid "*quat.slerp*"
+msgstr ""
+
+#: ../developers.rst:733
+# 6c1fb57962884c6da08027fc0d8d8df6
+msgid "Сферическая интерполяция кватернионов. Используется для осуществления плавного разворота объектов и анимации."
+msgstr ""
+
+#: ../developers.rst:737
+# d06c5f6302f741a88a02426a78af5b52
+msgid "Требуется повернуть объект `CAR` на 90 градусов в вертикальной плоскости, для того, чтобы осуществить поворот налево. Имеется модель в программе Blender."
+msgstr ""
+
+#: ../developers.rst:739
+# b37f8894f9824205bfe68451d5c77b80
+msgid "Смотрим куда направлен `СAR` в программе Blender. Чаще всего это ось -Y. В результате преобразования координат: X Y Z -> X -Z Y, вертикальная ось Z займёт положение оси Y в движке. Следовательно, для осуществления поворота на 90 градусов налево необходимо осуществить поворот относительно Y против часовой стрелки, что соответствует положительному углу вращения. Код для реализации поворота будет иметь вид:"
+msgstr ""
+
+#: ../developers.rst:752
+# af6867c8d0ff465996c39f0c8f1ed071
+msgid "Оптимизированный вариант:"
+msgstr ""
+
+#: ../developers.rst:501
+#: ../developers.rst:530
+#: ../developers.rst:552
+#: ../developers.rst:611
+# 2782c5e10cf0453eb60cee09169448fe
+# 73b7828161744c1f9a68a9a755b0758a
+# 6c3e9d475dc34f2eb7c3bc3cae7f6583
+# f8b3659d591f4204b9a87833be259e3b
+msgid "обфускатор шейдеров"
+msgstr ""
+
+#: ../developers.rst:530
+# 73b7828161744c1f9a68a9a755b0758a
+msgid "директивы import/export"
+msgstr ""
+
+#: ../developers.rst:552
+# 6c3e9d475dc34f2eb7c3bc3cae7f6583
+msgid "ограничения"
+msgstr ""
+
+#: ../developers.rst:601
+# d7b60b92a6914e5b837210c1d8d9cdfa
+msgid "WebGL"
+msgstr ""
+
+#: ../developers.rst:601
+# d7b60b92a6914e5b837210c1d8d9cdfa
+msgid "расширения"
+msgstr ""
+
+#: ../developers.rst:611
+# f8b3659d591f4204b9a87833be259e3b
+msgid "ошибки"
+msgstr ""
+
+#: ../developers.rst:707
+# 387e7e3bb2304ee1b12bb3359abf053f
+msgid "кватернион"
+msgstr ""
+

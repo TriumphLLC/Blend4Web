@@ -1,0 +1,250 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2014, ООО "Триумф"
+# This file is distributed under the same license as the B4W package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: B4W 14.02.28\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-03-19 19:31+0400\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../problems_and_solutions.rst:5
+# d670cf11810d4b6e8680c18ce96a13ca
+msgid "Проблемы и решения"
+msgstr ""
+
+#: ../problems_and_solutions.rst:10
+# 225fa51cc86a4f8eb5421268157b58bc
+msgid "Инициализация WebGL"
+msgstr ""
+
+#: ../problems_and_solutions.rst:12
+# 32c491aa2cb5402a9a58d5d6cf3bf07a
+msgid "Сайт http://get.webgl.org/ при просмотре в браузерах Chrome или Firefox последней версии сообщает о проблемах. Что делать?"
+msgstr ""
+
+#: ../problems_and_solutions.rst:14
+# f46792d1eb824b6c98b9f41d3d77d0e2
+msgid "**На Windows**:"
+msgstr ""
+
+#: ../problems_and_solutions.rst:16
+# 81dd823ba6f34daeba74a72b9ddb2e4f
+msgid "Установить доступные `обновления <http://support.microsoft.com/kb/311047/ru>`_ для системы. Установить последнюю версию `DirectX <http://www.microsoft.com/downloads/ru-ru/details.aspx?FamilyID=2da43d38-db71-4c1b-bc6a-9b6652cd92a3&displayLang=ru>`_. Перезагрузить систему."
+msgstr ""
+
+#: ../problems_and_solutions.rst:18
+# b763efeb0d6843dd8d490181956a19bd
+msgid "В некоторых случаях может понадобиться установка драйверов от производителей графических карт. Чтобы определить тип и производителя карты, можно воспользоваться средством диагностики DirectX..."
+msgstr ""
+
+#: ../problems_and_solutions.rst:25
+# d0006aadf9b14d39bf1c4d5c74079ce6
+msgid "или ввести about:gpu в адресную строку браузера Chrome."
+msgstr ""
+
+#: ../problems_and_solutions.rst:32
+# fa6c5062586f4b4a8d746ded3147402d
+msgid "Необходимо загрузить драйверы с соответствующего центра поддержки (например, `Intel <http://downloadcenter.intel.com/Default.aspx?lang=rus>`_, `Nvidia <http://www.nvidia.com/Download/index.aspx?lang=ru>`_, `AMD/ATI <http://support.amd.com/us/gpudownload/Pages/index.aspx>`_). После установки драйверов перезагрузить систему."
+msgstr ""
+
+#: ../problems_and_solutions.rst:34
+# abf824f6b44542838ebdd728c78061d7
+msgid "Если в результате вышеперечисленных действий инициализировать рендеринг не удается (или нет возможности обновить систему), можно попробовать изменить настройки браузера."
+msgstr ""
+
+#: ../problems_and_solutions.rst:36
+# 3faea1cf3e7547d587af8e46ccb56952
+msgid "*В Chrome*:"
+msgstr ""
+
+#: ../problems_and_solutions.rst:38
+# 4aa57d8a3cfe420b9d97dbdd44f05a0e
+msgid "Ввести about:flags в адресную строку браузера, нажать :file:`Включить` (:file:`Enable`) под опцией :file:`Переопределение списка программного рендеринга` (:file:`Override software rendering list`) и перезапустить браузер."
+msgstr ""
+
+#: ../problems_and_solutions.rst:46
+# 2a560b19b8db4fb6818960b57c01b972
+msgid "*В Firefox*:"
+msgstr ""
+
+#: ../problems_and_solutions.rst:48
+# b8acad4e09734ed387dbcab47c26ded9
+msgid "Ввести about:config в адресную строку браузера, найти параметр ``webgl.force-enabled`` и переключить его двойным щелчком мыши из ``false`` в ``true``."
+msgstr ""
+
+#: ../problems_and_solutions.rst:55
+# ab1ac1fb6187441da12920ba1b786598
+msgid "**На Linux**:"
+msgstr ""
+
+#: ../problems_and_solutions.rst:57
+# 53bcedf39dac403e9754d1c219d566a7
+msgid "Ввиду неполной реализации OpenGL стека в драйверах с открытым кодом в настоящий момент рекомендуется использовать проприетарные драйверы текущей версии для графических процессоров Nvidia и AMD."
+msgstr ""
+
+#: ../problems_and_solutions.rst:59
+# 03da9be4618241239c816951722a85b3
+msgid "Форсирование графической акселерации из п. 3 для Windows происходит аналогично для Chrome. В случае Firefox предлагается использовать переменную окружения::"
+msgstr ""
+
+#: ../problems_and_solutions.rst:67
+# 184b245286af45c9a6f960a3505e4fee
+msgid "Настройка браузера для загрузки локальных ресурсов"
+msgstr ""
+
+#: ../problems_and_solutions.rst:69
+# 35155cee6047485d9e237920f7107356
+msgid "Движок является Web-приложением, и его работа происходит при просмотре html-файла в браузере. После инициализации происходит загрузка ресурсов (сцен, текстур), которая подчиняется `правилу ограничения домена <http://ru.wikipedia.org/wiki/Правило_ограничения_домена>`_, запрещающему, в частности, загрузку из локальной директории. Простым способом обхода этого ограничения может быть настройка браузера (рекомендуется). Другой способ заключается в использовании :ref:`локального web-сервера <local_web_server>`."
+msgstr ""
+
+#: ../problems_and_solutions.rst:72
+# 92cc2a8332654b17ab0181036e232c4b
+msgid "Рекомендуется использовать такой браузер только для просмотра локального контента, поскольку изменение настроек может привести к понижению безопасности."
+msgstr ""
+
+#: ../problems_and_solutions.rst:74
+# 9779ced2d2e9434ba4cc71c38573d07f
+msgid "*Chrome на Windows*:"
+msgstr ""
+
+#: ../problems_and_solutions.rst:76
+# 059469c7666c494abbbf08a933c69ddf
+msgid "Правой кнопкой мыши нажать на ярлыке на рабочем столе, выбрать ``Свойства`` (``Properties``), после чего в поле для пути к исполняемому файлу добавить после пробела ``--allow-file-access-from-files``. Нажать ``ОК``."
+msgstr ""
+
+#: ../problems_and_solutions.rst:84
+# a77f5a8522c3455d9eec733de3eaf2cd
+msgid "Для удобства можно предварительно создать копию ярлыка и изменить ее для локального просмотра, оставив оригинальную версию ярлыка для запуска браузера в обычном режиме."
+msgstr ""
+
+#: ../problems_and_solutions.rst:86
+# 71461e7fd3be431ba2a32d91a3481a16
+msgid "*Chrome/Chromium на Linux*:"
+msgstr ""
+
+#: ../problems_and_solutions.rst:88
+# 1a5c0889bdf04d3ca00eff1dac51ec29
+msgid "Запустить браузер с параметром::"
+msgstr ""
+
+#: ../problems_and_solutions.rst:93
+#: ../problems_and_solutions.rst:131
+# ca9506b061fd45eb86afcd3e0e552650
+# f286e25fa96f46b7b7981649497872eb
+msgid "или::"
+msgstr ""
+
+#: ../problems_and_solutions.rst:97
+# 0b3d150342af4fd298679c4b43fe08e1
+msgid "*Firefox на Windows/Linux*:"
+msgstr ""
+
+#: ../problems_and_solutions.rst:99
+# d092261601a54256a1a087e1bbe298e0
+msgid "Ввести about:config в адресную строку браузера, найти параметр ``security.fileuri.strict_origin_policy`` и переключить его двойным щелчком мыши из ``true`` в ``false``."
+msgstr ""
+
+#: ../problems_and_solutions.rst:109
+# 47eefc4199a2414490acee4f7ecd04ad
+msgid "Использование локального web-сервера"
+msgstr ""
+
+#: ../problems_and_solutions.rst:111
+# 205a2dd6913f4504900319fb154c5da9
+msgid "Простым вариантом может быть запуск web-сервера из стандартной библиотеки `Python <http://ru.wikipedia.org/wiki/Python>`_."
+msgstr ""
+
+#: ../problems_and_solutions.rst:113
+# 7925ed91643e4459ba211c885077ccef
+msgid "*На Windows*:"
+msgstr ""
+
+#: ../problems_and_solutions.rst:115
+# db6b9bde54294492a25cdcfd2a5c50ca
+msgid "Загрузить и инсталлировать последнюю версию Python с `официального сайта <http://www.python.org/download/releases/>`_. На сегодняшний день это версия 3.2, и по умолчанию установка произойдет в директорию :file:`Python32` на диске :file:`C`."
+msgstr ""
+
+#: ../problems_and_solutions.rst:117
+# fd6c1252ef594d68addb713defbb69bb
+msgid "Запустить командную строку (Command Prompt)."
+msgstr ""
+
+#: ../problems_and_solutions.rst:119
+# 8670d3a2573a490f86f6eeb6972250d1
+msgid "Выполнить команды::"
+msgstr ""
+
+#: ../problems_and_solutions.rst:124
+# 346d08aa60884d99a94e82075aab64ae
+msgid "Перейти на страницу http://localhost:8000, на которой выбрать нужный файл для отображения."
+msgstr ""
+
+#: ../problems_and_solutions.rst:126
+# e2476daa874f47f9b9675826ad65689f
+msgid "*На Linux*::"
+msgstr ""
+
+#: ../problems_and_solutions.rst:136
+# b30a366e835a4778839ff2b88aaa4088
+msgid "Можно указать порт дополнительным параметром::"
+msgstr ""
+
+#: ../problems_and_solutions.rst:147
+# 9454020b9cd545edba6bde180e131f11
+msgid "Проблемы при запуске рендерера"
+msgstr ""
+
+#: ../problems_and_solutions.rst:149
+# 9e437acf3a044d64949c14ac10b430c1
+msgid "*1. Появляется сообщение \"browser not supported\".*"
+msgstr ""
+
+#: ../problems_and_solutions.rst:151
+# f28464efd70a4e938fe9100f06f37871
+msgid "Браузер не поддерживается."
+msgstr ""
+
+#: ../problems_and_solutions.rst:153
+# a7edb284d0d2496d9aa5b18fe283c41a
+msgid "*2. Появляется сообщение \"underlying error\".*"
+msgstr ""
+
+#: ../problems_and_solutions.rst:155
+# 4ac7f6d0f6494b3b8c71d5405565def2
+msgid "Следует выполнить действия, описанные в разделе :ref:`webgl_not_working`."
+msgstr ""
+
+#: ../problems_and_solutions.rst:157
+# 2bb5b69ee8a14181b273251d88eb9487
+msgid "*3. Видны элементы интерфейса и фон, но не виден куб или он отображается не корректно. При этом тестовый сайт http://get.webgl.org/ и другие примеры работают корректно.*"
+msgstr ""
+
+#: ../problems_and_solutions.rst:159
+# 13086e470d154acc8e82284e94093677
+msgid "Вероятные причины:"
+msgstr ""
+
+#: ../problems_and_solutions.rst:161
+# 6c977ed846dd42da811d32ea6d1fab03
+msgid "Браузер не настроен или не правильно настроен для работы с локальными ресурсами. :ref:`browser_for_local_loading`."
+msgstr ""
+
+#: ../problems_and_solutions.rst:163
+# a536a33cd77e45219a2cd3e5ecc7e422
+msgid "Файлы ресурсов, которые пытается загрузить рендерер, были перемещены или удалены."
+msgstr ""
+
+#: ../problems_and_solutions.rst:165
+# e7e824379aa84855bf346fcf8c8ef96d
+msgid "На Linux при использовании графических процессоров Intel, а также Nvidia и AMD с открытыми драйверами, это может происходить по причине использования рендерером возможностей (стандартных), в настоящий момент не реализованных в Mesa (таких как uniform массивы в шейдерах)."
+msgstr ""
+

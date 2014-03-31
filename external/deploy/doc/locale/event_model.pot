@@ -1,0 +1,112 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2014, ООО "Триумф"
+# This file is distributed under the same license as the B4W package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: B4W 14.02.28\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-03-19 19:31+0400\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../event_model.rst:5
+# 15888d9dd86d468a8a510cc77c02134e
+msgid "Событийная модель"
+msgstr ""
+
+#: ../event_model.rst:7
+# 1a013629ead146cfb384dfba21cb16d6
+msgid "Событийная модель предоставляет унифицированный интерфейс для описания изменения состояний 3D сцены, упрощая обработку событий физики и действий пользователя."
+msgstr ""
+
+#: ../event_model.rst:14
+# b620eaaf853a4c92adbf334c0b620bf7
+msgid "Сенсоры"
+msgstr ""
+
+#: ../event_model.rst:16
+# c393b089880542bb8054a192a8f5e9c7
+msgid "Основным блоком событийной модели является сенсор (sensor). Сенсор является программной сущностью, и может быть только активным (1, единица) или неактивным (0, ноль). Некоторые сенсоры несут полезную нагрузку (payload). Например, сенсор трассировки лучей (Ray Sensor) предоставляет относительную длину луча пересечения."
+msgstr ""
+
+#: ../event_model.rst:23
+# 99c2863e0886433b9a34d969237a9a50
+msgid "Управление сенсорами не доступно пользователю в виде открытого API. Вместо этого каждый сенсор должен присутствовать в одном или нескольких множествах (sensor manifold). Множество является логическим контейнером, ассоциированным с объектом на сцене. Оно определяет ответ на групповое событие сенсоров в виде вызова функции-обработчика. Для определения множества необходимо иметь следующую информацию (см. функцию ``b4w.controls.create_sensor_manifold()``)."
+msgstr ""
+
+#: ../event_model.rst:30
+# 2e21dfb06ae2495fbd5cb8cc0fe59d78
+msgid "Объект-носитель множества (например, объект персонажа)."
+msgstr ""
+
+#: ../event_model.rst:31
+# b89b3024f67d466bb328375b8c80ddce
+msgid "Уникальный идентификатор множества (например, \"JUMP\")."
+msgstr ""
+
+#: ../event_model.rst:32
+# 8a3ff2e1b92e49babcfea9a370cd57ea
+msgid "Тип вызова функции-обработчика (варианты: ``CT_CONTINUOUS`` - непрерывный,"
+msgstr ""
+
+#: ../event_model.rst:33
+# 787748e663a7498d9ac64cb4a1bb7b9f
+msgid "``CT_LEVEL`` - уровень, ``CT_SHOT`` - одномоментный, ``CT_TRIGGER`` - переключающий)."
+msgstr ""
+
+#: ../event_model.rst:34
+# 81bb577210f543dd8d8b1bdd5b0b31b8
+msgid "Массив сенсоров."
+msgstr ""
+
+#: ../event_model.rst:35
+# 2ecc7351038244f48a7bc8c17603a6a2
+msgid "Логическая функция, определяющая при каких состояниях сенсоров будет вызываться функция-обработчик."
+msgstr ""
+
+#: ../event_model.rst:37
+# 553f43ceaf6840258dc6e483df8d93ca
+msgid "Функция обработчик."
+msgstr ""
+
+#: ../event_model.rst:38
+# abcdbb001ca34d288327852ab4c6c538
+msgid "Необязательный параметр, который может быть передан в функцию-обработчик."
+msgstr ""
+
+#: ../event_model.rst:40
+# 43a3dd8426184dcc94949b6b9c0f96b4
+msgid "Например, стоит задача определить взаимодействие некоторого бросаемого физического объекта с окружающими предметами. Причём при ударе о различные объекты должен выводиться характерный звук. В простом случае определяется один сенсор соударения (Collision Sensor) для каждого объекта из окружения. Сенсоры добавляются в множества по типу издаваемого звука. В качестве логической функции здесь выступает логическое ИЛИ. В обработчике пишется код для воспроизведения звука:"
+msgstr ""
+
+#: ../event_model.rst:11
+#: ../event_model.rst:21
+# 4d7b30c2c59542a8a3f996fa10878207
+# 7fc5b2abf3cf4a18a3ec6a11047f3d7b
+msgid "сенсор"
+msgstr ""
+
+#: ../event_model.rst:11
+#: ../event_model.rst:21
+# 4d7b30c2c59542a8a3f996fa10878207
+# 7fc5b2abf3cf4a18a3ec6a11047f3d7b
+msgid "sensor"
+msgstr ""
+
+#: ../event_model.rst:21
+# 7fc5b2abf3cf4a18a3ec6a11047f3d7b
+msgid "множество"
+msgstr ""
+
+#: ../event_model.rst:21
+# 7fc5b2abf3cf4a18a3ec6a11047f3d7b
+msgid "manifold"
+msgstr ""
+

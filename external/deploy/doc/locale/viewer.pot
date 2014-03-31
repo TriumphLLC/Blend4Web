@@ -1,0 +1,353 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2014, ООО "Триумф"
+# This file is distributed under the same license as the B4W package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: B4W 14.02.28\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-03-19 19:31+0400\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../viewer.rst:7
+# aca3a8bee53a40c4a88de6a4be1d8902
+msgid "Просмотрщик сцен"
+msgstr ""
+
+#: ../viewer.rst:9
+# 921299817d4441e89b64b04df9ce0cc0
+msgid ":ref:`Запуск просмотрщика сцен <getting_started_launching_viewer>`."
+msgstr ""
+
+#: ../viewer.rst:12
+# e3c1a9223ac643cea95aa1d2e85e88f0
+msgid "Навигация"
+msgstr ""
+
+#: ../viewer.rst:14
+# 8811157434584f3d9a45842138050493
+msgid "Вращение камеры осуществляется клавишами ``W``, ``A``, ``S``, ``D``, ``R``, ``F``: вперед, влево, назад, вправо, вверх, вниз. Также поддерживаются стрелки и клавиши ``numpad``. В зависимости от настроек камеры (режим движения Target) возможно целеуказание на выделенный объект, для чего используется клавиша ``Z`` или ``.(точка)``."
+msgstr ""
+
+#: ../viewer.rst:17
+# fea7130c506e4621a5b5b32facc4b721
+msgid "Боковая панель"
+msgstr ""
+
+#: ../viewer.rst:19
+# c6ff0c61b7a24b7caf7346bd25d196c3
+msgid "Боковая панель содержит в себе три области: информационное табло, базовые кнопки управления и список выпадающих панелей, содержащий дополнительные элементы управления, разделённые по функциональному признаку."
+msgstr ""
+
+#: ../viewer.rst:29
+# 0e11d726a6e54675a00c84a1958af358
+msgid "Список элементов управления сверху вниз:"
+msgstr ""
+
+#: ../viewer.rst:32
+# 57f5adcc8cc3407783c94c1fd9bca801
+msgid "**Build**"
+msgstr ""
+
+#: ../viewer.rst:32
+# 95e46d7c98a24322824f106c16feafdf
+msgid "Дата и время сборки движка."
+msgstr ""
+
+#: ../viewer.rst:35
+# d904f756c4c041d5a469b80a7551b2ad
+msgid "**Scene**"
+msgstr ""
+
+#: ../viewer.rst:35
+# b3f88bec285543c880da6f95cb4e5fc3
+msgid "Название загруженной сцены, взятое из файла ``assets.js``. При наведении курсора мыши всплывает путь к файлу."
+msgstr ""
+
+#: ../viewer.rst:38
+# b9ca43ea1efe48b3a02a3ec935ad229a
+msgid "**Loaded**"
+msgstr ""
+
+#: ../viewer.rst:38
+# 0d84c51e4ee9491da9488ac66dfc2f4a
+msgid "Процент и время загрузки."
+msgstr ""
+
+#: ../viewer.rst:41
+# cd208c72b9924e8985aa1d7ca648ff4b
+msgid "**Reset**"
+msgstr ""
+
+#: ../viewer.rst:41
+# 8719f071afe343b09e3bf7f5bf23b664
+msgid "Кнопка сброса настроек и возврата к базовой сцене."
+msgstr ""
+
+#: ../viewer.rst:44
+# c0c87102106c4f978f0ee459e88b5c86
+msgid "**HIGH Q - LOW Q - COMPAT**"
+msgstr ""
+
+#: ../viewer.rst:44
+# e494807f21434d469f20034e541ed5d8
+msgid "Выпадающее меню выбора профиля работы движка: высокое качество (максимальный набор функций), среднее качество (отключен ряд функций, размер текстур уменьшен вдвое), режим совместимости (минимум функций)."
+msgstr ""
+
+#: ../viewer.rst:47
+# 96082de8723c4850945d2fdfc0856505
+msgid "**Pause**"
+msgstr ""
+
+#: ../viewer.rst:47
+# a4a5dcc352b84331b459aae948480a97
+msgid "Приостановка рендеринга."
+msgstr ""
+
+#: ../viewer.rst:50
+# c308911e965b461e8bc0661377eb2d96
+msgid "**Resume**"
+msgstr ""
+
+#: ../viewer.rst:50
+# 0379a8025f4441c3b47b15947840eac1
+msgid "Возобновление рендеринга."
+msgstr ""
+
+#: ../viewer.rst:53
+# c727063347134a76ab26bb223ce5575b
+msgid "**Auto View**"
+msgstr ""
+
+#: ../viewer.rst:53
+# 25136f93676748298d69a84381c87f71
+msgid "Активация режима автоматического переключения сцен."
+msgstr ""
+
+#: ../viewer.rst:56
+# 1e2c2ec668324c9a87512034bb65e96a
+msgid "**Scenes**"
+msgstr ""
+
+#: ../viewer.rst:56
+# 89ee786c275743ca9f7049a50f24393e
+msgid "Список категорий и сцен из файла ``assets.js``."
+msgstr ""
+
+#: ../viewer.rst:59
+# 94c1bdc8e2794670909ec9bf24ad02a0
+msgid "**Animation**"
+msgstr ""
+
+#: ../viewer.rst:59
+# 84f3ea9be7d54786988eb0c1e0634f7f
+msgid "Управление анимацией. При просмотре анимированных моделей можно переключать анимацию с помощью выпадающего меню, останавливать и возобновлять анимацию, выставлять кадр, отключать циклическую анимацию."
+msgstr ""
+
+#: ../viewer.rst:62
+# a74cda462d03465a9bfaa9f3779ff1f6
+msgid "**Sound**"
+msgstr ""
+
+#: ../viewer.rst:62
+# 44a88281a8a44f1794094897c2c655c1
+msgid "Управление звуком. Содержит упрощённый микшер для управления всеми источниками звука."
+msgstr ""
+
+#: ../viewer.rst:65
+# 854ca8afc71e46d9b329f83f60a7fc11
+msgid "**Materials**"
+msgstr ""
+
+#: ../viewer.rst:65
+# 3eaca6b616554b7c99a76c59912df63b
+msgid "Настройка свойств материалов."
+msgstr ""
+
+#: ../viewer.rst:68
+# 9825e541613a4d5aa5d3de1e3e991858
+msgid "**Ambient**"
+msgstr ""
+
+#: ../viewer.rst:68
+# e911f084e62e4e51a6d9b642d90f15b6
+msgid "Управление освещением от окружающей среды."
+msgstr ""
+
+#: ../viewer.rst:71
+# 117c6c802eb140f19e693e28eae52271
+msgid "**Lighting**"
+msgstr ""
+
+#: ../viewer.rst:71
+# 76eb2bdf874543e889e42bc34cc352fb
+msgid "Управление прямым освещением."
+msgstr ""
+
+#: ../viewer.rst:74
+# 89979ff92de74e6082a86c08300e0890
+msgid "**Sky**"
+msgstr ""
+
+#: ../viewer.rst:74
+# 89a592622a8d4eb9b94585d746ed3e92
+msgid "Настройка параметров динамического неба."
+msgstr ""
+
+#: ../viewer.rst:77
+# faf37d0fad0b406c9583b011be578c47
+msgid "**Shadows**"
+msgstr ""
+
+#: ../viewer.rst:77
+# 4ff217a39138485282c939ac105459be
+msgid "Настройка теней."
+msgstr ""
+
+#: ../viewer.rst:80
+# 42e46937a1ef46329a632bffda0be754
+msgid "**Screen Space Amb Occlus**"
+msgstr ""
+
+#: ../viewer.rst:80
+# 25330206d2284b7c8880ec8a253b1a42
+msgid "Настройка параметров взаимного затенения."
+msgstr ""
+
+#: ../viewer.rst:83
+# 961fab660ea149628f6a9b25824a85c7
+msgid "**Fog**"
+msgstr ""
+
+#: ../viewer.rst:83
+# 02bc8c692ce545049b4bb4b56376e1b4
+msgid "Настройка тумана."
+msgstr ""
+
+#: ../viewer.rst:86
+# 84976a3949f2486a91505a3a2de2c949
+msgid "**Depth of Field**"
+msgstr ""
+
+#: ../viewer.rst:86
+# 30da5095a2884256b4c692f827e0290c
+msgid "Настройка глубины резкости."
+msgstr ""
+
+#: ../viewer.rst:89
+# 28e763df44fb4ba18f2f2680e8268e7e
+msgid "**God Rays**"
+msgstr ""
+
+#: ../viewer.rst:89
+# 831a2ce8ca5a4dc599a286228ac16205
+msgid "Настройка сумеречных лучей."
+msgstr ""
+
+#: ../viewer.rst:92
+# f475f7974d3745ad8c0a64393cc2c89a
+msgid "**Color correction**"
+msgstr ""
+
+#: ../viewer.rst:92
+# da90fc1e4b4f4a729a394d21b3227725
+msgid "Цветовая коррекция."
+msgstr ""
+
+#: ../viewer.rst:95
+# aa437a663d1e4ad88f9b5d80aab11cd5
+msgid "**Anti-aliasing**"
+msgstr ""
+
+#: ../viewer.rst:95
+# 7950ee8c1d054a5593bf8fc10759eab9
+msgid "Настройка параметров сглаживания."
+msgstr ""
+
+#: ../viewer.rst:98
+# 743d8fcbd2b842a1b84a311aabc2f7f8
+msgid "**Stereo View**"
+msgstr ""
+
+#: ../viewer.rst:98
+# 967a44dbf1694fdeab65eb65abea701e
+msgid "Управление режимом стерео-изображения."
+msgstr ""
+
+#: ../viewer.rst:102
+# 82688b1f78e345dcb89989e5298ef379
+msgid "**Wind**"
+msgstr ""
+
+#: ../viewer.rst:101
+# 1f705e5ba6b34c1b86b751eb297c9da5
+msgid "Настройка ветра."
+msgstr ""
+
+#: ../viewer.rst:105
+# 0bb58e9b07fa4bd883824626a6a812ac
+msgid "Индикаторы"
+msgstr ""
+
+#: ../viewer.rst:108
+# 78c77d05200449fbbc40b2445d8b2d1c
+msgid "**Счетчик количества кадров в секунду**"
+msgstr ""
+
+#: ../viewer.rst:108
+# 7df43ca397724c4d97800cd4d17d8d1e
+msgid "Находится в правом верхнем углу. Выводит усредненные и округленные значения для процесса рендеринга и симуляции физики соответственно."
+msgstr ""
+
+#: ../viewer.rst:111
+# 57082d9061844a0f9bec4d66ec22ecdb
+msgid "**Размер области рендеринга**"
+msgstr ""
+
+#: ../viewer.rst:111
+# 0cffec442dc1404896df9320e241bdd3
+msgid "Находится в левом верхнем углу. Выводит размер области рендеринга в пикселах."
+msgstr ""
+
+#: ../viewer.rst:114
+# 300d3443134049f1a538e1838b8a1656
+msgid "**Выбранный объект и контролируемый объект**"
+msgstr ""
+
+#: ../viewer.rst:114
+# f641ad3d80bb4d6f8d4bc0c274a6d28e
+msgid "Находится в левом нижнем углу. Выводит название выбранного объекта и контролируемого объекта. Выбор объекта осуществляется мышью. Для получения прямого контроля над объектом (обычно в целях проверки физики) нужно нажать ``Q`` и выбрать объект. Движение объекта осуществляется клавишами ``W``, ``A``, ``S``, ``D``. Для выхода из режима контроля нужно нажать ``Q`` и \"кликнуть\" на пустом пространстве."
+msgstr ""
+
+#: ../viewer.rst:117
+# b8249c6ef22b489d83aade31c535c8f2
+msgid "**Индикатор сложности сцены**"
+msgstr ""
+
+#: ../viewer.rst:117
+# ca2ce8b46d87442c8997f6282695c046
+msgid "Находится в правом верхнем углу области рендеринга. Выводит количество вертексов, треугольников и WebGL вызовов."
+msgstr ""
+
+#: ../viewer.rst:121
+# 96956ef9aca447fe8581e132c8b49ce7
+msgid "**Индикатор памяти**"
+msgstr ""
+
+#: ../viewer.rst:120
+# 3f1b6625ea8c48aab2f0d21c91635f5f
+msgid "Находится в правом нижнем углу области рендеринга. Выводит количество памяти, занимаемой геометрией, текстурами, буферами с результатами рендеринга (render targets), а также суммарное количество занимаемой памяти."
+msgstr ""
+
+#: ../viewer.rst:1
+# 5b6f29e1b0224347884c2f0fb1ec4763
+msgid "просмотрщик"
+msgstr ""
+

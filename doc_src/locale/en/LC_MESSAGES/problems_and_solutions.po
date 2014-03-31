@@ -1,0 +1,267 @@
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: B4W 14.02.28\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-03-18 17:57\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../problems_and_solutions.rst:5
+msgid "Проблемы и решения"
+msgstr ""
+
+#: ../problems_and_solutions.rst:10
+msgid "Инициализация WebGL"
+msgstr ""
+
+#: ../problems_and_solutions.rst:12
+msgid ""
+"Сайт http://get.webgl.org/ при просмотре в браузерах Chrome или Firefox "
+"последней версии сообщает о проблемах. Что делать?"
+msgstr ""
+
+#: ../problems_and_solutions.rst:14
+msgid "**На Windows**:"
+msgstr ""
+
+#: ../problems_and_solutions.rst:16
+msgid ""
+"Установить доступные `обновления "
+"<http://support.microsoft.com/kb/311047/ru>`_ для системы. Установить "
+"последнюю версию `DirectX <http://www.microsoft.com/downloads/ru-"
+"ru/details.aspx?FamilyID=2da43d38-db71-4c1b-bc6a-"
+"9b6652cd92a3&displayLang=ru>`_. Перезагрузить систему."
+msgstr ""
+
+#: ../problems_and_solutions.rst:18
+msgid ""
+"В некоторых случаях может понадобиться установка драйверов от производителей"
+" графических карт. Чтобы определить тип и производителя карты, можно "
+"воспользоваться средством диагностики DirectX..."
+msgstr ""
+
+#: ../problems_and_solutions.rst:25
+msgid "или ввести about:gpu в адресную строку браузера Chrome."
+msgstr ""
+
+#: ../problems_and_solutions.rst:32
+msgid ""
+"Необходимо загрузить драйверы с соответствующего центра поддержки (например,"
+" `Intel <http://downloadcenter.intel.com/Default.aspx?lang=rus>`_, `Nvidia "
+"<http://www.nvidia.com/Download/index.aspx?lang=ru>`_, `AMD/ATI "
+"<http://support.amd.com/us/gpudownload/Pages/index.aspx>`_). После установки"
+" драйверов перезагрузить систему."
+msgstr ""
+
+#: ../problems_and_solutions.rst:34
+msgid ""
+"Если в результате вышеперечисленных действий инициализировать рендеринг не "
+"удается (или нет возможности обновить систему), можно попробовать изменить "
+"настройки браузера."
+msgstr ""
+
+#: ../problems_and_solutions.rst:36
+msgid "*В Chrome*:"
+msgstr ""
+
+#: ../problems_and_solutions.rst:38
+msgid ""
+"Ввести about:flags в адресную строку браузера, нажать :file:`Включить` "
+"(:file:`Enable`) под опцией :file:`Переопределение списка программного "
+"рендеринга` (:file:`Override software rendering list`) и перезапустить "
+"браузер."
+msgstr ""
+
+#: ../problems_and_solutions.rst:46
+msgid "*В Firefox*:"
+msgstr ""
+
+#: ../problems_and_solutions.rst:48
+msgid ""
+"Ввести about:config в адресную строку браузера, найти параметр ``webgl"
+".force-enabled`` и переключить его двойным щелчком мыши из ``false`` в "
+"``true``."
+msgstr ""
+
+#: ../problems_and_solutions.rst:55
+msgid "**На Linux**:"
+msgstr ""
+
+#: ../problems_and_solutions.rst:57
+msgid ""
+"Ввиду неполной реализации OpenGL стека в драйверах с открытым кодом в "
+"настоящий момент рекомендуется использовать проприетарные драйверы текущей "
+"версии для графических процессоров Nvidia и AMD."
+msgstr ""
+
+#: ../problems_and_solutions.rst:59
+msgid ""
+"Форсирование графической акселерации из п. 3 для Windows происходит "
+"аналогично для Chrome. В случае Firefox предлагается использовать переменную"
+" окружения::"
+msgstr ""
+
+#: ../problems_and_solutions.rst:67
+msgid "Настройка браузера для загрузки локальных ресурсов"
+msgstr ""
+
+#: ../problems_and_solutions.rst:69
+msgid ""
+"Движок является Web-приложением, и его работа происходит при просмотре html-"
+"файла в браузере. После инициализации происходит загрузка ресурсов (сцен, "
+"текстур), которая подчиняется `правилу ограничения домена "
+"<http://ru.wikipedia.org/wiki/Правило_ограничения_домена>`_, запрещающему, в"
+" частности, загрузку из локальной директории. Простым способом обхода этого "
+"ограничения может быть настройка браузера (рекомендуется). Другой способ "
+"заключается в использовании :ref:`локального web-сервера "
+"<local_web_server>`."
+msgstr ""
+
+#: ../problems_and_solutions.rst:72
+msgid ""
+"Рекомендуется использовать такой браузер только для просмотра локального "
+"контента, поскольку изменение настроек может привести к понижению "
+"безопасности."
+msgstr ""
+
+#: ../problems_and_solutions.rst:74
+msgid "*Chrome на Windows*:"
+msgstr ""
+
+#: ../problems_and_solutions.rst:76
+msgid ""
+"Правой кнопкой мыши нажать на ярлыке на рабочем столе, выбрать ``Свойства`` "
+"(``Properties``), после чего в поле для пути к исполняемому файлу добавить "
+"после пробела ``--allow-file-access-from-files``. Нажать ``ОК``."
+msgstr ""
+
+#: ../problems_and_solutions.rst:84
+msgid ""
+"Для удобства можно предварительно создать копию ярлыка и изменить ее для "
+"локального просмотра, оставив оригинальную версию ярлыка для запуска "
+"браузера в обычном режиме."
+msgstr ""
+
+#: ../problems_and_solutions.rst:86
+msgid "*Chrome/Chromium на Linux*:"
+msgstr ""
+
+#: ../problems_and_solutions.rst:88
+msgid "Запустить браузер с параметром::"
+msgstr ""
+
+#: ../problems_and_solutions.rst:93 ../problems_and_solutions.rst:131
+msgid "или::"
+msgstr ""
+
+#: ../problems_and_solutions.rst:97
+msgid "*Firefox на Windows/Linux*:"
+msgstr ""
+
+#: ../problems_and_solutions.rst:99
+msgid ""
+"Ввести about:config в адресную строку браузера, найти параметр "
+"``security.fileuri.strict_origin_policy`` и переключить его двойным щелчком "
+"мыши из ``true`` в ``false``."
+msgstr ""
+
+#: ../problems_and_solutions.rst:109
+msgid "Использование локального web-сервера"
+msgstr ""
+
+#: ../problems_and_solutions.rst:111
+msgid ""
+"Простым вариантом может быть запуск web-сервера из стандартной библиотеки "
+"`Python <http://ru.wikipedia.org/wiki/Python>`_."
+msgstr ""
+
+#: ../problems_and_solutions.rst:113
+msgid "*На Windows*:"
+msgstr ""
+
+#: ../problems_and_solutions.rst:115
+msgid ""
+"Загрузить и инсталлировать последнюю версию Python с `официального сайта "
+"<http://www.python.org/download/releases/>`_. На сегодняшний день это версия"
+" 3.2, и по умолчанию установка произойдет в директорию :file:`Python32` на "
+"диске :file:`C`."
+msgstr ""
+
+#: ../problems_and_solutions.rst:117
+msgid "Запустить командную строку (Command Prompt)."
+msgstr ""
+
+#: ../problems_and_solutions.rst:119
+msgid "Выполнить команды::"
+msgstr ""
+
+#: ../problems_and_solutions.rst:124
+msgid ""
+"Перейти на страницу http://localhost:8000, на которой выбрать нужный файл "
+"для отображения."
+msgstr ""
+
+#: ../problems_and_solutions.rst:126
+msgid "*На Linux*::"
+msgstr ""
+
+#: ../problems_and_solutions.rst:136
+msgid "Можно указать порт дополнительным параметром::"
+msgstr ""
+
+#: ../problems_and_solutions.rst:147
+msgid "Проблемы при запуске рендерера"
+msgstr ""
+
+#: ../problems_and_solutions.rst:149
+msgid "*1. Появляется сообщение \"browser not supported\".*"
+msgstr ""
+
+#: ../problems_and_solutions.rst:151
+msgid "Браузер не поддерживается."
+msgstr ""
+
+#: ../problems_and_solutions.rst:153
+msgid "*2. Появляется сообщение \"underlying error\".*"
+msgstr ""
+
+#: ../problems_and_solutions.rst:155
+msgid ""
+"Следует выполнить действия, описанные в разделе :ref:`webgl_not_working`."
+msgstr ""
+
+#: ../problems_and_solutions.rst:157
+msgid ""
+"*3. Видны элементы интерфейса и фон, но не виден куб или он отображается не "
+"корректно. При этом тестовый сайт http://get.webgl.org/ и другие примеры "
+"работают корректно.*"
+msgstr ""
+
+#: ../problems_and_solutions.rst:159
+msgid "Вероятные причины:"
+msgstr ""
+
+#: ../problems_and_solutions.rst:161
+msgid ""
+"Браузер не настроен или не правильно настроен для работы с локальными "
+"ресурсами. :ref:`browser_for_local_loading`."
+msgstr ""
+
+#: ../problems_and_solutions.rst:163
+msgid ""
+"Файлы ресурсов, которые пытается загрузить рендерер, были перемещены или "
+"удалены."
+msgstr ""
+
+#: ../problems_and_solutions.rst:165
+msgid ""
+"На Linux при использовании графических процессоров Intel, а также Nvidia и "
+"AMD с открытыми драйверами, это может происходить по причине использования "
+"рендерером возможностей (стандартных), в настоящий момент не реализованных в"
+" Mesa (таких как uniform массивы в шейдерах)."
+msgstr ""
