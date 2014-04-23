@@ -13,9 +13,9 @@
     features.rst
     first_steps.rst
     setup.rst
-    working_process_stages.rst
+    workflow.rst
     viewer.rst
-    export_errors.rst
+    addon.rst
     objects.rst
     textures.rst
     materials.rst
@@ -30,11 +30,13 @@
     audio.rst
     event_model.rst
     physics.rst
-    assets_creation.rst
-    problems_and_solutions.rst
+    nla.rst
     developers.rst
+    developers_advanced.rst
     git_short_manual.rst
+    problems_and_solutions.rst
     roadmap.rst
+
 
 * :ref:`genindex`
 * :ref:`search`

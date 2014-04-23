@@ -2,7 +2,7 @@
 
 /**
  * Camera animation add-on.
- * Provides extended support for camera.
+ * Provides support for camera procedural animation.
  * @module camera_anim
  */
 b4w.module["camera_anim"] = function(exports, require) {

@@ -5,8 +5,8 @@
 #export billboard_matrix bend_jitter_matrix billboard_spherical
 
 #define SKIN_SLERP 0
-#define M_PI   3.14159265359
-#define BILLBOARD_THRESHOLD M_PI / 3.0
+#define M_PI 3.14159265359
+#define MAX_BILLBOARD_ANGLE (M_PI / 4.0)
 
 const vec3 UP = vec3(0.0, 1.0, 0.0);
 
@@ -58,33 +58,39 @@ mat4 bend_jitter_matrix(in vec3 wind_world, float wind_param, float jitter_amp,
 mat4 billboard_matrix(in vec3 camera_eye, in vec3 wcen, in mat4 view_matrix) {
 #if HAIR_BILLBOARD_SPHERICAL
     mat4 bill_matrix = billboard_spherical(wcen, view_matrix);
+#elif HAIR_BILLBOARD_RANDOM
+    // get initial random rotation angle
+    float seed = fract((wcen.x * 1.43 + wcen.y * 0.123 + wcen.z * 6.1));
+    float alpha_rand = 2.0 * M_PI * seed;
+
+    // get camera rotation angle
+    vec3 cam_view = normalize(vec3(view_matrix[0][2], 0.0, view_matrix[2][2]));
+    float alpha_cam = acos(cam_view[2]);
+    if (cam_view[0] < 0.0)
+        alpha_cam = 2.0 * M_PI - alpha_cam;
+
+    float alpha_diff = alpha_cam - alpha_rand;
+    if (alpha_diff < 0.0)
+        alpha_diff = 2.0 * M_PI + alpha_diff;
+
+    float res_angle = alpha_rand;
+    if (alpha_diff <= MAX_BILLBOARD_ANGLE)
+        res_angle += alpha_diff;
+    else if (alpha_diff <= M_PI - MAX_BILLBOARD_ANGLE)
+        res_angle += MAX_BILLBOARD_ANGLE * (2.0 * alpha_diff - M_PI) \
+                / (2.0 * MAX_BILLBOARD_ANGLE - M_PI);
+    else if (alpha_diff <= M_PI + MAX_BILLBOARD_ANGLE)
+        res_angle += alpha_diff - M_PI;
+    else if (alpha_diff <= 2.0 * M_PI - MAX_BILLBOARD_ANGLE)
+        res_angle += MAX_BILLBOARD_ANGLE * (2.0 * alpha_diff - M_PI) \
+                / (2.0 * MAX_BILLBOARD_ANGLE - M_PI) + M_PI;
+    else
+        res_angle += alpha_diff - 2.0 * M_PI;
+
+    mat4 bill_matrix = rotation_y(res_angle);
+    bill_matrix[3] = vec4(wcen, 1.0);
 #else
     mat4 bill_matrix = billboard_cylindrical(camera_eye, wcen);
-#endif
-
-#if HAIR_BILLBOARD_RANDOM
-    vec3 center_to_cam = camera_eye - wcen;
-    center_to_cam[1] = 0.0;
-    float seed = fract(dot(wcen, wcen) / 127.0);
-    float alpha_rand = 2.0 * M_PI * seed;
-    center_to_cam = (rotation_y(alpha_rand) * vec4(center_to_cam, 0.0)).xyz;
-    center_to_cam = normalize(center_to_cam);
-
-    float cos_alpha = center_to_cam[2];
-    float sin_alpha = center_to_cam[0];
-
-    if (abs(cos_alpha) > cos(BILLBOARD_THRESHOLD)) {
-        if (cos_alpha < 0.0)
-            bill_matrix = bill_matrix * rotation_y(M_PI);
-    } else {
-        float alpha = acos(cos_alpha);
-        if (sin_alpha < 0.0)
-            alpha = 2.0 * M_PI - alpha;
-
-        float coeff = BILLBOARD_THRESHOLD / (M_PI / 2.0 - BILLBOARD_THRESHOLD);
-        float alpha_inv = (coeff + 1.0) * (alpha - sign(sin_alpha) * BILLBOARD_THRESHOLD);
-        bill_matrix = bill_matrix * rotation_y(alpha_inv);
-    }
 #endif
 
     return bill_matrix;

@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: B4W 14.02.28\n"
+"Project-Id-Version: B4W 14.03.28\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-19 19:31+0400\n"
+"POT-Creation-Date: 2014-04-03 12:59\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,437 +17,427 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: ../export_errors.rst:6
-# 1017268de8364a9eaf53d202835492c7
+# b234cee3976c411887b2d9ef23580266
 msgid "Ошибки экспорта"
 msgstr ""
 
 #: ../export_errors.rst:8
-# 83d9a0e3672f43b497ee41dcc1b1222f
-msgid "При возникновении ошибок во время экспорта появляется диалоговое окно ``BLEND2WEB EXPORT ERROR`` с описанием проблемы:"
+# 7b212310dbd943699be8c3394d28fdd3
+msgid "При возникновении ошибок во время экспорта появляется диалоговое окно ``BLEND4WEB EXPORT ERROR`` с описанием проблемы:"
 msgstr ""
 
 #: ../export_errors.rst:10
-# b8e527d40b7543c8b94a049221efb522
+# e9d54bd5bddd4638ace07b895dc60752
 msgid "``COMPONENT`` - тип компонента (объект, меш, материал, текстура и т.д.), при экспорте которого произошла ошибка."
 msgstr ""
 
 #: ../export_errors.rst:12
-# 84bee98bf3c94922bddf25929279dd4a
+# e202ac5a2fb64234bf41a12691ba16e0
 msgid "``NAME`` - имя компонента."
 msgstr ""
 
 #: ../export_errors.rst:14
-# b8a5c07f87ed48b3bc2c639598712d25
+# 47f25de40a28424f8e87c13c8c0135cc
 msgid "``ERROR`` - краткое описание возникшей проблемы на англ. языке."
 msgstr ""
 
 #: ../export_errors.rst:24
-# e7a8e8804dfd489794cec7c64d531f50
+# d39d95a95dc546a488a4b8470b2f6f26
 msgid "Сообщение об ошибке"
 msgstr ""
 
 #: ../export_errors.rst:24
-# c54051279ef649a5a6f378d160bf486b
+# 277d059d512f4c4b95694a2160d1dd62
 msgid "Причина"
 msgstr ""
 
 #: ../export_errors.rst:26
-# c2d383a2f47c40a6b699f0dbd45b2679
+# 927c24d2504f447ca6738659957e9d50
 msgid "Dupli group error; Objects from dupli group GROUP_NAME on object OBJECT_NAME don't export"
 msgstr ""
 
 #: ../export_errors.rst:26
-# 224027009ad54f16aad0b6c13a037633
+# 28913ee1dafa44ddac6bcd09a5d8a9ee
 msgid "Ни один из объектов группы GROUP_NAME, выбранной для дублирования на объекте OBJECT_NAME, не экспортируется. Требуется разрешить экспорт хотя бы одного из объектов группы, либо убрать дублирование группой."
 msgstr ""
 
 #: ../export_errors.rst:33
-# 2939edc106d54d0b8f4edfb6e0cf8216
+# 266365ee5d414278baa1202fa08d7612
 msgid "Incompatible meshes; Check MESH_NAME1 and MESH_NAME2 UV Maps/ Vertex colors"
 msgstr ""
 
 #: ../export_errors.rst:33
-# 0830599d3116443ea39a29f5623a3891
+# 9f0d1118c0b240309905999f017608c3
 msgid "Имеется два меша с одинаковом материалом. Такие меши автоматически сливаются в один движком в целях оптимизации, и поэтому должны иметь одинаковое число текстурных развёрток (``UV Maps``) и слоёв вертексных цветов (``Vertex Colors``)."
 msgstr ""
 
 #: ../export_errors.rst:40
-# bd8612a4986e46c69450827a5aafb1ee
+# df452a906e36405c9337b5da585e1770
 msgid "Incompatible objects with shared mesh; Object OBJECT_NAME has vertex groups and shared mesh"
 msgstr ""
 
 #: ../export_errors.rst:40
-# 8d0d44949ec64efc828771cd35411a79
+# b1d7c297542646d0b91a946df1482420
 msgid "Несовместимые объекты с общим мешем. Не допускается экспорт объекта с общим мешем и вертексными группами. Исключения: экспорт возможен, если на объекте включены опции ``Apply modifiers``, ``Export vertex animation``, ``Export edited normals`` (т.к. в этом случае при экспорте происходит полное копирование мешей)."
 msgstr ""
 
 #: ../export_errors.rst:51
-# 70c5e389fc0d4590aca36c308aaa1cee
+# 2250c3944d1742199ada5a38c83005ac
 msgid "Incomplete mesh; Dynamic grass vertex colors required by material settings"
 msgstr ""
 
 #: ../export_errors.rst:51
-# e1366c8ec7a6452183354c51e1092e14
+# 9ef57e8d8dc24861bbeb4e1bbc7ed7a1
 msgid "Неполный меш: специальный материал для ландшафта использует опции ``Dynamic grass size`` и/или ``Dynamic grass color``, но у меша нет слоев вертексного цвета с такими именами."
 msgstr ""
 
 #: ../export_errors.rst:57
-# de3a3791504940d2a01aeafaef6c7601
+# ff901eb7db414bffb391e228a217d198
 msgid "Incomplete mesh; Material slot is empty"
 msgstr ""
 
 #: ../export_errors.rst:57
-# 5740866c96a7450a8ed40b7283b08eb0
+# 975830ddba184c609bba1e844c91ded7
 msgid "Неполный меш: пустой слот материала."
 msgstr ""
 
 #: ../export_errors.rst:60
-# 0d57c2432824417c838c11fec2400278
+# 28507d7a6ba04427975dc4509fa7bd62
 msgid "Incomplete mesh; No UV in mesh with UV-textured material"
 msgstr ""
 
 #: ../export_errors.rst:60
-# 2bf6506133224191a9a393a91ffe0ce9
+# 5f42e6c59eaf435aaa61ab9d7612becc
 msgid "Неполный меш: в материале меша используются текстуры с типом координат ``UV``, но у меша нет текстурной развертки."
 msgstr ""
 
 #: ../export_errors.rst:65
-# 0b775007af4e4184b715476dca163f6e
+# 62e71edc0ed945eaa8882c2ff3fe36b9
 msgid "Incomplete mesh; Vertex colors required by material settings"
 msgstr ""
 
 #: ../export_errors.rst:65
-# 705f6407014e4b54b58a33eb3424ac27
+# 083d76645a70488fae703a241f05555e
 msgid "Неполный меш: материал меша имеет включенную опцию вертексного цвета (``Vertex Color Paint``), но у меша нет слоя вертексного цвета."
 msgstr ""
 
 #: ../export_errors.rst:70
-# b050e245222045bd8369e27564b24e05
+# 345a4de84e544d0d846704fcb63ce152
 msgid "Incorrect mesh; Wrong group indices"
 msgstr ""
 
 #: ../export_errors.rst:70
-# 1114f3c1415045418b2dae9e76411173
+# d6a955bf2d3e41fcadf8752510b12c20
 msgid "Меш содержит вершины, привязанные к несуществующей группе."
 msgstr ""
 
 #: ../export_errors.rst:73
-# 6cf78422255e4f348fc2928fc2e6d6a9
-msgid "Incorrect vertex animation; Mesh hasn't any vertex animation"
+# 0713e9dd1f654055b5f2140d3d667819
+msgid "Incorrect vertex animation; Object has no any vertex animation"
 msgstr ""
 
 #: ../export_errors.rst:73
-# 7ae309d397b64f80969d0bb5440d4cf8
-msgid "Включен экспорт вертексной анимации для меша, но ни одной анимации не имеется."
+# 9e490d9e2fb44553b2c4e6d1b3b18b7e
+msgid "Включен экспорт вертексной анимации для объекта, но ни одной анимации не имеется."
 msgstr ""
 
 #: ../export_errors.rst:76
-# 204c2caca0dd43dcbe8090b3c45f66d8
+# 6d4bff3f032c443198f97175992cc42b
 msgid "Incorrect vertex animation; Unbaked vertex animation \"ANIM_NAME\""
 msgstr ""
 
 #: ../export_errors.rst:76
-# 5e194555d5774a63a07763a44931a9b9
+# 46925d2785d247cfa1f51bf62698af10
 msgid "Включен экспорт вертексной анимации для меша, но анимация ANIM_NAME не содержит ни одного кадра."
 msgstr ""
 
 #: ../export_errors.rst:80
-# 4573c9580b4a492c9eff46482265c2ce
+# 722f6f50a7144ad893605a5c7ce65e88
 msgid "Material has normalmap but doesn't have material node"
 msgstr ""
 
 #: ../export_errors.rst:80
-# 7b38967c896c408bac155dfb0b5388f3
+# 05aa560af1cc43819aedf21cf86232ba
 msgid "Нодовый материал использует ``Normal Mapping``, но не имеет ноды ``Material``."
 msgstr ""
 
 #: ../export_errors.rst:86
-# 1b2ba5cf9fe1474ca4fbafb99a14924f
+# 063b4312eef24106b5f383a05761e947
 msgid "Mesh has UV map but lacks any exported material"
 msgstr ""
 
 #: ../export_errors.rst:86
-# 52e32501eef448f6921f9cb83e164bc1
+# 9e698da4dec941098e663b5c9b941135
 msgid "Меш имеет текстурную развертку, но не имеет материала, который бы экспортировался."
 msgstr ""
 
 #: ../export_errors.rst:90
-# b185d09c7d03468eba8f89391a5a71e3
+# 415d4f3ad9814df6bdb0d84ae3ca5d71
 msgid "Mesh has vertex color layer but lacks any exported material"
 msgstr ""
 
 #: ../export_errors.rst:90
-# 6f4f273dd43e48acb674def57fc223a4
+# 37061ed84bfe45a5b4fdd2b5ed8a1883
 msgid "Меш имеет слой вертексного цвета, но не имеет материала, который бы экспортировался."
 msgstr ""
 
 #: ../export_errors.rst:94
-# 386ee9c40a08469dac0d6e1e7b6034bd
+# 4218afbb238e4d46a33429802a1ea516
 msgid "Missing active camera"
 msgstr ""
 
 #: ../export_errors.rst:94
-# 05a24a130bf04ea5877cd153c6161b4a
+# e5f817b5a3c044dc9316e2920be9ee24
 msgid "На сцене отсутствует активная камера (свойство ``Camera`` на вкладке ``Scene``)."
 msgstr ""
 
 #: ../export_errors.rst:98
-# 86d75740494b4291bb86f5360e93d5e4
+# 9ab7e648f0bc4027a2d3de6fa8dfcdb9
 msgid "Missing lamp"
 msgstr ""
 
 #: ../export_errors.rst:98
-# a203f870935d4baf8034415f9042186a
+# 7dcf9af2aa184ab295c00d5c8e3061e1
 msgid "На сцене должен быть хотя бы один источник света."
 msgstr ""
 
 #: ../export_errors.rst:101
-# 53b6c3e635b84c409973bb0862879c17
+# 0ed5b040cef0458fbb4a60a38d2167b9
 msgid "Missing world"
 msgstr ""
 
 #: ../export_errors.rst:101
-# 8b1ebef038564221b34955be5d99f611
+# 5d59ea92095b467faec1f9ee313fef12
 msgid "На сцене должен быть хотя бы один мир."
 msgstr ""
 
 #: ../export_errors.rst:103
-# 485042f7f9a245018ff27257279ef70a
+# 62fb1a870645473bbd51eb211594baae
 msgid "No image"
 msgstr ""
 
 #: ../export_errors.rst:103
-# 9319f32ce68d47aca9d6f0fdc94a8825
+# c9a6ef7a4450482dac68e6953489b727
 msgid "У текстуры отсутствует изображение."
 msgstr ""
 
 #: ../export_errors.rst:105
-# 040d6d2cdb4a47c29a3ec6ad7d80adf5
+# e36a32feb89f42b89624de707e3be72d
 msgid "No such file or directory"
 msgstr ""
 
 #: ../export_errors.rst:105
-# 85f3fc2be20d4a8aad03a585a854f20c
+# f480cc5030f94fac9de4ea61b5029909
 msgid "Данная директория не существует."
 msgstr ""
 
 #: ../export_errors.rst:107
-# 204905a237624c4297bdcb25abb888c4
+# bc8940c40ac045adb4993580fc25cbc5
 msgid "No texture in texture slot"
 msgstr ""
 
 #: ../export_errors.rst:107
-# 9c1edaa6830b49fc92e04d8a363c6278
+# da20954582a34886b2894a82070f51f6
 msgid "В текстурном слоте материала отсутствует текстура."
 msgstr ""
 
 #: ../export_errors.rst:110
-# 45dd17d4caca4a54bb7edb06a98114ba
+# 69d12220927f4a629f89d82655eb3429
 msgid "Node material is invalid; Check sockets compatibility: FROM_NODE to TO_NODE"
 msgstr ""
 
 #: ../export_errors.rst:110
-# 48f9a5203e704727a00a2dadbfd0af3d
+# 75ead1046b9240df87aee05c223b9602
 msgid "Ошибка нодового материала. Типы входа и выхода связи между нодами ``FROM_NODE`` и ``TO_NODE`` не соответствуют друг другу."
 msgstr ""
 
 #: ../export_errors.rst:114
-# db8a2530762845638baad84523f8f594
+# 8353d6f5febe482e8d21137117afcdf6
 msgid "Object constraint has no target"
 msgstr ""
 
 #: ../export_errors.rst:114
-# e4a4f5b6955542f9b5487350dd98ee88
+# 98f69a5ebe4f4804997d8758ae6d1093
 msgid "Для ограничителя объекта (вкладка ``Object Constraints``) не установлено свойство ``Target Object``."
 msgstr ""
 
 #: ../export_errors.rst:119
-# 88cc0565d06e493ca058bf44f343695b
+# 7b8fc5c419ff44d5a1b3e1232dad6c83
 msgid "Object data is not available; Check \"Do not export\" flag on OBJECT_NAME data"
 msgstr ""
 
 #: ../export_errors.rst:119
-# af8756fae1ea4f4fb28db4e13842a37b
+# c93525bf6eba4940b856a75910693ec2
 msgid "Не доступны данные для объекта. Ошибка, в частности, проявляется, когда у экспортируемого объекта во вкладке ``Object Data`` установлено свойство ``Do not export``."
 msgstr ""
 
 #: ../export_errors.rst:125
-# de08a520e8c7453b8200dfc6a40acdad
+# 39f6811d3c8f40edbd3ca4d56b149b29
 msgid "Object-parent relation is not supported; Clear parent inverse transform"
 msgstr ""
 
 #: ../export_errors.rst:125
-# 2b6a49c8daa2436ea0a9192ed97b4ad0
+# 448ee9839b03408c8fd7e5e22c548f79
 msgid "При использовании отношения родитель-потомок для объекта-потомка требуется сбросить перемещение командой ``Object > Parent > Clear Parent Inverse`` (Alt-P)."
 msgstr ""
 
 #: ../export_errors.rst:132
-# 7622ea04b50942d0af115cc843dbed99
+# 7f8be63eba44473bb6a0f0f8a13860de
 msgid "Only 2 UV textures are allowed for mesh; Mesh has N UVs"
 msgstr ""
 
 #: ../export_errors.rst:132
-# 863a1b40d2c841debd864eabf89f7f3d
-msgid "Движком поддерживаются только 2 UV текстуры на каждый меш. Меш содержит UV текстуры в количестве N."
+# a205b1aee0344d829e3e580e28b0614c
+msgid "Движком поддерживаются только до 2 UV текстур на каждый меш. Меш содержит UV текстуры в количестве N."
 msgstr ""
 
 #: ../export_errors.rst:136
-# fb9e52dbc9e8422d884bc14b289a9360
+# f83f4a0f89534651921d62cb96bf9171
 msgid "Particle system error; Dupli group isn't specified"
 msgstr ""
 
 #: ../export_errors.rst:136
-# a1d5b80162dd4b2ca581b42713d2cc5b
+# 775a4e2b5a854d939f9d32d7ff993793
 msgid "Ошибка системы частиц. Не выбрана группа, используемая в качестве частицы."
 msgstr ""
 
 #: ../export_errors.rst:139
-# 65d22ba4ba034ff188f14c3087a27900
+# 7683ea5c23a3433ca587e3cb7a1f3084
 msgid "Particle system error; Dupli object isn't specified"
 msgstr ""
 
 #: ../export_errors.rst:139
-# f3c8754d5f0b49d3aaf367836bc4c6cc
+# 1ebfb988c0434c1885b94331bbe45b89
 msgid "Ошибка системы частиц. Не выбран объект, используемый в качестве частицы."
 msgstr ""
 
 #: ../export_errors.rst:142
-# 0b7431b50e3f4cf38640ced046efe090
+# 70f2ddfbe204402e83234bda2f902392
 msgid "Particle system error; Dupli object OBJECT_NAME doesn't export"
 msgstr ""
 
 #: ../export_errors.rst:142
-# 90bdad1579874c13ad852b66f54855f6
+# 734344b0418747c2aa0519e4d6eb1a78
 msgid "Ошибка системы частиц. Объект OBJECT_NAME, выбранный в качестве частицы, не экспортируется (на нем выбрана опция ``Do not export``)."
 msgstr ""
 
 #: ../export_errors.rst:149
-# c494c3a9cfb7454898a9372f3e3ed28b
+# e6c292d1460c4371b29d4490d9a51ade
 msgid "Particle system error; No one valid object exports from dupli group GROUP_NAME"
 msgstr ""
 
 #: ../export_errors.rst:149
-# 78f56827c8f6416a91ee41f21f2532e0
+# 1b5911a324d94c2b84a148f197fd051f
 msgid "Ошибка системы частиц. Ни один подходящий объект из группы GROUP_NAME, выбранной в качестве частицы, не экспортируется. Либо на таких объектах выбрана опция ``Do not export``, либо объекты имеют неподходящий тип. Поддерживаемые типы: ``MESH``."
 msgstr ""
 
 #: ../export_errors.rst:157
-# 942abfc027814b01b03f0fe232314f63
+# 41df4399f130423686c7a88b0246768a
 msgid "Particle system error; Vertex color \"NAME\"(from_name) missing in object OBJECT_NAME"
 msgstr ""
 
 #: ../export_errors.rst:157
-# c9a88c55976142229b7eb6876c19676a
+# 40d0cc84b2104299bd0b20d02c71bf78
 msgid "Ошибка системы частиц. Вертексный цвет NAME указанный в поле ``from``, отсутствует в эмиттере OBJECT_NAME."
 msgstr ""
 
 #: ../export_errors.rst:161
-# 253b6102a3424276a0324f3c552b0f81
+# 0f5a5a9ed04d4c87bcd46b8c1fcbf06f
 msgid "Particle system error; Vertex color \"NAME\"(to_name) missing in object \"OBJECT_NAME\" in dupli group \"GROUP_NAME\""
 msgstr ""
 
 #: ../export_errors.rst:161
-# aae867a0007244db85440a01a15e98d6
+# c8f7ccaa180049c7a990a342119c1fa4
 msgid "Ошибка системы частиц. Вертексный цвет NAME указанный в поле ``to``, не присутствует в объекте OBJECT_NAME группы GROUP_NAME, выбранной в качестве частицы."
 msgstr ""
 
 #: ../export_errors.rst:166
-# b39e4ee41e6a4552894e04c115a30b51
+# d00090185a3c4615884a69f0e170faaf
 msgid "Particle system error; Vertex color \"NAME\"(to_name) missing in object OBJECT_NAME"
 msgstr ""
 
 #: ../export_errors.rst:166
-# a36d53cb94c24bf49324e18fe2c936cd
+# bb176758546846108dae693eccfcbecd
 msgid "Ошибка системы частиц. Вертексный цвет NAME указанный в поле ``to``, отсутствует в объекте OBJECT_NAME, выбранном в качестве частицы."
 msgstr ""
 
 #: ../export_errors.rst:171
-# 1f54a21821e647c8a22da74370ce4381
+# 8485469e1baa4825803001fad36a8e42
 msgid "Particle system error; Wrong dupli object type TYPE_NAME"
 msgstr ""
 
 #: ../export_errors.rst:171
-# 403762d2ce6f4218ad5d333adc0ecc9f
+# 2ccced537ec743729d9a1c198df3e6d9
 msgid "Ошибка системы частиц. В качестве частицы выбран объект неподходящего типа. Поддерживаемые типы: ``MESH``."
 msgstr ""
 
 #: ../export_errors.rst:175
-# db6c0b0fa7704a4ba46448940e41fc6d
+# 4882da4de8f1492ab190a4315eacb34e
 msgid "Permission denied"
 msgstr ""
 
 #: ../export_errors.rst:175
-# 47f81e0807904dd4994a2d353304c6a5
-msgid "Нет прав доступа к текушей директории."
+# 5eb6b34902514b0cb0bac7edc6060501
+msgid "Нет прав доступа к текущей директории."
 msgstr ""
 
 #: ../export_errors.rst:177
-# 328e64a4a54d4471a6006f64f4aa552d
+# cbca6ea0b53a4feca6f5573608e44948
 msgid "Wind bending: vertex colors weren't properly assigned"
 msgstr ""
 
 #: ../export_errors.rst:177
-# 57ffc46a599b46c88246fff1699bc32e
-msgid "Настройки процедурной анимации деревьев; должны быть указаны названия слоев вертексных цветов, либо только главного: ``Main stiffness (A)``, либо всех сразу: ``Main stiffness (A)``, ``Leaves stiffness (R)``, ``Leaves phase (G)``, ``Overall stiffness (B)``, либо ни одного из них."
+# 40c87cb8daba450698a62450c6f4cada
+msgid "Настройки процедурной анимации деревьев; должны быть указаны названия всех слоев вертексных цветов (``Main stiffness (A)``, ``Leaves stiffness (R)``, ``Leaves phase (G)``, ``Overall stiffness (B)``), либо только главного (``Main stiffness (A)``), либо ни одного из них."
 msgstr ""
 
 #: ../export_errors.rst:188
-# d81cb249e5be4e208e8573b4f4874f86
+# 541421378b8543259b48006b959abc97
 msgid "Wind bending: not all vertex colors exist"
 msgstr ""
 
 #: ../export_errors.rst:188
-# b97754ac6ec144afaf53570f2bf5646a
+# f277dea2836146f7b5b8138bf075b1bd
 msgid "Настройки процедурной анимации деревьев: должны существовать все указанные слои вертексных цветов."
 msgstr ""
 
 #: ../export_errors.rst:192
-# 164cc131cf63455095d263329a6136f1
+# d3ae5120cd804de5aab1061a2bb34012
 msgid "Wrong edited normals count; It doesn't match with mesh vertices count"
 msgstr ""
 
 #: ../export_errors.rst:192
-# 4312349771d342d7bedd647d6ac50450
+# 20c03a8f7ac241b1a8cbc723e460e815
 msgid "Число редактируемых нормалей не совпадает с числом вершин меша. Требуется сделать ``Clean Up`` либо ``Save`` в панели ``B4W Vertex Normals Editor``."
 msgstr ""
 
 #: ../export_errors.rst:198
-# e329f11ccb184a4db57d60e1b7c8185b
+# 8c9bb1f441ef493185234e7e5dd1a718
 msgid "Wrong overrided bounding box; Check mesh's bounding box values"
 msgstr ""
 
 #: ../export_errors.rst:198
-# 640497265d784cf68df335fe97eaa051
+# e744803d3dce419d860eaa8fa584feb4
 msgid "Указаны неверные размеры при переопределении ``BoundingBox`` для меша: минимальное значение больше максимального для хотя бы одного из измерений."
 msgstr ""
 
-#: ../export_errors.rst:203
-# 514507ddf12647d4af039d858bccba50
+#: ../export_errors.rst:205
+# 83125e1d6f594510bdadf8229da95082
 msgid "Wrong texture coordinates type"
 msgstr ""
 
-#: ../export_errors.rst:203
-# b915bfe528c547a5ac5a5a36d76ec272
+#: ../export_errors.rst:205
+# 22b41400829a4ef1a1e440008f2c8157
 msgid "Для текстур с изображением (image) поддерживаются следующие типы координат: ``UV``, ``Normal``."
 msgstr ""
 
-#: ../export_errors.rst:207
-# 0a2e1792c8dc4efbad9a4e1499182625
+#: ../export_errors.rst:209
+# f916f9e06fb94d8c9a88159c46fd1961
 msgid "Wrong vertex animation vertices count; It doesn't match with mesh vertices count for \"ANIM_NAME\""
 msgstr ""
 
-#: ../export_errors.rst:207
-# edf208317f67448d900057d03e3633d9
-msgid "Включен экспорт вертексной анимации, но число вершин покадрово в анимации ANIM_NAME не совпадает с числом вершин меша."
-msgstr ""
-
-#: ../export_errors.rst:1
-# 0555313bca504e5f95853b663b70ce6b
-msgid "экспорт"
-msgstr ""
-
-#: ../export_errors.rst:1
-# 0555313bca504e5f95853b663b70ce6b
-msgid "ошибки"
+#: ../export_errors.rst:209
+# 4bdd09bb992143568565058a4942df2b
+msgid "Включен экспорт вертексной анимации, но число вершин покадрово в анимации ANIM_NAME не совпадает с числом вершин меша. Возможное решение - \"перезапекание\" анимации."
 msgstr ""
 

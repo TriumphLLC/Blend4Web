@@ -9,7 +9,7 @@ var BUILT_IN_SCRIPTS_ID = "built_in_scripts";
 
 
 exports.init = function() {
-    m_cfg.set("quality", m_cfg.P_LOW);
+    m_cfg.set("quality", m_cfg.P_HIGH);
     m_cfg.set("background_color", [0.224, 0.224, 0.224, 1.0]);
 
     var is_debug = (b4w.version.type() == "DEBUG");
@@ -25,6 +25,9 @@ exports.init = function() {
 }
 
 function init_cb(canvas_element, success) {
+
+    if (window.parent != window)
+        handle_iframe_scrolling(window, window.parent);
 
     if (!success) {
         console.log("b4w init failure");
@@ -48,6 +51,31 @@ function init_cb(canvas_element, success) {
 
     window.onresize = on_resize;
     on_resize();
+}
+
+/**
+ * Disable parent window scrolling if cursor is inside <iframe>
+ */
+function handle_iframe_scrolling(win, win_par) {
+
+    var inside = false;
+    var scroll_x = win_par.scrollX;
+    var scroll_y = win_par.scrollY;
+
+    win.onmouseover = function() {
+        inside = true;
+        scroll_x = win_par.scrollX;
+        scroll_y = win_par.scrollY;
+    };
+
+    win.onmouseout = function() {
+        inside = false;
+    };
+
+    win_par.onscroll = function(e) {
+        if (inside)
+            win_par.scroll(scroll_x, scroll_y);
+    }
 }
 
 function on_resize() {

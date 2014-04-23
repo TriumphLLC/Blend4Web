@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Развёртывание среды разработки &mdash; Руководство пользователя: Blend4Web v14.03.21</title>
+    <title>Развёртывание среды разработки &mdash; Руководство пользователя: Blend4Web v14.04.22</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.03.21',
+        VERSION:     '14.04.22',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,8 +26,8 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v14.03.21" href="index.html" />
-    <link rel="next" title="Рабочий процесс" href="working_process_stages.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v14.04.22" href="index.html" />
+    <link rel="next" title="Рабочий процесс" href="workflow.html" />
     <link rel="prev" title="Экспресс-установка" href="first_steps.html" /> 
   </head>
   <body>
@@ -37,11 +37,11 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">Руководство пользователя: Blend4Web v14.03.21</a></div>
+          href="index.html">Руководство пользователя: Blend4Web v14.04.22</a></div>
         <div class="rel">
           <a href="first_steps.html" title="Экспресс-установка"
              accesskey="P">предыдущий</a> |
-          <a href="working_process_stages.html" title="Рабочий процесс"
+          <a href="workflow.html" title="Рабочий процесс"
              accesskey="N">следующий</a> |
           <a href="genindex.html" title="Алфавитный указатель"
              accesskey="I">указатель</a>
@@ -59,31 +59,67 @@
             
   <div class="section" id="setup">
 <span id="id1"></span><h1>Развёртывание среды разработки<a class="headerlink" href="#setup" title="Ссылка на этот заголовок">¶</a></h1>
+<p>Следующий вариант установки подойдет для разработчиков 3D приложений.
+Если же нужно простое ознакомление с аддоном Blend4Web, то, возможно, будет удобнее <a class="reference internal" href="first_steps.html#quick-install"><em>экспресс-установка</em></a>.</p>
 <p>Для работы необходим дистрибутив движка, браузер (настроенный для локального
 просмотра) и Blender (с установленным аддоном).</p>
 <div class="section" id="getting-started-distribution">
 <span id="id2"></span><h2>Установка дистрибутива<a class="headerlink" href="#getting-started-distribution" title="Ссылка на этот заголовок">¶</a></h2>
-<p>Стабильные версии дистрибутива поставляются в виде архива <tt class="docutils literal"><span class="pre">blend4web_pro.zip</span></tt>.
-Для установки достаточно распаковать данный архив в любое место на диске.</p>
-<p>Для установки дистрибутива участнику группы разработки необходимо клонировать
-репозиторий (хранилище) командой:</p>
-<div class="highlight-none"><div class="highlight"><pre>&gt; git clone gfxteam@192.168.89.108:blend4web.git b4w
-</pre></div>
-</div>
+<p>Стабильные версии дистрибутива поставляются в виде архива
+(<tt class="docutils literal"><span class="pre">blend4web_sdk_free.zip</span></tt> &#8211; бесплатный SDK, <tt class="docutils literal"><span class="pre">blend4web_sdk_pro.zip</span></tt> &#8211;
+коммерческий SDK). Для установки достаточно распаковать данный архив в любое
+место на диске.</p>
 <p>В дистрибутиве находятся исходный код движка, компактная версия для приложений,
 скрипты к Blender&#8217;у, исходные blend-файлы группы разработки, экспортированные
-сцены, текстуры и звуковые файлы (см. подробную <a class="reference internal" href="developers.html#repo-file-structure"><em>структуру репозитория</em></a>).</p>
+сцены, текстуры и звуковые файлы (см. подробную <a class="reference internal" href="developers_advanced.html#repo-file-structure"><em>структуру репозитория</em></a>).</p>
 </div>
 <div class="section" id="getting-started-browser">
-<span id="index-0"></span><span id="id3"></span><h2>Настройка браузера<a class="headerlink" href="#getting-started-browser" title="Ссылка на этот заголовок">¶</a></h2>
-<p>Для работы движка требуется браузер с поддержкой WebGL (например, Chrome или
-Firefox). Для проверки можно перейти на страницу <a class="reference external" href="http://get.webgl.org/">http://get.webgl.org/</a>. Должна
+<span id="index-0"></span><span id="id3"></span><h2>Выбор браузера<a class="headerlink" href="#getting-started-browser" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Для работы движка требуется <a class="reference internal" href="about.html#browser-webgl-support"><em>браузер с поддержкой WebGL</em></a>. Для проверки можно перейти на страницу <a class="reference external" href="http://get.webgl.org/">http://get.webgl.org/</a>. Должна
 появиться надпись зеленого цвета и вращающийся куб:</p>
 <a class="reference internal image-reference" href="_images/browser_supports_webgl.jpg"><img alt="Страница тестового сайта при успешной инициализации WebGL" class="align-center" src="_images/browser_supports_webgl.jpg" style="width: 100%;" /></a>
-<p id="index-1">Браузер должен быть настроен для загрузки ресурсов из локальной файловой системы. Для этого нужно указать в запускном ярлыке Chrome опцию <tt class="docutils literal"><span class="pre">--allow-file-access-from-files</span></tt> (подробнее <a class="reference internal" href="problems_and_solutions.html#browser-for-local-loading"><em>о настройке</em></a>).</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="section" id="browser-for-local-loading">
+<span id="id4"></span><h2>Настройка браузера для загрузки локальных ресурсов<a class="headerlink" href="#browser-for-local-loading" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Рендерер движка является Web-приложением, и его работа происходит при просмотре HTML-файла в браузере. После инициализации происходит загрузка ресурсов (сцен, текстур), которая подчиняется <a class="reference external" href="http://ru.wikipedia.org/wiki/Правило_ограничения_домена">правилу ограничения домена</a>, запрещающему, в частности, загрузку из локальной директории. Простым способом обхода этого ограничения может быть настройка браузера (рекомендуется). Другой способ заключается в использовании <a class="reference internal" href="problems_and_solutions.html#local-web-server"><em>локального web-сервера</em></a>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Примечание</p>
+<p class="last">Рекомендуется использовать такой браузер только для просмотра локального контента, поскольку изменение настроек может привести к понижению безопасности.</p>
+</div>
+<p><em>Chrome на Windows</em>:</p>
+<p>Правой кнопкой мыши нажать на ярлыке на рабочем столе, выбрать <tt class="docutils literal"><span class="pre">Свойства</span></tt> (<tt class="docutils literal"><span class="pre">Properties</span></tt>), после чего в поле для пути к исполняемому файлу добавить после пробела <tt class="docutils literal"><span class="pre">--allow-file-access-from-files</span></tt>. Нажать <tt class="docutils literal"><span class="pre">ОК</span></tt>.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<a class="reference internal image-reference" href="_images/chrome_file_access.jpg"><img alt="Настройка Chrome для загрузки локальных ресурсов" class="align-center" src="_images/chrome_file_access.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>Для удобства можно предварительно создать копию ярлыка и изменить ее для локального просмотра, оставив оригинальную версию ярлыка для запуска браузера в обычном режиме.</p>
+<p><em>Chrome/Chromium на Linux</em>:</p>
+<p>Запустить браузер с параметром:</p>
+<div class="highlight-python"><div class="highlight"><pre>&gt; google-chrome --allow-file-access-from-files
+</pre></div>
+</div>
+<p>или:</p>
+<div class="highlight-python"><div class="highlight"><pre>&gt; chromium-browser --allow-file-access-from-files
+</pre></div>
+</div>
+<p><em>Firefox на Windows/Linux</em>:</p>
+<p>Ввести <strong>about:config</strong> в адресную строку браузера, найти параметр <tt class="docutils literal"><span class="pre">security.fileuri.strict_origin_policy</span></tt> и переключить его двойным щелчком мыши из <tt class="docutils literal"><span class="pre">true</span></tt> в <tt class="docutils literal"><span class="pre">false</span></tt>.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<a class="reference internal image-reference" href="_images/firefox_strict_origin.jpg"><img alt="Настройка Firefox для загрузки локальных ресурсов" class="align-center" src="_images/firefox_strict_origin.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
 </div>
 <div class="section" id="getting-started-launching-viewer">
-<span id="index-2"></span><span id="id4"></span><h2>Запуск просмотрщика сцен<a class="headerlink" href="#getting-started-launching-viewer" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="index-1"></span><span id="id6"></span><h2>Запуск просмотрщика сцен<a class="headerlink" href="#getting-started-launching-viewer" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Откройте файл <tt class="file docutils literal"><span class="pre">apps_dev/viewer/viewer_dev.html</span></tt> в настроенном браузере. Должна отобразиться страница с окном рендерера и элементами интерфейса.</p>
 <a class="reference internal image-reference" href="_images/default_page.jpg"><img alt="Первый запуск рендерера" class="align-center" src="_images/default_page.jpg" style="width: 100%;" /></a>
 <div class="line-block">
@@ -95,20 +131,34 @@ Firefox). Для проверки можно перейти на страниц�
 </div>
 </div>
 <div class="section" id="getting-started-addon">
-<span id="index-3"></span><span id="id5"></span><h2>Установка аддона движка<a class="headerlink" href="#getting-started-addon" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="index-2"></span><span id="id7"></span><h2>Установка аддона движка<a class="headerlink" href="#getting-started-addon" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="admonition note">
+<p class="first admonition-title">Примечание</p>
+<p class="last">Если аддон ранее был установлен с помощью <a class="reference internal" href="first_steps.html#quick-install"><em>экспресс-установки</em></a>, то рекомендуется прежде его удалить.</p>
+</div>
 <p>Запустить Blender, загрузить сцену по умолчанию <tt class="file docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">New</span></tt> (горячие клавиши <tt class="file docutils literal"><span class="pre">Ctrl-N</span></tt>).
 Вызвать окно пользовательских настроек <tt class="file docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">User</span> <span class="pre">Preferences...</span></tt> (горячие клавиши <tt class="file docutils literal"><span class="pre">Ctrl-Alt-U</span></tt>). Во вкладке  <tt class="file docutils literal"><span class="pre">File</span></tt> в поле  <tt class="file docutils literal"><span class="pre">Scripts</span></tt> выбрать путь к директории <tt class="file docutils literal"><span class="pre">blender_scripts</span></tt>.</p>
 <a class="reference internal image-reference" href="_images/user_preferences_scripts_path.jpg"><img alt="Указание пути для скриптов в окне пользовательских настроек" class="align-center" src="_images/user_preferences_scripts_path.jpg" style="width: 100%;" /></a>
 <p>Нажать <tt class="file docutils literal"><span class="pre">Save</span> <span class="pre">User</span> <span class="pre">Settings</span></tt> и перезапустить Blender.</p>
-<p><em>Примечание:</em></p>
+<div class="admonition note">
+<p class="first admonition-title">Примечание</p>
 <p>Вместо этого можно скопировать директорию со скриптами <tt class="file docutils literal"><span class="pre">blender_scripts/addons/blend4web</span></tt> в уже используемую пользовательскую директорию для скриптов или даже в установочную директорию, например:</p>
-<p><tt class="file docutils literal"><span class="pre">C:\Program</span> <span class="pre">Files\Blender</span> <span class="pre">Foundation\Blender\2.69\scripts\addons\blend4web</span></tt>.</p>
-<p>Повторно загрузить сцену по умолчанию, вызвать окно пользовательских настроек, перейти на вкладку <tt class="file docutils literal"><span class="pre">Addons</span></tt> и выбрать категорию <tt class="file docutils literal"><span class="pre">Import-Export</span></tt>. Отметить галочку напротив <tt class="file docutils literal"><span class="pre">Import-Export:</span> <span class="pre">Blend4Web</span></tt>.
-Также можно указать, где находятся исходные файлы для экспорта сцены в формате html (поле <tt class="file docutils literal"><span class="pre">Path</span> <span class="pre">to</span> <span class="pre">b4w</span> <span class="pre">source</span></tt>). Стандартный путь для них (относительно корня движка): <tt class="file docutils literal"><span class="pre">external/deploy/apps/embed</span></tt>.</p>
+<p class="last"><tt class="file docutils literal"><span class="pre">C:\Program</span> <span class="pre">Files\Blender</span> <span class="pre">Foundation\Blender\2.70\scripts\addons\blend4web</span></tt>.</p>
+</div>
+<p>Повторно загрузить сцену по умолчанию, вызвать окно пользовательских настроек, перейти на вкладку <tt class="file docutils literal"><span class="pre">Addons</span></tt> и выбрать категорию <tt class="file docutils literal"><span class="pre">Import-Export</span></tt>. Отметить галочку напротив <tt class="file docutils literal"><span class="pre">Import-Export:</span> <span class="pre">Blend4Web</span></tt>.</p>
 <a class="reference internal image-reference" href="_images/user_preferences_enable_addon.jpg"><img alt="Инициализация скриптов в окне пользовательских настроек" class="align-center" src="_images/user_preferences_enable_addon.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
 <p>Нажать <tt class="file docutils literal"><span class="pre">Save</span> <span class="pre">User</span> <span class="pre">Settings</span></tt>. Перезапуск Blender не требуется.</p>
 <p><em>Для проверки:</em></p>
 <p>В меню <tt class="file docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">Export</span></tt> должны появиться опции <tt class="file docutils literal"><span class="pre">Blend4Web</span> <span class="pre">(.json)</span></tt> и <tt class="file docutils literal"><span class="pre">Blend4Web</span> <span class="pre">(.html)</span></tt>. Кроме того должны появиться операторы при выполнении поиска по &#8220;B4W&#8221; (горячая клавиша <tt class="file docutils literal"><span class="pre">ПРОБЕЛ</span></tt>).</p>
+<div class="section" id="html">
+<h3>Включение опции экспорта в HTML<a class="headerlink" href="#html" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Опция <tt class="file docutils literal"><span class="pre">Blend4Web</span> <span class="pre">(.html)</span></tt> в меню <tt class="file docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">Export</span></tt> по умолчанию не активна, в отличие от версии одиночного аддона (см. <a class="reference internal" href="first_steps.html#quick-install"><em>экспресс-установка</em></a>).</p>
+<p>В случае необходимости (например, если требуется отладка HTML экспорта) данную опцию можно включить. Для этого указать путь к сборке приложения <tt class="docutils literal"><span class="pre">embed</span></tt>, входящего в состав дистрибутива, в поле <tt class="file docutils literal"><span class="pre">Path</span> <span class="pre">to</span> <span class="pre">b4w</span> <span class="pre">source</span></tt>. Стандартный путь относительно корня движка <tt class="file docutils literal"><span class="pre">external/deploy/apps/embed</span></tt>.</p>
+<a class="reference internal image-reference" href="_images/user_preferences_enable_addon_HTML_option.jpg"><img alt="Включение опции экспорта в HTML" class="align-center" src="_images/user_preferences_enable_addon_HTML_option.jpg" style="width: 100%;" /></a>
+</div>
 </div>
 </div>
 
@@ -125,14 +175,15 @@ Firefox). Для проверки можно перейти на страниц�
 <li class="toctree-l1"><a class="reference internal" href="first_steps.html">Экспресс-установка</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Развёртывание среды разработки</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#getting-started-distribution">Установка дистрибутива</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#getting-started-browser">Настройка браузера</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#getting-started-browser">Выбор браузера</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#browser-for-local-loading">Настройка браузера для загрузки локальных ресурсов</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#getting-started-launching-viewer">Запуск просмотрщика сцен</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#getting-started-addon">Установка аддона движка</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="working_process_stages.html">Рабочий процесс</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow.html">Рабочий процесс</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Просмотрщик сцен</a></li>
-<li class="toctree-l1"><a class="reference internal" href="export_errors.html">Ошибки экспорта</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">Аддон</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Объекты</a></li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">Текстуры</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Материалы</a></li>
@@ -147,10 +198,11 @@ Firefox). Для проверки можно перейти на страниц�
 <li class="toctree-l1"><a class="reference internal" href="audio.html">Звуковая подсистема</a></li>
 <li class="toctree-l1"><a class="reference internal" href="event_model.html">Событийная модель</a></li>
 <li class="toctree-l1"><a class="reference internal" href="physics.html">Физика</a></li>
-<li class="toctree-l1"><a class="reference internal" href="assets_creation.html">Методики создания ресурсов</a></li>
-<li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Проблемы и решения</a></li>
-<li class="toctree-l1"><a class="reference internal" href="developers.html">Разработчикам</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nla.html">Нелинейная анимация</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers.html">Разработчикам приложений</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">Разработчикам движка</a></li>
 <li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Краткая справка по git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Проблемы и решения</a></li>
 <li class="toctree-l1"><a class="reference internal" href="roadmap.html">План развития</a></li>
 </ul>
 
@@ -174,7 +226,7 @@ Firefox). Для проверки можно перейти на страниц�
         <div class="left">
           <a href="first_steps.html" title="Экспресс-установка"
              >предыдущий</a> |
-          <a href="working_process_stages.html" title="Рабочий процесс"
+          <a href="workflow.html" title="Рабочий процесс"
              >следующий</a> |
           <a href="genindex.html" title="Алфавитный указатель"
              >указатель</a>
@@ -184,7 +236,7 @@ Firefox). Для проверки можно перейти на страниц�
           
     <div class="footer">
         &copy; Copyright 2014, ООО &#34;Триумф&#34;.
-      Обновлено: 2014-03-27.
+      Обновлено: 2014-04-23.
       Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

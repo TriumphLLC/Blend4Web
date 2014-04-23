@@ -39,7 +39,9 @@ def build():
     module1 = Extension(EXTENSION_NAME,
             sources = ['bindings.c', 'mikktspace.c', 'weldmesh.c'],
             undef_macros=['NDEBUG'],
-            define_macros=[("INIT_FUNC_NAME", INIT_FUNC_NAME)])
+            define_macros=[("INIT_FUNC_NAME", INIT_FUNC_NAME)],
+            export_symbols=[INIT_FUNC_NAME])
+
     setup(name = 'B4W Export Utils',
             version = '1.0',
             description = 'Provides utility functions for b4w exporter',
@@ -47,10 +49,17 @@ def build():
 
     # NOTE: workaround for bug: http://bugs.python.org/issue16754
     dst_suffix = get_ext_suffix()
-    dst_suffix = ".so" if dst_suffix == ".cpython-33m.so" else dst_suffix
+    dst_suffix = ".so" if dst_suffix == ".cpython-33m.so" or dst_suffix == ".cpython-34m.so" else dst_suffix
 
     src = get_compiled_ext_path(EXTENSION_NAME, DEBUG_MODE)    
     dst = os.path.join(B4W_PATH, EXTENSION_NAME) + PL_SUFFIX + dst_suffix
+
+    # HACK: workaround when file already exists
+    try:
+        os.remove(dst)
+    except:
+        pass
+
     os.rename(src, dst)
 
 build()

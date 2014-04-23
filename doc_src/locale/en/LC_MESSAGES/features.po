@@ -13,29 +13,33 @@ msgstr ""
 
 #: ../features.rst:6
 msgid "Функционал движка"
-msgstr ""
+msgstr "The Engine Features"
 
 #: ../features.rst:9
 msgid "Текстуры"
-msgstr ""
+msgstr "Texturing"
 
 #: ../features.rst:11
 msgid ""
 "текстурирование (texturing) - покрытие поверхности 3D объекта плоским "
 "изображением"
 msgstr ""
+"texture mapping i.e. applying of a flat image to a 3D object surface"
 
 #: ../features.rst:12
 msgid ""
 "мультитекстурирование (multitexturing) - использование для объекта "
 "нескольких текстур"
 msgstr ""
+"multitexturing i.e. using multiple textures for an object"
 
 #: ../features.rst:13
 msgid ""
 "рендеринг в текстуру (render-to-texture, RTT) для реализации вложения одной "
 "сцены в другую и постпроцессинговых эффектов"
 msgstr ""
+"render-to-texture, RTT for displaying one scene in another and for "
+"postprocessing effects"
 
 #: ../features.rst:14
 msgid ""
@@ -43,146 +47,158 @@ msgid ""
 " углами (anisotropic filtering, AF, использовано стандартное расширение "
 "WebGL)"
 msgstr ""
+"anisotropic filtering, AF for enhancing the quality of surfaces at oblique viewing angles "
+"(standard WebGL extension is used)"
 
 #: ../features.rst:15
 msgid "поддержка текстурной компрессии (формат S3TC/DXT)"
-msgstr ""
+msgstr "texture compression support (S3TC/DXT format)"
 
 #: ../features.rst:18
 msgid "Материалы"
-msgstr ""
+msgstr "Materials"
 
 #: ../features.rst:20
 msgid ""
 "прозрачность материалов, сортировка по глубине при необходимости (z-sorting)"
 msgstr ""
+"materials transparency, sorting by depth if required (z-sorting)"
 
 #: ../features.rst:21
 msgid ""
 "улучшенная детализация рельефных поверхностей текстурами (использован метод "
 "parallax offset mapping)"
 msgstr ""
+"enhanced detailing of relief surfaces with textures (parallax offset mapping method is used)"
 
 #: ../features.rst:22
 msgid ""
 "зависимость степени отражения от угла обзора - эффект Френеля (Fresnel)"
 msgstr ""
+"Fresnel effect - dependency of reflectivity on viewing angles"
 
 #: ../features.rst:23
 msgid "динамическое отражение"
-msgstr ""
+msgstr "dynamic reflection"
 
 #: ../features.rst:24
 msgid "поддержка нодовых материалов"
-msgstr ""
+msgstr "node materials support"
 
 #: ../features.rst:25
 msgid "гало материал для рендеринга источников света и звезд (Halo material)"
-msgstr ""
+msgstr "halo material for rendering light sources and stars"
 
 #: ../features.rst:28
 msgid "Освещение"
-msgstr ""
+msgstr "Lighting"
 
 #: ../features.rst:30
 msgid "освещение несколькими источниками света"
-msgstr ""
+msgstr "multiple light sources"
 
 #: ../features.rst:31
 msgid ""
 "типы источников света - прямой (directional), полусферический (hemisphere), "
 "точечный (point), конический (spot)"
 msgstr ""
+"light source types - directional, hemisphere, point, spot"
 
 #: ../features.rst:32
 msgid "диффузное (т.е. рассеянное) освещение объектов (diffuse lighting)"
-msgstr ""
+msgstr "diffuse lighting"
 
 #: ../features.rst:33
 msgid "рассеянное освещение от окружающей среды (ambient lighting)"
-msgstr ""
+msgstr "ambient lighting aka environment lighting"
 
 #: ../features.rst:34
 msgid "зеркальное отражение света от поверхности объектов (specular lighting)"
-msgstr ""
+msgstr "specular lighting - light reflection from surface"
 
 #: ../features.rst:35
 msgid "зеркальное отражение окружающей среды (environment mapping)"
-msgstr ""
+msgstr "environment mapping - surface reflects the environment"
 
 #: ../features.rst:36
 msgid ""
 "дополнительная детализация картами нормалей к поверхности (normal mapping)"
 msgstr ""
+"normal mapping - additional surface detailing by textures"
 
 #: ../features.rst:39
 msgid "Тени"
-msgstr ""
+msgstr "Shadows"
 
 #: ../features.rst:41
 msgid "статические падающие тени (light mapping)"
-msgstr ""
+msgstr "static shadow mapping (light mapping)"
 
 #: ../features.rst:42
 msgid "динамические падающие тени (использован метод shadow mapping)"
-msgstr ""
+msgstr "dynamic shadow mapping"
 
 #: ../features.rst:43
 msgid ""
 "собственные тени — объекты отбрасывают тени сами на себя (self-shadowing)"
 msgstr ""
+"self-shadowing - objects cast shadows on themselves"
 
 #: ../features.rst:44
 msgid "каскадные тени для больших сцен (cascaded shadow mapping, CSM)"
-msgstr ""
+msgstr "cascaded shadow mapping, CSM for large scenes"
 
 #: ../features.rst:45
 msgid "мягкие тени"
-msgstr ""
+msgstr "soft shadows"
 
 #: ../features.rst:48
 msgid "Система частиц"
-msgstr ""
+msgstr "Particle System"
 
 #: ../features.rst:50
 msgid ""
 "система частиц (particle system) для реализации эффектов, таких как огонь, "
 "дым, брызги и т.д."
 msgstr ""
+"particle system for implementing effects such as fire, "
+"smoke, splashes etc"
 
 #: ../features.rst:51
 msgid ""
 "система частиц для расстановки (инстансинга) однородных объектов: трава, "
 "камни, листва деревьев и проч."
 msgstr ""
+"particle system for instancing similar objects: grass, "
+"stones, tree leaves etc"
 
 #: ../features.rst:54
 msgid "Рендеринг наружных сцен"
-msgstr ""
+msgstr "External Scenes Rendering"
 
 #: ../features.rst:56
 msgid "туман (fog)"
-msgstr ""
+msgstr "fog"
 
 #: ../features.rst:57
 msgid "купол неба/окружающего пространства (skydome)"
-msgstr ""
+msgstr "skydome for skies or environment"
 
 #: ../features.rst:58
 msgid "эффект линз при направлении камеры на источник света (lens flares)"
-msgstr ""
+msgstr "lens flares effect"
 
 #: ../features.rst:59
 msgid "рендеринг воды"
-msgstr ""
+msgstr "water rendering"
 
 #: ../features.rst:62
 msgid "Постпроцессинговые эффекты"
-msgstr ""
+msgstr "Postprocessing Effects"
 
 #: ../features.rst:64
 msgid "размытие при движении (motion blur)"
-msgstr ""
+msgstr "motion blur"
 
 #: ../features.rst:65
 msgid ""
@@ -190,239 +206,253 @@ msgid ""
 "рендеринга в текстуру (использован метод fast approximate anti-aliasing, "
 "FXAA)"
 msgstr ""
+"anti-aliasing - image edges enhancement (fast approximate anti-aliasing, FXAA method is used)"
+
 
 #: ../features.rst:66
 msgid "стерео-изображение (анаглифное, 3D очки)"
-msgstr ""
+msgstr "stereo (anaglyph method, 3D glasses required)"
 
 #: ../features.rst:67
 msgid ""
 "рассеянное затенение от окружающей среды (ambient occlusion, используется "
 "метод SSAO)"
 msgstr ""
+"ambient occlusion (SSAO method is used)"
 
 #: ../features.rst:68
 msgid "глубина резкости для камеры (DOF)"
-msgstr ""
+msgstr "depth of field, DOF"
 
 #: ../features.rst:69
 msgid "сумеречные лучи (god rays)"
-msgstr ""
+msgstr "crepuscular rays (god rays)"
 
 #: ../features.rst:70
 msgid "эффект засветки ярких объектов (bloom)"
-msgstr ""
+msgstr "bloom - bright light effect"
 
 #: ../features.rst:71
 msgid "огибание объектов светом (glow)"
-msgstr ""
+msgstr "glow"
 
 #: ../features.rst:75
 msgid "Анимация"
-msgstr ""
+msgstr "Animation"
 
 #: ../features.rst:77
 msgid "скиннинг (skinning) - деформация объекта с помощью системы костей"
-msgstr ""
+msgstr "skinning - object deformation with a system of bones"
 
 #: ../features.rst:78
 msgid ""
 "анимация перемещения, вращения, масштабирования объектов, камер и источников"
 " света"
-msgstr ""
+msgstr "animating location, rotation and scale of objects, cameras and light sources"
 
 #: ../features.rst:79
 msgid "скелетная анимация (например, для тела персонажа)"
-msgstr ""
+msgstr "skeletal animation (e.g. for a character's body)"
 
 #: ../features.rst:80
 msgid "вертексная анимация (например, для симуляции ткани)"
-msgstr ""
+msgstr "vertex animation (e.g. for cloth simulation)"
 
 #: ../features.rst:81
 msgid "процедурная анимация (например, изгибание растений на ветру)"
-msgstr ""
+msgstr "procedural animation (e.g. foliage wind bending)"
 
 #: ../features.rst:82
 msgid "анимация текстурных координат (например, для визуализации волн воды)"
-msgstr ""
+msgstr "texture coordinates animation (e.g. for visualizing water waves)"
 
 #: ../features.rst:85
 msgid "Оптимизация"
-msgstr ""
+msgstr "Optimization"
 
 #: ../features.rst:87
 msgid "оптимизация отсечением по зоне видимости (frustum culling)"
-msgstr ""
+msgstr "frustum culling - invisible objects are not rendered"
 
 #: ../features.rst:88
 msgid ""
 "оптимизация уменьшением количества вызовов WebGL — батчинг, текстурные "
 "атласы (batching, texture atlases)"
-msgstr ""
+msgstr "batching, texture atlases - WebGL calls number are reduced"
 
 #: ../features.rst:89
 msgid ""
 "оптимизация уменьшением уровня детализации объектов на удалении (level of "
 "detail, LOD)"
 msgstr ""
+"level of detail, LOD - far objects are less detailed"
 
 #: ../features.rst:92
 msgid "Звук"
-msgstr ""
+msgstr "Audio"
 
 #: ../features.rst:94
 msgid "звуковой движок, основанный на Web Audio API"
-msgstr ""
+msgstr "audio engine based on the Web Audio API"
 
 #: ../features.rst:95
 msgid "поддержка различных форматов файлов с учётом различий браузеров"
-msgstr ""
+msgstr "various file formats support depending on browsers"
 
 #: ../features.rst:96
 msgid "гибкое управление воспроизведением, возможность приостановки звука"
-msgstr ""
+msgstr "flexible playback control, sound pause/resume"
 
 #: ../features.rst:97
 msgid "позиционирование источников в трёхмерном пространстве"
-msgstr ""
+msgstr "positioning sources in a three-dimensional space"
 
 #: ../features.rst:98
 msgid ""
 "эффект Допплера для движущихся объектов с возможностью отключения и "
 "компенсацией скачков в пространстве"
 msgstr ""
+"Doppler effect for moving objects with a possibility to turn it off and "
+"with space jump compensation"
 
 #: ../features.rst:100
 msgid "управление громкостью, скоростью и задержкой воспроизведения"
-msgstr ""
+msgstr "flexible control of playback volume, speed and latency"
 
 #: ../features.rst:101
 msgid "эффекты плавного перехода громкости (fade-in, fade-out, duck)"
-msgstr ""
+msgstr "fade-in, fade-out, duck"
 
 #: ../features.rst:102
 msgid "качественное зацикливание звуков (looping)"
-msgstr ""
+msgstr "high quality sound looping"
 
 #: ../features.rst:103
 msgid ""
 "рандомизация звуковых параметров для улучшения восприятия повторяющихся "
 "звуков"
 msgstr ""
+"randomizing sound parameters to improve loop percepetion"
 
 #: ../features.rst:104
 msgid "поддержка кроссфейдерной звуковой анимации"
-msgstr ""
+msgstr "cross-fader sound animation support"
 
 #: ../features.rst:105
 msgid "динамический компрессор"
-msgstr ""
+msgstr "dynamic compressor"
 
 #: ../features.rst:106
 msgid "эффективное хранение и воспроизведение длинных музыкальных композиций"
-msgstr ""
+msgstr "efficient long soundtrack storage and playback"
 
 #: ../features.rst:107
 msgid ""
 "инструменты для сведения (микширования) звуковой картины в реальном времени"
 msgstr ""
+"tools for real-time mixing"
 
 #: ../features.rst:110
 msgid "Физика"
-msgstr ""
+msgstr "Physics"
 
 #: ../features.rst:112
 msgid ""
 "физика жестких тел - определение столкновений, движение, гравитация, "
 "определение высоты, опрокидывание"
 msgstr ""
+"rigid body physics - collision detection, realistic movement, gravity, height detection, torsion"
 
 #: ../features.rst:113
 msgid ""
 "система соединителей (ограничителей) - жёсткие, гибкие, пружинящие, "
 "поворотные, скользящие итд."
-msgstr ""
+msgstr "various constraints types - rigid, hinges, springs, pivots, sliding etc"
 
 #: ../features.rst:114
 msgid "система трассировки лучей"
-msgstr ""
+msgstr "ray tracing"
 
 #: ../features.rst:115
 msgid "физика плавания объектов и движения в толще воды"
-msgstr ""
+msgstr "floating and underwater movement physics"
 
 #: ../features.rst:116
 msgid "физика колёсных транспортных средств"
-msgstr ""
+msgstr "wheeled vehicles simulation"
 
 #: ../features.rst:117
 msgid "физика плавучих транспортных средств"
-msgstr ""
+msgstr "watercraft simulation"
 
 #: ../features.rst:120
 msgid "Событийная модель"
-msgstr ""
+msgstr "Event-Driven Model"
 
 #: ../features.rst:122
 msgid "асинхронный фреймворк для написания логики приложений"
-msgstr ""
+msgstr "asynchronous framework for application logic authoring"
 
 #: ../features.rst:123
 msgid "управление анимацией и искусственный интеллект животных и персонажей"
-msgstr ""
+msgstr "animation control and artificial intelligence of characters and animals"
 
 #: ../features.rst:126
 msgid "Прочее"
-msgstr ""
+msgstr "Other"
 
 #: ../features.rst:128
 msgid ""
 "поддержка математических кривых для моделирования удлиненных объектов "
 "(дороги, провода, река)"
 msgstr ""
+"math curves support for modeling long objects (roads, wires, rivers)"
 
 #: ../features.rst:129
 msgid "выбор пользователем объектов на 3D сцене (picking)"
-msgstr ""
+msgstr "picking objects on the 3D scene with the mouse"
 
 #: ../features.rst:130
 msgid ""
 "минификация (уменьшение объема) и обфускация (сокрытие) кода, необходимые "
 "для коммерческого использования движка"
 msgstr ""
+"code minification and obfuscation for commercial use of the engine"
 
 #: ../features.rst:131
 msgid "использование распределенной системы контроля версий git"
-msgstr ""
+msgstr "use of git - a distributed version control system"
 
 #: ../features.rst:132
 msgid "модульная структура исходного кода"
-msgstr ""
+msgstr "module structure of source code"
 
 #: ../features.rst:133
 msgid ""
 "мощный шейдерный препроцессор с поддержкой модулей и функциональных блоков "
 "(нод)"
-msgstr ""
+msgstr "powerful shader preprocessor with modules and functional blocks (nodes) support"
 
 #: ../features.rst:134
 msgid "удобная система для быстрого развертывания новых 3D приложений"
-msgstr ""
+msgstr "convenient system to deploy new 3D applications quickly"
 
 #: ../features.rst:135
 msgid "тесная интеграция с системой моделирования и анимации Blender"
-msgstr ""
+msgstr "tight integration with Blender - a 3D modeling and animation tool"
 
 #: ../features.rst:136
 msgid "опции для поддержки работы на широком спектре оборудования"
-msgstr ""
+msgstr "support options for a broad range of equipment"
 
 #: ../features.rst:137
 msgid "руководство пользователя и документация для программистов"
-msgstr ""
+msgstr "user manual and API documentation"
 
 #: ../features.rst:138
 msgid ""
 "взаимодействие с пользователем — управление камерой, персонажем, действиями"
 msgstr ""
+"user interaction - camera, character, actions control"
+
+

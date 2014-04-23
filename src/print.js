@@ -26,8 +26,7 @@ exports.log = function() {
 }
 
 exports.error = function() {
-    if (_verbose)
-        console.error.apply(console, arguments);
+    console.error.apply(console, arguments);
 }
 
 exports.warn = function() {

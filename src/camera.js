@@ -196,12 +196,14 @@ function create_camera(type) {
         return cam;
 
     // for rendering
-    cam.view_matrix    = new Float32Array(16);
-    cam.proj_matrix    = new Float32Array(16);
-    cam.eye            = new Float32Array(3);
-    cam.eye_last       = new Float32Array(3);
-    cam.quat           = new Float32Array(4);
-    cam.sky_vp_inverse = new Float32Array(16);
+    cam.eye                   = new Float32Array(3);
+    cam.eye_last              = new Float32Array(3);
+    cam.quat                  = new Float32Array(4);
+    cam.view_matrix           = new Float32Array(16);
+    cam.proj_matrix           = new Float32Array(16);
+    cam.view_proj_inv_matrix  = new Float32Array(16);
+    cam.prev_view_proj_matrix = new Float32Array(16);
+    cam.sky_vp_inv_matrix = new Float32Array(16);
 
     // used to extract frustum planes from
     cam.view_proj_matrix = new Float32Array(16);
@@ -558,7 +560,7 @@ function set_view(cam, camobj) {
     if (cam.reflection_plane) {
         reflect_view_matrix(cam);
         reflect_proj_matrix(cam);
-    } 
+    }
 
     var x = cam.view_matrix[12];
     var y = cam.view_matrix[13];
@@ -569,9 +571,12 @@ function set_view(cam, camobj) {
     else if (cam.type == exports.TYPE_STEREO_RIGHT)
         cam.view_matrix[12] -= cam.stereo_eye_dist/2;
 
+    m_mat4.copy(cam.view_proj_matrix, cam.prev_view_proj_matrix);
+
     // update view projection matrix
     m_mat4.multiply(cam.proj_matrix, cam.view_matrix, cam.view_proj_matrix);
 
+    calc_view_proj_inverse(cam);
     calc_sky_vp_inverse(cam);
         
     m_vec3.copy(cam.eye, cam.eye_last);
@@ -668,6 +673,7 @@ function set_view_eye_target_up(cam, eye, target, up) {
     // update view projection matrix
     m_mat4.multiply(cam.proj_matrix, cam.view_matrix, cam.view_proj_matrix);
 
+    calc_view_proj_inverse(cam);
     calc_sky_vp_inverse(cam);
         
     m_vec3.copy(eye, cam.eye);
@@ -947,6 +953,7 @@ function set_projection(cam, aspect, keep_proj_view) {
     // update view projection matrix
     if (!keep_proj_view) {
         m_mat4.multiply(cam.proj_matrix, cam.view_matrix, cam.view_proj_matrix);
+        calc_view_proj_inverse(cam);
         calc_sky_vp_inverse(cam);
     }
 }
@@ -987,16 +994,27 @@ exports.calc_sky_vp_inverse = calc_sky_vp_inverse;
  * @methodOf camera
  */
 function calc_sky_vp_inverse(cam) {
-    //mat4.toRotationMat(cam.view_matrix, cam.sky_vp_inverse);
-    m_mat4.copy(cam.view_matrix, cam.sky_vp_inverse);
-    cam.sky_vp_inverse[12] = 0;
-    cam.sky_vp_inverse[13] = 0;
-    cam.sky_vp_inverse[14] = 0;
-    cam.sky_vp_inverse[15] = 1;
+    //mat4.toRotationMat(cam.view_matrix, cam.sky_vp_inv_matrix);
+    m_mat4.copy(cam.view_matrix, cam.sky_vp_inv_matrix);
+    cam.sky_vp_inv_matrix[12] = 0;
+    cam.sky_vp_inv_matrix[13] = 0;
+    cam.sky_vp_inv_matrix[14] = 0;
+    cam.sky_vp_inv_matrix[15] = 1;
 
-    m_mat4.multiply(cam.proj_matrix, cam.sky_vp_inverse, 
-            cam.sky_vp_inverse);
-    m_mat4.invert(cam.sky_vp_inverse, cam.sky_vp_inverse);
+    m_mat4.multiply(cam.proj_matrix, cam.sky_vp_inv_matrix,
+            cam.sky_vp_inv_matrix);
+    m_mat4.invert(cam.sky_vp_inv_matrix, cam.sky_vp_inv_matrix);
+}
+
+exports.calc_view_proj_inverse = calc_view_proj_inverse;
+/**
+ * @methodOf camera
+ */
+function calc_view_proj_inverse(cam) {
+    m_mat4.copy(cam.view_matrix, cam.view_proj_inv_matrix);
+    m_mat4.multiply(cam.proj_matrix, cam.view_proj_inv_matrix,
+            cam.view_proj_inv_matrix);
+    m_mat4.invert(cam.view_proj_inv_matrix, cam.view_proj_inv_matrix);
 }
 
 /**

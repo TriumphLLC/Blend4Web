@@ -51,7 +51,9 @@ exports.create_scheduler = function(stages, path, loaded_callback,
         curr_percents: 0,
         stages_size_total: 0,
         wait_complete_loading: wait_complete_loading,
-        is_loaded: false
+        is_loaded: false,
+
+        make_idle_iteration: false
     }
 
     var loaded_cb = loaded_callback || (function() {});
@@ -148,6 +150,11 @@ function init_stage(stage) {
 exports.update_scheduler = function(scheduler, bpy_data) {
     if (!scheduler)
         return;
+
+    if (scheduler.make_idle_iteration) {
+        scheduler.make_idle_iteration = false;
+        return;
+    }
 
     var time_start = performance.now();
 
@@ -350,6 +357,7 @@ function stage_need_calc(scheduler, stage) {
 function stage_finish_cb(scheduler, stage) {
     stage.is_finished = true;
     stage.status = SH_STAGE_IDLE;
+    stage_loading_action(scheduler, stage, 1);
 
     if (DEBUG_MODE) {
         var percents = get_load_percents(scheduler);
@@ -359,8 +367,6 @@ function stage_finish_cb(scheduler, stage) {
                 + ms + "ms ", 
                 DEBUG_COLOR);
     }
-
-    stage_loading_action(scheduler, stage, 1);
 }
 
 /**
@@ -385,6 +391,10 @@ function stage_loading_action(scheduler, stage, rate) {
         if (scheduler.curr_percents != percents) {
             scheduler.stageload_cb(percents, performance.now() - scheduler.time_load_start);
             scheduler.curr_percents = percents;
+
+            // NOTE: skip next scheduler iteration to liquidate loading bar 
+            // freezes
+            scheduler.make_idle_iteration = true;
         }
     }
 }

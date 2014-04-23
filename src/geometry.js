@@ -261,7 +261,7 @@ exports.update_bufs_data_array = function(bufs_data, attrib_name, num_comp, arra
     if (pointer) {
         // replace attribute data
      
-        if (pointer.num_comp != num_comp)
+        if (num_comp && pointer.num_comp != num_comp)
             throw "Error: invalid num_comp for \"" + attrib_name + "\"";
 
         vbo_array.set(array, pointer.offset);
@@ -290,6 +290,7 @@ exports.update_bufs_data_array = function(bufs_data, attrib_name, num_comp, arra
     return bufs_data;
 }
 
+exports.extract_array = extract_array;
 /**
  * Get VBO buffer view by attribute name.
  * @methodOf geometry

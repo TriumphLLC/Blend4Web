@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: ext/geometry.js</title>
+    
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+    
+    <h1 class="page-title">Source: ext/geometry.js</h1>
+    
+    
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>"use strict";
+
+/** 
+ * Geometry external API. 
+ * Assign "Dynamic geometry" option on objects to allow geometry modification.
+ * @module geometry
+ */
+b4w.module["geometry"] = function(exports, require) {
+
+var m_batch = require("__batch");
+var m_geom  = require("__geometry");
+var m_print = require("__print");
+
+/**
+ * Extract vertex array from object.
+ * @method module:geometry.extract_vertex_array
+ * @param obj Object ID 
+ * @param {String} mat_name Material name
+ * @param {String} attrib_name Attribute name (a_position, a_normal, a_tangent)
+ */
+exports["extract_vertex_array"] = function(obj, mat_name, attrib_name) {
+
+    if (!has_dyn_geom(obj)) {
+        m_print.error("Wrong object:", obj["name"]);
+        return null;
+    }
+
+    var batch = m_batch.find_batch_material(obj, mat_name, "MAIN") ||
+            m_batch.find_batch_material(obj, mat_name, "NODES") ||
+            m_batch.find_batch_material(obj, mat_name, "SHADELESS");
+    if (batch) {
+        var bufs_data = batch.bufs_data;
+        if (bufs_data &amp;&amp; bufs_data.pointers &amp;&amp; bufs_data.pointers[attrib_name]) {
+            return m_geom.extract_array(bufs_data, attrib_name);
+        } else {
+            m_print.error("Attribute not found:" + attrib_name);
+            return null;
+        }
+    } else {
+        m_print.error("Wrong material:", mat_name);
+        return null;
+    }
+}
+
+function has_dyn_geom(obj) {
+    if (obj &amp;&amp; obj._render &amp;&amp; obj._render.dynamic_geometry)
+        return true;
+    else
+        return false;
+}
+
+/**
+ * Extract array of triangulated face indices from given object.
+ * @method module:geometry.extract_index_array
+ * @param obj Object ID 
+ * @param {String} mat_name Material name
+ */
+exports["extract_index_array"] = function(obj, mat_name) {
+
+    if (!has_dyn_geom(obj)) {
+        m_print.error("Wrong object:", obj["name"]);
+        return null;
+    }
+
+    var batch = m_batch.find_batch_material(obj, mat_name, "MAIN") ||
+            m_batch.find_batch_material(obj, mat_name, "NODES") ||
+            m_batch.find_batch_material(obj, mat_name, "SHADELESS");
+
+    if (batch) {
+        var bufs_data = batch.bufs_data;
+        if (bufs_data &amp;&amp; bufs_data.pointers) {
+            return bufs_data.ibo_array;
+        } else {
+            m_print.error("Buffer data not found");
+            return null;
+        }
+    } else {
+        m_print.error("Wrong material:", mat_name);
+        return null;
+    }
+}
+
+/**
+ * Update vertex array for given object.
+ * @method module:geometry.update_vertex_array
+ * @param obj Object ID 
+ * @param {String} mat_name Material name
+ * @param {String} attrib_name Attribute name (a_position, a_normal, a_tangent)
+ * @param {Float32Array} array Modified array
+ */
+exports["update_vertex_array"] = function(obj, mat_name, attrib_name, array) {
+    var types = ["MAIN", "NODES", "SHADELESS", "DEPTH", "COLOR_ID"];
+
+    if (!has_dyn_geom(obj)) {
+        m_print.error("Wrong object:", obj["name"]);
+        return;
+    }
+
+    for (var i = 0; i &lt; types.length; i++) {
+        var type = types[i];
+
+        var batch = m_batch.find_batch_material(obj, mat_name, type);
+        if (batch) {
+            var bufs_data = batch.bufs_data;
+
+            if (bufs_data &amp;&amp; bufs_data.pointers &amp;&amp; bufs_data.pointers[attrib_name]) {
+                m_geom.update_bufs_data_array(bufs_data, attrib_name, 0, array);
+
+                // inherit textures for forked batches (currently for depth, 
+                // glow_mask and reflect subscenes)
+                if (batch.childs)
+                    for (var j = 0; j &lt; batch.childs.length; j++) {
+                        var child_batch = batch.childs[j];
+                        var child_bufs_data = child_batch.bufs_data;
+                        if (child_bufs_data &amp;&amp; child_bufs_data.pointers &amp;&amp;
+                                child_bufs_data.pointers[attrib_name])
+                            m_geom.update_bufs_data_array(child_bufs_data, attrib_name, 0, array);
+                    }
+            }
+        }
+    }
+}
+
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Index</a></h2><h3>Modules</h3><ul><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-pointerlock.html">pointerlock</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-util.html">util</a></li><li><a href="module-version.html">version</a></li></ul><h3><a href="global.html">Global</a></h3>
+</nav>
+
+<br clear="both">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-dev</a> on Wed Apr 23 2014 16:27:40 GMT+0400 (MSK)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

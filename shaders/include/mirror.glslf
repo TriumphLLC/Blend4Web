@@ -6,6 +6,8 @@
 
 #if REFLECTIVE || TEXTURE_MIRROR
 
+#define BUMP 0.1
+
 float fresnel_mirror(in vec3 eye_dir, in vec3 eye_reflected, in float N, in float r0)
 {
     vec3 reflected_halfway = normalize(eye_reflected + eye_dir);
@@ -16,28 +18,24 @@ float fresnel_mirror(in vec3 eye_dir, in vec3 eye_reflected, in float N, in floa
 }
 
 void apply_mirror(inout vec3 base_color, in vec3 eye_dir, in vec3 normal, 
-    in float N, in float r0, in vec3 specular_color, in vec2 n)
+    in float N, in float r0, in vec2 n)
 {
     vec3 eye_reflected = reflect(-eye_dir, normal);
 
     float r = fresnel_mirror(eye_dir, eye_reflected, N, r0);
 
 # if REFLECTIVE
-    float bump = 0.1;
     vec2 refl_coord = v_tex_pos_clip.xy/ v_tex_pos_clip.z;
-#  if TEXTURE_NORM
-    refl_coord += n * bump;
-#  endif
+    refl_coord += n * BUMP;
     vec3 reflect_color = texture2D(u_reflectmap, refl_coord).rgb;
+
     srgb_to_lin(reflect_color.rgb);
 
-    reflect_color *= specular_color; // use specular map as reflectivity map
     base_color = mix(base_color, reflect_color, u_reflect_factor * r);
 # elif TEXTURE_MIRROR
     vec3 mirror_color = textureCube(u_mirrormap, eye_reflected).xyz;
     srgb_to_lin(mirror_color.rgb);
 
-    mirror_color *= specular_color; // use specular map as reflectivity map
     base_color = mix(base_color, mirror_color, u_mirror_factor * r);
 # endif
 }

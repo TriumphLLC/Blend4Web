@@ -1,7 +1,7 @@
 "use strict";
 
 /** 
- * External utility functions
+ * Implements various utility functions.
  * @module util
  */
 b4w.module["util"] = function(exports, require) {

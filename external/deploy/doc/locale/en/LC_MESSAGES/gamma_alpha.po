@@ -17,7 +17,7 @@ msgstr "Gamma-correction and transparency"
 
 #: ../gamma_alpha.rst:8
 msgid "Общее описание"
-msgstr ""
+msgstr "Overview"
 
 #: ../gamma_alpha.rst:10
 msgid ""
@@ -26,15 +26,23 @@ msgid ""
 "технические характеристики электронно-лучевых трубок имеют вторичное "
 "значение."
 msgstr ""
+"The essence of gamma correction is packing image brightness channel into 8 "
+"bit of information. Perception characteristics of human eye and technical "
+"characteristics of cathode-ray tubes have secondary significance."
 
 #: ../gamma_alpha.rst:14
 msgid ""
 "Графические редакторы обычно работают в нелинейном цветовом пространстве, "
 "где тёмные компоненты кодируются большим числом битов чем светлые. Это "
 "означает, что значению 0.5 от реальной интенсивности света (физической "
-"величины, называемой освещённость) будет соответствовать большее значение "
-"каналов RGB (в самом простом случае 0.5 ^ (1/2.2) = 0.73)."
+"величины, называемой освещённость) будет соответствовать большее значение, "
+"содержащееся в каналах RGB (в самом простом случае 0.5 ^ (1/2.2) = 0.73)."
 msgstr ""
+"Graphics editors normally work in nonlinear color space where darker "
+"components are encoded using more bits than brighter ones. That means [TODO]"
+
+
+
 
 #: ../gamma_alpha.rst:27
 msgid ""
@@ -312,3 +320,5 @@ msgid ""
 "рендеринг прозрачных материалов на выходе шейдера, для чего используется "
 "умножение всех каналов цветности на значение альфы."
 msgstr ""
+
+

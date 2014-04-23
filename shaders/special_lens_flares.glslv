@@ -39,7 +39,7 @@ void main(void) {
     vec2 bb_rel_pos = vec2(a_lf_bb_vertex.x / aspect, a_lf_bb_vertex.y);
 
     // scale flares but not sun
-    if (a_lf_dist > -1.0) {
+    if (a_lf_dist > -0.999) {
         const float SCALE_FACTOR = 1.9;
         bb_rel_pos *= (1.0 + SCALE_FACTOR * length(pos_clip.xy));
     }

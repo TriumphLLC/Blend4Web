@@ -7,11 +7,13 @@
  */
 b4w.module["npc_ai"] = function(exports, require) {
 
-var m_vec3 = require("vec3");
-var m_quat = require("quat");
-var m_anim = require("animation");
-var m_ctl  = require("controls");
-var m_util = require("util");
+var m_vec3  = require("vec3");
+var m_quat  = require("quat");
+var m_anim  = require("animation");
+var m_ctl   = require("controls");
+var m_util  = require("util");
+var m_scs   = require("scenes");
+var m_trans = require("transform");
 
 var _ev_tracks = [];
 
@@ -30,6 +32,8 @@ var NT_SWIMMING = exports.NT_SWIMMING = 30;
 
 var MS_IDLE   = 10;
 var MS_MOVING = 20;
+
+var NPC_MAX_ACTIVITY_DISTANCE = 100;
 
 /**
  * Creates new event track based on given graph.
@@ -53,7 +57,7 @@ exports.new_event_track = function(graph) {
     graph.ended         = [];
     graph.fired         = [];
     graph.y_correction  = null;
-    graph.prev_hit_frac = null;
+    graph.prev_hit_pos = null;
     graph.y_cor_water   = null;
     graph.xz_correction = null;
     graph.reached       = true;
@@ -76,11 +80,11 @@ exports.new_event_track = function(graph) {
 function run_track(elapsed, ev_track) {
 
     var destination = ev_track.destination;
-    var base_pos    = b4w.transform.get_translation(ev_track.empty);
+    var base_pos    = m_trans.get_translation(ev_track.empty);
 
     var current_loc = _vec3_tmp;
 
-    b4w.transform.get_translation(ev_track.collider, current_loc);
+    m_trans.get_translation(ev_track.collider, current_loc);
 
     var y_correction = 0;
     if (ev_track.y_cor_water) {
@@ -100,8 +104,8 @@ function run_track(elapsed, ev_track) {
     switch (ev_track.type) {
     case NT_WALKING:
         if (ev_track.random && ev_track.reached) {
-            destination[0] = (Math.random()*12 - 6)*ev_track.speed;
-            destination[2] = (Math.random()*12 - 6)*ev_track.speed;
+            destination[0] = (Math.random()*12 - 6)*ev_track.speed + base_pos[0];
+            destination[2] = (Math.random()*12 - 6)*ev_track.speed + base_pos[2];
             move_destination_if_too_close(ev_track, destination, current_loc);
             ev_track.reached = false;
         }
@@ -148,7 +152,7 @@ function move_destination_if_too_close(ev_track, dest, cur_loc) {
     var speed = ev_track.speed;
     var rot_speed = ev_track.rot_speed;
 
-    b4w.transform.get_rotation_quat(ev_track.collider, cur_rot_q);
+    m_trans.get_rotation_quat(ev_track.collider, cur_rot_q);
     m_vec3.transformQuat(m_util.AXIS_Z, cur_rot_q, cur_hor_dir);
     cur_hor_dir[1] = 0;
     m_vec3.normalize(cur_hor_dir, cur_hor_dir);
@@ -181,12 +185,12 @@ function anim_translation(elapsed, ev_track) {
                             && actions.idle.indexOf(cur_anim) != -1)
         return;
 
-    b4w.transform.get_translation(collider, cur_loc);
+    m_trans.get_translation(collider, cur_loc);
     var delta_x = dest[0] - cur_loc[0];
     var delta_z = dest[2] - cur_loc[2];
     var left_to_pass = Math.sqrt(delta_x * delta_x + delta_z * delta_z);
 
-    if (left_to_pass > speed * elapsed) {
+    if (left_to_pass > 2.0 * speed * elapsed) {
 
         ev_track.state = MS_MOVING;
 
@@ -197,7 +201,7 @@ function anim_translation(elapsed, ev_track) {
         hor_rot (ev_track, cur_dir, elapsed, new_rot_q, new_hor_dir);
         vert_rot(ev_track, cur_dir, elapsed, new_rot_q);
 
-        b4w.transform.set_rotation_quat_v(collider, new_rot_q);
+        m_trans.set_rotation_quat_v(collider, new_rot_q);
 
         // translation
         trans_obj(elapsed, new_rot_q, ev_track, cur_loc, dest);
@@ -226,7 +230,7 @@ function hor_rot(ev_track, cur_dir, elapsed, new_rot_q, new_hor_dir) {
     var cur_rot_q   = _quat4_tmp_2;
     var cur_hor_dir = _vec3_tmp_4;
 
-    b4w.transform.get_rotation_quat(ev_track.collider, cur_rot_q);
+    m_trans.get_rotation_quat(ev_track.collider, cur_rot_q);
     m_vec3.transformQuat(m_util.AXIS_Z, cur_rot_q, cur_dir);
 
     cur_hor_dir[0]  = cur_dir[0];
@@ -266,15 +270,12 @@ function vert_rot(ev_track, cur_dir, elapsed, new_rot_q) {
     var cur_vert_angle  = Math.asin(cur_dir[1]);
     m_quat.setAxisAngle(m_util.AXIS_X, -cur_vert_angle, cur_vert_q);
 
-    if (ev_track.y_correction) {
-        var delta_hor_dist  = ev_track.speed * elapsed;
-        var delta_vert_dist = ev_track.y_correction;
-        var new_vert_angle  = Math.atan(delta_vert_dist / delta_hor_dist);
-        m_quat.setAxisAngle(m_util.AXIS_X, -new_vert_angle, new_vert_q);
-        m_quat.slerp(cur_vert_q, new_vert_q, elapsed, new_vert_q);
-        m_quat.multiply(new_rot_q, new_vert_q, new_rot_q);
-    } else
-        m_quat.multiply(new_rot_q, cur_vert_q, new_rot_q);
+    var delta_hor_dist  = ev_track.speed * elapsed;
+    var delta_vert_dist = ev_track.y_correction;
+    var new_vert_angle  = Math.atan(delta_vert_dist / delta_hor_dist);
+    m_quat.setAxisAngle(m_util.AXIS_X, -new_vert_angle, new_vert_q);
+    m_quat.slerp(cur_vert_q, new_vert_q, elapsed, new_vert_q);
+    m_quat.multiply(new_rot_q, new_vert_q, new_rot_q);
 }
 
 function trans_obj(elapsed, new_rot_q, ev_track, cur_loc, dest) {
@@ -293,7 +294,7 @@ function trans_obj(elapsed, new_rot_q, ev_track, cur_loc, dest) {
     else
         new_loc[1] = dest[1];
 
-    b4w.transform.set_translation_v(ev_track.collider, new_loc);
+    m_trans.set_translation_v(ev_track.collider, new_loc);
 }
 
 /**
@@ -341,6 +342,9 @@ function elapsed_cb(obj, id, elapsed, pulse) {
 }
 
 function process_event_track(ev_track, elapsed) {
+
+    if (!m_scs.is_visible(ev_track.obj))
+        return;
 
     if (ev_track.random) {
         run_track(elapsed, ev_track);
@@ -409,13 +413,13 @@ function ground_cb (obj, id, value, pulse) {
             break;
             case NT_WALKING:
                 hit_pos = m_ctl.get_sensor_payload(obj, id, 0);
-                ev.y_correction = 1 - hit_pos * 100;
 
-                if (ev.prev_hit_frac == ev.y_correction) {
-                    ev.prev_hit_frac = ev.y_correction;
+                if (ev.prev_hit_pos == hit_pos)
                     ev.y_correction = 0;
-                } else
-                    ev.prev_hit_frac = ev.y_correction;
+                else
+                    ev.y_correction = 1 - hit_pos * 100;
+
+                ev.prev_hit_pos = hit_pos;
             break;
             case NT_SWIMMING:
                 hit_pos = m_ctl.get_sensor_payload(obj, id, 0);

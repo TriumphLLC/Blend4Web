@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: B4W 14.02.28\n"
+"Project-Id-Version: B4W 14.03.28\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-19 19:31+0400\n"
+"POT-Creation-Date: 2014-04-03 12:59\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,221 +17,221 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: ../audio.rst:5
-# e58af94bffab40ecb8c7f7485674484b
+# dad797f3535e4843b39a2e214268cd91
 msgid "Звуковая подсистема"
 msgstr ""
 
 #: ../audio.rst:7
-# ff6e02cb96724170afb640e3ea8e0fd3
+# 34862bdcfc8a43eeb19de78ee916e774
 msgid "Создание звуковых источников осуществляется в Blender'e. Используется стандартный объект ``Speaker``."
 msgstr ""
 
 #: ../audio.rst:10
-# 403ece563fa44cdfba11e62cf2e85877
+# 3883a723e7124d34a34450964518422b
 msgid "Настройка звуковых источников"
 msgstr ""
 
 #: ../audio.rst:12
-# a1de0dffe34143009913200c3535f765
+# 8d84f4acc2af4b4ca9c0d728bf50b4fa
 msgid "Настройки спикера выставляются в панели ``Properties`` на вкладке ``Object Data``."
 msgstr ""
 
 #: ../audio.rst:27
-# c4338ea71266437b83a064b56433e2aa
+# a6c040c2ac544a2895405772016321f4
 msgid "*Speaker behavior*"
 msgstr ""
 
 #: ../audio.rst:15
-# 31450c673cf744ddb82f7d8e00df81ce
+# de2cb41dc40c4c9c95ec50e6b66ad860
 msgid "Поведение звукового источника."
 msgstr ""
 
 #: ../audio.rst:17
-# a3c93584b63c44a485eb315710385a3f
+# 361052f93ef242debb814980803e85a6
 msgid "``Positional`` --- высококачественный звук, допускающий позиционирование и имеющий направленность (конусность). Для рендеринга используется Web Audio API. Воспроизведение подобных звуков обладает наименьшей производительностью, поэтому их использовать целесообразно только для коротких сэмплов."
 msgstr ""
 
 #: ../audio.rst:22
-# fe6607dab5d7486f969e72254b34974b
+# 5d3add5df416478da4c29d0ab0f322bc
 msgid "``Background sound`` --- высококачественный всенаправленный звук без возможности позиционирования в пространстве. Для рендеринга используется Web Audio API. Более производителен, однако нецелесообразен для музыки."
 msgstr ""
 
 #: ../audio.rst:26
-# bb3eab777e9142a29a2ea7d0db465b05
+# b01192048a834033a3f56b922d338da4
 msgid "``Background music`` --- используется для воспроизведения музыки. Максимальная производительность вследствие использования тега Audio, минимальная гибкость."
 msgstr ""
 
 #: ../audio.rst:30
-# bc1457ed6f2b459f9ed6ddd77c4573b2
+# d2a66532f426446393b4227191e975af
 msgid "*Disable doppler*"
 msgstr ""
 
 #: ../audio.rst:30
-# 040c0be1bcbf40838c138cb7ebdbc231
+# 846913af346449f683febbfef1cda264
 msgid "Игнорировать смещение частоты источника при его перемещении."
 msgstr ""
 
 #: ../audio.rst:33
-# 95db941e7e984d3ab6746bea0a305731
+# 498c4b1e486848cf91f38e1af2165c5c
 msgid "*Cyclic play*"
 msgstr ""
 
 #: ../audio.rst:33
-# 51a6393550e94e4ebd08d4350795f020
+# 88a3afd306314c7bbc49ab0a23edfd59
 msgid "Зацикливать воспроизведение звука."
 msgstr ""
 
 #: ../audio.rst:36
-# f7f5fb0db501406b88dbebf8c111c14d
+# 15172483efb7435f8a9f63cb7f2c768d
 msgid "*Delay*"
 msgstr ""
 
 #: ../audio.rst:36
-# 2ab764ee87f44e6bbd0fea788dd76167
+# a5ab50bea5f849389e65c93a4231c0b1
 msgid "Задержка в секундах перед началом проигрывания звука."
 msgstr ""
 
 #: ../audio.rst:40
-# c8477657323f41eebc61dbab8e83241e
+# 882a66947b3d422dbf3f95180f6fb4db
 msgid "*Random delay*"
 msgstr ""
 
 #: ../audio.rst:39
-# 4ae3ffab937b4038999059d00b40404e
+# 16c8e63fbb6f4070bac3e739f59eacf8
 msgid "Дополнительная рандомизация задержки, результирующее значение определяется по формуле :math:`Delay_{result} = Delay + Delay_{random} * Random_{[0-1]}`."
 msgstr ""
 
 #: ../audio.rst:44
-# e077e6f3db154c13b0fb931e1c2c69cb
+# da22313ff67c4a2b92be6321ab0d5554
 msgid "*Random volume*"
 msgstr ""
 
 #: ../audio.rst:43
-# fd06e90e4cd64c9c9c1f99339aeb2a16
+# 0a9dc2f751364abf9afc2c01fdab5911
 msgid "Дополнительная рандомизация громкости. Результирующее значение определяется аналогично задержке."
 msgstr ""
 
 #: ../audio.rst:48
-# 69c257d6f5994c4db53d3cfcf6d0f3d7
+# 690458f7c34f4955aa83e0cb0bd52c8d
 msgid "*Random pitch*"
 msgstr ""
 
 #: ../audio.rst:47
-# 59b9545b72314ebfa9321d6f2f3503cb
+# f5ad34935d71499c82d5d78a2d6b8c10
 msgid "Дополнительная рандомизация скорости проигрывания звука. Результирующее значение определяется аналогично задержке."
 msgstr ""
 
 #: ../audio.rst:51
-# 010f8fee3bfe42cd9c3b715cd2c2cc64
+# e281e552c5fd48908383f812bee24bc2
 msgid "*Fade-in*"
 msgstr ""
 
 #: ../audio.rst:51
-# 5f8d0c9e57ea419b81388958a6bf6ce7
+# 533f6abb8f9f461c96d37c18abce851f
 msgid "Интервал плавного включения звука."
 msgstr ""
 
 #: ../audio.rst:54
-# 077d8d3ebf094337a22dc3eda64a025e
+# fc9c2be20b934edeb2b868733b746423
 msgid "*Fade-out*"
 msgstr ""
 
 #: ../audio.rst:54
-# 66ac562c921b468f80a5360b98b41935
+# d57efe07a28d4dbab0e0a06402425e02
 msgid "Интервал плавного выключения звука."
 msgstr ""
 
 #: ../audio.rst:60
-# 530d7f5559774225bd500f48fc536e58
+# eff59058d547451b82288b2bb4dd660f
 msgid "*Loop*"
 msgstr ""
 
 #: ../audio.rst:57
-# fb7fdac8d215415fa24690bd6beea902
+# 70b36f3623e445dcb5adeda63a898468
 msgid "Зацикливать воспроизведение звука. Отличается от ``Cyclic play``, тем, что способен обеспечить нулевую задержку при повторении. Опция доступна только для звуковых источников с поведением ``Positional`` или ``Background sound``."
 msgstr ""
 
 #: ../audio.rst:63
-# afd1542dca94421897b1f9bd7203fbb2
+# 1c10016ac65043da9c29851439f28e01
 msgid "*Loop count*"
 msgstr ""
 
 #: ../audio.rst:63
 #: ../audio.rst:66
 #: ../audio.rst:69
-# e4c1dab2f396473586feae65f1cecdd4
-# c418bef9be0c416790e1ed7fa4776030
-# 4debe92e48524124b6f81fd47c90e780
+# d7df54058f364dd9b79a6af6426dfe2a
+# 535e3f7def3b47a4a8a330839fd5b603
+# 020e9c706088400896140b026379c310
 msgid "Не реализовано"
 msgstr ""
 
 #: ../audio.rst:66
-# 73fd1f6a0ee447cc8813650457617d37
+# 726767b494d24eea9f7488a861de0f79
 msgid "*Random loop count*"
 msgstr ""
 
 #: ../audio.rst:69
-# 0925ef71f2f8464ea7a5f6711b4b1dff
+# 7b6a5d2c2e374623be92a1659be423cc
 msgid "*Playlist ID*"
 msgstr ""
 
 #: ../audio.rst:74
-# 74a04f5c8504437bb8951b7b39fc316d
+# 8847497958c14658ac863503a3d4f6c3
 msgid "Обработка и кодирование"
 msgstr ""
 
 #: ../audio.rst:77
-# d5f9d70d41cf4c7b8af7899a67aedab2
+# fd9da12635f5495a8f3a4a67fa3863b8
 msgid "Поддерживаемые форматы (контейнеры):"
 msgstr ""
 
 #: ../audio.rst:79
-# 24d572d056b24e3d83af49738b1214eb
+# ce577b64815a4dbc8b30c84a0a9da05b
 msgid "ogg, кодек Vorbis (Chrome, Firefox)"
 msgstr ""
 
 #: ../audio.rst:80
-# bfc3608e9bfe452ca979eed103412f9c
+# 24225e03314a407390a5e5cda194c672
 msgid "mp3 (Chrome, Safari)"
 msgstr ""
 
 #: ../audio.rst:81
-# c6a686c0350b4a6e86fa1a3d8cf27599
+# f3f218de00f54e2f8dc90e5184602875
 msgid "mp4, кодек AAC (Chrome, Safari)"
 msgstr ""
 
 #: ../audio.rst:83
-# 8d9d3a5f4f804cc3aa69d917f8650973
+# 7449b4cec88944108862b67519e8a98b
 msgid "Рекомендуется использовать ogg, как наиболее распространённый в браузерах, поддерживающих WebGL (Chrome, Firefox). Оптимальным с точки зрения качества и совместимости является формат 48кГц/16. Одноканальный звук (моно) используется для хранения коротких сэмплов, двухканальный звук (стерео) - для музыкального сопровождения."
 msgstr ""
 
 #: ../audio.rst:89
-# e40deed10a3845639e0707f3a78919eb
+# 49fa9e960a6f43fd8063f62c7ee2812b
 msgid "Встроенный конвертер имеет возможность преобразования исходных форматов для расширения спектра поддерживаемых платформ. Для этого необходимо выполнить команду:"
 msgstr ""
 
 #: ../audio.rst:97
-# d38e02eecf7145128db8f1db472ccc63
+# bc0737872884402cbe76bb8b6e961a26
 msgid "Преобразование происходит по схеме:"
 msgstr ""
 
 #: ../audio.rst:99
-# abc61d852e494af8847338a4e6ab67b9
+# 6216215c9f6340e3b9266dd9b81261c0
 msgid "ogg -> mp4"
 msgstr ""
 
 #: ../audio.rst:100
-# 666f14682a0949a7a6151407eabb9585
+# 091787b5f2f54373a00b9fd5afd7010c
 msgid "mp3 -> ogg"
 msgstr ""
 
 #: ../audio.rst:101
-# b175cd031e274a218f9003f70e76a65e
+# 0e457960c3f64c9e8a396b897ed161a0
 msgid "mp4 -> ogg"
 msgstr ""
 
 #: ../audio.rst:103
-# 105303cc17144126a484bd550e6c2b36
+# e79ded6eecc74d13841a41b79a7a6075
 msgid "Конвертация ресурсов происходит с потерей качества, поэтому сконвертированные файлы получают суффикс .lossconv."
 msgstr ""
 

@@ -1,6 +1,7 @@
 body {
     background-color: #393939;
-    overflow-y: hidden;
+    overflow: hidden;
+    margin: 0;
 }
 
 div.backgr_checker {

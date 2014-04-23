@@ -32,9 +32,16 @@ var FLOAT_BYTE_SIZE = 4;
 
 var _render_lock = false;
 var _ivec4_tmp   = new Uint8Array(4);
+var _subpixel_index = 0;
 
 var CUBEMAP_BOTTOM_SIDE = 0;
 var CUBEMAP_UPPER_SIDE  = 1;
+
+var JITTER = [new Float32Array([0.25, -0.25]),
+              new Float32Array([-0.25, 0.25])];
+var SUBSAMPLE_IND = [new Float32Array([1, 1, 1, 0]),
+                     new Float32Array([2, 2, 2, 0])];
+
 
 /**
  * Setup WebGL context
@@ -125,7 +132,8 @@ function prepare_subscene_render(subscene) {
     }
 
     // prevent self-shadow issues
-    if (subscene.type == "SHADOW_CAST") {
+    switch (subscene.type) {
+    case "SHADOW_CAST":
         gl.enable(gl.POLYGON_OFFSET_FILL);
         gl.polygonOffset(1.0, 1.0);
         /*
@@ -136,16 +144,26 @@ function prepare_subscene_render(subscene) {
          * gl.cullFace(gl.FRONT); 
          */
         gl.cullFace(gl.BACK);
-    } else if (subscene.type == "MAIN_REFLECT") {
+        break;
+    case "MAIN_REFLECT":
         gl.disable(gl.POLYGON_OFFSET_FILL);
         gl.cullFace(gl.FRONT);
-    } else if (subscene.type == "SKY") {
+        break;
+    case "SMAA_BLENDING_WEIGHT_CALCULATION":
+
+        var s_index = SUBSAMPLE_IND[_subpixel_index];
+        subscene.jitter_subsample_ind = s_index;
+
         gl.disable(gl.POLYGON_OFFSET_FILL);
         gl.cullFace(gl.BACK);
-    } else {
+        break;
+    default:
         gl.disable(gl.POLYGON_OFFSET_FILL);
         gl.cullFace(gl.BACK);
     }
+
+    if (cfg_def.smaa)
+        setup_smaa_jitter(subscene);
 }
 
 exports.clear = clear;
@@ -190,6 +208,13 @@ function clear(subscene) {
 
     gl.clearColor(bc[0], bc[1], bc[2], bc[3]);
     gl.clear(bitfield);
+}
+
+function setup_smaa_jitter(subscene) {
+    var jitter = JITTER[_subpixel_index]
+    var camera = subscene.camera;
+    subscene.jitter_projection_space[0] = jitter[0] * 2 / camera.width;
+    subscene.jitter_projection_space[1] = jitter[1] * 2 / camera.height;
 }
 
 function draw_bundle(subscene, camera, obj_render, batch) {
@@ -415,9 +440,21 @@ function assign_uniform_setters(shader) {
             }
             transient_uni = true;
             break;
+        case "u_view_proj_prev":
+            var fun = function(gl, loc, subscene, obj_render, batch, camera) {
+                gl.uniformMatrix4fv(loc, false, camera.prev_view_proj_matrix);
+            }
+            transient_uni = true;
+            break;
+        case "u_view_proj_inverse":
+            var fun = function(gl, loc, subscene, obj_render, batch, camera) {
+                gl.uniformMatrix4fv(loc, false, camera.view_proj_inv_matrix);
+            }
+            transient_uni = true;
+            break;
         case "u_sky_vp_inverse":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
-                gl.uniformMatrix4fv(loc, false, camera.sky_vp_inverse);
+                gl.uniformMatrix4fv(loc, false, camera.sky_vp_inv_matrix);
             }
             transient_uni = true;
             break;
@@ -786,6 +823,12 @@ function assign_uniform_setters(shader) {
             }
             transient_uni = true;
             break;
+        case "u_scale_threshold":
+            var fun = function(gl, loc, subscene, obj_render, batch, camera) {
+                gl.uniform1f(loc, batch.grass_scale_threshold);
+            }
+            transient_uni = true;
+            break;
         case "u_cube_fog":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniformMatrix4fv(loc, false, batch.cube_fog);
@@ -812,6 +855,18 @@ function assign_uniform_setters(shader) {
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform3fv(loc, batch.wireframe_edge_color);
             }
+            break;
+        case "u_subpixel_jitter":
+            var fun = function(gl, loc, subscene, obj_render, batch, camera) {
+                gl.uniform2fv(loc, subscene.jitter_projection_space);
+            }
+            transient_uni = true;
+            break;
+        case "u_subsample_indices":
+            var fun = function(gl, loc, subscene, obj_render, batch, camera) {
+                gl.uniform4fv(loc, subscene.jitter_subsample_ind);
+            }
+            transient_uni = true;
             break;
 
         // halo
@@ -1299,6 +1354,11 @@ function assign_uniform_setters(shader) {
                 gl.uniform1f(loc, subscene.saturation);
             }
             break;
+        case "u_saturation":
+            var fun = function(gl, loc, subscene, obj_render, batch, camera) {
+                gl.uniform1f(loc, subscene.saturation);
+            }
+            break;
 
         default:
             var fun = null;
@@ -1493,6 +1553,10 @@ exports.unlock = function() {
 }
 exports.is_locked = function() {
     return DEBUG_DISABLE_RENDER_LOCK ? false : _render_lock;
+}
+
+exports.increment_subpixel_index = function() {
+    _subpixel_index = (_subpixel_index + 1) % 2;
 }
 
 /**

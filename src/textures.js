@@ -462,7 +462,8 @@ exports.update_texture = function(texture, image_data, is_dds, filepath) {
             var dds_wh = m_dds.get_width_height(image_data);
 
             if (is_non_power_of_two(dds_wh.width, dds_wh.height)) {
-                m_print.warn("B4W warning: using NPOT-texture", filepath);
+                if (!texture.auxilary_texture)
+                    m_print.warn("B4W warning: using NPOT-texture", filepath);
                 prepare_npot_texture(w_target);
             }
 
@@ -479,7 +480,8 @@ exports.update_texture = function(texture, image_data, is_dds, filepath) {
             texture.height = image_data.height;
 
             if (is_non_power_of_two(image_data.width, image_data.height)) {
-                m_print.warn("B4W warning: using NPOT-texture", filepath);
+                if (!texture.auxilary_texture)
+                    m_print.warn("B4W warning: using NPOT-texture", filepath);
                 prepare_npot_texture(w_target);
             } else
                 gl.generateMipmap(w_target);   
@@ -553,8 +555,8 @@ exports.update_texture = function(texture, image_data, is_dds, filepath) {
 function prepare_npot_texture(tex_target) {
     gl.texParameteri(tex_target, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
     gl.texParameteri(tex_target, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-    gl.texParameteri(tex_target, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
-    gl.texParameteri(tex_target, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+    gl.texParameteri(tex_target, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+    gl.texParameteri(tex_target, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
 }
 
 function is_non_power_of_two(width, height) {

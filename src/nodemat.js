@@ -720,7 +720,10 @@ function append_nmat_node(graph, bpy_node, geometry_output_num) {
         }
         break;
     case "GROUP":
-        switch (bpy_node["node_tree_name"]) {
+        // NOTE: allow auto-generated names for custom nodes
+        // (e.g consider TIME.001 as TIME)
+        var node_name = bpy_node["node_tree_name"].replace(/\.[0-9]{3,}$/g, "");
+        switch (node_name) {
         case "LINEAR_TO_SRGB":
             type = "LINEAR_TO_SRGB";
             break;
@@ -748,6 +751,9 @@ function append_nmat_node(graph, bpy_node, geometry_output_num) {
         case "TRANSLUCENCY":
             type = "TRANSLUCENCY";
             break;
+        case "TIME":
+            type = "TIME";
+            break;
         default:
             m_print.error("Wrong group node: " + bpy_node["node_tree_name"]);
             return false;
@@ -756,7 +762,7 @@ function append_nmat_node(graph, bpy_node, geometry_output_num) {
         outputs = node_outputs_bpy_to_b4w(bpy_node);
 
         // NOTE: additional translucency output
-        if (bpy_node["node_tree_name"] == "TRANSLUCENCY") {
+        if (node_name == "TRANSLUCENCY") {
             var out = default_node_inout("TranslucencyParams", "TranslucencyParams", [0,0,0,0]);
             out.is_linked = outputs[0].is_linked;
             outputs.push(out);

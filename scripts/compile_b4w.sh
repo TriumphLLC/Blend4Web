@@ -45,6 +45,7 @@ java -jar closure-compiler/compiler.jar \
     --js=version_rel.js \
     --js=config_rel.js \
     --js=src/boundings.js \
+    --js=src/compat.js \
     --js=src/constraints.js \
     --js=src/controls.js \
     --js=src/curve.js \
@@ -67,6 +68,7 @@ java -jar closure-compiler/compiler.jar \
     --js=src/textures.js \
     --js=src/assets.js \
     --js=src/loader.js \
+    --js=src/nla.js \
     --js=src/camera.js \
     --js=src/lights.js \
     --js=src/scenes.js \
@@ -90,6 +92,7 @@ java -jar closure-compiler/compiler.jar \
     --js=src/ext/constraints.js \
     --js=src/ext/data.js \
     --js=src/ext/debug.js \
+    --js=src/ext/geometry.js \
     --js=src/ext/hud.js \
     --js=src/ext/lights.js \
     --js=src/ext/material.js \

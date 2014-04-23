@@ -397,9 +397,6 @@ function init_ui() {
     bind_control(set_color_correction_params, "exposure");
     bind_control(set_color_correction_params, "saturation");
 
-    // antialiasing
-    bind_control(set_aa_params, "aa_method");
-
     // audio mixer
     bind_control(set_mix_mode_and_reload, "sfx_mix_mode");
     refresh_mix_mode_ui();
@@ -704,7 +701,6 @@ function prepare_scenes(global_settings) {
     get_dof_params();
     get_god_rays_params();
     get_color_correction_params();
-    get_aa_params();
     get_wind_params();
     get_sun_params();
     get_sky_params();
@@ -855,7 +851,6 @@ function reset_b4w() {
     // scene only, context still persists
     b4w.clear_render_callback();
     b4w.data.cleanup();
-    b4w.reset_timeline();
 }
 
 /*
@@ -1202,21 +1197,6 @@ function set_color_correction_params(value) {
     b4w.scenes.set_color_correction_params(compos_params);
 }
 
-function get_aa_params() {
-
-    var aa = b4w.scenes.get_aa_params();
-
-    if (!aa) {
-        forbid_params(["aa_method"], "disable");
-        return null;
-    }
-
-    forbid_params(["aa_method"], "enable");
-
-    sel_by_val(document.getElementById("aa_method"), aa["aa_method"]);
-    $("#aa_method").selectmenu("refresh");
-}
-
 function sel_by_val(select_elem, option_value) {
     var options = select_elem.options;
     for (var i = 0; i < options.length; i++) {
@@ -1238,17 +1218,6 @@ function get_sel_val(select_elem) {
         if (opt.selected)
             return opt.value;
     }
-}
-
-function set_aa_params(value) {
-    var aa = b4w.scenes.get_aa_params();
-
-    var aa_params = {};
-
-    if ("aa_method" in value)
-        aa_params["aa_method"] = get_sel_val(document.getElementById("aa_method"));
-
-    b4w.scenes.set_aa_params(aa_params);
 }
 
 function get_fog_params() {

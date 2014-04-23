@@ -58,7 +58,9 @@ part_params calc_part_params(void) {
     if (t_common < 0.0) {
         sp.size = 0.0001;
         sp.position = vec3(99999.0, 0.0, 0.0);
-    } else {
+    }
+    //} else {
+    if (!(t_common < 0.0)) {
 
         float t;
         if (u_p_cyclic == 1) {
@@ -66,14 +68,18 @@ part_params calc_part_params(void) {
             t = mod(t_common, delta) - a_p_delay;
             if (t < 0.0)
                 t += delta;
-        } else {
+        }
+        //} else {
+        if (u_p_cyclic != 1) {
             t = t_common - a_p_delay;
         }
 
         if (t < 0.0 || t >= a_p_lifetime) {
             sp.size = 0.0001;
             sp.position = vec3(99999.0, 0.0, 0.0);
-        } else {
+        }
+        //} else {
+        if (!(t < 0.0 || t >= a_p_lifetime)) {
             /* position */
             vec3 pos = a_position;
             vec3 norm  = a_normal;
@@ -120,15 +126,13 @@ void main(void) {
         bb_matrix[3] = vec4(pp.position, 1.0);
     } else if (BILLBOARD_ALIGN == BILLBOARD_ALIGN_YZ) {
         rotation_angle = pp.angle;
-        // NOTE: don't know why negative
-        bb_matrix = rotation_y(radians(-90.0));
+        bb_matrix = rotation_y(radians(90.0));
         bb_matrix[3] = vec4(pp.position, 1.0);
     } else if (BILLBOARD_ALIGN == BILLBOARD_ALIGN_ZX) {
         // NOTE: scattering only in horizontal space 
         rotation_angle = vec_vec_angle(vec2(0.0, -1.0), vec2(a_normal.x,
                 a_normal.z)) + pp.angle;
-        // NOTE: don't know why positive
-        bb_matrix = rotation_x(radians(90.0));
+        bb_matrix = rotation_x(radians(-90.0));
         bb_matrix[3] = vec4(pp.position, 1.0);
     }
     

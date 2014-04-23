@@ -154,12 +154,6 @@ exports["pick_object"] = function(x, y) {
     }
     var active_scene = m_scenes.get_active();
     var subs_color_pick = m_scenes.get_subs(active_scene, "COLOR_PICKING");
-
-    if (!cfg_def.all_objs_selectable && !subs_color_pick) {
-        m_print.error("Color picking disabled by engine configuration");
-        return "";
-    }
-    
     if (subs_color_pick) {
         // NOTE: may be some delay since exports.update() execution
         renderer.draw(subs_color_pick, subs_color_pick.bundles);
@@ -180,6 +174,8 @@ exports["pick_object"] = function(x, y) {
                     return sobjs[i]["name"];
                 }
         }
+    } else {
+        m_print.error("Color picking is not available");
     }
 
     return "";
@@ -573,33 +569,6 @@ exports["set_sky_params"] = function(sky_params) {
     var active_scene = m_scenes.get_active();
     m_scenes.set_sky_params(active_scene, sky_params);
 }
-/**
- * Get AA params
- * @method module:scenes.get_aa_params
- */
-exports["get_aa_params"] = function() {
-    if (!m_scenes.check_active()) {
-        m_print.error("No active scene");
-        return false;
-    }
-    var active_scene = m_scenes.get_active();
-    return m_scenes.get_aa_params(active_scene);
-}
-
-
-/**
- * Set AA params
- * @method module:scenes.set_aa_params
- * @param {object} aa params
- */
-exports["set_aa_params"] = function(aa_params) {
-    if (!m_scenes.check_active()) {
-        m_print.error("No active scene");
-        return false;
-    }
-    var active_scene = m_scenes.get_active();
-    m_scenes.set_aa_params(active_scene, aa_params);
-}
 
 /**
  * Get depth of field params.
@@ -808,6 +777,10 @@ exports["hide_object"] = function(obj) {
 exports["show_object"] = function(obj) {
     var scene = m_scenes.get_active();
     m_scenes.show_object(scene, obj);
+}
+
+exports["is_visible"] = function(obj) {
+    return obj._render.is_visible;
 }
 
 /**

@@ -993,11 +993,11 @@ function get_batch_texture(texture_slot, color) {
     var bpy_texture = texture_slot["texture"];
 
     var render = bpy_texture._render;
-    var filepath = bpy_texture["image"]["filepath"];
+    var image = bpy_texture["image"];
 
-    if (render && color)
-        m_textures.update_texture(render, color,
-                                  bpy_texture["image"]._is_dds, filepath);
+    if (render && color && image) 
+        m_textures.update_texture(render, color, image._is_dds, 
+            image["filepath"]);
 
     return render;
 }
@@ -1089,17 +1089,6 @@ function init_water_material(material, batch) {
         batch.foam_mag = foam["texture"]["b4w_foam_uv_magnitude"];
         // vec3 -> vec2
         batch.foam_scale = new Float32Array([foam["scale"][0], foam["scale"][1]]);
-
-        // check normalmaps foam influence
-        if (normalmaps.length) {
-            for (var i = 0; i < normalmaps.length; i++) {
-                var nmap = normalmaps[i]
-                if (nmap["texture"]["b4w_affect_foam"])
-                    set_batch_directive(batch, "NORM_FOAM" + String(i), 1);
-                else
-                    set_batch_directive(batch, "NORM_FOAM" + String(i), 0);
-            }
-        }
     } else {
         set_batch_directive(batch, "FOAM", 0);
     }
@@ -1722,6 +1711,8 @@ function update_batch_render(batch, render) {
     // set flag to recognize it during subs addition
     // maybe should analize directive instead
     batch.dynamic_grass = render.dynamic_grass;
+
+    batch.dynamic_geometry = render.dynamic_geometry;
     batch.shadow_cast = render.shadow_cast;
     batch.shadow_cast_only = render.shadow_cast_only;
     batch.shadow_receive = render.shadow_receive;
@@ -1733,6 +1724,11 @@ function update_batch_render(batch, render) {
     if (render.is_skinning) {
         set_batch_c_attr(batch, "a_influence");
         set_batch_directive(batch, "SKINNED", 1);
+
+        if (cfg_def.disable_tangent_skining_hack)
+            set_batch_directive(batch, "DISABLE_TANGENT_SKINNING", 1);
+        else
+            set_batch_directive(batch, "DISABLE_TANGENT_SKINNING", 0);
 
         if (render.frames_blending) {
             set_batch_directive(batch, "FRAMES_BLENDING", 1);
@@ -1897,7 +1893,8 @@ function update_batch_geometry(batch, submesh) {
             batch.vertex_colors_usage);
     // remove unneeded arrays to save memory, keep them only for z-sorted 
     // geometry (bufs for dynamic particles are not here)
-    if (!(DEBUG_KEEP_BUFS_DATA_ARRAYS || bufs_data.info_for_z_sort_updates)) {
+    if (!(DEBUG_KEEP_BUFS_DATA_ARRAYS || batch.dynamic_geometry || 
+            bufs_data.info_for_z_sort_updates)) {
         delete bufs_data.ibo_array;
         delete bufs_data.vbo_array;
     }
@@ -2148,12 +2145,15 @@ function make_hair_particles_batches(em_obj, em_batch, objs, batch_types_arr, ob
         }
     }
 
-    // write batch jitter parameters
-    if (pset["b4w_hair_billboard_type"] == "JITTERED")
-        for (var i in batches) {
+    
+    for (var i in batches) {
+        // write batch jitter parameters
+        if (pset["b4w_hair_billboard_type"] == "JITTERED") {
             batches[i].batch.jitter_amp = pset["b4w_hair_billboard_jitter_amp"];
             batches[i].batch.jitter_freq = pset["b4w_hair_billboard_jitter_freq"];
         }
+        batches[i].batch.grass_scale_threshold = pset["b4w_dynamic_grass_scale_threshold"];
+    }
 
     // spatial tree object for searching nearest emitter vertices
     // will be calculated only once
@@ -2668,6 +2668,9 @@ function create_batch_object_baskets(batch_objects, grid_size) {
         render_props.dynamic_grass = bobj_render.dynamic_grass;
         render_props.do_not_cull = bobj_render.do_not_cull;
         render_props.disable_fogging = bobj_render.disable_fogging;
+        
+        // always false for static batches
+        render_props.dynamic_geometry = bobj_render.dynamic_geometry;
 
         render_props.grid_id = calc_grid_id(grid_size, bobj_render.trans);
 
@@ -3194,6 +3197,7 @@ exports.fork_depth_batch = function(batch_src, shadow_source, shadow_destination
     batch.common_attributes = batch_src.common_attributes;
     batch.jitter_amp = batch_src.jitter_amp;
     batch.jitter_freq = batch_src.jitter_freq;
+    batch.grass_scale_threshold = batch_src.grass_scale_threshold;
 
     // NOTE: properties for debugging
     batch.num_triangles = batch_src.num_triangles;
@@ -3497,7 +3501,7 @@ exports.create_antialiasing_batch = function() {
 
     batch.texel_size = new Float32Array([0,0]);
     batch.texel_mask = new Float32Array([1,1]);
-    batch.texel_size_multipler = 1;
+    batch.texel_size_multipler = 1 / cfg_def.resolution_factor;
 
     var submesh = primitives.generate_billboard();
     update_batch_geometry(batch, submesh);
@@ -3513,6 +3517,8 @@ exports.create_smaa_batch = function(type) {
 
     set_batch_directive(batch, "AA_METHOD", "AA_METHOD_SMAA_HIGH");
     set_batch_directive(batch, "SMAA_PASS", type);
+    set_batch_directive(batch, "SMAA_REPROJECTION", 1);
+    set_batch_directive(batch, "SMAA_PREDICATION", 0);
 
     update_shader(batch);
 
@@ -3758,6 +3764,28 @@ exports.create_bloom_combine_batch = function() {
     return batch;
 }
 
+exports.create_velocity_batch = function() {
+    var batch = init_batch("VELOCITY");
+
+    apply_shader(batch, "postprocessing/postprocessing.glslv",
+            "postprocessing/velocity.glslf");
+
+    update_shader(batch);
+
+    batch.depth_mask = false;
+    batch.use_backface_culling = true;
+
+    batch.texel_size = new Float32Array([0,0]);
+    batch.texel_mask = new Float32Array([1,1]);
+    batch.texel_size_multipler = 1;
+
+    var submesh = primitives.generate_billboard();
+    update_batch_geometry(batch, submesh);
+
+    return batch;
+}
+
+
 /**
  * Set batch texel size
  */
@@ -3774,6 +3802,38 @@ exports.set_texel_size = function(batch, size_x, size_y) {
  */
 exports.set_texel_size_mult = function(batch, mult) {
     batch.texel_size_multipler = mult;
+}
+
+/**
+ * Find batch (with childs as far as possible) by object ID, material name and 
+ * batch type
+ */
+exports.find_batch_material = function(obj, mat_name, type) {
+    var mesh = obj["data"];
+    var materials = mesh["materials"];
+    var slots = obj._batch_slots;
+
+    var apt_batch = null;
+
+    for (var i = 0; i < materials.length; i++) {
+        var mat = materials[i];
+        if (mat["name"] === mat_name) {
+            for (var j = 0; j < slots.length; j++) {
+                var slot = slots[j];
+                var batch = slot.batch;
+
+                // sumesh index === material index
+                if (slot.submesh_index === i)
+                    if (type && batch.type == type || !type)
+                        if (batch.childs)
+                            return batch;
+                        else
+                            apt_batch = (apt_batch === null) ? batch: apt_batch;
+            }
+        }
+    }
+
+    return apt_batch;
 }
 
 /**

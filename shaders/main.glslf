@@ -59,7 +59,7 @@ uniform float u_cam_water_depth;
 uniform vec3 u_sun_intensity;
 #endif
 
-#if WATER_EFFECTS && CAUSTICS// || PARALLAX
+#if WATER_EFFECTS && CAUSTICS
 uniform vec3 u_sun_direction;
 #endif
 
@@ -152,7 +152,10 @@ uniform float u_mirror_factor;
 varying vec3 v_eye_dir;
 varying vec3 v_pos_world;
 varying vec3 v_normal;
+
+#if !DISABLE_FOG || (TEXTURE_NORM && PARALLAX) || (WATER_EFFECTS && CAUSTICS)
 varying vec4 v_pos_view;
+#endif
 
 #if TEXTURE_NORM
 varying vec4 v_tangent;
@@ -197,7 +200,7 @@ varying vec3 v_tex_pos_clip;
 void main(void) {
 
 #if WATER_EFFECTS
-    float plane_dist = v_pos_world.y - WATER_LEVEL;
+    float dist_to_water = v_pos_world.y - WATER_LEVEL;
 #endif
 
 #if TEXCOORD
@@ -215,42 +218,48 @@ void main(void) {
     mat3 tbn_matrix = mat3(v_tangent.xyz, binormal, sided_normal);
 #endif
 
+#if !DISABLE_FOG || (TEXTURE_NORM && PARALLAX) || (WATER_EFFECTS && CAUSTICS)
+    float view_dist = length(v_pos_view);
+#endif
+
 #if TEXTURE_NORM && PARALLAX
     // parallax relief mapping
     // http://steps3d.narod.ru/tutorials/parallax-mapping-tutorial.html
+    if (view_dist < 10.0) {
 
-    // transform eye to tangent space
-    vec3 eye = normalize(v_eye_dir * tbn_matrix);
+        float multiplier = clamp(5.0 - 0.5 * view_dist, 0.0, 1.0);
+        float parallax_scale = u_parallax_scale * multiplier;
 
-    // distance between checked layers
-    float pstep = 1.0 / PARALLAX_STEPS;
+        // transform eye to tangent space
+        vec3 eye = normalize(v_eye_dir * tbn_matrix);
 
-    // adjustment for one layer height of the layer
-    vec2 dtex = eye.xy * u_parallax_scale / (PARALLAX_STEPS * eye.z);
+        // distance between checked layers
+        float pstep = 1.0 / PARALLAX_STEPS;
 
-    float height = 1.0;
-    float h = texture2D(u_normalmap0, texcoord).a; // get height
+        // adjustment for one layer height of the layer
+        vec2 dtex = eye.xy * parallax_scale / (PARALLAX_STEPS * eye.z);
 
-    for (float i = 1.0; i <= PARALLAX_STEPS; i++)
-    {
-        if (h < height) {
-            height   -= pstep;
-            texcoord -= dtex;
-            h         = texture2D(u_normalmap0, texcoord).a;
+        float height = 1.0;
+        float h = texture2D(u_normalmap0, texcoord).a; // get height
+
+        for (float i = 1.0; i <= PARALLAX_STEPS; i++)
+        {
+            if (h < height) {
+                height   -= pstep;
+                texcoord -= dtex;
+                h         = texture2D(u_normalmap0, texcoord).a;
+            }
         }
+
+        // find point via linear interpolation
+        vec2 prev = texcoord + dtex;
+        float h_prev = texture2D(u_normalmap0, prev).a - (height + pstep);
+        float h_current = h - height;
+        float weight = h_current / (h_current - h_prev);
+
+        // interpolate to get tex coords
+        texcoord = weight * prev + (1.0 - weight) * texcoord;
     }
-
-    // find point via linear interpolation
-    vec2 prev = texcoord + dtex;
-    float h_prev = texture2D(u_normalmap0, prev).a - (height + pstep);
-    float h_current = h - height;
-    float weight = h_current / (h_current - h_prev);
-
-    // interpolate to get tex coords
-    texcoord = weight * prev + (1.0 - weight) * texcoord;
-    // experiments with silhouette clipping
-    //if (texcoord.x > 1.0 || texcoord.x < 0.0 || texcoord.y > 1.0 ||
-    //    texcoord.y < 0.0) discard;
 
 #endif
 
@@ -264,43 +273,6 @@ void main(void) {
     // equivalent to n.x * v_tangent + n.y * v_binormal + n.z * sided_normal
     vec3 normal = tbn_matrix * n; 
 
-//# if PARALLAX
-//    //parallax selfshadowing experiments
-//
-//    float NdotL = dot(normal, u_sun_direction);
-//    float selfShadow = 0.0;
-//
-//    if (NdotL > 0.0) {
-//        vec2 offsetCoord = texcoord;
-//        vec3 tsL = u_sun_direction;
-//        // Trace a shadow ray along the light vector.
-//        //const int numShadowSteps = mix(60,5,tsL.z);
-//        const float numShadowSteps = 20.0;
-//        pstep = 1.0 / numShadowSteps;
-//        dtex = vec2(tsL.x, -tsL.y) * u_parallax_scale / (numShadowSteps * tsL.z);
-//
-//        // We start one iteration out to avoid shadow acne 
-//        // (could start bumped a little without going
-//        // a whole iteration).
-//        height = normalmap.a + pstep * 0.1;
-//
-//        //while ((normalmap.a < height) && (height < 1.0)) {
-//        for (float i = 1.0; i <= numShadowSteps; i++) {
-//            if (height < 1.0 && normalmap.a < height) {
-//                height += pstep;
-//                offsetCoord += dtex;
-//                normalmap = texture2D(u_normalmap0, offsetCoord);
-//            }
-//        }
-//
-//        // We are in shadow if we left the loop because
-//        // we hit a point
-//        selfShadow = normalmap.a > height ? 1.0: 0.0;
-//
-//        // Shadows will make the whole scene darker, so up the light contribution
-//        //lightColor = lightColor * 1.2;
-//    }
-//# endif
 #else
     vec3 normal = sided_normal;
 #endif
@@ -367,9 +339,6 @@ void main(void) {
 #endif  // TEXTURE_COLOR
     vec3 D = u_diffuse_intensity * diffuse_color.rgb;
     float shadow_factor = calc_shadow_factor(u_shadow_visibility_falloff, D);
-//# if PARALLAX
-//    shadow_factor -= selfShadow;
-//# endif
 
     // emission
     vec3 E = u_emit * diffuse_color.rgb;
@@ -399,38 +368,24 @@ void main(void) {
 #if REFLECTIVE || TEXTURE_MIRROR
 # if TEXTURE_NORM
     apply_mirror(color, eye_dir, normal, u_fresnel_params[2],
-        u_fresnel_params[3], specular_color, n.st);
+        u_fresnel_params[3], n.st);
 # else
     apply_mirror(color, eye_dir, normal, u_fresnel_params[2],
-        u_fresnel_params[3], specular_color, vec2(0.0));
+        u_fresnel_params[3], vec2(0.0));
 # endif
 #endif
 
     color += lresult.specular;
-    float sum_sfactor = lresult.color.a;
 
 #if WATER_EFFECTS
 # if WETTABLE
     //darken slightly to simulate wet surface
-    color = max(color - sqrt(0.01 * -min(plane_dist, 0.0)), 0.5 * color);
+    color = max(color - sqrt(0.01 * -min(dist_to_water, 0.0)), 0.5 * color);
 # endif
 # if CAUSTICS
-    vec4 q = u_sun_quaternion;
-    vec3 v = v_pos_world;
-    v.xz = 10.0 * sin(0.1 * v.xz);
-    // rotate world coordinates to match sun directions
-    vec3 rotated_world = v + 2.0 *
-                    cross(-q.xyz, cross(-q.xyz, v) + q.w * v);
-    vec2 caust_coord = rotated_world.xz;
-#  if TEXTURE_NORM
-    mat3 tbn_transpose = mat3_transpose(tbn_matrix);
-    vec3 norm_tang = tbn_transpose * normal;
-    caust_coord += norm_tang.st;
-#  endif
-    apply_caustics(color, caust_coord.st, plane_dist, u_time,
-                   shadow_factor, normal,
-                   u_sun_direction,
-                   u_sun_intensity, v_pos_world);
+    apply_caustics(color, dist_to_water, u_time, shadow_factor, normal,
+                   u_sun_direction, u_sun_intensity, u_sun_quaternion,
+                   v_pos_world, view_dist);
 # endif  // CAUSTICS
 #endif  //WATER_EFFECTS
 
@@ -442,7 +397,7 @@ void main(void) {
     alpha = 1.0; // prevent blending with html content
 # else
     // make pixels with high specular more opaque; note: only the first channel of S is used
-    float alpha = diffuse_color.a + sum_sfactor * S.r;
+    float alpha = diffuse_color.a + lresult.color.a * S.r;
 # endif
 #else
     float alpha = 1.0;
@@ -458,11 +413,11 @@ void main(void) {
     fog_color.rgb *= u_sun_intensity;
 # endif  // PROCEDURAL_FOG
 # if WATER_EFFECTS
-    fog_underwater(color, length(v_pos_view), eye_dir.y, u_cam_water_depth,
-        u_underwater_fog_color_density, fog_color, plane_dist,
+    fog_underwater(color, view_dist, eye_dir.y, u_cam_water_depth,
+        u_underwater_fog_color_density, fog_color, dist_to_water,
         length(u_sun_intensity) + u_environment_energy);
 # else
-    fog(color, length(v_pos_view), fog_color);
+    fog(color, view_dist, fog_color);
 # endif  // WATER_EFFECTS
 #endif  // !DISABLE_FOG
 

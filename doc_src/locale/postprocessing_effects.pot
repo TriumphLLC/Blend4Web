@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: B4W 14.02.28\n"
+"Project-Id-Version: B4W 14.03.28\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-19 19:31+0400\n"
+"POT-Creation-Date: 2014-04-03 12:59\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,17 +17,17 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: ../postprocessing_effects.rst:5
-# 4fd3130c091848f5a7a4008cee4831a4
+# a8a7b0c626b541fd8ac11c963e5ffb53
 msgid "Постпроцессинговые эффекты"
 msgstr ""
 
 #: ../postprocessing_effects.rst:12
-# 94e3ab69dbbd4075a3adc043e89873aa
+# d45006a6a1ba4a499098c36f2d75c75f
 msgid "Размытие при движении"
 msgstr ""
 
 #: ../postprocessing_effects.rst:14
-# 9cb793e0a043400d95caef6a9a14b708
+# e350d757ab8045318b27fbf642168b49
 msgid "Эффект размытия при движении (motion blur) служит целям увеличения реализма интерактивной сцены. Он проявляется при движении камеры или объектов в виде \"смазывания\" изображения."
 msgstr ""
 
@@ -40,20 +40,20 @@ msgstr ""
 #: ../postprocessing_effects.rst:236
 #: ../postprocessing_effects.rst:259
 #: ../postprocessing_effects.rst:294
-# 7a23c50cbc6747e7b9181c5db19fbdb0
-# 82006d6ebb7943b59ab64c03b38e4661
-# 30712389cbfe4356b3b26d0a17d38ba9
-# 58145c595a3f48a39c1807c1ee35019e
-# 92d78ad887d247a29b53ed2b67fe2e39
-# ec7cfd9ce9bf48e89d2ffa0acd5e0c24
-# bfc8d27a0ba14e30869b4735cbaa820f
-# 5d3299c58d564e4b8ecb9228048f1f7c
-# 34dd0f78f78e4708b73d2e497c10fd4e
+# cd7fc463bc3e45c09cb01d1fbcc27f48
+# 15850995fb7d4bb2b50ade3143464fc3
+# 88395bddaa6642f59abd687a310aa50c
+# eba17e6cc63e4e24a3d5b1d70e76031c
+# 08456e9733a0425586d2524e622754b7
+# be4765f62b4846e0a071bd6f41ce008a
+# 4ea521e3b6914b7390c2668e77cf4510
+# 1bb26fb909ae4b17856bf49c3855000f
+# 0136dae9202b4cb5ba8a74953156c15e
 msgid "Активация"
 msgstr ""
 
 #: ../postprocessing_effects.rst:19
-# b30122fb13bc460bae0da395969be53f
+# bfba3a62b72a4b599488a4355642b484
 msgid "Выставить опцию ``Enable Motion Blur`` на панели ``Scene > Blend4Web``."
 msgstr ""
 
@@ -66,565 +66,465 @@ msgstr ""
 #: ../postprocessing_effects.rst:241
 #: ../postprocessing_effects.rst:264
 #: ../postprocessing_effects.rst:299
-# 858cc1d7bc304e36acc3bac348d37f25
-# 4055321bbc9945a78fe30239ac931bc4
-# e59824f3c4fe4774925526ed2061b896
-# 18546cd1719543d2b4263286f1e0143f
-# 22c101f0c7dc45488b8e0f007b07e74c
-# 834e2a003808420c885b17c613609fbf
-# c8db36701188478f9d695d1993de5a89
-# 919b783bb6814c31b6e8ffb9a3fa3d34
-# 54f9e46105de4f1ab167ed893986b66d
+# 5b45334b0cbd4487a7928915b97137ad
+# c39097da1d574627b6af55c5db16a844
+# d897f2cbcd0945d9940a025500466a6d
+# b9bc934a7c0f4608bbd01709d2ed7539
+# 0ead136b962945d7b4738fbf839a7e71
+# fb080ccc5a284ca6b2595b775ebca499
+# 888a9c4260b3449fad6ef540215a6e44
+# 27ed41b107d9422cb0e7e06224c2af5d
+# 32c7e843c9f546bbb5bd9481aaa47762
 msgid "Дополнительные настройки"
 msgstr ""
 
 #: ../postprocessing_effects.rst:24
-# adaf1d32bab04580b1dac7f7df6b77b6
+# 2c0004eedde54baf88045756436d6bd0
 msgid "На панели ``World > Blend4Web > Motion blur settings``:"
 msgstr ""
 
 #: ../postprocessing_effects.rst:27
-# 3202788d52344c3e9997890a85697817
+# cd96041983fb45068b7240083fbc616e
 msgid "*Motion blur factor*"
 msgstr ""
 
 #: ../postprocessing_effects.rst:27
-# e89755fead254b02b4126be3c92d8be8
+# a1de323c60b546659dd7675172f628ab
 msgid "Степень проявления эффекта. Чем выше значение, тем сильнее эффект размытие. Значение по умолчанию 0.01."
 msgstr ""
 
 #: ../postprocessing_effects.rst:30
-# 14ec6d265f4d4bbaa5b63c3fe0b187c7
+# ea5e8b5a18de4f6ea52a70127bb3988a
 msgid "*Motion blur decay threshold*"
 msgstr ""
 
 #: ../postprocessing_effects.rst:30
-# 65942298946042de986697225b01182d
+# 69d3c2b5d6f4423995b5f34a49350e77
 msgid "Степень плавности размытия. Чем выше значение, тем более резким будет эффект. Значение по умолчанию 0.01."
 msgstr ""
 
 #: ../postprocessing_effects.rst:44
-# 709778c09385449cb0be175206d62d0c
+# 8ffbc273a79b4e72831e725f5d176953
 msgid "Глубина резкости камеры"
 msgstr ""
 
 #: ../postprocessing_effects.rst:46
-# e21d595955814206be4eeb57c89cbc4e
+# 916f87618797489da4f750c71c35636c
 msgid "Эффект глубины резкости камеры (depth of field, DOF) акцентирует внимание зрителя на части сцены. Проявляется в размытии изображения ближе и дальше от фокуса камеры."
 msgstr ""
 
 #: ../postprocessing_effects.rst:51
-# d0239c4303d44b9d91ca972c26299979
+# 88ec5b93d76b49abafc33c33ed45ae3d
 msgid "Выбрать активную камеру, перейти на панель ее настроек (``Object Data``)."
 msgstr ""
 
 #: ../postprocessing_effects.rst:52
-# dd1da0540bc64b65b1879a65f461d2bf
+# 08775b3d719d4ed680d5067279a41db6
 msgid "Далее возможны два варианта:"
 msgstr ""
 
 #: ../postprocessing_effects.rst:54
-# d53333337a014c6494c3338e8dfb3a0f
+# 53aaf54c9de14602ac965f4ebe796a15
 msgid "На панели ``Depth of Field`` в меню ``Focus`` выбрать объект, на котором будет сфокусирована камера. В этом случае при удалении или приближении к этому объекту будет происходит соответствующая коррекция фокуса камеры."
 msgstr ""
 
 #: ../postprocessing_effects.rst:56
-# 436e813c76904421904b18fcd4b1d126
+# fe57d9dac5824908bf1814b8df69e9fe
 msgid "На панели ``Depth of Field`` установить ненулевое значение ``Distance`` (в метрах). В этом случае фокус камеры будет располагаться на заданном расстоянии от камеры и перемещаться вместе с ней."
 msgstr ""
 
 #: ../postprocessing_effects.rst:61
-# 75597cb9960040ff91e1d0b20863f085
+# 6020df3fdb1941ea8b5d206758dbf364
 msgid "На панели настроек активной камеры ``Object Data > Blend4Web``:"
 msgstr ""
 
 #: ../postprocessing_effects.rst:64
-# c0681779b3cf407f8ddefcba12f5d7df
+# 912369969bff4cdab72e9640182d9b6a
 msgid "*DOF front distance*"
 msgstr ""
 
 #: ../postprocessing_effects.rst:64
-# 1cea7bf4813e49fe9c4d253d17242b5a
+# ef5696440972452d95cbf91c2e8951fb
 msgid "Расстояние от фокуса до ближней к камере плоскости, за которой происходит полное размытие (в метрах). Значение по умолчанию 1.0."
 msgstr ""
 
 #: ../postprocessing_effects.rst:67
-# 8f37d2c743c94bf7b4aa36bd9a9d367b
+# 42814fd8161744c1a1b46caf410ebece
 msgid "*DOF rear distance*"
 msgstr ""
 
 #: ../postprocessing_effects.rst:67
-# 6edabcb6782c4919a7842bec08b491e2
+# 6b8b3d9023aa4fa0bdea3c4e9e156b4e
 msgid "Расстояние от фокуса до дальней от камеры плоскости, за которой происходит полное размытие (в метрах). Значение по умолчанию 1.0."
 msgstr ""
 
 #: ../postprocessing_effects.rst:70
-# 47f444feecbb4a8fbf5c78d0c1d96037
+# dfb91c77fc334a40a7a4c007a2c761d0
 msgid "*DOF power*"
 msgstr ""
 
 #: ../postprocessing_effects.rst:70
-# 53334bf4c7df48d2ad523fe2a15c2611
+# 271a28b627e34ecbbab397b07395ed1a
 msgid "Степень размытия. Значение по умолчанию 3.0."
 msgstr ""
 
 #: ../postprocessing_effects.rst:84
-# 77b79b90a2be45e89c814c97ca5f081c
+# ceb14a96f0df40f5b068ccfaa1c71f53
 msgid "Взаимное затенение"
 msgstr ""
 
 #: ../postprocessing_effects.rst:86
-# 8467a8b2cd85454d908d7a3e9f25a698
+# 26a380d526e742d78c1ff1272f77a6be
 msgid "Эффект взаимного затенения (screen-space ambient occlusion, SSAO) применяется с целью воспроизведения сложного переотражения света от объектов. Пространство между близкими объектами менее доступно для рассеянного света и поэтому затеняется сильнее."
 msgstr ""
 
 #: ../postprocessing_effects.rst:91
-# 7686bea3522340c191a4eb6d15e0ec9d
+# 0af17cdf3fe7478c8f1d598e645376fa
 msgid "Выставить опцию ``Enable SSAO`` на панели ``Scene > Blend4Web``."
 msgstr ""
 
 #: ../postprocessing_effects.rst:96
-# 7a82cd1f55b3419fb0faa0b1556e221b
+# 5cd70d66295340dd804dda2ebcfec6ee
 msgid "На панели \"мира\" ``World > Blend4Web > SSAO Settings``:"
 msgstr ""
 
 #: ../postprocessing_effects.rst:99
-# 8b3c0bd19ec9411e9085c74b7885c1a7
+# 1d54bc74e1c0455686450e337879c844
 msgid "*Radius Increase*"
 msgstr ""
 
 #: ../postprocessing_effects.rst:99
-# 5577a066a71f416f929972abd16b5c94
+# 5c553180062b4377bf7c84bd2abf1dab
 msgid "Фактор умножения радиуса сферического сэмплинга при переходе от внутреннего кольца к внешнему. Значение по умолчанию 1.7."
 msgstr ""
 
 #: ../postprocessing_effects.rst:102
-# 40f3ab1983904998ac1a174dd64759e8
+# 720bc1c8647e49b389539cf122bd5f4d
 msgid "*Dithering Amount*"
 msgstr ""
 
 #: ../postprocessing_effects.rst:102
-# aefa0dd7cb8a4fbeba3568cb6000963a
+# 6ffae4ff88934739a555428b28ae4c15
 msgid "Степень подмешивания случайного шума для уменьшения проявления полос (дитеринг). Значение по умолчанию 0.1."
 msgstr ""
 
 #: ../postprocessing_effects.rst:105
-# 71f5512265c94d8199fd17dd0d7f045e
+# 3b6f37cdb5154932968840a63df1316d
 msgid "*Gauss Center*"
 msgstr ""
 
 #: ../postprocessing_effects.rst:105
-# aa525c8a1a5f48d5be3740b40f80c305
+# 0fc89f6f140f4129a1dbae7133f128c4
 msgid "Математическое ожидание - параметр распределения Гаусса для разницы глубин пиксела и соседнего сэмпла. Значение по умолчанию 0.2."
 msgstr ""
 
 #: ../postprocessing_effects.rst:108
-# d96f34f05922450d97691ace8693d2b6
+# af1db2fb00cb44c1aa82e9beef0c70e3
 msgid "*Gauss Width*"
 msgstr ""
 
 #: ../postprocessing_effects.rst:108
-# abcc3edc0101495cb650d2d0aa2e571e
+# 8d22f507fbe14e29836e3af34d0be39d
 msgid "Стандартное отклонение - параметр распределения Гаусса для разницы глубин пиксела и соседнего сэмпла. Значение по умолчанию 2.0."
 msgstr ""
 
 #: ../postprocessing_effects.rst:111
-# 82d2e42595d34f208011633cb5c11651
+# e1c093f42eba4e36807522b8b26a7903
 msgid "*Gauss Width Left*"
 msgstr ""
 
 #: ../postprocessing_effects.rst:111
-# 2f81bab8263345fcb9994dabdfb1995b
+# 2fda865775e841eda8e6fbb059353ebb
 msgid "Стандартное отклонение в случае, когда разница глубин меньше математического ожидания. Значение по умолчанию 0.1."
 msgstr ""
 
 #: ../postprocessing_effects.rst:114
-# 99414e4388b7458783c9042cf7a98b40
+# 5a607b3330324bb2949293a9755fb80e
 msgid "*Influence*"
 msgstr ""
 
 #: ../postprocessing_effects.rst:114
-# 90c2ca92fdb747ef8ae5098583f44349
+# ab7ce901c92d4ca3a18cca3e749ed93e
 msgid "Степень проявленности эффекта взаимного затенения. Значение по умолчанию 0.7."
 msgstr ""
 
 #: ../postprocessing_effects.rst:117
-# 1f90c8ccf6a7471085b7316f066415df
+# 93fdf74866aa464badd68ecbfaa83b61
 msgid "*Distance Factor*"
 msgstr ""
 
 #: ../postprocessing_effects.rst:117
-# 9bf4110b3b674d36b3ee4af12d65c3a5
+# 3431c4c00b8a4a30b36f999ef7d23fbb
 msgid "Фактор уменьшения проявленности эффекта взаимного затенения с расстоянием. Значение по умолчанию 0.0 (т.е. уменьшения нет)."
 msgstr ""
 
 #: ../postprocessing_effects.rst:121
-# 718e9d6ff6f646e19f835b6793df2a7c
+# 48e6fa5ba2584ab5a4c7804a7c0c3523
 msgid "*Samples*"
 msgstr ""
 
 #: ../postprocessing_effects.rst:120
-# 6a1d10785199403bb5a33c06e88c3ac8
+# afb34a185b7e401fa5b6c597b92f466c
 msgid "Количество сэмплов (чем больше, тем лучше качество, но меньше производительность). Значение по умолчанию 16."
 msgstr ""
 
 #: ../postprocessing_effects.rst:135
-# 90f9eadb4dfe42b4a39133f4c6455a9b
+# 7414fe28a43b41d6996a750ddf143af3
 msgid "Сумеречные лучи"
 msgstr ""
 
 #: ../postprocessing_effects.rst:137
-# f972e700a0d14f97b02d98c1afc94bc6
+# 41e1736975b84e39831b238b19e29d5f
 msgid "Эффект сумеречных лучей (crepuscular rays, \"god rays\") симулирует известное природное явление - свечение освещенных областей воздуха."
 msgstr ""
 
 #: ../postprocessing_effects.rst:142
-# 0c68db07ac8b4c86b3ba13e31e583fa6
+# 84abea7dc11f4a44a94ef137bceaa4dd
 msgid "Выставить опцию ``Enable God Rays`` на панели ``Scene > Blend4Web``."
 msgstr ""
 
 #: ../postprocessing_effects.rst:147
-# c870950a63374fab8fb37d84d9190d02
+# d84beb0f84e44be3834b464cd3d35e51
 msgid "На панели \"мира\" ``World > Blend4Web > God Rays Settings``:"
 msgstr ""
 
 #: ../postprocessing_effects.rst:150
-# ab5b0dfc7de646f099393ba5678b1210
+# e46817aa355e4969b9920d7e839a4a3b
 msgid "*God Rays Intencity*"
 msgstr ""
 
 #: ../postprocessing_effects.rst:150
-# 6fe0850a54dd4805afb0cb4e63cc6b7b
+# 16ecac2a49c04667b293f5a4b4d639ee
 msgid "Степень проявленности эффекта. Значение по умолчанию 0.7."
 msgstr ""
 
 #: ../postprocessing_effects.rst:154
-# 48ede0d5414c4791b2ee3675a0f3cd20
+# a5bd7e0f21e8496896e67f409e9962a7
 msgid "*Maximum Ray Length*"
 msgstr ""
 
 #: ../postprocessing_effects.rst:153
-# ca00b93632704fb696beb53772994e52
+# 84b98393c1d146a98a32f555bd2cb25a
 msgid "Фактор длины лучей. Определяет шаг сэмплов радиального размытия. Значение по умолчанию 1.0."
 msgstr ""
 
 #: ../postprocessing_effects.rst:168
-# a04769c7b811452bb72be53e99754424
+# f77e2aff2df34ef4a962747011bd767e
 msgid "Анаглиф стереоизображение"
 msgstr ""
 
 #: ../postprocessing_effects.rst:173
-# b8038c77c1144b3bbfca55a0eec6bf52
+# a439a252aed74df9868e1569f1cd49bb
 msgid "Режим стереоизображения предназначен для просмотра контента в специальных очках и активируется приложением."
 msgstr ""
 
 #: ../postprocessing_effects.rst:178
-# 34ca016a5bb9451da05a6e32e123225f
+# cc262aab2bed44d38ff6b50607eaef05
 msgid "Нет."
 msgstr ""
 
 #: ../postprocessing_effects.rst:194
-# 9d8d6233e19e4ba39a9cc50c4c88c461
+# e8ee27fd8bc84d099ac85ce3db104a32
 msgid "Коррекция цвета"
 msgstr ""
 
 #: ../postprocessing_effects.rst:199
-# ca328ddf8859493f98003f02bdb7719f
+# ff6fbeb775d04c4ea3032abaaddda893
 msgid "Выставить опцию ``Enable Color Correction`` на панели ``Scene > Blend4Web``."
 msgstr ""
 
 #: ../postprocessing_effects.rst:204
-# c60eee502cd74d21a58f82be7eb8bc67
+# caf450494cca4572b19e056dc6967b45
 msgid "На панели \"мира\" ``World > Blend4Web > Color Correction Settings``:"
 msgstr ""
 
 #: ../postprocessing_effects.rst:207
-# f785bccf4c08476f8593705f6cade79d
+# 1c79847454534f30bf69ce188571a2bd
 msgid "*Brightness*"
 msgstr ""
 
 #: ../postprocessing_effects.rst:207
-# 4845c0896a754e23bb303a9985a46cf2
+# e1f72628dbbf4bc79f8560b757917f53
 msgid "Яркость. Значение по умолчанию 0.0."
 msgstr ""
 
 #: ../postprocessing_effects.rst:210
-# 7f484c79e2f444858e2b023bf87fe6c2
+# 3858ba27d6fc4a2f9f7fe078dd3bfad7
 msgid "*Contrast*"
 msgstr ""
 
 #: ../postprocessing_effects.rst:210
-# d0f3e4515eb147b3b7d395b8a8ba4d2b
+# 1978f2d79cd2497babb94364f0dd8e81
 msgid "Контрастность. Значение по умолчанию 0.0."
 msgstr ""
 
 #: ../postprocessing_effects.rst:213
-# 1ef575759d814c0180a2c583002d5ef3
+# 682a3d38870f4dac86d81c2e3ddeab2d
 msgid "*Exposure*"
 msgstr ""
 
 #: ../postprocessing_effects.rst:213
-# bd6608d55915444cbaac036e4c6c560f
+# 7fb4818e881340e88c4180852cc6c15c
 msgid "Экспозиция. Значение по умолчанию 1.0."
 msgstr ""
 
 #: ../postprocessing_effects.rst:217
-# bd0dfee3532946138a96212ef7542e1e
+# 7b413b4e3b244540afc04e0592366989
 msgid "*Saturation*"
 msgstr ""
 
 #: ../postprocessing_effects.rst:216
-# 927f0b26dddc403f9914b0fdcacd4c14
+# ff2fcd16db7d4a4385f953ebb1e9c919
 msgid "Насыщенность. Значение по умолчанию 1.0."
 msgstr ""
 
 #: ../postprocessing_effects.rst:231
-# b304a91e5e1b4782b678e657ff1a92e0
+# 4bd95e89b0bd4e65b0d14f4f48fd3f06
 msgid "Сглаживание"
 msgstr ""
 
 #: ../postprocessing_effects.rst:233
-# f45e310565f743cbb81169477c6ced94
+# 294a601c9ad346f9ad49e1ff10bc38c6
 msgid "Сглаживание (anti-aliasing) необходимо для уменьшения влияния нежелательных артефактов рендеринга (\"зубчатости\")."
 msgstr ""
 
 #: ../postprocessing_effects.rst:238
-# 8b613957e0a14f66a898010792faee5b
+# 9535a6d16a69466c828005253a364968
 msgid "Выставить опцию ``Enable Antialiasing`` на панели ``Scene > Blend4Web``."
 msgstr ""
 
 #: ../postprocessing_effects.rst:243
-# 6b01292c5b7b41bc83ad26a1703aa5b4
+# bb063bc87ba0416da30630494eaa8796
 msgid "Приложение может выбрать выбрать режимы сглаживания: FXAA Quality (используется по умолчанию), FXAA \"Light\", или отключить сглаживание."
 msgstr ""
 
 #: ../postprocessing_effects.rst:254
-# b58ffd6d29164731a3ef42e1f716eb43
+# b1966f2e7f034e06b14e2366312858db
 msgid "Эффект засветки ярких деталей"
 msgstr ""
 
 #: ../postprocessing_effects.rst:256
-# 25831ac30d6f47558dd87e018ada81dc
+# a8b96ef96a3b4002945dbdc830f0449c
 msgid "Эффект засветки (Bloom) проявляется при наличии на экране элементов с большой разницей в яркости. Вокруг ярких деталей создается светящийся ореол."
 msgstr ""
 
 #: ../postprocessing_effects.rst:261
-# 2ff003923b5b4517b7bdb6d6856df0e6
+# 85c1038c1b3244e28d4d4bf67110e578
 msgid "Выставить опцию ``Enable Bloom`` на панели ``Scene > Blend4Web``."
 msgstr ""
 
 #: ../postprocessing_effects.rst:266
-# b2ff15d955ac46ee831bff0732084ea2
+# 9dfa5b1ac02b4a0cb3555ac4010382ac
 msgid "На панели \"мира\" ``World > Blend4Web > Bloom Settings``:"
 msgstr ""
 
 #: ../postprocessing_effects.rst:269
-# ddecee5f314c4294a34b841cab81ad0a
+# 41d97cda747042a3b713000f98c2764c
 msgid "*Key*"
 msgstr ""
 
 #: ../postprocessing_effects.rst:269
-# ef3b237d404d4c9b8e455b5a444fc0c7
+# 23c1973bcf9c45dbaa1d736cc8b46169
 msgid "Интенсивность эффекта свечения."
 msgstr ""
 
 #: ../postprocessing_effects.rst:272
-# 34174f13468d4426ba8f9d1e4890ba74
+# 3ea981ab9ef1412ea09da142826898ac
 msgid "*Blur*"
 msgstr ""
 
 #: ../postprocessing_effects.rst:272
-# 740e989e64064ad1b40645f032b70765
+# 9771358cd9f84ba2b99e646a195cbb67
 msgid "Степень размытия засветки."
 msgstr ""
 
 #: ../postprocessing_effects.rst:275
-# 88f9879b3a8643d8b48e0dc5e41935a5
+# cd89bb57e86548248436adf0d7a2160a
 msgid "*Edge Luminance*"
 msgstr ""
 
 #: ../postprocessing_effects.rst:275
-# d0ce8e0a9b024583a3e70a85f946b251
+# 502d4745992b444d91acfd54cf73e8ad
 msgid "Граничное значение относительной яркости элемента, выше которого начинает проявляться эффект засветки."
 msgstr ""
 
 #: ../postprocessing_effects.rst:289
-# bc245904947a469bb8986d4e9f37fabc
+# c3ec3b0bfdcb4d2d8fe2fcbf8fc66d51
 msgid "Свечение вокруг объекта (Glow)"
 msgstr ""
 
 #: ../postprocessing_effects.rst:291
-# 0bb05fdf482448c18ac666623d51d8cb
+# b856146afc2644da974d0754495ff5f1
 msgid "Эффект Glow заключается в подсвечивании конкретного объекта по контуру некоторым цветом. В результате вокруг объекта будет создан светящийся ореол."
 msgstr ""
 
 #: ../postprocessing_effects.rst:296
-# 90fc55d9e31640a9a39193aeb488a2d9
+# d993ab70968344c48f4fa0d7e8e8b294
 msgid "Эффект Glow активируется программно через API. Может быть реализован как эффект постоянного свечения, так и затухающего, пульсирующего и любой другой модели. Чтобы разрешить его использование на конкретном объекте, необходимо выставить опцию ``Selectable`` на панели ``Object > Blend4Web``."
 msgstr ""
 
 #: ../postprocessing_effects.rst:301
-# 418218d32fbe41c795f0399007689b58
+# 12f961931d6f4bc88a00c79f300056e1
 msgid "На панели ``Object > Blend4Web``:"
 msgstr ""
 
 #: ../postprocessing_effects.rst:304
-# 884ed781cf9947c6a639a5db0491aaa1
+# a829bf7bbe0a408d8266262fdc45d293
 msgid "*Glow duration*"
 msgstr ""
 
 #: ../postprocessing_effects.rst:304
-# 07c97d68182e46f98444047173c0fb9e
+# cbc57c0fe1f54dd3beafeca132629217
 msgid "Длительность Glow-анимации, сек. Значение по умолчанию 1."
 msgstr ""
 
 #: ../postprocessing_effects.rst:307
-# 3e6eb06bdeb748a79258c070e225879b
+# e49d7ef8af0c4007bf71716f32c351fa
 msgid "*Glow period*"
 msgstr ""
 
 #: ../postprocessing_effects.rst:307
-# b83225af345f47d299357b5f74f85291
+# ae6000c59446407bb771e80609371947
 msgid "Период повторения Glow-анимации, сек. Значение по умолчанию 1."
 msgstr ""
 
 #: ../postprocessing_effects.rst:311
-# 82ef174c16e54165923dbc4f40cff634
+# 910440794e664e33b49dfdb494f70cce
 msgid "*Glow relapses*"
 msgstr ""
 
 #: ../postprocessing_effects.rst:310
-# 0cb1f8a7fe3c4c08b0cc8e4761dad2c9
+# 34351d88ee5643e694c42ec5a643832b
 msgid "Количество итераций Glow-анимации. В случае 0 анимация будет повторяться бесконечно. Значение по умолчанию 0."
 msgstr ""
 
 #: ../postprocessing_effects.rst:313
-# 33094a1b06b4476ebf8a78321c449776
+# e560a01bf5004a808f2679f6d291d191
 msgid "На панели ``World > Blend4Web``:"
 msgstr ""
 
 #: ../postprocessing_effects.rst:316
-# 5cf25e5699f842dab33107e490f51d75
+# a7df2766248641dfa1bf7e059bcf0330
 msgid "*Objects glow color*"
 msgstr ""
 
 #: ../postprocessing_effects.rst:316
-# a82238a018b34332b1d6cce317835d8b
+# f9c1a584d5954afb8de191290c14f82f
 msgid "Общий цвет эффекта для всех объектов. Значение по умолчанию (0,0,0)."
 msgstr ""
 
 #: ../postprocessing_effects.rst:319
-# 29ef18ade04c4f15a2a30e8b306791cd
+# f0a53284225e4110aedea91fa84f522e
 msgid "*Glow factor*"
 msgstr ""
 
 #: ../postprocessing_effects.rst:319
-# d668d8c6b68741958fa6d2330252e860
+# ad4ab476605e4bc99650bf32e28521e4
 msgid "Толщина и яркость ореола, окружающего объект. Падает с уменьшением параметра. Значение по умолчанию 1."
 msgstr ""
 
 #: ../postprocessing_effects.rst:321
-# a219c9e8431745c985376248292bae18
+# 1c183382755e492089c8bed1dbcf00e3
 msgid "При управлении через API данные настройки воспринимаются как настройки по умолчанию."
-msgstr ""
-
-#: ../postprocessing_effects.rst:7
-# a5ec8d72064a4934820da171bd52b21d
-msgid "размытие при движении"
-msgstr ""
-
-#: ../postprocessing_effects.rst:7
-# a5ec8d72064a4934820da171bd52b21d
-msgid "motion blur"
-msgstr ""
-
-#: ../postprocessing_effects.rst:39
-# 472dad79c55a47139a7ab8b2f3407558
-msgid "глубина резкости камеры"
-msgstr ""
-
-#: ../postprocessing_effects.rst:39
-# 472dad79c55a47139a7ab8b2f3407558
-msgid "depth of field"
-msgstr ""
-
-#: ../postprocessing_effects.rst:39
-# 472dad79c55a47139a7ab8b2f3407558
-msgid "DOF"
-msgstr ""
-
-#: ../postprocessing_effects.rst:79
-# 564209558b2e4d909bba932617ed8393
-msgid "взаимное затенение"
-msgstr ""
-
-#: ../postprocessing_effects.rst:79
-# 564209558b2e4d909bba932617ed8393
-msgid "screen-space ambient occlusion"
-msgstr ""
-
-#: ../postprocessing_effects.rst:79
-# 564209558b2e4d909bba932617ed8393
-msgid "SSAO"
-msgstr ""
-
-#: ../postprocessing_effects.rst:130
-# 60ca016476854bed92978c8ec964067d
-msgid "сумеречные лучи"
-msgstr ""
-
-#: ../postprocessing_effects.rst:130
-# 60ca016476854bed92978c8ec964067d
-msgid "crepuscular rays"
-msgstr ""
-
-#: ../postprocessing_effects.rst:130
-# 60ca016476854bed92978c8ec964067d
-msgid "god rays"
-msgstr ""
-
-#: ../postprocessing_effects.rst:163
-# 86760f14680d476ea82f9b977c677d1b
-msgid "анаглиф"
-msgstr ""
-
-#: ../postprocessing_effects.rst:163
-# 86760f14680d476ea82f9b977c677d1b
-msgid "стереоизображение"
-msgstr ""
-
-#: ../postprocessing_effects.rst:163
-# 86760f14680d476ea82f9b977c677d1b
-msgid "anaglyph"
-msgstr ""
-
-#: ../postprocessing_effects.rst:189
-# bc650a6156664d0abb305be186aac93f
-msgid "коррекция цвета"
-msgstr ""
-
-#: ../postprocessing_effects.rst:189
-# bc650a6156664d0abb305be186aac93f
-msgid "color correction"
-msgstr ""
-
-#: ../postprocessing_effects.rst:226
-# 0f17053945b84f51aef4516b53cb8dc1
-msgid "сглаживание"
-msgstr ""
-
-#: ../postprocessing_effects.rst:226
-# 0f17053945b84f51aef4516b53cb8dc1
-msgid "anti-aliasing"
-msgstr ""
-
-#: ../postprocessing_effects.rst:284
-# e1029bd31ba74eaa959816da8511ba23
-msgid "свечение"
-msgstr ""
-
-#: ../postprocessing_effects.rst:284
-# e1029bd31ba74eaa959816da8511ba23
-msgid "glow"
 msgstr ""
 

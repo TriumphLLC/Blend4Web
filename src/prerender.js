@@ -104,6 +104,8 @@ function prerender_bundle(bundle, subs) {
 
     bundle.do_render = true;
 
+    obj_render.is_visible = false;
+
     if (!obj_render) {
         bundle.do_render = false;
         return;
@@ -114,12 +116,14 @@ function prerender_bundle(bundle, subs) {
         return;
     }
 
-    if (subs.type == "GLOW_MASK" && !Boolean(bundle.batch.glow_intensity)) {
+    if (!is_lod_visible(obj_render, cam)) {
         bundle.do_render = false;
         return;
     }
 
-    if (!is_lod_visible(obj_render, cam)) {
+    obj_render.is_visible = true;
+
+    if (subs.type == "GLOW_MASK" && !Boolean(bundle.batch.glow_intensity)) {
         bundle.do_render = false;
         return;
     }

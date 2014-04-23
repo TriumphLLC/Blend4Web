@@ -71,6 +71,10 @@ uniform mat4 u_proj_matrix;
 uniform vec3 u_camera_eye;
 # endif
 
+#if SMAA_JITTER
+uniform vec2 u_subpixel_jitter;
+#endif
+
 #if SKINNED
 uniform vec4 u_quatsb[MAX_BONES];
 uniform vec4 u_transb[MAX_BONES];
@@ -290,6 +294,10 @@ void main(void) {
     v_pos_view = u_view_matrix * vec4(world.position, 1.0);
 
     vec4 pos_clip = u_proj_matrix * v_pos_view;
+
+#if SMAA_JITTER
+    pos_clip.xy += u_subpixel_jitter * pos_clip.w;
+#endif
 
 #if SHADOW_SRC == SHADOW_SRC_MASK
     get_shadow_coords(pos_clip);

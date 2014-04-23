@@ -1,15 +1,13 @@
 bl_info = {
     "name": "Blend4Web",
     "author": "Blend4Web Development Team",
-    "version": (14, 2, 28),
+    "version": (14, 4, 22),
     "blender": (2, 70, 0),
-    "b4w_format_version": "4.01",
-    "api": 60991,
+    "b4w_format_version": "4.02",
     "location": "File > Import-Export",
     "description": "Blend4Web is a Blender-friendly 3D web framework",
     "warning": "",
-    "wiki_url": "blend4web.com",
-    "tracker_url": "blend4web.com",
+    "wiki_url": "http://blend4web.com/doc",
     "category": "Import-Export"
 }
 
@@ -19,7 +17,8 @@ import bpy
 from bpy.types import AddonPreferences
 from bpy.props import StringProperty
 
-from . import b4w_renamer
+# B4W addon validation on start
+from . import init_validation
 
 # B4W custom properties
 from . import properties
@@ -75,34 +74,6 @@ class B4WPreferences(AddonPreferences):
         layout = self.layout
         layout.prop(self, "b4w_src_path", text="Path to b4w source")
 
-class VersionValidator(bpy.types.Operator):
-    bl_idname = "b4w.validate_version"
-    bl_label = "Version mismatch warning!"
-    bl_options = {"INTERNAL"}
-
-    def execute(self, context):
-        return {'FINISHED'}
-
-    def invoke(self, context, event):
-        wm = context.window_manager
-        context.window.cursor_set("DEFAULT")
-        return wm.invoke_props_dialog(self, 450)
-
-    def draw(self, context):
-        layout = self.layout
-        layout.label("Blender version " + ".".join(map(str, bl_info["blender"]))
-                + " is required by Blend4Web addon. Current version is " 
-                + ".".join(map(str, bpy.app.version)),
-                icon="ERROR")
-
-@bpy.app.handlers.persistent
-def validate_version(arg):
-    # NOTE: context.window is None on blender start
-    if (bpy.app.version[0] != bl_info["blender"][0]
-            or bpy.app.version[1] != bl_info["blender"][1]) \
-            and bpy.context.window is not None:
-        bpy.ops.b4w.validate_version("INVOKE_DEFAULT")
-
 def register():
     properties.register()
     interface.register()
@@ -121,12 +92,11 @@ def register():
     shore_distance_baker.register()
     remove_unused_vgroups.register()
     boundings_draw.register()
-    b4w_renamer.register()
 
     bpy.utils.register_class(B4WPreferences)
 
-    bpy.utils.register_class(VersionValidator)
-    bpy.app.handlers.load_post.append(validate_version)
+    bpy.app.handlers.scene_update_pre.append(init_validation.validate_version)
+
 
 def unregister():
     properties.unregister()
@@ -148,8 +118,6 @@ def unregister():
     boundings_draw.unregister()
 
     bpy.utils.unregister_class(B4WPreferences)
-
-    bpy.utils.unregister_class(VersionValidator)
 
 if __name__ == "__main__":
     register()

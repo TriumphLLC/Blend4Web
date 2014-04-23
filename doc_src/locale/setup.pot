@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: B4W 14.02.28\n"
+"Project-Id-Version: B4W 14.03.28\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-19 19:31+0400\n"
+"POT-Creation-Date: 2014-04-03 12:59\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,149 +17,107 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: ../setup.rst:5
-# 1fc226f60cd44b6ab09348e368b44063
+# 87b95531ebb0434685673091baa37bed
 msgid "Развёртывание среды разработки"
 msgstr ""
 
 #: ../setup.rst:7
-# 1563b95294e64f89aba60e2a2989ec02
+# 2fac52e97af047a0ae56d80436dc3dfb
 msgid "Для работы необходим дистрибутив движка, браузер (настроенный для локального просмотра) и Blender (с установленным аддоном)."
 msgstr ""
 
 #: ../setup.rst:13
-# ea6a1516251b4869bbe69406a8079e6e
+# 887f7aea75314a4a804ecf0007f451ff
 msgid "Установка дистрибутива"
 msgstr ""
 
 #: ../setup.rst:15
-# 33f6ee1d85f0402f9c001a9277b97e99
-msgid "Стабильные версии дистрибутива поставляются в виде архива ``blend4web_pro.zip``. Для установки достаточно распаковать данный архив в любое место на диске."
+# b630d005861048e98d8c32a9ec904054
+msgid "Стабильные версии дистрибутива поставляются в виде архива (``blend4web_sdk_free.zip`` -- бесплатный SDK, ``blend4web_sdk_pro.zip`` -- коммерческий SDK). Для установки достаточно распаковать данный архив в любое место на диске."
 msgstr ""
 
-#: ../setup.rst:18
-# 1ea055611a5b4f55a2ef09db868c3a8b
-msgid "Для установки дистрибутива участнику группы разработки необходимо клонировать репозиторий (хранилище) командой:"
-msgstr ""
-
-#: ../setup.rst:25
-# 04f7bc02e6e74008b350ebeeaab78826
+#: ../setup.rst:20
+# c38d58038dc746cd9808d4a74881cb0a
 msgid "В дистрибутиве находятся исходный код движка, компактная версия для приложений, скрипты к Blender'у, исходные blend-файлы группы разработки, экспортированные сцены, текстуры и звуковые файлы (см. подробную :ref:`структуру репозитория <repo_file_structure>`)."
 msgstr ""
 
-#: ../setup.rst:35
-# 6e8e292ae18e41659d167f63750687a9
+#: ../setup.rst:30
+# 3e5adef803354bd2ba08136efe63aff3
 msgid "Настройка браузера"
 msgstr ""
 
-#: ../setup.rst:37
-# fa8f7cee10ad471794c40d5d5360c317
+#: ../setup.rst:32
+# 5358f199a5c94785a85fcd32f739bb79
 msgid "Для работы движка требуется браузер с поддержкой WebGL (например, Chrome или Firefox). Для проверки можно перейти на страницу http://get.webgl.org/. Должна появиться надпись зеленого цвета и вращающийся куб:"
 msgstr ""
 
-#: ../setup.rst:48
-# fc5b3eb0424b4c7eb259f25fe8ef05d3
+#: ../setup.rst:43
+# 0ccfabb36d484927b391899d67fbf6b9
 msgid "Браузер должен быть настроен для загрузки ресурсов из локальной файловой системы. Для этого нужно указать в запускном ярлыке Chrome опцию ``--allow-file-access-from-files`` (подробнее :ref:`о настройке <browser_for_local_loading>`)."
 msgstr ""
 
-#: ../setup.rst:56
-# 222a213e432748408f8d484424b0bb1d
+#: ../setup.rst:51
+# 298e0873397c4a59a3855cbcbadc3feb
 msgid "Запуск просмотрщика сцен"
 msgstr ""
 
-#: ../setup.rst:58
-# 0f1ded9a33104b43a08f91e1494c088a
+#: ../setup.rst:53
+# 76841bee329047919654642308667d50
 msgid "Откройте файл :file:`apps_dev/viewer/viewer_dev.html` в настроенном браузере. Должна отобразиться страница с окном рендерера и элементами интерфейса."
 msgstr ""
 
-#: ../setup.rst:69
-# cd89cd547a5248238ea88b9cf69293c8
+#: ../setup.rst:64
+# 5670327567d0456cb665f63d3080e801
 msgid "Если страница не отображается корректно, или появляются сообщения об ошибках, необходимо предпринять действия, описанные в разделе :ref:`renderer_not_working`."
 msgstr ""
 
-#: ../setup.rst:77
-# 59cfa06fb70643ab90239e5aac0c6fde
+#: ../setup.rst:72
+# 2ba278b3852d4fb88b641002ab242939
 msgid "Установка аддона движка"
 msgstr ""
 
-#: ../setup.rst:79
-# b8ac34fe6c254abfbf0aa9ba44255cd1
+#: ../setup.rst:74
+# 3c283aeb115f4b3f968fa701e2d69782
 msgid "Запустить Blender, загрузить сцену по умолчанию :file:`File > New` (горячие клавиши :file:`Ctrl-N`). Вызвать окно пользовательских настроек :file:`File > User Preferences...` (горячие клавиши :file:`Ctrl-Alt-U`). Во вкладке  :file:`File` в поле  :file:`Scripts` выбрать путь к директории :file:`blender_scripts`."
 msgstr ""
 
-#: ../setup.rst:87
-# d77b556f07ce435ea8f95ec82091fa56
+#: ../setup.rst:82
+# 9ff244108f98482abf69e653812dc183
 msgid "Нажать :file:`Save User Settings` и перезапустить Blender."
 msgstr ""
 
-#: ../setup.rst:89
-# a6ff9e13d3894d55a067172e1591cae3
+#: ../setup.rst:84
+# 6c4842bf8ba249a19dd0fcb3a755ac34
 msgid "*Примечание:*"
 msgstr ""
 
-#: ../setup.rst:91
-# fac5bb8594204e4a8dc8840df462cabf
+#: ../setup.rst:86
+# e98fa4775a584c7fbe6e9633548d00d9
 msgid "Вместо этого можно скопировать директорию со скриптами :file:`blender_scripts/addons/blend4web` в уже используемую пользовательскую директорию для скриптов или даже в установочную директорию, например:"
 msgstr ""
 
-#: ../setup.rst:93
-# abb560ddf176498e8bd224c0f747f0dc
+#: ../setup.rst:88
+# fa6ae920f33d47ec84f1501162fc2111
 msgid ":file:`C:\\\\Program Files\\\\Blender Foundation\\\\Blender\\\\2.69\\\\scripts\\\\addons\\\\blend4web`."
 msgstr ""
 
-#: ../setup.rst:96
-# f16153abcccf450b8f1c3f6933317998
+#: ../setup.rst:91
+# b26d705237194c2ea967079831e4c3ca
 msgid "Повторно загрузить сцену по умолчанию, вызвать окно пользовательских настроек, перейти на вкладку :file:`Addons` и выбрать категорию :file:`Import-Export`. Отметить галочку напротив :file:`Import-Export: Blend4Web`. Также можно указать, где находятся исходные файлы для экспорта сцены в формате html (поле :file:`Path to b4w source`). Стандартный путь для них (относительно корня движка): :file:`external/deploy/apps/embed`."
 msgstr ""
 
-#: ../setup.rst:104
-# 3499f913d27e4fc1ae6f614db2b49613
+#: ../setup.rst:99
+# e1954317b5cf4b63bd50fc825db5e048
 msgid "Нажать :file:`Save User Settings`. Перезапуск Blender не требуется."
 msgstr ""
 
-#: ../setup.rst:106
-# 36e62980b469418d910abb9b8db3218b
+#: ../setup.rst:101
+# 3a6153d99a1a4216a5864a4c45f5d4d5
 msgid "*Для проверки:*"
 msgstr ""
 
-#: ../setup.rst:108
-# 9867537e8e774e76a133b31ceaa0655e
+#: ../setup.rst:103
+# a954fa9791a84801bc71970fe70c6967
 msgid "В меню :file:`File > Export` должны появиться опции :file:`Blend4Web (.json)` и :file:`Blend4Web (.html)`. Кроме того должны появиться операторы при выполнении поиска по \"B4W\" (горячая клавиша :file:`ПРОБЕЛ`)."
-msgstr ""
-
-#: ../setup.rst:30
-# 3e85aebb2d92418194c93d43b6dd6e3f
-msgid "браузер"
-msgstr ""
-
-#: ../setup.rst:30
-# 3e85aebb2d92418194c93d43b6dd6e3f
-msgid "настройка"
-msgstr ""
-
-#: ../setup.rst:46
-# 01274c9dd8e14167931d3d7ce882fb9f
-msgid "Blend4Web"
-msgstr ""
-
-#: ../setup.rst:46
-#: ../setup.rst:72
-# 01274c9dd8e14167931d3d7ce882fb9f
-# 3b3f9f8fd9a24d628db02dcaacd82ad1
-msgid "установка"
-msgstr ""
-
-#: ../setup.rst:51
-# c8aa1100c67e4ac6b648e1f2b78f3c09
-msgid "просмотрщик"
-msgstr ""
-
-#: ../setup.rst:51
-# c8aa1100c67e4ac6b648e1f2b78f3c09
-msgid "запуск"
-msgstr ""
-
-#: ../setup.rst:72
-# 3b3f9f8fd9a24d628db02dcaacd82ad1
-msgid "Blender"
 msgstr ""
 

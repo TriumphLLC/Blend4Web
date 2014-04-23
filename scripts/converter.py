@@ -12,8 +12,15 @@ RED    = "\033[91m"
 ENDCOL = "\033[0m"
 
 def help():
-    print("Specify conversion option:", "resize_textures", "convert_dds", "convert_sounds", 
-            "cleanup_textures", "cleanup_dds", "cleanup_sounds")
+    print("usage: converter.py <conversion_option>")
+    print("")
+    print("""conversion options:
+    resize_textures
+    convert_dds
+    convert_sounds
+    cleanup_textures
+    cleanup_dds
+    cleanup_sounds""")
 
 
 def resize_texture(args):
@@ -194,28 +201,28 @@ def convert_sound(args):
 
         print("converting file", path_from)
 
-        if ffmpeg_conv(path_from, path_to):
+        if avconv_conv(path_from, path_to):
             print("Conversion error")
             sys.exit(1)
 
-def ffmpeg_conv(path_from, path_to):
+def avconv_conv(path_from, path_to):
 
     ext_to = os.path.splitext(path_to)[1]
-    args = ["ffmpeg", "-y", "-i", path_from]
+    args = ["avconv", "-y", "-i", path_from]
 
     if ext_to == ".ogg":
         args += ["-acodec", "libvorbis"]
     elif ext_to == ".mp3":
         args += ["-acodec", "mp3"]
     elif ext_to == ".mp4":
-        # NOTE: use -strict experimental to allow AAC in ffmpeg
+        # NOTE: use -strict experimental to allow AAC in avconv
         # NOTE: resample all to 48000 (96000 is incompatible with AAC)
         args += ["-acodec", "aac", "-strict", "experimental", "-ar", "48000"] 
 
     args += [path_to]
     print(args)
 
-    return os.spawnvp(os.P_WAIT, "ffmpeg", args)
+    return os.spawnvp(os.P_WAIT, "avconv", args)
 
 def remove_sound(args):
     root = args[0]

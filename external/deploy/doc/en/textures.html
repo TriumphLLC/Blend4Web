@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Текстуры &mdash; User manual: Blend4Web v14.03.21</title>
+    <title>Textures &mdash; User manual: Blend4Web v14.04.22</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.03.21',
+        VERSION:     '14.04.22',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,9 +25,9 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User manual: Blend4Web v14.03.21" href="index.html" />
-    <link rel="next" title="Материалы" href="materials.html" />
-    <link rel="prev" title="Объекты" href="objects.html" /> 
+    <link rel="top" title="User manual: Blend4Web v14.04.22" href="index.html" />
+    <link rel="next" title="Materials" href="materials.html" />
+    <link rel="prev" title="Objects" href="objects.html" /> 
   </head>
   <body>
     <div class="header-wrapper">
@@ -36,11 +36,11 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">User manual: Blend4Web v14.03.21</a></div>
+          href="index.html">User manual: Blend4Web v14.04.22</a></div>
         <div class="rel">
-          <a href="objects.html" title="Объекты"
+          <a href="objects.html" title="Objects"
              accesskey="P">previous</a> |
-          <a href="materials.html" title="Материалы"
+          <a href="materials.html" title="Materials"
              accesskey="N">next</a> |
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a>
@@ -57,53 +57,64 @@
           <div class="body">
             
   <span class="target" id="textures"></span><div class="section" id="index-0">
-<span id="id1"></span><h1>Текстуры<a class="headerlink" href="#index-0" title="Permalink to this headline">¶</a></h1>
+<span id="id1"></span><h1>Textures<a class="headerlink" href="#index-0" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="index-1">
-<span id="id2"></span><h2>Типы текстур<a class="headerlink" href="#index-1" title="Permalink to this headline">¶</a></h2>
-<p>Опция выбора типа текстуры <tt class="docutils literal"><span class="pre">Type</span></tt> расположена во вкладке <tt class="docutils literal"><span class="pre">Textures</span></tt>. Движком поддерживаются текстуры следующих типов:</p>
+<span id="id2"></span><h2>Texture types<a class="headerlink" href="#index-1" title="Permalink to this headline">¶</a></h2>
+<p>The <tt class="docutils literal"><span class="pre">Type</span></tt> drop-down menu (for selecting texture type) is located under the <tt class="docutils literal"><span class="pre">Textures</span></tt> tab. The engine supports the following texture types:</p>
 <ol class="arabic">
 <li><dl class="first docutils">
-<dt><tt class="docutils literal"><span class="pre">Image</span> <span class="pre">or</span> <span class="pre">Movie</span></tt>, изображение или фильм</dt>
+<dt><tt class="docutils literal"><span class="pre">Image</span> <span class="pre">or</span> <span class="pre">Movie</span></tt></dt>
 <dd><ul class="first last simple">
-<li>диффузная (diffuse map)</li>
-<li>карта бликов (specular map), может также содержаться в альфа-канале диффузной текстуры</li>
-<li>карта нормалей (normal map)</li>
-<li>карта высот (height map), может содержатся только в альфа-канале карты нормалей, используется для реализации рельефной поверхности (parallax mapping)</li>
-<li>карта прозрачности (alpha map) - применяется отдельно только для рендеринга воды в режиме совместимости, в обычном материале может содержаться в альфа-канале диффузной текстуры</li>
-<li>карта смешивания (stencil map)</li>
+<li><p class="first">diffuse map</p>
+</li>
+<li><p class="first">specular map, this can also be packed into the alpha channel of a diffuse texture</p>
+</li>
+<li><p class="first">normal map</p>
+</li>
+<li><p class="first">height map; this must be packed into the alpha channel of a normal map; it is used for relief surfaces visualization (parallax mapping).</p>
+</li>
+<li><p class="first">transparency map (alpha map) - is used separately only for water rendering at low quality mode; in a generic material this is contained in the alpha channel of a diffuse texture</p>
+</li>
+<li><p class="first">stencil map</p>
+</li>
 </ul>
 </dd>
 </dl>
 </li>
 <li><dl class="first docutils">
-<dt><tt class="docutils literal"><span class="pre">Environment</span> <span class="pre">Map</span></tt>, карта окружения</dt>
+<dt><tt class="docutils literal"><span class="pre">Environment</span> <span class="pre">Map</span></tt></dt>
 <dd><ul class="first last simple">
-<li>карта зеркального отражения (mirror map)</li>
-<li><a class="reference internal" href="#skydome-texture"><em>текстура неба (skydome)</em></a>.</li>
+<li><p class="first">mirror map</p>
+</li>
+<li><p class="first"><a class="reference internal" href="#skydome-texture"><em>skydome texture</em></a></p>
+</li>
 </ul>
 </dd>
 </dl>
 </li>
 <li><dl class="first docutils">
-<dt><tt class="docutils literal"><span class="pre">None</span></tt>, пустая</dt>
+<dt><tt class="docutils literal"><span class="pre">None</span></tt></dt>
 <dd><ul class="first last simple">
-<li>применена на кубе в стартовой сцене Blender&#8217;a, в движке генерируется серая текстура. Также используется для <a class="reference internal" href="#render-to-texture"><em>рендеринга сцены в текстуру</em></a>.</li>
+<li><p class="first">applied to the Blender&#8217;s default scene cube. A gray texture is generated in the engine. It is also used for <a class="reference internal" href="#render-to-texture"><em>rendering a scene to texture</em></a>.</p>
+</li>
 </ul>
 </dd>
 </dl>
 </li>
 <li><dl class="first docutils">
-<dt><tt class="docutils literal"><span class="pre">Blend</span></tt>, градиент</dt>
+<dt><tt class="docutils literal"><span class="pre">Blend</span></tt>, gradient</dt>
 <dd><ul class="first last simple">
-<li>используется в <a class="reference internal" href="particles.html#particles-textures"><em>системах частиц</em></a>.</li>
+<li><p class="first">is used in <a class="reference internal" href="particles.html#particles-textures"><em>particle systems</em></a></p>
+</li>
 </ul>
 </dd>
 </dl>
 </li>
 <li><dl class="first docutils">
-<dt><tt class="docutils literal"><span class="pre">Voronoi</span></tt>, процедурная текстура с разбиением Вороного</dt>
+<dt><tt class="docutils literal"><span class="pre">Voronoi</span></tt> procedural texture type</dt>
 <dd><ul class="first last simple">
-<li>используется для рендеринга воды с целью настройки каустики</li>
+<li><p class="first">is used for water rendering to setup the caustics effect</p>
+</li>
 </ul>
 </dd>
 </dl>
@@ -111,94 +122,110 @@
 </ol>
 </div>
 <div class="section" id="index-2">
-<span id="id3"></span><h2>Общие настройки<a class="headerlink" href="#index-2" title="Permalink to this headline">¶</a></h2>
+<span id="id3"></span><h2>Generic Settings<a class="headerlink" href="#index-2" title="Permalink to this headline">¶</a></h2>
 <dl class="docutils">
-<dt><em>Размер</em></dt>
-<dd>Размер растров для текстур-изображений (длина и ширина изображения в пикселах) должен быть числом 2<sup>N</sup>, т.е. 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096 пикселов. Для корректной работы компрессии текстур размер должен составлять не менее 4 пикселов. Как правило, используются изображения квадратной формы (например, 512 x 512 px), однако могут использоваться и прямоугольные (например, 4 x 128 px). Использование изображений размером более 1024 пикселов не рекомендуется.</dd>
+<dt><em>Dimensions</em></dt>
+<dd><p class="first last">Bitmap dimensions for image textures (image width and height in pixels) should be a 2<sup>N</sup> number, i.e. 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096 px. Using textures with other dimensions (so-called NPOT) is supported but is not recommended. Dimensions should be at least 4 pixels for the correct texture compression. Normally square images are used (e.g. 512 x 512 px), however rectangular ones can be used too (e.g. 4 x 128 px). Using images bigger than 2048 px is not recommended.</p>
+</dd>
 <dt><em>Image Mapping &gt; Extension</em></dt>
-<dd>Режим интерпретации текстурных координат (в WebGL - Wrap Mode). Доступен для текстур типа <tt class="docutils literal"><span class="pre">Image</span> <span class="pre">or</span> <span class="pre">Movie</span></tt>. В случае значения <tt class="docutils literal"><span class="pre">Repeat</span></tt> движок устанавливает для текстуры режим <tt class="docutils literal"><span class="pre">REPEAT</span></tt>. При этом целочисленная часть текстурных координат игнорируется, используется только дробная часть. Во всех остальных случаях (например, <tt class="docutils literal"><span class="pre">Extend</span></tt>) движок устанавливает <tt class="docutils literal"><span class="pre">CLAMP_TO_EDGE</span></tt>. При этом происходит ограничение текстурных координат отрезком [0, 1]. Значение по умолчанию <tt class="docutils literal"><span class="pre">Repeat</span></tt>.</dd>
+<dd><p class="first last">Texture coordinates interpretation mode (Wrap Mode in WebGL). This is available for <tt class="docutils literal"><span class="pre">Image</span> <span class="pre">or</span> <span class="pre">Movie</span></tt> texture type. In case of <tt class="docutils literal"><span class="pre">Repeat</span></tt> value the engine sets the <tt class="docutils literal"><span class="pre">REPEAT</span></tt> mode for the texture. In this case the integer part of the texture coordinates is ignored and the fractional part is used. In all other cases (for example <tt class="docutils literal"><span class="pre">Extend</span></tt>) the engine sets the <tt class="docutils literal"><span class="pre">CLAMP_TO_EDGE</span></tt> mode. In this case the texture coordinates are limited by the [0, 1] segment. The default value is <tt class="docutils literal"><span class="pre">Repeat</span></tt>.</p>
+</dd>
 </dl>
 <dl class="docutils" id="index-3">
 <dt><em>Mapping &gt; Coordinates</em></dt>
-<dd>Тип текстурных координат. Поддерживаются <tt class="docutils literal"><span class="pre">UV</span></tt> (использовать развертку), <tt class="docutils literal"><span class="pre">Normal</span></tt> (использовать направление на камеру, только для диффузных текстур, применяется для создания материалов в стиле <strong>material capture</strong>, <strong>matcap</strong>). Значение по умолчанию <tt class="docutils literal"><span class="pre">Generated</span></tt> (!).</dd>
+<dd><p class="first last">Texture coordinates type. Supported types are <tt class="docutils literal"><span class="pre">UV</span></tt> (use UV map), <tt class="docutils literal"><span class="pre">Normal</span></tt> (use direction at the camera; available only for diffuse maps; used for the creation of <strong>material capture</strong>, <strong>matcap</strong>). The default value is <tt class="docutils literal"><span class="pre">Generated</span></tt> (!).</p>
+</dd>
 <dt><em>Mapping &gt; Offset</em></dt>
-<dd>Не поддерживается.</dd>
+<dd><p class="first last">Unsupported.</p>
+</dd>
 <dt><em>Mapping &gt; Size</em></dt>
-<dd>Масштабирование развертки по соответствующим осям. Значения по умолчанию 1.0.</dd>
+<dd><p class="first last">Scaling the UV map along respective axes. The default values are 1.0.</p>
+</dd>
 <dt><em>Blend4Web &gt; Do not export</em></dt>
-<dd>Не экспортировать текстуру. По умолчанию отключено.</dd>
+<dd><p class="first last">Do not export the texture. Disabled by default.</p>
+</dd>
 <dt><em>Blend4Web &gt; Anisotropic Filtering</em></dt>
-<dd>Фактор анизотропной фильтрации для индивидуальной текстуры. Имеет приоритет перед аналогичной настройкой для сцены. Значение по умолчанию <tt class="docutils literal"><span class="pre">DEFAULT</span></tt> (т.е. использовать настройки сцены).</dd>
+<dd><p class="first last">Anisotropic filtering factor for the individual texture. It has priority over the similar parameter for the scene. The default value is <tt class="docutils literal"><span class="pre">DEFAULT</span></tt> (i.e. use the scene settings).</p>
+</dd>
 <dt><em>Blend4Web &gt; UV translation velocity</em></dt>
-<dd>Скорость анимации текстурных координат по соответствующим осям. Значения по умолчанию 0.0.</dd>
+<dd><p class="first last">Animation speed of texture coordinates along respective axes. The default values are 0.0.</p>
+</dd>
 <dt><em>Blend4Web &gt; Water Foam</em></dt>
-<dd>Текстура пены. Используется материалом для рендеринга воды.</dd>
+<dd><p class="first last">The foam texture. Used by the water rendering material.</p>
+</dd>
 </dl>
 </div>
 <div class="section" id="diffuse-map">
-<span id="index-4"></span><h2>Диффузная текстура (diffuse map)<a class="headerlink" href="#diffuse-map" title="Permalink to this headline">¶</a></h2>
-<p>Диффузная текстура применяется для указания распределения цвета рассеянного света (модель Ламберта).</p>
+<span id="index-4"></span><h2>Diffuse map<a class="headerlink" href="#diffuse-map" title="Permalink to this headline">¶</a></h2>
+<p>A diffuse map is used for specifying scattered light distribution (the Lambert model).</p>
 <div class="section" id="id4">
-<h3>Активация<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
-<p>Выставить опцию <tt class="docutils literal"><span class="pre">Diffuse</span> <span class="pre">&gt;</span> <span class="pre">Color</span></tt> на панели <tt class="docutils literal"><span class="pre">Textures</span> <span class="pre">&gt;</span> <span class="pre">Influence</span></tt>.</p>
+<h3>Activation<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<p>Enable the <tt class="docutils literal"><span class="pre">Diffuse</span> <span class="pre">&gt;</span> <span class="pre">Color</span></tt> checkbox on the <tt class="docutils literal"><span class="pre">Textures</span> <span class="pre">&gt;</span> <span class="pre">Influence</span></tt> panel.</p>
 </div>
 <div class="section" id="id5">
-<h3>Дополнительные настройки<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<h3>Additional settings<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
 <dl class="docutils">
 <dt><em>Influence &gt; Diffuse &gt; Color</em></dt>
-<dd>Степень влияния текстуры на диффузный цвет. Значение по умолчанию 1.0.</dd>
+<dd><p class="first last">Influence of the texture on the diffuse color. The default value is 1.0.</p>
+</dd>
 <dt><em>Influence &gt; Blend</em></dt>
-<dd>Тип взаимодействия с цветом материала (<tt class="docutils literal"><span class="pre">Material</span> <span class="pre">&gt;</span> <span class="pre">Diffuse</span> <span class="pre">&gt;</span> <span class="pre">Color</span></tt>), или с вертексным цветом, если включена опция <tt class="docutils literal"><span class="pre">Vertex</span> <span class="pre">Color</span> <span class="pre">Paint</span></tt>. Поддерживаются <tt class="docutils literal"><span class="pre">Mix</span></tt> (смешивается с цветом), <tt class="docutils literal"><span class="pre">Multiply</span></tt> (умножается на цвет). Значение по умолчанию <tt class="docutils literal"><span class="pre">Mix</span></tt>.</dd>
+<dd><p class="first last">The type of the interaction with the material color (<tt class="docutils literal"><span class="pre">Material</span> <span class="pre">&gt;</span> <span class="pre">Diffuse</span> <span class="pre">&gt;</span> <span class="pre">Color</span></tt>), or with the vertex color if the <tt class="docutils literal"><span class="pre">Vertex</span> <span class="pre">Color</span> <span class="pre">Paint</span></tt> checkbox is enabled. The following types are supported: <tt class="docutils literal"><span class="pre">Mix</span></tt> (mixes with the color), <tt class="docutils literal"><span class="pre">Multiply</span></tt> (multiplies by the color). The default value is <tt class="docutils literal"><span class="pre">Mix</span></tt>.</p>
+</dd>
 </dl>
 </div>
 </div>
 <div class="section" id="specular-map">
-<span id="index-5"></span><h2>Карта бликов (specular map)<a class="headerlink" href="#specular-map" title="Permalink to this headline">¶</a></h2>
-<p>Карта бликов применяется для указания распределения цвета отраженного света (модель Фонга).</p>
+<span id="index-5"></span><h2>Specular map<a class="headerlink" href="#specular-map" title="Permalink to this headline">¶</a></h2>
+<p>The specular map is used for specifying the reflected light color distribution (the Phong model).</p>
 <div class="section" id="id6">
-<h3>Активация<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
-<p>Выставить опцию <tt class="docutils literal"><span class="pre">Specular</span> <span class="pre">&gt;</span> <span class="pre">Color</span></tt> на панели <tt class="docutils literal"><span class="pre">Textures</span> <span class="pre">&gt;</span> <span class="pre">Influence</span></tt> (опция <tt class="docutils literal"><span class="pre">Specular</span> <span class="pre">&gt;</span> <span class="pre">Intensity</span></tt> не поддерживается).</p>
+<h3>Activation<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<p>Enable the <tt class="docutils literal"><span class="pre">Specular</span> <span class="pre">&gt;</span> <span class="pre">Color</span></tt> checkbox on the <tt class="docutils literal"><span class="pre">Textures</span> <span class="pre">&gt;</span> <span class="pre">Influence</span></tt> panel (the <tt class="docutils literal"><span class="pre">Specular</span> <span class="pre">&gt;</span> <span class="pre">Intensity</span></tt> checkbox is not supported).</p>
 </div>
 <div class="section" id="id7">
-<h3>Дополнительные настройки<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<h3>Additional settings<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
 <dl class="docutils">
 <dt><em>Influence &gt; Specular &gt; Color</em></dt>
-<dd>Степень влияния текстуры на цвет отраженного света. Значение по умолчанию 1.0.</dd>
+<dd><p class="first last">The influence of the texture on the reflected light color. The default value is 1.0.</p>
+</dd>
 <dt><em>Influence &gt; Blend</em></dt>
-<dd>Тип взаимодействия с цветом отраженного света материала (<tt class="docutils literal"><span class="pre">Material</span> <span class="pre">&gt;</span> <span class="pre">Specular</span> <span class="pre">&gt;</span> <span class="pre">Color</span></tt>). Поддерживается только <tt class="docutils literal"><span class="pre">Mix</span></tt> (смешивается с цветом). Значение по умолчанию <tt class="docutils literal"><span class="pre">Mix</span></tt>.</dd>
+<dd><p class="first last">The type of interaction with the reflected light color of the material (<tt class="docutils literal"><span class="pre">Material</span> <span class="pre">&gt;</span> <span class="pre">Specular</span> <span class="pre">&gt;</span> <span class="pre">Color</span></tt>). <tt class="docutils literal"><span class="pre">Mix</span></tt> (mixes with the color) is the only supported type. The default value is <tt class="docutils literal"><span class="pre">Mix</span></tt>.</p>
+</dd>
 </dl>
-<p>Карта бликов может быть упакована в альфа-канал диффузной текстуры в целях оптимизации. В этом случае для текстуры необходимо одновременно выставить опции <tt class="docutils literal"><span class="pre">Diffuse</span> <span class="pre">&gt;</span> <span class="pre">Color</span></tt> и <tt class="docutils literal"><span class="pre">Specular</span> <span class="pre">&gt;</span> <span class="pre">Color</span></tt>. Цветовой диапазон ограничен оттенками серого цвета.</p>
+<p>The specular map can be packed to the alpha channel of a diffuse texture for optimization purposes. In such case it is required for the texture to enable the <tt class="docutils literal"><span class="pre">Diffuse</span> <span class="pre">&gt;</span> <span class="pre">Color</span></tt> and <tt class="docutils literal"><span class="pre">Specular</span> <span class="pre">&gt;</span> <span class="pre">Color</span></tt> checkboxes simultaneously. The color range is limited by gray tints.</p>
 </div>
 </div>
 <div class="section" id="normal-map">
-<span id="index-6"></span><h2>Карта нормалей (normal map)<a class="headerlink" href="#normal-map" title="Permalink to this headline">¶</a></h2>
-<p>Карта нормалей применяется для указания распределения нормалей (перпендикуляров) к поверхности с целью увеличения уровня детализации ее рельефа. Информация о нормалях должна храниться в текстурном пространстве координат. Карты нормалей в объектном пространстве не поддерживаются.</p>
+<span id="index-6"></span><h2>Normal map<a class="headerlink" href="#normal-map" title="Permalink to this headline">¶</a></h2>
+<p>A normal map is used for specifying the distribution of surface normals (perpendiculars) with the purpose of the relief detalization. The information about the normals should be stored in the texture space of coordinates. Normal maps baked in the object space of coordinates are not supported.</p>
 <div class="section" id="id8">
-<h3>Активация<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
-<p>Выставить опцию <tt class="docutils literal"><span class="pre">Geometry</span> <span class="pre">&gt;</span> <span class="pre">Normal</span></tt> на панели <tt class="docutils literal"><span class="pre">Textures</span> <span class="pre">&gt;</span> <span class="pre">Influence</span></tt>.</p>
+<h3>Activation<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<p>Enable the <tt class="docutils literal"><span class="pre">Geometry</span> <span class="pre">&gt;</span> <span class="pre">Normal</span></tt> checkbox on the <tt class="docutils literal"><span class="pre">Textures</span> <span class="pre">&gt;</span> <span class="pre">Influence</span></tt> panel.</p>
 </div>
 <div class="section" id="id9">
-<h3>Дополнительные настройки<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<h3>Additional settings<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
 <dl class="docutils">
 <dt><em>Influence &gt; Geometry &gt; Normal</em></dt>
-<dd>Степень участия карты в расчетах нормалей. Значение по умолчанию 1.0.</dd>
+<dd><p class="first last">Normal map influence on the resulting normals calculation. The default value is 1.0.</p>
+</dd>
 </dl>
 </div>
 </div>
 <div class="section" id="height-map-parallax-mapping">
-<span id="index-7"></span><h2>Карта высот (height map). Parallax mapping<a class="headerlink" href="#height-map-parallax-mapping" title="Permalink to this headline">¶</a></h2>
-<p>Карта высот содержит информацию о распределении относительных высот рельефа. Более высокий уровень поверхности обозначается более светлым цветом. Карта высот в сочетании с картой нормалей требуются в качестве входящих данных для реализации рельефной поверхности (parallax mapping). Карта высот должна содержатся в альфа-канале карты нормалей.</p>
+<span id="index-7"></span><h2>Height map. Parallax mapping<a class="headerlink" href="#height-map-parallax-mapping" title="Permalink to this headline">¶</a></h2>
+<p>A height map contains information about the distribution of relative relief heights. The higher the surface level is, the brighter is its color. A height map combined with a normal map is required for the implementation of relief surface effect (parallax mapping). A height map should be present in the alpha channel of a normal map.</p>
 <div class="section" id="id10">
-<h3>Активация<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
-<p>Для карты нормалей дополнительно к опции <tt class="docutils literal"><span class="pre">Geometry</span> <span class="pre">&gt;</span> <span class="pre">Normal</span></tt> на панели <tt class="docutils literal"><span class="pre">Textures</span> <span class="pre">&gt;</span> <span class="pre">Influence</span></tt> выставить опцию <tt class="docutils literal"><span class="pre">Parallax</span></tt> на панели <tt class="docutils literal"><span class="pre">Textures</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span></tt>.</p>
+<h3>Activation<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<p>For the normal map enable the <tt class="docutils literal"><span class="pre">Parallax</span></tt> checkbox on the <tt class="docutils literal"><span class="pre">Textures</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span></tt> panel in addition to the <tt class="docutils literal"><span class="pre">Geometry</span> <span class="pre">&gt;</span> <span class="pre">Normal</span></tt> checkbox on the <tt class="docutils literal"><span class="pre">Textures</span> <span class="pre">&gt;</span> <span class="pre">Influence</span></tt> panel.</p>
 </div>
 <div class="section" id="id11">
-<h3>Дополнительные настройки<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<h3>Additional settings<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
 <dl class="docutils">
 <dt><em>Blend4Web &gt; Parallax Scale</em></dt>
-<dd>Фактор влияния эффекта рельефной поверхности. Значение по умолчанию 0.03.</dd>
+<dd><p class="first last">Influence factor for the relief surface effect. The default value is 0.03.</p>
+</dd>
 <dt><em>Blend4Web &gt; Parallax Steps</em></dt>
-<dd>Количество итераций в расчетах рельефной поверхности. Большее значение приводит к лучшему качеству и к большим затратам вычислительных ресурсов. Значение по умолчанию 10.</dd>
+<dd><p class="first last">The number of iterations for the relief surface calculations. Bigger value leads to better quality but is more computationaly expensive.</p>
+</dd>
 </dl>
 <a class="reference internal image-reference" href="_images/parallax.jpg"><img alt="Визуализация рельефной поверхности (parallax mapping) по сравнению с картой нормалей" class="align-center" src="_images/parallax.jpg" style="width: 100%;" /></a>
 <div class="line-block">
@@ -207,19 +234,21 @@
 </div>
 </div>
 <div class="section" id="alpha-map">
-<span id="texture-alpha-map"></span><span id="index-8"></span><h2>Карта прозрачности (alpha map)<a class="headerlink" href="#alpha-map" title="Permalink to this headline">¶</a></h2>
-<p>Отдельная карта прозрачности применяется только для воды в режиме совместимости. В обычном материале может содержаться в альфа-канале диффузной текстуры.</p>
+<span id="texture-alpha-map"></span><span id="index-8"></span><h2>Alpha map<a class="headerlink" href="#alpha-map" title="Permalink to this headline">¶</a></h2>
+<p>The separate alpha map is used only for low quality water rendering. In a generic material it can be present in the alpha channel of a diffuse texture.</p>
 <div class="section" id="id12">
-<h3>Активация<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
-<p>Для диффузной текстуры дополнительно к опции <tt class="docutils literal"><span class="pre">Diffuse</span> <span class="pre">&gt;</span> <span class="pre">Color</span></tt> на панели <tt class="docutils literal"><span class="pre">Textures</span> <span class="pre">&gt;</span> <span class="pre">Influence</span></tt> выставить опцию <tt class="docutils literal"><span class="pre">Diffuse</span> <span class="pre">&gt;</span> <span class="pre">Alpha</span></tt>. Для отдельной карты прозрачности выставить опцию <tt class="docutils literal"><span class="pre">Diffuse</span> <span class="pre">&gt;</span> <span class="pre">Alpha</span></tt>.</p>
+<h3>Activation<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<p>For the diffuse texture enable the <tt class="docutils literal"><span class="pre">Diffuse</span> <span class="pre">&gt;</span> <span class="pre">Alpha</span></tt> checkbox on the <tt class="docutils literal"><span class="pre">Textures</span> <span class="pre">&gt;</span> <span class="pre">Influence</span></tt> panel in addition to the <tt class="docutils literal"><span class="pre">Diffuse</span> <span class="pre">&gt;</span> <span class="pre">Color</span></tt> checkbox. For the separate alpha map enable the <tt class="docutils literal"><span class="pre">Diffuse</span> <span class="pre">&gt;</span> <span class="pre">Alpha</span></tt> checkbox.</p>
 </div>
 <div class="section" id="id13">
-<h3>Дополнительные настройки<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
+<h3>Additional settings<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
 <dl class="docutils">
 <dt><em>Influence &gt; Diffuse &gt; Alpha</em></dt>
-<dd>Не поддерживается.</dd>
+<dd><p class="first last">Unsupported.</p>
+</dd>
 <dt><em>Influence &gt; Blend</em></dt>
-<dd>Не поддерживается.</dd>
+<dd><p class="first last">Unsupported.</p>
+</dd>
 </dl>
 <a class="reference internal image-reference" href="_images/alpha_map_water.jpg"><img alt="Карта прозрачности для воды в режиме совместимости" class="align-center" src="_images/alpha_map_water.jpg" style="width: 100%;" /></a>
 <div class="line-block">
@@ -228,26 +257,28 @@
 </div>
 </div>
 <div class="section" id="stencil-map">
-<span id="index-9"></span><h2>Карта смешивания (stencil map)<a class="headerlink" href="#stencil-map" title="Permalink to this headline">¶</a></h2>
-<p>Специальная текстура (цветная или оттенков серого), содержащая информацию о распределении других текстур по поверхности.</p>
+<span id="index-9"></span><h2>Stencil map<a class="headerlink" href="#stencil-map" title="Permalink to this headline">¶</a></h2>
+<p>The special purpose texture (colorful or grayscale) contains information about the distribution of other texture surfaces.</p>
 <div class="section" id="id14">
-<h3>Активация<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
+<h3>Activation<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
 <ol class="arabic simple">
-<li>В случае нодовых материалов карта смешивания должна использоваться соответствующим образом в нодовой структуре.</li>
-<li>В случае обычных материалов карта смешивания должна располагаться в текстурном слоте между двумя смешиваемыми диффузными текстурами. Для текстуры смешивания необходимо одновременно выставить опции <tt class="docutils literal"><span class="pre">RGB</span> <span class="pre">to</span> <span class="pre">Intensity</span></tt> и <tt class="docutils literal"><span class="pre">Stencil</span></tt> на панели <tt class="docutils literal"><span class="pre">Textures</span> <span class="pre">&gt;</span> <span class="pre">Influence</span></tt>.</li>
+<li><p class="first">In case of node materials a stencil map should be used in the corresponding node structure.</p>
+</li>
+<li><p class="first">In case of generic materials a stencil map should be located in a texture slot between two mixed diffuse textures. A stencil map requires to set both the <tt class="docutils literal"><span class="pre">RGB</span> <span class="pre">to</span> <span class="pre">Intensity</span></tt> and the <tt class="docutils literal"><span class="pre">Stencil</span></tt> checkboxes on the <tt class="docutils literal"><span class="pre">Textures</span> <span class="pre">&gt;</span> <span class="pre">Influence</span></tt> panel.</p>
+</li>
 </ol>
 </div>
 <div class="section" id="id15">
-<h3>Дополнительные настройки<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
-<p>В случае обычных материалов для одной из смешиваемых диффузных текстур поддерживается тип текстурных координат <tt class="docutils literal"><span class="pre">Normal</span></tt> (&#8220;matcap&#8221;).</p>
+<h3>Additional settings<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
+<p>In the case of generic materials one of the mixed diffuse textures can have the <tt class="docutils literal"><span class="pre">Normal</span></tt> (&#8220;matcap&#8221;) texture coordinates type.</p>
 </div>
 <div class="section" id="id16">
-<h3>Ограничения<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
-<p>В случае обычных материалов движком интерпретируется только красный канал текстуры смешивания. Карта бликов или карта нормалей при их наличии смешиванию не подвергаются. Настройка масштабирования <tt class="docutils literal"><span class="pre">Mapping</span> <span class="pre">&gt;</span> <span class="pre">Size</span></tt> извлекается из первой текстуры и применяется ко всем остальным текстурам.</p>
+<h3>Limitations<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
+<p>In case of generic materials the engine only interprets the red channel of a stencil map. Specular maps or normal maps (if any) are not being mixed. The <tt class="docutils literal"><span class="pre">Mapping</span> <span class="pre">&gt;</span> <span class="pre">Size</span></tt> setting is extracted from the first texture and is applied to all remaining textures.</p>
 </div>
 <div class="section" id="id17">
-<h3>Пример<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
-<p>Материал яблока имеет текстуры: карту нормалей, диффузную текстуру с картой бликов в альфа-канале, карту смешивания, диффузную карту &#8220;matcap&#8221;, карту зеркального отражения.</p>
+<h3>Example<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
+<p>The apple model material has the following textures: a normal map, a diffuse texture with a specular map in its alpha channel, a stencil map, a diffuse &#8220;matcap&#8221; map, an environment map.</p>
 <a class="reference internal image-reference" href="_images/stencil_apple.jpg"><img alt="Использование карты смешивания в материале яблока" class="align-center" src="_images/stencil_apple.jpg" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
@@ -259,21 +290,27 @@
 </div>
 </div>
 <div class="section" id="environment-map">
-<span id="index-10"></span><h2>Карта окружения (environment map)<a class="headerlink" href="#environment-map" title="Permalink to this headline">¶</a></h2>
-<p>Применяется в качестве карты зеркального отражения (mirror map) и в качестве статической текстуры неба (skydome).</p>
-<p>В движке представлена кубической текстурой. Растры для карт окружения должны содержать 6 спроецированных изображений окружающей среды, упакованных в 2 ряда по 3 (формат, используемый в Blender&#8217;e). Размер растров для каждого из изображений должен подчиняться правилу 2<sup>N</sup> (512, 1024 и т.п.).</p>
-<p>Во избежания проявления швов рекомендуется использовать формат без потери качества (PNG).</p>
+<span id="index-10"></span><h2>Environment map<a class="headerlink" href="#environment-map" title="Permalink to this headline">¶</a></h2>
+<p>An environment map is used as a mirror map and as a static sky texture (skydome).</p>
+<p>The engine considers it as a cube texture. Environment map bitmaps should contain 6 projected environment images, packed in 2 rows 3 pieces in each (a Blender format). Bitmap dimensions for each image should follow the 2<sup>N</sup> rule (512, 1024 etc).</p>
+<p>It is recommended to use the lossless format (PNG) in order to avoid seams.</p>
 <a class="reference internal image-reference" href="_images/environment_map.png"><img alt="Пример карты окружения" class="align-center" src="_images/environment_map.png" style="width: 100%;" /></a>
 <div class="section" id="id18">
-<h3>Создание карты окружения<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h3>
-<p>Blender позволяет запекать сцену в карту окружения. Для этого:</p>
+<h3>Environment map creation<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h3>
+<p>Blender has an option for baking a scene into an environment map. To do this:</p>
 <ol class="arabic simple">
-<li>Создать сцену для запекания.</li>
-<li>Добавить пустой объект в предполагаемом центре обзора (<tt class="docutils literal"><span class="pre">Add</span> <span class="pre">&gt;</span> <span class="pre">Empty</span></tt>).</li>
-<li>Перейти во вкладку <tt class="docutils literal"><span class="pre">World</span></tt>, затем перейти во вкладку <tt class="docutils literal"><span class="pre">Textures</span></tt>, создать новую текстуру, выбрать тип <tt class="docutils literal"><span class="pre">Environment</span> <span class="pre">Map</span></tt>.</li>
-<li>На панели <tt class="docutils literal"><span class="pre">Environment</span> <span class="pre">Map</span></tt> выбрать источник <tt class="docutils literal"><span class="pre">Static</span></tt>, выбрать созданный пустой объект в поле <tt class="docutils literal"><span class="pre">Viewport</span> <span class="pre">Object</span></tt>, установить разрешение 2<sup>N</sup> (512, 1024 и т.п.).</li>
-<li>Выполнить рендеринг сцены <tt class="docutils literal"><span class="pre">F12</span></tt> (требуется наличие камеры).</li>
-<li>Сохранить карту окружения в файл.</li>
+<li><p class="first">Create a scene for baking.</p>
+</li>
+<li><p class="first">Add an empty object in the supposed point of view (<tt class="docutils literal"><span class="pre">Add</span> <span class="pre">&gt;</span> <span class="pre">Empty</span></tt>).</p>
+</li>
+<li><p class="first">Go to the <tt class="docutils literal"><span class="pre">World</span></tt> tab then to the <tt class="docutils literal"><span class="pre">Textures</span></tt> tab and create a new texture with the <tt class="docutils literal"><span class="pre">Environment</span> <span class="pre">Map</span></tt> type.</p>
+</li>
+<li><p class="first">On the <tt class="docutils literal"><span class="pre">Environment</span> <span class="pre">Map</span></tt> panel select the <tt class="docutils literal"><span class="pre">Static</span></tt> source, then select the empty object in the <tt class="docutils literal"><span class="pre">Viewport</span> <span class="pre">Object</span></tt> field, then set the 2<sup>N</sup> dimension (512, 1024 etc).</p>
+</li>
+<li><p class="first">Render the scene by pressing <tt class="docutils literal"><span class="pre">F12</span></tt> (a camera is required).</p>
+</li>
+<li><p class="first">Save the environment map into a file.</p>
+</li>
 </ol>
 <a class="reference internal image-reference" href="_images/environment_map_baking_scene.jpg"><img alt="Запекание карты окружения - сцена" class="align-center" src="_images/environment_map_baking_scene.jpg" style="width: 100%;" /></a>
 <div class="line-block">
@@ -283,34 +320,35 @@
 </div>
 </div>
 <div class="section" id="mirror-map">
-<span id="index-11"></span><span id="id19"></span><h2>Карта зеркального отражения (mirror map)<a class="headerlink" href="#mirror-map" title="Permalink to this headline">¶</a></h2>
-<p>Применяется для визуализации отражающей способности поверхности. Представляет собой карту окружения.</p>
+<span id="index-11"></span><span id="id19"></span><h2>Mirror map<a class="headerlink" href="#mirror-map" title="Permalink to this headline">¶</a></h2>
+<p>A mirror map is used to visualize the surface reflection. This is an environment map.</p>
 <div class="section" id="id20">
-<h3>Активация<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h3>
-<p>Выбрать тип текстуры (<tt class="docutils literal"><span class="pre">Type</span></tt>) <tt class="docutils literal"><span class="pre">Environment</span> <span class="pre">Map</span></tt>. Выставить опцию <tt class="docutils literal"><span class="pre">Shading</span> <span class="pre">&gt;</span> <span class="pre">Mirror</span></tt> на панели <tt class="docutils literal"><span class="pre">Textures</span> <span class="pre">&gt;</span> <span class="pre">Influence</span></tt>.</p>
+<h3>Activation<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h3>
+<p>Select the <tt class="docutils literal"><span class="pre">Environment</span> <span class="pre">Map</span></tt> texture type (<tt class="docutils literal"><span class="pre">Type</span></tt>). Enable the <tt class="docutils literal"><span class="pre">Shading</span> <span class="pre">&gt;</span> <span class="pre">Mirror</span></tt> checkbox on the <tt class="docutils literal"><span class="pre">Textures</span> <span class="pre">&gt;</span> <span class="pre">Influence</span></tt> panel.</p>
 </div>
 <div class="section" id="id21">
-<h3>Дополнительные настройки<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h3>
+<h3>Additional settings<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h3>
 <dl class="docutils">
 <dt><em>Influence &gt; Shading &gt; Mirror</em></dt>
-<dd>Степень влияния карты зеркального отражения текстуры. Значение по умолчанию 1.0.</dd>
+<dd><p class="first last">The degree to which the mirror map affects the reflection. The default value is 1.0.</p>
+</dd>
 </dl>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><a class="reference internal" href="materials.html#reflection-static"><em>Статическое отражение</em></a>.</p>
+<p class="last"><a class="reference internal" href="materials.html#reflection-static"><em>Static reflection</em></a>.</p>
 </div>
 </div>
 </div>
 <div class="section" id="skydome">
-<span id="skydome-texture"></span><span id="index-12"></span><h2>Текстура неба (skydome)<a class="headerlink" href="#skydome" title="Permalink to this headline">¶</a></h2>
-<p>Применяется для визуализации небесного свода. Представляет собой карту окружения.</p>
+<span id="skydome-texture"></span><span id="index-12"></span><h2>Skydome<a class="headerlink" href="#skydome" title="Permalink to this headline">¶</a></h2>
+<p>A skydome is used to visualize the sky. This is an environment map.</p>
 <div class="section" id="id22">
-<h3>Активация<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h3>
-<p>Создать специальным образом ориентированную плоскость. Создать метериал, выставить опцию <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Special:</span> <span class="pre">Skydome</span></tt>. Создать текстуру типа <tt class="docutils literal"><span class="pre">Environment</span> <span class="pre">Map</span></tt>.</p>
+<h3>Activation<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h3>
+<p>Create a specially oriented plane model. Create a material and enable the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Special:</span> <span class="pre">Skydome</span></tt> checkbox. Create the <tt class="docutils literal"><span class="pre">Environment</span> <span class="pre">Map</span></tt> texture.</p>
 </div>
 <div class="section" id="id23">
-<h3>Дополнительные настройки<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h3>
-<p>Во избежания исчезновения изображения при поворотах камеры для объекта плоскости выставить опцию <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Disable</span> <span class="pre">frustum</span> <span class="pre">culling</span></tt>.</p>
+<h3>Additional settings<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h3>
+<p>Enable the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Disable</span> <span class="pre">frustum</span> <span class="pre">culling</span></tt> checkbox for the plane object in order to avoid image disappearance upon camera rotation.</p>
 <a class="reference internal image-reference" href="_images/skydome.jpg"><img alt="Настройка текстуры неба" class="align-center" src="_images/skydome.jpg" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
@@ -318,19 +356,21 @@
 <span class="target" id="render-to-texture"></span></div>
 </div>
 <div class="section" id="render-to-texture-rtt">
-<span id="index-13"></span><h2>Рендеринг в текстуру (render-to-texture, RTT)<a class="headerlink" href="#render-to-texture-rtt" title="Permalink to this headline">¶</a></h2>
-<p>Изображение 3D сцены может быть использовано в качестве текстуры на объекте другой (&#8220;главной&#8221;) сцены.</p>
+<span id="index-13"></span><h2>Render-to-texture, RTT<a class="headerlink" href="#render-to-texture-rtt" title="Permalink to this headline">¶</a></h2>
+<p>A 3D scene&#8217;s real-time rendered image can be used as a texture by an object from another scene (&#8220;main&#8221; scene).</p>
 <div class="section" id="id24">
-<h3>Активация<a class="headerlink" href="#id24" title="Permalink to this headline">¶</a></h3>
+<h3>Activation<a class="headerlink" href="#id24" title="Permalink to this headline">¶</a></h3>
 <ol class="arabic simple">
-<li>Создать дополнительную сцену-источник, переименовать для удобства, создать <tt class="docutils literal"><span class="pre">World</span></tt>, добавить нужные объекты, настроить вид из камеры.</li>
-<li>В главной сцене для текстуры целевого объекта выставить тип <tt class="docutils literal"><span class="pre">None</span></tt>, в поле <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Source</span> <span class="pre">scene</span></tt> указать название сцены-источника. В меню <tt class="docutils literal"><span class="pre">Mapping</span> <span class="pre">&gt;</span> <span class="pre">Coordinates</span></tt> выбрать <tt class="docutils literal"><span class="pre">UV</span></tt>.  Убедиться, что меш объекта имеет развертку.</li>
+<li><p class="first">Create an additional source scene, rename it for convenience, create a <tt class="docutils literal"><span class="pre">World</span></tt>, add the objects wanted, setup the camera view.</p>
+</li>
+<li><p class="first">Set the <tt class="docutils literal"><span class="pre">None</span></tt> type for a texture of the target object on the main scene, and specify the source scene&#8217;s name in the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Source</span> <span class="pre">scene</span></tt> field. Select the <tt class="docutils literal"><span class="pre">UV</span></tt> in the <tt class="docutils literal"><span class="pre">Mapping</span> <span class="pre">&gt;</span> <span class="pre">Coordinates</span></tt> menu. Make sure that the target object mesh has a UV map.</p>
+</li>
 </ol>
 <a class="reference internal image-reference" href="_images/render_to_texture.jpg"><img alt="Рендеринг в текстуру" class="align-center" src="_images/render_to_texture.jpg" style="width: 100%;" /></a>
 </div>
 <div class="section" id="id25">
-<h3>Ограничения<a class="headerlink" href="#id25" title="Permalink to this headline">¶</a></h3>
-<p>В настоящее время имеется баг, вынуждающий иметь в обеих сценах один общий источник света.</p>
+<h3>Limitations<a class="headerlink" href="#id25" title="Permalink to this headline">¶</a></h3>
+<p>Note that there is a bug at the moment which requires both scenes to have at least one shared light source.</p>
 </div>
 </div>
 </div>
@@ -344,44 +384,45 @@
           <h3>Table Of Contents</h3>
           <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="about.html">Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="features.html">Функционал движка</a></li>
-<li class="toctree-l1"><a class="reference internal" href="first_steps.html">Экспресс-установка</a></li>
-<li class="toctree-l1"><a class="reference internal" href="setup.html">Развёртывание среды разработки</a></li>
-<li class="toctree-l1"><a class="reference internal" href="working_process_stages.html">Рабочий процесс</a></li>
-<li class="toctree-l1"><a class="reference internal" href="viewer.html">Просмотрщик сцен</a></li>
-<li class="toctree-l1"><a class="reference internal" href="export_errors.html">Ошибки экспорта</a></li>
-<li class="toctree-l1"><a class="reference internal" href="objects.html">Объекты</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Текстуры</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#index-1">Типы текстур</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#index-2">Общие настройки</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#diffuse-map">Диффузная текстура (diffuse map)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#specular-map">Карта бликов (specular map)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#normal-map">Карта нормалей (normal map)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#height-map-parallax-mapping">Карта высот (height map). Parallax mapping</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#alpha-map">Карта прозрачности (alpha map)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#stencil-map">Карта смешивания (stencil map)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#environment-map">Карта окружения (environment map)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#mirror-map">Карта зеркального отражения (mirror map)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#skydome">Текстура неба (skydome)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#render-to-texture-rtt">Рендеринг в текстуру (render-to-texture, RTT)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">The Engine Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="first_steps.html">Quick Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">Development Environment Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow.html">Workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="viewer.html">Scene Viewer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">The Addon</a></li>
+<li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Textures</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#index-1">Texture types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#index-2">Generic Settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#diffuse-map">Diffuse map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#specular-map">Specular map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#normal-map">Normal map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#height-map-parallax-mapping">Height map. Parallax mapping</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#alpha-map">Alpha map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#stencil-map">Stencil map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#environment-map">Environment map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mirror-map">Mirror map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#skydome">Skydome</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#render-to-texture-rtt">Render-to-texture, RTT</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="materials.html">Материалы</a></li>
-<li class="toctree-l1"><a class="reference internal" href="node_materials.html">Нодовые материалы</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lighting.html">Освещение и тени</a></li>
-<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Постпроцессинговые эффекты</a></li>
-<li class="toctree-l1"><a class="reference internal" href="particles.html">Система частиц</a></li>
-<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Система частиц для инстансинга объектов</a></li>
-<li class="toctree-l1"><a class="reference internal" href="animation.html">Анимация</a></li>
-<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Рендеринг наружных сцен</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting and shadows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles.html">Particle system</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle system for object instancing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="animation.html">Animation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Rendering</a></li>
 <li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Gamma-correction and transparency</a></li>
 <li class="toctree-l1"><a class="reference internal" href="audio.html">Звуковая подсистема</a></li>
 <li class="toctree-l1"><a class="reference internal" href="event_model.html">Событийная модель</a></li>
 <li class="toctree-l1"><a class="reference internal" href="physics.html">Физика</a></li>
-<li class="toctree-l1"><a class="reference internal" href="assets_creation.html">Методики создания ресурсов</a></li>
-<li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Проблемы и решения</a></li>
-<li class="toctree-l1"><a class="reference internal" href="developers.html">Разработчикам</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nla.html">Нелинейная анимация</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers.html">For application developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">Разработчикам движка</a></li>
 <li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Краткая справка по git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Problems and solutions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="roadmap.html">План развития</a></li>
 </ul>
 
@@ -403,9 +444,9 @@
     <div class="footer-wrapper">
       <div class="footer">
         <div class="left">
-          <a href="objects.html" title="Объекты"
+          <a href="objects.html" title="Objects"
              >previous</a> |
-          <a href="materials.html" title="Материалы"
+          <a href="materials.html" title="Materials"
              >next</a> |
           <a href="genindex.html" title="General Index"
              >index</a>
@@ -415,7 +456,7 @@
           
     <div class="footer">
         &copy; Copyright 2014, Triumph LLC.
-      Last updated on 2014-03-27.
+      Last updated on 2014-04-23.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

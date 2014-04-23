@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: B4W 14.02.28\n"
+"Project-Id-Version: B4W 14.03.28\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-19 19:31+0400\n"
+"POT-Creation-Date: 2014-04-03 12:59\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,630 +17,557 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: ../about.rst:5
-# 8be6f86ae6f242218874413d5dd58798
+# a573d141bc3f49e283e1322a34a05c6c
 msgid "Общие сведения"
 msgstr ""
 
 #: ../about.rst:12
-# 1f7ceaa552d34905a7f027a7b31d3f14
+# abd2e8eb9219473c9e14ab8bd0a0605f
 msgid "Что такое Blend4Web"
 msgstr ""
 
 #: ../about.rst:14
-# d63d233a82314260bd2079f1f64d6098
+# 1eac15ae6d694f4195f837e1be5aa1ce
 msgid "Blend4Web - это программная среда для подготовки и интерактивного отображения трехмерного аудиовизуального контента в браузерах, т.е. трехмерный «движок» (жаргонизм от англ. «engine»)."
 msgstr ""
 
 #: ../about.rst:16
-# 58f154f2e82440ebb8738d3b1934f1cc
-msgid "Трехмерные сцены должны подготавливаться в пакете моделирования :ref:`Blender <about_blender>` (отсюда название), или переноситься в него из других инструментов (таких как 3ds Max®). Отображение контента осуществляется средствами :ref:`WebGL <about_webgl>` и других :ref:`браузерных технологий <about_browser_tech>`, без использования плагинов."
+# c7c5581feccb4b258de86171cc7552a6
+msgid "Платформа предназначена для создания визуализаций, презентаций, интернет-магазинов, игр и других \"насыщенных\" web-приложений."
 msgstr ""
 
 #: ../about.rst:18
-# 074047b0b9a542deb36fdbef6985c32b
-msgid "Технически Blend4Web представляет собой JavaScript библиотеку, подключаемую в web-странице, аддон (дополнение) к программе :ref:`Blender <about_blender>`, а также инструменты для отладки и оптимизации."
+# 3f31c36e238a46fba2791560b7692377
+msgid "Фреймворк Blend4Web имеет тесную интеграцию с пакетом 3D моделирования и анимации Blender (отсюда название). Отображение контента осуществляется средствами WebGL и других браузерных технологий, без использования плагинов."
 msgstr ""
 
 #: ../about.rst:20
-# 980f87545b974f2c8086784d4b50ff91
-msgid "3D движок Blend4Web разрабатывается сотрудниками ООО «Триумф» с 2010 г. По функциональности и качеству изображения 3D движок Blend4Web превосходит все имеющиеся на рынке движки, работающие на веб-платформе (такие как Three.js)."
+# e018291429504d41aabfdf8711061d8d
+msgid "Технически Blend4Web представляет собой программную библиотеку, подключаемую в web-странице, аддон (дополнение) к программе Blender, а также инструменты для отладки и оптимизации."
 msgstr ""
 
-#: ../about.rst:28
-# 51a342a6643e4f839f48bf62b4501da5
-msgid "\"Движок\""
+#: ../about.rst:22
+# 5e449c2a274f414facfd147f497247d6
+msgid "3D движок Blend4Web разрабатывается сотрудниками ООО «Триумф» с 2010 г. Первый релиз движка состоялся 28 марта 2014 г."
 msgstr ""
 
 #: ../about.rst:30
-# e445b8b028414a998f38cffa5f8b20c4
-msgid "Движок - это обособленная часть программного кода, используемая внешними приложениями для реализации нужного им функционала."
+# f6b09e65a31a4cb68a46d15b21624ba4
+msgid "\"Движок\""
 msgstr ""
 
 #: ../about.rst:32
-# 81cc8ffd190244c7abdd133cda6de8e5
+# 1505b20f37144716914c5301d696f8eb
+msgid "Движок - это обособленная часть программного кода, используемая внешними приложениями для реализации нужного им функционала."
+msgstr ""
+
+#: ../about.rst:34
+# cb8ef5048eea4d30997b5f720fce3ad0
 msgid "Типы движков: сайтовый движок, блоговый движок, движок интернет-магазина, wiki-движок, поисковый движок, игровой движок и т.д. Экономический смысл существования программных движков заключается в многократном использовании одного и того же функционала. Например, используя тот или иной движок, разработчики могут относительно дешево создавать интернет-магазины или игры."
 msgstr ""
 
-#: ../about.rst:40
-# 4e1458340d734bdfb62803d9433b4a91
+#: ../about.rst:42
+# 3b1b3bd2b37348fd884a7c7105b0b654
 msgid "Графический движок, трехмерный движок"
 msgstr ""
 
-#: ../about.rst:42
-# 73f626d4e5544549b54bdfb1ba40cf8f
+#: ../about.rst:44
+# febc59d127d64f7a9e3798221df55efe
 msgid "Графический движок выполняет специализированные функции по отображению графики. Он является промежуточным звеном между:"
 msgstr ""
 
-#: ../about.rst:44
-# 52c5bbba2cb84d0799cf46e830ddf310
+#: ../about.rst:46
+# ea04f422986b40679f95c232f1b4c88f
 msgid "высокоуровневой прикладной частью (игровой логикой, бизнес-логикой) и"
 msgstr ""
 
-#: ../about.rst:45
-# b4d1e98d68d1449cb176a4edf8034a5e
+#: ../about.rst:47
+# 77f176782eed4bd793c1efaddee1388c
 msgid "низкоуровневой системной частью (например, графической библиотекой :ref:`WebGL <about_webgl>` и нижлежащими :ref:`драйверами <about_drivers_video_cards>`)."
 msgstr ""
 
-#: ../about.rst:47
-# bdf73859ca7440368ddace2b5be97774
+#: ../about.rst:49
+# 6afbc0f6060b452798e3e1ff6d328224
 msgid "Графический движок может объединяться со звуковой системой, физическим движком, системой, реализующей искусственный интеллект, сетевой системой, а также редактором сцен и логики, образуя интегрированный инструментарий для создания 3D приложений - **трехмерный движок**."
 msgstr ""
 
-#: ../about.rst:55
-# afea1121cd504f419305f10c1f1cde3d
+#: ../about.rst:57
+# 1ba19e5ba071458a92e81271fb480a48
 msgid "Что такое WebGL"
 msgstr ""
 
-#: ../about.rst:57
-# 5ff726d56f6b406992b3f5d5ccf91beb
+#: ../about.rst:59
+# 896c01533aa84eb589eaa4427e1f9442
 msgid "WebGL (Web Graphics Library, т.е. графическая библиотека для использования в веб-приложениях) - одна из современных браузерных технологий, позволяющая создавать трехмерные графические веб-приложения. Другими словами WebGL - это \"3D в браузере\"."
 msgstr ""
 
-#: ../about.rst:65
-# 1006c49c123f41e4b9ea9bd4dba0faf7
+#: ../about.rst:67
+# 051699e4c32d4156af188fa278c67bf3
 msgid "Поддержка WebGL в браузерах"
 msgstr ""
 
-#: ../about.rst:67
-# 61cd804768eb4ceea3a7299cfcb8be88
+#: ../about.rst:69
+# 5a4efe857eb34dc69117ffafbfb5e44e
 msgid "В настоящий момент технология WebGL в той или иной степени поддерживается во всех браузерах."
 msgstr ""
 
-#: ../about.rst:71
-# c82828bbbd9042038f5cf8ba776a5089
+#: ../about.rst:73
+# 52c68861e3b14daba81a68671588e395
 msgid "Полная поддержка"
 msgstr ""
 
-#: ../about.rst:73
-# 194c52f2190741abb248307bdfb64c24
+#: ../about.rst:75
+# 04c0f6320e4b40f98ae89ceff0ee8994
 msgid "`Yandex Browser <http://browser.yandex.ru/>`_"
 msgstr ""
 
-#: ../about.rst:74
-# bd20312d50374992822ecbfb995f3c56
+#: ../about.rst:76
+# 571c28222fb1415bb38d07795a6584d6
 msgid "`Chrome <http://www.google.com/chrome>`_"
 msgstr ""
 
-#: ../about.rst:75
-# 955a7019a2d54803abfd260de8bd3b9d
+#: ../about.rst:77
+# b52434317d8f47a4a10db5ff422363a1
 msgid "`Firefox <http://www.mozilla.org/firefox>`_"
 msgstr ""
 
-#: ../about.rst:76
-# 1375ebb959c142de97419091e53111d7
+#: ../about.rst:78
+# c37ce3fdc099496b87cf8147faec6915
 msgid "`Opera <http://www.opera.com/browser>`_"
 msgstr ""
 
-#: ../about.rst:80
-# c3d98e9b76654412aeaacc93187c9cff
+#: ../about.rst:82
+# 09ee1ecc5e924312804b85f21bbe00a1
 msgid "Экспериментальная поддержка"
 msgstr ""
 
-#: ../about.rst:82
-# 36e5424ac2634690b2192cedbe5052c4
+#: ../about.rst:84
+# 389b6d1559e04816b04abeda82ba7fc2
 msgid "`Internet Explorer <http://windows.microsoft.com/en-us/internet-explorer/download-ie>`_ 11+ (неполная поддержка)"
 msgstr ""
 
-#: ../about.rst:83
-# 3a7ca76425654fee874a327c2324adfe
+#: ../about.rst:85
+# 117701f8e5af42ebaa92685ab067fb8b
 msgid "`Safari <http://www.apple.com/safari/>`_ (выключена по умолчанию)"
 msgstr ""
 
-#: ../about.rst:87
-# 87951940d87e4dca9777d8d6cbcdc7d3
+#: ../about.rst:89
+# 678766d35d2e400c9f30661920c0770d
 msgid "Мобильные платформы"
 msgstr ""
 
-#: ../about.rst:89
-# e01c1119ee1c4c8ca1d49740e1e378d5
+#: ../about.rst:91
+# 5acbcd0220114ad2840167da780c699a
 msgid "Android (на большей части современных устройств)"
 msgstr ""
 
-#: ../about.rst:90
-# 6a07fa5271df47d3870fd631d75de59a
+#: ../about.rst:92
+# 78d70975fe964706b032a244b4968657
 msgid "BlackBerry"
 msgstr ""
 
-#: ../about.rst:91
-# 4188ec9d5600426c9710f21d053c3bc7
+#: ../about.rst:93
+# 21fab88e62bb4dd1b24802773a8b6400
 msgid "Firefox OS"
 msgstr ""
 
-#: ../about.rst:92
-# 36e775babe194dd4a186d6d8067e25ef
+#: ../about.rst:94
+# bea59388a8c6434f82d8c4a50b7983f9
 msgid "iOS (выключена по умолчанию, включена для разработчиков iAd)"
 msgstr ""
 
-#: ../about.rst:93
-# a5bcc2c47a7a44a1bf2836b5837d68e6
+#: ../about.rst:95
+# 4e12f5f7a16f450b89c51f73a463c1d8
 msgid "Tizen"
 msgstr ""
 
-#: ../about.rst:94
-# a75a3abd57744b62b8792dfd261ae945
+#: ../about.rst:96
+# dfb5e6f06dae4f12ae3f1631728abc81
 msgid "Ubuntu Touch"
 msgstr ""
 
-#: ../about.rst:95
-# 19c5348387d44e0fab558b11bb2155b9
+#: ../about.rst:97
+# e8c5293ae6f94f60b17f1d13faad035f
 msgid "WebOS"
 msgstr ""
 
-#: ../about.rst:102
-# be1e21cf456145f5b13571a274be51d5
+#: ../about.rst:104
+# ff6126db81f54dab8c4f74d8a3757985
 msgid "Преимущества WebGL"
 msgstr ""
 
-#: ../about.rst:104
-# fc6c9a256c3b45b9a279e23fdc5dfa2d
+#: ../about.rst:106
+# 05530adaa5a7448b963c428ea020c76c
 msgid "работает в браузерах без установки дополнительных программ (плагинов)"
 msgstr ""
 
-#: ../about.rst:105
-# de38917c199b48c09429fd5d962910a7
+#: ../about.rst:107
+# 0b5ef74b451146e5807fd58485785e4a
 msgid "кроссплатформенный, предназначен для работы во всех стационарных и мобильных системах"
 msgstr ""
 
-#: ../about.rst:106
-# 60159978cb0147289d63b9f9f0adbea7
+#: ../about.rst:108
+# d1e66b79342c4bc581bb8a74ddb5021f
 msgid "является `открытым стандартом <http://ru.wikipedia.org/wiki/%D0%9E%D1%82%D0%BA%D1%80%D1%8B%D1%82%D1%8B%D0%B9_%D1%81%D1%82%D0%B0%D0%BD%D0%B4%D0%B0%D1%80%D1%82>`_, не требует лицензионных отчислений"
 msgstr ""
 
-#: ../about.rst:107
-# a1f71dbec967452081835b32d6d36aab
+#: ../about.rst:109
+# e87f74be9f824a05bba2f60593ac4b28
 msgid "поддерживается ведущими участниками рынка IT (Google, Apple, Microsoft, Nvidia, Samsung, Adobe и др.)"
 msgstr ""
 
-#: ../about.rst:108
-# eee5f20d771d4537853544a3f80f902e
+#: ../about.rst:110
+# caaadf8d4b2044f28e1f870ad63d172e
 msgid "основан на знакомой разработчикам технологии OpenGL"
 msgstr ""
 
-#: ../about.rst:109
-# 621b3464bd4f428fab81f08843a633e7
+#: ../about.rst:111
+# fde0a23aa4234b25a3b65d025177741e
 msgid "интегрируется с другими :ref:`браузерными технологиями <about_browser_tech>`"
 msgstr ""
 
-#: ../about.rst:117
-# 0e7acc2f61bc47f29600ef26fc3f75e6
+#: ../about.rst:119
+# 347f29af9eae445ebea1cca87f79f0cd
 msgid "Что такое Blender"
 msgstr ""
 
-#: ../about.rst:119
-# 9680e07a9b5a4056814d06b021f31d2f
+#: ../about.rst:121
+# f896aa97748a4b0584aa882aa5b78573
 msgid "Blender - это популярная программа для создания 3D-моделей и анимации, бесплатная и с открытым кодом. Подготовленные в программе модели и сцены могут быть отображены, например, с помощью :ref:`трехмерного движка <about_graphics_engine>` на странице веб-сайта."
 msgstr ""
 
-#: ../about.rst:127
-#: ../about.rst:122
-# a9c082dbd90b46cc831f3cc15cc0d22b
-# a2dbd65f708743e2857e2a8a06026ca8
+#: ../about.rst:129
+# 12e177ad4d5141e49cb6dc2705b1035b
 msgid "3D моделирование"
 msgstr ""
 
-#: ../about.rst:129
-# 62cb5538f0d24c4cbefc7285eead4e2b
+#: ../about.rst:131
+# da05ffbf9b154fe189c5006ac956c23f
 msgid "Создание графических ресурсов требует наличия подготовленных специалистов - 3D-художников."
 msgstr ""
 
-#: ../about.rst:131
-# fdd215852f294380b83ba5ee5eaca408
+#: ../about.rst:133
+# 0f8fdeb47aab4c93a2029cee7f6e0c23
 msgid "Типичный рабочий процесс может состоять из следующих этапов:"
 msgstr ""
 
-#: ../about.rst:133
-# 44444360ef2d41c3b35e3cc0c3a32598
+#: ../about.rst:135
+# 2d244be539f3444cb8c5d6b20c27c904
 msgid "подбор фотографий и/или создание концепта и скетчей (\"спереди\"-\"сбоку\"-\"сверху\") будущей модели или сцены"
 msgstr ""
 
-#: ../about.rst:134
-# 90e9f6c8baab4751820c793182971313
+#: ../about.rst:136
+# da8f33fd742b4e5d986c635ad346b8bc
 msgid "моделирование - создается трехмерная модель, состоящая из многоугольников (полигонов)"
 msgstr ""
 
-#: ../about.rst:135
-# 325c8b6f39f34c5384ee6249535aa7ff
+#: ../about.rst:137
+# f93c52c26d624ac1a9bd546a22e0a971
 msgid "текстурная развертка - на модели создается разметка для последующего наложения текстур (плоских изображений)"
 msgstr ""
 
-#: ../about.rst:136
-# 2abba6d3c90d46da9d3d2a664b7c0c19
+#: ../about.rst:138
+# e0687f4579fb4b1a8df138af1553c122
 msgid "текстурирование - на 3D-модель накладываются текстуры"
 msgstr ""
 
-#: ../about.rst:137
-# 4d71636344ad40d0bab96fe5c9631d0f
+#: ../about.rst:139
+# 9805a13c9f644516a852022c3e8e265a
 msgid "подбор материалов - назначение различным частям модели материалов и их настройка (например, деревянная дверь с металлической ручкой)"
 msgstr ""
 
-#: ../about.rst:138
-# 338721d229264cb0bdd7aa2232636edc
+#: ../about.rst:140
+# ea6b17cffa5541a0be524c8ce4c374cd
 msgid "риггинг (от англ. rigging, т.е. \"оснастка\") - к модели прикрепляются управляющие элементы (\"кости\" \"скелета\") с целью дальнейшей анимации"
 msgstr ""
 
-#: ../about.rst:139
-# c0dd0e26553b47b08c8ae92ae5eea1db
+#: ../about.rst:141
+# d5c36afdef604eb6b419af8415cf14bb
 msgid "анимация - модель приводится в движение с целью визуализации действий (например, персонажей)"
 msgstr ""
 
-#: ../about.rst:140
-# a93b2c3717424e10a8d03caa28c6d482
+#: ../about.rst:142
+# 680dcac7354942d59526f38e8f0ae46c
 msgid "экспорт - выполняется на любом этапе с целью отображения 3D-модели в ее конечном виде, например, на веб-странице"
 msgstr ""
 
-#: ../about.rst:142
-# f84d5b3c0e214d949120cff7f0f890e0
+#: ../about.rst:144
+# 13890773bc5a4639942b7ce02350a614
 msgid "Кроме того, в процессе создания 3D-моделей часто используются техники повышения реализма, требующие отдельных этапов:"
 msgstr ""
 
-#: ../about.rst:144
-# b66086e07e5d4494b75ef67ea08addc5
+#: ../about.rst:146
+# 40e37d088d684d53b2402d98319caff1
 msgid "создание высокополигональной модели - создается детализированная версия модели"
 msgstr ""
 
-#: ../about.rst:145
-# c64649bb7a1d47ea898d70bdb345b2b8
+#: ../about.rst:147
+# d2983586525040c2a5696521ba4eaa00
 msgid "\"запекание\" карты нормалей - детали из высокополигональной модели переносятся на основную модель в виде специальной текстуры (карты нормалей)"
 msgstr ""
 
-#: ../about.rst:146
-# 4618fb5da7b943e6a2272f07a15e4954
+#: ../about.rst:148
+# f611c9d7e6d24da785d9f3ed6a8092b3
 msgid "создание карты отражения - различным частям модели назначается различный цвет и степень отражения света"
 msgstr ""
 
-#: ../about.rst:147
-# 5387f47bb59b4703b5dedeb9734b5a4d
+#: ../about.rst:149
+# 97b8ad69c76940b99d352c772a606fda
 msgid "запекание карт окружения - производится с целью реализации эффекта отражения окружающей среды на поверхности модели"
 msgstr ""
 
-#: ../about.rst:148
-# f8ccc554e02d4dd7ac8a38a157ab6192
+#: ../about.rst:150
+# 487e3bd3277c40e18deef00ac00d3524
 msgid "настройка камеры и источников света на сцене"
 msgstr ""
 
-#: ../about.rst:149
-# 4ac44b448a1b49018efe7e61c8bc6aff
+#: ../about.rst:151
+# 9993ca671064484389dc17f662264cbc
 msgid "настройка параметров физической симуляции - частицы, ткань"
 msgstr ""
 
-#: ../about.rst:151
-# e0e53adde4484aa4832263e725f02323
+#: ../about.rst:153
+# 66028c25d0564a3f8ee96dc359db6baa
 msgid "Затраты времени при изготовлении 3D-моделей и анимации зависят от их сложности и требуемого качества, и могут изменяться от 1-2 дней (например, игровой предмет) до 1-2 недель (например, детализованная модель самолета) и даже нескольких месяцев (реалистичные персонажи с наборами одежды, волос, лиц, с анимацией и настройкой пропорций фигуры)."
 msgstr ""
 
-#: ../about.rst:159
-# 3a385e9fc6ab437e9183788a3d019659
+#: ../about.rst:161
+# 165f61b7f9744fd0a1749e53049e17e7
 msgid "Браузерные технологии"
 msgstr ""
 
-#: ../about.rst:161
-# 1b9b281f10104b26bd324bae2da8edb6
+#: ../about.rst:163
+# 571a2e9c869d438181745ed9d9bafe06
 msgid "Браузер (от англ. \"browser\", т.е. \"просмотрщик\") - программа для воспроизведения содержимого сети Интернет. На заре развития интернет-технологий роль браузера сводилась к просмотру текстовых страниц с включениями статических изображений (\"гипер-текст\"). Современные браузеры представляют собой полнофункциональные платформы для создания мультимедийных веб-приложений."
 msgstr ""
 
-#: ../about.rst:163
-# e0a607dc052342caac2a8bc7361b47fd
+#: ../about.rst:165
+# d1b1c5851c1444129cbc35e5f88af553
 msgid "Среди реализованных и перспективных возможностей браузеров, используемых в :ref:`Blend4Web <about_product>`, можно отметить следующие технологии:"
 msgstr ""
 
-#: ../about.rst:165
-# 19422037bc744bbb981ff6fc2c40e424
+#: ../about.rst:167
+# 1305ed56937041c7b2819c887f1cd524
 msgid "трехмерная графика, `WebGL <https://www.khronos.org/registry/webgl/specs/latest/>`_"
 msgstr ""
 
-#: ../about.rst:166
-# b0271e8085384dd6b3ae1f22f3d57afd
+#: ../about.rst:168
+# 292c9c19eba444beb96b125f8a91e4e6
 msgid "типизированные массивы, `Typed Array <https://www.khronos.org/registry/typedarray/specs/latest/>`_"
 msgstr ""
 
-#: ../about.rst:167
-# 1409eac2914d4875bd1f42ba35163fe8
+#: ../about.rst:169
+# 1b0039647a1a437a95b54234b86a806f
 msgid "временной контроль анимации (requestAnimationFrame), `Timing control for script-based animations <http://www.w3.org/TR/animation-timing/>`_"
 msgstr ""
 
-#: ../about.rst:168
-# 16d3584dc5f94a41bcdb1eee1bd1adbc
+#: ../about.rst:170
+# 2e0e51aafa3d45c6ad36c4aa114d2b0e
 msgid "двухмерная графика, `HTML Canvas 2D Context <http://www.w3.org/TR/2dcontext/>`_"
 msgstr ""
 
-#: ../about.rst:169
-# 62a34f0c959c490a878207f9eadcf424
+#: ../about.rst:171
+# 418f1c1c8a404292a4dfbb3cec840097
 msgid "обработка звука, `Web Audio API <http://www.w3.org/TR/webaudio/>`_"
 msgstr ""
 
-#: ../about.rst:170
-# 3daa957dd0764eb28a007f38b68f95aa
+#: ../about.rst:172
+# aa00860536ef42d08c9bd7273b054c3f
 msgid "загрузка бинарных данных, `XMLHttpRequest Level 2 <http://www.w3.org/TR/XMLHttpRequest/>`_"
 msgstr ""
 
-#: ../about.rst:171
-# 469c414b23894c3593777cf9d9174434
+#: ../about.rst:173
+# bd9a81021ed84cec97bfd760920d1d92
 msgid "полноэкранный режим, `Fullscreen <http://dvcs.w3.org/hg/fullscreen/raw-file/tip/Overview.html>`_"
 msgstr ""
 
-#: ../about.rst:172
-# 168160e718bc46ecbdcc253597c22a08
+#: ../about.rst:174
+# edf5c95c2ca44ee6bbbcb7909ce2d9cd
 msgid "захват курсора мыши, `Pointer Lock <http://dvcs.w3.org/hg/pointerlock/raw-file/default/index.html>`_"
 msgstr ""
 
-#: ../about.rst:173
-# a53875c37f5f43f182d359d1815b611e
+#: ../about.rst:175
+# 570dba9694a5410887183153331e0142
 msgid "многопоточные вычисления, `Web Workers <http://www.w3.org/TR/workers/>`_"
 msgstr ""
 
-#: ../about.rst:175
-# 12e5b9f648fc49578c8ae0fc1496d603
+#: ../about.rst:177
+# 5330a19da6f04e0988965978c607d9f8
 msgid "Другие перспективные технологии:"
 msgstr ""
 
-#: ../about.rst:177
-# f1dcfb97c3924d8ea2dab6e9323a27b5
+#: ../about.rst:179
+# d272667272c34080bddebef3ba940b3d
 msgid "векторная графика, `Scalable Vector Graphics (SVG) <http://www.w3.org/TR/SVG/>`_"
 msgstr ""
 
-#: ../about.rst:178
-# 1e6e823233584676bd3b2335f850d746
+#: ../about.rst:180
+# e04110d8d8da4d85b608a0f94a6241b9
 msgid "безопасный доступ к файлам, `File API <http://www.w3.org/TR/FileAPI/>`_, `File API: Directories and System <http://www.w3.org/TR/file-system-api/>`_"
 msgstr ""
 
-#: ../about.rst:179
-# 4a05b02b568f42ad9ef715e78f42cef1
+#: ../about.rst:181
+# c47fa95f990c431faba6d382542b9246
 msgid "потоковое соединение между браузерами, `WebRTC <http://dev.w3.org/2011/webrtc/editor/webrtc.html>`_"
 msgstr ""
 
-#: ../about.rst:180
-# 0669970537624e9dbd62e6541bc191f9
+#: ../about.rst:182
+# a775f7521e594487a6705af505a543c4
 msgid "постоянное сетевое подключение, `The WebSocket API <http://www.w3.org/TR/websockets/>`_"
 msgstr ""
 
-#: ../about.rst:181
-# bfa8cdab3a1845e7bdc0a9dd2e2299b2
+#: ../about.rst:183
+# 3e955b3d60c64ab2b3392bae28a8c559
 msgid "игровые пульты, `Gamepad <http://dvcs.w3.org/hg/gamepad/raw-file/default/gamepad.html>`_"
 msgstr ""
 
-#: ../about.rst:190
-# 5714e17bad234b678fdbc839cbb5563e
+#: ../about.rst:192
+# 60c4ceebd26048fab7d691e54f1f39c4
 msgid "Интерактивная графика"
 msgstr ""
 
-#: ../about.rst:192
-# 7d72735532b34581b5774d7044baff42
+#: ../about.rst:194
+# 19e6ef31a7314b14bc9dc4bcdd792116
 msgid "Термин \"интерактивный\" в приложении к компьютерной графике означает, что пользователь имеет возможность взаимодействовать с постоянно меняющимся изображением. Например, пользователь может изменять направление взгляда в 3D сцене, перемещать объекты, инициировать анимацию и выполнять другие действия, обычно ассоциирующиеся с компьютерными играми."
 msgstr ""
 
-#: ../about.rst:194
-# ab0845f9efff464a895f105988afb4ce
+#: ../about.rst:196
+# 40fa5fcaaa5b48229a53a96dc914df4b
 msgid "Интерактивность графики достигается за счет частой смены изображений, так что действие пользователя (например, движение курсора или нажатие кнопки) в промежутках между кадрами приводит к изменению изображения в следующем кадре. Изображения должны сменять друг друга так часто, чтобы человеческий глаз не был способен распознать их по отдельности (быстрее 30 кадров в секунду)."
 msgstr ""
 
-#: ../about.rst:196
-# 826fb2944d5949849421dec576c38a8f
+#: ../about.rst:198
+# 36f1ba5cd9fc49f4b707994306853f88
 msgid "Близким по смыслу термином является также \"графика реального времени\", или \"рендеринг реального времени\" (от англ. rendering, т.е. \"отображение\")."
 msgstr ""
 
-#: ../about.rst:204
-# 8c32915a98f045eda4600301b304fc44
+#: ../about.rst:206
+# 0b69579808e64c6eab56c892fb42a7b4
 msgid "Видео-карты и драйверы"
 msgstr ""
 
-#: ../about.rst:206
-# 450a5dcc24f8400eabb62bbb813c0aa7
+#: ../about.rst:208
+# 51ddb9532a554dcab812ac2ad96ce966
 msgid "Интерактивная графика реализуется специализированной аппаратной частью современных компьютеров, называемой графическим процессором, который может быть выполнен в виде отдельного устройства (видео-карты) или как часть центрального процессора."
 msgstr ""
 
-#: ../about.rst:208
-# d50966214d6e46e09a7343f89297ad67
+#: ../about.rst:210
+# 4c602986a4434d5aafd99a5212d82100
 msgid "Основные производители графических процессоров (в скобках указаны их торговые марки), для настольных компьютеров - NVidia (GeForce, Quadro), AMD (Radeon), Intel (HD), для мобильных устройств - ARM (Mali), PowerVR (SGX), Nvidia (Tegra), Qualcomm (Adreno)."
 msgstr ""
 
-#: ../about.rst:210
-# 5ec186e3bd7340b2b3537f5c2ecd8dce
+#: ../about.rst:212
+# c0e12be7dca74bd388ba1d744ef75f76
 msgid "Доступ программ к ресурсам графического процессора осуществляется через программу-посредника, называемого драйвером. Важным условием для корректной работы интерактивных графических программ является наличие в системе драйверов последней версии. Драйверы можно установить (или обновить), загрузив их с соответствующих сайтов производителей графических процессоров. Подробнее в разделе :ref:`webgl_not_working`."
 msgstr ""
 
-#: ../about.rst:218
-# dfe0fd8f6997405e882f1fe361eefde1
+#: ../about.rst:220
+# e1e698bd962249299f5052a24241b724
 msgid "Примеры использования 3D веб-технологий"
 msgstr ""
 
-#: ../about.rst:221
-# 1d3603dc958a4807ae8cb35bab4677f1
+#: ../about.rst:223
+# c7a1979f20f04d078cdb3c7ae75abee2
 msgid "Визуализация"
 msgstr ""
 
-#: ../about.rst:223
-# 59263bc76030461f90c9670977bd6f05
+#: ../about.rst:225
+# 1e23631508fc4fbd84598f78a39ec5bc
 msgid "Toyota: `интерактивный ролик <http://www.toyota.com/itsacar/>`_ с рекламой автомобиля включает полу-игровые элементы 3D-контента."
 msgstr ""
 
-#: ../about.rst:224
-# 934f44b7e07c441c898c3ec834df7d65
+#: ../about.rst:226
+# 888d7fe6ad2843d083ab7e7cf5a0674b
 msgid "`Сервис <http://n-e-r-v-o-u-s.com/cellCycle/>`_ по дизайну и изготовлению украшений."
 msgstr ""
 
-#: ../about.rst:225
-# 38087dcb7e164e7ebde8f1f2f3d77981
+#: ../about.rst:227
+# 828f2945ad12446887e354f9f2e647a8
 msgid "Планировка интерьера - `LIGNUM <http://www.spacegoo.com/lignum/index.php?constructor=Demo1>`_."
 msgstr ""
 
-#: ../about.rst:226
-# a06aa4ba074d494c895cdc91c2b376aa
+#: ../about.rst:228
+# c59085aff29649d296355cd02649036a
 msgid "Интерактивный клип - презентация альбома `Rome <http://www.ro.me/>`_ с участием музыканта Danger Mouse."
 msgstr ""
 
-#: ../about.rst:227
-# 4f9168ea9bd6468cb154110bd3c339aa
+#: ../about.rst:229
+# a776013eab3546b8973b09020bc3d94b
 msgid "Интерактивный клип `Lights <http://lights.elliegoulding.com/>`_ певицы Элли Голдинг."
 msgstr ""
 
-#: ../about.rst:228
-# 43fcb7cb55c04af4a048ae880c770baa
+#: ../about.rst:230
+# 4485bc9f34534f4291adf0d9d883f6ed
 msgid "Демо - `визуализация воды <http://www.chromeexperiments.com/detail/webgl-water-simulation/>`_."
 msgstr ""
 
-#: ../about.rst:229
-# 66dee3fc71234dd28623890a36c19fd0
+#: ../about.rst:231
+# 2f09d9549e374d88aac488578d694a96
 msgid "Компания Disney представила `игровую презентацию <http://www.findyourwaytooz.com/>`_ фильма \"Оз: Великий и Ужасный\"."
 msgstr ""
 
-#: ../about.rst:230
-# ca0f5b083e934f989111e68e183e86fb
+#: ../about.rst:232
+# a1ac9edf6b1445be98eb1d577a5589a0
 msgid "Технология WebGL была использована для создания интрактивной `онлайн-презентации <http://gravitymovie.warnerbros.com/>`_ фильма \"Гравитация\" с Сандрой Буллок и Джорджем Клуни в главных ролях (компания Warner Bros.)."
 msgstr ""
 
-#: ../about.rst:231
-# 97e381da44054ee6b79857d59302f4bf
+#: ../about.rst:233
+# ccf98a0040764c78811f83d71d9d109d
 msgid "Визуализация `100 000 звезд <http://workshop.chromeexperiments.com/stars/>`_ от Google Data Arts Team."
 msgstr ""
 
-#: ../about.rst:232
-# 658c663d34fb4d8598e59a34bfbd2844
+#: ../about.rst:234
+# 710faacaf6bf4cd9860259ef5e066088
 msgid "Демо - `симуляция ткани <http://www.kamibu.com/demos/cloth-simulation/>`_."
 msgstr ""
 
-#: ../about.rst:233
-# 0cbef7f88c864937b32449947128028c
+#: ../about.rst:235
+# 16d1a88706894d5fada168d4e78c20fe
 msgid "Карты Google имеют WebGL-версию - `MapsGL <http://maps.google.com/>`_."
 msgstr ""
 
-#: ../about.rst:234
-# 77b4d003e37e493bbe97f5e0d5d309a1
+#: ../about.rst:236
+# 7c37e078ca194e8d87c3070ad8bfa381
 msgid "Визуализация анатомии человека - `ZygoteBody <http://www.zygotebody.com/>`_."
 msgstr ""
 
-#: ../about.rst:237
-# 239829291dd5463cbefaf7f3599fce36
+#: ../about.rst:239
+# 225d318ad07146dfad08e9fa424fc489
 msgid "Игры"
 msgstr ""
 
-#: ../about.rst:239
-# 7ec8e1e9ea924763a2d1fcb3328c01f2
+#: ../about.rst:241
+# acfc684c28cf4b46aa9f0f8509dc6f0d
 msgid "Игра от Ubisoft `From Dust <http://from-dust.ubisoft.com/>`_ (используется технология Native Client), `ссылка в Chrome Store <https://chrome.google.com/webstore/detail/from-dust/anelkojiepicmcldgnmkplocifmegpfj?hl=en>`_."
 msgstr ""
 
-#: ../about.rst:240
-# d413b36c122445978bfc72e267cd8f11
+#: ../about.rst:242
+# 0e7497bd6ba34531af736df32444b2d9
 msgid "Оператор MMORPG RuneScape проводит `программу бета-тестирования <http://www.runescape.com/beta>`_ новой версии, созданной с использованием технологий HTML5 и WebGL."
 msgstr ""
 
-#: ../about.rst:241
-# 6ff7bfd71693434abc495a7f9d996bcd
+#: ../about.rst:243
+# 59443fedec0c4950a7ed820ed93423ae
 msgid "Компания Epic Games, известный производитель компьютерных игр и игровых движков серии Unreal Engine™, выпустила браузерную версию демо `Epic Citadel <http://www.unrealengine.com/html5/>`_."
 msgstr ""
 
-#: ../about.rst:242
-# 098fc335d6bb4990965b7030be0759f5
+#: ../about.rst:244
+# 9a5662e07a0847838eabb575a6bba38b
 msgid "Игра `Angry Birds <http://chrome.angrybirds.com/>`_ использует WebGL для ускорения графики."
 msgstr ""
 
-#: ../about.rst:243
-# 4a8379b08c554e09b3ed5aae30b2db12
+#: ../about.rst:245
+# bdc1b60694b448de9aad3fddcea5431a
 msgid "Демо `BananaBread <https://developer.mozilla.org/en/demos/detail/bananabread>`_ - порт движка Cube 2 на WebGL."
 msgstr ""
 
-#: ../about.rst:244
-# 4aae0a5368194a0ba9bc1bd42e412190
+#: ../about.rst:246
+# 66298cbb24e948fe8f7a9921bdc7059a
 msgid "Демо `Crypt <http://crypt-webgl.unigine.com/>`_ - порт движка Unigine на WebGL."
 msgstr ""
 
-#: ../about.rst:245
-# 9717425fa16341e289b70d79af090339
+#: ../about.rst:247
+# 3153225df54c4fa49cedc149e824ccd8
 msgid "Кроссплатформенные `демо движка GooEngine <http://www.gooengine.com/demos>`_."
-msgstr ""
-
-#: ../about.rst:7
-# 0097eb465937416bb52a90535f6ce329
-msgid "Blend4Web"
-msgstr ""
-
-#: ../about.rst:23
-# 25a8fe52070a4f54a5ebd1d4cedcc939
-msgid "движок"
-msgstr ""
-
-#: ../about.rst:35
-# 2898148ad34a4bad865818a51f5d1cf4
-msgid "графический движок"
-msgstr ""
-
-#: ../about.rst:35
-# 2898148ad34a4bad865818a51f5d1cf4
-msgid "трехмерный движок"
-msgstr ""
-
-#: ../about.rst:50
-#: ../about.rst:60
-#: ../about.rst:97
-# 57a5d5e545e44ce28809f6206035654e
-# 627fc1f7a40b4fb7b88f6c7a199d2b3a
-# e90f3cec5f6a4005a4ccac1343d4e7b3
-msgid "WebGL"
-msgstr ""
-
-#: ../about.rst:60
-# 627fc1f7a40b4fb7b88f6c7a199d2b3a
-msgid "поддержка в браузерах"
-msgstr ""
-
-#: ../about.rst:97
-# e90f3cec5f6a4005a4ccac1343d4e7b3
-msgid "преимущества"
-msgstr ""
-
-#: ../about.rst:112
-# 187b3f98b86a41a683c65eb8249a3876
-msgid "Blender"
-msgstr ""
-
-#: ../about.rst:154
-#: ../about.rst:213
-# 3eb073c4b42d4525b7761d7f88fc96e2
-# 92fa8bdc71d94bcba7c794d318c65b21
-msgid "браузерные технологии"
-msgstr ""
-
-#: ../about.rst:154
-# 3eb073c4b42d4525b7761d7f88fc96e2
-msgid "браузер"
-msgstr ""
-
-#: ../about.rst:185
-# 80022985099b47acb0c4bd18c11121f0
-msgid "интерактивная графика"
-msgstr ""
-
-#: ../about.rst:199
-# da6a48b428d248f0a4012d4b2625f6b0
-msgid "видео-карта"
-msgstr ""
-
-#: ../about.rst:199
-# da6a48b428d248f0a4012d4b2625f6b0
-msgid "драйверы"
-msgstr ""
-
-#: ../about.rst:213
-# 92fa8bdc71d94bcba7c794d318c65b21
-msgid "примеры использования"
 msgstr ""
 

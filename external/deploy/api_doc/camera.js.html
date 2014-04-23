@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <title>JSDoc: Source: ext/camera.js</title>
-
+    
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
     <!--[if lt IE 9]>
@@ -16,9 +16,9 @@
 <body>
 
 <div id="main">
-
+    
     <h1 class="page-title">Source: ext/camera.js</h1>
-
+    
     
 
 
@@ -39,7 +39,6 @@ var camera      = require("__camera");
 var config      = require("__config");
 var m_print     = require("__print");
 var constraints = require("__constraints");
-var scenes      = require("__scenes");
 var transform   = require("__transform");
 var util        = require("__util");
 
@@ -153,8 +152,6 @@ exports["get_trans_speed"] = function(camobj) {
  */
 exports["set_look_at"] = function(camobj, eye, target, up, elapsed) {
     var render = camobj._render;
-    var cameras = camobj._render.cameras;
-    var scene = scenes.get_active();
 
     camera.eye_target_up_to_trans_quat(eye, target, up, render.trans, render.quat);
 
@@ -228,7 +225,6 @@ exports["rotate_pivot"] = function(camobj, angle_h_delta, angle_v_delta) {
     }
 
     var render = camobj._render;
-    var scene = scenes.get_active();
 
     var axis = _vec3_tmp;
     var rot = _quat4_tmp;
@@ -288,8 +284,6 @@ exports["clear_vertical_limits"] = function(camobj) {
 exports["set_eye_params"] = function(camobj, h_angle, v_angle) {
 
     var render = camobj._render;
-    var cameras = camobj._render.cameras;
-    var scene = scenes.get_active();
 
     m_quat.identity(render.quat);
 
@@ -325,8 +319,6 @@ exports["is_look_up"] = function(camobj) {
  * @param {Number} angle_v_delta Vertical angle in radians
  */
 exports["rotate"] = function(camobj, angle_h_delta, angle_v_delta) {
-    var render = camobj._render;
-    var scene = scenes.get_active();
 
     // NOTE: MS_EYE_CONTROLS only
     camera.rotate_h(camobj, angle_h_delta);
@@ -422,6 +414,7 @@ exports["translate_view"] = function(camobj, x, y, angle) {
         m_mat4.rotateZ(cam.proj_matrix, angle, cam.proj_matrix);
 
         m_mat4.multiply(cam.proj_matrix, cam.view_matrix, cam.view_proj_matrix);
+        camera.calc_view_proj_inverse(cam);
         camera.calc_sky_vp_inverse(cam);
     }
 }
@@ -443,8 +436,6 @@ exports["zoom_object"] = function(camobj, obj) {
         return;
     }
 
-    var render = camobj._render;
-    var scene = scenes.get_active();
     var calc_bs_center = false;
 
     var center = _vec3_tmp;
@@ -522,13 +513,13 @@ exports["calc_ray"] = function(camobj, xpix, ypix, dest) {
 </div>
 
 <nav>
-    <h2><a href="index.html">Index</a></h2><h3>Modules</h3><ul><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-pointerlock.html">pointerlock</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-util.html">util</a></li><li><a href="module-version.html">version</a></li></ul><h3><a href="global.html">Global</a></h3>
+    <h2><a href="index.html">Index</a></h2><h3>Modules</h3><ul><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-pointerlock.html">pointerlock</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-util.html">util</a></li><li><a href="module-version.html">version</a></li></ul><h3><a href="global.html">Global</a></h3>
 </nav>
 
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-dev</a> on Tue Mar 25 2014 11:39:58 GMT+0400 (MSK)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-dev</a> on Wed Apr 23 2014 16:27:40 GMT+0400 (MSK)
 </footer>
 
 <script> prettyPrint(); </script>

@@ -86,7 +86,8 @@ float fog_underwater(inout vec3 color, in float eye_dist,
                   * light_col_intensity;
         color = mix(fog_color, color, f);
         return f;
-    } else if (f >= f_air) {
+    }
+    if (f >= f_air) {
         color = mix(fog_color_density.rgb, color, f_air);
         return f_air;
     }

@@ -51,6 +51,11 @@ class B4W_HTMLExportProcessor(bpy.types.Operator):
         wm = context.window_manager
         wm.fileselect_add(self)
 
+        # NOTE: select all layers on all scenes to avoid issue with particle systems
+        # NOTE: do it before execution!!!
+        # NOTE: layers restored automatically in exporter
+        if bpy.data.particles:
+            exporter.scenes_store_select_all_layers()
         return {"RUNNING_MODAL"}
 
     def execute(self, context):
@@ -69,6 +74,15 @@ class B4W_HTMLExportProcessor(bpy.types.Operator):
             bpy.ops.b4w.export_error_dialog('INVOKE_DEFAULT')
         
         return {"FINISHED"}
+
+    def cancel(self, context):
+        # NOTE: restore selected layers
+        if bpy.data.particles:
+            exporter.scenes_restore_selected_layers()
+
+    def draw(self, context):
+        layout = self.layout
+        layout.prop(self, "do_autosave")
 
     @classmethod
     def get_b4w_src_path(cls):
@@ -101,7 +115,7 @@ class B4W_HTMLExportProcessor(bpy.types.Operator):
                 with open(b4w_minjs_path, "r") as f:
                     scripts = f.read()
                     f.close()
-            data = extract_data(json_tmp_path, json_tmp_filename)
+            data = json.dumps(extract_data(json_tmp_path, json_tmp_filename))
             insertions = dict(scripts=scripts, built_in_data=data, \
                     json_path=json_tmp_filename)
             app_str = get_html_template(html_tpl_path).substitute(insertions)
@@ -195,9 +209,11 @@ def extract_data(json_path, json_filename):
     return data
 
 def get_encoded_binfile(path):
-    f = open(path, "rb")
-    result = str(base64.b64encode(f.read()))[2:-1]
-    f.close()
+    result = None
+    if os.path.isfile(path):
+        f = open(path, "rb")
+        result = str(base64.b64encode(f.read()))[2:-1]
+        f.close()
     return result
 
 def autosave():

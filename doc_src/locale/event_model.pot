@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: B4W 14.02.28\n"
+"Project-Id-Version: B4W 14.03.28\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-19 19:31+0400\n"
+"POT-Creation-Date: 2014-04-03 12:59\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,96 +17,72 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: ../event_model.rst:5
-# 15888d9dd86d468a8a510cc77c02134e
+# deea0c5ae7dc437ca4ebc882c46276c9
 msgid "Событийная модель"
 msgstr ""
 
 #: ../event_model.rst:7
-# 1a013629ead146cfb384dfba21cb16d6
+# 9d632684dc6d4e96a7a55b2921a2103e
 msgid "Событийная модель предоставляет унифицированный интерфейс для описания изменения состояний 3D сцены, упрощая обработку событий физики и действий пользователя."
 msgstr ""
 
 #: ../event_model.rst:14
-# b620eaaf853a4c92adbf334c0b620bf7
+# 8b2d67f2b992472180d7c031d22d6169
 msgid "Сенсоры"
 msgstr ""
 
 #: ../event_model.rst:16
-# c393b089880542bb8054a192a8f5e9c7
+# a8da03c91b4b497c8c34b6b0a15eb837
 msgid "Основным блоком событийной модели является сенсор (sensor). Сенсор является программной сущностью, и может быть только активным (1, единица) или неактивным (0, ноль). Некоторые сенсоры несут полезную нагрузку (payload). Например, сенсор трассировки лучей (Ray Sensor) предоставляет относительную длину луча пересечения."
 msgstr ""
 
 #: ../event_model.rst:23
-# 99c2863e0886433b9a34d969237a9a50
+# 04aa2bf69bd24150958c06b88906e630
 msgid "Управление сенсорами не доступно пользователю в виде открытого API. Вместо этого каждый сенсор должен присутствовать в одном или нескольких множествах (sensor manifold). Множество является логическим контейнером, ассоциированным с объектом на сцене. Оно определяет ответ на групповое событие сенсоров в виде вызова функции-обработчика. Для определения множества необходимо иметь следующую информацию (см. функцию ``b4w.controls.create_sensor_manifold()``)."
 msgstr ""
 
 #: ../event_model.rst:30
-# 2e21dfb06ae2495fbd5cb8cc0fe59d78
+# b607fd6301d14045802bca59a4874a76
 msgid "Объект-носитель множества (например, объект персонажа)."
 msgstr ""
 
 #: ../event_model.rst:31
-# b89b3024f67d466bb328375b8c80ddce
+# a7c86e6d6772470887782598d5d99b17
 msgid "Уникальный идентификатор множества (например, \"JUMP\")."
 msgstr ""
 
 #: ../event_model.rst:32
-# 8a3ff2e1b92e49babcfea9a370cd57ea
+# 9455d1cf9d2740a18326a3dba7595595
 msgid "Тип вызова функции-обработчика (варианты: ``CT_CONTINUOUS`` - непрерывный,"
 msgstr ""
 
 #: ../event_model.rst:33
-# 787748e663a7498d9ac64cb4a1bb7b9f
+# 2cccee56982646468e6a9080b71923a3
 msgid "``CT_LEVEL`` - уровень, ``CT_SHOT`` - одномоментный, ``CT_TRIGGER`` - переключающий)."
 msgstr ""
 
 #: ../event_model.rst:34
-# 81bb577210f543dd8d8b1bdd5b0b31b8
+# 9a060c1ae7924e96b3bf9e5811008310
 msgid "Массив сенсоров."
 msgstr ""
 
 #: ../event_model.rst:35
-# 2ecc7351038244f48a7bc8c17603a6a2
+# a0344e36a00a4b11bb5687b462af9936
 msgid "Логическая функция, определяющая при каких состояниях сенсоров будет вызываться функция-обработчик."
 msgstr ""
 
 #: ../event_model.rst:37
-# 553f43ceaf6840258dc6e483df8d93ca
+# 4191af6e7a294c5a8bae23b1ba65e23e
 msgid "Функция обработчик."
 msgstr ""
 
 #: ../event_model.rst:38
-# abcdbb001ca34d288327852ab4c6c538
+# 83484b545b4e4388b833a349bc68db9e
 msgid "Необязательный параметр, который может быть передан в функцию-обработчик."
 msgstr ""
 
 #: ../event_model.rst:40
-# 43a3dd8426184dcc94949b6b9c0f96b4
+# bb8be525eec44b6d996af19a99008642
 msgid "Например, стоит задача определить взаимодействие некоторого бросаемого физического объекта с окружающими предметами. Причём при ударе о различные объекты должен выводиться характерный звук. В простом случае определяется один сенсор соударения (Collision Sensor) для каждого объекта из окружения. Сенсоры добавляются в множества по типу издаваемого звука. В качестве логической функции здесь выступает логическое ИЛИ. В обработчике пишется код для воспроизведения звука:"
-msgstr ""
-
-#: ../event_model.rst:11
-#: ../event_model.rst:21
-# 4d7b30c2c59542a8a3f996fa10878207
-# 7fc5b2abf3cf4a18a3ec6a11047f3d7b
-msgid "сенсор"
-msgstr ""
-
-#: ../event_model.rst:11
-#: ../event_model.rst:21
-# 4d7b30c2c59542a8a3f996fa10878207
-# 7fc5b2abf3cf4a18a3ec6a11047f3d7b
-msgid "sensor"
-msgstr ""
-
-#: ../event_model.rst:21
-# 7fc5b2abf3cf4a18a3ec6a11047f3d7b
-msgid "множество"
-msgstr ""
-
-#: ../event_model.rst:21
-# 7fc5b2abf3cf4a18a3ec6a11047f3d7b
-msgid "manifold"
 msgstr ""
 

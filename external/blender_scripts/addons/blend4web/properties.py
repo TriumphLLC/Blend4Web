@@ -177,6 +177,11 @@ class B4W_VehicleSettings(bpy.types.PropertyGroup):
         step = 1,
         precision = 3
     )
+    inverse_control = bpy.props.BoolProperty(
+        name = "Inverse control",
+        description = "Inverse vehicle control",
+        default = False,
+    )
     delta_tach_angle = bpy.props.FloatProperty(
         name = "Tachometer delta angle",
         description = "Sets delta angle for the tachometer device",
@@ -341,7 +346,7 @@ class B4W_ShadowSettings(bpy.types.PropertyGroup):
     csm_num = bpy.props.IntProperty(
         name = "csm_num",
         description = "Number of cascaded shadow maps",
-        default = 3,
+        default = 1,
         min = 1,
         max = 4
     )
@@ -999,7 +1004,7 @@ def add_b4w_props():
     b4w_move_style = bpy.props.EnumProperty(
         name = "B4W: movement style",
         description = "Default camera movement style",
-        default = "STATIC",
+        default = "TARGET",
         items = [
             ("STATIC", "Static", "Static camera"),
             ("TARGET", "Target", "Move target"),
@@ -1160,6 +1165,11 @@ def add_b4w_props():
     add_particle_settings_properties()
 
 def add_scene_properties():
+    bpy.types.Scene.b4w_use_nla = bpy.props.BoolProperty(
+        name = "B4W: use NLA",
+        description = "Use NLA to control animation and sounds on scene",
+        default = False
+    )
     bpy.types.Scene.b4w_enable_audio = bpy.props.BoolProperty(
         name = "B4W: enable audio",
         description = "Enable audio on given scene",
@@ -1297,6 +1307,12 @@ def add_object_properties():
         default = False
     )
     obj_type.b4w_do_not_batch = b4w_do_not_batch
+
+    obj_type.b4w_dynamic_geometry = bpy.props.BoolProperty(
+        name = "B4W: dynamic geometry",
+        description = "Allow to use geometry update API for given object",
+        default = False
+    )
 
     obj_type.b4w_export_edited_normals = bpy.props.BoolProperty(
         name = "B4W: export edited normals",
@@ -2138,13 +2154,6 @@ def add_texture_properties():
     )
     bpy.types.Texture.b4w_water_foam = b4w_water_foam
 
-    b4w_affect_foam = bpy.props.BoolProperty(
-        name = "B4W: Affect foam",
-        description = "Texture may affect foam (only for normalmaps!)",
-        default = False
-    )
-    bpy.types.Texture.b4w_affect_foam = b4w_affect_foam
-
     b4w_foam_uv_freq = bpy.props.FloatVectorProperty(
         name = "B4W: Foam UV frequency",
         description = "Foam UV translation frequency",
@@ -2205,6 +2214,13 @@ def add_texture_properties():
     )
     bpy.types.Texture.b4w_max_shore_dist = b4w_max_shore_dist
 
+    b4w_disable_compression = bpy.props.BoolProperty(
+        name = "B4W: disable compression",
+        description = "Do not use dds file for this texture",
+        default = False
+    )
+    bpy.types.Texture.b4w_disable_compression = b4w_disable_compression
+
 def add_particle_settings_properties():
 
     pset_type = bpy.types.ParticleSettings
@@ -2261,6 +2277,15 @@ def add_particle_settings_properties():
         name = "B4W: dynamic grass",
         description = "Render on terrain materials as dynamic grass",
         default = False
+    )
+    pset_type.b4w_dynamic_grass_scale_threshold = bpy.props.FloatProperty(
+        name = "B4W: dynamic grass scale threshold",
+        description = "Scale threshold for dynamic grass",
+        default = 0.01,
+        min = 0.0,
+        max = 1.0,
+        step = 5.0,
+        precision = 3
     )
     pset_type.b4w_randomize_location = bpy.props.BoolProperty(
         name = "B4W: randomize location and size",

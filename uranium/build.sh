@@ -30,7 +30,7 @@ echo "Compile bullet"
 $EMCONFIGURE ../bullet/configure --disable-demos --disable-dependency-tracking
 $EMMAKE make -j8
 
-#OPTS="-O1 -s TOTAL_MEMORY=$MEMORY"
+#OPTS="-O1 -s TOTAL_MEMORY=$MEMORY -s EMCC_DEBUG=1"
 #OPTS="-O2 -s TOTAL_MEMORY=$MEMORY -s DOUBLE_MODE=0 -s PRECISE_I64_MATH=0 -s CORRECT_OVERFLOWS=0"
 OPTS="-O2 -s TOTAL_MEMORY=$MEMORY -s DOUBLE_MODE=0 -s CORRECT_OVERFLOWS=0 --closure 1"
 #OPTS="-O3 -s I64_MODE=1 -s DOUBLE_MODE=1 -s CORRECT_SIGNS=1 -s TOTAL_MEMORY=$MEMORY"
@@ -93,8 +93,10 @@ _du_vehicle_add_wheel \
 _du_boat_add_bob \
 _du_floating_body_add_bob \
 _du_create_character \
-_du_check_collision \
+_du_check_collisions \
 _du_check_collision_impulse \
+_du_add_collision_result \
+_du_remove_collision_result \
 _du_check_ray_hit \
 _du_add_body \
 _du_remove_body \
@@ -141,6 +143,8 @@ _du_boat_set_water_wrapper_ind \
 _du_character_set_water_wrapper_ind \
 _du_create_compound \
 _du_compound_add_child \
+_du_get_collision_result_by_id \
+_du_get_collision_result \
 "
 
 for i in $EXPFUN; do

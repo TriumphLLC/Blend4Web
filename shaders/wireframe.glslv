@@ -93,6 +93,7 @@ uniform sampler2D u_grass_map_color;
 uniform vec4 u_camera_quat;
 uniform vec3 u_grass_map_dim;
 uniform float u_grass_size;
+uniform float u_scale_threshold;
 # endif
 #endif // DEBUG_SPHERE
 

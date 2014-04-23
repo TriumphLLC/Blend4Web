@@ -2,10 +2,11 @@
 
 /** 
  * Lights API.
- * Consider use of standard translation/rotation functions from transform module
  * @module lights
  */
 b4w.module["lights"] = function(exports, require) {
+
+// TODO: consider use of standard translation/rotation functions from transform module
 
 var m_print     = require("__print");
 var lights      = require("__lights");
@@ -235,7 +236,7 @@ exports["get_light_params"] = function(light_name) {
     }
 
     if (!light) {
-        m_print.error("B2W Warning: light \"" + light_name + "\" not found");
+        m_print.error("B4W Warning: light \"" + light_name + "\" not found");
         return false;
     }
     
@@ -273,7 +274,7 @@ exports["set_light_params"] = function(light_name, light_params) {
     }
 
     if (!light) {
-        m_print.error("B2W Warning: light \"" + light_name + 
+        m_print.error("B4W Warning: light \"" + light_name + 
             "\" not found");
         return false;
     }

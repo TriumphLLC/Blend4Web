@@ -137,7 +137,8 @@ lighting_result lighting(
         //    color = vec3(1.0, 0.0, 0.0);
 
         float lampdist = lfac2.z;
-        if (lampdist > -1.0) { // point and spot
+
+        if (lampdist != -1.0) { // point and spot
 
             ldir = light_positions[i] - pos_world;
             
@@ -155,10 +156,8 @@ lighting_result lighting(
                 spot_factor *= smoothstep(0.0, 1.0, (spot_factor - spot_size) / spot_blend);
                 lcolorint *= spot_factor;
             }
-            
-        } else if (lampdist == -1.0) { // sun and hemi
+        } else // sun and hemi
             ldir = light_directions[i];
-        }
 
 
         float lfactor;

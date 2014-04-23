@@ -1,13 +1,10 @@
+#import u_scale_threshold
 #import vertex qrot
 #import to_world billboard_matrix tbn_norm
 
 #export grass_vertex
 
 #if DYNAMIC_GRASS
-
-// NOTE: should be proportional to particle size
-const float DYNAMIC_GRASS_EDGE = 2.0;
-const float SCALE_THRESHOLD = 0.3;
 
 // U along X, V along -Z (0..1)
 vec2 pos_to_uv(vec3 position, float dim, vec2 base_point)
@@ -36,16 +33,23 @@ vertex grass_vertex(vec3 position, vec3 tangent, vec3 binormal, vec3 normal,
         mat4 view_matrix)
 {
 
-    // NOTE: get camera view angles
+    // get camera view angles
     vec3 cam_view = qrot(camera_quat, vec3(0.0, -1.0, 0.0));
     float sin_alpha = -cam_view.x;
     float cos_alpha = -cam_view.z;
 
-    // NOTE: get world position of base point ([0.0, 0.0] on UV)
+    // get world position of base point ([0.0, 0.0] (left lower) on UV)
     vec2 base_point =vec2(camera_eye.x + grass_size * (-1.0 - sin_alpha) / 2.0, 
             camera_eye.z + grass_size * (1.0 - cos_alpha) / 2.0);
 
     vec2 cen_uv = pos_to_uv(center, grass_size, base_point);
+
+    // rounding grass plane
+    float grass_edge_length = grass_size / 2.0;
+    vec2 pos_from_map_center = abs(uv_to_pos(cen_uv - vec2(0.5), grass_size, vec2(0.0)));
+    float max_radius = grass_edge_length * (1.0 + sqrt(2.0)) / 2.0;
+    if (length(pos_from_map_center) > max_radius)
+        return infinity_vertex();
     
     // for map sampling scale uv coords according to BATCH/MAP size ratio
     float map_size_mult = grass_size / grass_map_dim.z;
@@ -54,30 +58,11 @@ vertex grass_vertex(vec3 position, vec3 tangent, vec3 binormal, vec3 normal,
     cen_uv_scaled.x += grass_map_trans.x;
     cen_uv_scaled.y -= grass_map_trans.z;
 
-    // NOTE: cutting unwanted vertices
-    float grass_edge_length = grass_size / 2.0 - DYNAMIC_GRASS_EDGE;
-    vec2 pos_from_map_center = abs(uv_to_pos(cen_uv - vec2(0.5), grass_size, vec2(0.0)));
-    if ((pos_from_map_center.x > grass_edge_length) || 
-            (pos_from_map_center.y > grass_edge_length))
-        return infinity_vertex();
-
-    // NOTE: rounding grass plane
-    float max_radius = grass_edge_length * (1.0 + sqrt(2.0)) / 2.0;
-    if (length(pos_from_map_center) > max_radius)
-        return infinity_vertex();
-
+    // remove short grass
     vec4 scale_color = texture2D(grass_map_color, cen_uv_scaled);
     float scale = scale_color.r;
-    if (scale < SCALE_THRESHOLD)
+    if (scale < u_scale_threshold)
         return infinity_vertex();
-
-    // NOTE: scale only grass height for now
-    position.y *= scale;
-
-    vec3 color = scale_color.gba;
-
-    vec2 pos_uv = pos_to_uv(position, grass_size, base_point);
-    position.xz = uv_to_pos(pos_uv, grass_size, base_point);
 
     // (DELTA = (HIGH - LOW)) > 0
     float height_delta = grass_map_dim.y - grass_map_dim.x;
@@ -85,11 +70,17 @@ vertex grass_vertex(vec3 position, vec3 tangent, vec3 binormal, vec3 normal,
     float height = grass_map_dim.y - texture2D(grass_map_depth, cen_uv_scaled).r *
             height_delta;
 
-    position.y += height;
-
+    // calculate new center and position
+    vec2 pos_cen_delta = position.xz - center.xz;
     center.xz = uv_to_pos(cen_uv, grass_size, base_point);
     center.y = height;
 
+    position.xz = center.xz + pos_cen_delta;
+    // scale only grass height for now
+    position.y *= scale;
+    position.y += height;
+
+    vec3 color = scale_color.gba;
 # if HAIR_BILLBOARD
     // NOTE: position in local space: position - center
     position -= center;

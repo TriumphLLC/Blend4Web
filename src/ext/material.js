@@ -2,19 +2,17 @@
 
 /** 
  * Material external API.
- * For expert use only
  * @module material
  */
 b4w.module["material"] = function(exports, require) {
 
-var m_batch = require("__batch");
-var config  = require("__config");
-var m_print = require("__print");
-var util    = require("__util");
-var shaders = require("__shaders");
-var renderer = require("__renderer");
-var cfg_def = config.defaults;
-var cfg_scs = config.scenes;
+var m_batch   = require("__batch");
+var m_cfg     = require("__config");
+var m_print   = require("__print");
+var m_shaders = require("__shaders");
+var m_util    = require("__util");
+
+var cfg_def = m_cfg.defaults;
 
 var BATCH_INHERITED_TEXTURES = ["u_colormap0", "u_colormap1", "u_stencil0", 
         "u_specmap", "u_normalmap0", "u_mirrormap"];
@@ -55,101 +53,74 @@ exports["set_batch_param"] = function() {
 exports["inherit_material"] = function(obj_from, mat_from_name, obj_to, 
         mat_to_name) {
 
-    var batch_from = find_batch_material(obj_from, mat_from_name, "MAIN");
-    var batch_to = find_batch_material(obj_to, mat_to_name, "MAIN");
-
-    if (!util.is_dynamic_mesh(obj_to) || !util.is_dynamic_mesh(obj_from)) {
+    if (!m_util.is_dynamic_mesh(obj_to) || !m_util.is_dynamic_mesh(obj_from)) {
         m_print.error("Wrong or batched object(s)");
         return;
     }
 
-    if (batch_from && batch_to) {
-        batch_to.diffuse_color[0] = batch_from.diffuse_color[0];
-        batch_to.diffuse_color[1] = batch_from.diffuse_color[1];
-        batch_to.diffuse_color[2] = batch_from.diffuse_color[2];
-        batch_to.diffuse_color[3] = batch_from.diffuse_color[3];
+    var types = ["MAIN", "DEPTH", "COLOR_ID"];
+    var batches_found = false;
+    for (var i = 0; i < types.length; i++) {
+        var type = types[i];
 
-        batch_to.diffuse_intensity = batch_from.diffuse_intensity;
+        var batch_from = m_batch.find_batch_material(obj_from, 
+                mat_from_name, type);
+        var batch_to = m_batch.find_batch_material(obj_to, mat_to_name, 
+                type);
 
-        batch_to.specular_color[0] = batch_from.specular_color[0];
-        batch_to.specular_color[1] = batch_from.specular_color[1];
-        batch_to.specular_color[2] = batch_from.specular_color[2];
+        if (batch_from && batch_to) {
+            batches_found = true;
+            if (type == "MAIN") {
+                batch_to.diffuse_color[0] = batch_from.diffuse_color[0];
+                batch_to.diffuse_color[1] = batch_from.diffuse_color[1];
+                batch_to.diffuse_color[2] = batch_from.diffuse_color[2];
+                batch_to.diffuse_color[3] = batch_from.diffuse_color[3];
 
-        batch_to.specular_params[0] = batch_from.specular_params[0];
-        batch_to.specular_params[1] = batch_from.specular_params[1];
+                batch_to.diffuse_intensity = batch_from.diffuse_intensity;
 
-        batch_to.emit = batch_from.emit;
-        batch_to.ambient = batch_from.ambient;
-        batch_to.ambient = batch_from.ambient;
+                batch_to.specular_color[0] = batch_from.specular_color[0];
+                batch_to.specular_color[1] = batch_from.specular_color[1];
+                batch_to.specular_color[2] = batch_from.specular_color[2];
 
-        if (!isNaN(batch_to.diffuse_color_factor) 
-                && !isNaN(batch_from.diffuse_color_factor))
-            batch_to.diffuse_color_factor = batch_from.diffuse_color_factor;
+                batch_to.specular_params[0] = batch_from.specular_params[0];
+                batch_to.specular_params[1] = batch_from.specular_params[1];
 
-        // inherit textures for MAIN batches
-        for (var i = 0; i < batch_to.texture_names.length; i++) {
-            var to_name = batch_to.texture_names[i];
-            if (BATCH_INHERITED_TEXTURES.indexOf(to_name) !== -1) {
-                var from_index = batch_from.texture_names.indexOf(to_name);
-                if (from_index !== -1)
-                    batch_to.textures[i] = batch_from.textures[from_index];
+                batch_to.emit = batch_from.emit;
+                batch_to.ambient = batch_from.ambient;
+                batch_to.ambient = batch_from.ambient;
+
+                if (!isNaN(batch_to.diffuse_color_factor) 
+                        && !isNaN(batch_from.diffuse_color_factor))
+                    batch_to.diffuse_color_factor 
+                            = batch_from.diffuse_color_factor;
             }
-        }
 
-        // inherit textures for DEPTH batches
-        var depth_batch_from = find_batch_material(obj_from, mat_from_name, 
-                "DEPTH");
-        var depth_batch_to = find_batch_material(obj_to, mat_to_name, "DEPTH");
+            // inherit textures
+            for (var j = 0; j < batch_to.texture_names.length; j++) {
+                var to_name = batch_to.texture_names[j];
+                if (BATCH_INHERITED_TEXTURES.indexOf(to_name) !== -1) {
+                    var from_index = batch_from.texture_names.indexOf(to_name);
+                    if (from_index !== -1) {
+                        batch_to.textures[j] = batch_from.textures[from_index];
 
-        for (var i = 0; i < depth_batch_to.texture_names.length; i++) {
-            var to_name = depth_batch_to.texture_names[i];
-            if (BATCH_INHERITED_TEXTURES.indexOf(to_name) !== -1) {
-                var from_index 
-                        = depth_batch_from.texture_names.indexOf(to_name);
-                if (from_index !== -1) {
-                    depth_batch_to.textures[i] 
-                            = depth_batch_from.textures[from_index];
-
-                    // inherit textures for forked DEPTH batches
-                    if (depth_batch_to.childs)
-                        for (var j = 0; j < depth_batch_to.childs.length; j++) {
-                            var child_batch = depth_batch_to.childs[j];
-                            var child_index 
-                                    = child_batch.texture_names.indexOf(to_name);
-                            if (child_index !== -1)
-                                child_batch.textures[child_index] 
-                                        = depth_batch_from.textures[from_index];
-                        }
+                        // inherit textures for child batches
+                        if (batch_to.childs)
+                            for (var j = 0; j < batch_to.childs.length; j++) {
+                                var child_batch = batch_to.childs[j];
+                                var child_index 
+                                        = child_batch.texture_names.indexOf(to_name);
+                                if (child_index !== -1)
+                                    child_batch.textures[child_index] 
+                                            = batch_from.textures[from_index];
+                            }
+                    }
                 }
             }
         }
-    } else
-        m_print.error("Wrong objects for inheriting material!")
-}
-
-/**
- * Find MAIN batch using material name
- */
-function find_batch_material(obj, mat_name, type) {
-    var mesh = obj["data"];
-    var materials = mesh["materials"];
-    var slots = obj._batch_slots;
-
-    for (var i = 0; i < materials.length; i++) {
-        var mat = materials[i];
-        if (mat["name"] === mat_name) {
-            for (var j = 0; j < slots.length; j++) {
-                var slot = slots[j];
-                var batch = slot.batch;
-
-                // sumesh index === material index
-                if (slot.submesh_index === i)
-                    if (type && batch.type == type || !type)
-                        return batch;
-            }
-        }
     }
-    return null;
+
+    if (!batches_found)
+        m_print.error("Wrong objects for inheriting material!")
 }
 
 function check_batch_material(obj, mat_name) {
@@ -174,20 +145,6 @@ function check_batch_material(obj, mat_name) {
         }
     }
     return false;
-}
-
-function find_material(obj, mat_name) {
-    var mesh = obj["data"];
-    var materials = mesh["materials"];
-
-    for (var i = 0; i < materials.length; i++) {
-        var mat = materials[i];
-
-        if (mat["name"] == mat_name)
-            return mat;
-    }
-
-    return null;
 }
 
 /**
@@ -219,7 +176,7 @@ exports["set_diffuse_color"] = function(obj, mat_name, color) {
     if (!check_diffuse_color(obj, mat_name))
         m_print.error("Property \"diffuse_color\" is missing!");
 
-    var batch = find_batch_material(obj, mat_name);
+    var batch = m_batch.find_batch_material(obj, mat_name, "MAIN");
     batch.diffuse_color[0] = color[0];
     batch.diffuse_color[1] = color[1];
     batch.diffuse_color[2] = color[2];
@@ -237,7 +194,7 @@ exports["get_diffuse_color"] = function(obj, mat_name) {
     if (!check_diffuse_color(obj, mat_name))
         m_print.error("Property \"diffuse_color\" is missing!");
 
-    var batch = find_batch_material(obj, mat_name);
+    var batch = m_batch.find_batch_material(obj, mat_name, "MAIN");
     var color = new Array(4);
     color[0] = batch.diffuse_color[0];
     color[1] = batch.diffuse_color[1];
@@ -256,8 +213,8 @@ exports["get_diffuse_color"] = function(obj, mat_name) {
  */
 exports["check_diffuse_color"] = check_diffuse_color;
 function check_diffuse_color(obj, mat_name) {
-    var batch = find_batch_material(obj, mat_name);
-    return batch && batch.diffuse_color;
+    var batch = m_batch.find_batch_material(obj, mat_name, "MAIN");
+    return Boolean(batch && batch.diffuse_color);
 }
 
 /**
@@ -271,7 +228,7 @@ exports["set_diffuse_intensity"] = function(obj, mat_name, intensity) {
     if (!check_diffuse_intensity(obj, mat_name))
         m_print.error("Property \"diffuse_intensity\" is missing!");
 
-    var batch = find_batch_material(obj, mat_name);
+    var batch = m_batch.find_batch_material(obj, mat_name, "MAIN");
     batch.diffuse_intensity = intensity;
 }
 
@@ -286,7 +243,7 @@ exports["get_diffuse_intensity"] = function(obj, mat_name) {
     if (!check_diffuse_intensity(obj, mat_name))
         m_print.error("Property \"diffuse_intensity\" is missing!");
 
-    var batch = find_batch_material(obj, mat_name);
+    var batch = m_batch.find_batch_material(obj, mat_name, "MAIN");
     return batch.diffuse_intensity;
 }
 
@@ -299,8 +256,8 @@ exports["get_diffuse_intensity"] = function(obj, mat_name) {
  */
 exports["check_diffuse_intensity"] = check_diffuse_intensity;
 function check_diffuse_intensity(obj, mat_name) {
-    var batch = find_batch_material(obj, mat_name);
-    return batch && batch.diffuse_intensity;
+    var batch = m_batch.find_batch_material(obj, mat_name, "MAIN");
+    return Boolean(batch && batch.diffuse_intensity);
 }
 
 /**
@@ -314,7 +271,7 @@ exports["set_specular_color"] = function(obj, mat_name, color) {
     if (!check_specular_color(obj, mat_name))
         m_print.error("Property \"specular_color\" is missing!");
 
-    var batch = find_batch_material(obj, mat_name);
+    var batch = m_batch.find_batch_material(obj, mat_name, "MAIN");
     batch.specular_color[0] = color[0];
     batch.specular_color[1] = color[1];
     batch.specular_color[2] = color[2];
@@ -331,7 +288,7 @@ exports["get_specular_color"] = function(obj, mat_name) {
     if (!check_specular_color(obj, mat_name))
         m_print.error("Property \"specular_color\" is missing!");
 
-    var batch = find_batch_material(obj, mat_name);
+    var batch = m_batch.find_batch_material(obj, mat_name, "MAIN");
     var color = new Array(3);
     color[0] = batch.specular_color[0];
     color[1] = batch.specular_color[1];
@@ -349,8 +306,8 @@ exports["get_specular_color"] = function(obj, mat_name) {
  */
 exports["check_specular_color"] = check_specular_color;
 function check_specular_color(obj, mat_name) {
-    var batch = find_batch_material(obj, mat_name);
-    return batch && batch.specular_color;
+    var batch = m_batch.find_batch_material(obj, mat_name, "MAIN");
+    return Boolean(batch && batch.specular_color);
 }
 
 /**
@@ -364,7 +321,7 @@ exports["set_specular_intensity"] = function(obj, mat_name, intensity) {
     if (!check_specular_intensity(obj, mat_name))
         m_print.error("Property \"specular_intensity\" is missing!");
 
-    var batch = find_batch_material(obj, mat_name);
+    var batch = m_batch.find_batch_material(obj, mat_name, "MAIN");
     batch.specular_params[0] = intensity;
 }
 
@@ -379,7 +336,7 @@ exports["get_specular_intensity"] = function(obj, mat_name) {
     if (!check_specular_intensity(obj, mat_name))
         m_print.error("Property \"specular_intensity\" is missing!");
 
-    var batch = find_batch_material(obj, mat_name);
+    var batch = m_batch.find_batch_material(obj, mat_name, "MAIN");
     return batch.specular_params[0];
 }
 
@@ -392,8 +349,8 @@ exports["get_specular_intensity"] = function(obj, mat_name) {
  */
 exports["check_specular_intensity"] = check_specular_intensity;
 function check_specular_intensity(obj, mat_name) {
-    var batch = find_batch_material(obj, mat_name);
-    return batch && batch.specular_params && batch.specular_params[0];
+    var batch = m_batch.find_batch_material(obj, mat_name, "MAIN");
+    return Boolean(batch && batch.specular_params && batch.specular_params[0]);
 }
 
 /**
@@ -407,7 +364,7 @@ exports["set_specular_hardness"] = function(obj, mat_name, hardness) {
     if (!check_specular_hardness(obj, mat_name))
         m_print.error("Property \"specular_hardness\" is missing!");
 
-    var batch = find_batch_material(obj, mat_name);
+    var batch = m_batch.find_batch_material(obj, mat_name, "MAIN");
     batch.specular_params[1] = hardness;
 }
 
@@ -422,7 +379,7 @@ exports["get_specular_hardness"] = function(obj, mat_name) {
     if (!check_specular_hardness(obj, mat_name))
         m_print.error("Property \"specular_hardness\" is missing!");
 
-    var batch = find_batch_material(obj, mat_name);
+    var batch = m_batch.find_batch_material(obj, mat_name, "MAIN");
     return batch.specular_params[1];
 }
 
@@ -435,8 +392,8 @@ exports["get_specular_hardness"] = function(obj, mat_name) {
  */
 exports["check_specular_hardness"] = check_specular_hardness;
 function check_specular_hardness(obj, mat_name) {
-    var batch = find_batch_material(obj, mat_name);
-    return batch && batch.specular_params && batch.specular_params[1];
+    var batch = m_batch.find_batch_material(obj, mat_name, "MAIN");
+    return Boolean(batch && batch.specular_params && batch.specular_params[1]);
 }
 
 /**
@@ -450,7 +407,7 @@ exports["set_emit_factor"] = function(obj, mat_name, emit_factor) {
     if (!check_emit_factor(obj, mat_name))
         m_print.error("Property \"emit\" is missing!");
 
-    var batch = find_batch_material(obj, mat_name);
+    var batch = m_batch.find_batch_material(obj, mat_name, "MAIN");
     batch.emit = emit_factor;
 }
 
@@ -465,7 +422,7 @@ exports["get_emit_factor"] = function(obj, mat_name) {
     if (!check_emit_factor(obj, mat_name))
         m_print.error("Property \"emit\" is missing!");
 
-    var batch = find_batch_material(obj, mat_name);
+    var batch = m_batch.find_batch_material(obj, mat_name, "MAIN");
     return batch.emit;
 }
 
@@ -478,8 +435,8 @@ exports["get_emit_factor"] = function(obj, mat_name) {
  */
 exports["check_emit_factor"] = check_emit_factor;
 function check_emit_factor(obj, mat_name) {
-    var batch = find_batch_material(obj, mat_name);
-    return batch && batch.emit;
+    var batch = m_batch.find_batch_material(obj, mat_name, "MAIN");
+    return Boolean(batch && batch.emit);
 }
 
 /**
@@ -493,7 +450,7 @@ exports["set_ambient_factor"] = function(obj, mat_name, ambient_factor) {
     if (!check_ambient_factor(obj, mat_name))
         m_print.error("Property \"ambient\" is missing!");
 
-    var batch = find_batch_material(obj, mat_name);
+    var batch = m_batch.find_batch_material(obj, mat_name, "MAIN");
     batch.ambient = ambient_factor;
 }
 
@@ -508,7 +465,7 @@ exports["get_ambient_factor"] = function(obj, mat_name) {
     if (!check_ambient_factor(obj, mat_name))
         m_print.error("Property \"ambient\" is missing!");
 
-    var batch = find_batch_material(obj, mat_name);
+    var batch = m_batch.find_batch_material(obj, mat_name, "MAIN");
     return batch.ambient;
 }
 
@@ -521,8 +478,8 @@ exports["get_ambient_factor"] = function(obj, mat_name) {
  */
 exports["check_ambient_factor"] = check_ambient_factor;
 function check_ambient_factor(obj, mat_name) {
-    var batch = find_batch_material(obj, mat_name);
-    return batch && batch.ambient;
+    var batch = m_batch.find_batch_material(obj, mat_name, "MAIN");
+    return Boolean(batch && batch.ambient);
 }
 
 /**
@@ -537,7 +494,7 @@ exports["set_diffuse_color_factor"] = function(obj, mat_name,
     if (!check_diffuse_color_factor(obj, mat_name))
         m_print.error("Property \"diffuse_color_factor\" is missing!");
 
-    var batch = find_batch_material(obj, mat_name);
+    var batch = m_batch.find_batch_material(obj, mat_name, "MAIN");
     batch.diffuse_color_factor = diffuse_color_factor;
 }
 
@@ -552,7 +509,7 @@ exports["get_diffuse_color_factor"] = function(obj, mat_name) {
     if (!check_diffuse_color_factor(obj, mat_name))
         m_print.error("Property \"diffuse_color_factor\" is missing!");
 
-    var batch = find_batch_material(obj, mat_name);
+    var batch = m_batch.find_batch_material(obj, mat_name, "MAIN");
     return batch.diffuse_color_factor;
 }
 
@@ -565,8 +522,8 @@ exports["get_diffuse_color_factor"] = function(obj, mat_name) {
  */
 exports["check_diffuse_color_factor"] = check_diffuse_color_factor;
 function check_diffuse_color_factor(obj, mat_name) {
-    var batch = find_batch_material(obj, mat_name);
-    return batch && batch.diffuse_color_factor;
+    var batch = m_batch.find_batch_material(obj, mat_name, "MAIN");
+    return Boolean(batch && batch.diffuse_color_factor);
 }
 
 /**
@@ -579,7 +536,7 @@ function check_diffuse_color_factor(obj, mat_name) {
 exports["get_material_extended_params"] = function(obj, mat_name) {
 
     if (!obj || !mat_name) {
-        m_print.error("B2W Error: missing arguments in get_material_params");
+        m_print.error("B4W Error: missing arguments in get_material_params");
         return null;
     }
 
@@ -587,11 +544,9 @@ exports["get_material_extended_params"] = function(obj, mat_name) {
     if (!check_batch_material(obj, mat_name))
         return null;
 
-    var batch = find_batch_material(obj, mat_name);
-    if (!batch) {
-        m_print.warn("B2W Warning: material not found");
+    var batch = m_batch.find_batch_material(obj, mat_name, "MAIN");
+    if (!batch)
         return null;
-    }
 
     var mat_params = {};
 
@@ -617,20 +572,20 @@ exports["get_material_extended_params"] = function(obj, mat_name) {
 exports["get_water_material_params"] = function(obj, water_mat_name) {
 
     if (!obj || !water_mat_name) {
-        m_print.error("B2W Error: missing arguments in get_water_material_params");
+        m_print.error("B4W Error: missing arguments in get_water_material_params");
         return null;
     }
 
     // check that getting material params is possible
     if (!check_batch_material(obj, water_mat_name))
         return null;
-    var batch = find_batch_material(obj, water_mat_name);
 
-    if (!batch.water)
+    var batch = m_batch.find_batch_material(obj, water_mat_name, "MAIN");
+    if (!batch || !batch.water)
         return null;
 
     if (!batch) {
-        m_print.warn("B2W Warning: material not found");
+        m_print.warn("B4W Warning: material not found");
         return null;
     }
     var water_mat_params = {};
@@ -699,20 +654,20 @@ exports["get_water_material_params"] = function(obj, water_mat_name) {
 exports["set_material_extended_params"] = function(obj, mat_name, mat_params) {
 
     if (!obj || !mat_name || !mat_params) {
-        m_print.error("B2W Error: missing arguments in set_material_params");
+        m_print.error("B4W Error: missing arguments in set_material_params");
         return;
     }
 
     // check that setting material params is possible
     if (!check_batch_material(obj, mat_name)) {
-        m_print.warn("B2W Warning: setting material params is not possible");
+        m_print.warn("B4W Warning: setting material params is not possible");
         return null;
     }
     
-    var batch = find_batch_material(obj, mat_name);
+    var batch = m_batch.find_batch_material(obj, mat_name, "MAIN");
 
     if (!batch) {
-        m_print.warn("B2W Warning: material not found");
+        m_print.warn("B4W Warning: material not found");
         return;
     }
 
@@ -738,7 +693,7 @@ exports["set_material_extended_params"] = function(obj, mat_name, mat_params) {
         }
 
         if ("material_parallax_steps" in mat_params) {
-            var parallax_steps = shaders.glsl_value(parseFloat(mat_params["material_parallax_steps"]));
+            var parallax_steps = m_shaders.glsl_value(parseFloat(mat_params["material_parallax_steps"]));
             m_batch.set_batch_directive(batch, "PARALLAX_STEPS", parallax_steps);
             m_batch.update_shader(batch, true);
         }
@@ -755,20 +710,20 @@ exports["set_material_extended_params"] = function(obj, mat_name, mat_params) {
 exports["set_water_material_params"] = function(obj, water_mat_name, water_mat_params) {
 
     if (!obj || !water_mat_name || !water_mat_params) {
-        m_print.error("B2W Error: missing arguments in set_water_material_params");
+        m_print.error("B4W Error: missing arguments in set_water_material_params");
         return null;
     }
 
     // check that setting material params is possible
     if (!check_batch_material(obj, water_mat_name)) {
-        m_print.warn("B2W Warning: setting water material params is not possible");
+        m_print.warn("B4W Warning: setting water material params is not possible");
         return null;
     }
 
-    var batch = find_batch_material(obj, water_mat_name);
+    var batch = m_batch.find_batch_material(obj, water_mat_name, "MAIN");
 
     if (!batch) {
-        m_print.warn("B2W Warning: material not found");
+        m_print.warn("B4W Warning: material not found");
         return null;
     }
 
@@ -803,7 +758,7 @@ exports["set_water_material_params"] = function(obj, water_mat_name, water_mat_p
                     m_batch.set_batch_directive(batch, "SHORE_SMOOTHING", 0);
             }
             if ("absorb_factor" in water_mat_params) {
-                var absorb_factor = shaders.glsl_value(parseFloat(water_mat_params["absorb_factor"]));
+                var absorb_factor = m_shaders.glsl_value(parseFloat(water_mat_params["absorb_factor"]));
                 m_batch.set_batch_directive(batch, "ABSORB", absorb_factor);
             }
         }
@@ -820,77 +775,77 @@ exports["set_water_material_params"] = function(obj, water_mat_name, water_mat_p
                     m_batch.set_batch_directive(batch, "DYNAMIC", 0);
             }
             if ("waves_height" in water_mat_params) {
-                var waves_height = shaders.glsl_value(parseFloat(
+                var waves_height = m_shaders.glsl_value(parseFloat(
                                        water_mat_params["waves_height"]));
                 m_batch.set_batch_directive(batch, "WAVES_HEIGHT", waves_height);
             }
             if ("waves_length" in water_mat_params) {
-                var waves_length = shaders.glsl_value(parseFloat(
+                var waves_length = m_shaders.glsl_value(parseFloat(
                                        water_mat_params["waves_length"]));
                 m_batch.set_batch_directive(batch, "WAVES_LENGTH", waves_length);
             }
             if ("sss_strength" in water_mat_params) {
-                var waves_length = shaders.glsl_value(parseFloat(
+                var waves_length = m_shaders.glsl_value(parseFloat(
                                        water_mat_params["sss_strength"]));
                 m_batch.set_batch_directive(batch, "SSS_STRENGTH", waves_length);
             }
             if ("sss_width" in water_mat_params) {
-                var waves_length = shaders.glsl_value(parseFloat(
+                var waves_length = m_shaders.glsl_value(parseFloat(
                                        water_mat_params["sss_width"]));
                 m_batch.set_batch_directive(batch, "SSS_WIDTH", waves_length);
             }
             if ("dst_noise_scale0" in water_mat_params) {
-                var dst_noise_scale0 = shaders.glsl_value(parseFloat(
+                var dst_noise_scale0 = m_shaders.glsl_value(parseFloat(
                                        water_mat_params["dst_noise_scale0"]));
                 m_batch.set_batch_directive(batch, "DST_NOISE_SCALE_0", dst_noise_scale0);
             }
             if ("dst_noise_scale1" in water_mat_params) {
-                var dst_noise_scale1 = shaders.glsl_value(parseFloat(
+                var dst_noise_scale1 = m_shaders.glsl_value(parseFloat(
                                        water_mat_params["dst_noise_scale1"]));
                 m_batch.set_batch_directive(batch, "DST_NOISE_SCALE_1", dst_noise_scale1);
             }
             if ("dst_noise_freq0" in water_mat_params) {
-                var dst_noise_freq0 = shaders.glsl_value(parseFloat(
+                var dst_noise_freq0 = m_shaders.glsl_value(parseFloat(
                                       water_mat_params["dst_noise_freq0"]));
                 m_batch.set_batch_directive(batch, "DST_NOISE_FREQ_0", dst_noise_freq0);
             }
             if ("dst_noise_freq1" in water_mat_params) {
-                var dst_noise_freq1 = shaders.glsl_value(parseFloat(
+                var dst_noise_freq1 = m_shaders.glsl_value(parseFloat(
                                       water_mat_params["dst_noise_freq1"]));
                 m_batch.set_batch_directive(batch, "DST_NOISE_FREQ_1", dst_noise_freq1);
             }
             if ("dir_min_shore_fac" in water_mat_params) {
-                var dir_min_shore_fac = shaders.glsl_value(parseFloat(
+                var dir_min_shore_fac = m_shaders.glsl_value(parseFloat(
                                         water_mat_params["dir_min_shore_fac"]));
                 m_batch.set_batch_directive(batch, "DIR_MIN_SHR_FAC", dir_min_shore_fac);
             }
             if ("dir_freq" in water_mat_params) {
-                var dir_freq = shaders.glsl_value(parseFloat(
+                var dir_freq = m_shaders.glsl_value(parseFloat(
                                water_mat_params["dir_freq"]));
                 m_batch.set_batch_directive(batch, "DIR_FREQ", dir_freq);
             }
             if ("dir_noise_scale" in water_mat_params) {
-                var dir_noise_scale = shaders.glsl_value(parseFloat(
+                var dir_noise_scale = m_shaders.glsl_value(parseFloat(
                                       water_mat_params["dir_noise_scale"]));
                 m_batch.set_batch_directive(batch, "DIR_NOISE_SCALE", dir_noise_scale);
             }
             if ("dir_noise_freq" in water_mat_params) {
-                var dir_noise_freq = shaders.glsl_value(parseFloat(
+                var dir_noise_freq = m_shaders.glsl_value(parseFloat(
                                      water_mat_params["dir_noise_freq"]));
                 m_batch.set_batch_directive(batch, "DIR_NOISE_FREQ", dir_noise_freq);
             }
             if ("dir_min_noise_fac" in water_mat_params) {
-                var dir_min_noise_fac = shaders.glsl_value(parseFloat(
+                var dir_min_noise_fac = m_shaders.glsl_value(parseFloat(
                                         water_mat_params["dir_min_noise_fac"]));
                 m_batch.set_batch_directive(batch, "DIR_MIN_NOISE_FAC", dir_min_noise_fac);
             }
             if ("dst_min_fac" in water_mat_params) {
-                var dst_min_fac = shaders.glsl_value(parseFloat(
+                var dst_min_fac = m_shaders.glsl_value(parseFloat(
                                   water_mat_params["dst_min_fac"]));
                 m_batch.set_batch_directive(batch, "DST_MIN_FAC", dst_min_fac);
             }
             if ("waves_hor_fac" in water_mat_params) {
-                var waves_hor_fac = shaders.glsl_value(parseFloat(
+                var waves_hor_fac = m_shaders.glsl_value(parseFloat(
                                     water_mat_params["waves_hor_fac"]));
                 m_batch.set_batch_directive(batch, "WAVES_HOR_FAC", waves_hor_fac);
             }

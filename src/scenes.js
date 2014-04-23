@@ -189,7 +189,7 @@ function append_scene(bpy_scene) {
         render.procedural_sky    = check_procedural_sky(bpy_scene);
         render.water_params      = get_water_params(bpy_scene);
         render.dynamic_grass     = false;
-        render.selectability     = check_selectable_objects(bpy_scene);
+        render.color_picking     = check_selectable_objects(bpy_scene);
         render.graph = m_scgraph.create_rendering_graph_compat(cam_render, render);
     } else {
         var rtt = bpy_scene._render_to_texture;
@@ -217,7 +217,9 @@ function append_scene(bpy_scene) {
         render.ssao            = (cfg_def.ssao && bpy_scene["b4w_enable_ssao"]);
         render.god_rays        = (cfg_def.god_rays && bpy_scene["b4w_enable_god_rays"]);
         render.refractions     = (cfg_def.refractions && bpy_scene["b4w_render_refractions"]);
-        render.selectability   = check_selectable_objects(bpy_scene);
+        render.color_picking   = check_selectable_objects(bpy_scene);
+        // based on object selectability
+        render.glow            = cfg_def.glow ? render.color_picking : false;
 
         render.graph = m_scgraph.create_rendering_graph(rtt, render, cam_render);
     }
@@ -320,17 +322,15 @@ function get_water_params(bpy_scene) {
         if (mat["b4w_water"]) {
 
             var wp = {};
-            // set water level as obect's first vertex y coord
+            // set water level to obect's origin y coord
             for (var j = 0; j < objects.length; j++) {
                 var obj = objects[j];
                 var mesh = obj["data"];
                 var mesh_mats = mesh["materials"];
                 for (var k = 0; k < mesh_mats.length; k++) {
                     var mesh_mat = mesh_mats[k];
-                    if (mesh_mat == mat) {
-                        var first_vert_y_pos = mesh["submeshes"][0]["position"][1];
-                        wp.water_level = obj["location"][1] + first_vert_y_pos;
-                    }
+                    if (mesh_mat == mat)
+                        wp.water_level = obj["location"][1];
                 }
             }
 
@@ -350,7 +350,6 @@ function get_water_params(bpy_scene) {
             // fog stuff
             wp.fog_color_density = mat["b4w_water_fog_color"].slice(0);
             wp.fog_color_density.push( mat["b4w_water_fog_density"] );
-
 
             // dynamics stuff
             if (mat["b4w_water_dynamic"]) {
@@ -819,8 +818,11 @@ exports.generate_auxiliary_batches = function(graph) {
             batch = m_batch.create_lanczos_batch(subs.lanczos_type);
             break;
 
-        case "SMAA":
-            batch = m_batch.create_smaa_batch(subs.smaa_pass);
+        case "SMAA_RESOLVE":
+        case "SMAA_EDGE_DETECTION":
+        case "SMAA_BLENDING_WEIGHT_CALCULATION":
+        case "SMAA_NEIGHBORHOOD_BLENDING":
+            batch = m_batch.create_smaa_batch(subs.type);
             break;
 
         case "ANAGLYPH":
@@ -877,6 +879,10 @@ exports.generate_auxiliary_batches = function(graph) {
 
             batch = m_batch.create_bloom_combine_batch();
 
+            break;
+
+        case "VELOCITY":
+            batch = m_batch.create_velocity_batch();
             break;
         }
 
@@ -1201,12 +1207,17 @@ function add_object_subs_main(subs, obj, graph, main_type, bpy_scene) {
             else
                 m_shaders.set_directive(shaders_info, "SHORE_SMOOTHING", 0);
 
-            if (batch.water_dynamic && subs.water_params && subs.water_waves_height) 
+            if (batch.water_dynamic && subs.water_params && subs.water_waves_height)
                 m_shaders.set_directive(shaders_info, "DYNAMIC", 1);
             else
                 m_shaders.set_directive(shaders_info, "DYNAMIC", 0);
 
         }
+
+        if (cfg_def.smaa && !m_cfg.context.alpha)
+            m_shaders.set_directive(shaders_info, "SMAA_JITTER", 1);
+        else
+            m_shaders.set_directive(shaders_info, "SMAA_JITTER", 0);
 
         // check for textures used in offscreen rendering
         // NOTE: create and attach subgraph, it's possible to do so here
@@ -1584,6 +1595,13 @@ function add_object_subs_depth(subs, obj, graph, bpy_scene) {
                 prepare_dynamic_grass_batch(batch, subs_grass_map, obj_render);
         }
 
+        var shaders_info = batch.shaders_info;
+
+        if (cfg_def.smaa && !m_cfg.context.alpha)
+            m_shaders.set_directive(shaders_info, "SMAA_JITTER", 1);
+        else
+            m_shaders.set_directive(shaders_info, "SMAA_JITTER", 0);
+
         m_batch.update_shader(batch);
 
         var rb = {
@@ -1641,6 +1659,7 @@ function add_object_subs_shadow(subs, obj, graph, bpy_scene) {
                     prepare_dynamic_grass_batch(batch, subs_grass_map, obj_render);
             }
 
+            m_shaders.set_directive(batch.shaders_info, "SMAA_JITTER", 0);
             m_batch.update_shader(batch);
 
             var rb = {
@@ -1666,8 +1685,9 @@ function add_object_subs_reflect(subs, obj, graph) {
     var batch_slots = obj._batch_slots;
 
     for (var i = 0; i < batch_slots.length; i++) {
+        var batch_src = batch_slots[i].batch;
 
-        var batch = batch_copy_wo_bufs(batch_slots[i].batch);
+        var batch = batch_copy_wo_bufs(batch_src);
 
         if ((batch.type != "SHADELESS" && batch.type != "MAIN" &&
                     batch.type != "NODES") || has_batch(subs, batch))
@@ -1703,6 +1723,19 @@ function add_object_subs_reflect(subs, obj, graph) {
             validate_batch(batch);
 
             subs.bundles.push(rb);
+
+            if (cfg_def.smaa && !m_cfg.context.alpha)
+                m_shaders.set_directive(shaders_info, "SMAA_JITTER", 1);
+            else
+                m_shaders.set_directive(shaders_info, "SMAA_JITTER", 0);
+
+            // NOTE: access to forked batches from source batch for material 
+            // inheritance
+            if (batch.type == "MAIN") {
+                if (!batch_src.childs)
+                    batch_src.childs = [];
+                batch_src.childs.push(batch);
+            }
         }
     }
 }
@@ -2070,6 +2103,12 @@ function add_object_subs_glow_mask(subs, obj) {
         validate_batch(batch);
 
         subs.bundles.push(rb);
+
+        // NOTE: access to forked batches from source batch for material 
+        // inheritance
+        if (!batch_src.childs)
+            batch_src.childs = [];
+        batch_src.childs.push(batch);
     }
 }
 
@@ -2258,15 +2297,11 @@ function update_lamp_scene(lamp, scene) {
     }
 }
 
-/**
- * Update sky fog every 0.05 radians of sun rotattion
- */
 function update_sky(scene, subs) {
 
     m_render.draw(subs);
 
     if (subs.need_fog_update) {
-        // update cube fog uniforms for proper batches
         var main_subs = subs_array(scene, ["MAIN_OPAQUE",
                                            "MAIN_BLEND"]);
         for (var i = 0; i < main_subs.length; i++) {
@@ -2464,10 +2499,7 @@ function setup_scene_dim(scene, width, height, override_update_dim) {
                 set_dof_params(scene, {"dof_power": subs1.camera.dof_power,
                                         "dof_on": subs1.camera.dof_on});
 
-            if (subs1.type == "ANTIALIASING")
-                set_texel_size(subs1, 1/width/cfg_def.resolution_factor, 1/height/cfg_def.resolution_factor);
-            else
-                set_texel_size(subs1, 1/width, 1/height);
+            set_texel_size(subs1, 1/width, 1/height);
         }
     });
 }
@@ -2767,36 +2799,6 @@ exports.set_ssao_params = function(scene, ssao_params) {
     }
 
     subs.need_perm_uniforms_update = true;
-}
-
-exports.get_aa_params = function(scene) {
-
-    var subs = get_subs(scene, "ANTIALIASING");
-    if (!subs)
-        return null;
-
-    var batch = subs.bundles[0].batch;
-
-    var aa_params = {};
-    aa_params["aa_method"] = m_batch.get_batch_directive(batch, "AA_METHOD")[1];
-
-    return aa_params;
-}
-
-exports.set_aa_params = function(scene, aa_params) {
-
-    var subs = get_subs(scene, "ANTIALIASING");
-    if (!subs) {
-        m_print.error("AA is not enabled on scene");
-        return 0;
-    }
-
-    var batch = subs.bundles[0].batch;
-
-    if ("aa_method" in aa_params) {
-        m_batch.set_batch_directive(batch, "AA_METHOD", aa_params["aa_method"]);
-        m_batch.update_shader(batch, true);
-    }
 }
 
 exports.get_dof_params = function(scene) {
@@ -3299,7 +3301,6 @@ exports.update = function(timeline, elapsed) {
             render.need_shadow_update = false;
         }
 
-        // just before rendering
         if (render.need_grass_map_update) {
             update_subs_grass_map(scene);
             render.need_grass_map_update = false;
@@ -3313,8 +3314,12 @@ exports.update = function(timeline, elapsed) {
             update_motion_blur_subscenes(render.graph, elapsed);
         }
 
+        if (cfg_def.smaa && !m_cfg.context.alpha) {
+            update_smaa_resolve_subscene(render.graph);
+        }
+
         // render glow animation
-        if (cfg_def.deferred_rendering && render.selectability) {
+        if (cfg_def.deferred_rendering && render.glow) {
             var subs_glow_mask = get_subs(scene, "GLOW_MASK");
             var bundles = subs_glow_mask.bundles;
 
@@ -3351,98 +3356,16 @@ exports.update = function(timeline, elapsed) {
         }
     }
 
+    m_render.increment_subpixel_index();
+
     if (cfg_def.show_hud_debug_info)
         m_hud.show_debug_info(_scenes, elapsed);
 }
 
 function optimize_glow_postprocessing(graph, qsubs, glow_mask_subs) {
-    if (glow_mask_subs.do_render != qsubs.do_render) {
-
-        if (qsubs.type == "POSTPROCESSING" && qsubs.is_for_glow) {
+    if (glow_mask_subs.do_render != qsubs.do_render)
+        if (qsubs.type == "POSTPROCESSING" && qsubs.is_for_glow)
             qsubs.do_render = glow_mask_subs.do_render;
-        } else if (qsubs.type == "GLOW") {
-            var id = m_graph.node_by_attr(graph, qsubs);
-
-            var subs_in = null;
-            var id_in = null;
-            var slink_in = null;
-
-            var subs_out_arr = [];
-            var id_out_arr = [];
-            var slink_out_arr = [];
-
-            var slink_around_arr = [];
-
-            m_graph.traverse_inputs(graph, id, function(node_in, attr_in, attr_edge) {
-                if (attr_in.type != "GLOW_MASK" && !attr_in.is_for_glow) {
-                    subs_in = attr_in;
-                    id_in = node_in;
-                    slink_in = attr_edge;
-                    return true;
-                }
-            });
-
-            m_graph.traverse_outputs(graph, id, function(node_out, attr_out, attr_edge) {
-                subs_out_arr.push(attr_out);
-                id_out_arr.push(node_out);
-                slink_out_arr.push(attr_edge);
-            });
-
-            if (!subs_in || !subs_out_arr.length)
-                throw "Failed to define glow environment";
-
-            // NOTE: keep GLOW subscene on
-            for (var i = 0; i < slink_out_arr.length; i++)
-                if (slink_out_arr[i].from == "SCREEN")
-                    return;
-
-            for (var i = 0; i < slink_out_arr.length; i++)
-                m_graph.traverse_inputs(graph, id_out_arr[i], 
-                        function(node_in, attr_in, attr_edge) {
-                    if (node_in == id_in) {
-                        slink_around_arr.push(attr_edge);
-                        return true;
-                    }
-                });
-
-            qsubs.do_render = glow_mask_subs.do_render;
-
-            if (!_tex_glow_input)
-                _tex_glow_input = qsubs.do_render ?
-                        subs_in.camera.color_attachment : slink_around_arr[0].texture;
-
-            if (qsubs.do_render) {
-                var tex = subs_in.camera.color_attachment;
-
-                slink_in.active = true;
-
-                for (var i = 0; i < slink_out_arr.length; i++) {
-                    slink_out_arr[i].active = true;
-                    slink_around_arr[i].active = false;
-                }
-
-                replace_attachment(graph, id_in, slink_in.from, _tex_glow_input);
-
-                for (var i = 0; i < slink_out_arr.length; i++)
-                    replace_texture(graph, id_out_arr[i], slink_out_arr[i].to,
-                            slink_out_arr[i].texture);
-
-                _tex_glow_input = tex;
-            } else {
-                var tex = subs_in.camera.color_attachment;
-
-                slink_in.active = false;
-                for (var i = 0; i < slink_out_arr.length; i++) {
-                    slink_out_arr[i].active = false;
-                    slink_around_arr[i].active = true;
-                }
-
-                replace_attachment(graph, id_in, slink_in.from, _tex_glow_input);
-
-                _tex_glow_input = tex;
-            }
-        }
-    }
 }
 
 function slink_switch_active(graph, id1, id2, slink, active) {
@@ -3552,7 +3475,6 @@ function update_motion_blur_subscenes(graph, elapsed) {
 
         // next subscene may use same texture as input
         m_graph.traverse_outputs(graph, id, function(id_out, attr_out, attr_edge) {
-            var subs_out = attr_out;
             var slink_out = attr_edge;
 
             if (slink_out.active)
@@ -3562,6 +3484,32 @@ function update_motion_blur_subscenes(graph, elapsed) {
         replace_attachment(graph, id, slink.from, tex);
         replace_texture(graph, id, slink.to, subs.textures_internal[0]);
         subs.motion_blur_exp = Math.exp(-elapsed/subs.mb_factor);
+    });
+}
+
+function update_smaa_resolve_subscene(graph) {
+    m_graph.traverse(graph, function(id, attr) {
+        var subs = attr;
+
+        if (subs.type != "SMAA_RESOLVE")
+            return;
+
+        if (!subs.slinks_internal[0] || !subs.textures_internal[0])
+            throw "Wrong SMAA RESOLVE subscene";
+
+        var slink = subs.slinks_internal[0];
+        var tex = subs.textures_internal[0];
+
+        m_graph.traverse_inputs(graph, id, function(id_in, attr_in,
+                attr_edge) {
+            if (attr_in.type != "VELOCITY") {
+                subs.textures_internal[0] = attr_in.camera.color_attachment;
+                replace_attachment(graph, id_in, attr_edge.from, tex);
+            }
+        });
+
+        replace_texture(graph, id, "u_color", tex);
+        replace_texture(graph, id, "u_color_prev", subs.textures_internal[0]);
     });
 }
 

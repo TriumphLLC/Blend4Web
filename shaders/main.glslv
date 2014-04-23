@@ -10,7 +10,6 @@
 #include <math.glslv>
 #include <to_world.glslv>
 #include <scale_texcoord.glslv>
-#include <dynamic_grass.glslv>
 
 /*============================================================================
                                   ATTRIBUTES
@@ -77,12 +76,17 @@ uniform mat4 u_view_matrix;
 uniform mat4 u_proj_matrix;
 uniform vec3 u_camera_eye;
 
+#if SMAA_JITTER
+uniform vec2 u_subpixel_jitter;
+#endif
+
 #if DYNAMIC_GRASS
 uniform sampler2D u_grass_map_depth;
 uniform sampler2D u_grass_map_color;
 uniform vec4 u_camera_quat;
 uniform vec3 u_grass_map_dim;
 uniform float u_grass_size;
+uniform float u_scale_threshold;
 #endif
 
 #if SKINNED
@@ -142,7 +146,10 @@ uniform vec3 u_texture_scale;
 varying vec3 v_eye_dir;
 varying vec3 v_pos_world;
 varying vec3 v_normal;
+
+#if !DISABLE_FOG || (TEXTURE_NORM && PARALLAX) || (WATER_EFFECTS && CAUSTICS)
 varying vec4 v_pos_view;
+#endif
 
 #if TEXTURE_NORM
     varying vec4 v_tangent;
@@ -177,6 +184,7 @@ varying vec4 v_pos_view;
                                   INCLUDES
 ============================================================================*/
 
+#include <dynamic_grass.glslv>
 #include <shadow.glslv>
 #include <skin.glslv>
 #include <wind_bending.glslv>
@@ -296,9 +304,17 @@ void main(void) {
         v_color = a_color;
     #endif
 
-    v_pos_view = u_view_matrix * vec4(world.position, 1.0);
+    vec4 pos_view = u_view_matrix * vec4(world.position, 1.0);
 
-    vec4 pos_clip = u_proj_matrix * v_pos_view;
+    #if !DISABLE_FOG || (TEXTURE_NORM && PARALLAX) || (WATER_EFFECTS && CAUSTICS)
+    v_pos_view = pos_view;
+    #endif
+
+    vec4 pos_clip = u_proj_matrix * pos_view;
+
+    #if SMAA_JITTER
+    pos_clip.xy += u_subpixel_jitter * pos_clip.w;
+    #endif
 
     #if SHADOW_SRC == SHADOW_SRC_MASK
         get_shadow_coords(pos_clip);

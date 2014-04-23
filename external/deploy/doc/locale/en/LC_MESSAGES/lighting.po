@@ -13,25 +13,27 @@ msgstr ""
 
 #: ../lighting.rst:7
 msgid "Освещение и тени"
-msgstr ""
+msgstr "Lighting and shadows"
 
 #: ../lighting.rst:12
 msgid "Освещение от источников света"
-msgstr ""
+msgstr "Lighting with light sources"
 
 #: ../lighting.rst:14
 msgid ""
 "На сцене может быть несколько (но не менее одного) источников света разного "
 "типа."
 msgstr ""
+"A scene can have multiple (but not less than one) light sources of different"
+" types."
 
 #: ../lighting.rst:18
 msgid "Типы источников света"
-msgstr ""
+msgstr "Light source types"
 
 #: ../lighting.rst:20
 msgid "Поддерживаются источники света следующих типов:"
-msgstr ""
+msgstr "The following light source types are supported:"
 
 #: ../lighting.rst:23
 msgid "*Point*"
@@ -42,6 +44,8 @@ msgid ""
 "Точечный. Свет распространяется из одной точки равномерно во все стороны, с "
 "постепенным затуханием."
 msgstr ""
+"Light propagates from one point uniformly to all directions with gradual "
+"attenuation."
 
 #: ../lighting.rst:26
 msgid "*Sun*"
@@ -52,6 +56,8 @@ msgid ""
 "\"Солнце\". Свет распространяется из бесконечной плоскости прямолинейно в "
 "одном направлении, без затухания."
 msgstr ""
+"Light propagates from an infinite plane in one direction without "
+"attenuation."
 
 #: ../lighting.rst:29
 msgid "*Spot*"
@@ -62,6 +68,8 @@ msgid ""
 "Прожектор. Свет распространяется из одной точки, с ограничением угла "
 "распространения, с постепенным затуханием."
 msgstr ""
+"Light propagates from one point within the angular limit, with gradual "
+"attenuation."
 
 #: ../lighting.rst:33
 msgid "*Hemi*"
@@ -71,14 +79,16 @@ msgstr ""
 msgid ""
 "Полусфера. Свет распространяется из бесконечной полусферы, без затухания."
 msgstr ""
+"Hemispherical. Light propagates from an infinite hemisphere without "
+"attenuation."
 
 #: ../lighting.rst:36
 msgid "Настройка источников света"
-msgstr ""
+msgstr "Light source setup"
 
 #: ../lighting.rst:38
 msgid "Производится во вкладке ``Object Data`` при выборе объекта-лампы."
-msgstr ""
+msgstr "Performed in the ``Object Data`` tab when a lamp object is selected."
 
 #: ../lighting.rst:48
 msgid "*Color*"
@@ -88,7 +98,7 @@ msgstr ""
 msgid ""
 "Цветовая характеристика света. Значение по умолчанию (1.0, 1.0, 1.0) "
 "(белый)."
-msgstr ""
+msgstr "Light color. The default value is (1.0, 1.0, 1.0) (i.e. white)."
 
 #: ../lighting.rst:51
 msgid "*Energy*"
@@ -96,7 +106,7 @@ msgstr ""
 
 #: ../lighting.rst:51
 msgid "Интенсивность излучения. Значение по умолчанию 1.0."
-msgstr ""
+msgstr "Radiation intensity. The default value is 1.0."
 
 #: ../lighting.rst:54
 msgid "*Falloff*"
@@ -108,6 +118,9 @@ msgid ""
 "``Inverse Square`` (обратный квадратичный). Применяется для источников света"
 " типа ``Point`` и ``Spot``. Значение по умолчанию ``Inverse Square``."
 msgstr ""
+"Attenuation type. The value is exported but the engine always uses ``Inverse"
+" Square``. It is applicable to the ``Point`` and ``Spot`` light source "
+"types. The default value is ``Inverse Square``."
 
 #: ../lighting.rst:57
 msgid "*Distance*"
@@ -118,6 +131,8 @@ msgid ""
 "Параметр затухания. Применяется для источников света типа ``Point`` и "
 "``Spot``. Значение по умолчанию 25.0."
 msgstr ""
+"Attenuation parameter. It is applicable to the ``Point`` and ``Spot`` light "
+"source types. The default value is 25.0."
 
 #: ../lighting.rst:60
 msgid "*Spot Shape > Size*"
@@ -128,6 +143,8 @@ msgid ""
 "Угол конуса в градусах. Применяется для источников света типа ``Spot``. "
 "Значение по умолчанию 45º."
 msgstr ""
+"Cone angle in degrees. It is applicable to the ``Spot`` light source type. "
+"The default value is 45º."
 
 #: ../lighting.rst:63
 msgid "*Spot Shape > Blend*"
@@ -138,6 +155,8 @@ msgid ""
 "Параметр смягчения края светового пятна. Применяется для источников света "
 "типа ``Spot``. Значение по умолчанию 0.15."
 msgstr ""
+"Parameter for blurring light spot edges. It is applicable to the ``Spot`` "
+"light source type. The default value is 0.15."
 
 #: ../lighting.rst:66
 msgid "*Blend4Web > Do not export*"
@@ -145,7 +164,7 @@ msgstr ""
 
 #: ../lighting.rst:66
 msgid "Не экспортировать. По умолчанию отключено."
-msgstr ""
+msgstr "Don't export the light source. Disabled by default."
 
 #: ../lighting.rst:69
 msgid "*Blend4Web > Generate shadows*"
@@ -156,6 +175,8 @@ msgid ""
 "Источник света используется для расчета падающих теней. Применяется в случае"
 " наличия нескольких источников света. По умолчанию отключено."
 msgstr ""
+"Use this light source for shadow calculation. Should be used when multiple "
+"light sources are present. Disabled by default."
 
 #: ../lighting.rst:73
 msgid "*Blend4Web > Dynamic intesity*"
@@ -166,28 +187,32 @@ msgid ""
 "Источник света используется для расчета изменения времени суток. Применяется"
 " для источников света типа \"Солнце\". По умолчанию отключено."
 msgstr ""
+"Use this light source for calculating the time of day. Applicable only to "
+"the ``Sun`` light source type. Disabled by default."
 
 #: ../lighting.rst:76
 msgid "Освещение от окружающей среды"
-msgstr ""
+msgstr "Ambient lighting"
 
 #: ../lighting.rst:78
 msgid ""
 "Движком используется простая полусферическая модель освещения, в которой "
 "задается цвет горизонта и цвет зенита."
 msgstr ""
+"The engine uses a simple hemispherical lighting model in which horizon and "
+"zenith colors should be specified."
 
 #: ../lighting.rst:82 ../lighting.rst:110
 msgid "Активация"
-msgstr ""
+msgstr "Activation"
 
 #: ../lighting.rst:84
 msgid "Включить опцию ``Environment Lighting`` во вкладке ``World``."
-msgstr ""
+msgstr "Enable the ``Environment Lighting`` checkbox on the ``World`` tab."
 
 #: ../lighting.rst:93 ../lighting.rst:118
 msgid "Настройка"
-msgstr ""
+msgstr "Setup"
 
 #: ../lighting.rst:96
 msgid "*Environment Lighting > Energy*"
@@ -196,7 +221,7 @@ msgstr ""
 #: ../lighting.rst:96
 msgid ""
 "Интенсивность освещения от окружающей среды. Значение по умолчанию 1.0."
-msgstr ""
+msgstr "Ambient lighting intensity. The default value is 1.0."
 
 #: ../lighting.rst:99
 msgid "*Environment Lighting > Environment Color*"
@@ -210,42 +235,55 @@ msgid ""
 " ``World > Horizon Color`` и ``World > Zenith Color``. Значение по умолчанию"
 " ``White``."
 msgstr ""
+"Ambient lighting source type - the supported types are ``White`` and ``Sky "
+"Color``. If the ``White`` type is selected, both horizon and zenith colors "
+"are white. If the ``Sky Color`` type is selected, the horizon and zenith "
+"colors can be specified by means of the ``World > Horizon Color`` and "
+"``World > Zenith Color`` color pickers. The default value is ``White``."
 
 #: ../lighting.rst:103
 msgid "*World > Horizon Color* и *World > Zenith Color*"
-msgstr ""
+msgstr "*World > Horizon Color* and *World > Zenith Color*"
 
 #: ../lighting.rst:102
 msgid ""
 "Цвет горизонта и цвет зенита. При выборе цвета рекомендуется активировать "
 "опцию ``World > Blend Sky``."
 msgstr ""
+"Horizon and zenith colors. It is recommended to activate the ``World > Blend"
+" Sky`` option for better color selection."
 
 #: ../lighting.rst:106
 msgid "Тени"
-msgstr ""
+msgstr "Shadows"
 
 #: ../lighting.rst:112
 msgid ""
 "На объектах, **отбрасывающих** тени, включить опцию ``Blend4Web > Shadows: "
 "Cast`` во вкладке ``Object``."
 msgstr ""
+"Enable the ``Blend4Web > Shadows Cast`` checkbox under the ``Object`` tab "
+"for the objects which **cast** shadows."
 
 #: ../lighting.rst:113
 msgid ""
 "На объектах, **получающих** тени, включить опцию ``Blend4Web > Shadows: "
 "Receive`` во вкладке ``Object``."
 msgstr ""
+"Enable the ``Blend4Web > Shadows Receive`` checkbox under the ``Object`` tab"
+" for the objects which **receive** shadows."
 
 #: ../lighting.rst:114
 msgid ""
 "Убедиться, что включена опция ``Blend4Web > Render shadows`` во вкладке "
 "``Scene``."
 msgstr ""
+"Make sure that the ``Blend4Web > Render shadows`` checkbox is enabled in the"
+" ``Scene`` tab."
 
 #: ../lighting.rst:121
 msgid "*Направление*"
-msgstr ""
+msgstr "*Direction*"
 
 #: ../lighting.rst:121
 msgid ""
@@ -254,134 +292,149 @@ msgid ""
 "включив опцию ``Blend4Web > Generate shadows`` во вкладке ``Object Data`` "
 "при выборе объекта-лампы."
 msgstr ""
+"If there are multiple light sources, it is recommended to specify the exact "
+"light source which is used for shadow calculations, by enabling the "
+"``Blend4Web > Generate shadows`` checkbox under the ``Object Data`` tab for "
+"the selected lamp object."
 
 #: ../lighting.rst:124
 msgid "*Цвет*"
-msgstr ""
+msgstr "*Color*"
 
 #: ../lighting.rst:124
 msgid "Цвет тени определяется настройками освещения от окружающей среды."
-msgstr ""
+msgstr "The shadow color is determined by ambient lighting settings."
 
 #: ../lighting.rst:126
 msgid ""
 "Во вкладке ``World`` на панели ``Blend4Web > Shadow Settings`` находятся "
 "дополнительные настройки:"
 msgstr ""
+"The following additional settings are on the ``Blend4Web > Shadow Settings``"
+" panel of the ``World`` tab:"
 
-#: ../lighting.rst:129
-msgid "*Optimize shadow volume*"
-msgstr ""
-
-#: ../lighting.rst:129
-msgid ""
-"Оптимизировать пространство для расчета теней. Если опция включена, "
-"производится движком производится оптимизация пространства для расчета теней"
-" под объем, занимаемый отбрасывающими тень объектами, что приводит к "
-"улучшению качества теней для локальных сцен. Если опция выключена, такая "
-"оптимизация не производится, что приводит к улучшению качества теней для "
-"протяженных сцен. По умолчанию включено."
-msgstr ""
+#: ../lighting.rst:130
+msgid "Каскады"
+msgstr "Cascades"
 
 #: ../lighting.rst:132
-msgid "Каскады"
-msgstr ""
-
-#: ../lighting.rst:134
 msgid ""
 "Для обеспечения приемлемого качества теней и одновременно покрытия "
 "значительных пространств необходимо использовать несколько стадий генерации "
 "теней (каскадов). При этом вблизи наблюдателя располагается каскад с "
 "наилучшим качеством, вдали от наблюдателя — с наихудшим."
 msgstr ""
+"In order to provide acceptable shadow quality and to cover considerable "
+"space at the same time it is required to use multiple stages for shadow "
+"generation (cascades). Thus the best quality cascades are situated near the "
+"observer while the worst quality cascades are in the distance."
 
-#: ../lighting.rst:144
+#: ../lighting.rst:142
 msgid "*CSM number*"
 msgstr ""
 
-#: ../lighting.rst:144
+#: ../lighting.rst:142
 msgid ""
 "Количество каскадов теней. Поддерживается от 1 до 4 каскадов. Значение по "
 "умолчанию 3."
 msgstr ""
+"Number of shadow cascades. Supported from 1 to 4 cascades. The default value"
+" is 3."
 
-#: ../lighting.rst:147
+#: ../lighting.rst:145
 msgid "*CSM near*"
 msgstr ""
 
-#: ../lighting.rst:147
+#: ../lighting.rst:145
 msgid "Ближняя граница отображения теней. Значение по умолчанию 0.1."
-msgstr ""
+msgstr "The nearest boundary of shadow rendering. The default value is 0.1."
 
-#: ../lighting.rst:150
+#: ../lighting.rst:148
 msgid "*CSM far*"
 msgstr ""
 
-#: ../lighting.rst:150
+#: ../lighting.rst:148
 msgid "Дальняя граница отображения теней. Значение по умолчанию 100.0."
-msgstr ""
+msgstr "The furthest boundary of shadow rendering. The default value is 100."
 
-#: ../lighting.rst:154
+#: ../lighting.rst:152
 msgid "*CSM lambda*"
 msgstr ""
 
-#: ../lighting.rst:153
+#: ../lighting.rst:151
 msgid ""
 "Фактор распределения границ между каскадами. Рассчитанные значения границ "
 "каскадов отображаются в просмотрщике во вкладке ``Shadows``. Значение по "
 "умолчанию 0.875."
 msgstr ""
+"The distribution factor of cascade boundaries. The values for the calculated"
+" cascade boundaries are displayed in the viewer under the ``Shadows`` tab. "
+"The default value is 0.875."
 
-#: ../lighting.rst:157
+#: ../lighting.rst:155
 msgid "Мягкие тени"
-msgstr ""
+msgstr "Softened shadows"
 
-#: ../lighting.rst:160
+#: ../lighting.rst:158
 msgid "*Visibility falloff*"
 msgstr ""
 
-#: ../lighting.rst:160
+#: ../lighting.rst:158
 msgid ""
 "Фактор экспонециального уменьшения видимости тени в зависимости от "
 "расстояния от точки отбрасывания до точки получения. Применяется для "
 "уменьшения видимости артефактов собственных теней (т.е. отбрасывания "
 "объектом тени на себя). Значение по умолчанию 3500.0."
 msgstr ""
+"Factor for the exponential decay of shadow visibility which depends on the "
+"distance between the casting and receiving points. It is used to reduce "
+"self-shadowing artefacts (i.e. when the castor and the receiver are the same"
+" object). The default value is 3500.0."
 
-#: ../lighting.rst:163
+#: ../lighting.rst:161
 msgid "*Blur depth size mult*"
 msgstr ""
 
-#: ../lighting.rst:163
+#: ../lighting.rst:161
 msgid ""
 "Размер ядра сглаживания. Влияет на степень смягчения теней. Значение по "
 "умолчанию 1.0."
 msgstr ""
+"Blur kernel size. Affects the shadow softening ratio. The default value is "
+"1.0."
 
-#: ../lighting.rst:166
+#: ../lighting.rst:164
 msgid "*Blur depth edge size*"
 msgstr ""
 
-#: ../lighting.rst:166
+#: ../lighting.rst:164
 msgid ""
 "Разница между сэмплами (в текселях) при определении границ. Уменьшает ореол,"
 " исключая сглаживание границ. Значение по умолчанию 2.0."
 msgstr ""
+"Difference between samples (in texels) for the edge detection algorithm. "
+"Decreases haloing by excluding edges from blurring. The default value is "
+"2.0."
 
-#: ../lighting.rst:172
+#: ../lighting.rst:170
 msgid "*Blur depth diff threshold*"
 msgstr ""
 
-#: ../lighting.rst:169
+#: ../lighting.rst:167
 msgid ""
 "Максимум разницы глубины при определении границ, умноженный на 1000. "
 "Уменьшает ореол, исключая сглаживание границ. Значение по умолчанию 0.1."
 msgstr ""
+"Maximum of depth difference for the edge detection algorithm multiplied by "
+"1000. Decreases haloing by excluding edges from blurring. The default value "
+"is 0.1."
 
 #: ../lighting.rst:3
 msgid "освещение"
-msgstr ""
+msgstr "lighting"
 
 #: ../lighting.rst:9
 msgid "источники света"
-msgstr ""
+msgstr "light sources"
+
+

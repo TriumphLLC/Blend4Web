@@ -184,6 +184,52 @@ float refraction (in float shore_depth,
 }
 #endif
 
+vec3 reflection (in vec2 screen_coord, in vec3 normal, in vec3 eye_dir,
+                 in vec3 light_energies, out float mirror_factor) {
+
+    vec3 eye_reflected = reflect(-eye_dir, normal);
+
+#if REFLECTIVE
+    vec2 reflect_coord = screen_coord.xy + normal.xz * REFL_BUMP
+                                                  / v_view_depth;
+    mirror_factor = u_reflect_factor;
+
+    vec3 reflect_color;
+    if (u_cam_water_depth < 0.0) {
+# if !DISABLE_FOG && WATER_EFFECTS
+        reflect_color = u_underwater_fog_color_density.rgb;
+# else
+        reflect_color = u_diffuse_color.rgb;
+# endif
+        float eye_dot_norm = dot(eye_dir, normal);
+        mirror_factor *= max(1.0 - 1.0 / eye_dot_norm, 1.0);
+    } else {
+        reflect_color = texture2D(u_reflectmap, reflect_coord).rgb;
+        srgb_to_lin(reflect_color);
+    }
+#elif TEXTURE_MIRROR
+    mirror_factor = u_mirror_factor;
+    vec3 reflect_color = light_energies * textureCube(u_mirrormap, eye_reflected).rgb;
+    srgb_to_lin(reflect_color);
+#else // REFLECTIVE
+    mirror_factor = 1.0;
+    vec3 reflect_color = light_energies * vec3(0.3,0.5,1.0);
+    srgb_to_lin(reflect_color);
+#endif
+
+    // calculate mirror factor using fresnel
+    vec3 reflected_halfway = normalize(eye_reflected + eye_dir);
+    float one_minus_cos_theta = 1.0 - dot(eye_dir, reflected_halfway);
+    float r0 = u_fresnel_params[3];
+    float N = u_fresnel_params[2];
+    float r = r0 + (1.0 - r0) * pow(one_minus_cos_theta, N);
+
+    mirror_factor = min(mirror_factor * r, 1.0);
+
+    return reflect_color;
+}
+
+
 /*============================================================================
                                     MAIN
 ============================================================================*/
@@ -277,7 +323,6 @@ void main(void) {
 #endif
 
     vec3 eye_dir = normalize(v_eye_dir);
-    vec3 eye_reflected = reflect(-eye_dir, normal);
 
 #if REFLECTIVE || REFRACTIVE
     vec2 screen_coord = v_tex_pos_clip.xy/v_tex_pos_clip.z;
@@ -295,7 +340,7 @@ void main(void) {
     float delta = max(shore_depth - v_view_depth, 0.0);
 
 # if REFRACTIVE
-    vec2 refract_coord = screen_coord.xy + normal.xz * REFR_BUMP
+    vec2 refract_coord = screen_coord + normal.xz * REFR_BUMP
                                                   / v_view_depth;
     float shore_depth_refr = refraction(shore_depth, refract_coord, screen_coord);
     float delta_refr = max(shore_depth_refr - v_view_depth, 0.0);
@@ -310,12 +355,13 @@ void main(void) {
 
     float depth_diff = u_view_max_depth / ABSORB * delta;
 
-    // refraction stuff represent disturbed underwater surface
+    // refraction stuff represents disturbed underwater surface
     // so leave alpha slightly transparent only close to the shore
     alpha = min(15.0 * alpha * u_view_max_depth * delta, 1.0);
-# else
+# else // REFRACTIVE
     float depth_diff = u_view_max_depth / ABSORB * delta;
-    alpha = min(alpha * depth_diff, 1.0);
+    if (u_cam_water_depth > 0.0)
+        alpha = min(alpha * depth_diff, 1.0);
 # endif // REFRACTIVE
 
     // alpha correction for close to eye pixels
@@ -331,7 +377,7 @@ void main(void) {
 
 # if REFRACTIVE
     float refract_factor = 1.0 - alpha;
-    vec2 refract_coord = screen_coord.xy + normal.xz * REFR_BUMP
+    vec2 refract_coord = screen_coord + normal.xz * REFR_BUMP
                                                   / v_view_depth;
 # endif
 
@@ -352,8 +398,6 @@ void main(void) {
 #else
     vec3 diffuse_color = u_diffuse_color.rgb;
 #endif
-
-    vec3 color = u_diffuse_intensity * diffuse_color;
 
 #if FOAM
     // water foam near the shore and on top of the waves
@@ -400,47 +444,20 @@ void main(void) {
 
     vec3 light_energies = A + u_sun_intensity;
 
-    // reflections of world objects or environment map
+    float mirror_factor;
 #if REFLECTIVE
-    vec2 reflect_coord = screen_coord.xy + normal.xz * REFL_BUMP
-                                                  / v_view_depth;
-    float mirror_factor = u_reflect_factor;
-
-    vec3 reflect_color;
-    if (u_cam_water_depth < 0.0) {
-# if !DISABLE_FOG && WATER_EFFECTS
-        reflect_color = u_underwater_fog_color_density.rgb;
-# else
-        reflect_color = u_diffuse_color.rgb;
-# endif
-        float eye_dot_norm = dot(eye_dir, normal);
-        mirror_factor *= max(1.0 - 1.0 / eye_dot_norm, 1.0);
-    } else {
-        reflect_color = texture2D(u_reflectmap, reflect_coord).rgb;
-        srgb_to_lin(reflect_color);
-    }
-#elif TEXTURE_MIRROR
-    float mirror_factor = u_mirror_factor;
-    vec3 reflect_color = light_energies * textureCube(u_mirrormap, eye_reflected).rgb;
-    srgb_to_lin(reflect_color);
+    vec3 reflect_color = reflection(screen_coord, normal, eye_dir,
+                                    light_energies, mirror_factor);
 #else
-    float mirror_factor = 1.0;
-    vec3 reflect_color = light_energies * vec3(0.3,0.5,1.0);
-    srgb_to_lin(reflect_color);
+    vec3 reflect_color = reflection(vec2(0.0), normal, eye_dir,
+                                    light_energies, mirror_factor);
 #endif
-
-    // calculate mirror factor using fresnel 
-    vec3 reflected_halfway = normalize(eye_reflected + eye_dir);
-    float one_minus_cos_theta = 1.0 - dot(eye_dir, reflected_halfway);
-    float r0 = u_fresnel_params[3];
-    float N = u_fresnel_params[2];
-    float r = r0 + (1.0 - r0) * pow(one_minus_cos_theta, N);
-
-    mirror_factor = min(mirror_factor * r, 1.0);
 
     /*==========================================================================
                             Apply all needed colors
     ==========================================================================*/
+
+    vec3 color = u_diffuse_intensity * diffuse_color;
 
 #if SHORE_PARAMS && DYNAMIC
     // fake subsurface scattering (SSS)
@@ -508,7 +525,7 @@ void main(void) {
 #if !REFRACTIVE
     // when there is no refraction make alpha stronger
     // in shiny areas and in ares with foam
-    alpha = min(max(alpha, lresult.specular.r), 1.0);
+    alpha = max(alpha, lresult.specular.r);
  #if FOAM
     alpha += foam_sum;
  #endif //FOAM

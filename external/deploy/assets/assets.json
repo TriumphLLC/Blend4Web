@@ -11,5 +11,22 @@
                 "load_file": "dev/logo.json"
             }
         ]
+    },
+    {
+        "name": "Tutorials",
+        "items": [
+            {
+                "name": "Striped Shader 2",
+                "load_file": "tutorials/striped_shader_2/striped_shader_2.json"
+            },
+            {
+                "name": "Beach Umbrella Demo",
+                "load_file": "tutorials/beach_umbrella_demo/beach_umbrella_demo.json"
+            },
+            {
+                "name": "Striped Shader 1",
+                "load_file": "tutorials/striped_shader_1/striped_shader_1.json"
+            }
+        ]
     }
 ]

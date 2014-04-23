@@ -182,6 +182,7 @@ exports.set_default_directives = function(sinfo) {
         "HAIR_BILLBOARD",
         "HAIR_BILLBOARD_RANDOM",
         "PRECISION",
+        "EPSILON",
         "WIREFRAME_QUALITY"
     ];
 
@@ -301,6 +302,12 @@ exports.set_default_directives = function(sinfo) {
             break;
         case "PRECISION":
             val = config.defaults.precision;
+            break;
+        case "EPSILON":
+            if (config.defaults.precision == "highp")
+                val = 0.000001;
+            else
+                val = 0.0001;
             break;
         default:
             m_print.error("Unknown directive (" + sinfo.vert + ", " +

@@ -12,6 +12,7 @@ export PL_JS         = $(ROOT_DIR)/src/addons/pointerlock.js
 export NPC_AI_JS     = $(ROOT_DIR)/src/addons/npc_ai.js
 export MIXER_JS      = $(ROOT_DIR)/src/addons/mixer.js
 export CAMANIM_JS    = $(ROOT_DIR)/src/addons/camera_anim.js
+export PRELOADER_JS  = $(ROOT_DIR)/src/addons/preloader.js
 
 export B2W_PATH      = $(ROOT_DIR)/external/deploy/apps/common/b4w.min.js
 

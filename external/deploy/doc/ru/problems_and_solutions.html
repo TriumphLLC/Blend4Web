@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Проблемы и решения &mdash; Руководство пользователя: Blend4Web v14.03.21</title>
+    <title>Проблемы и решения &mdash; Руководство пользователя: Blend4Web v14.04.22</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.03.21',
+        VERSION:     '14.04.22',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,9 +26,9 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v14.03.21" href="index.html" />
-    <link rel="next" title="Разработчикам" href="developers.html" />
-    <link rel="prev" title="Методики создания ресурсов" href="assets_creation.html" /> 
+    <link rel="top" title="Руководство пользователя: Blend4Web v14.04.22" href="index.html" />
+    <link rel="next" title="План развития" href="roadmap.html" />
+    <link rel="prev" title="Краткая справка по git" href="git_short_manual.html" /> 
   </head>
   <body>
     <div class="header-wrapper">
@@ -37,11 +37,11 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">Руководство пользователя: Blend4Web v14.03.21</a></div>
+          href="index.html">Руководство пользователя: Blend4Web v14.04.22</a></div>
         <div class="rel">
-          <a href="assets_creation.html" title="Методики создания ресурсов"
+          <a href="git_short_manual.html" title="Краткая справка по git"
              accesskey="P">предыдущий</a> |
-          <a href="developers.html" title="Разработчикам"
+          <a href="roadmap.html" title="План развития"
              accesskey="N">следующий</a> |
           <a href="genindex.html" title="Алфавитный указатель"
              accesskey="I">указатель</a>
@@ -59,74 +59,70 @@
             
   <div class="section" id="problems-and-solutions">
 <span id="id1"></span><h1>Проблемы и решения<a class="headerlink" href="#problems-and-solutions" title="Ссылка на этот заголовок">¶</a></h1>
+<div class="section" id="renderer-not-working">
+<span id="id2"></span><h2>Проблемы при запуске рендерера<a class="headerlink" href="#renderer-not-working" title="Ссылка на этот заголовок">¶</a></h2>
+<p><em>1. Появляется сообщение &#8220;Browser could not initialize WebGL.&#8221;</em></p>
+<p>Следует выполнить действия, описанные в разделе <a class="reference internal" href="#webgl-not-working"><em>Ошибка инициализации WebGL</em></a>.</p>
+<p><em>2. Видны элементы интерфейса и фон, но сцена по умолчанию не отображается (куб с логотипом). При этом тестовый сайт</em> <a class="reference external" href="http://get.webgl.org/">http://get.webgl.org/</a> <em>и другие WebGL приложения работают корректно.</em></p>
+<p>Вероятные причины:</p>
+<ul class="simple">
+<li>Браузер не настроен для работы с локальными ресурсами. См. раздел <a class="reference internal" href="setup.html#browser-for-local-loading"><em>Настройка браузера для загрузки локальных ресурсов</em></a>.</li>
+<li>Файлы ресурсов, которые пытается загрузить рендерер, были перемещены или удалены.</li>
+<li>Используется комбинация браузера, драйверов и операционной системы, не обеспечивающая полную поддержку WebGL (примеры: Internet Explorer 11 / Windows, открытые драйверы / Linux).</li>
+</ul>
+</div>
 <div class="section" id="webgl">
-<span id="webgl-not-working"></span><h2>Инициализация WebGL<a class="headerlink" href="#webgl" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="webgl-not-working"></span><h2>Ошибка инициализации WebGL<a class="headerlink" href="#webgl" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Сайт <a class="reference external" href="http://get.webgl.org/">http://get.webgl.org/</a> при просмотре в браузерах Chrome или Firefox последней версии сообщает о проблемах. Что делать?</p>
-<p><strong>На Windows</strong>:</p>
 <ol class="arabic simple">
-<li>Установить доступные <a class="reference external" href="http://support.microsoft.com/kb/311047/ru">обновления</a> для системы. Установить последнюю версию <a class="reference external" href="http://www.microsoft.com/downloads/ru-ru/details.aspx?FamilyID=2da43d38-db71-4c1b-bc6a-9b6652cd92a3&amp;displayLang=ru">DirectX</a>. Перезагрузить систему.</li>
-<li>В некоторых случаях может понадобиться установка драйверов от производителей графических карт. Чтобы определить тип и производителя карты, можно воспользоваться средством диагностики DirectX...</li>
+<li>Установить доступные обновления для системы (для Windows см. <a class="reference external" href="http://support.microsoft.com/kb/311047/ru">инструкцию</a>). В случае Windows установить последнюю версию <a class="reference external" href="http://www.microsoft.com/ru-ru/download/details.aspx?id=35">DirectX</a>. Перезагрузить систему.</li>
+<li>Рекомендуется проводить своевременное обновление драйверов для графических карт. Чтобы определить тип и производителя карты, можно ввести <strong>about:gpu</strong> в адресную строку браузера Chrome...</li>
 </ol>
-<a class="reference internal image-reference" href="_images/dxdiag.jpg"><img alt="Определение типа и производителя графического процессора с помощью средства диагностики DirectX" class="align-center" src="_images/dxdiag.jpg" style="width: 100%;" /></a>
-<p>или ввести <a class="reference external" href="about:gpu">about:gpu</a> в адресную строку браузера Chrome.</p>
 <a class="reference internal image-reference" href="_images/about_gpu_directx.jpg"><img alt="Определение типа и производителя графического процессора с помощью средства диагностики браузера Chrome" class="align-center" src="_images/about_gpu_directx.jpg" style="width: 100%;" /></a>
-<p>Необходимо загрузить драйверы с соответствующего центра поддержки (например, <a class="reference external" href="http://downloadcenter.intel.com/Default.aspx?lang=rus">Intel</a>, <a class="reference external" href="http://www.nvidia.com/Download/index.aspx?lang=ru">Nvidia</a>, <a class="reference external" href="http://support.amd.com/us/gpudownload/Pages/index.aspx">AMD/ATI</a>). После установки драйверов перезагрузить систему.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>или воспользоваться средством диагностики DirectX <strong>dxdiag</strong> (только для Windows).</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<a class="reference internal image-reference" href="_images/dxdiag.jpg"><img alt="Определение типа и производителя графического процессора с помощью средства диагностики DirectX" class="align-center" src="_images/dxdiag.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>Необходимо загрузить драйверы с соответствующего центра поддержки (например, <a class="reference external" href="http://downloadcenter.intel.com/Default.aspx?lang=rus">Intel</a>, <a class="reference external" href="http://www.nvidia.com/Download/index.aspx?lang=ru">Nvidia</a>, <a class="reference external" href="http://support.amd.com/ru-ru/download">AMD/ATI</a>). После установки драйверов перезагрузить систему.</p>
 <ol class="arabic simple" start="3">
 <li>Если в результате вышеперечисленных действий инициализировать рендеринг не удается (или нет возможности обновить систему), можно попробовать изменить настройки браузера.</li>
 </ol>
 <p><em>В Chrome</em>:</p>
-<p>Ввести <a class="reference external" href="about:flags">about:flags</a> в адресную строку браузера, нажать <tt class="file docutils literal"><span class="pre">Включить</span></tt> (<tt class="file docutils literal"><span class="pre">Enable</span></tt>) под опцией <tt class="file docutils literal"><span class="pre">Переопределение</span> <span class="pre">списка</span> <span class="pre">программного</span> <span class="pre">рендеринга</span></tt> (<tt class="file docutils literal"><span class="pre">Override</span> <span class="pre">software</span> <span class="pre">rendering</span> <span class="pre">list</span></tt>) и перезапустить браузер.</p>
+<p>Ввести <strong>about:flags</strong> (или <strong>chrome://flags/</strong>) в адресную строку браузера, нажать <tt class="file docutils literal"><span class="pre">Включить</span></tt> (<tt class="file docutils literal"><span class="pre">Enable</span></tt>) под опцией <tt class="file docutils literal"><span class="pre">Переопределение</span> <span class="pre">списка</span> <span class="pre">программного</span> <span class="pre">рендеринга</span></tt> (<tt class="file docutils literal"><span class="pre">Override</span> <span class="pre">software</span> <span class="pre">rendering</span> <span class="pre">list</span></tt>) и перезапустить браузер.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
 <a class="reference internal image-reference" href="_images/about_flags_force_webgl.jpg"><img alt="Форсирование использования WebGL в Chrome" class="align-center" src="_images/about_flags_force_webgl.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
 <p><em>В Firefox</em>:</p>
-<p>Ввести <a class="reference external" href="about:config">about:config</a> в адресную строку браузера, найти параметр <tt class="docutils literal"><span class="pre">webgl.force-enabled</span></tt> и переключить его двойным щелчком мыши из <tt class="docutils literal"><span class="pre">false</span></tt> в <tt class="docutils literal"><span class="pre">true</span></tt>.</p>
+<p>Ввести <strong>about:config</strong> в адресную строку браузера, найти параметр <tt class="docutils literal"><span class="pre">webgl.force-enabled</span></tt> и переключить его двойным щелчком мыши из <tt class="docutils literal"><span class="pre">false</span></tt> в <tt class="docutils literal"><span class="pre">true</span></tt>.</p>
 <a class="reference internal image-reference" href="_images/about_config_force_webgl.jpg"><img alt="Форсирование использования WebGL в Firefox" class="align-center" src="_images/about_config_force_webgl.jpg" style="width: 100%;" /></a>
-<p><strong>На Linux</strong>:</p>
-<ol class="arabic">
-<li><p class="first">Ввиду неполной реализации OpenGL стека в драйверах с открытым кодом в настоящий момент рекомендуется использовать проприетарные драйверы текущей версии для графических процессоров Nvidia и AMD.</p>
-</li>
-<li><p class="first">Форсирование графической акселерации из п. 3 для Windows происходит аналогично для Chrome. В случае Firefox предлагается использовать переменную окружения:</p>
-<div class="highlight-python"><div class="highlight"><pre>&gt; MOZ_GLX_IGNORE_BLACKLIST=1 firefox
-</pre></div>
-</div>
-</li>
-</ol>
-</div>
-<div class="section" id="browser-for-local-loading">
-<span id="id3"></span><h2>Настройка браузера для загрузки локальных ресурсов<a class="headerlink" href="#browser-for-local-loading" title="Ссылка на этот заголовок">¶</a></h2>
-<p>Движок является Web-приложением, и его работа происходит при просмотре html-файла в браузере. После инициализации происходит загрузка ресурсов (сцен, текстур), которая подчиняется <a class="reference external" href="http://ru.wikipedia.org/wiki/Правило_ограничения_домена">правилу ограничения домена</a>, запрещающему, в частности, загрузку из локальной директории. Простым способом обхода этого ограничения может быть настройка браузера (рекомендуется). Другой способ заключается в использовании <a class="reference internal" href="#local-web-server"><em>локального web-сервера</em></a>.</p>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
-<p class="last">Рекомендуется использовать такой браузер только для просмотра локального контента, поскольку изменение настроек может привести к понижению безопасности.</p>
+<p class="last">Для пользователей Linux - ввиду неполной реализации OpenGL стека в драйверах с открытым кодом в настоящий момент рекомендуется использовать проприетарные драйверы текущей версии для графических процессоров Nvidia и AMD.</p>
 </div>
-<p><em>Chrome на Windows</em>:</p>
-<p>Правой кнопкой мыши нажать на ярлыке на рабочем столе, выбрать <tt class="docutils literal"><span class="pre">Свойства</span></tt> (<tt class="docutils literal"><span class="pre">Properties</span></tt>), после чего в поле для пути к исполняемому файлу добавить после пробела <tt class="docutils literal"><span class="pre">--allow-file-access-from-files</span></tt>. Нажать <tt class="docutils literal"><span class="pre">ОК</span></tt>.</p>
-<a class="reference internal image-reference" href="_images/chrome_file_access.jpg"><img alt="Настройка Chrome для загрузки локальных ресурсов" class="align-center" src="_images/chrome_file_access.jpg" style="width: 100%;" /></a>
-<p>Для удобства можно предварительно создать копию ярлыка и изменить ее для локального просмотра, оставив оригинальную версию ярлыка для запуска браузера в обычном режиме.</p>
-<p><em>Chrome/Chromium на Linux</em>:</p>
-<p>Запустить браузер с параметром:</p>
-<div class="highlight-python"><div class="highlight"><pre>&gt; google-chrome --allow-file-access-from-files
-</pre></div>
-</div>
-<p>или:</p>
-<div class="highlight-python"><div class="highlight"><pre>&gt; chromium-browser --allow-file-access-from-files
-</pre></div>
-</div>
-<p><em>Firefox на Windows/Linux</em>:</p>
-<p>Ввести <a class="reference external" href="about:config">about:config</a> в адресную строку браузера, найти параметр <tt class="docutils literal"><span class="pre">security.fileuri.strict_origin_policy</span></tt> и переключить его двойным щелчком мыши из <tt class="docutils literal"><span class="pre">true</span></tt> в <tt class="docutils literal"><span class="pre">false</span></tt>.</p>
-<a class="reference internal image-reference" href="_images/firefox_strict_origin.jpg"><img alt="Настройка Firefox для загрузки локальных ресурсов" class="align-center" src="_images/firefox_strict_origin.jpg" style="width: 100%;" /></a>
 </div>
 <div class="section" id="web">
 <span id="local-web-server"></span><h2>Использование локального web-сервера<a class="headerlink" href="#web" title="Ссылка на этот заголовок">¶</a></h2>
-<p>Простым вариантом может быть запуск web-сервера из стандартной библиотеки <a class="reference external" href="http://ru.wikipedia.org/wiki/Python">Python</a>.</p>
+<p>Простым вариантом обеспечения просмотра локальных ресурсов в браузерах может быть запуск web-сервера из стандартной библиотеки <a class="reference external" href="http://ru.wikipedia.org/wiki/Python">Python</a>.</p>
 <p><em>На Windows</em>:</p>
 <ol class="arabic">
-<li><p class="first">Загрузить и инсталлировать последнюю версию Python с <a class="reference external" href="http://www.python.org/download/releases/">официального сайта</a>. На сегодняшний день это версия 3.2, и по умолчанию установка произойдет в директорию <tt class="file docutils literal"><span class="pre">Python32</span></tt> на диске <tt class="file docutils literal"><span class="pre">C</span></tt>.</p>
+<li><p class="first">Загрузить и инсталлировать последнюю версию Python с <a class="reference external" href="http://www.python.org/download/releases/">официального сайта</a>. На сегодняшний день это версия 3.4, и по умолчанию установка произойдет в директорию <tt class="file docutils literal"><span class="pre">Python34</span></tt> на диске <tt class="file docutils literal"><span class="pre">C</span></tt>.</p>
 </li>
 <li><p class="first">Запустить командную строку (Command Prompt).</p>
 </li>
 <li><p class="first">Выполнить команды:</p>
 <div class="highlight-python"><div class="highlight"><pre>&gt; c:
-&gt; /Python32/python -m http.server
+&gt; /Python34/python -m http.server
 </pre></div>
 </div>
 </li>
@@ -146,20 +142,6 @@
 </pre></div>
 </div>
 </div>
-<div class="section" id="renderer-not-working">
-<span id="id6"></span><h2>Проблемы при запуске рендерера<a class="headerlink" href="#renderer-not-working" title="Ссылка на этот заголовок">¶</a></h2>
-<p><em>1. Появляется сообщение &#8220;browser not supported&#8221;.</em></p>
-<p>Браузер не поддерживается.</p>
-<p><em>2. Появляется сообщение &#8220;underlying error&#8221;.</em></p>
-<p>Следует выполнить действия, описанные в разделе <a class="reference internal" href="#webgl-not-working"><em>Инициализация WebGL</em></a>.</p>
-<p><em>3. Видны элементы интерфейса и фон, но не виден куб или он отображается не корректно. При этом тестовый сайт http://get.webgl.org/ и другие примеры работают корректно.</em></p>
-<p>Вероятные причины:</p>
-<ul class="simple">
-<li>Браузер не настроен или не правильно настроен для работы с локальными ресурсами. <a class="reference internal" href="#browser-for-local-loading"><em>Настройка браузера для загрузки локальных ресурсов</em></a>.</li>
-<li>Файлы ресурсов, которые пытается загрузить рендерер, были перемещены или удалены.</li>
-<li>На Linux при использовании графических процессоров Intel, а также Nvidia и AMD с открытыми драйверами, это может происходить по причине использования рендерером возможностей (стандартных), в настоящий момент не реализованных в Mesa (таких как uniform массивы в шейдерах).</li>
-</ul>
-</div>
 </div>
 
 
@@ -174,9 +156,9 @@
 <li class="toctree-l1"><a class="reference internal" href="features.html">Функционал движка</a></li>
 <li class="toctree-l1"><a class="reference internal" href="first_steps.html">Экспресс-установка</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">Развёртывание среды разработки</a></li>
-<li class="toctree-l1"><a class="reference internal" href="working_process_stages.html">Рабочий процесс</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow.html">Рабочий процесс</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Просмотрщик сцен</a></li>
-<li class="toctree-l1"><a class="reference internal" href="export_errors.html">Ошибки экспорта</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">Аддон</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Объекты</a></li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">Текстуры</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Материалы</a></li>
@@ -191,16 +173,16 @@
 <li class="toctree-l1"><a class="reference internal" href="audio.html">Звуковая подсистема</a></li>
 <li class="toctree-l1"><a class="reference internal" href="event_model.html">Событийная модель</a></li>
 <li class="toctree-l1"><a class="reference internal" href="physics.html">Физика</a></li>
-<li class="toctree-l1"><a class="reference internal" href="assets_creation.html">Методики создания ресурсов</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nla.html">Нелинейная анимация</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers.html">Разработчикам приложений</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">Разработчикам движка</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Краткая справка по git</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Проблемы и решения</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#webgl">Инициализация WebGL</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#browser-for-local-loading">Настройка браузера для загрузки локальных ресурсов</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#web">Использование локального web-сервера</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#renderer-not-working">Проблемы при запуске рендерера</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#webgl">Ошибка инициализации WebGL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#web">Использование локального web-сервера</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="developers.html">Разработчикам</a></li>
-<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Краткая справка по git</a></li>
 <li class="toctree-l1"><a class="reference internal" href="roadmap.html">План развития</a></li>
 </ul>
 
@@ -222,9 +204,9 @@
     <div class="footer-wrapper">
       <div class="footer">
         <div class="left">
-          <a href="assets_creation.html" title="Методики создания ресурсов"
+          <a href="git_short_manual.html" title="Краткая справка по git"
              >предыдущий</a> |
-          <a href="developers.html" title="Разработчикам"
+          <a href="roadmap.html" title="План развития"
              >следующий</a> |
           <a href="genindex.html" title="Алфавитный указатель"
              >указатель</a>
@@ -234,7 +216,7 @@
           
     <div class="footer">
         &copy; Copyright 2014, ООО &#34;Триумф&#34;.
-      Обновлено: 2014-03-27.
+      Обновлено: 2014-04-23.
       Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

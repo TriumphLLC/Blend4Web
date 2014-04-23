@@ -47,7 +47,7 @@ void main(void) {
             //On further iterations only performs blur of the given texture.
 #if DEPTH_RGBA
             float depth = depth_fetch(u_input, uv, u_camera_range);
-            col += (1.0 - pow(dist, 0.3)) * depth; //brighter at center
+            col += (1.0 - pow(dist, 0.3)) * step(0.9, depth); //brighter at center
 #else
             col += texture2D(u_input, uv).r;
 #endif

@@ -31,6 +31,8 @@ function append_world(id) {
             cars: {},
             boats: {},
             collision_tests: [],
+            collision_results: {array: null,
+                                size:  0},
             ray_tests: {},
             characters: {},
             floaters: {},
@@ -869,8 +871,19 @@ function append_collision_test(pairs) {
             last_result: 0
         }
 
+        add_collision_result(test.du_body_a, test.du_body_b);
         tests.push(test);
     }
+}
+
+function add_collision_result(du_body_a, du_body_b) {
+    var world = active_world();
+    var results = active_world().collision_results;
+
+    results.array = _du_add_collision_result(results.array, results.size,
+                                             du_body_a, du_body_b);
+
+    results.size += 1;
 }
 
 function remove_collision_test(pairs) {
@@ -880,13 +893,26 @@ function remove_collision_test(pairs) {
     for (var i = 0; i < pairs.length; i++) {
         var pair = pairs[i];
 
-        for (var j = 0; j < tests.length; j++)
-            if (tests[j].body_id_a === pair[0] && tests[j].body_id_b === pair[1]) {
+        for (var j = 0; j < tests.length; j++) {
+            var test = tests[j];
+            if (test.body_id_a === pair[0] && test.body_id_b === pair[1]) {
+                remove_collision_result(test.du_body_a, test.du_body_b);
                 tests.splice(j, 1);
                 j--;
             }
+        }
     }
 }
+
+function remove_collision_result(du_body_a, du_body_b) {
+    var world = active_world();
+    var results = world.collision_results;
+
+    results.array = _du_remove_collision_result(results.array, results.size,
+                                                du_body_a, du_body_b);
+    results.size -= 1;
+}
+
 
 function apply_collision_impulse_test(body_id) {
     var world = active_world();
@@ -1336,6 +1362,7 @@ function update(timeline, delta) {
 
 function update_worlds(worlds, timeline, delta) {
     for (var world_id in worlds) {
+
         var world = worlds[world_id];
 
         var steps = _du_pre_simulation(world.du_id, delta, 3, UPDATE_INTERVAL);
@@ -1499,6 +1526,12 @@ function tick_callback(world, time) {
         }
     }
 
+    var results = world.collision_results.array;
+    var arr_size = world.collision_results.size;
+
+    if (results)
+        _du_check_collisions(results, arr_size);
+
     for (var i = 0; i < world.collision_tests.length; i++) {
         var test = world.collision_tests[i];
 
@@ -1509,7 +1542,7 @@ function tick_callback(world, time) {
         var body_id_a = test.body_id_a;
         var body_id_b = test.body_id_b;
 
-        var result = _du_check_collision(du_body_a, du_body_b, _du_vec3_tmp);
+        var result = _du_get_collision_result(results, arr_size, du_body_a, du_body_b, _du_vec3_tmp);
 
         if (!last_result && result) {
             var cpoint = _vec3_tmp;

@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: B4W 14.02.28\n"
+"Project-Id-Version: B4W 14.03.28\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-19 19:31+0400\n"
+"POT-Creation-Date: 2014-04-03 12:59\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,206 +17,206 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: ../textures.rst:7
-# fd0eef018339402fb27ea1d676eb483f
+# 5816149fe1454b8486232d59d8ec2158
 msgid "Текстуры"
 msgstr ""
 
 #: ../textures.rst:12
-# ec6cbae427864fceac7fb002dd5e69b1
+# 87598ad9091e4e29a9d4cffe7f4134d0
 msgid "Типы текстур"
 msgstr ""
 
 #: ../textures.rst:14
-# 5a9baa4675cf43bc90d97ecfc518d8cc
+# e9205b42eddc406eadbead2dcd79dbdb
 msgid "Опция выбора типа текстуры ``Type`` расположена во вкладке ``Textures``. Движком поддерживаются текстуры следующих типов:"
 msgstr ""
 
 #: ../textures.rst:21
-# f923ababb2c64707900a8ece4cdaa8d6
+# f9fed4239f204eaf9a11d741d59722b6
 msgid "``Image or Movie``, изображение или фильм"
 msgstr ""
 
 #: ../textures.rst:17
-# ea990cb91bb74662a13f8189ef9d19e0
+# c47fb1c8cdc444f3b1ffc44fb04a6632
 msgid "диффузная (diffuse map)"
 msgstr ""
 
 #: ../textures.rst:18
-# 354dc750cf4849d481f71a25038b8692
+# 5bf6c21c5f52442cab0195d814412165
 msgid "карта бликов (specular map), может также содержаться в альфа-канале диффузной текстуры"
 msgstr ""
 
 #: ../textures.rst:19
-# 117de91b1d1c4033a4e2377953212d46
+# 689ea6e4ef5e415aabbe649069cd112e
 msgid "карта нормалей (normal map)"
 msgstr ""
 
 #: ../textures.rst:20
-# 75814002d3c6411793a724405ce3d65e
+# c91b8aee6bc14baf948e59c720ecbaeb
 msgid "карта высот (height map), может содержатся только в альфа-канале карты нормалей, используется для реализации рельефной поверхности (parallax mapping)"
 msgstr ""
 
 #: ../textures.rst:21
-# 0ad2e657b98a4ed4b4e62eb710c5ee04
+# 6a20aabfa88242f5a047b4376eea7d29
 msgid "карта прозрачности (alpha map) - применяется отдельно только для рендеринга воды в режиме совместимости, в обычном материале может содержаться в альфа-канале диффузной текстуры"
 msgstr ""
 
 #: ../textures.rst:22
-# 82bd8e6cb0004ba2a49bda6edccbcd13
+# e382eccd3c9f418bbe37a90238a07492
 msgid "карта смешивания (stencil map)"
 msgstr ""
 
 #: ../textures.rst:24
-# 21d8f90029064015a6c67c9e12f37cf7
+# ec17f66cbad84e8cb698e10d44fe9785
 msgid "``Environment Map``, карта окружения"
 msgstr ""
 
 #: ../textures.rst:24
-# 97fad195b28146aa83ed788b0eb0eb9a
+# bdca1957578c4a72a0883cea4e4f4884
 msgid "карта зеркального отражения (mirror map)"
 msgstr ""
 
 #: ../textures.rst:25
-# 17948e1ff8b541239f942339576b5c57
+# ffebd2bd3d0c4e238bfc7450a1e36a54
 msgid ":ref:`текстура неба (skydome) <skydome_texture>`."
 msgstr ""
 
 #: ../textures.rst:26
-# bbea78839fba48d7b742def9d8e712e5
+# a02736022af14854babfab0975d86ec6
 msgid "``None``, пустая"
 msgstr ""
 
 #: ../textures.rst:27
-# 0192c0cf2c6d4248b824612e804866ee
+# bd0cf3864647462a9499cfa05b8d5266
 msgid "применена на кубе в стартовой сцене Blender'a, в движке генерируется серая текстура. Также используется для :ref:`рендеринга сцены в текстуру <render_to_texture>`."
 msgstr ""
 
 #: ../textures.rst:28
-# cdbe7389df7f413a8430bf2ec9fd24fa
+# 013692bf18bf46b2bdaa47cfe845a7e8
 msgid "``Blend``, градиент"
 msgstr ""
 
 #: ../textures.rst:29
-# 01bcb4d0f5ac4c20a21dbe826dd8e811
+# 62e56a1709e342b6b155d9c67858b003
 msgid "используется в :ref:`системах частиц <particles_textures>`."
 msgstr ""
 
 #: ../textures.rst:32
-# 18ab64e730e24caf88c58575f0918e9b
+# 377a0b88a3e346deabe003ca1d3648a6
 msgid "``Voronoi``, процедурная текстура с разбиением Вороного"
 msgstr ""
 
 #: ../textures.rst:31
-# 684e40cb54404773be71d92e4164bd92
+# ccaf230d636b43ca9fc4ecbc404a12c7
 msgid "используется для рендеринга воды с целью настройки каустики"
 msgstr ""
 
 #: ../textures.rst:37
-# c4587ac815e64cb89f98f5fe045fa917
+# 356f6da5bd2b48b292207c6fd5bc0dba
 msgid "Общие настройки"
 msgstr ""
 
 #: ../textures.rst:40
-# 5ee83393eab24eb5b1234664aca2218c
+# 57fd4563946b46188c15d1388247738f
 msgid "*Размер*"
 msgstr ""
 
 #: ../textures.rst:40
-# 16b14a76cae1420682299a0ca5268e5c
+# bf90906c884941829c0184d9ff7634a2
 msgid "Размер растров для текстур-изображений (длина и ширина изображения в пикселах) должен быть числом 2\\ :sup:`N`, т.е. 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096 пикселов. Для корректной работы компрессии текстур размер должен составлять не менее 4 пикселов. Как правило, используются изображения квадратной формы (например, 512 x 512 px), однако могут использоваться и прямоугольные (например, 4 x 128 px). Использование изображений размером более 1024 пикселов не рекомендуется."
 msgstr ""
 
 #: ../textures.rst:43
-# 828498c1bc144419a290035d78886e97
+# cc7fc20dec6d4e9a92c63ac3f786c927
 msgid "*Image Mapping > Extension*"
 msgstr ""
 
 #: ../textures.rst:43
-# d60f633abda84fc9b538d6a69f6f3bf7
+# ba1a0ad187b844329003be6111c3fad3
 msgid "Режим интерпретации текстурных координат (в WebGL - Wrap Mode). Доступен для текстур типа ``Image or Movie``. В случае значения ``Repeat`` движок устанавливает для текстуры режим ``REPEAT``. При этом целочисленная часть текстурных координат игнорируется, используется только дробная часть. Во всех остальных случаях (например, ``Extend``) движок устанавливает ``CLAMP_TO_EDGE``. При этом происходит ограничение текстурных координат отрезком [0, 1]. Значение по умолчанию ``Repeat``."
 msgstr ""
 
 #: ../textures.rst:48
-# e066ec09f6e4432cae85772a7294d8b6
+# fdcbd6bbbb6e44d1ac1ee00d56d6e47d
 msgid "*Mapping > Coordinates*"
 msgstr ""
 
 #: ../textures.rst:48
-# 3b7fd19aad3c4514ab79f22e0ea058ed
+# 90f291b30129411a8e19b46bf0f904fe
 msgid "Тип текстурных координат. Поддерживаются ``UV`` (использовать развертку), ``Normal`` (использовать направление на камеру, только для диффузных текстур, применяется для создания материалов в стиле **material capture**, **matcap**). Значение по умолчанию ``Generated`` (!)."
 msgstr ""
 
 #: ../textures.rst:51
-# 2ab235aff73e403ab7fa0f6cb3e89413
+# c43f22a8317e4727a71f273f3c1b71ef
 msgid "*Mapping > Offset*"
 msgstr ""
 
 #: ../textures.rst:51
 #: ../textures.rst:181
 #: ../textures.rst:184
-# b5664ce413334a06a28b2d20c04610ff
-# 5dfd440c0e304447b38c11129c72c1e6
-# c607ca52b35f41bd9c5d8cefa04139ae
+# 64819e77cbd8489bb1630e9463e1f184
+# b3bc8e0f5c10464dbd16ba3610d3fdc0
+# 4f6cb90e3d96458e90ea265a69fe9a2e
 msgid "Не поддерживается."
 msgstr ""
 
 #: ../textures.rst:54
-# a898c7faee504a5ca82342a573069e65
+# 6cbbdfba352e4b388edc067680e94197
 msgid "*Mapping > Size*"
 msgstr ""
 
 #: ../textures.rst:54
-# 92e68568c6bd4c6ea64bebe30eeeb3ca
+# 2c87938cc2894b5195652b3e73ac1925
 msgid "Масштабирование развертки по соответствующим осям. Значения по умолчанию 1.0."
 msgstr ""
 
 #: ../textures.rst:57
-# 507db7f1553d47dab86dfc02103ab39a
+# a8eae5c637df4e14862eecdf3b4a443d
 msgid "*Blend4Web > Do not export*"
 msgstr ""
 
 #: ../textures.rst:57
-# c547e8b71c314dc0bcae6d77f9de0fa6
+# 584e82ee22914581844bdb2ebe63e261
 msgid "Не экспортировать текстуру. По умолчанию отключено."
 msgstr ""
 
 #: ../textures.rst:60
-# 60847c1f6e7e4022a3da993dc70f19e4
+# f9ab4115bee54d439bf5b6af3b7f5c01
 msgid "*Blend4Web > Anisotropic Filtering*"
 msgstr ""
 
 #: ../textures.rst:60
-# 2f44fa233ca743938838a02612680d0e
+# a24fe032d6f948c8915da12a48529623
 msgid "Фактор анизотропной фильтрации для индивидуальной текстуры. Имеет приоритет перед аналогичной настройкой для сцены. Значение по умолчанию ``DEFAULT`` (т.е. использовать настройки сцены)."
 msgstr ""
 
 #: ../textures.rst:63
-# 20e43911349b4341990c868bc214e239
+# 1f9453218aba4cdb8d56e121442f26dd
 msgid "*Blend4Web > UV translation velocity*"
 msgstr ""
 
 #: ../textures.rst:63
-# a183db095ccb45ceb25a85f23bd1b919
+# 23ad2f4bf33b4860ac4c78e045d15498
 msgid "Скорость анимации текстурных координат по соответствующим осям. Значения по умолчанию 0.0."
 msgstr ""
 
 #: ../textures.rst:67
-# 565ec0ba7c5648d49bce4f7985434cf4
+# 03fd1ac0ff8b4a90821b90c5603b8675
 msgid "*Blend4Web > Water Foam*"
 msgstr ""
 
 #: ../textures.rst:66
-# 07496a1b54334607a991ed95ea030d3c
+# 84a5cdc37b1c48df9bbef6d5b04e1aab
 msgid "Текстура пены. Используется материалом для рендеринга воды."
 msgstr ""
 
 #: ../textures.rst:72
-# b09566b06e4a4ded8fdd2eb03a218e46
+# 3ac40f55f6da43e99e4d733e2a83a479
 msgid "Диффузная текстура (diffuse map)"
 msgstr ""
 
 #: ../textures.rst:74
-# 4a465bddcd4044e9bad80affec1d88e9
+# 0295f36a55b649c8927394aa1adafbc7
 msgid "Диффузная текстура применяется для указания распределения цвета рассеянного света (модель Ламберта)."
 msgstr ""
 
@@ -229,20 +229,20 @@ msgstr ""
 #: ../textures.rst:288
 #: ../textures.rst:312
 #: ../textures.rst:338
-# fc634ec64c9148e7b421edcb606cb2b4
-# d1befb7b8f9c496abf5035891c625e0d
-# a9ad96493d344e229dcf9929ded8ef92
-# e2100cb931cd44a38eb74ce31e032c93
-# 682bbba4eb7d4d01b1b14e03e9d8022f
-# 2e72f2bb042c440f85eedf63ce9e6863
-# 55700676b52d4a43a148c3c9e849d380
-# 670d7253c56547f283867285ebb2a1b4
-# 34a8cec8f0ae487cb5438ebbe38f30e1
+# da1b21efcab541fc83c64382aa9ae254
+# 2aecd2e5f6c04ec78bdedd208457f1e6
+# 2b6d2e8f6bfa404b8bafcc69f3a574c8
+# 7fea18f2e1e44063a02b75550f06fa06
+# 72c8dc589a9a4840893682b14b399883
+# 9b352bd8f536476a8db3eca1594aa749
+# 471e1dae121944f1b608eba6f5f4ce32
+# 99053e1ba0b84a20bc66384236911765
+# 2ad0684cb85f407893eb44fac030e365
 msgid "Активация"
 msgstr ""
 
 #: ../textures.rst:79
-# d2d962df289146c9b9fa5b3f9effbeeb
+# 1ae3b8242e504a1db1d60be56e367090
 msgid "Выставить опцию ``Diffuse > Color`` на панели ``Textures > Influence``."
 msgstr ""
 
@@ -254,494 +254,330 @@ msgstr ""
 #: ../textures.rst:208
 #: ../textures.rst:293
 #: ../textures.rst:317
-# 847cc67410654739be74d86571c1bf68
-# 819fc191095d43d0ab2fae4e9d1c4de7
-# 0627f57d81ff4f14931fcd2e8cb145d0
-# 18a6528b03004d398b488025495f9110
-# fe71eb682c18409ea22afe826d08a967
-# d491f61a3eb44e0384a015bc621bb9b4
-# ad414ee5f94f4e9fa32942c1feb40e22
-# 3ec5d17df6bb464aa681042cb895172c
+# dd6efa7a79f3448b8662c011ccd86dea
+# 05cb4b1b832141679b939c8e371f71f6
+# 19e2759ce8064861971a48ef163db72c
+# 03ef72472a2945a19823b54a2adc1303
+# 066cf103d2b343758a641f8f28264e76
+# e8a1d693222f431bbc0de0ecdbebd475
+# 70816e213221449d94df95038147f8cb
+# dfec7d431537486c98a340488babac15
 msgid "Дополнительные настройки"
 msgstr ""
 
 #: ../textures.rst:85
-# e92ce25214e04fd8a34d89f376b74a7a
+# af7a1cfb511e4b1fad987ca106b7441f
 msgid "*Influence > Diffuse > Color*"
 msgstr ""
 
 #: ../textures.rst:85
-# a590c383f78f40699ac97d4ec32ce437
+# 4ec0a64dbbdf49be8ae90bf5f470a1fc
 msgid "Степень влияния текстуры на диффузный цвет. Значение по умолчанию 1.0."
 msgstr ""
 
 #: ../textures.rst:89
 #: ../textures.rst:110
 #: ../textures.rst:184
-# fda5d39f78a24d24b66a330a2cfff3bd
-# a322f0621ad947babfa0112ebd88b402
-# 973a971cd52a49b18e135637215c90be
+# cae7cd9139fc46cca670de22962fe8b4
+# caa5074989754e498485f30a98d97d2b
+# 5aa348e3717a43b58dee2dc91c02d1ae
 msgid "*Influence > Blend*"
 msgstr ""
 
 #: ../textures.rst:88
-# cce568d0b57d40a0acd0f85f22b64caf
+# 87d2bc433ddb4d4e89a0c466bacae9f0
 msgid "Тип взаимодействия с цветом материала (``Material > Diffuse > Color``), или с вертексным цветом, если включена опция ``Vertex Color Paint``. Поддерживаются ``Mix`` (смешивается с цветом), ``Multiply`` (умножается на цвет). Значение по умолчанию ``Mix``."
 msgstr ""
 
 #: ../textures.rst:94
-# 5a9e73f5e3b84d078abbe2e77769fc11
+# d0029e5fdf5945669c30376957c9bb12
 msgid "Карта бликов (specular map)"
 msgstr ""
 
 #: ../textures.rst:96
-# 13d974d0c9e24fda83b2aa9b5761e456
+# 554778dbcbbc47b99f04272140745e5c
 msgid "Карта бликов применяется для указания распределения цвета отраженного света (модель Фонга)."
 msgstr ""
 
 #: ../textures.rst:101
-# 481fe52499d64937bfcdd255c64e71a8
+# 095572e43e1e4da699fef1a72b3ec868
 msgid "Выставить опцию ``Specular > Color`` на панели ``Textures > Influence`` (опция ``Specular > Intensity`` не поддерживается)."
 msgstr ""
 
 #: ../textures.rst:107
-# 2af7887e9c324830b1d83496fee36c32
+# 6c02dd0115f84e1d828f18956acb097a
 msgid "*Influence > Specular > Color*"
 msgstr ""
 
 #: ../textures.rst:107
-# b934a9130ea54199afa2e3f83c6287e7
+# 9a9203324544423680b08c459046dc56
 msgid "Степень влияния текстуры на цвет отраженного света. Значение по умолчанию 1.0."
 msgstr ""
 
 #: ../textures.rst:110
-# 5b79344ee49746d19182fd657da5232e
+# ffb0ba702b46411e9de300877b19d1f2
 msgid "Тип взаимодействия с цветом отраженного света материала (``Material > Specular > Color``). Поддерживается только ``Mix`` (смешивается с цветом). Значение по умолчанию ``Mix``."
 msgstr ""
 
 #: ../textures.rst:112
-# e067572883d9416fb4a29e5adf42daec
+# 4a9708399b904fe4a961c3c967275b49
 msgid "Карта бликов может быть упакована в альфа-канал диффузной текстуры в целях оптимизации. В этом случае для текстуры необходимо одновременно выставить опции ``Diffuse > Color`` и ``Specular > Color``. Цветовой диапазон ограничен оттенками серого цвета."
 msgstr ""
 
 #: ../textures.rst:118
-# 6b9e37a1e845495080c80ae4b1bfef17
+# 784d71dfacd14769b4d69d9b2ad9a488
 msgid "Карта нормалей (normal map)"
 msgstr ""
 
 #: ../textures.rst:120
-# 218429c6bdd84c7d83251fb17b3dde34
+# 337b418e6b1c4de3871889e9e891da26
 msgid "Карта нормалей применяется для указания распределения нормалей (перпендикуляров) к поверхности с целью увеличения уровня детализации ее рельефа. Информация о нормалях должна храниться в текстурном пространстве координат. Карты нормалей в объектном пространстве не поддерживаются."
 msgstr ""
 
 #: ../textures.rst:125
-# 70af5b9e68a24344b16ac4c63780a3fc
+# c2213fe04c6d42a7aadbad5852ff0610
 msgid "Выставить опцию ``Geometry > Normal`` на панели ``Textures > Influence``."
 msgstr ""
 
 #: ../textures.rst:132
-# d2c981046c9c42f0a53768780b5a1bdb
+# 613da3e012ad4f75882bb76494275ec3
 msgid "*Influence > Geometry > Normal*"
 msgstr ""
 
 #: ../textures.rst:131
-# eb910b17fc9c4061b279aa66d64bc2ed
+# 38ce02b574224982848743fe82961037
 msgid "Степень участия карты в расчетах нормалей. Значение по умолчанию 1.0."
 msgstr ""
 
 #: ../textures.rst:137
-# 1e712674bcf34587954e10859d259dee
+# d8e5324655c74548ba02d1bca0233e06
 msgid "Карта высот (height map). Parallax mapping"
 msgstr ""
 
 #: ../textures.rst:139
-# cdc380149f5e4d549df08e5044c2325b
+# 7a6c4fd805d74146ac1347e8830a2281
 msgid "Карта высот содержит информацию о распределении относительных высот рельефа. Более высокий уровень поверхности обозначается более светлым цветом. Карта высот в сочетании с картой нормалей требуются в качестве входящих данных для реализации рельефной поверхности (parallax mapping). Карта высот должна содержатся в альфа-канале карты нормалей."
 msgstr ""
 
 #: ../textures.rst:144
-# 7dcd367102654d6385fee7560d332254
+# 5b5e73d249a34de4adc9aea638954d3d
 msgid "Для карты нормалей дополнительно к опции ``Geometry > Normal`` на панели ``Textures > Influence`` выставить опцию ``Parallax`` на панели ``Textures > Blend4Web``."
 msgstr ""
 
 #: ../textures.rst:150
-# 96b24a235efc47ccb935e69522735c8a
+# a133c0e3032342f0a40e1ecaf8717c93
 msgid "*Blend4Web > Parallax Scale*"
 msgstr ""
 
 #: ../textures.rst:150
-# c1c6f37f81824880b801e6229a9b61d8
+# ca8bda3d45114ba69262afd255a96ced
 msgid "Фактор влияния эффекта рельефной поверхности. Значение по умолчанию 0.03."
 msgstr ""
 
 #: ../textures.rst:153
-# 43bb4dd9e808434d850cc4caa6b37699
+# dcbe4a1a8f64445ca8e02cf1134f7493
 msgid "*Blend4Web > Parallax Steps*"
 msgstr ""
 
 #: ../textures.rst:153
-# f29db1252aa04f4ba1ce3772b15aec7d
+# ec7f627e4b93413c8361451cd17107dd
 msgid "Количество итераций в расчетах рельефной поверхности. Большее значение приводит к лучшему качеству и к большим затратам вычислительных ресурсов. Значение по умолчанию 10."
 msgstr ""
 
 #: ../textures.rst:168
-# 072f5edb2cb947a0bed83eb5d6656016
+# f66f00b9a2564e7ebe270f635204e6ba
 msgid "Карта прозрачности (alpha map)"
 msgstr ""
 
 #: ../textures.rst:170
-# aaacc388f3664097a052a766cabf86da
+# 193522959dc24fcca6eddde7dd14e373
 msgid "Отдельная карта прозрачности применяется только для воды в режиме совместимости. В обычном материале может содержаться в альфа-канале диффузной текстуры."
 msgstr ""
 
 #: ../textures.rst:175
-# 5ab0fee4fb0348168f9f9a140c0bfd62
+# 14ae0ab6fca94cd0aaa4f82811ba48b0
 msgid "Для диффузной текстуры дополнительно к опции ``Diffuse > Color`` на панели ``Textures > Influence`` выставить опцию ``Diffuse > Alpha``. Для отдельной карты прозрачности выставить опцию ``Diffuse > Alpha``."
 msgstr ""
 
 #: ../textures.rst:181
-# 90f298660ab24fa39ee2131f92980f53
+# ec2f2b69aabf4e208e89ecf0fba1f611
 msgid "*Influence > Diffuse > Alpha*"
 msgstr ""
 
 #: ../textures.rst:197
-# 7ca63df189204f79b8e7265f2ab5531d
+# d707d10b3c5e4eeabe85f12a182bd6ca
 msgid "Карта смешивания (stencil map)"
 msgstr ""
 
 #: ../textures.rst:199
-# 839552ef14ec456ca585c852aad5cf4b
+# b55d7cfd84fa43ce85c68ed3e04c8e73
 msgid "Специальная текстура (цветная или оттенков серого), содержащая информацию о распределении других текстур по поверхности."
 msgstr ""
 
 #: ../textures.rst:204
-# a193844e43914e4f9581e276a08ba128
+# dc93788fe7b347ff81ee406988dd6985
 msgid "В случае нодовых материалов карта смешивания должна использоваться соответствующим образом в нодовой структуре."
 msgstr ""
 
 #: ../textures.rst:205
-# bb5d6cfa96db41ae8e0f3949dc2d7cf3
+# 4bdba07f96dc45e1a331cd5e204ffff6
 msgid "В случае обычных материалов карта смешивания должна располагаться в текстурном слоте между двумя смешиваемыми диффузными текстурами. Для текстуры смешивания необходимо одновременно выставить опции ``RGB to Intensity`` и ``Stencil`` на панели ``Textures > Influence``."
 msgstr ""
 
 #: ../textures.rst:210
-# 18b48d4e01a9455a9dcb6897f538c638
+# 7fe34be9130f4d6d8ccf4afc9ebf0b88
 msgid "В случае обычных материалов для одной из смешиваемых диффузных текстур поддерживается тип текстурных координат ``Normal`` (\"matcap\")."
 msgstr ""
 
 #: ../textures.rst:213
 #: ../textures.rst:350
-# 8ca692d841e04a77b843ec68361193a4
-# 8719e9f5330543dd85fe5a72d92b1c27
+# 9857e05448d3473c99d12e2f4c830f27
+# 56f7f8a9cb974efb960b02e4a759daca
 msgid "Ограничения"
 msgstr ""
 
 #: ../textures.rst:215
-# 448b8b75d242418c9afed41747d5aa75
+# 84d2b91f464544ea9df065dd9b0407e0
 msgid "В случае обычных материалов движком интерпретируется только красный канал текстуры смешивания. Карта бликов или карта нормалей при их наличии смешиванию не подвергаются. Настройка масштабирования ``Mapping > Size`` извлекается из первой текстуры и применяется ко всем остальным текстурам."
 msgstr ""
 
 #: ../textures.rst:218
-# 78413c800e4848f0a04bda8680a1d1cf
+# 776460a471264bb5a8f1ffd0b3a7d99a
 msgid "Пример"
 msgstr ""
 
 #: ../textures.rst:220
-# 8be79670aa74449a9156cdba23d7d58f
+# 329ace457ded4b07a9aa0c89c9b81a9b
 msgid "Материал яблока имеет текстуры: карту нормалей, диффузную текстуру с картой бликов в альфа-канале, карту смешивания, диффузную карту \"matcap\", карту зеркального отражения."
 msgstr ""
 
 #: ../textures.rst:240
-# 3c828a9beb6c4b94b9cf2df881115857
+# 8c55a32cfe074f8eb257d1e85b155fef
 msgid "Карта окружения (environment map)"
 msgstr ""
 
 #: ../textures.rst:242
-# 486f50f51d0e4c57adcbd0d44792d5b3
+# 6c1245dd97774c63b5efc5daf7df37d9
 msgid "Применяется в качестве карты зеркального отражения (mirror map) и в качестве статической текстуры неба (skydome)."
 msgstr ""
 
 #: ../textures.rst:244
-# 6fdb5745c74c4b81925e1e832e7ca75c
+# 5097fadef97b4fedb460b191aac36a00
 msgid "В движке представлена кубической текстурой. Растры для карт окружения должны содержать 6 спроецированных изображений окружающей среды, упакованных в 2 ряда по 3 (формат, используемый в Blender'e). Размер растров для каждого из изображений должен подчиняться правилу 2\\ :sup:`N` (512, 1024 и т.п.)."
 msgstr ""
 
 #: ../textures.rst:246
-# 2f51c167a7fd4a70b88259d78848c20c
+# 1c2c19e70bc34f7a8cbdab23645bf3a8
 msgid "Во избежания проявления швов рекомендуется использовать формат без потери качества (PNG)."
 msgstr ""
 
 #: ../textures.rst:255
-# a26818acac9e4517a5d889c1a009be0d
+# b3f270bf0638428887dde9f43d5639f9
 msgid "Создание карты окружения"
 msgstr ""
 
 #: ../textures.rst:257
-# 46b256d94ce64ac9ae85268748639f95
+# 0d20fc5592f145e6ad6d915d9158a287
 msgid "Blender позволяет запекать сцену в карту окружения. Для этого:"
 msgstr ""
 
 #: ../textures.rst:259
-# 609b30db4a464477b32f0aeabdefa296
+# 748168328a754297a2abe82518a3fd8c
 msgid "Создать сцену для запекания."
 msgstr ""
 
 #: ../textures.rst:260
-# 3ac24111e4f44483b0bf628dc105c1cb
+# cefeeb130be84963bd4e65fd46c8257d
 msgid "Добавить пустой объект в предполагаемом центре обзора (``Add > Empty``)."
 msgstr ""
 
 #: ../textures.rst:261
-# 2d3e84fd3f934bc28d18e98054e21d5a
+# 0b7cae7e8d1d42fc844f392ab90469ec
 msgid "Перейти во вкладку ``World``, затем перейти во вкладку ``Textures``, создать новую текстуру, выбрать тип ``Environment Map``."
 msgstr ""
 
 #: ../textures.rst:262
-# 9c9e1ea558044ee492cebc15a49a1a6d
+# 5a38f875077540b687f50f64c02815de
 msgid "На панели ``Environment Map`` выбрать источник ``Static``, выбрать созданный пустой объект в поле ``Viewport Object``, установить разрешение 2\\ :sup:`N` (512, 1024 и т.п.)."
 msgstr ""
 
 #: ../textures.rst:263
-# dbc34cf26ab7414aadcc56fa8ed3fd2f
+# f994eeb59e6c44508a36a49db1e971e3
 msgid "Выполнить рендеринг сцены ``F12`` (требуется наличие камеры)."
 msgstr ""
 
 #: ../textures.rst:264
-# 9db840f7cb89439ea74c6395896cda40
+# a3142a1df3844543b623e5ce1ab7c5f4
 msgid "Сохранить карту окружения в файл."
 msgstr ""
 
 #: ../textures.rst:283
-# 8ad0492d20384fc39b900a2a48a340a2
+# d17766c5476a47e3abd308b16ae11d2a
 msgid "Карта зеркального отражения (mirror map)"
 msgstr ""
 
 #: ../textures.rst:285
-# 8a88534d8b754a469445905efd1f8c7e
+# f24a1dbc413845b6893869ef1f2b975b
 msgid "Применяется для визуализации отражающей способности поверхности. Представляет собой карту окружения."
 msgstr ""
 
 #: ../textures.rst:290
-# 9f2a891353ab4722af732e11d67209aa
+# fc511239842844049eff05b652414c53
 msgid "Выбрать тип текстуры (``Type``) ``Environment Map``. Выставить опцию ``Shading > Mirror`` на панели ``Textures > Influence``."
 msgstr ""
 
 #: ../textures.rst:297
-# bec492a76ba744b99ab8aa1870c247d3
+# 0e9ab5fb61bf4e0d9aeae07279731931
 msgid "*Influence > Shading > Mirror*"
 msgstr ""
 
 #: ../textures.rst:296
-# a022c84e43a64db6adaf8f655de66cf7
+# 209e0a68f67346219c696c4abecc834b
 msgid "Степень влияния карты зеркального отражения текстуры. Значение по умолчанию 1.0."
 msgstr ""
 
-#: ../textures.rst:299
-# f9a5f0bcb2af475fb49119578517986c
-msgid ":ref:`Статическое отражение <reflection_static>`."
-msgstr ""
-
 #: ../textures.rst:307
-# 958a8640d3e748ebabfc2844bacf29c9
+# eebef480d4794a989cbf31051aa2093c
 msgid "Текстура неба (skydome)"
 msgstr ""
 
 #: ../textures.rst:309
-# 95bb819b06384672a0997a3d53428920
+# 839d7b8a6e394ea097dc9bf9e5fc6de3
 msgid "Применяется для визуализации небесного свода. Представляет собой карту окружения."
 msgstr ""
 
 #: ../textures.rst:314
-# 8091e96e5cd8453dbfd83af931028d49
+# f64992902fd7404a848bceab74a7b0d4
 msgid "Создать специальным образом ориентированную плоскость. Создать метериал, выставить опцию ``Blend4Web > Special: Skydome``. Создать текстуру типа ``Environment Map``."
 msgstr ""
 
 #: ../textures.rst:319
-# 3dc7f4b13e4341c09489b320db2a2c05
+# a5d2554762ba4391855c3a2799e5027a
 msgid "Во избежания исчезновения изображения при поворотах камеры для объекта плоскости выставить опцию ``Blend4Web > Disable frustum culling``."
 msgstr ""
 
 #: ../textures.rst:333
-# 61cb57a5e21642f782e44c9016be6b70
+# de132c0cf6304740aade8ef9b062f428
 msgid "Рендеринг в текстуру (render-to-texture, RTT)"
 msgstr ""
 
 #: ../textures.rst:335
-# fc978edda4c24a99abf36c3cd9c166fb
+# 862db684234c47749bae1e8a1b4a1996
 msgid "Изображение 3D сцены может быть использовано в качестве текстуры на объекте другой (\"главной\") сцены."
 msgstr ""
 
 #: ../textures.rst:340
-# 4c129ec58402418eb48e308592a025fe
+# 3b08f05f80bf4ecbb2e7adccba79b1d4
 msgid "Создать дополнительную сцену-источник, переименовать для удобства, создать ``World``, добавить нужные объекты, настроить вид из камеры."
 msgstr ""
 
 #: ../textures.rst:341
-# 10977f2f454944c4b9676ded95a49398
+# a04cfc3525064627a6a6032b2dc0f5bc
 msgid "В главной сцене для текстуры целевого объекта выставить тип ``None``, в поле ``Blend4Web > Source scene`` указать название сцены-источника. В меню ``Mapping > Coordinates`` выбрать ``UV``.  Убедиться, что меш объекта имеет развертку."
 msgstr ""
 
 #: ../textures.rst:352
-# 67d17f6da24d4bc183acc4e8088f5cc4
+# 100a8a6df39d4e6a9790b13ca7b28688
 msgid "В настоящее время имеется баг, вынуждающий иметь в обеих сценах один общий источник света."
-msgstr ""
-
-#: ../textures.rst:3
-#: ../textures.rst:9
-#: ../textures.rst:34
-#: ../textures.rst:69
-#: ../textures.rst:91
-#: ../textures.rst:115
-#: ../textures.rst:134
-#: ../textures.rst:163
-#: ../textures.rst:194
-#: ../textures.rst:237
-#: ../textures.rst:278
-#: ../textures.rst:302
-#: ../textures.rst:330
-# 06f35efb2732418c888099970b969f17
-# 26dc6e61f9af4824801b7bde2a396c8a
-# 0eac75e0596a4beeb0cfbe365f9fea80
-# a39e93cd3a174984bdfe4444662f2a28
-# 646439ae761b4052bea5cb628fc4f110
-# cf7b8a58e5d64f2e8c48706f16a21280
-# 0f77f2f51d2e45a8854b3bf334763676
-# 3b962f9705a947adaff84534aff6fea5
-# baf715d59c434821b1d40a2785d2344f
-# c494624454f74a79bcf0c779088a83f9
-# 51c77d63c3ff4a318d910af27f5db38a
-# 70638054489449d3ada44d7e1729e88d
-# 53e2da5ff55849bb89818c6cceb1f0c1
-msgid "текстуры"
-msgstr ""
-
-#: ../textures.rst:9
-# 26dc6e61f9af4824801b7bde2a396c8a
-msgid "типы"
-msgstr ""
-
-#: ../textures.rst:34
-# 0eac75e0596a4beeb0cfbe365f9fea80
-msgid "настройки"
-msgstr ""
-
-#: ../textures.rst:45
-# 8db97d2a904045e3aba37f5bbb6b88b0
-msgid "material capture"
-msgstr ""
-
-#: ../textures.rst:45
-# 8db97d2a904045e3aba37f5bbb6b88b0
-msgid "matcap"
-msgstr ""
-
-#: ../textures.rst:69
-# a39e93cd3a174984bdfe4444662f2a28
-msgid "диффузная"
-msgstr ""
-
-#: ../textures.rst:69
-# a39e93cd3a174984bdfe4444662f2a28
-msgid "diffuse map"
-msgstr ""
-
-#: ../textures.rst:91
-# 646439ae761b4052bea5cb628fc4f110
-msgid "карта бликов"
-msgstr ""
-
-#: ../textures.rst:91
-# 646439ae761b4052bea5cb628fc4f110
-msgid "specular map"
-msgstr ""
-
-#: ../textures.rst:115
-# cf7b8a58e5d64f2e8c48706f16a21280
-msgid "карта нормалей"
-msgstr ""
-
-#: ../textures.rst:115
-# cf7b8a58e5d64f2e8c48706f16a21280
-msgid "normal map"
-msgstr ""
-
-#: ../textures.rst:134
-# 0f77f2f51d2e45a8854b3bf334763676
-msgid "карта высот"
-msgstr ""
-
-#: ../textures.rst:134
-# 0f77f2f51d2e45a8854b3bf334763676
-msgid "height map"
-msgstr ""
-
-#: ../textures.rst:134
-# 0f77f2f51d2e45a8854b3bf334763676
-msgid "parallax mapping"
-msgstr ""
-
-#: ../textures.rst:163
-# 3b962f9705a947adaff84534aff6fea5
-msgid "карта прозрачности"
-msgstr ""
-
-#: ../textures.rst:163
-# 3b962f9705a947adaff84534aff6fea5
-msgid "alpha map"
-msgstr ""
-
-#: ../textures.rst:194
-# baf715d59c434821b1d40a2785d2344f
-msgid "карта смешивания"
-msgstr ""
-
-#: ../textures.rst:194
-# baf715d59c434821b1d40a2785d2344f
-msgid "stencil map"
-msgstr ""
-
-#: ../textures.rst:237
-# c494624454f74a79bcf0c779088a83f9
-msgid "карта окружения"
-msgstr ""
-
-#: ../textures.rst:237
-# c494624454f74a79bcf0c779088a83f9
-msgid "environment map"
-msgstr ""
-
-#: ../textures.rst:278
-# 51c77d63c3ff4a318d910af27f5db38a
-msgid "карта зеркального отражения"
-msgstr ""
-
-#: ../textures.rst:278
-# 51c77d63c3ff4a318d910af27f5db38a
-msgid "mirror map"
-msgstr ""
-
-#: ../textures.rst:302
-# 70638054489449d3ada44d7e1729e88d
-msgid "небо"
-msgstr ""
-
-#: ../textures.rst:302
-# 70638054489449d3ada44d7e1729e88d
-msgid "skydome"
-msgstr ""
-
-#: ../textures.rst:330
-# 53e2da5ff55849bb89818c6cceb1f0c1
-msgid "рендеринг в"
-msgstr ""
-
-#: ../textures.rst:330
-# 53e2da5ff55849bb89818c6cceb1f0c1
-msgid "render-to-texture"
-msgstr ""
-
-#: ../textures.rst:330
-# 53e2da5ff55849bb89818c6cceb1f0c1
-msgid "RTT"
 msgstr ""
 

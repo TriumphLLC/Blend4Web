@@ -7,10 +7,22 @@
 #var CAUST_BRIGHT 0.0
 
 //Add caustics to underwater objects
-void apply_caustics (inout vec3 color, vec2 texcoord, float plane_pos, 
-                    float time, float shadow_factor, vec3 normal, 
+void apply_caustics (inout vec3 color, float plane_pos,
+                    float time, float shadow_factor, vec3 normal,
                     vec3 light_direction, vec3 sun_color_intens,
-                    in vec3 pos_world) {
+                    vec4 sun_quat, vec3 pos_world, float view_dist) {
+
+    if (view_dist > 100.0) // optimization
+        return;
+
+    vec4 q = sun_quat;
+    vec3 v = pos_world + normal;
+
+    v.xz = 10.0 * sin(0.1 * v.xz);
+    // rotate world coordinates to match sun directions
+    vec3 rotated_world = v + 2.0 *
+                    cross(-q.xyz, cross(-q.xyz, v) + q.w * v);
+    vec2 texcoord = rotated_world.xz;
 
     vec3 light_vec = light_direction;
     float l_dot_l = max(dot (normal, light_vec), 0.0);
@@ -24,10 +36,6 @@ void apply_caustics (inout vec3 color, vec2 texcoord, float plane_pos,
     texcoord.st += 0.23 * cos( 4.0 * plane_pos - CAUST_SPEED.x * time);
     texcoord.st += 3.0  * sin( plane_pos - 0.3 * CAUST_SPEED.y * time);
 
-    // side 1 - above the water, 0 - below the water)
-    float water_side = max(sign(plane_pos), 0.0);
-
-    //scale *= 1.0 + water_side;
     float scale = CAUST_SCALE * (1.0 + max(0.1 * plane_pos, 0.0));
     // matrix with all caustic channels
     mat3 m_caustics = cellular2x2_caust((texcoord / scale), aberration);
@@ -39,6 +47,9 @@ void apply_caustics (inout vec3 color, vec2 texcoord, float plane_pos,
     vec3 caustics = CAUST_BRIGHT * vec3(caustic_R, caustic_G, caustic_B);
 
     float caust_fade = shadow_factor * l_dot_l;
+
+    // side 1 - above the water, 0 - below the water)
+    float water_side = max(sign(plane_pos), 0.0);
 
     // caustic is visible on surfaces above the water and facing down
     caust_fade = min(caust_fade + 0.5 * sign(-normal.y) * water_side, 1.0);

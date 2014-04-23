@@ -30,6 +30,7 @@ var m_print     = require("__print");
 var m_reformer  = require("__reformer");
 var m_render    = require("__renderer");
 var m_scenes    = require("__scenes");
+var m_nla       = require("__nla");
 var m_sfx       = require("__sfx");
 var m_shaders   = require("__shaders");
 var m_tex       = require("__textures");
@@ -90,7 +91,7 @@ function free_load_data(bpy_data, scheduler) {
     set_bpy_data({});  
 }
 
-function print_image_info(image_data, image_path) {
+function print_image_info(image_data, image_path, show_path_warning) {
 
     var w, h;    
 
@@ -112,7 +113,7 @@ function print_image_info(image_data, image_path) {
         color = "0a0";        
     m_print.log("%cLOAD IMAGE " + w + "x" + h, "color: #" + color, image_path);
     
-    if (image_path.indexOf(_debug_resources_root) == -1)
+    if (image_path.indexOf(_debug_resources_root) == -1 && show_path_warning)
         m_print.warn("B4W Warning: image", image_path, "is not from app root");
 }
 
@@ -148,7 +149,12 @@ function load_main(bpy_data, scheduler, stage, cb_param, cb_finish,
         cb_finish(scheduler, stage);
     }
 
-    m_assets.enqueue([[main_path, m_assets.AT_JSON, main_path]], asset_cb, null);
+    var progress_cb = function(rate) {
+        cb_set_rate(scheduler, stage, rate);
+    }
+
+    m_assets.enqueue([[main_path, m_assets.AT_JSON, main_path]], asset_cb, null, 
+            progress_cb);
 }
 
 function show_export_warnings(bpy_data) {
@@ -179,8 +185,12 @@ function load_binaries(bpy_data, scheduler, stage, cb_param, cb_finish,
         cb_finish(scheduler, stage);
     }
 
+    var progress_cb = function(rate) {
+        cb_set_rate(scheduler, stage, rate);
+    }
+
     m_assets.enqueue([[binary_path, m_assets.AT_ARRAYBUFFER, binary_path]], 
-            binary_cb, null);
+            binary_cb, null, progress_cb);
 }
 
 function check_version(loaded_bpy_data) {
@@ -314,8 +324,9 @@ function report_empty_submeshes(bpy_data) {
 /**
  * Prepare root data after main libs loaded
  */
-function prepare_root(bpy_data, scheduler, stage, cb_param, cb_finish, 
+function prepare_root_datablocks(bpy_data, scheduler, stage, cb_param, cb_finish, 
         cb_set_rate) {
+    
     make_links(bpy_data);
 
     m_reformer.check_bpy_data(bpy_data);
@@ -348,6 +359,12 @@ function prepare_root(bpy_data, scheduler, stage, cb_param, cb_finish,
     prepare_lod_objects(objects);
     prepare_vehicles(objects);
     prepare_floaters(objects);
+
+    cb_finish(scheduler, stage);
+}
+
+function prepare_root_scenes(bpy_data, scheduler, stage, cb_param, cb_finish, 
+        cb_set_rate) {
 
     for (var i = 0; i < bpy_data["scenes"].length; i++) {
 
@@ -424,7 +441,8 @@ function setup_dds_loading(bpy_data) {
                 image._is_dds = true;
             } else {
                 // check: load texture as usual or as dds; then if needed mark it as dds and adjust filepath
-                image._is_dds = !texture_slot["use_map_normal"] &&
+                image._is_dds = !texture["b4w_disable_compression"] &&
+                                !texture_slot["use_map_normal"] &&
                                 texture["type"] != "ENVIRONMENT_MAP" &&
                                 !texture["b4w_shore_dist_map"];
 
@@ -454,7 +472,9 @@ function setup_dds_loading(bpy_data) {
                     if (image._is_dds) {
                         // it was already marked as dds on previous cycle - so do nothing
                     } else {
-                        image._is_dds = tex._render.allow_node_dds;
+                        image._is_dds = tex._render.allow_node_dds &&
+                                        !tex["b4w_disable_compression"];
+
                         if (image._is_dds)
                             image["filepath"] += ".dds";
                     }
@@ -541,16 +561,21 @@ function duplicate_objects_iter(obj_links, origin_name_prefix, obj_ids, grp_ids)
                     proxy_source_ids.indexOf(proxy_link["uuid"]) == -1)
                 proxy_source_ids.push(proxy_link["uuid"]);
 
+            var proxy = obj_ids[proxy_link["uuid"]];
+
             // currently blender doesn't preserve constraints for
             // proxy objects, so try to use constraints of proxy source
-            var proxy = obj_ids[proxy_link["uuid"]];
             var consts = proxy["constraints"];
-
             for (var j = 0; j < consts.length; j++) {
                 var new_cons = m_util.clone_object_json(consts[j]);
                 new_cons.name = new_cons.name + "_CLONE";
                 obj["constraints"].push(new_cons);
             }
+
+            // restore animation data on proxy source (e.g. NLA case)
+            var anim_data = obj["animation_data"];
+            if (anim_data && !proxy["animation_data"])
+                proxy["animation_data"] = m_util.clone_object_json(obj["animation_data"]);
         }
     }
 
@@ -691,8 +716,9 @@ function make_links(bpy_data) {
             make_link_uuid(obj, "dupli_group", storage);
 
         // NOTE: not required anymore
-        //if (obj["proxy"]) 
-        //    make_link_uuid(obj, "proxy", objects);
+        //if (obj["proxy"]) {
+        //    make_link_uuid(obj, "proxy", storage);
+        //}
 
         if (obj["parent"])
             make_link_uuid(obj, "parent", storage);
@@ -1007,7 +1033,8 @@ function load_textures(bpy_data, scheduler, stage, cb_param, cb_finish, cb_set_r
             if (!image_data) // image not loaded
                 return;
 
-            print_image_info(image_data, path);
+            var show_path_warning = true;
+            print_image_info(image_data, path, show_path_warning);
  
             var image = img_by_uri[uri];
             var tex_users = find_image_users(image, bpy_data["textures"]);
@@ -1453,6 +1480,7 @@ function prepare_vehicles(objects) {
 
                     obj_i._vehicle.steering_max = vh_set_j["steering_max"];
                     obj_i._vehicle.steering_ratio = vh_set_j["steering_ratio"];
+                    obj_i._vehicle.inverse_control = vh_set_j["inverse_control"];
 
                     var wm_inv = m_mat4.invert(obj_i._render.world_matrix, 
                             new Float32Array(16));
@@ -1547,6 +1575,7 @@ function prepare_vehicles(objects) {
 
                     obj_i._vehicle.steering_max = vh_set_j["steering_max"];
                     obj_i._vehicle.steering_ratio = vh_set_j["steering_ratio"];
+                    obj_i._vehicle.inverse_control = vh_set_j["inverse_control"];
 
                     var wm_inv = m_mat4.invert(obj_i._render.world_matrix, 
                             new Float32Array(16));
@@ -1835,8 +1864,10 @@ function update_object(obj) {
 
         // overrided by hair render if needed
         render.dynamic_grass = false;
+
         render.do_not_cull = obj["b4w_do_not_cull"];
         render.disable_fogging = obj["b4w_disable_fogging"];
+        render.dynamic_geometry = obj["b4w_dynamic_geometry"];
 
         // assign params for object (bounding) physics simulation
         // it seams BGE uses first material to get physics param
@@ -1935,6 +1966,7 @@ function update_object(obj) {
 function get_mesh_obj_render_type(bpy_obj) {
     var is_animated = m_anim.is_animatable(bpy_obj);
     var has_do_not_batch = bpy_obj["b4w_do_not_batch"];
+    var dynamic_geom = bpy_obj["b4w_dynamic_geometry"];
     var has_particles = m_particles.has_particles(bpy_obj);
     var is_collision = bpy_obj["b4w_collision"];
     var is_vehicle_part = bpy_obj["b4w_vehicle"];
@@ -1944,9 +1976,9 @@ function get_mesh_obj_render_type(bpy_obj) {
     // make it so just to prevent some possible bugs in the future
 
     if (DEBUG_DISABLE_BATCHING ||
-            is_animated || has_do_not_batch || has_particles || is_collision ||
-            is_vehicle_part || is_floater_part || has_skydome_mat(bpy_obj) ||
-            has_lens_flares_mat(bpy_obj))
+            is_animated || has_do_not_batch || dynamic_geom || has_particles ||
+            is_collision || is_vehicle_part || is_floater_part ||
+            has_skydome_mat(bpy_obj) || has_lens_flares_mat(bpy_obj))
         return "DYNAMIC";
     else
         return "STATIC";
@@ -2155,7 +2187,8 @@ function load_shoremap(bpy_data, scheduler, stage, cb_param, cb_finish,
             if (!html_image) // image not loaded
                 return;
 
-            print_image_info(html_image, path);
+            var show_path_warning = true;
+            print_image_info(html_image, path, show_path_warning);
             var image = img_by_uri[uri];
             var tex_users = find_image_users(image, bpy_data["textures"]);
             for (var i = 0; i < tex_users.length; i++) {
@@ -2221,7 +2254,18 @@ function load_smaa_textures(bpy_data, scheduler, stage, cb_param, cb_finish,
     }
 
     var scene = bpy_data["scenes"][0];
-    var subs_smaa_arr = m_scenes.subs_array(scene, ["SMAA"]);
+
+    var subs_smaa_arr = []
+    var smaa_passes_names = ["SMAA_EDGE_DETECTION",
+                             "SMAA_BLENDING_WEIGHT_CALCULATION",
+                             "SMAA_NEIGHBORHOOD_BLENDING",
+                             "SMAA_RESOLVE"];
+
+    for (var i = 0; i < smaa_passes_names.length; i++) {
+        var smaa_sub = m_scenes.get_subs(scene, smaa_passes_names[i]);
+        if (smaa_sub)
+            subs_smaa_arr.push(smaa_sub);
+    }
 
     if (!subs_smaa_arr.length) {
         cb_finish(scheduler, stage);
@@ -2244,7 +2288,7 @@ function load_smaa_textures(bpy_data, scheduler, stage, cb_param, cb_finish,
     for (var i = 0; i < subs_smaa_arr.length; i++) {
         var subs_smaa = subs_smaa_arr[i];
 
-        if (subs_smaa.smaa_pass == "SMAA_BLENDING_WEIGHT_CALCULATION") {
+        if (subs_smaa.type == "SMAA_BLENDING_WEIGHT_CALCULATION") {
             var slinks_internal = subs_smaa.slinks_internal;
 
             for (var j = 0; j < slinks_internal.length; j++) {
@@ -2264,7 +2308,8 @@ function load_smaa_textures(bpy_data, scheduler, stage, cb_param, cb_finish,
             if (!image_data) // image not loaded
                 return;
 
-            print_image_info(image_data, path);
+            var show_path_warning = false;
+            print_image_info(image_data, path, show_path_warning);
 
             if (uri == "SEARCH_TEXTURE")
                 var texture = search_texture
@@ -2272,6 +2317,7 @@ function load_smaa_textures(bpy_data, scheduler, stage, cb_param, cb_finish,
                 var texture = area_texture
 
             texture.source = "IMAGE";
+            texture.auxilary_texture = true;
 
             var is_dds = path.indexOf(".dds") != -1 ? 1: 0;
             m_tex.update_texture(texture, image_data, is_dds, path);
@@ -2358,10 +2404,15 @@ function add_objects(bpy_data, scheduler, stage, cb_param, cb_finish,
 
 function end_objects_adding(bpy_data, scheduler, stage, cb_param, cb_finish,
         cb_set_rate) {
-    // set zero (first) scene as active
-    for (var i = 0; i < bpy_data["scenes"].length; i++)
-        m_scenes.prepare_rendering(bpy_data["scenes"][i]);
+    for (var i = 0; i < bpy_data["scenes"].length; i++) {
+        var scene = bpy_data["scenes"][i]
+        m_scenes.prepare_rendering(scene);
 
+        if (scene["b4w_use_nla"])
+            m_nla.update_scene_nla(scene);
+    }
+
+    // NOTE: set first scene as active
     var scene0 = bpy_data["scenes"][0];
     m_scenes.set_active(scene0);
 
@@ -2463,7 +2514,7 @@ exports.load = function(path, loaded_cb, stageload_cb, wait_complete_loading) {
             background_loading: false,
             inputs: [],
             is_resource: false,
-            relative_size: 50,
+            relative_size: 500,
             cb_before: load_main
         },
         "duplicate_objects": {
@@ -2479,7 +2530,7 @@ exports.load = function(path, loaded_cb, stageload_cb, wait_complete_loading) {
             background_loading: false,
             inputs: ["load_main"],
             is_resource: false,
-            relative_size: 10,
+            relative_size: 500,
             cb_before: load_binaries
         },
         "prepare_bindata": {
@@ -2490,18 +2541,26 @@ exports.load = function(path, loaded_cb, stageload_cb, wait_complete_loading) {
             relative_size: 0,
             cb_before: prepare_bindata
         },
-        "prepare_root": {
+        "prepare_root_datablocks": {
             priority: m_loader.SYNC_PRIORITY,
             background_loading: false,
             inputs: ["duplicate_objects", "prepare_bindata"],
             is_resource: false,
-            relative_size: 500,
-            cb_before: prepare_root
+            relative_size: 150,
+            cb_before: prepare_root_datablocks
+        },
+        "prepare_root_scenes": {
+            priority: m_loader.SYNC_PRIORITY,
+            background_loading: false,
+            inputs: ["prepare_root_datablocks"],
+            is_resource: false,
+            relative_size: 350,
+            cb_before: prepare_root_scenes
         },
         "load_smaa_textures": {
             priority: m_loader.ASYNC_PRIORITY,
             background_loading: true,
-            inputs: ["prepare_root"],
+            inputs: ["prepare_root_scenes"],
             is_resource: false,
             relative_size: 10,
             cb_before: load_smaa_textures
@@ -2509,7 +2568,7 @@ exports.load = function(path, loaded_cb, stageload_cb, wait_complete_loading) {
         "load_shoremap": {
             priority: m_loader.ASYNC_PRIORITY,
             background_loading: true,
-            inputs: ["prepare_root"],
+            inputs: ["prepare_root_scenes"],
             is_resource: false,
             relative_size: 10,
             cb_before: load_shoremap
@@ -2517,7 +2576,7 @@ exports.load = function(path, loaded_cb, stageload_cb, wait_complete_loading) {
         "load_textures": {
             priority: m_loader.ASYNC_PRIORITY,
             background_loading: true,
-            inputs: ["prepare_root"],
+            inputs: ["prepare_root_scenes"],
             is_resource: true,
             relative_size: 500,
             cb_before: load_textures,
@@ -2575,6 +2634,7 @@ exports.unload = function() {
 
     m_anim.cleanup();
     m_sfx.cleanup();
+    m_nla.cleanup();
     m_scenes.cleanup();
     m_lights.cleanup();
     m_phy.cleanup();
@@ -2588,7 +2648,7 @@ exports.unload = function() {
     m_particles.cleanup();
 
     _all_objects_cache = null;
-    _scheduler = {};
+    _scheduler = null;
     _color_id_counter = 0;
 }
 

@@ -79,6 +79,7 @@ function FakeHttpRequest() {
         onreadystatechange: null,
 
         overrideMimeType: function() {},
+        addEventListener: function() {},
         open: function(method, url, async) {
             req._source_url = url;
             req.readyState = 1;
@@ -87,11 +88,11 @@ function FakeHttpRequest() {
             req.status = 404;
             req.readyState = 4;
             var bd = get_built_in_data();
-            if (bd)
-                if (req._source_url in bd) {
+            if (bd && req._source_url in bd) {
+                req.status = 200;
+                if (bd[req._source_url])
                     req.response = req._parse_response(bd[req._source_url]);
-                    req.status = 200;
-                }
+            }
             var get_type = {};
             if (get_type.toString.call(req.onreadystatechange) 
                     === '[object Function]')
@@ -163,7 +164,7 @@ exports.cleanup = function() {
  * @param [asset_cb] A single asset loaded callback
  * @param [pack_cb] Assets pack loaded callback
  */
-exports.enqueue = function(assets_pack, asset_cb, pack_cb) {
+exports.enqueue = function(assets_pack, asset_cb, pack_cb, progress_cb) {
     for (var i = 0; i < assets_pack.length; i++) {
         var pack_elem = assets_pack[i];
 
@@ -176,8 +177,9 @@ exports.enqueue = function(assets_pack, asset_cb, pack_cb) {
             state: ASTATE_ENQUEUED,
 
             asset_cb: asset_cb || (function() {}),
-
             pack_cb: pack_cb || (function() {}),
+            progress_cb: progress_cb || (function() {}),
+
             pack_index: _assets_pack_index
         }
 
@@ -300,6 +302,12 @@ function request_arraybuffer(asset, response_type) {
         }
     };
 
+    req.addEventListener("progress", function(e) {
+        // compute progress information if total size is known
+        if (e.lengthComputable)
+            asset.progress_cb(e.loaded / e.total);
+    }, false);
+
     req.send(null);
 }
 
@@ -355,9 +363,14 @@ function request_image(asset) {
     }, false);
 
     var bd = get_built_in_data();
-    if (bd && asset.filepath in bd)
-        image.src = "data:image;base64," + bd[asset.filepath];
-    else
+    if (bd && asset.filepath in bd) {
+        if (bd[asset.filepath])
+            image.src = "data:image;base64," + bd[asset.filepath];
+        else {
+            var event = new CustomEvent("error");
+            image.dispatchEvent(event);
+        }
+    } else
         image.src = asset.filepath;
 }
 
@@ -374,10 +387,14 @@ function request_audio(asset) {
 
     var bd = get_built_in_data();
     if (bd && asset.filepath in bd) {
-        var snd_mime_type = get_sound_mime_type(asset.filepath);
-        audio.src = "data:" + snd_mime_type + ";base64," + bd[asset.filepath];
-    }
-    else
+        if (bd[asset.filepath]) {
+            var snd_mime_type = get_sound_mime_type(asset.filepath);
+            audio.src = "data:" + snd_mime_type + ";base64," + bd[asset.filepath];
+        } else {
+            var event = new CustomEvent("error");
+            audio.dispatchEvent(event);
+        }
+    } else
         audio.src = asset.filepath;
 
     setTimeout(function() {audio.some_prop_to_prevent_gc = 1}, 5000);

@@ -12,7 +12,6 @@ var camera      = require("__camera");
 var config      = require("__config");
 var m_print     = require("__print");
 var constraints = require("__constraints");
-var scenes      = require("__scenes");
 var transform   = require("__transform");
 var util        = require("__util");
 
@@ -126,8 +125,6 @@ exports["get_trans_speed"] = function(camobj) {
  */
 exports["set_look_at"] = function(camobj, eye, target, up, elapsed) {
     var render = camobj._render;
-    var cameras = camobj._render.cameras;
-    var scene = scenes.get_active();
 
     camera.eye_target_up_to_trans_quat(eye, target, up, render.trans, render.quat);
 
@@ -201,7 +198,6 @@ exports["rotate_pivot"] = function(camobj, angle_h_delta, angle_v_delta) {
     }
 
     var render = camobj._render;
-    var scene = scenes.get_active();
 
     var axis = _vec3_tmp;
     var rot = _quat4_tmp;
@@ -261,8 +257,6 @@ exports["clear_vertical_limits"] = function(camobj) {
 exports["set_eye_params"] = function(camobj, h_angle, v_angle) {
 
     var render = camobj._render;
-    var cameras = camobj._render.cameras;
-    var scene = scenes.get_active();
 
     m_quat.identity(render.quat);
 
@@ -298,8 +292,6 @@ exports["is_look_up"] = function(camobj) {
  * @param {Number} angle_v_delta Vertical angle in radians
  */
 exports["rotate"] = function(camobj, angle_h_delta, angle_v_delta) {
-    var render = camobj._render;
-    var scene = scenes.get_active();
 
     // NOTE: MS_EYE_CONTROLS only
     camera.rotate_h(camobj, angle_h_delta);
@@ -395,6 +387,7 @@ exports["translate_view"] = function(camobj, x, y, angle) {
         m_mat4.rotateZ(cam.proj_matrix, angle, cam.proj_matrix);
 
         m_mat4.multiply(cam.proj_matrix, cam.view_matrix, cam.view_proj_matrix);
+        camera.calc_view_proj_inverse(cam);
         camera.calc_sky_vp_inverse(cam);
     }
 }
@@ -416,8 +409,6 @@ exports["zoom_object"] = function(camobj, obj) {
         return;
     }
 
-    var render = camobj._render;
-    var scene = scenes.get_active();
     var calc_bs_center = false;
 
     var center = _vec3_tmp;

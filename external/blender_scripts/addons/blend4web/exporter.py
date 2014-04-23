@@ -15,7 +15,11 @@ from .unpacker import Unpacker
 
 from .b4w_bin_suffix import get_platform_suffix
 libname = "b4w_bin" + get_platform_suffix()
-exec("from . import " + libname + " as b4w_bin")
+try:
+    exec("from . import " + libname + " as b4w_bin")
+except:
+    # NOTE: check later in register() function
+    pass
 
 BINARY_INT_SIZE = 4
 BINARY_FLOAT_SIZE = 4
@@ -54,7 +58,11 @@ _export_filepath = None
 _export_error = None
 _file_write_error = None
 
+_scene_active_layers = {}
+
 _b4w_export_warnings = []
+
+_vehicle_integrity = {}
 
 # temp property will exist to the end of session
 # and will not be saved to blend file
@@ -307,6 +315,40 @@ def mesh_get_active_vc(mesh):
    
     return None
 
+def scenes_store_select_all_layers():
+    global _scene_active_layers
+    _scene_active_layers = {}
+
+    for scene in bpy.data.scenes:
+
+        if scene.name not in _scene_active_layers:
+            _scene_active_layers[scene.name] = {}
+        
+        scene_lib_path = get_scene_lib_path(scene)
+        layers = _scene_active_layers[scene.name][scene_lib_path] = []
+
+        for i in range(len(scene.layers)):
+            layers.append(scene.layers[i])  
+            scene.layers[i] = True
+
+def scenes_restore_selected_layers():
+    global _scene_active_layers
+
+    for scene in bpy.data.scenes:
+        if scene.name in _scene_active_layers:
+            scene_lib_path = get_scene_lib_path(scene)
+            if scene_lib_path in _scene_active_layers[scene.name]:
+                layers_data = _scene_active_layers[scene.name][scene_lib_path]
+
+                for i in range(len(layers_data)):
+                    scene.layers[i] = layers_data[i]
+
+def get_scene_lib_path(scene):
+    if scene.library:
+        return scene.library.filepath
+    else:
+        return ""
+
 def process_components(tags):
     for tag in tags:
         _export_data[tag] = []
@@ -430,12 +472,13 @@ def process_scene(scene):
 
     global _curr_scene
     _curr_scene = scene
-    
+
     scene_data = OrderedDict()
 
     scene_data["name"] = scene.name
     scene_data["uuid"] = gen_uuid(scene)
 
+    scene_data["b4w_use_nla"] = scene.b4w_use_nla
     scene_data["b4w_enable_audio"] = scene.b4w_enable_audio
     scene_data["b4w_enable_dynamic_compressor"] \
             = scene.b4w_enable_dynamic_compressor
@@ -520,8 +563,9 @@ def process_object(obj):
     data = get_obj_data(obj, _curr_scene)
     if data is None and obj_data["type"] != "EMPTY" \
             or data is not None and not do_export(data):
-        raise ExportError("Object data is not available", obj,
-                "Check \"Do not export\" flag on " + obj_data["name"] + " data")
+        raise ExportError("Object data not available", obj,
+                "Check the \"Do not export\" flag on the " + obj_data["name"] +
+                " data")
 
     obj_data["data"] = gen_uuid_obj(data)
 
@@ -554,9 +598,9 @@ def process_object(obj):
         dg_uuid = obj_data["dupli_group"]["uuid"]
         dg_data = _export_uuid_cache[dg_uuid]
         if not dg_data["objects"]:
-            raise ExportError("Dupli group error", obj, \
-                    "Objects from dupli group " + dg_data["name"] + \
-                    " on object " + obj_data["name"] + " don't export")
+            raise ExportError("Dupli group error", obj, "Objects from the "  +
+                    dg_data["name"] + " dupli group on the object " +
+                    obj_data["name"] + " cannot be exported")
     else:
         obj_data["dupli_group"] = None
 
@@ -564,7 +608,7 @@ def process_object(obj):
     if parent and do_export(parent) and object_is_valid(parent):
         if not is_identity_matrix(obj.matrix_parent_inverse):
             raise ExportError("Object-parent relation is not supported",
-                    obj, "Clear parent inverse transform")
+                    obj, "Clear the parent's inverse transform")
         obj_data["parent"] = gen_uuid_obj(parent)
         process_object(parent)
     else:
@@ -588,6 +632,7 @@ def process_object(obj):
 
     # export custom properties
     obj_data["b4w_do_not_batch"] = obj.b4w_do_not_batch
+    obj_data["b4w_dynamic_geometry"] = obj.b4w_dynamic_geometry
     obj_data["b4w_do_not_cull"] = obj.b4w_do_not_cull
     obj_data["b4w_disable_fogging"] = obj.b4w_disable_fogging
     obj_data["b4w_do_not_render"] = obj.b4w_do_not_render
@@ -634,54 +679,64 @@ def process_object(obj):
     obj_data["b4w_cyclic_animation"] = obj.b4w_cyclic_animation
     obj_data["b4w_collision"] = obj.b4w_collision
     obj_data["b4w_collision_id"] = obj.b4w_collision_id
-    obj_data["b4w_vehicle"] = obj.b4w_vehicle
 
     obj_data["b4w_shadow_cast_only"] = obj.b4w_shadow_cast_only
 
-    vh_set = obj.b4w_vehicle_settings
-    dct = obj_data["b4w_vehicle_settings"] = OrderedDict()
-    dct["name"] = vh_set.name
-    dct["part"] = vh_set.part
-    dct["suspension_rest_length"] = round_num(vh_set.suspension_rest_length, 3)
-    dct["suspension_compression"] = round_num(vh_set.suspension_compression, 3)
-    dct["suspension_stiffness"] = round_num(vh_set.suspension_stiffness, 3)
-    dct["suspension_damping"] = round_num(vh_set.suspension_damping, 3)
-    dct["wheel_friction"] = round_num(vh_set.wheel_friction, 3)
-    dct["roll_influence"] = round_num(vh_set.roll_influence, 3)
-    dct["max_suspension_travel_cm"] \
-            = round_num(vh_set.max_suspension_travel_cm, 3)
-    dct["force_max"] = round_num(vh_set.force_max, 3)
-    dct["brake_max"] = round_num(vh_set.brake_max, 3)
-    dct["steering_max"] = round_num(vh_set.steering_max, 3)
-    dct["max_speed_angle"] = round_num(vh_set.max_speed_angle, 3)
-    dct["delta_tach_angle"] = round_num(vh_set.delta_tach_angle, 3)
-    dct["speed_ratio"] = round_num(vh_set.speed_ratio, 3)
-    dct["steering_ratio"] = round_num(vh_set.steering_ratio, 3)
-    dct["floating_factor"] = round_num(vh_set.floating_factor, 3)
-    dct["water_lin_damp"] = round_num(vh_set.water_lin_damp, 3)
-    dct["water_rot_damp"] = round_num(vh_set.water_rot_damp, 3)
-    dct["synchronize_position"] = vh_set.synchronize_position
+    obj_data["b4w_vehicle"] = obj.b4w_vehicle
+    if obj.b4w_vehicle:
+        vh_set = obj.b4w_vehicle_settings
+        dct = obj_data["b4w_vehicle_settings"] = OrderedDict()
+        dct["name"] = vh_set.name
+        dct["part"] = vh_set.part
+        dct["suspension_rest_length"] = round_num(vh_set.suspension_rest_length, 3)
+        dct["suspension_compression"] = round_num(vh_set.suspension_compression, 3)
+        dct["suspension_stiffness"] = round_num(vh_set.suspension_stiffness, 3)
+        dct["suspension_damping"] = round_num(vh_set.suspension_damping, 3)
+        dct["wheel_friction"] = round_num(vh_set.wheel_friction, 3)
+        dct["roll_influence"] = round_num(vh_set.roll_influence, 3)
+        dct["max_suspension_travel_cm"] \
+                = round_num(vh_set.max_suspension_travel_cm, 3)
+        dct["force_max"] = round_num(vh_set.force_max, 3)
+        dct["brake_max"] = round_num(vh_set.brake_max, 3)
+        dct["steering_max"] = round_num(vh_set.steering_max, 3)
+        dct["max_speed_angle"] = round_num(vh_set.max_speed_angle, 3)
+        dct["delta_tach_angle"] = round_num(vh_set.delta_tach_angle, 3)
+        dct["speed_ratio"] = round_num(vh_set.speed_ratio, 3)
+        dct["steering_ratio"] = round_num(vh_set.steering_ratio, 3)
+        dct["inverse_control"] = vh_set.inverse_control
+        dct["floating_factor"] = round_num(vh_set.floating_factor, 3)
+        dct["water_lin_damp"] = round_num(vh_set.water_lin_damp, 3)
+        dct["water_rot_damp"] = round_num(vh_set.water_rot_damp, 3)
+        dct["synchronize_position"] = vh_set.synchronize_position
+    else:
+        obj_data["b4w_vehicle_settings"] = None
+
+    store_vehicle_integrity(obj)
 
     obj_data["b4w_character"] = obj.b4w_character
-
-    ch_set = obj.b4w_character_settings
-    dct = obj_data["b4w_character_settings"] = OrderedDict()
-    dct["walk_speed"] = round_num(ch_set.walk_speed, 3)
-    dct["run_speed"] = round_num(ch_set.run_speed, 3)
-    dct["step_height"] = round_num(ch_set.step_height, 3)
-    dct["jump_strength"] = round_num(ch_set.jump_strength, 3)
-    dct["waterline"] = round_num(ch_set.waterline, 3)
+    if obj.b4w_character:
+        ch_set = obj.b4w_character_settings
+        dct = obj_data["b4w_character_settings"] = OrderedDict()
+        dct["walk_speed"] = round_num(ch_set.walk_speed, 3)
+        dct["run_speed"] = round_num(ch_set.run_speed, 3)
+        dct["step_height"] = round_num(ch_set.step_height, 3)
+        dct["jump_strength"] = round_num(ch_set.jump_strength, 3)
+        dct["waterline"] = round_num(ch_set.waterline, 3)
+    else:
+        obj_data["b4w_character_settings"] = None
 
     obj_data["b4w_floating"] = obj.b4w_floating
-
-    fl_set = obj.b4w_floating_settings
-    dct = obj_data["b4w_floating_settings"] = OrderedDict()
-    dct["name"] = fl_set.name
-    dct["part"] = fl_set.part
-    dct["floating_factor"] = round_num(fl_set.floating_factor, 3)
-    dct["water_lin_damp"] = round_num(fl_set.water_lin_damp, 3)
-    dct["water_rot_damp"] = round_num(fl_set.water_rot_damp, 3)
-    dct["synchronize_position"] = fl_set.synchronize_position
+    if obj.b4w_floating:
+        fl_set = obj.b4w_floating_settings
+        dct = obj_data["b4w_floating_settings"] = OrderedDict()
+        dct["name"] = fl_set.name
+        dct["part"] = fl_set.part
+        dct["floating_factor"] = round_num(fl_set.floating_factor, 3)
+        dct["water_lin_damp"] = round_num(fl_set.water_lin_damp, 3)
+        dct["water_rot_damp"] = round_num(fl_set.water_rot_damp, 3)
+        dct["synchronize_position"] = fl_set.synchronize_position
+    else:
+        obj_data["b4w_floating_settings"] = None
 
     obj_data["b4w_correct_bounding_offset"] = obj.b4w_correct_bounding_offset
 
@@ -702,6 +757,29 @@ def process_object(obj):
     _export_uuid_cache[obj_data["uuid"]] = obj_data
     _bpy_uuid_cache[obj_data["uuid"]] = obj
     check_object_data(obj_data, obj)
+
+def store_vehicle_integrity(obj):
+    if obj.b4w_vehicle:
+        if obj.b4w_vehicle_settings.name not in _vehicle_integrity:
+            _vehicle_integrity[obj.b4w_vehicle_settings.name] = { 
+                "hull": None,
+                "chassis": None,
+                "bob": None,
+                "wheel": None,
+                "other": None
+            }
+
+        if obj.b4w_vehicle_settings.part == "HULL":
+            _vehicle_integrity[obj.b4w_vehicle_settings.name]["hull"] = obj
+        elif obj.b4w_vehicle_settings.part == "CHASSIS":
+            _vehicle_integrity[obj.b4w_vehicle_settings.name]["chassis"] = obj
+        elif obj.b4w_vehicle_settings.part == "BOB":
+            _vehicle_integrity[obj.b4w_vehicle_settings.name]["bob"] = obj
+        elif obj.b4w_vehicle_settings.part in ["WHEEL_FRONT_LEFT", 
+                "WHEEL_FRONT_RIGHT", "WHEEL_BACK_LEFT", "WHEEL_BACK_RIGHT"]:
+            _vehicle_integrity[obj.b4w_vehicle_settings.name]["wheel"] = obj
+        else:
+            _vehicle_integrity[obj.b4w_vehicle_settings.name]["other"] = obj
 
 def process_object_game_settings(obj_data, obj):
     game = obj.game
@@ -1171,7 +1249,6 @@ def process_texture(texture):
 
     tex_data["b4w_foam_uv_magnitude"] \
             = round_iterable(texture.b4w_foam_uv_magnitude, 3)
-    tex_data["b4w_affect_foam"] = texture.b4w_affect_foam
     tex_data["b4w_shore_dist_map"] = texture.b4w_shore_dist_map
     tex_data["b4w_anisotropic_filtering"] = texture.b4w_anisotropic_filtering
     tex_data["b4w_shore_boundings"] \
@@ -1179,6 +1256,8 @@ def process_texture(texture):
     tex_data["b4w_max_shore_dist"] = round_num(texture.b4w_max_shore_dist, 3)
     tex_data["b4w_uv_velocity_trans"] \
             = round_iterable(texture.b4w_uv_velocity_trans, 3)
+
+    tex_data["b4w_disable_compression"] = texture.b4w_disable_compression
 
     # process texture links
     if hasattr(texture, "image"):
@@ -1311,16 +1390,16 @@ def process_mesh(mesh, obj_user):
         mesh_uv_count = len(mesh.uv_textures)
         if mesh_uv_count > 2:
             raise ExportError("Only 2 UV textures are allowed for mesh", \
-                    mesh, "Mesh has " + str(mesh_uv_count) + " UVs")
+                    mesh, "The mesh has " + str(mesh_uv_count) + " UVs")
         else:
             for uv_texture in mesh.uv_textures:
                 mesh_data["uv_textures"].append(uv_texture.name)
 
     if not mesh_data["materials"]:
         if mesh_data["uv_textures"]:
-            raise ExportError("Mesh has UV map but lacks any exported material", mesh)
+            raise ExportError("The mesh has a UV map but has no exported material", mesh)
         if mesh.vertex_colors:
-            raise ExportError("Mesh has vertex color layer but lacks any exported material", \
+            raise ExportError("The mesh has a vertex color layer but has no exported material", \
                     mesh)
 
     active_vc = mesh_get_active_vc(mesh)
@@ -1372,7 +1451,7 @@ def process_mesh_boundings(mesh_data, mesh, bounding_data):
                 or bounding_box.min_z > bounding_box.max_z:
 
             raise ExportError("Wrong overrided bounding box", mesh, \
-                              "Check mesh's bounding box values")
+                              "Check the mesh's bounding box values")
 
         dct = mesh_data["b4w_bounding_box"] = OrderedDict()
         dct["max_x"] = round_num(bounding_box.max_x, 3)
@@ -1600,17 +1679,16 @@ def export_submesh(mesh, mesh_ptr, obj_user, obj_ptr, mat_index, disab_flat, \
     if vertex_animation:
         if len(obj_user.b4w_vertex_anim) == 0:
             raise ExportError("Incorrect vertex animation", mesh, \
-                    "Mesh hasn't any vertex animation")
+                    "Object has no vertex animation")
         else:
             for anim in obj_user.b4w_vertex_anim:
                 if len(anim.frames) == 0:
                     raise ExportError("Incorrect vertex animation", mesh, \
-                            "Unbaked vertex animation \"" + anim.name + "\"")
+                            "Unbaked \"" + anim.name + "\" vertex animation")
                 elif len(mesh.vertices) != len(anim.frames[0].vertices):
                     raise ExportError("Wrong vertex animation vertices count", \
-                            mesh, \
-                            "It doesn't match with mesh vertices count for \"" \
-                            + anim.name + "\"")
+                            mesh, "It doesn't match with the mesh vertices " +
+                            "count for \"" + anim.name + "\"")
  
     is_degenerate_mesh = not bool(max( \
             abs(bounding_data["max_x"] - bounding_data["min_x"]), \
@@ -1913,6 +1991,8 @@ def process_particle(particle):
     part_data["b4w_hair_billboard_geometry"] \
             = particle.b4w_hair_billboard_geometry
     part_data["b4w_dynamic_grass"] = particle.b4w_dynamic_grass
+    part_data["b4w_dynamic_grass_scale_threshold"] \
+            = particle.b4w_dynamic_grass_scale_threshold
     part_data["b4w_wind_bend_inheritance"] = particle.b4w_wind_bend_inheritance
     part_data["b4w_shadow_inheritance"] = particle.b4w_shadow_inheritance
     part_data["b4w_reflection_inheritance"] \
@@ -1973,9 +2053,9 @@ def process_particle(particle):
         dg_uuid = part_data["dupli_group"]["uuid"]
         dg_data = _export_uuid_cache[dg_uuid]
         if not dg_data["objects"]:
-            raise ExportError("Particle system error", particle, \
-                    "No one valid object exports from dupli group " \
-                    + dg_data["name"])
+            raise ExportError("Particle system error", particle,
+                    "The \"" + dg_data["name"] + "\" dupli group contains no " +
+                    "valid object for export");
 
         part_data["use_group_pick_random"] = particle.use_group_pick_random
         use_group_count = particle.use_group_count;
@@ -2442,8 +2522,8 @@ def process_material_node_tree(mat_data, material):
         dct["nodes"].append(node_data)
 
     if has_normalmap_node and not has_material_node:
-        raise ExportError("Material has normalmap but doesn't have material node", \
-                material)
+        raise ExportError("The material has a normal map but doesn't have " +
+                "any material nodes", material)
 
     # node tree links
     dct["links"] = []
@@ -2589,79 +2669,6 @@ def set_default_path(path):
     for i in range(len(bpy.data.scenes)):
         bpy.data.scenes[i].b4w_export_path_json = guard_slashes(path)
 
-class B4W_Renamer(bpy.types.Operator):
-    bl_idname = "b4w.rename"
-    bl_label = "B4W Rename"
-
-    do_autosave = bpy.props.BoolProperty(default = False)
-    report      = bpy.props.BoolProperty(default = False)
-
-    def execute(self, context):
-        tags = [
-            "actions",
-            "images",
-            "textures",
-            "materials",
-            "meshes",
-            "armatures",
-            "cameras",
-            "curves",
-            "lamps",
-            "sounds",
-            "speakers",
-            "particles",
-            "objects",
-            "groups",
-            "scenes",
-            "worlds"
-        ]
-
-        for tag in tags:
-            source = getattr(bpy.data, tag)
-            components = source.values()
-            for component in components:
-
-                # replace b2w with b4w in all keys
-                items = component.items()
-
-                for item in items:
-                    key = item[0]
-
-                    if "b2w" in key:
-                        val = item[1]
-
-                        new_key = key.replace('b2w', 'b4w')
-                        component[new_key] = val
-
-                        del component[key]
-
-                    if "webgl" in key:
-                        val = item[1]
-                        component["b4w_export_path"] = val
-
-                        del component[key]
-
-                # replace b2w with b4w in values names
-                items = component.items()
-
-                for item in items:
-
-                    key = item[0]
-                    val = item[1]
-
-                    if hasattr(val, 'name'):
-                        if "b2w" in val.name:
-                            val.name = val.name.replace('b2w', 'b4w')
-
-            if self.do_autosave:
-                filepath = bpy.data.filepath
-                if filepath:
-                    bpy.ops.wm.save_mainfile(filepath=filepath)
-
-        print("RENAME OK")
-        return {"FINISHED"}
-
-
 class B4W_ExportProcessor(bpy.types.Operator):
     """Export for Blend4Web (.json)"""
     bl_idname = "b4w.export"
@@ -2717,7 +2724,21 @@ class B4W_ExportProcessor(bpy.types.Operator):
         self.filepath = get_default_path()
         wm = context.window_manager
         wm.fileselect_add(self)
+
+        # NOTE: select all layers on all scenes to avoid issue with particle systems
+        # NOTE: do it before execution!!!
+        if bpy.data.particles:
+            scenes_store_select_all_layers()
         return {"RUNNING_MODAL"}
+
+    def cancel(self, context):
+        # NOTE: restore selected layers
+        if bpy.data.particles:
+            scenes_restore_selected_layers()
+
+    def draw(self, context):
+        layout = self.layout
+        layout.prop(self, "do_autosave")
 
     def run(self, export_filepath):
         global _bpy_bindata_int
@@ -2752,7 +2773,10 @@ class B4W_ExportProcessor(bpy.types.Operator):
 
         global _b4w_export_warnings
         _b4w_export_warnings = []
-        
+
+        global _vehicle_integrity
+        _vehicle_integrity = {}
+
         # escape from edit mode
         if bpy.context.mode == "EDIT_MESH":
             bpy.ops.object.mode_set(mode="OBJECT") 
@@ -2785,6 +2809,8 @@ class B4W_ExportProcessor(bpy.types.Operator):
         attach_export_status(tags)
         process_components(tags)
         detach_export_status(tags)
+
+        check_vehicle_integrity()
 
         clean_exported_data()
 
@@ -2846,6 +2872,28 @@ class B4W_ExportProcessor(bpy.types.Operator):
 
         return "exported"
 
+def check_vehicle_integrity():
+    for name in _vehicle_integrity:
+        if _vehicle_integrity[name]["chassis"] is None \
+                and _vehicle_integrity[name]["hull"] is None:
+            ref_obj = None
+            for prop in _vehicle_integrity[name]:
+                if _vehicle_integrity[name][prop] is not None:
+                    ref_obj = _vehicle_integrity[name][prop]
+                    break
+            if ref_obj is not None:
+                raise ExportError("Incomplete vehicle", ref_obj, 
+                        "The \"" + name + "\" vehicle doesn't have any chassis or hull")
+        elif _vehicle_integrity[name]["chassis"] is not None \
+                and _vehicle_integrity[name]["wheel"] is None:
+            raise ExportError("Incomplete vehicle", 
+                    _vehicle_integrity[name]["chassis"], 
+                    "The \"" + name + "\" vehicle requires at least one wheel")
+        elif _vehicle_integrity[name]["hull"] is not None \
+                and _vehicle_integrity[name]["bob"] is None:
+            raise ExportError("Incomplete vehicle", 
+                    _vehicle_integrity[name]["hull"], 
+                    "The \"" + name + "\" vehicle requires at least one bob")
 
 def check_shared_data(export_data):
     objects = export_data["objects"]
@@ -2885,9 +2933,9 @@ def check_objs_shared_mesh_compat(mesh_users):
 
         obj = _bpy_uuid_cache[obj_data["uuid"]]
         if not obj_to_mesh_needed(obj) and mesh_data["vertex_groups"]:
-            raise ExportError("Incompatible objects with shared mesh", obj, \
-                    "Object " + obj_data["name"] \
-                    + " has vertex groups and shared mesh")
+            raise ExportError("Incompatible objects with a shared mesh", obj,
+                    "The object " + obj_data["name"] + 
+                    " has both vertex groups and shared mesh")
 
 def check_material_nodes_links(mat_data):
     if mat_data["node_tree"] is not None:
@@ -2901,7 +2949,7 @@ def check_material_nodes_links(mat_data):
             sock_to = link.to_socket.rna_type.identifier
 
             if (sock_from in vector_types) != (sock_to in vector_types):
-                raise ExportError("Node material is invalid", material, 
+                raise ExportError("Node material invalid", material, 
                         "Check sockets compatibility: " + link.from_node.name \
                         + " to " + link.to_node.name)
 
@@ -2997,8 +3045,10 @@ def check_obj_particle_systems(obj_data, obj):
             if not check_vertex_color(obj.data, pset_data["b4w_vcol_from_name"]):
                 pset = _bpy_uuid_cache[pset_data["uuid"]]
                 raise ExportError("Particle system error", pset, \
-                        "Vertex color \"" + pset_data["b4w_vcol_from_name"] \
-                        + "\"(from_name) missing in object " + obj_data["name"])
+                        "The \"" + pset_data["b4w_vcol_from_name"] + 
+                        "\" vertex color specified in the \"from\" field is " +
+                        "missing in the list of the \"" + obj_data["name"]
+                        + "\" object's vertex colors")
 
         if pset_data["render_type"] == "OBJECT":
             dobj_uuid = pset_data["dupli_object"]["uuid"]
@@ -3008,8 +3058,10 @@ def check_obj_particle_systems(obj_data, obj):
             if pset_data["b4w_vcol_to_name"]:
                 if not check_vertex_color(dobj.data, pset_data["b4w_vcol_to_name"]):
                     raise ExportError("Particle system error", obj, \
-                            "Vertex color \"" + pset_data["b4w_vcol_to_name"] \
-                            + "\"(to_name) missing in object " + dobj_data["name"])
+                            "The \"" + pset_data["b4w_vcol_to_name"] + 
+                            "\" vertex color specified in the \"to\" field is " +
+                            "missing in the list of the \"" + dobj_data["name"]
+                            + "\" object's vertex colors")
 
         elif pset_data["render_type"] == "GROUP":
             dg_uuid = pset_data["dupli_group"]["uuid"]
@@ -3021,11 +3073,11 @@ def check_obj_particle_systems(obj_data, obj):
                 
                 if pset_data["b4w_vcol_to_name"]:
                     if not check_vertex_color(dgobj.data, pset_data["b4w_vcol_to_name"]):
-                        raise ExportError("Particle system error", obj, \
-                                "Vertex color \"" + pset_data["b4w_vcol_to_name"] \
-                                + "\"(to_name) missing in object \"" \
-                                + dgobj_data["name"] + "\" in dupli group \"" \
-                                + dg_data["name"] + "\"")
+                        raise ExportError("Particle system error", obj,
+                                "The \"" + pset_data["b4w_vcol_to_name"] + 
+                                "\" vertex color specified in the \"to\" field is " +
+                                "missing in the \"" + dgobj_data["name"] +
+                                "\" object (\"" + dg_data["name"] + "\" dupli group)")
 
 def check_vertex_color(mesh, vc_name):
     for color_layer in mesh.vertex_colors:
@@ -3040,7 +3092,7 @@ def check_mesh_data(mesh_data, mesh):
 
         if mat_data["use_vertex_color_paint"] and not mesh.vertex_colors:
             raise ExportError("Incomplete mesh", mesh,
-                "Vertex colors required by material settings")
+                "Material settings require vertex colors")
 
         # check dynamic grass vertex colors
         if mat_data["b4w_dynamic_grass_size"] and not \
@@ -3064,6 +3116,9 @@ def check_tex_slot(tex_slot):
         raise ExportError("Wrong texture coordinates type", tex)
 
 def clean_exported_data():
+    # NOTE: restore previous selected layers
+    if bpy.data.particles:
+        scenes_restore_selected_layers()
     remove_overrided_meshes()
     if _unpacker is not None:
         _unpacker.clean()
@@ -3084,10 +3139,16 @@ def b4w_export_menu_func(self, context):
     self.layout.operator(B4W_ExportProcessor.bl_idname, \
         text="Blend4Web (.json)").filepath = get_default_path()
 
+def check_binaries():
+    # NOTE: check if binaries is available
+    if "b4w_bin" not in globals():
+        from .init_validation import bin_invalid_message
+        bpy.app.handlers.scene_update_pre.append(bin_invalid_message)
+
 def register(): 
+    check_binaries()
     bpy.utils.register_class(B4W_ExportProcessor)
     bpy.utils.register_class(B4W_ExportPathGetter)
-    bpy.utils.register_class(B4W_Renamer)
     bpy.utils.register_class(ExportErrorDialog)
     bpy.utils.register_class(FileWriteErrorDialog)
     bpy.types.INFO_MT_file_export.append(b4w_export_menu_func)
@@ -3095,7 +3156,6 @@ def register():
 def unregister(): 
     bpy.utils.unregister_class(B4W_ExportProcessor)
     bpy.utils.unregister_class(B4W_ExportPathGetter)
-    bpy.utils.unregister_class(B4W_Renamer)
     bpy.utils.unregister_class(ExportErrorDialog)
     bpy.utils.unregister_class(FileWriteErrorDialog)
     bpy.types.INFO_MT_file_export.remove(b4w_export_menu_func)

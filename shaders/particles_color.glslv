@@ -47,7 +47,9 @@ part_params calc_part_params(void) {
     if (t_common < 0.0) {
         sp.size = 0.0001;
         sp.position = vec3(99999.0, 0.0, 0.0);
-    } else {
+    }
+    //} else {
+    if (!(t_common < 0.0)) {
 
         float t;
         if (u_p_cyclic == 1) {
@@ -55,14 +57,18 @@ part_params calc_part_params(void) {
             t = mod(t_common, delta) - a_p_delay;
             if (t < 0.0)
                 t += delta;
-        } else {
+        }
+        //} else {
+        if (u_p_cyclic != 1) {
             t = t_common - a_p_delay;
         }
 
         if (t < 0.0 || t >= a_p_lifetime) {
             sp.size = 0.0001;
             sp.position = vec3(99999.0, 0.0, 0.0);
-        } else {
+        }
+        //} else {
+        if (!(t < 0.0 || t >= a_p_lifetime)) {
             /* position */
             vec3 pos = a_position;
             vec3 norm  = a_normal;

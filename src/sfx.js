@@ -47,8 +47,8 @@ var SPKSTATE_PLAY       = 20
 var SPKSTATE_STOP       = 30;
 var SPKSTATE_PAUSE      = 40;
 
-// NOTE: 60 min for 3s loops
-var SCHED_PARAMS = 1200;
+var SCHED_PARAM_LOOPS = 5;
+var SCHED_PARAM_ANTICIPATE_TIME = 3.0;
 
 // audio source types
 exports.AST_NONE         = 10;
@@ -237,7 +237,6 @@ exports.append_object = function(obj, scene) {
 
     obj._sfx.volume_random = speaker["b4w_volume_random"];
     obj._sfx.pitch_random = speaker["b4w_pitch_random"];
-
     obj._sfx.fade_in = speaker["b4w_fade_in"];
     obj._sfx.fade_out = speaker["b4w_fade_out"];
 
@@ -245,6 +244,7 @@ exports.append_object = function(obj, scene) {
     obj._sfx.pause_time = 0;
     obj._sfx.buf_offset = 0;
     obj._sfx.duration = 0;
+    obj._sfx.vp_rand_end_time = 0;
 
     obj._sfx.base_seed = 1;
 
@@ -373,71 +373,6 @@ exports.cleanup = function() {
     _playlist = null;
 }
 
-/**
- * Use blender's NLA for given speaker
- * @param obj Object ID
- */
-exports.speaker_use_nla = function(obj) {
-    if (obj["type"] != "SPEAKER")
-        throw "Wrong object type";
-
-    var play_events;
-
-    var adata = obj["animation_data"];
-    if (adata && adata["nla_tracks"]) {
-        var nla_tracks = adata["nla_tracks"];
-
-        obj._sfx.play_events = nla_to_play_events(nla_tracks);
-    }
-}
-
-/**
- * Restart NLA for given speaker
- * @param obj Object ID
- */
-exports.speaker_restart_nla = function(obj) {
-    if (obj["type"] != "SPEAKER")
-        throw "Wrong object type";
-
-    if (obj._sfx.play_events) {
-        stop(obj);
-        exports.speaker_use_nla(obj);
-    }
-}
-
-/** 
- * Convert NLA tracks to play events
- * play event - array [start, end]
- */
-function nla_to_play_events(nla_tracks) {
-
-    var play_events = [];
-
-    for (var i = 0; i < nla_tracks.length; i++) {
-        var track = nla_tracks[i];
-
-        var strips = track["strips"];
-        if (!strips)
-            continue;
-
-        for (var j = 0; j < strips.length; j++) {
-            var strip = strips[j];
-
-            var play_event = [];
-            play_event.push(strip["frame_start"]);
-            play_event.push(strip["frame_end"]);
-
-            play_events.push(play_event);
-        }
-    }
-    return play_events;
-}
-
-
-function frame_to_sec(frame) {
-    return frame/cfg_ani.framerate;
-}
-
 
 /**
  * Update speaker objects used by module
@@ -446,54 +381,28 @@ function frame_to_sec(frame) {
  */
 exports.update = function(timeline, elapsed) {
 
-    if (_speaker_objects.length == 0)
+    if (!_wa_context || _speaker_objects.length == 0)
         return;
-
-    // time to prepare sound play 
-    var DELAY = 1;
 
     for (var i = 0; i < _speaker_objects.length; i++) {
         var obj = _speaker_objects[i];
         var sfx = obj._sfx;
 
+        var curr_time = _wa_context.currentTime;
+
         // handle restarts
         if (!sfx.loop && sfx.cyclic && sfx.state == SPKSTATE_PLAY &&
-                sfx.duration && _wa_context && (sfx.start_time + sfx.duration < _wa_context.currentTime)) {
+                sfx.duration && _wa_context &&
+                (sfx.start_time + sfx.duration < curr_time))
             play_def(obj);
-        }
 
-        // handle NLA play events
-        if (!obj._anim)
-            continue;
-
-        var cf = obj._anim.current_frame_float;
-
-        var play_events = obj._sfx.play_events;
-        if (!play_events)
-            continue;
-
-        var play_events_new = [];
-
-        for (var j = 0; j < play_events.length; j++) {
-            var pev = play_events[j];
-
-            var frame_start = pev[0];
-            var frame_end = pev[1];
-
-            if (cf >= (frame_start - DELAY)) {
-                var duration = frame_to_sec(frame_end - cf)
-                play(obj, 0, duration);
-            } else {
-                // save for the next time
-                play_events_new.push(pev)
-            }
-        }
-
-        obj._sfx.play_events = play_events_new;
+        // handle volume pitch randomization
+        if (sfx.state == SPKSTATE_PLAY && (sfx.vp_rand_end_time - curr_time) <
+                SCHED_PARAM_ANTICIPATE_TIME)
+            schedule_volume_pitch_random(sfx);
     }
 
     // handle playlist
-
     if (_playlist && (_playlist.active == -1 || timeline >
             _playlist.active_start_time + _playlist.durations[_playlist.active]))
         playlist_switch_next(_playlist, timeline);
@@ -592,7 +501,8 @@ function play(obj, when, duration) {
         source.connect(sfx.proc_chain_in);
         sfx.source_node = source;
 
-        schedule_volume_pitch_random(obj, start_time);
+        reset_volume_pitch_random(sfx);
+        schedule_volume_pitch_random(sfx);
 
     } else if (sfx.behavior == "BACKGROUND_MUSIC") {
 
@@ -709,18 +619,22 @@ function update_proc_chain(obj) {
         }
 
         break;
-    // filter->fade
+    // filter->gain->fade
     case "BACKGROUND_MUSIC":
         var ap = null;
-        var gnode = null;
         var rand_gnode = null;
 
+        var gnode = _wa_context.createGain();
+        gnode.gain.value = calc_gain(sfx);
+
         if (filter_node) {
-            filter_node.connect(fade_gnode);
             sfx.proc_chain_in = filter_node;
+            filter_node.connect(gnode);
         } else {
-            sfx.proc_chain_in = fade_gnode;
+            sfx.proc_chain_in = gnode;
         }
+
+        gnode.connect(fade_gnode);
 
         fade_gnode.connect(get_scene_dst_node(_active_scene));
 
@@ -764,8 +678,17 @@ function get_fade_node(scene) {
         return null;
 }
 
-function schedule_volume_pitch_random(obj, from_time) {
-    var sfx = obj._sfx;
+function reset_volume_pitch_random(sfx) {
+    if (sfx.volume_random)
+        sfx.rand_gain_node.gain.cancelScheduledValues(sfx.start_time);
+
+    if (sfx.pitch_random)
+        sfx.source_node.playbackRate.cancelScheduledValues(sfx.start_time);
+
+    sfx.vp_rand_end_time = sfx.start_time;
+}
+
+function schedule_volume_pitch_random(sfx) {
 
     // optimization
     if (!(sfx.volume_random || sfx.pitch_random))
@@ -778,31 +701,30 @@ function schedule_volume_pitch_random(obj, from_time) {
     if (!buf_dur)
         return;
 
-    if (sfx.volume_random)
-        rand_gnode.gain.cancelScheduledValues(from_time);
-
-    if (sfx.pitch_random)
-        source.playbackRate.cancelScheduledValues(from_time);
-
-    var time = from_time;
+    var time = sfx.start_time;
 
     // deterministic randomization for pitch only
     _seed_tmp[0] = sfx.base_seed;
 
-    // NOTE: performance issues for large SCHED_PARAMS values
-    for (var i = 0; i < SCHED_PARAMS; i++) {
-        if (sfx.volume_random) {
-            var gain = 1 - m_util.clamp(sfx.volume_random, 0, 1) * Math.random();
-            rand_gnode.gain.setValueAtTime(gain, time);
-        }
-
+    for (var cnt = 0; cnt < SCHED_PARAM_LOOPS; ) {
         var playrate = sfx.pitch + sfx.pitch_random * m_util.rand_r(_seed_tmp);
 
-        if (sfx.pitch_random)
-            source.playbackRate.setValueAtTime(playrate, time);
+        if (time >= sfx.vp_rand_end_time) {
+            if (sfx.volume_random) {
+                var gain = 1 - m_util.clamp(sfx.volume_random, 0, 1) * Math.random();
+                rand_gnode.gain.setValueAtTime(gain, time);
+            }
+
+            if (sfx.pitch_random)
+                source.playbackRate.setValueAtTime(playrate, time);
+
+            cnt++;
+        }
 
         time += buf_dur / playrate;
     }
+
+    sfx.vp_rand_end_time = (time - 0.001);
 }
 
 function schedule_fades(sfx, from_time) {
@@ -835,7 +757,8 @@ function fire_audio_element(obj) {
     var sfx = obj._sfx;
     var audio = sfx.src;
     if (audio) {
-        audio.volume = calc_audio_el_volume(obj);
+        // volume will be controlled by gain node
+        audio.volume = 1.0;
         audio.loop = sfx.cyclic;
 
         // NOTE: audio element will be invalidated after construction execution,
@@ -946,6 +869,8 @@ function speaker_pause(obj) {
 
         sfx.source_node.stop(0);
         sfx.source_node.disconnect();
+
+        reset_volume_pitch_random(sfx);
     }
 
     sfx.state = SPKSTATE_PAUSE;
@@ -983,7 +908,9 @@ function speaker_resume(obj) {
     } else {
         update_source_node(obj);
         var current_time = _wa_context.currentTime;
+
         sfx.start_time += (current_time - sfx.pause_time);
+        sfx.vp_rand_end_time = current_time;
 
         var source = sfx.source_node;
         var playrate = source.playbackRate.value;
@@ -992,7 +919,7 @@ function speaker_resume(obj) {
 
         source.start(sfx.start_time, sfx.buf_offset);
 
-        schedule_volume_pitch_random(obj, sfx.start_time);
+        schedule_volume_pitch_random(sfx);
         schedule_fades(sfx, sfx.start_time);
     }
 
@@ -1025,7 +952,8 @@ exports.playrate = function(obj, playrate) {
     if (spk_is_active(obj) && (sfx.behavior == "POSITIONAL" ||
                 sfx.behavior == "BACKGROUND_SOUND")) {
         sfx.source_node.playbackRate.value = playrate;
-        schedule_volume_pitch_random(obj, sfx.start_time);
+        reset_volume_pitch_random(sfx);
+        schedule_volume_pitch_random(sfx);
     }
 
     // NOTE: Consider BACKGROUND_MUSIC implementation
@@ -1196,33 +1124,6 @@ function spk_is_active(obj) {
 
 
 /**
- * Change volume of object according to it's position and _master_volume
- * @deprecated ugly implementation
- */
-function pos_obj_fallback(obj, master_volume) {
-
-    var pos = obj._render.trans;
-    var pos_lis;
-
-    if (_listener_last_eye)
-        pos_lis = _listener_last_eye;
-    else
-        pos_lis = [0,0,0];
-
-    if (obj._sfx.use_panning) {
-        var dist_ref = obj._sfx.dist_ref;
-        var dist_max = obj._sfx.dist_max;
-        var atten = obj._sfx.attenuation;
-
-        var gain = calc_distance_gain(pos, pos_lis, dist_ref, dist_max, atten);
-    } else
-        var gain = 1;
-
-    var audio_el = obj._sfx.src;
-    audio_el.volume = gain * calc_audio_el_volume(obj);
-};
-
-/**
  * Calculate fallback gain according to position of the source and listener
  * @deprecated By pos_obj_fallback() deprecation
  */
@@ -1249,15 +1150,6 @@ function calc_distance_gain(pos, pos_lis, dist_ref, dist_max, atten) {
         var gain =  dist_ref / (dist_ref + atten * (dist - dist_ref));
 
     return gain;
-}
-
-
-/**
- * Calculate audio element value.
- */
-function calc_audio_el_volume(obj) {
-    var volume = obj._sfx.muted ? 0 : obj._sfx.volume;
-    return Math.min(volume, 1.0);
 }
 
 /**
@@ -1290,12 +1182,8 @@ exports.set_volume = function(obj, volume) {
 
     sfx.volume = volume;
 
-    if (spk_is_active(obj)) {
-        if (sfx.behavior == "BACKGROUND_MUSIC")
-            sfx.src.volume = calc_audio_el_volume(obj);
-        else
-            sfx.gain_node.gain.value = calc_gain(sfx);
-    }
+    if (spk_is_active(obj))
+        sfx.gain_node.gain.value = calc_gain(sfx);
 }
 
 exports.get_volume = function(obj) {
@@ -1305,17 +1193,8 @@ exports.get_volume = function(obj) {
 exports.mute = function(obj, muted) {
     obj._sfx.muted = Boolean(muted);
 
-    if (spk_is_active(obj)) {
-        if (obj._sfx.behavior == "BACKGROUND_MUSIC") {
-            var audio_elem = obj._sfx.src;
-            if (audio_elem)
-                audio_elem.volume = calc_audio_el_volume(obj);
-            else
-                m_print.warn("B4W Warning: could not mute sound (no audio element)");
-        } else {
-            obj._sfx.gain_node.gain.value = calc_gain(obj._sfx);
-        }
-    }
+    if (spk_is_active(obj))
+        obj._sfx.gain_node.gain.value = calc_gain(obj._sfx);
 }
 
 exports.is_muted = function(obj) {

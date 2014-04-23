@@ -285,10 +285,10 @@ function process_message(msg_id, msg) {
                         m_util.cmp_arr_float(test.to, to, RAY_CMP_PRECISION) && 
                         test.local == local) {
 
-                    if (body_id_b == -1)
-                        for (var id in test.results)
-                            test.results[id] = 1.0;
-                    else
+                    for (var id in test.results)
+                        test.results[id] = 1.0;
+
+                    if (body_id_b != -1)
                         test.results[body_id_b] = result;
 
                     // traverse only if something changed
@@ -1778,12 +1778,16 @@ exports.vehicle_throttle = function(obj, engine_force) {
 }
 
 function update_vehicle_controls(obj, vehicle) {
+    if (!vehicle.steering_wheel)
+        return;
 
     var body_id = obj._physics.body_id;
     var engine_force = vehicle.engine_force * vehicle.force_max;
     var brake_force = vehicle.brake_force * vehicle.brake_max;
     var steering = -vehicle.steering * vehicle.steering_max * 2 * Math.PI / 
         vehicle.steering_ratio;
+    if (vehicle.inverse_control)
+        steering *= -1;
 
     switch (vehicle.type) {
     case VT_CHASSIS:

@@ -24,6 +24,7 @@
 <script type="text/javascript" src="../../src/version.js"></script>
 <script type="text/javascript" src="../../src/boundings.js"></script>
 <script type="text/javascript" src="../../src/constraints.js"></script>
+<script type="text/javascript" src="../../src/compat.js"></script>
 <script type="text/javascript" src="../../src/config.js"></script>
 <script type="text/javascript" src="../../src/controls.js"></script>
 <script type="text/javascript" src="../../src/curve.js"></script>
@@ -56,6 +57,7 @@
 <script type="text/javascript" src="../../src/transform.js"></script>
 <script type="text/javascript" src="../../src/tsr.js"></script>
 <script type="text/javascript" src="../../src/util.js"></script>
+<script type="text/javascript" src="../../src/nla.js"></script>
 <script type="text/javascript" src="../../src/sfx.js"></script>
 <script type="text/javascript" src="../../src/third_party/gl-matrix2.js"></script>
 <script type="text/javascript" src="../../src/third_party/gpp_eval.js"></script>
@@ -72,6 +74,7 @@
 <script type="text/javascript" src="../../src/ext/data.js"></script>
 <script type="text/javascript" src="../../src/ext/debug.js"></script>
 <script type="text/javascript" src="../../src/ext/hud.js"></script>
+<script type="text/javascript" src="../../src/ext/geometry.js"></script>
 <script type="text/javascript" src="../../src/ext/lights.js"></script>
 <script type="text/javascript" src="../../src/ext/physics.js"></script>
 <script type="text/javascript" src="../../src/ext/scenes.js"></script>
@@ -715,21 +718,6 @@
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="saturation">Saturation:</label>
                     <input id="saturation" data-highlight="true" value="0.0" min="0.0" max="2.0" type="range" step="0.01" data-mini="true /">
-                </div>
-            </div>
-        </div>
-
-        <div data-role="collapsible" data-collapsed="true">
-            <h1>Anti-aliasing</h1>
-
-            <div class="ui-grid-solo">
-                <div class="ui-block-a colapsed_content ui-body ui-body-c aa_method">
-                    <label for="aa_method">AA method:</label>
-                    <select id="aa_method" name="aa_method" data-native-menu="false" data-mini="true">
-                        <option value="AA_METHOD_PASS">Pass</option>
-                        <option value="AA_METHOD_FXAA_LIGHT">FXAA "light"</option>
-                        <option value="AA_METHOD_FXAA_QUALITY">FXAA QUALITY</option>
-                    </select>
                 </div>
             </div>
         </div>

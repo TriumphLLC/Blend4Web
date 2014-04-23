@@ -8,7 +8,6 @@
  */
 b4w.module["__config"] = function(exports, require) {
 
-var m_ext = require("__extensions");
 var m_print = require("__print");
 var m_util = require("__util");
 
@@ -46,6 +45,8 @@ exports.defaults = {
     background_color         : [0.0, 0.0, 0.0, 0.0],
 
     all_objs_selectable      : false,
+
+    glow                     : true,
 
     lod_transition_interval  : 50,
 
@@ -115,6 +116,7 @@ exports.defaults = {
 
     deferred_rendering       : true,
 
+    disable_tangent_skining_hack   : false,
 
     // quality profile
     quality                  : exports.P_HIGH
@@ -204,6 +206,8 @@ exports.apply_quality = function() {
 
         cfg_def.shore_smoothing = cfg_def_save.shore_smoothing;
 
+        cfg_def.glow = cfg_def_save.glow;
+
         cfg_def.ssao = cfg_def_save.ssao;
 
         cfg_def.dof = cfg_def_save.dof;
@@ -250,7 +254,7 @@ exports.apply_quality = function() {
 
         cfg_def.antialiasing = cfg_def_save.antialiasing;
 
-        cfg_def.smaa = cfg_def_save.smaa;
+        cfg_def.smaa = true;
 
         cfg_def.compositing = cfg_def_save.compositing;
 
@@ -263,6 +267,8 @@ exports.apply_quality = function() {
         cfg_def.shadows = cfg_def_save.shadows;
 
         cfg_def.shore_smoothing = cfg_def_save.shore_smoothing;
+
+        cfg_def.glow = cfg_def_save.glow;
 
         cfg_def.ssao = cfg_def_save.ssao;
 
@@ -324,6 +330,8 @@ exports.apply_quality = function() {
 
         cfg_def.shore_smoothing = false;
 
+        cfg_def.glow = false;
+
         cfg_def.ssao = false;
 
         cfg_def.dof = false;
@@ -380,39 +388,6 @@ exports.apply_quality = function() {
     }
 }
 
-exports.set_hardware_defaults = function(gl) {
-    var cfg_def_save = exports.defaults_save;
-    var cfg_def = exports.defaults;
-
-    var depth_tex_available = Boolean(m_ext.get_depth_texture());
-    cfg_def.foam = cfg_def_save.foam = depth_tex_available;
-    cfg_def.parallax = cfg_def_save.parallax = depth_tex_available;
-    cfg_def.dynamic_grass = cfg_def_save.dynamic_grass = depth_tex_available;
-    cfg_def.procedural_fog = cfg_def_save.procedural_fog = depth_tex_available;
-    cfg_def.water_dynamic = cfg_def_save.water_dynamic = depth_tex_available;
-    cfg_def.shore_smoothing = cfg_def_save.shore_smoothing 
-            = depth_tex_available;
-    cfg_def.shore_distance = cfg_def_save.shore_distance = depth_tex_available;
-    cfg_def.deferred_rendering = cfg_def_save.deferred_rendering = depth_tex_available;
-
-    cfg_def.use_dds = cfg_def_save.use_dds = Boolean(m_ext.get_s3tc());
-
-    var max_vert_uniforms = gl.getParameter(gl.MAX_VERTEX_UNIFORM_VECTORS);
-    var num_supported = m_util.clamp(max_vert_uniforms, 251, Infinity);
-
-    cfg_def.max_bones = cfg_def_save.max_bones 
-            = m_util.trunc((num_supported - 40) / 4);
-    cfg_def.max_bones_no_blending = cfg_def_save.max_bones_no_blending 
-            = m_util.trunc((num_supported - 40) / 2);
-
-    // webglreport.com
-    var high = gl.getShaderPrecisionFormat(gl.FRAGMENT_SHADER, gl.HIGH_FLOAT);
-    var medium = gl.getShaderPrecisionFormat(gl.FRAGMENT_SHADER, 
-            gl.MEDIUM_FLOAT);
-    if (high.precision === 0)
-        cfg_def.precision = cfg_def_save.precision = "mediump";
-}
-
 exports.set = set;
 /**
  * @methodOf config
@@ -467,6 +442,9 @@ function set(prop, value) {
     case "deferred_rendering":
         exports.defaults.deferred_rendering = value;
         break;
+    case "glow":
+        exports.defaults.glow = value;
+        break;
     case "show_hud_debug_info":
         exports.defaults.show_hud_debug_info = value;
         break;
@@ -484,6 +462,9 @@ function set(prop, value) {
         break;
     case "smaa_area_texture_path":
         exports.paths.smaa_area_texture_path = value;
+        break;
+    case "smaa":
+        exports.defaults.smaa = value;
         break;
     case "resolution_factor":
         exports.defaults.resolution_factor = value;
@@ -533,7 +514,9 @@ exports.get = function(prop) {
     case "do_not_load_resources":
         return exports.defaults.do_not_load_resources;
     case "deferred_rendering":
-        return defaults.deferred_rendering;
+        return exports.defaults.deferred_rendering;
+    case "glow":
+        return exports.defaults.glow;
     case "show_hud_debug_info":
         return exports.defaults.show_hud_debug_info;
     case "sfx_mix_mode":
@@ -542,6 +525,8 @@ exports.get = function(prop) {
         return exports.physics.enabled;
     case "physics_uranium_path":
         return exports.physics.uranium_path;
+    case "smaa":
+        return exports.defaults.smaa;
     case "smaa_search_texture_path":
         return exports.paths.smaa_search_texture_path;
     case "smaa_area_texture_path":

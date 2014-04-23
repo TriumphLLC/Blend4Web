@@ -25,6 +25,9 @@ class B4W_ScenePanel(bpy.types.Panel):
             row.prop(scene, "b4w_do_not_export", text="Do not export")
 
             row = layout.row()
+            row.prop(scene, "b4w_use_nla", text="Use NLA")
+
+            row = layout.row()
             row.prop(scene, "b4w_enable_audio", text="Enable audio")
 
             row = layout.row()
@@ -288,6 +291,9 @@ class B4W_ObjectPanel(bpy.types.Panel):
 
             row = layout.row()
             row.prop(obj, "b4w_do_not_batch", text="Do not batch")
+
+            row = layout.row()
+            row.prop(obj, "b4w_dynamic_geometry", text="Dynamic geometry")
 
             row = layout.row()
             row.prop(obj, "b4w_do_not_cull", text="Disable frustum culling")
@@ -709,7 +715,7 @@ class B4W_MaterialPanel(bpy.types.Panel):
 
                     row = col.row()
                     row.active = getattr(mat, "b4w_generated_mesh")
-                    row.prop(mat, "b4w_water_num_cascads", text="Cascads number")
+                    row.prop(mat, "b4w_water_num_cascads", text="Number of cascades")
 
                     row = col.row()
                     row.active = getattr(mat, "b4w_generated_mesh")
@@ -809,9 +815,9 @@ class B4W_TexturePanel(bpy.types.Panel):
 
                 row = layout.row()
                 row.prop(tex, "b4w_foam_uv_magnitude", text="UV Magnitude")
-            else:
-                row = layout.row()
-                row.prop(tex, "b4w_affect_foam", text="Affect Foam")
+
+            row = layout.row()
+            row.prop(tex, "b4w_disable_compression", text="Disable Compression")
 
             row = layout.row()
             row.prop(tex, "b4w_shore_dist_map", text="Shore distance map")
@@ -882,8 +888,14 @@ class B4W_ParticlePanel(bpy.types.Panel):
                 row.label("Billboard geometry:")
                 row.prop(pset, "b4w_hair_billboard_geometry", expand=True)
 
-            row = layout.row()
+            box = layout.box()
+            row = box.row()
             row.prop(pset, "b4w_dynamic_grass", text="Dynamic grass")
+
+            if getattr(pset, "b4w_dynamic_grass"):
+                row = box.row()
+                row.prop(pset, "b4w_dynamic_grass_scale_threshold", 
+                        text="Scale Threshold")
 
             row = layout.row(align=True)
             box = row.box()
@@ -1030,6 +1042,9 @@ class B4W_PhysicsPanel(bpy.types.Panel):
                             text="Steering ratio")
                     row.prop(obj.b4w_vehicle_settings, "steering_max",
                             text="Steering max")
+                    row = col.row()
+                    row.prop(obj.b4w_vehicle_settings, "inverse_control",
+                            text="Inverse control")
 
                 if (obj.b4w_vehicle_settings.part == "TACHOMETER"):
                     row = col.row()

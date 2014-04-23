@@ -5,7 +5,7 @@ Blend4Web API reference
 
 Use `b4w.require(module_name, module_function)` to import module.
 
-**Basic usage sample**
+**Basic usage example:**
 
     // check if module exists
     if (b4w.module_check("my_module"))

@@ -166,6 +166,11 @@ exports.check_bpy_data = function(bpy_data) {
     for (var i = 0; i < scenes.length; i++) {
         var scene = scenes[i];
 
+        if (!("b4w_use_nla" in scene)) {
+            scene["b4w_use_nla"] = false;
+            report("scene", scene, "b4w_use_nla");
+        }
+
         if ("b4w_detect_collisions" in scene) {
             report_deprecated("scene", scene, "b4w_detect_collisions");
             delete scene["b4w_detect_collisions"];
@@ -412,11 +417,6 @@ exports.check_bpy_data = function(bpy_data) {
             report("texture", texture, "b4w_foam_uv_magnitude");
         }
 
-        if (!("b4w_affect_foam" in texture)) {
-            texture["b4w_affect_foam"] = false;
-            report("texture", texture, "b4w_affect_foam");
-        }
-
         if (!("b4w_parallax_steps" in texture)) {
             texture["b4w_parallax_steps"] = 5;
             report("material", texture, "b4w_parallax_steps");
@@ -436,6 +436,11 @@ exports.check_bpy_data = function(bpy_data) {
         if (!("b4w_max_shore_dist" in texture)) {
             texture["b4w_max_shore_dist"] = 100;
             report("texture", texture, "b4w_max_shore_dist");
+        }
+
+        if (!("b4w_disable_compression" in texture)) {
+            texture["b4w_disable_compression"] = false;
+            report("texture", texture, "b4w_disable_compression");
         }
     }
 
@@ -688,6 +693,10 @@ exports.check_bpy_data = function(bpy_data) {
 
         switch(obj["type"]) {
         case "MESH":
+            if (!("b4w_dynamic_geometry" in obj)) {
+                obj["b4w_dynamic_geometry"] = false;
+                //report("object", obj, "b4w_dynamic_geometry");
+            }
 
             if (!("b4w_reflexible" in obj)) {
                 obj["b4w_reflexible"] = false;
@@ -765,22 +774,6 @@ exports.check_bpy_data = function(bpy_data) {
                 //report("object", obj, "b4w_do_not_render");
             }
 
-            if (!("b4w_character_settings" in obj)) {
-                obj["b4w_character_settings"] = {
-                    "walk_speed" : 4,
-                    "run_speed" : 8,
-                    "step_height" : 0.25,
-                    "jump_strength" : 5,
-                    "waterline" : 0.0
-                }
-                report("object", obj, "b4w_character_settings");
-            }
-
-            if (!("waterline" in obj["b4w_character_settings"])) {
-                obj["b4w_character_settings"]["waterline"] = 0.0;
-                //report("object", obj, "b4w_character_settings.waterline");
-            }
-
             if (!("use_ghost" in obj["game"])) {
                 obj["game"]["use_ghost"] = false;
                 //report("object", obj, "use_ghost");
@@ -805,80 +798,133 @@ exports.check_bpy_data = function(bpy_data) {
                 obj["game"]["collision_mask"] = 255;
                 //report("object", obj, "collision_mask");
             }
-            if (!("steering_ratio" in obj["b4w_vehicle_settings"])) {
-                obj["b4w_vehicle_settings"]["steering_ratio"] = 10;
-                //report("object", obj, "steering_ratio");
+                        
+            if ("b4w_vehicle_settings" in obj) {
+                if (obj["b4w_vehicle_settings"]) {
+                    if (!("steering_ratio" in obj["b4w_vehicle_settings"])) {
+                        obj["b4w_vehicle_settings"]["steering_ratio"] = 10;
+                        //report("object", obj, "steering_ratio");
+                    }
+                    if (!("steering_max" in obj["b4w_vehicle_settings"])) {
+                        obj["b4w_vehicle_settings"]["steering_max"] = 1;
+                        //report("object", obj, "steering_max");
+                    }
+                    if (!("inverse_control" in obj["b4w_vehicle_settings"])) {
+                        obj["b4w_vehicle_settings"]["inverse_control"] = false;
+                        //report("object", obj, "inverse_control");
+                    }
+                    if (!("force_max" in obj["b4w_vehicle_settings"])) {
+                        obj["b4w_vehicle_settings"]["force_max"] = 1500;
+                        //report("object", obj, "force_max");
+                    }
+                    if (!("brake_max" in obj["b4w_vehicle_settings"])) {
+                        obj["b4w_vehicle_settings"]["brake_max"] = 100;
+                        //report("object", obj, "brake_max");
+                    }
+                    if (!("speed_ratio" in obj["b4w_vehicle_settings"])) {
+                        obj["b4w_vehicle_settings"]["speed_ratio"] = 0.027;
+                        //report("object", obj, "speed_ratio");
+                    }
+                    if (!("max_speed_angle" in obj["b4w_vehicle_settings"])) {
+                        obj["b4w_vehicle_settings"]["max_speed_angle"] = Math.PI;
+                        //report("object", obj, "max_speed_angle");
+                    }
+                    if (!("delta_tach_angle" in obj["b4w_vehicle_settings"])) {
+                        obj["b4w_vehicle_settings"]["delta_tach_angle"] = 4.43;
+                        //report("object", obj, "delta_tach_angle");
+                    }
+                    if (!("suspension_compression" in obj["b4w_vehicle_settings"])) {
+                        obj["b4w_vehicle_settings"]["suspension_compression"] = 4.4;
+                        //report("object", obj, "suspension_compression");
+                    }
+                    if (!("suspension_stiffness" in obj["b4w_vehicle_settings"])) {
+                        obj["b4w_vehicle_settings"]["suspension_stiffness"] = 20.0;
+                        //report("object", obj, "suspension_stiffness");
+                    }
+                    if (!("suspension_damping" in obj["b4w_vehicle_settings"])) {
+                        obj["b4w_vehicle_settings"]["suspension_damping"] = 2.3;
+                        //report("object", obj, "suspension_damping");
+                    }
+                    if (!("wheel_friction" in obj["b4w_vehicle_settings"])) {
+                        obj["b4w_vehicle_settings"]["wheel_friction"] = 1000.0;
+                        //report("object", obj, "wheel_friction");
+                    }
+                    if (!("roll_influence" in obj["b4w_vehicle_settings"])) {
+                        obj["b4w_vehicle_settings"]["roll_influence"] = 0.1;
+                        //report("object", obj, "roll_influence");
+                    }
+                    if (!("max_suspension_travel_cm" in obj["b4w_vehicle_settings"])) {
+                        obj["b4w_vehicle_settings"]["max_suspension_travel_cm"] = 30;
+                        //report("object", obj, "max_suspension_travel_cm");
+                    }
+                    if (!("floating_factor" in obj["b4w_vehicle_settings"])) {
+                        obj["b4w_vehicle_settings"]["floating_factor"] = 3.0;
+                        //report("object", obj, "floating_factor");
+                    }
+                    if (!("floating_factor" in obj["b4w_vehicle_settings"])) {
+                        obj["b4w_vehicle_settings"]["floating_factor"] = 3.0;
+                        //report("object", obj, "floating_factor");
+                    }
+                    if (!("water_lin_damp" in obj["b4w_vehicle_settings"])) {
+                        obj["b4w_vehicle_settings"]["water_lin_damp"] = 0.9;
+                        //report("object", obj, "water_lin_damp");
+                    }
+                    if (!("water_rot_damp" in obj["b4w_vehicle_settings"])) {
+                        obj["b4w_vehicle_settings"]["water_rot_damp"] = 0.9;
+                        //report("object", obj, "water_rot_damp");
+                    }
+                }
+            } else {
+                obj["b4w_vehicle_settings"] = null;
+                report("object", obj, "b4w_vehicle_settings");
             }
-            if (!("steering_max" in obj["b4w_vehicle_settings"])) {
-                obj["b4w_vehicle_settings"]["steering_max"] = 1;
-                //report("object", obj, "steering_max");
-            }
-            if (!("force_max" in obj["b4w_vehicle_settings"])) {
-                obj["b4w_vehicle_settings"]["force_max"] = 1500;
-                //report("object", obj, "force_max");
-            }
-            if (!("brake_max" in obj["b4w_vehicle_settings"])) {
-                obj["b4w_vehicle_settings"]["brake_max"] = 100;
-                //report("object", obj, "brake_max");
-            }
-            if (!("speed_ratio" in obj["b4w_vehicle_settings"])) {
-                obj["b4w_vehicle_settings"]["speed_ratio"] = 0.027;
-                //report("object", obj, "speed_ratio");
-            }
-            if (!("max_speed_angle" in obj["b4w_vehicle_settings"])) {
-                obj["b4w_vehicle_settings"]["max_speed_angle"] = Math.PI;
-                //report("object", obj, "max_speed_angle");
-            }
-            if (!("delta_tach_angle" in obj["b4w_vehicle_settings"])) {
-                obj["b4w_vehicle_settings"]["delta_tach_angle"] = 4.43;
-                //report("object", obj, "delta_tach_angle");
-            }
-            if (!("suspension_compression" in obj["b4w_vehicle_settings"])) {
-                obj["b4w_vehicle_settings"]["suspension_compression"] = 4.4;
-                //report("object", obj, "suspension_compression");
-            }
-            if (!("suspension_stiffness" in obj["b4w_vehicle_settings"])) {
-                obj["b4w_vehicle_settings"]["suspension_stiffness"] = 20.0;
-                //report("object", obj, "suspension_stiffness");
-            }
-            if (!("suspension_damping" in obj["b4w_vehicle_settings"])) {
-                obj["b4w_vehicle_settings"]["suspension_damping"] = 2.3;
-                //report("object", obj, "suspension_damping");
-            }
-            if (!("wheel_friction" in obj["b4w_vehicle_settings"])) {
-                obj["b4w_vehicle_settings"]["wheel_friction"] = 1000.0;
-                //report("object", obj, "wheel_friction");
-            }
-            if (!("roll_influence" in obj["b4w_vehicle_settings"])) {
-                obj["b4w_vehicle_settings"]["roll_influence"] = 0.1;
-                //report("object", obj, "roll_influence");
-            }
-            if (!("max_suspension_travel_cm" in obj["b4w_vehicle_settings"])) {
-                obj["b4w_vehicle_settings"]["max_suspension_travel_cm"] = 30;
-                //report("object", obj, "max_suspension_travel_cm");
-            }
-            if (!("floating_factor" in obj["b4w_vehicle_settings"])) {
-                obj["b4w_vehicle_settings"]["floating_factor"] = 3.0;
-                //report("object", obj, "floating_factor");
-            }
-            if (!("floating_factor" in obj["b4w_vehicle_settings"])) {
-                obj["b4w_vehicle_settings"]["floating_factor"] = 3.0;
-                //report("object", obj, "floating_factor");
-            }
-            if (!("water_lin_damp" in obj["b4w_vehicle_settings"])) {
-                obj["b4w_vehicle_settings"]["water_lin_damp"] = 0.9;
-                //report("object", obj, "water_lin_damp");
-            }
-            if (!("water_rot_damp" in obj["b4w_vehicle_settings"])) {
-                obj["b4w_vehicle_settings"]["water_rot_damp"] = 0.9;
-                //report("object", obj, "water_rot_damp");
-            }
-            if (!("b4w_floating_settings" in obj)) {
-                obj["b4w_floating_settings"] = {};
-                obj["b4w_floating_settings"]["floating_factor"] = 3.0;
-                obj["b4w_floating_settings"]["water_lin_damp"] = 0.8;
-                obj["b4w_floating_settings"]["water_rot_damp"] = 0.8;
+
+            if ("b4w_floating_settings" in obj) {
+                if (obj["b4w_floating_settings"]) {
+                    if (!("floating_factor" in obj["b4w_floating_settings"])) {
+                        obj["b4w_floating_settings"]["floating_factor"] = 3.0;
+                        //report("object", obj, "floating_factor");
+                    }
+                    if (!("water_lin_damp" in obj["b4w_floating_settings"])) {
+                        obj["b4w_floating_settings"]["water_lin_damp"] = 0.8;
+                        //report("object", obj, "water_lin_damp");
+                    }
+                    if (!("water_rot_damp" in obj["b4w_floating_settings"])) {
+                        obj["b4w_floating_settings"]["water_rot_damp"] = 0.8;
+                        //report("object", obj, "water_rot_damp");
+                    }
+                }
+            } else {
+                obj["b4w_floating_settings"] = null;
                 report("object", obj, "b4w_floating_settings");
+            }
+
+            if ("b4w_character_settings" in obj) {
+                if (obj["b4w_character_settings"]) {
+                    if (!("walk_speed" in obj["b4w_character_settings"])) {
+                        obj["b4w_character_settings"]["walk_speed"] = 4;
+                        //report("object", obj, "walk_speed");
+                    }
+                    if (!("run_speed" in obj["b4w_character_settings"])) {
+                        obj["b4w_character_settings"]["run_speed"] = 8;
+                        //report("object", obj, "run_speed");
+                    }
+                    if (!("step_height" in obj["b4w_character_settings"])) {
+                        obj["b4w_character_settings"]["step_height"] = 0.25;
+                        //report("object", obj, "step_height");
+                    }
+                    if (!("jump_strength" in obj["b4w_character_settings"])) {
+                        obj["b4w_character_settings"]["jump_strength"] = 5;
+                        //report("object", obj, "jump_strength");
+                    }
+                    if (!("waterline" in obj["b4w_character_settings"])) {
+                        obj["b4w_character_settings"]["waterline"] = 0.0;
+                        //report("object", obj, "waterline");
+                    }
+                }
+            } else {
+                obj["b4w_character_settings"] = null;
+                report("object", obj, "b4w_character_settings");
             }
 
             if (!("b4w_selectable" in obj)) {
@@ -947,6 +993,11 @@ exports.check_bpy_data = function(bpy_data) {
             if (!("b4w_dynamic_grass" in pset)) {
                 pset["b4w_dynamic_grass"] = false;
                 report("object", pset, "b4w_dynamic_grass");
+            }
+
+            if (!("b4w_dynamic_grass_scale_threshold" in pset)) {
+                pset["b4w_dynamic_grass_scale_threshold"] = 0.01;
+                report("object", pset, "b4w_dynamic_grass_scale_threshold");
             }
 
             if (!("b4w_initial_rand_rotation" in pset)) {

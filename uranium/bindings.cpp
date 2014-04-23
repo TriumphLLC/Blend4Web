@@ -12,6 +12,8 @@
 #define MAXBODIES 65536
 #define MAXVEHICLES 65536
 #define MAXCONSTRAINTS 65536
+#define MAX(a,b) ((a)>(b) ? (a): (b))
+#define MIN(a,b) ((a)<(b) ? (a): (b))
 
 #define COMPOUND_THRESHOLD 0.01
 #define CCD_SIZE_THRESHOLD 0.5
@@ -21,6 +23,7 @@
 #define ANGULAR_SLEEPING_THRESHOLD 0.5
 #define VEHICLE_INIT_BRAKE_FORCE 10000.0
 #define COLLISION_MIN_DISTANCE 0.2
+#define COMB_SORT_JUMP_COEFF 1.247330950103979
 
 #define DU_ID(name) typedef struct name##__ { int unused; } *name
 
@@ -36,6 +39,13 @@ DU_ID(du_vehicle_id);
 DU_ID(du_boat_id);
 DU_ID(du_character_id);
 DU_ID(du_floater_id);
+
+struct du_collision_result {
+    du_body_id body_a;
+    du_body_id body_b;
+    bool is_in_contact;
+    float contact_point[3];
+};
 
 #ifdef __cplusplus
 extern "C" { 
@@ -53,6 +63,8 @@ int *du_alloc_int_array(int num);
 float *du_alloc_float_array(int num);
 
 void *du_alloc_body_array(int num);
+du_collision_result **du_realloc_collision_result_array(du_collision_result **results, int num);
+
 void du_store_body(du_body_id body_array[], du_body_id body_id, int index);
 void du_free(void *ptr);
 du_body_id *du_alloc_body_id_pointer();
@@ -134,7 +146,8 @@ void du_set_water_time(du_water_id water, float time);
 
 du_character_id du_create_character(du_body_id character, float angle, float height, float walkSpeed, float runSpeed, float stepHeight, float jumpStrength, float waterLine, short collisionGroup, short collisionMask);
 
-bool du_check_collision(du_body_id du_body_a, du_body_id du_body_b, float *cpoint_dest);
+void du_reset_collision_results(du_collision_result **results, int results_size);
+void du_set_collision_result(du_collision_result **results, int size, btPersistentManifold *contactManifold, int point_ind);
 float du_check_ray_hit(du_body_id du_body_a, float *from, float *to, bool local, du_body_id du_body_b_arr[], int du_body_b_num, du_body_id *du_body_b_hit_ptr);
 void du_add_body(du_body_id body, int collision_group, int collision_mask);
 void du_remove_body(du_body_id body);
@@ -161,17 +174,17 @@ float du_get_vehicle_speed(du_vehicle_id vehicle);
 float du_get_boat_speed(du_boat_id boat);
 void du_set_gravity(du_body_id body, float gravity);
 void du_set_damping(du_body_id body, float damping, float rotation_damping);
-
+void du_sort_array_ascending(du_collision_result **arr, int length);
+int du_bin_search_by_body(du_collision_result **arr, du_body_id searched, int start, int end);
+int du_search_around_body_a(du_collision_result **arr, du_body_id searched, int start_id);
+int du_get_collision_result_ind(du_collision_result **results, int size, du_body_id du_body_a, du_body_id du_body_b);
 
 du_world_id _active_world = NULL;
 
-void internal_tick_callback(duWorld *world, btScalar time) {
-    asm("Module['tick_callback'](%0,%1)" : : "r"(world), "r"(time));
-}
-
-void internal_pre_tick_callback(duWorld *world, btScalar time) {
-    asm("Module['pre_tick_callback'](%0,%1)" : : "r"(world), "r"(time));
-}
+// NOTE: for debug purposes. Doesn't work with asm.js
+//void print(int i, void *p) {
+//    asm("console.log(%0, %1)" : : "r"(i), "r"(p));
+//}
 
 /**
  * Initialize the new dynamics world
@@ -291,6 +304,11 @@ float *du_alloc_float_array(int num)
 void *du_alloc_body_array(int num)
 {
     return malloc(num * sizeof(du_body_id));
+}
+
+du_collision_result **du_realloc_collision_result_array(du_collision_result **results, int num)
+{
+    return (du_collision_result**)realloc(results, num * sizeof(du_collision_result*));
 }
 
 void du_store_body(du_body_id body_array[], du_body_id body_id, int index)
@@ -1126,11 +1144,10 @@ void du_boat_set_water_wrapper_ind(du_boat_id boat, int index)
     du_boat->setWaterWrapperInd(index);
 }
 
-
-bool du_check_collision(du_body_id du_body_a, du_body_id du_body_b, float *cpoint_dest)
+void du_check_collisions(du_collision_result **results, int size)
 {
-    btCollisionObject *bt_body_a = reinterpret_cast <btCollisionObject*>(du_body_a);
-    btCollisionObject *bt_body_b = reinterpret_cast <btCollisionObject*>(du_body_b);
+
+    du_reset_collision_results(results, size);
 
     duWorld *world = get_active_world();
     btDispatcher *dispatcher = world->getDispatcher();
@@ -1141,29 +1158,47 @@ bool du_check_collision(du_body_id du_body_a, du_body_id du_body_b, float *cpoin
         btPersistentManifold *contactManifold = 
                 dispatcher->getManifoldByIndexInternal(i);
 
-        const btCollisionObject *bt_body_a_m = 
-                static_cast<const btCollisionObject*>(contactManifold->getBody0());
-        const btCollisionObject *bt_body_b_m = 
-                static_cast<const btCollisionObject*>(contactManifold->getBody1());
-
         int num_contacts = contactManifold->getNumContacts();
-        for (int j = 0; j < num_contacts; j++) {
-            btManifoldPoint &pt = contactManifold->getContactPoint(j);
-            if (pt.getDistance() < COLLISION_MIN_DISTANCE &&
-               ((bt_body_a == bt_body_a_m && bt_body_b == bt_body_b_m) ||
-               (bt_body_a == bt_body_b_m && bt_body_b == bt_body_a_m))) {
 
-                const btVector3 &pt_a = pt.getPositionWorldOnA();
-                cpoint_dest[0] = pt_a.x();
-                cpoint_dest[1] = pt_a.y();
-                cpoint_dest[2] = pt_a.z();
-                
-                return true;
-            }
+        for (int j = 0; j < num_contacts; j++) {
+            du_set_collision_result(results, size, contactManifold, j);
         }
     }
+}
 
-    return false;
+void du_reset_collision_results(du_collision_result **results, int results_size)
+{
+    for (int i = 0; i < results_size; i++)
+        results[i]->is_in_contact = false;
+}
+
+void du_set_collision_result(du_collision_result **results, int size,
+                             btPersistentManifold *contactManifold,
+                             int point_ind)
+{
+    btManifoldPoint &pt = contactManifold->getContactPoint(point_ind);
+
+    if (pt.getDistance() < COLLISION_MIN_DISTANCE) {
+
+        btCollisionObject *bt_body_a_m =
+                    const_cast<btCollisionObject*>(contactManifold->getBody0());
+        btCollisionObject *bt_body_b_m =
+                    const_cast<btCollisionObject*>(contactManifold->getBody1());
+
+        du_body_id du_body_a = reinterpret_cast<du_body_id>(bt_body_a_m);
+        du_body_id du_body_b = reinterpret_cast<du_body_id>(bt_body_b_m);
+
+        int id = du_get_collision_result_ind(results, size, du_body_a, du_body_b);
+
+        if (id != -1) {
+            results[id]->is_in_contact = true;
+
+            const btVector3 &pt_a = pt.getPositionWorldOnA();
+            results[id]->contact_point[0] = pt_a.x();
+            results[id]->contact_point[1] = pt_a.y();
+            results[id]->contact_point[2] = pt_a.z();
+        }
+    }
 }
 
 float du_check_collision_impulse(du_body_id du_body)
@@ -1565,6 +1600,142 @@ void du_set_damping(du_body_id body, float damping, float rotation_damping)
     btRigidBody *bt_body = reinterpret_cast <btRigidBody*>(body);
     bt_body->setDamping(damping, rotation_damping);
 }
+
+du_collision_result **du_add_collision_result(du_collision_result **results, int size,
+                                          du_body_id du_body_a,
+                                          du_body_id du_body_b)
+{
+
+    du_collision_result *new_result = new du_collision_result();
+
+    new_result->body_a = MIN(du_body_a, du_body_b);
+    new_result->body_b = MAX(du_body_a, du_body_b);
+    new_result->is_in_contact = false;
+    new_result->contact_point[0] = 0.0;
+    new_result->contact_point[1] = 0.0;
+    new_result->contact_point[2] = 0.0;
+
+    int new_size = size + 1;
+    results = du_realloc_collision_result_array(results, new_size);
+
+    results[size] = new_result;
+
+    du_sort_array_ascending(results, new_size);
+
+    return results;
+}
+
+void du_sort_array_ascending(du_collision_result **arr, int size)
+{
+    du_collision_result *tmp;
+    int gap = size;
+    bool swapped = false;
+
+    while (gap > 1 || swapped) {
+        if (gap > 1)
+            gap = floor(gap / COMB_SORT_JUMP_COEFF);
+
+        swapped = false;
+
+        for (int i = 0; gap + i < size; i ++) {
+            if ((arr[i]->body_a - arr[i + gap]->body_a) > 0) {
+                tmp = arr[i];
+                arr[i] = arr[i + gap];
+                arr[i + gap] = tmp;
+                swapped = true;
+            }
+        }
+    }
+}
+
+du_collision_result **du_remove_collision_result(du_collision_result **results,
+                                                 int size, du_body_id du_body_a,
+                                                 du_body_id du_body_b)
+{
+    int deleted_id = du_get_collision_result_ind(results, size, du_body_a, du_body_b);
+
+    du_collision_result *deleted_collision_result = results[deleted_id];
+
+    for (int i = deleted_id; i < size; i++)
+        results[i] = results[i+1];
+
+    free(deleted_collision_result);
+
+    int new_size = size - 1;
+    results = du_realloc_collision_result_array(results, new_size);
+
+    return results;
+}
+
+int du_get_collision_result_ind(du_collision_result **results, int size,
+                                 du_body_id du_body_a,
+                                 du_body_id du_body_b)
+{
+    du_body_id min_du_body = MIN(du_body_a, du_body_b);
+    du_body_id max_du_body = MAX(du_body_a, du_body_b);
+
+    int id = du_bin_search_by_body(results, min_du_body, 0, size);
+    if (id == -1)
+        return -1;
+
+    int searched_id = du_search_around_body_a(results, max_du_body, id);
+
+    return searched_id;
+}
+
+int du_bin_search_by_body(du_collision_result **arr, du_body_id searched, int start,
+                                                                      int end)
+{
+    if (end < start)
+        return -1;
+
+    int mid = start + (end - start) / 2;
+
+    if (arr[mid]->body_a > searched)
+        return du_bin_search_by_body(arr, searched, start, mid - 1);
+    else if (arr[mid]->body_a < searched)
+        return du_bin_search_by_body(arr, searched, mid + 1, end);
+    else
+        return mid;
+}
+
+int du_search_around_body_a(du_collision_result **arr, du_body_id searched,
+                            int start_id)
+{
+    du_body_id start_body_a = arr[start_id]->body_a;
+
+    // search left
+    int id = start_id;
+    while (arr[id]->body_a == start_body_a) {
+        if (arr[id]->body_b == searched)
+            return id;
+        id--;
+    }
+
+    // search right
+    id = start_id;
+    while (arr[id]->body_a == start_body_a) {
+        if (arr[id]->body_b == searched)
+            return id;
+        id++;
+    }
+    return -1;
+}
+
+bool du_get_collision_result(du_collision_result **results, int size,
+                              du_body_id du_body_a,
+                              du_body_id du_body_b,
+                              float *coll_point)
+{
+    int id = du_get_collision_result_ind(results, size, du_body_a, du_body_b);
+
+    coll_point[0] = results[id]->contact_point[0];
+    coll_point[1] = results[id]->contact_point[1];
+    coll_point[2] = results[id]->contact_point[2];
+
+    return results[id]->is_in_contact;
+}
+
 
 #ifdef __cplusplus
 }

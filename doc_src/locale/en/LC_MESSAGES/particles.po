@@ -13,7 +13,7 @@ msgstr ""
 
 #: ../particles.rst:7
 msgid "Система частиц"
-msgstr ""
+msgstr "Particle system"
 
 #: ../particles.rst:9
 msgid ""
@@ -21,24 +21,29 @@ msgid ""
 "движением множественных малых объектов, таких как дым, огонь, брызги воды и "
 "др."
 msgstr ""
+"The particle system is intended to visualize phenomena which are "
+"caused by the movement of numerous small objects such as smoke, fire, water "
+"splashes and other. "
 
 #: ../particles.rst:18
 msgid ""
 "Необходимым элементом системы частиц является эмиттер - объект, определяющий"
 " местоположение и направление исходящего потока частиц."
 msgstr ""
+"A particle system requires an emitter - an object which defines the location and"
+" the direction of the outgoing particles flow."
 
 #: ../particles.rst:22
 msgid "Использование"
-msgstr ""
+msgstr "Use"
 
 #: ../particles.rst:25
 msgid "Необходимые этапы"
-msgstr ""
+msgstr "Necessary steps"
 
 #: ../particles.rst:27
 msgid "Добавить на сцену меш - эмиттер."
-msgstr ""
+msgstr "Add a mesh emitter to the scene."
 
 #: ../particles.rst:28
 msgid ""
@@ -46,40 +51,49 @@ msgid ""
 "Поддерживается также материал типа ``Surface`` с обязательной диффузной "
 "текстурой."
 msgstr ""
+"Create a material for particles on the emitter, for example of the ``Halo`` "
+"type. The ``Surface`` material type with a mandatory diffuse texture is"
+" also supported."
 
 #: ../particles.rst:29
 msgid "Добавить на эмиттере систему частиц."
-msgstr ""
+msgstr "Add a particle system on the emitter."
 
 #: ../particles.rst:33
 msgid "Инициализировать воспроизведение в движке. Возможны два варианта:"
-msgstr ""
+msgstr "Initiate the engine playback. Two options are available: "
 
 #: ../particles.rst:31
 msgid ""
 "\"циклическое испускание\" - для системы частиц выставить опцию ``Blend4Web "
 "> Cyclic emission``."
 msgstr ""
+"\"cyclic emission\" - enable the ``Blend4Web > Cyclic emission`` checkbox for "
+"the particle system."
 
 #: ../particles.rst:32
 msgid ""
 "\"нециклическая анимация\" - для эмиттера выставить опцию ``Blend4Web > "
 "Animation > Use default``."
 msgstr ""
+"\"non-cyclic animation\" - enable the ``Blend4Web > Animation > Use default`` "
+"checkbox for the emitter."
 
 #: ../particles.rst:36
 msgid "Рекомендуемые дополнительные настройки"
-msgstr ""
+msgstr "Recommended additional settings"
 
 #: ../particles.rst:38
 msgid "Для материала частиц выставить тип прозрачности ``Add``."
-msgstr ""
+msgstr "Set the ``Add`` transparency type for the particles' material."
 
 #: ../particles.rst:39
 msgid ""
 "Если отображение эмиттера на сцене не требуется, отключить опцию ``Particles"
 " > Render > Emitter``."
 msgstr ""
+"Disable emitter rendering if needed using the ``Particles > Render > "
+"Emitter`` checkbox."
 
 #: ../particles.rst:40
 msgid ""
@@ -88,6 +102,9 @@ msgid ""
 "указать номер материала частиц ``Particles > Render > Material`` (начиная с "
 "единицы)."
 msgstr ""
+"If an emitter is required on a scene use additional materials for it. In this "
+"case specify the particles' material number (starting from one) in the "
+"``Particles > Render > Material`` field on the particles settings panel. "
 
 #: ../particles.rst:41
 msgid ""
@@ -96,20 +113,26 @@ msgid ""
 "``Mapping > Coordinates`` выбрать ``UV``.  Убедиться, что меш эмиттера имеет"
 " развертку."
 msgstr ""
+"If the ``Surface`` material type is used it is required to add a diffuse "
+"texture (normally with the alpha channel) to this material. Select  ``UV`` "
+"in the ``Mapping > Coordinates`` menu.  Make sure that the emitter's mesh "
+"has a UV layer."
 
 #: ../particles.rst:49
 msgid "Настройка"
-msgstr ""
+msgstr "Setup"
 
 #: ../particles.rst:51
 msgid ""
 "Параметры системы частиц настраиваются во вкладке ``Particles``. "
 "Поддерживается несколько систем частиц на одном эмиттере."
 msgstr ""
+"The particle system parameters can be set up under the ``Particles`` tab. Multiple "
+"particle systems per emitter are supported. "
 
 #: ../particles.rst:55
 msgid "Общие настройки"
-msgstr ""
+msgstr "Basic settings"
 
 #: ../particles.rst:58
 msgid "*Name*"
@@ -117,7 +140,7 @@ msgstr ""
 
 #: ../particles.rst:58
 msgid "Название системы частиц. Значение по умолчанию \"ParticleSystem\"."
-msgstr ""
+msgstr "Particle system name. The default name is \"ParticleSystem\"."
 
 #: ../particles.rst:61
 msgid "*Settings*"
@@ -128,6 +151,8 @@ msgid ""
 "Ссылка на блок данных с настройками системы частиц. Блоки данных с "
 "настройками могут быть общими для разных систем частиц."
 msgstr ""
+"Reference to the settings datablock of the particle system. The datablock settings "
+"can be shared between different particle systems."
 
 #: ../particles.rst:64
 msgid "*Type*"
@@ -139,6 +164,9 @@ msgid ""
 "используются для создания множественных копий (инстансинга) объектов. "
 "Значение по умолчанию ``Emitter``."
 msgstr ""
+"Particle system type: ``Emitter`` or ``Hair``. ``Hair`` particle systems can"
+" be used to create numerous copies of an object (so called instancing). "
+"The default is ``Emitter``."
 
 #: ../particles.rst:68
 msgid "*Seed*"
@@ -149,10 +177,12 @@ msgid ""
 "Индекс в таблице случайных чисел, используемых для генерации системы частиц."
 " Значение по умолчанию 0."
 msgstr ""
+"Index in the table of random numbers which are used for particle system "
+"generation. The default value is 0."
 
 #: ../particles.rst:71
 msgid "Настройки испускания"
-msgstr ""
+msgstr "Emission settings"
 
 #: ../particles.rst:74
 msgid "*Emission > Number*"
@@ -160,7 +190,7 @@ msgstr ""
 
 #: ../particles.rst:74
 msgid "Количество частиц. Значение по умолчанию 1000."
-msgstr ""
+msgstr "Number of particles. The default value is 1000."
 
 #: ../particles.rst:77
 msgid "*Emission > Start*"
@@ -171,6 +201,8 @@ msgid ""
 "Первый кадр, после которого начинается испускание частиц. Значение по "
 "умолчанию 1.0."
 msgstr ""
+"The first frame after which the emission of particles starts. The default value "
+"is 1.0."
 
 #: ../particles.rst:80
 msgid "*Emission > End*"
@@ -181,6 +213,8 @@ msgid ""
 "Последний кадр, после которого прекращается испускание частиц. Значение по "
 "умолчанию 200.0."
 msgstr ""
+"The last frame after which the emission of particles ends. The default value is "
+"200.0."
 
 #: ../particles.rst:83
 msgid "*Emission > Lifetime*"
@@ -188,7 +222,7 @@ msgstr ""
 
 #: ../particles.rst:83
 msgid "Время жизни частиц в кадрах. Значение по умолчанию 50.0."
-msgstr ""
+msgstr "The life time of particles measured in frames. The default value is 50.0."
 
 #: ../particles.rst:86
 msgid "*Emission > Lifetime > Random*"
@@ -196,7 +230,7 @@ msgstr ""
 
 #: ../particles.rst:86
 msgid "Фактор случайности для времени жизни. Значение по умолчанию 0.0."
-msgstr ""
+msgstr "The random factor for the life time. The default value is 0.0."
 
 #: ../particles.rst:89
 msgid "*Emission > Emit From*"
@@ -207,6 +241,8 @@ msgid ""
 "Источник испускания. Поддерживаются вершины ``Verts``, грани ``Faces``. "
 "Значение по умолчанию ``Faces``."
 msgstr ""
+"Emission source type. The following types are supported: ``Verts`` (emit "
+"from vertices), ``Faces`` (emit from polygons). The default is ``Faces``."
 
 #: ../particles.rst:92
 msgid "*Emission > Emit From > Distribution*"
@@ -218,15 +254,18 @@ msgid ""
 "Игнорируются движком. Всегда используется случайное распределение "
 "(``Random``). Значение по умолчанию ``Jittered``."
 msgstr ""
+"Emission distribution settings: ``Jittered``, ``Random``, ``Grid``. Ignored "
+"by the engine. Internally the engine always uses ``Random`` distribution. "
+"The default is ``Jittered``."
 
 #: ../particles.rst:100
 msgid "Настройки направления"
-msgstr ""
+msgstr "Direction settings"
 
 #: ../particles.rst:102 ../particles.rst:114 ../particles.rst:126
 #: ../particles.rst:148 ../particles.rst:165
 msgid "Поддерживаются только:"
-msgstr ""
+msgstr "Only the following settings are supported: "
 
 #: ../particles.rst:105
 msgid "*Velocity > Emitter Geometry > Normal*"
@@ -237,6 +276,8 @@ msgid ""
 "Фактор влияния на испускание вдоль нормалей меша эмиттера. Значение по "
 "умолчанию 1.0."
 msgstr ""
+"Factor of influencing on emission along emitter's mesh normals. The default "
+"value is 1.0."
 
 #: ../particles.rst:109
 msgid "*Velocity > Other > Random*"
@@ -246,10 +287,11 @@ msgstr ""
 msgid ""
 "Фактор случайности для направления испускания. Значение по умолчанию 0.0."
 msgstr ""
+"Factor of randomization for emission direction. The default value is 0.0."
 
 #: ../particles.rst:112
 msgid "Настройки вращения"
-msgstr ""
+msgstr "Rotation settings"
 
 #: ../particles.rst:117
 msgid "*Rotation > Angular Velocity > Mode*"
@@ -261,6 +303,9 @@ msgid ""
 "(постоянная скорость вращения), ``Random`` (случайное вращение), ``None`` "
 "(нет вращения). Значение по умолчанию ``Velocity``."
 msgstr ""
+"Mode for particle billboards self-rotating. The following modes are "
+"supported: ``Velocity`` (constant rotation speed), ``Random`` (random "
+"rotation), ``None`` (no rotation). The default is ``Velocity``."
 
 #: ../particles.rst:121
 msgid "*Rotation > Angular Velocity > Factor*"
@@ -271,10 +316,11 @@ msgid ""
 "Фактор скорости собственного вращения биллбордов частиц. Значение по "
 "умолчанию 0.0."
 msgstr ""
+"Factor of own velocity for particle billboards. The default value is 0.0."
 
 #: ../particles.rst:124
 msgid "Настройки физики"
-msgstr ""
+msgstr "Physics settings"
 
 #: ../particles.rst:129
 msgid "*Physics > Type*"
@@ -286,6 +332,9 @@ msgid ""
 " Игнорируется движком. Всегда используется физика Ньютона (``Newtonian``). "
 "Значение по умолчанию ``Newtonian``."
 msgstr ""
+"Physics calculation type: ``No``, ``Newtonian``, ``Keyed``, ``Boids``, "
+"``Fluid``. Ignored by the engine. Always the ``Newtonian`` physics is used. "
+"The default is ``Newtonian``."
 
 #: ../particles.rst:132
 msgid "*Physics > Size*"
@@ -293,7 +342,7 @@ msgstr ""
 
 #: ../particles.rst:132
 msgid "Размер частиц. Значение по умолчанию 0.05."
-msgstr ""
+msgstr "Particle size. The default value is 0.05."
 
 #: ../particles.rst:135
 msgid "*Physics > Mass*"
@@ -304,6 +353,8 @@ msgid ""
 "Масса частиц. Влияет на взаимодействие с силовыми полями (в частности, с "
 "ветром). Значение по умолчанию 1.0."
 msgstr ""
+"Particle mass. Affects interaction with force fields (such as wind). The "
+"default value is 1.0."
 
 #: ../particles.rst:138
 msgid "*Physics > Forces > Brownian*"
@@ -311,11 +362,11 @@ msgstr ""
 
 #: ../particles.rst:138
 msgid "Экспортируется, но не используется движком."
-msgstr ""
+msgstr "Exported but not used by the engine."
 
 #: ../particles.rst:146
 msgid "Настройки отображения"
-msgstr ""
+msgstr "Rendering settings"
 
 #: ../particles.rst:151
 msgid "*Render > Material*"
@@ -327,6 +378,9 @@ msgid ""
 "материал частиц в случае использования эмиттером нескольких материалов. "
 "Значение по умолчанию 1."
 msgstr ""
+"Material number beginning from one. It is used for referencing to the "
+"particles' material in case of multiple materials used by an emitter. The "
+"default value is 1.0."
 
 #: ../particles.rst:154
 msgid "*Render > Emitter*"
@@ -334,7 +388,7 @@ msgstr ""
 
 #: ../particles.rst:154
 msgid "Опция включения отображения эмиттера на сцене. По умолчанию включено."
-msgstr ""
+msgstr "Enables emitter rendering on a scene. Disabled by default."
 
 #: ../particles.rst:158
 msgid "*Render > Type*"
@@ -349,10 +403,16 @@ msgid ""
 "биллбордов рекомендуется включать режим ``Billboard``. Значение по умолчанию"
 " ``Halo``."
 msgstr ""
+"Particles rendering mode: ``None``, ``Halo``, ``Line``, ``Path``, "
+"``Object``, ``Group``, ``Billboard``. The engine supports the ``Object`` and"
+" the ``Group`` modes which are used for objects and groups instancing "
+"respectively. Other modes are ignored. It is recommended to use the "
+"``Billboard`` mode for convenient displaying of billboards. The default is "
+"``Halo``."
 
 #: ../particles.rst:163
 msgid "Настройки влияния силовых полей"
-msgstr ""
+msgstr "Supported settings for force fields influence"
 
 #: ../particles.rst:168
 msgid "*Field Weights > Gravity*"
@@ -363,6 +423,7 @@ msgid ""
 "Фактор влияния гравитационного поля (земное притяжение). Значение по "
 "умолчанию 1.0."
 msgstr ""
+"Influence factor for gravity (Earth's attraction). The default value is 1.0."
 
 #: ../particles.rst:172
 msgid "*Field Weights > Wind*"
@@ -375,10 +436,13 @@ msgid ""
 " оказывают также настройки направления и силы ветра. Значение по умолчанию "
 "1.0."
 msgstr ""
+"Influence factor for wind. A ``Wind`` force field source should present (can"
+" be added using ``Add > Force Field``). A particle system is also influenced"
+" by wind direction and strength. The default value is 1.0."
 
 #: ../particles.rst:175
 msgid "Специальные настройки движка"
-msgstr ""
+msgstr "Engine specific settings"
 
 #: ../particles.rst:178
 msgid "*Blend4Web > Do not export*"
@@ -386,7 +450,7 @@ msgstr ""
 
 #: ../particles.rst:178
 msgid "Не поддерживается."
-msgstr ""
+msgstr "Unsupported."
 
 #: ../particles.rst:181
 msgid "*Blend4Web > Cyclic emission*"
@@ -398,6 +462,9 @@ msgid ""
 "эффектов (дым, горение, брызги). Рекомендуется выставить нулевое значение "
 "``Emission > Start``. По умолчанию выключено."
 msgstr ""
+"Turn on the cyclic mode for emission. It can be used for permanent effects "
+"(such as smoke, burning, water splashes). It is recommended to set the "
+"``Emission > Start`` value to zero. Disabled by default."
 
 #: ../particles.rst:184
 msgid "*Blend4Web > Random emission*"
@@ -407,7 +474,7 @@ msgstr ""
 msgid ""
 "Опция устанавливает случайный характер времени испускания частиц. По "
 "умолчанию выключено."
-msgstr ""
+msgstr "Whether particle emission time is random. Disabled by default."
 
 #: ../particles.rst:187
 msgid "*Blend4Web > Billboard align*"
@@ -420,24 +487,29 @@ msgid ""
 "плоскости (в мировой системе координат Blender'a). Значение по умолчанию "
 "``View``."
 msgstr ""
+"Billboards orientation mode: ``View`` - rotate to a camera, ``XY plane``, "
+"``YZ plane``, ``ZX plane`` - align in the corresponding plane (in the world "
+"coordinate system of Blender). The default is ``View``."
 
 #: ../particles.rst:191
 msgid "*Blend4Web > Dissolve intervals > Fade-in* и *Fade-out*"
-msgstr ""
+msgstr "*Blend4Web > Dissolve intervals > Fade-in* and *Fade-out*"
 
 #: ../particles.rst:190
 msgid ""
 "Начальный и конечный интервалы (в кадрах) для постепенного увеличения и "
 "уменьшения прозрачности частиц."
 msgstr ""
+"Starting and ending intervals (measured in frames) for gradual change of "
+"particles' transparency."
 
 #: ../particles.rst:196
 msgid "Текстуры в системах частиц"
-msgstr ""
+msgstr "Textures in particle systems"
 
 #: ../particles.rst:199
 msgid "Текстуры материала частиц"
-msgstr ""
+msgstr "Textures for particles' material"
 
 #: ../particles.rst:201
 msgid ""
@@ -445,6 +517,10 @@ msgid ""
 "текстуры (обычно с альфа-каналом). В меню ``Mapping > Coordinates`` выбрать "
 "``UV``.  Убедиться, что меш эмиттера имеет развертку."
 msgstr ""
+"For the ``Surface`` particles' materials it is **required** to have a "
+"diffuse texture (normally with the alpha-channel). In the ``Mapping > "
+"Coordinates`` menu choose the ``UV`` option.  Make sure that the emitter's "
+"mesh has a UV layer."
 
 #: ../particles.rst:203
 msgid ""
@@ -454,10 +530,14 @@ msgid ""
 " использование рампы (``Ramp``). Допускается использование до 4 контрольных "
 "точек градиента."
 msgstr ""
+"For the ``Halo`` particles materials it is **possible** to use a ``Blend`` "
+"texture with the ``Linear`` gradient. In the ``Mapping > Coordinates`` menu "
+"choose the ``Strand / Particle`` option. It is required to enable ``Ramp`` "
+"on a texture. Up to 4 gradient control points are supported. "
 
 #: ../particles.rst:211
 msgid "Текстуры системы частиц"
-msgstr ""
+msgstr "Textures for particle systems"
 
 #: ../particles.rst:213
 msgid ""
@@ -467,6 +547,11 @@ msgid ""
 "материала. Чтобы создать текстуру системы частиц, необходимо **из вкладки** "
 "``Particles`` перейти во вкладку ``Textures``, после чего нажать ``New``."
 msgstr ""
+"Textures can also be used for particle system behaviour setup. Unlike "
+"textures for particles' material such textures belong to a particle system "
+"datablock, not to a material datablock. To create a texture for a particle "
+"system it is required to go **from** the ``Particles`` tab to the "
+"``Textures`` tab and then to click the ``New`` button."
 
 #: ../particles.rst:215
 msgid ""
@@ -474,19 +559,32 @@ msgid ""
 "градиентом. На текстуре необходимо включить использование рампы (``Ramp``). "
 "Допускается использование до 4 контрольных точек градиента."
 msgstr ""
+"``Blend`` textures with the ``Linear`` gradient are only supported. It is "
+"required to enable ``Ramp`` on a texture. Up to 4 gradient control points "
+"are supported. "
 
 #: ../particles.rst:217
 msgid ""
 "На панели ``Influence`` необходимо выбрать параметр, на который воздействует"
 " текстура. В настоящий момент поддерживается только ``Size`` (размер)."
 msgstr ""
+"On the ``Influence`` panel it is necessary to choose a parameter which the "
+"texture affects. At the moment the only supported parameter is ``Size``."
 
 #: ../particles.rst:226
 msgid ""
 "Результат применения текстур градиента для материала частиц и для системы "
 "частиц:"
 msgstr ""
+"Result of using textures for the particles' material and for the particle "
+"system: "
 
 #: ../particles.rst:3
 msgid "система частиц"
-msgstr ""
+msgstr "particle system"
+
+#: ../particles.rst:234
+msgid "`Ссылка на модель <http://www.blendswap.com/blends/view/13977>`_"
+msgstr "`The original model was taken here <http://www.blendswap.com/blends/view/13977>`_"
+
+

@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <title>JSDoc: Source: addons/app.js</title>
-
+    
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
     <!--[if lt IE 9]>
@@ -16,9 +16,9 @@
 <body>
 
 <div id="main">
-
+    
     <h1 class="page-title">Source: addons/app.js</h1>
-
+    
     
 
 
@@ -68,8 +68,6 @@ var _canvas_container_elem = null;
 var _canvas_elem = null;
 var _fps_logger_elem = null;
 
-var _preloader;
-
 // for internal usage
 var _vec3_tmp   = new Float32Array(3);
 
@@ -86,6 +84,8 @@ var _vec3_tmp   = new Float32Array(3);
  * @param {Boolean} [options.show_hud_debug_info=false] Show HUD with developer info.
  * @param {Boolean} [options.show_fps=false] Show FPS counter.
  * @param {Boolean} [options.do_not_report_init_failure=false] Disable DIV
+ * @param {Boolean} [options.pause_invisible=true] Pause engine simulation if
+ * page is not visible (in other tab or minimized).
  * element with failure message if WebGL is not available.
  */
 exports.init = function(options) {
@@ -99,7 +99,10 @@ exports.init = function(options) {
     var sfx_mix_mode = false;
     var show_fps = false;
     var fps_elem_id = null;
+    var bar_id = null;
+    var caption_id = null;
     var do_not_report_init_failure = false;
+    var pause_invisible = true;
 
     for (var opt in options) {
         switch (opt) {
@@ -127,8 +130,17 @@ exports.init = function(options) {
         case "fps_elem_id":
             fps_elem_id = options["fps_elem_id"];
             break;
+        case "bar_id":
+            bar_id = options["bar_id"];
+            break;
+        case "caption_id":
+            caption_id = options["caption_id"];
+            break;
         case "do_not_report_init_failure":
             do_not_report_init_failure = options["do_not_report_init_failure"];
+            break;
+        case "pause_invisible":
+            pause_invisible = options["pause_invisible"];
             break;
         default:
             m_cfg.set(opt, options[opt]);
@@ -159,6 +171,9 @@ exports.init = function(options) {
             m_main.set_fps_callback(fps_callback);
         }
 
+        if (pause_invisible)
+            handle_page_visibility();
+
         callback(_canvas_elem, true);
     };
 
@@ -174,6 +189,20 @@ exports.init = function(options) {
         add_to_onload(onload_cb);
         add_to_onunload(onunload_cb);
     }
+}
+
+function handle_page_visibility() {
+
+    var was_paused = m_main.is_paused();
+
+    var visibility_change = function() {
+        if (document.hidden) {
+            was_paused = m_main.is_paused();
+            m_main.pause();
+        } else if (!was_paused)
+            m_main.resume();
+    }
+    document.addEventListener("visibilitychange", visibility_change, false);
 }
 
 function add_to_onload(new_onload) {
@@ -209,17 +238,11 @@ function setup_canvas(canvas_container_id, init_hud_canvas,
         var canvas_elem_hud = null;
 
 
-    switch (m_main.init(canvas_elem, canvas_elem_hud)) {
-        case m_main.BROWSER_NOT_SUPPORTED:
-            if (!do_not_report_init_failure)
-                alert_web("Browser does not support WebGL.&lt;p />For more info visit", 
-                          "http://get.webgl.org");
-            return false;
-        case m_main.UNDERLYING_ERROR:
-            if (!do_not_report_init_failure)
-                alert_web("Browser could not initialize WebGL. &lt;p />For more info visit", 
-                          "http://get.webgl.org/troubleshooting");
-            return false;
+    if (!m_main.init(canvas_elem, canvas_elem_hud)) {
+        if (!do_not_report_init_failure)
+            alert_web("Browser could not initialize WebGL", "For more info visit", 
+                      "http://get.webgl.org/troubleshooting");
+        return null;
     }
 
     _canvas_elem = canvas_elem;
@@ -266,55 +289,6 @@ function fps_callback(fps, phy_fps) {
         fps_str += "/" + String(phy_fps);
 
     _fps_logger_elem.innerHTML = fps_str;
-}
-
-
-/**
- * Create preloader bar.
- */
-exports.create_preloader = function() {
-
-    _preloader = {};
-
-    var container = document.createElement("div");
-    var frame = document.createElement("div");
-    var bar = document.createElement("div");
-    var caption = document.createElement("div");
-
-    container.className = "preloader_container";
-    frame.className = "preloader_frame";
-    bar.className = "preloader_bar";
-    caption.className = "preloader_caption";
-
-    frame.appendChild(bar);
-    frame.appendChild(caption);
-    container.appendChild(frame);
-
-    document.body.appendChild(container);
-
-    _preloader.container = container;
-    _preloader.bar = bar;
-    _preloader.caption = caption;
-}
-
-/**
- * Update preloader bar status.
- * @param {Number} percentage New bar percentage
- */
-exports.update_preloader = function(percentage) {
-
-    _preloader.bar.style.width = percentage + "%";
-    _preloader.caption.innerHTML = percentage + "%";
-
-    if (percentage == 0) {
-        _preloader.container.style.display = "";
-        _canvas_elem.style.display = "none";
-    }
-
-    if (percentage == 100) {
-        _preloader.container.style.display = "none";
-        _canvas_elem.style.display = "";
-    }
 }
 
 function elem_cloned(elem_id) {
@@ -909,7 +883,7 @@ function exit_fullscreen() {
             document.mozCancelFullScreen;
 
     if (typeof exit_fs != "function")
-        throw "B2W App: exit fullscreen method is not supported";
+        throw "B4W App: exit fullscreen method is not supported";
 
     exit_fs.apply(document);
 }
@@ -924,19 +898,28 @@ function toggle_camera_collisions_usage() {
     }
 }
 
-function alert_web(msg, link) {
+function alert_web(text_message, link_message, link) {
     
     var elem = document.createElement("div");
-    elem.innerHTML = msg + "&lt;p />" + 
-        "&lt;a href=\"" + link + "\">" + link + "&lt;/a>";
-    elem.style.top = "50%";
-    elem.style.width = "100%";
-    elem.style.position = "absolute";
-    elem.style.fontFamily = "Arial";
-    elem.style.lineHeight = "20px";
-    elem.style.color = "#ff9900";
-    elem.style.fontSize = "40px";
-    elem.style.textAlign = "center";
+    var top_border_elem = document.createElement("div");
+    var bottom_border_elem = document.createElement("div");
+    var bottom_conteiner_elem = document.createElement("div");
+    var logo_elem = document.createElement("div");
+
+    elem.style.cssText = "z-index:10;width:100%;height:100%;position:absolute;"
+    bottom_conteiner_elem.style.cssText = "position:absolute;bottom:0;width:100%;height:auto;";
+    logo_elem.style.cssText = "position:relative;float:right;margin:20px;width:70px;height:70px;background-image:url('data:image/png;base64,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')";
+    top_border_elem.style.cssText = "position:relative;top:0;width:100%;background-color:#000;opacity:0.6;height:auto;color:#ffd42a;text-align:center;font-size:32px;padding:10px 0;";
+    bottom_border_elem.style.cssText = "position:relative;clear:both;bottom:0;width:100%;background-color:#000;opacity:0.6;height:auto;color:#fff;text-align:center;font-size:20px;padding:10px 0;";
+
+    top_border_elem.innerHTML = text_message;
+    bottom_border_elem.innerHTML = link_message + '   ' + '&lt;a style="color:#ffd42a;font-size:20px;width:100%;" href="' + link + '">'+link+'&lt;/a>';
+
+    bottom_conteiner_elem.appendChild(logo_elem);
+    bottom_conteiner_elem.appendChild(bottom_border_elem);
+
+    elem.appendChild(top_border_elem);
+    elem.appendChild(bottom_conteiner_elem);
 
     document.body.appendChild(elem);
 }
@@ -979,13 +962,13 @@ else
 </div>
 
 <nav>
-    <h2><a href="index.html">Index</a></h2><h3>Modules</h3><ul><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-pointerlock.html">pointerlock</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-util.html">util</a></li><li><a href="module-version.html">version</a></li></ul><h3><a href="global.html">Global</a></h3>
+    <h2><a href="index.html">Index</a></h2><h3>Modules</h3><ul><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-pointerlock.html">pointerlock</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-util.html">util</a></li><li><a href="module-version.html">version</a></li></ul><h3><a href="global.html">Global</a></h3>
 </nav>
 
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-dev</a> on Tue Mar 25 2014 11:39:58 GMT+0400 (MSK)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-dev</a> on Wed Apr 23 2014 16:27:40 GMT+0400 (MSK)
 </footer>
 
 <script> prettyPrint(); </script>

@@ -13,255 +13,221 @@ msgstr ""
 
 #: ../problems_and_solutions.rst:5
 msgid "Проблемы и решения"
-msgstr ""
-
-#: ../problems_and_solutions.rst:10
-msgid "Инициализация WebGL"
-msgstr ""
+msgstr "Problems and solutions"
 
 #: ../problems_and_solutions.rst:12
+msgid "Проблемы при запуске рендерера"
+msgstr "Problems when running the renderer"
+
+#: ../problems_and_solutions.rst:14
+msgid "*1. Появляется сообщение \"Browser could not initialize WebGL.\"*"
+msgstr "*1. The \"Browser could not initialize WebGL.\" message is shown*"
+
+#: ../problems_and_solutions.rst:16
+msgid ""
+"Следует выполнить действия, описанные в разделе :ref:`webgl_not_working`."
+msgstr ""
+"Follow the instructions listed in the :ref:`webgl_not_working` section."
+
+#: ../problems_and_solutions.rst:18
+msgid ""
+"*2. Видны элементы интерфейса и фон, но сцена по умолчанию не отображается "
+"(куб с логотипом). При этом тестовый сайт* http://get.webgl.org/ *и другие "
+"WebGL приложения работают корректно.*"
+msgstr ""
+"*2. The user interface and background are shown but the default scene is not"
+" rendered (a cube with the logo). At the same time the* "
+"http://get.webgl.org/ *site and other WebGL applications are working "
+"correctly.*"
+
+#: ../problems_and_solutions.rst:20
+msgid "Вероятные причины:"
+msgstr "Possible causes:"
+
+#: ../problems_and_solutions.rst:22
+msgid ""
+"Браузер не настроен для работы с локальными ресурсами. См. раздел "
+":ref:`browser_for_local_loading`."
+msgstr ""
+"A browser is not set up for loading local resources. See the "
+":ref:`browser_for_local_loading` section."
+
+#: ../problems_and_solutions.rst:24
+msgid ""
+"Файлы ресурсов, которые пытается загрузить рендерер, были перемещены или "
+"удалены."
+msgstr ""
+"The renderer tries to load resource files which were moved or deleted."
+
+#: ../problems_and_solutions.rst:26
+msgid ""
+"Используется комбинация браузера, драйверов и операционной системы, не "
+"обеспечивающая полную поддержку WebGL (примеры: Internet Explorer 11 / "
+"Windows, открытые драйверы / Linux)."
+msgstr ""
+"A combination of browser/drivers/operating system is used which does not "
+"fully support WebGL (examples are: Internet Explorer 11 / MS Windows, open "
+"source drivers / Linux)."
+
+#: ../problems_and_solutions.rst:32
+msgid "Ошибка инициализации WebGL"
+msgstr "WebGL failed to init"
+
+#: ../problems_and_solutions.rst:34
 msgid ""
 "Сайт http://get.webgl.org/ при просмотре в браузерах Chrome или Firefox "
 "последней версии сообщает о проблемах. Что делать?"
 msgstr ""
+"The http://get.webgl.org/ page tells about problems when viewing it in "
+"recent Chrome or Firefox. What can I do?"
 
-#: ../problems_and_solutions.rst:14
-msgid "**На Windows**:"
-msgstr ""
-
-#: ../problems_and_solutions.rst:16
+#: ../problems_and_solutions.rst:37
 msgid ""
-"Установить доступные `обновления "
-"<http://support.microsoft.com/kb/311047/ru>`_ для системы. Установить "
-"последнюю версию `DirectX <http://www.microsoft.com/downloads/ru-"
-"ru/details.aspx?FamilyID=2da43d38-db71-4c1b-bc6a-"
-"9b6652cd92a3&displayLang=ru>`_. Перезагрузить систему."
+"Установить доступные обновления для системы (для Windows см. `инструкцию "
+"<http://support.microsoft.com/kb/311047/ru>`_). В случае Windows установить "
+"последнюю версию `DirectX <http://www.microsoft.com/ru-"
+"ru/download/details.aspx?id=35>`_. Перезагрузить систему."
 msgstr ""
+"Install the latest updates for your system (for MS Windows see `the guide "
+"<http://support.microsoft.com/kb/311047>`_). In case of MS Windows install "
+"the latest `DirectX runtime <http://www.microsoft.com/en-"
+"us/download/details.aspx?id=35>`_. Reboot."
 
-#: ../problems_and_solutions.rst:18
+#: ../problems_and_solutions.rst:39
 msgid ""
-"В некоторых случаях может понадобиться установка драйверов от производителей"
-" графических карт. Чтобы определить тип и производителя карты, можно "
-"воспользоваться средством диагностики DirectX..."
+"Рекомендуется проводить своевременное обновление драйверов для графических "
+"карт. Чтобы определить тип и производителя карты, можно ввести **about:gpu**"
+" в адресную строку браузера Chrome..."
 msgstr ""
+"It is recommended to timely update video card drivers. To detect your video "
+"card and its vendor please type **about:gpu** to the address bar of Chrome "
+"browser..."
 
-#: ../problems_and_solutions.rst:25
-msgid "или ввести about:gpu в адресную строку браузера Chrome."
+#: ../problems_and_solutions.rst:49
+msgid ""
+"или воспользоваться средством диагностики DirectX **dxdiag** (только для "
+"Windows)."
 msgstr ""
+"or run the DirectX Diagnostic Tool called **dxdiag** (MS Windows only)."
 
-#: ../problems_and_solutions.rst:32
+#: ../problems_and_solutions.rst:61
 msgid ""
 "Необходимо загрузить драйверы с соответствующего центра поддержки (например,"
 " `Intel <http://downloadcenter.intel.com/Default.aspx?lang=rus>`_, `Nvidia "
 "<http://www.nvidia.com/Download/index.aspx?lang=ru>`_, `AMD/ATI "
-"<http://support.amd.com/us/gpudownload/Pages/index.aspx>`_). После установки"
-" драйверов перезагрузить систему."
+"<http://support.amd.com/ru-ru/download>`_). После установки драйверов "
+"перезагрузить систему."
 msgstr ""
+"Download the drivers from the corresponding support center (for example "
+"`Intel <http://downloadcenter.intel.com/Default.aspx>`_, `Nvidia "
+"<http://www.nvidia.com/Download/index.aspx>`_, `AMD/ATI "
+"<http://support.amd.com/en-us/download>`_). Reboot the system after "
+"installation of the drivers. "
 
-#: ../problems_and_solutions.rst:34
+#: ../problems_and_solutions.rst:63
 msgid ""
 "Если в результате вышеперечисленных действий инициализировать рендеринг не "
 "удается (или нет возможности обновить систему), можно попробовать изменить "
 "настройки браузера."
 msgstr ""
+"If the measures described above did not help to initialize rendering (or "
+"there is no possibility to update a system) try to change browser settings."
 
-#: ../problems_and_solutions.rst:36
+#: ../problems_and_solutions.rst:65
 msgid "*В Chrome*:"
-msgstr ""
+msgstr "*For Chrome*:"
 
-#: ../problems_and_solutions.rst:38
+#: ../problems_and_solutions.rst:67
 msgid ""
-"Ввести about:flags в адресную строку браузера, нажать :file:`Включить` "
-"(:file:`Enable`) под опцией :file:`Переопределение списка программного "
-"рендеринга` (:file:`Override software rendering list`) и перезапустить "
-"браузер."
+"Ввести **about:flags** (или **chrome://flags/**) в адресную строку браузера,"
+" нажать :file:`Включить` (:file:`Enable`) под опцией :file:`Переопределение "
+"списка программного рендеринга` (:file:`Override software rendering list`) и"
+" перезапустить браузер."
 msgstr ""
+"Enter **about:flags** (or **chrome://flags/**) to the browser's address bar,"
+" click :file:`Enable` under the :file:`Override software rendering list` "
+"option and restart the browser."
 
-#: ../problems_and_solutions.rst:46
+#: ../problems_and_solutions.rst:78
 msgid "*В Firefox*:"
-msgstr ""
+msgstr "*For Firefox*:"
 
-#: ../problems_and_solutions.rst:48
+#: ../problems_and_solutions.rst:80
 msgid ""
-"Ввести about:config в адресную строку браузера, найти параметр ``webgl"
+"Ввести **about:config** в адресную строку браузера, найти параметр ``webgl"
 ".force-enabled`` и переключить его двойным щелчком мыши из ``false`` в "
 "``true``."
 msgstr ""
+"Enter **about:config** to the browser's address bar, search for ``webgl"
+".force-enabled`` parameter and double-click on it to switch from ``false`` "
+"to ``true``."
 
-#: ../problems_and_solutions.rst:55
-msgid "**На Linux**:"
-msgstr ""
-
-#: ../problems_and_solutions.rst:57
+#: ../problems_and_solutions.rst:91
 msgid ""
-"Ввиду неполной реализации OpenGL стека в драйверах с открытым кодом в "
-"настоящий момент рекомендуется использовать проприетарные драйверы текущей "
-"версии для графических процессоров Nvidia и AMD."
+"Для пользователей Linux - ввиду неполной реализации OpenGL стека в драйверах"
+" с открытым кодом в настоящий момент рекомендуется использовать "
+"проприетарные драйверы текущей версии для графических процессоров Nvidia и "
+"AMD."
 msgstr ""
+"For Linux users - due to incomplete OpenGL implementation in open source "
+"drivers at the moment it is recommended to use current versions of "
+"proprietary drivers for Nvidia and AMD video cards."
 
-#: ../problems_and_solutions.rst:59
-msgid ""
-"Форсирование графической акселерации из п. 3 для Windows происходит "
-"аналогично для Chrome. В случае Firefox предлагается использовать переменную"
-" окружения::"
-msgstr ""
-
-#: ../problems_and_solutions.rst:67
-msgid "Настройка браузера для загрузки локальных ресурсов"
-msgstr ""
-
-#: ../problems_and_solutions.rst:69
-msgid ""
-"Движок является Web-приложением, и его работа происходит при просмотре html-"
-"файла в браузере. После инициализации происходит загрузка ресурсов (сцен, "
-"текстур), которая подчиняется `правилу ограничения домена "
-"<http://ru.wikipedia.org/wiki/Правило_ограничения_домена>`_, запрещающему, в"
-" частности, загрузку из локальной директории. Простым способом обхода этого "
-"ограничения может быть настройка браузера (рекомендуется). Другой способ "
-"заключается в использовании :ref:`локального web-сервера "
-"<local_web_server>`."
-msgstr ""
-
-#: ../problems_and_solutions.rst:72
-msgid ""
-"Рекомендуется использовать такой браузер только для просмотра локального "
-"контента, поскольку изменение настроек может привести к понижению "
-"безопасности."
-msgstr ""
-
-#: ../problems_and_solutions.rst:74
-msgid "*Chrome на Windows*:"
-msgstr ""
-
-#: ../problems_and_solutions.rst:76
-msgid ""
-"Правой кнопкой мыши нажать на ярлыке на рабочем столе, выбрать ``Свойства`` "
-"(``Properties``), после чего в поле для пути к исполняемому файлу добавить "
-"после пробела ``--allow-file-access-from-files``. Нажать ``ОК``."
-msgstr ""
-
-#: ../problems_and_solutions.rst:84
-msgid ""
-"Для удобства можно предварительно создать копию ярлыка и изменить ее для "
-"локального просмотра, оставив оригинальную версию ярлыка для запуска "
-"браузера в обычном режиме."
-msgstr ""
-
-#: ../problems_and_solutions.rst:86
-msgid "*Chrome/Chromium на Linux*:"
-msgstr ""
-
-#: ../problems_and_solutions.rst:88
-msgid "Запустить браузер с параметром::"
-msgstr ""
-
-#: ../problems_and_solutions.rst:93 ../problems_and_solutions.rst:131
+#: ../problems_and_solutions.rst:120
 msgid "или::"
-msgstr ""
+msgstr "or::"
 
-#: ../problems_and_solutions.rst:97
-msgid "*Firefox на Windows/Linux*:"
-msgstr ""
-
-#: ../problems_and_solutions.rst:99
-msgid ""
-"Ввести about:config в адресную строку браузера, найти параметр "
-"``security.fileuri.strict_origin_policy`` и переключить его двойным щелчком "
-"мыши из ``true`` в ``false``."
-msgstr ""
-
-#: ../problems_and_solutions.rst:109
+#: ../problems_and_solutions.rst:98
 msgid "Использование локального web-сервера"
-msgstr ""
+msgstr "Using a local web server"
 
-#: ../problems_and_solutions.rst:111
+#: ../problems_and_solutions.rst:100
 msgid ""
-"Простым вариантом может быть запуск web-сервера из стандартной библиотеки "
-"`Python <http://ru.wikipedia.org/wiki/Python>`_."
+"Простым вариантом обеспечения просмотра локальных ресурсов в браузерах может"
+" быть запуск web-сервера из стандартной библиотеки `Python "
+"<http://ru.wikipedia.org/wiki/Python>`_."
 msgstr ""
+"An easy way for viewing local resources in browsers is running the web "
+"server from the standard `Python "
+"<http://en.wikipedia.org/wiki/Python_(programming_language)>`_ library."
 
-#: ../problems_and_solutions.rst:113
+#: ../problems_and_solutions.rst:102
 msgid "*На Windows*:"
-msgstr ""
+msgstr "*On MS Windows*:"
 
-#: ../problems_and_solutions.rst:115
+#: ../problems_and_solutions.rst:104
 msgid ""
 "Загрузить и инсталлировать последнюю версию Python с `официального сайта "
 "<http://www.python.org/download/releases/>`_. На сегодняшний день это версия"
-" 3.2, и по умолчанию установка произойдет в директорию :file:`Python32` на "
+" 3.4, и по умолчанию установка произойдет в директорию :file:`Python34` на "
 "диске :file:`C`."
 msgstr ""
+"Download and install the latest Python distribution from the `official site "
+"<http://www.python.org/download/releases/>`_. Current version is 3.4 and by "
+"default it will be installed to the :file:`Python34` directory on the "
+":file:`C` drive."
 
-#: ../problems_and_solutions.rst:117
+#: ../problems_and_solutions.rst:106
 msgid "Запустить командную строку (Command Prompt)."
-msgstr ""
+msgstr "Run Command Prompt."
 
-#: ../problems_and_solutions.rst:119
+#: ../problems_and_solutions.rst:108
 msgid "Выполнить команды::"
-msgstr ""
+msgstr "Enter the following commands::"
 
-#: ../problems_and_solutions.rst:124
+#: ../problems_and_solutions.rst:113
 msgid ""
 "Перейти на страницу http://localhost:8000, на которой выбрать нужный файл "
 "для отображения."
 msgstr ""
+"Open the http://localhost:8000 page on which select the needed file for "
+"displaying. "
 
-#: ../problems_and_solutions.rst:126
+#: ../problems_and_solutions.rst:115
 msgid "*На Linux*::"
-msgstr ""
+msgstr "*On Linux*::"
 
-#: ../problems_and_solutions.rst:136
+#: ../problems_and_solutions.rst:125
 msgid "Можно указать порт дополнительным параметром::"
-msgstr ""
+msgstr "A port number can be specified by the additional parameter::"
 
-#: ../problems_and_solutions.rst:147
-msgid "Проблемы при запуске рендерера"
-msgstr ""
-
-#: ../problems_and_solutions.rst:149
-msgid "*1. Появляется сообщение \"browser not supported\".*"
-msgstr ""
-
-#: ../problems_and_solutions.rst:151
-msgid "Браузер не поддерживается."
-msgstr ""
-
-#: ../problems_and_solutions.rst:153
-msgid "*2. Появляется сообщение \"underlying error\".*"
-msgstr ""
-
-#: ../problems_and_solutions.rst:155
-msgid ""
-"Следует выполнить действия, описанные в разделе :ref:`webgl_not_working`."
-msgstr ""
-
-#: ../problems_and_solutions.rst:157
-msgid ""
-"*3. Видны элементы интерфейса и фон, но не виден куб или он отображается не "
-"корректно. При этом тестовый сайт http://get.webgl.org/ и другие примеры "
-"работают корректно.*"
-msgstr ""
-
-#: ../problems_and_solutions.rst:159
-msgid "Вероятные причины:"
-msgstr ""
-
-#: ../problems_and_solutions.rst:161
-msgid ""
-"Браузер не настроен или не правильно настроен для работы с локальными "
-"ресурсами. :ref:`browser_for_local_loading`."
-msgstr ""
-
-#: ../problems_and_solutions.rst:163
-msgid ""
-"Файлы ресурсов, которые пытается загрузить рендерер, были перемещены или "
-"удалены."
-msgstr ""
-
-#: ../problems_and_solutions.rst:165
-msgid ""
-"На Linux при использовании графических процессоров Intel, а также Nvidia и "
-"AMD с открытыми драйверами, это может происходить по причине использования "
-"рендерером возможностей (стандартных), в настоящий момент не реализованных в"
-" Mesa (таких как uniform массивы в шейдерах)."
-msgstr ""

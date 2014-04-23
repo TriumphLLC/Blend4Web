@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: B4W 14.02.28\n"
+"Project-Id-Version: B4W 14.03.28\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-19 19:31+0400\n"
+"POT-Creation-Date: 2014-04-03 12:59\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,437 +17,367 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: ../objects.rst:6
-# 29561ea0029948abad0664c85ba561ff
+# cc2555c05e304fcca7bd14fba4f42c40
 msgid "Объекты"
 msgstr ""
 
 #: ../objects.rst:8
-# a8c7b47d197347c0b6bd267974e8f7c6
+# e15f8385db1a41799419d861fdef79ce
 msgid "Объекты служат целям размещения компонентов различного типа (мешей, камер, ламп и т.д.) в пространстве 3D сцены."
 msgstr ""
 
 #: ../objects.rst:11
-# d0a7583411af4add8d8d2dea3ece2515
+# a3a16948920c4a339bc9d8c1a92cc6b8
 msgid "Типы"
 msgstr ""
 
 #: ../objects.rst:13
-# e85b185dd5724eca857839dd35258e41
+# 723e2b954cee4eb1a0a63973d3c8cb22
 msgid "Движком поддерживаются объекты следующих типов:"
 msgstr ""
 
 #: ../objects.rst:15
-# 71b5d842aed64dab9a218d81d66c5239
+# 3c825d0f617d4f07b3e6e13b4fadf11f
 msgid "меш (mesh)"
 msgstr ""
 
 #: ../objects.rst:16
-# 6e1a09d77e8349d695970810eca0cd56
+# 415989553f3b4a6abd900d6bbeab53b8
 msgid "камера (camera)"
 msgstr ""
 
 #: ../objects.rst:17
-# 5d5a9faf470748e7b1e85619d82095d3
+# ee3bc0131d7b4692baec60940b95a46b
 msgid "лампа (lamp)"
 msgstr ""
 
 #: ../objects.rst:18
-# 629e2b93c22a4f1985a282dd5df7d42c
+# 5b35be786fed4a478fbea19769df7950
 msgid "пустой (empty)"
 msgstr ""
 
 #: ../objects.rst:19
-# 8382fc00e187466ab063e879a1faac66
+# 7354585633e74130b69d8cafeacb7833
 msgid "кривая (curve)"
 msgstr ""
 
 #: ../objects.rst:20
-# e85b91383ced4e9b965f59b7df9a774f
+# 43b7e9842bd44e8d97603a2f4dc94b4f
 msgid "скелет (armature)"
 msgstr ""
 
 #: ../objects.rst:21
-# c877d5817fc1451197e8c3fe07c303da
+# 329e69252c4d41e29f0b871906713ab7
 msgid "источник звука (speaker)"
 msgstr ""
 
 #: ../objects.rst:22
-# 0d8e9ee38ea14e27913cb59dce8ebf74
+# 6ef175634ad7445582a5650a387c2fc6
 msgid "силовое поле (force field)"
 msgstr ""
 
 #: ../objects.rst:26
-# 071a1703dcfa4da48719686d95e5ed42
+# 86250202d3fc4188a3e9412e7c48ce07
 msgid "Настройка"
 msgstr ""
 
 #: ../objects.rst:28
-# 18e3d572115141c1862b6182fd391481
+# 2e8bd9e83ce0456888d15a33803a1704
 msgid "Для объектов всех типов поддерживаются расположение в пространстве, указатель на блок данных, родительский объект, принадлежность к группе и ряд специальных свойств движка."
 msgstr ""
 
 #: ../objects.rst:36
-# 0a6a4e0ca4eb4c72bb2cc2161753f405
+# 083a95d36cd943f28dc869267128f14e
 msgid "*Transform > Location*"
 msgstr ""
 
 #: ../objects.rst:36
-# c354dfc2ac2b47d1bee599105d032539
+# 46b5049542c14143aae3d9bf30cffdc6
 msgid "Координаты местоположения."
 msgstr ""
 
 #: ../objects.rst:39
-# 19269ae5bf72467586a876e4831a6c19
+# 1a22c49a759a484ca1e80a957ba4908c
 msgid "*Transform > Rotation*"
 msgstr ""
 
 #: ../objects.rst:39
-# 0b99d17886c2488cbdd75293181036eb
+# e71ab9993c2943ababd8f4dc551f6321
 msgid "Углы вращения. Должен быть выставлен режим по умолчанию ``XYZ Euler``."
 msgstr ""
 
 #: ../objects.rst:42
-# 82554d1a54c44d37a1d405454494694c
+# a0994e25f006423b98d1b47b147ce1ae
 msgid "*Transform > Scale*"
 msgstr ""
 
 #: ../objects.rst:42
-# 250c4df9b7314cd6b0816fdf483b19dd
+# 27b38e12e6ec4d9ea657063517710890
 msgid "Масштабирование. Все 3 компоненты (x, y, z) должны быть одинаковы. Для физических объектов масштабирование не поддерживается."
 msgstr ""
 
 #: ../objects.rst:45
-# 268d3b7a0dd5425e917719858439b716
+# 25c0f7e98ba240c1854dca825867c069
 msgid "*Object Data* (вкладка)"
 msgstr ""
 
 #: ../objects.rst:45
-# 2ec8e9ba75eb4283a26c1db721af3c2f
+# 9009b29cb349468494d3fea09bbcec34
 msgid "Указатель на блок данных, специфичный для объектов разного типа."
 msgstr ""
 
 #: ../objects.rst:48
-# 776b58ed455043d188dae68b80a45dac
+# 79d7c38a26ab40039fe97a87378147f8
 msgid "*Relation > Parent*"
 msgstr ""
 
 #: ../objects.rst:48
-# 5f3d3c19df794e88a374e77dacb9d802
+# 88b312c73eda44d2a5b830a59365fda3
 msgid "Указатель на родительский объект."
 msgstr ""
 
 #: ../objects.rst:51
-# 0f3f85968af648458c805e543a610bdf
+# a7f3783772cf44458cf0aa63ddc64d98
 msgid "*Blend4Web > Do not export*"
 msgstr ""
 
 #: ../objects.rst:51
-# 4f77e366b7e44f76a3b903576b878223
+# 661f2c0d664c4d579e6e8942037be85a
 msgid "Не экспортировать."
 msgstr ""
 
 #: ../objects.rst:54
-# 6d25158ef8fa4e4580923a27eb001f38
+# d81abd9013b64919acf11bdd7a269e7d
 msgid "*Blend4Web > Apply modifiers*"
 msgstr ""
 
 #: ../objects.rst:54
-# 06655bdef9f74971bf56f051d65a2e60
+# 23d48a30c18c47a1b09577432a34ae7a
 msgid "Применить модификаторы объекта при экспорте."
 msgstr ""
 
 #: ../objects.rst:57
-# e08bf24bf38444249037171dcb432235
+# 93c7ee1cfc464fa6932bfdee9d3c6a54
 msgid "*Blend4Web > Export vertex animation*"
 msgstr ""
 
 #: ../objects.rst:57
-# 6c80c428f6e344b29700f9869eb2235b
+# bb77fb63a77e42eaade13ab329a1ed07
 msgid "Экспортировать предварительно созданную и сохраненную вертексную анимацию."
 msgstr ""
 
 #: ../objects.rst:60
-# 7b706ee1558240b4a9319be9fec84ce1
+# 117ac34a6f664711a2aa930824beb3d3
 msgid "*Blend4Web > Export edited normals*"
 msgstr ""
 
 #: ../objects.rst:60
-# a7ecb7c9f6254b2ab0b44eadaa84540b
+# cec950a76bdc4bda959cd456d17334d3
 msgid "Экспортировать предварительно отредактированные и сохраненные нормали."
 msgstr ""
 
 #: ../objects.rst:63
-# cb34ecc4b82f4a89bfc5c7a51b8df38d
+# 05e2ec90147b4214912bcef3aca02c13
 msgid "*Blend4Web > Animation > Use default*"
 msgstr ""
 
 #: ../objects.rst:63
-# ea9fe99cccd54d96825606a89c5d9e79
-msgid "Использовать по умолчанию связанную с объектом объектную или скелетную анимацию."
+# 6733964238474f03b1616951edca1c01
+msgid "Начать воспроизведение в движке связанной с объектом анимации."
 msgstr ""
 
 #: ../objects.rst:66
-# e95e88ed7b4c4a05b0712720d2bbe043
+# a6ff26a5e4ec4c198bbfadffb63aabd7
 msgid "*Blend4Web > Animation > Cyclic*"
 msgstr ""
 
 #: ../objects.rst:66
-# 2a0c595680124b818b60c05ebfb9b62d
+# b1de02a6b69241eaaf49296cc40272f5
 msgid "Циклически повторять связанную с объектом анимацию. Зацикливание анимации влияет также на анимацию системы частиц или спикера (в случае их присутствия)."
 msgstr ""
 
 #: ../objects.rst:69
-# 39562f209d414c1d80b1dc65df6537f5
+# 2c29eb029514474092d8fb8c1ba2c563
 msgid "*Blend4Web > Detect collisions*"
 msgstr ""
 
 #: ../objects.rst:69
-# 27d4b7bf946f4909bdfe1920b39c3388
+# b34a3320fded4c389d4e2a1325a082e9
 msgid "Активировать связанную с объектом физику."
 msgstr ""
 
 #: ../objects.rst:72
-# 19f5e492ab6646de80b8237725257126
+# 9e9604fb6a214f3db2b3ae91e4340c42
 msgid "*Blend4Web > Character*"
 msgstr ""
 
 #: ../objects.rst:72
-# e582aa80e2f14d31a0533418a625c60c
+# cac691d554a447058d3100fc10c0fc76
 msgid "Активировать использование объекта в качестве физического каркаса игрового персонажа."
 msgstr ""
 
 #: ../objects.rst:75
-# f5268633fb9f4c4f80844e1f5a2f2a89
+# 2149c55fd14b484ea52321476845cbe3
 msgid "*Blend4Web > Vehicle part*"
 msgstr ""
 
 #: ../objects.rst:75
-# a8880c6c97e842a5b349d85e4b6987a2
+# f018a4e0f0754c62985ed613eb6b85a8
 msgid "Активировать использование объекта в качестве составной части транспортного средства."
 msgstr ""
 
 #: ../objects.rst:78
-# 1ba3495a5d6f4c3b8ee0e330cf30fc86
+# 2adb149ad5724dbebf0498a0b275cef4
 msgid "*Blend4Web > Do not batch*"
 msgstr ""
 
 #: ../objects.rst:78
-# c486c4539e644d518a7bb550a3c76f50
+# 18ef478276164074841450159fc0f1fd
 msgid "Запретить комбинирование меша объекта с другими мешами, имеющими одинаковый материал, которое осуществляется в целях оптимизации количества вызовов отрисовки. Объекты, имеющие анимацию или физику, уже рассматриваются как отдельные. Опция применяется исключительно в случаях, когда необходимо обеспечить движение объекта, однако явным образом это не вытекает из имеющихся на нём опций."
 msgstr ""
 
 #: ../objects.rst:81
-# b2e5474718304ca9a2e5f36df41da3e5
+# f82c18f445ba4cee999a53bbc88e5629
 msgid "*Blend4Web > Disable frustum culling*"
 msgstr ""
 
 #: ../objects.rst:81
-# 1017712a1e8748f3a2467fd706f5b5d0
+# 8306a35f13224f9a9ea58fb92031a734
 msgid "Отключить оптимизацию отсечением по зоне видимости."
 msgstr ""
 
 #: ../objects.rst:84
-# 19a47ad8291a4a0b8c14cd743454dffd
+# 1b7f7e60d35a49f28eb1beba7123e5a4
 msgid "*Blend4Web > Disable fogging*"
 msgstr ""
 
 #: ../objects.rst:84
-# 8a4a5b9c13d84c2d94414f3969c296a2
+# ca04377c3c9e4fc5920041981ab8579b
 msgid "Отключить туман для объекта."
 msgstr ""
 
 #: ../objects.rst:87
-# a9b98770f6a249beb0950411caff3a5e
+# e3d22b039e944449ad7c23ab2b1f0922
 msgid "*Blend4Web > Do not render*"
 msgstr ""
 
 #: ../objects.rst:87
-# 2eafdbdd371e4b00b660428417203549
+# e440d6948cc94fc5a5640c71930aeb71
 msgid "Отключить рендеринг объекта (например, вспомогательный объект физики)."
 msgstr ""
 
 #: ../objects.rst:90
-# 10ecde277bbc4720bab9772e8d786f3f
+# 43066791606c429ab2762866e47865f2
 msgid "*Blend4Web > Shadows: Cast* и *Blend4Web > Shadows: Receive*"
 msgstr ""
 
 #: ../objects.rst:90
-# 02252fcd791046a7a79093f15ea1e4fc
+# 9808be1c96944292839c179416f27c7a
 msgid "Отбрасывать и получать тени, соответственно. Могут быть включены одновременно."
 msgstr ""
 
 #: ../objects.rst:93
-# c5e77d3b89344ef88b064fa05d3e71cc
+# aed4f61b4deb43f6b3c0e7644cfeba9d
 msgid "*Blend4Web > Reflections: Reflexible*"
 msgstr ""
 
 #: ../objects.rst:93
-# 241d55cd346d4577b12393780a241be4
+# 94a3aa5dc3e7434190671c7a969c26d8
 msgid "При включении объект будет отражаться от зеркальных поверхностей."
 msgstr ""
 
 #: ../objects.rst:96
-# e2865cf38a1646bca851298a34257b36
+# 275a3c7622b84a918b670a39f02e743b
 msgid "*Blend4Web > Reflections: Reflective*"
 msgstr ""
 
 #: ../objects.rst:96
-# 093e2096d38849d78f635966f75dd8ed
+# d8ea8abedc234e90857efa3cf75ff04c
 msgid "При включении объект будет отражать своей поверхностью другие объекты."
 msgstr ""
 
 #: ../objects.rst:99
-# 8c2db198e5c34c1e9ae8f980e5f22e78
+# 42827b4f151a41d4a94212587dd4ec65
 msgid "*Blend4Web > Reflections: Reflection plane*"
 msgstr ""
 
 #: ../objects.rst:99
-# 4c025567c5034806bc5e30194457f43c
+# f0688cddec8b4a7f906c89b2425c08bf
 msgid "Текстовое поле для названия пустого объекта, задающего плоскость отражения."
 msgstr ""
 
 #: ../objects.rst:102
-# 01b27753f0e348f7ba03dd01be31f93b
+# a826fef8fb4e4f76b712b5e91847c446
 msgid "*Blend4Web > Wind bending*"
 msgstr ""
 
 #: ../objects.rst:102
-# 7495f569ea7440b0a9de32ea1399bc1d
+# 8620cf621c1f4feea3da65b32a6c4749
 msgid "Включить процедурную анимацию под действием ветра."
 msgstr ""
 
 #: ../objects.rst:105
-# 1cf1bc3d98d04687bfcce5a1de24995d
+# a0ff48f31d3c44298679145aae2e173e
 msgid "*Blend4Web > Self LOD > Distance*"
 msgstr ""
 
 #: ../objects.rst:105
-# 4f4c6057c0504dda86c81ed83c634a39
+# e3be660398f843fe864f1033ca8b0799
 msgid "Расстояние от камеры, на котором объект перестает отображаться. Значение по умолчанию 10000.0."
 msgstr ""
 
 #: ../objects.rst:108
-# 64a2c65a6ea243398c5291923a520fc1
+# 7dea2eb39ec64265b7e4f149f999857e
 msgid "*Blend4Web > Additional LOD objects*"
 msgstr ""
 
 #: ../objects.rst:108
-# d9f5c56d8ea943eba5c9ef103d5a0275
+# 49eabc7dc02d45d3adc54319d6287b4d
 msgid "Интерфейс добавления низкополигональных объектов для реализации переключения уровня детализации."
 msgstr ""
 
 #: ../objects.rst:111
-# add655199ec0409b9565b1bb93bd5e40
-msgid "Управление перемещением"
-msgstr ""
-
-#: ../objects.rst:113
-# 7597c460a81b4bbcac662e46b3514129
-msgid "Для управления перемещением объектов в движке предусмотрены следующие базовые функции модуля `transform`:"
-msgstr ""
-
-#: ../objects.rst:116
-# 8d29e570f54549548e4dcc9a15a379dd
-msgid "*set_translation, set_translation_v*"
-msgstr ""
-
-#: ../objects.rst:116
-# ab89ed2577c64bac813b6fb7a530b85a
-msgid "Переместить центр объекта в указанное место. Первая функция принимает в качестве параметров отдельные координаты, вторая - трёхмерный вектор (Array или Float32Array)."
-msgstr ""
-
-#: ../objects.rst:119
-# 45a5bc4d21254d34996ab0e047e7941d
-msgid "*set_rotation, set_rotation_v*"
-msgstr ""
-
-#: ../objects.rst:119
-# ac2d648148eb44eeb21f6d7bcd674b8f
-msgid "Установить кватернион поворота объекта. Первая функция принимает в качестве параметров отдельные координаты, вторая - четырёхмерный вектор (Array или Float32Array)."
-msgstr ""
-
-#: ../objects.rst:122
-# 3a16da92ad304e04be1de3bbbaf0557c
-msgid "*set_scale*"
-msgstr ""
-
-#: ../objects.rst:122
-# a007b16d4d0b47339f22d91724ff396c
-msgid "Установить коэффициент увеличения объекта. Единица соответствует исходному состоянию. Значение меньше единицы - уменьшение. Значение больше единицы - увеличение. Не все объекты могут быть увеличены. В частности, увеличение невозможно для физических объектов."
-msgstr ""
-
-#: ../objects.rst:125
-# bdcb6d22ecd94f1fb9920d742fab3f7a
-msgid "*get_translation*"
-msgstr ""
-
-#: ../objects.rst:125
-# 6c5d569c3c0249fc8d965c520806b7a0
-msgid "Получить координаты центра объекта. Вариант с одним параметром возвращает новый вектор (неоптимизированный варант), варант с двумя требует отдельного вектора для записи результата."
-msgstr ""
-
-#: ../objects.rst:128
-# eee2ad12cb124a5abf0c49697107b77e
-msgid "*get_rotation*"
-msgstr ""
-
-#: ../objects.rst:128
-# 64ef19528c744e69a9132aba94f08ad4
-msgid "Получить кватернион поворота объекта. По аналогии с `get_translation` имеется два варианта вызова функции."
-msgstr ""
-
-#: ../objects.rst:131
-# 52792f9df7a54525800a513526c8bbc7
-msgid "*get_scale*"
-msgstr ""
-
-#: ../objects.rst:131
-# da9b34aea5a246f28cfb47ae1f999590
-msgid "Получить значение коэффициента увеличения объекта."
-msgstr ""
-
-#: ../objects.rst:134
-# 478e5c7f77e94e589977f7b906d66055
+# 6f1dfb2596d049b4a71d4c8f43916785
 msgid "Камера"
 msgstr ""
 
-#: ../objects.rst:136
-# cc76cffff3a94f9f823da04ec02ed91a
+#: ../objects.rst:113
+# 4b602a2ffe04492bb9d656d5e8f442a6
 msgid "Настройки камеры выставляются в панели ``Properties`` на вкладке ``Object Data``."
 msgstr ""
 
-#: ../objects.rst:138
-# 4c0157b387fb4cb7badf5dc64029b7ae
+#: ../objects.rst:115
+# c3d68bb88e344e4096b714c474761f60
 msgid "*Blend4Web > Move style* -- исходный стиль управления камерой. По умолчанию камера находится в статическом режиме (``Static``), допуская измененение своего положения только через API. В режиме ``Target`` камера вращается вокруг фиксированной точки. Режим ``Eye`` позволяет осуществлять вращение и перемещение от первого лица."
 msgstr ""
 
-#: ../objects.rst:144
-# ade08d6b416d45bc9fbee906111d334f
+#: ../objects.rst:121
+# 3af9099528de49398385b791c33ff602
 msgid "*Blend4Web > Target location* -- доступно в режиме ``Target``. Позиция точки, относительно которой будет вращаться камера. Кропка ``Copy Cursor Location`` позволяет скопировать текущее положение курсора."
 msgstr ""
 
-#: ../objects.rst:148
-# 42913f9840b54a4cbab3f93bd7cc6243
+#: ../objects.rst:125
+# 9ac1d7ec987b46dfa43c17043f0eb3e4
 msgid "*Blend4Web > Use distance limits* -- доступно в режиме ``Target``. Ограничить перемещение камеры двумя крайними расстояниями."
 msgstr ""
 
-#: ../objects.rst:151
-# 53ed217fcd8f49d8b437f557c77c4211
+#: ../objects.rst:128
+# 645df4f1431a45efbb00cb90524eb41e
 msgid "*Blend4Web > Use vertical rotation clamping* -- доступно в режиме ``Target`` и ``Eye``. Ограничить вертикальный угол расположения камеры двумя крайними значениями."
 msgstr ""
 
-#: ../objects.rst:154
-# 1b9499aa7aff427fa923955d7b73eea2
+#: ../objects.rst:131
+# e5a0fff67fda47c99b4b4a7b43a9d477
 msgid "*Blend4Web > DOF front distance* -- описано в разделе :ref:`postprocessing_effects`"
 msgstr ""
 
-#: ../objects.rst:156
-# c067c29354f543ce92db7045e6322908
+#: ../objects.rst:133
+# e31c2e6503934dd4a15d049799cbde41
 msgid "*Blend4Web > DOF rear distance* -- описано в разделе :ref:`postprocessing_effects`"
 msgstr ""
 
-#: ../objects.rst:158
-# 5c047428f13147a1b0e1285fc9810a7b
+#: ../objects.rst:135
+# 87a8d2853f5145fda436fb0e5bd12936
 msgid "*Blend4Web > DOF power* -- описано в разделе :ref:`postprocessing_effects`"
 msgstr ""
 

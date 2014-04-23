@@ -13,59 +13,73 @@ msgstr ""
 
 #: ../animation.rst:7
 msgid "Анимация"
-msgstr ""
+msgstr "Animation"
 
 #: ../animation.rst:9
 msgid ""
 "В общем случае, к анимации относятся изменения параметров объектов во "
 "времени. Движком поддерживаются следующие типы анимации:"
 msgstr ""
+"In common case animation is change of any object parameter with time. The "
+"engine supports animation of the following types: "
 
 #: ../animation.rst:12
 msgid ""
 "Перемещение объекта в пространстве как единого целого (объектная анимация). "
 "Изменяемые параметры: координаты центра (``Location``), кватернион поворота "
-"(``Rotation`` в режиме ``Quaternion(WXYZ)``) и масштабирование "
-"(``Scaling``)."
+"(``Rotation`` в режиме ``Quaternion(WXYZ)``) и масштабирование (``Scale``)."
 msgstr ""
+"Animation of an object as a whole. The parameters that are possible to "
+"animate are ``Location``, ``Rotation`` in the ``Quaternion(WXYZ)`` mode and "
+"``Scale``."
 
 #: ../animation.rst:16
 msgid ""
 "Деформация объекта с помощью системы костей (скиннинг и скелетная анимация) "
-"а также анимация костей в арматурном объекте для вспомогательных целей."
+"а также анимация костей в арматурном объекте с целью прикрепления объектов к"
+" костям."
 msgstr ""
+"Skinning (object deformation using bones) and skeletal animation. Animation "
+"of a standalone armature object is also supported (for parenting to bones). "
 
 #: ../animation.rst:19
 msgid ""
 "Покадровая запись деформаций объекта с последующим воспроизведением "
 "(вертексная анимация)."
 msgstr ""
+"Vertex animation - an object deformations can be recorded as frames and then"
+" reproduced in the engine."
 
 #: ../animation.rst:22
 msgid ""
 "Параметризация параметров источников звука. Изменяемые параметры: громкость "
 "(``Volume``) и высота звука (``Pitch``)."
 msgstr ""
+"Audio sources parametrization. Speaker's ``Volume`` and ``Pitch`` can be "
+"animated."
 
 #: ../animation.rst:25
 msgid ""
 "Процедурная анимация в виде колебаний объекта под действием ветра. Описано "
 ":ref:`отдельно <wind>`."
 msgstr ""
+"Wind bending - a procedural animation. Described :ref:`separately <wind>`."
 
 #: ../animation.rst:28
 msgid ""
 "Эмиссия частиц из источника. Описано в :ref:`соответствующем разделе "
 "<particles>`."
 msgstr ""
+"Particle emission. Described in the :ref:`corresponding section "
+"<particles>`."
 
 #: ../animation.rst:31
 msgid "Управление анимацией"
-msgstr ""
+msgstr "Animation control"
 
 #: ../animation.rst:33
 msgid "Управление анимацией в движке осуществляется одним из трёх способов:"
-msgstr ""
+msgstr "Animation can be controlled in the engine in 3 ways:"
 
 #: ../animation.rst:35
 msgid ""
@@ -74,10 +88,14 @@ msgid ""
 " поиск доступного метода и в случае положительного результата, объект "
 "анимируется с момента загрузки сцены."
 msgstr ""
+"Automatically by means of the ``Animation: Use default`` and ``Animation: "
+"Cyclic`` checkboxes in an object's properties. In this case an appropriate "
+"animation method will be chosen by the engine and the object's animation "
+"playback will start just after a scene is loaded."
 
 #: ../animation.rst:40
 msgid "Программно, используя функции модуля ``animation``."
-msgstr ""
+msgstr "In an application via API using ``animation`` module methods."
 
 #: ../animation.rst:42
 msgid ""
@@ -88,26 +106,36 @@ msgid ""
 " информацию из файла ``assets.json`` (в настоящий момент к ним относится "
 "просмоторщик сцен ``viewer``)."
 msgstr ""
+"Automatically after editing the ``assets.json`` file of the SDK's viewer. "
+"Add  the ``animated_objects`` property to the scene settings, in which "
+"objects' names (or pairs  [\"empty object name\", \"name of object inside "
+"dupli-group\"]) are listed. This method suits only to applications which use"
+" the ``assets.json`` file (right now it is the viewer application from the "
+"SDK)."
 
 #: ../animation.rst:49
 msgid ""
 "В случае анимации меша, необходимо назначение свойства ``Do not batch`` на "
 "вкладке свойств объекта."
 msgstr ""
+"If an object-mesh is animated it is required to set the ``Do not batch`` "
+"checkbox on the object properties panel."
 
 #: ../animation.rst:53
 msgid "Объектная анимация"
-msgstr ""
+msgstr "Object animation"
 
 #: ../animation.rst:55
 msgid ""
 "Осуществляется с помощью добавления ключей анимации в программе Blender и их"
 " последующего воспроизведения в движке."
 msgstr ""
+"Animation keyframes can be added for an object motion in Blender and then "
+"reproduced in the engine."
 
 #: ../animation.rst:58
 msgid "Поддерживаются следующие типы ключей:"
-msgstr ""
+msgstr "The following keyframe types are supported:"
 
 #: ../animation.rst:60
 msgid "*Location*"
@@ -115,53 +143,63 @@ msgstr ""
 
 #: ../animation.rst:62
 msgid "*Rotation* -- необходимо осуществлять в режиме ``Quaternion(WXYZ)``."
-msgstr ""
+msgstr "*Rotation* -- the ``Quaternion(WXYZ)`` mode is required."
 
 #: ../animation.rst:64
 msgid ""
-"*Scaling* -- для получения корректных результатов, фактор масштабирования "
+"*Scale* -- для получения корректных результатов, фактор масштабирования "
 "должен быть одинаковым вдоль любых из осей."
 msgstr ""
+"*Scale* -- for correct results the scale factor should be the same for all 3"
+" axes. "
 
 #: ../animation.rst:66
 msgid "*LocRot* -- комбинация *Location* и *Rotation*."
-msgstr ""
+msgstr "*LocRot* -- a combination of *Location* and *Rotation*."
 
 #: ../animation.rst:68
 msgid "*LocScale* -- комбинация *Location* и *Scale*."
-msgstr ""
+msgstr "*LocScale* -- a combination of *Location* and *Scale*."
 
 #: ../animation.rst:70
 msgid "*LocRotScale* -- комбинация *Location*, *Rotation* и *Scale*."
-msgstr ""
+msgstr "*LocRotScale* -- a combination of *Location*, *Rotation* and *Scale*."
 
 #: ../animation.rst:72
 msgid "*RotScale* -- комбинация *Rotation* и *Scale*."
-msgstr ""
+msgstr "*RotScale* -- a combination of *Rotation* and *Scale*."
 
 #: ../animation.rst:75
 msgid "Скиннинг и скелетная анимация"
-msgstr ""
+msgstr "Skinning and skeletal animation"
 
 #: ../animation.rst:77
 msgid ""
 "Для осуществленя скелетной анимации, кроме анимированного объекта-меша "
 "требуется объект-арматура. Осуществляется в четыре этапа:"
 msgstr ""
+"For skeletal animation both a mesh object and an armature object are needed."
+" The 4 steps should be carried out:"
 
 #: ../animation.rst:80
 msgid "Создание скелета объекта в арматурном объекте."
-msgstr ""
+msgstr "Create the object's \"skeleton\" in the armature object. "
 
 #: ../animation.rst:81
-msgid "Назначение вертексных групп в объекте-меше и их привязка к костям."
+msgid ""
+"Назначение вертексных групп в объекте-меше и их привязка к костям. Может "
+"быть осуществлено, например, методом ``weight painting``."
 msgstr ""
+"Assign vertex groups in the mesh object and link them to the the bones. This"
+" can be performed by weight painting for example. "
 
 #: ../animation.rst:82
 msgid ""
 "Анимация костей в арматурном объекте. Используются те же ключи, что и в "
 "случае объектной анимации."
 msgstr ""
+"Animate the bones in the pose mode of the armature object. The same keyframe"
+" types can be used as for object animation."
 
 #: ../animation.rst:84
 msgid ""
@@ -170,10 +208,13 @@ msgid ""
 " в Blender). Запекание производится с помощью интерфейса, вызываемого через "
 "пробел: ``B4W Animation Bake``."
 msgstr ""
+"When inverse kinematics (IK) or other nontrivial structures are used - bake "
+"actions for the engine using the ``B4W Animation Bake`` operator which can "
+"be executed via search box (``SPACE``)."
 
 #: ../animation.rst:90
 msgid "Вертексная анимация"
-msgstr ""
+msgstr "Vertex animation"
 
 #: ../animation.rst:92
 msgid ""
@@ -182,35 +223,44 @@ msgid ""
 "ресурсов (прежде всего возрастает объём загружаемых файлов и количество "
 "используемой видео-памяти)."
 msgstr ""
+"Allows to record any geometry changes of a mesh object. Note that every "
+"vertex animation frame count as mesh. Don't make long animation for a high-"
+"poly mesh."
 
 #: ../animation.rst:97
 msgid ""
 "Для запекания вертексной анимации предусмотрен инструмент ``B4W Vertex Anim "
-"Baker``, расположенный на панели ``Object Tools``."
+"Baker``, расположенный на панели инструментов ``Blend4Web``."
 msgstr ""
+"Special tool is used for baking vertex animation - ``B4W Vertex Anim Baker``"
+" - located on the ``Blend4Web`` tools panel."
 
 #: ../animation.rst:101
 msgid "Параметризация источников звука"
-msgstr ""
+msgstr "Audio source parametrization"
 
 #: ../animation.rst:103
 msgid ""
 "На объектах-спикерах дополнительно поддерживаются следующие типы "
 "анимационных ключей:"
 msgstr ""
+"In addition on speaker objects the following animation key types are "
+"supported: "
 
 #: ../animation.rst:106
 msgid "*Volume* -- громкость звука источника."
-msgstr ""
+msgstr "*Volume*"
 
 #: ../animation.rst:108
 msgid "*Pitch* -- высота звука источника."
-msgstr ""
+msgstr "*Pitch*"
 
 #: ../animation.rst:3
 msgid "анимация"
-msgstr ""
+msgstr "animation"
 
 #: ../animation.rst:3
 msgid "animation"
 msgstr ""
+
+

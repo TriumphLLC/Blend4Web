@@ -9,7 +9,6 @@
 #include <math.glslv>
 #include <to_world.glslv>
 #include <scale_texcoord.glslv>
-#include <dynamic_grass.glslv>
 
 /*============================================================================
                                   ATTRIBUTES
@@ -58,6 +57,10 @@ const mat4 u_model_matrix = mat4(1.0);
 uniform mat4 u_model_matrix;
 # endif
 
+#if SMAA_JITTER
+uniform vec2 u_subpixel_jitter;
+#endif
+
 uniform mat4 u_view_matrix;
 uniform mat4 u_proj_matrix;
 # if DYNAMIC_GRASS || HAIR_BILLBOARD
@@ -70,6 +73,7 @@ uniform sampler2D u_grass_map_color;
 uniform vec4 u_camera_quat;
 uniform vec3 u_grass_map_dim;
 uniform float u_grass_size;
+uniform float u_scale_threshold;
 #endif
 
 #if SKINNED
@@ -169,6 +173,7 @@ varying vec4 v_pos_view;
                                   INCLUDES
 ============================================================================*/
 
+#include <dynamic_grass.glslv>
 #include <shadow.glslv>
 #include <skin.glslv>
 #include <wind_bending.glslv>
@@ -230,6 +235,10 @@ void main(void) {
 
     vec4 pos_view = u_view_matrix * vec4(world.position, 1.0);
     vec4 pos_clip = u_proj_matrix * pos_view;
+
+#if SMAA_JITTER
+    pos_clip.xy += u_subpixel_jitter * pos_clip.w;
+#endif
 
 #if TEXTURE_COLOR
     v_texcoord = scale_texcoord(a_texcoord, u_texture_scale);

@@ -1,9 +1,8 @@
+#var EPSILON 0.0001
 #export is_equalf
-#export identity qrot rotation_x rotation_y rotation_z mat3_transpose
+#export identity qrot rotation_x rotation_y rotation_z 
 #export vertex 
 #export tbn_norm
-
-float FLOAT_EQUALITY_EPS = .000001;
 
 struct vertex 
 {
@@ -16,7 +15,7 @@ struct vertex
 };
 
 bool is_equalf(float a, float b) {
-    return abs(a - b) < FLOAT_EQUALITY_EPS;
+    return abs(a - b) < EPSILON;
 }
 
 vec3 qrot(in vec4 q, in vec3 v) 
@@ -46,7 +45,7 @@ vec3 qrot(in vec4 quat, in vec3 vec)
     return dest;
 }
 */
-
+/*
 mat3 mat3_transpose(mat3 m) {
     mat3 m_out = m;
     m_out[0][1] = m[1][0];
@@ -57,7 +56,7 @@ mat3 mat3_transpose(mat3 m) {
     m_out[2][1] = m[1][2];
     return m_out;
 }
-
+*/
 mat4 identity() {
     return mat4(1.0, 0.0, 0.0, 0.0, 
                 0.0, 1.0, 0.0, 0.0, 
@@ -67,21 +66,21 @@ mat4 identity() {
 
 mat4 rotation_x(float angle) {
     return mat4(1.0, 0.0, 0.0, 0.0, 
-                0.0, cos(angle),-sin(angle), 0.0, 
-                0.0, sin(angle), cos(angle), 0.0, 
+                0.0, cos(angle), sin(angle), 0.0, 
+                0.0,-sin(angle), cos(angle), 0.0, 
                 0.0, 0.0, 0.0, 1.0);
 }
 
 mat4 rotation_y(float angle) {
-    return mat4(cos(angle), 0.0, sin(angle), 0.0, 
+    return mat4(cos(angle), 0.0,-sin(angle), 0.0, 
                 0.0, 1.0, 0.0, 0.0, 
-               -sin(angle), 0.0, cos(angle), 0.0, 
+                sin(angle), 0.0, cos(angle), 0.0, 
                 0.0, 0.0, 0.0, 1.0);
 }
 
 mat4 rotation_z(float angle) {
-    return mat4(cos(angle),-sin(angle), 0.0, 0.0, 
-                sin(angle), cos(angle), 0.0, 0.0, 
+    return mat4(cos(angle), sin(angle), 0.0, 0.0, 
+               -sin(angle), cos(angle), 0.0, 0.0, 
                 0.0, 0.0, 1.0, 0.0, 
                 0.0, 0.0, 0.0, 1.0);
 }

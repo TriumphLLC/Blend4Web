@@ -21,7 +21,6 @@ _resource_dict = {}
 
 
 def run():
-
     try:
         sys.argv[1];
 
@@ -38,7 +37,11 @@ def run():
 
     if sys.argv[1] == "tex_users":
         try:
-            sys.argv[2];
+            sys.argv[2]
+
+            if not check_file_existing(sys.argv[2]):
+                print(RED + " [ERROR] " + ENDCOL + "File not found")
+                return
         except:
             help(2)
             return
@@ -48,15 +51,20 @@ def run():
 
     for root, dirs, files in os.walk(ASSETS_DIR):
         for f in files:
-            extract_resources(root, f, extract_sounds)
+            extract_resources(root, f)
+
+    use_image = False
 
     for root, dirs, files in os.walk(ASSETS_DIR):
         for f in files:
-            func(root, f)
+            if func(root, f):
+                use_image = True
+
+    if not use_image and func == check_used:
+        print(RED + " [FILE UNUSED] " + ENDCOL)
 
 
-def extract_resources(root, filename, extract_sound):
-
+def extract_resources(root, filename):
     if not is_json(filename):
         return
 
@@ -82,16 +90,16 @@ def extract_resources(root, filename, extract_sound):
 
 
 def add_resource(resource, path):
-
     filepath = resource.get("filepath")
-
     if filepath:
         filepath = os.path.abspath(os.path.normpath(os.path.join(os.path.dirname(path), filepath)))
         _resource_dict[filepath] = True
 
 
 def check_unused(root, filename):
-
+    """
+    Displays all images paths, which not use in all scenes
+    """
     head_ext = os.path.splitext(filename)
     head = head_ext[0]
     ext = head_ext[1]
@@ -115,6 +123,8 @@ def check_used(root, filename):
     if not is_json(filename):
         return
 
+    exist = False
+
     path = os.path.abspath(os.path.join(root, filename))
     json_file = open(path)
     json_data = json.load(json_file)
@@ -123,12 +133,17 @@ def check_used(root, filename):
         image_path = os.path.abspath(os.path.join(root, image["filepath"]))
 
         if image_path == sys.argv[2]:
+            exist = True
             blend_path = os.path.abspath(os.path.join(root, json_data.get("b4w_filepath_blend")))
             print(GREEN + " [FILE USED IN]" + ENDCOL, blend_path, WHITE)
 
+    return exist
+
 
 def is_json(filename):
-
+    """
+    Checks file extension
+    """
     ext = os.path.splitext(filename)[1]
 
     if not ext == ".json":
@@ -141,11 +156,34 @@ def is_json(filename):
 
 
 def help(state=1):
+    """
+    Prints help on wrong input
+    """
     if state == 1:
-        print("Specify conversion options:", "unused,", "tex_users")
+        print("Specify conversion options:", "unused", "tex_users")
 
     if state == 2:
-        print("Missed filename")
+        print(RED + " [ERROR] " + ENDCOL + "Missed filepath argument")
+
+
+def check_file_existing(filename):
+    """
+    Checks the existence of a file and file is image
+    """
+    exist = False
+    ext = os.path.splitext(filename)[1]
+
+    if ext == ".json" or ext == ".bin":
+        return False
+
+    for root, dirs, files in os.walk(ASSETS_DIR):
+        for f in files:
+            file_path = os.path.abspath(os.path.join(root, f))
+
+            if file_path == filename:
+                exist = True
+
+    return exist
 
 
 if __name__ == "__main__":

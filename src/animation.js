@@ -26,11 +26,10 @@ var cfg_ani = m_config.animation;
 
 var OBJ_ANIM_TYPE_ARMATURE   = 10;
 var OBJ_ANIM_TYPE_SKELETAL   = 20;
-var OBJ_ANIM_TYPE_CONSTRAINT = 30;
-var OBJ_ANIM_TYPE_OBJECT     = 40;
-var OBJ_ANIM_TYPE_VERTEX     = 50;
-var OBJ_ANIM_TYPE_SOUND      = 60;
-var OBJ_ANIM_TYPE_STATIC     = 70;
+var OBJ_ANIM_TYPE_OBJECT     = 30;
+var OBJ_ANIM_TYPE_VERTEX     = 40;
+var OBJ_ANIM_TYPE_SOUND      = 50;
+var OBJ_ANIM_TYPE_STATIC     = 60;
 
 // values specified in exporter
 var KF_INTERP_BEZIER = 0;
@@ -142,32 +141,14 @@ exports.get_current_action = function(obj) {
 exports.apply_def = apply_def;
 /**
  * Search for possible object animations init and apply found one.
- * NLA is only supported for speaker objects
- * @methodOf animation
  */
 function apply_def(obj) {
 
     var action = get_default_action(obj);
-    var nla_tracks = get_nla_tracks(obj);
 
     if (action) {
         do_before_apply(obj);
         apply_action(obj, action);
-        do_after_apply(obj);
-    } else if (nla_tracks) {
-        do_before_apply(obj);
-
-        obj._anim.type = OBJ_ANIM_TYPE_STATIC;
-        var start = 0;
-        var start_len = nla_start_length(nla_tracks);
-
-        obj._anim.start = start_len[0];
-        obj._anim.current_frame_float = start_len[0];
-        obj._anim.length = start_len[1];
-
-        if (m_sfx.is_speaker(obj))
-            m_sfx.speaker_use_nla(obj);
-
         do_after_apply(obj);
     } else if (has_vertex_anim(obj)) {
         do_before_apply(obj);
@@ -185,14 +166,11 @@ function apply_def(obj) {
         obj._anim.length = frame_range[1] - frame_range[0] + 1;
         do_after_apply(obj);
     }
-
-    // TODO: prepare nla for speaker objs
 }
 
 /** 
  * Try to get action from the following places:
  *  obj.modifiers -> armature obj 
- *  obj.constraints -> armature obj
  *  obj.animation_data.action
  *  spkobj.data.animation_data
  * @param obj Object ID
@@ -208,16 +186,6 @@ function get_default_action(obj) {
             return anim_data["action"];
     }
 
-    var cons_arm = find_armature_constraint(obj["constraints"], "COPY_LOCATION");
-    if (cons_arm) {
-        var armobj = cons_arm["target"];
-        if (armobj) {
-            var anim_data = armobj["animation_data"];
-            if (anim_data && anim_data["action"])
-                return anim_data["action"];
-        }
-    }
-
     // animation_data
     var anim_data = obj["animation_data"];
     if (anim_data && anim_data["action"])
@@ -231,42 +199,6 @@ function get_default_action(obj) {
     return null;
 }
 
-/** 
- * get NLA tracks for object
- */
-function get_nla_tracks(obj) {
-    var adata = obj["animation_data"];
-    if (adata && adata["nla_tracks"])
-        return adata["nla_tracks"];
-    else
-        return null;
-}
-
-/**
- * get minimum start and maximum length of nla_tracks/strips
- */
-function nla_start_length(nla_tracks) {
-
-    var start = 0;
-    var end = 0;
-    for (var i = 0; i < nla_tracks.length; i++) {
-        var track = nla_tracks[i];
-
-        var strips = track["strips"];
-        if (!strips)
-            continue;
-
-        for (var j = 0; j < strips.length; j++) {
-            var strip = strips[j];
-
-            start = Math.min(start, strip["frame_start"]);
-            end = Math.max(end, strip["frame_end"]);
-        }
-    }
-    // NOTE: last frame may be rendered, so maybe we need increment here
-    return [start, end-start];
-}
-
 function has_vertex_anim(obj) {
     if (m_util.is_mesh(obj) && obj._render.vertex_anim)
         return true;
@@ -275,9 +207,6 @@ function has_vertex_anim(obj) {
 }
 
 exports.get_first_armature_object = get_first_armature_object;
-/**
- * @methodOf animation
- */
 function get_first_armature_object(obj) {
     var modifiers = obj["modifiers"];
     for (var i = 0; i < modifiers.length; i++) {
@@ -290,9 +219,8 @@ function get_first_armature_object(obj) {
 
 exports.play = play;
 /**
- * start to play preset animation 
+ * Start to play preset animation 
  * offset in seconds
- * @methodOf animation
  */
 function play(obj, finish_callback, offset) {
     if (obj._anim) {
@@ -322,14 +250,6 @@ function stop(obj) {
         delete obj._anim.finish_callback;
     }
 }
-/**
- * Restart object animation
- */
-function restart(obj) {
-
-    if (obj._anim && m_sfx.is_speaker(obj))
-        m_sfx.speaker_restart_nla(obj);
-}
 
 exports.is_play = function(obj) {
     if (obj._anim) 
@@ -338,14 +258,14 @@ exports.is_play = function(obj) {
 
 exports.set_current_frame_float = function(obj, cff) {
     if (obj._anim)
-        return obj._anim.current_frame_float = cff;
+        obj._anim.current_frame_float = cff;
 }
 
 exports.get_current_frame_float = function(obj) {
     if (obj._anim && obj._anim.current_frame_float)
         return obj._anim.current_frame_float;
     else
-        return false;
+        return 0.0;
 }
 
 exports.cyclic = cyclic;
@@ -411,10 +331,6 @@ exports.is_animatable = function(bpy_obj) {
     if (armobj)
         return true;
 
-    var cons_arm = find_armature_constraint(bpy_obj["constraints"], "COPY_LOCATION");
-    if (cons_arm)
-        return true;
-
     // animation_data
     var anim_data = bpy_obj["animation_data"];
     if (anim_data && anim_data["action"])
@@ -422,10 +338,6 @@ exports.is_animatable = function(bpy_obj) {
 
     if (bpy_obj["type"] == "SPEAKER" && bpy_obj["data"]["animation_data"] &&
             bpy_obj["data"]["animation_data"]["action"])
-        return true;
-
-    var nla_tracks = get_nla_tracks(bpy_obj);
-    if (nla_tracks && nla_tracks.length > 0)
         return true;
 
     if (m_particles.has_particles(bpy_obj) && m_particles.has_anim_particles(bpy_obj))
@@ -508,51 +420,21 @@ function apply_action(obj, action) {
         obj._anim.pitch = act_render.params["pitch"] || null;
         obj._anim.type = OBJ_ANIM_TYPE_SOUND;
     } else {
-        var cons_trans = [];
-        var cons_quats = [];
+        var tsr = act_render.params["tsr"];
+        if (tsr) {
+            obj._anim.trans = [];
+            obj._anim.quats = [];
 
-        // NOTE: deprecated constraint animation
-        var cons_arm = find_armature_constraint(obj["constraints"], "COPY_LOCATION");
-        if (cons_arm) {
-            var armobj = cons_arm["target"];
-            var bone_name = cons_arm["subtarget"];
-
-            var pose_data_frames = get_cached_pose_data(obj, action);
-            if (!pose_data_frames) {
-                var bone_pointer = calc_bone_pointer(bone_name, armobj);
-                var pose_data_frames = calc_pose_data_frames(armobj, action,
-                        [bone_pointer]);
-                cache_pose_data(obj, action, pose_data_frames);
+            for (var i = 0; i < num_pierced; i++) {
+                obj._anim.trans.push(tsr.subarray(i*8, i*8 + 4));
+                obj._anim.quats.push(tsr.subarray(i*8 + 4, i*8 + 8));
             }
-
-            cons_trans = pose_data_frames.trans;
-            cons_quats = pose_data_frames.quats;
-
-            var bone = m_util.keysearch("name", bone_name, armobj["pose"]["bones"]);
-            obj._anim.tsr_local = bone._tsr_local;
-        }
-
-        if (cons_trans.length > 0) {
-            obj._anim.trans = cons_trans;
-            obj._anim.quats = cons_quats;
-            obj._anim.type = OBJ_ANIM_TYPE_CONSTRAINT;
+            obj._anim.type = OBJ_ANIM_TYPE_OBJECT;
         } else {
-            var tsr = act_render.params["tsr"];
-            if (tsr) {
-                obj._anim.trans = [];
-                obj._anim.quats = [];
-
-                for (var i = 0; i < num_pierced; i++) {
-                    obj._anim.trans.push(tsr.subarray(i*8, i*8 + 4));
-                    obj._anim.quats.push(tsr.subarray(i*8 + 4, i*8 + 8));
-                }
-                obj._anim.type = OBJ_ANIM_TYPE_OBJECT;
-            } else {
-                m_print.warn("B4W Warning: Incompatible action \"" + 
-                    action["name"] + "\" has been applied to object \"" + 
-                    obj["name"] + "\"");
-                obj._anim.type = OBJ_ANIM_TYPE_STATIC;
-            }
+            m_print.warn("B4W Warning: Incompatible action \"" + 
+                action["name"] + "\" has been applied to object \"" + 
+                obj["name"] + "\"");
+            obj._anim.type = OBJ_ANIM_TYPE_STATIC;
         }
     }
 }
@@ -593,9 +475,6 @@ function find_armature_constraint(constraints, type) {
 }
 
 exports.calc_armature_bone_pointers = calc_armature_bone_pointers;
-/**
- * @methodOf animation
- */
 function calc_armature_bone_pointers(armobj) {
     var bones = armobj["data"]["bones"];
     var pose_bones = armobj["pose"]["bones"];
@@ -661,12 +540,12 @@ function animate(obj, elapsed) {
     cff += elapsed * cfg_ani.framerate;
 
     if (cff >= start + length) {
+
         finish_callback = obj._anim.finish_callback;
 
         switch(obj._anim.behavior) {
         case AB_CYCLIC:
             cff = ((cff-start) % length) + start;
-            restart(obj);
             break;
         case AB_FINISH_RESET:
             cff = start;
@@ -704,37 +583,6 @@ function animate(obj, elapsed) {
 
         if (anim_type === OBJ_ANIM_TYPE_ARMATURE)
             m_trans.update_transform(obj);
-
-        break;
-
-    // NOTE: deprecated
-    case OBJ_ANIM_TYPE_CONSTRAINT:
-        var finfo = action_anim_finfo(obj._anim, cff, _frame_info_tmp);
-
-        var frame = finfo[0];
-        var frame_next = finfo[1];
-        var frame_factor = finfo[2];
-
-        var trans = obj._anim.trans;
-        var quats = obj._anim.quats;
-
-        var tsr_loc = obj._anim.tsr_local;
-
-        // GARBAGE
-        var tr = m_util.blend_arrays(trans[frame], trans[frame_next], frame_factor);
-        var qt = m_util.blend_arrays(quats[frame], quats[frame_next], frame_factor);
-
-        var tsr_tr = m_tsr.create()
-        m_tsr.set_transcale(tr, tsr_tr);
-        m_tsr.set_quat(qt, tsr_tr);
-
-        m_tsr.multiply(tsr_tr, tsr_loc, tsr_tr);
-
-        // COPY_LOCATION ONLY
-        var t = m_tsr.get_trans_view(tsr_tr);
-
-        m_trans.set_translation(obj, t);
-        m_trans.update_transform(obj);
 
         break;
 
@@ -963,7 +811,6 @@ function calc_pose_data_frames(armobj, action, bone_pointers) {
 exports.calc_pose_data = calc_pose_data;
 /**
  * Calculate pose trans/quats for armature object
- * @methodOf animation
  */
 function calc_pose_data(armobj, bone_pointers) {
     var trans = [];

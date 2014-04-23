@@ -8,6 +8,7 @@
 b4w.module["main"] = function(exports, require) {
 
 var animation  = require("__animation");
+var compat     = require("__compat");
 var config     = require("__config");
 var m_print    = require("__print");
 var controls   = require("__controls");
@@ -16,6 +17,7 @@ var debug      = require("__debug");
 var extensions = require("__extensions");
 var geometry   = require("__geometry");
 var hud        = require("__hud");
+var nla        = require("__nla");
 var assets     = require("__assets");
 var physics    = require("__physics");
 var renderer   = require("__renderer");
@@ -33,17 +35,18 @@ var cfg_def = config.defaults;
 var _elem_canvas_webgl = null;
 var _elem_canvas_hud = null;
 
-// global time since main init
+// engine timeline (since initialization)
 var _global_timeline = 0;
+
 var _last_abs_time = 0;
+var _pause_time = 0;
+var _resume_time = 0;
 
 var _fps_callback = function() {};
 var _fps_counter = function() {};
 
 var _render_callback = function() {};
 var _canvas_data_url_callback = null;
-
-var _do_render = true;
 
 var CONTEXT_NAMES = ["webgl", "experimental-webgl"];
 
@@ -65,24 +68,11 @@ var _requestAnimFrame = (function() {
 // public enums
 
 /**
- * @const module:main.INIT_OK
- */
-exports["INIT_OK"] = 100;
-/**
- * @const module:main.BROWSER_NOT_SUPPORTED
- */
-exports["BROWSER_NOT_SUPPORTED"] = 110;
-/**
- * @const module:main.UNDERLYING_ERROR
- */
-exports["UNDERLYING_ERROR"] = 120;
-
-/**
  * Create WebGL context and initialize engine.
  * @method module:main.init
  * @param elem_canvas_webgl Canvas element for WebGL
  * @param [elem_canvas_hud] Canvas element for HUD
- * @returns Init status: INIT_OK, BROWSER_NOT_SUPPORTED, UNDERLYING_ERROR
+ * @returns WebGL context or null
  */
 exports["init"] = function(elem_canvas_webgl, elem_canvas_hud) {
 
@@ -94,12 +84,11 @@ exports["init"] = function(elem_canvas_webgl, elem_canvas_hud) {
 
     var ver_str = version.version() + " " + version.type() + 
             " (" + version.date() + ")";
-    m_print.log("%cINIT B2W ENGINE", "color: #00a", ver_str);
+    m_print.log("%cINIT B4W ENGINE", "color: #00a", ver_str);
 
     // check gl context and performance.now()
-    if (!window["WebGLRenderingContext"]) {
-        return exports["BROWSER_NOT_SUPPORTED"];
-    }
+    if (!window["WebGLRenderingContext"])
+        return null;
 
     if (!window["performance"]) {
         m_print.log("Apply performance workaround");
@@ -117,10 +106,10 @@ exports["init"] = function(elem_canvas_webgl, elem_canvas_hud) {
 
     gl = get_context(elem_canvas_webgl);
     if (!gl)
-        return exports["UNDERLYING_ERROR"];
+        return null;
 
     init_context(_elem_canvas_webgl);
-    config.set_hardware_defaults(gl);
+    compat.set_hardware_defaults(gl);
     config.apply_quality();
 
     m_print.log("%cSET PRECISION:", "color: #00a", cfg_def.precision);
@@ -136,7 +125,7 @@ exports["init"] = function(elem_canvas_webgl, elem_canvas_hud) {
 
     physics.init_engine();
 
-    return exports["INIT_OK"];
+    return gl;
 }
 
 function get_context(canvas) {
@@ -162,7 +151,7 @@ function init_context(canvas) {
             function(event) {
                 event.preventDefault();
 
-                m_print.error("B2W Error: WebGL context lost");
+                m_print.error("B4W Error: WebGL context lost");
 
                 // at least prevent freeze
                 pause();
@@ -314,17 +303,6 @@ exports["global_timeline"] = function() {
 }
 
 /**
- * Reset engine global timeline.
- * Note: reset of engine's timeline is strongly discouraged
- * @method module:main.reset_timeline
- */
-exports["reset_timeline"] = function() {
-    _global_timeline = 0;
-    _last_abs_time = 0;
-}
-
-
-/**
  * @method module:main.set_texture_quality
  * @deprecated Use engine's default values
  */
@@ -349,33 +327,40 @@ exports["redraw"] = function() {
     frame(_global_timeline, 0);
 }
 
-/**
- * Resume engine operation (after pause)
- * @method module:main.resume
- */
-exports["resume"] = function() {
-    _do_render = true;
-    sfx.resume();
-    physics.resume();
-}
-
 exports["pause"] = pause;
 /**
  * Set engine on pause
  * @method module:main.pause
  */
 function pause() {
-    _do_render = false;
+    if (is_paused())
+        return;
 
+    _pause_time = performance.now() / 1000;
     sfx.pause();
     physics.pause();
 }
+
+/**
+ * Resume engine operation (after pause)
+ * @method module:main.resume
+ */
+exports["resume"] = function() {
+    if (!is_paused())
+        return;
+
+    _resume_time = performance.now() / 1000;
+    sfx.resume();
+    physics.resume();
+}
+
 /**
  * Check if engine is paused
  * @method module:main.is_paused
  */
-exports["is_paused"] = function() {
-    return !_do_render;
+exports["is_paused"] = is_paused;
+function is_paused() {
+    return (_resume_time < _pause_time);
 }
 
 function loop() {
@@ -397,21 +382,23 @@ function loop() {
         return;
     }
 
+    if (!is_paused()) {
+        // correct delta if resume occured since last frame
+        if (_resume_time > _last_abs_time)
+            delta -= (_resume_time - Math.max(_pause_time, _last_abs_time));
+
+        _global_timeline += delta;
+        
+        debug.update();
+
+        assets.update();
+        data.update();
+        frame(_global_timeline, delta);
+
+        _fps_counter(delta);
+    }
+
     _last_abs_time = abstime;
-
-    if (!_do_render)
-        return;
-
-    _global_timeline += delta;
-    
-    debug.update();
-
-    assets.update();
-    data.update();
-    frame(_global_timeline, delta);
-
-    _fps_counter(delta);
-
 }
 
 function frame(timeline, delta) {
@@ -422,6 +409,8 @@ function frame(timeline, delta) {
     hud.reset();
 
     transform.update(delta);
+
+    nla.update(timeline, delta);
 
     // sound
     sfx.update(timeline, delta);
@@ -497,12 +486,13 @@ exports["reset"] = function() {
     _global_timeline = 0;
     _last_abs_time = 0;
 
+    _pause_time = 0;
+    _resume_time = 0;
+
     _fps_callback = function() {};
     _fps_counter = function() {};
 
     _render_callback = function() {};
-
-    _do_render = true;
 
     gl = null;
 }
@@ -523,6 +513,7 @@ b4w["controls"]    = b4w.require("controls");
 b4w["constraints"] = b4w.require("constraints");
 b4w["data"]        = b4w.require("data");
 b4w["debug"]       = b4w.require("debug");
+b4w["geometry"]    = b4w.require("geometry");
 b4w["lights"]      = b4w.require("lights");
 b4w["main"]        = b4w.require("main");
 b4w["material"]    = b4w.require("material");

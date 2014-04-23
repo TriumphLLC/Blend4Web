@@ -1,7 +1,3 @@
-#ifndef INIT_FUNC_NAME
-#define INIT_FUNC_NAME PyInit_b4w_bin
-#endif
-
 #include <Python.h>
 #include <assert.h>
 
@@ -14,6 +10,18 @@
 #include "./includes/makesdna/DNA_mesh_types.h"
 #include "./includes/makesdna/DNA_object_types.h"
 
+// to make Windows happy
+#define MAX(a, b) ((a) > (b) ? (a) : (b))
+#define MIN(a, b) ((a) < (b) ? (a) : (b))
+
+#ifndef INIT_FUNC_NAME
+#define INIT_FUNC_NAME PyInit_b4w_bin
+#else
+// to make Windows happy
+PyMODINIT_FUNC PyInit_b4w_bin(void) {
+    return NULL;
+}
+#endif
 
 /* ********************* PYTHON C API INITIALIZATION ************************ */
 
@@ -152,10 +160,6 @@ struct MeshData {
     bool need_vcol_optimization;
     unsigned int *channels_presence;
 };
-const struct MeshData MeshData_Default = { .frames = 1, .uv_layers_count = 0, 
-        .col_layers_count = 0, .need_vcol_optimization = false, .pos = NULL, 
-        .nor = NULL, .grp = NULL, .col = NULL, .tco0 = NULL, .tco1 = NULL, 
-        .channels_presence = NULL, .origindex = NULL };
 
 struct BoundingData {
     // bounding box data
@@ -184,13 +188,6 @@ struct BoundingData {
     float ecen_y;
     float ecen_z;
 };
-const struct BoundingData BoundingData_Default = { .max_x = 0, .max_y = 0,
-        .max_z = 0, .min_x = 0, .min_y = 0, .min_z = 0,
-        .srad = 0, .scen_x = 0, .scen_y = 0, .scen_z = 0,
-        .crad = 0, .ccen_x = 0, .ccen_y = 0, .ccen_z = 0,
-        .eaxis_x = 0, .eaxis_y = 0, .eaxis_z = 0,
-        .ecen_x = 0, .ecen_y = 0, .ecen_z = 0 };
-
 
 /* ***************************** UTILITIES ********************************** */
 /**
@@ -501,6 +498,8 @@ int get_vertex_normals_list(float *normals, Object *obj)
     IDProperty *normal_data_container;
     IDProperty *normal_data;
 
+    float *f_norm_vector;
+    double *d_norm_vector;
     int i;
 
     // NOTE: get "b4w_vertex_normal_list" custom property data
@@ -514,16 +513,16 @@ int get_vertex_normals_list(float *normals, Object *obj)
             normal_data = get_property_by_name(normal_data_container, "normal");
             // NOTE: different data types can be (IDP_FLOAT, IDP_DOUBLE)
             if (normal_data->subtype == IDP_FLOAT) {
-                float *norm_vector = (float *)normal_data->data.pointer;
-                normals[3 * i] = norm_vector[0];
-                normals[3 * i + 1] = norm_vector[2];
-                normals[3 * i + 2] = -norm_vector[1];
+                f_norm_vector = (float *)normal_data->data.pointer;
+                normals[3 * i] = f_norm_vector[0];
+                normals[3 * i + 1] = f_norm_vector[2];
+                normals[3 * i + 2] = -f_norm_vector[1];
             }
             else {
-                double *norm_vector = (double *)normal_data->data.pointer;
-                normals[3 * i] = (float)norm_vector[0];
-                normals[3 * i + 1] = (float)norm_vector[2];
-                normals[3 * i + 2] = (float)(-norm_vector[1]);
+                d_norm_vector = (double *)normal_data->data.pointer;
+                normals[3 * i] = (float)d_norm_vector[0];
+                normals[3 * i + 1] = (float)d_norm_vector[2];
+                normals[3 * i + 2] = (float)(-d_norm_vector[1]);
             }
         }
         return NO_ERROR;
@@ -639,7 +638,7 @@ void get_vertex_colors(struct MeshData *mesh_data, Mesh *mesh)
 /* **************** SUBMESH CALCULATION ********************* */
 
 void combine_positions_normals(struct MeshData *mesh_data, Mesh *mesh, 
-        long obj_ptr, int vertex_animation, int edited_normals) 
+        unsigned long obj_ptr, int vertex_animation, int edited_normals) 
 {
     Object *obj = (Object *)obj_ptr;
     MVert *vertices = mesh->mvert;
@@ -697,7 +696,7 @@ void combine_positions_normals(struct MeshData *mesh_data, Mesh *mesh,
     }
 }
 
-int combine_groups(struct MeshData *mesh_data, Mesh *mesh, long obj_ptr, 
+int combine_groups(struct MeshData *mesh_data, Mesh *mesh, unsigned long obj_ptr, 
         int vertex_groups) 
 {
     Object *obj = (Object *)obj_ptr;
@@ -718,11 +717,11 @@ int combine_groups(struct MeshData *mesh_data, Mesh *mesh, long obj_ptr,
 void combine_colors(struct MeshData *mesh_data, Mesh *mesh, int vertex_colors, 
         Py_buffer *mask_buffer) 
 {
+    int i;
+
     if (vertex_colors) {
         int total_channels_size;
         char *mask_array = (char *)mask_buffer->buf;
-
-        int i;
 
         mesh_data->col_layers_count = get_colors_layers_count(mesh);
         mesh_data->channels_presence = uialloc(mesh_data->col_layers_count * 3);
@@ -759,11 +758,12 @@ void combine_tco(struct MeshData *mesh_data, Mesh *mesh, int mat_index)
     CustomData *fdata = &mesh->fdata;
     CustomDataLayer *layer;
 
-    mesh_data->uv_layers_count = CustomData_number_of_layers(fdata, CD_MTFACE);
     int i,j, tco_size = 0;
     int layers_counter = 0, tco_counter;
 
     float *curr_tco_buff = NULL;
+
+    mesh_data->uv_layers_count = CustomData_number_of_layers(fdata, CD_MTFACE);
 
     if (mesh_data->uv_layers_count > 0) {
         // NOTE: get tco buffer size
@@ -831,10 +831,7 @@ void triangulate_mesh(struct MeshData *mesh_data, Mesh *mesh, int mat_index,
 
     int not_done, face_len;
     int *vcol_indices = NULL;
-    // NOTE: use origindex (if exist) for better color extraction
-    if (mesh_data->origindex != NULL)
-        vcol_indices = malloc(6 * sizeof(int));
-    
+
     float *tri_pos = NULL;
     float *tri_norm = NULL;
     float *tri_tco0 = NULL;
@@ -866,9 +863,13 @@ void triangulate_mesh(struct MeshData *mesh_data, Mesh *mesh, int mat_index,
     int color_vert_offset, tri_color_vert_offset;
     int color_face_offset = 0;
 
-    float *no = falloc(3);
-    
     int i,j,k,l;
+
+    float *no = falloc(3);
+
+    // NOTE: use origindex (if exist) for better color extraction
+    if (mesh_data->origindex != NULL)
+        vcol_indices = malloc(6 * sizeof(int));
 
     // NOTE: get triangulated sizes
     for (i = 0; i < mesh->totface; i++) {
@@ -1060,9 +1061,11 @@ void triangulate_mesh(struct MeshData *mesh_data, Mesh *mesh, int mat_index,
 float *optimize_vertex_colors(struct SubmeshData *data, unsigned int *channels_presence) {
     float *optimized_colors = NULL;
 
+    int i, j, k, counter = 0;
+    int optimized_colors_size;
+
     if (data->col) {
-        int i, j, k, counter = 0;
-        int optimized_colors_size = get_optimized_channels_total(channels_presence, 
+        optimized_colors_size = get_optimized_channels_total(channels_presence, 
                 data->col_layers) * data->vnum;
         optimized_colors = falloc(optimized_colors_size);
 
@@ -1139,11 +1142,13 @@ void set_tspace_basic_cb(const SMikkTSpaceContext *ctx, const float fvTangent[],
 
 void calc_tang_space(struct TBNCalcData *tbn_data)
 {
+    SMikkTSpaceInterface in;
+    SMikkTSpaceContext ctx;
+
     /* do nothing */
     if (!tbn_data->tco)
         return;
 
-    SMikkTSpaceInterface in;
     in.m_getNumFaces = &get_num_faces_cb;
     in.m_getNumVerticesOfFace = &get_num_vertices_of_face_cb;
     in.m_getPosition = &get_position_cb;
@@ -1152,7 +1157,6 @@ void calc_tang_space(struct TBNCalcData *tbn_data)
     in.m_setTSpaceBasic = &set_tspace_basic_cb;
     in.m_setTSpace = NULL;
 
-    SMikkTSpaceContext ctx;
     ctx.m_pInterface = &in;
     ctx.m_pUserData = tbn_data;
 
@@ -1348,9 +1352,11 @@ void weld_submesh(struct SubmeshData *src, struct SubmeshData *dst)
 static PyObject *calc_submesh_empty(void)
 {
     char *empty_str = "";
-    PyObject *empty_buff = PyByteArray_FromStringAndSize(empty_str,0);
-    PyObject *result = PyDict_New();
+    PyObject *empty_buff;
+    PyObject *result;
 
+    empty_buff = PyByteArray_FromStringAndSize(empty_str,0);
+    result = PyDict_New();
 
     PyDict_SetItemString(result, "base_length", PyLong_FromLong(0));
 
@@ -1391,6 +1397,8 @@ static PyObject *calc_submesh(struct MeshData *mesh_data, int arr_to_str,
         int grp_to_str)
 {
     struct TBNCalcData tbn_data;
+    struct SubmeshData src;
+    struct SubmeshData dst;
 
     float *tan_frames;
 
@@ -1399,15 +1407,20 @@ static PyObject *calc_submesh(struct MeshData *mesh_data, int arr_to_str,
     float *tan;
 
     int i;
+    int nor_needed;
+    int tan_needed;
 
-    PyObject *result = calc_submesh_empty();
+    PyObject *result;
+    PyObject *bytes_buff;
+
+    result = calc_submesh_empty();
 
     if (!mesh_data->base_length || ( sizeof(mesh_data->pos) / sizeof(float) 
             / POS_NUM_COMP) % mesh_data->base_length)
         return result;
 
-    int nor_needed = mesh_data->nor ? 1 : 0;
-    int tan_needed = mesh_data->tco0 ? nor_needed : 0;
+    nor_needed = mesh_data->nor ? 1 : 0;
+    tan_needed = mesh_data->tco0 ? nor_needed : 0;
 
     if (tan_needed) {
         tan_frames = falloc(TAN_NUM_COMP * mesh_data->base_length * 
@@ -1430,7 +1443,6 @@ static PyObject *calc_submesh(struct MeshData *mesh_data, int arr_to_str,
     } else
         tan_frames = NULL;
 
-    struct SubmeshData src;
 
     src.vnum = mesh_data->base_length;
     src.frames = mesh_data->frames;
@@ -1451,11 +1463,8 @@ static PyObject *calc_submesh(struct MeshData *mesh_data, int arr_to_str,
     src.indices = NULL;
     src.inum = 0;
 
-    struct SubmeshData dst;
-
     weld_submesh(&src, &dst);
 
-    PyObject *bytes_buff;
     PyDict_SetItemString(result, "base_length", PyLong_FromLong(dst.vnum));
 
     bytes_buff = PyByteArray_FromStringAndSize((char *)dst.indices, 
@@ -1526,19 +1535,21 @@ static PyObject *calc_submesh(struct MeshData *mesh_data, int arr_to_str,
 }
 
 void calc_bounding_data(struct BoundingData *bdata, Mesh *mesh) {
+    int i;
+    float x,y,z;
+    float x_width;
+    float y_width;
+    float z_width;
+    float scen_dist;
+    float ccen_dist;
+    float scen_tmp_dist;
+    float tmp_rad;
+    float g[3];
+    float tmp_scen[3];
+    MVert *vertices;
+
     if (mesh->totvert > 0) {
-        int i;
-        float x,y,z;
-        float x_width;
-        float y_width;
-        float z_width;
-        float scen_dist;
-        float ccen_dist;
-        float scen_tmp_dist;
-        float tmp_rad;
-        float g[3];
-        float tmp_scen[3];
-        MVert *vertices = mesh->mvert;
+        vertices = mesh->mvert;
 
         // NOTE: rotate by 90 degrees around X axis
         x = vertices[0].co[0];
@@ -1556,12 +1567,12 @@ void calc_bounding_data(struct BoundingData *bdata, Mesh *mesh) {
             y = vertices[i].co[2];
             z = -vertices[i].co[1];
 
-            bdata->max_x = fmax(bdata->max_x, x);
-            bdata->max_y = fmax(bdata->max_y, y);
-            bdata->max_z = fmax(bdata->max_z, z);
-            bdata->min_x = fmin(bdata->min_x, x);
-            bdata->min_y = fmin(bdata->min_y, y);
-            bdata->min_z = fmin(bdata->min_z, z);
+            bdata->max_x = MAX(bdata->max_x, x);
+            bdata->max_y = MAX(bdata->max_y, y);
+            bdata->max_z = MAX(bdata->max_z, z);
+            bdata->min_x = MIN(bdata->min_x, x);
+            bdata->min_y = MIN(bdata->min_y, y);
+            bdata->min_z = MIN(bdata->min_z, z);
         }
 
         x_width = bdata->max_x - bdata->min_x;
@@ -1576,8 +1587,8 @@ void calc_bounding_data(struct BoundingData *bdata, Mesh *mesh) {
         bdata->ccen_y = bdata->scen_y;
         bdata->ccen_z = bdata->scen_z;
 
-        bdata->srad = fmax(x_width, fmax(y_width, z_width)) / 2.0;;
-        bdata->crad = fmax(x_width, z_width) / 2.0;
+        bdata->srad = MAX(x_width, MAX(y_width, z_width)) / 2.0;;
+        bdata->crad = MAX(x_width, z_width) / 2.0;
 
         tmp_scen[0] = bdata->scen_x / (x_width? x_width: 1.0);
         tmp_scen[1] = bdata->scen_y / (y_width? y_width: 1.0);
@@ -1667,25 +1678,42 @@ void calc_bounding_data(struct BoundingData *bdata, Mesh *mesh) {
 /* ************************* Exported functions ***************************** */
 
 static PyObject *b4w_bin_export_submesh(PyObject *self, PyObject *args) {
-    long mesh_ptr, obj_ptr;
+    unsigned long mesh_ptr, obj_ptr;
     int mat_index, disab_flat;
     int vertex_animation, edited_normals, vertex_groups, vertex_colors;
     int is_degenerate_mesh;
     Py_buffer mask_buffer;
+    PyObject *result;
+    int groups_error;
+    Mesh *mesh;
 
-    if (!PyArg_ParseTuple(args, "lliiiiiis*i", &mesh_ptr, &obj_ptr, &mat_index,
+    struct MeshData mesh_data;
+    mesh_data.pos = NULL;
+    mesh_data.nor = NULL;
+    mesh_data.grp = NULL;
+    mesh_data.col = NULL;
+    mesh_data.tco0 = NULL;
+    mesh_data.tco1 = NULL;
+    mesh_data.origindex = NULL;
+    mesh_data.base_length = 0;
+    mesh_data.groups_num = 0;
+    mesh_data.frames = 1;
+    mesh_data.uv_layers_count = 0;
+    mesh_data.col_layers_count = 0;
+    mesh_data.need_vcol_optimization = false;
+    mesh_data.channels_presence = NULL;
+
+    if (!PyArg_ParseTuple(args, "kkiiiiiis*i", &mesh_ptr, &obj_ptr, &mat_index,
             &disab_flat, &vertex_animation, &edited_normals, 
             &vertex_groups, &vertex_colors, &mask_buffer, &is_degenerate_mesh))
         return NULL;
 
-    PyObject *result = PyDict_New();
+    result = PyDict_New();
 
     if (is_degenerate_mesh) {
         result = calc_submesh_empty();
     } else {
-        Mesh *mesh = (Mesh *)mesh_ptr;
-        struct MeshData mesh_data = MeshData_Default;
-        int groups_error;
+        mesh = (Mesh *)mesh_ptr;
 
         combine_positions_normals(&mesh_data, mesh, obj_ptr, vertex_animation, 
                 edited_normals);
@@ -1705,14 +1733,38 @@ static PyObject *b4w_bin_export_submesh(PyObject *self, PyObject *args) {
 }
 
 static PyObject *b4w_bin_calc_bounding_data(PyObject *self, PyObject *args) {
-    long mesh_ptr;
-    if (!PyArg_ParseTuple(args, "l", &mesh_ptr))
+    unsigned long mesh_ptr;
+    PyObject *result;
+    Mesh *mesh;
+
+    struct BoundingData bdata;
+    bdata.max_x = 0;
+    bdata.max_y = 0;
+    bdata.max_z = 0;
+    bdata.min_x = 0;
+    bdata.min_y = 0;
+    bdata.min_z = 0;
+    bdata.srad = 0;
+    bdata.scen_x = 0;
+    bdata.scen_y = 0;
+    bdata.scen_z = 0;
+    bdata.crad = 0;
+    bdata.ccen_x = 0;
+    bdata.ccen_y = 0;
+    bdata.ccen_z = 0;
+    bdata.eaxis_x = 0;
+    bdata.eaxis_y = 0;
+    bdata.eaxis_z = 0;
+    bdata.ecen_x = 0;
+    bdata.ecen_y = 0;
+    bdata.ecen_z = 0;
+
+    if (!PyArg_ParseTuple(args, "k", &mesh_ptr))
         return NULL;
 
-    PyObject *result = PyDict_New();
-    Mesh *mesh = (Mesh *)mesh_ptr;
+    result = PyDict_New();
+    mesh = (Mesh *)mesh_ptr;
 
-    struct BoundingData bdata = BoundingData_Default;
     calc_bounding_data(&bdata, mesh);
 
     PyDict_SetItemString(result, "max_x", PyFloat_FromDouble(bdata.max_x));
@@ -1742,35 +1794,39 @@ static PyObject *b4w_bin_calc_bounding_data(PyObject *self, PyObject *args) {
 static PyObject *b4w_bin_create_buffer_float(PyObject *self,
         PyObject *args) {
     long length;
+    float *buffer;
     if (!PyArg_ParseTuple(args, "l", &length))
         return NULL;
 
-    float *buffer = falloc(length);
-    return PyLong_FromLong((long)buffer);
+    buffer = falloc(length);
+    return PyLong_FromUnsignedLong((unsigned long)buffer);
 }
 
 static PyObject *b4w_bin_buffer_insert_float(PyObject *self, PyObject *args) {
     float *buffer;
     int index;
     float val;
-    if (!PyArg_ParseTuple(args, "lif", &buffer, &index, &val))
+    if (!PyArg_ParseTuple(args, "kif", &buffer, &index, &val))
         return NULL;
 
     buffer[index] = val;
-    return PyLong_FromLong((long)buffer);
+    return PyLong_FromUnsignedLong((unsigned long)buffer);
 }
 
 static PyObject *b4w_bin_get_buffer_float(PyObject *self,
         PyObject *args) {
     float *buffer;
     long buffer_len;
+    PyObject *result;
 
-    if (!PyArg_ParseTuple(args, "ll", &buffer, &buffer_len))
+    if (!PyArg_ParseTuple(args, "kl", &buffer, &buffer_len))
         return NULL;
 
-    PyObject *result = PyByteArray_FromStringAndSize((char *)buffer, 
+    result = PyByteArray_FromStringAndSize((char *)buffer, 
             buffer_len * sizeof(float));
     free(buffer);
 
     return result;
 }
+
+/* vim: set et ts=4 sw=4: */
