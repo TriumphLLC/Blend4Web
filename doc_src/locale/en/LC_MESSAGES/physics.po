@@ -13,34 +13,44 @@ msgstr ""
 
 #: ../physics.rst:5
 msgid "Физика"
-msgstr ""
+msgstr "Physics"
 
 #: ../physics.rst:8
 msgid "Подготовка к использованию"
-msgstr ""
+msgstr "Preparing for Use"
 
 #: ../physics.rst:10
 msgid ""
-"Физическая подсистема реализована в независимо загружающемся модуле "
-"uranium.js, содержащем портированный на JavaScript физический движок Bullet."
-" Для установки использования физической подсистемы и пути загрузки модуля "
-"uranium.js приложения должны использовать API:"
+"Физическая подсистема реализована в модуле **uranium.js** и загружается "
+"отдельно от основного кода движка. Модуль **uranium.js** представляет собой "
+"модификацию физического движка `Bullet <http://bulletphysics.org/>`_, "
+"портированную для работы в браузерах. Подключение физической подсистемы и "
+"указание пути загрузки модуля **uranium.js** осуществляется приложениями "
+"посредством внешнего API:"
 msgstr ""
+"The physics system is implemented in the **uranium.js** module and loaded "
+"separately from the engine's main code. The **uranium.js** module itself is "
+"a modification of the `Bullet <http://bulletphysics.org/>`_ physics engine, "
+"which is ported to work in browsers. To enable the physics system and to "
+"specify the **uranium.js** module's loading path, applications must use the "
+"external API:"
 
 #: ../physics.rst:17
 msgid ""
 "Для задействования физики на сцене необходимо установить флаг ``Enable "
-"physics`` в интерфейсе сцены."
+"physics`` в вкладке сцены в Blender'е."
 msgstr ""
+"To enable physics on the scene use the ``Enable physics`` checkbox under the"
+" scene tab in Blender."
 
 #: ../physics.rst:25
 msgid ""
 "Настройка физических параметров производится в режиме ``Blender Game``."
-msgstr ""
+msgstr "Physical parameters can be set up in the ``Blender Game`` mode."
 
 #: ../physics.rst:34
 msgid "Статический меш"
-msgstr ""
+msgstr "Static Mesh"
 
 #: ../physics.rst:36
 msgid ""
@@ -49,14 +59,25 @@ msgid ""
 "физики такого объекта для опции ``Physics Type`` должно быть выбрано "
 "значение ``Static`` (значение по умолчанию)."
 msgstr ""
+"Can be used to limit the movement of other objects, for example to detect "
+"collisions with a landscape, walls and so on. In the physics settings of "
+"such an object the ``Static`` value (set by default) should be selected for the"
+" ``Physics Type`` option."
 
 #: ../physics.rst:45
 msgid ""
-"Меш может быть покрыт одним или несколькими физическими материалами. В "
-"панели материала должен быть установлен флаг ``Special: Collision``. Среди "
-"физических настроек материала поддерживаются: трение (``Friction``), "
-"упругость (``Elasticity``)."
+"Меш может быть покрыт одним или несколькими физическими материалами. Во "
+"вкладке ``Material`` должна быть включена опция ``Blend4Web > Special: "
+"Collision``. Также во вкладке ``Material`` на панели ``Physics`` (в режиме "
+"``Blender Game``) располагаются физические настройки материала. "
+"Поддерживаются следующие физические настройки материала: трение "
+"(``Friction``), упругость (``Elasticity``)."
 msgstr ""
+"One or multiple physics materials can be assigned to a mesh. Under the ``Material`` tab the ``Special: "
+"Collision`` checkbox must be enabled. The material physics settings are also located on the ``Physics`` panel under the ``Material`` tab (in the "
+"``Blender Game`` mode). "
+"The following material physics settings are supported: "
+"``Friction``, ``Elasticity``."
 
 #: ../physics.rst:53
 msgid ""
@@ -66,6 +87,10 @@ msgid ""
 "на разных типах покрытия ландшафта - трава, песок, деревянное покрытие и "
 "т.д."
 msgstr ""
+"The ``Collision ID`` field is intended for detecting collisions with specific materials and can be "
+"left empty. An example of "
+"``Collision ID`` usage is detecting the landscape surface a character is located on - "
+"grass, sand, wooden coating and so on."
 
 #: ../physics.rst:55
 msgid ""
@@ -73,6 +98,8 @@ msgid ""
 " приложению о контакте с ним. Пример - определение, что игровой персонаж "
 "находится на вертикальной лестнице."
 msgstr ""
+"The ``Ghost`` option excludes the material from physical interactions but still notifies the application "
+"about the contact with it. An example - detecting that the character is located on a vertical ladder."
 
 #: ../physics.rst:63
 msgid ""
@@ -80,26 +107,56 @@ msgid ""
 "материал. Поле ``Collision mask`` определяет все физические группы, с "
 "которыми будет взаимодействовать данный материал."
 msgstr ""
+"The ``Collision group`` field corresponds to the physics group which the material belongs to. The ``Collision mask`` "
+"field defines all physics groups with which this material will interact."
 
 #: ../physics.rst:68
 msgid "Динамический объект"
-msgstr ""
+msgstr "Dynamic object"
 
 #: ../physics.rst:70
 msgid "Предназначен для симуляции движения жесткого тела."
+msgstr "Intended for rigid body movement simulation."
+
+#: ../physics.rst:78
+msgid ""
+"В настройках физики такого объекта для опции ``Physics Type`` может быть "
+"выбрано значение ``Rigid Body`` (с вращениями) или ``Dynamic`` (без "
+"вращений). В настройках ``Collision Bounds`` может быть выбран тип "
+"коллайдера, поддерживаются: ``Box``, ``Capsule``, ``Sphere``, ``Cylinder``, "
+"``Cone``. Другие поддерживаемые настройки: масса (``Mass``), демпфирование "
+"(``Damping``) - для перемещения (``Translation``) и вращения (``Rotation``)."
 msgstr ""
+"In the physics settings of such an object the ``Rigid Body`` (with rotations) or ``Dynamic`` (without rotations) "
+"values can be selected for the ``Physics Type`` option. In the ``Collision Bounds`` settings the collider type "
+"can be selected - the supported types are: ``Box``, ``Capsule``, ``Sphere``, ``Cylinder``, "
+"``Cone``. Other supported settings are: ``Mass``, ``Damping`` - for ``Translation`` and ``Rotation``."
 
 #: ../physics.rst:80
 msgid ""
 "Поле ``Collision group`` отвечает за физическую группу, к которой относится "
 "объект."
 msgstr ""
+"The ``Collision group`` field corresponds to the physics group which the object belongs to."
 
 #: ../physics.rst:82
 msgid ""
 "Поле ``Collision mask`` определяет все физические группы, с которыми будет "
 "взаимодействовать данный объект."
 msgstr ""
+"The ``Collision mask`` field defines all physics groups with which this object will interact."
+
+#: ../physics.rst:91
+msgid ""
+"В настройках панели физики объекта должен быть установлен флаг ``Detect "
+"collisions``. Поле ``Collision ID`` предназначено для определения "
+"столкновения со специфическим объектом (например, прикрепленный к камере "
+"объект для определения близости FPS персонажа к предметам), и может быть "
+"оставлено пустым."
+msgstr ""
+"The ``Detect collisions`` checkbox must be enabled under the object's physics tab. "
+"The ``Collision ID`` field is intended for detecting collisions with a specific object "
+"(for example for detecting proximity of a FPS character to different items) and can be left empty."
 
 #: ../physics.rst:100
 msgid ""
@@ -107,22 +164,27 @@ msgid ""
 "упругость (``Elasticity``). В случае использования на одном меше нескольких "
 "материалов физические настройки считываются с первого из них."
 msgstr ""
+"``Friction`` and ``Elasticity`` are supported for the material of a dynamic object. When multiple materials are used "
+"on a single mesh, the physics parameters are taken from the first of them."
 
 #: ../physics.rst:102
 msgid ""
 "Для объекта-камеры должна использоваться настройка ``Physics Type`` = "
 "``Dynamic``, должен быть установлен флаг ``Detect collisions``."
 msgstr ""
+"For the camera object the ``Physics Type`` = "
+"``Dynamic`` parameter must be used, and the ``Detect collisions`` checkbox must be enabled."
 
 #: ../physics.rst:106
 msgid "Ограничители (Constraints)"
-msgstr ""
+msgstr "Constraints"
 
 #: ../physics.rst:108
 msgid ""
 "Физические ограничители используются для уменьшения числа степеней свободы "
 "объектов."
 msgstr ""
+"Physical constraints are used for limiting the objects' degrees of freedom."
 
 #: ../physics.rst:116
 msgid ""
@@ -134,20 +196,32 @@ msgid ""
 "быть статическими и/или динамическими. В ограничителях (кроме ``Ball``) "
 "могут настраиваться пределы перемещения и вращения."
 msgstr ""
+"Adding a physical constraint (``Rigid Body Joint``) to the object "
+"can be performed on the ``Object Constraints`` panel. The supported types (``Pivot "
+"Type``) are: ``Ball``, ``Hinge``, ``Cone Twist``, ``Generic 6 DoF``. A physical constraint "
+"can be added to one of the two interacting objects, while the other object "
+"acts as a ``Target``. Both objects can be static and/or dynamic. "
+"In constraints (except ``Ball``) the translation and rotation limits can be set up."
 
 #: ../physics.rst:126
 msgid "Колесные транспортные средства"
-msgstr ""
+msgstr "Wheeled Vehicles"
 
 #: ../physics.rst:128
 msgid ""
 "Модель транспортного средства (ТС) должна состоять из 6 отдельных объектов -"
-" шасси, 4 колеса, рулевое колесо. Центр меша шасси должен соответсвовать "
+" шасси, 4 колеса, рулевое колесо. Центр меша шасси должен соответствовать "
 "центру масс. Центры мешей колес и рулевого колеса должны располагаться на "
 "осях вращения. Рулевое колесо должно быть ориентировано в локальной системе "
 "координат: X - ось вращения, Y - вправо, Z - вверх. Объекты могут иметь "
 "любые названия."
 msgstr ""
+"The model of a vehicle must consist of 6 separate objects - "
+"a chassis, 4 wheels and a steering wheel. "
+"The chassis' mesh center should correspond to the mass center. "
+"The centers of the wheels' and the steering wheel's meshes should be located on the "
+"rotation axes. The steering wheel should be oriented in the local space of coordinates - "
+"X - the rotation axis, Y - to the right and Z - upwards. The object can have any names."
 
 #: ../physics.rst:136
 msgid ""
@@ -157,6 +231,9 @@ msgid ""
 "имеется также настройка компенсирующего хода подвески ``Suspension rest "
 "length``."
 msgstr ""
+"For all 6 objects: select the ``Vehicle part``, specify the same id in the "
+"``Vehicle name`` field, select the right object type - ``Chassis``, ``Steering wheel``, ``Back right wheel`` and so on. "
+"A ``Suspension rest length`` setting is also available for the wheels."
 
 #: ../physics.rst:138
 msgid ""
@@ -165,10 +242,13 @@ msgid ""
 "выбрать значение ``Rigid Body``, и выставить нужное значение (например, 1000"
 " кг) в поле ``Mass``."
 msgstr ""
+"It is neccessary to specify a realistic mass for the chassis (because the default value is only 1 kg). "
+"To do this go to the physics settings, choose the ``Rigid Body`` value for the ``Physics Type`` "
+"option and specify the required value (for example, 1000 kg) in the ``Mass`` field."
 
 #: ../physics.rst:141
 msgid "Параметры настройки для шасси"
-msgstr ""
+msgstr "Chassis settings parameters"
 
 #: ../physics.rst:144 ../physics.rst:218
 msgid "*Vehicle Settings > Force max*"
@@ -176,7 +256,7 @@ msgstr ""
 
 #: ../physics.rst:144 ../physics.rst:218
 msgid "Максимальная движущая сила транспортного средства"
-msgstr ""
+msgstr "Maximum driving force of the vehicle"
 
 #: ../physics.rst:147 ../physics.rst:221
 msgid "*Vehicle Settings > Brake max*"
@@ -184,7 +264,7 @@ msgstr ""
 
 #: ../physics.rst:147 ../physics.rst:221
 msgid "Максимальный коэффициент торможения"
-msgstr ""
+msgstr "Maximum braking coefficient"
 
 #: ../physics.rst:150
 msgid "*Vehicle Settings > Suspension compression*"
@@ -192,7 +272,7 @@ msgstr ""
 
 #: ../physics.rst:150
 msgid "Коэффициент демпфирования при растяжении подвески"
-msgstr ""
+msgstr "Damping coefficient for suspension stretching"
 
 #: ../physics.rst:153
 msgid "*Vehicle Settings > Suspension stiffness*"
@@ -200,7 +280,7 @@ msgstr ""
 
 #: ../physics.rst:153
 msgid "Коэффициент жесткости подвески"
-msgstr ""
+msgstr "Suspension stiffness coefficient"
 
 #: ../physics.rst:156
 msgid "*Vehicle Settings > Suspension damping*"
@@ -208,7 +288,7 @@ msgstr ""
 
 #: ../physics.rst:156
 msgid "Коэффициент амортизации подвески"
-msgstr ""
+msgstr "Suspension damping coefficient"
 
 #: ../physics.rst:159
 msgid "*Vehicle Settings > Wheel friction*"
@@ -220,6 +300,8 @@ msgid ""
 "районе 0.8. Но может быть значительно увеличен, для улучшения управляемости "
 "(1000 и более)"
 msgstr ""
+"Friction constant between the wheels and the surface. It should be around 0.8 for realistic vehicles. "
+"But it can be increased significantly to achieve a better control (1000 and more)."
 
 #: ../physics.rst:162
 msgid "*Vehicle Settings > Roll influence*"
@@ -229,8 +311,10 @@ msgstr ""
 msgid ""
 "Снижает вращающий момент от колес, уменьшая вероятность переворота "
 "транспортного средства (0 - нет вращающего момента, 1 - реальное физическое "
-"поведение)"
+"поведение)."
 msgstr ""
+"Decreases the wheels' torque decreasing the probability of the vehicle overturning "
+"(0 - no torque, 1 - real physics behavior)."
 
 #: ../physics.rst:165
 msgid "*Vehicle Settings > Max suspension travel cm*"
@@ -238,26 +322,35 @@ msgstr ""
 
 #: ../physics.rst:165
 msgid "Максимальный ход подвески в сантиметрах"
-msgstr ""
+msgstr "Maximum suspension travel in centimeters."
 
 #: ../physics.rst:167
 msgid ""
 "Для рулевого колеса(``Steering wheel``) необходимо указать максимальный угол"
 " поворота(``Steering max``) и передаточное отношение угла поворота руля к "
 "передним колесам (``Steering ratio``). Максимальное значение угла поворота "
-"укзывается в оборотах. Один оборот равен 360 градусам. Таким образом, "
+"указывается в оборотах. Один оборот равен 360 градусам. Таким образом, "
 "поставив ``Steering max`` равным единице, а ``Steering ratio`` равным 10, "
 "максимальный поворот руля получится равным 360 градусав, а максимальный "
 "поворот передних колес 36 градусов."
 msgstr ""
+"For the ``Steering wheel`` it is necessary to specify the maximum steering angle (``Steering max``) and the ratio between the turn of the steering wheel and the turn of the wheels  (``Steering ratio``). The maximum steering angle value is specified in revolutions. "
+"A single revolution equals to 360 degrees. Therefore "
+"if ``Steering max`` is equal to one and ``Steering ratio`` is equal to 10, "
+"the maximum turn of the steering wheel will be 360 degrees and the maximum turn of the front wheels "
+"will be 36 degrees."
 
 #: ../physics.rst:172
 msgid ""
 "На этом этапе можно произвести экспорт и загрузить сцену в движок. "
 "Рекомендуется создать дорожную поверхность с физическим материалом. В "
-"просмотрщике нажать клавишу ``Q`` для установки контролируемого объекта, и "
+"просмотрщике нажать клавишу ``Q`` для выбора контролируемого объекта, и "
 "выбрать шасси. Использовать ``W``, ``A``, ``S``, ``D`` для управления."
 msgstr ""
+"On this stage you can export and load the scene into the engine. "
+"We recommend to create a road surface with a physics material. "
+"To choose the controlled object press the ``Q`` key in the Viewer and select the chassis. "
+"Use the ``W``, ``A``, ``S``, ``D`` keys as controls." 
 
 #: ../physics.rst:174
 msgid ""
@@ -265,16 +358,19 @@ msgid ""
 "(``Translation``) и вращения (``Rotation``). Свойство влияет на скорость "
 "перемещения и инерционность ТС."
 msgstr ""
+"We can additionally tweak the ``Damping`` of "
+"``Translation`` and ``Rotation``. This will influence the speed and inertion of the vehicle."
 
 #: ../physics.rst:176
 msgid ""
 "Настройка трения и эластичности физического материала дорожного покрытия не "
 "влияют на поведение ТС."
 msgstr ""
+"The friction and elasticity of the road surface material do not influence the vehicle's behavior."
 
 #: ../physics.rst:180
 msgid "Плавающие объекты"
-msgstr ""
+msgstr "Floating Objects"
 
 #: ../physics.rst:187
 msgid ""
@@ -286,16 +382,24 @@ msgid ""
 "неограниченное количество объектов типа ``Bob``. В качестве поплавков могут "
 "использоваться как меши, так и объекты типа ``Empty``."
 msgstr ""
+"In order for the object to float on the water surface (an object with the "
+"``Special water`` material), it is neccessary to enable the ``Floating`` checkbox. There are "
+"two types of floating objects: ``Main body`` - the floating object itself "
+"and ``Bob`` - an auxiallary bob-object onto which "
+"the buoyancy will be acting. A floating object can have "
+"an unlimited number of ``Bob`` objects. This can be both meshes or ``Empty`` objects."
 
 #: ../physics.rst:189
 msgid ""
 "Всем объектам, входящим в состав одного плавающего объекта необходимо "
 "выставить одинаковое имя в поле ``Floater name``"
 msgstr ""
+"All objects that are part of the same floating object must have "
+"the same name in the ``Floater name`` field."
 
 #: ../physics.rst:192
 msgid "Параметры настройки плавающего объекта"
-msgstr ""
+msgstr "Floating object settings"
 
 #: ../physics.rst:195 ../physics.rst:224
 msgid "*Floating settings > Floating factor*"
@@ -303,7 +407,7 @@ msgstr ""
 
 #: ../physics.rst:195 ../physics.rst:224
 msgid "Коэффициент выталкивания объекта из воды"
-msgstr ""
+msgstr "Buoyancy coefficient"
 
 #: ../physics.rst:198 ../physics.rst:227
 msgid "*Floating settings > Water linear damping*"
@@ -311,10 +415,12 @@ msgstr ""
 
 #: ../physics.rst:198 ../physics.rst:227
 msgid ""
-"Демпфирование линейной скорости при нахождении отбъекта на поверхности воды "
+"Демпфирование линейной скорости при нахождении объекта на поверхности воды "
 "(или под водой). Когда объект находится вне воды, используется значение из "
 "настроек физики."
 msgstr ""
+"Linear velocity damping when the object is on the water surface (or under water). "
+"When the object is not in water the physics settings are used."
 
 #: ../physics.rst:201 ../physics.rst:229
 msgid "*Floating settings > Water rotation damping*"
@@ -322,14 +428,16 @@ msgstr ""
 
 #: ../physics.rst:201 ../physics.rst:230
 msgid ""
-"Демпфирование вращения при нахождении отбъекта на поверхности воды (или под "
+"Демпфирование вращения при нахождении объекта на поверхности воды (или под "
 "водой). Когда объект находится вне воды, используется значение из настроек "
 "физики."
 msgstr ""
+"Rotation damping when the object is on the water surface (or under water). "
+"When the object is not in water the physics settings are used."
 
 #: ../physics.rst:204
 msgid "Плавающие транспортные средства"
-msgstr ""
+msgstr "Floating Vehicles aka Watercrafts"
 
 #: ../physics.rst:212
 msgid ""
@@ -339,43 +447,18 @@ msgid ""
 "же как и плавающий объект плавающее транспортное средство требует наличия "
 "вспомогательных объектов типа ``Bob``."
 msgstr ""
+"Watercrafts use some parameters from the "
+"``Vehicle settings`` and all the settings which are similar to ``Floating settings``. "
+"It is neccessary to set the ``Vehicle part`` type ``Hull`` on the main object. Similar to "
+"a floating object a watercraft requires auxillary ``Bob`` objects."
 
 #: ../physics.rst:215
 msgid "Параметры настройки плавающего транспортного средства"
-msgstr ""
+msgstr "Watercraft settings"
 
-#: ../physics.rst:78
-msgid ""
-"В настройках физики такого объекта для опции ``Physics Type`` может быть "
-"выбрано значение ``Rigid Body`` (с вращениями) или ``Dynamic`` (без "
-"вращений). В настройках ``Collision Bounds`` может быть выбран тип "
-"коллайдера, поддерживаются: ``Box``, ``Capsule``, ``Sphere``, ``Cylinder``, "
-"``Cone``. Другие поддерживаемые настройки: масса (``Mass``), демпфирование "
-"(``Damping``) - для перемещения (``Translation``) и вращения (``Rotation``)."
-msgstr ""
 
-#: ../physics.rst:91
-msgid ""
-"В настройках панели физики объекта должен быть установлен флаг ``Detect "
-"collisions``. Поле ``Collision ID`` предназначено для определения "
-"столкновения со специфическим объектом (например, прикрепленный к камере "
-"объект для определения близости FPS персонажа к предметам), и может быть "
-"оставлено пустым."
-msgstr ""
 
-#~ msgid ""
-#~ "В настройках физики такого объекта для опции ``Physics Type`` может быть "
-#~ "выбрано значение ``Rigid Body`` (с вращениями) или ``Dynamic`` (без "
-#~ "вращений). В настройках ``Collision Bounds`` может быть выбран тип "
-#~ "коллайдера, поддерживаются: ``Box``, ``Capsule``, ``Sphere``, ``Cylinder``. "
-#~ "Другие поддерживаемые настройки: масса (``Mass``), демпфирование "
-#~ "(``Damping``) - для перемещения (``Translation``) и вращения (``Rotation``)."
-#~ msgstr ""
 
-#~ msgid ""
-#~ "В настройках панели объекта должен быть установлен флаг ``Detect "
-#~ "collisions``. Поле ``Collision ID`` предназначено для определения "
-#~ "столкновения со специфическим объектом (например, прикрепленный к камере "
-#~ "объект для определения близости FPS персонажа к предметам), и может быть "
-#~ "оставлено пустым."
-#~ msgstr ""
+
+
+

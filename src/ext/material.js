@@ -124,26 +124,16 @@ exports["inherit_material"] = function(obj_from, mat_from_name, obj_to,
 }
 
 function check_batch_material(obj, mat_name) {
-    var mesh = obj["data"];
-    var materials = mesh["materials"];
-    var slots = obj._batch_slots;
+    var batches = obj._batches;
 
-    for (var i = 0; i < materials.length; i++) {
-        var mat = materials[i];
+    for (var i = 0; i < batches.length; i++) {
+        var batch = batches[i];
 
-        if (mat["name"] === mat_name) {
-            for (var j = 0; j < slots.length; j++) {
-                var slot = slots[j];
-                var batch = slot.batch;
-
-                // sumesh index === material index
-                if (slot.submesh_index === i) {
-                    if (batch.type == "MAIN" || batch.type == "SHADELESS")
-                        return true;
-                }
-            }
-        }
+        if (batch.material_names.indexOf(mat_name) > -1)
+            if (batch.type == "MAIN" || batch.type == "SHADELESS")
+                return true;
     }
+
     return false;
 }
 

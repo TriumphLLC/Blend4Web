@@ -13,15 +13,15 @@ msgstr ""
 
 #: ../developers.rst:5
 msgid "Разработчикам приложений"
-msgstr "For application developers"
+msgstr "For Application Developers"
 
 #: ../developers.rst:8
 msgid "Простейшее приложение (Hello world!)"
-msgstr "A Hello world! app"
+msgstr "A Hello World! App"
 
 #: ../developers.rst:10
 msgid "Простейшее приложение на движке может иметь вид:"
-msgstr "The simplest Blend4Web app may look like that:"
+msgstr "The simplest Blend4Web app may look like this:"
 
 #: ../developers.rst:30
 msgid ""
@@ -35,7 +35,7 @@ msgstr ""
 
 #: ../developers.rst:36
 msgid "Загрузка сцены в приложение"
-msgstr "Loading a scene into an app"
+msgstr "Loading a Scene into an App"
 
 #: ../developers.rst:38
 msgid ""
@@ -47,14 +47,14 @@ msgstr "To load a 3D scene you need:"
 msgid ""
 "Разместить на странице элемент ``<canvas>``, на котором будет производиться "
 "рендеринг."
-msgstr "Place a ``<canvas>`` element for rendering on a page."
+msgstr "Place a ``<canvas>`` element on a page for rendering."
 
 #: ../developers.rst:44
 msgid ""
 "После загрузки страницы, для инициализации контекста WebGL, вызвать функцию "
 "``m_main.init()`` с идентификатором созданного элемента."
 msgstr ""
-"Call the ``m_main.init()`` function with the created element id to init "
+"Call the ``m_main.init()`` function with the created element id to init the "
 "WebGL context after the page is loaded."
 
 #: ../developers.rst:47
@@ -67,12 +67,12 @@ msgid ""
 "ошибок, настройку движка перед инициализацией, а также базовую систему "
 "взаимодействия с пользователем."
 msgstr ""
-"Note that a real app should include checking errors, the engine setup before"
-" initializing and also a basic system for user interaction. "
+"Note that a real app should include error checking, setting up the engine "
+"before initializing and also a basic system for interacting with the user."
 
 #: ../developers.rst:77
 msgid "Быстрое создание приложений"
-msgstr "Create apps quickly"
+msgstr "Creating Apps Quickly"
 
 #: ../developers.rst:79
 msgid ""
@@ -81,10 +81,10 @@ msgid ""
 "дополнение ``app.js``. Дополнение подключается аналогично основному модулю "
 "``b4w.min.js`` и доступно в приложении через модуль ``app``:"
 msgstr ""
-"Creating an app from scratch can be a tedious task especially for beginners."
-" To address this there is a special addon for the engine called ``app.js``. "
-"The addon can be linked up similar to the main ``b4w.min.js`` module and can"
-" be accessed via the ``app`` namespace:"
+"Creating an app from scratch can be a tedious task, especially for "
+"beginners. To address this there is a special addon for the engine called "
+"``app.js``. The addon can be linked up similar to the main ``b4w.min.js`` "
+"module and can be accessed via the ``app`` namespace:"
 
 #: ../developers.rst:112
 msgid ""
@@ -99,7 +99,7 @@ msgstr ""
 
 #: ../developers.rst:118
 msgid "Система модулей"
-msgstr "Module system"
+msgstr "Module System"
 
 #: ../developers.rst:120
 msgid ""
@@ -108,7 +108,7 @@ msgid ""
 "пространстве имён единственный объект ``b4w``. При необходимости обращения к"
 " модулю, последний импортируется с помощью вызова функции ``b4w.require``."
 msgstr ""
-"While the engine provides to an app programmer the API in scale of dozens "
+"While the engine gives an app programmer an API in the scale of dozens of "
 "modules, it occupies a single ``b4w`` namespace. To call a module's method "
 "import it first with the ``b4w.require`` function."
 
@@ -119,10 +119,10 @@ msgid ""
 "Проверка наличия модуля с некоторым именем может быть осуществлена с помощью"
 " ``b4w.module_check``."
 msgstr ""
-"Registration of external modules allowed if their names do not collide with "
-"already existing modules. A module can be registered with a ``b4w.register``"
-" call. Check if a module with some name already exists with a "
-"``b4w.module_check`` call."
+"It is possible to register external modules if their names do not collide "
+"with already existing modules. A module can be registered with a "
+"``b4w.register`` call. Check if a module with some name already exists with "
+"a ``b4w.module_check`` call."
 
 #: ../developers.rst:130
 msgid "Пример:"
@@ -130,7 +130,7 @@ msgstr "Example:"
 
 #: ../developers.rst:161
 msgid "Управление перемещением объектов"
-msgstr "Moving objects"
+msgstr "Moving Objects"
 
 #: ../developers.rst:165
 msgid ""
@@ -157,9 +157,9 @@ msgid ""
 "новый вектор (неоптимизированный вариант), вариант с двумя требует "
 "отдельного вектора для записи результата."
 msgstr ""
-"Get the object's center coordinates. The variant with a single argument "
-"return a new vector (non-optimized variant) while the variant with two "
-"arguments requires an additional vector to write down the result."
+"Get the coordinates of the object's center. The option with a single "
+"argument returns a new vector (non-optimized option) while the option with "
+"two arguments requires an additional vector to write the result down."
 
 #: ../developers.rst:172
 msgid "*get_translation*"
@@ -174,8 +174,8 @@ msgid ""
 "Получить кватернион поворота объекта. По аналогии с `get_translation` "
 "имеется два варианта вызова функции."
 msgstr ""
-"Get the object's rotation quaternion. There are two variants for calling "
-"this function similar to `get_translation`. "
+"Get the object's rotation quaternion. There are two ways of calling this "
+"function similar to `get_translation`. "
 
 #: ../developers.rst:178
 msgid "*get_scale*"
@@ -224,21 +224,21 @@ msgid ""
 "увеличение. Не все объекты могут быть увеличены. В частности, увеличение "
 "невозможно для физических объектов."
 msgstr ""
-"Set the object's scale. A one corresponds to the original object state. "
+"Set the object's scale. One corresponds to the object's original state. "
 "Values less than one mean scaling down, more than one - scaling up. Note "
-"that not all objects can be scaled. Particularly scaling for physics objects"
-" is not allowed."
+"that not all objects can be scaled. Particularly scaling is not allowed for "
+"physics objects."
 
 #: ../developers.rst:190
 msgid ""
-"Установить поворота объекта с помощью углов Эйлера. Используется "
+"Установить поворот объекта с помощью углов Эйлера. Используется "
 "**внутренняя** (intrinsic) система поворота YZX (то есть углы следуют в "
 "последовательности YZX, сама система отсчёта при этом вращается и занимает "
 "каждый раз новое положение)."
 msgstr ""
-"Set the object's rotation using Euler angles. **Intrinsic** YZX rotation "
+"Set the object's rotation using Euler angles. An **intrinsic** YZX rotation "
 "system is used (that means the angles follow in the YZX order and the origin"
-" rotates and takes up a new position for every angle)."
+" of coordinates rotates and takes up a new position for every angle)."
 
 #: ../developers.rst:195
 msgid "*set_rotation_euler, set_rotation_euler_v*"
@@ -266,31 +266,32 @@ msgid ""
 "Не имеет неоднозначности и зависимости от порядка применения поворотов, "
 "которые имеют место в случае использования углов Эйлера."
 msgstr ""
-"Quaternion doesn't have ambiguity and dependency on rotation order as Euler "
-"angles have."
+"A quaternion isn't ambiguant and doesn't depend on the rotation order as the"
+" Euler angles."
 
 #: ../developers.rst:205
 msgid ""
 "Более эффективное использование памяти (от 2-х до 4-х раз меньше в "
 "зависимости от типа используемой матрицы)."
 msgstr ""
-"Quaternion's memory usage is more effective (2-4 times depending on matrix "
-"used). "
+"Quaternion's memory usage is more effective (2-4 times less depending on the"
+" matrix used). "
 
 #: ../developers.rst:206
 msgid ""
 "Высокая эффективность вычисления серии поворотов, чем при использовании "
 "матриц."
 msgstr ""
-"Better computation efficiency than for matrices in case of rotation series."
+"Better computing efficiency than for matrices in case of a series of "
+"rotations."
 
 #: ../developers.rst:207
 msgid ""
 "Нейтрализация ошибок умножения, возникающих вследствие неточности чисел с "
 "плавающей запятой."
 msgstr ""
-"Numeric stability - compensation of multiplication errors due to float "
-"number precision. "
+"Numeric stability - compensation for multiplication errors arising from "
+"float number inaccuracy."
 
 #: ../developers.rst:208
 msgid "Удобный метод интерполяции."
@@ -313,12 +314,14 @@ msgid ""
 "Использование кватернионов для представления отличных от поворота "
 "преобразований (перспективная или ортогональная проекция) затруднено."
 msgstr ""
-"It is difficult to use quaternions for non-rotation transforms (such as "
-"perspective or orthogonal projection). "
+"It is difficult to use quaternions for non-rotation transformations (such as"
+" perspective or orthogonal projection). "
 
 #: ../developers.rst:214
 msgid "Для удобства работы с кватернионами в движке имеется ряд функций:"
-msgstr "The engine has a number of functions for working with quaternions:"
+msgstr ""
+"The engine has a number of functions to make it more convenient to work with"
+" quaternions:"
 
 #: ../developers.rst:217
 msgid "*quat.multiply*"
@@ -330,9 +333,9 @@ msgid ""
 "является поворотом на A. То есть у объекта уже имеется некий поворот Б, "
 "который мы дополняем новым поворотом на A."
 msgstr ""
-"Quaternion multiplication. Note that left multiplying A quaternion by B "
-"quaternion A*B is a rotation by A. That is the object already has some "
-"rotation B which we supplement with a new rotation by A."
+"Quaternion multiplication. Note that left-multiplying A quaternion by B "
+"quaternion A*B is a rotation by A. I.e. the object already has some rotation"
+" B which we supplement with a new rotation by A."
 
 #: ../developers.rst:220
 msgid "*quat.setAxisAngle*"
@@ -348,12 +351,12 @@ msgid ""
 "поворота относительно оси X на 60 градусов (против часовой стрелки, если "
 "смотреть с конца оси X)."
 msgstr ""
-"A quaternion is an alternative presentation of rotation of arbitrary angle "
-"relative to arbitrary axis (vector). Positive direction of rotation is "
-"defined as anticlockwise when viewing from the vector's end. For example the"
-" :code:`quat.setAxisAngle([1, 0, 0], Math.PI/2, quat)` call forms a quaternion "
-"which can be used for rotating relative to the X axis by 90 degrees "
-"(anticlockwise if viewing from the X axis' end). "
+"A quaternion is an alternative presentation of rotation by an arbitrary "
+"angle relative to the arbitrary axis (vector). Positive direction of "
+"rotation is defined as anticlockwise when viewing from the vector's end. For"
+" example the :code:`quat.setAxisAngle([1, 0, 0], Math.PI/2, quat)` call "
+"forms a quaternion which can be used for rotating the object by 90 degrees "
+"(anticlockwise if viewing from the X axis' end) relative to the X axis. "
 
 #: ../developers.rst:223
 msgid "*quat.slerp*"
@@ -364,8 +367,8 @@ msgid ""
 "Сферическая интерполяция кватернионов. Используется для осуществления "
 "плавного разворота объектов и анимации."
 msgstr ""
-"Spherical interpolation of quaternions. Used for smoothing objects rotation "
-"and animation. "
+"Spherical interpolation of quaternions. Used for smoothing the object's "
+"rotation and animation. "
 
 #: ../developers.rst:226
 msgid "Преобразование из углов Эйлера и наоборот."
@@ -385,7 +388,7 @@ msgid ""
 " В программе Blender имеется соответствующая модель с названием \"Cessna\"."
 msgstr ""
 "We need to rotate the object by 60 degrees in a horizontal plane to the "
-"right. We have the model named \"Cessna\" in Blender."
+"right. We have a model named \"Cessna\" in Blender."
 
 #: ../developers.rst:241
 msgid "Сохраним ссылку на объект в движке в переменной **aircraft**:"
@@ -401,18 +404,18 @@ msgid ""
 "экспорте произойдет преобразование: [X Y Z] (Blender) -> [X -Z Y] (движок). "
 "Поэтому поворот нужно осуществлять относительно оси Y, а не Z."
 msgstr ""
-"Orientation of coordinate axes differs in Blender and in the engine. Upon "
-"export there will be transformation [X Y Z] (Blender) -> [X -Z Y] (the "
-"engine). Therefore we need to rotate the object relative to the Y axis not "
-"the Z axis."
+"The orientation of coordinate axes is different in Blender and in the "
+"engine. Upon export there will be a transformation [X Y Z] (Blender) -> [X "
+"-Z Y] (the engine). Therefore we need to rotate the object relative to the Y"
+" axis and not the Z axis."
 
 #: ../developers.rst:251
 msgid ""
 "Повороту вправо соответствует поворот по часовой стрелке, т.е. в "
 "отрицательном направлении."
 msgstr ""
-"A clockwise rotation corresponds to rotation to the right (i.e. in negative "
-"direction). "
+"A clockwise rotation corresponds to the rotation to the right (i.e. in the "
+"negative direction). "
 
 #: ../developers.rst:252
 msgid "60 градусов = :math:`\\pi/3` радиан."
@@ -420,11 +423,584 @@ msgstr "60 degrees = :math:`\\pi/3` radians."
 
 #: ../developers.rst:254
 msgid "В итоге получаем:"
-msgstr "As the result we get:"
+msgstr "As a result we get:"
 
 #: ../developers.rst:271
 msgid "Оптимизированный вариант, не приводящий к созданию новых объектов:"
-msgstr "Optimized version which does not create new objects:"
+msgstr "The optimized version which does not create new objects:"
 
+#: ../developers.rst:291
+msgid "Событийная модель"
+msgstr "Event-Driven Model"
+
+#: ../developers.rst:293
+msgid ""
+"Событийная модель предоставляет унифицированный интерфейс для описания "
+"изменения состояний 3D сцены, упрощая обработку событий физики и действий "
+"пользователя."
+msgstr ""
+"The event-driven model provides a universal interface for describing the 3D "
+"scene's change of state. It simpifies the processing of physics events and "
+"user actions."
+
+#: ../developers.rst:300
+msgid "Сенсоры"
+msgstr "Sensors"
+
+#: ../developers.rst:302
+msgid ""
+"Основным блоком событийной модели является сенсор (sensor). Сенсор является "
+"программной сущностью, и может быть только активным (1, единица) или "
+"неактивным (0, ноль). Некоторые сенсоры несут полезную нагрузку (payload). "
+"Например, сенсор трассировки лучей (Ray Sensor) предоставляет относительную "
+"длину луча пересечения."
+msgstr ""
+"The basic unit of the event-driven model is a sensor. A sensor is a "
+"programming entity and can only be active (1, one) or inactive (0, zero). "
+"Some sensors may carry a payload. For example the ray-tracing sensor (Ray "
+"Sensor) provides the relative length of the intersection ray."
+
+#: ../developers.rst:309
+msgid ""
+"Управление сенсорами не доступно пользователю в виде открытого API. Вместо "
+"этого каждый сенсор должен присутствовать в одном или нескольких множествах "
+"(sensor manifold). Множество является логическим контейнером, "
+"ассоциированным с объектом на сцене. Оно генерирует ответ на определенный "
+"набор событий сенсоров в виде вызова функции-обработчика. Для определения "
+"множества необходимо иметь следующую информацию (см. также описание функции "
+"``controls.create_sensor_manifold()`` в документации по API):"
+msgstr ""
+"Users cannot directly control sensors via the external API. Instead all "
+"sensors must be present in one or multiple collections - so called sensor "
+"manifolds. A manifold is a logic container associated with a scene object. "
+"It generates a response to a defined set of sensor events by executing a "
+"callback function. To define the manifold it is required to have the "
+"following information (see also the API documenation for decription of the "
+"``controls.create_sensor_manifold()`` function):"
+
+#: ../developers.rst:316
+msgid "Объект-носитель множества (например, бросаемый объект)."
+msgstr "An object to carry the manifold (e.g. a thrown object)."
+
+#: ../developers.rst:317
+msgid "Уникальный идентификатор множества (например, \"IMPACT\")."
+msgstr "An unique id of the manifold (e.g. \"IMPACT\")."
+
+#: ../developers.rst:318
+msgid ""
+"Тип вызова функции-обработчика (варианты: ``CT_CONTINUOUS`` - непрерывный,"
+msgstr "A callback execution mode (the options are: ``CT_CONTINUOUS``,"
+
+#: ../developers.rst:319
+msgid ""
+"``CT_LEVEL`` - уровень, ``CT_SHOT`` - одномоментный, ``CT_TRIGGER`` - "
+"переключающий)."
+msgstr "``CT_LEVEL``, ``CT_SHOT``, ``CT_TRIGGER``)."
+
+#: ../developers.rst:320
+msgid "Массив сенсоров."
+msgstr "An array of sensors."
+
+#: ../developers.rst:321
+msgid ""
+"Логическая функция, определяющая при какой комбинации состояний сенсоров "
+"вызывается функция-обработчик."
+msgstr ""
+"A logic function to define the combination of the sensor states for which "
+"the callback function is executed."
+
+#: ../developers.rst:322
+msgid "Функция-обработчик."
+msgstr "A callback function."
+
+#: ../developers.rst:323
+msgid ""
+"Необязательный параметр, который может быть передан в функцию-обработчик."
+msgstr "An optional parameter to pass into the callback function."
+
+#: ../developers.rst:327
+msgid "Пример"
+msgstr "Example"
+
+#: ../developers.rst:329
+msgid ""
+"Поставлена задача озвучить удар бросаемого камня так, чтобы при ударе о "
+"различные среды (например, земля и стена) выводился характерный звук. На "
+"сцене в Blender'е имеются ограничивающие меши с физическими материалами, их "
+"идентификаторы \"TERRAIN\" и \"WALL\". На сцене также присутствует бросаемый"
+" физический объект с названием \"Stone\"."
+msgstr ""
+"Lets consider the task to insonify the impact of a thrown stone. A "
+"distinctive sound should be produced for impacting different media (for "
+"example terrain and wall). There are collision meshes with physical "
+"materials in the Blender scene, material ids are \"TERRAIN\" and \"WALL\". "
+"There is also a physical object being thrown in the scene, the object is "
+"named \"Stone\"."
+
+#: ../developers.rst:335
+msgid ""
+"Определим по одному сенсору соударения (Collision Sensor) для каждой среды, "
+"по типу издаваемого звука."
+msgstr ""
+"Lets define a collision sensor for each medium, by the type of the sound "
+"produced."
+
+#: ../developers.rst:354
+msgid ""
+"Добавим сенсоры в массив. В качестве логической функции используем "
+"логическое ИЛИ. В обработчике напишем код для воспроизведения звука. "
+"Создадим множество сенсоров с идентификатором \"IMPACT\" и типом CT_SHOT "
+"(одномоментный)."
+msgstr ""
+"Add the sensors into an array. Use the OR logic in the logic function. Place"
+" the sound processing code in the callback function. Create the sensor "
+"manifold with the \"IMPACT\" id and the CT_SHOT type."
+
+#: ../developers.rst:386
+msgid ""
+"При столкновении объекта \"Stone\" с любым из физических материалов "
+"\"TERRAIN\" или \"WALL\" происходит вызов функции-обработчика. Внутри этой "
+"функции получим значения обоих сенсоров по их индексу в массиве сенсоров (0 "
+"- \"TERRAIN\", 1 - \"WALL\"). Значение сенсора = 1 (активный) означает, что "
+"произошло столкновение с соответствующим физическим материалом. В результате"
+" воспроизводится соответствующий звук (код не показан)."
+msgstr ""
+"When the \"Stone\" object collides with any physical material of \"TERRAIN\""
+" or \"WALL\", the callback function is executed. Inside this function we get"
+" the values of both sensors by their indices in the sensor array (0 - "
+"\"TERRAIN\", 1 - \"WALL\"). The sensor value = 1 (active) means that the "
+"collision happened with the corresponding physical material. As a result the"
+" corresponding sound is produced (the code is not shown)."
+
+#: ../developers.rst:297 ../developers.rst:307
+msgid "сенсор"
+msgstr "sensor"
+
+#: ../developers.rst:297 ../developers.rst:307
+msgid "sensor"
+msgstr ""
+
+#: ../developers.rst:307
+msgid "множество"
+msgstr "manifold"
+
+#: ../developers.rst:307
+msgid "manifold"
+msgstr ""
+
+#: ../developers.rst:395
+msgid "Файловая структура SDK"
+msgstr "SDK File Structure"
+
+#: ../developers.rst:398
+msgid "**apps_dev**"
+msgstr ""
+
+#: ../developers.rst:398
+msgid ""
+"исходный код приложений (не все приложения доступны в бесплатной версии)"
+msgstr ""
+"source code of the applications (not all applications are available as a "
+"free version)"
+
+#: ../developers.rst:401
+msgid "**closure-compiler**"
+msgstr ""
+
+#: ../developers.rst:401
+msgid ""
+"компилятор Google Closure, файлы исключений к нему, генераторы файлов "
+"исключений"
+msgstr "Google Closure compiler, its externs and their generators"
+
+#: ../developers.rst:404
+msgid "**csrc**"
+msgstr ""
+
+#: ../developers.rst:404
+msgid ""
+"исходный код бинарной части экспортера движка и других утилит на языке C"
+msgstr ""
+"source code (in C) of the binary part of the engine exporter and of the "
+"other utilities"
+
+#: ../developers.rst:407
+msgid "**doc_src**"
+msgstr ""
+
+#: ../developers.rst:407
+msgid ""
+"исходный код настоящего руководства пользователя на языке разметки reST"
+msgstr "source files of the current manual written in reST"
+
+#: ../developers.rst:446
+msgid "**external**"
+msgstr ""
+
+#: ../developers.rst:412
+msgid "**blender**"
+msgstr ""
+
+#: ../developers.rst:411
+msgid ""
+"исходные файлы сцен в формате Blender (не все сцены доступны в бесплатной "
+"версии)"
+msgstr ""
+"source files of the Blender scenes (not all scenes are available as a free "
+"version)"
+
+#: ../developers.rst:415
+msgid "**blender_scripts**"
+msgstr ""
+
+#: ../developers.rst:415
+msgid "экспортер и вспомогательные скрипты для Blender'а"
+msgstr "exporter and utility scripts for Blender"
+
+#: ../developers.rst:442
+msgid "**deploy**"
+msgstr ""
+
+#: ../developers.rst:420
+msgid "**api_doc**"
+msgstr ""
+
+#: ../developers.rst:419
+msgid ""
+"документация API движка для разработчиков в формате HTML (собирается "
+"автоматически, на основе исходного кода движка)"
+msgstr ""
+"engine's API documentation for developers in HTML format (built "
+"automatically based on the engine source code)"
+
+#: ../developers.rst:424
+msgid "**apps**"
+msgstr ""
+
+#: ../developers.rst:423
+msgid ""
+"3D-приложения, предназначенные для развертывания, директория дублирует "
+"*apps_dev*"
+msgstr ""
+"3D applications intended for deploying; the directory duplicates *apps_dev*"
+
+#: ../developers.rst:432
+msgid "**assets**"
+msgstr ""
+
+#: ../developers.rst:427
+msgid ""
+"загружаемые ресурсы: сцены, текстуры, звуковые файлы (не все ресурсы "
+"доступны в бесплатной версии)"
+msgstr ""
+"loading resources: scenes, textures, sounds (not all resources are available"
+" as a free version)"
+
+#: ../developers.rst:431
+msgid ""
+"метаданные с информацией о сценах, загружаемых просмотрщиком сцен Viewer"
+msgstr "meta data with information about scenes loaded by the Viewer"
+
+#: ../developers.rst:432
+msgid "**assets.json**"
+msgstr ""
+
+#: ../developers.rst:436
+msgid "**doc**"
+msgstr ""
+
+#: ../developers.rst:435
+msgid ""
+"настоящее руководство пользователя в формате HTML, собирается автоматически "
+"из *doc_src*"
+msgstr ""
+"the current user manual in HTML format, built autamatically from *doc_src*"
+
+#: ../developers.rst:439
+msgid "**globals_detect**"
+msgstr ""
+
+#: ../developers.rst:439
+msgid "вспомогательный код для определения глобальных переменных"
+msgstr "utility code for detecting global variables"
+
+#: ../developers.rst:442
+msgid "**tutorials**"
+msgstr ""
+
+#: ../developers.rst:442
+msgid "исходные файлы обучающих примеров"
+msgstr "source files for the tutorials"
+
+#: ../developers.rst:446
+msgid "**reexporter.py** и **Makefile**"
+msgstr "**reexporter.py** and **Makefile**"
+
+#: ../developers.rst:445
+msgid ""
+"Python-скрипт и файл сборки для автоматического экспорта всех сцен в "
+"*external/deploy/assets*"
+msgstr ""
+"Python script and makefile for exporting of all the scenes located in the "
+"*external/deploy/assets* automatically"
+
+#: ../developers.rst:457
+msgid "**glsl_utils**"
+msgstr ""
+
+#: ../developers.rst:453
+msgid "**compiler**"
+msgstr ""
+
+#: ../developers.rst:450
+msgid "компилятор GLSL-шейдеров движка"
+msgstr "compiler for the engine's GLSL shaders"
+
+#: ../developers.rst:453
+msgid "**out**"
+msgstr ""
+
+#: ../developers.rst:453
+msgid "содержит результат компиляции GLSL-шейдеров движка"
+msgstr "contains the result of the engine's GLSL shaders compilation"
+
+#: ../developers.rst:457
+msgid "**pegjs**"
+msgstr ""
+
+#: ../developers.rst:456
+msgid ""
+"грамматики парсер-генератора PEG.js для реализации препроцессора GLSL, а "
+"также скрипт для генерации модулей парсеров из этих грамматик"
+msgstr ""
+"grammars of the PEG.js parser generator for implementing the GLSL "
+"preprocessor, and also the script for generating the parser modules from "
+"these grammars"
+
+#: ../developers.rst:460
+msgid "**index.html**"
+msgstr ""
+
+#: ../developers.rst:460
+msgid ""
+"web-страница со ссылками на 3D-приложения (недоступен в бесплатной версии)"
+msgstr ""
+"web page with links to 3D applications (not available as a free version)"
+
+#: ../developers.rst:463
+msgid "**license**"
+msgstr ""
+
+#: ../developers.rst:463
+msgid "файлы с текстами лицензионных соглашений"
+msgstr "files with license texts"
+
+#: ../developers.rst:467
+msgid "**Makefile**"
+msgstr ""
+
+#: ../developers.rst:466
+msgid ""
+"файл сборки для компиляции движка, приложений, документации, развертывания "
+"на удаленном сервере (недоступен в бесплатной версии)"
+msgstr ""
+"makefile for building the engine, the applications, the documentation and "
+"for deploying on a remote server (not available as a free version)"
+
+#: ../developers.rst:470
+msgid "**README.md**"
+msgstr ""
+
+#: ../developers.rst:470
+msgid "файл README"
+msgstr "README file"
+
+#: ../developers.rst:513
+msgid "**scripts**"
+msgstr ""
+
+#: ../developers.rst:473
+msgid "дополнительные скрипты"
+msgstr "utility scripts"
+
+#: ../developers.rst:476
+msgid "**chrome_debug.sh**"
+msgstr ""
+
+#: ../developers.rst:476
+msgid "скрипт, запускающий браузер Chrome в режиме отладки"
+msgstr "script which starts Chrome in debugging mode"
+
+#: ../developers.rst:479
+msgid "**compile_b4w.sh**"
+msgstr ""
+
+#: ../developers.rst:479
+msgid ""
+"скрипт для вызова Google Closure compiler с целью минификации и обфускации "
+"кода движка и приложений"
+msgstr ""
+"script for executing Google Closure compiler to minify and obfuscate the "
+"engine and applications code"
+
+#: ../developers.rst:482
+msgid "**converter.py**"
+msgstr ""
+
+#: ../developers.rst:482
+msgid ""
+"скрипт, осуществляющий: уменьшение разрешения текстур вдвое, компрессию "
+"текстур в формат DDS, конвертацию звуковых файлов в форматы mp4 и ogg"
+msgstr ""
+"script which halves the texture dimensions, compresses the textures into the"
+" DDS format, converts sound files into mp4 and ogg formats"
+
+#: ../developers.rst:485
+msgid "**custom_json_encoder.py**"
+msgstr ""
+
+#: ../developers.rst:485
+msgid ""
+"форк Python-модуля json, сортирует ключи по алфавиту в обратном порядке"
+msgstr "fork of the json Python module, sorts the keys in reverse order"
+
+#: ../developers.rst:489
+msgid "**gen_glmatrix.sh**"
+msgstr ""
+
+#: ../developers.rst:488
+msgid ""
+"скрипт для генерации математического модуля на основе исходных файлов из "
+"репозитория glMatrix 2"
+msgstr ""
+"script for generating the math module based on the source code of glMatrix 2"
+
+#: ../developers.rst:493
+msgid "**gpu_shader_analyzer_server.py**"
+msgstr ""
+
+#: ../developers.rst:492
+msgid ""
+"скрипт, запускающий локальный веб-сервер, который осуществляет подсчет "
+"сложности шейдеров"
+msgstr ""
+"script starting the local web server which calculates complexity of the "
+"shaders"
+
+#: ../developers.rst:497
+msgid "**graph.sh**"
+msgstr ""
+
+#: ../developers.rst:496
+msgid ""
+"генератор текущего графа сцены в формате svg, используется для отладки "
+"рендеринга"
+msgstr ""
+"SVG generator for the current scene graph, used for debugging rendering"
+
+#: ../developers.rst:500
+msgid "**memory.sh**"
+msgstr ""
+
+#: ../developers.rst:500
+msgid "скрипт для проверки обычной (RAM) и видео-памяти (VRAM)"
+msgstr "script for checking memory (RAM) and video memory (VRAM)"
+
+#: ../developers.rst:503
+msgid "**plot.sh**"
+msgstr ""
+
+#: ../developers.rst:503
+msgid "построитель графиков отладочной информации"
+msgstr "debugging information graph builder"
+
+#: ../developers.rst:506
+msgid "**remove_alpha_channel.sh**"
+msgstr ""
+
+#: ../developers.rst:506
+msgid "скрипт для удаления альфа-канала изображения"
+msgstr "script for removing the images alpha channel"
+
+#: ../developers.rst:510
+msgid "**report_unused_resources.py**"
+msgstr ""
+
+#: ../developers.rst:509
+msgid ""
+"скрипт для проверки и сообщения о неиспользуемых ресурсах (изображения и "
+"звуки, на которые ссылаются экспотируемые файлы)"
+msgstr ""
+"script for checking of and reporting about unused resources (images and "
+"sounds referenced by the exported files)"
+
+#: ../developers.rst:513
+msgid "**screencast.sh**"
+msgstr ""
+
+#: ../developers.rst:513
+msgid "скрипт для записи видео с экрана"
+msgstr "script for screen video recording"
+
+#: ../developers.rst:516
+msgid "**shaders**"
+msgstr ""
+
+#: ../developers.rst:516
+msgid "GLSL-шейдеры движка"
+msgstr "GLSL shaders of the engine"
+
+#: ../developers.rst:528
+msgid "**src**"
+msgstr ""
+
+#: ../developers.rst:519
+msgid "основной исходный код ядра движка"
+msgstr "main source code of the engine's kernel"
+
+#: ../developers.rst:522
+msgid "**addons**"
+msgstr ""
+
+#: ../developers.rst:522
+msgid ""
+"исходный код дополнений (не входят в ядро движка, подключаются отдельно)"
+msgstr ""
+"source code of the addons (not included into the engine's kernel, should be "
+"linked separately)"
+
+#: ../developers.rst:525
+msgid "**ext**"
+msgstr ""
+
+#: ../developers.rst:525
+msgid "исходный код внешних объявлений (формирует API движка)"
+msgstr "source code of the external declarations (forms the engine's API)"
+
+#: ../developers.rst:528
+msgid "**third_party**"
+msgstr ""
+
+#: ../developers.rst:528
+msgid "код сторонних библиотек"
+msgstr "code of the third party libraries"
+
+#: ../developers.rst:531
+msgid "**uranium**"
+msgstr ""
+
+#: ../developers.rst:531
+msgid "исходный код и скрипты сборки физического движка Uranium (форк Bullet)"
+msgstr ""
+"source code and building scripts of the Uranium physics engine (the fork of "
+"Bullet)"
+
+#: ../developers.rst:537
+msgid "**VERSION**"
+msgstr ""
+
+#: ../developers.rst:534
+msgid "содержит текущую версию движка"
+msgstr "contains the current version of the engine"
 
 

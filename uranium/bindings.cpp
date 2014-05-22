@@ -51,133 +51,42 @@ struct du_collision_result {
 extern "C" { 
 #endif
 
-du_world_id du_create_world();
-void du_cleanup_world(du_world_id world);
 void delete_shape(btCollisionShape *shape);
-void du_set_active_world(du_world_id id);
 
-float du_test(float num);
 static void terminate(const char *msg) __attribute__((noreturn));
 
-int *du_alloc_int_array(int num);
 float *du_alloc_float_array(int num);
-
-void *du_alloc_body_array(int num);
 du_collision_result **du_realloc_collision_result_array(du_collision_result **results, int num);
 
-void du_store_body(du_body_id body_array[], du_body_id body_id, int index);
-void du_free(void *ptr);
-du_body_id *du_alloc_body_id_pointer();
-du_body_id du_get_body_id_by_pointer(du_body_id *ptr);
-
-float *du_vec3(float x, float y, float z);
-float *du_quat4(float x, float y, float z, float w);
-float *du_array6(float el0, float el1, float el2,
-        float el3, float el4, float el5);
-
-du_world_id du_get_active_world();
 duWorld* get_active_world();
 
-du_body_id du_create_static_mesh_body(int indices_len, int *indices, 
-        int positions_len, float *positions, float *trans, float friction, 
-        float restitution);
 btCollisionShape *create_mesh_shape(int indices_len, int *indices, 
         int positions_len, float *positions);
-du_body_id du_create_ghost_mesh_body(int indices_len, int *indices, 
-        int positions_len, float *positions, float *trans);
 
-du_shape_id du_create_box_shape(float ext_x, float ext_y, float ext_z, 
-        float cm_x, float cm_y, float cm_z);
 btCollisionShape *consider_compound(btCollisionShape *shape, 
         float cm_x, float cm_y, float cm_z);
-du_shape_id du_create_cylinder_shape(float ext_x, float ext_y, float ext_z, 
-        float cm_x, float cm_y, float cm_z);
-du_shape_id du_create_cone_shape(float radius, float height,
-        float cm_x, float cm_y, float cm_z);
-du_shape_id du_create_sphere_shape(float radius, float cm_x, float cm_y, 
-        float cm_z);
-du_shape_id du_create_capsule_shape(float radius, float height, 
-        float cm_x, float cm_y, float cm_z);
-du_shape_id du_create_empty_shape();
-
-void du_set_trans(du_body_id body, float tx, float ty, float tz);
-void du_set_trans_quat(du_body_id body, float tx, float ty, float tz, 
-        float qx, float qy, float qz, float qw);
-void du_get_trans(du_body_id body, float *dest);
-void du_get_trans_quat(du_body_id body, float *dest_trans, float* dest_quat);
 
 btMotionState *get_motion_state(btCollisionObject *obj);
 
-du_body_id du_create_dynamic_bounding_body(du_shape_id shape, float mass, 
-        float *trans, float *quat, float damping, float rotation_damping, 
-        float size, float ang_fact_x, float ang_fact_y, float ang_fact_z,
-        float friction, float restitution);
-du_body_id du_create_ghost_bounding_body(du_shape_id shape,
-        float *trans, float *quat);
-du_cons_id du_create_generic_6dof_constraint(du_body_id body_a, 
-        float *trans_in_a, float *quat_in_a, 
-        du_body_id body_b, float *trans_in_b, float *quat_in_b);
-du_cons_id du_create_generic_6dof_spring_constraint(
-        du_body_id body_a, float *trans_in_a, float *quat_in_a, du_body_id body_b,
-        float *trans_in_b, float *quat_in_b, float *stiffness, float *damping);
-
 void set_transform(btTransform *transform, float *trans, float *quat);
 
-du_cons_id du_create_hinge_constraint(du_body_id body_a, float *trans_in_a, float *quat_in_a, du_body_id body_b, float *trans_in_b, float *quat_in_b);
-du_cons_id du_create_point2point_constraint(du_body_id body_a, float *trans_in_a, du_body_id body_b, float *trans_in_b);
-du_cons_id du_create_cone_twist_constraint(du_body_id body_a, float *trans_in_a, float *quat_in_a, du_body_id body_b, float *trans_in_b, float *quat_in_b);
-void du_set_generic_6dof_limit(du_cons_id cons, int axis, float low, float high);
-void du_set_hinge_limit(du_cons_id cons, float low, float high);
-void du_set_cone_twist_limit(du_cons_id cons, int limit_index, float limit_value);
-void du_set_constraint_param(du_cons_id cons, int num, float value, int axis);
-int du_cons_param_stop_cfm();
-int du_cons_param_stop_erp();
-void du_add_constraint(du_cons_id cons, bool disable_linked_collisions);
-void du_remove_constraint(du_cons_id cons);
+void du_reset_collision_results(du_collision_result **results,
+                                int results_size);
 
-du_vehicle_tuning_id du_create_vehicle_tuning(float suspensionCompression, float suspensionStiffness, float suspensionDamping, float wheelFriction, float maxSuspensionTravelCm);
-du_vehicle_id du_create_vehicle(du_body_id chassis, du_vehicle_tuning_id tuning);
-du_boat_id du_create_boat(du_body_id hull, float float_factor, float water_lin_damp, float water_rot_damp);
-du_floater_id du_create_floater(du_body_id body, float float_factor, float water_lin_damp, float water_rot_damp);
-void du_vehicle_add_wheel(du_vehicle_id vehicle, du_vehicle_tuning_id tuning, float *conn_point, float susp_rest_len, float rollInfluence, float radius, bool front);
-void du_boat_add_bob(du_boat_id boat, float *conn_point); 
-void du_floating_body_add_bob(du_floater_id floater, float *conn_point);
-void du_set_water_time(du_water_id water, float time);
+void du_set_collision_result(du_collision_result **results, int size,
+                             btPersistentManifold *contactManifold,
+                             int point_ind);
 
-du_character_id du_create_character(du_body_id character, float angle, float height, float walkSpeed, float runSpeed, float stepHeight, float jumpStrength, float waterLine, short collisionGroup, short collisionMask);
-
-void du_reset_collision_results(du_collision_result **results, int results_size);
-void du_set_collision_result(du_collision_result **results, int size, btPersistentManifold *contactManifold, int point_ind);
-float du_check_ray_hit(du_body_id du_body_a, float *from, float *to, bool local, du_body_id du_body_b_arr[], int du_body_b_num, du_body_id *du_body_b_hit_ptr);
-void du_add_body(du_body_id body, int collision_group, int collision_mask);
-void du_remove_body(du_body_id body);
-void du_activate(du_body_id body);
-void du_disable_deactivation(du_body_id body);
-void du_set_linear_velocity(du_body_id body, float vx, float vy, float vz);
-void du_apply_central_force(du_body_id body, float fx, float fy, float fz);
-void du_apply_torque(du_body_id body, float tx, float ty, float tz);
-void du_update_vehicle_controls(du_vehicle_id vehicle, float engine_force, float brake_force, float steering_value);
-void du_update_boat_controls(du_boat_id boat, float engine_force, float brake_force, float steering_value);
-void du_get_vehicle_wheel_trans_quat(du_vehicle_id vehicle, int wheel_num, float *dest_trans, float* dest_quat);
-void du_get_boat_bob_trans_quat(du_boat_id boat, int bob_num, float *dest_trans, float* dest_quat);
-void du_get_floater_bob_trans_quat(du_floater_id floater, int bob_num, float *dest_trans, float* dest_quat);
-void du_set_character_move_direction(du_character_id character, int dir_x, int dir_y, int dir_z);
-void du_set_character_move_type(du_character_id character, int type);
-void du_set_character_walk_velocity(du_character_id character, float velocity);
-void du_set_character_run_velocity(du_character_id character, float velocity);
-void du_set_character_fly_velocity(du_character_id character, float velocity);
-void du_set_character_vert_rotation(du_character_id character, float angle);
-void du_character_rotation_inc(du_character_id character, float h_angle, float v_angle);
-void du_character_jump(du_character_id character);
-void du_get_character_trans_quat(du_character_id character, du_body_id body, float *dest_trans, float *dest_quat);
-float du_get_vehicle_speed(du_vehicle_id vehicle);
-float du_get_boat_speed(du_boat_id boat);
-void du_set_gravity(du_body_id body, float gravity);
-void du_set_damping(du_body_id body, float damping, float rotation_damping);
 void du_sort_array_ascending(du_collision_result **arr, int length);
-int du_bin_search_by_body(du_collision_result **arr, du_body_id searched, int start, int end);
-int du_search_around_body_a(du_collision_result **arr, du_body_id searched, int start_id);
-int du_get_collision_result_ind(du_collision_result **results, int size, du_body_id du_body_a, du_body_id du_body_b);
+
+int du_bin_search_by_body(du_collision_result **arr, du_body_id searched,
+                          int start, int end);
+
+int du_search_around_body_a(du_collision_result **arr, du_body_id searched,
+                            int start_id);
+
+int du_get_collision_result_ind(du_collision_result **results, int size,
+                                du_body_id du_body_a, du_body_id du_body_b);
 
 du_world_id _active_world = NULL;
 
@@ -272,14 +181,6 @@ void delete_shape(btCollisionShape *shape)
 void du_set_active_world(du_world_id id)
 {
     _active_world = id;
-}
-
-/**
- * For testing purposes
- */
-float du_test(float num) 
-{
-    return num+1.0;
 }
 
 void terminate(const char *msg) 
@@ -965,8 +866,6 @@ du_vehicle_id du_create_vehicle(du_body_id chassis, du_vehicle_tuning_id tuning)
     btRaycastVehicle *vehicle = new btRaycastVehicle(*bt_tuning, bt_chassis,
             raycaster);
 
-    //world->addAction(vehicle);
-
     vehicle->setCoordinateSystem(0, 1, 2);
 
     return reinterpret_cast <du_vehicle_id>(vehicle);
@@ -977,12 +876,8 @@ du_boat_id du_create_boat(du_body_id hull, float float_factor,
 {
     btRigidBody *du_hull = reinterpret_cast <btRigidBody*>(hull);
 
-    //duWorld *world = get_active_world();
-
     duBoat *boat = new duBoat(du_hull, float_factor,
                               water_lin_damp, water_rot_damp);
-
-    //world->addAction(boat);
 
     boat->setCoordinateSystem(0, 1, 2);
 
@@ -994,11 +889,8 @@ du_floater_id du_create_floater(du_body_id body, float float_factor,
 {
     btRigidBody *du_floater = reinterpret_cast <btRigidBody*>(body);
 
-    //duWorld *world = get_active_world();
-
     duFloatingBody *floater = new duFloatingBody(du_floater,
                                   float_factor, water_lin_damp, water_rot_damp);
-    //world->addAction(floater);
 
     return reinterpret_cast <du_floater_id>(floater);
 }
@@ -1056,13 +948,11 @@ du_character_id du_create_character(du_body_id character,
                                     short collisionGroup, short collisionMask)
 {
     btRigidBody *du_char_body = reinterpret_cast <btRigidBody*>(character);
-    //duWorld *world = get_active_world();
 
     duCharacter *du_character = new duCharacter(du_char_body, angle, height,
                                                 walkSpeed, runSpeed, stepHeight,
                                                 jumpStrength, waterLine,
                                                 collisionGroup, collisionMask);
-    //world->addAction(du_character);
 
     return reinterpret_cast <du_character_id>(du_character);
 }
@@ -1319,10 +1209,8 @@ void du_add_body(du_body_id body, int collision_group, int collision_mask)
 
     if (bt_body)
         world->addRigidBody(bt_body, collision_group, collision_mask);
-        //world->addRigidBody(bt_body);
     else
         world->addCollisionObject(bt_colobj, collision_group, collision_mask);
-        //world->addCollisionObject(bt_colobj);
 }
 
 void du_remove_body(du_body_id body)
@@ -1504,7 +1392,7 @@ void du_set_character_move_direction(du_character_id character, int dir_x,
     du_character->setMoveDirection(btVector3(dir_x, dir_y, dir_z));
 }
 
-void du_set_character_move_type(du_character_id character, int type)
+void du_set_character_move_type(du_character_id character, short type)
 {
     duCharacter *du_character = reinterpret_cast <duCharacter*>(character);
     du_character->setMoveType(type);

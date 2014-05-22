@@ -16,6 +16,26 @@
         "name": "Tutorials",
         "items": [
             {
+                "name": "Grass",
+                "load_file": "tutorials/grass/grass.json"
+            },
+            {
+                "name": "Example",
+                "load_file": "../tutorials/examples/example1/example.json"
+            },
+            {
+                "name": "Victory Day",
+                "load_file": "tutorials/victory_day/victory_day.json"
+            },
+            {
+                "name": "Soffit",
+                "load_file": "tutorials/soffit/soffit.json"
+            },
+            {
+                "name": "Pirate vs Alien",
+                "load_file": "tutorials/pirate_vs_alien/pirate_vs_alien.json"
+            },
+            {
                 "name": "Striped Shader 2",
                 "load_file": "tutorials/striped_shader_2/striped_shader_2.json"
             },
@@ -26,6 +46,10 @@
             {
                 "name": "Striped Shader 1",
                 "load_file": "tutorials/striped_shader_1/striped_shader_1.json"
+            },
+            {
+                "name": "Cat Example",
+                "load_file": "tutorials/cat/cat_example.json"
             }
         ]
     }

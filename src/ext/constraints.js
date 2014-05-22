@@ -7,9 +7,11 @@
 b4w.module["constraints"] = function(exports, require) {
 
 var constraints = require("__constraints");
+var m_phy = require("__physics");
+var m_trans = require("__transform");
 
 /**
- * Append stiff constraint.
+ * Append a stiff constraint.
  * @method module:constraints.append_stiff
  * @param obj Object ID
  * @param target Object ID or [Armature object ID, Bone Name]
@@ -22,9 +24,12 @@ exports["append_stiff"] = function(obj, target, offset, rotation_offset) {
         constraints.append_stiff_bone(obj, target[0], target[1], offset, rotation_offset);
     else
         constraints.append_stiff_obj(obj, target, offset, rotation_offset);
+
+    m_trans.update_transform(obj);
+    m_phy.sync_transform(obj);
 }
 /**
- * Append semi-stiff constraint.
+ * Append a semi-stiff constraint.
  * @method module:constraints.append_semi_stiff
  * @param obj Object ID
  * @param target Object ID or [Armature object ID, Bone Name]
@@ -33,18 +38,21 @@ exports["append_stiff"] = function(obj, target, offset, rotation_offset) {
  */
 exports["append_semi_stiff"] = function(obj, target, offset, rotation_offset) {
     constraints.append_semi_stiff_obj(obj, target, offset, rotation_offset);
+
+    m_trans.update_transform(obj);
+    m_phy.sync_transform(obj);
 }
 /**
- * Append semi-stiff constraint with camera rotation clamping.
+ * Append a semi-stiff constraint with camera rotation clamping.
  * @method module:constraints.append_semi_stiff_cam
  * @param obj Object ID
  * @param target Object ID or [Armature object ID, Bone Name]
  * @param {vec3} offset Offset in parent local space
  * @param {quat4} [rotation_offset] Rotation offset in parent local space
- * @param clamp_left Clamp camera rotation left for azimuth angle
- * @param clamp_right Clamp camera rotation right for azimuth angle
- * @param clamp_up Clamp camera rotation up for elevation angle
- * @param clamp_down Clamp camera rotation down for elevation angle
+ * @param clamp_left Clamp camera rotation left for the azimuth angle
+ * @param clamp_right Clamp camera rotation right for the azimuth angle
+ * @param clamp_up Clamp camera rotation up for the elevation angle
+ * @param clamp_down Clamp camera rotation down for the elevation angle
  */
 exports["append_semi_stiff_cam"] = function(obj, target, offset, rotation_offset, 
                                             clamp_left, clamp_right, 
@@ -52,9 +60,11 @@ exports["append_semi_stiff_cam"] = function(obj, target, offset, rotation_offset
     constraints.append_semi_stiff_cam_obj(obj, target, offset, rotation_offset, 
                                           clamp_left, clamp_right, 
                                           clamp_up, clamp_down);
+    m_trans.update_transform(obj);
+    m_phy.sync_transform(obj);
 }
 /**
- * Append semi-soft constraint.
+ * Append a semi-soft constraint.
  * @method module:constraints.append_semi_soft_cam
  * @param obj Object ID
  * @param target Object ID or [Armature object ID, Bone Name]
@@ -62,9 +72,12 @@ exports["append_semi_stiff_cam"] = function(obj, target, offset, rotation_offset
  */
 exports["append_semi_soft_cam"] = function(obj, target, offset) {
     constraints.append_semi_soft_cam_obj(obj, target, offset);
+
+    m_trans.update_transform(obj);
+    m_phy.sync_transform(obj);
 }
 /**
- * Append stiff translation constraint.
+ * Append a stiff translation constraint.
  * @method module:constraints.append_stiff_trans
  * @param obj Object ID
  * @param target Object ID
@@ -72,9 +85,12 @@ exports["append_semi_soft_cam"] = function(obj, target, offset) {
  */
 exports["append_stiff_trans"] = function(obj, target, offset) {
     constraints.append_stiff_trans_obj(obj, target, offset);
+
+    m_trans.update_transform(obj);
+    m_phy.sync_transform(obj);
 }
 /**
- * Append copy translatioin constraint.
+ * Append a copy translation constraint.
  * @method module:constraints.append_copy_trans
  * @param obj Object ID
  * @param target Object ID
@@ -82,12 +98,18 @@ exports["append_stiff_trans"] = function(obj, target, offset) {
  */
 exports["append_copy_trans"] = function(obj, target, offset) {
     constraints.append_copy_trans_obj(obj, target, offset);
+
+    m_trans.update_transform(obj);
+    m_phy.sync_transform(obj);
 }
 exports["append_stiff_trans_rot"] = function(obj, target, offset, rotation_offset) {
     constraints.append_stiff_trans_rot_obj(obj, target, offset, rotation_offset);
+
+    m_trans.update_transform(obj);
+    m_phy.sync_transform(obj);
 }
 /**
- * Append track constraint.
+ * Append a track constraint.
  * @method module:constraints.append_track
  * @param obj Object ID
  * @param target Target object ID or vector
@@ -97,9 +119,12 @@ exports["append_track"] = function(obj, target) {
         constraints.append_track_point(obj, target);
     else
         constraints.append_track_obj(obj, target);
+
+    m_trans.update_transform(obj);
+    m_phy.sync_transform(obj);
 }
 /**
- * Append follow constraint.
+ * Append a follow constraint.
  * @method module:constraints.append_follow
  * @param obj Object ID
  * @param target Target object ID or vector
@@ -110,9 +135,12 @@ exports["append_follow"] = function(obj, target, offset_min, offset_max) {
         constraints.append_follow_point(obj, target, offset_min, offset_max);
     else
         constraints.append_follow_obj(obj, target, offset_min, offset_max);
+
+    m_trans.update_transform(obj);
+    m_phy.sync_transform(obj);
 }
 /**
- * Remove object constraint if any.
+ * Remove the object's constraint (if any).
  * @method module:constraints.remove
  * @param obj Object ID
  */

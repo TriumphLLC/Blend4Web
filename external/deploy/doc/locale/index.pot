@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: B4W 14.03.28\n"
+"Project-Id-Version: B4W 14.05.22\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-03 12:59\n"
+"POT-Creation-Date: 2014-05-21 10:39+0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,17 +17,17 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: ../index.rst:7
-# 330b524c581b429c90df7e74017ae7b1
+# 772ba463c1d34580b1842d1a3bcf5a6e
 msgid "Содержание"
 msgstr ""
 
 #: ../index.rst:39
-# 165173800b94421abcae1a91634a3ea0
+# 1d68a65d7d7b4f82aa17e5ae4b9eee31
 msgid ":ref:`genindex`"
 msgstr ""
 
 #: ../index.rst:40
-# d89b6ffd190a445d8550ec63628674cb
+# 341de6df800244ea8c1562e19940f654
 msgid ":ref:`search`"
 msgstr ""
 

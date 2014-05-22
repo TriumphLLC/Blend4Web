@@ -2,20 +2,20 @@
 
 /** 
  * Controls API.
- * Inspired by blender game engine.
+ * Inspired by Blender Game Engine.
  * <dl>
  *
  * <dt>Sensor</dt>
- * <dd>based on events occured on scene, has exactly one output value (0 or 1)</dd>
+ * <dd>based on the events occured on the scene, has exactly one output value (0 or 1)</dd>
  *
  * <dt>Sensor Manifold (or simply manifold)</dt>
- * <dd>Manifold of sensors. Have single attached logic function, which performs 
- * logic operation on set of sensor values. Generate pulse based on control 
- * type and logic function result. Also has output value which is equal to 
- * output from first sensor in manifold.</dd>
+ * <dd>A manifold of sensors. Has a single attached logic function, which performs 
+ * a logic operation on a set of sensor values. Generates a pulse based on the control 
+ * type and the logic function's result. Also has an output value which is equal to 
+ * the output from the first sensor in the manifold.</dd>
  * </dl>
  *
- * <p>Registering of user input callbacks is required to perform correct
+ * <p>Registering the user input callbacks is required to perform a correct
  * operation of sensors, see *_cb() docs.
  * @module controls
  */
@@ -26,11 +26,12 @@ var controls = require("__controls");
 
 /**
  * Continuous control type.
- * Generate positive pulse each frame for positive logic function.
- * Generate single negative pulse on negative logic function.
+ * Generates a positive pulse for each frame for the positive logic function.
+ * Generates a single negative pulse on the negative logic function.
  * @const module:controls.CT_CONTINUOUS
  */
 exports["CT_CONTINUOUS"] = controls.CT_CONTINUOUS;
+
 /**
  * Trigger control type.
  * Generate single positive pulse on positive logic function.
@@ -47,9 +48,8 @@ exports["CT_TRIGGER"] = controls.CT_TRIGGER;
 exports["CT_SHOT"] = controls.CT_SHOT;
 /**
  * Level control type.
- * Generate single positive pulse for each change of manifold value during positive
- * logic function. Generate single positive pulse on negative logic function.
- * Produces no negative pulses. Use manifold value to check start/end event.
+ * Generate single positive pulse for each change of manifold logic function
+ * result. Produces no negative pulses.
  * @const module:controls.CT_LEVEL
  */
 exports["CT_LEVEL"] = controls.CT_LEVEL;
@@ -252,6 +252,7 @@ exports["create_keyboard_sensor"] = controls.create_keyboard_sensor;
  * @method module:controls.create_collision_sensor
  * @param obj Collision object ID
  * @param {String} collision_id Collision ID
+ * @param {Boolean} need_payload Should sensor return collision point
  * @returns Sensor object
  */
 exports["create_collision_sensor"] = controls.create_collision_sensor;
@@ -468,7 +469,6 @@ exports["remove_sensor_lock"] = function(sensor) {
  * @callback manifold_callback
  * @param obj Object ID
  * @param id Manifold ID
- * @param value Manifold value (value of first sensor)
  * @param pulse Manifold pulse value
  * @param [param] Callback param
  */

@@ -204,9 +204,7 @@ void skin(inout vec3 position, inout vec3 tangent, inout vec3 binormal, inout ve
         }
         
         position = spos;
-# if !DISABLE_TANGENT_SKINNING
         tangent  = stng;
-# endif
         binormal = sbnr;
         normal   = snrm;
     }
@@ -219,16 +217,12 @@ void skin(inout vec3 position, inout vec3 tangent, inout vec3 binormal, inout ve
 # if FRAMES_BLENDING
             position = skin_point(position, u_quatsb[index], u_quatsa[index], 
                     u_transb[index], u_transa[index], ff);
-#  if !DISABLE_TANGENT_SKINNING
             tangent  = skin_vector(tangent,  u_quatsb[index], u_quatsa[index], ff);        
-#  endif
             binormal = skin_vector(binormal, u_quatsb[index], u_quatsa[index], ff);
             normal   = skin_vector(normal,   u_quatsb[index], u_quatsa[index], ff);
 # else
             position = skin_point(position, u_quatsb[index], u_transb[index]);
-#  if !DISABLE_TANGENT_SKINNING
             tangent  = skin_vector(tangent,  u_quatsb[index]);        
-#  endif
             binormal = skin_vector(binormal, u_quatsb[index]);
             normal   = skin_vector(normal,   u_quatsb[index]);
 # endif

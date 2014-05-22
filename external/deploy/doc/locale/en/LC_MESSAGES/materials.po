@@ -45,7 +45,7 @@ msgstr "The following material types are supported: ``Surface``, ``Halo``."
 
 #: ../materials.rst:20
 msgid "Параметры освещения"
-msgstr "Lighting parameters"
+msgstr "Lighting Parameters"
 
 #: ../materials.rst:28
 msgid "*Diffuse > Color*"
@@ -545,7 +545,7 @@ msgstr ""
 
 #: ../materials.rst:212
 msgid "Специальные параметры движка"
-msgstr "Parameters specific to the engine"
+msgstr "Parameters Specific to the Engine"
 
 #: ../materials.rst:214
 msgid "Располагаются в панели ``Blend4Web``."
@@ -597,7 +597,7 @@ msgstr ""
 
 #: ../materials.rst:241
 msgid "Материалы гало (Halo)"
-msgstr "Halo materials"
+msgstr "Halo Materials"
 
 #: ../materials.rst:243
 msgid ""

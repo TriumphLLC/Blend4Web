@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Анимация &mdash; Руководство пользователя: Blend4Web v14.04.22</title>
+    <title>Анимация &mdash; Руководство пользователя: Blend4Web v14.05.22</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.04.22',
+        VERSION:     '14.05.22',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v14.04.22" href="index.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v14.05.22" href="index.html" />
     <link rel="next" title="Рендеринг наружных сцен" href="outdoor_rendering.html" />
     <link rel="prev" title="Система частиц для инстансинга объектов" href="particles_instancing.html" /> 
   </head>
@@ -37,7 +37,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">Руководство пользователя: Blend4Web v14.04.22</a></div>
+          href="index.html">Руководство пользователя: Blend4Web v14.05.22</a></div>
         <div class="rel">
           <a href="particles_instancing.html" title="Система частиц для инстансинга объектов"
              accesskey="P">предыдущий</a> |
@@ -62,14 +62,16 @@
 <p>В общем случае, к анимации относятся изменения параметров объектов во времени.
 Движком поддерживаются следующие типы анимации:</p>
 <ul class="simple">
-<li>Перемещение объекта в пространстве как единого целого (объектная анимация).
-Изменяемые параметры: координаты центра (<tt class="docutils literal"><span class="pre">Location</span></tt>), кватернион поворота
-(<tt class="docutils literal"><span class="pre">Rotation</span></tt> в режиме <tt class="docutils literal"><span class="pre">Quaternion(WXYZ)</span></tt>) и масштабирование (<tt class="docutils literal"><span class="pre">Scale</span></tt>).</li>
-<li>Деформация объекта с помощью системы костей (скиннинг и скелетная анимация) а
-также анимация костей в арматурном объекте с целью прикрепления объектов к костям.</li>
-<li>Покадровая запись деформаций объекта с последующим воспроизведением
-(вертексная анимация).</li>
-<li>Параметризация параметров источников звука. Изменяемые параметры: громкость
+<li>Объектная анимация. Заключается в перемещении объекта в пространстве как
+единого целого. Изменяемые параметры: координаты центра (<tt class="docutils literal"><span class="pre">Location</span></tt>),
+кватернион поворота (<tt class="docutils literal"><span class="pre">Rotation</span></tt> в режиме <tt class="docutils literal"><span class="pre">Quaternion(WXYZ)</span></tt>) и
+масштабирование (<tt class="docutils literal"><span class="pre">Scale</span></tt>).</li>
+<li>Скелетная анимация, то есть деформация геометрии объекта с помощью системы
+костей (скиннинг). Сюда же относится анимация костей в арматурном объекте с
+целью прикрепления объектов к костям.</li>
+<li>Вертексная анимация. Заключается в покадровой записи деформаций объекта с их
+последующим воспроизведением.</li>
+<li>Параметризация источников звука. Изменяемые параметры: громкость
 (<tt class="docutils literal"><span class="pre">Volume</span></tt>) и высота звука (<tt class="docutils literal"><span class="pre">Pitch</span></tt>).</li>
 <li>Процедурная анимация в виде колебаний объекта под действием ветра. Описано
 <a class="reference internal" href="outdoor_rendering.html#wind"><em>отдельно</em></a>.</li>
@@ -77,61 +79,75 @@
 </ul>
 <div class="section" id="id2">
 <h2>Управление анимацией<a class="headerlink" href="#id2" title="Ссылка на этот заголовок">¶</a></h2>
-<p>Управление анимацией в движке осуществляется одним из трёх способов:</p>
+<p>Управление анимацией в движке осуществляется одним из двух способов:</p>
 <ol class="arabic simple">
 <li>Автоматически, с помощью указания свойств <tt class="docutils literal"><span class="pre">Animation:</span> <span class="pre">Use</span> <span class="pre">default</span></tt> и
 <tt class="docutils literal"><span class="pre">Animation:</span> <span class="pre">Cyclic</span></tt> в свойствах объекта. В данном случае будет осуществлён
 поиск доступного метода и в случае положительного результата, объект
-анимируется с момента загрузки сцены.</li>
-<li>Программно, используя функции модуля <tt class="docutils literal"><span class="pre">animation</span></tt>.</li>
-<li>Автоматически, с помощью редактирования файла <tt class="docutils literal"><span class="pre">assets.json</span></tt>. В настройках
-загрузки сцены добавляется свойство <tt class="docutils literal"><span class="pre">animated_objects</span></tt>, являющееся массивом
-имён объектов, либо пар [&#8220;имя объекта-дупликатора группы&#8221;, &#8220;имя объекта
-внутри группы&#8221;]. Метод подходит только для приложений, использующих
-информацию из файла <tt class="docutils literal"><span class="pre">assets.json</span></tt> (в настоящий момент к ним относится
-просмоторщик сцен <tt class="docutils literal"><span class="pre">viewer</span></tt>).</li>
+анимируется с момента загрузки сцены. В случае скелетной анимации, по
+умолчанию воспроизводится актор, назначенный на объекте в окне <tt class="docutils literal"><span class="pre">Action</span>
+<span class="pre">Editor</span></tt>.</li>
+<li>Программно, используя функции модуля движка <tt class="docutils literal"><span class="pre">animation</span></tt>.</li>
 </ol>
-<p>В случае анимации меша, необходимо назначение свойства <tt class="docutils literal"><span class="pre">Do</span> <span class="pre">not</span> <span class="pre">batch</span></tt> на
-вкладке свойств объекта.</p>
+<p>Для отладки анимации имеет смысл использовать интерфейс <tt class="docutils literal"><span class="pre">Animation</span></tt>
+программы-просмотрщика, рассмотренный в <a class="reference internal" href="viewer.html#viewer"><em>соответствующем разделе</em></a>.</p>
 </div>
 <div class="section" id="id3">
 <h2>Объектная анимация<a class="headerlink" href="#id3" title="Ссылка на этот заголовок">¶</a></h2>
-<p>Осуществляется с помощью добавления ключей анимации в программе Blender и
+<p>Осуществляется с помощью добавления ключей анимации для движения объекта в программе Blender и
 их последующего воспроизведения в движке.</p>
 <p>Поддерживаются следующие типы ключей:</p>
 <ul class="simple">
 <li><em>Location</em></li>
 <li><em>Rotation</em> &#8211; необходимо осуществлять в режиме <tt class="docutils literal"><span class="pre">Quaternion(WXYZ)</span></tt>.</li>
-<li><em>Scale</em> &#8211; для получения корректных результатов, фактор масштабирования должен быть одинаковым вдоль любых из осей.</li>
+<li><em>Scale</em> &#8211; для получения корректных результатов, фактор масштабирования должен
+быть одинаковым вдоль любых из осей.</li>
 <li><em>LocRot</em> &#8211; комбинация <em>Location</em> и <em>Rotation</em>.</li>
 <li><em>LocScale</em> &#8211; комбинация <em>Location</em> и <em>Scale</em>.</li>
 <li><em>LocRotScale</em> &#8211; комбинация <em>Location</em>, <em>Rotation</em> и <em>Scale</em>.</li>
 <li><em>RotScale</em> &#8211; комбинация <em>Rotation</em> и <em>Scale</em>.</li>
 </ul>
+<p>В случае анимации объекта-меша, необходимо назначение свойства <tt class="docutils literal"><span class="pre">Do</span> <span class="pre">not</span> <span class="pre">batch</span></tt> на
+вкладке свойств объекта.</p>
 </div>
 <div class="section" id="id4">
 <h2>Скиннинг и скелетная анимация<a class="headerlink" href="#id4" title="Ссылка на этот заголовок">¶</a></h2>
-<p>Для осуществленя скелетной анимации, кроме анимированного объекта-меша требуется
+<p>Для осуществления скелетной анимации, кроме деформируемого объекта-меша требуется
 объект-арматура. Осуществляется в четыре этапа:</p>
 <ol class="arabic simple">
 <li>Создание скелета объекта в арматурном объекте.</li>
-<li>Назначение вертексных групп в объекте-меше и их привязка к костям. Может быть осуществлено, например, методом <tt class="docutils literal"><span class="pre">weight</span> <span class="pre">painting</span></tt>.</li>
+<li>Назначение вертексных групп в объекте-меше и их привязка к костям. Может быть осуществлено, например, методом &#8220;раскраски&#8221; весов (weight painting).</li>
 <li>Анимация костей в арматурном объекте. Используются те же ключи, что и в случае
 объектной анимации.</li>
 <li>В случае нетривиальных видов скелетной анимации, включающих инверсную кинематику,
 требуется стадия запекания анимационных акторов (блок <tt class="docutils literal"><span class="pre">Action</span></tt> в Blender).
-Запекание производится с помощью интерфейса, вызываемого через пробел:
-<tt class="docutils literal"><span class="pre">B4W</span> <span class="pre">Animation</span> <span class="pre">Bake</span></tt>.</li>
+Запекание производится с помощью интерфейса <tt class="docutils literal"><span class="pre">B4W</span> <span class="pre">Animation</span> <span class="pre">Bake</span></tt>, расположенного на панели инструментов <tt class="docutils literal"><span class="pre">Blend4Web</span></tt>:</li>
 </ol>
+<a class="reference internal image-reference" href="_images/baker.png"><img alt="Инструмент запекания скелетной анимации" class="align-center" src="_images/baker.png" style="width: 100%;" /></a>
+<p>Запекание производится при выделенном арматурном объекте. Элементы интерфейса запекателя:</p>
+<ul class="simple">
+<li><em>Clean keyframes</em> &#8211; произвести оптимизацию ключей анимации после запекания. В
+случае получения некорректных результатов, рекомендуется отключить опцию.</li>
+<li><em>Bake</em> &#8211; произвести запекание. В случае успешного окончания процесса, на
+сцене появляются акторы с именами вида <em>ИМЯ_BAKED</em>. Данные акторы могут быть
+назначены на арматурном объекте и воспроизведены в движке. Стоит отметить, что
+работа подобных акторов в Blender не гарантируется, хотя в ряде случаев может
+помочь интерфейс <em>Cons Mute</em>/<em>Cons Unmute</em>.</li>
+<li><em>Cons Mute</em>/<em>Cons Unmute</em> &#8211; отключить/активировать ограничители,
+установленные на костях. Инструмент может быть использован для тестирования
+запечёных акторов.</li>
+</ul>
 </div>
 <div class="section" id="id5">
 <h2>Вертексная анимация<a class="headerlink" href="#id5" title="Ссылка на этот заголовок">¶</a></h2>
-<p>Позволяет зафиксировать и воспроизвести любые манипуляции с геометрией
-объекта-меша. С другой стороны, для этого требуется огромное количество
-ресурсов (прежде всего возрастает объём загружаемых файлов и количество
-используемой видео-памяти).</p>
+<p>Позволяет записать любые изменения геометрии объекта-меша. Необходимо учитывать,
+что каждый кадр вертексной анимации эквивалентен мешу. Не рекомендуется создание
+длинной анимации для высокополигонального меша, поскольку это может привести к
+существенному возрастанию размера исходного и экспортируемого файлов, а также
+замедлить работу движка.</p>
 <p>Для запекания вертексной анимации предусмотрен инструмент <tt class="docutils literal"><span class="pre">B4W</span> <span class="pre">Vertex</span> <span class="pre">Anim</span>
 <span class="pre">Baker</span></tt>, расположенный на панели инструментов <tt class="docutils literal"><span class="pre">Blend4Web</span></tt>.</p>
+<a class="reference internal image-reference" href="_images/vertex_anim_baker.jpg"><img alt="Инструмент запекания вертексной анимации" class="align-center" src="_images/vertex_anim_baker.jpg" style="width: 100%;" /></a>
 </div>
 <div class="section" id="id6">
 <h2>Параметризация источников звука<a class="headerlink" href="#id6" title="Ссылка на этот заголовок">¶</a></h2>
@@ -141,6 +157,7 @@
 <li><em>Volume</em> &#8211; громкость звука источника.</li>
 <li><em>Pitch</em> &#8211; высота звука источника.</li>
 </ul>
+<p>Параметризация источников звука по своей сути повторяет объектную анимацию.</p>
 </div>
 </div>
 
@@ -176,16 +193,14 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Рендеринг наружных сцен</a></li>
-<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Гамма-коррекция и прозрачность</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Гамма-коррекция и альфа-композитинг</a></li>
 <li class="toctree-l1"><a class="reference internal" href="audio.html">Звуковая подсистема</a></li>
-<li class="toctree-l1"><a class="reference internal" href="event_model.html">Событийная модель</a></li>
 <li class="toctree-l1"><a class="reference internal" href="physics.html">Физика</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nla.html">Нелинейная анимация</a></li>
 <li class="toctree-l1"><a class="reference internal" href="developers.html">Разработчикам приложений</a></li>
 <li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">Разработчикам движка</a></li>
-<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Краткая справка по git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Работа в команде. Использование git</a></li>
 <li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Проблемы и решения</a></li>
-<li class="toctree-l1"><a class="reference internal" href="roadmap.html">План развития</a></li>
 </ul>
 
           <h3 style="margin-top: 1.5em;">Поиск</h3>
@@ -218,7 +233,7 @@
           
     <div class="footer">
         &copy; Copyright 2014, ООО &#34;Триумф&#34;.
-      Обновлено: 2014-04-23.
+      Обновлено: 2014-05-21.
       Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

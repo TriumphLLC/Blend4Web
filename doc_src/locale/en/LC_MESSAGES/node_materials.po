@@ -13,7 +13,7 @@ msgstr ""
 
 #: ../node_materials.rst:7
 msgid "Нодовые материалы"
-msgstr "Node materials"
+msgstr "Node Materials"
 
 #: ../node_materials.rst:9
 msgid ""
@@ -27,7 +27,7 @@ msgstr ""
 
 #: ../node_materials.rst:16
 msgid "Стандартные ноды"
-msgstr "Standard nodes"
+msgstr "Standard Nodes"
 
 #: ../node_materials.rst:20
 msgid ""
@@ -91,7 +91,7 @@ msgstr ""
 
 #: ../node_materials.rst:39
 msgid "Дополнительные ноды"
-msgstr "Special nodes"
+msgstr "Special Nodes"
 
 #: ../node_materials.rst:43
 msgid ""
@@ -171,7 +171,7 @@ msgid ""
 "использоваться для анимации любых параметров в нодовых материалах."
 msgstr ""
 "Provides the timeline counting from the engine start (in seconds). May be used for "
-"animating any paramters in the node materials."
+"animating any parameters in the node materials."
 
 #: ../node_materials.rst:71
 msgid "NORMAL_VIEW"

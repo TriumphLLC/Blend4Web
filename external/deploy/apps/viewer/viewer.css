@@ -37,12 +37,12 @@ div.info_corner.left_down {
 
 div.info_corner.right_down {
     bottom: 5px;
-    right: 315px;
+    right: 325px;
 }
 
 div.info_corner.right_up {
     top: 5px;
-    right: 315px;
+    right: 325px;
 }
 
 div.info_corner_backgr {
@@ -68,7 +68,7 @@ span.info_corner_text {
 
 @media all and (min-width: 750px) {
     #controls_container {
-        width: 250px;
+        width: 320px;
     }
 }
 
@@ -162,4 +162,45 @@ html .ui-panel-page-container-c {
 
 .min_font {
     font-size: 12px;
+}
+
+#lights_cont {
+    display: inline-block;
+    float: right;
+    width: 50px;
+    height: 19px;
+    background: url(icons/lights_container.png) no-repeat;
+}
+
+#red_lights {
+    visibility: hidden;
+    width: 12px;
+    height: 12px;
+    margin-top: 3px;
+    margin-left: 3px;
+    margin-right: 0px;
+    float: left;
+    background: url(icons/lights.png);
+}
+
+#yellow_lights {
+    visibility: hidden;
+    float: left;
+    width: 12px;
+    height: 12px;
+    margin-right: 0px;
+    margin-top: 3px;
+    margin-left: 4px;
+    background: url(icons/lights.png) center;
+}
+
+#green_lights {
+    visibility: hidden;
+    margin-right: 0px;
+    float: left;
+    width: 12px;
+    height: 12px;
+    margin-top: 3px;
+    margin-left: 4px;
+    background: url(icons/lights.png) right;
 }

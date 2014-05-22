@@ -20,6 +20,7 @@ var IN_PROP_OFFSET              = 8;
 var IN_RAY_HIT                  = 9;
 var IN_TRANSFORM                = 10;
 var IN_VEHICLE_SPEED            = 11;
+var IN_PING                     = 12;
 
 exports.IN_COLLISION                = IN_COLLISION;
 exports.IN_COLLISION_IMPULSE        = IN_COLLISION_IMPULSE;
@@ -32,6 +33,7 @@ exports.IN_PROP_OFFSET              = IN_PROP_OFFSET;
 exports.IN_RAY_HIT                  = IN_RAY_HIT;
 exports.IN_TRANSFORM                = IN_TRANSFORM;
 exports.IN_VEHICLE_SPEED            = IN_VEHICLE_SPEED;
+exports.IN_PING                     = IN_PING;
 
 
 // MAIN -> PHYSICS
@@ -81,6 +83,8 @@ exports.OUT_SET_WATER_TIME                  = 1044;
 exports.OUT_ADD_WATER_WRAPPER               = 1045;
 exports.OUT_UPDATE_BOAT_CONTROLS            = 1047;
 exports.OUT_UPDATE_CAR_CONTROLS             = 1048;
+exports.OUT_PING                            = 1049;
+exports.OUT_DEBUG                           = 1050;
 
 var OUT_SET_TRANSFORM = exports.OUT_SET_TRANSFORM;
 
@@ -118,6 +122,14 @@ _msg_cache[IN_RAY_HIT] = {
         "cur_result":    null
 };
 
+_msg_cache[IN_COLLISION] = {
+        "msg_id":        null,
+        "body_id_a":     null,
+        "body_id_b":     null,
+        "result":        null,
+        "coll_point":    new Float32Array(3)
+};
+
 _msg_cache[OUT_SET_TRANSFORM] = {
         "msg_id":        null,
         "body_id":       null,
@@ -149,6 +161,12 @@ _patterns[IN_RAY_HIT]     = ["msg_id",        1,
                              "local",         1,
                              "body_id_b_hit", 1,
                              "cur_result",    1];
+
+_patterns[IN_COLLISION]     = ["msg_id",        1,
+                               "body_id_a",     1,
+                               "body_id_b",     1,
+                               "result",        1,
+                               "coll_point",    3];
 
 _patterns[OUT_SET_TRANSFORM] = ["msg_id",        1,
                                 "body_id",       1,

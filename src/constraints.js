@@ -693,8 +693,6 @@ function cam_rotate_to(quat, dir, dest) {
 
     m_quat.fromMat3(mat_dst, dest);
     m_quat.normalize(dest, dest);
-    // NOTE: workaround for buggy m_quat.fromRotationMatrix (inverted rotation)
-    m_quat.conjugate(dest, dest);
 }
 
 exports.correct_up = correct_up;

@@ -24,6 +24,7 @@ var m_tsr      = require("__tsr");
 var util       = require("__util");
 
 var m_vec3 = require("vec3");
+var m_vec4 = require("vec4");
 var m_quat = require("quat");
 
 var cfg_def = config.defaults;
@@ -48,6 +49,7 @@ function init_batch(type) {
         texture_names: [],
         common_attributes: [],
         uv_maps_usage: {},
+        material_names: [],
 
         // mandatory
         shaders_info: null,
@@ -75,103 +77,509 @@ function init_batch(type) {
 /**
  * Generate object batches for graph subscenes.
  */
-exports.generate_main_batches = function(graph, grid_size, scene_objects, bpy_data) {
+exports.generate_main_batches = function(graph, grid_size, scene_objects, 
+        bpy_data) {
 
+    var dynamic_objects = [];
+    var static_objects = [];
     for (var i = 0; i < scene_objects.length; i++) {
-        var sobj = scene_objects[i];
-
-        if (sobj._render.type == "DYNAMIC") {
-
-            var render = sobj._render;
-
-            // local/world bounding box
-            var bb_local = bb_bpy_to_b4w(sobj["data"]["b4w_bounding_box"]);
-            render.bb_local = bb_local;
-
-            var cyl_radius = sobj["data"]["b4w_bounding_cylinder_radius"];
-            set_local_cylinder_capsule(render, cyl_radius, cyl_radius, bb_local);
-            
-            var bb_world = boundings.bounding_box_transform(bb_local, 
-                    render.world_matrix);
-            render.bb_world = bb_world;
-
-            // bounding sphere
-            var bs_local = {
-                radius: sobj["data"]["b4w_bounding_sphere_radius"],
-                center: sobj["data"]["b4w_bounding_sphere_center"]
-            };
-            render.bs_local = bs_local;
-
-            var bs_world = boundings.bounding_sphere_transform(bs_local,
-                    render.world_matrix);
-            render.bs_world = bs_world;
-
-            // bounding ellipsoid
-            var be_axes = sobj["data"]["b4w_bounding_ellipsoid_axes"];
-            var be_local = {
-                axis_x: new Float32Array([be_axes[0], 0, 0]),
-                axis_y: new Float32Array([0, be_axes[1], 0]),
-                axis_z: new Float32Array([0, 0, be_axes[2]]),
-                center: sobj["data"]["b4w_bounding_ellipsoid_center"]
-            };
-            render.be_local = be_local;
-
-            var be_world = boundings.bounding_ellipsoid_transform(be_local, render.tsr);
-            render.be_world = be_world;
-
-            var batch_slots = make_dynamic_batches(sobj, sobj._render, graph, true);
-            sobj._batch_slots = batch_slots;
-
-            // generate debug volumes
-            if (cfg_def.wireframe_debug) {
-                var add_debug_sphere = false;
-                for (var j = 0; j < sobj._batch_slots.length; j++) {
-                    var obj_batch = sobj._batch_slots[j].batch;
-                    if (BATCH_TYPES_DEBUG_SPHERE.indexOf(obj_batch.type) > -1) {
-                        add_debug_sphere = true;
-                        break;
-                    }
-                }
-                if (add_debug_sphere) {
-                    var slot = {};
-                    var batch = create_bounding_ellipsoid_batch(render.be_local, sobj, true);
-                    batch.debug_sphere_dynamic = true;
-                    update_batch_render(batch, render);
-
-                    slot.batch = batch;
-                    sobj._batch_slots.push(slot);
-                }
-            }
-            //prepare_line_batches(sobj);
+        var obj = scene_objects[i];
+        switch (obj._render.type) {
+        case "DYNAMIC":
+            dynamic_objects.push(obj);
+            break;
+        case "STATIC":
+            static_objects.push(obj);
+            break;
         }
     }
 
-    // prepare batches for static objects
+    // create merged metabatches
+    var dyn_metabatches = make_dynamic_metabatches(dynamic_objects, graph);
+    var stat_metabatches = make_static_metabatches(static_objects, graph, 
+            grid_size);
 
-    var scene_batch_objects = [];
-    for (var i = 0; i < scene_objects.length; i++) {
-        var sobj = scene_objects[i];
-        if (sobj._render.type == "STATIC")
-            scene_batch_objects.push(sobj);
+    // update batch geometry
+    for (var i = 0; i < dyn_metabatches.length; i++)
+        update_batch_geometry(dyn_metabatches[i].batch, 
+                dyn_metabatches[i].submesh);
+    for (var i = 0; i < stat_metabatches.length; i++)
+        update_batch_geometry(stat_metabatches[i].batch, 
+                stat_metabatches[i].submesh);
+
+    // create meta-objects and attach static batches (except COLOR_ID)
+    var meta_objects = [];
+    for (var i = 0; i < stat_metabatches.length; i++) {
+        var batch = stat_metabatches[i].batch;
+        if (batch.type !== "COLOR_ID") {
+            var meta_obj = util.init_object(util.unique_name("%meta"), "MESH");
+            meta_obj._render = stat_metabatches[i].render;
+            meta_obj._batches = [batch];
+            meta_objects.push(meta_obj);
+        }
     }
 
-    var baskets = create_batch_object_baskets(scene_batch_objects, grid_size);
-    var meshes = bpy_data["meshes"];
+    // attach all other batches to objects
+    objects_attach_batches(stat_metabatches, ["COLOR_ID"]);
+    objects_attach_batches(dyn_metabatches);
 
-    for (var i = 0; i < baskets.length; i++) {
-        var render = baskets[i].render;
-        var objs = baskets[i].objects;
+    // create debug spheres
+    if (cfg_def.wireframe_debug) {
+        // create debug sphere batches around dynamic objects
+        for (var i = 0; i < dyn_metabatches.length; i++) {
+            // single object for dynamic batch
+            var obj = dyn_metabatches[i].rel_objects[0];
+            // same as obj._render
+            var render = dyn_metabatches[i].render; 
 
-        make_static_batches(objs, render, meshes, graph);
+            if (BATCH_TYPES_DEBUG_SPHERE.indexOf(
+                    dyn_metabatches[i].batch.type) > -1) {
+                var ds_batch = create_bounding_ellipsoid_batch(render.be_local, 
+                        render, obj.name, true);
+                ds_batch.debug_sphere_dynamic = true;
+                update_batch_render(ds_batch, render);
+                obj._batches.push(ds_batch);
+            }
+        }
+
+        // create debug sphere batches around meta-objects
+        for (var i = 0; i < meta_objects.length; i++) {
+            var obj = meta_objects[i];
+            var render = obj._render;
+
+            // every meta object has one batch
+            if (BATCH_TYPES_DEBUG_SPHERE.indexOf(obj._batches[0].type) > -1) {
+                var ds_batch = create_bounding_ellipsoid_batch(render.bs_local, 
+                        render, obj.name, false);
+                ds_batch.debug_sphere_dynamic = false;
+                update_batch_render(ds_batch, render);
+                obj._batches.push(ds_batch);
+            }
+        }
+    }
+
+    return meta_objects;
+}
+
+function make_dynamic_metabatches(dyn_objects, graph) {
+    var metabatches = [];
+    for (var i = 0; i < dyn_objects.length; i++) {
+        var obj = dyn_objects[i];
+        var render = obj._render;
+
+        // local/world bounding box
+        var bb_local = bb_bpy_to_b4w(obj["data"]["b4w_bounding_box"]);
+        render.bb_local = bb_local;
+
+        var cyl_radius = obj["data"]["b4w_bounding_cylinder_radius"];
+        set_local_cylinder_capsule(render, cyl_radius, cyl_radius, bb_local);
+        
+        var bb_world = boundings.bounding_box_transform(bb_local, 
+                render.world_matrix);
+        render.bb_world = bb_world;
+
+        // bounding sphere
+        var bs_local = {
+            radius: obj["data"]["b4w_bounding_sphere_radius"],
+            center: obj["data"]["b4w_bounding_sphere_center"]
+        };
+        render.bs_local = bs_local;
+
+        var bs_world = boundings.bounding_sphere_transform(bs_local,
+                render.world_matrix);
+        render.bs_world = bs_world;
+
+        // bounding ellipsoid
+        var be_axes = obj["data"]["b4w_bounding_ellipsoid_axes"];
+        var be_local = {
+            axis_x: new Float32Array([be_axes[0], 0, 0]),
+            axis_y: new Float32Array([0, be_axes[1], 0]),
+            axis_z: new Float32Array([0, 0, be_axes[2]]),
+            center: obj["data"]["b4w_bounding_ellipsoid_center"]
+        };
+        render.be_local = be_local;
+
+        var be_world = boundings.bounding_ellipsoid_transform(be_local, 
+                render.tsr);
+        render.be_world = be_world;
+
+        var obj_metabatches = make_object_metabatches(obj, render, graph)
+
+        // merge metabatches for object
+        obj_metabatches = merge_metabatches(obj_metabatches);
+        metabatches.push.apply(metabatches, obj_metabatches);
+    }
+    return metabatches;
+}
+
+function make_static_metabatches(static_objects, graph, grid_size) {
+    var metabatches = [];
+
+    var clusters = create_object_clusters(static_objects, grid_size);
+
+    for (var i = 0; i < clusters.length; i++) {
+        var render = clusters[i].render;
+        var objs = clusters[i].objects;
+
+        for (var j = 0; j < objs.length; j++) {
+            var obj = objs[j];
+            var obj_metabatches = make_object_metabatches(obj, render, graph);
+
+            var tsr = tsr_from_render(obj._render) || tsr_from_render(render);
+            var params = {};
+            if (render.wind_bending) {
+                params["au_center_pos"] = [tsr[0], tsr[1], tsr[2]];
+                params["au_wind_bending_amp"] = [obj._render.wind_bending_amp];
+
+                params["au_wind_bending_freq"] 
+                        = [obj["b4w_wind_bending_freq"]];
+                params["au_detail_bending_amp"] 
+                        = [obj["b4w_detail_bending_amp"]];
+                params["au_detail_bending_freq"] 
+                        = [obj["b4w_detail_bending_freq"]];
+                params["au_branch_bending_amp"] 
+                        = [obj["b4w_branch_bending_amp"]];
+            }
+
+            for (var k = 0; k < obj_metabatches.length; k++) {
+                var metabatch_render = obj_metabatches[k].render;
+                var submesh = obj_metabatches[k].submesh;
+
+                if (!metabatch_render.is_hair_particles) {
+                    submesh = geometry.submesh_apply_transform(submesh, tsr);
+                    submesh = geometry.submesh_apply_params(submesh, params);
+                } else
+                    if (metabatch_render.hair_billboard)
+                        submesh = geometry.submesh_apply_particle_transform(submesh, tsr);
+                    else
+                        submesh = geometry.submesh_apply_transform(submesh, tsr);
+            }
+
+            metabatches.push.apply(metabatches, obj_metabatches);
+        }
 
         // assign new static object render
         for (var j = 0; j < objs.length; j++) {
+            var obj = objs[j];
             // save
-            objs[j]._dyn_render = objs[j]._render;
+            obj._dyn_render = obj._render;
             // replace
-            objs[j]._render = render;
+            obj._render = render;
         }
     }
+    return merge_metabatches(metabatches);
+}
+
+/**
+ * Create batches and metadata for single object
+ */
+function make_object_metabatches(obj, render, graph) {
+    var metabatches = [];
+
+    // perform some object culling
+    if (obj["b4w_do_not_render"])
+        return metabatches;
+
+    // NOTE: generate all batches
+    var batch_types = get_batch_types(graph, render);
+    var render_id = calc_render_id(render);
+    var mesh = obj["data"];
+    var materials = mesh["materials"];
+
+    for (var i = 0; i < batch_types.length; i++) {
+        var type = batch_types[i];
+
+        // j == submesh index == material index
+        for (var j = 0; j < materials.length; j++) {
+            if (geometry.has_empty_submesh(mesh, j))
+                continue;
+            var batch = init_batch(type);
+            var material = materials[j];
+            if (!update_batch_material(batch, material, true))
+                continue;
+
+            batch.draw_mode = mesh.draw_mode || geometry.DM_DEFAULT;
+            if (type === "COLOR_ID")
+                batch.color_id = new Float32Array(obj._color_id);
+
+            update_batch_render(batch, render);
+            update_batch_particle_systems(batch, obj["particle_systems"]);
+
+            if (render.type == "DYNAMIC")
+                batch.odd_id_prop = obj["uuid"];
+            update_batch_id(batch, render_id);
+
+            var submesh = geometry.extract_submesh(mesh, j, 
+                    batch.common_attributes, batch.bone_pointers, 
+                    batch.vertex_colors_usage, batch.uv_maps_usage);
+
+            if (material["name"] == "LENS_FLARES")
+                submesh = particles.prepare_lens_flares(submesh);
+
+            // store batch - material conformance
+            if (batch.material_names.indexOf(material["name"]) == -1)
+                batch.material_names.push(material["name"]);
+
+            metabatches.push({
+                batch: batch,
+                submesh: submesh,
+                render: render,
+                rel_objects: [obj]
+            });
+        }
+    }
+
+    // process particle system batches
+    var psystems = obj["particle_systems"];
+    if (psystems.length > 0 && metabatches.length) {
+        // check if emitter rendering needed
+        var not_render_emitter = true;
+        for (var i = 0; i < psystems.length; i++) {
+            var psys = psystems[i];
+            if (psys["settings"]["use_render_emitter"]) {
+                not_render_emitter = false;
+                break; 
+            }
+        }
+
+        // NOTE: assume single-material emitter
+        var em_batch = metabatches[0].batch;
+        var em_submesh = metabatches[0].submesh;
+        var particles_metabatches = make_particles_metabatches(obj, render, 
+                graph, render_id, em_batch, em_submesh);
+
+        if (not_render_emitter)
+            metabatches = particles_metabatches;
+        else
+            metabatches.push.apply(metabatches, particles_metabatches);
+    }
+    return metabatches;
+}
+
+/**
+ * Create batches and metadata for object particle systems
+ */
+function make_particles_metabatches(obj, render, graph, render_id, em_batch, 
+        em_submesh) {
+    var metabatches = [];
+
+    var psystems = obj["particle_systems"];
+    var mesh = obj["data"];
+    var materials = mesh["materials"];
+
+    for (var i = 0; i < psystems.length; i++) {
+        var psys = psystems[i];
+        var pset = psys["settings"];
+
+        if (pset["type"] == "EMITTER") {
+            if (render.type == "DYNAMIC") {
+
+                var batch = init_batch("MAIN");
+                var pmaterial = generate_particles_emitter_material(mesh, psys);
+
+                update_batch_material(batch, pmaterial, true);
+                
+                // NOTE: restore possible "STRAND" texture slots
+                var mat_index = psys["settings"]["material"] - 1;
+                pmaterial["texture_slots"] 
+                        = materials[mat_index]["texture_slots"];
+
+                update_batch_particles_emitter(batch, psys);
+
+                update_batch_render(batch, render);
+                // NOTE: dynamic_geometry for dynamic particles on EMITTER psys
+                batch.dynamic_geometry = true;
+
+                batch.odd_id_prop = pset["uuid"];
+                update_batch_id(batch, render_id);
+
+                batch.particle_system = psys;
+
+                var submesh = particles.generate_emitter_particles_submesh(
+                        batch, mesh, psys, pmaterial, 
+                        obj._render.world_matrix);
+
+                // store batch - material conformance
+                if (batch.material_names.indexOf(pmaterial["name"]) == -1)
+                    batch.material_names.push(pmaterial["name"]);
+
+                metabatches.push({
+                    batch: batch,
+                    submesh: submesh,
+                    render: render,
+                    rel_objects: [obj]
+                });
+            }
+            
+        } else if (pset["type"] == "HAIR") {
+            var seed = util.init_rand_r_seed(psys["seed"]);
+
+            // disable frustum culling for dynamic grass (only)
+            if (pset["b4w_dynamic_grass"])
+                render.do_not_cull = true;
+
+            if (psys["transforms"].length) {
+                var ptrans = psys["transforms"];
+            } else {
+                var points = geometry.geometry_random_points(em_submesh,
+                        pset["count"], false, seed);
+
+                var ptrans = new Float32Array(points.length * 4);
+                for (var j = 0; j < points.length; j++) {
+                    // NOTE: +/- 25%
+                    var scale = 0.75 + 0.5 * util.rand_r(seed);
+                    ptrans[j * 4] = points[j][0];
+                    ptrans[j * 4 + 1] = points[j][1];
+                    ptrans[j * 4 + 2] = points[j][2];
+                    ptrans[j * 4 + 3] = scale;
+                }
+            }
+
+            var use_grass_map = scenegraph.find_subs(graph, "GRASS_MAP") ? 
+                    true : false;
+
+            if (pset["render_type"] == "OBJECT") {
+                var particles_batch_types = [get_batch_types(graph, 
+                        pset["dupli_object"]._render)];
+
+                var hair_metabatches = make_hair_particles_metabatches(
+                        obj, render, em_batch, em_submesh, 
+                        [pset["dupli_object"]], particles_batch_types, 
+                        [ptrans], pset, psys, use_grass_map, seed, false);
+
+                metabatches.push.apply(metabatches, hair_metabatches);
+
+            } else if (pset["render_type"] == "GROUP") {
+                var dg_objs = pset["dupli_group"]["objects"];
+                var reset_seed = false;
+
+                var particles_batch_types = [];
+                for (var j = 0; j < dg_objs.length; j++) {
+                    var btypes = get_batch_types(graph, 
+                            pset["dupli_group"]["objects"][j]._render);
+                    particles_batch_types.push(btypes);
+                }
+
+                if (pset["use_whole_group"]) {
+                    var ptrans_dist = distribute_ptrans_group(ptrans, 
+                            dg_objs);
+                    reset_seed = true;
+                } else if (pset["use_group_count"]) {
+                    var ptrans_dist = distribute_ptrans_by_dupli_weights(
+                            ptrans, dg_objs, pset["dupli_weights"], seed);
+                } else {
+                    var ptrans_dist = distribute_ptrans_equally(ptrans, 
+                        dg_objs, seed);
+                }
+
+                var hair_metabatches = make_hair_particles_metabatches(
+                        obj, render, em_batch, em_submesh, dg_objs, 
+                        particles_batch_types, ptrans_dist, pset, psys,
+                        use_grass_map, seed, reset_seed);
+
+                metabatches.push.apply(metabatches, hair_metabatches);
+            }
+
+            // NOTE: prevent wind bending for emitter by checking option
+            if (pset["b4w_wind_bend_inheritance"] == "INSTANCE")
+                obj._render.wind_bending_amp = 0;
+        } else
+            throw "Unknown particle settings type";
+    }   
+
+    return metabatches;
+}
+
+function merge_metabatches(metabatches) {
+    var merged_metabatches = [];
+
+    // collect unique batches and data
+    var unique_data = {}
+    for (var i = 0; i < metabatches.length; i++) {
+        var batch = metabatches[i].batch;
+
+        if (!unique_data[batch.id])
+            unique_data[batch.id] = {
+                batch: batch,
+                render: metabatches[i].render,
+                rel_objects: [],
+                submeshes: []
+            };
+
+        var arr = unique_data[batch.id].rel_objects;
+        arr.push.apply(arr, metabatches[i].rel_objects);
+
+        // ignore empty submeshes ???
+        if (metabatches[i].submesh && metabatches[i].submesh.base_length)
+            unique_data[batch.id].submeshes.push(metabatches[i].submesh);
+    }
+
+    // calculate submeshes for unique batches
+    for (var id in unique_data) {
+        var submeshes = unique_data[id].submeshes;
+
+        if (submeshes.length == 0)
+            var submesh = util.create_empty_submesh(util.unique_name("%empty"));
+        else if (submeshes.length == 1)
+            var submesh = submeshes[0];
+        else {
+            var short_submeshes = [];
+            for (var i = 0; i < submeshes.length; i++)
+                if (!geometry.is_long_submesh(submeshes[i]))
+                    short_submeshes.push(i);
+            if (short_submeshes.length < submeshes.length)
+                for (var i = 0; i < short_submeshes.length; i++)
+                    geometry.submesh_drop_indices(
+                            submeshes[short_submeshes[i]]);
+            
+            var submesh = geometry.submesh_list_join(submeshes);
+        }
+
+        var metabatch = {
+            batch: unique_data[id].batch,
+            render: unique_data[id].render,
+            submesh: submesh,
+            rel_objects: unique_data[id].rel_objects
+        }
+        merged_metabatches.push(metabatch);
+    }
+
+    return merged_metabatches;
+}
+
+function objects_attach_batches(metabatches, batch_types) {
+
+    for (var i = 0; i < metabatches.length; i++) {
+        var batch = metabatches[i].batch;
+
+        if (!batch_types || batch_types.indexOf(batch.type) > -1) {
+            var unique_obj_names = [];
+            for (var j = 0; j < metabatches[i].rel_objects.length; j++) {
+                var obj = metabatches[i].rel_objects[j];
+
+                if (unique_obj_names.indexOf(obj.name) == -1) {
+                    append_batch(obj, batch);
+                    unique_obj_names.push(obj.name);
+                }
+            }
+        }
+    }
+}
+
+/**
+ * Append batch to object
+ * NOTE: unique batch needed (?)
+ */
+function append_batch(obj, new_batch) {
+
+    for (var i = 0; i < obj._batches.length; i++) {
+        var batch = obj._batches[i];
+
+        if (batch == new_batch)
+            throw "Batch already exist in object"
+    }
+
+    obj._batches.push(new_batch);
 }
 
 /** 
@@ -226,245 +634,6 @@ function bb_bpy_to_b4w(bpy_bb) {
     return bb;
 }
 
-/**
- * Create all possible batches for dynamic object
- * slots actually
- */
-function make_dynamic_batches(obj, render, graph, process_geometry) {
-    var slots = [];
-
-    // perform some object culling
-    
-    if (obj["b4w_do_not_render"])
-        return slots;
-
-    var render_id = calc_render_id(render);
-    
-    var mesh = obj["data"];
-    var materials = mesh["materials"];
-
-    var batch_types = get_batch_types(graph, render);
-
-    // NOTE: generate all batches and select unique
-    var batches = {};
-    for (var i = 0; i < batch_types.length; i++) {
-        var type = batch_types[i];
-
-        if (type === "COLOR_ID" && !render.selectable)
-            continue;
-
-        // j == submesh index == material index != batch slot index
-        for (var j = 0; j < materials.length; j++) {
-            if (geometry.has_empty_submesh(mesh, j))
-                continue;
-            var batch = init_batch(type);
-            var material = materials[j];
-            if (!update_batch_material(batch, material, true))
-                continue;
-
-            batch.draw_mode = mesh.draw_mode || geometry.DM_DEFAULT;
-            if (type === "COLOR_ID")
-                batch.color_id = new Float32Array(obj._color_id);
-
-            update_batch_render(batch, render);
-            update_batch_particle_systems(batch, obj["particle_systems"]);
-
-            if (process_geometry) {
-                batch.odd_id_prop = obj["uuid"];
-                update_batch_id(batch, render_id);
-
-                if (!batches[batch.id])
-                    batches[batch.id] = {
-                        batch: batch,
-                        submesh_indices: []
-                    };
-                batches[batch.id].submesh_indices.push(j);
-            } else {
-                update_batch_id(batch, render_id);
-                slots.push(create_slot(batch, j));
-            }
-        }
-    }
-
-    // NOTE: preserve batch submesh for particle transforms and wind 
-    // bending inheritance
-    var psystems = obj["particle_systems"];
-    var preserve_batch_submesh = false;
-    for (var i = 0; i < psystems.length; i++) {
-        var psys = psystems[i];
-
-        if (psys["transforms"].length == 0 
-                || psys["settings"]["b4w_wind_bend_inheritance"] == "PARENT"
-                || (psys["settings"]["b4w_vcol_from_name"] 
-                && psys["settings"]["b4w_vcol_to_name"])) {
-            preserve_batch_submesh = true;
-            break; 
-        }
-    }
-
-    if (process_geometry) {
-        // join submeshes for unique batches
-        for (var batch_id in batches) {
-            var submeshes = [];
-            var batch = batches[batch_id].batch;
-            var attr_names = batch.common_attributes;
-            var bone_pointers = batch.bone_pointers;
-            var first_submesh_index = batches[batch_id].submesh_indices[0];
-
-            for (var j in batches[batch_id].submesh_indices) {
-                var submesh_index = batches[batch_id].submesh_indices[j];
-                var submesh = geometry.extract_submesh(mesh, submesh_index, 
-                        attr_names, bone_pointers, batch.vertex_colors_usage, 
-                        batch.uv_maps_usage);
-                submeshes.push(submesh);
-            }
-
-            if (submeshes.length > 1) {
-                var submesh = geometry.submesh_list_join(submeshes);
-                slots.push(create_slot(batch));
-            } else {
-                var submesh = submeshes[0];
-                slots.push(create_slot(batch, first_submesh_index));
-            }
-            
-            if (materials[first_submesh_index]["name"] == "LENS_FLARES") {
-                // NOTE: there is a standard way to do so:
-                // generate submesh and assign through update_batch_geometry()
-                var bufs_data = particles.prepare_lens_flares(submesh);
-                batch.bufs_data = bufs_data;
-            } else if (particles.has_hair_particles(obj)) {
-                update_batch_geometry(batch, submesh);
-                // NOTE: needed submesh for particle transforms, and wind 
-                // bending inheritance
-                if (preserve_batch_submesh)
-                    batch.submesh = submesh;
-            } else if (batch.type == "PHYSICS") {
-                batch.submesh = submesh;
-            } else
-                update_batch_geometry(batch, submesh);
-        }
-    }
-
-    // process particle system batches
-
-    if (psystems.length > 0 && slots.length) {
-
-        if (!process_geometry)
-            throw "Particle systems require geometry processing";
-
-        // check if emitter rendering needed
-        var not_render_emitter = true;
-        for (var i = 0; i < psystems.length; i++) {
-            var psys = psystems[i];
-            if (psys["settings"]["use_render_emitter"]) {
-                not_render_emitter = false;
-                break; 
-            }
-        }
-
-        var slots_old = slots;
-
-        var slots_new;
-        if (not_render_emitter)
-            slots_new = [];
-        else
-            slots_new = slots;
-
-        for (var i = 0; i < psystems.length; i++) {
-            var psys = psystems[i];
-            var pset = psys["settings"];
-
-            var seed = util.init_rand_r_seed(psys["seed"]);
-
-            if (pset["type"] == "EMITTER") {
-                var batch = init_batch("MAIN");
-                update_batch_particles_emitter(batch, mesh, psys, 
-                        obj._render.world_matrix);
-                update_batch_render(batch, render);
-
-                batch.odd_id_prop = pset["uuid"];
-                update_batch_id(batch, render_id);
-
-                slots_new.push(create_slot(batch, -1, psys));
-
-            } else if (pset["type"] == "HAIR") {
-
-                // disable frustum culling for dynamic grass (only)
-                if (pset["b4w_dynamic_grass"])
-                    render.do_not_cull = true;
-
-                // NOTE: assume single-material emitter
-                var batch = slots_old[0].batch;
-
-                if (psys["transforms"].length) {
-                    var ptrans = psys["transforms"];
-                } else {
-                    var points = geometry.geometry_random_points(batch.submesh,
-                            pset["count"], false, seed);
-
-                    var ptrans = new Float32Array(points.length * 4);
-                    for (var j = 0; j < points.length; j++) {
-                        // NOTE: +/- 25%
-                        var scale = 0.75 + 0.5 * util.rand_r(seed);
-                        ptrans[j * 4] = points[j][0];
-                        ptrans[j * 4 + 1] = points[j][1];
-                        ptrans[j * 4 + 2] = points[j][2];
-                        ptrans[j * 4 + 3] = scale;
-                    }
-                }
-
-                var use_grass_map = scenegraph.find_subs(graph, "GRASS_MAP") ? true : false;
-
-                if (pset["render_type"] == "OBJECT") {
-                    var particles_batch_types = [get_batch_types(graph, 
-                            pset["dupli_object"]._render)];
-
-                    var slots = make_hair_particles_batches(obj, batch, 
-                            [pset["dupli_object"]], particles_batch_types, [ptrans], pset, 
-                            psys, use_grass_map, seed, false);
-
-                    slots_new = slots_new.concat(slots);
-
-                } else if (pset["render_type"] == "GROUP") {
-                    var dg_objs = pset["dupli_group"]["objects"];
-                    var ptrans_dist;
-                    var reset_seed = false;
-
-                    var particles_batch_types = [];
-                    for (var j = 0; j < dg_objs.length; j++) {
-                        var btypes = get_batch_types(graph, 
-                                pset["dupli_group"]["objects"][j]._render);
-                        particles_batch_types.push(btypes);
-                    }
-
-                    if (pset["use_whole_group"]) {
-                        ptrans_dist = distribute_ptrans_group(ptrans, dg_objs);
-                        reset_seed = true;
-                    } else if (pset["use_group_count"]) {
-                        ptrans_dist = distribute_ptrans_by_dupli_weights(ptrans,
-                                dg_objs, pset["dupli_weights"], seed);
-                    } else {
-                        ptrans_dist = distribute_ptrans_equally(ptrans, dg_objs, seed);
-                    }
-
-                    var slots = make_hair_particles_batches(obj, batch, dg_objs, 
-                             particles_batch_types, ptrans_dist, pset, psys,
-                             use_grass_map, seed, reset_seed);
-                    slots_new = slots_new.concat(slots);
-                }
-
-                // NOTE: prevent wind bending for emitter by checking option
-                if (pset["b4w_wind_bend_inheritance"] == "INSTANCE")
-                    render.wind_bending_amp = 0;
-            } else
-                throw "Unknown particle settings type";
-        }
-
-        slots = slots_new;
-    }
-    return slots;
-}
-
 function exclude_batch_types(batch_types, unwanted_types) {
     
     for (var i = 0; i < unwanted_types.length; i++) {
@@ -479,8 +648,8 @@ function exclude_batch_types(batch_types, unwanted_types) {
 function get_batch_types(graph, render) {
     var batch_types = ["SHADELESS", "MAIN", "NODES"];
 
-    if (scenegraph.find_subs(graph, "COLOR_PICKING") ||
-            scenegraph.find_subs(graph, "GLOW_MASK"))
+    if (render.selectable && (scenegraph.find_subs(graph, "COLOR_PICKING") ||
+            scenegraph.find_subs(graph, "GLOW_MASK")))
         batch_types.push("COLOR_ID");
 
     if (scenegraph.find_subs(graph, "WIREFRAME"))
@@ -1725,18 +1894,12 @@ function update_batch_render(batch, render) {
         set_batch_c_attr(batch, "a_influence");
         set_batch_directive(batch, "SKINNED", 1);
 
-        if (cfg_def.disable_tangent_skining_hack)
-            set_batch_directive(batch, "DISABLE_TANGENT_SKINNING", 1);
-        else
-            set_batch_directive(batch, "DISABLE_TANGENT_SKINNING", 0);
-
-        if (render.frames_blending) {
+        if (render.frames_blending)
             set_batch_directive(batch, "FRAMES_BLENDING", 1);
-            set_batch_directive(batch, "MAX_BONES", cfg_def.max_bones);
-        } else {
+        else
             set_batch_directive(batch, "FRAMES_BLENDING", 0);
-            set_batch_directive(batch, "MAX_BONES", cfg_def.max_bones_no_blending);
-        }
+        
+        set_batch_directive(batch, "MAX_BONES", render.max_bones);
     } else {
         set_batch_directive(batch, "SKINNED", 0);
         set_batch_directive(batch, "FRAMES_BLENDING", 0);
@@ -1875,6 +2038,11 @@ function prepare_vertex_anim_locations(obj) {
  * Update batch geometry from submesh
  */
 function update_batch_geometry(batch, submesh) {
+    if (batch.type == "PHYSICS") {
+        batch.submesh = submesh;
+        return;
+    }
+
     var zsort_type = batch.zsort_type;
     var draw_mode = batch.draw_mode;
        
@@ -1889,10 +2057,10 @@ function update_batch_geometry(batch, submesh) {
                                                     subdivs, detailed_dist);
     }
 
-    var bufs_data = geometry.submesh_to_bufs_data(submesh, zsort_type, draw_mode,
-            batch.vertex_colors_usage);
+    var bufs_data = geometry.submesh_to_bufs_data(submesh, zsort_type, 
+            draw_mode, batch.vertex_colors_usage);
     // remove unneeded arrays to save memory, keep them only for z-sorted 
-    // geometry (bufs for dynamic particles are not here)
+    // geometry and dynamic particles
     if (!(DEBUG_KEEP_BUFS_DATA_ARRAYS || batch.dynamic_geometry || 
             bufs_data.info_for_z_sort_updates)) {
         delete bufs_data.ibo_array;
@@ -1928,15 +2096,7 @@ function is_triangle_batch(batch) {
     }
 }
 
-
-/**
- * Update batch from EMITTER particle system/settings
- */
-function update_batch_particles_emitter(batch, mesh, psystem, world_matrix) {
-
-    // TODO need total rewrite
-
-    // from 1
+function generate_particles_emitter_material(mesh, psystem) {
     var mat_index = psystem["settings"]["material"] - 1;
     var material = mesh["materials"][mat_index];
 
@@ -1963,16 +2123,13 @@ function update_batch_particles_emitter(batch, mesh, psystem, world_matrix) {
     pmaterial["raytrace_transparency"] = material["raytrace_transparency"];
     pmaterial["raytrace_mirror"] = material["raytrace_mirror"];
 
-    update_batch_material(batch, pmaterial, true);
-    // restore possible "STRAND" texture slots
-    pmaterial["texture_slots"] = material["texture_slots"];
+    return pmaterial;
+}
 
-    var pbufs_data = particles.generate_buffers(batch, mesh, psystem, 
-            pmaterial, world_matrix);
-
-    batch.texture_slots = pmaterial["texture_slots"];
-    batch.bufs_data = pbufs_data;
-
+/**
+ * Update batch from EMITTER particle system/settings
+ */
+function update_batch_particles_emitter(batch, psystem) {
     switch(psystem["settings"]["b4w_billboard_align"]) {
     case "VIEW":
         set_batch_directive(batch, "BILLBOARD_ALIGN", "BILLBOARD_ALIGN_VIEW");
@@ -1995,20 +2152,21 @@ function update_batch_particles_emitter(batch, mesh, psystem, world_matrix) {
 /**
  * Create all possible batch slots for object and clone it by ptrans array
  */
-function make_hair_particles_batches(em_obj, em_batch, objs, batch_types_arr, objs_ptrans,
-        pset, psys, use_grass_map, seed, reset_seed) {
+function make_hair_particles_metabatches(em_obj, render, em_batch, em_submesh, objs, 
+        batch_types_arr, objs_ptrans, pset, psys, use_grass_map, seed, 
+        reset_seed) {
 
-    var slots = [];
-
-    var inst_inherit_bend = pset["b4w_wind_bend_inheritance"] == "INSTANCE";
-    var inst_inherit_shadow = pset["b4w_shadow_inheritance"] == "INSTANCE";
-    var inst_inherit_reflection = pset["b4w_reflection_inheritance"] == "INSTANCE";
+    var metabatches = [];
 
     // do not render dynamic grass if grass map was not requested
     var dyn_grass = pset["b4w_dynamic_grass"];
     if (!use_grass_map && dyn_grass)
-        return slots;
+        return metabatches;
 
+    var inst_inherit_bend = pset["b4w_wind_bend_inheritance"] == "INSTANCE";
+    var inst_inherit_shadow = pset["b4w_shadow_inheritance"] == "INSTANCE";
+    var inst_inherit_reflection = pset["b4w_reflection_inheritance"] 
+            == "INSTANCE";
 
     // prepare hair_render arrays and tsr_arrays
     // for objects which particle system composed from
@@ -2018,8 +2176,8 @@ function make_hair_particles_batches(em_obj, em_batch, objs, batch_types_arr, ob
     for (var i = 0; i < objs.length; i++) {
         var obj = objs[i];
 
-        // NOTE: partially override emmiter's render
-        var hair_render = util.clone_object_nr(em_obj._render);
+        // NOTE: partially override emitter's render
+        var hair_render = util.clone_object_nr(render);
         hair_render.hair_billboard = pset["b4w_hair_billboard"];
         hair_render.hair_billboard_type = pset["b4w_hair_billboard_type"];
         hair_render.dynamic_grass = dyn_grass;
@@ -2035,24 +2193,42 @@ function make_hair_particles_batches(em_obj, em_batch, objs, batch_types_arr, ob
             hair_render.main_bend_col = obj._render.main_bend_col;
             hair_render.detail_bending_amp = obj._render.detail_bending_amp;
             hair_render.branch_bending_amp = obj._render.branch_bending_amp;
+            hair_render.wind_bending_amp = obj._render.wind_bending_amp;
             // by link, doesn't matter  
             hair_render.detail_bend_col = obj._render.detail_bend_col;
             hair_render.bend_center_only = false;
-            // NOTE: get bounding box from object, because render doesn't contain it
-            hair_render.bb_local =  bb_bpy_to_b4w(obj["data"]["b4w_bounding_box"]);
-        } else
+        } else {
+            hair_render.wind_bending = em_obj._render.wind_bending;
+            hair_render.wind_bending_angle = em_obj._render.wind_bending_angle;
+            hair_render.wind_bending_freq = em_obj._render.wind_bending_freq;
+            hair_render.detail_bending_freq = em_obj._render.detail_bending_freq;
+            hair_render.main_bend_col = em_obj._render.main_bend_col;
+            hair_render.detail_bending_amp = em_obj._render.detail_bending_amp;
+            hair_render.branch_bending_amp = em_obj._render.branch_bending_amp;
+            hair_render.wind_bending_amp = em_obj._render.wind_bending_amp;
+            // by link, doesn't matter  
+            hair_render.detail_bend_col = em_obj._render.detail_bend_col;
             hair_render.bend_center_only = true;
+        }
 
         if (inst_inherit_shadow) {
             hair_render.shadow_cast = obj._render.shadow_cast;
             hair_render.shadow_cast_only = obj._render.shadow_cast_only;
             hair_render.shadow_receive = obj._render.shadow_receive;
+        } else {
+            hair_render.shadow_cast = em_obj._render.shadow_cast;
+            hair_render.shadow_cast_only = em_obj._render.shadow_cast_only;
+            hair_render.shadow_receive = em_obj._render.shadow_receive;
         }
             
         if (inst_inherit_reflection) {
             hair_render.reflexible = obj._render.reflexible;
             hair_render.reflexible_only = obj._render.reflexible_only;
             hair_render.reflective = obj._render.reflective;
+        } else {
+            hair_render.reflexible = em_obj._render.reflexible;
+            hair_render.reflexible_only = em_obj._render.reflexible_only;
+            hair_render.reflective = em_obj._render.reflective;
         }
 
         objs_hair_render.push(hair_render);
@@ -2077,8 +2253,8 @@ function make_hair_particles_batches(em_obj, em_batch, objs, batch_types_arr, ob
             if (pset["b4w_initial_rand_rotation"]) {
                 switch (pset["b4w_rotation_type"]) {
                 case "XYZ":
-                    var axis = new Float32Array([util.rand_r(seed), util.rand_r(seed), 
-                            util.rand_r(seed)]);
+                    var axis = new Float32Array([util.rand_r(seed), 
+                            util.rand_r(seed), util.rand_r(seed)]);
                     m_vec3.normalize(axis, axis);
                     break;
                 case "Z":
@@ -2102,13 +2278,15 @@ function make_hair_particles_batches(em_obj, em_batch, objs, batch_types_arr, ob
         objs_tsr_array.push(tsr_array);
     }
 
-    // compose unique batches
-    var batches = {};
+    // spatial tree object for searching nearest emitter vertices
+    // will be calculated only once
+    var spatial_tree = {};
     for (var i = 0; i < objs.length; i++) {
         var btypes = batch_types_arr[i];
         var hair_render = objs_hair_render[i];
         var hair_render_id = calc_render_id(hair_render);
         var tsr_array = objs_tsr_array[i];
+        var obj = objs[i];
 
         if (!tsr_array.length)
             continue
@@ -2135,80 +2313,63 @@ function make_hair_particles_batches(em_obj, em_batch, objs, batch_types_arr, ob
                 batch.odd_id_prop = pset["uuid"];
                 update_batch_id(batch, hair_render_id);
 
-                if (!batches[batch.id])
-                    batches[batch.id] = {
-                        batch: batch,
-                        obj_mat_ind: []
-                    };
-                batches[batch.id].obj_mat_ind.push([i, j]);
+                // write batch jitter parameters
+                if (pset["b4w_hair_billboard_type"] == "JITTERED") {
+                    batch.jitter_amp = pset["b4w_hair_billboard_jitter_amp"];
+                    batch.jitter_freq = pset["b4w_hair_billboard_jitter_freq"];
+                }
+                batch.grass_scale_threshold = pset["b4w_dynamic_grass_scale_threshold"];
+
+                if (!inst_inherit_bend) {
+                    delete batch.vertex_colors_usage["a_bending_col_main"];
+                    delete batch.vertex_colors_usage["a_bending_col_detail"];
+                }
+
+                var src_submesh = geometry.extract_submesh(mesh, j, 
+                        batch.common_attributes, null /* batch.bone_pointers*/, 
+                        batch.vertex_colors_usage, batch.uv_maps_usage);
+
+                var params = [];
+
+                if (hair_render.wind_bending || hair_render.dynamic_grass 
+                        || hair_render.hair_billboard) {
+                    params["au_wind_bending_amp"] = [hair_render.wind_bending_amp];
+
+                    params["au_wind_bending_freq"] = [hair_render.wind_bending_freq];
+                    params["au_detail_bending_freq"] = [hair_render.detail_bending_freq];
+                    params["au_detail_bending_amp"] = [hair_render.detail_bending_amp];
+                    params["au_branch_bending_amp"] = [hair_render.branch_bending_amp];
+                }
+
+                var submesh = geometry.make_clone_submesh(src_submesh, params,
+                        tsr_array);
+                submesh = fill_submesh_center_pos(submesh, tsr_array);
+                if (hair_render.bend_center_only)
+                    submesh = fill_submesh_emitter_center(submesh, 
+                            em_obj._render.world_matrix);
+
+                var particle_inherited_attrs = get_particle_inherited_attrs(
+                        pset["b4w_vcol_from_name"], pset["b4w_vcol_to_name"], 
+                        batch, em_batch, !inst_inherit_bend, mesh);
+                submesh = make_particle_inherited_vcols(submesh, tsr_array, 
+                        em_obj._render.bb_local, em_submesh, particle_inherited_attrs, 
+                        batch.vertex_colors_usage, spatial_tree);
+
+                // store batch - material conformance
+                if (batch.material_names.indexOf(material["name"]) == -1)
+                    batch.material_names.push(material["name"]);
+
+                metabatches.push({
+                    batch: batch,
+                    submesh: submesh,
+                    render: hair_render,
+                    rel_objects: [em_obj]
+                })
             }
         }
     }
 
-    
-    for (var i in batches) {
-        // write batch jitter parameters
-        if (pset["b4w_hair_billboard_type"] == "JITTERED") {
-            batches[i].batch.jitter_amp = pset["b4w_hair_billboard_jitter_amp"];
-            batches[i].batch.jitter_freq = pset["b4w_hair_billboard_jitter_freq"];
-        }
-        batches[i].batch.grass_scale_threshold = pset["b4w_dynamic_grass_scale_threshold"];
-    }
-
-    // spatial tree object for searching nearest emitter vertices
-    // will be calculated only once
-    var spatial_tree = {};
-
-    // join submeshes for unique batches
-    for (var batch_id in batches) {
-        var submeshes = [];
-        var short_submeshes = [];
-        var batch = batches[batch_id].batch;
-
-        for (var i in batches[batch_id].obj_mat_ind) {
-            var obj_index = batches[batch_id].obj_mat_ind[i][0];
-            var submesh_index = batches[batch_id].obj_mat_ind[i][1];
-
-            var instance = make_hair_instance(objs[obj_index], submesh_index, 
-                    objs_tsr_array[obj_index], objs_hair_render[obj_index]);
-
-            if (!inst_inherit_bend) {
-                delete batch.vertex_colors_usage["a_bending_col_main"];
-                delete batch.vertex_colors_usage["a_bending_col_detail"];
-            }
-
-            var submesh = geometry.make_clone_submesh(instance, 
-                    batch.common_attributes, batch.vertex_colors_usage, 
-                    batch.uv_maps_usage, objs_tsr_array[obj_index]);
-            submesh = fill_submesh_center_pos(submesh, objs_tsr_array[obj_index]);
-
-            var particle_inherited_attrs = get_particle_inherited_attrs(pset["b4w_vcol_from_name"], 
-                    pset["b4w_vcol_to_name"], batch, em_batch, 
-                    !inst_inherit_bend, instance.mesh);
-            submesh = make_particle_inherited_vcols(submesh, objs_tsr_array[obj_index], 
-                    em_obj, em_batch, particle_inherited_attrs, 
-                    batch.vertex_colors_usage, spatial_tree);
-
-            if (!geometry.is_long_submesh(submesh))
-                short_submeshes.push(i);
-
-            submeshes.push(submesh);
-        }
-
-        if (short_submeshes.length < submeshes.length)
-            for (var index in short_submeshes)
-                geometry.submesh_drop_indices(submeshes[index]);
-        var submesh = geometry.submesh_list_join(submeshes);
-
-        if (batch.type === "PHYSICS")
-            batch.submesh = submesh;
-        else
-            update_batch_geometry(batch, submesh);
-
-        slots.push(create_slot(batch));
-    }
-
-    return slots;
+    return metabatches;
 }
 
 function make_spatial_tree(spatial_tree, obj_bb_local, positions) {
@@ -2349,13 +2510,27 @@ function fill_submesh_center_pos(submesh, transforms) {
     return submesh;
 }
 
-function make_particle_inherited_vcols(submesh, transforms, emitter, em_batch, 
-        inherited_attrs, vc_usage, spatial_tree) {
+function fill_submesh_emitter_center(submesh, em_world_matrix) {
+    submesh.va_common["a_emitter_center"] = new Float32Array(submesh.base_length * 3);
+    var origin = m_vec4.fromValues(0, 0, 0, 1);
+    m_vec4.transformMat4(origin, em_world_matrix, origin);
+
+    for (var i = 0; i < submesh.base_length; i++) {
+        submesh.va_common["a_emitter_center"][i * 3] = origin[0];
+        submesh.va_common["a_emitter_center"][i * 3 + 1] = origin[1];
+        submesh.va_common["a_emitter_center"][i * 3 + 2] = origin[2];
+    }
+
+    return submesh;
+}
+
+function make_particle_inherited_vcols(submesh, transforms, em_bb_local, 
+        em_submesh, inherited_attrs, vc_usage, spatial_tree) {
 
     var calc_nearest = false;
     for (var i = 0; i < inherited_attrs.length; i++) {
         var em_attr = inherited_attrs[i].emitter_attr;
-        var cols = em_batch.submesh.va_common[em_attr];
+        var cols = em_submesh.va_common[em_attr];
         if (cols && cols.length > 0) {
             calc_nearest = true;
             break;
@@ -2363,8 +2538,8 @@ function make_particle_inherited_vcols(submesh, transforms, emitter, em_batch,
     }
 
     if (calc_nearest) {
-        var nearest_points = calc_emitter_nearest_points(emitter._render.bb_local, 
-                em_batch.submesh.va_frames[0]["a_position"], transforms, spatial_tree);
+        var nearest_points = calc_emitter_nearest_points(em_bb_local, 
+                em_submesh.va_frames[0]["a_position"], transforms, spatial_tree);
         var particle_verts_count = submesh.base_length / transforms.length;
 
         for (var i = 0; i < inherited_attrs.length; i++) {
@@ -2374,7 +2549,7 @@ function make_particle_inherited_vcols(submesh, transforms, emitter, em_batch,
             var em_mask = inherited_attrs[i].emitter_mask;
 
 
-            var cols = em_batch.submesh.va_common[em_attr];
+            var cols = em_submesh.va_common[em_attr];
             switch (p_attr) {
             // NOTE: bending colors may be missed on particles
             case "a_bending_col_main":
@@ -2438,7 +2613,8 @@ function make_particle_inherited_vcols(submesh, transforms, emitter, em_batch,
     return submesh;
 }
 
-function calc_emitter_nearest_points(em_bb_local, em_positions, transforms, spatial_tree) {
+function calc_emitter_nearest_points(em_bb_local, em_positions, transforms, 
+        spatial_tree) {
 
     var particle_cen = new Float32Array(3);
     var em_vert = new Float32Array(3);
@@ -2616,27 +2792,28 @@ function distribute_ptrans_by_dupli_weights(ptrans, dupli_objects,
     return ptrans_dist;
 }
 
+/**
+ * NOTE: unused
+ */
 function prepare_line_batches(obj) {
-    var slot = {};
     var batch = exports.create_line_batch();
 
-    slot.batch = batch;
-    obj._batch_slots.push(slot);
+    obj._batches.push(batch);
 
     obj._line = {};
 }
 
 /**
- * Create baskets for static objects, calc boundings
- * basket: {render: render, objects: objects}
- * some params separate batches
+ * Create clusters for static objects, calc boundings
+ * cluster: {render: render, objects: objects}
+ * some params will separate batches
  * some params go to vertex attributes
  */
-function create_batch_object_baskets(batch_objects, grid_size) {
+function create_object_clusters(batch_objects, grid_size) {
 
-    var baskets = [];
+    var clusters = [];
 
-    var basket_ids = {};
+    var cluster_ids = {};
 
     for (var i = 0; i < batch_objects.length; i++) {
         var bobj = batch_objects[i];
@@ -2678,14 +2855,14 @@ function create_batch_object_baskets(batch_objects, grid_size) {
         render_props.lod_dist_min = bobj_render.lod_dist_min;
 
         var id = JSON.stringify(render_props);
-        basket_ids[id] = basket_ids[id] || [];
-        basket_ids[id].push(bobj);
+        cluster_ids[id] = cluster_ids[id] || [];
+        cluster_ids[id].push(bobj);
     }
 
-    for (var key in basket_ids) {
+    for (var key in cluster_ids) {
 
         var render_props = JSON.parse(key);
-        var objects = basket_ids[key];
+        var objects = cluster_ids[key];
 
         var render = util.create_render("STATIC");
         for (var prop in render_props)
@@ -2698,35 +2875,23 @@ function create_batch_object_baskets(batch_objects, grid_size) {
         render.branch_bending_amp = 0;
         render.hide = false;
 
+
         // calculate bounding box/sphere
         for (var i = 0; i < objects.length; i++) {
             var obj = objects[i];
 
-            // bounding box            
+            // bounding box
             var bb_local = bb_bpy_to_b4w(obj["data"]["b4w_bounding_box"]);
-                    
             var bb_world = boundings.bounding_box_transform(bb_local, 
                     obj._render.world_matrix);
-
-            // do not expand for first object 
-            if (i == 0)
-                render.bb_world = bb_world;
-            else
-                boundings.expand_bounding_box(render.bb_world, bb_world);
-
+            
+            // bounding sphere
             var bs_local = {
                 radius: obj["data"]["b4w_bounding_sphere_radius"],
                 center: obj["data"]["b4w_bounding_sphere_center"]
             };
-
             var bs_world = boundings.bounding_sphere_transform(bs_local, 
                     obj._render.world_matrix);
-            
-            // do not expand for first object 
-            if (i == 0)
-                render.bs_world = bs_world;
-            else
-                boundings.expand_bounding_sphere(render.bs_world, bs_world);
 
             // bounding ellipsoid
             var be_axes = obj["data"]["b4w_bounding_ellipsoid_axes"];
@@ -2736,23 +2901,38 @@ function create_batch_object_baskets(batch_objects, grid_size) {
                 axis_z: new Float32Array([0, 0, be_axes[2]]),
                 center: obj["data"]["b4w_bounding_ellipsoid_center"]
             };
-            render.be_local = be_local;
+            var be_world = boundings.bounding_ellipsoid_transform(be_local, 
+                    render.tsr);
 
-            var be_world = boundings.bounding_ellipsoid_transform(be_local, render.tsr);
-            render.be_world = be_world;
-            // TODO: add bounding ellipsoid expand
+            obj._render.bb_local = bb_local;
+            obj._render.bb_world = bb_world;
+            obj._render.bs_local = bs_local;
+            obj._render.bs_world = bs_world;
+            obj._render.be_local = be_local;
+            obj._render.be_world = be_world;
+
+            // do not expand for first object 
+            if (i == 0) {
+                render.bb_world = util.clone_object_r(bb_world);
+                render.bs_world = util.clone_object_r(bs_world);
+                render.be_local = util.clone_object_r(be_local);
+                render.be_world = util.clone_object_r(be_world);
+            } else {
+                boundings.expand_bounding_box(render.bb_world, bb_world);
+                boundings.expand_bounding_sphere(render.bs_world, bs_world);
+                // TODO: add bounding ellipsoid expand
+            }
         }
         
         // same as world because initial batch has identity tranform
         render.bb_local = util.clone_object_r(render.bb_world);
         render.bs_local = util.clone_object_r(render.bs_world);
 
-        var basket = {render: render, objects: objects};
-        baskets.push(basket);
+        var cluster = {render: render, objects: objects};
+        clusters.push(cluster);
     }
 
-
-    return baskets;
+    return clusters;
 }
 /**
  * grid id - [cell_num_x, cell_num_z]
@@ -2767,121 +2947,6 @@ function calc_grid_id(grid_size, position) {
     var id_z = Math.floor(position[2] / grid_size);
 
     return [id_x, id_z];
-}
-
-/**
- * batch slots actually
- */
-function make_static_batches(objects, render, meshes, graph) {
-
-    for (var i = 0; i < objects.length; i++) {
-        var obj = objects[i];
-
-        var batch_slots = make_dynamic_batches(obj, render, graph, false);
-        obj._batch_slots = batch_slots;
-
-        for (var j = 0; j < batch_slots.length; j++)
-            batch_slots[j].used = false;
-    }
-
-    // parts: [instances0, instances1, instances2...]
-    // instances: [[obj,index], [obj,index], ...]
-    var parts = [];
-
-    for (var i = 0; i < objects.length; i++) {
-        var obj0 = objects[i];
-        var batch_slots0 = obj0._batch_slots;
-
-        for (var j = 0; j < batch_slots0.length; j++) {
-            var slot0 = batch_slots0[j];
-
-            if (slot0.used)
-                continue;
-
-            var instances = [];
-
-
-            instances.push(make_instance(obj0, slot0.submesh_index,
-                    tsr_from_render(obj0._render), render));
-            slot0.used = true;
-
-            var batch0 = slot0.batch;
-
-            // batch is a reference batch (first one)
-            parts.push({batch: batch0, instances:instances});
-
-            for (var ii = i; ii < objects.length; ii++) {
-                var obj = objects[ii];
-                var batch_slots = obj._batch_slots;
-
-                for (var jj = 0; jj < batch_slots.length; jj++) {
-                    var slot = batch_slots[jj];
-
-                    if (slot.used)
-                        continue;
-
-                    var batch = slot.batch;
-
-                    if (batch0.id == batch.id) {
-                        instances.push(make_instance(obj, slot.submesh_index,
-                                tsr_from_render(obj._render), render));
-                        slot.used = true;
-                    }
-                }
-            }
-        }
-    }
-
-
-    var batch_slot_sphere = null;
-    for (var i = 0; i < parts.length; i++) {
-
-        var part = parts[i];
-        var batch = part.batch;
-
-        var instances = part.instances;
-
-        var submesh = geometry.make_batch_submesh(instances, 
-                batch.common_attributes, batch.vertex_colors_usage,
-                batch.uv_maps_usage);
-
-        if (batch.type === "PHYSICS")
-            batch.submesh = submesh;
-        else
-            update_batch_geometry(batch, submesh);
-
-        for (var j = 0; j < instances.length; j++) {
-            var obj = instances[j].obj;
-
-            // generate debug sphere 
-            if (cfg_def.wireframe_debug && batch_slot_sphere === null) {
-                var add_debug_sphere = false;
-                for (var k = 0; k < obj._batch_slots.length; k++) {
-                    var obj_batch = obj._batch_slots[k].batch;
-                    if (BATCH_TYPES_DEBUG_SPHERE.indexOf(obj_batch.type) > -1) {
-                        add_debug_sphere = true;
-                        break;
-                    }
-                }
-                if (add_debug_sphere) {
-                    batch_slot_sphere = {};
-                    batch_slot_sphere.batch = create_bounding_ellipsoid_batch(render.bs_local, obj, false);
-                    batch_slot_sphere.batch.debug_sphere_dynamic = false;
-                    update_batch_render(batch_slot_sphere.batch, render);
-                    append_batch_slot(obj, batch_slot_sphere);
-                }
-            }
-
-            for (var k = 0; k < obj._batch_slots.length; k++) {
-                var slot = obj._batch_slots[k];
-
-                if (slot.batch.id == batch.id)
-                    slot.batch = batch;
-            }
-        }
-
-    }
-
 }
 
 function tsr_from_render(render) {
@@ -2929,106 +2994,9 @@ function calc_render_id(render) {
 }
 
 /**
- * Create instance.
- * for typical use cases, allows world matrix and render override.
- */
-function make_instance(obj, submesh_index, transform_tsr, over_render) {
-    var transform_tsr = transform_tsr || tsr_from_render(over_render);
-    
-    // params: {"a_name": [values], ...}}  
-    var instance = {
-        obj: obj,
-        transform: transform_tsr,
-        params: {},
-        mesh: obj["data"],
-        submesh_index: submesh_index
-    };
-
-    // possible center position
-    if (over_render.type == "STATIC" && over_render.wind_bending) {
-        var values = [];
-        values.push(transform_tsr[0], transform_tsr[1], transform_tsr[2]);
-        instance.params["au_center_pos"] = values; 
-
-        var angle = obj["b4w_wind_bending_angle"];
-        var bbox = bb_bpy_to_b4w(obj["data"]["b4w_bounding_box"]);
-        var amp = wb_angle_to_amp(angle, bbox, obj["scale"][0]);
-        instance.params["au_wind_bending_amp"] = [amp];
-
-        instance.params["au_wind_bending_freq"] = [obj["b4w_wind_bending_freq"]];
-        instance.params["au_detail_bending_amp"] = [obj["b4w_detail_bending_amp"]];
-        instance.params["au_detail_bending_freq"] = [obj["b4w_detail_bending_freq"]];
-        instance.params["au_branch_bending_amp"] = [obj["b4w_branch_bending_amp"]];
-    }
-    return instance;
-}
-
-function make_hair_instance(obj, submesh_index, transform_tsr, over_render) {
-    var transform_tsr = transform_tsr || tsr_from_render(over_render);
-    
-    // params: {"a_name": [values], ...}}  
-    var instance = {
-        obj: obj,
-        transform: transform_tsr,
-        params: {},
-        mesh: obj["data"],
-        submesh_index: submesh_index
-    };
-
-    // possible center position
-    if (over_render.wind_bending || over_render.dynamic_grass 
-            || over_render.hair_billboard) {
-        var angle = over_render.wind_bending_angle;
-        var amp = wb_angle_to_amp(angle, over_render.bb_local, obj["scale"][0]);
-        instance.params["au_wind_bending_amp"] = [amp];
-
-        instance.params["au_wind_bending_freq"] = [over_render.wind_bending_freq];
-        instance.params["au_detail_bending_freq"] = [over_render.detail_bending_freq];
-        instance.params["au_detail_bending_amp"] = [over_render.detail_bending_amp];
-        instance.params["au_branch_bending_amp"] = [over_render.branch_bending_amp];
-    }
-    return instance;
-}
-
-exports.create_slot = create_slot;
-/**
- * Create batch slot
- * @param batch Batch object
- * @param [submesh_index=-1] Submesh index for geometry extraction
- * @param [psys] Particle system for particle batch
- */
-function create_slot(batch, submesh_index, psys) {
-    var slot = {
-        batch: batch,
-        submesh_index: (typeof submesh_index == "number") ? submesh_index : -1,
-        particle_system: psys || null,
-        // used for static batch calculation
-        used: false
-    }
-
-    return slot;
-}
-
-/**
- * Append slot to object with 
- * NOTE: unique batch needed (?)
- */
-function append_batch_slot(obj, new_slot) {
-
-    for (var i = 0; i < obj._batch_slots.length; i++) {
-        var slot = obj._batch_slots[i];
-
-        if (slot.batch == new_slot.batch)
-            return
-    }
-
-    obj._batch_slots.push(new_slot);
-}
-
-/**
  * Create special batch for bounding ellipsoid debug rendering
  */
-function create_bounding_ellipsoid_batch(bv, obj, ellipsoid) {
+function create_bounding_ellipsoid_batch(bv, render, obj_name, ellipsoid) {
 
     var batch = init_batch("WIREFRAME");
 
@@ -3038,7 +3006,7 @@ function create_bounding_ellipsoid_batch(bv, obj, ellipsoid) {
     batch.debug_sphere = true;
 
     batch.depth_mask = true;
-    batch.odd_id_prop = obj.name;
+    batch.odd_id_prop = obj_name;
 
     if (ellipsoid) {
         var submesh = primitives.generate_uv_sphere(16, 8, 1, bv.center,
@@ -3053,7 +3021,7 @@ function create_bounding_ellipsoid_batch(bv, obj, ellipsoid) {
     submesh.va_common["a_polyindex"] = geometry.extract_polyindices(submesh);
 
     update_batch_geometry(batch, submesh);
-    update_batch_id(batch, calc_render_id(obj._render));
+    update_batch_id(batch, calc_render_id(render));
     return batch;
 }
 
@@ -3157,7 +3125,8 @@ exports.check_batch_perm_uniform = function(batch, uniform_name) {
 /**
  * Create depth batch based on main batch
  */
-exports.fork_depth_batch = function(batch_src, shadow_source, shadow_destination) {
+exports.fork_depth_batch = function(batch_src, shadow_source, 
+        shadow_destination) {
 
     var batch = init_batch("DEPTH");
 
@@ -3203,6 +3172,13 @@ exports.fork_depth_batch = function(batch_src, shadow_source, shadow_destination
     batch.num_triangles = batch_src.num_triangles;
     batch.num_vertices = batch_src.num_vertices;
     batch.odd_id_prop = batch_src.odd_id_prop;
+
+    // NOTE: property for searching material by batch
+    for (var i = 0; i < batch_src.material_names.length; i++)
+        batch.material_names.push(batch_src.material_names[i]);
+
+    // NOTE: property for update particle systems by batch
+    batch.particle_system = batch_src.particle_system;
 
     // NOTE: access to forked batches from source batch for material inheritance
     if (!batch_src.childs)
@@ -3809,28 +3785,19 @@ exports.set_texel_size_mult = function(batch, mult) {
  * batch type
  */
 exports.find_batch_material = function(obj, mat_name, type) {
-    var mesh = obj["data"];
-    var materials = mesh["materials"];
-    var slots = obj._batch_slots;
 
+    var batches = obj._batches;
     var apt_batch = null;
 
-    for (var i = 0; i < materials.length; i++) {
-        var mat = materials[i];
-        if (mat["name"] === mat_name) {
-            for (var j = 0; j < slots.length; j++) {
-                var slot = slots[j];
-                var batch = slot.batch;
+    for (var j = 0; j < batches.length; j++) {
+        var batch = batches[j];
 
-                // sumesh index === material index
-                if (slot.submesh_index === i)
-                    if (type && batch.type == type || !type)
-                        if (batch.childs)
-                            return batch;
-                        else
-                            apt_batch = (apt_batch === null) ? batch: apt_batch;
-            }
-        }
+        if (batch.material_names.indexOf(mat_name) > -1)
+            if (type && batch.type == type || !type)
+                if (batch.childs)
+                    return batch;
+                else
+                    apt_batch = (apt_batch === null) ? batch : apt_batch;
     }
 
     return apt_batch;

@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: B4W 14.03.28\n"
+"Project-Id-Version: B4W 14.05.22\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-03 12:59\n"
+"POT-Creation-Date: 2014-05-21 10:39+0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,217 +17,217 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: ../particles.rst:7
-# 42de02c86ffb42d1b442e2fea96871a5
+# b73f968209ec428a955b7ce6f7e37b41
 msgid "Система частиц"
 msgstr ""
 
 #: ../particles.rst:9
-# f87983fccafb4e1d956d85664c0cd070
+# 4fe546b029544fa0a5013dbcd4b4c679
 msgid "Система частиц предназначена для визуализации явлений, обусловленных движением множественных малых объектов, таких как дым, огонь, брызги воды и др."
 msgstr ""
 
 #: ../particles.rst:18
-# 3bbae428abdf4f078cd8f7eab4bc8491
+# 543716b6e1ff46d4a8b02cf57823fd0c
 msgid "Необходимым элементом системы частиц является эмиттер - объект, определяющий местоположение и направление исходящего потока частиц."
 msgstr ""
 
 #: ../particles.rst:22
-# 6794605a2a60461cbff11e4615bf0b90
+# a61cc361b63e46fca53298d8b2ebc94b
 msgid "Использование"
 msgstr ""
 
 #: ../particles.rst:25
-# beb6179765f84374b5bf22a743a8b622
+# 64a88e04ec9d48ce850c6324e518220f
 msgid "Необходимые этапы"
 msgstr ""
 
 #: ../particles.rst:27
-# b4210bb0a312400bba85b1cb7a18d56e
+# 7607a15eb62244ebb35271ba459813ee
 msgid "Добавить на сцену меш - эмиттер."
 msgstr ""
 
 #: ../particles.rst:28
-# f5148c7e1e5c4446abb38dd84cee9308
+# fed3aee866ec4a5a8b256ab44b5e9372
 msgid "Создать на эмиттере материал для частиц, например типа ``Halo``. Поддерживается также материал типа ``Surface`` с обязательной диффузной текстурой."
 msgstr ""
 
 #: ../particles.rst:29
-# 4522c22d2524418699ad269f9de2353d
+# 87ecf7d0ab334ecf873c09070f4e4e39
 msgid "Добавить на эмиттере систему частиц."
 msgstr ""
 
 #: ../particles.rst:33
-# 25a0acec88124593a3f734811ec04637
+# d53a886f67bf4604a2b2fffbe8dbc9db
 msgid "Инициализировать воспроизведение в движке. Возможны два варианта:"
 msgstr ""
 
 #: ../particles.rst:31
-# b80776ae61fd4c0dbf90448517aeeea3
+# 057882bfe4fa4af3a76bec79a2a305bd
 msgid "\"циклическое испускание\" - для системы частиц выставить опцию ``Blend4Web > Cyclic emission``."
 msgstr ""
 
 #: ../particles.rst:32
-# da3d54a3db0f48cd85ce48d242544258
+# 67f33b5b5af04efaae71fd41dd2549ee
 msgid "\"нециклическая анимация\" - для эмиттера выставить опцию ``Blend4Web > Animation > Use default``."
 msgstr ""
 
 #: ../particles.rst:36
-# 523ee6712da248dc83564833b1bd1c8f
+# ab22114802ad492781d93da5e2eb2b07
 msgid "Рекомендуемые дополнительные настройки"
 msgstr ""
 
 #: ../particles.rst:38
-# b73dd2e7344b44a38d1f9dcad14e1a3c
+# 5fd03f6f45e84fe6bce7a4c657a82c7f
 msgid "Для материала частиц выставить тип прозрачности ``Add``."
 msgstr ""
 
 #: ../particles.rst:39
-# 35f5ca74db0a46a7803ea90ad83dd21a
+# 4d02b439dbbf4340ba6c2aec392792fe
 msgid "Если отображение эмиттера на сцене не требуется, отключить опцию ``Particles > Render > Emitter``."
 msgstr ""
 
 #: ../particles.rst:40
-# 98f9ceb0de4f47e5b72d2fe45f465237
-msgid "Если отображение эмиттера на сцене необходимо, для него можно использовать дополнительные материалы. В этом случае в настройках системы частиц нужно указать номер материала частиц ``Particles > Render > Material`` (начиная с единицы)."
+# 9ca99580e8604065a8d1264d986796a9
+msgid "Если отображение эмиттера на сцене необходимо, для него можно использовать дополнительные материалы. В этом случае в настройках системы частиц нужно выбрать  материал частиц ``Particles > Render > Material``."
 msgstr ""
 
 #: ../particles.rst:41
-# 75913293aa684da9822e96ffc528d1a6
+# 0c291d8f560a4b37bbc4468efd3957b8
 msgid "В случае использования для частиц материала типа ``Surface``, к материалу необходимо подключить диффузную текстуру (обычно с альфа-каналом). В меню ``Mapping > Coordinates`` выбрать ``UV``.  Убедиться, что меш эмиттера имеет развертку."
 msgstr ""
 
 #: ../particles.rst:49
-# c2ce779075494efa90333eb7c551e3ba
+# 146dbf361e004945966a4b3f93b51718
 msgid "Настройка"
 msgstr ""
 
 #: ../particles.rst:51
-# 1a7daf3969f2479a9fdb54802ad390cd
+# 6e5073cfea8142389cf1332b08a87b44
 msgid "Параметры системы частиц настраиваются во вкладке ``Particles``. Поддерживается несколько систем частиц на одном эмиттере."
 msgstr ""
 
 #: ../particles.rst:55
-# fa225cc544bb4fd4baa7c2f318c504ab
+# 28b2b2508be54ad0880b969bb7369113
 msgid "Общие настройки"
 msgstr ""
 
 #: ../particles.rst:58
-# 1e5ed47d3aa942d6958873a5d8ff96aa
+# 5461fcfbfadd43bab829c82dc69b309f
 msgid "*Name*"
 msgstr ""
 
 #: ../particles.rst:58
-# 436afd7c96d649d5976e1f50afaab510
+# 16aa39317b29474aa306948d32c4cde7
 msgid "Название системы частиц. Значение по умолчанию \"ParticleSystem\"."
 msgstr ""
 
 #: ../particles.rst:61
-# e0c7f9767891423da16cdd1228b39cb8
+# d3418ee7952f4fac92d0be7752c80b0b
 msgid "*Settings*"
 msgstr ""
 
 #: ../particles.rst:61
-# ca9f8a6fc0f647da9912d1b93a23277c
+# 884931a9b75c4d67af257a4ab2602796
 msgid "Ссылка на блок данных с настройками системы частиц. Блоки данных с настройками могут быть общими для разных систем частиц."
 msgstr ""
 
 #: ../particles.rst:64
-# 42851e1b502b424b8166afa01c0cbe07
+# caed2ef0bb5e4c0b8ad651717eceb4b9
 msgid "*Type*"
 msgstr ""
 
 #: ../particles.rst:64
-# 22ad8d6a92154bee8c34d2d0f820e851
+# 1d835e58d5274ef286c6e3ac400430ea
 msgid "Тип системы частиц: ``Emitter`` или ``Hair``. Системы частиц типа ``Hair`` используются для создания множественных копий (инстансинга) объектов. Значение по умолчанию ``Emitter``."
 msgstr ""
 
 #: ../particles.rst:68
-# b6189263b7f547a2905d950a9c7fdab2
+# ca3e6b5af27843638fa476b06c1aeae2
 msgid "*Seed*"
 msgstr ""
 
 #: ../particles.rst:67
-# 5cce4300743e4244ad1879a494441a17
+# 899c8ff745ee466fa389d40d8e8cf4dd
 msgid "Индекс в таблице случайных чисел, используемых для генерации системы частиц. Значение по умолчанию 0."
 msgstr ""
 
 #: ../particles.rst:71
-# 042309e50308431cbf4f39aa94b23b25
+# e0831380ef1b43c4b160c540a1bc3706
 msgid "Настройки испускания"
 msgstr ""
 
 #: ../particles.rst:74
-# 071bc03652e444b0ac63fcdfa8497c76
+# 61fa8fa636f946fbbdb348a7852143af
 msgid "*Emission > Number*"
 msgstr ""
 
 #: ../particles.rst:74
-# 5d0e932cea014e0698e5098683b68b22
+# 4135a07c0c9b43bbba0b76736b437948
 msgid "Количество частиц. Значение по умолчанию 1000."
 msgstr ""
 
 #: ../particles.rst:77
-# 4550c4c5bbe2490dafbfc7492f50ac7b
+# 4e47916d4eda41809ca35f94dfe7a238
 msgid "*Emission > Start*"
 msgstr ""
 
 #: ../particles.rst:77
-# fb8f6637feef4cefb9d09a72d3ebf040
+# b54a898758004e879c7b7dd2f87b83ca
 msgid "Первый кадр, после которого начинается испускание частиц. Значение по умолчанию 1.0."
 msgstr ""
 
 #: ../particles.rst:80
-# 2f224d2474794298bd90ae8a4ea7b667
+# 0de6cc17803c46479a4cbaec3f1d1b3a
 msgid "*Emission > End*"
 msgstr ""
 
 #: ../particles.rst:80
-# 86b1a2e631ea4d16976c8c5fad9ee8f1
+# e62d252b34794ed0a0cb179da70b0e7d
 msgid "Последний кадр, после которого прекращается испускание частиц. Значение по умолчанию 200.0."
 msgstr ""
 
 #: ../particles.rst:83
-# 35e0672bd11c400e8f08f01c16689d3a
+# de6963e80abf430d92e8fac98482673b
 msgid "*Emission > Lifetime*"
 msgstr ""
 
 #: ../particles.rst:83
-# 9f6e877c51b64d6d99089f6495dec2ec
+# 400ce2f2667b49c6992f00337d0041fc
 msgid "Время жизни частиц в кадрах. Значение по умолчанию 50.0."
 msgstr ""
 
 #: ../particles.rst:86
-# eed0ae829cca4742ad49887729faea75
+# 5db53271cb2446ea81ff42408ab87b31
 msgid "*Emission > Lifetime > Random*"
 msgstr ""
 
 #: ../particles.rst:86
-# b05ea262001344db8a5fae1537187131
+# 1cd079a28d634835b8a9fae7b8c5b8af
 msgid "Фактор случайности для времени жизни. Значение по умолчанию 0.0."
 msgstr ""
 
 #: ../particles.rst:89
-# 048b1390895c4f9cadceaf21d9780c33
+# d5cff21ade69419c983c8bca163af2fe
 msgid "*Emission > Emit From*"
 msgstr ""
 
 #: ../particles.rst:89
-# 2dc9d56cf4cd4d17a1bcc9e3b4941659
+# a8639959098047c496d3e114012d2479
 msgid "Источник испускания. Поддерживаются вершины ``Verts``, грани ``Faces``. Значение по умолчанию ``Faces``."
 msgstr ""
 
 #: ../particles.rst:92
-# 5b6a84e115d641f5a9e22a09e642207c
+# f1314ca712984776af576075e96aa341
 msgid "*Emission > Emit From > Distribution*"
 msgstr ""
 
 #: ../particles.rst:92
-# acf0a93361b246dd84002a4916c8e783
+# 2a4e25ba622e4692909424485d2e387c
 msgid "Настройки распределения испускания: ``Jittered``, ``Random``, ``Grid``. Игнорируются движком. Всегда используется случайное распределение (``Random``). Значение по умолчанию ``Jittered``."
 msgstr ""
 
 #: ../particles.rst:100
-# 18186f7024b8458d8a43a6491cd2b0ff
+# 1270b4f226864b8bbed20d96bc36b930
 msgid "Настройки направления"
 msgstr ""
 
@@ -236,261 +236,271 @@ msgstr ""
 #: ../particles.rst:126
 #: ../particles.rst:148
 #: ../particles.rst:165
-# 493cefd20fae4f90a9a3ec979b43968b
-# 90c84a60dbce48278f0027ab5d59af94
-# 52a940e5ea824e13b6851fd2149bd52e
-# c9faf0dc0133492e91caa7e21b65bff2
-# 507b232e0d644a72a9d230bf9e855d0f
+# 5870727eb0ff46808b112e44d10f78b9
+# d610d0206f5f42aeac8bc735ca0f5116
+# 8fca31394f5549c6aab93b104cf95396
+# af98e7d3104b460cad1c2c87c30d59e4
+# dfa1431cc716426d862d38b20d06c69c
 msgid "Поддерживаются только:"
 msgstr ""
 
 #: ../particles.rst:105
-# a30abba0e99f42e4bf8238ddbf715b16
+# c8762cfccfd145468eb7bb20a0aa87f8
 msgid "*Velocity > Emitter Geometry > Normal*"
 msgstr ""
 
 #: ../particles.rst:105
-# 69de93acf8b34bdab2617763630efe9c
+# 674d5e24af984a2ea2b404331d89ab9d
 msgid "Фактор влияния на испускание вдоль нормалей меша эмиттера. Значение по умолчанию 1.0."
 msgstr ""
 
 #: ../particles.rst:109
-# 33346acd3cac4bf5a6c95f71599fdf24
+# c43e95d946d04e9c8b069f819ded52ba
 msgid "*Velocity > Other > Random*"
 msgstr ""
 
 #: ../particles.rst:108
-# a0260d9a72e946d39b12fea58642062d
+# f6336db6e6d64748ac5fd126f5f76ebe
 msgid "Фактор случайности для направления испускания. Значение по умолчанию 0.0."
 msgstr ""
 
 #: ../particles.rst:112
-# c570595bfeeb49b7aee7ea72c8963b64
+# da2a6befd85d4b7ca9579f0c222ba8c9
 msgid "Настройки вращения"
 msgstr ""
 
 #: ../particles.rst:117
-# 8375ebf8e7074ca9882b7792b081837b
+# 6cef5ef6aaf34ea5b5a1fabaa09f9d37
 msgid "*Rotation > Angular Velocity > Mode*"
 msgstr ""
 
 #: ../particles.rst:117
-# b63dbf7504314a24ba0e5566d10ced8c
+# b500e269a115486aaeb2ea096fef8120
 msgid "Режим собственного вращения биллбордов частиц. Поддерживаются ``Velocity`` (постоянная скорость вращения), ``Random`` (случайное вращение), ``None`` (нет вращения). Значение по умолчанию ``Velocity``."
 msgstr ""
 
 #: ../particles.rst:121
-# 8bbe9da322b3496799b56aa17abdc250
+# c763da8b36354436b747d5c793950690
 msgid "*Rotation > Angular Velocity > Factor*"
 msgstr ""
 
 #: ../particles.rst:120
-# 7d35cd4268154ea4a4c757e7a332fcef
+# 9e5936132df44b0687e913b9d31db8fa
 msgid "Фактор скорости собственного вращения биллбордов частиц. Значение по умолчанию 0.0."
 msgstr ""
 
 #: ../particles.rst:124
-# 6463302b1d164b7a9a9c8cfeaf235742
+# fdf3096a54ef49f29030b29d1091386d
 msgid "Настройки физики"
 msgstr ""
 
 #: ../particles.rst:129
-# 74d14a70d82541328528f59e3a91c7df
+# ac3fecc0a5b54ce996170c9b36397a54
 msgid "*Physics > Type*"
 msgstr ""
 
 #: ../particles.rst:129
-# b917e3552ce24d4f9896fd9214aa9401
+# 189086a6640b46f0a1d771bff2b1bbe8
 msgid "Тип расчетов физики: ``No``, ``Newtonian``, ``Keyed``, ``Boids``, ``Fluid``. Игнорируется движком. Всегда используется физика Ньютона (``Newtonian``). Значение по умолчанию ``Newtonian``."
 msgstr ""
 
 #: ../particles.rst:132
-# 96ae4e6f3ae24674b2961324eb46a06d
+# adf69779b653478d8b96f0171c9bbc01
 msgid "*Physics > Size*"
 msgstr ""
 
 #: ../particles.rst:132
-# 35b02d58f0244e56a54a965fb064cfbb
+# a571f52fea16415ab1d75777a90ce9fa
 msgid "Размер частиц. Значение по умолчанию 0.05."
 msgstr ""
 
 #: ../particles.rst:135
-# 621b980cb71c4ab6814d1186abf59710
+# e8c7f28b637b4816ad6184b797e960f1
 msgid "*Physics > Mass*"
 msgstr ""
 
 #: ../particles.rst:135
-# 14219e31b378475889b51450fc84a054
+# 3b6dcb80fe7b4c5399522722f01a7622
 msgid "Масса частиц. Влияет на взаимодействие с силовыми полями (в частности, с ветром). Значение по умолчанию 1.0."
 msgstr ""
 
 #: ../particles.rst:138
-# 867e35fe8dec4d8795ca28fe13be518b
+# c2fc421710b3411e98a9094135215b61
 msgid "*Physics > Forces > Brownian*"
 msgstr ""
 
 #: ../particles.rst:138
-# 9d20a2ce797247d9977a621049db3186
+# cdbcb756a00c48e6a2bc3c240a90387c
 msgid "Экспортируется, но не используется движком."
 msgstr ""
 
 #: ../particles.rst:146
-# 118f487c5b684ebca7785a78f9a2b639
+# 3bc721e9bea44289974d3bb5ac3c0541
 msgid "Настройки отображения"
 msgstr ""
 
 #: ../particles.rst:151
-# 419b72558544467ba83ab1ab2a1e4948
+# 9c04f318f08348c6a2a4c91fafa701e4
 msgid "*Render > Material*"
 msgstr ""
 
 #: ../particles.rst:151
-# 87f9b9bbe0c44903a7a3a881d4ccc6d3
-msgid "Номер материала частиц, начиная с единицы. Используется для указания на материал частиц в случае использования эмиттером нескольких материалов. Значение по умолчанию 1."
+# 459ea55b5c7141d7bf261a51de98770e
+msgid "Меню выбора материала частиц. Используется в случае использования эмиттером нескольких материалов. Значение по умолчанию ``Default Material``."
 msgstr ""
 
 #: ../particles.rst:154
-# 221c7f8ef876414c824fe9f8943fe1cb
+# 3f3b0b86b68c4accb3fae1344f41ee2b
 msgid "*Render > Emitter*"
 msgstr ""
 
 #: ../particles.rst:154
-# c3dce6de3f9b4c86a169bebc7499c5f0
+# 12c4d8edea174acd9e3278e73c2bc003
 msgid "Опция включения отображения эмиттера на сцене. По умолчанию включено."
 msgstr ""
 
 #: ../particles.rst:158
-# 6089b97110fe4ae5a4149db2167fb2ac
+# cb7736743b774cc6a9cc49a4885bb56c
 msgid "*Render > Type*"
 msgstr ""
 
 #: ../particles.rst:157
-# 84b36eb7611e47379b0e8d24db31c8f1
+# 22a199586b2441b7aa75a5a01814e295
 msgid "Режим отображения частиц: ``None``, ``Halo``, ``Line``, ``Path``, ``Object``, ``Group``, ``Billboard``. Движком различаются режимы ``Object`` и ``Group``, использующиеся для инстансинга объектов и групп объектов, соответственно. Другие режимы игнорируются. Для удобства отображения биллбордов рекомендуется включать режим ``Billboard``. Значение по умолчанию ``Halo``."
 msgstr ""
 
 #: ../particles.rst:163
-# b23deffb44734a9fafc2194efe2f2c0b
+# 3f87b655ed034878bfeb384b75a7fcdc
 msgid "Настройки влияния силовых полей"
 msgstr ""
 
 #: ../particles.rst:168
-# c736999919de44b093fef613cdb5898c
+# dd0b9fb9385743b194450c0651b19dbe
 msgid "*Field Weights > Gravity*"
 msgstr ""
 
 #: ../particles.rst:168
-# d0fc0ddb9b26499b9f148d36acd9efbc
+# 4c3f0589df1f44e2ab5439ad1bfcdd7f
 msgid "Фактор влияния гравитационного поля (земное притяжение). Значение по умолчанию 1.0."
 msgstr ""
 
 #: ../particles.rst:172
-# c9d948b3f3a946d58ff6b134eb88a190
+# f17ad54bdcae4ab281fc909c57ee0d6c
 msgid "*Field Weights > Wind*"
 msgstr ""
 
 #: ../particles.rst:171
-# fa9abf376e29452bb6ed705d6666ce2b
+# 63e8c7d0c47e42ad95e27d86b17394d3
 msgid "Фактор влияния ветра. Необходимо присутствие объекта силового поля (добавляется ``Add > Force Field``) типа ``Wind`` (ветер). На систему частиц оказывают также настройки направления и силы ветра. Значение по умолчанию 1.0."
 msgstr ""
 
 #: ../particles.rst:175
-# 218a6dd8e5a34a0b91b2e00d53ea8215
+# 978bddc5b77f4ea1b4bac4a1ad2937c0
 msgid "Специальные настройки движка"
 msgstr ""
 
 #: ../particles.rst:178
-# b4260a31fbe2407080a4597d32219fc2
+# 851940faf7404cbd93c885cdf22f20ca
 msgid "*Blend4Web > Do not export*"
 msgstr ""
 
 #: ../particles.rst:178
-# 23b5d6a96ac84389bfc20ad0bfd9056b
+# 2e2aba3189a3457b943080f3e7bc8080
 msgid "Не поддерживается."
 msgstr ""
 
 #: ../particles.rst:181
-# 0113053439ae4f96bcf9073529b9ddda
+# ab514173e36a42f6a2b728316a8afbe7
 msgid "*Blend4Web > Cyclic emission*"
 msgstr ""
 
 #: ../particles.rst:181
-# 1e15a571cce04ae8ae9cb04e7315db1e
+# 549af21d921d4fd6ab748c9712c0dcf7
 msgid "Опция включает циклический режим испускания. Применяется для постоянных эффектов (дым, горение, брызги). Рекомендуется выставить нулевое значение ``Emission > Start``. По умолчанию выключено."
 msgstr ""
 
 #: ../particles.rst:184
-# 099d755fe1bd41b986cbde25f7d52837
+# a316a8360e88495aa136bfeb19740f89
 msgid "*Blend4Web > Random emission*"
 msgstr ""
 
 #: ../particles.rst:184
-# ca250ac994014ead8335ebc13389daa6
+# 141f8977ed6c4ceeb6710c482ccf6a1a
 msgid "Опция устанавливает случайный характер времени испускания частиц. По умолчанию выключено."
 msgstr ""
 
 #: ../particles.rst:187
-# c160183417714b51897e84b735ae4a9d
+# 3d5ecc9eb9264de0b3cac1ec5abf3b42
 msgid "*Blend4Web > Billboard align*"
 msgstr ""
 
 #: ../particles.rst:187
-# 3d702272cd8c4577ae058ca1204bac7d
+# 9df96b0207ab4b55b8f25f5f9f46f439
 msgid "Способ ориентирования биллбордов: ``View`` - поворачивать к камере, ``XY plane``, ``YZ plane``, ``ZX plane`` - ориентировать в соответствующей плоскости (в мировой системе координат Blender'a). Значение по умолчанию ``View``."
 msgstr ""
 
 #: ../particles.rst:191
-# a138d0c348e04941b200543241c8de15
+# 42793723629f4d77b2a224b3e55141ff
 msgid "*Blend4Web > Dissolve intervals > Fade-in* и *Fade-out*"
 msgstr ""
 
 #: ../particles.rst:190
-# 9d665a380c44459981654d6e6f411352
+# b525c50c5e284792a7b6209b67f4f8ad
 msgid "Начальный и конечный интервалы (в кадрах) для постепенного увеличения и уменьшения прозрачности частиц."
 msgstr ""
 
 #: ../particles.rst:196
-# 31a24347566a41baad5b20cbc4125f79
+# e8c4d2b72c7f4e43af1fa4a924fc2b94
 msgid "Текстуры в системах частиц"
 msgstr ""
 
 #: ../particles.rst:199
-# 0f818284ad0448e293f438e0a011799b
+# d80cb61757bd4c1eb0cd3be0d2b6b2dd
 msgid "Текстуры материала частиц"
 msgstr ""
 
 #: ../particles.rst:201
-# eea7cc7c5d324b2881151e9e92f70c8f
+# c191385219874eb5af2ab399e67080ca
 msgid "В материалах частиц типа ``Surface`` **необходимо** наличие диффузной текстуры (обычно с альфа-каналом). В меню ``Mapping > Coordinates`` выбрать ``UV``.  Убедиться, что меш эмиттера имеет развертку."
 msgstr ""
 
 #: ../particles.rst:203
-# 699d9b412378497d994ccc2f10ef0652
+# 7ef0a70725e54106a912175cfbc6d025
 msgid "В материалах частиц типа ``Halo`` **возможно** использование текстуры типа ``Blend`` с линейным (``Linear``) градиентом. В меню ``Mapping > Coordinates`` выбрать ``Strand / Particle``. На текстуре необходимо включить использование рампы (``Ramp``). Допускается использование до 4 контрольных точек градиента."
 msgstr ""
 
 #: ../particles.rst:211
-# 6bc35601c3ac4c6887ff8d54a1a4e0bb
+# 4ec89ac340ab4cd68e54b3363a8f6a10
 msgid "Текстуры системы частиц"
 msgstr ""
 
 #: ../particles.rst:213
-# 3531c58832054f16b648a416fe78ad4e
+# 3b54f2d5a27541fc95041d2c56a13748
 msgid "Для настройки поведения системы частиц могут быть использованы текстуры. В отличие от текстур, используемых материалами частиц, такие текстуры относятся к блоку данных (datablock) системы частиц, а не к блоку данных материала. Чтобы создать текстуру системы частиц, необходимо **из вкладки** ``Particles`` перейти во вкладку ``Textures``, после чего нажать ``New``."
 msgstr ""
 
 #: ../particles.rst:215
-# 4b7dea99e0674ba98816bf1d01e0589c
+# f41aabf1047244a7b2cb89c0d9ddece6
 msgid "Поддерживаются только текстуры типа ``Blend`` с линейным (``Linear``) градиентом. На текстуре необходимо включить использование рампы (``Ramp``). Допускается использование до 4 контрольных точек градиента."
 msgstr ""
 
 #: ../particles.rst:217
-# 9969e53186564986ba592af1a57f7b32
+# 71846d9abf674f228653ba7ff78e660e
 msgid "На панели ``Influence`` необходимо выбрать параметр, на который воздействует текстура. В настоящий момент поддерживается только ``Size`` (размер)."
 msgstr ""
 
 #: ../particles.rst:226
-# 655d41c36c4c433d84c1e1b861708f7c
+# 6d03701910fa4f14b26c6cff35a699de
 msgid "Результат применения текстур градиента для материала частиц и для системы частиц:"
+msgstr ""
+
+#: ../particles.rst:234
+# 1fe497e428c24053898156c56fa10b79
+msgid "`Ссылка на модель <http://www.blendswap.com/blends/view/13977>`_"
+msgstr ""
+
+#: ../particles.rst:3
+# f7d22926d84748ab8687d58006852823
+msgid "система частиц"
 msgstr ""
 

@@ -637,34 +637,14 @@ exports.create_render = function(type) {
 
 /**
  * Create empty object
- * @deprecated Used only to create a new camobj
+ * @deprecated Used only to create a new camobj or meta_object
  */
 exports.init_object = function(name, type) {
     var obj = {
         "name": name, 
         "type": type,
-        "data": {},
-        "location": [0,0,0],
-        "rotation_euler": [0,0,0],
-        "scale": [1,1,1],
         "modifiers": [],
-        "constraints": [],
-        "particle_systems": [],
-        "game": {
-            "physics_type": "NO_COLLISION",
-            "mass": 1,
-            "damping": 0.04,
-            "rotation_damping": 0.1,
-            "lock_location_x": false,
-            "lock_location_y": false,
-            "lock_location_z": false,
-            "lock_rotation_x": false,
-            "lock_rotation_y": false,
-            "lock_rotation_z": false,
-            "use_collision_bounds": false,
-            "collision_bounds_type": "BOX"
-        },
-        "b4w_collision_id": ""
+        "particle_systems": []
     };
     return obj;
 }
@@ -832,27 +812,7 @@ function matrix_to_quat(matrix, dest) {
     _mat3_tmp[5] /= l2; 
     _mat3_tmp[8] /= l2; 
 
-	mat3_to_quat(_mat3_tmp, dest);
-
-    return dest;
-}
-
-exports.mat3_to_quat = mat3_to_quat;
-/**
- * Translate rotation matrix to quaternion.
- * source matrix must be non-scaled 
- * @methodOf util
- */
-function mat3_to_quat(matrix, dest) {
-    if (!dest)
-        var dest = new Float32Array(4);
-
-    m_quat.fromMat3(matrix, dest);
-
-    // NOTE: workaround for strange glMatrix bug
-    dest[0] = -dest[0];
-    dest[1] = -dest[1];
-    dest[2] = -dest[2];
+	m_quat.fromMat3(_mat3_tmp, dest);
 
     return dest;
 }
@@ -1953,5 +1913,11 @@ exports.transformQuatFast = function(a, q, out) {
     out[2] = az + uvz + uuvz; 
     return out;
 };
+
+exports.panic = function(s) {
+    if (s)
+        m_print.error(s);
+    throw "panic: see above for possible error messages";
+}
 
 }

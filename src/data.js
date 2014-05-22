@@ -51,6 +51,8 @@ var DEBUG_DISABLE_BATCHING = false;
 var DEBUG_BPYDATA = false;
 var DEBUG_LOD_DIST_NOT_SET = false;
 
+var _quat4_tmp = new Float32Array(4);
+
 var _bpy_data = {};
 var _scheduler = null;
 var _all_objects_cache = null;
@@ -58,7 +60,7 @@ var _color_id_counter = 0;
 var _debug_resources_root = "";
 
 // sequence to load objects on scene
-var ADD_TYPES = ["LAMP", "EMPTY", "CAMERA", "SPEAKER", "MESH"];
+var ADD_TYPES = ["LAMP", "EMPTY", "CAMERA", "SPEAKER", "MESH", "ARMATURE"];
 var ADD_PHY_TYPES = ["MESH", "CAMERA", "EMPTY"];
 var ADD_SFX_TYPES = ["SPEAKER"];
 
@@ -356,6 +358,7 @@ function prepare_root_datablocks(bpy_data, scheduler, stage, cb_param, cb_finish
         update_object(obj);
     }
 
+    calc_max_bones(objects);
     prepare_lod_objects(objects);
     prepare_vehicles(objects);
     prepare_floaters(objects);
@@ -393,8 +396,10 @@ function prepare_root_scenes(bpy_data, scheduler, stage, cb_param, cb_finish,
         if (scene["b4w_enable_audio"])
             m_sfx.attach_scene_sfx(scene);
 
-        m_batch.generate_main_batches(m_scenes.get_graph(scene), 
-                scene["b4w_batch_grid_size"], scene_objects, bpy_data);
+        var meta_objects = m_batch.generate_main_batches(
+                m_scenes.get_graph(scene), scene["b4w_batch_grid_size"], 
+                scene_objects, bpy_data);
+        m_scenes.add_meta_objects(scene, meta_objects);
 
         m_scenes.generate_auxiliary_batches(m_scenes.get_graph(scene));
     }
@@ -572,10 +577,17 @@ function duplicate_objects_iter(obj_links, origin_name_prefix, obj_ids, grp_ids)
                 obj["constraints"].push(new_cons);
             }
 
-            // restore animation data on proxy source (e.g. NLA case)
-            var anim_data = obj["animation_data"];
-            if (anim_data && !proxy["animation_data"])
-                proxy["animation_data"] = m_util.clone_object_json(obj["animation_data"]);
+            // NOTE: handle missing b4w_proxy_inherit_anim as true (temporary)
+            if (!("b4w_proxy_inherit_anim" in obj) || 
+                    obj["b4w_proxy_inherit_anim"]) {
+                var anim_data = obj["animation_data"];
+                if (anim_data)
+                    proxy["animation_data"] = m_util.clone_object_json(obj["animation_data"]);
+
+                proxy["b4w_use_default_animation"] = obj["b4w_use_default_animation"];
+                proxy["b4w_auto_skel_anim"] = obj["b4w_auto_skel_anim"];
+                proxy["b4w_cyclic_animation"] = obj["b4w_cyclic_animation"];
+            }
         }
     }
 
@@ -664,7 +676,8 @@ function assign_grp_id(grp) {
 
 
 /**
- * make links for bpy_data
+ * Make links for bpy_data.
+ * executed before compatibility checks from check_bpy_data()
  */
 function make_links(bpy_data) {
     
@@ -723,77 +736,89 @@ function make_links(bpy_data) {
         if (obj["parent"])
             make_link_uuid(obj, "parent", storage);
 
-        if (obj["animation_data"] && obj["animation_data"]["action"]) 
-            make_link_uuid(obj["animation_data"], "action", storage);
+        if (obj["animation_data"]) {
+            var adata = obj["animation_data"];
+            if (adata["action"])
+                make_link_uuid(adata, "action", storage);
+
+            if (adata["nla_tracks"])
+                for (var j = 0; j < adata["nla_tracks"].length; j++) {
+                    var track = adata["nla_tracks"][j];
+
+                    for (var k = 0; k < track["strips"].length; k++)
+                        if (track["strips"][k]["action"])
+                            make_link_uuid(track["strips"][k], "action", storage);
+                }
+        }
 
         switch (obj["type"]) {
-            case "MESH":
+        case "MESH":
 
-                if (!obj["data"])
-                    throw "mesh not found for object " + obj["name"];
+            if (!obj["data"])
+                throw "mesh not found for object " + obj["name"];
 
-                make_link_uuid(obj, "data", storage);
+            make_link_uuid(obj, "data", storage);
+            
+            // also make links for armature modifier
+            var modifiers = obj["modifiers"];
+            for (var j = 0; j < modifiers.length; j++) {
+                var modifier = modifiers[j];
+
+                if (modifier["type"] == "ARMATURE")
+                    make_link_uuid(modifier, "object", storage);
+                else if (modifier["type"] == "CURVE")
+                    make_link_uuid(modifier, "object", storage);
+            }
+
+            // also make links for possible particle systems
+            var psystems = obj["particle_systems"];
+            if (psystems) {
+                for (var j = 0; j < psystems.length; j++) {
+                    var psys = psystems[j];
+                    make_link_uuid(psys, "settings", storage);
+                }
+            }
+            break;
+
+        case "ARMATURE":
+            make_link_uuid(obj, "data", storage);
+
+            // also make links from pose bones to armature bones
+            var pose = obj["pose"];
+            var pose_bones = pose["bones"];
+            var armature = obj["data"];
+            var armature_bones = armature["bones"];
+            for (var j = 0; j < pose_bones.length; j++) {
+                var pose_bone = pose_bones[j];
+                var bone_index = pose_bone["bone"];
+                var armature_bone = armature_bones[bone_index];
+                pose_bone["bone"] = armature_bone;
                 
-                // also make links for armature modifier
-                var modifiers = obj["modifiers"];
-                for (var j = 0; j < modifiers.length; j++) {
-                    var modifier = modifiers[j];
-
-                    if (modifier["type"] == "ARMATURE")
-                        make_link_uuid(modifier, "object", storage);
-                    else if (modifier["type"] == "CURVE")
-                        make_link_uuid(modifier, "object", storage);
+                // also make links between children and parents
+                var parent_recursive = pose_bone["parent_recursive"];
+                for (var k = 0; k < parent_recursive.length; k++) {
+                    var parent_index = parent_recursive[k];
+                    parent_recursive[k] = pose_bones[parent_index];
                 }
+            }
+            break;
 
-                // also make links for possible particle systems
-                var psystems = obj["particle_systems"];
-                if (psystems) {
-                    for (var j = 0; j < psystems.length; j++) {
-                        var psys = psystems[j];
-                        make_link_uuid(psys, "settings", storage);
-                    }
-                }
-                break;
-
-            case "ARMATURE":
-                make_link_uuid(obj, "data", storage);
-
-                // also make links from pose bones to armature bones
-                var pose = obj["pose"];
-                var pose_bones = pose["bones"];
-                var armature = obj["data"];
-                var armature_bones = armature["bones"];
-                for (var j = 0; j < pose_bones.length; j++) {
-                    var pose_bone = pose_bones[j];
-                    var bone_index = pose_bone["bone"];
-                    var armature_bone = armature_bones[bone_index];
-                    pose_bone["bone"] = armature_bone;
-                    
-                    // also make links between children and parents
-                    var parent_recursive = pose_bone["parent_recursive"];
-                    for (var k = 0; k < parent_recursive.length; k++) {
-                        var parent_index = parent_recursive[k];
-                        parent_recursive[k] = pose_bones[parent_index];
-                    }
-                }
-                break;
-
-            case "LAMP":
-                make_link_uuid(obj, "data", storage);
-                break;
-            case "CAMERA":
-                make_link_uuid(obj, "data", storage);
-                break;
-            case "SPEAKER":
-                make_link_uuid(obj, "data", storage);
-                break;
-            case "EMPTY":
-                break;
-            case "CURVE":
-                make_link_uuid(obj, "data", storage);
-                break;
-            default:
-                break;
+        case "LAMP":
+            make_link_uuid(obj, "data", storage);
+            break;
+        case "CAMERA":
+            make_link_uuid(obj, "data", storage);
+            break;
+        case "SPEAKER":
+            make_link_uuid(obj, "data", storage);
+            break;
+        case "EMPTY":
+            break;
+        case "CURVE":
+            make_link_uuid(obj, "data", storage);
+            break;
+        default:
+            break;
         }
 
         // make links to constraint targets
@@ -1370,6 +1395,39 @@ function prepare_hair_particles(bpy_data) {
     update_all_objects(bpy_data);
 }
 
+/**
+ * Calculate upper limit for number of bones used in vertex shader
+ * to minimize shader variations
+ */
+function calc_max_bones(objects) {
+
+    var upper_max_bones = -1;
+
+    // calc
+    for (var i = 0; i < objects.length; i++) {
+        var obj = objects[i];
+        var render = obj._render;
+
+        if (!(m_util.is_mesh(obj) && render.is_skinning))
+            continue;
+
+        var max_bones = render.max_bones;
+        if (max_bones > upper_max_bones)
+            upper_max_bones = max_bones;
+    }
+
+    // assign
+    for (var i = 0; i < objects.length; i++) {
+        var obj = objects[i];
+        var render = obj._render;
+
+        if (!(m_util.is_mesh(obj) && render.is_skinning))
+            continue;
+
+        render.max_bones = upper_max_bones;
+    }
+}
+
 function prepare_lod_objects(objects) {
 
     for (var i = 0; i < objects.length; i++) {
@@ -1751,11 +1809,12 @@ function update_object(obj) {
     var render = obj._render;
 
     var pos = obj["location"];
-    var rot = obj["rotation_euler"]; 
     var scale = obj["scale"][0];
+    var rot = _quat4_tmp;
+    quat_bpy_b4w(obj["rotation_quaternion"], rot);
 
     m_trans.set_translation(obj, pos);
-    m_trans.set_rotation_euler(obj, rot);
+    m_trans.set_rotation(obj, rot);
     m_trans.set_scale(obj, scale);
 
     switch(obj["type"]) {
@@ -1831,7 +1890,7 @@ function update_object(obj) {
             render.frame_factor = 0;
         }
 
-        obj._batch_slots = [];
+        obj._batches = [];
 
         render.shadow_cast = obj["b4w_shadow_cast"];
         render.shadow_receive = obj["b4w_shadow_receive"];
@@ -1957,7 +2016,24 @@ function update_object(obj) {
         }
     }
 
+    render.use_collision_compound = obj["game"]["use_collision_compound"];
+    render.physics_type = obj["game"]["physics_type"];
+
     m_trans.update_transform(obj);
+}
+
+function quat_bpy_b4w(quat, dest) {
+    var w = quat[0];
+    var x = quat[1];
+    var y = quat[2];
+    var z = quat[3];
+
+    dest[0] = x;
+    dest[1] = y;
+    dest[2] = z;
+    dest[3] = w;
+
+    return dest;
 }
 
 /**
@@ -1967,18 +2043,22 @@ function get_mesh_obj_render_type(bpy_obj) {
     var is_animated = m_anim.is_animatable(bpy_obj);
     var has_do_not_batch = bpy_obj["b4w_do_not_batch"];
     var dynamic_geom = bpy_obj["b4w_dynamic_geometry"];
-    var has_particles = m_particles.has_particles(bpy_obj);
+    var has_anim_particles = m_particles.has_anim_particles(bpy_obj);
     var is_collision = bpy_obj["b4w_collision"];
     var is_vehicle_part = bpy_obj["b4w_vehicle"];
     var is_floater_part = bpy_obj["b4w_floating"];
+    var dyn_grass_emitter = m_particles.has_dynamic_grass_particles(bpy_obj);
+    
+
 
     // skydome and lens flares not strictly required to be dynamic
     // make it so just to prevent some possible bugs in the future
 
     if (DEBUG_DISABLE_BATCHING ||
-            is_animated || has_do_not_batch || dynamic_geom || has_particles ||
-            is_collision || is_vehicle_part || is_floater_part ||
-            has_skydome_mat(bpy_obj) || has_lens_flares_mat(bpy_obj))
+            is_animated || has_do_not_batch || dynamic_geom || 
+            has_anim_particles || is_collision || is_vehicle_part || 
+            is_floater_part || has_skydome_mat(bpy_obj) || 
+            has_lens_flares_mat(bpy_obj) || dyn_grass_emitter)
         return "DYNAMIC";
     else
         return "STATIC";
@@ -2093,18 +2173,22 @@ function prepare_skinning_info(obj) {
     var num_bones = deform_bone_index;
     var max_bones = cfg_def.max_bones;
 
-    if (num_bones > max_bones) {
+    if (num_bones > 2 * max_bones) {
+        m_util.panic("B4W Error: too many bones for \"" + obj["name"]);
+    } else if (num_bones > max_bones) {
         m_print.warn("B4W Warning: too many bones for \"" + obj["name"] + " / " + 
             armobj["name"] + "\": " + num_bones + " bones (max " + max_bones + 
             "). Blending between frames will be disabled");
 
-        // causes optimizing out the half of the uniform arrays
-        // effectively doubles the limit of bones 
-        render.frames_blending = false; 
+        // causes optimizing out the half of the uniform arrays,
+        // effectively doubles the limit of bones
+        render.frames_blending = false;
     } else
-        render.frames_blending = true; 
+        render.frames_blending = true;
 
     render.bone_pointers = bone_pointers;
+    // will be extended beyond this limit later
+    render.max_bones = num_bones;
 }
 
 function prepare_vertex_anim(obj) {
@@ -2349,11 +2433,14 @@ function prepare_objects_adding(bpy_data, scheduler, stage, cb_param, cb_finish,
 
             for (var k = 0; k < sobjs.length; k++) {
                 var obj = sobjs[k];
-                cb_param.added_objects.push({
-                    scene: scene, 
-                    obj: obj, 
-                    type: "obj"
-                });
+
+                // NOTE: ignore ARMATURE proxy
+                if (!(m_util.is_armature(obj) && obj["proxy"]))
+                    cb_param.added_objects.push({
+                        scene: scene, 
+                        obj: obj, 
+                        type: "obj"
+                    });
             }
         }
 
@@ -2409,7 +2496,7 @@ function end_objects_adding(bpy_data, scheduler, stage, cb_param, cb_finish,
         m_scenes.prepare_rendering(scene);
 
         if (scene["b4w_use_nla"])
-            m_nla.update_scene_nla(scene);
+            m_nla.update_scene_nla(scene, scene["b4w_nla_cyclic"]);
     }
 
     // NOTE: set first scene as active
@@ -2422,6 +2509,8 @@ function end_objects_adding(bpy_data, scheduler, stage, cb_param, cb_finish,
 }
 
 function update_objects_dynamics(objects) {
+
+    var anim_arms = [];
 
     for (var i = 0; i < objects.length; i++) {
         var obj = objects[i];
@@ -2437,7 +2526,33 @@ function update_objects_dynamics(objects) {
             if (obj["b4w_cyclic_animation"])
                 m_anim.cyclic(obj, true);
 
+            if (m_util.is_armature(obj))
+                anim_arms.push(obj);
+
             m_anim.play(obj);
+        }
+    }
+
+    // optimization
+    if (!anim_arms.length)
+        return;
+
+    // auto apply armature default animation to meshes
+    for (var i = 0; i < objects.length; i++) {
+        var obj = objects[i];
+
+        if (m_util.is_mesh(obj) && !obj["b4w_use_default_animation"] &&
+                m_anim.is_animatable(obj)) {
+
+            for (var j = 0; j < anim_arms.length; j++) {
+                var armobj = anim_arms[j];
+
+                if (m_anim.get_first_armature_object(obj) == armobj) {
+                    m_anim.apply_def(obj)
+                    m_anim.cyclic(obj, m_anim.is_cyclic(armobj));
+                    m_anim.play(obj);
+                }
+            }
         }
     }
 }

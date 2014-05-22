@@ -57,10 +57,10 @@ exports.new_event_track = function(graph) {
     graph.ended         = [];
     graph.fired         = [];
     graph.y_correction  = null;
-    graph.prev_hit_pos = null;
+    graph.prev_hit_pos  = null;
     graph.y_cor_water   = null;
-    graph.xz_correction = null;
     graph.reached       = true;
+    graph.rotation_mult = 1.0;
 
     if (!graph.random) {
         for (var i = 0; i < graph.path.length; i++) {
@@ -80,9 +80,10 @@ exports.new_event_track = function(graph) {
 function run_track(elapsed, ev_track) {
 
     var destination = ev_track.destination;
-    var base_pos    = m_trans.get_translation(ev_track.empty);
+    var base_pos = _vec3_tmp;
+    m_trans.get_translation(ev_track.empty, base_pos);
 
-    var current_loc = _vec3_tmp;
+    var current_loc = _vec3_tmp_2;
 
     m_trans.get_translation(ev_track.collider, current_loc);
 
@@ -145,9 +146,9 @@ function run_track(elapsed, ev_track) {
 
 function move_destination_if_too_close(ev_track, dest, cur_loc) {
 
-    var cur_rot_q   = _quat4_tmp_2;
-    var cur_hor_dir     = _vec3_tmp_2;
-    var hor_dir_to_dest = _vec3_tmp_3;
+    var cur_rot_q = _quat4_tmp_2;
+    var cur_hor_dir = _vec3_tmp_3;
+    var hor_dir_to_dest = _vec3_tmp_4;
 
     var speed = ev_track.speed;
     var rot_speed = ev_track.rot_speed;
@@ -186,6 +187,7 @@ function anim_translation(elapsed, ev_track) {
         return;
 
     m_trans.get_translation(collider, cur_loc);
+
     var delta_x = dest[0] - cur_loc[0];
     var delta_z = dest[2] - cur_loc[2];
     var left_to_pass = Math.sqrt(delta_x * delta_x + delta_z * delta_z);
@@ -242,7 +244,7 @@ function hor_rot(ev_track, cur_dir, elapsed, new_rot_q, new_hor_dir) {
 
     var angle_to_turn = Math.acos(vec_dot);
     var angle_ratio   = Math.abs(angle_to_turn) / Math.PI;
-    var slerp         = elapsed / angle_ratio * ev_track.rot_speed;
+    var slerp         = elapsed / angle_ratio * ev_track.rot_speed * ev_track.rotation_mult;
 
     m_quat.rotationTo(cur_hor_dir, new_hor_dir, new_rot_q);
     m_quat.rotationTo(m_util.AXIS_Z, cur_hor_dir, cur_rot_q);
@@ -305,8 +307,16 @@ exports.enable_animation = function () {
     if(!_ev_tracks.length)
         return;
 
-    create_ray_sensors();
+    create_sensors();
 
+    var elapsed_cb = function(obj, id, pulse) {
+        if (pulse == 1) {
+            var elapsed = m_ctl.get_sensor_value(obj, id, 0);
+            for (var i = 0; i < _ev_tracks.length; i++) {
+                process_event_track(_ev_tracks[i], elapsed);
+            }
+        }
+    }
     var elapsed_sensor = m_ctl.create_elapsed_sensor();
 
     m_ctl.create_sensor_manifold(_ev_tracks[0].collider,
@@ -333,9 +343,10 @@ exports.disable_animation = function() {
     }
 }
 
-function elapsed_cb(obj, id, elapsed, pulse) {
+function elapsed_cb(obj, id, pulse) {
     if (pulse == 1) {
         for (var i = 0; i < _ev_tracks.length; i++) {
+            var elapsed = m_ctl.get_sensor_value(obj, id, 0);
             process_event_track(_ev_tracks[i], elapsed);
         }
     }
@@ -390,10 +401,8 @@ function is_all_ended(track) {
     return true;
 }
 
-function ground_cb (obj, id, value, pulse) {
-
-    var ev = event_track_by_obj(obj);
-
+function ground_cb(obj, id, pulse, ev) {
+    
     if (!ev)
         return;
 
@@ -456,72 +465,93 @@ function flying_npc_hit_position(obj, id) {
     }
 }
 
-function event_track_by_obj(obj) {
-
+function create_sensors() {
     for (var i = 0; i < _ev_tracks.length; i++) {
-        var ev = _ev_tracks[i];
 
-        if (ev.collider == obj) {
-            return ev;
-        }
+        var ev_track = _ev_tracks[i];
+
+        create_track_ray_sensors(ev_track);
+        create_track_collision_sensors(ev_track);
+
+        if (ev_track.obj && m_anim.get_current_action(ev_track.obj))
+            m_anim.play(ev_track.obj);
     }
-
-    return null;
 }
 
-function create_ray_sensors() {
-    for (var i = 0; i < _ev_tracks.length; i++) {
+function create_track_ray_sensors(ev_track) {
 
-        var ev         = _ev_tracks[i];
-        var ZERO_POINT = [0, 0, 0];
+    var ZERO_POINT = [0, 0, 0];
 
-        switch (ev.type) {
-        case NT_FLYING:
-            var near_ground_sens = m_ctl.create_ray_sensor(ev.collider,
-                    ZERO_POINT, [0, -100, 0], false, "TERRAIN");
-            var near_stone_sens = m_ctl.create_ray_sensor(ev.collider,
-                    ZERO_POINT, [0, -100 , 0], false, "STONE");
-            var near_water_sens = m_ctl.create_ray_sensor(ev.collider,
-                    ZERO_POINT, [0, -100 , 0], false, "WATER");
+    var collider = ev_track.collider;
 
-            var ground_sens_arr = [near_ground_sens, near_stone_sens, near_water_sens];
+    switch (ev_track.type) {
+    case NT_FLYING:
+        var near_ground_sens = m_ctl.create_ray_sensor(collider,
+                ZERO_POINT, [0, -100, 0], false, "TERRAIN");
+        var near_stone_sens = m_ctl.create_ray_sensor(collider,
+                ZERO_POINT, [0, -100 , 0], false, "STONE");
+        var near_water_sens = m_ctl.create_ray_sensor(collider,
+                ZERO_POINT, [0, -100 , 0], false, "WATER");
 
-            m_ctl.create_sensor_manifold(ev.collider,
+        var ground_sens_arr = [near_ground_sens, near_stone_sens, near_water_sens];
+
+        m_ctl.create_sensor_manifold(collider,
                 "CLOSE_GROUND", m_ctl.CT_CONTINUOUS, ground_sens_arr,
-                function(s){return s[0] || s[1] || s[2]}, ground_cb);
+                function(s){return s[0] || s[1] || s[2]}, ground_cb, ev_track);
 
-            break;
-        case NT_WALKING:
-            var near_ground_sens = m_ctl.create_ray_sensor(ev.collider,
-                    [0, 1, 0], [0, -99, 0], false, "TERRAIN");
+        break;
+    case NT_WALKING:
+        var near_ground_sens = m_ctl.create_ray_sensor(collider,
+                [0, 1, 0], [0, -99, 0], false, "TERRAIN");
 
-            var ground_sens_arr = [near_ground_sens];
-            m_ctl.create_sensor_manifold(ev.collider,
+        var ground_sens_arr = [near_ground_sens];
+        m_ctl.create_sensor_manifold(collider,
                 "CLOSE_GROUND", m_ctl.CT_CONTINUOUS, ground_sens_arr,
-                function(s){return s[0]}, ground_cb);
+                null, ground_cb, ev_track);
 
-            break;
-        case NT_SWIMMING:
-            var near_ground_sens = m_ctl.create_ray_sensor(ev.collider,
-                    [0, 1, 0], [0, -99, 0], false, "TERRAIN");
-            var near_water_sens = m_ctl.create_ray_sensor(ev.collider,
-                    [0, 0, 0], [0, 100, 0], false, "WATER");
+        break;
+    case NT_SWIMMING:
+        var near_ground_sens = m_ctl.create_ray_sensor(collider,
+                [0, 1, 0], [0, -99, 0], false, "TERRAIN");
+        var near_water_sens = m_ctl.create_ray_sensor(collider,
+                [0, 0, 0], [0, 100, 0], false, "WATER");
 
-            var ground_sens_arr = [near_ground_sens];
-            var water_sens_arr  = [near_water_sens];
+        var ground_sens_arr = [near_ground_sens];
+        var water_sens_arr  = [near_water_sens];
 
-            m_ctl.create_sensor_manifold(ev.collider,
+        m_ctl.create_sensor_manifold(collider,
                 "CLOSE_WATER", m_ctl.CT_CONTINUOUS, water_sens_arr,
-                function(s){return s[0]}, ground_cb);
-            m_ctl.create_sensor_manifold(ev.collider,
+                null, ground_cb, ev_track);
+        m_ctl.create_sensor_manifold(collider,
                 "CLOSE_GROUND", m_ctl.CT_CONTINUOUS, ground_sens_arr,
-                function(s){return s[0]}, ground_cb);
-            break;
-        }
-
-        if (ev.obj && m_anim.get_current_action(ev.obj))
-            m_anim.play(ev.obj);
+                null, ground_cb, ev_track);
+        break;
     }
+}
+
+function create_track_collision_sensors(ev_track) {
+    
+    var collider = ev_track.collider;
+
+    if (ev_track.type != NT_WALKING)
+        return;
+
+    var need_payload = false;
+    var collision_sensor = m_ctl.create_collision_sensor(collider, "CONSTRUCTION",
+                                                         need_payload);
+
+    function collision_cb (obj, id, pulse) {
+        if (pulse == 1) {
+            m_trans.get_translation(ev_track.empty, ev_track.destination);
+            ev_track.rotation_mult = 4.0;
+        } else {
+            ev_track.rotation_mult = 1.0;
+        }
+    }
+
+    m_ctl.create_sensor_manifold(collider,
+            "CONSTRUCTION_COLL", m_ctl.CT_CONTINUOUS, [collision_sensor],
+            null, collision_cb);
 }
 
 function need_proper_animation(ev_track) {

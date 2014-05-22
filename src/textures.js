@@ -41,17 +41,16 @@ var CHANNEL_SIZE_BYTES_FLOAT = 16;
 var CHANNEL_SIZE_BYTES_DEPTH = 3;
 var CHANNEL_SIZE_BYTES_RENDERBUFFER = 2;
 
-var gl;
+var _gl = null;
 
 // texture quality
 var LEVELS;
 
 /**
  * Setup WebGL context
- * @param ctx webgl context
+ * @param gl WebGL context
  */
-exports.setup_context = function(ctx) {
-    gl = ctx;
+exports.setup_context = function(gl) {
     LEVELS = [
         gl.NEAREST_MIPMAP_NEAREST, 
         gl.NEAREST_MIPMAP_LINEAR,   
@@ -66,6 +65,8 @@ exports.setup_context = function(ctx) {
     exports.TF_LINEAR_MIPMAP_NEAREST = gl.LINEAR_MIPMAP_NEAREST;
     exports.TF_NEAREST_MIPMAP_LINEAR = gl.NEAREST_MIPMAP_LINEAR;
     exports.TF_LINEAR_MIPMAP_LINEAR = gl.LINEAR_MIPMAP_LINEAR;
+
+    _gl = gl;
 }
 
 /**
@@ -85,20 +86,20 @@ exports.create_texture = function(name, type) {
     texture.compress_ratio = 1;
 
     if (type == exports.TT_RENDERBUFFER) {
-        texture.w_renderbuffer = gl.createRenderbuffer();
+        texture.w_renderbuffer = _gl.createRenderbuffer();
     } else {
-        var w_target = gl.TEXTURE_2D;
-        var w_texture = gl.createTexture();
+        var w_target = _gl.TEXTURE_2D;
+        var w_texture = _gl.createTexture();
 
-        gl.bindTexture(w_target, w_texture);
+        _gl.bindTexture(w_target, w_texture);
 
         // NOTE: standard params suitable for POT and NPOT textures
-        gl.texParameteri(w_target, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-        gl.texParameteri(w_target, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-        gl.texParameteri(w_target, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-        gl.texParameteri(w_target, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+        _gl.texParameteri(w_target, _gl.TEXTURE_MAG_FILTER, _gl.LINEAR);
+        _gl.texParameteri(w_target, _gl.TEXTURE_MIN_FILTER, _gl.LINEAR);
+        _gl.texParameteri(w_target, _gl.TEXTURE_WRAP_S, _gl.CLAMP_TO_EDGE);
+        _gl.texParameteri(w_target, _gl.TEXTURE_WRAP_T, _gl.CLAMP_TO_EDGE);
 
-        gl.bindTexture(w_target, null);
+        _gl.bindTexture(w_target, null);
 
         texture.w_target = w_target;
         texture.w_texture = w_texture; 
@@ -114,17 +115,17 @@ exports.create_texture = function(name, type) {
  */
 exports.create_cubemap_texture = function(name, size) {
 
-    var w_texture = gl.createTexture();
+    var w_texture = _gl.createTexture();
 
-    var w_target = gl.TEXTURE_CUBE_MAP;
+    var w_target = _gl.TEXTURE_CUBE_MAP;
 
-    gl.bindTexture(w_target, w_texture);
+    _gl.bindTexture(w_target, w_texture);
 
     // NOTE: standard params suitable for POT and NPOT textures
-    gl.texParameteri(w_target, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-    gl.texParameteri(w_target, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-    gl.texParameteri(w_target, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-    gl.texParameteri(w_target, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+    _gl.texParameteri(w_target, _gl.TEXTURE_MAG_FILTER, _gl.LINEAR);
+    _gl.texParameteri(w_target, _gl.TEXTURE_MIN_FILTER, _gl.LINEAR);
+    _gl.texParameteri(w_target, _gl.TEXTURE_WRAP_S, _gl.CLAMP_TO_EDGE);
+    _gl.texParameteri(w_target, _gl.TEXTURE_WRAP_T, _gl.CLAMP_TO_EDGE);
 
     var infos = [
         "TEXTURE_CUBE_MAP_POSITIVE_X", 
@@ -137,11 +138,11 @@ exports.create_cubemap_texture = function(name, size) {
 
     for (var i = 0; i < 6; i++) {
         var info = infos[i];
-        gl.texImage2D(gl[info], 0, gl.RGBA,
-            size, size, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
+        _gl.texImage2D(_gl[info], 0, _gl.RGBA,
+            size, size, 0, _gl.RGBA, _gl.UNSIGNED_BYTE, null);
     }
 
-    gl.bindTexture(w_target, null);
+    _gl.bindTexture(w_target, null);
 
     var texture = {};
     
@@ -153,7 +154,7 @@ exports.create_cubemap_texture = function(name, size) {
     texture.compress_ratio = 1;
 
     texture.w_texture = w_texture; 
-    texture.w_target = gl.TEXTURE_CUBE_MAP;
+    texture.w_target = _gl.TEXTURE_CUBE_MAP;
 
     return texture;
 }
@@ -168,15 +169,15 @@ exports.set_filters = function(texture, min_filter, mag_filter) {
     var w_target = texture.w_target;
     var w_texture = texture.w_texture;
 
-    gl.bindTexture(w_target, w_texture);
+    _gl.bindTexture(w_target, w_texture);
 
     if (min_filter)
-        gl.texParameteri(w_target, gl.TEXTURE_MIN_FILTER, min_filter);
+        _gl.texParameteri(w_target, _gl.TEXTURE_MIN_FILTER, min_filter);
 
     if (mag_filter)
-        gl.texParameteri(w_target, gl.TEXTURE_MAG_FILTER, mag_filter);
+        _gl.texParameteri(w_target, _gl.TEXTURE_MAG_FILTER, mag_filter);
 
-    gl.bindTexture(w_target, null);
+    _gl.bindTexture(w_target, null);
 }
 
 /**
@@ -195,12 +196,12 @@ exports.get_filters = function(texture) {
     var w_target = texture.w_target;
     var w_texture = texture.w_texture;
 
-    gl.bindTexture(w_target, w_texture);
+    _gl.bindTexture(w_target, w_texture);
 
-    var min = gl.getTexParameter(w_target, gl.TEXTURE_MIN_FILTER);
-    var mag = gl.getTexParameter(w_target, gl.TEXTURE_MAG_FILTER);
+    var min = _gl.getTexParameter(w_target, _gl.TEXTURE_MIN_FILTER);
+    var mag = _gl.getTexParameter(w_target, _gl.TEXTURE_MAG_FILTER);
 
-    gl.bindTexture(w_target, null);
+    _gl.bindTexture(w_target, null);
 
     return {
         min: min,
@@ -216,20 +217,20 @@ exports.resize = function(texture, width, height) {
         return;
 
     if (texture.type == exports.TT_RENDERBUFFER) {
-        gl.bindRenderbuffer(gl.RENDERBUFFER, texture.w_renderbuffer);
-        gl.renderbufferStorage(gl.RENDERBUFFER, gl.DEPTH_COMPONENT16, 
+        _gl.bindRenderbuffer(_gl.RENDERBUFFER, texture.w_renderbuffer);
+        _gl.renderbufferStorage(_gl.RENDERBUFFER, _gl.DEPTH_COMPONENT16, 
                 width, height);
-        gl.bindRenderbuffer(gl.RENDERBUFFER, null);
+        _gl.bindRenderbuffer(_gl.RENDERBUFFER, null);
     } else {
         var w_tex = texture.w_texture;
         var w_target = texture.w_target;
 
-        gl.bindTexture(w_target, w_tex);
+        _gl.bindTexture(w_target, w_tex);
         var format = get_image2d_format(texture);
         var type = get_image2d_type(texture);
-        gl.texImage2D(w_target, 0, format, width, height, 0, format, type, null);
+        _gl.texImage2D(w_target, 0, format, width, height, 0, format, type, null);
 
-        gl.bindTexture(w_target, null);
+        _gl.bindTexture(w_target, null);
     }
 
     texture.width = width;
@@ -249,10 +250,10 @@ exports.create_texture_bpy = function(bpy_texture, global_af, bpy_scenes) {
     
     switch(tex_type) {
     case "IMAGE":
-        var w_texture = gl.createTexture();
-        var w_target = gl.TEXTURE_2D;
-        gl.bindTexture(w_target, w_texture);
-        gl.texImage2D(w_target, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, image_data);
+        var w_texture = _gl.createTexture();
+        var w_target = _gl.TEXTURE_2D;
+        _gl.bindTexture(w_target, w_texture);
+        _gl.texImage2D(w_target, 0, _gl.RGBA, 1, 1, 0, _gl.RGBA, _gl.UNSIGNED_BYTE, image_data);
         break;
     case "NONE":
         // check if texture can be used for offscreen rendering
@@ -266,27 +267,27 @@ exports.create_texture_bpy = function(bpy_texture, global_af, bpy_scenes) {
                 texture.offscreen_scene = scene;
                 scene._render_to_texture = true;
 
-                var w_texture = gl.createTexture();
-                var w_target = gl.TEXTURE_2D;
-                gl.bindTexture(w_target, w_texture);
-                gl.texImage2D(w_target, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, image_data);
+                var w_texture = _gl.createTexture();
+                var w_target = _gl.TEXTURE_2D;
+                _gl.bindTexture(w_target, w_texture);
+                _gl.texImage2D(w_target, 0, _gl.RGBA, 1, 1, 0, _gl.RGBA, _gl.UNSIGNED_BYTE, image_data);
             } else
                 return null;
         } else
             return null;
         break;
     case "ENVIRONMENT_MAP":
-        var w_texture = gl.createTexture();
-        var w_target = gl.TEXTURE_CUBE_MAP;
-        gl.bindTexture(w_target, w_texture);
+        var w_texture = _gl.createTexture();
+        var w_target = _gl.TEXTURE_CUBE_MAP;
+        _gl.bindTexture(w_target, w_texture);
         var targets = [
             "POSITIVE_X", "NEGATIVE_X",
             "POSITIVE_Y", "NEGATIVE_Y",
             "POSITIVE_Z", "NEGATIVE_Z"
         ];
         for (var i = 0; i < 6; i++)
-            gl.texImage2D(gl["TEXTURE_CUBE_MAP_" + targets[i]], 0, gl.RGBA,
-                1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, image_data);
+            _gl.texImage2D(_gl["TEXTURE_CUBE_MAP_" + targets[i]], 0, _gl.RGBA,
+                1, 1, 0, _gl.RGBA, _gl.UNSIGNED_BYTE, image_data);
         break;
 
     case "VORONOI":
@@ -300,26 +301,26 @@ exports.create_texture_bpy = function(bpy_texture, global_af, bpy_scenes) {
     }
 
     if (tex_type == "NONE")
-        gl.texParameteri(w_target, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+        _gl.texParameteri(w_target, _gl.TEXTURE_MIN_FILTER, _gl.LINEAR);
     else
-        gl.texParameteri(w_target, gl.TEXTURE_MIN_FILTER, LEVELS[cfg_def.texture_min_filter]);
+        _gl.texParameteri(w_target, _gl.TEXTURE_MIN_FILTER, LEVELS[cfg_def.texture_min_filter]);
 
-    gl.texParameteri(w_target, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+    _gl.texParameteri(w_target, _gl.TEXTURE_MAG_FILTER, _gl.LINEAR);
 
     setup_anisotropic_filtering(bpy_texture, global_af, w_target);
 
     var tex_extension = bpy_texture["extension"];
     if (tex_extension == "REPEAT" && tex_type != "NONE") {
-        gl.texParameteri(w_target, gl.TEXTURE_WRAP_S, gl.REPEAT);
-        gl.texParameteri(w_target, gl.TEXTURE_WRAP_T, gl.REPEAT);
+        _gl.texParameteri(w_target, _gl.TEXTURE_WRAP_S, _gl.REPEAT);
+        _gl.texParameteri(w_target, _gl.TEXTURE_WRAP_T, _gl.REPEAT);
     } else {
-        gl.texParameteri(w_target, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-        gl.texParameteri(w_target, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+        _gl.texParameteri(w_target, _gl.TEXTURE_WRAP_S, _gl.CLAMP_TO_EDGE);
+        _gl.texParameteri(w_target, _gl.TEXTURE_WRAP_T, _gl.CLAMP_TO_EDGE);
     }
               
-    gl.generateMipmap(w_target);
+    _gl.generateMipmap(w_target);
     
-    gl.bindTexture(w_target, null);
+    _gl.bindTexture(w_target, null);
 
     texture.name = bpy_texture["name"];
     texture.type = exports.TT_RGBA_INT;
@@ -349,23 +350,23 @@ function setup_anisotropic_filtering(bpy_texture, global_af, w_target) {
         var ext_aniso = extensions.get_aniso();
         if (ext_aniso) {
             af = parseFloat(af.split("x")[0]);
-            gl.texParameterf(w_target, ext_aniso.TEXTURE_MAX_ANISOTROPY_EXT, af);
+            _gl.texParameterf(w_target, ext_aniso.TEXTURE_MAX_ANISOTROPY_EXT, af);
         }
     }
 }
 
 exports.create_texture_canvas = function(name, width, height) {
 
-    var w_texture = gl.createTexture();
-    var w_target = gl.TEXTURE_2D;
+    var w_texture = _gl.createTexture();
+    var w_target = _gl.TEXTURE_2D;
 
-    gl.bindTexture(w_target, w_texture);
+    _gl.bindTexture(w_target, w_texture);
     // NOTE: standard params suitable for POT and NPOT textures
-    gl.texParameteri(w_target, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-    gl.texParameteri(w_target, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-    gl.texParameteri(w_target, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-    gl.texParameteri(w_target, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-    gl.bindTexture(w_target, null);
+    _gl.texParameteri(w_target, _gl.TEXTURE_MAG_FILTER, _gl.LINEAR);
+    _gl.texParameteri(w_target, _gl.TEXTURE_MIN_FILTER, _gl.LINEAR);
+    _gl.texParameteri(w_target, _gl.TEXTURE_WRAP_S, _gl.CLAMP_TO_EDGE);
+    _gl.texParameteri(w_target, _gl.TEXTURE_WRAP_T, _gl.CLAMP_TO_EDGE);
+    _gl.bindTexture(w_target, null);
 
     var canvas = document.createElement("canvas");
     canvas.width  = width;
@@ -411,16 +412,16 @@ function update_texture_canvas(texture) {
     var w_texture = texture.w_texture;
     var w_target = texture.w_target;
 
-    gl.bindTexture(w_target, w_texture);
+    _gl.bindTexture(w_target, w_texture);
 
     var w_format = get_image2d_format(texture);
     var w_type = get_image2d_type(texture);
     var canvas = texture.canvas;
-    gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
-    gl.texImage2D(w_target, 0, w_format, w_format, w_type, canvas);
-    gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
+    _gl.pixelStorei(_gl.UNPACK_FLIP_Y_WEBGL, true);
+    _gl.texImage2D(w_target, 0, w_format, w_format, w_type, canvas);
+    _gl.pixelStorei(_gl.UNPACK_FLIP_Y_WEBGL, false);
 
-    gl.bindTexture(w_target, null);
+    _gl.bindTexture(w_target, null);
 
     texture.width = width;
     texture.height = height;
@@ -438,7 +439,7 @@ exports.update_texture = function(texture, image_data, is_dds, filepath) {
     var w_texture = texture.w_texture;
     var w_target = texture.w_target;
 
-    gl.bindTexture(w_target, w_texture);
+    _gl.bindTexture(w_target, w_texture);
 
     if (image_data.length == 4) {
         var update_color = true;
@@ -452,12 +453,12 @@ exports.update_texture = function(texture, image_data, is_dds, filepath) {
 
     if (tex_type == "IMAGE") {
         if (update_color) {
-            gl.texImage2D(w_target, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, 
+            _gl.texImage2D(w_target, 0, _gl.RGBA, 1, 1, 0, _gl.RGBA, _gl.UNSIGNED_BYTE, 
                     image_data);
             texture.width = 1;
             texture.height = 1;
         } else if (is_dds) {
-            m_dds.upload_dds_levels(gl, extensions.get_s3tc(), image_data, 
+            m_dds.upload_dds_levels(_gl, extensions.get_s3tc(), image_data, 
                     true);
             var dds_wh = m_dds.get_width_height(image_data);
 
@@ -471,10 +472,10 @@ exports.update_texture = function(texture, image_data, is_dds, filepath) {
             texture.height = dds_wh.height;
             texture.compress_ratio = m_dds.get_compress_ratio(image_data);
         } else {
-            gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
-            //gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);
+            _gl.pixelStorei(_gl.UNPACK_FLIP_Y_WEBGL, true);
+            //_gl.pixelStorei(_gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);
 
-            gl.texImage2D(w_target, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image_data);
+            _gl.texImage2D(w_target, 0, _gl.RGBA, _gl.RGBA, _gl.UNSIGNED_BYTE, image_data);
 
             texture.width = image_data.width;
             texture.height = image_data.height;
@@ -484,7 +485,7 @@ exports.update_texture = function(texture, image_data, is_dds, filepath) {
                     m_print.warn("B4W warning: using NPOT-texture", filepath);
                 prepare_npot_texture(w_target);
             } else
-                gl.generateMipmap(w_target);   
+                _gl.generateMipmap(w_target);   
         }
 
     } else if (tex_type == "ENVIRONMENT_MAP") {
@@ -502,8 +503,8 @@ exports.update_texture = function(texture, image_data, is_dds, filepath) {
         if (update_color) {
             for (var i = 0; i < 6; i++) {
                 var info = infos[i];
-                gl.texImage2D(gl["TEXTURE_CUBE_MAP_" + info[0]], 0, gl.RGBA,
-                    1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, image_data);
+                _gl.texImage2D(_gl["TEXTURE_CUBE_MAP_" + info[0]], 0, _gl.RGBA,
+                    1, 1, 0, _gl.RGBA, _gl.UNSIGNED_BYTE, image_data);
             }
 
             texture.width = 3;
@@ -513,7 +514,7 @@ exports.update_texture = function(texture, image_data, is_dds, filepath) {
                 throw "Warning: Wrong environment map dimensions " + filepath;
 
             // Restore default OpenGL state in case it was changed earlier
-            gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
+            _gl.pixelStorei(_gl.UNPACK_FLIP_Y_WEBGL, false);
 
             var dim = image_data.width / 3;
 
@@ -538,25 +539,25 @@ exports.update_texture = function(texture, image_data, is_dds, filepath) {
                 ctx.drawImage(image_data, info[1] * dim, info[2] * dim, dim, dim, 
                     0, 0, dim, dim);
 
-                gl.texImage2D(gl["TEXTURE_CUBE_MAP_" + info[0]], 0, gl.RGBA, 
-                    gl.RGBA, gl.UNSIGNED_BYTE, tmpcanvas);
+                _gl.texImage2D(_gl["TEXTURE_CUBE_MAP_" + info[0]], 0, _gl.RGBA, 
+                    _gl.RGBA, _gl.UNSIGNED_BYTE, tmpcanvas);
             }
 
             texture.width = 3 * dim;
             texture.height = 2 * dim;
 
-            gl.generateMipmap(w_target);   
+            _gl.generateMipmap(w_target);   
         }
     }
     
-    gl.bindTexture(w_target, null);
+    _gl.bindTexture(w_target, null);
 }
 
 function prepare_npot_texture(tex_target) {
-    gl.texParameteri(tex_target, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-    gl.texParameteri(tex_target, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-    gl.texParameteri(tex_target, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-    gl.texParameteri(tex_target, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+    _gl.texParameteri(tex_target, _gl.TEXTURE_WRAP_S, _gl.CLAMP_TO_EDGE);
+    _gl.texParameteri(tex_target, _gl.TEXTURE_WRAP_T, _gl.CLAMP_TO_EDGE);
+    _gl.texParameteri(tex_target, _gl.TEXTURE_MAG_FILTER, _gl.LINEAR);
+    _gl.texParameteri(tex_target, _gl.TEXTURE_MIN_FILTER, _gl.LINEAR);
 }
 
 function is_non_power_of_two(width, height) {
@@ -573,19 +574,19 @@ function get_image2d_format(texture) {
 
     switch (texture.type) {
     case exports.TT_RGBA_INT:
-        format = gl.RGBA;
+        format = _gl.RGBA;
         break;
     case exports.TT_RGB_INT:
-        format = gl.RGB;
+        format = _gl.RGB;
         break;
     case exports.TT_RGBA_FLOAT:
-        format = gl.RGBA;
+        format = _gl.RGBA;
         break;
     case exports.TT_RGB_FLOAT:
-        format = gl.RGB;
+        format = _gl.RGB;
         break;
     case exports.TT_DEPTH:
-        format = gl.DEPTH_COMPONENT;
+        format = _gl.DEPTH_COMPONENT;
         break;
     default:
         throw "Wrong texture type";
@@ -604,20 +605,20 @@ function get_image2d_type(texture) {
 
     switch (texture.type) {
     case exports.TT_RGBA_INT:
-        type = gl.UNSIGNED_BYTE;
+        type = _gl.UNSIGNED_BYTE;
         break;
     case exports.TT_RGB_INT:
-        type = gl.UNSIGNED_BYTE;
+        type = _gl.UNSIGNED_BYTE;
         break;
     case exports.TT_RGBA_FLOAT:
-        type = gl.FLOAT;
+        type = _gl.FLOAT;
         break;
     case exports.TT_RGB_FLOAT:
-        type = gl.FLOAT;
+        type = _gl.FLOAT;
         break;
     case exports.TT_DEPTH:
-        //type = gl.UNSIGNED_SHORT;
-        type = gl.UNSIGNED_INT;
+        //type = _gl.UNSIGNED_SHORT;
+        type = _gl.UNSIGNED_INT;
         break;
     default:
         throw "Wrong texture type";
@@ -628,7 +629,7 @@ function get_image2d_type(texture) {
 }
 
 exports.delete_texture = function(texture) {
-    gl.deleteTexture(texture);
+    _gl.deleteTexture(texture);
 }
 
 /**

@@ -16,106 +16,107 @@
 \indexentry{export!Blender installation|hyperpage}{11}
 \indexentry{export!addon installation|hyperpage}{12}
 \indexentry{export!viewing scenes|hyperpage}{12}
-\indexentry{browser!setup|hyperpage}{14}
-\indexentry{viewer!launch|hyperpage}{17}
-\indexentry{Blender!installation|hyperpage}{17}
-\indexentry{export|hyperpage}{21}
-\indexentry{viewer!scene adding|hyperpage}{23}
-\indexentry{viewer|hyperpage}{24}
-\indexentry{initialization!compatibility!errors|hyperpage}{29}
-\indexentry{export!errors|hyperpage}{30}
-\indexentry{textures|hyperpage}{38}
-\indexentry{textures!types|hyperpage}{39}
-\indexentry{textures!settings|hyperpage}{39}
-\indexentry{material capture|hyperpage}{40}
-\indexentry{matcap|hyperpage}{40}
-\indexentry{textures!diffuse|hyperpage}{40}
-\indexentry{diffuse map|hyperpage}{40}
-\indexentry{textures!specular map|hyperpage}{41}
-\indexentry{specular map|hyperpage}{41}
-\indexentry{textures!normal map|hyperpage}{41}
-\indexentry{normal map|hyperpage}{41}
-\indexentry{textures!height map|hyperpage}{42}
-\indexentry{height map|hyperpage}{42}
-\indexentry{parallax mapping|hyperpage}{42}
-\indexentry{textures!alpha map|hyperpage}{43}
-\indexentry{alpha map|hyperpage}{43}
-\indexentry{textures!stencil map|hyperpage}{43}
-\indexentry{stencil map|hyperpage}{43}
-\indexentry{textures!environment map|hyperpage}{46}
-\indexentry{environment map|hyperpage}{46}
-\indexentry{textures!mirror map|hyperpage}{47}
-\indexentry{mirror map|hyperpage}{47}
-\indexentry{textures!sky|hyperpage}{48}
-\indexentry{skydome|hyperpage}{48}
-\indexentry{textures!render to|hyperpage}{49}
-\indexentry{render-to-texture|hyperpage}{49}
-\indexentry{RTT|hyperpage}{49}
-\indexentry{materials|hyperpage}{50}
-\indexentry{materials!shading parameters|hyperpage}{51}
-\indexentry{materials!transparency|hyperpage}{52}
-\indexentry{transparency|hyperpage}{52}
-\indexentry{transparency!types|hyperpage}{52}
-\indexentry{transparency!setup|hyperpage}{53}
-\indexentry{materials!reflection|hyperpage}{53}
-\indexentry{reflection|hyperpage}{53}
-\indexentry{reflection!static|hyperpage}{54}
-\indexentry{reflection!dynamic|hyperpage}{54}
-\indexentry{reflection!Fresnel effect|hyperpage}{54}
-\indexentry{Fresnel effect|hyperpage}{54}
-\indexentry{materials!special parameters|hyperpage}{56}
-\indexentry{materials!halo|hyperpage}{56}
-\indexentry{halo|hyperpage}{56}
-\indexentry{node materials|hyperpage}{58}
-\indexentry{materials!nodes|hyperpage}{59}
-\indexentry{materials!nodes|hyperpage}{59}
-\indexentry{materials!nodes|hyperpage}{59}
-\indexentry{lighting|hyperpage}{62}
-\indexentry{light sources|hyperpage}{63}
-\indexentry{motion blur|hyperpage}{69}
-\indexentry{motion blur|hyperpage}{69}
-\indexentry{depth of field|hyperpage}{70}
-\indexentry{depth of field|hyperpage}{70}
-\indexentry{DOF|hyperpage}{70}
-\indexentry{screen-space ambient occlusion|hyperpage}{71}
-\indexentry{screen-space ambient occlusion|hyperpage}{71}
-\indexentry{SSAO|hyperpage}{71}
-\indexentry{crepuscular rays|hyperpage}{73}
-\indexentry{crepuscular rays|hyperpage}{73}
-\indexentry{god rays|hyperpage}{73}
-\indexentry{glow|hyperpage}{75}
-\indexentry{glow|hyperpage}{75}
-\indexentry{anaglyph|hyperpage}{76}
-\indexentry{stereoscopic rendering|hyperpage}{76}
-\indexentry{anaglyph|hyperpage}{76}
-\indexentry{color correction|hyperpage}{77}
-\indexentry{color correction|hyperpage}{77}
-\indexentry{anti-aliasing|hyperpage}{78}
-\indexentry{anti-aliasing|hyperpage}{78}
-\indexentry{particle system|hyperpage}{79}
-\indexentry{particle system|hyperpage}{87}
-\indexentry{instancing|hyperpage}{87}
-\indexentry{instancing|hyperpage}{87}
-\indexentry{animation|hyperpage}{95}
-\indexentry{animation|hyperpage}{95}
-\indexentry{shore line parameters|hyperpage}{108}
-\indexentry{shore line|hyperpage}{108}
-\indexentry{\IeC {\cyrs }\IeC {\cyre }\IeC {\cyrn }\IeC {\cyrs }\IeC {\cyro }\IeC {\cyrr }|hyperpage}{121}
-\indexentry{sensor|hyperpage}{121}
-\indexentry{\IeC {\cyrs }\IeC {\cyre }\IeC {\cyrn }\IeC {\cyrs }\IeC {\cyro }\IeC {\cyrr }!\IeC {\cyrm }\IeC {\cyrn }\IeC {\cyro }\IeC {\cyrzh }\IeC {\cyre }\IeC {\cyrs }\IeC {\cyrt }\IeC {\cyrv }\IeC {\cyro }|hyperpage}{121}
-\indexentry{sensor!manifold|hyperpage}{121}
-\indexentry{quaternion|hyperpage}{142}
-\indexentry{\IeC {\cyro }\IeC {\cyrb }\IeC {\cyrf }\IeC {\cyru }\IeC {\cyrs }\IeC {\cyrk }\IeC {\cyra }\IeC {\cyrt }\IeC {\cyro }\IeC {\cyrr } \IeC {\cyrsh }\IeC {\cyre }\IeC {\cyrishrt }\IeC {\cyrd }\IeC {\cyre }\IeC {\cyrr }\IeC {\cyro }\IeC {\cyrv }|hyperpage}{148}
-\indexentry{\IeC {\cyro }\IeC {\cyrb }\IeC {\cyrf }\IeC {\cyru }\IeC {\cyrs }\IeC {\cyrk }\IeC {\cyra }\IeC {\cyrt }\IeC {\cyro }\IeC {\cyrr } \IeC {\cyrsh }\IeC {\cyre }\IeC {\cyrishrt }\IeC {\cyrd }\IeC {\cyre }\IeC {\cyrr }\IeC {\cyro }\IeC {\cyrv }!\IeC {\cyrd }\IeC {\cyri }\IeC {\cyrr }\IeC {\cyre }\IeC {\cyrk }\IeC {\cyrt }\IeC {\cyri }\IeC {\cyrv }\IeC {\cyrery } import/export|hyperpage}{149}
-\indexentry{\IeC {\cyro }\IeC {\cyrb }\IeC {\cyrf }\IeC {\cyru }\IeC {\cyrs }\IeC {\cyrk }\IeC {\cyra }\IeC {\cyrt }\IeC {\cyro }\IeC {\cyrr } \IeC {\cyrsh }\IeC {\cyre }\IeC {\cyrishrt }\IeC {\cyrd }\IeC {\cyre }\IeC {\cyrr }\IeC {\cyro }\IeC {\cyrv }!\IeC {\cyro }\IeC {\cyrg }\IeC {\cyrr }\IeC {\cyra }\IeC {\cyrn }\IeC {\cyri }\IeC {\cyrch }\IeC {\cyre }\IeC {\cyrn }\IeC {\cyri }\IeC {\cyrya }|hyperpage}{149}
-\indexentry{WebGL!\IeC {\cyrr }\IeC {\cyra }\IeC {\cyrs }\IeC {\cyrsh }\IeC {\cyri }\IeC {\cyrr }\IeC {\cyre }\IeC {\cyrn }\IeC {\cyri }\IeC {\cyrya }|hyperpage}{150}
-\indexentry{\IeC {\cyro }\IeC {\cyrb }\IeC {\cyrf }\IeC {\cyru }\IeC {\cyrs }\IeC {\cyrk }\IeC {\cyra }\IeC {\cyrt }\IeC {\cyro }\IeC {\cyrr } \IeC {\cyrsh }\IeC {\cyre }\IeC {\cyrishrt }\IeC {\cyrd }\IeC {\cyre }\IeC {\cyrr }\IeC {\cyro }\IeC {\cyrv }!\IeC {\cyro }\IeC {\cyrsh }\IeC {\cyri }\IeC {\cyrb }\IeC {\cyrk }\IeC {\cyri }|hyperpage}{150}
-\indexentry{git|hyperpage}{155}
-\indexentry{git!\IeC {\cyri }\IeC {\cyrn }\IeC {\cyrd }\IeC {\cyri }\IeC {\cyrv }\IeC {\cyri }\IeC {\cyrd }\IeC {\cyru }\IeC {\cyra }\IeC {\cyrl }\IeC {\cyrsftsn }\IeC {\cyrn }\IeC {\cyrery }\IeC {\cyre } \IeC {\cyrn }\IeC {\cyra }\IeC {\cyrs }\IeC {\cyrt }\IeC {\cyrr }\IeC {\cyro }\IeC {\cyrishrt }\IeC {\cyrk }\IeC {\cyri }|hyperpage}{156}
-\indexentry{git!\IeC {\cyrn }\IeC {\cyra }\IeC {\cyrch }\IeC {\cyra }\IeC {\cyrl }\IeC {\cyro } \IeC {\cyrr }\IeC {\cyra }\IeC {\cyrb }\IeC {\cyro }\IeC {\cyrt }\IeC {\cyrery }|hyperpage}{156}
-\indexentry{git!\IeC {\cyrp }\IeC {\cyro }\IeC {\cyrd }\IeC {\cyrg }\IeC {\cyro }\IeC {\cyrt }\IeC {\cyro }\IeC {\cyrv }\IeC {\cyrk }\IeC {\cyra } \IeC {\cyrk } \IeC {\cyrk }\IeC {\cyro }\IeC {\cyrm }\IeC {\cyrm }\IeC {\cyri }\IeC {\cyrt }\IeC {\cyru }|hyperpage}{157}
-\indexentry{git!\IeC {\cyrd }\IeC {\cyro }\IeC {\cyrb }\IeC {\cyra }\IeC {\cyrv }\IeC {\cyrl }\IeC {\cyre }\IeC {\cyrn }\IeC {\cyri }\IeC {\cyre } \IeC {\cyri } \IeC {\cyru }\IeC {\cyrd }\IeC {\cyra }\IeC {\cyrl }\IeC {\cyre }\IeC {\cyrn }\IeC {\cyri }\IeC {\cyre } \IeC {\cyrf }\IeC {\cyra }\IeC {\cyrishrt }\IeC {\cyrl }\IeC {\cyro }\IeC {\cyrv }|hyperpage}{158}
-\indexentry{git!\IeC {\cyrk }\IeC {\cyro }\IeC {\cyrm }\IeC {\cyrm }\IeC {\cyri }\IeC {\cyrt }|hyperpage}{159}
-\indexentry{git!\IeC {\cyrs }\IeC {\cyri }\IeC {\cyrn }\IeC {\cyrh }\IeC {\cyrr }\IeC {\cyro }\IeC {\cyrn }\IeC {\cyri }\IeC {\cyrz }\IeC {\cyra }\IeC {\cyrc }\IeC {\cyri }\IeC {\cyrya } \IeC {\cyrm }\IeC {\cyre }\IeC {\cyrzh }\IeC {\cyrd }\IeC {\cyru } \IeC {\cyrr }\IeC {\cyre }\IeC {\cyrp }\IeC {\cyro }\IeC {\cyrz }\IeC {\cyri }\IeC {\cyrt }\IeC {\cyro }\IeC {\cyrr }\IeC {\cyri }\IeC {\cyrya }\IeC {\cyrm }\IeC {\cyri }|hyperpage}{160}
-\indexentry{git!\IeC {\cyrr }\IeC {\cyra }\IeC {\cyrz }\IeC {\cyrr }\IeC {\cyre }\IeC {\cyrsh }\IeC {\cyre }\IeC {\cyrn }\IeC {\cyri }\IeC {\cyre } \IeC {\cyrk }\IeC {\cyro }\IeC {\cyrn }\IeC {\cyrf }\IeC {\cyrl }\IeC {\cyri }\IeC {\cyrk }\IeC {\cyrt }\IeC {\cyro }\IeC {\cyrv }|hyperpage}{162}
-\indexentry{git!\IeC {\cyrt }\IeC {\cyrerev }\IeC {\cyrg }\IeC {\cyri }|hyperpage}{164}
+\indexentry{browser!setup|hyperpage}{13}
+\indexentry{Blend4Web!installation|hyperpage}{14}
+\indexentry{viewer!launch|hyperpage}{14}
+\indexentry{Blender!installation|hyperpage}{15}
+\indexentry{export|hyperpage}{19}
+\indexentry{viewer!scene adding|hyperpage}{21}
+\indexentry{viewer|hyperpage}{22}
+\indexentry{initialization!compatibility!errors|hyperpage}{27}
+\indexentry{export!errors|hyperpage}{28}
+\indexentry{textures|hyperpage}{36}
+\indexentry{textures!types|hyperpage}{37}
+\indexentry{textures!settings|hyperpage}{37}
+\indexentry{material capture|hyperpage}{38}
+\indexentry{matcap|hyperpage}{38}
+\indexentry{textures!diffuse|hyperpage}{38}
+\indexentry{diffuse map|hyperpage}{38}
+\indexentry{textures!specular map|hyperpage}{39}
+\indexentry{specular map|hyperpage}{39}
+\indexentry{textures!normal map|hyperpage}{39}
+\indexentry{normal map|hyperpage}{39}
+\indexentry{textures!height map|hyperpage}{39}
+\indexentry{height map|hyperpage}{39}
+\indexentry{parallax mapping|hyperpage}{39}
+\indexentry{textures!alpha map|hyperpage}{40}
+\indexentry{alpha map|hyperpage}{40}
+\indexentry{textures!stencil map|hyperpage}{41}
+\indexentry{stencil map|hyperpage}{41}
+\indexentry{textures!environment map|hyperpage}{44}
+\indexentry{environment map|hyperpage}{44}
+\indexentry{textures!mirror map|hyperpage}{45}
+\indexentry{mirror map|hyperpage}{45}
+\indexentry{textures!sky|hyperpage}{46}
+\indexentry{skydome|hyperpage}{46}
+\indexentry{textures!render to|hyperpage}{47}
+\indexentry{render-to-texture|hyperpage}{47}
+\indexentry{RTT|hyperpage}{47}
+\indexentry{materials|hyperpage}{48}
+\indexentry{materials!shading parameters|hyperpage}{49}
+\indexentry{materials!transparency|hyperpage}{50}
+\indexentry{transparency|hyperpage}{50}
+\indexentry{transparency!types|hyperpage}{50}
+\indexentry{transparency!setup|hyperpage}{51}
+\indexentry{materials!reflection|hyperpage}{51}
+\indexentry{reflection|hyperpage}{51}
+\indexentry{reflection!static|hyperpage}{52}
+\indexentry{reflection!dynamic|hyperpage}{52}
+\indexentry{reflection!Fresnel effect|hyperpage}{52}
+\indexentry{Fresnel effect|hyperpage}{52}
+\indexentry{materials!special parameters|hyperpage}{54}
+\indexentry{materials!halo|hyperpage}{54}
+\indexentry{halo|hyperpage}{54}
+\indexentry{node materials|hyperpage}{56}
+\indexentry{materials!nodes|hyperpage}{57}
+\indexentry{materials!nodes|hyperpage}{57}
+\indexentry{materials!nodes|hyperpage}{57}
+\indexentry{lighting|hyperpage}{59}
+\indexentry{light sources|hyperpage}{60}
+\indexentry{motion blur|hyperpage}{65}
+\indexentry{motion blur|hyperpage}{65}
+\indexentry{depth of field|hyperpage}{66}
+\indexentry{depth of field|hyperpage}{66}
+\indexentry{DOF|hyperpage}{66}
+\indexentry{screen-space ambient occlusion|hyperpage}{67}
+\indexentry{screen-space ambient occlusion|hyperpage}{67}
+\indexentry{SSAO|hyperpage}{67}
+\indexentry{crepuscular rays|hyperpage}{69}
+\indexentry{crepuscular rays|hyperpage}{69}
+\indexentry{god rays|hyperpage}{69}
+\indexentry{glow|hyperpage}{71}
+\indexentry{glow|hyperpage}{71}
+\indexentry{anaglyph|hyperpage}{72}
+\indexentry{stereoscopic rendering|hyperpage}{72}
+\indexentry{anaglyph|hyperpage}{72}
+\indexentry{color correction|hyperpage}{73}
+\indexentry{color correction|hyperpage}{73}
+\indexentry{anti-aliasing|hyperpage}{74}
+\indexentry{anti-aliasing|hyperpage}{74}
+\indexentry{particle system|hyperpage}{75}
+\indexentry{particle system|hyperpage}{83}
+\indexentry{instancing|hyperpage}{83}
+\indexentry{instancing|hyperpage}{83}
+\indexentry{animation|hyperpage}{91}
+\indexentry{animation|hyperpage}{91}
+\indexentry{shore line parameters|hyperpage}{104}
+\indexentry{shore line|hyperpage}{104}
+\indexentry{\IeC {\cyrs }\IeC {\cyre }\IeC {\cyrn }\IeC {\cyrs }\IeC {\cyro }\IeC {\cyrr }|hyperpage}{117}
+\indexentry{sensor|hyperpage}{117}
+\indexentry{\IeC {\cyrs }\IeC {\cyre }\IeC {\cyrn }\IeC {\cyrs }\IeC {\cyro }\IeC {\cyrr }!\IeC {\cyrm }\IeC {\cyrn }\IeC {\cyro }\IeC {\cyrzh }\IeC {\cyre }\IeC {\cyrs }\IeC {\cyrt }\IeC {\cyrv }\IeC {\cyro }|hyperpage}{117}
+\indexentry{sensor!manifold|hyperpage}{117}
+\indexentry{\IeC {\cyro }\IeC {\cyrb }\IeC {\cyrf }\IeC {\cyru }\IeC {\cyrs }\IeC {\cyrk }\IeC {\cyra }\IeC {\cyrt }\IeC {\cyro }\IeC {\cyrr } \IeC {\cyrsh }\IeC {\cyre }\IeC {\cyrishrt }\IeC {\cyrd }\IeC {\cyre }\IeC {\cyrr }\IeC {\cyro }\IeC {\cyrv }|hyperpage}{152}
+\indexentry{\IeC {\cyro }\IeC {\cyrb }\IeC {\cyrf }\IeC {\cyru }\IeC {\cyrs }\IeC {\cyrk }\IeC {\cyra }\IeC {\cyrt }\IeC {\cyro }\IeC {\cyrr } \IeC {\cyrsh }\IeC {\cyre }\IeC {\cyrishrt }\IeC {\cyrd }\IeC {\cyre }\IeC {\cyrr }\IeC {\cyro }\IeC {\cyrv }!\IeC {\cyrd }\IeC {\cyri }\IeC {\cyrr }\IeC {\cyre }\IeC {\cyrk }\IeC {\cyrt }\IeC {\cyri }\IeC {\cyrv }\IeC {\cyrery } import/export|hyperpage}{153}
+\indexentry{\IeC {\cyro }\IeC {\cyrb }\IeC {\cyrf }\IeC {\cyru }\IeC {\cyrs }\IeC {\cyrk }\IeC {\cyra }\IeC {\cyrt }\IeC {\cyro }\IeC {\cyrr } \IeC {\cyrsh }\IeC {\cyre }\IeC {\cyrishrt }\IeC {\cyrd }\IeC {\cyre }\IeC {\cyrr }\IeC {\cyro }\IeC {\cyrv }!\IeC {\cyro }\IeC {\cyrg }\IeC {\cyrr }\IeC {\cyra }\IeC {\cyrn }\IeC {\cyri }\IeC {\cyrch }\IeC {\cyre }\IeC {\cyrn }\IeC {\cyri }\IeC {\cyrya }|hyperpage}{153}
+\indexentry{WebGL!\IeC {\cyrr }\IeC {\cyra }\IeC {\cyrs }\IeC {\cyrsh }\IeC {\cyri }\IeC {\cyrr }\IeC {\cyre }\IeC {\cyrn }\IeC {\cyri }\IeC {\cyrya }|hyperpage}{154}
+\indexentry{\IeC {\cyro }\IeC {\cyrb }\IeC {\cyrf }\IeC {\cyru }\IeC {\cyrs }\IeC {\cyrk }\IeC {\cyra }\IeC {\cyrt }\IeC {\cyro }\IeC {\cyrr } \IeC {\cyrsh }\IeC {\cyre }\IeC {\cyrishrt }\IeC {\cyrd }\IeC {\cyre }\IeC {\cyrr }\IeC {\cyro }\IeC {\cyrv }!\IeC {\cyro }\IeC {\cyrsh }\IeC {\cyri }\IeC {\cyrb }\IeC {\cyrk }\IeC {\cyri }|hyperpage}{154}
+\indexentry{\IeC {\cyrk }\IeC {\cyrv }\IeC {\cyra }\IeC {\cyrt }\IeC {\cyre }\IeC {\cyrr }\IeC {\cyrn }\IeC {\cyri }\IeC {\cyro }\IeC {\cyrn }|hyperpage}{158}
+\indexentry{git|hyperpage}{159}
+\indexentry{git!\IeC {\cyri }\IeC {\cyrn }\IeC {\cyrd }\IeC {\cyri }\IeC {\cyrv }\IeC {\cyri }\IeC {\cyrd }\IeC {\cyru }\IeC {\cyra }\IeC {\cyrl }\IeC {\cyrsftsn }\IeC {\cyrn }\IeC {\cyrery }\IeC {\cyre } \IeC {\cyrn }\IeC {\cyra }\IeC {\cyrs }\IeC {\cyrt }\IeC {\cyrr }\IeC {\cyro }\IeC {\cyrishrt }\IeC {\cyrk }\IeC {\cyri }|hyperpage}{160}
+\indexentry{git!\IeC {\cyrn }\IeC {\cyra }\IeC {\cyrch }\IeC {\cyra }\IeC {\cyrl }\IeC {\cyro } \IeC {\cyrr }\IeC {\cyra }\IeC {\cyrb }\IeC {\cyro }\IeC {\cyrt }\IeC {\cyrery }|hyperpage}{160}
+\indexentry{git!\IeC {\cyrp }\IeC {\cyro }\IeC {\cyrd }\IeC {\cyrg }\IeC {\cyro }\IeC {\cyrt }\IeC {\cyro }\IeC {\cyrv }\IeC {\cyrk }\IeC {\cyra } \IeC {\cyrk } \IeC {\cyrk }\IeC {\cyro }\IeC {\cyrm }\IeC {\cyrm }\IeC {\cyri }\IeC {\cyrt }\IeC {\cyru }|hyperpage}{161}
+\indexentry{git!\IeC {\cyrd }\IeC {\cyro }\IeC {\cyrb }\IeC {\cyra }\IeC {\cyrv }\IeC {\cyrl }\IeC {\cyre }\IeC {\cyrn }\IeC {\cyri }\IeC {\cyre } \IeC {\cyri } \IeC {\cyru }\IeC {\cyrd }\IeC {\cyra }\IeC {\cyrl }\IeC {\cyre }\IeC {\cyrn }\IeC {\cyri }\IeC {\cyre } \IeC {\cyrf }\IeC {\cyra }\IeC {\cyrishrt }\IeC {\cyrl }\IeC {\cyro }\IeC {\cyrv }|hyperpage}{162}
+\indexentry{git!\IeC {\cyrk }\IeC {\cyro }\IeC {\cyrm }\IeC {\cyrm }\IeC {\cyri }\IeC {\cyrt }|hyperpage}{163}
+\indexentry{git!\IeC {\cyrs }\IeC {\cyri }\IeC {\cyrn }\IeC {\cyrh }\IeC {\cyrr }\IeC {\cyro }\IeC {\cyrn }\IeC {\cyri }\IeC {\cyrz }\IeC {\cyra }\IeC {\cyrc }\IeC {\cyri }\IeC {\cyrya } \IeC {\cyrm }\IeC {\cyre }\IeC {\cyrzh }\IeC {\cyrd }\IeC {\cyru } \IeC {\cyrr }\IeC {\cyre }\IeC {\cyrp }\IeC {\cyro }\IeC {\cyrz }\IeC {\cyri }\IeC {\cyrt }\IeC {\cyro }\IeC {\cyrr }\IeC {\cyri }\IeC {\cyrya }\IeC {\cyrm }\IeC {\cyri }|hyperpage}{164}
+\indexentry{git!\IeC {\cyrr }\IeC {\cyra }\IeC {\cyrz }\IeC {\cyrr }\IeC {\cyre }\IeC {\cyrsh }\IeC {\cyre }\IeC {\cyrn }\IeC {\cyri }\IeC {\cyre } \IeC {\cyrk }\IeC {\cyro }\IeC {\cyrn }\IeC {\cyrf }\IeC {\cyrl }\IeC {\cyri }\IeC {\cyrk }\IeC {\cyrt }\IeC {\cyro }\IeC {\cyrv }|hyperpage}{166}
+\indexentry{git!\IeC {\cyrt }\IeC {\cyrerev }\IeC {\cyrg }\IeC {\cyri }|hyperpage}{168}

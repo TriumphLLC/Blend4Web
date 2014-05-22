@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Краткая справка по git &mdash; Руководство пользователя: Blend4Web v14.04.22</title>
+    <title>Работа в команде. Использование git &mdash; Руководство пользователя: Blend4Web v14.05.22</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.04.22',
+        VERSION:     '14.05.22',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v14.04.22" href="index.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v14.05.22" href="index.html" />
     <link rel="next" title="Проблемы и решения" href="problems_and_solutions.html" />
     <link rel="prev" title="Разработчикам движка" href="developers_advanced.html" /> 
   </head>
@@ -37,7 +37,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">Руководство пользователя: Blend4Web v14.04.22</a></div>
+          href="index.html">Руководство пользователя: Blend4Web v14.05.22</a></div>
         <div class="rel">
           <a href="developers_advanced.html" title="Разработчикам движка"
              accesskey="P">предыдущий</a> |
@@ -58,37 +58,42 @@
           <div class="body">
             
   <div class="section" id="git">
-<span id="git-short-manual"></span><span id="index-0"></span><h1>Краткая справка по git<a class="headerlink" href="#git" title="Ссылка на этот заголовок">¶</a></h1>
+<span id="git-short-manual"></span><span id="index-0"></span><h1>Работа в команде. Использование git<a class="headerlink" href="#git" title="Ссылка на этот заголовок">¶</a></h1>
 <div class="section" id="what-is-git">
-<span id="id1"></span><h2>Назначение<a class="headerlink" href="#what-is-git" title="Ссылка на этот заголовок">¶</a></h2>
-<p>Git - система контроля версий файлов. Основная функция git - сохранение истории изменений с возможностью возврата к предыдущим версиям файлов. Другая важная функция - синхронизация с автоматическим слиянием изменений.</p>
+<span id="id1"></span><h2>Общие сведения<a class="headerlink" href="#what-is-git" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Для организации командной работы над проектом может быть использована система контроля версий файлов git.</p>
+<p>Основная функция git - сохранение истории изменений с возможностью возврата к предыдущим версиям файлов. Другая важная функция - синхронизация с автоматическим слиянием изменений.</p>
+<p>git - распределенная система, и каждый разработчик или дизайнер имеет собственный локальный репозиторий (хранилище). Синхронизация между локальными репозиториями может осуществляться через центральное &#8220;общее&#8221; хранилище, которое можно разместить на специально выделенной для этой цели машине (сервере). К серверу может быть организован доступ по протоколу SSH.</p>
 </div>
 <div class="section" id="git-pipeline">
 <span id="id2"></span><h2>Типичный рабочий процесс<a class="headerlink" href="#git-pipeline" title="Ссылка на этот заголовок">¶</a></h2>
 <ol class="arabic simple">
-<li>Каждый сотрудник имеет собственный локальный репозиторий (хранилище).</li>
-<li>В ходе работы в репозитории создаются, изменяются или удаляются файлы.</li>
+<li>В ходе работы в локальных репозиториях создаются, изменяются или удаляются файлы.</li>
 <li>По завершении некоторого логического этапа работы возникает необходимость фиксации изменений (коммит) и/или синхронизации с коллегами.</li>
 <li>Проводится подготовка файлов к коммиту - учет измененных, новых и удаленных файлов, а также сброс изменений.</li>
 <li>Осуществляется коммит.</li>
-<li>Проводится синхронизация с коллегами.</li>
+<li>Локальные изменения загружаются в общее хранилище и становятся доступными для коллег.</li>
 </ol>
+<p>Для git имеются графические оболочки, предоставляющие пользовательский интерфейс к командам. Тем не менее, непосредственный ввод команд git достаточно удобен.</p>
+<p>Далее описывается ограниченный набор команд git, рекомендуемых к использованию при создании приложений и графических ресурсов.</p>
+<p>Перед выполнением команд необходимо перейти в репозиторий, например:</p>
+<div class="highlight-bash"><div class="highlight"><pre>&gt; <span class="nb">cd</span> ~/blend4web
+</pre></div>
+</div>
 </div>
 <div class="section" id="git-config">
 <span id="index-1"></span><span id="id3"></span><h2>Индивидуальные настройки<a class="headerlink" href="#git-config" title="Ссылка на этот заголовок">¶</a></h2>
-<p>Новый пользователь устанавливает имя и почтовый адрес командами:</p>
+<p>Новый пользователь может устанавить имя и почтовый адрес командами:</p>
 <div class="highlight-none"><div class="highlight"><pre>&gt; git config --global user.name &quot;Ivan Petrov&quot;
-&gt; git config --global user.email petrov.ivan@brit.co.ru
+&gt; git config --global user.email ipetrov@blend4web.com
 </pre></div>
 </div>
+<p>Установленные данные будут использоваться в логе изменений.</p>
 </div>
 <div class="section" id="git-example-begin">
-<span id="index-2"></span><span id="id4"></span><h2>Пример - начало работы<a class="headerlink" href="#git-example-begin" title="Ссылка на этот заголовок">¶</a></h2>
-<p>Перейти в репозиторий:</p>
-<div class="highlight-bash"><div class="highlight"><pre>&gt; <span class="nb">cd</span> ~/my_git_repo
-</pre></div>
-</div>
-<p>Проверить статус:</p>
+<span id="index-2"></span><span id="id4"></span><h2>Проверка статуса<a class="headerlink" href="#git-example-begin" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Перед началом, в процессе или после выполнения любых операций рекомендуется проверять текущее состояние репозитория.</p>
+<p>Проверить статус можно командой:</p>
 <div class="highlight-none"><div class="highlight"><pre>&gt; git status
 </pre></div>
 </div>
@@ -117,9 +122,10 @@ no changes added to commit (use &quot;git add&quot; and/or &quot;git commit -a&q
 </div>
 </div>
 <div class="section" id="git-example-prepare-to-commit">
-<span id="index-3"></span><span id="id5"></span><h2>Пример - подготовка к коммиту<a class="headerlink" href="#git-example-prepare-to-commit" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="index-3"></span><span id="id5"></span><h2>Перед коммитом<a class="headerlink" href="#git-example-prepare-to-commit" title="Ссылка на этот заголовок">¶</a></h2>
 <div class="section" id="id6">
-<h3>Проверка изменений<a class="headerlink" href="#id6" title="Ссылка на этот заголовок">¶</a></h3>
+<h3>Проверка изменений (текстовых файлов)<a class="headerlink" href="#id6" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Перед совершением коммита в случае текстовых файлов рекомендуется просмотреть внесенные изменения.</p>
 <p>Проверить, что изменилось, во всей директории:</p>
 <div class="highlight-none"><div class="highlight"><pre>&gt; git diff
 </pre></div>
@@ -152,6 +158,7 @@ index 4381c99..44b3b15 100644
 &gt; git checkout 123.txt
 </pre></div>
 </div>
+<p>Внесенные изменения будут отменены, поэтому эту команду необходимо выполнять с осторожностью.</p>
 </div>
 <div class="section" id="id8">
 <h3>Посторонние файлы<a class="headerlink" href="#id8" title="Ссылка на этот заголовок">¶</a></h3>
@@ -159,7 +166,7 @@ index 4381c99..44b3b15 100644
 </div>
 </div>
 <div class="section" id="git-example-add-rm-commit">
-<span id="index-4"></span><span id="id9"></span><h2>Пример - добавление и удаление файлов для коммита<a class="headerlink" href="#git-example-add-rm-commit" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="index-4"></span><span id="id9"></span><h2>Подготовка к коммиту<a class="headerlink" href="#git-example-add-rm-commit" title="Ссылка на этот заголовок">¶</a></h2>
 <div class="section" id="id10">
 <h3>Добавление файлов<a class="headerlink" href="#id10" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Если изменения устраивают, добавить нужные измененные и/или новые файлы для коммита:</p>
@@ -187,7 +194,7 @@ index 4381c99..44b3b15 100644
 #
 </pre></div>
 </div>
-<p>Видно, что для коммита добавлены файлы <tt class="file docutils literal"><span class="pre">apps_dev/firstperson/firstperson.js</span></tt> и <tt class="file docutils literal"><span class="pre">123.txt</span></tt>, а файл <tt class="file docutils literal"><span class="pre">doc_src/git_short_manual.rst</span></tt> остался недобавленным.</p>
+<p>Видно, что для коммита добавлены файлы <tt class="file docutils literal"><span class="pre">apps_dev/firstperson/firstperson.js</span></tt> и <tt class="file docutils literal"><span class="pre">123.txt</span></tt>, а файл <tt class="file docutils literal"><span class="pre">doc_src/git_short_manual.rst</span></tt> остался недобавленным. Для упрощения работы рекомендуется либо добавлять такие файлы для коммита, либо отбрасывать их изменения командой <tt class="docutils literal"><span class="pre">git</span> <span class="pre">checkout</span></tt>.</p>
 </div>
 <div class="section" id="id11">
 <h3>Удаление файлов<a class="headerlink" href="#id11" title="Ссылка на этот заголовок">¶</a></h3>
@@ -208,17 +215,16 @@ no changes added to commit (use &quot;git add&quot; and/or &quot;git commit -a&q
 <div class="highlight-none"><div class="highlight"><pre>&gt; git rm 123.txt
 </pre></div>
 </div>
+<p>Если же файл был удален по ошибке, и его необходимо вернуть, нужно использовать команду <tt class="docutils literal"><span class="pre">git</span> <span class="pre">checkout</span></tt>.</p>
 </div>
 </div>
 <div class="section" id="git-commit">
-<span id="index-5"></span><span id="id12"></span><h2>Пример - коммит<a class="headerlink" href="#git-commit" title="Ссылка на этот заголовок">¶</a></h2>
-<div class="section" id="id13">
-<h3>Выполнение коммита<a class="headerlink" href="#id13" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="index-5"></span><span id="id12"></span><h2>Коммит<a class="headerlink" href="#git-commit" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Выполнить коммит командой:</p>
 <div class="highlight-none"><div class="highlight"><pre>&gt; git commit
 </pre></div>
 </div>
-<p>Появится окно текстового редактора (например, nano или vim), в котором нужно ввести комментарий к коммиту на английском языке.</p>
+<p>Появится окно текстового редактора (например, <strong>nano</strong> или <strong>vim</strong>), в котором нужно ввести комментарий к коммиту на английском языке.</p>
 <div class="highlight-none"><div class="highlight"><pre>  GNU nano 2.2.6                                    File: .git/COMMIT_EDITMSG
 
 My commit message
@@ -242,35 +248,14 @@ My commit message
 ^X Exit                   ^J Justify                ^W Where Is               ^V Next Page
 </pre></div>
 </div>
-<p>Сохранить изменения и выйти из редактора (в nano Ctrl+O, затем Ctrl+X; в vim ZZ, или ESC :wq).</p>
-</div>
-<div class="section" id="id14">
-<h3>После коммита<a class="headerlink" href="#id14" title="Ссылка на этот заголовок">¶</a></h3>
-<p>После совершения коммита рекомендуется снова проверить статус.</p>
-<div class="highlight-none"><div class="highlight"><pre>&gt; git status
-</pre></div>
-</div>
-<p>Возможный результат команды <tt class="docutils literal"><span class="pre">git</span> <span class="pre">status</span></tt> после совершения коммита:</p>
-<div class="highlight-none"><div class="highlight"><pre># On branch master
-# Your branch is ahead of &#39;origin/master&#39; by 1 commit.
-#
-# Changes not staged for commit:
-#   (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)
-#   (use &quot;git checkout -- &lt;file&gt;...&quot; to discard changes in working directory)
-#
-#   modified:   doc_src/git_short_manual.rst
-#
-no changes added to commit (use &quot;git add&quot; and/or &quot;git commit -a&quot;)
-</pre></div>
-</div>
-<p>Как видно, изменения в файле <tt class="file docutils literal"><span class="pre">doc_src/git_short_manual.rst</span></tt> не зафиксированы. Необходимо завершить добавление файлов и коммиты, либо восстановить измененные файлы. Иначе говоря, необходимо добиться, чтобы команда <tt class="docutils literal"><span class="pre">git</span> <span class="pre">status</span></tt> отображала <tt class="docutils literal"><span class="pre">nothing</span> <span class="pre">to</span> <span class="pre">commit</span> <span class="pre">(working</span> <span class="pre">directory</span> <span class="pre">clean)</span></tt>.</p>
-</div>
+<p>Сохранить изменения и выйти из редактора (в <strong>nano</strong> Ctrl+O, затем Ctrl+X; в <strong>vim</strong> ZZ, или ESC :wq).</p>
+<p>После совершения коммита рекомендуется снова проверить статус. Коммит совершен правильно, если команда <tt class="docutils literal"><span class="pre">git</span> <span class="pre">status</span></tt> отображает <tt class="docutils literal"><span class="pre">nothing</span> <span class="pre">to</span> <span class="pre">commit,</span> <span class="pre">working</span> <span class="pre">directory</span> <span class="pre">clean</span></tt>.</p>
 </div>
 <div class="section" id="git-example-repo-sync">
-<span id="index-6"></span><span id="id15"></span><h2>Пример - синхронизация между репозиториями<a class="headerlink" href="#git-example-repo-sync" title="Ссылка на этот заголовок">¶</a></h2>
-<div class="section" id="id16">
-<h3>Из удаленного - в локальный<a class="headerlink" href="#id16" title="Ссылка на этот заголовок">¶</a></h3>
-<p>После того как все коммиты сделаны, синхронизировать локальный репозиторий с удаленным:</p>
+<span id="index-6"></span><span id="id13"></span><h2>Синхронизация между репозиториями<a class="headerlink" href="#git-example-repo-sync" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="id14">
+<h3>Из удаленного - в локальный<a class="headerlink" href="#id14" title="Ссылка на этот заголовок">¶</a></h3>
+<p>После того как все коммиты сделаны, необходимо загрузить изменения из удаленного (&#8220;общего&#8221;) репозитория в локальный:</p>
 <div class="highlight-none"><div class="highlight"><pre>&gt; git pull
 </pre></div>
 </div>
@@ -298,104 +283,34 @@ Fast-forward
  create mode 100644    external/deploy/assets/location_agriculture/textures/rotonda_02_diff.png
 </pre></div>
 </div>
-<p>Посмотреть, какие изменения были внесены коллегами:</p>
+<p>При желании можно посмотреть, какие изменения были внесены коллегами, командой:</p>
 <div class="highlight-none"><div class="highlight"><pre>&gt; git diff dbf3877..9f9700c
 </pre></div>
 </div>
-<p>Посмотреть лог:</p>
+<p>Параметр этой команды - в данном случае dbf3877..9f9700c - указывает, между какими именно коммитами просматриваются изменения. Этот параметр удобно выделить в результатах команды <tt class="docutils literal"><span class="pre">git</span> <span class="pre">pull</span></tt> и вставить щелчком мыши (средняя кнопка) в консоли в нужном месте.</p>
+<p>Также можно просмотреть лог изменений:</p>
 <div class="highlight-none"><div class="highlight"><pre>&gt; git log
 </pre></div>
 </div>
-<p>Результат команды <tt class="docutils literal"><span class="pre">git</span> <span class="pre">pull</span></tt>, если в удаленном репозитории были изменения, но синхронизация не прошла успешно, потому что есть конфликты:</p>
+<p>Команда <tt class="docutils literal"><span class="pre">git</span> <span class="pre">pull</span></tt> не всегда приводит в успешной синхронизации. Результат команды <tt class="docutils literal"><span class="pre">git</span> <span class="pre">pull</span></tt> в случае наличия конфликтов:</p>
 <div class="highlight-none"><div class="highlight"><pre>remote: Counting objects: 11, done.
 remote: Compressing objects: 100% (6/6), done.
 remote: Total 6 (delta 5), reused 0 (delta 0)
 Unpacking objects: 100% (6/6), done.
 From lixer:blend4web
    ff715c2..dbf316a  master     -&gt; origin/master
-warning: Cannot merge binary files: external/blender/landscape_objects/Fallen_tree.blend (HEAD vs. dbf316af89eb0c7020259250ebeafc530f63ea1c)
+warning: Cannot merge binary files: external/blender/landscape_objects/Fallen_tree.blend (...)
 
 Auto-merging external/blender/landscape_objects/Fallen_tree.blend
 CONFLICT (content): Merge conflict in external/blender/landscape_objects/Fallen_tree.blend
 Automatic merge failed; fix conflicts and then commit the result.
 </pre></div>
 </div>
+<p>Порядок действий при возникновении конфликтов описан далее.</p>
 </div>
-<div class="section" id="index-7">
-<span id="id17"></span><h3>Разрешение конфликтов<a class="headerlink" href="#index-7" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Конфликты синхронизации происходят, если выполнены оба условия</p>
-<ol class="arabic simple">
-<li>один и тот же файл был изменен как в локальном, так и в удаленном репозитории, и</li>
-<li>автоматическое слияние изменений не произошло, поскольку изменения находятся в одном и том же месте файла.</li>
-</ol>
-<p>Типичные случаи:</p>
-<ol class="arabic simple">
-<li>бинарный файл (текстура, blend-файл) изменен двумя сотрудниками</li>
-<li>в текстовой файл в одной и той же строке были внесены разные изменения</li>
-<li>один сотрудник изменил файл, а другой - переместил его и т.п.</li>
-</ol>
-<p>Хотя конфликты синхронизации - нормальное явление, слишком частое их возникновение замедляет работу. Рекомендуется ставить коллег в известность о начале работ с бинарными файлами, а также чаще проводить синхронизацию.</p>
-<p>Первое что необходимо сделать - выполнить команду <tt class="docutils literal"><span class="pre">git</span> <span class="pre">status</span></tt>.</p>
-<div class="highlight-none"><div class="highlight"><pre># On branch master
-# Your branch and &#39;origin/master&#39; have diverged,
-# and have 7 and 1 different commit each, respectively.
-#
-# Unmerged paths:
-#   (use &quot;git add/rm &lt;file&gt;...&quot; as appropriate to mark resolution)
-#
-#   both modified:      external/blender/landscape_objects/Fallen_tree.blend
-#
-no changes added to commit (use &quot;git add&quot; and/or &quot;git commit -a&quot;)
-</pre></div>
-</div>
-<p>Список конфликтующих файлов отображен в разделе <tt class="docutils literal"><span class="pre">Unmerged</span> <span class="pre">paths</span></tt>. На данном этапе конфликтующие файлы находятся в следующем состоянии:</p>
-<ol class="arabic simple">
-<li>бинарные файлы - в том состоянии, в котором они находились в локальном репозитории до попытки синхронизации, при этом файлы полностью функциональны (например, открываются графическими редакторами)</li>
-<li>текстовые файлы - git&#8217;ом вносятся как локальные, так и удаленные изменения одновременно, в особом формате, так что такие текстовые файлы как правило, не работоспособны</li>
-</ol>
-<p>В случае конфликта бинарных файлов необходимо выяснить с коллегами или самостоятельно, какую из версий оставить, а какую отобросить. Выбор осуществляется командой <tt class="docutils literal"><span class="pre">git</span> <span class="pre">checkout</span></tt>.</p>
-<p>Выбрать локальную версию файла. Его можно открыть и убедиться в этом.</p>
-<div class="highlight-none"><div class="highlight"><pre>&gt; git checkout --ours external/blender/landscape_objects/Fallen_tree.blend
-</pre></div>
-</div>
-<p>Выбрать удаленную версию файла. Его можно открыть и убедиться в этом.</p>
-<div class="highlight-none"><div class="highlight"><pre>&gt; git checkout --theirs external/blender/landscape_objects/Fallen_tree.blend
-</pre></div>
-</div>
-<p>Снова выбрать локальную версию файла.</p>
-<div class="highlight-none"><div class="highlight"><pre>&gt; git checkout --ours external/blender/landscape_objects/Fallen_tree.blend
-</pre></div>
-</div>
-<p>В случае конфликта текстовых файлов можно поступить следующим образом. Файлы, содержащие исходный код, необходимо отредактировать с учетом или без учета внесенных обеими сторонами изменений. Файлы, экспортированные из приложений, проще повторно экспортировать.</p>
-<p>После выбора нужных файлов или редактирования изменений, добавить их для коммита:</p>
-<div class="highlight-none"><div class="highlight"><pre>&gt; git add external/blender/landscape_objects/Fallen_tree.blend
-&gt; git status
-</pre></div>
-</div>
-<p>Возможный результат выполнения <tt class="docutils literal"><span class="pre">git</span> <span class="pre">status</span></tt> после добавления конфликтующих файлов для коммита:</p>
-<div class="highlight-none"><div class="highlight"><pre># On branch master
-# Your branch and &#39;origin/master&#39; have diverged,
-# and have 7 and 1 different commit each, respectively.
-#
-nothing to commit (working directory clean)
-</pre></div>
-</div>
-<p>Выполнить коммит, комментарий рекомендуется оставить предложенный по умолчанию:</p>
-<div class="highlight-none"><div class="highlight"><pre>&gt; git commit
-&gt; git status
-</pre></div>
-</div>
-<div class="highlight-none"><div class="highlight"><pre># On branch master
-# Your branch is ahead of &#39;origin/master&#39; by 8 commits.
-#
-nothing to commit (working directory clean)
-</pre></div>
-</div>
-<p>Конфликты разрешены, синхронизация с удаленным репозиторием закончена.</p>
-</div>
-<div class="section" id="id18">
-<h3>Из локального - в удаленный<a class="headerlink" href="#id18" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Затем нужно синхронизировать удаленный репозиторий с локальным, чтобы изменения были доступны в удаленном репозитории:</p>
+<div class="section" id="id15">
+<h3>Из локального - в удаленный<a class="headerlink" href="#id15" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Затем нужно загрузить изменения из локального репозитория в удаленный (&#8220;общий&#8221;), чтобы локальные изменения стали доступными для коллег.</p>
 <div class="highlight-none"><div class="highlight"><pre>&gt; git push
 </pre></div>
 </div>
@@ -423,10 +338,108 @@ Merge the remote changes (e.g. &#39;git pull&#39;) before pushing again.  See th
 </pre></div>
 </div>
 <p>Необходимо выполнить команду <tt class="docutils literal"><span class="pre">git</span> <span class="pre">pull</span></tt>.</p>
+<p>Изменения, загруженные в центральный репозиторий, могут быть получены другими участниками разработки с помощью команды <tt class="docutils literal"><span class="pre">git</span> <span class="pre">pull</span></tt>.</p>
+</div>
+</div>
+<div class="section" id="index-7">
+<span id="id16"></span><h2>Разрешение конфликтов<a class="headerlink" href="#index-7" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="id17">
+<h3>Общие сведения<a class="headerlink" href="#id17" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Конфликты синхронизации происходят, если выполнены оба условия</p>
+<ol class="arabic simple">
+<li>один и тот же файл был изменен как в локальном, так и в удаленном репозитории, и</li>
+<li>автоматическое слияние изменений не произошло, поскольку изменения находятся в одном и том же месте файла.</li>
+</ol>
+<p>Типичные случаи:</p>
+<ol class="arabic simple">
+<li>бинарный файл (текстура, blend-файл) независимо изменен двумя участниками разработки</li>
+<li>в текстовой файл в одной и той же строке были внесены разные изменения</li>
+<li>один участник разработки изменил файл, а другой - переместил его и т.п.</li>
+</ol>
+<p>Хотя конфликты синхронизации - нормальное явление, слишком частое их возникновение замедляет работу. Рекомендуется ставить коллег в известность о начале работ с общими бинарными файлами, а также чаще проводить синхронизацию. Необходимо эффективно распределять работу между участниками разработки, чтобы таких общих файлов было как можно меньше. Этого можно добиться, в частности, подключением всех ресурсов сцены (linking) из отдельных blend-файлов в один мастер-файл.</p>
+</div>
+<div class="section" id="id18">
+<h3>Порядок действий<a class="headerlink" href="#id18" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Не рекомендуется производить какие-либо действия с файлами (изменять, удалять), пока репозиторий находится в конфликтном состоянии.</p>
+<p>Первое что необходимо сделать - выполнить команду <tt class="docutils literal"><span class="pre">git</span> <span class="pre">status</span></tt>.</p>
+<div class="highlight-none"><div class="highlight"><pre># On branch master
+# Your branch and &#39;origin/master&#39; have diverged,
+# and have 7 and 1 different commit each, respectively.
+#
+# Unmerged paths:
+#   (use &quot;git add/rm &lt;file&gt;...&quot; as appropriate to mark resolution)
+#
+#   both modified:      external/blender/landscape_objects/Fallen_tree.blend
+#
+no changes added to commit (use &quot;git add&quot; and/or &quot;git commit -a&quot;)
+</pre></div>
+</div>
+<p>Список конфликтующих файлов отображен в разделе <tt class="docutils literal"><span class="pre">Unmerged</span> <span class="pre">paths</span></tt>.</p>
+<p>Дальнейший порядок действий различен для бинарных и текстовых файлов.</p>
+</div>
+<div class="section" id="id19">
+<h3>Бинарные файлы<a class="headerlink" href="#id19" title="Ссылка на этот заголовок">¶</a></h3>
+<p>На данном этапе конфликтующие бинарные файлы находятся в том состоянии, в котором они находились в локальном репозитории до попытки синхронизации. Файлы полностью функциональны (например, открываются графическими редакторами).</p>
+<p>В случае конфликта бинарных файлов необходимо выяснить с коллегами или самостоятельно, какую из версий оставить, а какую отбросить. Выбор осуществляется командой <tt class="docutils literal"><span class="pre">git</span> <span class="pre">checkout</span></tt>.</p>
+<p>Выбрать локальную версию файла (<strong>- -ours</strong>). Его можно открыть и убедиться в этом.</p>
+<div class="highlight-none"><div class="highlight"><pre>&gt; git checkout --ours external/blender/landscape_objects/Fallen_tree.blend
+</pre></div>
+</div>
+<p>Выбрать удаленную версию файла (<strong>- -theirs</strong>). Его можно открыть и убедиться в этом.</p>
+<div class="highlight-none"><div class="highlight"><pre>&gt; git checkout --theirs external/blender/landscape_objects/Fallen_tree.blend
+</pre></div>
+</div>
+<p>Снова выбрать локальную версию файла (<strong>- -ours</strong>).</p>
+<div class="highlight-none"><div class="highlight"><pre>&gt; git checkout --ours external/blender/landscape_objects/Fallen_tree.blend
+</pre></div>
+</div>
+<p>В итоге необходимо остановиться на нужной версии файла. При угрозе потери работы можно сохранить отбрасываемую версию файла вне репозитория.</p>
+</div>
+<div class="section" id="id20">
+<h3>Текстовые файлы<a class="headerlink" href="#id20" title="Ссылка на этот заголовок">¶</a></h3>
+<p>На данном этапе в конфликтующие текстовые файлы git&#8217;ом вносятся как локальные, так и удаленные изменения одновременно, в особом формате. Такие текстовые файлы как правило, не работоспособны.</p>
+<p>Пример. Один участник разработки изменил имя сцены с &#8220;Blue Lizard&#8221; на &#8220;Green Lizard&#8221; в файле приложения и загрузил изменения в центральный репозиторий. Другой участник разработки изменил в той же строке &#8220;Blue Lizard&#8221; на &#8220;Red Lizard&#8221;, совершил коммит и выполнил команду <tt class="docutils literal"><span class="pre">git</span> <span class="pre">pull</span></tt>. В результате именно на этого участника ложится ответственность по разрешению конфликта. В его файле приложения будут находиться строки:</p>
+<div class="highlight-none"><div class="highlight"><pre>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+                &quot;name&quot;: &quot;Red Lizard&quot;,
+=======
+                &quot;name&quot;: &quot;Green Lizard&quot;,
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; 81bf4e2d5610d500ad4d2a2605ee7e61f759f201
+</pre></div>
+</div>
+<p>В случае конфликта текстовых файлов можно поступить следующим образом. Файлы, содержащие исходный код, необходимо отредактировать с учетом или без учета внесенных обеими сторонами изменений. В то же время экспортированные текстовые файлы сцен (заканчивающиеся на <strong>.json</strong>) проще повторно экспортировать.</p>
+</div>
+<div class="section" id="id21">
+<h3>Корректирующий коммит<a class="headerlink" href="#id21" title="Ссылка на этот заголовок">¶</a></h3>
+<p>После выбора нужных файлов или редактирования изменений, добавить их для коммита:</p>
+<div class="highlight-none"><div class="highlight"><pre>&gt; git add external/blender/landscape_objects/Fallen_tree.blend
+&gt; git status
+</pre></div>
+</div>
+<p>Возможный результат выполнения <tt class="docutils literal"><span class="pre">git</span> <span class="pre">status</span></tt> после добавления конфликтующих файлов для коммита:</p>
+<div class="highlight-none"><div class="highlight"><pre># On branch master
+# Your branch and &#39;origin/master&#39; have diverged,
+# and have 7 and 1 different commit each, respectively.
+#
+nothing to commit (working directory clean)
+</pre></div>
+</div>
+<p>Выполнить коммит, комментарий рекомендуется оставить предложенный по умолчанию:</p>
+<div class="highlight-none"><div class="highlight"><pre>&gt; git commit
+&gt; git status
+</pre></div>
+</div>
+<div class="highlight-none"><div class="highlight"><pre># On branch master
+# Your branch is ahead of &#39;origin/master&#39; by 8 commits.
+#
+nothing to commit (working directory clean)
+</pre></div>
+</div>
+<p>Конфликты разрешены, изменения из удаленного репозитория успешно применены в локальном репозитории. Теперь изменения в локальном репозитории, - включающие только что разрешенный конфликт, - можно загрузить в удаленный репозиторий командой <tt class="docutils literal"><span class="pre">git</span> <span class="pre">push</span></tt>.</p>
 </div>
 </div>
 <div class="section" id="git-tags">
-<span id="index-8"></span><span id="id19"></span><h2>Памятка по тэгам для разработчиков<a class="headerlink" href="#git-tags" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="index-8"></span><span id="id22"></span><h2>Тэги<a class="headerlink" href="#git-tags" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Тэги (метки) предназначены для указания на определенный коммит, например, с целью обозначения стабилизированной версии продукта.</p>
 <p>Просмотреть список тэгов:</p>
 <div class="highlight-none"><div class="highlight"><pre>&gt; git tag
 </pre></div>
@@ -456,8 +469,8 @@ Merge the remote changes (e.g. &#39;git pull&#39;) before pushing again.  See th
 </pre></div>
 </div>
 </div>
-<div class="section" id="id20">
-<h2>Другие полезные команды<a class="headerlink" href="#id20" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="id23">
+<h2>Другие полезные команды<a class="headerlink" href="#id23" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Просмотреть лог за январь 2012 г, показывать имена файлов, без коммитов слияния:</p>
 <div class="highlight-none"><div class="highlight"><pre>&gt; git log --after={2012-01-01} --before={2012-01-31} --name-only --no-merges
 </pre></div>
@@ -490,28 +503,27 @@ Merge the remote changes (e.g. &#39;git pull&#39;) before pushing again.  See th
 <li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Система частиц для инстансинга объектов</a></li>
 <li class="toctree-l1"><a class="reference internal" href="animation.html">Анимация</a></li>
 <li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Рендеринг наружных сцен</a></li>
-<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Гамма-коррекция и прозрачность</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Гамма-коррекция и альфа-композитинг</a></li>
 <li class="toctree-l1"><a class="reference internal" href="audio.html">Звуковая подсистема</a></li>
-<li class="toctree-l1"><a class="reference internal" href="event_model.html">Событийная модель</a></li>
 <li class="toctree-l1"><a class="reference internal" href="physics.html">Физика</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nla.html">Нелинейная анимация</a></li>
 <li class="toctree-l1"><a class="reference internal" href="developers.html">Разработчикам приложений</a></li>
 <li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">Разработчикам движка</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Краткая справка по git</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#what-is-git">Назначение</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Работа в команде. Использование git</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#what-is-git">Общие сведения</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#git-pipeline">Типичный рабочий процесс</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#git-config">Индивидуальные настройки</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#git-example-begin">Пример - начало работы</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#git-example-prepare-to-commit">Пример - подготовка к коммиту</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#git-example-add-rm-commit">Пример - добавление и удаление файлов для коммита</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#git-commit">Пример - коммит</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#git-example-repo-sync">Пример - синхронизация между репозиториями</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#git-tags">Памятка по тэгам для разработчиков</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id20">Другие полезные команды</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#git-example-begin">Проверка статуса</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#git-example-prepare-to-commit">Перед коммитом</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#git-example-add-rm-commit">Подготовка к коммиту</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#git-commit">Коммит</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#git-example-repo-sync">Синхронизация между репозиториями</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#index-7">Разрешение конфликтов</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#git-tags">Тэги</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id23">Другие полезные команды</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Проблемы и решения</a></li>
-<li class="toctree-l1"><a class="reference internal" href="roadmap.html">План развития</a></li>
 </ul>
 
           <h3 style="margin-top: 1.5em;">Поиск</h3>
@@ -544,7 +556,7 @@ Merge the remote changes (e.g. &#39;git pull&#39;) before pushing again.  See th
           
     <div class="footer">
         &copy; Copyright 2014, ООО &#34;Триумф&#34;.
-      Обновлено: 2014-04-23.
+      Обновлено: 2014-05-21.
       Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

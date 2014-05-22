@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Development Environment Setup &mdash; User manual: Blend4Web v14.04.22</title>
+    <title>Development Environment Setup &mdash; User Manual: Blend4Web v14.05.22</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.04.22',
+        VERSION:     '14.05.22',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User manual: Blend4Web v14.04.22" href="index.html" />
+    <link rel="top" title="User Manual: Blend4Web v14.05.22" href="index.html" />
     <link rel="next" title="Workflow" href="workflow.html" />
     <link rel="prev" title="Quick Install" href="first_steps.html" /> 
   </head>
@@ -36,7 +36,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">User manual: Blend4Web v14.04.22</a></div>
+          href="index.html">User Manual: Blend4Web v14.05.22</a></div>
         <div class="rel">
           <a href="first_steps.html" title="Quick Install"
              accesskey="P">previous</a> |
@@ -63,10 +63,10 @@
 <div class="section" id="getting-started-distribution">
 <span id="id2"></span><h2>Distribution Installation<a class="headerlink" href="#getting-started-distribution" title="Permalink to this headline">¶</a></h2>
 <p>Stable versions of the distribution are available as an archive (<tt class="docutils literal"><span class="pre">blend4web_sdk_free.zip</span></tt> &#8211; free SDK, <tt class="docutils literal"><span class="pre">blend4web_sdk_pro.zip</span></tt> &#8211; commercial SDK). Simply unpack this archive somewhere.</p>
-<p>The distribution consists of the engine&#8217;s source code, the minified version for applications, the Blender scripts, the source blend-files, the exported scenes, textures and sound files (see detailed <a class="reference internal" href="developers_advanced.html#repo-file-structure"><em>repository structure</em></a>).</p>
+<p>The distribution consists of the engine&#8217;s source code, the minified version for applications, the Blender scripts, the source blend-files, the exported scenes, textures and sound files (see detailed <a class="reference internal" href="developers.html#repo-file-structure"><em>repository structure</em></a>).</p>
 </div>
 <div class="section" id="getting-started-browser">
-<span id="index-0"></span><span id="id3"></span><h2>Choosing a browser<a class="headerlink" href="#getting-started-browser" title="Permalink to this headline">¶</a></h2>
+<span id="index-0"></span><span id="id3"></span><h2>Choosing a Browser<a class="headerlink" href="#getting-started-browser" title="Permalink to this headline">¶</a></h2>
 <p>The engine requires a <a class="reference internal" href="about.html#browser-webgl-support"><em>browser with WebGL support</em></a>. Just to check it open the page <a class="reference external" href="http://get.webgl.org/">http://get.webgl.org/</a>. The green message and rotating cube should appear:</p>
 <a class="reference internal image-reference" href="_images/browser_supports_webgl.jpg"><img alt="Страница тестового сайта при успешной инициализации WebGL" class="align-center" src="_images/browser_supports_webgl.jpg" style="width: 100%;" /></a>
 <div class="line-block">
@@ -74,7 +74,7 @@
 </div>
 </div>
 <div class="section" id="browser-for-local-loading">
-<span id="id4"></span><h2>Setting up the browser for loading local resources<a class="headerlink" href="#browser-for-local-loading" title="Permalink to this headline">¶</a></h2>
+<span id="id4"></span><h2>Setting up the Browser for Loading Local Resources<a class="headerlink" href="#browser-for-local-loading" title="Permalink to this headline">¶</a></h2>
 <p>The engine&#8217;s renderer is a web application and it works when you view an HTML file in a browser. After initialization the resources (scenes, textures) are loaded. This process is subject to the <a class="reference external" href="http://en.wikipedia.org/wiki/Same-origin_policy">same-origin policy</a> rule. In particular this rule forbids loading from a local directory. A simple way to bypass this limitation is to set up the browser for loading local resources (recommended). Another way is to use a <a class="reference internal" href="problems_and_solutions.html#local-web-server"><em>local web server</em></a>.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -118,7 +118,7 @@
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">If the page isn&#8217;t displayed correctly, or an error message is shown, follow the instructions described in the <a class="reference internal" href="problems_and_solutions.html#renderer-not-working"><em>Problems when running the renderer</em></a> section.</p>
+<p class="last">If the page isn&#8217;t displayed correctly, or an error message is shown, follow the instructions described in the <a class="reference internal" href="problems_and_solutions.html#renderer-not-working"><em>Problems when Running the Renderer</em></a> section.</p>
 </div>
 </div>
 <div class="section" id="getting-started-addon">
@@ -165,8 +165,8 @@
 <li class="toctree-l1"><a class="reference internal" href="first_steps.html">Quick Install</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Development Environment Setup</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#getting-started-distribution">Distribution Installation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#getting-started-browser">Choosing a browser</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#browser-for-local-loading">Setting up the browser for loading local resources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#getting-started-browser">Choosing a Browser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#browser-for-local-loading">Setting up the Browser for Loading Local Resources</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#getting-started-launching-viewer">Running The Scenes Viewer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#getting-started-addon">Engine Addon Installation</a></li>
 </ul>
@@ -177,23 +177,21 @@
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
-<li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node materials</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting and shadows</a></li>
-<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing effects</a></li>
-<li class="toctree-l1"><a class="reference internal" href="particles.html">Particle system</a></li>
-<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle system for object instancing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting and Shadows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing Effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System for Instancing Objects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="animation.html">Animation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Rendering</a></li>
-<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Gamma-correction and transparency</a></li>
-<li class="toctree-l1"><a class="reference internal" href="audio.html">Звуковая подсистема</a></li>
-<li class="toctree-l1"><a class="reference internal" href="event_model.html">Событийная модель</a></li>
-<li class="toctree-l1"><a class="reference internal" href="physics.html">Физика</a></li>
-<li class="toctree-l1"><a class="reference internal" href="nla.html">Нелинейная анимация</a></li>
-<li class="toctree-l1"><a class="reference internal" href="developers.html">For application developers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">Разработчикам движка</a></li>
-<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Краткая справка по git</a></li>
-<li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Problems and solutions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="roadmap.html">План развития</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Gamma Correction and Alpha Compositing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audio.html">Audio System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nla.html">Non-Linear Animation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers.html">For Application Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">For Engine Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Team Work. Using Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Problems and Solutions</a></li>
 </ul>
 
           <h3 style="margin-top: 1.5em;">Search</h3>
@@ -226,7 +224,7 @@
           
     <div class="footer">
         &copy; Copyright 2014, Triumph LLC.
-      Last updated on 2014-04-23.
+      Last updated on 2014-05-21.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

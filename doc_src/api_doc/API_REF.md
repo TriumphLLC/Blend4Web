@@ -1,4 +1,4 @@
-Blend4Web API reference
+Blend4Web API Reference
 =======================
 
 **Introduction**

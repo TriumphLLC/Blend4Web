@@ -1,9 +1,9 @@
 "use strict";
 
 /** 
- * API for engine global configuration.
- * <p>Use set()/get() function to change/get value of property.
- * Use reset() function to reset all properties to their default state.
+ * API for the engine's global configuration.
+ * <p>Use the set()/get() function to change/get the value of a property.
+ * Use the reset() function to reset all properties to their default state.
  * <dl>
  * <dt>anaglyph_use
  * <dd>Boolean, enable anaglyph stereo rendering.
@@ -12,7 +12,7 @@
  * <dt>console_verbose
  * <dd>Boolean, print more debug info.
  * <dt>quality
- * <dd>One of P_* constant, rendering quality profile.
+ * <dd>One of P_* constants, the profile of rendering quality.
  * <dt>do_not_load_resources
  * <dd>Boolean, disable resource rendering.
  * <dt>dds_available
@@ -47,23 +47,22 @@ exports["P_HIGH"] = config.P_HIGH;
 exports["P_LOW"] = config.P_LOW;
 
 /**
- * Set engine global property.
+ * Set the engine's global property.
  * @method module:config.set
  * @param {String} prop Property name
  * @param value New property value
  */
 exports["set"] = config.set;
 /**
- * Get engine global property.
+ * Get the engine's global property.
  * @method module:config.get
  * @param {String} prop Property name
  * @returns Value of property
  */
 exports["get"] = config.get;
 /**
- * Reset all engine global properties.
+ * Reset all the engine's global properties.
  * @method module:config.reset
- * @methodOf config
  */
 exports["reset"] = config.reset;
 

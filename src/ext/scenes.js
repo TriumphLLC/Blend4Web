@@ -82,7 +82,7 @@ exports["get_active_camera"] = function() {
 }
 
 /**
- * Get object by name
+ * Get object by name.
  * @method module:scenes.get_object_by_name
  * @param name Object name
  * @returns Object ID
@@ -90,16 +90,20 @@ exports["get_active_camera"] = function() {
 exports["get_object_by_name"] = function(name) {
     if (!m_scenes.check_active()) {
         m_print.error("No active scene");
-        return false;
+        return null;
     }
 
     var sobjs = m_scenes.get_scene_objs(m_scenes.get_active());
     var sobjs_name = util.keyfind("name", name, sobjs);
-    if (sobjs_name.length == 1)
-        return sobjs_name[0];
-    else {
+
+    if (sobjs_name.length == 0) {
         m_print.warn("get_object_by_name(" + name + "): not found");
-        return false;
+        return null;
+    } else if (sobjs_name.length == 1) {
+        return sobjs_name[0];
+    } else {
+        m_print.error("get_object_by_name(" + name + "): name ambiguity");
+        return null
     }
 }
 
@@ -188,11 +192,11 @@ exports["pick_object"] = function(x, y) {
  * @param {number} value Intensity value
  */
 exports["set_glow_intensity"] = function(obj, value) {
-    for (var i = 0; i < obj._batch_slots.length; i++) {
-        var slot = obj._batch_slots[i];
+    for (var i = 0; i < obj._batches.length; i++) {
+        var batch = obj._batches[i];
 
-        if (slot.batch.type == "COLOR_ID")
-            slot.batch.glow_intensity = value;
+        if (batch.type == "COLOR_ID")
+            batch.glow_intensity = value;
     }
 }
 
@@ -541,6 +545,8 @@ exports["set_color_correction_params"] = function(compos_params) {
 
     if ("saturation" in compos_params)
         subs.saturation = compos_params["saturation"];
+
+    subs.need_perm_uniforms_update = true;
 }
 
 /**
@@ -819,6 +825,17 @@ exports["check_collision"] = function() {
  */
 exports["check_ray_hit"] = function() {
     return false;
+}
+
+/**
+ * Get objects appended to active scene.
+ * @method module:scenes.get_appended_objs
+ * @param scene Scene object
+ * @param [type="ALL"] Type
+ */
+exports["get_appended_objs"] = function(type) {
+    var scene = m_scenes.get_active()
+    return m_scenes.get_appended_objs(scene, type);
 }
 
 /**

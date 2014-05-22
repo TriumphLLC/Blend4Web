@@ -34,14 +34,14 @@ var _shader_ast_cache = {};
 var DEBUG_COMPILATION_UNIQUENESS = false;
 var _debug_hash_codes = [];
 
-var gl;
+var _gl = null;
 
 /**
  * Setup WebGL context
- * @param ctx webgl context
+ * @param gl WebGL context
  */
-exports.setup_context = function(ctx) {
-    gl = ctx;
+exports.setup_context = function(gl) {
+    _gl = gl;
 }
 
 exports.set_directive = set_directive;
@@ -381,7 +381,7 @@ function get_compiled_shader(shaders_info, node_elements) {
 
     // compile
     _compiled_shaders[shader_id] = compiled_shader = 
-        init_shader(gl, vshader_text, fshader_text, shader_id, shaders_info);
+        init_shader(_gl, vshader_text, fshader_text, shader_id, shaders_info);
 
     return compiled_shader;
 }
@@ -813,7 +813,7 @@ exports.debug_get_compilation_stats = function() {
 
 function debug_compilation_uniqueness(shader_id, shader_text, shader_type, shaders_info) {
 
-    if (shader_type == gl.VERTEX_SHADER)
+    if (shader_type == _gl.VERTEX_SHADER)
         var shader_filename = shaders_info.vert;
     else
         var shader_filename = shaders_info.frag;
@@ -857,11 +857,11 @@ function cleanup() {
 
     for (var shader_id in _compiled_shaders) {
         var shader = _compiled_shaders[shader_id];
-        gl.deleteProgram(shader.program);
+        _gl.deleteProgram(shader.program);
         // shaders automatically detached here
         
-        gl.deleteShader(shader.vshader);
-        gl.deleteShader(shader.fshader);
+        _gl.deleteShader(shader.vshader);
+        _gl.deleteShader(shader.fshader);
         delete _compiled_shaders[shader_id];
     }
 

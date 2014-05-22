@@ -739,7 +739,7 @@ exports.eye_target_up_to_trans_quat = function(eye, target, up, trans, quat) {
 
     var rot_matrix = _mat3_tmp;
     m_mat3.fromMat4(_mat4_tmp, rot_matrix);
-    m_util.mat3_to_quat(rot_matrix, quat);
+    m_quat.fromMat3(rot_matrix, quat);
 }
 
 exports.update_camera_transform = function(obj) {

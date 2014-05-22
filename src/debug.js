@@ -14,12 +14,13 @@ var extensions = require("__extensions");
 var m_textures = require("__textures");
 var util       = require("__util");
 
-var gl;
+var _gl = null;
 var ERRORS = {};
+
+// NOTE: possible cleanup needed
 var _check_errors = false;
 var _exec_counters = {};
 var _telemetry_messages = [];
-
 var _depth_only_issue = -1;
 
 exports.WIREFRAME_MODES = {
@@ -34,9 +35,7 @@ exports.WIREFRAME_MODES = {
  * Setup WebGL context
  * @param ctx webgl context
  */
-exports.setup_context = function(ctx) {
-    gl = ctx;
-
+exports.setup_context = function(gl) {
     // WebGLRenderingContext.cpp
     var errors = [
         "INVALID_ENUM",                     // 1280
@@ -52,6 +51,8 @@ exports.setup_context = function(ctx) {
         if (error in gl)
             ERRORS[gl[error]] = error;
     }
+
+    _gl = gl;
 }
 
 /**
@@ -61,8 +62,8 @@ exports.check_gl = function(msg) {
     if (!_check_errors)
         return;
 
-    var error = gl.getError();
-    if (error == gl.NO_ERROR)
+    var error = _gl.getError();
+    if (error == _gl.NO_ERROR)
         return;
     if (error in ERRORS) 
         throw "B4W Error: " + error + ", gl." + ERRORS[error] + " (" + msg + ")";
@@ -80,19 +81,19 @@ exports.check_bound_fb = function() {
     if (!_check_errors) 
         return true;
 
-    switch (gl.checkFramebufferStatus(gl.FRAMEBUFFER)) {
-    case gl.FRAMEBUFFER_COMPLETE:
+    switch (_gl.checkFramebufferStatus(_gl.FRAMEBUFFER)) {
+    case _gl.FRAMEBUFFER_COMPLETE:
         return true;
-    case gl.FRAMEBUFFER_INCOMPLETE_ATTACHMENT:
+    case _gl.FRAMEBUFFER_INCOMPLETE_ATTACHMENT:
         m_print.error("B4W Error: Incomplete framebuffer: FRAMEBUFFER_INCOMPLETE_ATTACHMENT");
         return false;
-    case gl.FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT:
+    case _gl.FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT:
         m_print.error("B4W Error: Incomplete framebuffer: FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT");
         return false;
-    case gl.FRAMEBUFFER_INCOMPLETE_DIMENSIONS:
+    case _gl.FRAMEBUFFER_INCOMPLETE_DIMENSIONS:
         m_print.error("B4W Error: Incomplete framebuffer: FRAMEBUFFER_INCOMPLETE_DIMENSIONS");
         return false;
-    case gl.FRAMEBUFFER_UNSUPPORTED:
+    case _gl.FRAMEBUFFER_UNSUPPORTED:
         m_print.error("B4W Error: Incomplete framebuffer: FRAMEBUFFER_UNSUPPORTED");
         return false;
     default:
@@ -110,8 +111,8 @@ exports.check_depth_only_issue = function() {
     if (_depth_only_issue != -1)
         return _depth_only_issue;
 
-    var framebuffer = gl.createFramebuffer();
-    gl.bindFramebuffer(gl.FRAMEBUFFER, framebuffer);
+    var framebuffer = _gl.createFramebuffer();
+    _gl.bindFramebuffer(_gl.FRAMEBUFFER, framebuffer);
 
     var texture = m_textures.create_texture("DEBUG", m_textures.TT_DEPTH);
     m_textures.resize(texture, 1, 1);
@@ -119,17 +120,17 @@ exports.check_depth_only_issue = function() {
     var w_tex = texture.w_texture;
     var w_target = texture.w_target;
 
-    gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, w_target, 
+    _gl.framebufferTexture2D(_gl.FRAMEBUFFER, _gl.DEPTH_ATTACHMENT, w_target, 
             w_tex, 0);
 
-    if (gl.checkFramebufferStatus(gl.FRAMEBUFFER) != gl.FRAMEBUFFER_COMPLETE) {
+    if (_gl.checkFramebufferStatus(_gl.FRAMEBUFFER) != _gl.FRAMEBUFFER_COMPLETE) {
         _depth_only_issue = true;
         m_print.warn("B4W warning: depth-only issue was found");
     } else
         _depth_only_issue = false;
 
     // switch back to the window-system provided framebuffer
-    gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+    _gl.bindFramebuffer(_gl.FRAMEBUFFER, null);
 
     return _depth_only_issue;
 }
@@ -147,12 +148,12 @@ exports.check_shader_compiling = function(shader, shader_id, shader_text) {
     if (!_check_errors) 
         return;
 
-    if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+    if (!_gl.getShaderParameter(shader, _gl.COMPILE_STATUS)) {
 
         shader_text = supply_line_numbers(shader_text);
        
         m_print.error("B4W Error: shader compilation failed:\n" + shader_text + "\n" + 
-            gl.getShaderInfoLog(shader) + " (" + shader_id + ")");
+            _gl.getShaderInfoLog(shader) + " (" + shader_id + ")");
 
         throw "Engine failed: see above for error messages";
     }
@@ -179,7 +180,7 @@ exports.check_shader_linking = function(program, shader_id, vshader, fshader,
     if (!_check_errors) 
         return;
 
-    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+    if (!_gl.getProgramParameter(program, _gl.LINK_STATUS)) {
     
         var ext_ds = extensions.get_debug_shaders();
         if (ext_ds) {
@@ -192,7 +193,7 @@ exports.check_shader_linking = function(program, shader_id, vshader, fshader,
     
         m_print.error("B4W Error: shader linking failed:\n" + vshader_text + "\n\n\n" + 
             fshader_text + "\n" + 
-            gl.getProgramInfoLog(program) + " (" + shader_id + ")");
+            _gl.getProgramInfoLog(program) + " (" + shader_id + ")");
 
         throw "Engine failed: see above for error messages";
     }

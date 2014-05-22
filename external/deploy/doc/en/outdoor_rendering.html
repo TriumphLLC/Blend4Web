@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Outdoor Rendering &mdash; User manual: Blend4Web v14.04.22</title>
+    <title>Outdoor Rendering &mdash; User Manual: Blend4Web v14.05.22</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.04.22',
+        VERSION:     '14.05.22',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,8 +25,8 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User manual: Blend4Web v14.04.22" href="index.html" />
-    <link rel="next" title="Gamma-correction and transparency" href="gamma_alpha.html" />
+    <link rel="top" title="User Manual: Blend4Web v14.05.22" href="index.html" />
+    <link rel="next" title="Gamma Correction and Alpha Compositing" href="gamma_alpha.html" />
     <link rel="prev" title="Animation" href="animation.html" /> 
   </head>
   <body>
@@ -36,11 +36,11 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">User manual: Blend4Web v14.04.22</a></div>
+          href="index.html">User Manual: Blend4Web v14.05.22</a></div>
         <div class="rel">
           <a href="animation.html" title="Animation"
              accesskey="P">previous</a> |
-          <a href="gamma_alpha.html" title="Gamma-correction and transparency"
+          <a href="gamma_alpha.html" title="Gamma Correction and Alpha Compositing"
              accesskey="N">next</a> |
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a>
@@ -62,30 +62,30 @@
 <h2>Water<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id3">
 <h3>Activation<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
-<p>For the supposed water material enable the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Special:</span> <span class="pre">Water</span></tt> option in the <tt class="docutils literal"><span class="pre">Material</span></tt> tab.</p>
+<p>For the supposed water material enable the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Special:</span> <span class="pre">Water</span></tt> option under the <tt class="docutils literal"><span class="pre">Material</span></tt> tab.</p>
 <a class="reference internal image-reference" href="_images/water_material_setup.jpg"><img alt="Настройка материала воды" class="align-center" src="_images/water_material_setup.jpg" style="width: 100%;" /></a>
 </div>
 <div class="section" id="id4">
 <h3>Basic settings<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
 <dl class="docutils">
 <dt><em>Transparency</em></dt>
-<dd><p class="first last">It is recommended to enable a gradient transparency <tt class="docutils literal"><span class="pre">Game</span> <span class="pre">Settings</span> <span class="pre">&gt;</span> <span class="pre">Alpha</span> <span class="pre">Blend</span></tt> and to tweak the <tt class="docutils literal"><span class="pre">Transparency</span> <span class="pre">&gt;</span> <span class="pre">Alpha</span></tt> value.</p>
+<dd><p class="first last">It is recommended to enable the gradient transparency <tt class="docutils literal"><span class="pre">Game</span> <span class="pre">Settings</span> <span class="pre">&gt;</span> <span class="pre">Alpha</span> <span class="pre">Blend</span></tt> and to tweak the <tt class="docutils literal"><span class="pre">Transparency</span> <span class="pre">&gt;</span> <span class="pre">Alpha</span></tt> value.</p>
 </dd>
 <dt><em>Lighting parameters</em></dt>
-<dd><p class="first last">Lighting parameters for the water material can be set up as described in the <a class="reference internal" href="materials.html#material-lighting-params"><em>Lighting parameters</em></a> section.</p>
+<dd><p class="first last">Lighting parameters for the water material can be set up as described in the <a class="reference internal" href="materials.html#material-lighting-params"><em>Lighting Parameters</em></a> section.</p>
 </dd>
 </dl>
 </div>
 <div class="section" id="id5">
 <h3>Waves dynamics<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
-<p>Waves simulation is carried out by normal maps with animated UVs (from 0 up to 4 pieces). For normal textures the only one shared image is used - the textures differ only by the <tt class="docutils literal"><span class="pre">Mapping</span> <span class="pre">&gt;</span> <span class="pre">Size</span></tt> and <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">UV</span> <span class="pre">translation</span> <span class="pre">velocity</span></tt> parameters. The water mesh should have a UV layer.</p>
+<p>Waves simulation is carried out by normal maps with animated UVs (from 0 up to 4 pieces). For normal textures the only shared image is used - the textures differs only by the <tt class="docutils literal"><span class="pre">Mapping</span> <span class="pre">&gt;</span> <span class="pre">Size</span></tt> and <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">UV</span> <span class="pre">translation</span> <span class="pre">velocity</span></tt> parameters. The water mesh should have a UV layer.</p>
 <div class="align-center figure">
 <a class="reference internal image-reference" href="_images/water_texture_setup_normal.jpg"><img alt="Настройка текстур волн" src="_images/water_texture_setup_normal.jpg" style="width: 70%;" /></a>
 </div>
 </div>
 <div class="section" id="id6">
 <h3>Surface wetting<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
-<p>Carried out automatically. To enable the effect set the <tt class="docutils literal"><span class="pre">Wettable</span></tt> checkbox on the needed materials.</p>
+<p>Is carried out automatically. To turn the effect on enable the <tt class="docutils literal"><span class="pre">Wettable</span></tt> checkbox on the needed materials.</p>
 </div>
 <div class="section" id="id7">
 <h3>Reflection and Fresnel effect<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
@@ -93,38 +93,38 @@
 <a class="reference internal image-reference" href="_images/water_reflection_dynamic.jpg"><img alt="Динамическое отражение от поверхности воды" class="align-center" src="_images/water_reflection_dynamic.jpg" style="width: 100%;" /></a>
 </div>
 <div class="section" id="id8">
-<h3>Shore smoothing<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<h3>Shoreline smoothing<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
 <dl class="docutils">
 <dt><em>Blend4Web &gt; Water Settings &gt; Shore smoothing</em></dt>
 <dd><p class="first last">Enable smoothing.</p>
 </dd>
 <dt><em>Blend4Web &gt; Water Settings &gt; Water absorb factor</em></dt>
-<dd><p class="first last">Light absorption coefficient for water. The higher it the more transparent water.</p>
+<dd><p class="first last">Light absorption coefficient for the water. The higher it is the more transparent isthe water.</p>
 </dd>
 </dl>
 <p>In the low quality mode an <a class="reference internal" href="textures.html#texture-alpha-map"><em>alpha map</em></a> can be used instead of this option.</p>
 </div>
 <div class="section" id="id9">
 <h3>Color gradient<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
-<p>For color gradient the water material should have a texture with the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Shore</span> <span class="pre">distance</span> <span class="pre">map</span></tt> option enabled which can be generated using the script for <a class="reference internal" href="#shore-distance-bake"><em>shore parameters baking</em></a>.</p>
+<p>For color gradient the water material should have a texture with the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Shore</span> <span class="pre">distance</span> <span class="pre">map</span></tt> option enabled which can be generated using the script for <a class="reference internal" href="#shore-distance-bake"><em>baking shoreline parameters</em></a>.</p>
 <dl class="docutils">
 <dt><em>Blend4Web &gt; Water Settings &gt; Shallow water color</em></dt>
 <dd><p class="first last">Shallow water color.</p>
 </dd>
 <dt><em>Blend4Web &gt; Water Settings &gt; Shallow water color factor</em></dt>
-<dd><p class="first last">Factor for mixing shallow water color.</p>
+<dd><p class="first last">Shallow water color mixing factor.</p>
 </dd>
 <dt><em>Blend4Web &gt; Water Settings &gt; Shore water color</em></dt>
-<dd><p class="first last">Water color just near the shore line.</p>
+<dd><p class="first last">Water color just at the shore line.</p>
 </dd>
 <dt><em>Blend4Web &gt; Water Settings &gt; Shore water color factor</em></dt>
-<dd><p class="first last">Factor for mixing water color just near the shore line.</p>
+<dd><p class="first last">Factor for mixing water color just near the shoreline.</p>
 </dd>
 </dl>
 </div>
 <div class="section" id="id10">
 <h3>Refraction<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
-<p>In the <tt class="docutils literal"><span class="pre">Scene</span></tt> tab enable the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Render</span> <span class="pre">refractions</span></tt> option.</p>
+<p>Under the <tt class="docutils literal"><span class="pre">Scene</span></tt> tab enable the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Render</span> <span class="pre">refractions</span></tt> checkbox.</p>
 <a class="reference internal image-reference" href="_images/water_refraction.jpg"><img alt="Преломление в воде" class="align-center" src="_images/water_refraction.jpg" style="width: 100%;" /></a>
 </div>
 <div class="section" id="id11">
@@ -133,14 +133,14 @@
 <h4>Activation<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h4>
 <p>For creating foam add two diffuse textures into the water material slots. For these textures enable the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Water</span> <span class="pre">Foam</span></tt> option.</p>
 <div class="align-center figure">
-<a class="reference internal image-reference" href="_images/water_texture_setup_foam.jpg"><img alt="Настройка текстур волн" src="_images/water_texture_setup_foam.jpg" style="width: 246.4px; height: 617.4px;" /></a>
+<a class="reference internal image-reference" href="_images/water_texture_setup_foam.jpg"><img alt="Настройка текстур волн" src="_images/water_texture_setup_foam.jpg" style="width: 246.39999999999998px; height: 617.4px;" /></a>
 </div>
 </div>
 <div class="section" id="id13">
-<h4>The textures setup<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h4>
+<h4>Setting up the textures<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
 <dt><em>Influence &gt; Color</em></dt>
-<dd><p class="first last">Influence of texture color. The default value is 1.0.</p>
+<dd><p class="first last">Texture color influence factor. The default value is 1.0.</p>
 </dd>
 <dt><em>Blend4Web &gt; UV Frequency</em></dt>
 <dd><p class="first last">Oscillation frequency of the animated UV coordinates. The default value is (1.0, 1.0).</p>
@@ -151,7 +151,7 @@
 </dl>
 </div>
 <div class="section" id="id14">
-<h4>The material setup<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h4>
+<h4>Setting up the material<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
 <dt><em>Blend4Web &gt; Water Settings &gt; Water foam factor</em></dt>
 <dd><p class="first last">General influence factor for the foam. The default value is 0.5.</p>
@@ -164,9 +164,9 @@
 <p>To create the caustics effect add one <tt class="docutils literal"><span class="pre">Voronoi</span></tt> type texture to the water material slot.</p>
 <a class="reference internal image-reference" href="_images/water_caustics.jpg"><img alt="Каустика" class="align-center" src="_images/water_caustics.jpg" style="width: 100%;" /></a>
 <div class="section" id="id16">
-<h4>Setup<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h4>
+<h4>Setting up<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h4>
 <div class="align-center figure">
-<a class="reference internal image-reference" href="_images/water_texture_setup_caustics.jpg"><img alt="Настройка текстуры каустики" src="_images/water_texture_setup_caustics.jpg" style="width: 295.2px; height: 668.8px;" /></a>
+<a class="reference internal image-reference" href="_images/water_texture_setup_caustics.jpg"><img alt="Настройка текстуры каустики" src="_images/water_texture_setup_caustics.jpg" style="width: 295.2px; height: 668.8000000000001px;" /></a>
 </div>
 <dl class="docutils">
 <dt><em>Voronoi &gt; Coloring: Intensity</em></dt>
@@ -188,7 +188,7 @@
 <h4>Visibility settings (&#8220;fog&#8221;)<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
 <dt><em>Blend4Web &gt; Water Settings &gt; Underwater fog density</em></dt>
-<dd><p class="first last">Exponential factor which affects density and visibility distance. The default value is 0.06.</p>
+<dd><p class="first last">Exponential factor which affects the density and visibility distance. The default value is 0.06.</p>
 </dd>
 <dt><em>Blend4Web &gt; Water Settings &gt; Underwater fog color</em></dt>
 <dd><p class="first last">Fog color. The default value is (0.5, 0.5, 0.5) (gray).</p>
@@ -211,7 +211,7 @@
 <a class="reference internal image-reference" href="_images/water_waves.jpg"><img alt="Объемные волны" class="align-center" src="_images/water_waves.jpg" style="width: 100%;" /></a>
 </div>
 <div class="section" id="id22">
-<h4>Setup<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h4>
+<h4>Setting up<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
 <dt><em>Blend4Web &gt; Water Settings &gt; Wave height</em></dt>
 <dd><p class="first last">Wave height. The default value is 0.0.</p>
@@ -220,37 +220,37 @@
 <dd><p class="first last">Wave length. The default value is 10.0.</p>
 </dd>
 <dt><em>Blend4Web &gt; Water Settings &gt; Dist noise scale 0</em></dt>
-<dd><p class="first last">Size of the first component for distant waves.</p>
+<dd><p class="first last">Size of the first component of the open water waves.</p>
 </dd>
 <dt><em>Blend4Web &gt; Water Settings &gt; Dist noise scale 1</em></dt>
-<dd><p class="first last">Size of the second component for distant waves.</p>
+<dd><p class="first last">Size of the second component of the open water waves.</p>
 </dd>
 <dt><em>Blend4Web &gt; Water Settings &gt; Dist noise freq 0</em></dt>
-<dd><p class="first last">Frequency of the first component for distant waves.</p>
+<dd><p class="first last">Frequency of the first component of the open water waves.</p>
 </dd>
 <dt><em>Blend4Web &gt; Water Settings &gt; Dist noise freq 1</em></dt>
-<dd><p class="first last">Frequency of the second component for distant waves.</p>
+<dd><p class="first last">Frequency of the second component of the open water waves.</p>
 </dd>
 <dt><em>Blend4Web &gt; Water Settings &gt; Dir min shore fac</em></dt>
-<dd><p class="first last">Minimum coefficient for decreasing height of waves near shore.</p>
+<dd><p class="first last">Minimum height decrease coefficient of the shore waves.</p>
 </dd>
 <dt><em>Blend4Web &gt; Water Settings &gt; Dir frequency</em></dt>
-<dd><p class="first last">Frequency of waves rolling near shore.</p>
+<dd><p class="first last">Frequency of the rolling of the shore waves.</p>
 </dd>
 <dt><em>Blend4Web &gt; Water Settings &gt; Dir noise scale</em></dt>
-<dd><p class="first last">Noise size for waves near shore.</p>
+<dd><p class="first last">Noise size for the shore waves.</p>
 </dd>
 <dt><em>Blend4Web &gt; Water Settings &gt; Dir noise freq</em></dt>
-<dd><p class="first last">Noise frequency for waves near shore.</p>
+<dd><p class="first last">Noise frequency for the shore waves.</p>
 </dd>
 <dt><em>Blend4Web &gt; Water Settings &gt; Dir min noise fac</em></dt>
-<dd><p class="first last">Noise minimum for waves near shore.</p>
+<dd><p class="first last">Noise minimum for the shore waves.</p>
 </dd>
 <dt><em>Blend4Web &gt; Water Settings &gt; Dist min fac</em></dt>
-<dd><p class="first last">Minimum coefficient for mixing distant waves.</p>
+<dd><p class="first last">Minimum coefficient of mixing for open water waves.</p>
 </dd>
 <dt><em>Blend4Web &gt; Water Settings &gt; Waves horizontal factor</em></dt>
-<dd><p class="first last">Coefficient for shifting waves near shore to the shore direction.</p>
+<dd><p class="first last">Coefficient that shows how much the shore waves are shifted in the shoreline direction.</p>
 </dd>
 </dl>
 </div>
@@ -262,17 +262,17 @@
 <dd><p class="first last">Enable generated surface.</p>
 </dd>
 <dt><em>Blend4Web &gt; Water Settings &gt; Number of cascades</em></dt>
-<dd><p class="first last">Number of cascades in generated surface.</p>
+<dd><p class="first last">Number of cascades in the generated surface.</p>
 </dd>
 <dt><em>Blend4Web &gt; Water Settings &gt; Detailed distance</em></dt>
-<dd><p class="first last">Maximum distance from camera to the last cascade edge.</p>
+<dd><p class="first last">Maximum distance from camera to the last cascades edge.</p>
 </dd>
 </dl>
 <div class="section" id="shore-distance-bake">
-<span id="index-0"></span><span id="id24"></span><h4>Creating texture with shore line parameters.<a class="headerlink" href="#shore-distance-bake" title="Permalink to this headline">¶</a></h4>
-<p>On the tools panel (hotkey &#8220;T&#8221;) under the <tt class="docutils literal"><span class="pre">Blend4Web</span></tt> tab open the <tt class="docutils literal"><span class="pre">B4W</span> <span class="pre">Shore</span> <span class="pre">Distance</span> <span class="pre">Baker</span></tt> panel. Set the parameters: maximum distance to shore (<tt class="docutils literal"><span class="pre">Maximum</span> <span class="pre">Distance</span></tt>) and resulting texture size (<tt class="docutils literal"><span class="pre">Texture</span> <span class="pre">Size</span></tt>). Select a landscape object first (or multiple objects), and then a water object. Click the <tt class="docutils literal"><span class="pre">Bake</span> <span class="pre">Shore</span> <span class="pre">Distance</span></tt> button.</p>
-<p>Depending on texture size and vertices number in processing meshes the execution time of the script may vary from a fraction of a second up to several minutes. Make sure the texture named <tt class="docutils literal"><span class="pre">ShoreDistance</span></tt> is created for the water mesh.</p>
-<p>Upon script execution some system properties are saved in the water material. Therefore the scene after script run must be saved.</p>
+<span id="index-0"></span><span id="id24"></span><h4>Creating a texture with shoreline parameters.<a class="headerlink" href="#shore-distance-bake" title="Permalink to this headline">¶</a></h4>
+<p>On the tools panel (hotkey &#8220;T&#8221;) under the <tt class="docutils literal"><span class="pre">Blend4Web</span></tt> tab open the <tt class="docutils literal"><span class="pre">B4W</span> <span class="pre">Shore</span> <span class="pre">Distance</span> <span class="pre">Baker</span></tt> panel. Set the parameters: maximum distance to shore (<tt class="docutils literal"><span class="pre">Maximum</span> <span class="pre">Distance</span></tt>) and the resulting texture size (<tt class="docutils literal"><span class="pre">Texture</span> <span class="pre">Size</span></tt>). Select a landscape object (or multiple objects) first, and then - a water object. Click the <tt class="docutils literal"><span class="pre">Bake</span> <span class="pre">Shore</span> <span class="pre">Distance</span></tt> button.</p>
+<p>Depending on the texture size and the number of vertices in the processed meshes the execution time of the script may vary from a fraction of a second up to several minutes. Make sure that the texture named <tt class="docutils literal"><span class="pre">ShoreDistance</span></tt> is created for the water mesh.</p>
+<p>Upon script execution some system properties are saved in the water material. Therefore the scene must be saved after the script has finished working.</p>
 </div>
 </div>
 </div>
@@ -280,7 +280,7 @@
 <h2>Atmosphere<a class="headerlink" href="#id25" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id26">
 <h3>Scattering<a class="headerlink" href="#id26" title="Permalink to this headline">¶</a></h3>
-<p>Create a plane object for skydome as specified in the <a class="reference internal" href="textures.html#skydome-texture"><em>Skydome</em></a> section. Environment map is not needed. Set the <tt class="docutils literal"><span class="pre">Special:</span> <span class="pre">Skydome</span></tt> and <tt class="docutils literal"><span class="pre">Procedural</span> <span class="pre">skydome</span></tt> options on the material.</p>
+<p>Create a plane object for the skydome as specified in the <a class="reference internal" href="textures.html#skydome-texture"><em>Skydome</em></a> section. An environment map is not needed. Enable the <tt class="docutils literal"><span class="pre">Special:</span> <span class="pre">Skydome</span></tt> and <tt class="docutils literal"><span class="pre">Procedural</span> <span class="pre">skydome</span></tt> checkboxes on the material.</p>
 <a class="reference internal image-reference" href="_images/skydome_procedural.jpg"><img alt="Атмосферное рассивание" class="align-center" src="_images/skydome_procedural.jpg" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
@@ -324,23 +324,23 @@
 <p>Can be set up under the <tt class="docutils literal"><span class="pre">World</span></tt> tab.</p>
 <dl class="docutils">
 <dt><em>Blend4Web &gt; Fog Settings &gt; Fog density</em></dt>
-<dd><p class="first last">Exponential factor which affects density and visibility distance. The default value is 0.0.</p>
+<dd><p class="first last">Exponential factor which affects density and the visibility distance. The default value is 0.0.</p>
 </dd>
 <dt><em>Blend4Web &gt; Fog Settings &gt; Fog color</em></dt>
 <dd><p class="first last">Fog color. The default value is (0.5, 0.5, 0.5) (gray).</p>
 </dd>
 </dl>
-<p>When dynamic skydome is used a fog color is defined by sky color.</p>
+<p>When a dynamic skydome is used the fog color is defined by the sky color.</p>
 </div>
 <div class="section" id="id28">
 <h3>Time of day<a class="headerlink" href="#id28" title="Permalink to this headline">¶</a></h3>
-<p>Enable the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Dynamic</span> <span class="pre">intensity</span></tt> option for a lamp.</p>
+<p>Enable the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Dynamic</span> <span class="pre">intensity</span></tt> checkbox for the lamp.</p>
 <p>Time of day can be set by applications via API. Particularly time of day can be set using the <tt class="docutils literal"><span class="pre">Lighting</span></tt> interface of the <a class="reference internal" href="viewer.html#viewer"><em>Scene viewer</em></a>.</p>
 <a class="reference internal image-reference" href="_images/sunset.jpg"><img alt="Управление временем суток в просмотрщике" class="align-center" src="_images/sunset.jpg" style="width: 100%;" /></a>
 </div>
 <div class="section" id="id29">
 <h3>Stars<a class="headerlink" href="#id29" title="Permalink to this headline">¶</a></h3>
-<p>Stars setup is described in the <a class="reference internal" href="materials.html#material-halo"><em>Halo materials</em></a> section.</p>
+<p>Stars setup is described in the <a class="reference internal" href="materials.html#material-halo"><em>Halo Materials</em></a> section.</p>
 <a class="reference internal image-reference" href="_images/stars.jpg"><img alt="Использование материала гало для визуализации звезд" class="align-center" src="_images/stars.jpg" style="width: 100%;" /></a>
 </div>
 </div>
@@ -363,7 +363,7 @@
 <p>Add a force field object of the <tt class="docutils literal"><span class="pre">Wind</span></tt> type.</p>
 </div>
 <div class="section" id="id32">
-<h3>Setup<a class="headerlink" href="#id32" title="Permalink to this headline">¶</a></h3>
+<h3>Setting up<a class="headerlink" href="#id32" title="Permalink to this headline">¶</a></h3>
 <dl class="docutils">
 <dt><em>Direction</em></dt>
 <dd><p class="first last">Direction can be set by rotating the force field object.</p>
@@ -378,11 +378,11 @@
 <p>Authoring resources for grass rendering is described in the <a class="reference internal" href="particles_instancing.html#particles-grass"><em>Grass</em></a> section.</p>
 <div class="section" id="id34">
 <h4>Activation<a class="headerlink" href="#id34" title="Permalink to this headline">¶</a></h4>
-<p>Enable the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Wind</span> <span class="pre">bending</span></tt> option for the grass or tree object.</p>
+<p>Enable the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Wind</span> <span class="pre">bending</span></tt> checkbox for the grass or tree object.</p>
 </div>
 <div class="section" id="id35">
-<h4>Setup<a class="headerlink" href="#id35" title="Permalink to this headline">¶</a></h4>
-<p>The interface panel becomes visible after activation of the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Wind</span> <span class="pre">bending</span></tt> option.</p>
+<h4>Setting up<a class="headerlink" href="#id35" title="Permalink to this headline">¶</a></h4>
+<p>The interface panel becomes visible after the activation of the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Wind</span> <span class="pre">bending</span></tt> checkbox.</p>
 <a class="reference internal image-reference" href="_images/wind_bending_setup.jpg"><img alt="Настройка анимации травы и крон деревьев" class="align-center" src="_images/wind_bending_setup.jpg" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
@@ -395,25 +395,25 @@
 <dd><p class="first last">Frequency of the &#8220;main&#8221; deviation under the influence of wind. The default value is 0.25.</p>
 </dd>
 <dt><em>Main bending &gt; Main stiffness (A)</em></dt>
-<dd><p class="first last">Text field for specifing name of a vertex color layer which contains information about stiffness of the &#8220;main&#8221; deviation. Can be left empty.</p>
+<dd><p class="first last">Text field for specifying the name of the vertex color layer which contains the information about the stiffness of the &#8220;main&#8221; deviation. Can be left empty.</p>
 </dd>
 <dt><em>Detail bending &gt; Detail amplitude</em></dt>
-<dd><p class="first last">Angle amplitude of the &#8220;detail&#8221; deviation under the influence of wind (in degrees). The default value is 0.1.</p>
+<dd><p class="first last">Angle amplitude of the &#8220;detail&#8221; deviation caused by the influence of wind (in degrees). The default value is 0.1.</p>
 </dd>
 <dt><em>Detail bending &gt; Branch amplitude</em></dt>
-<dd><p class="first last">Angle amplitude of the branch deviation under the influence of wind (in degrees). The default value is 0.3.</p>
+<dd><p class="first last">Angle amplitude of the branch deviation caused by the influence of wind (in degrees). The default value is 0.3.</p>
 </dd>
 <dt><em>Detail bending &gt; Leaves stiffness (R)</em></dt>
-<dd><p class="first last">Text field for specifing name of a vertex color layer which contains information about stiffness of leaves. Can be left empty.</p>
+<dd><p class="first last">Text field for specifying the name of the vertex color layer which contains the information about the stiffness of leaves. Can be left empty.</p>
 </dd>
 <dt><em>Detail bending &gt; Leaves phase (G)</em></dt>
-<dd><p class="first last">Text field for specifing name of a vertex color layer which contains information about phase of leaves deviation. Can be left empty.</p>
+<dd><p class="first last">Text field for specifying the name of the vertex color layer which contains the information about the phase of leaves deviation. Can be left empty.</p>
 </dd>
 <dt><em>Detail bending &gt; Overall stiffness (B)</em></dt>
-<dd><p class="first last">Text field for specifing name of a vertex color layer which contains information about overall stiffness of leaves. Can be left empty.</p>
+<dd><p class="first last">Text field for specifying the name of the vertex color layer which contains the information about the overall stiffness of leaves. Can be left empty.</p>
 </dd>
 </dl>
-<p>Vertex color layers should exist in the mesh if their names are specified.</p>
+<p>Vertex color layers should be present in the mesh if their names are specified.</p>
 <a class="reference internal image-reference" href="_images/wind_bending_vcolors.jpg"><img alt="Вертексные цвета для настройки анимации крон деревьев" class="align-center" src="_images/wind_bending_vcolors.jpg" style="width: 100%;" /></a>
 </div>
 </div>
@@ -438,11 +438,11 @@
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
-<li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node materials</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting and shadows</a></li>
-<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing effects</a></li>
-<li class="toctree-l1"><a class="reference internal" href="particles.html">Particle system</a></li>
-<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle system for object instancing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting and Shadows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing Effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System for Instancing Objects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="animation.html">Animation</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Outdoor Rendering</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#id2">Water</a></li>
@@ -450,16 +450,14 @@
 <li class="toctree-l2"><a class="reference internal" href="#wind">Wind</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Gamma-correction and transparency</a></li>
-<li class="toctree-l1"><a class="reference internal" href="audio.html">Звуковая подсистема</a></li>
-<li class="toctree-l1"><a class="reference internal" href="event_model.html">Событийная модель</a></li>
-<li class="toctree-l1"><a class="reference internal" href="physics.html">Физика</a></li>
-<li class="toctree-l1"><a class="reference internal" href="nla.html">Нелинейная анимация</a></li>
-<li class="toctree-l1"><a class="reference internal" href="developers.html">For application developers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">Разработчикам движка</a></li>
-<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Краткая справка по git</a></li>
-<li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Problems and solutions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="roadmap.html">План развития</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Gamma Correction and Alpha Compositing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audio.html">Audio System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nla.html">Non-Linear Animation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers.html">For Application Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">For Engine Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Team Work. Using Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Problems and Solutions</a></li>
 </ul>
 
           <h3 style="margin-top: 1.5em;">Search</h3>
@@ -482,7 +480,7 @@
         <div class="left">
           <a href="animation.html" title="Animation"
              >previous</a> |
-          <a href="gamma_alpha.html" title="Gamma-correction and transparency"
+          <a href="gamma_alpha.html" title="Gamma Correction and Alpha Compositing"
              >next</a> |
           <a href="genindex.html" title="General Index"
              >index</a>
@@ -492,7 +490,7 @@
           
     <div class="footer">
         &copy; Copyright 2014, Triumph LLC.
-      Last updated on 2014-04-23.
+      Last updated on 2014-05-21.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

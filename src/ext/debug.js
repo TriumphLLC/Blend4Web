@@ -24,7 +24,7 @@ var m_vec3 = require("vec3");
  * @method module:debug.physics_worker
  */
 exports["physics_worker"] = function() {
-    physics.post_msg("debug");
+    physics.debug_worker();
 }
 /**
  * Print object info by physics ID.
@@ -547,6 +547,18 @@ exports["set_debug_params"] = function(params) {
             m_scenes.set_wireframe_edge_color(subs_wireframe, params["wireframe_edge_color"]);
     } else
         throw("Wireframe subscene not found.");
+}
+
+exports["get_error_quantity"] = function() {
+    return m_print.get_error_count();
+}
+
+exports["get_warning_quantity"] = function() {
+    return m_print.get_warning_count();
+}
+
+exports["clear_errors_warnings"] = function() {
+    return m_print.clear_errors_warnings();
 }
 
 }

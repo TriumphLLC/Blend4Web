@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Разработчикам приложений &mdash; Руководство пользователя: Blend4Web v14.04.22</title>
+    <title>Разработчикам приложений &mdash; Руководство пользователя: Blend4Web v14.05.22</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.04.22',
+        VERSION:     '14.05.22',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v14.04.22" href="index.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v14.05.22" href="index.html" />
     <link rel="next" title="Разработчикам движка" href="developers_advanced.html" />
     <link rel="prev" title="Нелинейная анимация" href="nla.html" /> 
   </head>
@@ -37,7 +37,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">Руководство пользователя: Blend4Web v14.04.22</a></div>
+          href="index.html">Руководство пользователя: Blend4Web v14.05.22</a></div>
         <div class="rel">
           <a href="nla.html" title="Нелинейная анимация"
              accesskey="P">предыдущий</a> |
@@ -215,7 +215,7 @@
 <dt><em>set_scale</em></dt>
 <dd>Установить коэффициент увеличения объекта. Единица соответствует исходному состоянию. Значение меньше единицы - уменьшение. Значение больше единицы - увеличение. Не все объекты могут быть увеличены. В частности, увеличение невозможно для физических объектов.</dd>
 <dt><em>set_rotation_euler, set_rotation_euler_v</em></dt>
-<dd>Установить поворота объекта с помощью углов Эйлера. Используется
+<dd>Установить поворот объекта с помощью углов Эйлера. Используется
 <strong>внутренняя</strong> (intrinsic) система поворота YZX (то есть углы следуют в
 последовательности YZX, сама система отсчёта при этом вращается и занимает
 каждый раз новое положение).</dd>
@@ -300,6 +300,223 @@
 </div>
 </div>
 </div>
+<div class="section" id="event-model">
+<span id="id8"></span><h2>Событийная модель<a class="headerlink" href="#event-model" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Событийная модель предоставляет унифицированный интерфейс для описания
+изменения состояний 3D сцены, упрощая обработку событий физики и действий
+пользователя.</p>
+<div class="section" id="index-1">
+<span id="id9"></span><h3>Сенсоры<a class="headerlink" href="#index-1" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Основным блоком событийной модели является сенсор (sensor). Сенсор является
+программной сущностью, и может быть только активным (1, единица) или неактивным (0, ноль).
+Некоторые сенсоры несут полезную нагрузку (payload). Например, сенсор трассировки лучей (Ray Sensor)
+предоставляет относительную длину луча пересечения.</p>
+<p id="index-2">Управление сенсорами не доступно пользователю в виде открытого API. Вместо этого
+каждый сенсор должен присутствовать в одном или нескольких множествах (sensor
+manifold). Множество является логическим контейнером, ассоциированным с объектом на сцене.
+Оно генерирует ответ на определенный набор событий сенсоров в виде вызова
+функции-обработчика. Для определения множества необходимо иметь
+следующую информацию (см. также описание функции <tt class="docutils literal"><span class="pre">controls.create_sensor_manifold()</span></tt> в документации по API):</p>
+<ul>
+<li><p class="first">Объект-носитель множества (например, бросаемый объект).</p>
+</li>
+<li><p class="first">Уникальный идентификатор множества (например, &#8220;IMPACT&#8221;).</p>
+</li>
+<li><dl class="first docutils">
+<dt>Тип вызова функции-обработчика (варианты: <tt class="docutils literal"><span class="pre">CT_CONTINUOUS</span></tt> - непрерывный,</dt>
+<dd><p class="first last"><tt class="docutils literal"><span class="pre">CT_LEVEL</span></tt> - уровень, <tt class="docutils literal"><span class="pre">CT_SHOT</span></tt> - одномоментный, <tt class="docutils literal"><span class="pre">CT_TRIGGER</span></tt> - переключающий).</p>
+</dd>
+</dl>
+</li>
+<li><p class="first">Массив сенсоров.</p>
+</li>
+<li><p class="first">Логическая функция, определяющая при какой комбинации состояний сенсоров вызывается функция-обработчик.</p>
+</li>
+<li><p class="first">Функция-обработчик.</p>
+</li>
+<li><p class="first">Необязательный параметр, который может быть передан в функцию-обработчик.</p>
+</li>
+</ul>
+</div>
+<div class="section" id="id10">
+<h3>Пример<a class="headerlink" href="#id10" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Поставлена задача озвучить удар бросаемого камня так, чтобы
+при ударе о различные среды (например, земля и стена) выводился характерный звук.
+На сцене в Blender&#8217;е имеются ограничивающие меши с физическими материалами, их идентификаторы &#8220;TERRAIN&#8221; и &#8220;WALL&#8221;.
+На сцене также присутствует бросаемый физический объект с названием &#8220;Stone&#8221;.</p>
+<p>Определим по одному сенсору соударения (Collision Sensor) для каждой среды,
+по типу издаваемого звука.</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="c1">// import the modules</span>
+<span class="kd">var</span> <span class="nx">m_scenes</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;scenes&quot;</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">m_controls</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;controls&quot;</span><span class="p">);</span>
+
+<span class="c1">// get the object being thrown</span>
+<span class="kd">var</span> <span class="nx">stone</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_object_by_name</span><span class="p">(</span><span class="s2">&quot;Stone&quot;</span><span class="p">);</span>
+
+<span class="c1">// create the sensors</span>
+<span class="kd">var</span> <span class="nx">sensor_impact_terrain</span> <span class="o">=</span> <span class="nx">m_controls</span><span class="p">.</span><span class="nx">create_collision_sensor</span><span class="p">(</span><span class="nx">stone</span><span class="p">,</span> <span class="s2">&quot;TERRAIN&quot;</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">sensor_impact_wall</span>    <span class="o">=</span> <span class="nx">m_controls</span><span class="p">.</span><span class="nx">create_collision_sensor</span><span class="p">(</span><span class="nx">stone</span><span class="p">,</span> <span class="s2">&quot;WALL&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Добавим сенсоры в массив. В качестве логической функции используем логическое ИЛИ. В обработчике напишем код для воспроизведения звука. Создадим множество сенсоров с идентификатором &#8220;IMPACT&#8221; и типом CT_SHOT (одномоментный).</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="c1">// array of the sensors</span>
+<span class="kd">var</span> <span class="nx">impact_sens_array</span> <span class="o">=</span> <span class="p">[</span><span class="nx">sensor_impact_terrain</span><span class="p">,</span> <span class="nx">sensor_impact_wall</span><span class="p">];</span>
+
+<span class="c1">// manifold logic function</span>
+<span class="kd">var</span> <span class="nx">impact_sens_logic</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">s</span><span class="p">)</span> <span class="p">{</span><span class="k">return</span> <span class="p">(</span><span class="nx">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">||</span> <span class="nx">s</span><span class="p">[</span><span class="mi">1</span><span class="p">])};</span>
+
+<span class="c1">// callback</span>
+<span class="kd">var</span> <span class="nx">impact_cb</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">obj</span><span class="p">,</span> <span class="nx">manifold_id</span><span class="p">,</span> <span class="nx">pulse</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="c1">// NOTE: it&#39;s possible to play both sounds simultaneously</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="nx">m_controls</span><span class="p">.</span><span class="nx">get_sensor_value</span><span class="p">(</span><span class="nx">obj</span><span class="p">,</span> <span class="nx">manifold_id</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// ...</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;play the terrain impact sound&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="nx">m_controls</span><span class="p">.</span><span class="nx">get_sensor_value</span><span class="p">(</span><span class="nx">obj</span><span class="p">,</span> <span class="nx">manifold_id</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// ...</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;play the wall impact sound&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// create the manifold</span>
+<span class="nx">m_controls</span><span class="p">.</span><span class="nx">create_sensor_manifold</span><span class="p">(</span><span class="nx">stone</span><span class="p">,</span> <span class="s2">&quot;IMPACT&quot;</span><span class="p">,</span> <span class="nx">m_ctl</span><span class="p">.</span><span class="nx">CT_SHOT</span><span class="p">,</span>
+    <span class="nx">impact_sens_array</span><span class="p">,</span> <span class="nx">impact_sens_logic</span><span class="p">,</span> <span class="nx">impact_cb</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>При столкновении объекта &#8220;Stone&#8221; с любым из физических материалов
+&#8220;TERRAIN&#8221; или &#8220;WALL&#8221; происходит вызов функции-обработчика.
+Внутри этой функции получим значения обоих сенсоров по их индексу в массиве сенсоров (0 - &#8220;TERRAIN&#8221;, 1 - &#8220;WALL&#8221;).
+Значение сенсора = 1 (активный) означает, что произошло столкновение с соответствующим физическим материалом.
+В результате воспроизводится соответствующий звук (код не показан).</p>
+</div>
+</div>
+<div class="section" id="sdk">
+<span id="repo-file-structure"></span><h2>Файловая структура SDK<a class="headerlink" href="#sdk" title="Ссылка на этот заголовок">¶</a></h2>
+<dl class="docutils">
+<dt><strong>apps_dev</strong></dt>
+<dd>исходный код приложений (не все приложения доступны в бесплатной версии)</dd>
+<dt><strong>closure-compiler</strong></dt>
+<dd>компилятор Google Closure, файлы исключений к нему, генераторы файлов исключений</dd>
+<dt><strong>csrc</strong></dt>
+<dd>исходный код бинарной части экспортера движка и других утилит на языке C</dd>
+<dt><strong>doc_src</strong></dt>
+<dd>исходный код настоящего руководства пользователя на языке разметки reST</dd>
+<dt><strong>external</strong></dt>
+<dd><dl class="first last docutils">
+<dt><strong>blender</strong></dt>
+<dd>исходные файлы сцен в формате Blender (не все сцены доступны в
+бесплатной версии)</dd>
+<dt><strong>blender_scripts</strong></dt>
+<dd>экспортер и вспомогательные скрипты для Blender&#8217;а</dd>
+<dt><strong>deploy</strong></dt>
+<dd><dl class="first last docutils">
+<dt><strong>api_doc</strong></dt>
+<dd>документация API движка для разработчиков в формате HTML
+(собирается автоматически, на основе исходного кода движка)</dd>
+<dt><strong>apps</strong></dt>
+<dd>3D-приложения, предназначенные для развертывания, директория
+дублирует <em>apps_dev</em></dd>
+<dt><strong>assets</strong></dt>
+<dd><p class="first">загружаемые ресурсы: сцены, текстуры, звуковые файлы (не все ресурсы
+доступны в бесплатной версии)</p>
+<dl class="last docutils">
+<dt><strong>assets.json</strong></dt>
+<dd>метаданные с информацией о сценах, загружаемых просмотрщиком сцен
+Viewer</dd>
+</dl>
+</dd>
+<dt><strong>doc</strong></dt>
+<dd>настоящее руководство пользователя в формате HTML, собирается
+автоматически из <em>doc_src</em></dd>
+<dt><strong>globals_detect</strong></dt>
+<dd>вспомогательный код для определения глобальных переменных</dd>
+<dt><strong>tutorials</strong></dt>
+<dd>исходные файлы обучающих примеров</dd>
+</dl>
+</dd>
+<dt><strong>reexporter.py</strong> и <strong>Makefile</strong></dt>
+<dd>Python-скрипт и файл сборки для автоматического экспорта всех сцен в
+<em>external/deploy/assets</em></dd>
+</dl>
+</dd>
+<dt><strong>glsl_utils</strong></dt>
+<dd><dl class="first last docutils">
+<dt><strong>compiler</strong></dt>
+<dd><p class="first">компилятор GLSL-шейдеров движка</p>
+<dl class="last docutils">
+<dt><strong>out</strong></dt>
+<dd>содержит результат компиляции GLSL-шейдеров движка</dd>
+</dl>
+</dd>
+<dt><strong>pegjs</strong></dt>
+<dd>грамматики парсер-генератора PEG.js для реализации препроцессора GLSL,
+а также скрипт для генерации модулей парсеров из этих грамматик</dd>
+</dl>
+</dd>
+<dt><strong>index.html</strong></dt>
+<dd>web-страница со ссылками на 3D-приложения (недоступен в бесплатной версии)</dd>
+<dt><strong>license</strong></dt>
+<dd>файлы с текстами лицензионных соглашений</dd>
+<dt><strong>Makefile</strong></dt>
+<dd>файл сборки для компиляции движка, приложений, документации, развертывания
+на удаленном сервере (недоступен в бесплатной версии)</dd>
+<dt><strong>README.md</strong></dt>
+<dd>файл README</dd>
+<dt><strong>scripts</strong></dt>
+<dd><p class="first">дополнительные скрипты</p>
+<dl class="last docutils">
+<dt><strong>chrome_debug.sh</strong></dt>
+<dd>скрипт, запускающий браузер Chrome в режиме отладки</dd>
+<dt><strong>compile_b4w.sh</strong></dt>
+<dd>скрипт для вызова Google Closure compiler с целью минификации и обфускации кода движка и приложений</dd>
+<dt><strong>converter.py</strong></dt>
+<dd>скрипт, осуществляющий: уменьшение разрешения текстур вдвое, компрессию текстур в формат DDS, конвертацию звуковых файлов в форматы mp4 и ogg</dd>
+<dt><strong>custom_json_encoder.py</strong></dt>
+<dd>форк Python-модуля json, сортирует ключи по алфавиту в обратном порядке</dd>
+<dt><strong>gen_glmatrix.sh</strong></dt>
+<dd>скрипт для генерации математического модуля на основе исходных файлов из
+репозитория glMatrix 2</dd>
+<dt><strong>gpu_shader_analyzer_server.py</strong></dt>
+<dd>скрипт, запускающий локальный веб-сервер, который осуществляет подсчет
+сложности шейдеров</dd>
+<dt><strong>graph.sh</strong></dt>
+<dd>генератор текущего графа сцены в формате svg, используется для отладки
+рендеринга</dd>
+<dt><strong>memory.sh</strong></dt>
+<dd>скрипт для проверки обычной (RAM) и видео-памяти (VRAM)</dd>
+<dt><strong>plot.sh</strong></dt>
+<dd>построитель графиков отладочной информации</dd>
+<dt><strong>remove_alpha_channel.sh</strong></dt>
+<dd>скрипт для удаления альфа-канала изображения</dd>
+<dt><strong>report_unused_resources.py</strong></dt>
+<dd>скрипт для проверки и сообщения о неиспользуемых ресурсах (изображения и
+звуки, на которые ссылаются экспотируемые файлы)</dd>
+<dt><strong>screencast.sh</strong></dt>
+<dd>скрипт для записи видео с экрана</dd>
+</dl>
+</dd>
+<dt><strong>shaders</strong></dt>
+<dd>GLSL-шейдеры движка</dd>
+<dt><strong>src</strong></dt>
+<dd><p class="first">основной исходный код ядра движка</p>
+<dl class="last docutils">
+<dt><strong>addons</strong></dt>
+<dd>исходный код дополнений (не входят в ядро движка, подключаются отдельно)</dd>
+<dt><strong>ext</strong></dt>
+<dd>исходный код внешних объявлений (формирует API движка)</dd>
+<dt><strong>third_party</strong></dt>
+<dd>код сторонних библиотек</dd>
+</dl>
+</dd>
+<dt><strong>uranium</strong></dt>
+<dd>исходный код и скрипты сборки физического движка Uranium (форк Bullet)</dd>
+<dt><strong>VERSION</strong></dt>
+<dd>содержит текущую версию движка</dd>
+</dl>
+</div>
 </div>
 
 
@@ -327,9 +544,8 @@
 <li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Система частиц для инстансинга объектов</a></li>
 <li class="toctree-l1"><a class="reference internal" href="animation.html">Анимация</a></li>
 <li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Рендеринг наружных сцен</a></li>
-<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Гамма-коррекция и прозрачность</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Гамма-коррекция и альфа-композитинг</a></li>
 <li class="toctree-l1"><a class="reference internal" href="audio.html">Звуковая подсистема</a></li>
-<li class="toctree-l1"><a class="reference internal" href="event_model.html">Событийная модель</a></li>
 <li class="toctree-l1"><a class="reference internal" href="physics.html">Физика</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nla.html">Нелинейная анимация</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Разработчикам приложений</a><ul>
@@ -339,12 +555,13 @@
 <li class="toctree-l2"><a class="reference internal" href="#id4">Система модулей</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id5">Управление перемещением объектов</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#index-0">Кватернионы</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#event-model">Событийная модель</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sdk">Файловая структура SDK</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">Разработчикам движка</a></li>
-<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Краткая справка по git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Работа в команде. Использование git</a></li>
 <li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Проблемы и решения</a></li>
-<li class="toctree-l1"><a class="reference internal" href="roadmap.html">План развития</a></li>
 </ul>
 
           <h3 style="margin-top: 1.5em;">Поиск</h3>
@@ -377,7 +594,7 @@
           
     <div class="footer">
         &copy; Copyright 2014, ООО &#34;Триумф&#34;.
-      Обновлено: 2014-04-23.
+      Обновлено: 2014-05-21.
       Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

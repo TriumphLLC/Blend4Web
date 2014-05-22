@@ -43,14 +43,14 @@ exports.DM_LINES             = 50;
 
 exports.DM_DEFAULT = exports.DM_TRIANGLES;
 
-var gl;
+var _gl = null;
 
 /**
  * Setup WebGL context
- * @param ctx webgl context
+ * @param gl WebGL context
  */
-exports.setup_context = function(ctx) {
-    gl = ctx;
+exports.setup_context = function(gl) {
+    _gl = gl;
 }
 
 /**
@@ -58,8 +58,8 @@ exports.setup_context = function(ctx) {
  */
 exports.delete_buffers = function(geometry_id) {
     var buffers = _buffers[geometry_id];
-    gl.deleteBuffer(buffers.ibo);
-    gl.deleteBuffer(buffers.vbo);
+    _gl.deleteBuffer(buffers.ibo);
+    _gl.deleteBuffer(buffers.vbo);
     delete _buffers[geometry_id];
 }
 
@@ -205,6 +205,7 @@ function expand_vertex_array_i(indices, vertex_array, num_comp) {
 }
 
 /**
+ * NOTE: unused
  * Initialize attribute buffer data
  *
  * count specified for POINTS rendering
@@ -230,16 +231,16 @@ exports.create_bufs_data = function(draw_mode, indices, count) {
 
     update_draw_mode(bufs_data, draw_mode);
 
-    if (bufs_data.mode == gl.TRIANGLES) {
+    if (bufs_data.mode == _gl.TRIANGLES) {
         bufs_data.count = indices.length;
         bufs_data.ibo_array = indices;
 
         if (bufs_data.count <= MAX_SUBMESH_LENGTH)
-            bufs_data.ibo_type = gl.UNSIGNED_SHORT;
+            bufs_data.ibo_type = _gl.UNSIGNED_SHORT;
         else
-            bufs_data.ibo_type = gl.UNSIGNED_INT;
+            bufs_data.ibo_type = _gl.UNSIGNED_INT;
 
-    } else if (bufs_data.mode == gl.POINTS) {
+    } else if (bufs_data.mode == _gl.POINTS) {
         bufs_data.count = count;
         bufs_data.ibo_array = null;
     }
@@ -319,24 +320,24 @@ function update_draw_mode(bufs_data, draw_mode) {
     switch (draw_mode) {
     case exports.DM_DEFAULT:
     case exports.DM_TRIANGLES:
-        mode = gl.TRIANGLES;
-        usage = gl.STATIC_DRAW;
+        mode = _gl.TRIANGLES;
+        usage = _gl.STATIC_DRAW;
         break;
     case exports.DM_POINTS:
-        mode = gl.POINTS;
-        usage = gl.STATIC_DRAW;
+        mode = _gl.POINTS;
+        usage = _gl.STATIC_DRAW;
         break;
     case exports.DM_DYNAMIC_TRIANGLES:
-        mode = gl.TRIANGLES;
-        usage = gl.DYNAMIC_DRAW;
+        mode = _gl.TRIANGLES;
+        usage = _gl.DYNAMIC_DRAW;
         break;
     case exports.DM_DYNAMIC_POINTS:
-        mode = gl.POINTS;
-        usage = gl.DYNAMIC_DRAW;
+        mode = _gl.POINTS;
+        usage = _gl.DYNAMIC_DRAW;
         break;
     case exports.DM_LINES:
-        mode = gl.LINES; 
-        usage = gl.STATIC_DRAW;
+        mode = _gl.LINES; 
+        usage = _gl.STATIC_DRAW;
         break;
     default:
         throw "Wrong draw_mode";
@@ -348,11 +349,11 @@ function update_draw_mode(bufs_data, draw_mode) {
 }
 
 exports.make_static = function(bufs_data) {
-    bufs_data.usage = gl.STATIC_DRAW;
+    bufs_data.usage = _gl.STATIC_DRAW;
 }
 
 exports.make_dynamic = function(bufs_data) {
-    bufs_data.usage = gl.DYNAMIC_DRAW;
+    bufs_data.usage = _gl.DYNAMIC_DRAW;
 }
 
 function generate_bufs_data_arrays(indices, va_frames, va_common, base_length) {
@@ -362,10 +363,10 @@ function generate_bufs_data_arrays(indices, va_frames, va_common, base_length) {
         if (base_length <= MAX_SUBMESH_LENGTH) {
             // NOTE: possible transform from Uint32Array, affects performance
             var ibo_array = new Uint16Array(indices);
-            var ibo_type = gl.UNSIGNED_SHORT;
+            var ibo_type = _gl.UNSIGNED_SHORT;
         } else {
-            var ibo_array = new Uint32Array(indices);;
-            var ibo_type = gl.UNSIGNED_INT;
+            var ibo_array = new Uint32Array(indices);
+            var ibo_type = _gl.UNSIGNED_INT;
         }
     } else {
         var count = base_length;
@@ -474,10 +475,10 @@ function update_gl_buffers(bufs_data) {
     if (bufs_data.ibo_array) {
 
         if (!bufs_data.ibo)
-            bufs_data.ibo = gl.createBuffer();
+            bufs_data.ibo = _gl.createBuffer();
 
-        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, bufs_data.ibo);
-        gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, bufs_data.ibo_array, bufs_data.usage);
+        _gl.bindBuffer(_gl.ELEMENT_ARRAY_BUFFER, bufs_data.ibo);
+        _gl.bufferData(_gl.ELEMENT_ARRAY_BUFFER, bufs_data.ibo_array, bufs_data.usage);
 
         bufs_data.debug_ibo_bytes = bufs_data.ibo_array.byteLength;
     } else
@@ -485,10 +486,10 @@ function update_gl_buffers(bufs_data) {
 
     // vertex buffer object
     if (!bufs_data.vbo)
-        bufs_data.vbo = gl.createBuffer();
+        bufs_data.vbo = _gl.createBuffer();
 
-    gl.bindBuffer(gl.ARRAY_BUFFER, bufs_data.vbo);
-    gl.bufferData(gl.ARRAY_BUFFER, bufs_data.vbo_array, bufs_data.usage);
+    _gl.bindBuffer(_gl.ARRAY_BUFFER, bufs_data.vbo);
+    _gl.bufferData(_gl.ARRAY_BUFFER, bufs_data.vbo_array, bufs_data.usage);
 
     bufs_data.debug_vbo_bytes = bufs_data.vbo_array.byteLength;
 }
@@ -498,9 +499,9 @@ function update_gl_buffers(bufs_data) {
  */
 exports.cleanup_bufs_data = function(bufs_data) {
     if (bufs_data.ibo)
-        gl.deleteBuffer(bufs_data.ibo);
+        _gl.deleteBuffer(bufs_data.ibo);
     if (bufs_data.vbo)
-        gl.deleteBuffer(bufs_data.vbo);
+        _gl.deleteBuffer(bufs_data.vbo);
 }
 
 /**
@@ -516,43 +517,12 @@ exports.has_empty_submesh = function(mesh, index) {
 }
 
 /**
- * Create a new mesh from the parts with given submesh index
+ * Apply transforms and return
  */
-exports.make_batch_submesh = function(instances, attr_names,
-        vertex_colors_usage, uv_maps_usage) {
-
-    var submeshes = [];
-    for (var i = 0; i < instances.length; i++) {
-        var instance = instances[i];
-        var mesh = instance.mesh;
-        var submesh = extract_submesh(mesh, instance.submesh_index, 
-                attr_names, null, vertex_colors_usage, uv_maps_usage);
-        // ignore empty submeshes
-        if (submesh.base_length) {
-            submesh_apply_instance(submesh, instance);
-            submeshes.push(submesh);
-        }
-    }
-
-    if (submeshes.length == 0)
-        var batch_submesh = m_util.create_empty_submesh("EMPTY");
-    else if (submeshes.length == 1)
-        var batch_submesh = submeshes[0];
-    else
-        var batch_submesh = submesh_list_join(submeshes);
-
-    return batch_submesh;
-}
-
-/**
- * Clone mesh for each instance and return a new mesh
- * Also create and save mesh.vertices.center_locs
- */
-function submesh_apply_instance(submesh, instance) {
+exports.submesh_apply_transform = submesh_apply_transform;
+function submesh_apply_transform(submesh, transform) {
 
     var base_length = submesh.base_length;
-
-    var transform = instance.transform;
 
     // positions/normals/tangents
     for (var f = 0; f < submesh.va_frames.length; f++) {
@@ -568,11 +538,49 @@ function submesh_apply_instance(submesh, instance) {
             m_tsr.transform_tangents(tangents, transform, tangents, 0);
     }
 
+    // transform au_center_pos too
+    var au_center_pos = submesh.va_common["au_center_pos"];
+    if (au_center_pos && au_center_pos.length)
+        m_tsr.transform_vectors(au_center_pos, transform, au_center_pos, 0);
+
     // indices, influences, vertex colors, texcoords not affected
 
-    // additional params
-    var params = instance.params;
+    return submesh;
+}
 
+/**
+ * Apply emitter transforms to particles
+ */
+exports.submesh_apply_particle_transform = submesh_apply_particle_transform;
+function submesh_apply_particle_transform(submesh, transform) {
+
+    var au_center_pos = submesh.va_common["au_center_pos"];
+
+    if (au_center_pos && au_center_pos.length) {
+        var cen_pos_transformed = new Float32Array(au_center_pos);
+        m_tsr.transform_vectors(cen_pos_transformed, transform, cen_pos_transformed, 0);
+
+        for (var i = 0; i < submesh.va_frames.length; i++)
+            for (var j = 0; j < cen_pos_transformed.length; j++)
+                submesh.va_frames[i]["a_position"][j] += cen_pos_transformed[j] - au_center_pos[j];
+
+        au_center_pos.set(cen_pos_transformed);
+    } else
+        throw "Attribute \"au_center_pos\" is missing in particle submesh";
+
+    return submesh;
+}
+
+
+/**
+ * Apply submesh params
+ */
+exports.submesh_apply_params = submesh_apply_params;
+function submesh_apply_params(submesh, params) {
+
+    var base_length = submesh.base_length;
+
+    // additional params
     for (var param in params) {
         var param_len = params[param].length;
         var len = params[param].length * base_length;
@@ -582,6 +590,8 @@ function submesh_apply_instance(submesh, instance) {
             for (var j = 0; j < param_len; j++)
                 submesh.va_common[param][i*param_len + j] = params[param][j];
     }
+
+    return submesh;
 }
 
 /**
@@ -698,31 +708,26 @@ function submesh_list_join_prepare_dest(submeshes) {
 /**
  * Extract and clone submesh by given transforms.
  * well-suited for hair particles
- * ignore transform/center positions specified in instance
+ * ignore transform/center positions
  */
-exports.make_clone_submesh = function(instance, attr_names, vertex_colors_usage,
-        uv_maps_usage, transforms) {
-
-    var submesh = extract_submesh(instance.mesh, instance.submesh_index,
-            attr_names, null, vertex_colors_usage, uv_maps_usage);
+exports.make_clone_submesh = function(src_submesh, params, transforms) {
 
     // ignore empty submeshes
-    if (!submesh.base_length)
+    if (!src_submesh.base_length)
         return m_util.create_empty_submesh("EMPTY");
 
     var count = transforms.length;
-    if (submesh.base_length * count > MAX_SUBMESH_LENGTH
+    if (src_submesh.base_length * count > MAX_SUBMESH_LENGTH
            && !m_ext.get_elem_index_uint())
-        submesh_drop_indices(submesh, count);
+        submesh_drop_indices(src_submesh, count);
 
     // for cloned submesh
-    var indices = submesh.indices;
-    var base_length = submesh.base_length;
-    var va_common = submesh.va_common;
-    var va_frames = submesh.va_frames;
+    var indices = src_submesh.indices;
+    var base_length = src_submesh.base_length;
+    var va_common = src_submesh.va_common;
+    var va_frames = src_submesh.va_frames;
 
     // store additional params in extracted submesh
-    var params = instance.params;
     for (var param in params) {
         var param_len = params[param].length;
         var len = param_len * base_length;
@@ -1260,8 +1265,8 @@ exports.update_buffers_movable = function(bufs_data, world_matrix, eye) {
     var indices = sort_triangles(dist_cache, indices);
 
     // bind and update IBO 
-    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, bufs_data.ibo);    
-    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, indices, gl.DYNAMIC_DRAW);
+    _gl.bindBuffer(_gl.ELEMENT_ARRAY_BUFFER, bufs_data.ibo);    
+    _gl.bufferData(_gl.ELEMENT_ARRAY_BUFFER, indices, _gl.DYNAMIC_DRAW);
 }
 
 /**

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Содержание &mdash; Руководство пользователя: Blend4Web v14.04.22</title>
+    <title>Содержание &mdash; Руководство пользователя: Blend4Web v14.05.22</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.04.22',
+        VERSION:     '14.05.22',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v14.04.22" href="#" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v14.05.22" href="#" />
     <link rel="next" title="Общие сведения" href="about.html" /> 
   </head>
   <body>
@@ -36,7 +36,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="#">Руководство пользователя: Blend4Web v14.04.22</a></div>
+          href="#">Руководство пользователя: Blend4Web v14.05.22</a></div>
         <div class="rel">
           <a href="about.html" title="Общие сведения"
              accesskey="N">следующий</a> |
@@ -70,7 +70,6 @@
 <li class="toctree-l2"><a class="reference internal" href="about.html#about-browser-tech">Браузерные технологии</a></li>
 <li class="toctree-l2"><a class="reference internal" href="about.html#about-interactive-graphics">Интерактивная графика</a></li>
 <li class="toctree-l2"><a class="reference internal" href="about.html#about-drivers-video-cards">Видео-карты и драйверы</a></li>
-<li class="toctree-l2"><a class="reference internal" href="about.html#web3d-examples">Примеры использования 3D веб-технологий</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="features.html">Функционал движка</a><ul>
@@ -200,21 +199,17 @@
 <li class="toctree-l2"><a class="reference internal" href="outdoor_rendering.html#wind">Ветер</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Гамма-коррекция и прозрачность</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Гамма-коррекция и альфа-композитинг</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="gamma_alpha.html#id2">Общее описание</a></li>
-<li class="toctree-l2"><a class="reference internal" href="gamma_alpha.html#id3">Человеческое зрение, ЭЛТ-мониторы</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gamma_alpha.html#id3">Человеческое зрение, мониторы и гамма-коррекция</a></li>
 <li class="toctree-l2"><a class="reference internal" href="gamma_alpha.html#id4">Гамма</a></li>
 <li class="toctree-l2"><a class="reference internal" href="gamma_alpha.html#gamma-nodes">Коррекция в нодовых материалах</a></li>
-<li class="toctree-l2"><a class="reference internal" href="gamma_alpha.html#id6">Альфа-композитинг</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gamma_alpha.html#id10">Альфа-композитинг</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="audio.html">Звуковая подсистема</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="audio.html#id2">Настройка звуковых источников</a></li>
 <li class="toctree-l2"><a class="reference internal" href="audio.html#encoding">Обработка и кодирование</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="event_model.html">Событийная модель</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="event_model.html#index-0">Сенсоры</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="physics.html">Физика</a><ul>
@@ -229,7 +224,8 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="nla.html">Нелинейная анимация</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="nla.html#id2">Активация</a></li>
-<li class="toctree-l2"><a class="reference internal" href="nla.html#id3">Ограничения</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nla.html#id3">Дополнительные опции</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nla.html#id4">Ограничения</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="developers.html">Разработчикам приложений</a><ul>
@@ -239,40 +235,37 @@
 <li class="toctree-l2"><a class="reference internal" href="developers.html#id4">Система модулей</a></li>
 <li class="toctree-l2"><a class="reference internal" href="developers.html#id5">Управление перемещением объектов</a></li>
 <li class="toctree-l2"><a class="reference internal" href="developers.html#index-0">Кватернионы</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developers.html#event-model">Событийная модель</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developers.html#sdk">Файловая структура SDK</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">Разработчикам движка</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="developers_advanced.html#coding-style">Стиль оформления кода</a></li>
 <li class="toctree-l2"><a class="reference internal" href="developers_advanced.html#id4">Сборка аддона</a></li>
 <li class="toctree-l2"><a class="reference internal" href="developers_advanced.html#dependencies">Зависимости</a></li>
-<li class="toctree-l2"><a class="reference internal" href="developers_advanced.html#id6">Способ именования идентификаторов (функций, объектов, переменных)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developers_advanced.html#id6">Способ именования идентификаторов функций и переменных</a></li>
 <li class="toctree-l2"><a class="reference internal" href="developers_advanced.html#debugging">Отладка</a></li>
 <li class="toctree-l2"><a class="reference internal" href="developers_advanced.html#shaders">Шейдеры</a></li>
-<li class="toctree-l2"><a class="reference internal" href="developers_advanced.html#repo-file-structure">Файловая структура репозитория</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Краткая справка по git</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="git_short_manual.html#what-is-git">Назначение</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Работа в команде. Использование git</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="git_short_manual.html#what-is-git">Общие сведения</a></li>
 <li class="toctree-l2"><a class="reference internal" href="git_short_manual.html#git-pipeline">Типичный рабочий процесс</a></li>
 <li class="toctree-l2"><a class="reference internal" href="git_short_manual.html#git-config">Индивидуальные настройки</a></li>
-<li class="toctree-l2"><a class="reference internal" href="git_short_manual.html#git-example-begin">Пример - начало работы</a></li>
-<li class="toctree-l2"><a class="reference internal" href="git_short_manual.html#git-example-prepare-to-commit">Пример - подготовка к коммиту</a></li>
-<li class="toctree-l2"><a class="reference internal" href="git_short_manual.html#git-example-add-rm-commit">Пример - добавление и удаление файлов для коммита</a></li>
-<li class="toctree-l2"><a class="reference internal" href="git_short_manual.html#git-commit">Пример - коммит</a></li>
-<li class="toctree-l2"><a class="reference internal" href="git_short_manual.html#git-example-repo-sync">Пример - синхронизация между репозиториями</a></li>
-<li class="toctree-l2"><a class="reference internal" href="git_short_manual.html#git-tags">Памятка по тэгам для разработчиков</a></li>
-<li class="toctree-l2"><a class="reference internal" href="git_short_manual.html#id20">Другие полезные команды</a></li>
+<li class="toctree-l2"><a class="reference internal" href="git_short_manual.html#git-example-begin">Проверка статуса</a></li>
+<li class="toctree-l2"><a class="reference internal" href="git_short_manual.html#git-example-prepare-to-commit">Перед коммитом</a></li>
+<li class="toctree-l2"><a class="reference internal" href="git_short_manual.html#git-example-add-rm-commit">Подготовка к коммиту</a></li>
+<li class="toctree-l2"><a class="reference internal" href="git_short_manual.html#git-commit">Коммит</a></li>
+<li class="toctree-l2"><a class="reference internal" href="git_short_manual.html#git-example-repo-sync">Синхронизация между репозиториями</a></li>
+<li class="toctree-l2"><a class="reference internal" href="git_short_manual.html#index-7">Разрешение конфликтов</a></li>
+<li class="toctree-l2"><a class="reference internal" href="git_short_manual.html#git-tags">Тэги</a></li>
+<li class="toctree-l2"><a class="reference internal" href="git_short_manual.html#id23">Другие полезные команды</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Проблемы и решения</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="problems_and_solutions.html#renderer-not-working">Проблемы при запуске рендерера</a></li>
 <li class="toctree-l2"><a class="reference internal" href="problems_and_solutions.html#webgl">Ошибка инициализации WebGL</a></li>
 <li class="toctree-l2"><a class="reference internal" href="problems_and_solutions.html#web">Использование локального web-сервера</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="roadmap.html">План развития</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="roadmap.html#id2">Приоритетные задачи</a></li>
-<li class="toctree-l2"><a class="reference internal" href="roadmap.html#id3">Прочие задачи</a></li>
 </ul>
 </li>
 </ul>
@@ -308,16 +301,14 @@
 <li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Система частиц для инстансинга объектов</a></li>
 <li class="toctree-l1"><a class="reference internal" href="animation.html">Анимация</a></li>
 <li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Рендеринг наружных сцен</a></li>
-<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Гамма-коррекция и прозрачность</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Гамма-коррекция и альфа-композитинг</a></li>
 <li class="toctree-l1"><a class="reference internal" href="audio.html">Звуковая подсистема</a></li>
-<li class="toctree-l1"><a class="reference internal" href="event_model.html">Событийная модель</a></li>
 <li class="toctree-l1"><a class="reference internal" href="physics.html">Физика</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nla.html">Нелинейная анимация</a></li>
 <li class="toctree-l1"><a class="reference internal" href="developers.html">Разработчикам приложений</a></li>
 <li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">Разработчикам движка</a></li>
-<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Краткая справка по git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Работа в команде. Использование git</a></li>
 <li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Проблемы и решения</a></li>
-<li class="toctree-l1"><a class="reference internal" href="roadmap.html">План развития</a></li>
 </ul>
 
           <h3 style="margin-top: 1.5em;">Поиск</h3>
@@ -348,7 +339,7 @@
           
     <div class="footer">
         &copy; Copyright 2014, ООО &#34;Триумф&#34;.
-      Обновлено: 2014-04-23.
+      Обновлено: 2014-05-21.
       Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

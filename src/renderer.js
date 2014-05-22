@@ -16,7 +16,7 @@ var m_textures = require("__textures");
 
 var cfg_def = config.defaults;
 
-var gl;
+var _gl = null;
 
 var USE_BACKFACE_CULLING = true;
 
@@ -45,10 +45,9 @@ var SUBSAMPLE_IND = [new Float32Array([1, 1, 1, 0]),
 
 /**
  * Setup WebGL context
- * @param ctx webgl context
+ * @param gl WebGL context
  */
-exports.setup_context = function(ctx) {
-    gl = ctx;
+exports.setup_context = function(gl) {
 
     var bc = cfg_def.background_color;
     gl.clearColor(bc[0], bc[1], bc[2], bc[3]);
@@ -69,6 +68,8 @@ exports.setup_context = function(ctx) {
 
     // http://stackoverflow.com/questions/11521035/blending-with-html-background-in-webgl
     //gl.blendFuncSeparate(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA, gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+    
+    _gl = gl;
 }
 
 
@@ -96,35 +97,35 @@ exports.draw = function(subscene) {
     }
     debug.check_gl("draw subscene: " + subscene.type);
     // NOTE: fix for strange issue with skydome rendering
-    gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+    _gl.bindFramebuffer(_gl.FRAMEBUFFER, null);
 }
 
 function prepare_subscene_render(subscene) {
 
     var camera = subscene.camera;
 
-    gl.bindFramebuffer(gl.FRAMEBUFFER, camera.framebuffer);
+    _gl.bindFramebuffer(_gl.FRAMEBUFFER, camera.framebuffer);
 
     if (subscene.assign_texture) {
         var tex = camera.color_attachment;
 
-        gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, 
+        _gl.framebufferTexture2D(_gl.FRAMEBUFFER, _gl.COLOR_ATTACHMENT0, 
             tex.w_target, tex.w_texture, 0);
     }
 
-    gl.viewport(0, 0, camera.width, camera.height);
+    _gl.viewport(0, 0, camera.width, camera.height);
 
     clear(subscene);
 
     if (subscene.blend)
-        gl.enable(gl.BLEND);
+        _gl.enable(_gl.BLEND);
     else
-        gl.disable(gl.BLEND);
+        _gl.disable(_gl.BLEND);
 
     if (subscene.depth_test)
-        gl.enable(gl.DEPTH_TEST);
+        _gl.enable(_gl.DEPTH_TEST);
     else
-        gl.disable(gl.DEPTH_TEST);
+        _gl.disable(_gl.DEPTH_TEST);
 
     if (subscene.need_perm_uniforms_update) {
         update_subs_permanent_uniforms(subscene);
@@ -134,32 +135,33 @@ function prepare_subscene_render(subscene) {
     // prevent self-shadow issues
     switch (subscene.type) {
     case "SHADOW_CAST":
-        gl.enable(gl.POLYGON_OFFSET_FILL);
-        gl.polygonOffset(1.0, 1.0);
+        _gl.enable(_gl.POLYGON_OFFSET_FILL);
+        _gl.polygonOffset(1.0 * cfg_def.poly_offset_multiplier, 
+                1.0 * cfg_def.poly_offset_multiplier);
         /*
          * bad as it leads to impossibility to use backface culling 
          * for some objects.
          * Instead visibility falloff is used to reduce 
          * self-shadowing artefacts.
-         * gl.cullFace(gl.FRONT); 
+         * _gl.cullFace(_gl.FRONT); 
          */
-        gl.cullFace(gl.BACK);
+        _gl.cullFace(_gl.BACK);
         break;
     case "MAIN_REFLECT":
-        gl.disable(gl.POLYGON_OFFSET_FILL);
-        gl.cullFace(gl.FRONT);
+        _gl.disable(_gl.POLYGON_OFFSET_FILL);
+        _gl.cullFace(_gl.FRONT);
         break;
     case "SMAA_BLENDING_WEIGHT_CALCULATION":
 
         var s_index = SUBSAMPLE_IND[_subpixel_index];
         subscene.jitter_subsample_ind = s_index;
 
-        gl.disable(gl.POLYGON_OFFSET_FILL);
-        gl.cullFace(gl.BACK);
+        _gl.disable(_gl.POLYGON_OFFSET_FILL);
+        _gl.cullFace(_gl.BACK);
         break;
     default:
-        gl.disable(gl.POLYGON_OFFSET_FILL);
-        gl.cullFace(gl.BACK);
+        _gl.disable(_gl.POLYGON_OFFSET_FILL);
+        _gl.cullFace(_gl.BACK);
     }
 
     if (cfg_def.smaa)
@@ -169,8 +171,8 @@ function prepare_subscene_render(subscene) {
 exports.clear = clear;
 function clear(subscene) {
     if (subscene) {
-        var bitfield = (subscene.clear_color ? gl.COLOR_BUFFER_BIT : 0) | 
-            (subscene.clear_depth ? gl.DEPTH_BUFFER_BIT : 0);
+        var bitfield = (subscene.clear_color ? _gl.COLOR_BUFFER_BIT : 0) | 
+            (subscene.clear_depth ? _gl.DEPTH_BUFFER_BIT : 0);
 
         // do nothing
         if (!bitfield)
@@ -198,16 +200,16 @@ function clear(subscene) {
             break;
         }
     } else {
-        var bitfield = gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT;
+        var bitfield = _gl.COLOR_BUFFER_BIT | _gl.DEPTH_BUFFER_BIT;
         var bc = cfg_def.background_color;
     }
 
     // NOTE: activate them to make proper clean
-    gl.colorMask(true, true, true, true);
-    gl.depthMask(true);
+    _gl.colorMask(true, true, true, true);
+    _gl.depthMask(true);
 
-    gl.clearColor(bc[0], bc[1], bc[2], bc[3]);
-    gl.clear(bitfield);
+    _gl.clearColor(bc[0], bc[1], bc[2], bc[3]);
+    _gl.clear(bitfield);
 }
 
 function setup_smaa_jitter(subscene) {
@@ -225,7 +227,7 @@ function draw_bundle(subscene, camera, obj_render, batch) {
     if (!shader.transient_uniform_setters)
         assign_uniform_setters(shader);
 
-    gl.useProgram(shader.program);
+    _gl.useProgram(shader.program);
 
     // retrieve buffers
     var bufs_data = batch.bufs_data;
@@ -238,20 +240,20 @@ function draw_bundle(subscene, camera, obj_render, batch) {
     var i = transient_uniform_names.length;
     while (i--) {
         var uni = transient_uniform_names[i];
-        transient_uniform_setters[uni](gl, uniforms[uni], subscene, obj_render,
+        transient_uniform_setters[uni](_gl, uniforms[uni], subscene, obj_render,
                                        batch, camera);
     }
 
     // disable color mask if requested
     var cm = batch.color_mask;
-    gl.colorMask(cm, cm, cm, cm);
-    gl.depthMask(batch.depth_mask);
+    _gl.colorMask(cm, cm, cm, cm);
+    _gl.depthMask(batch.depth_mask);
 
     if (USE_BACKFACE_CULLING) {
         if (batch.use_backface_culling)
-            gl.enable(gl.CULL_FACE);
+            _gl.enable(_gl.CULL_FACE);
         else
-            gl.disable(gl.CULL_FACE);
+            _gl.disable(_gl.CULL_FACE);
     }
 
     setup_textures(batch.textures, batch.texture_names, uniforms);
@@ -273,13 +275,13 @@ function draw_sky_buffers(subscene, bufs_data, shader, obj_render) {
 
     for (var i = 0; i < 6; i++) {
 
-        gl.uniformMatrix4fv(uniforms["u_cube_view_matrix"], false, v_matrs[i]);
+        _gl.uniformMatrix4fv(uniforms["u_cube_view_matrix"], false, v_matrs[i]);
 
         var w_target         = get_cube_target_by_id(i);
         var color_attachment = camera.color_attachment;
         var w_tex            = color_attachment.w_texture;
 
-        gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, 
+        _gl.framebufferTexture2D(_gl.FRAMEBUFFER, _gl.COLOR_ATTACHMENT0, 
             w_target, w_tex, 0);
 
         draw_buffers(bufs_data, shader, obj_render.va_frame);
@@ -295,9 +297,9 @@ function update_subs_sky_fog(subscene, cubemap_side_ind) {
     // get pixel from every side of cubemap for procedural fog calculation
     var col = _ivec4_tmp;
 
-    gl.readPixels(191, 191, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, col);
+    _gl.readPixels(191, 191, 1, 1, _gl.RGBA, _gl.UNSIGNED_BYTE, col);
     if (col[0] == 255 || col[1] == 255 || col[2] == 255) {
-        gl.readPixels(191, 220, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, col);
+        _gl.readPixels(191, 220, 1, 1, _gl.RGBA, _gl.UNSIGNED_BYTE, col);
     }
     var res_r = col[0]; var res_g = col[1]; var res_b = col[2];
 
@@ -321,28 +323,28 @@ function setup_float_attribute(attributes, name, value) {
     if (attribute_loc == undefined)
         return;
 
-    gl.vertexAttrib1f(attribute_loc, value);
+    _gl.vertexAttrib1f(attribute_loc, value);
 }
 function setup_vec2_attribute(attributes, name, value) {
     var attribute_loc = attributes[name];
     if (attribute_loc == undefined)
         return;
 
-    gl.vertexAttrib2fv(attribute_loc, value);
+    _gl.vertexAttrib2fv(attribute_loc, value);
 }
 function setup_vec3_attribute(attributes, name, value) {
     var attribute_loc = attributes[name];
     if (attribute_loc == undefined)
         return;
 
-    gl.vertexAttrib3fv(attribute_loc, value);
+    _gl.vertexAttrib3fv(attribute_loc, value);
 }
 function setup_vec4_attribute(attributes, name, value) {
     var attribute_loc = attributes[name];
     if (attribute_loc == undefined)
         return;
 
-    gl.vertexAttrib4fv(attribute_loc, value);
+    _gl.vertexAttrib4fv(attribute_loc, value);
 }
 
 /**
@@ -355,7 +357,7 @@ function draw_buffers(bufs_data, shader, frame) {
     var attributes = shader.attributes;
     var attribute_names = shader.attribute_names;
 
-    gl.bindBuffer(gl.ARRAY_BUFFER, bufs_data.vbo);
+    _gl.bindBuffer(_gl.ARRAY_BUFFER, bufs_data.vbo);
 
     var pointers = bufs_data.pointers;
 
@@ -365,50 +367,50 @@ function draw_buffers(bufs_data, shader, frame) {
         var attribute_loc = attributes[attr];
         var p = pointers[attr];
 
-        gl.enableVertexAttribArray(attribute_loc);
+        _gl.enableVertexAttribArray(attribute_loc);
         if (frame && p.frames > 1)
             var offset = (p.offset + frame * p.length) * FLOAT_BYTE_SIZE;
         else
             var offset = p.offset * FLOAT_BYTE_SIZE;
-        gl.vertexAttribPointer(attribute_loc, p.num_comp, gl.FLOAT, false, 0, 
+        _gl.vertexAttribPointer(attribute_loc, p.num_comp, _gl.FLOAT, false, 0, 
                 offset);
     }
 
     // draw
     
     if (bufs_data.ibo) {
-        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, bufs_data.ibo);
-        gl.drawElements(bufs_data.mode, bufs_data.count, bufs_data.ibo_type, 0);
+        _gl.bindBuffer(_gl.ELEMENT_ARRAY_BUFFER, bufs_data.ibo);
+        _gl.drawElements(bufs_data.mode, bufs_data.count, bufs_data.ibo_type, 0);
     } else
-        gl.drawArrays(bufs_data.mode, 0, bufs_data.count);
+        _gl.drawArrays(bufs_data.mode, 0, bufs_data.count);
 
     // cleanup attributes
     var i = attribute_names.length;
     while(i--) {
         var attr = attribute_names[i];
-        gl.disableVertexAttribArray(attributes[attr]);
+        _gl.disableVertexAttribArray(attributes[attr]);
     }
 }
 
 function get_cube_target_by_id(id) {
     switch (id) {
     case 0:
-        return gl.TEXTURE_CUBE_MAP_NEGATIVE_Y;
+        return _gl.TEXTURE_CUBE_MAP_NEGATIVE_Y;
         break;
     case 1:
-        return gl.TEXTURE_CUBE_MAP_POSITIVE_Y;
+        return _gl.TEXTURE_CUBE_MAP_POSITIVE_Y;
         break;
     case 2:
-        return gl.TEXTURE_CUBE_MAP_POSITIVE_X;
+        return _gl.TEXTURE_CUBE_MAP_POSITIVE_X;
         break;
     case 3:
-        return gl.TEXTURE_CUBE_MAP_NEGATIVE_X;
+        return _gl.TEXTURE_CUBE_MAP_NEGATIVE_X;
         break;
     case 4:
-        return gl.TEXTURE_CUBE_MAP_POSITIVE_Z;
+        return _gl.TEXTURE_CUBE_MAP_POSITIVE_Z;
         break;
     case 5:
-        return gl.TEXTURE_CUBE_MAP_NEGATIVE_Z;
+        return _gl.TEXTURE_CUBE_MAP_NEGATIVE_Z;
         break;
     }
 }
@@ -1388,16 +1390,16 @@ function setup_textures(textures, names, uniforms) {
     if (len === 0) {
         return;
     } else if (len === 1) {
-        gl.activeTexture(gl.TEXTURE0);
-        gl.bindTexture(textures[0].w_target, textures[0].w_texture);
+        _gl.activeTexture(_gl.TEXTURE0);
+        _gl.bindTexture(textures[0].w_target, textures[0].w_texture);
     } else {
         for (var i = 0; i < len; i++) {
             var tex = textures[i];
             var name = names[i];
 
-            gl.activeTexture(gl.TEXTURE0 + i);
-            gl.bindTexture(tex.w_target, tex.w_texture);
-            gl.uniform1i(uniforms[name], i);
+            _gl.activeTexture(_gl.TEXTURE0 + i);
+            _gl.bindTexture(tex.w_target, tex.w_texture);
+            _gl.uniform1i(uniforms[name], i);
         }
     }
 }
@@ -1424,9 +1426,9 @@ function read_pixels(framebuffer, x, y, width, height, storage) {
     if (storage.length != 4 * width * height)
         throw "Wrong storage";
 
-    gl.bindFramebuffer(gl.FRAMEBUFFER, framebuffer);
-    gl.readPixels(x, y, width, height, gl.RGBA, gl.UNSIGNED_BYTE, storage);
-    gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+    _gl.bindFramebuffer(_gl.FRAMEBUFFER, framebuffer);
+    _gl.readPixels(x, y, width, height, _gl.RGBA, _gl.UNSIGNED_BYTE, storage);
+    _gl.bindFramebuffer(_gl.FRAMEBUFFER, null);
 
     return storage;
 }
@@ -1442,7 +1444,7 @@ function update_subs_permanent_uniforms(subscene) {
 
         var batch = bundle.batch;
         var shader = batch.shader;
-        gl.useProgram(shader.program);
+        _gl.useProgram(shader.program);
 
         var obj_render = bundle.obj_render;
 
@@ -1457,7 +1459,7 @@ function update_subs_permanent_uniforms(subscene) {
         var j = permanent_uniform_names.length;
         while (j--) {
             var uni = permanent_uniform_names[j];
-            permanent_uniform_setters[uni](gl, uniforms[uni], subscene,
+            permanent_uniform_setters[uni](_gl, uniforms[uni], subscene,
                                         obj_render, batch, camera);
         }
     }
@@ -1466,7 +1468,7 @@ function update_subs_permanent_uniforms(subscene) {
 exports.update_batch_permanent_uniform = function(batch, uni_name) {
 
     var shader = batch.shader;
-    gl.useProgram(shader.program);
+    _gl.useProgram(shader.program);
 
     var uniforms = shader.uniforms;
     var uni_setters = shader.permanent_uniform_setters;
@@ -1474,7 +1476,7 @@ exports.update_batch_permanent_uniform = function(batch, uni_name) {
     if (!uni_setters)
         assign_uniform_setters(shader);
 
-    uni_setters[uni_name](gl, uniforms[uni_name], null, null, batch, null);
+    uni_setters[uni_name](_gl, uniforms[uni_name], null, null, batch, null);
 }
 
 /**
@@ -1483,18 +1485,18 @@ exports.update_batch_permanent_uniform = function(batch, uni_name) {
  * use texture.resize() method
  */
 exports.render_target_create = function(color_attachment, depth_attachment) {
-    var framebuffer = gl.createFramebuffer();
-    gl.bindFramebuffer(gl.FRAMEBUFFER, framebuffer);
+    var framebuffer = _gl.createFramebuffer();
+    _gl.bindFramebuffer(_gl.FRAMEBUFFER, framebuffer);
 
     // texture/null
     if (color_attachment) {
         var texture = color_attachment;
 
         var w_tex = texture.w_texture;
-        var w_target = (texture.w_target == gl.TEXTURE_CUBE_MAP) ? 
-                        gl.TEXTURE_CUBE_MAP_NEGATIVE_Z : texture.w_target;
+        var w_target = (texture.w_target == _gl.TEXTURE_CUBE_MAP) ? 
+                        _gl.TEXTURE_CUBE_MAP_NEGATIVE_Z : texture.w_target;
 
-        gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, 
+        _gl.framebufferTexture2D(_gl.FRAMEBUFFER, _gl.COLOR_ATTACHMENT0, 
             w_target, w_tex, 0);
     }
 
@@ -1502,8 +1504,8 @@ exports.render_target_create = function(color_attachment, depth_attachment) {
     if (m_textures.is_renderbuffer(depth_attachment)) {
         var renderbuffer = depth_attachment.w_renderbuffer;
 
-        gl.framebufferRenderbuffer(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, 
-            gl.RENDERBUFFER, renderbuffer);
+        _gl.framebufferRenderbuffer(_gl.FRAMEBUFFER, _gl.DEPTH_ATTACHMENT, 
+            _gl.RENDERBUFFER, renderbuffer);
 
     } else if (m_textures.is_texture(depth_attachment)) {
         var texture = depth_attachment;
@@ -1511,13 +1513,13 @@ exports.render_target_create = function(color_attachment, depth_attachment) {
         var w_tex = texture.w_texture;
         var w_target = texture.w_target;
 
-        gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, w_target, 
+        _gl.framebufferTexture2D(_gl.FRAMEBUFFER, _gl.DEPTH_ATTACHMENT, w_target, 
                 w_tex, 0);
     }
     debug.check_bound_fb();
 
     // switch back to the window-system provided framebuffer
-    gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+    _gl.bindFramebuffer(_gl.FRAMEBUFFER, null);
 
     return framebuffer;
 }
@@ -1527,22 +1529,22 @@ exports.render_target_cleanup = function(framebuffer, color_attachment,
 
     // handle simple case first
     if (framebuffer == null) {
-        gl.bindFramebuffer(gl.FRAMEBUFFER, framebuffer);
-        gl.viewport(0, 0, width, height);
-        gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+        _gl.bindFramebuffer(_gl.FRAMEBUFFER, framebuffer);
+        _gl.viewport(0, 0, width, height);
+        _gl.clear(_gl.COLOR_BUFFER_BIT | _gl.DEPTH_BUFFER_BIT);
 
         return;
     }
 
     if (m_textures.is_texture(color_attachment))
-        gl.deleteTexture(color_attachment.w_texture);
+        _gl.deleteTexture(color_attachment.w_texture);
 
     if (m_textures.is_renderbuffer(depth_attachment))
-        gl.deleteRenderbuffer(depth_attachment.w_renderbuffer);
+        _gl.deleteRenderbuffer(depth_attachment.w_renderbuffer);
     else if (m_textures.is_texture(depth_attachment))
-        gl.deleteTexture(depth_attachment.w_texture);
+        _gl.deleteTexture(depth_attachment.w_texture);
 
-    gl.deleteFramebuffer(framebuffer);
+    _gl.deleteFramebuffer(framebuffer);
 }
 
 exports.lock = function() {

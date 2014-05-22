@@ -47,8 +47,7 @@ protected:
 	btScalar m_waterLine;
 
     bool m_isJumping;
-    btScalar m_jumpInterval;
-    bool m_jumpLock;
+
 public:
     duCharacter(btRigidBody* character,
                 const btScalar angle,          const btScalar height,
@@ -63,7 +62,6 @@ public:
     btCollisionObject* getCollisionObject ();
 
     void jump();
-    void processingJump(btScalar deltaTimeStep);
     void rotate(const btScalar h_angle, const btScalar v_angle);
     void setHorRotation (const btScalar angle);
     void setVertRotation(const btScalar angle);
@@ -96,7 +94,6 @@ private:
     void castRays(btCollisionWorld* collisionWorld);
     void move(btScalar delta_time);
 	bool canJump () const;
-	bool onGround () const;
 	bool closeGround () const;
     static btVector3 QmV3(const btVector3 & v, const btQuaternion & q);
 };

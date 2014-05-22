@@ -17,7 +17,7 @@ msgstr "Textures"
 
 #: ../textures.rst:12
 msgid "Типы текстур"
-msgstr "Texture types"
+msgstr "Texture Types"
 
 #: ../textures.rst:14
 msgid ""
@@ -239,7 +239,7 @@ msgstr "The foam texture. Used by the water rendering material."
 
 #: ../textures.rst:72
 msgid "Диффузная текстура (diffuse map)"
-msgstr "Diffuse map"
+msgstr "Diffuse Map"
 
 #: ../textures.rst:74
 msgid ""
@@ -295,7 +295,7 @@ msgstr ""
 
 #: ../textures.rst:94
 msgid "Карта бликов (specular map)"
-msgstr "Specular map"
+msgstr "Specular Map"
 
 #: ../textures.rst:96
 msgid ""
@@ -349,7 +349,7 @@ msgstr ""
 
 #: ../textures.rst:118
 msgid "Карта нормалей (normal map)"
-msgstr "Normal map"
+msgstr "Normal Map"
 
 #: ../textures.rst:120
 msgid ""
@@ -383,7 +383,7 @@ msgstr ""
 
 #: ../textures.rst:137
 msgid "Карта высот (height map). Parallax mapping"
-msgstr "Height map. Parallax mapping"
+msgstr "Height Map. Parallax Mapping"
 
 #: ../textures.rst:139
 msgid ""
@@ -434,7 +434,7 @@ msgstr ""
 
 #: ../textures.rst:168
 msgid "Карта прозрачности (alpha map)"
-msgstr "Alpha map"
+msgstr "Alpha Map"
 
 #: ../textures.rst:170
 msgid ""
@@ -463,7 +463,7 @@ msgstr ""
 
 #: ../textures.rst:197
 msgid "Карта смешивания (stencil map)"
-msgstr "Stencil map"
+msgstr "Stencil Map"
 
 #: ../textures.rst:199
 msgid ""
@@ -533,7 +533,7 @@ msgstr ""
 
 #: ../textures.rst:240
 msgid "Карта окружения (environment map)"
-msgstr "Environment map"
+msgstr "Environment Map"
 
 #: ../textures.rst:242
 msgid ""
@@ -609,7 +609,7 @@ msgstr "Save the environment map into a file."
 
 #: ../textures.rst:283
 msgid "Карта зеркального отражения (mirror map)"
-msgstr "Mirror map"
+msgstr "Mirror Map"
 
 #: ../textures.rst:285
 msgid ""
@@ -672,7 +672,7 @@ msgstr ""
 
 #: ../textures.rst:333
 msgid "Рендеринг в текстуру (render-to-texture, RTT)"
-msgstr "Render-to-texture, RTT"
+msgstr "Render-to-Texture, RTT"
 
 #: ../textures.rst:335
 msgid ""

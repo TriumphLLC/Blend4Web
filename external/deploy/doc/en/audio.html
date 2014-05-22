@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Звуковая подсистема &mdash; User manual: Blend4Web v14.04.22</title>
+    <title>Audio System &mdash; User Manual: Blend4Web v14.05.22</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.04.22',
+        VERSION:     '14.05.22',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,9 +25,9 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User manual: Blend4Web v14.04.22" href="index.html" />
-    <link rel="next" title="Событийная модель" href="event_model.html" />
-    <link rel="prev" title="Gamma-correction and transparency" href="gamma_alpha.html" /> 
+    <link rel="top" title="User Manual: Blend4Web v14.05.22" href="index.html" />
+    <link rel="next" title="Physics" href="physics.html" />
+    <link rel="prev" title="Gamma Correction and Alpha Compositing" href="gamma_alpha.html" /> 
   </head>
   <body>
     <div class="header-wrapper">
@@ -36,11 +36,11 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">User manual: Blend4Web v14.04.22</a></div>
+          href="index.html">User Manual: Blend4Web v14.05.22</a></div>
         <div class="rel">
-          <a href="gamma_alpha.html" title="Gamma-correction and transparency"
+          <a href="gamma_alpha.html" title="Gamma Correction and Alpha Compositing"
              accesskey="P">previous</a> |
-          <a href="event_model.html" title="Событийная модель"
+          <a href="physics.html" title="Physics"
              accesskey="N">next</a> |
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a>
@@ -57,84 +57,88 @@
           <div class="body">
             
   <div class="section" id="audio">
-<span id="id1"></span><h1>Звуковая подсистема<a class="headerlink" href="#audio" title="Permalink to this headline">¶</a></h1>
-<p>Создание звуковых источников осуществляется в Blender&#8217;e. Используется стандартный объект <tt class="docutils literal"><span class="pre">Speaker</span></tt>.</p>
+<span id="id1"></span><h1>Audio System<a class="headerlink" href="#audio" title="Permalink to this headline">¶</a></h1>
+<p>Audio sources are created in Blender. The standard <tt class="docutils literal"><span class="pre">Speaker</span></tt> object is used.</p>
+<a class="reference internal image-reference" href="_images/speaker.jpg"><img alt="_images/speaker.jpg" class="align-center" src="_images/speaker.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
 <div class="section" id="id2">
-<h2>Настройка звуковых источников<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
-<p>Настройки спикера выставляются в панели <tt class="docutils literal"><span class="pre">Properties</span></tt> на вкладке <tt class="docutils literal"><span class="pre">Object</span> <span class="pre">Data</span></tt>.</p>
+<h2>Audio Source Settings<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>Speaker parameters can be set up on the <tt class="docutils literal"><span class="pre">Properties</span></tt> panel under the <tt class="docutils literal"><span class="pre">Object</span> <span class="pre">Data</span></tt> tab.</p>
+<p>The engine supports all the standard parameters. The engine-specific settings are located on the <tt class="docutils literal"><span class="pre">Blend4Web</span></tt> panel.</p>
 <dl class="docutils">
 <dt><em>Speaker behavior</em></dt>
-<dd><p class="first">Поведение звукового источника.</p>
-<p><tt class="docutils literal"><span class="pre">Positional</span></tt> &#8212; высококачественный звук, допускающий позиционирование и
-имеющий направленность (конусность). Для рендеринга используется Web Audio
-API. Воспроизведение подобных звуков обладает наименьшей производительностью,
-поэтому их использовать целесообразно только для коротких сэмплов.</p>
-<p><tt class="docutils literal"><span class="pre">Background</span> <span class="pre">sound</span></tt> &#8212; высококачественный всенаправленный звук без возможности
-позиционирования в пространстве. Для рендеринга используется Web Audio API.
-Более производителен, однако нецелесообразен для музыки.</p>
-<p class="last"><tt class="docutils literal"><span class="pre">Background</span> <span class="pre">music</span></tt> &#8212; используется для воспроизведения музыки. Максимальная
-производительность вследствие использования тега Audio, минимальная гибкость.</p>
+<dd><p class="first">The behavior of the audio source.</p>
+<p><tt class="docutils literal"><span class="pre">Positional</span></tt> &#8212; high-quality sound with spatial positioning and directivity (conicity). The Web Audio API is used for sound rendering. Playback performance of such sounds is the least and so use them only for short samples.</p>
+<p><tt class="docutils literal"><span class="pre">Background</span> <span class="pre">sound</span></tt> &#8212; high-quality omnidirectional sound without spatial positioning. The Web Audio API is used for sound rendering. It is more performant but is not effective for music.</p>
+<p class="last"><tt class="docutils literal"><span class="pre">Background</span> <span class="pre">music</span></tt> &#8212; used for music playback. It has maximum performance due to the use of the Audio HTML tag, but has minimum flexibility.</p>
 </dd>
 <dt><em>Disable doppler</em></dt>
-<dd>Игнорировать смещение частоты источника при его перемещении.</dd>
+<dd><p class="first last">Ignore source&#8217;s frequency shift upon its moving.</p>
+</dd>
 <dt><em>Cyclic play</em></dt>
-<dd>Зацикливать воспроизведение звука.</dd>
+<dd><p class="first last">Loop the sound playback.</p>
+</dd>
 <dt><em>Delay</em></dt>
-<dd>Задержка в секундах перед началом проигрывания звука.</dd>
+<dd><p class="first last">Delay before sound playback starts.</p>
+</dd>
 <dt><em>Random delay</em></dt>
-<dd>Дополнительная рандомизация задержки, результирующее значение определяется
-по формуле <span class="math">\(Delay_{result} = Delay + Delay_{random} * Random_{[0-1]}\)</span>.</dd>
+<dd><p class="first last">Additional delay randomization. The resulting value is calculated according to the formula <span class="math">\(Delay_{result} = Delay + Delay_{random} * Random_{[0-1]}\)</span>.</p>
+</dd>
 <dt><em>Random volume</em></dt>
-<dd>Дополнительная рандомизация громкости. Результирующее значение определяется
-аналогично задержке.</dd>
+<dd><p class="first last">Additional volume randomization. The resulting value is calculated as for the delay.</p>
+</dd>
 <dt><em>Random pitch</em></dt>
-<dd>Дополнительная рандомизация скорости проигрывания звука. Результирующее значение определяется
-аналогично задержке.</dd>
+<dd><p class="first last">Additional randomization of the sound playback speed. The resulting value is calculated as for the delay.</p>
+</dd>
 <dt><em>Fade-in</em></dt>
-<dd>Интервал плавного включения звука.</dd>
+<dd><p class="first last">Fade-in time interval.</p>
+</dd>
 <dt><em>Fade-out</em></dt>
-<dd>Интервал плавного выключения звука.</dd>
+<dd><p class="first last">Fade-out time interval.</p>
+</dd>
 <dt><em>Loop</em></dt>
-<dd>Зацикливать воспроизведение звука. Отличается от <tt class="docutils literal"><span class="pre">Cyclic</span> <span class="pre">play</span></tt>,
-тем, что способен обеспечить нулевую задержку при повторении. Опция доступна
-только для звуковых источников с поведением <tt class="docutils literal"><span class="pre">Positional</span></tt> или <tt class="docutils literal"><span class="pre">Background</span>
-<span class="pre">sound</span></tt>.</dd>
+<dd><p class="first last">Loop the sound playback. Contrary to the <tt class="docutils literal"><span class="pre">Cyclic</span> <span class="pre">play</span></tt> option it guarantees a zero delay upon repeat. The option is available only for sound sources with <tt class="docutils literal"><span class="pre">Positional</span></tt> or <tt class="docutils literal"><span class="pre">Background</span> <span class="pre">sound</span></tt> behavior.</p>
+</dd>
 <dt><em>Loop count</em></dt>
-<dd>Не реализовано</dd>
+<dd><p class="first last">Not implemented.</p>
+</dd>
 <dt><em>Random loop count</em></dt>
-<dd>Не реализовано</dd>
+<dd><p class="first last">Not implemented.</p>
+</dd>
 <dt><em>Playlist ID</em></dt>
-<dd>Не реализовано</dd>
+<dd><p class="first last">Not implemented.</p>
+</dd>
 </dl>
+<a class="reference internal image-reference" href="_images/speaker_settings.jpg"><img alt="_images/speaker_settings.jpg" class="align-center" src="_images/speaker_settings.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
 </div>
 <div class="section" id="encoding">
-<span id="id3"></span><h2>Обработка и кодирование<a class="headerlink" href="#encoding" title="Permalink to this headline">¶</a></h2>
+<span id="id3"></span><h2>Processing and Decoding<a class="headerlink" href="#encoding" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id4">
-<h3>Поддерживаемые форматы (контейнеры):<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<h3>Supported formats (containers):<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li>ogg, кодек Vorbis (Chrome, Firefox)</li>
+<li><p class="first">ogg, Vorbis codec (Chrome, Firefox)</p>
+</li>
 <li>mp3 (Chrome, Safari)</li>
-<li>mp4, кодек AAC (Chrome, Safari)</li>
+<li><p class="first">mp4, AAC codec (Chrome, Safari)</p>
+</li>
 </ul>
-<p>Рекомендуется использовать ogg, как наиболее распространённый в браузерах,
-поддерживающих WebGL (Chrome, Firefox). Оптимальным с точки зрения качества и
-совместимости является формат 48кГц/16. Одноканальный звук (моно) используется
-для хранения коротких сэмплов, двухканальный звук (стерео) - для музыкального
-сопровождения.</p>
-<p>Встроенный конвертер имеет возможность преобразования исходных форматов для
-расширения спектра поддерживаемых платформ. Для этого необходимо выполнить
-команду:</p>
+<p>It is recommended to use <strong>ogg</strong> as it is an open standard, is widespread in browsers and provides good sound quality. The optimal format in respect to the quality and compatibility is 48kHz/16bit. Single-channel sound (mono) is used to store shot samples while two-channel sound (stereo) is used for music playback.</p>
+<p>To support a wider range of platforms, a Python script (scripts/converter.py) for converting the source files into other formats is included into the distribution. Run it with the command:</p>
 <div class="highlight-bash"><div class="highlight"><pre>&gt; ./converter.py convert_sounds
 </pre></div>
 </div>
-<p>Преобразование происходит по схеме:</p>
+<p>Converting is performed according to the scheme:</p>
 <ul class="simple">
 <li>ogg -&gt; mp4</li>
 <li>mp3 -&gt; ogg</li>
 <li>mp4 -&gt; ogg</li>
 </ul>
-<p>Конвертация ресурсов происходит с потерей качества, поэтому сконвертированные
-файлы получают суффикс .lossconv.</p>
+<p>Resource converting is performed with quality loss and so the resulting files receive a .lossconv suffix.</p>
 </div>
 </div>
 </div>
@@ -157,27 +161,25 @@ API. Воспроизведение подобных звуков обладае
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
-<li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node materials</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting and shadows</a></li>
-<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing effects</a></li>
-<li class="toctree-l1"><a class="reference internal" href="particles.html">Particle system</a></li>
-<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle system for object instancing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting and Shadows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing Effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System for Instancing Objects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="animation.html">Animation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Rendering</a></li>
-<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Gamma-correction and transparency</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Звуковая подсистема</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#id2">Настройка звуковых источников</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#encoding">Обработка и кодирование</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Gamma Correction and Alpha Compositing</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Audio System</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">Audio Source Settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#encoding">Processing and Decoding</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="event_model.html">Событийная модель</a></li>
-<li class="toctree-l1"><a class="reference internal" href="physics.html">Физика</a></li>
-<li class="toctree-l1"><a class="reference internal" href="nla.html">Нелинейная анимация</a></li>
-<li class="toctree-l1"><a class="reference internal" href="developers.html">For application developers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">Разработчикам движка</a></li>
-<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Краткая справка по git</a></li>
-<li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Problems and solutions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="roadmap.html">План развития</a></li>
+<li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nla.html">Non-Linear Animation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers.html">For Application Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">For Engine Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Team Work. Using Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Problems and Solutions</a></li>
 </ul>
 
           <h3 style="margin-top: 1.5em;">Search</h3>
@@ -198,9 +200,9 @@ API. Воспроизведение подобных звуков обладае
     <div class="footer-wrapper">
       <div class="footer">
         <div class="left">
-          <a href="gamma_alpha.html" title="Gamma-correction and transparency"
+          <a href="gamma_alpha.html" title="Gamma Correction and Alpha Compositing"
              >previous</a> |
-          <a href="event_model.html" title="Событийная модель"
+          <a href="physics.html" title="Physics"
              >next</a> |
           <a href="genindex.html" title="General Index"
              >index</a>
@@ -210,7 +212,7 @@ API. Воспроизведение подобных звуков обладае
           
     <div class="footer">
         &copy; Copyright 2014, Triumph LLC.
-      Last updated on 2014-04-23.
+      Last updated on 2014-05-21.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

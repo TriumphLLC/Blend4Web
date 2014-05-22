@@ -1,7 +1,7 @@
-#import a_bending_col_detail a_bending_col_main
+#import a_bending_col_detail a_bending_col_main a_emitter_center
 #import au_detail_bending_amp au_branch_bending_amp au_wind_bending_amp \
         au_wind_bending_freq au_detail_bending_freq
-#import u_wind u_model_matrix u_time
+#import u_wind u_time
 
 #export bend_vertex
 
@@ -101,8 +101,7 @@ void bend_vertex(inout vec3 position, inout vec3 center, in vec3 normal) {
 
 # if BEND_CENTER_ONLY
     vec3 vertex_position = center;
-    // NOTE: emitter object local center should be (0,0,0)
-    vec3 object_center = (u_model_matrix * vec4(0.0, 0.0, 0.0, 1.0)).xyz;
+    vec3 object_center = a_emitter_center;
 # else
     vec3 vertex_position = position;
     vec3 object_center = center;

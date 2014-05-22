@@ -38,7 +38,7 @@ class B4W_FloatingSettings(bpy.types.PropertyGroup):
     )
     floating_factor = bpy.props.FloatProperty(
         name = "Floating factor",
-        description = "Factor of strengh applied to floating object",
+        description = "Factor of strength applied to the floating object",
         default = 3.0,
         min = 0.0,
         soft_max = 100,
@@ -47,7 +47,7 @@ class B4W_FloatingSettings(bpy.types.PropertyGroup):
     )
     water_lin_damp = bpy.props.FloatProperty(
         name = "Water Linear damping",
-        description = "Linear damping applied to objects underwater",
+        description = "Linear damping applied to objects under water",
         default = 0.8,
         min = 0.0,
         soft_max = 1,
@@ -56,7 +56,7 @@ class B4W_FloatingSettings(bpy.types.PropertyGroup):
     )
     water_rot_damp = bpy.props.FloatProperty(
         name = "Water Rotation damping",
-        description = "Rotation damping applied to objects underwater",
+        description = "Rotation damping applied to objects under water",
         default = 0.8,
         min = 0.0,
         soft_max = 1,
@@ -80,8 +80,8 @@ class B4W_VehicleSettings(bpy.types.PropertyGroup):
             ("STEERING_WHEEL", "Steering wheel", "Optional vehicle steering wheel"),
             ("WHEEL_FRONT_LEFT", "Front left wheel", "Vehicle front left wheel"),
             ("WHEEL_FRONT_RIGHT", "Front right wheel", "Vehicle front right wheel"),
-            ("WHEEL_BACK_LEFT", "Back left wheel", "Vehicle back left wheel"),
-            ("WHEEL_BACK_RIGHT", "Back right wheel", "Vehicle back right wheel"),
+            ("WHEEL_BACK_LEFT", "Back left wheel", "Vehicle rear left wheel"),
+            ("WHEEL_BACK_RIGHT", "Back right wheel", "Vehicle rear right wheel"),
             ("TACHOMETER", "Tachometer", "Vehicle tachometer"),
             ("SPEEDOMETER", "Speedometer", "Vehicle speedometer"),
             ("BOB", "Bob", "Boat's bob")
@@ -143,7 +143,7 @@ class B4W_VehicleSettings(bpy.types.PropertyGroup):
     )
     force_max = bpy.props.FloatProperty(
         name = "Force max",
-        description = "Acceleration value of the vehicle",
+        description = "Acceleration value for the vehicle",
         default = 1500.0,
         min = 0.0,
         soft_max = 10000.0,
@@ -152,7 +152,7 @@ class B4W_VehicleSettings(bpy.types.PropertyGroup):
     )
     brake_max = bpy.props.FloatProperty(
         name = "Brake max",
-        description = "Braking value of the vehicle",
+        description = "Braking value for the vehicle",
         default = 100.0,
         min = 0.0,
         soft_max = 10000.0,
@@ -161,7 +161,7 @@ class B4W_VehicleSettings(bpy.types.PropertyGroup):
     )
     steering_ratio = bpy.props.FloatProperty(
         name = "Steering ratio",
-        description = "Gear ratio steering",
+        description = "Ratio between the turn of the steering wheel and the turn of the wheels",
         default = 10.0,
         min = 0.0,
         soft_max = 100.0,
@@ -170,7 +170,7 @@ class B4W_VehicleSettings(bpy.types.PropertyGroup):
     )
     steering_max = bpy.props.FloatProperty(
         name = "Steering max",
-        description = "Wheel angle",
+        description = "Maximum steering wheel angle",
         default = 1,
         min = 0.0,
         soft_max = 10,
@@ -223,7 +223,7 @@ class B4W_VehicleSettings(bpy.types.PropertyGroup):
     )
     floating_factor = bpy.props.FloatProperty(
         name = "Floating factor",
-        description = "Factor of strengh applied to floating object",
+        description = "Factor of strengh applied to the floating object",
         default = 3.0,
         min = 0.0,
         soft_max = 100,
@@ -232,7 +232,7 @@ class B4W_VehicleSettings(bpy.types.PropertyGroup):
     )
     water_lin_damp = bpy.props.FloatProperty(
         name = "Water Linear damping",
-        description = "Linear damping applied to objects underwater",
+        description = "Linear damping applied to objects under water",
         default = 0.8,
         min = 0.0,
         soft_max = 1,
@@ -241,7 +241,7 @@ class B4W_VehicleSettings(bpy.types.PropertyGroup):
     )
     water_rot_damp = bpy.props.FloatProperty(
         name = "Water Rotation damping",
-        description = "Rotation damping applied to objects underwater",
+        description = "Rotation damping applied to objects under water",
         default = 0.8,
         min = 0.0,
         soft_max = 1,
@@ -403,7 +403,7 @@ class B4W_ShadowSettings(bpy.types.PropertyGroup):
 
     blur_depth_edge_size = bpy.props.FloatProperty(
         name = "blur_depth_edge_size",
-        description = "Difference between samples (in texels) for edge detection. Reduces haloing by not blurring edges",
+        description = "Difference between samples (in texels) for edge detection. Reduces haloing by not blurring the edges",
         default = 2.0,
         min = 0.0,
         max = 10.0,
@@ -413,7 +413,7 @@ class B4W_ShadowSettings(bpy.types.PropertyGroup):
 
     blur_depth_diff_threshold = bpy.props.FloatProperty(
         name = "blur_depth_diff_threshold",
-        description = "Depth difference maximum (normalized) for edge detection, multiplied by 1000. Reduces haloing by not blurring edges",
+        description = "Depth difference maximum (normalized) for edge detection, multiplied by 1000. Reduces haloing by not blurring the edges",
         default = 0.1,
         min = 0.0,
         max = 1.0,
@@ -477,7 +477,7 @@ class B4W_SSAOSettings(bpy.types.PropertyGroup):
 
     dithering_amount = bpy.props.FloatProperty(
         name = "dithering_amount",
-        description = "dithering amount multiplied by 1000",
+        description = "Dithering amount multiplied by 1000",
         default = 0.1,
         min = 0.0,
         max = 4.0,
@@ -487,7 +487,7 @@ class B4W_SSAOSettings(bpy.types.PropertyGroup):
 
     gauss_center = bpy.props.FloatProperty(
         name = "gauss_center",
-        description = "gauss bell center",
+        description = "Gauss bell center",
         default = 0.2,
         min = 0.0,
         max = 2.0,
@@ -497,7 +497,7 @@ class B4W_SSAOSettings(bpy.types.PropertyGroup):
 
     gauss_width = bpy.props.FloatProperty(
         name = "gauss_width",
-        description = "gauss bell width",
+        description = "Gauss bell width",
         default = 2.0,
         min = 0.0,
         max = 16.0,
@@ -507,7 +507,7 @@ class B4W_SSAOSettings(bpy.types.PropertyGroup):
 
     gauss_width_left = bpy.props.FloatProperty(
         name = "gauss_width_left",
-        description = "self-shadowing reduction",
+        description = "Self-shadowing reduction",
         default = 0.1,
         min = 0.0,
         max = 2.0,
@@ -517,7 +517,7 @@ class B4W_SSAOSettings(bpy.types.PropertyGroup):
 
     influence = bpy.props.FloatProperty(
         name = "influence",
-        description = "how much AO affects final rendering",
+        description = "How much AO affects the final rendering",
         default = 0.7,
         min = 0.0,
         max = 1.0,
@@ -527,7 +527,7 @@ class B4W_SSAOSettings(bpy.types.PropertyGroup):
 
     dist_factor = bpy.props.FloatProperty(
         name = "dist_factor",
-        description = "how much AO decreases with distance",
+        description = "How much AO decreases with distance",
         default = 0.0,
         min = 0.0,
         max = 20.0,
@@ -537,7 +537,7 @@ class B4W_SSAOSettings(bpy.types.PropertyGroup):
 
     samples = bpy.props.EnumProperty(
         name = "samples",
-        description = "number of samples aka quality",
+        description = "Number of samples aka quality",
         items = [
             ("16", "16", "0", 0),
             ("32", "32", "1", 1),
@@ -652,7 +652,7 @@ class B4W_SkySettings(bpy.types.PropertyGroup):
 
     rayleigh_brightness = bpy.props.FloatProperty(
         name = "rayleigh_brightness",
-        description = "Brightness of rayleigh scattering",
+        description = "Brightness of Rayleigh scattering",
         default = 3.3,
         min = 0.0,
         max = 5.0,
@@ -662,7 +662,7 @@ class B4W_SkySettings(bpy.types.PropertyGroup):
 
     mie_brightness = bpy.props.FloatProperty(
         name = "mie_brightness",
-        description = "Brightness of mie scattering",
+        description = "Brightness of Mie scattering",
         default = 0.1,
         min = 0.0,
         max = 1.0,
@@ -692,7 +692,7 @@ class B4W_SkySettings(bpy.types.PropertyGroup):
 
     rayleigh_strength = bpy.props.FloatProperty(
         name = "rayleigh_strength",
-        description = "Strength of rayleigh scattering",
+        description = "Strength of Rayleigh scattering",
         default = 0.2,
         min = 0.0,
         max = 1.0,
@@ -702,7 +702,7 @@ class B4W_SkySettings(bpy.types.PropertyGroup):
 
     mie_strength = bpy.props.FloatProperty(
         name = "mie_strength",
-        description = "Strength of mie scattering",
+        description = "Strength of Mie scattering",
         default = 0.006,
         min = 0.0,
         max = 0.1,
@@ -761,7 +761,7 @@ class B4W_DynamicCompressorSettings(bpy.types.PropertyGroup):
     )
     ratio = bpy.props.FloatProperty(
         name = "ratio",
-        description = "dB Input change for a 1 dB output change",
+        description = "dB input change for a 1 dB output change",
         default = 12,
         min = 1,
         max = 20,
@@ -770,7 +770,7 @@ class B4W_DynamicCompressorSettings(bpy.types.PropertyGroup):
     )
     attack = bpy.props.FloatProperty(
         name = "attack",
-        description = "The amount of time to reduce gain by 10 dB",
+        description = "Amount of time to reduce gain by 10 dB",
         default = 0.003,
         min = 0,
         max = 1,
@@ -779,7 +779,7 @@ class B4W_DynamicCompressorSettings(bpy.types.PropertyGroup):
     )
     release = bpy.props.FloatProperty(
         name = "release",
-        description = "The amount of time to increase gain by 10 dB",
+        description = "Amount of time to increase gain by 10 dB",
         default = 0.250,
         min = 0,
         max = 1,
@@ -859,14 +859,14 @@ def add_b4w_props():
 
     b4w_do_not_export = bpy.props.BoolProperty(
         name = "B4W: do not export",
-        description = "Check if you do NOT wish to export a component", 
+        description = "Check if you do NOT wish to export this component", 
         default = False
     )
 
     # deprecated
     b4w_export_path = bpy.props.StringProperty(
         name = "B4W: component export path",
-        description = "Exported file path relative to blend file",
+        description = "Exported file path relative to the blend file",
         default = ""
     )
 
@@ -897,12 +897,12 @@ def add_b4w_props():
 
     b4w_export_path_json = bpy.props.StringProperty(
         name = "B4W: export path json",
-        description = "Exported json file path relative to blend file", 
+        description = "Exported json file path relative to the blend file", 
         default = ""
     )
     b4w_export_path_html = bpy.props.StringProperty(
         name = "B4W: export path html",
-        description = "Exported html file path relative to blend file", 
+        description = "Exported html file path relative to the blend file", 
         default = ""
     )
     bpy.types.Scene.b4w_export_path_json = b4w_export_path_json
@@ -912,8 +912,8 @@ def add_b4w_props():
 
     # for world panel
     b4w_glow_color = bpy.props.FloatVectorProperty(
-        name = "B4W: glow color of selection",
-        description = "Default glow color of selection",
+        name = "B4W: glow color of the selection",
+        description = "Default glow color of the selection",
         default = (1.0, 1.0, 1.0),
         min = 0.0,
         soft_min = 0.0,
@@ -1069,8 +1069,8 @@ def add_b4w_props():
            name = "B4W: Rotation down limit",
            description = "Rotation down limit angle",
            default = math.pi / 2,
-           min = 0.0,
-           soft_min = 0.0,
+           min = -math.pi,
+           soft_min = -math.pi,
            max = math.pi,
            soft_max = math.pi,
            precision = 3,
@@ -1082,8 +1082,8 @@ def add_b4w_props():
            name = "B4W: Rotation up limit",
            description = "Rotation up limit angle",
            default = math.pi / 2,
-           min = 0.0,
-           soft_min = 0.0,
+           min = -math.pi,
+           soft_min = -math.pi,
            max = math.pi,
            soft_max = math.pi,
            precision = 3,
@@ -1165,93 +1165,101 @@ def add_b4w_props():
     add_particle_settings_properties()
 
 def add_scene_properties():
-    bpy.types.Scene.b4w_use_nla = bpy.props.BoolProperty(
+
+    scene_type = bpy.types.Scene
+
+    scene_type.b4w_use_nla = bpy.props.BoolProperty(
         name = "B4W: use NLA",
-        description = "Use NLA to control animation and sounds on scene",
+        description = "Use NLA to control animation and sounds on the scene",
         default = False
     )
-    bpy.types.Scene.b4w_enable_audio = bpy.props.BoolProperty(
+    scene_type.b4w_nla_cyclic = bpy.props.BoolProperty(
+        name = "B4W: cyclic NLA",
+        description = "Repeat NLA animation",
+        default = False
+    )
+    scene_type.b4w_enable_audio = bpy.props.BoolProperty(
         name = "B4W: enable audio",
-        description = "Enable audio on given scene",
+        description = "Enable audio on this scene",
         default = True
     )
-    bpy.types.Scene.b4w_enable_dynamic_compressor = bpy.props.BoolProperty(
+    scene_type.b4w_enable_dynamic_compressor = bpy.props.BoolProperty(
         name = "B4W: enable dynamic compressor",
-        description = "Enable dynamic compression effect on given scene",
+        description = "Enable dynamic compression effect on this scene",
         default = False
     )
-    bpy.types.Scene.b4w_dynamic_compressor_settings = bpy.props.PointerProperty(
+    scene_type.b4w_dynamic_compressor_settings = bpy.props.PointerProperty(
         name = "B4W: Dynamic compressor settings",
         type = B4W_DynamicCompressorSettings
     )
 
-    bpy.types.Scene.b4w_enable_convolution_engine = bpy.props.BoolProperty(
+    scene_type.b4w_enable_convolution_engine = bpy.props.BoolProperty(
         name = "B4W: enable convolution engine",
-        description = "Enable convolution engine to allow linear (spacial) effects on given scene",
+        description = "Enable the convolution engine to allow linear (spacial) effects on this scene",
         default = False
     )
 
     b4w_enable_physics = bpy.props.BoolProperty(
         name = "B4W: enable physics",
-        description = "Enable physics simulation on given scene",
+        description = "Enable physics simulation on this scene",
         default = True
     )
-    bpy.types.Scene.b4w_enable_physics = b4w_enable_physics
+    scene_type.b4w_enable_physics = b4w_enable_physics
 
     b4w_load_empty = bpy.props.BoolProperty(
         name = "B4W: load empty",
-        description = "Don't add objects to scene by default",
+        description = "Don't add objects to the scene by default",
         default = False
     )
-    bpy.types.Scene.b4w_load_empty = b4w_load_empty
+    scene_type.b4w_load_empty = b4w_load_empty
 
     b4w_render_shadows = bpy.props.BoolProperty(
         name = "B4W: render shadows",
-        description = "Render shadows for scene objects with " +
+        description = "Render shadows for the scene objects with the " +
                 "\"B4W shadow cast\" and \"B4W shadow receive\" properties",
         default = True
     )
-    bpy.types.Scene.b4w_render_shadows = b4w_render_shadows
+    scene_type.b4w_render_shadows = b4w_render_shadows
 
     b4w_render_reflections = bpy.props.BoolProperty(
         name = "B4W: render reflections",
-        description = "Render reflections for scene objects with " +
+        description = "Render reflections for the scene objects with the " +
                 "\"B4W reflection cast\" and \"B4W reflection receive\" properties",
         default = False
     )
-    bpy.types.Scene.b4w_render_reflections = b4w_render_reflections
+    scene_type.b4w_render_reflections = b4w_render_reflections
 
     b4w_render_refractions = bpy.props.BoolProperty(
         name = "B4W: render refractions",
-        description = "Render refractions for scene objects",
+        description = "Render refractions for the scene objects",
         default = False
     )
-    bpy.types.Scene.b4w_render_refractions = b4w_render_refractions
+    scene_type.b4w_render_refractions = b4w_render_refractions
 
     b4w_enable_god_rays = bpy.props.BoolProperty(
         name = "B4W: enable god rays",
-        description = "Enable god rays for scene lights",
+        description = "Enable god rays for the scene lights",
         default = False
     )
-    bpy.types.Scene.b4w_enable_god_rays = b4w_enable_god_rays
+    scene_type.b4w_enable_god_rays = b4w_enable_god_rays
     
     b4w_enable_ssao = bpy.props.BoolProperty(
         name = "B4W: enable SSAO",
         description = "Enable screen space ambient occlusion",
         default = False
     )
-    bpy.types.Scene.b4w_enable_ssao = b4w_enable_ssao
+    scene_type.b4w_enable_ssao = b4w_enable_ssao
 
     b4w_batch_grid_size = bpy.props.FloatProperty(
         name = "B4W: batch grid size",
-        description = "batch grid size in meters, pass zero value to " +
+        description = "Batch grid size in meters, pass zero value to " +
                 "prevent grid use",
         default = 0.0,
         min = 0.0,
         soft_max = 1000.0,
         precision = 2
     )
-    bpy.types.Scene.b4w_batch_grid_size = b4w_batch_grid_size
+    scene_type.b4w_batch_grid_size = b4w_batch_grid_size
 
     # see also b4w_anisotropic_filtering for texture
     b4w_anisotropic_filtering = bpy.props.EnumProperty(
@@ -1265,39 +1273,39 @@ def add_scene_properties():
             ("16x", "16x", "4", 4)
         ]
     )
-    bpy.types.Scene.b4w_anisotropic_filtering = b4w_anisotropic_filtering
+    scene_type.b4w_anisotropic_filtering = b4w_anisotropic_filtering
 
     b4w_enable_bloom = bpy.props.BoolProperty(
         name = "B4W: enable bloom",
         description = "Enable bloom",
         default = False
     )
-    bpy.types.Scene.b4w_enable_bloom = b4w_enable_bloom
+    scene_type.b4w_enable_bloom = b4w_enable_bloom
 
     b4w_enable_motion_blur = bpy.props.BoolProperty(
         name = "B4W: enable motion blur",
         description = "Enable motion blur",
         default = False
     )
-    bpy.types.Scene.b4w_enable_motion_blur = b4w_enable_motion_blur
+    scene_type.b4w_enable_motion_blur = b4w_enable_motion_blur
 
     b4w_enable_color_correction = bpy.props.BoolProperty(
         name = "B4W: enable color correction",
         description = "Enable color correction",
         default = False
     )
-    bpy.types.Scene.b4w_enable_color_correction = b4w_enable_color_correction
+    scene_type.b4w_enable_color_correction = b4w_enable_color_correction
 
     b4w_enable_antialiasing = bpy.props.BoolProperty(
         name = "B4W: enable antialiasing",
         description = "Enable antialiasing",
         default = True
     )
-    bpy.types.Scene.b4w_enable_antialiasing = b4w_enable_antialiasing
+    scene_type.b4w_enable_antialiasing = b4w_enable_antialiasing
 
     
 def add_object_properties():
-    """Add properties for object panel"""
+    """Add properties for the object panel"""
 
     obj_type = bpy.types.Object
 
@@ -1394,19 +1402,16 @@ def add_object_properties():
     )
     obj_type.b4w_caustics = b4w_caustics
 
-    b4w_use_default_animation = bpy.props.BoolProperty(
+    obj_type.b4w_use_default_animation = bpy.props.BoolProperty(
         name = "B4W: use default animation",
         description = "The object will be animated if possible",
         default = False
     )
-    obj_type.b4w_use_default_animation = b4w_use_default_animation
-
-    b4w_cyclic_animation = bpy.props.BoolProperty(
+    obj_type.b4w_cyclic_animation = bpy.props.BoolProperty(
         name = "B4W: cyclic animation",
         description = "The object animation will be cyclically repeated",
         default = False
     )
-    obj_type.b4w_cyclic_animation = b4w_cyclic_animation
 
     b4w_group_relative = bpy.props.BoolProperty(
         name = "B4W: group relative",
@@ -1414,6 +1419,12 @@ def add_object_properties():
         default = False
     )
     obj_type.b4w_group_relative = b4w_group_relative
+
+    obj_type.b4w_proxy_inherit_anim = bpy.props.BoolProperty(
+        name = "B4W: inherit animation",
+        description = "Inherit animation from proxy object to proxy source",
+        default = True
+    )
 
     b4w_wind_bending = bpy.props.BoolProperty(
         name = "B4W: wind bending",
@@ -1424,7 +1435,7 @@ def add_object_properties():
 
     b4w_wind_bending_angle = bpy.props.FloatProperty(
         name = "B4W: wind bending max angle",
-        description = "Maximum angle amplithude of wind bending",
+        description = "Maximum angle amplitude of wind bending",
         default = 10.0,
         min = 0.0,
         soft_max = 90,
@@ -1497,13 +1508,13 @@ def add_object_properties():
     )
     obj_type.b4w_collision_id = bpy.props.StringProperty(
         name = "B4W: collision ID",
-        description = "Collision ID for app internal purposes", 
+        description = "Collision ID for internal application purposes", 
         default = ""
     )
 
     obj_type.b4w_vehicle = bpy.props.BoolProperty(
         name = "B4W: enable vehicle",
-        description = "Object will be a part of vehicle",
+        description = "Object will be part of the vehicle",
         default = False
     )
 
@@ -1514,7 +1525,7 @@ def add_object_properties():
 
     obj_type.b4w_floating = bpy.props.BoolProperty(
         name = "B4W: enable floating",
-        description = "Object will react on water surface",
+        description = "Object will react to water surface",
         default = False
     )
 
@@ -1525,7 +1536,7 @@ def add_object_properties():
 
     obj_type.b4w_character = bpy.props.BoolProperty(
         name = "B4W: enable character",
-        description = "Object will be controlled by player",
+        description = "Object will be controlled by the player",
         default = False
     )
 
@@ -1534,12 +1545,19 @@ def add_object_properties():
         type = B4W_CharacterSettings
     ) 
 
-    b4w_loc_export_vertex_anim = bpy.props.BoolProperty(
+    # not exported
+    obj_type.b4w_anim_clean_keys = bpy.props.BoolProperty(
+        name = "B4W: animation clean keys",
+        description = "Perform clean keyframes optimization after animation baking",
+        default = True
+    )
+
+    # not exported
+    obj_type.b4w_loc_export_vertex_anim = bpy.props.BoolProperty(
         name = "B4W: export vertex animation",
         description = "Export baked vertex animation",
         default = False
     )
-    obj_type.b4w_loc_export_vertex_anim = b4w_loc_export_vertex_anim
 
     b4w_lod_distance = bpy.props.FloatProperty(
         name = "B4W: LOD distance",
@@ -1560,13 +1578,13 @@ def add_object_properties():
 
     obj_type.b4w_lod_index = bpy.props.IntProperty(
             name="B4W: LOD index",
-            description="LOD index used in interface",
+            description="LOD index used in the interface",
             default=0, min=0, max=100, soft_min=0, soft_max=5
     )
 
     obj_type.b4w_refl_plane_index = bpy.props.IntProperty(
             name="B4W: Reflection Plane index",
-            description="Reflection plane index used in interface",
+            description="Reflection plane index used in the interface",
             default=0, min=0, max=100, soft_min=0, soft_max=5
     )
 
@@ -1575,18 +1593,18 @@ def add_object_properties():
             name="B4W: Detail Bend")
 
     obj_type.b4w_correct_bounding_offset = bpy.props.EnumProperty(
-        name = "B4W: correct bounding box",
-        description = "Correct bounding box",
+        name = "B4W: correct the bounding box",
+        description = "Correct the bounding box",
         default = "AUTO",
         items = [
-            ("AUTO",  "AUTO",  "Auto selection bounding offset"),
-            ("OFF", "OFF", "Disable bounding offset correction"),
-            ("ON",  "ON",  "Enable bounding offset correction")
+            ("AUTO", "AUTO", "Auto selection bounding offset"),
+            ("OFF",  "OFF",  "Disable bounding offset correction"),
+            ("ON",   "ON",   "Enable bounding offset correction")
         ]
     )
 
 def add_speaker_properties():
-    """Add properties for speaker panel"""
+    """Add properties for the speaker panel"""
 
     spk_type = bpy.types.Speaker
 
@@ -1602,18 +1620,18 @@ def add_speaker_properties():
     )
     spk_type.b4w_disable_doppler = bpy.props.BoolProperty(
         name = "B4W: disable doppler",
-        description = "Disable doppler effect",
+        description = "Disable the Doppler effect",
         default = False
     )
 
     spk_type.b4w_cyclic_play = bpy.props.BoolProperty(
         name = "B4W: cyclic play",
-        description = "Repeat speaker play",
+        description = "Loop speaker play",
         default = False
     )
     spk_type.b4w_delay = bpy.props.FloatProperty(
         name = "B4W: delay",
-        description = "Delay after play start",
+        description = "Delay after playback start",
         default = 0.0,
         min = 0.0,
         soft_max = 120,
@@ -1694,7 +1712,7 @@ def add_speaker_properties():
     )
 
 def add_material_properties():
-    """Add properties for material panel"""
+    """Add properties for the material panel"""
 
     mat_type = bpy.types.Material
 
@@ -1705,7 +1723,7 @@ def add_material_properties():
     )
     mat_type.b4w_water_shore_smoothing = bpy.props.BoolProperty(
         name = "B4W: shore smoothing",
-        description = "Perform smoothing of water with shore objects",
+        description = "Perform the smoothing between the water and the shore objects",
         default = False
     )
     mat_type.b4w_water_dynamic = bpy.props.BoolProperty(
@@ -1880,12 +1898,12 @@ def add_material_properties():
     )
     mat_type.b4w_generated_mesh = bpy.props.BoolProperty(
         name = "B4W: water generated mesh",
-        description = "Generate multigrid mesh for water",
+        description = "Generate a multigrid mesh for the water",
         default = False
     )
     mat_type.b4w_water_num_cascads = bpy.props.IntProperty(
-        name = "B4W: water num cascads",
-        description = "Nubmer of cascads in water mesh",
+        name = "B4W: water num cascades",
+        description = "Number of cascades in the water mesh",
         default = 5,
         min = 1,
         soft_min = 1,
@@ -1894,7 +1912,7 @@ def add_material_properties():
     )
     mat_type.b4w_water_subdivs = bpy.props.IntProperty(
         name = "B4W: water subdivs",
-        description = "Number of subdivisions in water mesh cascad (had to be POT)",
+        description = "Number of subdivisions in the water mesh cascade (must be POT)",
         default = 64,
         min = 2,
         soft_min = 1,
@@ -1903,7 +1921,7 @@ def add_material_properties():
     )
     mat_type.b4w_water_detailed_dist = bpy.props.IntProperty(
         name = "B4W: water detailed distance",
-        description = "Distance of the biggest cascad in water mesh",
+        description = "Distance of the biggest cascade in the water mesh",
         default = 1000,
         min = 1,
         soft_min = 1,
@@ -1912,7 +1930,7 @@ def add_material_properties():
     )
     mat_type.b4w_water_fog_color = bpy.props.FloatVectorProperty(
         name = "B4W: water fog color",
-        description = "Color of fog applied to underwater objects",
+        description = "Color of fog applied to the underwater objects",
         default = (0.5, 0.5, 0.5),
         min = 0.0,
         soft_min = 0.0,
@@ -1924,7 +1942,7 @@ def add_material_properties():
     )
     mat_type.b4w_water_fog_density = bpy.props.FloatProperty(
         name = "B4W: water fog density",
-        description = "Density of fog applied to underwater objects",
+        description = "Density of fog applied to the underwater objects",
         default = 0.06,
         min = 0.0,
         soft_min = 0.0,
@@ -1946,7 +1964,7 @@ def add_material_properties():
     )
     mat_type.b4w_shallow_water_col = bpy.props.FloatVectorProperty(
         name = "B4W: shallow water color",
-        description = "Color of shallow water",
+        description = "Color of the shallow water",
         default = (0.0, 0.8, 0.3),
         min = 0,
         soft_min = 0,
@@ -1956,7 +1974,7 @@ def add_material_properties():
     )
     mat_type.b4w_shore_water_col = bpy.props.FloatVectorProperty(
         name = "B4W: shore water color",
-        description = "Color of shallow water",
+        description = "Color of the shallow water",
         default = (0.0, 0.9, 0.2),
         min = 0,
         soft_min = 0,
@@ -2008,12 +2026,12 @@ def add_material_properties():
     )
     mat_type.b4w_dynamic_grass_size = bpy.props.StringProperty(
         name = "B4W: Dynamic grass size",
-        description = "Optional vertex color used for grass size (R)", 
+        description = "Optional vertex color used for grass sizing (R)", 
         default = ""
     )
     mat_type.b4w_dynamic_grass_color = bpy.props.StringProperty(
         name = "B4W: Dynamic grass color",
-        description = "Optional vertex color used for grass dyeing", 
+        description = "Optional vertex color used for grass tinting", 
         default = ""
     )
 
@@ -2024,7 +2042,7 @@ def add_material_properties():
     )
     mat_type.b4w_procedural_skydome = bpy.props.BoolProperty(
         name = "B4W: procedural skydome",
-        description = "Sky will be generate procedurally",
+        description = "Sky will be generated procedurally",
         default = False
     )
 
@@ -2035,12 +2053,12 @@ def add_material_properties():
     )
     mat_type.b4w_use_ghost = bpy.props.BoolProperty(
         name = "B4W: Ghost",
-        description = "Material does not react to collisions, like a ghost",
+        description = "Material does not react to collisions like a ghost",
         default = False
     )
     mat_type.b4w_collision_id = bpy.props.StringProperty(
         name = "B4W: collision ID",
-        description = "Collision ID for app internal purposes", 
+        description = "Collision ID for internal application purposes", 
         default = ""
     )
 
@@ -2058,13 +2076,13 @@ def add_material_properties():
 
     mat_type.b4w_halo_stars_blend_height = bpy.props.FloatProperty(
         name = "B4W: halo stars blending height",
-        description = "Stars blendig height",
+        description = "Stars blending height",
         default = 10.0
     )
 
     mat_type.b4w_halo_stars_min_height = bpy.props.FloatProperty(
         name = "B4W: halo stars minimum height",
-        description = "Stars minimum height starting from origin",
+        description = "Stars minimum height starting from the origin",
         default = 0.0
     )
 
@@ -2086,7 +2104,7 @@ def add_material_properties():
 
     mat_type.b4w_wettable = bpy.props.BoolProperty(
         name = "B4W: wettable",
-        description = "Will material get wet near water",
+        description = "Material will get wet near water",
         default = False,
     )
 
@@ -2095,14 +2113,14 @@ def add_texture_properties():
 
     b4w_use_map_parallax = bpy.props.BoolProperty(
         name = "B4W: use map parallax",
-        description = "Alpha channel of the texture will be used as heightmap for warping",
+        description = "The texture's alpha channel will be used as the heightmap for warping",
         default = False
     )
     bpy.types.Texture.b4w_use_map_parallax = b4w_use_map_parallax
 
     b4w_parallax_scale = bpy.props.FloatProperty(
         name = "B4W: parallax scale",
-        description = "Scale parameter for texture warping. Height (e.g. 3 cm) devided by texture covering size (e.g. 1.5 m)",
+        description = "Scale parameter for texture warping. Height (e.g. 3 cm) is devided by the texture covering size (e.g. 1.5 m)",
         default = 0.02,
         min = 0.0,
         soft_max = 0.1,
@@ -2112,7 +2130,7 @@ def add_texture_properties():
 
     b4w_parallax_steps = bpy.props.IntProperty(
         name = "B4W: parallax steps",
-        description = "Number of steps taken to build parallax surface (more - better)",
+        description = "Number of steps taken to build a parallax surface (the more the better)",
         default = 5,
         soft_max = 30,
         min = 1,
@@ -2138,7 +2156,7 @@ def add_texture_properties():
     # NOTE: it is saved to texture, so there may be issues when textures are shared between materials
     b4w_uv_velocity_trans = bpy.props.FloatVectorProperty(
         name = "B4W: UV translation velocity",
-        description = "UV translation velocity for animated texture",
+        description = "UV translation velocity for the animated texture",
         default = (0.0, 0.0),
         min = -99.0,
         max = 99.0,
@@ -2149,7 +2167,7 @@ def add_texture_properties():
 
     b4w_water_foam = bpy.props.BoolProperty(
         name = "B4W: Water foam",
-        description = "Use texture as foam on water surface",
+        description = "Use texture as foam on the water surface",
         default = False
     )
     bpy.types.Texture.b4w_water_foam = b4w_water_foam
@@ -2178,21 +2196,21 @@ def add_texture_properties():
 
     b4w_shore_dist_map = bpy.props.BoolProperty(
         name = "B4W: Shore distance map",
-        description = "Use texture as shore distance map on water surface",
+        description = "Use the texture as a shore distance map on the water surface",
         default = False
     )
     bpy.types.Texture.b4w_shore_dist_map = b4w_shore_dist_map
 
     b4w_render_scene = bpy.props.StringProperty(
         name = "B4W: scene",
-        description = "The scene name, which will be rendered on texture", 
+        description = "Name of the scene, which will be rendered on the texture", 
         default = ""
     )
     bpy.types.Texture.b4w_render_scene = b4w_render_scene
 
     b4w_shore_boundings = bpy.props.FloatVectorProperty(
         name = "B4W: shore boundings",
-        description = "Boundings for water shore distances",
+        description = "Boundings of the water-to-shore distance map",
         default = (0.0, 0.0, 0.0, 0.0),
         min = -100000.0,
         soft_min = -100000.0,
@@ -2205,7 +2223,7 @@ def add_texture_properties():
 
     b4w_max_shore_dist = bpy.props.FloatProperty(
         name = "B4W: maximum shore distance",
-        description = "Maximum shore distance in meters (taken as 1.0)",
+        description = "Maximum distance to shore in meters (taken as 1.0)",
         default = 100.0,
         min = 0.0,
         max = 100000.0,
@@ -2216,7 +2234,7 @@ def add_texture_properties():
 
     b4w_disable_compression = bpy.props.BoolProperty(
         name = "B4W: disable compression",
-        description = "Do not use dds file for this texture",
+        description = "Do not use DDS file for this texture",
         default = False
     )
     bpy.types.Texture.b4w_disable_compression = b4w_disable_compression
@@ -2228,21 +2246,21 @@ def add_particle_settings_properties():
     """Add properties for particles panel"""
     b4w_cyclic = bpy.props.BoolProperty(
         name = "B4W: cyclic emission",
-        description = "Repeat particles emission",
+        description = "Loop particles emission",
         default = False
     )
     pset_type.b4w_cyclic = b4w_cyclic
 
     b4w_randomize_emission = bpy.props.BoolProperty(
         name = "B4W: randomize emission",
-        description = "Randomize delay of particles emission",
+        description = "Randomize the delay for particles emission",
         default = False
     )
     pset_type.b4w_randomize_emission = b4w_randomize_emission
 
     b4w_fade_in = bpy.props.FloatProperty(
         name = "B4W: fade-in interval",
-        description = "Fade-in interval of particles",
+        description = "Fade-in interval for particles",
         default = 0.0,
         min = 0.0,
         soft_max = 120,
@@ -2252,7 +2270,7 @@ def add_particle_settings_properties():
 
     b4w_fade_out = bpy.props.FloatProperty(
         name = "B4W: fade-out interval",
-        description = "Fade-out interval of particles",
+        description = "Fade-out interval for particles",
         default = 0.0,
         min = 0.0,
         soft_max = 120,
@@ -2262,7 +2280,7 @@ def add_particle_settings_properties():
 
     pset_type.b4w_billboard_align = bpy.props.EnumProperty(
         name = "B4W: billboard align",
-        description = "Billboard align in world space",
+        description = "Billboard alignment in the world space",
         default = "VIEW",
         items = [
             ("VIEW", "View", "Align to view (active camera)"),
@@ -2275,7 +2293,7 @@ def add_particle_settings_properties():
     # "HAIR"
     pset_type.b4w_dynamic_grass = bpy.props.BoolProperty(
         name = "B4W: dynamic grass",
-        description = "Render on terrain materials as dynamic grass",
+        description = "Render on the terrain materials as dynamic grass",
         default = False
     )
     pset_type.b4w_dynamic_grass_scale_threshold = bpy.props.FloatProperty(
@@ -2332,7 +2350,7 @@ def add_particle_settings_properties():
     )
     pset_type.b4w_hair_billboard_jitter_amp = bpy.props.FloatProperty(
         name = "B4W: hair billboard jitter amp",
-        description = "Coefficient of jittering amplitude for billboard",
+        description = "Coefficient of the jittering amplitude for the billboard",
         default = 0.0,
         min = 0.0,
         max = 1.0,
@@ -2341,7 +2359,7 @@ def add_particle_settings_properties():
     )
     pset_type.b4w_hair_billboard_jitter_freq = bpy.props.FloatProperty(
         name = "B4W: hair billboard jitter freq",
-        description = "Jittering frequency for billboard, Hz",
+        description = "Jittering frequency for the billboard, Hz",
         default = 0.0,
         min = 0.0,
         max = 100.0,

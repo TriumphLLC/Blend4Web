@@ -1177,7 +1177,7 @@ vec4 neighborhood_blending(vec2 texcoord,
         vec4 color = texture2D(color_tex, texcoord, 0.0);
 
         #if SMAA_REPROJECTION
-        vec2 velocity = texture2D(velocity_tex, texcoord).rg - 0.5;
+        vec2 velocity = 2.0 * texture2D(velocity_tex, texcoord).rg - 1.0;
 
         // Pack velocity into the alpha channel:
         if (color.a != 0.0)
@@ -1205,8 +1205,8 @@ vec4 neighborhood_blending(vec2 texcoord,
 
         #if SMAA_REPROJECTION
         // Antialias velocity for proper reprojection in a later stage:
-        vec2 velocity = blending_weight.x * (texture2D(velocity_tex, blending_coord.xy, 0.0).rg - 0.5);
-        velocity += blending_weight.y * (texture2D(velocity_tex, blending_coord.zw, 0.0).rg - 0.5);
+        vec2 velocity = blending_weight.x * (2.0 * texture2D(velocity_tex, blending_coord.xy, 0.0).rg - 1.0);
+        velocity += blending_weight.y * (2.0 * texture2D(velocity_tex, blending_coord.zw, 0.0).rg - 1.0);
 
         // Pack velocity into the alpha channel:
         if (color.a != 0.0)
@@ -1230,7 +1230,7 @@ vec4 resolve(vec2 texcoord,
     #if SMAA_REPROJECTION
     // Velocity is assumed to be calculated for motion blur, so we need to
     // inverse it for reprojection:
-    //vec2 velocity = texture2D(velocity_tex, texcoord).rg - 0.5;
+    //vec2 velocity = 2.0 * texture2D(velocity_tex, texcoord).rg - 1.0;
 
     // Fetch current pixel:
     vec4 current = texture2D(current_color_tex, texcoord);

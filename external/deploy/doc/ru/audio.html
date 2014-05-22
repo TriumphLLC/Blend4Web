@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Звуковая подсистема &mdash; Руководство пользователя: Blend4Web v14.04.22</title>
+    <title>Звуковая подсистема &mdash; Руководство пользователя: Blend4Web v14.05.22</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.04.22',
+        VERSION:     '14.05.22',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,9 +26,9 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v14.04.22" href="index.html" />
-    <link rel="next" title="Событийная модель" href="event_model.html" />
-    <link rel="prev" title="Гамма-коррекция и прозрачность" href="gamma_alpha.html" /> 
+    <link rel="top" title="Руководство пользователя: Blend4Web v14.05.22" href="index.html" />
+    <link rel="next" title="Физика" href="physics.html" />
+    <link rel="prev" title="Гамма-коррекция и альфа-композитинг" href="gamma_alpha.html" /> 
   </head>
   <body>
     <div class="header-wrapper">
@@ -37,11 +37,11 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">Руководство пользователя: Blend4Web v14.04.22</a></div>
+          href="index.html">Руководство пользователя: Blend4Web v14.05.22</a></div>
         <div class="rel">
-          <a href="gamma_alpha.html" title="Гамма-коррекция и прозрачность"
+          <a href="gamma_alpha.html" title="Гамма-коррекция и альфа-композитинг"
              accesskey="P">предыдущий</a> |
-          <a href="event_model.html" title="Событийная модель"
+          <a href="physics.html" title="Физика"
              accesskey="N">следующий</a> |
           <a href="genindex.html" title="Алфавитный указатель"
              accesskey="I">указатель</a>
@@ -60,9 +60,14 @@
   <div class="section" id="audio">
 <span id="id1"></span><h1>Звуковая подсистема<a class="headerlink" href="#audio" title="Ссылка на этот заголовок">¶</a></h1>
 <p>Создание звуковых источников осуществляется в Blender&#8217;e. Используется стандартный объект <tt class="docutils literal"><span class="pre">Speaker</span></tt>.</p>
+<a class="reference internal image-reference" href="_images/speaker.jpg"><img alt="_images/speaker.jpg" class="align-center" src="_images/speaker.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
 <div class="section" id="id2">
 <h2>Настройка звуковых источников<a class="headerlink" href="#id2" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Настройки спикера выставляются в панели <tt class="docutils literal"><span class="pre">Properties</span></tt> на вкладке <tt class="docutils literal"><span class="pre">Object</span> <span class="pre">Data</span></tt>.</p>
+<p>Движком поддерживаются все стандартные параметры. Специфичные для движка настройки располагаются на панели <tt class="docutils literal"><span class="pre">Blend4Web</span></tt>.</p>
 <dl class="docutils">
 <dt><em>Speaker behavior</em></dt>
 <dd><p class="first">Поведение звукового источника.</p>
@@ -107,6 +112,10 @@ API. Воспроизведение подобных звуков обладае
 <dt><em>Playlist ID</em></dt>
 <dd>Не реализовано</dd>
 </dl>
+<a class="reference internal image-reference" href="_images/speaker_settings.jpg"><img alt="_images/speaker_settings.jpg" class="align-center" src="_images/speaker_settings.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
 </div>
 <div class="section" id="encoding">
 <span id="id3"></span><h2>Обработка и кодирование<a class="headerlink" href="#encoding" title="Ссылка на этот заголовок">¶</a></h2>
@@ -117,13 +126,12 @@ API. Воспроизведение подобных звуков обладае
 <li>mp3 (Chrome, Safari)</li>
 <li>mp4, кодек AAC (Chrome, Safari)</li>
 </ul>
-<p>Рекомендуется использовать ogg, как наиболее распространённый в браузерах,
-поддерживающих WebGL (Chrome, Firefox). Оптимальным с точки зрения качества и
-совместимости является формат 48кГц/16. Одноканальный звук (моно) используется
+<p>Рекомендуется использовать <strong>ogg</strong>, который является открытым стандартом, поддерживается многими браузерами, обеспечивает хорошее качество звука. Оптимальным с точки зрения качества и
+совместимости является формат 48кГц/16бит. Одноканальный звук (моно) используется
 для хранения коротких сэмплов, двухканальный звук (стерео) - для музыкального
 сопровождения.</p>
-<p>Встроенный конвертер имеет возможность преобразования исходных форматов для
-расширения спектра поддерживаемых платформ. Для этого необходимо выполнить
+<p>В состав дистрибутива включен Python скрипт (scripts/converter.py) для конвертации исходных файлов в другие форматы с целью
+расширения спектра поддерживаемых платформ. Для конвертации необходимо выполнить
 команду:</p>
 <div class="highlight-bash"><div class="highlight"><pre>&gt; ./converter.py convert_sounds
 </pre></div>
@@ -165,20 +173,18 @@ API. Воспроизведение подобных звуков обладае
 <li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Система частиц для инстансинга объектов</a></li>
 <li class="toctree-l1"><a class="reference internal" href="animation.html">Анимация</a></li>
 <li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Рендеринг наружных сцен</a></li>
-<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Гамма-коррекция и прозрачность</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Гамма-коррекция и альфа-композитинг</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Звуковая подсистема</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#id2">Настройка звуковых источников</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#encoding">Обработка и кодирование</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="event_model.html">Событийная модель</a></li>
 <li class="toctree-l1"><a class="reference internal" href="physics.html">Физика</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nla.html">Нелинейная анимация</a></li>
 <li class="toctree-l1"><a class="reference internal" href="developers.html">Разработчикам приложений</a></li>
 <li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">Разработчикам движка</a></li>
-<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Краткая справка по git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Работа в команде. Использование git</a></li>
 <li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Проблемы и решения</a></li>
-<li class="toctree-l1"><a class="reference internal" href="roadmap.html">План развития</a></li>
 </ul>
 
           <h3 style="margin-top: 1.5em;">Поиск</h3>
@@ -199,9 +205,9 @@ API. Воспроизведение подобных звуков обладае
     <div class="footer-wrapper">
       <div class="footer">
         <div class="left">
-          <a href="gamma_alpha.html" title="Гамма-коррекция и прозрачность"
+          <a href="gamma_alpha.html" title="Гамма-коррекция и альфа-композитинг"
              >предыдущий</a> |
-          <a href="event_model.html" title="Событийная модель"
+          <a href="physics.html" title="Физика"
              >следующий</a> |
           <a href="genindex.html" title="Алфавитный указатель"
              >указатель</a>
@@ -211,7 +217,7 @@ API. Воспроизведение подобных звуков обладае
           
     <div class="footer">
         &copy; Copyright 2014, ООО &#34;Триумф&#34;.
-      Обновлено: 2014-04-23.
+      Обновлено: 2014-05-21.
       Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

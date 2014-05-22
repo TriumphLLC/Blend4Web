@@ -209,7 +209,11 @@ void main(void) {
 
     vec3 sided_normal = v_normal;
 #if DOUBLE_SIDED_LIGHTING
-    if (!gl_FrontFacing)
+    // NOTE: workaround for some bug with gl_FrontFacing on Intel graphics 
+    // or open-source drivers
+    if (gl_FrontFacing)
+        sided_normal = sided_normal;
+    else
         sided_normal = -sided_normal;
 #endif
 

@@ -14,6 +14,7 @@
 #include <lighting.glslf>
 #include <pack.glslf>
 #include <gamma.glslf>
+#include <math.glslv>
 
 #define REFL_BUMP 0.001  //How much normal affects reflection displacement
 #define REFR_BUMP 0.0001 //How much normal affects refraction displacement
@@ -311,7 +312,12 @@ void main(void) {
 #if NUM_NORMALMAPS > 0
     // converting normals to tangent space
 # if FOAM
-    vec3 normal_foam = mix(normal, normalize(tbn_matrix * n_foam), 0.2);
+    // TODO: check directives NORM_FOAM0, ...
+    vec3 n_foam_world_norm = tbn_matrix * n_foam;
+    if (!is_equal3f(n_foam_world_norm, vec3(0.0)))
+        n_foam_world_norm = normalize(n_foam_world_norm);
+
+    vec3 normal_foam = mix(normal, n_foam_world_norm, 0.2);
     normal_foam = normalize(normal_foam);
 # endif
 #  if DYNAMIC

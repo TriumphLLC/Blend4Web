@@ -42,7 +42,13 @@ var _last_abs_time = 0;
 var _pause_time = 0;
 var _resume_time = 0;
 
+/**
+ * @callback fps_callback
+ * @param fps_avg Averaged rendering FPS
+ * @param phy_fps_avg Averaged physics FPS
+ */
 var _fps_callback = function() {};
+
 var _fps_counter = function() {};
 
 var _render_callback = function() {};
@@ -50,7 +56,7 @@ var _canvas_data_url_callback = null;
 
 var CONTEXT_NAMES = ["webgl", "experimental-webgl"];
 
-var gl = null;
+var _gl = null;
 
 /**
  * NOTE: According to spec, this function takes only one param
@@ -104,11 +110,13 @@ exports["init"] = function(elem_canvas_webgl, elem_canvas_hud) {
 
     _elem_canvas_webgl = elem_canvas_webgl;
 
-    gl = get_context(elem_canvas_webgl);
+    var gl = get_context(elem_canvas_webgl);
     if (!gl)
         return null;
 
-    init_context(_elem_canvas_webgl);
+    _gl = gl;
+
+    init_context(_elem_canvas_webgl, gl);
     compat.set_hardware_defaults(gl);
     config.apply_quality();
 
@@ -146,7 +154,7 @@ function get_context(canvas) {
     return ctx;
 }
 
-function init_context(canvas) {
+function init_context(canvas, gl) {
     canvas.addEventListener("webglcontextlost", 
             function(event) {
                 event.preventDefault();
@@ -219,17 +227,11 @@ exports["resize"] = function(width, height) {
     hud.update_dim();
 
     scenes.setup_dim(width, height);
-    //scenes.setup_dim(gl.drawingBufferWidth, gl.drawingBufferHeight);
+    //scenes.setup_dim(_gl.drawingBufferWidth, _gl.drawingBufferHeight);
     renderer.clear();
 
     frame(_global_timeline, 0);
 }
-
-/**
- * @callback fps_callback
- * @param fps_avg Averaged rendering FPS
- * @param phy_fps_avg Averaged physics FPS
- */
 
 /**
  * Set callback for FPS counter
@@ -494,11 +496,15 @@ exports["reset"] = function() {
 
     _render_callback = function() {};
 
-    gl = null;
+    _gl = null;
 }
 
 exports["canvas_data_url"] = function(callback) {
     _canvas_data_url_callback = callback;
+}
+
+exports["get_canvas_elem"] = function() {
+    return _elem_canvas_webgl;
 }
 
 }

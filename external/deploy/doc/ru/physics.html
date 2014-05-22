@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Физика &mdash; Руководство пользователя: Blend4Web v14.04.22</title>
+    <title>Физика &mdash; Руководство пользователя: Blend4Web v14.05.22</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.04.22',
+        VERSION:     '14.05.22',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,9 +26,9 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v14.04.22" href="index.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v14.05.22" href="index.html" />
     <link rel="next" title="Нелинейная анимация" href="nla.html" />
-    <link rel="prev" title="Событийная модель" href="event_model.html" /> 
+    <link rel="prev" title="Звуковая подсистема" href="audio.html" /> 
   </head>
   <body>
     <div class="header-wrapper">
@@ -37,9 +37,9 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">Руководство пользователя: Blend4Web v14.04.22</a></div>
+          href="index.html">Руководство пользователя: Blend4Web v14.05.22</a></div>
         <div class="rel">
-          <a href="event_model.html" title="Событийная модель"
+          <a href="audio.html" title="Звуковая подсистема"
              accesskey="P">предыдущий</a> |
           <a href="nla.html" title="Нелинейная анимация"
              accesskey="N">следующий</a> |
@@ -61,12 +61,12 @@
 <span id="id1"></span><h1>Физика<a class="headerlink" href="#physics" title="Ссылка на этот заголовок">¶</a></h1>
 <div class="section" id="id2">
 <h2>Подготовка к использованию<a class="headerlink" href="#id2" title="Ссылка на этот заголовок">¶</a></h2>
-<p>Физическая подсистема реализована в независимо загружающемся модуле uranium.js, содержащем портированный на JavaScript физический движок Bullet. Для установки использования физической подсистемы и пути загрузки модуля uranium.js приложения должны использовать API:</p>
+<p>Физическая подсистема реализована в модуле <strong>uranium.js</strong> и загружается отдельно от основного кода движка. Модуль <strong>uranium.js</strong> представляет собой модификацию физического движка <a class="reference external" href="http://bulletphysics.org/">Bullet</a>, портированную для работы в браузерах. Подключение физической подсистемы и указание пути загрузки модуля <strong>uranium.js</strong> осуществляется приложениями посредством внешнего API:</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span class="nx">b4w</span><span class="p">.</span><span class="nx">config</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;physics_enabled&quot;</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
 <span class="nx">b4w</span><span class="p">.</span><span class="nx">config</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;physics_uranium_path&quot;</span><span class="p">,</span> <span class="s2">&quot;../../external/deploy/apps/common/uranium.js&quot;</span><span class="p">);</span>
 </pre></div>
 </div>
-<p>Для задействования физики на сцене необходимо установить флаг <tt class="docutils literal"><span class="pre">Enable</span> <span class="pre">physics</span></tt> в интерфейсе сцены.</p>
+<p>Для задействования физики на сцене необходимо установить флаг <tt class="docutils literal"><span class="pre">Enable</span> <span class="pre">physics</span></tt> в вкладке сцены в Blender&#8217;е.</p>
 <a class="reference internal image-reference" href="_images/scene.jpg"><img alt="Интерфейс с опциями сцены" src="_images/scene.jpg" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
@@ -86,7 +86,7 @@
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p>Меш может быть покрыт одним или несколькими физическими материалами. В панели материала должен быть установлен флаг <tt class="docutils literal"><span class="pre">Special:</span> <span class="pre">Collision</span></tt>. Среди физических настроек материала поддерживаются: трение (<tt class="docutils literal"><span class="pre">Friction</span></tt>), упругость (<tt class="docutils literal"><span class="pre">Elasticity</span></tt>).</p>
+<p>Меш может быть покрыт одним или несколькими физическими материалами. Во вкладке <tt class="docutils literal"><span class="pre">Material</span></tt> должна быть включена опция <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Special:</span> <span class="pre">Collision</span></tt>. Также во вкладке <tt class="docutils literal"><span class="pre">Material</span></tt> на панели <tt class="docutils literal"><span class="pre">Physics</span></tt> (в режиме <tt class="docutils literal"><span class="pre">Blender</span> <span class="pre">Game</span></tt>) располагаются физические настройки материала. Поддерживаются следующие физические настройки материала: трение (<tt class="docutils literal"><span class="pre">Friction</span></tt>), упругость (<tt class="docutils literal"><span class="pre">Elasticity</span></tt>).</p>
 <a class="reference internal image-reference" href="_images/material_panel_physics.jpg"><img alt="Интерфейс панели материала с настройками физики" src="_images/material_panel_physics.jpg" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
@@ -141,7 +141,7 @@
 </div>
 <div class="section" id="id5">
 <h2>Колесные транспортные средства<a class="headerlink" href="#id5" title="Ссылка на этот заголовок">¶</a></h2>
-<p>Модель транспортного средства (ТС) должна состоять из 6 отдельных объектов - шасси, 4 колеса, рулевое колесо. Центр меша шасси должен соответсвовать центру масс. Центры мешей колес и рулевого колеса должны располагаться на осях вращения. Рулевое колесо должно быть ориентировано в локальной системе координат: X - ось вращения, Y - вправо, Z - вверх. Объекты могут иметь любые названия.</p>
+<p>Модель транспортного средства (ТС) должна состоять из 6 отдельных объектов - шасси, 4 колеса, рулевое колесо. Центр меша шасси должен соответствовать центру масс. Центры мешей колес и рулевого колеса должны располагаться на осях вращения. Рулевое колесо должно быть ориентировано в локальной системе координат: X - ось вращения, Y - вправо, Z - вверх. Объекты могут иметь любые названия.</p>
 <a class="reference internal image-reference" href="_images/physics_vehicle_wheeled.jpg"><img alt="Настройка физики колесного транспортного средства" src="_images/physics_vehicle_wheeled.jpg" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
@@ -164,15 +164,15 @@
 <dt><em>Vehicle Settings &gt; Wheel friction</em></dt>
 <dd>Константа трения колес о поверхность. Для реалистичных Т.С. должен быть в районе 0.8. Но может быть значительно увеличен, для улучшения управляемости (1000 и более)</dd>
 <dt><em>Vehicle Settings &gt; Roll influence</em></dt>
-<dd>Снижает вращающий момент от колес, уменьшая вероятность переворота транспортного средства (0 - нет вращающего момента, 1 - реальное физическое поведение)</dd>
+<dd>Снижает вращающий момент от колес, уменьшая вероятность переворота транспортного средства (0 - нет вращающего момента, 1 - реальное физическое поведение).</dd>
 <dt><em>Vehicle Settings &gt; Max suspension travel cm</em></dt>
 <dd>Максимальный ход подвески в сантиметрах</dd>
 </dl>
 <p>Для рулевого колеса(<tt class="docutils literal"><span class="pre">Steering</span> <span class="pre">wheel</span></tt>) необходимо указать максимальный угол поворота(<tt class="docutils literal"><span class="pre">Steering</span> <span class="pre">max</span></tt>) и передаточное отношение угла поворота руля к
-передним колесам (<tt class="docutils literal"><span class="pre">Steering</span> <span class="pre">ratio</span></tt>). Максимальное значение угла поворота укзывается в оборотах. Один оборот равен 360 градусам. Таким образом,
+передним колесам (<tt class="docutils literal"><span class="pre">Steering</span> <span class="pre">ratio</span></tt>). Максимальное значение угла поворота указывается в оборотах. Один оборот равен 360 градусам. Таким образом,
 поставив <tt class="docutils literal"><span class="pre">Steering</span> <span class="pre">max</span></tt> равным единице, а <tt class="docutils literal"><span class="pre">Steering</span> <span class="pre">ratio</span></tt> равным 10, максимальный поворот руля получится равным 360 градусав, а максимальный
 поворот передних колес 36 градусов.</p>
-<p>На этом этапе можно произвести экспорт и загрузить сцену в движок. Рекомендуется создать дорожную поверхность с физическим материалом. В просмотрщике нажать клавишу <tt class="docutils literal"><span class="pre">Q</span></tt> для установки контролируемого объекта, и выбрать шасси. Использовать <tt class="docutils literal"><span class="pre">W</span></tt>, <tt class="docutils literal"><span class="pre">A</span></tt>, <tt class="docutils literal"><span class="pre">S</span></tt>, <tt class="docutils literal"><span class="pre">D</span></tt> для управления.</p>
+<p>На этом этапе можно произвести экспорт и загрузить сцену в движок. Рекомендуется создать дорожную поверхность с физическим материалом. В просмотрщике нажать клавишу <tt class="docutils literal"><span class="pre">Q</span></tt> для выбора контролируемого объекта, и выбрать шасси. Использовать <tt class="docutils literal"><span class="pre">W</span></tt>, <tt class="docutils literal"><span class="pre">A</span></tt>, <tt class="docutils literal"><span class="pre">S</span></tt>, <tt class="docutils literal"><span class="pre">D</span></tt> для управления.</p>
 <p>Дополнительно можно настроить демпфирование <tt class="docutils literal"><span class="pre">Damping</span></tt> перемещения (<tt class="docutils literal"><span class="pre">Translation</span></tt>) и вращения (<tt class="docutils literal"><span class="pre">Rotation</span></tt>). Свойство влияет на скорость перемещения и инерционность ТС.</p>
 <p>Настройка трения и эластичности физического материала дорожного покрытия не влияют на поведение ТС.</p>
 </div>
@@ -191,9 +191,9 @@
 <dt><em>Floating settings &gt; Floating factor</em></dt>
 <dd>Коэффициент выталкивания объекта из воды</dd>
 <dt><em>Floating settings &gt; Water linear damping</em></dt>
-<dd>Демпфирование линейной скорости при нахождении отбъекта на поверхности воды (или под водой). Когда объект находится вне воды, используется значение из настроек физики.</dd>
+<dd>Демпфирование линейной скорости при нахождении объекта на поверхности воды (или под водой). Когда объект находится вне воды, используется значение из настроек физики.</dd>
 <dt><em>Floating settings &gt; Water rotation damping</em></dt>
-<dd>Демпфирование вращения при нахождении отбъекта на поверхности воды (или под водой). Когда объект находится вне воды, используется значение из настроек физики.</dd>
+<dd>Демпфирование вращения при нахождении объекта на поверхности воды (или под водой). Когда объект находится вне воды, используется значение из настроек физики.</dd>
 </dl>
 </div>
 </div>
@@ -214,9 +214,9 @@
 <dt><em>Floating settings &gt; Floating factor</em></dt>
 <dd>Коэффициент выталкивания объекта из воды</dd>
 <dt><em>Floating settings &gt; Water linear damping</em></dt>
-<dd>Демпфирование линейной скорости при нахождении отбъекта на поверхности воды (или под водой). Когда объект находится вне воды, используется значение из настроек физики.</dd>
+<dd>Демпфирование линейной скорости при нахождении объекта на поверхности воды (или под водой). Когда объект находится вне воды, используется значение из настроек физики.</dd>
 <dt><em>Floating settings &gt; Water rotation damping</em></dt>
-<dd>Демпфирование вращения при нахождении отбъекта на поверхности воды (или под водой). Когда объект находится вне воды, используется значение из настроек физики.</dd>
+<dd>Демпфирование вращения при нахождении объекта на поверхности воды (или под водой). Когда объект находится вне воды, используется значение из настроек физики.</dd>
 </dl>
 </div>
 </div>
@@ -247,9 +247,8 @@
 <li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Система частиц для инстансинга объектов</a></li>
 <li class="toctree-l1"><a class="reference internal" href="animation.html">Анимация</a></li>
 <li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Рендеринг наружных сцен</a></li>
-<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Гамма-коррекция и прозрачность</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Гамма-коррекция и альфа-композитинг</a></li>
 <li class="toctree-l1"><a class="reference internal" href="audio.html">Звуковая подсистема</a></li>
-<li class="toctree-l1"><a class="reference internal" href="event_model.html">Событийная модель</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Физика</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#id2">Подготовка к использованию</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id3">Статический меш</a></li>
@@ -263,9 +262,8 @@
 <li class="toctree-l1"><a class="reference internal" href="nla.html">Нелинейная анимация</a></li>
 <li class="toctree-l1"><a class="reference internal" href="developers.html">Разработчикам приложений</a></li>
 <li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">Разработчикам движка</a></li>
-<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Краткая справка по git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Работа в команде. Использование git</a></li>
 <li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Проблемы и решения</a></li>
-<li class="toctree-l1"><a class="reference internal" href="roadmap.html">План развития</a></li>
 </ul>
 
           <h3 style="margin-top: 1.5em;">Поиск</h3>
@@ -286,7 +284,7 @@
     <div class="footer-wrapper">
       <div class="footer">
         <div class="left">
-          <a href="event_model.html" title="Событийная модель"
+          <a href="audio.html" title="Звуковая подсистема"
              >предыдущий</a> |
           <a href="nla.html" title="Нелинейная анимация"
              >следующий</a> |
@@ -298,7 +296,7 @@
           
     <div class="footer">
         &copy; Copyright 2014, ООО &#34;Триумф&#34;.
-      Обновлено: 2014-04-23.
+      Обновлено: 2014-05-21.
       Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

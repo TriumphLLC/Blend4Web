@@ -10,16 +10,16 @@ b4w.module["__extensions"] = function(exports, require) {
 
 var m_print = require("__print");
 
-var gl;
+var _gl = null;
 
 var _ext_cache = {};
 
 /**
  * Setup WebGL context
- * @param ctx webgl context
+ * @param gl WebGL context
  */
-exports.setup_context = function(ctx) {
-    gl = ctx;
+exports.setup_context = function(gl) {
+    _gl = gl;
 }
 
 /**
@@ -104,7 +104,7 @@ function get(name) {
     if (name in _ext_cache)
         return _ext_cache[name];
 
-    var ext = gl.getExtension(name) || null;
+    var ext = _gl.getExtension(name) || null;
 
     _ext_cache[name] = ext;
 

@@ -504,7 +504,7 @@ exports["analyze"] = function(opt_shader_id_part) {
     }
 }
 
-function find_material_name_by_comp_shader(cshader) {
+function find_material_names_by_comp_shader(cshader) {
 
     var scenes = m_scenes.get_all_scenes();
 
@@ -514,17 +514,15 @@ function find_material_name_by_comp_shader(cshader) {
         for (var j = 0; j < objects.length; j++) {
             var obj = objects[j];
 
-            if (!obj._batch_slots)
+            if (!obj._batches)
                 continue;
 
-            var mats = obj["data"]["materials"];
+            for (var k = 0; k < obj._batches.length; k++) {
+                var batch = obj._batches[k];
 
-            for (var k = 0; k < obj._batch_slots.length; k++) {
-                var slot = obj._batch_slots[k];
-
-                if (slot.batch.shader == cshader &&
-                        slot.submesh_index > -1) {
-                    return mats[slot.submesh_index]["name"];
+                if (batch.shader == cshader &&
+                        batch.material_names.length) {
+                    return batch.material_names;
                 }
             }
         }
@@ -545,8 +543,8 @@ function print_shader_stats_amd(stats) {
         var fstats = stat.fstats;
         var vstats = stat.vstats;
 
-        var mat_name = find_material_name_by_comp_shader(stat.cshader);
-        mat_name = mat_name ? "\t\t(" + mat_name + ")" : "\t\t(NA)";
+        var mat_names = find_material_names_by_comp_shader(stat.cshader);
+        mat_names = mat_names ? "\t\t(" + mat_names.join(", ") + ")" : "\t\t(NA)";
    
         // NOTE some not changing params are commented out
         m_print.groupCollapsed(
@@ -583,7 +581,7 @@ function print_shader_stats_amd(stats) {
             //"ITMCLC", vstats.item_clock_an,
             "ALU_TEX", vstats.alu_tex_an,
             "BTLNCK", "\"" + vstats.bottleneck_an + "\"",
-            mat_name
+            mat_names
         );
 
         m_print.groupCollapsed("directives");
@@ -626,8 +624,8 @@ function print_shader_stats_nvidia(stats) {
         var fstats = stat.fstats;
         var vstats = stat.vstats;
 
-        var mat_name = find_material_name_by_comp_shader(stat.cshader);
-        mat_name = mat_name ? "\t\t(" + mat_name + ")" : "\t\t(NA)";
+        var mat_names = find_material_names_by_comp_shader(stat.cshader);
+        mat_names = mat_names ? "\t\t(" + mat_names.join(", ") + ")" : "\t\t(NA)";
    
         // NOTE some not changing params are commented out
         m_print.groupCollapsed(
@@ -638,7 +636,7 @@ function print_shader_stats_nvidia(stats) {
             "\t\tVERT -->",
             "ALU", vstats["ALU_OPS"],
             "TEX", vstats["TEX_OPS"],
-            mat_name
+            mat_names
         );
 
         m_print.groupCollapsed("directives");

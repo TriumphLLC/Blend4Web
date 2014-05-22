@@ -21,27 +21,6 @@ var cfg_sfx = m_cfg.sfx;
 var SPEED_WARM_STEPS = 10;
 var SPEED_SMOOTH_PERIOD = 0.3;
 
-// permanent vars
-var _supported_media = [];
-var _wa_context = null;
-
-var _active_scene = null;
-var _listener_last_eye = new Float32Array(3);
-var _listener_speed_avg = new Float32Array(3);
-
-// NOTE: listener warm-up steps
-var _listener_speed_warm = SPEED_WARM_STEPS;
-
-var _speaker_objects = [];
-
-var _vec3_tmp = new Float32Array(3);
-var _vec3_tmp2 = new Float32Array(3);
-var _vec3_tmp3 = new Float32Array(3);
-
-var _seed_tmp = [1];
-
-var _playlist = null;
-
 var SPKSTATE_UNDEFINED  = 10;
 var SPKSTATE_PLAY       = 20
 var SPKSTATE_STOP       = 30;
@@ -54,6 +33,28 @@ var SCHED_PARAM_ANTICIPATE_TIME = 3.0;
 exports.AST_NONE         = 10;
 exports.AST_ARRAY_BUFFER = 20;
 exports.AST_HTML_ELEMENT = 30;
+
+var _vec3_tmp = new Float32Array(3);
+var _vec3_tmp2 = new Float32Array(3);
+var _vec3_tmp3 = new Float32Array(3);
+
+// permanent vars
+var _supported_media = [];
+var _wa = null;
+
+// per-loaded-scene vars
+var _active_scene = null;
+var _speaker_objects = [];
+
+var _listener_last_eye = new Float32Array(3);
+var _listener_speed_avg = new Float32Array(3);
+// NOTE: listener warm-up steps
+var _listener_speed_warm = SPEED_WARM_STEPS;
+
+var _seed_tmp = [1];
+
+var _playlist = null;
+
 
 /**
  * Initialize sound effects module
@@ -76,11 +77,11 @@ exports.init = function() {
     }
 
     // NOTE: register context once and reuse for all loaded scenes to prevent
-    // out-of-resources error during Chromium context leaks
-    _wa_context = cfg_sfx.webaudio ? create_wa_context() : null;
+    // out-of-resources error due to Chromium context leaks
+    _wa = cfg_sfx.webaudio ? create_wa_context() : null;
 
-    if (_wa_context)
-        m_print.log("%cINIT WEBAUDIO: " + _wa_context.sampleRate + "Hz", "color: #00a");
+    if (_wa)
+        m_print.log("%cINIT WEBAUDIO: " + _wa.sampleRate + "Hz", "color: #00a");
 }
 
 exports.attach_scene_sfx = function(scene) {
@@ -88,18 +89,18 @@ exports.attach_scene_sfx = function(scene) {
     var scene_sfx = {};
     scene._sfx = scene_sfx;
 
-    if (_wa_context) {
-        var gnode = _wa_context.createGain();
-        var fade_gnode = _wa_context.createGain();
+    if (_wa) {
+        var gnode = _wa.createGain();
+        var fade_gnode = _wa.createGain();
 
         scene_sfx.gain_node = gnode;
         scene_sfx.fade_gain_node = fade_gnode;
 
         gnode.connect(fade_gnode);
-        fade_gnode.connect(_wa_context.destination);
+        fade_gnode.connect(_wa.destination);
 
         if (scene["b4w_enable_dynamic_compressor"]) {
-            var compressor = _wa_context.createDynamicsCompressor();
+            var compressor = _wa.createDynamicsCompressor();
 
             var dcs = scene["b4w_dynamic_compressor_settings"];
 
@@ -117,7 +118,7 @@ exports.attach_scene_sfx = function(scene) {
             scene_sfx.proc_chain_in = gnode;
         }
 
-        var listener = _wa_context.listener;
+        var listener = _wa.listener;
         listener.dopplerFactor = scene["audio_doppler_factor"];
         listener.speedOfSound = scene["audio_doppler_speed"];
 
@@ -202,10 +203,10 @@ exports.append_object = function(obj, scene) {
     switch(speaker["b4w_behavior"]) {
     case "POSITIONAL":
     case "BACKGROUND_SOUND":
-        obj._sfx.behavior = _wa_context ? speaker["b4w_behavior"] : "NONE";
+        obj._sfx.behavior = _wa ? speaker["b4w_behavior"] : "NONE";
         break;
     case "BACKGROUND_MUSIC":
-        obj._sfx.behavior = _wa_context ? (check_media_element_node() ?
+        obj._sfx.behavior = _wa ? (check_media_element_node() ?
                 "BACKGROUND_MUSIC" : "BACKGROUND_SOUND") : "NONE";
         break;
     default:
@@ -265,9 +266,7 @@ exports.append_object = function(obj, scene) {
 }
 
 function check_media_element_node() {
-    // NOTE: bad implementation in safari 6.0/6.1
-    if (window["MediaElementAudioSourceNode"] &&
-            !m_dbg.check_browser("safari")) {
+    if (window["MediaElementAudioSourceNode"]) {
         return true;
     } else {
         m_print.warn("B4W warning: MediaElementAudioSourceNode not found");
@@ -323,8 +322,8 @@ exports.update_spkobj = function(obj, sound_data) {
 }
 
 exports.decode_audio_data = function(arr_buf, decode_cb, fail_cb) {
-    if (_wa_context)
-        _wa_context.decodeAudioData(arr_buf, decode_cb, fail_cb);
+    if (_wa)
+        _wa.decodeAudioData(arr_buf, decode_cb, fail_cb);
     else
         fail_cb();
 }
@@ -381,18 +380,18 @@ exports.cleanup = function() {
  */
 exports.update = function(timeline, elapsed) {
 
-    if (!_wa_context || _speaker_objects.length == 0)
+    if (!_wa || _speaker_objects.length == 0)
         return;
 
     for (var i = 0; i < _speaker_objects.length; i++) {
         var obj = _speaker_objects[i];
         var sfx = obj._sfx;
 
-        var curr_time = _wa_context.currentTime;
+        var curr_time = _wa.currentTime;
 
         // handle restarts
         if (!sfx.loop && sfx.cyclic && sfx.state == SPKSTATE_PLAY &&
-                sfx.duration && _wa_context &&
+                sfx.duration && _wa &&
                 (sfx.start_time + sfx.duration < curr_time))
             play_def(obj);
 
@@ -453,7 +452,7 @@ function play(obj, when, duration) {
     // initialize random sequence
     sfx.base_seed = Math.floor(50000 * Math.random());
 
-    var start_time = _wa_context.currentTime + when;
+    var start_time = _wa.currentTime + when;
     sfx.start_time = start_time;
 
     sfx.state = SPKSTATE_PLAY;
@@ -463,7 +462,7 @@ function play(obj, when, duration) {
     if (sfx.behavior == "POSITIONAL" ||
             sfx.behavior == "BACKGROUND_SOUND") {
 
-        var source = _wa_context.createBufferSource();
+        var source = _wa.createBufferSource();
 
         source.buffer = sfx.src;
         source.playbackRate.value = playrate;
@@ -531,18 +530,18 @@ function update_proc_chain(obj) {
     var quat = obj._render.quat;
 
     if (cfg_sfx.mix_mode) {
-        var filter_node = _wa_context.createBiquadFilter();
+        var filter_node = _wa.createBiquadFilter();
         filter_node.type = "peaking";
     } else
         var filter_node = null;
 
     // mandatory fade-in/out gain node
-    var fade_gnode = _wa_context.createGain();
+    var fade_gnode = _wa.createGain();
 
     switch (sfx.behavior) {
     // panner->filter->gain->fade->rand
     case "POSITIONAL":
-        var ap = _wa_context.createPanner();
+        var ap = _wa.createPanner();
         // NOTE: HRTF panning gives too much volume gain
         // NOTE: string enums specified in the new spec
         ap.panningModel = ap.EQUALPOWER;
@@ -567,7 +566,7 @@ function update_proc_chain(obj) {
         ap.coneOuterAngle = sfx.cone_angle_outer;
         ap.coneOuterGain = sfx.cone_volume_outer;
 
-        var gnode = _wa_context.createGain();
+        var gnode = _wa.createGain();
         gnode.gain.value = calc_gain(sfx);
 
         if (filter_node) {
@@ -583,7 +582,7 @@ function update_proc_chain(obj) {
 
         // optional volume randomization gain node
         if (sfx.volume_random) {
-            var rand_gnode = _wa_context.createGain();
+            var rand_gnode = _wa.createGain();
             fade_gnode.connect(rand_gnode);
             rand_gnode.connect(get_scene_dst_node(_active_scene));
         } else {
@@ -596,7 +595,7 @@ function update_proc_chain(obj) {
     case "BACKGROUND_SOUND":
         var ap = null;
 
-        var gnode = _wa_context.createGain();
+        var gnode = _wa.createGain();
         gnode.gain.value = calc_gain(sfx);
 
         if (filter_node) {
@@ -610,7 +609,7 @@ function update_proc_chain(obj) {
 
         // optional volume randomization gain node
         if (sfx.volume_random) {
-            var rand_gnode = _wa_context.createGain();
+            var rand_gnode = _wa.createGain();
             fade_gnode.connect(rand_gnode);
             rand_gnode.connect(get_scene_dst_node(_active_scene));
         } else {
@@ -624,7 +623,7 @@ function update_proc_chain(obj) {
         var ap = null;
         var rand_gnode = null;
 
-        var gnode = _wa_context.createGain();
+        var gnode = _wa.createGain();
         gnode.gain.value = calc_gain(sfx);
 
         if (filter_node) {
@@ -658,21 +657,21 @@ function play_def(obj) {
 }
 
 function get_scene_dst_node(scene) {
-    if (_wa_context)
+    if (_wa)
         return scene._sfx.proc_chain_in;
     else
         return null;
 }
 
 function get_gain_node(scene) {
-    if (_wa_context)
+    if (_wa)
         return scene._sfx.gain_node;
     else
         return null;
 }
 
 function get_fade_node(scene) {
-    if (_wa_context)
+    if (_wa)
         return scene._sfx.fade_gain_node;
     else
         return null;
@@ -741,6 +740,9 @@ function schedule_fades(sfx, from_time) {
     if (sfx.fade_in) {
         fade_gnode.gain.setValueAtTime(0, from_time);
         fade_gnode.gain.linearRampToValueAtTime(1, from_time + sfx.fade_in);
+    } else {
+        // clear possible duck or fade-out from previous iteraion
+        fade_gnode.gain.setValueAtTime(1, from_time);
     }
 
     if (sfx.fade_out && !sfx.loop) {
@@ -764,7 +766,7 @@ function fire_audio_element(obj) {
         // NOTE: audio element will be invalidated after construction execution,
         // so use previous MediaElementSourceNode
         sfx.source_node = sfx.source_node || 
-                _wa_context.createMediaElementSource(audio);
+                _wa.createMediaElementSource(audio);
 
         sfx.source_node.connect(sfx.proc_chain_in);
 
@@ -789,7 +791,7 @@ function stop(sobj) {
         return;
 
     var fade_gnode = sfx.fade_gain_node;
-    var current_time = _wa_context.currentTime;
+    var current_time = _wa.currentTime;
 
     if (sfx.fade_out) {
         fade_gnode.gain.setValueAtTime(fade_gnode.gain.value, current_time);
@@ -857,7 +859,7 @@ function speaker_pause(obj) {
         var source = sfx.source_node;
         var playrate = source.playbackRate.value;
 
-        var current_time = _wa_context.currentTime;
+        var current_time = _wa.currentTime;
         sfx.pause_time = current_time;
 
         var buf_dur = source.buffer.duration;
@@ -907,7 +909,7 @@ function speaker_resume(obj) {
         audio_el.play();
     } else {
         update_source_node(obj);
-        var current_time = _wa_context.currentTime;
+        var current_time = _wa.currentTime;
 
         sfx.start_time += (current_time - sfx.pause_time);
         sfx.vp_rand_end_time = current_time;
@@ -929,7 +931,7 @@ function speaker_resume(obj) {
 function update_source_node(obj) {
     var sfx = obj._sfx;
 
-    var source = _wa_context.createBufferSource();
+    var source = _wa.createBufferSource();
 
     source.loop = sfx.source_node.loop;
     source.buffer = sfx.source_node.buffer;
@@ -979,7 +981,7 @@ function is_cyclic(obj) {
 exports.listener_update_transform = function(scene, trans, quat, elapsed) {
 
     // NOTE: hack
-    if (!_wa_context)
+    if (!_wa)
         return;
 
     var front = _vec3_tmp;
@@ -994,7 +996,7 @@ exports.listener_update_transform = function(scene, trans, quat, elapsed) {
     up[2] =-1;
     m_vec3.transformQuat(up, quat, up);
 
-    var listener = _wa_context.listener;
+    var listener = _wa.listener;
     listener.setPosition(trans[0], trans[1], trans[2]);
     listener.setOrientation(front[0], front[1], front[2], up[0], up[1], up[2]);
 
@@ -1025,10 +1027,10 @@ exports.listener_update_transform = function(scene, trans, quat, elapsed) {
 
 exports.listener_reset_speed = function() {
     // NOTE: hack
-    if (!_wa_context)
+    if (!_wa)
         return;
 
-    var listener = _wa_context.listener;
+    var listener = _wa.listener;
     listener.setVelocity(0, 0, 0);
 
     _listener_speed_avg[0] = 0;
@@ -1164,7 +1166,7 @@ exports.set_master_volume = function(volume) {
     var scene_sfx = _active_scene._sfx;
     if (scene_sfx) {
         scene_sfx.volume = volume;
-        if (_wa_context)
+        if (_wa)
             scene_sfx.gain_node.gain.value = calc_gain(scene_sfx);
     }
 }
@@ -1205,7 +1207,7 @@ exports.mute_master = function(muted) {
     var scene_sfx = _active_scene._sfx;
     if (scene_sfx) {
         scene_sfx.muted = Boolean(muted);
-        if (_wa_context)
+        if (_wa)
             scene_sfx.gain_node.gain.value = calc_gain(scene_sfx);
     }
 }
@@ -1271,7 +1273,7 @@ exports.duck = function(obj, value, time) {
 
     var fade_gnode = sfx.fade_gain_node;
 
-    var current_time = _wa_context.currentTime;
+    var current_time = _wa.currentTime;
 
     fade_gnode.gain.setValueAtTime(fade_gnode.gain.value, current_time);
     fade_gnode.gain.linearRampToValueAtTime(value, current_time + time);
@@ -1287,7 +1289,7 @@ exports.unduck = function(obj) {
 
     var fade_gnode = sfx.fade_gain_node;
 
-    var current_time = _wa_context.currentTime;
+    var current_time = _wa.currentTime;
 
     fade_gnode.gain.setValueAtTime(fade_gnode.gain.value, current_time);
     fade_gnode.gain.linearRampToValueAtTime(1, current_time + sfx.duck_time);
@@ -1296,13 +1298,13 @@ exports.unduck = function(obj) {
 }
 
 exports.duck_master = function(value, time) {
-    if (!_wa_context)
+    if (!_wa)
         return;
 
     var scene_sfx = _active_scene._sfx;
     var fade_gnode = scene_sfx.fade_gain_node;
 
-    var current_time = _wa_context.currentTime;
+    var current_time = _wa.currentTime;
 
     fade_gnode.gain.setValueAtTime(fade_gnode.gain.value, current_time);
     fade_gnode.gain.linearRampToValueAtTime(value, current_time + time);
@@ -1311,13 +1313,13 @@ exports.duck_master = function(value, time) {
 }
 
 exports.unduck_master = function() {
-    if (!_wa_context)
+    if (!_wa)
         return;
 
     var scene_sfx = _active_scene._sfx;
     var fade_gnode = scene_sfx.fade_gain_node;
 
-    var current_time = _wa_context.currentTime;
+    var current_time = _wa.currentTime;
 
     fade_gnode.gain.setValueAtTime(fade_gnode.gain.value, current_time);
     fade_gnode.gain.linearRampToValueAtTime(1, current_time + scene_sfx.duck_time);

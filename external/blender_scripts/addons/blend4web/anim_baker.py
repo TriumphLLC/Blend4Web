@@ -6,89 +6,80 @@ import bpy
 import mathutils
 import math
 
-def run():
+class B4W_Anim_Baker(bpy.types.Operator):
+    '''Bake animation for selected armature object'''
 
-    # action may provide info for multiple armature objects
-    armobjects = []
-    for obj in bpy.data.objects:
-        if obj.type == 'ARMATURE':
-            armobjects.append(obj)
-    
-    # remove proxy source objects to avoid duplicate running
-    for armobj in armobjects:
-        proxy = armobj.proxy
-        if proxy:
-            armobjects.remove(proxy)
+    bl_idname = "b4w.animation_bake"
+    bl_label = "B4W Animation Bake"
+   
+    def execute(self, context):
+        armobj = context.active_object
+        if not (armobj and armobj.type == "ARMATURE"):
+            self.report({'INFO'}, "Not an armature object")
+            return {'CANCELLED'}
 
-    # save current state to restore after (just for convenience)
-    armobjects_current_actions = []; 
-    for armobj in armobjects:
-        armobjects_current_actions.append(armobj.animation_data.action)
+        # save current state to restore after (just for convenience)
+        current_action = armobj.animation_data.action
 
-    # save auto keyframes tool mode
-    use_kia = bpy.context.scene.tool_settings.use_keyframe_insert_auto
-    bpy.context.scene.tool_settings.use_keyframe_insert_auto = False
+        # save auto keyframes tool mode
+        use_kia = bpy.context.scene.tool_settings.use_keyframe_insert_auto
+        bpy.context.scene.tool_settings.use_keyframe_insert_auto = False
 
-    for action in bpy.data.actions:
-        if action.id_root == 'OBJECT': # only process armobj actions
-                                       # and ignore e.g. curves
-            process_action(action, armobjects)
+        for action in bpy.data.actions:
+            if action.id_root == 'OBJECT': # only process armobj actions
+                                           # and ignore e.g. curves
+                self.process_action(action, armobj)
 
-    # restore
-    index = 0;
-    for armobj in armobjects:
-        armobj.animation_data.action = armobjects_current_actions[index]
-        index = index + 1
+        armobj.animation_data.action = current_action
 
-    # restore auto keyframes tool mode
-    bpy.context.scene.tool_settings.use_keyframe_insert_auto = use_kia
+        # restore auto keyframes tool mode
+        bpy.context.scene.tool_settings.use_keyframe_insert_auto = use_kia
 
-def process_action(action, armobjects):
+        return {"FINISHED"}
 
-    suffix = "_BAKED"
-    
-    # skip actions with suffix
-    if action.name.find(suffix) > -1:
-        return
+    def process_action(self, action, armobj):
+        suffix = "_BAKED"
 
-    print("processing action " + action.name)
+        # skip actions with suffix
+        if action.name.find(suffix) > -1:
+            return
 
-    # mark source action as not exporting (for convenience)
-    action.b4w_do_not_export = True
+        print("processing action " + action.name)
 
-    new_name = action.name + suffix
+        # mark source action as not exporting (for convenience)
+        action.b4w_do_not_export = True
 
-    actions = bpy.data.actions
-    new_action = actions.get(new_name)
-    if new_action:
-        # reuse old action (segfault when deleting actions)
-        fcurves = new_action.fcurves
-        groups = new_action.groups
-        for fcurve in fcurves:
-            fcurves.remove(fcurve)
-        for group in groups:
-            groups.remove(group)
-    else:
-        # create new action
-        new_action = actions.new(new_name)
+        new_name = action.name + suffix
 
-    # save it
-    new_action.use_fake_user = True
+        actions = bpy.data.actions
+        new_action = actions.get(new_name)
+        if new_action:
+            # reuse old action (segfault when deleting actions)
+            fcurves = new_action.fcurves
+            groups = new_action.groups
+            for fcurve in fcurves:
+                fcurves.remove(fcurve)
+            for group in groups:
+                groups.remove(group)
+        else:
+            # create new action
+            new_action = actions.new(new_name)
 
-    # create groups for all bones having same names
-    # create sets of fcurves for each group
-    new_groups = new_action.groups
-    new_fcurves = new_action.fcurves
+        # save it
+        new_action.use_fake_user = True
 
-    for armobj in armobjects:
+        # create groups for all bones having same names
+        # create sets of fcurves for each group
+        new_groups = new_action.groups
+        new_fcurves = new_action.fcurves
+
         # set it as active
         bpy.context.scene.objects.active = armobj    
 
         arm_bones = armobj.data.bones
         for bone in arm_bones:
-    
-            if needed_to_deform(bone):
-    
+            if self.needed_to_deform(bone):
+
                 bname = bone.name
                 new_groups.new(bname)
 
@@ -114,15 +105,11 @@ def process_action(action, armobjects):
         armobj.animation_data.action = action
 
 
-
-    # create key frame points with step 1 between them
-    frame_range = action.frame_range
-    for i in range(round(frame_range[0]), round(frame_range[1]) + 1):
-    
-        # set pose
-        bpy.context.scene.frame_set(i)
-
-        for armobj in armobjects:
+        # create key frame points with step 1 between them
+        frame_range = action.frame_range
+        for i in range(round(frame_range[0]), round(frame_range[1]) + 1):
+            # set pose
+            bpy.context.scene.frame_set(i)
 
             # for each bone insert key frame points in its fcurves
             for pbone in armobj.pose.bones:
@@ -147,7 +134,7 @@ def process_action(action, armobjects):
                     # pbone.matrix = rest0 * pose0 * rest0.inverted() 
                     #              * rest1 * pose1
                     # simply multiplying by inverted rest
-    
+
                     # retrieve rest matrix
                     ml = pbone.bone.matrix_local
 
@@ -184,181 +171,210 @@ def process_action(action, armobjects):
                     fcurves[8].keyframe_points.insert(i, scal[1])
                     fcurves[9].keyframe_points.insert(i, scal[2])
 
-    # now beautify our fcurves
+        # now beautify our fcurves
 
-    # enable baked action
-    for armobj in armobjects:
+        # enable baked action
         armobj.animation_data.action = new_action
 
-    # clean keys that do not change values
-    old_area = bpy.context.area.type
-    bpy.context.area.type = "DOPESHEET_EDITOR"
-    bpy.ops.action.clean() 
+        # clean keys that do not change values
+        old_area = bpy.context.area.type
+        bpy.context.area.type = "DOPESHEET_EDITOR"
 
-    # remove channels having only one unchanged keyframe
-    fcurves = new_action.fcurves
-    for fcurve in fcurves:
-        keyframe_points = fcurve.keyframe_points
-        if len(keyframe_points) == 1:
-            data_path = fcurve.data_path
-            array_index = fcurve.array_index
-            value = keyframe_points[0].co[1]
+        if armobj.b4w_anim_clean_keys:
+            # NOTE: clean-ups source action, if also assigned to some non-armature object
+            bpy.ops.action.clean()
 
-            is_loc = data_path.find("location") > -1
-            is_rot = data_path.find("rotation_quaternion") > -1
-            is_sca = data_path.find("scale") > -1
+        # remove channels having only one unchanged keyframe
+        fcurves = new_action.fcurves
+        for fcurve in fcurves:
+            keyframe_points = fcurve.keyframe_points
+            if len(keyframe_points) == 1:
+                data_path = fcurve.data_path
+                array_index = fcurve.array_index
+                value = keyframe_points[0].co[1]
 
-            if is_loc and near_zero(value) or \
-               is_rot and near_one (value) and array_index == 0 or \
-               is_rot and near_zero(value) and not array_index == 0 or \
-               is_sca and near_one (value):
-                fcurves.remove(fcurve)
+                is_loc = data_path.find("location") > -1
+                is_rot = data_path.find("rotation_quaternion") > -1
+                is_sca = data_path.find("scale") > -1
 
-    # detect linear parts and assign 'LINEAR' interpolation to them.
-    # Needed for root bones to preserve uniform motion
-    detect_linear_parts(new_action)
+                if is_loc and self.near_zero(value) or \
+                   is_rot and self.near_one (value) and array_index == 0 or \
+                   is_rot and self.near_zero(value) and not array_index == 0 or \
+                   is_sca and self.near_one (value):
+                    fcurves.remove(fcurve)
 
-    # try to reduce amount of keyframes
-    # NOTE this operator requires curve_simplify.py addon enabled
-    # XXX hardcoded "problematic" bones   
-    '''
-    ignore_bones = ["hips", "rump", "thigh", "shin", "foot"]
-    for fcurve in new_action.fcurves:
-        fcurve.select = True
-        for bname in ignore_bones:
-            if fcurve.data_path.find(bname) > -1:
-                fcurve.select = False
-    bpy.ops.graph.simplify(error = 0.03)
-    '''
- 
-    bpy.context.area.type = old_area
+        # detect linear parts and assign 'LINEAR' interpolation to them.
+        # Needed for root bones to preserve uniform motion
+        self.detect_linear_parts(new_action)
 
-def near_zero(value):
-    return abs(value) < 0.0001
+        # try to reduce amount of keyframes
+        # NOTE this operator requires curve_simplify.py addon enabled
+        # XXX hardcoded "problematic" bones   
+        '''
+        ignore_bones = ["hips", "rump", "thigh", "shin", "foot"]
+        for fcurve in new_action.fcurves:
+            fcurve.select = True
+            for bname in ignore_bones:
+                if fcurve.data_path.find(bname) > -1:
+                    fcurve.select = False
+        bpy.ops.graph.simplify(error = 0.03)
+        '''
+     
+        bpy.context.area.type = old_area
 
-def near_one(value):
-    return abs(value - 1) < 0.0001
+    def near_zero(self, value):
+        return abs(value) < 0.0001
 
-   
-# bones that are not deform and do not have deform children
-# are not needed for pose calculation on client
-def needed_to_deform(bone):
-    if bone.use_deform:
-        return True 
-    for child in bone.children_recursive:
-        if child.use_deform:
-            return True
-    return False
-    
-def detect_linear_parts(new_action):
+    def near_one(self, value):
+        return abs(value - 1) < 0.0001
 
-    for fcurve in new_action.fcurves:
-        keyframe_points = fcurve.keyframe_points
-        index = 0
-        for keyframe_point in keyframe_points:
-
-            if index == 0:
-                pass # just started, no previous keyframe
-            elif index == len(keyframe_points) - 1:
-                pass # last keyframe, no next keyframe
-            else:
-                next = keyframe_points[index + 1]
-
-                v1 = previous.co       # previous
-                v2 = keyframe_point.co # current
-                v3 = next.co           # next
-
-                x1 = v1[0]
-                y1 = v1[1]
-                x2 = v2[0]
-                y2 = v2[1]
-                x3 = v3[0]
-                y3 = v3[1]
-
-                # File size optimization:
-                # if NEXT keyframe point is only at 1 frame distance from THIS one
-                # then THIS keyframe point should have linear interpolation
-                point_is_neighbour = x3 - x2 == 1
-
-                # Detect linear parts:
-                # 1. construct line between THIS keyframe point and PREVIOS one
-                # 2. if NEXT keyframe point is on that line
-                #    then THIS keyframe point should have linear interpolation
-            
-                k = (y2 - y1) / (x2 - x1)
-                b = y1 - k * x1
-                
-                point_on_line = abs(k * x3 + b - y3) < 0.0001
-                #print(x2, point_on_line)
-
-                if point_is_neighbour or point_on_line:
-                    keyframe_point.interpolation = 'LINEAR'
+       
+    # bones that are not deform and do not have deform children
+    # are not needed for pose calculation on client
+    def needed_to_deform(self, bone):
+        if bone.use_deform:
+            return True 
+        for child in bone.children_recursive:
+            if child.use_deform:
+                return True
+        return False
         
-                    # make end keyframes LINEAR too
-                    if index == 1:
-                        previous.interpolation = 'LINEAR'
-                    elif index == len(keyframe_points) - 2:
-                        next.interpolation = 'LINEAR'
+    def detect_linear_parts(self, new_action):
+        for fcurve in new_action.fcurves:
+            keyframe_points = fcurve.keyframe_points
+            index = 0
+            for keyframe_point in keyframe_points:
+
+                if index == 0:
+                    pass # just started, no previous keyframe
+                elif index == len(keyframe_points) - 1:
+                    pass # last keyframe, no next keyframe
+                else:
+                    next = keyframe_points[index + 1]
+
+                    v1 = previous.co       # previous
+                    v2 = keyframe_point.co # current
+                    v3 = next.co           # next
+
+                    x1 = v1[0]
+                    y1 = v1[1]
+                    x2 = v2[0]
+                    y2 = v2[1]
+                    x3 = v3[0]
+                    y3 = v3[1]
+
+                    # File size optimization:
+                    # if NEXT keyframe point is only at 1 frame distance from THIS one
+                    # then THIS keyframe point should have linear interpolation
+                    point_is_neighbour = x3 - x2 == 1
+
+                    # Detect linear parts:
+                    # 1. construct line between THIS keyframe point and PREVIOS one
+                    # 2. if NEXT keyframe point is on that line
+                    #    then THIS keyframe point should have linear interpolation
                 
-                # after 2.60 update: bezier handle points create extreme
-                # curvatures when neighbouring with linear points 
-                # fix that by moving handle points "y" to the line
-                if previous.interpolation == 'BEZIER' and \
-                    keyframe_point.interpolation == 'LINEAR':
-                    keyframe_point.handle_left[1] = k * \
-                        keyframe_point.handle_left[0] + b
-                    previous.handle_right[1] = k * \
-                        previous.handle_right[0] + b
-                if previous.interpolation == 'LINEAR' and \
-                    keyframe_point.interpolation == 'BEZIER':
-                    keyframe_point.handle_right[1] = next.co[1]
-                
-            previous = keyframe_point
-            index = index + 1
-    
+                    k = (y2 - y1) / (x2 - x1)
+                    b = y1 - k * x1
+                    
+                    point_on_line = abs(k * x3 + b - y3) < 0.0001
+                    #print(x2, point_on_line)
 
-def constraints_mute(value):
-    for obj in bpy.data.objects:
-        if obj.type == "ARMATURE":
-            for bone in obj.pose.bones: 
-                for c in bone.constraints: 
-                    c.mute = value
+                    if point_is_neighbour or point_on_line:
+                        keyframe_point.interpolation = 'LINEAR'
+            
+                        # make end keyframes LINEAR too
+                        if index == 1:
+                            previous.interpolation = 'LINEAR'
+                        elif index == len(keyframe_points) - 2:
+                            next.interpolation = 'LINEAR'
+                    
+                    # after 2.60 update: bezier handle points create extreme
+                    # curvatures when neighbouring with linear points 
+                    # fix that by moving handle points "y" to the line
+                    if previous.interpolation == 'BEZIER' and \
+                        keyframe_point.interpolation == 'LINEAR':
+                        keyframe_point.handle_left[1] = k * \
+                            keyframe_point.handle_left[0] + b
+                        previous.handle_right[1] = k * \
+                            previous.handle_right[0] + b
+                    if previous.interpolation == 'LINEAR' and \
+                        keyframe_point.interpolation == 'BEZIER':
+                        keyframe_point.handle_right[1] = next.co[1]
 
-class B4W_Anim_Baker(bpy.types.Operator):
-    '''B4W Animation Baker'''
-    bl_idname = "b4w.animation_bake"
-    bl_label = "B4W Animation Bake"
-   
-    def execute(self, context):
-        run()
-        return {"FINISHED"}
+                previous = keyframe_point
+                index = index + 1
 
-# mute / unmute all bone constraints for all armature objects
+
 class B4W_Constraints_Muter(bpy.types.Operator):
-    '''B4W Constraints Muter'''
+    '''Mute bone constraints for selected armature object'''
+
     bl_idname = "b4w.constraints_mute"
     bl_label = "B4W Constraints Mute"
    
     def execute(self, context):
-        constraints_mute(True)
-        return {"FINISHED"}   
+        armobj = context.active_object
+        if not (armobj and armobj.type == "ARMATURE"):
+            self.report({'INFO'}, "Not an armature object")
+            return {'CANCELLED'}
+
+        for bone in armobj.pose.bones: 
+            for c in bone.constraints: 
+                c.mute = True
+
+        return {"FINISHED"}
 
 class B4W_Constraints_UnMuter(bpy.types.Operator):
-    '''B4W Constraints UnMuter'''
+    '''Unmute bone constraints for selected armature object'''
+
     bl_idname = "b4w.constraints_unmute"
     bl_label = "B4W Constraints UnMute"
    
     def execute(self, context):
-        constraints_mute(False)
-        return {"FINISHED"}   
+        armobj = context.active_object
+        if not (armobj and armobj.type == "ARMATURE"):
+            self.report({'INFO'}, "Not an armature object")
+            return {'CANCELLED'}
+
+        for bone in armobj.pose.bones: 
+            for c in bone.constraints: 
+                c.mute = False
+
+        return {"FINISHED"}
+
+class B4W_AnimBakerPanel(bpy.types.Panel):
+    bl_label = "B4W Anim Baker"
+    bl_idname = "OBJECT_PT_anim_baker"
+    bl_space_type = "VIEW_3D"
+    bl_region_type = "TOOLS"
+    bl_category = "Blend4Web"
+
+    def draw(self, context):
+        obj = context.active_object
+
+        if not (obj and obj.type == "ARMATURE"):
+            return
+
+        layout = self.layout
+
+        row = layout.row()
+        row.prop(obj, "b4w_anim_clean_keys", text="Clean keyframes")
+
+        row = layout.row()
+        row.operator("b4w.animation_bake", text="Bake", icon="REC")
+
+        row = layout.row(align=True)
+        row.operator("b4w.constraints_mute", text="Cons Mute")
+        row.operator("b4w.constraints_unmute", text="Cons Unmute")
 
 def register(): 
     bpy.utils.register_class(B4W_Anim_Baker)
     bpy.utils.register_class(B4W_Constraints_Muter)
     bpy.utils.register_class(B4W_Constraints_UnMuter)
+    bpy.utils.register_class(B4W_AnimBakerPanel)
 
 def unregister(): 
     bpy.utils.unregister_class(B4W_Anim_Baker)
     bpy.utils.unregister_class(B4W_Constraints_Muter)
     bpy.utils.unregister_class(B4W_Constraints_UnMuter)
+    bpy.utils.unregister_class(B4W_AnimBakerPanel)
 

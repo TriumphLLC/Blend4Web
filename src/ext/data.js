@@ -55,4 +55,10 @@ exports["get_bpy_world"] = function(world_name) {
  */
 exports["set_debug_resources_root"] = data.set_debug_resources_root;
 
+/**
+ * Check if engine loaded (detect last loading stage)
+ * @method module:data.is_loaded
+ */
+exports["is_loaded"] = data.is_loaded;
+
 }

@@ -31,9 +31,7 @@ duCharacter::duCharacter (btRigidBody* character, const btScalar angle,
     m_flyVelocity (25.f),           // meters/sec
     m_jumpStrength (jumpStrength),
     m_waterLine (waterLine),
-    m_isJumping(false),
-    m_jumpInterval(0.f),
-    m_jumpLock(false)
+    m_isJumping(false)
 {
     m_rayLambda[0] = 1.f;
     m_rayLambda[1] = 1.f;
@@ -260,7 +258,6 @@ void duCharacter::handleVerticalVeloctity(btScalar dt)
             m_rigidBody->setLinearVelocity (linearVelocity);
         }
     } else if (m_rayLambda[0] < 1.f && !m_isJumping) {
-            // btScalar verticalVelocity = -4.f * m_maxLinearVelocity * (1.f - m_rayLambda[0]);
             linearVelocity[1] = -13.f * m_maxLinearVelocity * (m_rayLambda[0] - 0.95f);
             m_rigidBody->setLinearVelocity (linearVelocity);
     }
@@ -309,32 +306,18 @@ void duCharacter::jump()
     if (!canJump())
         return;
 
-    m_jumpLock     = true;
-    m_jumpInterval = 0.f;
-}
-
-void duCharacter::processingJump(btScalar deltaTimeStep)
-{
-    if (m_jumpInterval > 0.2 && m_jumpLock) {
-        m_jumpLock  = false;
+    if (!m_isJumping) {
         m_isJumping = true;
 
         btVector3 up = btVector3(0.f, 1.f, 0.f);
         btScalar magnitude = btScalar(m_jumpStrength) / m_rigidBody->getInvMass();
         m_rigidBody->applyCentralImpulse (up * magnitude);
     }
-
-    m_jumpInterval += deltaTimeStep;
 }
 
 bool duCharacter::canJump() const
 {
     return closeGround();
-}
-
-bool duCharacter::onGround() const
-{
-    return m_rayLambda[0] < btScalar(0.95);
 }
 
 bool duCharacter::closeGround() const
@@ -406,7 +389,6 @@ void duCharacter::updateAction(btCollisionWorld* collisionWorld, btScalar deltaT
         handleVerticalVeloctity(deltaTimeStep);
     }
     move(deltaTimeStep);
-    processingJump(deltaTimeStep);
 }
 
 void duCharacter::debugDraw(btIDebugDraw* debugDrawer) {};

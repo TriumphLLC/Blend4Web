@@ -89,6 +89,7 @@ exports.defaults = {
 
     wireframe_debug          : false,
 
+    poly_offset_multiplier   : 1.0, 
 
     // properties updated from hardware capability
     foam                     : true,
@@ -108,15 +109,11 @@ exports.defaults = {
     // Windows ANGLE limits, returned by determine_max_bones()
     max_bones                : 53, 
     
-    max_bones_no_blending    : 108,
-
     use_dds                  : true,
 
     precision                : "highp",
 
     deferred_rendering       : true,
-
-    disable_tangent_skining_hack   : false,
 
     // quality profile
     quality                  : exports.P_HIGH
@@ -244,8 +241,6 @@ exports.apply_quality = function() {
 
         cfg_def.max_bones = cfg_def_save.max_bones;
 
-        cfg_def.max_bones_no_blending = cfg_def_save.max_bones_no_blending;
-
         cfg_def.precision = cfg_def_save.precision;
 
         cfg_def.water_dynamic = cfg_def_save.water_dynamic;
@@ -306,8 +301,6 @@ exports.apply_quality = function() {
 
         cfg_def.max_bones = cfg_def_save.max_bones;
 
-        cfg_def.max_bones_no_blending = cfg_def_save.max_bones_no_blending;
-
         cfg_def.precision = cfg_def_save.precision;
 
         cfg_def.water_dynamic = cfg_def_save.water_dynamic;
@@ -367,8 +360,6 @@ exports.apply_quality = function() {
         cfg_def.use_min50 = true;
 
         cfg_def.max_bones = cfg_def_save.max_bones;
-
-        cfg_def.max_bones_no_blending = cfg_def_save.max_bones_no_blending;
 
         cfg_def.precision = "mediump";
 

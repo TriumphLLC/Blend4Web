@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Гамма-коррекция и прозрачность &mdash; Руководство пользователя: Blend4Web v14.04.22</title>
+    <title>Гамма-коррекция и альфа-композитинг &mdash; Руководство пользователя: Blend4Web v14.05.22</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.04.22',
+        VERSION:     '14.05.22',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v14.04.22" href="index.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v14.05.22" href="index.html" />
     <link rel="next" title="Звуковая подсистема" href="audio.html" />
     <link rel="prev" title="Рендеринг наружных сцен" href="outdoor_rendering.html" /> 
   </head>
@@ -37,7 +37,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">Руководство пользователя: Blend4Web v14.04.22</a></div>
+          href="index.html">Руководство пользователя: Blend4Web v14.05.22</a></div>
         <div class="rel">
           <a href="outdoor_rendering.html" title="Рендеринг наружных сцен"
              accesskey="P">предыдущий</a> |
@@ -58,12 +58,11 @@
           <div class="body">
             
   <div class="section" id="gamma">
-<span id="id1"></span><h1>Гамма-коррекция и прозрачность<a class="headerlink" href="#gamma" title="Ссылка на этот заголовок">¶</a></h1>
+<span id="id1"></span><h1>Гамма-коррекция и альфа-композитинг<a class="headerlink" href="#gamma" title="Ссылка на этот заголовок">¶</a></h1>
 <div class="section" id="id2">
 <h2>Общее описание<a class="headerlink" href="#id2" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Сущность гамма-коррекции заключается в упаковке яркости канала изображения в 8
-битах информации. Особенности восприятия человеческого глаза и технические
-характеристики электронно-лучевых трубок имеют вторичное значение.</p>
+битах информации.</p>
 <p>Графические редакторы обычно работают в нелинейном цветовом пространстве,
 где тёмные компоненты кодируются большим числом битов чем светлые. Это означает,
 что значению 0.5 от реальной интенсивности света (физической величины, называемой
@@ -77,16 +76,15 @@
 бит информации не достаточно для кодирования интенсивности света, что приведёт к
 тому, что тёмные тона будут отображаться некорректно.</p>
 <p>Веб-браузеры работают в нелинейном пространстве.</p>
-<p>Blender при настройке сцены <tt class="docutils literal"><span class="pre">Color</span> <span class="pre">Managment</span> <span class="pre">&gt;</span> <span class="pre">Display</span> <span class="pre">Device</span> <span class="pre">&gt;</span> <span class="pre">sRGB</span></tt> работает в линейном
+<p>Blender при настройке сцены <tt class="docutils literal"><span class="pre">Color</span> <span class="pre">Management</span> <span class="pre">&gt;</span> <span class="pre">Display</span> <span class="pre">Device</span> <span class="pre">&gt;</span> <span class="pre">sRGB</span></tt> работает в линейном
 пространстве. Значения цветов материалов и настройки источников света
 соответствует физическим величинам. При работе с текстурами, за исключением карт
 нормалей необходимо выставить настройку изображения <tt class="docutils literal"><span class="pre">Image</span> <span class="pre">&gt;</span> <span class="pre">Input</span> <span class="pre">Color</span> <span class="pre">Space</span> <span class="pre">&gt;</span> <span class="pre">sRGB</span></tt>.
 В этом случае при рендеринге будет производится автоматическая распаковка
 изображения: sRGB-&gt;Linear.</p>
 <p>Движки и рендереры работают в линейном пространстве, поскольку только оно может
-адекватно представлять поведение света в реальном мире. Если взять две
-одинаковые лампочки и включать их последовательно, освещённость от воздействия
-обеих будет ровно в два раза превышать освещённость только от одной.</p>
+адекватно представлять поведение света в реальном мире. Например, освещённость от двух
+одинаковых ламп будет ровно в два раза превышать освещённость только от одной.</p>
 <p>Примеры величин освещённости:</p>
 <table border="1" class="docutils">
 <colgroup>
@@ -95,7 +93,7 @@
 </colgroup>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">Описание</th>
-<th class="head">Освещённость,лк</th>
+<th class="head">Освещённость, лк</th>
 </tr>
 </thead>
 <tbody valign="top">
@@ -121,51 +119,57 @@
 </table>
 </div>
 <div class="section" id="id3">
-<h2>Человеческое зрение, ЭЛТ-мониторы<a class="headerlink" href="#id3" title="Ссылка на этот заголовок">¶</a></h2>
+<h2>Человеческое зрение, мониторы и гамма-коррекция<a class="headerlink" href="#id3" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Человеческое восприятие света нелинейно (человек лучше различает градации
 тусклого света чем яркого), однако свет, поступающий в глаз,
 по-прежнему должен подчиняться физическим законам (см. пример с лампочками).</p>
-<p>ЭЛТ-мониторы имеют нелинейную характеристику яркости от приложенного к их входу
-электрического напряжения (чаще всего определяется непосредственно значением
-канала цветности в видеопамяти), подобную же характеристику копируют мониторы,
-основанные на других технологиях. Однако свет, излучаемый такими мониторами,
-должен подчиняться физическим законам. В идеальном случае при добавлении второго
+<p>Мониторы с электронно-лучевыми трубками (ЭЛТ) имеют нелинейную характеристику яркости от приложенного к их входу
+электрического напряжения, которое, в свою очередь, определяется значением
+канала цветности в видеопамяти. Подобную же характеристику копируют жидкокристаллические мониторы.
+Тем не менее свет, излучаемый такими мониторами,
+по-прежнему должен подчиняться физическим законам. Например, в идеальном случае при добавлении второго
 источника света на сцену в виртуальном мире, яркость пикселей на экране монитора
 должна увеличиваться в два раза.</p>
+<p>Таким образом, особенности восприятия человеческого глаза и технические
+характеристики мониторов имеют вторичное значение по отношению к гамма-коррекции.</p>
 </div>
 <div class="section" id="id4">
 <h2>Гамма<a class="headerlink" href="#id4" title="Ссылка на этот заголовок">¶</a></h2>
-<p>Используется в формуле:</p>
+<p>Используется в следующей упрощенной формуле:</p>
 <blockquote>
 <div>V<sub>out</sub> = V<sub>in</sub><sup>γ</sup></div></blockquote>
 <p>γ &lt; 1 - упаковывающая гамма, γ &gt; 1 - распаковывающая гамма. В наиболее простом
 случае используются значения 1/2.2 и 2.2 соответственно. Далее вместо термина
-&#8220;гамма-коррекция&#8221; будут использованы термины &#8220;упаковка&#8221; и &#8220;распаковка&#8221;. Сильно
-упрощая, под упаковкой понимается преобразование Linear-&gt;sRGB, под распаковкой
-sRGB-&gt;Linear.</p>
+&#8220;гамма-коррекция&#8221; будут использованы термины &#8220;упаковка&#8221; (Linear -&gt; sRGB) и &#8220;распаковка&#8221; (sRGB -&gt; Linear).</p>
 </div>
 <div class="section" id="gamma-nodes">
 <span id="id5"></span><h2>Коррекция в нодовых материалах<a class="headerlink" href="#gamma-nodes" title="Ссылка на этот заголовок">¶</a></h2>
-<p>При использовании текстур и вертексных цветов в качестве источников цвета,
-необходима распаковка (sRGB-&gt;Linear). Нода текстуры уже включает в себя
-распаковку, в то время как для вертексного цвета необходимо использовать ноду
+<div class="section" id="id6">
+<h3>Ноды для окраски<a class="headerlink" href="#id6" title="Ссылка на этот заголовок">¶</a></h3>
+<p>При использовании текстур и вертексных цветов для окраски (не в качестве масок),
+необходима распаковка (sRGB -&gt; Linear). Нода текстуры реализует
+распаковку автоматически. Для вертексного цвета распаковку необходимо осуществлять явно, с помощью специальной ноды
 <cite>SRGB_TO_LINEAR</cite>.</p>
-<p>При использовании карт нормалей никакие преобразования не производятся.</p>
-<p>При использовании текстур и вертексных цветов в качестве масок для смешения
-цветов или других математических операций в преобразованиях нет необходимости.
-Однако в этом случае следует обратить внимание на то, как происходит
-преобразование цветов при сохранении изображений в графических редакторах. В
-большинстве случаев значения, выставленные в редакторе, попадают в изображения без
-изменений. Иногда возможна небольшая коррекция, которая не будет
-иметь существенного влияния на итоговый результат.</p>
-<p>Как было сказано ранее, ноды текстуры включают в себя распаковку. Это приводит к
-необходимости двойного преобразования обратно в нелинейное пространство, для
+<p>Отметим, что альфа-канал ноды текстуры коррекции не подвергается, его значения находятся в линейном пространстве.</p>
+</div>
+<div class="section" id="id7">
+<h3>Ноды для масок<a class="headerlink" href="#id7" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Текстуры и вертексные цвета могут использоваться в качестве масок, т.е. для смешения
+цветов или других математических операций. В таком случае в преобразованиях нет необходимости.</p>
+<p>В случае текстуры, тем не менее, имеется ньанс: нода текстуры реализует распаковку автоматически. Это приводит к
+необходимости дополнительного преобразования обратно в нелинейное пространство, для
 чего используется нода <cite>LINEAR_TO_SRGB</cite>.</p>
-<p>Сводная таблица коррекции в нодовых материалах:</p>
+</div>
+<div class="section" id="id8">
+<h3>Карты нормалей<a class="headerlink" href="#id8" title="Ссылка на этот заголовок">¶</a></h3>
+<p>При использовании карт нормалей никакие преобразования не производятся.</p>
+</div>
+<div class="section" id="id9">
+<h3>Сводная таблица коррекции в нодовых материалах<a class="headerlink" href="#id9" title="Ссылка на этот заголовок">¶</a></h3>
 <table border="1" class="docutils">
 <colgroup>
-<col width="53%" />
-<col width="47%" />
+<col width="50%" />
+<col width="50%" />
 </colgroup>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">Случай использования</th>
@@ -174,42 +178,52 @@ sRGB-&gt;Linear.</p>
 </thead>
 <tbody valign="top">
 <tr class="row-even"><td>Текстура для окраски</td>
-<td>встроена в ноду текстуры</td>
-</tr>
-<tr class="row-odd"><td>Вертексный цвет для окраски</td>
-<td>SRGB_TO_LINEAR</td>
-</tr>
-<tr class="row-even"><td>Карта нормалей</td>
-<td>не требуется</td>
+<td>реализуется автоматически
+в ноде текстуры
+(альфа-канал коррекции
+не подвергается)</td>
 </tr>
 <tr class="row-odd"><td>Текстура для маски</td>
 <td>LINEAR_TO_SRGB</td>
 </tr>
-<tr class="row-even"><td>Вертексный цвет для маски</td>
+<tr class="row-even"><td>Вертексный цвет для окраски</td>
+<td>SRGB_TO_LINEAR</td>
+</tr>
+<tr class="row-odd"><td>Вертексный цвет для маски</td>
+<td>не требуется</td>
+</tr>
+<tr class="row-even"><td>Карта нормалей</td>
 <td>не требуется</td>
 </tr>
 </tbody>
 </table>
 </div>
-<div class="section" id="id6">
-<h2>Альфа-композитинг<a class="headerlink" href="#id6" title="Ссылка на этот заголовок">¶</a></h2>
-<p>Физически корректный альфа-композитинг осуществляется по формуле:</p>
+</div>
+<div class="section" id="id10">
+<h2>Альфа-композитинг<a class="headerlink" href="#id10" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="id11">
+<h3>Общие сведения<a class="headerlink" href="#id11" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Физически корректный альфа-композитинг осуществляется по формуле [<a class="reference external" href="http://wwwnew.cs.princeton.edu/courses/archive/spring05/cos426/papers/smith95a.pdf">источник</a>]:</p>
 <blockquote>
 <div><span class="math">\(C_o = C_a \alpha_a + C_b \alpha_b (1 - \alpha_a)\)</span>.</div></blockquote>
-<p>Формула отличается от классической операции смешивания (mix, выпуклая комбинация) наличием множителя <span class="math">\(\alpha_b\)</span> во втором слагаемом. То есть, для осуществления альфа-композитинга, необходимо знать не только альфу пикселя-источника, то и альфу пикселя, поверх которого осуществляется рендеринг.</p>
-<p>В случае предварительного умножения значений альфы на цветовые каналы (т.н.
-Premultiplied Alpha):</p>
+<p>Формула отличается от классической операции смешивания (mix, выпуклая комбинация) наличием множителя <span class="math">\(\alpha_b\)</span> во втором слагаемом. Таким образом, для осуществления альфа-композитинга должно быть известно не только значение <span class="math">\(\alpha_a\)</span> пикселя-источника, но и значение <span class="math">\(\alpha_b\)</span> пикселя, поверх которого осуществляется рендеринг.</p>
+<p>В случае предварительного умножения значений <span class="math">\(\alpha\)</span> на цветовые каналы (т.н.
+premultiplied alpha) формула принимает вид:</p>
 <blockquote>
 <div><span class="math">\(C_o = C_a + C_b (1 - \alpha_a)\)</span>.</div></blockquote>
-<p>Последняя формула используется также для расчёта результирующей альфы:</p>
+<p>Последняя формула используется также для расчёта результирующего значения <span class="math">\(\alpha_o\)</span>:</p>
 <blockquote>
 <div><span class="math">\(\alpha_o = \alpha_a + \alpha_b (1 - \alpha_a)\)</span>.</div></blockquote>
-<p>Предварительное умножение цветовых каналов на значение альфы позволяет сэкономить две операции умножения, однако более существенным является тот факт, что полученная формула может использоваться многократно, без необходимости деления исходного пикселя на значение альфы на каждой последующей итерации.</p>
-<p>Таким образом, функция смешивания WebGL должна иметь вид:</p>
+<p>Предварительное умножение цветовых каналов на значения <span class="math">\(\alpha\)</span> позволяет сэкономить две операции умножения. Еще более существенным является тот факт, что полученная формула может использоваться многократно, без необходимости деления цвета <span class="math">\(C_o\)</span> на значение <span class="math">\(\alpha_o\)</span> на каждой последующей итерации.</p>
+</div>
+<div class="section" id="id13">
+<h3>Реализация<a class="headerlink" href="#id13" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Функция смешивания в движке Blend4Web имеет вид:</p>
 <div class="highlight-none"><div class="highlight"><pre>gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
 </pre></div>
 </div>
-<p>Инициализация контекста должна производиться с параметром <cite>premultipliedAlpha : true</cite>. Кроме того, необходимо обеспечить правильный рендеринг прозрачных материалов на выходе шейдера, для чего используется умножение всех каналов цветности на значение альфы.</p>
+<p>Инициализация контекста WebGL производится с параметром <cite>premultipliedAlpha = true</cite> (что является значением по умолчанию). Кроме того, на выходе шейдеров производится умножение всех каналов цветности на значение <span class="math">\(\alpha\)</span>.</p>
+</div>
 </div>
 </div>
 
@@ -238,23 +252,21 @@ Premultiplied Alpha):</p>
 <li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Система частиц для инстансинга объектов</a></li>
 <li class="toctree-l1"><a class="reference internal" href="animation.html">Анимация</a></li>
 <li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Рендеринг наружных сцен</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Гамма-коррекция и прозрачность</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Гамма-коррекция и альфа-композитинг</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#id2">Общее описание</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id3">Человеческое зрение, ЭЛТ-мониторы</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">Человеческое зрение, мониторы и гамма-коррекция</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id4">Гамма</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#gamma-nodes">Коррекция в нодовых материалах</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id6">Альфа-композитинг</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id10">Альфа-композитинг</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="audio.html">Звуковая подсистема</a></li>
-<li class="toctree-l1"><a class="reference internal" href="event_model.html">Событийная модель</a></li>
 <li class="toctree-l1"><a class="reference internal" href="physics.html">Физика</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nla.html">Нелинейная анимация</a></li>
 <li class="toctree-l1"><a class="reference internal" href="developers.html">Разработчикам приложений</a></li>
 <li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">Разработчикам движка</a></li>
-<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Краткая справка по git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Работа в команде. Использование git</a></li>
 <li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Проблемы и решения</a></li>
-<li class="toctree-l1"><a class="reference internal" href="roadmap.html">План развития</a></li>
 </ul>
 
           <h3 style="margin-top: 1.5em;">Поиск</h3>
@@ -287,7 +299,7 @@ Premultiplied Alpha):</p>
           
     <div class="footer">
         &copy; Copyright 2014, ООО &#34;Триумф&#34;.
-      Обновлено: 2014-04-23.
+      Обновлено: 2014-05-21.
       Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

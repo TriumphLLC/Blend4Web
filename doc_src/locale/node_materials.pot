@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: B4W 14.03.28\n"
+"Project-Id-Version: B4W 14.05.22\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-03 12:59\n"
+"POT-Creation-Date: 2014-05-21 10:39+0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,275 +17,328 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: ../node_materials.rst:7
-# a889a96b5f3b43c99bdadea091ee8db2
+# d8f4c3b8fe464d7b9412274cf32a8348
 msgid "Нодовые материалы"
 msgstr ""
 
 #: ../node_materials.rst:9
-# 959a2d2a3cb54f5eb655b1360b0ecf8b
+# af95f48e8e584e82ae05cb54f342eb67
 msgid "Шейдерные ноды (Shader Nodes) существенно расширяют возможности стандартных материалов Blender, позволяя представить освещение как серию базовых преобразований."
 msgstr ""
 
 #: ../node_materials.rst:16
-# 7ee64fb24e1d44fdaf29a4e013d85666
+# 3599fce873124b2e9ed8b020ad0e499c
 msgid "Стандартные ноды"
 msgstr ""
 
 #: ../node_materials.rst:20
-# f8f991751b6944b4b8fe593951183d06
+# 19c3d8976ead4860a0457151f2c0d928
 msgid "Полностью поддерживается все возможности Blender, за исключением следующих случаев:"
 msgstr ""
 
 #: ../node_materials.rst:22
-# b89567bd69f042dbb4060e640f31af1f
+# 067e6354cd72434bb1adb90a20aac66c
 msgid "``Geometry`` - не поддерживаются выходы ``Local``, ``Orco`` и ``Vertex Alpha``."
 msgstr ""
 
 #: ../node_materials.rst:23
-# 2c038e394d0f46edbb539973e9cb9241
+# ff33675c8b4944f78c6e6f8926050961
 msgid "``Material``, ``Extended Material`` - допускается не больше одной ноды на материал, не поддерживаются входы ``Refl``, ``Ambient``, ``SpecTra``, ``Ray Mirror`` и выход ``AO``."
 msgstr ""
 
 #: ../node_materials.rst:25
-# fa7216b127ee453295c1e52d2f0c2e32
+# 3b6e50f95e4843b8b8c121bf3efa5b14
 msgid "``RGB Curves`` - не поддерживается."
 msgstr ""
 
 #: ../node_materials.rst:26
-# 66f8c4d5aed94d39a0a870a21703ae31
+# 2de40237b2d9406095b0934241cae922
 msgid "``Vector Curves`` - не поддерживается."
 msgstr ""
 
 #: ../node_materials.rst:28
-# 25acb5d90569495085dbf0bbfb86bdee
+# 413bd31701fd4535a23e13c9569dc874
 msgid "Кроме того, в контексте рендеринга в реальном времени, следует учитывать низкую производительность некоторых нод. Не рекомендуется к использованию:"
 msgstr ""
 
 #: ../node_materials.rst:30
-# c40cbe6d77ff4a5fb48295b35f2af03f
+# d34c82809a9e4c68aa39dd4f8c646056
 msgid "``Hue/Saturation``"
 msgstr ""
 
 #: ../node_materials.rst:31
-# 0392917a97af4469acd73d59b3ea8b1d
+# e170f8a6fa184088b5e98145df3852b4
 msgid "``MixRGB`` типы ``Burn``, ``Dodge``, ``Value``, ``Saturation``, ``Hue``, ``Color``"
 msgstr ""
 
 #: ../node_materials.rst:33
-# c2a2439ecc474b16a7de195a8fd7a3d5
+# 43faab3c7bb84ed4a0130417ae061406
 msgid "Не рекомендуется создавать сложные материалы, особенно использующие большое количество нод ``Geometry`` и ``Texture``."
 msgstr ""
 
 #: ../node_materials.rst:39
-# bdcee8d0b82244b999aa8902f81b978a
+# 3600f58ec62443f9a644c4f00b446174
 msgid "Дополнительные ноды"
 msgstr ""
 
 #: ../node_materials.rst:43
-# 311607e16c9b4e3baa0d340889a4f95a
+# d4f1c23ad77749aca3269e0402aaca27
 msgid "Дополнительные ноды расширяют функционал стандартных с учётом специфики работы движка. Ноды оформляются в виде нодовых групп (``Node groups`` или ``Node tree``) со специально выбранным именем и форматом входов. Для удобства, все дополнительные ноды собраны в файл ``special_nodes.blend``."
 msgstr ""
 
 #: ../node_materials.rst:46
-# ba0991a62aff4891a4255ffa6881a71f
+# cb620716a6174cac925febbe0aa5a267
 msgid "LINEAR_TO_SRGB и LINEAR_TO_SRGB"
 msgstr ""
 
 #: ../node_materials.rst:48
-# 96642f19c95d43d6aec408d4db681c08
+# c96a852edd234e998314c613d09e6925
 msgid "Преобразование цвета из линейного цветового пространства в пространство sRGB и наоборот."
 msgstr ""
 
+#: ../node_materials.rst:50
+# 94e8d91af3a34eeb8e53f1e26b98f762
+msgid ":ref:`gamma_nodes`"
+msgstr ""
+
 #: ../node_materials.rst:53
-# e4e7208181934b1c97639fa193995001
+# 1c7ad19653194f3986122f414071f141
 msgid "REPLACE"
 msgstr ""
 
 #: ../node_materials.rst:55
-# 95b5b0ec39754ad09f011e7104b443fe
-msgid "Осуществляет замену входов в зависимости от того, в какой среде работает в данный момент работает текущая сцена. При работе в Blender вход ``Color1`` подключается к выходу ``Color``, вход ``Color2`` игнорируется. При работе в движке входы меняются местами (``Color1`` игнорируется, ``Color2`` подключается к выходу)."
+# fb70f7fa7a0e4703bcdc059368c374c6
+msgid "Осуществляет замену входов в зависимости от того, в какой среде (viewport Blender'а или движок) в данный момент работает текущая сцена. При работе в Blender вход ``Color1`` подключается к выходу ``Color``, вход ``Color2`` игнорируется. При работе в движке входы меняются местами (``Color1`` игнорируется, ``Color2`` подключается к выходу). Нода предназначена для отображения во viewport'e одной конструкции нодов, а в движке - другой."
 msgstr ""
 
-#: ../node_materials.rst:58
-# 891fe51d069c41dfa78d070dea34d348
-msgid "CLAMP"
+#: ../node_materials.rst:57
+# 62b6c3f5907c4c7ea8b9a9467bae91c4
+msgid "Используется, как правило, для подключения карт нормалей. Нодовые материалы Blender'а не поддерживают тангентное пространство координат, в связи с чем единственный способ корректного отображения карт нормалей во viewport'e - их подключение внутри нод Material."
 msgstr ""
 
 #: ../node_materials.rst:60
-# abafe4e8dc074eb78ec423c4cbd8532c
+# 5e20b56bc1d64ee7835a37706471b70a
+msgid "CLAMP"
+msgstr ""
+
+#: ../node_materials.rst:62
+# aa001fcd21044b55973b1d28d0027205
 msgid "Осуществить операцию ограничения над входом. В результате, все элементы вектора на выходе получают значения от 0 до 1 включительно."
 msgstr ""
 
-#: ../node_materials.rst:64
-# 32e5a7fc076348fb9a0e7001d90c7ffc
-msgid "NORMAL_VIEW"
-msgstr ""
-
 #: ../node_materials.rst:66
-# 7f9c266bc1a540ae8c802d1ef0786fcc
-msgid "Осуществить преобразование нормали в пространство камеры. Преобразование необходимо, поскольку при работе в движке все нормали определены в мировой системе координат. Нормаль используется только для наложения эффектов и не должна подключаться к входу ноды ``Material`` или ``Extended Material``."
+# dd0eff1081ec4077b0c5750347206fb5
+msgid "TIME"
 msgstr ""
 
-#: ../node_materials.rst:69
-# 35844174278f48579411af06fd3a9ab7
-msgid "PARALLAX"
+#: ../node_materials.rst:68
+# 19c0bf6ae659493da19549cf28746c9d
+msgid "Осуществляет отсчет времени с момента старта движка в секундах. Может использоваться для анимации любых параметров в нодовых материалах."
 msgstr ""
 
 #: ../node_materials.rst:71
-# f81c5cbf0bb64e9cbc14f079cd0285e9
+# 51d3cb1fcba14057b7470b22c694066d
+msgid "NORMAL_VIEW"
+msgstr ""
+
+#: ../node_materials.rst:73
+# c93a5d185a73488eb8b49198fbd2b718
+msgid "Осуществить преобразование нормали в пространство камеры. Преобразование необходимо, поскольку при работе в движке все нормали определены в мировой системе координат. Нормаль используется только для наложения эффектов и не должна подключаться к входу ноды ``Material`` или ``Extended Material``."
+msgstr ""
+
+#: ../node_materials.rst:76
+# e8a881367e564aa4842703c6e5d57d73
+msgid "PARALLAX"
+msgstr ""
+
+#: ../node_materials.rst:78
+# e10c36320aaf44fc856a159730c800d2
 msgid "Реализует смещение текстурных координат в соответствии с картой высот."
 msgstr ""
 
-#: ../node_materials.rst:74
-#: ../node_materials.rst:100
-# 51e3779aaac14e2c815450b4a5792bc0
-# 65606483af564e71b777ff81d7e096f8
+#: ../node_materials.rst:81
+#: ../node_materials.rst:107
+# e3374545992e448a961efef28d2884ba
+# e3374545992e448a961efef28d2884ba
 msgid "Входные параметры"
 msgstr ""
 
-#: ../node_materials.rst:77
-#: ../node_materials.rst:92
-# d6bc4a7522a040edb25120fb0470c3b6
-# f49ca25f4baa4341821c394a15cbb17e
+#: ../node_materials.rst:84
+#: ../node_materials.rst:99
+# abe68ca72f354302987f17ea88c8c151
+# abe68ca72f354302987f17ea88c8c151
 msgid "*UV*"
 msgstr ""
 
-#: ../node_materials.rst:77
-# 2bd9bea2b30e446596485be4f9c6b56e
+#: ../node_materials.rst:84
+# 735f1eb36d9d41fdb78b64e4b53b72cf
 msgid "Исходные текстурные координаты."
 msgstr ""
 
-#: ../node_materials.rst:80
-# 8166f5fe026d465abbdd9abfe9e0a85a
+#: ../node_materials.rst:87
+# 1480a482a22b41c7a63620cffd520e24
 msgid "*Height*"
 msgstr ""
 
-#: ../node_materials.rst:80
-# 4a652c59073d4539b5f3bd3da955db42
+#: ../node_materials.rst:87
+# ef4c1a6312c04f96b7aba4a4c34c91b7
 msgid "RGBA текстура с картой высот в альфа канале."
 msgstr ""
 
-#: ../node_materials.rst:83
-# 9fb5782f5e184b28bf17df195fffdc3c
+#: ../node_materials.rst:90
+# 011d515f56954115836c2a1267887d2c
 msgid "*Scale*"
 msgstr ""
 
-#: ../node_materials.rst:83
-# 8a2bc17d403348fda48474ae1c645041
+#: ../node_materials.rst:90
+# 5fac929867b247f0ad974d224d825901
 msgid "Коэффициент смещения текстурных координат."
 msgstr ""
 
-#: ../node_materials.rst:86
-# 5eb15b0edd2c485ba835d16f5a200afb
+#: ../node_materials.rst:93
+# 30e120da14864e2f96e35956c0f01e6a
 msgid "*Steps*"
 msgstr ""
 
-#: ../node_materials.rst:86
-# bf11bbab968c4d55be08a9eeb5f93b21
+#: ../node_materials.rst:93
+# 92167b9c6bbf4f47b6686b49ccd3d9e7
 msgid "Количество шагов при генерации смещенных текстурных координат. Чем больше данное значение, тем выше качество получаемой текстуры."
 msgstr ""
 
-#: ../node_materials.rst:89
-#: ../node_materials.rst:127
-# 37dc7d54d25340a285006f2b94ba4611
-# cac8ddfdc1de40cba3d047d211c50081
+#: ../node_materials.rst:96
+#: ../node_materials.rst:134
+# c05a058029e644ca9b7ee809314b4a68
+# c05a058029e644ca9b7ee809314b4a68
 msgid "Выходные параметры"
 msgstr ""
 
-#: ../node_materials.rst:92
-# 35be4dbbdb464251b5152c76da935d5c
+#: ../node_materials.rst:99
+# 9ddc44d543c3478595c3aacada2cda73
 msgid "Измененные текстурные координаты, которые используются как вход для текстурных нод."
 msgstr ""
 
-#: ../node_materials.rst:95
-# 99e45697e7f2427cb049626eac082dc0
+#: ../node_materials.rst:102
+# 453f0de4ded84f3d9f290e9cf5252878
 msgid "TRANSLUCENCY"
 msgstr ""
 
-#: ../node_materials.rst:97
-# 05527f1e1c5c4bc9a3ea7c31f3dbf1ab
+#: ../node_materials.rst:104
+# 885f9a5ef4de4e0593f82bccf00fe984
 msgid "Реализует эффект полупрозрачности (только по отношению к источникам света) для тонких объектов, таких как ткань, листва, бумага и др. Эффект состоит из двух частей: засвечивание обратной по отношению к источнику стороны объекта и появление светового пятна непосредственно в том месте, где должен был находится источник."
 msgstr ""
 
-#: ../node_materials.rst:102
-# dcc2fd1371c140e5b018013d33e45eb7
+#: ../node_materials.rst:109
+# a80ff64593754530913d677b4550443c
 msgid "*Color*"
 msgstr ""
 
-#: ../node_materials.rst:103
-# 08b39500a0a74ff39b9df900768316c5
+#: ../node_materials.rst:110
+# 857185577f8a4eee8054a4d8afec92f7
 msgid "Одноканальная текстура, определяющая неоднородность материала, белый - максимальный эффект просвечивания, черный - его отсутствие. По умолчанию используется белый."
 msgstr ""
 
-#: ../node_materials.rst:110
-# 093be74df02a46c2a0a053eb13f13cda
+#: ../node_materials.rst:117
+# 2c3787809fd04b3a95535935593598a0
 msgid "*Backside Factor*"
 msgstr ""
 
-#: ../node_materials.rst:105
-# 24e8aad5cc3b402cb627ac860bb0c4df
+#: ../node_materials.rst:112
+# 68c6babf2d7d4d6d8a0126888afea22f
 msgid "Коэффицент коррекции цвета материала на обратной от источника света стороне. Основан на визуальном эффекте большей насыщенности цвета при просвечивании."
 msgstr ""
 
-#: ../node_materials.rst:107
-# 578ba9fc273b4c7080f2e261065e612b
+#: ../node_materials.rst:114
+# 253e7f0cc4d14eff915ccd676311badb
 msgid "*Backside Factor < 1* - коррекция в сторону осветления"
 msgstr ""
 
-#: ../node_materials.rst:108
-# 6009919e7c1b46ff9f363997f1c03cd7
+#: ../node_materials.rst:115
+# f531a5040e7c49a085437b3f518abbcf
 msgid "*Backside Factor = 1* - без коррекции"
 msgstr ""
 
-#: ../node_materials.rst:109
-# a1da739b50b741a2af7c381efd69980d
+#: ../node_materials.rst:116
+# 0b8a73c1c92b45e197fc8b18d13e73eb
 msgid "*Backside Factor > 1* - коррекция в сторону затемнения"
 msgstr ""
 
-#: ../node_materials.rst:111
-#: ../node_materials.rst:124
-# d338c44e789545e7b4583f8bf7a05072
-# 877d510f951d4247ba08628f2539e44e
+#: ../node_materials.rst:118
+#: ../node_materials.rst:131
+# b2ae99a4bc3e472dad6e2ad66affa2b0
+# b2ae99a4bc3e472dad6e2ad66affa2b0
 msgid "Значение по умолчанию: 1."
 msgstr ""
 
-#: ../node_materials.rst:113
-# e7e52b51dac24cf28eeb817483a47feb
+#: ../node_materials.rst:120
+# be3ade805dae436ca6fbdb101fc463d1
 msgid "*Spot Hardness*"
 msgstr ""
 
-#: ../node_materials.rst:116
-# 28edaa10bcba4889b259aa8999051e58
+#: ../node_materials.rst:120
+# e119c9b775064ceaa6faf26cd938f278
+msgid "Коэффициент размытия светового пятна. При увеличении размеры пятна уменьшаются, края становятся более резкими. Значение по умолчанию: 1000."
+msgstr ""
+
+#: ../node_materials.rst:123
+# 75dcbf956b994a83b23bffff4536401c
 msgid "*Spot Intensity*"
 msgstr ""
 
-#: ../node_materials.rst:124
-# 3cbacbd9aac444ef88037a4d6fe65f83
+#: ../node_materials.rst:123
+# 34a75b457f5f4a66bd5017c59e6720ca
+msgid "Интенсивность светового пятна. При увеличении становится более ярким. Значение по умолчанию: 1."
+msgstr ""
+
+#: ../node_materials.rst:131
+# 6b73665cc2364e0183d035c8412cbda9
 msgid "*Spot Diffuse Factor*"
 msgstr ""
 
-#: ../node_materials.rst:119
-# 11a94d02f8714915bfcc3a84d978a176
+#: ../node_materials.rst:126
+# c582423bda774b79a52fb752de49713c
 msgid "Коэффициент влияния диффузного цвета материала на цвет светового пятна."
 msgstr ""
 
-#: ../node_materials.rst:121
-# 7cb0c8951a45432e896bfb6d76246986
+#: ../node_materials.rst:128
+# a66dd35536b34c69b9fcb6999c9eb450
 msgid "*Spot Diffuse Factor = 0* - световое пятно имеет диффузный цвет"
 msgstr ""
 
-#: ../node_materials.rst:122
-# 2b13d702da744d6285836d00ed5de16a
+#: ../node_materials.rst:129
+# 4f608fcb52bb4c5c8a70e192c9a1f4f1
 msgid "*Spot Diffuse Factor = 1* - световое пятно имеет белый цвет"
 msgstr ""
 
-#: ../node_materials.rst:129
-# ba0fa0d44c02462a9f8a816fffbdcc01
+#: ../node_materials.rst:136
+# 46d75f2042f34d1488355414cc6d027e
 msgid "*Translucency*"
 msgstr ""
 
-#: ../node_materials.rst:130
-# 1c051db465be44f69211808cbe9a72ec
+#: ../node_materials.rst:137
+# dd306832b38e442bbf5e70c388b4c7d3
 msgid "Выход должен быть подключен ко входу ``Translucency`` ноды ``Extended Material``."
+msgstr ""
+
+#: ../node_materials.rst:3
+# 018784f2dcb546c39ea53a52358ef165
+msgid "нодовые материалы"
+msgstr ""
+
+#: ../node_materials.rst:11
+#: ../node_materials.rst:18
+#: ../node_materials.rst:41
+# 303bc29160c044f2bca2d6e1da1a1b5a
+# f0e2762717d94db79ab6e0de4c344a29
+# 4f3f6ac4e4964fc38c1b2dd827e4649b
+msgid "материалы"
+msgstr ""
+
+#: ../node_materials.rst:11
+#: ../node_materials.rst:18
+#: ../node_materials.rst:41
+# 303bc29160c044f2bca2d6e1da1a1b5a
+# f0e2762717d94db79ab6e0de4c344a29
+# 4f3f6ac4e4964fc38c1b2dd827e4649b
+msgid "ноды"
 msgstr ""
 

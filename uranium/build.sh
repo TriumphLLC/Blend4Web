@@ -22,7 +22,7 @@ echo "Compile du modules"
 
 for module in "${DU_MODULES[@]}" 
 do
-    $EMCC -Wall -I../bullet/src ../$module.cpp -c -o $module.bc
+    $EMCC -Wall -O2 -I../bullet/src ../$module.cpp -c -o $module.bc
 done
 
 echo "Compile bullet" 

@@ -1,5 +1,5 @@
 #var EPSILON 0.0001
-#export is_equalf
+#export is_equalf is_equal3f
 #export identity qrot rotation_x rotation_y rotation_z 
 #export vertex 
 #export tbn_norm
@@ -16,6 +16,10 @@ struct vertex
 
 bool is_equalf(float a, float b) {
     return abs(a - b) < EPSILON;
+}
+
+bool is_equal3f(vec3 a, vec3 b) {
+    return any(lessThan(abs(a - b), vec3(EPSILON)));
 }
 
 vec3 qrot(in vec4 q, in vec3 v) 

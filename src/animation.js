@@ -31,6 +31,13 @@ var OBJ_ANIM_TYPE_VERTEX     = 40;
 var OBJ_ANIM_TYPE_SOUND      = 50;
 var OBJ_ANIM_TYPE_STATIC     = 60;
 
+exports.OBJ_ANIM_TYPE_ARMATURE = OBJ_ANIM_TYPE_ARMATURE;
+exports.OBJ_ANIM_TYPE_SKELETAL = OBJ_ANIM_TYPE_SKELETAL;
+exports.OBJ_ANIM_TYPE_OBJECT   = OBJ_ANIM_TYPE_OBJECT;
+exports.OBJ_ANIM_TYPE_VERTEX   = OBJ_ANIM_TYPE_VERTEX;
+exports.OBJ_ANIM_TYPE_SOUND    = OBJ_ANIM_TYPE_SOUND;
+exports.OBJ_ANIM_TYPE_STATIC   = OBJ_ANIM_TYPE_STATIC;
+
 // values specified in exporter
 var KF_INTERP_BEZIER = 0;
 var KF_INTERP_LINEAR = 1;
@@ -68,15 +75,7 @@ exports.frame_to_sec = function(frame) {
 exports.update = function(elapsed) {
     for (var i = 0; i < _anim_objs_cache.length; i++) {
         var obj = _anim_objs_cache[i];
-
-        // NOTE: debug check
-        if (!obj._anim)
-            throw "Non-animated object";
-
         animate(obj, elapsed);
-
-        if (obj["type"] == "SPEAKER")
-            m_sfx.speaker_update_transform(obj, elapsed);
     }
 }
 
@@ -94,6 +93,8 @@ function apply_vertex_anim(obj, va) {
     obj._anim.start = start;
     obj._anim.current_frame_float = start;
     obj._anim.length = length;
+
+    obj._anim.va_name = va["name"];
 
     // calculate VBO offset for given vertex animation
     var va_frame_offset = 0; 
@@ -136,6 +137,33 @@ exports.get_current_action = function(obj) {
         return obj._anim.action;
     else 
         return null;
+}
+
+exports.get_anim_names = function(obj) {
+    var anim_names = [];
+
+    if (has_vertex_anim(obj)) {
+        for (var i = 0; i < obj["data"]["b4w_vertex_anim"].length; i++)
+            anim_names.push(obj["data"]["b4w_vertex_anim"][i]["name"]);
+    } else {
+        // TODO: return object-specific actions
+        for (var i = 0; i < _actions.length; i++)
+            anim_names.push(_actions[i]["name"]);
+    }
+
+    return anim_names;
+}
+
+
+exports.get_current_va_name = function(obj) {
+    if (obj._anim)
+        return obj._anim.va_name;
+    else
+        return null;
+}
+
+exports.get_anim_type = function(obj) {
+    return obj._anim.type;
 }
 
 exports.apply_def = apply_def;
@@ -214,6 +242,8 @@ function get_first_armature_object(obj) {
         if (modifier["type"] == "ARMATURE") 
             return modifier["object"];
     }
+
+    return null;
 }
 
 

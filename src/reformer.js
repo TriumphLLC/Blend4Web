@@ -171,6 +171,11 @@ exports.check_bpy_data = function(bpy_data) {
             report("scene", scene, "b4w_use_nla");
         }
 
+        if (!("b4w_nla_cyclic" in scene)) {
+            scene["b4w_nla_cyclic"] = false;
+            report("scene", scene, "b4w_nla_cyclic");
+        }
+
         if ("b4w_detect_collisions" in scene) {
             report_deprecated("scene", scene, "b4w_detect_collisions");
             delete scene["b4w_detect_collisions"];
@@ -953,6 +958,14 @@ exports.check_bpy_data = function(bpy_data) {
             break;
         }
 
+        if (!("rotation_quaternion" in obj)) {
+            var quat = [0,0,0,1];
+            m_util.euler_to_quat(obj["rotation_euler"], quat);
+            quat_b4w_bpy(quat, quat);
+            obj["rotation_quaternion"] = quat;
+            report("object", obj, "rotation_quaternion");
+        }
+
         if ("webgl_do_not_batch" in obj) {
             obj["b4w_do_not_batch"] = obj["webgl_do_not_batch"];
             
@@ -1080,6 +1093,37 @@ exports.check_bpy_data = function(bpy_data) {
             }
         }
 
+        if (!("animation_data" in obj)) {
+            obj["animation_data"] = {
+                "action": null,
+                "nla_tracks": []
+            }
+            report("object", obj, "animation_data");
+        }
+
+        if (obj["animation_data"]) {
+            if (!("action" in obj["animation_data"])) {
+                obj["animation_data"]["action"] = null;
+                report_raw("B4W Warning: no action in animation data " + obj["name"]);
+            }
+
+            if (!("nla_tracks" in obj["animation_data"])) {
+                obj["animation_data"]["nla_tracks"] = [];
+                report_raw("B4W Warning: no NLA in animation data " + obj["name"]);
+            }
+
+            var nla_tracks = obj["animation_data"]["nla_tracks"];
+            for (var j = 0; j < nla_tracks.length; j++) {
+                var track = nla_tracks[j];
+
+                for (var k = 0; k < track["strips"].length; k++)
+                    if (!("action" in track["strips"][k])) {
+                        track["strips"][k]["action"] = null;
+                        report_raw("B4W Warning: no action in NLA strip " + obj["name"]);
+                    }
+            }
+        }
+
         if (!("b4w_collision_id" in obj)) {
             obj["b4w_collision_id"] = "";
             report("material", obj, "b4w_collision_id");
@@ -1093,8 +1137,22 @@ exports.check_bpy_data = function(bpy_data) {
         m_print.error("Compatibility issues detected");
 }
 
+function quat_b4w_bpy(quat, dest) {
+    var x = quat[0];
+    var y = quat[1];
+    var z = quat[2];
+    var w = quat[3];
+
+    dest[0] = w;
+    dest[1] = x;
+    dest[2] = y;
+    dest[3] = z;
+
+    return dest;
+}
+
 /**
- * Report about compatibilty issue
+ * Report compatibility issue.
  */
 function report(type, obj, missing_param) {
 
@@ -1108,7 +1166,7 @@ function report(type, obj, missing_param) {
             (obj["library"] ? "library " + libname(obj) : "main scene"));
 }
 /**
- * Report about compatibilty issue
+ * Report about missing datablock.
  */
 function report_missing_datablock(type) {
     if (!REPORT_COMPATIBILITY_ISSUES) {
@@ -1119,7 +1177,7 @@ function report_missing_datablock(type) {
     m_print.warn("WARNING " + "Datablock " + type + " is missing, reexport scene");
 }
 /**
- * Report about compatibilty issue
+ * Report about deprecated datablock
  */
 function report_deprecated(type, obj, deprecated_param) {
     if (!REPORT_COMPATIBILITY_ISSUES) {
@@ -1131,9 +1189,6 @@ function report_deprecated(type, obj, deprecated_param) {
             "\"" + obj["name"] + "\"" + " is deprecated, reexport " + 
             (obj["library"] ? "library \"" + libname(obj) + "\"" : "main scene."));
 }
-/**
- * Report about compatibilty issue
- */
 function report_modifier(type, obj) {
     if (!REPORT_COMPATIBILITY_ISSUES) {
         _unreported_compat_issues = true;
@@ -1145,7 +1200,7 @@ function report_modifier(type, obj) {
             (obj["library"] ? "library" + libname(obj) : "main scene"));
 }
 /**
- * Report about compatibility issue
+ * Report raw message
  */
 function report_raw(msg) {
     if (!REPORT_COMPATIBILITY_ISSUES) {

@@ -27,6 +27,10 @@ class B4W_ScenePanel(bpy.types.Panel):
             row = layout.row()
             row.prop(scene, "b4w_use_nla", text="Use NLA")
 
+            if getattr(scene, "b4w_use_nla"):
+                row = layout.row()
+                row.prop(scene, "b4w_nla_cyclic", text="Cyclic NLA")
+
             row = layout.row()
             row.prop(scene, "b4w_enable_audio", text="Enable audio")
 
@@ -286,6 +290,13 @@ class B4W_ObjectPanel(bpy.types.Panel):
         if obj.type == "EMPTY" and obj.dupli_group:
             row = layout.row()
             row.prop(obj, "b4w_group_relative", text="Relative group coords")
+
+        if obj.proxy:
+            row = layout.row(align=True)
+            row.label("Proxy:")
+
+            col = row.column()
+            col.prop(obj, "b4w_proxy_inherit_anim", text="Inherit animation")
 
         if obj.type == "MESH":
 

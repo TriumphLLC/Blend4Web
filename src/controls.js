@@ -90,9 +90,8 @@ exports.update = function(timeline, elapsed) {
             var pulse = manifold_gen_pulse(manifold, logic_result);
 
             if (pulse) {
-                var mvalue = manifold_get_value(manifold, logic_result);
-                manifold.callback(obj, j, mvalue, pulse, manifold.callback_param);
-                manifold.last_value = mvalue;
+                manifold.callback(obj, j, pulse, manifold.callback_param);
+                manifold.last_logic_result = logic_result;
             }
 
         }
@@ -146,7 +145,8 @@ exports.create_keyboard_sensor = function(key) {
     return sensor;
 }
 
-exports.create_collision_sensor = function(obj, collision_id) {
+exports.create_collision_sensor = function(obj, collision_id,
+                                           need_collision_pt) {
 
     if (!(obj && obj._physics)) {
         m_print.error("Wrong collision object");
@@ -156,18 +156,21 @@ exports.create_collision_sensor = function(obj, collision_id) {
     var sensor = init_sensor(ST_COLLISION);
     sensor.collision_obj = obj;
     sensor.collision_id = collision_id || null;
+
     sensor.collision_cb = function(is_collision, collision_point) {
         sensor_set_value(sensor, is_collision);
 
-        if (is_collision && collision_point) {
+        if (is_collision && collision_point && need_collision_pt) {
             sensor.payload = sensor.payload || new Float32Array(3);
             sensor.payload[0] = collision_point[0];
             sensor.payload[1] = collision_point[1];
             sensor.payload[2] = collision_point[2];
         }
     }
+
     // NOTE: early activation (no manifolds taken in consideration)
-    m_phy.append_collision_test(obj, sensor.collision_id, sensor.collision_cb);
+    m_phy.append_collision_test(obj, sensor.collision_id, sensor.collision_cb,
+                                need_collision_pt);
     return sensor;
 }
 
@@ -520,10 +523,8 @@ function manifold_gen_pulse(manifold, logic_result) {
 
     case exports.CT_LEVEL:
         // ignore previous pulses
-        var m_last_value = manifold.last_value;
-        var m_value = manifold_get_value(manifold, logic_result);
-
-        if (m_last_value != m_value)
+        var last_logic_result = manifold.last_logic_result;
+        if (last_logic_result != logic_result)
             pulse = 1;
         else
             pulse = 0;
@@ -709,8 +710,8 @@ exports.create_sensor_manifold = function(obj, id, type, sensors,
     manifold.callback_param = callback_param || null;
 
     manifold.last_pulse = -1;
-    // required for LEVEL control type
-    manifold.last_value = 0;
+    // for LEVEL control type
+    manifold.last_logic_result = 0;
 
     obj._sensor_manifolds[id] = manifold;
 
@@ -722,14 +723,15 @@ exports.create_sensor_manifold = function(obj, id, type, sensors,
 
 exports.default_AND_logic_fun = default_AND_logic_fun;
 /**
- * Default AND logic function
+ * Default AND logic function.
+ * @see ECMA-262: Binary Logical Operators
  */
 function default_AND_logic_fun(s) {
     for (var i = 0; i < s.length; i++) {
         if (!s[i])
-            return false;
+            return s[i];
     }
-    return true;
+    return s[s.length - 1];
 }
 
 /**

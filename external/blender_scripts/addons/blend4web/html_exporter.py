@@ -3,7 +3,6 @@ import json
 import os
 import shutil
 from string import Template
-#import uuid
 
 import bpy
 
@@ -17,7 +16,7 @@ class B4W_HTMLExportProcessor(bpy.types.Operator):
     bl_label = "B4W HTMLExport"
 
     filepath = bpy.props.StringProperty(subtype='FILE_PATH', default = "")
-    
+
     do_autosave = bpy.props.BoolProperty(
         name = "Autosave main file",
         description = "Proper linking between exported files requires saving file after exporting",
@@ -61,7 +60,7 @@ class B4W_HTMLExportProcessor(bpy.types.Operator):
     def execute(self, context):
         if self.override_filepath:
             self.filepath = self.override_filepath
-    
+
         # append .html if needed
         filepath_val = self.filepath
         if not filepath_val.lower().endswith(".html"): 
@@ -97,17 +96,20 @@ class B4W_HTMLExportProcessor(bpy.types.Operator):
 
     def run(self, export_filepath):
         export_dir = os.path.split(export_filepath)[0]
-        # HACK: crashes in blender 2.69 for win64 (python 3.3.0)
-        #json_tmp_filename = str(uuid.uuid4()) + ".json"
-        json_tmp_filename = "temporary_uuid_workaround_name.json"
-        json_tmp_path = os.path.join(export_dir, json_tmp_filename)
+
+        # NOTE: fictional json filename, won't be exported, 
+        # json data will be inserted into html
+        json_name = "main.json"
+        json_path = os.path.join(export_dir, json_name)
 
         b4w_src_path = self.get_b4w_src_path()
         html_tpl_path = os.path.join(b4w_src_path, "embed.html")
         b4w_minjs_path = os.path.join(b4w_src_path, "embed.min.js")
 
-        bpy.ops.b4w.export("EXEC_DEFAULT", filepath=json_tmp_path, \
-                do_autosave=False, save_export_path=False, is_html_export=True)
+        if "CANCELLED" in bpy.ops.b4w.export("EXEC_DEFAULT", \
+                filepath=json_path, do_autosave=False, save_export_path=False, \
+                is_html_export=True):
+            return
 
         try:
             scripts = ""
@@ -115,15 +117,16 @@ class B4W_HTMLExportProcessor(bpy.types.Operator):
                 with open(b4w_minjs_path, "r") as f:
                     scripts = f.read()
                     f.close()
-            data = json.dumps(extract_data(json_tmp_path, json_tmp_filename))
-            insertions = dict(scripts=scripts, built_in_data=data, \
-                    json_path=json_tmp_filename)
+
+            data = json.dumps(extract_data(json_path, json_name))
+            insertions = dict(scripts=scripts, built_in_data=data,
+                              b4w_meta=("<meta name='b4w_export_path_html' content='"
+                                        + get_filepath_blend(self.filepath) +"'/>"))
             app_str = get_html_template(html_tpl_path).substitute(insertions)
 
             f  = open(export_filepath, "w")
         except IOError as exp:
             exporter._file_write_error = exp
-            clean_exported_data()
             bpy.ops.b4w.file_write_error_dialog('INVOKE_DEFAULT')
         else:
             f.write(app_str)
@@ -138,10 +141,20 @@ class B4W_HTMLExportProcessor(bpy.types.Operator):
 
         return "exported"
 
+class B4W_ExportHTMLPathGetter(bpy.types.Operator):
+    """Get Export Path for blend file"""
+    bl_idname = "b4w.get_export_html_path"
+    bl_label = "B4W Get Export HTML Path"
+
+    def execute(self, context):
+        print("B4W Export HTML Path = " + get_default_path())
+
+        return {"FINISHED"}
+
 def get_default_path():
     scene = bpy.data.scenes[0]
     if scene.b4w_export_path_html is not "":
-        return scene.b4w_export_path_html
+        return bpy.path.abspath(scene.b4w_export_path_html)
 
     blend_path = os.path.splitext(bpy.data.filepath)[0]
     if len(blend_path) > 0:
@@ -165,56 +178,66 @@ def extract_data(json_path, json_filename):
     data = {
         "main_file": json_filename
     }
+
     # get json file
-    if os.path.isfile(json_path):
-        with open(json_path, "r") as f:
-            data[json_filename] = f.read()
-            f.close()
-        os.remove(json_path)
-        print("Removed temporary " + json_path)
+    data[json_filename] = exporter.get_main_json_data()
 
-    # get binaries and resources
-    if json_filename in data:
-        json_parsed = json.loads(data[json_filename])
-        if "binaries" in json_parsed:
-            for i in range(len(json_parsed["binaries"])):
-                relpath = json_parsed["binaries"][i]["binfile"]
-                if relpath is not None:
-                    fullpath = os.path.normpath(os.path.join(\
-                            os.path.dirname(json_path), relpath))
-                    data[relpath] = get_encoded_binfile(fullpath)
-                    os.remove(fullpath)
-                    print("Removed temporary " + fullpath)
+    # get binaries
+    json_parsed = json.loads(data[json_filename])
+    if "binaries" in json_parsed:
+        relpath = json_parsed["binaries"][0]["binfile"]
+        if relpath is not None:
+            data[relpath] = encode_binary_sequence(exporter.get_binaries_data())
 
-        if "images" in json_parsed:
-            unpacked_img_paths = exporter.get_unpacked_img_paths()
+    # get resources
+    if "images" in json_parsed:
+        for i in range(len(json_parsed["images"])):
+            img = json_parsed["images"][i]
+            if img["source"] == "FILE":
+                data[img["filepath"]] = get_encoded_resource_data(img["filepath"], 
+                        json_path)
 
-            for i in range(len(json_parsed["images"])):
-                img = json_parsed["images"][i]
-                if img["source"] == "FILE":
-                    fullpath = os.path.normpath(os.path.join(\
-                            os.path.dirname(json_path), img["filepath"]))
-                    data[img["filepath"]] = get_encoded_binfile(fullpath)
-
-                    # remove odd unpacked image files, comparing absolute paths
-                    if fullpath in unpacked_img_paths:
-                        os.remove(fullpath)
-
-        if "sounds" in json_parsed:
-            for i in range(len(json_parsed["sounds"])):
-                snd = json_parsed["sounds"][i]
-                fullpath = os.path.normpath(os.path.join(\
-                        os.path.dirname(json_path), snd["filepath"]))
-                data[snd["filepath"]] = get_encoded_binfile(fullpath)
+    if "sounds" in json_parsed:
+        for i in range(len(json_parsed["sounds"])):
+            snd = json_parsed["sounds"][i]
+            data[snd["filepath"]] = get_encoded_resource_data(snd["filepath"], 
+                    json_path)
     return data
 
-def get_encoded_binfile(path):
-    result = None
-    if os.path.isfile(path):
-        f = open(path, "rb")
-        result = str(base64.b64encode(f.read()))[2:-1]
-        f.close()
-    return result
+def get_encoded_resource_data(path, json_path):
+    bindata = None
+    packed_data = exporter.get_packed_data()
+
+    if path in packed_data:
+        bindata = packed_data[path]
+    else:
+        # absolute path according to json fictional file path
+        fullpath = os.path.normpath(os.path.join(\
+                os.path.dirname(json_path), path))
+        if os.path.isfile(fullpath):
+            f = open(fullpath, "rb")
+            bindata = f.read()
+            f.close()
+
+    if bindata is not None:
+        bindata = encode_binary_sequence(bindata)
+    return bindata
+
+def encode_binary_sequence(bin_seq):
+    return str(base64.b64encode(bin_seq))[2:-1]
+
+def get_filepath_blend(export_filepath):
+    """return path to blend relative to json"""
+    blend_abs = bpy.data.filepath
+    if blend_abs:
+        html_abs = export_filepath
+        blend_rel = os.path.relpath(blend_abs, os.path.dirname(html_abs))
+        return guard_slashes(os.path.normpath(blend_rel))
+    else:
+        return ""
+
+def guard_slashes(path):
+    return path.replace('\\', '/')
 
 def autosave():
     filepath = bpy.data.filepath
@@ -230,13 +253,10 @@ def b4w_html_export_menu_func(self, context):
 
 def register():
     bpy.utils.register_class(B4W_HTMLExportProcessor)
+    bpy.utils.register_class(B4W_ExportHTMLPathGetter)
     bpy.types.INFO_MT_file_export.append(b4w_html_export_menu_func)
 
-def unregister(): 
+def unregister():
     bpy.utils.unregister_class(B4W_HTMLExportProcessor)
+    bpy.utils.unregister_class(B4W_ExportHTMLPathGetter)
     bpy.types.INFO_MT_file_export.remove(b4w_html_export_menu_func)
-
-def clean_exported_data():
-    unpacked_img_paths = exporter.get_unpacked_img_paths()
-    for path in unpacked_img_paths:
-        os.remove(path)

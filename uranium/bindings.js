@@ -120,23 +120,23 @@ function create_mesh_arrays(positions, indices) {
     var plen = positions.length;
     var pos_arr = _du_alloc_float_array(plen);
 
-    for (var i = 0; i < plen; i++)
-        HEAPF32[pos_arr / 4 + i] = positions[i];
+    HEAPF32.set(positions, pos_arr >> 2);
 
     if (indices) {
         var ilen = indices.length;
         var ind_arr = _du_alloc_int_array(ilen);
 
-        for (var i = 0; i < ilen; i++)
-            HEAP32[ind_arr / 4 + i] = indices[i];
+        HEAP32.set(indices, ind_arr >> 2);
 
     } else {
 
         var ilen = positions.length / 3;
         var ind_arr = _du_alloc_int_array(ilen);
 
+        var start = ind_arr >> 2;
+
         for (var i = 0; i < ilen; i++)
-            HEAP32[ind_arr / 4 + i] = i;
+            HEAP32[start + i] = i;
     }
 
     return {
@@ -852,7 +852,7 @@ function character_rotation_increment(body_id, h_angle, v_angle) {
     _du_character_rotation_inc(character, h_angle, v_angle);
 }
 
-function append_collision_test(pairs) {
+function append_collision_test(pairs, need_payload) {
     var world = active_world();
     var tests = world.collision_tests;
 
@@ -868,7 +868,9 @@ function append_collision_test(pairs) {
             body_id_b: pair[1],
             du_body_a: get_du_body_id(pair[0]),
             du_body_b: get_du_body_id(pair[1]),
-            last_result: 0
+            last_result: null,
+            //last_cpoint: new Float32Array(3),
+            need_payload: need_payload
         }
 
         add_collision_result(test.du_body_a, test.du_body_b);
@@ -912,7 +914,6 @@ function remove_collision_result(du_body_a, du_body_b) {
                                                 du_body_a, du_body_b);
     results.size -= 1;
 }
-
 
 function apply_collision_impulse_test(body_id) {
     var world = active_world();
@@ -1043,10 +1044,7 @@ function add_water_wrapper(dynamics_info, size_x, size_y, center_x, center_y,
             var dist_arr = null;
         else {
             var dist_arr = _du_alloc_float_array(arr_len);
-
-            for (var i = 0; i < arr_len; i++)
-                HEAPF32[dist_arr / 4 + i] = shore_dist_array[i];
-
+            HEAPF32.set(shore_dist_array, dist_arr >> 2);
         }
     } else
         var dist_arr = null;
@@ -1537,24 +1535,41 @@ function tick_callback(world, time) {
 
         var du_body_a = test.du_body_a;
         var du_body_b = test.du_body_b;
-        var last_result = test.last_result;
-
-        var body_id_a = test.body_id_a;
-        var body_id_b = test.body_id_b;
 
         var result = _du_get_collision_result(results, arr_size, du_body_a, du_body_b, _du_vec3_tmp);
 
-        if (!last_result && result) {
-            var cpoint = _vec3_tmp;
-            cpoint[0] = HEAPF32[_du_vec3_tmp / 4];
-            cpoint[1] = HEAPF32[_du_vec3_tmp / 4 + 1];
-            cpoint[2] = HEAPF32[_du_vec3_tmp / 4 + 2];
+        var body_id_a = test.body_id_a;
+        var body_id_b = test.body_id_b;
+        var cpoint = _vec3_tmp;
 
-            m_ipc.post_msg(m_ipc.IN_COLLISION, body_id_a, body_id_b, 1, cpoint);
-        } else if (last_result && !result)
-            m_ipc.post_msg(m_ipc.IN_COLLISION, body_id_a, body_id_b, 0, null);
+        if (test.need_payload && result) {
+            cpoint[0] = HEAPF32[(_du_vec3_tmp >> 2)];
+            cpoint[1] = HEAPF32[(_du_vec3_tmp >> 2) + 1];
+            cpoint[2] = HEAPF32[(_du_vec3_tmp >> 2) + 2];
+        } else {
+            cpoint[0] = 0;
+            cpoint[1] = 0;
+            cpoint[2] = 0;
+        }
+
+        if (need_collision_result_update(test, result, cpoint)) {
+            var msg_cache = m_ipc.get_msg_cache(m_ipc.IN_COLLISION);
+
+            msg_cache["msg_id"]     = m_ipc.IN_COLLISION;
+            msg_cache["body_id_a"]  = body_id_a;
+            msg_cache["body_id_b"]  = body_id_b;
+            msg_cache["result"]     = result;
+            msg_cache["coll_point"] = cpoint;
+
+            m_ipc.post_msg(m_ipc.IN_COLLISION, msg_cache);
+        }
 
         test.last_result = result;
+        // NOTE: Bad garbage collection behaviour.
+        // Temporary disabled every frame collision point update
+        //test.last_cpoint[0] = cpoint[0];
+        //test.last_cpoint[1] = cpoint[1];
+        //test.last_cpoint[2] = cpoint[2];
     }
 
     for (var id in world.ray_tests) {
@@ -1601,6 +1616,12 @@ function tick_callback(world, time) {
     }
 }
 
+function need_collision_result_update(test, result, cpoint) {
+    return result != test.last_result; //|| cpoint[0] != test.last_cpoint[0] ||
+                                      //   cpoint[1] != test.last_cpoint[1] ||
+                                      //   cpoint[2] != test.last_cpoint[2];
+}
+
 function body_check_prepare_output(body) {
 
     var du_trans_x = HEAPF32[body.du_trans / 4];
@@ -1615,7 +1636,7 @@ function body_check_prepare_output(body) {
     if (    body.trans[0] == du_trans_x &&
             body.trans[1] == du_trans_y &&
             body.trans[2] == du_trans_z &&
-            body.quat[0]  == du_quat_x  && 
+            body.quat[0]  == du_quat_x  &&
             body.quat[1]  == du_quat_y  &&
             body.quat[2]  == du_quat_z  &&
             body.quat[3]  == du_quat_w)
@@ -1729,6 +1750,9 @@ function obj_len(obj) {
 
 function process_message(msg_id, msg) {
     switch(msg_id) {
+    case m_ipc.OUT_PING:
+        m_ipc.post_msg(m_ipc.IN_PING, msg[1]);
+        break;
     case m_ipc.OUT_FRAME_START:
         update(msg[1], msg[2]);
         break;
@@ -1781,7 +1805,7 @@ function process_message(msg_id, msg) {
         append_character.apply(this, msg.slice(1));
         break;
     case m_ipc.OUT_APPEND_COLLISION_TEST:
-        append_collision_test(msg[1]);
+        append_collision_test(msg[1], msg[2]);
         break;
     case m_ipc.OUT_REMOVE_COLLISION_TEST:
         remove_collision_test(msg[1]);

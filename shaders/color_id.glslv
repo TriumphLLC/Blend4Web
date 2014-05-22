@@ -32,6 +32,9 @@ attribute vec4 a_influence;
     #endif
     AU_QUALIFIER float au_wind_bending_amp;
     AU_QUALIFIER float au_wind_bending_freq;
+# if BEND_CENTER_ONLY
+    attribute vec3 a_emitter_center;
+# endif
 #endif
 
 #if WIND_BEND || HAIR_BILLBOARD

@@ -346,6 +346,20 @@ vec3.negate = function(a, out) {
 };
 
 /**
+ * Returns the inverse of the components of a vec3
+ *
+ * @param {vec3} out the receiving vector
+ * @param {vec3} a vector to invert
+ * @returns {vec3} out
+ */
+vec3.inverse = function(a, out) {
+  out[0] = 1.0 / a[0];
+  out[1] = 1.0 / a[1];
+  out[2] = 1.0 / a[2];
+  return out;
+};
+
+/**
  * Normalize a vec3
  *
  * @param {vec3} out the receiving vector
@@ -996,6 +1010,21 @@ vec4.negate = function(a, out) {
 };
 
 /**
+ * Returns the inverse of the components of a vec4
+ *
+ * @param {vec4} out the receiving vector
+ * @param {vec4} a vector to invert
+ * @returns {vec4} out
+ */
+vec4.inverse = function(a, out) {
+  out[0] = 1.0 / a[0];
+  out[1] = 1.0 / a[1];
+  out[2] = 1.0 / a[2];
+  out[3] = 1.0 / a[3];
+  return out;
+};
+
+/**
  * Normalize a vec4
  *
  * @param {vec4} out the receiving vector
@@ -1118,7 +1147,7 @@ vec4.transformQuat = function(a, q, out) {
  * @param {Array} a the array of vectors to iterate over
  * @param {Number} stride Number of elements between the start of each vec4. If 0 assumes tightly packed
  * @param {Number} offset Number of elements to skip at the beginning of the array
- * @param {Number} count Number of vec2s to iterate over. If 0 iterates over entire array
+ * @param {Number} count Number of vec4s to iterate over. If 0 iterates over entire array
  * @param {Function} fn Function to call for each vector in the array
  * @param {Object} [arg] additional argument to pass to fn
  * @returns {Array} a
@@ -1670,9 +1699,9 @@ quat.fromMat3 = function(m, out) {
         fRoot = Math.sqrt(fTrace + 1.0);  // 2w
         out[3] = 0.5 * fRoot;
         fRoot = 0.5/fRoot;  // 1/(4w)
-        out[0] = (m[7]-m[5])*fRoot;
-        out[1] = (m[2]-m[6])*fRoot;
-        out[2] = (m[3]-m[1])*fRoot;
+        out[0] = (m[5]-m[7])*fRoot;
+        out[1] = (m[6]-m[2])*fRoot;
+        out[2] = (m[1]-m[3])*fRoot;
     } else {
         // |w| <= 1/2
         var i = 0;
@@ -1686,7 +1715,7 @@ quat.fromMat3 = function(m, out) {
         fRoot = Math.sqrt(m[i*3+i]-m[j*3+j]-m[k*3+k] + 1.0);
         out[i] = 0.5 * fRoot;
         fRoot = 0.5 / fRoot;
-        out[3] = (m[k*3+j] - m[j*3+k]) * fRoot;
+        out[3] = (m[j*3+k] - m[k*3+j]) * fRoot;
         out[j] = (m[j*3+i] + m[i*3+j]) * fRoot;
         out[k] = (m[k*3+i] + m[i*3+k]) * fRoot;
     }

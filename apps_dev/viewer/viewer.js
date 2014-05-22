@@ -2,18 +2,29 @@
 
 b4w.register("viewer_main", function(exports, require) {
 
-var m_app     = require("app");
-var m_assets  = require("assets");
-var m_config  = require("config");
-var m_ctl     = require("controls");
-var m_data    = require("data");
-var m_mixer   = require("mixer");
-var m_scenes  = require("scenes");
-var m_storage = require("storage");
+var m_anim     = require("animation");
+var m_app      = require("app");
+var m_assets   = require("assets");
+var m_cam      = require("camera");
+var m_cam_anim = require("camera_anim");
+var m_cfg      = require("config");
+var m_cons     = require("constraints");
+var m_ctl      = require("controls");
+var m_data     = require("data");
+var m_debug    = require("debug");
+var m_lights   = require("lights");
+var m_main     = require("main");
+var m_mixer    = require("mixer");
+var m_mat      = require("material");
+var m_scenes   = require("scenes");
+var m_shaders  = require("shaders");
+var m_storage  = require("storage");
+var m_trans    = require("transform");
+var m_version  = require("version");
 
 var m_vec3 = require("vec3");
 
-var DEBUG = (b4w.version.type() === "DEBUG");
+var DEBUG = (m_version.type() === "DEBUG");
 var AUTO_VIEW_INTERVAL = 1000;
 var AUTO_ROTATE_RATIO  = 0.3;
 var DEFAULT_SCENE      = "dev/logo.json";
@@ -36,8 +47,10 @@ var INIT_PARAMS = {
     wireframe_debug: true
 };
 
-var ANIM_DEFAULT_INDEX   = 0;
-var ACTION_DEFAULT_INDEX = 0;
+var ANIM_OBJ_DEFAULT_INDEX = 0;
+var ANIM_NAME_DEFAULT_INDEX = 0;
+
+var _vec3_tmp = new Float32Array(3);
 
 var _auto_view = false;
 var _auto_view_timeout_handle;
@@ -46,24 +59,20 @@ var _auto_view_timeout_handle;
 
 var _manifest = null;
 
-var _anim_obj_names;
-// 0 - all animated objects
-var _anim_obj_index;
+var _anim_objs = [];
+var _anim_index = 0;
+var _anim_armature_mesh_pairs = [];
 
-var _settings;
-var _scene_settings;
+var _settings = null;
+var _scene_settings = null;
 
 var _object_info_elem = null;
+var _lights_elem = null;
 
 var _selected_object_name = null;
 var _object_selected_callback = function() {};
 var _controlled_object_name = null;
 var _dist_to_camera = null;
-
-
-var _vec3_tmp = new Float32Array(3);
-
-var _data_loaded = false;
 
 exports.init = function() {
     set_quality_config();
@@ -95,7 +104,6 @@ function init_cb(canvas_elem, success) {
     };
 
     m_app.enable_controls(canvas_elem);
-    canvas_elem.addEventListener("mousedown", main_canvas_clicked, false);
 
     window.addEventListener("resize", on_resize, false);
 
@@ -112,6 +120,8 @@ function init_cb(canvas_elem, success) {
 
     m_assets.enqueue([["manifest", m_assets.AT_JSON,
             get_asset_path("assets.json")]], asset_cb, null);
+
+
 }
 
 function get_asset_path(filename) {
@@ -126,7 +136,7 @@ function get_asset_path(filename) {
 
 function get_selected_object() {
     if (_selected_object_name) {
-        var obj = b4w.scenes.get_object_by_name(_selected_object_name);
+        var obj = m_scenes.get_object_by_name(_selected_object_name);
         if (obj)
             return obj;
     }
@@ -148,7 +158,7 @@ function main_canvas_clicked(event) {
     if (prev_obj)
         m_scenes.clear_glow_anim(prev_obj);
 
-    var name_selected = b4w.scenes.pick_object(x, y);
+    var name_selected = m_scenes.pick_object(x, y);
     _selected_object_name = name_selected;
 
     if (name_selected.length) {
@@ -202,11 +212,10 @@ function enable_camera_controls() {
     var zoom_to_logic = function(s) {
         return s[0] || s[1];
     }
-    var zoom_to_cb = function(obj, id, value, pulse) {
-
+    var zoom_to_cb = function(obj, id, pulse) {
         var selobj = get_selected_object();
         if (selobj)
-            b4w.camera.zoom_object(obj, selobj);
+            m_cam.zoom_object(obj, selobj);
     }
 
     m_ctl.create_sensor_manifold(obj, "ZOOM_TO", m_ctl.CT_SHOT, zoom_to_array, 
@@ -235,14 +244,13 @@ function set_object_info() {
 
 function get_controlled_object() {
     if (_controlled_object_name) {
-        var obj = b4w.scenes.get_object_by_name(_controlled_object_name);
+        var obj = m_scenes.get_object_by_name(_controlled_object_name);
         if (obj)
             return obj;
     }
 
     return false;
 }
-
 
 function retrieve_last_item_id() {
 
@@ -261,9 +269,10 @@ function retrieve_last_item_id() {
 
 function init_ui() {
     _object_info_elem = document.getElementById("info_left_down");
+    _lights_elem = document.getElementById("lights_cont");
 
     // build date
-    document.getElementById("build_date").innerHTML = b4w.version.date();
+    document.getElementById("build_date").innerHTML = m_version.date();
 
     // general buttons
     bind_control(save_quality_and_reload, "quality");
@@ -483,18 +492,21 @@ function init_scenes_list_category(category) {
 
 function reset_settings_to_default() {
 
+    for (var i = 0; i <_lights_elem.children.length; i++)
+        _lights_elem.children[i].style.visibility = "hidden";
+
     _settings = {
         load_file         : DEFAULT_SCENE,
         animated_objects  : []
     };
 
-    _scene_settings = undefined;
-    _anim_obj_names = undefined;
-    _anim_obj_index = undefined;
+    _scene_settings = null;
+    _anim_objs = [];
+    _anim_index = 0;
+    _anim_armature_mesh_pairs = [];
 }
 
 function load_scene(wait_textures) {
-    _data_loaded = false;
     var name = _settings.name || "Logo";
     var file = _settings.load_file;
 
@@ -504,7 +516,7 @@ function load_scene(wait_textures) {
     cf_elem.setAttribute("title", name + " (" + file + ")");
 
     // load
-    b4w.data.load(get_asset_path(file), loaded_callback, preloader_callback,
+    m_data.load(get_asset_path(file), loaded_callback, preloader_callback,
             wait_textures);
 }
 
@@ -543,11 +555,15 @@ function process_scene(names, call_reset_b4w, wait_textures) {
     if (call_reset_b4w)
         reset_b4w();
 
+    m_debug.clear_errors_warnings();
+
     load_scene(wait_textures);
 }
 
 function loaded_callback(root) {
-    _data_loaded = true;
+
+    var canvas_elem = m_main.get_canvas_elem();
+    canvas_elem.addEventListener("mousedown", main_canvas_clicked, false);
 
     m_scenes.set_glow_color([1, 0.4, 0.05]);
     
@@ -560,21 +576,21 @@ function loaded_callback(root) {
     if (get_mix_mode_config())
         m_mixer.enable_mixer_controls(m_scenes.get_active_camera());
 
-    b4w.set_render_callback(render_callback);
+    m_main.set_render_callback(render_callback);
 
     if (_auto_view) 
         _auto_view_timeout_handle = 
             setTimeout(auto_view_load_next, AUTO_VIEW_INTERVAL);
 
     var elapsed = m_ctl.create_elapsed_sensor();
-    var cam_dist_cb = function(obj, id, value, pulse) {
+    var cam_dist_cb = function(obj, id, pulse) {
         if (pulse == 1 && _selected_object_name) {
             var sel_obj = get_selected_object();
             if (sel_obj) {
                 var sel_obj_pos = _vec3_tmp;
                 var calc_bs_center = true;
-                b4w.transform.get_object_center(sel_obj, calc_bs_center, sel_obj_pos);
-                var cam_eye = b4w.camera.get_eye(obj);
+                m_trans.get_object_center(sel_obj, calc_bs_center, sel_obj_pos);
+                var cam_eye = m_cam.get_eye(obj);
                 var dist = m_vec3.dist(sel_obj_pos, cam_eye);
                 _dist_to_camera = dist.toFixed(3);
             }
@@ -626,25 +642,55 @@ function preloader_callback(percentage, load_time) {
     lp_elem.innerHTML = percentage + "% (" + 
         Math.round(10 * load_time / 1000)/10 + "s)";
 
-    if (_data_loaded) // bpy data loaded
+    var errors = m_debug.get_error_quantity();
+    var warnings = m_debug.get_warning_quantity();
+
+    // bpy data loaded
+    if (m_data.is_loaded()) {
         display_scene_stats();
+        add_error_tooltip();
+        if (!warnings && !errors) {
+            _lights_elem.children[2].style.visibility = 'visible';
+        }
+    }
+
+    if (warnings && !errors)
+        _lights_elem.children[1].style.visibility = 'visible';
+
+    if (errors) {
+        _lights_elem.children[1].style.visibility = 'hidden';
+        _lights_elem.children[0].style.visibility = 'visible';
+    }
 
     // data and resources loaded
     //if (percentage >= 100)
 }
 
+function add_error_tooltip() {
+
+    var errors = m_debug.get_error_quantity();
+    var warnings = m_debug.get_warning_quantity();
+
+    if (warnings || errors)
+        _lights_elem.setAttribute("title",
+                                  "warnings:" + warnings +
+                                  '\n' + "errors:" + errors);
+    else
+        _lights_elem.setAttribute("title", "Loaded OK");
+}
+
 function display_scene_stats() {
 
-    var verts = b4w.debug.num_vertices();
-    var tris = b4w.debug.num_triangles();
-    var calls = b4w.debug.num_draw_calls();
+    var verts = m_debug.num_vertices();
+    var tris = m_debug.num_triangles();
+    var calls = m_debug.num_draw_calls();
 
     document.getElementById("info_right_up").innerHTML = 
         verts + " verts" + ", " + tris + " tris" + ", " + calls + " draw calls";
 
-    var gstats = b4w.debug.geometry_stats();
-    var texinfo = b4w.debug.num_textures();
-    var rtinfo = b4w.debug.num_render_targets();
+    var gstats = m_debug.geometry_stats();
+    var texinfo = m_debug.num_textures();
+    var rtinfo = m_debug.num_render_targets();
 
     var mem_geom = Math.round(10 * (gstats.ibo_memory + gstats.vbo_memory)) / 10;
     var mem_tex = Math.round(10 * texinfo.memory) / 10;
@@ -660,11 +706,11 @@ function display_scene_stats() {
 
 function prepare_scenes(global_settings) {
 
-    var main_scene_name = b4w.scenes.get_active();
+    var main_scene_name = m_scenes.get_active();
 
     // ALL SCENES EXCEPT MAIN
     
-    var scene_names = b4w.scenes.get_scenes();
+    var scene_names = m_scenes.get_scenes();
     for (var i = 0; i < scene_names.length; i++) { 
         var name = scene_names[i];
         if (name === main_scene_name)
@@ -681,8 +727,8 @@ function prepare_scenes(global_settings) {
 
     // ui for changing material color
     _object_selected_callback = function(name_selected) {
-        var obj = b4w.scenes.get_object_by_name(name_selected);
-        var mat_names = b4w.material.get_materials_names(obj);
+        var obj = m_scenes.get_object_by_name(name_selected);
+        var mat_names = m_mat.get_materials_names(obj);
         fill_select_options("material_name", mat_names);
         get_material_params(obj, mat_names[0]);
         get_water_material_params(obj, mat_names[0]);
@@ -691,7 +737,7 @@ function prepare_scenes(global_settings) {
     get_ambient_params();
 
     // init lights list
-    var lnames = b4w.lights.get_lights_names();
+    var lnames = m_lights.get_lights_names();
     fill_select_options("light_name", lnames);
     get_lighting_params(lnames[0]);
 
@@ -740,62 +786,91 @@ function get_scene_settings(scene_name, glob_settings) {
 
 function change_apply_scene_settings(scene_name, settings) {
 
-    b4w.scenes.set_active(scene_name);
-    var camera = b4w.scenes.get_active_camera();
+    m_scenes.set_active(scene_name);
+    var camera = m_scenes.get_active_camera();
 
     // camera settings
     if (settings.camera_target) {
         var targ = settings.camera_target;
-        b4w.constraints.append_follow(camera, targ);
+        m_cons.append_follow(camera, targ);
     }
 
     var hang = settings.h_angle;
     var vang = settings.v_angle;
 
     if ((hang === 0 || hang) && (vang === 0 || vang))
-        b4w.camera.set_eye_params(camera, hang, vang);
+        m_cam.set_eye_params(camera, hang, vang);
 
     // init anim active objects list
-    var anim_obj_names = settings.animated_objects.slice(0);
+    
+    _anim_index = ANIM_OBJ_DEFAULT_INDEX;
 
-    anim_obj_names.unshift("All");
-    fill_select_options("anim_active_object", anim_obj_names);
-    _anim_obj_index = ANIM_DEFAULT_INDEX;
-    _anim_obj_names = anim_obj_names;
+    for (var i = 0; i < settings.animated_objects.length; i++) {
+        var name = settings.animated_objects[i];
+        var anim_obj = (name instanceof Array) ? 
+                m_scenes.get_object_by_empty_name(name[0], name[1]) : 
+                m_scenes.get_object_by_name(name);
+        if (!anim_obj) {
+            console.error("Animated object not found: ", name);
+            continue;
+        }
 
-    // init actions list
-    var actions = b4w.animation.get_actions();
-    var anim_param_names = ["anim_action",
+        // NOTE: temporary, need apply_def()
+        var anim_names = m_anim.get_anim_names(anim_obj);
+        var default_anim_name = anim_names[ANIM_NAME_DEFAULT_INDEX];
+        if (default_anim_name) {
+            m_anim.apply(anim_obj, default_anim_name);
+            m_anim.play(anim_obj);
+            m_anim.cyclic(anim_obj, true);
+        }
+    }
+
+    var anim_obj_names = [];
+    var scene_objs = m_scenes.get_appended_objs("ALL");
+    for (var i = 0; i < scene_objs.length; i++) {
+        var sobj = scene_objs[i];
+        if (m_anim.is_animated(sobj)) {
+            // NOTE: do not add skinned meshes to list of animated objects,
+            // handle them separately
+            var armobj = m_anim.get_first_armature_object(sobj);
+            if (armobj && m_anim.is_animated(armobj)) {
+                _anim_armature_mesh_pairs.push(armobj, sobj);
+            } else {
+                _anim_objs.push(sobj);
+                anim_obj_names.push(m_scenes.get_object_name(sobj));
+            }
+        }
+    }
+
+    var anim_param_names = ["anim_active_object",
+                            "anim_action",
                             "anim_cyclic",
+                            "anim_frame_range",
                             "anim_frame_current",
                             "anim_play",
                             "anim_stop",
                             "get_max_bones"];
 
-    if (!actions.length) {
+    if (_anim_objs.length) {
+        forbid_params(anim_param_names, "enable");
+    } else {
         forbid_params(anim_param_names, "disable");
-        return null;
+        return;
     }
-
-    forbid_params(anim_param_names, "enable");
-
-    fill_select_options("anim_action", actions);
-
-    var default_action = actions[ACTION_DEFAULT_INDEX];
-    if (default_action)
-        set_animation_params({anim_action: default_action});
+    
+    fill_select_options("anim_active_object", anim_obj_names);
+    set_animation_params({anim_active_object :
+            m_scenes.get_object_name(_anim_objs[ANIM_OBJ_DEFAULT_INDEX])});
 }
 
 function render_callback(elapsed, current_time) {
-
-    var camera = b4w.scenes.get_active_camera();
-    var anim_objects = get_anim_objects(_anim_obj_names, _anim_obj_index);
+    var camera = m_scenes.get_active_camera();
+    var anim_objects = get_anim_objects(_anim_objs, _anim_index);
     var anim_object0 = anim_objects[0];
     if (anim_object0) {
-
         // update anim status
         var elem_status = document.getElementById("anim_status");
-        if (b4w.animation.is_play(anim_object0)) {
+        if (m_anim.is_play(anim_object0)) {
             elem_status.innerHTML = "PLAYING";
         } else {
             elem_status.innerHTML = "STOPPED";
@@ -803,7 +878,7 @@ function render_callback(elapsed, current_time) {
 
         // update frame range
         var fr_elem = document.getElementById("anim_frame_range");
-        var fr = b4w.animation.get_frame_range(anim_object0);
+        var fr = m_anim.get_frame_range(anim_object0);
         if (fr) {
             fr_elem.innerHTML = fr[0] + " - " + fr[1];
             var slider = document.getElementById("anim_frame_current");
@@ -812,45 +887,34 @@ function render_callback(elapsed, current_time) {
         }
 
         // update current frame 
-        var frame = Math.round(b4w.animation.get_current_frame_float(anim_object0));
+        var frame = Math.round(m_anim.get_frame(anim_object0));
         if (parseInt($("#anim_frame_current").val()) !== frame) // optimization
             set_slider("anim_frame_current", frame);
     }
 }
 
-function get_anim_objects(names, index) {
+function get_anim_objects(objs, index) {
+    var anim_objs = [];
     
-    var anim_objects = [];
+    if (objs[index]) {
+        anim_objs.push(objs[index]);
 
-    // first index reserved for "All"
-    if (index == 0) {
+        for (var i = 0; i < _anim_armature_mesh_pairs.length; i+=2) {
+            var armobj = _anim_armature_mesh_pairs[i];
+            var meshobj = _anim_armature_mesh_pairs[i+1];
 
-        for (var i = 1; i < names.length; i++) {
-            var anim_obj = (names[i] instanceof Array) ? 
-                    b4w.scenes.get_object_by_empty_name(names[i][0], names[i][1]) : 
-                    b4w.scenes.get_object_by_name(names[i]);
-            if (anim_obj)
-                anim_objects.push(anim_obj)
-            else {
-                // NOTE: hack to prevent access to missing animated objects
-                // modifying external names array is not good programming style
-                names.splice(i, 1);
-            }
+            if (armobj == objs[index])
+                anim_objs.push(meshobj);
         }
-    } else {
-        var anim_obj = (names[index] instanceof Array) ? 
-                b4w.scenes.get_object_by_empty_name(names[index][0], names[index][1]) : 
-                b4w.scenes.get_object_by_name(names[index]);
-        anim_objects = [anim_obj];
     }
 
-    return anim_objects;
+    return anim_objs;
 }
 
 function reset_b4w() {
     // scene only, context still persists
-    b4w.clear_render_callback();
-    b4w.data.cleanup();
+    m_main.clear_render_callback();
+    m_data.cleanup();
 }
 
 /*
@@ -865,33 +929,33 @@ function set_quality_config() {
 
     switch (quality) {
     case "ULTRA":
-        var qual = b4w.config.P_ULTRA;
+        var qual = m_cfg.P_ULTRA;
         break;            
     case "HIGH":
-        var qual = b4w.config.P_HIGH;
+        var qual = m_cfg.P_HIGH;
         break;            
     case "LOW":
-        var qual = b4w.config.P_LOW;
+        var qual = m_cfg.P_LOW;
         break;
     }
 
-    b4w.config.set("quality", qual);
+    m_cfg.set("quality", qual);
 }
 
 function refresh_quality_ui() {
 
-    var qual = b4w.config.get("quality");
+    var qual = m_cfg.get("quality");
 
     switch (qual) {
-    case b4w.config.P_ULTRA:
+    case m_cfg.P_ULTRA:
         var quality = "ULTRA";
         var opt_index = 0;
         break;
-    case b4w.config.P_HIGH:
+    case m_cfg.P_HIGH:
         var quality = "HIGH";
         var opt_index = 1;
         break;
-    case b4w.config.P_LOW:
+    case m_cfg.P_LOW:
         var quality = "LOW";
         var opt_index = 2;
         break;
@@ -915,11 +979,11 @@ function reset_memory() {
 }
 
 function pause_clicked() {
-    b4w.pause();
+    m_main.pause();
 }
 
 function resume_clicked() {
-    b4w.resume();
+    m_main.resume();
 }
 
 function get_mix_mode_config() {
@@ -937,7 +1001,7 @@ function get_show_hud_debug_info_config() {
 }
 
 function set_stereo_view_config() {
-    b4w.config.set("anaglyph_use", m_storage.get("anaglyph_use") === "true");
+    m_cfg.set("anaglyph_use", m_storage.get("anaglyph_use") === "true");
 }
 
 function refresh_hud_debug_info_ui() {
@@ -985,14 +1049,14 @@ function on_resize(e) {
     var controls_width = document.getElementById("controls_container").offsetWidth;
     w -= controls_width;
     
-    b4w.resize(w, h);
+    m_main.resize(w, h);
     
     document.getElementById("info_left_up").innerHTML = w + "x" + h;
 }
 
 function cleanup() {
-    _anim_obj_names = null;
-    _anim_obj_index = null;
+    _anim_objs = [];
+    _anim_index = 0;
     _settings = null;
     _scene_settings = null;
 }
@@ -1002,80 +1066,85 @@ function cleanup() {
  */
 
 function anim_play_clicked() {
-    var anim_objects = get_anim_objects(_anim_obj_names, _anim_obj_index);
+    var anim_objects = get_anim_objects(_anim_objs, _anim_index);
 
     for (var i = 0; i < anim_objects.length; i++) {
-        b4w.animation.play(anim_objects[i]);
+        m_anim.play(anim_objects[i]);
     }
 }
 function anim_stop_clicked() {
-    var anim_objects = get_anim_objects(_anim_obj_names, _anim_obj_index);
+    var anim_objects = get_anim_objects(_anim_objs, _anim_index);
     for (var i = 0; i < anim_objects.length; i++) {
-        b4w.animation.stop(anim_objects[i]);
+        m_anim.stop(anim_objects[i]);
     }
 }
 
 function get_max_bones() {
 
-    b4w.pause();
+    m_main.pause();
 
-    var rslt = b4w.shaders.determine_max_bones();
+    var rslt = m_shaders.determine_max_bones();
 
     document.getElementById("max_bones").innerHTML = rslt.max_bones;
     document.getElementById("max_bones_no_blending").innerHTML = rslt.max_bones_no_blending;
 
-    b4w.resume();
+    m_main.resume();
 }
 
 function set_animation_params(value) {
-
     if ("anim_active_object" in value) {
-        var names = _anim_obj_names;
-        for (var i = 0; i < names.length; i++) {
-            if (names[i] == value.anim_active_object) {
-                _anim_obj_index = i;
+        for (var i = 0; i < _anim_objs.length; i++) {
+            if (m_scenes.get_object_name(_anim_objs[i]) ==
+                    value.anim_active_object) {
+                _anim_index = i;
+
+                var anim_names = m_anim.get_anim_names(_anim_objs[_anim_index]);
+                if (anim_names.length)
+                    fill_select_options("anim_action", anim_names);
+                else
+                    fill_select_options("anim_action", ["N/A"]);
+
                 return;
             }
         }
     }
 
     if ("anim_action" in value) {
-        var anim_objects = get_anim_objects(_anim_obj_names, _anim_obj_index);
+        var anim_objects = get_anim_objects(_anim_objs, _anim_index);
         
         for (var i = 0; i < anim_objects.length; i++) {
-            b4w.animation.apply(anim_objects[i], value.anim_action);
-            b4w.animation.play(anim_objects[i]);
-            b4w.animation.cyclic(anim_objects[i], true);
+            m_anim.apply(anim_objects[i], value.anim_action);
+            m_anim.play(anim_objects[i]);
+            m_anim.cyclic(anim_objects[i], true);
         }
     }
 
     if ("anim_cyclic" in value) {
-        var anim_objects = get_anim_objects(_anim_obj_names, _anim_obj_index);
+        var anim_objects = get_anim_objects(_anim_objs, _anim_index);
 
         for (var i = 0; i < anim_objects.length; i++) {
             var obj = anim_objects[i];
-            b4w.animation.cyclic(obj, value.anim_cyclic === "on");
+            m_anim.cyclic(obj, value.anim_cyclic === "on");
         }
     }
 
     if ("anim_frame_current" in value) {
         var current = parseInt(value.anim_frame_current);
-
-        var anim_objects = get_anim_objects(_anim_obj_names, _anim_obj_index);
+        var anim_objects = get_anim_objects(_anim_objs, _anim_index);
 
         for (var i = 0; i < anim_objects.length; i++) {
             var obj = anim_objects[i];
-            if (!b4w.animation.is_play(obj)) { // prevent double update 
-                                               // (set_slider called every frame)
-                b4w.animation.set_current_frame_float(obj, current);
-                b4w.animation.update_object_animation(obj);
-            }
+            
+            // prevent double update 
+            // (set_slider called every frame)
+            if (!m_anim.is_play(obj))
+                m_anim.set_frame(obj, current);
         }
     }
 }
 
 function get_ssao_params() {
-    var ssao = b4w.scenes.get_ssao_params();
+    var ssao = m_scenes.get_ssao_params();
     var ssao_param_names = ["ssao_quality",
                             "ssao_radius_increase",
                             "ssao_dithering_amount",
@@ -1115,7 +1184,7 @@ function get_ssao_params() {
 }
 
 function set_ssao_params(value) {
-    var ssao = b4w.scenes.get_ssao_params();
+    var ssao = m_scenes.get_ssao_params();
 
 
     var ssao_params = {};
@@ -1150,12 +1219,12 @@ function set_ssao_params(value) {
     if ("ssao_white" in value)
         ssao_params["ssao_white"] = (value.ssao_white === "on") ? 1 : 0;
 
-    b4w.scenes.set_ssao_params(ssao_params);
+    m_scenes.set_ssao_params(ssao_params);
 }
 
 function get_color_correction_params() {
 
-    var compos_params = b4w.scenes.get_color_correction_params();
+    var compos_params = m_scenes.get_color_correction_params();
     var compos_param_names = ["brightness",
                               "contrast",
                               "exposure",
@@ -1176,7 +1245,7 @@ function get_color_correction_params() {
 
 function set_color_correction_params(value) {
 
-    var compos_params = b4w.scenes.get_color_correction_params();
+    var compos_params = m_scenes.get_color_correction_params();
     if (!compos_params)
         return;
 
@@ -1194,7 +1263,7 @@ function set_color_correction_params(value) {
     if ("saturation" in value)
         compos_params["saturation"] = parseFloat(value.saturation);
 
-    b4w.scenes.set_color_correction_params(compos_params);
+    m_scenes.set_color_correction_params(compos_params);
 }
 
 function sel_by_val(select_elem, option_value) {
@@ -1222,7 +1291,7 @@ function get_sel_val(select_elem) {
 
 function get_fog_params() {
 
-    var fcd = b4w.scenes.get_fog_color_density();
+    var fcd = m_scenes.get_fog_color_density();
 
     var dens = fcd[3];
 
@@ -1236,7 +1305,7 @@ function get_fog_params() {
 
 function set_fog_params(value) {
 
-    var fcd = b4w.scenes.get_fog_color_density();
+    var fcd = m_scenes.get_fog_color_density();
 
     if ("fog_density" in value)
         fcd[3] = value.fog_density;
@@ -1250,12 +1319,12 @@ function set_fog_params(value) {
         fcd[2] = value.fog_color[2];
     }
 
-    b4w.scenes.set_fog_color_density(fcd);
+    m_scenes.set_fog_color_density(fcd);
 }
 
 function get_shadow_params() {
 
-    var shadow_params = b4w.scenes.get_shadow_params();
+    var shadow_params = m_scenes.get_shadow_params();
     var shadow_param_names = ["optimize_shadow_volume",
                               "csm_near",
                               "csm_far",
@@ -1308,9 +1377,9 @@ function set_shadow_params(value) {
     if ("blur_depth_diff_threshold" in value)
         shadow_params["blur_depth_diff_threshold"] = parseFloat(value["blur_depth_diff_threshold"]);
 
-    b4w.scenes.set_shadow_params(shadow_params);
+    m_scenes.set_shadow_params(shadow_params);
 
-    display_csm_info(b4w.scenes.get_shadow_params());
+    display_csm_info(m_scenes.get_shadow_params());
 }
 
 function display_csm_info(shadow_params) {
@@ -1329,7 +1398,7 @@ function display_csm_info(shadow_params) {
 
 function get_ambient_params() {
 
-    var env_colors = b4w.scenes.get_environment_colors();
+    var env_colors = m_scenes.get_environment_colors();
 
     set_slider("environment_energy", env_colors[0]);
     set_color_picker("horizon_color", env_colors[1]);
@@ -1339,13 +1408,13 @@ function get_ambient_params() {
 function set_ambient_params(value) {
 
     if ("environment_energy" in value)
-        b4w.scenes.set_environment_colors(value.environment_energy, null, null);
+        m_scenes.set_environment_colors(value.environment_energy, null, null);
 
     if ("horizon_color" in value)
-        b4w.scenes.set_environment_colors(null, value.horizon_color, null);
+        m_scenes.set_environment_colors(null, value.horizon_color, null);
 
     if ("zenith_color" in value)
-        b4w.scenes.set_environment_colors(null, null, value.zenith_color);
+        m_scenes.set_environment_colors(null, null, value.zenith_color);
 }
 
 function set_debug_params(value) {
@@ -1357,12 +1426,12 @@ function set_debug_params(value) {
     if ("wireframe_edge_color" in value)
         debug_params["wireframe_edge_color"] = value["wireframe_edge_color"];
 
-    b4w.debug.set_debug_params(debug_params);
+    m_debug.set_debug_params(debug_params);
 }
 
 function get_sky_params() {
 
-    var sky_params = b4w.scenes.get_sky_params();
+    var sky_params = m_scenes.get_sky_params();
 
     var sky_params_names = ["sky_color",
                             "rayleigh_brightness",
@@ -1427,12 +1496,12 @@ function set_sky_params(value) {
     if ("mie_distribution" in value)
         sky_params["mie_distribution"] = value.mie_distribution;
 
-    b4w.scenes.set_sky_params(sky_params);
+    m_scenes.set_sky_params(sky_params);
 }
 
 function get_material_params(obj, mat_name) {
 
-    var mparams = b4w.material.get_material_extended_params(obj, mat_name);
+    var mparams = m_mat.get_material_extended_params(obj, mat_name);
 
     var mat_param_names = ["material_diffuse_color",
                            "material_name",
@@ -1447,7 +1516,7 @@ function get_material_params(obj, mat_name) {
         return null;
     }
 
-    var diffuse_color = b4w.material.get_diffuse_color(obj, mat_name);
+    var diffuse_color = m_mat.get_diffuse_color(obj, mat_name);
     diffuse_color.pop();
     mparams["diffuse_color"] = diffuse_color;
 
@@ -1464,7 +1533,7 @@ function get_material_params(obj, mat_name) {
 function set_material_params(value) {
 
     var name_selected = _selected_object_name;
-    var obj = b4w.scenes.get_object_by_name(name_selected);
+    var obj = m_scenes.get_object_by_name(name_selected);
 
     if ("material_name" in value)
         get_material_params(obj, value["material_name"]);
@@ -1472,7 +1541,7 @@ function set_material_params(value) {
     if ("material_diffuse_color" in value) {
         var dc = value["material_diffuse_color"].slice();
         dc.push(1);
-        b4w.material.set_diffuse_color(obj, $("#material_name").val(), dc);
+        m_mat.set_diffuse_color(obj, $("#material_name").val(), dc);
     }
         
     var material_ext_params = {};
@@ -1490,15 +1559,15 @@ function set_material_params(value) {
     if ("material_parallax_steps" in value) 
         material_ext_params["material_parallax_steps"] 
                 = value["material_parallax_steps"];
-    b4w.material.set_material_extended_params(obj, $("#material_name").val(), 
+    m_mat.set_material_extended_params(obj, $("#material_name").val(), 
             material_ext_params);
 
-    b4w.scenes.update_scene_materials_params();
+    m_scenes.update_scene_materials_params();
 }
 
 function get_water_material_params(obj, mat_name) {
 
-    var mparams = b4w.material.get_water_material_params(obj, mat_name);
+    var mparams = m_mat.get_water_material_params(obj, mat_name);
     var water_param_names = ["shallow_water_col",
                              "shallow_water_col_fac",
                              "shore_water_col",
@@ -1533,7 +1602,7 @@ function get_water_material_params(obj, mat_name) {
 
     forbid_params(water_param_names, "enable");
 
-    b4w.scenes.get_water_mat_params(mparams);
+    m_scenes.get_water_mat_params(mparams);
 
     if (mparams["shallow_water_col"])
         set_color_picker("shallow_water_col", mparams["shallow_water_col"]);
@@ -1574,7 +1643,7 @@ function get_water_material_params(obj, mat_name) {
 function set_water_material_params(value) {
 
     var name_selected = _selected_object_name;
-    var obj = b4w.scenes.get_object_by_name(name_selected);
+    var obj = m_scenes.get_object_by_name(name_selected);
     var water_param_names = ["waves_height",
                              "waves_length",
                              "sss_strength",
@@ -1672,20 +1741,20 @@ function set_water_material_params(value) {
     if ("waves_hor_fac" in value)
         water_material_params["waves_hor_fac"] = value["waves_hor_fac"];
 
-    var result = b4w.material.set_water_material_params(obj, $("#material_name").val(), water_material_params);
+    var result = m_mat.set_water_material_params(obj, $("#material_name").val(), water_material_params);
 
     // check water material in material module to prevent errors in scenes module
     if (!result)
         return null;
 
-    b4w.scenes.update_scene_materials_params();
+    m_scenes.update_scene_materials_params();
 
-    b4w.scenes.set_water_params(water_material_params);
+    m_scenes.set_water_params(water_material_params);
 }
 
 function get_lighting_params(light_name) {
 
-    var lparams = b4w.lights.get_light_params(light_name);
+    var lparams = m_lights.get_light_params(light_name);
 
     set_color_picker("light_color", lparams["light_color"]);
     set_slider("light_energy", lparams["light_energy"]);
@@ -1704,12 +1773,12 @@ function set_lighting_params(value) {
     if ("light_energy" in value)
         light_params["light_energy"] = parseFloat(value["light_energy"]);
 
-    b4w.lights.set_light_params($("#light_name").val(), light_params);
+    m_lights.set_light_params($("#light_name").val(), light_params);
 }
 
 function get_sun_params() {
 
-    var sun_params  = b4w.lights.get_sun_params();
+    var sun_params  = m_lights.get_sun_params();
     var sun_param_names = ["sun_horizontal_position",
                            "sun_vertical_position"];
 
@@ -1735,22 +1804,22 @@ function set_sun_params(value) {
         sun_params["vert_position"] = parseFloat(value.sun_vertical_position);
     }
 
-    b4w.lights.set_sun_params(sun_params);
+    m_lights.set_sun_params(sun_params);
 }
 
 function set_max_sun_angle(value) {
     var angle = parseFloat(value.max_sun_angle);
-    b4w.lights.set_max_sun_angle(angle);
+    m_lights.set_max_sun_angle(angle);
 }
 
 function set_time_date(value) {
     if ("day_time" in value) {
         var time = value.day_time;
-        b4w.lights.set_day_time(time);
+        m_lights.set_day_time(time);
     }
     if ("date" in value) {
         var date = new Date(value.date);
-        b4w.lights.set_date(date);
+        m_lights.set_date(date);
     }
 
     // get_sun_params();
@@ -1758,13 +1827,13 @@ function set_time_date(value) {
 
 function run_sun_clicked() {
 
-    var m_ctl = b4w.controls;
     var multiplier = 0;
     var sun_time = parseFloat(document.getElementById("day_time").value);
 
-    function elapsed_cb (obj, id, value, pulse) {
+    function elapsed_cb(obj, id, pulse) {
         if (pulse == 1) {
             multiplier = document.getElementById("sun_time_multiplier").value;
+            var value = m_ctl.get_sensor_value(obj, id, 0);
             sun_time += value * multiplier / 3600;
             if (sun_time > 24)
                 sun_time = sun_time - Math.floor(sun_time);
@@ -1773,7 +1842,7 @@ function run_sun_clicked() {
     }
 
     var elapsed = m_ctl.create_elapsed_sensor();
-    var sun = b4w.lights.get_lamps("SUN")[0];
+    var sun = m_lights.get_lamps("SUN")[0];
 
     m_ctl.create_sensor_manifold(sun, "ELAPSED", m_ctl.CT_CONTINUOUS,
                                 [elapsed], function(s) {return s[0]},
@@ -1782,7 +1851,7 @@ function run_sun_clicked() {
 
 function check_lighting_params() {
 
-    var sun = b4w.lights.get_lamps("SUN")[0];
+    var sun = m_lights.get_lamps("SUN")[0];
 
     var light_param_names = ["run_sun",
                              "stop_sun",
@@ -1849,14 +1918,14 @@ function forbid_debug_params() {
 }
 
 function stop_sun_clicked() {
-    var sun = b4w.lights.get_lamps("SUN")[0];
-    if (b4w.controls.check_sensor_manifolds(sun))
-        b4w.controls.remove_sensor_manifold(sun, "ELAPSED");
+    var sun = m_lights.get_lamps("SUN")[0];
+    if (m_ctl.check_sensor_manifolds(sun))
+        m_ctl.remove_sensor_manifold(sun, "ELAPSED");
 }
 
 function get_dof_params() {
 
-    var dof_params  = b4w.scenes.get_dof_params();
+    var dof_params  = m_scenes.get_dof_params();
 
     var dof_param_names = ["dof_distance",
                        "dof_front",
@@ -1910,11 +1979,11 @@ function set_dof_params(value) {
         }
     }
 
-    b4w.scenes.set_dof_params(dof_params);
+    m_scenes.set_dof_params(dof_params);
 }
 
 function get_god_rays_params() {
-    var god_rays_params = b4w.scenes.get_god_rays_params();
+    var god_rays_params = m_scenes.get_god_rays_params();
     var god_rays_param_names = ["god_rays_intensity",
                                 "god_rays_max_ray_length",
                                 "god_rays_steps"];
@@ -1948,11 +2017,11 @@ function set_god_rays_params(value) {
         god_rays_params["god_rays_steps"] = value.god_rays_steps;
     }
 
-    b4w.scenes.set_god_rays_params(god_rays_params);
+    m_scenes.set_god_rays_params(god_rays_params);
 }
 
 function get_bloom_params() {
-    var bloom_params = b4w.scenes.get_bloom_params();
+    var bloom_params = m_scenes.get_bloom_params();
     var bloom_param_names = ["bloom_key",
                              "bloom_blur",
                              "bloom_edge_lum"];
@@ -1984,7 +2053,7 @@ function set_bloom_params(value) {
         bloom_params["bloom_edge_lum"] = value.bloom_edge_lum;
     }
 
-    b4w.scenes.set_bloom_params(bloom_params);
+    m_scenes.set_bloom_params(bloom_params);
 }
 
 function set_color_picker(id, color) {
@@ -2027,7 +2096,7 @@ function lin_to_srgb(color) {
 }
 
 function get_wind_params() {
-    var wind_params = b4w.scenes.get_wind_params();
+    var wind_params = m_scenes.get_wind_params();
     var wind_param_names = ["wind_dir",
                             "wind_strength"];
 
@@ -2049,7 +2118,7 @@ function set_wind_params(value) {
         wind_params["wind_strength"] = value.wind_strength;
     }
 
-    b4w.scenes.set_wind_params(wind_params);
+    m_scenes.set_wind_params(wind_params);
 }
 
 function set_slider(id, val) {
@@ -2104,7 +2173,7 @@ function keyfind(key, value, array) {
 }
 
 function auto_rotate_cam() {
-    b4w.camera_anim.auto_rotate(AUTO_ROTATE_RATIO);
+    m_cam_anim.auto_rotate(AUTO_ROTATE_RATIO);
 }
 
 function forbid_params(params, state) {
@@ -2112,7 +2181,7 @@ function forbid_params(params, state) {
     if (!params)
         return null;
 
-    for (var i = 0; i < params.length; i ++) {
+    for (var i = 0; i < params.length; i++) {
         var elem = $("#" + params[i]).parent().parent();
 
         if (state == "enable")

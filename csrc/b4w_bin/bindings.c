@@ -9,6 +9,7 @@
 #include "./includes/makesdna/DNA_meshdata_types.h"
 #include "./includes/makesdna/DNA_mesh_types.h"
 #include "./includes/makesdna/DNA_object_types.h"
+#include "./includes/makesdna/DNA_packedFile_types.h"
 
 // to make Windows happy
 #define MAX(a, b) ((a) > (b) ? (a) : (b))
@@ -30,6 +31,7 @@ static PyObject *b4w_bin_calc_bounding_data(PyObject *self, PyObject *args);
 static PyObject *b4w_bin_create_buffer_float(PyObject *self, PyObject *args);
 static PyObject *b4w_bin_get_buffer_float(PyObject *self, PyObject *args);
 static PyObject *b4w_bin_buffer_insert_float(PyObject *self, PyObject *args);
+static PyObject *b4w_bin_get_packed_data(PyObject *self, PyObject *args);
 
 static PyMethodDef b4w_bin_methods[] = {
     {"export_submesh", b4w_bin_export_submesh, METH_VARARGS,
@@ -42,6 +44,8 @@ static PyMethodDef b4w_bin_methods[] = {
             "Returns bytearray buffer from pointer"},
     {"buffer_insert_float", b4w_bin_buffer_insert_float, METH_VARARGS,
             "Insert float value into buffer"},
+    {"get_packed_data", b4w_bin_get_packed_data, METH_VARARGS,
+            "Get data for files (images, sounds) packed into .blend file"},
     {NULL, NULL, 0, NULL}
 };
 
@@ -1791,8 +1795,7 @@ static PyObject *b4w_bin_calc_bounding_data(PyObject *self, PyObject *args) {
     return result;
 }
 
-static PyObject *b4w_bin_create_buffer_float(PyObject *self,
-        PyObject *args) {
+static PyObject *b4w_bin_create_buffer_float(PyObject *self, PyObject *args) {
     long length;
     float *buffer;
     if (!PyArg_ParseTuple(args, "l", &length))
@@ -1813,8 +1816,7 @@ static PyObject *b4w_bin_buffer_insert_float(PyObject *self, PyObject *args) {
     return PyLong_FromUnsignedLong((unsigned long)buffer);
 }
 
-static PyObject *b4w_bin_get_buffer_float(PyObject *self,
-        PyObject *args) {
+static PyObject *b4w_bin_get_buffer_float(PyObject *self, PyObject *args) {
     float *buffer;
     long buffer_len;
     PyObject *result;
@@ -1825,6 +1827,22 @@ static PyObject *b4w_bin_get_buffer_float(PyObject *self,
     result = PyByteArray_FromStringAndSize((char *)buffer, 
             buffer_len * sizeof(float));
     free(buffer);
+
+    return result;
+}
+
+static PyObject *b4w_bin_get_packed_data(PyObject *self, PyObject *args) {
+
+    unsigned long packed_file_ptr;
+    PyObject *result;
+    PackedFile *pf;
+
+    if (!PyArg_ParseTuple(args, "k", &packed_file_ptr))
+        return NULL;
+
+    pf = (PackedFile *)packed_file_ptr;
+
+    result = PyByteArray_FromStringAndSize((char *)pf->data, pf->size);
 
     return result;
 }

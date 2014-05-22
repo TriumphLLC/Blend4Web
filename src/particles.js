@@ -56,16 +56,27 @@ exports.has_hair_particles = function(obj) {
     return false;
 }
 
+exports.has_dynamic_grass_particles = function(obj) {
+    for (var i = 0; i < obj["particle_systems"].length; i++) {
+        var psettings = obj["particle_systems"][i]["settings"];
+        if (psettings["type"] == "HAIR" && psettings["b4w_dynamic_grass"]) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 /**
  * Generate buffers for batch, emitter mesh, particle system and material
  * process particle from each emitter vertex
  */
-exports.generate_buffers = function(batch, emitter, psystem, pmaterial, 
-        world_matrix) {
+exports.generate_emitter_particles_submesh = function(batch, emitter_mesh, 
+        psystem, pmaterial, world_matrix) {
 
     psystem._internal = psystem._internal || {};
 
-    var emitter_submesh = m_geom.extract_submesh_all_mats(emitter, 
+    var emitter_submesh = m_geom.extract_submesh_all_mats(emitter_mesh, 
             ["a_position", "a_normal"], false);
 
     var pcount = psystem["settings"]["count"]; 
@@ -112,26 +123,33 @@ exports.generate_buffers = function(batch, emitter, psystem, pmaterial,
     psystem._internal.delay_attrs = new Float32Array(delay_attrs);
 
     var lifetimes = gen_lifetimes(pcount, lifetime, lifetime_random, is_billboard);
-
     var vels = gen_velocities(pcount, vel_factor_rand, ang_vel_mode, ang_vel_factor, is_billboard);
 
-    var data; 
-    if (is_billboard)
-        data = m_geom.create_bufs_data(m_geom.DM_TRIANGLES, bb_indices, 0);
-    else
-        data = m_geom.create_bufs_data(m_geom.DM_POINTS, [], pcount);
+    var submesh = m_util.create_empty_submesh("EMITTER_PARTICLES");
 
-    m_geom.update_bufs_data_array(data, "a_position", 3, positions);
-    m_geom.update_bufs_data_array(data, "a_normal", 3, normals);
-    m_geom.update_bufs_data_array(data, "a_p_delay", 1, delay_attrs);
-    m_geom.update_bufs_data_array(data, "a_p_lifetime", 1, lifetimes);
-    m_geom.update_bufs_data_array(data, "a_p_vels", 4, vels);
+    var va_frame = m_util.create_empty_va_frame();
+    va_frame["a_position"] = positions;
+    va_frame["a_normal"] = normals;
+    submesh.va_frames[0] = va_frame;
 
     if (is_billboard)
-        m_geom.update_bufs_data_array(data, "a_p_bb_vertex", 2, bb_vertices);
-    
-    set_uniforms(batch, psystem, pmaterial);
-    return data;
+        submesh.indices = bb_indices;
+    else {
+        batch.draw_mode = m_geom.DM_POINTS;
+        submesh.indices = new Uint16Array(0);
+    }
+
+    submesh.base_length = positions.length/3;
+    submesh.va_common["a_p_delay"] = delay_attrs;
+    submesh.va_common["a_p_lifetime"] = lifetimes;
+    submesh.va_common["a_p_vels"] = vels;
+
+    if (is_billboard)
+        submesh.va_common["a_p_bb_vertex"] = bb_vertices;
+
+    set_emitter_particles_uniforms(batch, psystem, pmaterial);
+
+    return submesh;
 }
 
 /**
@@ -150,10 +168,10 @@ function pose_emitter(positions, normals, world_matrix, positions_new,
  */
 exports.update_emitter_transform = function(obj) {
 
-    var bslots = obj._batch_slots;
-    for (var i = 0; i < bslots.length; i++) {
-        var batch = bslots[i].batch;
-        var psys = bslots[i].particle_system;
+    var batches = obj._batches;
+    for (var i = 0; i < batches.length; i++) {
+        var batch = batches[i];
+        var psys = batches[i].particle_system;
 
         if (!psys)
             continue;
@@ -178,10 +196,10 @@ exports.update_emitter_transform = function(obj) {
  */
 exports.update_emitter_animation = function(obj) {
 
-    var bslots = obj._batch_slots;
-    for (var i = 0; i < bslots.length; i++) {
-        var batch = bslots[i].batch;
-        var psys = bslots[i].particle_system;
+    var batches = obj._batches;
+    for (var i = 0; i < batches.length; i++) {
+        var batch = batches[i];
+        var psys = batches[i].particle_system;
 
         if (!psys)
             continue;
@@ -253,7 +271,7 @@ function animate_pos_norm(positions, normals, delay_attrs, time_start, trans,
     }
 }
 
-function set_uniforms(batch, psystem, pmaterial) {
+function set_emitter_particles_uniforms(batch, psystem, pmaterial) {
     var lifetime = psystem["settings"]["lifetime"] / cfg_ani.framerate;
     var time_start = psystem["settings"]["frame_start"] / cfg_ani.framerate;
     var time_end = psystem["settings"]["frame_end"] / cfg_ani.framerate;
@@ -619,7 +637,6 @@ function gen_velocities(pcount, vel_factor_rand, ang_vel_mode, ang_vel_factor, i
 exports.prepare_lens_flares = function(submesh) {
 
     var base_length = submesh.base_length;
-    var indices = new Uint16Array(submesh.indices);
     var sub_pos = submesh.va_frames[0]["a_position"];
     var sub_tco = submesh.va_common["a_texcoord"];
 
@@ -637,13 +654,11 @@ exports.prepare_lens_flares = function(submesh) {
     var bb_dist_arr = new Float32Array(bb_dist_arr);
     var bb_vert_arr = new Float32Array(bb_vert_arr);
 
-    var data = m_geom.create_bufs_data(m_geom.DM_TRIANGLES, indices);
+    submesh.va_common["a_lf_dist"] = bb_dist_arr;
+    submesh.va_common["a_lf_bb_vertex"] = bb_vert_arr;
+    submesh.va_common["a_texcoord"] = sub_tco;
 
-    data = m_geom.update_bufs_data_array(data, "a_lf_dist", 1, bb_dist_arr);
-    data = m_geom.update_bufs_data_array(data, "a_lf_bb_vertex", 2, bb_vert_arr);
-    data = m_geom.update_bufs_data_array(data, "a_texcoord", 2, sub_tco);
-
-    return data;
+    return submesh;
 }
 
 exports.update_force = function(obj) {

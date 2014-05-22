@@ -14,7 +14,7 @@ var m_cfg       = require("__config");
 var m_loader    = require("__loader");
 var m_particles = require("__particles");
 var m_print     = require("__print");
-var m_scs       = require("__scenes");
+var m_scenes    = require("__scenes");
 var m_sfx       = require("__sfx");
 var m_util      = require("__util");
 
@@ -23,22 +23,22 @@ var cfg_ani = m_cfg.animation;
 var _nla_arr = [];
 var _start_time = -1;
 
-exports.update_scene_nla = function(scene) {
+exports.update_scene_nla = function(scene, is_cyclic) {
     var nla = {
         frame_start: scene["frame_start"],
         frame_end: scene["frame_end"],
         last_frame: -1,
+        cyclic: is_cyclic,
         objects: []
     }
 
-    var sobjs = m_scs.get_scene_objs(scene, "ALL");
+    var sobjs = m_scenes.get_appended_objs(scene, "ALL");
 
     for (var i = 0; i < sobjs.length; i++) {
         var sobj = sobjs[i];
 
         var adata = sobj["animation_data"];
-        if (adata && adata["nla_tracks"]) {
-                
+        if (adata && adata["nla_tracks"].length) {
             var nla_tracks = adata["nla_tracks"];
 
             if (m_util.is_armature(sobj) || m_cam.is_camera(sobj) || m_util.is_mesh(sobj)) {
@@ -128,9 +128,10 @@ exports.update = function(timeline, elapsed) {
         var nla = _nla_arr[i];
 
         var cf = (timeline - _start_time) * cfg_ani.framerate - nla.frame_start;
-        // cyclic
-        var stride = nla.frame_end - nla.frame_start + 1;
-        cf %= stride;
+        if (nla.cyclic) {
+            var stride = nla.frame_end - nla.frame_start + 1;
+            cf %= stride;
+        }
         cf += nla.frame_start;
 
         for (var j = 0; j < nla.objects.length; j++) {
@@ -226,8 +227,7 @@ function get_nla_events(nla_tracks) {
                 frame_end: strip["frame_end"],
                 frame_offset: 0,
                 scheduled: false,
-                // TODO: need action name
-                action: strip["name"]
+                action: strip["action"] ? strip["action"]["name"] : null
             };
 
             nla_events.push(ev);

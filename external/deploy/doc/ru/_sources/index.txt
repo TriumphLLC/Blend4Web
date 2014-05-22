@@ -28,14 +28,12 @@
     outdoor_rendering.rst
     gamma_alpha.rst
     audio.rst
-    event_model.rst
     physics.rst
     nla.rst
     developers.rst
     developers_advanced.rst
     git_short_manual.rst
     problems_and_solutions.rst
-    roadmap.rst
 
 
 * :ref:`genindex`

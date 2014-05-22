@@ -58,23 +58,28 @@ function init_cb(canvas_element, success) {
  */
 function handle_iframe_scrolling(win, win_par) {
 
-    var inside = false;
-    var scroll_x = win_par.scrollX;
-    var scroll_y = win_par.scrollY;
+    try {
+        var scroll_x = win_par.scrollX;
+        var scroll_y = win_par.scrollY;
 
-    win.onmouseover = function() {
-        inside = true;
-        scroll_x = win_par.scrollX;
-        scroll_y = win_par.scrollY;
-    };
+        var inside = false;
 
-    win.onmouseout = function() {
-        inside = false;
-    };
+        win.onmouseover = function() {
+            inside = true;
+            scroll_x = win_par.scrollX;
+            scroll_y = win_par.scrollY;
+        };
 
-    win_par.onscroll = function(e) {
-        if (inside)
-            win_par.scroll(scroll_x, scroll_y);
+        win.onmouseout = function() {
+            inside = false;
+        };
+
+        win_par.onscroll = function(e) {
+            if (inside)
+                win_par.scroll(scroll_x, scroll_y);
+        }
+    } catch(e) {
+        console.warn("Cross-origin iframe detected, disabling scroll-lock feature");
     }
 }
 

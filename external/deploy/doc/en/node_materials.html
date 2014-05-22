@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Node materials &mdash; User manual: Blend4Web v14.04.22</title>
+    <title>Node Materials &mdash; User Manual: Blend4Web v14.05.22</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.04.22',
+        VERSION:     '14.05.22',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,8 +25,8 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User manual: Blend4Web v14.04.22" href="index.html" />
-    <link rel="next" title="Lighting and shadows" href="lighting.html" />
+    <link rel="top" title="User Manual: Blend4Web v14.05.22" href="index.html" />
+    <link rel="next" title="Lighting and Shadows" href="lighting.html" />
     <link rel="prev" title="Materials" href="materials.html" /> 
   </head>
   <body>
@@ -36,11 +36,11 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">User manual: Blend4Web v14.04.22</a></div>
+          href="index.html">User Manual: Blend4Web v14.05.22</a></div>
         <div class="rel">
           <a href="materials.html" title="Materials"
              accesskey="P">previous</a> |
-          <a href="lighting.html" title="Lighting and shadows"
+          <a href="lighting.html" title="Lighting and Shadows"
              accesskey="N">next</a> |
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a>
@@ -57,10 +57,10 @@
           <div class="body">
             
   <span class="target" id="node-materials"></span><div class="section" id="index-0">
-<span id="id1"></span><h1>Node materials<a class="headerlink" href="#index-0" title="Permalink to this headline">¶</a></h1>
+<span id="id1"></span><h1>Node Materials<a class="headerlink" href="#index-0" title="Permalink to this headline">¶</a></h1>
 <p>Shader nodes extend significantly the potential of Blender&#8217;s standard materials by means of presenting shading as a batch of basic transformations.</p>
 <div class="section" id="generic-node-materials">
-<span id="index-1"></span><span id="id2"></span><h2>Standard nodes<a class="headerlink" href="#generic-node-materials" title="Permalink to this headline">¶</a></h2>
+<span id="index-1"></span><span id="id2"></span><h2>Standard Nodes<a class="headerlink" href="#generic-node-materials" title="Permalink to this headline">¶</a></h2>
 <p id="index-2">All Blender functions are supported except the following cases:</p>
 <ul class="simple">
 <li><p class="first"><tt class="docutils literal"><span class="pre">Geometry</span></tt> - the <tt class="docutils literal"><span class="pre">Local</span></tt>, <tt class="docutils literal"><span class="pre">Orco</span></tt> and <tt class="docutils literal"><span class="pre">Vertex</span> <span class="pre">Alpha</span></tt> outputs are not supported.</p>
@@ -81,14 +81,14 @@
 <p>It is not recommended to create very complex materials especially if they use many <tt class="docutils literal"><span class="pre">Geometry</span></tt> or <tt class="docutils literal"><span class="pre">Texture</span></tt> nodes.</p>
 </div>
 <div class="section" id="custom-node-materials">
-<span id="id3"></span><h2>Special nodes<a class="headerlink" href="#custom-node-materials" title="Permalink to this headline">¶</a></h2>
+<span id="id3"></span><h2>Special Nodes<a class="headerlink" href="#custom-node-materials" title="Permalink to this headline">¶</a></h2>
 <p id="index-3">Special nodes extend the standard nodes&#8217; functionality in order to support the engine features. Special nodes are created as node groups (<tt class="docutils literal"><span class="pre">Node</span> <span class="pre">groups</span></tt> or <tt class="docutils literal"><span class="pre">Node</span> <span class="pre">tree</span></tt>) with specially determined names and input formats. All special nodes are gathered in the <tt class="docutils literal"><span class="pre">special_nodes.blend</span></tt> file for convenience.</p>
 <div class="section" id="linear-to-srgb-linear-to-srgb">
 <h3>LINEAR_TO_SRGB and LINEAR_TO_SRGB<a class="headerlink" href="#linear-to-srgb-linear-to-srgb" title="Permalink to this headline">¶</a></h3>
 <p>Color correction from linear color space to sRGB space and back.</p>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><a class="reference internal" href="gamma_alpha.html#gamma-nodes"><em>Коррекция в нодовых материалах</em></a></p>
+<p class="last"><a class="reference internal" href="gamma_alpha.html#gamma-nodes"><em>Gamma Correction in Node Materials</em></a></p>
 </div>
 </div>
 <div class="section" id="replace">
@@ -102,7 +102,7 @@
 </div>
 <div class="section" id="time">
 <h3>TIME<a class="headerlink" href="#time" title="Permalink to this headline">¶</a></h3>
-<p>Provides the timeline counting from the engine start (in seconds). May be used for animating any paramters in the node materials.</p>
+<p>Provides the timeline counting from the engine start (in seconds). May be used for animating any parameters in the node materials.</p>
 </div>
 <div class="section" id="normal-view">
 <h3>NORMAL_VIEW<a class="headerlink" href="#normal-view" title="Permalink to this headline">¶</a></h3>
@@ -206,27 +206,25 @@
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Node materials</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#generic-node-materials">Standard nodes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#custom-node-materials">Special nodes</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Node Materials</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#generic-node-materials">Standard Nodes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#custom-node-materials">Special Nodes</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting and shadows</a></li>
-<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing effects</a></li>
-<li class="toctree-l1"><a class="reference internal" href="particles.html">Particle system</a></li>
-<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle system for object instancing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting and Shadows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing Effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System for Instancing Objects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="animation.html">Animation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Rendering</a></li>
-<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Gamma-correction and transparency</a></li>
-<li class="toctree-l1"><a class="reference internal" href="audio.html">Звуковая подсистема</a></li>
-<li class="toctree-l1"><a class="reference internal" href="event_model.html">Событийная модель</a></li>
-<li class="toctree-l1"><a class="reference internal" href="physics.html">Физика</a></li>
-<li class="toctree-l1"><a class="reference internal" href="nla.html">Нелинейная анимация</a></li>
-<li class="toctree-l1"><a class="reference internal" href="developers.html">For application developers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">Разработчикам движка</a></li>
-<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Краткая справка по git</a></li>
-<li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Problems and solutions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="roadmap.html">План развития</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Gamma Correction and Alpha Compositing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audio.html">Audio System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nla.html">Non-Linear Animation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers.html">For Application Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">For Engine Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Team Work. Using Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Problems and Solutions</a></li>
 </ul>
 
           <h3 style="margin-top: 1.5em;">Search</h3>
@@ -249,7 +247,7 @@
         <div class="left">
           <a href="materials.html" title="Materials"
              >previous</a> |
-          <a href="lighting.html" title="Lighting and shadows"
+          <a href="lighting.html" title="Lighting and Shadows"
              >next</a> |
           <a href="genindex.html" title="General Index"
              >index</a>
@@ -259,7 +257,7 @@
           
     <div class="footer">
         &copy; Copyright 2014, Triumph LLC.
-      Last updated on 2014-04-23.
+      Last updated on 2014-05-21.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

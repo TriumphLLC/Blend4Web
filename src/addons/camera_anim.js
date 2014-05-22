@@ -140,9 +140,10 @@ exports.track_to_target = function(cam_obj, target, rot_speed, zoom_mult,
         return f;
     }
 
-    var track_cb = function(obj, id, value, pulse) {
+    var track_cb = function(obj, id, pulse) {
 
         if (pulse) {
+            var value = m_ctl.get_sensor_value(obj, id, 0);
             cur_time += value;
 
             if (cur_time < rot_end_time) {
@@ -217,15 +218,17 @@ exports.track_to_target = function(cam_obj, target, rot_speed, zoom_mult,
  */
 exports.auto_rotate = function(auto_rotate_ratio) {
 
-    var obj   = b4w.scenes.get_active_camera();
+    var obj = b4w.scenes.get_active_camera();
 
     if (obj.data["b4w_move_style"] !== "TARGET") {
         throw "wrong camera type";
     }
 
-    function elapsed_cb(obj, id, value, pulse) {
-        if (pulse == 1)
+    function elapsed_cb(obj, id, pulse) {
+        if (pulse == 1) {
+            var value = m_ctl.get_sensor_value(obj, id, 0);
             b4w.camera.rotate_pivot(obj, value * auto_rotate_ratio, 0);
+        }
     }
 
     function mouse_cb() {

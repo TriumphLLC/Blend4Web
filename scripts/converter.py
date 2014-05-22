@@ -5,6 +5,7 @@ import os,sys,subprocess, multiprocessing, re
 
 ASSETS_DIR = "../external/deploy/assets"
 APPS_DIR = "../external/deploy/apps"
+TUTS_DIR = "../external/deploy/tutorials/examples"
 
 WHITE  = "\033[97m"
 YELLOW = "\033[93m"
@@ -257,7 +258,7 @@ if __name__ == "__main__":
 
     task = sys.argv[1]
 
-    paths = [ASSETS_DIR]
+    paths = [ASSETS_DIR, TUTS_DIR]
 
     if task == "convert_sounds":
         paths.append(APPS_DIR)

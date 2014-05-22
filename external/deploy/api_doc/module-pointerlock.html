@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <title>JSDoc: Module: pointerlock</title>
-    
+
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
     <!--[if lt IE 9]>
@@ -16,91 +16,695 @@
 <body>
 
 <div id="main">
-    
+
     <h1 class="page-title">Module: pointerlock</h1>
-    
+
     
 
 
 
 <section>
-    
+
 <header>
     <h2>
     pointerlock
     </h2>
     
-</header>  
+</header>
 
 <article>
     <div class="container-overview">
     
-    
+
     
         
             <div class="description">Pointerlock add-on.
 Provides pointerlock support.</div>
         
-        
+
         
 <dl class="details">
     
-        
-    
-    
+
     
 
     
+
     
+
     
+
     
+
     
+
     
+
     
-    
-    
-    
-    
-    
+
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
         <a href="pointerlock.js.html">addons/pointerlock.js</a>, <a href="pointerlock.js.html#line3">line 3</a>
     </li></ul></dd>
     
+
     
+
     
-    
-    
-    
+
     
 </dl>
 
-        
+
         
     
     </div>
+
     
+
     
+
     
+
     
+
     
+
     
+        <h3 class="subsection-title">Members</h3>
+
+        <dl>
+            
+<dt>
+    <h4 class="name" id="DISABLE_DRAG"><span class="type-signature">&lt;static, constant> </span>DISABLE_DRAG<span class="type-signature"></span></h4>
+
     
+</dt>
+<dd>
     
+
     
+
     
+<dl class="details">
     
+
     
+
     
+
     
+
     
+
     
+
     
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="pointerlock.js.html">addons/pointerlock.js</a>, <a href="pointerlock.js.html#line30">line 30</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="ENABLE_DRAG"><span class="type-signature">&lt;static, constant> </span>ENABLE_DRAG<span class="type-signature"></span></h4>
+
+    
+</dt>
+<dd>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="pointerlock.js.html">addons/pointerlock.js</a>, <a href="pointerlock.js.html#line25">line 25</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+</dd>
+
+        </dl>
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        <dl>
+            
+<dt>
+    <h4 class="name" id="exit_pointerlock"><span class="type-signature">&lt;static> </span>exit_pointerlock<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Exit pointerlock.
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="pointerlock.js.html">addons/pointerlock.js</a>, <a href="pointerlock.js.html#line125">line 125</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="request_pointerlock"><span class="type-signature">&lt;static> </span>request_pointerlock<span class="signature">(elem, <span class="optional">enabled_cb</span>, <span class="optional">disabled_cb</span>, <span class="optional">mouse_move_cb</span>, <span class="optional">check_mouse_control</span>)</span><span class="type-signature"></span></h4>
+
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Request pointer lock mode.
+Security issues: execute by user event.
+    </div>
+    
+
+    
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Argument</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>elem</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Element</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>enabled_cb</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Enabled callback</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>disabled_cb</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Disabled callback</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>mouse_move_cb</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Mouse movement event callback</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>check_mouse_control</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Check mouse control</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="pointerlock.js.html">addons/pointerlock.js</a>, <a href="pointerlock.js.html#line50">line 50</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="requrest_mouse_drag"><span class="type-signature">&lt;static> </span>requrest_mouse_drag<span class="signature">(elem, switch_drag, <span class="optional">check_mouse_control</span>)</span><span class="type-signature"></span></h4>
+
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Request drug mode.
+    </div>
+    
+
+    
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Argument</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>elem</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Element</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>switch_drag</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Drag mouse mode (ENABLE_DRAG or DISABLE_DRAG)</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>check_mouse_control</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#check_mouse_control">check_mouse_control</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Check mouse control
+callback</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="pointerlock.js.html">addons/pointerlock.js</a>, <a href="pointerlock.js.html#line141">line 141</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        </dl>
+    
+
+    
+
     
 </article>
 
-</section>  
+</section>
 
 
 
@@ -114,7 +718,7 @@ Provides pointerlock support.</div>
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-dev</a> on Wed Apr 23 2014 16:27:41 GMT+0400 (MSK)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-dev</a> on Wed May 14 2014 10:58:10 GMT+0400 (MSK)
 </footer>
 
 <script> prettyPrint(); </script>

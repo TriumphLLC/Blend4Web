@@ -1,9 +1,9 @@
 bl_info = {
     "name": "Blend4Web",
     "author": "Blend4Web Development Team",
-    "version": (14, 4, 22),
+    "version": (14, 5, 22),
     "blender": (2, 70, 0),
-    "b4w_format_version": "4.02",
+    "b4w_format_version": "4.03",
     "location": "File > Import-Export",
     "description": "Blend4Web is a Blender-friendly 3D web framework",
     "warning": "",
@@ -79,8 +79,8 @@ def register():
     interface.register()
     exporter.register()
     html_exporter.register()
-    vertex_anim_baker.register()
     anim_baker.register()
+    vertex_anim_baker.register()
     camera_target_copier.register()
     
     weights_copy.register()
@@ -103,8 +103,8 @@ def unregister():
     interface.unregister()
     exporter.unregister()
     html_exporter.unregister()
-    vertex_anim_baker.unregister()
     anim_baker.unregister()
+    vertex_anim_baker.unregister()
     camera_target_copier.unregister()
 
     weights_copy.unregister()

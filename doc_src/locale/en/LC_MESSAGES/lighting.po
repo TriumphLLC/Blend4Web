@@ -13,11 +13,11 @@ msgstr ""
 
 #: ../lighting.rst:7
 msgid "Освещение и тени"
-msgstr "Lighting and shadows"
+msgstr "Lighting and Shadows"
 
 #: ../lighting.rst:12
 msgid "Освещение от источников света"
-msgstr "Lighting with light sources"
+msgstr "Lighting with Light Sources"
 
 #: ../lighting.rst:14
 msgid ""
@@ -192,7 +192,7 @@ msgstr ""
 
 #: ../lighting.rst:76
 msgid "Освещение от окружающей среды"
-msgstr "Ambient lighting"
+msgstr "Ambient Lighting"
 
 #: ../lighting.rst:78
 msgid ""

@@ -11,7 +11,6 @@ import time
 import cProfile
 
 import blend4web
-from .unpacker import Unpacker
 
 from .b4w_bin_suffix import get_platform_suffix
 libname = "b4w_bin" + get_platform_suffix()
@@ -45,12 +44,13 @@ _bpy_bindata_int = bytearray();
 _bpy_bindata_float = bytearray();
 
 _export_data = None
+_main_json_str = ""
+
 _export_uuid_cache = None
 _bpy_uuid_cache = None
 _curr_scene = None
 
 _overrided_meshes = []
-_unpacker = None
 
 _is_html_export = False
 
@@ -63,6 +63,8 @@ _scene_active_layers = {}
 _b4w_export_warnings = []
 
 _vehicle_integrity = {}
+
+_packed_files_data = {}
 
 # temp property will exist to the end of session
 # and will not be saved to blend file
@@ -180,12 +182,6 @@ def get_filepath_blend(export_filepath):
         return guard_slashes(os.path.normpath(blend_rel))
     else:
         return ""
-
-def get_unpacked_img_paths():
-    paths = []
-    if _unpacker is not None:
-        paths = _unpacker.get_unpacked_img_paths()
-    return paths
 
 # some data components are not needed for the engine
 # so assign "b4w_do_not_export" flags to them
@@ -349,6 +345,34 @@ def get_scene_lib_path(scene):
     else:
         return ""
 
+def packed_resource_get_unique_name(resource):
+    unique_rsrc_id = resource.name + resource.filepath
+    if resource.library:
+        unique_rsrc_id += resource.library.filepath
+    # fix overwriting collision for export/html export
+    if _is_html_export:
+        unique_rsrc_id += "%html_export%"
+
+    ext = os.path.splitext(resource.filepath)[1]
+    unique_name = hashlib.md5(unique_rsrc_id.encode()).hexdigest() + ext
+
+    if bpy.data.filepath and _export_filepath is not None:
+        export_dir = os.path.split(_export_filepath)[0]
+        result_name = os.path.join(export_dir, unique_name)
+    else:
+        result_name = os.path.join(os.getcwd(), unique_name)
+
+    return result_name
+
+def get_main_json_data():
+    return _main_json_str
+
+def get_binaries_data():
+    return _bpy_bindata_int + _bpy_bindata_float
+
+def get_packed_data():
+    return _packed_files_data
+
 def process_components(tags):
     for tag in tags:
         _export_data[tag] = []
@@ -479,6 +503,7 @@ def process_scene(scene):
     scene_data["uuid"] = gen_uuid(scene)
 
     scene_data["b4w_use_nla"] = scene.b4w_use_nla
+    scene_data["b4w_nla_cyclic"] = scene.b4w_nla_cyclic
     scene_data["b4w_enable_audio"] = scene.b4w_enable_audio
     scene_data["b4w_enable_dynamic_compressor"] \
             = scene.b4w_enable_dynamic_compressor
@@ -665,6 +690,8 @@ def process_object(obj):
     obj_data["b4w_lod_distance"] = round_num(obj.b4w_lod_distance, 2)
     obj_data["b4w_lods_num"] = round_num(len(obj.b4w_lods), 1)
 
+    obj_data["b4w_proxy_inherit_anim"] = obj.b4w_proxy_inherit_anim
+
     obj_data["b4w_group_relative"] = obj.b4w_group_relative
 
     obj_data["b4w_selectable"] = obj.b4w_selectable
@@ -747,8 +774,8 @@ def process_object(obj):
     loc = obj.location
     obj_data["location"] = round_iterable([loc[0], loc[2], -loc[1]], 5)
 
-    rot = obj.rotation_euler
-    obj_data["rotation_euler"] = round_iterable([rot[0], rot[2], -rot[1]], 5)
+    rot = get_rotation_quat(obj)
+    obj_data["rotation_quaternion"] = round_iterable([rot[0], rot[1], rot[3], -rot[2]], 5)
 
     sca = obj.scale
     obj_data["scale"] = round_iterable([sca[0], sca[2], sca[1]], 5)
@@ -757,6 +784,16 @@ def process_object(obj):
     _export_uuid_cache[obj_data["uuid"]] = obj_data
     _bpy_uuid_cache[obj_data["uuid"]] = obj
     check_object_data(obj_data, obj)
+
+def get_rotation_quat(obj):
+    if obj.rotation_mode == "AXIS_ANGLE":
+        angle = obj.rotation_axis_angle[0]
+        axis = obj.rotation_axis_angle[1:4]
+        return mathutils.Quaternion(axis, angle)
+    elif obj.rotation_mode == "QUATERNION":
+        return obj.rotation_quaternion
+    else:
+        return obj.rotation_euler.to_quaternion()
 
 def store_vehicle_integrity(obj):
     if obj.b4w_vehicle:
@@ -905,6 +942,10 @@ def process_object_nla(nla_tracks_data, nla_tracks):
             strip_data["frame_end"] = round_num(strip.frame_end, 3)
             strip_data["use_animated_time_cyclic"] \
                     = strip.use_animated_time_cyclic
+            if strip.action and do_export(strip.action):
+                strip_data["action"] = gen_uuid_obj(strip.action)
+            else:
+                strip_data["action"] = None
 
             track_data["strips"].append(strip_data)
 
@@ -1310,9 +1351,12 @@ def process_image(image):
     image_data["name"] = image.name
     image_data["uuid"] = gen_uuid(image)
 
-    if image.packed_file is not None and _unpacker is not None:
-        image_data["filepath"] = get_json_relative_filepath(\
-                _unpacker.unpack_image(image))
+    if image.packed_file is not None:
+        packed_data = b4w_bin.get_packed_data(image.packed_file.as_pointer())
+        packed_file_path = get_json_relative_filepath(
+                packed_resource_get_unique_name(image))
+        _packed_files_data[packed_file_path] = packed_data
+        image_data["filepath"] = packed_file_path
     else:
         image_data["filepath"] = get_filepath(image)
 
@@ -1914,7 +1958,15 @@ def process_sound(sound):
     sound_data = OrderedDict()
     sound_data["name"] = sound.name
     sound_data["uuid"] = gen_uuid(sound)
-    sound_data["filepath"] = get_filepath(sound)
+
+    if sound.packed_file is not None:
+        packed_data = b4w_bin.get_packed_data(sound.packed_file.as_pointer())
+        packed_file_path = get_json_relative_filepath(
+                packed_resource_get_unique_name(sound))
+        _packed_files_data[packed_file_path] = packed_data
+        sound_data["filepath"] = packed_file_path
+    else:
+        sound_data["filepath"] = get_filepath(sound)
 
     _export_data["sounds"].append(sound_data)
     _export_uuid_cache[sound_data["uuid"]] = sound_data
@@ -2195,18 +2247,18 @@ def matrix4x4_to_list(m):
     return result            
             
 def process_animation_data(obj_data, component):
-    # may have link to action
     adata = component.animation_data
+    if adata:
+        dct = obj_data["animation_data"] = OrderedDict()
 
-    if adata and (not adata.action) and adata.nla_tracks:
-        dct = obj_data["animation_data"] = OrderedDict()
+        if adata.action and do_export(adata.action):
+            dct["action"] = gen_uuid_obj(adata.action)
+        else:
+            dct["action"] = None
+
         dct["nla_tracks"] = []
-        process_object_nla(dct["nla_tracks"], adata.nla_tracks)
-    # action
-    elif adata and adata.action and do_export(adata.action) and not adata.nla_tracks:
-        dct = obj_data["animation_data"] = OrderedDict()
-        # NOTE: actions processed independently
-        dct["action"] = gen_uuid_obj(adata.action)
+        if adata.nla_tracks:
+            process_object_nla(dct["nla_tracks"], adata.nla_tracks)
     else:
         obj_data["animation_data"] = None
 
@@ -2717,6 +2769,7 @@ class B4W_ExportProcessor(bpy.types.Operator):
             global _export_error
             _export_error = error
             bpy.ops.b4w.export_error_dialog('INVOKE_DEFAULT')
+            return {'CANCELLED'}
 
         return {"FINISHED"}
 
@@ -2753,6 +2806,9 @@ class B4W_ExportProcessor(bpy.types.Operator):
         global _export_data
         _export_data = OrderedDict()
 
+        global _main_json_str
+        _main_json_str = ""
+
         global _curr_scene
         _curr_scene = None
 
@@ -2765,9 +2821,6 @@ class B4W_ExportProcessor(bpy.types.Operator):
         global _overrided_meshes
         _overrided_meshes = []
 
-        global _unpacker
-        _unpacker = Unpacker(export_filepath, self.is_html_export)
-
         global _is_html_export
         _is_html_export = self.is_html_export
 
@@ -2776,6 +2829,11 @@ class B4W_ExportProcessor(bpy.types.Operator):
 
         global _vehicle_integrity
         _vehicle_integrity = {}
+
+        global _packed_files_data
+        _packed_files_data = {}
+
+        global _file_write_error
 
         # escape from edit mode
         if bpy.context.mode == "EDIT_MESH":
@@ -2817,9 +2875,9 @@ class B4W_ExportProcessor(bpy.types.Operator):
         _export_data["binaries"] = []
         binary_data = OrderedDict()
         if len(_bpy_bindata_int) + len(_bpy_bindata_float):
-            base,ext = os.path.splitext(os.path.basename(export_filepath))
+            base = os.path.splitext(os.path.basename(export_filepath))[0]
             binary_load_path = base + '.bin'
-            base,ext = os.path.splitext(export_filepath)
+            base = os.path.splitext(export_filepath)[0]
             binary_export_path = base + '.bin'
             binary_data["binfile"] = binary_load_path
         else:
@@ -2833,34 +2891,47 @@ class B4W_ExportProcessor(bpy.types.Operator):
 
         # NOTE: much faster than dumping immediately to file (json.dump())
         if JSON_PRETTY_PRINT:
-            res_string = json.dumps(_export_data, indent=2, separators=(',', ': '))
+            _main_json_str = json.dumps(_export_data, indent=2, separators=(',', ': '))
         else:
-            res_string = json.dumps(_export_data)
+            _main_json_str = json.dumps(_export_data)
 
-        try:
-            f  = open(export_filepath, "w")
+        if not _is_html_export:
+            # write packed files (images, sounds) for non-html export
+            for path in _packed_files_data:
+                abs_path = os.path.join(os.path.dirname(export_filepath), path)
+                try:
+                    f = open(abs_path, "wb")
+                except IOError as exp:
+                    _file_write_error = exp
+                    bpy.ops.b4w.file_write_error_dialog('INVOKE_DEFAULT')
+                else:
+                    f.write(_packed_files_data[path])
+                    f.close()
 
-            if binary_export_path is not None:
-                fb = open(binary_export_path, "wb")
-        except IOError as exp:
-            global _file_write_error
-            _file_write_error = exp
-            bpy.ops.b4w.file_write_error_dialog('INVOKE_DEFAULT')
-        else:
-            f.write(res_string)
-            f.close()
-            if self.save_export_path:
-                set_default_path(export_filepath)
+            # write main binary and json files
+            try:
+                f  = open(export_filepath, "w")
+                if binary_export_path is not None:
+                    fb = open(binary_export_path, "wb")
+            except IOError as exp:
+                _file_write_error = exp
+                bpy.ops.b4w.file_write_error_dialog('INVOKE_DEFAULT')
+            else:
+                f.write(_main_json_str)
+                f.close()
+                if self.save_export_path:
+                    set_default_path(export_filepath)
 
-            print("Scene saved to " + export_filepath)
+                print("Scene saved to " + export_filepath)
 
-            if binary_export_path is not None:
-                fb.write(_bpy_bindata_int)
-                fb.write(_bpy_bindata_float)
-                fb.close()
-                print("Binary data saved to " + binary_export_path)
+                if binary_export_path is not None:
+                    fb.write(_bpy_bindata_int)
+                    fb.write(_bpy_bindata_float)
+                    fb.close()
+                    print("Binary data saved to " + binary_export_path)
 
-            print("EXPORT OK")
+                print("EXPORT OK")
+
 
         if self.do_autosave:
             filepath = bpy.data.filepath
@@ -3120,8 +3191,6 @@ def clean_exported_data():
     if bpy.data.particles:
         scenes_restore_selected_layers()
     remove_overrided_meshes()
-    if _unpacker is not None:
-        _unpacker.clean()
 
 class B4W_ExportPathGetter(bpy.types.Operator):
     """Get Export Path for blend file"""

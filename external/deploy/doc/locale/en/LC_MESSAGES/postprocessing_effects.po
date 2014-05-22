@@ -13,11 +13,11 @@ msgstr ""
 
 #: ../postprocessing_effects.rst:5
 msgid "Постпроцессинговые эффекты"
-msgstr "Postprocessing effects"
+msgstr "Postprocessing Effects"
 
 #: ../postprocessing_effects.rst:12
 msgid "Размытие при движении"
-msgstr "Motion blur"
+msgstr "Motion Blur"
 
 #: ../postprocessing_effects.rst:14
 msgid ""
@@ -79,7 +79,7 @@ msgstr ""
 
 #: ../postprocessing_effects.rst:44
 msgid "Глубина резкости камеры"
-msgstr "Depth of field"
+msgstr "Depth of Field"
 
 #: ../postprocessing_effects.rst:46
 msgid ""
@@ -159,7 +159,7 @@ msgstr "Blurring ratio. The default value is 3.0."
 
 #: ../postprocessing_effects.rst:84
 msgid "Взаимное затенение"
-msgstr "Screen-space ambient occlusion"
+msgstr "Screen-Space Ambient Occlusion"
 
 #: ../postprocessing_effects.rst:86
 msgid ""
@@ -277,7 +277,7 @@ msgstr ""
 
 #: ../postprocessing_effects.rst:135
 msgid "Сумеречные лучи"
-msgstr "God rays"
+msgstr "God Rays"
 
 #: ../postprocessing_effects.rst:137
 msgid ""
@@ -314,7 +314,7 @@ msgstr ""
 
 #: ../postprocessing_effects.rst:243
 msgid "Анаглиф стереоизображение"
-msgstr "Stereoscopic rendering (anaglyph)"
+msgstr "Stereoscopic Rendering (Anaglyph)"
 
 #: ../postprocessing_effects.rst:248
 msgid ""
@@ -330,7 +330,7 @@ msgstr "No."
 
 #: ../postprocessing_effects.rst:269
 msgid "Коррекция цвета"
-msgstr "Color correction"
+msgstr "Color Correction"
 
 #: ../postprocessing_effects.rst:274
 msgid ""
@@ -377,7 +377,7 @@ msgstr "The default value is 1.0."
 
 #: ../postprocessing_effects.rst:306
 msgid "Сглаживание"
-msgstr "Anti-aliasing"
+msgstr "Anti-Aliasing"
 
 #: ../postprocessing_effects.rst:308
 msgid ""

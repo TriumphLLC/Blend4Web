@@ -98,9 +98,9 @@ function create_loading_graph(stages, wait_complete_loading,
     // add finishing node
     var loaded_cb_wrapper = function(bpy_data, scheduler, stage, cb_param,
             cb_finish, cb_set_rate) {
-        cb_finish(scheduler, stage);
         scheduler.is_loaded = true;
         loaded_cb(bpy_data);
+        cb_finish(scheduler, stage);
         m_print.log("%cLOADED CALLBACK", DEBUG_COLOR);
     }
     var finish_node = init_stage({
@@ -388,7 +388,7 @@ function stage_loading_action(scheduler, stage, rate) {
         stage.load_rate = rate;
         var percents = get_load_percents(scheduler);
 
-        if (scheduler.curr_percents != percents) {
+        if (scheduler.curr_percents != percents || rate == 1) {
             scheduler.stageload_cb(percents, performance.now() - scheduler.time_load_start);
             scheduler.curr_percents = percents;
 

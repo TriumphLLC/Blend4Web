@@ -13,6 +13,9 @@ b4w.module["__print"] = function(exports, require) {
 
 var _verbose = false;
 
+var _error_count = 0;
+var _warning_count = 0;
+
 /**
  * Set verbose flag for console output.
  */
@@ -26,12 +29,15 @@ exports.log = function() {
 }
 
 exports.error = function() {
+    _error_count++;
     console.error.apply(console, arguments);
 }
 
 exports.warn = function() {
-    if (_verbose)
+    if (_verbose) {
+        _warning_count++;
         console.warn.apply(console, arguments);
+    }
 }
 
 exports.time = function() {
@@ -62,6 +68,19 @@ exports.groupEnd = function() {
 exports.clear = function() {
     if (typeof console.clear == "function")
         console.clear.apply(console, arguments);
+}
+
+exports.get_warning_count = function() {
+    return _warning_count;
+}
+
+exports.get_error_count = function() {
+    return _error_count;
+}
+
+exports.clear_errors_warnings = function() {
+    _warning_count = 0;
+    _error_count = 0;
 }
 
 }

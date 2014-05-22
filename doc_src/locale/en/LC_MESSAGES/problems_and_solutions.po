@@ -13,15 +13,15 @@ msgstr ""
 
 #: ../problems_and_solutions.rst:5
 msgid "Проблемы и решения"
-msgstr "Problems and solutions"
+msgstr "Problems and Solutions"
 
 #: ../problems_and_solutions.rst:12
 msgid "Проблемы при запуске рендерера"
-msgstr "Problems when running the renderer"
+msgstr "Problems when Running the Renderer"
 
 #: ../problems_and_solutions.rst:14
 msgid "*1. Появляется сообщение \"Browser could not initialize WebGL.\"*"
-msgstr "*1. The \"Browser could not initialize WebGL.\" message is shown*"
+msgstr "*1. The \"Browser could not initialize WebGL\" message is shown*."
 
 #: ../problems_and_solutions.rst:16
 msgid ""
@@ -49,7 +49,7 @@ msgid ""
 "Браузер не настроен для работы с локальными ресурсами. См. раздел "
 ":ref:`browser_for_local_loading`."
 msgstr ""
-"A browser is not set up for loading local resources. See the "
+"The browser is not set up for loading local resources. See the "
 ":ref:`browser_for_local_loading` section."
 
 #: ../problems_and_solutions.rst:24
@@ -65,13 +65,13 @@ msgid ""
 "обеспечивающая полную поддержку WebGL (примеры: Internet Explorer 11 / "
 "Windows, открытые драйверы / Linux)."
 msgstr ""
-"A combination of browser/drivers/operating system is used which does not "
+"You are using a combination of browser/drivers/operating system which does not "
 "fully support WebGL (examples are: Internet Explorer 11 / MS Windows, open "
 "source drivers / Linux)."
 
 #: ../problems_and_solutions.rst:32
 msgid "Ошибка инициализации WebGL"
-msgstr "WebGL failed to init"
+msgstr "WebGL Failed to Init"
 
 #: ../problems_and_solutions.rst:34
 msgid ""
@@ -122,7 +122,7 @@ msgstr ""
 "`Intel <http://downloadcenter.intel.com/Default.aspx>`_, `Nvidia "
 "<http://www.nvidia.com/Download/index.aspx>`_, `AMD/ATI "
 "<http://support.amd.com/en-us/download>`_). Reboot the system after "
-"installation of the drivers. "
+"the drivers are installed."
 
 #: ../problems_and_solutions.rst:63
 msgid ""
@@ -131,7 +131,7 @@ msgid ""
 "настройки браузера."
 msgstr ""
 "If the measures described above did not help to initialize rendering (or "
-"there is no possibility to update a system) try to change browser settings."
+"there is no possibility to update the system) try to change the browser settings."
 
 #: ../problems_and_solutions.rst:65
 msgid "*В Chrome*:"
@@ -144,7 +144,7 @@ msgid ""
 "списка программного рендеринга` (:file:`Override software rendering list`) и"
 " перезапустить браузер."
 msgstr ""
-"Enter **about:flags** (or **chrome://flags/**) to the browser's address bar,"
+"Enter **about:flags** (or **chrome://flags/**) into the browser's address bar,"
 " click :file:`Enable` under the :file:`Override software rendering list` "
 "option and restart the browser."
 
@@ -158,7 +158,7 @@ msgid ""
 ".force-enabled`` и переключить его двойным щелчком мыши из ``false`` в "
 "``true``."
 msgstr ""
-"Enter **about:config** to the browser's address bar, search for ``webgl"
+"Enter **about:config** into the browser's address bar, search for the ``webgl"
 ".force-enabled`` parameter and double-click on it to switch from ``false`` "
 "to ``true``."
 
@@ -179,7 +179,7 @@ msgstr "or::"
 
 #: ../problems_and_solutions.rst:98
 msgid "Использование локального web-сервера"
-msgstr "Using a local web server"
+msgstr "Using a Local Web Server"
 
 #: ../problems_and_solutions.rst:100
 msgid ""
@@ -193,7 +193,7 @@ msgstr ""
 
 #: ../problems_and_solutions.rst:102
 msgid "*На Windows*:"
-msgstr "*On MS Windows*:"
+msgstr "*Under MS Windows*:"
 
 #: ../problems_and_solutions.rst:104
 msgid ""
@@ -203,7 +203,7 @@ msgid ""
 "диске :file:`C`."
 msgstr ""
 "Download and install the latest Python distribution from the `official site "
-"<http://www.python.org/download/releases/>`_. Current version is 3.4 and by "
+"<http://www.python.org/download/releases/>`_. The current version is 3.4 and by "
 "default it will be installed to the :file:`Python34` directory on the "
 ":file:`C` drive."
 
@@ -220,12 +220,12 @@ msgid ""
 "Перейти на страницу http://localhost:8000, на которой выбрать нужный файл "
 "для отображения."
 msgstr ""
-"Open the http://localhost:8000 page on which select the needed file for "
+"Open the http://localhost:8000 page and select the required file for "
 "displaying. "
 
 #: ../problems_and_solutions.rst:115
 msgid "*На Linux*::"
-msgstr "*On Linux*::"
+msgstr "*Under Linux*::"
 
 #: ../problems_and_solutions.rst:125
 msgid "Можно указать порт дополнительным параметром::"

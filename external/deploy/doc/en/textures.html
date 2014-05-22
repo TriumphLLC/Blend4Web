@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Textures &mdash; User manual: Blend4Web v14.04.22</title>
+    <title>Textures &mdash; User Manual: Blend4Web v14.05.22</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.04.22',
+        VERSION:     '14.05.22',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User manual: Blend4Web v14.04.22" href="index.html" />
+    <link rel="top" title="User Manual: Blend4Web v14.05.22" href="index.html" />
     <link rel="next" title="Materials" href="materials.html" />
     <link rel="prev" title="Objects" href="objects.html" /> 
   </head>
@@ -36,7 +36,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">User manual: Blend4Web v14.04.22</a></div>
+          href="index.html">User Manual: Blend4Web v14.05.22</a></div>
         <div class="rel">
           <a href="objects.html" title="Objects"
              accesskey="P">previous</a> |
@@ -59,7 +59,7 @@
   <span class="target" id="textures"></span><div class="section" id="index-0">
 <span id="id1"></span><h1>Textures<a class="headerlink" href="#index-0" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="index-1">
-<span id="id2"></span><h2>Texture types<a class="headerlink" href="#index-1" title="Permalink to this headline">¶</a></h2>
+<span id="id2"></span><h2>Texture Types<a class="headerlink" href="#index-1" title="Permalink to this headline">¶</a></h2>
 <p>The <tt class="docutils literal"><span class="pre">Type</span></tt> drop-down menu (for selecting texture type) is located under the <tt class="docutils literal"><span class="pre">Textures</span></tt> tab. The engine supports the following texture types:</p>
 <ol class="arabic">
 <li><dl class="first docutils">
@@ -156,7 +156,7 @@
 </dl>
 </div>
 <div class="section" id="diffuse-map">
-<span id="index-4"></span><h2>Diffuse map<a class="headerlink" href="#diffuse-map" title="Permalink to this headline">¶</a></h2>
+<span id="index-4"></span><h2>Diffuse Map<a class="headerlink" href="#diffuse-map" title="Permalink to this headline">¶</a></h2>
 <p>A diffuse map is used for specifying scattered light distribution (the Lambert model).</p>
 <div class="section" id="id4">
 <h3>Activation<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
@@ -175,7 +175,7 @@
 </div>
 </div>
 <div class="section" id="specular-map">
-<span id="index-5"></span><h2>Specular map<a class="headerlink" href="#specular-map" title="Permalink to this headline">¶</a></h2>
+<span id="index-5"></span><h2>Specular Map<a class="headerlink" href="#specular-map" title="Permalink to this headline">¶</a></h2>
 <p>The specular map is used for specifying the reflected light color distribution (the Phong model).</p>
 <div class="section" id="id6">
 <h3>Activation<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
@@ -195,7 +195,7 @@
 </div>
 </div>
 <div class="section" id="normal-map">
-<span id="index-6"></span><h2>Normal map<a class="headerlink" href="#normal-map" title="Permalink to this headline">¶</a></h2>
+<span id="index-6"></span><h2>Normal Map<a class="headerlink" href="#normal-map" title="Permalink to this headline">¶</a></h2>
 <p>A normal map is used for specifying the distribution of surface normals (perpendiculars) with the purpose of the relief detalization. The information about the normals should be stored in the texture space of coordinates. Normal maps baked in the object space of coordinates are not supported.</p>
 <div class="section" id="id8">
 <h3>Activation<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
@@ -211,7 +211,7 @@
 </div>
 </div>
 <div class="section" id="height-map-parallax-mapping">
-<span id="index-7"></span><h2>Height map. Parallax mapping<a class="headerlink" href="#height-map-parallax-mapping" title="Permalink to this headline">¶</a></h2>
+<span id="index-7"></span><h2>Height Map. Parallax Mapping<a class="headerlink" href="#height-map-parallax-mapping" title="Permalink to this headline">¶</a></h2>
 <p>A height map contains information about the distribution of relative relief heights. The higher the surface level is, the brighter is its color. A height map combined with a normal map is required for the implementation of relief surface effect (parallax mapping). A height map should be present in the alpha channel of a normal map.</p>
 <div class="section" id="id10">
 <h3>Activation<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
@@ -234,7 +234,7 @@
 </div>
 </div>
 <div class="section" id="alpha-map">
-<span id="texture-alpha-map"></span><span id="index-8"></span><h2>Alpha map<a class="headerlink" href="#alpha-map" title="Permalink to this headline">¶</a></h2>
+<span id="texture-alpha-map"></span><span id="index-8"></span><h2>Alpha Map<a class="headerlink" href="#alpha-map" title="Permalink to this headline">¶</a></h2>
 <p>The separate alpha map is used only for low quality water rendering. In a generic material it can be present in the alpha channel of a diffuse texture.</p>
 <div class="section" id="id12">
 <h3>Activation<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
@@ -257,7 +257,7 @@
 </div>
 </div>
 <div class="section" id="stencil-map">
-<span id="index-9"></span><h2>Stencil map<a class="headerlink" href="#stencil-map" title="Permalink to this headline">¶</a></h2>
+<span id="index-9"></span><h2>Stencil Map<a class="headerlink" href="#stencil-map" title="Permalink to this headline">¶</a></h2>
 <p>The special purpose texture (colorful or grayscale) contains information about the distribution of other texture surfaces.</p>
 <div class="section" id="id14">
 <h3>Activation<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
@@ -290,7 +290,7 @@
 </div>
 </div>
 <div class="section" id="environment-map">
-<span id="index-10"></span><h2>Environment map<a class="headerlink" href="#environment-map" title="Permalink to this headline">¶</a></h2>
+<span id="index-10"></span><h2>Environment Map<a class="headerlink" href="#environment-map" title="Permalink to this headline">¶</a></h2>
 <p>An environment map is used as a mirror map and as a static sky texture (skydome).</p>
 <p>The engine considers it as a cube texture. Environment map bitmaps should contain 6 projected environment images, packed in 2 rows 3 pieces in each (a Blender format). Bitmap dimensions for each image should follow the 2<sup>N</sup> rule (512, 1024 etc).</p>
 <p>It is recommended to use the lossless format (PNG) in order to avoid seams.</p>
@@ -320,7 +320,7 @@
 </div>
 </div>
 <div class="section" id="mirror-map">
-<span id="index-11"></span><span id="id19"></span><h2>Mirror map<a class="headerlink" href="#mirror-map" title="Permalink to this headline">¶</a></h2>
+<span id="index-11"></span><span id="id19"></span><h2>Mirror Map<a class="headerlink" href="#mirror-map" title="Permalink to this headline">¶</a></h2>
 <p>A mirror map is used to visualize the surface reflection. This is an environment map.</p>
 <div class="section" id="id20">
 <h3>Activation<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h3>
@@ -356,7 +356,7 @@
 <span class="target" id="render-to-texture"></span></div>
 </div>
 <div class="section" id="render-to-texture-rtt">
-<span id="index-13"></span><h2>Render-to-texture, RTT<a class="headerlink" href="#render-to-texture-rtt" title="Permalink to this headline">¶</a></h2>
+<span id="index-13"></span><h2>Render-to-Texture, RTT<a class="headerlink" href="#render-to-texture-rtt" title="Permalink to this headline">¶</a></h2>
 <p>A 3D scene&#8217;s real-time rendered image can be used as a texture by an object from another scene (&#8220;main&#8221; scene).</p>
 <div class="section" id="id24">
 <h3>Activation<a class="headerlink" href="#id24" title="Permalink to this headline">¶</a></h3>
@@ -392,38 +392,36 @@
 <li class="toctree-l1"><a class="reference internal" href="addon.html">The Addon</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Textures</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#index-1">Texture types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#index-1">Texture Types</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#index-2">Generic Settings</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#diffuse-map">Diffuse map</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#specular-map">Specular map</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#normal-map">Normal map</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#height-map-parallax-mapping">Height map. Parallax mapping</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#alpha-map">Alpha map</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#stencil-map">Stencil map</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#environment-map">Environment map</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#mirror-map">Mirror map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#diffuse-map">Diffuse Map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#specular-map">Specular Map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#normal-map">Normal Map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#height-map-parallax-mapping">Height Map. Parallax Mapping</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#alpha-map">Alpha Map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#stencil-map">Stencil Map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#environment-map">Environment Map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mirror-map">Mirror Map</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#skydome">Skydome</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#render-to-texture-rtt">Render-to-texture, RTT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#render-to-texture-rtt">Render-to-Texture, RTT</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
-<li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node materials</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting and shadows</a></li>
-<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing effects</a></li>
-<li class="toctree-l1"><a class="reference internal" href="particles.html">Particle system</a></li>
-<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle system for object instancing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting and Shadows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing Effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System for Instancing Objects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="animation.html">Animation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Rendering</a></li>
-<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Gamma-correction and transparency</a></li>
-<li class="toctree-l1"><a class="reference internal" href="audio.html">Звуковая подсистема</a></li>
-<li class="toctree-l1"><a class="reference internal" href="event_model.html">Событийная модель</a></li>
-<li class="toctree-l1"><a class="reference internal" href="physics.html">Физика</a></li>
-<li class="toctree-l1"><a class="reference internal" href="nla.html">Нелинейная анимация</a></li>
-<li class="toctree-l1"><a class="reference internal" href="developers.html">For application developers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">Разработчикам движка</a></li>
-<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Краткая справка по git</a></li>
-<li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Problems and solutions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="roadmap.html">План развития</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Gamma Correction and Alpha Compositing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audio.html">Audio System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nla.html">Non-Linear Animation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers.html">For Application Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">For Engine Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Team Work. Using Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Problems and Solutions</a></li>
 </ul>
 
           <h3 style="margin-top: 1.5em;">Search</h3>
@@ -456,7 +454,7 @@
           
     <div class="footer">
         &copy; Copyright 2014, Triumph LLC.
-      Last updated on 2014-04-23.
+      Last updated on 2014-05-21.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

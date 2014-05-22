@@ -23,9 +23,14 @@ var ENABLE_DRAG  = true;
 var DISABLE_DRAG = false;
 
 /**
- * @const module:app.ENABLE_DRAG
+ * @const module:pointerlock.ENABLE_DRAG
  */
 exports.ENABLE_DRAG = ENABLE_DRAG;
+
+/**
+ * @const module:pointerlock.DISABLE_DRAG
+ */
+exports.DISABLE_DRAG = DISABLE_DRAG;
 
 // mouse drag control
 var _mouse_x;
@@ -33,6 +38,9 @@ var _mouse_y;
 
 var _mouse_delta = new Float32Array(2);
 
+/**
+ * @callback check_mouse_control
+ */
 var _check_mouse_control;
 
 // for internal usage
@@ -42,7 +50,7 @@ exports.request_pointerlock = request_pointerlock;
 /**
  * Request pointer lock mode.
  * Security issues: execute by user event.
- * @methodOf pointerlock
+ * @method module:pointerlock.request_pointerlock
  * @param elem Element
  * @param [enabled_cb] Enabled callback
  * @param [disabled_cb] Disabled callback
@@ -116,7 +124,7 @@ function request_pointerlock(elem, enabled_cb, disabled_cb, mouse_move_cb, check
 exports.exit_pointerlock = exit_pointerlock;
 /**
  * Exit pointerlock.
- * @methodOf pointerlock
+ * @method module:pointerlock.exit_pointerlock
  */
 function exit_pointerlock() {
 
@@ -132,10 +140,11 @@ function exit_pointerlock() {
 exports.request_mouse_drag = request_mouse_drag;
 /**
  * Request drug mode.
- * @methodOf pointerlock
  * @param elem Element
- * @param {Boolean} switch_drag Drag mouse mode
- * @param [check_mouse_control] Check mouse control
+ * @param switch_drag Drag mouse mode (ENABLE_DRAG or DISABLE_DRAG)
+ * @param {check_mouse_control} [check_mouse_control] Check mouse control
+ * callback
+ * @method module:pointerlock.requrest_mouse_drag
  */
 function request_mouse_drag(elem, switch_drag, check_mouse_control) {
 
@@ -185,9 +194,10 @@ function default_mouse_up_cb(e) {
     document.body.removeEventListener("mousemove", mouse_move_cb, false);
 }
 
-function smooth_cb(obj, id, value, pulse) {
+function smooth_cb(obj, id, pulse) {
 
     if (Math.abs(_mouse_delta[0]) > 0.01 || Math.abs(_mouse_delta[1]) > 0.01) {
+        var value = m_ctl.get_sensor_value(obj, id, 0);
         var rot_x = m_util.smooth(_mouse_delta[0], 0, value, CAM_SMOOTH_CHARACTER_MOUSE);
         var rot_y = m_util.smooth(_mouse_delta[1], 0, value, CAM_SMOOTH_CHARACTER_MOUSE);
 

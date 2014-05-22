@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <title>JSDoc: Module: transform</title>
-    
+
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
     <!--[if lt IE 9]>
@@ -16,95 +16,95 @@
 <body>
 
 <div id="main">
-    
+
     <h1 class="page-title">Module: transform</h1>
-    
+
     
 
 
 
 <section>
-    
+
 <header>
     <h2>
     transform
     </h2>
     
-</header>  
+</header>
 
 <article>
     <div class="container-overview">
     
-    
+
     
         
             <div class="description">Object transformation API.
 Make sure of non-batched nature of utilized objects.</div>
         
-        
+
         
 <dl class="details">
     
-        
-    
-    
+
     
 
     
+
     
+
     
+
     
+
     
+
     
+
     
-    
-    
-    
-    
-    
+
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
         <a href="transform.js.html">ext/transform.js</a>, <a href="transform.js.html#line3">line 3</a>
     </li></ul></dd>
     
+
     
+
     
-    
-    
-    
+
     
 </dl>
 
-        
+
         
     
     </div>
+
     
+
     
+
     
+
     
+
     
+
     
-    
-    
-    
-    
-    
-    
-    
+
     
         <h3 class="subsection-title">Methods</h3>
-        
+
         <dl>
             
 <dt>
     <h4 class="name" id="empty_reset_transform"><span class="type-signature">&lt;static> </span>empty_reset_transform<span class="signature">(obj)</span><span class="type-signature"></span></h4>
-    
+
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         Reset empty transform to allow child objects behave in absolute world space.
@@ -113,99 +113,101 @@ Only valid for relative objects
     
 
     
+
     
-    
-    
+
     
         <h5>Parameters:</h5>
         
 
 <table class="params">
     <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-		
-		<th>Type</th>
-		
-		
-		
-		
-		
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-	
-	<tbody>
-	
-	
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
         <tr>
             
                 <td class="name"><code>obj</code></td>
             
-            
+
             <td class="type">
             
             </td>
+
             
+
             
-            
-            
-            
+
             <td class="description last">Object ID</td>
         </tr>
-	
-	
-	</tbody>
+
+    
+    </tbody>
 </table>
-    
-    
-    
-<dl class="details">
-    
-        
-    
-    
     
 
     
+<dl class="details">
     
+
     
+
     
+
     
+
     
+
     
+
     
+
     
+
     
-    
-    
+
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
         <a href="transform.js.html">ext/transform.js</a>, <a href="transform.js.html#line197">line 197</a>
     </li></ul></dd>
     
+
     
+
     
-    
-    
-    
+
     
 </dl>
 
+
     
+
     
 
     
 
     
+
     
+
     
-    
-    
-    
+
     
 </dd>
 
@@ -213,11 +215,11 @@ Only valid for relative objects
             
 <dt>
     <h4 class="name" id="get_object_center"><span class="type-signature">&lt;static> </span>get_object_center<span class="signature">(obj, calc_bs_center, <span class="optional">dest</span>)</span><span class="type-signature"></span></h4>
-    
+
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         Get object center in world space.
@@ -226,163 +228,165 @@ Works for batched objects too.
     
 
     
+
     
-    
-    
+
     
         <h5>Parameters:</h5>
         
 
 <table class="params">
     <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-		
-		<th>Type</th>
-		
-		
-		<th>Argument</th>
-		
-		
-		
-		
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-	
-	<tbody>
-	
-	
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Argument</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
         <tr>
             
                 <td class="name"><code>obj</code></td>
             
-            
+
             <td class="type">
             
             </td>
-            
+
             
                 <td class="attributes">
                 
-                    
+
                 
-                    
+
                 
                 </td>
             
+
             
-            
-            
+
             <td class="description last">Object ID</td>
         </tr>
-	
-	
-	
+
+    
+
         <tr>
             
                 <td class="name"><code>calc_bs_center</code></td>
             
-            
+
             <td class="type">
             
             </td>
-            
+
             
                 <td class="attributes">
                 
-                    
+
                 
-                    
+
                 
                 </td>
             
+
             
-            
-            
+
             <td class="description last">Boolean</td>
         </tr>
-	
-	
-	
+
+    
+
         <tr>
             
                 <td class="name"><code>dest</code></td>
             
-            
+
             <td class="type">
             
             </td>
-            
+
             
                 <td class="attributes">
                 
                     &lt;optional><br>
                 
-                    
+
                 
-                    
+
                 
                 </td>
             
+
             
-            
-            
+
             <td class="description last">Destination vector</td>
         </tr>
-	
-	
-	</tbody>
+
+    
+    </tbody>
 </table>
-    
-    
-    
-<dl class="details">
-    
-        
-    
-    
     
 
     
+<dl class="details">
     
+
     
+
     
+
     
+
     
+
     
+
     
+
     
+
     
-    
-    
+
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
         <a href="transform.js.html">ext/transform.js</a>, <a href="transform.js.html#line230">line 230</a>
     </li></ul></dd>
     
+
     
+
     
-    
-    
-    
+
     
 </dl>
 
+
     
+
     
 
     
 
     
+
     
+
     
-    
-    
-    
+
     
 </dd>
 
@@ -390,11 +394,11 @@ Works for batched objects too.
             
 <dt>
     <h4 class="name" id="get_object_size"><span class="type-signature">&lt;static> </span>get_object_size<span class="signature">(obj)</span><span class="type-signature"></span></h4>
-    
+
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         Get object size (maximum radius, calculated from bounding box).
@@ -402,99 +406,101 @@ Works for batched objects too.
     
 
     
+
     
-    
-    
+
     
         <h5>Parameters:</h5>
         
 
 <table class="params">
     <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-		
-		<th>Type</th>
-		
-		
-		
-		
-		
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-	
-	<tbody>
-	
-	
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
         <tr>
             
                 <td class="name"><code>obj</code></td>
             
-            
+
             <td class="type">
             
             </td>
+
             
+
             
-            
-            
-            
+
             <td class="description last">Object ID</td>
         </tr>
-	
-	
-	</tbody>
+
+    
+    </tbody>
 </table>
-    
-    
-    
-<dl class="details">
-    
-        
-    
-    
     
 
     
+<dl class="details">
     
+
     
+
     
+
     
+
     
+
     
+
     
+
     
+
     
-    
-    
+
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
         <a href="transform.js.html">ext/transform.js</a>, <a href="transform.js.html#line216">line 216</a>
     </li></ul></dd>
     
+
     
+
     
-    
-    
-    
+
     
 </dl>
 
+
     
+
     
 
     
 
     
+
     
+
     
-    
-    
-    
+
     
 </dd>
 
@@ -502,11 +508,11 @@ Works for batched objects too.
             
 <dt>
     <h4 class="name" id="get_rotation"><span class="type-signature">&lt;static> </span>get_rotation<span class="signature">(obj, opt_dest)</span><span class="type-signature"></span></h4>
-    
+
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         Get object rotation quaternion.
@@ -514,117 +520,119 @@ Works for batched objects too.
     
 
     
+
     
-    
-    
+
     
         <h5>Parameters:</h5>
         
 
 <table class="params">
     <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-		
-		<th>Type</th>
-		
-		
-		
-		
-		
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-	
-	<tbody>
-	
-	
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
         <tr>
             
                 <td class="name"><code>obj</code></td>
             
-            
+
             <td class="type">
             
             </td>
+
             
+
             
-            
-            
-            
+
             <td class="description last">Object ID</td>
         </tr>
-	
-	
-	
+
+    
+
         <tr>
             
                 <td class="name"><code>opt_dest</code></td>
             
-            
+
             <td class="type">
             
             </td>
+
             
+
             
-            
-            
-            
+
             <td class="description last">Destination vector</td>
         </tr>
-	
-	
-	</tbody>
+
+    
+    </tbody>
 </table>
-    
-    
-    
-<dl class="details">
-    
-        
-    
-    
     
 
     
+<dl class="details">
     
+
     
+
     
+
     
+
     
+
     
+
     
+
     
+
     
-    
-    
+
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
         <a href="transform.js.html">ext/transform.js</a>, <a href="transform.js.html#line127">line 127</a>
     </li></ul></dd>
     
+
     
+
     
-    
-    
-    
+
     
 </dl>
 
+
     
+
     
 
     
 
     
+
     
+
     
-    
-    
-    
+
     
 </dd>
 
@@ -632,66 +640,68 @@ Works for batched objects too.
             
 <dt>
     <h4 class="name" id="get_rotation_quat"><span class="type-signature">&lt;static> </span>get_rotation_quat<span class="signature">()</span><span class="type-signature"></span></h4>
-    
+
     
 </dt>
 <dd>
-    
+
     
 
     
+
     
+
     
-    
-    
-    
+
     
 <dl class="details">
     
-        
-    
-    
+
     
 
     
+
     
+
     
         <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Use get_rotation() method</li><ul></dd>
     
+
     
+
     
+
     
+
     
-    
-    
-    
-    
-    
+
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
         <a href="transform.js.html">ext/transform.js</a>, <a href="transform.js.html#line140">line 140</a>
     </li></ul></dd>
     
+
     
+
     
-    
-    
-    
+
     
 </dl>
 
+
     
+
     
 
     
 
     
+
     
+
     
-    
-    
-    
+
     
 </dd>
 
@@ -699,11 +709,11 @@ Works for batched objects too.
             
 <dt>
     <h4 class="name" id="get_scale"><span class="type-signature">&lt;static> </span>get_scale<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Number}</span></h4>
-    
+
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         Get object scale.
@@ -711,97 +721,99 @@ Works for batched objects too.
     
 
     
+
     
-    
-    
+
     
         <h5>Parameters:</h5>
         
 
 <table class="params">
     <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-		
-		<th>Type</th>
-		
-		
-		
-		
-		
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-	
-	<tbody>
-	
-	
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
         <tr>
             
                 <td class="name"><code>obj</code></td>
             
-            
+
             <td class="type">
             
             </td>
+
             
+
             
-            
-            
-            
+
             <td class="description last">Object ID</td>
         </tr>
-	
-	
-	</tbody>
+
+    
+    </tbody>
 </table>
-    
-    
-    
-<dl class="details">
-    
-        
-    
-    
     
 
     
+<dl class="details">
     
+
     
+
     
+
     
+
     
+
     
+
     
+
     
+
     
-    
-    
+
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
         <a href="transform.js.html">ext/transform.js</a>, <a href="transform.js.html#line187">line 187</a>
     </li></ul></dd>
     
+
     
+
     
-    
-    
-    
+
     
 </dl>
 
+
     
+
     
 
     
 
     
+
     
-    
-    
+
     
     <h5>Returns:</h5>
     
@@ -813,19 +825,19 @@ Works for batched objects too.
 
 
 <dl>
-	<dt>
-		Type
-	</dt>
-	<dd>
-		
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
 <span class="param-type">Number</span>
 
 
-	</dd>
+    </dd>
 </dl>
 
         
-    
+
     
 </dd>
 
@@ -833,11 +845,11 @@ Works for batched objects too.
             
 <dt>
     <h4 class="name" id="get_translation"><span class="type-signature">&lt;static> </span>get_translation<span class="signature">(obj, <span class="optional">dest</span>)</span><span class="type-signature"></span></h4>
-    
+
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         Get vector with object translation
@@ -845,137 +857,139 @@ Works for batched objects too.
     
 
     
+
     
-    
-    
+
     
         <h5>Parameters:</h5>
         
 
 <table class="params">
     <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-		
-		<th>Type</th>
-		
-		
-		<th>Argument</th>
-		
-		
-		
-		
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-	
-	<tbody>
-	
-	
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Argument</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
         <tr>
             
                 <td class="name"><code>obj</code></td>
             
-            
+
             <td class="type">
             
             </td>
-            
+
             
                 <td class="attributes">
                 
-                    
+
                 
-                    
+
                 
                 </td>
             
+
             
-            
-            
+
             <td class="description last">Object ID</td>
         </tr>
-	
-	
-	
+
+    
+
         <tr>
             
                 <td class="name"><code>dest</code></td>
             
-            
+
             <td class="type">
             
             </td>
-            
+
             
                 <td class="attributes">
                 
                     &lt;optional><br>
                 
-                    
+
                 
-                    
+
                 
                 </td>
             
+
             
-            
-            
+
             <td class="description last">Destination vector</td>
         </tr>
-	
-	
-	</tbody>
+
+    
+    </tbody>
 </table>
-    
-    
-    
-<dl class="details">
-    
-        
-    
-    
     
 
     
+<dl class="details">
     
+
     
+
     
+
     
+
     
+
     
+
     
+
     
+
     
-    
-    
+
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
         <a href="transform.js.html">ext/transform.js</a>, <a href="transform.js.html#line71">line 71</a>
     </li></ul></dd>
     
+
     
+
     
-    
-    
-    
+
     
 </dl>
 
+
     
+
     
 
     
 
     
+
     
+
     
-    
-    
-    
+
     
 </dd>
 
@@ -983,11 +997,11 @@ Works for batched objects too.
             
 <dt>
     <h4 class="name" id="move_local"><span class="type-signature">&lt;static> </span>move_local<span class="signature">(obj, x, y, z)</span><span class="type-signature"></span></h4>
-    
+
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         Perform incremental object movement in local space.
@@ -995,153 +1009,155 @@ Works for batched objects too.
     
 
     
+
     
-    
-    
+
     
         <h5>Parameters:</h5>
         
 
 <table class="params">
     <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-		
-		<th>Type</th>
-		
-		
-		
-		
-		
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-	
-	<tbody>
-	
-	
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
         <tr>
             
                 <td class="name"><code>obj</code></td>
             
-            
+
             <td class="type">
             
             </td>
+
             
+
             
-            
-            
-            
+
             <td class="description last">Object ID</td>
         </tr>
-	
-	
-	
+
+    
+
         <tr>
             
                 <td class="name"><code>x</code></td>
             
-            
+
             <td class="type">
             
             </td>
+
             
+
             
-            
-            
-            
+
             <td class="description last">DeltaX coord</td>
         </tr>
-	
-	
-	
+
+    
+
         <tr>
             
                 <td class="name"><code>y</code></td>
             
-            
+
             <td class="type">
             
             </td>
+
             
+
             
-            
-            
-            
+
             <td class="description last">DeltaY coord</td>
         </tr>
-	
-	
-	
+
+    
+
         <tr>
             
                 <td class="name"><code>z</code></td>
             
-            
+
             <td class="type">
             
             </td>
+
             
+
             
-            
-            
-            
+
             <td class="description last">DeltaZ coord</td>
         </tr>
-	
-	
-	</tbody>
+
+    
+    </tbody>
 </table>
-    
-    
-    
-<dl class="details">
-    
-        
-    
-    
     
 
     
+<dl class="details">
     
+
     
+
     
+
     
+
     
+
     
+
     
+
     
+
     
-    
-    
+
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
         <a href="transform.js.html">ext/transform.js</a>, <a href="transform.js.html#line248">line 248</a>
     </li></ul></dd>
     
+
     
+
     
-    
-    
-    
+
     
 </dl>
 
+
     
+
     
 
     
 
     
+
     
+
     
-    
-    
-    
+
     
 </dd>
 
@@ -1149,11 +1165,11 @@ Works for batched objects too.
             
 <dt>
     <h4 class="name" id="set_rotation"><span class="type-signature">&lt;static> </span>set_rotation<span class="signature">(obj, x, y, z, w)</span><span class="type-signature"></span></h4>
-    
+
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         Set object rotation
@@ -1161,171 +1177,173 @@ Works for batched objects too.
     
 
     
+
     
-    
-    
+
     
         <h5>Parameters:</h5>
         
 
 <table class="params">
     <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-		
-		<th>Type</th>
-		
-		
-		
-		
-		
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-	
-	<tbody>
-	
-	
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
         <tr>
             
                 <td class="name"><code>obj</code></td>
             
-            
+
             <td class="type">
             
             </td>
+
             
+
             
-            
-            
-            
+
             <td class="description last">Object ID</td>
         </tr>
-	
-	
-	
+
+    
+
         <tr>
             
                 <td class="name"><code>x</code></td>
             
-            
+
             <td class="type">
             
             </td>
+
             
+
             
-            
-            
-            
+
             <td class="description last">X part of quaternion</td>
         </tr>
-	
-	
-	
+
+    
+
         <tr>
             
                 <td class="name"><code>y</code></td>
             
-            
+
             <td class="type">
             
             </td>
+
             
+
             
-            
-            
-            
+
             <td class="description last">Y part of quaternion</td>
         </tr>
-	
-	
-	
+
+    
+
         <tr>
             
                 <td class="name"><code>z</code></td>
             
-            
+
             <td class="type">
             
             </td>
+
             
+
             
-            
-            
-            
+
             <td class="description last">Z part of quaternion</td>
         </tr>
-	
-	
-	
+
+    
+
         <tr>
             
                 <td class="name"><code>w</code></td>
             
-            
+
             <td class="type">
             
             </td>
+
             
+
             
-            
-            
-            
+
             <td class="description last">W part of quaternion</td>
         </tr>
-	
-	
-	</tbody>
+
+    
+    </tbody>
 </table>
-    
-    
-    
-<dl class="details">
-    
-        
-    
-    
     
 
     
+<dl class="details">
     
+
     
+
     
+
     
+
     
+
     
+
     
+
     
+
     
-    
-    
+
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
         <a href="transform.js.html">ext/transform.js</a>, <a href="transform.js.html#line85">line 85</a>
     </li></ul></dd>
     
+
     
+
     
-    
-    
-    
+
     
 </dl>
 
+
     
+
     
 
     
 
     
+
     
+
     
-    
-    
-    
+
     
 </dd>
 
@@ -1333,11 +1351,11 @@ Works for batched objects too.
             
 <dt>
     <h4 class="name" id="set_rotation_euler"><span class="type-signature">&lt;static> </span>set_rotation_euler<span class="signature">(obj, x, y, z)</span><span class="type-signature"></span></h4>
-    
+
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         Set euler rotation in YZX intrinsic system.
@@ -1346,153 +1364,155 @@ Usage of euler angles is discouraged, use quaternion instead.
     
 
     
+
     
-    
-    
+
     
         <h5>Parameters:</h5>
         
 
 <table class="params">
     <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-		
-		<th>Type</th>
-		
-		
-		
-		
-		
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-	
-	<tbody>
-	
-	
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
         <tr>
             
                 <td class="name"><code>obj</code></td>
             
-            
+
             <td class="type">
             
             </td>
+
             
+
             
-            
-            
-            
+
             <td class="description last">Object ID</td>
         </tr>
-	
-	
-	
+
+    
+
         <tr>
             
                 <td class="name"><code>x</code></td>
             
-            
+
             <td class="type">
             
             </td>
+
             
+
             
-            
-            
-            
+
             <td class="description last">Angle X</td>
         </tr>
-	
-	
-	
+
+    
+
         <tr>
             
                 <td class="name"><code>y</code></td>
             
-            
+
             <td class="type">
             
             </td>
+
             
+
             
-            
-            
-            
+
             <td class="description last">Angle Y</td>
         </tr>
-	
-	
-	
+
+    
+
         <tr>
             
                 <td class="name"><code>z</code></td>
             
-            
+
             <td class="type">
             
             </td>
+
             
+
             
-            
-            
-            
+
             <td class="description last">Angle Z</td>
         </tr>
-	
-	
-	</tbody>
+
+    
+    </tbody>
 </table>
-    
-    
-    
-<dl class="details">
-    
-        
-    
-    
     
 
     
+<dl class="details">
     
+
     
+
     
+
     
+
     
+
     
+
     
+
     
+
     
-    
-    
+
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
         <a href="transform.js.html">ext/transform.js</a>, <a href="transform.js.html#line146">line 146</a>
     </li></ul></dd>
     
+
     
+
     
-    
-    
-    
+
     
 </dl>
 
+
     
+
     
 
     
 
     
+
     
+
     
-    
-    
-    
+
     
 </dd>
 
@@ -1500,11 +1520,11 @@ Usage of euler angles is discouraged, use quaternion instead.
             
 <dt>
     <h4 class="name" id="set_rotation_euler_v"><span class="type-signature">&lt;static> </span>set_rotation_euler_v<span class="signature">(obj, euler)</span><span class="type-signature"></span></h4>
-    
+
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         Set euler rotation in vector form.
@@ -1513,117 +1533,119 @@ Usage of euler angles is discouraged, use quaternion instead.
     
 
     
+
     
-    
-    
+
     
         <h5>Parameters:</h5>
         
 
 <table class="params">
     <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-		
-		<th>Type</th>
-		
-		
-		
-		
-		
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-	
-	<tbody>
-	
-	
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
         <tr>
             
                 <td class="name"><code>obj</code></td>
             
-            
+
             <td class="type">
             
             </td>
+
             
+
             
-            
-            
-            
+
             <td class="description last">Object ID</td>
         </tr>
-	
-	
-	
+
+    
+
         <tr>
             
                 <td class="name"><code>euler</code></td>
             
-            
+
             <td class="type">
             
             </td>
+
             
+
             
-            
-            
-            
+
             <td class="description last">Vector with euler angles</td>
         </tr>
-	
-	
-	</tbody>
+
+    
+    </tbody>
 </table>
-    
-    
-    
-<dl class="details">
-    
-        
-    
-    
     
 
     
+<dl class="details">
     
+
     
+
     
+
     
+
     
+
     
+
     
+
     
+
     
-    
-    
+
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
         <a href="transform.js.html">ext/transform.js</a>, <a href="transform.js.html#line164">line 164</a>
     </li></ul></dd>
     
+
     
+
     
-    
-    
-    
+
     
 </dl>
 
+
     
+
     
 
     
 
     
+
     
+
     
-    
-    
-    
+
     
 </dd>
 
@@ -1631,66 +1653,68 @@ Usage of euler angles is discouraged, use quaternion instead.
             
 <dt>
     <h4 class="name" id="set_rotation_quat"><span class="type-signature">&lt;static> </span>set_rotation_quat<span class="signature">()</span><span class="type-signature"></span></h4>
-    
+
     
 </dt>
 <dd>
-    
+
     
 
     
+
     
+
     
-    
-    
-    
+
     
 <dl class="details">
     
-        
-    
-    
+
     
 
     
+
     
+
     
         <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Use set_rotation() method</li><ul></dd>
     
+
     
+
     
+
     
+
     
-    
-    
-    
-    
-    
+
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
         <a href="transform.js.html">ext/transform.js</a>, <a href="transform.js.html#line104">line 104</a>
     </li></ul></dd>
     
+
     
+
     
-    
-    
-    
+
     
 </dl>
 
+
     
+
     
 
     
 
     
+
     
+
     
-    
-    
-    
+
     
 </dd>
 
@@ -1698,66 +1722,68 @@ Usage of euler angles is discouraged, use quaternion instead.
             
 <dt>
     <h4 class="name" id="set_rotation_quat_v"><span class="type-signature">&lt;static> </span>set_rotation_quat_v<span class="signature">()</span><span class="type-signature"></span></h4>
-    
+
     
 </dt>
 <dd>
-    
+
     
 
     
+
     
+
     
-    
-    
-    
+
     
 <dl class="details">
     
-        
-    
-    
+
     
 
     
+
     
+
     
         <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Use set_rotation_v() method</li><ul></dd>
     
+
     
+
     
+
     
+
     
-    
-    
-    
-    
-    
+
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
         <a href="transform.js.html">ext/transform.js</a>, <a href="transform.js.html#line121">line 121</a>
     </li></ul></dd>
     
+
     
+
     
-    
-    
-    
+
     
 </dl>
 
+
     
+
     
 
     
 
     
+
     
+
     
-    
-    
-    
+
     
 </dd>
 
@@ -1765,11 +1791,11 @@ Usage of euler angles is discouraged, use quaternion instead.
             
 <dt>
     <h4 class="name" id="set_rotation_v"><span class="type-signature">&lt;static> </span>set_rotation_v<span class="signature">(obj, quat)</span><span class="type-signature"></span></h4>
-    
+
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         Set object rotation (vector form)
@@ -1777,117 +1803,119 @@ Usage of euler angles is discouraged, use quaternion instead.
     
 
     
+
     
-    
-    
+
     
         <h5>Parameters:</h5>
         
 
 <table class="params">
     <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-		
-		<th>Type</th>
-		
-		
-		
-		
-		
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-	
-	<tbody>
-	
-	
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
         <tr>
             
                 <td class="name"><code>obj</code></td>
             
-            
+
             <td class="type">
             
             </td>
+
             
+
             
-            
-            
-            
+
             <td class="description last">Object ID</td>
         </tr>
-	
-	
-	
+
+    
+
         <tr>
             
                 <td class="name"><code>quat</code></td>
             
-            
+
             <td class="type">
             
             </td>
+
             
+
             
-            
-            
-            
+
             <td class="description last">Quaternion vector</td>
         </tr>
-	
-	
-	</tbody>
+
+    
+    </tbody>
 </table>
-    
-    
-    
-<dl class="details">
-    
-        
-    
-    
     
 
     
+<dl class="details">
     
+
     
+
     
+
     
+
     
+
     
+
     
+
     
+
     
-    
-    
+
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
         <a href="transform.js.html">ext/transform.js</a>, <a href="transform.js.html#line110">line 110</a>
     </li></ul></dd>
     
+
     
+
     
-    
-    
-    
+
     
 </dl>
 
+
     
+
     
 
     
 
     
+
     
+
     
-    
-    
-    
+
     
 </dd>
 
@@ -1895,11 +1923,11 @@ Usage of euler angles is discouraged, use quaternion instead.
             
 <dt>
     <h4 class="name" id="set_scale"><span class="type-signature">&lt;static> </span>set_scale<span class="signature">(obj, scale)</span><span class="type-signature"></span></h4>
-    
+
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         Set object scale.
@@ -1907,56 +1935,56 @@ Usage of euler angles is discouraged, use quaternion instead.
     
 
     
+
     
-    
-    
+
     
         <h5>Parameters:</h5>
         
 
 <table class="params">
     <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-		
-		<th>Type</th>
-		
-		
-		
-		
-		
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-	
-	<tbody>
-	
-	
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
         <tr>
             
                 <td class="name"><code>obj</code></td>
             
-            
+
             <td class="type">
             
             </td>
+
             
+
             
-            
-            
-            
+
             <td class="description last">Object ID</td>
         </tr>
-	
-	
-	
+
+    
+
         <tr>
             
                 <td class="name"><code>scale</code></td>
             
-            
+
             <td class="type">
             
                 
@@ -1965,64 +1993,66 @@ Usage of euler angles is discouraged, use quaternion instead.
 
             
             </td>
+
             
+
             
-            
-            
-            
+
             <td class="description last">Object scale</td>
         </tr>
-	
-	
-	</tbody>
+
+    
+    </tbody>
 </table>
-    
-    
-    
-<dl class="details">
-    
-        
-    
-    
     
 
     
+<dl class="details">
     
+
     
+
     
+
     
+
     
+
     
+
     
+
     
+
     
-    
-    
+
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
         <a href="transform.js.html">ext/transform.js</a>, <a href="transform.js.html#line177">line 177</a>
     </li></ul></dd>
     
+
     
+
     
-    
-    
-    
+
     
 </dl>
 
+
     
+
     
 
     
 
     
+
     
+
     
-    
-    
-    
+
     
 </dd>
 
@@ -2030,11 +2060,11 @@ Usage of euler angles is discouraged, use quaternion instead.
             
 <dt>
     <h4 class="name" id="set_translation"><span class="type-signature">&lt;static> </span>set_translation<span class="signature">(obj, x, y, z)</span><span class="type-signature"></span></h4>
-    
+
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         Set object translation
@@ -2042,153 +2072,155 @@ Usage of euler angles is discouraged, use quaternion instead.
     
 
     
+
     
-    
-    
+
     
         <h5>Parameters:</h5>
         
 
 <table class="params">
     <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-		
-		<th>Type</th>
-		
-		
-		
-		
-		
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-	
-	<tbody>
-	
-	
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
         <tr>
             
                 <td class="name"><code>obj</code></td>
             
-            
+
             <td class="type">
             
             </td>
+
             
+
             
-            
-            
-            
+
             <td class="description last">Object ID</td>
         </tr>
-	
-	
-	
+
+    
+
         <tr>
             
                 <td class="name"><code>x</code></td>
             
-            
+
             <td class="type">
             
             </td>
+
             
+
             
-            
-            
-            
+
             <td class="description last">X coord</td>
         </tr>
-	
-	
-	
+
+    
+
         <tr>
             
                 <td class="name"><code>y</code></td>
             
-            
+
             <td class="type">
             
             </td>
+
             
+
             
-            
-            
-            
+
             <td class="description last">Y coord</td>
         </tr>
-	
-	
-	
+
+    
+
         <tr>
             
                 <td class="name"><code>z</code></td>
             
-            
+
             <td class="type">
             
             </td>
+
             
+
             
-            
-            
-            
+
             <td class="description last">Z coord</td>
         </tr>
-	
-	
-	</tbody>
+
+    
+    </tbody>
 </table>
-    
-    
-    
-<dl class="details">
-    
-        
-    
-    
     
 
     
+<dl class="details">
     
+
     
+
     
+
     
+
     
+
     
+
     
+
     
+
     
-    
-    
+
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
         <a href="transform.js.html">ext/transform.js</a>, <a href="transform.js.html#line18">line 18</a>
     </li></ul></dd>
     
+
     
+
     
-    
-    
-    
+
     
 </dl>
 
+
     
+
     
 
     
 
     
+
     
+
     
-    
-    
-    
+
     
 </dd>
 
@@ -2196,11 +2228,11 @@ Usage of euler angles is discouraged, use quaternion instead.
             
 <dt>
     <h4 class="name" id="set_translation_rel"><span class="type-signature">&lt;static> </span>set_translation_rel<span class="signature">(obj, x, y, z, obj_parent)</span><span class="type-signature"></span></h4>
-    
+
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         Set object translation relative to another object
@@ -2208,171 +2240,173 @@ Usage of euler angles is discouraged, use quaternion instead.
     
 
     
+
     
-    
-    
+
     
         <h5>Parameters:</h5>
         
 
 <table class="params">
     <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-		
-		<th>Type</th>
-		
-		
-		
-		
-		
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-	
-	<tbody>
-	
-	
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
         <tr>
             
                 <td class="name"><code>obj</code></td>
             
-            
+
             <td class="type">
             
             </td>
+
             
+
             
-            
-            
-            
+
             <td class="description last">Object ID</td>
         </tr>
-	
-	
-	
+
+    
+
         <tr>
             
                 <td class="name"><code>x</code></td>
             
-            
+
             <td class="type">
             
             </td>
+
             
+
             
-            
-            
-            
+
             <td class="description last">X coord</td>
         </tr>
-	
-	
-	
+
+    
+
         <tr>
             
                 <td class="name"><code>y</code></td>
             
-            
+
             <td class="type">
             
             </td>
+
             
+
             
-            
-            
-            
+
             <td class="description last">Y coord</td>
         </tr>
-	
-	
-	
+
+    
+
         <tr>
             
                 <td class="name"><code>z</code></td>
             
-            
+
             <td class="type">
             
             </td>
+
             
+
             
-            
-            
-            
+
             <td class="description last">Z coord</td>
         </tr>
-	
-	
-	
+
+    
+
         <tr>
             
                 <td class="name"><code>obj_parent</code></td>
             
-            
+
             <td class="type">
             
             </td>
+
             
+
             
-            
-            
-            
+
             <td class="description last">Parent object ID</td>
         </tr>
-	
-	
-	</tbody>
+
+    
+    </tbody>
 </table>
-    
-    
-    
-<dl class="details">
-    
-        
-    
-    
     
 
     
+<dl class="details">
     
+
     
+
     
+
     
+
     
+
     
+
     
+
     
+
     
-    
-    
+
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
         <a href="transform.js.html">ext/transform.js</a>, <a href="transform.js.html#line47">line 47</a>
     </li></ul></dd>
     
+
     
+
     
-    
-    
-    
+
     
 </dl>
 
+
     
+
     
 
     
 
     
+
     
+
     
-    
-    
-    
+
     
 </dd>
 
@@ -2380,11 +2414,11 @@ Usage of euler angles is discouraged, use quaternion instead.
             
 <dt>
     <h4 class="name" id="set_translation_v"><span class="type-signature">&lt;static> </span>set_translation_v<span class="signature">(obj, trans)</span><span class="type-signature"></span></h4>
-    
+
     
 </dt>
 <dd>
-    
+
     
     <div class="description">
         Set object translation (vector form)
@@ -2392,129 +2426,131 @@ Usage of euler angles is discouraged, use quaternion instead.
     
 
     
+
     
-    
-    
+
     
         <h5>Parameters:</h5>
         
 
 <table class="params">
     <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-		
-		<th>Type</th>
-		
-		
-		
-		
-		
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-	
-	<tbody>
-	
-	
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
         <tr>
             
                 <td class="name"><code>obj</code></td>
             
-            
+
             <td class="type">
             
             </td>
+
             
+
             
-            
-            
-            
+
             <td class="description last">Object ID</td>
         </tr>
-	
-	
-	
+
+    
+
         <tr>
             
                 <td class="name"><code>trans</code></td>
             
-            
+
             <td class="type">
             
             </td>
+
             
+
             
-            
-            
-            
+
             <td class="description last">Translation array</td>
         </tr>
-	
-	
-	</tbody>
+
+    
+    </tbody>
 </table>
-    
-    
-    
-<dl class="details">
-    
-        
-    
-    
     
 
     
+<dl class="details">
     
+
     
+
     
+
     
+
     
+
     
+
     
+
     
+
     
-    
-    
+
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
         <a href="transform.js.html">ext/transform.js</a>, <a href="transform.js.html#line35">line 35</a>
     </li></ul></dd>
     
+
     
+
     
-    
-    
-    
+
     
 </dl>
 
+
     
+
     
 
     
 
     
+
     
+
     
-    
-    
-    
+
     
 </dd>
 
         </dl>
     
+
     
-    
-    
+
     
 </article>
 
-</section>  
+</section>
 
 
 
@@ -2528,7 +2564,7 @@ Usage of euler angles is discouraged, use quaternion instead.
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-dev</a> on Wed Apr 23 2014 16:27:41 GMT+0400 (MSK)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-dev</a> on Wed May 14 2014 10:58:10 GMT+0400 (MSK)
 </footer>
 
 <script> prettyPrint(); </script>

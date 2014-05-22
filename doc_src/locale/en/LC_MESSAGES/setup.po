@@ -62,7 +62,7 @@ msgstr ""
 
 #: ../setup.rst:33
 msgid "Выбор браузера"
-msgstr "Choosing a browser"
+msgstr "Choosing a Browser"
 
 #: ../setup.rst:35
 msgid ""
@@ -77,7 +77,7 @@ msgstr ""
 
 #: ../setup.rst:49
 msgid "Настройка браузера для загрузки локальных ресурсов"
-msgstr "Setting up the browser for loading local resources"
+msgstr "Setting up the Browser for Loading Local Resources"
 
 #: ../setup.rst:51
 msgid ""

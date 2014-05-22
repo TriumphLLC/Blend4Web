@@ -1,5 +1,4 @@
 #include <precision_statement.glslf>
-#include <pack.glslf>
 
 uniform sampler2D u_depth;
 
@@ -20,7 +19,7 @@ void main(void) {
     vec4 prev_view_pos = u_view_proj_prev * worldPos;
     prev_view_pos /= prev_view_pos.w;
 
-    vec2 velocity = (curr_view_pos.xy - prev_view_pos.xy) / 2.0 + 0.5;
+    vec2 velocity = (curr_view_pos.xy - prev_view_pos.xy) / 2.0;
 
-    gl_FragColor = vec4(velocity, 0.0, 1.0);
+    gl_FragColor = vec4(velocity / 2.0 + 0.5, 0.0, 1.0);
 }

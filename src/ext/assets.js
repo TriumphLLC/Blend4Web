@@ -40,7 +40,7 @@ exports["AT_IMAGE_ELEMENT"] = m_assets.AT_IMAGE_ELEMENT;
 exports["AT_AUDIO_ELEMENT"] = m_assets.AT_AUDIO_ELEMENT;
 
 /**
- * Enqueue assets pack.
+ * Enqueue the assets pack.
  * @method module:assets.enqueue
  * @param assets_pack Assets pack: [[uri, type, filepath], ...]
  * @param [asset_cb] A single asset loaded callback

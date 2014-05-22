@@ -212,38 +212,3 @@ Blender - это популярная программа для создания
 Доступ программ к ресурсам графического процессора осуществляется через программу-посредника, называемого драйвером. Важным условием для корректной работы интерактивных графических программ является наличие в системе драйверов последней версии. Драйверы можно установить (или обновить), загрузив их с соответствующих сайтов производителей графических процессоров. Подробнее в разделе :ref:`webgl_not_working`.
 
 
-.. index:: браузерные технологии; примеры использования
-
-.. _web3d_examples:
-
-Примеры использования 3D веб-технологий
-=======================================
-
-Визуализация
-------------
-
-* Toyota: `интерактивный ролик <http://www.toyota.com/itsacar/>`_ с рекламой автомобиля включает полу-игровые элементы 3D-контента.
-* `Сервис <http://n-e-r-v-o-u-s.com/cellCycle/>`_ по дизайну и изготовлению украшений.
-* Планировка интерьера - `LIGNUM <http://www.spacegoo.com/lignum/index.php?constructor=Demo1>`_.
-* Интерактивный клип - презентация альбома `Rome <http://www.ro.me/>`_ с участием музыканта Danger Mouse.
-* Интерактивный клип `Lights <http://lights.elliegoulding.com/>`_ певицы Элли Голдинг.
-* Демо - `визуализация воды <http://www.chromeexperiments.com/detail/webgl-water-simulation/>`_.
-* Компания Disney представила `игровую презентацию <http://www.findyourwaytooz.com/>`_ фильма "Оз: Великий и Ужасный".
-* Технология WebGL была использована для создания интрактивной `онлайн-презентации <http://gravitymovie.warnerbros.com/>`_ фильма "Гравитация" с Сандрой Буллок и Джорджем Клуни в главных ролях (компания Warner Bros.).
-* Визуализация `100 000 звезд <http://workshop.chromeexperiments.com/stars/>`_ от Google Data Arts Team.
-* Демо - `симуляция ткани <http://www.kamibu.com/demos/cloth-simulation/>`_.
-* Карты Google имеют WebGL-версию - `MapsGL <http://maps.google.com/>`_.
-* Визуализация анатомии человека - `ZygoteBody <http://www.zygotebody.com/>`_.
-
-Игры
-----
-
-* Игра от Ubisoft `From Dust <http://from-dust.ubisoft.com/>`_ (используется технология Native Client), `ссылка в Chrome Store <https://chrome.google.com/webstore/detail/from-dust/anelkojiepicmcldgnmkplocifmegpfj?hl=en>`_.
-* Оператор MMORPG RuneScape проводит `программу бета-тестирования <http://www.runescape.com/beta>`_ новой версии, созданной с использованием технологий HTML5 и WebGL.
-* Компания Epic Games, известный производитель компьютерных игр и игровых движков серии Unreal Engine™, выпустила браузерную версию демо `Epic Citadel <http://www.unrealengine.com/html5/>`_.
-* Игра `Angry Birds <http://chrome.angrybirds.com/>`_ использует WebGL для ускорения графики.
-* Демо `BananaBread <https://developer.mozilla.org/en/demos/detail/bananabread>`_ - порт движка Cube 2 на WebGL.
-* Демо `Crypt <http://crypt-webgl.unigine.com/>`_ - порт движка Unigine на WebGL.
-* Кроссплатформенные `демо движка GooEngine <http://www.gooengine.com/demos>`_.
-
-

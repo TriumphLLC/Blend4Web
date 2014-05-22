@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Система частиц &mdash; Руководство пользователя: Blend4Web v14.04.22</title>
+    <title>Система частиц &mdash; Руководство пользователя: Blend4Web v14.05.22</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.04.22',
+        VERSION:     '14.05.22',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v14.04.22" href="index.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v14.05.22" href="index.html" />
     <link rel="next" title="Система частиц для инстансинга объектов" href="particles_instancing.html" />
     <link rel="prev" title="Постпроцессинговые эффекты" href="postprocessing_effects.html" /> 
   </head>
@@ -37,7 +37,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">Руководство пользователя: Blend4Web v14.04.22</a></div>
+          href="index.html">Руководство пользователя: Blend4Web v14.05.22</a></div>
         <div class="rel">
           <a href="postprocessing_effects.html" title="Постпроцессинговые эффекты"
              accesskey="P">предыдущий</a> |
@@ -92,7 +92,7 @@
 <ol class="arabic simple">
 <li>Для материала частиц выставить тип прозрачности <tt class="docutils literal"><span class="pre">Add</span></tt>.</li>
 <li>Если отображение эмиттера на сцене не требуется, отключить опцию <tt class="docutils literal"><span class="pre">Particles</span> <span class="pre">&gt;</span> <span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Emitter</span></tt>.</li>
-<li>Если отображение эмиттера на сцене необходимо, для него можно использовать дополнительные материалы. В этом случае в настройках системы частиц нужно указать номер материала частиц <tt class="docutils literal"><span class="pre">Particles</span> <span class="pre">&gt;</span> <span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Material</span></tt> (начиная с единицы).</li>
+<li>Если отображение эмиттера на сцене необходимо, для него можно использовать дополнительные материалы. В этом случае в настройках системы частиц нужно выбрать  материал частиц <tt class="docutils literal"><span class="pre">Particles</span> <span class="pre">&gt;</span> <span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Material</span></tt>.</li>
 <li>В случае использования для частиц материала типа <tt class="docutils literal"><span class="pre">Surface</span></tt>, к материалу необходимо подключить диффузную текстуру (обычно с альфа-каналом). В меню <tt class="docutils literal"><span class="pre">Mapping</span> <span class="pre">&gt;</span> <span class="pre">Coordinates</span></tt> выбрать <tt class="docutils literal"><span class="pre">UV</span></tt>.  Убедиться, что меш эмиттера имеет развертку.</li>
 </ol>
 <a class="reference internal image-reference" href="_images/particles_first_steps.jpg"><img alt="Первоначальная настройка системы частиц" class="align-center" src="_images/particles_first_steps.jpg" style="width: 100%;" /></a>
@@ -174,7 +174,7 @@
 <p>Поддерживаются только:</p>
 <dl class="docutils">
 <dt><em>Render &gt; Material</em></dt>
-<dd>Номер материала частиц, начиная с единицы. Используется для указания на материал частиц в случае использования эмиттером нескольких материалов. Значение по умолчанию 1.</dd>
+<dd>Меню выбора материала частиц. Используется в случае использования эмиттером нескольких материалов. Значение по умолчанию <tt class="docutils literal"><span class="pre">Default</span> <span class="pre">Material</span></tt>.</dd>
 <dt><em>Render &gt; Emitter</em></dt>
 <dd>Опция включения отображения эмиттера на сцене. По умолчанию включено.</dd>
 <dt><em>Render &gt; Type</em></dt>
@@ -261,16 +261,14 @@
 <li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Система частиц для инстансинга объектов</a></li>
 <li class="toctree-l1"><a class="reference internal" href="animation.html">Анимация</a></li>
 <li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Рендеринг наружных сцен</a></li>
-<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Гамма-коррекция и прозрачность</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Гамма-коррекция и альфа-композитинг</a></li>
 <li class="toctree-l1"><a class="reference internal" href="audio.html">Звуковая подсистема</a></li>
-<li class="toctree-l1"><a class="reference internal" href="event_model.html">Событийная модель</a></li>
 <li class="toctree-l1"><a class="reference internal" href="physics.html">Физика</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nla.html">Нелинейная анимация</a></li>
 <li class="toctree-l1"><a class="reference internal" href="developers.html">Разработчикам приложений</a></li>
 <li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">Разработчикам движка</a></li>
-<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Краткая справка по git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Работа в команде. Использование git</a></li>
 <li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Проблемы и решения</a></li>
-<li class="toctree-l1"><a class="reference internal" href="roadmap.html">План развития</a></li>
 </ul>
 
           <h3 style="margin-top: 1.5em;">Поиск</h3>
@@ -303,7 +301,7 @@
           
     <div class="footer">
         &copy; Copyright 2014, ООО &#34;Триумф&#34;.
-      Обновлено: 2014-04-23.
+      Обновлено: 2014-05-21.
       Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

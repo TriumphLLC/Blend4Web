@@ -13,6 +13,9 @@ var m_ext   = require("__extensions");
 var m_print = require("__print");
 var m_util  = require("__util");
 
+var VECTORS_RESERVED = 50;
+var WIN_POLY_OFFSET_MULT = 2.5;
+
 exports.set_hardware_defaults = function(gl) {
     var cfg_def_save = m_cfg.defaults_save;
     var cfg_def = m_cfg.defaults;
@@ -24,14 +27,6 @@ exports.set_hardware_defaults = function(gl) {
             (check_user_agent("Linux") || check_user_agent("Macintosh"))) {
         m_print.warn("Firefox 28 detected, applying depth hack");
         depth_tex_available = false;
-    }
-
-    // HACK: fix particles issue in Chrome 34
-    if ((check_user_agent("Chrome/34.0") || check_user_agent("Chrome/35.0"))
-            && check_user_agent("Windows")) {
-        m_print.warn("Chrome 34-35 and Windows detected, disable tangent skining hack");
-        cfg_def_save.disable_tangent_skining_hack = true;
-        cfg_def.disable_tangent_skining_hack = true;
     }
 
     cfg_def.deferred_rendering = cfg_def_save.deferred_rendering = 
@@ -59,9 +54,9 @@ exports.set_hardware_defaults = function(gl) {
 
     // NOTE: need proper uniform counting (lights, wind bending, etc)
     cfg_def.max_bones = cfg_def_save.max_bones 
-            = m_util.trunc((num_supported - 50) / 4);
+            = m_util.trunc((num_supported - VECTORS_RESERVED) / 4);
     cfg_def.max_bones_no_blending = cfg_def_save.max_bones_no_blending 
-            = m_util.trunc((num_supported - 50) / 2);
+            = m_util.trunc((num_supported - VECTORS_RESERVED) / 2);
 
     // webglreport.com
     var high = gl.getShaderPrecisionFormat(gl.FRAGMENT_SHADER, gl.HIGH_FLOAT);
@@ -69,6 +64,11 @@ exports.set_hardware_defaults = function(gl) {
             gl.MEDIUM_FLOAT);
     if (high.precision === 0)
         cfg_def.precision = cfg_def_save.precision = "mediump";
+
+    // NOTE: set polygonOffset to reduce shadow artifacts
+    if (check_user_agent("Windows"))
+        cfg_def.poly_offset_multiplier = 
+                cfg_def_save.poly_offset_multiplier = WIN_POLY_OFFSET_MULT;
 
     // NOTE: check compatibility for particular device
     // var rinfo = m_ext.get_renderer_info();

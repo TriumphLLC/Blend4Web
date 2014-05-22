@@ -1369,7 +1369,11 @@ void main(void) {
 
     vec3 sided_normal = v_normal;
 #if DOUBLE_SIDED_LIGHTING
-    if (!gl_FrontFacing)
+    // NOTE: workaround for some bug with gl_FrontFacing on Intel graphics 
+    // or open-source drivers
+    if (gl_FrontFacing)
+        sided_normal = sided_normal;
+    else
         sided_normal = -sided_normal;
 # endif
 
@@ -1421,7 +1425,6 @@ void main(void) {
 #  endif
 
 # endif
-    color += nout_specular_color;
 
 # if WATER_EFFECTS || !DISABLE_FOG
     vec3 sun_color_intens = u_sun_intensity;
@@ -1472,7 +1475,11 @@ void main(void) {
 # if USE_NODE_GEOMETRY_NO
     vec3 sided_normal = v_normal;
 #  if DOUBLE_SIDED_LIGHTING
-    if (!gl_FrontFacing)
+    // NOTE: workaround for some bug with gl_FrontFacing on Intel graphics 
+    // or open-source drivers
+    if (gl_FrontFacing)
+        sided_normal = sided_normal;
+    else
         sided_normal = -sided_normal;
 #  endif
     vec3 nin_normal = normalize(sided_normal);

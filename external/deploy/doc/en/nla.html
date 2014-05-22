@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Нелинейная анимация &mdash; User manual: Blend4Web v14.04.22</title>
+    <title>Non-Linear Animation &mdash; User Manual: Blend4Web v14.05.22</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.04.22',
+        VERSION:     '14.05.22',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,9 +25,9 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User manual: Blend4Web v14.04.22" href="index.html" />
-    <link rel="next" title="For application developers" href="developers.html" />
-    <link rel="prev" title="Физика" href="physics.html" /> 
+    <link rel="top" title="User Manual: Blend4Web v14.05.22" href="index.html" />
+    <link rel="next" title="For Application Developers" href="developers.html" />
+    <link rel="prev" title="Physics" href="physics.html" /> 
   </head>
   <body>
     <div class="header-wrapper">
@@ -36,11 +36,11 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">User manual: Blend4Web v14.04.22</a></div>
+          href="index.html">User Manual: Blend4Web v14.05.22</a></div>
         <div class="rel">
-          <a href="physics.html" title="Физика"
+          <a href="physics.html" title="Physics"
              accesskey="P">previous</a> |
-          <a href="developers.html" title="For application developers"
+          <a href="developers.html" title="For Application Developers"
              accesskey="N">next</a> |
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a>
@@ -57,34 +57,44 @@
           <div class="body">
             
   <div class="section" id="nla">
-<span id="id1"></span><h1>Нелинейная анимация<a class="headerlink" href="#nla" title="Permalink to this headline">¶</a></h1>
-<p>Редактор нелинейной анимации, имеющийся в программе Blender, позволяет в удобной
-форме задавать поведение сцены. С его помощью можно реализовать несложные
-сценарии, не требующие вмешательства со стороны пользователя. Таким образом
-исключается необходимость программирования простых сцен и демо-приложений.</p>
+<span id="id1"></span><h1>Non-Linear Animation<a class="headerlink" href="#nla" title="Permalink to this headline">¶</a></h1>
+<p>The Blender&#8217;s non-linear editor lets us set the scene&#8217;s behavior in a comfortable way. With its help we can implement a simple scenario which does not require any interference from the user. This way coding is not needed for simple scenes and demo applications.</p>
 <div class="align-center figure">
 <img alt="Редактор нелинейной анимации" src="_images/nla_editor.jpg" />
 </div>
-<p>Движком поддерживается управление следующими сущностями:</p>
+<p>The engine supports controlling the following entities:</p>
 <ul class="simple">
-<li>Любая анимация, параметры которой могут быть представлены с помощью <cite>действий</cite> (Action).</li>
-<li>Воспроизведение звуков.</li>
-<li>Эмиссия частиц (в виде привязки к глобальной шкале времени).</li>
+<li><p class="first">Any animation the parameters of which can be presented with Actions</p>
+</li>
+<li><p class="first">Audio playback</p>
+</li>
+<li><p class="first">Particles emission (in the form of a connection with the global timeline)</p>
+</li>
 </ul>
 <div class="section" id="id2">
-<h2>Активация<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<h2>Activation<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
 <ol class="arabic simple">
-<li>Во вкладке <tt class="docutils literal"><span class="pre">Scene</span></tt> выбрать опцию <tt class="docutils literal"><span class="pre">Use</span> <span class="pre">NLA</span></tt>.</li>
-<li>В редакторе <tt class="docutils literal"><span class="pre">NLA</span> <span class="pre">Editor</span></tt> задать необходимую конфигурацию поведения сцены.</li>
-<li>На панели <tt class="docutils literal"><span class="pre">Timeline</span></tt> выбрать интервал времени анимации.</li>
+<li><p class="first">Enable the <tt class="docutils literal"><span class="pre">Use</span> <span class="pre">NLA</span></tt> checkbox under the <tt class="docutils literal"><span class="pre">Scene</span></tt> tab.</p>
+</li>
+<li><p class="first">In the <tt class="docutils literal"><span class="pre">NLA</span> <span class="pre">Editor</span></tt> set up the required behavior for the scene.</p>
+</li>
+<li><p class="first">Choose the animation time interval on the <tt class="docutils literal"><span class="pre">Timeline</span></tt> panel.</p>
+</li>
 </ol>
 </div>
 <div class="section" id="id3">
-<h2>Ограничения<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<h2>Additional Options<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>The <em>Blend4Web &gt; Cyclic NLA</em> scene setting activates the cyclic NLA animation mode.</p>
+</div>
+<div class="section" id="id4">
+<h2>Limitations<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li>Вертексная анимация не поддерживается.</li>
-<li>Масштабирование и зацикливание полос анимации (Strip) не поддерживается.</li>
-<li>Одновременное проигрывание различных видов анимации для одного объекта не поддерживается.</li>
+<li><p class="first">Vertex animation is not supported.</p>
+</li>
+<li><p class="first">Scaling and looping of separate animation strips is not supported.</p>
+</li>
+<li><p class="first">A simultanious playback of differnet types of animation for the same object is not supported.</p>
+</li>
 </ul>
 </div>
 </div>
@@ -107,27 +117,26 @@
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
-<li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node materials</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting and shadows</a></li>
-<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing effects</a></li>
-<li class="toctree-l1"><a class="reference internal" href="particles.html">Particle system</a></li>
-<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle system for object instancing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting and Shadows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing Effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System for Instancing Objects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="animation.html">Animation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Rendering</a></li>
-<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Gamma-correction and transparency</a></li>
-<li class="toctree-l1"><a class="reference internal" href="audio.html">Звуковая подсистема</a></li>
-<li class="toctree-l1"><a class="reference internal" href="event_model.html">Событийная модель</a></li>
-<li class="toctree-l1"><a class="reference internal" href="physics.html">Физика</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Нелинейная анимация</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#id2">Активация</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id3">Ограничения</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Gamma Correction and Alpha Compositing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audio.html">Audio System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Non-Linear Animation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">Activation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">Additional Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">Limitations</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="developers.html">For application developers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">Разработчикам движка</a></li>
-<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Краткая справка по git</a></li>
-<li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Problems and solutions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="roadmap.html">План развития</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers.html">For Application Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">For Engine Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Team Work. Using Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Problems and Solutions</a></li>
 </ul>
 
           <h3 style="margin-top: 1.5em;">Search</h3>
@@ -148,9 +157,9 @@
     <div class="footer-wrapper">
       <div class="footer">
         <div class="left">
-          <a href="physics.html" title="Физика"
+          <a href="physics.html" title="Physics"
              >previous</a> |
-          <a href="developers.html" title="For application developers"
+          <a href="developers.html" title="For Application Developers"
              >next</a> |
           <a href="genindex.html" title="General Index"
              >index</a>
@@ -160,7 +169,7 @@
           
     <div class="footer">
         &copy; Copyright 2014, Triumph LLC.
-      Last updated on 2014-04-23.
+      Last updated on 2014-05-21.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

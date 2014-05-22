@@ -1082,11 +1082,11 @@ function add_object_subs_main(subs, obj, graph, main_type, bpy_scene) {
     var obj_render = obj._render;
 
     // divide obj by batches
-    var batch_slots = obj._batch_slots;
+    var batches = obj._batches;
     
-    for (var i = 0; i < batch_slots.length; i++) {
+    for (var i = 0; i < batches.length; i++) {
 
-        var batch = batch_slots[i].batch;
+        var batch = batches[i];
 
         if (batch.shadow_cast_only || batch.reflexible_only)
             continue;
@@ -1333,7 +1333,7 @@ function check_batch_textures_number(batch) {
     if (batch.textures.length > MAX_BATCH_TEXTURES)
         m_print.warn("B4W Warning: too many textures used - " +
             batch.textures.length + " (max " + MAX_BATCH_TEXTURES +
-            "), material \"" + find_material_name_by_batch(batch) + "\"");
+            "), materials \"" + batch.material_names.join(", ") + "\"");
 }
 
 function check_main_varyings_count(batch) {
@@ -1351,8 +1351,8 @@ function check_main_varyings_count(batch) {
 
     if (total > MAX_SHADER_VARYING_COUNT)
         m_print.warn("B4W Warning: Varying limit exceeded for main shader - " 
-                + total + ", material \"" 
-                + find_material_name_by_batch(batch) + "\"");
+                + total + ", materials \"" + batch.material_names.join(", ") 
+                + "\"");
 }
 
 function check_nodes_varyings_count(batch) {
@@ -1382,7 +1382,7 @@ function check_nodes_varyings_count(batch) {
     if (total > MAX_SHADER_VARYING_COUNT)
         m_print.warn("B4W Warning: Varying limit exceeded for node shader - " 
                 + total + ", uv: " + used_uv + ", vc: " + used_vc 
-                + ", material \"" + find_material_name_by_batch(batch) + "\"");
+                + ", materials \"" + batch.material_names.join(", ") + "\"");
 }
 
 function get_shader_units_presence_count(storage, names) {
@@ -1391,33 +1391,6 @@ function get_shader_units_presence_count(storage, names) {
         if (names[i] in storage)
             count++;
     return count;
-}
-
-function find_material_name_by_batch(batch) {
-
-    for (var i = 0; i < _scenes.length; i++) {
-        var objects = get_scene_objs(_scenes[i], "MESH");
-
-        for (var j = 0; j < objects.length; j++) {
-            var obj = objects[j];
-
-            if (!obj._batch_slots)
-                continue;
-
-            var mats = obj["data"]["materials"];
-
-            for (var k = 0; k < obj._batch_slots.length; k++) {
-                var slot = obj._batch_slots[k];
-
-                if (slot.batch == batch &&
-                        slot.submesh_index > -1) {
-                    return mats[slot.submesh_index]["name"];
-                }
-            }
-        }
-    }
-
-    return null;
 }
 
 function prepare_shadow_receive_batch(graph, subs, shadow_source) {
@@ -1540,10 +1513,10 @@ function add_object_subs_depth(subs, obj, graph, bpy_scene) {
     var obj_render = obj._render;
 
     // divide obj by batches
-    var batch_slots = obj._batch_slots;
+    var batches = obj._batches;
 
-    for (var i = 0; i < batch_slots.length; i++) {
-        var batch_src = batch_slots[i].batch;
+    for (var i = 0; i < batches.length; i++) {
+        var batch_src = batches[i];
 
         if (batch_src.type != "DEPTH" || has_batch(subs, batch_src) 
                 || batch_src.shadow_cast_only)
@@ -1619,12 +1592,13 @@ function add_object_subs_depth(subs, obj, graph, bpy_scene) {
 }
 
 function add_object_subs_shadow(subs, obj, graph, bpy_scene) {
+
     var update_needed = false;
     var obj_render = obj._render;
-    var batch_slots = obj._batch_slots;
+    var batches = obj._batches;
 
-    for (var i = 0; i < batch_slots.length; i++) {
-        var batch_src = batch_slots[i].batch;
+    for (var i = 0; i < batches.length; i++) {
+        var batch_src = batches[i];
 
         if (!(batch_src.shadow_cast || batch_src.shadow_receive))
             continue;
@@ -1682,10 +1656,10 @@ function add_object_subs_shadow(subs, obj, graph, bpy_scene) {
 function add_object_subs_reflect(subs, obj, graph) {
     var obj_render = obj._render;
 
-    var batch_slots = obj._batch_slots;
+    var batches = obj._batches;
 
-    for (var i = 0; i < batch_slots.length; i++) {
-        var batch_src = batch_slots[i].batch;
+    for (var i = 0; i < batches.length; i++) {
+        var batch_src = batches[i];
 
         var batch = batch_copy_wo_bufs(batch_src);
 
@@ -1958,10 +1932,10 @@ function add_object_subs_color_picking(subs, obj) {
 
     var obj_render = obj._render;
 
-    var batch_slots = obj._batch_slots;
+    var batches = obj._batches;
 
-    for (var i = 0; i < batch_slots.length; i++) {
-        var batch = batch_slots[i].batch;
+    for (var i = 0; i < batches.length; i++) {
+        var batch = batches[i];
 
         if (batch.type != "COLOR_ID" || has_batch(subs, batch))
             continue;
@@ -1984,10 +1958,10 @@ function add_object_subs_color_picking(subs, obj) {
 function add_object_subs_wireframe(subs, obj, graph) {
 
     var obj_render = obj._render;
-    var batch_slots = obj._batch_slots;
+    var batches = obj._batches;
 
-    for (var i = 0; i < batch_slots.length; i++) {
-        var batch = batch_slots[i].batch;
+    for (var i = 0; i < batches.length; i++) {
+        var batch = batches[i];
 
         if (batch.type != "WIREFRAME" || has_batch(subs, batch))
             continue;
@@ -2023,10 +1997,10 @@ function add_object_subs_grass_map(subs, obj) {
     var obj_render = obj._render;
 
     // divide obj by batches
-    var batch_slots = obj._batch_slots;
+    var batches = obj._batches;
 
-    for (var i = 0; i < batch_slots.length; i++) {
-        var batch = batch_slots[i].batch;
+    for (var i = 0; i < batches.length; i++) {
+        var batch = batches[i];
 
         if (batch.type != "GRASS_MAP" || has_batch(subs, batch))
             continue;
@@ -2079,10 +2053,10 @@ function add_object_subs_grass_map(subs, obj) {
 function add_object_subs_glow_mask(subs, obj) {
 
     var obj_render = obj._render;
-    var batch_slots = obj._batch_slots;
+    var batches = obj._batches;
 
-    for (var i = 0; i < batch_slots.length; i++) {
-        var batch_src = batch_slots[i].batch;
+    for (var i = 0; i < batches.length; i++) {
+        var batch_src = batches[i];
 
         if (batch_src.type != "COLOR_ID" || has_batch(subs, batch_src))
             continue;
@@ -2092,7 +2066,7 @@ function add_object_subs_glow_mask(subs, obj) {
         m_batch.set_batch_directive(batch, "USE_GLOW", 1);
         m_batch.update_shader(batch);
 
-        batch_slots.push(m_batch.create_slot(batch, batch_slots[i].submesh_index));
+        batches.push(batch);
 
         var rb = {
             do_render: true,
@@ -2377,6 +2351,14 @@ exports.make_frustum_shot = function(cam, subscene, color) {
 
     render.bb_world = render.bb_local = m_bounds.big_bounding_box();
     render.bs_world = render.bs_local = m_bounds.big_bounding_sphere();
+
+    var radius = render.bs_world.radius;
+    render.be_world = render.be_local = {
+        axis_x: new Float32Array([radius, 0, 0]),
+        axis_y: new Float32Array([0, radius, 0]),
+        axis_z: new Float32Array([0, 0, radius]),
+        center: render.bs_world.center
+    };
 
     var batch = m_batch.create_shadeless_batch(submesh, color, 0.5);
 
@@ -3294,6 +3276,7 @@ exports.update = function(timeline, elapsed) {
     for (var i = 0; i < _scenes.length; i++) {
         var scene = _scenes[i];
         var render = scene._render;
+        var queue = render.queue;
 
         // just before rendering
         if (render.need_shadow_update) {
@@ -3307,7 +3290,7 @@ exports.update = function(timeline, elapsed) {
         }
 
         // check if rendering needed
-        if (!render.queue.length)
+        if (!queue.length)
             continue;
 
         if (scene["b4w_enable_motion_blur"]) {
@@ -3334,24 +3317,21 @@ exports.update = function(timeline, elapsed) {
 
         }
 
-        var queue = render.queue;
+        // find glow mask scene index
         var glow_mask_subs_index = null;
-        for (var i = 0; i < queue.length; i++)
-            if (queue[i].type == "GLOW_MASK") {
-                glow_mask_subs_index = i;
-                break;
-            }
-
-        for (var j = 0; j < queue.length; j++) {
-            var qsubs = queue[j];
-
-            if (glow_mask_subs_index !== null)
-                optimize_glow_postprocessing(render.graph, qsubs, queue[glow_mask_subs_index])
-        }
+        for (var j = 0; j < queue.length; j++)
+            if (queue[j].type == "GLOW_MASK")
+                glow_mask_subs_index = j;
 
         for (var j = 0; j < queue.length; j++) {
             var qsubs = queue[j];
             m_prerender.prerender_subs(qsubs);
+
+            // optimize glow supporting subscenes
+            if (glow_mask_subs_index !== null)
+                optimize_glow_postprocessing(render.graph, qsubs, 
+                        queue[glow_mask_subs_index])
+
             m_render.draw(qsubs);
         }
     }
@@ -3549,12 +3529,12 @@ function update_obj_glow_intensity(obj, timeline) {
         }
     }
 
-    for (var i = 0; i < obj._batch_slots.length; i++) {
-        var slot = obj._batch_slots[i];
+    for (var i = 0; i < obj._batches.length; i++) {
+        var batch = obj._batches[i];
 
-        if (slot.batch.type == "COLOR_ID" 
-                && typeof slot.batch.glow_intensity !== "undefined")
-            slot.batch.glow_intensity = glow_intensity;
+        if (batch.type == "COLOR_ID" 
+                && typeof batch.glow_intensity !== "undefined")
+            batch.glow_intensity = glow_intensity;
     }
 }
 
@@ -3580,11 +3560,11 @@ exports.apply_glow_anim = function(obj, tau, T, N) {
 }
 
 exports.clear_glow_anim = function(obj) {
-    for (var i = 0; i < obj._batch_slots.length; i++) {
-        var slot = obj._batch_slots[i];
-        if (slot.batch.type == "COLOR_ID" 
-                && typeof slot.batch.glow_intensity !== "undefined")
-            slot.batch.glow_intensity = 0;
+    for (var i = 0; i < obj._batches.length; i++) {
+        var batch = obj._batches[i];
+        if (batch.type == "COLOR_ID" 
+                && typeof batch.glow_intensity !== "undefined")
+            batch.glow_intensity = 0;
     }
 
     var ind = _glow_anim_objs.indexOf(obj);
@@ -3640,6 +3620,13 @@ exports.set_wireframe_edge_color = function(subs_wireframe, color) {
         var batch = subs_wireframe.bundles[i].batch;
         batch.wireframe_edge_color = color;
         subs_wireframe.need_perm_uniforms_update = true;
+    }
+}
+
+exports.add_meta_objects = function(scene, meta_objects) {
+    for (var i = 0; i < meta_objects.length; i++) {
+        scene._objects["ALL"].push(meta_objects[i]);
+        scene._objects["MESH"].push(meta_objects[i]);
     }
 }
 

@@ -18,6 +18,7 @@ cp -v "$BLENDER_SRC_PATH/blender/makesdna/DNA_texture_types.h" ./includes/makesd
 cp -v "$BLENDER_SRC_PATH/blender/makesdna/DNA_userdef_types.h" ./includes/makesdna
 cp -v "$BLENDER_SRC_PATH/blender/makesdna/DNA_vec_types.h" ./includes/makesdna
 cp -v "$BLENDER_SRC_PATH/blender/makesdna/DNA_view2d_types.h" ./includes/makesdna
+cp -v "$BLENDER_SRC_PATH/blender/makesdna/DNA_packedFile_types.h" ./includes/makesdna
 
 
 

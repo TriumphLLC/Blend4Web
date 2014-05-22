@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Animation &mdash; User manual: Blend4Web v14.04.22</title>
+    <title>Animation &mdash; User Manual: Blend4Web v14.05.22</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.04.22',
+        VERSION:     '14.05.22',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,9 +25,9 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User manual: Blend4Web v14.04.22" href="index.html" />
+    <link rel="top" title="User Manual: Blend4Web v14.05.22" href="index.html" />
     <link rel="next" title="Outdoor Rendering" href="outdoor_rendering.html" />
-    <link rel="prev" title="Particle system for object instancing" href="particles_instancing.html" /> 
+    <link rel="prev" title="Particle System for Instancing Objects" href="particles_instancing.html" /> 
   </head>
   <body>
     <div class="header-wrapper">
@@ -36,9 +36,9 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">User manual: Blend4Web v14.04.22</a></div>
+          href="index.html">User Manual: Blend4Web v14.05.22</a></div>
         <div class="rel">
-          <a href="particles_instancing.html" title="Particle system for object instancing"
+          <a href="particles_instancing.html" title="Particle System for Instancing Objects"
              accesskey="P">previous</a> |
           <a href="outdoor_rendering.html" title="Outdoor Rendering"
              accesskey="N">next</a> |
@@ -58,13 +58,13 @@
             
   <span class="target" id="animation"></span><div class="section" id="index-0">
 <span id="id1"></span><h1>Animation<a class="headerlink" href="#index-0" title="Permalink to this headline">¶</a></h1>
-<p>In common case animation is change of any object parameter with time. The engine supports animation of the following types:</p>
+<p>In general animation is changing the object&#8217;s parameters in time. The engine supports the following types of animation:</p>
 <ul class="simple">
-<li><p class="first">Animation of an object as a whole. The parameters that are possible to animate are <tt class="docutils literal"><span class="pre">Location</span></tt>, <tt class="docutils literal"><span class="pre">Rotation</span></tt> in the <tt class="docutils literal"><span class="pre">Quaternion(WXYZ)</span></tt> mode and <tt class="docutils literal"><span class="pre">Scale</span></tt>.</p>
+<li><p class="first">Object animation is the moving an object as a whole. The parameters that can be animated are the center coordinates (<tt class="docutils literal"><span class="pre">Location</span></tt>), the rotation&#8217;s quaternion (<tt class="docutils literal"><span class="pre">Rotation</span></tt> in the <tt class="docutils literal"><span class="pre">Quaternion(WXYZ)</span></tt> mode) and scaling (<tt class="docutils literal"><span class="pre">Scale</span></tt>).</p>
 </li>
-<li><p class="first">Skinning (object deformation using bones) and skeletal animation. Animation of a standalone armature object is also supported (for parenting to bones).</p>
+<li><p class="first">Skeletal animation, i.e. object deformation using bones. Animation of a standalone armature object is also supported (for parenting to bones).</p>
 </li>
-<li><p class="first">Vertex animation - an object deformations can be recorded as frames and then reproduced in the engine.</p>
+<li><p class="first">Vertex animation. An object&#8217;s deformations can be recorded as frames and then reproduced in the engine.</p>
 </li>
 <li><p class="first">Audio sources parametrization. Speaker&#8217;s <tt class="docutils literal"><span class="pre">Volume</span></tt> and <tt class="docutils literal"><span class="pre">Pitch</span></tt> can be animated.</p>
 </li>
@@ -74,27 +74,25 @@
 </li>
 </ul>
 <div class="section" id="id2">
-<h2>Animation control<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
-<p>Animation can be controlled in the engine in 3 ways:</p>
+<h2>Animation Control<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>There are two ways to control animation in the engine:</p>
 <ol class="arabic simple">
-<li><p class="first">Automatically by means of the <tt class="docutils literal"><span class="pre">Animation:</span> <span class="pre">Use</span> <span class="pre">default</span></tt> and <tt class="docutils literal"><span class="pre">Animation:</span> <span class="pre">Cyclic</span></tt> checkboxes in an object&#8217;s properties. In this case an appropriate animation method will be chosen by the engine and the object&#8217;s animation playback will start just after a scene is loaded.</p>
+<li><p class="first">Automatically, using the <tt class="docutils literal"><span class="pre">Animation:</span> <span class="pre">Use</span> <span class="pre">default</span></tt> and <tt class="docutils literal"><span class="pre">Animation:</span> <span class="pre">Cyclic</span></tt> checkboxes in the object&#8217;s properties. In this case an appropriate animation method will be chosen by the engine and the object&#8217;s animation playback will start just after a scene is loaded. In case of skeletal animation the action which is assigned to the object in the <tt class="docutils literal"><span class="pre">Action</span> <span class="pre">Editor</span></tt> window is played by default.</p>
 </li>
-<li><p class="first">In an application via API using <tt class="docutils literal"><span class="pre">animation</span></tt> module methods.</p>
-</li>
-<li><p class="first">Automatically after editing the <tt class="docutils literal"><span class="pre">assets.json</span></tt> file of the SDK&#8217;s viewer. Add  the <tt class="docutils literal"><span class="pre">animated_objects</span></tt> property to the scene settings, in which objects&#8217; names (or pairs  [&#8220;empty object name&#8221;, &#8220;name of object inside dupli-group&#8221;]) are listed. This method suits only to applications which use the <tt class="docutils literal"><span class="pre">assets.json</span></tt> file (right now it is the viewer application from the SDK).</p>
+<li><p class="first">In an application via API using the <tt class="docutils literal"><span class="pre">animation</span></tt> module methods.</p>
 </li>
 </ol>
-<p>If an object-mesh is animated it is required to set the <tt class="docutils literal"><span class="pre">Do</span> <span class="pre">not</span> <span class="pre">batch</span></tt> checkbox on the object properties panel.</p>
+<p>It&#8217;s useful to use the <tt class="docutils literal"><span class="pre">Animation</span></tt> interface for tweaking animation. This is covered in the <a class="reference internal" href="viewer.html#viewer"><em>corresponding section</em></a>.</p>
 </div>
 <div class="section" id="id3">
-<h2>Object animation<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<h2>Object Animation<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
 <p>Animation keyframes can be added for an object motion in Blender and then reproduced in the engine.</p>
 <p>The following keyframe types are supported:</p>
 <ul class="simple">
 <li><em>Location</em></li>
 <li><p class="first"><em>Rotation</em> &#8211; the <tt class="docutils literal"><span class="pre">Quaternion(WXYZ)</span></tt> mode is required.</p>
 </li>
-<li><p class="first"><em>Scale</em> &#8211; for correct results the scale factor should be the same for all 3 axes.</p>
+<li><p class="first"><em>Scale</em> &#8211; for correct results the scale factor should be the same along all 3 axes.</p>
 </li>
 <li><p class="first"><em>LocRot</em> &#8211; a combination of <em>Location</em> and <em>Rotation</em>.</p>
 </li>
@@ -105,35 +103,48 @@
 <li><p class="first"><em>RotScale</em> &#8211; a combination of <em>Rotation</em> and <em>Scale</em>.</p>
 </li>
 </ul>
+<p>If an object-mesh is animated it is required to enable the <tt class="docutils literal"><span class="pre">Do</span> <span class="pre">not</span> <span class="pre">batch</span></tt> checkbox under the object properties tab.</p>
 </div>
 <div class="section" id="id4">
-<h2>Skinning and skeletal animation<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
-<p>For skeletal animation both a mesh object and an armature object are needed. The 4 steps should be carried out:</p>
+<h2>Skinning and Skeletal Animation<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p>For skeletal animation both a mesh object and an armature object are needed. The four steps should be carried out:</p>
 <ol class="arabic simple">
 <li><p class="first">Create the object&#8217;s &#8220;skeleton&#8221; in the armature object.</p>
 </li>
-<li><p class="first">Assign vertex groups in the mesh object and link them to the the bones. This can be performed by weight painting for example.</p>
+<li><p class="first">Assign vertex groups in the mesh object and link them to the bones. This can be performed by weight painting for example.</p>
 </li>
-<li><p class="first">Animate the bones in the pose mode of the armature object. The same keyframe types can be used as for object animation.</p>
+<li><p class="first">Animate the bones in the pose mode of the armature object. The same keyframe types can be used as for the object animation.</p>
 </li>
-<li><p class="first">When inverse kinematics (IK) or other nontrivial structures are used - bake actions for the engine using the <tt class="docutils literal"><span class="pre">B4W</span> <span class="pre">Animation</span> <span class="pre">Bake</span></tt> operator which can be executed via search box (<tt class="docutils literal"><span class="pre">SPACE</span></tt>).</p>
+<li><p class="first">When inverse kinematics (IK) or other nontrivial structures are used, an additional step is required to bake the animations (<tt class="docutils literal"><span class="pre">Action</span></tt> datablocks in Blender). Baking can be performed using the <tt class="docutils literal"><span class="pre">B4W</span> <span class="pre">Animation</span> <span class="pre">Bake</span></tt> interface located on the <tt class="docutils literal"><span class="pre">Blend4Web</span></tt> panel.</p>
 </li>
 </ol>
+<a class="reference internal image-reference" href="_images/baker.png"><img alt="Инструмент запекания скелетной анимации" class="align-center" src="_images/baker.png" style="width: 100%;" /></a>
+<p>Baking is performed with the armature object selected. Elements of the baker interface:</p>
+<ul class="simple">
+<li><p class="first"><em>Clean keyframes</em> &#8211; optimize the animation keyframes after baking. In case of incorrect results it&#8217;s recommended to turn this option off.</p>
+</li>
+<li><p class="first"><em>Bake</em> &#8211; perform baking. If the process is completed successfully, actions with names of <em>NAME_BAKED</em> type appear in the scene. These actions can be assigned to the armature object and played back in the engine. It&#8217;s worth noting that appropriate functioning of such actions in Blender is not garanteed, although the <em>Cons Mute</em>/<em>Cons Unmute</em> interface can help in some cases.</p>
+</li>
+<li><p class="first"><em>Cons Mute</em>/<em>Cons Unmute</em> &#8211; switch bone constraints off/on. The tool can be used for testing the baked actions.</p>
+</li>
+</ul>
 </div>
 <div class="section" id="id5">
-<h2>Vertex animation<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
-<p>Allows to record any geometry changes of a mesh object. Note that every vertex animation frame count as mesh. Don&#8217;t make long animation for a high-poly mesh.</p>
-<p>Special tool is used for baking vertex animation - <tt class="docutils literal"><span class="pre">B4W</span> <span class="pre">Vertex</span> <span class="pre">Anim</span> <span class="pre">Baker</span></tt> - located on the <tt class="docutils literal"><span class="pre">Blend4Web</span></tt> tools panel.</p>
+<h2>Vertex Animation<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<p>Allows to record any geometry changes of a mesh object. Note that every vertex animation frame counts as a mesh. It&#8217;s not recommended to make a long animation for a high-poly mesh, as it can increase the size of the source and exported files significantly and can also slow down the work of the engine.</p>
+<p>A special tool is used for baking vertex animation - <tt class="docutils literal"><span class="pre">B4W</span> <span class="pre">Vertex</span> <span class="pre">Anim</span> <span class="pre">Baker</span></tt> - located on the <tt class="docutils literal"><span class="pre">Blend4Web</span></tt> tools panel.</p>
+<a class="reference internal image-reference" href="_images/vertex_anim_baker.jpg"><img alt="Инструмент запекания вертексной анимации" class="align-center" src="_images/vertex_anim_baker.jpg" style="width: 100%;" /></a>
 </div>
 <div class="section" id="id6">
-<h2>Audio source parametrization<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
-<p>In addition on speaker objects the following animation key types are supported:</p>
+<h2>Audio Source Parametrization<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
+<p>In addition the following animation key types are supported for the speaker objects:</p>
 <ul class="simple">
 <li><p class="first"><em>Volume</em></p>
 </li>
 <li><p class="first"><em>Pitch</em></p>
 </li>
 </ul>
+<p>Audio sources parametering in essence follows object animation.</p>
 </div>
 </div>
 
@@ -155,30 +166,28 @@
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
-<li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node materials</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting and shadows</a></li>
-<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing effects</a></li>
-<li class="toctree-l1"><a class="reference internal" href="particles.html">Particle system</a></li>
-<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle system for object instancing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting and Shadows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing Effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System for Instancing Objects</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Animation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#id2">Animation control</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id3">Object animation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id4">Skinning and skeletal animation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id5">Vertex animation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id6">Audio source parametrization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">Animation Control</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">Object Animation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">Skinning and Skeletal Animation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">Vertex Animation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">Audio Source Parametrization</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Rendering</a></li>
-<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Gamma-correction and transparency</a></li>
-<li class="toctree-l1"><a class="reference internal" href="audio.html">Звуковая подсистема</a></li>
-<li class="toctree-l1"><a class="reference internal" href="event_model.html">Событийная модель</a></li>
-<li class="toctree-l1"><a class="reference internal" href="physics.html">Физика</a></li>
-<li class="toctree-l1"><a class="reference internal" href="nla.html">Нелинейная анимация</a></li>
-<li class="toctree-l1"><a class="reference internal" href="developers.html">For application developers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">Разработчикам движка</a></li>
-<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Краткая справка по git</a></li>
-<li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Problems and solutions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="roadmap.html">План развития</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Gamma Correction and Alpha Compositing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audio.html">Audio System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nla.html">Non-Linear Animation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers.html">For Application Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">For Engine Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Team Work. Using Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Problems and Solutions</a></li>
 </ul>
 
           <h3 style="margin-top: 1.5em;">Search</h3>
@@ -199,7 +208,7 @@
     <div class="footer-wrapper">
       <div class="footer">
         <div class="left">
-          <a href="particles_instancing.html" title="Particle system for object instancing"
+          <a href="particles_instancing.html" title="Particle System for Instancing Objects"
              >previous</a> |
           <a href="outdoor_rendering.html" title="Outdoor Rendering"
              >next</a> |
@@ -211,7 +220,7 @@
           
     <div class="footer">
         &copy; Copyright 2014, Triumph LLC.
-      Last updated on 2014-04-23.
+      Last updated on 2014-05-21.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>
