@@ -245,7 +245,7 @@ exports.bounding_sphere_transform = function(bs, matrix, bs_new) {
 exports.bounding_ellipsoid_transform = function(be, tsr, be_new) {
 
     if (!be_new)
-        var be_new = exports.zero_bounding_ellipsoid();
+        var be_new = zero_bounding_ellipsoid();
 
     m_tsr.transform_vec3(tsr, be.center, be_new.center)
 
@@ -270,13 +270,22 @@ exports.zero_bounding_sphere = function() {
     };
 }
 
-exports.zero_bounding_ellipsoid = function() {
+function zero_bounding_ellipsoid() {
     return {
         axis_x: new Float32Array(3),
         axis_y: new Float32Array(3),
         axis_z: new Float32Array(3),
         center: [0, 0, 0]
     };
+}
+
+exports.create_bounding_ellipsoid = function(axis_x, axis_y, axis_z, center) {
+    return {
+        axis_x: new Float32Array(axis_x),
+        axis_y: new Float32Array(axis_y),
+        axis_z: new Float32Array(axis_z),
+        center: [center[0], center[1], center[2]]
+    };   
 }
 
 /**

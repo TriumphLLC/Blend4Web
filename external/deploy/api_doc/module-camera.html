@@ -39,7 +39,7 @@
     
         
             <div class="description">Camera API. 
-All functions require valid camera object ID.
+All functions require a valid camera object ID.
 Constraints and standard translation/rotation functions also supported.</div>
         
 
@@ -90,6 +90,8 @@ Constraints and standard translation/rotation functions also supported.</div>
 
     
 
+     
+
     
 
     
@@ -98,14 +100,14 @@ Constraints and standard translation/rotation functions also supported.</div>
         <dl>
             
 <dt>
-    <h4 class="name" id="MS_ANIMATION"><span class="type-signature">&lt;static, constant> </span>MS_ANIMATION<span class="type-signature"></span></h4>
+    <h4 class="name" id="MS_ANIMATION"><span class="type-signature">(static, constant) </span>MS_ANIMATION<span class="type-signature"></span></h4>
 
     
 </dt>
 <dd>
     
     <div class="description">
-        Camera movement style.
+        Camera movement style - animated.
     </div>
     
 
@@ -154,14 +156,14 @@ Constraints and standard translation/rotation functions also supported.</div>
         
             
 <dt>
-    <h4 class="name" id="MS_CONTROLS"><span class="type-signature">&lt;static, constant> </span>MS_CONTROLS<span class="type-signature"></span></h4>
+    <h4 class="name" id="MS_CONTROLS"><span class="type-signature">(static, constant) </span>MS_CONTROLS<span class="type-signature"></span></h4>
 
     
 </dt>
 <dd>
     
     <div class="description">
-        Camera movement style.
+        Camera movement style - controls.
     </div>
     
 
@@ -212,14 +214,14 @@ Constraints and standard translation/rotation functions also supported.</div>
         
             
 <dt>
-    <h4 class="name" id="MS_EYE_CONTROLS"><span class="type-signature">&lt;static, constant> </span>MS_EYE_CONTROLS<span class="type-signature"></span></h4>
+    <h4 class="name" id="MS_EYE_CONTROLS"><span class="type-signature">(static, constant) </span>MS_EYE_CONTROLS<span class="type-signature"></span></h4>
 
     
 </dt>
 <dd>
     
     <div class="description">
-        Camera movement style.
+        Camera movement style - eye.
     </div>
     
 
@@ -268,14 +270,14 @@ Constraints and standard translation/rotation functions also supported.</div>
         
             
 <dt>
-    <h4 class="name" id="MS_STATIC"><span class="type-signature">&lt;static, constant> </span>MS_STATIC<span class="type-signature"></span></h4>
+    <h4 class="name" id="MS_STATIC"><span class="type-signature">(static, constant) </span>MS_STATIC<span class="type-signature"></span></h4>
 
     
 </dt>
 <dd>
     
     <div class="description">
-        Camera movement style.
+        Camera movement style - static.
     </div>
     
 
@@ -324,14 +326,14 @@ Constraints and standard translation/rotation functions also supported.</div>
         
             
 <dt>
-    <h4 class="name" id="MS_TARGET_CONTROLS"><span class="type-signature">&lt;static, constant> </span>MS_TARGET_CONTROLS<span class="type-signature"></span></h4>
+    <h4 class="name" id="MS_TARGET_CONTROLS"><span class="type-signature">(static, constant) </span>MS_TARGET_CONTROLS<span class="type-signature"></span></h4>
 
     
 </dt>
 <dd>
     
     <div class="description">
-        Camera movement style.
+        Camera movement style - target.
     </div>
     
 
@@ -386,7 +388,360 @@ Constraints and standard translation/rotation functions also supported.</div>
         <dl>
             
 <dt>
-    <h4 class="name" id="apply_vertical_limits"><span class="type-signature">&lt;static> </span>apply_vertical_limits<span class="signature">(camobj, down_angle, up_angle)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="apply_distance_limits"><span class="type-signature">(static) </span>apply_distance_limits<span class="signature">(camobj, min, max)</span><span class="type-signature"></span></h4>
+
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Set distance limits for TARGET camera.
+    </div>
+    
+
+    
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>camobj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Camera Object ID</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>min</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Minimum distance to target</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>max</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Maximum distance to target</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="camera.js.html">ext/camera.js</a>, <a href="camera.js.html#line298">line 298</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="apply_horizontal_limits"><span class="type-signature">(static) </span>apply_horizontal_limits<span class="signature">(camobj, left_angle, right_angle, space)</span><span class="type-signature"></span></h4>
+
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Set horizontal clamping limits for TARGET or EYE camera.
+    </div>
+    
+
+    
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>camobj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Camera Object ID</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>left_angle</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Horizontal left limit angle</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>right_angle</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Horizontal right limit angle</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>space</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Space to make clamping relative to</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="camera.js.html">ext/camera.js</a>, <a href="camera.js.html#line265">line 265</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="apply_vertical_limits"><span class="type-signature">(static) </span>apply_vertical_limits<span class="signature">(camobj, down_angle, up_angle, space)</span><span class="type-signature"></span></h4>
 
     
 </dt>
@@ -433,6 +788,11 @@ Constraints and standard translation/rotation functions also supported.</div>
 
             <td class="type">
             
+                
+<span class="param-type">Object</span>
+
+
+            
             </td>
 
             
@@ -451,13 +811,18 @@ Constraints and standard translation/rotation functions also supported.</div>
 
             <td class="type">
             
+                
+<span class="param-type">Number</span>
+
+
+            
             </td>
 
             
 
             
 
-            <td class="description last">Vertical maximum down angle</td>
+            <td class="description last">Vertical down limit angle</td>
         </tr>
 
     
@@ -469,13 +834,41 @@ Constraints and standard translation/rotation functions also supported.</div>
 
             <td class="type">
             
+                
+<span class="param-type">Number</span>
+
+
+            
             </td>
 
             
 
             
 
-            <td class="description last">Vertical maximum up angle</td>
+            <td class="description last">Vertical up limit angle</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>space</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Space to make clamping relative to</td>
         </tr>
 
     
@@ -506,7 +899,7 @@ Constraints and standard translation/rotation functions also supported.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="camera.js.html">ext/camera.js</a>, <a href="camera.js.html#line225">line 225</a>
+        <a href="camera.js.html">ext/camera.js</a>, <a href="camera.js.html#line229">line 229</a>
     </li></ul></dd>
     
 
@@ -536,7 +929,7 @@ Constraints and standard translation/rotation functions also supported.</div>
         
             
 <dt>
-    <h4 class="name" id="calc_ray"><span class="type-signature">&lt;static> </span>calc_ray<span class="signature">(xpix, ypix)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="calc_ray"><span class="type-signature">(static) </span>calc_ray<span class="signature">(xpix, ypix, dest<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Float32Array}</span></h4>
 
     
 </dt>
@@ -544,8 +937,8 @@ Constraints and standard translation/rotation functions also supported.</div>
 
     
     <div class="description">
-        Calculate direction of camera ray based on screen coords
-screen space origin is at the top left corner
+        Calculate the direction of the camera ray based on screen coords
+Screen space origin is the top left corner
     </div>
     
 
@@ -567,6 +960,8 @@ screen space origin is at the top left corner
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
         
 
@@ -584,8 +979,21 @@ screen space origin is at the top left corner
 
             <td class="type">
             
+                
+<span class="param-type">Number</span>
+
+
+            
             </td>
 
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
             
 
             
@@ -602,13 +1010,59 @@ screen space origin is at the top left corner
 
             <td class="type">
             
+                
+<span class="param-type">Number</span>
+
+
+            
             </td>
 
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
             
 
             
 
             <td class="description last">Y screen coordinate</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>dest</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Float32Array</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Destination vector</td>
         </tr>
 
     
@@ -639,7 +1093,7 @@ screen space origin is at the top left corner
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="camera.js.html">ext/camera.js</a>, <a href="camera.js.html#line437">line 437</a>
+        <a href="camera.js.html">ext/camera.js</a>, <a href="camera.js.html#line527">line 527</a>
     </li></ul></dd>
     
 
@@ -662,6 +1116,28 @@ screen space origin is at the top left corner
     
 
     
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    Destination vector
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Float32Array</span>
+
+
+    </dd>
+</dl>
+
+        
 
     
 </dd>
@@ -669,7 +1145,7 @@ screen space origin is at the top left corner
         
             
 <dt>
-    <h4 class="name" id="change_eye_target_dist"><span class="type-signature">&lt;static> </span>change_eye_target_dist<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="change_eye_target_dist"><span class="type-signature">(static) </span>change_eye_target_dist<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 </dt>
@@ -708,7 +1184,7 @@ screen space origin is at the top left corner
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="camera.js.html">ext/camera.js</a>, <a href="camera.js.html#line87">line 87</a>
+        <a href="camera.js.html">ext/camera.js</a>, <a href="camera.js.html#line89">line 89</a>
     </li></ul></dd>
     
 
@@ -738,7 +1214,7 @@ screen space origin is at the top left corner
         
             
 <dt>
-    <h4 class="name" id="change_trans_speed"><span class="type-signature">&lt;static> </span>change_trans_speed<span class="signature">(camobj, factor)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="change_trans_speed"><span class="type-signature">(static) </span>change_trans_speed<span class="signature">(camobj, factor)</span><span class="type-signature"></span></h4>
 
     
 </dt>
@@ -746,7 +1222,7 @@ screen space origin is at the top left corner
 
     
     <div class="description">
-        Multiply camera translation speed by factor
+        Multiply camera translation speed by a factor
     </div>
     
 
@@ -785,6 +1261,11 @@ screen space origin is at the top left corner
 
             <td class="type">
             
+                
+<span class="param-type">Object</span>
+
+
+            
             </td>
 
             
@@ -802,6 +1283,11 @@ screen space origin is at the top left corner
             
 
             <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
             
             </td>
 
@@ -840,7 +1326,7 @@ screen space origin is at the top left corner
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="camera.js.html">ext/camera.js</a>, <a href="camera.js.html#line94">line 94</a>
+        <a href="camera.js.html">ext/camera.js</a>, <a href="camera.js.html#line96">line 96</a>
     </li></ul></dd>
     
 
@@ -870,7 +1356,245 @@ screen space origin is at the top left corner
         
             
 <dt>
-    <h4 class="name" id="clear_vertical_limits"><span class="type-signature">&lt;static> </span>clear_vertical_limits<span class="signature">(camobj)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="clear_distance_limits"><span class="type-signature">(static) </span>clear_distance_limits<span class="signature">(camobj)</span><span class="type-signature"></span></h4>
+
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Remove distance clamping limits for TARGET camera
+    </div>
+    
+
+    
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>camobj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Camera Object ID</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="camera.js.html">ext/camera.js</a>, <a href="camera.js.html#line322">line 322</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="clear_horizontal_limits"><span class="type-signature">(static) </span>clear_horizontal_limits<span class="signature">(camobj)</span><span class="type-signature"></span></h4>
+
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Remove horizontal clamping limits from TARGET or EYE camera.
+    </div>
+    
+
+    
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>camobj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Camera Object ID</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="camera.js.html">ext/camera.js</a>, <a href="camera.js.html#line288">line 288</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="clear_vertical_limits"><span class="type-signature">(static) </span>clear_vertical_limits<span class="signature">(camobj)</span><span class="type-signature"></span></h4>
 
     
 </dt>
@@ -917,6 +1641,11 @@ screen space origin is at the top left corner
 
             <td class="type">
             
+                
+<span class="param-type">Object</span>
+
+
+            
             </td>
 
             
@@ -954,7 +1683,7 @@ screen space origin is at the top left corner
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="camera.js.html">ext/camera.js</a>, <a href="camera.js.html#line240">line 240</a>
+        <a href="camera.js.html">ext/camera.js</a>, <a href="camera.js.html#line252">line 252</a>
     </li></ul></dd>
     
 
@@ -984,7 +1713,7 @@ screen space origin is at the top left corner
         
             
 <dt>
-    <h4 class="name" id="get_angles"><span class="type-signature">&lt;static> </span>get_angles<span class="signature">(camobj, dest)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="get_angles"><span class="type-signature">(static) </span>get_angles<span class="signature">(camobj, dest<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Float32Array}</span></h4>
 
     
 </dt>
@@ -993,7 +1722,7 @@ screen space origin is at the top left corner
     
     <div class="description">
         Get angles.
-Get camera horizontal and vertical angles
+Get the camera horizontal and vertical angles
     </div>
     
 
@@ -1015,6 +1744,8 @@ Get camera horizontal and vertical angles
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
         
 
@@ -1032,8 +1763,21 @@ Get camera horizontal and vertical angles
 
             <td class="type">
             
+                
+<span class="param-type">Object</span>
+
+
+            
             </td>
 
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
             
 
             
@@ -1051,17 +1795,27 @@ Get camera horizontal and vertical angles
             <td class="type">
             
                 
-<span class="param-type">vec2</span>
+<span class="param-type">Float32Array</span>
 
 
             
             </td>
 
             
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
 
             
 
-            <td class="description last">Destination vector for camera angles ([h, v])</td>
+            <td class="description last">Destination vector for camera angles: (h, v)</td>
         </tr>
 
     
@@ -1092,7 +1846,7 @@ Get camera horizontal and vertical angles
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="camera.js.html">ext/camera.js</a>, <a href="camera.js.html#line302">line 302</a>
+        <a href="camera.js.html">ext/camera.js</a>, <a href="camera.js.html#line389">line 389</a>
     </li></ul></dd>
     
 
@@ -1115,6 +1869,28 @@ Get camera horizontal and vertical angles
     
 
     
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    Destination vector for camera angles: (h, v)
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Float32Array</span>
+
+
+    </dd>
+</dl>
+
+        
 
     
 </dd>
@@ -1122,7 +1898,7 @@ Get camera horizontal and vertical angles
         
             
 <dt>
-    <h4 class="name" id="get_eye"><span class="type-signature">&lt;static> </span>get_eye<span class="signature">(camobj)</span><span class="type-signature"> &rarr; {vec3}</span></h4>
+    <h4 class="name" id="get_eye"><span class="type-signature">(static) </span>get_eye<span class="signature">(camobj)</span><span class="type-signature"> &rarr; {Float32Array}</span></h4>
 
     
 </dt>
@@ -1130,7 +1906,7 @@ Get camera horizontal and vertical angles
 
     
     <div class="description">
-        Get camera eye vector
+        Get camera eye vector.
     </div>
     
 
@@ -1169,6 +1945,11 @@ Get camera horizontal and vertical angles
 
             <td class="type">
             
+                
+<span class="param-type">Object</span>
+
+
+            
             </td>
 
             
@@ -1206,7 +1987,7 @@ Get camera horizontal and vertical angles
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="camera.js.html">ext/camera.js</a>, <a href="camera.js.html#line134">line 134</a>
+        <a href="camera.js.html">ext/camera.js</a>, <a href="camera.js.html#line138">line 138</a>
     </li></ul></dd>
     
 
@@ -1244,7 +2025,7 @@ Get camera horizontal and vertical angles
     </dt>
     <dd>
         
-<span class="param-type">vec3</span>
+<span class="param-type">Float32Array</span>
 
 
     </dd>
@@ -1258,7 +2039,7 @@ Get camera horizontal and vertical angles
         
             
 <dt>
-    <h4 class="name" id="get_move_style"><span class="type-signature">&lt;static> </span>get_move_style<span class="signature">(camobj)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="get_move_style"><span class="type-signature">(static) </span>get_move_style<span class="signature">(camobj)</span><span class="type-signature"> &rarr; {Number}</span></h4>
 
     
 </dt>
@@ -1305,6 +2086,11 @@ Get camera horizontal and vertical angles
 
             <td class="type">
             
+                
+<span class="param-type">Object</span>
+
+
+            
             </td>
 
             
@@ -1342,7 +2128,7 @@ Get camera horizontal and vertical angles
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="camera.js.html">ext/camera.js</a>, <a href="camera.js.html#line74">line 74</a>
+        <a href="camera.js.html">ext/camera.js</a>, <a href="camera.js.html#line75">line 75</a>
     </li></ul></dd>
     
 
@@ -1365,6 +2151,28 @@ Get camera horizontal and vertical angles
     
 
     
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    Camera movement style
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Number</span>
+
+
+    </dd>
+</dl>
+
+        
 
     
 </dd>
@@ -1372,7 +2180,7 @@ Get camera horizontal and vertical angles
         
             
 <dt>
-    <h4 class="name" id="get_pivot"><span class="type-signature">&lt;static> </span>get_pivot<span class="signature">(camobj, dest)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="get_pivot"><span class="type-signature">(static) </span>get_pivot<span class="signature">(camobj, dest<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Float32Array}</span></h4>
 
     
 </dt>
@@ -1380,7 +2188,7 @@ Get camera horizontal and vertical angles
 
     
     <div class="description">
-        Get camera pivot point.
+        Get the camera pivot point.
     </div>
     
 
@@ -1402,6 +2210,8 @@ Get camera horizontal and vertical angles
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
         
 
@@ -1419,8 +2229,21 @@ Get camera horizontal and vertical angles
 
             <td class="type">
             
+                
+<span class="param-type">Object</span>
+
+
+            
             </td>
 
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
             
 
             
@@ -1437,8 +2260,23 @@ Get camera horizontal and vertical angles
 
             <td class="type">
             
+                
+<span class="param-type">Float32Array</span>
+
+
+            
             </td>
 
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
             
 
             
@@ -1474,7 +2312,7 @@ Get camera horizontal and vertical angles
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="camera.js.html">ext/camera.js</a>, <a href="camera.js.html#line162">line 162</a>
+        <a href="camera.js.html">ext/camera.js</a>, <a href="camera.js.html#line165">line 165</a>
     </li></ul></dd>
     
 
@@ -1497,6 +2335,28 @@ Get camera horizontal and vertical angles
     
 
     
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    Destination pivot vector
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Float32Array</span>
+
+
+    </dd>
+</dl>
+
+        
 
     
 </dd>
@@ -1504,7 +2364,7 @@ Get camera horizontal and vertical angles
         
             
 <dt>
-    <h4 class="name" id="get_stereo_distance"><span class="type-signature">&lt;static> </span>get_stereo_distance<span class="signature">(camobj)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+    <h4 class="name" id="get_stereo_distance"><span class="type-signature">(static) </span>get_stereo_distance<span class="signature">(camobj)</span><span class="type-signature"> &rarr; {Number}</span></h4>
 
     
 </dt>
@@ -1512,7 +2372,7 @@ Get camera horizontal and vertical angles
 
     
     <div class="description">
-        Get distance from convergence plane for stereo camera
+        Get distance from the convergence plane for a stereo camera
     </div>
     
 
@@ -1551,6 +2411,11 @@ Get camera horizontal and vertical angles
 
             <td class="type">
             
+                
+<span class="param-type">Object</span>
+
+
+            
             </td>
 
             
@@ -1588,7 +2453,7 @@ Get camera horizontal and vertical angles
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="camera.js.html">ext/camera.js</a>, <a href="camera.js.html#line332">line 332</a>
+        <a href="camera.js.html">ext/camera.js</a>, <a href="camera.js.html#line420">line 420</a>
     </li></ul></dd>
     
 
@@ -1640,7 +2505,7 @@ Get camera horizontal and vertical angles
         
             
 <dt>
-    <h4 class="name" id="is_camera"><span class="type-signature">&lt;static> </span>is_camera<span class="signature">(obj)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="is_camera"><span class="type-signature">(static) </span>is_camera<span class="signature">(obj)</span><span class="type-signature"></span></h4>
 
     
 </dt>
@@ -1648,7 +2513,7 @@ Get camera horizontal and vertical angles
 
     
     <div class="description">
-        Check if object is camera.
+        Check if the object is a camera.
     </div>
     
 
@@ -1686,6 +2551,11 @@ Get camera horizontal and vertical angles
             
 
             <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
             
             </td>
 
@@ -1754,7 +2624,7 @@ Get camera horizontal and vertical angles
         
             
 <dt>
-    <h4 class="name" id="is_look_up"><span class="type-signature">&lt;static> </span>is_look_up<span class="signature">(camobj)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="is_look_up"><span class="type-signature">(static) </span>is_look_up<span class="signature">(camobj)</span><span class="type-signature"></span></h4>
 
     
 </dt>
@@ -1762,7 +2632,7 @@ Get camera horizontal and vertical angles
 
     
     <div class="description">
-        Check if camera is looking up
+        Check if the camera is looking upwards
     </div>
     
 
@@ -1801,6 +2671,11 @@ Get camera horizontal and vertical angles
 
             <td class="type">
             
+                
+<span class="param-type">Object</span>
+
+
+            
             </td>
 
             
@@ -1838,7 +2713,7 @@ Get camera horizontal and vertical angles
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="camera.js.html">ext/camera.js</a>, <a href="camera.js.html#line270">line 270</a>
+        <a href="camera.js.html">ext/camera.js</a>, <a href="camera.js.html#line356">line 356</a>
     </li></ul></dd>
     
 
@@ -1868,7 +2743,7 @@ Get camera horizontal and vertical angles
         
             
 <dt>
-    <h4 class="name" id="is_underwater"><span class="type-signature">&lt;static> </span>is_underwater<span class="signature">(camobj)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
+    <h4 class="name" id="is_underwater"><span class="type-signature">(static) </span>is_underwater<span class="signature">(camobj)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
 
     
 </dt>
@@ -1876,7 +2751,7 @@ Get camera horizontal and vertical angles
 
     
     <div class="description">
-        Returns true if camera eye is located under water surface
+        Returns true if the camera's eye is located under the water surface
     </div>
     
 
@@ -1954,7 +2829,7 @@ Get camera horizontal and vertical angles
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="camera.js.html">ext/camera.js</a>, <a href="camera.js.html#line351">line 351</a>
+        <a href="camera.js.html">ext/camera.js</a>, <a href="camera.js.html#line439">line 439</a>
     </li></ul></dd>
     
 
@@ -2002,7 +2877,7 @@ Get camera horizontal and vertical angles
         
             
 <dt>
-    <h4 class="name" id="rotate"><span class="type-signature">&lt;static> </span>rotate<span class="signature">(camobj, angle_h_delta, angle_v_delta)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="rotate"><span class="type-signature">(static) </span>rotate<span class="signature">(camobj, angle_h_delta, angle_v_delta)</span><span class="type-signature"></span></h4>
 
     
 </dt>
@@ -2010,8 +2885,9 @@ Get camera horizontal and vertical angles
 
     
     <div class="description">
-        Rotate camera.
-Around target for MS_TARGET_CONTROLS, around eye for MS_EYE_CONTROLS
+        Rotate the camera.
+Around a target for TARGET movement style, around the eye for EYE movement
+style.
     </div>
     
 
@@ -2049,6 +2925,11 @@ Around target for MS_TARGET_CONTROLS, around eye for MS_EYE_CONTROLS
             
 
             <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
             
             </td>
 
@@ -2133,7 +3014,7 @@ Around target for MS_TARGET_CONTROLS, around eye for MS_EYE_CONTROLS
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="camera.js.html">ext/camera.js</a>, <a href="camera.js.html#line286">line 286</a>
+        <a href="camera.js.html">ext/camera.js</a>, <a href="camera.js.html#line372">line 372</a>
     </li></ul></dd>
     
 
@@ -2163,7 +3044,7 @@ Around target for MS_TARGET_CONTROLS, around eye for MS_EYE_CONTROLS
         
             
 <dt>
-    <h4 class="name" id="rotate_pivot"><span class="type-signature">&lt;static> </span>rotate_pivot<span class="signature">(camobj, angle_h_delta, angle_v_delta)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="rotate_pivot"><span class="type-signature">(static) </span>rotate_pivot<span class="signature">(camobj, angle_h_delta, angle_v_delta)</span><span class="type-signature"></span></h4>
 
     
 </dt>
@@ -2171,7 +3052,7 @@ Around target for MS_TARGET_CONTROLS, around eye for MS_EYE_CONTROLS
 
     
     <div class="description">
-        Rotate MS_TARGET_CONTROLS camera about pivot point.
+        Rotate TARGET camera around the pivot point.
 +h from left to right (CCW around Y)
 +v down (CCW around DIR x Y)
     </div>
@@ -2212,6 +3093,11 @@ Around target for MS_TARGET_CONTROLS, around eye for MS_EYE_CONTROLS
 
             <td class="type">
             
+                
+<span class="param-type">Object</span>
+
+
+            
             </td>
 
             
@@ -2295,7 +3181,7 @@ Around target for MS_TARGET_CONTROLS, around eye for MS_EYE_CONTROLS
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="camera.js.html">ext/camera.js</a>, <a href="camera.js.html#line184">line 184</a>
+        <a href="camera.js.html">ext/camera.js</a>, <a href="camera.js.html#line188">line 188</a>
     </li></ul></dd>
     
 
@@ -2325,7 +3211,7 @@ Around target for MS_TARGET_CONTROLS, around eye for MS_EYE_CONTROLS
         
             
 <dt>
-    <h4 class="name" id="set_eye_params"><span class="type-signature">&lt;static> </span>set_eye_params<span class="signature">(camobj, h_angle, v_angle)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="set_eye_params"><span class="type-signature">(static) </span>set_eye_params<span class="signature">(camobj, h_angle, v_angle)</span><span class="type-signature"></span></h4>
 
     
 </dt>
@@ -2333,7 +3219,7 @@ Around target for MS_TARGET_CONTROLS, around eye for MS_EYE_CONTROLS
 
     
     <div class="description">
-        Set eye params needed to set camera target
+        Set eye params needed to set the camera target
     </div>
     
 
@@ -2372,6 +3258,11 @@ Around target for MS_TARGET_CONTROLS, around eye for MS_EYE_CONTROLS
 
             <td class="type">
             
+                
+<span class="param-type">Object</span>
+
+
+            
             </td>
 
             
@@ -2390,6 +3281,11 @@ Around target for MS_TARGET_CONTROLS, around eye for MS_EYE_CONTROLS
 
             <td class="type">
             
+                
+<span class="param-type">Number</span>
+
+
+            
             </td>
 
             
@@ -2407,6 +3303,11 @@ Around target for MS_TARGET_CONTROLS, around eye for MS_EYE_CONTROLS
             
 
             <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
             
             </td>
 
@@ -2445,7 +3346,7 @@ Around target for MS_TARGET_CONTROLS, around eye for MS_EYE_CONTROLS
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="camera.js.html">ext/camera.js</a>, <a href="camera.js.html#line250">line 250</a>
+        <a href="camera.js.html">ext/camera.js</a>, <a href="camera.js.html#line336">line 336</a>
     </li></ul></dd>
     
 
@@ -2475,7 +3376,7 @@ Around target for MS_TARGET_CONTROLS, around eye for MS_EYE_CONTROLS
         
             
 <dt>
-    <h4 class="name" id="set_look_at"><span class="type-signature">&lt;static> </span>set_look_at<span class="signature">(camobj, eye, target, elapsed)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="set_look_at"><span class="type-signature">(static) </span>set_look_at<span class="signature">(camobj, eye, target, up, elapsed)</span><span class="type-signature"></span></h4>
 
     
 </dt>
@@ -2522,6 +3423,11 @@ Around target for MS_TARGET_CONTROLS, around eye for MS_EYE_CONTROLS
 
             <td class="type">
             
+                
+<span class="param-type">Object</span>
+
+
+            
             </td>
 
             
@@ -2539,6 +3445,11 @@ Around target for MS_TARGET_CONTROLS, around eye for MS_EYE_CONTROLS
             
 
             <td class="type">
+            
+                
+<span class="param-type">Float32Array</span>
+
+
             
             </td>
 
@@ -2558,6 +3469,11 @@ Around target for MS_TARGET_CONTROLS, around eye for MS_EYE_CONTROLS
 
             <td class="type">
             
+                
+<span class="param-type">Float32Array</span>
+
+
+            
             </td>
 
             
@@ -2571,10 +3487,15 @@ Around target for MS_TARGET_CONTROLS, around eye for MS_EYE_CONTROLS
 
         <tr>
             
-                <td class="name"><code>elapsed</code></td>
+                <td class="name"><code>up</code></td>
             
 
             <td class="type">
+            
+                
+<span class="param-type">Float32Array</span>
+
+
             
             </td>
 
@@ -2582,7 +3503,30 @@ Around target for MS_TARGET_CONTROLS, around eye for MS_EYE_CONTROLS
 
             
 
-            <td class="description last">Time elapsed from prevous execution</td>
+            <td class="description last">Up vector</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>elapsed</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The time which is elapsed from the previous execution</td>
         </tr>
 
     
@@ -2613,7 +3557,7 @@ Around target for MS_TARGET_CONTROLS, around eye for MS_EYE_CONTROLS
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="camera.js.html">ext/camera.js</a>, <a href="camera.js.html#line118">line 118</a>
+        <a href="camera.js.html">ext/camera.js</a>, <a href="camera.js.html#line121">line 121</a>
     </li></ul></dd>
     
 
@@ -2643,7 +3587,7 @@ Around target for MS_TARGET_CONTROLS, around eye for MS_EYE_CONTROLS
         
             
 <dt>
-    <h4 class="name" id="set_move_style"><span class="type-signature">&lt;static> </span>set_move_style<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="set_move_style"><span class="type-signature">(static) </span>set_move_style<span class="signature">(camobj, move_style)</span><span class="type-signature"></span></h4>
 
     
 </dt>
@@ -2660,6 +3604,77 @@ Around target for MS_TARGET_CONTROLS, around eye for MS_EYE_CONTROLS
     
 
     
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>camobj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Camera Object ID</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>move_style</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Camera movement style</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+    
 
     
 <dl class="details">
@@ -2671,8 +3686,6 @@ Around target for MS_TARGET_CONTROLS, around eye for MS_EYE_CONTROLS
 
     
 
-    
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Read only now</li><ul></dd>
     
 
     
@@ -2716,7 +3729,7 @@ Around target for MS_TARGET_CONTROLS, around eye for MS_EYE_CONTROLS
         
             
 <dt>
-    <h4 class="name" id="set_pivot"><span class="type-signature">&lt;static> </span>set_pivot<span class="signature">(camobj, coords)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="set_pivot"><span class="type-signature">(static) </span>set_pivot<span class="signature">(camobj, coords)</span><span class="type-signature"></span></h4>
 
     
 </dt>
@@ -2724,8 +3737,7 @@ Around target for MS_TARGET_CONTROLS, around eye for MS_EYE_CONTROLS
 
     
     <div class="description">
-        Set pivot point for MS_TARGET_CONTROLS camera.
-NOTE: removes all previous camera constraints
+        Set pivot point for TARGET camera.
     </div>
     
 
@@ -2764,6 +3776,11 @@ NOTE: removes all previous camera constraints
 
             <td class="type">
             
+                
+<span class="param-type">Object</span>
+
+
+            
             </td>
 
             
@@ -2781,6 +3798,11 @@ NOTE: removes all previous camera constraints
             
 
             <td class="type">
+            
+                
+<span class="param-type">Float32Array</span>
+
+
             
             </td>
 
@@ -2819,7 +3841,7 @@ NOTE: removes all previous camera constraints
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="camera.js.html">ext/camera.js</a>, <a href="camera.js.html#line145">line 145</a>
+        <a href="camera.js.html">ext/camera.js</a>, <a href="camera.js.html#line149">line 149</a>
     </li></ul></dd>
     
 
@@ -2849,7 +3871,7 @@ NOTE: removes all previous camera constraints
         
             
 <dt>
-    <h4 class="name" id="set_stereo_distance"><span class="type-signature">&lt;static> </span>set_stereo_distance<span class="signature">(camobj, conv_dist)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="set_stereo_distance"><span class="type-signature">(static) </span>set_stereo_distance<span class="signature">(camobj, conv_dist)</span><span class="type-signature"></span></h4>
 
     
 </dt>
@@ -2857,7 +3879,7 @@ NOTE: removes all previous camera constraints
 
     
     <div class="description">
-        Set distance to convergence plane for stereo camera
+        Set distance to the convergence plane for a stereo camera.
     </div>
     
 
@@ -2895,6 +3917,11 @@ NOTE: removes all previous camera constraints
             
 
             <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
             
             </td>
 
@@ -2925,7 +3952,7 @@ NOTE: removes all previous camera constraints
 
             
 
-            <td class="description last">Distance from convergence plane</td>
+            <td class="description last">Distance from the convergence plane</td>
         </tr>
 
     
@@ -2956,7 +3983,7 @@ NOTE: removes all previous camera constraints
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="camera.js.html">ext/camera.js</a>, <a href="camera.js.html#line315">line 315</a>
+        <a href="camera.js.html">ext/camera.js</a>, <a href="camera.js.html#line403">line 403</a>
     </li></ul></dd>
     
 
@@ -2986,7 +4013,7 @@ NOTE: removes all previous camera constraints
         
             
 <dt>
-    <h4 class="name" id="translate_view"><span class="type-signature">&lt;static> </span>translate_view<span class="signature">(camobj, x, y, angle)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="translate_view"><span class="type-signature">(static) </span>translate_view<span class="signature">(camobj, x, y, angle)</span><span class="type-signature"></span></h4>
 
     
 </dt>
@@ -2994,7 +4021,7 @@ NOTE: removes all previous camera constraints
 
     
     <div class="description">
-        Translate view plane.
+        Translate the view plane.
     </div>
     
 
@@ -3033,6 +4060,11 @@ NOTE: removes all previous camera constraints
 
             <td class="type">
             
+                
+<span class="param-type">Object</span>
+
+
+            
             </td>
 
             
@@ -3050,6 +4082,11 @@ NOTE: removes all previous camera constraints
             
 
             <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
             
             </td>
 
@@ -3069,6 +4106,11 @@ NOTE: removes all previous camera constraints
 
             <td class="type">
             
+                
+<span class="param-type">Number</span>
+
+
+            
             </td>
 
             
@@ -3086,6 +4128,11 @@ NOTE: removes all previous camera constraints
             
 
             <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
             
             </td>
 
@@ -3124,7 +4171,7 @@ NOTE: removes all previous camera constraints
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="camera.js.html">ext/camera.js</a>, <a href="camera.js.html#line362">line 362</a>
+        <a href="camera.js.html">ext/camera.js</a>, <a href="camera.js.html#line450">line 450</a>
     </li></ul></dd>
     
 
@@ -3154,7 +4201,7 @@ NOTE: removes all previous camera constraints
         
             
 <dt>
-    <h4 class="name" id="zoom_object"><span class="type-signature">&lt;static> </span>zoom_object<span class="signature">(camobj, obj)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="zoom_object"><span class="type-signature">(static) </span>zoom_object<span class="signature">(camobj, obj)</span><span class="type-signature"></span></h4>
 
     
 </dt>
@@ -3201,6 +4248,11 @@ NOTE: removes all previous camera constraints
 
             <td class="type">
             
+                
+<span class="param-type">Object</span>
+
+
+            
             </td>
 
             
@@ -3218,6 +4270,11 @@ NOTE: removes all previous camera constraints
             
 
             <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
             
             </td>
 
@@ -3256,7 +4313,7 @@ NOTE: removes all previous camera constraints
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="camera.js.html">ext/camera.js</a>, <a href="camera.js.html#line405">line 405</a>
+        <a href="camera.js.html">ext/camera.js</a>, <a href="camera.js.html#line495">line 495</a>
     </li></ul></dd>
     
 
@@ -3305,7 +4362,7 @@ NOTE: removes all previous camera constraints
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-dev</a> on Wed May 14 2014 10:58:09 GMT+0400 (MSK)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-dev</a> on Wed Jun 25 2014 18:01:33 GMT+0400 (MSK)
 </footer>
 
 <script> prettyPrint(); </script>

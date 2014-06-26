@@ -1,7 +1,8 @@
 "use strict";
 
 /**
- * Local Storage add-on.
+ * Local storage add-on.
+ * @see http://www.w3.org/TR/webstorage/
  * @name storage
  * @namespace
  * @exports exports as storage
@@ -10,8 +11,18 @@ b4w.module["storage"] = function(exports, require) {
 
 var m_print = require("__print");
 
+exports.prefix = "b4w";
+
 /**
- * Save value in local storage.
+ * Initialize the application storage.
+ * @param {String} prefix Storage prefix
+ */
+exports.init = function(prefix) {
+    exports.prefix = prefix;
+}
+
+/**
+ * Save the value in the local storage.
  * @param {String} key Key
  * @param {String} value Value
  */
@@ -22,11 +33,12 @@ exports.set = function(key, value) {
 }
 
 function get_b4w_storage() {
+
     if (!localStorage)
         throw "Local storage is not supported";
 
-    if (localStorage.b4w)
-        return JSON.parse(localStorage.b4w);
+    if (localStorage[exports.prefix])
+        return JSON.parse(localStorage[exports.prefix]);
     else
         return {};
 }
@@ -35,7 +47,7 @@ function set_b4w_storage(b4w_storage) {
     if (!localStorage)
         throw "Local storage is not supported";
 
-    localStorage.b4w = JSON.stringify(b4w_storage);
+    localStorage[exports.prefix] = JSON.stringify(b4w_storage);
 }
 
 /**
@@ -45,11 +57,11 @@ exports.cleanup = function() {
     if (!localStorage)
         throw "Local storage is not supported";
 
-    delete localStorage.b4w;
+    delete localStorage[exports.prefix];
 }
 
 /**
- * Get value from local storage.
+ * Get the value from the local storage.
  * @param {String} key Key
  * @returns {String} Value
  */

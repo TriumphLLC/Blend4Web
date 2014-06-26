@@ -22,7 +22,7 @@ duCharacter::duCharacter (btRigidBody* character, const btScalar angle,
     m_moveType(CM_WALKING),
     m_turnAngle(angle),
     m_verticalAngle(0.f),
-    m_distToWater(0.f),
+    m_distToWater(1.f),
     m_collisionGroup(collisionGroup),
     m_collisionMask(collisionMask),
     m_maxLinearVelocity(walkSpeed), // meters/sec
@@ -115,9 +115,7 @@ void duCharacter::castRays(btCollisionWorld* collisionWorld)
         btScalar waterLevel = m_water->getWaterLevel(m_raySource[0],
                                                      m_raySource[2], m_waterInd);
         m_distToWater = m_raySource[1] - waterLevel;
-    } else
-        m_distToWater = btScalar(-1.f);
-
+    }
 }
 
 void duCharacter::move(btScalar dt)
@@ -231,35 +229,31 @@ void duCharacter::handleVerticalVeloctity(btScalar dt)
 {
     btVector3 linearVelocity = m_rigidBody->getLinearVelocity();
     btScalar depth = m_waterLine - m_distToWater;
+    float dist = m_rayLambda[0];
 
-    if (m_distToWater < m_waterLine) {
-        if (m_distToWater > -1.5f) {
-            // close to the water - buoyancy
-            btVector3 impulse = btVector3(0.f, 10.f, 0.f)
-                                / m_rigidBody->getInvMass() * dt
-                                * btMin(depth, 0.2f);
+    if (m_distToWater < m_waterLine && m_distToWater > -1.5f) {
+        // close to the water - buoyancy
+        btVector3 impulse = btVector3(0.f, 10.f, 0.f)
+                            / m_rigidBody->getInvMass() * dt
+                            * btMin(depth, 0.2f);
 
-            m_rigidBody->applyCentralImpulse(impulse);
-        }
+        m_rigidBody->applyCentralImpulse(impulse);
 
-    } else if (m_rayLambda[0] < 0.9 && !m_isJumping) {
-        // to close to the ground - lift
-        btScalar verticalVelocity = 4.f * m_maxLinearVelocity * (0.9f - m_rayLambda[0]);
+    } else if (dist < 0.9 && !m_isJumping) {
+        // lift
+        btScalar verticalVelocity = 4.f * m_maxLinearVelocity * (0.9f - dist);
         linearVelocity[1] = fmin(verticalVelocity, 5.f);
         m_rigidBody->setLinearVelocity (linearVelocity);
 
-    } else if (m_rayLambda[0] <= 0.95f) {
-        // at requred distance from the ground - stay still
-        if (linearVelocity[1] < 0.f) {
-            m_isJumping = false;
-        }
-        if (!m_isJumping) {
-            linearVelocity[1] = btScalar(0.f);
-            m_rigidBody->setLinearVelocity (linearVelocity);
-        }
-    } else if (m_rayLambda[0] < 1.f && !m_isJumping) {
-            linearVelocity[1] = -13.f * m_maxLinearVelocity * (m_rayLambda[0] - 0.95f);
-            m_rigidBody->setLinearVelocity (linearVelocity);
+    } else if (dist <= 0.95f && linearVelocity[1] < 0.f) {
+        // stay still
+        m_isJumping = false;
+        linearVelocity[1] = btScalar(0.f);
+        m_rigidBody->setLinearVelocity (linearVelocity);
+
+    } else if (dist < 1.f && !m_isJumping) {
+        linearVelocity[1] = -13.f * m_maxLinearVelocity * (dist - 0.95f);
+        m_rigidBody->setLinearVelocity (linearVelocity);
     }
 
     m_rigidBody->setGravity(btVector3(0.f, 0.f, 0.f));

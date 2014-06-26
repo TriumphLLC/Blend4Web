@@ -3,7 +3,9 @@
 <head>
 
 <meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="chrome=1">
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width" />
+
+<link href="../../external/deploy/apps/embed/embed.css" rel="stylesheet" type="text/css" />
 
 <script type="text/javascript" src="../../external/deploy/globals_detect/begin.js"></script>
 
@@ -19,6 +21,7 @@
 <script type="text/javascript" src="../../src/extensions.js"></script>
 <script type="text/javascript" src="../../src/graph.js"></script>
 <script type="text/javascript" src="../../src/scenegraph.js"></script>
+<script type="text/javascript" src="../../src/objects.js"></script>
 <script type="text/javascript" src="../../src/hud.js"></script>
 <script type="text/javascript" src="../../src/ipc.js"></script>
 <script type="text/javascript" src="../../src/prerender.js"></script>
@@ -73,16 +76,36 @@
 
 <script type="text/javascript" src="../../src/ext/main.js"></script>
 
+<script type="text/javascript" src="../../src/addons/storage.js"></script>
+<script type="text/javascript" src="../../src/addons/camera_anim.js"></script>
 <script type="text/javascript" src="../../src/addons/app.js"></script>
+<script type="text/javascript" src="../../src/addons/preloader.js"></script>
 
 <script type="text/javascript" src="embed.js"></script>
 
 <script type="text/javascript" src="../../external/deploy/globals_detect/end.js"></script>
-
 </head>
+
 <body>
-
-<div id="main_canvas_container"></div>
-
+    <div id="main_canvas_container"></div>
+    <div id="closed_button"></div>
+    <div id="control_panel">
+        <div id="buttons_container">
+            <div id="fullscreen_on_button" class="control_panel_button"></div>
+            <div id="auto_rotate_on_button" class="control_panel_button"></div>
+            <div id="low_mode_display" class="control_panel_button active_quality_mode"></div>
+            <div id="quality_buttons_container">
+                <div id="ultra_mode_button" class="control_panel_button"></div>
+                <div id="high_mode_button" class="control_panel_button"></div>
+                <div id="low_mode_button" class="control_panel_button"></div>
+            </div>
+            <div id="sound_on_button" class="control_panel_button"></div>
+            <div id="pause_button" class="control_panel_button"></div>
+        </div>
+        <a target="_blank" href="http://www.blend4web.com">
+            <div id="logo_container"></div>
+        </a>
+    </div>
+    <div id="opened_button"></div>
 </body>
 </html>

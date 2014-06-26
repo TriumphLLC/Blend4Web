@@ -14,7 +14,7 @@ export MIXER_JS      = $(ROOT_DIR)/src/addons/mixer.js
 export CAMANIM_JS    = $(ROOT_DIR)/src/addons/camera_anim.js
 export PRELOADER_JS  = $(ROOT_DIR)/src/addons/preloader.js
 
-export B2W_PATH      = $(ROOT_DIR)/external/deploy/apps/common/b4w.min.js
+export B4W_PATH      = $(ROOT_DIR)/external/deploy/apps/common/b4w.min.js
 
 export APP_DIR_CAPRI = $(ROOT_DIR)/apps_dev/capri
 

@@ -1,7 +1,7 @@
 "use strict";
 
 /**
- * Utility functions
+ * Utility functions.
  * @name util
  * @namespace
  * @exports exports as util
@@ -26,6 +26,9 @@ var _vec4_tmp = new Float32Array(4);
 var _vec4_tmp2 = new Float32Array(4);
 var _mat3_tmp = new Float32Array(9);
 var _mat4_tmp = new Float32Array(16);
+
+var _hash_buffer_in = new Float64Array(1);
+var _hash_buffer_out = new Uint32Array(_hash_buffer_in.buffer);
 
 var VEC3_IDENT = new Float32Array([0,0,0]);
 var QUAT4_IDENT = new Float32Array([0,0,0,1]);
@@ -58,7 +61,7 @@ exports.AXIS_MZ = AXIS_MZ;
 exports.keyfind = keyfind;
 /** 
  * Helper search function.
- * Return array of results
+ * returns an array of results
  * @methodOf util
  */
 function keyfind(key, value, array) {
@@ -74,7 +77,7 @@ function keyfind(key, value, array) {
 }
 
 /**
- * Arrays concatenation
+ * Arrays concatenation.
  */
 exports.float32_concat = function(first, second) {
     var firstLength = first.length;
@@ -97,7 +100,7 @@ exports.uint32_concat = function(first, second) {
 }
 
 /**
- * @returns {Boolean} True if we have little endian architecture
+ * @returns {Boolean} True if we have a little-endian architecture.
  */
 exports.check_endians = function() {
     
@@ -137,7 +140,7 @@ exports.sign = function(value) {
 }
 
 /**
- * Check if object with given key:value is present in array.
+ * Check if an object with a given key:value is present in the array.
  */
 exports.keycheck = function(key, value, array) {
     var len = array.length;
@@ -584,55 +587,6 @@ exports.create_empty_submesh = function(name) {
         va_frames: [],
         va_common: va_common
     };
-}
-
-/**
- * Create abstract render
- * @param {String} name New render name
- * @param {String} type "DYNAMIC", "STATIC", "CAMERA", "EMPTY", "NONE" 
- */
-exports.create_render = function(type) {
-
-    var render = {};
-
-    render.type = type;
-
-    switch(type) {
-    case "DYNAMIC":
-    case "STATIC":
-    case "CAMERA":
-    case "EMPTY":
-    case "LAMP":
-    case "ARMATURE":
-    case "SPEAKER":
-    case "CURVE":
-    case "FONT":
-        render.trans = new Float32Array([0,0,0]);
-        render.scale = 1;
-        render.quat = new Float32Array([0,0,0,1]);
-
-        render.tsr = new Float32Array([0,0,0,1,0,0,0,1]);
-
-        var world_matrix = new Float32Array(16);
-        m_mat4.identity(world_matrix);
-        render.world_matrix = world_matrix;
-
-        var inv_world_matrix = new Float32Array(16);
-        m_mat4.identity(inv_world_matrix);
-        render.inv_world_matrix = inv_world_matrix;
-
-        // NOTE: TEMPORARY
-        render.lod_dist_max = 10000;
-        render.lod_dist_min = 0;
-
-        render.va_frame = 0;
-        break;
-    case "NONE":
-        render.va_frame = 0;
-        break;
-    }
-
-    return render;
 }
 
 /**
@@ -1328,10 +1282,66 @@ exports.generate_cubemap_matrices = function() {
 }
 
 /**
+ * Calculate id for strongly typed variables (batch, render, ...)
+ */
+exports.calc_variable_id = function(a, init_val) {
+    return hash_code(a, init_val);
+}
+
+exports.hash_code = hash_code;
+function hash_code(a, init_val) {
+    var hash = init_val;
+
+    switch (typeof a) {
+    case "number":
+        return hash_code_number(a, hash);
+    case "string":
+        return hash_code_string(a, hash);
+    case "boolean":
+        return hash_code_number(a | 0, hash);
+    case "function":
+    case "undefined":
+        return hash_code_number(0, hash);
+    case "object":
+        if (a) {
+            var is_arr = a instanceof Array;
+            var is_typed_arr = a.buffer instanceof ArrayBuffer 
+                    && a.byteLength !== "undefined";
+            if (is_typed_arr)
+                for (var i = 0; i < a.length; i++)
+                    hash = hash_code_number(a[i], hash);
+            else if (is_arr)
+                for (var i = 0; i < a.length; i++)
+                    hash = hash_code(a[i], hash);
+            else
+                for (var prop in a)
+                    hash = hash_code(a[prop], hash);
+        } else
+            hash = hash_code_number(0, hash);
+        return hash;
+    }
+
+    return hash;
+}
+
+function hash_code_number(num, init_val) {
+    var hash = init_val;
+    _hash_buffer_in[0] = num;
+    
+    hash = (hash<<5) - hash + _hash_buffer_out[0];
+    hash = hash & hash;
+    hash = (hash<<5) - hash + _hash_buffer_out[1];
+    hash = hash & hash;
+
+    return hash;
+}
+
+/**
  * Implementation of Java's String.hashCode().
  */
-exports.hash_code = function(str) {
-    var hash = 0;
+exports.hash_code_string = hash_code_string;
+function hash_code_string(str, init_val) {
+    var hash = init_val;
 
     for (var i = 0; i < str.length; i++) {
         var symbol = str.charCodeAt(i);
@@ -1916,8 +1926,149 @@ exports.transformQuatFast = function(a, q, out) {
 
 exports.panic = function(s) {
     if (s)
-        m_print.error(s);
+        m_print.error.apply(m_print, arguments);
     throw "panic: see above for possible error messages";
+}
+
+/**
+ * Convert radian angle into range [0, 2PI]
+ */
+exports.angle_wrap_0_2pi = function(angle) {
+    return angle - Math.floor(angle / (2 * Math.PI)) * 2 * Math.PI; 
+}
+
+exports.get_file_extension = function(file_path) {
+    var re = /(?:\.([^.]+))?$/;
+    return re.exec(file_path)[1];
+}
+
+/**
+ * Check strictly typed objects equality: batch, render.
+ * NOTE: do not check the difference between Array and TypedArray
+ */
+exports.strict_objs_is_equal = strict_objs_is_equal;
+function strict_objs_is_equal(a, b) {
+    for (var prop in a) {
+        var props_is_equal = true;
+
+        var val1 = a[prop];
+        var val2 = b[prop];
+
+        // typeof val1 == typeof val2 for strictly typed objects
+        switch (typeof val1) {
+        case "number":
+        case "string":
+        case "boolean":
+            props_is_equal = val1 == val2;
+            break;
+        case "object":
+            props_is_equal = objs_is_equal(val1, val2);
+            break;
+        // true for other cases ("function", "undefined")
+        default:
+            break;
+        }
+
+        if (!props_is_equal)
+            return false;
+    }
+
+    return true;
+}
+
+/**
+ * Check objects equality
+ */
+function objs_is_equal(a, b) {
+    // checking not-null objects
+    if (a && b) {
+        // array checking
+        var a_is_arr = a instanceof Array;
+        var a_is_typed_arr = a.buffer instanceof ArrayBuffer 
+                && a.byteLength !== "undefined";
+        var b_is_arr = b instanceof Array;
+        var b_is_typed_arr = b.buffer instanceof ArrayBuffer 
+                && b.byteLength !== "undefined";
+        if (a_is_arr != b_is_arr || a_is_typed_arr != b_is_typed_arr)
+            return false;
+
+        if (a_is_arr) {
+            if (a.length != b.length)
+                return false;
+            for (var i = 0; i < a.length; i++)
+                if (!vars_is_equal(a[i], b[i]))
+                    return false;
+        } else if (a_is_typed_arr) {
+            if (a.length != b.length)
+                return false;
+            for (var i = 0; i < a.length; i++)
+                if (a[i] != b[i])
+                    return false;
+        } else {
+            for (var prop in a)
+                if (!vars_is_equal(a[prop], b[prop]))
+                    return false;
+            for (var prop in b)
+                if (!(prop in a))
+                    return false;
+        }
+        return true;
+    } else
+        return !(a || b);
+}
+
+/**
+ * Check variables equality
+ */
+function vars_is_equal(a, b) {
+    if (typeof a != typeof b)
+        return false;
+
+    switch (typeof a) {
+    case "number":
+    case "string":
+    case "boolean":
+        return a == b;
+    case "object":
+        return objs_is_equal(a, b);
+    // true for other cases ("function", "undefined")
+    default:
+        return true;
+    }
+}
+
+exports.quat_bpy_b4w = function(quat, dest) {
+    var w = quat[0];
+    var x = quat[1];
+    var y = quat[2];
+    var z = quat[3];
+
+    dest[0] = x;
+    dest[1] = y;
+    dest[2] = z;
+    dest[3] = w;
+
+    return dest;
+}
+
+exports.gen_color_id = function(counter) {
+
+    // black reserved for background
+    var counter = counter + 1;
+
+    if (counter > 51 * 51 * 51)
+        m_print.error("Color ID pool depleted");
+
+    // 255 / 5 = 51
+    var r = Math.floor(counter / (51 * 51));
+    counter %= (51 * 51);
+    var g = Math.floor(counter / 51);
+    counter %= 51;
+    var b = counter;
+
+    var color_id = [r/51, g/51, b/51];
+
+    return color_id;
 }
 
 }

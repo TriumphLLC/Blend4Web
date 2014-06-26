@@ -15,6 +15,7 @@ var m_util = require("__util");
 exports.P_LOW    =  1;  // maximize performance
 exports.P_HIGH   =  2;  // use all requested features
 exports.P_ULTRA  =  3;  // use all requested features and maximize quality
+exports.P_CUSTOM =  4;  // use exports.defaults
 
 exports.context = {
     alpha: true,
@@ -28,7 +29,7 @@ exports.defaults = {
 
     alpha_sort_threshold     : 0.1,
 
-    min_format_version       : 3.0,
+    min_format_version       : 5.0,
 
     max_fps                  : 10000,
 
@@ -46,13 +47,13 @@ exports.defaults = {
 
     all_objs_selectable      : false,
 
-    glow                     : true,
-
     lod_transition_interval  : 50,
 
     resolution_factor        : 1.0,
 
     texture_min_filter       : 3,
+
+    anisotropic_filtering    : true,
 
     // init and show HUD on canvas provided by app
     show_hud_debug_info      : false,
@@ -64,8 +65,6 @@ exports.defaults = {
     shadows                  : "DEPTH",
 
     anaglyph_use             : false,
-
-    dof                      : true,
     
     reflections              : true,
 
@@ -73,7 +72,11 @@ exports.defaults = {
 
     refractions              : true,
 
+    glow                     : true,
+
     ssao                     : true,
+
+    dof                      : true,
 
     god_rays                 : true,
 
@@ -116,13 +119,17 @@ exports.defaults = {
     deferred_rendering       : true,
 
     // quality profile
-    quality                  : exports.P_HIGH
+    quality                  : exports.P_HIGH,
+
+    glsl_unroll_hack         : false
 }
 
 exports.defaults_save = m_util.clone_object_r(exports.defaults);
 
 exports.animation = {
-    framerate: 24
+    framerate: 24,
+    frames_blending_hack: false,
+    frame_steps: 1
 }
 
 exports.controls = {
@@ -184,48 +191,39 @@ exports.sfx_save = m_util.clone_object_r(exports.sfx);
 exports.apply_quality = function() {
 
     var cfg_def = exports.defaults;
-    var cfg_def_save = exports.defaults_save;
-
     var cfg_scs = exports.scenes;
-    var cfg_scs_save = exports.scenes_save;
-
-    var cfg_ldr = exports.assets;
-    var cfg_ldr_save = exports.assets_save;
-
-    var cfg_phy = exports.physics;
-    var cfg_phy_save = exports.physics_save;
 
     switch (cfg_def.quality) {
 
     case exports.P_ULTRA:
 
-        cfg_def.shadows = cfg_def_save.shadows;
+        cfg_def.shadows = "DEPTH",
 
-        cfg_def.shore_smoothing = cfg_def_save.shore_smoothing;
+        cfg_def.shore_smoothing = true,
 
-        cfg_def.glow = cfg_def_save.glow;
+        cfg_def.glow = true;
 
-        cfg_def.ssao = cfg_def_save.ssao;
+        cfg_def.ssao = true;
 
-        cfg_def.dof = cfg_def_save.dof;
+        cfg_def.dof = true;
 
-        cfg_def.god_rays = cfg_def_save.god_rays;
+        cfg_def.god_rays = true;
 
-        cfg_def.bloom = cfg_def_save.bloom;
+        cfg_def.bloom = true;
 
-        cfg_def.reflections = cfg_def_save.reflections;
+        cfg_def.reflections = true;
 
         cfg_def.reflect_multiplier = 1.0;
 
-        cfg_def.refractions = cfg_def_save.refractions;
+        cfg_def.refractions = true;
 
-        cfg_def.foam = cfg_def_save.foam;
+        cfg_def.foam = true;
 
-        cfg_def.parallax = cfg_def_save.parallax;
+        cfg_def.parallax = true;
 
-        cfg_def.dynamic_grass = cfg_def_save.dynamic_grass;
+        cfg_def.dynamic_grass = true;
 
-        cfg_def.procedural_fog = cfg_def_save.procedural_fog;
+        cfg_def.procedural_fog = true;
 
         cfg_def.resolution_factor = 2;
 
@@ -235,85 +233,89 @@ exports.apply_quality = function() {
 
         cfg_scs.grass_tex_size = 4.0*512;
 
-        cfg_def.texture_min_filter = cfg_def_save.texture_min_filter;
+        cfg_def.texture_min_filter = 3;
 
-        cfg_def.use_min50 = cfg_def_save.use_min50;
+        cfg_def.anisotropic_filtering = true;
 
-        cfg_def.max_bones = cfg_def_save.max_bones;
+        cfg_def.use_min50 = false;
 
-        cfg_def.precision = cfg_def_save.precision;
+        cfg_def.max_bones = 53;
 
-        cfg_def.water_dynamic = cfg_def_save.water_dynamic;
+        cfg_def.precision = "highp";
 
-        cfg_def.shore_distance = cfg_def_save.shore_distance;
+        cfg_def.water_dynamic = true;
 
-        cfg_def.antialiasing = cfg_def_save.antialiasing;
+        cfg_def.shore_distance = true;
+
+        cfg_def.antialiasing = true;
 
         cfg_def.smaa = true;
 
-        cfg_def.compositing = cfg_def_save.compositing;
+        cfg_def.compositing = true;
 
-        cfg_def.motion_blur = cfg_def_save.motion_blur;
+        cfg_def.motion_blur = true;
 
         break;
 
     case exports.P_HIGH:
     
-        cfg_def.shadows = cfg_def_save.shadows;
+        cfg_def.shadows = "DEPTH";
 
-        cfg_def.shore_smoothing = cfg_def_save.shore_smoothing;
+        cfg_def.shore_smoothing = true;
 
-        cfg_def.glow = cfg_def_save.glow;
+        cfg_def.glow = true;
 
-        cfg_def.ssao = cfg_def_save.ssao;
+        cfg_def.ssao = true;
 
-        cfg_def.dof = cfg_def_save.dof;
+        cfg_def.dof = true;
 
-        cfg_def.god_rays = cfg_def_save.god_rays;
+        cfg_def.god_rays = true;
 
-        cfg_def.bloom = cfg_def_save.bloom;
+        cfg_def.bloom = true;
 
-        cfg_def.reflections = cfg_def_save.reflections;
+        cfg_def.reflections = true;
 
-        cfg_def.reflect_multiplier = cfg_def_save.reflect_multiplier;
+        cfg_def.reflect_multiplier = 0.5;
 
-        cfg_def.refractions = cfg_def_save.refractions;
+        cfg_def.refractions = true;
 
-        cfg_def.foam = cfg_def_save.foam;
+        cfg_def.foam = true;
 
-        cfg_def.parallax = cfg_def_save.parallax;
+        cfg_def.parallax = true;
 
-        cfg_def.dynamic_grass = cfg_def_save.dynamic_grass;
+        cfg_def.dynamic_grass = true;
 
-        cfg_def.procedural_fog = cfg_def_save.procedural_fog;
+        cfg_def.procedural_fog = true;
 
-        cfg_def.resolution_factor = cfg_def_save.resolution_factor;
+        cfg_def.resolution_factor = 1;
 
-        cfg_scs.offscreen_tex_size = cfg_scs_save.offscreen_tex_size;
+        cfg_scs.offscreen_tex_size = 1.0*1024;
 
-        cfg_scs.shadow_tex_size = cfg_scs_save.shadow_tex_size;
+        cfg_scs.shadow_tex_size = 2.0*1024;
 
-        cfg_scs.grass_tex_size = cfg_scs_save.grass_tex_size;
+        cfg_scs.grass_tex_size = 2*512;
 
-        cfg_def.texture_min_filter = cfg_def_save.texture_min_filter;
+        cfg_def.texture_min_filter = 3;
 
-        cfg_def.use_min50 = cfg_def_save.use_min50;
+        cfg_def.anisotropic_filtering = true;
 
-        cfg_def.max_bones = cfg_def_save.max_bones;
+        cfg_def.use_min50 = false;
 
-        cfg_def.precision = cfg_def_save.precision;
+        cfg_def.max_bones = 53;
 
-        cfg_def.water_dynamic = cfg_def_save.water_dynamic;
+        cfg_def.precision = "highp";
 
-        cfg_def.shore_distance = cfg_def_save.shore_distance;
+        cfg_def.water_dynamic = true;
 
-        cfg_def.antialiasing = cfg_def_save.antialiasing;
+        cfg_def.shore_distance = true;
 
-        cfg_def.smaa = cfg_def_save.smaa;
+        cfg_def.antialiasing = true;
 
-        cfg_def.compositing = cfg_def_save.compositing;
+        cfg_def.smaa = false;
 
-        cfg_def.motion_blur = cfg_def_save.motion_blur;
+        cfg_def.compositing = true;
+
+        cfg_def.motion_blur = true;
 
         break;
 
@@ -347,19 +349,21 @@ exports.apply_quality = function() {
 
         cfg_def.procedural_fog = false;
 
-        cfg_def.resolution_factor = cfg_def_save.resolution_factor; // can be 0.5
+        cfg_def.resolution_factor = 1; // can be 0.5
 
-        cfg_scs.offscreen_tex_size = cfg_scs_save.offscreen_tex_size / 2;
+        cfg_scs.offscreen_tex_size = 0.5*1024;
 
-        cfg_scs.shadow_tex_size = cfg_scs_save.shadow_tex_size / 2;
+        cfg_scs.shadow_tex_size = 1*1024;
 
-        cfg_scs.grass_tex_size = cfg_scs_save.grass_tex_size / 2;
+        cfg_scs.grass_tex_size = 1*512;
 
         cfg_def.texture_min_filter = 2;
 
+        cfg_def.anisotropic_filtering = false;
+
         cfg_def.use_min50 = true;
 
-        cfg_def.max_bones = cfg_def_save.max_bones;
+        cfg_def.max_bones = 53;
 
         cfg_def.precision = "mediump";
 

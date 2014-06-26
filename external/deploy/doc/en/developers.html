@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>For Application Developers &mdash; User Manual: Blend4Web v14.05.22</title>
+    <title>For Application Developers &mdash; User Manual: Blend4Web v14.06</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.05.22',
+        VERSION:     '14.06',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User Manual: Blend4Web v14.05.22" href="index.html" />
+    <link rel="top" title="User Manual: Blend4Web v14.06" href="index.html" />
     <link rel="next" title="For Engine Developers" href="developers_advanced.html" />
     <link rel="prev" title="Non-Linear Animation" href="nla.html" /> 
   </head>
@@ -36,7 +36,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">User Manual: Blend4Web v14.05.22</a></div>
+          href="index.html">User Manual: Blend4Web v14.06</a></div>
         <div class="rel">
           <a href="nla.html" title="Non-Linear Animation"
              accesskey="P">previous</a> |
@@ -180,7 +180,7 @@
 <h2>Moving Objects<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">Make sure that the object you try to move is a dynamic (i.e. physical or animated) or a standalone object. To make an object standalone enable the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Do</span> <span class="pre">not</span> <span class="pre">batch</span></tt> checkbox under the <tt class="docutils literal"><span class="pre">Object</span></tt> tab in Blender.</p>
+<p class="last">Make sure that the object you are trying to move is a <a class="reference internal" href="objects.html#static-dynamic-objects"><em>dynamic object</em></a>.</p>
 </div>
 <p>Use the following methods of the <cite>transform</cite> module to move objects in the engine:</p>
 <dl class="docutils">
@@ -454,7 +454,7 @@
 <dt><strong>Makefile</strong></dt>
 <dd><p class="first last">makefile for building the engine, the applications, the documentation and for deploying on a remote server (not available as a free version)</p>
 </dd>
-<dt><strong>README.md</strong></dt>
+<dt><strong>README.rst</strong></dt>
 <dd><p class="first last">README file</p>
 </dd>
 <dt><strong>scripts</strong></dt>
@@ -523,6 +523,42 @@
 </dd>
 </dl>
 </div>
+<div class="section" id="quality-settings">
+<span id="id11"></span><h2>Quality Profiles<a class="headerlink" href="#quality-settings" title="Permalink to this headline">¶</a></h2>
+<p>Several quality profiles are implemented in order to support platforms with different functionality.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p class="first"><em>low quality</em> (P_LOW) - a range of functions is turned off (such as shadows, dynamic reflection, postprocessing), the size of textures is halved when using a release version, anti-aliasing is disabled</p>
+</li>
+<li><p class="first"><em>high quality</em> (P_HIGH) - all features requested by the scene are used, the anti-aliasing method is FXAA</p>
+</li>
+<li><p class="first"><em>maximum quality</em> (P_ULTRA) - rendering resolution is doubled, resolution of shadow maps is increased, the anti-aliasing method is SMAA</p>
+</li>
+</ul>
+</div></blockquote>
+<a class="reference internal image-reference" href="_images/quality.jpg"><img alt="_images/quality.jpg" class="align-center" src="_images/quality.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>Switching the quality profiles can be performed in runtime before initialization of the WebGL context. The default profile is P_HIGH.</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_cfg</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">m_main</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;main&quot;</span><span class="p">);</span>
+
+<span class="nx">m_cfg</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;quality&quot;</span><span class="p">,</span> <span class="nx">m_cfg</span><span class="p">.</span><span class="nx">P_LOW</span><span class="p">);</span>
+<span class="nx">m_main</span><span class="p">.</span><span class="nx">init</span><span class="p">(...);</span>
+</pre></div>
+</div>
+<p>Application developers can also set the <strong>quality</strong> parameter upon engine initialization using the <tt class="docutils literal"><span class="pre">app.js</span></tt> addon:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_cfg</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">m_app</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;app&quot;</span><span class="p">);</span>
+
+<span class="nx">m_app</span><span class="p">.</span><span class="nx">init</span><span class="p">({</span>
+    <span class="nx">canvas_container_id</span><span class="o">:</span> <span class="s2">&quot;body_id&quot;</span><span class="p">,</span>
+    <span class="nx">quality</span><span class="o">:</span> <span class="nx">m_cfg</span><span class="p">.</span><span class="nx">P_HIGH</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+</div>
 </div>
 
 
@@ -563,6 +599,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#index-0">Quaternions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#event-model">Event-Driven Model</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#sdk">SDK File Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#quality-settings">Quality Profiles</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">For Engine Developers</a></li>
@@ -600,7 +637,7 @@
           
     <div class="footer">
         &copy; Copyright 2014, Triumph LLC.
-      Last updated on 2014-05-21.
+      Last updated on 2014-06-25.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

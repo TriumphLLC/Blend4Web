@@ -10,12 +10,12 @@ var m_print = require("__print");
 var data    = require("__data");
 
 /**
- * Load data from blender json file and apply engine global settings
+ * Load data from the json file exported from Blender and apply the global engine settings
  * @method module:data.load
  * @param {String} path Path to JSON file
- * @param [opt_loaded_callback] Callback to execute right after load
- * @param [opt_preloader_callback] Callback to report about loading progress
- * @param [wait_resources=false] Wait until all resources loaded
+ * @param [opt_loaded_callback] Callback to be executed right after load
+ * @param [opt_preloader_callback] Callback to report about the loading progress
+ * @param [wait_resources=false] Wait until all resources are loaded
  */
 exports["load"] = data.load;
 /**
@@ -25,7 +25,7 @@ exports["load"] = data.load;
 exports["load_and_add_new"] = data.load;
 
 /**
- * Unload previously loaded data.
+ * Unload the previously loaded data.
  * @method module:data.unload
  */
 exports["unload"] = function() {
@@ -47,16 +47,16 @@ exports["get_bpy_world"] = function(world_name) {
 }
 
 /**
- * Set resources root for debug purposes. 
- * Enables check of loading paths, so if resources are not loaded from 
- * the app root there will be warning in m_print.
+ * Set the root which contains the resources, for debug purposes. 
+ * Enables the checking of loading paths, so if the resources are not loaded from 
+ * the app root, there will be a warning in m_print.
  * @method module:data.set_debug_resources_root
  * @param {String} debug_resources_root App root directory.
  */
 exports["set_debug_resources_root"] = data.set_debug_resources_root;
 
 /**
- * Check if engine loaded (detect last loading stage)
+ * Check if the engine is loaded (detect the last loading stage)
  * @method module:data.is_loaded
  */
 exports["is_loaded"] = data.is_loaded;

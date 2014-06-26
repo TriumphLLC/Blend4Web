@@ -291,8 +291,10 @@ function set_emitter_particles_uniforms(batch, psystem, pmaterial) {
     batch.p_gravity = gravity; 
 
     var glob_wind = exports.wind();
-    batch.p_wind = new Float32Array([glob_wind[0] * wind, glob_wind[1] * wind, 
-            glob_wind[2] * wind]);
+    batch.p_wind[0] = glob_wind[0] * wind;
+    batch.p_wind[1] = glob_wind[1] * wind;
+    batch.p_wind[2] = glob_wind[2] * wind;
+
     batch.p_max_lifetime = lifetime; 
     batch.p_mass = mass; 
 
@@ -352,7 +354,7 @@ function set_emitter_particles_uniforms(batch, psystem, pmaterial) {
         }
     }
         
-    batch.p_size_ramp = new Float32Array(sramp_varr);
+    batch.p_size_ramp.set(sramp_varr);
 
     /** color ramp */
     var m_tex_slot = pmaterial["texture_slots"];
@@ -379,7 +381,7 @@ function set_emitter_particles_uniforms(batch, psystem, pmaterial) {
 
         pmaterial["texture_slots"] = [];
     }
-    batch.p_color_ramp = new Float32Array(cramp_varr);
+    batch.p_color_ramp.set(cramp_varr);
 
 }
 

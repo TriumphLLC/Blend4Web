@@ -88,6 +88,8 @@
 
     
 
+     
+
     
 
     
@@ -98,7 +100,7 @@
         <dl>
             
 <dt>
-    <h4 class="name" id="get_lamps"><span class="type-signature">&lt;static> </span>get_lamps<span class="signature">(lamps_type)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="get_lamps"><span class="type-signature">(static) </span>get_lamps<span class="signature">(lamps_type<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Array}</span></h4>
 
     
 </dt>
@@ -106,8 +108,8 @@
 
     
     <div class="description">
-        Get lamp objects
-if lamps_type is defined creates new array
+        Get lamp objects.
+If lamps_type is defined, creates a new array
     </div>
     
 
@@ -128,6 +130,8 @@ if lamps_type is defined creates new array
 
         <th>Type</th>
 
+        
+        <th>Attributes</th>
         
 
         
@@ -154,10 +158,20 @@ if lamps_type is defined creates new array
             </td>
 
             
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
 
             
 
-            <td class="description last"></td>
+            <td class="description last">Lamps type ("POINT", "SPOT", "SUN", "HEMI")</td>
         </tr>
 
     
@@ -211,6 +225,28 @@ if lamps_type is defined creates new array
     
 
     
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    Array with lamp object IDs
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array</span>
+
+
+    </dd>
+</dl>
+
+        
 
     
 </dd>
@@ -218,7 +254,7 @@ if lamps_type is defined creates new array
         
             
 <dt>
-    <h4 class="name" id="get_light_params"><span class="type-signature">&lt;static> </span>get_light_params<span class="signature">(light_name)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="get_light_params"><span class="type-signature">(static) </span>get_light_params<span class="signature">(light_name)</span><span class="type-signature"> &rarr; {Object}</span></h4>
 
     
 </dt>
@@ -226,7 +262,7 @@ if lamps_type is defined creates new array
 
     
     <div class="description">
-        Get light params
+        Get the light params.
     </div>
     
 
@@ -266,7 +302,7 @@ if lamps_type is defined creates new array
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">String</span>
 
 
             
@@ -276,7 +312,7 @@ if lamps_type is defined creates new array
 
             
 
-            <td class="description last">Light name</td>
+            <td class="description last">Name of the light object</td>
         </tr>
 
     
@@ -330,6 +366,28 @@ if lamps_type is defined creates new array
     
 
     
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    Light params
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Object</span>
+
+
+    </dd>
+</dl>
+
+        
 
     
 </dd>
@@ -337,7 +395,7 @@ if lamps_type is defined creates new array
         
             
 <dt>
-    <h4 class="name" id="get_lights_names"><span class="type-signature">&lt;static> </span>get_lights_names<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="get_lights_names"><span class="type-signature">(static) </span>get_lights_names<span class="signature">()</span><span class="type-signature"> &rarr; {Array}</span></h4>
 
     
 </dt>
@@ -345,7 +403,7 @@ if lamps_type is defined creates new array
 
     
     <div class="description">
-        Get lights' names
+        Get all lights' names.
     </div>
     
 
@@ -378,7 +436,7 @@ if lamps_type is defined creates new array
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="lights.js.html">ext/lights.js</a>, <a href="lights.js.html#line293">line 293</a>
+        <a href="lights.js.html">ext/lights.js</a>, <a href="lights.js.html#line294">line 294</a>
     </li></ul></dd>
     
 
@@ -401,6 +459,28 @@ if lamps_type is defined creates new array
     
 
     
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    Lights' names
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array</span>
+
+
+    </dd>
+</dl>
+
+        
 
     
 </dd>
@@ -408,7 +488,7 @@ if lamps_type is defined creates new array
         
             
 <dt>
-    <h4 class="name" id="get_sun_params"><span class="type-signature">&lt;static> </span>get_sun_params<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="get_sun_params"><span class="type-signature">(static) </span>get_sun_params<span class="signature">()</span><span class="type-signature"> &rarr; {Object}</span></h4>
 
     
 </dt>
@@ -416,7 +496,7 @@ if lamps_type is defined creates new array
 
     
     <div class="description">
-        Get sun parameters
+        Get the sun parameters.
     </div>
     
 
@@ -449,7 +529,7 @@ if lamps_type is defined creates new array
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="lights.js.html">ext/lights.js</a>, <a href="lights.js.html#line48">line 48</a>
+        <a href="lights.js.html">ext/lights.js</a>, <a href="lights.js.html#line49">line 49</a>
     </li></ul></dd>
     
 
@@ -472,6 +552,28 @@ if lamps_type is defined creates new array
     
 
     
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    Sun params object
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Object</span>
+
+
+    </dd>
+</dl>
+
+        
 
     
 </dd>
@@ -479,7 +581,7 @@ if lamps_type is defined creates new array
         
             
 <dt>
-    <h4 class="name" id="set_date"><span class="type-signature">&lt;static> </span>set_date<span class="signature">(date)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="set_date"><span class="type-signature">(static) </span>set_date<span class="signature">(date)</span><span class="type-signature"></span></h4>
 
     
 </dt>
@@ -487,7 +589,7 @@ if lamps_type is defined creates new array
 
     
     <div class="description">
-        Set date
+        Set the date.
     </div>
     
 
@@ -598,7 +700,7 @@ if lamps_type is defined creates new array
         
             
 <dt>
-    <h4 class="name" id="set_day_time"><span class="type-signature">&lt;static> </span>set_day_time<span class="signature">(time)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="set_day_time"><span class="type-signature">(static) </span>set_day_time<span class="signature">(time)</span><span class="type-signature"></span></h4>
 
     
 </dt>
@@ -606,7 +708,7 @@ if lamps_type is defined creates new array
 
     
     <div class="description">
-        Set day time
+        Set the time of day.
     </div>
     
 
@@ -682,7 +784,7 @@ if lamps_type is defined creates new array
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="lights.js.html">ext/lights.js</a>, <a href="lights.js.html#line156">line 156</a>
+        <a href="lights.js.html">ext/lights.js</a>, <a href="lights.js.html#line159">line 159</a>
     </li></ul></dd>
     
 
@@ -712,7 +814,7 @@ if lamps_type is defined creates new array
         
             
 <dt>
-    <h4 class="name" id="set_light_params"><span class="type-signature">&lt;static> </span>set_light_params<span class="signature">(light_name, light_params)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="set_light_params"><span class="type-signature">(static) </span>set_light_params<span class="signature">(light_name, light_params)</span><span class="type-signature"></span></h4>
 
     
 </dt>
@@ -720,7 +822,7 @@ if lamps_type is defined creates new array
 
     
     <div class="description">
-        Set light params
+        Set the light params.
     </div>
     
 
@@ -760,7 +862,7 @@ if lamps_type is defined creates new array
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">String</span>
 
 
             
@@ -770,7 +872,7 @@ if lamps_type is defined creates new array
 
             
 
-            <td class="description last">Light name</td>
+            <td class="description last">Name of the light object</td>
         </tr>
 
     
@@ -783,7 +885,7 @@ if lamps_type is defined creates new array
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">Object</span>
 
 
             
@@ -824,7 +926,7 @@ if lamps_type is defined creates new array
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="lights.js.html">ext/lights.js</a>, <a href="lights.js.html#line251">line 251</a>
+        <a href="lights.js.html">ext/lights.js</a>, <a href="lights.js.html#line252">line 252</a>
     </li></ul></dd>
     
 
@@ -854,7 +956,7 @@ if lamps_type is defined creates new array
         
             
 <dt>
-    <h4 class="name" id="set_max_sun_angle"><span class="type-signature">&lt;static> </span>set_max_sun_angle<span class="signature">(angle)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="set_max_sun_angle"><span class="type-signature">(static) </span>set_max_sun_angle<span class="signature">(angle)</span><span class="type-signature"></span></h4>
 
     
 </dt>
@@ -862,7 +964,7 @@ if lamps_type is defined creates new array
 
     
     <div class="description">
-        Set maximum sun angle
+        Set the maximum sun angle
     </div>
     
 
@@ -901,13 +1003,18 @@ if lamps_type is defined creates new array
 
             <td class="type">
             
+                
+<span class="param-type">Number</span>
+
+
+            
             </td>
 
             
 
             
 
-            <td class="description last">new angle in degrees (0..90)</td>
+            <td class="description last">New angle in degrees (0..90)</td>
         </tr>
 
     
@@ -968,7 +1075,7 @@ if lamps_type is defined creates new array
         
             
 <dt>
-    <h4 class="name" id="set_sun_params"><span class="type-signature">&lt;static> </span>set_sun_params<span class="signature">(sun_params)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="set_sun_params"><span class="type-signature">(static) </span>set_sun_params<span class="signature">(sun_params)</span><span class="type-signature"></span></h4>
 
     
 </dt>
@@ -976,7 +1083,7 @@ if lamps_type is defined creates new array
 
     
     <div class="description">
-        Set sun parameters
+        Set the sun parameters.
     </div>
     
 
@@ -1016,7 +1123,7 @@ if lamps_type is defined creates new array
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">Object</span>
 
 
             
@@ -1057,7 +1164,7 @@ if lamps_type is defined creates new array
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="lights.js.html">ext/lights.js</a>, <a href="lights.js.html#line89">line 89</a>
+        <a href="lights.js.html">ext/lights.js</a>, <a href="lights.js.html#line91">line 91</a>
     </li></ul></dd>
     
 
@@ -1106,7 +1213,7 @@ if lamps_type is defined creates new array
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-dev</a> on Wed May 14 2014 10:58:10 GMT+0400 (MSK)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-dev</a> on Wed Jun 25 2014 18:01:33 GMT+0400 (MSK)
 </footer>
 
 <script> prettyPrint(); </script>

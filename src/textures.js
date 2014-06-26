@@ -11,7 +11,7 @@ b4w.module["__textures"] = function(exports, require) {
 
 var config     = require("__config");
 var m_print    = require("__print");
-var m_dds        = require("__dds");
+var m_dds      = require("__dds");
 var extensions = require("__extensions");
 var util       = require("__util");
 
@@ -346,7 +346,7 @@ function setup_anisotropic_filtering(bpy_texture, global_af, w_target) {
     if (af === "DEFAULT")
         af = global_af;
 
-    if (af !== "OFF") {
+    if (af !== "OFF" && cfg_def.anisotropic_filtering) {
         var ext_aniso = extensions.get_aniso();
         if (ext_aniso) {
             af = parseFloat(af.split("x")[0]);
@@ -684,19 +684,4 @@ exports.get_texture_channel_size = function(tex) {
 
     return size;
 }
-/**
- * Calculate texture id
- */
-exports.calc_texture_id = function(tex) {
-
-    var tex_cp = {};
-
-    for (var prop in tex)
-        tex_cp[prop] = tex[prop];
-
-    delete tex_cp.offscreen_scene;
-
-    return JSON.stringify(tex_cp);
-}
-
 }

@@ -9,32 +9,32 @@ b4w.module["assets"] = function(exports, require) {
 var m_assets = require("__assets");
 
 /**
- * Asset type.
+ * Asset type: ArrayBuffer
  * @const module:assets.AT_ARRAYBUFFER
  */
 exports["AT_ARRAYBUFFER"]   = m_assets.AT_ARRAYBUFFER;
 /**
- * Asset type.
+ * Asset type: JSON
  * @const module:assets.AT_JSON
  */
 exports["AT_JSON"]          = m_assets.AT_JSON;
 /**
- * Asset type.
+ * Asset type: Text
  * @const module:assets.AT_TEXT
  */
 exports["AT_TEXT"]          = m_assets.AT_TEXT;
 /**
- * Asset type.
+ * Asset type: AudioBuffer
  * @const module:assets.AT_AUDIOBUFFER
  */
 exports["AT_AUDIOBUFFER"]   = m_assets.AT_AUDIOBUFFER;
 /**
- * Asset type.
+ * Asset type: HTMLImageElement
  * @const module:assets.AT_IMAGE_ELEMENT
  */
 exports["AT_IMAGE_ELEMENT"] = m_assets.AT_IMAGE_ELEMENT;
 /**
- * Asset type.
+ * Asset type: HTMLAudioElement
  * @const module:assets.AT_AUDIO_ELEMENT
  */
 exports["AT_AUDIO_ELEMENT"] = m_assets.AT_AUDIO_ELEMENT;
@@ -42,7 +42,7 @@ exports["AT_AUDIO_ELEMENT"] = m_assets.AT_AUDIO_ELEMENT;
 /**
  * Enqueue the assets pack.
  * @method module:assets.enqueue
- * @param assets_pack Assets pack: [[uri, type, filepath], ...]
+ * @param {Array} assets_pack Assets pack: [[uri, type, filepath], ...]
  * @param [asset_cb] A single asset loaded callback
  * @param [pack_cb] Assets pack loaded callback
  */

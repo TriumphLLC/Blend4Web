@@ -1415,40 +1415,29 @@ function tick_callback(world, time) {
         if (body.dynamic && body.simulated) {
             if (world.characters[body_id]) {
                 var character = world.characters[body_id].du_id;
-                _du_get_character_trans_quat(character, body.du_id, body.du_trans, body.du_quat);
+                _du_get_character_trans_quat(character, body.du_id,
+                                            body.du_trans, body.du_quat,
+                                            body.du_linvel, body.du_angvel);
 
-                if (body_check_prepare_output(body)) {
-
-                    var msg_cache = m_ipc.get_msg_cache(m_ipc.IN_TRANSFORM);
-
-                    msg_cache["msg_id"]  = m_ipc.IN_TRANSFORM;
-                    msg_cache["body_id"] = body_id;
-                    msg_cache["time"]    = time;
-                    msg_cache["trans"]   = body.trans;
-                    msg_cache["quat"]    = body.quat;
-                    msg_cache["linvel"]  = body.linvel;
-                    msg_cache["angvel"]  = body.angvel;
-
-                    m_ipc.post_msg(m_ipc.IN_TRANSFORM, msg_cache);
-                }
             } else {
                 _du_get_interp_data(body.du_id, body.du_trans,
                         body.du_quat, body.du_linvel, body.du_angvel);
 
-                if (body_check_prepare_interp_data(body)) {
+            }
 
-                    var msg_cache = m_ipc.get_msg_cache(m_ipc.IN_TRANSFORM);
+            if (body_check_prepare_interp_data(body)) {
 
-                    msg_cache["msg_id"]  = m_ipc.IN_TRANSFORM;
-                    msg_cache["body_id"] = body_id;
-                    msg_cache["time"]    = time;
-                    msg_cache["trans"]   = body.trans;
-                    msg_cache["quat"]    = body.quat;
-                    msg_cache["linvel"]  = body.linvel;
-                    msg_cache["angvel"]  = body.angvel;
+                var msg_cache = m_ipc.get_msg_cache(m_ipc.IN_TRANSFORM);
 
-                    m_ipc.post_msg(m_ipc.IN_TRANSFORM, msg_cache);
-                }
+                msg_cache["msg_id"]  = m_ipc.IN_TRANSFORM;
+                msg_cache["body_id"] = body_id;
+                msg_cache["time"]    = time;
+                msg_cache["trans"]   = body.trans;
+                msg_cache["quat"]    = body.quat;
+                msg_cache["linvel"]  = body.linvel;
+                msg_cache["angvel"]  = body.angvel;
+
+                m_ipc.post_msg(m_ipc.IN_TRANSFORM, msg_cache);
             }
 
             if (body.col_imp_test) {

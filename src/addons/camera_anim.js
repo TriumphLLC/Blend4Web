@@ -21,14 +21,19 @@ var m_vec3 = require("vec3");
 var m_quat = require("quat");
 
 /**
- * Track camera to target
- * @param camobj Camera Object ID
- * @param target Target object or target position
- * @param rot_speed Rotation speed in radians per second
- * @param zoom_mult The multiplicity of zooming to the object
- * @param zoom_time Zooming time
- * @param zoom_delay Delay after zooming
- * @param callback Optional callback
+ * Callback to be executed when the camera performs the zoom.
+ * @callback zoom_callback
+ */
+
+/**
+ * Make the camera object track the target (object or point).
+ * @param {Object} camobj Camera Object ID
+ * @param {(Object|Float32Array)} target Target object or target position
+ * @param {Number} rot_speed Rotation speed in radians per second
+ * @param {Number} zoom_mult Zoom level value 
+ * @param {Number} zoom_time The time it takes to zoom on the target
+ * @param {Number} zoom_delay Delay before the camera zooms back
+ * @param {zoom_callback} [zoom_cb] Optional zoom callback
  */
 exports.track_to_target = function(cam_obj, target, rot_speed, zoom_mult,
                                     zoom_time, zoom_delay, callback, zoom_cb) {
@@ -213,10 +218,18 @@ exports.track_to_target = function(cam_obj, target, rot_speed, zoom_mult,
 }
 
 /**
- * Auto rotate camera around object
- * @param auto_rotate_ratio Speed ratio of the camera
+ * Callback to be executed when mouse button is clicked.
+ * @callback mouse_event_callback
  */
-exports.auto_rotate = function(auto_rotate_ratio) {
+
+/**
+ * Auto-rotate the MS_TARGET camera around the pivot point.
+ * @param {Number} auto_rotate_ratio Speed ratio of the camera
+ * @param {mouse_event_callback} Optional callback
+ */
+exports.auto_rotate = function(auto_rotate_ratio, callback) {
+
+    callback = callback || function(){};
 
     var obj = b4w.scenes.get_active_camera();
 
@@ -234,6 +247,7 @@ exports.auto_rotate = function(auto_rotate_ratio) {
     function mouse_cb() {
         m_ctl.remove_sensor_manifold(obj, "AUTO_ROTATE");
         m_ctl.remove_sensor_manifold(obj, "DISABLE_AUTO_ROTATE");
+        callback();
     }
 
     if (!m_ctl.check_sensor_manifold(obj, "AUTO_ROTATE")) {

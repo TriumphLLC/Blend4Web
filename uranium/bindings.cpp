@@ -1450,17 +1450,13 @@ void du_character_jump(du_character_id character)
 }
 
 void du_get_character_trans_quat(du_character_id character, du_body_id body,
-                                 float *dest_trans, float *dest_quat)
+                                 float *dest_trans, float *dest_quat, 
+                                 float *dest_linvel, float *dest_angvel)
 {
     btCollisionObject *bt_obj = reinterpret_cast <btCollisionObject*>(body);
     duCharacter *du_character = reinterpret_cast <duCharacter*>(character);
 
-    btMotionState *mstate = get_motion_state(bt_obj);
-    btTransform transform;
-    if (mstate)
-        mstate->getWorldTransform(transform);
-    else
-        transform = bt_obj->getWorldTransform();
+    btTransform transform = bt_obj->getInterpolationWorldTransform();
 
     btVector3 origin = transform.getOrigin();
 
@@ -1468,13 +1464,23 @@ void du_get_character_trans_quat(du_character_id character, du_body_id body,
     dest_trans[1] = origin.y();
     dest_trans[2] = origin.z();
 
-    btScalar rotation_angle = du_character->getHorRotationAngle();;
+    btScalar rotation_angle = du_character->getHorRotationAngle();
 
     float half = rotation_angle * 0.5;
     dest_quat[3] = cosf(half);
     dest_quat[0] = 0.0;
     dest_quat[1] = sinf(half);
     dest_quat[2] = 0.0;
+
+    btVector3 lin_vel = bt_obj->getInterpolationLinearVelocity();
+    dest_linvel[0] = lin_vel.x();
+    dest_linvel[1] = lin_vel.y();
+    dest_linvel[2] = lin_vel.z();
+
+    btVector3 ang_vel = bt_obj->getInterpolationAngularVelocity();
+    dest_angvel[0] = ang_vel.x();
+    dest_angvel[1] = ang_vel.y();
+    dest_angvel[2] = ang_vel.z();
 }
 
 void du_set_gravity(du_body_id body, float gravity)

@@ -10,7 +10,7 @@
 
 const vec3 UP = vec3(0.0, 1.0, 0.0);
 
-#if HAIR_BILLBOARD_SPHERICAL
+#if HAIR_BILLBOARD_SPHERICAL || !HAIR_BILLBOARD && (BILLBOARD_ALIGN == BILLBOARD_ALIGN_VIEW)
 mat4 billboard_spherical(vec3 center_pos, mat4 view_matrix) {
 
     vec3 x = vec3(view_matrix[0][0],view_matrix[1][0],view_matrix[2][0]);
@@ -44,7 +44,9 @@ mat4 bend_jitter_matrix(in vec3 wind_world, float wind_param, float jitter_amp,
 
     float seed = fract(length(vec_seed) / 0.17); // [0, 1]
     float rand_freq = jitter_freq + seed / 10.0; // + 0%-10%
-    float rand_phase = seed / jitter_freq; //  [0, 1/freq]
+    float rand_phase = seed;
+    if (jitter_freq != 0.0)
+        rand_phase /= jitter_freq ; //  [0, 1/freq]
 
     wind_world *= 1.0 + 0.5 * sin(wind_param); // make wind gusty
 
@@ -56,7 +58,7 @@ mat4 bend_jitter_matrix(in vec3 wind_world, float wind_param, float jitter_amp,
 #endif
 
 mat4 billboard_matrix(in vec3 camera_eye, in vec3 wcen, in mat4 view_matrix) {
-#if HAIR_BILLBOARD_SPHERICAL
+#if HAIR_BILLBOARD_SPHERICAL || !HAIR_BILLBOARD && (BILLBOARD_ALIGN == BILLBOARD_ALIGN_VIEW)
     mat4 bill_matrix = billboard_spherical(wcen, view_matrix);
 #elif HAIR_BILLBOARD_RANDOM
     // get initial random rotation angle

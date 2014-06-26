@@ -88,6 +88,8 @@
 
     
 
+     
+
     
 
     
@@ -98,7 +100,7 @@
         <dl>
             
 <dt>
-    <h4 class="name" id="append_copy_trans"><span class="type-signature">&lt;static> </span>append_copy_trans<span class="signature">(obj, target, offset)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="append_copy_trans"><span class="type-signature">(static) </span>append_copy_trans<span class="signature">(obj, target, offset)</span><span class="type-signature"></span></h4>
 
     
 </dt>
@@ -106,7 +108,7 @@
 
     
     <div class="description">
-        Append copy translatioin constraint.
+        Append a copy translation constraint.
     </div>
     
 
@@ -145,6 +147,11 @@
 
             <td class="type">
             
+                
+<span class="param-type">Object</span>
+
+
+            
             </td>
 
             
@@ -162,6 +169,11 @@
             
 
             <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
             
             </td>
 
@@ -182,7 +194,7 @@
             <td class="type">
             
                 
-<span class="param-type">vec3</span>
+<span class="param-type">Float32Array</span>
 
 
             
@@ -223,7 +235,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="constraints.js.html">ext/constraints.js</a>, <a href="constraints.js.html#line76">line 76</a>
+        <a href="constraints.js.html">ext/constraints.js</a>, <a href="constraints.js.html#line95">line 95</a>
     </li></ul></dd>
     
 
@@ -253,7 +265,7 @@
         
             
 <dt>
-    <h4 class="name" id="append_follow"><span class="type-signature">&lt;static> </span>append_follow<span class="signature">(obj, target, offset)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="append_follow"><span class="type-signature">(static) </span>append_follow<span class="signature">(obj, target, offset_min, offset_max)</span><span class="type-signature"></span></h4>
 
     
 </dt>
@@ -261,7 +273,7 @@
 
     
     <div class="description">
-        Append follow constraint.
+        Append a follow constraint.
     </div>
     
 
@@ -300,6 +312,11 @@
 
             <td class="type">
             
+                
+<span class="param-type">Object</span>
+
+
+            
             </td>
 
             
@@ -318,6 +335,14 @@
 
             <td class="type">
             
+                
+<span class="param-type">Object</span>
+|
+
+<span class="param-type">Float32Array</span>
+
+
+            
             </td>
 
             
@@ -331,7 +356,7 @@
 
         <tr>
             
-                <td class="name"><code>offset</code></td>
+                <td class="name"><code>offset_min</code></td>
             
 
             <td class="type">
@@ -347,7 +372,30 @@
 
             
 
-            <td class="description last">Offset</td>
+            <td class="description last">Minimum offset</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>offset_max</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Maximum offset</td>
         </tr>
 
     
@@ -378,7 +426,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="constraints.js.html">ext/constraints.js</a>, <a href="constraints.js.html#line101">line 101</a>
+        <a href="constraints.js.html">ext/constraints.js</a>, <a href="constraints.js.html#line137">line 137</a>
     </li></ul></dd>
     
 
@@ -408,7 +456,7 @@
         
             
 <dt>
-    <h4 class="name" id="append_semi_soft_cam"><span class="type-signature">&lt;static> </span>append_semi_soft_cam<span class="signature">(obj, target, offset)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="append_semi_soft_cam"><span class="type-signature">(static) </span>append_semi_soft_cam<span class="signature">(obj, target, offset, softness<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
     
 </dt>
@@ -416,7 +464,7 @@
 
     
     <div class="description">
-        Append semi-soft constraint.
+        Append a semi-soft constraint.
     </div>
     
 
@@ -438,7 +486,11 @@
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
+        
+        <th>Default</th>
         
 
         <th class="last">Description</th>
@@ -455,10 +507,27 @@
 
             <td class="type">
             
+                
+<span class="param-type">Object</span>
+
+
+            
             </td>
 
             
+                <td class="attributes">
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
             
 
             <td class="description last">Object ID</td>
@@ -473,10 +542,30 @@
 
             <td class="type">
             
+                
+<span class="param-type">Object</span>
+|
+
+<span class="param-type">Array</span>
+
+
+            
             </td>
 
             
+                <td class="attributes">
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
             
 
             <td class="description last">Object ID or [Armature object ID, Bone Name]</td>
@@ -492,180 +581,7 @@
             <td class="type">
             
                 
-<span class="param-type">vec3</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Offset in parent local space</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-    
-
-    
-<dl class="details">
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="constraints.js.html">ext/constraints.js</a>, <a href="constraints.js.html#line56">line 56</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dd>
-
-        
-            
-<dt>
-    <h4 class="name" id="append_semi_stiff"><span class="type-signature">&lt;static> </span>append_semi_stiff<span class="signature">(obj, target, offset, <span class="optional">rotation_offset</span>)</span><span class="type-signature"></span></h4>
-
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Append semi-stiff constraint.
-    </div>
-    
-
-    
-
-    
-
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Argument</th>
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>obj</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">Object ID</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>target</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">Object ID or [Armature object ID, Bone Name]</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>offset</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">vec3</span>
+<span class="param-type">Float32Array</span>
 
 
             
@@ -681,6 +597,10 @@
                 </td>
             
 
+            
+                <td class="default">
+                
+                </td>
             
 
             <td class="description last">Offset in parent local space</td>
@@ -690,13 +610,13 @@
 
         <tr>
             
-                <td class="name"><code>rotation_offset</code></td>
+                <td class="name"><code>softness</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">quat4</span>
+<span class="param-type">Number</span>
 
 
             
@@ -715,695 +635,14 @@
             
 
             
-
-            <td class="description last">Rotation offset in parent local space</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-    
-
-    
-<dl class="details">
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="constraints.js.html">ext/constraints.js</a>, <a href="constraints.js.html#line26">line 26</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dd>
-
-        
-            
-<dt>
-    <h4 class="name" id="append_semi_stiff_cam"><span class="type-signature">&lt;static> </span>append_semi_stiff_cam<span class="signature">(obj, target, offset, <span class="optional">rotation_offset</span>, clamp_left, clamp_right, clamp_up, clamp_down)</span><span class="type-signature"></span></h4>
-
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Append semi-stiff constraint with camera rotation clamping.
-    </div>
-    
-
-    
-
-    
-
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Argument</th>
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>obj</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-                <td class="attributes">
+                <td class="default">
                 
-
-                
-
+                    0.25
                 
                 </td>
             
 
-            
-
-            <td class="description last">Object ID</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>target</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">Object ID or [Armature object ID, Bone Name]</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>offset</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">vec3</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">Offset in parent local space</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>rotation_offset</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">quat4</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">Rotation offset in parent local space</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>clamp_left</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">Clamp camera rotation left for azimuth angle</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>clamp_right</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">Clamp camera rotation right for azimuth angle</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>clamp_up</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">Clamp camera rotation up for elevation angle</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>clamp_down</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">Clamp camera rotation down for elevation angle</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-    
-
-    
-<dl class="details">
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="constraints.js.html">ext/constraints.js</a>, <a href="constraints.js.html#line37">line 37</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dd>
-
-        
-            
-<dt>
-    <h4 class="name" id="append_stiff"><span class="type-signature">&lt;static> </span>append_stiff<span class="signature">(obj, target, offset, <span class="optional">rotation_offset</span>)</span><span class="type-signature"></span></h4>
-
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Append stiff constraint.
-    </div>
-    
-
-    
-
-    
-
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Argument</th>
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>obj</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">Object ID</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>target</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">Object ID or [Armature object ID, Bone Name]</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>offset</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">vec3</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">Offset in parent local space</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>rotation_offset</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">quat4</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">Rotation offset in parent local space</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-    
-
-    
-<dl class="details">
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="constraints.js.html">ext/constraints.js</a>, <a href="constraints.js.html#line11">line 11</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dd>
-
-        
-            
-<dt>
-    <h4 class="name" id="append_stiff_trans"><span class="type-signature">&lt;static> </span>append_stiff_trans<span class="signature">(obj, target, offset)</span><span class="type-signature"></span></h4>
-
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Append stiff translation constraint.
-    </div>
-    
-
-    
-
-    
-
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>obj</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Object ID</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>target</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Object ID</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>offset</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">vec3</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Offset in target local space</td>
+            <td class="description last">value of camera's smooth</td>
         </tr>
 
     
@@ -1464,7 +703,7 @@
         
             
 <dt>
-    <h4 class="name" id="append_track"><span class="type-signature">&lt;static> </span>append_track<span class="signature">(obj, target)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="append_semi_stiff"><span class="type-signature">(static) </span>append_semi_stiff<span class="signature">(obj, target, offset, rotation_offset<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
     
 </dt>
@@ -1472,7 +711,809 @@
 
     
     <div class="description">
-        Append track constraint.
+        Append a semi-stiff constraint.
+    </div>
+    
+
+    
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Object ID</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>target</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Object ID or [Armature object ID, Bone Name]</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>offset</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Float32Array</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Offset in parent local space</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>rotation_offset</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Float32Array</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Rotation offset in parent local space</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="constraints.js.html">ext/constraints.js</a>, <a href="constraints.js.html#line31">line 31</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="append_semi_stiff_cam"><span class="type-signature">(static) </span>append_semi_stiff_cam<span class="signature">(obj, target, offset, rotation_offset<span class="signature-attributes">opt</span>, clamp_left, clamp_right, clamp_up, clamp_down)</span><span class="type-signature"></span></h4>
+
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Append a semi-stiff constraint with camera rotation clamping.
+    </div>
+    
+
+    
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Object ID</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>target</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+|
+
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Object ID or [Armature object ID, Bone Name]</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>offset</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Float32Array</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Offset in parent local space</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>rotation_offset</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Float32Array</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Rotation offset in parent local space</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>clamp_left</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Clamp camera rotation left for the azimuth angle</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>clamp_right</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Clamp camera rotation right for the azimuth angle</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>clamp_up</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Clamp camera rotation up for the elevation angle</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>clamp_down</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Clamp camera rotation down for the elevation angle</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="constraints.js.html">ext/constraints.js</a>, <a href="constraints.js.html#line45">line 45</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="append_stiff"><span class="type-signature">(static) </span>append_stiff<span class="signature">(obj, target, offset, rotation_offset<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Append a stiff constraint.
+    </div>
+    
+
+    
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Object ID</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>target</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+|
+
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Object ID or [Armature object ID, Bone Name]</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>offset</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Float32Array</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Offset in parent local space</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>rotation_offset</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Float32Array</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Rotation offset in parent local space</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="constraints.js.html">ext/constraints.js</a>, <a href="constraints.js.html#line13">line 13</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="append_stiff_trans"><span class="type-signature">(static) </span>append_stiff_trans<span class="signature">(obj, target, offset)</span><span class="type-signature"></span></h4>
+
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Append a stiff translation constraint.
     </div>
     
 
@@ -1511,6 +1552,11 @@
 
             <td class="type">
             
+                
+<span class="param-type">Object</span>
+
+
+            
             </td>
 
             
@@ -1528,6 +1574,367 @@
             
 
             <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Object ID</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>offset</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Float32Array</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Offset in target local space</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="constraints.js.html">ext/constraints.js</a>, <a href="constraints.js.html#line82">line 82</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="append_stiff_trans_rot"><span class="type-signature">(static) </span>append_stiff_trans_rot<span class="signature">(obj, target, offset, rotation_offset)</span><span class="type-signature"></span></h4>
+
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Append a stiff translation/rotation constraint.
+    </div>
+    
+
+    
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Object ID</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>target</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Object ID</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>offset</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Float32Array</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Offset in world space</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>rotation_offset</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Float32Array</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Rotation offset in world space</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="constraints.js.html">ext/constraints.js</a>, <a href="constraints.js.html#line108">line 108</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="append_track"><span class="type-signature">(static) </span>append_track<span class="signature">(obj, target)</span><span class="type-signature"></span></h4>
+
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Append a track constraint.
+    </div>
+    
+
+    
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Object ID</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>target</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+|
+
+<span class="param-type">Float32Array</span>
+
+
             
             </td>
 
@@ -1566,7 +1973,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="constraints.js.html">ext/constraints.js</a>, <a href="constraints.js.html#line89">line 89</a>
+        <a href="constraints.js.html">ext/constraints.js</a>, <a href="constraints.js.html#line122">line 122</a>
     </li></ul></dd>
     
 
@@ -1596,7 +2003,7 @@
         
             
 <dt>
-    <h4 class="name" id="remove"><span class="type-signature">&lt;static> </span>remove<span class="signature">(obj)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="remove"><span class="type-signature">(static) </span>remove<span class="signature">(obj)</span><span class="type-signature"></span></h4>
 
     
 </dt>
@@ -1604,7 +2011,7 @@
 
     
     <div class="description">
-        Remove object constraint if any.
+        Remove the object's constraint (if any).
     </div>
     
 
@@ -1643,6 +2050,11 @@
 
             <td class="type">
             
+                
+<span class="param-type">Object</span>
+
+
+            
             </td>
 
             
@@ -1680,7 +2092,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="constraints.js.html">ext/constraints.js</a>, <a href="constraints.js.html#line114">line 114</a>
+        <a href="constraints.js.html">ext/constraints.js</a>, <a href="constraints.js.html#line154">line 154</a>
     </li></ul></dd>
     
 
@@ -1729,7 +2141,7 @@
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-dev</a> on Wed May 14 2014 10:58:09 GMT+0400 (MSK)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-dev</a> on Wed Jun 25 2014 18:01:33 GMT+0400 (MSK)
 </footer>
 
 <script> prettyPrint(); </script>

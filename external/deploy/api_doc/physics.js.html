@@ -28,7 +28,7 @@
             <pre class="prettyprint source linenums"><code>"use strict";
 
 /** 
- * Physics external API.
+ * Physics API.
  * @module physics
  */
 b4w.module["physics"] = function(exports, require) {
@@ -38,22 +38,22 @@ var physics   = require("__physics");
 var util      = require("__util");
 
 /**
- * Character moving type "walk".
+ * The character's type of movement is "walk".
  * @const module:physics.CM_WALK
  */
 exports["CM_WALK"] = 0;
 /**
- * Character moving type "run".
+ * The character's type of movement is "run".
  * @const module:physics.CM_RUN
  */
 exports["CM_RUN"] = 1;
 /**
- * Character moving type "climb".
+ * The character's type of movement is "climb".
  * @const module:physics.CM_CLIMB
  */
 exports["CM_CLIMB"] = 2;
 /**
- * Character moving type "fly".
+ * The character's type of movement is "fly".
  * @const module:physics.CM_FLY
  */
 exports["CM_FLY"] = 3;
@@ -61,7 +61,7 @@ exports["CM_FLY"] = 3;
 /**
  * Enable physics simulation.
  * @method module:physics.enable_simulation
- * @param obj Object ID
+ * @param {Object} obj Object ID
  */
 exports["enable_simulation"] = function(obj) {
     physics.enable_simulation(obj);
@@ -69,23 +69,24 @@ exports["enable_simulation"] = function(obj) {
 /**
  * Disable physics simulation.
  * @method module:physics.disable_simulation
- * @param obj Object ID
+ * @param {Object} obj Object ID
  */
 exports["disable_simulation"] = function(obj) {
     physics.disable_simulation(obj);
 }
 /**
- * Check if object has simulated physics
+ * Check if the object has any simulated physics
  * @method module:physics.has_simulated_physics
- * @param obj Object ID
+ * @param {Object} obj Object ID
+ * @returns {Boolean} Check result
  */
 exports["has_simulated_physics"] = function(obj) {
     return physics.has_simulated_physics(obj);
 }
 /**
- * Set object gravity.
+ * Set the object's gravity.
  * @method module:physics.set_gravity
- * @param obj Object ID
+ * @param {Object} obj Object ID
  * @param {Number} gravity Positive object gravity
  */
 exports["set_gravity"] = function(obj, gravity) {
@@ -96,9 +97,9 @@ exports["set_gravity"] = function(obj, gravity) {
     physics.set_gravity(obj, gravity);
 }
 /**
- * Set object linear/angular damping.
+ * Set the object's linear/angular damping.
  * @method module:physics.set_damping
- * @param obj Object ID
+ * @param {Object} obj Object ID
  * @param {Number} damping Linear damping
  * @param {Number} rotation_damping Angular damping
  * settings
@@ -113,9 +114,9 @@ exports["set_damping"] = function(obj, damping, rotation_damping) {
     physics.post_msg("set_damping", body_id, damping, rotation_damping);
 }
 /**
- * Reset object linear/angular damping to default values.
+ * Reset the object's linear/angular damping to default values.
  * @method module:physics.reset_damping
- * @param obj Object ID
+ * @param {Object} obj Object ID
  */
 exports["reset_damping"] = function(obj) {
     if (!obj._physics) {
@@ -132,40 +133,60 @@ exports["reset_damping"] = function(obj) {
 }
 
 /**
- * Set object transform, only for static/kinematic objects
+ * Set the object's transform (for static/kinematic objects)
  * @method module:physics.set_transform
- * @param obj Object ID
- * @param trans Translation vector
- * @param quat Rotation quaternion
+ * @param {Object} obj Object ID
+ * @param {Flaot32Array} trans Translation vector
+ * @param {Flaot32Array} quat Rotation quaternion
  */
 exports["set_transform"] = function(obj, trans, quat) {
     physics.set_transform.apply(this, arguments);
 }
 
+/**
+ * Sync the object's transform (for static/kinematic objects)
+ * @method module:physics.sync_transform
+ * @param {Object} obj Object ID
+ */
 exports["sync_transform"] = function(obj) {
     physics.sync_transform(obj);
 }
 
 /**
- * Apply velocity to object (in local space)
+ * Apply velocity to the object (in the local space)
  * @method module:physics.apply_velocity
- * @param obj Object ID
+ * @param {Object} obj Object ID
+ * @param {Number} vx_local Vx local space velocity
+ * @param {Number} vy_local Vy local space velocity
+ * @param {Number} vz_local Vz local space velocity 
+ * @param {Boolean} allow_vertical Perform velocity transform to allow
+ * vertical velocity in world space (air, water)
+ * @param {Boolean} disable_up Disable up speed (swimming on surface)
  */
 exports["apply_velocity"] = function(obj) {
     physics.apply_velocity.apply(this, arguments);
 }
 /**
- * Apply velocity to object (in world space)
+ * Apply velocity to the object (in the world space)
  * @method module:physics.apply_velocity_world
- * @param obj Object ID
+ * @param {Object} obj Object ID
+ * @param {Number} vx Vx world space velocity
+ * @param {Number} vy Vy world space velocity
+ * @param {Number} vz Vz world space velocity 
  */
 exports["apply_velocity_world"] = function(obj) {
     physics.apply_velocity_world.apply(this, arguments);
 }
 /**
- * Apply force to object (in local space)
+ * Apply a force to the object (in the local space)
  * @method module:physics.apply_force
- * @param obj Object ID
+ * @param {Object} obj Object ID
+ * @param {Number} fx_local Fx force in the local space
+ * @param {Number} fy_local Fy force in the local space
+ * @param {Number} fz_local Fz force in the local space 
+ * @param {Boolean} allow_vertical Perform force transform to allow vertical
+ * velocity in the world space (air, water)
+ * @param {Boolean} disable_up Disable up speed (e.g. swimming on surface)
  */
 exports["apply_force"] = function(obj, fx_local, fy_local, fz_local, 
         allow_vertical, disable_up) {
@@ -177,18 +198,21 @@ exports["apply_force"] = function(obj, fx_local, fy_local, fz_local,
 }
 
 /**
- * Apply torque to object (in local space)
+ * Apply torque to the object (in the local space)
  * @method module:physics.apply_torque
- * @param obj Object ID
+ * @param {Object} obj Object ID
+ * @param {Number} tx_local Tx torque
+ * @param {Number} ty_local Ty torque
+ * @param {Number} tz_local Tz torque
  */
 exports["apply_torque"] = function(obj, tx_local, ty_local, tz_local) {
     physics.apply_torque.apply(this, arguments);
 }
 /**
- * Apply vehicle throttle.
+ * Apply throttle to vehicle.
  * @method module:physics.vehicle_throttle
- * @param obj Object ID
- * @param engine_force Engine force (-1..1)
+ * @param {Object} obj Object ID
+ * @param {Number} engine_force Engine force (-1..1)
  */
 exports["vehicle_throttle"] = function(obj, engine_force) {
     if (!physics.is_vehicle_chassis(obj) &amp;&amp; !physics.is_vehicle_hull(obj))
@@ -199,9 +223,9 @@ exports["vehicle_throttle"] = function(obj, engine_force) {
 /**
  * Increment vehicle throttle.
  * @method module:physics.vehicle_throttle_inc
- * @param obj Object ID
- * @param engine_force Engine force increment (0..1)
- * @param dir Throttling direction -1,0,1
+ * @param {Object} obj Object ID
+ * @param {Number} engine_force Engine force increment (0..1)
+ * @param {Number} dir Throttling direction -1,0,1
  */
 exports["vehicle_throttle_inc"] = function(obj, engine_force_inc, dir) {
     if (!physics.is_vehicle_chassis(obj) &amp;&amp; !physics.is_vehicle_hull(obj))
@@ -230,8 +254,8 @@ exports["vehicle_throttle_inc"] = function(obj, engine_force_inc, dir) {
 /**
  * Change vehicle steering.
  * @method module:physics.vehicle_steer
- * @param obj Object ID
- * @param steering_value Steering value (-1..1)
+ * @param {Object} obj Object ID
+ * @param {Number} steering_value Steering value (-1..1)
  */
 exports["vehicle_steer"] = function(obj, steering_value) {
     if (!physics.is_vehicle_chassis(obj) &amp;&amp; !physics.is_vehicle_hull(obj))
@@ -242,9 +266,9 @@ exports["vehicle_steer"] = function(obj, steering_value) {
 /**
  * Increment vehicle steering.
  * @method module:physics.vehicle_steer_inc
- * @param obj Object ID
- * @param steering_value Steering value increment (0..1)
- * @param dir Steering direction -1,0,1
+ * @param {Object} obj Object ID
+ * @param {Number} steering_value Steering value increment (0..1)
+ * @param {Number} dir Steering direction -1,0,1
  */
 exports["vehicle_steer_inc"] = function(obj, steering_value_inc, dir) {
     if (!physics.is_vehicle_chassis(obj) &amp;&amp; !physics.is_vehicle_hull(obj))
@@ -271,10 +295,10 @@ exports["vehicle_steer_inc"] = function(obj, steering_value_inc, dir) {
     physics.vehicle_steer(obj, util.clamp(steering, -1, 1));
 }
 /**
- * Stop vehicle by applying brake force.
+ * Stop the vehicle by applying the brake force.
  * @method module:physics.vehicle_brake
- * @param obj Object ID
- * @param brake_force Brake force (0..1)
+ * @param {Object} obj Object ID
+ * @param {Number} brake_force Brake force (0..1)
  */
 exports["vehicle_brake"] = function(obj, brake_force) {
     if (!physics.is_vehicle_chassis(obj) &amp;&amp; !physics.is_vehicle_hull(obj))
@@ -283,10 +307,10 @@ exports["vehicle_brake"] = function(obj, brake_force) {
     physics.vehicle_brake(obj, util.clamp(brake_force, 0, 1));
 }
 /**
- * Increment brake force
+ * Increment the brake force
  * @method module:physics.vehicle_brake_inc
- * @param obj Object ID
- * @param brake_force Brake force increment (-1..1)
+ * @param {Object} obj Object ID
+ * @param {Number} brake_force Brake force increment (-1..1)
  */
 exports["vehicle_brake_inc"] = function(obj, brake_force_inc) {
     if (!physics.is_vehicle_chassis(obj) &amp;&amp; !physics.is_vehicle_hull(obj))
@@ -302,25 +326,25 @@ exports["vehicle_brake_inc"] = function(obj, brake_force_inc) {
     physics.vehicle_brake(obj, util.clamp(brake_force, 0, 1));
 }
 /**
- * Check if given object is a vehicle chassis.
+ * Check if the given object is a vehicle chassis.
  * @method module:physics.is_vehicle_chassis
- * @param obj Object ID
+ * @param {Object} obj Object ID
  */
 exports["is_vehicle_chassis"] = function(obj) {
     return physics.is_vehicle_chassis(obj);
 }
 /**
- * Check if given object is a vehicle hull.
+ * Check if the given object is a vehicle hull.
  * @method module:physics.is_vehicle_hull
- * @param obj Object ID
+ * @param {Object} obj Object ID
  */
 exports["is_vehicle_hull"] = function(obj) {
     return physics.is_vehicle_hull(obj);
 }
 /**
- * Get vehicle name.
+ * Get the vehicle name.
  * @method module:physics.get_vehicle_name
- * @param obj Object ID
+ * @param {Object} obj Object ID
  */
 exports["get_vehicle_name"] = function(obj) {
     if (physics.is_vehicle_chassis(obj) || physics.is_vehicle_hull(obj))
@@ -331,9 +355,9 @@ exports["get_vehicle_name"] = function(obj) {
     }
 }
 /**
- * Get vehicle throttle value.
+ * Get the vehicle's throttle value.
  * @method module:physics.get_vehicle_throttle
- * @param obj Object ID
+ * @param {Object} obj Object ID
  */
 exports["get_vehicle_throttle"] = function(obj) {
     if (physics.is_vehicle_chassis(obj) || physics.is_vehicle_hull(obj))
@@ -342,9 +366,10 @@ exports["get_vehicle_throttle"] = function(obj) {
         m_print.error("Wrong object");
 }
 /**
- * Get vehicle steering value.
+ * Get the vehicle's steering value.
  * @method module:physics.get_vehicle_steering
- * @param obj Object ID
+ * @param {Object} obj Object ID
+ * @returns {Number} Steering value
  */
 exports["get_vehicle_steering"] = function(obj) {
     if (physics.is_vehicle_chassis(obj) || physics.is_vehicle_hull(obj))
@@ -353,9 +378,10 @@ exports["get_vehicle_steering"] = function(obj) {
         m_print.error("Wrong object");
 }
 /**
- * Get vehicle brake force.
+ * Get the vehicle's brake force.
  * @method module:physics.get_vehicle_brake
- * @param obj Object ID
+ * @param {Object} obj Object ID
+ * @returns {Number} Brake value
  */
 exports["get_vehicle_brake"] = function(obj) {
     if (physics.is_vehicle_chassis(obj) || physics.is_vehicle_hull(obj))
@@ -364,9 +390,10 @@ exports["get_vehicle_brake"] = function(obj) {
         m_print.error("Wrong object");
 }
 /**
- * Get vehicle speed in km/h.
+ * Get the vehicle speed in km/h.
  * @method module:physics.get_vehicle_speed
- * @param obj Object ID
+ * @param {Object} obj Object ID
+ * @returns {Number} Vehicle speed
  */
 exports["get_vehicle_speed"] = function(obj) {
     if (physics.is_vehicle_chassis(obj) || physics.is_vehicle_hull(obj))
@@ -375,126 +402,127 @@ exports["get_vehicle_speed"] = function(obj) {
         m_print.error("Wrong object");
 }
 /**
- * Check if given object is a character.
+ * Check if the given object is a character.
  * @method module:physics.is_character
- * @param obj Object ID
+ * @param {Object} obj Object ID
+ * @returns {Boolean} Check result
  */
 exports["is_character"] = function(obj) {
     return physics.is_character(obj);
 }
 /**
- * Move character in corresponding direction.
+ * Move the character in the corresponding direction.
  * @method module:physics.set_character_move_dir
- * @param obj Object ID
- * @param forw Apply forward speed
- * @param back Apply side speed
+ * @param {Object} obj Object ID
+ * @param {Number} forw Apply forward speed
+ * @param {Number} back Apply side speed
  */
-exports["set_character_move_dir"] = function (obj, forw, side) {
+exports["set_character_move_dir"] = function(obj, forw, side) {
     physics.set_character_move_dir(obj, forw, side);
 }
 /**
- * Set character moving type.
+ * Set the character moving type.
  * @method module:physics.set_character_move_type
- * @param obj Object ID
- * @param type Character moving type (0 - walk, 1 - run, 2 - vertical climb)
+ * @param {Object} obj Object ID
+ * @param {Number} type Character moving type (0 - walk, 1 - run, 2 - vertical climb)
  */
-exports["set_character_move_type"] = function (obj, type) {
+exports["set_character_move_type"] = function(obj, type) {
     physics.set_character_move_type(obj, type);
 }
 /**
- * Set character distance to water surface in vertical direction.
+ * Set the distance between the character and water surface in a vertical direction.
  * @method module:physics.set_character_dist_to_water
  * @deprecated
  */
-exports["set_character_dist_to_water"] = function (obj, dist) {
+exports["set_character_dist_to_water"] = function(obj, dist) {
     m_print.warn("Function set_character_dist_to_water() is deprecated");
 }
 /**
- * Set character walk speed.
+ * Set the character's walk speed.
  * @method module:physics.set_character_walk_velocity
- * @param obj Object ID
- * @param velocity Walking velocity
+ * @param {Object} obj Object ID
+ * @param {Number} velocity Walking velocity
  */
-exports["set_character_walk_velocity"] = function (obj, velocity) {
+exports["set_character_walk_velocity"] = function(obj, velocity) {
     physics.set_character_walk_velocity(obj, velocity);
 }
 /**
- * Set character run speed.
+ * Set the character's run speed.
  * @method module:physics.set_character_run_velocity
- * @param obj Object ID
- * @param velocity Running velocity
+ * @param {Object} obj Object ID
+ * @param {Number} velocity Running velocity
  */
-exports["set_character_run_velocity"] = function (obj, velocity) {
+exports["set_character_run_velocity"] = function(obj, velocity) {
     physics.set_character_run_velocity(obj, velocity);
 }
 /**
- * Set character fly speed.
+ * Set the character's fly speed.
  * @method module:physics.set_character_fly_velocity
- * @param obj Object ID
- * @param velocity Flying velocity
+ * @param {Object} obj Object ID
+ * @param {Number} velocity Flying velocity
  */
-exports["set_character_fly_velocity"] = function (obj, velocity) {
+exports["set_character_fly_velocity"] = function(obj, velocity) {
     physics.set_character_fly_velocity(obj, velocity);
 }
 /**
- * Perform character's jump
+ * Make the character jump
  * @method module:physics.character_jump
- * @param obj Object ID
+ * @param {Object} obj Object ID
  */
-exports["character_jump"] = function (obj) {
+exports["character_jump"] = function(obj) {
     physics.character_jump(obj);
 }
 /**
- * Increment character rotation
+ * Increment the character rotation
  * @method module:physics.character_rotation_inc
- * @param obj Object ID
- * @param h_angle Angle in horizontal plane
- * @param v_angle Angle in vertical plane
+ * @param {Object} obj Object ID
+ * @param {Number} h_angle Angle in horizontal plane
+ * @param {Number} v_angle Angle in vertical plane
  */
-exports["character_rotation_inc"] = function (obj, h_angle, v_angle) {
+exports["character_rotation_inc"] = function(obj, h_angle, v_angle) {
     physics.character_rotation_inc(obj, h_angle, v_angle);
 }
 /**
- * Set character rotation quaternion
+ * Set the character rotation quaternion
  * @method module:physics.set_character_rotation_quat
- * @param obj Object ID
- * @param quat Rotation quaternion
+ * @param {Object} obj Object ID
+ * @param {Float32Array} quat Rotation quaternion
  */
-exports["set_character_rotation_quat"] = function (obj, quat) {
+exports["set_character_rotation_quat"] = function(obj, quat) {
     physics.set_character_rotation_quat(obj, quat);
 }
 /**
- * Set character rotation in horizontal and vertical planes
+ * Set the character rotation in horizontal and vertical planes
  * @method module:physics.set_character_rotation
- * @param obj Object ID
- * @param angle_h Angle in horizontal plane
- * @param angle_v Angle in vertical plane
+ * @param {Object} obj Object ID
+ * @param {Number} angle_h Angle in horizontal plane
+ * @param {Number} angle_v Angle in vertical plane
  */
-exports["set_character_rotation"] = function (obj, angle_h, angle_v) {
+exports["set_character_rotation"] = function(obj, angle_h, angle_v) {
     physics.set_character_rotation(obj, angle_h, angle_v);
 }
 /**
- * Set character vertical rotation
+ * Set the character vertical rotation
  * @method module:physics.set_character_rotation_v
- * @param obj Object ID
- * @param angle Angle in vertical plane
+ * @param {Object} obj Object ID
+ * @param {Number} angle Angle in vertical plane
  */
-exports["set_character_rotation_v"] = function (obj, angle) {
+exports["set_character_rotation_v"] = function(obj, angle) {
     physics.set_character_rotation_v(obj, angle);
 }
 /**
- * Set character horizontal rotation
+ * Set the character horizontal rotation
  * @method module:physics.set_character_rotation_h
- * @param obj Object ID
- * @param angle Angle in horizontal plane
+ * @param {Object} obj Object ID
+ * @param {Number} angle Angle in horizontal plane
  */
-exports["set_character_rotation_h"] = function (obj, angle) {
+exports["set_character_rotation_h"] = function(obj, angle) {
     physics.set_character_rotation_h(obj, angle);
 }
 /**
- * Append new async collision test to given object.
+ * Append a new async collision test to the given object.
  * @method module:physics.append_collision_test
- * @param obj Object ID
+ * @param {Object} obj Object ID
  * @param {String} collision_id Collision ID
  * @param callback Collision callback
  */
@@ -502,27 +530,27 @@ exports["append_collision_test"] = function(obj, collision_id, callback) {
     physics.append_collision_test(obj, collision_id, callback);
 }
 /**
- * Remove collision test from given object.
+ * Remove the collision test from the given object.
  * @method module:physics.remove_collision_test
- * @param obj Object ID
+ * @param {Object} obj Object ID
  * @param {String} collision_id Collision ID
  */
 exports["remove_collision_test"] = function(obj, collision_id) {
     physics.remove_collision_test(obj, collision_id);
 }
 /**
- * Apply new async collision impulse test to given object.
+ * Apply a new async collision impulse test to the given object.
  * @method module:physics.apply_collision_impulse_test
- * @param obj Object ID
+ * @param {Object} obj Object ID
  * @param callback Callision impulse test callback
  */
 exports["apply_collision_impulse_test"] = function(obj, callback) {
     physics.apply_collision_impulse_test(obj, callback);
 }
 /**
- * Remove collision impulse test from given object.
+ * Remove the collision impulse test from the given object.
  * @method module:physics.clear_collision_impulse_test
- * @param obj Object ID
+ * @param {Object} obj Object ID
  */
 exports["clear_collision_impulse_test"] = function(obj) {
     physics.clear_collision_impulse_test(obj);
@@ -530,10 +558,10 @@ exports["clear_collision_impulse_test"] = function(obj) {
 /**
  * Append new async ray test to given object.
  * @method module:physics.append_ray_test
- * @param obj Object ID
+ * @param {Object} obj Object ID
  * @param {String} collision_id Collision ID
- * @param from From vector
- * @param to To vector
+ * @param {Float32Array} from From vector
+ * @param {Float32Array} to To vector
  * @param {Boolean} local_coords From/To specified in local/world space
  * @param callback Ray test callback
  */
@@ -544,10 +572,10 @@ exports["append_ray_test"] = function(obj, collision_id, from, to,
 /**
  * Remove ray test from given object.
  * @method module:physics.remove_ray_test
- * @param obj Object ID
+ * @param {Object} obj Object ID
  * @param {String} collision_id Collision ID
- * @param from From vector
- * @param to To vector
+ * @param {Float32Array} from From vector
+ * @param {Float32Array} to To vector
  * @param {Boolean} local_coords From/To specified in local/world space
  */
 exports["remove_ray_test"] = function(obj, collision_id, from, to, 
@@ -556,18 +584,17 @@ exports["remove_ray_test"] = function(obj, collision_id, from, to,
 }
 /**
  * Apply physics constraint.
- * there is no way to undo applied constraint of this type
  * @method module:physics.apply_constraint
- * @param pivot_type Pivot type
- * @param obj_a Object ID A
- * @param trans_a Translation of pivot frame relative to A
- * @param quat_a Rotation of pivot frame relative to A
- * @param obj_b Object ID B
- * @param trans_b Translation of pivot frame relative to B
- * @param quat_b Rotation of pivot frame relative to B
- * @param limits Object containting constraint limits
- * @param [stiffness=null] 6-dimensional vector with constraint stiffness
- * @param [damping=null] 6-dimensional vector with constraint damping
+ * @param {String} pivot_type Pivot type
+ * @param {Object} obj_a Object ID A
+ * @param {Float32Array} trans_a Translation of pivot frame relative to A
+ * @param {Float32Array} quat_a Rotation of pivot frame relative to A
+ * @param {Object} obj_b Object ID B
+ * @param {Float32Array} trans_b Translation of pivot frame relative to B
+ * @param {Float32Array} quat_b Rotation of pivot frame relative to B
+ * @param {Object} limits Object containting constraint limits
+ * @param {Float32Array} [stiffness=null] 6-dimensional vector with constraint stiffness
+ * @param {Float32Array} [damping=null] 6-dimensional vector with constraint damping
  */
 exports["apply_constraint"] = function(pivot_type, obj_a, trans_a, quat_a,
         obj_b, trans_b, quat_b, limits, stiffness, damping) {
@@ -596,6 +623,13 @@ exports["clear_constraint"] = function(obj_a) {
 }
 /**
  * Pull object A to constraint pivot with object B.
+ * @method module:physics.pull_to_constraint_pivot
+ * @param {Object} obj_a Object ID A
+ * @param {Float32Array} trans_a Translation of pivot frame relative to A
+ * @param {Float32Array} quat_a Rotation of pivot frame relative to A
+ * @param {Object} obj_b Object ID B
+ * @param {Float32Array} trans_b Translation of pivot frame relative to B
+ * @param {Float32Array} quat_b Rotation of pivot frame relative to B
  */
 exports["pull_to_constraint_pivot"] = function(obj_a, trans_a, quat_a,
         obj_b, trans_b, quat_b) {
@@ -621,7 +655,7 @@ exports["pull_to_constraint_pivot"] = function(obj_a, trans_a, quat_a,
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-dev</a> on Wed May 14 2014 10:58:09 GMT+0400 (MSK)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-dev</a> on Wed Jun 25 2014 18:01:32 GMT+0400 (MSK)
 </footer>
 
 <script> prettyPrint(); </script>

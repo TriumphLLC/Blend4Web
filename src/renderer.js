@@ -37,6 +37,7 @@ var _subpixel_index = 0;
 var CUBEMAP_BOTTOM_SIDE = 0;
 var CUBEMAP_UPPER_SIDE  = 1;
 
+// smaa stuff
 var JITTER = [new Float32Array([0.25, -0.25]),
               new Float32Array([-0.25, 0.25])];
 var SUBSAMPLE_IND = [new Float32Array([1, 1, 1, 0]),
@@ -153,8 +154,7 @@ function prepare_subscene_render(subscene) {
         break;
     case "SMAA_BLENDING_WEIGHT_CALCULATION":
 
-        var s_index = SUBSAMPLE_IND[_subpixel_index];
-        subscene.jitter_subsample_ind = s_index;
+        subscene.jitter_subsample_ind = SUBSAMPLE_IND[_subpixel_index];
 
         _gl.disable(_gl.POLYGON_OFFSET_FILL);
         _gl.cullFace(_gl.BACK);

@@ -11,9 +11,9 @@ var m_scenes = require("__scenes");
 var sfx      = require("__sfx");
 
 /**
- * Play speaker.
+ * Play sound through the speaker.
  * @method module:sfx.play
- * @param obj Object ID
+ * @param {Object} obj Object ID
  * @param {Number} [when=0] Delay after exec in seconds
  * @param {Number} [duration=0] Duration in seconds.
  */
@@ -21,18 +21,18 @@ exports["play"] = function(obj, when, duration) {
     sfx.play(obj, when, duration);
 }
 /**
- * Play speaker using default params.
+ * Play sound through the speaker using the default params.
  * @method module:sfx.play_def
- * @param obj Object ID
+ * @param {Object} obj Object ID
  */
 exports["play_def"] = function(obj) {
     sfx.play_def(obj);
 }
 
 /**
- * Check if speaker is playing now.
+ * Check if sound is played through the speaker now.
  * @method module:sfx.is_play
- * @param obj Object ID
+ * @param {Object} obj Object ID
  * @returs {Boolean} Playing state
  */
 exports["is_play"] = function(obj) {
@@ -40,7 +40,7 @@ exports["is_play"] = function(obj) {
 }
 
 /**
- * Play speaker.
+ * Play sound through the speaker.
  * <p>cyclic = true - loop forever, ignore required duration</p>
  *
  * <p>cyclic = false - use duration param:</p>
@@ -52,7 +52,7 @@ exports["is_play"] = function(obj) {
  *      allow to play whole sample duration (do not trim)
  * </ul>
  * @method module:sfx.speaker_play
- * @param obj Object ID
+ * @param {Object} obj Object ID
  * @param {Boolean} cyclic
  * @param {Number} [duration=0] Duration in float seconds
  * @param {Number} [playrate=1] Playback rate
@@ -66,9 +66,9 @@ exports["speaker_play"] = function(obj, cyclic, duration, playrate) {
 }
 
 /**
- * Stop speaker
+ * Stop the speaker.
  * @method module:sfx.speaker_stop
- * @param obj Object ID
+ * @param {Object} obj Object ID
  * @deprecated Use stop()
  */
 exports["speaker_stop"] = function(obj) {
@@ -76,16 +76,16 @@ exports["speaker_stop"] = function(obj) {
 }
 
 /**
- * Stop speaker.
+ * Stop the speaker.
  * @method module:sfx.stop
- * @param obj Object ID
+ * @param {Object} obj Object ID
  */
 exports["stop"] = function(obj) {
     sfx.stop(obj);
 }
 
 /**
- * Change speaker playback rate value
+ * Change the speaker playback rate value
  * @method module:sfx.speaker_playback_rate
  * @deprecated Use playrate()
  */
@@ -93,9 +93,9 @@ exports["speaker_playback_rate"] = function(obj, playrate) {
     sfx.playrate(obj, playrate);
 }
 /**
- * Change speaker playback rate value
+ * Change the speaker playback rate value.
  * @method module:sfx.playrate
- * @param obj Object ID
+ * @param {Object} obj Object ID
  * @param playrate Playback rate (1.0 - normal speed).
  */
 exports["playrate"] = function(obj, playrate) {
@@ -111,8 +111,9 @@ exports["playrate"] = function(obj, playrate) {
 exports["cyclic"] = function(obj, cyclic) {
     sfx.cyclic(obj, cyclic);
 }
+
 /**
- * Set cyclic flag.
+ * Check if the cyclic flag is set.
  * @method module:sfx.is_cyclic
  * @param obj Speaker object ID
  * @returns {Boolean} Cyclic flag value.
@@ -122,7 +123,7 @@ exports["is_cyclic"] = function(obj) {
 }
 
 /**
- * Reset listener speed.
+ * Reset the listener speed.
  * Use after quick listener movements to neutralize undesirable doppler effect.
  * @method module:sfx.listener_reset_speed
  */
@@ -131,8 +132,9 @@ exports["listener_reset_speed"] = function() {
 }
 
 /**
- * Reset speaker speed.
- * Use after quick speaker movements to neutralize undesirable doppler effect.
+ * Reset the speaker speed.
+ * It's necessary to nullify speed after the speaker has moved quickly in order
+ * to neutralize the undesirable doppler effect.
  * @method module:sfx.speaker_reset_speed
  * @param obj Speaker object ID
  */
@@ -143,7 +145,7 @@ exports["speaker_reset_speed"] = function(obj) {
 /**
  * Get volume level.
  * @method module:sfx.get_volume
- * @param obj Object ID or null for MASTER volume
+ * @param {Object} obj Object ID or null for MASTER volume
  * @returns {Number} Volume (0..1)
  */
 exports["get_volume"] = function(obj) {
@@ -155,7 +157,7 @@ exports["get_volume"] = function(obj) {
 /**
  * Set volume level.
  * @method module:sfx.set_volume
- * @param obj Object ID or null for MASTER volume
+ * @param {Object} obj Object ID or null for MASTER volume
  * @param {Number} volume Volume (0..1)
  */
 exports["set_volume"] = function(obj, volume) {
@@ -179,7 +181,7 @@ exports["mute"] = function(obj, muted) {
 }
 
 /**
- * Check if speaker is muted
+ * Check if the speaker is muted.
  * @method module:sfx.is_muted
  * @param obj Speaker object ID or null for all of them.
  * @returns {Boolean} Muted state.
@@ -192,7 +194,7 @@ exports["is_muted"] = function(obj) {
 }
 
 /**
- * Get speaker objects used by module.
+ * Get the speaker objects which are used by the module.
  * @returns {Array} Speaker object array
  */
 exports["get_speaker_objects"] = function() {
@@ -224,9 +226,9 @@ exports["get_compressor_params"] = function() {
 
 /**
  * Duck (reduce the volume).
- * works independently from volume API and volume randomization
+ * works independently from the volume API and the volume randomization
  * @method module:sfx.duck
- * @param obj Object ID
+ * @param {Object} obj Object ID
  * @param {Number} value Duck amount.
  * @param {Number} time Time to change volume.
  */
@@ -240,7 +242,7 @@ exports["duck"] = function(obj, value, time) {
 /**
  * Unduck (restore the volume).
  * @method module:sfx.unduck
- * @param obj Object ID
+ * @param {Object} obj Object ID
  */
 exports["unduck"] = function(obj) {
     if (obj && typeof obj === "object")
@@ -250,8 +252,8 @@ exports["unduck"] = function(obj) {
 }
 
 /**
- * Apply new playlist from given set of speakers.
- * The new playlist starts play immediately.
+ * Apply the new playlist from the given set of speakers.
+ * The new playlist starts playing immediately.
  * @method module:sfx.apply_playlist
  * @param {Array} objs Array of object IDs
  * @param {Number} delay Number of seconds between tracks
@@ -259,7 +261,7 @@ exports["unduck"] = function(obj) {
  */
 exports["apply_playlist"] = sfx.apply_playlist;
 /**
- * Stop playback and clear playlist.
+ * Stop playback and clear the playlist.
  * @method module:sfx.clear_playlist
  */
 exports["clear_playlist"] = sfx.clear_playlist;
@@ -267,14 +269,14 @@ exports["clear_playlist"] = sfx.clear_playlist;
 /**
  * Set positional params.
  * @method module:sfx.set_positional_params
- * @param obj Object ID
+ * @param {Object} obj Object ID
  * @param params Params object
  */
 exports["set_positional_params"] = sfx.set_positional_params;
 /**
  * Get positional params.
  * @method module:sfx.get_positional_params
- * @param obj Object ID
+ * @param {Object} obj Object ID
  * @returns Params object
  */
 exports["get_positional_params"] = sfx.get_positional_params;
@@ -282,14 +284,14 @@ exports["get_positional_params"] = sfx.get_positional_params;
 /**
  * Set filter params.
  * @method module:sfx.set_filter_params
- * @param obj Object ID
+ * @param {Object} obj Object ID
  * @param params Params object
  */
 exports["set_filter_params"] = sfx.set_filter_params;
 /**
  * Get filter params.
  * @method module:sfx.get_filter_params
- * @param obj Object ID
+ * @param {Object} obj Object ID
  * @returns Params object
  */
 exports["get_filter_params"] = sfx.get_filter_params;
@@ -297,7 +299,7 @@ exports["get_filter_params"] = sfx.get_filter_params;
 /**
  * Get filter frequency response.
  * @method module:sfx.get_filter_freq_response
- * @param obj Object ID
+ * @param {Object} obj Object ID
  * @param {Float32Array} freq_arr Input array with frequencies.
  * @param {Float32Array} mag_arr Ouput array with filter response magnitudes.
  * @param {Float32Array} phase_arr Output array with filter response phases.

@@ -60,7 +60,7 @@ uniform sampler2D u_predication_tex;
 #if SMAA_PASS == SMAA_BLENDING_WEIGHT_CALCULATION
 uniform sampler2D u_search_tex;
 uniform sampler2D u_area_tex;
-//uniform vec4 u_subsample_indices;
+uniform vec4 u_subsample_indices;
 #endif
 
 uniform vec2 u_texel_size;
@@ -70,7 +70,9 @@ varying vec2 v_texcoord;
 #if SMAA_PASS == SMAA_NEIGHBORHOOD_BLENDING
 varying vec4 v_offset;
 #else
-varying vec4 v_offset[3];
+varying vec4 v_offset_0;
+varying vec4 v_offset_1;
+varying vec4 v_offset_2;
 #endif
 
 #if SMAA_PASS == SMAA_BLENDING_WEIGHT_CALCULATION
@@ -536,29 +538,32 @@ varying vec2 v_pixcoord;
 #define SMAA_CORNER_ROUNDING_NORM (float(SMAA_CORNER_ROUNDING) / 100.0)
 
 
+
+#if SMAA_PASS == SMAA_EDGE_DETECTION
 /**
  * Gathers current pixel, and the top-left neighbors.
  */
 vec3 smaa_gather_neighbours(vec2 texcoord,
-                            vec4 offset[3],
                             sampler2D tex) {
     float p = texture2D(tex, texcoord).r;
-    float p_left = texture2D(tex, offset[0].xy).r;
-    float p_top  = texture2D(tex, offset[0].zw).r;
+    float p_left = texture2D(tex, v_offset_0.xy).r;
+    float p_top  = texture2D(tex, v_offset_0.zw).r;
     return vec3(p, p_left, p_top);
 }
+#endif
 
+#if SMAA_PASS == SMAA_EDGE_DETECTION
 /**
  * Adjusts the threshold by means of predication.
  */
 vec2 smaa_calculate_predicated_threshold(vec2 texcoord,
-                                         vec4 offset[3],
                                          sampler2D predication_tex) {
-    vec3 neighbours = smaa_gather_neighbours(texcoord, offset, predication_tex);
+    vec3 neighbours = smaa_gather_neighbours(texcoord, predication_tex);
     vec2 delta = abs(neighbours.xx - neighbours.yz);
     vec2 edges = step(SMAA_PREDICATION_THRESHOLD, delta);
     return SMAA_PREDICATION_SCALE * SMAA_THRESHOLD * (1.0 - SMAA_PREDICATION_STRENGTH * edges);
 }
+#endif
 
 /**
  * Conditional move:
@@ -591,8 +596,8 @@ vec4 round(vec4 x) {
  * IMPORTANT NOTICE: luma edge detection requires gamma-corrected colors, and
  * thus 'color_tex' should be a non-sRGB texture.
  */
+#if SMAA_PASS == SMAA_EDGE_DETECTION
 vec2 smaa_luma_edge_detection(vec2 texcoord,
-                              vec4 offset[3],
                               sampler2D color_tex
                               #if SMAA_PREDICATION
                               , sampler2D predication_tex
@@ -600,7 +605,7 @@ vec2 smaa_luma_edge_detection(vec2 texcoord,
                               ) {
     // Calculate the threshold:
     #if SMAA_PREDICATION
-    vec2 threshold = smaa_calculate_predicated_threshold(texcoord, offset, predication_tex);
+    vec2 threshold = smaa_calculate_predicated_threshold(texcoord, predication_tex);
     #else
     vec2 threshold = vec2(SMAA_THRESHOLD, SMAA_THRESHOLD);
     #endif
@@ -609,8 +614,8 @@ vec2 smaa_luma_edge_detection(vec2 texcoord,
     vec3 weights = vec3(0.2126, 0.7152, 0.0722);
     float L = dot(texture2D(color_tex, texcoord).rgb, weights);
 
-    float L_left = dot(texture2D(color_tex, offset[0].xy).rgb, weights);
-    float Ltop  = dot(texture2D(color_tex, offset[0].zw).rgb, weights);
+    float L_left = dot(texture2D(color_tex, v_offset_0.xy).rgb, weights);
+    float Ltop  = dot(texture2D(color_tex, v_offset_0.zw).rgb, weights);
 
     // We do the usual threshold:
     vec4 delta;
@@ -622,16 +627,16 @@ vec2 smaa_luma_edge_detection(vec2 texcoord,
         discard;
 
     // Calculate right and bottom deltas:
-    float L_right = dot(texture2D(color_tex, offset[1].xy).rgb, weights);
-    float L_bottom  = dot(texture2D(color_tex, offset[1].zw).rgb, weights);
+    float L_right = dot(texture2D(color_tex, v_offset_1.xy).rgb, weights);
+    float L_bottom  = dot(texture2D(color_tex, v_offset_1.zw).rgb, weights);
     delta.zw = abs(L - vec2(L_right, L_bottom));
 
     // Calculate the maximum delta in the direct neighborhood:
     vec2 max_delta = max(delta.xy, delta.zw);
 
     // Calculate left-left and top-top deltas:
-    float L_leftleft = dot(texture2D(color_tex, offset[2].xy).rgb, weights);
-    float L_toptop = dot(texture2D(color_tex, offset[2].zw).rgb, weights);
+    float L_leftleft = dot(texture2D(color_tex, v_offset_2.xy).rgb, weights);
+    float L_toptop = dot(texture2D(color_tex, v_offset_2.zw).rgb, weights);
     delta.zw = abs(vec2(L_left, Ltop) - vec2(L_leftleft, L_toptop));
 
     // Calculate the final maximum delta:
@@ -653,7 +658,6 @@ vec2 smaa_luma_edge_detection(vec2 texcoord,
 
 /*
 vec2 color_edge_detection(vec2 texcoord,
-                          vec4 offset[3],
                           sampler2D color_tex
                           #if SMAA_PREDICATION
                           , sampler2D predication_tex
@@ -661,7 +665,7 @@ vec2 color_edge_detection(vec2 texcoord,
                           ) {
     // Calculate the threshold:
     #if SMAA_PREDICATION
-    vec2 threshold = smaa_calculate_predicated_threshold(texcoord, offset, predication_tex);
+    vec2 threshold = smaa_calculate_predicated_threshold(texcoord, predication_tex);
     #else
     vec2 threshold = vec2(SMAA_THRESHOLD, SMAA_THRESHOLD);
     #endif
@@ -670,11 +674,11 @@ vec2 color_edge_detection(vec2 texcoord,
     vec4 delta;
     vec3 C = texture2D(color_tex, texcoord).rgb;
 
-    vec3 Cleft = texture2D(color_tex, offset[0].xy).rgb;
+    vec3 Cleft = texture2D(color_tex, v_offset_0.xy).rgb;
     vec3 t = abs(C - Cleft);
     delta.x = max(max(t.r, t.g), t.b);
 
-    vec3 Ctop  = texture2D(color_tex, offset[0].zw).rgb;
+    vec3 Ctop  = texture2D(color_tex, v_offset_0.zw).rgb;
     t = abs(C - Ctop);
     delta.y = max(max(t.r, t.g), t.b);
 
@@ -686,11 +690,11 @@ vec2 color_edge_detection(vec2 texcoord,
         discard;
 
     // Calculate right and bottom deltas:
-    vec3 Cright = texture2D(color_tex, offset[1].xy).rgb;
+    vec3 Cright = texture2D(color_tex, v_offset_1.xy).rgb;
     t = abs(C - Cright);
     delta.z = max(max(t.r, t.g), t.b);
 
-    vec3 Cbottom  = texture2D(color_tex, offset[1].zw).rgb;
+    vec3 Cbottom  = texture2D(color_tex, v_offset_1.zw).rgb;
     t = abs(C - Cbottom);
     delta.w = max(max(t.r, t.g), t.b);
 
@@ -698,11 +702,11 @@ vec2 color_edge_detection(vec2 texcoord,
     vec2 max_delta = max(delta.xy, delta.zw);
 
     // Calculate left-left and top-top deltas:
-    vec3 Cleftleft  = texture2D(color_tex, offset[2].xy).rgb;
+    vec3 Cleftleft  = texture2D(color_tex, v_offset_2.xy).rgb;
     t = abs(C - Cleftleft);
     delta.z = max(max(t.r, t.g), t.b);
 
-    vec3 Ctoptop = texture2D(color_tex, offset[2].zw).rgb;
+    vec3 Ctoptop = texture2D(color_tex, v_offset_2.zw).rgb;
     t = abs(C - Ctoptop);
     delta.w = max(max(t.r, t.g), t.b);
 
@@ -721,9 +725,8 @@ vec2 color_edge_detection(vec2 texcoord,
  */
 /*
 vec2 depth_edge_detection(vec2 texcoord,
-                          vec4 offset[3],
                           sampler2D depth_tex) {
-    vec3 neighbours = smaa_gather_neighbours(texcoord, offset, depth_tex);
+    vec3 neighbours = smaa_gather_neighbours(texcoord, depth_tex);
     vec2 delta = abs(neighbours.xx - vec2(neighbours.y, neighbours.z));
     vec2 edges = step(SMAA_DEPTH_THRESHOLD, delta);
 
@@ -734,6 +737,7 @@ vec2 depth_edge_detection(vec2 texcoord,
 }
 
 */
+#endif
 
 //-----------------------------------------------------------------------------
 // Diagonal Search Functions
@@ -1052,9 +1056,9 @@ void detect_vertical_corner_pattern(sampler2D edges_tex, inout vec2 weights,
 //-----------------------------------------------------------------------------
 // Blending Weight Calculation Pixel Shader (Second Pass)
 
+#if SMAA_PASS == SMAA_BLENDING_WEIGHT_CALCULATION
 vec4 blending_weight_calculation(vec2 texcoord,
                                  vec2 pixcoord,
-                                 vec4 offset[3],
                                  sampler2D edges_tex,
                                  sampler2D area_tex,
                                  sampler2D search_tex,
@@ -1080,8 +1084,8 @@ vec4 blending_weight_calculation(vec2 texcoord,
 
         // Find the distance to the left:
         vec3 coords;
-        coords.x = search_x_left(edges_tex, search_tex, offset[0].xy, offset[2].x);
-        coords.y = offset[1].y; // offset[1].y = texcoord.y - 0.25 * u_texel_size.y (@CROSSING_OFFSET)
+        coords.x = search_x_left(edges_tex, search_tex, v_offset_0.xy, v_offset_2.x);
+        coords.y = v_offset_1.y; // v_offset_1.y = texcoord.y - 0.25 * u_texel_size.y (@CROSSING_OFFSET)
         d.x = coords.x;
 
         // Now fetch the left crossing edges, two at a time using bilinear
@@ -1090,7 +1094,7 @@ vec4 blending_weight_calculation(vec2 texcoord,
         float e1 = texture2D(edges_tex, coords.xy, 0.0).r;
 
         // Find the distance to the right:
-        coords.z = search_x_right(edges_tex, search_tex, offset[0].zw, offset[2].y);
+        coords.z = search_x_right(edges_tex, search_tex, v_offset_0.zw, v_offset_2.y);
         d.y = coords.z;
 
         // We want the distances to be in pixel units (doing this here allow to
@@ -1124,15 +1128,15 @@ vec4 blending_weight_calculation(vec2 texcoord,
 
         // Find the distance to the top:
         vec3 coords;
-        coords.y = search_y_up(edges_tex, search_tex, offset[1].xy, offset[2].z);
-        coords.x = offset[0].x; // offset[1].x = texcoord.x - 0.25 * u_texel_size.x;
+        coords.y = search_y_up(edges_tex, search_tex, v_offset_1.xy, v_offset_2.z);
+        coords.x = v_offset_0.x; // v_offset_1.x = texcoord.x - 0.25 * u_texel_size.x;
         d.x = coords.y;
 
         // Fetch the top crossing edges:
         float e1 = texture2D(edges_tex, coords.xy, 0.0).g;
 
         // Find the distance to the bottom:
-        coords.z = search_y_down(edges_tex, search_tex, offset[1].zw, offset[2].w);
+        coords.z = search_y_down(edges_tex, search_tex, v_offset_1.zw, v_offset_2.w);
         d.y = coords.z;
 
         // We want the distances to be in pixel units:
@@ -1154,12 +1158,13 @@ vec4 blending_weight_calculation(vec2 texcoord,
     }
     return weights;
 }
+#endif
 
 //-----------------------------------------------------------------------------
 // Neighborhood Blending Pixel Shader (Third Pass)
 
+#if SMAA_PASS == SMAA_NEIGHBORHOOD_BLENDING
 vec4 neighborhood_blending(vec2 texcoord,
-                           vec4 offset,
                            sampler2D color_tex,
                            sampler2D blend_tex
                            #if SMAA_REPROJECTION
@@ -1168,8 +1173,8 @@ vec4 neighborhood_blending(vec2 texcoord,
                            ) {
     // Fetch the blending weights for current pixel:
     vec4 a;
-    a.x = texture2D(blend_tex, offset.xy).a; // Right
-    a.y = texture2D(blend_tex, offset.zw).g; // Top
+    a.x = texture2D(blend_tex, v_offset.xy).a; // Right
+    a.y = texture2D(blend_tex, v_offset.zw).g; // Top
     a.wz = texture2D(blend_tex, texcoord).xz; // Bottom / Left
 
     // Is there any blending weight with a value greater than 0.0?
@@ -1216,10 +1221,12 @@ vec4 neighborhood_blending(vec2 texcoord,
         return color;
     }
 }
+#endif
 
 //-----------------------------------------------------------------------------
 // Temporal Resolve Pixel Shader (Optional Pass)
 
+#if SMAA_PASS == SMAA_RESOLVE
 vec4 resolve(vec2 texcoord,
              sampler2D current_color_tex,
              sampler2D previous_color_tex
@@ -1228,8 +1235,6 @@ vec4 resolve(vec2 texcoord,
              #endif
              ) {
     #if SMAA_REPROJECTION
-    // Velocity is assumed to be calculated for motion blur, so we need to
-    // inverse it for reprojection:
     //vec2 velocity = 2.0 * texture2D(velocity_tex, texcoord).rg - 1.0;
 
     // Fetch current pixel:
@@ -1253,10 +1258,11 @@ vec4 resolve(vec2 texcoord,
     return mix(current, previous, 0.5);
     #endif
 }
+#endif
 
 void main(void) {
 #if SMAA_PASS == SMAA_EDGE_DETECTION
-    vec4 color = vec4(smaa_luma_edge_detection(v_texcoord, v_offset, u_color
+    vec4 color = vec4(smaa_luma_edge_detection(v_texcoord, u_color
                                                #if SMAA_PREDICATION
                                                , u_predication_tex
                                                #endif
@@ -1264,11 +1270,11 @@ void main(void) {
 
 #elif SMAA_PASS == SMAA_BLENDING_WEIGHT_CALCULATION
     vec4 color = blending_weight_calculation(v_texcoord, v_pixcoord,
-                                             v_offset, u_color, u_area_tex,
+                                             u_color, u_area_tex,
                                              u_search_tex, vec4(0.0));
 
 #elif SMAA_PASS == SMAA_NEIGHBORHOOD_BLENDING
-    vec4 color = neighborhood_blending(v_texcoord, v_offset, u_color, u_blend
+    vec4 color = neighborhood_blending(v_texcoord, u_color, u_blend
                                        #if SMAA_REPROJECTION
                                        , u_velocity_tex
                                        #endif

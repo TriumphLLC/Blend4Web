@@ -15,7 +15,7 @@ b4w.module["__scenegraph"] = function(exports, require) {
 
 var m_cam    = require("__camera");
 var m_cfg    = require("__config");
-var m_dbg    = require("__debug");
+var m_debug  = require("__debug");
 var m_graph  = require("__graph");
 var m_render = require("__renderer");
 var m_tex    = require("__textures");
@@ -658,7 +658,7 @@ exports.create_rendering_graph = function(render_to_texture, sc_render, cam_rend
             shadow_links.push(create_slink("DEPTH", "u_shadow_map" + i,
                         tex_size, 1, false));
 
-            if (m_dbg.check_depth_only_issue()) {
+            if (m_debug.check_depth_only_issue()) {
                 subs_shadow.slinks_internal.push(create_slink("COLOR", 
                         "COLOR", tex_size, 1, false));
             }
@@ -844,7 +844,7 @@ exports.create_rendering_graph = function(render_to_texture, sc_render, cam_rend
             var slink_depth_o = create_slink("DEPTH", "DEPTH", 1, 1, true);
             slinks_main_depth_o.push(slink_depth_o);
 
-            if (m_dbg.check_depth_only_issue()) {
+            if (m_debug.check_depth_only_issue()) {
                 subs_depth.slinks_internal.push(create_slink("COLOR", 
                         "COLOR", 1, 1, true));
             }
@@ -1314,6 +1314,11 @@ exports.create_rendering_graph = function(render_to_texture, sc_render, cam_rend
 
                 var depth_subs = find_upper_subs(graph, subs_prev, "DEPTH");
 
+                var slink_smaa_in = create_slink("COLOR", "u_color",
+                                                 1, 1, true);
+                slink_smaa_in.min_filter = m_tex.TF_LINEAR;
+                slink_smaa_in.mag_filter = m_tex.TF_LINEAR;
+
                 // velocity buffer
                 var cam_velocity = cam_copy(main_cams[i]);
                 cam_render.cameras.push(cam_velocity);
@@ -1331,18 +1336,14 @@ exports.create_rendering_graph = function(render_to_texture, sc_render, cam_rend
                 var slink_velocity_smaa = create_slink("COLOR", "u_velocity_tex",
                                                  1, 1, true);
 
-                // first pass - edge detection
+                // 1-st pass - edge detection
                 var subs_smaa_1 = create_subs_smaa("SMAA_EDGE_DETECTION");
                 m_graph.append_node_attr(graph, subs_smaa_1);
 
-                var slink_smaa_in = create_slink("COLOR", "u_color",
-                                                 1, 1, true);
-                slink_smaa_in.min_filter = m_tex.TF_LINEAR;
-                slink_smaa_in.mag_filter = m_tex.TF_LINEAR;
                 m_graph.append_edge_attr(graph, subs_prev, subs_smaa_1,
                                          slink_smaa_in);
 
-                // second pass - blending weight calculation
+                // 2-nd pass - blending weight calculation
                 var subs_smaa_2 = create_subs_smaa("SMAA_BLENDING_WEIGHT_CALCULATION");
                 m_graph.append_node_attr(graph, subs_smaa_2);
                 m_graph.append_edge_attr(graph, subs_smaa_1, subs_smaa_2,
@@ -1360,7 +1361,7 @@ exports.create_rendering_graph = function(render_to_texture, sc_render, cam_rend
                 subs_smaa_2.slinks_internal.push(slink_search_tex);
                 subs_smaa_2.slinks_internal.push(slink_area_tex);
 
-                // third pass - neighborhood blending
+                // 3-rd pass - neighborhood blending
                 var subs_smaa_3 = create_subs_smaa("SMAA_NEIGHBORHOOD_BLENDING");
                 m_graph.append_node_attr(graph, subs_smaa_3);
 
@@ -1376,9 +1377,10 @@ exports.create_rendering_graph = function(render_to_texture, sc_render, cam_rend
                 m_graph.append_edge_attr(graph, subs_velocity, subs_smaa_3,
                                          slink_velocity_smaa);
 
-                // optional pass - resolve
+                // 4-th pass - resolve
                 var subs_smaa_r = create_subs_smaa("SMAA_RESOLVE");
                 m_graph.append_node_attr(graph, subs_smaa_r);
+
                 m_graph.append_edge_attr(graph, subs_smaa_3, subs_smaa_r,
                                          slink_smaa_in);
                 m_graph.append_edge_attr(graph, subs_velocity, subs_smaa_r,
@@ -1388,6 +1390,7 @@ exports.create_rendering_graph = function(render_to_texture, sc_render, cam_rend
                                                       1, 1, true);
                 slink_smaa_in_prev.min_filter = m_tex.TF_LINEAR;
                 slink_smaa_in_prev.mag_filter = m_tex.TF_LINEAR;
+
                 subs_smaa_r.slinks_internal.push(slink_smaa_in_prev);
 
                 curr_level.push(subs_smaa_r);

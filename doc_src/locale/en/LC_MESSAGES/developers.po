@@ -135,13 +135,10 @@ msgstr "Moving Objects"
 #: ../developers.rst:165
 msgid ""
 "Необходимо обеспечить, чтобы объект, над которым выполняется преобразование,"
-" был динамическим (т.е. физическим или анимированным), либо одиночным (этого"
-" можно добиться, установив свойство ``Blend4Web > Do not batch`` на вкладке "
-"``Object`` в программе Blender)."
+" был :ref:`динамическим <static_dynamic_objects>`."
 msgstr ""
-"Make sure that the object you try to move is a dynamic (i.e. physical or "
-"animated) or a standalone object. To make an object standalone enable the "
-"``Blend4Web > Do not batch`` checkbox under the ``Object`` tab in Blender."
+"Make sure that the object you are trying to move is a :ref:`dynamic object "
+"<static_dynamic_objects>`."
 
 #: ../developers.rst:167
 msgid ""
@@ -808,7 +805,7 @@ msgstr ""
 "for deploying on a remote server (not available as a free version)"
 
 #: ../developers.rst:470
-msgid "**README.md**"
+msgid "**README.rst**"
 msgstr ""
 
 #: ../developers.rst:470
@@ -995,12 +992,65 @@ msgstr ""
 "source code and building scripts of the Uranium physics engine (the fork of "
 "Bullet)"
 
-#: ../developers.rst:537
+#: ../developers.rst:536
 msgid "**VERSION**"
 msgstr ""
 
 #: ../developers.rst:534
 msgid "содержит текущую версию движка"
 msgstr "contains the current version of the engine"
+
+#: ../developers.rst:541
+msgid "Профили качества изображения"
+msgstr "Quality Profiles"
+
+#: ../developers.rst:543
+msgid ""
+"Для поддержки различных по функциональности платформ в движке реализовано "
+"несколько профилей качества изображения:"
+msgstr ""
+"Several quality profiles are implemented in order to support platforms with different functionality."
+
+#: ../developers.rst:545
+msgid ""
+"*низкое качество* (P_LOW) - отключен ряд функций (тени, динамическое "
+"отражение, постпроцессинг), размер текстур для сборочной версии уменьшен "
+"вдвое, антиалиасинг отключен"
+msgstr ""
+"*low quality* (P_LOW) - a range of functions is turned off (such as shadows, dynamic reflection, postprocessing),"
+" the size of textures is halved when using a release version, anti-aliasing "
+"is disabled"
+
+#: ../developers.rst:546
+msgid ""
+"*высокое качество* (P_HIGH) - используются все запрошенные сценой функции, "
+"метод антиалиасинга FXAA"
+msgstr ""
+"*high quality* (P_HIGH) - all features requested by the scene are used, the anti-"
+"aliasing method is FXAA"
+
+#: ../developers.rst:547
+msgid ""
+"*максимальное качество* (P_ULTRA) - вдвое увеличено разрешение рендеринга, "
+"увеличено разрешение карт теней, метод антиалиасинга SMAA"
+msgstr ""
+"*maximum quality* (P_ULTRA) - rendering resolution is doubled, resolution of shadow maps is increased, the anti-aliasing "
+"method is SMAA"
+
+#: ../developers.rst:556
+msgid ""
+"Переключение профилей качества осуществляется программно, до инициализации "
+"контекста WebGL. Профиль по умолчанию P_HIGH."
+msgstr ""
+"Switching the quality profiles can be performed in runtime before initialization of the WebGL context. The default profile is P_HIGH."
+
+#: ../developers.rst:567
+msgid ""
+"Разработчики приложений могут также установить параметр **quality** при "
+"инициализации движка с использованием дополнения ``app.js``:"
+msgstr ""
+"Application developers can also set the **quality** parameter upon engine initialization using the ``app.js`` addon:"
+
+
 
 

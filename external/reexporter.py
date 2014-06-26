@@ -4,6 +4,7 @@ import os,sys,subprocess,json, multiprocessing, time
 from html.parser import HTMLParser
 
 ASSETS_DIR = "deploy/assets"
+FILES_DIR = "deploy"
 ROOT_DIR = ".."
 REEXPORTER = "blender_scripts/addons/blend4web/command_line_exporter.py"
 HTML_REEXPORTER = "blender_scripts/addons/blend4web/command_line_html_exporter.py"
@@ -28,6 +29,9 @@ _json_only = None
 _html_only = None
 _manifest = None
 
+_assets_file = open(MANIFEST)
+_assets_data = json.load(_assets_file)
+_assets_file.close()
 
 class FindMeta(HTMLParser):
     def __init__(self):
@@ -68,6 +72,9 @@ def reexport_json(path):
         json_data.close()
         return
 
+    if not ("get" in dir(data) and float(data.get("b4w_format_version")) > 0):
+        return
+
     b2w_blend_path = data.get("b2w_filepath_blend")
     b4w_blend_path = data.get("b4w_filepath_blend")
     blend_path = b4w_blend_path or b2w_blend_path
@@ -99,8 +106,22 @@ def reexport_json(path):
         return
 
     if _manifest:
-        short_path = path.split(MANIFEST_DIR)[1]
-        if _manifest.find(short_path) == -1:
+        coincidence = False
+        file_abs_path = os.path.abspath(os.path.normpath(path))
+
+        for items in _assets_data:
+
+            if coincidence:
+                break
+
+            for item in items.get("items"):
+                assets_abs_path = os.path.abspath(os.path.normpath(os.path.join(ASSETS_DIR, item.get("load_file"))))
+
+                if assets_abs_path == file_abs_path:
+                    coincidence = True
+                    break
+
+        if not coincidence:
             print(YELLOW + " [NOT IN MANIFEST]" + ENDCOL, path, blend)
 
     if not _report_only:
@@ -192,13 +213,12 @@ if __name__ == "__main__":
     html_filepathes = []
 
     if (not _html_only and _json_only) or (not _html_only and not _json_only):
-        for root, dirs, files in os.walk(ASSETS_DIR):
+        for root, dirs, files in os.walk(FILES_DIR):
             for f in files:
                 ext = os.path.splitext(f)[1]
                 if ext == ".json":
                     path = os.path.join(root, f)
-                    if path != MANIFEST:
-                        filepathes.append(path)
+                    filepathes.append(path)
 
     if (_html_only and not _json_only) or (not _html_only and not _json_only):
         for root, dirs, files in os.walk(ROOT_DIR):

@@ -49,7 +49,6 @@ exports.MS_EYE_CONTROLS = 3;
 
 // global params for all cameras
 
-
 // convergence distance
 var STEREO_CONV_DIST = 3*2.0;
 // left-right eye distance (1/30 convergence)
@@ -62,6 +61,8 @@ var DEF_ORTHO_SCALE = 2.5;
 var DEF_PERSP_FOV   = 40;
 var DEF_PERSP_NEAR  = 0.1;
 var DEF_PERSP_FAR   = 1000;
+
+var MIN_CLAMPING_INTERVAL = 0.001;
 
 // for internal usage
 var _vec2_tmp = new Float32Array(2);
@@ -115,54 +116,75 @@ exports.camera_object_to_camera = function(camobj) {
 
     render.cameras  = [cam];
 
-    render.use_distance_limits = camobj_data["b4w_use_distance_limits"];
-    render.distance_min = camobj_data["b4w_distance_min"];
-    render.distance_max = camobj_data["b4w_distance_max"];
+    if (render.move_style == exports.MS_TARGET_CONTROLS)
+        render.pivot.set(camobj_data["b4w_target"]);
 
-    if (render.move_style == exports.MS_TARGET_CONTROLS) {
-        render.pivot = new Float32Array(3);
-        var pivot = new Float32Array(camobj_data["b4w_target"]);
-        exports.set_point_constraint(camobj, pivot);
-    } else
-        render.pivot = null;
-
-    // NOTE: clamping used only for TARGET and EYE camera
-    render.vertical_limits = null;
-    if (render.move_style == exports.MS_TARGET_CONTROLS
-            || render.move_style == exports.MS_EYE_CONTROLS)
-        if (camobj_data["b4w_use_vertical_clamping"])
-            render.vertical_limits = {
-                down: camobj_data["b4w_rotation_down_limit"],
-                up: camobj_data["b4w_rotation_up_limit"]
-            };
-}
-
-exports.set_point_constraint = function(camobj, pivot) {
-    var render = camobj._render;
-    m_vec3.copy(pivot, render.pivot);
-
-    if (render.use_distance_limits)
-        m_cons.append_follow_point(camobj, render.pivot, 
-                render.distance_min, 
-                render.distance_max);
-    else
-        m_cons.append_track_point(camobj, render.pivot);    
+    prepare_clamping_limits(camobj);
 }
 
 /** 
- * do not look in blender object
+ * Create and initialize generic camera object.
  */
 function init_camera(type) {
+    var cam = {
+        type : type,
 
-    var cam = {};
+        name : "",
 
-    cam.size_mult = 1;
-    
-    cam.type = type;
+        size_mult : 1,
 
-    cam.framebuffer = null;
-    cam.color_attachment = null;
-    cam.depth_attachment = null;
+        width  : 0,
+        height : 0,
+
+        framebuffer : null,
+        color_attachment : null,
+        depth_attachment : null,
+
+        // frustum stuff
+        aspect : 0,
+        fov    : 0,
+        near   : 0,
+        far    : 0,
+        left   : 0,
+        right  : 0,
+        top    : 0,
+        bottom : 0,
+
+        // some uniforms
+        eye                   : new Float32Array(3),
+        eye_last              : new Float32Array(3),
+        quat                  : new Float32Array(4),
+        view_matrix           : new Float32Array(16),
+        proj_matrix           : new Float32Array(16),
+        view_proj_inv_matrix  : new Float32Array(16),
+        prev_view_proj_matrix : new Float32Array(16),
+        sky_vp_inv_matrix     : new Float32Array(16),
+
+        // used to extract frustum planes from
+        view_proj_matrix : new Float32Array(16),
+
+        // dof stuff
+        dof_distance : 0,
+        dof_front : 0,
+        dof_rear : 0,
+        dof_power : 0,
+        dof_object : null,
+        dof_on : 0,
+
+        frustum_planes : {
+            left:   [0, 0, 0, 0],
+            right:  [0, 0, 0, 0],
+            top:    [0, 0, 0, 0],
+            bottom: [0, 0, 0, 0],
+            near:   [0, 0, 0, 0],
+            far:    [0, 0, 0, 0]
+        },
+
+        stereo_conv_dist : 0,
+        stereo_eye_dist : 0,
+
+        reflection_plane : null
+    };
 
     return cam;
 }
@@ -183,7 +205,6 @@ function move_style_bpy_to_b4w(bpy_move_style) {
     }
 }
 
-
 exports.create_camera = create_camera;
 /**
  * @methodOf camera
@@ -194,28 +215,6 @@ function create_camera(type) {
 
     if (type == exports.TYPE_NONE)
         return cam;
-
-    // for rendering
-    cam.eye                   = new Float32Array(3);
-    cam.eye_last              = new Float32Array(3);
-    cam.quat                  = new Float32Array(4);
-    cam.view_matrix           = new Float32Array(16);
-    cam.proj_matrix           = new Float32Array(16);
-    cam.view_proj_inv_matrix  = new Float32Array(16);
-    cam.prev_view_proj_matrix = new Float32Array(16);
-    cam.sky_vp_inv_matrix = new Float32Array(16);
-
-    // used to extract frustum planes from
-    cam.view_proj_matrix = new Float32Array(16);
-
-    cam.frustum_planes = {
-        left:   [0, 0, 0, 0],
-        right:  [0, 0, 0, 0],
-        top:    [0, 0, 0, 0],
-        bottom: [0, 0, 0, 0],
-        near:   [0, 0, 0, 0],
-        far:    [0, 0, 0, 0]
-    };
 
     switch (type) {
     case exports.TYPE_PERSP:
@@ -421,7 +420,8 @@ exports.get_angles = get_angles;
  * Get camera vertical and horizontal angles
  * @methodOf camera
  * @param cam Camera ID
- * @param {vec2} dest Destination vector for camera angles ([h, v])
+ * @param {vec2} dest Destination vector for camera angles ([h, v]), 
+ * h ~ [0, 2PI], v ~ [-PI, PI]
  */
 function get_angles(cam, dest) {
     var render = cam._render;
@@ -435,21 +435,19 @@ function get_angles(cam, dest) {
         // z_world_cam instead of y_world_cam, because 
         // y_world_cam[0], y_world_cam[2] ~ 0 near zenith/nadir point
         if (Math.abs(theta) > Math.PI / 4) {
-            var z_world_cam = m_util.quat_to_dir(render.quat, m_util.AXIS_Z, _vec3_tmp2);
+
+            if (theta <= 0)
+                var z_world_cam = m_util.quat_to_dir(render.quat, m_util.AXIS_MZ, _vec3_tmp2);
+            else
+                var z_world_cam = m_util.quat_to_dir(render.quat, m_util.AXIS_Z, _vec3_tmp2);
             
             var phi = Math.atan(Math.abs(z_world_cam[0] / z_world_cam[2]));
 
-            if (y_world_cam[1] <= 0) {
-                if (z_world_cam[2] < 0)
-                    phi = Math.PI - phi;
-                if (z_world_cam[0] < 0)
-                    phi = 2 * Math.PI - phi;
-            } else {
-                if (z_world_cam[2] > 0)
-                    phi = Math.PI - phi;
-                if (z_world_cam[0] > 0)
-                    phi = 2 * Math.PI - phi;
-            }
+            if (z_world_cam[2] > 0)
+                phi = Math.PI - phi;
+            if (z_world_cam[0] > 0)
+                phi = 2 * Math.PI - phi;
+            
         } else {
             var phi = Math.atan(Math.abs(y_world_cam[0] / y_world_cam[2]));
 
@@ -717,15 +715,8 @@ exports.set_camera_trans_quat = function(obj, trans, quat) {
         throw "Wrong camera object";
 
     var render = obj._render;
-
-    render.trans[0] = trans[0];
-    render.trans[1] = trans[1];
-    render.trans[2] = trans[2];
-    
-    render.quat[0] = quat[0];
-    render.quat[1] = quat[1];
-    render.quat[2] = quat[2];
-    render.quat[3] = quat[3];
+    render.trans.set(trans);
+    render.quat.set(quat);
 }
 
 exports.eye_target_up_to_trans_quat = function(eye, target, up, trans, quat) {
@@ -767,99 +758,342 @@ exports.update_camera_transform = function(obj) {
     }
 }
 
-exports.clamp_vertical_limits = function(obj) {
+exports.update_camera = function(obj) {
     var render = obj._render;
+    // equal to append_track_point, append_follow_point (with distance limits)
+    if (render.move_style == exports.MS_TARGET_CONTROLS) {
+        if (render.use_distance_limits) {
+            var is_overshooted = m_cons.rotate_to_limits(render.trans, render.quat, 
+                    render.pivot, render.distance_min, m_cons.CONS_ROTATE_LIMIT);
 
-    if (render.vertical_limits !== null) {
+            if (is_overshooted) {
+                // handle overshooting case: move camera back
+                var dir = m_vec3.subtract(render.trans, render.pivot, _vec3_tmp);
+                m_vec3.scale(dir, -render.distance_min/m_vec3.length(dir), dir);
+                m_vec3.add(render.pivot, dir, render.trans);
+            }
+        } else
+            m_cons.rotate_to(render.trans, render.quat, render.pivot);
+        m_cons.correct_up(obj, m_util.AXIS_Y);
+    }
+}
+
+/**
+ * Prepare camera vertical and horizontal clamping limits
+ * uses _vec3_tmp
+ */
+function prepare_clamping_limits(obj) {
+    var render = obj._render;
+    // clamping used only for TARGET and EYE camera
+    if (render.move_style !== exports.MS_TARGET_CONTROLS 
+            && render.move_style !== exports.MS_EYE_CONTROLS)
+        return;
+
+    var data = obj["data"];
+
+    if (data["b4w_use_horizontal_clamping"])
+        render.horizontal_limits = {
+            left: data["b4w_rotation_left_limit"],
+            right: data["b4w_rotation_right_limit"]
+        }
+    if (data["b4w_use_vertical_clamping"])
+        render.vertical_limits = {
+            down: data["b4w_rotation_down_limit"],
+            up: data["b4w_rotation_up_limit"]
+        }
+
+    if (data["b4w_horizontal_clamping_type"] == "LOCAL")
+        horizontal_limits_local_to_world(obj);
+    if (data["b4w_vertical_clamping_type"] == "LOCAL")
+        vertical_limits_local_to_world(obj);
+    vertical_limits_correct(obj);
+
+    // NOTE: disable distance clamping if distance_min > distance_max
+    render.use_distance_limits = data["b4w_use_distance_limits"] 
+            && (data["b4w_distance_min"] 
+            <= data["b4w_distance_max"]);
+
+    if (render.use_distance_limits) {
+        render.distance_min = data["b4w_distance_min"];
+        render.distance_max = data["b4w_distance_max"];
+    }
+}
+
+/**
+ * uses _vec3_tmp
+ */
+exports.horizontal_limits_local_to_world = horizontal_limits_local_to_world;
+function horizontal_limits_local_to_world(obj) {
+    var render = obj._render;
+    if (render.horizontal_limits) {
+
+        var dir_vector = _vec3_tmp;
+        if (render.move_style == exports.MS_TARGET_CONTROLS)
+            // direction from target to camera
+            m_vec3.subtract(render.trans, render.pivot, dir_vector);
+        else
+            // camera view direction
+            m_util.quat_to_dir(render.quat, m_util.AXIS_MY, dir_vector);
+        dir_vector[1] = 0;
+        m_vec3.normalize(dir_vector, dir_vector);
+
+        // -Z (north direction) projection (CCW)
+        var phi_world = -Math.acos(-dir_vector[2]);
+        // for angles lesser than PI
+        if (dir_vector[0] < 0)
+            phi_world = -2 * Math.PI - phi_world;
+
+        // inverse horizontal rotation for eye camera
+        if (render.move_style == exports.MS_EYE_CONTROLS)
+            phi_world *= -1;
+
+        render.horizontal_limits.left += phi_world;
+        render.horizontal_limits.right += phi_world;
+    }
+}
+
+/**
+ * uses _vec3_tmp
+ */
+exports.vertical_limits_local_to_world = vertical_limits_local_to_world;
+function vertical_limits_local_to_world(obj) {
+    var render = obj._render;
+    if (render.vertical_limits) {
+
+        var dir_vector = _vec3_tmp;
+        if (render.move_style == exports.MS_TARGET_CONTROLS)
+            m_vec3.subtract(render.trans, render.pivot, dir_vector);
+        else
+            m_util.quat_to_dir(render.quat, m_util.AXIS_MY, dir_vector);
+        m_vec3.normalize(dir_vector, dir_vector);
+
+        // up direction
+        var theta_world = Math.asin(dir_vector[1]);
+        render.vertical_limits.up += theta_world;
+        render.vertical_limits.down += theta_world;
+    }
+}
+
+exports.vertical_limits_correct = vertical_limits_correct;
+function vertical_limits_correct(obj) {
+    var render = obj._render;
+    // NOTE: correct vertical limits if horizontal limits switched on
+    if (render.horizontal_limits) {
+        if (render.vertical_limits) {
+            // rotate by PI / 2 CW and convert into [0, 2PI] range for 
+            // calculation simplifications
+            var up = m_util.angle_wrap_0_2pi(render.vertical_limits.up + Math.PI / 2);
+            var down = m_util.angle_wrap_0_2pi(render.vertical_limits.down + Math.PI / 2);
+
+            if (down > Math.PI) {
+                // down limit is to large, set default clamping
+                render.vertical_limits = {
+                    down: -Math.PI / 2,
+                    up: Math.PI / 2
+                }
+            } else if (up > Math.PI || up < down) {
+                // up limit is to large
+                render.vertical_limits.up = Math.PI / 2;
+            }
+        } else {
+            // set default vertical limits for horizontal clamping
+            render.vertical_limits = {
+                down: -Math.PI / 2,
+                up: Math.PI / 2
+            }
+        }
+    }
+}
+
+/**
+ * uses _vec2_tmp, _vec3_tmp
+ */
+exports.clamp_limits = function(obj) {
+
+    var render = obj._render;
+    if (render.move_style !== exports.MS_TARGET_CONTROLS 
+            && render.move_style !== exports.MS_EYE_CONTROLS)
+        return;
+
+    // horizontal clamping
+    if (render.horizontal_limits) {
+        var left = render.horizontal_limits.left;
+        var right = render.horizontal_limits.right;
 
         var angles = get_angles(obj, _vec2_tmp);
+
         var phi = angles[0];
-        var theta = angles[1];
-
-        var z_world_cam = m_util.quat_to_dir(render.quat, m_util.AXIS_Z, _vec3_tmp);
-        var camera_upside_down = m_util.sign(z_world_cam[1]);
-
-        // NOTE: overshoot case
-        if (Math.abs(theta) > Math.PI / 4)
-            if (camera_upside_down == 1)
-                phi += Math.PI;
-
-        // NOTE: clamping theta - [0, Pi]
-        var clamping_theta = theta;        
-        if (camera_upside_down == 1)
-            clamping_theta = m_util.sign(theta) * Math.PI - theta;
-
         
-        // NOTE: clamping
-        var is_clamped = false;
-        if (clamping_theta < -render.vertical_limits.down) {
-            var new_theta = -render.vertical_limits.down;
-            if (new_theta < -Math.PI / 2)
-                new_theta = -Math.PI - new_theta;
+        if (render.move_style == exports.MS_TARGET_CONTROLS)
+            // camera angle around target
+            phi -= Math.PI;
+        else 
+            // camera eye angle
+            phi *= -1;
+        
+        var return_angle = get_returning_angle(phi, left, right);
 
-            var return_rotation = -camera_upside_down * (new_theta - theta);
-
-            // fix camera overshooting for limits smaller than PI/2
-            if (camera_upside_down == 1 && render.vertical_limits.down < Math.PI / 2) {
-                phi += Math.PI;
-                return_rotation += Math.PI - 2 * render.vertical_limits.down;
-            }
-            is_clamped = true;
-
+        if (return_angle) {
+            if (render.move_style == exports.MS_TARGET_CONTROLS)
+                target_cam_rotate_pos_phi(obj, return_angle);
+            else
+                eye_cam_rotate_pos_phi(obj, return_angle);
         }
-        if (clamping_theta > render.vertical_limits.up) {
-            var new_theta = render.vertical_limits.up;
-            if (new_theta > Math.PI / 2)
-                new_theta = Math.PI - new_theta;
+    }
 
-            var return_rotation = -camera_upside_down * (new_theta - theta);
+    // vertical clamping
+    if (render.vertical_limits) {
+        var down = render.vertical_limits.down;
+        var up = render.vertical_limits.up;
 
-            // fix camera overshooting for limits smaller than PI/2
-            if (camera_upside_down == 1 && render.vertical_limits.up < Math.PI / 2) {
-                phi += Math.PI;
-                return_rotation -= Math.PI - 2 * render.vertical_limits.up;
-            }
-            is_clamped = true;
-        }   
+        var angles = get_angles(obj, _vec2_tmp);
 
-        if (is_clamped) {
-            // NOTE: if camera has TARGET move style, then change translation 
-            // vector related to theta angle
-            if (render.move_style == exports.MS_TARGET_CONTROLS) {
-                
-                var sin_phi = Math.sin(phi);
-                var cos_phi = Math.cos(phi);
+        // theta angle for target camera
+        var theta = angles[1];
+        if (render.move_style == exports.MS_TARGET_CONTROLS)
+            theta *= -1;
 
-                var sin_theta = Math.sin(new_theta);
-                var cos_theta = Math.cos(new_theta);
+        // check upside-down camera position for extending theta angle to 
+        // [-PI, PI] range
+        var z_world_cam = m_util.quat_to_dir(render.quat, m_util.AXIS_Z, 
+                _vec3_tmp);
+        if (z_world_cam[1] > 0)
+            var theta_ext = m_util.sign(theta) * Math.PI - theta;
+        else
+            var theta_ext = theta;
 
-                // camera trans relative to target location
-                render.trans[0] -= obj._constraint.target[0];
-                render.trans[1] -= obj._constraint.target[1];
-                render.trans[2] -= obj._constraint.target[2];
-
-                var len = m_vec3.length(render.trans);
-                render.trans[0] = cos_theta * sin_phi;
-                render.trans[1] = -sin_theta;
-                render.trans[2] = cos_theta * cos_phi;
-
-                m_vec3.scale(render.trans, len / m_vec3.length(render.trans), render.trans);
-                
-                // returning into world coordinate system
-                render.trans[0] += obj._constraint.target[0];
-                render.trans[1] += obj._constraint.target[1];
-                render.trans[2] += obj._constraint.target[2];
-            }
-
-            // NOTE: change camera quaternion 
-            var axis = m_vec3.transformQuat(m_util.AXIS_X, render.quat, _vec3_tmp);
-            // NOTE: avoid accumulating accuracy errors
-            m_vec3.normalize(axis, axis);
-            
-            var clamp_rotation = m_quat.setAxisAngle(axis, return_rotation, 
-                    _quat4_tmp);
-            m_quat.multiply(clamp_rotation, render.quat, render.quat);
+        var return_angle = get_returning_angle(theta_ext, down, up);
+        if (return_angle) {
+            if (render.move_style == exports.MS_TARGET_CONTROLS)
+                target_cam_rotate_pos_theta(obj, return_angle);
+            else
+                eye_cam_rotate_pos_theta(obj, return_angle);
         }
+    }
+
+    // distance clamping
+    if (render.move_style == exports.MS_TARGET_CONTROLS)
+        if (render.use_distance_limits)
+            target_cam_clamp_distance(obj);
+}
+
+/**
+ * Get returning angle for camera clamping
+ * @param [Number] angle Current camera angle
+ * @param [Number] min_angle Minimum valid angle (right for phi, down for theta)
+ * @param [Number] max_angle Maximum valid angle (left for phi, up for theta)
+ */
+function get_returning_angle(angle, min_angle, max_angle) {
+    if (min_angle == max_angle)
+        return max_angle - angle;
+
+    angle = m_util.angle_wrap_0_2pi(angle);
+    min_angle = m_util.angle_wrap_0_2pi(min_angle);
+    max_angle = m_util.angle_wrap_0_2pi(max_angle);
+
+    // disable err clamping
+    if (Math.abs(min_angle - max_angle) < MIN_CLAMPING_INTERVAL)
+        return 0;
+
+    // rotate unit circle to ease calculation
+    var rotation = 2 * Math.PI - min_angle;
+    min_angle = 0;
+    max_angle += rotation;
+    max_angle = m_util.angle_wrap_0_2pi(max_angle);
+    angle += rotation;
+    angle = m_util.angle_wrap_0_2pi(angle);
+
+    if (angle > max_angle) {
+        // clamp to proximal edge
+        var delta_to_max = max_angle - angle;
+        var delta_to_min = 2 * Math.PI - angle;
+        return (- delta_to_max > delta_to_min) ? delta_to_min : delta_to_max;
+    }
+
+    // clamping not needed
+    return 0;
+}
+
+/**
+ * uses _vec3_tmp2
+ */
+function target_cam_rotate_pos_theta(obj, delta_theta) {
+    var x_world_cam = m_util.quat_to_dir(obj._render.quat, m_util.AXIS_MX, 
+            _vec3_tmp2);
+    target_cam_rotate_pos(obj, x_world_cam, delta_theta);
+}
+
+function target_cam_rotate_pos_phi(obj, delta_phi) {
+    target_cam_rotate_pos(obj, m_util.AXIS_Y, delta_phi);
+}
+
+/**
+ * Creating vector from target point to new camera position point
+ * uses _vec3_tmp, _quat4_tmp
+ */
+function target_cam_rotate_pos(obj, axis, angle_delta) {
+    var render = obj._render;
+
+    // get view vector for TARGET camera
+    var view_vector = m_vec3.subtract(render.pivot, render.trans, _vec3_tmp);
+
+    // rotate camera view vector according to future camera position
+    var rotation_quat = m_quat.setAxisAngle(axis, angle_delta, _quat4_tmp);
+    m_vec3.transformQuat(view_vector, rotation_quat, view_vector);
+
+    // move camera to new position
+    m_vec3.subtract(render.pivot, view_vector, render.trans);
+
+    // direct camera to target
+    m_quat.multiply(rotation_quat, render.quat, render.quat);
+}
+
+/**
+ * uses _quat4_tmp
+ */
+function eye_cam_rotate_pos_phi(obj, delta_phi) {
+    var rotation_quat = m_quat.setAxisAngle(m_util.AXIS_MY, delta_phi, 
+            _quat4_tmp);
+    m_quat.multiply(rotation_quat, obj._render.quat, obj._render.quat);
+}
+
+/**
+ * uses _vec3_tmp, _quat4_tmp
+ */
+function eye_cam_rotate_pos_theta(obj, delta_theta) {
+    var render = obj._render;
+    var x_world_cam = m_util.quat_to_dir(render.quat, m_util.AXIS_X, 
+            _vec3_tmp);
+    var rotation_quat = m_quat.setAxisAngle(x_world_cam, delta_theta, 
+            _quat4_tmp);
+    m_quat.multiply(rotation_quat, render.quat, render.quat);
+}
+
+/**
+ * uses _vec3_tmp, _vec3_tmp2
+ */
+function target_cam_clamp_distance(obj) {
+    var render = obj._render;
+
+    var dist_vector = m_vec3.subtract(render.trans, render.pivot, _vec3_tmp);
+    var len = m_vec3.length(dist_vector);
+
+    if (len > render.distance_max) {
+        var scale = render.distance_max / len;
+        m_vec3.scale(dist_vector, scale, dist_vector);
+        m_vec3.add(render.pivot, dist_vector, render.trans);
+    } else if (len < render.distance_min) {
+        // add scaled camera view vector (the more the better) to stabilize 
+        // minimum distance clamping
+        var cam_view = m_util.quat_to_dir(render.quat, m_util.AXIS_MY, 
+                _vec3_tmp2);
+        m_vec3.scale(cam_view, 100 * render.distance_min, cam_view);
+        m_vec3.add(dist_vector, cam_view, dist_vector);
+
+        // calculate clamped position on the arc of the minimum circle
+        m_vec3.scale(dist_vector, 
+                -render.distance_min / m_vec3.length(dist_vector), dist_vector);
+        m_vec3.add(render.pivot, dist_vector, render.trans);
     }
 }
 

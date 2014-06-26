@@ -9,10 +9,10 @@
  */
 b4w.module["__debug"] = function(exports, require) {
 
-var m_print    = require("__print");
-var extensions = require("__extensions");
-var m_textures = require("__textures");
-var util       = require("__util");
+var m_ext   = require("__extensions");
+var m_print = require("__print");
+var m_tex   = require("__textures");
+var m_util  = require("__util");
 
 var _gl = null;
 var ERRORS = {};
@@ -114,8 +114,8 @@ exports.check_depth_only_issue = function() {
     var framebuffer = _gl.createFramebuffer();
     _gl.bindFramebuffer(_gl.FRAMEBUFFER, framebuffer);
 
-    var texture = m_textures.create_texture("DEBUG", m_textures.TT_DEPTH);
-    m_textures.resize(texture, 1, 1);
+    var texture = m_tex.create_texture("DEBUG", m_tex.TT_DEPTH);
+    m_tex.resize(texture, 1, 1);
 
     var w_tex = texture.w_texture;
     var w_target = texture.w_target;
@@ -182,7 +182,7 @@ exports.check_shader_linking = function(program, shader_id, vshader, fshader,
 
     if (!_gl.getProgramParameter(program, _gl.LINK_STATUS)) {
     
-        var ext_ds = extensions.get_debug_shaders();
+        var ext_ds = m_ext.get_debug_shaders();
         if (ext_ds) {
             var vshader_text = ext_ds.getTranslatedShaderSource(vshader);
             var fshader_text = ext_ds.getTranslatedShaderSource(fshader);
@@ -233,7 +233,7 @@ exports.fbmsg = function() {
     for (var i = 0; i < arguments.length; i++) {
         var arg = arguments[i];
 
-        if (util.is_vector(arg)) {
+        if (m_util.is_vector(arg)) {
             for (var j = 0; j < arg.length; j++)
                 msg.push(arg[j]);
         } else
@@ -260,7 +260,7 @@ exports.msg = function() {
     for (var i = 0; i < arguments.length; i++) {
         var arg = arguments[i];
 
-        if (util.is_vector(arg)) {
+        if (m_util.is_vector(arg)) {
             for (var j = 0; j < arg.length; j++)
                 msg.push(arg[j]);
         } else
@@ -378,7 +378,7 @@ exports.check_browser = function(name) {
 }
 
 exports.check_finite = function(o) {
-    if (util.is_vector(o)) {
+    if (m_util.is_vector(o)) {
         for (var i = 0; i < o.length; i++)
             if (!isFinite(o[i]))
                 return false;
@@ -388,6 +388,32 @@ exports.check_finite = function(o) {
             return false;
     } else {
         return true;
+    }
+}
+
+exports.assert_type = function(value, type) {
+    if (typeof value != type)
+        m_util.panic("Type assertion failed: value type is not a {" + type +
+                "}:", value);
+}
+
+/**
+ * Check whether the two objects have the same structure
+ */
+exports.assert_structure = function(obj1, obj2) {
+    if (typeof obj1 != typeof obj2)
+        m_util.panic("Structure assertion failed: incompatible types");
+
+    for (var i in obj1) {
+        if (!(i in obj2))
+            m_util.panic("Structure assertion failed: missing key in the first object: " + i);
+    }
+
+    for (var i in obj2) {
+        if (!(i in obj1))
+            m_util.panic("Structure assertion failed: missing key in the second object: " + i);
+        if (typeof obj1[i] != typeof obj2[i])
+            m_util.panic("Structure assertion failed: incompatible types for key " + i);
     }
 }
 

@@ -15,6 +15,7 @@ b4w.module["__assets"] = function(exports, require) {
 var config  = require("__config");
 var m_print = require("__print");
 var sfx     = require("__sfx");
+var m_util  = require("__util");
 var version = require("__version");
 
 var cfg_ldr = config.assets;
@@ -31,6 +32,7 @@ exports.AT_AUDIO_ELEMENT = 60;
 var ASTATE_ENQUEUED = 10;
 var ASTATE_REQUESTED = 20;
 var ASTATE_RECEIVED = 30;
+var ASTATE_HALTED = 40;
 
 var _assets_queue = [];
 var _assets_pack_index = 0;
@@ -149,6 +151,8 @@ exports.get_text_sync = function(asset_uri) {
 }
 
 exports.cleanup = function() {
+    for (var i = 0; i < _assets_queue.length; i++)
+        _assets_queue[i].state = ASTATE_HALTED;
     _assets_queue = [];
     _assets_pack_index = 0;
     _image_el_pool = [];
@@ -273,33 +277,34 @@ function request_arraybuffer(asset, response_type) {
         req.responseType = response_type;
 
     req.onreadystatechange = function() {
-        if (req.readyState == 4) {
-            if (req.status == 200 || req.status == 0) {
-                var response = req.response;
-                if (response) {
+        if (asset.state != ASTATE_HALTED)
+            if (req.readyState == 4) {
+                if (req.status == 200 || req.status == 0) {
+                    var response = req.response;
+                    if (response) {
 
-                    // NOTE: json workaround, see above
-                    if (response_type == "json" && typeof response == "string") {
-                        try {
-                            response = JSON.parse(response);
-                        } catch(e) {
-                            asset.asset_cb(null, asset.uri, asset.type, asset.filepath);
-                            m_print.error(e + " (parsing JSON " + asset.filepath + ")");
-                            return;
+                        // NOTE: json workaround, see above
+                        if (response_type == "json" && typeof response == "string") {
+                            try {
+                                response = JSON.parse(response);
+                            } catch(e) {
+                                asset.asset_cb(null, asset.uri, asset.type, asset.filepath);
+                                m_print.error(e + " (parsing JSON " + asset.filepath + ")");
+                                return;
+                            }
                         }
-                    }
 
-                    asset.asset_cb(response, asset.uri, asset.type, asset.filepath);
-                    asset.state = ASTATE_RECEIVED;
+                        asset.asset_cb(response, asset.uri, asset.type, asset.filepath);
+                        asset.state = ASTATE_RECEIVED;
+                    } else {
+                        asset.asset_cb(null, asset.uri, asset.type, asset.filepath);
+                        m_print.error("B4W Error: empty responce when trying to get " + asset.filepath);
+                    }
                 } else {
                     asset.asset_cb(null, asset.uri, asset.type, asset.filepath);
-                    m_print.error("B4W Error: empty responce when trying to get " + asset.filepath);
+                    m_print.error("B4W Error: " + req.status + " when trying to get " + asset.filepath);
                 }
-            } else {
-                asset.asset_cb(null, asset.uri, asset.type, asset.filepath);
-                m_print.error("B4W Error: " + req.status + " when trying to get " + asset.filepath);
             }
-        }
     };
 
     req.addEventListener("progress", function(e) {
@@ -323,30 +328,31 @@ function request_audiobuffer(asset) {
     req.responseType = "arraybuffer";
 
     req.onreadystatechange = function() {
-        if (req.readyState == 4) {
-            if (req.status == 200 || req.status == 0) {
-                var response = req.response;
-                if (response) {
-                    var decode_cb = function(audio_buffer) {
-                        asset.asset_cb(audio_buffer, asset.uri, asset.type, asset.filepath);
-                        asset.state = ASTATE_RECEIVED;
-                    }
-                    var fail_cb = function() {
+        if (asset.state != ASTATE_HALTED)
+            if (req.readyState == 4) {
+                if (req.status == 200 || req.status == 0) {
+                    var response = req.response;
+                    if (response) {
+                        var decode_cb = function(audio_buffer) {
+                            asset.asset_cb(audio_buffer, asset.uri, asset.type, asset.filepath);
+                            asset.state = ASTATE_RECEIVED;
+                        }
+                        var fail_cb = function() {
+                            asset.asset_cb(null, asset.uri, asset.type, asset.filepath);
+                            m_print.error("B4W Error: failed to decode " + asset.filepath);
+                        }
+
+                        sfx.decode_audio_data(response, decode_cb, fail_cb);
+
+                    } else {
                         asset.asset_cb(null, asset.uri, asset.type, asset.filepath);
-                        m_print.error("B4W Error: failed to decode " + asset.filepath);
+                        m_print.error("B4W Error: empty responce when trying to get " + asset.filepath);
                     }
-
-                    sfx.decode_audio_data(response, decode_cb, fail_cb);
-
                 } else {
                     asset.asset_cb(null, asset.uri, asset.type, asset.filepath);
-                    m_print.error("B4W Error: empty responce when trying to get " + asset.filepath);
+                    m_print.error("B4W Error: " + req.status + " when trying to get " + asset.filepath);
                 }
-            } else {
-                asset.asset_cb(null, asset.uri, asset.type, asset.filepath);
-                m_print.error("B4W Error: " + req.status + " when trying to get " + asset.filepath);
             }
-        }
     };
 
     req.send(null);
@@ -355,18 +361,22 @@ function request_audiobuffer(asset) {
 function request_image(asset) {
     var image = document.createElement("img");
     image.onload = function() {
-        asset.asset_cb(image, asset.uri, asset.type, asset.filepath);
-        asset.state = ASTATE_RECEIVED;
+        if (asset.state != ASTATE_HALTED) {
+            asset.asset_cb(image, asset.uri, asset.type, asset.filepath);
+            asset.state = ASTATE_RECEIVED;
+        }
     };
     image.addEventListener("error", function() {
-        m_print.error("B4W Error: could not load image: " + asset.filepath)    
+        if (asset.state != ASTATE_HALTED)
+            m_print.error("B4W Error: could not load image: " + asset.filepath);
     }, false);
 
     var bd = get_built_in_data();
     if (bd && asset.filepath in bd) {
-        if (bd[asset.filepath])
-            image.src = "data:image;base64," + bd[asset.filepath];
-        else {
+        if (bd[asset.filepath]) {
+            var img_mime_type = get_image_mime_type(asset.filepath);
+            image.src = "data:" + img_mime_type + ";base64," + bd[asset.filepath];
+        } else {
             var event = new CustomEvent("error");
             image.dispatchEvent(event);
         }
@@ -378,11 +388,14 @@ function request_audio(asset) {
     var audio = document.createElement("audio");
     // HACK: workaround for some chrome garbage collector bug
     audio.addEventListener("loadeddata", function() {
-        asset.asset_cb(audio, asset.uri, asset.type, asset.filepath);
-        asset.state = ASTATE_RECEIVED;
+        if (asset.state != ASTATE_HALTED) {
+            asset.asset_cb(audio, asset.uri, asset.type, asset.filepath);
+            asset.state = ASTATE_RECEIVED;
+        }
     }, false);
     audio.addEventListener("error", function() {
-        m_print.error("B4W Error: could not load sound: " + asset.filepath)    
+        if (asset.state != ASTATE_HALTED)
+            m_print.error("B4W Error: could not load sound: " + asset.filepath);
     }, false);
 
     var bd = get_built_in_data();
@@ -400,10 +413,24 @@ function request_audio(asset) {
     setTimeout(function() {audio.some_prop_to_prevent_gc = 1}, 5000);
 }
 
-function get_sound_mime_type(file_path) {
-    var re = /(?:\.([^.]+))?$/;
-    var ext = re.exec(file_path)[1];
+function get_image_mime_type(file_path) {
+    var ext = m_util.get_file_extension(file_path);
+    var mime_type = "image";
+    switch(ext) {
+    case "jpeg":
+    case "jpg":
+        mime_type += "/jpeg";
+        break;
+    case "png":
+        mime_type += "/png";
+        break;
+    }
 
+    return mime_type;
+}
+
+function get_sound_mime_type(file_path) {
+    var ext = m_util.get_file_extension(file_path);
     var mime_type = "audio";
     switch(ext) {
     case "ogg":

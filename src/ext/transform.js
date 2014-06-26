@@ -1,8 +1,9 @@
 "use strict";
 
 /**
- * Object transformation API.
- * Make sure of non-batched nature of utilized objects.
+ * Object transformations API.
+ * With some exceptions specified below, make sure that the objects are not
+ * batched.
  * @module transform
  */
 b4w.module["transform"] = function(exports, require) {
@@ -16,12 +17,23 @@ var _vec3_tmp = new Float32Array(3);
 var _quat4_tmp = new Float32Array(4);
 
 /**
- * Set object translation
+ * Transform in the local space
+ * @const module:transform.SPACE_LOCAL
+ */
+exports["SPACE_LOCAL"] = transform.SPACE_LOCAL;
+/**
+ * Transform in the world space
+ * @const module:transform.SPACE_WORLD
+ */
+exports["SPACE_WORLD"] = transform.SPACE_WORLD;
+
+/**
+ * Set the object translation.
  * @method module:transform.set_translation
- * @param obj Object ID
- * @param x X coord
- * @param y Y coord
- * @param z Z coord
+ * @param {Object} obj Object ID
+ * @param {Number} x X coord
+ * @param {Number} y Y coord
+ * @param {Number} z Z coord
  */
 exports["set_translation"] = function(obj, x, y, z) {
     _vec3_tmp[0] = x;
@@ -33,10 +45,10 @@ exports["set_translation"] = function(obj, x, y, z) {
     physics.sync_transform(obj);
 }
 /**
- * Set object translation (vector form)
+ * Set the object translation (vector form).
  * @method module:transform.set_translation_v
- * @param obj Object ID
- * @param trans Translation array
+ * @param {Object} obj Object ID
+ * @param {Float32Array} trans Translation vector
  */
 exports["set_translation_v"] = function(obj, trans) {
     transform.set_translation(obj, trans);
@@ -45,13 +57,13 @@ exports["set_translation_v"] = function(obj, trans) {
 }
 
 /**
- * Set object translation relative to another object
+ * Set the object translation relative to another object.
  * @method module:transform.set_translation_rel
- * @param obj Object ID
- * @param x X coord
- * @param y Y coord
- * @param z Z coord
- * @param obj_parent Parent object ID
+ * @param {Object} obj Object ID
+ * @param {Number} x X coord
+ * @param {Number} y Y coord
+ * @param {Number} z Z coord
+ * @param {Object} obj_parent Parent object ID
  */
 exports["set_translation_rel"] = function(obj, x, y, z, obj_parent) {
     _vec3_tmp[0] = x;
@@ -69,10 +81,11 @@ exports["set_translation_rel"] = function(obj, x, y, z, obj_parent) {
 }
 
 /**
- * Get vector with object translation
+ * Get vector with object translation.
  * @method module:transform.get_translation
- * @param obj Object ID
- * @param [dest] Destination vector
+ * @param {Object} obj Object ID
+ * @param {Float32Array} [dest] Destination vector
+ * @returns {Float32Array} Destination vector
  */
 exports["get_translation"] = function(obj, dest) {
     if (!dest)
@@ -85,11 +98,11 @@ exports["get_translation"] = function(obj, dest) {
 /**
  * Set object rotation
  * @method module:transform.set_rotation
- * @param obj Object ID
- * @param x X part of quaternion
- * @param y Y part of quaternion
- * @param z Z part of quaternion
- * @param w W part of quaternion
+ * @param {Object} obj Object ID
+ * @param {Number} x X part of quaternion
+ * @param {Number} y Y part of quaternion
+ * @param {Number} z Z part of quaternion
+ * @param {Number} w W part of quaternion
  */
 exports["set_rotation"] = function(obj, x, y, z, w) {
     _quat4_tmp[0] = x;
@@ -110,8 +123,8 @@ exports["set_rotation_quat"] = exports["set_rotation"];
 /**
  * Set object rotation (vector form)
  * @method module:transform.set_rotation_v
- * @param obj Object ID
- * @param quat Quaternion vector
+ * @param {Object} obj Object ID
+ * @param {Float32Array} quat Quaternion vector
  */
 exports["set_rotation_v"] = function(obj, quat) {
     transform.set_rotation(obj, quat);
@@ -127,8 +140,9 @@ exports["set_rotation_quat_v"] = exports["set_rotation_v"];
 /**
  * Get object rotation quaternion.
  * @method module:transform.get_rotation
- * @param obj Object ID
- * @param opt_dest Destination vector
+ * @param {Object} obj Object ID
+ * @param {Float32Array} [opt_dest] Destination vector
+ * @returns {Float32Array} Destination vector
  */
 exports["get_rotation"] = function(obj, opt_dest) {
     if (!opt_dest)
@@ -144,13 +158,13 @@ exports["get_rotation"] = function(obj, opt_dest) {
 exports["get_rotation_quat"] = exports["get_rotation"];
 
 /**
- * Set euler rotation in YZX intrinsic system.
- * Usage of euler angles is discouraged, use quaternion instead.
+ * Set euler rotation in the YZX intrinsic system.
+ * Using euler angles is discouraged, use quaternion instead.
  * @method module:transform.set_rotation_euler
- * @param obj Object ID
- * @param x Angle X
- * @param y Angle Y
- * @param z Angle Z
+ * @param {Object} obj Object ID
+ * @param {Number} x Angle X
+ * @param {Number} y Angle Y
+ * @param {Number} z Angle Z
  */
 exports["set_rotation_euler"] = function(obj, x, y, z) {
     _vec3_tmp[0] = x;
@@ -163,10 +177,10 @@ exports["set_rotation_euler"] = function(obj, x, y, z) {
 }
 /**
  * Set euler rotation in vector form.
- * Usage of euler angles is discouraged, use quaternion instead.
+ * Using euler angles is discouraged, use quaternion instead.
  * @method module:transform.set_rotation_euler_v
- * @param obj Object ID
- * @param euler Vector with euler angles
+ * @param {Object} obj Object ID
+ * @param {Float32Array} euler Vector with euler angles
  */
 exports["set_rotation_euler_v"] = function(obj, euler) {
     transform.set_rotation_euler(obj, euler);
@@ -175,9 +189,9 @@ exports["set_rotation_euler_v"] = function(obj, euler) {
 }
 
 /**
- * Set object scale.
+ * Set the object scale.
  * @method module:transform.set_scale
- * @param obj Object ID
+ * @param {Object} obj Object ID
  * @param {Number} scale Object scale
  */
 exports["set_scale"] = function(obj, scale) {
@@ -185,9 +199,9 @@ exports["set_scale"] = function(obj, scale) {
     transform.update_transform(obj);
 }
 /**
- * Get object scale.
+ * Get the object scale.
  * @method module:transform.get_scale
- * @param obj Object ID
+ * @param {Object} obj Object ID
  * @returns {Number} scale
  */
 exports["get_scale"] = function(obj) {
@@ -195,10 +209,10 @@ exports["get_scale"] = function(obj) {
 }
 
 /**
- * Reset empty transform to allow child objects behave in absolute world space.
- * Only valid for relative objects
+ * Reset EMPTY's transform to allow child objects behave in the absolute (world) space.
+ * Works only for EMPTYes with "relative group coords" option enabled.
  * @method module:transform.empty_reset_transform
- * @param obj Object ID
+ * @param {Object} obj Object ID
  */
 exports["empty_reset_transform"] = function(obj) {
     if (obj["type"] != "EMPTY") {
@@ -216,7 +230,8 @@ exports["empty_reset_transform"] = function(obj) {
 /**
  * Get object size (maximum radius, calculated from bounding box).
  * @method module:transform.get_object_size
- * @param obj Object ID
+ * @param {Object} obj Object ID
+ * @returns {Number} Object size
  */
 exports["get_object_size"] = function(obj) {
 
@@ -228,12 +243,14 @@ exports["get_object_size"] = function(obj) {
     return transform.get_object_size(obj);
 }
 /**
- * Get object center in world space.
- * Works for batched objects too.
+ * Get the object center in the world space.
+ * Works for dynamic and static objects.
  * @method module:transform.get_object_center
- * @param obj Object ID
- * @param  calc_bs_center Boolean
- * @param [dest] Destination vector
+ * @param {Object} obj Object ID
+ * @param {Boolean} calc_bs_center Use the object's bounding sphere to
+ * calculate center, otherwise the use bounding box.
+ * @param {Float32Array} [dest] Destination vector
+ * @returns {Float32Array} Destination vector
  */
 exports["get_object_center"] = function(obj, calc_bs_center, dest) {
 
@@ -246,12 +263,12 @@ exports["get_object_center"] = function(obj, calc_bs_center, dest) {
 }
 
 /**
- * Perform incremental object movement in local space.
+ * Perform incremental object movement in the local space.
  * @method module:transform.move_local
- * @param obj Object ID
- * @param x DeltaX coord
- * @param y DeltaY coord
- * @param z DeltaZ coord
+ * @param {Object} obj Object ID
+ * @param {Number} x DeltaX coord
+ * @param {Number} y DeltaY coord
+ * @param {Number} z DeltaZ coord
  */
 exports["move_local"] = function(obj, dx, dy, dz) {
     transform.move_local(obj, dx, dy, dz);

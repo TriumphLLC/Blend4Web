@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Физика &mdash; Руководство пользователя: Blend4Web v14.05.22</title>
+    <title>Физика &mdash; Руководство пользователя: Blend4Web v14.06</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.05.22',
+        VERSION:     '14.06',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v14.05.22" href="index.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v14.06" href="index.html" />
     <link rel="next" title="Нелинейная анимация" href="nla.html" />
     <link rel="prev" title="Звуковая подсистема" href="audio.html" /> 
   </head>
@@ -37,7 +37,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">Руководство пользователя: Blend4Web v14.05.22</a></div>
+          href="index.html">Руководство пользователя: Blend4Web v14.06</a></div>
         <div class="rel">
           <a href="audio.html" title="Звуковая подсистема"
              accesskey="P">предыдущий</a> |
@@ -78,10 +78,10 @@
 </div>
 </div>
 <div class="section" id="id3">
-<h2>Статический меш<a class="headerlink" href="#id3" title="Ссылка на этот заголовок">¶</a></h2>
+<h2>Статический тип физики<a class="headerlink" href="#id3" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Может использоваться как ограничитель движения других объектов, например, для определения столкновений с ландшафтом, стенами и т.д. В настройках физики такого объекта для опции <tt class="docutils literal"><span class="pre">Physics</span> <span class="pre">Type</span></tt> должно быть выбрано значение <tt class="docutils literal"><span class="pre">Static</span></tt> (значение по умолчанию).</p>
 <div class="align-center figure">
-<a class="reference internal image-reference" href="_images/physics_panel_static.jpg"><img alt="Интерфейс панели физики, статический объект" src="_images/physics_panel_static.jpg" style="width: 80%;" /></a>
+<a class="reference internal image-reference" href="_images/physics_panel_static.jpg"><img alt="Интерфейс панели физики, объект со статической физикой" src="_images/physics_panel_static.jpg" style="width: 80%;" /></a>
 </div>
 <div class="line-block">
 <div class="line"><br /></div>
@@ -101,9 +101,9 @@
 Поле <tt class="docutils literal"><span class="pre">Collision</span> <span class="pre">mask</span></tt> определяет все физические группы, с которыми будет взаимодействовать данный материал.</p>
 </div>
 <div class="section" id="id4">
-<h2>Динамический объект<a class="headerlink" href="#id4" title="Ссылка на этот заголовок">¶</a></h2>
+<h2>Динамический тип физики<a class="headerlink" href="#id4" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Предназначен для симуляции движения жесткого тела.</p>
-<a class="reference internal image-reference" href="_images/physics_dynamic.jpg"><img alt="Множество динамических объектов в 3D движке" src="_images/physics_dynamic.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/physics_dynamic.jpg"><img alt="Множество объектов с динамической физикой в 3D движке" src="_images/physics_dynamic.jpg" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -111,19 +111,19 @@
 <p>Поле <tt class="docutils literal"><span class="pre">Collision</span> <span class="pre">group</span></tt> отвечает за физическую группу, к которой относится объект.</p>
 <p>Поле <tt class="docutils literal"><span class="pre">Collision</span> <span class="pre">mask</span></tt> определяет все физические группы, с которыми будет взаимодействовать данный объект.</p>
 <div class="align-center figure">
-<a class="reference internal image-reference" href="_images/physics_panel_dynamic.jpg"><img alt="Интерфейс панели физики, динамический объект" src="_images/physics_panel_dynamic.jpg" style="width: 80%;" /></a>
+<a class="reference internal image-reference" href="_images/physics_panel_dynamic.jpg"><img alt="Интерфейс панели физики, объект с динамической физикой" src="_images/physics_panel_dynamic.jpg" style="width: 80%;" /></a>
 </div>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <p>В настройках панели физики объекта должен быть установлен флаг <tt class="docutils literal"><span class="pre">Detect</span> <span class="pre">collisions</span></tt>. Поле <tt class="docutils literal"><span class="pre">Collision</span> <span class="pre">ID</span></tt> предназначено для определения столкновения со специфическим объектом (например, прикрепленный к камере объект для определения близости FPS персонажа к предметам), и может быть оставлено пустым.</p>
 <div class="align-center figure">
-<a class="reference internal image-reference" href="_images/object.jpg"><img alt="Интерфейс панели физики, динамический объект" src="_images/object.jpg" style="width: 80%;" /></a>
+<a class="reference internal image-reference" href="_images/object.jpg"><img alt="Интерфейс панели физики, объект с динамической физикой" src="_images/object.jpg" style="width: 80%;" /></a>
 </div>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p>Для материала динамического объекта поддерживаются: трение (<tt class="docutils literal"><span class="pre">Friction</span></tt>), упругость (<tt class="docutils literal"><span class="pre">Elasticity</span></tt>). В случае использования на одном меше нескольких материалов физические настройки считываются с первого из них.</p>
+<p>Для материала такого объекта поддерживаются: трение (<tt class="docutils literal"><span class="pre">Friction</span></tt>), упругость (<tt class="docutils literal"><span class="pre">Elasticity</span></tt>). В случае использования на одном меше нескольких материалов физические настройки считываются с первого из них.</p>
 <p>Для объекта-камеры должна использоваться настройка <tt class="docutils literal"><span class="pre">Physics</span> <span class="pre">Type</span></tt> = <tt class="docutils literal"><span class="pre">Dynamic</span></tt>, должен быть установлен флаг <tt class="docutils literal"><span class="pre">Detect</span> <span class="pre">collisions</span></tt>.</p>
 </div>
 <div class="section" id="constraints">
@@ -133,7 +133,7 @@
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p>Установка физического ограничителя (<tt class="docutils literal"><span class="pre">Rigid</span> <span class="pre">Body</span> <span class="pre">Joint</span></tt>) на объект происходит в панели <tt class="docutils literal"><span class="pre">Object</span> <span class="pre">Constraints</span></tt>. Поддерживаемые типы (<tt class="docutils literal"><span class="pre">Pivot</span> <span class="pre">Type</span></tt>): <tt class="docutils literal"><span class="pre">Ball</span></tt>, <tt class="docutils literal"><span class="pre">Hinge</span></tt>, <tt class="docutils literal"><span class="pre">Cone</span> <span class="pre">Twist</span></tt>, <tt class="docutils literal"><span class="pre">Generic</span> <span class="pre">6</span> <span class="pre">DoF</span></tt>. Физический ограничитель можно установить на один из двух взаимодействующих объектов, при этом другой выступает в качестве цели (<tt class="docutils literal"><span class="pre">Target</span></tt>). Оба объекта могут быть статическими и/или динамическими. В ограничителях (кроме <tt class="docutils literal"><span class="pre">Ball</span></tt>) могут настраиваться пределы перемещения и вращения.</p>
+<p>Установка физического ограничителя (<tt class="docutils literal"><span class="pre">Rigid</span> <span class="pre">Body</span> <span class="pre">Joint</span></tt>) на объект происходит в панели <tt class="docutils literal"><span class="pre">Object</span> <span class="pre">Constraints</span></tt>. Поддерживаемые типы (<tt class="docutils literal"><span class="pre">Pivot</span> <span class="pre">Type</span></tt>): <tt class="docutils literal"><span class="pre">Ball</span></tt>, <tt class="docutils literal"><span class="pre">Hinge</span></tt>, <tt class="docutils literal"><span class="pre">Cone</span> <span class="pre">Twist</span></tt>, <tt class="docutils literal"><span class="pre">Generic</span> <span class="pre">6</span> <span class="pre">DoF</span></tt>. Физический ограничитель можно установить на один из двух взаимодействующих объектов, при этом другой выступает в качестве цели (<tt class="docutils literal"><span class="pre">Target</span></tt>). Оба объекта могут быть со статическим и/или динамическим типом физики. В ограничителях (кроме <tt class="docutils literal"><span class="pre">Ball</span></tt>) могут настраиваться пределы перемещения и вращения.</p>
 <a class="reference internal image-reference" href="_images/physics_constraints_panel.jpg"><img alt="Панель установки физического ограничителя" src="_images/physics_constraints_panel.jpg" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
@@ -251,8 +251,8 @@
 <li class="toctree-l1"><a class="reference internal" href="audio.html">Звуковая подсистема</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Физика</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#id2">Подготовка к использованию</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id3">Статический меш</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id4">Динамический объект</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">Статический тип физики</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">Динамический тип физики</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#constraints">Ограничители (Constraints)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id5">Колесные транспортные средства</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id7">Плавающие объекты</a></li>
@@ -296,7 +296,7 @@
           
     <div class="footer">
         &copy; Copyright 2014, ООО &#34;Триумф&#34;.
-      Обновлено: 2014-05-21.
+      Обновлено: 2014-06-25.
       Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

@@ -122,7 +122,7 @@ exports.update = function(timeline, elapsed) {
 
 exports.create_custom_sensor = function(value) {
     var sensor = init_sensor(ST_CUSTOM);
-    sensor_set_value(value);
+    sensor_set_value(sensor, value);
     return sensor;
 }
 

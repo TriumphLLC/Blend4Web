@@ -59,6 +59,7 @@ java -jar closure-compiler/compiler.jar \
     --js=src/shaders.js \
     --js=glsl_utils/compiler/out/shader_texts.js \
     --js=src/geometry.js \
+    --js=src/objects.js \
     --js=src/particles.js \
     --js=src/primitives.js \
     --js=src/prerender.js \

@@ -39,20 +39,20 @@
     
         
             <div class="description">Controls API.
-Inspired by blender game engine.
+
 <dl>
 
 <dt>Sensor</dt>
-<dd>based on events occured on scene, has exactly one output value (0 or 1)</dd>
+<dd>The sensor value is a result of some event occured on the scene, has
+exactly one output value of type integer number (mostly 0 or 1)</dd>
 
 <dt>Sensor Manifold (or simply manifold)</dt>
-<dd>Manifold of sensors. Have single attached logic function, which performs 
-logic operation on set of sensor values. Generate pulse based on control 
-type and logic function result. Also has output value which is equal to 
-output from first sensor in manifold.</dd>
+<dd>A manifold of sensors. Has a single attached logic function, which performs 
+a logic operation on a set of sensor values. Generates a pulse based on the control 
+type and the logic function's result.</dd>
 </dl>
 
-<p>Registering of user input callbacks is required to perform correct
+<p>Registering the user input callbacks is required to perform a correct
 operation of sensors, see *_cb() docs.</div>
         
 
@@ -103,6 +103,8 @@ operation of sensors, see *_cb() docs.</div>
 
     
 
+     
+
     
 
     
@@ -111,7 +113,7 @@ operation of sensors, see *_cb() docs.</div>
         <dl>
             
 <dt>
-    <h4 class="name" id="CT_CONTINUOUS"><span class="type-signature">&lt;static, constant> </span>CT_CONTINUOUS<span class="type-signature"></span></h4>
+    <h4 class="name" id="CT_CONTINUOUS"><span class="type-signature">(static, constant) </span>CT_CONTINUOUS<span class="type-signature"></span></h4>
 
     
 </dt>
@@ -119,8 +121,8 @@ operation of sensors, see *_cb() docs.</div>
     
     <div class="description">
         Continuous control type.
-Generate positive pulse each frame for positive logic function.
-Generate single negative pulse on negative logic function.
+Generates a positive pulse for each frame for the positive logic function.
+Generates a single negative pulse for the negative logic function.
     </div>
     
 
@@ -169,7 +171,7 @@ Generate single negative pulse on negative logic function.
         
             
 <dt>
-    <h4 class="name" id="CT_LEVEL"><span class="type-signature">&lt;static, constant> </span>CT_LEVEL<span class="type-signature"></span></h4>
+    <h4 class="name" id="CT_LEVEL"><span class="type-signature">(static, constant) </span>CT_LEVEL<span class="type-signature"></span></h4>
 
     
 </dt>
@@ -177,7 +179,7 @@ Generate single negative pulse on negative logic function.
     
     <div class="description">
         Level control type.
-Generate single positive pulse for each change of manifold logic function
+Generates a single positive pulse for each change of the manifold logic function
 result. Produces no negative pulses.
     </div>
     
@@ -207,7 +209,7 @@ result. Produces no negative pulses.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line48">line 48</a>
+        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line49">line 49</a>
     </li></ul></dd>
     
 
@@ -227,7 +229,7 @@ result. Produces no negative pulses.
         
             
 <dt>
-    <h4 class="name" id="CT_SHOT"><span class="type-signature">&lt;static, constant> </span>CT_SHOT<span class="type-signature"></span></h4>
+    <h4 class="name" id="CT_SHOT"><span class="type-signature">(static, constant) </span>CT_SHOT<span class="type-signature"></span></h4>
 
     
 </dt>
@@ -235,7 +237,7 @@ result. Produces no negative pulses.
     
     <div class="description">
         Shot control type.
-Generate single positive pulse on positive logic function.
+Generates a single positive pulse for the positive logic function.
 Produces no negative pulses.
     </div>
     
@@ -265,7 +267,7 @@ Produces no negative pulses.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line41">line 41</a>
+        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line42">line 42</a>
     </li></ul></dd>
     
 
@@ -285,7 +287,7 @@ Produces no negative pulses.
         
             
 <dt>
-    <h4 class="name" id="CT_TRIGGER"><span class="type-signature">&lt;static, constant> </span>CT_TRIGGER<span class="type-signature"></span></h4>
+    <h4 class="name" id="CT_TRIGGER"><span class="type-signature">(static, constant) </span>CT_TRIGGER<span class="type-signature"></span></h4>
 
     
 </dt>
@@ -293,8 +295,8 @@ Produces no negative pulses.
     
     <div class="description">
         Trigger control type.
-Generate single positive pulse on positive logic function.
-Generate single negative pulse on negative logic function.
+Generates a single positive pulse for the positive logic function.
+Generate a single negative pulse for the negative logic function.
     </div>
     
 
@@ -323,7 +325,7 @@ Generate single negative pulse on negative logic function.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line34">line 34</a>
+        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line35">line 35</a>
     </li></ul></dd>
     
 
@@ -343,14 +345,14 @@ Generate single negative pulse on negative logic function.
         
             
 <dt>
-    <h4 class="name" id="F_TRA"><span class="type-signature">&lt;static, constant> </span>F_TRA<span class="type-signature"></span></h4>
+    <h4 class="name" id="F_TRA"><span class="type-signature">(static, constant) </span>F_TRA<span class="type-signature"></span></h4>
 
     
 </dt>
 <dd>
     
     <div class="description">
-        Translate camera forward-backward
+        Translate the camera forward-backward
     </div>
     
 
@@ -381,7 +383,7 @@ Generate single negative pulse on negative logic function.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line153">line 153</a>
+        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line155">line 155</a>
     </li></ul></dd>
     
 
@@ -401,14 +403,14 @@ Generate single negative pulse on negative logic function.
         
             
 <dt>
-    <h4 class="name" id="H_ROT"><span class="type-signature">&lt;static, constant> </span>H_ROT<span class="type-signature"></span></h4>
+    <h4 class="name" id="H_ROT"><span class="type-signature">(static, constant) </span>H_ROT<span class="type-signature"></span></h4>
 
     
 </dt>
 <dd>
     
     <div class="description">
-        Rotate camera horizontally
+        Rotate the camera horizontally
     </div>
     
 
@@ -439,7 +441,7 @@ Generate single negative pulse on negative logic function.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line129">line 129</a>
+        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line131">line 131</a>
     </li></ul></dd>
     
 
@@ -459,14 +461,14 @@ Generate single negative pulse on negative logic function.
         
             
 <dt>
-    <h4 class="name" id="H_TRA"><span class="type-signature">&lt;static, constant> </span>H_TRA<span class="type-signature"></span></h4>
+    <h4 class="name" id="H_TRA"><span class="type-signature">(static, constant) </span>H_TRA<span class="type-signature"></span></h4>
 
     
 </dt>
 <dd>
     
     <div class="description">
-        Translate camera horizontally
+        Translate the camera horizontally
     </div>
     
 
@@ -497,7 +499,7 @@ Generate single negative pulse on negative logic function.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line141">line 141</a>
+        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line143">line 143</a>
     </li></ul></dd>
     
 
@@ -517,7 +519,7 @@ Generate single negative pulse on negative logic function.
         
             
 <dt>
-    <h4 class="name" id="JUMP"><span class="type-signature">&lt;static, constant> </span>JUMP<span class="type-signature"></span></h4>
+    <h4 class="name" id="JUMP"><span class="type-signature">(static, constant) </span>JUMP<span class="type-signature"></span></h4>
 
     
 </dt>
@@ -555,7 +557,7 @@ Generate single negative pulse on negative logic function.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line159">line 159</a>
+        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line161">line 161</a>
     </li></ul></dd>
     
 
@@ -575,14 +577,14 @@ Generate single negative pulse on negative logic function.
         
             
 <dt>
-    <h4 class="name" id="V_ROT"><span class="type-signature">&lt;static, constant> </span>V_ROT<span class="type-signature"></span></h4>
+    <h4 class="name" id="V_ROT"><span class="type-signature">(static, constant) </span>V_ROT<span class="type-signature"></span></h4>
 
     
 </dt>
 <dd>
     
     <div class="description">
-        Rotate camera vertically
+        Rotate the camera vertically
     </div>
     
 
@@ -613,7 +615,7 @@ Generate single negative pulse on negative logic function.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line135">line 135</a>
+        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line137">line 137</a>
     </li></ul></dd>
     
 
@@ -633,14 +635,14 @@ Generate single negative pulse on negative logic function.
         
             
 <dt>
-    <h4 class="name" id="V_TRA"><span class="type-signature">&lt;static, constant> </span>V_TRA<span class="type-signature"></span></h4>
+    <h4 class="name" id="V_TRA"><span class="type-signature">(static, constant) </span>V_TRA<span class="type-signature"></span></h4>
 
     
 </dt>
 <dd>
     
     <div class="description">
-        Translate camera vertically
+        Translate the camera vertically
     </div>
     
 
@@ -671,7 +673,7 @@ Generate single negative pulse on negative logic function.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line147">line 147</a>
+        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line149">line 149</a>
     </li></ul></dd>
     
 
@@ -691,14 +693,14 @@ Generate single negative pulse on negative logic function.
         
             
 <dt>
-    <h4 class="name" id="X_TRA"><span class="type-signature">&lt;static, constant> </span>X_TRA<span class="type-signature"></span></h4>
+    <h4 class="name" id="X_TRA"><span class="type-signature">(static, constant) </span>X_TRA<span class="type-signature"></span></h4>
 
     
 </dt>
 <dd>
     
     <div class="description">
-        Translation along x axis
+        Translation along the X-axis
     </div>
     
 
@@ -749,14 +751,14 @@ Generate single negative pulse on negative logic function.
         
             
 <dt>
-    <h4 class="name" id="Y_TRA"><span class="type-signature">&lt;static, constant> </span>Y_TRA<span class="type-signature"></span></h4>
+    <h4 class="name" id="Y_TRA"><span class="type-signature">(static, constant) </span>Y_TRA<span class="type-signature"></span></h4>
 
     
 </dt>
 <dd>
     
     <div class="description">
-        Translation along y axis
+        Translation along the Y-axis
     </div>
     
 
@@ -807,14 +809,14 @@ Generate single negative pulse on negative logic function.
         
             
 <dt>
-    <h4 class="name" id="Z_TRA"><span class="type-signature">&lt;static, constant> </span>Z_TRA<span class="type-signature"></span></h4>
+    <h4 class="name" id="Z_TRA"><span class="type-signature">(static, constant) </span>Z_TRA<span class="type-signature"></span></h4>
 
     
 </dt>
 <dd>
     
     <div class="description">
-        Translation along z axis
+        Translation along the Z-axis
     </div>
     
 
@@ -871,7 +873,7 @@ Generate single negative pulse on negative logic function.
         <dl>
             
 <dt>
-    <h4 class="name" id="create_collision_impulse_sensor"><span class="type-signature">&lt;static> </span>create_collision_impulse_sensor<span class="signature">(obj)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="check_sensor_manifold"><span class="type-signature">(static) </span>check_sensor_manifold<span class="signature">(obj, id)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
 
     
 </dt>
@@ -879,8 +881,7 @@ Generate single negative pulse on negative logic function.
 
     
     <div class="description">
-        Create collision impulse sensor.
-value is impulse applied on collision point
+        Check whether an object has manifold attached or not.
     </div>
     
 
@@ -918,6 +919,317 @@ value is impulse applied on collision point
             
 
             <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Object ID</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Manifold ID</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line516">line 516</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    Check result
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Boolean</span>
+
+
+    </dd>
+</dl>
+
+        
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="check_sensor_manifolds"><span class="type-signature">(static) </span>check_sensor_manifolds<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
+
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Check whether an object has some manifold attached or not.
+    </div>
+    
+
+    
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Object ID</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line506">line 506</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    Check result
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Boolean</span>
+
+
+    </dd>
+</dl>
+
+        
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="create_collision_impulse_sensor"><span class="type-signature">(static) </span>create_collision_impulse_sensor<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Create a collision impulse sensor.
+Its value is the impulse applied at the collision point
+    </div>
+    
+
+    
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
             
             </td>
 
@@ -956,7 +1268,7 @@ value is impulse applied on collision point
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line258">line 258</a>
+        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line247">line 247</a>
     </li></ul></dd>
     
 
@@ -988,6 +1300,18 @@ value is impulse applied on collision point
 
 
 
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Object</span>
+
+
+    </dd>
+</dl>
+
         
 
     
@@ -996,7 +1320,7 @@ value is impulse applied on collision point
         
             
 <dt>
-    <h4 class="name" id="create_collision_sensor"><span class="type-signature">&lt;static> </span>create_collision_sensor<span class="signature">(obj, collision_id, need_payload)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="create_collision_sensor"><span class="type-signature">(static) </span>create_collision_sensor<span class="signature">(obj, collision_id, need_payload)</span><span class="type-signature"> &rarr; {Object}</span></h4>
 
     
 </dt>
@@ -1004,8 +1328,8 @@ value is impulse applied on collision point
 
     
     <div class="description">
-        Create collision sensor.
-performs detection of collision between object and collision ID
+        Create a collision sensor.
+Performs detection of collisions between an object and an entity with a collision ID
     </div>
     
 
@@ -1043,6 +1367,11 @@ performs detection of collision between object and collision ID
             
 
             <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
             
             </td>
 
@@ -1127,7 +1456,7 @@ performs detection of collision between object and collision ID
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line248">line 248</a>
+        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line237">line 237</a>
     </li></ul></dd>
     
 
@@ -1159,6 +1488,18 @@ performs detection of collision between object and collision ID
 
 
 
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Object</span>
+
+
+    </dd>
+</dl>
+
         
 
     
@@ -1167,7 +1508,7 @@ performs detection of collision between object and collision ID
         
             
 <dt>
-    <h4 class="name" id="create_custom_sensor"><span class="type-signature">&lt;static> </span>create_custom_sensor<span class="signature">(value)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="create_custom_sensor"><span class="type-signature">(static) </span>create_custom_sensor<span class="signature">(value)</span><span class="type-signature"> &rarr; {Object}</span></h4>
 
     
 </dt>
@@ -1175,7 +1516,7 @@ performs detection of collision between object and collision ID
 
     
     <div class="description">
-        Create custom sensor.
+        Create a custom sensor.
 Custom sensor controlled by set_custom_sensor()
     </div>
     
@@ -1215,6 +1556,11 @@ Custom sensor controlled by set_custom_sensor()
 
             <td class="type">
             
+                
+<span class="param-type">Number</span>
+
+
+            
             </td>
 
             
@@ -1252,7 +1598,7 @@ Custom sensor controlled by set_custom_sensor()
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line233">line 233</a>
+        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line222">line 222</a>
     </li></ul></dd>
     
 
@@ -1284,6 +1630,18 @@ Custom sensor controlled by set_custom_sensor()
 
 
 
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Object</span>
+
+
+    </dd>
+</dl>
+
         
 
     
@@ -1292,7 +1650,7 @@ Custom sensor controlled by set_custom_sensor()
         
             
 <dt>
-    <h4 class="name" id="create_elapsed_sensor"><span class="type-signature">&lt;static> </span>create_elapsed_sensor<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="create_elapsed_sensor"><span class="type-signature">(static) </span>create_elapsed_sensor<span class="signature">()</span><span class="type-signature"> &rarr; {Object}</span></h4>
 
     
 </dt>
@@ -1300,8 +1658,8 @@ Custom sensor controlled by set_custom_sensor()
 
     
     <div class="description">
-        Create elapsed sensor.
-Sensor value is time elapsed from previous frame
+        Create an elapsed sensor.
+The sensor's value is the time elapsed from the previous frame
     </div>
     
 
@@ -1334,7 +1692,7 @@ Sensor value is time elapsed from previous frame
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line351">line 351</a>
+        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line340">line 340</a>
     </li></ul></dd>
     
 
@@ -1366,6 +1724,18 @@ Sensor value is time elapsed from previous frame
 
 
 
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Object</span>
+
+
+    </dd>
+</dl>
+
         
 
     
@@ -1374,7 +1744,7 @@ Sensor value is time elapsed from previous frame
         
             
 <dt>
-    <h4 class="name" id="create_kb_sensor_manifold"><span class="type-signature">&lt;static> </span>create_kb_sensor_manifold<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="create_kb_sensor_manifold"><span class="type-signature">(static) </span>create_kb_sensor_manifold<span class="signature">(obj, id, type, key, callback, callback_param<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
     
 </dt>
@@ -1383,7 +1753,7 @@ Sensor value is time elapsed from previous frame
     
     <div class="description">
         Convenience function.
-Create one keyboard sensor, create and attach manifold.
+Create one keyboard sensor, create and attach a manifold.
     </div>
     
 
@@ -1391,6 +1761,221 @@ Create one keyboard sensor, create and attach manifold.
 
     
 
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Object ID to attach the manifold to</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">New manifold ID</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>type</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Manifold control type</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>key</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Keyboar key</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#manifold_callback">manifold_callback</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Manifold callback</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>callback_param</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">*</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Param to pass to manifold callback</td>
+        </tr>
+
+    
+    </tbody>
+</table>
     
 
     
@@ -1446,7 +2031,7 @@ Create one keyboard sensor, create and attach manifold.
         
             
 <dt>
-    <h4 class="name" id="create_keyboard_sensor"><span class="type-signature">&lt;static> </span>create_keyboard_sensor<span class="signature">(key)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="create_keyboard_sensor"><span class="type-signature">(static) </span>create_keyboard_sensor<span class="signature">(key)</span><span class="type-signature"> &rarr; {Object}</span></h4>
 
     
 </dt>
@@ -1454,7 +2039,7 @@ Create one keyboard sensor, create and attach manifold.
 
     
     <div class="description">
-        Create keyboard sensor.
+        Create a keyboard sensor.
     </div>
     
 
@@ -1493,13 +2078,18 @@ Create one keyboard sensor, create and attach manifold.
 
             <td class="type">
             
+                
+<span class="param-type">Number</span>
+
+
+            
             </td>
 
             
 
             
 
-            <td class="description last">Sensor key</td>
+            <td class="description last">Sensor key KEY_*</td>
         </tr>
 
     
@@ -1530,7 +2120,7 @@ Create one keyboard sensor, create and attach manifold.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line241">line 241</a>
+        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line230">line 230</a>
     </li></ul></dd>
     
 
@@ -1562,6 +2152,18 @@ Create one keyboard sensor, create and attach manifold.
 
 
 
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Object</span>
+
+
+    </dd>
+</dl>
+
         
 
     
@@ -1570,7 +2172,7 @@ Create one keyboard sensor, create and attach manifold.
         
             
 <dt>
-    <h4 class="name" id="create_motion_sensor"><span class="type-signature">&lt;static> </span>create_motion_sensor<span class="signature">(obj, threshold, rotation_threshold)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="create_motion_sensor"><span class="type-signature">(static) </span>create_motion_sensor<span class="signature">(obj, threshold, rotation_threshold)</span><span class="type-signature"> &rarr; {Object}</span></h4>
 
     
 </dt>
@@ -1578,8 +2180,8 @@ Create one keyboard sensor, create and attach manifold.
 
     
     <div class="description">
-        Create motion sensor.
-Sensor value is 1 if object is in motion
+        Create a motion sensor.
+The sensor's value is 1 if the object is in motion
     </div>
     
 
@@ -1618,6 +2220,11 @@ Sensor value is 1 if object is in motion
 
             <td class="type">
             
+                
+<span class="param-type">Object</span>
+
+
+            
             </td>
 
             
@@ -1636,13 +2243,18 @@ Sensor value is 1 if object is in motion
 
             <td class="type">
             
+                
+<span class="param-type">Number</span>
+
+
+            
             </td>
 
             
 
             
 
-            <td class="description last">Tranlation threshold per second</td>
+            <td class="description last">Translation threshold per second</td>
         </tr>
 
     
@@ -1653,6 +2265,11 @@ Sensor value is 1 if object is in motion
             
 
             <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
             
             </td>
 
@@ -1691,7 +2308,7 @@ Sensor value is 1 if object is in motion
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line315">line 315</a>
+        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line304">line 304</a>
     </li></ul></dd>
     
 
@@ -1723,6 +2340,18 @@ Sensor value is 1 if object is in motion
 
 
 
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Object</span>
+
+
+    </dd>
+</dl>
+
         
 
     
@@ -1731,7 +2360,7 @@ Sensor value is 1 if object is in motion
         
             
 <dt>
-    <h4 class="name" id="create_mouse_click_sensor"><span class="type-signature">&lt;static> </span>create_mouse_click_sensor<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="create_mouse_click_sensor"><span class="type-signature">(static) </span>create_mouse_click_sensor<span class="signature">()</span><span class="type-signature"> &rarr; {Object}</span></h4>
 
     
 </dt>
@@ -1739,7 +2368,7 @@ Sensor value is 1 if object is in motion
 
     
     <div class="description">
-        Create mouse click sensor.
+        Create a mouse click sensor.
     </div>
     
 
@@ -1772,7 +2401,7 @@ Sensor value is 1 if object is in motion
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line279">line 279</a>
+        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line268">line 268</a>
     </li></ul></dd>
     
 
@@ -1804,6 +2433,18 @@ Sensor value is 1 if object is in motion
 
 
 
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Object</span>
+
+
+    </dd>
+</dl>
+
         
 
     
@@ -1812,7 +2453,7 @@ Sensor value is 1 if object is in motion
         
             
 <dt>
-    <h4 class="name" id="create_mouse_move_sensor"><span class="type-signature">&lt;static> </span>create_mouse_move_sensor<span class="signature">(<span class="optional">axis</span>)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="create_mouse_move_sensor"><span class="type-signature">(static) </span>create_mouse_move_sensor<span class="signature">(axis<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Object}</span></h4>
 
     
 </dt>
@@ -1820,8 +2461,8 @@ Sensor value is 1 if object is in motion
 
     
     <div class="description">
-        Create mouse move sensor.
-Sensor value is a number of pixels
+        Create a mouse movement sensor.
+The sensor's value is a number of pixels
     </div>
     
 
@@ -1843,7 +2484,7 @@ Sensor value is a number of pixels
         <th>Type</th>
 
         
-        <th>Argument</th>
+        <th>Attributes</th>
         
 
         
@@ -1863,6 +2504,11 @@ Sensor value is a number of pixels
             
 
             <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
             
             </td>
 
@@ -1917,7 +2563,7 @@ Sensor value is a number of pixels
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line292">line 292</a>
+        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line281">line 281</a>
     </li></ul></dd>
     
 
@@ -1949,6 +2595,18 @@ Sensor value is a number of pixels
 
 
 
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Object</span>
+
+
+    </dd>
+</dl>
+
         
 
     
@@ -1957,7 +2615,7 @@ Sensor value is a number of pixels
         
             
 <dt>
-    <h4 class="name" id="create_mouse_wheel_sensor"><span class="type-signature">&lt;static> </span>create_mouse_wheel_sensor<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="create_mouse_wheel_sensor"><span class="type-signature">(static) </span>create_mouse_wheel_sensor<span class="signature">()</span><span class="type-signature"> &rarr; {Object}</span></h4>
 
     
 </dt>
@@ -1965,8 +2623,8 @@ Sensor value is a number of pixels
 
     
     <div class="description">
-        Create mouse wheel sensor.
-Sensor value is 1 for single wheel notch scrolled away from the user
+        Create a mouse wheel sensor.
+The sensor's value is 1 for a single wheel notch scrolled away from the user
     </div>
     
 
@@ -1999,7 +2657,7 @@ Sensor value is 1 for single wheel notch scrolled away from the user
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line285">line 285</a>
+        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line274">line 274</a>
     </li></ul></dd>
     
 
@@ -2031,6 +2689,18 @@ Sensor value is 1 for single wheel notch scrolled away from the user
 
 
 
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Object</span>
+
+
+    </dd>
+</dl>
+
         
 
     
@@ -2039,7 +2709,7 @@ Sensor value is 1 for single wheel notch scrolled away from the user
         
             
 <dt>
-    <h4 class="name" id="create_ray_sensor"><span class="type-signature">&lt;static> </span>create_ray_sensor<span class="signature">(obj, start_offset, end_offset, local_coords, collision_id)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="create_ray_sensor"><span class="type-signature">(static) </span>create_ray_sensor<span class="signature">(obj, start_offset, end_offset, local_coords, collision_id)</span><span class="type-signature"> &rarr; {Object}</span></h4>
 
     
 </dt>
@@ -2047,9 +2717,9 @@ Sensor value is 1 for single wheel notch scrolled away from the user
 
     
     <div class="description">
-        Create ray sensor.
-Emits ray from object at start_offset to end_offset and checks intersection
-with collision ID
+        Create a ray sensor.
+Emits a ray from the object between start_offset and end_offset and checks the intersection
+with an entity posessing a collision ID
     </div>
     
 
@@ -2088,6 +2758,11 @@ with collision ID
 
             <td class="type">
             
+                
+<span class="param-type">Object</span>
+
+
+            
             </td>
 
             
@@ -2107,7 +2782,7 @@ with collision ID
             <td class="type">
             
                 
-<span class="param-type">vec3</span>
+<span class="param-type">Float32Array</span>
 
 
             
@@ -2130,7 +2805,7 @@ with collision ID
             <td class="type">
             
                 
-<span class="param-type">vec3</span>
+<span class="param-type">Float32Array</span>
 
 
             
@@ -2217,7 +2892,7 @@ with collision ID
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line266">line 266</a>
+        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line255">line 255</a>
     </li></ul></dd>
     
 
@@ -2249,6 +2924,18 @@ with collision ID
 
 
 
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Object</span>
+
+
+    </dd>
+</dl>
+
         
 
     
@@ -2257,7 +2944,7 @@ with collision ID
         
             
 <dt>
-    <h4 class="name" id="create_sensor_lock"><span class="type-signature">&lt;static> </span>create_sensor_lock<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="create_sensor_lock"><span class="type-signature">(static) </span>create_sensor_lock<span class="signature">(sensor, lock_sensors, lock_logic_fun)</span><span class="type-signature"></span></h4>
 
     
 </dt>
@@ -2265,7 +2952,7 @@ with collision ID
 
     
     <div class="description">
-        Create sensor lock.
+        Create a sensor lock.
     </div>
     
 
@@ -2273,6 +2960,95 @@ with collision ID
 
     
 
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>sensor</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Sensor object</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>lock_sensors</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The array of the sensors which lock the current sensor</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>lock_logic_fun</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Logic function</td>
+        </tr>
+
+    
+    </tbody>
+</table>
     
 
     
@@ -2298,7 +3074,7 @@ with collision ID
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line440">line 440</a>
+        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line435">line 435</a>
     </li></ul></dd>
     
 
@@ -2328,7 +3104,7 @@ with collision ID
         
             
 <dt>
-    <h4 class="name" id="create_sensor_manifold"><span class="type-signature">&lt;static> </span>create_sensor_manifold<span class="signature">(obj, id, type, sensors, logic_fun, callback, <span class="optional">callback_param</span>)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="create_sensor_manifold"><span class="type-signature">(static) </span>create_sensor_manifold<span class="signature">(obj, id, type, sensors, logic_fun, callback, callback_param<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
     
 </dt>
@@ -2336,7 +3112,7 @@ with collision ID
 
     
     <div class="description">
-        Create sensor manifold.
+        Create a sensor manifold.
     </div>
     
 
@@ -2358,7 +3134,7 @@ with collision ID
         <th>Type</th>
 
         
-        <th>Argument</th>
+        <th>Attributes</th>
         
 
         
@@ -2377,6 +3153,11 @@ with collision ID
 
             <td class="type">
             
+                
+<span class="param-type">Object</span>
+
+
+            
             </td>
 
             
@@ -2391,7 +3172,7 @@ with collision ID
 
             
 
-            <td class="description last">Object ID to attach manifold to</td>
+            <td class="description last">Object ID to attach the manifold to</td>
         </tr>
 
     
@@ -2402,6 +3183,11 @@ with collision ID
             
 
             <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
             
             </td>
 
@@ -2428,6 +3214,11 @@ with collision ID
             
 
             <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
             
             </td>
 
@@ -2505,7 +3296,7 @@ with collision ID
 
             
 
-            <td class="description last">Function to handle manifold logic</td>
+            <td class="description last">Function to handle the manifold's logic</td>
         </tr>
 
     
@@ -2547,6 +3338,11 @@ with collision ID
             
 
             <td class="type">
+            
+                
+<span class="param-type">*</span>
+
+
             
             </td>
 
@@ -2625,7 +3421,7 @@ with collision ID
         
             
 <dt>
-    <h4 class="name" id="create_timeline_sensor"><span class="type-signature">&lt;static> </span>create_timeline_sensor<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="create_timeline_sensor"><span class="type-signature">(static) </span>create_timeline_sensor<span class="signature">()</span><span class="type-signature"> &rarr; {Object}</span></h4>
 
     
 </dt>
@@ -2633,8 +3429,8 @@ with collision ID
 
     
     <div class="description">
-        Create timeline sensor.
-Sensor value is global engine timeline
+        Create a timeline sensor.
+The sensor's value is the global engine timeline
     </div>
     
 
@@ -2667,7 +3463,7 @@ Sensor value is global engine timeline
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line358">line 358</a>
+        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line347">line 347</a>
     </li></ul></dd>
     
 
@@ -2699,6 +3495,18 @@ Sensor value is global engine timeline
 
 
 
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Object</span>
+
+
+    </dd>
+</dl>
+
         
 
     
@@ -2707,7 +3515,7 @@ Sensor value is global engine timeline
         
             
 <dt>
-    <h4 class="name" id="create_timer_sensor"><span class="type-signature">&lt;static> </span>create_timer_sensor<span class="signature">(period)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="create_timer_sensor"><span class="type-signature">(static) </span>create_timer_sensor<span class="signature">(period)</span><span class="type-signature"> &rarr; {Object}</span></h4>
 
     
 </dt>
@@ -2715,9 +3523,9 @@ Sensor value is global engine timeline
 
     
     <div class="description">
-        Create timer sensor.
-Sensor value is 1 for frame after given period elapsed.
-Don't try to measure periods less than frame duration
+        Create a timer sensor.
+The sensor's value becomes 1 for the frame whcih comes next after the time period has elapsed.
+Don't try to measure the period which is less than the frame's duration
     </div>
     
 
@@ -2756,6 +3564,11 @@ Don't try to measure periods less than frame duration
 
             <td class="type">
             
+                
+<span class="param-type">Number</span>
+
+
+            
             </td>
 
             
@@ -2793,7 +3606,7 @@ Don't try to measure periods less than frame duration
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line334">line 334</a>
+        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line323">line 323</a>
     </li></ul></dd>
     
 
@@ -2825,6 +3638,18 @@ Don't try to measure periods less than frame duration
 
 
 
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Object</span>
+
+
+    </dd>
+</dl>
+
         
 
     
@@ -2833,7 +3658,7 @@ Don't try to measure periods less than frame duration
         
             
 <dt>
-    <h4 class="name" id="create_touch_move_sensor"><span class="type-signature">&lt;static> </span>create_touch_move_sensor<span class="signature">(<span class="optional">axis</span>)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="create_touch_move_sensor"><span class="type-signature">(static) </span>create_touch_move_sensor<span class="signature">(axis<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Object}</span></h4>
 
     
 </dt>
@@ -2841,8 +3666,8 @@ Don't try to measure periods less than frame duration
 
     
     <div class="description">
-        Create touch move sensor.
-Sensor value is a number of pixels
+        Create a touch movement sensor.
+The sensor's value is a number of pixels
     </div>
     
 
@@ -2864,7 +3689,7 @@ Sensor value is a number of pixels
         <th>Type</th>
 
         
-        <th>Argument</th>
+        <th>Attributes</th>
         
 
         
@@ -2884,6 +3709,11 @@ Sensor value is a number of pixels
             
 
             <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
             
             </td>
 
@@ -2938,7 +3768,7 @@ Sensor value is a number of pixels
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line300">line 300</a>
+        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line289">line 289</a>
     </li></ul></dd>
     
 
@@ -2970,6 +3800,18 @@ Sensor value is a number of pixels
 
 
 
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Object</span>
+
+
+    </dd>
+</dl>
+
         
 
     
@@ -2978,7 +3820,7 @@ Sensor value is a number of pixels
         
             
 <dt>
-    <h4 class="name" id="create_touch_zoom_sensor"><span class="type-signature">&lt;static> </span>create_touch_zoom_sensor<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="create_touch_zoom_sensor"><span class="type-signature">(static) </span>create_touch_zoom_sensor<span class="signature">()</span><span class="type-signature"> &rarr; {Object}</span></h4>
 
     
 </dt>
@@ -2986,8 +3828,8 @@ Sensor value is a number of pixels
 
     
     <div class="description">
-        Create touch zoom sensor.
-Sensor value is distance delta in pixels
+        Create a touch zoom sensor.
+The sensor's value is the distance delta in pixels
     </div>
     
 
@@ -3020,7 +3862,7 @@ Sensor value is distance delta in pixels
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line308">line 308</a>
+        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line297">line 297</a>
     </li></ul></dd>
     
 
@@ -3052,6 +3894,18 @@ Sensor value is distance delta in pixels
 
 
 
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Object</span>
+
+
+    </dd>
+</dl>
+
         
 
     
@@ -3060,7 +3914,7 @@ Sensor value is distance delta in pixels
         
             
 <dt>
-    <h4 class="name" id="create_vertical_velocity_sensor"><span class="type-signature">&lt;static> </span>create_vertical_velocity_sensor<span class="signature">(obj, threshold)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="create_vertical_velocity_sensor"><span class="type-signature">(static) </span>create_vertical_velocity_sensor<span class="signature">(obj, threshold)</span><span class="type-signature"> &rarr; {Object}</span></h4>
 
     
 </dt>
@@ -3068,8 +3922,8 @@ Sensor value is distance delta in pixels
 
     
     <div class="description">
-        Create velocity sensor.
-Sensor value is 1 if abs() of object vertical velocity exceeds threshold
+        Create a velocity sensor.
+The sensor's value is 1 if abs() of the object's vertical velocity exceeds the threshold
     </div>
     
 
@@ -3108,6 +3962,11 @@ Sensor value is 1 if abs() of object vertical velocity exceeds threshold
 
             <td class="type">
             
+                
+<span class="param-type">Object</span>
+
+
+            
             </td>
 
             
@@ -3125,6 +3984,11 @@ Sensor value is 1 if abs() of object vertical velocity exceeds threshold
             
 
             <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
             
             </td>
 
@@ -3163,7 +4027,7 @@ Sensor value is 1 if abs() of object vertical velocity exceeds threshold
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line325">line 325</a>
+        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line314">line 314</a>
     </li></ul></dd>
     
 
@@ -3195,6 +4059,18 @@ Sensor value is 1 if abs() of object vertical velocity exceeds threshold
 
 
 
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Object</span>
+
+
+    </dd>
+</dl>
+
         
 
     
@@ -3203,7 +4079,7 @@ Sensor value is 1 if abs() of object vertical velocity exceeds threshold
         
             
 <dt>
-    <h4 class="name" id="get"><span class="type-signature">&lt;static> </span>get<span class="signature">(bpy_obj, control_id)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="get"><span class="type-signature">(static) </span>get<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 </dt>
@@ -3220,67 +4096,6 @@ Sensor value is 1 if abs() of object vertical velocity exceeds threshold
     
 
     
-        <h5>Parameters:</h5>
-        
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>bpy_obj</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Object ID</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>control_id</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Control ID</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-    
 
     
 <dl class="details">
@@ -3307,7 +4122,126 @@ Sensor value is 1 if abs() of object vertical velocity exceeds threshold
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line197">line 197</a>
+        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line193">line 193</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="get_custom_sensor"><span class="type-signature">(static) </span>get_custom_sensor<span class="signature">(sensor)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Get the value of the custom sensor.
+    </div>
+    
+
+    
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>sensor</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Sensor object</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line366">line 366</a>
     </li></ul></dd>
     
 
@@ -3334,83 +4268,24 @@ Sensor value is 1 if abs() of object vertical velocity exceeds threshold
     
             
 <div class="param-desc">
-    Control value
+    Sensor value
 </div>
 
 
 
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
         
+<span class="param-type">Number</span>
 
-    
-</dd>
 
-        
-            
-<dt>
-    <h4 class="name" id="get_custom_sensor"><span class="type-signature">&lt;static> </span>get_custom_sensor<span class="signature">()</span><span class="type-signature"></span></h4>
-
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Get value of custom sensor.
-    </div>
-    
-
-    
-
-    
-
-    
-
-    
-<dl class="details">
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line375">line 375</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
+    </dd>
 </dl>
 
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
+        
 
     
 </dd>
@@ -3418,7 +4293,7 @@ Sensor value is 1 if abs() of object vertical velocity exceeds threshold
         
             
 <dt>
-    <h4 class="name" id="get_sensor_payload"><span class="type-signature">&lt;static> </span>get_sensor_payload<span class="signature">(obj, manifold_id, num)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="get_sensor_payload"><span class="type-signature">(static) </span>get_sensor_payload<span class="signature">(obj, manifold_id, num)</span><span class="type-signature"> &rarr; {*}</span></h4>
 
     
 </dt>
@@ -3426,7 +4301,7 @@ Sensor value is 1 if abs() of object vertical velocity exceeds threshold
 
     
     <div class="description">
-        Return sensor payload data
+        Return the sensor payload data
     </div>
     
 
@@ -3465,6 +4340,11 @@ Sensor value is 1 if abs() of object vertical velocity exceeds threshold
 
             <td class="type">
             
+                
+<span class="param-type">Object</span>
+
+
+            
             </td>
 
             
@@ -3483,6 +4363,11 @@ Sensor value is 1 if abs() of object vertical velocity exceeds threshold
 
             <td class="type">
             
+                
+<span class="param-type">String</span>
+
+
+            
             </td>
 
             
@@ -3500,6 +4385,11 @@ Sensor value is 1 if abs() of object vertical velocity exceeds threshold
             
 
             <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
             
             </td>
 
@@ -3538,7 +4428,7 @@ Sensor value is 1 if abs() of object vertical velocity exceeds threshold
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line408">line 408</a>
+        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line402">line 402</a>
     </li></ul></dd>
     
 
@@ -3561,6 +4451,28 @@ Sensor value is 1 if abs() of object vertical velocity exceeds threshold
     
 
     
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    Sensor payload
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">*</span>
+
+
+    </dd>
+</dl>
+
+        
 
     
 </dd>
@@ -3568,7 +4480,7 @@ Sensor value is 1 if abs() of object vertical velocity exceeds threshold
         
             
 <dt>
-    <h4 class="name" id="get_sensor_value"><span class="type-signature">&lt;static> </span>get_sensor_value<span class="signature">(obj, manifold_id, num)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="get_sensor_value"><span class="type-signature">(static) </span>get_sensor_value<span class="signature">(obj, manifold_id, num)</span><span class="type-signature"> &rarr; {Number}</span></h4>
 
     
 </dt>
@@ -3576,7 +4488,7 @@ Sensor value is 1 if abs() of object vertical velocity exceeds threshold
 
     
     <div class="description">
-        Return sensor value
+        Return the sensor value.
     </div>
     
 
@@ -3615,6 +4527,11 @@ Sensor value is 1 if abs() of object vertical velocity exceeds threshold
 
             <td class="type">
             
+                
+<span class="param-type">Object</span>
+
+
+            
             </td>
 
             
@@ -3633,6 +4550,11 @@ Sensor value is 1 if abs() of object vertical velocity exceeds threshold
 
             <td class="type">
             
+                
+<span class="param-type">String</span>
+
+
+            
             </td>
 
             
@@ -3650,6 +4572,11 @@ Sensor value is 1 if abs() of object vertical velocity exceeds threshold
             
 
             <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
             
             </td>
 
@@ -3688,7 +4615,7 @@ Sensor value is 1 if abs() of object vertical velocity exceeds threshold
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line383">line 383</a>
+        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line376">line 376</a>
     </li></ul></dd>
     
 
@@ -3711,6 +4638,28 @@ Sensor value is 1 if abs() of object vertical velocity exceeds threshold
     
 
     
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    Sensor value
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Number</span>
+
+
+    </dd>
+</dl>
+
+        
 
     
 </dd>
@@ -3718,7 +4667,7 @@ Sensor value is 1 if abs() of object vertical velocity exceeds threshold
         
             
 <dt>
-    <h4 class="name" id="get_type"><span class="type-signature">&lt;static> </span>get_type<span class="signature">(bpy_obj, control_id)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="get_type"><span class="type-signature">(static) </span>get_type<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 </dt>
@@ -3735,67 +4684,6 @@ Sensor value is 1 if abs() of object vertical velocity exceeds threshold
     
 
     
-        <h5>Parameters:</h5>
-        
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>bpy_obj</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Object ID</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>control_id</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Control ID</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-    
 
     
 <dl class="details">
@@ -3822,7 +4710,7 @@ Sensor value is 1 if abs() of object vertical velocity exceeds threshold
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line209">line 209</a>
+        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line202">line 202</a>
     </li></ul></dd>
     
 
@@ -3845,16 +4733,6 @@ Sensor value is 1 if abs() of object vertical velocity exceeds threshold
     
 
     
-    <h5>Returns:</h5>
-    
-            
-<div class="param-desc">
-    Control type or null in case of missing control
-</div>
-
-
-
-        
 
     
 </dd>
@@ -3862,7 +4740,7 @@ Sensor value is 1 if abs() of object vertical velocity exceeds threshold
         
             
 <dt>
-    <h4 class="name" id="keydown_cb"><span class="type-signature">&lt;static> </span>keydown_cb<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="keydown_cb"><span class="type-signature">(static) </span>keydown_cb<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 </dt>
@@ -3871,7 +4749,7 @@ Sensor value is 1 if abs() of object vertical velocity exceeds threshold
     
     <div class="description">
         Key-down callback.
-Should be executed by external event callback.
+Should be executed by an external event callback.
     </div>
     
 
@@ -3904,7 +4782,7 @@ Should be executed by external event callback.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line530">line 530</a>
+        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line549">line 549</a>
     </li></ul></dd>
     
 
@@ -3934,7 +4812,7 @@ Should be executed by external event callback.
         
             
 <dt>
-    <h4 class="name" id="keyup_cb"><span class="type-signature">&lt;static> </span>keyup_cb<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="keyup_cb"><span class="type-signature">(static) </span>keyup_cb<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 </dt>
@@ -3943,7 +4821,7 @@ Should be executed by external event callback.
     
     <div class="description">
         Key-up callback. 
-Should be executed by external event callback.
+Should be executed by an external event callback.
     </div>
     
 
@@ -3976,7 +4854,7 @@ Should be executed by external event callback.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line536">line 536</a>
+        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line555">line 555</a>
     </li></ul></dd>
     
 
@@ -4006,7 +4884,7 @@ Should be executed by external event callback.
         
             
 <dt>
-    <h4 class="name" id="mouse_down_cb"><span class="type-signature">&lt;static> </span>mouse_down_cb<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="mouse_down_cb"><span class="type-signature">(static) </span>mouse_down_cb<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 </dt>
@@ -4014,7 +4892,7 @@ Should be executed by external event callback.
 
     
     <div class="description">
-        Mouse click callback. Should be executed by external event callback.
+        Mouse click callback. Should be executed by an external event callback.
     </div>
     
 
@@ -4047,7 +4925,7 @@ Should be executed by external event callback.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line542">line 542</a>
+        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line561">line 561</a>
     </li></ul></dd>
     
 
@@ -4077,7 +4955,7 @@ Should be executed by external event callback.
         
             
 <dt>
-    <h4 class="name" id="mouse_up_cb"><span class="type-signature">&lt;static> </span>mouse_up_cb<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="mouse_move_cb"><span class="type-signature">(static) </span>mouse_move_cb<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 </dt>
@@ -4085,7 +4963,7 @@ Should be executed by external event callback.
 
     
     <div class="description">
-        Mouse click callback. Should be executed by external event callback.
+        mousemove event handler
     </div>
     
 
@@ -4118,7 +4996,7 @@ Should be executed by external event callback.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line547">line 547</a>
+        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line576">line 576</a>
     </li></ul></dd>
     
 
@@ -4148,7 +5026,7 @@ Should be executed by external event callback.
         
             
 <dt>
-    <h4 class="name" id="mouse_wheel_cb"><span class="type-signature">&lt;static> </span>mouse_wheel_cb<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="mouse_up_cb"><span class="type-signature">(static) </span>mouse_up_cb<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 </dt>
@@ -4156,7 +5034,7 @@ Should be executed by external event callback.
 
     
     <div class="description">
-        Mouse-wheel callback. Should be executed by external event callback.
+        Mouse click callback. Should be executed by an external event callback.
     </div>
     
 
@@ -4189,7 +5067,7 @@ Should be executed by external event callback.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line552">line 552</a>
+        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line566">line 566</a>
     </li></ul></dd>
     
 
@@ -4219,7 +5097,78 @@ Should be executed by external event callback.
         
             
 <dt>
-    <h4 class="name" id="release"><span class="type-signature">&lt;static> </span>release<span class="signature">(bpy_obj, control_id)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="mouse_wheel_cb"><span class="type-signature">(static) </span>mouse_wheel_cb<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Mouse-wheel callback. Should be executed by an external event callback.
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line571">line 571</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="release"><span class="type-signature">(static) </span>release<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 </dt>
@@ -4236,67 +5185,6 @@ Should be executed by external event callback.
     
 
     
-        <h5>Parameters:</h5>
-        
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>bpy_obj</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Object ID</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>control_id</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Control ID</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-    
 
     
 <dl class="details">
@@ -4323,7 +5211,7 @@ Should be executed by external event callback.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line221">line 221</a>
+        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line211">line 211</a>
     </li></ul></dd>
     
 
@@ -4353,7 +5241,7 @@ Should be executed by external event callback.
         
             
 <dt>
-    <h4 class="name" id="remove_sensor_lock"><span class="type-signature">&lt;static> </span>remove_sensor_lock<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="remove_sensor_lock"><span class="type-signature">(static) </span>remove_sensor_lock<span class="signature">(sensor)</span><span class="type-signature"></span></h4>
 
     
 </dt>
@@ -4361,7 +5249,7 @@ Should be executed by external event callback.
 
     
     <div class="description">
-        Remove sensor lock.
+        Remove the sensor lock.
     </div>
     
 
@@ -4369,6 +5257,54 @@ Should be executed by external event callback.
 
     
 
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>sensor</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Sensor object</td>
+        </tr>
+
+    
+    </tbody>
+</table>
     
 
     
@@ -4394,7 +5330,7 @@ Should be executed by external event callback.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line450">line 450</a>
+        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line448">line 448</a>
     </li></ul></dd>
     
 
@@ -4424,7 +5360,7 @@ Should be executed by external event callback.
         
             
 <dt>
-    <h4 class="name" id="remove_sensor_manifold"><span class="type-signature">&lt;static> </span>remove_sensor_manifold<span class="signature">(obj, <span class="optional">id</span>)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="remove_sensor_manifold"><span class="type-signature">(static) </span>remove_sensor_manifold<span class="signature">(obj, id<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
     
 </dt>
@@ -4432,7 +5368,7 @@ Should be executed by external event callback.
 
     
     <div class="description">
-        Remove sensor manifold registered for given object.
+        Remove the sensor manifold registered for the given object.
     </div>
     
 
@@ -4454,7 +5390,7 @@ Should be executed by external event callback.
         <th>Type</th>
 
         
-        <th>Argument</th>
+        <th>Attributes</th>
         
 
         
@@ -4474,6 +5410,11 @@ Should be executed by external event callback.
             
 
             <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
             
             </td>
 
@@ -4532,7 +5473,7 @@ Should be executed by external event callback.
                 </td>
             
 
-            <td class="description last">ID of sensor manifold or null to delete all of
+            <td class="description last">ID of the sensor manifold or null to delete all of
 them</td>
         </tr>
 
@@ -4564,7 +5505,7 @@ them</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line515">line 515</a>
+        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line534">line 534</a>
     </li></ul></dd>
     
 
@@ -4594,7 +5535,7 @@ them</td>
         
             
 <dt>
-    <h4 class="name" id="remove_sensor_manifolds"><span class="type-signature">&lt;static> </span>remove_sensor_manifolds<span class="signature">(obj)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="remove_sensor_manifolds"><span class="type-signature">(static) </span>remove_sensor_manifolds<span class="signature">(obj)</span><span class="type-signature"></span></h4>
 
     
 </dt>
@@ -4602,7 +5543,7 @@ them</td>
 
     
     <div class="description">
-        Remove all sensor manifolds registered for given object.
+        Remove all sensor manifolds registered for the given object.
     </div>
     
 
@@ -4640,6 +5581,11 @@ them</td>
             
 
             <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
             
             </td>
 
@@ -4680,7 +5626,7 @@ them</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line506">line 506</a>
+        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line525">line 525</a>
     </li></ul></dd>
     
 
@@ -4710,7 +5656,7 @@ them</td>
         
             
 <dt>
-    <h4 class="name" id="reset"><span class="type-signature">&lt;static> </span>reset<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="reset"><span class="type-signature">(static) </span>reset<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 </dt>
@@ -4718,7 +5664,7 @@ them</td>
 
     
     <div class="description">
-        Reset controls for all objects.
+        Reset controls for all the objects.
     </div>
     
 
@@ -4751,7 +5697,7 @@ them</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line524">line 524</a>
+        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line543">line 543</a>
     </li></ul></dd>
     
 
@@ -4781,7 +5727,7 @@ them</td>
         
             
 <dt>
-    <h4 class="name" id="reset_timer_sensor"><span class="type-signature">&lt;static> </span>reset_timer_sensor<span class="signature">(obj, manifold_id, num)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="reset_timer_sensor"><span class="type-signature">(static) </span>reset_timer_sensor<span class="signature">(obj, manifold_id, num)</span><span class="type-signature"></span></h4>
 
     
 </dt>
@@ -4789,7 +5735,7 @@ them</td>
 
     
     <div class="description">
-        Reset timer sensor.
+        Reset the timer sensor.
     </div>
     
 
@@ -4828,6 +5774,11 @@ them</td>
 
             <td class="type">
             
+                
+<span class="param-type">Object</span>
+
+
+            
             </td>
 
             
@@ -4846,6 +5797,11 @@ them</td>
 
             <td class="type">
             
+                
+<span class="param-type">String</span>
+
+
+            
             </td>
 
             
@@ -4863,6 +5819,11 @@ them</td>
             
 
             <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
             
             </td>
 
@@ -4901,7 +5862,7 @@ them</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line343">line 343</a>
+        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line332">line 332</a>
     </li></ul></dd>
     
 
@@ -4931,7 +5892,7 @@ them</td>
         
             
 <dt>
-    <h4 class="name" id="set"><span class="type-signature">&lt;static> </span>set<span class="signature">(bpy_obj, control_id, <span class="optional">value</span>)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="set"><span class="type-signature">(static) </span>set<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 </dt>
@@ -4947,129 +5908,6 @@ them</td>
 
     
 
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Argument</th>
-        
-
-        
-        <th>Default</th>
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>bpy_obj</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last">Object ID</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>control_id</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last">Control ID</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>value</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    1
-                
-                </td>
-            
-
-            <td class="description last">Control value</td>
-        </tr>
-
-    
-    </tbody>
-</table>
     
 
     
@@ -5097,7 +5935,7 @@ them</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line186">line 186</a>
+        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line185">line 185</a>
     </li></ul></dd>
     
 
@@ -5127,7 +5965,7 @@ them</td>
         
             
 <dt>
-    <h4 class="name" id="set_custom_sensor"><span class="type-signature">&lt;static> </span>set_custom_sensor<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="set_custom_sensor"><span class="type-signature">(static) </span>set_custom_sensor<span class="signature">(sensor, value)</span><span class="type-signature"></span></h4>
 
     
 </dt>
@@ -5135,7 +5973,149 @@ them</td>
 
     
     <div class="description">
-        Set value of custom sensor.
+        Set the value of the custom sensor.
+    </div>
+    
+
+    
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>sensor</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Sensor object</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>value</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">New sensor value</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line356">line 356</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="touch_move_cb"><span class="type-signature">(static) </span>touch_move_cb<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        touchmove event handler
     </div>
     
 
@@ -5168,7 +6148,78 @@ them</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line367">line 367</a>
+        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line586">line 586</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="touch_start_cb"><span class="type-signature">(static) </span>touch_start_cb<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        touchstart event handler
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="controls.js.html">ext/controls.js</a>, <a href="controls.js.html#line581">line 581</a>
     </li></ul></dd>
     
 
@@ -5217,7 +6268,7 @@ them</td>
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-dev</a> on Wed May 14 2014 10:58:09 GMT+0400 (MSK)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-dev</a> on Wed Jun 25 2014 18:01:33 GMT+0400 (MSK)
 </footer>
 
 <script> prettyPrint(); </script>

@@ -1,10 +1,13 @@
 ### bpy.ops.webgl.reload(); bpy.ops.anim.bake()
 
-# NOTE requires curve_simplify.py addon enabled
+# NOTE may require curve_simplify.py addon enabled
 
 import bpy
 import mathutils
 import math
+import re
+
+BAKED_SUFFIX = "_B4W_BAKED"
 
 class B4W_Anim_Baker(bpy.types.Operator):
     '''Bake animation for selected armature object'''
@@ -18,6 +21,11 @@ class B4W_Anim_Baker(bpy.types.Operator):
             self.report({'INFO'}, "Not an armature object")
             return {'CANCELLED'}
 
+        # NOTE: handle rare cases when armature has no animation data
+        if not armobj.animation_data:
+            self.report({'INFO'}, "No animation data")
+            return {'CANCELLED'}
+
         # save current state to restore after (just for convenience)
         current_action = armobj.animation_data.action
 
@@ -25,31 +33,67 @@ class B4W_Anim_Baker(bpy.types.Operator):
         use_kia = bpy.context.scene.tool_settings.use_keyframe_insert_auto
         bpy.context.scene.tool_settings.use_keyframe_insert_auto = False
 
-        for action in bpy.data.actions:
-            if action.id_root == 'OBJECT': # only process armobj actions
-                                           # and ignore e.g. curves
-                self.process_action(action, armobj)
+        nla_mute_states = self.set_nla_tracks_mute_state(armobj)
+
+        valid_actions = self.get_valid_actions(armobj)
+        for action in valid_actions:
+            self.process_action(action, armobj)
 
         armobj.animation_data.action = current_action
 
         # restore auto keyframes tool mode
         bpy.context.scene.tool_settings.use_keyframe_insert_auto = use_kia
 
+        self.restore_nla_tracks_mute_state(armobj, nla_mute_states)
+
         return {"FINISHED"}
 
+    def get_valid_actions(self, armobj):
+        actions = []
+
+        for action in bpy.data.actions:
+            # only process armobj actions
+            # and ignore e.g. curves
+            if action.id_root != 'OBJECT':
+                continue
+
+            # skip actions with BAKED_SUFFIX
+            if has_baked_suffix(action):
+                continue
+
+            if armobj.b4w_anim:
+                for anim in armobj.b4w_anim:
+                    if action.name == anim.name:
+                        actions.append(action)
+            else:
+                actions.append(action)
+
+        return actions
+
+    def set_nla_tracks_mute_state(self, armobj):
+        states = []
+
+        if armobj.animation_data and armobj.animation_data.nla_tracks:
+            tracks = armobj.animation_data.nla_tracks
+            for t in tracks:
+                states.append(t.mute)
+                t.mute = True
+
+        return states
+
+    def restore_nla_tracks_mute_state(self, armobj, state_list):
+        if armobj.animation_data and armobj.animation_data.nla_tracks:
+            tracks = armobj.animation_data.nla_tracks
+            for t in tracks:
+                t.mute = state_list.pop(0)
+
     def process_action(self, action, armobj):
-        suffix = "_BAKED"
-
-        # skip actions with suffix
-        if action.name.find(suffix) > -1:
-            return
-
         print("processing action " + action.name)
 
         # mark source action as not exporting (for convenience)
         action.b4w_do_not_export = True
 
-        new_name = action.name + suffix
+        new_name = action.name + BAKED_SUFFIX
 
         actions = bpy.data.actions
         new_action = actions.get(new_name)
@@ -104,16 +148,15 @@ class B4W_Anim_Baker(bpy.types.Operator):
         # enable currect action
         armobj.animation_data.action = action
 
-
         # create key frame points with step 1 between them
         frame_range = action.frame_range
+        prev_frame_quats = {}
+        # for each bone insert key frame points in its fcurves
         for i in range(round(frame_range[0]), round(frame_range[1]) + 1):
             # set pose
             bpy.context.scene.frame_set(i)
 
-            # for each bone insert key frame points in its fcurves
-            for pbone in armobj.pose.bones:
-
+            for pbone in armobj.pose.bones:    
                 # do we have created group for this bone?
                 group = new_groups.get(pbone.name)
                 if group:
@@ -154,10 +197,16 @@ class B4W_Anim_Baker(bpy.types.Operator):
                     # retrieve components
                     tran = mb.to_translation()
                     quat = mb.to_quaternion()
-                    scal = mb.to_scale()
-            
+
                     # we've assigned bones' names to groups
                     fcurves = group.channels
+
+                    # in order to perform correct quaternion interpolation we need to keep dot
+                    # product Q_cur_frame * Q_prev_frame >= 0
+                    if pbone.name in prev_frame_quats \
+                            and quat.dot(prev_frame_quats[pbone.name]) < 0:
+                        quat.negate()
+                    scal = mb.to_scale()
             
                     # we've created fcurves in this particular order
                     fcurves[0].keyframe_points.insert(i, tran[0])
@@ -170,6 +219,8 @@ class B4W_Anim_Baker(bpy.types.Operator):
                     fcurves[7].keyframe_points.insert(i, scal[0])
                     fcurves[8].keyframe_points.insert(i, scal[1])
                     fcurves[9].keyframe_points.insert(i, scal[2])
+
+                    prev_frame_quats[pbone.name] = quat
 
         # now beautify our fcurves
 
@@ -304,6 +355,11 @@ class B4W_Anim_Baker(bpy.types.Operator):
                 previous = keyframe_point
                 index = index + 1
 
+def has_baked_suffix(action):
+    if action.name.find(BAKED_SUFFIX) > -1:
+        return True
+    else:
+        return False
 
 class B4W_Constraints_Muter(bpy.types.Operator):
     '''Mute bone constraints for selected armature object'''
@@ -360,21 +416,98 @@ class B4W_AnimBakerPanel(bpy.types.Panel):
         row.prop(obj, "b4w_anim_clean_keys", text="Clean keyframes")
 
         row = layout.row()
+        row.template_list("UI_UL_list", "OBJECT_UL_anim_baker",
+                obj, "b4w_anim", obj, "b4w_anim_index", rows=3)
+        col = row.column(align=True)
+        col.operator("b4w.anim_add", icon='ZOOMIN', text="")
+        col.operator("b4w.anim_remove", icon='ZOOMOUT', text="")
+
+        anim = obj.b4w_anim
+        if anim:
+            anim_index = obj.b4w_anim_index
+
+            same_actions_count = 0
+            for action in bpy.data.actions:
+                if action.name == anim[anim_index].name:
+                    same_actions_count+=1
+
+            for i in range(0, anim_index):
+                if anim[i].name == anim[anim_index].name:
+                    same_actions_count+=1
+
+            if same_actions_count == 1:
+                icon = "ACTION"
+            else:
+                icon = "ERROR"
+
+            row = layout.row()
+            row.prop(anim[anim_index], "name", text="Name", icon=icon)
+
+        row = layout.row()
         row.operator("b4w.animation_bake", text="Bake", icon="REC")
 
         row = layout.row(align=True)
         row.operator("b4w.constraints_mute", text="Cons Mute")
         row.operator("b4w.constraints_unmute", text="Cons Unmute")
 
-def register(): 
+class B4W_Anim(bpy.types.PropertyGroup):
+    # property name is already here
+    pass
+
+class B4W_AnimAddOperator(bpy.types.Operator):
+    bl_idname      = 'b4w.anim_add'
+    bl_label       = "Add animation"
+    bl_description = "Add animation"
+
+    def invoke(self, context, event):
+        obj = context.active_object
+
+        anim = obj.b4w_anim
+
+        anim.add()
+        anim[-1].name= "Action"
+
+        return {'FINISHED'}
+ 
+ 
+class B4W_AnimRemOperator(bpy.types.Operator):
+    bl_idname      = 'b4w.anim_remove'
+    bl_label       = "Remove animation"
+    bl_description = "Remove animation"
+
+    def invoke(self, context, event):
+        obj = context.active_object
+       
+        anim = obj.b4w_anim
+       
+        if obj.b4w_anim_index >= 0:
+           anim.remove(obj.b4w_anim_index)
+           obj.b4w_anim_index -= 1
+
+        return {'FINISHED'}
+
+def register():
     bpy.utils.register_class(B4W_Anim_Baker)
     bpy.utils.register_class(B4W_Constraints_Muter)
     bpy.utils.register_class(B4W_Constraints_UnMuter)
     bpy.utils.register_class(B4W_AnimBakerPanel)
+    bpy.utils.register_class(B4W_AnimAddOperator)
+    bpy.utils.register_class(B4W_AnimRemOperator)
 
-def unregister(): 
+    bpy.utils.register_class(B4W_Anim)
+
+    bpy.types.Object.b4w_anim =\
+            bpy.props.CollectionProperty(type=B4W_Anim, name="B4W: animation")
+    bpy.types.Object.b4w_anim_index =\
+            bpy.props.IntProperty(name="B4W: animation index")
+
+def unregister():
     bpy.utils.unregister_class(B4W_Anim_Baker)
     bpy.utils.unregister_class(B4W_Constraints_Muter)
     bpy.utils.unregister_class(B4W_Constraints_UnMuter)
     bpy.utils.unregister_class(B4W_AnimBakerPanel)
+    bpy.utils.unregister_class(B4W_AnimAddOperator)
+    bpy.utils.unregister_class(B4W_AnimRemOperator)
+
+    bpy.utils.unregister_class(B4W_Anim)
 

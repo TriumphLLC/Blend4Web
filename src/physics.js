@@ -10,7 +10,7 @@ b4w.module["__physics"] = function(exports, require) {
 
 var m_cfg     = require("__config");
 var m_print   = require("__print");
-var m_dbg     = require("__debug");
+var m_debug   = require("__debug");
 var m_ipc     = require("__ipc");
 var m_render  = require("__renderer");
 var m_scs     = require("__scenes");
@@ -31,6 +31,7 @@ var _phy_fps = 0;
 
 var _active_scene_phy = null;
 var _bounding_objects = [];
+var _bounding_objects_cache = [];
 
 var _unique_counter = {
     world: 0,
@@ -88,6 +89,7 @@ exports.cleanup = function() {
 
     _active_scene_phy = null;
     _bounding_objects.length = 0;
+    _bounding_objects_cache.length = 0;
 
     for (var cnt in _unique_counter)
         _unique_counter[cnt] = 0;
@@ -217,7 +219,7 @@ function process_message(msg_id, msg) {
     if (!_active_scene_phy)
         return;
 
-    switch(msg_id) {
+    switch (msg_id) {
     case m_ipc.IN_FRAME_END:
         m_render.unlock();
         break;
@@ -228,18 +230,16 @@ function process_message(msg_id, msg) {
         m_print.error(msg);
         break;
     case m_ipc.IN_FBMSG:
-        m_dbg.fbmsg.apply(this, msg.slice(1));
+        m_debug.fbmsg.apply(this, msg.slice(1));
         break;
     case m_ipc.IN_TRANSFORM:
-        var obj  = find_obj_by_body_id(msg["body_id"]);
-
-        if(obj)
+        var obj = find_obj_by_body_id(msg["body_id"]);
+        if (obj)
             update_interpolation_data(obj, msg["time"], msg["trans"],
                                 msg["quat"], msg["linvel"], msg["angvel"]);
         break;
     case m_ipc.IN_PROP_OFFSET:
         var obj_chassis_hull = find_obj_by_body_id(msg["chassis_hull_body_id"]);
-
         if (obj_chassis_hull)
             update_prop_offset(obj_chassis_hull, msg["prop_ind"], msg["trans"],
                                msg["quat"]);
@@ -312,17 +312,7 @@ exports.find_obj_by_body_id = find_obj_by_body_id;
  * Find dynamic objects by given body ID
  */
 function find_obj_by_body_id(body_id) {
-
-    var body_id = parseInt(body_id);
-
-    for (var i = 0; i < _bounding_objects.length; i++) {
-        var dobj = _bounding_objects[i];
-
-        if (dobj._physics.body_id === body_id)
-            return dobj;
-    }
-
-    return null;
+    return _bounding_objects_cache[body_id] || null;
 }
 
 function update_interpolation_data(obj, time, trans, quat, linvel, angvel) {
@@ -712,6 +702,7 @@ function init_bounding_physics(obj, physics_type, compound_children) {
             restitution, comp_children_params, correct_bound_offset);
 
     _bounding_objects.push(obj);
+    _bounding_objects_cache[body_id] = obj;
 
     var phy = init_physics(body_id);
     phy.type = physics_type;
@@ -1221,12 +1212,6 @@ function transform_changed(obj) {
 
 /**
  * Move object by applying velocity in world space.
- * @param vx_local Vx local space velocity
- * @param vy_local Vy local space velocity
- * @param vz_local Vz local space velocity 
- * @param allow_vertical Perform velocity transform to allow vertical velocity 
- * in world space (air, water)
- * @param disable_up Disable up speed (swimming on surface)
  */
 exports.apply_velocity = function(obj, vx_local, vy_local, vz_local, 
         allow_vertical, disable_up) {
@@ -1267,7 +1252,7 @@ exports.apply_velocity = function(obj, vx_local, vy_local, vz_local,
 }
 
 /**
- * Move object by applying velocity in world space.
+ * Move the object by applying velocity in the world space.
  * @param disable_up Disable up speed (swimming on surface)
  * TODO: apply_velocity -> apply_velocity_local 
  */
@@ -1315,13 +1300,7 @@ function vector_to_world(obj, vx_local, vy_local, vz_local, allow_vertical,
 }
 
 /**
- * Move object by applying force in world space.
- * @param vx_local Vx local space velocity
- * @param vy_local Vy local space velocity
- * @param vz_local Vz local space velocity 
- * @param allow_vertical Perform velocity transform to allow vertical velocity 
- * in world space (air, water)
- * @param disable_up Disable up speed (swimming on surface)
+ * Move the object by applying the force in the world space.
  */
 exports.apply_force = apply_force;
 function apply_force(obj, fx_local, fy_local, fz_local, 
@@ -1338,7 +1317,7 @@ function apply_force(obj, fx_local, fy_local, fz_local,
 }
 
 /**
- * Rotate object by applying torque in world space.
+ * Rotate the object by applying torque in the world space.
  * @param tx_local Tx local space torque
  * @param ty_local Ty local space torque
  * @param tz_local Tz local space torque 
@@ -1402,7 +1381,7 @@ exports.set_character_fly_velocity = function(obj, velocity) {
 }
 
 /**
- * Perform character's jump
+ * Perform a character's jump
  */
 exports.character_jump = function(obj) {
     var body_id = obj._physics.body_id;
@@ -1648,7 +1627,7 @@ exports.clear_collision_impulse_test = function(obj) {
 
 /**
  * Append new ray test with given params and callback
- * @param obj Object ID
+ * @param {Object} obj Object ID
  */
 exports.append_ray_test = function(obj, collision_id, from, to, local_coords, 
         callback) {

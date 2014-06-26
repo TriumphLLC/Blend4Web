@@ -5,7 +5,7 @@ Blend4Web API Reference
 
 Use `b4w.require(module_name, module_function)` to import module.
 
-**Basic usage example:**
+**Basic usage example**
 
     // check if module exists
     if (b4w.module_check("my_module"))
@@ -29,3 +29,25 @@ Use `b4w.require(module_name, module_function)` to import module.
     
     // exec function print_build_date() from module "my_module"
     m_my_module.print_build_date();
+
+**Type system**
+
+The engine API accepts only the types explicitly specified in the reference.
+Cases with multiple allowed types are documented explicitly. A variable type
+can be checked with the following code:
+
+    VAR instanceof TYPE
+
+e.g:
+
+    obj instanceof Object -> true
+
+Keep in mind, that any object may have several ancestors. In such cases the more
+specific type takes precedence.
+
+e.g:
+
+    var vector = new Float32Array(3);
+
+    vector instanceof Object;       // true
+    vector instanceof Float32Array; // true, so type of the vector is Float32Array

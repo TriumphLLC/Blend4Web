@@ -15,12 +15,12 @@ var scenegraph = require("__scenegraph");
 var m_scenes   = require("__scenes");
 var sfx        = require("__sfx");
 var m_textures = require("__textures");
-var m_util       = require("__util");
+var m_util     = require("__util");
 
 var m_vec3 = require("vec3");
 
 /**
- * Print info about physics worker
+ * Print info about the physics worker
  * @method module:debug.physics_worker
  */
 exports["physics_worker"] = function() {
@@ -46,7 +46,7 @@ exports["physics_id"] = function(id) {
 }
 
 /**
- * Print names and info for dynamic objects inside view frustum.
+ * Print names and info for dynamic objects inside the view frustum.
  * @method module:debug.visible_objects
  */
 exports["visible_objects"] = function() {
@@ -75,7 +75,7 @@ exports["visible_objects"] = function() {
 }
 
 /**
- * Print debug info for object, having given name
+ * Print debug info for the object with the given name
  * @method module:debug.object_info
  * @param name Object name
  */
@@ -111,7 +111,7 @@ exports["object_info"] = function(name) {
 }
 
 /**
- * Print debug info for object, having given name
+ * Print debug info for the object with the given name
  * @method module:debug.object_info
  * @param name Object name
  */
@@ -128,7 +128,7 @@ exports["objects_stat"] = function() {
 }
 
 /**
- * Return number of vertices on active scene.
+ * Return the number of vertices in the active scene.
  * @method module:debug.num_vertices
  */
 exports["num_vertices"] = function() {
@@ -162,7 +162,7 @@ exports["num_vertices"] = function() {
 }
 
 /**
- * Return number of all triangles on active scene.
+ * Return the number of all triangles in the active scene.
  * @method module:debug.num_triangles
  */
 exports["num_triangles"] = function() {
@@ -196,7 +196,7 @@ exports["num_triangles"] = function() {
 }
 
 /**
- * Return number of batches on main scenes.
+ * Return the number of batches in the main scenes.
  * @method module:debug.num_draw_calls
  */
 exports["num_draw_calls"] = function() {
@@ -213,7 +213,7 @@ exports["num_draw_calls"] = function() {
 }
 
 /**
- * Return number of batches on main scenes.
+ * Return geometry info in the main scenes.
  * @method module:debug.geometry_stats
  */
 exports["geometry_stats"] = function() {
@@ -264,7 +264,7 @@ exports["geometry_stats"] = function() {
 }
 
 /**
- * Return number of unique textures on main scenes.
+ * Return the number of unique textures in the main scenes.
  * @method module:debug.num_textures
  */
 exports["num_textures"] = function() {
@@ -324,7 +324,7 @@ exports["num_textures"] = function() {
 }
 
 /**
- * Return number and total size of unique output buffers.
+ * Return the number and the total size of unique output framebuffers.
  * @method module:debug.num_render_targets
  */
 exports["num_render_targets"] = function() {
@@ -364,7 +364,7 @@ exports["num_render_targets"] = function() {
 }
 
 /**
- * Draw frustum for active camera.
+ * Draw a frustum for the active camera.
  * @method module:debug.make_camera_frustum_shot
  */
 exports["make_camera_frustum_shot"] = function() {
@@ -376,8 +376,9 @@ exports["make_camera_frustum_shot"] = function() {
 
     m_scenes.make_frustum_shot(subs_main.camera, subs_main, [1,1,0]);
 }
+
 /**
- * Draw light frustum, used to shot shadow map.
+ * Draw a light frustum, used for rendering the shadow maps.
  * @method module:debug.make_light_frustum_shot
  */
 exports["make_light_frustum_shot"] = function() {
@@ -412,7 +413,7 @@ exports["make_light_frustum_shot"] = function() {
 
 
 /**
- * Print info about active scene graph in DOT format.
+ * Print info about the active scene graph in DOT format.
  * @method module:debug.scenegraph_to_dot
  */
 exports["scenegraph_to_dot"] = function() {
@@ -423,13 +424,13 @@ exports["scenegraph_to_dot"] = function() {
 }
 
 /**
- * Print info about controls module.
+ * Print info about the controls module.
  * @method module:debug.controls_info
  */
 exports["controls_info"] = controls.debug;
 
 /**
- * Get distance between two objects.
+ * Get the distance between two objects.
  * @method module:debug.object_distance
  */
 exports["object_distance"] = function(obj, obj2) {
@@ -438,28 +439,31 @@ exports["object_distance"] = function(obj, obj2) {
 }
 
 /**
- * Store simple telemetry message.
+ * Store a simple telemetry message.
  * @method module:debug.msg
  */
 exports["msg"] = debug.msg;
+
 /**
- * Store flashback telemetry message.
+ * Store a flashback telemetry message.
  * @method module:debug.fbmsg
  */
 exports["fbmsg"] = debug.fbmsg;
+
 /**
- * Print list of flashback messages.
+ * Print the list of flashback messages.
  * @method module:debug.print_telemetry
  */
 exports["print_telemetry"] = debug.print_telemetry;
+
 /**
- * Plot list of flashback messages as gnuplot datafile.
+ * Plot the list of flashback messages as a gnuplot datafile.
  * @method module:debug.plot_telemetry
  */
 exports["plot_telemetry"] = debug.plot_telemetry;
 
 /**
- * Store callback function result as flashback message.
+ * Store the callback function result as a flashback message.
  * @method module:debug.fbres
  */
 exports["fbres"] = function(fun, timeout) {
@@ -475,10 +479,10 @@ exports["fbres"] = function(fun, timeout) {
 }
 
 /**
- * Check engine constants.
- * @method module:debug.check_constants
+ * Check the engine constants, abort if not constant.
+ * @method module:debug.assert_constants
  */
-exports["check_constants"] = function() {
+exports["assert_constants"] = function() {
     var VEC3_IDENT = new Float32Array(3);
     var QUAT4_IDENT = new Float32Array([0,0,0,1]);
 
@@ -509,7 +513,7 @@ exports["check_constants"] = function() {
 }
 
 /**
- * Mute BACKGROUND_MUSIC speakers.
+ * Mute the BACKGROUND_MUSIC speakers.
  * @method module:debug.mute_music
  */
 exports["mute_music"] = function() {
@@ -524,7 +528,7 @@ exports["mute_music"] = function() {
 }
 
 /**
- * Check object for finite value.
+ * Check the object for a finite value.
  * @method module:debug.check_finite
  */
 exports["check_finite"] = function(o) {

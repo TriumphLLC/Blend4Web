@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Разработчикам приложений &mdash; Руководство пользователя: Blend4Web v14.05.22</title>
+    <title>Разработчикам приложений &mdash; Руководство пользователя: Blend4Web v14.06</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.05.22',
+        VERSION:     '14.06',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v14.05.22" href="index.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v14.06" href="index.html" />
     <link rel="next" title="Разработчикам движка" href="developers_advanced.html" />
     <link rel="prev" title="Нелинейная анимация" href="nla.html" /> 
   </head>
@@ -37,7 +37,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">Руководство пользователя: Blend4Web v14.05.22</a></div>
+          href="index.html">Руководство пользователя: Blend4Web v14.06</a></div>
         <div class="rel">
           <a href="nla.html" title="Нелинейная анимация"
              accesskey="P">предыдущий</a> |
@@ -196,7 +196,7 @@
 <h2>Управление перемещением объектов<a class="headerlink" href="#id5" title="Ссылка на этот заголовок">¶</a></h2>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
-<p class="last">Необходимо обеспечить, чтобы объект, над которым выполняется преобразование, был динамическим (т.е. физическим или анимированным), либо одиночным (этого можно добиться, установив свойство <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Do</span> <span class="pre">not</span> <span class="pre">batch</span></tt> на вкладке <tt class="docutils literal"><span class="pre">Object</span></tt> в программе Blender).</p>
+<p class="last">Необходимо обеспечить, чтобы объект, над которым выполняется преобразование, был <a class="reference internal" href="objects.html#static-dynamic-objects"><em>динамическим</em></a>.</p>
 </div>
 <p>Для управления перемещением объектов в движке предусмотрены следующие базовые функции модуля <cite>transform</cite>:</p>
 <dl class="docutils">
@@ -463,7 +463,7 @@ Viewer</dd>
 <dt><strong>Makefile</strong></dt>
 <dd>файл сборки для компиляции движка, приложений, документации, развертывания
 на удаленном сервере (недоступен в бесплатной версии)</dd>
-<dt><strong>README.md</strong></dt>
+<dt><strong>README.rst</strong></dt>
 <dd>файл README</dd>
 <dt><strong>scripts</strong></dt>
 <dd><p class="first">дополнительные скрипты</p>
@@ -517,6 +517,39 @@ Viewer</dd>
 <dd>содержит текущую версию движка</dd>
 </dl>
 </div>
+<div class="section" id="quality-settings">
+<span id="id11"></span><h2>Профили качества изображения<a class="headerlink" href="#quality-settings" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Для поддержки различных по функциональности платформ в движке реализовано несколько профилей качества изображения:</p>
+<blockquote>
+<div><ul class="simple">
+<li><em>низкое качество</em> (P_LOW) - отключен ряд функций (тени, динамическое отражение, постпроцессинг), размер текстур для сборочной версии уменьшен вдвое, антиалиасинг отключен</li>
+<li><em>высокое качество</em> (P_HIGH) - используются все запрошенные сценой функции, метод антиалиасинга FXAA</li>
+<li><em>максимальное качество</em> (P_ULTRA) - вдвое увеличено разрешение рендеринга, увеличено разрешение карт теней, метод антиалиасинга SMAA</li>
+</ul>
+</div></blockquote>
+<a class="reference internal image-reference" href="_images/quality.jpg"><img alt="_images/quality.jpg" class="align-center" src="_images/quality.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>Переключение профилей качества осуществляется программно, до инициализации контекста WebGL. Профиль по умолчанию P_HIGH.</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_cfg</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">m_main</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;main&quot;</span><span class="p">);</span>
+
+<span class="nx">m_cfg</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;quality&quot;</span><span class="p">,</span> <span class="nx">m_cfg</span><span class="p">.</span><span class="nx">P_LOW</span><span class="p">);</span>
+<span class="nx">m_main</span><span class="p">.</span><span class="nx">init</span><span class="p">(...);</span>
+</pre></div>
+</div>
+<p>Разработчики приложений могут также установить параметр <strong>quality</strong> при инициализации движка с использованием дополнения <tt class="docutils literal"><span class="pre">app.js</span></tt>:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_cfg</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">m_app</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;app&quot;</span><span class="p">);</span>
+
+<span class="nx">m_app</span><span class="p">.</span><span class="nx">init</span><span class="p">({</span>
+    <span class="nx">canvas_container_id</span><span class="o">:</span> <span class="s2">&quot;body_id&quot;</span><span class="p">,</span>
+    <span class="nx">quality</span><span class="o">:</span> <span class="nx">m_cfg</span><span class="p">.</span><span class="nx">P_HIGH</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+</div>
 </div>
 
 
@@ -557,6 +590,7 @@ Viewer</dd>
 <li class="toctree-l2"><a class="reference internal" href="#index-0">Кватернионы</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#event-model">Событийная модель</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#sdk">Файловая структура SDK</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#quality-settings">Профили качества изображения</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">Разработчикам движка</a></li>
@@ -594,7 +628,7 @@ Viewer</dd>
           
     <div class="footer">
         &copy; Copyright 2014, ООО &#34;Триумф&#34;.
-      Обновлено: 2014-05-21.
+      Обновлено: 2014-06-25.
       Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

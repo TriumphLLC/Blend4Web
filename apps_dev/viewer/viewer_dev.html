@@ -4,7 +4,6 @@
 <script type="text/javascript" src="../../external/deploy/globals_detect/begin.js"></script>
 
 <meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="chrome=1">
 
 <link rel="stylesheet" href="../../external/deploy/apps/common/jquery.mobile.min.css" />
 <script src="../../external/deploy/apps/common/jquery.min.js"></script>
@@ -32,6 +31,7 @@
 <script type="text/javascript" src="../../src/extensions.js"></script>
 <script type="text/javascript" src="../../src/graph.js"></script>
 <script type="text/javascript" src="../../src/scenegraph.js"></script>
+<script type="text/javascript" src="../../src/objects.js"></script>
 <script type="text/javascript" src="../../src/ipc.js"></script>
 <script type="text/javascript" src="../../src/hud.js"></script>
 <script type="text/javascript" src="../../src/prerender.js"></script>
@@ -144,8 +144,9 @@
               <option value="ULTRA">ULTRA Q</option>
               <option value="HIGH">HIGH Q</option>
               <option value="LOW">LOW Q</option>
+              <option value="CUSTOM">CUSTOM Q</option>
             </select>
-            <a href="" id="auto_rotate_cam" data-role="button" data-icon="home" data-mini="true">Auto Rotate</a>
+            <a href="" id="auto_rotate_cam" data-role="button" data-icon="refresh" data-mini="true">Auto Rotate</a>
         </div>
         <div data-role="controlgroup" data-type="horizontal">
             <a href="" id="pause" data-role="button" data-icon="delete" data-mini="true">Pause</a>
@@ -786,8 +787,7 @@
 
 
     </div>
-  </div>
-</div>
+  </div> </div>
 
 </body>
 </html>

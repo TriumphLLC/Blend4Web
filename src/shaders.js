@@ -10,7 +10,7 @@ b4w.module["__shaders"] = function(exports, require) {
 
 var config     = require("__config");
 var m_print    = require("__print");
-var debug      = require("__debug");
+var m_debug    = require("__debug");
 var gpp_eval   = require("__gpp_eval");
 var assets     = require("__assets");
 var util       = require("__util");
@@ -420,9 +420,9 @@ function preprocess_shader(type, ast, dirs_arr, node_elements) {
     var dirs = {};
     for (var i = 0; i < dirs_arr.length; i++)
         dirs[dirs_arr[i][0]] = [dirs_arr[i][1]];
-    if (node_elements)
-        for (var i = 0; i < node_elements.length; i++)
-            dirs["USE_NODE_" + node_elements[i].id] = [1];
+
+    for (var i = 0; i < node_elements.length; i++)
+        dirs["USE_NODE_" + node_elements[i].id] = [1];
     // set with params for function-like macros {"name": params}
     var fdirs = {};
 
@@ -767,7 +767,7 @@ function init_shader(gl, vshader_text, fshader_text,
     if (gl.getProgramParameter(program, gl.VALIDATE_STATUS) == gl.FALSE)
         m_print.error("B4W Error - shader program is not valid", shader_id);
 
-    debug.check_shader_linking(program, shader_id, vshader, fshader,
+    m_debug.check_shader_linking(program, shader_id, vshader, fshader,
         vshader_text, fshader_text);
 
     var compiled_shader = {
@@ -818,7 +818,7 @@ function debug_compilation_uniqueness(shader_id, shader_text, shader_type, shade
     else
         var shader_filename = shaders_info.frag;
 
-    var hc = util.hash_code(shader_text); 
+    var hc = util.hash_code_string(shader_text, 0); 
     var info = _debug_hash_codes[hc];
 
     if (info) {
@@ -842,7 +842,7 @@ function compile_shader(gl, shader_id, shader_text, shader_type, shaders_info) {
     gl.shaderSource(shader, shader_text);
     gl.compileShader(shader);
 
-    debug.check_shader_compiling(shader, shader_id, shader_text);
+    m_debug.check_shader_compiling(shader, shader_id, shader_text);
 
     return shader;
 }

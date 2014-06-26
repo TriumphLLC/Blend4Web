@@ -7,6 +7,7 @@ import mathutils
 import math
 import os
 import shutil
+import struct
 import time
 import cProfile
 
@@ -20,8 +21,12 @@ except:
     # NOTE: check later in register() function
     pass
 
+from . import anim_baker
+
 BINARY_INT_SIZE = 4
+BINARY_SHORT_SIZE = 2
 BINARY_FLOAT_SIZE = 4
+
 MSG_SYMBOL_WIDTH = 6
 
 JSON_PRETTY_PRINT = False
@@ -42,6 +47,8 @@ SUPPORTED_NODES = ["NodeFrame", "ShaderNodeMaterial", "ShaderNodeCameraData", \
 # weak reference is not supported, 
 _bpy_bindata_int = bytearray();
 _bpy_bindata_float = bytearray();
+_bpy_bindata_short = bytearray();
+_bpy_bindata_ushort = bytearray();
 
 _export_data = None
 _main_json_str = ""
@@ -368,7 +375,8 @@ def get_main_json_data():
     return _main_json_str
 
 def get_binaries_data():
-    return _bpy_bindata_int + _bpy_bindata_float
+    return _bpy_bindata_int + _bpy_bindata_float + _bpy_bindata_short \
+            + _bpy_bindata_ushort
 
 def get_packed_data():
     return _packed_files_data
@@ -398,58 +406,64 @@ def process_action(action):
     act_data["uuid"] = gen_uuid(action)
     act_data["frame_range"] = round_iterable(action.frame_range, 2)
 
-    act_data["groups"] = []
+    has_decimal_frames = False
 
-    fcurves = action.fcurves
-    fcurves_values = fcurves.values()
-    for group in action.groups:
-        group_data = OrderedDict()
-        group_data["name"] = group.name
-        group_data["channels"] = [fcurves_values.index(item) \
-                for item in group.channels]
-        act_data["groups"].append(group_data)
-
-
-    act_data["fcurves"] = []
-
-    for fcurve in fcurves:
+    act_data["fcurves"] = OrderedDict()
+    for fcurve in action.fcurves:
+        
         data_path = fcurve.data_path
+        is_scale = data_path.find("scale") > -1
+        is_location = data_path.find("location") > -1
+        is_rotation_quat = data_path.find("rotation_quaternion") > -1
 
-        # rotate by 90 degrees around x-axis to match standard OpenGL
-        # see pose section for detailed math
+        if data_path not in act_data["fcurves"]:
+            act_data["fcurves"][data_path] = OrderedDict()
+        elif is_scale:
+            # expect uniform scales so process only first available channel
+            continue
+
+        # rotate by 90 degrees around x-axis to match standard OpenGL for 
+        # location and rotation, see pose section for detailed math
         array_index = fcurve_array_index = fcurve.array_index
-
-        if data_path.find("location") > -1: # x y z
+        if is_scale:
+            array_index = 0
+        elif is_location: # x y z
             if fcurve_array_index == 1: array_index = 2
             elif fcurve_array_index == 2: array_index = 1
-
-        elif data_path.find("rotation_quaternion") > -1: # w x y z
+        elif is_rotation_quat: # w x y z
             if fcurve_array_index == 2: array_index = 3
             elif fcurve_array_index == 3: array_index = 2
 
-        fcurve_data = [data_path, array_index]
-
         keyframes_data = []
-        keyframe_points = fcurve.keyframe_points
         previous = None # init variable
-        for keyframe_point in keyframe_points:
+        last_frame_offset = 0 # init variable
+
+        for i in range(len(fcurve.keyframe_points)):
+            keyframe_point = fcurve.keyframe_points[i]
         
             interpolation = keyframe_point.interpolation
-            if   interpolation == "BEZIER": 
+            if interpolation == "BEZIER": 
                 intercode = 0
             elif interpolation == "LINEAR":
                 intercode = 1
             elif interpolation == "CONSTANT":
                 intercode = 2
+            else:
+                raise ExportError("Wrong F-Curve interpolation mode", action, 
+                        "Only BEZIER, LINEAR or CONSTANT mode is allowed for F-Curve interpolation.")
         
-            co = keyframe_point.co
-            hl = keyframe_point.handle_left
-            hr = keyframe_point.handle_right
-    
+            co = list(keyframe_point.co)
+            hl = list(keyframe_point.handle_left)
+            hr = list(keyframe_point.handle_right)
+
+            # NOTE: decimal frames aren't supported, convert to integer
+            if co[0] % 1 != 0:
+                co[0] = round(co[0])
+                has_decimal_frames = True
+
             # rotate by 90 degrees around x-axis to match standard OpenGL
-            if data_path.find("location") > -1 and fcurve_array_index == 1 or \
-                    data_path.find("rotation_quaternion") > -1 \
-                    and fcurve_array_index == 2:
+            if is_location and fcurve_array_index == 1 \
+                    or is_rotation_quat and fcurve_array_index == 2:
                 co = [co[0], -co[1]]
                 hl = [hl[0], -hl[1]]
                 hr = [hr[0], -hr[1]]
@@ -460,30 +474,38 @@ def process_action(action):
                 # left handle   x and y
                 # right handle  x and y
 
-            coords = [intercode]
-            coords += list(co)
+            if (i == len(fcurve.keyframe_points) - 1):
+                last_frame_offset = len(keyframes_data)
+            keyframes_data.append(intercode)
+            keyframes_data.extend(co)
 
             # file size optimization: left handle needed only if
             # PREVIOS keyframe point is bezier, right handle needed only if
             # THIS keyframe point is bezier
             if previous and previous.interpolation == "BEZIER":
-                coords += list(hl)
-            elif interpolation == "BEZIER":
-                # placeholder needed for correct indexing of right handler
-                coords += [0, 0] 
-
+                keyframes_data.extend(hl)
             if interpolation == "BEZIER":
-                coords += list(hr)
-
-            coords = round_iterable(coords, 4)
-            keyframes_data.append(coords)
+                keyframes_data.extend(hr)
 
             # save THIS keyframe point as PREVIOS one for the next iteration
             previous = keyframe_point
 
-        fcurve_data.append(keyframes_data)
+        keyframes_data_bin = struct.pack("f" * len(keyframes_data), 
+                *keyframes_data)
 
-        act_data["fcurves"].append(fcurve_data)
+        act_data["fcurves"][data_path][array_index] = OrderedDict();
+        act_data["fcurves"][data_path][array_index]["bin_data_pos"] = [
+            len(_bpy_bindata_float) // BINARY_FLOAT_SIZE, 
+            len(keyframes_data_bin) // BINARY_FLOAT_SIZE
+        ]
+        act_data["fcurves"][data_path][array_index]["last_frame_offset"] \
+                = last_frame_offset
+
+        _bpy_bindata_float.extend(keyframes_data_bin)
+
+    if has_decimal_frames:
+        warn("Action \"" + action.name + "\" has decimal frames. " + 
+                "Converted to integer.")
 
     _export_data["actions"].append(act_data)
     _export_uuid_cache[act_data["uuid"]] = act_data
@@ -653,7 +675,7 @@ def process_object(obj):
     obj_data["constraints"] = process_object_constraints(obj.constraints)
     obj_data["particle_systems"] = process_object_particle_systems(obj)
 
-    process_animation_data(obj_data, obj)
+    process_animation_data(obj_data, obj, bpy.data.actions)
 
     # export custom properties
     obj_data["b4w_do_not_batch"] = obj.b4w_do_not_batch
@@ -688,7 +710,8 @@ def process_object(obj):
     dct["overall_stiffness_col"] = detail_bend.overall_stiffness_col
 
     obj_data["b4w_lod_distance"] = round_num(obj.b4w_lod_distance, 2)
-    obj_data["b4w_lods_num"] = round_num(len(obj.b4w_lods), 1)
+
+    obj_data["lod_levels"] = process_object_lod_levels(obj)
 
     obj_data["b4w_proxy_inherit_anim"] = obj.b4w_proxy_inherit_anim
 
@@ -928,7 +951,7 @@ def process_object_pose(obj_data, obj, pose):
 
             obj_data["pose"]["bones"].append(pose_bone_data)
 
-def process_object_nla(nla_tracks_data, nla_tracks):
+def process_object_nla(nla_tracks_data, nla_tracks, actions):
     for track in nla_tracks:
         track_data = OrderedDict()
         track_data["name"] = track.name
@@ -942,14 +965,32 @@ def process_object_nla(nla_tracks_data, nla_tracks):
             strip_data["frame_end"] = round_num(strip.frame_end, 3)
             strip_data["use_animated_time_cyclic"] \
                     = strip.use_animated_time_cyclic
-            if strip.action and do_export(strip.action):
-                strip_data["action"] = gen_uuid_obj(strip.action)
+
+            action = select_action(strip.action, actions)
+            if action and do_export(action):
+                strip_data["action"] = gen_uuid_obj(action)
             else:
                 strip_data["action"] = None
 
             track_data["strips"].append(strip_data)
 
         nla_tracks_data.append(track_data)
+
+def select_action(base_action, actions):
+    if not base_action:
+        return base_action
+
+    # baked itself
+    if anim_baker.has_baked_suffix(base_action):
+        return base_action
+
+    # search baked
+    for action in actions:
+        if action.name == (base_action.name + anim_baker.BAKED_SUFFIX):
+            return action
+
+    # not found
+    return base_action
 
 def process_object_force_field(obj_data, field):
     if field and field.type == 'WIND':
@@ -1012,11 +1053,22 @@ def process_camera(camera):
     cam_data["b4w_use_distance_limits"] = camera.b4w_use_distance_limits
     cam_data["b4w_distance_min"] = round_num(camera.b4w_distance_min, 3)
     cam_data["b4w_distance_max"] = round_num(camera.b4w_distance_max, 3)
+
+    cam_data["b4w_use_horizontal_clamping"] = camera.b4w_use_horizontal_clamping
+    cam_data["b4w_rotation_left_limit"] \
+            = round_num(camera.b4w_rotation_left_limit, 6)
+    cam_data["b4w_rotation_right_limit"] \
+            = round_num(camera.b4w_rotation_right_limit, 6)
+    cam_data["b4w_horizontal_clamping_type"] \
+            = camera.b4w_horizontal_clamping_type
+            
     cam_data["b4w_use_vertical_clamping"] = camera.b4w_use_vertical_clamping
     cam_data["b4w_rotation_down_limit"] \
-            = round_num(camera.b4w_rotation_down_limit, 3)
+            = round_num(camera.b4w_rotation_down_limit, 6)
     cam_data["b4w_rotation_up_limit"] \
-            = round_num(camera.b4w_rotation_up_limit, 3)
+            = round_num(camera.b4w_rotation_up_limit, 6)
+    cam_data["b4w_vertical_clamping_type"] \
+            = camera.b4w_vertical_clamping_type
 
     # translate to b4w coordinates
     b4w_target = [camera.b4w_target[0], camera.b4w_target[2], \
@@ -1770,9 +1822,31 @@ def export_submesh(mesh, mesh_ptr, obj_user, obj_ptr, mat_index, disab_flat, \
             else:
                 submesh_data[prop_name] = [0, 0]
 
+    short_props = ["normal", "tangent"]
+    for prop_name in short_props:
+        if prop_name in submesh:
+            if len(submesh[prop_name]):
+                submesh_data[prop_name] = [
+                    len(_bpy_bindata_short) // BINARY_SHORT_SIZE, 
+                    len(submesh[prop_name]) // BINARY_SHORT_SIZE
+                ]
+                _bpy_bindata_short.extend(submesh[prop_name])
+            else:
+                submesh_data[prop_name] = [0, 0]
 
-    float_props = ["position", "normal", "tangent", "texcoord", "texcoord2", \
-            "color", "group"]
+    ushort_props = ["color", "group"]
+    for prop_name in ushort_props:
+        if prop_name in submesh:
+            if len(submesh[prop_name]):
+                submesh_data[prop_name] = [
+                    len(_bpy_bindata_ushort) // BINARY_SHORT_SIZE, 
+                    len(submesh[prop_name]) // BINARY_SHORT_SIZE
+                ]
+                _bpy_bindata_ushort.extend(submesh[prop_name])
+            else:
+                submesh_data[prop_name] = [0, 0]
+
+    float_props = ["position", "texcoord", "texcoord2"]
     for prop_name in float_props:
         if prop_name in submesh:
             if len(submesh[prop_name]):
@@ -1909,7 +1983,7 @@ def process_speaker(speaker):
     else:
         spk_data["sound"] = None
 
-    process_animation_data(spk_data, speaker)
+    process_animation_data(spk_data, speaker, bpy.data.actions)
 
     # distance attenuation params
     spk_data["attenuation"] = round_num(speaker.attenuation, 3)
@@ -2246,19 +2320,20 @@ def matrix4x4_to_list(m):
             result.append(v[j])
     return result            
             
-def process_animation_data(obj_data, component):
+def process_animation_data(obj_data, component, actions):
     adata = component.animation_data
     if adata:
         dct = obj_data["animation_data"] = OrderedDict()
 
-        if adata.action and do_export(adata.action):
-            dct["action"] = gen_uuid_obj(adata.action)
+        action = select_action(adata.action, actions)
+        if action and do_export(action):
+            dct["action"] = gen_uuid_obj(action)
         else:
             dct["action"] = None
 
         dct["nla_tracks"] = []
         if adata.nla_tracks:
-            process_object_nla(dct["nla_tracks"], adata.nla_tracks)
+            process_object_nla(dct["nla_tracks"], adata.nla_tracks, actions)
     else:
         obj_data["animation_data"] = None
 
@@ -2371,7 +2446,7 @@ def process_object_constraint(cons_data, cons):
         cons_data["use_y"] = cons.use_z
         cons_data["use_z"] = cons.use_y
 
-    elif cons.type == "LOCKED_TRACK":
+    elif cons.type == "LOCKED_TRACK" and cons.name == "REFLECTION PLANE":
         cons_data["target"] = obj_cons_target(cons)
 
     elif cons.type == "SHRINKWRAP":
@@ -2421,11 +2496,80 @@ def process_object_constraint(cons_data, cons):
         cons_data["limit_angle_min_x"] = round_num(cons.limit_angle_min_x, 4)
         cons_data["limit_angle_min_y"] = round_num(cons.limit_angle_min_z, 4)
         cons_data["limit_angle_min_z"] = round_num(-cons.limit_angle_max_y, 4)
-        
+
+def process_object_lod_levels(obj):
+    """export lods"""
+
+    if obj.type != "MESH":
+        return []
+
+    lod_levels = obj.lod_levels
+    obj_name = obj.name
+    cons = obj.constraints
+    lods_num = round_num(len(obj.b4w_lods), 1)
+    lod_dist = round_num(obj.b4w_lod_distance, 2)
+
+    lod_levels_data = []
+    is_target_lod_empty = True
+
+    if not len(lod_levels) and lod_dist < 10000:
+        for con in cons:
+            if con.type == "LOCKED_TRACK" and con.target:
+                lods_data = OrderedDict()
+                lods_data["distance"] = lod_dist
+
+                if con.target:
+                    process_object(con.target)
+                    lods_data["object"] = gen_uuid_obj(con.target)
+                else:
+                    lods_data["object"] = None
+
+                lods_data["use_mesh"] = True
+                lods_data["use_material"] = True
+                lod_dist = round_num(con.target.b4w_lod_distance, 2)
+                lod_levels_data.append(lods_data)
+
+        if lod_dist < 10000:
+            lods_data = OrderedDict()
+            lods_data["distance"] = lod_dist
+            lods_data["object"] = None
+            lods_data["use_mesh"] = True
+            lods_data["use_material"] = True
+            lod_levels_data.append(lods_data)
+
+    for lod in lod_levels:
+
+        if not is_target_lod_empty:
+            warn("Ignoring LODs after empty LOD for object " + obj_name)
+            break
+
+        if obj == lod.object:
+            continue
+
+        lods_data = OrderedDict()
+        lods_data["distance"] = lod.distance
+
+        if lod.object:
+            print(lod.object)
+            process_object(lod.object)
+            lods_data["object"] = gen_uuid_obj(lod.object)
+        else:
+            lods_data["object"] = None
+
+        lods_data["use_mesh"] = lod.use_mesh
+        lods_data["use_material"] = lod.use_material
+
+        lod_levels_data.append(lods_data)
+
+        if not lod.object:
+            is_target_lod_empty = False
+
+    return lod_levels_data
+
 def obj_cons_target(cons):
     if not cons.target:
         raise ExportError("Object constraint has no target", cons)
-    
+
     if cons.target and object_is_valid(cons.target):
         target_uuid = gen_uuid_obj(cons.target)
         process_object(cons.target)
@@ -2796,6 +2940,12 @@ class B4W_ExportProcessor(bpy.types.Operator):
     def run(self, export_filepath):
         global _bpy_bindata_int
         _bpy_bindata_int = bytearray();
+
+        global _bpy_bindata_short
+        _bpy_bindata_short = bytearray();
+
+        global _bpy_bindata_ushort
+        _bpy_bindata_ushort = bytearray();
         
         global _bpy_bindata_float
         _bpy_bindata_float = bytearray();
@@ -2874,7 +3024,8 @@ class B4W_ExportProcessor(bpy.types.Operator):
 
         _export_data["binaries"] = []
         binary_data = OrderedDict()
-        if len(_bpy_bindata_int) + len(_bpy_bindata_float):
+        if len(_bpy_bindata_int) + len(_bpy_bindata_float) \
+                 + len(_bpy_bindata_short) + len(_bpy_bindata_ushort):
             base = os.path.splitext(os.path.basename(export_filepath))[0]
             binary_load_path = base + '.bin'
             base = os.path.splitext(export_filepath)[0]
@@ -2885,6 +3036,8 @@ class B4W_ExportProcessor(bpy.types.Operator):
             binary_data["binfile"] = None
         binary_data["int"] = 0
         binary_data["float"] = len(_bpy_bindata_int)
+        binary_data["short"] = binary_data["float"] + len(_bpy_bindata_float)
+        binary_data["ushort"] = binary_data["short"] + len(_bpy_bindata_short)
         _export_data["binaries"].append(binary_data)
 
         _export_data["b4w_export_warnings"] = _b4w_export_warnings
@@ -2925,8 +3078,12 @@ class B4W_ExportProcessor(bpy.types.Operator):
                 print("Scene saved to " + export_filepath)
 
                 if binary_export_path is not None:
+                    # NOTE: write data in this order (4-bit, 4-bit, 2-bit, 2-bit 
+                    # arrays) to simplify data loading
                     fb.write(_bpy_bindata_int)
                     fb.write(_bpy_bindata_float)
+                    fb.write(_bpy_bindata_short)
+                    fb.write(_bpy_bindata_ushort)
                     fb.close()
                     print("Binary data saved to " + binary_export_path)
 
@@ -3088,22 +3245,7 @@ def check_object_data(obj_data, obj):
                 or l_p_col != "" and not check_vertex_color(obj.data, l_p_col) \
                 or o_s_col != "" and not check_vertex_color(obj.data, o_s_col)):
             raise ExportError("Wind bending: not all vertex colors exist", \
-                    obj)        
-
-    # check reflection planes and lods constraints
-    num_locked_track_consts = 0
-    for cons in obj_data["constraints"]:
-        if cons["type"] == "LOCKED_TRACK":
-            num_locked_track_consts += 1
-
-    lods_num = obj_data["b4w_lods_num"]
-
-    if lods_num > 0 and num_locked_track_consts < lods_num:
-        raise InternalError("No constraints for object lods added. Check object " \
-                + obj.name)
-    elif obj_data["b4w_reflective"] and num_locked_track_consts < lods_num + 1:
-        raise InternalError("No constraints for reflection plane added. Check object " \
-                + obj.name)
+                    obj)
 
     check_obj_particle_systems(obj_data, obj)
 

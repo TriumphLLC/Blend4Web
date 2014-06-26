@@ -89,6 +89,8 @@ Provides API to create simple and advanced preloaders.</div>
 
     
 
+     
+
     
 
     
@@ -99,7 +101,7 @@ Provides API to create simple and advanced preloaders.</div>
         <dl>
             
 <dt>
-    <h4 class="name" id="create_advanced_preloader"><span class="type-signature">&lt;static> </span>create_advanced_preloader<span class="signature">(options)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="create_advanced_preloader"><span class="type-signature">(static) </span>create_advanced_preloader<span class="signature">(options, options.canvas_container_id, options.background_container_id, options.options.preloader_bar_id, options.options.fill_band_id_id, options.options.preloader_caption_id, options.options.preloader_container_id, options.options.img_width, options.options.preloader_width)</span><span class="type-signature"></span></h4>
 
     
 </dt>
@@ -107,7 +109,7 @@ Provides API to create simple and advanced preloaders.</div>
 
     
     <div class="description">
-        Create advanced preloader.
+        Create an advanced preloader.
     </div>
     
 
@@ -397,7 +399,7 @@ Provides API to create simple and advanced preloaders.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="preloader.js.html">addons/preloader.js</a>, <a href="preloader.js.html#line128">line 128</a>
+        <a href="preloader.js.html">addons/preloader.js</a>, <a href="preloader.js.html#line232">line 232</a>
     </li></ul></dd>
     
 
@@ -427,7 +429,7 @@ Provides API to create simple and advanced preloaders.</div>
         
             
 <dt>
-    <h4 class="name" id="create_simple_preloader"><span class="type-signature">&lt;static> </span>create_simple_preloader<span class="signature">(options)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="create_rotation_preloader"><span class="type-signature">(static) </span>create_rotation_preloader<span class="signature">(options, options.canvas_container_id, options.background_container_id<span class="signature-attributes">opt</span>, options.bg_color<span class="signature-attributes">opt</span>, options.frame_bg_color<span class="signature-attributes">opt</span>, options.frame_class<span class="signature-attributes">opt</span>, options.anim_elem_class<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
     
 </dt>
@@ -435,7 +437,7 @@ Provides API to create simple and advanced preloaders.</div>
 
     
     <div class="description">
-        Create simple preloader.
+        Create a rotation preloader.
     </div>
     
 
@@ -499,7 +501,349 @@ Provides API to create simple and advanced preloaders.</div>
         <th>Type</th>
 
         
-        <th>Argument</th>
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>canvas_container_id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Canvas container ID.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>background_container_id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Background container ID.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>bg_color</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Background color.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>frame_bg_color</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Frame background color.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>frame_class</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">CSS frame class.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>anim_elem_class</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Animated element class.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="preloader.js.html">addons/preloader.js</a>, <a href="preloader.js.html#line126">line 126</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="create_simple_preloader"><span class="type-signature">(static) </span>create_simple_preloader<span class="signature">(options, options.canvas_container_id, options.background_container_id<span class="signature-attributes">opt</span>, options.bg_color<span class="signature-attributes">opt</span>, options.bar_color<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Create a simple preloader.
+    </div>
+    
+
+    
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Initialization options.
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
         
 
         
@@ -703,7 +1047,7 @@ Provides API to create simple and advanced preloaders.</div>
         
             
 <dt>
-    <h4 class="name" id="update_preloader"><span class="type-signature">&lt;static> </span>update_preloader<span class="signature">(percentage)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="update_preloader"><span class="type-signature">(static) </span>update_preloader<span class="signature">(percentage)</span><span class="type-signature"></span></h4>
 
     
 </dt>
@@ -711,7 +1055,7 @@ Provides API to create simple and advanced preloaders.</div>
 
     
     <div class="description">
-        Update preloader bar status.
+        Update the preloader bar status.
     </div>
     
 
@@ -761,7 +1105,7 @@ Provides API to create simple and advanced preloaders.</div>
 
             
 
-            <td class="description last">New bar percentage</td>
+            <td class="description last">The new preloader bar percentage</td>
         </tr>
 
     
@@ -792,7 +1136,7 @@ Provides API to create simple and advanced preloaders.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="preloader.js.html">addons/preloader.js</a>, <a href="preloader.js.html#line159">line 159</a>
+        <a href="preloader.js.html">addons/preloader.js</a>, <a href="preloader.js.html#line263">line 263</a>
     </li></ul></dd>
     
 
@@ -841,7 +1185,7 @@ Provides API to create simple and advanced preloaders.</div>
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-dev</a> on Wed May 14 2014 10:58:10 GMT+0400 (MSK)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-dev</a> on Wed Jun 25 2014 18:01:34 GMT+0400 (MSK)
 </footer>
 
 <script> prettyPrint(); </script>

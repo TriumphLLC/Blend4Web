@@ -32,7 +32,7 @@ var _vec4_tmp = new Float32Array(4);
 /**
  * Check if object is currently animated
  * @method module:animation.is_animated
- * @param obj Object ID
+ * @param {Object} obj Object ID
  */
 exports["is_animated"] = function(obj) {
     return m_anim.is_animated(obj);
@@ -48,7 +48,7 @@ exports["get_actions"] = function() {
     var anames = [];
     var actions = m_anim.get_all_actions();
     for (var i = 0; i < actions.length; i++)
-        anames.push(actions[i]["name"]);
+        anames.push(m_anim.strip_baked_suffix(actions[i]["name"]));
 
     return anames;
 }
@@ -56,17 +56,17 @@ exports["get_actions"] = function() {
 /**
  * Return applied action name
  * @method module:animation.get_current_action
- * @param obj Object ID
+ * @param {Object} obj Object ID
  * @deprecated Use get_current_anim_name()
  */
 exports["get_current_action"] = function(obj) {
-    return m_anim.get_current_action(obj);
+    return m_anim.get_current_action_name(obj);
 }
 
 /**
  * Return all available animation names.
  * @method module:animation.get_anim_names
- * @param obj Object ID
+ * @param {Object} obj Object ID
  * @returns {Array} Array of animation names
  */
 exports["get_anim_names"] = function(obj) {
@@ -79,7 +79,7 @@ exports["get_anim_names"] = function(obj) {
 /**
  * Return applied animation name.
  * @method module:animation.get_current_anim_name
- * @param obj Object ID
+ * @param {Object} obj Object ID
  * @returns Current animation name or null
  */
 exports["get_current_anim_name"] = function(obj) {
@@ -91,7 +91,7 @@ exports["get_current_anim_name"] = function(obj) {
     case m_anim.OBJ_ANIM_TYPE_SKELETAL:
     case m_anim.OBJ_ANIM_TYPE_OBJECT:
     case m_anim.OBJ_ANIM_TYPE_SOUND:
-        return m_anim.get_current_action(obj);
+        return m_anim.get_current_action_name(obj);
     case m_anim.OBJ_ANIM_TYPE_VERTEX:
         return m_anim.get_current_va_name(obj);
     case m_anim.OBJ_ANIM_TYPE_STATIC:
@@ -103,7 +103,7 @@ exports["get_current_anim_name"] = function(obj) {
 /**
  * Apply animation to object
  * @method module:animation.apply
- * @param obj Object ID
+ * @param {Object} obj Object ID
  * @param {String} name Action name
  */
 exports["apply"] = function(obj, name) {
@@ -113,7 +113,7 @@ exports["apply"] = function(obj, name) {
 /**
  * Remove animation from object
  * @method module:animation.remove
- * @param obj Object ID
+ * @param {Object} obj Object ID
  */
 exports["remove"] = function(obj) {
     m_anim.remove(obj);
@@ -122,7 +122,7 @@ exports["remove"] = function(obj) {
 /**
  * Apply default (specified in Blender) animation to object
  * @method module:animation.apply_def
- * @param obj Object ID
+ * @param {Object} obj Object ID
  */
 exports["apply_def"] = function(obj) {
     m_anim.apply_def(obj);
@@ -131,7 +131,7 @@ exports["apply_def"] = function(obj) {
 /**
  * Play object animation.
  * @method module:animation.play
- * @param obj Object ID
+ * @param {Object} obj Object ID
  * @param [finish_callback] Callback to execute on finished animation
  * @param [offset=0] Offset in seconds
  */
@@ -142,7 +142,7 @@ exports["play"] = function(obj, finish_callback, offset) {
 /**
  * Stop object animation
  * @method module:animation.stop
- * @param obj Object ID
+ * @param {Object} obj Object ID
  */
 exports["stop"] = function(obj) {
     m_anim.stop(obj);
@@ -150,7 +150,7 @@ exports["stop"] = function(obj) {
 /**
  * Check if object animation is being run
  * @method module:animation.is_play
- * @param obj Object ID
+ * @param {Object} obj Object ID
  */
 exports["is_play"] = function(obj) {
     return m_anim.is_play(obj);
@@ -158,7 +158,7 @@ exports["is_play"] = function(obj) {
 /**
  * Set the current frame
  * @method module:animation.set_current_frame_float
- * @param obj Object ID
+ * @param {Object} obj Object ID
  * @param {Number} cff Current frame
  * @deprecated Replaced by set_frame
  */
@@ -167,7 +167,7 @@ exports["set_current_frame_float"] = function(obj, cff) {
 }
 /**
  * @method module:animation.get_current_frame_float
- * @param obj Object ID
+ * @param {Object} obj Object ID
  * @deprecated Replaced by get_frame()
  */
 exports["get_current_frame_float"] = function(obj) {
@@ -177,7 +177,7 @@ exports["get_current_frame_float"] = function(obj) {
 /**
  * Set the current frame and update object animation.
  * @method module:animation.set_frame
- * @param obj Object ID.
+ * @param {Object} obj Object ID.
  * @param {Number} frame Current frame (float).
  */
 exports["set_frame"] = function(obj, frame) {
@@ -187,7 +187,7 @@ exports["set_frame"] = function(obj, frame) {
 /**
  * Get the current frame.
  * @method module:animation.get_frame
- * @param obj Object ID
+ * @param {Object} obj Object ID
  * @returns {Number} Current frame
  */
 exports["get_frame"] = function(obj) {
@@ -197,7 +197,7 @@ exports["get_frame"] = function(obj) {
 /**
  * Get animation frame range.
  * @method module:animation.get_frame_range
- * @param obj Object ID
+ * @param {Object} obj Object ID
  * @returns {Array} Frame range pair or null for incorrect object
  * @deprecated Use get_anim_start_frame() and get_anim_length() functions
  */
@@ -212,7 +212,7 @@ exports["get_frame_range"] = function(obj) {
 /**
  * Get animation starting frame
  * @method module:animation.get_anim_start_frame
- * @param obj Object ID
+ * @param {Object} obj Object ID
  * @returns {Number} Animation start frame or -1 for incorrect object
  */
 exports["get_anim_start_frame"] = function(obj) {
@@ -225,7 +225,7 @@ exports["get_anim_start_frame"] = function(obj) {
 /**
  * Get animation length in frames
  * @method module:animation.get_anim_length
- * @param obj Object ID
+ * @param {Object} obj Object ID
  * @returns {Number} Animation length or -1 for incorrect object
  */
 exports["get_anim_length"] = function(obj) {
@@ -238,7 +238,7 @@ exports["get_anim_length"] = function(obj) {
 /**
  * Whether animation playback should be looped or not
  * @method module:animation.cyclic
- * @param obj Object ID
+ * @param {Object} obj Object ID
  * @param {Boolean} cyclic_flag
  * @deprecated Use set_behavior() instead.
  */
@@ -248,7 +248,7 @@ exports["cyclic"] = function(obj, cyclic_flag) {
 /**
  * Check if animation is cyclic
  * @method module:animation.is_cyclic
- * @param obj Object ID
+ * @param {Object} obj Object ID
  * @deprecated Use get_behavior() instead.
  */
 exports["is_cyclic"] = function(obj) {
@@ -258,7 +258,7 @@ exports["is_cyclic"] = function(obj) {
 /**
  * Set animation behavior.
  * @method module:animation.set_behavior
- * @param obj Object ID
+ * @param {Object} obj Object ID
  * @param behavior Behavior enum
  */
 exports["set_behavior"] = function(obj, behavior) {
@@ -268,7 +268,7 @@ exports["set_behavior"] = function(obj, behavior) {
 /**
  * Get animation behavior.
  * @method module:animation.get_behavior
- * @param obj Object ID
+ * @param {Object} obj Object ID
  * @returns Behavior enum
  */
 exports["get_behavior"] = function(obj) {
@@ -279,7 +279,7 @@ exports["get_behavior"] = function(obj) {
  * Apply smoothing. 
  * Specify zero periods in order to disable
  * @method module:animation.apply_smoothing
- * @param obj Object ID
+ * @param {Object} obj Object ID
  * @param {Number} [trans_period=0] Translation smoothing period
  * @param {Number} [quat_period=0] Rotation smoothing period
  */
@@ -290,7 +290,7 @@ exports["apply_smoothing"] = function(obj, trans_period, quat_period) {
 /**
  * Update object animation (set the pose)
  * @method module:animation.update_object_animation
- * @param obj Object ID
+ * @param {Object} obj Object ID
  * @param {Number} elapsed Animation delay
  */
 exports["update_object_animation"] = function(obj, elapsed) {
@@ -309,7 +309,7 @@ exports["frame_to_sec"] = function(frame) {
 /**
  * Switch the collision detection flag
  * @method module:animation.detect_collisions
- * @param obj Object ID
+ * @param {Object} obj Object ID
  * @param {Boolean} use Detect collisions
  * @deprecated Use physics.enable_simulation/physics.disable_simulation.
  */
@@ -322,7 +322,7 @@ exports["detect_collisions"] = function(obj, use) {
 /**
  * Get detect collisions flag
  * @method module:animation.is_detect_collisions_used
- * @param obj Object ID
+ * @param {Object} obj Object ID
  * @returns {Boolean} Detect collision usage flag
  * @deprecated Use physics.has_simulated_physics().
  */
@@ -354,7 +354,7 @@ exports["get_bone_translation"] = function(armobj, bone_name, dest) {
 /**
  * Get the first armature object used for mesh skinning.
  * @method module:animation.get_bone_translation
- * @param obj Object ID
+ * @param {Object} obj Object ID
  * @returns Armature object ID or null;
  */
 exports["get_first_armature_object"] = function(obj) {

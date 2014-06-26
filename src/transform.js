@@ -20,12 +20,19 @@ var m_util      = require("__util");
 
 var m_vec3 = require("vec3");
 var m_quat = require("quat");
+var m_mat3 = require("mat3");
 var m_mat4 = require("mat4");
 
 var _vec3_tmp = new Float32Array(3);
 var _quat4_tmp = new Float32Array(4);
+var _mat3_tmp = new Float32Array(9);
 
 var _elapsed = 0;
+
+// transform in world space
+exports.SPACE_WORLD = 0;
+// transform in local space
+exports.SPACE_LOCAL = 1;
 
 exports.update = function(elapsed) {
     _elapsed = elapsed;
@@ -37,9 +44,7 @@ exports.set_translation = function(obj, trans) {
         m_tsr.set_trans(trans, offset);
     } else {
         var render = obj._render;
-        render.trans[0] = trans[0];
-        render.trans[1] = trans[1];
-        render.trans[2] = trans[2];
+        render.trans.set(trans);
     }
 }
 
@@ -59,10 +64,7 @@ exports.set_rotation = function(obj, quat) {
         m_tsr.set_quat(quat, offset);
     } else {
         var render = obj._render;
-        render.quat[0] = quat[0];
-        render.quat[1] = quat[1];
-        render.quat[2] = quat[2];
-        render.quat[3] = quat[3];
+        render.quat.set(quat);
     }
 }
 
@@ -180,20 +182,16 @@ exports.get_object_center = function(obj, calc_bs_center, dest) {
  * Calculate new translation based on distances in local space 
  */
 exports.move_local = function(obj, dx, dy, dz) {
-
-    var trans_local = _vec3_tmp;
     var render = obj._render;
 
-    var inv_world_matrix = render.inv_world_matrix;
-    var world_matrix = render.world_matrix;
+    var trans_local = _vec3_tmp;
+    trans_local[0] = dx;
+    trans_local[1] = dy;
+    trans_local[2] = dz;
 
-    m_vec3.transformMat4(render.trans, inv_world_matrix, trans_local);
-
-    trans_local[0] += dx;
-    trans_local[1] += dy;
-    trans_local[2] += dz;
-
-    m_vec3.transformMat4(trans_local, world_matrix, render.trans);
+    var mat = m_mat3.fromMat4(render.world_matrix, _mat3_tmp);
+    m_vec3.transformMat3(trans_local, mat, trans_local);
+    m_vec3.add(render.trans, trans_local, render.trans);
 }
 
 
@@ -202,16 +200,17 @@ exports.update_transform = update_transform;
  * Set object render world_matrix.
  * NOTE: do not try to update batched objects (buggy _dg_parent influence)
  * @methodOf transform
- * @param obj Object ID
+ * @param {Object} obj Object ID
  */
 function update_transform(obj) {
 
     var render = obj._render;
 
     m_cons.update_constraint(obj, _elapsed);
+    m_cam.update_camera(obj);
 
     if (obj["type"] == "CAMERA")
-        m_cam.clamp_vertical_limits(obj);
+        m_cam.clamp_limits(obj);
 
     // should not change after constraint update
     var trans = render.trans;

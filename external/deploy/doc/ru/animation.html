@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Анимация &mdash; Руководство пользователя: Blend4Web v14.05.22</title>
+    <title>Анимация &mdash; Руководство пользователя: Blend4Web v14.06</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.05.22',
+        VERSION:     '14.06',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v14.05.22" href="index.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v14.06" href="index.html" />
     <link rel="next" title="Рендеринг наружных сцен" href="outdoor_rendering.html" />
     <link rel="prev" title="Система частиц для инстансинга объектов" href="particles_instancing.html" /> 
   </head>
@@ -37,7 +37,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">Руководство пользователя: Blend4Web v14.05.22</a></div>
+          href="index.html">Руководство пользователя: Blend4Web v14.06</a></div>
         <div class="rel">
           <a href="particles_instancing.html" title="Система частиц для инстансинга объектов"
              accesskey="P">предыдущий</a> |
@@ -124,15 +124,21 @@
 Запекание производится с помощью интерфейса <tt class="docutils literal"><span class="pre">B4W</span> <span class="pre">Animation</span> <span class="pre">Bake</span></tt>, расположенного на панели инструментов <tt class="docutils literal"><span class="pre">Blend4Web</span></tt>:</li>
 </ol>
 <a class="reference internal image-reference" href="_images/baker.png"><img alt="Инструмент запекания скелетной анимации" class="align-center" src="_images/baker.png" style="width: 100%;" /></a>
-<p>Запекание производится при выделенном арматурном объекте. Элементы интерфейса запекателя:</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>Запекание производится при выделенном арматурном объекте. Элементы интерфейса <tt class="docutils literal"><span class="pre">B4W</span> <span class="pre">Animation</span> <span class="pre">Bake</span></tt>:</p>
 <ul class="simple">
 <li><em>Clean keyframes</em> &#8211; произвести оптимизацию ключей анимации после запекания. В
 случае получения некорректных результатов, рекомендуется отключить опцию.</li>
+<li>окно со списком запекаемых акторов &#8211; запекать только те акторы, которые
+указаны в списке, иначе запекать все возможные акторы.</li>
+<li><em>Name</em> &#8211; имя текущего актора из списка запекаемых акторов.</li>
 <li><em>Bake</em> &#8211; произвести запекание. В случае успешного окончания процесса, на
-сцене появляются акторы с именами вида <em>ИМЯ_BAKED</em>. Данные акторы могут быть
-назначены на арматурном объекте и воспроизведены в движке. Стоит отметить, что
-работа подобных акторов в Blender не гарантируется, хотя в ряде случаев может
-помочь интерфейс <em>Cons Mute</em>/<em>Cons Unmute</em>.</li>
+сцене появляются акторы с именами вида <em>ИМЯ_B4W_BAKED</em>. Данные акторы будут
+автоматически назначены на арматурном объекте и воспроизведены в движке.
+Стоит отметить, что работа подобных акторов в Blender не гарантируется,
+хотя в ряде случаев может помочь интерфейс <em>Cons Mute</em>/<em>Cons Unmute</em>.</li>
 <li><em>Cons Mute</em>/<em>Cons Unmute</em> &#8211; отключить/активировать ограничители,
 установленные на костях. Инструмент может быть использован для тестирования
 запечёных акторов.</li>
@@ -233,7 +239,7 @@
           
     <div class="footer">
         &copy; Copyright 2014, ООО &#34;Триумф&#34;.
-      Обновлено: 2014-05-21.
+      Обновлено: 2014-06-25.
       Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

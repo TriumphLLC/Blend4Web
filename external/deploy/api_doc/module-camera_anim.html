@@ -89,6 +89,8 @@ Provides support for camera procedural animation.</div>
 
     
 
+     
+
     
 
     
@@ -99,7 +101,7 @@ Provides support for camera procedural animation.</div>
         <dl>
             
 <dt>
-    <h4 class="name" id="auto_rotate"><span class="type-signature">&lt;static> </span>auto_rotate<span class="signature">(auto_rotate_ratio)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="auto_rotate"><span class="type-signature">(static) </span>auto_rotate<span class="signature">(auto_rotate_ratio, Optional)</span><span class="type-signature"></span></h4>
 
     
 </dt>
@@ -107,7 +109,7 @@ Provides support for camera procedural animation.</div>
 
     
     <div class="description">
-        Auto rotate camera around object
+        Auto-rotate the MS_TARGET camera around the pivot point.
     </div>
     
 
@@ -146,6 +148,11 @@ Provides support for camera procedural animation.</div>
 
             <td class="type">
             
+                
+<span class="param-type">Number</span>
+
+
+            
             </td>
 
             
@@ -153,6 +160,29 @@ Provides support for camera procedural animation.</div>
             
 
             <td class="description last">Speed ratio of the camera</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>Optional</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#mouse_event_callback">mouse_event_callback</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">callback</td>
         </tr>
 
     
@@ -183,7 +213,7 @@ Provides support for camera procedural animation.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="camera_anim.js.html">addons/camera_anim.js</a>, <a href="camera_anim.js.html#line219">line 219</a>
+        <a href="camera_anim.js.html">addons/camera_anim.js</a>, <a href="camera_anim.js.html#line230">line 230</a>
     </li></ul></dd>
     
 
@@ -213,7 +243,7 @@ Provides support for camera procedural animation.</div>
         
             
 <dt>
-    <h4 class="name" id="track_to_target"><span class="type-signature">&lt;static> </span>track_to_target<span class="signature">(camobj, target, rot_speed, zoom_mult, zoom_time, zoom_delay, callback)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="track_to_target"><span class="type-signature">(static) </span>track_to_target<span class="signature">(camobj, target, rot_speed, zoom_mult, zoom_time, zoom_delay, zoom_cb<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
     
 </dt>
@@ -221,7 +251,7 @@ Provides support for camera procedural animation.</div>
 
     
     <div class="description">
-        Track camera to target
+        Make the camera object track the target (object or point).
     </div>
     
 
@@ -243,6 +273,8 @@ Provides support for camera procedural animation.</div>
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
         
 
@@ -260,8 +292,21 @@ Provides support for camera procedural animation.</div>
 
             <td class="type">
             
+                
+<span class="param-type">Object</span>
+
+
+            
             </td>
 
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
             
 
             
@@ -278,8 +323,24 @@ Provides support for camera procedural animation.</div>
 
             <td class="type">
             
+                
+<span class="param-type">Object</span>
+|
+
+<span class="param-type">Float32Array</span>
+
+
+            
             </td>
 
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
             
 
             
@@ -296,8 +357,21 @@ Provides support for camera procedural animation.</div>
 
             <td class="type">
             
+                
+<span class="param-type">Number</span>
+
+
+            
             </td>
 
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
             
 
             
@@ -314,13 +388,26 @@ Provides support for camera procedural animation.</div>
 
             <td class="type">
             
+                
+<span class="param-type">Number</span>
+
+
+            
             </td>
 
             
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
 
             
 
-            <td class="description last">The multiplicity of zooming to the object</td>
+            <td class="description last">Zoom level value</td>
         </tr>
 
     
@@ -332,13 +419,26 @@ Provides support for camera procedural animation.</div>
 
             <td class="type">
             
+                
+<span class="param-type">Number</span>
+
+
+            
             </td>
 
             
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
 
             
 
-            <td class="description last">Zooming time</td>
+            <td class="description last">The time it takes to zoom on the target</td>
         </tr>
 
     
@@ -350,31 +450,59 @@ Provides support for camera procedural animation.</div>
 
             <td class="type">
             
+                
+<span class="param-type">Number</span>
+
+
+            
             </td>
 
             
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
 
             
 
-            <td class="description last">Delay after zooming</td>
+            <td class="description last">Delay before the camera zooms back</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>callback</code></td>
+                <td class="name"><code>zoom_cb</code></td>
             
 
             <td class="type">
             
+                
+<span class="param-type"><a href="global.html#zoom_callback">zoom_callback</a></span>
+
+
+            
             </td>
 
             
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
 
             
 
-            <td class="description last">Optional callback</td>
+            <td class="description last">Optional zoom callback</td>
         </tr>
 
     
@@ -405,7 +533,7 @@ Provides support for camera procedural animation.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="camera_anim.js.html">addons/camera_anim.js</a>, <a href="camera_anim.js.html#line33">line 33</a>
+        <a href="camera_anim.js.html">addons/camera_anim.js</a>, <a href="camera_anim.js.html#line38">line 38</a>
     </li></ul></dd>
     
 
@@ -454,7 +582,7 @@ Provides support for camera procedural animation.</div>
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-dev</a> on Wed May 14 2014 10:58:09 GMT+0400 (MSK)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-dev</a> on Wed Jun 25 2014 18:01:33 GMT+0400 (MSK)
 </footer>
 
 <script> prettyPrint(); </script>

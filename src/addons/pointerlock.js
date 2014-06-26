@@ -1,8 +1,9 @@
 "use strict";
 
 /**
- * Pointerlock add-on.
- * Provides pointerlock support.
+ * Pointer lock add-on.
+ * Provides support for mouse pointer lock and low-level movement.
+ * @see http://www.w3.org/TR/pointerlock/
  * @module pointerlock
  */
 b4w.module["pointerlock"] = function(exports, require) {
@@ -51,11 +52,11 @@ exports.request_pointerlock = request_pointerlock;
  * Request pointer lock mode.
  * Security issues: execute by user event.
  * @method module:pointerlock.request_pointerlock
- * @param elem Element
- * @param [enabled_cb] Enabled callback
- * @param [disabled_cb] Disabled callback
- * @param [mouse_move_cb] Mouse movement event callback
- * @param [check_mouse_control] Check mouse control
+ * @param {HTMLElement} elem Element
+ * @param {pointerlock_enabled_callback} [enabled_cb] Enabled callback
+ * @param {pointerlock_disabled_callback} [disabled_cb] Disabled callback
+ * @param {pointerlock_mouse_move_callback} [mouse_move_cb] Mouse movement event callback
+ * @param {check_mouse_control_callback} [check_mouse_control] Check the mouse control
  */
 function request_pointerlock(elem, enabled_cb, disabled_cb, mouse_move_cb, check_mouse_control) {
 
@@ -123,7 +124,7 @@ function request_pointerlock(elem, enabled_cb, disabled_cb, mouse_move_cb, check
 
 exports.exit_pointerlock = exit_pointerlock;
 /**
- * Exit pointerlock.
+ * Exit the pointer lock.
  * @method module:pointerlock.exit_pointerlock
  */
 function exit_pointerlock() {
@@ -139,10 +140,10 @@ function exit_pointerlock() {
 
 exports.request_mouse_drag = request_mouse_drag;
 /**
- * Request drug mode.
- * @param elem Element
+ * Request drag mode.
+ * @param {HTMLElement} elem Element
  * @param switch_drag Drag mouse mode (ENABLE_DRAG or DISABLE_DRAG)
- * @param {check_mouse_control} [check_mouse_control] Check mouse control
+ * @param {check_mouse_control_callback} [check_mouse_control] Check the mouse control
  * callback
  * @method module:pointerlock.requrest_mouse_drag
  */

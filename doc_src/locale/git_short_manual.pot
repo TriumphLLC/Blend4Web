@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: B4W 14.05.22\n"
+"Project-Id-Version: B4W 14.03.28\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-21 10:39+0400\n"
+"POT-Creation-Date: 2014-04-03 12:59\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,595 +17,452 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: ../git_short_manual.rst:7
-# c957c46b37d94ae1a539254760d2066e
-msgid "Работа в команде. Использование git"
+# fe5a7dfc81eb4eb2b1322752942e240b
+msgid "Краткая справка по git"
 msgstr ""
 
 #: ../git_short_manual.rst:12
-#: ../git_short_manual.rst:416
-# f50b09528d464090b9e251020ec0d6da
-# 339bff6826b2430780d8ff279756344f
-msgid "Общие сведения"
+# f09d2faed4b74590850b76567e1d96e7
+msgid "Назначение"
 msgstr ""
 
 #: ../git_short_manual.rst:14
-# 7ff8a8c46b24491da46efa6f0635663a
-msgid "Для организации командной работы над проектом может быть использована система контроля версий файлов git."
+# 535818dbde584bd6a0a6e00dfe4cd25e
+msgid "Git - система контроля версий файлов. Основная функция git - сохранение истории изменений с возможностью возврата к предыдущим версиям файлов. Другая важная функция - синхронизация с автоматическим слиянием изменений."
 msgstr ""
 
-#: ../git_short_manual.rst:16
-# 89a5f652ea7b4e148835e65982cf2f8c
-msgid "Основная функция git - сохранение истории изменений с возможностью возврата к предыдущим версиям файлов. Другая важная функция - синхронизация с автоматическим слиянием изменений."
-msgstr ""
-
-#: ../git_short_manual.rst:18
-# 84805ffeac7d424d8f5c54980b6b66cd
-msgid "git - распределенная система, и каждый разработчик или дизайнер имеет собственный локальный репозиторий (хранилище). Синхронизация между локальными репозиториями может осуществляться через центральное \"общее\" хранилище, которое можно разместить на специально выделенной для этой цели машине (сервере). К серверу может быть организован доступ по протоколу SSH."
-msgstr ""
-
-#: ../git_short_manual.rst:24
-# 264a55e8ab72418d9855ed5f5c64a7fd
+#: ../git_short_manual.rst:20
+# 8a02337f61624178b3b9cf8e5371eb5d
 msgid "Типичный рабочий процесс"
 msgstr ""
 
-#: ../git_short_manual.rst:26
-# 712e91e393cd46419c431e652ff24cbc
-msgid "В ходе работы в локальных репозиториях создаются, изменяются или удаляются файлы."
+#: ../git_short_manual.rst:22
+# 40558140aaae413b8aa4a067918a888b
+msgid "Каждый сотрудник имеет собственный локальный репозиторий (хранилище)."
 msgstr ""
 
-#: ../git_short_manual.rst:27
-# fe6bd10cdc5643cd82d20a0169fc148a
+#: ../git_short_manual.rst:23
+# 2b406e60650a423fab43811db17a9ae5
+msgid "В ходе работы в репозитории создаются, изменяются или удаляются файлы."
+msgstr ""
+
+#: ../git_short_manual.rst:24
+# fd92d29d2a144e91a9c8320d31cb0c9e
 msgid "По завершении некоторого логического этапа работы возникает необходимость фиксации изменений (коммит) и/или синхронизации с коллегами."
 msgstr ""
 
-#: ../git_short_manual.rst:28
-# caef8fe4aec1498aad4e633fc1f792eb
+#: ../git_short_manual.rst:25
+# 3e7c8580d1fb437988a57cff26440851
 msgid "Проводится подготовка файлов к коммиту - учет измененных, новых и удаленных файлов, а также сброс изменений."
 msgstr ""
 
-#: ../git_short_manual.rst:29
-# 70444804fc3541079561104f0c44a938
+#: ../git_short_manual.rst:26
+# 07f94dbec8094b97902df4acee773376
 msgid "Осуществляется коммит."
 msgstr ""
 
-#: ../git_short_manual.rst:30
-# 00582e0982fb455e8ccce3e924e26177
-msgid "Локальные изменения загружаются в общее хранилище и становятся доступными для коллег."
-msgstr ""
-
-#: ../git_short_manual.rst:33
-# 8be02dd6e286426e914f15eee192c3ab
-msgid "Для git имеются графические оболочки, предоставляющие пользовательский интерфейс к командам. Тем не менее, непосредственный ввод команд git достаточно удобен."
+#: ../git_short_manual.rst:27
+# 02c8a3c40371480bb7da6fb086940e51
+msgid "Проводится синхронизация с коллегами."
 msgstr ""
 
 #: ../git_short_manual.rst:35
-# 845c0edd2acb41ca94d8dc657f56ff51
-msgid "Далее описывается ограниченный набор команд git, рекомендуемых к использованию при создании приложений и графических ресурсов."
-msgstr ""
-
-#: ../git_short_manual.rst:37
-# ae49483303384c61b2676043c8b8ad28
-msgid "Перед выполнением команд необходимо перейти в репозиторий, например:"
-msgstr ""
-
-#: ../git_short_manual.rst:50
-# 6e14a671ad6244fe8b2bb874e49255d4
+# bb1251646c384f94bf3be7bf16117778
 msgid "Индивидуальные настройки"
 msgstr ""
 
+#: ../git_short_manual.rst:37
+# 03a5a348a9eb42acb40faff3c078bf8c
+msgid "Новый пользователь устанавливает имя и почтовый адрес командами:"
+msgstr ""
+
+#: ../git_short_manual.rst:50
+# 45a98aacb8eb4e709efa3a9049412179
+msgid "Пример - начало работы"
+msgstr ""
+
 #: ../git_short_manual.rst:52
-# f0962d29bdf448d988ccba86dd1625e5
-msgid "Новый пользователь может устанавить имя и почтовый адрес командами:"
+# c43d80c756864b9485320d008f646414
+msgid "Перейти в репозиторий:"
 msgstr ""
 
-#: ../git_short_manual.rst:60
-# e7328cc846964510a1ceea54d0724d00
-msgid "Установленные данные будут использоваться в логе изменений."
+#: ../git_short_manual.rst:59
+# b931a645b70542498c0a4b051358f64e
+msgid "Проверить статус:"
 msgstr ""
 
-#: ../git_short_manual.rst:68
-# 5a7716d079ef408aaf85487651b9e034
-msgid "Проверка статуса"
-msgstr ""
-
-#: ../git_short_manual.rst:70
-# 85a3fbc28d3f493cbfb2c26be2dfd0db
-msgid "Перед началом, в процессе или после выполнения любых операций рекомендуется проверять текущее состояние репозитория."
-msgstr ""
-
-#: ../git_short_manual.rst:72
-# 92568793f99c49edaf4d764c4c77ef11
-msgid "Проверить статус можно командой:"
-msgstr ""
-
-#: ../git_short_manual.rst:79
-# b68acac4933843978a2231687529e2d2
+#: ../git_short_manual.rst:66
+# e171afc91dd5410384a2cbae246d35a3
 msgid "Результат команды ``git status``, если все коммиты проведены и нет новых файлов:"
 msgstr ""
 
-#: ../git_short_manual.rst:88
-# e6a1e2278b484917bb95418915981a7a
+#: ../git_short_manual.rst:75
+# ce03c41f9dc8474a9dee51659f50f5d7
 msgid "Возможный результат команды ``git status``, если имеются изменения. Например, файлы :file:`apps_dev/firstperson/firstperson.js` и :file:`doc_src/git_short_manual.rst` изменены, и создан новый файл :file:`123.txt`:"
 msgstr ""
 
-#: ../git_short_manual.rst:112
-# b46d26d76c98459baf471def6eae7416
-msgid "Перед коммитом"
+#: ../git_short_manual.rst:99
+# 8cf227002f8344aa97dbb449e0063fce
+msgid "Пример - подготовка к коммиту"
 msgstr ""
 
-#: ../git_short_manual.rst:115
-# afa3cda2faa242ff8a89b36bebe5cd88
-msgid "Проверка изменений (текстовых файлов)"
+#: ../git_short_manual.rst:102
+# e162a6a826fb4247a4ef543efde84a22
+msgid "Проверка изменений"
 msgstr ""
 
-#: ../git_short_manual.rst:117
-# 0ec31f9728e441fd97006c00a0dbee79
-msgid "Перед совершением коммита в случае текстовых файлов рекомендуется просмотреть внесенные изменения."
-msgstr ""
-
-#: ../git_short_manual.rst:119
-# 92568793f99c49edaf4d764c4c77ef11
+#: ../git_short_manual.rst:104
+# d5442eb1069d405c9344ec47e675015c
 msgid "Проверить, что изменилось, во всей директории:"
 msgstr ""
 
-#: ../git_short_manual.rst:125
-# 2b5c03c648b44b7b8532ee1a13fbf2e4
+#: ../git_short_manual.rst:110
+# 665d133e03a447fb8bdc1882bc44bac6
 msgid "или только в определенном файле:"
 msgstr ""
 
-#: ../git_short_manual.rst:131
-# 7c497caa381f491fb72a70091769beee
+#: ../git_short_manual.rst:116
+# 48c6bb89c51f4e03b14f8c800acc6b3a
 msgid "Возможный результат команды ``git diff`` для текстового файла:"
 msgstr ""
 
-#: ../git_short_manual.rst:150
-# f6fd5ce3cec14d2390f341e109b08e30
+#: ../git_short_manual.rst:135
+# 9d75646c73624c90aa602182f6bf1909
 msgid "Восстановление файлов"
 msgstr ""
 
-#: ../git_short_manual.rst:152
-# d8f19809acaf4c809c306dac4d972934
+#: ../git_short_manual.rst:137
+# 89c944739f5643d9a9a6e05ad4cf3e78
 msgid "Если файл был изменен или удален, но его необходимо восстановить (до состояния, зафиксированного последним коммитом), следует использовать команду:"
 msgstr ""
 
-#: ../git_short_manual.rst:159
-# b1312d33936a4f5ab152759b7b5e125b
-msgid "Внесенные изменения будут отменены, поэтому эту команду необходимо выполнять с осторожностью."
-msgstr ""
-
-#: ../git_short_manual.rst:163
-# 71ed4eee383247a4936ff8c00a12f7ba
+#: ../git_short_manual.rst:146
+# 13bb920be1e348618e92f3d23559c46d
 msgid "Посторонние файлы"
 msgstr ""
 
-#: ../git_short_manual.rst:165
-# bbd8edc163b64308a500c2e03f152a4e
+#: ../git_short_manual.rst:148
+# 435f703524f6429395fc4b12e2c4bbc3
 msgid "Если файл значится в списке ``Untracked files`` (команда ``git status``), но контроль версий для него не нужен, его следует удалить или переместить за пределы рабочей директории."
 msgstr ""
 
-#: ../git_short_manual.rst:175
-# 268a5338b6014c48a8ca6d7972f5f19e
-msgid "Подготовка к коммиту"
+#: ../git_short_manual.rst:156
+# 48d45dfbdac54132be1fb8b435aa8443
+msgid "Пример - добавление и удаление файлов для коммита"
 msgstr ""
 
-#: ../git_short_manual.rst:178
-# 98184379b3704742acab661b8ae42bec
+#: ../git_short_manual.rst:159
+# c4d536ded4bb41d2872e1d355f02334d
 msgid "Добавление файлов"
 msgstr ""
 
-#: ../git_short_manual.rst:180
-# 69518811f21f4b24b357ff5bdfdf32e5
+#: ../git_short_manual.rst:161
+# 2d9907d73e9842fe8c27807979f632d6
 msgid "Если изменения устраивают, добавить нужные измененные и/или новые файлы для коммита:"
 msgstr ""
 
-#: ../git_short_manual.rst:187
-# 0889a0f532034ccd9777880ba0cbf05e
+#: ../git_short_manual.rst:168
+# 323d5afac1c14c5a959538ce74aced4a
 msgid "Снова проверить статус:"
 msgstr ""
 
-#: ../git_short_manual.rst:193
-# 2181e633abd74fd58e3d43525d7f9203
+#: ../git_short_manual.rst:174
+# d644b7e1769249b89b4d4a4bd1cb079d
 msgid "Возможный результат команды ``git status`` после добавления некоторых файлов командой ``git add``:"
 msgstr ""
 
-#: ../git_short_manual.rst:211
-# 1786c68845654e0892133a48da083c6d
-msgid "Видно, что для коммита добавлены файлы :file:`apps_dev/firstperson/firstperson.js` и :file:`123.txt`, а файл :file:`doc_src/git_short_manual.rst` остался недобавленным. Для упрощения работы рекомендуется либо добавлять такие файлы для коммита, либо отбрасывать их изменения командой ``git checkout``."
+#: ../git_short_manual.rst:192
+# b3820614771d4140b6a1ebd2d11aea70
+msgid "Видно, что для коммита добавлены файлы :file:`apps_dev/firstperson/firstperson.js` и :file:`123.txt`, а файл :file:`doc_src/git_short_manual.rst` остался недобавленным."
 msgstr ""
 
-#: ../git_short_manual.rst:214
-# e59b582e7ce84b15a494f1b41fbd3e0c
+#: ../git_short_manual.rst:195
+# 6532d6aa99f3488896e3e9394fd9d280
 msgid "Удаление файлов"
 msgstr ""
 
-#: ../git_short_manual.rst:216
-# 0d7fbe8db3eb4bf1b371ee45d9bb1cfc
+#: ../git_short_manual.rst:197
+# 08b4446a3b054031b892afad4cb01034
 msgid "Некоторые файлы могут быть отмечены как удаленные из git после выполнения команды ``git status``, например:"
 msgstr ""
 
-#: ../git_short_manual.rst:231
-# 873ad8d87f7640d9a456c8a9bfe4de2a
+#: ../git_short_manual.rst:212
+# 6980af6fbf5c42c59ba6faade13cb099
 msgid "В таком случае, если удаление файла должно быть зафиксировано (т.е. войти в коммит), выполнить команду ``git rm``, например:"
 msgstr ""
 
-#: ../git_short_manual.rst:237
-# d864da6f5bcb4c658c0e6e3f6634576e
-msgid "Если же файл был удален по ошибке, и его необходимо вернуть, нужно использовать команду ``git checkout``."
+#: ../git_short_manual.rst:224
+# 0a5d910d5fdc4b61a38dd45c0b69c499
+msgid "Пример - коммит"
 msgstr ""
 
-#: ../git_short_manual.rst:245
-# b46d26d76c98459baf471def6eae7416
-msgid "Коммит"
+#: ../git_short_manual.rst:227
+# ede8dd2805584c5aad9cb04487b84551
+msgid "Выполнение коммита"
 msgstr ""
 
-#: ../git_short_manual.rst:247
-# e2a4c5f73bee454c87be2017f628e220
+#: ../git_short_manual.rst:229
+# e7900a1bf59149ae967b9cfd0d1e4ff5
 msgid "Выполнить коммит командой:"
 msgstr ""
 
-#: ../git_short_manual.rst:253
-# 00f0fe0b919243e583fba057ac8ac09d
-msgid "Появится окно текстового редактора (например, **nano** или **vim**), в котором нужно ввести комментарий к коммиту на английском языке."
+#: ../git_short_manual.rst:235
+# c93567769b26401b875a4a480cd0c716
+msgid "Появится окно текстового редактора (например, nano или vim), в котором нужно ввести комментарий к коммиту на английском языке."
 msgstr ""
 
-#: ../git_short_manual.rst:279
-# 0096021491f744c6be73fa0b7c0d8f43
-msgid "Сохранить изменения и выйти из редактора (в **nano** Ctrl+O, затем Ctrl+X; в **vim** ZZ, или ESC :wq)."
+#: ../git_short_manual.rst:261
+# 19a5996a04ba495a9f2233d79467e78c
+msgid "Сохранить изменения и выйти из редактора (в nano Ctrl+O, затем Ctrl+X; в vim ZZ, или ESC :wq)."
 msgstr ""
 
-#: ../git_short_manual.rst:281
-# 02e50ca617e544088ede2ebfffa930d9
-msgid "После совершения коммита рекомендуется снова проверить статус. Коммит совершен правильно, если команда ``git status`` отображает ``nothing to commit, working directory clean``."
+#: ../git_short_manual.rst:265
+# c96446fad3fe47f4a4a2de6946f21ec4
+msgid "После коммита"
 msgstr ""
 
-#: ../git_short_manual.rst:290
-# 6c1222b5067b47c9a4e6ae47db8853df
-msgid "Синхронизация между репозиториями"
+#: ../git_short_manual.rst:267
+# 77e48f32e21f4933ad1c18472640b0ba
+msgid "После совершения коммита рекомендуется снова проверить статус."
 msgstr ""
 
-#: ../git_short_manual.rst:293
-# d2d6469fa6954e5291bca3ee1666ec74
+#: ../git_short_manual.rst:273
+# 0f02fa66e8c64dc6ba931e64f5ae1c8e
+msgid "Возможный результат команды ``git status`` после совершения коммита:"
+msgstr ""
+
+#: ../git_short_manual.rst:288
+# ec926bebb48848c4b72d9be2921ef3bf
+msgid "Как видно, изменения в файле :file:`doc_src/git_short_manual.rst` не зафиксированы. Необходимо завершить добавление файлов и коммиты, либо восстановить измененные файлы. Иначе говоря, необходимо добиться, чтобы команда ``git status`` отображала ``nothing to commit (working directory clean)``."
+msgstr ""
+
+#: ../git_short_manual.rst:296
+# 5be9368d333e4cafb8ae4e541ae02968
+msgid "Пример - синхронизация между репозиториями"
+msgstr ""
+
+#: ../git_short_manual.rst:299
+# 6bc5db2b4ee847058d09ef0db1fb332b
 msgid "Из удаленного - в локальный"
 msgstr ""
 
-#: ../git_short_manual.rst:295
-# db332d4b47ea4f3bb86389a6f99ec08c
-msgid "После того как все коммиты сделаны, необходимо загрузить изменения из удаленного (\"общего\") репозитория в локальный:"
-msgstr ""
-
 #: ../git_short_manual.rst:301
-# efe09857d7bb479585beabf6855e5f96
-msgid "Результат команды ``git pull``, если в удаленном репозитории нет изменений:"
+# 22d513c4a2484bd0a2281ad866e684ad
+msgid "После того как все коммиты сделаны, синхронизировать локальный репозиторий с удаленным:"
 msgstr ""
 
 #: ../git_short_manual.rst:307
-# a1f26d62d3eb49a893fee14d61f77eb1
+# 9f8562d10da44a8f9d76107d7ec3df61
+msgid "Результат команды ``git pull``, если в удаленном репозитории нет изменений:"
+msgstr ""
+
+#: ../git_short_manual.rst:313
+# 00ed9c57f7914edd89f67901d144cc85
 msgid "Результат команды ``git pull``, если в удаленном репозитории были изменения, и синхронизация прошла успешно:"
 msgstr ""
 
-#: ../git_short_manual.rst:329
-# 4dc782cc749945dd85367e3c08f7ce39
-msgid "При желании можно посмотреть, какие изменения были внесены коллегами, командой:"
-msgstr ""
-
 #: ../git_short_manual.rst:335
-# 996c25df76974658b3ffad69e0b5f755
-msgid "Параметр этой команды - в данном случае dbf3877..9f9700c - указывает, между какими именно коммитами просматриваются изменения. Этот параметр удобно выделить в результатах команды ``git pull`` и вставить щелчком мыши (средняя кнопка) в консоли в нужном месте."
+# ec716ff70d8944fe8eddd9610472f2b9
+msgid "Посмотреть, какие изменения были внесены коллегами:"
 msgstr ""
 
-#: ../git_short_manual.rst:338
-# da1e4a4a81114569a395c4b68cc91996
-msgid "Также можно просмотреть лог изменений:"
+#: ../git_short_manual.rst:341
+# abf7bf3d21354a04a7160f161151b806
+msgid "Посмотреть лог:"
 msgstr ""
 
-#: ../git_short_manual.rst:345
-# 240e8ddc3cfc4839989c93506ec094ac
-msgid "Команда ``git pull`` не всегда приводит в успешной синхронизации. Результат команды ``git pull`` в случае наличия конфликтов:"
-msgstr ""
-
-#: ../git_short_manual.rst:362
-# e567189dacf14c53a39d96a1a7be32be
-msgid "Порядок действий при возникновении конфликтов описан далее."
+#: ../git_short_manual.rst:347
+# 10db267b5b7f4649a70ae2f738df3f3a
+msgid "Результат команды ``git pull``, если в удаленном репозитории были изменения, но синхронизация не прошла успешно, потому что есть конфликты:"
 msgstr ""
 
 #: ../git_short_manual.rst:367
-# 5709f1655a114935ab8eb004cd94bc4f
-msgid "Из локального - в удаленный"
-msgstr ""
-
-#: ../git_short_manual.rst:369
-# 4db29915374244b1ace94b3921deef5f
-msgid "Затем нужно загрузить изменения из локального репозитория в удаленный (\"общий\"), чтобы локальные изменения стали доступными для коллег."
-msgstr ""
-
-#: ../git_short_manual.rst:375
-# c520c6037872420e9b622bd6041071a6
-msgid "Результат команды ``git push``, если в удаленном репозитории уже есть все локальные изменения:"
-msgstr ""
-
-#: ../git_short_manual.rst:381
-# 2951fed4d42947b58fb58546ada32643
-msgid "Результат команды ``git push``, если синхронизация прошла успешно:"
-msgstr ""
-
-#: ../git_short_manual.rst:393
-# 10cfd31669c34edb8d7bc5dc8597ff6a
-msgid "Результат команды ``git push``, если синхронизация не прошла, потому что сначала не была выполнена команда ``git pull``:"
-msgstr ""
-
-#: ../git_short_manual.rst:404
-# 027846fbc6934015ad567e555cb76cc7
-msgid "Необходимо выполнить команду ``git pull``."
-msgstr ""
-
-#: ../git_short_manual.rst:406
-# e18e4fec2e2844efa4b05d18d753f6f0
-msgid "Изменения, загруженные в центральный репозиторий, могут быть получены другими участниками разработки с помощью команды ``git pull``."
-msgstr ""
-
-#: ../git_short_manual.rst:413
-# 1940954023124f29b4a6e26a54292696
+# b397cb214dc44c138166b8b12f638420
 msgid "Разрешение конфликтов"
 msgstr ""
 
-#: ../git_short_manual.rst:418
-# 1556804507084ccfb5f0a91322b5dc60
+#: ../git_short_manual.rst:369
+# 1c31a0f3de644f7cb4f3a0f1ba6b6884
 msgid "Конфликты синхронизации происходят, если выполнены оба условия"
 msgstr ""
 
-#: ../git_short_manual.rst:420
-# 35d40bfb0ade45a6848a76739e1d482b
+#: ../git_short_manual.rst:371
+# cc912a1104f448119d80274c2dd4d74d
 msgid "один и тот же файл был изменен как в локальном, так и в удаленном репозитории, и"
 msgstr ""
 
-#: ../git_short_manual.rst:421
-# 9523bba252bb41adae629a142352601c
+#: ../git_short_manual.rst:372
+# 455d25cef4bd4a7e8e5a00b40a0d2663
 msgid "автоматическое слияние изменений не произошло, поскольку изменения находятся в одном и том же месте файла."
 msgstr ""
 
-#: ../git_short_manual.rst:423
-# cf0429de52eb40759b5330604ac7cce7
+#: ../git_short_manual.rst:374
+# b34eadc08e144bac8903a08822152a54
 msgid "Типичные случаи:"
 msgstr ""
 
-#: ../git_short_manual.rst:425
-# 7d9065becd774f17b8d29c0bdea16aff
-msgid "бинарный файл (текстура, blend-файл) независимо изменен двумя участниками разработки"
+#: ../git_short_manual.rst:376
+# afc172c25b9b441080115ac1dd186b03
+msgid "бинарный файл (текстура, blend-файл) изменен двумя сотрудниками"
 msgstr ""
 
-#: ../git_short_manual.rst:426
-# 40bc620b875c4c3bad9325d7751a86aa
+#: ../git_short_manual.rst:377
+# 4536c65ded684521991507a01817333f
 msgid "в текстовой файл в одной и той же строке были внесены разные изменения"
 msgstr ""
 
-#: ../git_short_manual.rst:427
-# 0c7238c7dd074dd5ad9556e6d5f80ede
-msgid "один участник разработки изменил файл, а другой - переместил его и т.п."
+#: ../git_short_manual.rst:378
+# 661120eaf52341b48ac5df84890072fe
+msgid "один сотрудник изменил файл, а другой - переместил его и т.п."
 msgstr ""
 
-#: ../git_short_manual.rst:429
-# 668f7461a4894312a8786d06529ee018
-msgid "Хотя конфликты синхронизации - нормальное явление, слишком частое их возникновение замедляет работу. Рекомендуется ставить коллег в известность о начале работ с общими бинарными файлами, а также чаще проводить синхронизацию. Необходимо эффективно распределять работу между участниками разработки, чтобы таких общих файлов было как можно меньше. Этого можно добиться, в частности, подключением всех ресурсов сцены (linking) из отдельных blend-файлов в один мастер-файл."
+#: ../git_short_manual.rst:380
+# ce3cd47f79964991b84bc302fe757beb
+msgid "Хотя конфликты синхронизации - нормальное явление, слишком частое их возникновение замедляет работу. Рекомендуется ставить коллег в известность о начале работ с бинарными файлами, а также чаще проводить синхронизацию."
 msgstr ""
 
-#: ../git_short_manual.rst:433
-# ca0e065436954849a41374e2c5f514b9
-msgid "Порядок действий"
-msgstr ""
-
-#: ../git_short_manual.rst:435
-# 8136b78c16e04ec1ad261079eed91ea8
-msgid "Не рекомендуется производить какие-либо действия с файлами (изменять, удалять), пока репозиторий находится в конфликтном состоянии."
-msgstr ""
-
-#: ../git_short_manual.rst:437
-# 5858ade11baf4dbdab73bea1c62a0d3e
+#: ../git_short_manual.rst:382
+# 2cd33534db454374b44ac3d4a802a36c
 msgid "Первое что необходимо сделать - выполнить команду ``git status``."
 msgstr ""
 
-#: ../git_short_manual.rst:452
-# 4bd65c1b5bd74a128e0f4412b7f91528
-msgid "Список конфликтующих файлов отображен в разделе ``Unmerged paths``."
+#: ../git_short_manual.rst:397
+# f2d393bebffe467e88d2c9ed4cf48c28
+msgid "Список конфликтующих файлов отображен в разделе ``Unmerged paths``. На данном этапе конфликтующие файлы находятся в следующем состоянии:"
 msgstr ""
 
-#: ../git_short_manual.rst:454
-# 674900d599de436a91278d4d52ea61ae
-msgid "Дальнейший порядок действий различен для бинарных и текстовых файлов."
+#: ../git_short_manual.rst:399
+# f67b445e92494fb1b928a415848020f3
+msgid "бинарные файлы - в том состоянии, в котором они находились в локальном репозитории до попытки синхронизации, при этом файлы полностью функциональны (например, открываются графическими редакторами)"
 msgstr ""
 
-#: ../git_short_manual.rst:457
-# 71ed4eee383247a4936ff8c00a12f7ba
-msgid "Бинарные файлы"
+#: ../git_short_manual.rst:400
+# 8db1aef851e441a0a332a5f7afef150f
+msgid "текстовые файлы - git'ом вносятся как локальные, так и удаленные изменения одновременно, в особом формате, так что такие текстовые файлы как правило, не работоспособны"
 msgstr ""
 
-#: ../git_short_manual.rst:459
-# 04f80298e4e14952ad7331e2a6c5ff56
-msgid "На данном этапе конфликтующие бинарные файлы находятся в том состоянии, в котором они находились в локальном репозитории до попытки синхронизации. Файлы полностью функциональны (например, открываются графическими редакторами)."
+#: ../git_short_manual.rst:402
+# 63f66046247443a891c339e916bf122b
+msgid "В случае конфликта бинарных файлов необходимо выяснить с коллегами или самостоятельно, какую из версий оставить, а какую отобросить. Выбор осуществляется командой ``git checkout``."
 msgstr ""
 
-#: ../git_short_manual.rst:461
-# 8e546e2d7b374582b93e2a149b4e308b
-msgid "В случае конфликта бинарных файлов необходимо выяснить с коллегами или самостоятельно, какую из версий оставить, а какую отбросить. Выбор осуществляется командой ``git checkout``."
+#: ../git_short_manual.rst:404
+# d93d75078a434c67a5c768e9f2f6e9de
+msgid "Выбрать локальную версию файла. Его можно открыть и убедиться в этом."
 msgstr ""
 
-#: ../git_short_manual.rst:463
-# 998c30a7808d4e0e801e8684b60582ea
-msgid "Выбрать локальную версию файла (**- -ours**). Его можно открыть и убедиться в этом."
+#: ../git_short_manual.rst:410
+# 390f3f1a0a32432ca1eeeda369023b41
+msgid "Выбрать удаленную версию файла. Его можно открыть и убедиться в этом."
 msgstr ""
 
-#: ../git_short_manual.rst:469
-# fb4eae7aac734e8dbaa05b1bb8a1ef4d
-msgid "Выбрать удаленную версию файла (**- -theirs**). Его можно открыть и убедиться в этом."
+#: ../git_short_manual.rst:416
+# afd30ab227b24cd987dcb18e4be3a1ed
+msgid "Снова выбрать локальную версию файла."
 msgstr ""
 
-#: ../git_short_manual.rst:475
-# 71e95a53eb8749d4a0976ce605e9fd9a
-msgid "Снова выбрать локальную версию файла (**- -ours**)."
+#: ../git_short_manual.rst:422
+# 6b50d11fc6af4568bb23b965540398b8
+msgid "В случае конфликта текстовых файлов можно поступить следующим образом. Файлы, содержащие исходный код, необходимо отредактировать с учетом или без учета внесенных обеими сторонами изменений. Файлы, экспортированные из приложений, проще повторно экспортировать."
 msgstr ""
 
-#: ../git_short_manual.rst:481
-# 281e5226ebc14f109cdbcd5a4ece4d21
-msgid "В итоге необходимо остановиться на нужной версии файла. При угрозе потери работы можно сохранить отбрасываемую версию файла вне репозитория."
-msgstr ""
-
-#: ../git_short_manual.rst:485
-# 71ed4eee383247a4936ff8c00a12f7ba
-msgid "Текстовые файлы"
-msgstr ""
-
-#: ../git_short_manual.rst:487
-# d6bcd8be475e478e854ca91aa77b43c7
-msgid "На данном этапе в конфликтующие текстовые файлы git'ом вносятся как локальные, так и удаленные изменения одновременно, в особом формате. Такие текстовые файлы как правило, не работоспособны."
-msgstr ""
-
-#: ../git_short_manual.rst:489
-# 12f4eef57fee4ceba68351c56a10cb74
-msgid "Пример. Один участник разработки изменил имя сцены с \"Blue Lizard\" на \"Green Lizard\" в файле приложения и загрузил изменения в центральный репозиторий. Другой участник разработки изменил в той же строке \"Blue Lizard\" на \"Red Lizard\", совершил коммит и выполнил команду ``git pull``. В результате именно на этого участника ложится ответственность по разрешению конфликта. В его файле приложения будут находиться строки:"
-msgstr ""
-
-#: ../git_short_manual.rst:499
-# 157d652354ff4a15acff866714d552ff
-msgid "В случае конфликта текстовых файлов можно поступить следующим образом. Файлы, содержащие исходный код, необходимо отредактировать с учетом или без учета внесенных обеими сторонами изменений. В то же время экспортированные текстовые файлы сцен (заканчивающиеся на **.json**) проще повторно экспортировать."
-msgstr ""
-
-#: ../git_short_manual.rst:503
-# 70444804fc3541079561104f0c44a938
-msgid "Корректирующий коммит"
-msgstr ""
-
-#: ../git_short_manual.rst:505
-# a7d67ba41cb54d11aadcbaf8e749ed83
+#: ../git_short_manual.rst:424
+# 76270de1dab145d28a1ce53a47f8af3b
 msgid "После выбора нужных файлов или редактирования изменений, добавить их для коммита:"
 msgstr ""
 
-#: ../git_short_manual.rst:512
-# 8016309f2a8143da97d30eed59bc321a
+#: ../git_short_manual.rst:431
+# 7f04a9bdfa854508b2fd9005f32e6e02
 msgid "Возможный результат выполнения ``git status`` после добавления конфликтующих файлов для коммита:"
 msgstr ""
 
-#: ../git_short_manual.rst:522
-# 9fdb17f9eef9427da68f311bd3e37e73
+#: ../git_short_manual.rst:441
+# b04f80cca6844974972ce7768efb377b
 msgid "Выполнить коммит, комментарий рекомендуется оставить предложенный по умолчанию:"
 msgstr ""
 
-#: ../git_short_manual.rst:536
-# e660c89c31224a40bd9b4b748d3a3d5a
-msgid "Конфликты разрешены, изменения из удаленного репозитория успешно применены в локальном репозитории. Теперь изменения в локальном репозитории, - включающие только что разрешенный конфликт, - можно загрузить в удаленный репозиторий командой ``git push``."
+#: ../git_short_manual.rst:455
+# 48d8d5bd47c74bf0a157bee980755543
+msgid "Конфликты разрешены, синхронизация с удаленным репозиторием закончена."
 msgstr ""
 
-#: ../git_short_manual.rst:545
-# 843692886f7045919455249cdc534b9c
-msgid "Тэги"
+#: ../git_short_manual.rst:458
+# d5f7a505acf0493480e94cfb012379bb
+msgid "Из локального - в удаленный"
 msgstr ""
 
-#: ../git_short_manual.rst:547
-# c0986fe27e2d411f927deae0ba33b3c9
-msgid "Тэги (метки) предназначены для указания на определенный коммит, например, с целью обозначения стабилизированной версии продукта."
+#: ../git_short_manual.rst:460
+# f5cc9877688e45e2b165159f2802da1f
+msgid "Затем нужно синхронизировать удаленный репозиторий с локальным, чтобы изменения были доступны в удаленном репозитории:"
 msgstr ""
 
-#: ../git_short_manual.rst:549
-# 49c89f876dfa44a28aff3988e745e3ef
+#: ../git_short_manual.rst:466
+# 07155abaf8754c87a81871a744313f4c
+msgid "Результат команды ``git push``, если в удаленном репозитории уже есть все локальные изменения:"
+msgstr ""
+
+#: ../git_short_manual.rst:472
+# d1e7815a02924ed495746aae7eb855e3
+msgid "Результат команды ``git push``, если синхронизация прошла успешно:"
+msgstr ""
+
+#: ../git_short_manual.rst:484
+# 8649a00571c7475eaf6c5fd8e5b6c801
+msgid "Результат команды ``git push``, если синхронизация не прошла, потому что сначала не была выполнена команда ``git pull``:"
+msgstr ""
+
+#: ../git_short_manual.rst:495
+# ba7cf0669bd240298611823812de4f61
+msgid "Необходимо выполнить команду ``git pull``."
+msgstr ""
+
+#: ../git_short_manual.rst:503
+# a975e4e21d8e4d3b992ce40e1b07383f
+msgid "Памятка по тэгам для разработчиков"
+msgstr ""
+
+#: ../git_short_manual.rst:505
+# 4c5b6e07915a434db11b7165f0d9d34f
 msgid "Просмотреть список тэгов:"
 msgstr ""
 
-#: ../git_short_manual.rst:556
-# 2b89247e160b48fd8e59664de452d2a7
+#: ../git_short_manual.rst:512
+# 30642a1a2f964b12805fcfc3fb7fbe7d
 msgid "Создать тэг для релиза от 3 июня 2013 г., указывающий на коммит со стабильной версией проекта:"
 msgstr ""
 
-#: ../git_short_manual.rst:563
-# 0598c78e30514740bc560847b2d8c9ca
+#: ../git_short_manual.rst:519
+# 8bc5db0d3bcc46bd969ff054a8c5006d
 msgid "Просмотреть информацию о коммите тэга:"
 msgstr ""
 
-#: ../git_short_manual.rst:570
-# 1578e4304d2844e49a3fcb9ae46baaa7
+#: ../git_short_manual.rst:526
+# d365e3292ae241ba82df4d747c11af2b
 msgid "Перейти к тэгу..."
 msgstr ""
 
-#: ../git_short_manual.rst:577
-# 966ef1c8363e448eb7dd4e78c3e3273f
+#: ../git_short_manual.rst:533
+# 2e1cd780295147eaad28ec4435be08d8
 msgid "...и вернуться:"
 msgstr ""
 
-#: ../git_short_manual.rst:584
-# f6bb307d39484466904017fc1258cc02
+#: ../git_short_manual.rst:540
+# 4dcd328378424b56a329572fe08355d3
 msgid "Синхронизировать тэги с удаленным репозиторием:"
 msgstr ""
 
-#: ../git_short_manual.rst:591
-# 64432b6085284344a70fc82f63296a69
+#: ../git_short_manual.rst:547
+# 3a7b53c26d9041ad961e2378e5fb2f21
 msgid "Удалить тэг (при ошибочном создании):"
 msgstr ""
 
-#: ../git_short_manual.rst:599
-# b80a1f647cb14565aaa7bf98bbbbc053
+#: ../git_short_manual.rst:555
+# cfaf3fef34a44f8480c7b249104a2bc7
 msgid "Другие полезные команды"
 msgstr ""
 
-#: ../git_short_manual.rst:601
-# 09e395043c1946c782d846ac2d95c307
+#: ../git_short_manual.rst:557
+# 2acc8bea571041ac8c8605992a6243c6
 msgid "Просмотреть лог за январь 2012 г, показывать имена файлов, без коммитов слияния:"
-msgstr ""
-
-#: ../git_short_manual.rst:1
-#: ../git_short_manual.rst:45
-#: ../git_short_manual.rst:63
-#: ../git_short_manual.rst:107
-#: ../git_short_manual.rst:170
-#: ../git_short_manual.rst:240
-#: ../git_short_manual.rst:285
-#: ../git_short_manual.rst:410
-#: ../git_short_manual.rst:540
-# 0793677003af4a5aaf9ad69428ceb14c
-# c46c295ef028492a9c2b50aa2943f761
-# e06de1e01b4f4147bbf2a1288dd85b6b
-# b1c212283b6d4910936b7d5a574e85dc
-# 69ebd8d44a934c75b8025eba40ae6586
-# 997af65d136a4345a665422224abcaa8
-# 832f07a8333d4838994472ea8552ea21
-# da6210e7da5c4d52b70f24ec0f9c3347
-# 962763c423c64d3cb84b05f8b4cc504b
-msgid "git"
-msgstr ""
-
-#: ../git_short_manual.rst:45
-# c46c295ef028492a9c2b50aa2943f761
-msgid "индивидуальные настройки"
-msgstr ""
-
-#: ../git_short_manual.rst:63
-# e06de1e01b4f4147bbf2a1288dd85b6b
-msgid "проверка статуса"
-msgstr ""
-
-#: ../git_short_manual.rst:107
-# b1c212283b6d4910936b7d5a574e85dc
-msgid "подготовка к коммиту"
-msgstr ""
-
-#: ../git_short_manual.rst:170
-# 69ebd8d44a934c75b8025eba40ae6586
-msgid "добавление и удаление файлов"
-msgstr ""
-
-#: ../git_short_manual.rst:240
-# 997af65d136a4345a665422224abcaa8
-msgid "коммит"
-msgstr ""
-
-#: ../git_short_manual.rst:285
-# 832f07a8333d4838994472ea8552ea21
-msgid "синхронизация между репозиториями"
-msgstr ""
-
-#: ../git_short_manual.rst:410
-# da6210e7da5c4d52b70f24ec0f9c3347
-msgid "разрешение конфликтов"
-msgstr ""
-
-#: ../git_short_manual.rst:540
-# 962763c423c64d3cb84b05f8b4cc504b
-msgid "тэги"
 msgstr ""
 

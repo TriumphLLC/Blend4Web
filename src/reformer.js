@@ -296,18 +296,42 @@ exports.check_bpy_data = function(bpy_data) {
             report("camera", camera, "b4w_distance_max");
         }
 
+        if (!("b4w_use_horizontal_clamping" in camera)) {
+            camera["b4w_use_horizontal_clamping"] = false;
+            report("camera", camera, "b4w_use_horizontal_clamping");
+        }
+
+        if (!("b4w_rotation_left_limit" in camera)) {
+            camera["b4w_rotation_left_limit"] = -Math.PI;
+            report("camera", camera, "b4w_rotation_left_limit");
+        }
+        if (!("b4w_rotation_right_limit" in camera)) {
+            camera["b4w_rotation_right_limit"] = Math.PI;
+            report("camera", camera, "b4w_rotation_right_limit");
+        }
+
+        if (!("b4w_horizontal_clamping_type" in camera)) {
+            camera["b4w_horizontal_clamping_type"] = "LOCAL";
+            report("camera", camera, "b4w_horizontal_clamping_type");
+        }
+
         if (!("b4w_use_vertical_clamping" in camera)) {
             camera["b4w_use_vertical_clamping"] = false;
             report("camera", camera, "b4w_use_vertical_clamping");
         }
 
         if (!("b4w_rotation_down_limit" in camera)) {
-            camera["b4w_rotation_down_limit"] = Math.PI / 2;
+            camera["b4w_rotation_down_limit"] = -Math.PI / 2;
             report("camera", camera, "b4w_rotation_down_limit");
         }
         if (!("b4w_rotation_up_limit" in camera)) {
             camera["b4w_rotation_up_limit"] = Math.PI / 2;
             report("camera", camera, "b4w_rotation_up_limit");
+        }
+
+        if (!("b4w_vertical_clamping_type" in camera)) {
+            camera["b4w_vertical_clamping_type"] = "LOCAL";
+            report("camera", camera, "b4w_vertical_clamping_type");
         }
     }
 
@@ -408,17 +432,12 @@ exports.check_bpy_data = function(bpy_data) {
         }
 
         if (!("b4w_foam_uv_freq" in texture)) {
-            texture["b4w_foam_uv_freq"] = 0.0;
+            texture["b4w_foam_uv_freq"] = [1, 1];
             report("texture", texture, "b4w_foam_uv_freq");
         }
 
         if (!("b4w_foam_uv_magnitude" in texture)) {
-            texture["b4w_foam_uv_magnitude"] = 0.0;
-            report("texture", texture, "b4w_foam_uv_magnitude");
-        }
-
-        if (!("b4w_foam_uv_magnitude" in texture)) {
-            texture["b4w_foam_uv_magnitude"] = 0.0;
+            texture["b4w_foam_uv_magnitude"] = [1, 1];
             report("texture", texture, "b4w_foam_uv_magnitude");
         }
 
@@ -943,9 +962,9 @@ exports.check_bpy_data = function(bpy_data) {
                 obj["b4w_glow_settings"]["glow_relapses"] = 0;
                 report("object", obj, "b4w_glow_settings");
             }
-            if (!("b4w_lods_num" in obj)) {
-                obj["b4w_lods_num"] = 0;
-                report("object", obj, "b4w_lods_num");
+            if (!("lod_levels" in obj)) {
+                obj["lod_levels"] = [];
+                report("object", obj, "lod_levels");
             }
             break;
         case "EMPTY":
@@ -1231,7 +1250,7 @@ function check_uniform_scale(obj) {
 
 /**
  * Apply modifiers for mesh object and return new mesh.
- * @param obj Object ID
+ * @param {Object} obj Object ID
  * @returns Mesh object or null
  */
 exports.apply_mesh_modifiers = function(obj) {

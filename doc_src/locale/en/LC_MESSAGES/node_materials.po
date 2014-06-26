@@ -107,8 +107,8 @@ msgstr ""
 "for convenience."
 
 #: ../node_materials.rst:46
-msgid "LINEAR_TO_SRGB и LINEAR_TO_SRGB"
-msgstr "LINEAR_TO_SRGB and LINEAR_TO_SRGB"
+msgid "LINEAR_TO_SRGB и SRGB_TO_LINEAR"
+msgstr "LINEAR_TO_SRGB and SRGB_TO_LINEAR"
 
 #: ../node_materials.rst:48
 msgid ""
@@ -170,8 +170,8 @@ msgid ""
 "Осуществляет отсчет времени с момента старта движка в секундах. Может "
 "использоваться для анимации любых параметров в нодовых материалах."
 msgstr ""
-"Provides the timeline counting from the engine start (in seconds). May be used for "
-"animating any parameters in the node materials."
+"Provides the timeline counting from the engine start (in seconds). May be "
+"used for animating any parameters in the node materials."
 
 #: ../node_materials.rst:71
 msgid "NORMAL_VIEW"
@@ -379,5 +379,6 @@ msgstr "materials"
 #: ../node_materials.rst:11 ../node_materials.rst:18 ../node_materials.rst:41
 msgid "ноды"
 msgstr "nodes"
+
 
 

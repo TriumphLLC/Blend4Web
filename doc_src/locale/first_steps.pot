@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: B4W 14.05.22\n"
+"Project-Id-Version: B4W 14.03.28\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-21 10:39+0400\n"
+"POT-Creation-Date: 2014-04-03 12:59\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,106 +17,47 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: ../first_steps.rst:5
-# d926c8bb5b184b7a9dd613ad07d8c3eb
+# f7af2ead2bf34c7f88a6217950d4e380
 msgid "Экспресс-установка"
 msgstr ""
 
-#: ../first_steps.rst:7
-# da8a9c2974774dd580a19da0393b5488
-msgid "Экспресс-установка аддона Blend4Web подойдет обычным пользователям, которым не требуется разработка полноценных 3D приложений. Основной возможностью в этом случае является экспорт сцены в один HTML-файл с последующим просмотром в браузере, поддерживающем WebGL."
-msgstr ""
-
 #: ../first_steps.rst:10
-# 31b4ecec150f4f009f0d21f1f9f59094
-msgid "Для более серьезных задач необходима установка :ref:`комплекта средств разработки <setup>`."
-msgstr ""
-
-#: ../first_steps.rst:15
-# 048be1f65dae49f38351cd4aec284dad
+# 32a3abea81094bcca32ce67ec7c8aea9
 msgid "Установка программы Blender"
 msgstr ""
 
-#: ../first_steps.rst:17
-# 6f01a3a17c7a48aba45795beb7f5a605
+#: ../first_steps.rst:12
+# be12bea31de746e7a2999b5533a339ce
 msgid "Создание 3D сцен осуществляется в графическом пакете `Blender <http://ru.wikipedia.org/wiki/Blender>`_, который является программным продуктом с открытым исходным кодом и распространяется бесплатно."
 msgstr ""
 
-#: ../first_steps.rst:19
-# f04f2d6aa04a402d86821f0501922749
+#: ../first_steps.rst:14
+# 8e8f4f59bf1f4f5a98296c826aba8963
 msgid "Должна использоваться текущая стабильная версия Blender. Загрузить Blender можно с `официального сайта <http://www.blender.org/download>`_."
 msgstr ""
 
-#: ../first_steps.rst:31
-# 15744e54a21046c9a4fb26b5b191bbdf
+#: ../first_steps.rst:26
+# 3fbe19ed91ea4568ab3a625db1ceaa42
 msgid "Установка аддона движка"
 msgstr ""
 
-#: ../first_steps.rst:33
-# 367abcbec4334bf18c70c13b9b7d5b66
+#: ../first_steps.rst:28
+# 70aa8b9676874fa0963246d24a550b07
 msgid "Запустить Blender, загрузить сцену по умолчанию :file:`File > New`. Вызвать окно пользовательских настроек :file:`File > User Preferences...`. Во вкладке :file:`Addons` нажать :file:`Install from File...` и затем выбрать zip-архив с файлами аддона. После этого необходимо отметить галочку напротив :file:`Import-Export: Blend4Web`."
 msgstr ""
 
-#: ../first_steps.rst:43
-# d45cc2f910c34ebf9fc458cd67766a06
+#: ../first_steps.rst:36
+# a50119fca14e43879031950824422247
 msgid "Далее нажать :file:`Save User Settings` и закрыть окно пользовательских настроек."
 msgstr ""
 
-#: ../first_steps.rst:51
-# a946bc9c939a420a9545a57e49a8ff97
+#: ../first_steps.rst:44
+# 5c1aa7eb53a34ecbabfb04e9e4780c10
 msgid "Экспорт и просмотр сцены"
 msgstr ""
 
-#: ../first_steps.rst:53
-# ee2dd6b8daec4b0aa5bd84ce1c13f6fd
+#: ../first_steps.rst:46
+# 63db68b0fa764b8d83ca9459329fd405
 msgid "Созданную сцену можно экспортировать в формате HTML. Для этого нужно выбрать опцию :file:`File > Export > Blend4Web (.html)` и указать путь экспорта. Полученный HTML файл можно открыть любым браузером, поддерживающим технологию WebGL."
-msgstr ""
-
-#: ../first_steps.rst:56
-# 19ffc48e8edf4a90b4db1d045076a680
-msgid ":ref:`browser_webgl_support`"
-msgstr ""
-
-#: ../first_steps.rst:64
-# 93cd10fb9d2e42e89c93d112511f0d7b
-msgid "Установка новой версии аддона"
-msgstr ""
-
-#: ../first_steps.rst:66
-# c7dcc4b559b5429681d7a19596805ad9
-msgid "Чтобы установить новую версию аддона, необходимо **сначала отключить, а затем удалить** старую версию."
-msgstr ""
-
-#: ../first_steps.rst:68
-# 3f2009a95eba45d4afa71883a624a72d
-msgid "Для отключения аддона запустить Blender, загрузить сцену по умолчанию :file:`File > New`. Вызвать окно пользовательских настроек :file:`File > User Preferences...`. Перейти на вкладку :file:`Addons` и выбрать категорию :file:`Import-Export`. Снять галочку напротив :file:`Import-Export: Blend4Web`. Далее нажать :file:`Save User Settings` и **перезапустить Blender**."
-msgstr ""
-
-#: ../first_steps.rst:70
-# c638cfb577054be594359fe10c137235
-msgid "Затем для удаления аддона снова вызвать окно пользовательских настроек, раскрыть панель информации об аддоне Blend4Web и нажать кнопку :file:`Remove`."
-msgstr ""
-
-#: ../first_steps.rst:26
-#: ../first_steps.rst:45
-#: ../first_steps.rst:58
-# 55c837af82a34b87b50d74bd5c503878
-# ff2544b8a5314a6ba85b14df9e3abbef
-# 730616df2a294f8abcac9ed5adff2e4b
-msgid "экспорт"
-msgstr ""
-
-#: ../first_steps.rst:26
-# 55c837af82a34b87b50d74bd5c503878
-msgid "установка программы Blender"
-msgstr ""
-
-#: ../first_steps.rst:45
-# ff2544b8a5314a6ba85b14df9e3abbef
-msgid "установка аддона"
-msgstr ""
-
-#: ../first_steps.rst:58
-# 730616df2a294f8abcac9ed5adff2e4b
-msgid "просмотр сцены"
 msgstr ""
 

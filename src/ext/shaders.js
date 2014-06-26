@@ -1,7 +1,7 @@
 "use strict";
 
 /**
- * Shaders API. Used mostly for debug purposes.
+ * Shaders API. Used mostly for debugging purposes.
  * @module shaders
  */
 b4w.module["shaders"] = function(exports, require) {
@@ -348,7 +348,7 @@ function post_sync(path, data) {
 }
 
 /**
- * Determine max bones by compiling shaders
+ * Determine max bones by compiling shaders.
  * @method module:shaders.determine_max_bones
  */
 exports["determine_max_bones"] = function() {
@@ -431,7 +431,7 @@ function determine_max_bones(frames_blending) {
 }
 
 /**
- * Report repeatful compilation for debug purpuses
+ * Report cases of repeatitive compilation of shaders (used for debugging)
  * @method module:shaders.report_repeatful_compilation
  */
 exports["report_repeatful_compilation"] = function() {
@@ -457,7 +457,7 @@ exports["report_repeatful_compilation"] = function() {
 }
 
 /**
- * Get compiled shaders for debug purpuses
+ * Get compiled shaders's stats for debugging purpuses.
  * @method module:shaders.get_compiled
  */
 exports["analyze"] = function(opt_shader_id_part) {
@@ -672,7 +672,7 @@ function print_shader_stats_nvidia(stats) {
 }
 
 /**
- * Compile and check all shaders' combinations for debug purpuses
+ * Compile and check all shaders' combinations for debugging purposes.
  * @method module:shaders.compile_all
  */
 exports["compile_all"] = function(arg_from, arg_to) {

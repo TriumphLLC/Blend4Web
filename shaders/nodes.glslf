@@ -495,8 +495,13 @@ vec2 vec_to_uv(vec3 vec)
     #node_in float val_in1
     #node_in float val_in2
     #node_out float val
-    // simplifed
-    val = pow(val_in1, val_in2);
+    // return zero value for special cases which causes undefined result;
+    // according to pow specification:
+    // https://www.opengl.org/sdk/docs/man/html/pow.xhtml
+    if (val_in1 < 0.0 || val_in1 == 0.0 && val_in2 == 0.0)
+        val = 0.0;
+    else
+        val = pow(val_in1, val_in2);
 #endnode
 #node MATH_LOGARITHM
     #node_in float val_in1

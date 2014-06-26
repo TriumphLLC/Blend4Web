@@ -1,0 +1,228 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2014, ООО "Триумф"
+# This file is distributed under the same license as the B4W package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: B4W 14.03.28\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-04-03 12:59\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../roadmap.rst:6
+# 1197600173434f91aed9f4d0e7289ff4
+msgid "План развития"
+msgstr ""
+
+#: ../roadmap.rst:9
+# 94924eebb14b413f847b9a45da28c2e1
+msgid "Приоритетные задачи"
+msgstr ""
+
+#: ../roadmap.rst:11
+# 956d02da9e174be68dfdf13ed6643bf9
+msgid "Динамическая загрузка (добавление) объектов на сцену из отдельных файлов"
+msgstr ""
+
+#: ../roadmap.rst:12
+# ecb96b40965d4cfcb90b381bd7220602
+msgid "Оптимизация формата файлов"
+msgstr ""
+
+#: ../roadmap.rst:13
+# b79f71cf47b04997b6523d2b3addbfc8
+msgid "Улучшение качества и оптимизация теней"
+msgstr ""
+
+#: ../roadmap.rst:14
+# 89ef10a2bb2341439abf4bc8b186d5fe
+msgid "Переработка системы управления камерой"
+msgstr ""
+
+#: ../roadmap.rst:15
+# d01611b6ea8744e18152b4f233a50d9e
+msgid "Внутрикомнатное освещение: тени от нескольких источников света"
+msgstr ""
+
+#: ../roadmap.rst:16
+# 56cd72dde67846ac9db7ee8a52a233a2
+msgid "Внутрикомнатное освещение: мягкие тени"
+msgstr ""
+
+#: ../roadmap.rst:17
+# 9a13f91c07394cfa8c5abbd8122d7cf1
+msgid "Адаптация движка для работы с WebGL 2.0"
+msgstr ""
+
+#: ../roadmap.rst:18
+# 20609cd907274d2786a8a39f248780ca
+msgid "Обеспечение кроссбраузерной совместимости"
+msgstr ""
+
+#: ../roadmap.rst:19
+# 6af78c7da3a54a4daffad2328de1de7b
+msgid "Точная цветопередача (HDR rendering)"
+msgstr ""
+
+#: ../roadmap.rst:20
+# b6e0da87701843c0873d9e615546fc3a
+msgid "Доработка взаимного затенения объектов (SSAO)"
+msgstr ""
+
+#: ../roadmap.rst:21
+# 691a832a86b940758a7af13754a99e71
+msgid "Более детальная модель освещения от окружения (ambient occlusion)"
+msgstr ""
+
+#: ../roadmap.rst:22
+# f4e0ee4027d74d01912d838ca398e57c
+msgid "Отладка, оптимизация"
+msgstr ""
+
+#: ../roadmap.rst:23
+# b7602f7e296f4ac1a5985572767f3d6a
+msgid "Документирование"
+msgstr ""
+
+#: ../roadmap.rst:27
+# c99fb14243644bf3a36c5bdb34903507
+msgid "Прочие задачи"
+msgstr ""
+
+#: ../roadmap.rst:29
+# 0162f7bfee08439085ea189adf83d657
+msgid "Взаимное освещение объектов"
+msgstr ""
+
+#: ../roadmap.rst:30
+# 22ff9f7bfa104cc399c17970355f8156
+msgid "Поддержка морфинга для настройки персонажей"
+msgstr ""
+
+#: ../roadmap.rst:31
+# b5885689f5a5449f835ca15758911115
+msgid "Анимационные переходы"
+msgstr ""
+
+#: ../roadmap.rst:32
+# d97926b5cf884f5da5f5a5e245142873
+msgid "Поддержка анимации морфинга"
+msgstr ""
+
+#: ../roadmap.rst:33
+# 14d33d0ecff942ad84db755e108f2dfb
+msgid "Реалистичная визуализация кожи человека"
+msgstr ""
+
+#: ../roadmap.rst:34
+# 265267c273654ca195f5103bdc5ea0e2
+msgid "Мягкие частицы"
+msgstr ""
+
+#: ../roadmap.rst:35
+# e32070f84731439a85b6577a8e9b7284
+msgid "Погодные эффекты (дождь, гроза)"
+msgstr ""
+
+#: ../roadmap.rst:36
+# 2094ffbae39d4ab09a6f9c097972d8f4
+msgid "Нанесение повреждений (например, авто)"
+msgstr ""
+
+#: ../roadmap.rst:37
+# f46fc12000614925a341106c7794e1ef
+msgid "Реалистичная визуализация волос человека"
+msgstr ""
+
+#: ../roadmap.rst:38
+# fa26c585fb1e4aaeb3967e19821086f7
+msgid "Видео-текстуры, поддержка произвольного контента на текстурах"
+msgstr ""
+
+#: ../roadmap.rst:39
+# 00d42e64c76d45c299851919e826f8f5
+msgid "Применение системы частиц для создания реалистичных эффектов"
+msgstr ""
+
+#: ../roadmap.rst:40
+# ebb96ed58c50464cb3980c724ea5c020
+msgid "Поддержка инстансинга (отображение многочисленных копий объекта)"
+msgstr ""
+
+#: ../roadmap.rst:41
+# a4971a69eb444b518f36dedb81763976
+msgid "Базовая поддержка сетевой подсистемы"
+msgstr ""
+
+#: ../roadmap.rst:42
+# b108196104794fbbbcbf70014dbd7c6a
+msgid "Оптимизация по видимости и удаленности объектов"
+msgstr ""
+
+#: ../roadmap.rst:43
+# 5fc11ead3c4841e7ab6df8c01405d603
+msgid "Инструменты для работы со звуком"
+msgstr ""
+
+#: ../roadmap.rst:44
+# 520dbd0ae61b4ca085e3f5c2e6dfcab7
+msgid "Разрушаемые объекты"
+msgstr ""
+
+#: ../roadmap.rst:45
+# e628f448dfb64fe294a0e30c0a0f3ec9
+msgid "Динамическое наложение декалей (дырки от пуль)"
+msgstr ""
+
+#: ../roadmap.rst:46
+# 47d7a18826e14bf28b9b0c95ae4a4e26
+msgid "Физика падения персонажей (ragdolls)"
+msgstr ""
+
+#: ../roadmap.rst:47
+# 74320db09b3f4a46a5654f66456d6799
+msgid "Подготовка сайта и дистрибутива движка к релизу"
+msgstr ""
+
+#: ../roadmap.rst:48
+# 1377125855d140afb299b7559141ca5f
+msgid "Подготовка демонстрационных приложений к релизу"
+msgstr ""
+
+#: ../roadmap.rst:49
+# 19e2e68d38404cdb84c7303ce03551ae
+msgid "Динамическая генерация мешей"
+msgstr ""
+
+#: ../roadmap.rst:50
+# 1923cc4a5ed64c1facc20e4a6b4cd4bc
+msgid "Терраформирование — редактирование меша"
+msgstr ""
+
+#: ../roadmap.rst:51
+# a4fbe756bf884f42bf404ea52c42971e
+msgid "Увеличение для камеры (бинокли, прицелы)"
+msgstr ""
+
+#: ../roadmap.rst:52
+# 38bae27686c1458093467cd7b0b04050
+msgid "Поиск пути персонажами"
+msgstr ""
+
+#: ../roadmap.rst:53
+# c5ab0da0a2084ce1991ffc8e69a9d118
+msgid "Определение видимости объектов ботами"
+msgstr ""
+
+#: ../roadmap.rst:54
+# d6e343bdf940434d8fe2e4cfdf34d0e3
+msgid "Поддержка 3D шрифтов (динамическая экструзия)"
+msgstr ""
+

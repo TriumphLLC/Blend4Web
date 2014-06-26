@@ -22,10 +22,11 @@ var _julian_date    = 0;
 var _max_sun_angle  = 60; 
 
 /**
- * Get lamp objects
- * if lamps_type is defined creates new array
+ * Get lamp objects.
+ * If lamps_type is defined, creates a new array
  * @method module:lights.get_lamps
- * @param {String} lamps_type
+ * @param {String} [lamps_type] Lamps type ("POINT", "SPOT", "SUN", "HEMI")
+ * @returns {Array} Array with lamp object IDs
  */
 exports["get_lamps"] = function(lamps_type) {
 
@@ -46,8 +47,9 @@ exports["get_lamps"] = function(lamps_type) {
 
 exports["get_sun_params"] = get_sun_params;
 /**
- * Get sun parameters
+ * Get the sun parameters.
  * @method module:lights.get_sun_params
+ * @returns {Object} Sun params object
  */
 function get_sun_params() {
     var scene = scenes.get_active();
@@ -87,9 +89,9 @@ function get_sun_params() {
 
 exports["set_sun_params"] = set_sun_params;
 /**
- * Set sun parameters
+ * Set the sun parameters.
  * @method module:lights.set_sun_params
- * @param {object} sun_params sun parameters
+ * @param {Object} sun_params sun parameters
  */
 function set_sun_params (sun_params) {
 
@@ -153,13 +155,12 @@ function set_sun_params (sun_params) {
     }
 }
 
+exports["set_day_time"] = set_day_time;
 /**
- * Set day time
+ * Set the time of day.
  * @method module:lights.set_day_time
  * @param time new time (0.0...24.0)
  */
-exports["set_day_time"] = set_day_time;
-
 function set_day_time(time) {
     var scene = scenes.get_active();
     var lamps = scenes.get_scene_objs(scene, "LAMP");
@@ -181,9 +182,8 @@ function set_day_time(time) {
     update_sun_position(time);
 }
 
-
 /**
- * Set date
+ * Set the date.
  * @method module:lights.set_date
  * @param {Date} date new date
  */
@@ -203,18 +203,19 @@ exports["set_date"] = function(date) {
 }
 
 /**
- * Set maximum sun angle
+ * Set the maximum sun angle
  * @method module:lights.set_max_sun_angle
- * @param angle new angle in degrees (0..90)
+ * @param {Number} angle New angle in degrees (0..90)
  */
 exports["set_max_sun_angle"] = function(angle) {
     _max_sun_angle = Math.min(Math.max(angle, 0), 90);
 }
 
 /**
- * Get light params
+ * Get the light params.
  * @method module:lights.get_light_params
- * @param {string} light_name Light name
+ * @param {String} light_name Name of the light object
+ * @returns {Object} Light params
  */
 exports["get_light_params"] = function(light_name) {
 
@@ -249,10 +250,10 @@ exports["get_light_params"] = function(light_name) {
 }
 
 /**
- * Set light params
+ * Set the light params.
  * @method module:lights.set_light_params
- * @param {string} light_name Light name
- * @param {object} light_params Light params
+ * @param {String} light_name Name of the light object
+ * @param {Object} light_params Light params
  */
 exports["set_light_params"] = function(light_name, light_params) {
 
@@ -291,8 +292,9 @@ exports["set_light_params"] = function(light_name, light_params) {
 }
 
 /**
- * Get lights' names
+ * Get all lights' names.
  * @method module:lights.get_lights_names
+ * @returns {Array} Lights' names
  */
 exports["get_lights_names"] = function() {
 

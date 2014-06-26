@@ -165,7 +165,6 @@ class B4W_TreeVertexNormals(bpy.types.Operator):
 ##########################################################
 # foliage vertex normals
 # align selected verts to global z axis
-# and unselected to 3d cursor
 
 class B4W_FoliageVertexNormals(bpy.types.Operator):
     bl_idname = 'object.foliage_vertex_normals'
@@ -187,14 +186,6 @@ class B4W_FoliageVertexNormals(bpy.types.Operator):
                 # selected verts will align on z-axis
                 if context.active_object.data.vertices[i].select == True:
                     obj.data.vertices[i].normal = (0.0, 0.0, 1.0)
-                
-                # unselected verts will align on 3d cursor
-                elif context.active_object.data.vertices[i].select == False:
-                    vec2 = obj.data.vertices[i].co
-                    newvec = vec2 - vec1 + obj.location
-                    newnormal = newvec.normalized()
-    
-                    obj.data.vertices[i].normal = newnormal
                 
                 # update vertex normal list
                 if context.window_manager.b4w_vn_autosave == True:
@@ -632,6 +623,10 @@ class B4W_UpdateNormalList(bpy.types.Operator):
             vertices[i].normal = obj.b4w_vertex_normal_list[i]['normal']
         
         context.area.tag_redraw()
+
+        # reset normals control interface
+        #context.window_manager.b4w_vn_customnormal1 = mathutils.Vector((0.0, 0.0, 1.0))
+        #context.window_manager.b4w_vn_customnormal2 = mathutils.Vector((0.0, 0.0, 1.0))
         
         return{'FINISHED'}
 
@@ -650,8 +645,12 @@ class B4W_CleanUpNormalList(bpy.types.Operator):
             item.normal = vert.normal
 
         context.area.tag_redraw()
+
+        # reset normals control interface
+        #context.window_manager.b4w_vn_customnormal1 = mathutils.Vector((0.0, 0.0, 1.0))
+        #context.window_manager.b4w_vn_customnormal2 = mathutils.Vector((0.0, 0.0, 1.0))
         
-        return{'FINISHED'}      
+        return{'FINISHED'}
 
 ##########################################################
 ##########################################################

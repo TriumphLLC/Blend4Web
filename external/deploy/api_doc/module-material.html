@@ -38,7 +38,7 @@
 
     
         
-            <div class="description">Material external API.</div>
+            <div class="description">Material API.</div>
         
 
         
@@ -88,6 +88,8 @@
 
     
 
+     
+
     
 
     
@@ -98,7 +100,7 @@
         <dl>
             
 <dt>
-    <h4 class="name" id="check_ambient_factor"><span class="type-signature">&lt;static> </span>check_ambient_factor<span class="signature">(obj, mat_name)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
+    <h4 class="name" id="check_specular_hardness"><span class="type-signature">(static) </span>check_specular_hardness<span class="signature">(obj, mat_name)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
 
     
 </dt>
@@ -106,7 +108,7 @@
 
     
     <div class="description">
-        Check ambient factor for object material
+        Check the specular hardness for the object material.
     </div>
     
 
@@ -145,6 +147,11 @@
 
             <td class="type">
             
+                
+<span class="param-type">Object</span>
+
+
+            
             </td>
 
             
@@ -162,6 +169,11 @@
             
 
             <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
             
             </td>
 
@@ -200,931 +212,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="material.js.html">ext/material.js</a>, <a href="material.js.html#line472">line 472</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <h5>Returns:</h5>
-    
-            
-<div class="param-desc">
-    Ambient factor presence
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Boolean</span>
-
-
-    </dd>
-</dl>
-
-        
-
-    
-</dd>
-
-        
-            
-<dt>
-    <h4 class="name" id="check_diffuse_color"><span class="type-signature">&lt;static> </span>check_diffuse_color<span class="signature">(obj, mat_name)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
-
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Check diffuse color for object material
-    </div>
-    
-
-    
-
-    
-
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>obj</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Object ID</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>mat_name</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Material name</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-    
-
-    
-<dl class="details">
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="material.js.html">ext/material.js</a>, <a href="material.js.html#line207">line 207</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <h5>Returns:</h5>
-    
-            
-<div class="param-desc">
-    Diffuse color presence
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Boolean</span>
-
-
-    </dd>
-</dl>
-
-        
-
-    
-</dd>
-
-        
-            
-<dt>
-    <h4 class="name" id="check_diffuse_color_factor"><span class="type-signature">&lt;static> </span>check_diffuse_color_factor<span class="signature">(obj, mat_name)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
-
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Check diffuse color factor for object material
-    </div>
-    
-
-    
-
-    
-
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>obj</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Object ID</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>mat_name</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Material name</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-    
-
-    
-<dl class="details">
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="material.js.html">ext/material.js</a>, <a href="material.js.html#line516">line 516</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <h5>Returns:</h5>
-    
-            
-<div class="param-desc">
-    Diffuse color factor presence
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Boolean</span>
-
-
-    </dd>
-</dl>
-
-        
-
-    
-</dd>
-
-        
-            
-<dt>
-    <h4 class="name" id="check_diffuse_intensity"><span class="type-signature">&lt;static> </span>check_diffuse_intensity<span class="signature">(obj, mat_name)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
-
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Check diffuse intensity for object material
-    </div>
-    
-
-    
-
-    
-
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>obj</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Object ID</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>mat_name</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Material name</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-    
-
-    
-<dl class="details">
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="material.js.html">ext/material.js</a>, <a href="material.js.html#line250">line 250</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <h5>Returns:</h5>
-    
-            
-<div class="param-desc">
-    Diffuse intensity presence
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Boolean</span>
-
-
-    </dd>
-</dl>
-
-        
-
-    
-</dd>
-
-        
-            
-<dt>
-    <h4 class="name" id="check_emit_factor"><span class="type-signature">&lt;static> </span>check_emit_factor<span class="signature">(obj, mat_name)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
-
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Check emit factor for object material
-    </div>
-    
-
-    
-
-    
-
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>obj</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Object ID</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>mat_name</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Material name</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-    
-
-    
-<dl class="details">
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="material.js.html">ext/material.js</a>, <a href="material.js.html#line429">line 429</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <h5>Returns:</h5>
-    
-            
-<div class="param-desc">
-    Emit factor presence
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Boolean</span>
-
-
-    </dd>
-</dl>
-
-        
-
-    
-</dd>
-
-        
-            
-<dt>
-    <h4 class="name" id="check_specular_color"><span class="type-signature">&lt;static> </span>check_specular_color<span class="signature">(obj, mat_name)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
-
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Check specular color for object material
-    </div>
-    
-
-    
-
-    
-
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>obj</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Object ID</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>mat_name</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Material name</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-    
-
-    
-<dl class="details">
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="material.js.html">ext/material.js</a>, <a href="material.js.html#line300">line 300</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <h5>Returns:</h5>
-    
-            
-<div class="param-desc">
-    Specular color presence
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Boolean</span>
-
-
-    </dd>
-</dl>
-
-        
-
-    
-</dd>
-
-        
-            
-<dt>
-    <h4 class="name" id="check_specular_hardness"><span class="type-signature">&lt;static> </span>check_specular_hardness<span class="signature">(obj, mat_name)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
-
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Check specular hardness for object material
-    </div>
-    
-
-    
-
-    
-
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>obj</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Object ID</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>mat_name</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Material name</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-    
-
-    
-<dl class="details">
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="material.js.html">ext/material.js</a>, <a href="material.js.html#line386">line 386</a>
+        <a href="material.js.html">ext/material.js</a>, <a href="material.js.html#line324">line 324</a>
     </li></ul></dd>
     
 
@@ -1176,7 +264,7 @@
         
             
 <dt>
-    <h4 class="name" id="check_specular_intensity"><span class="type-signature">&lt;static> </span>check_specular_intensity<span class="signature">(obj, mat_name)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
+    <h4 class="name" id="check_specular_intensity"><span class="type-signature">(static) </span>check_specular_intensity<span class="signature">(obj, mat_name)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
 
     
 </dt>
@@ -1184,7 +272,7 @@
 
     
     <div class="description">
-        Check specular intensity for object material
+        Check the specular intensity for the object material.
     </div>
     
 
@@ -1223,6 +311,11 @@
 
             <td class="type">
             
+                
+<span class="param-type">Object</span>
+
+
+            
             </td>
 
             
@@ -1240,6 +333,11 @@
             
 
             <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
             
             </td>
 
@@ -1278,7 +376,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="material.js.html">ext/material.js</a>, <a href="material.js.html#line343">line 343</a>
+        <a href="material.js.html">ext/material.js</a>, <a href="material.js.html#line281">line 281</a>
     </li></ul></dd>
     
 
@@ -1330,7 +428,7 @@
         
             
 <dt>
-    <h4 class="name" id="get_ambient_factor"><span class="type-signature">&lt;static> </span>get_ambient_factor<span class="signature">(obj, mat_name)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="get_ambient_factor"><span class="type-signature">(static) </span>get_ambient_factor<span class="signature">(obj, mat_name)</span><span class="type-signature"> &rarr; {Number}</span></h4>
 
     
 </dt>
@@ -1338,7 +436,7 @@
 
     
     <div class="description">
-        Get ambient factor for object material.
+        Get the ambient factor for the object material.
     </div>
     
 
@@ -1377,6 +475,11 @@
 
             <td class="type">
             
+                
+<span class="param-type">Object</span>
+
+
+            
             </td>
 
             
@@ -1394,6 +497,11 @@
             
 
             <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
             
             </td>
 
@@ -1432,7 +540,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="material.js.html">ext/material.js</a>, <a href="material.js.html#line457">line 457</a>
+        <a href="material.js.html">ext/material.js</a>, <a href="material.js.html#line382">line 382</a>
     </li></ul></dd>
     
 
@@ -1464,6 +572,18 @@
 
 
 
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Number</span>
+
+
+    </dd>
+</dl>
+
         
 
     
@@ -1472,7 +592,7 @@
         
             
 <dt>
-    <h4 class="name" id="get_diffuse_color"><span class="type-signature">&lt;static> </span>get_diffuse_color<span class="signature">(obj, mat_name)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="get_diffuse_color"><span class="type-signature">(static) </span>get_diffuse_color<span class="signature">(obj, mat_name)</span><span class="type-signature"> &rarr; {Float32Array}</span></h4>
 
     
 </dt>
@@ -1480,7 +600,7 @@
 
     
     <div class="description">
-        Get diffuse color and alpha for object material.
+        Get the diffuse color and alpha for the object material.
     </div>
     
 
@@ -1519,6 +639,11 @@
 
             <td class="type">
             
+                
+<span class="param-type">Object</span>
+
+
+            
             </td>
 
             
@@ -1536,6 +661,11 @@
             
 
             <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
             
             </td>
 
@@ -1574,7 +704,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="material.js.html">ext/material.js</a>, <a href="material.js.html#line186">line 186</a>
+        <a href="material.js.html">ext/material.js</a>, <a href="material.js.html#line165">line 165</a>
     </li></ul></dd>
     
 
@@ -1606,148 +736,18 @@
 
 
 
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
         
+<span class="param-type">Float32Array</span>
 
-    
-</dd>
 
-        
-            
-<dt>
-    <h4 class="name" id="get_diffuse_color_factor"><span class="type-signature">&lt;static> </span>get_diffuse_color_factor<span class="signature">(obj, mat_name)</span><span class="type-signature"></span></h4>
-
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Get diffuse color factor for object material.
-    </div>
-    
-
-    
-
-    
-
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>obj</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Object ID</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>mat_name</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Material name</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-    
-
-    
-<dl class="details">
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="material.js.html">ext/material.js</a>, <a href="material.js.html#line501">line 501</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
+    </dd>
 </dl>
 
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <h5>Returns:</h5>
-    
-            
-<div class="param-desc">
-    Diffuse color factor value
-</div>
-
-
-
         
 
     
@@ -1756,7 +756,7 @@
         
             
 <dt>
-    <h4 class="name" id="get_diffuse_intensity"><span class="type-signature">&lt;static> </span>get_diffuse_intensity<span class="signature">(obj, mat_name)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="get_diffuse_color_factor"><span class="type-signature">(static) </span>get_diffuse_color_factor<span class="signature">(obj, mat_name)</span><span class="type-signature"> &rarr; {Number}</span></h4>
 
     
 </dt>
@@ -1764,7 +764,7 @@
 
     
     <div class="description">
-        Get diffuse color intensity for object material.
+        Get the diffuse color factor for the object material.
     </div>
     
 
@@ -1803,147 +803,10 @@
 
             <td class="type">
             
-            </td>
-
-            
-
-            
-
-            <td class="description last">Object ID</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>mat_name</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Material name</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-    
-
-    
-<dl class="details">
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="material.js.html">ext/material.js</a>, <a href="material.js.html#line235">line 235</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
+                
+<span class="param-type">Object</span>
 
 
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <h5>Returns:</h5>
-    
-            
-<div class="param-desc">
-    Diffuse color intensity
-</div>
-
-
-
-        
-
-    
-</dd>
-
-        
-            
-<dt>
-    <h4 class="name" id="get_emit_factor"><span class="type-signature">&lt;static> </span>get_emit_factor<span class="signature">(obj, mat_name)</span><span class="type-signature"></span></h4>
-
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Get emit factor for object material.
-    </div>
-    
-
-    
-
-    
-
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>obj</code></td>
-            
-
-            <td class="type">
             
             </td>
 
@@ -1962,6 +825,11 @@
             
 
             <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
             
             </td>
 
@@ -2027,10 +895,22 @@
     
             
 <div class="param-desc">
-    Emit factor value
+    Diffuse color factor value
 </div>
 
 
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Number</span>
+
+
+    </dd>
+</dl>
 
         
 
@@ -2040,7 +920,7 @@
         
             
 <dt>
-    <h4 class="name" id="get_material_extended_params"><span class="type-signature">&lt;static> </span>get_material_extended_params<span class="signature">(obj, mat_name)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="get_diffuse_intensity"><span class="type-signature">(static) </span>get_diffuse_intensity<span class="signature">(obj, mat_name)</span><span class="type-signature"> &rarr; {Number}</span></h4>
 
     
 </dt>
@@ -2048,7 +928,7 @@
 
     
     <div class="description">
-        Get material extended params
+        Get the diffuse color intensity for the object material.
     </div>
     
 
@@ -2088,7 +968,7 @@
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">Object</span>
 
 
             
@@ -2098,7 +978,7 @@
 
             
 
-            <td class="description last">Object</td>
+            <td class="description last">Object ID</td>
         </tr>
 
     
@@ -2111,7 +991,7 @@
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">String</span>
 
 
             
@@ -2152,7 +1032,335 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="material.js.html">ext/material.js</a>, <a href="material.js.html#line529">line 529</a>
+        <a href="material.js.html">ext/material.js</a>, <a href="material.js.html#line201">line 201</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    Diffuse intencity value
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Number</span>
+
+
+    </dd>
+</dl>
+
+        
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="get_emit_factor"><span class="type-signature">(static) </span>get_emit_factor<span class="signature">(obj, mat_name)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Get the emit factor for the object material.
+    </div>
+    
+
+    
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Object ID</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>mat_name</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Material name</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="material.js.html">ext/material.js</a>, <a href="material.js.html#line351">line 351</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    Emit factor value
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Number</span>
+
+
+    </dd>
+</dl>
+
+        
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="get_material_extended_params"><span class="type-signature">(static) </span>get_material_extended_params<span class="signature">(obj, mat_name)</span><span class="type-signature"> &rarr; {Object|null}</span></h4>
+
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Get the material extended params
+    </div>
+    
+
+    
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Object</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>mat_name</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Material name</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="material.js.html">ext/material.js</a>, <a href="material.js.html#line429">line 429</a>
     </li></ul></dd>
     
 
@@ -2184,121 +1392,22 @@
 
 
 
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
         
+<span class="param-type">Object</span>
+|
 
-    
-</dd>
+<span class="param-type">null</span>
 
-        
-            
-<dt>
-    <h4 class="name" id="get_materials_names"><span class="type-signature">&lt;static> </span>get_materials_names<span class="signature">(obj)</span><span class="type-signature"></span></h4>
 
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Get materials' names for given object
-    </div>
-    
-
-    
-
-    
-
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>obj</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Object</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-    
-
-    
-<dl class="details">
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="material.js.html">ext/material.js</a>, <a href="material.js.html#line150">line 150</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
+    </dd>
 </dl>
 
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
+        
 
     
 </dd>
@@ -2306,7 +1415,7 @@
         
             
 <dt>
-    <h4 class="name" id="get_specular_color"><span class="type-signature">&lt;static> </span>get_specular_color<span class="signature">(obj, mat_name)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="get_materials_names"><span class="type-signature">(static) </span>get_materials_names<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Array}</span></h4>
 
     
 </dt>
@@ -2314,7 +1423,7 @@
 
     
     <div class="description">
-        Get specular color for object material.
+        Get materials' names for the given object
     </div>
     
 
@@ -2352,6 +1461,11 @@
             
 
             <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
             
             </td>
 
@@ -2363,24 +1477,6 @@
         </tr>
 
     
-
-        <tr>
-            
-                <td class="name"><code>mat_name</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Material name</td>
-        </tr>
-
-    
     </tbody>
 </table>
     
@@ -2408,7 +1504,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="material.js.html">ext/material.js</a>, <a href="material.js.html#line280">line 280</a>
+        <a href="material.js.html">ext/material.js</a>, <a href="material.js.html#line131">line 131</a>
     </li></ul></dd>
     
 
@@ -2435,10 +1531,22 @@
     
             
 <div class="param-desc">
-    Material specular color
+    Array of materials' names
 </div>
 
 
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array</span>
+
+
+    </dd>
+</dl>
 
         
 
@@ -2448,7 +1556,7 @@
         
             
 <dt>
-    <h4 class="name" id="get_specular_hardness"><span class="type-signature">&lt;static> </span>get_specular_hardness<span class="signature">(obj, mat_name)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="get_specular_color"><span class="type-signature">(static) </span>get_specular_color<span class="signature">(obj, mat_name)</span><span class="type-signature"> &rarr; {Float32Array}</span></h4>
 
     
 </dt>
@@ -2456,7 +1564,7 @@
 
     
     <div class="description">
-        Get specular color hardness for object material.
+        Get the specular color for the object material.
     </div>
     
 
@@ -2495,6 +1603,11 @@
 
             <td class="type">
             
+                
+<span class="param-type">Object</span>
+
+
+            
             </td>
 
             
@@ -2512,6 +1625,11 @@
             
 
             <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
             
             </td>
 
@@ -2550,7 +1668,171 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="material.js.html">ext/material.js</a>, <a href="material.js.html#line371">line 371</a>
+        <a href="material.js.html">ext/material.js</a>, <a href="material.js.html#line231">line 231</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    Specular color
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Float32Array</span>
+
+
+    </dd>
+</dl>
+
+        
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="get_specular_hardness"><span class="type-signature">(static) </span>get_specular_hardness<span class="signature">(obj, mat_name)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Get the specular color hardness for the object material.
+    </div>
+    
+
+    
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Object ID</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>mat_name</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Material name</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="material.js.html">ext/material.js</a>, <a href="material.js.html#line308">line 308</a>
     </li></ul></dd>
     
 
@@ -2582,6 +1864,18 @@
 
 
 
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Number</span>
+
+
+    </dd>
+</dl>
+
         
 
     
@@ -2590,7 +1884,7 @@
         
             
 <dt>
-    <h4 class="name" id="get_specular_intensity"><span class="type-signature">&lt;static> </span>get_specular_intensity<span class="signature">(obj, mat_name)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="get_specular_intensity"><span class="type-signature">(static) </span>get_specular_intensity<span class="signature">(obj, mat_name)</span><span class="type-signature"> &rarr; {Number}</span></h4>
 
     
 </dt>
@@ -2598,7 +1892,7 @@
 
     
     <div class="description">
-        Get specular color intensity for object material.
+        Get the specular color intensity for the object material.
     </div>
     
 
@@ -2637,6 +1931,11 @@
 
             <td class="type">
             
+                
+<span class="param-type">Object</span>
+
+
+            
             </td>
 
             
@@ -2654,6 +1953,11 @@
             
 
             <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
             
             </td>
 
@@ -2692,7 +1996,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="material.js.html">ext/material.js</a>, <a href="material.js.html#line328">line 328</a>
+        <a href="material.js.html">ext/material.js</a>, <a href="material.js.html#line265">line 265</a>
     </li></ul></dd>
     
 
@@ -2724,6 +2028,18 @@
 
 
 
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Number</span>
+
+
+    </dd>
+</dl>
+
         
 
     
@@ -2732,7 +2048,7 @@
         
             
 <dt>
-    <h4 class="name" id="get_water_material_params"><span class="type-signature">&lt;static> </span>get_water_material_params<span class="signature">(obj, water_mat_name)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="get_water_material_params"><span class="type-signature">(static) </span>get_water_material_params<span class="signature">(obj, water_mat_name)</span><span class="type-signature"> &rarr; {Object|null}</span></h4>
 
     
 </dt>
@@ -2740,7 +2056,7 @@
 
     
     <div class="description">
-        Get water material params
+        Get params for the water material
     </div>
     
 
@@ -2780,7 +2096,7 @@
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">Object</span>
 
 
             
@@ -2803,7 +2119,7 @@
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">String</span>
 
 
             
@@ -2844,7 +2160,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="material.js.html">ext/material.js</a>, <a href="material.js.html#line565">line 565</a>
+        <a href="material.js.html">ext/material.js</a>, <a href="material.js.html#line465">line 465</a>
     </li></ul></dd>
     
 
@@ -2876,6 +2192,21 @@
 
 
 
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Object</span>
+|
+
+<span class="param-type">null</span>
+
+
+    </dd>
+</dl>
+
         
 
     
@@ -2884,7 +2215,7 @@
         
             
 <dt>
-    <h4 class="name" id="inherit_material"><span class="type-signature">&lt;static> </span>inherit_material<span class="signature">(obj_to, mat_to_name, obj_from, mat_from_name)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="inherit_material"><span class="type-signature">(static) </span>inherit_material<span class="signature">(obj_to, mat_to_name, obj_from, mat_from_name)</span><span class="type-signature"></span></h4>
 
     
 </dt>
@@ -2892,7 +2223,7 @@
 
     
     <div class="description">
-        Inherit batch material from another object.
+        Inherit the batch material from another object.
     </div>
     
 
@@ -2931,6 +2262,11 @@
 
             <td class="type">
             
+                
+<span class="param-type">Object</span>
+
+
+            
             </td>
 
             
@@ -2948,6 +2284,11 @@
             
 
             <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
             
             </td>
 
@@ -2967,6 +2308,11 @@
 
             <td class="type">
             
+                
+<span class="param-type">Object</span>
+
+
+            
             </td>
 
             
@@ -2984,6 +2330,11 @@
             
 
             <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
             
             </td>
 
@@ -3022,7 +2373,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="material.js.html">ext/material.js</a>, <a href="material.js.html#line45">line 45</a>
+        <a href="material.js.html">ext/material.js</a>, <a href="material.js.html#line47">line 47</a>
     </li></ul></dd>
     
 
@@ -3052,7 +2403,7 @@
         
             
 <dt>
-    <h4 class="name" id="max_bones"><span class="type-signature">&lt;static> </span>max_bones<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="max_bones"><span class="type-signature">(static) </span>max_bones<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 </dt>
@@ -3091,7 +2442,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="material.js.html">ext/material.js</a>, <a href="material.js.html#line20">line 20</a>
+        <a href="material.js.html">ext/material.js</a>, <a href="material.js.html#line22">line 22</a>
     </li></ul></dd>
     
 
@@ -3121,7 +2472,7 @@
         
             
 <dt>
-    <h4 class="name" id="set_ambient_factor"><span class="type-signature">&lt;static> </span>set_ambient_factor<span class="signature">(obj, mat_name, ambient_factor)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="set_ambient_factor"><span class="type-signature">(static) </span>set_ambient_factor<span class="signature">(obj, mat_name, ambient_factor)</span><span class="type-signature"></span></h4>
 
     
 </dt>
@@ -3129,7 +2480,7 @@
 
     
     <div class="description">
-        Set ambient factor for object material.
+        Set the ambient factor for the object material.
     </div>
     
 
@@ -3168,6 +2519,11 @@
 
             <td class="type">
             
+                
+<span class="param-type">Object</span>
+
+
+            
             </td>
 
             
@@ -3185,6 +2541,11 @@
             
 
             <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
             
             </td>
 
@@ -3246,7 +2607,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="material.js.html">ext/material.js</a>, <a href="material.js.html#line442">line 442</a>
+        <a href="material.js.html">ext/material.js</a>, <a href="material.js.html#line367">line 367</a>
     </li></ul></dd>
     
 
@@ -3276,7 +2637,7 @@
         
             
 <dt>
-    <h4 class="name" id="set_batch_param"><span class="type-signature">&lt;static> </span>set_batch_param<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="set_batch_param"><span class="type-signature">(static) </span>set_batch_param<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 </dt>
@@ -3284,7 +2645,7 @@
 
     
     <div class="description">
-        Dangerous method to set batch param
+        A dangerous method to set the batch params
     </div>
     
 
@@ -3319,7 +2680,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="material.js.html">ext/material.js</a>, <a href="material.js.html#line36">line 36</a>
+        <a href="material.js.html">ext/material.js</a>, <a href="material.js.html#line38">line 38</a>
     </li></ul></dd>
     
 
@@ -3349,7 +2710,7 @@
         
             
 <dt>
-    <h4 class="name" id="set_diffuse_color"><span class="type-signature">&lt;static> </span>set_diffuse_color<span class="signature">(obj, mat_name, color)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="set_diffuse_color"><span class="type-signature">(static) </span>set_diffuse_color<span class="signature">(obj, mat_name, color)</span><span class="type-signature"></span></h4>
 
     
 </dt>
@@ -3357,7 +2718,7 @@
 
     
     <div class="description">
-        Set diffuse color and alpha for object material.
+        Set the diffuse color and alpha for the object material.
     </div>
     
 
@@ -3396,6 +2757,11 @@
 
             <td class="type">
             
+                
+<span class="param-type">Object</span>
+
+
+            
             </td>
 
             
@@ -3413,6 +2779,11 @@
             
 
             <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
             
             </td>
 
@@ -3433,7 +2804,7 @@
             <td class="type">
             
                 
-<span class="param-type">vec4</span>
+<span class="param-type">Float32Array</span>
 
 
             
@@ -3474,7 +2845,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="material.js.html">ext/material.js</a>, <a href="material.js.html#line168">line 168</a>
+        <a href="material.js.html">ext/material.js</a>, <a href="material.js.html#line150">line 150</a>
     </li></ul></dd>
     
 
@@ -3504,7 +2875,7 @@
         
             
 <dt>
-    <h4 class="name" id="set_diffuse_color_factor"><span class="type-signature">&lt;static> </span>set_diffuse_color_factor<span class="signature">(obj, mat_name, diffuse_color_factor)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="set_diffuse_color_factor"><span class="type-signature">(static) </span>set_diffuse_color_factor<span class="signature">(obj, mat_name, diffuse_color_factor)</span><span class="type-signature"></span></h4>
 
     
 </dt>
@@ -3512,7 +2883,7 @@
 
     
     <div class="description">
-        Set diffuse color factor for object material.
+        Set the diffuse color factor for the object material.
     </div>
     
 
@@ -3551,6 +2922,11 @@
 
             <td class="type">
             
+                
+<span class="param-type">Object</span>
+
+
+            
             </td>
 
             
@@ -3568,6 +2944,11 @@
             
 
             <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
             
             </td>
 
@@ -3629,7 +3010,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="material.js.html">ext/material.js</a>, <a href="material.js.html#line485">line 485</a>
+        <a href="material.js.html">ext/material.js</a>, <a href="material.js.html#line398">line 398</a>
     </li></ul></dd>
     
 
@@ -3659,7 +3040,7 @@
         
             
 <dt>
-    <h4 class="name" id="set_diffuse_intensity"><span class="type-signature">&lt;static> </span>set_diffuse_intensity<span class="signature">(obj, mat_name, intensity)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="set_diffuse_intensity"><span class="type-signature">(static) </span>set_diffuse_intensity<span class="signature">(obj, mat_name, intensity)</span><span class="type-signature"></span></h4>
 
     
 </dt>
@@ -3667,7 +3048,7 @@
 
     
     <div class="description">
-        Set diffuse color intensity for object material.
+        Set the diffuse color intensity for the object material.
     </div>
     
 
@@ -3706,6 +3087,11 @@
 
             <td class="type">
             
+                
+<span class="param-type">Object</span>
+
+
+            
             </td>
 
             
@@ -3723,6 +3109,11 @@
             
 
             <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
             
             </td>
 
@@ -3784,7 +3175,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="material.js.html">ext/material.js</a>, <a href="material.js.html#line220">line 220</a>
+        <a href="material.js.html">ext/material.js</a>, <a href="material.js.html#line186">line 186</a>
     </li></ul></dd>
     
 
@@ -3814,7 +3205,7 @@
         
             
 <dt>
-    <h4 class="name" id="set_emit_factor"><span class="type-signature">&lt;static> </span>set_emit_factor<span class="signature">(obj, mat_name, emit_factor)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="set_emit_factor"><span class="type-signature">(static) </span>set_emit_factor<span class="signature">(obj, mat_name, emit_factor)</span><span class="type-signature"></span></h4>
 
     
 </dt>
@@ -3822,7 +3213,7 @@
 
     
     <div class="description">
-        Set emit factor for object material.
+        Set the emit factor for the object material.
     </div>
     
 
@@ -3861,6 +3252,11 @@
 
             <td class="type">
             
+                
+<span class="param-type">Object</span>
+
+
+            
             </td>
 
             
@@ -3878,6 +3274,11 @@
             
 
             <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
             
             </td>
 
@@ -3939,7 +3340,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="material.js.html">ext/material.js</a>, <a href="material.js.html#line399">line 399</a>
+        <a href="material.js.html">ext/material.js</a>, <a href="material.js.html#line336">line 336</a>
     </li></ul></dd>
     
 
@@ -3969,7 +3370,7 @@
         
             
 <dt>
-    <h4 class="name" id="set_material_params"><span class="type-signature">&lt;static> </span>set_material_params<span class="signature">(obj, mat_name, mat_params)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="set_material_params"><span class="type-signature">(static) </span>set_material_params<span class="signature">(obj, mat_name, mat_params)</span><span class="type-signature"></span></h4>
 
     
 </dt>
@@ -3977,7 +3378,7 @@
 
     
     <div class="description">
-        Set material params
+        Set the material params
     </div>
     
 
@@ -4017,7 +3418,7 @@
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">Object</span>
 
 
             
@@ -4040,7 +3441,7 @@
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">String</span>
 
 
             
@@ -4063,7 +3464,7 @@
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">Object</span>
 
 
             
@@ -4104,7 +3505,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="material.js.html">ext/material.js</a>, <a href="material.js.html#line647">line 647</a>
+        <a href="material.js.html">ext/material.js</a>, <a href="material.js.html#line547">line 547</a>
     </li></ul></dd>
     
 
@@ -4134,7 +3535,7 @@
         
             
 <dt>
-    <h4 class="name" id="set_max_bones"><span class="type-signature">&lt;static> </span>set_max_bones<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="set_max_bones"><span class="type-signature">(static) </span>set_max_bones<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 </dt>
@@ -4173,7 +3574,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="material.js.html">ext/material.js</a>, <a href="material.js.html#line28">line 28</a>
+        <a href="material.js.html">ext/material.js</a>, <a href="material.js.html#line30">line 30</a>
     </li></ul></dd>
     
 
@@ -4203,7 +3604,7 @@
         
             
 <dt>
-    <h4 class="name" id="set_specular_color"><span class="type-signature">&lt;static> </span>set_specular_color<span class="signature">(obj, mat_name, color)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="set_specular_color"><span class="type-signature">(static) </span>set_specular_color<span class="signature">(obj, mat_name, color)</span><span class="type-signature"></span></h4>
 
     
 </dt>
@@ -4211,7 +3612,7 @@
 
     
     <div class="description">
-        Set specular color for object material.
+        Set the specular color for the object material.
     </div>
     
 
@@ -4250,6 +3651,11 @@
 
             <td class="type">
             
+                
+<span class="param-type">Object</span>
+
+
+            
             </td>
 
             
@@ -4267,6 +3673,11 @@
             
 
             <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
             
             </td>
 
@@ -4287,7 +3698,7 @@
             <td class="type">
             
                 
-<span class="param-type">vec3</span>
+<span class="param-type">Float32Array</span>
 
 
             
@@ -4328,7 +3739,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="material.js.html">ext/material.js</a>, <a href="material.js.html#line263">line 263</a>
+        <a href="material.js.html">ext/material.js</a>, <a href="material.js.html#line216">line 216</a>
     </li></ul></dd>
     
 
@@ -4358,7 +3769,7 @@
         
             
 <dt>
-    <h4 class="name" id="set_specular_hardness"><span class="type-signature">&lt;static> </span>set_specular_hardness<span class="signature">(obj, mat_name, hardness)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="set_specular_hardness"><span class="type-signature">(static) </span>set_specular_hardness<span class="signature">(obj, mat_name, hardness)</span><span class="type-signature"></span></h4>
 
     
 </dt>
@@ -4366,7 +3777,7 @@
 
     
     <div class="description">
-        Set specular color hardness for object material.
+        Set the specular color hardness for the object material.
     </div>
     
 
@@ -4405,6 +3816,11 @@
 
             <td class="type">
             
+                
+<span class="param-type">Object</span>
+
+
+            
             </td>
 
             
@@ -4422,6 +3838,11 @@
             
 
             <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
             
             </td>
 
@@ -4483,7 +3904,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="material.js.html">ext/material.js</a>, <a href="material.js.html#line356">line 356</a>
+        <a href="material.js.html">ext/material.js</a>, <a href="material.js.html#line293">line 293</a>
     </li></ul></dd>
     
 
@@ -4513,7 +3934,7 @@
         
             
 <dt>
-    <h4 class="name" id="set_specular_intensity"><span class="type-signature">&lt;static> </span>set_specular_intensity<span class="signature">(obj, mat_name, intensity)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="set_specular_intensity"><span class="type-signature">(static) </span>set_specular_intensity<span class="signature">(obj, mat_name, intensity)</span><span class="type-signature"></span></h4>
 
     
 </dt>
@@ -4521,7 +3942,7 @@
 
     
     <div class="description">
-        Set specular color intensity for object material.
+        Set the specular color intensity for the object material.
     </div>
     
 
@@ -4560,6 +3981,11 @@
 
             <td class="type">
             
+                
+<span class="param-type">Object</span>
+
+
+            
             </td>
 
             
@@ -4577,6 +4003,11 @@
             
 
             <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
             
             </td>
 
@@ -4638,7 +4069,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="material.js.html">ext/material.js</a>, <a href="material.js.html#line313">line 313</a>
+        <a href="material.js.html">ext/material.js</a>, <a href="material.js.html#line250">line 250</a>
     </li></ul></dd>
     
 
@@ -4668,7 +4099,7 @@
         
             
 <dt>
-    <h4 class="name" id="set_water_material_params"><span class="type-signature">&lt;static> </span>set_water_material_params<span class="signature">(obj, water_mat_name, water_mat_params)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="set_water_material_params"><span class="type-signature">(static) </span>set_water_material_params<span class="signature">(obj, water_mat_name, water_mat_params)</span><span class="type-signature"></span></h4>
 
     
 </dt>
@@ -4676,7 +4107,7 @@
 
     
     <div class="description">
-        Set water material params
+        Set params for the water material
     </div>
     
 
@@ -4716,7 +4147,7 @@
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">Object</span>
 
 
             
@@ -4739,7 +4170,7 @@
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">String</span>
 
 
             
@@ -4762,7 +4193,7 @@
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">Object</span>
 
 
             
@@ -4803,7 +4234,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="material.js.html">ext/material.js</a>, <a href="material.js.html#line703">line 703</a>
+        <a href="material.js.html">ext/material.js</a>, <a href="material.js.html#line603">line 603</a>
     </li></ul></dd>
     
 
@@ -4852,7 +4283,7 @@
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-dev</a> on Wed May 14 2014 10:58:10 GMT+0400 (MSK)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-dev</a> on Wed Jun 25 2014 18:01:34 GMT+0400 (MSK)
 </footer>
 
 <script> prettyPrint(); </script>

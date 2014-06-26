@@ -20,8 +20,8 @@ msgid ""
 "Объекты служат целям размещения компонентов различного типа (мешей, камер, "
 "ламп и т.д.) в пространстве 3D сцены."
 msgstr ""
-"Objects are intended to position components of different types "
-"(meshes, cameras, lamps etc) in a 3D scene space."
+"Objects are intended to position components of different types (meshes, "
+"cameras, lamps etc) in a 3D scene space."
 
 #: ../objects.rst:11
 msgid "Типы"
@@ -73,9 +73,9 @@ msgid ""
 "указатель на блок данных, родительский объект, принадлежность к группе и ряд"
 " специальных свойств движка."
 msgstr ""
-"The following is supported for all types of objects: transform, data reference, "
-"parent object, group membership and a range of the engine's special "
-"properties."
+"The following is supported for all types of objects: transform, data "
+"reference, parent object, group membership and a range of the engine's "
+"special properties."
 
 #: ../objects.rst:36
 msgid "*Transform > Location*"
@@ -212,21 +212,6 @@ msgstr "Enable the object as a part of a vehicle."
 msgid "*Blend4Web > Do not batch*"
 msgstr ""
 
-#: ../objects.rst:78
-msgid ""
-"Запретить комбинирование меша объекта с другими мешами, имеющими одинаковый "
-"материал, которое осуществляется в целях оптимизации количества вызовов "
-"отрисовки. Объекты, имеющие анимацию или физику, уже рассматриваются как "
-"отдельные. Опция применяется исключительно в случаях, когда необходимо "
-"обеспечить движение объекта, однако явным образом это не вытекает из "
-"имеющихся на нём опций."
-msgstr ""
-"Prohibit merging of the object's mesh with other meshes that have the same material "
-"(performed by default for optimization purposes). Objects with "
-"animation or physics are already considered as separate. This option should "
-"be used when object movement is required but is not apparent "
-"from its settings."
-
 #: ../objects.rst:81
 msgid "*Blend4Web > Disable frustum culling*"
 msgstr ""
@@ -259,8 +244,7 @@ msgstr ""
 msgid ""
 "Отбрасывать и получать тени, соответственно. Могут быть включены "
 "одновременно."
-msgstr ""
-"Cast and receive shadows respectively. Can be enabled simultaneously."
+msgstr "Cast and receive shadows respectively. Can be enabled simultaneously."
 
 #: ../objects.rst:93
 msgid "*Blend4Web > Reflections: Reflexible*"
@@ -268,8 +252,7 @@ msgstr ""
 
 #: ../objects.rst:93
 msgid "При включении объект будет отражаться от зеркальных поверхностей."
-msgstr ""
-"When enabled the object is reflected in the dynamic mirror surfaces."
+msgstr "When enabled the object is reflected in the dynamic mirror surfaces."
 
 #: ../objects.rst:96
 msgid "*Blend4Web > Reflections: Reflective*"
@@ -297,40 +280,35 @@ msgstr ""
 msgid "Включить процедурную анимацию под действием ветра."
 msgstr "Enable procedural animation under the influence of wind."
 
-#: ../objects.rst:105
+#: ../objects.rst:108
 msgid "*Blend4Web > Self LOD > Distance*"
 msgstr ""
 
-#: ../objects.rst:105
-msgid ""
-"Расстояние от камеры, на котором объект перестает отображаться. Значение по "
-"умолчанию 10000.0."
-msgstr "Distance from the camera at which the object is no longer rendered. The default value is 10000.0. "
-
-#: ../objects.rst:108
+#: ../objects.rst:114
 msgid "*Blend4Web > Additional LOD objects*"
 msgstr ""
 
-#: ../objects.rst:108
+#: ../objects.rst:111
 msgid ""
 "Интерфейс добавления низкополигональных объектов для реализации переключения"
 " уровня детализации."
 msgstr ""
-"The interface for adding low-poly objects used for switching the levels of detail."
+"The interface for adding low-poly objects used for switching the levels of "
+"detail."
 
-#: ../objects.rst:111
+#: ../objects.rst:135
 msgid "Камера"
 msgstr "Camera"
 
-#: ../objects.rst:113
+#: ../objects.rst:137
 msgid ""
 "Настройки камеры выставляются в панели ``Properties`` на вкладке ``Object "
 "Data``."
 msgstr ""
-"The camera settings are specified in the ``Properties`` panel under the ``Object "
-"Data`` tab."
+"The camera settings are specified in the ``Properties`` panel under the "
+"``Object Data`` tab."
 
-#: ../objects.rst:115
+#: ../objects.rst:139
 msgid ""
 "*Blend4Web > Move style* -- режим управления камерой. По умолчанию камера "
 "находится в статическом режиме (``Static``), допуская измененение своего "
@@ -338,39 +316,22 @@ msgid ""
 "фиксированной точки. Режим ``Eye`` позволяет осуществлять вращение и "
 "перемещение от первого лица."
 msgstr ""
-"*Blend4Web > Move style* -- camera control mode. By default the camera is in "
-"``Static`` mode and this can be changed only through the API call. In the "
+"*Blend4Web > Move style* -- camera control mode. By default the camera is in"
+" ``Static`` mode and this can be changed only through the API call. In the "
 "``Target`` mode the camera is rotating around a fixed point. The ``Eye`` "
 "mode allows rotation and translation as in first person view. "
 
-#: ../objects.rst:121
+#: ../objects.rst:145
 msgid ""
 "*Blend4Web > Target location* -- доступно в режиме ``Target``. Позиция "
 "точки, относительно которой будет вращаться камера. Кнопка ``Copy Cursor "
 "Location`` позволяет скопировать текущее положение курсора."
 msgstr ""
-"*Blend4Web > Target location* -- available in the ``Target`` mode. This is the position of the "
-"camera pivot point. The ``Copy Cursor "
-"Location`` button copies the current 3D cursor position into this value."
+"*Blend4Web > Target location* -- available in the ``Target`` mode. This is "
+"the position of the camera pivot point. The ``Copy Cursor Location`` button "
+"copies the current 3D cursor position into this value."
 
-#: ../objects.rst:125
-msgid ""
-"*Blend4Web > Use distance limits* -- доступно в режиме ``Target``. "
-"Ограничить перемещение камеры двумя крайними расстояниями."
-msgstr ""
-"*Blend4Web > Use distance limits* -- available in the ``Target`` mode. "
-"This limits the camera transition to the two extreme distances."
-
-#: ../objects.rst:128
-msgid ""
-"*Blend4Web > Use vertical rotation clamping* -- доступно в режиме ``Target``"
-" и ``Eye``. Ограничить вертикальный угол расположения камеры двумя крайними "
-"значениями."
-msgstr ""
-"*Blend4Web > Use vertical rotation clamping* -- available in the ``Target`` and ``Eye`` modes. "
-"This limits the vertical rotation angle of the camera to the two extreme values. "
-
-#: ../objects.rst:131
+#: ../objects.rst:149
 msgid ""
 "*Blend4Web > DOF front distance* -- описано в разделе "
 ":ref:`postprocessing_effects`"
@@ -378,7 +339,7 @@ msgstr ""
 "*Blend4Web > DOF front distance* -- described in the "
 ":ref:`postprocessing_effects` section."
 
-#: ../objects.rst:133
+#: ../objects.rst:151
 msgid ""
 "*Blend4Web > DOF rear distance* -- описано в разделе "
 ":ref:`postprocessing_effects`"
@@ -386,12 +347,253 @@ msgstr ""
 "*Blend4Web > DOF rear distance* -- described in the "
 ":ref:`postprocessing_effects` section."
 
-#: ../objects.rst:135
+#: ../objects.rst:153
 msgid ""
 "*Blend4Web > DOF power* -- описано в разделе :ref:`postprocessing_effects`"
 msgstr ""
-"*Blend4Web > DOF power* -- described in the "
-":ref:`postprocessing_effects` section."
+"*Blend4Web > DOF power* -- described in the :ref:`postprocessing_effects` "
+"section."
 
+#: ../objects.rst:78
+msgid ""
+"Принудительно сделать объект :ref:`динамическим <static_dynamic_objects>`."
+msgstr ""
+"Force the object to become a :ref:`dynamic object <static_dynamic_objects>`."
+
+#: ../objects.rst:105
+msgid "Расстояние от камеры, на котором объект перестает отображаться."
+msgstr "Distance from the camera at which the object is no longer rendered."
+
+#: ../objects.rst:107 ../objects.rst:113
+msgid "реализовано в стандартном инструменте Blender ``Levels of Detail``."
+msgstr "implemented in the standard ``Levels of Detail`` Blender's tool."
+
+#: ../objects.rst:119
+msgid "Статические и динамические объекты"
+msgstr "Static and Dynamic Objects"
+
+#: ../objects.rst:120
+msgid ""
+"Все объекты типа ``MESH`` можно разделить на статические и динамические."
+msgstr "All ``MESH`` objects can be divided into static and dynamic objects."
+
+#: ../objects.rst:122
+msgid ""
+"**Статические объекты** - объекты, меши которых могут быть объединены друг с"
+" другом, если они имеют одинаковый материал."
+msgstr ""
+"**Static objects** are objects, the meshes of which can be merged together "
+"if they have the same material."
+
+#: ../objects.rst:124
+msgid ""
+"**Динамические объекты** - объекты, меши которых не могут быть "
+"скомбинированы друг с другом."
+msgstr ""
+"**Dynamic objects** are objects, the meshes of which cannot be combined with"
+" each other."
+
+#: ../objects.rst:126
+msgid ""
+"Объединение статических объектов осуществляется в целях оптимизации "
+"количества вызовов отрисовки. Динамические объекты нужны в том случае, когда"
+" необходимо обеспечить движение отдельного объекта."
+msgstr ""
+"Static objects are merged in order to optimize the number of draw calls. "
+"Dynamic objects are needed to make the movement of a separate object "
+"possible."
+
+#: ../objects.rst:129
+msgid ""
+"Среди объектов другого типа динамическими являются ``CAMERA`` и "
+"``ARMATURE``. Остальные - статические."
+msgstr ""
+"Among objects of the other type the dynamic ones are ``CAMERA`` and "
+"``ARMATURE``. All other objects are static."
+
+#: ../objects.rst:131
+msgid ""
+"Объекты, имеющие анимацию, физику или родителя, являющегося динамическим "
+"объектом, уже рассматриваются как динамические. Если же необходимо "
+"обеспечить движение объекта, однако явным образом это не вытекает из "
+"имеющихся на нём опций, то следует включить настройку `Blend4Web > Do not "
+"batch`."
+msgstr ""
+"The objects which have animation, physics or a parent, which is a dynamic "
+"object, are considered dynamic by default. When object movement is required "
+"but is not apparent from its settings, then its nesessary to enable the "
+"`Blend4Web > Do not batch` checkbox."
+
+#: ../objects.rst:157
+msgid "Ограничения движения камеры"
+msgstr "Limiting the camera movement"
+
+#: ../objects.rst:158
+msgid ""
+"Для камеры доступно несколько настроек, ограничивающих её движение тем или "
+"иным образом. Они объединены в группу ``Camera limits``."
+msgstr ""
+"There are several settings for the camera which limit its movement this way "
+"or another. They are grouped as ``Camera limits``."
+
+#: ../objects.rst:167
+msgid "**Виды ограничений**"
+msgstr "**Types of limits**"
+
+#: ../objects.rst:169
+msgid ""
+"*Blend4Web > Use distance limits* -- доступно в режиме ``Target``. Задание "
+"минимального и максимального расстояния от камеры до точки вращения."
+msgstr ""
+"*Blend4Web > Use distance limits* -- available in the ``Target`` mode. This "
+"defines the minimum and maximum distance from the camera to the pivot point."
+
+#: ../objects.rst:172
+msgid "Варианты интервалов:"
+msgstr "Interval variants:"
+
+#: ../objects.rst:174
+msgid ""
+"*Max > Min* - расстояние от камеры до объекта ограничено интервалом *[Min, "
+"Max]*"
+msgstr ""
+"*Max > Min* - the distance from the camera to the object is limited by the "
+"interval *[Min, Max]*"
+
+#: ../objects.rst:176
+msgid "*Max = Min* - фиксирование камеры на определенной высоте над объектом"
+msgstr ""
+"*Max = Min* - the camera is fixed on a certain height above the object"
+
+#: ../objects.rst:178
+msgid "*Max < Min* - ограничение движения отсутствует"
+msgstr "*Max < Min* - no movement limits"
+
+#: ../objects.rst:186
+msgid "Значения по умолчанию: *Min = 1, Max = 100*."
+msgstr "Default values: *Min = 1, Max = 100*."
+
+#: ../objects.rst:190
+msgid ""
+"*Blend4Web > Use horizontal rotation clamping* -- доступно в режимах "
+"``Target`` и ``Eye``. Ограничение горизонтального вращения камеры "
+"относительно точки вращения (в режиме ``Target``) или относительно своего "
+"местоположения (в режиме ``Eye``)."
+msgstr ""
+"*Blend4Web > Use horizontal rotation clamping* -- available in the "
+"``Target`` and ``Eye`` modes. Limits the camera's horizontal rotation "
+"relative to the pivot point (in the ``Target`` mode) or relative to its "
+"position (in the ``Eye`` mode)."
+
+#: ../objects.rst:192
+msgid ""
+"Направление от ``Left`` к ``Right`` считается положительным и для режима "
+"``Target`` совпадает с направлением против часовой стрелки, а для режима "
+"``Eye`` - по часовой стрелке:"
+msgstr ""
+"The direction from ``Left`` to ``Right`` is considered positive and matches "
+"the counterclockwise direction for the ``Target`` mode, and the clockwise "
+"direction for the ``Eye`` mode:"
+
+#: ../objects.rst:198
+msgid "Значения по умолчанию: *Left = -180, Right = 180*."
+msgstr "Default values: *Left = -180, Right = 180*."
+
+#: ../objects.rst:202
+msgid ""
+"*Blend4Web > Use vertical rotation clamping* -- доступно в режимах "
+"``Target`` и ``Eye``. Ограничение вертикального вращения камеры относительно"
+" фиксированной точки (в режиме ``Target``) или относительно своего "
+"местоположения (в режиме ``Eye``)."
+msgstr ""
+"*Blend4Web > Use vertical rotation clamping* -- available in the ``Target`` "
+"and ``Eye`` modes. Limits the camera's vertical rotation relative to the "
+"pivot point (in the ``Target`` mode) or relative to its position (in the "
+"``Eye`` mode)."
+
+#: ../objects.rst:204
+msgid "Направление от ``Down`` к ``Up`` считается положительным:"
+msgstr "The direction from ``Down`` to ``Up`` is considered positive:"
+
+#: ../objects.rst:211
+msgid ""
+"Если включена опция *Use horizontal rotation clamping*, то вертикальное "
+"вращение будет ограничено, по крайней мере, интервалом *[-90, 90]*."
+msgstr ""
+"If the *Use horizontal rotation clamping* checkbox is enabled, vertical "
+"rotation will be limited at least to the interval *[-90, 90]*."
+
+#: ../objects.rst:214
+msgid "Значения по умолчанию: *Down = -90, Up = 90*."
+msgstr "Default values: *Down = -90, Up = 90*."
+
+#: ../objects.rst:218
+msgid "**Особенности значений, ограничивающих поворот**"
+msgstr "**Possible rotation limits pitfalls**"
+
+#: ../objects.rst:220
+msgid ""
+"Перемена мест значений *Left/Right* или *Down/Up* приводит к движению по "
+"противоположной дуге окружности вращения."
+msgstr ""
+"Swapping the *Left/Right* or *Down/Up* values swaps the rotations arcs."
+
+#: ../objects.rst:226
+msgid ""
+"*Left = Right, Up = Down* - фиксирование камеры соответственно по "
+"горизонтали или вертикали."
+msgstr ""
+"*Left = Right, Up = Down* - fixes the camera horizontally and vertically "
+"(respectively)."
+
+#: ../objects.rst:230
+msgid "**Отсчет углов поворота**"
+msgstr "**Rotation angles origin**"
+
+#: ../objects.rst:232
+msgid ""
+"При ограничении горизонтального и вертикального вращения можно выбрать "
+"пространство координат:"
+msgstr ""
+"You can choose the space of coordinates for horizontal and vertical rotation"
+" limits:"
+
+#: ../objects.rst:234
+msgid ""
+"``Camera space`` - все углы отсчитываются относительно начального положения "
+"и ориентации камеры."
+msgstr ""
+"``Camera space`` - all angles are measured relative to the initial camera "
+"position and orientation."
+
+#: ../objects.rst:236
+msgid ""
+"``World space`` - горизонтальные углы отсчитываются относительно направления"
+" оси Y в пространстве мировых координат, вертикальные - относительно "
+"горизонтальной плоскости XOY в мировом пространстве."
+msgstr ""
+"``World space`` - horizontal angles are measured starting from the Y axis in"
+" the world space, while vertical angles - relative to the horizontal plane "
+"XOY in the world space."
+
+#: ../objects.rst:238
+msgid "Для ограничения по горизонтали:"
+msgstr "For horizontal limits:"
+
+#: ../objects.rst:244
+msgid "Для ограничения по вертикали:"
+msgstr "For vertical limits:"
+
+#: ../objects.rst:250
+msgid ""
+"Оси координат, отмеченные на рисунках, совпадают с осями мировых координат в"
+" Blender'е."
+msgstr ""
+"The coordinate axes labelled on the pictures match the Blender's world "
+"coordinate axes."
+
+#: ../objects.rst:252
+msgid "По умолчанию назначается вариант ``Camera space``."
+msgstr "By default the ``Camera space`` option is selected."
 
 

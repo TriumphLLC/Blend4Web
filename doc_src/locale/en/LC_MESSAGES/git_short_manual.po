@@ -63,7 +63,7 @@ msgid ""
 "По завершении некоторого логического этапа работы возникает необходимость "
 "фиксации изменений (коммит) и/или синхронизации с коллегами."
 msgstr ""
-"After a certain logical period of work is finished it is neccessary to fix (commit) the changes and/or "
+"After a certain logical period of work is finished it is necessary to fix (commit) the changes and/or "
 "syncronize with your team mates."
 
 #: ../git_short_manual.rst:28

@@ -2,20 +2,23 @@
 
 /**
  * Scene API.
- * Almost every routine requires active scene to be set, 
+ * Almost every routine requires an active scene to be set, 
  * use get_active() set_active() to do that.
  * @module scenes
  */
 b4w.module["scenes"] = function(exports, require) {
 
-var m_batch  = require("__batch");
-var config   = require("__config");
-var m_print  = require("__print");
-var physics  = require("__physics");
-var renderer = require("__renderer");
-var m_scenes = require("__scenes");
-var util     = require("__util");
-var m_cam    = require("__camera");
+var m_batch     = require("__batch");
+var config      = require("__config");
+var m_prerender = require("__prerender");
+var m_print     = require("__print");
+var physics     = require("__physics");
+var renderer    = require("__renderer");
+var m_scenes    = require("__scenes");
+var util        = require("__util");
+var m_cam       = require("__camera");
+
+
 
 var cfg_def = config.defaults;
 
@@ -26,7 +29,7 @@ var LIGHT_SUBSCENE_TYPES = ["MAIN_OPAQUE", "MAIN_BLEND", "MAIN_REFLECT",
         "GOD_RAYS", "SKY"];
 
 /**
- * Set active scene
+ * Set the active scene
  * @method module:scenes.set_active
  * @param {String} scene_name Name of scene
  */
@@ -37,7 +40,7 @@ exports["set_active"] = function(scene_name) {
 }
 
 /**
- * Get current active scene
+ * Get the current active scene
  * @method module:scenes.get_active
  * @returns {String} Active scene name
  */
@@ -60,7 +63,7 @@ exports["get_scenes"] = function() {
     return scene_names;
 }
 /**
- * Get all screen scene names (ignore used for texture rendering)
+ * Get all on-screen scene names (ignore the ones used for texture rendering)
  * @method module:scenes.get_screen_scenes
  * @deprecated No scene switching anymore
  */
@@ -69,7 +72,7 @@ exports["get_screen_scenes"] = function() {
     return "";
 }
 /**
- * Return active camera object from active scene
+ * Return the active camera object from the active scene
  * @method module:scenes.get_active_camera
  * @returns Camera object ID
  */
@@ -145,7 +148,7 @@ exports["get_object_by_empty_name"] = function(empty_name, origin_name) {
 
 
 /**
- * For given mouse coords, render color scene and return object name
+ * For given mouse coords, render the color scene and return an object name
  * @method module:scenes.pick_object
  * @param x X screen coordinate
  * @param y Y screen coordinate
@@ -160,6 +163,7 @@ exports["pick_object"] = function(x, y) {
     var subs_color_pick = m_scenes.get_subs(active_scene, "COLOR_PICKING");
     if (subs_color_pick) {
         // NOTE: may be some delay since exports.update() execution
+        m_prerender.prerender_subs(subs_color_pick);
         renderer.draw(subs_color_pick, subs_color_pick.bundles);
 
         var cam = subs_color_pick.camera;
@@ -186,10 +190,10 @@ exports["pick_object"] = function(x, y) {
 }
 
 /**
- * Set outline glow intensity for object
+ * Set outline glow intensity for the object
  * @method module:scenes.set_glow_intensity
- * @param obj Object ID
- * @param {number} value Intensity value
+ * @param {Object} obj Object ID
+ * @param {Number} value Intensity value
  */
 exports["set_glow_intensity"] = function(obj, value) {
     for (var i = 0; i < obj._batches.length; i++) {
@@ -201,12 +205,12 @@ exports["set_glow_intensity"] = function(obj, value) {
 }
 
 /**
- * Apply glowing animation on object
+ * Apply glowing animation to the object
  * @method module:scenes.apply_glow_anim
- * @param obj Object ID
- * @param {number} tau Glowing duration
- * @param {number} T Period of glowing
- * @param {number} N Number of relapses (0 - infinity)
+ * @param {Object} obj Object ID
+ * @param {Number} tau Glowing duration
+ * @param {Number} T Period of glowing
+ * @param {Number} N Number of relapses (0 - infinity)
  */
 exports["apply_glow_anim"] = function(obj, tau, T, N) {
     if (obj._render && obj._render.selectable)
@@ -214,9 +218,9 @@ exports["apply_glow_anim"] = function(obj, tau, T, N) {
 }
 
 /**
- * Apply glowing animation with object default settings
+ * Apply glowing animation to the object and use the object's default settings
  * @method module:scenes.apply_glow_anim_def
- * @param obj Object ID
+ * @param {Object} obj Object ID
  */
 exports["apply_glow_anim_def"] = function(obj) {
     if (obj._render && obj._render.selectable) {
@@ -227,9 +231,9 @@ exports["apply_glow_anim_def"] = function(obj) {
 }
 
 /**
- * Stop object glowing animation
+ * Stop glowing animation for the object.
  * @method module:scenes.clear_glow_anim
- * @param obj Object ID
+ * @param {Object} obj Object ID
  */
 exports["clear_glow_anim"] = function(obj) {
     if (obj._render && obj._render.selectable)
@@ -237,7 +241,7 @@ exports["clear_glow_anim"] = function(obj) {
 }
 
 /**
- * Set color of glowing
+ * Set the color of glowing
  * @method module:scenes.set_glow_color
  * @param color Color
  */
@@ -283,7 +287,7 @@ exports["get_lights_names"] = function() {
 }
 
 /**
- * Get shadow_params
+ * Get shadow params.
  * @method module:scenes.get_shadow_params
  */
 exports["get_shadow_params"] = function() {
@@ -325,7 +329,7 @@ exports["get_shadow_params"] = function() {
 /**
  * Set shadow params
  * @method module:scenes.set_shadow_params
- * @param {object} shadow_params Shadow params
+ * @param {Object} shadow_params Shadow params
  */
 exports["set_shadow_params"] = function(shadow_params) {
     if (!m_scenes.check_active()) {
@@ -353,7 +357,7 @@ exports["set_shadow_params"] = function(shadow_params) {
 
             var bundles = subs.bundles;
             var batch = bundles[0].batch;
-            if (batch && batch.texel_size) {
+            if (batch) {
                 m_batch.set_texel_size_mult(batch, shadow_params["blur_depth_size_mult"]);
                 m_scenes.set_texel_size(subs, 1/subs.camera.width, 1/subs.camera.width);
             }
@@ -404,7 +408,7 @@ exports["set_shadow_params"] = function(shadow_params) {
 }
 
 /**
- * Get horizon and zenith colors of environment.
+ * Get horizon and zenith colors of the environment.
  * @method module:scenes.get_environment_colors
  */
 exports["get_environment_colors"] = function() {
@@ -417,7 +421,7 @@ exports["get_environment_colors"] = function() {
 }
 
 /**
- * Set horizon and/or zenith color(s) of environment.
+ * Set horizon and/or zenith color(s) of the environment.
  * @method module:scenes.set_environment_colors
  * @param opt_environment_energy Environment Energy
  * @param opt_horizon_color Horizon color
@@ -464,7 +468,7 @@ exports["set_fog_color_density"] = function(val) {
 }
 
 /**
- * Get ssao params
+ * Get SSAO params
  * @method module:scenes.get_ssao_params
  */
 exports["get_ssao_params"] = function() {
@@ -477,7 +481,7 @@ exports["get_ssao_params"] = function() {
 }
 
 /**
- * Set ssao params
+ * Set SSAO params
  * @method module:scenes.set_ssao_params
  * @param ssao_params SSAO params
  * @param ssao_params.radius_increase Radius Increase
@@ -495,7 +499,7 @@ exports["set_ssao_params"] = function(ssao_params) {
 /**
  * Get color correction params
  * @method module:scenes.get_color_correction_params
- * @returns {object} Color correction params 
+ * @returns {Object} Color correction params 
  */
 exports["get_color_correction_params"] = function() {
     if (!m_scenes.check_active()) {
@@ -521,7 +525,7 @@ exports["get_color_correction_params"] = function() {
 /**
  * Set color correction params
  * @method module:scenes.set_color_correction_params
- * @param {object} Color correction params 
+ * @param {Object} Color correction params 
  */
 exports["set_color_correction_params"] = function(compos_params) {
     if (!m_scenes.check_active()) {
@@ -577,7 +581,7 @@ exports["set_sky_params"] = function(sky_params) {
 }
 
 /**
- * Get depth of field params.
+ * Get depth-of-field (DOF) params.
  * @method module:scenes.get_dof_params
  */
 exports["get_dof_params"] = function() {
@@ -594,9 +598,9 @@ exports["get_dof_params"] = function() {
 }
 
 /**
- * Set depth of field params
+ * Set depth-of-field (DOF) params
  * @method module:scenes.set_dof_params
- * @param {object} dof params
+ * @param {Object} dof params
  */
 exports["set_dof_params"] = function(dof_params) {
     if (!m_scenes.check_active()) {
@@ -627,7 +631,7 @@ exports["get_god_rays_params"] = function() {
 /**
  * Set god rays parameters
  * @method module:scenes.set_god_rays_params
- * @param {object} god rays params 
+ * @param {Object} god rays params 
  */
 exports["set_god_rays_params"] = function(god_rays_params) {
     if (!m_scenes.check_active()) {
@@ -658,7 +662,7 @@ exports["get_bloom_params"] = function() {
 /**
  * Set bloom parameters
  * @method module:scenes.set_bloom_params
- * @param {object} bloom params 
+ * @param {Object} bloom params 
  */
 exports["set_bloom_params"] = function(bloom_params) {
     if (!m_scenes.check_active()) {
@@ -680,7 +684,7 @@ exports["get_wind_params"] = function() {
 /**
  * Set wind parameters
  * @method module:scenes.set_wind_params
- * @param {object} wind params 
+ * @param {Object} wind params 
  */
 exports["set_wind_params"] = function(wind_params) {
     if (!m_scenes.check_active()) {
@@ -700,7 +704,7 @@ exports["get_water_surface_level"] = m_scenes.get_water_surface_level;
 /**
  * Set water params
  * @method module:scenes.set_water_params
- * @param {object} water params
+ * @param {Object} water params
  */
 exports["set_water_params"] = function(water_params) {
     if (!m_scenes.check_active()) {
@@ -714,7 +718,7 @@ exports["set_water_params"] = function(water_params) {
 /**
  * Get water material parameters
  * @method module:scenes.get_water_mat_params
- * @param {object} water params
+ * @param {Object} water params
  */
 exports["get_water_mat_params"] = function(water_params) {
     if (!m_scenes.check_active()) {
@@ -739,7 +743,7 @@ exports["update_scene_materials_params"] = function() {
 }
 
 /**
- * Append object to active scene.
+ * Append the object to an active scene.
  * @method module:scenes.append_object
  * @deprecated Unused
  */
@@ -756,7 +760,7 @@ exports["add_object"] = function(obj) {
 }
 
 /**
- * Remove object from active scene.
+ * Remove the object from an active scene.
  * @method module:scenes.remove_object
  * @deprecated Unused
  */
@@ -766,9 +770,9 @@ exports["remove_object"] = function(obj) {
 
 
 /**
- * Hide object on active scene.
+ * Hide the object in the active scene.
  * @method module:scenes.hide_object
- * @param obj Object ID
+ * @param {Object} obj Object ID
  */
 exports["hide_object"] = function(obj) {
     var scene = m_scenes.get_active();
@@ -776,9 +780,9 @@ exports["hide_object"] = function(obj) {
 }
 
 /**
- * Show object on active scene.
+ * Show the object in the active scene.
  * @method module:scenes.show_object
- * @param obj Object ID
+ * @param {Object} obj Object ID
  */
 exports["show_object"] = function(obj) {
     var scene = m_scenes.get_active();
@@ -790,7 +794,7 @@ exports["is_visible"] = function(obj) {
 }
 
 /**
- * Check object availability on active scene.
+ * Check the object's availability in the active scene.
  * @method module:scenes.check_object
  * @param name Object name
  */
@@ -811,7 +815,7 @@ exports["remove_all"] = function() {
     throw("unimplemented");
 }
 /**
- * Check if object collides with object/material having given collision ID.
+ * Check if the object collides with an object/material which has the given collision ID.
  * @method module:scenes.check_collision
  * @deprecated By async physics
  */
@@ -819,7 +823,7 @@ exports["check_collision"] = function() {
     return false;
 }
 /**
- * Check if ray hit near collision ID.
+ * Check if ray has hit through the collision ID.
  * @method module:scenes.check_ray_hit
  * @deprecated By async physics
  */
@@ -828,7 +832,7 @@ exports["check_ray_hit"] = function() {
 }
 
 /**
- * Get objects appended to active scene.
+ * Get the objects appended to the active scene.
  * @method module:scenes.get_appended_objs
  * @param scene Scene object
  * @param [type="ALL"] Type
@@ -839,9 +843,9 @@ exports["get_appended_objs"] = function(type) {
 }
 
 /**
- * Get object name.
+ * Get the object's name.
  * @method module:scenes.get_object_name
- * @param obj Object ID
+ * @param {Object} obj Object ID
  */
 exports["get_object_name"] = function(obj) {
     if (!obj) {
@@ -853,9 +857,9 @@ exports["get_object_name"] = function(obj) {
 }
 
 /**
- * Get object type.
+ * Get the object's type.
  * @method module:scenes.get_object_type
- * @param obj Object ID
+ * @param {Object} obj Object ID
  */
 exports["get_object_type"] = function(obj) {
     if (!(obj && obj["type"])) {
@@ -867,16 +871,25 @@ exports["get_object_type"] = function(obj) {
 }
 
 /**
- * Return object children.
+ * Return the object's parent.
+ * @method module:scenes.get_object_dg_parent
+ * @param {Object} obj Object ID
+ */
+exports["get_object_dg_parent"] = function(obj) {
+    return obj._dg_parent;
+}
+
+/**
+ * Return the object's children.
  * @method module:scenes.get_object_children
- * @param obj Object ID
+ * @param {Object} obj Object ID
  */
 exports["get_object_children"] = function(obj) {
     return obj._descends.slice(0);
 }
 
 /**
- * Find first character on active scene.
+ * Find the first character on the active scene.
  */
 exports["get_first_character"] = function() {
     var sobjs = m_scenes.get_scene_objs(m_scenes.get_active(), "MESH");
@@ -890,7 +903,7 @@ exports["get_first_character"] = function() {
 }
 
 /**
- * Return distance to shore line.
+ * Return the distance to the shore line.
  * @method module:scenes.get_shore_dist
  * @param trans Current translation
  * @param [v_dist_mult=1] Vertical distance multiplier
@@ -903,7 +916,7 @@ exports["get_shore_dist"] = function(trans, v_dist_mult) {
 }
 
 /**
- * Return camera water depth or null if no water.
+ * Return the camera water depth or null if there is no water.
  * @method module:scenes.get_cam_water_depth
  */
 exports["get_cam_water_depth"] = function() {

@@ -3,7 +3,7 @@
 /**
  * Audio mixer add-on.
  * Implements volume faders, positional params, parametric equalizers per
- * channel and volume fader and compressor in master section.
+ * channel and volume fader and compressor to the master section.
  * @module mixer
  */
 b4w.module["mixer"] = function(exports, require) {
@@ -23,8 +23,8 @@ var _filter_mag_arr = null;
 var _filter_phase_arr = null;
 
 /**
- * Enable mixer controls and register to given object.
- * @param obj Object ID
+ * Enable mixer controls and attach to the given object.
+ * @param {Object} obj Object ID
  */
 exports.enable_mixer_controls = function(obj) {
     init();

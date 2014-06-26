@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Объекты &mdash; Руководство пользователя: Blend4Web v14.05.22</title>
+    <title>Объекты &mdash; Руководство пользователя: Blend4Web v14.06</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.05.22',
+        VERSION:     '14.06',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v14.05.22" href="index.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v14.06" href="index.html" />
     <link rel="next" title="Текстуры" href="textures.html" />
     <link rel="prev" title="Аддон" href="addon.html" /> 
   </head>
@@ -37,7 +37,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">Руководство пользователя: Blend4Web v14.05.22</a></div>
+          href="index.html">Руководство пользователя: Blend4Web v14.06</a></div>
         <div class="rel">
           <a href="addon.html" title="Аддон"
              accesskey="P">предыдущий</a> |
@@ -112,7 +112,7 @@
 <dt><em>Blend4Web &gt; Vehicle part</em></dt>
 <dd>Активировать использование объекта в качестве составной части транспортного средства.</dd>
 <dt><em>Blend4Web &gt; Do not batch</em></dt>
-<dd>Запретить комбинирование меша объекта с другими мешами, имеющими одинаковый материал, которое осуществляется в целях оптимизации количества вызовов отрисовки. Объекты, имеющие анимацию или физику, уже рассматриваются как отдельные. Опция применяется исключительно в случаях, когда необходимо обеспечить движение объекта, однако явным образом это не вытекает из имеющихся на нём опций.</dd>
+<dd>Принудительно сделать объект <a class="reference internal" href="#static-dynamic-objects"><em>динамическим</em></a>.</dd>
 <dt><em>Blend4Web &gt; Disable frustum culling</em></dt>
 <dd>Отключить оптимизацию отсечением по зоне видимости.</dd>
 <dt><em>Blend4Web &gt; Disable fogging</em></dt>
@@ -130,13 +130,32 @@
 <dt><em>Blend4Web &gt; Wind bending</em></dt>
 <dd>Включить процедурную анимацию под действием ветра.</dd>
 <dt><em>Blend4Web &gt; Self LOD &gt; Distance</em></dt>
-<dd>Расстояние от камеры, на котором объект перестает отображаться. Значение по умолчанию 10000.0.</dd>
+<dd><p class="first">Расстояние от камеры, на котором объект перестает отображаться.</p>
+<div class="last deprecated">
+<p><span class="versionmodified">Не рекомендуется, начиная с версии 14.06: </span>реализовано в стандартном инструменте Blender <tt class="docutils literal"><span class="pre">Levels</span> <span class="pre">of</span> <span class="pre">Detail</span></tt>.</p>
+</div>
+</dd>
 <dt><em>Blend4Web &gt; Additional LOD objects</em></dt>
-<dd>Интерфейс добавления низкополигональных объектов для реализации переключения уровня детализации.</dd>
+<dd><p class="first">Интерфейс добавления низкополигональных объектов для реализации переключения уровня детализации.</p>
+<div class="last deprecated">
+<p><span class="versionmodified">Не рекомендуется, начиная с версии 14.06: </span>реализовано в стандартном инструменте Blender <tt class="docutils literal"><span class="pre">Levels</span> <span class="pre">of</span> <span class="pre">Detail</span></tt>.</p>
+</div>
+</dd>
 </dl>
 </div>
-<div class="section" id="id4">
-<h2>Камера<a class="headerlink" href="#id4" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="static-dynamic-objects">
+<span id="id4"></span><h2>Статические и динамические объекты<a class="headerlink" href="#static-dynamic-objects" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Все объекты типа <tt class="docutils literal"><span class="pre">MESH</span></tt> можно разделить на статические и динамические.</p>
+<p><strong>Статические объекты</strong> - объекты, меши которых могут быть объединены друг с другом, если они имеют одинаковый материал.</p>
+<p><strong>Динамические объекты</strong> - объекты, меши которых не могут быть скомбинированы друг с другом.</p>
+<p>Объединение статических объектов осуществляется в целях оптимизации количества вызовов отрисовки.
+Динамические объекты нужны в том случае, когда необходимо обеспечить движение отдельного объекта.</p>
+<p>Среди объектов другого типа динамическими являются <tt class="docutils literal"><span class="pre">CAMERA</span></tt> и <tt class="docutils literal"><span class="pre">ARMATURE</span></tt>. Остальные - статические.</p>
+<p>Объекты, имеющие анимацию, физику или родителя, являющегося динамическим объектом, уже рассматриваются как динамические.
+Если же необходимо обеспечить движение объекта, однако явным образом это не вытекает из имеющихся на нём опций, то следует включить настройку <cite>Blend4Web &gt; Do not batch</cite>.</p>
+</div>
+<div class="section" id="id5">
+<h2>Камера<a class="headerlink" href="#id5" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Настройки камеры выставляются в панели <tt class="docutils literal"><span class="pre">Properties</span></tt> на вкладке <tt class="docutils literal"><span class="pre">Object</span> <span class="pre">Data</span></tt>.</p>
 <p><em>Blend4Web &gt; Move style</em> &#8211; режим управления камерой. По умолчанию камера
 находится в статическом режиме (<tt class="docutils literal"><span class="pre">Static</span></tt>), допуская измененение своего
@@ -146,13 +165,87 @@
 <p><em>Blend4Web &gt; Target location</em> &#8211; доступно в режиме <tt class="docutils literal"><span class="pre">Target</span></tt>. Позиция точки,
 относительно которой будет вращаться камера. Кнопка <tt class="docutils literal"><span class="pre">Copy</span> <span class="pre">Cursor</span> <span class="pre">Location</span></tt>
 позволяет скопировать текущее положение курсора.</p>
-<p><em>Blend4Web &gt; Use distance limits</em> &#8211; доступно в режиме <tt class="docutils literal"><span class="pre">Target</span></tt>. Ограничить
-перемещение камеры двумя крайними расстояниями.</p>
-<p><em>Blend4Web &gt; Use vertical rotation clamping</em> &#8211; доступно в режиме <tt class="docutils literal"><span class="pre">Target</span></tt> и <tt class="docutils literal"><span class="pre">Eye</span></tt>.
-Ограничить вертикальный угол расположения камеры двумя крайними значениями.</p>
 <p><em>Blend4Web &gt; DOF front distance</em> &#8211; описано в разделе <a class="reference internal" href="postprocessing_effects.html#postprocessing-effects"><em>Постпроцессинговые эффекты</em></a></p>
 <p><em>Blend4Web &gt; DOF rear distance</em> &#8211; описано в разделе <a class="reference internal" href="postprocessing_effects.html#postprocessing-effects"><em>Постпроцессинговые эффекты</em></a></p>
 <p><em>Blend4Web &gt; DOF power</em> &#8211; описано в разделе <a class="reference internal" href="postprocessing_effects.html#postprocessing-effects"><em>Постпроцессинговые эффекты</em></a></p>
+<div class="section" id="id6">
+<h3>Ограничения движения камеры<a class="headerlink" href="#id6" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Для камеры доступно несколько настроек, ограничивающих её движение тем или иным образом.
+Они объединены в группу <tt class="docutils literal"><span class="pre">Camera</span> <span class="pre">limits</span></tt>.</p>
+<div class="align-center figure">
+<img alt="Ограничения движения камеры" src="_images/camera_limits.jpg" />
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p><strong>Виды ограничений</strong></p>
+<p><em>Blend4Web &gt; Use distance limits</em> &#8211; доступно в режиме <tt class="docutils literal"><span class="pre">Target</span></tt>. Задание минимального и максимального расстояния
+от камеры до точки вращения.</p>
+<p>Варианты интервалов:</p>
+<ul class="simple">
+<li><em>Max &gt; Min</em> - расстояние от камеры до объекта ограничено интервалом <em>[Min, Max]</em></li>
+<li><em>Max = Min</em> - фиксирование камеры на определенной высоте над объектом</li>
+<li><em>Max &lt; Min</em> - ограничение движения отсутствует</li>
+</ul>
+<div class="align-center figure">
+<img alt="Ограничения приближения/удаления камеры" src="_images/distance_limits.png" />
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>Значения по умолчанию: <em>Min = 1, Max = 100</em>.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p><em>Blend4Web &gt; Use horizontal rotation clamping</em> &#8211; доступно в режимах <tt class="docutils literal"><span class="pre">Target</span></tt> и <tt class="docutils literal"><span class="pre">Eye</span></tt>. Ограничение горизонтального вращения камеры относительно точки вращения (в режиме <tt class="docutils literal"><span class="pre">Target</span></tt>) или относительно своего местоположения (в режиме <tt class="docutils literal"><span class="pre">Eye</span></tt>).</p>
+<p>Направление от <tt class="docutils literal"><span class="pre">Left</span></tt> к <tt class="docutils literal"><span class="pre">Right</span></tt> считается положительным и для режима <tt class="docutils literal"><span class="pre">Target</span></tt> совпадает с направлением против часовой стрелки, а для режима <tt class="docutils literal"><span class="pre">Eye</span></tt> - по часовой стрелке:</p>
+<div class="align-center figure">
+<img alt="Ограничения горизонтального угла камеры" src="_images/horizontal_limits.png" />
+</div>
+<p>Значения по умолчанию: <em>Left = -180, Right = 180</em>.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p><em>Blend4Web &gt; Use vertical rotation clamping</em> &#8211; доступно в режимах <tt class="docutils literal"><span class="pre">Target</span></tt> и <tt class="docutils literal"><span class="pre">Eye</span></tt>. Ограничение вертикального вращения камеры относительно фиксированной точки (в режиме <tt class="docutils literal"><span class="pre">Target</span></tt>) или относительно своего местоположения (в режиме <tt class="docutils literal"><span class="pre">Eye</span></tt>).</p>
+<p>Направление от <tt class="docutils literal"><span class="pre">Down</span></tt> к <tt class="docutils literal"><span class="pre">Up</span></tt> считается положительным:</p>
+<div class="align-center figure">
+<img alt="Ограничения вертикального угла камеры типа" src="_images/vertical_limits.png" />
+</div>
+<p>Если включена опция <em>Use horizontal rotation clamping</em>, то вертикальное вращение будет ограничено, по крайней мере, интервалом <em>[-90, 90]</em>.</p>
+<p>Значения по умолчанию: <em>Down = -90, Up = 90</em>.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p><strong>Особенности значений, ограничивающих поворот</strong></p>
+<ul class="simple">
+<li>Перемена мест значений <em>Left/Right</em> или <em>Down/Up</em> приводит к движению по противоположной дуге окружности вращения.</li>
+</ul>
+<div class="align-center figure">
+<img alt="Перемена мест значений углов, ограничивающих поворот" src="_images/limits_inversion.png" />
+</div>
+<ul class="simple">
+<li><em>Left = Right, Up = Down</em> - фиксирование камеры соответственно по горизонтали или вертикали.</li>
+</ul>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p><strong>Отсчет углов поворота</strong></p>
+<p>При ограничении горизонтального и вертикального вращения можно выбрать пространство координат:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">Camera</span> <span class="pre">space</span></tt> - все углы отсчитываются относительно начального положения и ориентации камеры.</li>
+<li><tt class="docutils literal"><span class="pre">World</span> <span class="pre">space</span></tt> - горизонтальные углы отсчитываются относительно направления оси Y в пространстве мировых координат, вертикальные - относительно горизонтальной плоскости XOY в мировом пространстве.</li>
+</ul>
+<p>Для ограничения по горизонтали:</p>
+<div class="align-center figure">
+<img alt="Варианты точки отсчета для ограничения вращения по горизонтали" src="_images/camera_space_world_space_h.png" />
+</div>
+<p>Для ограничения по вертикали:</p>
+<div class="align-center figure">
+<img alt="Варианты точки отсчета для ограничения вращения по горизонтали" src="_images/camera_space_world_space_v.png" />
+</div>
+<p>Оси координат, отмеченные на рисунках, совпадают с осями мировых координат в Blender&#8217;е.</p>
+<p>По умолчанию назначается вариант <tt class="docutils literal"><span class="pre">Camera</span> <span class="pre">space</span></tt>.</p>
+</div>
 </div>
 </div>
 
@@ -174,7 +267,8 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="">Объекты</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#id2">Типы</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id3">Настройка</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id4">Камера</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#static-dynamic-objects">Статические и динамические объекты</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">Камера</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">Текстуры</a></li>
@@ -226,7 +320,7 @@
           
     <div class="footer">
         &copy; Copyright 2014, ООО &#34;Триумф&#34;.
-      Обновлено: 2014-05-21.
+      Обновлено: 2014-06-25.
       Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

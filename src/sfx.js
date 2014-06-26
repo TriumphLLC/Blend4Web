@@ -9,7 +9,6 @@
 b4w.module["__sfx"] = function(exports, require) {
 
 var m_cfg   = require("__config");
-var m_dbg   = require("__debug");
 var m_print = require("__print");
 var m_util  = require("__util");
 
@@ -190,7 +189,7 @@ exports.detect_media_container = function(hint) {
 
 /**
  * Init and add speaker object to sfx
- * @param obj Object ID, must be of type "SPEAKER"
+ * @param {Object} obj Object ID, must be of type "SPEAKER"
  */
 exports.append_object = function(obj, scene) {
     if (obj["type"] != "SPEAKER")
@@ -276,7 +275,7 @@ function check_media_element_node() {
 
 /**
  * Returns audio source type for given object (AST_*)
- * @param obj Object ID
+ * @param {Object} obj Object ID
  */
 exports.source_type = function(obj) {
     if (obj["type"] != "SPEAKER")
@@ -298,7 +297,7 @@ exports.source_type = function(obj) {
 
 /**
  * Updates speaker object with loaded sound data
- * @param obj Object ID
+ * @param {Object} obj Object ID
  * @param {ArrayBuffer|<audio>} sound_data Sound Data
  */
 exports.update_spkobj = function(obj, sound_data) {

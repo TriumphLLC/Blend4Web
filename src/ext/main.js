@@ -1,8 +1,8 @@
 "use strict";
 
 /**
- * Main module of blen4web engine. 
- * Implements methods to initialize and change global params of engine operation.
+ * Main Blend4Web module. 
+ * Implements methods to initialize and change the global params of the engine.
  * @module main
  */
 b4w.module["main"] = function(exports, require) {
@@ -13,7 +13,7 @@ var config     = require("__config");
 var m_print    = require("__print");
 var controls   = require("__controls");
 var data       = require("__data");
-var debug      = require("__debug");
+var m_debug    = require("__debug");
 var extensions = require("__extensions");
 var geometry   = require("__geometry");
 var hud        = require("__hud");
@@ -43,9 +43,10 @@ var _pause_time = 0;
 var _resume_time = 0;
 
 /**
+ * FPS callback
  * @callback fps_callback
- * @param fps_avg Averaged rendering FPS
- * @param phy_fps_avg Averaged physics FPS
+ * @param {Number} fps_avg Averaged rendering FPS
+ * @param {Number} phy_fps_avg Averaged physics FPS (not implemented, always 0)
  */
 var _fps_callback = function() {};
 
@@ -59,7 +60,7 @@ var CONTEXT_NAMES = ["webgl", "experimental-webgl"];
 var _gl = null;
 
 /**
- * NOTE: According to spec, this function takes only one param
+ * NOTE: According to the spec, this function takes only one param
  */
 var _requestAnimFrame = (function() {
   return window["requestAnimationFrame"] ||
@@ -74,11 +75,11 @@ var _requestAnimFrame = (function() {
 // public enums
 
 /**
- * Create WebGL context and initialize engine.
+ * Create the WebGL context and initialize the engine.
  * @method module:main.init
- * @param elem_canvas_webgl Canvas element for WebGL
- * @param [elem_canvas_hud] Canvas element for HUD
- * @returns WebGL context or null
+ * @param {HTMLCanvasElement} elem_canvas_webgl Canvas element for WebGL
+ * @param {HTMLCanvasElement} [elem_canvas_hud] Canvas element for HUD
+ * @returns {Object|Null} WebGL context or null
  */
 exports["init"] = function(elem_canvas_webgl, elem_canvas_hud) {
 
@@ -117,8 +118,8 @@ exports["init"] = function(elem_canvas_webgl, elem_canvas_hud) {
     _gl = gl;
 
     init_context(_elem_canvas_webgl, gl);
-    compat.set_hardware_defaults(gl);
     config.apply_quality();
+    compat.set_hardware_defaults(gl);
 
     m_print.log("%cSET PRECISION:", "color: #00a", cfg_def.precision);
 
@@ -178,7 +179,7 @@ function init_context(canvas, gl) {
     geometry.setup_context(gl);
     textures.setup_context(gl);
     shaders.setup_context(gl);
-    debug.setup_context(gl);
+    m_debug.setup_context(gl);
 
     scenes.setup_dim(canvas.width, canvas.height);
     //scenes.setup_dim(gl.drawingBufferWidth, gl.drawingBufferHeight);
@@ -193,16 +194,17 @@ function init_context(canvas, gl) {
 }
 
 /**
- * Perform or not checks of WebGL errors during rendering.
- * Note: additional checks can slow-down the engine
+ * Whether to perform the checks of WebGL errors during rendering or not.
+ * Note: additional checks can slow down the engine.
+ * @param {Boolean} val Check flag
  * @method module:main.set_check_gl_errors
  */
 exports["set_check_gl_errors"] = function(val) {
-    debug.set_check_gl_errors(val);
+    m_debug.set_check_gl_errors(val);
 }
 
 /**
- * Resize canvas
+ * Resize the rendering canvas.
  * @method module:main.resize
  * @param {Number} width New canvas width
  * @param {Number} height New canvas height
@@ -234,7 +236,7 @@ exports["resize"] = function(width, height) {
 }
 
 /**
- * Set callback for FPS counter
+ * Set the callback for the FPS counter
  * @method module:main.set_fps_callback
  * @param {fps_callback} fps_cb FPS callback
  */
@@ -242,7 +244,7 @@ exports["set_fps_callback"] = function(fps_cb) {
     _fps_callback = fps_cb;
 }
 /**
- * Remove callbacks for FPS counters
+ * Remove the callback for the FPS counter
  * @method module:main.clear_fps_callback
  */
 exports["clear_fps_callback"] = function() {
@@ -258,12 +260,14 @@ exports["set_on_before_render_callback"] = function(callback) {
 }
 
 /**
+ * Rendering callback.
  * @callback render_callback
  * @param {Number} delta Delta
  * @param {Number} timeline Timeline
  */
+ 
 /**
- * Set rendering callback executed on every frame
+ * Set the rendering callback which is executed for every frame
  * @method module:main.set_render_callback
  * @param {render_callback} callback Render callback
  */
@@ -282,7 +286,7 @@ exports["clear_on_before_render_callback"] = function() {
     clear_render_callback();
 }
 /**
- * Remove rendering callback
+ * Remove the rendering callback
  * @method module:main.clear_render_callback
  */
 exports["clear_render_callback"] = function() {
@@ -296,9 +300,9 @@ function clear_render_callback() {
 
 
 /**
- * Return engine global timeline value
+ * Return the engine's global timeline value
  * @method module:main.global_timeline
- * @returns {Number} Number of float seconds since engine start-up
+ * @returns {Number} Floating-point number of seconds elapsed since the engine start-up
  */
 exports["global_timeline"] = function() {
     return _global_timeline;
@@ -321,9 +325,9 @@ exports["set_shaders_dir"] = function(shdir) {
 }
 
 /**
- * Force engine's redraw
+ * Force redraw
  * @method module:main.redraw
- * @deprecated
+ * @deprecated Not required anymore
  */
 exports["redraw"] = function() {
     frame(_global_timeline, 0);
@@ -331,7 +335,7 @@ exports["redraw"] = function() {
 
 exports["pause"] = pause;
 /**
- * Set engine on pause
+ * Pause the engine
  * @method module:main.pause
  */
 function pause() {
@@ -344,7 +348,7 @@ function pause() {
 }
 
 /**
- * Resume engine operation (after pause)
+ * Resume the engine (after pausing)
  * @method module:main.resume
  */
 exports["resume"] = function() {
@@ -357,8 +361,9 @@ exports["resume"] = function() {
 }
 
 /**
- * Check if engine is paused
+ * Check if the engine is paused
  * @method module:main.is_paused
+ * @returns {Boolean} Paused flag
  */
 exports["is_paused"] = is_paused;
 function is_paused() {
@@ -391,7 +396,7 @@ function loop() {
 
         _global_timeline += delta;
         
-        debug.update();
+        m_debug.update();
 
         assets.update();
         data.update();
@@ -476,7 +481,8 @@ function init_fps_counter() {
 }
 
 /**
- * Reset engine.
+ * Reset the engine.
+ * Unloads the scene and releases the engine's resources.
  * @method module:main.reset
  */
 exports["reset"] = function() {
@@ -503,6 +509,11 @@ exports["canvas_data_url"] = function(callback) {
     _canvas_data_url_callback = callback;
 }
 
+/**
+ * Return the main canvas element.
+ * @method module:main.get_canvas_elem
+ * @returns {HTMLCanvasElement} Canvas element
+ */
 exports["get_canvas_elem"] = function() {
     return _elem_canvas_webgl;
 }

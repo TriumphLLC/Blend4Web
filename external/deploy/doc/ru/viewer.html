@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Просмотрщик сцен &mdash; Руководство пользователя: Blend4Web v14.05.22</title>
+    <title>Просмотрщик сцен &mdash; Руководство пользователя: Blend4Web v14.06</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.05.22',
+        VERSION:     '14.06',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v14.05.22" href="index.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v14.06" href="index.html" />
     <link rel="next" title="Аддон" href="addon.html" />
     <link rel="prev" title="Рабочий процесс" href="workflow.html" /> 
   </head>
@@ -37,7 +37,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">Руководство пользователя: Blend4Web v14.05.22</a></div>
+          href="index.html">Руководство пользователя: Blend4Web v14.06</a></div>
         <div class="rel">
           <a href="workflow.html" title="Рабочий процесс"
              accesskey="P">предыдущий</a> |
@@ -84,12 +84,11 @@
 <dt><strong>Reset</strong></dt>
 <dd>Кнопка удаляет сохраненное название последней просмотренной сцены и перезагружает страницу, возвращая к сцене по умолчанию.</dd>
 <dt><strong>LOW Q - HIGH Q - ULTRA Q</strong></dt>
-<dd><p class="first">Выпадающее меню выбора профиля работы движка:</p>
-<ul class="last simple">
-<li><em>низкое качество</em> - отключен ряд функций (постпроцессинг), размер текстур для сборочной версии уменьшен вдвое, антиалиасинг отключен</li>
-<li><em>высокое качество</em> - используются все запрошенные сценой функции, метод антиалиасинга FXAA</li>
-<li><em>максимальное качество</em> - вдвое увеличено разрешение рендеринга, метод антиалиасинга SMAA</li>
-</ul>
+<dd><p class="first">Выпадающее меню выбора профиля работы движка.</p>
+<div class="last admonition seealso">
+<p class="first admonition-title">См.также</p>
+<p class="last"><a class="reference internal" href="developers.html#quality-settings"><em>Профили качества изображения</em></a></p>
+</div>
 </dd>
 <dt><strong>Pause</strong></dt>
 <dd>Приостановка рендеринга.</dd>
@@ -151,6 +150,8 @@
 <dd>Находится в правом верхнем углу области рендеринга. Выводит количество вершин, треугольников и WebGL вызовов на основной рендер-сцене (т.е. не учитываются, например, вызовы по отрисовке динамических теней).</dd>
 <dt><strong>Индикатор видео-памяти</strong></dt>
 <dd>Находится в правом нижнем углу области рендеринга. Выводит количество видео-памяти, занимаемой геометрией, текстурами, буферами с результатами рендеринга (render targets), а также суммарное количество занимаемой памяти.</dd>
+<dt><strong>Индикатор ошибок при загрузке сцены</strong></dt>
+<dd>Находится под счетчиком количества кадров. Выводит ошибки и предупреждения при загрузке сцены. Красный свет означает ошибки, желтый - предупреждения, зеленый - загрузка сцены прошла успешно.</dd>
 </dl>
 <a class="reference internal image-reference" href="_images/indicators.jpg"><img alt="Индикаторы просмотрщика сцен" class="align-center" src="_images/indicators.jpg" style="width: 100%;" /></a>
 </div>
@@ -226,7 +227,7 @@
           
     <div class="footer">
         &copy; Copyright 2014, ООО &#34;Триумф&#34;.
-      Обновлено: 2014-05-21.
+      Обновлено: 2014-06-25.
       Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

@@ -44,8 +44,11 @@ varying vec2 v_texcoord;
 #if SMAA_PASS == SMAA_NEIGHBORHOOD_BLENDING
 varying vec4 v_offset;
 #else
-varying vec4 v_offset[3];
+varying vec4 v_offset_0;
+varying vec4 v_offset_1;
+varying vec4 v_offset_2;
 #endif
+
 #if SMAA_PASS == SMAA_BLENDING_WEIGHT_CALCULATION
 varying vec2 v_pixcoord;
 #endif
@@ -80,42 +83,42 @@ varying vec2 v_pixcoord;
 #define SMAA_MAX_SEARCH_STEPS 16
 #endif
 
-void smaa_edge_detection(vec2 texcoord,
-                         out vec4 offset[3]) {
-    offset[0] = u_texel_size.xyxy * vec4(-1.0, 0.0, 0.0, -1.0) + texcoord.xyxy;
-    offset[1] = u_texel_size.xyxy * vec4( 1.0, 0.0, 0.0,  1.0) + texcoord.xyxy;
-    offset[2] = u_texel_size.xyxy * vec4(-2.0, 0.0, 0.0, -2.0) + texcoord.xyxy;
+#if SMAA_PASS == SMAA_EDGE_DETECTION
+void smaa_edge_detection(vec2 texcoord) {
+    v_offset_0 = u_texel_size.xyxy * vec4(-1.0, 0.0, 0.0, -1.0) + texcoord.xyxy;
+    v_offset_1 = u_texel_size.xyxy * vec4( 1.0, 0.0, 0.0,  1.0) + texcoord.xyxy;
+    v_offset_2 = u_texel_size.xyxy * vec4(-2.0, 0.0, 0.0, -2.0) + texcoord.xyxy;
 }
 
-void smaa_blending_weight_calculation(vec2 texcoord,
-                                     out vec2 pixcoord,
-                                     out vec4 offset[3]) {
+#elif SMAA_PASS == SMAA_BLENDING_WEIGHT_CALCULATION
+void smaa_blending_weight_calculation(vec2 texcoord, out vec2 pixcoord) {
     pixcoord = texcoord / u_texel_size;
 
     // We will use these offsets for the searches later on (see @PSEUDO_GATHER4):
-    offset[0] = u_texel_size.xyxy * vec4(-0.25, -0.125,  1.25, -0.125) + texcoord.xyxy;
-    offset[1] = u_texel_size.xyxy * vec4(-0.125, -0.25, -0.125,  1.25) + texcoord.xyxy;
+    v_offset_0 = u_texel_size.xyxy * vec4(-0.25, -0.125,  1.25, -0.125) + texcoord.xyxy;
+    v_offset_1 = u_texel_size.xyxy * vec4(-0.125, -0.25, -0.125,  1.25) + texcoord.xyxy;
 
     // And these for the searches, they indicate the ends of the loops:
-    offset[2] = u_texel_size.xxyy * vec4(-2.0, 2.0, -2.0, 2.0) *
-        float(SMAA_MAX_SEARCH_STEPS) + vec4(offset[0].xz, offset[1].yw);
+    v_offset_2 = u_texel_size.xxyy * vec4(-2.0, 2.0, -2.0, 2.0) *
+        float(SMAA_MAX_SEARCH_STEPS) + vec4(v_offset_0.xz, v_offset_1.yw);
 }
 
-void smaa_neighborhood_blending(vec2 texcoord,
-                                out vec4 offset) {
-    offset = u_texel_size.xyxy * vec4( 1.0, 0.0, 0.0,  1.0) + texcoord.xyxy;
+#elif SMAA_PASS == SMAA_NEIGHBORHOOD_BLENDING
+void smaa_neighborhood_blending(vec2 texcoord) {
+    v_offset = u_texel_size.xyxy * vec4( 1.0, 0.0, 0.0,  1.0) + texcoord.xyxy;
 }
+#endif
 
 void main(void) {
 
     v_texcoord = a_bb_vertex + 0.5;
 
 #if SMAA_PASS == SMAA_EDGE_DETECTION
-    smaa_edge_detection(v_texcoord, v_offset);
+    smaa_edge_detection(v_texcoord);
 #elif SMAA_PASS == SMAA_BLENDING_WEIGHT_CALCULATION
-    smaa_blending_weight_calculation(v_texcoord, v_pixcoord, v_offset);
+    smaa_blending_weight_calculation(v_texcoord, v_pixcoord);
 #elif SMAA_PASS == SMAA_NEIGHBORHOOD_BLENDING
-    smaa_neighborhood_blending(v_texcoord, v_offset);
+    smaa_neighborhood_blending(v_texcoord);
 #endif
     
     gl_Position = vec4(2.0 * a_bb_vertex.xy, 0.0, 1.0);

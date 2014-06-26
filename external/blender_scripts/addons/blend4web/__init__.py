@@ -1,9 +1,9 @@
 bl_info = {
     "name": "Blend4Web",
     "author": "Blend4Web Development Team",
-    "version": (14, 5, 22),
-    "blender": (2, 70, 0),
-    "b4w_format_version": "4.03",
+    "version": (14, 6, 0),
+    "blender": (2, 71, 0),
+    "b4w_format_version": "5.00",
     "location": "File > Import-Export",
     "description": "Blend4Web is a Blender-friendly 3D web framework",
     "warning": "",

@@ -39,7 +39,7 @@ class B4W_HTMLExportProcessor(bpy.types.Operator):
     def poll(cls, context):
         path = cls.get_b4w_src_path()
         if path is not None:
-            tpl_path = os.path.join(path, "embed.html")
+            tpl_path = os.path.join(path, "embed_template.html")
             js_path = os.path.join(path, "embed.min.js")
             if os.path.isfile(tpl_path) and os.path.isfile(js_path):
                 return True
@@ -103,8 +103,9 @@ class B4W_HTMLExportProcessor(bpy.types.Operator):
         json_path = os.path.join(export_dir, json_name)
 
         b4w_src_path = self.get_b4w_src_path()
-        html_tpl_path = os.path.join(b4w_src_path, "embed.html")
+        html_tpl_path = os.path.join(b4w_src_path, "embed_template.html")
         b4w_minjs_path = os.path.join(b4w_src_path, "embed.min.js")
+        b4w_css_path = os.path.join(b4w_src_path, "embed.css")
 
         if "CANCELLED" in bpy.ops.b4w.export("EXEC_DEFAULT", \
                 filepath=json_path, do_autosave=False, save_export_path=False, \
@@ -118,8 +119,15 @@ class B4W_HTMLExportProcessor(bpy.types.Operator):
                     scripts = f.read()
                     f.close()
 
+            styles = ""
+            if os.path.isfile(b4w_css_path):
+                with open(b4w_css_path, "r") as f:
+                    styles = f.read()
+                    f.close()
+
             data = json.dumps(extract_data(json_path, json_name))
             insertions = dict(scripts=scripts, built_in_data=data,
+                              styles=styles,
                               b4w_meta=("<meta name='b4w_export_path_html' content='"
                                         + get_filepath_blend(self.filepath) +"'/>"))
             app_str = get_html_template(html_tpl_path).substitute(insertions)

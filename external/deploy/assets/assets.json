@@ -13,8 +13,37 @@
         ]
     },
     {
+        "name": "Dev - Performance",
+        "items": [
+            {
+                "name": "Empty scene",
+                "load_file": "dev_performance/empty.json"
+            },
+            {
+                "name": "Many Pixels",
+                "load_file": "dev_performance/many_pixels.json"
+            },
+            {
+                "name": "Many Lights",
+                "load_file": "dev_performance/many_lights.json"
+            },
+            {
+                "name": "Many Draw Calls",
+                "load_file": "dev_performance/many_draw_calls.json"
+            }
+        ]
+    },
+    {
         "name": "Tutorials",
         "items": [
+            {
+                "name": "Palm",
+                "load_file": "tutorials/palm/palm.json"
+            },
+            {
+                "name": "Game Example",
+                "load_file": "../tutorials/examples/making_a_game_p4/main_scene.json"
+            },
             {
                 "name": "Grass",
                 "load_file": "tutorials/grass/grass.json"
@@ -50,6 +79,14 @@
             {
                 "name": "Cat Example",
                 "load_file": "tutorials/cat/cat_example.json"
+            },
+            {
+                "name": "Tortoise Part 1",
+                "load_file": "tutorials/mediterranean_tortoise_1/Mediterranean_tortoise.json"
+            },
+            {
+                "name": "Tortoise Part 2",
+                "load_file": "tutorials/mediterranean_tortoise_2/mediterranean_tortoise.json"
             }
         ]
     }

@@ -37,6 +37,7 @@ float phase(float alpha, float g) {
     float b = 2.0*(2.0+g*g);
     float c = 1.0+alpha*alpha;
     float d = pow(1.0+g*g-2.0*g*alpha, 1.5);
+    d = max(d, 0.00001);
     return (a/b)*(c/d);
 }
 

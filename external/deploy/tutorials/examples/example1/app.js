@@ -2,7 +2,7 @@
 
 /**
  * Application add-on.
- * Provides generic routines for engine initialization, UI and I/O.
+ * Provides the generic routines for the engine's initialization, UI and I/O.
  * @module app
  */
 b4w.module["app"] = function(exports, require) {
@@ -45,8 +45,8 @@ var _fps_logger_elem = null;
 var _vec3_tmp   = new Float32Array(3);
 
 /**
- * Initialize engine.
- * Options may be extended by properties from engine configuration.
+ * Initialize the engine.
+ * The "options" object may be extended by adding properties from the engine's configuration.
  * In that case they will be applied before engine initialization.
  * @param {Object} [options={}] Initialization options.
  * @param {String} [options.canvas_containter_id=null] Canvas container ID.
@@ -59,7 +59,6 @@ var _vec3_tmp   = new Float32Array(3);
  * @param {Boolean} [options.do_not_report_init_failure=false] Disable DIV
  * @param {Boolean} [options.pause_invisible=true] Pause engine simulation if
  * page is not visible (in other tab or minimized).
- * element with failure message if WebGL is not available.
  */
 exports.init = function(options) {
     options = options || {};
@@ -72,8 +71,7 @@ exports.init = function(options) {
     var sfx_mix_mode = false;
     var show_fps = false;
     var fps_elem_id = null;
-    var bar_id = null;
-    var caption_id = null;
+    var error_purge_elements = null;
     var do_not_report_init_failure = false;
     var pause_invisible = true;
 
@@ -103,11 +101,8 @@ exports.init = function(options) {
         case "fps_elem_id":
             fps_elem_id = options["fps_elem_id"];
             break;
-        case "bar_id":
-            bar_id = options["bar_id"];
-            break;
-        case "caption_id":
-            caption_id = options["caption_id"];
+        case "error_purge_elements":
+            error_purge_elements = options["error_purge_elements"];
             break;
         case "do_not_report_init_failure":
             do_not_report_init_failure = options["do_not_report_init_failure"];
@@ -129,7 +124,7 @@ exports.init = function(options) {
     var onload_cb = function() {
 
         var cont_elem = setup_canvas(canvas_container_id, init_hud_canvas, 
-                do_not_report_init_failure);
+                do_not_report_init_failure, error_purge_elements);
         if (!cont_elem) {
             callback(_canvas_elem, false);
             return;
@@ -197,7 +192,7 @@ function add_to_onunload(new_onunload) {
 }
 
 function setup_canvas(canvas_container_id, init_hud_canvas, 
-        do_not_report_init_failure) {
+        do_not_report_init_failure, purge_elements) {
 
     var canvas_elem = document.createElement("canvas");
     canvas_elem.style.cssText = "position: absolute;left:0px; top:0px;"
@@ -213,8 +208,8 @@ function setup_canvas(canvas_container_id, init_hud_canvas,
 
     if (!m_main.init(canvas_elem, canvas_elem_hud)) {
         if (!do_not_report_init_failure)
-            alert_web("Browser could not initialize WebGL", "For more info visit", 
-                      "http://blend4web.com/troubleshooting");
+            report_app_error("Browser could not initialize WebGL", "For more info visit", 
+                      "http://blend4web.com/troubleshooting", purge_elements);
         return null;
     }
 
@@ -275,6 +270,10 @@ function elem_cloned(elem_id) {
     return new_element;
 }
 
+/**
+ * Returns the canvas container element.
+ * returns {HTMLElement} Canvas container element
+ */
 exports.get_canvas_container = function() {
     return _canvas_container_elem;
 }
@@ -303,12 +302,12 @@ exports.set_onkeypress = function(elem_id, callback) {
 }
 
 /**
- * Enable camera keyboard and mouse controls:
- * arrow keys, ADSW, wheel and others
+ * Assign keyboard and mouse controls to the active camera.
+ * (arrow keys, ADSW, wheel and others)
  * @param {Number} [trans_speed=1] Translation speed
  * @param {Number} [rot_speed=1] Rotation speed
  * @param {Number} [zoom_speed=1] Zoom speed
- * @param {Boolean} [disable_default_pivot=false] Do not use possible 
+ * @param {Boolean} [disable_default_pivot=false] Do not use the possible 
  * camera-defined pivot point
  */
 exports.enable_camera_controls = function(trans_speed, rot_speed, zoom_speed,
@@ -661,6 +660,10 @@ exports.enable_camera_controls = function(trans_speed, rot_speed, zoom_speed,
 
 }
 
+/**
+ * Assign standard controls to the object.
+ * @param {Object} obj Object ID
+ */
 exports.enable_object_controls = function(obj) {
     var trans_speed = 1;
 
@@ -744,7 +747,8 @@ exports.enable_object_controls = function(obj) {
 }
 
 /**
- * Works for camera too
+ * Disable controls for the object or the camera.
+ * @param {Object} Object ID or Camera object ID
  */
 exports.disable_object_controls = function(obj) {
     m_ctl.remove_sensor_manifolds(obj);
@@ -752,8 +756,8 @@ exports.disable_object_controls = function(obj) {
 
 /**
  * Enable engine controls.
- * Execute before using any of m_ctl.*() function
- * @param canvas_elem Canvas element
+ * Execute before using any of the controls.*() functions
+ * @param {HTMLCanvasElement} canvas_elem Canvas element
  */
 exports.enable_controls = function(canvas_elem) {
     document.addEventListener("keydown", m_ctl.keydown_cb, false);
@@ -772,9 +776,10 @@ exports.enable_controls = function(canvas_elem) {
     canvas_elem.addEventListener("touchstart", m_ctl.touch_start_cb, false);
     canvas_elem.addEventListener("touchmove", m_ctl.touch_move_cb, false);
 }
+
 /**
  * Disable engine controls.
- * @param canvas_elem Canvas element
+ * @param {HTMLCanvasElement} canvas_elem Canvas element
  */
 exports.disable_controls = function(canvas_elem) {
     document.removeEventListener("keydown", m_ctl.keydown_cb, false);
@@ -793,10 +798,12 @@ exports.disable_controls = function(canvas_elem) {
 }
 
 /**
- * Enable debug controls.
- * K - make camera debug shot
- * L - make light debug shot
- * M - flashback messages
+ * Enable debug controls:
+ * <ul>
+ * <li>K - make camera debug shot
+ * <li>L - make light debug shot
+ * <li>M - flashback messages
+ * </ul>
  */
 exports.enable_debug_controls = function() {
 
@@ -817,9 +824,9 @@ exports.request_fullscreen = request_fullscreen;
  * Request fullscreen mode.
  * Security issues: execute by user event.
  * @method module:app.request_fullscreen
- * @param elem Element
- * @param enabled_cb Enabled callback
- * @param disabled_cb Disabled callback
+ * @param {HTMLElement} elem Element
+ * @param {fullscreen_enabled_callback} enabled_cb Enabled callback
+ * @param {fullscreen_disabled_callback} disabled_cb Disabled callback
  */
 function request_fullscreen(elem, enabled_cb, disabled_cb) {
 
@@ -829,7 +836,9 @@ function request_fullscreen(elem, enabled_cb, disabled_cb) {
     function on_fullscreen_change() {
         if (document.fullscreenElement === elem ||
                 document.webkitFullScreenElement === elem ||
-                document.mozFullScreenElement === elem || document.webkitIsFullScreen) {
+                document.mozFullScreenElement === elem || 
+                document.webkitIsFullScreen ||
+                document.msFullscreenElement === elem) {
             //m_print.log("Fullscreen enabled");
             enabled_cb();
         } else {
@@ -839,6 +848,8 @@ function request_fullscreen(elem, enabled_cb, disabled_cb) {
                     on_fullscreen_change, false);
             document.removeEventListener("mozfullscreenchange",
                     on_fullscreen_change, false);
+            document.removeEventListener("MSFullscreenChange",
+                    on_fullscreen_change, false);
             //m_print.log("Fullscreen disabled");
             disabled_cb();
         }
@@ -847,9 +858,11 @@ function request_fullscreen(elem, enabled_cb, disabled_cb) {
     document.addEventListener("fullscreenchange", on_fullscreen_change, false);
     document.addEventListener("webkitfullscreenchange", on_fullscreen_change, false);
     document.addEventListener("mozfullscreenchange", on_fullscreen_change, false);
+    document.addEventListener("MSFullscreenChange", on_fullscreen_change, false);
   
     elem.requestFullScreen = elem.requestFullScreen ||
-            elem.webkitRequestFullScreen || elem.mozRequestFullScreen;
+            elem.webkitRequestFullScreen || elem.mozRequestFullScreen 
+            || elem.msRequestFullscreen;
  
     if (elem.requestFullScreen == elem.webkitRequestFullScreen)
         elem.requestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
@@ -865,7 +878,7 @@ exports.exit_fullscreen = exit_fullscreen;
 function exit_fullscreen() {
 
     var exit_fs = document.exitFullscreen || document.webkitExitFullscreen || 
-            document.mozCancelFullScreen;
+            document.mozCancelFullScreen || document.msExitFullscreen;
 
     if (typeof exit_fs != "function")
         throw "B4W App: exit fullscreen method is not supported";
@@ -883,13 +896,33 @@ function toggle_camera_collisions_usage() {
     }
 }
 
-function alert_web(text_message, link_message, link) {
-    
+exports.report_app_error = report_app_error;
+/**
+ * Report the application error.
+ * Creates standard HTML elements with error info and places on page body.
+ * @method module:app.report_app_error
+ * @param {String} text_message Message to place on upper element.
+ * @param {String} link_message Message to place on bottom element.
+ * @param {String} link Link to place on bottom element.
+ * @param {Array} purge_elements Array of elements to destroy before the error
+ * elements are being placed.
+ */
+function report_app_error(text_message, link_message, link, purge_elements) {
+
     var elem = document.createElement("div");
     var top_border_elem = document.createElement("div");
     var bottom_border_elem = document.createElement("div");
     var bottom_conteiner_elem = document.createElement("div");
     var logo_elem = document.createElement("div");
+
+    if (purge_elements) {
+        for (var i = 0; i < purge_elements.length; i++) {
+            var purge_elem = document.getElementById(purge_elements[i]);
+
+            if (purge_elem)
+                purge_elem.parentNode.removeChild(purge_elem);
+        }
+    }
 
     elem.style.cssText = "z-index:10;width:100%;height:100%;position:absolute;"
     bottom_conteiner_elem.style.cssText = "position:absolute;bottom:0;width:100%;height:auto;";
@@ -910,7 +943,8 @@ function alert_web(text_message, link_message, link) {
 }
 
 /** 
- * Retrieve params object from URL or null.
+ * Retrieve params object from the page URL or null.
+ * @returns {Object|Null} Object with URL params
  */
 exports.get_url_params = function() {
 

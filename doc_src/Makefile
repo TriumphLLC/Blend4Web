@@ -38,6 +38,8 @@ html:
 	@echo "Build finished. The HTML pages are in $(BUILDDIR)."
 
 latexpdf:
+	rm -r latex/*
+
 	$(SPHINXBUILD) -b latex $(RUOPT) $(ALLSPHINXOPTS) latex
 	sed -e "/DeclareUnicodeCharacter/d" latex/b4w_tmp.tex > latex/b4w_tmp.tex~ 
 	mv latex/b4w_tmp.tex~ latex/b4w_tmp.tex  
@@ -45,6 +47,8 @@ latexpdf:
 	make -C latex all-pdf
 	@echo "pdflatex finished; the PDF files are in latex."
 	mv latex/b4w_tmp.pdf $(PUBDIR)/b4w_manual_ru.pdf
+
+	rm -r latex/*
 
 	$(SPHINXBUILD) -b latex $(ENOPT) $(ALLSPHINXOPTS) latex
 	sed -e "/DeclareUnicodeCharacter/d" latex/b4w_tmp.tex > latex/b4w_tmp.tex~ 

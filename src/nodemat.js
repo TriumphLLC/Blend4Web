@@ -221,14 +221,21 @@ function nmat_cleanup_graph(graph) {
 
             for (var j = 0; j < m_graph.out_edge_count(graph, id); j++) {
                 var output_id = m_graph.get_out_edge(graph, id, j);
-                var to_index = m_graph.get_edge_attr(graph, id, output_id, 0)[1];
+                var edge_ind = 0;
+
+                if (removed_edges.indexOf(output_id) != -1)
+                    edge_ind++;
+
+                var to_index = m_graph.get_edge_attr(graph, id, output_id, edge_ind)[1];
+
                 m_graph.append_edge(graph, input_id, output_id, [from_index, to_index]);
 
-                removed_edges.push(id, output_id);
+                removed_edges.push(id, output_id, edge_ind);
             }
 
-            for (var j = 0; j < removed_edges.length; j+=2)
-                m_graph.remove_edge(graph, removed_edges[j], removed_edges[j+1], -1);
+            for (var j = 0; j < removed_edges.length; j+=3)
+                m_graph.remove_edge(graph, removed_edges[j], removed_edges[j+1],
+                                    removed_edges[j+2]);
 
         } else if (attr.type == "PARALLAX") {
 

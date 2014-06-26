@@ -1,7 +1,7 @@
-This is makeindex, version 2.15 [TeX Live 2009] (kpathsea + Thai support).
+This is makeindex, version 2.15 [TeX Live 2013] (kpathsea + Thai support).
 Scanning style file ./python.ist......done (6 attributes redefined, 0 ignored).
-Scanning input file b4w_tmp.idx....done (122 entries accepted, 0 rejected).
-Sorting entries....done (901 comparisons).
-Generating output file b4w_tmp.ind....done (186 lines written, 0 warnings).
+Scanning input file b4w_tmp.idx....done (120 entries accepted, 0 rejected).
+Sorting entries....done (902 comparisons).
+Generating output file b4w_tmp.ind....done (170 lines written, 0 warnings).
 Output written in b4w_tmp.ind.
 Transcript written in b4w_tmp.ilg.

@@ -1,0 +1,203 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2014, ООО "Триумф"
+# This file is distributed under the same license as the B4W package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: B4W 14.03.28\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-04-03 12:58\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../working_process_stages.rst:5
+# f6b166d2e2ba48f792135e1c4662deb1
+msgid "Рабочий процесс"
+msgstr ""
+
+#: ../working_process_stages.rst:7
+# a04da7e73fd64fe79ffd14db7f014402
+msgid "Создание любого продукта является творческим процессом, в котором могут участвовать множество людей, с различными навыками и опытом. Однако вне зависимости от его сложности и конечного результата, всегда можно выделить стадию производства, на которой создаётся основной объём ресурсов (ассетов) и исходного кода."
+msgstr ""
+
+#: ../working_process_stages.rst:13
+# 6e97642dda0a4bc8871669f4b472f58e
+msgid "При использовании Blend4Web, производственный процесс можно представить следующим образом:"
+msgstr ""
+
+#: ../working_process_stages.rst:16
+# f7b602b9af554539865c442eb62988db
+msgid "Подготовка трёхмерной сцены в программе Blender."
+msgstr ""
+
+#: ../working_process_stages.rst:17
+# 3b78f8eee6174c57bd0603a2e0925401
+msgid "Экспорт ресурсов в формате, пригодном для использования движком."
+msgstr ""
+
+#: ../working_process_stages.rst:18
+# 130590e554a44ea7b727c6f525b55068
+msgid "Запуск, настройка и отладка сцены в программе-просмоторщике."
+msgstr ""
+
+#: ../working_process_stages.rst:19
+# 845cef8231474be1b930523952a506f4
+msgid "Создание целевого приложения."
+msgstr ""
+
+#: ../working_process_stages.rst:22
+# cb705e5cf64c410f88d54b82c3d1ff08
+msgid "Подготовка сцен"
+msgstr ""
+
+#: ../working_process_stages.rst:24
+# 8f1b67611e6d4493b10bd0ac1dbe75aa
+msgid "Помимо обычных операций по моделированию, текстурированию, анимации и т.д. должна быть осуществлена подготовка сцены для работы в движке."
+msgstr ""
+
+#: ../working_process_stages.rst:27
+# d646efd5123e4a1bb0e9764081d62ec2
+msgid "Общие рекомендации:"
+msgstr ""
+
+#: ../working_process_stages.rst:29
+# 1ac9d1637ab242548794b3c5241abd77
+msgid "Blend-файлы должны находиться в директории ``external/blender/имя_проекта``."
+msgstr ""
+
+#: ../working_process_stages.rst:30
+# f9b07f7777104e33ab2dd5a2ed024257
+msgid "Файлы текстур должны быть внешними и находиться в директории ``external/deploy/assets/имя_проекта``."
+msgstr ""
+
+#: ../working_process_stages.rst:31
+# 072b7cb92c394feebcd60044a3e15945
+msgid "Вспомогательные файлы, не предназначенные для загрузки в движок (например, референсы), должны находиться в директории ``external/blender/имя_проекта``."
+msgstr ""
+
+#: ../working_process_stages.rst:32
+# 5254d60085c34f78a0b2663c4a87ac4f
+msgid "Файл, из которого будет осуществляться экспорт, должен содержать только необходимые в разрабатываемом приложении модели."
+msgstr ""
+
+#: ../working_process_stages.rst:33
+# b19ef109efe441e59160963ec913c47f
+msgid "Объект, меш, материал, текстура, арматура должны иметь отличающие названия (на англ. языке). Они не должны называться \"Cube.001\", \"Material\", \"Armature\"."
+msgstr ""
+
+#: ../working_process_stages.rst:34
+# c7edf762334d41298fbee25048cc27f7
+msgid "Допускается добавление по ссылке (linking) компонентов из других файлов (библиотек)."
+msgstr ""
+
+#: ../working_process_stages.rst:39
+# c267afd17d2048ef8cd24279570dba4c
+msgid "Экспорт сцен"
+msgstr ""
+
+#: ../working_process_stages.rst:41
+# 56ce3476bce7440299265ef816f31932
+msgid "Для загрузки сцен, созданных с помощью пакета Blender, в движок, необходимо перевести их в формат, пригодный для чтения браузером. На данный момент используются текстовые файлы с расширением :file:`.json`, в которые сохраняются экспортируемые структуры данных в формате JSON (JavaScript Object Notation)."
+msgstr ""
+
+#: ../working_process_stages.rst:43
+# 7d74923026bb4db69d1a9cb920238168
+msgid "Экспорт производится выбором в меню ``File > Export`` опции ``Blend4Web (.json)``. Быстрый доступ - поиск по ``b4w export`` (горячая клавиша ``ПРОБЕЛ``)."
+msgstr ""
+
+#: ../working_process_stages.rst:45
+# cced5004eb8c45018338d1ea3a50ae66
+msgid "Экспортные файлы должны находиться в директории ``external/deploy/assets/имя_проекта``."
+msgstr ""
+
+#: ../working_process_stages.rst:47
+# d9c3addeb3ce4e13bd7f71afdb93067c
+msgid "Необходимо использовать относительные пути для изображений (как правило, это происходит по умолчанию). В случаях, когда это не так, необходимо выполнить команду ``File > External Data > Make All Paths Relative`` (т.е. сделать все пути относительными). Использование абсолютных путей вместо относительных может приводить к ошибкам при попытках загрузки ``.blend`` и ``.json`` файлов на других компьютерах."
+msgstr ""
+
+#: ../working_process_stages.rst:49
+# b6eea1f5b86b46fcbb5cbd4aaec2919d
+msgid "В момент экспорта происходит проверка сцены на предмет использования не поддерживаемых движком возможностей Blender'a. В таких случаях генерируется сообщение об ошибке:"
+msgstr ""
+
+#: ../working_process_stages.rst:58
+# c6ec1b04f8f7472e80fc4c34c8ee973e
+msgid "Перечень возможных ошибок экспорта перечислен в :ref:`соответствующем разделе <export_errors>`."
+msgstr ""
+
+#: ../working_process_stages.rst:61
+# ee5517abb63245079ac8d49dfc602e91
+msgid "Опции экспорта"
+msgstr ""
+
+#: ../working_process_stages.rst:64
+# da60017965b64f0dbda32a9490df8cf9
+msgid "*Autosave main file*"
+msgstr ""
+
+#: ../working_process_stages.rst:64
+# ba3dab1537ec47b398238e72c751ddf8
+msgid "Автосохранение файла, из которого осуществляется экспорт. **Включено по умолчанию**. Осуществляется непосредственно после экспорта с целью поддержки соответствия между текущим содержимым blend-файла и экспортного файла. Кроме того, для удобства в blend-файле сохраняется относительный путь к экспортному файлу."
+msgstr ""
+
+#: ../working_process_stages.rst:68
+# 105a5485402e4caead268736e10bddc6
+msgid "*Filepath*"
+msgstr ""
+
+#: ../working_process_stages.rst:67
+# 2891b3e2e6d44bc3b7a2ef7a1d92ebcd
+msgid "Путь для экспортного файла. Используется в режиме экспорта из командой строки. В оконном режиме не используется."
+msgstr ""
+
+#: ../working_process_stages.rst:73
+# cd5fd2e5a505445387bfa5c320ef8c39
+msgid "Отображение сцен в просмоторщике"
+msgstr ""
+
+#: ../working_process_stages.rst:75
+# 5a173e21b5fe4e1a8a8df04db1b616f0
+msgid "Для того, чтобы сцена появилась в списке сцен просмотрщика, нужно добавить запись в текстовой файл ``external/deploy/assets/assets.js``."
+msgstr ""
+
+#: ../working_process_stages.rst:77
+# 0d663cd03787412fa9c456e0338f0590
+msgid "Для добавления новой сцены нужно знать категорию, в которой она должна отображаться. Категория обычно соответствует названию проекта и имени директории, где хранятся соответствующие файлы."
+msgstr ""
+
+#: ../working_process_stages.rst:81
+# 01e5c0b7e2d44406aa85d758a0b122b1
+msgid "Пример"
+msgstr ""
+
+#: ../working_process_stages.rst:83
+# 7a743d64ba4d481c83088543747d152f
+msgid "Ниже приведена примерная часть файла ``assets.js``, в которой находятся два проекта \"Capri\" и \"Fridge\" с соответствующими сценами в каждом проекте::"
+msgstr ""
+
+#: ../working_process_stages.rst:112
+# a9ef2feed379490898bb8d453a8e0673
+msgid "Добавление можно осуществить копированием и вставкой описания похожей сцены в нужной категории и последующим редактированием ее названия и пути к экспортному файлу."
+msgstr ""
+
+#: ../working_process_stages.rst:114
+# d62500ae0b8541969bc832205554d8ad
+msgid "В случае успешного добавления сцена должна появиться в списке сцен просмотрщика в нужной категории."
+msgstr ""
+
+#: ../working_process_stages.rst:122
+# ad3356cf701d4de4a382b9382cac506f
+msgid "Создание приложения"
+msgstr ""
+
+#: ../working_process_stages.rst:124
+# 0ea2775837874f22801bde7d5f21bd04
+msgid "На этой стадии создаётся общий вид приложения и пишется исходный код. Документация для разработчиков приложений приведена в :ref:`соответствующем разделе <developers>`."
+msgstr ""
+

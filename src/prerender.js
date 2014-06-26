@@ -8,17 +8,19 @@
  */
 b4w.module["__prerender"] = function(exports, require) {
 
-var config  = require("__config");
-var debug   = require("__debug");
+var m_cfg   = require("__config");
+var m_debug = require("__debug");
 var m_geom  = require("__geometry");
-var m_vec3  = require("vec3");
-var util    = require("__util");
+var m_util  = require("__util");
 
-var cfg_def = config.defaults;
+var m_vec3  = require("vec3");
+
+var cfg_def = m_cfg.defaults;
 
 var USE_FRUSTUM_CULLING = true;
 var USE_LOD_TRANSITION = false;
-var SUBS_UPDATE_DO_RENDER = ["MAIN_OPAQUE", "MAIN_BLEND", "MAIN_REFLECT", "SHADOW_CAST", "DEPTH", "GLOW_MASK", "WIREFRAME"];
+var SUBS_UPDATE_DO_RENDER = ["MAIN_OPAQUE", "MAIN_BLEND", "MAIN_REFLECT", 
+        "SHADOW_CAST", "DEPTH", "GLOW_MASK", "WIREFRAME", "COLOR_PICKING"];
 
 /**
  * Set do_render flag for subscenes/bundles
@@ -134,7 +136,7 @@ function prerender_bundle(bundle, subs) {
     }
 
     if (subs.type == "WIREFRAME")
-        if (bundle.batch.wireframe_mode == debug.WIREFRAME_MODES["WM_DEBUG_SPHERES"])
+        if (bundle.batch.wireframe_mode == m_debug.WIREFRAME_MODES["WM_DEBUG_SPHERES"])
             bundle.do_render = bundle.batch.debug_sphere;
         else
             bundle.do_render = !bundle.batch.debug_sphere;
@@ -149,14 +151,14 @@ function is_out_of_frustum(obj_render, planes) {
         var bs = obj_render.bs_world;
         var pt = bs.center;
         var radius = bs.radius;
-        var is_out = util.sphere_is_out_of_frustum(pt, planes, radius);
+        var is_out = m_util.sphere_is_out_of_frustum(pt, planes, radius);
     } else {
         var be = obj_render.be_world;
         var pt = be.center;
         var axis_x = be.axis_x;
         var axis_y = be.axis_y;
         var axis_z = be.axis_z;
-        var is_out = util.ellipsoid_is_out_of_frustum(pt, planes,
+        var is_out = m_util.ellipsoid_is_out_of_frustum(pt, planes,
                                                       axis_x, axis_y, axis_z);
     }
 

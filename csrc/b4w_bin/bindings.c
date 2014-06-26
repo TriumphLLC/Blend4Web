@@ -98,6 +98,12 @@ PyMODINIT_FUNC INIT_FUNC_NAME(void)
 #define COL_NUM_COMP 3
 
 /**
+ * Maximum value of some types
+ */
+#define SHORT_MAX 32767.0f
+#define USHORT_MAX 65535.0f
+
+/**
  * Get IDProperty from IDProperty of IDP_IDPARRAY type
  */
 #define GETPROP(prop, i) (((IDProperty *)(prop)->data.pointer) + (i))
@@ -220,11 +226,42 @@ float *falloc(int num) {
     return (float *)malloc(num * sizeof(float));
 }
 
+float clampf(float a, float min, float max) {
+    return MAX(MIN(a, max), min);
+}
+
 /**
  * Allocate memory for unsigned ints
  */
 unsigned int *uialloc(int num) {
     return (unsigned int *)malloc(num * sizeof(unsigned int));
+}
+
+/**
+ * Allocate memory for shorts
+ */
+short *shalloc(int num) {
+    return (short *)malloc(num * sizeof(short));
+}
+
+/**
+ * Pack floats into shorts (for floats in range [-1; 1])
+ */
+void buffer_float_to_short(float *in, short *out, int length) {
+    int i;
+
+    for (i = 0; i < length; i++)
+        out[i] = (short)(clampf(in[i], -1.0f, 1.0f) * SHORT_MAX);
+}
+
+/**
+ * Pack floats into unsigned shorts (for floats in range [0; 1])
+ */
+void buffer_float_to_ushort(float *in, unsigned short *out, int length) {
+    int i;
+
+    for (i = 0; i < length; i++)
+        out[i] = (unsigned short)(clampf(in[i], 0.0f, 1.0f) * USHORT_MAX);
 }
 
 /**
@@ -1410,9 +1447,15 @@ static PyObject *calc_submesh(struct MeshData *mesh_data, int arr_to_str,
     float *nor;
     float *tan;
 
+    short *nor_short = NULL;
+    short *tan_short = NULL;
+    unsigned short *grp_ushort = NULL;
+    unsigned short *col_ushort = NULL;
+
     int i;
     int nor_needed;
     int tan_needed;
+    int length;
 
     PyObject *result;
     PyObject *bytes_buff;
@@ -1480,13 +1523,21 @@ static PyObject *calc_submesh(struct MeshData *mesh_data, int arr_to_str,
     PyDict_SetItemString(result, "position", bytes_buff);
 
     if (dst.nor) {
-        bytes_buff = PyByteArray_FromStringAndSize((char *)dst.nor, 
-                dst.vnum * dst.frames * NOR_NUM_COMP * sizeof(float));
+        length = dst.vnum * dst.frames * NOR_NUM_COMP;
+        nor_short = shalloc(length);
+        buffer_float_to_short(dst.nor, nor_short, length);
+
+        bytes_buff = PyByteArray_FromStringAndSize((char *)nor_short, 
+                length * sizeof(short));
         PyDict_SetItemString(result, "normal", bytes_buff);
     }
     if (dst.tan) {
-        bytes_buff = PyByteArray_FromStringAndSize((char *)dst.tan, 
-                dst.vnum * dst.frames * TAN_NUM_COMP * sizeof(float));
+        length = dst.vnum * dst.frames * TAN_NUM_COMP;
+        tan_short = shalloc(length);
+        buffer_float_to_short(dst.tan, tan_short, length);
+
+        bytes_buff = PyByteArray_FromStringAndSize((char *)tan_short, 
+                length * sizeof(short));
         PyDict_SetItemString(result, "tangent", bytes_buff);
     }
     if (dst.tco) {
@@ -1500,25 +1551,33 @@ static PyObject *calc_submesh(struct MeshData *mesh_data, int arr_to_str,
         PyDict_SetItemString(result, "texcoord2", bytes_buff);
     }
     if (dst.grp) {
-        bytes_buff = PyByteArray_FromStringAndSize((char *)dst.grp, 
-                dst.vnum * mesh_data->groups_num * GRP_NUM_COMP 
-                * sizeof(float));
+        length = dst.vnum * mesh_data->groups_num * GRP_NUM_COMP;
+        grp_ushort = (unsigned short *)shalloc(length);
+        buffer_float_to_ushort(dst.grp, grp_ushort, length);
+
+        bytes_buff = PyByteArray_FromStringAndSize((char *)grp_ushort, 
+                length * sizeof(short));
         PyDict_SetItemString(result, "group", bytes_buff);
     }
 
     if (dst.col) {
         if (mesh_data->need_vcol_optimization) {
-            float *optimized_vcols = optimize_vertex_colors(&dst, mesh_data->channels_presence);
-            bytes_buff = PyByteArray_FromStringAndSize((char *)optimized_vcols, 
-                    dst.vnum * get_optimized_channels_total(mesh_data->channels_presence, dst.col_layers) 
-                    * sizeof(float));
-            PyDict_SetItemString(result, "color", bytes_buff);
+            float *optimized_vcols = optimize_vertex_colors(&dst, 
+                    mesh_data->channels_presence);
+
+            length = dst.vnum * get_optimized_channels_total(
+                    mesh_data->channels_presence, dst.col_layers);
+            col_ushort = (unsigned short *)shalloc(length);
+            buffer_float_to_ushort(optimized_vcols, col_ushort, length);
         } else {
-            bytes_buff = PyByteArray_FromStringAndSize((char *)dst.col, 
-                    dst.vnum * mesh_data->col_layers_count * COL_NUM_COMP 
-                    * sizeof(float));
-            PyDict_SetItemString(result, "color", bytes_buff);
+            length = dst.vnum * mesh_data->col_layers_count * COL_NUM_COMP;
+            col_ushort = (unsigned short *)shalloc(length);
+            buffer_float_to_ushort(dst.col, col_ushort, length);
         }
+
+        bytes_buff = PyByteArray_FromStringAndSize((char *)col_ushort, 
+                length * sizeof(short));
+        PyDict_SetItemString(result, "color", bytes_buff);
     }
 
     /* cleanup */

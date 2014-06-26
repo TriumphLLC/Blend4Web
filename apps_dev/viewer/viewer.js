@@ -555,6 +555,8 @@ function process_scene(names, call_reset_b4w, wait_textures) {
     if (call_reset_b4w)
         reset_b4w();
 
+    var canvas_elem = m_main.get_canvas_elem();
+    canvas_elem.removeEventListener('mousedown', main_canvas_clicked);
     m_debug.clear_errors_warnings();
 
     load_scene(wait_textures);
@@ -937,6 +939,9 @@ function set_quality_config() {
     case "LOW":
         var qual = m_cfg.P_LOW;
         break;
+    case "CUSTOM":
+        var qual = m_cfg.P_CUSTOM;
+        break;
     }
 
     m_cfg.set("quality", qual);
@@ -958,6 +963,10 @@ function refresh_quality_ui() {
     case m_cfg.P_LOW:
         var quality = "LOW";
         var opt_index = 2;
+        break;
+    case m_cfg.P_CUSTOM:
+        var quality = "CUSTOM";
+        var opt_index = 3;
         break;
     }
 

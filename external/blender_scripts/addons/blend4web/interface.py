@@ -482,22 +482,38 @@ class B4W_DataPanel(bpy.types.Panel):
                 row.prop(cam, "b4w_target", text="Target location")
                 row.operator("b4w.camera_target_copy", text="Copy Cursor Location")
 
-                row = layout.row()
+            if cam.b4w_move_style == "TARGET" or cam.b4w_move_style == "EYE":
+                box = layout.box()
+                col = box.column()
+                col.label("Camera limits:")
+
+            if cam.b4w_move_style == "TARGET":
+                row = col.row()
                 row.prop(cam, "b4w_use_distance_limits", text="Use distance limits")
 
-                if getattr(cam, "b4w_use_distance_limits"):
-                    row = layout.split(0.5, align=True)
-                    row.prop(cam, "b4w_distance_min", text="Min")
-                    row.prop(cam, "b4w_distance_max", text="Max")
+                row = col.split(0.5, align=True)
+                row.active = getattr(cam, "b4w_use_distance_limits")
+                row.prop(cam, "b4w_distance_min", text="Min")
+                row.prop(cam, "b4w_distance_max", text="Max")
 
             if cam.b4w_move_style == "TARGET" or cam.b4w_move_style == "EYE":
-                row = layout.row()
+                row = col.row()
+                row.prop(cam, "b4w_use_horizontal_clamping", text="Use horizontal rotation clamping")
+
+                row = col.split(1/3, align=True)
+                row.active = getattr(cam, "b4w_use_horizontal_clamping")
+                row.prop(cam, "b4w_rotation_left_limit", text="Left angle")
+                row.prop(cam, "b4w_rotation_right_limit", text="Right angle")
+                row.prop(cam, "b4w_horizontal_clamping_type", text="")
+
+                row = col.row()
                 row.prop(cam, "b4w_use_vertical_clamping", text="Use vertical rotation clamping")
 
-                if getattr(cam, "b4w_use_vertical_clamping"):
-                    row = layout.split(0.5, align=True)
-                    row.prop(cam, "b4w_rotation_down_limit", text="Down angle")
-                    row.prop(cam, "b4w_rotation_up_limit", text="Up angle")
+                row = col.split(1/3, align=True)
+                row.active = getattr(cam, "b4w_use_vertical_clamping")
+                row.prop(cam, "b4w_rotation_down_limit", text="Down angle")
+                row.prop(cam, "b4w_rotation_up_limit", text="Up angle")
+                row.prop(cam, "b4w_vertical_clamping_type", text="")
             
             row = layout.row()
             row.prop(cam, "b4w_dof_front", text="DOF front distance")

@@ -9,7 +9,6 @@
 b4w.module["__animation"] = function(exports, require) {
 
 var m_config    = require("__config");
-var m_dbg       = require("__debug");
 var m_particles = require("__particles");
 var m_phy       = require("__physics");
 var m_print     = require("__print");
@@ -132,9 +131,9 @@ function update_anim_cache(obj) {
         _anim_objs_cache.push(obj);
 }
 
-exports.get_current_action = function(obj) {
+exports.get_current_action_name = function(obj) {
     if (obj._anim) 
-        return obj._anim.action;
+        return strip_baked_suffix(obj._anim.action_name);
     else 
         return null;
 }
@@ -148,10 +147,15 @@ exports.get_anim_names = function(obj) {
     } else {
         // TODO: return object-specific actions
         for (var i = 0; i < _actions.length; i++)
-            anim_names.push(_actions[i]["name"]);
+            anim_names.push(strip_baked_suffix(_actions[i]["name"]));
     }
 
     return anim_names;
+}
+
+exports.strip_baked_suffix = strip_baked_suffix;
+function strip_baked_suffix(name) {
+    return name.replace(/_B4W_BAKED$/, "");
 }
 
 
@@ -201,7 +205,7 @@ function apply_def(obj) {
  *  obj.modifiers -> armature obj 
  *  obj.animation_data.action
  *  spkobj.data.animation_data
- * @param obj Object ID
+ * @param {Object} obj Object ID
  * @returns Default action or null
  */
 function get_default_action(obj) {
@@ -394,14 +398,14 @@ exports.is_animated = function(obj) {
  */
 function apply_action(obj, action) {
 
-    if (!action["fcurves"].length)
+    if (!m_util.get_dict_length(action["fcurves"]))
         throw new Error("No fcurves in action \"" + action["name"] + "\"");
 
     var frame_range = action["frame_range"];
 
     var act_render = action._render;
 
-    obj._anim.action = action["name"];
+    obj._anim.action_name = action["name"];
     obj._anim.action_frame_range = frame_range;
     obj._anim.action_step = act_render.pierce_step;
     obj._anim.action_bflags = act_render.bflags; 
@@ -804,37 +808,6 @@ function calc_pose_data_frames(armobj, action, bone_pointers) {
         quats_frames.push(pose_data.quats);
     }
 
-    // in order to perform correct quaternion interpolation we need to keep dot
-    // product Q_cur_frame * Q_next_frame >= 0
-    
-    var q = new Float32Array(4);
-    var qn = new Float32Array(4);
-
-    for (var i = 0; i < quats_frames.length - 1; i++) {
-        var qframe = quats_frames[i];
-        var qframe_next = quats_frames[i+1];
-
-        for (var j = 0; j < qframe.length; j+=4) {
-            var qx = qframe[j];
-            var qy = qframe[j+1];
-            var qz = qframe[j+2];
-            var qw = qframe[j+3];
-
-            var qnx = qframe_next[j];
-            var qny = qframe_next[j+1];
-            var qnz = qframe_next[j+2];
-            var qnw = qframe_next[j+3];
-
-            var quat_dot = qx*qnx + qy*qny + qz*qnz + qw*qnw;
-            if (quat_dot < 0.0) {
-                qframe_next[j] *= -1.0;
-                qframe_next[j+1] *= -1.0;
-                qframe_next[j+2] *= -1.0;
-                qframe_next[j+3] *= -1.0;
-            }
-        }
-    }
-
     return {trans: trans_frames, quats: quats_frames};
 }
 
@@ -947,15 +920,7 @@ exports.append_action = function(action) {
 
     action._render = {};
     var act_render = action._render;
-
-    var frame_range = action["frame_range"]; // same for all fcurves
-
-    var start = frame_range[0]; // integer
-    var end   = frame_range[1]; // integer
-
-    // NOTE: untested
-    var step = 1.0; 
-    act_render.pierce_step = step;
+    act_render.pierce_step = 1 / cfg_ani.frame_steps;
 
     var init_storage = function(pierced_points, default_value) {
         if (typeof default_value == "object" && default_value.length) {
@@ -964,7 +929,7 @@ exports.append_action = function(action) {
 
             for (var i = 0; i < pierced_points; i++)
                 for (var j = 0; j < len; j++)
-                    storage[i*len + j] = default_value[j];
+                    storage[i * len + j] = default_value[j];
 
         } else if (typeof default_value == "number") {
             var storage = new Float32Array(pierced_points);
@@ -978,8 +943,7 @@ exports.append_action = function(action) {
     }
 
     var BONE_EXP = new RegExp(/pose.bones\[\".+\"\]/g);
-    // like identity, but zero scale
-    var TSR8_DEF = new Float32Array([0,0,0,0,0,0,0,1]);
+    var TSR8_DEF = m_tsr.create();
 
     var get_storage = function(params, bones, data_path, pierced_points) {
         if (data_path.search(BONE_EXP) > -1) {
@@ -1020,7 +984,6 @@ exports.append_action = function(action) {
             var channel_offset = (array_index == 0) ? 3 : array_index - 1;
         } else if (data_path.indexOf("scale") > -1) {
             var base_offset = 3;
-            // X Y Z -> X, take average later
             var channel_offset = 0;
         } else {
             var base_offset = 0;
@@ -1030,57 +993,33 @@ exports.append_action = function(action) {
         return base_offset + channel_offset;
     }
     var fcurves = action["fcurves"];
-
-    // make points for every frame from 0 to end
-    for (var i = 0; i < fcurves.length; i++) {
-        var fcurve = fcurves[i];
-        var keyframe_points = fcurve[2];
-
-        fcurve._pierced_points = approximate_curve(keyframe_points, start, end, step);
-    }
-
-    var num_pierced = fcurves.length ? fcurves[0]._pierced_points.length / 2 : 0;
-    act_render.num_pierced = num_pierced;
-
+    
     var params = {};
     var bones = {};
-    var bflags = new Float32Array(num_pierced);
 
-    for (var i = 0; i < fcurves.length; i++) {
-        var fcurve = fcurves[i];
-        var data_path = fcurve[0];
-        var array_index = fcurve[1];
-        var pp = fcurve._pierced_points;
+    var num_pierced = 0;
+    for (var data_path in fcurves) {
+        var channels = fcurves[data_path];
+        for (var array_index in channels) {
+            var fcurve = channels[array_index];
+            var pp = fcurve._pierced_points;
 
-        var storage = get_storage(params, bones, data_path, num_pierced);
-        var stride = storage.length / num_pierced;
-        var offset = storage_offset(data_path, array_index);
+            if (!num_pierced)
+                num_pierced = pp.length;
 
-        for (var j = 0; j < num_pierced; j++) {
+            var storage = get_storage(params, bones, data_path, num_pierced);
+            var stride = storage.length / num_pierced;
+            // NOTE: converting JSON key "array_index" to Int
+            var offset = storage_offset(data_path, array_index | 0);
 
-            // if some channel is blended all transform will be blended
-            var pp_bflag = pp[2*j];
-            if (pp_bflag)
-                bflags[j] = 1;
-
-            var pp_value = pp[2*j + 1];
-
-            // NOTE: average scale channels, see storage_offset()
-            if (offset == 3)
-                storage[j*stride + offset] += pp_value;
-            else
-                storage[j*stride + offset] = pp_value;
+            for (var i = 0; i < num_pierced; i++)
+                storage[i * stride + offset] = pp[i];
         }
+
     }
 
     var prepare_tsr_arr = function(tsr_arr, num_pierced) {
         for (var i = 0; i < num_pierced; i++) {
-            var scale = tsr_arr[i*8 + 3];
-            if (scale == 0)
-                tsr_arr[i*8 + 3] = 1;
-            else
-                tsr_arr[i*8 + 3] = scale / 3;
-
             var quat = tsr_arr.subarray(i*8 + 4, i*8 + 8);
             m_quat.normalize(quat, quat);
         }
@@ -1095,8 +1034,9 @@ exports.append_action = function(action) {
 
     act_render.params = params;
     act_render.bones = bones;
-    act_render.bflags = bflags;
-
+    act_render.bflags = action._bflags;
+    act_render.num_pierced = num_pierced;
+    
     _actions.push(action);
 }
 
@@ -1156,75 +1096,149 @@ function get_transform_from_group(channels, pierced_index, action_name) {
     return {tran: tran, quat: quat, bflag: bflag};
 }
 
+exports.get_approx_curve_length = function(start, end) {
+    return (end - start) * cfg_ani.frame_steps + 1;
+}
+
 /**
  * Perform fcurve extrapolation/interpolation.
- * @returns {Array} Array of pierced points: [BlendFlag0, PointValue0, ...]
+ * Write points array for each fcurve
+ * Update bflags array for each fcurve in action (write only unit values)
  */
-function approximate_curve(keyframe_points, start, end, step) {
+exports.approximate_curve = function(fcurve, fcurve_bin_data, points, bflags, 
+        start, end) {
 
-    var result = [];
+    // initialize util arrays
+    var v1 = new Float32Array(2);
+    var v2 = new Float32Array(2);
+    var v3 = new Float32Array(2);
+    var v4 = new Float32Array(2);
 
-    for (var i = 0; i < keyframe_points.length; i++) {
-        var kf_point = keyframe_points[i];
+    var step = 1 / cfg_ani.frame_steps;
 
-        var interp = kf_point[0];
+    var first_frame = fcurve_bin_data[1];
+    var first_frame_value = fcurve_bin_data[2];
 
-        var kf_blend = (interp === KF_INTERP_CONSTANT) ? 0 : 1;
-        var kf_x = kf_point[1]; // integer
-        var kf_y = kf_point[2];
+    var last_frame = fcurve_bin_data[fcurve["last_frame_offset"] + 1];
+    var last_frame_value = fcurve_bin_data[fcurve["last_frame_offset"] + 2];
 
-        // add points (if any) before first keyframe
-        if (i == 0 && start < kf_x) {
-            // NOTE: only constant extrapolation supported
-            for (var j = 0; j < kf_x - start; j+=step)
-                result.push(0, kf_y);
-        }
+    var out_cursor = 0;
+    var bin_cursor = 0;
+    var interp_prev = null;
 
-        // add this point
-        result.push(kf_blend, kf_y);
+    for (var i = start; i <= end; i++) {
+        // make extrapolation before fcurve
+        if (i < first_frame)
+            for (var j = 0; j < cfg_ani.frame_steps; j++)
+                points[out_cursor++] = first_frame_value;
 
-        // add interpolated points if any
-        var kf_point_next = keyframe_points[i + 1];
-        if (kf_point_next) {
+        // make extrapolation after fcurve
+        else if (i > last_frame)
+            for (var j = 0; j < cfg_ani.frame_steps; j++)
+                points[out_cursor++] = last_frame_value;
 
-            var v1 = [kf_x            , kf_y            ]; // control point
-            var v2 = [kf_point[5]     , kf_point[6]     ]; // right handle
-            var v3 = [kf_point_next[3], kf_point_next[4]]; // left handle next
-            var v4 = [kf_point_next[1], kf_point_next[2]]; // control point next
-            var kf_x_next = v4[0];
+        // process points inside
+        else {
+            // calc properties of current keyframe
+            var interp = fcurve_bin_data[bin_cursor];
+            var offset_to_next_kf = 3;
+            if (interp === KF_INTERP_BEZIER)
+                offset_to_next_kf += 2; 
+            if (interp_prev === KF_INTERP_BEZIER)
+                offset_to_next_kf += 2;
+            var is_blended = (interp === KF_INTERP_CONSTANT) ? 0 : 1;
 
-            switch (interp) {
-            case KF_INTERP_BEZIER:
-                correct_bezpart(v1, v2, v3, v4);
-                for (var j = kf_x + step; j < kf_x_next; j+=step) { 
-                    result.push(kf_blend, bezier(j, v1, v2, v3, v4));                
+            // NOTE: if next frame time same as current (decimal converted to 
+            // integer) then move to next frame immediately
+            if (fcurve_bin_data[bin_cursor + 1] 
+                    == fcurve_bin_data[bin_cursor + offset_to_next_kf + 1]) {
+                interp_prev = interp;
+                bin_cursor += offset_to_next_kf;
+                continue;
+            }
+
+            // take base data from source array for integer point value
+            var substep_from = 0;
+            if (i == fcurve_bin_data[bin_cursor + 1]) {
+                if (is_blended)
+                    bflags[out_cursor] = 1;
+                points[out_cursor] = fcurve_bin_data[bin_cursor + 2];
+                out_cursor++;
+
+                substep_from++;
+            }
+
+            // process points for fcurve last keyframe (extrapolation, 
+            // outside fcurve)
+            if (i == last_frame)
+                for (var j = substep_from; j < cfg_ani.frame_steps; j++)
+                    points[out_cursor++] = last_frame_value;
+            else {
+                // control point
+                v1[0] = fcurve_bin_data[bin_cursor + 1];
+                v1[1] = fcurve_bin_data[bin_cursor + 2];
+                // right handle
+                if (interp !== KF_INTERP_BEZIER) {
+                    v2[0] = 0;
+                    v2[1] = 0;
+                } else {
+                    if (interp_prev === KF_INTERP_BEZIER) {
+                        v2[0] = fcurve_bin_data[bin_cursor + 5];
+                        v2[1] = fcurve_bin_data[bin_cursor + 6];
+                    } else {
+                        v2[0] = fcurve_bin_data[bin_cursor + 3];
+                        v2[1] = fcurve_bin_data[bin_cursor + 4];
+                    }
                 }
-                break;
-            case KF_INTERP_LINEAR:
-                var linear_params = calc_linear_params(v1, v4);
-                for (var j = kf_x + step; j < kf_x_next; j+=step) {
-                    result.push(kf_blend, linear(j, linear_params));
+                // left handle next
+                if (interp !== KF_INTERP_BEZIER) {
+                    v3[0] = 0;
+                    v3[1] = 0;
+                } else {
+                    v3[0] = fcurve_bin_data[bin_cursor + offset_to_next_kf + 3];
+                    v3[1] = fcurve_bin_data[bin_cursor + offset_to_next_kf + 4];
                 }
-                break;
-            case KF_INTERP_CONSTANT:
-                for (var j = kf_x + step; j < kf_x_next; j+=step) {
-                    result.push(kf_blend, kf_y);                
+                // control point next
+                v4[0] = fcurve_bin_data[bin_cursor + offset_to_next_kf + 1];
+                v4[1] = fcurve_bin_data[bin_cursor + offset_to_next_kf + 2];
+
+                // make interpolation for decimal values
+                for (var j = substep_from; j < cfg_ani.frame_steps; j++) {
+                    var interp_val = i + j / cfg_ani.frame_steps;
+                    switch (interp) {
+                    case KF_INTERP_BEZIER:
+                        correct_bezpart(v1, v2, v3, v4);
+                        if (is_blended)
+                            bflags[out_cursor] = 1;
+                        points[out_cursor] = bezier(interp_val, v1, v2, v3, v4);
+                        out_cursor++;
+                        break;
+                    case KF_INTERP_LINEAR:
+                        var linear_params = calc_linear_params(v1, v4);
+                        if (is_blended)
+                            bflags[out_cursor] = 1;
+                        points[out_cursor] = linear(interp_val, linear_params);
+                        out_cursor++;
+                        break;
+                    case KF_INTERP_CONSTANT:
+                        if (is_blended)
+                            bflags[out_cursor] = 1;
+                        points[out_cursor] = fcurve_bin_data[bin_cursor + 2];
+                        out_cursor++;
+                        break;
+                    default:
+                        throw "Unknown keyframe intepolation mode: " + interp;
+                    }
                 }
-                break;
-            default:
-                throw "Unknown keyframe intepolation mode: " + interp;
+            }
+
+            // reaching new keyframe point on next iteration
+            if (i + 1 == fcurve_bin_data[bin_cursor + offset_to_next_kf + 1]) {
+                interp_prev = interp;
+                bin_cursor += offset_to_next_kf;
             }
         }
-
-        // add points (if any) after last keyframe
-        if (i == keyframe_points.length - 1 && kf_x < end) { 
-            // NOTE: only constant extrapolation supported
-            for (var j = 0; j < end - kf_x; j+=step)
-                result.push(0, kf_y);
-        }
     }
-
-    return result;
 }
 
 function calc_linear_params(v1, v4) {
@@ -1436,7 +1450,8 @@ exports.apply = function(obj, name) {
         }
     }
 
-    var action = m_util.keysearch("name", name, _actions);
+    var action = m_util.keysearch("name", name, _actions) ||
+            m_util.keysearch("name", name + "_B4W_BAKED", _actions);
     if (action) {
         do_before_apply(obj);
         apply_action(obj, action);

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Objects &mdash; User Manual: Blend4Web v14.05.22</title>
+    <title>Objects &mdash; User Manual: Blend4Web v14.06</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.05.22',
+        VERSION:     '14.06',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User Manual: Blend4Web v14.05.22" href="index.html" />
+    <link rel="top" title="User Manual: Blend4Web v14.06" href="index.html" />
     <link rel="next" title="Textures" href="textures.html" />
     <link rel="prev" title="The Addon" href="addon.html" /> 
   </head>
@@ -36,7 +36,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">User Manual: Blend4Web v14.05.22</a></div>
+          href="index.html">User Manual: Blend4Web v14.06</a></div>
         <div class="rel">
           <a href="addon.html" title="The Addon"
              accesskey="P">previous</a> |
@@ -133,7 +133,7 @@
 <dd><p class="first last">Enable the object as a part of a vehicle.</p>
 </dd>
 <dt><em>Blend4Web &gt; Do not batch</em></dt>
-<dd><p class="first last">Prohibit merging of the object&#8217;s mesh with other meshes that have the same material (performed by default for optimization purposes). Objects with animation or physics are already considered as separate. This option should be used when object movement is required but is not apparent from its settings.</p>
+<dd><p class="first last">Force the object to become a <a class="reference internal" href="#static-dynamic-objects"><em>dynamic object</em></a>.</p>
 </dd>
 <dt><em>Blend4Web &gt; Disable frustum culling</em></dt>
 <dd><p class="first last">Disable frustum culling optimization.</p>
@@ -160,23 +160,119 @@
 <dd><p class="first last">Enable procedural animation under the influence of wind.</p>
 </dd>
 <dt><em>Blend4Web &gt; Self LOD &gt; Distance</em></dt>
-<dd><p class="first last">Distance from the camera at which the object is no longer rendered. The default value is 10000.0.</p>
+<dd><p class="first">Distance from the camera at which the object is no longer rendered.</p>
+<div class="last deprecated">
+<p><span class="versionmodified">Deprecated since version 14.06: </span>implemented in the standard <tt class="docutils literal"><span class="pre">Levels</span> <span class="pre">of</span> <span class="pre">Detail</span></tt> Blender&#8217;s tool.</p>
+</div>
 </dd>
 <dt><em>Blend4Web &gt; Additional LOD objects</em></dt>
-<dd><p class="first last">The interface for adding low-poly objects used for switching the levels of detail.</p>
+<dd><p class="first">The interface for adding low-poly objects used for switching the levels of detail.</p>
+<div class="last deprecated">
+<p><span class="versionmodified">Deprecated since version 14.06: </span>implemented in the standard <tt class="docutils literal"><span class="pre">Levels</span> <span class="pre">of</span> <span class="pre">Detail</span></tt> Blender&#8217;s tool.</p>
+</div>
 </dd>
 </dl>
 </div>
-<div class="section" id="id4">
-<h2>Camera<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="static-dynamic-objects">
+<span id="id4"></span><h2>Static and Dynamic Objects<a class="headerlink" href="#static-dynamic-objects" title="Permalink to this headline">¶</a></h2>
+<p>All <tt class="docutils literal"><span class="pre">MESH</span></tt> objects can be divided into static and dynamic objects.</p>
+<p><strong>Static objects</strong> are objects, the meshes of which can be merged together if they have the same material.</p>
+<p><strong>Dynamic objects</strong> are objects, the meshes of which cannot be combined with each other.</p>
+<p>Static objects are merged in order to optimize the number of draw calls. Dynamic objects are needed to make the movement of a separate object possible.</p>
+<p>Among objects of the other type the dynamic ones are <tt class="docutils literal"><span class="pre">CAMERA</span></tt> and <tt class="docutils literal"><span class="pre">ARMATURE</span></tt>. All other objects are static.</p>
+<p>The objects which have animation, physics or a parent, which is a dynamic object, are considered dynamic by default. When object movement is required but is not apparent from its settings, then its nesessary to enable the <cite>Blend4Web &gt; Do not batch</cite> checkbox.</p>
+</div>
+<div class="section" id="id5">
+<h2>Camera<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
 <p>The camera settings are specified in the <tt class="docutils literal"><span class="pre">Properties</span></tt> panel under the <tt class="docutils literal"><span class="pre">Object</span> <span class="pre">Data</span></tt> tab.</p>
 <p><em>Blend4Web &gt; Move style</em> &#8211; camera control mode. By default the camera is in <tt class="docutils literal"><span class="pre">Static</span></tt> mode and this can be changed only through the API call. In the <tt class="docutils literal"><span class="pre">Target</span></tt> mode the camera is rotating around a fixed point. The <tt class="docutils literal"><span class="pre">Eye</span></tt> mode allows rotation and translation as in first person view.</p>
 <p><em>Blend4Web &gt; Target location</em> &#8211; available in the <tt class="docutils literal"><span class="pre">Target</span></tt> mode. This is the position of the camera pivot point. The <tt class="docutils literal"><span class="pre">Copy</span> <span class="pre">Cursor</span> <span class="pre">Location</span></tt> button copies the current 3D cursor position into this value.</p>
-<p><em>Blend4Web &gt; Use distance limits</em> &#8211; available in the <tt class="docutils literal"><span class="pre">Target</span></tt> mode. This limits the camera transition to the two extreme distances.</p>
-<p><em>Blend4Web &gt; Use vertical rotation clamping</em> &#8211; available in the <tt class="docutils literal"><span class="pre">Target</span></tt> and <tt class="docutils literal"><span class="pre">Eye</span></tt> modes. This limits the vertical rotation angle of the camera to the two extreme values.</p>
 <p><em>Blend4Web &gt; DOF front distance</em> &#8211; described in the <a class="reference internal" href="postprocessing_effects.html#postprocessing-effects"><em>Postprocessing Effects</em></a> section.</p>
 <p><em>Blend4Web &gt; DOF rear distance</em> &#8211; described in the <a class="reference internal" href="postprocessing_effects.html#postprocessing-effects"><em>Postprocessing Effects</em></a> section.</p>
 <p><em>Blend4Web &gt; DOF power</em> &#8211; described in the <a class="reference internal" href="postprocessing_effects.html#postprocessing-effects"><em>Postprocessing Effects</em></a> section.</p>
+<div class="section" id="id6">
+<h3>Limiting the camera movement<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<p>There are several settings for the camera which limit its movement this way or another. They are grouped as <tt class="docutils literal"><span class="pre">Camera</span> <span class="pre">limits</span></tt>.</p>
+<div class="align-center figure">
+<img alt="Ограничения движения камеры" src="_images/camera_limits.jpg" />
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p><strong>Types of limits</strong></p>
+<p><em>Blend4Web &gt; Use distance limits</em> &#8211; available in the <tt class="docutils literal"><span class="pre">Target</span></tt> mode. This defines the minimum and maximum distance from the camera to the pivot point.</p>
+<p>Interval variants:</p>
+<ul class="simple">
+<li><p class="first"><em>Max &gt; Min</em> - the distance from the camera to the object is limited by the interval <em>[Min, Max]</em></p>
+</li>
+<li><p class="first"><em>Max = Min</em> - the camera is fixed on a certain height above the object</p>
+</li>
+<li><p class="first"><em>Max &lt; Min</em> - no movement limits</p>
+</li>
+</ul>
+<div class="align-center figure">
+<img alt="Ограничения приближения/удаления камеры" src="_images/distance_limits.png" />
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>Default values: <em>Min = 1, Max = 100</em>.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p><em>Blend4Web &gt; Use horizontal rotation clamping</em> &#8211; available in the <tt class="docutils literal"><span class="pre">Target</span></tt> and <tt class="docutils literal"><span class="pre">Eye</span></tt> modes. Limits the camera&#8217;s horizontal rotation relative to the pivot point (in the <tt class="docutils literal"><span class="pre">Target</span></tt> mode) or relative to its position (in the <tt class="docutils literal"><span class="pre">Eye</span></tt> mode).</p>
+<p>The direction from <tt class="docutils literal"><span class="pre">Left</span></tt> to <tt class="docutils literal"><span class="pre">Right</span></tt> is considered positive and matches the counterclockwise direction for the <tt class="docutils literal"><span class="pre">Target</span></tt> mode, and the clockwise direction for the <tt class="docutils literal"><span class="pre">Eye</span></tt> mode:</p>
+<div class="align-center figure">
+<img alt="Ограничения горизонтального угла камеры" src="_images/horizontal_limits.png" />
+</div>
+<p>Default values: <em>Left = -180, Right = 180</em>.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p><em>Blend4Web &gt; Use vertical rotation clamping</em> &#8211; available in the <tt class="docutils literal"><span class="pre">Target</span></tt> and <tt class="docutils literal"><span class="pre">Eye</span></tt> modes. Limits the camera&#8217;s vertical rotation relative to the pivot point (in the <tt class="docutils literal"><span class="pre">Target</span></tt> mode) or relative to its position (in the <tt class="docutils literal"><span class="pre">Eye</span></tt> mode).</p>
+<p>The direction from <tt class="docutils literal"><span class="pre">Down</span></tt> to <tt class="docutils literal"><span class="pre">Up</span></tt> is considered positive:</p>
+<div class="align-center figure">
+<img alt="Ограничения вертикального угла камеры типа" src="_images/vertical_limits.png" />
+</div>
+<p>If the <em>Use horizontal rotation clamping</em> checkbox is enabled, vertical rotation will be limited at least to the interval <em>[-90, 90]</em>.</p>
+<p>Default values: <em>Down = -90, Up = 90</em>.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p><strong>Possible rotation limits pitfalls</strong></p>
+<ul class="simple">
+<li><p class="first">Swapping the <em>Left/Right</em> or <em>Down/Up</em> values swaps the rotations arcs.</p>
+</li>
+</ul>
+<div class="align-center figure">
+<img alt="Перемена мест значений углов, ограничивающих поворот" src="_images/limits_inversion.png" />
+</div>
+<ul class="simple">
+<li><p class="first"><em>Left = Right, Up = Down</em> - fixes the camera horizontally and vertically (respectively).</p>
+</li>
+</ul>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p><strong>Rotation angles origin</strong></p>
+<p>You can choose the space of coordinates for horizontal and vertical rotation limits:</p>
+<ul class="simple">
+<li><p class="first"><tt class="docutils literal"><span class="pre">Camera</span> <span class="pre">space</span></tt> - all angles are measured relative to the initial camera position and orientation.</p>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">World</span> <span class="pre">space</span></tt> - horizontal angles are measured starting from the Y axis in the world space, while vertical angles - relative to the horizontal plane XOY in the world space.</p>
+</li>
+</ul>
+<p>For horizontal limits:</p>
+<div class="align-center figure">
+<img alt="Варианты точки отсчета для ограничения вращения по горизонтали" src="_images/camera_space_world_space_h.png" />
+</div>
+<p>For vertical limits:</p>
+<div class="align-center figure">
+<img alt="Варианты точки отсчета для ограничения вращения по горизонтали" src="_images/camera_space_world_space_v.png" />
+</div>
+<p>The coordinate axes labelled on the pictures match the Blender&#8217;s world coordinate axes.</p>
+<p>By default the <tt class="docutils literal"><span class="pre">Camera</span> <span class="pre">space</span></tt> option is selected.</p>
+</div>
 </div>
 </div>
 
@@ -198,7 +294,8 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="">Objects</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#id2">Types</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id3">Settings</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id4">Camera</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#static-dynamic-objects">Static and Dynamic Objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">Camera</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
@@ -250,7 +347,7 @@
           
     <div class="footer">
         &copy; Copyright 2014, Triumph LLC.
-      Last updated on 2014-05-21.
+      Last updated on 2014-06-25.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

@@ -1058,6 +1058,49 @@ def add_b4w_props():
        )
     bpy.types.Camera.b4w_distance_max = b4w_distance_max
 
+    b4w_use_horizontal_clamping = bpy.props.BoolProperty(
+        name = "B4W: use horizontal rotation clamping",
+        description = "Check if you wish to set horizontal clamping angles", 
+        default = False
+    )
+    bpy.types.Camera.b4w_use_horizontal_clamping = b4w_use_horizontal_clamping
+
+    b4w_rotation_left_limit = bpy.props.FloatProperty(
+           name = "B4W: Rotation left limit",
+           description = "Rotation left limit angle",
+           default = -math.pi,
+           min = -2 * math.pi,
+           soft_min = -2 * math.pi,
+           max = 2 * math.pi,
+           soft_max = 2 * math.pi,
+           precision = 1,
+           subtype = "ANGLE",   
+       )
+    bpy.types.Camera.b4w_rotation_left_limit = b4w_rotation_left_limit
+
+    b4w_rotation_right_limit = bpy.props.FloatProperty(
+           name = "B4W: Rotation right limit",
+           description = "Rotation right limit angle",
+           default = math.pi,
+           min = -2 * math.pi,
+           soft_min = -2 * math.pi,
+           max = 2 * math.pi,
+           soft_max = 2 * math.pi,
+           precision = 1,
+           subtype = "ANGLE",
+       )
+    bpy.types.Camera.b4w_rotation_right_limit = b4w_rotation_right_limit
+
+    bpy.types.Camera.b4w_horizontal_clamping_type = bpy.props.EnumProperty(
+        name = "B4W: horizontal clamping type",
+        description = "Horizontal clamping type",
+        default = "LOCAL",
+        items = [
+            ("LOCAL", "Camera space", "Clamp angles in camera space"),
+            ("WORLD", "World space", "Clamp angles in world space")
+        ]
+    )
+
     b4w_use_vertical_clamping = bpy.props.BoolProperty(
         name = "B4W: use vertical rotation clamping",
         description = "Check if you wish to set vertical clamping angles", 
@@ -1065,31 +1108,78 @@ def add_b4w_props():
     )
     bpy.types.Camera.b4w_use_vertical_clamping = b4w_use_vertical_clamping
 
+
+    def get_rotation_down_limit(self):
+        value = self.b4w_rotation_down_limit_storage
+        if getattr(self, "b4w_use_horizontal_clamping"):
+            value = min(max(value, -math.pi / 2), math.pi / 2)
+        return value
+
+    def set_rotation_down_limit(self, value):
+        if getattr(self, "b4w_use_horizontal_clamping"):
+            value = min(max(value, -math.pi / 2), math.pi / 2)
+        self.b4w_rotation_down_limit_storage = value
+
     b4w_rotation_down_limit = bpy.props.FloatProperty(
            name = "B4W: Rotation down limit",
            description = "Rotation down limit angle",
-           default = math.pi / 2,
-           min = -math.pi,
-           soft_min = -math.pi,
-           max = math.pi,
-           soft_max = math.pi,
-           precision = 3,
-           subtype = "ANGLE",   
+           default = -math.pi / 2,
+           min = -2 * math.pi,
+           soft_min = -2 * math.pi,
+           max = 2 * math.pi,
+           soft_max = 2 * math.pi,
+           precision = 1,
+           subtype = "ANGLE",
+           set = set_rotation_down_limit,
+           get = get_rotation_down_limit
        )
     bpy.types.Camera.b4w_rotation_down_limit = b4w_rotation_down_limit
+
+    # NOTE: fiction property for storing dynamically changing property
+    bpy.types.Camera.b4w_rotation_down_limit_storage = bpy.props.FloatProperty(
+            default = -math.pi / 2)
+
+
+    def get_rotation_up_limit(self):
+        value = self.b4w_rotation_up_limit_storage
+        if getattr(self, "b4w_use_horizontal_clamping"):
+            value = min(max(value, -math.pi / 2), math.pi / 2)
+        return value
+
+    def set_rotation_up_limit(self, value):
+        if getattr(self, "b4w_use_horizontal_clamping"):
+            value = min(max(value, -math.pi / 2), math.pi / 2)
+        self.b4w_rotation_up_limit_storage = value
 
     b4w_rotation_up_limit = bpy.props.FloatProperty(
            name = "B4W: Rotation up limit",
            description = "Rotation up limit angle",
            default = math.pi / 2,
-           min = -math.pi,
-           soft_min = -math.pi,
-           max = math.pi,
-           soft_max = math.pi,
-           precision = 3,
+           min = -2 * math.pi,
+           soft_min = -2 * math.pi,
+           max = 2 * math.pi,
+           soft_max = 2 * math.pi,
+           precision = 1,
            subtype = "ANGLE",
+           set = set_rotation_up_limit,
+           get = get_rotation_up_limit
        )
     bpy.types.Camera.b4w_rotation_up_limit = b4w_rotation_up_limit
+
+    # NOTE: fiction property for storing dynamically changing property
+    bpy.types.Camera.b4w_rotation_up_limit_storage = bpy.props.FloatProperty(
+            default = math.pi / 2)
+
+    bpy.types.Camera.b4w_vertical_clamping_type = bpy.props.EnumProperty(
+        name = "B4W: vertical clamping type",
+        description = "Vertical clamping type",
+        default = "LOCAL",
+        items = [
+            ("LOCAL", "Camera space", "Clamp angles in camera space"),
+            ("WORLD", "World space", "Clamp angles in world space")
+        ]
+    )
+
 
     b4w_dof_front = bpy.props.FloatProperty(
            name = "B4W: DOF front distance",

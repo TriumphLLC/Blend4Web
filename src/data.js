@@ -10,21 +10,16 @@ b4w.module["__data"] = function(exports, require) {
 
 var m_anim      = require("__animation");
 var m_batch     = require("__batch");
-var m_bounds    = require("__boundings");
-var m_cam       = require("__camera");
 var m_cfg       = require("__config");
-var m_cons      = require("__constraints");
 var m_ctl       = require("__controls");
-var m_curve     = require("__curve");
 var m_dds       = require("__dds");
-var m_debug     = require("__debug");
 var m_ext       = require("__extensions");
 var m_lights    = require("__lights");
 var m_loader    = require("__loader");
 var m_assets    = require("__assets");
 var m_md5       = require("__md5");
+var m_obj       = require("__objects");
 var m_particles = require("__particles");
-var m_prerender = require("__prerender");
 var m_phy       = require("__physics");
 var m_print     = require("__print");
 var m_reformer  = require("__reformer");
@@ -34,12 +29,10 @@ var m_nla       = require("__nla");
 var m_sfx       = require("__sfx");
 var m_shaders   = require("__shaders");
 var m_tex       = require("__textures");
-var m_tsr       = require("__tsr");
 var m_trans     = require("__transform");
 var m_nodemat   = require("__nodemat");
 var m_util      = require("__util");
 
-var m_vec3 = require("vec3");
 var m_vec4 = require("vec4");
 var m_mat4 = require("mat4");
 
@@ -47,16 +40,16 @@ var cfg_def = m_cfg.defaults;
 var cfg_ldr = m_cfg.assets;
 var cfg_phy = m_cfg.physics;
 
-var DEBUG_DISABLE_BATCHING = false;
 var DEBUG_BPYDATA = false;
 var DEBUG_LOD_DIST_NOT_SET = false;
 
-var _quat4_tmp = new Float32Array(4);
+var BINARY_INT_SIZE = 4
+var BINARY_SHORT_SIZE = 2
+var BINARY_FLOAT_SIZE = 4
 
 var _bpy_data = {};
 var _scheduler = null;
 var _all_objects_cache = null;
-var _color_id_counter = 0;
 var _debug_resources_root = "";
 
 // sequence to load objects on scene
@@ -214,19 +207,22 @@ function prepare_bindata(bpy_data, scheduler, stage, cb_param, cb_finish,
 
     var objects = bpy_data["objects"];
     var meshes = bpy_data["meshes"];
+    var actions = bpy_data["actions"];
 
     var is_le = m_util.check_endians();
 
     prepare_bindata_submeshes(bin_data, bin_offsets, meshes, is_le);
     prepare_bindata_psystems(bin_data, bin_offsets, objects, is_le);
+    prepare_bindata_actions(bin_data, bin_offsets, actions, is_le);
 
     cb_finish(scheduler, stage);
 }
 
 function prepare_bindata_submeshes(bin_data, bin_offsets, meshes, is_le) {
     var int_props = ["indices"];
-    var float_props = ["position", "normal", "tangent", "texcoord", "texcoord2",
-             "color", "group"];
+    var short_props = ["normal", "tangent"];
+    var ushort_props = ["color", "group"]
+    var float_props = ["position", "texcoord", "texcoord2"];
 
     for (var i = 0; i < meshes.length; i++) {
         var submeshes = meshes[i]["submeshes"];
@@ -234,16 +230,28 @@ function prepare_bindata_submeshes(bin_data, bin_offsets, meshes, is_le) {
         for (var j = 0; j < submeshes.length; j++) {
 
             for (var prop_name in submeshes[j]) {
+                var length = submeshes[j][prop_name][1];
+
                 if (int_props.indexOf(prop_name) != -1) {
-                    var offset = submeshes[j][prop_name][0] * 4 + bin_offsets["int"];
-                    var length = submeshes[j][prop_name][1];
+                    var offset = submeshes[j][prop_name][0] * BINARY_INT_SIZE 
+                            + bin_offsets["int"];
                     submeshes[j][prop_name] = extract_bindata_uint(bin_data, 
                             offset, length, is_le);
                 } else if (float_props.indexOf(prop_name) != -1) {
-                    var offset = submeshes[j][prop_name][0] * 4 + bin_offsets["float"];                    
-                    var length = submeshes[j][prop_name][1];
+                    var offset = submeshes[j][prop_name][0] * BINARY_FLOAT_SIZE 
+                            + bin_offsets["float"];                    
                     submeshes[j][prop_name] = extract_bindata_float(bin_data, 
                             offset, length, is_le);
+                } else if (short_props.indexOf(prop_name) != -1) {
+                    var offset = submeshes[j][prop_name][0] * BINARY_SHORT_SIZE 
+                            + bin_offsets["short"];
+                    submeshes[j][prop_name] = extract_bindata_short(bin_data, 
+                            offset, length);
+                } else if (ushort_props.indexOf(prop_name) != -1) {
+                    var offset = submeshes[j][prop_name][0] * BINARY_SHORT_SIZE 
+                            + bin_offsets["ushort"];
+                    submeshes[j][prop_name] = extract_bindata_ushort(bin_data, 
+                            offset, length);
                 }
             }
         }
@@ -256,11 +264,50 @@ function prepare_bindata_psystems(bin_data, bin_offsets, objects, is_le) {
 
         for (var j = 0; j < psystems.length; j++) {
             var psys = psystems[j];
-            var offset = psys["transforms"][0] * 4 + bin_offsets["float"];
+            var offset = psys["transforms"][0] * BINARY_FLOAT_SIZE 
+                    + bin_offsets["float"];
             var length = psys["transforms"][1];
             psys["transforms"] = extract_bindata_float(bin_data, 
                     offset, length, is_le);
         }
+    }
+}
+
+// make points for every frame from start to end
+function prepare_bindata_actions(bin_data, bin_offsets, actions, is_le) {
+    for (var i = 0; i < actions.length; i++) {
+        var action = actions[i];
+        var fcurves = action["fcurves"];
+
+        var frame_range = action["frame_range"]; // same for all fcurves
+        var start = frame_range[0]; // integer
+        var end   = frame_range[1]; // integer
+
+        var arr_length = m_anim.get_approx_curve_length(start, end);
+        var bflags = null;
+
+        for (var data_path in fcurves) {
+            var channels = fcurves[data_path];
+            for (var array_index in channels) {
+                var fcurve = channels[array_index];
+                var offset = bin_offsets["float"] 
+                        + fcurve["bin_data_pos"][0] * BINARY_FLOAT_SIZE;
+                var fcurve_bin_data = extract_bindata_float(bin_data, offset, 
+                        fcurve["bin_data_pos"][1], is_le);
+
+                var points = new Float32Array(arr_length);
+                // blend flags are common for all action fcurves
+                // if some channel is blended all transform will be blended
+                if (bflags === null)
+                    bflags = new Int8Array(arr_length);
+
+                m_anim.approximate_curve(fcurve, fcurve_bin_data, 
+                        points, bflags, start, end);
+                fcurve._pierced_points = points;
+            }
+        }
+
+        action._bflags = bflags;
     }
 }
 
@@ -271,7 +318,7 @@ function extract_bindata_float(bin_data, offset, length, is_le) {
         var arr = new Float32Array(length); 
         var dataview = new DataView(bin_data);
         for (var i = 0; i < length; i++)
-            arr = dataview.getFloat32(offset + i * 4, true);
+            arr[i] = dataview.getFloat32(offset + i * BINARY_FLOAT_SIZE, true);
     }
     return arr;
 }
@@ -283,8 +330,30 @@ function extract_bindata_uint(bin_data, offset, length, is_le) {
         var arr = new Uint32Array(length); 
         var dataview = new DataView(bin_data);
         for (var i = 0; i < length; i++)
-            arr = dataview.getUint32(offset + i * 4, true);
+            arr[i] = dataview.getUint32(offset + i * BINARY_INT_SIZE, true);
     }
+    return arr;
+}
+
+/**
+ * Extract float data packed into shorts (floats in range [-1; 1])
+ */
+function extract_bindata_short(bin_data, offset, length) {
+    var arr = new Float32Array(length);
+    var dataview = new DataView(bin_data);
+    for (var i = 0; i < length; i++)
+        arr[i] = dataview.getInt16(offset + i * BINARY_SHORT_SIZE, true) / 32767;
+    return arr;
+}
+
+/**
+ * Extract float data packed into unsigned shorts (floats in range [0; 1])
+ */
+function extract_bindata_ushort(bin_data, offset, length) {
+    var arr = new Float32Array(length);
+    var dataview = new DataView(bin_data);
+    for (var i = 0; i < length; i++)
+        arr[i] = dataview.getUint16(offset + i * BINARY_SHORT_SIZE, true) / 65535;
     return arr;
 }
 
@@ -328,7 +397,7 @@ function report_empty_submeshes(bpy_data) {
  */
 function prepare_root_datablocks(bpy_data, scheduler, stage, cb_param, cb_finish, 
         cb_set_rate) {
-    
+
     make_links(bpy_data);
 
     m_reformer.check_bpy_data(bpy_data);
@@ -345,17 +414,17 @@ function prepare_root_datablocks(bpy_data, scheduler, stage, cb_param, cb_finish
     assign_default_material(def_mat, bpy_data["meshes"]);
 
     report_empty_submeshes(bpy_data);
-        
+
     prepare_actions(bpy_data["actions"]);
 
     prepare_hair_particles(bpy_data);
 
-    prepare_lod_constraints(bpy_data);
-        
+    prepare_lods(bpy_data);
+
     var objects = get_all_objects(bpy_data);
     for (var i = 0; i < objects.length; i++) {
         var obj = objects[i];
-        update_object(obj);
+        m_obj.update_object(obj);
     }
 
     calc_max_bones(objects);
@@ -651,7 +720,7 @@ function duplicate_objects_iter(obj_links, origin_name_prefix, obj_ids, grp_ids)
             for (var j = 0; j < consts.length; j++) {
                 var cons = consts[j];
 
-                if (cons["target"]["uuid"] in obj_id_overrides)
+                if (cons["target"] && cons["target"]["uuid"] in obj_id_overrides)
                     cons["target"]["uuid"] = obj_id_overrides[cons["target"]["uuid"]];
             }
 
@@ -661,6 +730,17 @@ function duplicate_objects_iter(obj_links, origin_name_prefix, obj_ids, grp_ids)
 
                 if (mod["object"] && (mod["object"]["uuid"] in obj_id_overrides))
                     mod["object"]["uuid"] = obj_id_overrides[mod["object"]["uuid"]];
+            }
+
+            var lods = obj["lod_levels"];
+
+            if (lods && lods.length) {
+                for (var j = 0; j < lods.length; j++) {
+                    var lod = lods[j];
+
+                    if (lod["object"] && lod["object"]["uuid"] in obj_id_overrides)
+                        lod["object"]["uuid"] = obj_id_overrides[lod["object"]["uuid"]];
+                }
             }
         }
     }
@@ -828,6 +908,16 @@ function make_links(bpy_data) {
                 var cons = constraints[j];
                 if (cons["target"])
                     make_link_uuid(cons, "target", storage);
+            }
+        }
+
+        // make links to lods
+        var lods = obj["lod_levels"];
+        if (lods) { // compatibility check
+            for (var j = 0; j < lods.length; j++) {
+                var lod = lods[j];
+                if (lod["object"])
+                    make_link_uuid(lod, "object", storage);
             }
         }
     }
@@ -1127,7 +1217,7 @@ function load_speakers(bpy_data, scheduler, stage, cb_param, cb_finish, cb_set_r
 
                 var sound_path = normpath(dir_path + sound["filepath"]);
 
-                switch(m_sfx.source_type(obj)) {
+                switch (m_sfx.source_type(obj)) {
                 case m_sfx.AST_ARRAY_BUFFER: 
                     var asset_type = m_assets.AT_AUDIOBUFFER;
                     break;
@@ -1263,16 +1353,16 @@ function prepare_actions(actions) {
 }
 
 /**
- * Prepare LOD constraints
- *      find objects with lod constraints, also check proxies
+ * Prepare LODs
+ *      find objects with LODs, also check proxies
  *      make copy of lod objects
  *      remove old lod objects 
  *      add new lod objects to scene/group
  */
-function prepare_lod_constraints(bpy_data) {
+function prepare_lods(bpy_data) {
 
     var scenes = bpy_data["scenes"];
-    
+
     for (var i = 0; i < scenes.length; i++) {
         var scene = scenes[i];
 
@@ -1286,7 +1376,7 @@ function prepare_lod_constraints(bpy_data) {
         for (var j = 0; j < scene_objs.length; j++) {
             var obj = scene_objs[j];
 
-            prepare_obj_lod_constraints(scene_objs, obj, added_objs, 
+            prepare_obj_lods(scene_objs, obj, added_objs,
                     removed_objs);
 
             var dupli_group = obj["dupli_group"];
@@ -1296,7 +1386,7 @@ function prepare_lod_constraints(bpy_data) {
                 for (var k = 0; k < dg_objects.length; k++) {
                     var dg_obj = dg_objects[k];
 
-                    prepare_obj_lod_constraints(dg_objects, dg_obj, 
+                    prepare_obj_lods(dg_objects, dg_obj,
                             added_objs, removed_objs);
                 }
             }
@@ -1311,32 +1401,33 @@ function prepare_lod_constraints(bpy_data) {
     update_all_objects(bpy_data);
 }
 
-function prepare_obj_lod_constraints(container, obj, added_objs, removed_objs) {
-    var lods_num = get_lods_num(obj);
-    var num = 0;
-    var constraints = obj["constraints"];
+function prepare_obj_lods(container, obj, added_objs, removed_objs) {
 
-    // TODO: handle reflection plane
+    if (!(obj["lod_levels"] && obj["lod_levels"].length))
+        return;
 
-    for (var i = 0; num < lods_num; i++) {
-        var cons = constraints[i];
+    var lods_num = obj["lod_levels"].length;
 
-        // LODs take place in LOCKED_TRACK constraint
-        if (!(cons["type"] == "LOCKED_TRACK" && cons["target"]))
+    for (var i = 0; i < lods_num; i++) {
+        var lod = obj["lod_levels"][i];
+        var lod_obj = lod["object"];
+
+        if (!lod_obj)
             continue;
 
-        var lod_obj = cons["target"];
-
         var lod_obj_new = m_util.clone_object_nr(lod_obj);
+
         lod_obj_new["name"] = obj["name"] + "_LOD_" + 
-                String(num+1);
+                String(i + 1);
+
+        assign_obj_id(lod_obj_new);
+
+        lod_obj_new["lod_levels"] = [];
 
         added_objs.push([container, lod_obj_new]);
         removed_objs.push(lod_obj);
 
-        cons["target"] = lod_obj_new;
-
-        num++;
+        lod["object"] = lod_obj_new;
     }
 }
 
@@ -1367,7 +1458,7 @@ function prepare_hair_particles(bpy_data) {
                     //removed_objs.push(pset["dupli_object"]);
                     // NOTE: update it, because we need some render/color_id 
                     // info later
-                    update_object(pset["dupli_object"]);
+                    m_obj.update_object(pset["dupli_object"]);
 
                 } else if (pset["render_type"] == "GROUP") {
 
@@ -1381,7 +1472,7 @@ function prepare_hair_particles(bpy_data) {
                             removed_objs.push(empty_objs[n]);
 
                     for (var n = 0; n < dg["objects"].length; n++)
-                        update_object(dg["objects"][n]);
+                        m_obj.update_object(dg["objects"][n]);
                 } else
                     m_print.warn("B4W Warning: render type", pset["render_type"], 
                             "not supported for particle systems (" + pset["name"] + ")");
@@ -1432,35 +1523,49 @@ function prepare_lod_objects(objects) {
 
     for (var i = 0; i < objects.length; i++) {
         var obj = objects[i];
+
         if (!m_util.is_mesh(obj))
             continue;
 
-        var lods_num = get_lods_num(obj);
+        var lods_num = obj["lod_levels"].length;
+
         if (!lods_num)
             continue;
 
-        obj._render.last_lod = false;
-
-        var prev_lod_dist_max = obj._render.lod_dist_max;
-        var last_lod_cons_index = 0;
+        var prev_lod_obj = obj;
 
         for (var j = 0; j < lods_num; j++) {
-            var lod_obj = get_lod_by_index(obj, j);
+            var lod_obj = obj["lod_levels"][j]["object"];
 
-            lod_obj._render.lod_dist_min = prev_lod_dist_max;
-            obj._render.last_lod = false;
+            if (!lod_obj) {
+                prev_lod_obj._render.last_lod = true;
+                prev_lod_obj._render.lod_dist_max = obj["lod_levels"][j]["distance"];
+                break;
+            }
 
-            prev_lod_dist_max = lod_obj._render.lod_dist_max;
-            last_lod_cons_index = j;
+            prev_lod_obj._render.lod_dist_max = obj["lod_levels"][j]["distance"];
+            lod_obj._render.lod_dist_min = obj["lod_levels"][j]["distance"];
+
+            if (obj["lod_levels"][j + 1])
+                lod_obj._render.lod_dist_max = obj["lod_levels"][j + 1]["distance"];
+            else {
+                lod_obj._render.last_lod = true;
+                lod_obj._render.lod_dist_max = 10000;
+                break;
+            }
+
+            prev_lod_obj._render.last_lod = false;
+
+            prev_lod_obj = lod_obj;
         }
 
-        get_lod_by_index(obj, last_lod_cons_index)._render.last_lod = true;
+        if (DEBUG_LOD_DIST_NOT_SET &&
+            obj["lod_levels"][lods_num - 1]["distance"] === 10000)
+            m_print.warn("B4W Warning: object \"" + obj["name"]
+                + "\" has default LOD distance");
     }
 }
 
-function get_lods_num(bpy_obj) {
-    return bpy_obj["b4w_lods_num"];
-}
 
 function get_lod_by_index(bpy_obj, index) {
     var constraints = bpy_obj["constraints"];
@@ -1787,430 +1892,6 @@ function remove_orphan_meshes(root_objects, meshes) {
     }
 }
 
-/**
- * Update object:
- *      assign render type
- *      prepare transform
- *      assign color_id
- *      prepare skinning
- *      apply pose if any
- *      init forces
- *      init particle systems
- */
-function update_object(obj) {
-
-    // NOTE: type for mesh objects: STATIC, DYNAMIC
-    obj._render = m_util.create_render(obj["type"] === "MESH" ?
-            get_mesh_obj_render_type(obj) : obj["type"]);
-
-    obj._constraint = null;
-    obj._descends = [];
-
-    var render = obj._render;
-
-    var pos = obj["location"];
-    var scale = obj["scale"][0];
-    var rot = _quat4_tmp;
-    quat_bpy_b4w(obj["rotation_quaternion"], rot);
-
-    m_trans.set_translation(obj, pos);
-    m_trans.set_rotation(obj, rot);
-    m_trans.set_scale(obj, scale);
-
-    switch(obj["type"]) {
-    case "ARMATURE":
-
-        var pose_bones = obj["pose"]["bones"];
-        for (var i = 0; i < pose_bones.length; i++) {
-            var pose_bone = pose_bones[i];
-            var arm_bone = pose_bone["bone"];
-
-            var mat_loc = new Float32Array(arm_bone["matrix_local"]);
-            var mat_loc_inv = new Float32Array(16);
-            m_mat4.invert(mat_loc, mat_loc_inv);
-
-            var mat_bas = new Float32Array(pose_bone["matrix_basis"]);
-
-            var tail = new Float32Array(3);
-            m_vec3.subtract(arm_bone["tail_local"], arm_bone["head_local"], tail);
-            // translate tail offset from armature to bone space
-            m_util.vecdir_multiply_matrix(tail, mat_loc_inv, tail);
-
-            pose_bone._tail = tail;
-
-            // include current bone to chain with its parents 
-            pose_bone._chain = [pose_bone].concat(pose_bone["parent_recursive"]);
-
-            pose_bone._tsr_local = m_tsr.from_mat4(mat_loc, m_tsr.create());
-            pose_bone._tsr_basis = m_tsr.from_mat4(mat_bas, m_tsr.create());
-            pose_bone._tsr_channel_cache = m_tsr.create();
-            pose_bone._tsr_channel_cache_valid = false;
-        }
-
-        var bone_pointers = m_anim.calc_armature_bone_pointers(obj);
-        render.bone_pointers = bone_pointers;
-
-        var pose_data = m_anim.calc_pose_data(obj, bone_pointers);
-
-        render.quats_before = pose_data.quats;
-        render.quats_after  = pose_data.quats;
-        render.trans_before = pose_data.trans;
-        render.trans_after  = pose_data.trans;
-        render.frame_factor = 0;
-
-        break;
-    case "MESH":
-        render.selectable = cfg_def.all_objs_selectable || obj["b4w_selectable"];
-        render.origin_selectable = obj["b4w_selectable"];
-        render.glow_anim_settings = {
-            glow_duration: obj["b4w_glow_settings"]["glow_duration"],
-            glow_period: obj["b4w_glow_settings"]["glow_period"],
-            glow_relapses: obj["b4w_glow_settings"]["glow_relapses"]
-        };
-
-        if (render.selectable) {
-            // assign color id
-            obj._color_id = gen_color_id(_color_id_counter);
-            _color_id_counter++;
-        }
-        
-        prepare_skinning_info(obj);
-        prepare_vertex_anim(obj);
-
-        // apply pose if any
-        var armobj = m_anim.get_first_armature_object(obj);
-        if (armobj) {
-            var bone_pointers = obj._render.bone_pointers;
-            var pose_data = m_anim.calc_pose_data(armobj, bone_pointers);
-
-            render.quats_before = pose_data.quats;
-            render.quats_after  = pose_data.quats;
-            render.trans_before = pose_data.trans;
-            render.trans_after  = pose_data.trans;
-            render.frame_factor = 0;
-        }
-
-        obj._batches = [];
-
-        render.shadow_cast = obj["b4w_shadow_cast"];
-        render.shadow_receive = obj["b4w_shadow_receive"];
-        render.shadow_cast_only = obj["b4w_shadow_cast_only"] 
-                && render.shadow_cast;
-
-        render.reflexible = obj["b4w_reflexible"];
-        render.reflexible_only = obj["b4w_reflexible_only"] 
-                && render.reflexible;
-        render.reflective = obj["b4w_reflective"];
-        render.caustics   = obj["b4w_caustics"];
-
-        render.wind_bending = obj["b4w_wind_bending"];
-        render.wind_bending_angle = obj["b4w_wind_bending_angle"];
-        var amp = m_batch.wb_angle_to_amp(obj["b4w_wind_bending_angle"], 
-                m_batch.bb_bpy_to_b4w(obj["data"]["b4w_bounding_box"]), obj["scale"][0]);
-        render.wind_bending_amp = amp;
-        render.wind_bending_freq   = obj["b4w_wind_bending_freq"];
-        render.detail_bending_freq = obj["b4w_detail_bending_freq"];
-        render.detail_bending_amp  = obj["b4w_detail_bending_amp"];
-        render.branch_bending_amp  = obj["b4w_branch_bending_amp"];
-        render.hide = false;
-
-        render.main_bend_col = obj["b4w_main_bend_stiffness_col"];
-        var bnd_st = obj["b4w_detail_bend_colors"];
-        render.detail_bend_col = {};
-        render.detail_bend_col.leaves_stiffness = bnd_st["leaves_stiffness_col"];
-        render.detail_bend_col.leaves_phase = bnd_st["leaves_phase_col"];
-        render.detail_bend_col.overall_stiffness = bnd_st["overall_stiffness_col"];
-
-        // overrided by hair render if needed
-        render.dynamic_grass = false;
-
-        render.do_not_cull = obj["b4w_do_not_cull"];
-        render.disable_fogging = obj["b4w_disable_fogging"];
-        render.dynamic_geometry = obj["b4w_dynamic_geometry"];
-
-        // assign params for object (bounding) physics simulation
-        // it seams BGE uses first material to get physics param
-        var first_mat = first_mesh_material(obj);
-        render.friction = first_mat["physics"]["friction"];
-        render.elasticity = first_mat["physics"]["elasticity"];
-
-        render.lod_dist_min = 0;
-        render.lod_dist_max = obj["b4w_lod_distance"];
-
-        if (DEBUG_LOD_DIST_NOT_SET && obj["b4w_lod_distance"] === 10000)
-            m_print.warn("B4W Warning: object \"" + obj["name"] 
-                + "\" has default LOD distance");
-
-        render.last_lod = true;
-        break;
-    case "CAMERA":
-        m_cam.camera_object_to_camera(obj);
-        m_cam.assign_boundings(obj);
-        break;
-
-    case "LAMP":
-        m_lights.lamp_to_light(obj);
-        break;
-
-    case "CURVE":
-        var spline = m_curve.create_spline(obj);
-        if (spline)
-            obj._spline = spline;
-        break;
-    case "SPEAKER":
-        break;
-    case "EMPTY":
-        // NOTE: center = 1/2 height
-        var bb = m_bounds.zero_bounding_box();
-        render.bb_local = bb;
-
-        var bs = m_bounds.zero_bounding_sphere();
-        render.bs_local = bs;
-        break;
-    default:
-        break;
-    }
-
-    // NOTE: temporary disable armature parenting
-    if (obj["parent"] && obj["parent_type"] == "OBJECT" && obj["parent"]["type"] != "ARMATURE") {
-        var trans = render.trans;
-        var quat = render.quat;
-        var scale = render.scale;
-        m_cons.append_stiff_obj(obj, obj["parent"], trans, quat, scale);
-    } else if (obj["parent"] && obj["parent_type"] == "BONE" &&
-            obj["parent"]["type"] == "ARMATURE") {
-        var trans = render.trans;
-        var quat = render.quat;
-        m_cons.append_stiff_bone(obj, obj["parent"], obj["parent_bone"], trans, quat);
-    } else if (obj._dg_parent && obj._dg_parent["b4w_group_relative"]) {
-        // get offset from render before child-of constraint being applied
-        var offset = m_tsr.create_sep(render.trans, render.scale, render.quat);
-        m_cons.append_child_of(obj, obj._dg_parent, offset);
-    } else if (obj._dg_parent && !obj._dg_parent["b4w_group_relative"]) {
-        m_trans.update_transform(obj);    // to get world matrix
-        var wm = render.world_matrix;
-        m_mat4.multiply(obj._dg_parent._render.world_matrix, wm, wm);
-
-        var trans = m_util.matrix_to_trans(wm);
-        var scale = m_util.matrix_to_scale(wm);
-        var quat = m_util.matrix_to_quat(wm);
-
-        m_trans.set_translation(obj, trans);
-        m_trans.set_rotation(obj, quat);
-        m_trans.set_scale(obj, scale);
-    }
-
-    // store force field
-    if (obj["field"]) {
-        render.force_strength = obj["field"]["strength"];
-        m_particles.update_force(obj);
-    }
-
-    // make links from group objects to their parent
-    var dupli_group = obj["dupli_group"];
-    if (dupli_group) {
-        var dg_objects = dupli_group["objects"];
-        for (var i = 0; i < dg_objects.length; i++) {
-            var dg_obj = dg_objects[i];
-            dg_obj._dg_parent = obj;
-        }
-    }
-
-    render.use_collision_compound = obj["game"]["use_collision_compound"];
-    render.physics_type = obj["game"]["physics_type"];
-
-    m_trans.update_transform(obj);
-}
-
-function quat_bpy_b4w(quat, dest) {
-    var w = quat[0];
-    var x = quat[1];
-    var y = quat[2];
-    var z = quat[3];
-
-    dest[0] = x;
-    dest[1] = y;
-    dest[2] = z;
-    dest[3] = w;
-
-    return dest;
-}
-
-/**
- * Get render type for mesh object.
- */
-function get_mesh_obj_render_type(bpy_obj) {
-    var is_animated = m_anim.is_animatable(bpy_obj);
-    var has_do_not_batch = bpy_obj["b4w_do_not_batch"];
-    var dynamic_geom = bpy_obj["b4w_dynamic_geometry"];
-    var has_anim_particles = m_particles.has_anim_particles(bpy_obj);
-    var is_collision = bpy_obj["b4w_collision"];
-    var is_vehicle_part = bpy_obj["b4w_vehicle"];
-    var is_floater_part = bpy_obj["b4w_floating"];
-    var dyn_grass_emitter = m_particles.has_dynamic_grass_particles(bpy_obj);
-    
-
-
-    // skydome and lens flares not strictly required to be dynamic
-    // make it so just to prevent some possible bugs in the future
-
-    if (DEBUG_DISABLE_BATCHING ||
-            is_animated || has_do_not_batch || dynamic_geom || 
-            has_anim_particles || is_collision || is_vehicle_part || 
-            is_floater_part || has_skydome_mat(bpy_obj) || 
-            has_lens_flares_mat(bpy_obj) || dyn_grass_emitter)
-        return "DYNAMIC";
-    else
-        return "STATIC";
-}
-
-/**
- * Check if mesh object has special skydome material
- */
-function has_skydome_mat(obj) {
-    var mesh = obj["data"];
-
-    for (var i = 0; i < mesh["materials"].length; i++)
-        if (mesh["materials"][i]["b4w_skydome"])
-            return true;
-
-    return false;
-}
-/**
- * Check if mesh object has special lens flares material
- */
-function has_lens_flares_mat(obj) {
-    var mesh = obj["data"];
-
-    for (var i = 0; i < mesh["materials"].length; i++)
-        if (mesh["materials"][i]["name"] === "LENS_FLARES")
-            return true;
-
-    return false;
-}
-
-function gen_color_id(counter) {
-
-    // black reserved for background
-    var counter = counter + 1;
-
-    if (counter > 51 * 51 * 51)
-        m_print.error("Color ID pool depleted");
-
-    // 255 / 5 = 51
-    var r = Math.floor(counter / (51 * 51));
-    counter %= (51 * 51);
-    var g = Math.floor(counter / 51);
-    counter %= 51;
-    var b = counter;
-
-    var color_id = [r/51, g/51, b/51];
-
-    return color_id;
-}
-
-/**
- * Prepare skinning
- *
- * get info about relations between vertex groups and bones
- * and save to mesh internals for using in buffers generation.
- * Finally mark render to use skinning shaders
- */
-function prepare_skinning_info(obj) {
-
-    if (obj["type"] != "MESH")
-        throw("Wrong object type: " + obj["name"]);
-
-    // search for armature modifiers
-
-    var render = obj._render;
-
-    var armobj = m_anim.get_first_armature_object(obj);
-    if (!armobj) {
-        render.is_skinning = false; 
-        return;
-    }
-
-    var mesh = obj["data"];
-
-    if (mesh["vertex_groups"].length) {
-        render.is_skinning = true; 
-        var vertex_groups = mesh["vertex_groups"];
-    } else {
-        render.is_skinning = false; 
-        return; 
-    }
-
-    // collect deformation bones
-
-    var bones = armobj["data"]["bones"];
-    var pose_bones = armobj["pose"]["bones"];
-
-    var deform_bone_index = 0;
-    var bone_pointers = {};
-
-    for (var i = 0; i < bones.length; i++) {
-        var bone = bones[i];
-        var bone_name = bone["name"];
-
-        // bone is deform if it has corresponding vertex group
-        var vgroup = m_util.keysearch("name", bone_name, vertex_groups);
-        if (!vgroup)
-            continue;
-
-        var pose_bone_index = m_util.get_index_for_key_value(pose_bones, "name", 
-                bone_name);
-
-        bone_pointers[bone_name] = {
-            bone_index: i,
-            deform_bone_index: deform_bone_index++,
-            // pose bone index may differ from bone_index
-            pose_bone_index: pose_bone_index,
-            vgroup_index: vgroup["index"]
-        };
-    }
-
-    var num_bones = deform_bone_index;
-    var max_bones = cfg_def.max_bones;
-
-    if (num_bones > 2 * max_bones) {
-        m_util.panic("B4W Error: too many bones for \"" + obj["name"]);
-    } else if (num_bones > max_bones) {
-        m_print.warn("B4W Warning: too many bones for \"" + obj["name"] + " / " + 
-            armobj["name"] + "\": " + num_bones + " bones (max " + max_bones + 
-            "). Blending between frames will be disabled");
-
-        // causes optimizing out the half of the uniform arrays,
-        // effectively doubles the limit of bones
-        render.frames_blending = false;
-    } else
-        render.frames_blending = true;
-
-    render.bone_pointers = bone_pointers;
-    // will be extended beyond this limit later
-    render.max_bones = num_bones;
-}
-
-function prepare_vertex_anim(obj) {
-
-    if (obj["type"] != "MESH")
-        throw("Wrong object type: " + obj["name"]);
-
-    var render = obj._render;
-
-    if (obj["data"]["b4w_vertex_anim"].length)
-        render.vertex_anim = true;
-    else
-        render.vertex_anim = false;
-}
-
-function first_mesh_material(obj) {
-    if (obj["type"] !== "MESH")
-        throw "Wrong object";
-
-    return obj["data"]["materials"][0];
-}
-
 function add_physics_objects(bpy_data, scheduler, stage, cb_param, cb_finish, 
         cb_set_rate) {
     for (var i = 0; i < bpy_data["scenes"].length; i++) {
@@ -2504,57 +2185,8 @@ function end_objects_adding(bpy_data, scheduler, stage, cb_param, cb_finish,
     m_scenes.set_active(scene0);
 
     var objects = get_all_objects(bpy_data);
-    update_objects_dynamics(objects);
+    m_obj.update_objects_dynamics(objects);
     cb_finish(scheduler, stage);
-}
-
-function update_objects_dynamics(objects) {
-
-    var anim_arms = [];
-
-    for (var i = 0; i < objects.length; i++) {
-        var obj = objects[i];
-
-        if (obj._render && (obj._render.type == "DYNAMIC" ||
-                obj._render.type == "CAMERA"))
-            m_trans.update_transform(obj);
-
-        // try to use default animation
-        if (obj["b4w_use_default_animation"] && m_anim.is_animatable(obj)) {
-            m_anim.apply_def(obj);
-
-            if (obj["b4w_cyclic_animation"])
-                m_anim.cyclic(obj, true);
-
-            if (m_util.is_armature(obj))
-                anim_arms.push(obj);
-
-            m_anim.play(obj);
-        }
-    }
-
-    // optimization
-    if (!anim_arms.length)
-        return;
-
-    // auto apply armature default animation to meshes
-    for (var i = 0; i < objects.length; i++) {
-        var obj = objects[i];
-
-        if (m_util.is_mesh(obj) && !obj["b4w_use_default_animation"] &&
-                m_anim.is_animatable(obj)) {
-
-            for (var j = 0; j < anim_arms.length; j++) {
-                var armobj = anim_arms[j];
-
-                if (m_anim.get_first_armature_object(obj) == armobj) {
-                    m_anim.apply_def(obj)
-                    m_anim.cyclic(obj, m_anim.is_cyclic(armobj));
-                    m_anim.play(obj);
-                }
-            }
-        }
-    }
 }
 
 /**
@@ -2753,6 +2385,7 @@ exports.unload = function() {
     m_scenes.cleanup();
     m_lights.cleanup();
     m_phy.cleanup();
+    m_obj.cleanup();
     m_util.cleanup();
     m_render.cleanup();
     m_nodemat.cleanup();
@@ -2764,7 +2397,6 @@ exports.unload = function() {
 
     _all_objects_cache = null;
     _scheduler = null;
-    _color_id_counter = 0;
 }
 
 exports.set_debug_resources_root = function(debug_resources_root) {
@@ -2838,7 +2470,7 @@ function update_all_objects_iter(objects, grp_num, object_levels) {
 }
 
 function parent_num(obj) {
-    var par = obj["parent"];
+    var par = obj["parent"] || m_anim.get_first_armature_object(obj);
     if (par)
         return 1 + parent_num(par);
     else

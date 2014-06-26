@@ -2,185 +2,169 @@
 \def\bigletter#1{{\Large\sffamily#1}\nopagebreak\vspace{1mm}}
 
   \bigletter {Symbols}
-  \item \IeC {\cyrk }\IeC {\cyrv }\IeC {\cyra }\IeC {\cyrt }\IeC {\cyre }\IeC {\cyrr }\IeC {\cyrn }\IeC {\cyri }\IeC {\cyro }\IeC {\cyrn }, 
-		\hyperpage{158}
-  \item \IeC {\cyro }\IeC {\cyrb }\IeC {\cyrf }\IeC {\cyru }\IeC {\cyrs }\IeC {\cyrk }\IeC {\cyra }\IeC {\cyrt }\IeC {\cyro }\IeC {\cyrr } \IeC {\cyrsh }\IeC {\cyre }\IeC {\cyrishrt }\IeC {\cyrd }\IeC {\cyre }\IeC {\cyrr }\IeC {\cyro }\IeC {\cyrv }, 
-		\hyperpage{152}
-    \subitem \IeC {\cyrd }\IeC {\cyri }\IeC {\cyrr }\IeC {\cyre }\IeC {\cyrk }\IeC {\cyrt }\IeC {\cyri }\IeC {\cyrv }\IeC {\cyrery } import/export, 
-		\hyperpage{153}
-    \subitem \IeC {\cyro }\IeC {\cyrg }\IeC {\cyrr }\IeC {\cyra }\IeC {\cyrn }\IeC {\cyri }\IeC {\cyrch }\IeC {\cyre }\IeC {\cyrn }\IeC {\cyri }\IeC {\cyrya }, 
-		\hyperpage{153}
-    \subitem \IeC {\cyro }\IeC {\cyrsh }\IeC {\cyri }\IeC {\cyrb }\IeC {\cyrk }\IeC {\cyri }, 
-		\hyperpage{154}
-  \item \IeC {\cyrs }\IeC {\cyre }\IeC {\cyrn }\IeC {\cyrs }\IeC {\cyro }\IeC {\cyrr }, 
-		\hyperpage{117}
-    \subitem \IeC {\cyrm }\IeC {\cyrn }\IeC {\cyro }\IeC {\cyrzh }\IeC {\cyre }\IeC {\cyrs }\IeC {\cyrt }\IeC {\cyrv }\IeC {\cyro }, 
-		\hyperpage{117}
   \item 3D Modeling, \hyperpage{3}
 
   \indexspace
   \bigletter A
-  \item alpha map, \hyperpage{40}
-  \item anaglyph, \hyperpage{72}
-  \item animation, \hyperpage{91}
-  \item anti-aliasing, \hyperpage{74}
+  \item alpha map, \hyperpage{46}
+  \item anaglyph, \hyperpage{79}
+  \item animation, \hyperpage{98}
+  \item anti-aliasing, \hyperpage{81}
 
   \indexspace
   \bigletter B
   \item Blend4Web, \hyperpage{1}
-    \subitem installation, \hyperpage{14}
   \item Blender, \hyperpage{3}
-    \subitem installation, \hyperpage{15}
+    \subitem installation, \hyperpage{16}
   \item browser, \hyperpage{4}
     \subitem setup, \hyperpage{13}
   \item browser technologies, \hyperpage{4}
-    \subitem usage examples, \hyperpage{5}
 
   \indexspace
   \bigletter C
-  \item color correction, \hyperpage{73}
-  \item crepuscular rays, \hyperpage{69}
+  \item color correction, \hyperpage{80}
+  \item crepuscular rays, \hyperpage{76}
 
   \indexspace
   \bigletter D
-  \item depth of field, \hyperpage{66}
-  \item diffuse map, \hyperpage{38}
-  \item DOF, \hyperpage{66}
+  \item depth of field, \hyperpage{73}
+  \item diffuse map, \hyperpage{43}
+  \item DOF, \hyperpage{73}
   \item drivers, \hyperpage{5}
 
   \indexspace
   \bigletter E
   \item engine, \hyperpage{1}
-  \item environment map, \hyperpage{44}
-  \item export, \hyperpage{19}
-    \subitem addon installation, \hyperpage{12}
-    \subitem Blender installation, \hyperpage{11}
-    \subitem errors, \hyperpage{28}
-    \subitem viewing scenes, \hyperpage{12}
+  \item environment map, \hyperpage{49}
+  \item export, \hyperpage{20}
+    \subitem addon installation, \hyperpage{11}
+    \subitem Blender installation, \hyperpage{10}
+    \subitem errors, \hyperpage{29}
+    \subitem viewing scenes, \hyperpage{11}
 
   \indexspace
   \bigletter F
-  \item Fresnel effect, \hyperpage{52}
+  \item Fresnel effect, \hyperpage{57}
 
   \indexspace
   \bigletter G
-  \item git, \hyperpage{159}
-    \subitem \IeC {\cyrd }\IeC {\cyro }\IeC {\cyrb }\IeC {\cyra }\IeC {\cyrv }\IeC {\cyrl }\IeC {\cyre }\IeC {\cyrn }\IeC {\cyri }\IeC {\cyre } \IeC {\cyri } \IeC {\cyru }\IeC {\cyrd }\IeC {\cyra }\IeC {\cyrl }\IeC {\cyre }\IeC {\cyrn }\IeC {\cyri }\IeC {\cyre } \IeC {\cyrf }\IeC {\cyra }\IeC {\cyrishrt }\IeC {\cyrl }\IeC {\cyro }\IeC {\cyrv }, 
-		\hyperpage{162}
-    \subitem \IeC {\cyri }\IeC {\cyrn }\IeC {\cyrd }\IeC {\cyri }\IeC {\cyrv }\IeC {\cyri }\IeC {\cyrd }\IeC {\cyru }\IeC {\cyra }\IeC {\cyrl }\IeC {\cyrsftsn }\IeC {\cyrn }\IeC {\cyrery }\IeC {\cyre } \IeC {\cyrn }\IeC {\cyra }\IeC {\cyrs }\IeC {\cyrt }\IeC {\cyrr }\IeC {\cyro }\IeC {\cyrishrt }\IeC {\cyrk }\IeC {\cyri }, 
-		\hyperpage{160}
-    \subitem \IeC {\cyrk }\IeC {\cyro }\IeC {\cyrm }\IeC {\cyrm }\IeC {\cyri }\IeC {\cyrt }, 
-		\hyperpage{163}
-    \subitem \IeC {\cyrn }\IeC {\cyra }\IeC {\cyrch }\IeC {\cyra }\IeC {\cyrl }\IeC {\cyro } \IeC {\cyrr }\IeC {\cyra }\IeC {\cyrb }\IeC {\cyro }\IeC {\cyrt }\IeC {\cyrery }, 
-		\hyperpage{160}
-    \subitem \IeC {\cyrp }\IeC {\cyro }\IeC {\cyrd }\IeC {\cyrg }\IeC {\cyro }\IeC {\cyrt }\IeC {\cyro }\IeC {\cyrv }\IeC {\cyrk }\IeC {\cyra } \IeC {\cyrk } \IeC {\cyrk }\IeC {\cyro }\IeC {\cyrm }\IeC {\cyrm }\IeC {\cyri }\IeC {\cyrt }\IeC {\cyru }, 
-		\hyperpage{161}
-    \subitem \IeC {\cyrr }\IeC {\cyra }\IeC {\cyrz }\IeC {\cyrr }\IeC {\cyre }\IeC {\cyrsh }\IeC {\cyre }\IeC {\cyrn }\IeC {\cyri }\IeC {\cyre } \IeC {\cyrk }\IeC {\cyro }\IeC {\cyrn }\IeC {\cyrf }\IeC {\cyrl }\IeC {\cyri }\IeC {\cyrk }\IeC {\cyrt }\IeC {\cyro }\IeC {\cyrv }, 
-		\hyperpage{166}
-    \subitem \IeC {\cyrs }\IeC {\cyri }\IeC {\cyrn }\IeC {\cyrh }\IeC {\cyrr }\IeC {\cyro }\IeC {\cyrn }\IeC {\cyri }\IeC {\cyrz }\IeC {\cyra }\IeC {\cyrc }\IeC {\cyri }\IeC {\cyrya } \IeC {\cyrm }\IeC {\cyre }\IeC {\cyrzh }\IeC {\cyrd }\IeC {\cyru } \IeC {\cyrr }\IeC {\cyre }\IeC {\cyrp }\IeC {\cyro }\IeC {\cyrz }\IeC {\cyri }\IeC {\cyrt }\IeC {\cyro }\IeC {\cyrr }\IeC {\cyri }\IeC {\cyrya }\IeC {\cyrm }\IeC {\cyri }, 
-		\hyperpage{164}
-    \subitem \IeC {\cyrt }\IeC {\cyrerev }\IeC {\cyrg }\IeC {\cyri }, \hyperpage{168}
-  \item glow, \hyperpage{71}
-  \item god rays, \hyperpage{69}
+  \item git, \hyperpage{161}
+    \subitem adding and removing files, \hyperpage{164}
+    \subitem checking the status, \hyperpage{163}
+    \subitem commit, \hyperpage{166}
+    \subitem individual settings, \hyperpage{163}
+    \subitem preparing for commit, \hyperpage{163}
+    \subitem resolving conflicts, \hyperpage{168}
+    \subitem synchronization between repositories, \hyperpage{166}
+    \subitem tags, \hyperpage{171}
+  \item glow, \hyperpage{78}
+  \item god rays, \hyperpage{76}
   \item graphics engine, \hyperpage{1}
 
   \indexspace
   \bigletter H
-  \item halo, \hyperpage{54}
-  \item height map, \hyperpage{39}
+  \item halo, \hyperpage{59}
+  \item height map, \hyperpage{45}
 
   \indexspace
   \bigletter I
   \item initialization
     \subitem compatibility
-      \subsubitem errors, \hyperpage{27}
-  \item instancing, \hyperpage{83}
+      \subsubitem errors, \hyperpage{28}
+  \item instancing, \hyperpage{90}
   \item interactive graphics, \hyperpage{5}
 
   \indexspace
   \bigletter L
-  \item light sources, \hyperpage{60}
-  \item lighting, \hyperpage{59}
+  \item light sources, \hyperpage{66}
+  \item lighting, \hyperpage{65}
 
   \indexspace
   \bigletter M
-  \item matcap, \hyperpage{38}
-  \item material capture, \hyperpage{38}
-  \item materials, \hyperpage{48}
-    \subitem halo, \hyperpage{54}
-    \subitem nodes, \hyperpage{57}
-    \subitem reflection, \hyperpage{51}
-    \subitem shading parameters, \hyperpage{49}
-    \subitem special parameters, \hyperpage{54}
-    \subitem transparency, \hyperpage{50}
-  \item mirror map, \hyperpage{45}
-  \item motion blur, \hyperpage{65}
+  \item matcap, \hyperpage{43}
+  \item material capture, \hyperpage{43}
+  \item materials, \hyperpage{53}
+    \subitem halo, \hyperpage{59}
+    \subitem nodes, \hyperpage{62}
+    \subitem reflection, \hyperpage{56}
+    \subitem shading parameters, \hyperpage{54}
+    \subitem special parameters, \hyperpage{59}
+    \subitem transparency, \hyperpage{55}
+  \item mirror map, \hyperpage{50}
+  \item motion blur, \hyperpage{72}
 
   \indexspace
   \bigletter N
-  \item node materials, \hyperpage{56}
-  \item normal map, \hyperpage{39}
+  \item node materials, \hyperpage{61}
+  \item normal map, \hyperpage{44}
 
   \indexspace
   \bigletter P
-  \item parallax mapping, \hyperpage{39}
-  \item particle system, \hyperpage{75}, \hyperpage{83}
+  \item parallax mapping, \hyperpage{45}
+  \item particle system, \hyperpage{82}, \hyperpage{90}
+
+  \indexspace
+  \bigletter Q
+  \item quaternion, \hyperpage{146}
 
   \indexspace
   \bigletter R
-  \item reflection, \hyperpage{51}
-    \subitem dynamic, \hyperpage{52}
-    \subitem Fresnel effect, \hyperpage{52}
-    \subitem static, \hyperpage{52}
-  \item render-to-texture, \hyperpage{47}
-  \item RTT, \hyperpage{47}
+  \item reflection, \hyperpage{56}
+    \subitem dynamic, \hyperpage{57}
+    \subitem Fresnel effect, \hyperpage{57}
+    \subitem static, \hyperpage{57}
+  \item render-to-texture, \hyperpage{52}
+  \item RTT, \hyperpage{52}
 
   \indexspace
   \bigletter S
-  \item screen-space ambient occlusion, \hyperpage{67}
-  \item sensor, \hyperpage{117}
-    \subitem manifold, \hyperpage{117}
-  \item shore line, \hyperpage{104}
-  \item shore line parameters, \hyperpage{104}
-  \item skydome, \hyperpage{46}
-  \item specular map, \hyperpage{39}
-  \item SSAO, \hyperpage{67}
-  \item stencil map, \hyperpage{41}
-  \item stereoscopic rendering, \hyperpage{72}
+  \item screen-space ambient occlusion, \hyperpage{74}
+  \item sensor, \hyperpage{148}
+    \subitem manifold, \hyperpage{149}
+  \item shader obfuscator, \hyperpage{157}
+    \subitem errors, \hyperpage{159}
+    \subitem import/export directives, \hyperpage{157}
+    \subitem limitations, \hyperpage{158}
+  \item shore line, \hyperpage{112}
+  \item shore line parameters, \hyperpage{112}
+  \item skydome, \hyperpage{51}
+  \item specular map, \hyperpage{44}
+  \item SSAO, \hyperpage{74}
+  \item stencil map, \hyperpage{46}
+  \item stereoscopic rendering, \hyperpage{79}
 
   \indexspace
   \bigletter T
-  \item textures, \hyperpage{36}
-    \subitem alpha map, \hyperpage{40}
-    \subitem diffuse, \hyperpage{38}
-    \subitem environment map, \hyperpage{44}
-    \subitem height map, \hyperpage{39}
-    \subitem mirror map, \hyperpage{45}
-    \subitem normal map, \hyperpage{39}
-    \subitem render to, \hyperpage{47}
-    \subitem settings, \hyperpage{37}
-    \subitem sky, \hyperpage{46}
-    \subitem specular map, \hyperpage{39}
-    \subitem stencil map, \hyperpage{41}
-    \subitem types, \hyperpage{37}
+  \item textures, \hyperpage{41}
+    \subitem alpha map, \hyperpage{46}
+    \subitem diffuse, \hyperpage{43}
+    \subitem environment map, \hyperpage{49}
+    \subitem height map, \hyperpage{45}
+    \subitem mirror map, \hyperpage{50}
+    \subitem normal map, \hyperpage{44}
+    \subitem render to, \hyperpage{52}
+    \subitem settings, \hyperpage{42}
+    \subitem sky, \hyperpage{51}
+    \subitem specular map, \hyperpage{44}
+    \subitem stencil map, \hyperpage{46}
+    \subitem types, \hyperpage{42}
   \item three-dimensional engine, \hyperpage{1}
-  \item transparency, \hyperpage{50}
-    \subitem setup, \hyperpage{51}
-    \subitem types, \hyperpage{50}
+  \item transparency, \hyperpage{55}
+    \subitem setup, \hyperpage{56}
+    \subitem types, \hyperpage{55}
 
   \indexspace
   \bigletter V
   \item video card, \hyperpage{5}
-  \item viewer, \hyperpage{22}
-    \subitem launch, \hyperpage{14}
-    \subitem scene adding, \hyperpage{21}
+  \item viewer, \hyperpage{23}
+    \subitem launch, \hyperpage{16}
+    \subitem scene adding, \hyperpage{22}
 
   \indexspace
   \bigletter W
   \item WebGL, \hyperpage{2}
-    \subitem \IeC {\cyrr }\IeC {\cyra }\IeC {\cyrs }\IeC {\cyrsh }\IeC {\cyri }\IeC {\cyrr }\IeC {\cyre }\IeC {\cyrn }\IeC {\cyri }\IeC {\cyrya }, 
-		\hyperpage{154}
     \subitem advantages, \hyperpage{3}
     \subitem browser support, \hyperpage{2}
+    \subitem extensions, \hyperpage{159}
 
 \end{theindex}

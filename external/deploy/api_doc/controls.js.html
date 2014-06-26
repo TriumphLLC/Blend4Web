@@ -29,56 +29,57 @@
 
 /** 
  * Controls API.
- * Inspired by blender game engine.
+ *
  * &lt;dl>
  *
  * &lt;dt>Sensor&lt;/dt>
- * &lt;dd>based on events occured on scene, has exactly one output value (0 or 1)&lt;/dd>
+ * &lt;dd>The sensor value is a result of some event occured on the scene, has
+ * exactly one output value of type integer number (mostly 0 or 1)&lt;/dd>
  *
  * &lt;dt>Sensor Manifold (or simply manifold)&lt;/dt>
- * &lt;dd>Manifold of sensors. Have single attached logic function, which performs 
- * logic operation on set of sensor values. Generate pulse based on control 
- * type and logic function result. Also has output value which is equal to 
- * output from first sensor in manifold.&lt;/dd>
+ * &lt;dd>A manifold of sensors. Has a single attached logic function, which performs 
+ * a logic operation on a set of sensor values. Generates a pulse based on the control 
+ * type and the logic function's result.&lt;/dd>
  * &lt;/dl>
  *
- * &lt;p>Registering of user input callbacks is required to perform correct
+ * &lt;p>Registering the user input callbacks is required to perform a correct
  * operation of sensors, see *_cb() docs.
  * @module controls
  */
 b4w.module["controls"] = function(exports, require) {
 
-var m_print  = require("__print");
-var controls = require("__controls");
+var m_ctl   = require("__controls");
+var m_print = require("__print");
 
 /**
  * Continuous control type.
- * Generate positive pulse each frame for positive logic function.
- * Generate single negative pulse on negative logic function.
+ * Generates a positive pulse for each frame for the positive logic function.
+ * Generates a single negative pulse for the negative logic function.
  * @const module:controls.CT_CONTINUOUS
  */
-exports["CT_CONTINUOUS"] = controls.CT_CONTINUOUS;
+exports["CT_CONTINUOUS"] = m_ctl.CT_CONTINUOUS;
+
 /**
  * Trigger control type.
- * Generate single positive pulse on positive logic function.
- * Generate single negative pulse on negative logic function.
+ * Generates a single positive pulse for the positive logic function.
+ * Generate a single negative pulse for the negative logic function.
  * @const module:controls.CT_TRIGGER
  */
-exports["CT_TRIGGER"] = controls.CT_TRIGGER;
+exports["CT_TRIGGER"] = m_ctl.CT_TRIGGER;
 /**
  * Shot control type.
- * Generate single positive pulse on positive logic function.
+ * Generates a single positive pulse for the positive logic function.
  * Produces no negative pulses.
  * @const module:controls.CT_SHOT
  */
-exports["CT_SHOT"] = controls.CT_SHOT;
+exports["CT_SHOT"] = m_ctl.CT_SHOT;
 /**
  * Level control type.
- * Generate single positive pulse for each change of manifold logic function
+ * Generates a single positive pulse for each change of the manifold logic function
  * result. Produces no negative pulses.
  * @const module:controls.CT_LEVEL
  */
-exports["CT_LEVEL"] = controls.CT_LEVEL;
+exports["CT_LEVEL"] = m_ctl.CT_LEVEL;
 
 exports["KEY_SHIFT"] = 16;
 
@@ -153,32 +154,33 @@ exports["KEY_BACK_SLASH"]       = 220;
 exports["KEY_RIGHT_SQ_BRACKET"] = 221;
 exports["KEY_SINGLE_QUOTE"]     = 222;
 
+
 /**
- * Rotate camera horizontally
+ * Rotate the camera horizontally
  * @const module:controls.H_ROT
  * @deprecated By new sensor-based api
  */
 exports["H_ROT"] = 0;
 /**
- * Rotate camera vertically
+ * Rotate the camera vertically
  * @const module:controls.V_ROT
  * @deprecated By new sensor-based api
  */
 exports["V_ROT"] = 0;
 /**
- * Translate camera horizontally
+ * Translate the camera horizontally
  * @const module:controls.H_TRA
  * @deprecated By new sensor-based api
  */
 exports["H_TRA"] = 0;
 /**
- * Translate camera vertically
+ * Translate the camera vertically
  * @const module:controls.V_TRA
  * @deprecated By new sensor-based api
  */
 exports["V_TRA"] = 0;
 /**
- * Translate camera forward-backward
+ * Translate the camera forward-backward
  * @const module:controls.F_TRA
  * @deprecated By new sensor-based api
  */
@@ -189,33 +191,27 @@ exports["F_TRA"] = 0;
  * @deprecated By new sensor-based api
  */
 exports["JUMP"] = 0;
-
-
 /**
- * Translation along x axis
+ * Translation along the X-axis
  * @const module:controls.X_TRA
  * @deprecated By new sensor-based api
  */
 exports["X_TRA"] = 0;
 /**
- * Translation along y axis
+ * Translation along the Y-axis
  * @const module:controls.Y_TRA
  * @deprecated By new sensor-based api
  */
 exports["Y_TRA"] = 0;
 /**
- * Translation along z axis
+ * Translation along the Z-axis
  * @const module:controls.Z_TRA
  * @deprecated By new sensor-based api
  */
 exports["Z_TRA"] = 0;
-
 /**
  * Set object control.
  * @method module:controls.set
- * @param bpy_obj Object ID
- * @param control_id Control ID
- * @param [value=1] Control value
  * @deprecated By new sensor-based api
  */
 exports["set"] = function() {
@@ -224,9 +220,6 @@ exports["set"] = function() {
 /**
  * Get object control value.
  * @method module:controls.get
- * @param bpy_obj Object ID
- * @param control_id Control ID
- * @returns Control value
  * @deprecated By new sensor-based api
  */
 exports["get"] = function() {
@@ -236,9 +229,6 @@ exports["get"] = function() {
 /**
  * Get object control type.
  * @method module:controls.get_type
- * @param bpy_obj Object ID
- * @param control_id Control ID
- * @returns Control type or null in case of missing control
  * @deprecated By new sensor-based api
  */
 exports["get_type"] = function() {
@@ -248,8 +238,6 @@ exports["get_type"] = function() {
 /**
  * Release object control
  * @method module:controls.release
- * @param bpy_obj Object ID
- * @param control_id Control ID
  * @deprecated By new sensor-based api
  */
 exports["release"] = function() {
@@ -257,162 +245,168 @@ exports["release"] = function() {
 }
 
 
+
 /**
- * Create custom sensor.
+ * Create a custom sensor.
  * Custom sensor controlled by set_custom_sensor()
  * @method module:controls.create_custom_sensor
- * @param value Initial custom sensor value
- * @returns Sensor object
+ * @param {Number} value Initial custom sensor value
+ * @returns {Object} Sensor object
  */
-exports["create_custom_sensor"] = controls.create_custom_sensor;
+exports["create_custom_sensor"] = m_ctl.create_custom_sensor;
 /**
- * Create keyboard sensor.
+ * Create a keyboard sensor.
  * @method module:controls.create_keyboard_sensor
- * @param key Sensor key
- * @returns Sensor object
+ * @param {Number} key Sensor key KEY_*
+ * @returns {Object} Sensor object
  */
-exports["create_keyboard_sensor"] = controls.create_keyboard_sensor;
+exports["create_keyboard_sensor"] = m_ctl.create_keyboard_sensor;
 /**
- * Create collision sensor.
- * performs detection of collision between object and collision ID
+ * Create a collision sensor.
+ * Performs detection of collisions between an object and an entity with a collision ID
  * @method module:controls.create_collision_sensor
- * @param obj Collision object ID
+ * @param {Object} obj Collision object ID
  * @param {String} collision_id Collision ID
  * @param {Boolean} need_payload Should sensor return collision point
- * @returns Sensor object
+ * @returns {Object} Sensor object
  */
-exports["create_collision_sensor"] = controls.create_collision_sensor;
+exports["create_collision_sensor"] = m_ctl.create_collision_sensor;
 /**
- * Create collision impulse sensor.
- * value is impulse applied on collision point
+ * Create a collision impulse sensor.
+ * Its value is the impulse applied at the collision point
  * @method module:controls.create_collision_impulse_sensor
- * @param obj Collision object ID
- * @returns Sensor object
+ * @param {Object} obj Collision object ID
+ * @returns {Object} Sensor object
  */
-exports["create_collision_impulse_sensor"] = controls.create_collision_impulse_sensor;
+exports["create_collision_impulse_sensor"] = m_ctl.create_collision_impulse_sensor;
 /**
- * Create ray sensor.
- * Emits ray from object at start_offset to end_offset and checks intersection
- * with collision ID
+ * Create a ray sensor.
+ * Emits a ray from the object between start_offset and end_offset and checks the intersection
+ * with an entity posessing a collision ID
  * @method module:controls.create_ray_sensor
- * @param obj Object ID
- * @param {vec3} start_offset Ray start point offset
- * @param {vec3} end_offset Ray end point offset
+ * @param {Object} obj Object ID
+ * @param {Float32Array} start_offset Ray start point offset
+ * @param {Float32Array} end_offset Ray end point offset
  * @param {Boolean} local_coords Consider offsets in object local space
  * @param {String} collision_id Destination collision ID
- * @returns Sensor object
+ * @returns {Object} Sensor object
  */
-exports["create_ray_sensor"] = controls.create_ray_sensor;
+exports["create_ray_sensor"] = m_ctl.create_ray_sensor;
 /**
- * Create mouse click sensor.
+ * Create a mouse click sensor.
  * @method module:controls.create_mouse_click_sensor
- * @returns Sensor object
+ * @returns {Object} Sensor object
  */
-exports["create_mouse_click_sensor"] = controls.create_mouse_click_sensor;
+exports["create_mouse_click_sensor"] = m_ctl.create_mouse_click_sensor;
 /**
- * Create mouse wheel sensor.
- * Sensor value is 1 for single wheel notch scrolled away from the user
+ * Create a mouse wheel sensor.
+ * The sensor's value is 1 for a single wheel notch scrolled away from the user
  * @method module:controls.create_mouse_wheel_sensor
- * @returns Sensor object
+ * @returns {Object} Sensor object
  */
-exports["create_mouse_wheel_sensor"] = controls.create_mouse_wheel_sensor;
+exports["create_mouse_wheel_sensor"] = m_ctl.create_mouse_wheel_sensor;
 /**
- * Create mouse move sensor.
- * Sensor value is a number of pixels
+ * Create a mouse movement sensor.
+ * The sensor's value is a number of pixels
  * @method module:controls.create_mouse_move_sensor
- * @param [axis="XY"] Axis type "X", "Y", "XY"
- * @returns Sensor object
+ * @param {String} [axis="XY"] Axis type "X", "Y", "XY"
+ * @returns {Object} Sensor object
  */
-exports["create_mouse_move_sensor"] = controls.create_mouse_move_sensor;
+exports["create_mouse_move_sensor"] = m_ctl.create_mouse_move_sensor;
 /**
- * Create touch move sensor.
- * Sensor value is a number of pixels
+ * Create a touch movement sensor.
+ * The sensor's value is a number of pixels
  * @method module:controls.create_touch_move_sensor
- * @param [axis="XY"] Axis type "X", "Y", "XY"
- * @returns Sensor object
+ * @param {String} [axis="XY"] Axis type "X", "Y", "XY"
+ * @returns {Object} Sensor object
  */
-exports["create_touch_move_sensor"] = controls.create_touch_move_sensor;
+exports["create_touch_move_sensor"] = m_ctl.create_touch_move_sensor;
 /**
- * Create touch zoom sensor.
- * Sensor value is distance delta in pixels
+ * Create a touch zoom sensor.
+ * The sensor's value is the distance delta in pixels
  * @method module:controls.create_touch_zoom_sensor
- * @returns Sensor object
+ * @returns {Object} Sensor object
  */
-exports["create_touch_zoom_sensor"] = controls.create_touch_zoom_sensor;
+exports["create_touch_zoom_sensor"] = m_ctl.create_touch_zoom_sensor;
 /**
- * Create motion sensor.
- * Sensor value is 1 if object is in motion
+ * Create a motion sensor.
+ * The sensor's value is 1 if the object is in motion
  * @method module:controls.create_motion_sensor
- * @param obj Object ID
- * @param threshold Tranlation threshold per second
- * @param rotation_threshold Rotation threshold per second
- * @returns Sensor object
+ * @param {Object} obj Object ID
+ * @param {Number} threshold Translation threshold per second
+ * @param {Number} rotation_threshold Rotation threshold per second
+ * @returns {Object} Sensor object
  */
-exports["create_motion_sensor"] = controls.create_motion_sensor;
+exports["create_motion_sensor"] = m_ctl.create_motion_sensor;
 /**
- * Create velocity sensor.
- * Sensor value is 1 if abs() of object vertical velocity exceeds threshold
+ * Create a velocity sensor.
+ * The sensor's value is 1 if abs() of the object's vertical velocity exceeds the threshold
  * @method module:controls.create_vertical_velocity_sensor
- * @param obj Object ID
- * @param threshold Velocity threshold
- * @returns Sensor object
+ * @param {Object} obj Object ID
+ * @param {Number} threshold Velocity threshold
+ * @returns {Object} Sensor object
  */
-exports["create_vertical_velocity_sensor"] = controls.create_vertical_velocity_sensor;
+exports["create_vertical_velocity_sensor"] = m_ctl.create_vertical_velocity_sensor;
 /**
- * Create timer sensor.
- * Sensor value is 1 for frame after given period elapsed.
- * Don't try to measure periods less than frame duration
+ * Create a timer sensor.
+ * The sensor's value becomes 1 for the frame whcih comes next after the time period has elapsed.
+ * Don't try to measure the period which is less than the frame's duration
  * @method module:controls.create_timer_sensor
- * @param period Timer period in seconds
- * @returns Sensor object
+ * @param {Number} period Timer period in seconds
+ * @returns {Object} Sensor object
  */
-exports["create_timer_sensor"] = controls.create_timer_sensor;
+exports["create_timer_sensor"] = m_ctl.create_timer_sensor;
 /**
- * Reset timer sensor.
+ * Reset the timer sensor.
  * @method module:controls.reset_timer_sensor
- * @param obj Object ID
- * @param manifold_id Object's manifold ID 
- * @param num Sensor number in manifold
+ * @param {Object} obj Object ID
+ * @param {String} manifold_id Object's manifold ID 
+ * @param {Number} num Sensor number in manifold
  */
-exports["reset_timer_sensor"] = controls.reset_timer_sensor;
+exports["reset_timer_sensor"] = m_ctl.reset_timer_sensor;
 /**
- * Create elapsed sensor.
- * Sensor value is time elapsed from previous frame
+ * Create an elapsed sensor.
+ * The sensor's value is the time elapsed from the previous frame
  * @method module:controls.create_elapsed_sensor
- * @returns Sensor object
+ * @returns {Object} Sensor object
  */
-exports["create_elapsed_sensor"] = controls.create_elapsed_sensor;
+exports["create_elapsed_sensor"] = m_ctl.create_elapsed_sensor;
 /**
- * Create timeline sensor.
- * Sensor value is global engine timeline 
+ * Create a timeline sensor.
+ * The sensor's value is the global engine timeline 
  * @method module:controls.create_timeline_sensor
- * @returns Sensor object
+ * @returns {Object} Sensor object
  */
-exports["create_timeline_sensor"] = controls.create_timeline_sensor;
+exports["create_timeline_sensor"] = m_ctl.create_timeline_sensor;
 
 
 /**
- * Set value of custom sensor.
+ * Set the value of the custom sensor.
  * @method module:controls.set_custom_sensor
+ * @param {Object} sensor Sensor object
+ * @param {Number} value New sensor value
  */
 exports["set_custom_sensor"] = function(sensor, value) {
-    controls.sensor_set_value(sensor, value);
+    m_ctl.sensor_set_value(sensor, value);
 }
 
 /**
- * Get value of custom sensor.
+ * Get the value of the custom sensor.
  * @method module:controls.get_custom_sensor
+ * @param {Object} sensor Sensor object
+ * @returns {Number} Sensor value
  */
 exports["get_custom_sensor"] = function(sensor, value) {
     return sensor.value;
 }
 
 /**
- * Return sensor value
+ * Return the sensor value.
  * @method module:controls.get_sensor_value
- * @param obj Object ID
- * @param manifold_id Object's manifold ID 
- * @param num Sensor number in manifold
+ * @param {Object} obj Object ID
+ * @param {String} manifold_id Object's manifold ID 
+ * @param {Number} num Sensor number in manifold
+ * @returns {Number} Sensor value
  */
 exports["get_sensor_value"] = function(obj, manifold_id, num) {
 
@@ -433,11 +427,12 @@ exports["get_sensor_value"] = function(obj, manifold_id, num) {
 }
 
 /**
- * Return sensor payload data
+ * Return the sensor payload data
  * @method module:controls.get_sensor_payload
- * @param obj Object ID
- * @param manifold_id Object's manifold ID 
- * @param num Sensor number in manifold
+ * @param {Object} obj Object ID
+ * @param {String} manifold_id Object's manifold ID 
+ * @param {Number} num Sensor number in manifold
+ * @returns {*} Sensor payload
  */
 exports["get_sensor_payload"] = function(obj, manifold_id, num) {
 
@@ -465,18 +460,22 @@ exports["sensor_make_negative"] = function(sensor) {
 }
 
 /**
- * Create sensor lock.
+ * Create a sensor lock.
  * @method module:controls.create_sensor_lock
+ * @param {Object} sensor Sensor object
+ * @param {Array} lock_sensors The array of the sensors which lock the current sensor
+ * @param lock_logic_fun Logic function
  */
 exports["create_sensor_lock"] = function(sensor, lock_sensors, lock_logic_fun) {
     sensor.lock_sensors = lock_sensors.slice(0);
     // cache for logic function
     sensor.lock_sensor_values = new Array(lock_sensors.length);
-    sensor.lock_logic_fun = lock_logic_fun || controls.default_AND_logic_fun;
+    sensor.lock_logic_fun = lock_logic_fun || m_ctl.default_AND_logic_fun;
 }
 /**
- * Remove sensor lock.
+ * Remove the sensor lock.
  * @method module:controls.remove_sensor_lock
+ * @param {Object} sensor Sensor object
  */
 exports["remove_sensor_lock"] = function(sensor) {
     sensor.lock_sensors = null;
@@ -485,114 +484,137 @@ exports["remove_sensor_lock"] = function(sensor) {
 }
 
 /**
- * Function to handle manifold logic
+ * Function to handle a manifold's logic.
  * @callback manifold_logic_function
  * @param {Array} s Array with sensor values
+ * @returns {Number} The result of a logic function 
  */
 
 /**
- * Manifold callback
+ * Manifold callback.
  * @callback manifold_callback
- * @param obj Object ID
- * @param id Manifold ID
- * @param pulse Manifold pulse value
- * @param [param] Callback param
+ * @param {Object} obj Object ID
+ * @param {String} id Manifold ID
+ * @param {Number} pulse Manifold pulse value
+ * @param {*} [param] Callback param
  */
 
 /**
- * Create sensor manifold.
+ * Create a sensor manifold.
  * @method module:controls.create_sensor_manifold
- * @param obj Object ID to attach manifold to
- * @param id New manifold ID
- * @param type Manifold control type
+ * @param {Object} obj Object ID to attach the manifold to
+ * @param {String} id New manifold ID
+ * @param {Number} type Manifold control type
  * @param {Array} sensors Sensors in manifold
- * @param {manifold_logic_function} logic_fun Function to handle manifold logic
+ * @param {manifold_logic_function} logic_fun Function to handle the manifold's logic
  * @param {manifold_callback} callback Manifold callback
- * @param [callback_param] Param to pass to manifold callback
+ * @param {*} [callback_param] Param to pass to manifold callback
  */
-exports["create_sensor_manifold"] = controls.create_sensor_manifold;
+exports["create_sensor_manifold"] = m_ctl.create_sensor_manifold;
 
 /**
  * Convenience function.
- * Create one keyboard sensor, create and attach manifold.
+ * Create one keyboard sensor, create and attach a manifold.
  * @method module:controls.create_kb_sensor_manifold
+ * @param {Object} obj Object ID to attach the manifold to
+ * @param {String} id New manifold ID
+ * @param {Number} type Manifold control type
+ * @param {Number} key Keyboar key
+ * @param {manifold_callback} callback Manifold callback
+ * @param {*} [callback_param] Param to pass to manifold callback
  */
 exports["create_kb_sensor_manifold"] = function(obj, id, type, key, 
         callback, callback_param) {
-    var kb_sensor = controls.create_keyboard_sensor(key);
-    controls.create_sensor_manifold(obj, id, type, [kb_sensor], null,
+    var kb_sensor = m_ctl.create_keyboard_sensor(key);
+    m_ctl.create_sensor_manifold(obj, id, type, [kb_sensor], null,
             callback, callback_param);
 }
 
+/**
+ * Check whether an object has some manifold attached or not.
+ * @method module:controls.check_sensor_manifolds
+ * @param {Object} obj Object ID
+ * @returns {Boolean} Check result
+ */
 exports["check_sensor_manifolds"] = function(obj) {
-    return controls.check_sensor_manifold(obj, null);
+    return m_ctl.check_sensor_manifold(obj, null);
 }
 
-exports["check_sensor_manifold"] = controls.check_sensor_manifold;
+/**
+ * Check whether an object has manifold attached or not.
+ * @method module:controls.check_sensor_manifold
+ * @param {Object} obj Object ID
+ * @param {String} id Manifold ID
+ * @returns {Boolean} Check result
+ */
+exports["check_sensor_manifold"] = m_ctl.check_sensor_manifold;
 
 /**
- * Remove all sensor manifolds registered for given object.
+ * Remove all sensor manifolds registered for the given object.
  * @method module:controls.remove_sensor_manifolds
- * @param obj Object ID to delete manifolds from
+ * @param {Object} obj Object ID to delete manifolds from
  * @deprecated Use remove_sensor_manifold with null manifold ID
  */
 exports["remove_sensor_manifolds"] = function(obj) {
-    controls.remove_sensor_manifold(obj, null);
+    m_ctl.remove_sensor_manifold(obj, null);
 }
 /**
- * Remove sensor manifold registered for given object.
+ * Remove the sensor manifold registered for the given object.
  * @method module:controls.remove_sensor_manifold
- * @param obj Object ID to delete manifolds from
- * @param {String} [id=null] ID of sensor manifold or null to delete all of
+ * @param {Object} obj Object ID to delete manifolds from
+ * @param {String} [id=null] ID of the sensor manifold or null to delete all of
  * them
  */
-exports["remove_sensor_manifold"] = controls.remove_sensor_manifold; 
+exports["remove_sensor_manifold"] = m_ctl.remove_sensor_manifold; 
 
 /**
- * Reset controls for all objects.
+ * Reset controls for all the objects.
  * @method module:controls.reset
  */
-exports["reset"] = controls.reset;
+exports["reset"] = m_ctl.reset;
 
 /**
  * Key-down callback.
- * Should be executed by external event callback.
+ * Should be executed by an external event callback.
  * @method module:controls.keydown_cb
  */
-exports["keydown_cb"] = controls.keydown_cb;
+exports["keydown_cb"] = m_ctl.keydown_cb;
 /**
  * Key-up callback. 
- * Should be executed by external event callback.
+ * Should be executed by an external event callback.
  * @method module:controls.keyup_cb
  */
-exports["keyup_cb"] = controls.keyup_cb;
+exports["keyup_cb"] = m_ctl.keyup_cb;
 /**
- * Mouse click callback. Should be executed by external event callback.
+ * Mouse click callback. Should be executed by an external event callback.
  * @method module:controls.mouse_down_cb
  */
-exports["mouse_down_cb"] = controls.mouse_down_cb;
+exports["mouse_down_cb"] = m_ctl.mouse_down_cb;
 /**
- * Mouse click callback. Should be executed by external event callback.
+ * Mouse click callback. Should be executed by an external event callback.
  * @method module:controls.mouse_up_cb
  */
-exports["mouse_up_cb"] = controls.mouse_up_cb;
+exports["mouse_up_cb"] = m_ctl.mouse_up_cb;
 /**
- * Mouse-wheel callback. Should be executed by external event callback.
+ * Mouse-wheel callback. Should be executed by an external event callback.
  * @method module:controls.mouse_wheel_cb
  */
-exports["mouse_wheel_cb"] = controls.mouse_wheel_cb;
+exports["mouse_wheel_cb"] = m_ctl.mouse_wheel_cb;
 /**
  * mousemove event handler
+ * @method module:controls.mouse_move_cb
  */
-exports["mouse_move_cb"] = controls.mouse_move_cb;
+exports["mouse_move_cb"] = m_ctl.mouse_move_cb;
 /**
  * touchstart event handler
+ * @method module:controls.touch_start_cb
  */
-exports["touch_start_cb"] = controls.touch_start_cb;
+exports["touch_start_cb"] = m_ctl.touch_start_cb;
 /**
  * touchmove event handler
+ * @method module:controls.touch_move_cb
  */
-exports["touch_move_cb"] = controls.touch_move_cb;
+exports["touch_move_cb"] = m_ctl.touch_move_cb;
 
 }
 </code></pre>
@@ -611,7 +633,7 @@ exports["touch_move_cb"] = controls.touch_move_cb;
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-dev</a> on Wed May 14 2014 10:58:09 GMT+0400 (MSK)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-dev</a> on Wed Jun 25 2014 18:01:32 GMT+0400 (MSK)
 </footer>
 
 <script> prettyPrint(); </script>

@@ -233,8 +233,10 @@ typedef struct ThemeSpace {
 	char hilite[4];
 	char grid[4]; 
 	
+	char view_overlay[4];
+
 	char wire[4], wire_edit[4], select[4];
-	char lamp[4], speaker[4], empty[4], camera[4], pad[4];
+	char lamp[4], speaker[4], empty[4], camera[4];
 	char active[4], group[4], group_active[4], transform[4];
 	char vertex[4], vertex_select[4], vertex_unreferenced[4];
 	char edge[4], edge_select[4];
@@ -483,8 +485,9 @@ typedef struct UserDef {
 	short glreslimit;
 	short curssize;
 	short color_picker_type;
-	short ipo_new;			/* interpolation mode for newly added F-Curves */
-	short keyhandles_new;	/* handle types for newly added keyframes */
+	char  ipo_new;			/* interpolation mode for newly added F-Curves */
+	char  keyhandles_new;	/* handle types for newly added keyframes */
+	char  pad1[2];
 
 	short scrcastfps;		/* frame rate for screencast to be played back */
 	short scrcastwait;		/* milliseconds between screencast snapshots */
@@ -517,6 +520,8 @@ typedef struct UserDef {
 	char navigation_mode, pad;
 
 	char author[80];	/* author name for file formats supporting it */
+
+	char font_path_ui[1024];
 
 	int compute_device_type;
 	int compute_device_id;
@@ -733,10 +738,11 @@ typedef enum eGP_UserdefSettings {
 
 /* color picker types */
 typedef enum eColorPicker_Types {
-	USER_CP_CIRCLE		= 0,
+	USER_CP_CIRCLE_HSV	= 0,
 	USER_CP_SQUARE_SV	= 1,
 	USER_CP_SQUARE_HS	= 2,
 	USER_CP_SQUARE_HV	= 3,
+	USER_CP_CIRCLE_HSL	= 4,
 } eColorPicker_Types;
 
 /* timecode display styles */
