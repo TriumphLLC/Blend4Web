@@ -18,6 +18,7 @@ var m_curve     = require("__curve");
 var m_lights    = require("__lights");
 var m_particles = require("__particles");
 var m_print     = require("__print");
+var m_scenes    = require("__scenes");
 var m_trans     = require("__transform");
 var m_tsr       = require("__tsr");
 var m_util      = require("__util");
@@ -45,6 +46,7 @@ function create_render(type) {
     var render = {
         // common properties
         type: type,
+        data_id: 0,
         scale: 0,
         grid_id: new Array(2),
         trans: new Float32Array(3),
@@ -53,7 +55,7 @@ function create_render(type) {
         world_matrix: new Float32Array(16),
         inv_world_matrix: new Float32Array(16),
         pivot: new Float32Array(3),
-        
+
         move_style: 0,
         trans_speed: 0,
         dof_distance: 0,
@@ -62,7 +64,7 @@ function create_render(type) {
         dof_power: 0,
         dof_object: null,
         underwater: false,
-        
+
         distance_min: 0,
         distance_max: 0,
         use_distance_limits: false,
@@ -130,7 +132,7 @@ function create_render(type) {
         trans_before: null,
         trans_after: null,
         bone_pointers: null,
-        
+
         // bounding volumes properties
         bb_local: null,
         bcyl_local: null,
@@ -241,7 +243,7 @@ function update_object(obj) {
             obj._color_id = m_util.gen_color_id(_color_id_counter);
             _color_id_counter++;
         }
-        
+
         prepare_skinning_info(obj);
         prepare_vertex_anim(obj);
 
@@ -367,7 +369,7 @@ function update_object(obj) {
     // store force field
     if (obj["field"]) {
         render.force_strength = obj["field"]["strength"];
-        m_particles.update_force(obj);
+        m_scenes.update_force(obj);
     }
 
     // make links from group objects to their parent
@@ -459,24 +461,14 @@ function mesh_obj_is_dynamic(bpy_obj) {
     var is_floater_part = bpy_obj["b4w_floating"];
     var is_character = bpy_obj["b4w_character"];
     var dyn_grass_emitter = m_particles.has_dynamic_grass_particles(bpy_obj);
-    
-    // skydome and lens flares not strictly required to be dynamic
+
+    // lens flares not strictly required to be dynamic
     // make it so just to prevent some possible bugs in the future
 
     return DEBUG_DISABLE_STATIC_OBJS || is_animated || has_do_not_batch 
             || dynamic_geom || has_anim_particles || is_collision 
-            || is_vehicle_part || is_floater_part || has_skydome_mat(bpy_obj) 
-            || has_lens_flares_mat(bpy_obj) || dyn_grass_emitter || is_character;
-}
-
-function has_skydome_mat(obj) {
-    var mesh = obj["data"];
-
-    for (var i = 0; i < mesh["materials"].length; i++)
-        if (mesh["materials"][i]["b4w_skydome"])
-            return true;
-
-    return false;
+            || is_vehicle_part || is_floater_part || has_lens_flares_mat(bpy_obj)
+            || dyn_grass_emitter || is_character;
 }
 
 function has_lens_flares_mat(obj) {
@@ -551,23 +543,6 @@ function prepare_skinning_info(obj) {
     }
 
     var num_bones = deform_bone_index;
-    var max_bones = cfg_def.max_bones;
-
-    if (num_bones > 2 * max_bones)
-        m_util.panic("B4W Error: too many bones for \"" + obj["name"]);
-    else if (num_bones > max_bones) {
-        m_print.warn("B4W Warning: too many bones for \"" + obj["name"] + " / " + 
-            armobj["name"] + "\": " + num_bones + " bones (max " + max_bones + 
-            "). Blending between frames will be disabled");
-
-        // causes optimizing out the half of the uniform arrays,
-        // effectively doubles the limit of bones
-        render.frames_blending = false;
-    } else
-        render.frames_blending = true;
-
-    render.frames_blending = render.frames_blending 
-            && !cfg_anim.frames_blending_hack;
 
     render.bone_pointers = bone_pointers;
     // will be extended beyond this limit later

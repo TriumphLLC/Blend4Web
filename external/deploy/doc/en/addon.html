@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>The Addon &mdash; User Manual: Blend4Web v14.06</title>
+    <title>The Addon &mdash; User Manual: Blend4Web v14.07</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.06',
+        VERSION:     '14.07',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User Manual: Blend4Web v14.06" href="index.html" />
+    <link rel="top" title="User Manual: Blend4Web v14.07" href="index.html" />
     <link rel="next" title="Objects" href="objects.html" />
     <link rel="prev" title="Scene Viewer" href="viewer.html" /> 
   </head>
@@ -36,7 +36,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">User Manual: Blend4Web v14.06</a></div>
+          href="index.html">User Manual: Blend4Web v14.07</a></div>
         <div class="rel">
           <a href="viewer.html" title="Scene Viewer"
              accesskey="P">previous</a> |
@@ -84,11 +84,11 @@ the PLATFORM platform.</td>
 <td><p class="first last">The Blend4Web addon is not compatible with the PLATFORM platform.</p>
 </td>
 </tr>
-<tr class="row-odd"><td>Blend4Web initialization error!
-Blender version VER_REQUIRED is
-required for the Blend4Web addon.
-The current version is VER_CURRENT.</td>
-<td><p class="first last">The Blend4Web addon is not compatible with the Blender version used.</p>
+<tr class="row-odd"><td>Warning: Blender version mismatch.
+Blender VER_REQUIRED is recommended
+for the Blend4Web addon.
+Current version is VER_CURRENT.</td>
+<td><p class="first last">Warning about possible incompatibility with the current Blender version. It is recommended to use VER_REQUIRED Blender version. The current version is VER_CURRENT.</p>
 </td>
 </tr>
 </tbody>
@@ -369,6 +369,34 @@ mesh vertices count for &#8220;ANIM_NAME&#8221;</td>
 </tbody>
 </table>
 </div>
+<div class="section" id="id4">
+<h2>Warnings About Export Errors<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p>In contrast to the above-listed export errors, these errors don&#8217;t prohibit the export, but can make scenes displayed incorrectly. To view these warnings, open the browser console when a scene is loaded. The message looks like this:</p>
+<blockquote>
+<div><p><tt class="docutils literal"><span class="pre">EXPORT</span> <span class="pre">WARNING:</span> <span class="pre">error</span> <span class="pre">message</span></tt></p>
+</div></blockquote>
+<table border="1" class="docutils">
+<colgroup>
+<col width="46%" />
+<col width="54%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head"><p class="first last">Error message</p>
+</th>
+<th class="head"><p class="first last">Cause</p>
+</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>The NAME node is not supported.
+The NAME material will be rendered
+without nodes.</td>
+<td><p class="first last">The engine does not support the node with the this name, and so the node material will be turned off. Often this happens when Cycles nodes are used.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 
 
@@ -388,13 +416,14 @@ mesh vertices count for &#8220;ANIM_NAME&#8221;</td>
 <li class="toctree-l1 current"><a class="current reference internal" href="">The Addon</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#initialization-errors">Initialization Errors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#export-errors">Export Errors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">Warnings About Export Errors</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting and Shadows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing Effects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System for Instancing Objects</a></li>
@@ -440,7 +469,7 @@ mesh vertices count for &#8220;ANIM_NAME&#8221;</td>
           
     <div class="footer">
         &copy; Copyright 2014, Triumph LLC.
-      Last updated on 2014-06-25.
+      Last updated on 2014-07-23.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

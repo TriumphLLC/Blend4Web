@@ -56,6 +56,12 @@ div.info_corner_backgr {
     opacity: 0.7;
 }
 
+div.warning_information {
+    display: none;
+    color: #CD5C5C;
+    font-size: 14px;
+}
+
 span.info_corner_text {
     position: relative;
     font-size: 15px;

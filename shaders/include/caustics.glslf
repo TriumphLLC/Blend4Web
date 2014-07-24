@@ -6,13 +6,15 @@
 #var CAUST_SCALE 0.0
 #var CAUST_BRIGHT 0.0
 
+#define CAUSTICS_VIEW_DISTANCE 100.0
+
 //Add caustics to underwater objects
 void apply_caustics (inout vec3 color, float plane_pos,
                     float time, float shadow_factor, vec3 normal,
                     vec3 light_direction, vec3 sun_color_intens,
                     vec4 sun_quat, vec3 pos_world, float view_dist) {
 
-    if (view_dist > 100.0) // optimization
+    if (view_dist > CAUSTICS_VIEW_DISTANCE)
         return;
 
     vec4 q = sun_quat;

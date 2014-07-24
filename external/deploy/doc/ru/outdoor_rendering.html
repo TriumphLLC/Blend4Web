@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Рендеринг наружных сцен &mdash; Руководство пользователя: Blend4Web v14.06</title>
+    <title>Рендеринг наружных сцен &mdash; Руководство пользователя: Blend4Web v14.07</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.06',
+        VERSION:     '14.07',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v14.06" href="index.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v14.07" href="index.html" />
     <link rel="next" title="Гамма-коррекция и альфа-композитинг" href="gamma_alpha.html" />
     <link rel="prev" title="Анимация" href="animation.html" /> 
   </head>
@@ -37,7 +37,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">Руководство пользователя: Blend4Web v14.06</a></div>
+          href="index.html">Руководство пользователя: Blend4Web v14.07</a></div>
         <div class="rel">
           <a href="animation.html" title="Анимация"
              accesskey="P">предыдущий</a> |
@@ -244,16 +244,20 @@
 </div>
 </div>
 </div>
-<div class="section" id="id25">
-<h2>Атмосфера<a class="headerlink" href="#id25" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="atmosphere">
+<span id="id25"></span><h2>Атмосфера<a class="headerlink" href="#atmosphere" title="Ссылка на этот заголовок">¶</a></h2>
 <div class="section" id="id26">
 <h3>Рассеивание<a class="headerlink" href="#id26" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Создать объект-плоскость для неба, как указано в разделе <a class="reference internal" href="textures.html#skydome-texture"><em>Текстура неба (skydome)</em></a>. Карта окружения не требуется. На материале выставить опции <tt class="docutils literal"><span class="pre">Special:</span> <span class="pre">Skydome</span></tt> и <tt class="docutils literal"><span class="pre">Procedural</span> <span class="pre">skydome</span></tt>.</p>
-<a class="reference internal image-reference" href="_images/skydome_procedural.jpg"><img alt="Атмосферное рассивание" class="align-center" src="_images/skydome_procedural.jpg" style="width: 100%;" /></a>
+<p>Во вкладке <tt class="docutils literal"><span class="pre">World</span></tt> выставить опцию <tt class="docutils literal"><span class="pre">Sky</span> <span class="pre">Settings</span> <span class="pre">&gt;</span> <span class="pre">Procedural</span> <span class="pre">skydome</span></tt>. Если одновременно с этим используется статическая <a class="reference internal" href="textures.html#skydome-texture"><em>текстура неба</em></a>, она будет заменена.</p>
+<div class="admonition note">
+<p class="first admonition-title">Примечание</p>
+<p class="last">Кроме того, процедурная текстура неба может быть использована для имитации рассеянного освещения на объектах, по аналогии со статической <a class="reference internal" href="textures.html#skydome-texture"><em>текстурой неба</em></a>. Для этого необходимо выставить опции <tt class="docutils literal"><span class="pre">Sky</span> <span class="pre">Settings</span> <span class="pre">&gt;</span> <span class="pre">Use</span> <span class="pre">as</span> <span class="pre">environment</span> <span class="pre">lighting</span></tt> и <tt class="docutils literal"><span class="pre">Environment</span> <span class="pre">Lighting</span> <span class="pre">&gt;</span> <span class="pre">Sky</span> <span class="pre">Texture</span></tt>. Если текстура мира для рассеянного освещения уже существует, она будет заменена.</p>
+</div>
+<a class="reference internal image-reference" href="_images/skydome_procedural.jpg"><img alt="Атмосферное рассеивание" class="align-center" src="_images/skydome_procedural.jpg" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p>Настройки расположены во вкладке <tt class="docutils literal"><span class="pre">World</span></tt>.</p>
+<p>Движком поддерживаются следующие настройки:</p>
 <dl class="docutils">
 <dt><em>Sky Settings &gt; Sky color</em></dt>
 <dd>Базовый цвет неба. Значение по умолчанию (0.087, 0.255, 0.6) (голубой).</dd>
@@ -383,14 +387,14 @@
 <li class="toctree-l1"><a class="reference internal" href="textures.html">Текстуры</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Материалы</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Нодовые материалы</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lighting.html">Освещение и тени</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lighting.html">Освещение, тени и фон</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Постпроцессинговые эффекты</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles.html">Система частиц</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Система частиц для инстансинга объектов</a></li>
 <li class="toctree-l1"><a class="reference internal" href="animation.html">Анимация</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Рендеринг наружных сцен</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#id2">Вода</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id25">Атмосфера</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#atmosphere">Атмосфера</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#wind">Ветер</a></li>
 </ul>
 </li>
@@ -434,7 +438,7 @@
           
     <div class="footer">
         &copy; Copyright 2014, ООО &#34;Триумф&#34;.
-      Обновлено: 2014-06-25.
+      Обновлено: 2014-07-23.
       Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

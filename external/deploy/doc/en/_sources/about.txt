@@ -81,8 +81,8 @@ WebGL (Web Graphics Library, т.е. графическая библиотека 
 Экспериментальная поддержка
 ---------------------------
 
-* `Internet Explorer <http://windows.microsoft.com/en-us/internet-explorer/download-ie>`_ 11+ (неполная поддержка)
-* `Safari <http://www.apple.com/safari/>`_ (выключена по умолчанию)
+* `Internet Explorer <http://windows.microsoft.com/en-us/internet-explorer/download-ie>`_ 11
+* `Safari <http://www.apple.com/safari/>`_ 8
 
 
 Мобильные платформы
@@ -91,7 +91,7 @@ WebGL (Web Graphics Library, т.е. графическая библиотека 
 * Android (на большей части современных устройств)
 * BlackBerry
 * Firefox OS
-* iOS (выключена по умолчанию, включена для разработчиков iAd)
+* iOS 8
 * Tizen
 * Ubuntu Touch
 * WebOS

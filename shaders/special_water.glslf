@@ -28,6 +28,10 @@ uniform float u_time;
 uniform vec3  u_zenith_color;
 uniform float u_environment_energy;
 
+#if SKY_TEXTURE
+uniform samplerCube u_sky_texture;
+#endif
+
 uniform vec3 u_light_positions[NUM_LIGHTS];
 uniform vec3 u_light_directions[NUM_LIGHTS];
 uniform vec3 u_light_color_intensities[NUM_LIGHTS];
@@ -91,7 +95,7 @@ uniform float u_ambient;
 uniform vec4 u_fresnel_params;
 
 uniform vec3 u_specular_color;
-uniform vec2 u_specular_params;
+uniform vec3 u_specular_params;
 
 #if NUM_NORMALMAPS > 0
 uniform vec2 u_normalmap0_uv_velocity;
@@ -441,11 +445,15 @@ void main(void) {
 
     // specular
     float specint = u_specular_params[0];
-    float spec_param = u_specular_params[1];
+    vec2 spec_params = vec2(u_specular_params[1], u_specular_params[2]);
     vec3 S = specint * u_specular_color;
 
     // ambient
+#if SKY_TEXTURE
+    vec3 environment_color = u_environment_energy * textureCube(u_sky_texture, normal).rgb;
+#else
     vec3 environment_color = u_environment_energy * u_zenith_color;
+#endif
     vec3 A = u_ambient * environment_color;
 
     vec3 light_energies = A + u_sun_intensity;
@@ -478,7 +486,7 @@ void main(void) {
 #endif
 
     lighting_result lresult = lighting(vec3(0.0), vec3(0.0), color, S, v_pos_world,
-        normal, eye_dir, spec_param, u_diffuse_params, 1.0,
+        normal, eye_dir, spec_params, u_diffuse_params, 1.0,
         u_light_positions, u_light_directions, u_light_color_intensities,
         u_light_factors1, u_light_factors2, 0.0, vec4(0.0));
 

@@ -38,10 +38,10 @@ rm bindings.o mikktspace.o weldmesh.o
 #
 #rm bindings.o mikktspace.o weldmesh.o
 
-echo "Build Linux 32 bit module"
-CC=gcc
-
-OUT="../../external/blender_scripts/addons/blend4web/b4w_bin_Linux_32.so"
-CCOPTS="-DINIT_FUNC_NAME=PyInit_b4w_bin_Linux_32 -I/usr/include/python3.4 -pthread -g -Wall -Wl,-Bsymbolic-functions -fPIC"
-
-$CC -shared $CCOPTS bindings.c mikktspace.c weldmesh.c -o $OUT
+#echo "Build Linux 32 bit module"
+#CC=gcc
+#
+#OUT="../../external/blender_scripts/addons/blend4web/b4w_bin_Linux_32.so"
+#CCOPTS="-DINIT_FUNC_NAME=PyInit_b4w_bin_Linux_32 -I/usr/include/python3.4 -pthread -g -Wall -Wl,-Bsymbolic-functions -fPIC"
+#
+#$CC -shared $CCOPTS bindings.c mikktspace.c weldmesh.c -o $OUT

@@ -17,7 +17,6 @@ var m_vec3 = require("vec3");
 var cfg_ani = m_cfg.animation;
 var cfg_sfx = m_cfg.sfx;
 
-var SPEED_WARM_STEPS = 10;
 var SPEED_SMOOTH_PERIOD = 0.3;
 
 var SPKSTATE_UNDEFINED  = 10;
@@ -44,11 +43,6 @@ var _wa = null;
 // per-loaded-scene vars
 var _active_scene = null;
 var _speaker_objects = [];
-
-var _listener_last_eye = new Float32Array(3);
-var _listener_speed_avg = new Float32Array(3);
-// NOTE: listener warm-up steps
-var _listener_speed_warm = SPEED_WARM_STEPS;
 
 var _seed_tmp = [1];
 
@@ -85,7 +79,12 @@ exports.init = function() {
 
 exports.attach_scene_sfx = function(scene) {
 
-    var scene_sfx = {};
+    var scene_sfx = {
+        listener_last_eye : new Float32Array(3),
+        listener_direction : new Float32Array(3),
+        listener_speed_avg : new Float32Array(3)
+    };
+
     scene._sfx = scene_sfx;
 
     if (_wa) {
@@ -192,6 +191,7 @@ exports.detect_media_container = function(hint) {
  * @param {Object} obj Object ID, must be of type "SPEAKER"
  */
 exports.append_object = function(obj, scene) {
+
     if (obj["type"] != "SPEAKER")
         throw "Wrong speaker object";
 
@@ -253,8 +253,9 @@ exports.append_object = function(obj, scene) {
     // initial state
     obj._sfx.state = SPKSTATE_UNDEFINED;
 
-    obj._sfx.last_position = new Float32Array(obj._render.trans);
-    obj._sfx.speed_avg = new Float32Array(obj._render.trans);
+    obj._sfx.last_position = new Float32Array(3);
+    obj._sfx.direction = new Float32Array(3);
+    obj._sfx.speed_avg = new Float32Array(3);
 
     // for BACKGROUND_MUSIC
     obj._sfx.bgm_stop_timeout = null;
@@ -355,18 +356,18 @@ exports.cleanup = function() {
         }
     }
 
+    if (_active_scene && _active_scene._sfx) {
+        var scene_sfx = _active_scene._sfx;
+        scene_sfx.listener_last_eye[0] = 0;
+        scene_sfx.listener_last_eye[1] = 0;
+        scene_sfx.listener_last_eye[2] = 0;
+        scene_sfx.listener_speed_avg[0] = 0;
+        scene_sfx.listener_speed_avg[1] = 0;
+        scene_sfx.listener_speed_avg[2] = 0;
+    }
+
     _active_scene = null;
     _speaker_objects.splice(0);
-
-    _listener_last_eye[0] = 0;
-    _listener_last_eye[0] = 0;
-    _listener_last_eye[0] = 0;
-
-    _listener_speed_avg[0] = 0;
-    _listener_speed_avg[1] = 0;
-    _listener_speed_avg[2] = 0;
-
-    _listener_speed_warm = SPEED_WARM_STEPS;
 
     _playlist = null;
 }
@@ -470,7 +471,7 @@ function play(obj, when, duration) {
             // switch off previous node graph
             if (sfx.source_node)
                 sfx.source_node.disconnect();
-            
+
             source.loop = true;
             source.start(start_time);
 
@@ -495,7 +496,7 @@ function play(obj, when, duration) {
                 sfx.duration = buf_dur;
             }
         }
-        
+
         source.connect(sfx.proc_chain_in);
         sfx.source_node = source;
 
@@ -552,10 +553,12 @@ function update_proc_chain(obj) {
         //ap.distanceModel = "inverse";
 
         ap.setPosition(pos[0], pos[1], pos[2]);
-        
+        sfx.last_position.set(pos);
+
         var orient = _vec3_tmp;
         m_util.quat_to_dir(quat, m_util.AXIS_MY, orient);
         ap.setOrientation(orient[0], orient[1], orient[2]);
+        sfx.direction.set(orient);
 
         ap.refDistance = sfx.dist_ref;
         ap.maxDistance = sfx.dist_max;
@@ -764,7 +767,7 @@ function fire_audio_element(obj) {
 
         // NOTE: audio element will be invalidated after construction execution,
         // so use previous MediaElementSourceNode
-        sfx.source_node = sfx.source_node || 
+        sfx.source_node = sfx.source_node ||
                 _wa.createMediaElementSource(audio);
 
         sfx.source_node.connect(sfx.proc_chain_in);
@@ -839,7 +842,7 @@ function is_play(obj) {
     return (obj._sfx.state == SPKSTATE_PLAY);
 }
 
-/** 
+/**
  * Pause speaker.
  * @param obj Speaker object ID
  */
@@ -892,7 +895,7 @@ function calc_buf_offset(sfx, current_time) {
     return (buf_dur / playrate - (time - current_time)) * playrate;
 }
 
-/** 
+/**
  * Resume speaker.
  * @param obj Speaker object ID
  */
@@ -902,7 +905,7 @@ function speaker_resume(obj) {
 
     if (sfx.state != SPKSTATE_PAUSE)
         return;
-    
+
     if (sfx.behavior == "BACKGROUND_MUSIC") {
         var audio_el = sfx.src;
         audio_el.play();
@@ -983,6 +986,9 @@ exports.listener_update_transform = function(scene, trans, quat, elapsed) {
     if (!_wa)
         return;
 
+    if (!scene._sfx)
+        return;
+
     var front = _vec3_tmp;
     front[0] = 0;
     front[1] =-1;
@@ -998,43 +1004,45 @@ exports.listener_update_transform = function(scene, trans, quat, elapsed) {
     var listener = _wa.listener;
     listener.setPosition(trans[0], trans[1], trans[2]);
     listener.setOrientation(front[0], front[1], front[2], up[0], up[1], up[2]);
+    scene._sfx.listener_direction.set(front);
 
     if (elapsed) {
         var speed = _vec3_tmp3;
 
-        speed[0] = (trans[0] - _listener_last_eye[0])/elapsed;
-        speed[1] = (trans[1] - _listener_last_eye[1])/elapsed;
-        speed[2] = (trans[2] - _listener_last_eye[2])/elapsed;
+        speed[0] = (trans[0] - scene._sfx.listener_last_eye[0])/elapsed;
+        speed[1] = (trans[1] - scene._sfx.listener_last_eye[1])/elapsed;
+        speed[2] = (trans[2] - scene._sfx.listener_last_eye[2])/elapsed;
 
-        m_util.smooth_v(speed, _listener_speed_avg, elapsed,
+        m_util.smooth_v(speed, scene._sfx.listener_speed_avg, elapsed,
                 SPEED_SMOOTH_PERIOD, speed);
 
-        if (!_listener_speed_warm)
-            listener.setVelocity(speed[0], speed[1], speed[2]);
-        else
-            _listener_speed_warm--;
-
-        _listener_speed_avg[0] = speed[0];
-        _listener_speed_avg[1] = speed[1];
-        _listener_speed_avg[2] = speed[2];
-
-        _listener_last_eye[0] = trans[0];
-        _listener_last_eye[1] = trans[1];
-        _listener_last_eye[2] = trans[2];
+        listener.setVelocity(speed[0], speed[1], speed[2]);
+        scene._sfx.listener_speed_avg.set(speed);
     }
+
+    scene._sfx.listener_last_eye.set(trans);
 }
 
-exports.listener_reset_speed = function() {
+exports.listener_reset_speed = function(speed, dir) {
     // NOTE: hack
     if (!_wa)
         return;
 
-    var listener = _wa.listener;
-    listener.setVelocity(0, 0, 0);
+    if (!_active_scene._sfx)
+        return;
 
-    _listener_speed_avg[0] = 0;
-    _listener_speed_avg[1] = 0;
-    _listener_speed_avg[2] = 0;
+    var velocity = _vec3_tmp;
+
+    if (dir)
+        velocity.set(dir);
+    else
+        velocity.set(_active_scene._sfx.listener_direction);
+
+    m_vec3.scale(velocity, speed, velocity);
+
+    var listener = _wa.listener;
+    listener.setVelocity(velocity[0], velocity[1], velocity[2]);
+    _active_scene._sfx.listener_speed_avg.set(velocity);
 }
 
 /**
@@ -1055,9 +1063,9 @@ exports.speaker_update_transform = function(obj, elapsed) {
     m_util.quat_to_dir(obj._render.quat, m_util.AXIS_MY, orient);
     panner.setOrientation(orient[0], orient[1], orient[2]);
 
-    if (!sfx.disable_doppler && elapsed) {
-        var lpos = sfx.last_position;
+    var lpos = sfx.last_position;
 
+    if (!sfx.disable_doppler && elapsed) {
         var speed = _vec3_tmp2;
         speed[0] = (pos[0] - lpos[0]) / elapsed;
         speed[1] = (pos[1] - lpos[1]) / elapsed;
@@ -1068,35 +1076,33 @@ exports.speaker_update_transform = function(obj, elapsed) {
 
         panner.setVelocity(speed[0], speed[1], speed[2]);
 
-        sfx.speed_avg[0] = speed[0];
-        sfx.speed_avg[1] = speed[1];
-        sfx.speed_avg[2] = speed[2];
-
-        lpos[0] = pos[0];
-        lpos[1] = pos[1];
-        lpos[2] = pos[2];
+        sfx.speed_avg.set(speed);
     }
+
+    lpos.set(pos);
 }
 
-exports.speaker_reset_speed = function(obj) {
+exports.speaker_reset_speed = function(obj, speed, dir) {
     var sfx = obj._sfx;
 
     if (!(spk_is_active(obj) && sfx.behavior == "POSITIONAL"))
         return;
 
-    var panner = sfx.panner_node;
-    panner.setVelocity(0, 0, 0);
+    var velocity = _vec3_tmp;
 
-    sfx.speed_avg[0] = 0;
-    sfx.speed_avg[1] = 0;
-    sfx.speed_avg[2] = 0;
+    if (dir)
+        velocity.set(dir);
+    else
+        velocity.set(sfx.direction);
+
+    m_vec3.scale(velocity, speed, velocity);
+
+    var panner = sfx.panner_node;
+    panner.setVelocity(velocity[0], velocity[1], velocity[2]);
+    sfx.speed_avg.set(velocity);
 
     var pos = obj._render.trans;
-    var lpos = sfx.last_position;
-
-    lpos[0] = pos[0];
-    lpos[1] = pos[1];
-    lpos[2] = pos[2];
+    sfx.last_position.set(obj._render.trans);
 }
 
 exports.is_speaker = is_speaker;
@@ -1116,10 +1122,10 @@ exports.get_spk_behavior = function(obj) {
 
 function spk_is_active(obj) {
     if (obj._sfx && (obj._sfx.state == SPKSTATE_PLAY ||
-                obj._sfx.state == SPKSTATE_PAUSE || 
+                obj._sfx.state == SPKSTATE_PAUSE ||
                 obj._sfx.state == SPKSTATE_STOP))
         return true;
-    else 
+    else
         return false;
 }
 
@@ -1132,19 +1138,19 @@ function calc_distance_gain(pos, pos_lis, dist_ref, dist_max, atten) {
     var x = pos[0];
     var y = pos[1];
     var z = pos[2];
-    var x0 = pos_lis[0]; 
+    var x0 = pos_lis[0];
     var y0 = pos_lis[1];
     var z0 = pos_lis[2];
 
     var gain;
 
-    var dist = Math.sqrt(Math.pow((x-x0), 2) + 
-                         Math.pow((y-y0), 2) + 
+    var dist = Math.sqrt(Math.pow((x-x0), 2) +
+                         Math.pow((y-y0), 2) +
                          Math.pow((z-z0), 2));
 
-    if (dist < dist_ref) 
+    if (dist < dist_ref)
         gain = 1;
-    else if (dist > dist_max) 
+    else if (dist > dist_max)
         gain = 0.0;
     else
         // inverse distance model (see OpenAl spec)

@@ -11,9 +11,17 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+#: ../lighting.rst:3
+msgid "освещение"
+msgstr "lighting"
+
 #: ../lighting.rst:7
-msgid "Освещение и тени"
-msgstr "Lighting and Shadows"
+msgid "Освещение, тени и фон"
+msgstr "Lighting, Shadows and Background"
+
+#: ../lighting.rst:9
+msgid "источники света"
+msgstr "light sources"
 
 #: ../lighting.rst:12
 msgid "Освещение от источников света"
@@ -416,7 +424,7 @@ msgstr ""
 "Decreases haloing by excluding edges from blurring. The default value is "
 "2.0."
 
-#: ../lighting.rst:170
+#: ../lighting.rst:168
 msgid "*Blur depth diff threshold*"
 msgstr ""
 
@@ -429,12 +437,64 @@ msgstr ""
 "1000. Decreases haloing by excluding edges from blurring. The default value "
 "is 0.1."
 
-#: ../lighting.rst:3
-msgid "освещение"
-msgstr "lighting"
+#: ../lighting.rst:170
+msgid "цвет фона"
+msgstr "background"
 
-#: ../lighting.rst:9
-msgid "источники света"
-msgstr "light sources"
+#: ../lighting.rst:173
+msgid "Цвет фона"
+msgstr "Background"
 
+#: ../lighting.rst:175
+msgid "Цвет фона можно задать несколькими способами:"
+msgstr "You can change the background in the following ways:"
 
+#: ../lighting.rst:177
+msgid ""
+"Поместить сцену внутрь модели (например, куба или сферы) с направленными "
+"внутрь нормалями, с материалом и опциональной текстурой."
+msgstr ""
+"Place the whole scene inside a model (e.g. a cube or a sphere) with its "
+"normals directed inside, with a material and an optional texture."
+
+#: ../lighting.rst:179
+msgid "Использовать :ref:`кубическую текстуру <skydome_texture>`."
+msgstr "Use a :ref:`cube texture <skydome_texture>`."
+
+#: ../lighting.rst:181
+msgid "Настроить динамически генерируемую :ref:`атмосферу <atmosphere>`."
+msgstr "Set up the procedurally generated :ref:`atmosphere <atmosphere>`."
+
+#: ../lighting.rst:183
+msgid ""
+"Установить параметр движка ``background_color``, используя программный метод"
+" ``config.set()``. Установленное значение используется в качестве аргумента "
+"метода WebGL ``clearColor()``. Для получения корректных результатов "
+"рекомендуется отключить прозрачность контекста WebGL (параметр ``alpha``). "
+"Такая конфигурация используется по умолчанию в стандартном веб-плеере "
+"движка."
+msgstr ""
+"Set the engine's ``background_color`` parameter with the ``config.set()`` "
+"method. This value is used as argument for the WebGL ``clearColor()`` "
+"method. For correct results, it's recommended to turn the WebGL context "
+"transparency off (the ``alpha`` parameter). Such the configuration is used "
+"by default in the engine's standard web player."
+
+#: ../lighting.rst:195
+msgid ""
+"В качестве фона можно использовать любой HTML контент, находящийся позади "
+"элемента ``canvas``, который используется для рендеринга. Для это необходимо"
+" активировать прозрачность контекста WebGL (параметр ``alpha``). Для "
+"получения корректных результатов рекомендуется выставить полностью "
+"прозрачный черный цвет фона. Такая конфигурация используется по умолчанию в "
+"стандартном :ref:`просмотрщике сцен <viewer>` SDK движка."
+msgstr ""
+"You can use any HTML content behind the ``canvas`` element, to which the "
+"rendering is performed, as a background. To do this, activate the WebGL "
+"context transparency (the ``alpha`` parameter). For correct results, it's "
+"recommended to set absolutely transparent black background color. Such the "
+"configuration is used by default in the :ref:`scene viewer<viewer>` of Blend4Web SDK."
+
+#: ../lighting.rst:208
+msgid ":ref:`alpha_compositing`"
+msgstr ""

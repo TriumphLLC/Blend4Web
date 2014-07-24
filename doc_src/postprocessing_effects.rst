@@ -152,6 +152,8 @@
 *Maximum Ray Length*
     Фактор длины лучей. Определяет шаг сэмплов радиального размытия. Значение по умолчанию 1.0.
 
+*Steps Per Pass*
+    Количество шагов на один сэмпл. Значение по умолчанию 10.0.
 
 .. image:: src_images/engine_screens/postprocessing_effects/god_rays.jpg
    :alt: Сумеречные лучи

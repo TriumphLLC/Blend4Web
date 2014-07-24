@@ -33,6 +33,21 @@ float spec_wardiso_shading(vec3 ldir, vec3 eye_dir, vec3 normal,
 }
 #endif
 
+#if SPECULAR_SHADER == SPECULAR_TOON
+float spec_toon_shading(vec3 ldir, vec3 eye_dir, vec3 normal, float size, 
+        float tsmooth) {
+    vec3 h = normalize(ldir + eye_dir);
+    float angle = acos(dot(h, normal));
+
+    if (angle < size) 
+        return 1.0;
+    else if (angle >= size + tsmooth || tsmooth == 0.0) 
+        return 0.0;
+    else 
+        return 1.0 - (angle - size) / tsmooth;
+}
+#endif
+
 #if DIFFUSE_SHADER == DIFFUSE_OREN_NAYAR
 void shade_diffuse_oren_nayer(float nl, vec3 n, vec3 l, vec3 e, float rough, inout float is)
 {
@@ -61,7 +76,7 @@ void shade_diffuse_oren_nayer(float nl, vec3 n, vec3 l, vec3 e, float rough, ino
             a = max(Lit_A, View_A);
             b = min(Lit_A, View_A);
             b *= 0.95;
-            
+
             float t = max(dot(Lit_B, View_B), 0.0);
             float B = 0.45 * (sigma_sq / (sigma_sq +  0.09));
             is = is * (A + (B * t * sin(a) * tan(b)));
@@ -86,7 +101,7 @@ void shade_diffuse_fresnel(vec3 n, vec3 l, float fpower, float fblend_fac, out f
 #endif
 
 void process_lamp(inout lighting_result lresult, vec3 D, vec3 S, vec3 pos_world, vec3 normal,
-          vec3 eye_dir, float specular_param, vec2 diffuse_params,
+          vec3 eye_dir, vec2 specular_params, vec2 diffuse_params,
           float shadow_factor, vec3 lpos,
           vec3 ldirect, vec3 lcolint, vec4 lfac1, vec4 lfac2,
           float translucency_color, vec4 translucency_params)
@@ -158,10 +173,13 @@ void process_lamp(inout lighting_result lresult, vec3 D, vec3 S, vec3 pos_world,
     // specular factor
 # if SPECULAR_SHADER == SPECULAR_PHONG || SPECULAR_SHADER == SPECULAR_COOKTORR
     float sfactor = spec_phong_shading(ldir, eye_dir, normal, lfac1,
-                                       specular_param);
+            specular_params[0]);
 # elif SPECULAR_SHADER == SPECULAR_WARDISO
     float sfactor = spec_wardiso_shading(ldir, eye_dir, normal,
-                                         specular_param);
+            specular_params[0]);
+# elif SPECULAR_SHADER == SPECULAR_TOON
+    float sfactor = spec_toon_shading(ldir, eye_dir, normal,
+            specular_params[0], specular_params[1]);
 # else
     float sfactor = 0.0;
 # endif
@@ -207,7 +225,7 @@ lighting_result lighting(
               vec3 pos_world, 
               vec3 normal,
               vec3 eye_dir,
-              float specular_param,
+              vec2 specular_params,
               vec2 diffuse_params,
               float shadow_factor,
               vec3 light_positions[NUM_LIGHTS],
@@ -228,7 +246,7 @@ lighting_result lighting(
 # if UNROLL_LOOPS
 # if NUM_LIGHTS > 0
     process_lamp(lresult, D, S, pos_world, normal,
-          eye_dir, specular_param, diffuse_params,
+          eye_dir, specular_params, diffuse_params,
           shadow_factor, light_positions[0],
           light_directions[0], light_color_intensities[0],
           light_factors1[0], light_factors2[0],
@@ -236,7 +254,7 @@ lighting_result lighting(
 #endif
 # if NUM_LIGHTS > 1
     process_lamp(lresult, D, S, pos_world, normal,
-          eye_dir, specular_param, diffuse_params,
+          eye_dir, specular_params, diffuse_params,
           shadow_factor, light_positions[1],
           light_directions[1], light_color_intensities[1],
           light_factors1[1], light_factors2[1],
@@ -244,7 +262,7 @@ lighting_result lighting(
 # endif
 # if NUM_LIGHTS > 2
     process_lamp(lresult, D, S, pos_world, normal,
-          eye_dir, specular_param, diffuse_params,
+          eye_dir, specular_params, diffuse_params,
           shadow_factor, light_positions[2],
           light_directions[2], light_color_intensities[2],
           light_factors1[2], light_factors2[2],
@@ -252,7 +270,7 @@ lighting_result lighting(
 # endif
 # if NUM_LIGHTS > 3
     process_lamp(lresult, D, S, pos_world, normal,
-          eye_dir, specular_param, diffuse_params,
+          eye_dir, specular_params, diffuse_params,
           shadow_factor, light_positions[3],
           light_directions[3], light_color_intensities[3],
           light_factors1[3], light_factors2[3],
@@ -283,7 +301,7 @@ lighting_result lighting(
 
         // 0.0 - full shadow, 1.0 - no shadow
         lcolorint *= shadow_factor;
-    
+
         // experiments with removing self-shadow artefacts
         //if (lfactor > 0.0 && lfactor < 0.2)
         //    color = vec3(1.0, 0.0, 0.0);
@@ -293,7 +311,7 @@ lighting_result lighting(
         if (lampdist != -1.0) { // point and spot
 
             ldir = light_positions[i] - pos_world;
-            
+
             // calc attenuation, falloff_type = "INVERSE_SQUARE"
             float dist = length(ldir);
             lcolorint *= lampdist / (lampdist + dist * dist);
@@ -330,10 +348,13 @@ lighting_result lighting(
         // specular factor
 #if SPECULAR_SHADER == SPECULAR_PHONG || SPECULAR_SHADER == SPECULAR_COOKTORR
         float sfactor = spec_phong_shading(ldir, eye_dir, normal, lfac1,
-                                           specular_param);
+                specular_params[0]);
 #elif SPECULAR_SHADER == SPECULAR_WARDISO
         float sfactor = spec_wardiso_shading(ldir, eye_dir, normal,
-                                             specular_param);
+                specular_params[0]);
+#elif SPECULAR_SHADER == SPECULAR_TOON
+        float sfactor = spec_toon_shading(ldir, eye_dir, normal,
+                specular_params[0], specular_params[1]);
 #else
         float sfactor = 0.0; 
 #endif

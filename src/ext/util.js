@@ -218,4 +218,6 @@ exports["random_from_array"] = util.random_from_array;
 
 exports["xz_direction"] = util.xz_direction;
 
+exports["line_plane_intersect"] = util.line_plane_intersect;
+
 }

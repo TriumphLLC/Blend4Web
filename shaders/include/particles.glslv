@@ -1,91 +1,83 @@
-#export size_from_ramp color_from_ramp
-#export fade_alpha
+#import u_p_time u_p_starttime u_p_cyclic u_p_endtime
+#import u_p_nfactor u_p_gravity u_p_mass u_p_wind u_p_max_lifetime
+#import u_p_size_ramp u_p_fade_in u_p_fade_out u_p_color_ramp
+#import a_position a_normal a_p_vels a_p_delay a_p_lifetime
 
-#define RAMPSIZE 4
+#export fade_alpha calc_part_params part_params
 
-float size_from_ramp(float t, float lifetime, vec2 ramp[RAMPSIZE]) {
+#var EPSILON 0.0001
 
-    /* empty ramp */
-    if (ramp[0][0] < 0.0)
-        return 1.0;
+struct part_params {
+    float size;
+    vec3 position;
+    float alpha;
+    vec3 color;
+    float angle;
+};
 
-    float where = t/lifetime;
-
-    bool found = false;
-    float l_pos = 0.0;
-    float l_val = ramp[0][1];
-    float r_pos = 1.0;
-    float r_val = 1.0;
-
-    for (int i = 0; i < RAMPSIZE; i++) {
-        if (!found) {
-            if (ramp[i][0] >= 0.0) {
-
-                if (where >= l_pos && where < ramp[i][0]) {
-                    //here
-                    r_pos = ramp[i][0];
-                    r_val = ramp[i][1];
-                    found = true;
-                } else if (where < l_pos || where >= ramp[i][0]) {
-                    l_pos = ramp[i][0];
-                    l_val = ramp[i][1];
-                }
-            } else if (ramp[i][0] < 0.0) {
-                r_val = l_val;
-                found = true;
-            }
-        }
-    }
-    // for RAMPSIZE+1 interval
-    if (!found)
-        r_val = l_val;
-
-    float k = (r_val - l_val)/(r_pos - l_pos);
-    return l_val + k * (where - l_pos);
-
+void process_size_ramp(inout float size, float where, vec2 left, vec2 right) {
+    float gap_size = right.x - left.x;
+    float mix_factor = (where - left.x) / gap_size;
+    size = mix(size, right.y, clamp(mix_factor, 0.0, 1.0));
 }
 
-vec3 color_from_ramp(float t, float lifetime, vec4 ramp[RAMPSIZE]) {
+void process_color_ramp(inout vec3 color, float where, vec4 left, vec4 right) {
+    float gap_size = right.x - left.x;
+    float mix_factor = (where - left.x) / gap_size;
+    color = mix(color, right.yzw, clamp(mix_factor, 0.0, 1.0));
+}
 
-    /* empty ramp */
-    if (ramp[0][0] < 0.0)
-        return vec3(1.0, 1.0, 1.0);
+#if SIZE_RAMP_LENGTH > 0
+float size_from_ramp(float t, float lifetime, vec2 ramp[SIZE_RAMP_LENGTH]) {
 
     float where = t/lifetime;
+    float size = ramp[0].y;
 
-    bool found = false;
-    float l_pos = 0.0;
-    vec3 l_val = ramp[0].yzw;
-    float r_pos = 1.0;
-    vec3 r_val = vec3(1.0, 1.0, 1.0);
+# if UNROLL_LOOPS
+#  if SIZE_RAMP_LENGTH > 1
+        process_size_ramp(size, where, ramp[0], ramp[1]);
+#  endif
+#  if SIZE_RAMP_LENGTH > 2
+        process_size_ramp(size, where, ramp[1], ramp[2]);
+#  endif
+#  if SIZE_RAMP_LENGTH > 3
+        process_size_ramp(size, where, ramp[2], ramp[3]);
+#  endif
 
-    for (int i = 0; i < RAMPSIZE; i++) {
-        if (!found) {
-            if (ramp[i][0] >= 0.0) {
+# else // UNROLL LOOPS
+    for (int i = 1; i < SIZE_RAMP_LENGTH; i++)
+        process_size_ramp(size, where, ramp[i-1], ramp[i]);
+# endif
 
-                if (where >= l_pos && where < ramp[i][0]) {
-                    //here
-                    r_pos = ramp[i][0];
-                    r_val = ramp[i].yzw;
-                    found = true;
-                } else if (where < l_pos || where >= ramp[i][0]) {
-                    l_pos = ramp[i][0];
-                    l_val = ramp[i].yzw;
-                }
-            } else if (ramp[i][0] < 0.0) {
-                r_val = l_val;
-                found = true;
-            }
-        }
-    }
-    // for RAMPSIZE+1 interval
-    if (!found)
-        r_val = l_val;
-
-    vec3 k = (r_val - l_val)/(r_pos - l_pos);
-    return l_val + k * (where - l_pos);
-
+    return size;
 }
+#endif
+
+#if COLOR_RAMP_LENGTH > 0
+vec3 color_from_ramp(float t, float lifetime, vec4 ramp[COLOR_RAMP_LENGTH]) {
+
+    float where = t/lifetime;
+    vec3 color = ramp[0].yzw;
+
+# if UNROLL_LOOPS
+#  if COLOR_RAMP_LENGTH > 1
+        process_color_ramp(color, where, ramp[0], ramp[1]);
+#  endif
+#  if COLOR_RAMP_LENGTH > 2
+        process_color_ramp(color, where, ramp[1], ramp[2]);
+#  endif
+#  if COLOR_RAMP_LENGTH > 3
+        process_color_ramp(color, where, ramp[2], ramp[3]);
+#  endif
+
+# else // UNROLL LOOPS
+    for (int i = 1; i < COLOR_RAMP_LENGTH; i++)
+        process_color_ramp(color, where, ramp[i-1], ramp[i]);
+# endif
+
+    return color;
+}
+#endif
 
 /* 
  * Calculate alpha according to fade-in and fade-out intervals
@@ -102,4 +94,62 @@ float fade_alpha(float t, float lifetime, float fade_in, float fade_out) {
     return alpha;
 }
 
+part_params calc_part_params(void) {
 
+    float t_common = u_p_time - u_p_starttime;
+    part_params sp;
+
+    if (t_common < 0.0) {
+        sp.size = 0.0001;
+        sp.position = vec3(99999.0, 0.0, 0.0);
+    }
+    //} else {
+    if (!(t_common < 0.0)) {
+
+        float t;
+        if (u_p_cyclic == 1) {
+            float delta = u_p_endtime - u_p_starttime;
+            t = mod(t_common, delta) - a_p_delay;
+            if (t < 0.0)
+                t += delta;
+        }
+        //} else {
+        if (u_p_cyclic != 1) {
+            t = t_common - a_p_delay;
+        }
+
+        if (t < 0.0 || t >= a_p_lifetime) {
+            sp.size = 0.0001;
+            sp.position = vec3(99999.0, 0.0, 0.0);
+        }
+        //} else {
+        if (!(t < 0.0 || t >= a_p_lifetime)) {
+            /* position */
+            vec3 pos = a_position;
+            vec3 norm = a_normal;
+
+            /* cinematics */
+            pos += u_p_nfactor * t * norm;
+            pos += a_p_vels.xyz * t;
+            pos.y -= u_p_gravity * t * t / 2.0;
+            float mass = max(u_p_mass, EPSILON);
+            pos += (u_p_wind/mass) * t * t /2.0;
+            sp.position = pos;
+
+            sp.angle = a_p_vels.w * t;
+
+#if SIZE_RAMP_LENGTH > 0
+            sp.size = size_from_ramp(t, u_p_max_lifetime, u_p_size_ramp);
+#else
+            sp.size = 1.0;
+#endif
+#if COLOR_RAMP_LENGTH > 0
+            sp.color = color_from_ramp(t, u_p_max_lifetime, u_p_color_ramp);
+#else
+            sp.color = vec3(1.0);
+#endif
+            sp.alpha = fade_alpha(t, a_p_lifetime, u_p_fade_in, u_p_fade_out);
+        }
+    }
+    return sp;
+}

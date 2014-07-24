@@ -65,7 +65,7 @@ function load() {
     m_data.load("game_example.json", load_cb);
 }
 
-function load_cb(root) {
+function load_cb(data_id) {
     _character = m_scs.get_first_character();
     _character_body = m_scs.get_object_by_empty_name("character",
                                                          "character_body");
@@ -274,7 +274,7 @@ function setup_control_events(right_arrow, up_arrow,
 
             var r = Math.sqrt(d_x * d_x + d_y * d_y);
 
-            if (r < 16) // don't move if control is to close too the center
+            if (r < 16) // don't move if control is too close to the center
                 break;
 
             var cos = d_x / r;

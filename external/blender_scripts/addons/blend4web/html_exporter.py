@@ -126,6 +126,7 @@ class B4W_HTMLExportProcessor(bpy.types.Operator):
                     f.close()
 
             data = json.dumps(extract_data(json_path, json_name))
+
             insertions = dict(scripts=scripts, built_in_data=data,
                               styles=styles,
                               b4w_meta=("<meta name='b4w_export_path_html' content='"
@@ -208,9 +209,22 @@ def extract_data(json_path, json_filename):
     if "sounds" in json_parsed:
         for i in range(len(json_parsed["sounds"])):
             snd = json_parsed["sounds"][i]
-            data[snd["filepath"]] = get_encoded_resource_data(snd["filepath"], 
+            data[snd["filepath"]] = get_encoded_resource_data(snd["filepath"],
                     json_path)
+
+    get_smaa_textures(data, json_path);
+
     return data
+
+def get_smaa_textures(data, json_path):
+    b4w_src_path = B4W_HTMLExportProcessor.get_b4w_src_path()
+    smaa_area_tex_path = os.path.join(b4w_src_path, "smaa_area_texture.png")
+    smaa_search_tex_path = os.path.join(b4w_src_path, "smaa_search_texture.png")
+
+    data["smaa_area_texture.png"] = \
+            get_encoded_resource_data(smaa_area_tex_path, json_path)
+    data["smaa_search_texture.png"] = \
+            get_encoded_resource_data(smaa_search_tex_path, json_path)
 
 def get_encoded_resource_data(path, json_path):
     bindata = None

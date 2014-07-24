@@ -61,7 +61,6 @@ var _mat4_tmp = new Float32Array(16);
 
 // populated after init_anim()
 var _anim_objs_cache = [];
-
 var _actions = [];
 
 exports.frame_to_sec = function(frame) {
@@ -75,6 +74,20 @@ exports.update = function(elapsed) {
     for (var i = 0; i < _anim_objs_cache.length; i++) {
         var obj = _anim_objs_cache[i];
         animate(obj, elapsed);
+    }
+
+    // exec finish callbacks after animation updates to eliminate
+    // possible race conditions
+    for (var i = 0; i < _anim_objs_cache.length; i++) {
+        var obj = _anim_objs_cache[i];
+        handle_finish_callback(obj);
+    }
+}
+
+function handle_finish_callback(obj) {
+    if (obj._anim.finish_callback && obj._anim.exec_finish_callback) {
+        obj._anim.exec_finish_callback = false;
+        obj._anim.finish_callback(obj);
     }
 }
 
@@ -111,17 +124,20 @@ function apply_vertex_anim(obj, va) {
 
 function init_anim(obj) {
 
-    obj._anim = {};
-    obj._anim.play = false;
-    obj._anim.behavior = AB_FINISH_RESET;
+    obj._anim = {
+        play: false,
+        behavior: AB_FINISH_RESET,
 
-    // cff = 0-length
-    obj._anim.current_frame_float = 0;
-    obj._anim.start = 0;
-    obj._anim.length = 0;
+        // cff = 0-length
+        current_frame_float: 0,
+        start: 0,
+        length: 0,
 
-    obj._anim.trans_smooth_period = 0;
-    obj._anim.quat_smooth_period = 0;
+        trans_smooth_period: 0,
+        quat_smooth_period: 0,
+
+        exec_finish_callback: false
+    };
 
     obj._action_anim_cache = obj._action_anim_cache || [];
 }
@@ -175,7 +191,6 @@ exports.apply_def = apply_def;
  * Search for possible object animations init and apply found one.
  */
 function apply_def(obj) {
-
     var action = get_default_action(obj);
 
     if (action) {
@@ -251,16 +266,12 @@ function get_first_armature_object(obj) {
 }
 
 
-exports.play = play;
 /**
  * Start to play preset animation 
  * offset in seconds
  */
-function play(obj, finish_callback, offset) {
+exports.play = function(obj, finish_callback, offset) {
     if (obj._anim) {
-
-        if (obj._anim.play)
-            stop(obj);
 
         if (offset)
             obj._anim.current_frame_float += cfg_ani.framerate * offset;
@@ -271,17 +282,19 @@ function play(obj, finish_callback, offset) {
             obj._anim.finish_callback = finish_callback;
         else
             obj._anim.finish_callback = null;
+
+        obj._anim.exec_finish_callback = false;
     }
 }
 
-exports.stop = stop;
 /**
  * Stop object animation 
  */
-function stop(obj) {
+exports.stop = function(obj) {
     if (obj._anim) {
         obj._anim.play = false;
-        delete obj._anim.finish_callback;
+        obj._anim.finish_callback = null;
+        obj._anim.exec_finish_callback = false;
     }
 }
 
@@ -341,7 +354,9 @@ exports.apply_smoothing = function(obj, trans_period, quat_period) {
 exports.update_object_animation = function(obj, elapsed) {
     if (!elapsed)
         var elapsed = 0;
+
     animate(obj, elapsed);
+    handle_finish_callback(obj);
 }
 
 /**
@@ -497,7 +512,7 @@ function find_armature_constraint(constraints, type) {
         var cons = constraints[i];
 
         if (cons["type"] == type) {
-            
+
             var target = cons["target"];
 
             if (target && target["type"] == "ARMATURE")
@@ -569,25 +584,22 @@ function animate(obj, elapsed) {
     var start = obj._anim.start;
     var length = obj._anim.length;
 
-    var finish_callback;
-
     cff += elapsed * cfg_ani.framerate;
 
     if (cff >= start + length) {
+        obj._anim.exec_finish_callback = true;
 
-        finish_callback = obj._anim.finish_callback;
-
-        switch(obj._anim.behavior) {
+        switch (obj._anim.behavior) {
         case AB_CYCLIC:
             cff = ((cff-start) % length) + start;
             break;
         case AB_FINISH_RESET:
             cff = start;
-            stop(obj);
+            obj._anim.play = false;
             break;
         case AB_FINISH_STOP:
             cff = start + length - 0.000001;
-            stop(obj);
+            obj._anim.play = false;
             break;
         }
     }
@@ -681,10 +693,6 @@ function animate(obj, elapsed) {
         throw("Unknown animation type:" + anim_type);
         break;
     }
-    
-    if (finish_callback)
-        finish_callback(obj);
-    
 }
 
 /**
@@ -698,7 +706,7 @@ function action_anim_finfo(obj_anim, cff, dest) {
     var action_end = obj_anim.action_frame_range[1];
 
     var range = action_end - action_start;
-    
+
     // index in fcurve' pierced points array
     var index_float = cff - action_start;
 
@@ -1052,7 +1060,7 @@ function get_transform_from_group(channels, pierced_index, action_name) {
     var storage;
 
     var bflag = 0;
-    
+
     // for every fcurve of the group
     for (var i = 0; i < channels.length; i++) {
         var fcurve = channels[i];
@@ -1088,7 +1096,7 @@ function get_transform_from_group(channels, pierced_index, action_name) {
 
     // pack scale to translation
     tran = [tran[0], tran[1], tran[2], scal];
-    
+
     // convert quaternion: (w, x, y, z) -> (x, y, z, w) to use in shader
     quat = [quat[1], quat[2], quat[3], quat[0]];
     m_quat.normalize(quat, quat);
@@ -1439,6 +1447,7 @@ function do_after_apply(obj) {
 }
 
 exports.apply = function(obj, name) {
+
     if (m_util.is_mesh(obj)) {
         var vertex_anim = m_util.keysearch("name", name,
                 obj["data"]["b4w_vertex_anim"]);
@@ -1465,10 +1474,16 @@ exports.apply = function(obj, name) {
 exports.remove = function(obj) {
     obj._anim = null;
     var ind = _anim_objs_cache.indexOf(obj);
-    if (ind)
+    if (ind != -1)
         _anim_objs_cache.splice(ind, 1);
     else
         m_print.error("Object ", obj.name, " doesn't have animation");
+}
+
+exports.remove_actions = function(data_id) {
+    for (var i = _actions.length - 1; i >= 0; i--)
+        if (_actions[i]._data_id == data_id)
+            _actions.splice(i, 1);
 }
 
 exports.cleanup = function() {

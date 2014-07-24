@@ -352,6 +352,13 @@ exports["create_elapsed_sensor"] = m_ctl.create_elapsed_sensor;
  */
 exports["create_timeline_sensor"] = m_ctl.create_timeline_sensor;
 
+/**
+ * Create an object selection sensor.
+ * The sensor's value become 1 for sensor on selected object, 0 for others
+ * @method module:controls.create_selection_sensor
+ * @returns {Object} Sensor object
+ */
+exports["create_selection_sensor"] = m_ctl.create_selection_sensor;
 
 /**
  * Set the value of the custom sensor.

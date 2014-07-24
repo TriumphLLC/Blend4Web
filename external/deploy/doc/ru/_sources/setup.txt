@@ -53,6 +53,8 @@
 .. note::
     Рекомендуется использовать такой браузер только для просмотра локального контента, поскольку изменение настроек может привести к понижению безопасности.
 
+|
+
 *Chrome на Windows*:
 
 Правой кнопкой мыши нажать на ярлыке на рабочем столе, выбрать ``Свойства`` (``Properties``), после чего в поле для пути к исполняемому файлу добавить после пробела ``--allow-file-access-from-files``. Нажать ``ОК``.
@@ -68,6 +70,16 @@
 
 Для удобства можно предварительно создать копию ярлыка и изменить ее для локального просмотра, оставив оригинальную версию ярлыка для запуска браузера в обычном режиме.
 
+|
+
+*Chrome на OS X*:
+
+Открыть Терминал и запустить браузер с параметром::
+
+    > /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --allow-file-access-from-files
+
+|
+
 *Chrome/Chromium на Linux*:
 
 Запустить браузер с параметром::
@@ -79,7 +91,9 @@
     
     > chromium-browser --allow-file-access-from-files
 
-*Firefox на Windows/Linux*:
+|
+
+*Firefox на Windows/Linux/OS X*:
 
 Ввести **about:config** в адресную строку браузера, найти параметр ``security.fileuri.strict_origin_policy`` и переключить его двойным щелчком мыши из ``true`` в ``false``. 
 
@@ -92,10 +106,16 @@
 
 |
 
+*Safari/OS X*:
 
+Включить в настройках отображение меню "Develop", затем активировать опцию "Disable Local File Restrictions".
 
+.. image:: src_images/safari_setup.png
+   :alt: Настройка Safari для загрузки локальных ресурсов
+   :align: center
+   :width: 100%
 
-
+|
 
 
 .. index:: просмотрщик; запуск

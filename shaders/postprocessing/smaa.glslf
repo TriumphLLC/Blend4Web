@@ -28,6 +28,7 @@
   
 #include <precision_statement.glslf>
 #include <gamma.glslf>
+#include <pack.glslf>
 
 #define SMAA_RESOLVE 1
 #define SMAA_EDGE_DETECTION 2
@@ -1019,7 +1020,7 @@ vec2 smaa_area(sampler2D area_tex, vec2 dist, float e1, float e2, float offset) 
 
 void detect_horizontal_corner_pattern(sampler2D edges_tex, inout vec2 weights,
                                       vec4 texcoord, vec2 d) {
-    #if !SMAA_DISABLE_CORNER_DETECTION
+# if !SMAA_DISABLE_CORNER_DETECTION
     vec2 leftRight = step(d.xy, d.yx);
     vec2 flooring = (1.0 - SMAA_CORNER_ROUNDING_NORM) * leftRight;
 
@@ -1032,12 +1033,12 @@ void detect_horizontal_corner_pattern(sampler2D edges_tex, inout vec2 weights,
     factor.y -= flooring.y * texture2D(edges_tex, texcoord.zw + u_texel_size * vec2(1, -2), 0.0).r;
 
     weights *= clamp(factor, 0.0, 1.0);
-    #endif
+# endif
 }
 
 void detect_vertical_corner_pattern(sampler2D edges_tex, inout vec2 weights,
                                     vec4 texcoord, vec2 d) {
-    #if !SMAA_DISABLE_CORNER_DETECTION
+# if !SMAA_DISABLE_CORNER_DETECTION
     vec2 leftRight = step(d.xy, d.yx);
     vec2 flooring = (1.0 - SMAA_CORNER_ROUNDING_NORM) * leftRight;
 
@@ -1050,7 +1051,7 @@ void detect_vertical_corner_pattern(sampler2D edges_tex, inout vec2 weights,
     factor.y -= flooring.y * texture2D(edges_tex, texcoord.zw + u_texel_size * vec2(-2, 1), 0.0).g;
 
     weights *= clamp(factor, 0.0, 1.0);
-    #endif
+# endif
 }
 
 //-----------------------------------------------------------------------------
@@ -1069,7 +1070,7 @@ vec4 blending_weight_calculation(vec2 texcoord,
     vec2 e = texture2D(edges_tex, texcoord).rg;
 
     if (e.g > 0.0) { // Edge at north
-        #if !SMAA_DISABLE_DIAG_DETECTION
+# if !SMAA_DISABLE_DIAG_DETECTION
         // Diagonals have both north and west edges, so searching for them in
         // one of the boundaries is enough.
         weights.rg = smaa_calculate_diag_weights(edges_tex, area_tex, texcoord,
@@ -1078,7 +1079,7 @@ vec4 blending_weight_calculation(vec2 texcoord,
         // We give priority to diagonals, so if we find a diagonal we skip
         // horizontal/vertical processing.
         if (weights.r == -weights.g) { // weights.r + weights.g == 0.0
-        #endif
+# endif
 
         vec2 d;
 
@@ -1117,10 +1118,10 @@ vec4 blending_weight_calculation(vec2 texcoord,
         coords.y = texcoord.y;
         detect_horizontal_corner_pattern(edges_tex, weights.rg, coords.xyzy, d);
 
-        #if !SMAA_DISABLE_DIAG_DETECTION
+# if !SMAA_DISABLE_DIAG_DETECTION
         } else
             e.r = 0.0; // Skip vertical processing.
-        #endif
+# endif
     }
 
     if (e.r > 0.0) { // Edge at west
@@ -1181,13 +1182,13 @@ vec4 neighborhood_blending(vec2 texcoord,
     if (dot(a, vec4(1.0, 1.0, 1.0, 1.0)) < 1e-5) {
         vec4 color = texture2D(color_tex, texcoord, 0.0);
 
-        #if SMAA_REPROJECTION
-        vec2 velocity = 2.0 * texture2D(velocity_tex, texcoord).rg - 1.0;
+# if SMAA_REPROJECTION
+        vec4 vel_tex = texture2D(velocity_tex, v_texcoord);
+        vec2 velocity = 2.0 * unpack_vec2(vel_tex) - 1.0;
 
         // Pack velocity into the alpha channel:
-        if (color.a != 0.0)
-            color.a = sqrt(5.0 * length(velocity));
-        #endif
+        color.a = sqrt(2.0 * length(velocity));
+# endif
 
         return color;
     } else {
@@ -1208,15 +1209,19 @@ vec4 neighborhood_blending(vec2 texcoord,
         vec4 color = blending_weight.x * texture2D(color_tex, blending_coord.xy, 0.0);
         color += blending_weight.y * texture2D(color_tex, blending_coord.zw, 0.0);
 
-        #if SMAA_REPROJECTION
+# if SMAA_REPROJECTION
         // Antialias velocity for proper reprojection in a later stage:
-        vec2 velocity = blending_weight.x * (2.0 * texture2D(velocity_tex, blending_coord.xy, 0.0).rg - 1.0);
-        velocity += blending_weight.y * (2.0 * texture2D(velocity_tex, blending_coord.zw, 0.0).rg - 1.0);
+        vec4 vel_tex = texture2D(velocity_tex, blending_coord.xy);
+        vec2 velocity_add = 2.0 * unpack_vec2(vel_tex) - 1.0;
+        vec2 velocity = blending_weight.x * velocity_add;
+
+        vel_tex = texture2D(velocity_tex, blending_coord.zw);
+        velocity_add = 2.0 * unpack_vec2(vel_tex) - 1.0;
+        velocity += blending_weight.y * velocity_add;
 
         // Pack velocity into the alpha channel:
-        if (color.a != 0.0)
-            color.a = sqrt(5.0 * length(velocity));
-        #endif
+        color.a = sqrt(2.0 * length(velocity));
+# endif
 
         return color;
     }
@@ -1234,29 +1239,32 @@ vec4 resolve(vec2 texcoord,
              , sampler2D velocity_tex
              #endif
              ) {
-    #if SMAA_REPROJECTION
-    //vec2 velocity = 2.0 * texture2D(velocity_tex, texcoord).rg - 1.0;
+# if SMAA_REPROJECTION
+    vec4 vel_tex = texture2D(velocity_tex, v_texcoord);
+
+    vec2 velocity;
+    velocity = 2.0 * unpack_vec2(vel_tex) - 1.0;
 
     // Fetch current pixel:
     vec4 current = texture2D(current_color_tex, texcoord);
 
     // Reproject current coordinates and fetch previous pixel:
-    vec4 previous = texture2D(previous_color_tex, texcoord);
+    vec4 previous = texture2D(previous_color_tex, texcoord - velocity);
 
     // Attenuate the previous pixel if the velocity is different:
-    float delta = abs(current.a * current.a - previous.a * previous.a) / 5.0;
+    float delta = abs(current.a * current.a - previous.a * previous.a) / 2.0;
     float weight = 0.5 * clamp(1.0 - sqrt(delta) * SMAA_REPROJECTION_WEIGHT_SCALE, 0.0, 1.0);
 
     // Blend the pixels according to the calculated weight:
     vec4 color = mix(current, previous, weight);
     color.a = 1.0;
     return color;
-    #else
+# else
     // Just blend the pixels:
     vec4 current = texture2D(current_color_tex, texcoord);
     vec4 previous = texture2D(previous_color_tex, texcoord);
     return mix(current, previous, 0.5);
-    #endif
+# endif
 }
 #endif
 
@@ -1271,7 +1279,7 @@ void main(void) {
 #elif SMAA_PASS == SMAA_BLENDING_WEIGHT_CALCULATION
     vec4 color = blending_weight_calculation(v_texcoord, v_pixcoord,
                                              u_color, u_area_tex,
-                                             u_search_tex, vec4(0.0));
+                                             u_search_tex, u_subsample_indices);
 
 #elif SMAA_PASS == SMAA_NEIGHBORHOOD_BLENDING
     vec4 color = neighborhood_blending(v_texcoord, u_color, u_blend

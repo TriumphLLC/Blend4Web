@@ -48,54 +48,52 @@ vertex grass_vertex(vec3 position, vec3 tangent, vec3 binormal, vec3 normal,
     float grass_edge_length = grass_size / 2.0;
     vec2 pos_from_map_center = abs(uv_to_pos(cen_uv - vec2(0.5), grass_size, vec2(0.0)));
     float max_radius = grass_edge_length * (1.0 + sqrt(2.0)) / 2.0;
+
     if (length(pos_from_map_center) > max_radius)
         return infinity_vertex();
-    // NOTE: Windows 7/Chrome 35/DX11 bug: "else" keyword required
-    else {
-        // for map sampling scale uv coords according to BATCH/MAP size ratio
-        float map_size_mult = grass_size / grass_map_dim.z;
-        vec2 cen_uv_scaled = (cen_uv - vec2(0.5)) * map_size_mult + vec2(0.5);
-        vec3 grass_map_trans = cam_view * (grass_size / grass_map_dim.z - 1.0) / 2.0;
-        cen_uv_scaled.x += grass_map_trans.x;
-        cen_uv_scaled.y -= grass_map_trans.z;
 
-        // remove short grass
-        vec4 scale_color = texture2D(grass_map_color, cen_uv_scaled);
-        float scale = scale_color.r;
-        if (scale < u_scale_threshold)
-            return infinity_vertex();
-        // NOTE: Windows 7/Chrome 35/DX11 bug: "else" keyword required
-        else {
-            // (DELTA = (HIGH - LOW)) > 0
-            float height_delta = grass_map_dim.y - grass_map_dim.x;
-            // in world space: HIGH - MAP * DELTA
-            float height = grass_map_dim.y - texture2D(grass_map_depth, cen_uv_scaled).r *
-                    height_delta;
+    // for map sampling scale uv coords according to BATCH/MAP size ratio
+    float map_size_mult = grass_size / grass_map_dim.z;
+    vec2 cen_uv_scaled = (cen_uv - vec2(0.5)) * map_size_mult + vec2(0.5);
+    vec3 grass_map_trans = cam_view * (grass_size / grass_map_dim.z - 1.0) / 2.0;
+    cen_uv_scaled.x += grass_map_trans.x;
+    cen_uv_scaled.y -= grass_map_trans.z;
 
-            // calculate new center and position
-            vec2 pos_cen_delta = position.xz - center.xz;
-            center.xz = uv_to_pos(cen_uv, grass_size, base_point);
-            center.y = height;
+    // remove short grass
+    vec4 scale_color = texture2D(grass_map_color, cen_uv_scaled);
+    float scale = scale_color.r;
 
-            position.xz = center.xz + pos_cen_delta;
-            // scale only grass height for now
-            position.y *= scale;
-            position.y += height;
+    if (scale < u_scale_threshold)
+        return infinity_vertex();
 
-            vec3 color = scale_color.gba;
+    // (DELTA = (HIGH - LOW)) > 0
+    float height_delta = grass_map_dim.y - grass_map_dim.x;
+    // in world space: HIGH - MAP * DELTA
+    float height = grass_map_dim.y - texture2D(grass_map_depth, cen_uv_scaled).r *
+            height_delta;
+
+    // calculate new center and position
+    vec2 pos_cen_delta = position.xz - center.xz;
+    center.xz = uv_to_pos(cen_uv, grass_size, base_point);
+    center.y = height;
+
+    position.xz = center.xz + pos_cen_delta;
+    // scale only grass height for now
+    position.y *= scale;
+    position.y += height;
+
+    vec3 color = scale_color.gba;
 # if HAIR_BILLBOARD
-            // NOTE: position in local space: position - center
-            position -= center;
-            mat4 bill_matrix = billboard_matrix(camera_eye, center, view_matrix);
-            vertex world = to_world(position, center, tangent, binormal, normal, bill_matrix);
-            world.center = center;
-            world.color = color;
-            return tbn_norm(world);        
+    // NOTE: position in local space: position - center
+    position -= center;
+    mat4 bill_matrix = billboard_matrix(camera_eye, center, view_matrix);
+    vertex world = to_world(position, center, tangent, binormal, normal, bill_matrix);
+    world.center = center;
+    world.color = color;
+    return tbn_norm(world);
 # else
-            return tbn_norm(vertex(position, center, tangent, binormal, normal, color));
+    return tbn_norm(vertex(position, center, tangent, binormal, normal, color));
 # endif
-        }
-    }
 }
 
 #endif

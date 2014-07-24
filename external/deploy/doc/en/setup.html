@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Development Environment Setup &mdash; User Manual: Blend4Web v14.06</title>
+    <title>Development Environment Setup &mdash; User Manual: Blend4Web v14.07</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.06',
+        VERSION:     '14.07',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User Manual: Blend4Web v14.06" href="index.html" />
+    <link rel="top" title="User Manual: Blend4Web v14.07" href="index.html" />
     <link rel="next" title="Workflow" href="workflow.html" />
     <link rel="prev" title="Quick Install" href="first_steps.html" /> 
   </head>
@@ -36,7 +36,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">User Manual: Blend4Web v14.06</a></div>
+          href="index.html">User Manual: Blend4Web v14.07</a></div>
         <div class="rel">
           <a href="first_steps.html" title="Quick Install"
              accesskey="P">previous</a> |
@@ -80,7 +80,10 @@
 <p class="first admonition-title">Note</p>
 <p class="last">It is recommended to use such browser only for viewing local content because changing the default settings can damage security.</p>
 </div>
-<p><em>Chrome under MS Windows</em>:</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p><em>Chrome under Windows</em>:</p>
 <p>Right click on the browser shortcut, select the <tt class="docutils literal"><span class="pre">Properties</span></tt> option and add the <tt class="docutils literal"><span class="pre">--allow-file-access-from-files</span></tt> option to the executable filepath (after the space symbol). Click <tt class="docutils literal"><span class="pre">ОК</span></tt>.</p>
 <div class="line-block">
 <div class="line"><br /></div>
@@ -90,6 +93,17 @@
 <div class="line"><br /></div>
 </div>
 <p>For convenience create a copy of the shortcut and modify it for local viewing while leaving the original shortcut untouched for normal surfing.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p><em>Chrome under OS X</em>:</p>
+<p>Open Terminal and run the browser with the following parameter:</p>
+<div class="highlight-python"><div class="highlight"><pre>&gt; /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --allow-file-access-from-files
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
 <p><em>Chrome/Chromium under Linux</em>:</p>
 <p>Run the browser with the parameter:</p>
 <div class="highlight-python"><div class="highlight"><pre>&gt; google-chrome --allow-file-access-from-files
@@ -99,12 +113,21 @@
 <div class="highlight-python"><div class="highlight"><pre>&gt; chromium-browser --allow-file-access-from-files
 </pre></div>
 </div>
-<p><em>Firefox under MS Windows/Linux</em>:</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p><em>Firefox under Windows/Linux/OS X</em>:</p>
 <p>Enter <strong>about:config</strong> to the browser&#8217;s address bar, search for the <tt class="docutils literal"><span class="pre">security.fileuri.strict_origin_policy</span></tt> parameter and double-click on it to switch from <tt class="docutils literal"><span class="pre">true</span></tt> to <tt class="docutils literal"><span class="pre">false</span></tt>.</p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <a class="reference internal image-reference" href="_images/firefox_strict_origin.jpg"><img alt="Настройка Firefox для загрузки локальных ресурсов" class="align-center" src="_images/firefox_strict_origin.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p><em>Safari/OS X</em>:</p>
+<p>Enable the &#8220;Develop&#8221; menu in Preferences, and activate the  &#8220;Disable Local File Restrictions&#8221; option.</p>
+<a class="reference internal image-reference" href="_images/safari_setup.png"><img alt="Настройка Safari для загрузки локальных ресурсов" class="align-center" src="_images/safari_setup.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -178,7 +201,7 @@
 <li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting and Shadows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing Effects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System for Instancing Objects</a></li>
@@ -224,7 +247,7 @@
           
     <div class="footer">
         &copy; Copyright 2014, Triumph LLC.
-      Last updated on 2014-06-25.
+      Last updated on 2014-07-23.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

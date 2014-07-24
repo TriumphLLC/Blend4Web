@@ -9,9 +9,10 @@
  */
 b4w.module["__particles"] = function(exports, require) {
 
-var m_cfg  = require("__config");
-var m_geom = require("__geometry");
-var m_util = require("__util");
+var m_cfg    = require("__config");
+var m_geom   = require("__geometry");
+var m_scenes = require("__scenes");
+var m_util   = require("__util");
 
 var m_vec3 = require("vec3");
 
@@ -23,8 +24,6 @@ var DELAYRANDFACTOR = 10;
 var _rand = function() {
     throw "_rand() undefined";
 }
-
-var _wind = [0,0,0];
 
 exports.has_particles = function(obj) {
     if (obj["particle_systems"].length > 0)
@@ -76,7 +75,7 @@ exports.generate_emitter_particles_submesh = function(batch, emitter_mesh,
 
     psystem._internal = psystem._internal || {};
 
-    var emitter_submesh = m_geom.extract_submesh_all_mats(emitter_mesh, 
+    var emitter_submesh = m_geom.extract_submesh_all_mats(emitter_mesh,
             ["a_position", "a_normal"], false);
 
     var pcount = psystem["settings"]["count"]; 
@@ -95,10 +94,7 @@ exports.generate_emitter_particles_submesh = function(batch, emitter_mesh,
 
     init_particle_rand(psystem["seed"]);
 
-    if (pmaterial["halo"])
-        var is_billboard = false;
-    else 
-        var is_billboard = true;
+    var is_billboard = !batch.halo_particles;
 
     if (is_billboard) {
         var bb_vertices = gen_bb_vertices(pcount);
@@ -290,7 +286,7 @@ function set_emitter_particles_uniforms(batch, psystem, pmaterial) {
     batch.p_nfactor = nfactor; 
     batch.p_gravity = gravity; 
 
-    var glob_wind = exports.wind();
+    var glob_wind = m_scenes.get_wind();
     batch.p_wind[0] = glob_wind[0] * wind;
     batch.p_wind[1] = glob_wind[1] * wind;
     batch.p_wind[2] = glob_wind[2] * wind;
@@ -306,7 +302,7 @@ function set_emitter_particles_uniforms(batch, psystem, pmaterial) {
     var alpha_start;
     var alpha_end;
 
-    if (pmaterial["halo"]) {
+    if (batch.halo_particles) {
         psize = pmaterial["halo"]["size"];
 
         var hardness = pmaterial["halo"]["hardness"];
@@ -352,6 +348,7 @@ function set_emitter_particles_uniforms(batch, psystem, pmaterial) {
             var intensity = (rel["color"][0] + rel["color"][1] + rel["color"][2])/3;
             sramp_varr[i+1] = intensity;
         }
+        batch.p_size_ramp_length = color_ramp_elems.length;
     }
         
     batch.p_size_ramp.set(sramp_varr);
@@ -379,7 +376,7 @@ function set_emitter_particles_uniforms(batch, psystem, pmaterial) {
             cramp_varr[i+3] = rel["color"][2];
         }
 
-        pmaterial["texture_slots"] = [];
+        batch.p_color_ramp_length = color_ramp_elems.length;
     }
     batch.p_color_ramp.set(cramp_varr);
 
@@ -662,33 +659,5 @@ exports.prepare_lens_flares = function(submesh) {
 
     return submesh;
 }
-
-exports.update_force = function(obj) {
-    var field = obj["field"];
-
-    if (field["type"] == "WIND") {
-        var render = obj._render;
-        m_util.quat_to_dir(render.quat, m_util.AXIS_Y, _wind);
-        _wind = m_vec3.normalize(_wind, _wind);
-        m_vec3.scale(_wind, render.force_strength, _wind);
-    }
-}
-
-/**
- * return wind vector
- */
-exports.wind = function() {
-    return _wind;
-}
-
-/**
- * Perform module cleanup
- */
-exports.cleanup = function() {
-    _wind[0] = 0;
-    _wind[1] = 0;
-    _wind[2] = 0;
-}
-
 
 }

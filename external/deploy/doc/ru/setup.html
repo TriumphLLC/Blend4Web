@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Развёртывание среды разработки &mdash; Руководство пользователя: Blend4Web v14.06</title>
+    <title>Развёртывание среды разработки &mdash; Руководство пользователя: Blend4Web v14.07</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.06',
+        VERSION:     '14.07',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v14.06" href="index.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v14.07" href="index.html" />
     <link rel="next" title="Рабочий процесс" href="workflow.html" />
     <link rel="prev" title="Экспресс-установка" href="first_steps.html" /> 
   </head>
@@ -37,7 +37,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">Руководство пользователя: Blend4Web v14.06</a></div>
+          href="index.html">Руководство пользователя: Blend4Web v14.07</a></div>
         <div class="rel">
           <a href="first_steps.html" title="Экспресс-установка"
              accesskey="P">предыдущий</a> |
@@ -89,6 +89,9 @@
 <p class="first admonition-title">Примечание</p>
 <p class="last">Рекомендуется использовать такой браузер только для просмотра локального контента, поскольку изменение настроек может привести к понижению безопасности.</p>
 </div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
 <p><em>Chrome на Windows</em>:</p>
 <p>Правой кнопкой мыши нажать на ярлыке на рабочем столе, выбрать <tt class="docutils literal"><span class="pre">Свойства</span></tt> (<tt class="docutils literal"><span class="pre">Properties</span></tt>), после чего в поле для пути к исполняемому файлу добавить после пробела <tt class="docutils literal"><span class="pre">--allow-file-access-from-files</span></tt>. Нажать <tt class="docutils literal"><span class="pre">ОК</span></tt>.</p>
 <div class="line-block">
@@ -99,6 +102,17 @@
 <div class="line"><br /></div>
 </div>
 <p>Для удобства можно предварительно создать копию ярлыка и изменить ее для локального просмотра, оставив оригинальную версию ярлыка для запуска браузера в обычном режиме.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p><em>Chrome на OS X</em>:</p>
+<p>Открыть Терминал и запустить браузер с параметром:</p>
+<div class="highlight-python"><div class="highlight"><pre>&gt; /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --allow-file-access-from-files
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
 <p><em>Chrome/Chromium на Linux</em>:</p>
 <p>Запустить браузер с параметром:</p>
 <div class="highlight-python"><div class="highlight"><pre>&gt; google-chrome --allow-file-access-from-files
@@ -108,12 +122,21 @@
 <div class="highlight-python"><div class="highlight"><pre>&gt; chromium-browser --allow-file-access-from-files
 </pre></div>
 </div>
-<p><em>Firefox на Windows/Linux</em>:</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p><em>Firefox на Windows/Linux/OS X</em>:</p>
 <p>Ввести <strong>about:config</strong> в адресную строку браузера, найти параметр <tt class="docutils literal"><span class="pre">security.fileuri.strict_origin_policy</span></tt> и переключить его двойным щелчком мыши из <tt class="docutils literal"><span class="pre">true</span></tt> в <tt class="docutils literal"><span class="pre">false</span></tt>.</p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <a class="reference internal image-reference" href="_images/firefox_strict_origin.jpg"><img alt="Настройка Firefox для загрузки локальных ресурсов" class="align-center" src="_images/firefox_strict_origin.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p><em>Safari/OS X</em>:</p>
+<p>Включить в настройках отображение меню &#8220;Develop&#8221;, затем активировать опцию &#8220;Disable Local File Restrictions&#8221;.</p>
+<a class="reference internal image-reference" href="_images/safari_setup.png"><img alt="Настройка Safari для загрузки локальных ресурсов" class="align-center" src="_images/safari_setup.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -188,7 +211,7 @@
 <li class="toctree-l1"><a class="reference internal" href="textures.html">Текстуры</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Материалы</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Нодовые материалы</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lighting.html">Освещение и тени</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lighting.html">Освещение, тени и фон</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Постпроцессинговые эффекты</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles.html">Система частиц</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Система частиц для инстансинга объектов</a></li>
@@ -234,7 +257,7 @@
           
     <div class="footer">
         &copy; Copyright 2014, ООО &#34;Триумф&#34;.
-      Обновлено: 2014-06-25.
+      Обновлено: 2014-07-23.
       Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

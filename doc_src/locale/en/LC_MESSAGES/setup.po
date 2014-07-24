@@ -22,8 +22,8 @@ msgid ""
 "удобнее :ref:`экспресс-установка <quick_install>`."
 msgstr ""
 "This setup option suits 3D application developers. To familiarize yourself "
-"with the Blend4Web addon :ref:`quick install <quick_install>` can be a better "
-"option."
+"with the Blend4Web addon :ref:`quick install <quick_install>` can be a "
+"better option."
 
 #: ../setup.rst:10
 msgid ""
@@ -108,11 +108,11 @@ msgstr ""
 "It is recommended to use such browser only for viewing local content because"
 " changing the default settings can damage security."
 
-#: ../setup.rst:56
-msgid "*Chrome на Windows*:"
-msgstr "*Chrome under MS Windows*:"
-
 #: ../setup.rst:58
+msgid "*Chrome на Windows*:"
+msgstr "*Chrome under Windows*:"
+
+#: ../setup.rst:60
 msgid ""
 "Правой кнопкой мыши нажать на ярлыке на рабочем столе, выбрать ``Свойства`` "
 "(``Properties``), после чего в поле для пути к исполняемому файлу добавить "
@@ -122,7 +122,7 @@ msgstr ""
 "add the ``--allow-file-access-from-files`` option to the executable filepath"
 " (after the space symbol). Click ``ОК``."
 
-#: ../setup.rst:69
+#: ../setup.rst:71
 msgid ""
 "Для удобства можно предварительно создать копию ярлыка и изменить ее для "
 "локального просмотра, оставив оригинальную версию ярлыка для запуска "
@@ -131,23 +131,31 @@ msgstr ""
 "For convenience create a copy of the shortcut and modify it for local "
 "viewing while leaving the original shortcut untouched for normal surfing."
 
-#: ../setup.rst:71
+#: ../setup.rst:75
+msgid "*Chrome на OS X*:"
+msgstr "*Chrome under OS X*:"
+
+#: ../setup.rst:77
+msgid "Открыть Терминал и запустить браузер с параметром::"
+msgstr "Open Terminal and run the browser with the following parameter::"
+
+#: ../setup.rst:83
 msgid "*Chrome/Chromium на Linux*:"
 msgstr "*Chrome/Chromium under Linux*:"
 
-#: ../setup.rst:73
+#: ../setup.rst:85
 msgid "Запустить браузер с параметром::"
 msgstr "Run the browser with the parameter::"
 
-#: ../setup.rst:78
+#: ../setup.rst:90
 msgid "или::"
 msgstr "or::"
 
-#: ../setup.rst:82
-msgid "*Firefox на Windows/Linux*:"
-msgstr "*Firefox under MS Windows/Linux*:"
+#: ../setup.rst:96
+msgid "*Firefox на Windows/Linux/OS X*:"
+msgstr "*Firefox under Windows/Linux/OS X*:"
 
-#: ../setup.rst:84
+#: ../setup.rst:98
 msgid ""
 "Ввести **about:config** в адресную строку браузера, найти параметр "
 "``security.fileuri.strict_origin_policy`` и переключить его двойным щелчком "
@@ -157,11 +165,23 @@ msgstr ""
 "``security.fileuri.strict_origin_policy`` parameter and double-click on it "
 "to switch from ``true`` to ``false``."
 
-#: ../setup.rst:106
+#: ../setup.rst:109
+msgid "*Safari/OS X*:"
+msgstr ""
+
+#: ../setup.rst:111
+msgid ""
+"Включить в настройках отображение меню \"Develop\", затем активировать опцию"
+" \"Disable Local File Restrictions\"."
+msgstr ""
+"Enable the \"Develop\" menu in Preferences, and activate the "
+" \"Disable Local File Restrictions\" option."
+
+#: ../setup.rst:126
 msgid "Запуск просмотрщика сцен"
 msgstr "Running The Scenes Viewer"
 
-#: ../setup.rst:108
+#: ../setup.rst:128
 msgid ""
 "Откройте файл :file:`apps_dev/viewer/viewer_dev.html` в настроенном "
 "браузере. Должна отобразиться страница с окном рендерера и элементами "
@@ -171,7 +191,7 @@ msgstr ""
 "The page with the renderer window and interface elements should be "
 "displayed."
 
-#: ../setup.rst:119
+#: ../setup.rst:139
 msgid ""
 "Если страница не отображается корректно, или появляются сообщения об "
 "ошибках, необходимо предпринять действия, описанные в разделе "
@@ -180,11 +200,11 @@ msgstr ""
 "If the page isn't displayed correctly, or an error message is shown, follow "
 "the instructions described in the :ref:`renderer_not_working` section."
 
-#: ../setup.rst:127
+#: ../setup.rst:147
 msgid "Установка аддона движка"
 msgstr "Engine Addon Installation"
 
-#: ../setup.rst:131
+#: ../setup.rst:151
 msgid ""
 "Если аддон ранее был установлен с помощью :ref:`экспресс-установки "
 "<quick_install>`, то рекомендуется прежде его удалить."
@@ -192,7 +212,7 @@ msgstr ""
 "It is recommended to remove the addon first if it was originally installed "
 "using :ref:`quick install <quick_install>`."
 
-#: ../setup.rst:133
+#: ../setup.rst:153
 msgid ""
 "Запустить Blender, загрузить сцену по умолчанию :file:`File > New` (горячие "
 "клавиши :file:`Ctrl-N`). Вызвать окно пользовательских настроек :file:`File "
@@ -206,11 +226,11 @@ msgstr ""
 " the :file:`Scripts` field choose the path to the :file:`blender_scripts` "
 "directory."
 
-#: ../setup.rst:141
+#: ../setup.rst:161
 msgid "Нажать :file:`Save User Settings` и перезапустить Blender."
 msgstr "Click :file:`Save User Settings` and restart Blender."
 
-#: ../setup.rst:146
+#: ../setup.rst:166
 msgid ""
 "Вместо этого можно скопировать директорию со скриптами "
 ":file:`blender_scripts/addons/blend4web` в уже используемую пользовательскую"
@@ -220,13 +240,13 @@ msgstr ""
 ":file:`blender_scripts/addons/blend4web` to the already used directory for "
 "scripts or even to the installation directory, for example:"
 
-#: ../setup.rst:148
+#: ../setup.rst:168
 msgid ""
 ":file:`C:\\\\Program Files\\\\Blender "
 "Foundation\\\\Blender\\\\2.70\\\\scripts\\\\addons\\\\blend4web`."
 msgstr ""
 
-#: ../setup.rst:151
+#: ../setup.rst:171
 msgid ""
 "Повторно загрузить сцену по умолчанию, вызвать окно пользовательских "
 "настроек, перейти на вкладку :file:`Addons` и выбрать категорию :file"
@@ -237,15 +257,15 @@ msgstr ""
 ":file:`Addons` tab and choose the :file:`Import-Export` category. Enable the"
 " :file:`Import-Export: Blend4Web` checkbox. "
 
-#: ../setup.rst:160
+#: ../setup.rst:180
 msgid "Нажать :file:`Save User Settings`. Перезапуск Blender не требуется."
 msgstr "Click :file:`Save User Settings`. Restarting Blender isn't required."
 
-#: ../setup.rst:162
+#: ../setup.rst:182
 msgid "*Для проверки:*"
 msgstr "*For checking:*"
 
-#: ../setup.rst:164
+#: ../setup.rst:184
 msgid ""
 "В меню :file:`File > Export` должны появиться опции :file:`Blend4Web "
 "(.json)` и :file:`Blend4Web (.html)`. Кроме того должны появиться операторы "
@@ -255,11 +275,11 @@ msgstr ""
 ":file:`Blend4Web (.html)` options should appear. Also the operators should "
 "appear in the search box when searching for \"B4W\" (hot key :file:`SPACE`)."
 
-#: ../setup.rst:168
+#: ../setup.rst:188
 msgid "Включение опции экспорта в HTML"
 msgstr "Enabling the HTML export option"
 
-#: ../setup.rst:170
+#: ../setup.rst:190
 msgid ""
 "Опция :file:`Blend4Web (.html)` в меню :file:`File > Export` по умолчанию не"
 " активна, в отличие от версии одиночного аддона (см. :ref:`экспресс-"
@@ -269,7 +289,7 @@ msgstr ""
 "not active by default contrary to the standalone version of the addon (see "
 ":ref:`Quick Install <quick_install>`)."
 
-#: ../setup.rst:172
+#: ../setup.rst:192
 msgid ""
 "В случае необходимости (например, если требуется отладка HTML экспорта) "
 "данную опцию можно включить. Для этого указать путь к сборке приложения "
@@ -290,19 +310,19 @@ msgstr "browser"
 msgid "настройка"
 msgstr "setup"
 
-#: ../setup.rst:122
+#: ../setup.rst:142
 msgid "установка"
 msgstr "installation"
 
-#: ../setup.rst:101
+#: ../setup.rst:121
 msgid "просмотрщик"
 msgstr "viewer"
 
-#: ../setup.rst:101
+#: ../setup.rst:121
 msgid "запуск"
 msgstr "launch"
 
-#: ../setup.rst:122
+#: ../setup.rst:142
 msgid "Blender"
 msgstr "Blender"
 

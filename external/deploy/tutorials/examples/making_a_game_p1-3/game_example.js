@@ -57,7 +57,7 @@ function load() {
     m_data.load("game_example.json", load_cb);
 }
 
-function load_cb(root) {
+function load_cb(data_id) {
     _character = m_scs.get_first_character();
     _character_body = m_scs.get_object_by_empty_name("character",
                                                      "character_body");

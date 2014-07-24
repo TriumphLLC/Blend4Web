@@ -199,11 +199,11 @@ msgid "Реализует смещение текстурных координа
 msgstr ""
 "The node implements the texture coordinates offset using a height map."
 
-#: ../node_materials.rst:81 ../node_materials.rst:107
+#: ../node_materials.rst:81 ../node_materials.rst:110
 msgid "Входные параметры"
 msgstr "Input parameters"
 
-#: ../node_materials.rst:84 ../node_materials.rst:99
+#: ../node_materials.rst:84 ../node_materials.rst:102
 msgid "*UV*"
 msgstr ""
 
@@ -239,22 +239,30 @@ msgstr ""
 "The number of steps for iterative generation of texture coordinates offset. "
 "The bigger this value is the better is the final quality."
 
-#: ../node_materials.rst:96 ../node_materials.rst:134
+#: ../node_materials.rst:96
+msgid "*Lod Distance*"
+msgstr ""
+
+#: ../node_materials.rst:96
+msgid "Максимальное расстояние от камеры, на котором виден эффект."
+msgstr "Maximum distance from camera at which the effect is observed."
+
+#: ../node_materials.rst:99 ../node_materials.rst:137
 msgid "Выходные параметры"
 msgstr "Output parameters"
 
-#: ../node_materials.rst:99
+#: ../node_materials.rst:102
 msgid ""
 "Измененные текстурные координаты, которые используются как вход для "
 "текстурных нод."
 msgstr ""
 "Resulting texture coordinates which are used as input for the texture nodes."
 
-#: ../node_materials.rst:102
+#: ../node_materials.rst:105
 msgid "TRANSLUCENCY"
 msgstr ""
 
-#: ../node_materials.rst:104
+#: ../node_materials.rst:107
 msgid ""
 "Реализует эффект полупрозрачности (только по отношению к источникам света) "
 "для тонких объектов, таких как ткань, листва, бумага и др. Эффект состоит из"
@@ -268,11 +276,11 @@ msgstr ""
 "light source and 2) appearance of a light spot right in the light source "
 "place."
 
-#: ../node_materials.rst:109
+#: ../node_materials.rst:112
 msgid "*Color*"
 msgstr ""
 
-#: ../node_materials.rst:110
+#: ../node_materials.rst:113
 msgid ""
 "Одноканальная текстура, определяющая неоднородность материала, белый - "
 "максимальный эффект просвечивания, черный - его отсутствие. По умолчанию "
@@ -282,11 +290,11 @@ msgstr ""
 "denotes maximum translucency effect while the black color denotes its "
 "absence. White color is used by default."
 
-#: ../node_materials.rst:117
+#: ../node_materials.rst:120
 msgid "*Backside Factor*"
 msgstr ""
 
-#: ../node_materials.rst:112
+#: ../node_materials.rst:115
 msgid ""
 "Коэффицент коррекции цвета материала на обратной от источника света стороне."
 " Основан на визуальном эффекте большей насыщенности цвета при просвечивании."
@@ -295,27 +303,27 @@ msgstr ""
 "light source. It describes the color richness effect for the translucent "
 "areas."
 
-#: ../node_materials.rst:114
+#: ../node_materials.rst:117
 msgid "*Backside Factor < 1* - коррекция в сторону осветления"
 msgstr "*Backside Factor < 1* - brightening"
 
-#: ../node_materials.rst:115
+#: ../node_materials.rst:118
 msgid "*Backside Factor = 1* - без коррекции"
 msgstr "*Backside Factor = 1* - no correction"
 
-#: ../node_materials.rst:116
+#: ../node_materials.rst:119
 msgid "*Backside Factor > 1* - коррекция в сторону затемнения"
 msgstr "*Backside Factor > 1* - darkening"
 
-#: ../node_materials.rst:118 ../node_materials.rst:131
+#: ../node_materials.rst:121 ../node_materials.rst:134
 msgid "Значение по умолчанию: 1."
 msgstr "The default value is 1."
 
-#: ../node_materials.rst:120
+#: ../node_materials.rst:123
 msgid "*Spot Hardness*"
 msgstr ""
 
-#: ../node_materials.rst:120
+#: ../node_materials.rst:123
 msgid ""
 "Коэффициент размытия светового пятна. При увеличении размеры пятна "
 "уменьшаются, края становятся более резкими. Значение по умолчанию: 1000."
@@ -323,11 +331,11 @@ msgstr ""
 "Light spot blurring factor. The bigger this value is the smaller is the spot"
 " and the sharper are the spot edges. The default value is 1000."
 
-#: ../node_materials.rst:123
+#: ../node_materials.rst:126
 msgid "*Spot Intensity*"
 msgstr ""
 
-#: ../node_materials.rst:123
+#: ../node_materials.rst:126
 msgid ""
 "Интенсивность светового пятна. При увеличении становится более ярким. "
 "Значение по умолчанию: 1."
@@ -335,28 +343,28 @@ msgstr ""
 "Light spot intesity. The bigger this value is the brighter is the light "
 "spot. The default value is 1."
 
-#: ../node_materials.rst:131
+#: ../node_materials.rst:134
 msgid "*Spot Diffuse Factor*"
 msgstr ""
 
-#: ../node_materials.rst:126
+#: ../node_materials.rst:129
 msgid ""
 "Коэффициент влияния диффузного цвета материала на цвет светового пятна."
 msgstr "Material diffuse color influence on the light spot color."
 
-#: ../node_materials.rst:128
+#: ../node_materials.rst:131
 msgid "*Spot Diffuse Factor = 0* - световое пятно имеет диффузный цвет"
 msgstr "*Spot Diffuse Factor = 0* - the light spot has the diffuse color"
 
-#: ../node_materials.rst:129
+#: ../node_materials.rst:132
 msgid "*Spot Diffuse Factor = 1* - световое пятно имеет белый цвет"
 msgstr "*Spot Diffuse Factor = 1* - the light spot color is white"
 
-#: ../node_materials.rst:136
+#: ../node_materials.rst:139
 msgid "*Translucency*"
 msgstr ""
 
-#: ../node_materials.rst:137
+#: ../node_materials.rst:140
 msgid ""
 "Выход должен быть подключен ко входу ``Translucency`` ноды ``Extended "
 "Material``."
@@ -379,6 +387,5 @@ msgstr "materials"
 #: ../node_materials.rst:11 ../node_materials.rst:18 ../node_materials.rst:41
 msgid "ноды"
 msgstr "nodes"
-
 
 

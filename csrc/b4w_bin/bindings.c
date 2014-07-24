@@ -462,7 +462,7 @@ int get_vert_anim_frames_count(Object *obj)
 /**
  * Get positions and normals from b4w_vertex_anim property
  */
-int get_vertex_animation(float *positions, float *normals, Object *obj, 
+int get_vertex_animation(float *positions, float *normals, Object *obj,
         int verts_count) 
 {
     ID *obj_id = &obj->id;
@@ -531,7 +531,7 @@ int get_vertex_animation(float *positions, float *normals, Object *obj,
 /**
  * Get normals from b4w_vertex_normals_list property
  */
-int get_vertex_normals_list(float *normals, Object *obj) 
+int get_vertex_normals_list(float *normals, Object *obj)
 {
     ID *obj_id = &obj->id;
     IDProperty *prop_list = obj_id->properties;
@@ -679,9 +679,8 @@ void get_vertex_colors(struct MeshData *mesh_data, Mesh *mesh)
 /* **************** SUBMESH CALCULATION ********************* */
 
 void combine_positions_normals(struct MeshData *mesh_data, Mesh *mesh, 
-        unsigned long obj_ptr, int vertex_animation, int edited_normals) 
+        Object *obj, int vertex_animation, int edited_normals)
 {
-    Object *obj = (Object *)obj_ptr;
     MVert *vertices = mesh->mvert;
 
     int i;
@@ -737,11 +736,9 @@ void combine_positions_normals(struct MeshData *mesh_data, Mesh *mesh,
     }
 }
 
-int combine_groups(struct MeshData *mesh_data, Mesh *mesh, unsigned long obj_ptr, 
+int combine_groups(struct MeshData *mesh_data, Mesh *mesh, Object *obj,
         int vertex_groups) 
 {
-    Object *obj = (Object *)obj_ptr;
-
     int groups_error = NO_ERROR;
 
     if (vertex_groups) {
@@ -1658,7 +1655,7 @@ void calc_bounding_data(struct BoundingData *bdata, Mesh *mesh) {
         tmp_scen[2] = bdata->scen_z / (z_width? z_width: 1.0);
         tmp_rad = 0.5;
 
-        // enlarge and move boundings if there are some vertices out of them
+        //enlarge and move boundings if there are some vertices out of them
         for (i = 0; i < mesh->totvert; i++) {
             x = vertices[i].co[0];
             y = vertices[i].co[2];
@@ -1727,7 +1724,7 @@ void calc_bounding_data(struct BoundingData *bdata, Mesh *mesh) {
             }
         }
 
-        // scale sphere boundings to fit original size and get ellipsoid shape
+        //scale sphere boundings to fit original size and get ellipsoid shape
         bdata->ecen_x = tmp_scen[0] * x_width;
         bdata->ecen_y = tmp_scen[1] * y_width;
         bdata->ecen_z = tmp_scen[2] * z_width;
@@ -1741,7 +1738,7 @@ void calc_bounding_data(struct BoundingData *bdata, Mesh *mesh) {
 /* ************************* Exported functions ***************************** */
 
 static PyObject *b4w_bin_export_submesh(PyObject *self, PyObject *args) {
-    unsigned long mesh_ptr, obj_ptr;
+    unsigned long long mesh_ptr, obj_ptr;
     int mat_index, disab_flat;
     int vertex_animation, edited_normals, vertex_groups, vertex_colors;
     int is_degenerate_mesh;
@@ -1749,6 +1746,7 @@ static PyObject *b4w_bin_export_submesh(PyObject *self, PyObject *args) {
     PyObject *result;
     int groups_error;
     Mesh *mesh;
+    Object *obj;
 
     struct MeshData mesh_data;
     mesh_data.pos = NULL;
@@ -1766,7 +1764,7 @@ static PyObject *b4w_bin_export_submesh(PyObject *self, PyObject *args) {
     mesh_data.need_vcol_optimization = false;
     mesh_data.channels_presence = NULL;
 
-    if (!PyArg_ParseTuple(args, "kkiiiiiis*i", &mesh_ptr, &obj_ptr, &mat_index,
+    if (!PyArg_ParseTuple(args, "KKiiiiiis*i", &mesh_ptr, &obj_ptr, &mat_index,
             &disab_flat, &vertex_animation, &edited_normals, 
             &vertex_groups, &vertex_colors, &mask_buffer, &is_degenerate_mesh))
         return NULL;
@@ -1777,10 +1775,11 @@ static PyObject *b4w_bin_export_submesh(PyObject *self, PyObject *args) {
         result = calc_submesh_empty();
     } else {
         mesh = (Mesh *)mesh_ptr;
+        obj  = (Object *)obj_ptr;
 
-        combine_positions_normals(&mesh_data, mesh, obj_ptr, vertex_animation, 
+        combine_positions_normals(&mesh_data, mesh, obj, vertex_animation,
                 edited_normals);
-        groups_error = combine_groups(&mesh_data, mesh, obj_ptr, vertex_groups);
+        groups_error = combine_groups(&mesh_data, mesh, obj, vertex_groups);
         if (groups_error == ERR_WRONG_GROUP_INDICES) {
             PyErr_SetString(PyExc_ValueError, "Wrong group indices");
             return NULL;
@@ -1796,7 +1795,7 @@ static PyObject *b4w_bin_export_submesh(PyObject *self, PyObject *args) {
 }
 
 static PyObject *b4w_bin_calc_bounding_data(PyObject *self, PyObject *args) {
-    unsigned long mesh_ptr;
+    unsigned long long mesh_ptr;
     PyObject *result;
     Mesh *mesh;
 
@@ -1822,7 +1821,7 @@ static PyObject *b4w_bin_calc_bounding_data(PyObject *self, PyObject *args) {
     bdata.ecen_y = 0;
     bdata.ecen_z = 0;
 
-    if (!PyArg_ParseTuple(args, "k", &mesh_ptr))
+    if (!PyArg_ParseTuple(args, "K", &mesh_ptr))
         return NULL;
 
     result = PyDict_New();
@@ -1861,18 +1860,18 @@ static PyObject *b4w_bin_create_buffer_float(PyObject *self, PyObject *args) {
         return NULL;
 
     buffer = falloc(length);
-    return PyLong_FromUnsignedLong((unsigned long)buffer);
+    return PyLong_FromUnsignedLongLong((unsigned long long)buffer);
 }
 
 static PyObject *b4w_bin_buffer_insert_float(PyObject *self, PyObject *args) {
     float *buffer;
     int index;
     float val;
-    if (!PyArg_ParseTuple(args, "kif", &buffer, &index, &val))
+    if (!PyArg_ParseTuple(args, "Kif", &buffer, &index, &val))
         return NULL;
 
     buffer[index] = val;
-    return PyLong_FromUnsignedLong((unsigned long)buffer);
+    return PyLong_FromUnsignedLongLong((unsigned long long)buffer);
 }
 
 static PyObject *b4w_bin_get_buffer_float(PyObject *self, PyObject *args) {
@@ -1880,7 +1879,7 @@ static PyObject *b4w_bin_get_buffer_float(PyObject *self, PyObject *args) {
     long buffer_len;
     PyObject *result;
 
-    if (!PyArg_ParseTuple(args, "kl", &buffer, &buffer_len))
+    if (!PyArg_ParseTuple(args, "Kl", &buffer, &buffer_len))
         return NULL;
 
     result = PyByteArray_FromStringAndSize((char *)buffer, 
@@ -1892,11 +1891,11 @@ static PyObject *b4w_bin_get_buffer_float(PyObject *self, PyObject *args) {
 
 static PyObject *b4w_bin_get_packed_data(PyObject *self, PyObject *args) {
 
-    unsigned long packed_file_ptr;
+    unsigned long long packed_file_ptr;
     PyObject *result;
     PackedFile *pf;
 
-    if (!PyArg_ParseTuple(args, "k", &packed_file_ptr))
+    if (!PyArg_ParseTuple(args, "K", &packed_file_ptr))
         return NULL;
 
     pf = (PackedFile *)packed_file_ptr;

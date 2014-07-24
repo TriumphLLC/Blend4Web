@@ -637,6 +637,30 @@ class B4W_MotionBlurSettings(bpy.types.PropertyGroup):
 
 class B4W_SkySettings(bpy.types.PropertyGroup):
 
+    reflexible = bpy.props.BoolProperty(
+        name = "B4W: reflexible",
+        description = "Sky will be rendered during the reflection pass",
+        default = False
+    )
+
+    reflexible_only = bpy.props.BoolProperty(
+        name = "B4W: reflexible only",
+        description = "Sky will not be rendered, but will have a reflection",
+        default = False
+    )
+
+    procedural_skydome = bpy.props.BoolProperty(
+        name = "B4W: procedural skydome",
+        description = "Sky will be generated procedurally",
+        default = False
+    )
+
+    use_as_environment_lighting = bpy.props.BoolProperty(
+        name = "B4W: use_as_environment_map",
+        description = "Procedural sky will be used as environment lighting",
+        default = False
+    )
+
     color = bpy.props.FloatVectorProperty(
         name = "color",
         description = "Sky atmosphere color",
@@ -1295,13 +1319,6 @@ def add_scene_properties():
         default = True
     )
     scene_type.b4w_enable_physics = b4w_enable_physics
-
-    b4w_load_empty = bpy.props.BoolProperty(
-        name = "B4W: load empty",
-        description = "Don't add objects to the scene by default",
-        default = False
-    )
-    scene_type.b4w_load_empty = b4w_load_empty
 
     b4w_render_shadows = bpy.props.BoolProperty(
         name = "B4W: render shadows",
@@ -2125,17 +2142,6 @@ def add_material_properties():
         default = ""
     )
 
-    mat_type.b4w_skydome = bpy.props.BoolProperty(
-        name = "B4W: skydome",
-        description = "Special skydome material",
-        default = False
-    )
-    mat_type.b4w_procedural_skydome = bpy.props.BoolProperty(
-        name = "B4W: procedural skydome",
-        description = "Sky will be generated procedurally",
-        default = False
-    )
-
     mat_type.b4w_collision = bpy.props.BoolProperty(
         name = "B4W: collision",
         description = "Special collision material",
@@ -2228,6 +2234,16 @@ def add_texture_properties():
     )
     bpy.types.Texture.b4w_parallax_steps = b4w_parallax_steps;
 
+    b4w_parallax_lod_dist = bpy.props.IntProperty(
+        name = "B4W: parallax lod distance",
+        description = "Level of detail distance for parallax mapping",
+        default = 5,
+        soft_max = 30,
+        min = 1,
+        max = 30
+    )
+    bpy.types.Texture.b4w_parallax_lod_dist = b4w_parallax_lod_dist;
+
     # see also b4w_anisotropic_filtering for scene
     b4w_anisotropic_filtering = bpy.props.EnumProperty(
         name = "B4W: anisotropic filtering",
@@ -2242,6 +2258,18 @@ def add_texture_properties():
         ]
     )
     bpy.types.Texture.b4w_anisotropic_filtering = b4w_anisotropic_filtering
+
+    b4w_use_sky = bpy.props.EnumProperty(
+        name = "B4W: environment lighting",
+        description = "Use texture as skydome or environment lighting",
+        items = [
+            ("OFF",                  "OFF",                 "0", 0),
+            ("SKYDOME",              "SKYDOME",             "1", 1),
+            ("ENVIRONMENT_LIGHTING", "ENVIRONMENT_LIGHTING","2", 2),
+            ("BOTH",                 "BOTH",                "3", 3)
+        ]
+    )
+    bpy.types.Texture.b4w_use_sky = b4w_use_sky
 
     # NOTE: it is saved to texture, so there may be issues when textures are shared between materials
     b4w_uv_velocity_trans = bpy.props.FloatVectorProperty(

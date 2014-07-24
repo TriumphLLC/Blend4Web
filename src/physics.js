@@ -24,6 +24,7 @@ var m_quat = require("quat");
 var m_mat4 = require("mat4");
 
 var cfg_phy = m_cfg.physics;
+var cfg_def = m_cfg.defaults;
 
 var RAY_CMP_PRECISION = 0.0000001;
 
@@ -54,12 +55,13 @@ var VT_HULL        = 20;
 /**
  * Initialize physics engine
  */
-exports.init_engine = function() {
+exports.init_engine = function(init_time) {
     if (cfg_phy.enabled) {
         var path = cfg_phy.uranium_path + m_version.timestamp();
-        m_print.log("%cLOAD PHYSICS", "color: #0a0", path);
+        m_print.log("%cLOAD PHYSICS", "color: #0a0", path, "Max FPS: " + cfg_phy.max_fps);
         var worker = new Worker(path);
         m_ipc.init(worker, process_message);
+        m_ipc.post_msg(m_ipc.OUT_INIT, init_time, cfg_phy.max_fps);
         //setInterval(function() {m_ipc.post_msg(m_ipc.OUT_PING, performance.now())}, 1000);
     }
 }
@@ -109,6 +111,7 @@ function add_compound_children(parent, container) {
 }
 
 exports.append_object = function(obj, bpy_scene) {
+
     // NOTE: temporary, multiple worlds not working!!!
     set_active_scene(bpy_scene);
 
@@ -140,7 +143,7 @@ exports.append_object = function(obj, bpy_scene) {
         }
 
         if (batch.water && bpy_scene._render.water_params) {
-            init_water_physics(obj, batch);
+            init_water_physics(batch);
             continue;
         }
 
@@ -220,9 +223,6 @@ function process_message(msg_id, msg) {
         return;
 
     switch (msg_id) {
-    case m_ipc.IN_FRAME_END:
-        m_render.unlock();
-        break;
     case m_ipc.IN_LOG:
         m_print.log(msg);
         break;
@@ -251,7 +251,8 @@ function process_message(msg_id, msg) {
         break;
     case m_ipc.IN_VEHICLE_SPEED:
         var obj = find_obj_by_body_id(msg[1]);
-        obj._vehicle.speed = msg[2];
+        if (obj)
+            obj._vehicle.speed = msg[2];
         break;
     case m_ipc.IN_COLLISION:
         traverse_collision_tests(_active_scene_phy, msg["body_id_a"],
@@ -260,10 +261,12 @@ function process_message(msg_id, msg) {
         break;
     case m_ipc.IN_COLLISION_IMPULSE:
         var obj = find_obj_by_body_id(msg[1]);
-        var phy = obj._physics;
+        if (obj) {
+            var phy = obj._physics;
 
-        if (phy.col_imp_test_cb)
-            phy.col_imp_test_cb(msg[2]);
+            if (phy.col_imp_test_cb)
+                phy.col_imp_test_cb(msg[2]);
+        }
         break;
     case m_ipc.IN_RAY_HIT:
         var body_id_a = msg["body_id"];
@@ -366,7 +369,7 @@ function traverse_collision_tests(scene, body_id_a, body_id_b, pair_result,
                 }
             }
 
-            if (results_changed || test.need_collision_pt) {
+            if (results_changed) {
                 var pair_results = test.pair_results;
                 var result = 0;
 
@@ -405,11 +408,6 @@ function traverse_ray_test(ray_test, bpy_scene) {
 
 exports.update = function(timeline, delta) {
 
-    if (_active_scene_phy) {
-        m_ipc.post_msg(m_ipc.OUT_FRAME_START, timeline, delta);
-        m_render.lock();
-    }
-
     // interpolate uranium transforms in point of previous frame
     for (var i = 0; i < _bounding_objects.length; i++) {
         var obj = _bounding_objects[i];
@@ -417,9 +415,14 @@ exports.update = function(timeline, delta) {
 
         // current time = 0 - do nothing
         if (phy.simulated && phy.curr_time) {
-            var d = timeline - phy.curr_time;
-            // NOTE: clamp to maximum 10 frames
+            var d = performance.now() / 1000 - phy.curr_time;
+
+            // clamp to maximum 10 frames to prevent jitter of sleeping objects
             d = Math.min(d, 10 * 1/60);
+
+            if (cfg_def.no_phy_interp_hack)
+                d = 0;
+
             var tsr = _tsr8_tmp;
             m_tsr.integrate(phy.curr_tsr, d, phy.linvel, phy.angvel,
                     _tsr8_tmp);
@@ -508,7 +511,7 @@ function get_unique_body_id() {
     return _unique_counter.body;
 }
 
-function init_water_physics(obj, batch) {
+function init_water_physics(batch) {
 
     m_ipc.post_msg(m_ipc.OUT_APPEND_WATER);
 
@@ -535,7 +538,7 @@ function init_water_physics(obj, batch) {
         var waves_height   = subs.water_waves_height;
         var waves_length   = subs.water_waves_length;
         var water_level    = subs.water_level;
-        if (subs.shoremap_size) {
+        if (subs.use_shoremap) {
             var size_x         = subs.shoremap_size[0];
             var size_y         = subs.shoremap_size[1];
             var center_x       = subs.shoremap_center[0];
@@ -1152,6 +1155,7 @@ exports.set_transform = function(obj, trans, quat) {
     msg_cache["trans"] = trans;
     msg_cache["quat"] = quat;
 
+    m_ipc.post_msg(m_ipc.OUT_ACTIVATE, obj._physics.body_id);
     m_ipc.post_msg(m_ipc.OUT_SET_TRANSFORM, msg_cache);
 }
 
@@ -2025,6 +2029,17 @@ exports.get_fps = function() {
 
 exports.debug_worker = function() {
     m_ipc.post_msg(m_ipc.OUT_DEBUG);
+}
+
+exports.remove_bounding_object = function(obj) {
+    var ind = _bounding_objects.indexOf(obj);
+    if (ind != -1) {
+        _bounding_objects.splice(ind, 1);
+        var cache_ind = _bounding_objects_cache.indexOf(obj);
+        if (cache_ind != -1)
+            _bounding_objects_cache.splice(cache_ind, 1);
+    } else
+        m_print.error("Object ", obj.name, " doesn't have bounding physics");
 }
 
 }

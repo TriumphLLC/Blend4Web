@@ -180,14 +180,12 @@ msgstr "Experimental Support"
 #: ../about.rst:84
 msgid ""
 "`Internet Explorer <http://windows.microsoft.com/en-us/internet-explorer"
-"/download-ie>`_ 11+ (неполная поддержка)"
+"/download-ie>`_ 11"
 msgstr ""
-"`Internet Explorer <http://windows.microsoft.com/en-us/internet-explorer"
-"/download-ie>`_ 11+ (incomplete support)"
 
 #: ../about.rst:85
-msgid "`Safari <http://www.apple.com/safari/>`_ (выключена по умолчанию)"
-msgstr "`Safari <http://www.apple.com/safari/>`_ (disabled by default)"
+msgid "`Safari <http://www.apple.com/safari/>`_ 8"
+msgstr ""
 
 #: ../about.rst:89
 msgid "Мобильные платформы"
@@ -206,8 +204,8 @@ msgid "Firefox OS"
 msgstr ""
 
 #: ../about.rst:94
-msgid "iOS (выключена по умолчанию, включена для разработчиков iAd)"
-msgstr "iOS (disabled by default, available for iAd developers)"
+msgid "iOS 8"
+msgstr ""
 
 #: ../about.rst:95
 msgid "Tizen"

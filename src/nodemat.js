@@ -19,6 +19,8 @@ var m_mat4 = require("mat4");
 
 var _shader_ident_counters = {};
 var _composed_node_graphs = {};
+var _lamp_indexes = {};
+var _lamp_index = 0;
 
 exports.compose_nmat_graph = function(node_tree, graph_id) {
 
@@ -197,8 +199,8 @@ function nmat_cleanup_graph(graph) {
 
         if (attr.type == "REPLACE") {
 
-            var input_id0 = m_graph.get_in_edge(graph, id, 0);
-            var input_id1 = m_graph.get_in_edge(graph, id, 1);
+            var input_id0 = get_in_edge_by_input_num(graph, id, 0);
+            var input_id1 = get_in_edge_by_input_num(graph, id, 1);
 
             var in_edge0 = m_graph.get_edge_attr(graph, input_id0, id, 0);
             var in_edge1 = m_graph.get_edge_attr(graph, input_id1, id, 0);
@@ -239,7 +241,7 @@ function nmat_cleanup_graph(graph) {
 
         } else if (attr.type == "PARALLAX") {
 
-            var input_id1 = m_graph.get_in_edge(graph, id, 1);
+            var input_id1 = get_in_edge_by_input_num(graph, id, 1);
 
             if (input_id1 != -1) {
 
@@ -299,6 +301,19 @@ function nmat_cleanup_graph(graph) {
                 m_graph.remove_edge(graph, removed_edges[j], removed_edges[j+1], -1);
         }
     }
+}
+
+function get_in_edge_by_input_num(graph, node, input_num) {
+    var edges = graph.edges;
+
+    for (var i = 0; i < edges.length; i+=3) {
+        if (edges[i+1] == node) {
+            var num = edges[i+2][1];
+            if (num == input_num)
+                return edges[i];
+        }
+    }
+    return -1;
 }
 
 function merge_nodes(graph) {
@@ -396,7 +411,7 @@ function merge_textures(graph) {
                 var edges_in_counter = {}
                 for (k = 0; k < in_num; k++) {
                     var in_id = m_graph.get_in_edge(graph, id_current, k); 
-                    
+
                     if (!(in_id in edges_in_counter))
                         edges_in_counter[in_id] = 0;
                     var edge_attr = m_graph.get_edge_attr(graph, in_id, 
@@ -470,7 +485,7 @@ function merge_textures(graph) {
 
             unode.attr.inputs = unode.attr.inputs.concat(mnode.inputs);
             unode.attr.outputs = unode.attr.outputs.concat(mnode.outputs);
-            
+
             for (var k = 0; k < unode.attr.inputs.length; k++)
                 unode.attr.inputs[k].identifier += m_util.trunc(k / in_num) + 1;
             for (var k = 0; k < unode.attr.outputs.length; k++)
@@ -665,6 +680,7 @@ function append_nmat_node(graph, bpy_node, geometry_output_num) {
         outputs = node_outputs_bpy_to_b4w(bpy_node);
         break;
     case "COMBRGB":
+    case "COMBHSV":
         inputs = node_inputs_bpy_to_b4w(bpy_node);
         outputs = node_outputs_bpy_to_b4w(bpy_node);
         break;
@@ -775,6 +791,21 @@ function append_nmat_node(graph, bpy_node, geometry_output_num) {
             outputs.push(out);
         }
         break;
+    case "LAMP":
+        outputs.push(node_output_by_ident(bpy_node, "Color"));
+        outputs.push(node_output_by_ident(bpy_node, "Light Vector"));
+        outputs.push(node_output_by_ident(bpy_node, "Distance"));
+        outputs.push(node_output_by_ident(bpy_node, "Visibility Factor"));
+        if (!bpy_node["lamp_index"])
+            return null;
+        if (!(bpy_node["lamp_index"]["uuid"] in _lamp_indexes)) {
+            _lamp_indexes[bpy_node["lamp_index"]["uuid"]] = _lamp_index;
+            params.push(node_param(shader_ident("param_LAMP_lamp_index"), _lamp_index++, 1));
+        }
+        else
+            params.push(node_param(shader_ident("param_LAMP_lamp_index"), _lamp_indexes[bpy_node["lamp_index"]["uuid"]], 1));
+        data = _lamp_indexes;
+        break;
     case "NORMAL":
         inputs = node_inputs_bpy_to_b4w(bpy_node);
         outputs = node_outputs_bpy_to_b4w(bpy_node);
@@ -797,7 +828,7 @@ function append_nmat_node(graph, bpy_node, geometry_output_num) {
         }
         else {
             type = "MAPPING_HEAVY";
-            
+
             // rotation
             var rot = bpy_node["rotation"];
             var rot_matrix = m_mat3.create();
@@ -927,14 +958,19 @@ function append_nmat_node(graph, bpy_node, geometry_output_num) {
             outputs.push(node_output_by_ident(bpy_node, "Spec"));
         }
 
-        var spec_param;
+        var spec_param_0;
+        var spec_param_1 = 0;
         switch(mat["specular_shader"]) {
         case "COOKTORR":
         case "PHONG":
-            spec_param = mat["specular_hardness"];
+            spec_param_0 = mat["specular_hardness"];
             break;
         case "WARDISO":
-            spec_param = mat["specular_slope"];
+            spec_param_0 = mat["specular_slope"];
+            break;
+        case "TOON":
+            spec_param_0 = mat["specular_toon_size"];
+            spec_param_1 = mat["specular_toon_smooth"];
             break;
         }
 
@@ -962,7 +998,7 @@ function append_nmat_node(graph, bpy_node, geometry_output_num) {
         params.push(node_param(shader_ident("param_MATERIAL_spec"),
                                [bpy_node["use_specular"]? 1: 0,
                                 mat["specular_intensity"],
-                                spec_param], 3));
+                                spec_param_0, spec_param_1], 4));
 
         params.push(node_param(shader_ident("param_MATERIAL_norm"),
                                 input_norm.is_linked ? 1: 0, 1));
@@ -1111,6 +1147,7 @@ function append_nmat_node(graph, bpy_node, geometry_output_num) {
         params.push(node_param(shader_ident("param_RGB_Color"), output.default_value, 3));
         break;
     case "SEPRGB":
+    case "SEPHSV":
         inputs = node_inputs_bpy_to_b4w(bpy_node);
         outputs = node_outputs_bpy_to_b4w(bpy_node);
         break;
@@ -1128,7 +1165,7 @@ function append_nmat_node(graph, bpy_node, geometry_output_num) {
             outputs.push(node_output_by_ident(bpy_node, "Color"));
             outputs.push(node_output_by_ident(bpy_node, "Value"));
         }
-        
+
         if (type == "TEXTURE_NORMAL") {
             outputs.push(node_output_by_ident(bpy_node, "Normal"));
             outputs.push(node_output_by_ident(bpy_node, "Value"));
@@ -1535,7 +1572,7 @@ function init_node_elem(mat_node) {
         params: fparams,
         param_values: fparam_values,
         vparams: vparams
-    }  
+    }
 
     return elem;
 }
@@ -1543,9 +1580,11 @@ function init_node_elem(mat_node) {
 exports.cleanup = cleanup;
 function cleanup() {
     for (var graph_id in _composed_node_graphs) {
-        var graph = _composed_node_graphs[graph_id];
         delete _composed_node_graphs[graph_id];
     }
+    for (var key in _lamp_indexes)
+        delete _lamp_indexes[key];
+    _lamp_index = 0;
 }
 
 }

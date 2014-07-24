@@ -8,7 +8,7 @@
 b4w.module["main"] = function(exports, require) {
 
 var animation  = require("__animation");
-var compat     = require("__compat");
+var m_compat   = require("__compat");
 var config     = require("__config");
 var m_print    = require("__print");
 var controls   = require("__controls");
@@ -97,17 +97,7 @@ exports["init"] = function(elem_canvas_webgl, elem_canvas_hud) {
     if (!window["WebGLRenderingContext"])
         return null;
 
-    if (!window["performance"]) {
-        m_print.log("Apply performance workaround");
-        window["performance"] = {};
-    }
-
-    if (!window["performance"]["now"]) {
-        m_print.log("Apply performance.now() workaround");
-        window["performance"]["now"] = function() {
-            return new Date().getTime();
-        }
-    }
+    var init_time = setup_clock();
 
     _elem_canvas_webgl = elem_canvas_webgl;
 
@@ -119,7 +109,7 @@ exports["init"] = function(elem_canvas_webgl, elem_canvas_hud) {
 
     init_context(_elem_canvas_webgl, gl);
     config.apply_quality();
-    compat.set_hardware_defaults(gl);
+    m_compat.set_hardware_defaults(gl);
 
     m_print.log("%cSET PRECISION:", "color: #00a", cfg_def.precision);
 
@@ -132,10 +122,37 @@ exports["init"] = function(elem_canvas_webgl, elem_canvas_hud) {
         config.sfx.mix_mode = false;
     }
 
-    physics.init_engine();
+    physics.init_engine(init_time);
 
     return gl;
 }
+
+function setup_clock() {
+    _global_timeline = 0;
+
+    //window.performance = null;
+    
+    if (!window["performance"]) {
+        m_print.log("Apply performance workaround");
+        window["performance"] = {};
+    }
+
+    var init_time = Date.now();
+
+    if (!window["performance"]["now"]) {
+        m_print.log("Apply performance.now() workaround");
+
+        //cfg_def.no_phy_interp_hack = true;
+
+        window["performance"]["now"] = function() {
+            return Date.now() - init_time;
+        }
+
+        return init_time;
+    } else 
+        return init_time - performance.now();
+}
+
 
 function get_context(canvas) {
 
@@ -185,8 +202,6 @@ function init_context(canvas, gl) {
     //scenes.setup_dim(gl.drawingBufferWidth, gl.drawingBufferHeight);
 
     sfx.init();
-
-    _global_timeline = 0;
 
     _fps_counter = init_fps_counter();
 
@@ -385,10 +400,6 @@ function loop() {
     if (delta < 1/cfg_def.max_fps)
         return;
 
-    if (renderer.is_locked()) {
-        return;
-    }
-
     if (!is_paused()) {
         // correct delta if resume occured since last frame
         if (_resume_time > _last_abs_time)
@@ -410,7 +421,7 @@ function loop() {
 
 function frame(timeline, delta) {
     // possible unload between frames
-    if (!data.is_loaded())
+    if (!data.is_primary_loaded())
         return;
 
     hud.reset();
@@ -426,27 +437,27 @@ function frame(timeline, delta) {
     animation.update(delta);
 
     // possible unload in animation callbacks
-    if (!data.is_loaded())
+    if (!data.is_primary_loaded())
         return;
 
     physics.update(timeline, delta);
 
     // possible unload in physics callbacks
-    if (!data.is_loaded())
+    if (!data.is_primary_loaded())
         return;
 
     // user callback
     _render_callback(delta, timeline);
 
     // possible unload in render callback
-    if (!data.is_loaded())
+    if (!data.is_primary_loaded())
         return;
 
     // controls
     controls.update(timeline, delta);
 
     // possible unload in controls callbacks
-    if (!data.is_loaded())
+    if (!data.is_primary_loaded())
         return;
 
     // rendering

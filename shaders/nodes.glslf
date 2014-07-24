@@ -1,5 +1,6 @@
 #var WATER_LEVEL 0.0
 #var WAVES_HEIGHT 0.0
+#var NUM_LAMP_LIGHTS 0
 
 /*============================================================================
                                   INCLUDES
@@ -30,6 +31,10 @@ uniform vec3  u_zenith_color;
 
 uniform float u_environment_energy;
 
+#if SKY_TEXTURE
+uniform samplerCube u_sky_texture;
+#endif
+
 uniform float u_shadow_visibility_falloff;
 
 uniform vec3 u_light_positions[NUM_LIGHTS];
@@ -46,7 +51,7 @@ uniform vec4 u_sun_quaternion;
 uniform vec3 u_camera_eye_frag;
 #endif
 
-#if !DISABLE_FOG 
+#if !DISABLE_FOG
 uniform vec4 u_fog_color_density;
 # if WATER_EFFECTS
 uniform vec4 u_underwater_fog_color_density;
@@ -103,7 +108,7 @@ uniform sampler2D u_shadow_map3;
 ============================================================================*/
 
 uniform float u_emit;
-uniform float u_ambient; 
+uniform float u_ambient;
 //uniform float u_normal_factor;
 uniform vec4  u_fresnel_params;
 
@@ -111,6 +116,13 @@ uniform vec4  u_fresnel_params;
 uniform float u_reflect_factor;
 #elif TEXTURE_MIRROR
 uniform float u_mirror_factor;
+#endif
+
+#if USE_NODE_LAMP
+uniform vec3 u_lamp_light_positions[NUM_LAMP_LIGHTS];
+uniform vec3 u_lamp_light_directions[NUM_LAMP_LIGHTS];
+uniform vec3 u_lamp_light_color_intensities[NUM_LAMP_LIGHTS];
+uniform vec4 u_lamp_light_factors[NUM_LAMP_LIGHTS];
 #endif
 
 /*============================================================================
@@ -160,7 +172,7 @@ float UNITY_VALUE = 1.0;
 #include <mirror.glslf>
 
 #if USE_NODE_HUE_SAT || USE_NODE_MIX_RGB_HUE || USE_NODE_MIX_RGB_SATURATION \
-|| USE_NODE_MIX_RGB_VALUE || USE_NODE_MIX_RGB_COLOR
+|| USE_NODE_MIX_RGB_VALUE || USE_NODE_MIX_RGB_COLOR || USE_NODE_SEPHSV
 vec3 rgb_to_hsv(vec3 rgb)
 {
     float cmax, cmin, h, s, v, cdelta;
@@ -186,7 +198,7 @@ vec3 rgb_to_hsv(vec3 rgb)
         if (is_equalf(rgb.x, cmax))
             h = c[2] - c[1];
         else if (is_equalf(rgb.y, cmax))
-            h = 2.0 + c[0] -  c[2];
+            h = 2.0 + c[0] - c[2];
         else
             h = 4.0 + c[1] - c[0];
 
@@ -201,7 +213,7 @@ vec3 rgb_to_hsv(vec3 rgb)
 #endif
 
 #if USE_NODE_HUE_SAT || USE_NODE_MIX_RGB_HUE || USE_NODE_MIX_RGB_SATURATION \
-|| USE_NODE_MIX_RGB_VALUE || USE_NODE_MIX_RGB_COLOR
+|| USE_NODE_MIX_RGB_VALUE || USE_NODE_MIX_RGB_COLOR || USE_NODE_COMBHSV
 vec3 hsv_to_rgb(vec3 hsv)
 {
     float i, f, p, q, t, h, s, v;
@@ -216,7 +228,7 @@ vec3 hsv_to_rgb(vec3 hsv)
     } else {
         if (is_equalf(h, ZERO_VALUE))
             h = ZERO_VALUE;
-        
+
         h *= 6.0;
         i = floor(h);
         f = h - i;
@@ -224,7 +236,7 @@ vec3 hsv_to_rgb(vec3 hsv)
         p = v*(UNITY_VALUE-s);
         q = v*(UNITY_VALUE-(s*f));
         t = v*(UNITY_VALUE-(s*(UNITY_VALUE-f)));
-        
+
         if (is_equalf(i, ZERO_VALUE))
             rgb = vec3(v, t, p);
         else if (is_equalf(i, UNITY_VALUE))
@@ -259,6 +271,19 @@ vec2 vec_to_uv(vec3 vec)
 }
 #endif
 
+// NOTE: make special function, because directives are not allowed into #node blocks
+void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal, vec3 normalmap) {
+# if REFLECTIVE || TEXTURE_MIRROR
+#  if CALC_TBN_SPACE
+    apply_mirror(color, eye_dir, normal, u_fresnel_params[2],
+            u_fresnel_params[3], normalmap.st);
+#  else
+    apply_mirror(color, eye_dir, normal, u_fresnel_params[2],
+            u_fresnel_params[3], vec2(ZERO_VALUE));
+#  endif
+# endif
+}
+
 #node CAMERA
     #node_out vec3 vec_view
     #node_out float val_z
@@ -274,6 +299,14 @@ vec2 vec_to_uv(vec3 vec)
     #node_in float b
     #node_out vec3 color
     color = vec3(r,g,b);
+#endnode
+
+#node COMBHSV
+    #node_in float r
+    #node_in float g
+    #node_in float b
+    #node_out vec3 color
+    color = hsv_to_rgb(vec3(r, g, b));
 #endnode
 
 #node GEOMETRY_UV
@@ -371,6 +404,32 @@ vec2 vec_to_uv(vec3 vec)
     #node_in vec3 color_in
     #node_out vec3 color
     color = mix(color_in, vec3(UNITY_VALUE) - color_in, factor);
+#endnode
+
+#node LAMP
+    #node_out vec3 color_out
+    #node_out vec3 light_vec_out
+    #node_out float distance_out
+    #node_out float visibility_factor_out
+    #node_param const float lamp_index_f
+{
+    const int lamp_index = int(lamp_index_f);
+    float lamp_dist = u_lamp_light_factors[lamp_index].z;
+
+    color_out = u_lamp_light_color_intensities[lamp_index];
+
+    // see shade_diffuse_fresnel
+    if (lamp_dist != -UNITY_VALUE) { // point and spot
+        light_vec_out = u_lamp_light_positions[lamp_index] - v_pos_world;
+        distance_out = length(light_vec_out);
+        light_vec_out = normalize(light_vec_out);
+        visibility_factor_out = lamp_dist / (lamp_dist + distance_out * distance_out);
+    } else { // sun and hemi
+        light_vec_out = u_lamp_light_directions[lamp_index];
+        distance_out = length(u_lamp_light_positions[lamp_index] - v_pos_world);
+        visibility_factor_out = UNITY_VALUE;
+    }
+}
 #endnode
 
 #node NORMAL
@@ -498,8 +557,8 @@ vec2 vec_to_uv(vec3 vec)
     // return zero value for special cases which causes undefined result;
     // according to pow specification:
     // https://www.opengl.org/sdk/docs/man/html/pow.xhtml
-    if (val_in1 < 0.0 || val_in1 == 0.0 && val_in2 == 0.0)
-        val = 0.0;
+    if (val_in1 < ZERO_VALUE || val_in1 == ZERO_VALUE && val_in2 == ZERO_VALUE)
+        val = ZERO_VALUE;
     else
         val = pow(val_in1, val_in2);
 #endnode
@@ -621,7 +680,7 @@ vec2 vec_to_uv(vec3 vec)
         color.b = factorm*color.b + clamped_factor*color.b/color2.b;
 }
 #endnode
-#node MIX_RGB_DIFFERENCE 
+#node MIX_RGB_DIFFERENCE
     #node_in float factor
     #node_in vec3 color1
     #node_in vec3 color2
@@ -775,7 +834,7 @@ vec2 vec_to_uv(vec3 vec)
     if (hsv2.y != ZERO_VALUE) {
         hsv = rgb_to_hsv(color);
         hsv.x = hsv2.x;
-        tmp = hsv_to_rgb(hsv); 
+        tmp = hsv_to_rgb(hsv);
 
         color = mix(color, tmp, clamped_factor);
     }
@@ -837,13 +896,13 @@ vec2 vec_to_uv(vec3 vec)
         hsv = rgb_to_hsv(color);
         hsv.x = hsv2.x;
         hsv.y = hsv2.y;
-        tmp = hsv_to_rgb(hsv); 
+        tmp = hsv_to_rgb(hsv);
 
         color = mix(color, tmp, clamped_factor);
     }
 }
 #endnode
-#node MIX_RGB_SOFT_LIGHT 
+#node MIX_RGB_SOFT_LIGHT
     #node_in float factor
     #node_in vec3 color1
     #node_in vec3 color2
@@ -903,7 +962,7 @@ vec2 vec_to_uv(vec3 vec)
     #node_out float alpha_out
     #node_out vec3 normal_out
     #node_param const vec3 diffuse_params // vec3(use_diffuse, diffuse_param, diffuse_param2)
-    #node_param const vec3 specular_params// vec3(use_spec, intensity, spec_param)
+    #node_param const vec4 specular_params// vec3(use_spec, intensity, spec_param_0, spec_param_1)
     #node_param const float use_normal_in
 
     // NOTE: fixes some cross-platform issues
@@ -922,7 +981,7 @@ vec2 vec_to_uv(vec3 vec)
     // specular
     vec3 S = specular_params[1] * specular_color;
     float use_spec = specular_params[0];
-    float specular_param = specular_params[2];
+    vec2 sp_params = vec2(specular_params[2], specular_params[3]);
 
     float shadow_factor = calc_shadow_factor(nin_shadow_visibility_falloff, D);
 
@@ -933,16 +992,19 @@ vec2 vec_to_uv(vec3 vec)
         normal = nin_normal;
 
     lighting_result lresult = lighting(E, A, D, S, nin_pos_world,
-        normal, nin_eye_dir, specular_param, diffuse_param, shadow_factor,
+        normal, nin_eye_dir, sp_params, diffuse_param, shadow_factor,
         u_light_positions, u_light_directions, u_light_color_intensities,
         u_light_factors1, u_light_factors2, ZERO_VALUE, vec4(ZERO_VALUE));
 
     color_out = (use_diffuse == UNITY_VALUE) ? lresult.color.rgb : vec3(ZERO_VALUE);
     alpha_out = alpha_in + lresult.color.a * S.r;
+    alpha_out = clamp(alpha_out, ZERO_VALUE, UNITY_VALUE);
     normal_out = normal;
-    
+
+    material_apply_mirror(color_out, nin_eye_dir, normal_out, nout_normalmap);
+
     if (use_spec == UNITY_VALUE) {
-        color_out += lresult.specular; 
+        color_out += lresult.specular;
         nout_specular_color = lresult.specular;
     } else {
         nout_specular_color = vec3(ZERO_VALUE);
@@ -966,7 +1028,7 @@ vec2 vec_to_uv(vec3 vec)
     #node_out vec3 diffuse_out
     #node_out vec3 spec_out
     #node_param const vec3 diffuse_params // vec3(use_diffuse, diffuse_param, diffuse_param2)
-    #node_param const vec3 specular_params// vec3(use_spec, intensity, spec_param)
+    #node_param const vec4 specular_params// vec3(use_spec, intensity, spec_param_0, spec_param_1)
     #node_param const float use_normal_in
 
     // NOTE: fixes some cross-platform issues
@@ -985,7 +1047,7 @@ vec2 vec_to_uv(vec3 vec)
     // specular
     vec3 S = specular_params[1] * specular_color;
     float use_spec = specular_params[0];
-    float specular_param = specular_params[2];
+    vec2 sp_params = vec2(specular_params[2], specular_params[3]);
 
     float shadow_factor = calc_shadow_factor(nin_shadow_visibility_falloff, D);
 
@@ -996,18 +1058,22 @@ vec2 vec_to_uv(vec3 vec)
         normal = nin_normal;
 
     lighting_result lresult = lighting(E, A, D, S, nin_pos_world,
-        normal, nin_eye_dir, specular_param, diffuse_param, shadow_factor,
+        normal, nin_eye_dir, sp_params, diffuse_param, shadow_factor,
         u_light_positions, u_light_directions, u_light_color_intensities,
         u_light_factors1, u_light_factors2, translucency_color, translucency_params);
 
     color_out = (use_diffuse == UNITY_VALUE) ? lresult.color.rgb : vec3(ZERO_VALUE);
-    alpha_out = alpha_in + lresult.color.a * S.r;
+    alpha_out = alpha_in;
     normal_out = normal;
     diffuse_out = lresult.color.rgb;
     spec_out = lresult.specular;
-    
+
+    material_apply_mirror(color_out, nin_eye_dir, normal_out, nout_normalmap);
+
     if (use_spec == UNITY_VALUE) {
-        color_out += lresult.specular; 
+        color_out += lresult.specular;
+        alpha_out += lresult.color.a * S.r;
+        alpha_out = clamp(alpha_out, ZERO_VALUE, UNITY_VALUE);
         nout_specular_color = lresult.specular;
     } else {
         nout_specular_color = vec3(ZERO_VALUE);
@@ -1037,6 +1103,17 @@ vec2 vec_to_uv(vec3 vec)
     r_out = color.r;
     g_out = color.g;
     b_out = color.b;
+#endnode
+
+#node SEPHSV
+    #node_in vec3 color
+    #node_out float h_out
+    #node_out float s_out
+    #node_out float v_out
+    vec3 out_col = rgb_to_hsv(color);
+    h_out = out_col.r;
+    s_out = out_col.g;
+    v_out = out_col.b;
 #endnode
 
 #node SQUEEZE
@@ -1110,7 +1187,7 @@ vec2 vec_to_uv(vec3 vec)
 {
     vec4 texval = texture2D(texture, vec_to_uv(uv));
     color = texval.xyz;
-    
+
     srgb_to_lin(color);
     value = texval.w;
 
@@ -1284,14 +1361,18 @@ vec2 vec_to_uv(vec3 vec)
     #node_in vec3 uv_in
     #node_in float parallax_scale
     #node_in const float steps
+    #node_in const float lod_dist
     #node_out vec3 uv_out
     #node_param uniform sampler2D texture // heigth is written in alpha channel
 
     float view_dist = length(nin_pos_view);
 
-    if (view_dist < 10.0) {
+    if (view_dist < lod_dist) {
 
-        float multiplier = clamp(5.0 - 0.5 * view_dist, ZERO_VALUE, UNITY_VALUE);
+        vec2 texcoord = vec_to_uv(uv_in);
+
+        float multiplier = clamp(0.5 * (lod_dist - view_dist),
+                                 ZERO_VALUE, UNITY_VALUE);
         float scale = parallax_scale * multiplier;
 
         // transform eye to tangent space
@@ -1304,8 +1385,6 @@ vec2 vec_to_uv(vec3 vec)
         vec2 dtex = eye.xy * scale / (steps * eye.z);
 
         float height = UNITY_VALUE;
-
-        vec2 texcoord = vec_to_uv(uv_in);
 
         float h = texture2D(texture, texcoord).a; // get height
 
@@ -1344,9 +1423,9 @@ vec2 vec_to_uv(vec3 vec)
     #node_in float spot_hardness
     #node_in float spot_intensity
     #node_in float spot_diff_factor
-    
+
     #node_out float translucency_color
-    #node_out vec4 translucency_params 
+    #node_out vec4 translucency_params
 
     translucency_color = color;
     translucency_params = vec4(backside_factor, spot_hardness, spot_intensity, spot_diff_factor);
@@ -1365,7 +1444,7 @@ vec2 vec_to_uv(vec3 vec)
 ============================================================================*/
 
 void main(void) {
-    
+
 #if SHADED
 
 # if WATER_EFFECTS
@@ -1374,7 +1453,7 @@ void main(void) {
 
     vec3 sided_normal = v_normal;
 #if DOUBLE_SIDED_LIGHTING
-    // NOTE: workaround for some bug with gl_FrontFacing on Intel graphics 
+    // NOTE: workaround for some bug with gl_FrontFacing on Intel graphics
     // or open-source drivers
     if (gl_FrontFacing)
         sided_normal = sided_normal;
@@ -1387,7 +1466,7 @@ void main(void) {
     mat3 tbn_matrix = mat3(v_tangent.xyz, binormal, sided_normal);
 # endif
 
-    // internal params used in MATERIAL nodes 
+    // internal params used in MATERIAL nodes
     // NOTE: array uniforms used in nodes can't be renamed:
     // u_light_positions, u_light_directions, u_light_color_intensities,
     // u_light_factors1, u_light_factors2;
@@ -1395,7 +1474,11 @@ void main(void) {
     vec3 nin_normal = normalize(sided_normal);
     // ambient
     float sky_factor = 0.5 * nin_normal.y + 0.5; // dot of vertical vector and normal
+#if SKY_TEXTURE
+    vec3 nin_environment_color = u_environment_energy * textureCube(u_sky_texture, nin_normal).rgb;
+#else
     vec3 nin_environment_color = u_environment_energy * mix(u_horizon_color, u_zenith_color, sky_factor);
+#endif
     vec3 eye_dir = u_camera_eye_frag - v_pos_world;
     vec3 nin_eye_dir = normalize(eye_dir);
     vec3 nin_pos_world = v_pos_world;
@@ -1404,7 +1487,7 @@ void main(void) {
     float nin_ambient = u_ambient;
     float nin_shadow_visibility_falloff = u_shadow_visibility_falloff;
 # if CALC_TBN_SPACE
-    mat3 nin_tbn_matrix = tbn_matrix; 
+    mat3 nin_tbn_matrix = tbn_matrix;
 # endif
 
     vec3 nout_color;
@@ -1418,18 +1501,6 @@ void main(void) {
 
     vec3 color = nout_color;
     float alpha = nout_alpha;
-
-# if REFLECTIVE || TEXTURE_MIRROR
-
-#  if CALC_TBN_SPACE
-    apply_mirror(color, nin_eye_dir, nout_normal, u_fresnel_params[2], 
-        u_fresnel_params[3], nout_normalmap.st);
-#  else
-    apply_mirror(color, nin_eye_dir, nout_normal, u_fresnel_params[2], 
-        u_fresnel_params[3], vec2(ZERO_VALUE));
-#  endif
-
-# endif
 
 # if WATER_EFFECTS || !DISABLE_FOG
     vec3 sun_color_intens = u_sun_intensity;
@@ -1453,12 +1524,12 @@ void main(void) {
     vec4 fog_color = vec4(cube_fog, u_fog_color_density.a);
     srgb_to_lin(fog_color.rgb);
 #  else
-    vec4 fog_color = u_fog_color_density;  
+    vec4 fog_color = u_fog_color_density;
     fog_color.rgb *= sun_color_intens;
 #  endif
 
 #  if WATER_EFFECTS
-    fog_underwater(color, length(v_pos_view), nin_eye_dir.y, u_cam_water_depth,
+    fog_underwater(color, length(v_pos_view), nin_eye_dir, u_cam_water_depth,
         u_underwater_fog_color_density, fog_color, plane_dist,
         length(sun_color_intens) + u_environment_energy);
 #  else
@@ -1480,7 +1551,7 @@ void main(void) {
 # if USE_NODE_GEOMETRY_NO
     vec3 sided_normal = v_normal;
 #  if DOUBLE_SIDED_LIGHTING
-    // NOTE: workaround for some bug with gl_FrontFacing on Intel graphics 
+    // NOTE: workaround for some bug with gl_FrontFacing on Intel graphics
     // or open-source drivers
     if (gl_FrontFacing)
         sided_normal = sided_normal;
@@ -1507,7 +1578,7 @@ void main(void) {
 
     lin_to_srgb(color);
 
-#if ALPHA && !ALPHA_CLIP 
+#if ALPHA && !ALPHA_CLIP
     premultiply_alpha(color, alpha);
 #endif
     gl_FragColor = vec4(color, alpha);

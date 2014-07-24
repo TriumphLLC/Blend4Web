@@ -82,7 +82,8 @@ exports.submesh_to_bufs_data = function(submesh, zsort_type, draw_mode, vc_usage
         if (!(attr_name in vc_usage) || vc_usage[attr_name].generate_buffer)
             va_common[attr_name] = submesh.va_common[attr_name];
 
-    var bufs_data = generate_bufs_data_arrays(indices, va_frames, va_common, base_length);
+    var bufs_data = init_bufs_data();
+    generate_bufs_data_arrays(bufs_data, indices, va_frames, va_common, base_length);
     update_draw_mode(bufs_data, draw_mode);
     update_gl_buffers(bufs_data);
 
@@ -205,29 +206,15 @@ function expand_vertex_array_i(indices, vertex_array, num_comp) {
 }
 
 /**
- * NOTE: unused
- * Initialize attribute buffer data
+ * Initialize rendering buffers data
+ * @deprecated Unused
  *
- * count specified for POINTS rendering
- * indices specified for TRIANGLES rendering (Uint16Array)
- *
- * 1. Optional index buffer object (IBO)
- * 2. Vertex buffer object (VBO)
- * 3. for each attribute:
- *     - attribute name
- *     - number of components
- *     - offset
- *     - length
- *     - number of frames (vertex anim)
- * 4. draw mode
- * 5. count
+ * @param indices specified for TRIANGLES rendering (Uint16Array)
+ * @param count specified for POINTS rendering
  */
 exports.create_bufs_data = function(draw_mode, indices, count) {
 
-    var bufs_data = {
-        vbo_array: [], 
-        pointers: {}
-    };
+    var bufs_data = init_bufs_data();
 
     update_draw_mode(bufs_data, draw_mode);
 
@@ -248,9 +235,26 @@ exports.create_bufs_data = function(draw_mode, indices, count) {
     return bufs_data;
 }
 
+function init_bufs_data() {
+    return {
+        ibo_array: null,
+        vbo_array: null,
+        ibo_type: 0,
+        count: 0,
+        pointers: {},
+        mode: 0,
+        usage: 0,
+        debug_ibo_bytes: 0,
+        debug_vbo_bytes: 0,
+        vbo: null,
+        ibo: null,
+        info_for_z_sort_updates: null
+    }
+}
+
 /**
  * Append or replace attribute array
- * array must be of type Float32Array
+ * @param {Float32Array} array Attribute array
  */
 exports.update_bufs_data_array = function(bufs_data, attrib_name, num_comp, array) {
 
@@ -356,7 +360,7 @@ exports.make_dynamic = function(bufs_data) {
     bufs_data.usage = _gl.DYNAMIC_DRAW;
 }
 
-function generate_bufs_data_arrays(indices, va_frames, va_common, base_length) {
+function generate_bufs_data_arrays(bufs_data, indices, va_frames, va_common, base_length) {
 
     if (indices.length) {
         var count = indices.length;
@@ -439,13 +443,11 @@ function generate_bufs_data_arrays(indices, va_frames, va_common, base_length) {
         }
     }
 
-    return {
-        count     : count,
-        ibo_array : ibo_array,
-        vbo_array : vbo_array, 
-        ibo_type  : ibo_type,
-        pointers  : pointers       
-    }
+    bufs_data.count     = count;
+    bufs_data.ibo_array = ibo_array;
+    bufs_data.vbo_array = vbo_array;
+    bufs_data.ibo_type  = ibo_type;
+    bufs_data.pointers  = pointers;
 }
 
 /**
@@ -1197,7 +1199,7 @@ function get_vertex_influences(vertex_groups, groups_num, vert_index, base_lengt
         return res_buf;
 
     // sort in descending order by weights
-    sort_two_arrays(weights_buf, bones_buf);
+    sort_two_arrays(weights_buf, bones_buf, false);
 
     // normalize weights (in case they were not normalized by author)
     var sum_weights = 0;
@@ -1366,7 +1368,7 @@ function sort_two_arrays(main_arr, extra_arr, ascending) {
     var swapped = false;
     var tmp;
 
-    var order_factor = (ascending == 1) ? -1 : 1;
+    var order_factor = ascending ? -1 : 1;
  
     while (gap > 1 || swapped) {
         if (gap > 1)

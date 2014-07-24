@@ -76,7 +76,6 @@ exports.check_bpy_data = function(bpy_data) {
         }
 
         if (!("b4w_glow_color" in world)) {
-            world["b4w_glow_color"] = new Float32Array(3);
             world["b4w_glow_color"] = [1.0,1.0,1.0];
             report("object", world, "b4w_glow_color");
         }
@@ -90,10 +89,12 @@ exports.check_bpy_data = function(bpy_data) {
             report("world", world, "b4w_fog_density");
             world["b4w_fog_density"] = 0.0;
         }
-        
+
         if(!("b4w_sky_settings" in world) || !("rayleigh_brightness" in world["b4w_sky_settings"])) {
             report("world", world, "rayleigh_brightness");
             world["b4w_sky_settings"] = {
+                "procedural_skydome": false,
+                "use_as_enviroment_map": false,
                 "color": [0.24, 0.43, 0.75],
                 "rayleigh_brightness": 3.3,
                 "mie_brightness": 0.1,
@@ -103,8 +104,8 @@ exports.check_bpy_data = function(bpy_data) {
                 "mie_strength": 0.006,
                 "rayleigh_collection_power": 0.5,
                 "mie_collection_power": 0.5,
-                "mie_distribution": 0.4         
-            };     
+                "mie_distribution": 0.4
+            };
         }
 
         if(!("b4w_bloom_settings" in world)) {
@@ -345,13 +346,13 @@ exports.check_bpy_data = function(bpy_data) {
             lamp["b4w_generate_shadows"] = false;
             report("lamp", lamp, "b4w_generate_shadows");
         }
-        
+
         if (!("b4w_dynamic_intensity" in lamp)) {
             lamp["b4w_dynamic_intensity"] = false;
             report("lamp", lamp, "b4w_dynamic_intensity");
         }
     }
-    
+
     /* object data - speakers */
     var speakers = bpy_data["speakers"];
 
@@ -446,6 +447,11 @@ exports.check_bpy_data = function(bpy_data) {
             report("material", texture, "b4w_parallax_steps");
         }
 
+        if (!("b4w_parallax_lod_dist" in texture)) {
+            texture["b4w_parallax_lod_dist"] = 10;
+            report("material", texture, "b4w_parallax_lod_dist");
+        }
+
         if (!("b4w_shore_dist_map" in texture)) {
             texture["b4w_shore_dist_map"] = false;
             report("texture", texture, "b4w_shore_dist_map");
@@ -476,6 +482,14 @@ exports.check_bpy_data = function(bpy_data) {
 
         if ("b4w_node_mat_type" in mat) {
             report_deprecated("material", mat, "b4w_node_mat_type");
+        }
+
+        if ("b4w_skydome" in mat) {
+            report_deprecated("material", mat, "b4w_skydome");
+        }
+
+        if ("b4w_procedural_skydome" in mat) {
+            report_deprecated("material", mat, "b4w_procedural_skydome");
         }
 
         if (mat["b4w_water"]) {
@@ -605,11 +619,6 @@ exports.check_bpy_data = function(bpy_data) {
             report("material", mat, "diffuse_intensity");
         }
 
-        if (!("b4w_procedural_skydome" in mat)) {
-            mat["b4w_procedural_skydome"] = false;
-            report("material", mat, "b4w_procedural_skydome");
-        }
-
         if (!("b4w_use_ghost" in mat)) {
             mat["b4w_use_ghost"] = false;
             //report("material", mat, "b4w_use_ghost");
@@ -668,6 +677,16 @@ exports.check_bpy_data = function(bpy_data) {
         if (!("specular_slope" in mat)) {
             mat["specular_slope"] = 0.2;
             report("material", mat, "specular_slope");
+        }
+
+        if (!("specular_toon_size" in mat)) {
+            mat["specular_toon_size"] = 0.5;
+            report("material", mat, "specular_toon_size");
+        }
+
+        if (!("specular_toon_smooth" in mat)) {
+            mat["specular_toon_smooth"] = 0.1;
+            report("material", mat, "specular_toon_smooth");
         }
 
         if (!("b4w_wettable" in mat)) {
@@ -822,7 +841,7 @@ exports.check_bpy_data = function(bpy_data) {
                 obj["game"]["collision_mask"] = 255;
                 //report("object", obj, "collision_mask");
             }
-                        
+
             if ("b4w_vehicle_settings" in obj) {
                 if (obj["b4w_vehicle_settings"]) {
                     if (!("steering_ratio" in obj["b4w_vehicle_settings"])) {
@@ -987,7 +1006,7 @@ exports.check_bpy_data = function(bpy_data) {
 
         if ("webgl_do_not_batch" in obj) {
             obj["b4w_do_not_batch"] = obj["webgl_do_not_batch"];
-            
+
             if (obj["webgl_do_not_batch"])
                 report_deprecated("object", obj, "webgl_do_not_batch");
         }
@@ -1569,7 +1588,6 @@ exports.create_material = function(name) {
         "b4w_water_detailed_dist": 1000,
         "b4w_terrain": false,
         "b4w_terrain_tex_type": "B4W_TERRAIN_NONE",
-        "b4w_skydome": false,
         "b4w_collision": false,
         "b4w_collision_id": "",
         "b4w_double_sided_lighting": false,
@@ -1584,6 +1602,14 @@ exports.create_material = function(name) {
         "game_settings": {
             "alpha_blend": "OPAQUE",
             "use_backface_culling": true
+        },
+        "halo": {
+            "size": 0.5,
+            "hardness": 50,
+            "b4w_halo_rings_color": [1.0, 1.0, 1.0],
+            "b4w_halo_lines_color": [1.0, 1.0, 1.0],
+            "b4w_halo_stars_blend_height": 10,
+            "b4w_halo_stars_min_height": 0
         },
         "node_tree": null,
         "texture_slots": []

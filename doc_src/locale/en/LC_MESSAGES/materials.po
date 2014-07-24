@@ -567,14 +567,6 @@ msgstr ""
 msgid "Специальный материал для рендеринга воды."
 msgstr "A special material for water rendering."
 
-#: ../materials.rst:225
-msgid "*Special: Skydome*"
-msgstr ""
-
-#: ../materials.rst:223
-msgid "Специальный материал для рендеринга неба."
-msgstr "A special material for sky rendering."
-
 #: ../materials.rst:230
 msgid "*Special: Collision*"
 msgstr ""

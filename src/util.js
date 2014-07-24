@@ -476,7 +476,7 @@ exports.dir_ground_proj_angle = function(obj) {
     var proj   = _vec3_tmp;
     var defdir = _vec3_tmp2;
 
-    switch (obj.type) {
+    switch (obj["type"]) {
     case "CAMERA":
         proj[0] =  0;
         proj[1] = -1;
@@ -2069,6 +2069,52 @@ exports.gen_color_id = function(counter) {
     var color_id = [r/51, g/51, b/51];
 
     return color_id;
+}
+
+/**
+ * Calculate intersection point of a line and a plane
+ * @methodOf util
+ * @see Lengyel E. - Mathematics for 3D Game Programming and Computer Graphics, 
+ * Third Edition. Chapter 5.2.1 Intersection of a Line and a Plane 
+ * @param {Float32Array} pn Plane normal
+ * @param {Number} p_dist Plane signed distance from the origin
+ * @param {Float32Array} lp Point belonging to the line
+ * @param {Float32Array} l_dir Line direction
+ * @param {Float32Array} dest Destination vector
+ * @returns {?Float32Array} Intersection point or null if the line is parallel to the plane
+ */
+exports.line_plane_intersect = function(pn, p_dist, lp, l_dir, dest) {
+    // four-dimensional representation of a plane
+    var plane = _vec4_tmp;
+    plane.set(pn);
+    plane[3] = p_dist;
+
+    // four-dimensional representation of line direction vector
+    var line_dir = _vec4_tmp2;
+    line_dir.set(l_dir);
+    line_dir[3] = 0;
+
+    var denominator = m_vec4.dot(plane, line_dir);
+
+    // parallel case
+    if (denominator == 0.0)
+        return null;
+
+    // four-dimensional representation of line point
+    var line_point = _vec4_tmp2;
+    line_point.set(lp);
+    line_point[3] = 1;
+
+    var numerator = m_vec4.dot(plane, line_point);
+
+    var t = - numerator / denominator;
+
+    // point of intersection
+    dest[0] = lp[0] + t * l_dir[0];
+    dest[1] = lp[1] + t * l_dir[1];
+    dest[2] = lp[2] + t * l_dir[2];
+
+    return dest;
 }
 
 }

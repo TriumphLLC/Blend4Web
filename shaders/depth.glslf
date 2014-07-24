@@ -103,9 +103,9 @@ void main(void) {
     
 #if SHADOW_SRC == SHADOW_SRC_NONE   // SHADOW_CAST or just DEPTH
 # if SHADOW_DST == SHADOW_DST_NONE
-    gl_FragColor = pack_depth(v_vertex_z);
+    gl_FragColor = pack(v_vertex_z);
 # elif SHADOW_DST == SHADOW_DST_RGBA
-    gl_FragColor = pack_depth(v_vertex_z);
+    gl_FragColor = pack(v_vertex_z);
 # elif SHADOW_DST == SHADOW_DST_DEPTH
     gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
 # elif SHADOW_DST == SHADOW_DST_VSM

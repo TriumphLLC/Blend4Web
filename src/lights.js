@@ -55,7 +55,7 @@ exports.lamp_to_light = function(lamp_obj) {
         light.spot_size = data["spot_size"];
         light.spot_blend = data["spot_blend"];
     }
-    
+
     light.generate_shadows = data["b4w_generate_shadows"];
     light.dynamic_intensity = data["b4w_dynamic_intensity"];
     lamp_obj._light = light;

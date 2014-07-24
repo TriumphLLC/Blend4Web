@@ -1,7 +1,7 @@
 "use strict";
 
 /** 
- * Low-level resource loader.
+ * Low-level resource loader. To load exported json files use {@link module:data}.
  * @module assets
  */
 b4w.module["assets"] = function(exports, require) {

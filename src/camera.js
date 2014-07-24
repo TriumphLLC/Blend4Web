@@ -569,8 +569,6 @@ function set_view(cam, camobj) {
     else if (cam.type == exports.TYPE_STEREO_RIGHT)
         cam.view_matrix[12] -= cam.stereo_eye_dist/2;
 
-    m_mat4.copy(cam.view_proj_matrix, cam.prev_view_proj_matrix);
-
     // update view projection matrix
     m_mat4.multiply(cam.proj_matrix, cam.view_matrix, cam.view_proj_matrix);
 

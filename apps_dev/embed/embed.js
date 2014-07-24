@@ -54,6 +54,13 @@ exports.init = function() {
 
     var is_debug = (b4w.version.type() == "DEBUG");
 
+    var show_fps = false;
+
+    var url_params = m_app.get_url_params();
+
+    if (url_params && "show_fps" in url_params)
+        show_fps = true;
+
     set_quality_config();
 
     b4w.app.init({
@@ -61,9 +68,12 @@ exports.init = function() {
         callback: init_cb,
         gl_debug: is_debug,
         physics_enabled: false,
-        show_fps: false,
+        show_fps: show_fps,
         console_verbose: is_debug,
-        alpha: false
+        error_purge_elements: ['control_panel'],
+        alpha: false,
+        smaa_search_texture_path: "smaa_search_texture.png",
+        smaa_area_texture_path: "smaa_area_texture.png"
     });
 }
 
@@ -88,11 +98,14 @@ function check_file_exist(file) {
 function init_cb(canvas_element, success) {
 
     if (!success) {
+        var url_params = m_app.get_url_params();
+
+        if (url_params &&  url_params.bg)
+            document.body.style.backgroundImage = 'url(' + url_params.bg + ')';
+
         console.log("b4w init failure");
         return;
     }
-
-    m_cfg.set("smaa", false);
 
     m_preloader.create_rotation_preloader({
         canvas_container_id: "main_canvas_container",
@@ -107,8 +120,9 @@ function init_cb(canvas_element, success) {
 
     check_device();
 
-    if (window.parent != window)
-        handle_iframe_scrolling(window, window.parent);
+    if (window.parent != window) {
+        fullscreen_on_button.style.display = "none";
+    }
 
 
     // search source file
@@ -121,7 +135,6 @@ function init_cb(canvas_element, success) {
         remove_built_in_scripts();
     } else {
         var url_params = m_app.get_url_params();
-
 
         if (url_params && url_params.load) {
             var file_exist = check_file_exist(url_params.load);
@@ -168,9 +181,6 @@ function check_device() {
 
             for (var i = 0; i < control_buttons.length; i++)
                 control_buttons[i].style.cssText = "width: 60px; height: 60px; margin-left: 5px; margin-top: 5px; background-size: 60px;";
-
-            if (window.parent != window)
-                fullscreen_on_button.style.display = "none";
     }
 }
 
@@ -309,43 +319,13 @@ function display_qual_menu(e, button) {
     }, false);
 }
 
-/**
- * Disable parent window scrolling if cursor is inside <iframe>
- */
-function handle_iframe_scrolling(win, win_par) {
-
-    try {
-        var scroll_x = win_par.scrollX;
-        var scroll_y = win_par.scrollY;
-
-        var inside = false;
-
-        win.onmouseover = function() {
-            inside = true;
-            scroll_x = win_par.scrollX;
-            scroll_y = win_par.scrollY;
-        };
-
-        win.onmouseout = function() {
-            inside = false;
-        };
-
-        win_par.onscroll = function(e) {
-            if (inside)
-                win_par.scroll(scroll_x, scroll_y);
-        }
-    } catch(e) {
-        console.warn("Cross-origin iframe detected, disabling scroll-lock feature");
-    }
-}
-
 function on_resize() {
     var w = window.innerWidth;
     var h = window.innerHeight;
     b4w.main.resize(w, h);
 }
 
-function loaded_callback(root) {
+function loaded_callback(data_id) {
     b4w.app.enable_camera_controls();
     b4w.set_render_callback(render_callback);
 }

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Outdoor Rendering &mdash; User Manual: Blend4Web v14.06</title>
+    <title>Outdoor Rendering &mdash; User Manual: Blend4Web v14.07</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.06',
+        VERSION:     '14.07',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User Manual: Blend4Web v14.06" href="index.html" />
+    <link rel="top" title="User Manual: Blend4Web v14.07" href="index.html" />
     <link rel="next" title="Gamma Correction and Alpha Compositing" href="gamma_alpha.html" />
     <link rel="prev" title="Animation" href="animation.html" /> 
   </head>
@@ -36,7 +36,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">User Manual: Blend4Web v14.06</a></div>
+          href="index.html">User Manual: Blend4Web v14.07</a></div>
         <div class="rel">
           <a href="animation.html" title="Animation"
              accesskey="P">previous</a> |
@@ -276,16 +276,20 @@
 </div>
 </div>
 </div>
-<div class="section" id="id25">
-<h2>Atmosphere<a class="headerlink" href="#id25" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="atmosphere">
+<span id="id25"></span><h2>Atmosphere<a class="headerlink" href="#atmosphere" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id26">
 <h3>Scattering<a class="headerlink" href="#id26" title="Permalink to this headline">¶</a></h3>
-<p>Create a plane object for the skydome as specified in the <a class="reference internal" href="textures.html#skydome-texture"><em>Skydome</em></a> section. An environment map is not needed. Enable the <tt class="docutils literal"><span class="pre">Special:</span> <span class="pre">Skydome</span></tt> and <tt class="docutils literal"><span class="pre">Procedural</span> <span class="pre">skydome</span></tt> checkboxes on the material.</p>
-<a class="reference internal image-reference" href="_images/skydome_procedural.jpg"><img alt="Атмосферное рассивание" class="align-center" src="_images/skydome_procedural.jpg" style="width: 100%;" /></a>
+<p>Enable the <tt class="docutils literal"><span class="pre">Sky</span> <span class="pre">Settings</span> <span class="pre">&gt;</span> <span class="pre">Procedural</span> <span class="pre">skydome</span></tt> option under the <tt class="docutils literal"><span class="pre">World</span></tt> tab. If a static <a class="reference internal" href="textures.html#skydome-texture"><em>skydome texture</em></a> is being used at the same time, it will be replaced.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Also, a procedural sky texture can be used to imitate environment lighting for objects, similar to the static <a class="reference internal" href="textures.html#skydome-texture"><em>skydome texture</em></a>. To do this, enable the <tt class="docutils literal"><span class="pre">Sky</span> <span class="pre">Settings</span> <span class="pre">&gt;</span> <span class="pre">Use</span> <span class="pre">as</span> <span class="pre">environment</span> <span class="pre">lighting</span></tt> and <tt class="docutils literal"><span class="pre">Environment</span> <span class="pre">Lighting</span> <span class="pre">&gt;</span> <span class="pre">Sky</span> <span class="pre">Texture</span></tt> checkboxes. If the world texture for environmet lighting already exists, it will be replaced.</p>
+</div>
+<a class="reference internal image-reference" href="_images/skydome_procedural.jpg"><img alt="Атмосферное рассеивание" class="align-center" src="_images/skydome_procedural.jpg" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p>The settings are located under the <tt class="docutils literal"><span class="pre">World</span></tt> tab.</p>
+<p>Supported settings:</p>
 <dl class="docutils">
 <dt><em>Sky Settings &gt; Sky color</em></dt>
 <dd><p class="first last">Base sky color. The default value is (0.087, 0.255, 0.6) (blue).</p>
@@ -439,14 +443,14 @@
 <li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting and Shadows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing Effects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System for Instancing Objects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="animation.html">Animation</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Outdoor Rendering</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#id2">Water</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id25">Atmosphere</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#atmosphere">Atmosphere</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#wind">Wind</a></li>
 </ul>
 </li>
@@ -490,7 +494,7 @@
           
     <div class="footer">
         &copy; Copyright 2014, Triumph LLC.
-      Last updated on 2014-06-25.
+      Last updated on 2014-07-23.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

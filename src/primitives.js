@@ -97,7 +97,7 @@ function generate_grid(x_subdiv, z_subdiv, x_size, z_size) {
  * Extract water submesh
  */
 exports.generate_multigrid = function(num_cascads, subdivs, detailed_dist) {
-    
+
     var min_casc_size = detailed_dist / Math.pow(2, num_cascads - 1);
     var x_size   = min_casc_size;
     var z_size   = min_casc_size;
@@ -156,7 +156,7 @@ exports.generate_multigrid = function(num_cascads, subdivs, detailed_dist) {
                             break;
                         }
                     }
-                                
+
                     if (coinciding_ind !== null) {
                         var idx0 = coinciding_ind;
                     } else
@@ -274,10 +274,10 @@ exports.generate_multigrid = function(num_cascads, subdivs, detailed_dist) {
                 }
             }
             casc_indices.push(indices_in_row);
-            
+
         }
         prev_utmost_verts = cur_utmost_verts;
-        
+
         prev_x =  x_size;
         prev_z =  z_size;
 
@@ -449,22 +449,21 @@ exports.generate_frustum = function(corners) {
     return submesh;
 }
 
-function generate_fullscreen_quad() {
-    var attr_arrays = {};
+exports.generate_fullscreen_quad = function() {
 
+    var submesh = util.create_empty_submesh("SKY");
     var NINES = 0.9999;
 
-    attr_arrays["indices"]     = [0, 2, 1, 1, 2, 3];
-    attr_arrays["a_position"]  = [-1,  1, NINES, 
-                                   1,  1, NINES, 
-                                  -1, -1, NINES, 
-                                   1, -1, NINES];
-    attr_arrays["a_normal"]    = [];
-    attr_arrays["a_texcoord"]  = [];
-    attr_arrays["a_influence"] = [];
-    attr_arrays["a_color"]     = [];
-    
-    return attr_arrays;
+    var va_frame = util.create_empty_va_frame();
+    va_frame["a_position"] = new Float32Array([-1,  1, NINES,
+                                                1,  1, NINES,
+                                               -1, -1, NINES,
+                                                1, -1, NINES]);
+    submesh.va_frames[0] = va_frame;
+    submesh.indices = new Uint32Array([0, 2, 1, 1, 2, 3]);
+    submesh.base_length = 4;
+
+    return submesh;
 }
 
 exports.generate_billboard = function() {

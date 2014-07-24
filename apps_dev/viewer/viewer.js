@@ -20,6 +20,7 @@ var m_scenes   = require("scenes");
 var m_shaders  = require("shaders");
 var m_storage  = require("storage");
 var m_trans    = require("transform");
+var m_util     = require("util");
 var m_version  = require("version");
 
 var m_vec3 = require("vec3");
@@ -69,9 +70,9 @@ var _scene_settings = null;
 var _object_info_elem = null;
 var _lights_elem = null;
 
-var _selected_object_name = null;
+var _selected_object = null;
 var _object_selected_callback = function() {};
-var _controlled_object_name = null;
+var _controlled_object = null;
 var _dist_to_camera = null;
 
 exports.init = function() {
@@ -135,18 +136,14 @@ function get_asset_path(filename) {
 }
 
 function get_selected_object() {
-    if (_selected_object_name) {
-        var obj = m_scenes.get_object_by_name(_selected_object_name);
-        if (obj)
-            return obj;
-    }
-
-    return null;
+    return _selected_object;
 }
 
 function main_canvas_clicked(event) {
     if (!_object_info_elem)
         return;
+
+    hide_element("material_warning");
 
     if (event.preventDefault)
         event.preventDefault();
@@ -158,34 +155,30 @@ function main_canvas_clicked(event) {
     if (prev_obj)
         m_scenes.clear_glow_anim(prev_obj);
 
-    var name_selected = m_scenes.pick_object(x, y);
-    _selected_object_name = name_selected;
+    var obj = m_scenes.pick_object(x, y);
+    _selected_object = obj;
 
-    if (name_selected.length) {
-        _object_selected_callback(name_selected);
-        var obj = get_selected_object();
-        if (obj)
-            m_scenes.apply_glow_anim(obj, 0.2, 3.8, 1);
+    if (obj) {
+        _object_selected_callback(obj);
+        m_scenes.apply_glow_anim(obj, 0.2, 3.8, 1);
     } else
         forbid_material_params();
 
     set_object_info();
 
-    if (_controlled_object_name)
+    if (_controlled_object)
         return;
 
-    if (name_selected.length) {
-        if (obj) {
-            _controlled_object_name = obj["name"];
-            set_object_info();
-            m_app.enable_object_controls(obj);
-            m_ctl.create_kb_sensor_manifold(obj, "QUIT", m_ctl.CT_SHOT, m_ctl.KEY_Q, 
-                    function(obj, id, value, pulse) { 
-                        _controlled_object_name = null;
-                        set_object_info();
-                        m_app.disable_object_controls(obj);
-                    });
-        }
+    if (obj) {
+        _controlled_object = obj;
+        set_object_info();
+        m_app.enable_object_controls(obj);
+        m_ctl.create_kb_sensor_manifold(obj, "QUIT", m_ctl.CT_SHOT, m_ctl.KEY_Q, 
+                function(obj, id, value, pulse) { 
+                    _controlled_object = null;
+                    set_object_info();
+                    m_app.disable_object_controls(obj);
+                });
     } else
         enable_camera_controls();
 }
@@ -193,14 +186,14 @@ function main_canvas_clicked(event) {
 function enable_camera_controls() {
     var obj = m_scenes.get_active_camera();
 
-    _controlled_object_name = obj["name"];
+    _controlled_object = obj;
     set_object_info();
 
     var cam_rot_speed = _scene_settings.camera_rot_speed;
     m_app.enable_camera_controls(1, cam_rot_speed);
     m_ctl.create_kb_sensor_manifold(obj, "QUIT", m_ctl.CT_SHOT, m_ctl.KEY_Q, 
             function(obj, id, value, pulse) { 
-                _controlled_object_name = null;
+                _controlled_object = null;
                 set_object_info();
                 m_app.disable_object_controls(obj);
             });
@@ -227,29 +220,31 @@ function set_object_info() {
     if (!_object_info_elem)
         return;
 
-    var controlled_str = _controlled_object_name ? 
-            String(_controlled_object_name) : "NONE";
-    var selected_str = _selected_object_name ? 
-            String(_selected_object_name) : "NONE";
+    var controlled_str = _controlled_object ? 
+            String(_controlled_object["name"]) : "NONE";
+    var selected_str = _selected_object ? 
+            String(_selected_object["name"]) : "NONE";
 
     var info = "CONTROLLED: " + controlled_str + " | SELECTED: " + selected_str;
+
+    var obj = get_selected_object();
+    if(obj) {
+        var mesh_type = m_scenes.get_type_mesh_object(obj);
+        if (mesh_type)
+            info += " | TYPE: " + mesh_type;
+    }
+
     var controlled_obj = get_controlled_object();
 
-    if (_selected_object_name && controlled_obj &&
-                                 controlled_obj.type === "CAMERA")
+    if (_selected_object && controlled_obj &&
+            controlled_obj.type === "CAMERA")
         info += " | DISTANCE: " + _dist_to_camera;
 
     _object_info_elem.innerHTML = info;
 }
 
 function get_controlled_object() {
-    if (_controlled_object_name) {
-        var obj = m_scenes.get_object_by_name(_controlled_object_name);
-        if (obj)
-            return obj;
-    }
-
-    return false;
+    return _controlled_object;
 }
 
 function retrieve_last_item_id() {
@@ -260,7 +255,7 @@ function retrieve_last_item_id() {
 
     for (var i = 0; i < _manifest.length; i++) {
         var category = _manifest[i];
-        var item = keyfind("name", item_name, category.items)[0];
+        var item = m_util.keyfind("name", item_name, category.items)[0];
         if (item) 
             return {category: category.name, item: item_name};
     }
@@ -542,8 +537,8 @@ function process_scene(names, call_reset_b4w, wait_textures) {
     reset_settings_to_default();
 
     if (names) {
-        var category = keyfind("name", names.category, _manifest)[0];
-        var item = keyfind("name", names.item, category.items)[0];
+        var category = m_util.keyfind("name", names.category, _manifest)[0];
+        var item = m_util.keyfind("name", names.item, category.items)[0];
 
         for (var prop in item)
             _settings[prop] = item[prop];
@@ -562,14 +557,14 @@ function process_scene(names, call_reset_b4w, wait_textures) {
     load_scene(wait_textures);
 }
 
-function loaded_callback(root) {
+function loaded_callback(data_id) {
 
     var canvas_elem = m_main.get_canvas_elem();
     canvas_elem.addEventListener("mousedown", main_canvas_clicked, false);
 
     m_scenes.set_glow_color([1, 0.4, 0.05]);
     
-    _selected_object_name = null;
+    _selected_object = null;
     prepare_scenes(_settings);
 
     enable_camera_controls();
@@ -586,7 +581,7 @@ function loaded_callback(root) {
 
     var elapsed = m_ctl.create_elapsed_sensor();
     var cam_dist_cb = function(obj, id, pulse) {
-        if (pulse == 1 && _selected_object_name) {
+        if (pulse == 1 && _selected_object) {
             var sel_obj = get_selected_object();
             if (sel_obj) {
                 var sel_obj_pos = _vec3_tmp;
@@ -611,8 +606,8 @@ function auto_view_load_next() {
     if (item_id) {
         var category_name = item_id.category;
         var item_name = item_id.item;
-        var category = keyfind("name", category_name, _manifest)[0];
-        var item = keyfind("name", item_name, category.items)[0];
+        var category = m_util.keyfind("name", category_name, _manifest)[0];
+        var item = m_util.keyfind("name", item_name, category.items)[0];
         var item_index = category.items.indexOf(item);
 
         var new_item = category.items[item_index + 1];
@@ -648,7 +643,7 @@ function preloader_callback(percentage, load_time) {
     var warnings = m_debug.get_warning_quantity();
 
     // bpy data loaded
-    if (m_data.is_loaded()) {
+    if (m_data.is_primary_loaded()) {
         display_scene_stats();
         add_error_tooltip();
         if (!warnings && !errors) {
@@ -728,8 +723,7 @@ function prepare_scenes(global_settings) {
     change_apply_scene_settings(main_scene_name, settings);
 
     // ui for changing material color
-    _object_selected_callback = function(name_selected) {
-        var obj = m_scenes.get_object_by_name(name_selected);
+    _object_selected_callback = function(obj) {
         var mat_names = m_mat.get_materials_names(obj);
         fill_select_options("material_name", mat_names);
         get_material_params(obj, mat_names[0]);
@@ -810,7 +804,7 @@ function change_apply_scene_settings(scene_name, settings) {
     for (var i = 0; i < settings.animated_objects.length; i++) {
         var name = settings.animated_objects[i];
         var anim_obj = (name instanceof Array) ? 
-                m_scenes.get_object_by_empty_name(name[0], name[1]) : 
+                m_scenes.get_object_by_dupli_name(name[0], name[1]) : 
                 m_scenes.get_object_by_name(name);
         if (!anim_obj) {
             console.error("Animated object not found: ", name);
@@ -1508,6 +1502,14 @@ function set_sky_params(value) {
     m_scenes.set_sky_params(sky_params);
 }
 
+function show_element(obj) {
+    $('#' + obj)[0].style.display = 'block';
+}
+
+function hide_element(obj) {
+    $('#' + obj)[0].style.display = 'none';
+}
+
 function get_material_params(obj, mat_name) {
 
     var mparams = m_mat.get_material_extended_params(obj, mat_name);
@@ -1522,6 +1524,7 @@ function get_material_params(obj, mat_name) {
 
     if (!mparams) {
         forbid_params(mat_param_names, "disable");
+        show_element("material_warning");
         return null;
     }
 
@@ -1541,9 +1544,7 @@ function get_material_params(obj, mat_name) {
 
 function set_material_params(value) {
 
-    var name_selected = _selected_object_name;
-    var obj = m_scenes.get_object_by_name(name_selected);
-
+    var obj = get_selected_object();
     if ("material_name" in value)
         get_material_params(obj, value["material_name"]);
 
@@ -1552,7 +1553,7 @@ function set_material_params(value) {
         dc.push(1);
         m_mat.set_diffuse_color(obj, $("#material_name").val(), dc);
     }
-        
+
     var material_ext_params = {};
     if ("material_reflectivity" in value) 
         material_ext_params["material_reflectivity"] 
@@ -1651,8 +1652,7 @@ function get_water_material_params(obj, mat_name) {
 
 function set_water_material_params(value) {
 
-    var name_selected = _selected_object_name;
-    var obj = m_scenes.get_object_by_name(name_selected);
+    var obj = get_selected_object();
     var water_param_names = ["waves_height",
                              "waves_length",
                              "sss_strength",
@@ -2166,19 +2166,6 @@ function rgb_to_float(rgb, opt_dest) {
 function init_jQM_select(id) {
     $("#" + id).selectmenu();
     $("#" + id).selectmenu("refresh");
-}
-
-/*
- * return empty array if not found
- */
-function keyfind(key, value, array) {
-    var results = [];
-    for (var i = 0; i < array.length; i++) {
-        var obj = array[i];
-        if (obj[key] == value)
-            results.push(obj);
-    }
-    return results;
 }
 
 function auto_rotate_cam() {

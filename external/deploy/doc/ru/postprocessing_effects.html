@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Постпроцессинговые эффекты &mdash; Руководство пользователя: Blend4Web v14.06</title>
+    <title>Постпроцессинговые эффекты &mdash; Руководство пользователя: Blend4Web v14.07</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.06',
+        VERSION:     '14.07',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,9 +26,9 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v14.06" href="index.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v14.07" href="index.html" />
     <link rel="next" title="Система частиц" href="particles.html" />
-    <link rel="prev" title="Освещение и тени" href="lighting.html" /> 
+    <link rel="prev" title="Освещение, тени и фон" href="lighting.html" /> 
   </head>
   <body>
     <div class="header-wrapper">
@@ -37,9 +37,9 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">Руководство пользователя: Blend4Web v14.06</a></div>
+          href="index.html">Руководство пользователя: Blend4Web v14.07</a></div>
         <div class="rel">
-          <a href="lighting.html" title="Освещение и тени"
+          <a href="lighting.html" title="Освещение, тени и фон"
              accesskey="P">предыдущий</a> |
           <a href="particles.html" title="Система частиц"
              accesskey="N">следующий</a> |
@@ -165,6 +165,8 @@
 <dd>Степень проявленности эффекта. Значение по умолчанию 0.7.</dd>
 <dt><em>Maximum Ray Length</em></dt>
 <dd>Фактор длины лучей. Определяет шаг сэмплов радиального размытия. Значение по умолчанию 1.0.</dd>
+<dt><em>Steps Per Pass</em></dt>
+<dd>Количество шагов на один сэмпл. Значение по умолчанию 10.0.</dd>
 </dl>
 <a class="reference internal image-reference" href="_images/god_rays.jpg"><img alt="Сумеречные лучи" class="align-center" src="_images/god_rays.jpg" style="width: 100%;" /></a>
 <div class="line-block">
@@ -309,7 +311,7 @@
 <li class="toctree-l1"><a class="reference internal" href="textures.html">Текстуры</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Материалы</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Нодовые материалы</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lighting.html">Освещение и тени</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lighting.html">Освещение, тени и фон</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Постпроцессинговые эффекты</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#motion-blur">Размытие при движении</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#dof">Глубина резкости камеры</a></li>
@@ -354,7 +356,7 @@
     <div class="footer-wrapper">
       <div class="footer">
         <div class="left">
-          <a href="lighting.html" title="Освещение и тени"
+          <a href="lighting.html" title="Освещение, тени и фон"
              >предыдущий</a> |
           <a href="particles.html" title="Система частиц"
              >следующий</a> |
@@ -366,7 +368,7 @@
           
     <div class="footer">
         &copy; Copyright 2014, ООО &#34;Триумф&#34;.
-      Обновлено: 2014-06-25.
+      Обновлено: 2014-07-23.
       Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

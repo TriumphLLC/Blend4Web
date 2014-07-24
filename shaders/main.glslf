@@ -1,4 +1,5 @@
 #var PARALLAX_STEPS 0.0
+#var PARALLAX_LOD_DIST 0.0
 #var WATER_LEVEL 0.0
 #var WAVES_HEIGHT 0.0
 
@@ -30,6 +31,10 @@ uniform float u_time;
 uniform vec3  u_horizon_color;
 uniform vec3  u_zenith_color;
 uniform float u_environment_energy;
+
+#if SKY_TEXTURE
+uniform samplerCube u_sky_texture;
+#endif
 
 uniform float u_shadow_visibility_falloff;
 
@@ -133,7 +138,7 @@ uniform float u_specular_color_factor;
 #endif
 
 uniform vec3  u_specular_color;
-uniform vec2  u_specular_params;
+uniform vec3  u_specular_params;
 
 #if TEXTURE_NORM && PARALLAX
 uniform float u_parallax_scale;
@@ -229,7 +234,7 @@ void main(void) {
 #if TEXTURE_NORM && PARALLAX
     // parallax relief mapping
     // http://steps3d.narod.ru/tutorials/parallax-mapping-tutorial.html
-    if (view_dist < 10.0) {
+    if (view_dist < PARALLAX_LOD_DIST) {
 
         float multiplier = clamp(5.0 - 0.5 * view_dist, 0.0, 1.0);
         float parallax_scale = u_parallax_scale * multiplier;
@@ -244,6 +249,7 @@ void main(void) {
         vec2 dtex = eye.xy * parallax_scale / (PARALLAX_STEPS * eye.z);
 
         float height = 1.0;
+
         float h = texture2D(u_normalmap0, texcoord).a; // get height
 
         for (float i = 1.0; i <= PARALLAX_STEPS; i++)
@@ -287,7 +293,13 @@ void main(void) {
 
     // ambient
     float sky_factor = 0.5 * normal.y + 0.5; // dot of vertical vector and normal
+
+#if SKY_TEXTURE
+    vec3 environment_color = u_environment_energy * textureCube(u_sky_texture, normal).rgb;
+#else
     vec3 environment_color = u_environment_energy * mix(u_horizon_color, u_zenith_color, sky_factor);
+#endif
+
     vec3 A = u_ambient * environment_color;
 
     // material diffuse params (Lambert)
@@ -360,11 +372,11 @@ void main(void) {
     specular_color = mix(specular_color, stexture_color, u_specular_color_factor);
 #endif
     float specint = u_specular_params[0];
-    float spec_param = u_specular_params[1];
+    vec2 spec_params = vec2(u_specular_params[1], u_specular_params[2]);
     vec3 S = specint * specular_color;
 
     lighting_result lresult = lighting(E, A, D, S, v_pos_world, normal, eye_dir,
-        spec_param, u_diffuse_params, shadow_factor, u_light_positions,
+        spec_params, u_diffuse_params, shadow_factor, u_light_positions,
         u_light_directions, u_light_color_intensities, u_light_factors1,
         u_light_factors2, 0.0, vec4(0.0));
     vec3 color = lresult.color.rgb;
@@ -417,7 +429,7 @@ void main(void) {
     fog_color.rgb *= u_sun_intensity;
 # endif  // PROCEDURAL_FOG
 # if WATER_EFFECTS
-    fog_underwater(color, view_dist, eye_dir.y, u_cam_water_depth,
+    fog_underwater(color, view_dist, eye_dir, u_cam_water_depth,
         u_underwater_fog_color_density, fog_color, dist_to_water,
         length(u_sun_intensity) + u_environment_energy);
 # else

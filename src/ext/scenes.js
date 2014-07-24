@@ -9,18 +9,11 @@
 b4w.module["scenes"] = function(exports, require) {
 
 var m_batch     = require("__batch");
-var config      = require("__config");
-var m_prerender = require("__prerender");
 var m_print     = require("__print");
 var physics     = require("__physics");
-var renderer    = require("__renderer");
 var m_scenes    = require("__scenes");
 var util        = require("__util");
-var m_cam       = require("__camera");
 
-
-
-var cfg_def = config.defaults;
 
 /* subscene types for different aspects of processing */
 
@@ -88,106 +81,68 @@ exports["get_active_camera"] = function() {
  * Get object by name.
  * @method module:scenes.get_object_by_name
  * @param name Object name
+ * @param data_id Id of loaded data
  * @returns Object ID
  */
-exports["get_object_by_name"] = function(name) {
-    if (!m_scenes.check_active()) {
-        m_print.error("No active scene");
-        return null;
-    }
-
-    var sobjs = m_scenes.get_scene_objs(m_scenes.get_active());
-    var sobjs_name = util.keyfind("name", name, sobjs);
-
-    if (sobjs_name.length == 0) {
-        m_print.warn("get_object_by_name(" + name + "): not found");
-        return null;
-    } else if (sobjs_name.length == 1) {
-        return sobjs_name[0];
-    } else {
-        m_print.error("get_object_by_name(" + name + "): name ambiguity");
-        return null
-    }
+exports["get_object_by_name"] = function(name, data_id) {
+    return m_scenes.get_object(m_scenes.GET_OBJECT_BY_NAME, name, 
+            data_id);
 }
 
 /**
- * Get object by empty name and origin name.
- * @method module:scenes.get_object_by_empty_name
+ * Get object by empty name and dupli name.
+ * @method module:scenes.get_object_by_dupli_name
  * @param empty_name EMPTY object name
- * @param origin_name Origin object name
+ * @param dupli_name DUPLI object name
+ * @param data_id Id of loaded data
  * @returns Object ID
  */
-exports["get_object_by_empty_name"] = function(empty_name, origin_name) {
-    if (!m_scenes.check_active()) {
-        m_print.error("No active scene");
-        return false;
-    }
+exports["get_object_by_dupli_name"] = function(empty_name, dupli_name, 
+        data_id) {
+    return m_scenes.get_object(m_scenes.GET_OBJECT_BY_DUPLI_NAME, empty_name, 
+            dupli_name, data_id);
+}
 
-    var sobjs = m_scenes.get_scene_objs(m_scenes.get_active());
+/**
+ * Get object by empty name and dupli name list.
+ * @method module:scenes.get_object_by_dupli_name_list
+ * @param name_list List of EMPTY and DUPLI object names
+ * @param data_id Id of loaded data
+ * @returns Object ID
+ */
+exports["get_object_by_dupli_name_list"] = function(name_list, data_id) {
+    return m_scenes.get_object(m_scenes.GET_OBJECT_BY_DUPLI_NAME_LIST, 
+            name_list, data_id);
+}
 
-    for (var i = 0; i < sobjs.length; i++) {
-        var obj = sobjs[i];
+/**
+ * @method module:scenes.get_object_by_empty_name
+ * @deprecated use scenes.get_object_by_dupli_name instead
+ */
+exports["get_object_by_empty_name"] = function(empty_name, dupli_name, 
+        data_id) {
+    m_print.warn("get_object_by_empty_name() deprecated, use get_object_by_dupli_name() instead");
+    return exports["get_object_by_dupli_name"](empty_name, dupli_name, data_id);
+}
 
-        if (obj["dupli_group"] && obj["name"] == empty_name) {
-            var dupli_group = obj["dupli_group"];
-            var dg_objects = dupli_group["objects"];
-
-            for (var j = 0; j < dg_objects.length; j++) {
-
-                var dg_obj = dg_objects[j];
-
-                if (dg_obj["origin_name"] == origin_name)
-                    return dg_obj;
-            }
-        }
-    }
-
-    m_print.warn("get_object_by_empty_name(" + empty_name + ", " + origin_name+ "): not found");
-    return null;
+/**
+ * Returns object data_id property
+ * @method module:scenes.get_object_data_id
+ * @param {Object} obj Object ID
+ * @returns {Number} [data_id] Data id property
+ */
+exports["get_object_data_id"] = function(obj) {
+    return m_scenes.get_object_data_id(obj);
 }
 
 
 /**
- * For given mouse coords, render the color scene and return an object name
+ * For given mouse coords, render the color scene and return an object
  * @method module:scenes.pick_object
  * @param x X screen coordinate
  * @param y Y screen coordinate
  */
-exports["pick_object"] = function(x, y) {
-    
-    if (!m_scenes.check_active()) { 
-        m_print.error("No active scene");
-        return "";
-    }
-    var active_scene = m_scenes.get_active();
-    var subs_color_pick = m_scenes.get_subs(active_scene, "COLOR_PICKING");
-    if (subs_color_pick) {
-        // NOTE: may be some delay since exports.update() execution
-        m_prerender.prerender_subs(subs_color_pick);
-        renderer.draw(subs_color_pick, subs_color_pick.bundles);
-
-        var cam = subs_color_pick.camera;
-        var y = cam.height - y;
-        var color = renderer.read_pixels(cam.framebuffer, x, y);
-
-        // find objects having the same color
-        var sobjs = active_scene._appended_objects["MESH"];
-        for (var i = 0; i < sobjs.length; i++) {
-
-            var color_id = sobjs[i]._color_id;
-            if (color_id)
-                if (Math.abs(255 * color_id[0] - color[0]) < 5.0 &&
-                        Math.abs(255 * color_id[1] - color[1]) < 5.0 &&
-                        Math.abs(255 * color_id[2] - color[2]) < 5.0) {
-                    return sobjs[i]["name"];
-                }
-        }
-    } else {
-        m_print.error("Color picking is not available");
-    }
-
-    return "";
-}
+exports["pick_object"] = m_scenes.pick_object;
 
 /**
  * Set outline glow intensity for the object
@@ -249,7 +204,7 @@ exports["set_glow_color"] = function(color) {
     var scene = m_scenes.get_active();
     var subs = m_scenes.get_subs(scene, "GLOW");
     if (subs) {
-        subs.glow_color = color;
+        subs.glow_color.set(color);
         subs.need_perm_uniforms_update = true;
     }
 }
@@ -770,23 +725,21 @@ exports["remove_object"] = function(obj) {
 
 
 /**
- * Hide the object in the active scene.
+ * Hide object.
  * @method module:scenes.hide_object
  * @param {Object} obj Object ID
  */
 exports["hide_object"] = function(obj) {
-    var scene = m_scenes.get_active();
-    m_scenes.hide_object(scene, obj);
+    m_scenes.hide_object(obj);
 }
 
 /**
- * Show the object in the active scene.
+ * Show object.
  * @method module:scenes.show_object
  * @param {Object} obj Object ID
  */
 exports["show_object"] = function(obj) {
-    var scene = m_scenes.get_active();
-    m_scenes.show_object(scene, obj);
+    m_scenes.show_object(obj);
 }
 
 exports["is_visible"] = function(obj) {
@@ -839,7 +792,7 @@ exports["check_ray_hit"] = function() {
  */
 exports["get_appended_objs"] = function(type) {
     var scene = m_scenes.get_active()
-    return m_scenes.get_appended_objs(scene, type);
+    return m_scenes.get_scene_objs(scene, type);
 }
 
 /**
@@ -921,6 +874,17 @@ exports["get_shore_dist"] = function(trans, v_dist_mult) {
  */
 exports["get_cam_water_depth"] = function() {
     return m_scenes.get_cam_water_depth();
+}
+
+/**
+ * Return type of mesh object or null.
+ * @method module:scenes.get_type_mesh_object
+ * @param {Object} obj Object ID
+ */
+exports["get_type_mesh_object"] = function(obj) {
+    if (obj["type"] == "MESH")
+        return obj._render.type;
+    return null;
 }
 
 }

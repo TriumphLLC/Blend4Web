@@ -1,7 +1,14 @@
+html {
+    height: 100%;
+}
+
 body {
     margin: 0;
     padding: 0;
     overflow: hidden;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
 }
 
 div#main_canvas_container {

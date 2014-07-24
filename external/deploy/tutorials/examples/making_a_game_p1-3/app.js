@@ -1,3 +1,4 @@
+
 "use strict";
 
 /**
@@ -661,6 +662,21 @@ exports.enable_camera_controls = function(trans_speed, rot_speed, zoom_speed,
 }
 
 /**
+ * Disable controls for the active camera.
+ */
+exports.disable_camera_controls = function() {
+    var cam = m_scs.get_active_camera();
+
+    var cam_std_manifolds = ["FORWARD", "BACKWARD", "ROT_UP", "ROT_DOWN", 
+            "ROT_LEFT", "ROT_RIGHT", "UP", "DOWN", "LEFT", "RIGHT", 
+            "MOUSE_WHEEL", "TOUCH_ZOOM", "ZOOM_INTERPOL", "MOUSE_X", "MOUSE_Y",
+            "TOUCH_X", "TOUCH_Y", "ROT_INTERPOL"];
+
+    for (var i = 0; i < cam_std_manifolds.length; i++)
+        m_ctl.remove_sensor_manifold(cam, cam_std_manifolds[i]);
+}
+
+/**
  * Assign standard controls to the object.
  * @param {Object} obj Object ID
  */
@@ -751,7 +767,10 @@ exports.enable_object_controls = function(obj) {
  * @param {Object} Object ID or Camera object ID
  */
 exports.disable_object_controls = function(obj) {
-    m_ctl.remove_sensor_manifolds(obj);
+    var obj_std_manifolds = ["FORWARD", "BACKWARD", "LEFT", "RIGHT"];
+
+    for (var i = 0; i < obj_std_manifolds.length; i++)
+        m_ctl.remove_sensor_manifold(obj, obj_std_manifolds[i]);
 }
 
 /**
@@ -768,8 +787,8 @@ exports.enable_controls = function(canvas_elem) {
     canvas_elem.addEventListener("DOMMouseScroll", m_ctl.mouse_wheel_cb, false); // firefox
  
     // NOTE: register for body, while pointer lock also assign on body
-    document.body.addEventListener("mousedown", m_ctl.mouse_down_cb, false);
-    document.body.addEventListener("mouseup",   m_ctl.mouse_up_cb,   false);
+    canvas_elem.addEventListener("mousedown", m_ctl.mouse_down_cb, false);
+    canvas_elem.addEventListener("mouseup",   m_ctl.mouse_up_cb,   false);
     
     // NOTE: register for canvas to prevent panel issues in viewer
     canvas_elem.addEventListener("mousemove", m_ctl.mouse_move_cb, false);
@@ -958,7 +977,11 @@ exports.get_url_params = function() {
 
     for (var i = 0; i < params.length; i++) {
         var param = params[i].split("=");
-        out[param[0]] = param[1];
+
+        if (param.length > 1)
+            out[param[0]] = param[1];
+        else
+            out[param[0]] = '';
     }
 
     return out;

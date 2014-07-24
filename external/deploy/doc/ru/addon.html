@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Аддон &mdash; Руководство пользователя: Blend4Web v14.06</title>
+    <title>Аддон &mdash; Руководство пользователя: Blend4Web v14.07</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.06',
+        VERSION:     '14.07',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v14.06" href="index.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v14.07" href="index.html" />
     <link rel="next" title="Объекты" href="objects.html" />
     <link rel="prev" title="Просмотрщик сцен" href="viewer.html" /> 
   </head>
@@ -37,7 +37,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">Руководство пользователя: Blend4Web v14.06</a></div>
+          href="index.html">Руководство пользователя: Blend4Web v14.07</a></div>
         <div class="rel">
           <a href="viewer.html" title="Просмотрщик сцен"
              accesskey="P">предыдущий</a> |
@@ -84,13 +84,14 @@ the PLATFORM platform.</td>
 <td>Ошибка загрузки аддона. Аддон не
 совместим с платформой PLATFORM.</td>
 </tr>
-<tr class="row-odd"><td>Blend4Web initialization error!
-Blender version VER_REQUIRED is
-required for the Blend4Web addon.
-The current version is VER_CURRENT.</td>
-<td>Ошибка загрузки аддона. Для работы
-требуется версия Blender&#8217;а VER_REQUIRED,
-в то время как текущей версией является
+<tr class="row-odd"><td>Warning: Blender version mismatch.
+Blender VER_REQUIRED is recommended
+for the Blend4Web addon.
+Current version is VER_CURRENT.</td>
+<td>Предупреждение о возможной
+несовместимости с текущей версией Blender.
+Для работы рекомендуется версия Blender&#8217;а
+VER_REQUIRED. Текущая версия -
 VER_CURRENT.</td>
 </tr>
 </tbody>
@@ -438,6 +439,37 @@ ANIM_NAME не совпадает с числом вершин
 </tbody>
 </table>
 </div>
+<div class="section" id="id4">
+<h2>Предупреждения об ошибках экспорта<a class="headerlink" href="#id4" title="Ссылка на этот заголовок">¶</a></h2>
+<p>В отличие от ошибок экспорта, рассмотренных ранее, данные ошибки не препятствуют
+экспорту, однако могут приводит к некорректному отображению сцен. Чтобы увидеть
+описание предупреждения, необходимо воспользоваться консолью браузера, в котором
+загружена сцена. Сообщение имеет вид:</p>
+<blockquote>
+<div><tt class="docutils literal"><span class="pre">EXPORT</span> <span class="pre">WARNING:</span> <span class="pre">сообщение</span> <span class="pre">об</span> <span class="pre">ошибке</span></tt></div></blockquote>
+<table border="1" class="docutils">
+<colgroup>
+<col width="46%" />
+<col width="54%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Сообщение об ошибке</th>
+<th class="head">Причина</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>The NAME node is not supported.
+The NAME material will be rendered
+without nodes.</td>
+<td>Нода с данным именем не поддерживается
+движком, поэтому нодовый материал будет
+отключён. Чаще всего проблемы подобного
+рода возникают при использовании нод
+Cycles.</td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 
 
@@ -457,13 +489,14 @@ ANIM_NAME не совпадает с числом вершин
 <li class="toctree-l1 current"><a class="current reference internal" href="">Аддон</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#initialization-errors">Ошибки инициализации</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#export-errors">Ошибки экспорта</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">Предупреждения об ошибках экспорта</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Объекты</a></li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">Текстуры</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Материалы</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Нодовые материалы</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lighting.html">Освещение и тени</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lighting.html">Освещение, тени и фон</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Постпроцессинговые эффекты</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles.html">Система частиц</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Система частиц для инстансинга объектов</a></li>
@@ -509,7 +542,7 @@ ANIM_NAME не совпадает с числом вершин
           
     <div class="footer">
         &copy; Copyright 2014, ООО &#34;Триумф&#34;.
-      Обновлено: 2014-06-25.
+      Обновлено: 2014-07-23.
       Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

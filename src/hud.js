@@ -2,7 +2,6 @@
 
 /**
  * Head-up display control module.
- * Consists of internal functions only, currently used for debug purposes.
  * @name hud
  * @namespace
  * @exports exports as hud
@@ -110,14 +109,13 @@ function show_debug_info_scene(scene) {
         var size = Math.round(subs.camera.width) + "x" + Math.round(subs.camera.height);
         var bundles = subs.bundles.length;
         var rcalls = subs.debug_render_calls;
-        var lights = subs.lights.length;
 
         // active/passive
         var is_active = subs.enqueue && subs.do_render;
         if (is_active)
-            print(" (A)", type, lights, size, rcalls, "of", bundles);
+            print(" (A)", type, subs.num_lights, size, rcalls, "of", bundles);
         else
-            print(" (P)", type, lights, size, rcalls, "of", bundles);
+            print(" (P)", type, subs.num_lights, size, rcalls, "of", bundles);
 
         subs.debug_render_calls = 0;
 
@@ -159,7 +157,7 @@ function print() {
     var x = START_POINT_X;
     var y = START_POINT_Y + _carriage[0] * LINE_WIDTH;
 
-    var OFFSETS = [5, 18, 2, 10, 4, 3, 5];
+    var OFFSETS = [5, 18, 3, 10, 4, 3, 5];
 
     var text = arguments[0];
     for (var i = 1; i < arguments.length; i++) {

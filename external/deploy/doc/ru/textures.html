@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Текстуры &mdash; Руководство пользователя: Blend4Web v14.06</title>
+    <title>Текстуры &mdash; Руководство пользователя: Blend4Web v14.07</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.06',
+        VERSION:     '14.07',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v14.06" href="index.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v14.07" href="index.html" />
     <link rel="next" title="Материалы" href="materials.html" />
     <link rel="prev" title="Объекты" href="objects.html" /> 
   </head>
@@ -37,7 +37,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">Руководство пользователя: Blend4Web v14.06</a></div>
+          href="index.html">Руководство пользователя: Blend4Web v14.07</a></div>
         <div class="rel">
           <a href="objects.html" title="Объекты"
              accesskey="P">предыдущий</a> |
@@ -200,6 +200,8 @@
 <dd>Фактор влияния эффекта рельефной поверхности. Значение по умолчанию 0.03.</dd>
 <dt><em>Blend4Web &gt; Parallax Steps</em></dt>
 <dd>Количество итераций в расчетах рельефной поверхности. Большее значение приводит к лучшему качеству и к большим затратам вычислительных ресурсов. Значение по умолчанию 10.</dd>
+<dt><em>Blend4Web &gt; Parallax LOD distance</em></dt>
+<dd>Расстояние на котором виден эффект параллакса.</dd>
 </dl>
 <a class="reference internal image-reference" href="_images/parallax.jpg"><img alt="Визуализация рельефной поверхности (parallax mapping) по сравнению с картой нормалей" class="align-center" src="_images/parallax.jpg" style="width: 100%;" /></a>
 <div class="line-block">
@@ -263,7 +265,7 @@
 <span id="index-10"></span><h2>Карта окружения (environment map)<a class="headerlink" href="#environment-map" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Применяется в качестве карты зеркального отражения (mirror map) и в качестве статической текстуры неба (skydome).</p>
 <p>В движке представлена кубической текстурой. Растры для карт окружения должны содержать 6 спроецированных изображений окружающей среды, упакованных в 2 ряда по 3 (формат, используемый в Blender&#8217;e). Размер растров для каждого из изображений должен подчиняться правилу 2<sup>N</sup> (512, 1024 и т.п.).</p>
-<p>Во избежания проявления швов рекомендуется использовать формат без потери качества (PNG).</p>
+<p>Во избежание проявления швов рекомендуется использовать формат без потери качества (PNG).</p>
 <a class="reference internal image-reference" href="_images/environment_map.png"><img alt="Пример карты окружения" class="align-center" src="_images/environment_map.png" style="width: 100%;" /></a>
 <div class="section" id="id18">
 <h3>Создание карты окружения<a class="headerlink" href="#id18" title="Ссылка на этот заголовок">¶</a></h3>
@@ -304,14 +306,16 @@
 </div>
 <div class="section" id="skydome">
 <span id="skydome-texture"></span><span id="index-12"></span><h2>Текстура неба (skydome)<a class="headerlink" href="#skydome" title="Ссылка на этот заголовок">¶</a></h2>
-<p>Применяется для визуализации небесного свода. Представляет собой карту окружения.</p>
+<p>Применяется для визуализации бесконечно удаленного окружения (например, небесного свода). Представляет собой карту окружения.</p>
+<p>Также может применяться для имитации рассеянного окружения на объектах.</p>
 <div class="section" id="id22">
 <h3>Активация<a class="headerlink" href="#id22" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Создать специальным образом ориентированную плоскость. Создать метериал, выставить опцию <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Special:</span> <span class="pre">Skydome</span></tt>. Создать текстуру типа <tt class="docutils literal"><span class="pre">Environment</span> <span class="pre">Map</span></tt>.</p>
+<p>Создать текстуру мира (world texture) с типом &#8220;Environment Map&#8221;. Выбрать опцию <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Sky</span> <span class="pre">texture</span> <span class="pre">usage</span> <span class="pre">&gt;</span> <span class="pre">SKYDOME</span></tt>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Примечание</p>
+<p>Для имитации рассеянного окружения на объектах можно воспользоваться опцией <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Sky</span> <span class="pre">texture</span> <span class="pre">usage</span> <span class="pre">&gt;</span> <span class="pre">ENVIRONMENT_LIGHTING</span></tt>. Чтобы данное свойство отразилось на объектах необходимо включить соответствующую опцию в настройках мира: <tt class="docutils literal"><span class="pre">Environment</span> <span class="pre">Lighting</span> <span class="pre">&gt;</span> <span class="pre">Sky</span> <span class="pre">Texture</span></tt>.</p>
+<p class="last">Для создания обоих эффектов от одной текстуры необходимо выставить опцию <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Sky</span> <span class="pre">texture</span> <span class="pre">usage</span> <span class="pre">&gt;</span> <span class="pre">BOTH</span></tt>.</p>
 </div>
-<div class="section" id="id23">
-<h3>Дополнительные настройки<a class="headerlink" href="#id23" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Во избежания исчезновения изображения при поворотах камеры для объекта плоскости выставить опцию <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Disable</span> <span class="pre">frustum</span> <span class="pre">culling</span></tt>.</p>
 <a class="reference internal image-reference" href="_images/skydome.jpg"><img alt="Настройка текстуры неба" class="align-center" src="_images/skydome.jpg" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
@@ -321,16 +325,16 @@
 <div class="section" id="render-to-texture-rtt">
 <span id="index-13"></span><h2>Рендеринг в текстуру (render-to-texture, RTT)<a class="headerlink" href="#render-to-texture-rtt" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Изображение 3D сцены может быть использовано в качестве текстуры на объекте другой (&#8220;главной&#8221;) сцены.</p>
-<div class="section" id="id24">
-<h3>Активация<a class="headerlink" href="#id24" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id23">
+<h3>Активация<a class="headerlink" href="#id23" title="Ссылка на этот заголовок">¶</a></h3>
 <ol class="arabic simple">
 <li>Создать дополнительную сцену-источник, переименовать для удобства, создать <tt class="docutils literal"><span class="pre">World</span></tt>, добавить нужные объекты, настроить вид из камеры.</li>
 <li>В главной сцене для текстуры целевого объекта выставить тип <tt class="docutils literal"><span class="pre">None</span></tt>, в поле <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Source</span> <span class="pre">scene</span></tt> указать название сцены-источника. В меню <tt class="docutils literal"><span class="pre">Mapping</span> <span class="pre">&gt;</span> <span class="pre">Coordinates</span></tt> выбрать <tt class="docutils literal"><span class="pre">UV</span></tt>.  Убедиться, что меш объекта имеет развертку.</li>
 </ol>
 <a class="reference internal image-reference" href="_images/render_to_texture.jpg"><img alt="Рендеринг в текстуру" class="align-center" src="_images/render_to_texture.jpg" style="width: 100%;" /></a>
 </div>
-<div class="section" id="id25">
-<h3>Ограничения<a class="headerlink" href="#id25" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id24">
+<h3>Ограничения<a class="headerlink" href="#id24" title="Ссылка на этот заголовок">¶</a></h3>
 <p>В настоящее время имеется баг, вынуждающий иметь в обеих сценах один общий источник света.</p>
 </div>
 </div>
@@ -369,7 +373,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Материалы</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Нодовые материалы</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lighting.html">Освещение и тени</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lighting.html">Освещение, тени и фон</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Постпроцессинговые эффекты</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles.html">Система частиц</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Система частиц для инстансинга объектов</a></li>
@@ -415,7 +419,7 @@
           
     <div class="footer">
         &copy; Copyright 2014, ООО &#34;Триумф&#34;.
-      Обновлено: 2014-06-25.
+      Обновлено: 2014-07-23.
       Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

@@ -7,10 +7,11 @@
 
 var m_ipc = b4w.require("__ipc");
 
-var UPDATE_INTERVAL = 1/60;
 var NULL = 0;
 
+var _update_interval = 1/60;
 var _do_simulation = true;
+var _last_abs_time = 0;
 
 // need cleanup
 var _worlds = {};
@@ -859,9 +860,14 @@ function append_collision_test(pairs, need_payload) {
     for (var i = 0; i < pairs.length; i++) {
         var pair = pairs[i];
 
+        var is_pair_existed = false;
         for (var j = 0; j < tests.length; j++)
-            if (tests[j].body_id_a === pair[0] && tests[j].body_id_b === pair[1])
-                return;
+            if (tests[j].body_id_a === pair[0] && tests[j].body_id_b === pair[1]) {
+                is_pair_existed = true;
+                break;
+            }
+        if (is_pair_existed)
+            continue;
 
         var test = {
             body_id_a: pair[0],
@@ -1314,10 +1320,7 @@ function set_damping(body_id, damping, rotation_damping) {
     _du_set_damping(du_body_id, damping, rotation_damping);
 }
 
-/**
- * Init worker evironment
- */
-function init() {
+function init_worker_environment() {
     if (typeof importScripts === "function") {
 
         self.console = {};
@@ -1345,31 +1348,61 @@ function init() {
             // pass message cache
             self.postMessage(msg);
         }
+
     } else
         throw "Worker environment not found";
 
     m_ipc.init(self, process_message);
 }
 
-function update(timeline, delta) {
-    if (_do_simulation)
-        update_worlds(_worlds, timeline, delta);
+function init_engine(init_time, max_fps) {
+    if (!self["performance"])
+        self["performance"] = {};
 
-    m_ipc.post_msg(m_ipc.IN_FRAME_END);
+    if (!self["performance"]["now"]) {
+        self["performance"]["now"] = function() {
+            return Date.now() - init_time;
+        }
+    }
+
+    _update_interval = 1/max_fps;
+
+    frame();
 }
 
-function update_worlds(worlds, timeline, delta) {
+function frame() {
+    self.setTimeout(frame, 300 * _update_interval);
+
+    // float sec
+    var abstime = performance.now() / 1000;
+
+    if (!_last_abs_time)
+        _last_abs_time = abstime;
+
+    var delta = abstime - _last_abs_time;
+    
+    if (_do_simulation)
+        update_worlds(_worlds, abstime, delta);
+
+    _last_abs_time = abstime;
+}
+
+
+function update_worlds(worlds, time, delta) {
     for (var world_id in worlds) {
 
         var world = worlds[world_id];
 
-        var steps = _du_pre_simulation(world.du_id, delta, 3, UPDATE_INTERVAL);
+        var steps = _du_pre_simulation(world.du_id, delta, 3, _update_interval);
 
         if (steps) {
             for (var i = 0; i < steps; i++) {
-                var sim_time = _du_calc_sim_time(world.du_id, timeline, i, steps);
+                var sim_time = _du_calc_sim_time(world.du_id, time, i, steps);
+
                 pre_tick_callback(world, sim_time);
-                _du_single_step_simulation(world.du_id, sim_time);
+
+                _du_single_step_simulation(world.du_id, 0);
+
                 tick_callback(world, sim_time);
             }
         }
@@ -1738,12 +1771,12 @@ function obj_len(obj) {
 }
 
 function process_message(msg_id, msg) {
-    switch(msg_id) {
+    switch (msg_id) {
+    case m_ipc.OUT_INIT:
+        init_engine(msg[1], msg[2]);
+        break;
     case m_ipc.OUT_PING:
         m_ipc.post_msg(m_ipc.IN_PING, msg[1]);
-        break;
-    case m_ipc.OUT_FRAME_START:
-        update(msg[1], msg[2]);
         break;
     case m_ipc.OUT_APPEND_WORLD:
         append_world(msg[1]);
@@ -1892,4 +1925,4 @@ function process_message(msg_id, msg) {
     }
 }
 
-init();
+init_worker_environment();

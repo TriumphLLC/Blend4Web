@@ -572,4 +572,53 @@ exports["calc_ray"] = function(camobj, xpix, ypix, dest) {
     }
 }
 
+/**
+ * Project point on the viewport
+ * Screen space origin is the top left corner
+ * @method module:camera.project_point
+ * @param {Float32Array} point Point in world space
+ * @param {Float32Array} [dest] Destination vector
+ * @returns {Float32Array} Viewport coordinates
+ */
+exports["project_point"] = function(camobj, point, dest) {
+    if (!dest)
+        var dest = new Float32Array(2);
+
+    var cam = camobj._render.cameras[0];
+
+    switch (cam.type) {
+    case camera.TYPE_PERSP:
+    case camera.TYPE_PERSP_ASPECT:
+    case camera.TYPE_STEREO_LEFT:
+    case camera.TYPE_STEREO_RIGHT:
+
+        // get direction from camera location to point
+        var cam_trans = _vec3_tmp;
+        transform.get_translation(camobj, cam_trans);
+        m_vec3.subtract(point, cam_trans, cam_trans);
+
+        var dir = _vec4_tmp;
+        dir.set(cam_trans);
+        dir[3] = 0;
+
+        var vp = cam.view_proj_matrix;
+        m_vec4.transformMat4(dir, vp, dir);
+
+
+        var x = dir[0] / dir[3];
+        // NOTE: flip y coordinate to match space origin (top left corner)
+        // view+proj transformation doesn't do it
+        var y = -dir[1] / dir[3];
+
+        // transform from [-1, 1] to [0, cam.width] or [0, cam.height] interval
+        dest[0] = (x + 1) / 2 * cam.width | 0;
+        dest[1] = (y + 1) / 2 * cam.height | 0;
+
+        return dest;
+    default:
+        m_print.error("Non-compatible camera");
+        return dest;
+    }
+}
+
 }

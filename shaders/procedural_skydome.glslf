@@ -68,7 +68,7 @@ void main(void) {
     vec3 ray = normalize(v_ray);
     vec3 ldir = u_sun_direction;
     float alpha = dot(ray, ldir);
-    
+
     float rayleigh_factor = phase(alpha, -0.01) * u_rayleigh_brightness * ldir.y;
     float mie_factor = phase(alpha - 0.5, u_mie_distribution) * u_mie_brightness
                        * (1.0 - ldir.y);
@@ -79,7 +79,7 @@ void main(void) {
     float step_length = eye_depth/float(step_count);
     float eye_extinction = horizon_extinction(eye_position, ray, 
                                               surface_height - 0.3);
-    
+
     vec3 rayleigh_collected = vec3(0.0, 0.0, 0.0);
     vec3 mie_collected = vec3(0.0, 0.0, 0.0);
 

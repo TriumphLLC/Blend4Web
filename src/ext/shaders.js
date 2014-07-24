@@ -626,7 +626,7 @@ function print_shader_stats_nvidia(stats) {
 
         var mat_names = find_material_names_by_comp_shader(stat.cshader);
         mat_names = mat_names ? "\t\t(" + mat_names.join(", ") + ")" : "\t\t(NA)";
-   
+
         // NOTE some not changing params are commented out
         m_print.groupCollapsed(
             "FRAG -->",

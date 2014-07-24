@@ -127,8 +127,8 @@ exports["is_cyclic"] = function(obj) {
  * Use after quick listener movements to neutralize undesirable doppler effect.
  * @method module:sfx.listener_reset_speed
  */
-exports["listener_reset_speed"] = function() {
-    sfx.listener_reset_speed();
+exports["listener_reset_speed"] = function(speed, dir) {
+    sfx.listener_reset_speed(speed, dir);
 }
 
 /**
@@ -138,8 +138,8 @@ exports["listener_reset_speed"] = function() {
  * @method module:sfx.speaker_reset_speed
  * @param obj Speaker object ID
  */
-exports["speaker_reset_speed"] = function(obj) {
-    sfx.speaker_reset_speed(obj);
+exports["speaker_reset_speed"] = function(obj, speed, dir) {
+    sfx.speaker_reset_speed(obj, speed, dir);
 }
 
 /**

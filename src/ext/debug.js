@@ -52,7 +52,7 @@ exports["physics_id"] = function(id) {
 exports["visible_objects"] = function() {
     var scene = m_scenes.get_active();
 
-    var objs = scene._appended_objects["MESH"];
+    var objs = m_scenes.get_scene_objs(scene, "MESH");
 
     var subs_main = m_scenes.get_subs(scene, "MAIN_OPAQUE");
     var bundles = subs_main.bundles;
@@ -82,7 +82,7 @@ exports["visible_objects"] = function() {
 exports["object_info"] = function(name) {
     var scene = m_scenes.get_active();
 
-    var objs = scene._appended_objects["MESH"];
+    var objs = m_scenes.get_scene_objs(scene, "MESH");
 
     for (var i = 0; i < objs.length; i++) {
         var obj = objs[i];

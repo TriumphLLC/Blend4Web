@@ -26,23 +26,35 @@
 <section>
 
 <header>
-    <h2>
-    hud
-    </h2>
     
 </header>
 
 <article>
     <div class="container-overview">
     
+        
+            <div class="description">Head-up display functions.
+To work properly requres initialization of the separate canvas element.</div>
+        
+
+        
+<dt>
+    
+</dt>
+<dd>
 
     
-        
-            <div class="description">Head-up display functions</div>
-        
 
-        
+    
+
+    
+
+    
+
+    
 <dl class="details">
+    
+
     
 
     
@@ -64,23 +76,44 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="hud.js.html">ext/hud.js</a>, <a href="hud.js.html#line3">line 3</a>
+        <a href="ext_hud.js.html">ext/hud.js</a>, <a href="ext_hud.js.html#line3">line 3</a>
     </li></ul></dd>
     
 
     
 
     
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="module-main.html#init">module:main.init</a></li>
+        </ul>
+    </dd>
+    
 
     
 </dl>
 
 
-        
     
-    </div>
 
     
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+    
+
+    
+    </div>
 
     
 
@@ -100,8 +133,10 @@
         <dl>
             
 <dt>
-    <h4 class="name" id="draw_mixer_strip"><span class="type-signature">(static) </span>draw_mixer_strip<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+        <h4 class="name" id="draw_mixer_strip"><span class="type-signature">(static) </span>draw_mixer_strip<span class="signature">()</span><span class="type-signature"></span></h4>
 
+        
     
 </dt>
 <dd>
@@ -109,6 +144,7 @@
     
     <div class="description">
         Draw the mixer strip.
+Used by mixer addon.
     </div>
     
 
@@ -139,9 +175,11 @@
     
 
     
+
+    
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="hud.js.html">ext/hud.js</a>, <a href="hud.js.html#line18">line 18</a>
+        <a href="ext_hud.js.html">ext/hud.js</a>, <a href="ext_hud.js.html#line14">line 14</a>
     </li></ul></dd>
     
 
@@ -171,8 +209,10 @@
         
             
 <dt>
-    <h4 class="name" id="plot_array"><span class="type-signature">(static) </span>plot_array<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+        <h4 class="name" id="plot_array"><span class="type-signature">(static) </span>plot_array<span class="signature">(header, slot, arr, arg_min, arg_max, val_min, val_max)</span><span class="type-signature"></span></h4>
 
+        
     
 </dt>
 <dd>
@@ -187,6 +227,192 @@
 
     
 
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>header</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Plot header</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>slot</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Slot number</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>arr</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Float32Array</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Array</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>arg_min</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Minimum plot argument value</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>arg_max</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Maximum plot argument value</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>val_min</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Minimum plot value</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>val_max</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Maximum plot value</td>
+        </tr>
+
+    
+    </tbody>
+</table>
     
 
     
@@ -210,9 +436,11 @@
     
 
     
+
+    
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="hud.js.html">ext/hud.js</a>, <a href="hud.js.html#line12">line 12</a>
+        <a href="ext_hud.js.html">ext/hud.js</a>, <a href="ext_hud.js.html#line21">line 21</a>
     </li></ul></dd>
     
 
@@ -261,7 +489,7 @@
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-dev</a> on Wed Jun 25 2014 18:01:33 GMT+0400 (MSK)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-dev</a> on Wed Jul 23 2014 14:56:13 GMT+0400 (MSK)
 </footer>
 
 <script> prettyPrint(); </script>

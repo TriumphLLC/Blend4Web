@@ -134,7 +134,7 @@ exports.create_cubemap_texture = function(name, size) {
         "TEXTURE_CUBE_MAP_NEGATIVE_Y",
         "TEXTURE_CUBE_MAP_POSITIVE_Z", 
         "TEXTURE_CUBE_MAP_NEGATIVE_Z"
-    ];        
+    ];
 
     for (var i = 0; i < 6; i++) {
         var info = infos[i];
@@ -145,7 +145,7 @@ exports.create_cubemap_texture = function(name, size) {
     _gl.bindTexture(w_target, null);
 
     var texture = {};
-    
+
     texture.name = name;
     texture.type = exports.TT_RGBA_INT;
     texture.source = "NONE";
@@ -247,7 +247,7 @@ exports.create_texture_bpy = function(bpy_texture, global_af, bpy_scenes) {
     var image_data = new Uint8Array([0.8*255, 0.8*255, 0.8*255, 1*255]);
 
     var texture = {};
-    
+
     switch(tex_type) {
     case "IMAGE":
         var w_texture = _gl.createTexture();
@@ -317,9 +317,9 @@ exports.create_texture_bpy = function(bpy_texture, global_af, bpy_scenes) {
         _gl.texParameteri(w_target, _gl.TEXTURE_WRAP_S, _gl.CLAMP_TO_EDGE);
         _gl.texParameteri(w_target, _gl.TEXTURE_WRAP_T, _gl.CLAMP_TO_EDGE);
     }
-              
+
     _gl.generateMipmap(w_target);
-    
+
     _gl.bindTexture(w_target, null);
 
     texture.name = bpy_texture["name"];
@@ -498,8 +498,8 @@ exports.update_texture = function(texture, image_data, is_dds, filepath) {
             ["NEGATIVE_Y", 0, 1],
             ["POSITIVE_Z", 1, 0], 
             ["NEGATIVE_Z", 2, 1]
-        ];        
-    
+        ];
+
         if (update_color) {
             for (var i = 0; i < 6; i++) {
                 var info = infos[i];
@@ -510,8 +510,6 @@ exports.update_texture = function(texture, image_data, is_dds, filepath) {
             texture.width = 3;
             texture.height = 2;
         } else {
-            if (is_non_power_of_two(image_data.width / 3, image_data.height / 2))
-                throw "Warning: Wrong environment map dimensions " + filepath;
 
             // Restore default OpenGL state in case it was changed earlier
             _gl.pixelStorei(_gl.UNPACK_FLIP_Y_WEBGL, false);
@@ -520,12 +518,12 @@ exports.update_texture = function(texture, image_data, is_dds, filepath) {
 
             for (var i = 0; i < 6; i++) {
                 var info = infos[i];
-            
+
                 var tmpcanvas = document.createElement("canvas");
                 tmpcanvas.width = dim;
                 tmpcanvas.height = dim;
                 var ctx = tmpcanvas.getContext("2d");
-                
+
                 // OpenGL ES 2.0 Spec, 3.7.5 Cube Map Texture Selection
                 // vertical flip for Y, horizontal flip for X and Z
                 if (info[0] == "POSITIVE_Y" || info[0] == "NEGATIVE_Y") {
@@ -535,7 +533,7 @@ exports.update_texture = function(texture, image_data, is_dds, filepath) {
                     ctx.translate(dim, 0);
                     ctx.scale(-1, 1);
                 }
-                
+
                 ctx.drawImage(image_data, info[1] * dim, info[2] * dim, dim, dim, 
                     0, 0, dim, dim);
 
@@ -546,10 +544,15 @@ exports.update_texture = function(texture, image_data, is_dds, filepath) {
             texture.width = 3 * dim;
             texture.height = 2 * dim;
 
-            _gl.generateMipmap(w_target);   
+            if (is_non_power_of_two(image_data.width / 3, image_data.height / 2)) {
+                m_print.warn("B4W warning: using NPOT cube map texture", filepath);
+                prepare_npot_texture(w_target);
+            } else {
+                _gl.generateMipmap(w_target);
+            }
         }
     }
-    
+
     _gl.bindTexture(w_target, null);
 }
 

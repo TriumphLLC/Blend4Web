@@ -34,12 +34,13 @@ SUPPORTED_OBJ_TYPES = ["MESH", "CURVE", "ARMATURE", "EMPTY", "CAMERA", "LAMP", \
         "SPEAKER"]
 SUPPORTED_NODES = ["NodeFrame", "ShaderNodeMaterial", "ShaderNodeCameraData", \
         "ShaderNodeValue", "ShaderNodeRGB", "ShaderNodeTexture", \
-        "ShaderNodeGeometry", "ShaderNodeExtendedMaterial", \
+        "ShaderNodeGeometry", "ShaderNodeExtendedMaterial", "ShaderNodeLampData", \
         "ShaderNodeOutput", "ShaderNodeMixRGB", "ShaderNodeRGBCurve", \
         "ShaderNodeInvert", "ShaderNodeHueSaturation", "ShaderNodeNormal", \
         "ShaderNodeMapping", "ShaderNodeVectorCurve", "ShaderNodeValToRGB", \
         "ShaderNodeRGBToBW", "ShaderNodeMath", "ShaderNodeVectorMath", \
         "ShaderNodeSqueeze", "ShaderNodeSeparateRGB", "ShaderNodeCombineRGB", \
+        "ShaderNodeSeparateHSV", "ShaderNodeCombineHSV", \
         "NodeReroute", "ShaderNodeGroup", "NodeGroupInput", "NodeGroupOutput"]
 
 # globals
@@ -315,7 +316,7 @@ def mesh_get_active_vc(mesh):
                 return vc
 
         return mesh.vertex_colors[0]
-   
+
     return None
 
 def scenes_store_select_all_layers():
@@ -326,7 +327,7 @@ def scenes_store_select_all_layers():
 
         if scene.name not in _scene_active_layers:
             _scene_active_layers[scene.name] = {}
-        
+
         scene_lib_path = get_scene_lib_path(scene)
         layers = _scene_active_layers[scene.name][scene_lib_path] = []
 
@@ -410,7 +411,7 @@ def process_action(action):
 
     act_data["fcurves"] = OrderedDict()
     for fcurve in action.fcurves:
-        
+
         data_path = fcurve.data_path
         is_scale = data_path.find("scale") > -1
         is_location = data_path.find("location") > -1
@@ -536,7 +537,6 @@ def process_scene(scene):
             = scene.b4w_enable_convolution_engine
 
     scene_data["b4w_enable_physics"] = scene.b4w_enable_physics
-    scene_data["b4w_load_empty"] = scene.b4w_load_empty
     scene_data["b4w_render_shadows"] = scene.b4w_render_shadows
     scene_data["b4w_render_reflections"] = scene.b4w_render_reflections
     scene_data["b4w_render_refractions"] = scene.b4w_render_refractions
@@ -878,7 +878,7 @@ def process_mask(bin_list):
 # 3
 def process_object_pose(obj_data, obj, pose):
     """export current pose"""
-    
+
     obj_data["pose"] = None
     if pose:
         obj_data["pose"] = OrderedDict()
@@ -956,7 +956,7 @@ def process_object_nla(nla_tracks_data, nla_tracks, actions):
         track_data = OrderedDict()
         track_data["name"] = track.name
         track_data["strips"] = []
-        
+
         for strip in track.strips:
             strip_data = OrderedDict()
             strip_data["name"] = strip.name
@@ -1061,7 +1061,7 @@ def process_camera(camera):
             = round_num(camera.b4w_rotation_right_limit, 6)
     cam_data["b4w_horizontal_clamping_type"] \
             = camera.b4w_horizontal_clamping_type
-            
+
     cam_data["b4w_use_vertical_clamping"] = camera.b4w_use_vertical_clamping
     cam_data["b4w_rotation_down_limit"] \
             = round_num(camera.b4w_rotation_down_limit, 6)
@@ -1144,7 +1144,7 @@ def process_lamp(lamp):
         lamp_data["falloff_type"] = lamp.falloff_type
     else:
         lamp_data["falloff_type"] = None
-        
+
     if (lamp.type == "SPOT"):
         lamp_data["spot_size"] = round_num(lamp.spot_size, 5)
         lamp_data["spot_blend"] = round_num(lamp.spot_blend, 3)
@@ -1184,7 +1184,7 @@ def process_material(material):
     dct = mat_data["raytrace_transparency"] = OrderedDict()
     dct["fresnel"] = round_num(raytrace_transparency.fresnel, 4)
     dct["fresnel_factor"] = round_num(raytrace_transparency.fresnel_factor, 4)
-    
+
     raytrace_mirror = material.raytrace_mirror
     dct = mat_data["raytrace_mirror"] = OrderedDict()
     dct["reflect_factor"] = round_num(raytrace_mirror.reflect_factor, 4)
@@ -1196,6 +1196,8 @@ def process_material(material):
     mat_data["specular_shader"] = material.specular_shader
     mat_data["specular_hardness"] = round_num(material.specular_hardness, 4)
     mat_data["specular_slope"] = round_num(material.specular_slope, 4)
+    mat_data["specular_toon_size"] = round_num(material.specular_toon_size, 4)
+    mat_data["specular_toon_smooth"] = round_num(material.specular_toon_smooth, 4)
     mat_data["emit"] = round_num(material.emit, 3)
     mat_data["ambient"] = round_num(material.ambient, 3)
     mat_data["use_vertex_color_paint"] = material.use_vertex_color_paint
@@ -1255,8 +1257,6 @@ def process_material(material):
     mat_data["b4w_terrain"] = material.b4w_terrain
     mat_data["b4w_dynamic_grass_size"] = material.b4w_dynamic_grass_size
     mat_data["b4w_dynamic_grass_color"] = material.b4w_dynamic_grass_color
-    mat_data["b4w_skydome"] = material.b4w_skydome
-    mat_data["b4w_procedural_skydome"] = material.b4w_procedural_skydome
 
     mat_data["b4w_collision"] = material.b4w_collision
     mat_data["b4w_use_ghost"] = material.b4w_use_ghost
@@ -1337,6 +1337,7 @@ def process_texture(texture):
     tex_data["b4w_use_map_parallax"] = texture.b4w_use_map_parallax
     tex_data["b4w_parallax_scale"] = round_num(texture.b4w_parallax_scale, 3)
     tex_data["b4w_parallax_steps"] = round_num(texture.b4w_parallax_steps, 1)
+    tex_data["b4w_parallax_lod_dist"] = round_num(texture.b4w_parallax_lod_dist, 3)
     tex_data["b4w_water_foam"] = texture.b4w_water_foam
     tex_data["b4w_foam_uv_freq"] = round_iterable(texture.b4w_foam_uv_freq, 3)
 
@@ -1351,6 +1352,12 @@ def process_texture(texture):
             = round_iterable(texture.b4w_uv_velocity_trans, 3)
 
     tex_data["b4w_disable_compression"] = texture.b4w_disable_compression
+    tex_data["b4w_use_as_skydome"] = False
+    tex_data["b4w_use_as_environment_lighting"] = False
+    if texture.b4w_use_sky == "SKYDOME" or texture.b4w_use_sky == "BOTH":
+        tex_data["b4w_use_as_skydome"] = True
+    if texture.b4w_use_sky == "ENVIRONMENT_LIGHTING" or texture.b4w_use_sky == "BOTH":
+        tex_data["b4w_use_as_environment_lighting"] = True
 
     # process texture links
     if hasattr(texture, "image"):
@@ -1373,7 +1380,7 @@ def process_texture(texture):
 
     use_ramp = texture.use_color_ramp
     tex_data["use_color_ramp"] = use_ramp
-       
+
     if use_ramp:
         process_color_ramp(tex_data, texture.color_ramp)
     else:
@@ -1475,7 +1482,7 @@ def process_mesh(mesh, obj_user):
     bounding_data = b4w_bin.calc_bounding_data(mesh_ptr);
 
     process_mesh_boundings(mesh_data, mesh, bounding_data)
-    
+
     # process object's props
     process_mesh_vertex_anim(mesh_data, obj_user)
     process_mesh_vertex_groups(mesh_data, obj_user)
@@ -2175,7 +2182,7 @@ def process_particle(particle):
 
         part_data["dupli_group"] = gen_uuid_obj(particle.dupli_group)
         process_group(particle.dupli_group, for_particles=True)
-        
+
         dg_uuid = part_data["dupli_group"]["uuid"]
         dg_data = _export_uuid_cache[dg_uuid]
         if not dg_data["objects"]:
@@ -2206,6 +2213,8 @@ def process_world(world):
 
     world_data["name"] = world.name
     world_data["uuid"] = gen_uuid(world)
+    process_world_texture_slots(world_data, world)
+
     world_data["horizon_color"] = round_iterable(world.horizon_color, 4)
     world_data["zenith_color"] = round_iterable(world.zenith_color, 4)
 
@@ -2222,7 +2231,7 @@ def process_world(world):
     world_data["b4w_glow_factor"] = round_num(world.b4w_glow_factor, 2)
     world_data["b4w_fog_color"] = round_iterable(world.b4w_fog_color, 4)
     world_data["b4w_fog_density"] = round_num(world.b4w_fog_density, 4)
-    
+
     _export_data["worlds"].append(world_data)
     _export_uuid_cache[world_data["uuid"]] = world_data
     _bpy_uuid_cache[world_data["uuid"]] = world
@@ -2284,6 +2293,10 @@ def process_world_sky_settings(world_data, world):
     sky = world.b4w_sky_settings
 
     dct = world_data["b4w_sky_settings"] = OrderedDict()
+    dct["reflexible"] = sky.reflexible
+    dct["reflexible_only"] = sky.reflexible_only
+    dct["procedural_skydome"] = sky.procedural_skydome
+    dct["use_as_environment_lighting"] = sky.use_as_environment_lighting
     dct["color"] = round_iterable(sky.color, 4)
     dct["rayleigh_brightness"] = round_num(sky.rayleigh_brightness, 2)
     dct["mie_brightness"] = round_num(sky.mie_brightness, 2)
@@ -2318,8 +2331,8 @@ def matrix4x4_to_list(m):
         v = m[i]
         for j in range(0, 4):
             result.append(v[j])
-    return result            
-            
+    return result
+
 def process_animation_data(obj_data, component, actions):
     adata = component.animation_data
     if adata:
@@ -2644,10 +2657,10 @@ def process_material_node_tree(mat_data, material):
 
     # node tree nodes
     for node in node_tree.nodes:
-        
+
         if not validate_node(node):
-            warn("Node " + node.name + " is not supported. Material \"" 
-                    + material.name + "\" will be rendered without nodes.")
+            warn("The " + node.name + " node is not supported. The \""
+                    + material.name + "\" material will be rendered without nodes.")
 
             mat_data["use_nodes"] = False
             mat_data["node_tree"] = None
@@ -2698,7 +2711,7 @@ def process_material_node_tree(mat_data, material):
 
         elif node.type == "MIX_RGB":
             node_data["blend_type"] = node.blend_type
-            
+
         elif node.type == "TEXTURE":
 
             for output in node.outputs:
@@ -2714,6 +2727,23 @@ def process_material_node_tree(mat_data, material):
 
         elif node.type == "VECT_MATH":
             node_data["operation"] = node.operation
+
+        elif node.type == "LAMP":
+            if node.lamp_object is None:
+                warn(node.name + " has no lamp object.")
+            else:
+                node_data["lamp_index"] = gen_uuid_obj(node.lamp_object)
+                flag = False
+                for scene in bpy.data.scenes:
+                    for obj in scene.objects:
+                        if obj.name == node.lamp_object.name:
+                            flag = True
+                            break
+                    if flag:
+                        break
+                if not flag:
+                    warn("There is no scene with " + node.lamp_object.name +
+                            ". Note: link with 'Lamp Data' node is not supported.")
 
         dct["nodes"].append(node_data)
 
@@ -2757,7 +2787,7 @@ def process_node_sockets(node_data, type_str, sockets):
             sock_data["name"] = sock.name
             sock_data["identifier"] = sock.identifier
             sock_data["is_linked"] = sock.is_linked
-            
+
             rna_ident = sock.rna_type.identifier
             if (rna_ident == "NodeSocketVector" or rna_ident == "NodeSocketColor" or
                     rna_ident == "NodeSocketVectorDirection"):
@@ -2766,7 +2796,33 @@ def process_node_sockets(node_data, type_str, sockets):
                 sock_data["default_value"] = round_num(sock.default_value, 3)
 
             node_data[type_str].append(sock_data)
-   
+
+def process_world_texture_slots(world_data, world):
+    slots = world.texture_slots
+    world_data["texture_slots"] = []
+    for i in range(len(slots)):
+        slot = slots[i]
+        if slot:
+            if not slot.texture:
+                raise ExportError("No texture in texture slot", world)
+            if slot.texture.b4w_use_sky != "OFF" and len(slot.texture.users_material) == 0:
+                slot_data = OrderedDict()
+                check_tex_slot(slot)
+
+                # there are a lot of properties in addition to these
+                slot_data["texture_coords"] = slot.texture_coords
+                slot_data["use_rgb_to_intensity"] = slot.use_rgb_to_intensity
+                slot_data["use_stencil"] = slot.use_stencil
+                slot_data["offset"] = round_iterable(slot.offset, 3)
+                slot_data["scale"] = round_iterable(slot.scale, 3)
+                slot_data["blend_type"] = slot.blend_type
+                if slot.texture.type != "ENVIRONMENT_MAP":
+                    raise ExportError(slot.texture.type + " isn't supported", world)
+                slot_data["texture"] = gen_uuid_obj(slot.texture)
+                process_texture(slot.texture)
+
+                world_data["texture_slots"].append(slot_data)
+
 def process_material_texture_slots(mat_data, material):
     slots = material.texture_slots
     use_slots = material.use_textures
@@ -3093,8 +3149,11 @@ class B4W_ExportProcessor(bpy.types.Operator):
         if self.do_autosave:
             filepath = bpy.data.filepath
             if filepath:
-                bpy.ops.wm.save_mainfile(filepath=filepath)
-                print("File autosaved to " + filepath)
+                if os.access(filepath, os.W_OK):
+                    bpy.ops.wm.save_mainfile(filepath=filepath)
+                    print("File autosaved to " + filepath)
+                else:
+                    print("Could not autosave: permission denied")
             else:
                 print("Could not autosave: no file")
 
@@ -3283,7 +3342,7 @@ def check_obj_particle_systems(obj_data, obj):
             for item in dg_data["objects"]:
                 dgobj_data = _export_uuid_cache[item["uuid"]]
                 dgobj = _bpy_uuid_cache[dgobj_data["uuid"]]
-                
+
                 if pset_data["b4w_vcol_to_name"]:
                     if not check_vertex_color(dgobj.data, pset_data["b4w_vcol_to_name"]):
                         raise ExportError("Particle system error", obj,

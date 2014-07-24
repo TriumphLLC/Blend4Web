@@ -75,7 +75,7 @@ function zsort(subs) {
             var bundle = subs.bundles[i];
             var batch = bundle.batch;
             var world_matrix = bundle.obj_render.world_matrix;
-                        
+
             if (batch && batch.blend 
                     && batch.zsort_type != m_geom.ZSORT_DISABLED) {
                 var bufs_data = batch.bufs_data;
@@ -90,9 +90,7 @@ function zsort(subs) {
         }
 
         // remember new coords
-        subs.zsort_eye_last[0] = eye[0];
-        subs.zsort_eye_last[1] = eye[1];
-        subs.zsort_eye_last[2] = eye[2];
+        subs.zsort_eye_last.set(eye);
     }
 }
 

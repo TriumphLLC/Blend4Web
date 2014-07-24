@@ -223,7 +223,11 @@ function update_transform(obj) {
 
     m_mat4.identity(wm);
     m_mat4.fromQuat(quat, wm);
-    m_util.scale_mat4(wm, scale, wm);
+
+    // TODO: remove world matrix and move to tsr system
+    if (obj["type"] != "CAMERA")
+        m_util.scale_mat4(wm, scale, wm);
+
     wm[12] = trans[0];
     wm[13] = trans[1];
     wm[14] = trans[2];
@@ -258,9 +262,8 @@ function update_transform(obj) {
             m_scs.update_lamp_scene(obj, m_scs.get_active());
         break;
     case "EMPTY":
-        if (obj["field"]) {
-            m_particles.update_force(obj);
-        }
+        if (obj["field"])
+            m_scs.update_force(obj);
         break;
     }
 

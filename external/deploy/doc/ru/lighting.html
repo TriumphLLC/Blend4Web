@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Освещение и тени &mdash; Руководство пользователя: Blend4Web v14.06</title>
+    <title>Освещение, тени и фон &mdash; Руководство пользователя: Blend4Web v14.07</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.06',
+        VERSION:     '14.07',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v14.06" href="index.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v14.07" href="index.html" />
     <link rel="next" title="Постпроцессинговые эффекты" href="postprocessing_effects.html" />
     <link rel="prev" title="Нодовые материалы" href="node_materials.html" /> 
   </head>
@@ -37,7 +37,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">Руководство пользователя: Blend4Web v14.06</a></div>
+          href="index.html">Руководство пользователя: Blend4Web v14.07</a></div>
         <div class="rel">
           <a href="node_materials.html" title="Нодовые материалы"
              accesskey="P">предыдущий</a> |
@@ -58,7 +58,7 @@
           <div class="body">
             
   <span class="target" id="lighting"></span><div class="section" id="index-0">
-<span id="id1"></span><h1>Освещение и тени<a class="headerlink" href="#index-0" title="Ссылка на этот заголовок">¶</a></h1>
+<span id="id1"></span><h1>Освещение, тени и фон<a class="headerlink" href="#index-0" title="Ссылка на этот заголовок">¶</a></h1>
 <div class="section" id="index-1">
 <span id="id2"></span><h2>Освещение от источников света<a class="headerlink" href="#index-1" title="Ссылка на этот заголовок">¶</a></h2>
 <p>На сцене может быть несколько (но не менее одного) источников света разного типа.</p>
@@ -177,6 +177,48 @@
 </div>
 </div>
 </div>
+<div class="section" id="index-2">
+<span id="id13"></span><h2>Цвет фона<a class="headerlink" href="#index-2" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Цвет фона можно задать несколькими способами:</p>
+<ol class="arabic">
+<li><p class="first">Поместить сцену внутрь модели (например, куба или сферы) с направленными внутрь нормалями, с материалом и опциональной текстурой.</p>
+</li>
+<li><p class="first">Использовать <a class="reference internal" href="textures.html#skydome-texture"><em>кубическую текстуру</em></a>.</p>
+</li>
+<li><p class="first">Настроить динамически генерируемую <a class="reference internal" href="outdoor_rendering.html#atmosphere"><em>атмосферу</em></a>.</p>
+</li>
+<li><p class="first">Установить параметр движка <tt class="docutils literal"><span class="pre">background_color</span></tt>, используя программный метод <tt class="docutils literal"><span class="pre">config.set()</span></tt>. Установленное значение используется в качестве аргумента метода WebGL <tt class="docutils literal"><span class="pre">clearColor()</span></tt>. Для получения корректных результатов рекомендуется отключить прозрачность контекста WebGL (параметр <tt class="docutils literal"><span class="pre">alpha</span></tt>). Такая конфигурация используется по умолчанию в стандартном веб-плеере движка.</p>
+<blockquote>
+<div><div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_cfg</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">m_main</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;main&quot;</span><span class="p">);</span>
+
+<span class="nx">m_cfg</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;background_color&quot;</span><span class="p">,</span> <span class="k">new</span> <span class="nx">Float32Array</span><span class="p">([</span><span class="mf">0.224</span><span class="p">,</span> <span class="mf">0.224</span><span class="p">,</span> <span class="mf">0.224</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]));</span> <span class="c1">// gray</span>
+<span class="nx">m_cfg</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;alpha&quot;</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
+
+<span class="nx">m_main</span><span class="p">.</span><span class="nx">init</span><span class="p">(...);</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">В качестве фона можно использовать любой HTML контент, находящийся позади элемента <tt class="docutils literal"><span class="pre">canvas</span></tt>, который используется для рендеринга. Для это необходимо активировать прозрачность контекста WebGL (параметр <tt class="docutils literal"><span class="pre">alpha</span></tt>). Для получения корректных результатов рекомендуется выставить полностью прозрачный черный цвет фона. Такая конфигурация используется по умолчанию в стандартном <a class="reference internal" href="viewer.html#viewer"><em>просмотрщике сцен</em></a> SDK движка.</p>
+<blockquote>
+<div><div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_cfg</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">m_main</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;main&quot;</span><span class="p">);</span>
+
+<span class="nx">m_cfg</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;background_color&quot;</span><span class="p">,</span> <span class="k">new</span> <span class="nx">Float32Array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]));</span>
+<span class="nx">m_cfg</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;alpha&quot;</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+
+<span class="nx">m_main</span><span class="p">.</span><span class="nx">init</span><span class="p">(...);</span>
+</pre></div>
+</div>
+<div class="admonition seealso">
+<p class="first admonition-title">См.также</p>
+<p class="last"><a class="reference internal" href="gamma_alpha.html#alpha-compositing"><em>Альфа-композитинг</em></a></p>
+</div>
+</div></blockquote>
+</li>
+</ol>
+</div>
 </div>
 
 
@@ -198,10 +240,11 @@
 <li class="toctree-l1"><a class="reference internal" href="textures.html">Текстуры</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Материалы</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Нодовые материалы</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Освещение и тени</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Освещение, тени и фон</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#index-1">Освещение от источников света</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id5">Освещение от окружающей среды</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id8">Тени</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#index-2">Цвет фона</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Постпроцессинговые эффекты</a></li>
@@ -249,7 +292,7 @@
           
     <div class="footer">
         &copy; Copyright 2014, ООО &#34;Триумф&#34;.
-      Обновлено: 2014-06-25.
+      Обновлено: 2014-07-23.
       Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

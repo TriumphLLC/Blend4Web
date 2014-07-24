@@ -37,17 +37,12 @@ var ASTATE_HALTED = 40;
 var _assets_queue = [];
 var _assets_pack_index = 0;
 
-// [InUse0, Image0,...]
-var _image_el_pool = [];
-// [InUse0, Audio0,...]
-var _audio_el_pool = [];
-
 // deprecated
 var _loaded_assets = {};
 
 
 function get_built_in_data() {
-    if (b4w.module_check(config.paths.built_in_data_module))
+    if (is_built_in_data())
         return require(config.paths.built_in_data_module)["data"];
     else
         return null;
@@ -155,8 +150,6 @@ exports.cleanup = function() {
         _assets_queue[i].state = ASTATE_HALTED;
     _assets_queue = [];
     _assets_pack_index = 0;
-    _image_el_pool = [];
-    _audio_el_pool = [];
 
     // deprecated
     _loaded_assets = {};
@@ -493,6 +486,11 @@ function debug_queue(queue, opt_log_prefix) {
         m_print.log(opt_log_prefix, state_str);
     else
         m_print.log(state_str);
+}
+
+exports.is_built_in_data = is_built_in_data;
+function is_built_in_data() {
+    return b4w.module_check(config.paths.built_in_data_module);
 }
 
 }

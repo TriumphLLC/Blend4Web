@@ -15,6 +15,8 @@ var gpp_eval   = require("__gpp_eval");
 var assets     = require("__assets");
 var util       = require("__util");
 
+var cfg_pth = config.paths;
+
 // shader texts available for compiled version only
 if (b4w.module_check(config.paths.shader_texts_module)) {
     var shader_texts = require(config.paths.shader_texts_module);
@@ -23,10 +25,6 @@ if (b4w.module_check(config.paths.shader_texts_module)) {
     var shader_texts = null;
     var gpp_parser = require("__gpp_parser");
 }
-
-var SHADERS_DIR = config.paths.shaders_dir;
-// relative to SHADERS_DIR
-var SHADERS_INCLUDE_DIR = config.paths.shaders_include_dir;
 
 var _compiled_shaders = {};
 var _shader_ast_cache = {};
@@ -148,6 +146,7 @@ exports.set_default_directives = function(sinfo) {
         "REFRACTIVE",
         "SHORE_SMOOTHING",
         "SKINNED",
+        "SKY_TEXTURE",
         "SSAO_ONLY",
         "SSAO_WHITE",
         "STATIC_BATCH",
@@ -165,6 +164,7 @@ exports.set_default_directives = function(sinfo) {
         "ALPHA_AS_SPEC",
         "DEPTH_RGBA",
         "NUM_LIGHTS",
+        "NUM_LAMP_LIGHTS",
         "MAX_STEPS",
         "CSM_SECTION_DIST0",
         "CSM_SECTION_DIST1",
@@ -183,7 +183,10 @@ exports.set_default_directives = function(sinfo) {
         "HAIR_BILLBOARD_RANDOM",
         "PRECISION",
         "EPSILON",
-        "WIREFRAME_QUALITY"
+        "WIREFRAME_QUALITY",
+        "SIZE_RAMP_LENGTH",
+        "COLOR_RAMP_LENGTH",
+        "PARTICLES_SHADELESS"
     ];
 
     for (var i = 0; i < dir_names.length; i++) {
@@ -224,6 +227,7 @@ exports.set_default_directives = function(sinfo) {
         case "REFRACTIVE":
         case "SHORE_SMOOTHING":
         case "SKINNED":
+        case "SKY_TEXTURE":
         case "SSAO_ONLY":
         case "SSAO_WHITE":
         case "STATIC_BATCH":
@@ -241,6 +245,10 @@ exports.set_default_directives = function(sinfo) {
         case "HAIR_BILLBOARD":
         case "HAIR_BILLBOARD_RANDOM":
         case "WIREFRAME_QUALITY":
+        case "SIZE_RAMP_LENGTH":
+        case "COLOR_RAMP_LENGTH":
+        case "PARTICLES_SHADELESS":
+        case "SMAA_JITTER":
             val = 0;
             break;
 
@@ -250,6 +258,7 @@ exports.set_default_directives = function(sinfo) {
         case "DEPTH_RGBA":
         case "HAIR_BILLBOARD_SPHERICAL":
         case "NUM_LIGHTS":
+        case "NUM_LAMP_LIGHTS":
         case "MAX_STEPS":
             val = 1;
             break;
@@ -368,8 +377,8 @@ function get_compiled_shader(shaders_info, node_elements) {
     var fshader = shaders_info.frag;
 
     // load the code
-    var vshader_ast = get_shader_ast(SHADERS_DIR, vshader);
-    var fshader_ast = get_shader_ast(SHADERS_DIR, fshader);
+    var vshader_ast = get_shader_ast(cfg_pth.shaders_dir, vshader);
+    var fshader_ast = get_shader_ast(cfg_pth.shaders_dir, fshader);
     if (!vshader_ast || !fshader_ast)
         return null;
 
@@ -542,7 +551,8 @@ function preprocess_shader(type, ast, dirs_arr, node_elements) {
 
     function process_include(elem) {
         var file = elem.file;
-        var ast_inc = get_shader_ast(SHADERS_DIR, SHADERS_INCLUDE_DIR + file);
+        var ast_inc = get_shader_ast(cfg_pth.shaders_dir,
+                                     cfg_pth.shaders_include_dir + file);
         process_group(ast_inc);
     }
     function process_define(elem) {
@@ -778,10 +788,13 @@ function init_shader(gl, vshader_text, fshader_text,
         attributes : {},
         uniforms   : {},
         attribute_names : [],
-        permanent_uniform_names   : [],
-        transient_uniform_names   : [],
-        permanent_uniform_setters : null,
-        transient_uniform_setters : null,
+
+        permanent_uniform_setters : [],
+        // speeds up access by uniform name
+        permanent_uniform_setters_table : {},
+
+        transient_uniform_setters : [],
+
         // NOTE: for debug purposes
         shaders_info: shaders_info
     };

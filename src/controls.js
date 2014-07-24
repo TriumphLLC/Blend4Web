@@ -59,6 +59,7 @@ var ST_V_VELOCITY        = 120;
 var ST_TIMER             = 130;
 var ST_ELAPSED           = 140;
 var ST_TIMELINE          = 150;
+var ST_SELECTION         = 160;
 
 // control types
 exports.CT_CONTINUOUS = 10;
@@ -110,7 +111,7 @@ exports.update = function(timeline, elapsed) {
 
     // update global values after ALL callback exec
     _wheel_delta = 0;
-    
+
     _mouse_last_x = _mouse_curr_x;
     _mouse_last_y = _mouse_curr_y;
 
@@ -152,7 +153,7 @@ exports.create_collision_sensor = function(obj, collision_id,
         m_print.error("Wrong collision object");
         return null;
     }
-    
+
     var sensor = init_sensor(ST_COLLISION);
     sensor.collision_obj = obj;
     sensor.collision_id = collision_id || null;
@@ -179,7 +180,7 @@ exports.create_collision_impulse_sensor = function(obj) {
         m_print.error("Wrong collision impulse object");
         return null;
     }
-    
+
     var sensor = init_sensor(ST_COLLISION_IMPULSE);
     sensor.col_imp_obj = obj;
     sensor.col_imp_cb = function(impulse) {
@@ -191,14 +192,14 @@ exports.create_collision_impulse_sensor = function(obj) {
     return sensor;
 }
 
-exports.create_ray_sensor = function(obj, start_offset, 
+exports.create_ray_sensor = function(obj, start_offset,
         end_offset, local_coords, collision_id) {
 
     if (!obj) {
         m_print.error("Wrong collision object");
         return null;
     }
-    
+
     var sensor = init_sensor(ST_RAY);
     sensor.source_object = obj;
     sensor.start_offset = start_offset;
@@ -213,7 +214,7 @@ exports.create_ray_sensor = function(obj, start_offset,
             sensor.payload = hit_frac;
     }
     // NOTE: early activation (no manifolds taken in consideration)
-    m_phy.append_ray_test(obj, sensor.collision_id, start_offset, 
+    m_phy.append_ray_test(obj, sensor.collision_id, start_offset,
             end_offset, local_coords, sensor.ray_cb);
     return sensor;
 }
@@ -340,6 +341,12 @@ exports.create_timeline_sensor = function() {
     return sensor;
 }
 
+exports.create_selection_sensor = function(obj) {
+    var sensor = init_sensor(ST_SELECTION);
+    sensor.obj = obj;
+    return sensor;
+}
+
 exports.sensor_set_value = sensor_set_value;
 function sensor_set_value(sensor, value) {
 
@@ -407,16 +414,16 @@ function update_sensor(sensor, timeline, elapsed) {
         var angle = Math.abs(2 * Math.acos(quat_temp[3]));
 
         var linear_vel = dist / elapsed;
-        sensor.avg_linear_vel = m_util.smooth(linear_vel, sensor.avg_linear_vel, 
+        sensor.avg_linear_vel = m_util.smooth(linear_vel, sensor.avg_linear_vel,
                 elapsed, SENSOR_SMOOTH_PERIOD);
         sensor.payload[0] = linear_vel;
 
         var angular_vel = angle / elapsed;
-        sensor.avg_angular_vel = m_util.smooth(angular_vel, 
+        sensor.avg_angular_vel = m_util.smooth(angular_vel,
                 sensor.avg_angular_vel, elapsed, SENSOR_SMOOTH_PERIOD);
         sensor.payload[1] = angular_vel;
 
-        if (sensor.avg_linear_vel >= sensor.threshold || sensor.avg_angular_vel 
+        if (sensor.avg_linear_vel >= sensor.threshold || sensor.avg_angular_vel
                 >= sensor.rotation_threshold)
             sensor_set_value(sensor, 1);
         else
@@ -434,7 +441,7 @@ function update_sensor(sensor, timeline, elapsed) {
         var trans = obj._render.trans;
 
         var vel = Math.abs(trans[1] - sensor.trans_last[1]) / elapsed;
-        sensor.avg_vertical_vel = m_util.smooth(vel, sensor.avg_vertical_vel, 
+        sensor.avg_vertical_vel = m_util.smooth(vel, sensor.avg_vertical_vel,
                 elapsed, SENSOR_SMOOTH_PERIOD);
         sensor.payload = vel;
 
@@ -544,7 +551,7 @@ function manifold_gen_pulse(manifold, logic_result) {
  * Manifold value is a value of first sensor.
  */
 function manifold_get_value(manifold, logic_result) {
-    
+
     if (logic_result)
         var value = manifold.sensors[0].value;
     else
@@ -608,16 +615,18 @@ exports.remove_sensor_manifold = function(obj, id) {
 
     if (id) {
         var manifold = manifolds[id];
-        var sensors = manifold.sensors;
-        for (var j = 0; j < sensors.length; j++)
-            if (check_sensor_users(sensors[j], _objects) === 1) {
-                remove_sensor(sensors[j], _sensors);
+        if (manifold) {
+            var sensors = manifold.sensors;
+            for (var j = 0; j < sensors.length; j++)
+                if (check_sensor_users(sensors[j], _objects) === 1) {
+                    remove_sensor(sensors[j], _sensors);
+                }
+            delete manifolds[id];
+
+            // remove from objects if manifolds have 0 sensors
+            if (!Object.getOwnPropertyNames(manifolds).length) {
+                remove_from_objects(obj);
             }
-        delete manifolds[id];
-        
-        // remove from objects if manifolds have 0 sensors
-        if (!Object.getOwnPropertyNames(manifolds).length) {
-            remove_from_objects(obj);
         }
         return;
     }
@@ -675,14 +684,14 @@ function check_sensor_users(sensor, objects) {
 function remove_sensor(sensor, sensors) {
     switch (sensor.type) {
     case ST_COLLISION:
-        m_phy.remove_collision_test(sensor.collision_obj, 
+        m_phy.remove_collision_test(sensor.collision_obj,
                 sensor.collision_id, sensor.collision_cb);
         break;
     case ST_COLLISION_IMPULSE:
         m_phy.clear_collision_impulse_test(sensor.col_imp_obj);
         break;
     case ST_RAY:
-        m_phy.remove_ray_test(sensor.source_object, sensor.collision_id, 
+        m_phy.remove_ray_test(sensor.source_object, sensor.collision_id,
                 sensor.start_offset, sensor.end_offset, sensor.local_coords);
         break;
     }
@@ -692,7 +701,7 @@ function remove_sensor(sensor, sensors) {
         sensors.splice(sens_index, 1);
 }
 
-exports.create_sensor_manifold = function(obj, id, type, sensors, 
+exports.create_sensor_manifold = function(obj, id, type, sensors,
         logic_fun, callback, callback_param) {
 
     obj._sensor_manifolds = obj._sensor_manifolds || {};
@@ -770,7 +779,7 @@ exports.debug = function() {
 
     var collisions = [];
     var rays = [];
-    
+
     for (var i = 0; i < _sensors.length; i++) {
         var sensor = _sensors[i];
         if (sensor.type == ST_COLLISION)
@@ -790,6 +799,8 @@ exports.keydown_cb = function(e) {
         if (sensor.type == ST_KEYBOARD && e.keyCode == sensor.key)
             sensor_set_value(sensor, 1);
     }
+
+    //e.preventDefault();
 }
 
 exports.keyup_cb = function(e) {
@@ -797,16 +808,20 @@ exports.keyup_cb = function(e) {
         var sensor = _sensors[i];
 
         // NOTE: hack to prevent wrong keyup with chrome/webkit
-        if (sensor.type == ST_KEYBOARD && e.keyCode == 0 && 
+        if (sensor.type == ST_KEYBOARD && e.keyCode == 0 &&
                 sensor.key == KEY_SHIFT)
             sensor_set_value(sensor, 0);
 
         if (sensor.type == ST_KEYBOARD && e.keyCode == sensor.key)
             sensor_set_value(sensor, 0);
     }
+
+    //e.preventDefault();
 }
 
 exports.mouse_down_cb = function(e) {
+
+    var selected_obj = null;
 
     for (var i = 0; i < _sensors.length; i++) {
         var sensor = _sensors[i];
@@ -814,7 +829,16 @@ exports.mouse_down_cb = function(e) {
         if (sensor.type == ST_MOUSE_CLICK) {
             sensor_set_value(sensor, 1);
         }
+
+        // update selection sensors
+        if (sensor.type == ST_SELECTION) {
+            if (!selected_obj)
+                selected_obj = m_scs.pick_object(e.clientX, e.clientY);
+            sensor.value = (selected_obj == sensor.obj);
+        }
     }
+
+    e.preventDefault();
 }
 
 exports.mouse_up_cb = function(e) {
@@ -825,6 +849,8 @@ exports.mouse_up_cb = function(e) {
             sensor_set_value(sensor, 0);
         }
     }
+
+    e.preventDefault();
 }
 
 exports.mouse_wheel_cb = function(e) {
@@ -842,6 +868,8 @@ exports.mouse_wheel_cb = function(e) {
         if (sensor.type === ST_MOUSE_WHEEL)
             sensor_set_value(sensor, _wheel_delta);
     }
+
+    e.preventDefault();
 }
 
 exports.mouse_move_cb = function(e) {
@@ -873,6 +901,8 @@ exports.mouse_move_cb = function(e) {
             }
         }
     }
+
+    e.preventDefault();
 }
 
 exports.touch_start_cb = function(e) {
@@ -885,6 +915,17 @@ exports.touch_start_cb = function(e) {
         var x = touch.pageX;
         var y = touch.pageY;
 
+        // update selection sensors
+        var selected_obj = null;
+        for (var i = 0; i < _sensors.length; i++) {
+            var sensor = _sensors[i];
+            if (sensor.type == ST_SELECTION) {
+                if (!selected_obj)
+                    selected_obj = m_scs.pick_object(x, y);
+                sensor.value = (selected_obj == sensor.obj);
+            }
+        }
+
         // reset coords from last touch session
         _touch_curr_x = _touch_last_x = x;
         _touch_curr_y = _touch_last_y = y;
@@ -895,6 +936,9 @@ exports.touch_start_cb = function(e) {
 
         _touch_zoom_curr_dist = _touch_zoom_last_dist = zoom_dist;
     }
+
+    // NOTE: issues with picking on mobile platforms
+    //e.preventDefault();
 }
 
 exports.touch_move_cb = function(e) {
@@ -903,9 +947,6 @@ exports.touch_move_cb = function(e) {
 
     if (touches.length === 0)
         return;
-
-    // prevent default zoom/scrolling for e.g IOS devices
-    e.preventDefault();
 
     if (touches.length === 1) { // panning
 
@@ -951,11 +992,14 @@ exports.touch_move_cb = function(e) {
         for (var i = 0; i < _sensors.length; i++) {
             var sensor = _sensors[i];
 
-            if (sensor.type === ST_TOUCH_ZOOM) 
+            if (sensor.type === ST_TOUCH_ZOOM)
                 sensor_set_value(sensor, delta_dist);
         }
     }
-} 
+
+    // prevent default zoom/scrolling for e.g IOS devices
+    e.preventDefault();
+}
 
 function touch_zoom_dist(touches) {
 

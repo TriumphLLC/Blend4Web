@@ -12,10 +12,10 @@ var m_print = require("__print");
 var m_util = require("__util");
 
 // profiles
-exports.P_LOW    =  1;  // maximize performance
-exports.P_HIGH   =  2;  // use all requested features
-exports.P_ULTRA  =  3;  // use all requested features and maximize quality
-exports.P_CUSTOM =  4;  // use exports.defaults
+exports.P_LOW    = 1;  // maximize performance
+exports.P_HIGH   = 2;  // use all requested features
+exports.P_ULTRA  = 3;  // use all requested features and maximize quality
+exports.P_CUSTOM = 4;  // use exports.defaults
 
 exports.context = {
     alpha: true,
@@ -44,6 +44,8 @@ exports.defaults = {
     fps_callback_interval    : 10,
     
     background_color         : [0.0, 0.0, 0.0, 0.0],
+
+    force_selectable         : false,
 
     all_objs_selectable      : false,
 
@@ -121,7 +123,9 @@ exports.defaults = {
     // quality profile
     quality                  : exports.P_HIGH,
 
-    glsl_unroll_hack         : false
+    glsl_unroll_hack         : false,
+
+    no_phy_interp_hack       : false
 }
 
 exports.defaults_save = m_util.clone_object_r(exports.defaults);
@@ -162,6 +166,7 @@ exports.paths = {
 // physics config
 exports.physics = {
     enabled: true,
+    max_fps: 60,
     uranium_path: "../../external/deploy/apps/common/uranium.js"
 }
 exports.physics_save = m_util.clone_object_r(exports.physics);
@@ -191,6 +196,7 @@ exports.sfx_save = m_util.clone_object_r(exports.sfx);
 exports.apply_quality = function() {
 
     var cfg_def = exports.defaults;
+    var cfg_phy = exports.physics;
     var cfg_scs = exports.scenes;
 
     switch (cfg_def.quality) {
@@ -225,7 +231,7 @@ exports.apply_quality = function() {
 
         cfg_def.procedural_fog = true;
 
-        cfg_def.resolution_factor = 2;
+        cfg_def.resolution_factor = 1.75;
 
         cfg_scs.offscreen_tex_size = 2.0*1024;
 
@@ -254,6 +260,8 @@ exports.apply_quality = function() {
         cfg_def.compositing = true;
 
         cfg_def.motion_blur = true;
+
+        cfg_phy.max_fps = 120;
 
         break;
 
@@ -317,6 +325,8 @@ exports.apply_quality = function() {
 
         cfg_def.motion_blur = true;
 
+        cfg_phy.max_fps = 60;
+
         break;
 
     case exports.P_LOW:
@@ -379,6 +389,8 @@ exports.apply_quality = function() {
 
         cfg_def.motion_blur = false;
 
+        cfg_phy.max_fps = 60;
+
         break;
     }
 }
@@ -388,15 +400,12 @@ exports.set = set;
  * @methodOf config
  */
 function set(prop, value) {
-    switch(prop) {
+    switch (prop) {
     case "all_objs_selectable":
         exports.defaults.all_objs_selectable = value;
         break;
     case "alpha":
         exports.context.alpha = value;
-        break;
-    case "context_antialias":
-        exports.context.antialias = value;
         break;
     case "alpha_sort":
         exports.defaults.alpha_sort = value;
@@ -428,23 +437,20 @@ function set(prop, value) {
     case "console_verbose":
         exports.defaults.console_verbose = value;
         break;
-    case "quality":
-        exports.defaults.quality = value;
-        break;
-    case "do_not_load_resources":
-        exports.defaults.do_not_load_resources = value;
+    case "context_antialias":
+        exports.context.antialias = value;
         break;
     case "deferred_rendering":
         exports.defaults.deferred_rendering = value;
         break;
+    case "do_not_load_resources":
+        exports.defaults.do_not_load_resources = value;
+        break;
+    case "force_selectable":
+        exports.defaults.force_selectable = value;
+        break;
     case "glow":
         exports.defaults.glow = value;
-        break;
-    case "show_hud_debug_info":
-        exports.defaults.show_hud_debug_info = value;
-        break;
-    case "sfx_mix_mode":
-        exports.sfx.mix_mode = value;
         break;
     case "physics_enabled":
         exports.physics.enabled = value;
@@ -452,20 +458,32 @@ function set(prop, value) {
     case "physics_uranium_path":
         exports.physics.uranium_path = value;
         break;
+    case "precision":
+        exports.defaults.precision = value;
+        break;
+    case "quality":
+        exports.defaults.quality = value;
+        break;
+    case "resolution_factor":
+        exports.defaults.resolution_factor = value;
+        break;
+    case "sfx_mix_mode":
+        exports.sfx.mix_mode = value;
+        break;
+    case "shaders_dir":
+        exports.paths.shaders_dir = value;
+        break;
+    case "show_hud_debug_info":
+        exports.defaults.show_hud_debug_info = value;
+        break;
+    case "smaa":
+        exports.defaults.smaa = value;
+        break;
     case "smaa_search_texture_path":
         exports.paths.smaa_search_texture_path = value;
         break;
     case "smaa_area_texture_path":
         exports.paths.smaa_area_texture_path = value;
-        break;
-    case "smaa":
-        exports.defaults.smaa = value;
-        break;
-    case "resolution_factor":
-        exports.defaults.resolution_factor = value;
-        break;
-    case "precision":
-        exports.defaults.precision = value;
         break;
     case "wireframe_debug":
         exports.defaults.wireframe_debug = value;
@@ -477,13 +495,11 @@ function set(prop, value) {
 }
 
 exports.get = function(prop) {
-    switch(prop) {
+    switch (prop) {
     case "all_objs_selectable":
         return exports.defaults.all_objs_selectable;
     case "alpha":
         return exports.context.alpha;
-    case "context_antialias":
-        return exports.context.antialias;
     case "alpha_sort":
         return exports.defaults.alpha_sort;
     case "alpha_sort_threshold":
@@ -504,32 +520,38 @@ exports.get = function(prop) {
         return exports.paths.built_in_data_module;    
     case "console_verbose":
         return exports.defaults.console_verbose;
-    case "quality":
-        return exports.defaults.quality;
-    case "do_not_load_resources":
-        return exports.defaults.do_not_load_resources;
+    case "context_antialias":
+        return exports.context.antialias;
     case "deferred_rendering":
         return exports.defaults.deferred_rendering;
+    case "do_not_load_resources":
+        return exports.defaults.do_not_load_resources;
+    case "force_selectable":
+        return exports.defaults.force_selectable;
     case "glow":
         return exports.defaults.glow;
-    case "show_hud_debug_info":
-        return exports.defaults.show_hud_debug_info;
-    case "sfx_mix_mode":
-        return exports.sfx.mix_mode;
     case "physics_enabled":
         return exports.physics.enabled;
     case "physics_uranium_path":
         return exports.physics.uranium_path;
+    case "precision":
+        return exports.defaults.precision;
+    case "quality":
+        return exports.defaults.quality;
+    case "resolution_factor":
+        return exports.defaults.resolution_factor;
+    case "sfx_mix_mode":
+        return exports.sfx.mix_mode;
+    case "shaders_dir":
+        return exports.paths.shaders_dir;
+    case "show_hud_debug_info":
+        return exports.defaults.show_hud_debug_info;
     case "smaa":
         return exports.defaults.smaa;
     case "smaa_search_texture_path":
         return exports.paths.smaa_search_texture_path;
     case "smaa_area_texture_path":
         return exports.paths.smaa_area_texture_path;
-    case "resolution_factor":
-        return exports.defaults.resolution_factor;
-    case "precision":
-        return exports.defaults.precision;
     case "wireframe_debug":
         return exports.defaults.wireframe_debug;
     default:

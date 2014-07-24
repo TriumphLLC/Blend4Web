@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Textures &mdash; User Manual: Blend4Web v14.06</title>
+    <title>Textures &mdash; User Manual: Blend4Web v14.07</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.06',
+        VERSION:     '14.07',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User Manual: Blend4Web v14.06" href="index.html" />
+    <link rel="top" title="User Manual: Blend4Web v14.07" href="index.html" />
     <link rel="next" title="Materials" href="materials.html" />
     <link rel="prev" title="Objects" href="objects.html" /> 
   </head>
@@ -36,7 +36,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">User Manual: Blend4Web v14.06</a></div>
+          href="index.html">User Manual: Blend4Web v14.07</a></div>
         <div class="rel">
           <a href="objects.html" title="Objects"
              accesskey="P">previous</a> |
@@ -226,6 +226,9 @@
 <dt><em>Blend4Web &gt; Parallax Steps</em></dt>
 <dd><p class="first last">The number of iterations for the relief surface calculations. Bigger value leads to better quality but is more computationaly expensive.</p>
 </dd>
+<dt><em>Blend4Web &gt; Parallax LOD distance</em></dt>
+<dd><p class="first last">Distance at which the parallax effect is observed.</p>
+</dd>
 </dl>
 <a class="reference internal image-reference" href="_images/parallax.jpg"><img alt="Визуализация рельефной поверхности (parallax mapping) по сравнению с картой нормалей" class="align-center" src="_images/parallax.jpg" style="width: 100%;" /></a>
 <div class="line-block">
@@ -341,14 +344,16 @@
 </div>
 <div class="section" id="skydome">
 <span id="skydome-texture"></span><span id="index-12"></span><h2>Skydome<a class="headerlink" href="#skydome" title="Permalink to this headline">¶</a></h2>
-<p>A skydome is used to visualize the sky. This is an environment map.</p>
+<p>A skydome is used to visualize an infinitely far environment (for example the sky). This is an environment map.</p>
+<p>Can be also used to imitate environment lighting for objects.</p>
 <div class="section" id="id22">
 <h3>Activation<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h3>
-<p>Create a specially oriented plane model. Create a material and enable the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Special:</span> <span class="pre">Skydome</span></tt> checkbox. Create the <tt class="docutils literal"><span class="pre">Environment</span> <span class="pre">Map</span></tt> texture.</p>
+<p>Create a world texture with the <tt class="docutils literal"><span class="pre">Environment</span> <span class="pre">Map</span></tt> type and select the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Sky</span> <span class="pre">texture</span> <span class="pre">usage</span> <span class="pre">&gt;</span> <span class="pre">SKYDOME</span></tt> option.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>To imitate environment lighting for objects you can select the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Sky</span> <span class="pre">texture</span> <span class="pre">usage</span> <span class="pre">&gt;</span> <span class="pre">ENVIRONMENT_LIGHTING</span></tt> option. To show this property on the object settings, enable the corresponding world option: <tt class="docutils literal"><span class="pre">Environment</span> <span class="pre">Lighting</span> <span class="pre">&gt;</span> <span class="pre">Sky</span> <span class="pre">Texture</span></tt>.</p>
+<p class="last">To use the world texture both for skydome and for environment lighting, select <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Sky</span> <span class="pre">texture</span> <span class="pre">usage</span> <span class="pre">&gt;</span> <span class="pre">BOTH</span></tt>.</p>
 </div>
-<div class="section" id="id23">
-<h3>Additional settings<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h3>
-<p>Enable the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Disable</span> <span class="pre">frustum</span> <span class="pre">culling</span></tt> checkbox for the plane object in order to avoid image disappearance upon camera rotation.</p>
 <a class="reference internal image-reference" href="_images/skydome.jpg"><img alt="Настройка текстуры неба" class="align-center" src="_images/skydome.jpg" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
@@ -358,8 +363,8 @@
 <div class="section" id="render-to-texture-rtt">
 <span id="index-13"></span><h2>Render-to-Texture, RTT<a class="headerlink" href="#render-to-texture-rtt" title="Permalink to this headline">¶</a></h2>
 <p>A 3D scene&#8217;s real-time rendered image can be used as a texture by an object from another scene (&#8220;main&#8221; scene).</p>
-<div class="section" id="id24">
-<h3>Activation<a class="headerlink" href="#id24" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id23">
+<h3>Activation<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h3>
 <ol class="arabic simple">
 <li><p class="first">Create an additional source scene, rename it for convenience, create a <tt class="docutils literal"><span class="pre">World</span></tt>, add the objects wanted, setup the camera view.</p>
 </li>
@@ -368,8 +373,8 @@
 </ol>
 <a class="reference internal image-reference" href="_images/render_to_texture.jpg"><img alt="Рендеринг в текстуру" class="align-center" src="_images/render_to_texture.jpg" style="width: 100%;" /></a>
 </div>
-<div class="section" id="id25">
-<h3>Limitations<a class="headerlink" href="#id25" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id24">
+<h3>Limitations<a class="headerlink" href="#id24" title="Permalink to this headline">¶</a></h3>
 <p>Note that there is a bug at the moment which requires both scenes to have at least one shared light source.</p>
 </div>
 </div>
@@ -408,7 +413,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting and Shadows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing Effects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System</a></li>
 <li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System for Instancing Objects</a></li>
@@ -454,7 +459,7 @@
           
     <div class="footer">
         &copy; Copyright 2014, Triumph LLC.
-      Last updated on 2014-06-25.
+      Last updated on 2014-07-23.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

@@ -32,7 +32,7 @@ exports.update_scene_nla = function(scene, is_cyclic) {
         objects: []
     }
 
-    var sobjs = m_scenes.get_appended_objs(scene, "ALL");
+    var sobjs = m_scenes.get_scene_objs(scene, "ALL");
 
     for (var i = 0; i < sobjs.length; i++) {
         var sobj = sobjs[i];

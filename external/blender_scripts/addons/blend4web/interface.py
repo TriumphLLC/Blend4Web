@@ -64,9 +64,6 @@ class B4W_ScenePanel(bpy.types.Panel):
             row.prop(scene, "b4w_enable_physics", text="Enable physics")
 
             row = layout.row()
-            row.prop(scene, "b4w_load_empty", text="Load empty")
-
-            row = layout.row()
             row.prop(scene, "b4w_render_shadows", text="Render shadows")
 
             row = layout.row()
@@ -147,7 +144,7 @@ class B4W_WorldPanel(bpy.types.Panel):
             row.prop(shadow, "csm_far", text="CSM far")
             row = col.row()
             row.prop(shadow, "csm_lambda", text="CSM lambda")
-            
+
             row = col.row()
             row.prop(shadow, "visibility_falloff", text="Visibility falloff")
             row = col.row()
@@ -186,25 +183,35 @@ class B4W_WorldPanel(bpy.types.Panel):
             col = box.column()
             col.label("Sky Settings:")
             row = col.row()
-            row.prop(sky, "color", text="Sky color")
+            row.prop(sky, "reflexible", text="Reflexible")
+            if sky.reflexible:
+                row = col.row()
+                row.prop(sky, "reflexible_only", text="Reflexible only")
             row = col.row()
-            row.prop(sky, "rayleigh_brightness", text="Rayleigh brightness")
-            row = col.row()
-            row.prop(sky, "mie_brightness", text="Mie brightness")
-            row = col.row()
-            row.prop(sky, "spot_brightness", text="Spot brightness")
-            row = col.row()
-            row.prop(sky, "scatter_strength", text="Scatter strength")
-            row = col.row()
-            row.prop(sky, "rayleigh_strength", text="Rayleigh strength")
-            row = col.row()
-            row.prop(sky, "mie_strength", text="Mie strength")
-            row = col.row()
-            row.prop(sky, "rayleigh_collection_power", text="Rayleigh collection power")
-            row = col.row()
-            row.prop(sky, "mie_collection_power", text="Mie collection power")
-            row = col.row()
-            row.prop(sky, "mie_distribution", text="Mie distribution")
+            row.prop(sky, "procedural_skydome", text="Procedural skydome")
+            if sky.procedural_skydome:
+                row = col.row()
+                row.prop(sky, "use_as_environment_lighting", text="Use as environment lighting")
+                row = col.row()
+                row.prop(sky, "color", text="Sky color")
+                row = col.row()
+                row.prop(sky, "rayleigh_brightness", text="Rayleigh brightness")
+                row = col.row()
+                row.prop(sky, "mie_brightness", text="Mie brightness")
+                row = col.row()
+                row.prop(sky, "spot_brightness", text="Spot brightness")
+                row = col.row()
+                row.prop(sky, "scatter_strength", text="Scatter strength")
+                row = col.row()
+                row.prop(sky, "rayleigh_strength", text="Rayleigh strength")
+                row = col.row()
+                row.prop(sky, "mie_strength", text="Mie strength")
+                row = col.row()
+                row.prop(sky, "rayleigh_collection_power", text="Rayleigh collection power")
+                row = col.row()
+                row.prop(sky, "mie_collection_power", text="Mie collection power")
+                row = col.row()
+                row.prop(sky, "mie_distribution", text="Mie distribution")
 
             god_rays = world.b4w_god_rays_settings
             row = layout.row()
@@ -754,7 +761,7 @@ class B4W_MaterialPanel(bpy.types.Panel):
 
                 row = layout.row()
                 row.prop(mat, "b4w_terrain", text="Terrain dynamic grass")
-            
+
                 row = layout.row()
                 row.active = getattr(mat, "b4w_terrain")
                 row.prop(mat, "b4w_dynamic_grass_size", text="Dynamic grass size (R)")
@@ -762,13 +769,6 @@ class B4W_MaterialPanel(bpy.types.Panel):
                 row = layout.row()
                 row.active = getattr(mat, "b4w_terrain")
                 row.prop(mat, "b4w_dynamic_grass_color", text="Dynamic grass color (RGB)")
-
-                row = layout.row()
-                row.prop(mat, "b4w_skydome", text="Special: Skydome")
-
-                if mat.b4w_skydome:
-                    row = layout.row()
-                    row.prop(mat, "b4w_procedural_skydome", text="Procedural skydome")
 
                 row = layout.row()
                 row.prop(mat, "b4w_collision", text="Special: Collision")
@@ -802,54 +802,76 @@ class B4W_TexturePanel(bpy.types.Panel):
     def draw(self, context):
         tex = context.texture
         layout = self.layout
+
         if tex and tex.type == "NONE":
             row = layout.row()
             row.prop(tex, "b4w_render_scene", text="Source scene")
 
         if tex:
-            row = layout.row()
-            row.prop(tex, "b4w_do_not_export", text="Do not export")
-
-            split = layout.split()
-            col = split.column()
-            col.label(text="Parallax:")
-            row = layout.row(align=True)
-            row.prop(tex, "b4w_use_map_parallax", text="")
-            sub = row.row()
-            sub.active = getattr(tex, "b4w_use_map_parallax")
-            sub.prop(tex, "b4w_parallax_scale", text="Parallax Scale", slider=True)
-            sub.prop(tex, "b4w_parallax_steps", text="Parallax Steps", slider=True)
-            layout.row()
-
-            split = layout.split()
-            col = split.column()
-            col.label(text="Anisotropic Filtering:")
-            col = split.column()
-            col.prop(tex, "b4w_anisotropic_filtering", text="")
-
-            split = layout.split()
-            col = split.column()
-            col.label(text="UV translation velocity:")
-            col = split.column()
-            col.prop(tex, "b4w_uv_velocity_trans", text="")
-
-            row = layout.row()
-            row.prop(tex, "b4w_water_foam", text="Water Foam")
-
-            if tex.b4w_water_foam:
+            if tex.type == "ENVIRONMENT_MAP" and len(tex.users_material) == 0:
                 row = layout.row()
-                row.prop(tex, "b4w_foam_uv_freq", text="UV Frequency")
+                row.prop(tex, "b4w_do_not_export", text="Do not export")
+
+                split = layout.split()
+                col = split.column()
+                col.label(text="Anisotropic Filtering:")
+                col = split.column()
+                col.prop(tex, "b4w_anisotropic_filtering", text="")
+
+                split = layout.split()
+                col = split.column()
+                col.label(text="Sky texture usage:")
+                col = split.column()
+                col.prop(tex, "b4w_use_sky", text="")
 
                 row = layout.row()
-                row.prop(tex, "b4w_foam_uv_magnitude", text="UV Magnitude")
+                row.prop(tex, "b4w_disable_compression", text="Disable Compression")
 
-            row = layout.row()
-            row.prop(tex, "b4w_disable_compression", text="Disable Compression")
+            else:
+                row = layout.row()
+                row.prop(tex, "b4w_do_not_export", text="Do not export")
 
-            row = layout.row()
-            row.prop(tex, "b4w_shore_dist_map", text="Shore distance map")
+                split = layout.split()
+                col = split.column()
+                col.label(text="Parallax:")
+                row = layout.row(align=True)
+                row.prop(tex, "b4w_use_map_parallax", text="")
+                sub = row.row()
+                sub.active = getattr(tex, "b4w_use_map_parallax")
+                sub.prop(tex, "b4w_parallax_scale", text="Parallax Scale", slider=True)
+                sub.prop(tex, "b4w_parallax_steps", text="Parallax Steps", slider=True)
+                row = layout.row(align=True)
+                row.active = getattr(tex, "b4w_use_map_parallax")
+                row.prop(tex, "b4w_parallax_lod_dist", text="Parallax LOD distance", slider=True)
+                layout.row()
 
+                split = layout.split()
+                col = split.column()
+                col.label(text="Anisotropic Filtering:")
+                col = split.column()
+                col.prop(tex, "b4w_anisotropic_filtering", text="")
 
+                split = layout.split()
+                col = split.column()
+                col.label(text="UV translation velocity:")
+                col = split.column()
+                col.prop(tex, "b4w_uv_velocity_trans", text="")
+
+                row = layout.row()
+                row.prop(tex, "b4w_water_foam", text="Water Foam")
+
+                if tex.b4w_water_foam:
+                    row = layout.row()
+                    row.prop(tex, "b4w_foam_uv_freq", text="UV Frequency")
+
+                    row = layout.row()
+                    row.prop(tex, "b4w_foam_uv_magnitude", text="UV Magnitude")
+
+                row = layout.row()
+                row.prop(tex, "b4w_disable_compression", text="Disable Compression")
+
+                row = layout.row()
+                row.prop(tex, "b4w_shore_dist_map", text="Shore distance map")
 
 class B4W_ParticlePanel(bpy.types.Panel):
     bl_label = "Blend4Web"
