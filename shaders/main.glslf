@@ -11,11 +11,13 @@
 #include <precision_statement.glslf>
 #include <pack.glslf>
 #include <fog.glslf>
-#include <lighting.glslf>
 
-#if CAUSTICS
+#if !SHADELESS
+#include <lighting.glslf>
+# if CAUSTICS
 #include <procedural.glslf>
 #include <caustics.glslf>
+# endif
 #endif
 
 #include <gamma.glslf>
@@ -28,13 +30,14 @@
 #define TEXCOORD (TEXTURE_COLOR && TEXTURE_COORDS == TEXTURE_COORDS_UV || TEXTURE_STENCIL_ALPHA_MASK || TEXTURE_SPEC || TEXTURE_NORM)
 
 uniform float u_time;
-uniform vec3  u_horizon_color;
-uniform vec3  u_zenith_color;
-uniform float u_environment_energy;
-
 #if SKY_TEXTURE
 uniform samplerCube u_sky_texture;
 #endif
+
+#if !SHADELESS
+uniform vec3  u_horizon_color;
+uniform vec3  u_zenith_color;
+uniform float u_environment_energy;
 
 uniform float u_shadow_visibility_falloff;
 
@@ -44,15 +47,16 @@ uniform vec3 u_light_color_intensities[NUM_LIGHTS];
 uniform vec4 u_light_factors1[NUM_LIGHTS];
 uniform vec4 u_light_factors2[NUM_LIGHTS];
 
-#if WATER_EFFECTS && CAUSTICS
+# if WATER_EFFECTS && CAUSTICS
 uniform vec4 u_sun_quaternion;
+# endif
 #endif
 
-#if TEXTURE_COORDS == TEXTURE_COORDS_NORMAL
+#if TEXTURE_COORDS == TEXTURE_COORDS_NORMAL || REFLECTIVE
 uniform mat4 u_view_matrix_frag;
 #endif
 
-#if !DISABLE_FOG 
+#if !DISABLE_FOG
 uniform vec4 u_fog_color_density;
 # if WATER_EFFECTS
 uniform vec4 u_underwater_fog_color_density;
@@ -114,6 +118,11 @@ uniform sampler2D u_shadow_map3;
 # endif
 #endif
 
+#if REFRACTIVE
+uniform sampler2D u_refractmap;
+uniform sampler2D u_scene_depth;
+#endif
+
 /*============================================================================
                                MATERIAL UNIFORMS
 ============================================================================*/
@@ -122,7 +131,7 @@ uniform vec4  u_diffuse_color;
 uniform vec2  u_diffuse_params;
 uniform float u_diffuse_intensity;
 uniform float u_emit;
-uniform float u_ambient; 
+uniform float u_ambient;
 
 uniform float u_normal_factor;
 uniform vec2  u_normalmap0_uv_velocity;
@@ -130,6 +139,7 @@ uniform vec4  u_fresnel_params;
 
 #if TEXTURE_COLOR
 uniform float u_diffuse_color_factor;
+uniform float u_alpha_factor;
 uniform vec2  u_colormap0_uv_velocity;
 #endif
 
@@ -146,8 +156,13 @@ uniform float u_parallax_scale;
 
 #if REFLECTIVE
 uniform float u_reflect_factor;
+uniform vec4 u_refl_plane;
 #elif TEXTURE_MIRROR
 uniform float u_mirror_factor;
+#endif
+
+#if REFRACTIVE
+uniform float u_refr_bump;
 #endif
 
 /*============================================================================
@@ -187,8 +202,12 @@ varying vec4 v_shadow_coord3;
 # endif
 #endif
 
-#if REFLECTIVE || SHADOW_SRC == SHADOW_SRC_MASK
+#if REFLECTIVE || SHADOW_SRC == SHADOW_SRC_MASK || REFRACTIVE
 varying vec3 v_tex_pos_clip;
+#endif
+
+#if REFRACTIVE
+varying float v_view_depth;
 #endif
 
 /*============================================================================
@@ -197,6 +216,10 @@ varying vec3 v_tex_pos_clip;
 
 #include <shadow.glslf>
 #include <mirror.glslf>
+
+#if REFRACTIVE
+#include <refraction.glslf>
+#endif
 
 /*============================================================================
                                     MAIN
@@ -214,7 +237,7 @@ void main(void) {
 
     vec3 sided_normal = v_normal;
 #if DOUBLE_SIDED_LIGHTING
-    // NOTE: workaround for some bug with gl_FrontFacing on Intel graphics 
+    // NOTE: workaround for some bug with gl_FrontFacing on Intel graphics
     // or open-source drivers
     if (gl_FrontFacing)
         sided_normal = sided_normal;
@@ -274,14 +297,14 @@ void main(void) {
 #endif
 
 #if TEXTURE_NORM
-    vec4 normalmap = texture2D(u_normalmap0, texcoord + 
+    vec4 normalmap = texture2D(u_normalmap0, texcoord +
         u_time * u_normalmap0_uv_velocity);
 
     vec3 n = normalmap.rgb - 0.5;
     n = mix(vec3(0.0, 0.0, 1.0), n, u_normal_factor);
 
     // equivalent to n.x * v_tangent + n.y * v_binormal + n.z * sided_normal
-    vec3 normal = tbn_matrix * n; 
+    vec3 normal = tbn_matrix * n;
 
 #else
     vec3 normal = sided_normal;
@@ -290,17 +313,6 @@ void main(void) {
     normal = normalize(normal);
 
     vec3 eye_dir = normalize(v_eye_dir);
-
-    // ambient
-    float sky_factor = 0.5 * normal.y + 0.5; // dot of vertical vector and normal
-
-#if SKY_TEXTURE
-    vec3 environment_color = u_environment_energy * textureCube(u_sky_texture, normal).rgb;
-#else
-    vec3 environment_color = u_environment_energy * mix(u_horizon_color, u_zenith_color, sky_factor);
-#endif
-
-    vec3 A = u_ambient * environment_color;
 
     // material diffuse params (Lambert)
 #if VERTEX_COLOR || DYNAMIC_GRASS
@@ -313,6 +325,7 @@ void main(void) {
 #else
     vec4 diffuse_color = u_diffuse_color;
 #endif
+    float spec_alpha = 1.0;
 
 #if TEXTURE_COLOR
 
@@ -347,13 +360,34 @@ void main(void) {
 
 # if TEXTURE_BLEND_TYPE == TEXTURE_BLEND_TYPE_MIX
     diffuse_color.rgb = mix(diffuse_color.rgb, texture_color.rgb, u_diffuse_color_factor);
-    diffuse_color.a = texture_color.a;
+    float texture_alpha = u_alpha_factor * texture_color.a;
+    texture_alpha += (1.0 - step(0.0, texture_alpha));
+    diffuse_color.a = mix(texture_alpha, 1.0, u_diffuse_color.a);
+    spec_alpha = texture_color.a;
 # elif TEXTURE_BLEND_TYPE == TEXTURE_BLEND_TYPE_MULTIPLY
     diffuse_color.rgb *= mix(vec3(1.0), texture_color.rgb, u_diffuse_color_factor);
     diffuse_color.a = texture_color.a;
+    spec_alpha = texture_color.a;
 # endif
 #endif  // TEXTURE_COLOR
+
     vec3 D = u_diffuse_intensity * diffuse_color.rgb;
+
+#if SHADELESS
+    vec3 color = D;
+#else // SHADELESS
+
+    // ambient
+    float sky_factor = 0.5 * normal.y + 0.5; // dot of vertical vector and normal
+
+# if SKY_TEXTURE
+    vec3 environment_color = u_environment_energy * textureCube(u_sky_texture, normal).rgb;
+# else
+    vec3 environment_color = u_environment_energy * mix(u_horizon_color, u_zenith_color, sky_factor);
+# endif
+
+    vec3 A = u_ambient * environment_color;
+
     float shadow_factor = calc_shadow_factor(u_shadow_visibility_falloff, D);
 
     // emission
@@ -361,16 +395,16 @@ void main(void) {
 
     // material specular params (Phong)
     vec3 specular_color = u_specular_color;
-#if TEXTURE_SPEC
-# if ALPHA_AS_SPEC
-    vec3 stexture_color = vec3(diffuse_color.a);
-# else
+# if TEXTURE_SPEC
+#  if ALPHA_AS_SPEC
+    vec3 stexture_color = vec3(spec_alpha);
+#  else
     vec3 stexture_color = texture2D(u_specmap, texcoord).rgb;
-# endif
+#  endif
     srgb_to_lin(stexture_color.rgb);
 
     specular_color = mix(specular_color, stexture_color, u_specular_color_factor);
-#endif
+# endif  // TEXTURE_SPEC
     float specint = u_specular_params[0];
     vec2 spec_params = vec2(u_specular_params[1], u_specular_params[2]);
     vec3 S = specint * specular_color;
@@ -380,43 +414,53 @@ void main(void) {
         u_light_directions, u_light_color_intensities, u_light_factors1,
         u_light_factors2, 0.0, vec4(0.0));
     vec3 color = lresult.color.rgb;
+#endif // SHADELESS
 
 #if REFLECTIVE || TEXTURE_MIRROR
-# if TEXTURE_NORM
-    apply_mirror(color, eye_dir, normal, u_fresnel_params[2],
-        u_fresnel_params[3], n.st);
+# if REFLECTIVE
+    float reflect_factor = u_reflect_factor;
 # else
-    apply_mirror(color, eye_dir, normal, u_fresnel_params[2],
-        u_fresnel_params[3], vec2(0.0));
+    float reflect_factor = 0.0;
 # endif
+    apply_mirror(color, eye_dir, normal, u_fresnel_params[2],
+        u_fresnel_params[3], reflect_factor);
 #endif
 
+#if !SHADELESS
     color += lresult.specular;
-
-#if WATER_EFFECTS
-# if WETTABLE
+# if WATER_EFFECTS
+#  if WETTABLE
     //darken slightly to simulate wet surface
     color = max(color - sqrt(0.01 * -min(dist_to_water, 0.0)), 0.5 * color);
-# endif
-# if CAUSTICS
+#  endif
+#  if CAUSTICS
     apply_caustics(color, dist_to_water, u_time, shadow_factor, normal,
                    u_sun_direction, u_sun_intensity, u_sun_quaternion,
                    v_pos_world, view_dist);
-# endif  // CAUSTICS
-#endif  //WATER_EFFECTS
+#  endif  // CAUSTICS
+# endif  //WATER_EFFECTS
+#endif  //SHADELESS
 
 #if ALPHA
 # if ALPHA_CLIP
     float alpha = diffuse_color.a;
-    if (alpha < 0.5)
+    if (alpha <= 0.5)
         discard;
     alpha = 1.0; // prevent blending with html content
-# else
+# else  // ALPHA_CLIP
+    float alpha = diffuse_color.a;
+#  if !SHADELESS
     // make pixels with high specular more opaque; note: only the first channel of S is used
-    float alpha = diffuse_color.a + lresult.color.a * S.r;
-# endif
-#else
+    alpha += lresult.color.a * S.r;
+#  endif  // SHADELESS
+# endif  // ALPHA CLIP
+#else  // ALPHA
     float alpha = 1.0;
+#endif  // ALPHA
+
+#if REFRACTIVE
+    color = mix(material_refraction(v_tex_pos_clip, normal.xz * u_refr_bump), color, alpha);
+    alpha = 1.0;
 #endif
 
 #if !DISABLE_FOG
@@ -428,7 +472,7 @@ void main(void) {
     vec4 fog_color = u_fog_color_density;
     fog_color.rgb *= u_sun_intensity;
 # endif  // PROCEDURAL_FOG
-# if WATER_EFFECTS
+# if WATER_EFFECTS && !SHADELESS
     fog_underwater(color, view_dist, eye_dir, u_cam_water_depth,
         u_underwater_fog_color_density, fog_color, dist_to_water,
         length(u_sun_intensity) + u_environment_energy);
@@ -437,12 +481,12 @@ void main(void) {
 # endif  // WATER_EFFECTS
 #endif  // !DISABLE_FOG
 
-#if SSAO_ONLY && SHADOW_SRC == SHADOW_SRC_MASK
+#if SSAO_ONLY && SHADOW_SRC == SHADOW_SRC_MASK && !SHADELESS
     color = vec3(shadow_ssao.a);
 #endif
 
     lin_to_srgb(color);
-#if ALPHA && !ALPHA_CLIP 
+#if ALPHA && !ALPHA_CLIP
     premultiply_alpha(color, alpha);
 #endif
     gl_FragColor = vec4(color, alpha);

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Разработчикам приложений &mdash; Руководство пользователя: Blend4Web v14.07</title>
+    <title>Разработчикам приложений &mdash; Руководство пользователя: Blend4Web v14.08</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.07',
+        VERSION:     '14.08',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v14.07" href="index.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v14.08" href="index.html" />
     <link rel="next" title="Разработчикам движка" href="developers_advanced.html" />
     <link rel="prev" title="Нелинейная анимация" href="nla.html" /> 
   </head>
@@ -37,7 +37,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">Руководство пользователя: Blend4Web v14.07</a></div>
+          href="index.html">Руководство пользователя: Blend4Web v14.08</a></div>
         <div class="rel">
           <a href="nla.html" title="Нелинейная анимация"
              accesskey="P">предыдущий</a> |
@@ -79,9 +79,16 @@
 <span class="nt">&lt;/html&gt;</span>
 </pre></div>
 </div>
-<p>Базовый модуль движка подключается с помощью тега <tt class="docutils literal"><span class="pre">&lt;script</span> <span class="pre">src=&quot;...&quot;&gt;</span></tt>. Далее,
+<p>Базовый код движка подключается с помощью тега <tt class="docutils literal"><span class="pre">&lt;script</span> <span class="pre">src=&quot;...&quot;&gt;</span></tt>. Далее,
 приложение ожидает окончания загрузки страницы и выводит сообщение с текущей
-версией в окне браузера.</p>
+версией в окне браузера. В данном примере используется единственный модуль
+<tt class="docutils literal"><span class="pre">version</span></tt>, в котором находится одноимённая функция <tt class="docutils literal"><span class="pre">version()</span></tt>. Подробную
+информацию о предназначении модулей и функций движка можно найти в <a class="reference external" href="http://www.blend4web.com/api_doc/index.html">документации
+по API</a>.</p>
+<p>Файлы со скомпилированным кодом движка находятся в директории SDK
+<tt class="docutils literal"><span class="pre">external/deploy/apps/common</span></tt>. Файл <tt class="docutils literal"><span class="pre">b4w.min.js</span></tt> содержит в себе базовую
+версию, в случае необходимости использования аддонов, вместо него используется
+<tt class="docutils literal"><span class="pre">b4w.full.min.js</span></tt>.</p>
 </div>
 <div class="section" id="id2">
 <h2>Загрузка сцены в приложение<a class="headerlink" href="#id2" title="Ссылка на этот заголовок">¶</a></h2>
@@ -123,13 +130,11 @@
 <h2>Быстрое создание приложений<a class="headerlink" href="#id3" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Поскольку создание приложения с нуля может быть достаточно сложной операцей,
 особенно для начинающих пользователей, в движке существует специальное
-дополнение <tt class="docutils literal"><span class="pre">app.js</span></tt>. Дополнение подключается аналогично основному модулю
-<tt class="docutils literal"><span class="pre">b4w.min.js</span></tt> и доступно в приложении через модуль <tt class="docutils literal"><span class="pre">app</span></tt>:</p>
+дополнение <tt class="docutils literal"><span class="pre">app</span></tt>:</p>
 <div class="highlight-html"><div class="highlight"><pre><span class="cp">&lt;!DOCTYPE html&gt;</span>
 <span class="nt">&lt;html&gt;</span>
 <span class="nt">&lt;head&gt;</span>
-<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;b4w.min.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
-<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;app.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;b4w.full.min.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
 <span class="nt">&lt;script&gt;</span>
 
 <span class="kd">var</span> <span class="nx">m_app</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;app&quot;</span><span class="p">);</span>
@@ -154,7 +159,7 @@
 </div>
 <p>В данном случае модуль <tt class="docutils literal"><span class="pre">app</span></tt> создаст элемент <tt class="docutils literal"><span class="pre">&lt;canvas&gt;</span></tt> внутри контейнера с
 указанным идентификатором <tt class="docutils literal"><span class="pre">body_id</span></tt>, осуществит инициализацию движка при
-загрузке страницы и сообщит о её окончинии с помощью обработчика <tt class="docutils literal"><span class="pre">load_cb</span></tt>.</p>
+загрузке страницы и сообщит о её окончании с помощью обработчика <tt class="docutils literal"><span class="pre">load_cb</span></tt>.</p>
 </div>
 <div class="section" id="id4">
 <h2>Система модулей<a class="headerlink" href="#id4" title="Ссылка на этот заголовок">¶</a></h2>
@@ -255,12 +260,12 @@
 <div class="section" id="id7">
 <h3>Пример работы с кватернионами<a class="headerlink" href="#id7" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Требуется повернуть объект на 60 градусов в горизонтальной плоскости вправо. В программе Blender имеется соответствующая модель с названием &#8220;Cessna&#8221;.</p>
-<a class="reference internal image-reference" href="_images/aircraft.jpg"><img alt="ориентация модели в программе Blender" class="align-center" src="_images/aircraft.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/aircraft.jpg"><img alt="_images/aircraft.jpg" class="align-center" src="_images/aircraft.jpg" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <p>Сохраним ссылку на объект в движке в переменной <strong>aircraft</strong>:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">aircraft</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">scenes</span><span class="p">.</span><span class="nx">get_object_by_name</span><span class="p">(</span><span class="s2">&quot;Cessna&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">aircraft</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_object_by_name</span><span class="p">(</span><span class="s2">&quot;Cessna&quot;</span><span class="p">);</span>
 </pre></div>
 </div>
 <p>Осуществим поворот:</p>
@@ -273,16 +278,16 @@
 </div></blockquote>
 <p>В итоге получаем:</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span class="c1">// compose quaternion</span>
-<span class="kd">var</span> <span class="nx">quat_60_Y_neg</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">quat</span><span class="p">.</span><span class="nx">setAxisAngle</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="o">-</span><span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">quat</span><span class="p">.</span><span class="nx">create</span><span class="p">());</span>
+<span class="kd">var</span> <span class="nx">quat_60_Y_neg</span> <span class="o">=</span> <span class="nx">m_quat</span><span class="p">.</span><span class="nx">setAxisAngle</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="o">-</span><span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span> <span class="nx">m_quat</span><span class="p">.</span><span class="nx">create</span><span class="p">());</span>
 
 <span class="c1">// get old rotation</span>
-<span class="kd">var</span> <span class="nx">quat_old</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">transform</span><span class="p">.</span><span class="nx">get_rotation</span><span class="p">(</span><span class="nx">aircraft</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">quat_old</span> <span class="o">=</span> <span class="nx">m_transform</span><span class="p">.</span><span class="nx">get_rotation</span><span class="p">(</span><span class="nx">aircraft</span><span class="p">);</span>
 
 <span class="c1">// left multiply: quat60_Y_neg * quat_old</span>
-<span class="kd">var</span> <span class="nx">quat_new</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">quat</span><span class="p">.</span><span class="nx">multiply</span><span class="p">(</span><span class="nx">quat_60_Y_neg</span><span class="p">,</span> <span class="nx">quat_old</span><span class="p">,</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">quat</span><span class="p">.</span><span class="nx">create</span><span class="p">());</span>
+<span class="kd">var</span> <span class="nx">quat_new</span> <span class="o">=</span> <span class="nx">m_quat</span><span class="p">.</span><span class="nx">multiply</span><span class="p">(</span><span class="nx">quat_60_Y_neg</span><span class="p">,</span> <span class="nx">quat_old</span><span class="p">,</span> <span class="nx">m_quat</span><span class="p">.</span><span class="nx">create</span><span class="p">());</span>
 
 <span class="c1">// set new rotation</span>
-<span class="nx">b4w</span><span class="p">.</span><span class="nx">transform</span><span class="p">.</span><span class="nx">set_rotation_v</span><span class="p">(</span><span class="nx">aircraft</span><span class="p">,</span> <span class="nx">quat_new</span><span class="p">);</span>
+<span class="nx">m_transform</span><span class="p">.</span><span class="nx">set_rotation_v</span><span class="p">(</span><span class="nx">aircraft</span><span class="p">,</span> <span class="nx">quat_new</span><span class="p">);</span>
 </pre></div>
 </div>
 <p>Оптимизированный вариант, не приводящий к созданию новых объектов:</p>
@@ -292,10 +297,10 @@
 <span class="kd">var</span> <span class="nx">quat_tmp2</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Float32Array</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span>
 <span class="p">...</span>
 <span class="c1">// rotate</span>
-<span class="nx">b4w</span><span class="p">.</span><span class="nx">quat</span><span class="p">.</span><span class="nx">setAxisAngle</span><span class="p">(</span><span class="nx">AXIS_Y</span><span class="p">,</span> <span class="o">-</span><span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span> <span class="nx">quat_tmp</span><span class="p">);</span>
-<span class="nx">b4w</span><span class="p">.</span><span class="nx">transform</span><span class="p">.</span><span class="nx">get_rotation</span><span class="p">(</span><span class="nx">aircraft</span><span class="p">,</span> <span class="nx">quat_tmp2</span><span class="p">);</span>
-<span class="nx">b4w</span><span class="p">.</span><span class="nx">quat</span><span class="p">.</span><span class="nx">multiply</span><span class="p">(</span><span class="nx">quat_tmp</span><span class="p">,</span> <span class="nx">quat_tmp2</span><span class="p">,</span> <span class="nx">quat_tmp</span><span class="p">);</span>
-<span class="nx">b4w</span><span class="p">.</span><span class="nx">transform</span><span class="p">.</span><span class="nx">set_rotation_v</span><span class="p">(</span><span class="nx">aircraft</span><span class="p">,</span> <span class="nx">quat_tmp</span><span class="p">);</span>
+<span class="nx">m_quat</span><span class="p">.</span><span class="nx">setAxisAngle</span><span class="p">(</span><span class="nx">AXIS_Y</span><span class="p">,</span> <span class="o">-</span><span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span> <span class="nx">quat_tmp</span><span class="p">);</span>
+<span class="nx">m_transform</span><span class="p">.</span><span class="nx">get_rotation</span><span class="p">(</span><span class="nx">aircraft</span><span class="p">,</span> <span class="nx">quat_tmp2</span><span class="p">);</span>
+<span class="nx">m_quat</span><span class="p">.</span><span class="nx">multiply</span><span class="p">(</span><span class="nx">quat_tmp</span><span class="p">,</span> <span class="nx">quat_tmp2</span><span class="p">,</span> <span class="nx">quat_tmp</span><span class="p">);</span>
+<span class="nx">m_transform</span><span class="p">.</span><span class="nx">set_rotation_v</span><span class="p">(</span><span class="nx">aircraft</span><span class="p">,</span> <span class="nx">quat_tmp</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
@@ -393,6 +398,39 @@ manifold). Множество является логическим контей
 В результате воспроизводится соответствующий звук (код не показан).</p>
 </div>
 </div>
+<div class="section" id="quality-settings">
+<span id="id11"></span><h2>Профили качества изображения<a class="headerlink" href="#quality-settings" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Для поддержки различных по функциональности платформ в движке реализовано несколько профилей качества изображения:</p>
+<blockquote>
+<div><ul class="simple">
+<li><em>низкое качество</em> (P_LOW) - отключен ряд функций (тени, динамическое отражение, постпроцессинг), размер текстур для сборочной версии уменьшен вдвое, антиалиасинг отключен</li>
+<li><em>высокое качество</em> (P_HIGH) - используются все запрошенные сценой функции, метод антиалиасинга FXAA</li>
+<li><em>максимальное качество</em> (P_ULTRA) - вдвое увеличено разрешение рендеринга, увеличено разрешение карт теней, метод антиалиасинга SMAA</li>
+</ul>
+</div></blockquote>
+<a class="reference internal image-reference" href="_images/quality.jpg"><img alt="_images/quality.jpg" class="align-center" src="_images/quality.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>Переключение профилей качества осуществляется программно, до инициализации контекста WebGL. Профиль по умолчанию P_HIGH.</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_cfg</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">m_main</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;main&quot;</span><span class="p">);</span>
+
+<span class="nx">m_cfg</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;quality&quot;</span><span class="p">,</span> <span class="nx">m_cfg</span><span class="p">.</span><span class="nx">P_LOW</span><span class="p">);</span>
+<span class="nx">m_main</span><span class="p">.</span><span class="nx">init</span><span class="p">(...);</span>
+</pre></div>
+</div>
+<p>Разработчики приложений могут также установить параметр <strong>quality</strong> при инициализации движка с использованием дополнения <tt class="docutils literal"><span class="pre">app.js</span></tt>:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_cfg</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">m_app</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;app&quot;</span><span class="p">);</span>
+
+<span class="nx">m_app</span><span class="p">.</span><span class="nx">init</span><span class="p">({</span>
+    <span class="nx">canvas_container_id</span><span class="o">:</span> <span class="s2">&quot;body_id&quot;</span><span class="p">,</span>
+    <span class="nx">quality</span><span class="o">:</span> <span class="nx">m_cfg</span><span class="p">.</span><span class="nx">P_HIGH</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+</div>
 <div class="section" id="sdk">
 <span id="repo-file-structure"></span><h2>Файловая структура SDK<a class="headerlink" href="#sdk" title="Ссылка на этот заголовок">¶</a></h2>
 <dl class="docutils">
@@ -417,8 +455,14 @@ manifold). Множество является логическим контей
 <dd>документация API движка для разработчиков в формате HTML
 (собирается автоматически, на основе исходного кода движка)</dd>
 <dt><strong>apps</strong></dt>
-<dd>3D-приложения, предназначенные для развертывания, директория
-дублирует <em>apps_dev</em></dd>
+<dd><p class="first">3D-приложения, предназначенные для развертывания, директория
+дублирует <em>apps_dev</em></p>
+<dl class="last docutils">
+<dt><strong>common</strong></dt>
+<dd>Файлы скомпилированного движка. Используются всеми
+приложениями из состава SDK (отсюда и название).</dd>
+</dl>
+</dd>
 <dt><strong>assets</strong></dt>
 <dd><p class="first">загружаемые ресурсы: сцены, текстуры, звуковые файлы (не все ресурсы
 доступны в бесплатной версии)</p>
@@ -470,7 +514,7 @@ Viewer</dd>
 <dl class="last docutils">
 <dt><strong>chrome_debug.sh</strong></dt>
 <dd>скрипт, запускающий браузер Chrome в режиме отладки</dd>
-<dt><strong>compile_b4w.sh</strong></dt>
+<dt><strong>compile_b4w.py</strong></dt>
 <dd>скрипт для вызова Google Closure compiler с целью минификации и обфускации кода движка и приложений</dd>
 <dt><strong>converter.py</strong></dt>
 <dd>скрипт, осуществляющий: уменьшение разрешения текстур вдвое, компрессию текстур в формат DDS, конвертацию звуковых файлов в форматы mp4 и ogg</dd>
@@ -517,39 +561,6 @@ Viewer</dd>
 <dd>содержит текущую версию движка</dd>
 </dl>
 </div>
-<div class="section" id="quality-settings">
-<span id="id11"></span><h2>Профили качества изображения<a class="headerlink" href="#quality-settings" title="Ссылка на этот заголовок">¶</a></h2>
-<p>Для поддержки различных по функциональности платформ в движке реализовано несколько профилей качества изображения:</p>
-<blockquote>
-<div><ul class="simple">
-<li><em>низкое качество</em> (P_LOW) - отключен ряд функций (тени, динамическое отражение, постпроцессинг), размер текстур для сборочной версии уменьшен вдвое, антиалиасинг отключен</li>
-<li><em>высокое качество</em> (P_HIGH) - используются все запрошенные сценой функции, метод антиалиасинга FXAA</li>
-<li><em>максимальное качество</em> (P_ULTRA) - вдвое увеличено разрешение рендеринга, увеличено разрешение карт теней, метод антиалиасинга SMAA</li>
-</ul>
-</div></blockquote>
-<a class="reference internal image-reference" href="_images/quality.jpg"><img alt="_images/quality.jpg" class="align-center" src="_images/quality.jpg" style="width: 100%;" /></a>
-<div class="line-block">
-<div class="line"><br /></div>
-</div>
-<p>Переключение профилей качества осуществляется программно, до инициализации контекста WebGL. Профиль по умолчанию P_HIGH.</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_cfg</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">);</span>
-<span class="kd">var</span> <span class="nx">m_main</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;main&quot;</span><span class="p">);</span>
-
-<span class="nx">m_cfg</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;quality&quot;</span><span class="p">,</span> <span class="nx">m_cfg</span><span class="p">.</span><span class="nx">P_LOW</span><span class="p">);</span>
-<span class="nx">m_main</span><span class="p">.</span><span class="nx">init</span><span class="p">(...);</span>
-</pre></div>
-</div>
-<p>Разработчики приложений могут также установить параметр <strong>quality</strong> при инициализации движка с использованием дополнения <tt class="docutils literal"><span class="pre">app.js</span></tt>:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_cfg</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">);</span>
-<span class="kd">var</span> <span class="nx">m_app</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;app&quot;</span><span class="p">);</span>
-
-<span class="nx">m_app</span><span class="p">.</span><span class="nx">init</span><span class="p">({</span>
-    <span class="nx">canvas_container_id</span><span class="o">:</span> <span class="s2">&quot;body_id&quot;</span><span class="p">,</span>
-    <span class="nx">quality</span><span class="o">:</span> <span class="nx">m_cfg</span><span class="p">.</span><span class="nx">P_HIGH</span>
-<span class="p">});</span>
-</pre></div>
-</div>
-</div>
 </div>
 
 
@@ -566,6 +577,7 @@ Viewer</dd>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">Развёртывание среды разработки</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Рабочий процесс</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Просмотрщик сцен</a></li>
+<li class="toctree-l1"><a class="reference internal" href="web_player.html">Веб-плеер</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">Аддон</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Объекты</a></li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">Текстуры</a></li>
@@ -589,8 +601,8 @@ Viewer</dd>
 <li class="toctree-l2"><a class="reference internal" href="#id5">Управление перемещением объектов</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#index-0">Кватернионы</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#event-model">Событийная модель</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#sdk">Файловая структура SDK</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#quality-settings">Профили качества изображения</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sdk">Файловая структура SDK</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">Разработчикам движка</a></li>
@@ -628,7 +640,7 @@ Viewer</dd>
           
     <div class="footer">
         &copy; Copyright 2014, ООО &#34;Триумф&#34;.
-      Обновлено: 2014-07-23.
+      Обновлено: 2014-08-25.
       Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

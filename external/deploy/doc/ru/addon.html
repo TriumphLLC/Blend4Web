@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Аддон &mdash; Руководство пользователя: Blend4Web v14.07</title>
+    <title>Аддон &mdash; Руководство пользователя: Blend4Web v14.08</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.07',
+        VERSION:     '14.08',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,9 +26,9 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v14.07" href="index.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v14.08" href="index.html" />
     <link rel="next" title="Объекты" href="objects.html" />
-    <link rel="prev" title="Просмотрщик сцен" href="viewer.html" /> 
+    <link rel="prev" title="Веб-плеер" href="web_player.html" /> 
   </head>
   <body>
     <div class="header-wrapper">
@@ -37,9 +37,9 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">Руководство пользователя: Blend4Web v14.07</a></div>
+          href="index.html">Руководство пользователя: Blend4Web v14.08</a></div>
         <div class="rel">
-          <a href="viewer.html" title="Просмотрщик сцен"
+          <a href="web_player.html" title="Веб-плеер"
              accesskey="P">предыдущий</a> |
           <a href="objects.html" title="Объекты"
              accesskey="N">следующий</a> |
@@ -63,7 +63,7 @@
 <span id="index-0"></span><span id="id2"></span><h2>Ошибки инициализации<a class="headerlink" href="#initialization-errors" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Ошибки инициализации могут проявляться при инициализации аддона, либо при загрузке сцены в Blender.
 При возникновении появится диалоговое окно с описанием ошибки.</p>
-<a class="reference internal image-reference" href="_images/init_error_message.jpg"><img alt="Сообщение об ошибке при инициализации" class="align-center" src="_images/init_error_message.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/init_error_message.jpg"><img alt="_images/init_error_message.jpg" class="align-center" src="_images/init_error_message.jpg" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -105,7 +105,7 @@ VER_CURRENT.</td>
 <p><tt class="docutils literal"><span class="pre">NAME</span></tt> - имя компонента.</p>
 <p><tt class="docutils literal"><span class="pre">ERROR</span></tt> - краткое описание возникшей проблемы на англ. языке.</p>
 </div></blockquote>
-<a class="reference internal image-reference" href="_images/error_message.jpg"><img alt="Сообщение об ошибке при экспорте" class="align-center" src="_images/error_message.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/error_message.jpg"><img alt="_images/error_message.jpg" class="align-center" src="_images/error_message.jpg" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -131,7 +131,12 @@ OBJECT_NAME, не экспортируется. Требуется
 объектов группы, либо убрать дублирование
 группой.</td>
 </tr>
-<tr class="row-odd"><td>Incompatible meshes; Check
+<tr class="row-odd"><td>Export to different disk is
+forbidden</td>
+<td>Не разрешен экспорт в директорию,
+находящуюся на другом диске</td>
+</tr>
+<tr class="row-even"><td>Incompatible meshes; Check
 MESH_NAME1 and MESH_NAME2 UV Maps/
 Vertex colors</td>
 <td>Имеется два меша с одинаковом материалом.
@@ -141,7 +146,7 @@ Vertex colors</td>
 развёрток (<tt class="docutils literal"><span class="pre">UV</span> <span class="pre">Maps</span></tt>) и слоёв
 вертексных цветов (<tt class="docutils literal"><span class="pre">Vertex</span> <span class="pre">Colors</span></tt>).</td>
 </tr>
-<tr class="row-even"><td>Incompatible objects with
+<tr class="row-odd"><td>Incompatible objects with
 a shared mesh; The OBJECT_NAME
 object has both vertex groups and
 a shared mesh</td>
@@ -156,7 +161,7 @@ a shared mesh</td>
 (т.к. в этом случае при экспорте
 происходит полное копирование мешей).</td>
 </tr>
-<tr class="row-odd"><td>Incomplete mesh; Dynamic grass
+<tr class="row-even"><td>Incomplete mesh; Dynamic grass
 vertex colors required
 by material settings</td>
 <td>Неполный меш: специальный материал для
@@ -165,25 +170,25 @@ by material settings</td>
 <tt class="docutils literal"><span class="pre">Dynamic</span> <span class="pre">grass</span> <span class="pre">color</span></tt>, но у меша нет
 слоев вертексного цвета с такими именами.</td>
 </tr>
-<tr class="row-even"><td>Incomplete mesh; Material slot is
+<tr class="row-odd"><td>Incomplete mesh; Material slot is
 empty</td>
 <td>Неполный меш: пустой слот материала.</td>
 </tr>
-<tr class="row-odd"><td>Incomplete mesh; No UV in mesh
+<tr class="row-even"><td>Incomplete mesh; No UV in mesh
 with UV-textured material</td>
 <td>Неполный меш: в материале меша
 используются текстуры с типом координат
 <tt class="docutils literal"><span class="pre">UV</span></tt>, но у меша нет текстурной
 развертки.</td>
 </tr>
-<tr class="row-even"><td>Incomplete mesh; Material settings
+<tr class="row-odd"><td>Incomplete mesh; Material settings
 require vertex colors</td>
 <td>Неполный меш: материал меша имеет
 включенную опцию вертексного цвета
 (<tt class="docutils literal"><span class="pre">Vertex</span> <span class="pre">Color</span> <span class="pre">Paint</span></tt>), но у меша нет
 слоя вертексного цвета.</td>
 </tr>
-<tr class="row-odd"><td>Incomplete vehicle. The NAME
+<tr class="row-even"><td>Incomplete vehicle. The NAME
 vehicle doesn&#8217;t have any chassis
 or hull</td>
 <td>Моделируемое средство передвижения NAME
@@ -191,13 +196,13 @@ or hull</td>
 содержать один элемент <tt class="docutils literal"><span class="pre">Chassis</span></tt> или
 <tt class="docutils literal"><span class="pre">Hull</span></tt>.</td>
 </tr>
-<tr class="row-even"><td>Incomplete vehicle. The NAME
+<tr class="row-odd"><td>Incomplete vehicle. The NAME
 vehicle requires at least one bob</td>
 <td>Моделируемое средство передвижения NAME
 является незавершенным: оно должно
 содержать хотя бы один элемент <tt class="docutils literal"><span class="pre">Bob</span></tt>.</td>
 </tr>
-<tr class="row-odd"><td>Incomplete vehicle. The NAME
+<tr class="row-even"><td>Incomplete vehicle. The NAME
 vehicle requires at least one wheel</td>
 <td>Моделируемое средство передвижения NAME
 является незавершенным: оно должно
@@ -486,6 +491,7 @@ Cycles.</td>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">Развёртывание среды разработки</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Рабочий процесс</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Просмотрщик сцен</a></li>
+<li class="toctree-l1"><a class="reference internal" href="web_player.html">Веб-плеер</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Аддон</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#initialization-errors">Ошибки инициализации</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#export-errors">Ошибки экспорта</a></li>
@@ -530,7 +536,7 @@ Cycles.</td>
     <div class="footer-wrapper">
       <div class="footer">
         <div class="left">
-          <a href="viewer.html" title="Просмотрщик сцен"
+          <a href="web_player.html" title="Веб-плеер"
              >предыдущий</a> |
           <a href="objects.html" title="Объекты"
              >следующий</a> |
@@ -542,7 +548,7 @@ Cycles.</td>
           
     <div class="footer">
         &copy; Copyright 2014, ООО &#34;Триумф&#34;.
-      Обновлено: 2014-07-23.
+      Обновлено: 2014-08-25.
       Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

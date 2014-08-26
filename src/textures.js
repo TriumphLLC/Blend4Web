@@ -69,6 +69,25 @@ exports.setup_context = function(gl) {
     _gl = gl;
 }
 
+function init_texture() {
+    return {
+        name: "",
+        type: 0,
+        source: "",
+        width: 0,
+        height: 0,
+        compress_ratio: 1,
+        allow_node_dds: true,
+
+        canvas: null,
+        canvas_context: null,
+
+        w_target: 0,
+        w_texture: null,
+        w_renderbuffer: null
+    };
+}
+
 /**
  * Create empty b4w texture.
  * same format as bpy_texture._render
@@ -77,13 +96,10 @@ exports.setup_context = function(gl) {
  */
 exports.create_texture = function(name, type) {
 
-    var texture = {};
+    var texture = init_texture();
     texture.name = name;
     texture.type = type;
     texture.source = "NONE";
-    texture.width = 0;
-    texture.height = 0;
-    texture.compress_ratio = 1;
 
     if (type == exports.TT_RENDERBUFFER) {
         texture.w_renderbuffer = _gl.createRenderbuffer();
@@ -128,11 +144,11 @@ exports.create_cubemap_texture = function(name, size) {
     _gl.texParameteri(w_target, _gl.TEXTURE_WRAP_T, _gl.CLAMP_TO_EDGE);
 
     var infos = [
-        "TEXTURE_CUBE_MAP_POSITIVE_X", 
+        "TEXTURE_CUBE_MAP_POSITIVE_X",
         "TEXTURE_CUBE_MAP_NEGATIVE_X",
-        "TEXTURE_CUBE_MAP_POSITIVE_Y", 
+        "TEXTURE_CUBE_MAP_POSITIVE_Y",
         "TEXTURE_CUBE_MAP_NEGATIVE_Y",
-        "TEXTURE_CUBE_MAP_POSITIVE_Z", 
+        "TEXTURE_CUBE_MAP_POSITIVE_Z",
         "TEXTURE_CUBE_MAP_NEGATIVE_Z"
     ];
 
@@ -144,7 +160,7 @@ exports.create_cubemap_texture = function(name, size) {
 
     _gl.bindTexture(w_target, null);
 
-    var texture = {};
+    var texture = init_texture();
 
     texture.name = name;
     texture.type = exports.TT_RGBA_INT;
@@ -246,7 +262,7 @@ exports.create_texture_bpy = function(bpy_texture, global_af, bpy_scenes) {
     var tex_type = bpy_texture["type"];
     var image_data = new Uint8Array([0.8*255, 0.8*255, 0.8*255, 1*255]);
 
-    var texture = {};
+    var texture = init_texture();
 
     switch(tex_type) {
     case "IMAGE":
@@ -373,7 +389,7 @@ exports.create_texture_canvas = function(name, width, height) {
     canvas.height = height;
     var canvas_context = canvas.getContext("2d");
 
-    var texture = {};
+    var texture = init_texture();
 
     texture.name = name;
     texture.type = exports.TT_RGBA_INT;

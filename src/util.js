@@ -659,7 +659,6 @@ exports.clone_object_r = function(obj) {
 
     for (var i in obj) {
         if (obj[i] && (typeof obj[i] == "object")) {
-            
             if (obj[i] instanceof Float32Array)
                 new_obj[i] = new Float32Array(obj[i]);
             else if (obj[i] instanceof Uint32Array)
@@ -683,7 +682,6 @@ exports.clone_object_nr = function(obj) {
 
     for (var i in obj) {
         if (obj[i] && (typeof obj[i] == "object")) {
-            
             if (obj[i] instanceof Float32Array)
                 new_obj[i] = new Float32Array(obj[i]);
             else if (obj[i] instanceof Uint32Array)
@@ -766,7 +764,7 @@ function matrix_to_quat(matrix, dest) {
     _mat3_tmp[5] /= l2; 
     _mat3_tmp[8] /= l2; 
 
-	m_quat.fromMat3(_mat3_tmp, dest);
+    m_quat.fromMat3(_mat3_tmp, dest);
 
     return dest;
 }
@@ -817,17 +815,17 @@ exports.extract_frustum_planes = function(m, planes) {
     left[1] = m[7] + m[4];
     left[2] = m[11] + m[8];
     left[3] = m[15] + m[12];
-    
+
     right[0] = m[3] - m[0];
     right[1] = m[7] - m[4];
     right[2] = m[11] - m[8];
     right[3] = m[15] - m[12];
-    
+
     top[0] = m[3] - m[1];
     top[1] = m[7] - m[5];
     top[2] = m[11] - m[9];
     top[3] = m[15] - m[13];
-    
+
     bottom[0] = m[3] + m[1];
     bottom[1] = m[7] + m[5];
     bottom[2] = m[11] + m[9];
@@ -858,7 +856,7 @@ function normalize_plane(plane) {
 
     var len = Math.sqrt(a * a + b * b + c * c);
     len = 1 / len;
-    
+
     plane[0] = a * len; 
     plane[1] = b * len; 
     plane[2] = c * len; 
@@ -1265,7 +1263,7 @@ exports.generate_cubemap_matrices = function() {
     var y_neg   = new Float32Array(16);
     var z_pos   = new Float32Array(16);
     var z_neg   = new Float32Array(16);
-    
+
     m_mat4.lookAt(eye_pos, [-1, 0, 0], [0, -1, 0], x_pos);
     m_mat4.scale(x_pos, [-1, 1, 1], x_pos);
     m_mat4.scale(x_pos, [-1, 1,-1], x_neg);
@@ -1327,7 +1325,7 @@ function hash_code(a, init_val) {
 function hash_code_number(num, init_val) {
     var hash = init_val;
     _hash_buffer_in[0] = num;
-    
+
     hash = (hash<<5) - hash + _hash_buffer_out[0];
     hash = hash & hash;
     hash = (hash<<5) - hash + _hash_buffer_out[1];
@@ -1521,7 +1519,7 @@ exports.snoise = function(p) {
     var ox_x = Math.floor(x_x + 0.5);
     var ox_y = Math.floor(x_y + 0.5);
     var ox_z = Math.floor(x_z + 0.5);
-    
+
     var a0_x = x_x - ox_x;
     var a0_y = x_y - ox_y;
     var a0_z = x_z - ox_z;

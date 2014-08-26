@@ -32,7 +32,7 @@ exports.update_scene_nla = function(scene, is_cyclic) {
         objects: []
     }
 
-    var sobjs = m_scenes.get_scene_objs(scene, "ALL");
+    var sobjs = m_scenes.get_scene_objs(scene, "ALL", m_scenes.DATA_ID_ALL);
 
     for (var i = 0; i < sobjs.length; i++) {
         var sobj = sobjs[i];
@@ -64,7 +64,7 @@ exports.update_scene_nla = function(scene, is_cyclic) {
                 nla.objects.push(sobj);
             }
 
-        if (m_particles.has_particles(sobj) && 
+        if (m_particles.has_particles(sobj) &&
                 m_particles.has_anim_particles(sobj)) {
 
             var ev = {
@@ -98,7 +98,7 @@ function enforce_nla_consistency(nla) {
             var ev = nla_events[j];
 
             // for possible warnings
-            var strip_str = obj["name"] + " [" + ev.frame_start + ":" + 
+            var strip_str = obj["name"] + " [" + ev.frame_start + ":" +
                     ev.frame_end + "]";
 
             ev.frame_offset = Math.max(0, start - ev.frame_start);
@@ -151,7 +151,7 @@ exports.update = function(timeline, elapsed) {
             for (var k = 0; k < nla_events.length; k++) {
                 var ev = nla_events[k];
 
-                if ((cf < nla.last_frame || nla.last_frame < ev.frame_start) && 
+                if ((cf < nla.last_frame || nla.last_frame < ev.frame_start) &&
                         ev.frame_start <= cf) {
                     if (!ev.scheduled) {
                         process_event_start(obj, ev, cf, elapsed);
@@ -179,12 +179,15 @@ function process_event_start(obj, ev, frame, elapsed) {
 
     if (m_particles.has_particles(obj) && m_particles.has_anim_particles(obj)) {
         m_anim.apply_def(obj);
-        m_anim.set_current_frame_float(obj, init_anim_frame);
-        m_anim.play(obj);
+        m_anim.set_behavior(obj, m_anim.AB_FINISH_STOP, m_anim.SLOT_0);
+        m_anim.set_current_frame_float(obj, init_anim_frame, m_anim.SLOT_0);
+        m_anim.play(obj, null, m_anim.SLOT_0);
     } else if (m_util.is_armature(obj) || m_util.is_mesh(obj) || m_cam.is_camera(obj)) {
-        m_anim.apply(obj, ev.action);
-        m_anim.set_current_frame_float(obj, init_anim_frame);
-        m_anim.play(obj);
+        m_anim.apply(obj, ev.action, m_anim.SLOT_0);
+        // NOTE: should not be required
+        m_anim.set_behavior(obj, m_anim.AB_FINISH_STOP, m_anim.SLOT_0);
+        m_anim.set_current_frame_float(obj, init_anim_frame, m_anim.SLOT_0);
+        m_anim.play(obj, null, m_anim.SLOT_0);
     } else if (m_sfx.is_speaker(obj)) {
         // TODO: speakers are special
         var when = 0;
@@ -195,9 +198,9 @@ function process_event_start(obj, ev, frame, elapsed) {
 
 function process_event_stop(obj, ev, frame) {
     if (m_particles.has_particles(obj) && m_particles.has_anim_particles(obj))
-        m_anim.stop(obj);
+        m_anim.stop(obj, m_anim.SLOT_0);
     else if (m_util.is_armature(obj) || m_util.is_mesh(obj) || m_cam.is_camera(obj))
-        m_anim.stop(obj);
+        m_anim.stop(obj, m_anim.SLOT_0);
 }
 
 exports.cleanup = function() {
@@ -205,7 +208,7 @@ exports.cleanup = function() {
     _start_time = -1;
 }
 
-/** 
+/**
  * Convert NLA tracks to events
  */
 function get_nla_events(nla_tracks) {

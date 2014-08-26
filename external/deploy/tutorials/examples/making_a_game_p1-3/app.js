@@ -11,6 +11,7 @@ b4w.module["app"] = function(exports, require) {
 var m_anim  = require("animation");
 var m_cam   = require("camera");
 var m_cfg   = require("config");
+var m_cons  = require("constraints");
 var m_ctl   = require("controls");
 var m_data  = require("data");
 var m_dbg   = require("debug");
@@ -24,8 +25,8 @@ var m_util  = require("util");
 var m_vec3 = require("vec3");
 
 // radian/pixel
-var MOUSE_ROTATION_MULT_PX = 0.01;
-var TOUCH_ROTATION_MULT_PX = 0.007;
+var MOUSE_ROTATION_MULT_PX = 0.003;
+var TOUCH_ROTATION_MULT_PX = 0.005;
 
 var MOUSE_ZOOM_FACTOR = 0.1;
 var TOUCH_ZOOM_FACTOR = 0.005;
@@ -36,6 +37,9 @@ var CAM_SMOOTH_ZOOM_TOUCH = 0.15;
 var CAM_SMOOTH_ROT_MOUSE = 0.08;
 var CAM_SMOOTH_ROT_TOUCH = 0.12;
 
+var COLL_RESPONSE_NORMAL_FACTOR = 0.01;
+var CHAR_HEAD_POSITION = 0.5;
+
 // assumed there are development and release versions of htmls
 
 var _canvas_container_elem = null;
@@ -43,7 +47,9 @@ var _canvas_elem = null;
 var _fps_logger_elem = null;
 
 // for internal usage
-var _vec3_tmp   = new Float32Array(3);
+var _vec2_tmp  = new Float32Array(2);
+var _vec3_tmp  = new Float32Array(3);
+var _vec3_tmp2 = new Float32Array(3);
 
 /**
  * Initialize the engine.
@@ -52,70 +58,91 @@ var _vec3_tmp   = new Float32Array(3);
  * @param {Object} [options={}] Initialization options.
  * @param {String} [options.canvas_containter_id=null] Canvas container ID.
  * @param {Function} [options.callback=function(){}] Initialization callback.
- * @param {Boolean} [options.do_not_use_onload=false] Prevent registration of
- * window.onload event handler.
  * @param {Boolean} [options.gl_debug=false] Enable WebGL debugging.
  * @param {Boolean} [options.show_hud_debug_info=false] Show HUD with developer info.
  * @param {Boolean} [options.show_fps=false] Show FPS counter.
- * @param {Boolean} [options.do_not_report_init_failure=false] Disable DIV
+ * @param {Boolean} [options.report_init_failure=true] Show elements with info
+ * about init failure
  * @param {Boolean} [options.pause_invisible=true] Pause engine simulation if
  * page is not visible (in other tab or minimized).
+ * @param {Boolean} [options.key_pause_enabled=true] Enable key pause
+ * @cc_externs canvas_container_id callback gl_debug show_hud_debug_info
+ * @cc_externs sfx_mix_mode show_fps fps_elem_id error_purge_elements
+ * @cc_externs report_init_failure pause_invisible key_pause_enabled
+ * @cc_externs alpha alpha_sort_threshold assets_dds_available assets_min50_available
+ * @cc_externs console_verbose physics_enabled quality
  */
+
 exports.init = function(options) {
     options = options || {};
 
     var canvas_container_id = null;
     var callback = function() {};
-    var do_not_use_onload = false;
     var gl_debug = false;
     var show_hud_debug_info = false;
     var sfx_mix_mode = false;
     var show_fps = false;
     var fps_elem_id = null;
     var error_purge_elements = null;
-    var do_not_report_init_failure = false;
+    var report_init_failure = true;
     var pause_invisible = true;
+    var key_pause_enabled = true;
 
     for (var opt in options) {
         switch (opt) {
         case "canvas_container_id":
-            canvas_container_id = options["canvas_container_id"];
+            canvas_container_id = options.canvas_container_id;
             break;
         case "callback":
-            callback = options["callback"];
+            callback = options.callback;
             break;
         case "do_not_use_onload":
-            do_not_use_onload = options["do_not_use_onload"];
+            // ignore deprecated option
             break;
         case "gl_debug":
-            gl_debug = options["gl_debug"];
+            gl_debug = options.gl_debug;
             break;
         case "show_hud_debug_info":
-            show_hud_debug_info = options["show_hud_debug_info"];
+            show_hud_debug_info = options.show_hud_debug_info;
             break;
         case "sfx_mix_mode":
-            sfx_mix_mode = options["sfx_mix_mode"];
+            sfx_mix_mode = options.sfx_mix_mode;
             break;
         case "show_fps":
-            show_fps = options["show_fps"];
+            show_fps = options.show_fps;
             break;
         case "fps_elem_id":
-            fps_elem_id = options["fps_elem_id"];
+            fps_elem_id = options.fps_elem_id;
             break;
         case "error_purge_elements":
-            error_purge_elements = options["error_purge_elements"];
+            error_purge_elements = options.error_purge_elements;
             break;
-        case "do_not_report_init_failure":
-            do_not_report_init_failure = options["do_not_report_init_failure"];
+        case "report_init_failure":
+            report_init_failure = options.report_init_failure;
             break;
         case "pause_invisible":
-            pause_invisible = options["pause_invisible"];
+            pause_invisible = options.pause_invisible;
+            break;
+        case "key_pause_enabled":
+            key_pause_enabled = options.key_pause_enabled;
             break;
         default:
             m_cfg.set(opt, options[opt]);
             break;
         }
     }
+
+    var on_key_pause = function(e) {
+        if (e.keyCode == m_ctl.KEY_P) {
+            if (m_main.is_paused())
+                m_main.resume();
+            else
+                m_main.pause();
+        }
+    }
+
+    if (key_pause_enabled)
+        document.addEventListener("keydown", on_key_pause, false);
 
     m_cfg.set("show_hud_debug_info", show_hud_debug_info);
     m_cfg.set("sfx_mix_mode", sfx_mix_mode);
@@ -124,13 +151,12 @@ exports.init = function(options) {
 
     var onload_cb = function() {
 
-        var cont_elem = setup_canvas(canvas_container_id, init_hud_canvas, 
-                do_not_report_init_failure, error_purge_elements);
+        var cont_elem = setup_canvas(canvas_container_id, init_hud_canvas,
+                report_init_failure, error_purge_elements);
         if (!cont_elem) {
             callback(_canvas_elem, false);
             return;
         }
-
         _canvas_container_elem = cont_elem;
 
         m_main.set_check_gl_errors(gl_debug);
@@ -151,13 +177,12 @@ exports.init = function(options) {
         m_data.cleanup();
     };
 
-    if (do_not_use_onload) {
-        onload_cb();
-        onunload_cb();
-    } else {
-        add_to_onload(onload_cb);
-        add_to_onunload(onunload_cb);
-    }
+    if (document.readyState == "complete")
+        window.setTimeout(onload_cb, 0);
+    else
+        window.addEventListener("load", onload_cb, false);
+
+    window.addEventListener("unload", onunload_cb, false);
 }
 
 function handle_page_visibility() {
@@ -174,26 +199,8 @@ function handle_page_visibility() {
     document.addEventListener("visibilitychange", visibility_change, false);
 }
 
-function add_to_onload(new_onload) {
-    var old_onload = window.onload;
-    window.onload = function() {
-        if (typeof old_onload == "function")
-            old_onload();
-        new_onload();
-    }
-}
-
-function add_to_onunload(new_onunload) {
-    var old_onunload = window.onunload;
-    window.onunload = function() {
-        if (typeof old_onunload == "function")
-            old_onunload();
-        new_onunload();
-    }
-}
-
-function setup_canvas(canvas_container_id, init_hud_canvas, 
-        do_not_report_init_failure, purge_elements) {
+function setup_canvas(canvas_container_id, init_hud_canvas,
+        report_init_failure, purge_elements) {
 
     var canvas_elem = document.createElement("canvas");
     canvas_elem.style.cssText = "position: absolute;left:0px; top:0px;"
@@ -208,8 +215,8 @@ function setup_canvas(canvas_container_id, init_hud_canvas,
 
 
     if (!m_main.init(canvas_elem, canvas_elem_hud)) {
-        if (!do_not_report_init_failure)
-            report_app_error("Browser could not initialize WebGL", "For more info visit", 
+        if (report_init_failure)
+            report_app_error("Browser could not initialize WebGL", "For more info visit",
                       "http://blend4web.com/troubleshooting", purge_elements);
         return null;
     }
@@ -218,7 +225,8 @@ function setup_canvas(canvas_container_id, init_hud_canvas,
 
     var append_to = document.getElementById(canvas_container_id);
     if (!append_to) {
-        m_print.error("Warning: canvas container \"" + canvas_container_id + 
+
+        m_print.error("Warning: canvas container \"" + canvas_container_id +
             "\" not found, appending to body");
         append_to = document.body;
     }
@@ -267,7 +275,7 @@ function elem_cloned(elem_id) {
     // clone to prevent adding event listeners more than once
     var new_element = target.cloneNode(true);
     target.parentNode.replaceChild(new_element, target);
-    
+
     return new_element;
 }
 
@@ -308,7 +316,7 @@ exports.set_onkeypress = function(elem_id, callback) {
  * @param {Number} [trans_speed=1] Translation speed
  * @param {Number} [rot_speed=1] Rotation speed
  * @param {Number} [zoom_speed=1] Zoom speed
- * @param {Boolean} [disable_default_pivot=false] Do not use the possible 
+ * @param {Boolean} [disable_default_pivot=false] Do not use the possible
  * camera-defined pivot point
  */
 exports.enable_camera_controls = function(trans_speed, rot_speed, zoom_speed,
@@ -321,29 +329,16 @@ exports.enable_camera_controls = function(trans_speed, rot_speed, zoom_speed,
     if (!zoom_speed)
         var zoom_speed = 1;
 
-    // NOTE: hack to allow fullscreen
-    document.addEventListener("keydown", on_key_fullscreen, false);
-
-    function on_key_fullscreen(e) {
-        if (e.keyCode == m_ctl.KEY_O)
-            request_fullscreen(document.body);
-        else if (e.keyCode == m_ctl.KEY_P) {
-
-            if (m_main.is_paused())
-                m_main.resume();
-            else
-                m_main.pause();
-        }
-    }
-
     var obj = m_scs.get_active_camera();
 
     switch (m_cam.get_move_style(obj)) {
     case m_cam.MS_TARGET_CONTROLS:
         var use_pivot = !disable_default_pivot;
+        var character = null;
         break;
     case m_cam.MS_EYE_CONTROLS:
         var use_pivot = false;
+        var character = m_scs.get_first_character();
         break;
     case m_cam.MS_STATIC:
         return;
@@ -351,55 +346,92 @@ exports.enable_camera_controls = function(trans_speed, rot_speed, zoom_speed,
 
     var elapsed = m_ctl.create_elapsed_sensor();
 
-    var use_physics = m_phy.has_simulated_physics(obj);
+    if (m_phy.has_simulated_physics(obj)) {
+        var collision = m_ctl.create_collision_sensor(obj, null, true);
+
+        var collision_cb = function(obj, id, pulse) {
+            if (pulse == 1) {
+                var col_pt = m_ctl.get_sensor_payload(obj, id, 1);
+                var trans = m_trans.get_translation(obj, _vec3_tmp);
+                var delta = _vec3_tmp2;
+                m_vec3.sub(trans, col_pt, delta);
+                m_vec3.normalize(delta, delta);
+                m_vec3.scale(delta, COLL_RESPONSE_NORMAL_FACTOR, delta);
+                m_vec3.add(trans, delta, trans);
+                m_trans.set_translation_v(obj, trans);
+            }
+        }
+        m_ctl.create_sensor_manifold(obj, "CAMERA_COLLISION", m_ctl.CT_CONTINUOUS,
+                [elapsed, collision], null, collision_cb);
+    }
+
+    if (character) {
+        // apply camera transform to character
+        var trans = m_trans.get_translation(obj);
+        var quat  = m_trans.get_rotation(obj);
+        var char_quat = m_util.cam_quat_to_mesh_quat(quat);
+
+        trans[1] -= CHAR_HEAD_POSITION;
+        m_phy.set_transform(character, trans, char_quat);
+        m_cons.append_stiff_trans(obj, character, [0, 0.5, 0]);
+
+        var char_dir = new Float32Array(2);
+
+        var is_fly = true;
+        m_phy.set_character_move_type(character, m_phy.CM_FLY);
+
+        var move_type_cb = function() {
+            is_fly = !is_fly;
+            m_phy.set_character_move_type(character, is_fly ? m_phy.CM_FLY : m_phy.CM_WALK);
+        }
+
+        m_ctl.create_kb_sensor_manifold(obj, "TOGGLE_CHAR_MOVE_TYPE",
+                m_ctl.CT_SHOT, m_ctl.KEY_C, move_type_cb);
+    }
 
     var key_cb = function(obj, id, pulse) {
-        // clear forces
-        if (use_physics)
-            m_phy.apply_force(obj, 0, 0, 0);
+
+        // block movement when in collision with some other object
+        if (collision && m_ctl.get_sensor_value(obj, "CAMERA_COLLISION", 1))
+            return;
 
         if (pulse == 1) {
 
             var elapsed = m_ctl.get_sensor_value(obj, id, 0);
 
-            var CAM_FORCE_MULT = [1800, 2100, 1800];
             var t_mult = m_cam.get_trans_speed(obj);
             var r_mult = 2.0;
 
             switch (id) {
             case "FORWARD":
-                if (use_physics)
-                    m_phy.apply_force(obj, 0, -CAM_FORCE_MULT[1], 0);
+                if (character)
+                    char_dir[0] = 1;
                 else
                     m_trans.move_local(obj, 0, -trans_speed * t_mult * elapsed, 0);
                 break;
             case "BACKWARD":
-                if (use_physics)
-                    m_phy.apply_force(obj, 0, CAM_FORCE_MULT[1], 0);
+                if (character)
+                    char_dir[0] = -1;
                 else
                     m_trans.move_local(obj, 0, trans_speed * t_mult * elapsed, 0);
                 break;
             case "UP":
-                if (use_physics)
-                    m_phy.apply_force(obj, 0, 0, -CAM_FORCE_MULT[2]);
-                else
+                if (!character)
                     m_trans.move_local(obj, 0, 0, -trans_speed * t_mult * elapsed);
                 break;
             case "DOWN":
-                if (use_physics)
-                    m_phy.apply_force(obj, 0, 0, CAM_FORCE_MULT[2]);
-                else
+                if (!character)
                     m_trans.move_local(obj, 0, 0, trans_speed * t_mult * elapsed);
                 break;
             case "LEFT":
-                if (use_physics)
-                    m_phy.apply_force(obj, -CAM_FORCE_MULT[0], 0, 0);
+                if (character)
+                    char_dir[1] = 1;
                 else
                     m_trans.move_local(obj, -trans_speed * t_mult * elapsed, 0, 0);
                 break;
             case "RIGHT":
-                if (use_physics)
-                    m_phy.apply_force(obj, CAM_FORCE_MULT[0], 0, 0);
+                if (character)
+                    char_dir[1] = -1;
                 else
                     m_trans.move_local(obj, trans_speed * t_mult * elapsed, 0, 0);
                 break;
@@ -427,21 +459,32 @@ exports.enable_camera_controls = function(trans_speed, rot_speed, zoom_speed,
                 else
                     m_cam.rotate(obj, 0, rot_speed * r_mult * elapsed);
                 break;
-            case "ROT_LEFT":
-                if (use_pivot)
-                    m_cam.rotate_pivot(obj, -rot_speed * r_mult * elapsed, 0);
-                else
-                    m_cam.rotate(obj, rot_speed * r_mult * elapsed, 0);
-                break;
-            case "ROT_RIGHT":
-                if (use_pivot)
-                    m_cam.rotate_pivot(obj, rot_speed * r_mult * elapsed, 0);
-                else
-                    m_cam.rotate(obj, -rot_speed * r_mult * elapsed, 0);
-                break;
             default:
                 break;
             }
+
+        } else {
+            switch (id) {
+            case "FORWARD":
+            case "BACKWARD":
+                if (character)
+                    char_dir[0] = 0;
+                break;
+            case "LEFT":
+            case "RIGHT":
+                if (character)
+                    char_dir[1] = 0;
+                break;
+            }
+        }
+
+        if (character) {
+            m_phy.set_character_move_dir(character, char_dir[0], char_dir[1]);
+            var angles = _vec2_tmp;
+            m_cam.get_angles(obj, angles);
+            angles[0] += Math.PI;
+            angles[1] *= -1;
+            m_phy.set_character_rotation(character, angles[0], angles[1]);
         }
     }
 
@@ -462,7 +505,7 @@ exports.enable_camera_controls = function(trans_speed, rot_speed, zoom_speed,
         return s[0] && (s[1] || s[2]);
     }
 
-    m_ctl.create_sensor_manifold(obj, "FORWARD", m_ctl.CT_CONTINUOUS, 
+    m_ctl.create_sensor_manifold(obj, "FORWARD", m_ctl.CT_CONTINUOUS,
             [elapsed, key_w], key_single_logic, key_cb);
     m_ctl.create_sensor_manifold(obj, "BACKWARD", m_ctl.CT_CONTINUOUS,
             [elapsed, key_s], key_single_logic, key_cb);
@@ -518,7 +561,7 @@ exports.enable_camera_controls = function(trans_speed, rot_speed, zoom_speed,
             }
         }
     }
-    m_ctl.create_sensor_manifold(obj, "MOUSE_WHEEL", m_ctl.CT_LEVEL, 
+    m_ctl.create_sensor_manifold(obj, "MOUSE_WHEEL", m_ctl.CT_LEVEL,
             [mouse_wheel], null, mouse_wheel_cb);
 
 
@@ -538,7 +581,7 @@ exports.enable_camera_controls = function(trans_speed, rot_speed, zoom_speed,
             }
         }
     }
-    m_ctl.create_sensor_manifold(obj, "TOUCH_ZOOM", m_ctl.CT_LEVEL, 
+    m_ctl.create_sensor_manifold(obj, "TOUCH_ZOOM", m_ctl.CT_LEVEL,
             [touch_zoom], null, touch_zoom_cb);
 
 
@@ -556,14 +599,17 @@ exports.enable_camera_controls = function(trans_speed, rot_speed, zoom_speed,
             var zoom_touch = m_util.smooth(dest_zoom_touch, 0, value, CAM_SMOOTH_ZOOM_TOUCH);
             dest_zoom_touch -= zoom_touch;
 
+            // block movement when in collision with some other object
+            if (collision && m_ctl.get_sensor_value(obj, "CAMERA_COLLISION", 1))
+                return;
+
             m_trans.move_local(obj, 0, zoom_mouse + zoom_touch, 0);
         }
     }
     m_ctl.create_sensor_manifold(obj, "ZOOM_INTERPOL", m_ctl.CT_CONTINUOUS,
             [elapsed], null, zoom_interp_cb);
 
-
-    // camera rotation with mouse 
+    // camera rotation with mouse
     var dest_x_mouse = 0;
     var dest_y_mouse = 0;
 
@@ -589,7 +635,7 @@ exports.enable_camera_controls = function(trans_speed, rot_speed, zoom_speed,
     m_ctl.create_sensor_manifold(obj, "MOUSE_Y", m_ctl.CT_LEVEL,
             [mouse_down, mouse_move_y], null, mouse_cb, "Y");
 
-    // camera rotation with touch 
+    // camera rotation with touch
     var dest_x_touch = 0;
     var dest_y_touch = 0;
 
@@ -608,9 +654,9 @@ exports.enable_camera_controls = function(trans_speed, rot_speed, zoom_speed,
         }
     }
 
-    m_ctl.create_sensor_manifold(obj, "TOUCH_X", m_ctl.CT_LEVEL, 
+    m_ctl.create_sensor_manifold(obj, "TOUCH_X", m_ctl.CT_LEVEL,
             [touch_move_x], null, touch_cb, "X");
-    m_ctl.create_sensor_manifold(obj, "TOUCH_Y", m_ctl.CT_LEVEL, 
+    m_ctl.create_sensor_manifold(obj, "TOUCH_Y", m_ctl.CT_LEVEL,
             [touch_move_y], null, touch_cb, "Y");
 
     // camera rotation smoothing
@@ -642,18 +688,13 @@ exports.enable_camera_controls = function(trans_speed, rot_speed, zoom_speed,
     m_ctl.create_sensor_manifold(obj, "ROT_INTERPOL", m_ctl.CT_CONTINUOUS,
             [elapsed], null, rot_interp_cb);
 
-
-    // some additinal controls
-    m_ctl.create_kb_sensor_manifold(obj, "TOGGLE_CAMERA_COLLISION", m_ctl.CT_SHOT, 
-            m_ctl.KEY_C, function() {toggle_camera_collisions_usage();});
-
-    m_ctl.create_kb_sensor_manifold(obj, "DEC_STEREO_DIST", m_ctl.CT_SHOT, 
+    m_ctl.create_kb_sensor_manifold(obj, "DEC_STEREO_DIST", m_ctl.CT_SHOT,
             m_ctl.KEY_LEFT_SQ_BRACKET, function(obj, id, pulse) {
                 var dist = m_cam.get_stereo_distance(obj);
                 m_cam.set_stereo_distance(obj, 0.9 * dist);
             });
 
-    m_ctl.create_kb_sensor_manifold(obj, "INC_STEREO_DIST", m_ctl.CT_SHOT, 
+    m_ctl.create_kb_sensor_manifold(obj, "INC_STEREO_DIST", m_ctl.CT_SHOT,
             m_ctl.KEY_RIGHT_SQ_BRACKET, function(obj, id, pulse) {
                 var dist = m_cam.get_stereo_distance(obj);
                 m_cam.set_stereo_distance(obj, 1.1 * dist);
@@ -667,8 +708,8 @@ exports.enable_camera_controls = function(trans_speed, rot_speed, zoom_speed,
 exports.disable_camera_controls = function() {
     var cam = m_scs.get_active_camera();
 
-    var cam_std_manifolds = ["FORWARD", "BACKWARD", "ROT_UP", "ROT_DOWN", 
-            "ROT_LEFT", "ROT_RIGHT", "UP", "DOWN", "LEFT", "RIGHT", 
+    var cam_std_manifolds = ["FORWARD", "BACKWARD", "ROT_UP", "ROT_DOWN",
+            "ROT_LEFT", "ROT_RIGHT", "UP", "DOWN", "LEFT", "RIGHT",
             "MOUSE_WHEEL", "TOUCH_ZOOM", "ZOOM_INTERPOL", "MOUSE_X", "MOUSE_Y",
             "TOUCH_X", "TOUCH_Y", "ROT_INTERPOL"];
 
@@ -752,11 +793,11 @@ exports.enable_object_controls = function(obj) {
         return s[0] && (s[1] || s[2]);
     }
 
-    m_ctl.create_sensor_manifold(obj, "FORWARD", m_ctl.CT_CONTINUOUS, 
+    m_ctl.create_sensor_manifold(obj, "FORWARD", m_ctl.CT_CONTINUOUS,
             [elapsed, key_w, key_up], key_logic, key_cb);
     m_ctl.create_sensor_manifold(obj, "BACKWARD", m_ctl.CT_CONTINUOUS,
             [elapsed, key_s, key_down], key_logic, key_cb);
-    m_ctl.create_sensor_manifold(obj, "LEFT", m_ctl.CT_CONTINUOUS, 
+    m_ctl.create_sensor_manifold(obj, "LEFT", m_ctl.CT_CONTINUOUS,
             [elapsed, key_a, key_left], key_logic, key_cb);
     m_ctl.create_sensor_manifold(obj, "RIGHT", m_ctl.CT_CONTINUOUS,
             [elapsed, key_d, key_right], key_logic, key_cb);
@@ -785,15 +826,18 @@ exports.enable_controls = function(canvas_elem) {
     // NOTE: both are deprecated by feature WheelEvent
     canvas_elem.addEventListener("mousewheel",     m_ctl.mouse_wheel_cb, false); // chrome
     canvas_elem.addEventListener("DOMMouseScroll", m_ctl.mouse_wheel_cb, false); // firefox
- 
+
     // NOTE: register for body, while pointer lock also assign on body
     canvas_elem.addEventListener("mousedown", m_ctl.mouse_down_cb, false);
     canvas_elem.addEventListener("mouseup",   m_ctl.mouse_up_cb,   false);
-    
+
     // NOTE: register for canvas to prevent panel issues in viewer
     canvas_elem.addEventListener("mousemove", m_ctl.mouse_move_cb, false);
     canvas_elem.addEventListener("touchstart", m_ctl.touch_start_cb, false);
     canvas_elem.addEventListener("touchmove", m_ctl.touch_move_cb, false);
+
+    // HACK: fix touch events issue on some mobile devices
+    document.addEventListener("touchstart", function(){});
 }
 
 /**
@@ -828,13 +872,13 @@ exports.enable_debug_controls = function() {
 
     var obj = m_scs.get_active_camera();
 
-    m_ctl.create_kb_sensor_manifold(obj, "CAMERA_SHOT", m_ctl.CT_SHOT, 
+    m_ctl.create_kb_sensor_manifold(obj, "CAMERA_SHOT", m_ctl.CT_SHOT,
             m_ctl.KEY_K, function() {m_dbg.make_camera_frustum_shot();});
 
-    m_ctl.create_kb_sensor_manifold(obj, "LIGHT_SHOT", m_ctl.CT_SHOT, 
+    m_ctl.create_kb_sensor_manifold(obj, "LIGHT_SHOT", m_ctl.CT_SHOT,
             m_ctl.KEY_L, function() {m_dbg.make_light_frustum_shot();});
 
-    m_ctl.create_kb_sensor_manifold(obj, "TELEMETRY", m_ctl.CT_SHOT, 
+    m_ctl.create_kb_sensor_manifold(obj, "TELEMETRY", m_ctl.CT_SHOT,
             m_ctl.KEY_T, function() {m_dbg.plot_telemetry();});
 }
 
@@ -855,7 +899,7 @@ function request_fullscreen(elem, enabled_cb, disabled_cb) {
     function on_fullscreen_change() {
         if (document.fullscreenElement === elem ||
                 document.webkitFullScreenElement === elem ||
-                document.mozFullScreenElement === elem || 
+                document.mozFullScreenElement === elem ||
                 document.webkitIsFullScreen ||
                 document.msFullscreenElement === elem) {
             //m_print.log("Fullscreen enabled");
@@ -878,11 +922,11 @@ function request_fullscreen(elem, enabled_cb, disabled_cb) {
     document.addEventListener("webkitfullscreenchange", on_fullscreen_change, false);
     document.addEventListener("mozfullscreenchange", on_fullscreen_change, false);
     document.addEventListener("MSFullscreenChange", on_fullscreen_change, false);
-  
+
     elem.requestFullScreen = elem.requestFullScreen ||
-            elem.webkitRequestFullScreen || elem.mozRequestFullScreen 
+            elem.webkitRequestFullScreen || elem.mozRequestFullScreen
             || elem.msRequestFullscreen;
- 
+
     if (elem.requestFullScreen == elem.webkitRequestFullScreen)
         elem.requestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
     else
@@ -896,13 +940,31 @@ exports.exit_fullscreen = exit_fullscreen;
  */
 function exit_fullscreen() {
 
-    var exit_fs = document.exitFullscreen || document.webkitExitFullscreen || 
+    var exit_fs = document.exitFullscreen || document.webkitExitFullscreen ||
             document.mozCancelFullScreen || document.msExitFullscreen;
 
     if (typeof exit_fs != "function")
         throw "B4W App: exit fullscreen method is not supported";
 
     exit_fs.apply(document);
+}
+
+exports.check_fullscreen = check_fullscreen;
+/**
+ * Check whether if fullscreen is available.
+ * @method module:app.check_fullscreen
+ * @returns {Boolean} Check result
+ */
+function check_fullscreen() {
+
+    var fullscreenEnabled = window.document.fullscreenEnabled ||
+                            window.document.mozFullScreenEnabled ||
+                            window.document.webkitFullscreenEnabled;
+
+    if (fullscreenEnabled)
+        return true;
+
+    return false;
 }
 
 function toggle_camera_collisions_usage() {
@@ -961,7 +1023,7 @@ function report_app_error(text_message, link_message, link, purge_elements) {
     document.body.appendChild(elem);
 }
 
-/** 
+/**
  * Retrieve params object from the page URL or null.
  * @returns {Object|Null} Object with URL params
  */
@@ -990,7 +1052,3 @@ exports.get_url_params = function() {
 
 }
 
-if (window["b4w"])
-    window["b4w"]["app"] = b4w.require("app");
-else
-    throw "Failed to register app, load b4w first";

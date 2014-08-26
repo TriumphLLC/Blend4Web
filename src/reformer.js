@@ -694,6 +694,15 @@ exports.check_bpy_data = function(bpy_data) {
             report("material", mat, "b4w_wettable");
         }
 
+        if (!("b4w_refractive" in mat)) {
+            mat["b4w_refractive"] = false;
+            report("material", mat, "b4w_refractive");
+        }
+        if (!("b4w_refr_bump" in mat)) {
+            mat["b4w_refr_bump"] = 0;
+            report("material", mat, "b4w_refr_bump");
+        }
+
         if (!("b4w_shallow_water_col" in mat)) {
             mat["b4w_shallow_water_col"] = [0.0, 0.8, 0.3];
             report("material", mat, "b4w_shallow_water_col");
@@ -981,6 +990,10 @@ exports.check_bpy_data = function(bpy_data) {
                 obj["b4w_glow_settings"]["glow_relapses"] = 0;
                 report("object", obj, "b4w_glow_settings");
             }
+            if (!("b4w_lod_transition" in obj)) {
+                obj["b4w_lod_transition"] = 0.01;
+                report("object", obj, "b4w_lod_transition");
+            }
             if (!("lod_levels" in obj)) {
                 obj["lod_levels"] = [];
                 report("object", obj, "lod_levels");
@@ -1114,6 +1127,11 @@ exports.check_bpy_data = function(bpy_data) {
             if (!("b4w_vcol_to_name" in pset)) {
                 pset["b4w_vcol_to_name"] = "";
                 report("particle_settings", pset, "b4w_vcol_to_name");
+            }
+
+            if (!("b4w_coordinate_system" in pset)) {
+                pset["b4w_coordinate_system"] = "LOCAL";
+                report("particle_settings", pset, "b4w_coordinate_system");
             }
         }
 
@@ -1587,7 +1605,6 @@ exports.create_material = function(name) {
         "b4w_water_subdivs": 64,
         "b4w_water_detailed_dist": 1000,
         "b4w_terrain": false,
-        "b4w_terrain_tex_type": "B4W_TERRAIN_NONE",
         "b4w_collision": false,
         "b4w_collision_id": "",
         "b4w_double_sided_lighting": false,
@@ -1616,20 +1633,6 @@ exports.create_material = function(name) {
     }
 
     return mat;
-}
-
-
-function mesh_init_uv_textures(mesh, count) {
-
-    var uv_tex = mesh["uv_textures"];
-    
-    for (var i = 0; i < count; i++) {
-        if (!uv_tex[i])
-            uv_tex[i] = {};
-        if (!uv_tex[i]["data"])
-            uv_tex[i]["data"] = [];
-    }
-    return mesh;
 }
 
 /**

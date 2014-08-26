@@ -451,14 +451,11 @@ exports.generate_frustum = function(corners) {
 
 exports.generate_fullscreen_quad = function() {
 
-    var submesh = util.create_empty_submesh("SKY");
-    var NINES = 0.9999;
+    var submesh = util.create_empty_submesh("BILLBOARD");
 
     var va_frame = util.create_empty_va_frame();
-    va_frame["a_position"] = new Float32Array([-1,  1, NINES,
-                                                1,  1, NINES,
-                                               -1, -1, NINES,
-                                                1, -1, NINES]);
+    va_frame["a_position"] = new Float32Array([-1,  1, 1,  1, -1, -1, 1, -1]);
+
     submesh.va_frames[0] = va_frame;
     submesh.indices = new Uint32Array([0, 2, 1, 1, 2, 3]);
     submesh.base_length = 4;

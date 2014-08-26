@@ -23,7 +23,7 @@ var m_vec3 = require("vec3");
  * Print info about the physics worker
  * @method module:debug.physics_worker
  */
-exports["physics_worker"] = function() {
+exports.physics_worker = function() {
     physics.debug_worker();
 }
 /**
@@ -31,7 +31,7 @@ exports["physics_worker"] = function() {
  * @method module:debug.physics_id
  * @param id Physics ID
  */
-exports["physics_id"] = function(id) {
+exports.physics_id = function(id) {
     m_print.log("O", physics.find_obj_by_body_id(id))
 
     var bundles = physics.get_active_scene()._physics.bundles;
@@ -49,10 +49,10 @@ exports["physics_id"] = function(id) {
  * Print names and info for dynamic objects inside the view frustum.
  * @method module:debug.visible_objects
  */
-exports["visible_objects"] = function() {
+exports.visible_objects = function() {
     var scene = m_scenes.get_active();
 
-    var objs = m_scenes.get_scene_objs(scene, "MESH");
+    var objs = m_scenes.get_scene_objs(scene, "MESH", m_scenes.DATA_ID_ALL);
 
     var subs_main = m_scenes.get_subs(scene, "MAIN_OPAQUE");
     var bundles = subs_main.bundles;
@@ -67,7 +67,7 @@ exports["visible_objects"] = function() {
         for (var j = 0; j < bundles.length; j++) {
             var bundle = bundles[j];
             if (bundle.do_render && bundle.obj_render == render) {
-                m_print.log(obj["name"], obj); 
+                m_print.log(obj["name"], obj);
                 break;
             }
         }
@@ -79,10 +79,10 @@ exports["visible_objects"] = function() {
  * @method module:debug.object_info
  * @param name Object name
  */
-exports["object_info"] = function(name) {
+exports.object_info = function(name) {
     var scene = m_scenes.get_active();
 
-    var objs = m_scenes.get_scene_objs(scene, "MESH");
+    var objs = m_scenes.get_scene_objs(scene, "MESH", m_scenes.DATA_ID_ALL);
 
     for (var i = 0; i < objs.length; i++) {
         var obj = objs[i];
@@ -115,38 +115,45 @@ exports["object_info"] = function(name) {
  * @method module:debug.object_info
  * @param name Object name
  */
-exports["objects_stat"] = function() {
+exports.objects_stat = function() {
     var scene = m_scenes.get_active();
 
-    console.log("Armatures: " + m_scenes.get_scene_objs(scene, "ARMATURE").length);
-    console.log("Cameras: " + m_scenes.get_scene_objs(scene, "CAMERA").length);
-    console.log("Curves: " + m_scenes.get_scene_objs(scene, "CURVE").length);
-    console.log("Empties: " + m_scenes.get_scene_objs(scene, "EMPTY").length);
-    console.log("Lamps: " + m_scenes.get_scene_objs(scene, "LAMP").length);
-    console.log("Meshes: " + m_scenes.get_scene_objs(scene, "MESH").length);
-    console.log("Speakers: " + m_scenes.get_scene_objs(scene, "SPEAKER").length);
+    console.log("Armatures: " + m_scenes.get_scene_objs(scene, "ARMATURE",
+            m_scenes.DATA_ID_ALL).length);
+    console.log("Cameras: " + m_scenes.get_scene_objs(scene, "CAMERA",
+            m_scenes.DATA_ID_ALL).length);
+    console.log("Curves: " + m_scenes.get_scene_objs(scene, "CURVE",
+            m_scenes.DATA_ID_ALL).length);
+    console.log("Empties: " + m_scenes.get_scene_objs(scene, "EMPTY",
+            m_scenes.DATA_ID_ALL).length);
+    console.log("Lamps: " + m_scenes.get_scene_objs(scene, "LAMP",
+            m_scenes.DATA_ID_ALL).length);
+    console.log("Meshes: " + m_scenes.get_scene_objs(scene, "MESH",
+            m_scenes.DATA_ID_ALL).length);
+    console.log("Speakers: " + m_scenes.get_scene_objs(scene, "SPEAKER",
+            m_scenes.DATA_ID_ALL).length);
 }
 
 /**
  * Return the number of vertices in the active scene.
  * @method module:debug.num_vertices
  */
-exports["num_vertices"] = function() {
+exports.num_vertices = function() {
 
     var num = 0;
 
     var scene = m_scenes.get_active();
 
-    var main_subscenes = [m_scenes.get_subs(scene, "MAIN_OPAQUE"), 
+    var main_subscenes = [m_scenes.get_subs(scene, "MAIN_OPAQUE"),
                           m_scenes.get_subs(scene, "MAIN_BLEND")];
 
     for (var i = 0; i < main_subscenes.length; i++) {
 
         var subs = main_subscenes[i];
-    
+
         if (!subs)
             continue;
-    
+
         var bundles = subs.bundles;
 
         for (var j = 0; j < bundles.length; j++) {
@@ -165,22 +172,22 @@ exports["num_vertices"] = function() {
  * Return the number of all triangles in the active scene.
  * @method module:debug.num_triangles
  */
-exports["num_triangles"] = function() {
+exports.num_triangles = function() {
 
     var num = 0;
 
     var scene = m_scenes.get_active();
 
-    var main_subscenes = [m_scenes.get_subs(scene, "MAIN_OPAQUE"), 
+    var main_subscenes = [m_scenes.get_subs(scene, "MAIN_OPAQUE"),
                           m_scenes.get_subs(scene, "MAIN_BLEND")];
 
     for (var i = 0; i < main_subscenes.length; i++) {
-    
+
         var subs = main_subscenes[i];
-    
+
         if (!subs)
             continue;
-    
+
         var bundles = subs.bundles;
 
         for (var j = 0; j < bundles.length; j++) {
@@ -199,14 +206,14 @@ exports["num_triangles"] = function() {
  * Return the number of batches in the main scenes.
  * @method module:debug.num_draw_calls
  */
-exports["num_draw_calls"] = function() {
+exports.num_draw_calls = function() {
 
     var scene = m_scenes.get_active();
-    
-    var main_subscenes = [m_scenes.get_subs(scene, "MAIN_OPAQUE"), 
+
+    var main_subscenes = [m_scenes.get_subs(scene, "MAIN_OPAQUE"),
                           m_scenes.get_subs(scene, "MAIN_BLEND")];
-    
-    var number = main_subscenes[0].bundles.length + 
+
+    var number = main_subscenes[0].bundles.length +
                  main_subscenes[1].bundles.length;
 
     return number;
@@ -216,26 +223,26 @@ exports["num_draw_calls"] = function() {
  * Return geometry info in the main scenes.
  * @method module:debug.geometry_stats
  */
-exports["geometry_stats"] = function() {
+exports.geometry_stats = function() {
 
     var scene = m_scenes.get_active();
     var subscenes = m_scenes.get_all_subscenes(scene);
     var unique_batches = {};
 
     for (var i = 0; i < subscenes.length; i++) {
-    
+
         var subs = subscenes[i];
 
         if (subs.type == "SINK" || subs.type == "WIREFRAME")
             continue;
-    
+
         var bundles = subs.bundles;
         for (var j = 0; j < bundles.length; j++) {
             var batch = bundles[j].batch;
             var render = bundles[j].obj_render;
             // NOTE: some objects (particles) do not have any submesh
             if (batch)
-                if (subs.type != "COLOR_PICKING" && subs.type != "GLOW_MASK" 
+                if (subs.type != "COLOR_PICKING" && subs.type != "GLOW_MASK"
                         || render.origin_selectable)
                     unique_batches[batch.id] = batch;
         }
@@ -249,7 +256,7 @@ exports["geometry_stats"] = function() {
     for (var id in unique_batches) {
         var batch = unique_batches[id];
         var bufs_data = batch.bufs_data;
-        
+
         if (bufs_data.debug_ibo_bytes) {
             ibo_number++;
             ibo_memory += bufs_data.debug_ibo_bytes / (1024 * 1024);
@@ -260,31 +267,31 @@ exports["geometry_stats"] = function() {
     }
 
     return {"vbo_number": vbo_number, "vbo_memory": vbo_memory,
-            "ibo_number": ibo_number, "ibo_memory": ibo_memory};   
+            "ibo_number": ibo_number, "ibo_memory": ibo_memory};
 }
 
 /**
  * Return the number of unique textures in the main scenes.
  * @method module:debug.num_textures
  */
-exports["num_textures"] = function() {
+exports.num_textures = function() {
 
     var tex_list = [];
-    
+
     var memory = 0;
 
     var scene = m_scenes.get_active();
 
-    var main_subscenes = [m_scenes.get_subs(scene, "MAIN_OPAQUE"), 
+    var main_subscenes = [m_scenes.get_subs(scene, "MAIN_OPAQUE"),
                           m_scenes.get_subs(scene, "MAIN_BLEND")];
 
     for (var i = 0; i < main_subscenes.length; i++) {
-    
+
         var subs = main_subscenes[i];
-    
+
         if (!subs)
             continue;
-    
+
         var bundles = subs.bundles;
 
         for (var j = 0; j < bundles.length; j++) {
@@ -293,25 +300,25 @@ exports["num_textures"] = function() {
             // NOTE: some objects (particles) do not have any submesh
             if (batch) {
                 var batch_texs = batch.textures;
-            
+
                 for (var k = 0; k < batch_texs.length; k++) {
 
                     var batch_tex = batch_texs[k];
-                    
+
                     if (batch_tex.source === "IMAGE" ||
                             batch_tex.source === "ENVIRONMENT_MAP") {
 
                         var tex = batch_tex.w_texture;
-                        
+
                         if (tex_list.indexOf(tex) === -1) {
                             tex_list.push(tex);
 
-                            var mem = batch_tex.width * batch_tex.height * 
-                                4 / (1024 * 1024) / batch_tex.compress_ratio; 
+                            var mem = batch_tex.width * batch_tex.height *
+                                4 / (1024 * 1024) / batch_tex.compress_ratio;
 
                             // mipmaps
                             mem *=  1.3333;
-                            
+
                             memory += mem;
                         }
                     }
@@ -327,10 +334,10 @@ exports["num_textures"] = function() {
  * Return the number and the total size of unique output framebuffers.
  * @method module:debug.num_render_targets
  */
-exports["num_render_targets"] = function() {
+exports.num_render_targets = function() {
 
     var list = [];
-    
+
     var memory = 0;
 
     var scene = m_scenes.get_active();
@@ -338,12 +345,12 @@ exports["num_render_targets"] = function() {
     var subscenes = m_scenes.get_all_subscenes(scene);
 
     for (var i = 0; i < subscenes.length; i++) {
-    
+
         var subs = subscenes[i];
 
         if (subs.type == "SINK")
             continue;
-    
+
         var cam = subs.camera;
         var c_at = cam.color_attachment;
         var d_at = cam.depth_attachment;
@@ -367,7 +374,7 @@ exports["num_render_targets"] = function() {
  * Draw a frustum for the active camera.
  * @method module:debug.make_camera_frustum_shot
  */
-exports["make_camera_frustum_shot"] = function() {
+exports.make_camera_frustum_shot = function() {
 
     var active_scene = m_scenes.get_active();
     var subs_main = m_scenes.get_subs(active_scene, "MAIN_OPAQUE");
@@ -381,7 +388,7 @@ exports["make_camera_frustum_shot"] = function() {
  * Draw a light frustum, used for rendering the shadow maps.
  * @method module:debug.make_light_frustum_shot
  */
-exports["make_light_frustum_shot"] = function() {
+exports.make_light_frustum_shot = function() {
 
     var active_scene = m_scenes.get_active();
     var subs_main = m_scenes.get_subs(active_scene, "MAIN_OPAQUE");
@@ -396,13 +403,13 @@ exports["make_light_frustum_shot"] = function() {
         switch (i) {
         case 0:
             color = [1, 0, 0];
-            break;        
+            break;
         case 1:
             color = [0, 1, 0];
-            break;        
+            break;
         case 2:
             color = [0, 0, 1];
-            break;        
+            break;
         default:
             color = [1, 0, 1];
         }
@@ -416,7 +423,7 @@ exports["make_light_frustum_shot"] = function() {
  * Print info about the active scene graph in DOT format.
  * @method module:debug.scenegraph_to_dot
  */
-exports["scenegraph_to_dot"] = function() {
+exports.scenegraph_to_dot = function() {
     var scene = m_scenes.get_active();
     var graph = m_scenes.get_graph(scene);
 
@@ -427,13 +434,13 @@ exports["scenegraph_to_dot"] = function() {
  * Print info about the controls module.
  * @method module:debug.controls_info
  */
-exports["controls_info"] = controls.debug;
+exports.controls_info = controls.debug;
 
 /**
  * Get the distance between two objects.
  * @method module:debug.object_distance
  */
-exports["object_distance"] = function(obj, obj2) {
+exports.object_distance = function(obj, obj2) {
     var dist = m_vec3.dist(obj._render.trans, obj2._render.trans);
     return dist;
 }
@@ -442,31 +449,31 @@ exports["object_distance"] = function(obj, obj2) {
  * Store a simple telemetry message.
  * @method module:debug.msg
  */
-exports["msg"] = debug.msg;
+exports.msg = debug.msg;
 
 /**
  * Store a flashback telemetry message.
  * @method module:debug.fbmsg
  */
-exports["fbmsg"] = debug.fbmsg;
+exports.fbmsg = debug.fbmsg;
 
 /**
  * Print the list of flashback messages.
  * @method module:debug.print_telemetry
  */
-exports["print_telemetry"] = debug.print_telemetry;
+exports.print_telemetry = debug.print_telemetry;
 
 /**
  * Plot the list of flashback messages as a gnuplot datafile.
  * @method module:debug.plot_telemetry
  */
-exports["plot_telemetry"] = debug.plot_telemetry;
+exports.plot_telemetry = debug.plot_telemetry;
 
 /**
  * Store the callback function result as a flashback message.
  * @method module:debug.fbres
  */
-exports["fbres"] = function(fun, timeout) {
+exports.fbres = function(fun, timeout) {
     if (!timeout)
         timeout = 16;
 
@@ -482,7 +489,7 @@ exports["fbres"] = function(fun, timeout) {
  * Check the engine constants, abort if not constant.
  * @method module:debug.assert_constants
  */
-exports["assert_constants"] = function() {
+exports.assert_constants = function() {
     var VEC3_IDENT = new Float32Array(3);
     var QUAT4_IDENT = new Float32Array([0,0,0,1]);
 
@@ -516,7 +523,7 @@ exports["assert_constants"] = function() {
  * Mute the BACKGROUND_MUSIC speakers.
  * @method module:debug.mute_music
  */
-exports["mute_music"] = function() {
+exports.mute_music = function() {
     var spks = sfx.get_speaker_objects();
 
     for (var i = 0; i < spks.length; i++) {
@@ -531,37 +538,37 @@ exports["mute_music"] = function() {
  * Check the object for a finite value.
  * @method module:debug.check_finite
  */
-exports["check_finite"] = function(o) {
+exports.check_finite = function(o) {
     debug.check_finite(o);
 }
-
 
 /**
  * Set debugging parameters.
  * @method module:debug.set_debug_params
+ * @cc_externs wireframe_mode wireframe_edge_color
  */
-exports["set_debug_params"] = function(params) {
+exports.set_debug_params = function(params) {
     var active_scene = m_scenes.get_active();
     var subs_wireframe = m_scenes.get_subs(active_scene, "WIREFRAME");
 
     if (subs_wireframe) {
-        if ("wireframe_mode" in params)
-            m_scenes.set_wireframe_mode(subs_wireframe, params["wireframe_mode"]);
-        if ("wireframe_edge_color" in params)
-            m_scenes.set_wireframe_edge_color(subs_wireframe, params["wireframe_edge_color"]);
+        if (typeof params.wireframe_mode == "string")
+            m_scenes.set_wireframe_mode(subs_wireframe, params.wireframe_mode);
+        if (typeof params.wireframe_edge_color == "object")
+            m_scenes.set_wireframe_edge_color(subs_wireframe, params.wireframe_edge_color);
     } else
         throw("Wireframe subscene not found.");
 }
 
-exports["get_error_quantity"] = function() {
+exports.get_error_quantity = function() {
     return m_print.get_error_count();
 }
 
-exports["get_warning_quantity"] = function() {
+exports.get_warning_quantity = function() {
     return m_print.get_warning_count();
 }
 
-exports["clear_errors_warnings"] = function() {
+exports.clear_errors_warnings = function() {
     return m_print.clear_errors_warnings();
 }
 

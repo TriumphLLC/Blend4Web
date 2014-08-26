@@ -63,12 +63,12 @@ var _gl = null;
  * NOTE: According to the spec, this function takes only one param
  */
 var _requestAnimFrame = (function() {
-  return window["requestAnimationFrame"] ||
-         window["webkitRequestAnimationFrame"] ||
-         window["mozRequestAnimationFrame"] ||
-         window["oRequestAnimationFrame"] ||
-         window["msRequestAnimationFrame"] ||
-         function(callback) {return window.setTimeout(callback, 
+  return window.requestAnimationFrame ||
+         window.webkitRequestAnimationFrame ||
+         window.mozRequestAnimationFrame ||
+         window.oRequestAnimationFrame ||
+         window.msRequestAnimationFrame ||
+         function(callback) {return window.setTimeout(callback,
              1000/cfg_def.max_fps);};
 })();
 
@@ -81,7 +81,7 @@ var _requestAnimFrame = (function() {
  * @param {HTMLCanvasElement} [elem_canvas_hud] Canvas element for HUD
  * @returns {Object|Null} WebGL context or null
  */
-exports["init"] = function(elem_canvas_webgl, elem_canvas_hud) {
+exports.init = function(elem_canvas_webgl, elem_canvas_hud) {
 
     // NOTE: for debug purposes
     // works in chrome with --enable-memory-info --js-flags="--expose-gc"
@@ -89,7 +89,7 @@ exports["init"] = function(elem_canvas_webgl, elem_canvas_hud) {
 
     m_print.set_verbose(cfg_def.console_verbose);
 
-    var ver_str = version.version() + " " + version.type() + 
+    var ver_str = version.version() + " " + version.type() +
             " (" + version.date() + ")";
     m_print.log("%cINIT B4W ENGINE", "color: #00a", ver_str);
 
@@ -132,19 +132,19 @@ function setup_clock() {
 
     //window.performance = null;
     
-    if (!window["performance"]) {
+    if (!window.performance) {
         m_print.log("Apply performance workaround");
-        window["performance"] = {};
+        window.performance = {};
     }
 
     var init_time = Date.now();
 
-    if (!window["performance"]["now"]) {
+    if (!window.performance.now) {
         m_print.log("Apply performance.now() workaround");
 
         //cfg_def.no_phy_interp_hack = true;
 
-        window["performance"]["now"] = function() {
+        window.performance.now = function() {
             return Date.now() - init_time;
         }
 
@@ -214,7 +214,7 @@ function init_context(canvas, gl) {
  * @param {Boolean} val Check flag
  * @method module:main.set_check_gl_errors
  */
-exports["set_check_gl_errors"] = function(val) {
+exports.set_check_gl_errors = function(val) {
     m_debug.set_check_gl_errors(val);
 }
 
@@ -224,7 +224,7 @@ exports["set_check_gl_errors"] = function(val) {
  * @param {Number} width New canvas width
  * @param {Number} height New canvas height
  */
-exports["resize"] = function(width, height) {
+exports.resize = function(width, height) {
 
     _elem_canvas_webgl.style.width = width + "px";
     _elem_canvas_webgl.style.height = height + "px";
@@ -255,14 +255,14 @@ exports["resize"] = function(width, height) {
  * @method module:main.set_fps_callback
  * @param {fps_callback} fps_cb FPS callback
  */
-exports["set_fps_callback"] = function(fps_cb) {
+exports.set_fps_callback = function(fps_cb) {
     _fps_callback = fps_cb;
 }
 /**
  * Remove the callback for the FPS counter
  * @method module:main.clear_fps_callback
  */
-exports["clear_fps_callback"] = function() {
+exports.clear_fps_callback = function() {
     _fps_callback = function() {};
 }
 
@@ -270,7 +270,7 @@ exports["clear_fps_callback"] = function() {
  * @method module:main.set_on_before_render_callback
  * @deprecated Use set_render_callback() instead
  */
-exports["set_on_before_render_callback"] = function(callback) {
+exports.set_on_before_render_callback = function(callback) {
     set_render_callback(callback);
 }
 
@@ -286,7 +286,7 @@ exports["set_on_before_render_callback"] = function(callback) {
  * @method module:main.set_render_callback
  * @param {render_callback} callback Render callback
  */
-exports["set_render_callback"] = function(callback) {
+exports.set_render_callback = function(callback) {
     set_render_callback(callback);
 }
 function set_render_callback(callback) {
@@ -297,14 +297,14 @@ function set_render_callback(callback) {
  * @method module:main.clear_on_before_render_callback
  * @deprecated Use clear_render_callback() instead
  */
-exports["clear_on_before_render_callback"] = function() {
+exports.clear_on_before_render_callback = function() {
     clear_render_callback();
 }
 /**
  * Remove the rendering callback
  * @method module:main.clear_render_callback
  */
-exports["clear_render_callback"] = function() {
+exports.clear_render_callback = function() {
     clear_render_callback();
 }
 function clear_render_callback() {
@@ -319,7 +319,7 @@ function clear_render_callback() {
  * @method module:main.global_timeline
  * @returns {Number} Floating-point number of seconds elapsed since the engine start-up
  */
-exports["global_timeline"] = function() {
+exports.global_timeline = function() {
     return _global_timeline;
 }
 
@@ -327,7 +327,7 @@ exports["global_timeline"] = function() {
  * @method module:main.set_texture_quality
  * @deprecated Use engine's default values
  */
-exports["set_texture_quality"] = function(level) {
+exports.set_texture_quality = function(level) {
     m_print.error("set_texture_quality() deprecated");
 }
 
@@ -335,7 +335,7 @@ exports["set_texture_quality"] = function(level) {
  * @method module:main.set_shaders_dir
  * @deprecated Use one place for all shaders
  */
-exports["set_shaders_dir"] = function(shdir) {
+exports.set_shaders_dir = function(shdir) {
     m_print.error("set_shaders_dir() deprecated");
 }
 
@@ -344,11 +344,11 @@ exports["set_shaders_dir"] = function(shdir) {
  * @method module:main.redraw
  * @deprecated Not required anymore
  */
-exports["redraw"] = function() {
+exports.redraw = function() {
     frame(_global_timeline, 0);
 }
 
-exports["pause"] = pause;
+exports.pause = pause;
 /**
  * Pause the engine
  * @method module:main.pause
@@ -366,7 +366,7 @@ function pause() {
  * Resume the engine (after pausing)
  * @method module:main.resume
  */
-exports["resume"] = function() {
+exports.resume = function() {
     if (!is_paused())
         return;
 
@@ -380,7 +380,7 @@ exports["resume"] = function() {
  * @method module:main.is_paused
  * @returns {Boolean} Paused flag
  */
-exports["is_paused"] = is_paused;
+exports.is_paused = is_paused;
 function is_paused() {
     return (_resume_time < _pause_time);
 }
@@ -496,7 +496,7 @@ function init_fps_counter() {
  * Unloads the scene and releases the engine's resources.
  * @method module:main.reset
  */
-exports["reset"] = function() {
+exports.reset = function() {
     data.unload();
 
     _elem_canvas_webgl = null;
@@ -516,7 +516,7 @@ exports["reset"] = function() {
     _gl = null;
 }
 
-exports["canvas_data_url"] = function(callback) {
+exports.canvas_data_url = function(callback) {
     _canvas_data_url_callback = callback;
 }
 
@@ -525,40 +525,10 @@ exports["canvas_data_url"] = function(callback) {
  * @method module:main.get_canvas_elem
  * @returns {HTMLCanvasElement} Canvas element
  */
-exports["get_canvas_elem"] = function() {
+exports.get_canvas_elem = function() {
     return _elem_canvas_webgl;
 }
 
 }
 
-// NOTE: for compatibility with old apps
-
-b4w["animation"]   = b4w.require("animation");
-b4w["assets"]      = b4w.require("assets");
-b4w["camera"]      = b4w.require("camera");
-b4w["config"]      = b4w.require("config");
-b4w["controls"]    = b4w.require("controls");
-b4w["constraints"] = b4w.require("constraints");
-b4w["data"]        = b4w.require("data");
-b4w["debug"]       = b4w.require("debug");
-b4w["geometry"]    = b4w.require("geometry");
-b4w["lights"]      = b4w.require("lights");
-b4w["main"]        = b4w.require("main");
-b4w["material"]    = b4w.require("material");
-b4w["physics"]     = b4w.require("physics");
-b4w["scenes"]      = b4w.require("scenes");
-b4w["shaders"]     = b4w.require("shaders");
-b4w["sfx"]         = b4w.require("sfx");
-b4w["transform"]   = b4w.require("transform");
-b4w["util"]        = b4w.require("util");
-b4w["version"]     = b4w.require("version");
-
-b4w["vec3"] = b4w.require("vec3");
-b4w["vec4"] = b4w.require("vec4");
-b4w["quat"] = b4w.require("quat");
-b4w["mat3"] = b4w.require("mat3");
-b4w["mat4"] = b4w.require("mat4");
-
-for (var prop in b4w["main"])
-    b4w[prop] = b4w["main"][prop];
 

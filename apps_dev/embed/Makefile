@@ -3,14 +3,17 @@ compile_embed: $(APPS_EXT)/embed/embed.min.js $(APPS_EXT)/embed/embed.html\
                $(APPS_EXT)/embed/embed_template.html
 
 $(APPS_EXT)/embed/embed.min.js: $(APPS_DEV)/embed/embed.js \
-                                $(STORAGE_JS) $(MIXER_JS) $(CAMANIM_JS)\
+                                $(STORAGE_JS) $(CAMANIM_JS)\
                                 $(APP_JS) $(PRELOADER_JS)
 	@touch $(APPS_EXT)/embed/embed_tmp.js
 	@echo "Compiling app embed"
 	java -jar $(JAR_CP) \
-	    --compilation_level SIMPLE_OPTIMIZATIONS \
+	    --compilation_level ADVANCED_OPTIMIZATIONS \
+		--externs=$(EXTERNS)/extern_modules.js \
+		--externs=$(EXTERNS)/extern_globals.js \
+		--externs=$(EXTERNS)/extern_gl-matrix.js \
+		--externs=$(EXTERNS)/extern_pointerlock.js \
 	    --js=$(STORAGE_JS) \
-	    --js=$(MIXER_JS) \
 	    --js=$(CAMANIM_JS) \
 	    --js=$(APP_JS) \
 	    --js=$(PRELOADER_JS) \

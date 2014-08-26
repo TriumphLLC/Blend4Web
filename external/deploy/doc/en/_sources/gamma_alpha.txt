@@ -16,8 +16,7 @@
 освещённость) будет соответствовать большее значение, содержащееся в каналах RGB (в самом
 простом случае 0.5 ^ (1/2.2) = 0.73).
 
-.. image:: src_images/gamma/gamma.jpg
-   :alt: Гамма-коррекция
+.. image:: src_images/gamma_alpha/gamma.jpg
    :align: center
    :width: 100%
 

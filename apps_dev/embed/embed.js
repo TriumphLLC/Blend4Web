@@ -2,12 +2,15 @@
 
 b4w.register("embed_main", function(exports, require) {
 
-var m_cfg            = require("config");
-var m_main           = require("main");
-var m_app            = require("app");
-var m_preloader      = require("preloader");
-var m_camera_anim    = require("camera_anim");
-var m_sfx            = require("sfx");
+var m_app         = require("app");
+var m_camera_anim = require("camera_anim");
+var m_cfg         = require("config");
+var m_data        = require("data");
+var m_main        = require("main");
+var m_preloader   = require("preloader");
+var m_sfx         = require("sfx");
+var m_storage     = require("storage");
+var m_version     = require("version");
 
 var SCENE_PATH = null;
 var BUILT_IN_SCRIPTS_ID = "built_in_scripts";
@@ -17,42 +20,40 @@ var CAMERA_AUTO_ROTATE_SPEED = 0.3;
 var _is_in_fullscreen = false;
 
 var _player_buttons = [
-    {"type": "simple_button",  "id": "closed_button",
-                               "callback": close_menu},
-    {"type": "simple_button",  "id": "opened_button",
-                               "callback": open_menu},
-    {"type": "trigger_button", "id": "fullscreen_on_button",
-                               "replace_button_id": "fullscreen_off_button",
-                               "replace_button_cb": check_fullscreen,
-                               "callback": check_fullscreen},
-    {"type": "trigger_button", "id": "pause_button",
-                               "replace_button_id": "play_button",
-                               "replace_button_cb": resume_clicked,
-                               "callback": pause_clicked},
-    {"type": "trigger_button", "id": "auto_rotate_on_button",
-                               "replace_button_id": "auto_rotate_off_button",
-                               "replace_button_cb": auto_rotate_camera,
-                               "callback": auto_rotate_camera},
-    {"type": "trigger_button", "id": "sound_on_button",
-                               "replace_button_id": "sound_off_button",
-                               "replace_button_cb": stop_sound,
-                               "callback": play_sound},
-    {"type": "menu_button",    "id": "quality_buttons_container",
-                               "button_active_class": "active_quality_mode",
-                               "child_buttons_array_id": ["low_mode_button",
-                                                          "high_mode_button",
-                                                          "ultra_mode_button"],
-                               "child_buttons_array_cb": [
-                                    function(){change_quality(m_cfg.P_LOW)},
-                                    function(){change_quality(m_cfg.P_HIGH)},
-                                    function(){change_quality(m_cfg.P_ULTRA)}],
-                               "callback": display_qual_menu}
+    {type: "simple_button", id: "closed_button", callback: close_menu},
+    {type: "simple_button", id: "opened_button", callback: open_menu},
+    {type: "trigger_button", id: "fullscreen_on_button",
+            replace_button_id: "fullscreen_off_button",
+            replace_button_cb: check_fullscreen,
+            callback: check_fullscreen},
+    {type: "trigger_button", id: "pause_button",
+            replace_button_id: "play_button",
+            replace_button_cb: resume_clicked,
+            callback: pause_clicked},
+    {type: "trigger_button", id: "auto_rotate_on_button",
+            replace_button_id: "auto_rotate_off_button",
+            replace_button_cb: auto_rotate_camera,
+            callback: auto_rotate_camera},
+    {type: "trigger_button", id: "sound_on_button",
+            replace_button_id: "sound_off_button",
+            replace_button_cb: stop_sound,
+            callback: play_sound},
+    {type: "menu_button", id: "quality_buttons_container",
+            button_active_class: "active_quality_mode",
+            child_buttons_array_id: ["low_mode_button",
+                                     "high_mode_button",
+                                     "ultra_mode_button"],
+            child_buttons_array_cb: [
+                 function(){change_quality(m_cfg.P_LOW)},
+                 function(){change_quality(m_cfg.P_HIGH)},
+                 function(){change_quality(m_cfg.P_ULTRA)}],
+            callback: display_qual_menu}
 ]
 
 exports.init = function() {
     m_cfg.set("background_color", [0.224, 0.224, 0.224, 1.0]);
 
-    var is_debug = (b4w.version.type() == "DEBUG");
+    var is_debug = (m_version.type() == "DEBUG");
 
     var show_fps = false;
 
@@ -63,17 +64,21 @@ exports.init = function() {
 
     set_quality_config();
 
-    b4w.app.init({
+    // disable physics in HTML version
+    var is_html = b4w.module_check(m_cfg.get("built_in_module_name"));
+
+    m_app.init({
         canvas_container_id: "main_canvas_container",
         callback: init_cb,
         gl_debug: is_debug,
-        physics_enabled: false,
+        physics_enabled: !is_html,
         show_fps: show_fps,
         console_verbose: is_debug,
         error_purge_elements: ['control_panel'],
         alpha: false,
         smaa_search_texture_path: "smaa_search_texture.png",
-        smaa_area_texture_path: "smaa_area_texture.png"
+        smaa_area_texture_path: "smaa_area_texture.png",
+        key_pause_enabled: false
     });
 }
 
@@ -103,7 +108,6 @@ function init_cb(canvas_element, success) {
         if (url_params &&  url_params.bg)
             document.body.style.backgroundImage = 'url(' + url_params.bg + ')';
 
-        console.log("b4w init failure");
         return;
     }
 
@@ -120,13 +124,12 @@ function init_cb(canvas_element, success) {
 
     check_device();
 
-    if (window.parent != window) {
+    if (!m_app.check_fullscreen())
         fullscreen_on_button.style.display = "none";
-    }
-
 
     // search source file
     var file = SCENE_PATH;
+
     var module_name = m_cfg.get("built_in_module_name");
 
     if (b4w.module_check(module_name)) {
@@ -158,11 +161,10 @@ function init_cb(canvas_element, success) {
     }
 
     // load
-    b4w.data.load(file, loaded_callback, preloader_callback, false);
-    b4w.app.enable_controls(canvas_element);
+    m_data.load(file, loaded_callback, preloader_callback, false);
+    m_app.enable_controls(canvas_element);
 
-
-    window.onresize = on_resize;
+    window.addEventListener("resize", on_resize, false);
     on_resize();
 }
 
@@ -189,36 +191,36 @@ function init_control_buttons() {
     for (var i = 0; i < _player_buttons.length; i++) {
         var button = _player_buttons[i];
 
-        switch(button.type) {
-            case "simple_button":
-                var elem = document.getElementById(button["id"]);
+        switch (button.type) {
+        case "simple_button":
+            var elem = document.getElementById(button.id);
 
-                elem.addEventListener("mouseup", button.callback, false);
-                break;
-            case "menu_button":
-                var elem = document.getElementsByClassName(
-                                        button["button_active_class"])[0];
+            elem.addEventListener("mouseup", button.callback, false);
+            break;
+        case "menu_button":
+            var elem = document.getElementsByClassName(
+                                    button.button_active_class)[0];
 
-                elem.addEventListener("mouseup",
-                      function(e) {
-                          button.callback(e, button);
-                      }, false);
-                break;
-            case "trigger_button":
-                (function(button) {
-                    var elem = document.getElementById(button["id"]);
-                    var button_cb = {};
+            elem.addEventListener("mouseup",
+                  function(e) {
+                      button.callback(e, button);
+                  }, false);
+            break;
+        case "trigger_button":
+            (function(button) {
+                var elem = document.getElementById(button.id);
+                var button_cb = {};
 
-                    button_cb[button.id] = button.callback;
-                    button_cb[button.replace_button_id] = button.replace_button_cb;
+                button_cb[button.id] = button.callback;
+                button_cb[button.replace_button_id] = button.replace_button_cb;
 
-                    elem.addEventListener("mouseup", function(e) {
-                        var old_elem_id = elem.id;
-                        swap_buttons(elem, button);
-                        button_cb[old_elem_id](elem, button);
-                    }, false)
-                }(button));
-                break;
+                elem.addEventListener("mouseup", function(e) {
+                    var old_elem_id = elem.id;
+                    swap_buttons(elem, button);
+                    button_cb[old_elem_id](elem, button);
+                }, false)
+            }(button));
+            break;
         }
     }
 }
@@ -233,7 +235,7 @@ function turn_rotate_button_off(){
     var elem = document.getElementById("auto_rotate_off_button");
     if (elem)
         for (var i = 0; i < _player_buttons.length; i++)
-            if (_player_buttons[i]["id"] == "auto_rotate_on_button") {
+            if (_player_buttons[i].id == "auto_rotate_on_button") {
                 var player_button = _player_buttons[i];
                 var old_elem_id = elem.id;
                 swap_buttons(elem, player_button);
@@ -322,12 +324,13 @@ function display_qual_menu(e, button) {
 function on_resize() {
     var w = window.innerWidth;
     var h = window.innerHeight;
-    b4w.main.resize(w, h);
+    m_main.resize(w, h);
 }
 
 function loaded_callback(data_id) {
-    b4w.app.enable_camera_controls();
-    b4w.set_render_callback(render_callback);
+    m_app.enable_camera_controls();
+    m_main.set_render_callback(render_callback);
+    on_resize();
 }
 
 function preloader_callback(percentage, load_time) {
@@ -351,11 +354,11 @@ function remove_built_in_scripts() {
 }
 
 function pause_clicked() {
-    b4w.pause();
+    m_main.pause();
 }
 
 function resume_clicked() {
-    b4w.resume();
+    m_main.resume();
 }
 
 function change_quality(qual) {
@@ -375,8 +378,7 @@ function change_quality(qual) {
             var quality = "ULTRA";
             break;
         }
-        console.log(quality);
-        b4w.storage.set("quality", quality);
+        m_storage.set("quality", quality);
 
         setTimeout(function() {
             window.location.reload();
@@ -407,11 +409,11 @@ function update_fullscreen_button(is_fullscreen, elem, button) {
 }
 
 function set_quality_config() {
-    var quality = b4w.storage.get("quality");
+    var quality = m_storage.get("quality");
 
     if (!quality || quality == "CUSTOM") {
         quality = DEFAULT_QUALITY;
-        b4w.storage.set("quality", quality);
+        m_storage.set("quality", quality);
     }
 
     switch (quality) {
@@ -430,11 +432,11 @@ function set_quality_config() {
 }
 
 function set_quality_button() {
-    var quality = b4w.storage.get("quality");
+    var quality = m_storage.get("quality");
 
     if (!quality || quality == "CUSTOM") {
         quality = DEFAULT_QUALITY;
-        b4w.storage.set("quality", quality);
+        m_storage.set("quality", quality);
     }
 
     var elem = document.getElementsByClassName("active_quality_mode")[0];
@@ -459,4 +461,6 @@ function set_quality_button() {
 
 });
 
-b4w.require("embed_main").init();
+// to allow early built-in module check
+window.addEventListener("load", function() {b4w.require("embed_main").init();}, false);
+

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Материалы &mdash; Руководство пользователя: Blend4Web v14.07</title>
+    <title>Материалы &mdash; Руководство пользователя: Blend4Web v14.08</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.07',
+        VERSION:     '14.08',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v14.07" href="index.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v14.08" href="index.html" />
     <link rel="next" title="Нодовые материалы" href="node_materials.html" />
     <link rel="prev" title="Текстуры" href="textures.html" /> 
   </head>
@@ -37,7 +37,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">Руководство пользователя: Blend4Web v14.07</a></div>
+          href="index.html">Руководство пользователя: Blend4Web v14.08</a></div>
         <div class="rel">
           <a href="textures.html" title="Текстуры"
              accesskey="P">предыдущий</a> |
@@ -64,9 +64,7 @@
 <p>Поддерживаются следующие типы материалов: <tt class="docutils literal"><span class="pre">Surface</span></tt> (поверхность), <tt class="docutils literal"><span class="pre">Halo</span></tt> (гало).</p>
 <div class="section" id="material-lighting-params">
 <span id="index-1"></span><span id="id2"></span><h2>Параметры освещения<a class="headerlink" href="#material-lighting-params" title="Ссылка на этот заголовок">¶</a></h2>
-<div class="align-center figure">
-<a class="reference internal image-reference" href="_images/material_panel_shading.jpg"><img alt="Параметры освещения" src="_images/material_panel_shading.jpg" style="width: 202.5px; height: 324.5px;" /></a>
-</div>
+<a class="reference internal image-reference" href="_images/panel_shading.png"><img alt="_images/panel_shading.png" class="align-center" src="_images/panel_shading.png" style="width: 100%;" /></a>
 <dl class="docutils">
 <dt><em>Diffuse &gt; Color</em></dt>
 <dd>Цвет диффузного (рассеянного) света. Значение по умолчанию (0.8, 0.8, 0.8). Может взаимодействовать с цветом диффузной текстуры.</dd>
@@ -94,8 +92,8 @@
 <dd>Опция включает использование вертексного цвета меша вместо диффузного цвета.</dd>
 </dl>
 </div>
-<div class="section" id="index-2">
-<span id="id3"></span><h2>Прозрачность<a class="headerlink" href="#index-2" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="alpha-blend">
+<span id="index-2"></span><span id="id3"></span><h2>Прозрачность<a class="headerlink" href="#alpha-blend" title="Ссылка на этот заголовок">¶</a></h2>
 <div class="section" id="index-3">
 <span id="id4"></span><h3>Типы<a class="headerlink" href="#index-3" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Тип реализации прозрачности выбирается в меню <tt class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Blend</span></tt> на панели <tt class="docutils literal"><span class="pre">Materials</span> <span class="pre">&gt;</span> <span class="pre">Game</span> <span class="pre">Settings</span></tt> (в режиме <tt class="docutils literal"><span class="pre">Blender</span> <span class="pre">Game</span></tt>).</p>
@@ -112,7 +110,7 @@
 <dt><em>Opaque</em></dt>
 <dd>Непрозрачный. Альфа-канал игнорируется. Значение по умолчанию.</dd>
 </dl>
-<a class="reference internal image-reference" href="_images/alpha_types.jpg"><img alt="Типы прозрачности" class="align-center" src="_images/alpha_types.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/alpha_types.jpg"><img alt="_images/alpha_types.jpg" class="align-center" src="_images/alpha_types.jpg" style="width: 100%;" /></a>
 </div>
 <div class="section" id="index-4">
 <span id="id5"></span><h3>Дополнительные настройки<a class="headerlink" href="#index-4" title="Ссылка на этот заголовок">¶</a></h3>
@@ -186,7 +184,7 @@
 <dt><em>Mirror &gt; Blend</em></dt>
 <dd>Фактор Френеля для отражения. Приводится к R<sub>0</sub> в формуле Шлика: R<sub>0</sub> = 1 - <tt class="docutils literal"><span class="pre">Blend</span></tt> / 5. В пакете Blender ограничен значениями от 0 до 5. Этот параметр показывает интенсивность проявления эффекта Френеля: чем больше фактор <tt class="docutils literal"><span class="pre">Blend</span></tt>, тем сильнее влияние эффекта Френеля. Если он равен нулю, эффект Френеля не проявляется.</dd>
 </dl>
-<a class="reference internal image-reference" href="_images/reflection_dynamic_and_fresnel.jpg"><img alt="Динамическое отражение и эффект Френеля" class="align-center" src="_images/reflection_dynamic_and_fresnel.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/reflection_dynamic_and_fresnel.jpg"><img alt="_images/reflection_dynamic_and_fresnel.jpg" class="align-center" src="_images/reflection_dynamic_and_fresnel.jpg" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -210,6 +208,18 @@
 </dd>
 <dt><em>Double-sided Lighting</em></dt>
 <dd>Включить двухстороннее освещение. Опция полезна для однослойных непросвечивающих объектов.</dd>
+<dt><em>Refractive</em></dt>
+<dd><p class="first">Включить рефракцию. Коэффициент возмущения задаётся опцией <tt class="docutils literal"><span class="pre">Reftaction</span> <span class="pre">bump</span></tt> на панели <tt class="docutils literal"><span class="pre">Reftaction</span> <span class="pre">Settings</span></tt>.
+Значение по умолчанию 0.001.</p>
+<div class="admonition note">
+<p class="first admonition-title">Примечание</p>
+<p class="last">Для отображения эффекта необходимо включить опцию <tt class="docutils literal"><span class="pre">Render</span> <span class="pre">refraction</span></tt> на панели <tt class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span></tt>. Объект должен быть с типом прозрачности Alpha Blend.</p>
+</div>
+<div class="last admonition seealso">
+<p class="first admonition-title">См.также</p>
+<p class="last"><a class="reference internal" href="#alpha-blend"><em>Прозрачность</em></a></p>
+</div>
+</dd>
 </dl>
 </div>
 <div class="section" id="halo">
@@ -218,7 +228,7 @@
 <div class="section" id="id14">
 <h3>Активация<a class="headerlink" href="#id14" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Выставить тип <tt class="docutils literal"><span class="pre">Halo</span></tt> во вкладке <tt class="docutils literal"><span class="pre">Materials</span></tt>. Рекомендуется также выставить тип прозрачности c градиентом (<tt class="docutils literal"><span class="pre">Add</span></tt>, <tt class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Blend</span></tt> или <tt class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Sort</span></tt>).</p>
-<a class="reference internal image-reference" href="_images/halo.jpg"><img alt="Материал гало" class="align-center" src="_images/halo.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/halo.jpg"><img alt="_images/halo.jpg" class="align-center" src="_images/halo.jpg" style="width: 100%;" /></a>
 </div>
 <div class="section" id="id15">
 <h3>Дополнительные настройки<a class="headerlink" href="#id15" title="Ссылка на этот заголовок">¶</a></h3>
@@ -266,12 +276,13 @@
 <li class="toctree-l1"><a class="reference internal" href="setup.html">Развёртывание среды разработки</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Рабочий процесс</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Просмотрщик сцен</a></li>
+<li class="toctree-l1"><a class="reference internal" href="web_player.html">Веб-плеер</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">Аддон</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Объекты</a></li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">Текстуры</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Материалы</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#material-lighting-params">Параметры освещения</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#index-2">Прозрачность</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#alpha-blend">Прозрачность</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#material-mirror">Зеркальное отражение</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#index-9">Специальные параметры движка</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#halo">Материалы гало (Halo)</a></li>
@@ -324,7 +335,7 @@
           
     <div class="footer">
         &copy; Copyright 2014, ООО &#34;Триумф&#34;.
-      Обновлено: 2014-07-23.
+      Обновлено: 2014-08-25.
       Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

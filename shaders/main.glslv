@@ -141,6 +141,9 @@ uniform vec3 u_texture_scale;
     #endif
 #endif
 
+#if REFRACTIVE
+uniform PRECISION float u_view_max_depth;
+#endif
 
 /*============================================================================
                                    VARYINGS
@@ -179,10 +182,13 @@ varying vec4 v_pos_view;
     #endif
 #endif
 
-#if REFLECTIVE || SHADOW_SRC == SHADOW_SRC_MASK
+#if REFLECTIVE || SHADOW_SRC == SHADOW_SRC_MASK || REFRACTIVE
     varying vec3 v_tex_pos_clip;
 #endif
 
+#if REFRACTIVE
+    varying float v_view_depth;
+#endif
 /*============================================================================
                                   INCLUDES
 ============================================================================*/
@@ -234,106 +240,107 @@ void main(void) {
     vec3 center = vec3(0.0);
 #endif
 
-    #if TEXTURE_NORM
-        #if DYNAMIC_GRASS
-            vertex world = grass_vertex(position, tangent, binormal, normal,
-                    center, u_grass_map_depth, u_grass_map_color,
-                    u_grass_map_dim, u_grass_size, u_camera_eye, u_camera_quat,
-                    u_view_matrix);
-        #else
-        # if HAIR_BILLBOARD
-            vec3 wcen = (u_model_matrix * vec4(center, 1.0)).xyz;
-            mat4 model_matrix = billboard_matrix(u_camera_eye, wcen, u_view_matrix);
-        # if WIND_BEND && HAIR_BILLBOARD_JITTERED
-            vec3 vec_seed = (u_model_matrix * vec4(center, 1.0)).xyz;
-            model_matrix = model_matrix * bend_jitter_matrix(u_wind, u_time, 
-                    u_jitter_amp, u_jitter_freq, vec_seed);
-        # endif
-            vertex world = to_world(position - center, center, tangent, binormal, normal,
-                    model_matrix);
-            world.center = wcen;
-        # else
-            vertex world = to_world(position, center, tangent, binormal, normal,
-                    u_model_matrix);
-        # endif
-        #endif
+#if TEXTURE_NORM
+# if DYNAMIC_GRASS
+    vertex world = grass_vertex(position, tangent, binormal, normal,
+            center, u_grass_map_depth, u_grass_map_color,
+            u_grass_map_dim, u_grass_size, u_camera_eye, u_camera_quat,
+            u_view_matrix);
+# else  // DYNAMIC_GRASS
+#  if HAIR_BILLBOARD
+    vec3 wcen = (u_model_matrix * vec4(center, 1.0)).xyz;
+    mat4 model_matrix = billboard_matrix(u_camera_eye, wcen, u_view_matrix);
+#   if WIND_BEND && HAIR_BILLBOARD_JITTERED
+    vec3 vec_seed = (u_model_matrix * vec4(center, 1.0)).xyz;
+    model_matrix = model_matrix * bend_jitter_matrix(u_wind, u_time,
+            u_jitter_amp, u_jitter_freq, vec_seed);
+#   endif  // WIND_BEND && HAIR_BILLBOARD_JITTERED
+    vertex world = to_world(position - center, center, tangent, binormal, normal,
+            model_matrix);
+    world.center = wcen;
+#  else  // HAIR_BILLBOARD
+    vertex world = to_world(position, center, tangent, binormal, normal,
+            u_model_matrix);
+#  endif  // HAIR_BILLBOARD
+# endif  // DYNAMIC_GRASS
 
-        // calculate handedness as described in Math for 3D GP and CG, page 185
-        float m = (dot(cross(world.normal, world.tangent),
-            world.binormal) < 0.0) ? -1.0 : 1.0;
+    // calculate handedness as described in Math for 3D GP and CG, page 185
+    float m = (dot(cross(world.normal, world.tangent),
+        world.binormal) < 0.0) ? -1.0 : 1.0;
 
-        v_tangent = vec4(world.tangent, m);
-    #else
-        #if DYNAMIC_GRASS
-            vertex world = grass_vertex(position, vec3(0.0), vec3(0.0), normal,
-                    center, u_grass_map_depth, u_grass_map_color,
-                    u_grass_map_dim, u_grass_size, u_camera_eye, u_camera_quat,
-                    u_view_matrix);
-        #else
-        # if HAIR_BILLBOARD
-            vec3 wcen = (u_model_matrix * vec4(center, 1.0)).xyz;
-            mat4 model_matrix = billboard_matrix(u_camera_eye, wcen, u_view_matrix);
-        # if WIND_BEND && HAIR_BILLBOARD_JITTERED
-            vec3 vec_seed = (u_model_matrix * vec4(center, 1.0)).xyz;
-            model_matrix = model_matrix * bend_jitter_matrix(u_wind, u_time, 
-                    u_jitter_amp, u_jitter_freq, vec_seed);
-        # endif
-            vertex world = to_world(position - center, center, vec3(0.0), vec3(0.0), normal,
-                    model_matrix);
-            world.center = wcen;
-        # else
-            vertex world = to_world(position, center, vec3(0.0), vec3(0.0), normal,
-                    u_model_matrix);
-        # endif
-        #endif
-    #endif
+    v_tangent = vec4(world.tangent, m);
+#else
+# if DYNAMIC_GRASS
+    vertex world = grass_vertex(position, vec3(0.0), vec3(0.0), normal,
+            center, u_grass_map_depth, u_grass_map_color,
+            u_grass_map_dim, u_grass_size, u_camera_eye, u_camera_quat,
+            u_view_matrix);
+# else
+#  if HAIR_BILLBOARD
+    vec3 wcen = (u_model_matrix * vec4(center, 1.0)).xyz;
+    mat4 model_matrix = billboard_matrix(u_camera_eye, wcen, u_view_matrix);
+#   if WIND_BEND && HAIR_BILLBOARD_JITTERED
+    vec3 vec_seed = (u_model_matrix * vec4(center, 1.0)).xyz;
+    model_matrix = model_matrix * bend_jitter_matrix(u_wind, u_time,
+            u_jitter_amp, u_jitter_freq, vec_seed);
+#   endif
+    vertex world = to_world(position - center, center, vec3(0.0), vec3(0.0), normal,
+            model_matrix);
+    world.center = wcen;
+#  else
+    vertex world = to_world(position, center, vec3(0.0), vec3(0.0), normal,
+            u_model_matrix);
+#  endif
+# endif
+#endif
 
-
-    #if WIND_BEND
-        bend_vertex(world.position, world.center, normal);
-    #endif
+#if WIND_BEND
+    bend_vertex(world.position, world.center, normal);
+#endif
 
     v_pos_world = world.position;
     v_normal = world.normal;
     v_eye_dir = u_camera_eye - world.position;
 
-    #if TEXCOORD
-        v_texcoord = scale_texcoord(a_texcoord, u_texture_scale);
-    #endif
+#if TEXCOORD
+    v_texcoord = scale_texcoord(a_texcoord, u_texture_scale);
+#endif
 
-    #if DYNAMIC_GRASS
-        v_color = world.color;
-    #elif VERTEX_COLOR
-        v_color = a_color;
-    #endif
+#if DYNAMIC_GRASS
+    v_color = world.color;
+#elif VERTEX_COLOR
+    v_color = a_color;
+#endif
 
     vec4 pos_view = u_view_matrix * vec4(world.position, 1.0);
 
-    #if !DISABLE_FOG || (TEXTURE_NORM && PARALLAX) || (WATER_EFFECTS && CAUSTICS)
+#if !DISABLE_FOG || (TEXTURE_NORM && PARALLAX) || (WATER_EFFECTS && CAUSTICS)
     v_pos_view = pos_view;
-    #endif
+#endif
 
     vec4 pos_clip = u_proj_matrix * pos_view;
 
-    #if SMAA_JITTER
+#if SMAA_JITTER
     pos_clip.xy += u_subpixel_jitter * pos_clip.w;
+#endif
+
+#if SHADOW_SRC == SHADOW_SRC_MASK
+    get_shadow_coords(pos_clip);
+#elif SHADOW_SRC != SHADOW_SRC_NONE
+    get_shadow_coords(world.position);
+#endif
+
+#if REFLECTIVE || REFRACTIVE
+    float xc = pos_clip.x;
+    float yc = pos_clip.y;
+    float wc = pos_clip.w;
+    v_tex_pos_clip.x = (xc + wc) / 2.0;
+    v_tex_pos_clip.y = (yc + wc) / 2.0;
+    v_tex_pos_clip.z = wc;
+#endif
+
+    #if REFRACTIVE
+        v_view_depth = -pos_view.z / u_view_max_depth;
     #endif
-
-    #if SHADOW_SRC == SHADOW_SRC_MASK
-        get_shadow_coords(pos_clip);
-    #elif SHADOW_SRC != SHADOW_SRC_NONE
-        get_shadow_coords(world.position);
-    #endif
-
-    #if REFLECTIVE
-        float xc = pos_clip.x;
-        float yc = pos_clip.y;
-        float wc = pos_clip.w;
-
-        v_tex_pos_clip.x = (xc + wc) / 2.0;
-        v_tex_pos_clip.y = (yc + wc) / 2.0;
-        v_tex_pos_clip.z = wc;
-    #endif
-
     gl_Position = pos_clip;
 }

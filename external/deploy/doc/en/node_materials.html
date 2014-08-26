@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Node Materials &mdash; User Manual: Blend4Web v14.07</title>
+    <title>Node Materials &mdash; User Manual: Blend4Web v14.08</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.07',
+        VERSION:     '14.08',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User Manual: Blend4Web v14.07" href="index.html" />
+    <link rel="top" title="User Manual: Blend4Web v14.08" href="index.html" />
     <link rel="next" title="Lighting, Shadows and Background" href="lighting.html" />
     <link rel="prev" title="Materials" href="materials.html" /> 
   </head>
@@ -36,7 +36,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">User Manual: Blend4Web v14.07</a></div>
+          href="index.html">User Manual: Blend4Web v14.08</a></div>
         <div class="rel">
           <a href="materials.html" title="Materials"
              accesskey="P">previous</a> |
@@ -65,7 +65,7 @@
 <ul class="simple">
 <li><p class="first"><tt class="docutils literal"><span class="pre">Geometry</span></tt> - the <tt class="docutils literal"><span class="pre">Local</span></tt>, <tt class="docutils literal"><span class="pre">Orco</span></tt> and <tt class="docutils literal"><span class="pre">Vertex</span> <span class="pre">Alpha</span></tt> outputs are not supported.</p>
 </li>
-<li><p class="first"><tt class="docutils literal"><span class="pre">Material</span></tt>, <tt class="docutils literal"><span class="pre">Extended</span> <span class="pre">Material</span></tt> - no more than one node per material is allowed; the <tt class="docutils literal"><span class="pre">Refl</span></tt>, <tt class="docutils literal"><span class="pre">Ambient</span></tt>, <tt class="docutils literal"><span class="pre">SpecTra</span></tt>, <tt class="docutils literal"><span class="pre">Ray</span> <span class="pre">Mirror</span></tt> inputs are not supported; the <tt class="docutils literal"><span class="pre">AO</span></tt> output is not supported.</p>
+<li><p class="first"><tt class="docutils literal"><span class="pre">Material</span></tt>, <tt class="docutils literal"><span class="pre">Extended</span> <span class="pre">Material</span></tt> - no more than one node per material is allowed; the <tt class="docutils literal"><span class="pre">Refl</span></tt>, <tt class="docutils literal"><span class="pre">Ambient</span></tt>, <tt class="docutils literal"><span class="pre">SpecTra</span></tt> inputs are not supported; the <tt class="docutils literal"><span class="pre">AO</span></tt> output is not supported.</p>
 </li>
 <li><p class="first"><tt class="docutils literal"><span class="pre">RGB</span> <span class="pre">Curves</span></tt> is not supported.</p>
 </li>
@@ -188,6 +188,38 @@
 </dl>
 </div>
 </div>
+<div class="section" id="refraction">
+<h3>REFRACTION<a class="headerlink" href="#refraction" title="Permalink to this headline">¶</a></h3>
+<p>Get refracted image behind object.</p>
+<div class="section" id="id8">
+<h4>Input parameters<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h4>
+<dl class="docutils">
+<dt><em>Normal</em></dt>
+<dd><p class="first last">Normal map for adding perturbations.</p>
+</dd>
+<dt><em>Refraction bump</em></dt>
+<dd><p class="first">Value of perturbation strength.</p>
+<p class="last">The default value is 0.001.</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="id9">
+<h4>Output parameters<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h4>
+<dl class="docutils">
+<dt><em>Color</em></dt>
+<dd><p class="first last">Rendered texture behind object with perturbations.</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">It needs to check option <tt class="docutils literal"><span class="pre">Render</span> <span class="pre">refraction</span></tt> from <tt class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span></tt> panel. Object&#8217;s transparency type must be set to <tt class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Blend</span></tt>.</p>
+</div>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="materials.html#alpha-blend"><em>Transparency</em></a></p>
+</div>
+</div>
+</div>
 </div>
 </div>
 
@@ -205,6 +237,7 @@
 <li class="toctree-l1"><a class="reference internal" href="setup.html">Development Environment Setup</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Workflow</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Scene Viewer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="web_player.html">Web Player</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">The Addon</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
@@ -260,7 +293,7 @@
           
     <div class="footer">
         &copy; Copyright 2014, Triumph LLC.
-      Last updated on 2014-07-23.
+      Last updated on 2014-08-25.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

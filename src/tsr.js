@@ -179,7 +179,7 @@ exports.from_mat4 = function(mat, dest) {
 exports.multiply = function(tsr, tsr2, dest) {
 
     // trans
-    transform_vec3(tsr, tsr2, dest);
+    transform_vec3(tsr2, tsr, dest);
 
     // scale
     dest[3] = tsr[3] * tsr2[3];
@@ -219,7 +219,7 @@ exports.transform_vec3 = transform_vec3;
 /**
  * Transform vec3 by TSR
  */
-function transform_vec3(tsr, vec, dest) {
+function transform_vec3(vec, tsr, dest) {
 
     var tx = tsr[0];
     var ty = tsr[1];

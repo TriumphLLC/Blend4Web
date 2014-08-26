@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>For Application Developers &mdash; User Manual: Blend4Web v14.07</title>
+    <title>For Application Developers &mdash; User Manual: Blend4Web v14.08</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.07',
+        VERSION:     '14.08',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User Manual: Blend4Web v14.07" href="index.html" />
+    <link rel="top" title="User Manual: Blend4Web v14.08" href="index.html" />
     <link rel="next" title="For Engine Developers" href="developers_advanced.html" />
     <link rel="prev" title="Non-Linear Animation" href="nla.html" /> 
   </head>
@@ -36,7 +36,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">User Manual: Blend4Web v14.07</a></div>
+          href="index.html">User Manual: Blend4Web v14.08</a></div>
         <div class="rel">
           <a href="nla.html" title="Non-Linear Animation"
              accesskey="P">previous</a> |
@@ -78,7 +78,8 @@
 <span class="nt">&lt;/html&gt;</span>
 </pre></div>
 </div>
-<p>The engine library is embedded with the <tt class="docutils literal"><span class="pre">&lt;script</span> <span class="pre">src=&quot;...&quot;&gt;</span></tt> tag. The app waits for the page to load and prints the current version in the browser window.</p>
+<p>The engine library is embedded with the <tt class="docutils literal"><span class="pre">&lt;script</span> <span class="pre">src=&quot;...&quot;&gt;</span></tt> tag. The app waits for the page to load and prints the current version in the browser window. In this example <tt class="docutils literal"><span class="pre">version</span></tt> is the only used module which has a function with the same name - <tt class="docutils literal"><span class="pre">version()</span></tt>. A more detailed info about the usage of engine&#8217;s modules and function can be found in the <a class="reference external" href="http://www.blend4web.com/api_doc/index.html">API documentation</a>.</p>
+<p>The compiled engine files are located in the SDK&#8217;s <tt class="docutils literal"><span class="pre">external/deploy/apps/common</span></tt> directory. The <tt class="docutils literal"><span class="pre">b4w.min.js</span></tt> file contains a basic version. If you need to use the addons, <tt class="docutils literal"><span class="pre">b4w.full.min.js</span></tt> must be taken instead.</p>
 </div>
 <div class="section" id="id2">
 <h2>Loading a Scene into an App<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
@@ -116,12 +117,11 @@
 </div>
 <div class="section" id="id3">
 <h2>Creating Apps Quickly<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
-<p>Creating an app from scratch can be a tedious task, especially for beginners. To address this there is a special addon for the engine called <tt class="docutils literal"><span class="pre">app.js</span></tt>. The addon can be linked up similar to the main <tt class="docutils literal"><span class="pre">b4w.min.js</span></tt> module and can be accessed via the <tt class="docutils literal"><span class="pre">app</span></tt> namespace:</p>
+<p>Creating an app from scratch can be a tedious task, especially for beginners. To address this there is a special addon for the engine called <tt class="docutils literal"><span class="pre">app</span></tt>:</p>
 <div class="highlight-html"><div class="highlight"><pre><span class="cp">&lt;!DOCTYPE html&gt;</span>
 <span class="nt">&lt;html&gt;</span>
 <span class="nt">&lt;head&gt;</span>
-<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;b4w.min.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
-<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;app.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;b4w.full.min.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
 <span class="nt">&lt;script&gt;</span>
 
 <span class="kd">var</span> <span class="nx">m_app</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;app&quot;</span><span class="p">);</span>
@@ -252,12 +252,12 @@
 <div class="section" id="id7">
 <h3>Example of working with quaternions<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
 <p>We need to rotate the object by 60 degrees in a horizontal plane to the right. We have a model named &#8220;Cessna&#8221; in Blender.</p>
-<a class="reference internal image-reference" href="_images/aircraft.jpg"><img alt="ориентация модели в программе Blender" class="align-center" src="_images/aircraft.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/aircraft.jpg"><img alt="_images/aircraft.jpg" class="align-center" src="_images/aircraft.jpg" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <p>Lets save a reference to the object in the <strong>aircraft</strong> variable:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">aircraft</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">scenes</span><span class="p">.</span><span class="nx">get_object_by_name</span><span class="p">(</span><span class="s2">&quot;Cessna&quot;</span><span class="p">);</span>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">aircraft</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_object_by_name</span><span class="p">(</span><span class="s2">&quot;Cessna&quot;</span><span class="p">);</span>
 </pre></div>
 </div>
 <p>Lets rotate it:</p>
@@ -273,16 +273,16 @@
 </div></blockquote>
 <p>As a result we get:</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span class="c1">// compose quaternion</span>
-<span class="kd">var</span> <span class="nx">quat_60_Y_neg</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">quat</span><span class="p">.</span><span class="nx">setAxisAngle</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="o">-</span><span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">quat</span><span class="p">.</span><span class="nx">create</span><span class="p">());</span>
+<span class="kd">var</span> <span class="nx">quat_60_Y_neg</span> <span class="o">=</span> <span class="nx">m_quat</span><span class="p">.</span><span class="nx">setAxisAngle</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="o">-</span><span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span> <span class="nx">m_quat</span><span class="p">.</span><span class="nx">create</span><span class="p">());</span>
 
 <span class="c1">// get old rotation</span>
-<span class="kd">var</span> <span class="nx">quat_old</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">transform</span><span class="p">.</span><span class="nx">get_rotation</span><span class="p">(</span><span class="nx">aircraft</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">quat_old</span> <span class="o">=</span> <span class="nx">m_transform</span><span class="p">.</span><span class="nx">get_rotation</span><span class="p">(</span><span class="nx">aircraft</span><span class="p">);</span>
 
 <span class="c1">// left multiply: quat60_Y_neg * quat_old</span>
-<span class="kd">var</span> <span class="nx">quat_new</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">quat</span><span class="p">.</span><span class="nx">multiply</span><span class="p">(</span><span class="nx">quat_60_Y_neg</span><span class="p">,</span> <span class="nx">quat_old</span><span class="p">,</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">quat</span><span class="p">.</span><span class="nx">create</span><span class="p">());</span>
+<span class="kd">var</span> <span class="nx">quat_new</span> <span class="o">=</span> <span class="nx">m_quat</span><span class="p">.</span><span class="nx">multiply</span><span class="p">(</span><span class="nx">quat_60_Y_neg</span><span class="p">,</span> <span class="nx">quat_old</span><span class="p">,</span> <span class="nx">m_quat</span><span class="p">.</span><span class="nx">create</span><span class="p">());</span>
 
 <span class="c1">// set new rotation</span>
-<span class="nx">b4w</span><span class="p">.</span><span class="nx">transform</span><span class="p">.</span><span class="nx">set_rotation_v</span><span class="p">(</span><span class="nx">aircraft</span><span class="p">,</span> <span class="nx">quat_new</span><span class="p">);</span>
+<span class="nx">m_transform</span><span class="p">.</span><span class="nx">set_rotation_v</span><span class="p">(</span><span class="nx">aircraft</span><span class="p">,</span> <span class="nx">quat_new</span><span class="p">);</span>
 </pre></div>
 </div>
 <p>The optimized version which does not create new objects:</p>
@@ -292,10 +292,10 @@
 <span class="kd">var</span> <span class="nx">quat_tmp2</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Float32Array</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span>
 <span class="p">...</span>
 <span class="c1">// rotate</span>
-<span class="nx">b4w</span><span class="p">.</span><span class="nx">quat</span><span class="p">.</span><span class="nx">setAxisAngle</span><span class="p">(</span><span class="nx">AXIS_Y</span><span class="p">,</span> <span class="o">-</span><span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span> <span class="nx">quat_tmp</span><span class="p">);</span>
-<span class="nx">b4w</span><span class="p">.</span><span class="nx">transform</span><span class="p">.</span><span class="nx">get_rotation</span><span class="p">(</span><span class="nx">aircraft</span><span class="p">,</span> <span class="nx">quat_tmp2</span><span class="p">);</span>
-<span class="nx">b4w</span><span class="p">.</span><span class="nx">quat</span><span class="p">.</span><span class="nx">multiply</span><span class="p">(</span><span class="nx">quat_tmp</span><span class="p">,</span> <span class="nx">quat_tmp2</span><span class="p">,</span> <span class="nx">quat_tmp</span><span class="p">);</span>
-<span class="nx">b4w</span><span class="p">.</span><span class="nx">transform</span><span class="p">.</span><span class="nx">set_rotation_v</span><span class="p">(</span><span class="nx">aircraft</span><span class="p">,</span> <span class="nx">quat_tmp</span><span class="p">);</span>
+<span class="nx">m_quat</span><span class="p">.</span><span class="nx">setAxisAngle</span><span class="p">(</span><span class="nx">AXIS_Y</span><span class="p">,</span> <span class="o">-</span><span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span> <span class="nx">quat_tmp</span><span class="p">);</span>
+<span class="nx">m_transform</span><span class="p">.</span><span class="nx">get_rotation</span><span class="p">(</span><span class="nx">aircraft</span><span class="p">,</span> <span class="nx">quat_tmp2</span><span class="p">);</span>
+<span class="nx">m_quat</span><span class="p">.</span><span class="nx">multiply</span><span class="p">(</span><span class="nx">quat_tmp</span><span class="p">,</span> <span class="nx">quat_tmp2</span><span class="p">,</span> <span class="nx">quat_tmp</span><span class="p">);</span>
+<span class="nx">m_transform</span><span class="p">.</span><span class="nx">set_rotation_v</span><span class="p">(</span><span class="nx">aircraft</span><span class="p">,</span> <span class="nx">quat_tmp</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
@@ -375,6 +375,42 @@
 <p>When the &#8220;Stone&#8221; object collides with any physical material of &#8220;TERRAIN&#8221; or &#8220;WALL&#8221;, the callback function is executed. Inside this function we get the values of both sensors by their indices in the sensor array (0 - &#8220;TERRAIN&#8221;, 1 - &#8220;WALL&#8221;). The sensor value = 1 (active) means that the collision happened with the corresponding physical material. As a result the corresponding sound is produced (the code is not shown).</p>
 </div>
 </div>
+<div class="section" id="quality-settings">
+<span id="id11"></span><h2>Quality Profiles<a class="headerlink" href="#quality-settings" title="Permalink to this headline">¶</a></h2>
+<p>Several quality profiles are implemented in order to support platforms with different functionality.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p class="first"><em>low quality</em> (P_LOW) - a range of functions is turned off (such as shadows, dynamic reflection, postprocessing), the size of textures is halved when using a release version, anti-aliasing is disabled</p>
+</li>
+<li><p class="first"><em>high quality</em> (P_HIGH) - all features requested by the scene are used, the anti-aliasing method is FXAA</p>
+</li>
+<li><p class="first"><em>maximum quality</em> (P_ULTRA) - rendering resolution is doubled, resolution of shadow maps is increased, the anti-aliasing method is SMAA</p>
+</li>
+</ul>
+</div></blockquote>
+<a class="reference internal image-reference" href="_images/quality.jpg"><img alt="_images/quality.jpg" class="align-center" src="_images/quality.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>Switching the quality profiles can be performed in runtime before initialization of the WebGL context. The default profile is P_HIGH.</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_cfg</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">m_main</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;main&quot;</span><span class="p">);</span>
+
+<span class="nx">m_cfg</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;quality&quot;</span><span class="p">,</span> <span class="nx">m_cfg</span><span class="p">.</span><span class="nx">P_LOW</span><span class="p">);</span>
+<span class="nx">m_main</span><span class="p">.</span><span class="nx">init</span><span class="p">(...);</span>
+</pre></div>
+</div>
+<p>Application developers can also set the <strong>quality</strong> parameter upon engine initialization using the <tt class="docutils literal"><span class="pre">app.js</span></tt> addon:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_cfg</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">m_app</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;app&quot;</span><span class="p">);</span>
+
+<span class="nx">m_app</span><span class="p">.</span><span class="nx">init</span><span class="p">({</span>
+    <span class="nx">canvas_container_id</span><span class="o">:</span> <span class="s2">&quot;body_id&quot;</span><span class="p">,</span>
+    <span class="nx">quality</span><span class="o">:</span> <span class="nx">m_cfg</span><span class="p">.</span><span class="nx">P_HIGH</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+</div>
 <div class="section" id="sdk">
 <span id="repo-file-structure"></span><h2>SDK File Structure<a class="headerlink" href="#sdk" title="Permalink to this headline">¶</a></h2>
 <dl class="docutils">
@@ -404,7 +440,12 @@
 <dd><p class="first last">engine&#8217;s API documentation for developers in HTML format (built automatically based on the engine source code)</p>
 </dd>
 <dt><strong>apps</strong></dt>
-<dd><p class="first last">3D applications intended for deploying; the directory duplicates <em>apps_dev</em></p>
+<dd><p class="first">3D applications intended for deploying; the directory duplicates <em>apps_dev</em></p>
+<dl class="last docutils">
+<dt><strong>common</strong></dt>
+<dd><p class="first last">The compiled engine files. They are used by all apps in the SDK (hence the name).</p>
+</dd>
+</dl>
 </dd>
 <dt><strong>assets</strong></dt>
 <dd><p class="first">loading resources: scenes, textures, sounds (not all resources are available as a free version)</p>
@@ -463,7 +504,7 @@
 <dt><strong>chrome_debug.sh</strong></dt>
 <dd><p class="first last">script which starts Chrome in debugging mode</p>
 </dd>
-<dt><strong>compile_b4w.sh</strong></dt>
+<dt><strong>compile_b4w.py</strong></dt>
 <dd><p class="first last">script for executing Google Closure compiler to minify and obfuscate the engine and applications code</p>
 </dd>
 <dt><strong>converter.py</strong></dt>
@@ -523,42 +564,6 @@
 </dd>
 </dl>
 </div>
-<div class="section" id="quality-settings">
-<span id="id11"></span><h2>Quality Profiles<a class="headerlink" href="#quality-settings" title="Permalink to this headline">¶</a></h2>
-<p>Several quality profiles are implemented in order to support platforms with different functionality.</p>
-<blockquote>
-<div><ul class="simple">
-<li><p class="first"><em>low quality</em> (P_LOW) - a range of functions is turned off (such as shadows, dynamic reflection, postprocessing), the size of textures is halved when using a release version, anti-aliasing is disabled</p>
-</li>
-<li><p class="first"><em>high quality</em> (P_HIGH) - all features requested by the scene are used, the anti-aliasing method is FXAA</p>
-</li>
-<li><p class="first"><em>maximum quality</em> (P_ULTRA) - rendering resolution is doubled, resolution of shadow maps is increased, the anti-aliasing method is SMAA</p>
-</li>
-</ul>
-</div></blockquote>
-<a class="reference internal image-reference" href="_images/quality.jpg"><img alt="_images/quality.jpg" class="align-center" src="_images/quality.jpg" style="width: 100%;" /></a>
-<div class="line-block">
-<div class="line"><br /></div>
-</div>
-<p>Switching the quality profiles can be performed in runtime before initialization of the WebGL context. The default profile is P_HIGH.</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_cfg</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">);</span>
-<span class="kd">var</span> <span class="nx">m_main</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;main&quot;</span><span class="p">);</span>
-
-<span class="nx">m_cfg</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;quality&quot;</span><span class="p">,</span> <span class="nx">m_cfg</span><span class="p">.</span><span class="nx">P_LOW</span><span class="p">);</span>
-<span class="nx">m_main</span><span class="p">.</span><span class="nx">init</span><span class="p">(...);</span>
-</pre></div>
-</div>
-<p>Application developers can also set the <strong>quality</strong> parameter upon engine initialization using the <tt class="docutils literal"><span class="pre">app.js</span></tt> addon:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_cfg</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">);</span>
-<span class="kd">var</span> <span class="nx">m_app</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;app&quot;</span><span class="p">);</span>
-
-<span class="nx">m_app</span><span class="p">.</span><span class="nx">init</span><span class="p">({</span>
-    <span class="nx">canvas_container_id</span><span class="o">:</span> <span class="s2">&quot;body_id&quot;</span><span class="p">,</span>
-    <span class="nx">quality</span><span class="o">:</span> <span class="nx">m_cfg</span><span class="p">.</span><span class="nx">P_HIGH</span>
-<span class="p">});</span>
-</pre></div>
-</div>
-</div>
 </div>
 
 
@@ -575,6 +580,7 @@
 <li class="toctree-l1"><a class="reference internal" href="setup.html">Development Environment Setup</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Workflow</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Scene Viewer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="web_player.html">Web Player</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">The Addon</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
@@ -598,8 +604,8 @@
 <li class="toctree-l2"><a class="reference internal" href="#id5">Moving Objects</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#index-0">Quaternions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#event-model">Event-Driven Model</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#sdk">SDK File Structure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#quality-settings">Quality Profiles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sdk">SDK File Structure</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">For Engine Developers</a></li>
@@ -637,7 +643,7 @@
           
     <div class="footer">
         &copy; Copyright 2014, Triumph LLC.
-      Last updated on 2014-07-23.
+      Last updated on 2014-08-25.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

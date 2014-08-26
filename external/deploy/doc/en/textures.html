@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Textures &mdash; User Manual: Blend4Web v14.07</title>
+    <title>Textures &mdash; User Manual: Blend4Web v14.08</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.07',
+        VERSION:     '14.08',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User Manual: Blend4Web v14.07" href="index.html" />
+    <link rel="top" title="User Manual: Blend4Web v14.08" href="index.html" />
     <link rel="next" title="Materials" href="materials.html" />
     <link rel="prev" title="Objects" href="objects.html" /> 
   </head>
@@ -36,7 +36,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">User Manual: Blend4Web v14.07</a></div>
+          href="index.html">User Manual: Blend4Web v14.08</a></div>
         <div class="rel">
           <a href="objects.html" title="Objects"
              accesskey="P">previous</a> |
@@ -230,7 +230,7 @@
 <dd><p class="first last">Distance at which the parallax effect is observed.</p>
 </dd>
 </dl>
-<a class="reference internal image-reference" href="_images/parallax.jpg"><img alt="Визуализация рельефной поверхности (parallax mapping) по сравнению с картой нормалей" class="align-center" src="_images/parallax.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/parallax.jpg"><img alt="_images/parallax.jpg" class="align-center" src="_images/parallax.jpg" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -253,7 +253,7 @@
 <dd><p class="first last">Unsupported.</p>
 </dd>
 </dl>
-<a class="reference internal image-reference" href="_images/alpha_map_water.jpg"><img alt="Карта прозрачности для воды в режиме совместимости" class="align-center" src="_images/alpha_map_water.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/alpha_map_water.jpg"><img alt="_images/alpha_map_water.jpg" class="align-center" src="_images/alpha_map_water.jpg" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -282,11 +282,11 @@
 <div class="section" id="id17">
 <h3>Example<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
 <p>The apple model material has the following textures: a normal map, a diffuse texture with a specular map in its alpha channel, a stencil map, a diffuse &#8220;matcap&#8221; map, an environment map.</p>
-<a class="reference internal image-reference" href="_images/stencil_apple.jpg"><img alt="Использование карты смешивания в материале яблока" class="align-center" src="_images/stencil_apple.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/stencil_apple.jpg"><img alt="_images/stencil_apple.jpg" class="align-center" src="_images/stencil_apple.jpg" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<a class="reference internal image-reference" href="_images/stencil_apple_separate_textures.jpg"><img alt="Использование карты смешивания в материале яблока" class="align-center" src="_images/stencil_apple_separate_textures.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/stencil_apple_separate_textures.jpg"><img alt="_images/stencil_apple_separate_textures.jpg" class="align-center" src="_images/stencil_apple_separate_textures.jpg" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -297,7 +297,7 @@
 <p>An environment map is used as a mirror map and as a static sky texture (skydome).</p>
 <p>The engine considers it as a cube texture. Environment map bitmaps should contain 6 projected environment images, packed in 2 rows 3 pieces in each (a Blender format). Bitmap dimensions for each image should follow the 2<sup>N</sup> rule (512, 1024 etc).</p>
 <p>It is recommended to use the lossless format (PNG) in order to avoid seams.</p>
-<a class="reference internal image-reference" href="_images/environment_map.png"><img alt="Пример карты окружения" class="align-center" src="_images/environment_map.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/environment_map.png"><img alt="_images/environment_map.png" class="align-center" src="_images/environment_map.png" style="width: 100%;" /></a>
 <div class="section" id="id18">
 <h3>Environment map creation<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h3>
 <p>Blender has an option for baking a scene into an environment map. To do this:</p>
@@ -315,11 +315,11 @@
 <li><p class="first">Save the environment map into a file.</p>
 </li>
 </ol>
-<a class="reference internal image-reference" href="_images/environment_map_baking_scene.jpg"><img alt="Запекание карты окружения - сцена" class="align-center" src="_images/environment_map_baking_scene.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/environment_map_baking_scene.jpg"><img alt="_images/environment_map_baking_scene.jpg" class="align-center" src="_images/environment_map_baking_scene.jpg" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<a class="reference internal image-reference" href="_images/environment_map_baking_ui.jpg"><img alt="Запекание карты окружения - интерфейс" class="align-center" src="_images/environment_map_baking_ui.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/environment_map_baking_ui.png"><img alt="_images/environment_map_baking_ui.png" class="align-center" src="_images/environment_map_baking_ui.png" style="width: 100%;" /></a>
 </div>
 </div>
 <div class="section" id="mirror-map">
@@ -354,7 +354,7 @@
 <p>To imitate environment lighting for objects you can select the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Sky</span> <span class="pre">texture</span> <span class="pre">usage</span> <span class="pre">&gt;</span> <span class="pre">ENVIRONMENT_LIGHTING</span></tt> option. To show this property on the object settings, enable the corresponding world option: <tt class="docutils literal"><span class="pre">Environment</span> <span class="pre">Lighting</span> <span class="pre">&gt;</span> <span class="pre">Sky</span> <span class="pre">Texture</span></tt>.</p>
 <p class="last">To use the world texture both for skydome and for environment lighting, select <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Sky</span> <span class="pre">texture</span> <span class="pre">usage</span> <span class="pre">&gt;</span> <span class="pre">BOTH</span></tt>.</p>
 </div>
-<a class="reference internal image-reference" href="_images/skydome.jpg"><img alt="Настройка текстуры неба" class="align-center" src="_images/skydome.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/skydome.png"><img alt="_images/skydome.png" class="align-center" src="_images/skydome.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -371,7 +371,7 @@
 <li><p class="first">Set the <tt class="docutils literal"><span class="pre">None</span></tt> type for a texture of the target object on the main scene, and specify the source scene&#8217;s name in the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Source</span> <span class="pre">scene</span></tt> field. Select the <tt class="docutils literal"><span class="pre">UV</span></tt> in the <tt class="docutils literal"><span class="pre">Mapping</span> <span class="pre">&gt;</span> <span class="pre">Coordinates</span></tt> menu. Make sure that the target object mesh has a UV map.</p>
 </li>
 </ol>
-<a class="reference internal image-reference" href="_images/render_to_texture.jpg"><img alt="Рендеринг в текстуру" class="align-center" src="_images/render_to_texture.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/render_to_texture.jpg"><img alt="_images/render_to_texture.jpg" class="align-center" src="_images/render_to_texture.jpg" style="width: 100%;" /></a>
 </div>
 <div class="section" id="id24">
 <h3>Limitations<a class="headerlink" href="#id24" title="Permalink to this headline">¶</a></h3>
@@ -394,6 +394,7 @@
 <li class="toctree-l1"><a class="reference internal" href="setup.html">Development Environment Setup</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Workflow</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Scene Viewer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="web_player.html">Web Player</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">The Addon</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Textures</a><ul>
@@ -459,7 +460,7 @@
           
     <div class="footer">
         &copy; Copyright 2014, Triumph LLC.
-      Last updated on 2014-07-23.
+      Last updated on 2014-08-25.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

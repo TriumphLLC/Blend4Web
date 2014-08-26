@@ -362,7 +362,7 @@
             
 <dt>
     
-        <h4 class="name" id="append_collision_test"><span class="type-signature">(static) </span>append_collision_test<span class="signature">(obj, collision_id, callback)</span><span class="type-signature"></span></h4>
+        <h4 class="name" id="append_collision_test"><span class="type-signature">(static) </span>append_collision_test<span class="signature">(obj, collision_id, callback, need_coolision_pt)</span><span class="type-signature"></span></h4>
 
         
     
@@ -466,6 +466,29 @@
         </tr>
 
     
+
+        <tr>
+            
+                <td class="name"><code>need_coolision_pt</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Pass collision point coords in callback</td>
+        </tr>
+
+    
     </tbody>
 </table>
     
@@ -495,7 +518,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line495">line 495</a>
+        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line628">line 628</a>
     </li></ul></dd>
     
 
@@ -728,7 +751,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line531">line 531</a>
+        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line681">line 681</a>
     </li></ul></dd>
     
 
@@ -869,7 +892,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line514">line 514</a>
+        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line656">line 656</a>
     </li></ul></dd>
     
 
@@ -1331,7 +1354,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line558">line 558</a>
+        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line716">line 716</a>
     </li></ul></dd>
     
 
@@ -1362,7 +1385,7 @@
             
 <dt>
     
-        <h4 class="name" id="apply_force"><span class="type-signature">(static) </span>apply_force<span class="signature">(obj, fx_local, fy_local, fz_local, allow_vertical, disable_up)</span><span class="type-signature"></span></h4>
+        <h4 class="name" id="apply_force"><span class="type-signature">(static) </span>apply_force<span class="signature">(obj, fx_local, fy_local, fz_local)</span><span class="type-signature"></span></h4>
 
         
     
@@ -1494,53 +1517,6 @@
         </tr>
 
     
-
-        <tr>
-            
-                <td class="name"><code>allow_vertical</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Boolean</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Perform force transform to allow vertical
-velocity in the world space (air, water)</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>disable_up</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Boolean</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Disable up speed (e.g. swimming on surface)</td>
-        </tr>
-
-    
     </tbody>
 </table>
     
@@ -1570,7 +1546,7 @@ velocity in the world space (air, water)</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line153">line 153</a>
+        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line192">line 192</a>
     </li></ul></dd>
     
 
@@ -1762,7 +1738,7 @@ velocity in the world space (air, water)</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line173">line 173</a>
+        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line208">line 208</a>
     </li></ul></dd>
     
 
@@ -1793,7 +1769,7 @@ velocity in the world space (air, water)</td>
             
 <dt>
     
-        <h4 class="name" id="apply_velocity"><span class="type-signature">(static) </span>apply_velocity<span class="signature">(obj, vx_local, vy_local, vz_local, allow_vertical, disable_up)</span><span class="type-signature"></span></h4>
+        <h4 class="name" id="apply_velocity"><span class="type-signature">(static) </span>apply_velocity<span class="signature">(obj, vx_local, vy_local, vz_local)</span><span class="type-signature"></span></h4>
 
         
     
@@ -1925,53 +1901,6 @@ velocity in the world space (air, water)</td>
         </tr>
 
     
-
-        <tr>
-            
-                <td class="name"><code>allow_vertical</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Boolean</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Perform velocity transform to allow
-vertical velocity in world space (air, water)</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>disable_up</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Boolean</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Disable up speed (swimming on surface)</td>
-        </tr>
-
-    
     </tbody>
 </table>
     
@@ -2001,7 +1930,7 @@ vertical velocity in world space (air, water)</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line128">line 128</a>
+        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line162">line 162</a>
     </li></ul></dd>
     
 
@@ -2193,7 +2122,7 @@ vertical velocity in world space (air, water)</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line142">line 142</a>
+        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line177">line 177</a>
     </li></ul></dd>
     
 
@@ -2316,7 +2245,7 @@ vertical velocity in world space (air, water)</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line440">line 440</a>
+        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line549">line 549</a>
     </li></ul></dd>
     
 
@@ -2485,7 +2414,7 @@ vertical velocity in world space (air, water)</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line448">line 448</a>
+        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line561">line 561</a>
     </li></ul></dd>
     
 
@@ -2608,7 +2537,7 @@ vertical velocity in world space (air, water)</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line523">line 523</a>
+        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line669">line 669</a>
     </li></ul></dd>
     
 
@@ -2731,7 +2660,7 @@ vertical velocity in world space (air, water)</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line42">line 42</a>
+        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line46">line 46</a>
     </li></ul></dd>
     
 
@@ -2977,7 +2906,7 @@ vertical velocity in world space (air, water)</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line353">line 353</a>
+        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line434">line 434</a>
     </li></ul></dd>
     
 
@@ -3122,7 +3051,7 @@ vertical velocity in world space (air, water)</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line317">line 317</a>
+        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line386">line 386</a>
     </li></ul></dd>
     
 
@@ -3245,7 +3174,7 @@ vertical velocity in world space (air, water)</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line365">line 365</a>
+        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line450">line 450</a>
     </li></ul></dd>
     
 
@@ -3390,7 +3319,7 @@ vertical velocity in world space (air, water)</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line341">line 341</a>
+        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line418">line 418</a>
     </li></ul></dd>
     
 
@@ -3535,7 +3464,7 @@ vertical velocity in world space (air, water)</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line330">line 330</a>
+        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line403">line 403</a>
     </li></ul></dd>
     
 
@@ -3558,6 +3487,296 @@ vertical velocity in world space (air, water)</td>
     
 
     
+
+    
+</dd>
+
+        
+            
+<dt>
+    
+        <h4 class="name" id="has_dynamic_physics"><span class="type-signature">(static) </span>has_dynamic_physics<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
+
+        
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Check if the object has dynamic simulated physics
+    </div>
+    
+
+    
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Object ID</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line76">line 76</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    Check result
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Boolean</span>
+
+
+    </dd>
+</dl>
+
+        
+
+    
+</dd>
+
+        
+            
+<dt>
+    
+        <h4 class="name" id="has_physics"><span class="type-signature">(static) </span>has_physics<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
+
+        
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Check if the object has any physics
+    </div>
+    
+
+    
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Object ID</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line58">line 58</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    Check result
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Boolean</span>
+
+
+    </dd>
+</dl>
+
+        
 
     
 </dd>
@@ -3658,7 +3877,7 @@ vertical velocity in world space (air, water)</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line50">line 50</a>
+        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line67">line 67</a>
     </li></ul></dd>
     
 
@@ -3803,7 +4022,7 @@ vertical velocity in world space (air, water)</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line377">line 377</a>
+        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line466">line 466</a>
     </li></ul></dd>
     
 
@@ -3948,7 +4167,7 @@ vertical velocity in world space (air, water)</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line301">line 301</a>
+        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line370">line 370</a>
     </li></ul></dd>
     
 
@@ -4071,7 +4290,7 @@ vertical velocity in world space (air, water)</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line309">line 309</a>
+        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line378">line 378</a>
     </li></ul></dd>
     
 
@@ -4309,7 +4528,7 @@ vertical velocity in world space (air, water)</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line597">line 597</a>
+        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line755">line 755</a>
     </li></ul></dd>
     
 
@@ -4455,7 +4674,7 @@ vertical velocity in world space (air, water)</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line505">line 505</a>
+        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line643">line 643</a>
     </li></ul></dd>
     
 
@@ -4574,7 +4793,7 @@ constraint identified by object A from apply_constraint function
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line583">line 583</a>
+        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line741">line 741</a>
     </li></ul></dd>
     
 
@@ -4789,7 +5008,7 @@ constraint identified by object A from apply_constraint function
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line545">line 545</a>
+        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line699">line 699</a>
     </li></ul></dd>
     
 
@@ -4912,7 +5131,7 @@ constraint identified by object A from apply_constraint function
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line89">line 89</a>
+        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line115">line 115</a>
     </li></ul></dd>
     
 
@@ -4989,7 +5208,7 @@ constraint identified by object A from apply_constraint function
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line405">line 405</a>
+        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line502">line 502</a>
     </li></ul></dd>
     
 
@@ -5135,7 +5354,7 @@ constraint identified by object A from apply_constraint function
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line431">line 431</a>
+        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line536">line 536</a>
     </li></ul></dd>
     
 
@@ -5304,7 +5523,7 @@ constraint identified by object A from apply_constraint function
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line386">line 386</a>
+        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line475">line 475</a>
     </li></ul></dd>
     
 
@@ -5450,7 +5669,7 @@ constraint identified by object A from apply_constraint function
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line396">line 396</a>
+        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line489">line 489</a>
     </li></ul></dd>
     
 
@@ -5619,7 +5838,7 @@ constraint identified by object A from apply_constraint function
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line467">line 467</a>
+        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line588">line 588</a>
     </li></ul></dd>
     
 
@@ -5765,7 +5984,7 @@ constraint identified by object A from apply_constraint function
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line486">line 486</a>
+        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line615">line 615</a>
     </li></ul></dd>
     
 
@@ -5911,7 +6130,7 @@ constraint identified by object A from apply_constraint function
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line458">line 458</a>
+        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line575">line 575</a>
     </li></ul></dd>
     
 
@@ -6057,7 +6276,7 @@ constraint identified by object A from apply_constraint function
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line477">line 477</a>
+        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line602">line 602</a>
     </li></ul></dd>
     
 
@@ -6203,7 +6422,7 @@ constraint identified by object A from apply_constraint function
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line422">line 422</a>
+        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line523">line 523</a>
     </li></ul></dd>
     
 
@@ -6349,7 +6568,7 @@ constraint identified by object A from apply_constraint function
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line413">line 413</a>
+        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line510">line 510</a>
     </li></ul></dd>
     
 
@@ -6519,7 +6738,7 @@ settings</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line72">line 72</a>
+        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line98">line 98</a>
     </li></ul></dd>
     
 
@@ -6665,7 +6884,7 @@ settings</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line59">line 59</a>
+        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line85">line 85</a>
     </li></ul></dd>
     
 
@@ -6834,7 +7053,7 @@ settings</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line108">line 108</a>
+        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line134">line 134</a>
     </li></ul></dd>
     
 
@@ -6957,7 +7176,7 @@ settings</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line119">line 119</a>
+        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line149">line 149</a>
     </li></ul></dd>
     
 
@@ -7103,7 +7322,7 @@ settings</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line270">line 270</a>
+        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line329">line 329</a>
     </li></ul></dd>
     
 
@@ -7249,7 +7468,7 @@ settings</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line282">line 282</a>
+        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line346">line 346</a>
     </li></ul></dd>
     
 
@@ -7395,7 +7614,7 @@ settings</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line227">line 227</a>
+        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line276">line 276</a>
     </li></ul></dd>
     
 
@@ -7564,7 +7783,7 @@ settings</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line239">line 239</a>
+        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line293">line 293</a>
     </li></ul></dd>
     
 
@@ -7710,7 +7929,7 @@ settings</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line184">line 184</a>
+        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line223">line 223</a>
     </li></ul></dd>
     
 
@@ -7879,7 +8098,7 @@ settings</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line196">line 196</a>
+        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line240">line 240</a>
     </li></ul></dd>
     
 
@@ -7922,13 +8141,13 @@ settings</td>
 </div>
 
 <nav>
-    <h2><a href="index.html">Index</a></h2><h3>Modules</h3><ul><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-pointerlock.html">pointerlock</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-util.html">util</a></li><li><a href="module-version.html">version</a></li></ul><h3><a href="global.html">Global</a></h3>
+    <h2><a href="index.html">Index</a></h2><h3>Modules</h3><ul><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-pointerlock.html">pointerlock</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-util.html">util</a></li><li><a href="module-version.html">version</a></li></ul><h3><a href="global.html">Global</a></h3>
 </nav>
 
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-dev</a> on Wed Jul 23 2014 14:56:13 GMT+0400 (MSK)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-dev</a> on Mon Aug 25 2014 12:11:14 GMT+0400 (MSK)
 </footer>
 
 <script> prettyPrint(); </script>

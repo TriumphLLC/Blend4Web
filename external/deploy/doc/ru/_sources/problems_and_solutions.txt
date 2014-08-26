@@ -39,8 +39,7 @@
 2. Рекомендуется проводить своевременное обновление драйверов для графических карт. Чтобы определить тип и производителя карты, можно ввести **about:gpu** в адресную строку браузера Chrome...
 
 
-.. image:: src_images/about_gpu_directx.jpg
-   :alt: Определение типа и производителя графического процессора с помощью средства диагностики браузера Chrome
+.. image:: src_images/problems_and_solutions/about_gpu_directx.jpg
    :align: center
    :width: 100%
 
@@ -50,8 +49,7 @@
 
 |
 
-.. image:: src_images/dxdiag.jpg
-   :alt: Определение типа и производителя графического процессора с помощью средства диагностики DirectX
+.. image:: src_images/problems_and_solutions/dxdiag.png
    :align: center
    :width: 100%
 
@@ -68,8 +66,7 @@
 
 |
 
-.. image:: src_images/about_flags_force_webgl.jpg
-   :alt: Форсирование использования WebGL в Chrome
+.. image:: src_images/problems_and_solutions/about_flags_force_webgl.jpg
    :align: center
    :width: 100%
 
@@ -80,8 +77,7 @@
 Ввести **about:config** в адресную строку браузера, найти параметр ``webgl.force-enabled`` и переключить его двойным щелчком мыши из ``false`` в ``true``. 
 
 
-.. image:: src_images/about_config_force_webgl.jpg
-   :alt: Форсирование использования WebGL в Firefox
+.. image:: src_images/problems_and_solutions/about_config_force_webgl.jpg
    :align: center
    :width: 100%
 

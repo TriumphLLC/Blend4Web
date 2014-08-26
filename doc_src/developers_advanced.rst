@@ -48,14 +48,32 @@
 
     var FOO_BAR = 100;
 
-Для внешних API названия методов и свойств пишутся как строка во избежание обфускации:
+Для внешних API названия методов и свойств задаются через точку.
+Поля, требующие защиту от обфускации, помещаются в специальный тэг ``@cc_externs``:
 
 .. code-block:: javascript
 
-    exports["FOO_BAR"] = 123;
+    exports.FOO_BAR = 123;
 
-    exports["foo_bar"] = function() {
+    exports.foo_bar = function() {
         
+    }
+
+    /**
+     * Set properties.
+     * @method module:properties.set_props
+     * @param {Object} foo Foo object
+     * @cc_externs props_1 props_2
+     * @cc_externs props_3 props_4
+     */
+    exports.set_props = function(foo) {
+
+        var bar_1 = foo.props_1;
+        var bar_2 = foo.props_2;
+        var bar_3 = foo.props_3;
+        var bar_4 = foo.props_4;
+
+        ...
     }
  
 Комментарии только на английском языке. Стиль комментирования - JSDoc.

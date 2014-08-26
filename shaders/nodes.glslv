@@ -123,6 +123,9 @@ uniform mat4 u_p_light_matrix3;
 # endif
 #endif
 
+#if USE_NODE_REFRACTION
+uniform PRECISION float u_view_max_depth;
+#endif
 
 /*============================================================================
                                    VARYINGS
@@ -152,8 +155,12 @@ varying vec4 v_shadow_coord3;
 # endif
 #endif
 
-#if REFLECTIVE || SHADOW_SRC == SHADOW_SRC_MASK
+#if REFLECTIVE || SHADOW_SRC == SHADOW_SRC_MASK || USE_NODE_REFRACTION
 varying vec3 v_tex_pos_clip;
+#endif
+
+#if USE_NODE_REFRACTION && REFRACTIVE
+varying float v_view_depth;
 #endif
 
 /*============================================================================
@@ -213,10 +220,16 @@ void main(void) {
     vec3 binormal = vec3(0.0);
 # endif
 
-#elif USE_NODE_GEOMETRY_NO
+#else  // SHADED
+
+# if USE_NODE_GEOMETRY_NO
     vec3 normal = a_normal;
-#else   // SHADED
+# else
     vec3 normal = vec3(0.0);
+# endif  // USE_NODE_GEOMETRY_NO
+
+    vec3 tangent = vec3(0.0);
+    vec3 binormal = vec3(0.0);
 #endif  // SHADED
 
 #if VERTEX_ANIM
@@ -308,7 +321,7 @@ void main(void) {
     get_shadow_coords(world.position);
 #endif
 
-#if REFLECTIVE
+#if REFLECTIVE || USE_NODE_REFRACTION
     float xc = pos_clip.x;
     float yc = pos_clip.y;
     float wc = pos_clip.w;
@@ -316,6 +329,10 @@ void main(void) {
     v_tex_pos_clip.x = (xc + wc) / 2.0;
     v_tex_pos_clip.y = (yc + wc) / 2.0;
     v_tex_pos_clip.z = wc;
+#endif
+
+#if USE_NODE_REFRACTION && REFRACTIVE
+    v_view_depth = -v_pos_view.z / u_view_max_depth;
 #endif
 
     #nodes_main

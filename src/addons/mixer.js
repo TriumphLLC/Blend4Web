@@ -521,8 +521,3 @@ function active_strip_range() {
 
 
 }
-
-if (window["b4w"])
-    window["b4w"]["mixer"] = b4w.require("mixer");
-else
-    throw "Failed to register mixer, load b4w first";

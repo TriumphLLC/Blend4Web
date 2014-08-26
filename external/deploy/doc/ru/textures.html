@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Текстуры &mdash; Руководство пользователя: Blend4Web v14.07</title>
+    <title>Текстуры &mdash; Руководство пользователя: Blend4Web v14.08</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.07',
+        VERSION:     '14.08',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v14.07" href="index.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v14.08" href="index.html" />
     <link rel="next" title="Материалы" href="materials.html" />
     <link rel="prev" title="Объекты" href="objects.html" /> 
   </head>
@@ -37,7 +37,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">Руководство пользователя: Blend4Web v14.07</a></div>
+          href="index.html">Руководство пользователя: Blend4Web v14.08</a></div>
         <div class="rel">
           <a href="objects.html" title="Объекты"
              accesskey="P">предыдущий</a> |
@@ -203,7 +203,7 @@
 <dt><em>Blend4Web &gt; Parallax LOD distance</em></dt>
 <dd>Расстояние на котором виден эффект параллакса.</dd>
 </dl>
-<a class="reference internal image-reference" href="_images/parallax.jpg"><img alt="Визуализация рельефной поверхности (parallax mapping) по сравнению с картой нормалей" class="align-center" src="_images/parallax.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/parallax.jpg"><img alt="_images/parallax.jpg" class="align-center" src="_images/parallax.jpg" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -224,7 +224,7 @@
 <dt><em>Influence &gt; Blend</em></dt>
 <dd>Не поддерживается.</dd>
 </dl>
-<a class="reference internal image-reference" href="_images/alpha_map_water.jpg"><img alt="Карта прозрачности для воды в режиме совместимости" class="align-center" src="_images/alpha_map_water.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/alpha_map_water.jpg"><img alt="_images/alpha_map_water.jpg" class="align-center" src="_images/alpha_map_water.jpg" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -251,11 +251,11 @@
 <div class="section" id="id17">
 <h3>Пример<a class="headerlink" href="#id17" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Материал яблока имеет текстуры: карту нормалей, диффузную текстуру с картой бликов в альфа-канале, карту смешивания, диффузную карту &#8220;matcap&#8221;, карту зеркального отражения.</p>
-<a class="reference internal image-reference" href="_images/stencil_apple.jpg"><img alt="Использование карты смешивания в материале яблока" class="align-center" src="_images/stencil_apple.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/stencil_apple.jpg"><img alt="_images/stencil_apple.jpg" class="align-center" src="_images/stencil_apple.jpg" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<a class="reference internal image-reference" href="_images/stencil_apple_separate_textures.jpg"><img alt="Использование карты смешивания в материале яблока" class="align-center" src="_images/stencil_apple_separate_textures.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/stencil_apple_separate_textures.jpg"><img alt="_images/stencil_apple_separate_textures.jpg" class="align-center" src="_images/stencil_apple_separate_textures.jpg" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -266,7 +266,7 @@
 <p>Применяется в качестве карты зеркального отражения (mirror map) и в качестве статической текстуры неба (skydome).</p>
 <p>В движке представлена кубической текстурой. Растры для карт окружения должны содержать 6 спроецированных изображений окружающей среды, упакованных в 2 ряда по 3 (формат, используемый в Blender&#8217;e). Размер растров для каждого из изображений должен подчиняться правилу 2<sup>N</sup> (512, 1024 и т.п.).</p>
 <p>Во избежание проявления швов рекомендуется использовать формат без потери качества (PNG).</p>
-<a class="reference internal image-reference" href="_images/environment_map.png"><img alt="Пример карты окружения" class="align-center" src="_images/environment_map.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/environment_map.png"><img alt="_images/environment_map.png" class="align-center" src="_images/environment_map.png" style="width: 100%;" /></a>
 <div class="section" id="id18">
 <h3>Создание карты окружения<a class="headerlink" href="#id18" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Blender позволяет запекать сцену в карту окружения. Для этого:</p>
@@ -278,11 +278,11 @@
 <li>Выполнить рендеринг сцены <tt class="docutils literal"><span class="pre">F12</span></tt> (требуется наличие камеры).</li>
 <li>Сохранить карту окружения в файл.</li>
 </ol>
-<a class="reference internal image-reference" href="_images/environment_map_baking_scene.jpg"><img alt="Запекание карты окружения - сцена" class="align-center" src="_images/environment_map_baking_scene.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/environment_map_baking_scene.jpg"><img alt="_images/environment_map_baking_scene.jpg" class="align-center" src="_images/environment_map_baking_scene.jpg" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<a class="reference internal image-reference" href="_images/environment_map_baking_ui.jpg"><img alt="Запекание карты окружения - интерфейс" class="align-center" src="_images/environment_map_baking_ui.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/environment_map_baking_ui.png"><img alt="_images/environment_map_baking_ui.png" class="align-center" src="_images/environment_map_baking_ui.png" style="width: 100%;" /></a>
 </div>
 </div>
 <div class="section" id="mirror-map">
@@ -316,7 +316,7 @@
 <p>Для имитации рассеянного окружения на объектах можно воспользоваться опцией <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Sky</span> <span class="pre">texture</span> <span class="pre">usage</span> <span class="pre">&gt;</span> <span class="pre">ENVIRONMENT_LIGHTING</span></tt>. Чтобы данное свойство отразилось на объектах необходимо включить соответствующую опцию в настройках мира: <tt class="docutils literal"><span class="pre">Environment</span> <span class="pre">Lighting</span> <span class="pre">&gt;</span> <span class="pre">Sky</span> <span class="pre">Texture</span></tt>.</p>
 <p class="last">Для создания обоих эффектов от одной текстуры необходимо выставить опцию <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Sky</span> <span class="pre">texture</span> <span class="pre">usage</span> <span class="pre">&gt;</span> <span class="pre">BOTH</span></tt>.</p>
 </div>
-<a class="reference internal image-reference" href="_images/skydome.jpg"><img alt="Настройка текстуры неба" class="align-center" src="_images/skydome.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/skydome.png"><img alt="_images/skydome.png" class="align-center" src="_images/skydome.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -331,7 +331,7 @@
 <li>Создать дополнительную сцену-источник, переименовать для удобства, создать <tt class="docutils literal"><span class="pre">World</span></tt>, добавить нужные объекты, настроить вид из камеры.</li>
 <li>В главной сцене для текстуры целевого объекта выставить тип <tt class="docutils literal"><span class="pre">None</span></tt>, в поле <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Source</span> <span class="pre">scene</span></tt> указать название сцены-источника. В меню <tt class="docutils literal"><span class="pre">Mapping</span> <span class="pre">&gt;</span> <span class="pre">Coordinates</span></tt> выбрать <tt class="docutils literal"><span class="pre">UV</span></tt>.  Убедиться, что меш объекта имеет развертку.</li>
 </ol>
-<a class="reference internal image-reference" href="_images/render_to_texture.jpg"><img alt="Рендеринг в текстуру" class="align-center" src="_images/render_to_texture.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/render_to_texture.jpg"><img alt="_images/render_to_texture.jpg" class="align-center" src="_images/render_to_texture.jpg" style="width: 100%;" /></a>
 </div>
 <div class="section" id="id24">
 <h3>Ограничения<a class="headerlink" href="#id24" title="Ссылка на этот заголовок">¶</a></h3>
@@ -354,6 +354,7 @@
 <li class="toctree-l1"><a class="reference internal" href="setup.html">Развёртывание среды разработки</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Рабочий процесс</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Просмотрщик сцен</a></li>
+<li class="toctree-l1"><a class="reference internal" href="web_player.html">Веб-плеер</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">Аддон</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Объекты</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Текстуры</a><ul>
@@ -419,7 +420,7 @@
           
     <div class="footer">
         &copy; Copyright 2014, ООО &#34;Триумф&#34;.
-      Обновлено: 2014-07-23.
+      Обновлено: 2014-08-25.
       Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

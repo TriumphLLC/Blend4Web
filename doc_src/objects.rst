@@ -27,10 +27,9 @@
 
 Для объектов всех типов поддерживаются расположение в пространстве, указатель на блок данных, родительский объект, принадлежность к группе и ряд специальных свойств движка.
 
-.. figure:: src_images/objects/object_setup.jpg
-   :alt: Настройка объекта
-   :figclass: align-center
-   :width: 60%
+.. image:: src_images/objects/object_setup.png
+   :align: center
+   :width: 100%
 
 *Transform > Location*
     Координаты местоположения.
@@ -101,6 +100,10 @@
 *Blend4Web > Wind bending*
     Включить процедурную анимацию под действием ветра.
 
+*Blend4Web > LOD transition ratio*
+    Параметр для сглаживания переключения между LOD объектами. Определяет, на каком дополнительном расстоянии LOD объекты будут видны до замены
+    последующими LOD объектами. Назначается для главного объекта. Измеряется в долях от радиуса охватывающей сферы объекта.
+
 *Blend4Web > Self LOD > Distance*
     Расстояние от камеры, на котором объект перестает отображаться.
 
@@ -158,9 +161,9 @@
 Для камеры доступно несколько настроек, ограничивающих её движение тем или иным образом. 
 Они объединены в группу ``Camera limits``.
 
-.. figure:: src_images/objects/camera_limits.jpg
-   :alt: Ограничения движения камеры
-   :figclass: align-center
+.. image:: src_images/objects/camera_limits.png
+   :align: center
+   :width: 100%
 
 |
 
@@ -177,9 +180,9 @@
 
 * *Max < Min* - ограничение движения отсутствует
 
-.. figure:: src_images/objects/distance_limits.png
-   :alt: Ограничения приближения/удаления камеры
-   :figclass: align-center
+.. image:: src_images/objects/distance_limits.png
+   :align: center
+   :width: 100%
 
 |
 
@@ -191,9 +194,9 @@
 
 Направление от ``Left`` к ``Right`` считается положительным и для режима ``Target`` совпадает с направлением против часовой стрелки, а для режима ``Eye`` - по часовой стрелке:
 
-.. figure:: src_images/objects/horizontal_limits.png
-   :alt: Ограничения горизонтального угла камеры
-   :figclass: align-center
+.. image:: src_images/objects/horizontal_limits.png
+   :align: center
+   :width: 100%
 
 Значения по умолчанию: *Left = -180, Right = 180*.
 
@@ -203,9 +206,9 @@
 
 Направление от ``Down`` к ``Up`` считается положительным:
 
-.. figure:: src_images/objects/vertical_limits.png
-   :alt: Ограничения вертикального угла камеры типа
-   :figclass: align-center
+.. image:: src_images/objects/vertical_limits.png
+   :align: center
+   :width: 100%
 
 
 Если включена опция *Use horizontal rotation clamping*, то вертикальное вращение будет ограничено, по крайней мере, интервалом *[-90, 90]*.
@@ -219,9 +222,9 @@
 
 * Перемена мест значений *Left/Right* или *Down/Up* приводит к движению по противоположной дуге окружности вращения.
 
-.. figure:: src_images/objects/limits_inversion.png
-   :alt: Перемена мест значений углов, ограничивающих поворот
-   :figclass: align-center
+.. image:: src_images/objects/limits_inversion.png
+   :align: center
+   :width: 100%
 
 * *Left = Right, Up = Down* - фиксирование камеры соответственно по горизонтали или вертикали.
 
@@ -237,15 +240,15 @@
 
 Для ограничения по горизонтали:
 
-.. figure:: src_images/objects/camera_space_world_space_h.png
-   :alt: Варианты точки отсчета для ограничения вращения по горизонтали
-   :figclass: align-center
+.. image:: src_images/objects/camera_space_world_space_h.png
+   :align: center
+   :width: 100%
 
 Для ограничения по вертикали:
 
-.. figure:: src_images/objects/camera_space_world_space_v.png
-   :alt: Варианты точки отсчета для ограничения вращения по горизонтали
-   :figclass: align-center
+.. image:: src_images/objects/camera_space_world_space_v.png
+   :align: center
+   :width: 100%
 
 Оси координат, отмеченные на рисунках, совпадают с осями мировых координат в Blender'е.
 

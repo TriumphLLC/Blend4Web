@@ -19,6 +19,8 @@ var _canvas_container_elem = null;
  * @param {String} [options.background_container_id] Background container ID.
  * @param {String} [options.bg_color] Background color.
  * @param {String} [options.bar_color] Load bar color.
+ * @cc_externs bar_color bg_color background_container_id
+ * @cc_externs canvas_container_id
  */
 exports.create_simple_preloader = function(options) {
 
@@ -30,16 +32,16 @@ exports.create_simple_preloader = function(options) {
     for (var opt in options) {
         switch (opt) {
         case "canvas_container_id":
-            canvas_container_id = options["canvas_container_id"];
+            canvas_container_id = options.canvas_container_id;
             break;
         case "background_container_id":
-            background_container_id = options["background_container_id"];
+            background_container_id = options.background_container_id;
             break;
         case "bg_color":
-            bg_color = options["bg_color"];
+            bg_color = options.bg_color;
             break;
         case "bar_color":
-            bar_color = options["bar_color"];
+            bar_color = options.bar_color;
             break;
         }
     }
@@ -122,6 +124,7 @@ exports.create_simple_preloader = function(options) {
  * @param {String} [options.frame_bg_color] Frame background color.
  * @param {String} [options.frame_class] CSS frame class.
  * @param {String} [options.anim_elem_class] Animated element class.
+ * @cc_externs frame_bg_color frame_class anim_elem_class
  */
 exports.create_rotation_preloader = function(options) {
     var canvas_container_id = null;
@@ -134,19 +137,19 @@ exports.create_rotation_preloader = function(options) {
     for (var opt in options) {
         switch (opt) {
         case "canvas_container_id":
-            canvas_container_id = options["canvas_container_id"];
+            canvas_container_id = options.canvas_container_id;
             break;
         case "background_container_id":
-            background_container_id = options["background_container_id"];
+            background_container_id = options.background_container_id;
             break;
         case "frame_bg_color":
-            frame_bg_color = options["frame_bg_color"];
+            frame_bg_color = options.frame_bg_color;
             break;
         case "frame_class":
-            frame_class = options["frame_class"];
+            frame_class = options.frame_class;
             break;
         case "anim_elem_class":
-            anim_elem_class = options["anim_elem_class"];
+            anim_elem_class = options.anim_elem_class;
             break;
         }
     }
@@ -222,15 +225,16 @@ exports.create_rotation_preloader = function(options) {
  * @param {Object} options Initialization options.
  * @param {String} options.canvas_container_id Canvas container ID.
  * @param {String} options.background_container_id Background container ID.
- * @param {String} options.options.preloader_bar_id Preloader bar ID.
- * @param {String} options.options.fill_band_id_id Preloader band ID.
- * @param {String} options.options.preloader_caption_id Preloader caption ID.
- * @param {String} options.options.preloader_container_id Preloader container ID.
- * @param {Number} options.options.img_width Device image width.
- * @param {Number} options.options.preloader_width Preloader width.
+ * @param {String} options.preloader_bar_id Preloader bar ID.
+ * @param {String} options.fill_band_id Preloader band ID.
+ * @param {String} options.preloader_caption_id Preloader caption ID.
+ * @param {String} options.preloader_container_id Preloader container ID.
+ * @param {Number} options.img_width Device image width.
+ * @param {Number} options.preloader_width Preloader width.
+ * @cc_externs fill_band_id preloader_bar_id preloader_caption_id
+ * @cc_externs preloader_container_id img_width preloader_width
  */
 exports.create_advanced_preloader = function(options) {
-
     var img_width = options.img_width;
     var preloader_width = options.preloader_width;
     var canvas_container_id = options.canvas_container_id;
@@ -251,6 +255,7 @@ exports.create_advanced_preloader = function(options) {
     _preloader.bar = preloader_bar;
     _preloader.fill = fill_band;
     _preloader.ratio = ratio;
+
     _preloader.caption = preloader_caption;
     _preloader.container = preloader_container;
     _preloader.background = background_container;
@@ -285,8 +290,3 @@ exports.update_preloader = function(percentage) {
 }
 
 }
-
-if (window["b4w"])
-    window["b4w"]["preloader"] = b4w.require("preloader");
-else
-    throw "Failed to register preloader, load b4w first";

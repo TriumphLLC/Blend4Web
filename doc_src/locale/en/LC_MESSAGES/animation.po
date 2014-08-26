@@ -124,7 +124,7 @@ msgstr ""
 msgid "Объектная анимация"
 msgstr "Object Animation"
 
-#: ../animation.rst:52
+#: ../animation.rst:58
 msgid ""
 "Осуществляется с помощью добавления ключей анимации для движения объекта в "
 "программе Blender и их последующего воспроизведения в движке."
@@ -132,19 +132,19 @@ msgstr ""
 "Animation keyframes can be added for an object motion in Blender and then "
 "reproduced in the engine."
 
-#: ../animation.rst:55
+#: ../animation.rst:61
 msgid "Поддерживаются следующие типы ключей:"
 msgstr "The following keyframe types are supported:"
 
-#: ../animation.rst:57
+#: ../animation.rst:63
 msgid "*Location*"
 msgstr ""
 
-#: ../animation.rst:59
+#: ../animation.rst:65
 msgid "*Rotation* -- необходимо осуществлять в режиме ``Quaternion(WXYZ)``."
 msgstr "*Rotation* -- the ``Quaternion(WXYZ)`` mode is required."
 
-#: ../animation.rst:61
+#: ../animation.rst:67
 msgid ""
 "*Scale* -- для получения корректных результатов, фактор масштабирования "
 "должен быть одинаковым вдоль любых из осей."
@@ -152,23 +152,23 @@ msgstr ""
 "*Scale* -- for correct results the scale factor should be the same along all"
 " 3 axes. "
 
-#: ../animation.rst:64
+#: ../animation.rst:70
 msgid "*LocRot* -- комбинация *Location* и *Rotation*."
 msgstr "*LocRot* -- a combination of *Location* and *Rotation*."
 
-#: ../animation.rst:66
+#: ../animation.rst:72
 msgid "*LocScale* -- комбинация *Location* и *Scale*."
 msgstr "*LocScale* -- a combination of *Location* and *Scale*."
 
-#: ../animation.rst:68
+#: ../animation.rst:74
 msgid "*LocRotScale* -- комбинация *Location*, *Rotation* и *Scale*."
 msgstr "*LocRotScale* -- a combination of *Location*, *Rotation* and *Scale*."
 
-#: ../animation.rst:70
+#: ../animation.rst:76
 msgid "*RotScale* -- комбинация *Rotation* и *Scale*."
 msgstr "*RotScale* -- a combination of *Rotation* and *Scale*."
 
-#: ../animation.rst:72
+#: ../animation.rst:78
 msgid ""
 "В случае анимации объекта-меша, необходимо назначение свойства ``Do not "
 "batch`` на вкладке свойств объекта."
@@ -176,11 +176,11 @@ msgstr ""
 "If an object-mesh is animated it is required to enable the ``Do not batch`` "
 "checkbox under the object properties tab."
 
-#: ../animation.rst:76
+#: ../animation.rst:82
 msgid "Скиннинг и скелетная анимация"
 msgstr "Skinning and Skeletal Animation"
 
-#: ../animation.rst:78
+#: ../animation.rst:90
 msgid ""
 "Для осуществления скелетной анимации, кроме деформируемого объекта-меша "
 "требуется объект-арматура. Осуществляется в четыре этапа:"
@@ -188,11 +188,11 @@ msgstr ""
 "For skeletal animation both a mesh object and an armature object are needed."
 " The four steps should be carried out:"
 
-#: ../animation.rst:81
+#: ../animation.rst:93
 msgid "Создание скелета объекта в арматурном объекте."
 msgstr "Create the object's \"skeleton\" in the armature object. "
 
-#: ../animation.rst:82
+#: ../animation.rst:94
 msgid ""
 "Назначение вертексных групп в объекте-меше и их привязка к костям. Может "
 "быть осуществлено, например, методом \"раскраски\" весов (weight painting)."
@@ -200,7 +200,7 @@ msgstr ""
 "Assign vertex groups in the mesh object and link them to the bones. This can"
 " be performed by weight painting for example. "
 
-#: ../animation.rst:83
+#: ../animation.rst:95
 msgid ""
 "Анимация костей в арматурном объекте. Используются те же ключи, что и в "
 "случае объектной анимации."
@@ -208,7 +208,7 @@ msgstr ""
 "Animate the bones in the pose mode of the armature object. The same keyframe"
 " types can be used as for the object animation."
 
-#: ../animation.rst:85
+#: ../animation.rst:97
 msgid ""
 "В случае нетривиальных видов скелетной анимации, включающих инверсную "
 "кинематику, требуется стадия запекания анимационных акторов (блок ``Action``"
@@ -220,15 +220,15 @@ msgstr ""
 " Blender). Baking can be performed using the ``B4W Animation Bake`` "
 "interface located on the ``Blend4Web`` panel."
 
-#: ../animation.rst:96
+#: ../animation.rst:107
 msgid ""
 "Запекание производится при выделенном арматурном объекте. Элементы "
 "интерфейса ``B4W Animation Bake``:"
 msgstr ""
-"Baking is performed with the armature object selected. Elements of the ``B4W Animation Bake``"
-" interface:"
+"Baking is performed with the armature object selected. Elements of the ``B4W"
+" Animation Bake`` interface:"
 
-#: ../animation.rst:98
+#: ../animation.rst:109
 msgid ""
 "*Clean keyframes* -- произвести оптимизацию ключей анимации после запекания."
 " В случае получения некорректных результатов, рекомендуется отключить опцию."
@@ -236,7 +236,7 @@ msgstr ""
 "*Clean keyframes* -- optimize the animation keyframes after baking. In case "
 "of incorrect results it's recommended to turn this option off."
 
-#: ../animation.rst:101
+#: ../animation.rst:112
 msgid ""
 "окно со списком запекаемых акторов -- запекать только те акторы, которые "
 "указаны в списке, иначе запекать все возможные акторы."
@@ -244,12 +244,12 @@ msgstr ""
 "window with the list of actions being baked -- bake only the actions which "
 "are listed, else - bake all the actions possible."
 
-#: ../animation.rst:104
+#: ../animation.rst:115
 msgid "*Name* -- имя текущего актора из списка запекаемых акторов."
 msgstr ""
 "*Name* -- the current action name from the list of actions being baked."
 
-#: ../animation.rst:106
+#: ../animation.rst:117
 msgid ""
 "*Bake* -- произвести запекание. В случае успешного окончания процесса, на "
 "сцене появляются акторы с именами вида *ИМЯ_B4W_BAKED*. Данные акторы будут "
@@ -264,7 +264,7 @@ msgstr ""
 "garanteed, although the *Cons Mute*/*Cons Unmute* interface can help in some"
 " cases."
 
-#: ../animation.rst:112
+#: ../animation.rst:123
 msgid ""
 "*Cons Mute*/*Cons Unmute* -- отключить/активировать ограничители, "
 "установленные на костях. Инструмент может быть использован для тестирования "
@@ -273,11 +273,32 @@ msgstr ""
 "*Cons Mute*/*Cons Unmute* -- switch bone constraints off/on. The tool can be"
 " used for testing the baked actions."
 
-#: ../animation.rst:117
+#: ../animation.rst:128
+msgid ""
+"Движок поддерживает не более 4-х вертексных групп на каждом из вертексов, "
+"эти группы отбираются по величине влияния или \"веса\" вертекса. В процессе "
+"загрузки исходного файла со сценой \"веса\" вертексов проходят через "
+"процедуру нормализации, т.е. их сумма приводится в единице."
+msgstr ""
+"The engine supports up to 4 vertex groups per vertex. If the number of "
+"vertex groups exceeds 4 the vertex groups with the most influence are "
+"selected. When the scene is loaded the vertex weights are normalized i.e. "
+"their sum is reduced to 1."
+
+#: ../animation.rst:133
+msgid ""
+"Для удаления вертексных групп, которые не используются арматурой, можно "
+"воспользоваться кнопкой ``Remove Unused VGroups``, которая расположена в "
+"интерфейсе ``B4W Vertex Group``."
+msgstr ""
+"To remove vertex groups which are not used by armature, use button ``Remove "
+"Unused VGroups`` from ``B4W Vertex Group`` interface."
+
+#: ../animation.rst:142
 msgid "Вертексная анимация"
 msgstr "Vertex Animation"
 
-#: ../animation.rst:119
+#: ../animation.rst:150
 msgid ""
 "Позволяет записать любые изменения геометрии объекта-меша. Необходимо "
 "учитывать, что каждый кадр вертексной анимации эквивалентен мешу. Не "
@@ -291,7 +312,7 @@ msgstr ""
 "and exported files significantly and can also slow down the work of the "
 "engine."
 
-#: ../animation.rst:125
+#: ../animation.rst:156
 msgid ""
 "Для запекания вертексной анимации предусмотрен инструмент ``B4W Vertex Anim "
 "Baker``, расположенный на панели инструментов ``Blend4Web``."
@@ -299,11 +320,11 @@ msgstr ""
 "A special tool is used for baking vertex animation - ``B4W Vertex Anim "
 "Baker`` - located on the ``Blend4Web`` tools panel."
 
-#: ../animation.rst:134
+#: ../animation.rst:164
 msgid "Параметризация источников звука"
 msgstr "Audio Source Parametrization"
 
-#: ../animation.rst:136
+#: ../animation.rst:166
 msgid ""
 "На объектах-спикерах дополнительно поддерживаются следующие типы "
 "анимационных ключей:"
@@ -311,18 +332,15 @@ msgstr ""
 "In addition the following animation key types are supported for the speaker "
 "objects: "
 
-#: ../animation.rst:139
+#: ../animation.rst:169
 msgid "*Volume* -- громкость звука источника."
 msgstr "*Volume*"
 
-#: ../animation.rst:141
+#: ../animation.rst:171
 msgid "*Pitch* -- высота звука источника."
 msgstr "*Pitch*"
 
-#: ../animation.rst:143
+#: ../animation.rst:173
 msgid ""
 "Параметризация источников звука по своей сути повторяет объектную анимацию."
 msgstr "Audio sources parametering in essence follows object animation."
-
-
-

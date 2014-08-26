@@ -718,6 +718,16 @@ exports.correct_up = correct_up;
 function correct_up(camobj, y_axis) {
     var quat = camobj._render.quat;
 
+    var rotation = calc_cam_rot_correction(quat, y_axis, _quat4_tmp);
+    m_quat.multiply(rotation, quat, quat);
+}
+
+exports.calc_cam_rot_correction = calc_cam_rot_correction;
+/**
+ * Rotate camera to fix UP direction.
+ * @methodOf constraints
+ */
+function calc_cam_rot_correction(quat, y_axis, dest) {
     // convenient to get 3x3 matrix
     var rmat = m_mat3.fromQuat(quat, _mat3_tmp);
 
@@ -730,8 +740,10 @@ function correct_up(camobj, y_axis) {
     y_cam_world[2] = rmat[5];
 
     // handle extreme case (camera looks UP or DOWN)
-    if (Math.abs(m_vec3.dot(y_world, y_cam_world)) > 0.999)
-        return;
+    if (Math.abs(m_vec3.dot(y_world, y_cam_world)) > 0.999) {
+        m_quat.identity(dest);
+        return dest;
+    }
 
     var x_cam_world_new = m_vec3.cross(y_world, y_cam_world, y_cam_world);
     
@@ -752,12 +764,11 @@ function correct_up(camobj, y_axis) {
     x_cam_world[2] = rmat[2];
     m_vec3.normalize(x_cam_world, x_cam_world);
 
-    var rotation = _quat4_tmp;
-    m_quat.rotationTo(x_cam_world, x_cam_world_new, rotation);
+    m_quat.rotationTo(x_cam_world, x_cam_world_new, dest);
 
-    m_quat.multiply(rotation, quat, quat);
-
+    return dest;
 }
+
 
 /**
  * Remove object constraint

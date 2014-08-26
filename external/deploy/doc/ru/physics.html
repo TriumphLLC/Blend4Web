@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Физика &mdash; Руководство пользователя: Blend4Web v14.07</title>
+    <title>Физика &mdash; Руководство пользователя: Blend4Web v14.08</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.07',
+        VERSION:     '14.08',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v14.07" href="index.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v14.08" href="index.html" />
     <link rel="next" title="Нелинейная анимация" href="nla.html" />
     <link rel="prev" title="Звуковая подсистема" href="audio.html" /> 
   </head>
@@ -37,7 +37,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">Руководство пользователя: Blend4Web v14.07</a></div>
+          href="index.html">Руководство пользователя: Blend4Web v14.08</a></div>
         <div class="rel">
           <a href="audio.html" title="Звуковая подсистема"
              accesskey="P">предыдущий</a> |
@@ -67,12 +67,12 @@
 </pre></div>
 </div>
 <p>Для задействования физики на сцене необходимо установить флаг <tt class="docutils literal"><span class="pre">Enable</span> <span class="pre">physics</span></tt> в вкладке сцены в Blender&#8217;е.</p>
-<a class="reference internal image-reference" href="_images/scene.jpg"><img alt="Интерфейс с опциями сцены" src="_images/scene.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/scene_interface.png"><img alt="_images/scene_interface.png" class="align-center" src="_images/scene_interface.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <p>Настройка физических параметров производится в режиме <tt class="docutils literal"><span class="pre">Blender</span> <span class="pre">Game</span></tt>.</p>
-<a class="reference internal image-reference" href="_images/info_panel.jpg"><img alt="Панель информации Blender'a" src="_images/info_panel.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/info_panel.jpg"><img alt="_images/info_panel.jpg" class="align-center" src="_images/info_panel.jpg" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -80,20 +80,18 @@
 <div class="section" id="id3">
 <h2>Статический тип физики<a class="headerlink" href="#id3" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Может использоваться как ограничитель движения других объектов, например, для определения столкновений с ландшафтом, стенами и т.д. В настройках физики такого объекта для опции <tt class="docutils literal"><span class="pre">Physics</span> <span class="pre">Type</span></tt> должно быть выбрано значение <tt class="docutils literal"><span class="pre">Static</span></tt> (значение по умолчанию).</p>
-<div class="align-center figure">
-<a class="reference internal image-reference" href="_images/physics_panel_static.jpg"><img alt="Интерфейс панели физики, объект со статической физикой" src="_images/physics_panel_static.jpg" style="width: 80%;" /></a>
-</div>
+<a class="reference internal image-reference" href="_images/physics_panel_static.png"><img alt="_images/physics_panel_static.png" class="align-center" src="_images/physics_panel_static.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <p>Меш может быть покрыт одним или несколькими физическими материалами. Во вкладке <tt class="docutils literal"><span class="pre">Material</span></tt> должна быть включена опция <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Special:</span> <span class="pre">Collision</span></tt>. Также во вкладке <tt class="docutils literal"><span class="pre">Material</span></tt> на панели <tt class="docutils literal"><span class="pre">Physics</span></tt> (в режиме <tt class="docutils literal"><span class="pre">Blender</span> <span class="pre">Game</span></tt>) располагаются физические настройки материала. Поддерживаются следующие физические настройки материала: трение (<tt class="docutils literal"><span class="pre">Friction</span></tt>), упругость (<tt class="docutils literal"><span class="pre">Elasticity</span></tt>).</p>
-<a class="reference internal image-reference" href="_images/material_panel_physics.jpg"><img alt="Интерфейс панели материала с настройками физики" src="_images/material_panel_physics.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/material_panel_physics.png"><img alt="_images/material_panel_physics.png" class="align-center" src="_images/material_panel_physics.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <p>Поле <tt class="docutils literal"><span class="pre">Collision</span> <span class="pre">ID</span></tt> предназначено для определения столкновения со специфическим материалом, и может быть оставлено пустым. Пример использования <tt class="docutils literal"><span class="pre">Collision</span> <span class="pre">ID</span></tt> - определение нахождения игрового персонажа на разных типах покрытия ландшафта - трава, песок, деревянное покрытие и т.д.</p>
 <p>Опция <tt class="docutils literal"><span class="pre">Ghost</span></tt> исключает материал из физических взаимодействий, но сообщает приложению о контакте с ним. Пример - определение, что игровой персонаж находится на вертикальной лестнице.</p>
-<a class="reference internal image-reference" href="_images/physics_water_tower.jpg"><img alt="Объект с несколькими физическими материалами" src="_images/physics_water_tower.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/water_tower.jpg"><img alt="_images/water_tower.jpg" class="align-center" src="_images/water_tower.jpg" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -103,23 +101,19 @@
 <div class="section" id="id4">
 <h2>Динамический тип физики<a class="headerlink" href="#id4" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Предназначен для симуляции движения жесткого тела.</p>
-<a class="reference internal image-reference" href="_images/physics_dynamic.jpg"><img alt="Множество объектов с динамической физикой в 3D движке" src="_images/physics_dynamic.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/physics_dynamic.jpg"><img alt="_images/physics_dynamic.jpg" class="align-center" src="_images/physics_dynamic.jpg" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <p>В настройках физики такого объекта для опции <tt class="docutils literal"><span class="pre">Physics</span> <span class="pre">Type</span></tt> может быть выбрано значение <tt class="docutils literal"><span class="pre">Rigid</span> <span class="pre">Body</span></tt> (с вращениями) или <tt class="docutils literal"><span class="pre">Dynamic</span></tt> (без вращений). В настройках <tt class="docutils literal"><span class="pre">Collision</span> <span class="pre">Bounds</span></tt> может быть выбран тип коллайдера, поддерживаются: <tt class="docutils literal"><span class="pre">Box</span></tt>, <tt class="docutils literal"><span class="pre">Capsule</span></tt>, <tt class="docutils literal"><span class="pre">Sphere</span></tt>, <tt class="docutils literal"><span class="pre">Cylinder</span></tt>, <tt class="docutils literal"><span class="pre">Cone</span></tt>. Другие поддерживаемые настройки: масса (<tt class="docutils literal"><span class="pre">Mass</span></tt>), демпфирование (<tt class="docutils literal"><span class="pre">Damping</span></tt>) - для перемещения (<tt class="docutils literal"><span class="pre">Translation</span></tt>) и вращения (<tt class="docutils literal"><span class="pre">Rotation</span></tt>).</p>
 <p>Поле <tt class="docutils literal"><span class="pre">Collision</span> <span class="pre">group</span></tt> отвечает за физическую группу, к которой относится объект.</p>
 <p>Поле <tt class="docutils literal"><span class="pre">Collision</span> <span class="pre">mask</span></tt> определяет все физические группы, с которыми будет взаимодействовать данный объект.</p>
-<div class="align-center figure">
-<a class="reference internal image-reference" href="_images/physics_panel_dynamic.jpg"><img alt="Интерфейс панели физики, объект с динамической физикой" src="_images/physics_panel_dynamic.jpg" style="width: 80%;" /></a>
-</div>
+<a class="reference internal image-reference" href="_images/physics_panel_dynamic.png"><img alt="_images/physics_panel_dynamic.png" class="align-center" src="_images/physics_panel_dynamic.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <p>В настройках панели физики объекта должен быть установлен флаг <tt class="docutils literal"><span class="pre">Detect</span> <span class="pre">collisions</span></tt>. Поле <tt class="docutils literal"><span class="pre">Collision</span> <span class="pre">ID</span></tt> предназначено для определения столкновения со специфическим объектом (например, прикрепленный к камере объект для определения близости FPS персонажа к предметам), и может быть оставлено пустым.</p>
-<div class="align-center figure">
-<a class="reference internal image-reference" href="_images/object.jpg"><img alt="Интерфейс панели физики, объект с динамической физикой" src="_images/object.jpg" style="width: 80%;" /></a>
-</div>
+<a class="reference internal image-reference" href="_images/object.png"><img alt="_images/object.png" class="align-center" src="_images/object.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -129,12 +123,12 @@
 <div class="section" id="constraints">
 <h2>Ограничители (Constraints)<a class="headerlink" href="#constraints" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Физические ограничители используются для уменьшения числа степеней свободы объектов.</p>
-<a class="reference internal image-reference" href="_images/physics_constraints.jpg"><img alt="Примеры работы ограничителей в 3D движке" src="_images/physics_constraints.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/physics_constraints.jpg"><img alt="_images/physics_constraints.jpg" class="align-center" src="_images/physics_constraints.jpg" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <p>Установка физического ограничителя (<tt class="docutils literal"><span class="pre">Rigid</span> <span class="pre">Body</span> <span class="pre">Joint</span></tt>) на объект происходит в панели <tt class="docutils literal"><span class="pre">Object</span> <span class="pre">Constraints</span></tt>. Поддерживаемые типы (<tt class="docutils literal"><span class="pre">Pivot</span> <span class="pre">Type</span></tt>): <tt class="docutils literal"><span class="pre">Ball</span></tt>, <tt class="docutils literal"><span class="pre">Hinge</span></tt>, <tt class="docutils literal"><span class="pre">Cone</span> <span class="pre">Twist</span></tt>, <tt class="docutils literal"><span class="pre">Generic</span> <span class="pre">6</span> <span class="pre">DoF</span></tt>. Физический ограничитель можно установить на один из двух взаимодействующих объектов, при этом другой выступает в качестве цели (<tt class="docutils literal"><span class="pre">Target</span></tt>). Оба объекта могут быть со статическим и/или динамическим типом физики. В ограничителях (кроме <tt class="docutils literal"><span class="pre">Ball</span></tt>) могут настраиваться пределы перемещения и вращения.</p>
-<a class="reference internal image-reference" href="_images/physics_constraints_panel.jpg"><img alt="Панель установки физического ограничителя" src="_images/physics_constraints_panel.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/physics_constraints_panel.png"><img alt="_images/physics_constraints_panel.png" class="align-center" src="_images/physics_constraints_panel.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -142,7 +136,7 @@
 <div class="section" id="id5">
 <h2>Колесные транспортные средства<a class="headerlink" href="#id5" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Модель транспортного средства (ТС) должна состоять из 6 отдельных объектов - шасси, 4 колеса, рулевое колесо. Центр меша шасси должен соответствовать центру масс. Центры мешей колес и рулевого колеса должны располагаться на осях вращения. Рулевое колесо должно быть ориентировано в локальной системе координат: X - ось вращения, Y - вправо, Z - вверх. Объекты могут иметь любые названия.</p>
-<a class="reference internal image-reference" href="_images/physics_vehicle_wheeled.jpg"><img alt="Настройка физики колесного транспортного средства" src="_images/physics_vehicle_wheeled.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/physics_vehicle_wheeled.jpg"><img alt="_images/physics_vehicle_wheeled.jpg" class="align-center" src="_images/physics_vehicle_wheeled.jpg" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -179,7 +173,7 @@
 </div>
 <div class="section" id="id7">
 <h2>Плавающие объекты<a class="headerlink" href="#id7" title="Ссылка на этот заголовок">¶</a></h2>
-<a class="reference internal image-reference" href="_images/physics_floater.jpg"><img alt="Настройка физики плавающего объекта" src="_images/physics_floater.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/physics_floater.jpg"><img alt="_images/physics_floater.jpg" class="align-center" src="_images/physics_floater.jpg" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -199,7 +193,7 @@
 </div>
 <div class="section" id="id9">
 <h2>Плавающие транспортные средства<a class="headerlink" href="#id9" title="Ссылка на этот заголовок">¶</a></h2>
-<a class="reference internal image-reference" href="_images/physics_boat.jpg"><img alt="Настройка физики плавающего транспортного средства" src="_images/physics_boat.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/physics_boat.jpg"><img alt="_images/physics_boat.jpg" class="align-center" src="_images/physics_boat.jpg" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -236,6 +230,7 @@
 <li class="toctree-l1"><a class="reference internal" href="setup.html">Развёртывание среды разработки</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Рабочий процесс</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Просмотрщик сцен</a></li>
+<li class="toctree-l1"><a class="reference internal" href="web_player.html">Веб-плеер</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">Аддон</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Объекты</a></li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">Текстуры</a></li>
@@ -296,7 +291,7 @@
           
     <div class="footer">
         &copy; Copyright 2014, ООО &#34;Триумф&#34;.
-      Обновлено: 2014-07-23.
+      Обновлено: 2014-08-25.
       Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

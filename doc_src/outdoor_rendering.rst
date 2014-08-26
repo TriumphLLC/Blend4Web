@@ -12,8 +12,7 @@
 
 Для предполагаемого материала воды включить опцию ``Blend4Web > Special: Water`` во вкладке ``Material``. 
 
-.. image:: src_images/outdoor/water_material_setup.jpg
-   :alt: Настройка материала воды
+.. image:: src_images/outdoor_rendering/water_material_setup.jpg
    :align: center
    :width: 100%
 
@@ -31,11 +30,10 @@
 
 Симуляция волн осуществляется картами нормалей с анимированными развертками (в количестве от 0 до 4). Для текстур - карт нормалей используется только одно общее изображение, текстуры различаются параметрами ``Mapping > Size`` и ``Blend4Web > UV translation velocity``. Меш для воды должен иметь текстурную развертку.
 
-.. figure:: src_images/outdoor/water_texture_setup_normal.jpg
-   :alt: Настройка текстур волн
-   :width: 70%
-   :figclass: align-center
-
+.. image:: src_images/outdoor_rendering/water_texture_setup_normal.png
+   :align: center
+   :width: 100%
+   
 Смачивание поверхностей
 -----------------------
 
@@ -48,8 +46,7 @@
 Для материала воды поддерживается как статическое, так и динамическое зеркальное отражение, с эффектом Френеля. См. раздел :ref:`material_mirror`.
 
 
-.. image:: src_images/outdoor/water_reflection_dynamic.jpg
-   :alt: Динамическое отражение от поверхности воды
+.. image:: src_images/outdoor_rendering/water_reflection_dynamic.jpg
    :align: center
    :width: 100%
 
@@ -85,8 +82,7 @@
 
 Во вкладке ``Scene`` включить опцию ``Blend4Web > Render refractions``.
 
-.. image:: src_images/outdoor/water_refraction.jpg
-   :alt: Преломление в воде
+.. image:: src_images/outdoor_rendering/water_refraction.jpg
    :align: center
    :width: 100%
 
@@ -99,10 +95,9 @@
 Для создания пены необходимо добавить в текстурные слоты материала воды две диффузные текстуры. Для текстур необходимо выставить опцию ``Blend4Web > Water Foam``.
 
 
-.. figure:: src_images/outdoor/water_texture_setup_foam.jpg
-   :alt: Настройка текстур волн
-   :scale: 70%
-   :figclass: align-center
+.. image:: src_images/outdoor_rendering/water_texture_setup_foam.png
+   :align: center
+   :width: 100%
 
 
 Настройка текстур
@@ -131,19 +126,17 @@
 Для создания каустики необходимо добавить в текстурные слоты материала воды одну текстуру типа ``Voronoi``. 
 
 
-.. image:: src_images/outdoor/water_caustics.jpg
-   :alt: Каустика
+.. image:: src_images/outdoor_rendering/water_caustics.jpg
    :align: center
    :width: 100%
 
 Настройка
 .........
 
-.. figure:: src_images/outdoor/water_texture_setup_caustics.jpg
-   :alt: Настройка текстуры каустики
-   :scale: 80%
-   :figclass: align-center
-
+.. image:: src_images/outdoor_rendering/water_texture_setup_caustics.png
+   :align: center
+   :width: 100%
+   
 *Voronoi > Coloring: Intensity*
     Фактор влияния каустики. Значение по умолчанию 1.0.
 
@@ -157,8 +150,7 @@
 Подводная среда
 ---------------
 
-.. image:: src_images/outdoor/underwater.jpg
-   :alt: Настройка текстуры каустики
+.. image:: src_images/outdoor_rendering/underwater.jpg
    :align: center
    :width: 100%
 
@@ -180,8 +172,7 @@
 
 Выключить опцию ``Game Settings > Backface Culling``.
 
-.. image:: src_images/outdoor/water_border.jpg
-   :alt: Граница водной среды
+.. image:: src_images/outdoor_rendering/water_border.jpg
    :align: center
    :width: 100%
 
@@ -197,8 +188,7 @@
 
 Включить объемные волны.
 
-.. image:: src_images/outdoor/water_waves.jpg
-   :alt: Объемные волны
+.. image:: src_images/outdoor_rendering/water_waves.jpg
    :align: center
    :width: 100%
 
@@ -285,8 +275,7 @@
     Кроме того, процедурная текстура неба может быть использована для имитации рассеянного освещения на объектах, по аналогии со статической :ref:`текстурой неба <skydome_texture>`. Для этого необходимо выставить опции ``Sky Settings > Use as environment lighting`` и ``Environment Lighting > Sky Texture``. Если текстура мира для рассеянного освещения уже существует, она будет заменена.
 
 
-.. image:: src_images/outdoor/skydome_procedural.jpg
-   :alt: Атмосферное рассеивание
+.. image:: src_images/outdoor_rendering/skydome_procedural.jpg
    :align: center
    :width: 100%
 
@@ -348,8 +337,7 @@
 Время суток устанавливается приложениями с использованием соответствующего API. В частности, время суток может устанавливаться в интерфейсе ``Lighting``
 :ref:`просмотрщика сцен <viewer>`. 
 
-.. image:: src_images/outdoor/sunset.jpg
-   :alt: Управление временем суток в просмотрщике
+.. image:: src_images/outdoor_rendering/sunset.jpg
    :align: center
    :width: 100%
 
@@ -359,8 +347,7 @@
 
 Настраиваются как описано в разделе :ref:`material_halo`.
 
-.. image:: src_images/outdoor/stars.jpg
-   :alt: Использование материала гало для визуализации звезд
+.. image:: src_images/outdoor_rendering/stars.jpg
    :align: center
    :width: 100%
 
@@ -410,8 +397,7 @@
 
 Интерфейс для настроек появляется после активации опции ``Blend4Web > Wind bending``.
 
-.. image:: src_images/outdoor/wind_bending_setup.jpg
-   :alt: Настройка анимации травы и крон деревьев
+.. image:: src_images/outdoor_rendering/wind_bending_setup.jpg
    :align: center
    :width: 100%
 
@@ -443,7 +429,7 @@
 
 Слои вертексных цветов с указанными в настройках названиями должны существовать в меше.
 
-.. image:: src_images/outdoor/wind_bending_vcolors.jpg
-   :alt: Вертексные цвета для настройки анимации крон деревьев
+.. image:: src_images/outdoor_rendering/wind_bending_vcolors.jpg
    :align: center
    :width: 100%
+

@@ -1,15 +1,10 @@
 compile_viewer: $(APPS_EXT)/viewer/viewer.min.js \
                 $(APPS_EXT)/viewer/viewer.html \
 
-$(APPS_EXT)/viewer/viewer.min.js: $(APPS_DEV)/viewer/viewer.js \
-                                  $(STORAGE_JS) $(APP_JS) $(CAMANIM_JS)
+$(APPS_EXT)/viewer/viewer.min.js: $(APPS_DEV)/viewer/viewer.js
 	@echo "Compiling app viewer"
 	java -jar $(JAR_CP) \
 	    --compilation_level SIMPLE_OPTIMIZATIONS \
-	    --js=$(STORAGE_JS) \
-	    --js=$(CAMANIM_JS) \
-	    --js=$(MIXER_JS) \
-	    --js=$(APP_JS) \
 	    --js=$(APPS_DEV)/viewer/viewer.js \
 	    --js_output_file=$(APPS_EXT)/viewer/viewer.min.js
 

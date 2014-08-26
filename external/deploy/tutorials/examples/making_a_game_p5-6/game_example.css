@@ -1,6 +1,6 @@
 div#control_circle {
     position: absolute;
-    background-image: url(controls_150.png);
+    background-image: url(interface/controls_150.png);
     width: 150px;
     height: 150px;
     visibility:hidden;
@@ -8,7 +8,7 @@ div#control_circle {
 
 div#control_tap {
     position: absolute;
-    background-image: url(tap_50.png);
+    background-image: url(interface/tap_50.png);
     width: 50px;
     height: 50px;
     visibility:hidden;
@@ -17,7 +17,7 @@ div#control_tap {
 div#control_jump {
     position: absolute;
     right: 0px; bottom: 0px;
-    background-image: url(jump_100.png);
+    background-image: url(interface/jump_100.png);
     margin:0px 10px 10px 0px;
     width: 100px;
     height: 100px;
@@ -36,13 +36,13 @@ div#life_bar_main {
     left: 0px; top: 0px;
     width: 256px;
     height: 40px;
-    background-image: url(life_bar_main.png);
+    background-image: url(interface/life_bar_main.png);
 }
 
 div#life_bar_green {
     position: absolute;
     left: 19px; top: 15px;
-    background-image: url(life_bar_green.png);
+    background-image: url(interface/life_bar_green.png);
     width: 192px;
     height: 10px;
 }
@@ -50,7 +50,7 @@ div#life_bar_green {
 div#life_bar_red {
     position: absolute;
     right: 45px; top: 15px;
-    background-image: url(life_bar_red.png);
+    background-image: url(interface/life_bar_red.png);
     width: 0px;
     height: 10px;
 }
@@ -58,7 +58,7 @@ div#life_bar_red {
 div#life_bar_mid {
     position: absolute;
     left: 211px; top: 10px;
-    background-image: url(life_bar_mid.png);
+    background-image: url(interface/life_bar_mid.png);
     width: 4px;
     height: 20px;
 }

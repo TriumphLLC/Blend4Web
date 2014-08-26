@@ -420,13 +420,16 @@ class B4W_ObjectPanel(bpy.types.Panel):
             return
 
         row = layout.row()
-        row.label("Self LOD:")
+        row.prop(obj, "b4w_lod_transition", text="LOD transition ratio")
+
+        row = layout.row()
+        row.label("Self LOD (deprecated):")
 
         row = layout.row()
         row.prop(obj, "b4w_lod_distance", text="Distance")
 
         row = layout.row()
-        row.label("Additional LOD objects:")
+        row.label("Additional LOD objects (deprecated):")
 
         row = layout.row()
         row.template_list("UI_UL_list", "OBJECT_UL_lods", obj, "b4w_lods",
@@ -521,7 +524,7 @@ class B4W_DataPanel(bpy.types.Panel):
                 row.prop(cam, "b4w_rotation_down_limit", text="Down angle")
                 row.prop(cam, "b4w_rotation_up_limit", text="Up angle")
                 row.prop(cam, "b4w_vertical_clamping_type", text="")
-            
+
             row = layout.row()
             row.prop(cam, "b4w_dof_front", text="DOF front distance")
 
@@ -584,7 +587,7 @@ class B4W_DataPanel(bpy.types.Panel):
 
             row = layout.row()
             row.prop(lmp, "b4w_generate_shadows", text="Generate shadows")
-            
+
             if lmp.type == "SUN":
                 row = layout.row()
                 row.prop(lmp, "b4w_dynamic_intensity", text="Dynamic intensity")
@@ -790,6 +793,17 @@ class B4W_MaterialPanel(bpy.types.Panel):
 
                 row = layout.row()
                 row.prop(mat, "b4w_double_sided_lighting", text = "Double-sided Lighting")
+                row = layout.row()
+
+                if not mat.use_nodes:
+                    row.prop(mat, "b4w_refractive", text = "Refractive")
+                    if mat.b4w_refractive:
+                        row = layout.row()
+                        box = row.box()
+                        col = box.column()
+                        col.label("Refraction Settings:")
+                        row = col.row()
+                        row.prop(mat, "b4w_refr_bump", text="Refraction bump")
 
 
 class B4W_TexturePanel(bpy.types.Panel):
@@ -908,6 +922,9 @@ class B4W_ParticlePanel(bpy.types.Panel):
             row.prop(pset, "b4w_fade_in", text="Fade-in")
             row.prop(pset, "b4w_fade_out", text="Fade-out")
 
+            row = layout.row()
+            row.prop(pset, "b4w_coordinate_system", text="Coordinate system")
+
         if pset.type == "HAIR":
             row = layout.row()
             row.prop(pset, "b4w_randomize_location", text="Random location and size")
@@ -958,7 +975,7 @@ class B4W_ParticlePanel(bpy.types.Panel):
             row = col.row()
             row.label("Shadows:")
             row.prop(pset, "b4w_shadow_inheritance", text="b4w_shadow_inheritance", expand=True)
-            
+
             row = col.row()
             row.label("Reflection:")
             row.prop(pset, "b4w_reflection_inheritance", text="b4w_reflection_inheritance", expand=True)
@@ -1185,7 +1202,7 @@ class B4W_LodAddOperator(bpy.types.Operator):
         cons.mute = True
 
         return{'FINISHED'}
- 
+
 class B4W_LodRemOperator(bpy.types.Operator):
     bl_idname      = 'lod.remove'
     bl_label       = "Remove"
@@ -1193,9 +1210,9 @@ class B4W_LodRemOperator(bpy.types.Operator):
 
     def invoke(self, context, event):
         obj = context.active_object
-       
+
         lods = obj.b4w_lods
-       
+
         index = obj.b4w_lod_index
         if len(lods) > 0 and index >= 0:
 
@@ -1242,7 +1259,7 @@ def add_remove_refl_plane(obj):
             cons = get_locked_track_constraint(obj, index)
             obj.constraints.remove(cons)
 
-def register(): 
+def register():
     global _OBJECT_PT_constraints
 
     bpy.utils.register_class(B4W_LodAddOperator)
@@ -1261,7 +1278,7 @@ def register():
     bpy.utils.unregister_class(bpy.types.OBJECT_PT_constraints)
     bpy.utils.register_class(CustomConstraintsPanel)
 
-def unregister(): 
+def unregister():
     global _OBJECT_PT_constraints
 
     bpy.utils.unregister_class(B4W_LodAddOperator)

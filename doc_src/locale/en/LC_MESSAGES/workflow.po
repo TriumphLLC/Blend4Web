@@ -185,28 +185,23 @@ msgstr ""
 msgid ""
 "В момент экспорта происходит проверка сцены на предмет использования не "
 "поддерживаемых движком возможностей Blender'a. В таких случаях генерируется "
-"сообщение об ошибке:"
+"сообщение об ошибке. Перечень возможных ошибок экспорта перечислен в "
+":ref:`соответствующем разделе <export_errors>`."
 msgstr ""
 "Upon export the scene is checked for Blender features not supported by the "
-"engine. In such cases an error message is generated:"
+"engine. In such cases an error message is generated.The list of possible "
+"export errors is specified in the :ref:`corresponding section "
+"<export_errors>`."
 
-#: ../workflow.rst:60
-msgid ""
-"Перечень возможных ошибок экспорта перечислен в :ref:`соответствующем "
-"разделе <export_errors>`."
-msgstr ""
-"The list of possible export errors is specified in the :ref:`corresponding "
-"section <export_errors>`."
-
-#: ../workflow.rst:63
+#: ../workflow.rst:54
 msgid "Опции экспорта"
 msgstr "Export Options"
 
-#: ../workflow.rst:66
+#: ../workflow.rst:57
 msgid "*Autosave main file*"
 msgstr "*Autosave main file*"
 
-#: ../workflow.rst:66
+#: ../workflow.rst:57
 msgid ""
 "Автосохранение файла, из которого осуществляется экспорт. **Включено по "
 "умолчанию**. Осуществляется непосредственно после экспорта с целью поддержки"
@@ -219,11 +214,11 @@ msgstr ""
 "the current blend-file and the exported file content. In addition, the "
 "relative path to the exported file is saved for convenience."
 
-#: ../workflow.rst:70
+#: ../workflow.rst:61
 msgid "*Filepath*"
 msgstr "*Filepath*"
 
-#: ../workflow.rst:69
+#: ../workflow.rst:60
 msgid ""
 "Путь для экспортного файла. Используется в режиме экспорта из командой "
 "строки. В оконном режиме не используется."
@@ -231,11 +226,11 @@ msgstr ""
 "Path to the exported file. It is used in the command-line export mode and "
 "not used in windowed mode."
 
-#: ../workflow.rst:75
+#: ../workflow.rst:66
 msgid "Отображение сцен в просмотрщике"
 msgstr "Displaying Scenes in the Viewer"
 
-#: ../workflow.rst:77
+#: ../workflow.rst:68
 msgid ""
 "Для того, чтобы сцена появилась в списке сцен просмотрщика, нужно вручную "
 "добавить запись в текстовой файл ``external/deploy/assets/assets.json``."
@@ -243,7 +238,7 @@ msgstr ""
 "For the scene to appear in the viewer list it's required to manually add an "
 "entry to the text file ``external/deploy/assets/assets.json``."
 
-#: ../workflow.rst:79
+#: ../workflow.rst:70
 msgid ""
 "Для добавления новой сцены нужно знать категорию, в которой она должна "
 "отображаться. Категория обычно соответствует названию проекта и имени "
@@ -253,11 +248,11 @@ msgstr ""
 "displayed. The category normally corresponds to the project name and to the "
 "name of the directory where the corresponding files are stored."
 
-#: ../workflow.rst:83
+#: ../workflow.rst:74
 msgid "Пример"
 msgstr "Example"
 
-#: ../workflow.rst:85
+#: ../workflow.rst:76
 msgid ""
 "Ниже приведена примерная часть файла ``assets.json``, в которой находятся "
 "два проекта \"Capri\" и \"Fridge\" с соответствующими сценами в каждом "
@@ -266,7 +261,7 @@ msgstr ""
 "For example below you can see a part of ``assets.json``. In this file there "
 "are two projects - \"Capri\" and \"Fridge\" each with corresponding scenes::"
 
-#: ../workflow.rst:114
+#: ../workflow.rst:105
 msgid ""
 "Добавление можно осуществить копированием и вставкой описания похожей сцены "
 "в нужной категории и последующим редактированием ее названия и пути к "
@@ -275,7 +270,7 @@ msgstr ""
 "To add a new scene you can copy and paste a similar scene's description to "
 "the required category and then edit its name and path to the exported file."
 
-#: ../workflow.rst:116
+#: ../workflow.rst:107
 msgid ""
 "В случае успешного добавления сцена должна появиться в списке сцен "
 "просмотрщика в нужной категории."
@@ -283,11 +278,11 @@ msgstr ""
 "A successfully added scene should appear in the scenes' list of the viewer  "
 "in the required category."
 
-#: ../workflow.rst:124
+#: ../workflow.rst:114
 msgid "Разработка приложения"
 msgstr "Application Development"
 
-#: ../workflow.rst:126
+#: ../workflow.rst:116
 msgid ""
 "На этой стадии создаётся приложение, в котором на языке JavaScript пишется "
 "логика по загрузке сцены и взаимодействию с ней пользователя. Документация "
@@ -302,14 +297,10 @@ msgstr ""
 msgid "экспорт"
 msgstr "export"
 
-#: ../workflow.rst:72
+#: ../workflow.rst:63
 msgid "просмотрщик"
 msgstr "viewer"
 
-#: ../workflow.rst:72
+#: ../workflow.rst:63
 msgid "добавление сцен"
 msgstr "scene adding"
-
-
-
-

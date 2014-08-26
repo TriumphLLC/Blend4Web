@@ -22,7 +22,8 @@ var _composed_node_graphs = {};
 var _lamp_indexes = {};
 var _lamp_index = 0;
 
-exports.compose_nmat_graph = function(node_tree, graph_id) {
+exports.compose_nmat_graph = compose_nmat_graph;
+function compose_nmat_graph(node_tree, graph_id, is_node_group) {
 
     if (graph_id in _composed_node_graphs)
         return _composed_node_graphs[graph_id];
@@ -30,6 +31,7 @@ exports.compose_nmat_graph = function(node_tree, graph_id) {
     var graph = m_graph.create();
 
     var bpy_nodes = node_tree["nodes"];
+    var links = node_tree["links"];
 
     for (var i = 0; i < bpy_nodes.length; i++) {
         var bpy_node = bpy_nodes[i];
@@ -39,7 +41,17 @@ exports.compose_nmat_graph = function(node_tree, graph_id) {
         }
     }
 
-    var links = node_tree["links"];
+    if (is_node_group)
+        if (find_node_id(node_tree, graph, "GROUP_OUTPUT", "group") == -1)
+            return null;
+
+    var node_groups = trace_group_nodes(graph);
+    if (!append_node_groups_graphs(graph, links, node_groups))
+        return null;
+
+    if (is_node_group)
+        return graph;
+
 
     for (var i = 0; i < links.length; i++) {
         var link = links[i];
@@ -68,7 +80,7 @@ exports.compose_nmat_graph = function(node_tree, graph_id) {
 
     complete_edges(graph);
 
-    var output_id = find_output_id(node_tree, graph);
+    var output_id = find_node_id(node_tree, graph, "OUTPUT", "material");
     if (output_id == -1) {
         _composed_node_graphs[graph_id] = null;
         return null;
@@ -160,7 +172,7 @@ function complete_edges(graph) {
         }
     });
     for (var i = 0; i < appended_edges.length; i += 3)
-        m_graph.append_edge(graph, appended_edges[i], appended_edges[i + 1], 
+        m_graph.append_edge(graph, appended_edges[i], appended_edges[i + 1],
                 appended_edges[i + 2]);
 }
 
@@ -179,10 +191,8 @@ function nmat_node_ids(bpy_node, graph) {
         throw "Node not found";
 }
 
-
 function nmat_cleanup_graph(graph) {
     var id_attr = [];
-
     // collect
     m_graph.traverse(graph, function(id, attr) {
         if (attr.type == "REPLACE")
@@ -203,34 +213,48 @@ function nmat_cleanup_graph(graph) {
             var input_id1 = get_in_edge_by_input_num(graph, id, 1);
 
             var in_edge0 = m_graph.get_edge_attr(graph, input_id0, id, 0);
-            var in_edge1 = m_graph.get_edge_attr(graph, input_id1, id, 0);
+            var in_edge1;
+            if (input_id0 != input_id1)
+                in_edge1 = m_graph.get_edge_attr(graph, input_id1, id, 0);
+            else
+                in_edge1 = m_graph.get_edge_attr(graph, input_id1, id, 1);
 
             // replace
-            m_graph.remove_edge(graph, input_id0, id, -1);
-            m_graph.remove_edge(graph, input_id1, id, -1);
+            if (input_id0 != -1)
+                m_graph.remove_edge(graph, input_id0, id, -1);
+            if (input_id1 != -1 && input_id0 != input_id1)
+                m_graph.remove_edge(graph, input_id1, id, -1);
 
             // need edge connected to second input
-            if (in_edge0[1] == 1) {
-                var input_id = input_id0;
-                var from_index = in_edge0[0];
-            } else {
-                var input_id = input_id1;
-                var from_index = in_edge1[0];
+            var input_id = -1;
+            var from_index = -1;
+            if (in_edge0 && in_edge0[1] == 1) {
+                input_id = input_id0;
+                from_index = in_edge0[0];
+            } else if (in_edge1 && in_edge1[1] == 1) {
+                input_id = input_id1;
+                from_index = in_edge1[0];
             }
 
             // removing edges affects graph traversal
             var removed_edges = [];
+            var replace_node = m_graph.get_node_attr(graph, id);
 
             for (var j = 0; j < m_graph.out_edge_count(graph, id); j++) {
                 var output_id = m_graph.get_out_edge(graph, id, j);
                 var edge_ind = 0;
-
-                if (removed_edges.indexOf(output_id) != -1)
-                    edge_ind++;
+                for (var n = 1; n < removed_edges.length; n+=3)
+                    if (removed_edges[n] === output_id)
+                        edge_ind++;
 
                 var to_index = m_graph.get_edge_attr(graph, id, output_id, edge_ind)[1];
 
-                m_graph.append_edge(graph, input_id, output_id, [from_index, to_index]);
+                if (input_id == -1) {
+                    var node = m_graph.get_node_attr(graph, output_id);
+                    node.inputs[to_index].default_value = replace_node.inputs[1].default_value;
+                }
+                else
+                    m_graph.append_edge(graph, input_id, output_id, [from_index, to_index]);
 
                 removed_edges.push(id, output_id, edge_ind);
             }
@@ -325,7 +349,7 @@ function merge_geometry(graph) {
 
     var id_attr = [];
     m_graph.traverse(graph, function(id, attr) {
-        if (attr.type == "GEOMETRY_VC" || attr.type == "GEOMETRY_UV" 
+        if (attr.type == "GEOMETRY_VC" || attr.type == "GEOMETRY_UV"
                 || attr.type == "GEOMETRY_NO" || attr.type == "GEOMETRY_FB"
                 || attr.type == "GEOMETRY_VW" || attr.type == "GEOMETRY_GL")
             id_attr.push(id, attr);
@@ -350,7 +374,7 @@ function merge_geometry(graph) {
 
                 // process every outgoing edge
                 for (k = 0; k < out_num; k++) {
-                    var out_id = m_graph.get_out_edge(graph, id_current, k); 
+                    var out_id = m_graph.get_out_edge(graph, id_current, k);
                     var edge_attr = m_graph.get_edge_attr(graph, id_current, out_id, 0);
 
                     // removing edges affects graph traversal
@@ -381,7 +405,7 @@ function merge_geometry(graph) {
 }
 
 function merge_textures(graph) {
-    
+
     var id_attr = [];
     m_graph.traverse(graph, function(id, attr) {
         if (attr.type == "TEXTURE_COLOR" || attr.type == "TEXTURE_NORMAL")
@@ -410,14 +434,14 @@ function merge_textures(graph) {
                 // process every ingoing edge
                 var edges_in_counter = {}
                 for (k = 0; k < in_num; k++) {
-                    var in_id = m_graph.get_in_edge(graph, id_current, k); 
+                    var in_id = m_graph.get_in_edge(graph, id_current, k);
 
                     if (!(in_id in edges_in_counter))
                         edges_in_counter[in_id] = 0;
-                    var edge_attr = m_graph.get_edge_attr(graph, in_id, 
+                    var edge_attr = m_graph.get_edge_attr(graph, in_id,
                             id_current, edges_in_counter[in_id]++);
 
-                    // removing edges affects graph traversal; save edge_attr 
+                    // removing edges affects graph traversal; save edge_attr
                     // for further merging
                     removed_edges_in.push(in_id, id_current, edge_attr);
                 }
@@ -428,21 +452,21 @@ function merge_textures(graph) {
                 // process every outgoing edge
                 var edges_out_counter = {}
                 for (k = 0; k < out_num; k++) {
-                    var out_id = m_graph.get_out_edge(graph, id_current, k); 
+                    var out_id = m_graph.get_out_edge(graph, id_current, k);
 
                     if (!(out_id in edges_out_counter))
                         edges_out_counter[out_id] = 0;
-                    var edge_attr = m_graph.get_edge_attr(graph, id_current, 
+                    var edge_attr = m_graph.get_edge_attr(graph, id_current,
                             out_id, edges_out_counter[out_id]++);
 
-                    // removing edges affects graph traversal; save edge_attr 
+                    // removing edges affects graph traversal; save edge_attr
                     // for further merging
                     removed_edges_out.push(id_current, out_id, edge_attr);
                 }
 
                 var removed_edges = removed_edges_in.concat(removed_edges_out);
                 for (var k = 0; k < removed_edges.length; k += 3)
-                    m_graph.remove_edge(graph, removed_edges[k], 
+                    m_graph.remove_edge(graph, removed_edges[k],
                             removed_edges[k + 1], 0);
                 m_graph.remove_node(graph, id_current);
 
@@ -518,7 +542,7 @@ function merge_textures(graph) {
         }
 
         m_graph.remove_node(graph, unode.id);
-        m_graph.append_node(graph, unode.id, unode.attr); 
+        m_graph.append_node(graph, unode.id, unode.attr);
     }
 }
 
@@ -561,7 +585,7 @@ function optimize_geometry_vcol(graph) {
 
         var geometry_out_num = m_graph.out_edge_count(graph, geom_id);
         for (var j = 0; j < geometry_out_num; j++) {
-            var out_id = m_graph.get_out_edge(graph, geom_id, j); 
+            var out_id = m_graph.get_out_edge(graph, geom_id, j);
             var out_node = m_graph.get_node_attr(graph, out_id);
 
             // optimize if it has only SEPRGB nodes as outputs
@@ -576,11 +600,11 @@ function optimize_geometry_vcol(graph) {
             var seprgb_out_num = m_graph.out_edge_count(graph, out_id);
             for (var k = 0; k < seprgb_out_num; k++) {
 
-                var seprgb_out_id = m_graph.get_out_edge(graph, out_id, k); 
+                var seprgb_out_id = m_graph.get_out_edge(graph, out_id, k);
                 if (!(seprgb_out_id in edges_out_num))
                     edges_out_num[seprgb_out_id] = 0;
 
-                var edge_attr = m_graph.get_edge_attr(graph, out_id, 
+                var edge_attr = m_graph.get_edge_attr(graph, out_id,
                         seprgb_out_id, edges_out_num[seprgb_out_id]++);
 
                 removed_edges.push(out_id, seprgb_out_id);
@@ -615,7 +639,7 @@ function optimize_geometry_vcol(graph) {
                             name: "RGB"[j]
                         });
                         for (var k = 0; k < channels_usage[j].length; k += 3)
-                            channels_usage[j][k + 2][0] 
+                            channels_usage[j][k + 2][0]
                                     = m_util.rgb_mask_get_channel_presence_index(
                                     mask, j);
                     }
@@ -623,7 +647,7 @@ function optimize_geometry_vcol(graph) {
 
                 // remove unused edges
                 for (var j = 0; j < removed_edges.length; j += 2)
-                    m_graph.remove_edge(graph, removed_edges[j], 
+                    m_graph.remove_edge(graph, removed_edges[j],
                             removed_edges[j + 1], 0);
 
                 // remove SEPRGB nodes
@@ -633,7 +657,7 @@ function optimize_geometry_vcol(graph) {
                 // add new edges
                 for (var j = 0; j < channels_usage.length; j++)
                     for (var k = 0; k < channels_usage[j].length; k += 3)
-                        m_graph.append_edge(graph, channels_usage[j][k], 
+                        m_graph.append_edge(graph, channels_usage[j][k],
                                 channels_usage[j][k + 1], channels_usage[j][k + 2]);
             }
         }
@@ -641,7 +665,7 @@ function optimize_geometry_vcol(graph) {
     }
 }
 
-function find_output_id(node_tree, graph) {
+function find_node_id(node_tree, graph, type, source_type) {
     var bpy_nodes = node_tree["nodes"];
 
     // find last OUTPUT
@@ -651,12 +675,12 @@ function find_output_id(node_tree, graph) {
     for (var i = 0; i < bpy_nodes.length; i++) {
         var bpy_node = bpy_nodes[i];
 
-        if (bpy_node["type"] == "OUTPUT")
+        if (bpy_node["type"] == type)
             last_output_node = bpy_node;
     }
 
     if (!last_output_node) {
-        m_print.error("No output in node material");
+        m_print.error("No \"" + type + "\" node in node " + source_type);
         return -1;
     }
 
@@ -697,6 +721,12 @@ function append_nmat_node(graph, bpy_node, geometry_output_num) {
 
         switch (type) {
         case "GEOMETRY_UV":
+
+            if (!bpy_node["uv_layer"]) {
+                m_print.error("Missing uv layer in node \"", bpy_node["name"],"\"");
+                return false;
+            }
+
             var uv_name = shader_ident("param_GEOMETRY_UV_a");
             var uv_tra_name = shader_ident("param_GEOMETRY_UV_v");
 
@@ -713,6 +743,12 @@ function append_nmat_node(graph, bpy_node, geometry_output_num) {
             }
             break;
         case "GEOMETRY_VC":
+
+            if (!bpy_node["color_layer"]) {
+                m_print.error("Missing vertex color layer in node ", bpy_node["name"]);
+                return false;
+            }
+
             var vc_name = shader_ident("param_GEOMETRY_VC_a");
             var vc_tra_name = shader_ident("param_GEOMETRY_VC_v");
 
@@ -762,9 +798,16 @@ function append_nmat_node(graph, bpy_node, geometry_output_num) {
         case "REFLECT":
             type = "REFLECT";
             break;
+        case "REFRACTION":
+            type = "REFRACTION";
+            break;
         case "PARALLAX":
             type = "PARALLAX";
             // NOTE: empty texture container (overwritten in nmat_cleanup_graph)
+            if (!bpy_node["inputs"][1]["is_linked"]) {
+                m_print.error("Missing texture in node \"", bpy_node["name"],"\"");
+                return false;
+            }
             var tex_name = shader_ident("temp_texture");
             params.push(node_param(tex_name));
             break;
@@ -778,12 +821,16 @@ function append_nmat_node(graph, bpy_node, geometry_output_num) {
             type = "TIME";
             break;
         default:
-            m_print.error("Wrong group node: " + bpy_node["node_tree_name"]);
-            return false;
+            var node_tree = m_util.clone_object_json(bpy_node["node_group"]["node_tree"]);
+            rename_node_group_nodes(bpy_node["name"], node_tree);
+            var node_group_graph = compose_nmat_graph(node_tree, bpy_node["node_group"]["uuid"], true);
+            data = {
+                node_group_graph: node_group_graph,
+                node_group_links: node_tree["links"]
+            };
         }
         inputs = node_inputs_bpy_to_b4w(bpy_node);
         outputs = node_outputs_bpy_to_b4w(bpy_node);
-
         // NOTE: additional translucency output
         if (node_name == "TRANSLUCENCY") {
             var out = default_node_inout("TranslucencyParams", "TranslucencyParams", [0,0,0,0]);
@@ -823,7 +870,7 @@ function append_nmat_node(graph, bpy_node, geometry_output_num) {
                 m_vec3.length(bpy_node["rotation"]) == 0 &&
                 !bpy_node["use_max"] && !bpy_node["use_min"]) {
             type = "MAPPING_LIGHT";
-            params.push(node_param(shader_ident("param_MAPPING_LIGHT_scale"), 
+            params.push(node_param(shader_ident("param_MAPPING_LIGHT_scale"),
                     bpy_node["scale"], 3));
         }
         else {
@@ -871,19 +918,19 @@ function append_nmat_node(graph, bpy_node, geometry_output_num) {
             trs_matrix[13] = trans[1];
             trs_matrix[14] = trans[2];
 
-            params.push(node_param(shader_ident("param_MAPPING_HEAVY_trs_matrix"), 
+            params.push(node_param(shader_ident("param_MAPPING_HEAVY_trs_matrix"),
                     trs_matrix, 16));
 
             // clipping
             // ~~: bool to int
-            params.push(node_param(shader_ident("param_MAPPING_HEAVY_use_min"), 
+            params.push(node_param(shader_ident("param_MAPPING_HEAVY_use_min"),
                     ~~bpy_node["use_min"], 1));
-            params.push(node_param(shader_ident("param_MAPPING_HEAVY_use_max"), 
+            params.push(node_param(shader_ident("param_MAPPING_HEAVY_use_max"),
                     ~~bpy_node["use_max"], 1));
 
-            params.push(node_param(shader_ident("param_MAPPING_LIGHT_min_clip"), 
+            params.push(node_param(shader_ident("param_MAPPING_LIGHT_min_clip"),
                     bpy_node["min"], 3));
-            params.push(node_param(shader_ident("param_MAPPING_LIGHT_max_clip"), 
+            params.push(node_param(shader_ident("param_MAPPING_LIGHT_max_clip"),
                     bpy_node["max"], 3));
 
         }
@@ -953,6 +1000,13 @@ function append_nmat_node(graph, bpy_node, geometry_output_num) {
                 inputs.push(input);
             else
                 inputs.push(default_node_inout(input.name, input.identifier, input.default_value));
+
+            // INPUT 7
+            var input = node_input_by_ident(bpy_node, "Ray Mirror");
+            if (input)
+                inputs.push(input);
+            else
+                inputs.push(default_node_inout("Ray Mirror", "Ray Mirror", 0));
 
             outputs.push(node_output_by_ident(bpy_node, "Diffuse"));
             outputs.push(node_output_by_ident(bpy_node, "Spec"));
@@ -1476,7 +1530,7 @@ function append_nmat_edge(graph, id1, id2, attr1, attr2, bpy_link) {
 
     if (attr.length == 2)
         m_graph.append_edge(graph, id1, id2, attr);
-    
+
     return true;
 }
 
@@ -1491,7 +1545,7 @@ exports.compose_node_elements = function(graph) {
     var node_elem_map = {};
 
     reset_shader_ident_counters();
-    
+
     var sgraph = m_graph.topsort(graph);
     m_graph.traverse(sgraph, function(id, attr) {
         var elem = init_node_elem(attr)
@@ -1575,6 +1629,159 @@ function init_node_elem(mat_node) {
     }
 
     return elem;
+}
+
+function create_new_name(type, group_name, name) {
+    if (type == "GROUP_INPUT")
+        return group_name + "*GI*" + name;      // for search
+    else if (type == "GROUP_OUTPUT")
+        return group_name + "*GO*" + name;
+    return group_name + "*" + name;
+}
+
+function rename_node_group_nodes(node_group_name, node_tree) {
+    var nodes = node_tree["nodes"];
+    var links = node_tree["links"];
+    for (var i = 0; i < nodes.length; i++)
+        nodes[i]["name"] = create_new_name(nodes[i].type, node_group_name, nodes[i].name);
+    for (var i = 0; i < links.length; i++) {
+        links[i]["from_node"]["name"] = create_new_name(links[i]["from_node"]["type"],
+                                                node_group_name, links[i]["from_node"]["name"]);
+        links[i]["to_node"]["name"] = create_new_name(links[i]["to_node"]["type"],
+                                                node_group_name, links[i]["to_node"]["name"]);
+    }
+}
+
+function trace_group_nodes(graph){
+    var node_groups = [];
+    m_graph.traverse(graph, function(id, node) {
+        if (node["type"] == "GROUP")
+            node_groups.push(node);
+    });
+    return node_groups;
+}
+
+function append_node_groups_graphs(graph, links, node_groups) {
+    for (var i = 0; i < node_groups.length; i++) {
+        var node_group_graph = node_groups[i].data.node_group_graph;
+        var node_group_links = node_groups[i].data.node_group_links;
+        if (!node_group_graph)
+            return false;
+
+        m_graph.traverse(node_group_graph, function(id, node) {
+            m_graph.append_node(graph, m_graph.gen_node_id(graph), node);
+        });
+
+        for (var j = 0; j < node_group_links.length; j++)
+            links.push(node_group_links[j]);
+
+        change_node_groups_links(node_groups[i], links, graph);
+    }
+    return true;
+}
+
+function distribute_link(property, group_name, link, node_group_links,
+                    node_group_input_links, node_group_output_links) {
+    switch (property.type) {
+        case "GROUP":
+            if (property["name"] == group_name)
+                node_group_links.push(link);
+            break;
+        case "GROUP_INPUT":
+            if (!property["name"].indexOf(group_name + "*GI*"))
+                node_group_input_links.push(link);
+            break;
+        case "GROUP_OUTPUT":
+            if (!property["name"].indexOf(group_name + "*GO*"))
+                node_group_output_links.push(link);
+            break;
+    }
+}
+
+// change links, return links for cut
+function relink(links, input_links, output_links) {
+    var unused_links = [];
+    for (var i = 0; i < input_links.length; i++) {
+        var input = input_links[i];
+        var output = null;
+        for (var j = 0; j < output_links.length; j++)
+            if (input["from_socket"]["identifier"] ==
+                output_links[j]["to_socket"]["identifier"]) {
+                output = output_links[j]
+                break;
+            }
+        if (output) {
+            input["from_node"] = output["from_node"];
+            input["from_socket"] = output["from_socket"];
+        } else
+            unused_links.push(input);
+    }
+    // remove links to node group or to group_output
+    for (var i = 0; i < output_links.length; i++)
+        links.splice(links.indexOf(output_links[i]), 1);
+    return unused_links;
+}
+
+function set_input_default_value(link, graph, value) {
+    var node_ids = nmat_node_ids(link["to_node"], graph);
+    for (var i = 0; i < node_ids.length; i++) {
+        var node_attr = m_graph.get_node_attr(graph, node_ids[i]);
+        for (var j = 0; j < node_attr.inputs.length; j++)
+            if (node_attr.inputs[j].identifier == link["to_socket"]["identifier"]) {
+                node_attr.inputs[j].default_value = value;
+                break;
+            }
+    }
+}
+
+function change_default_values(links, graph, node, unused_links) {
+    for (var i = 0; i < unused_links.length; i++) {
+        var link = unused_links[i];
+        var value;
+        for (var j = 0; j < node.inputs.length; j++)
+            if (link["from_socket"]["identifier"] == node.inputs[j].identifier) {
+                value = node.inputs[j].default_value;
+                break;
+            }
+        set_input_default_value(link, graph, value);
+        links.splice(links.indexOf(link), 1);
+    }
+}
+
+function change_node_groups_links(node, links, graph) {
+
+    var group_name = node.name;
+
+    var node_group_links_from = [];     // node outputs
+    var node_group_links_to = [];       // node inputs
+    var node_group_input_links = [];
+    var node_group_output_links = [];
+
+    // find links to/from node_group, group_input, group_output
+    for (var i = 0; i < links.length; i++) {
+        var link = links[i];
+        distribute_link(link["from_node"], group_name, link, node_group_links_from,
+            node_group_input_links, node_group_output_links);
+        distribute_link(link["to_node"], group_name, link, node_group_links_to,
+            node_group_input_links, node_group_output_links);
+    }
+
+    var unused_input_links = relink(links, node_group_input_links, node_group_links_to);
+    var unused_output_links = relink(links, node_group_links_from, node_group_output_links);
+
+    // change default value of group nodes connected to group_input
+    change_default_values(links, graph, node, unused_input_links);
+
+    // change default value of node with links from node_group
+    if (unused_output_links.length) {
+        var output_node;
+        m_graph.traverse(graph, function(id, node) {
+            if (node.type == "GROUP_OUTPUT" &&
+                !node.name.indexOf(group_name + "*GO*"))
+                output_node = node;
+        });
+        change_default_values(links, graph, output_node, unused_output_links);
+    }
 }
 
 exports.cleanup = cleanup;

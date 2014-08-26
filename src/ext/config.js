@@ -69,6 +69,14 @@
  * <dd>Boolean, enable wireframe debug mode.
  * </dl>
  * @module config
+ * @cc_externs all_objs_selectable alpha alpha_sort alpha_sort_threshold
+ * @cc_externs anaglyph_use animation_framerate antialiasing
+ * @cc_externs assets_dds_available assets_min50_available background_color
+ * @cc_externs built_in_module_name console_verbose context_antialias
+ * @cc_externs deferred_rendering do_not_load_resources force_selectable
+ * @cc_externs glow physics_enabled physics_uranium_path precision
+ * @cc_externs quality resolution_factor shaders_dir show_hud_debug_info
+ * @cc_externs smaa smaa_search_texture_path smaa_area_texture_path wireframe_debug
  */
 b4w.module["config"] = function(exports, require) {
 
@@ -78,22 +86,22 @@ var m_cfg = require("__config");
  * Low quality profile: maximize engine performance.
  * @const {Number} module:config.P_LOW
  */
-exports["P_LOW"] = m_cfg.P_LOW;
+exports.P_LOW = m_cfg.P_LOW;
 /**
  * High quality profile: use all requested features.
  * @const {Number} module:config.P_HIGH
  */
-exports["P_HIGH"] = m_cfg.P_HIGH;
+exports.P_HIGH = m_cfg.P_HIGH;
 /**
  * Ultra quality profile: use all requested features and maximize quality.
  * @const {Number} module:config.P_ULTRA
  */
-exports["P_ULTRA"] = m_cfg.P_ULTRA;
+exports.P_ULTRA = m_cfg.P_ULTRA;
 /**
  * Custom quality profile: use engine defaults value, allow customizaiton.
  * @const {Number} module:config.P_CUSTOM
  */
-exports["P_CUSTOM"] = m_cfg.P_CUSTOM;
+exports.P_CUSTOM = m_cfg.P_CUSTOM;
 
 /**
  * Set the engine's global property.
@@ -101,19 +109,19 @@ exports["P_CUSTOM"] = m_cfg.P_CUSTOM;
  * @param {String} prop Property name
  * @param {*} value New property value
  */
-exports["set"] = m_cfg.set;
+exports.set = m_cfg.set;
 /**
  * Get the engine's global property.
  * @method module:config.get
  * @param {String} prop Property name
  * @returns {*} Value of property
  */
-exports["get"] = m_cfg.get;
+exports.get = m_cfg.get;
 /**
  * Reset all the engine's global properties.
  * @method module:config.reset
  */
-exports["reset"] = m_cfg.reset;
+exports.reset = m_cfg.reset;
 
 }
 

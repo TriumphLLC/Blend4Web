@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Materials &mdash; User Manual: Blend4Web v14.07</title>
+    <title>Materials &mdash; User Manual: Blend4Web v14.08</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.07',
+        VERSION:     '14.08',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User Manual: Blend4Web v14.07" href="index.html" />
+    <link rel="top" title="User Manual: Blend4Web v14.08" href="index.html" />
     <link rel="next" title="Node Materials" href="node_materials.html" />
     <link rel="prev" title="Textures" href="textures.html" /> 
   </head>
@@ -36,7 +36,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">User Manual: Blend4Web v14.07</a></div>
+          href="index.html">User Manual: Blend4Web v14.08</a></div>
         <div class="rel">
           <a href="textures.html" title="Textures"
              accesskey="P">previous</a> |
@@ -63,9 +63,7 @@
 <p>The following material types are supported: <tt class="docutils literal"><span class="pre">Surface</span></tt>, <tt class="docutils literal"><span class="pre">Halo</span></tt>.</p>
 <div class="section" id="material-lighting-params">
 <span id="index-1"></span><span id="id2"></span><h2>Lighting Parameters<a class="headerlink" href="#material-lighting-params" title="Permalink to this headline">¶</a></h2>
-<div class="align-center figure">
-<a class="reference internal image-reference" href="_images/material_panel_shading.jpg"><img alt="Параметры освещения" src="_images/material_panel_shading.jpg" style="width: 202.5px; height: 324.5px;" /></a>
-</div>
+<a class="reference internal image-reference" href="_images/panel_shading.png"><img alt="_images/panel_shading.png" class="align-center" src="_images/panel_shading.png" style="width: 100%;" /></a>
 <dl class="docutils">
 <dt><em>Diffuse &gt; Color</em></dt>
 <dd><p class="first last">Diffuse light color. The default value is (0.8, 0.8, 0.8). It may interact with the diffuse map color.</p>
@@ -105,8 +103,8 @@
 </dd>
 </dl>
 </div>
-<div class="section" id="index-2">
-<span id="id3"></span><h2>Transparency<a class="headerlink" href="#index-2" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="alpha-blend">
+<span id="index-2"></span><span id="id3"></span><h2>Transparency<a class="headerlink" href="#alpha-blend" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="index-3">
 <span id="id4"></span><h3>Types<a class="headerlink" href="#index-3" title="Permalink to this headline">¶</a></h3>
 <p>Transparency implementation type can be selected in the <tt class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Blend</span></tt> menu on the <tt class="docutils literal"><span class="pre">Materials</span> <span class="pre">&gt;</span> <span class="pre">Game</span> <span class="pre">Settings</span></tt> panel (in the <tt class="docutils literal"><span class="pre">Blender</span> <span class="pre">Game</span></tt> mode).</p>
@@ -128,7 +126,7 @@
 <dd><p class="first last">Non-transparent. Alpha is ignored. This is the default value.</p>
 </dd>
 </dl>
-<a class="reference internal image-reference" href="_images/alpha_types.jpg"><img alt="Типы прозрачности" class="align-center" src="_images/alpha_types.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/alpha_types.jpg"><img alt="_images/alpha_types.jpg" class="align-center" src="_images/alpha_types.jpg" style="width: 100%;" /></a>
 </div>
 <div class="section" id="index-4">
 <span id="id5"></span><h3>Additional settings<a class="headerlink" href="#index-4" title="Permalink to this headline">¶</a></h3>
@@ -214,7 +212,7 @@
 <dd><p class="first last">Fresnel factor for reflection. It is reduced to R<sub>0</sub> in the Schlick&#8217;s formula by the following expression: R<sub>0</sub> = 1 - <tt class="docutils literal"><span class="pre">Blend</span></tt> / 5. In Blender it is limited to values from 0 to 5. This parameter defines the Fresnel effect intensity: the bigger the <tt class="docutils literal"><span class="pre">Blend</span></tt> factor is, the more is the Fresnel effect influence. If it is equal to zero the Fresnel effect is not observed.</p>
 </dd>
 </dl>
-<a class="reference internal image-reference" href="_images/reflection_dynamic_and_fresnel.jpg"><img alt="Динамическое отражение и эффект Френеля" class="align-center" src="_images/reflection_dynamic_and_fresnel.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/reflection_dynamic_and_fresnel.jpg"><img alt="_images/reflection_dynamic_and_fresnel.jpg" class="align-center" src="_images/reflection_dynamic_and_fresnel.jpg" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -241,6 +239,17 @@
 <dt><em>Double-sided Lighting</em></dt>
 <dd><p class="first last">Enables the double-sided lighting mode. This option is useful for non-transparent objects with a single-layered mesh.</p>
 </dd>
+<dt><em>Refractive</em></dt>
+<dd><p class="first">Make object refractive. Perturbation factor can be set with option <tt class="docutils literal"><span class="pre">Reftaction</span> <span class="pre">bump</span></tt> from <tt class="docutils literal"><span class="pre">Reftaction</span> <span class="pre">Settings</span></tt> panel. The default value is 0.001.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">It needs to check option <tt class="docutils literal"><span class="pre">Render</span> <span class="pre">refraction</span></tt> from <tt class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span></tt> panel. Object&#8217;s transparency type must be set to <tt class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Blend</span></tt>.</p>
+</div>
+<div class="last admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="#alpha-blend"><em>Transparency</em></a></p>
+</div>
+</dd>
 </dl>
 </div>
 <div class="section" id="halo">
@@ -249,7 +258,7 @@
 <div class="section" id="id14">
 <h3>Activation<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
 <p>Select the <tt class="docutils literal"><span class="pre">Halo</span></tt> type under the <tt class="docutils literal"><span class="pre">Materials</span></tt> tab. It&#8217;s also recommended to select the transparency type with a gradient (<tt class="docutils literal"><span class="pre">Add</span></tt>, <tt class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Blend</span></tt> or <tt class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Sort</span></tt>).</p>
-<a class="reference internal image-reference" href="_images/halo.jpg"><img alt="Материал гало" class="align-center" src="_images/halo.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/halo.jpg"><img alt="_images/halo.jpg" class="align-center" src="_images/halo.jpg" style="width: 100%;" /></a>
 </div>
 <div class="section" id="id15">
 <h3>Additional settings<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
@@ -309,12 +318,13 @@
 <li class="toctree-l1"><a class="reference internal" href="setup.html">Development Environment Setup</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Workflow</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Scene Viewer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="web_player.html">Web Player</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">The Addon</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Materials</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#material-lighting-params">Lighting Parameters</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#index-2">Transparency</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#alpha-blend">Transparency</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#material-mirror">Reflection</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#index-9">Parameters Specific to the Engine</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#halo">Halo Materials</a></li>
@@ -367,7 +377,7 @@
           
     <div class="footer">
         &copy; Copyright 2014, Triumph LLC.
-      Last updated on 2014-07-23.
+      Last updated on 2014-08-25.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

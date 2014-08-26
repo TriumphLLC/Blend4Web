@@ -16,16 +16,16 @@
 
 Для задействования физики на сцене необходимо установить флаг ``Enable physics`` в вкладке сцены в Blender'е.
 
-.. image:: src_images/engine_ui/scene.jpg
-   :alt: Интерфейс с опциями сцены
+.. image:: src_images/physics/scene_interface.png
+   :align: center
    :width: 100%
 
 |
 
 Настройка физических параметров производится в режиме ``Blender Game``.
 
-.. image:: src_images/blender_ui/info_panel.jpg
-   :alt: Панель информации Blender'a
+.. image:: src_images/physics/info_panel.jpg
+   :align: center
    :width: 100%
 
 |
@@ -35,27 +35,26 @@
 
 Может использоваться как ограничитель движения других объектов, например, для определения столкновений с ландшафтом, стенами и т.д. В настройках физики такого объекта для опции ``Physics Type`` должно быть выбрано значение ``Static`` (значение по умолчанию).
 
-.. figure:: src_images/blender_ui/physics_panel_static.jpg
-   :alt: Интерфейс панели физики, объект со статической физикой
-   :width: 80%
-   :figclass: align-center
+.. image:: src_images/physics/physics_panel_static.png
+   :align: center
+   :width: 100%
 
 |
 
 Меш может быть покрыт одним или несколькими физическими материалами. Во вкладке ``Material`` должна быть включена опция ``Blend4Web > Special: Collision``. Также во вкладке ``Material`` на панели ``Physics`` (в режиме ``Blender Game``) располагаются физические настройки материала. Поддерживаются следующие физические настройки материала: трение (``Friction``), упругость (``Elasticity``). 
 
-.. image:: src_images/blender_ui/material_panel_physics.jpg
-   :alt: Интерфейс панели материала с настройками физики
+.. image:: src_images/physics/material_panel_physics.png
+   :align: center
    :width: 100%
-
+   
 |
 
 Поле ``Collision ID`` предназначено для определения столкновения со специфическим материалом, и может быть оставлено пустым. Пример использования ``Collision ID`` - определение нахождения игрового персонажа на разных типах покрытия ландшафта - трава, песок, деревянное покрытие и т.д.
 
 Опция ``Ghost`` исключает материал из физических взаимодействий, но сообщает приложению о контакте с ним. Пример - определение, что игровой персонаж находится на вертикальной лестнице.
 
-.. image:: src_images/blender_screens/physics_water_tower.jpg
-   :alt: Объект с несколькими физическими материалами
+.. image:: src_images/physics/water_tower.jpg
+   :align: center
    :width: 100%
 
 |
@@ -69,8 +68,8 @@
 
 Предназначен для симуляции движения жесткого тела. 
 
-.. image:: src_images/engine_screens/physics_dynamic.jpg
-   :alt: Множество объектов с динамической физикой в 3D движке
+.. image:: src_images/physics/physics_dynamic.jpg
+   :align: center
    :width: 100%
 
 |
@@ -81,20 +80,18 @@
 
 Поле ``Collision mask`` определяет все физические группы, с которыми будет взаимодействовать данный объект.
 
-.. figure:: src_images/blender_ui/physics_panel_dynamic.jpg
-   :alt: Интерфейс панели физики, объект с динамической физикой
-   :width: 80%
-   :figclass: align-center
-
+.. image:: src_images/physics/physics_panel_dynamic.png
+   :align: center
+   :width: 100%
+   
 |
 
 В настройках панели физики объекта должен быть установлен флаг ``Detect collisions``. Поле ``Collision ID`` предназначено для определения столкновения со специфическим объектом (например, прикрепленный к камере объект для определения близости FPS персонажа к предметам), и может быть оставлено пустым. 
 
-.. figure:: src_images/engine_ui/object.jpg
-   :alt: Интерфейс панели физики, объект с динамической физикой
-   :width: 80%
-   :figclass: align-center
-
+.. image:: src_images/physics/object.png
+   :align: center
+   :width: 100%
+   
 |
 
 Для материала такого объекта поддерживаются: трение (``Friction``), упругость (``Elasticity``). В случае использования на одном меше нескольких материалов физические настройки считываются с первого из них.
@@ -107,18 +104,18 @@
 
 Физические ограничители используются для уменьшения числа степеней свободы объектов.
 
-.. image:: src_images/engine_screens/physics_constraints.jpg
-   :alt: Примеры работы ограничителей в 3D движке
+.. image:: src_images/physics/physics_constraints.jpg
+   :align: center
    :width: 100%
-
+   
 |
 
 Установка физического ограничителя (``Rigid Body Joint``) на объект происходит в панели ``Object Constraints``. Поддерживаемые типы (``Pivot Type``): ``Ball``, ``Hinge``, ``Cone Twist``, ``Generic 6 DoF``. Физический ограничитель можно установить на один из двух взаимодействующих объектов, при этом другой выступает в качестве цели (``Target``). Оба объекта могут быть со статическим и/или динамическим типом физики. В ограничителях (кроме ``Ball``) могут настраиваться пределы перемещения и вращения.
 
-.. image:: src_images/blender_ui/physics_constraints_panel.jpg
-   :alt: Панель установки физического ограничителя
+.. image:: src_images/physics/physics_constraints_panel.png
+   :align: center
    :width: 100%
-
+   
 |
 
 
@@ -127,8 +124,8 @@
 
 Модель транспортного средства (ТС) должна состоять из 6 отдельных объектов - шасси, 4 колеса, рулевое колесо. Центр меша шасси должен соответствовать центру масс. Центры мешей колес и рулевого колеса должны располагаться на осях вращения. Рулевое колесо должно быть ориентировано в локальной системе координат: X - ось вращения, Y - вправо, Z - вверх. Объекты могут иметь любые названия.
 
-.. image:: src_images/blender_ui/physics_vehicle_wheeled.jpg
-   :alt: Настройка физики колесного транспортного средства
+.. image:: src_images/physics/physics_vehicle_wheeled.jpg
+   :align: center
    :width: 100%
 
 |
@@ -178,8 +175,8 @@
 
 Плавающие объекты
 =================
-.. image:: src_images/blender_ui/physics_floater.jpg
-   :alt: Настройка физики плавающего объекта
+.. image:: src_images/physics/physics_floater.jpg
+   :align: center
    :width: 100%
 
 |
@@ -203,8 +200,8 @@
 Плавающие транспортные средства
 ===============================
 
-.. image:: src_images/blender_ui/physics_boat.jpg
-   :alt: Настройка физики плавающего транспортного средства
+.. image:: src_images/physics/physics_boat.jpg
+   :align: center
    :width: 100%
 
 |

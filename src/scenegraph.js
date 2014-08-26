@@ -313,6 +313,7 @@ function process_subscene_links(graph) {
             break;
         default:
             var tex_storage = tex_storage_all;
+            break;
         }
 
         // assign new (or unused) internal textures
@@ -341,6 +342,7 @@ function process_subscene_links(graph) {
             var tex_storage = [];
             break;
         default:
+            break;
         }
 
         // connect new (or unused) external textures
@@ -350,9 +352,7 @@ function process_subscene_links(graph) {
 
             var tex = find_nearest_tex(graph_sorted, id, slink.from);
             if (tex && slink.active && !slink.texture) {
-                if (slink.from != slink.to)
-                    tex_inc_ref(tex_storage, tex);
-
+                tex_inc_ref(tex_storage, tex);
                 slink.texture = tex;
                 return;
             }
@@ -369,8 +369,7 @@ function process_subscene_links(graph) {
             var slink = attr_edge;
             var subs_in = attr_in;
 
-            if (slink.from != slink.to)
-                tex_dec_ref(tex_storage, slink.texture);
+            tex_dec_ref(tex_storage, slink.texture);
         });
 
         // release unused non-connected textures
@@ -378,8 +377,9 @@ function process_subscene_links(graph) {
                 attr_edge) {
             var slink = attr_edge;
 
-            if (slink.texture && slink.to == "NONE")
+            if (slink.texture && slink.to == "NONE") {
                 tex_dec_ref(tex_storage, slink.texture);
+            }
         });
     });
 }
@@ -411,7 +411,8 @@ function find_nearest_tex(graph, id, type) {
             attr_edge) {
         var slink = attr_edge;
 
-        if (slink.active && slink.from == slink.to && slink.from == type && slink.texture) {
+        if (slink.active && slink.from == slink.to && slink.from == type &&
+                slink.texture) {
             tex = slink.texture;
             return true;
         }
@@ -559,7 +560,7 @@ function assign_render_targets(graph) {
 
             if (slink.active && slink.texture) {
                 m_cam.set_attachment(cam, slink.from, slink.texture);
-                
+
                 if (slink.from == slink.to && attr_out.camera)
                     m_cam.set_attachment(attr_out.camera, slink.from, slink.texture);
             }
@@ -907,7 +908,7 @@ exports.create_rendering_graph = function(render_to_texture, sc_render, cam_rend
         // camera depends on bpy camera
         cam_render.cameras.push(cam);
 
-        var subs_color_picking = create_subs_color_picking(cam);        
+        var subs_color_picking = create_subs_color_picking(cam);
         m_graph.append_node_attr(graph, subs_color_picking);
     } else
         var subs_color_picking = null;
@@ -957,13 +958,13 @@ exports.create_rendering_graph = function(render_to_texture, sc_render, cam_rend
         }
 
         if (subs_depth.type == "DEPTH_PACK") {
-            var slink_shore_in = create_slink("COLOR", "u_shore_depth", 1, 1, true);
+            var slink_shore_in = create_slink("COLOR", "u_scene_depth", 1, 1, true);
             slink_shore_in.min_filter = m_tex.TF_NEAREST;
             slink_shore_in.mag_filter = m_tex.TF_NEAREST;
             m_graph.append_edge_attr(graph, subs_depth, subs_main,
                                      slink_shore_in);
         } else {
-            var slink_shore_in = create_slink("DEPTH", "u_shore_depth", 1, 1, true);
+            var slink_shore_in = create_slink("DEPTH", "u_scene_depth", 1, 1, true);
             slink_shore_in.min_filter = m_tex.TF_LINEAR;
             slink_shore_in.mag_filter = m_tex.TF_LINEAR;
             m_graph.append_edge_attr(graph, subs_depth, subs_main,
@@ -1560,7 +1561,7 @@ function init_subs(type) {
         camera: null,
         cube_view_matrices: null,
         reflection_plane: null,
-        bundles: [],        
+        bundles: [],
         slinks_internal: [],
         textures_internal: [],
         wind: new Float32Array(3),
@@ -1582,6 +1583,7 @@ function init_subs(type) {
         sun_intensity: new Float32Array(3),
         sun_direction: new Float32Array(3),
         sun_quaternion: new Float32Array(4),
+        sky_texture_slots: null,
 
         // glow properties
         glow_factor: 0,
@@ -1608,6 +1610,8 @@ function init_subs(type) {
         caust_brightness: 0,
 
         // sky properties
+        procedural_skydome: false,
+        use_as_environment_lighting: false,
         mie_brightness: 0,
         rayleigh_brightness: 0,
         spot_brightness: 0,
@@ -1650,6 +1654,7 @@ function init_subs(type) {
 
         // other postprocessing properties
         bloom_key: 0,
+        bloom_blur: 0,
         bloom_edge_lum: 0,
         blur_depth_size_mult: 0,
         blur_depth_edge_size: 0,
@@ -1777,8 +1782,7 @@ function create_subs_main(main_type, cam, subs_attach_out,
     subs.horizon_color.set(wls_params.horizon_color);
     subs.zenith_color.set(wls_params.zenith_color);
     subs.environment_energy = wls_params.environment_energy;
-    if (wls_params.sky_texture_slots)
-        subs.sky_texture_slots = wls_params.sky_texture_slots;
+    subs.sky_texture_slots = wls_params.sky_texture_slots;
 
     // by link
     subs.fog_color_density = fog;
@@ -2004,7 +2008,7 @@ function create_subs_motion_blur(mb_decay_threshold, mb_factor) {
 }
 
 function create_subs_dof(cam) {
- 
+
     var subs = init_subs("DOF");
     subs.clear_color = false;
     subs.clear_depth = false;
@@ -2018,7 +2022,7 @@ function create_subs_dof(cam) {
 
 function create_subs_glow_mask(cam) {
     var subs = init_subs("GLOW_MASK");
-    
+
     subs.camera = cam;
     subs.depth_test = false;
 
@@ -2035,8 +2039,8 @@ function create_subs_glow(glow_params) {
     subs.depth_test = false;
 
     subs.camera = m_cam.create_camera(m_cam.TYPE_NONE);
-    
-    return subs;   
+
+    return subs;
 }
 
 function create_subs_refract() {

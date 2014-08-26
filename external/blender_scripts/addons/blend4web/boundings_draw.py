@@ -14,7 +14,7 @@ class B4W_BoundingsDrawUI(bpy.types.Panel):
     bl_space_type = 'VIEW_3D'
     bl_region_type = 'TOOLS'
     bl_category = "Blend4Web"
-    
+
     def __init__(self):
         pass
 
@@ -26,7 +26,7 @@ class B4W_BoundingsDrawUI(bpy.types.Panel):
             return (ob.type == 'MESH')
         except AttributeError:
             return 0
-      
+
     def draw(self, context):
 
         layout = self.layout
@@ -59,7 +59,7 @@ class B4W_BoundingsDrawUI(bpy.types.Panel):
                 row.operator('mesh.draw_boundings', text = 'Show Bounding Ellipsoid').processed_att = "b4w_draw_bound_ellipsoid"
         else:
             row.operator('mesh.draw_boundings', text = 'Show Bounding Ellipsoid').processed_att = "b4w_draw_bound_ellipsoid"
-        
+
 def InitGLOverlay(self, context):
 
     obj = context.active_object
@@ -78,7 +78,7 @@ def InitGLOverlay(self, context):
         x_width = max_x - min_x
         y_width = max_y - min_y
         z_width = max_z - min_z
-        
+
         cen = [0]*3
         cen[0] = (max_x + min_x) / 2
         cen[1] = (max_y + min_y) / 2
@@ -285,18 +285,18 @@ def clear_properties():
             del x
         except:
             pass
-    
+
 def register():
 
     bpy.utils.register_class(B4W_BoundingsDrawUI)
     bpy.utils.register_class(B4W_DrawBoundings)
-    
+
     init_properties()
 
 def unregister():
-    
+
     bpy.utils.unregister_class(B4W_BoundingsDrawUI)
     bpy.utils.unregister_class(B4W_DrawBoundings)
 
     clear_properties()
-    
+

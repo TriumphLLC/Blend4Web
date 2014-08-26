@@ -47,9 +47,7 @@ uniform vec4 u_light_factors2[NUM_LIGHTS];
 uniform vec4 u_sun_quaternion;
 #endif
 
-#if SHADED
 uniform vec3 u_camera_eye_frag;
-#endif
 
 #if !DISABLE_FOG
 uniform vec4 u_fog_color_density;
@@ -71,8 +69,9 @@ uniform vec3 u_sun_direction;
 uniform mat4 u_cube_fog;
 #endif
 
-// for NORMAL_VIEW node
+#if USE_NODE_NORMAL_VIEW || REFLECTIVE
 uniform mat4 u_view_matrix_frag;
+#endif
 
 /*============================================================================
                                SAMPLER UNIFORMS
@@ -80,6 +79,7 @@ uniform mat4 u_view_matrix_frag;
 
 #if REFLECTIVE
 uniform sampler2D u_reflectmap;
+uniform vec4 u_refl_plane;
 #elif TEXTURE_MIRROR
 uniform samplerCube u_mirrormap;
 #endif
@@ -103,6 +103,11 @@ uniform sampler2D u_shadow_map3;
 
 #endif
 
+#if USE_NODE_REFRACTION
+uniform sampler2D u_refractmap;
+uniform sampler2D u_scene_depth;
+#endif
+
 /*============================================================================
                                MATERIAL UNIFORMS
 ============================================================================*/
@@ -112,9 +117,7 @@ uniform float u_ambient;
 //uniform float u_normal_factor;
 uniform vec4  u_fresnel_params;
 
-#if REFLECTIVE
-uniform float u_reflect_factor;
-#elif TEXTURE_MIRROR
+#if TEXTURE_MIRROR
 uniform float u_mirror_factor;
 #endif
 
@@ -153,16 +156,22 @@ varying vec4 v_shadow_coord3;
 # endif
 #endif
 
-#if REFLECTIVE || SHADOW_SRC == SHADOW_SRC_MASK
+#if REFLECTIVE || SHADOW_SRC == SHADOW_SRC_MASK || USE_NODE_REFRACTION
 varying vec3 v_tex_pos_clip;
+#endif
+
+#if USE_NODE_REFRACTION && REFRACTIVE
+varying float v_view_depth;
 #endif
 
 /*============================================================================
                                GLOBAL VARIABLES
 ============================================================================*/
 
-float ZERO_VALUE = 0.0;
-float UNITY_VALUE = 1.0;
+float ZERO_VALUE_NODES = 0.0;
+float UNITY_VALUE_NODES = 1.0;
+vec3 UNITY_VECTOR = vec3(UNITY_VALUE_NODES);
+vec3 ZERO_VECTOR = vec3(ZERO_VALUE_NODES);
 
 /*============================================================================
                                   FUNCTIONS
@@ -171,44 +180,29 @@ float UNITY_VALUE = 1.0;
 #include <shadow.glslf>
 #include <mirror.glslf>
 
+#if USE_NODE_REFRACTION
+#include <refraction.glslf>
+
+vec3 refraction_node(in vec3 normal_in, in float refr_bump) {
+    vec3 refract_color = vec3(ZERO_VALUE_NODES);
+#if REFRACTIVE
+    refract_color = material_refraction(v_tex_pos_clip, normal_in.xz * refr_bump);
+#endif
+    return refract_color;
+}
+#endif
+
 #if USE_NODE_HUE_SAT || USE_NODE_MIX_RGB_HUE || USE_NODE_MIX_RGB_SATURATION \
 || USE_NODE_MIX_RGB_VALUE || USE_NODE_MIX_RGB_COLOR || USE_NODE_SEPHSV
 vec3 rgb_to_hsv(vec3 rgb)
 {
-    float cmax, cmin, h, s, v, cdelta;
-    vec3 c;
+    vec4 k = vec4(ZERO_VALUE_NODES, -UNITY_VALUE_NODES / 3.0, 2.0 / 3.0, -UNITY_VALUE_NODES);
+    vec4 p = mix(vec4(rgb.bg, k.wz), vec4(rgb.gb, k.xy), step(rgb.b, rgb.g));
+    vec4 q = mix(vec4(p.xyw, rgb.r), vec4(rgb.r, p.yzx), step(p.x, rgb.r));
 
-    cmax = max(rgb[0], max(rgb[1], rgb[2]));
-    cmin = min(rgb[0], min(rgb[1], rgb[2]));
-    cdelta = cmax-cmin;
-
-    v = cmax;
-    if (cmax != ZERO_VALUE)
-        s = cdelta/cmax;
-    else {
-        s = ZERO_VALUE;
-        h = ZERO_VALUE;
-    }
-
-    if (is_equalf(s, ZERO_VALUE)) {
-        h = ZERO_VALUE;
-    } else {
-        c = (vec3(cmax, cmax, cmax) - rgb.xyz) / cdelta;
-
-        if (is_equalf(rgb.x, cmax))
-            h = c[2] - c[1];
-        else if (is_equalf(rgb.y, cmax))
-            h = 2.0 + c[0] - c[2];
-        else
-            h = 4.0 + c[1] - c[0];
-
-        h /= 6.0;
-
-        if (h < ZERO_VALUE)
-            h += UNITY_VALUE;
-    }
-
-    return vec3(h, s, v);
+    float d = q.x - min(q.w, q.y);
+    float e = 1.0e-10;
+    return vec3(abs(q.z + (q.w - q.y) / (6.0 * d + e)), d / (q.x + e), q.x);
 }
 #endif
 
@@ -216,49 +210,16 @@ vec3 rgb_to_hsv(vec3 rgb)
 || USE_NODE_MIX_RGB_VALUE || USE_NODE_MIX_RGB_COLOR || USE_NODE_COMBHSV
 vec3 hsv_to_rgb(vec3 hsv)
 {
-    float i, f, p, q, t, h, s, v;
-    vec3 rgb;
-
-    h = hsv[0];
-    s = hsv[1];
-    v = hsv[2];
-
-    if (is_equalf(s, ZERO_VALUE)) {
-        rgb = vec3(v, v, v);
-    } else {
-        if (is_equalf(h, ZERO_VALUE))
-            h = ZERO_VALUE;
-
-        h *= 6.0;
-        i = floor(h);
-        f = h - i;
-        rgb = vec3(f, f, f);
-        p = v*(UNITY_VALUE-s);
-        q = v*(UNITY_VALUE-(s*f));
-        t = v*(UNITY_VALUE-(s*(UNITY_VALUE-f)));
-
-        if (is_equalf(i, ZERO_VALUE))
-            rgb = vec3(v, t, p);
-        else if (is_equalf(i, UNITY_VALUE))
-            rgb = vec3(q, v, p);
-        else if (is_equalf(i, 2.0))
-            rgb = vec3(p, v, t);
-        else if (is_equalf(i, 3.0))
-            rgb = vec3(p, q, v);
-        else if (is_equalf(i, 4.0))
-            rgb = vec3(t, p, v);
-        else
-            rgb = vec3(v, p, q);
-    }
-
-    return rgb;
+    vec4 k = vec4(UNITY_VALUE_NODES, 2.0 / 3.0, UNITY_VALUE_NODES / 3.0, 3.0);
+    vec3 p = abs(fract(vec3(hsv.r, hsv.r, hsv.r) + k.xyz) * 6.0 - k.www);
+    return hsv.b * mix(k.xxx, clamp(p - k.xxx, ZERO_VALUE_NODES, UNITY_VALUE_NODES), hsv.g);
 }
 #endif
 
 #if USE_NODE_GEOMETRY_UV || USE_NODE_PARALLAX
 vec3 uv_to_vec(vec2 uv)
 {
-    return vec3(uv*2.0 - vec2(UNITY_VALUE, UNITY_VALUE), ZERO_VALUE);
+    return vec3(uv*2.0 - vec2(UNITY_VALUE_NODES, UNITY_VALUE_NODES), ZERO_VALUE_NODES);
 }
 #endif
 
@@ -272,14 +233,15 @@ vec2 vec_to_uv(vec3 vec)
 #endif
 
 // NOTE: make special function, because directives are not allowed into #node blocks
-void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal, vec3 normalmap) {
+void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal,
+                           float reflect_factor) {
 # if REFLECTIVE || TEXTURE_MIRROR
 #  if CALC_TBN_SPACE
     apply_mirror(color, eye_dir, normal, u_fresnel_params[2],
-            u_fresnel_params[3], normalmap.st);
+                 u_fresnel_params[3], reflect_factor);
 #  else
     apply_mirror(color, eye_dir, normal, u_fresnel_params[2],
-            u_fresnel_params[3], vec2(ZERO_VALUE));
+                 u_fresnel_params[3], reflect_factor);
 #  endif
 # endif
 }
@@ -302,11 +264,11 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal, vec3 nor
 #endnode
 
 #node COMBHSV
-    #node_in float r
-    #node_in float g
-    #node_in float b
+    #node_in float h
+    #node_in float s
+    #node_in float v
     #node_out vec3 color
-    color = hsv_to_rgb(vec3(r, g, b));
+    color = hsv_to_rgb(vec3(h, s, v));
 #endnode
 
 #node GEOMETRY_UV
@@ -354,7 +316,7 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal, vec3 nor
     #node_out float frontback
     // NOTE: possible compatibility issues
     // 1 front, 0 back
-    frontback = (gl_FrontFacing) ? UNITY_VALUE : ZERO_VALUE;
+    frontback = (gl_FrontFacing) ? UNITY_VALUE_NODES : ZERO_VALUE_NODES;
 #endnode
 
 #node GEOMETRY_VW
@@ -376,25 +338,14 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal, vec3 nor
     #node_out vec3 color
 {
     vec3 hsv = rgb_to_hsv(color_in);
-
     hsv[0] += (hue - 0.5);
-    if (hsv[0] > UNITY_VALUE)
-        hsv[0] -=UNITY_VALUE;
-    else if (hsv[0] < ZERO_VALUE)
-        hsv[0] += UNITY_VALUE;
+    if (hsv[0] > UNITY_VALUE_NODES)
+        hsv[0] -= UNITY_VALUE_NODES;
+    else if (hsv[0] < ZERO_VALUE_NODES)
+        hsv[0] += UNITY_VALUE_NODES;
 
-    hsv[1] *= saturation;
-    if (hsv[1] > UNITY_VALUE)
-        hsv[1] = UNITY_VALUE;
-    else if (hsv[1] < ZERO_VALUE)
-        hsv[1] = ZERO_VALUE;
-
-    hsv[2] *= value;
-    if (hsv[2] > UNITY_VALUE)
-        hsv[2] = UNITY_VALUE;
-    else if (hsv[2] < ZERO_VALUE)
-        hsv[2] = ZERO_VALUE;
-
+    hsv *= vec3(UNITY_VALUE_NODES, saturation, value);
+    hsv = mix(UNITY_VECTOR, mix(ZERO_VECTOR, hsv, step(ZERO_VECTOR, hsv)), step(hsv, UNITY_VECTOR));
     color = mix(color_in, hsv_to_rgb(hsv), factor);
 }
 #endnode
@@ -403,7 +354,7 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal, vec3 nor
     #node_in float factor
     #node_in vec3 color_in
     #node_out vec3 color
-    color = mix(color_in, vec3(UNITY_VALUE) - color_in, factor);
+    color = mix(color_in, vec3(UNITY_VALUE_NODES) - color_in, factor);
 #endnode
 
 #node LAMP
@@ -419,7 +370,7 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal, vec3 nor
     color_out = u_lamp_light_color_intensities[lamp_index];
 
     // see shade_diffuse_fresnel
-    if (lamp_dist != -UNITY_VALUE) { // point and spot
+    if (lamp_dist != -UNITY_VALUE_NODES) { // point and spot
         light_vec_out = u_lamp_light_positions[lamp_index] - v_pos_world;
         distance_out = length(light_vec_out);
         light_vec_out = normalize(light_vec_out);
@@ -427,7 +378,7 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal, vec3 nor
     } else { // sun and hemi
         light_vec_out = u_lamp_light_directions[lamp_index];
         distance_out = length(u_lamp_light_positions[lamp_index] - v_pos_world);
-        visibility_factor_out = UNITY_VALUE;
+        visibility_factor_out = UNITY_VALUE_NODES;
     }
 }
 #endnode
@@ -446,7 +397,7 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal, vec3 nor
     #node_in vec3 normal_in
     #node_out vec3 normal
     // NOTE: (-) mimic blender behavior
-    normal = -(u_view_matrix_frag * vec4(normal_in, ZERO_VALUE)).xyz;
+    normal = -(u_view_matrix_frag * vec4(normal_in, ZERO_VALUE_NODES)).xyz;
 #endnode
 
 #node MAPPING_LIGHT
@@ -466,15 +417,15 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal, vec3 nor
     #node_param vec3 min_clip
     #node_param vec3 max_clip
 
-    vec = (trs_matrix * vec4(vec_in, UNITY_VALUE)).xyz;
+    vec = (trs_matrix * vec4(vec_in, UNITY_VALUE_NODES)).xyz;
 
     // FIXME AMD/Windows issue
     //vec = (mat4(0.6, 0.0, 0.0, 0.0, 0.0, 0.6, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, -0.175, 0.0, 1.0) * vec4(vec_in, 1.0)).xyz;
     //vec = (mat4(-0.69, -0.012, 0.0, 0.0, 0.012, -0.69, 0.0, 0.0, 0.0, 0.0, 0.69, 0.0, 0.26, 1.28, 0.0, 1.0) * vec4(vec_in, 1.0)).xyz;
 
-    if (use_min == UNITY_VALUE)
+    if (use_min == UNITY_VALUE_NODES)
         vec = max(vec, min_clip);
-    if (use_max == UNITY_VALUE)
+    if (use_max == UNITY_VALUE_NODES)
         vec = min(vec, max_clip);
 #endnode
 
@@ -500,7 +451,7 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal, vec3 nor
     #node_in float val_in1
     #node_in float val_in2
     #node_out float val
-    val = (val_in2 != ZERO_VALUE) ? val_in1/val_in2 : ZERO_VALUE;
+    val = (val_in2 != ZERO_VALUE_NODES) ? val_in1/val_in2 : ZERO_VALUE_NODES;
 #endnode
 #node MATH_SINE
     #node_in float val_in1
@@ -530,7 +481,7 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal, vec3 nor
     #node_in float val_in1
     #node_in float val_in2
     #node_out float val
-    val = (val_in1 <= UNITY_VALUE && val_in1 >= -UNITY_VALUE) ? asin(val_in1) : ZERO_VALUE;
+    val = (val_in1 <= UNITY_VALUE_NODES && val_in1 >= -UNITY_VALUE_NODES) ? asin(val_in1) : ZERO_VALUE_NODES;
     // NOTE: using unused variable to pass shader verification
     val_in2;
 #endnode
@@ -538,7 +489,7 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal, vec3 nor
     #node_in float val_in1
     #node_in float val_in2
     #node_out float val
-    val = (val_in1 <= UNITY_VALUE && val_in1 >= -UNITY_VALUE) ? acos(val_in1) : ZERO_VALUE;
+    val = (val_in1 <= UNITY_VALUE_NODES && val_in1 >= -UNITY_VALUE_NODES) ? acos(val_in1) : ZERO_VALUE_NODES;
     // NOTE: using unused variable to pass shader verification
     val_in2;
 #endnode
@@ -557,8 +508,8 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal, vec3 nor
     // return zero value for special cases which causes undefined result;
     // according to pow specification:
     // https://www.opengl.org/sdk/docs/man/html/pow.xhtml
-    if (val_in1 < ZERO_VALUE || val_in1 == ZERO_VALUE && val_in2 == ZERO_VALUE)
-        val = ZERO_VALUE;
+    if (val_in1 < ZERO_VALUE_NODES || val_in1 == ZERO_VALUE_NODES && val_in2 == ZERO_VALUE_NODES)
+        val = ZERO_VALUE_NODES;
     else
         val = pow(val_in1, val_in2);
 #endnode
@@ -566,8 +517,8 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal, vec3 nor
     #node_in float val_in1
     #node_in float val_in2
     #node_out float val
-    val = (val_in1 > ZERO_VALUE && val_in2 > ZERO_VALUE) ?
-            log2(val_in1) / log2(val_in2) : ZERO_VALUE;
+    val = (val_in1 > ZERO_VALUE_NODES && val_in2 > ZERO_VALUE_NODES) ?
+            log2(val_in1) / log2(val_in2) : ZERO_VALUE_NODES;
 #endnode
 #node MATH_MINIMUM
     #node_in float val_in1
@@ -593,20 +544,19 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal, vec3 nor
     #node_in float val_in1
     #node_in float val_in2
     #node_out float val
-    val = (val_in1 < val_in2) ? UNITY_VALUE : ZERO_VALUE;
+    val = (val_in1 < val_in2) ? UNITY_VALUE_NODES : ZERO_VALUE_NODES;
 #endnode
 #node MATH_GREATER_THAN
     #node_in float val_in1
     #node_in float val_in2
     #node_out float val
-    val = val_in1 + val_in2;
-    val = (val_in1 > val_in2) ? UNITY_VALUE : ZERO_VALUE;
+    val = (val_in1 > val_in2) ? UNITY_VALUE_NODES : ZERO_VALUE_NODES;
 #endnode
 #node MATH_MODULO
     #node_in float val_in1
     #node_in float val_in2
     #node_out float val
-    val = abs(val_in2) > 0.000001 ? mod(val_in1, val_in2) : ZERO_VALUE;
+    val = abs(val_in2) > 0.000001 ? mod(val_in1, val_in2) : ZERO_VALUE_NODES;
 #endnode
 
 
@@ -616,7 +566,7 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal, vec3 nor
     #node_in vec3 color2
     #node_out vec3 color
 {
-    float clamped_factor = clamp(factor, ZERO_VALUE, UNITY_VALUE);
+    float clamped_factor = clamp(factor, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
     color = mix(color1, color2, clamped_factor);
 }
 #endnode
@@ -626,7 +576,7 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal, vec3 nor
     #node_in vec3 color2
     #node_out vec3 color
 {
-    float clamped_factor = clamp(factor, ZERO_VALUE, UNITY_VALUE);
+    float clamped_factor = clamp(factor, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
     color = mix(color1, color1 + color2, clamped_factor);
 }
 #endnode
@@ -636,7 +586,7 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal, vec3 nor
     #node_in vec3 color2
     #node_out vec3 color
 {
-    float clamped_factor = clamp(factor, ZERO_VALUE, UNITY_VALUE);
+    float clamped_factor = clamp(factor, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
     color = mix(color1, color1 * color2, clamped_factor);
 }
 #endnode
@@ -646,7 +596,7 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal, vec3 nor
     #node_in vec3 color2
     #node_out vec3 color
 {
-    float clamped_factor = clamp(factor, ZERO_VALUE, UNITY_VALUE);
+    float clamped_factor = clamp(factor, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
     color = mix(color1, color1 - color2, clamped_factor);
 }
 #endnode
@@ -656,10 +606,10 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal, vec3 nor
     #node_in vec3 color2
     #node_out vec3 color
 {
-    float clamped_factor = clamp(factor, ZERO_VALUE, UNITY_VALUE);
-    float factorm = UNITY_VALUE - clamped_factor;
-    color = vec3(UNITY_VALUE) - (vec3(factorm) + clamped_factor*(vec3(UNITY_VALUE) - color2)) *
-            (vec3(UNITY_VALUE) - color1);
+    float clamped_factor = clamp(factor, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
+    float factorm = UNITY_VALUE_NODES - clamped_factor;
+    color = UNITY_VECTOR - (vec3(factorm) + clamped_factor*(UNITY_VECTOR - color2)) *
+            (UNITY_VECTOR - color1);
 }
 #endnode
 #node MIX_RGB_DIVIDE
@@ -668,16 +618,10 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal, vec3 nor
     #node_in vec3 color2
     #node_out vec3 color
 {
-    float clamped_factor = clamp(factor, ZERO_VALUE, UNITY_VALUE);
-    float factorm = UNITY_VALUE - clamped_factor;
-    color = color1;
-
-    if (color2.r != ZERO_VALUE)
-        color.r = factorm*color.r + clamped_factor*color.r/color2.r;
-    if (color2.g != ZERO_VALUE)
-        color.g = factorm*color.g + clamped_factor*color.g/color2.g;
-    if (color2.b != ZERO_VALUE)
-        color.b = factorm*color.b + clamped_factor*color.b/color2.b;
+    float clamped_factor = clamp(factor, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
+    float factorm = UNITY_VALUE_NODES - clamped_factor;
+    color2 += step(color2, ZERO_VECTOR);
+    color = factorm*color1 + clamped_factor*color1/color2;
 }
 #endnode
 #node MIX_RGB_DIFFERENCE
@@ -686,7 +630,7 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal, vec3 nor
     #node_in vec3 color2
     #node_out vec3 color
 {
-    float clamped_factor = clamp(factor, ZERO_VALUE, UNITY_VALUE);
+    float clamped_factor = clamp(factor, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
     color = mix(color1, abs(color1 - color2), clamped_factor);
 }
 #endnode
@@ -696,7 +640,7 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal, vec3 nor
     #node_in vec3 color2
     #node_out vec3 color
 {
-    float clamped_factor = clamp(factor, ZERO_VALUE, UNITY_VALUE);
+    float clamped_factor = clamp(factor, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
     color = min(color1.rgb, color2.rgb * clamped_factor);
 }
 #endnode
@@ -706,7 +650,7 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal, vec3 nor
     #node_in vec3 color2
     #node_out vec3 color
 {
-    float clamped_factor = clamp(factor, ZERO_VALUE, UNITY_VALUE);
+    float clamped_factor = clamp(factor, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
     color = max(color1.rgb, color2.rgb * clamped_factor);
 }
 #endnode
@@ -716,25 +660,12 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal, vec3 nor
     #node_in vec3 color2
     #node_out vec3 color
 {
-    float clamped_factor = clamp(factor, ZERO_VALUE, UNITY_VALUE);
-    float factorm = UNITY_VALUE - clamped_factor;
-
-    color = color1;
-
-    if (color.r < 0.5)
-        color.r *= factorm + 2.0*clamped_factor*color2.r;
-    else
-        color.r = UNITY_VALUE - (factorm + 2.0*clamped_factor*(UNITY_VALUE - color2.r)) * (UNITY_VALUE - color.r);
-
-    if (color.g < 0.5)
-        color.g *= factorm + 2.0*clamped_factor*color2.g;
-    else
-        color.g = UNITY_VALUE - (factorm + 2.0*clamped_factor*(UNITY_VALUE - color2.g)) * (UNITY_VALUE - color.g);
-
-    if (color.b < 0.5)
-        color.b *= factorm + 2.0*clamped_factor*color2.b;
-    else
-        color.b = UNITY_VALUE - (factorm + 2.0*clamped_factor*(UNITY_VALUE - color2.b)) * (UNITY_VALUE - color.b);
+    float clamped_factor = clamp(factor, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
+    float factorm = UNITY_VALUE_NODES - clamped_factor;
+    vec3 f_vec = vec3(factorm);
+    color = mix(color1 * (f_vec + 2.0*clamped_factor*color2),
+                UNITY_VECTOR - (f_vec + 2.0*clamped_factor*(UNITY_VECTOR - color2)) * (UNITY_VECTOR - color1),
+                step(0.5, color1));
 }
 #endnode
 #node MIX_RGB_DODGE
@@ -743,36 +674,13 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal, vec3 nor
     #node_in vec3 color2
     #node_out vec3 color
 {
-    float clamped_factor = clamp(factor, ZERO_VALUE, UNITY_VALUE);
-    color = color1;
-
-    if (color.r != ZERO_VALUE) {
-        float tmp = UNITY_VALUE - clamped_factor*color2.r;
-        if (tmp <= ZERO_VALUE)
-            color.r = UNITY_VALUE;
-        else if ((tmp = color.r/tmp) > UNITY_VALUE)
-            color.r = UNITY_VALUE;
-        else
-            color.r = tmp;
-    }
-    if (color.g != ZERO_VALUE) {
-        float tmp = UNITY_VALUE - clamped_factor*color2.g;
-        if (tmp <= ZERO_VALUE)
-            color.g = UNITY_VALUE;
-        else if ((tmp = color.g/tmp) > UNITY_VALUE)
-            color.g = UNITY_VALUE;
-        else
-            color.g = tmp;
-    }
-    if (color.b != ZERO_VALUE) {
-        float tmp = UNITY_VALUE - clamped_factor*color2.b;
-        if (tmp <= ZERO_VALUE)
-            color.b = UNITY_VALUE;
-        else if ((tmp = color.b/tmp) > UNITY_VALUE)
-            color.b = UNITY_VALUE;
-        else
-            color.b = tmp;
-    }
+    float clamped_factor = clamp(factor, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
+    vec3 tmp = UNITY_VECTOR - clamped_factor * color2;
+    vec3 tmp1 = color1 / (tmp + step(tmp, ZERO_VECTOR));
+    color = (UNITY_VECTOR - step(color1, ZERO_VECTOR)) * mix(
+                  mix(UNITY_VECTOR, tmp1, step(tmp1, UNITY_VECTOR)),
+                  UNITY_VECTOR,
+                  step(tmp, ZERO_VECTOR));
 }
 #endnode
 #node MIX_RGB_BURN
@@ -781,41 +689,12 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal, vec3 nor
     #node_in vec3 color2
     #node_out vec3 color
 {
-    float clamped_factor = clamp(factor, ZERO_VALUE, UNITY_VALUE);
-    float factorm = UNITY_VALUE - clamped_factor;
-    float tmp;
-
-    color = color1;
-
-    tmp = factorm + clamped_factor*color2.r;
-    if (tmp <= ZERO_VALUE)
-        color.r = ZERO_VALUE;
-    else if ((tmp = (UNITY_VALUE - (UNITY_VALUE - color.r)/tmp)) < ZERO_VALUE)
-        color.r = ZERO_VALUE;
-    else if (tmp > UNITY_VALUE)
-        color.r = UNITY_VALUE;
-    else
-        color.r = tmp;
-
-    tmp = factorm + clamped_factor*color2.g;
-    if (tmp <= ZERO_VALUE)
-        color.g = ZERO_VALUE;
-    else if ((tmp = (UNITY_VALUE - (UNITY_VALUE - color.g)/tmp)) < ZERO_VALUE)
-        color.g = ZERO_VALUE;
-    else if (tmp > UNITY_VALUE)
-        color.g = UNITY_VALUE;
-    else
-        color.g = tmp;
-
-    tmp = factorm + clamped_factor*color2.b;
-    if (tmp <= ZERO_VALUE)
-        color.b = ZERO_VALUE;
-    else if ((tmp = (UNITY_VALUE - (UNITY_VALUE - color.b)/tmp)) < ZERO_VALUE)
-        color.b = ZERO_VALUE;
-    else if (tmp > UNITY_VALUE)
-        color.b = UNITY_VALUE;
-    else
-        color.b = tmp;
+    float clamped_factor = clamp(factor, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
+    vec3 tmp = UNITY_VECTOR - clamped_factor * (UNITY_VECTOR - color2);
+    vec3 tmp1 = UNITY_VECTOR - (UNITY_VECTOR - color1)/(tmp + step(tmp, ZERO_VECTOR));
+    color = mix(mix(ZERO_VECTOR, mix(UNITY_VECTOR, tmp1, step(tmp1, UNITY_VECTOR)), step(ZERO_VALUE_NODES, tmp1)),
+                ZERO_VECTOR,
+                step(tmp, ZERO_VECTOR));
 }
 #endnode
 #node MIX_RGB_HUE
@@ -824,14 +703,14 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal, vec3 nor
     #node_in vec3 color2
     #node_out vec3 color
 {
-    float clamped_factor = clamp(factor, ZERO_VALUE, UNITY_VALUE);
+    float clamped_factor = clamp(factor, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
     vec3 hsv, hsv2, tmp;
 
     color = color1;
 
     hsv2 = rgb_to_hsv(color2);
 
-    if (hsv2.y != ZERO_VALUE) {
+    if (hsv2.y != ZERO_VALUE_NODES) {
         hsv = rgb_to_hsv(color);
         hsv.x = hsv2.x;
         tmp = hsv_to_rgb(hsv);
@@ -846,15 +725,15 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal, vec3 nor
     #node_in vec3 color2
     #node_out vec3 color
 {
-    float clamped_factor = clamp(factor, ZERO_VALUE, UNITY_VALUE);
-    float factorm = UNITY_VALUE - clamped_factor;
+    float clamped_factor = clamp(factor, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
+    float factorm = UNITY_VALUE_NODES - clamped_factor;
 
     color = color1;
 
     vec3 hsv, hsv2;
     hsv = rgb_to_hsv(color);
 
-    if (hsv.y != ZERO_VALUE) {
+    if (hsv.y != ZERO_VALUE_NODES) {
         hsv2 = rgb_to_hsv(color2);
 
         hsv.y = factorm*hsv.y + clamped_factor*hsv2.y;
@@ -868,8 +747,8 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal, vec3 nor
     #node_in vec3 color2
     #node_out vec3 color
 {
-    float clamped_factor = clamp(factor, ZERO_VALUE, UNITY_VALUE);
-    float factorm = UNITY_VALUE - clamped_factor;
+    float clamped_factor = clamp(factor, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
+    float factorm = UNITY_VALUE_NODES - clamped_factor;
     vec3 hsv, hsv2;
 
     hsv = rgb_to_hsv(color1);
@@ -885,14 +764,14 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal, vec3 nor
     #node_in vec3 color2
     #node_out vec3 color
 {
-    float clamped_factor = clamp(factor, ZERO_VALUE, UNITY_VALUE);
+    float clamped_factor = clamp(factor, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
     vec3 hsv, hsv2, tmp;
 
     color = color1;
 
     hsv2 = rgb_to_hsv(color2);
 
-    if (hsv2.y != ZERO_VALUE) {
+    if (hsv2.y != ZERO_VALUE_NODES) {
         hsv = rgb_to_hsv(color);
         hsv.x = hsv2.x;
         hsv.y = hsv2.y;
@@ -908,12 +787,11 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal, vec3 nor
     #node_in vec3 color2
     #node_out vec3 color
 {
-    float clamped_factor = clamp(factor, ZERO_VALUE, UNITY_VALUE);
-    float factorm = UNITY_VALUE - clamped_factor;
-    vec3 one = vec3(UNITY_VALUE);
-    vec3 scr = one - (one - color2)*(one - color1);
+    float clamped_factor = clamp(factor, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
+    float factorm = UNITY_VALUE_NODES - clamped_factor;
+    vec3 scr = color2 + color1 - color2 * color1;
 
-    color = factorm*color1 + clamped_factor*((one - color1)*color2*color1 + color1*scr);
+    color = color1 * (vec3(factorm) + vec3(clamped_factor) * ((UNITY_VECTOR - color1)*color2 + scr));
 }
 
 #endnode
@@ -923,25 +801,8 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal, vec3 nor
     #node_in vec3 color2
     #node_out vec3 color
 {
-    float clamped_factor = clamp(factor, ZERO_VALUE, UNITY_VALUE);
-    color = color1;
-
-    if (color2.r > 0.5)
-        color.r = color1.r + clamped_factor*(2.0*(color2.r - 0.5));
-    else
-        color.r = color1.r + clamped_factor*(2.0*(color2.r) - UNITY_VALUE);
-
-    if (color2.g > 0.5)
-        color.g = color1.g + clamped_factor*(2.0*(color2.g - 0.5));
-    else
-        color.g = color1.g + clamped_factor*(2.0*(color2.g) - UNITY_VALUE);
-
-    if(color2.b > 0.5)
-        color.b = color1.b + clamped_factor*(2.0*(color2.b - 0.5));
-    else
-        color.b = color1.b + clamped_factor*(2.0*(color2.b) - UNITY_VALUE);
-    // ANGLE
-    color = clamp(color, ZERO_VALUE, UNITY_VALUE);
+    float clamped_factor = clamp(factor, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
+    color = clamp(color1 + clamped_factor * (2.0 * color2 - UNITY_VECTOR), ZERO_VALUE_NODES, UNITY_VALUE_NODES);
 }
 #endnode
 
@@ -964,11 +825,11 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal, vec3 nor
     #node_param const vec3 diffuse_params // vec3(use_diffuse, diffuse_param, diffuse_param2)
     #node_param const vec4 specular_params// vec3(use_spec, intensity, spec_param_0, spec_param_1)
     #node_param const float use_normal_in
-
+{
     // NOTE: fixes some cross-platform issues
-    color_in = clamp(color_in, ZERO_VALUE, UNITY_VALUE);
-    alpha_in = clamp(alpha_in, ZERO_VALUE, UNITY_VALUE);
-    specular_color = clamp(specular_color, ZERO_VALUE, UNITY_VALUE);
+    color_in = clamp(color_in, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
+    alpha_in = clamp(alpha_in, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
+    specular_color = clamp(specular_color, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
 
     // diffuse
     vec3 D = color_in;
@@ -986,7 +847,7 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal, vec3 nor
     float shadow_factor = calc_shadow_factor(nin_shadow_visibility_falloff, D);
 
     vec3 normal;
-    if (use_normal_in == UNITY_VALUE)
+    if (use_normal_in == UNITY_VALUE_NODES)
         normal = normalize(normal_in);
     else
         normal = nin_normal;
@@ -994,24 +855,23 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal, vec3 nor
     lighting_result lresult = lighting(E, A, D, S, nin_pos_world,
         normal, nin_eye_dir, sp_params, diffuse_param, shadow_factor,
         u_light_positions, u_light_directions, u_light_color_intensities,
-        u_light_factors1, u_light_factors2, ZERO_VALUE, vec4(ZERO_VALUE));
+        u_light_factors1, u_light_factors2, ZERO_VALUE_NODES, vec4(ZERO_VALUE_NODES));
 
-    color_out = (use_diffuse == UNITY_VALUE) ? lresult.color.rgb : vec3(ZERO_VALUE);
+    color_out = (use_diffuse == UNITY_VALUE_NODES) ? lresult.color.rgb : vec3(ZERO_VALUE_NODES);
     alpha_out = alpha_in + lresult.color.a * S.r;
-    alpha_out = clamp(alpha_out, ZERO_VALUE, UNITY_VALUE);
+    alpha_out = clamp(alpha_out, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
     normal_out = normal;
 
-    material_apply_mirror(color_out, nin_eye_dir, normal_out, nout_normalmap);
-
-    if (use_spec == UNITY_VALUE) {
+    if (use_spec == UNITY_VALUE_NODES) {
         color_out += lresult.specular;
         nout_specular_color = lresult.specular;
     } else {
-        nout_specular_color = vec3(ZERO_VALUE);
+        nout_specular_color = vec3(ZERO_VALUE_NODES);
     }
 
     nout_normal = normal;
     nout_shadow_factor = shadow_factor;
+}
 #endnode
 
 #node MATERIAL_EXT
@@ -1022,6 +882,7 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal, vec3 nor
     #node_in float emit_intensity
     #node_in float translucency_color
     #node_in vec4 translucency_params
+    #node_in float reflect_factor
     #node_out vec3 color_out
     #node_out float alpha_out
     #node_out vec3 normal_out
@@ -1030,11 +891,11 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal, vec3 nor
     #node_param const vec3 diffuse_params // vec3(use_diffuse, diffuse_param, diffuse_param2)
     #node_param const vec4 specular_params// vec3(use_spec, intensity, spec_param_0, spec_param_1)
     #node_param const float use_normal_in
-
+{
     // NOTE: fixes some cross-platform issues
-    color_in = clamp(color_in, ZERO_VALUE, UNITY_VALUE);
-    alpha_in = clamp(alpha_in, ZERO_VALUE, UNITY_VALUE);
-    specular_color = clamp(specular_color, ZERO_VALUE, UNITY_VALUE);
+    color_in = clamp(color_in, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
+    alpha_in = clamp(alpha_in, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
+    specular_color = clamp(specular_color, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
 
     // diffuse
     vec3 D = color_in;
@@ -1052,7 +913,7 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal, vec3 nor
     float shadow_factor = calc_shadow_factor(nin_shadow_visibility_falloff, D);
 
     vec3 normal;
-    if (use_normal_in == UNITY_VALUE)
+    if (use_normal_in == UNITY_VALUE_NODES)
         normal = normalize(normal_in);
     else
         normal = nin_normal;
@@ -1062,24 +923,25 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal, vec3 nor
         u_light_positions, u_light_directions, u_light_color_intensities,
         u_light_factors1, u_light_factors2, translucency_color, translucency_params);
 
-    color_out = (use_diffuse == UNITY_VALUE) ? lresult.color.rgb : vec3(ZERO_VALUE);
+    color_out = (use_diffuse == UNITY_VALUE_NODES) ? lresult.color.rgb : vec3(ZERO_VALUE_NODES);
     alpha_out = alpha_in;
     normal_out = normal;
     diffuse_out = lresult.color.rgb;
     spec_out = lresult.specular;
 
-    material_apply_mirror(color_out, nin_eye_dir, normal_out, nout_normalmap);
+    material_apply_mirror(color_out, nin_eye_dir, normal_out, reflect_factor);
 
-    if (use_spec == UNITY_VALUE) {
+    if (use_spec == UNITY_VALUE_NODES) {
         color_out += lresult.specular;
         alpha_out += lresult.color.a * S.r;
-        alpha_out = clamp(alpha_out, ZERO_VALUE, UNITY_VALUE);
+        alpha_out = clamp(alpha_out, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
         nout_specular_color = lresult.specular;
     } else {
-        nout_specular_color = vec3(ZERO_VALUE);
+        nout_specular_color = vec3(ZERO_VALUE_NODES);
     }
     nout_normal = normal;
     nout_shadow_factor = shadow_factor;
+}
 #endnode
 
 #node RGB
@@ -1110,10 +972,12 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal, vec3 nor
     #node_out float h_out
     #node_out float s_out
     #node_out float v_out
+{
     vec3 out_col = rgb_to_hsv(color);
     h_out = out_col.r;
     s_out = out_col.g;
     v_out = out_col.b;
+}
 #endnode
 
 #node SQUEEZE
@@ -1121,18 +985,20 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal, vec3 nor
     #node_in float width
     #node_in float center
     #node_out float value
-    value = UNITY_VALUE / (UNITY_VALUE + pow(2.71828183, -((value_in-center)*width)));
+    value = UNITY_VALUE_NODES / (UNITY_VALUE_NODES + pow(2.71828183, -((value_in-center)*width)));
 #endnode
 
 #node SRGB_TO_LINEAR
     #node_in vec3 color_in
     #node_out vec3 color_out
-    color_out = pow(color_in, vec3(2.2));
+    color_out = max(ZERO_VECTOR, color_in);
+    color_out = pow(color_out, vec3(2.2));
 #endnode
 #node LINEAR_TO_SRGB
     #node_in vec3 color_in
     #node_out vec3 color_out
-    color_out = pow(color_in, vec3(UNITY_VALUE/2.2));
+    color_out = max(ZERO_VECTOR, color_in);
+    color_out = pow(color_out, vec3(UNITY_VALUE_NODES/2.2));
 #endnode
 
 #node TEXTURE_COLOR
@@ -1328,7 +1194,7 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal, vec3 nor
     #node_in vec3 vec_in2
     #node_out vec3 vec
     #node_out float val
-    vec = vec3(ZERO_VALUE);
+    vec = vec3(ZERO_VALUE_NODES);
     val = dot(vec_in1, vec_in2);
 #endnode
 #node VECT_MATH_CROSS_PRODUCT
@@ -1364,7 +1230,7 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal, vec3 nor
     #node_in const float lod_dist
     #node_out vec3 uv_out
     #node_param uniform sampler2D texture // heigth is written in alpha channel
-
+{
     float view_dist = length(nin_pos_view);
 
     if (view_dist < lod_dist) {
@@ -1372,19 +1238,19 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal, vec3 nor
         vec2 texcoord = vec_to_uv(uv_in);
 
         float multiplier = clamp(0.5 * (lod_dist - view_dist),
-                                 ZERO_VALUE, UNITY_VALUE);
+                                 ZERO_VALUE_NODES, UNITY_VALUE_NODES);
         float scale = parallax_scale * multiplier;
 
         // transform eye to tangent space
         vec3 eye = normalize(nin_eye_dir * nin_tbn_matrix);
 
         // distance between checked layers
-        float pstep = UNITY_VALUE / steps;
+        float pstep = UNITY_VALUE_NODES / steps;
 
         // adjustment for one layer height of the layer
         vec2 dtex = eye.xy * scale / (steps * eye.z);
 
-        float height = UNITY_VALUE;
+        float height = UNITY_VALUE_NODES;
 
         float h = texture2D(texture, texcoord).a; // get height
 
@@ -1404,17 +1270,24 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal, vec3 nor
         float weight = h_current / (h_current - h_prev);
 
         // interpolate to get tex coords
-        texcoord = weight * prev + (UNITY_VALUE - weight) * texcoord;
+        texcoord = weight * prev + (UNITY_VALUE_NODES - weight) * texcoord;
         uv_out = uv_to_vec(texcoord);
     } else
         uv_out = uv_in;
-
+}
 #endnode
 
 #node CLAMP
     #node_in vec3 vector_in
     #node_out vec3 vector_out
-    vector_out = clamp(vector_in, ZERO_VALUE, UNITY_VALUE);
+    vector_out = clamp(vector_in, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
+#endnode
+
+#node REFRACTION
+    #node_in vec3 normal_in
+    #node_in float refr_bump
+    #node_out vec3 color_out
+    color_out = refraction_node(normal_in, refr_bump);
 #endnode
 
 #node TRANSLUCENCY
@@ -1509,7 +1382,7 @@ void main(void) {
 # if WATER_EFFECTS
 #  if WETTABLE
     //darken slightly to simulate wet surface
-    color = max(color - sqrt(0.01 * -min(plane_dist, ZERO_VALUE)), 0.5 * color);
+    color = max(color - sqrt(0.01 * -min(plane_dist, ZERO_VALUE_NODES)), 0.5 * color);
 #  endif
 #  if CAUSTICS
         apply_caustics(color, plane_dist, u_time, nout_shadow_factor, sided_normal,
@@ -1547,6 +1420,8 @@ void main(void) {
 #else   // SHADED
     vec3 nin_pos_world = v_pos_world;
     vec4 nin_pos_view = v_pos_view;
+    vec3 eye_dir = u_camera_eye_frag - v_pos_world;
+    vec3 nin_eye_dir = normalize(eye_dir);
 
 # if USE_NODE_GEOMETRY_NO
     vec3 sided_normal = v_normal;
@@ -1573,7 +1448,7 @@ void main(void) {
 #if ALPHA && ALPHA_CLIP
     if (alpha < 0.5)
         discard;
-    alpha = UNITY_VALUE; // prevent blending with html content
+    alpha = UNITY_VALUE_NODES; // prevent blending with html content
 #endif
 
     lin_to_srgb(color);

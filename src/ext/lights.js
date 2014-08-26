@@ -1,6 +1,6 @@
 "use strict";
 
-/** 
+/**
  * Lights API.
  * @module lights
  */
@@ -18,8 +18,8 @@ var m_vec3 = require("vec3");
 
 var _sun_pos        = new Float32Array(3);
 var _date           = {};
-var _julian_date    = 0; 
-var _max_sun_angle  = 60; 
+var _julian_date    = 0;
+var _max_sun_angle  = 60;
 
 /**
  * Get lamp objects.
@@ -28,10 +28,10 @@ var _max_sun_angle  = 60;
  * @param {String} [lamps_type] Lamps type ("POINT", "SPOT", "SUN", "HEMI")
  * @returns {Array} Array with lamp object IDs
  */
-exports["get_lamps"] = function(lamps_type) {
+exports.get_lamps = function(lamps_type) {
 
     var scene = scenes.get_active();
-    var lamps = scenes.get_scene_objs(scene, "LAMP")
+    var lamps = scenes.get_scene_objs(scene, "LAMP", scenes.DATA_ID_ALL);
 
     if (!lamps_type)
         return lamps;
@@ -45,7 +45,7 @@ exports["get_lamps"] = function(lamps_type) {
     return rslt;
 }
 
-exports["get_sun_params"] = get_sun_params;
+exports.get_sun_params = get_sun_params;
 /**
  * Get the sun parameters.
  * @method module:lights.get_sun_params
@@ -53,7 +53,7 @@ exports["get_sun_params"] = get_sun_params;
  */
 function get_sun_params() {
     var scene = scenes.get_active();
-    var lamps = scenes.get_scene_objs(scene, "LAMP")
+    var lamps = scenes.get_scene_objs(scene, "LAMP", scenes.DATA_ID_ALL);
     var sun = null;
 
     for (var i = 0; i < lamps.length; i++) {
@@ -80,14 +80,14 @@ function get_sun_params() {
                 ) * 180 / Math.PI;
 
         var sun_params = {};
-        sun_params["hor_position"]  = angle_hor;
-        sun_params["vert_position"] = angle_vert;
+        sun_params.hor_position  = angle_hor;
+        sun_params.vert_position = angle_vert;
         return sun_params;
     } else
         return null;
 }
 
-exports["set_sun_params"] = set_sun_params;
+exports.set_sun_params = set_sun_params;
 /**
  * Set the sun parameters.
  * @method module:lights.set_sun_params
@@ -96,7 +96,7 @@ exports["set_sun_params"] = set_sun_params;
 function set_sun_params (sun_params) {
 
     var scene = scenes.get_active();
-    var lamps = scenes.get_scene_objs(scene, "LAMP")
+    var lamps = scenes.get_scene_objs(scene, "LAMP", scenes.DATA_ID_ALL);
 
     // Index of lamp(sun) on the scene
 
@@ -114,10 +114,11 @@ function set_sun_params (sun_params) {
         return null;
     }
 
-    if ("hor_position" in sun_params && "vert_position" in sun_params) {
+    if (typeof sun_params.hor_position == "number" &&
+        typeof sun_params.vert_position == "number") {
         // convert to radians
-        var angle_hor  =  ((180 - sun_params["hor_position"])) / 180 * Math.PI;
-        var angle_vert =  ((90 - sun_params["vert_position"])) / 180 * Math.PI;
+        var angle_hor  =  ((180 - sun_params.hor_position)) / 180 * Math.PI;
+        var angle_vert =  ((90 - sun_params.vert_position)) / 180 * Math.PI;
 
         var sun_render = sun._render;
 
@@ -155,7 +156,7 @@ function set_sun_params (sun_params) {
     }
 }
 
-exports["set_day_time"] = set_day_time;
+exports.set_day_time = set_day_time;
 /**
  * Set the time of day.
  * @method module:lights.set_day_time
@@ -163,7 +164,7 @@ exports["set_day_time"] = set_day_time;
  */
 function set_day_time(time) {
     var scene = scenes.get_active();
-    var lamps = scenes.get_scene_objs(scene, "LAMP");
+    var lamps = scenes.get_scene_objs(scene, "LAMP", scenes.DATA_ID_ALL);
 
     for (var i = 0; i < lamps.length; i++) {
         var lamp = lamps[i];
@@ -187,7 +188,7 @@ function set_day_time(time) {
  * @method module:lights.set_date
  * @param {Date} date new date
  */
-exports["set_date"] = function(date) {
+exports.set_date = function(date) {
     _date.y = date.getDate();
     _date.m = date.getMonth();
     _date.d = date.getFullYear();
@@ -207,7 +208,7 @@ exports["set_date"] = function(date) {
  * @method module:lights.set_max_sun_angle
  * @param {Number} angle New angle in degrees (0..90)
  */
-exports["set_max_sun_angle"] = function(angle) {
+exports.set_max_sun_angle = function(angle) {
     _max_sun_angle = Math.min(Math.max(angle, 0), 90);
 }
 
@@ -217,7 +218,7 @@ exports["set_max_sun_angle"] = function(angle) {
  * @param {String} light_name Name of the light object
  * @returns {Object} Light params
  */
-exports["get_light_params"] = function(light_name) {
+exports.get_light_params = function(light_name) {
 
     var scene = scenes.get_active();
 
@@ -226,8 +227,8 @@ exports["get_light_params"] = function(light_name) {
         return false;
     }
 
-    var lamps = scenes.get_scene_objs(scene, "LAMP")
-    
+    var lamps = scenes.get_scene_objs(scene, "LAMP", scenes.DATA_ID_ALL);
+
     for (var i = 0; i < lamps.length; i++) {
         var lamp = lamps[i];
         if (lamp["name"] === light_name) {
@@ -240,12 +241,12 @@ exports["get_light_params"] = function(light_name) {
         m_print.error("B4W Warning: light \"" + light_name + "\" not found");
         return false;
     }
-    
+
     var rslt = {
         "light_color": light.color,
         "light_energy": light.energy
     };
-    
+
     return rslt;
 }
 
@@ -254,8 +255,9 @@ exports["get_light_params"] = function(light_name) {
  * @method module:lights.set_light_params
  * @param {String} light_name Name of the light object
  * @param {Object} light_params Light params
+ * @cc_externs hor_position vert_position light_energy light_color
  */
-exports["set_light_params"] = function(light_name, light_params) {
+exports.set_light_params = function(light_name, light_params) {
 
     var scene = scenes.get_active();
 
@@ -264,8 +266,8 @@ exports["set_light_params"] = function(light_name, light_params) {
         return false;
     }
 
-    var lamps = scenes.get_scene_objs(scene, "LAMP")
-    
+    var lamps = scenes.get_scene_objs(scene, "LAMP", scenes.DATA_ID_ALL);
+
     for (var i = 0; i < lamps.length; i++) {
         var lamp = lamps[i];
         if (lamp["name"] === light_name) {
@@ -275,18 +277,18 @@ exports["set_light_params"] = function(light_name, light_params) {
     }
 
     if (!light) {
-        m_print.error("B4W Warning: light \"" + light_name + 
+        m_print.error("B4W Warning: light \"" + light_name +
             "\" not found");
         return false;
     }
 
-    if ("light_energy" in light_params) {
-        lights.set_light_energy(light, light_params["light_energy"]);
+    if (typeof light_params.light_energy == "number") {
+        lights.set_light_energy(light, light_params.light_energy);
         scenes.update_lamp_scene(lamp, scene);
     }
-    
-    if ("light_color" in light_params) {
-        lights.set_light_color(light, light_params["light_color"]);
+
+    if (typeof light_params.light_color == "object") {
+        lights.set_light_color(light, light_params.light_color);
         scenes.update_lamp_scene(lamp, scene);
     }
 }
@@ -296,7 +298,7 @@ exports["set_light_params"] = function(light_name, light_params) {
  * @method module:lights.get_lights_names
  * @returns {Array} Lights' names
  */
-exports["get_lights_names"] = function() {
+exports.get_lights_names = function() {
 
     var scene = scenes.get_active();
 
@@ -307,8 +309,8 @@ exports["get_lights_names"] = function() {
 
     var rslt = [];
 
-    var lamps = scenes.get_scene_objs(scene, "LAMP");
-    
+    var lamps = scenes.get_scene_objs(scene, "LAMP", scenes.DATA_ID_ALL);
+
     for (var i = 0; i < lamps.length; i++) {
         var lamp = lamps[i];
         rslt.push(lamp._light.name);
@@ -323,11 +325,11 @@ function update_sun_position(time) {
     var year  = _date.y;
 
     // TODO: Calculate real sun position depending on date
-    
-    // Detect if current year is leap
-    //var leap_year = (year % 4 == 0) ? 0: 1; 
 
-    // Number of days after January 1st 
+    // Detect if current year is leap
+    //var leap_year = (year % 4 == 0) ? 0: 1;
+
+    // Number of days after January 1st
     //var days_passed = day + 31 * (month - 1);
 
     //if (month <= 2)
@@ -344,13 +346,13 @@ function update_sun_position(time) {
     //    days_passed += leap_year - 7;
 
     //var angle = get_sun_coordinates (_julian_date, (days_passed - 1));
-    
+
     var angle_hor  = time < 12 ? time * 15 : (time - 24) * 15 ;
     var angle_vert = -Math.cos(time / 12 * Math.PI) * _max_sun_angle;
 
     var sun_params = {};
-    sun_params["hor_position"]  = angle_hor;
-    sun_params["vert_position"] = angle_vert;
+    sun_params.hor_position  = angle_hor;
+    sun_params.vert_position = angle_vert;
 
     set_sun_params(sun_params);
 }
@@ -371,7 +373,7 @@ function get_sun_coordinates (jul_date, days) {
     // The mean anomaly of the Sun
     var g = 357.528 + 0.9856003 * n;
     g = g % 360;
-    
+
     // Convert to radians
     g *= Math.PI / 180;
 
@@ -384,7 +386,7 @@ function get_sun_coordinates (jul_date, days) {
     // Oblique of the ecliptic
     var oblique = 23.439 - 0.0000004 * n;
 
-    return oblique; 
+    return oblique;
 }
 
 function calendar_to_julian(date) {
@@ -402,7 +404,7 @@ function calendar_to_julian(date) {
 		jm = m + 13;
 	}
 
-	var intgr = Math.floor( Math.floor(365.25 * jy) + 
+	var intgr = Math.floor( Math.floor(365.25 * jy) +
                 Math.floor(30.6001 * jm) + d + 1720995 );
 
 	//check for switch to Gregorian calendar

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Development Environment Setup &mdash; User Manual: Blend4Web v14.07</title>
+    <title>Development Environment Setup &mdash; User Manual: Blend4Web v14.08</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.07',
+        VERSION:     '14.08',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User Manual: Blend4Web v14.07" href="index.html" />
+    <link rel="top" title="User Manual: Blend4Web v14.08" href="index.html" />
     <link rel="next" title="Workflow" href="workflow.html" />
     <link rel="prev" title="Quick Install" href="first_steps.html" /> 
   </head>
@@ -36,7 +36,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">User Manual: Blend4Web v14.07</a></div>
+          href="index.html">User Manual: Blend4Web v14.08</a></div>
         <div class="rel">
           <a href="first_steps.html" title="Quick Install"
              accesskey="P">previous</a> |
@@ -68,7 +68,7 @@
 <div class="section" id="getting-started-browser">
 <span id="index-0"></span><span id="id3"></span><h2>Choosing a Browser<a class="headerlink" href="#getting-started-browser" title="Permalink to this headline">¶</a></h2>
 <p>The engine requires a <a class="reference internal" href="about.html#browser-webgl-support"><em>browser with WebGL support</em></a>. Just to check it open the page <a class="reference external" href="http://get.webgl.org/">http://get.webgl.org/</a>. The green message and rotating cube should appear:</p>
-<a class="reference internal image-reference" href="_images/browser_supports_webgl.jpg"><img alt="Страница тестового сайта при успешной инициализации WebGL" class="align-center" src="_images/browser_supports_webgl.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/browser_supports_webgl.jpg"><img alt="_images/browser_supports_webgl.jpg" class="align-center" src="_images/browser_supports_webgl.jpg" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -88,7 +88,7 @@
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<a class="reference internal image-reference" href="_images/chrome_file_access.jpg"><img alt="Настройка Chrome для загрузки локальных ресурсов" class="align-center" src="_images/chrome_file_access.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/chrome_file_access.png"><img alt="_images/chrome_file_access.png" class="align-center" src="_images/chrome_file_access.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -121,27 +121,23 @@
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<a class="reference internal image-reference" href="_images/firefox_strict_origin.jpg"><img alt="Настройка Firefox для загрузки локальных ресурсов" class="align-center" src="_images/firefox_strict_origin.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/firefox_strict_origin.jpg"><img alt="_images/firefox_strict_origin.jpg" class="align-center" src="_images/firefox_strict_origin.jpg" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <p><em>Safari/OS X</em>:</p>
 <p>Enable the &#8220;Develop&#8221; menu in Preferences, and activate the  &#8220;Disable Local File Restrictions&#8221; option.</p>
-<a class="reference internal image-reference" href="_images/safari_setup.png"><img alt="Настройка Safari для загрузки локальных ресурсов" class="align-center" src="_images/safari_setup.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/safari_setup.png"><img alt="_images/safari_setup.png" class="align-center" src="_images/safari_setup.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 </div>
 <div class="section" id="getting-started-launching-viewer">
 <span id="index-1"></span><span id="id6"></span><h2>Running The Scenes Viewer<a class="headerlink" href="#getting-started-launching-viewer" title="Permalink to this headline">¶</a></h2>
-<p>Open the <tt class="file docutils literal"><span class="pre">apps_dev/viewer/viewer_dev.html</span></tt> file in a set up browser. The page with the renderer window and interface elements should be displayed.</p>
-<a class="reference internal image-reference" href="_images/default_page.jpg"><img alt="Первый запуск рендерера" class="align-center" src="_images/default_page.jpg" style="width: 100%;" /></a>
-<div class="line-block">
-<div class="line"><br /></div>
-</div>
+<p>Open the <tt class="file docutils literal"><span class="pre">apps_dev/viewer/viewer_dev.html</span></tt> file in a set up browser. The page with the <a class="reference internal" href="viewer.html#viewer"><em>viewer</em></a> renderer window and interface elements should be displayed.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">If the page isn&#8217;t displayed correctly, or an error message is shown, follow the instructions described in the <a class="reference internal" href="problems_and_solutions.html#renderer-not-working"><em>Problems when Running the Renderer</em></a> section.</p>
+<p class="last">If the page isn&#8217;t displayed correctly, or an error message is shown, follow the instructions described in the <a class="reference internal" href="problems_and_solutions.html#renderer-not-working"><em>Problems When Running the Renderer</em></a> section.</p>
 </div>
 </div>
 <div class="section" id="getting-started-addon">
@@ -151,7 +147,7 @@
 <p class="last">It is recommended to remove the addon first if it was originally installed using <a class="reference internal" href="first_steps.html#quick-install"><em>quick install</em></a>.</p>
 </div>
 <p>Run Blender, load the default scene <tt class="file docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">New</span></tt> (hot keys <tt class="file docutils literal"><span class="pre">Ctrl-N</span></tt>). Open the user preferences window <tt class="file docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">User</span> <span class="pre">Preferences...</span></tt> (hot keys <tt class="file docutils literal"><span class="pre">Ctrl-Alt-U</span></tt>). Under the <tt class="file docutils literal"><span class="pre">File</span></tt> tab in the <tt class="file docutils literal"><span class="pre">Scripts</span></tt> field choose the path to the <tt class="file docutils literal"><span class="pre">blender_scripts</span></tt> directory.</p>
-<a class="reference internal image-reference" href="_images/user_preferences_scripts_path.jpg"><img alt="Указание пути для скриптов в окне пользовательских настроек" class="align-center" src="_images/user_preferences_scripts_path.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/user_preferences_scripts_path.jpg"><img alt="_images/user_preferences_scripts_path.jpg" class="align-center" src="_images/user_preferences_scripts_path.jpg" style="width: 100%;" /></a>
 <p>Click <tt class="file docutils literal"><span class="pre">Save</span> <span class="pre">User</span> <span class="pre">Settings</span></tt> and restart Blender.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -159,7 +155,7 @@
 <p class="last"><tt class="file docutils literal"><span class="pre">C:\Program</span> <span class="pre">Files\Blender</span> <span class="pre">Foundation\Blender\2.70\scripts\addons\blend4web</span></tt>.</p>
 </div>
 <p>Again load the default scene, open the user preferences window, go to the <tt class="file docutils literal"><span class="pre">Addons</span></tt> tab and choose the <tt class="file docutils literal"><span class="pre">Import-Export</span></tt> category. Enable the <tt class="file docutils literal"><span class="pre">Import-Export:</span> <span class="pre">Blend4Web</span></tt> checkbox.</p>
-<a class="reference internal image-reference" href="_images/user_preferences_enable_addon.jpg"><img alt="Инициализация скриптов в окне пользовательских настроек" class="align-center" src="_images/user_preferences_enable_addon.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/user_preferences_enable_addon.jpg"><img alt="_images/user_preferences_enable_addon.jpg" class="align-center" src="_images/user_preferences_enable_addon.jpg" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -170,7 +166,7 @@
 <h3>Enabling the HTML export option<a class="headerlink" href="#html" title="Permalink to this headline">¶</a></h3>
 <p>The <tt class="file docutils literal"><span class="pre">Blend4Web</span> <span class="pre">(.html)</span></tt> option in the <tt class="file docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">Export</span></tt> menu is not active by default contrary to the standalone version of the addon (see <a class="reference internal" href="first_steps.html#quick-install"><em>Quick Install</em></a>).</p>
 <p>If required (for example for HTML export debugging) this option can be enabled. To do this specify the path to the <tt class="docutils literal"><span class="pre">embed</span></tt> application build of the distribution in the <tt class="file docutils literal"><span class="pre">Path</span> <span class="pre">to</span> <span class="pre">b4w</span> <span class="pre">source</span></tt> field. The standard path relative to the engine&#8217;s root is <tt class="file docutils literal"><span class="pre">external/deploy/apps/embed</span></tt>.</p>
-<a class="reference internal image-reference" href="_images/user_preferences_enable_addon_HTML_option.jpg"><img alt="Включение опции экспорта в HTML" class="align-center" src="_images/user_preferences_enable_addon_HTML_option.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/user_preferences_enable_addon_HTML_option.jpg"><img alt="_images/user_preferences_enable_addon_HTML_option.jpg" class="align-center" src="_images/user_preferences_enable_addon_HTML_option.jpg" style="width: 100%;" /></a>
 </div>
 </div>
 </div>
@@ -196,6 +192,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Workflow</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Scene Viewer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="web_player.html">Web Player</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">The Addon</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
@@ -247,7 +244,7 @@
           
     <div class="footer">
         &copy; Copyright 2014, Triumph LLC.
-      Last updated on 2014-07-23.
+      Last updated on 2014-08-25.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

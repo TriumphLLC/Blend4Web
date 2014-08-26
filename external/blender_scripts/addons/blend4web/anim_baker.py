@@ -14,7 +14,7 @@ class B4W_Anim_Baker(bpy.types.Operator):
 
     bl_idname = "b4w.animation_bake"
     bl_label = "B4W Animation Bake"
-   
+
     def execute(self, context):
         armobj = context.active_object
         if not (armobj and armobj.type == "ARMATURE"):

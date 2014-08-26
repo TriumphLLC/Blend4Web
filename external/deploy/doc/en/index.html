@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Table of contents &mdash; User Manual: Blend4Web v14.07</title>
+    <title>Table of contents &mdash; User Manual: Blend4Web v14.08</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.07',
+        VERSION:     '14.08',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User Manual: Blend4Web v14.07" href="#" />
+    <link rel="top" title="User Manual: Blend4Web v14.08" href="#" />
     <link rel="next" title="Overview" href="about.html" /> 
   </head>
   <body>
@@ -35,7 +35,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="#">User Manual: Blend4Web v14.07</a></div>
+          href="#">User Manual: Blend4Web v14.08</a></div>
         <div class="rel">
           <a href="about.html" title="Overview"
              accesskey="N">next</a> |
@@ -115,6 +115,14 @@
 <li class="toctree-l2"><a class="reference internal" href="viewer.html#id5">Indicators</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="web_player.html">Web Player</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="web_player.html#id2">Use</a></li>
+<li class="toctree-l2"><a class="reference internal" href="web_player.html#id3">Navigation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="web_player.html#id4">Control Panel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="web_player.html#id5">Attributes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="web_player.html#id6">Scene Errors</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">The Addon</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="addon.html#initialization-errors">Initialization Errors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="addon.html#export-errors">Export Errors</a></li>
@@ -145,7 +153,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="materials.html#material-lighting-params">Lighting Parameters</a></li>
-<li class="toctree-l2"><a class="reference internal" href="materials.html#index-2">Transparency</a></li>
+<li class="toctree-l2"><a class="reference internal" href="materials.html#alpha-blend">Transparency</a></li>
 <li class="toctree-l2"><a class="reference internal" href="materials.html#material-mirror">Reflection</a></li>
 <li class="toctree-l2"><a class="reference internal" href="materials.html#index-9">Parameters Specific to the Engine</a></li>
 <li class="toctree-l2"><a class="reference internal" href="materials.html#halo">Halo Materials</a></li>
@@ -238,8 +246,8 @@
 <li class="toctree-l2"><a class="reference internal" href="developers.html#id5">Moving Objects</a></li>
 <li class="toctree-l2"><a class="reference internal" href="developers.html#index-0">Quaternions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="developers.html#event-model">Event-Driven Model</a></li>
-<li class="toctree-l2"><a class="reference internal" href="developers.html#sdk">SDK File Structure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="developers.html#quality-settings">Quality Profiles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developers.html#sdk">SDK File Structure</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">For Engine Developers</a><ul>
@@ -266,7 +274,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Problems and Solutions</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="problems_and_solutions.html#renderer-not-working">Problems when Running the Renderer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="problems_and_solutions.html#renderer-not-working">Problems When Running the Renderer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="problems_and_solutions.html#webgl">WebGL Failed to Init</a></li>
 <li class="toctree-l2"><a class="reference internal" href="problems_and_solutions.html#web">Using a Local Web Server</a></li>
 </ul>
@@ -293,6 +301,7 @@
 <li class="toctree-l1"><a class="reference internal" href="setup.html">Development Environment Setup</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Workflow</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Scene Viewer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="web_player.html">Web Player</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">The Addon</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
@@ -342,7 +351,7 @@
           
     <div class="footer">
         &copy; Copyright 2014, Triumph LLC.
-      Last updated on 2014-07-23.
+      Last updated on 2014-08-25.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

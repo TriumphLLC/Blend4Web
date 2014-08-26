@@ -247,7 +247,7 @@ exports.bounding_ellipsoid_transform = function(be, tsr, be_new) {
     if (!be_new)
         var be_new = zero_bounding_ellipsoid();
 
-    m_tsr.transform_vec3(tsr, be.center, be_new.center)
+    m_tsr.transform_vec3(be.center, tsr, be_new.center)
 
     m_vec3.copy(be.axis_x, be_new.axis_x);
     m_vec3.copy(be.axis_y, be_new.axis_y);
@@ -260,12 +260,19 @@ exports.bounding_ellipsoid_transform = function(be, tsr, be_new) {
     return be_new;
 }
 
+exports.create_bounding_sphere = function(radius, center) {
+    return {
+        radius: radius,
+        center: new Float32Array(center)
+    };
+}
+
 /**
  * Improper use may lead to ugly bugs
  */
 exports.zero_bounding_sphere = function() {
     return {
-        center: [0, 0, 0],
+        center: new Float32Array([0, 0, 0]),
         radius: 0
     };
 }
@@ -275,7 +282,7 @@ function zero_bounding_ellipsoid() {
         axis_x: new Float32Array(3),
         axis_y: new Float32Array(3),
         axis_z: new Float32Array(3),
-        center: [0, 0, 0]
+        center: new Float32Array([0, 0, 0])
     };
 }
 
@@ -284,8 +291,8 @@ exports.create_bounding_ellipsoid = function(axis_x, axis_y, axis_z, center) {
         axis_x: new Float32Array(axis_x),
         axis_y: new Float32Array(axis_y),
         axis_z: new Float32Array(axis_z),
-        center: [center[0], center[1], center[2]]
-    };   
+        center: new Float32Array([center[0], center[1], center[2]])
+    };
 }
 
 /**
@@ -293,7 +300,7 @@ exports.create_bounding_ellipsoid = function(axis_x, axis_y, axis_z, center) {
  */
 exports.big_bounding_sphere = function() {
     return {
-        center: [0, 0, 0],
+        center: new Float32Array([0, 0, 0]),
         radius: 1e12
     };
 }
@@ -368,7 +375,7 @@ exports.create_bounding_capsule = function(radius, bounding_box) {
     var bcap_local = {
         radius: radius,
         height: height,
-        center: [0, (max_y + min_y)/2, 0]
+        center: new Float32Array([0, (max_y + min_y)/2, 0])
     };
 
     return bcap_local;
@@ -387,7 +394,7 @@ exports.create_bounding_cylinder = function(radius, bounding_box) {
     var bcyl_local = {
         radius: radius,
         height: height,
-        center: [0, (max_y + min_y)/2, 0]
+        center: new Float32Array([0, (max_y + min_y)/2, 0])
     };
 
     return bcyl_local;
@@ -406,7 +413,7 @@ exports.create_bounding_cone = function(radius, bounding_box) {
     var bcon_local = {
         radius: radius,
         height: height,
-        center: [0, (max_y + min_y)/2, 0]
+        center: new Float32Array([0, (max_y + min_y)/2, 0])
     };
 
     return bcon_local;

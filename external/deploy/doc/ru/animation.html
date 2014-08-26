@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Анимация &mdash; Руководство пользователя: Blend4Web v14.07</title>
+    <title>Анимация &mdash; Руководство пользователя: Blend4Web v14.08</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.07',
+        VERSION:     '14.08',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v14.07" href="index.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v14.08" href="index.html" />
     <link rel="next" title="Рендеринг наружных сцен" href="outdoor_rendering.html" />
     <link rel="prev" title="Система частиц для инстансинга объектов" href="particles_instancing.html" /> 
   </head>
@@ -37,7 +37,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">Руководство пользователя: Blend4Web v14.07</a></div>
+          href="index.html">Руководство пользователя: Blend4Web v14.08</a></div>
         <div class="rel">
           <a href="particles_instancing.html" title="Система частиц для инстансинга объектов"
              accesskey="P">предыдущий</a> |
@@ -94,6 +94,10 @@
 </div>
 <div class="section" id="id3">
 <h2>Объектная анимация<a class="headerlink" href="#id3" title="Ссылка на этот заголовок">¶</a></h2>
+<a class="reference internal image-reference" href="_images/wind_generator.jpg"><img alt="_images/wind_generator.jpg" class="align-center" src="_images/wind_generator.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
 <p>Осуществляется с помощью добавления ключей анимации для движения объекта в программе Blender и
 их последующего воспроизведения в движке.</p>
 <p>Поддерживаются следующие типы ключей:</p>
@@ -112,6 +116,10 @@
 </div>
 <div class="section" id="id4">
 <h2>Скиннинг и скелетная анимация<a class="headerlink" href="#id4" title="Ссылка на этот заголовок">¶</a></h2>
+<a class="reference internal image-reference" href="_images/rig.jpg"><img alt="_images/rig.jpg" class="align-center" src="_images/rig.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
 <p>Для осуществления скелетной анимации, кроме деформируемого объекта-меша требуется
 объект-арматура. Осуществляется в четыре этапа:</p>
 <ol class="arabic simple">
@@ -123,7 +131,7 @@
 требуется стадия запекания анимационных акторов (блок <tt class="docutils literal"><span class="pre">Action</span></tt> в Blender).
 Запекание производится с помощью интерфейса <tt class="docutils literal"><span class="pre">B4W</span> <span class="pre">Animation</span> <span class="pre">Bake</span></tt>, расположенного на панели инструментов <tt class="docutils literal"><span class="pre">Blend4Web</span></tt>:</li>
 </ol>
-<a class="reference internal image-reference" href="_images/baker.png"><img alt="Инструмент запекания скелетной анимации" class="align-center" src="_images/baker.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/skeletal_anim_baker.png"><img alt="_images/skeletal_anim_baker.png" class="align-center" src="_images/skeletal_anim_baker.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -143,9 +151,23 @@
 установленные на костях. Инструмент может быть использован для тестирования
 запечёных акторов.</li>
 </ul>
+<div class="admonition note">
+<p class="first admonition-title">Примечание</p>
+<p>Движок поддерживает не более 4-х вертексных групп на каждом из вертексов,
+эти группы отбираются по величине влияния или &#8220;веса&#8221; вертекса. В процессе
+загрузки исходного файла со сценой &#8220;веса&#8221; вертексов проходят через процедуру
+нормализации, т.е. их сумма приводится в единице.</p>
+<p>Для удаления вертексных групп, которые не используются арматурой, можно воспользоваться
+кнопкой <tt class="docutils literal"><span class="pre">Remove</span> <span class="pre">Unused</span> <span class="pre">VGroups</span></tt>, которая расположена в интерфейсе <tt class="docutils literal"><span class="pre">B4W</span> <span class="pre">Vertex</span> <span class="pre">Group</span></tt>.</p>
+<a class="last reference internal image-reference" href="_images/vgroups_cleaner.png"><img alt="_images/vgroups_cleaner.png" class="align-center" src="_images/vgroups_cleaner.png" style="width: 100%;" /></a>
+</div>
 </div>
 <div class="section" id="id5">
 <h2>Вертексная анимация<a class="headerlink" href="#id5" title="Ссылка на этот заголовок">¶</a></h2>
+<a class="reference internal image-reference" href="_images/flag.jpg"><img alt="_images/flag.jpg" class="align-center" src="_images/flag.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
 <p>Позволяет записать любые изменения геометрии объекта-меша. Необходимо учитывать,
 что каждый кадр вертексной анимации эквивалентен мешу. Не рекомендуется создание
 длинной анимации для высокополигонального меша, поскольку это может привести к
@@ -153,7 +175,7 @@
 замедлить работу движка.</p>
 <p>Для запекания вертексной анимации предусмотрен инструмент <tt class="docutils literal"><span class="pre">B4W</span> <span class="pre">Vertex</span> <span class="pre">Anim</span>
 <span class="pre">Baker</span></tt>, расположенный на панели инструментов <tt class="docutils literal"><span class="pre">Blend4Web</span></tt>.</p>
-<a class="reference internal image-reference" href="_images/vertex_anim_baker.jpg"><img alt="Инструмент запекания вертексной анимации" class="align-center" src="_images/vertex_anim_baker.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/vertex_anim_baker.jpg"><img alt="_images/vertex_anim_baker.jpg" class="align-center" src="_images/vertex_anim_baker.jpg" style="width: 100%;" /></a>
 </div>
 <div class="section" id="id6">
 <h2>Параметризация источников звука<a class="headerlink" href="#id6" title="Ссылка на этот заголовок">¶</a></h2>
@@ -181,6 +203,7 @@
 <li class="toctree-l1"><a class="reference internal" href="setup.html">Развёртывание среды разработки</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Рабочий процесс</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Просмотрщик сцен</a></li>
+<li class="toctree-l1"><a class="reference internal" href="web_player.html">Веб-плеер</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">Аддон</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Объекты</a></li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">Текстуры</a></li>
@@ -239,7 +262,7 @@
           
     <div class="footer">
         &copy; Copyright 2014, ООО &#34;Триумф&#34;.
-      Обновлено: 2014-07-23.
+      Обновлено: 2014-08-25.
       Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

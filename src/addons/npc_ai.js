@@ -13,6 +13,7 @@ var m_anim  = require("animation");
 var m_ctl   = require("controls");
 var m_util  = require("util");
 var m_scs   = require("scenes");
+var m_main  = require("main");
 var m_trans = require("transform");
 
 var _ev_tracks = [];
@@ -61,6 +62,8 @@ var NPC_MAX_ACTIVITY_DISTANCE = 100;
  * @param {Number} graph.type NPC movement type (NT_WALKING, NT_FLYING, etc).
  * @param {Number} graph.rot_speed Rotation speed.
  * @method module:npc_ai.npc_ai
+ * @cc_externs path delay actions obj collider empty speed random
+ * @cc_externs type rot_speed max_height min_height
  */
 exports.new_event_track = function(graph) {
 
@@ -150,7 +153,6 @@ function run_track(elapsed, ev_track) {
 
         if (y_correction)
             destination[1] = current_loc[1] + y_correction;
-
         break;
     }
     anim_translation(elapsed, ev_track);
@@ -207,7 +209,6 @@ function anim_translation(elapsed, ev_track) {
     if (left_to_pass > 2.0 * speed * elapsed) {
 
         ev_track.state = MS_MOVING;
-
         m_util.xz_direction(dest, cur_loc, new_hor_dir);
         dest_anim_correction(ev_track, dest, left_to_pass, new_hor_dir);
 
@@ -372,7 +373,7 @@ function process_event_track(ev_track, elapsed) {
     if (ev_track.random) {
         run_track(elapsed, ev_track);
     } else {
-        var focus_time = b4w.global_timeline();
+        var focus_time = m_main.global_timeline();
         for (var j = 0; j < ev_track.path.length; j++) {
 
             if (ev_track.ended[j])
@@ -626,9 +627,9 @@ function apply_animation(ev_track) {
     }
 
     if (anim_to_play) {
+        m_anim.apply(obj, anim_to_play);
         m_anim.cyclic(obj, false);
         m_anim.set_current_frame_float(obj, 0);
-        m_anim.apply(obj, anim_to_play);
         m_anim.play(obj);
     }
 }
@@ -747,7 +748,7 @@ function get_proper_move_animation(ev_track, cur_anim) {
 function dest_anim_correction(ev_track, dest, l_to_p, new_dir) {
 
     var obj          = ev_track.obj;
-    if (!obj._anim)
+    if (!m_anim.is_animated(obj))
         return
 
     var speed        = ev_track.speed;
@@ -766,8 +767,3 @@ function dest_anim_correction(ev_track, dest, l_to_p, new_dir) {
 }
 
 }
-
-if (window["b4w"])
-    window["b4w"]["npc_ai"] = b4w.require("npc_ai");
-else
-    throw "Failed to register npc_ai, load b4w first";

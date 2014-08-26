@@ -8,8 +8,7 @@
 
 Система частиц может использоваться для создания множественных копий объектов (инстансинга).
 
-.. image:: src_images/particles/particles_instancing_example.jpg
-   :alt: Инстансинг объектов с использованием системы частиц, пример
+.. image:: src_images/particles_instancing/particles_instancing_example.jpg
    :align: center
    :width: 100%
 
@@ -28,8 +27,7 @@
 #. Для корректного отображения размера установить значение 1.0 для параметров ``Emission > Hair Length`` и ``Render > Size``.
 #. Для установки корректной ориентации временно включить опцию ``Advanced``, активировать панель ``Rotation`` и в меню ``Initial Orientation`` выбрать ``None``. Отключить опцию ``Advanced``. Также рекомендуется включить опцию ``Render > Rotation``.
 
-.. image:: src_images/particles/particles_instancing_setup.jpg
-   :alt: Инстансинг объектов с использованием системы частиц, настройка
+.. image:: src_images/particles_instancing/particles_instancing_setup.jpg
    :align: center
    :width: 100%
 
@@ -124,8 +122,7 @@
 
 Инстансинг объектов может использоваться для визуализации травяного покрова на обширных площадях. При этом происходит отрисовка травы вблизи камеры по мере ее движения по ландшафту.
 
-.. image:: src_images/particles/dynamic_grass.jpg
-   :alt: Травяной покров
+.. image:: src_images/particles_instancing/dynamic_grass.jpg
    :align: center
    :width: 100%
 
@@ -152,8 +149,7 @@
 
 Рекомендуется также отключить отображение эмиттера (опция ``Render > Emitter``).
 
-.. image:: src_images/particles/dynamic_grass_setup.jpg
-   :alt: Травяной покров, настройка
+.. image:: src_images/particles_instancing/dynamic_grass_setup.jpg
    :align: center
    :width: 100%
 
@@ -165,8 +161,7 @@
 
 Инстансинг хорошо подходит для отображения листвы на деревьях, и позволяет добиться более высокого уровня детализации.
 
-.. image:: src_images/particles/tree_leaves.jpg
-   :alt: Листва деревьев, настройка
+.. image:: src_images/particles_instancing/tree_leaves.jpg
    :align: center
    :width: 100%
 
@@ -206,7 +201,7 @@
 
 Полученный таким образом вертексный цвет с именем ``Blend4Web > Vertex Color > to`` можно будет использовать в нодовом материале частицы для ее подкрашивания либо каких-то других эффектов.
 
-.. image:: src_images/particles/particle_settings.jpg
-   :alt: Настройки системы частиц
+.. image:: src_images/particles_instancing/particle_settings.jpg
    :align: center
    :width: 100%
+

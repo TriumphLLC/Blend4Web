@@ -29,8 +29,7 @@
 *Motion blur decay threshold*
     Степень плавности размытия. Чем выше значение, тем более резким будет эффект. Значение по умолчанию 0.01.
 
-.. image:: src_images/engine_screens/postprocessing_effects/motion_blur.jpg
-   :alt: Размытие при движении
+.. image:: src_images/postprocessing_effects/motion_blur.jpg
    :align: center
    :width: 100%
 
@@ -69,8 +68,7 @@
 *DOF power*
     Степень размытия. Значение по умолчанию 3.0.
 
-.. image:: src_images/engine_screens/postprocessing_effects/dof.jpg
-   :alt: Глубина резкости камеры
+.. image:: src_images/postprocessing_effects/dof.jpg
    :align: center
    :width: 100%
 
@@ -120,8 +118,7 @@
     Количество сэмплов (чем больше, тем лучше качество, но меньше производительность). Значение по умолчанию 16.
 
 
-.. image:: src_images/engine_screens/postprocessing_effects/ssao.jpg
-   :alt: Взаимное затенение
+.. image:: src_images/postprocessing_effects/ssao.jpg
    :align: center
    :width: 100%
 
@@ -155,8 +152,7 @@
 *Steps Per Pass*
     Количество шагов на один сэмпл. Значение по умолчанию 10.0.
 
-.. image:: src_images/engine_screens/postprocessing_effects/god_rays.jpg
-   :alt: Сумеречные лучи
+.. image:: src_images/postprocessing_effects/god_rays.jpg
    :align: center
    :width: 100%
 
@@ -186,8 +182,7 @@
 *Edge Luminance*
     Граничное значение относительной яркости элемента, выше которого начинает проявляться эффект засветки.
 
-.. image:: src_images/engine_screens/postprocessing_effects/bloom.jpg
-   :alt: Засветка
+.. image:: src_images/postprocessing_effects/bloom.jpg
    :align: center
    :width: 100%
 
@@ -232,8 +227,7 @@
 
 При управлении через API данные настройки воспринимаются как настройки по умолчанию.
 
-.. image:: src_images/engine_screens/postprocessing_effects/glow.jpg
-   :alt: Свечение вокруг объекта
+.. image:: src_images/postprocessing_effects/glow.jpg
    :align: center
    :width: 100%
    
@@ -255,8 +249,7 @@
 Нет.
 
 
-.. image:: src_images/engine_screens/postprocessing_effects/anaglyph.jpg
-   :alt: Анаглиф стереоизображение
+.. image:: src_images/postprocessing_effects/anaglyph.jpg
    :align: center
    :width: 100%
 
@@ -293,8 +286,7 @@
     Насыщенность. Значение по умолчанию 1.0.
 
 
-.. image:: src_images/engine_screens/postprocessing_effects/color_correction.jpg
-   :alt: Коррекция цвета
+.. image:: src_images/postprocessing_effects/color_correction.jpg
    :align: center
    :width: 100%
 
@@ -323,8 +315,7 @@
     * *высокое качество* - метод антиалиасинга FXAA (Fast Approximate Anti-Aliasing), предложенный Nvidia
     * *максимальное качество* - метод антиалиасинга SMAA (Enhanced Subpixel Morphological Anti-Aliasing), предложенный Crytek
 
-.. image:: src_images/engine_screens/postprocessing_effects/antialiasing.jpg
-   :alt: Сглаживание
+.. image:: src_images/postprocessing_effects/antialiasing.jpg
    :align: center
    :width: 100%
 

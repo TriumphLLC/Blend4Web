@@ -3,11 +3,11 @@
 <head>
 
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1"> 
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-<link rel="stylesheet" href="../common/jquery.mobile.min.css" />
-<script src="../common/jquery.min.js"></script>
-<script src="../common/jquery.mobile.min.js"></script>
+<link rel="stylesheet" href="../common/jquery.mobile-1.4.3.min.css" />
+<script src="../common/jquery-2.1.1.min.js"></script>
+<script src="../common/jquery.mobile-1.4.3.min.js"></script>
 
 <!-- color picker begin -->
 <link rel="stylesheet" href="../common/colorpicker/css/colorpicker.css" type="text/css" />
@@ -16,7 +16,7 @@
 
 <link href="viewer.css" rel="stylesheet" type="text/css" />
 
-<script type="text/javascript" src="../common/b4w.min.js"></script>
+<script type="text/javascript" src="../common/b4w.full.min.js"></script>
 <script type="text/javascript" src="viewer.min.js"></script>
 
 </head>
@@ -98,14 +98,18 @@
                     <select id="anim_active_object" data-native-menu="false" data-mini="true"></select>
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
-                    <label for="anim_action">Action:</label>
-                    <select id="anim_action" data-native-menu="false" data-mini="true"></select>
+                    <label for="anim_slot">Animation Slot:</label>
+                    <select id="anim_slot" data-native-menu="false" data-mini="true"></select>
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="animation">Animation:</label>
+                    <select id="animation" data-native-menu="false" data-mini="true"></select>
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="anim_cyclic">Cyclic:</label>
                     <div><select id="anim_cyclic" data-role="slider" data-mini="true">
-                        <option value="on">Yes</option>
-                        <option value="off">No</option>
+                        <option value="1">Yes</option>
+                        <option value="0">No</option>
                     </select></div>
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
@@ -263,8 +267,8 @@
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="optimize_shadow_volume">Optimize shadow volume:</label>
                     <div><select id="optimize_shadow_volume" data-role="slider" data-mini="true">
-                        <option value="on">Yes</option>
-                        <option value="off">No</option>
+                        <option value="1">Yes</option>
+                        <option value="0">No</option>
                     </select></div>
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
@@ -364,8 +368,8 @@
                 <div class="ui-block-a colapsed_content ui-body ui-body-c ui-disabled">
                     <label for="shore_smoothing">Shore smoothing:</label>
                     <div><select id="shore_smoothing" data-role="slider" data-mini="true">
-                        <option value="1" selected>Yes</option>
                         <option value="0">No</option>
+                        <option value="1" selected>Yes</option>
                     </select></div>
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c ui-disabled">
@@ -547,15 +551,15 @@
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="ssao_only">SSAO only:</label>
                     <div><select id="ssao_only" data-role="slider" data-mini="true">
-                        <option value="on">Yes</option>
-                        <option value="off" selected>No</option>
+                        <option value="0" selected>No</option>
+                        <option value="1">Yes</option>
                     </select></div>
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="ssao_white">SSAO white:</label>
                     <div><select id="ssao_white" data-role="slider" data-mini="true">
-                        <option value="on">Yes</option>
-                        <option value="off" selected>No</option>
+                        <option value="0" selected>No</option>
+                        <option value="1">Yes</option>
                     </select></div>
                 </div>
             </div>
@@ -622,8 +626,8 @@
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="dof_on">DOF_on:</label>
                     <div><select id="dof_on" data-role="slider" data-mini="true">
-                        <option value="1">Yes</option>
                         <option value="0" selected>No</option>
+                        <option value="1">Yes</option>
                     </select></div>
                 </div>
             </div>
@@ -660,8 +664,8 @@
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="sfx_mix_mode">Mixer:</label>
                     <select id="sfx_mix_mode" data-role="slider" data-mini="true">
-                        <option value="on">Yes</option>
-                        <option value="off" selected>No</option>
+                        <option value="0" selected>No</option>
+                        <option value="1">Yes</option>
                     </select>
                 </div>
             </div>
@@ -674,8 +678,8 @@
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="anaglyph_use">Anaglyph use:</label>
                     <select id="anaglyph_use" data-role="slider" data-mini="true">
-                        <option value="on">Yes</option>
-                        <option value="off" selected>No</option>
+                        <option value="0" selected>No</option>
+                        <option value="1">Yes</option>
                     </select>
                 </div>
             </div>
@@ -702,8 +706,8 @@
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="show_hud_debug_info">HUD Info:</label>
                     <select id="show_hud_debug_info" data-role="slider" data-mini="true">
-                        <option value="on">Yes</option>
-                        <option value="off" selected>No</option>
+                        <option value="0" selected>No</option>
+                        <option value="1">Yes</option>
                     </select>
                 </div>
 

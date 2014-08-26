@@ -64,7 +64,7 @@ var _use_mouse_control_cb = null;
  * @param {pointerlock_mouse_move_callback} [mouse_move_cb] Mouse movement event callback
  * @param {use_mouse_control_callback} [use_mouse_control_cb] Callback to check the camera/character control
  */
-exports.request_pointerlock = function(elem, enabled_cb, disabled_cb, 
+exports.request_pointerlock = function(elem, enabled_cb, disabled_cb,
         mouse_move_cb, use_mouse_control_cb) {
 
     enabled_cb  = enabled_cb  || function() {};
@@ -87,7 +87,7 @@ exports.request_pointerlock = function(elem, enabled_cb, disabled_cb,
                 document.webkitPointerLockElement === elem ||
                 document.mozPointerLockElement === elem) {
             //m_print.log("Pointer Lock enabled");
-    
+
             exit_mouse_drag(elem);
 
             elem.addEventListener("mousemove", mouse_move_cb, false);
@@ -248,8 +248,3 @@ function smooth_cb(obj, id, pulse) {
 }
 
 };
-
-if (window["b4w"])
-    window["b4w"]["pointerlock"] = b4w.require("pointerlock");
-else
-    throw "Failed to register pointerlock, load b4w first";

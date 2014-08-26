@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Problems and Solutions &mdash; User Manual: Blend4Web v14.07</title>
+    <title>Problems and Solutions &mdash; User Manual: Blend4Web v14.08</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.07',
+        VERSION:     '14.08',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User Manual: Blend4Web v14.07" href="index.html" />
+    <link rel="top" title="User Manual: Blend4Web v14.08" href="index.html" />
     <link rel="prev" title="Team Work. Using Git" href="git_short_manual.html" /> 
   </head>
   <body>
@@ -35,7 +35,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">User Manual: Blend4Web v14.07</a></div>
+          href="index.html">User Manual: Blend4Web v14.08</a></div>
         <div class="rel">
           <a href="git_short_manual.html" title="Team Work. Using Git"
              accesskey="P">previous</a> |
@@ -56,7 +56,7 @@
   <div class="section" id="problems-and-solutions">
 <span id="id1"></span><h1>Problems and Solutions<a class="headerlink" href="#problems-and-solutions" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="renderer-not-working">
-<span id="id2"></span><h2>Problems when Running the Renderer<a class="headerlink" href="#renderer-not-working" title="Permalink to this headline">¶</a></h2>
+<span id="id2"></span><h2>Problems When Running the Renderer<a class="headerlink" href="#renderer-not-working" title="Permalink to this headline">¶</a></h2>
 <p><em>1. The &#8220;Browser could not initialize WebGL&#8221; message is shown</em>.</p>
 <p>Follow the instructions listed in the <a class="reference internal" href="#webgl-not-working"><em>WebGL Failed to Init</em></a> section.</p>
 <p><em>2. The user interface and background are shown but the default scene is not rendered (a cube with the logo). At the same time the</em> <a class="reference external" href="http://get.webgl.org/">http://get.webgl.org/</a> <em>site and other WebGL applications are working correctly.</em></p>
@@ -79,7 +79,7 @@
 <li><p class="first">It is recommended to timely update video card drivers. To detect your video card and its vendor please type <strong>about:gpu</strong> to the address bar of Chrome browser...</p>
 </li>
 </ol>
-<a class="reference internal image-reference" href="_images/about_gpu_directx.jpg"><img alt="Определение типа и производителя графического процессора с помощью средства диагностики браузера Chrome" class="align-center" src="_images/about_gpu_directx.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/about_gpu_directx.jpg"><img alt="_images/about_gpu_directx.jpg" class="align-center" src="_images/about_gpu_directx.jpg" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -87,7 +87,7 @@
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<a class="reference internal image-reference" href="_images/dxdiag.jpg"><img alt="Определение типа и производителя графического процессора с помощью средства диагностики DirectX" class="align-center" src="_images/dxdiag.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/dxdiag.png"><img alt="_images/dxdiag.png" class="align-center" src="_images/dxdiag.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -101,13 +101,13 @@
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<a class="reference internal image-reference" href="_images/about_flags_force_webgl.jpg"><img alt="Форсирование использования WebGL в Chrome" class="align-center" src="_images/about_flags_force_webgl.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/about_flags_force_webgl.jpg"><img alt="_images/about_flags_force_webgl.jpg" class="align-center" src="_images/about_flags_force_webgl.jpg" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <p><em>For Firefox</em>:</p>
 <p>Enter <strong>about:config</strong> into the browser&#8217;s address bar, search for the <tt class="docutils literal"><span class="pre">webgl.force-enabled</span></tt> parameter and double-click on it to switch from <tt class="docutils literal"><span class="pre">false</span></tt> to <tt class="docutils literal"><span class="pre">true</span></tt>.</p>
-<a class="reference internal image-reference" href="_images/about_config_force_webgl.jpg"><img alt="Форсирование использования WebGL в Firefox" class="align-center" src="_images/about_config_force_webgl.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/about_config_force_webgl.jpg"><img alt="_images/about_config_force_webgl.jpg" class="align-center" src="_images/about_config_force_webgl.jpg" style="width: 100%;" /></a>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">For Linux users - due to incomplete OpenGL implementation in open source drivers at the moment it is recommended to use current versions of proprietary drivers for Nvidia and AMD video cards.</p>
@@ -160,6 +160,7 @@
 <li class="toctree-l1"><a class="reference internal" href="setup.html">Development Environment Setup</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Workflow</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Scene Viewer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="web_player.html">Web Player</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">The Addon</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
@@ -179,7 +180,7 @@
 <li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">For Engine Developers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Team Work. Using Git</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Problems and Solutions</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#renderer-not-working">Problems when Running the Renderer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#renderer-not-working">Problems When Running the Renderer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#webgl">WebGL Failed to Init</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#web">Using a Local Web Server</a></li>
 </ul>
@@ -214,7 +215,7 @@
           
     <div class="footer">
         &copy; Copyright 2014, Triumph LLC.
-      Last updated on 2014-07-23.
+      Last updated on 2014-08-25.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

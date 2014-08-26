@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Particle System &mdash; User Manual: Blend4Web v14.07</title>
+    <title>Particle System &mdash; User Manual: Blend4Web v14.08</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.07',
+        VERSION:     '14.08',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User Manual: Blend4Web v14.07" href="index.html" />
+    <link rel="top" title="User Manual: Blend4Web v14.08" href="index.html" />
     <link rel="next" title="Particle System for Instancing Objects" href="particles_instancing.html" />
     <link rel="prev" title="Postprocessing Effects" href="postprocessing_effects.html" /> 
   </head>
@@ -36,7 +36,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">User Manual: Blend4Web v14.07</a></div>
+          href="index.html">User Manual: Blend4Web v14.08</a></div>
         <div class="rel">
           <a href="postprocessing_effects.html" title="Postprocessing Effects"
              accesskey="P">previous</a> |
@@ -59,7 +59,7 @@
   <span class="target" id="particles"></span><div class="section" id="index-0">
 <span id="id1"></span><h1>Particle System<a class="headerlink" href="#index-0" title="Permalink to this headline">¶</a></h1>
 <p>The particle system is intended to visualize phenomena which are caused by the movement of numerous small objects such as smoke, fire, water splashes and other.</p>
-<a class="reference internal image-reference" href="_images/particles_smoke.jpg"><img alt="Пример системы частиц" class="align-center" src="_images/particles_smoke.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/particles_smoke.jpg"><img alt="_images/particles_smoke.jpg" class="align-center" src="_images/particles_smoke.jpg" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -100,7 +100,7 @@
 <li><p class="first">If the <tt class="docutils literal"><span class="pre">Surface</span></tt> material type is used it is required to add a diffuse texture (normally with the alpha channel) to this material. Select  <tt class="docutils literal"><span class="pre">UV</span></tt> in the <tt class="docutils literal"><span class="pre">Mapping</span> <span class="pre">&gt;</span> <span class="pre">Coordinates</span></tt> menu.  Make sure that the emitter&#8217;s mesh has a UV layer.</p>
 </li>
 </ol>
-<a class="reference internal image-reference" href="_images/particles_first_steps.jpg"><img alt="Первоначальная настройка системы частиц" class="align-center" src="_images/particles_first_steps.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/particles_first_steps.jpg"><img alt="_images/particles_first_steps.jpg" class="align-center" src="_images/particles_first_steps.jpg" style="width: 100%;" /></a>
 </div>
 </div>
 <div class="section" id="id5">
@@ -148,7 +148,7 @@
 <dd><p class="first last">Emission distribution settings: <tt class="docutils literal"><span class="pre">Jittered</span></tt>, <tt class="docutils literal"><span class="pre">Random</span></tt>, <tt class="docutils literal"><span class="pre">Grid</span></tt>. Ignored by the engine. Internally the engine always uses <tt class="docutils literal"><span class="pre">Random</span></tt> distribution. The default is <tt class="docutils literal"><span class="pre">Jittered</span></tt>.</p>
 </dd>
 </dl>
-<a class="reference internal image-reference" href="_images/particles_settings.jpg"><img alt="Настройка системы частиц" class="align-center" src="_images/particles_settings.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/particles_settings.jpg"><img alt="_images/particles_settings.jpg" class="align-center" src="_images/particles_settings.jpg" style="width: 100%;" /></a>
 </div>
 <div class="section" id="id8">
 <h3>Direction settings<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
@@ -191,7 +191,7 @@
 <dd><p class="first last">Exported but not used by the engine.</p>
 </dd>
 </dl>
-<a class="reference internal image-reference" href="_images/particles_settings2.jpg"><img alt="Настройка системы частиц" class="align-center" src="_images/particles_settings2.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/particles_settings2.jpg"><img alt="_images/particles_settings2.jpg" class="align-center" src="_images/particles_settings2.jpg" style="width: 100%;" /></a>
 </div>
 <div class="section" id="id11">
 <h3>Rendering settings<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
@@ -247,19 +247,19 @@
 <h3>Textures of the particle&#8217;s material<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
 <p>For the <tt class="docutils literal"><span class="pre">Surface</span></tt> particle&#8217;s materials it is <strong>required</strong> to have a diffuse texture (normally with an alpha-channel). In the <tt class="docutils literal"><span class="pre">Mapping</span> <span class="pre">&gt;</span> <span class="pre">Coordinates</span></tt> menu choose the <tt class="docutils literal"><span class="pre">UV</span></tt> option.  Make sure that the emitter&#8217;s mesh has a UV layer.</p>
 <p>For the <tt class="docutils literal"><span class="pre">Halo</span></tt> particle&#8217;s materials it is <strong>possible</strong> to use a <tt class="docutils literal"><span class="pre">Blend</span></tt> texture with a <tt class="docutils literal"><span class="pre">Linear</span></tt> gradient. In the <tt class="docutils literal"><span class="pre">Mapping</span> <span class="pre">&gt;</span> <span class="pre">Coordinates</span></tt> menu choose the <tt class="docutils literal"><span class="pre">Strand</span> <span class="pre">/</span> <span class="pre">Particle</span></tt> option. It is required to enable <tt class="docutils literal"><span class="pre">Ramp</span></tt> on a texture. Up to 4 gradient control points are supported.</p>
-<a class="reference internal image-reference" href="_images/particles_settings_ramp_color.jpg"><img alt="Настройка текстуры градиента для материала частиц" class="align-center" src="_images/particles_settings_ramp_color.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/particles_settings_ramp_color.jpg"><img alt="_images/particles_settings_ramp_color.jpg" class="align-center" src="_images/particles_settings_ramp_color.jpg" style="width: 100%;" /></a>
 </div>
 <div class="section" id="id16">
 <h3>Textures of particle systems<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
 <p>Textures can also be used for setting up the behaviour of particle systems. Unlike textures for particle materials such textures belong to the particle system datablock, not to the material datablock. To create a texture for the particle system it is required to go <strong>from</strong> the <tt class="docutils literal"><span class="pre">Particles</span></tt> tab to the <tt class="docutils literal"><span class="pre">Textures</span></tt> tab and then to click the <tt class="docutils literal"><span class="pre">New</span></tt> button.</p>
 <p>The only supported type of textures is <tt class="docutils literal"><span class="pre">Blend</span></tt> with a <tt class="docutils literal"><span class="pre">Linear</span></tt> gradient. <tt class="docutils literal"><span class="pre">Ramp</span></tt> should be enabled on the texture. Up to 4 gradient control points are supported.</p>
 <p>On the <tt class="docutils literal"><span class="pre">Influence</span></tt> panel choose the parameter which is influenced by the texture. At the moment the only supported parameter is <tt class="docutils literal"><span class="pre">Size</span></tt>.</p>
-<a class="reference internal image-reference" href="_images/particles_settings_ramp_size.jpg"><img alt="Настройка текстуры градиента для системы частиц" class="align-center" src="_images/particles_settings_ramp_size.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/particles_settings_ramp_size.jpg"><img alt="_images/particles_settings_ramp_size.jpg" class="align-center" src="_images/particles_settings_ramp_size.jpg" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <p>The result of using gradient textures on the particle material and the particle system:</p>
-<a class="reference internal image-reference" href="_images/particles_gun.jpg"><img alt="Результат применения текстур градиента для материала частиц и для системы частиц" class="align-center" src="_images/particles_gun.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/particles_gun.jpg"><img alt="_images/particles_gun.jpg" class="align-center" src="_images/particles_gun.jpg" style="width: 100%;" /></a>
 <p><a class="reference external" href="http://www.blendswap.com/blends/view/13977">The original model was taken from here</a></p>
 </div>
 </div>
@@ -279,6 +279,7 @@
 <li class="toctree-l1"><a class="reference internal" href="setup.html">Development Environment Setup</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Workflow</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Scene Viewer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="web_player.html">Web Player</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">The Addon</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
@@ -335,7 +336,7 @@
           
     <div class="footer">
         &copy; Copyright 2014, Triumph LLC.
-      Last updated on 2014-07-23.
+      Last updated on 2014-08-25.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

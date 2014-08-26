@@ -5,6 +5,7 @@ export APPS_EXT      = $(ROOT_DIR)/external/deploy/apps/
 export JAR_CP        = $(ROOT_DIR)/closure-compiler/compiler.jar
 export PARSER        = $(ROOT_DIR)/apps_dev/parse_html.py
 export PY_PARSER     = python3 $(PARSER)
+export EXTERNS       = $(ROOT_DIR)/closure-compiler/
 
 export STORAGE_JS    = $(ROOT_DIR)/src/addons/storage.js
 export APP_JS        = $(ROOT_DIR)/src/addons/app.js

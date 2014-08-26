@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Нодовые материалы &mdash; Руководство пользователя: Blend4Web v14.07</title>
+    <title>Нодовые материалы &mdash; Руководство пользователя: Blend4Web v14.08</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.07',
+        VERSION:     '14.08',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v14.07" href="index.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v14.08" href="index.html" />
     <link rel="next" title="Освещение, тени и фон" href="lighting.html" />
     <link rel="prev" title="Материалы" href="materials.html" /> 
   </head>
@@ -37,7 +37,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">Руководство пользователя: Blend4Web v14.07</a></div>
+          href="index.html">Руководство пользователя: Blend4Web v14.08</a></div>
         <div class="rel">
           <a href="materials.html" title="Материалы"
              accesskey="P">предыдущий</a> |
@@ -66,7 +66,7 @@
 <ul class="simple">
 <li><tt class="docutils literal"><span class="pre">Geometry</span></tt> - не поддерживаются выходы <tt class="docutils literal"><span class="pre">Local</span></tt>, <tt class="docutils literal"><span class="pre">Orco</span></tt> и <tt class="docutils literal"><span class="pre">Vertex</span> <span class="pre">Alpha</span></tt>.</li>
 <li><tt class="docutils literal"><span class="pre">Material</span></tt>, <tt class="docutils literal"><span class="pre">Extended</span> <span class="pre">Material</span></tt> - допускается не больше одной ноды на материал,
-не поддерживаются входы <tt class="docutils literal"><span class="pre">Refl</span></tt>, <tt class="docutils literal"><span class="pre">Ambient</span></tt>, <tt class="docutils literal"><span class="pre">SpecTra</span></tt>, <tt class="docutils literal"><span class="pre">Ray</span> <span class="pre">Mirror</span></tt> и выход <tt class="docutils literal"><span class="pre">AO</span></tt>.</li>
+не поддерживаются входы <tt class="docutils literal"><span class="pre">Refl</span></tt>, <tt class="docutils literal"><span class="pre">Ambient</span></tt>, <tt class="docutils literal"><span class="pre">SpecTra</span></tt> и выход <tt class="docutils literal"><span class="pre">AO</span></tt>.</li>
 <li><tt class="docutils literal"><span class="pre">RGB</span> <span class="pre">Curves</span></tt> - не поддерживается.</li>
 <li><tt class="docutils literal"><span class="pre">Vector</span> <span class="pre">Curves</span></tt> - не поддерживается.</li>
 </ul>
@@ -174,6 +174,36 @@
 </dl>
 </div>
 </div>
+<div class="section" id="refraction">
+<h3>REFRACTION<a class="headerlink" href="#refraction" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Реализует эффект преломления.</p>
+<div class="section" id="id8">
+<h4>Входные параметры<a class="headerlink" href="#id8" title="Ссылка на этот заголовок">¶</a></h4>
+<dl class="docutils">
+<dt><em>Normal</em></dt>
+<dd>Карта нормалей, по которой происходит возмущение (сдвиг).</dd>
+<dt><em>Refraction bump</em></dt>
+<dd><p class="first">Коэффицент возмущения (сдвига) текстуры сцены позади объекта.</p>
+<p class="last">Значение по умолчанию: 0.001.</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="id9">
+<h4>Выходные параметры<a class="headerlink" href="#id9" title="Ссылка на этот заголовок">¶</a></h4>
+<dl class="docutils">
+<dt><em>Color</em></dt>
+<dd>Текстура сцены позади объекта с внесённым возмущением.</dd>
+</dl>
+<div class="admonition note">
+<p class="first admonition-title">Примечание</p>
+<p class="last">Для отображения эффекта необходимо включить опцию <tt class="docutils literal"><span class="pre">Render</span> <span class="pre">refraction</span></tt> на панели <tt class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span></tt>. Объект должен быть с типом прозрачности Alpha Blend.</p>
+</div>
+<div class="admonition seealso">
+<p class="first admonition-title">См.также</p>
+<p class="last"><a class="reference internal" href="materials.html#alpha-blend"><em>Прозрачность</em></a></p>
+</div>
+</div>
+</div>
 </div>
 </div>
 
@@ -191,6 +221,7 @@
 <li class="toctree-l1"><a class="reference internal" href="setup.html">Развёртывание среды разработки</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Рабочий процесс</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Просмотрщик сцен</a></li>
+<li class="toctree-l1"><a class="reference internal" href="web_player.html">Веб-плеер</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">Аддон</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Объекты</a></li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">Текстуры</a></li>
@@ -246,7 +277,7 @@
           
     <div class="footer">
         &copy; Copyright 2014, ООО &#34;Триумф&#34;.
-      Обновлено: 2014-07-23.
+      Обновлено: 2014-08-25.
       Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

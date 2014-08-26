@@ -27,10 +27,17 @@
 
     </html>
 
-Базовый модуль движка подключается с помощью тега ``<script src="...">``. Далее,
+Базовый код движка подключается с помощью тега ``<script src="...">``. Далее,
 приложение ожидает окончания загрузки страницы и выводит сообщение с текущей
-версией в окне браузера.
+версией в окне браузера. В данном примере используется единственный модуль
+``version``, в котором находится одноимённая функция ``version()``. Подробную
+информацию о предназначении модулей и функций движка можно найти в `документации
+по API <http://www.blend4web.com/api_doc/index.html>`_.
 
+Файлы со скомпилированным кодом движка находятся в директории SDK
+``external/deploy/apps/common``. Файл ``b4w.min.js`` содержит в себе базовую
+версию, в случае необходимости использования аддонов, вместо него используется
+``b4w.full.min.js``.
 
 Загрузка сцены в приложение
 ===========================
@@ -73,21 +80,19 @@
 взаимодействия с пользователем.
 
 
-Быстрое создание приложений 
+Быстрое создание приложений
 ===========================
 
 Поскольку создание приложения с нуля может быть достаточно сложной операцей,
 особенно для начинающих пользователей, в движке существует специальное
-дополнение ``app.js``. Дополнение подключается аналогично основному модулю
-``b4w.min.js`` и доступно в приложении через модуль ``app``:
+дополнение ``app``:
 
 .. code-block:: html
 
     <!DOCTYPE html>
     <html>
     <head>
-    <script src="b4w.min.js"></script>
-    <script src="app.js"></script>
+    <script src="b4w.full.min.js"></script>
     <script>
 
     var m_app = b4w.require("app");
@@ -111,7 +116,7 @@
 
 В данном случае модуль ``app`` создаст элемент ``<canvas>`` внутри контейнера с
 указанным идентификатором ``body_id``, осуществит инициализацию движка при
-загрузке страницы и сообщит о её окончинии с помощью обработчика ``load_cb``.
+загрузке страницы и сообщит о её окончании с помощью обработчика ``load_cb``.
 
 
 Система модулей
@@ -232,7 +237,6 @@
 Требуется повернуть объект на 60 градусов в горизонтальной плоскости вправо. В программе Blender имеется соответствующая модель с названием "Cessna". 
 
 .. image:: src_images/developers/aircraft.jpg
-   :alt: ориентация модели в программе Blender
    :align: center
    :width: 100%
 
@@ -242,7 +246,7 @@
     
 .. code-block:: javascript
 
-    var aircraft = b4w.scenes.get_object_by_name("Cessna");
+    var aircraft = m_scenes.get_object_by_name("Cessna");
 
 
 Осуществим поворот:
@@ -256,16 +260,16 @@
 .. code-block:: javascript
     
     // compose quaternion
-    var quat_60_Y_neg = b4w.quat.setAxisAngle([0, 1, 0], -Math.PI/3, b4w.quat.create());
+    var quat_60_Y_neg = m_quat.setAxisAngle([0, 1, 0], -Math.PI/3, m_quat.create());
 
     // get old rotation
-    var quat_old = b4w.transform.get_rotation(aircraft);
+    var quat_old = m_transform.get_rotation(aircraft);
 
     // left multiply: quat60_Y_neg * quat_old
-    var quat_new = b4w.quat.multiply(quat_60_Y_neg, quat_old, b4w.quat.create());
+    var quat_new = m_quat.multiply(quat_60_Y_neg, quat_old, m_quat.create());
 
     // set new rotation
-    b4w.transform.set_rotation_v(aircraft, quat_new);
+    m_transform.set_rotation_v(aircraft, quat_new);
 
 
 Оптимизированный вариант, не приводящий к созданию новых объектов:
@@ -278,10 +282,10 @@
     var quat_tmp2 = new Float32Array(4);
     ...
     // rotate
-    b4w.quat.setAxisAngle(AXIS_Y, -Math.PI/3, quat_tmp);
-    b4w.transform.get_rotation(aircraft, quat_tmp2);
-    b4w.quat.multiply(quat_tmp, quat_tmp2, quat_tmp);
-    b4w.transform.set_rotation_v(aircraft, quat_tmp);
+    m_quat.setAxisAngle(AXIS_Y, -Math.PI/3, quat_tmp);
+    m_transform.get_rotation(aircraft, quat_tmp2);
+    m_quat.multiply(quat_tmp, quat_tmp2, quat_tmp);
+    m_transform.set_rotation_v(aircraft, quat_tmp);
     
 
 
@@ -389,6 +393,50 @@ manifold). Множество является логическим контей
 Значение сенсора = 1 (активный) означает, что произошло столкновение с соответствующим физическим материалом. 
 В результате воспроизводится соответствующий звук (код не показан).
 
+
+.. _quality_settings:
+
+Профили качества изображения
+============================
+
+Для поддержки различных по функциональности платформ в движке реализовано несколько профилей качества изображения:
+
+    * *низкое качество* (P_LOW) - отключен ряд функций (тени, динамическое отражение, постпроцессинг), размер текстур для сборочной версии уменьшен вдвое, антиалиасинг отключен
+    * *высокое качество* (P_HIGH) - используются все запрошенные сценой функции, метод антиалиасинга FXAA
+    * *максимальное качество* (P_ULTRA) - вдвое увеличено разрешение рендеринга, увеличено разрешение карт теней, метод антиалиасинга SMAA
+
+
+.. image:: src_images/developers/quality.jpg
+   :align: center
+   :width: 100%
+
+|
+
+Переключение профилей качества осуществляется программно, до инициализации контекста WebGL. Профиль по умолчанию P_HIGH.
+
+.. code-block:: javascript
+
+    var m_cfg = b4w.require("config");
+    var m_main = b4w.require("main");
+
+    m_cfg.set("quality", m_cfg.P_LOW);
+    m_main.init(...);
+
+
+Разработчики приложений могут также установить параметр **quality** при инициализации движка с использованием дополнения ``app.js``:
+
+.. code-block:: javascript
+
+    var m_cfg = b4w.require("config");
+    var m_app = b4w.require("app");
+
+    m_app.init({
+        canvas_container_id: "body_id",
+        quality: m_cfg.P_HIGH
+    });
+    
+    
+
 .. _repo_file_structure:
 
 Файловая структура SDK
@@ -422,6 +470,10 @@ manifold). Множество является логическим контей
         **apps** 
             3D-приложения, предназначенные для развертывания, директория
             дублирует *apps_dev*
+
+            **common**
+                Файлы скомпилированного движка. Используются всеми
+                приложениями из состава SDK (отсюда и название).
 
         **assets** 
             загружаемые ресурсы: сцены, текстуры, звуковые файлы (не все ресурсы
@@ -475,7 +527,7 @@ manifold). Множество является логическим контей
     **chrome_debug.sh**
         скрипт, запускающий браузер Chrome в режиме отладки
 
-    **compile_b4w.sh**
+    **compile_b4w.py**
         скрипт для вызова Google Closure compiler с целью минификации и обфускации кода движка и приложений
 
     **converter.py**
@@ -532,46 +584,3 @@ manifold). Множество является логическим контей
 
 **VERSION**
     содержит текущую версию движка
-
-
-
-.. _quality_settings:
-
-Профили качества изображения
-============================
-
-Для поддержки различных по функциональности платформ в движке реализовано несколько профилей качества изображения:
-
-    * *низкое качество* (P_LOW) - отключен ряд функций (тени, динамическое отражение, постпроцессинг), размер текстур для сборочной версии уменьшен вдвое, антиалиасинг отключен
-    * *высокое качество* (P_HIGH) - используются все запрошенные сценой функции, метод антиалиасинга FXAA
-    * *максимальное качество* (P_ULTRA) - вдвое увеличено разрешение рендеринга, увеличено разрешение карт теней, метод антиалиасинга SMAA
-
-
-.. image:: src_images/developers/quality.jpg
-   :align: center
-   :width: 100%
-
-|
-
-Переключение профилей качества осуществляется программно, до инициализации контекста WebGL. Профиль по умолчанию P_HIGH.
-
-.. code-block:: javascript
-
-    var m_cfg = b4w.require("config");
-    var m_main = b4w.require("main");
-
-    m_cfg.set("quality", m_cfg.P_LOW);
-    m_main.init(...);
-
-
-Разработчики приложений могут также установить параметр **quality** при инициализации движка с использованием дополнения ``app.js``:
-
-.. code-block:: javascript
-
-    var m_cfg = b4w.require("config");
-    var m_app = b4w.require("app");
-
-    m_app.init({
-        canvas_container_id: "body_id",
-        quality: m_cfg.P_HIGH
-    });

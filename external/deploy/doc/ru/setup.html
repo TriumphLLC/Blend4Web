@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Развёртывание среды разработки &mdash; Руководство пользователя: Blend4Web v14.07</title>
+    <title>Развёртывание среды разработки &mdash; Руководство пользователя: Blend4Web v14.08</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.07',
+        VERSION:     '14.08',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v14.07" href="index.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v14.08" href="index.html" />
     <link rel="next" title="Рабочий процесс" href="workflow.html" />
     <link rel="prev" title="Экспресс-установка" href="first_steps.html" /> 
   </head>
@@ -37,7 +37,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">Руководство пользователя: Blend4Web v14.07</a></div>
+          href="index.html">Руководство пользователя: Blend4Web v14.08</a></div>
         <div class="rel">
           <a href="first_steps.html" title="Экспресс-установка"
              accesskey="P">предыдущий</a> |
@@ -77,7 +77,7 @@
 <span id="index-0"></span><span id="id3"></span><h2>Выбор браузера<a class="headerlink" href="#getting-started-browser" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Для работы движка требуется <a class="reference internal" href="about.html#browser-webgl-support"><em>браузер с поддержкой WebGL</em></a>. Для проверки можно перейти на страницу <a class="reference external" href="http://get.webgl.org/">http://get.webgl.org/</a>. Должна
 появиться надпись зеленого цвета и вращающийся куб:</p>
-<a class="reference internal image-reference" href="_images/browser_supports_webgl.jpg"><img alt="Страница тестового сайта при успешной инициализации WebGL" class="align-center" src="_images/browser_supports_webgl.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/browser_supports_webgl.jpg"><img alt="_images/browser_supports_webgl.jpg" class="align-center" src="_images/browser_supports_webgl.jpg" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -97,7 +97,7 @@
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<a class="reference internal image-reference" href="_images/chrome_file_access.jpg"><img alt="Настройка Chrome для загрузки локальных ресурсов" class="align-center" src="_images/chrome_file_access.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/chrome_file_access.png"><img alt="_images/chrome_file_access.png" class="align-center" src="_images/chrome_file_access.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -130,24 +130,20 @@
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<a class="reference internal image-reference" href="_images/firefox_strict_origin.jpg"><img alt="Настройка Firefox для загрузки локальных ресурсов" class="align-center" src="_images/firefox_strict_origin.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/firefox_strict_origin.jpg"><img alt="_images/firefox_strict_origin.jpg" class="align-center" src="_images/firefox_strict_origin.jpg" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <p><em>Safari/OS X</em>:</p>
 <p>Включить в настройках отображение меню &#8220;Develop&#8221;, затем активировать опцию &#8220;Disable Local File Restrictions&#8221;.</p>
-<a class="reference internal image-reference" href="_images/safari_setup.png"><img alt="Настройка Safari для загрузки локальных ресурсов" class="align-center" src="_images/safari_setup.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/safari_setup.png"><img alt="_images/safari_setup.png" class="align-center" src="_images/safari_setup.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 </div>
 <div class="section" id="getting-started-launching-viewer">
 <span id="index-1"></span><span id="id6"></span><h2>Запуск просмотрщика сцен<a class="headerlink" href="#getting-started-launching-viewer" title="Ссылка на этот заголовок">¶</a></h2>
-<p>Откройте файл <tt class="file docutils literal"><span class="pre">apps_dev/viewer/viewer_dev.html</span></tt> в настроенном браузере. Должна отобразиться страница с окном рендерера и элементами интерфейса.</p>
-<a class="reference internal image-reference" href="_images/default_page.jpg"><img alt="Первый запуск рендерера" class="align-center" src="_images/default_page.jpg" style="width: 100%;" /></a>
-<div class="line-block">
-<div class="line"><br /></div>
-</div>
+<p>Откройте файл <tt class="file docutils literal"><span class="pre">apps_dev/viewer/viewer_dev.html</span></tt> в настроенном браузере. Должна отобразиться страница <a class="reference internal" href="viewer.html#viewer"><em>просмотрщика сцен</em></a> с окном рендерера и элементами интерфейса.</p>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
 <p class="last">Если страница не отображается корректно, или появляются сообщения об ошибках, необходимо предпринять действия, описанные в разделе <a class="reference internal" href="problems_and_solutions.html#renderer-not-working"><em>Проблемы при запуске рендерера</em></a>.</p>
@@ -161,7 +157,7 @@
 </div>
 <p>Запустить Blender, загрузить сцену по умолчанию <tt class="file docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">New</span></tt> (горячие клавиши <tt class="file docutils literal"><span class="pre">Ctrl-N</span></tt>).
 Вызвать окно пользовательских настроек <tt class="file docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">User</span> <span class="pre">Preferences...</span></tt> (горячие клавиши <tt class="file docutils literal"><span class="pre">Ctrl-Alt-U</span></tt>). Во вкладке  <tt class="file docutils literal"><span class="pre">File</span></tt> в поле  <tt class="file docutils literal"><span class="pre">Scripts</span></tt> выбрать путь к директории <tt class="file docutils literal"><span class="pre">blender_scripts</span></tt>.</p>
-<a class="reference internal image-reference" href="_images/user_preferences_scripts_path.jpg"><img alt="Указание пути для скриптов в окне пользовательских настроек" class="align-center" src="_images/user_preferences_scripts_path.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/user_preferences_scripts_path.jpg"><img alt="_images/user_preferences_scripts_path.jpg" class="align-center" src="_images/user_preferences_scripts_path.jpg" style="width: 100%;" /></a>
 <p>Нажать <tt class="file docutils literal"><span class="pre">Save</span> <span class="pre">User</span> <span class="pre">Settings</span></tt> и перезапустить Blender.</p>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
@@ -169,7 +165,7 @@
 <p class="last"><tt class="file docutils literal"><span class="pre">C:\Program</span> <span class="pre">Files\Blender</span> <span class="pre">Foundation\Blender\2.70\scripts\addons\blend4web</span></tt>.</p>
 </div>
 <p>Повторно загрузить сцену по умолчанию, вызвать окно пользовательских настроек, перейти на вкладку <tt class="file docutils literal"><span class="pre">Addons</span></tt> и выбрать категорию <tt class="file docutils literal"><span class="pre">Import-Export</span></tt>. Отметить галочку напротив <tt class="file docutils literal"><span class="pre">Import-Export:</span> <span class="pre">Blend4Web</span></tt>.</p>
-<a class="reference internal image-reference" href="_images/user_preferences_enable_addon.jpg"><img alt="Инициализация скриптов в окне пользовательских настроек" class="align-center" src="_images/user_preferences_enable_addon.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/user_preferences_enable_addon.jpg"><img alt="_images/user_preferences_enable_addon.jpg" class="align-center" src="_images/user_preferences_enable_addon.jpg" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -180,7 +176,7 @@
 <h3>Включение опции экспорта в HTML<a class="headerlink" href="#html" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Опция <tt class="file docutils literal"><span class="pre">Blend4Web</span> <span class="pre">(.html)</span></tt> в меню <tt class="file docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">Export</span></tt> по умолчанию не активна, в отличие от версии одиночного аддона (см. <a class="reference internal" href="first_steps.html#quick-install"><em>экспресс-установка</em></a>).</p>
 <p>В случае необходимости (например, если требуется отладка HTML экспорта) данную опцию можно включить. Для этого указать путь к сборке приложения <tt class="docutils literal"><span class="pre">embed</span></tt>, входящего в состав дистрибутива, в поле <tt class="file docutils literal"><span class="pre">Path</span> <span class="pre">to</span> <span class="pre">b4w</span> <span class="pre">source</span></tt>. Стандартный путь относительно корня движка <tt class="file docutils literal"><span class="pre">external/deploy/apps/embed</span></tt>.</p>
-<a class="reference internal image-reference" href="_images/user_preferences_enable_addon_HTML_option.jpg"><img alt="Включение опции экспорта в HTML" class="align-center" src="_images/user_preferences_enable_addon_HTML_option.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/user_preferences_enable_addon_HTML_option.jpg"><img alt="_images/user_preferences_enable_addon_HTML_option.jpg" class="align-center" src="_images/user_preferences_enable_addon_HTML_option.jpg" style="width: 100%;" /></a>
 </div>
 </div>
 </div>
@@ -206,6 +202,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Рабочий процесс</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Просмотрщик сцен</a></li>
+<li class="toctree-l1"><a class="reference internal" href="web_player.html">Веб-плеер</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">Аддон</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Объекты</a></li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">Текстуры</a></li>
@@ -257,7 +254,7 @@
           
     <div class="footer">
         &copy; Copyright 2014, ООО &#34;Триумф&#34;.
-      Обновлено: 2014-07-23.
+      Обновлено: 2014-08-25.
       Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

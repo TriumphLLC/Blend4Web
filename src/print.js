@@ -29,6 +29,7 @@ exports.log = function() {
 }
 
 exports.error = function() {
+    // always reporting errors
     _error_count++;
     console.error.apply(console, arguments);
 }

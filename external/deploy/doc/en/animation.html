@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Animation &mdash; User Manual: Blend4Web v14.07</title>
+    <title>Animation &mdash; User Manual: Blend4Web v14.08</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.07',
+        VERSION:     '14.08',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User Manual: Blend4Web v14.07" href="index.html" />
+    <link rel="top" title="User Manual: Blend4Web v14.08" href="index.html" />
     <link rel="next" title="Outdoor Rendering" href="outdoor_rendering.html" />
     <link rel="prev" title="Particle System for Instancing Objects" href="particles_instancing.html" /> 
   </head>
@@ -36,7 +36,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">User Manual: Blend4Web v14.07</a></div>
+          href="index.html">User Manual: Blend4Web v14.08</a></div>
         <div class="rel">
           <a href="particles_instancing.html" title="Particle System for Instancing Objects"
              accesskey="P">previous</a> |
@@ -86,6 +86,10 @@
 </div>
 <div class="section" id="id3">
 <h2>Object Animation<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<a class="reference internal image-reference" href="_images/wind_generator.jpg"><img alt="_images/wind_generator.jpg" class="align-center" src="_images/wind_generator.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
 <p>Animation keyframes can be added for an object motion in Blender and then reproduced in the engine.</p>
 <p>The following keyframe types are supported:</p>
 <ul class="simple">
@@ -107,6 +111,10 @@
 </div>
 <div class="section" id="id4">
 <h2>Skinning and Skeletal Animation<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<a class="reference internal image-reference" href="_images/rig.jpg"><img alt="_images/rig.jpg" class="align-center" src="_images/rig.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
 <p>For skeletal animation both a mesh object and an armature object are needed. The four steps should be carried out:</p>
 <ol class="arabic simple">
 <li><p class="first">Create the object&#8217;s &#8220;skeleton&#8221; in the armature object.</p>
@@ -118,7 +126,7 @@
 <li><p class="first">When inverse kinematics (IK) or other nontrivial structures are used, an additional step is required to bake the animations (<tt class="docutils literal"><span class="pre">Action</span></tt> datablocks in Blender). Baking can be performed using the <tt class="docutils literal"><span class="pre">B4W</span> <span class="pre">Animation</span> <span class="pre">Bake</span></tt> interface located on the <tt class="docutils literal"><span class="pre">Blend4Web</span></tt> panel.</p>
 </li>
 </ol>
-<a class="reference internal image-reference" href="_images/baker.png"><img alt="Инструмент запекания скелетной анимации" class="align-center" src="_images/baker.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/skeletal_anim_baker.png"><img alt="_images/skeletal_anim_baker.png" class="align-center" src="_images/skeletal_anim_baker.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -135,12 +143,22 @@
 <li><p class="first"><em>Cons Mute</em>/<em>Cons Unmute</em> &#8211; switch bone constraints off/on. The tool can be used for testing the baked actions.</p>
 </li>
 </ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>The engine supports up to 4 vertex groups per vertex. If the number of vertex groups exceeds 4 the vertex groups with the most influence are selected. When the scene is loaded the vertex weights are normalized i.e. their sum is reduced to 1.</p>
+<p>To remove vertex groups which are not used by armature, use button <tt class="docutils literal"><span class="pre">Remove</span> <span class="pre">Unused</span> <span class="pre">VGroups</span></tt> from <tt class="docutils literal"><span class="pre">B4W</span> <span class="pre">Vertex</span> <span class="pre">Group</span></tt> interface.</p>
+<a class="last reference internal image-reference" href="_images/vgroups_cleaner.png"><img alt="_images/vgroups_cleaner.png" class="align-center" src="_images/vgroups_cleaner.png" style="width: 100%;" /></a>
+</div>
 </div>
 <div class="section" id="id5">
 <h2>Vertex Animation<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<a class="reference internal image-reference" href="_images/flag.jpg"><img alt="_images/flag.jpg" class="align-center" src="_images/flag.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
 <p>Allows to record any geometry changes of a mesh object. Note that every vertex animation frame counts as a mesh. It&#8217;s not recommended to make a long animation for a high-poly mesh, as it can increase the size of the source and exported files significantly and can also slow down the work of the engine.</p>
 <p>A special tool is used for baking vertex animation - <tt class="docutils literal"><span class="pre">B4W</span> <span class="pre">Vertex</span> <span class="pre">Anim</span> <span class="pre">Baker</span></tt> - located on the <tt class="docutils literal"><span class="pre">Blend4Web</span></tt> tools panel.</p>
-<a class="reference internal image-reference" href="_images/vertex_anim_baker.jpg"><img alt="Инструмент запекания вертексной анимации" class="align-center" src="_images/vertex_anim_baker.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/vertex_anim_baker.jpg"><img alt="_images/vertex_anim_baker.jpg" class="align-center" src="_images/vertex_anim_baker.jpg" style="width: 100%;" /></a>
 </div>
 <div class="section" id="id6">
 <h2>Audio Source Parametrization<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
@@ -169,6 +187,7 @@
 <li class="toctree-l1"><a class="reference internal" href="setup.html">Development Environment Setup</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Workflow</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Scene Viewer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="web_player.html">Web Player</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">The Addon</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
@@ -227,7 +246,7 @@
           
     <div class="footer">
         &copy; Copyright 2014, Triumph LLC.
-      Last updated on 2014-07-23.
+      Last updated on 2014-08-25.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

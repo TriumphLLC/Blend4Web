@@ -15,24 +15,24 @@ msgstr ""
 msgid "Нелинейная анимация"
 msgstr "Non-Linear Animation"
 
-#: ../nla.rst:17
+#: ../nla.rst:18
 msgid "Движком поддерживается управление следующими сущностями:"
 msgstr "The engine supports controlling the following entities:"
 
-#: ../nla.rst:19
+#: ../nla.rst:20
 msgid ""
 "Любая анимация, параметры которой могут быть представлены с помощью "
 "`действий` (Action)"
-msgstr ""
-"Any animation the parameters of which can be presented with Actions"
+msgstr "Any animation the parameters of which can be presented with Actions"
 
-#: ../nla.rst:21
+#: ../nla.rst:22
 msgid "Воспроизведение звуков"
 msgstr "Audio playback"
 
-#: ../nla.rst:23
+#: ../nla.rst:24
 msgid "Эмиссия частиц (в виде привязки к глобальной шкале времени)"
-msgstr "Particles emission (in the form of a connection with the global timeline)"
+msgstr ""
+"Particles emission (in the form of a connection with the global timeline)"
 
 #: ../nla.rst:7
 msgid ""
@@ -42,61 +42,58 @@ msgid ""
 "Таким образом исключается необходимость программирования простых сцен и "
 "демо-приложений."
 msgstr ""
-"The Blender's non-linear editor lets us set the scene's behavior in a comfortable way. "
-"With its help we can implement a simple scenario which does not require any interference from the user. "
-"This way coding is not needed for simple scenes and demo applications."
+"The Blender's non-linear editor lets us set the scene's behavior in a "
+"comfortable way. With its help we can implement a simple scenario which does"
+" not require any interference from the user. This way coding is not needed "
+"for simple scenes and demo applications."
 
-#: ../nla.rst:26
+#: ../nla.rst:32
 msgid "Активация"
 msgstr "Activation"
 
-#: ../nla.rst:28
+#: ../nla.rst:34
 msgid "Во вкладке ``Scene`` выбрать опцию ``Use NLA``."
 msgstr "Enable the ``Use NLA`` checkbox under the ``Scene`` tab."
 
-#: ../nla.rst:29
+#: ../nla.rst:35
 msgid ""
 "В редакторе ``NLA Editor`` задать необходимую конфигурацию поведения сцены."
-msgstr ""
-"In the ``NLA Editor`` set up the required behavior for the scene."
+msgstr "In the ``NLA Editor`` set up the required behavior for the scene."
 
-#: ../nla.rst:30
+#: ../nla.rst:36
 msgid "На панели ``Timeline`` выбрать интервал времени анимации."
 msgstr "Choose the animation time interval on the ``Timeline`` panel."
 
-#: ../nla.rst:39
+#: ../nla.rst:45
 msgid "Ограничения"
 msgstr "Limitations"
 
-#: ../nla.rst:41
+#: ../nla.rst:47
 msgid "Вертексная анимация не поддерживается."
 msgstr "Vertex animation is not supported."
 
-#: ../nla.rst:43
+#: ../nla.rst:49
 msgid ""
 "Одновременное проигрывание различных видов анимации для одного объекта не "
 "поддерживается."
 msgstr ""
-"A simultanious playback of differnet types of animation for the same object is not supported. "
+"A simultanious playback of differnet types of animation for the same object "
+"is not supported. "
 
-#: ../nla.rst:33
+#: ../nla.rst:39
 msgid "Дополнительные опции"
 msgstr "Additional Options"
 
-#: ../nla.rst:35
+#: ../nla.rst:41
 msgid ""
-"Настройка сцены *Blend4Web > Cyclic NLA* позволяет активировать режим"
-" циклической NLA-анимации."
+"Настройка сцены *Blend4Web > Cyclic NLA* позволяет активировать режим "
+"циклической NLA-анимации."
 msgstr ""
-"The *Blend4Web > Cyclic NLA* scene setting activates the cyclic NLA animation mode."
+"The *Blend4Web > Cyclic NLA* scene setting activates the cyclic NLA "
+"animation mode."
 
-#: ../nla.rst:42
+#: ../nla.rst:48
 msgid ""
 "Масштабирование и зацикливание отдельных полос анимации (Strip) не "
 "поддерживается."
-msgstr ""
-"Scaling and looping of separate animation strips is not supported."
-
-
-
-
+msgstr "Scaling and looping of separate animation strips is not supported."

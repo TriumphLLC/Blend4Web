@@ -48,7 +48,7 @@ function create_render(type) {
         type: type,
         data_id: 0,
         scale: 0,
-        grid_id: new Array(2),
+        grid_id: [0, 0],
         trans: new Float32Array(3),
         quat: new Float32Array(4),
         tsr: new Float32Array(8),
@@ -79,6 +79,7 @@ function create_render(type) {
         force_strength: 0,
         lod_dist_max: 0,
         lod_dist_min: 0,
+        lod_transition_ratio: 0,
         physics_type: "",
         use_collision_compound: false,
 
@@ -291,9 +292,6 @@ function update_object(obj) {
         render.detail_bend_col.leaves_phase = bnd_st["leaves_phase_col"];
         render.detail_bend_col.overall_stiffness = bnd_st["overall_stiffness_col"];
 
-        // overrided by hair render if needed
-        render.dynamic_grass = false;
-
         render.do_not_cull = obj["b4w_do_not_cull"];
         render.disable_fogging = obj["b4w_disable_fogging"];
         render.dynamic_geometry = obj["b4w_dynamic_geometry"];
@@ -306,8 +304,9 @@ function update_object(obj) {
 
         render.lod_dist_min = 0;
         render.lod_dist_max = 10000;
-
+        render.lod_transition_ratio = obj["b4w_lod_transition"];
         render.last_lod = true;
+
         break;
     case "CAMERA":
         m_cam.camera_object_to_camera(obj);
@@ -403,14 +402,10 @@ function update_objects_dynamics(objects) {
         // try to use default animation
         if (obj["b4w_use_default_animation"] && m_anim.is_animatable(obj)) {
             m_anim.apply_def(obj);
+            m_anim.play(obj, null, m_anim.SLOT_ALL);
 
-            if (obj["b4w_cyclic_animation"])
-                m_anim.cyclic(obj, true);
-
-            if (m_util.is_armature(obj))
+            if (obj.type == "ARMATURE")
                 anim_arms.push(obj);
-
-            m_anim.play(obj);
         }
     }
 
@@ -422,18 +417,27 @@ function update_objects_dynamics(objects) {
     for (var i = 0; i < objects.length; i++) {
         var obj = objects[i];
 
-        if (m_util.is_mesh(obj) && !obj["b4w_use_default_animation"] &&
-                m_anim.is_animatable(obj)) {
+        if (!m_util.is_mesh(obj))
+            continue;
 
-            for (var j = 0; j < anim_arms.length; j++) {
-                var armobj = anim_arms[j];
+        for (var j = 0; j < anim_arms.length; j++) {
+            var armobj = anim_arms[j];
 
-                if (m_anim.get_first_armature_object(obj) == armobj) {
-                    m_anim.apply_def(obj)
-                    m_anim.cyclic(obj, m_anim.is_cyclic(armobj));
-                    m_anim.play(obj);
-                }
-            }
+            if (m_anim.get_first_armature_object(obj) != armobj)
+                continue;
+
+            var anim_name =
+                m_anim.get_anim_by_slot_num(armobj, m_anim.SLOT_0);
+
+            if (!anim_name)
+                continue;
+
+            var slot_num = m_anim.apply_to_first_empty_slot(obj, anim_name);
+            var behavior = armobj["b4w_cyclic_animation"] ? m_anim.AB_CYCLIC :
+                                                    m_anim.AB_FINISH_RESET;
+
+            m_anim.set_behavior(obj, behavior, slot_num);
+            m_anim.play(obj, null, slot_num);
         }
     }
 }
@@ -444,7 +448,7 @@ function obj_is_dynamic(bpy_obj) {
     if (parent && parent._is_dynamic)
         return true;
 
-    if (bpy_obj["type"] === "ARMATURE" || bpy_obj["type"] === "CAMERA" 
+    if (bpy_obj["type"] === "ARMATURE" || bpy_obj["type"] === "CAMERA"
             || bpy_obj["type"] === "MESH" && mesh_obj_is_dynamic(bpy_obj))
         return true;
 
@@ -455,7 +459,6 @@ function mesh_obj_is_dynamic(bpy_obj) {
     var is_animated = m_anim.is_animatable(bpy_obj);
     var has_do_not_batch = bpy_obj["b4w_do_not_batch"];
     var dynamic_geom = bpy_obj["b4w_dynamic_geometry"];
-    var has_anim_particles = m_particles.has_anim_particles(bpy_obj);
     var is_collision = bpy_obj["b4w_collision"];
     var is_vehicle_part = bpy_obj["b4w_vehicle"];
     var is_floater_part = bpy_obj["b4w_floating"];
@@ -466,8 +469,8 @@ function mesh_obj_is_dynamic(bpy_obj) {
     // make it so just to prevent some possible bugs in the future
 
     return DEBUG_DISABLE_STATIC_OBJS || is_animated || has_do_not_batch 
-            || dynamic_geom || has_anim_particles || is_collision 
-            || is_vehicle_part || is_floater_part || has_lens_flares_mat(bpy_obj)
+            || dynamic_geom || is_collision || is_vehicle_part
+            || is_floater_part || has_lens_flares_mat(bpy_obj)
             || dyn_grass_emitter || is_character;
 }
 

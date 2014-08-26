@@ -7,6 +7,12 @@
  */
 b4w.module["camera_anim"] = function(exports, require) {
 
+var m_cam   = require("camera");
+var m_ctl   = require("controls");
+var m_scs   = require("scenes");
+var m_trans = require("transform");
+var m_util  = require("util");
+
 // Global temporary vars
 var _vec3_tmp   = new Float32Array(3);
 var _vec3_tmp2  = new Float32Array(3);
@@ -14,8 +20,6 @@ var _vec3_tmp3  = new Float32Array(3);
 var _quat4_tmp  = new Float32Array(4);
 
 var PI = Math.PI;
-
-var m_ctl  = require("controls");
 
 var m_vec3 = require("vec3");
 var m_quat = require("quat");
@@ -43,11 +47,11 @@ exports.track_to_target = function(cam_obj, target, rot_speed, zoom_mult,
 
     if (!target)
         return;
-    else if (b4w.util.is_vector(target))
+    else if (m_util.is_vector(target))
         var obj_pos = target;
     else {
         var obj_pos = _vec3_tmp3;
-        b4w.transform.get_object_center(target, false, obj_pos);
+        m_trans.get_object_center(target, false, obj_pos);
     }
 
     var rot_sp  = rot_speed  || 1;
@@ -60,13 +64,13 @@ exports.track_to_target = function(cam_obj, target, rot_speed, zoom_mult,
     def_dir[1]     = -1;
     def_dir[2]     = 0;
 
-    var cam_quat   = b4w.transform.get_rotation_quat(cam_obj);
-    var cam_dir    = b4w.util.quat_to_dir(cam_quat, def_dir);
-    var cam_angles = b4w.camera.get_angles(cam_obj);
+    var cam_quat   = m_trans.get_rotation_quat(cam_obj);
+    var cam_dir    = m_util.quat_to_dir(cam_quat, def_dir);
+    var cam_angles = m_cam.get_angles(cam_obj);
 
     // direction vector to the target
     var dir_to_obj = _vec3_tmp;
-    var cam_pos    = b4w.transform.get_translation(cam_obj);
+    var cam_pos    = m_trans.get_translation(cam_obj);
     m_vec3.subtract(obj_pos, cam_pos, dir_to_obj);
     m_vec3.normalize(dir_to_obj, dir_to_obj);
 
@@ -77,7 +81,7 @@ exports.track_to_target = function(cam_obj, target, rot_speed, zoom_mult,
     var quat = _quat4_tmp;
     m_quat.multiply(rot_quat, cam_quat, quat);
 
-    b4w.util.correct_cam_quat_up(quat, false);
+    m_util.correct_cam_quat_up(quat, false);
 
     // distance to zoom point
     var sub_vec = _vec3_tmp2;
@@ -101,8 +105,8 @@ exports.track_to_target = function(cam_obj, target, rot_speed, zoom_mult,
     cam_dir_z[1]  = 0;
     cam_dir_z[2]  = -1;
 
-    var cam_rot_quat = b4w.transform.get_rotation_quat(cam_obj);
-    var cam_rot_dir  = b4w.util.quat_to_dir(cam_rot_quat, cam_dir_z);
+    var cam_rot_quat = m_trans.get_rotation_quat(cam_obj);
+    var cam_rot_dir  = m_util.quat_to_dir(cam_rot_quat, cam_dir_z);
 
     if (cam_rot_dir[1] < 0) {
         if (cam_dir[1] > 0)
@@ -166,12 +170,12 @@ exports.track_to_target = function(cam_obj, target, rot_speed, zoom_mult,
                 dest_ang_x -= delta_x;
                 dest_ang_y -= delta_y;
 
-                b4w.camera.rotate(obj, delta_x, delta_y);
+                m_cam.rotate(obj, delta_x, delta_y);
 
             } else if (cur_time < zoom_end_time) {
 
                 if (dest_ang_x) {
-                    b4w.camera.rotate(obj, dest_ang_x, dest_ang_y);
+                    m_cam.rotate(obj, dest_ang_x, dest_ang_y);
                     dest_ang_x = 0;
 
                     if (zoom_cb)
@@ -183,11 +187,11 @@ exports.track_to_target = function(cam_obj, target, rot_speed, zoom_mult,
                 dest_trans_x  -= delta_x;
 
                 delta *= smooth_function(time_ratio);
-                b4w.transform.move_local(obj, 0, delta, 0);
+                m_trans.move_local(obj, 0, delta, 0);
 
             } else if (cur_time < zoom_end_delay) {
                 if (dest_trans_x) {
-                    b4w.transform.move_local(obj, 0, dest_trans_x, 0);
+                    m_trans.move_local(obj, 0, dest_trans_x, 0);
                     dest_trans_x = 0;
                 }
                 // waiting for zoom delay
@@ -197,10 +201,10 @@ exports.track_to_target = function(cam_obj, target, rot_speed, zoom_mult,
                 var delta      = zoom_distance * value / zoom_t;
 
                 delta *= smooth_function(time_ratio);
-                b4w.transform.move_local(obj, 0, delta, 0);
+                m_trans.move_local(obj, 0, delta, 0);
 
             } else {
-                b4w.transform.set_translation_v(obj, cam_pos);
+                m_trans.set_translation_v(obj, cam_pos);
                 m_ctl.remove_sensor_manifold(obj, id);
 
                 if (callback)
@@ -223,7 +227,8 @@ exports.track_to_target = function(cam_obj, target, rot_speed, zoom_mult,
  */
 
 /**
- * Auto-rotate the MS_TARGET camera around the pivot point.
+ * Auto-rotate the MS_TARGET camera around the pivot point and
+ * auto-rotate the MS_EYE camera about itself.
  * @param {Number} auto_rotate_ratio Speed ratio of the camera
  * @param {mouse_event_callback} Optional callback
  */
@@ -231,16 +236,24 @@ exports.auto_rotate = function(auto_rotate_ratio, callback) {
 
     callback = callback || function(){};
 
-    var obj = b4w.scenes.get_active_camera();
+    var obj = m_scs.get_active_camera();
+    var cam_type = m_cam.get_move_style(obj);
 
-    if (obj.data["b4w_move_style"] !== "TARGET") {
+    if (cam_type == m_cam.MS_STATIC)
         throw "wrong camera type";
-    }
 
     function elapsed_cb(obj, id, pulse) {
         if (pulse == 1) {
             var value = m_ctl.get_sensor_value(obj, id, 0);
-            b4w.camera.rotate_pivot(obj, value * auto_rotate_ratio, 0);
+
+            switch (cam_type) {
+            case m_cam.MS_TARGET_CONTROLS:
+                m_cam.rotate_pivot(obj, value * auto_rotate_ratio, 0);
+                break;
+            case m_cam.MS_EYE_CONTROLS:
+                m_cam.rotate(obj, value * auto_rotate_ratio, 0);
+                break;
+            }
         }
     }
 
@@ -271,8 +284,3 @@ exports.auto_rotate = function(auto_rotate_ratio, callback) {
 }
 
 }
-
-if (window["b4w"])
-    window["b4w"]["camera_anim"] = b4w.require("camera_anim");
-else
-    throw "Failed to register camera_anim, load b4w first";

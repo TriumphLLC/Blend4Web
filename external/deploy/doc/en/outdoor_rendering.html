@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Outdoor Rendering &mdash; User Manual: Blend4Web v14.07</title>
+    <title>Outdoor Rendering &mdash; User Manual: Blend4Web v14.08</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.07',
+        VERSION:     '14.08',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User Manual: Blend4Web v14.07" href="index.html" />
+    <link rel="top" title="User Manual: Blend4Web v14.08" href="index.html" />
     <link rel="next" title="Gamma Correction and Alpha Compositing" href="gamma_alpha.html" />
     <link rel="prev" title="Animation" href="animation.html" /> 
   </head>
@@ -36,7 +36,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">User Manual: Blend4Web v14.07</a></div>
+          href="index.html">User Manual: Blend4Web v14.08</a></div>
         <div class="rel">
           <a href="animation.html" title="Animation"
              accesskey="P">previous</a> |
@@ -63,7 +63,7 @@
 <div class="section" id="id3">
 <h3>Activation<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
 <p>For the supposed water material enable the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Special:</span> <span class="pre">Water</span></tt> option under the <tt class="docutils literal"><span class="pre">Material</span></tt> tab.</p>
-<a class="reference internal image-reference" href="_images/water_material_setup.jpg"><img alt="Настройка материала воды" class="align-center" src="_images/water_material_setup.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/water_material_setup.jpg"><img alt="_images/water_material_setup.jpg" class="align-center" src="_images/water_material_setup.jpg" style="width: 100%;" /></a>
 </div>
 <div class="section" id="id4">
 <h3>Basic settings<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
@@ -79,9 +79,7 @@
 <div class="section" id="id5">
 <h3>Waves dynamics<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
 <p>Waves simulation is carried out by normal maps with animated UVs (from 0 up to 4 pieces). For normal textures the only shared image is used - the textures differs only by the <tt class="docutils literal"><span class="pre">Mapping</span> <span class="pre">&gt;</span> <span class="pre">Size</span></tt> and <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">UV</span> <span class="pre">translation</span> <span class="pre">velocity</span></tt> parameters. The water mesh should have a UV layer.</p>
-<div class="align-center figure">
-<a class="reference internal image-reference" href="_images/water_texture_setup_normal.jpg"><img alt="Настройка текстур волн" src="_images/water_texture_setup_normal.jpg" style="width: 70%;" /></a>
-</div>
+<a class="reference internal image-reference" href="_images/water_texture_setup_normal.png"><img alt="_images/water_texture_setup_normal.png" class="align-center" src="_images/water_texture_setup_normal.png" style="width: 100%;" /></a>
 </div>
 <div class="section" id="id6">
 <h3>Surface wetting<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
@@ -90,7 +88,7 @@
 <div class="section" id="id7">
 <h3>Reflection and Fresnel effect<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
 <p>For the water material both static and dynamic reflection is supported as well as the Fresnel effect. See the <a class="reference internal" href="materials.html#material-mirror"><em>Reflection</em></a> section.</p>
-<a class="reference internal image-reference" href="_images/water_reflection_dynamic.jpg"><img alt="Динамическое отражение от поверхности воды" class="align-center" src="_images/water_reflection_dynamic.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/water_reflection_dynamic.jpg"><img alt="_images/water_reflection_dynamic.jpg" class="align-center" src="_images/water_reflection_dynamic.jpg" style="width: 100%;" /></a>
 </div>
 <div class="section" id="id8">
 <h3>Shoreline smoothing<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
@@ -125,16 +123,14 @@
 <div class="section" id="id10">
 <h3>Refraction<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
 <p>Under the <tt class="docutils literal"><span class="pre">Scene</span></tt> tab enable the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Render</span> <span class="pre">refractions</span></tt> checkbox.</p>
-<a class="reference internal image-reference" href="_images/water_refraction.jpg"><img alt="Преломление в воде" class="align-center" src="_images/water_refraction.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/water_refraction.jpg"><img alt="_images/water_refraction.jpg" class="align-center" src="_images/water_refraction.jpg" style="width: 100%;" /></a>
 </div>
 <div class="section" id="id11">
 <h3>Foam<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="id12">
 <h4>Activation<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h4>
 <p>For creating foam add two diffuse textures into the water material slots. For these textures enable the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Water</span> <span class="pre">Foam</span></tt> option.</p>
-<div class="align-center figure">
-<a class="reference internal image-reference" href="_images/water_texture_setup_foam.jpg"><img alt="Настройка текстур волн" src="_images/water_texture_setup_foam.jpg" style="width: 246.4px; height: 617.4px;" /></a>
-</div>
+<a class="reference internal image-reference" href="_images/water_texture_setup_foam.png"><img alt="_images/water_texture_setup_foam.png" class="align-center" src="_images/water_texture_setup_foam.png" style="width: 100%;" /></a>
 </div>
 <div class="section" id="id13">
 <h4>Setting up the textures<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h4>
@@ -162,12 +158,10 @@
 <div class="section" id="id15">
 <h3>Caustics and chromatic aberration<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
 <p>To create the caustics effect add one <tt class="docutils literal"><span class="pre">Voronoi</span></tt> type texture to the water material slot.</p>
-<a class="reference internal image-reference" href="_images/water_caustics.jpg"><img alt="Каустика" class="align-center" src="_images/water_caustics.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/water_caustics.jpg"><img alt="_images/water_caustics.jpg" class="align-center" src="_images/water_caustics.jpg" style="width: 100%;" /></a>
 <div class="section" id="id16">
 <h4>Setting up<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h4>
-<div class="align-center figure">
-<a class="reference internal image-reference" href="_images/water_texture_setup_caustics.jpg"><img alt="Настройка текстуры каустики" src="_images/water_texture_setup_caustics.jpg" style="width: 295.2px; height: 668.8px;" /></a>
-</div>
+<a class="reference internal image-reference" href="_images/water_texture_setup_caustics.png"><img alt="_images/water_texture_setup_caustics.png" class="align-center" src="_images/water_texture_setup_caustics.png" style="width: 100%;" /></a>
 <dl class="docutils">
 <dt><em>Voronoi &gt; Coloring: Intensity</em></dt>
 <dd><p class="first last">Caustics influence factor. The default value is 1.0.</p>
@@ -183,7 +177,7 @@
 </div>
 <div class="section" id="id17">
 <h3>Underwater environment<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
-<a class="reference internal image-reference" href="_images/underwater.jpg"><img alt="Настройка текстуры каустики" class="align-center" src="_images/underwater.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/underwater.jpg"><img alt="_images/underwater.jpg" class="align-center" src="_images/underwater.jpg" style="width: 100%;" /></a>
 <div class="section" id="id18">
 <h4>Visibility settings (&#8220;fog&#8221;)<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
@@ -200,7 +194,7 @@
 <div class="section" id="id19">
 <h3>Boundary between environments<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h3>
 <p>Disable the <tt class="docutils literal"><span class="pre">Game</span> <span class="pre">Settings</span> <span class="pre">&gt;</span> <span class="pre">Backface</span> <span class="pre">Culling</span></tt> option.</p>
-<a class="reference internal image-reference" href="_images/water_border.jpg"><img alt="Граница водной среды" class="align-center" src="_images/water_border.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/water_border.jpg"><img alt="_images/water_border.jpg" class="align-center" src="_images/water_border.jpg" style="width: 100%;" /></a>
 </div>
 <div class="section" id="water-volumetric-waves">
 <span id="id20"></span><h3>Volumetric waves<a class="headerlink" href="#water-volumetric-waves" title="Permalink to this headline">¶</a></h3>
@@ -208,7 +202,7 @@
 <h4>Activation<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h4>
 <p><em>Blend4Web &gt; Water Settings &gt; Water Dynamic</em></p>
 <p>Enable volumetric waves.</p>
-<a class="reference internal image-reference" href="_images/water_waves.jpg"><img alt="Объемные волны" class="align-center" src="_images/water_waves.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/water_waves.jpg"><img alt="_images/water_waves.jpg" class="align-center" src="_images/water_waves.jpg" style="width: 100%;" /></a>
 </div>
 <div class="section" id="id22">
 <h4>Setting up<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h4>
@@ -285,7 +279,7 @@
 <p class="first admonition-title">Note</p>
 <p class="last">Also, a procedural sky texture can be used to imitate environment lighting for objects, similar to the static <a class="reference internal" href="textures.html#skydome-texture"><em>skydome texture</em></a>. To do this, enable the <tt class="docutils literal"><span class="pre">Sky</span> <span class="pre">Settings</span> <span class="pre">&gt;</span> <span class="pre">Use</span> <span class="pre">as</span> <span class="pre">environment</span> <span class="pre">lighting</span></tt> and <tt class="docutils literal"><span class="pre">Environment</span> <span class="pre">Lighting</span> <span class="pre">&gt;</span> <span class="pre">Sky</span> <span class="pre">Texture</span></tt> checkboxes. If the world texture for environmet lighting already exists, it will be replaced.</p>
 </div>
-<a class="reference internal image-reference" href="_images/skydome_procedural.jpg"><img alt="Атмосферное рассеивание" class="align-center" src="_images/skydome_procedural.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/skydome_procedural.jpg"><img alt="_images/skydome_procedural.jpg" class="align-center" src="_images/skydome_procedural.jpg" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -340,12 +334,12 @@
 <h3>Time of day<a class="headerlink" href="#id28" title="Permalink to this headline">¶</a></h3>
 <p>Enable the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Dynamic</span> <span class="pre">intensity</span></tt> checkbox for the lamp.</p>
 <p>Time of day can be set by applications via API. Particularly time of day can be set using the <tt class="docutils literal"><span class="pre">Lighting</span></tt> interface of the <a class="reference internal" href="viewer.html#viewer"><em>Scene viewer</em></a>.</p>
-<a class="reference internal image-reference" href="_images/sunset.jpg"><img alt="Управление временем суток в просмотрщике" class="align-center" src="_images/sunset.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/sunset.jpg"><img alt="_images/sunset.jpg" class="align-center" src="_images/sunset.jpg" style="width: 100%;" /></a>
 </div>
 <div class="section" id="id29">
 <h3>Stars<a class="headerlink" href="#id29" title="Permalink to this headline">¶</a></h3>
 <p>Stars setup is described in the <a class="reference internal" href="materials.html#material-halo"><em>Halo Materials</em></a> section.</p>
-<a class="reference internal image-reference" href="_images/stars.jpg"><img alt="Использование материала гало для визуализации звезд" class="align-center" src="_images/stars.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/stars.jpg"><img alt="_images/stars.jpg" class="align-center" src="_images/stars.jpg" style="width: 100%;" /></a>
 </div>
 </div>
 <div class="section" id="wind">
@@ -387,7 +381,7 @@
 <div class="section" id="id35">
 <h4>Setting up<a class="headerlink" href="#id35" title="Permalink to this headline">¶</a></h4>
 <p>The interface panel becomes visible after the activation of the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Wind</span> <span class="pre">bending</span></tt> checkbox.</p>
-<a class="reference internal image-reference" href="_images/wind_bending_setup.jpg"><img alt="Настройка анимации травы и крон деревьев" class="align-center" src="_images/wind_bending_setup.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/wind_bending_setup.jpg"><img alt="_images/wind_bending_setup.jpg" class="align-center" src="_images/wind_bending_setup.jpg" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -418,7 +412,7 @@
 </dd>
 </dl>
 <p>Vertex color layers should be present in the mesh if their names are specified.</p>
-<a class="reference internal image-reference" href="_images/wind_bending_vcolors.jpg"><img alt="Вертексные цвета для настройки анимации крон деревьев" class="align-center" src="_images/wind_bending_vcolors.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/wind_bending_vcolors.jpg"><img alt="_images/wind_bending_vcolors.jpg" class="align-center" src="_images/wind_bending_vcolors.jpg" style="width: 100%;" /></a>
 </div>
 </div>
 </div>
@@ -438,6 +432,7 @@
 <li class="toctree-l1"><a class="reference internal" href="setup.html">Development Environment Setup</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Workflow</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Scene Viewer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="web_player.html">Web Player</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">The Addon</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
@@ -494,7 +489,7 @@
           
     <div class="footer">
         &copy; Copyright 2014, Triumph LLC.
-      Last updated on 2014-07-23.
+      Last updated on 2014-08-25.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

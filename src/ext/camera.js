@@ -10,6 +10,7 @@ b4w.module["camera"] = function(exports, require) {
 
 var camera      = require("__camera");
 var config      = require("__config");
+var m_phy       = require("__physics");
 var m_print     = require("__print");
 var constraints = require("__constraints");
 var transform   = require("__transform");
@@ -31,35 +32,35 @@ var _vec4_tmp = new Float32Array(4);
  * Camera movement style - static.
  * @const module:camera.MS_STATIC
  */
-exports["MS_STATIC"] = camera.MS_STATIC;
+exports.MS_STATIC = camera.MS_STATIC;
 /**
  * Camera movement style - animated.
  * @const module:camera.MS_ANIMATION
  */
-exports["MS_ANIMATION"] = camera.MS_ANIMATION;
+exports.MS_ANIMATION = camera.MS_ANIMATION;
 /**
  * Camera movement style - controls.
  * @const module:camera.MS_CONTROLS
  * @deprecated Use MS_TARGET_CONROLS or MS_EYE_CONTROLS
  */
-exports["MS_CONTROLS"] = camera.MS_TARGET_CONTROLS;
+exports.MS_CONTROLS = camera.MS_TARGET_CONTROLS;
 /**
  * Camera movement style - target.
  * @const module:camera.MS_TARGET_CONTROLS
  */
-exports["MS_TARGET_CONTROLS"] = camera.MS_TARGET_CONTROLS;
+exports.MS_TARGET_CONTROLS = camera.MS_TARGET_CONTROLS;
 /**
  * Camera movement style - eye.
  * @const module:camera.MS_EYE_CONTROLS
  */
-exports["MS_EYE_CONTROLS"] = camera.MS_EYE_CONTROLS;
+exports.MS_EYE_CONTROLS = camera.MS_EYE_CONTROLS;
 
 /**
  * Check if the object is a camera.
  * @method module:camera.is_camera
  * @param {Object} obj Object ID
  */
-exports["is_camera"] = function(obj) {
+exports.is_camera = function(obj) {
     return camera.is_camera(obj);
 }
 
@@ -69,7 +70,7 @@ exports["is_camera"] = function(obj) {
  * @param {Object} camobj Camera Object ID
  * @param {Number} move_style Camera movement style
  */
-exports["set_move_style"] = function(camobj, move_style) {
+exports.set_move_style = function(camobj, move_style) {
     camobj._render.move_style = move_style;
 }
 /**
@@ -78,7 +79,7 @@ exports["set_move_style"] = function(camobj, move_style) {
  * @param {Object} camobj Camera Object ID
  * @returns {Number} Camera movement style
  */
-exports["get_move_style"] = function(camobj) {
+exports.get_move_style = function(camobj) {
     if (!camera.is_camera(camobj)) {
         m_print.error("Wrong object");
         return null;
@@ -90,7 +91,7 @@ exports["get_move_style"] = function(camobj) {
  * @method module:camera.change_eye_target_dist
  * @deprecated eye-target distance is a constant now
  */
-exports["change_eye_target_dist"] = function() {
+exports.change_eye_target_dist = function() {
     m_print.error("change_eye_target_dist() deprecated");
 }
 /**
@@ -99,7 +100,7 @@ exports["change_eye_target_dist"] = function() {
  * @param {Object} camobj Camera Object ID
  * @param {Number} factor Speed factor
  */
-exports["change_trans_speed"] = function(camobj, factor) {
+exports.change_trans_speed = function(camobj, factor) {
 
     var render = camobj._render;
 
@@ -109,7 +110,7 @@ exports["change_trans_speed"] = function(camobj, factor) {
 }
 
 // TODO: this is just a storage for speed, check or remove it
-exports["get_trans_speed"] = function(camobj) {
+exports.get_trans_speed = function(camobj) {
     if (!camera.is_camera(camobj)) {
         m_print.error("Wrong object");
         return 0;
@@ -127,12 +128,13 @@ exports["get_trans_speed"] = function(camobj) {
  * @param {Float32Array} up Up vector
  * @param {Number} elapsed The time which is elapsed from the previous execution
  */
-exports["set_look_at"] = function(camobj, eye, target, up, elapsed) {
+exports.set_look_at = function(camobj, eye, target, up, elapsed) {
     var render = camobj._render;
 
     camera.eye_target_up_to_trans_quat(eye, target, up, render.trans, render.quat);
 
     transform.update_transform(camobj);
+    m_phy.sync_transform(camobj);
 };
 
 /**
@@ -141,11 +143,11 @@ exports["set_look_at"] = function(camobj, eye, target, up, elapsed) {
  * @param {Object} camobj Camera Object ID
  * @returns {Float32Array} Eye
  */
-exports["get_eye"] = function(camobj) {
+exports.get_eye = function(camobj) {
     return camobj._render.trans;
 }
 
-exports["set_pivot"] = set_pivot;
+exports.set_pivot = set_pivot;
 /**
  * Set pivot point for TARGET camera.
  * @method module:camera.set_pivot
@@ -169,7 +171,7 @@ function set_pivot(camobj, coords) {
  * @param {Float32Array} [dest] Destination pivot vector
  * @returns {Float32Array} Destination pivot vector
  */
-exports["get_pivot"] = function(camobj, dest) {
+exports.get_pivot = function(camobj, dest) {
 
     if (!camera.is_target_camera(camobj)) {
         m_print.error("get_pivot(): Wrong object or camera move style");
@@ -194,7 +196,7 @@ exports["get_pivot"] = function(camobj, dest) {
  * @param {Number} angle_h_delta Horizontal angle in radians
  * @param {Number} angle_v_delta Vertical angle in radians
  */
-exports["rotate_pivot"] = function(camobj, angle_h_delta, angle_v_delta) {
+exports.rotate_pivot = function(camobj, angle_h_delta, angle_v_delta) {
 
     if (!camera.is_target_camera(camobj)) {
         m_print.error("rotate_pivot(): wrong object");
@@ -224,6 +226,7 @@ exports["rotate_pivot"] = function(camobj, angle_h_delta, angle_v_delta) {
     util.rotate_point_pivot(render.trans, render.pivot, rot, render.trans);
 
     transform.update_transform(camobj);
+    m_phy.sync_transform(camobj);
 }
 
 /**
@@ -234,7 +237,7 @@ exports["rotate_pivot"] = function(camobj, angle_h_delta, angle_v_delta) {
  * @param {Number} up_angle Vertical up limit angle
  * @param {Number} space Space to make clamping relative to
  */
-exports["apply_vertical_limits"] = function(camobj, down_angle, up_angle, space) {
+exports.apply_vertical_limits = function(camobj, down_angle, up_angle, space) {
     var render = camobj._render;
     render.vertical_limits = {
         down: down_angle,
@@ -254,7 +257,7 @@ exports["apply_vertical_limits"] = function(camobj, down_angle, up_angle, space)
  * @method module:camera.clear_vertical_limits
  * @param {Object} camobj Camera Object ID
  */
-exports["clear_vertical_limits"] = function(camobj) {
+exports.clear_vertical_limits = function(camobj) {
     var render = camobj._render;
     render.vertical_limits = null;
 
@@ -270,7 +273,7 @@ exports["clear_vertical_limits"] = function(camobj) {
  * @param {Number} right_angle Horizontal right limit angle
  * @param {Number} space Space to make clamping relative to
  */
-exports["apply_horizontal_limits"] = function(camobj, left_angle, right_angle,
+exports.apply_horizontal_limits = function(camobj, left_angle, right_angle,
         space) {
     var render = camobj._render;
     render.horizontal_limits = {
@@ -290,7 +293,7 @@ exports["apply_horizontal_limits"] = function(camobj, left_angle, right_angle,
  * @method module:camera.clear_horizontal_limits
  * @param {Object} camobj Camera Object ID
  */
-exports["clear_horizontal_limits"] = function(camobj) {
+exports.clear_horizontal_limits = function(camobj) {
     var render = camobj._render;
     render.horizontal_limits = null;
 }
@@ -302,7 +305,7 @@ exports["clear_horizontal_limits"] = function(camobj) {
  * @param {Number} min Minimum distance to target
  * @param {Number} max Maximum distance to target
  */
-exports["apply_distance_limits"] = function(camobj, min, max) {
+exports.apply_distance_limits = function(camobj, min, max) {
     if (!camera.is_target_camera(camobj)) {
         m_print.error("apply_distance_limits(): wrong object");
         return;
@@ -324,7 +327,7 @@ exports["apply_distance_limits"] = function(camobj, min, max) {
  * @method module:camera.clear_distance_limits
  * @param {Object} camobj Camera Object ID
  */
-exports["clear_distance_limits"] = function(camobj) {
+exports.clear_distance_limits = function(camobj) {
     if (!camera.is_target_camera(camobj)) {
         m_print.error("clear_distance_limits(): wrong object");
         return;
@@ -340,7 +343,7 @@ exports["clear_distance_limits"] = function(camobj) {
  * @param {Number} h_angle Horizontal angle
  * @param {Number} v_angle Vertiacal angle
  */
-exports["set_eye_params"] = function(camobj, h_angle, v_angle) {
+exports.set_eye_params = function(camobj, h_angle, v_angle) {
 
     var render = camobj._render;
 
@@ -352,13 +355,14 @@ exports["set_eye_params"] = function(camobj, h_angle, v_angle) {
     camera.rotate_v_local(camobj, -v_angle);
 
     transform.update_transform(camobj);
+    m_phy.sync_transform(camobj);
 }
 /**
  * Check if the camera is looking upwards
  * @method module:camera.is_look_up
  * @param {Object} camobj Camera Object ID
  */
-exports["is_look_up"] = function(camobj) {
+exports.is_look_up = function(camobj) {
     var quat = camobj._render.quat;
 
     var dir = _vec3_tmp;
@@ -378,13 +382,14 @@ exports["is_look_up"] = function(camobj) {
  * @param {Number} angle_h_delta Horizontal angle in radians
  * @param {Number} angle_v_delta Vertical angle in radians
  */
-exports["rotate"] = function(camobj, angle_h_delta, angle_v_delta) {
+exports.rotate = function(camobj, angle_h_delta, angle_v_delta) {
 
     // NOTE: MS_EYE_CONTROLS only
     camera.rotate_h(camobj, angle_h_delta);
     camera.rotate_v_local(camobj, -angle_v_delta);
 
     transform.update_transform(camobj);
+    m_phy.sync_transform(camobj);
 }
 /**
  * Get angles.
@@ -394,7 +399,7 @@ exports["rotate"] = function(camobj, angle_h_delta, angle_v_delta) {
  * @param {Float32Array} [dest] Destination vector for camera angles: (h, v)
  * @returns {Float32Array} Destination vector for camera angles: (h, v)
  */
-exports["get_angles"] = function(camobj, dest) {
+exports.get_angles = function(camobj, dest) {
     if (!dest)
         var dest = new Float32Array(2);
     camera.get_angles(camobj, dest);
@@ -406,7 +411,7 @@ exports["get_angles"] = function(camobj, dest) {
  * @param {Object} camobj Camera Object ID
  * @param {Number} conv_dist Distance from the convergence plane
  */
-exports["set_stereo_distance"] = function(camobj, conv_dist) {
+exports.set_stereo_distance = function(camobj, conv_dist) {
 
     var cameras = camobj._render.cameras;
     for (var i = 0; i < cameras.length; i++) {
@@ -423,7 +428,7 @@ exports["set_stereo_distance"] = function(camobj, conv_dist) {
  * @param {Object} camobj Camera Object ID
  * @returns {Number} Distance from convergence plane
  */
-exports["get_stereo_distance"] = function(camobj, conv_dist) {
+exports.get_stereo_distance = function(camobj, conv_dist) {
 
     var cameras = camobj._render.cameras;
     for (var i = 0; i < cameras.length; i++) {
@@ -443,7 +448,7 @@ exports["get_stereo_distance"] = function(camobj, conv_dist) {
  * @returns {Boolean}
  * @deprecated Always returns false
  */
-exports["is_underwater"] = function(camobj) {
+exports.is_underwater = function(camobj) {
     var render = camobj._render;
     return render.underwater;
 }
@@ -455,7 +460,7 @@ exports["is_underwater"] = function(camobj) {
  * @param {Number} y Y coord (positive down to up)
  * @param {Number} angle Rotation angle (clockwise)
  */
-exports["translate_view"] = function(camobj, x, y, angle) {
+exports.translate_view = function(camobj, x, y, angle) {
 
     var cameras = camobj._render.cameras;
     for (var i = 0; i < cameras.length; i++) {
@@ -484,7 +489,7 @@ exports["translate_view"] = function(camobj, x, y, angle) {
  * @param {Object} camobj Camera object ID
  * @param {Float32Array} y_axis Axis vector
  */
-exports["correct_up"] = function(camobj, y_axis) {
+exports.correct_up = function(camobj, y_axis) {
     if (!y_axis) {
         y_axis = util.AXIS_Y;
     }
@@ -498,7 +503,7 @@ exports["correct_up"] = function(camobj, y_axis) {
  * @param {Object} camobj Camera Object ID
  * @param {Object} obj Object ID
  */
-exports["zoom_object"] = function(camobj, obj) {
+exports.zoom_object = function(camobj, obj) {
 
     if (!camera.is_target_camera(camobj)) {
         m_print.error("zoom_object(): wrong object");
@@ -522,6 +527,7 @@ exports["zoom_object"] = function(camobj, obj) {
     transform.move_local(camobj, 0, dist_need - dist_current, 0);
 
     transform.update_transform(camobj);
+    m_phy.sync_transform(camobj);
 }
 
 /**
@@ -533,7 +539,7 @@ exports["zoom_object"] = function(camobj, obj) {
  * @param {Float32Array} [dest] Destination vector
  * @returns {Float32Array} Destination vector
  */
-exports["calc_ray"] = function(camobj, xpix, ypix, dest) {
+exports.calc_ray = function(camobj, xpix, ypix, dest) {
 
     if (!dest)
         var dest = new Float32Array(3);
@@ -580,7 +586,7 @@ exports["calc_ray"] = function(camobj, xpix, ypix, dest) {
  * @param {Float32Array} [dest] Destination vector
  * @returns {Float32Array} Viewport coordinates
  */
-exports["project_point"] = function(camobj, point, dest) {
+exports.project_point = function(camobj, point, dest) {
     if (!dest)
         var dest = new Float32Array(2);
 

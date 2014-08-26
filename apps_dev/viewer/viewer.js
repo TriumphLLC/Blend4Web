@@ -31,7 +31,7 @@ var AUTO_ROTATE_RATIO  = 0.3;
 var DEFAULT_SCENE      = "dev/logo.json";
 
 var INIT_PARAMS = {
-    canvas_container_id: "main_canvas_container", 
+    canvas_container_id: "main_canvas_container",
     callback: init_cb,
     gl_debug: true,
     show_hud_debug_info: get_show_hud_debug_info_config(),
@@ -80,11 +80,9 @@ exports.init = function() {
     set_stereo_view_config();
 
     m_app.init(INIT_PARAMS);
-
 }
 
 function init_cb(canvas_elem, success) {
-
     if (!success) {
         console.log("b4w init failure");
         return null;
@@ -121,8 +119,6 @@ function init_cb(canvas_elem, success) {
 
     m_assets.enqueue([["manifest", m_assets.AT_JSON,
             get_asset_path("assets.json")]], asset_cb, null);
-
-
 }
 
 function get_asset_path(filename) {
@@ -152,6 +148,7 @@ function main_canvas_clicked(event) {
     var y = event.clientY;
 
     var prev_obj = get_selected_object();
+
     if (prev_obj)
         m_scenes.clear_glow_anim(prev_obj);
 
@@ -173,8 +170,8 @@ function main_canvas_clicked(event) {
         _controlled_object = obj;
         set_object_info();
         m_app.enable_object_controls(obj);
-        m_ctl.create_kb_sensor_manifold(obj, "QUIT", m_ctl.CT_SHOT, m_ctl.KEY_Q, 
-                function(obj, id, value, pulse) { 
+        m_ctl.create_kb_sensor_manifold(obj, "QUIT", m_ctl.CT_SHOT, m_ctl.KEY_Q,
+                function(obj, id, value, pulse) {
                     _controlled_object = null;
                     set_object_info();
                     m_app.disable_object_controls(obj);
@@ -191,8 +188,8 @@ function enable_camera_controls() {
 
     var cam_rot_speed = _scene_settings.camera_rot_speed;
     m_app.enable_camera_controls(1, cam_rot_speed);
-    m_ctl.create_kb_sensor_manifold(obj, "QUIT", m_ctl.CT_SHOT, m_ctl.KEY_Q, 
-            function(obj, id, value, pulse) { 
+    m_ctl.create_kb_sensor_manifold(obj, "QUIT", m_ctl.CT_SHOT, m_ctl.KEY_Q,
+            function(obj, id, value, pulse) {
                 _controlled_object = null;
                 set_object_info();
                 m_app.disable_object_controls(obj);
@@ -211,7 +208,7 @@ function enable_camera_controls() {
             m_cam.zoom_object(obj, selobj);
     }
 
-    m_ctl.create_sensor_manifold(obj, "ZOOM_TO", m_ctl.CT_SHOT, zoom_to_array, 
+    m_ctl.create_sensor_manifold(obj, "ZOOM_TO", m_ctl.CT_SHOT, zoom_to_array,
             zoom_to_logic, zoom_to_cb);
 
 }
@@ -220,14 +217,15 @@ function set_object_info() {
     if (!_object_info_elem)
         return;
 
-    var controlled_str = _controlled_object ? 
+    var controlled_str = _controlled_object ?
             String(_controlled_object["name"]) : "NONE";
-    var selected_str = _selected_object ? 
+    var selected_str = _selected_object ?
             String(_selected_object["name"]) : "NONE";
 
     var info = "CONTROLLED: " + controlled_str + " | SELECTED: " + selected_str;
 
     var obj = get_selected_object();
+
     if(obj) {
         var mesh_type = m_scenes.get_type_mesh_object(obj);
         if (mesh_type)
@@ -250,13 +248,15 @@ function get_controlled_object() {
 function retrieve_last_item_id() {
 
     var item_name = m_storage.get("last_item_name");
+
     if (!item_name) // undefined or ""
         return null;
 
     for (var i = 0; i < _manifest.length; i++) {
         var category = _manifest[i];
         var item = m_util.keyfind("name", item_name, category.items)[0];
-        if (item) 
+
+        if (item)
             return {category: category.name, item: item_name};
     }
     return null;
@@ -270,7 +270,7 @@ function init_ui() {
     document.getElementById("build_date").innerHTML = m_version.date();
 
     // general buttons
-    bind_control(save_quality_and_reload, "quality");
+    bind_control(save_quality_and_reload, "quality", "string");
     refresh_quality_ui();
 
     m_app.set_onclick("reset_memory", reset_memory);
@@ -283,146 +283,146 @@ function init_ui() {
     init_scenes_list();
 
     // animation
-    bind_control(set_animation_params, "anim_active_object");
-    bind_control(set_animation_params, "anim_action");
-    bind_control(set_animation_params, "anim_cyclic");
-    bind_control(set_animation_params, "anim_frame_current");
+    bind_control(set_animation_params, "anim_active_object", "string");
+    bind_control(set_animation_params, "animation", "string");
+    bind_control(set_animation_params, "anim_slot", "number");
+    bind_control(set_animation_params, "anim_cyclic", "bool");
+    bind_control(set_animation_params, "anim_frame_current", "number");
     m_app.set_onclick("anim_play", anim_play_clicked);
     m_app.set_onclick("anim_stop", anim_stop_clicked);
     m_app.set_onclick("get_max_bones", get_max_bones);
 
     // materials
-    bind_control(set_material_params, "material_name");
+    bind_control(set_material_params, "material_name", "string");
     bind_colpick(set_material_params, "material_diffuse_color");
-    bind_control(set_material_params, "material_reflectivity");
-    bind_control(set_material_params, "material_fresnel");
-    bind_control(set_material_params, "material_fresnel_factor");
-    bind_control(set_material_params, "material_parallax_scale");
-    bind_control(set_material_params, "material_parallax_steps");
+    bind_control(set_material_params, "material_reflectivity", "number");
+    bind_control(set_material_params, "material_fresnel", "number");
+    bind_control(set_material_params, "material_fresnel_factor", "number");
+    bind_control(set_material_params, "material_parallax_scale", "number");
+    bind_control(set_material_params, "material_parallax_steps", "number");
 
     // water_materials
-    bind_control(set_water_material_params, "material_name");
-    bind_control(set_water_material_params, "shore_smoothing");
-    bind_control(set_water_material_params, "absorb_factor");
-    bind_control(set_water_material_params, "sss_strength");
-    bind_control(set_water_material_params, "sss_width");
+    bind_control(set_water_material_params, "material_name", "string");
+    bind_control(set_water_material_params, "shore_smoothing", "bool");
+    bind_control(set_water_material_params, "absorb_factor", "number");
+    bind_control(set_water_material_params, "sss_strength", "number");
+    bind_control(set_water_material_params, "sss_width", "number");
     bind_colpick(set_water_material_params, "water_fog_color");
-    bind_control(set_water_material_params, "water_fog_density");
+    bind_control(set_water_material_params, "water_fog_density", "number");
     bind_colpick(set_water_material_params, "shallow_water_col");
-    bind_control(set_water_material_params, "shallow_water_col_fac");
+    bind_control(set_water_material_params, "shallow_water_col_fac", "number");
     bind_colpick(set_water_material_params, "shore_water_col");
-    bind_control(set_water_material_params, "shore_water_col_fac");
-    bind_control(set_water_material_params, "foam_factor");
-    bind_control(set_water_material_params, "water_dynamic");
-    bind_control(set_water_material_params, "waves_height");
-    bind_control(set_water_material_params, "waves_length");
-    bind_control(set_water_material_params, "dst_noise_scale0");
-    bind_control(set_water_material_params, "dst_noise_scale1");
-    bind_control(set_water_material_params, "dst_noise_freq0");
-    bind_control(set_water_material_params, "dst_noise_freq1");
-    bind_control(set_water_material_params, "dir_min_shore_fac");
-    bind_control(set_water_material_params, "dir_freq");
-    bind_control(set_water_material_params, "dir_noise_scale");
-    bind_control(set_water_material_params, "dir_noise_freq");
-    bind_control(set_water_material_params, "dir_min_noise_fac");
-    bind_control(set_water_material_params, "dst_min_fac");
-    bind_control(set_water_material_params, "waves_hor_fac");
+    bind_control(set_water_material_params, "shore_water_col_fac", "number");
+    bind_control(set_water_material_params, "foam_factor", "number");
+    bind_control(set_water_material_params, "water_dynamic", "bool");
+    bind_control(set_water_material_params, "waves_height", "number");
+    bind_control(set_water_material_params, "waves_length", "number");
+    bind_control(set_water_material_params, "dst_noise_scale0", "number");
+    bind_control(set_water_material_params, "dst_noise_scale1", "number");
+    bind_control(set_water_material_params, "dst_noise_freq0", "number");
+    bind_control(set_water_material_params, "dst_noise_freq1", "number");
+    bind_control(set_water_material_params, "dir_min_shore_fac", "number");
+    bind_control(set_water_material_params, "dir_freq", "number");
+    bind_control(set_water_material_params, "dir_noise_scale", "number");
+    bind_control(set_water_material_params, "dir_noise_freq", "number");
+    bind_control(set_water_material_params, "dir_min_noise_fac", "number");
+    bind_control(set_water_material_params, "dst_min_fac", "number");
+    bind_control(set_water_material_params, "waves_hor_fac", "number");
 
     // ambient
-    bind_control(set_ambient_params, "environment_energy");
+    bind_control(set_ambient_params, "environment_energy", "string");
     bind_colpick(set_ambient_params, "horizon_color");
     bind_colpick(set_ambient_params, "zenith_color");
 
     // lighting
-    bind_control(set_lighting_params, "light_name");
+    bind_control(set_lighting_params, "light_name", "string");
     bind_colpick(set_lighting_params, "light_color");
-    bind_control(set_lighting_params, "light_energy");
+    bind_control(set_lighting_params, "light_energy", "number");
     bind_colpick(set_sky_params, "sky_color");
-    bind_control(set_sky_params, "rayleigh_brightness");
-    bind_control(set_sky_params, "mie_brightness");
-    bind_control(set_sky_params, "spot_brightness");
-    bind_control(set_sky_params, "scatter_strength");
-    bind_control(set_sky_params, "rayleigh_strength");
-    bind_control(set_sky_params, "mie_strength");
-    bind_control(set_sky_params, "rayleigh_collection_power");
-    bind_control(set_sky_params, "mie_collection_power");
-    bind_control(set_sky_params, "mie_distribution");
+    bind_control(set_sky_params, "rayleigh_brightness", "number");
+    bind_control(set_sky_params, "mie_brightness", "number");
+    bind_control(set_sky_params, "spot_brightness", "number");
+    bind_control(set_sky_params, "scatter_strength", "number");
+    bind_control(set_sky_params, "rayleigh_strength", "number");
+    bind_control(set_sky_params, "mie_strength", "number");
+    bind_control(set_sky_params, "rayleigh_collection_power", "number");
+    bind_control(set_sky_params, "mie_collection_power", "number");
+    bind_control(set_sky_params, "mie_distribution", "number");
 
-    bind_control(set_time_date, "date");
-    bind_control(set_time_date, "day_time");
-    bind_control(set_sun_params, "sun_horizontal_position");
-    bind_control(set_sun_params, "sun_vertical_position");
-    bind_control(set_max_sun_angle, "max_sun_angle");
+    bind_control(set_time_date, "date", "string");
+    bind_control(set_time_date, "day_time", "number");
+    bind_control(set_sun_params, "sun_horizontal_position", "number");
+    bind_control(set_sun_params, "sun_vertical_position", "number");
+    bind_control(set_max_sun_angle, "max_sun_angle", "number");
     m_app.set_onclick("run_sun", run_sun_clicked);
     m_app.set_onclick("stop_sun", stop_sun_clicked);
 
     // shadows
-    bind_control(set_shadow_params, "optimize_shadow_volume");
-    bind_control(set_shadow_params, "csm_near");
-    bind_control(set_shadow_params, "csm_far");
-    bind_control(set_shadow_params, "csm_lambda");
-    bind_control(set_shadow_params, "shadow_visibility_falloff");
-    bind_control(set_shadow_params, "blur_depth_size_mult");
-    bind_control(set_shadow_params, "blur_depth_edge_size");
-    bind_control(set_shadow_params, "blur_depth_diff_threshold");
-    
+    bind_control(set_shadow_params, "optimize_shadow_volume", "bool");
+    bind_control(set_shadow_params, "csm_near", "number");
+    bind_control(set_shadow_params, "csm_far", "number");
+    bind_control(set_shadow_params, "csm_lambda", "number");
+    bind_control(set_shadow_params, "shadow_visibility_falloff", "number");
+    bind_control(set_shadow_params, "blur_depth_size_mult", "number");
+    bind_control(set_shadow_params, "blur_depth_edge_size", "number");
+    bind_control(set_shadow_params, "blur_depth_diff_threshold", "number");
+
     // ssao
-    bind_control(set_ssao_params, "ssao_quality");
-    bind_control(set_ssao_params, "ssao_radius_increase");
-    bind_control(set_ssao_params, "ssao_dithering_amount");
-    bind_control(set_ssao_params, "ssao_gauss_center");
-    bind_control(set_ssao_params, "ssao_gauss_width_square");
-    bind_control(set_ssao_params, "ssao_gauss_width_left_square");
-    bind_control(set_ssao_params, "ssao_influence");
-    bind_control(set_ssao_params, "ssao_dist_factor");
-    bind_control(set_ssao_params, "ssao_only");
-    bind_control(set_ssao_params, "ssao_white");
+    bind_control(set_ssao_params, "ssao_quality", "string");
+    bind_control(set_ssao_params, "ssao_radius_increase", "number");
+    bind_control(set_ssao_params, "ssao_dithering_amount", "number");
+    bind_control(set_ssao_params, "ssao_gauss_center", "number");
+    bind_control(set_ssao_params, "ssao_gauss_width_square", "number");
+    bind_control(set_ssao_params, "ssao_gauss_width_left_square", "number");
+    bind_control(set_ssao_params, "ssao_influence", "number");
+    bind_control(set_ssao_params, "ssao_dist_factor", "number");
+    bind_control(set_ssao_params, "ssao_only", "bool");
+    bind_control(set_ssao_params, "ssao_white", "bool");
 
     // fog
-    bind_control(set_fog_params, "fog_density");
-    bind_control(set_fog_params, "fog_density1000");
+    bind_control(set_fog_params, "fog_density", "number");
+    bind_control(set_fog_params, "fog_density1000", "number");
     bind_colpick(set_fog_params, "fog_color");
 
-    // dof 
-    bind_control(set_dof_params, "dof_distance");
-    bind_control(set_dof_params, "dof_front");
-    bind_control(set_dof_params, "dof_rear");
-    bind_control(set_dof_params, "dof_power");
-    bind_control(set_dof_params, "dof_on");
+    // dof
+    bind_control(set_dof_params, "dof_distance", "number");
+    bind_control(set_dof_params, "dof_front", "number");
+    bind_control(set_dof_params, "dof_rear", "number");
+    bind_control(set_dof_params, "dof_power", "number");
+    bind_control(set_dof_params, "dof_on", "bool");
 
-    // god_rays 
-    bind_control(set_god_rays_params, "god_rays_intensity");
-    bind_control(set_god_rays_params, "god_rays_max_ray_length");
-    bind_control(set_god_rays_params, "god_rays_steps");
+    // god_rays
+    bind_control(set_god_rays_params, "god_rays_intensity", "number");
+    bind_control(set_god_rays_params, "god_rays_max_ray_length", "number");
+    bind_control(set_god_rays_params, "god_rays_steps", "number");
 
     // color correction
-    bind_control(set_color_correction_params, "brightness");
-    bind_control(set_color_correction_params, "contrast");
-    bind_control(set_color_correction_params, "exposure");
-    bind_control(set_color_correction_params, "saturation");
+    bind_control(set_color_correction_params, "brightness", "number");
+    bind_control(set_color_correction_params, "contrast", "number");
+    bind_control(set_color_correction_params, "exposure", "number");
+    bind_control(set_color_correction_params, "saturation", "number");
 
     // audio mixer
-    bind_control(set_mix_mode_and_reload, "sfx_mix_mode");
+    bind_control(set_mix_mode_and_reload, "sfx_mix_mode", "bool");
     refresh_mix_mode_ui();
 
     // stereo view
-    bind_control(set_stereo_view_and_reload, "anaglyph_use");
+    bind_control(set_stereo_view_and_reload, "anaglyph_use", "bool");
     refresh_stereo_view_ui();
 
     // wind
-    bind_control(set_wind_params, "wind_dir");
-    bind_control(set_wind_params, "wind_strength");
+    bind_control(set_wind_params, "wind_dir", "number");
+    bind_control(set_wind_params, "wind_strength", "number");
 
-    bind_control(set_bloom_params, "bloom_key");
-    bind_control(set_bloom_params, "bloom_blur");
-    bind_control(set_bloom_params, "bloom_edge_lum");
+    bind_control(set_bloom_params, "bloom_key", "number");
+    bind_control(set_bloom_params, "bloom_blur", "number");
+    bind_control(set_bloom_params, "bloom_edge_lum", "number");
 
     // debug
-    bind_control(set_debug_params, "wireframe_mode");
-    bind_colpick(set_debug_params, "wireframe_edge_color");
-    bind_control(set_hud_debug_info_and_reload, "show_hud_debug_info");
+    bind_control(set_debug_params, "wireframe_mode", "string");
+    bind_colpick(set_debug_params, "wireframe_edge_color", "object");
+    bind_control(set_hud_debug_info_and_reload, "show_hud_debug_info", "bool"); //TODO
     refresh_hud_debug_info_ui();
-
 }
 
 function fill_select_options(elem_id, values) {
@@ -430,8 +430,8 @@ function fill_select_options(elem_id, values) {
     var elem = document.getElementById(elem_id);
     elem.innerHTML = "";
 
-    for (var i = 0; i < values.length; i++) { 
-        var opt = document.createElement("option"); 
+    for (var i = 0; i < values.length; i++) {
+        var opt = document.createElement("option");
         opt.text = opt.value = values[i];
         if (i === 0)
             opt.selected = true;
@@ -443,30 +443,28 @@ function fill_select_options(elem_id, values) {
 }
 
 function init_scenes_list() {
-
     var manifest_elem = document.getElementById("manifest");
 
     if (!_manifest) {
-        manifest_elem.innerHTML = 
+        manifest_elem.innerHTML =
             "<p style='color: red;'>Failed loading scenes list.</p><p>Maybe a syntax error?</p>";
         return;
     }
 
     var s = "";
-    for (var i = 0; i < _manifest.length; i++) 
+    for (var i = 0; i < _manifest.length; i++)
         s += init_scenes_list_category(_manifest[i]);
 
     $("#" + manifest_elem.id).append(s);
     $("#" + manifest_elem.id).trigger("create");
-    
+
     manifest_elem.addEventListener("mouseup", manifest_item_clicked, false);
 }
 
 function init_scenes_list_category(category) {
-
     var name = category.name;
     var items = category.items;
- 
+
     var s = "";
 
     s += "<div data-role='collapsible' data-mini='true' >";
@@ -481,7 +479,7 @@ function init_scenes_list_category(category) {
     }
     s += "</ul>"
     s += "</div>"
-    
+
     return s;
 }
 
@@ -516,7 +514,6 @@ function load_scene(wait_textures) {
 }
 
 function manifest_item_clicked(e) {
-
     var elem_id = e.target.id;
     if (elem_id.indexOf("MANIFEST_ITEM_") == -1)
         return;
@@ -533,7 +530,6 @@ function manifest_item_clicked(e) {
 }
 
 function process_scene(names, call_reset_b4w, wait_textures) {
-    
     reset_settings_to_default();
 
     if (names) {
@@ -542,10 +538,10 @@ function process_scene(names, call_reset_b4w, wait_textures) {
 
         for (var prop in item)
             _settings[prop] = item[prop];
+
         m_storage.set("last_item_name", names.item);
-    } else {
-        m_storage.set("last_item_name", "");  
-    }
+    } else
+        m_storage.set("last_item_name", "");
 
     if (call_reset_b4w)
         reset_b4w();
@@ -558,12 +554,11 @@ function process_scene(names, call_reset_b4w, wait_textures) {
 }
 
 function loaded_callback(data_id) {
-
     var canvas_elem = m_main.get_canvas_elem();
     canvas_elem.addEventListener("mousedown", main_canvas_clicked, false);
 
     m_scenes.set_glow_color([1, 0.4, 0.05]);
-    
+
     _selected_object = null;
     prepare_scenes(_settings);
 
@@ -575,14 +570,15 @@ function loaded_callback(data_id) {
 
     m_main.set_render_callback(render_callback);
 
-    if (_auto_view) 
-        _auto_view_timeout_handle = 
+    if (_auto_view)
+        _auto_view_timeout_handle =
             setTimeout(auto_view_load_next, AUTO_VIEW_INTERVAL);
 
     var elapsed = m_ctl.create_elapsed_sensor();
     var cam_dist_cb = function(obj, id, pulse) {
         if (pulse == 1 && _selected_object) {
             var sel_obj = get_selected_object();
+
             if (sel_obj) {
                 var sel_obj_pos = _vec3_tmp;
                 var calc_bs_center = true;
@@ -600,7 +596,6 @@ function loaded_callback(data_id) {
 }
 
 function auto_view_load_next() {
-
     var item_id = retrieve_last_item_id();
 
     if (item_id) {
@@ -616,7 +611,7 @@ function auto_view_load_next() {
         } else { // grab next category
             var category_index = _manifest.indexOf(category);
             var new_category = _manifest[category_index + 1];
-            
+
             if (new_category) {
                 item_id = {category: new_category.name, item: new_category.items[0].name};
             } else {
@@ -636,7 +631,7 @@ function auto_view_load_next() {
 
 function preloader_callback(percentage, load_time) {
     var lp_elem = document.getElementById("loading_progress");
-    lp_elem.innerHTML = percentage + "% (" + 
+    lp_elem.innerHTML = percentage + "% (" +
         Math.round(10 * load_time / 1000)/10 + "s)";
 
     var errors = m_debug.get_error_quantity();
@@ -664,7 +659,6 @@ function preloader_callback(percentage, load_time) {
 }
 
 function add_error_tooltip() {
-
     var errors = m_debug.get_error_quantity();
     var warnings = m_debug.get_warning_quantity();
 
@@ -677,12 +671,11 @@ function add_error_tooltip() {
 }
 
 function display_scene_stats() {
-
     var verts = m_debug.num_vertices();
     var tris = m_debug.num_triangles();
     var calls = m_debug.num_draw_calls();
 
-    document.getElementById("info_right_up").innerHTML = 
+    document.getElementById("info_right_up").innerHTML =
         verts + " verts" + ", " + tris + " tris" + ", " + calls + " draw calls";
 
     var gstats = m_debug.geometry_stats();
@@ -692,23 +685,23 @@ function display_scene_stats() {
     var mem_geom = Math.round(10 * (gstats.ibo_memory + gstats.vbo_memory)) / 10;
     var mem_tex = Math.round(10 * texinfo.memory) / 10;
     var mem_rts = Math.round(10 * rtinfo.memory) / 10;
-    var mem_total = Math.round(10 * (mem_geom + mem_tex + mem_rts)) / 10; 
+    var mem_total = Math.round(10 * (mem_geom + mem_tex + mem_rts)) / 10;
 
-    document.getElementById("info_right_down").innerHTML = 
+    document.getElementById("info_right_down").innerHTML =
         "Geometry: " + mem_geom + " MiB (" + gstats.ibo_number + "+" + gstats.vbo_number + ")<br>" +
-        "Textures: " + mem_tex + " MiB (" + texinfo.number + ")<br>" + 
-        "RTs: " + mem_rts + " MiB (" + rtinfo.number + ")<br><br>" + 
+        "Textures: " + mem_tex + " MiB (" + texinfo.number + ")<br>" +
+        "RTs: " + mem_rts + " MiB (" + rtinfo.number + ")<br><br>" +
         "Total: " + mem_total + " MiB";
 }
 
 function prepare_scenes(global_settings) {
-
     var main_scene_name = m_scenes.get_active();
 
     // ALL SCENES EXCEPT MAIN
-    
+
     var scene_names = m_scenes.get_scenes();
-    for (var i = 0; i < scene_names.length; i++) { 
+
+    for (var i = 0; i < scene_names.length; i++) {
         var name = scene_names[i];
         if (name === main_scene_name)
             continue;
@@ -718,7 +711,7 @@ function prepare_scenes(global_settings) {
     }
 
     // MAIN SCENE
-   
+
     var settings = get_scene_settings(main_scene_name, global_settings);
     change_apply_scene_settings(main_scene_name, settings);
 
@@ -771,7 +764,7 @@ function get_scene_settings(scene_name, glob_settings) {
     var scene_settings = glob_settings.scene_settings;
 
     if (scene_settings && scene_settings[scene_name]) {
-        var settings = {}; 
+        var settings = {};
         copy_obj(glob_settings, settings);
         copy_obj(scene_settings[scene_name], settings);
         delete settings.scene_settings;
@@ -781,7 +774,6 @@ function get_scene_settings(scene_name, glob_settings) {
 }
 
 function change_apply_scene_settings(scene_name, settings) {
-
     m_scenes.set_active(scene_name);
     var camera = m_scenes.get_active_camera();
 
@@ -798,48 +790,26 @@ function change_apply_scene_settings(scene_name, settings) {
         m_cam.set_eye_params(camera, hang, vang);
 
     // init anim active objects list
-    
+
     _anim_index = ANIM_OBJ_DEFAULT_INDEX;
 
-    for (var i = 0; i < settings.animated_objects.length; i++) {
-        var name = settings.animated_objects[i];
-        var anim_obj = (name instanceof Array) ? 
-                m_scenes.get_object_by_dupli_name(name[0], name[1]) : 
-                m_scenes.get_object_by_name(name);
-        if (!anim_obj) {
-            console.error("Animated object not found: ", name);
-            continue;
-        }
-
-        // NOTE: temporary, need apply_def()
-        var anim_names = m_anim.get_anim_names(anim_obj);
-        var default_anim_name = anim_names[ANIM_NAME_DEFAULT_INDEX];
-        if (default_anim_name) {
-            m_anim.apply(anim_obj, default_anim_name);
-            m_anim.play(anim_obj);
-            m_anim.cyclic(anim_obj, true);
-        }
-    }
-
     var anim_obj_names = [];
-    var scene_objs = m_scenes.get_appended_objs("ALL");
+    var scene_objs = m_scenes.get_all_objects();
     for (var i = 0; i < scene_objs.length; i++) {
         var sobj = scene_objs[i];
         if (m_anim.is_animated(sobj)) {
-            // NOTE: do not add skinned meshes to list of animated objects,
-            // handle them separately
             var armobj = m_anim.get_first_armature_object(sobj);
-            if (armobj && m_anim.is_animated(armobj)) {
+            if (armobj && m_anim.is_animated(armobj))
                 _anim_armature_mesh_pairs.push(armobj, sobj);
-            } else {
-                _anim_objs.push(sobj);
-                anim_obj_names.push(m_scenes.get_object_name(sobj));
-            }
+
+            _anim_objs.push(sobj);
+            anim_obj_names.push(m_scenes.get_object_name(sobj));
         }
     }
 
     var anim_param_names = ["anim_active_object",
-                            "anim_action",
+                            "anim_slot",
+                            "animation",
                             "anim_cyclic",
                             "anim_frame_range",
                             "anim_frame_current",
@@ -847,13 +817,13 @@ function change_apply_scene_settings(scene_name, settings) {
                             "anim_stop",
                             "get_max_bones"];
 
-    if (_anim_objs.length) {
+    if (_anim_objs.length)
         forbid_params(anim_param_names, "enable");
-    } else {
+    else {
         forbid_params(anim_param_names, "disable");
         return;
     }
-    
+
     fill_select_options("anim_active_object", anim_obj_names);
     set_animation_params({anim_active_object :
             m_scenes.get_object_name(_anim_objs[ANIM_OBJ_DEFAULT_INDEX])});
@@ -863,35 +833,27 @@ function render_callback(elapsed, current_time) {
     var camera = m_scenes.get_active_camera();
     var anim_objects = get_anim_objects(_anim_objs, _anim_index);
     var anim_object0 = anim_objects[0];
+
     if (anim_object0) {
-        // update anim status
-        var elem_status = document.getElementById("anim_status");
-        if (m_anim.is_play(anim_object0)) {
-            elem_status.innerHTML = "PLAYING";
-        } else {
-            elem_status.innerHTML = "STOPPED";
-        }
+        // update current frame
+        var slot_num = parseInt(document.getElementById("anim_slot").value);
+        var frame = Math.round(m_anim.get_frame(anim_object0, slot_num));
 
-        // update frame range
-        var fr_elem = document.getElementById("anim_frame_range");
-        var fr = m_anim.get_frame_range(anim_object0);
-        if (fr) {
-            fr_elem.innerHTML = fr[0] + " - " + fr[1];
-            var slider = document.getElementById("anim_frame_current");
-            slider.min = "" + fr[0];
-            slider.max = "" + fr[1];
-        }
-
-        // update current frame 
-        var frame = Math.round(m_anim.get_frame(anim_object0));
         if (parseInt($("#anim_frame_current").val()) !== frame) // optimization
             set_slider("anim_frame_current", frame);
+
+        // update anim status
+        var elem_status = document.getElementById("anim_status");
+        if (m_anim.is_play(anim_object0, slot_num))
+            elem_status.innerHTML = "PLAYING";
+        else
+            elem_status.innerHTML = "STOPPED";
     }
 }
 
 function get_anim_objects(objs, index) {
     var anim_objs = [];
-    
+
     if (objs[index]) {
         anim_objs.push(objs[index]);
 
@@ -916,20 +878,21 @@ function reset_b4w() {
 /*
  * UI button callbacks
  */
- 
+
 // quality
 function set_quality_config() {
     var quality = m_storage.get("quality");
+
     if (!quality)
         return;
 
     switch (quality) {
     case "ULTRA":
         var qual = m_cfg.P_ULTRA;
-        break;            
+        break;
     case "HIGH":
         var qual = m_cfg.P_HIGH;
-        break;            
+        break;
     case "LOW":
         var qual = m_cfg.P_LOW;
         break;
@@ -942,7 +905,6 @@ function set_quality_config() {
 }
 
 function refresh_quality_ui() {
-
     var qual = m_cfg.get("quality");
 
     switch (qual) {
@@ -1008,35 +970,35 @@ function set_stereo_view_config() {
 }
 
 function refresh_hud_debug_info_ui() {
-    var opt_index = (m_storage.get("show_hud_debug_info") === "true") ? 0 : 1;
+    var opt_index = Number(m_storage.get("show_hud_debug_info") === "true");
     document.getElementById("show_hud_debug_info").options[opt_index].selected = true;
     $("#show_hud_debug_info").slider("refresh");
 }
 
 function set_hud_debug_info_and_reload(value) {
-    m_storage.set("show_hud_debug_info", value.show_hud_debug_info === "on");
+    m_storage.set("show_hud_debug_info", value.show_hud_debug_info);
     window.location.reload();
 }
 
 function refresh_mix_mode_ui() {
-    var opt_index = (m_storage.get("sfx_mix_mode") === "true") ? 0 : 1;
+    var opt_index = Number(m_storage.get("sfx_mix_mode") === "true");
     document.getElementById("sfx_mix_mode").options[opt_index].selected = true;
     $("#sfx_mix_mode").slider("refresh");
 }
 
 function set_mix_mode_and_reload(value) {
-    m_storage.set("sfx_mix_mode", value.sfx_mix_mode === "on");
+    m_storage.set("sfx_mix_mode", value.sfx_mix_mode);
     window.location.reload();
 }
 
 function refresh_stereo_view_ui() {
-    var opt_index = (m_storage.get("anaglyph_use") === "true") ? 0 : 1;
+    var opt_index = Number(m_storage.get("anaglyph_use") === "true");
     document.getElementById("anaglyph_use").options[opt_index].selected = true;
     $("#anaglyph_use").slider("refresh");
 }
 
 function set_stereo_view_and_reload(value) {
-    m_storage.set("anaglyph_use", value.anaglyph_use === "on");
+    m_storage.set("anaglyph_use", value.anaglyph_use);
     window.location.reload();
 }
 
@@ -1051,9 +1013,9 @@ function on_resize(e) {
 
     var controls_width = document.getElementById("controls_container").offsetWidth;
     w -= controls_width;
-    
+
     m_main.resize(w, h);
-    
+
     document.getElementById("info_left_up").innerHTML = w + "x" + h;
 }
 
@@ -1067,23 +1029,42 @@ function cleanup() {
 /*
  * Animation controls
  */
-
 function anim_play_clicked() {
-    var anim_objects = get_anim_objects(_anim_objs, _anim_index);
 
-    for (var i = 0; i < anim_objects.length; i++) {
-        m_anim.play(anim_objects[i]);
+    var anim_objects = get_anim_objects(_anim_objs, _anim_index);
+    var anim_name = document.getElementById("animation").value;
+
+    var slot_num = parseInt(document.getElementById("anim_slot").value);
+    if (anim_name !== "None")
+        m_anim.play(anim_objects[0], null, slot_num);
+
+    // rigged objects
+    for (var i = 1; i < anim_objects.length; i++) {
+        var obj = anim_objects[i];
+        slot_num = m_anim.get_slot_num_by_anim(obj, anim_name);
+        if (slot_num > -1)
+            m_anim.play(obj, null, slot_num);
     }
 }
+
 function anim_stop_clicked() {
+
     var anim_objects = get_anim_objects(_anim_objs, _anim_index);
-    for (var i = 0; i < anim_objects.length; i++) {
-        m_anim.stop(anim_objects[i]);
+    var anim_name = document.getElementById("animation").value;
+
+    var slot_num = parseInt(document.getElementById("anim_slot").value);
+    m_anim.stop(anim_objects[0], slot_num);
+
+    // rigged objects
+    for (var i = 1; i < anim_objects.length; i++) {
+        var obj = anim_objects[i];
+        slot_num = m_anim.get_slot_num_by_anim(obj, anim_name);
+        if (slot_num > -1)
+            m_anim.stop(obj, slot_num);
     }
 }
 
 function get_max_bones() {
-
     m_main.pause();
 
     var rslt = m_shaders.determine_max_bones();
@@ -1097,53 +1078,210 @@ function get_max_bones() {
 function set_animation_params(value) {
     if ("anim_active_object" in value) {
         for (var i = 0; i < _anim_objs.length; i++) {
-            if (m_scenes.get_object_name(_anim_objs[i]) ==
+            var obj = _anim_objs[i]
+            if (m_scenes.get_object_name(obj) ==
                     value.anim_active_object) {
                 _anim_index = i;
 
-                var anim_names = m_anim.get_anim_names(_anim_objs[_anim_index]);
-                if (anim_names.length)
-                    fill_select_options("anim_action", anim_names);
-                else
-                    fill_select_options("anim_action", ["N/A"]);
+                var anim_names = m_anim.get_anim_names(obj);
+
+                if (anim_names.length) {
+                    var anim_slots = [];
+
+                    for (var j = 0; j < anim_names.length && j < 8; j++)
+                        anim_slots.push(j);
+
+                    anim_names.push("None");
+
+                    fill_select_options("animation", anim_names);
+                    fill_select_options("anim_slot", anim_slots);
+
+                    var slot_num = parseInt(document.getElementById("anim_slot").value);
+                    update_anim_ui_name(obj, slot_num);
+                    update_anim_info(obj, slot_num);
+                } else
+                    fill_select_options("animation", ["N/A"]);
+
+                update_anim_ui_slots(obj);
 
                 return;
             }
         }
     }
 
-    if ("anim_action" in value) {
+    if ("anim_slot" in value) {
+        var obj = _anim_objs[_anim_index];
+
+        if (!obj)
+            return;
+
+        var slot_num = value.anim_slot;
+        update_anim_ui_name(obj, slot_num);
+        update_anim_info(obj, slot_num);
+        update_anim_ui_slots(obj);
+    }
+
+    if ("animation" in value) {
         var anim_objects = get_anim_objects(_anim_objs, _anim_index);
-        
-        for (var i = 0; i < anim_objects.length; i++) {
-            m_anim.apply(anim_objects[i], value.anim_action);
-            m_anim.play(anim_objects[i]);
-            m_anim.cyclic(anim_objects[i], true);
+        var slot_num = parseInt(document.getElementById("anim_slot").value);
+        var old_anim_name = m_anim.get_current_anim_name(anim_objects[0], slot_num);
+
+        if (value.animation == "None")
+            m_anim.remove_slot_animation(anim_objects[0], slot_num);
+        else {
+            m_anim.apply(anim_objects[0], value.animation, slot_num);
+            m_anim.play(anim_objects[0], null, slot_num);
         }
+
+        update_anim_info(anim_objects[0], slot_num);
+
+        // rigged objects
+        for (var i = 1; i < anim_objects.length; i++) {
+            var obj = anim_objects[i];
+            var slot_num = m_anim.get_slot_num_by_anim(obj, old_anim_name);
+            if (value.animation == "None") {
+                if (slot_num === null)
+                    continue;
+
+                m_anim.remove_slot_animation(obj, slot_num);
+            } else {
+                if (slot_num === null)
+                    slot_num = m_anim.apply_to_first_empty_slot(obj, value.animation);
+                else
+                    m_anim.apply(obj, value.animation, slot_num);
+
+                m_anim.play(obj, null, slot_num);
+            }
+        }
+        update_anim_ui_slots(anim_objects[0]);
     }
 
     if ("anim_cyclic" in value) {
         var anim_objects = get_anim_objects(_anim_objs, _anim_index);
+        var anim_name = document.getElementById("animation").value;
 
         for (var i = 0; i < anim_objects.length; i++) {
             var obj = anim_objects[i];
-            m_anim.cyclic(obj, value.anim_cyclic === "on");
+            var slot_num = m_anim.get_slot_num_by_anim(obj, anim_name);
+            m_anim.cyclic(obj, value.anim_cyclic, slot_num);
         }
     }
 
     if ("anim_frame_current" in value) {
-        var current = parseInt(value.anim_frame_current);
-        var anim_objects = get_anim_objects(_anim_objs, _anim_index);
 
-        for (var i = 0; i < anim_objects.length; i++) {
-            var obj = anim_objects[i];
-            
-            // prevent double update 
-            // (set_slider called every frame)
-            if (!m_anim.is_play(obj))
-                m_anim.set_frame(obj, current);
+        var anim_objects = get_anim_objects(_anim_objs, _anim_index);
+        var obj = anim_objects[0];
+
+        // prevent double update
+        // (set_slider called every frame)
+        if (!m_anim.is_play(obj)) {
+            var current = parseInt(value.anim_frame_current);
+            var slot_num = parseInt(document.getElementById("anim_slot").value);
+            m_anim.set_frame(obj, current, slot_num);
         }
     }
+}
+
+function get_anim_type_string(anim_type) {
+    switch(anim_type) {
+    case m_anim["OBJ_ANIM_TYPE_ARMATURE"]:
+        anim_type = "ARMATURE"
+        break;
+    case m_anim["OBJ_ANIM_TYPE_SKELETAL"]:
+        anim_type = "SKELETAL"
+        break;
+    case m_anim["OBJ_ANIM_TYPE_OBJECT"]:
+        anim_type = "OBJECT"
+        break;
+    case m_anim["OBJ_ANIM_TYPE_PARTICLES"]:
+        anim_type = "PARTICLES"
+        break;
+    case m_anim["OBJ_ANIM_TYPE_VERTEX"]:
+        anim_type = "VERTEX"
+        break;
+    default:
+        anim_type = "NONE";
+    }
+    return anim_type;
+}
+
+function get_anim_type_color(anim_type) {
+    var color = "white";
+
+    switch(anim_type) {
+    case m_anim["OBJ_ANIM_TYPE_ARMATURE"]:
+        color = "cyan";
+        break;
+    case m_anim["OBJ_ANIM_TYPE_SKELETAL"]:
+        color = "red";
+        break;
+    case m_anim["OBJ_ANIM_TYPE_OBJECT"]:
+        color = "blue";
+        break;
+    case m_anim["OBJ_ANIM_TYPE_PARTICLES"]:
+        color = "yellow";
+        break;
+    case m_anim["OBJ_ANIM_TYPE_VERTEX"]:
+        color = "green";
+        break;
+    }
+    return color;
+}
+
+function update_anim_ui_name(obj, slot_num) {
+    var anim_name = m_anim.get_anim_name(obj, slot_num);
+    anim_name = anim_name || "None";
+
+    var anim_elem = $("#" + "animation");
+    var anim_options = anim_elem.children();
+
+    for (var i = 0; i < anim_options.length; i++) {
+        var option = anim_options[i];
+        if (option.value == anim_name) {
+            option.selected = true;
+            anim_elem.selectmenu();
+            anim_elem.selectmenu("refresh");
+            return;
+        }
+    }
+}
+
+function update_anim_info(obj, slot_num) {
+    // cyclic
+    var cyclic = m_anim.is_cyclic(obj, slot_num);
+    set_slider("anim_cyclic", Number(cyclic));
+
+    // frame range
+    var fr_elem = document.getElementById("anim_frame_range");
+    var fr = m_anim.get_frame_range(obj, slot_num);
+
+    if (fr) {
+        fr_elem.innerHTML = fr[0] + " - " + fr[1];
+        var slider = document.getElementById("anim_frame_current");
+        slider.min = "" + fr[0];
+        slider.max = "" + fr[1];
+    } else
+        fr_elem.innerHTML = "N/A";
+}
+
+function update_anim_ui_slots(obj) {
+    var anim_slots_elems = $("#anim_slot-listbox").find("a");
+
+    var active_slot = parseInt(document.getElementById("anim_slot").value);
+    var anim_type = m_anim.get_anim_type(obj, active_slot);
+
+    for (var i = 0; i < anim_slots_elems.length; i++) {
+
+        var anim_type = m_anim.get_anim_type(obj, i);
+        var type_str = get_anim_type_string(anim_type);
+
+        var elem = anim_slots_elems.eq(i);
+        var str = i + " (" + type_str + ")";
+        $('#anim_slot').children().eq(i).text(str);
+    }
+
+    $('#anim_slot').selectmenu();
+    $('#anim_slot').selectmenu("refresh");
 }
 
 function get_ssao_params() {
@@ -1177,11 +1315,11 @@ function get_ssao_params() {
     set_slider("ssao_influence", ssao["influence"]);
     set_slider("ssao_dist_factor", ssao["dist_factor"]);
 
-    var opt_index = (ssao["ssao_only"] === 0) ? 1 : 0;
+    var opt_index = Number(ssao["ssao_only"]);
     document.getElementById("ssao_only").options[opt_index].selected = true;
     $("#ssao_only").slider("refresh");
 
-    var opt_index = (ssao["ssao_white"] === 0) ? 1 : 0;
+    var opt_index = Number(ssao["ssao_white"]);
     document.getElementById("ssao_white").options[opt_index].selected = true;
     $("#ssao_white").slider("refresh");
 }
@@ -1189,12 +1327,11 @@ function get_ssao_params() {
 function set_ssao_params(value) {
     var ssao = m_scenes.get_ssao_params();
 
-
     var ssao_params = {};
 
     if ("ssao_quality" in value)
         ssao_params["ssao_quality"] = get_sel_val(document.getElementById("ssao_quality"));
-    
+
     if ("ssao_radius_increase" in value)
         ssao_params["ssao_radius_increase"] = value.ssao_radius_increase;
 
@@ -1205,10 +1342,10 @@ function set_ssao_params(value) {
         ssao_params["ssao_gauss_center"] = value.ssao_gauss_center;
 
     if ("ssao_gauss_width_square" in value)
-        ssao_params["ssao_gauss_width_square"] = value.ssao_gauss_width_square * 
+        ssao_params["ssao_gauss_width_square"] = value.ssao_gauss_width_square *
                                                  value.ssao_gauss_width_square;
     if ("ssao_gauss_width_left_square" in value)
-        ssao_params["ssao_gauss_width_left_square"] = value.ssao_gauss_width_left_square * 
+        ssao_params["ssao_gauss_width_left_square"] = value.ssao_gauss_width_left_square *
                                                       value.ssao_gauss_width_left_square;
     if ("ssao_influence" in value)
         ssao_params["ssao_influence"] = value.ssao_influence;
@@ -1217,10 +1354,10 @@ function set_ssao_params(value) {
         ssao_params["ssao_dist_factor"] = value.ssao_dist_factor;
 
     if ("ssao_only" in value)
-        ssao_params["ssao_only"] = (value.ssao_only === "on") ? 1 : 0;
+        ssao_params["ssao_only"] = Number(value.ssao_only);
 
     if ("ssao_white" in value)
-        ssao_params["ssao_white"] = (value.ssao_white === "on") ? 1 : 0;
+        ssao_params["ssao_white"] = Number(value.ssao_white);
 
     m_scenes.set_ssao_params(ssao_params);
 }
@@ -1247,8 +1384,8 @@ function get_color_correction_params() {
 }
 
 function set_color_correction_params(value) {
-
     var compos_params = m_scenes.get_color_correction_params();
+
     if (!compos_params)
         return;
 
@@ -1256,10 +1393,10 @@ function set_color_correction_params(value) {
 
     if ("brightness" in value)
         compos_params["brightness"] = parseFloat(value.brightness);
-        
+
     if ("contrast" in value)
         compos_params["contrast"] = parseFloat(value.contrast);
-            
+
     if ("exposure" in value)
         compos_params["exposure"] = parseFloat(value.exposure);
 
@@ -1271,6 +1408,7 @@ function set_color_correction_params(value) {
 
 function sel_by_val(select_elem, option_value) {
     var options = select_elem.options;
+
     for (var i = 0; i < options.length; i++) {
         var opt = options[i];
 
@@ -1282,8 +1420,8 @@ function sel_by_val(select_elem, option_value) {
 }
 
 function get_sel_val(select_elem) {
-
     var options = select_elem.options;
+
     for (var i = 0; i < options.length; i++) {
         var opt = options[i];
 
@@ -1293,7 +1431,6 @@ function get_sel_val(select_elem) {
 }
 
 function get_fog_params() {
-
     var fcd = m_scenes.get_fog_color_density();
 
     var dens = fcd[3];
@@ -1307,7 +1444,6 @@ function get_fog_params() {
 }
 
 function set_fog_params(value) {
-
     var fcd = m_scenes.get_fog_color_density();
 
     if ("fog_density" in value)
@@ -1344,7 +1480,7 @@ function get_shadow_params() {
 
     forbid_params(shadow_param_names, "enable");
 
-    var opt_index = (shadow_params["optimize_shadow_volume"]) ? 0 : 1;
+    var opt_index = Number(shadow_params["optimize_shadow_volume"] === "true");
     document.getElementById("optimize_shadow_volume").options[opt_index].selected = true;
     $("#optimize_shadow_volume").slider("refresh");
 
@@ -1360,25 +1496,24 @@ function get_shadow_params() {
 }
 
 function set_shadow_params(value) {
-
     var shadow_params = {};
-    
+
     if ("optimize_shadow_volume" in value)
-        shadow_params["optimize_shadow_volume"] = (value["optimize_shadow_volume"] === "on") ? true : false;
+        shadow_params["optimize_shadow_volume"] = Boolean(value["optimize_shadow_volume"]);
     if ("csm_near" in value)
-        shadow_params["csm_near"] = parseFloat(value["csm_near"]);
+        shadow_params["csm_near"] = value["csm_near"];
     if ("csm_far" in value)
-        shadow_params["csm_far"] = parseFloat(value["csm_far"]);
+        shadow_params["csm_far"] = value["csm_far"];
     if ("csm_lambda" in value)
-        shadow_params["csm_lambda"] = parseFloat(value["csm_lambda"]);
+        shadow_params["csm_lambda"] = value["csm_lambda"];
     if ("shadow_visibility_falloff" in value)
-        shadow_params["shadow_visibility_falloff"] = parseFloat(value["shadow_visibility_falloff"]);
+        shadow_params["shadow_visibility_falloff"] = value["shadow_visibility_falloff"];
     if ("blur_depth_size_mult" in value)
-        shadow_params["blur_depth_size_mult"] = parseFloat(value["blur_depth_size_mult"]);
+        shadow_params["blur_depth_size_mult"] = value["blur_depth_size_mult"];
     if ("blur_depth_edge_size" in value)
-        shadow_params["blur_depth_edge_size"] = parseFloat(value["blur_depth_edge_size"]);
+        shadow_params["blur_depth_edge_size"] = value["blur_depth_edge_size"];
     if ("blur_depth_diff_threshold" in value)
-        shadow_params["blur_depth_diff_threshold"] = parseFloat(value["blur_depth_diff_threshold"]);
+        shadow_params["blur_depth_diff_threshold"] = value["blur_depth_diff_threshold"];
 
     m_scenes.set_shadow_params(shadow_params);
 
@@ -1386,21 +1521,21 @@ function set_shadow_params(value) {
 }
 
 function display_csm_info(shadow_params) {
-
     document.getElementById("csm_num").innerHTML = " " + shadow_params["csm_num"];
     var csm_borders = shadow_params["csm_borders"];
     var elem = document.getElementById("csm_borders");
     elem.innerHTML = "(";
+
     for (var i = 0; i < csm_borders.length; i++) {
         if (i > 0)
             elem.innerHTML += " __ ";
         elem.innerHTML += Math.round(10 * csm_borders[i]) / 10;
     }
+
     elem.innerHTML += ")";
 }
 
 function get_ambient_params() {
-
     var env_colors = m_scenes.get_environment_colors();
 
     set_slider("environment_energy", env_colors[0]);
@@ -1409,7 +1544,6 @@ function get_ambient_params() {
 }
 
 function set_ambient_params(value) {
-
     if ("environment_energy" in value)
         m_scenes.set_environment_colors(value.environment_energy, null, null);
 
@@ -1421,19 +1555,17 @@ function set_ambient_params(value) {
 }
 
 function set_debug_params(value) {
-
     var debug_params = {};
 
-    if ("wireframe_mode" in value)
+    if (typeof value.wireframe_mode == "string")
         debug_params["wireframe_mode"] = get_sel_val(document.getElementById("wireframe_mode"));
-    if ("wireframe_edge_color" in value)
+    if (typeof value.wireframe_edge_color == "object")
         debug_params["wireframe_edge_color"] = value["wireframe_edge_color"];
 
     m_debug.set_debug_params(debug_params);
 }
 
 function get_sky_params() {
-
     var sky_params = m_scenes.get_sky_params();
 
     var sky_params_names = ["sky_color",
@@ -1511,7 +1643,6 @@ function hide_element(obj) {
 }
 
 function get_material_params(obj, mat_name) {
-
     var mparams = m_mat.get_material_extended_params(obj, mat_name);
 
     var mat_param_names = ["material_diffuse_color",
@@ -1543,8 +1674,8 @@ function get_material_params(obj, mat_name) {
 }
 
 function set_material_params(value) {
-
     var obj = get_selected_object();
+
     if ("material_name" in value)
         get_material_params(obj, value["material_name"]);
 
@@ -1555,28 +1686,28 @@ function set_material_params(value) {
     }
 
     var material_ext_params = {};
-    if ("material_reflectivity" in value) 
-        material_ext_params["material_reflectivity"] 
+
+    if ("material_reflectivity" in value)
+        material_ext_params["material_reflectivity"]
                 = value["material_reflectivity"];
-    if ("material_fresnel" in value) 
+    if ("material_fresnel" in value)
         material_ext_params["material_fresnel"] = value["material_fresnel"];
-    if ("material_fresnel_factor" in value) 
-        material_ext_params["material_fresnel_factor"] 
+    if ("material_fresnel_factor" in value)
+        material_ext_params["material_fresnel_factor"]
                 = value["material_fresnel_factor"];
-    if ("material_parallax_scale" in value) 
-        material_ext_params["material_parallax_scale"] 
+    if ("material_parallax_scale" in value)
+        material_ext_params["material_parallax_scale"]
                 = value["material_parallax_scale"];
-    if ("material_parallax_steps" in value) 
-        material_ext_params["material_parallax_steps"] 
+    if ("material_parallax_steps" in value)
+        material_ext_params["material_parallax_steps"]
                 = value["material_parallax_steps"];
-    m_mat.set_material_extended_params(obj, $("#material_name").val(), 
+    m_mat.set_material_extended_params(obj, $("#material_name").val(),
             material_ext_params);
 
     m_scenes.update_scene_materials_params();
 }
 
 function get_water_material_params(obj, mat_name) {
-
     var mparams = m_mat.get_water_material_params(obj, mat_name);
     var water_param_names = ["shallow_water_col",
                              "shallow_water_col_fac",
@@ -1651,7 +1782,6 @@ function get_water_material_params(obj, mat_name) {
 }
 
 function set_water_material_params(value) {
-
     var obj = get_selected_object();
     var water_param_names = ["waves_height",
                              "waves_length",
@@ -1677,26 +1807,19 @@ function set_water_material_params(value) {
     var water_dynamic   = $("#water_dynamic").val();
     var shore_smoothing = $("#shore_smoothing").val();
 
-    if (water_dynamic == "1") {
-        water_dynamic = true;
+    if (Boolean(Number(water_dynamic)))
         forbid_params(water_param_names, "enable");
-    } else {
-        water_dynamic = false;
+    else
         forbid_params(water_param_names, "disable");
-    }
 
-    if (shore_smoothing == "1") {
-        shore_smoothing = true;
+    if (Boolean(Number(shore_smoothing)))
         forbid_params(["absorb_factor"], "enable");
-    }
-    else {
-        shore_smoothing = false;
+    else
         forbid_params(["absorb_factor"], "disable");
-    }
 
     // shore smoothing
     if ("shore_smoothing" in value)
-        water_material_params["shore_smoothing"] = shore_smoothing;
+        water_material_params["shore_smoothing"] = value["shore_smoothing"];
     if ("absorb_factor" in value)
         water_material_params["absorb_factor"] = value["absorb_factor"];
 
@@ -1722,7 +1845,7 @@ function set_water_material_params(value) {
     if ("sss_width" in value)
         water_material_params["sss_width"]  = value["sss_width"];
     if ("water_dynamic" in value)
-        water_material_params["water_dynamic"]  = water_dynamic;
+        water_material_params["water_dynamic"]  = value["water_dynamic"];
     if ("waves_height" in value)
         water_material_params["waves_height"] = value["waves_height"];
     if ("waves_length" in value)
@@ -1762,7 +1885,6 @@ function set_water_material_params(value) {
 }
 
 function get_lighting_params(light_name) {
-
     var lparams = m_lights.get_light_params(light_name);
 
     set_color_picker("light_color", lparams["light_color"]);
@@ -1770,7 +1892,6 @@ function get_lighting_params(light_name) {
 }
 
 function set_lighting_params(value) {
-
     if ("light_name" in value)
         get_lighting_params(value["light_name"]);
 
@@ -1786,7 +1907,6 @@ function set_lighting_params(value) {
 }
 
 function get_sun_params() {
-
     var sun_params  = m_lights.get_sun_params();
     var sun_param_names = ["sun_horizontal_position",
                            "sun_vertical_position"];
@@ -1835,7 +1955,6 @@ function set_time_date(value) {
 }
 
 function run_sun_clicked() {
-
     var multiplier = 0;
     var sun_time = parseFloat(document.getElementById("day_time").value);
 
@@ -1859,7 +1978,6 @@ function run_sun_clicked() {
 }
 
 function check_lighting_params() {
-
     var sun = m_lights.get_lamps("SUN")[0];
 
     var light_param_names = ["run_sun",
@@ -1876,7 +1994,6 @@ function check_lighting_params() {
 }
 
 function forbid_material_params() {
-
     // material
     var material_param_names = ["material_diffuse_color",
                                 "material_name",
@@ -1919,7 +2036,6 @@ function forbid_material_params() {
 }
 
 function forbid_debug_params() {
-
     $("#wireframe_mode").val("WM_NONE");
     $("#wireframe_mode").selectmenu("refresh", true);
 
@@ -1928,12 +2044,12 @@ function forbid_debug_params() {
 
 function stop_sun_clicked() {
     var sun = m_lights.get_lamps("SUN")[0];
+
     if (m_ctl.check_sensor_manifolds(sun))
         m_ctl.remove_sensor_manifold(sun, "ELAPSED");
 }
 
 function get_dof_params() {
-
     var dof_params  = m_scenes.get_dof_params();
 
     var dof_param_names = ["dof_distance",
@@ -1961,31 +2077,26 @@ function get_dof_params() {
 function set_dof_params(value) {
     var dof_params = {};
 
-    if ("dof_distance" in value && $("#dof_on").val() == 1) {
+    if ("dof_distance" in value && Number($("#dof_on").val()))
         dof_params["dof_distance"] = value.dof_distance;
-    }
 
-    if ("dof_front" in value) {
+    if ("dof_front" in value)
         dof_params["dof_front"] = value.dof_front;
-    }
 
-    if ("dof_rear" in value) {
+    if ("dof_rear" in value)
         dof_params["dof_rear"] = value.dof_rear;
-    }
 
-    if ("dof_power" in value) {
+    if ("dof_power" in value)
         dof_params["dof_power"] = value.dof_power;
-    }
 
     if ("dof_on" in value) {
 
-        dof_params["dof_on"] = $("#dof_on").val();
+        dof_params["dof_on"] = Boolean($("#dof_on").val());
 
-        if (value.dof_on == 1)
-            dof_params["dof_distance"] = $("#dof_distance").val();
-        else {
+        if (Number(value.dof_on))
+            dof_params["dof_distance"] = parseFloat($("#dof_distance").val());
+        else
             dof_params["dof_distance"] = 0;
-        }
     }
 
     m_scenes.set_dof_params(dof_params);
@@ -2078,10 +2189,10 @@ function set_color_picker(id, color) {
     };
 
     color = lin_to_srgb(color);
-    
+
     var rgb = {
-        r: Math.round(color[0] * 255), 
-        g: Math.round(color[1] * 255), 
+        r: Math.round(color[0] * 255),
+        g: Math.round(color[1] * 255),
         b: Math.round(color[2] * 255)
     };
     $("#" + id).ColorPickerSetColor(rgb);
@@ -2135,27 +2246,41 @@ function set_slider(id, val) {
     $("#" + id).slider("refresh");
 }
 
-function bind_control(fun, id) {
+function bind_control(fun, id, type) {
     $("#" + id).bind("change", function(e) {
         var arg = {};
-        arg[id] = e.target.value;
+
+        switch(type) {
+        case "string":
+            arg[id] = e.target.value;
+            break;
+        case "number":
+            arg[id] = parseFloat(e.target.value);
+            break;
+        case "bool":
+            arg[id] = Boolean(Number(e.target.value));
+            break;
+        default:
+            console.log("wrong value type");
+            return null;
+        }
+
         fun(arg);
     });
 }
 
 function bind_colpick(fun, id) {
     $("#" + id).ColorPicker({onChange: function (hsb, hex, rgb) {
-	    $("#" + id + " div").css('backgroundColor', '#' + hex);
+        $("#" + id + " div").css('backgroundColor', '#' + hex);
         var arg = {};
         arg[id] = srgb_to_lin(rgb_to_float(rgb));
         fun(arg);
-	}});
+    }});
 }
 
 function rgb_to_float(rgb, opt_dest) {
-
     opt_dest = opt_dest || [];
-    
+
     opt_dest[0] = rgb.r / 255;
     opt_dest[1] = rgb.g / 255;
     opt_dest[2] = rgb.b / 255;
@@ -2173,7 +2298,6 @@ function auto_rotate_cam() {
 }
 
 function forbid_params(params, state) {
-
     if (!params)
         return null;
 

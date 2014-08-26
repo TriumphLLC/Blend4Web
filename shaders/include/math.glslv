@@ -1,10 +1,12 @@
 #var EPSILON 0.0001
-#export is_equalf is_equal3f
-#export identity qrot rotation_x rotation_y rotation_z 
-#export vertex 
+#export is_equal3f
+#export identity qrot rotation_x rotation_y rotation_z
+#export vertex
 #export tbn_norm
 
-struct vertex 
+float ZERO_VALUE_MATH = 0.0;
+
+struct vertex
 {
     vec3 position;
     vec3 center;
@@ -14,21 +16,23 @@ struct vertex
     vec3 color;
 };
 
+/*
 bool is_equalf(float a, float b) {
     return abs(a - b) < EPSILON;
 }
+*/
 
 bool is_equal3f(vec3 a, vec3 b) {
     return any(lessThan(abs(a - b), vec3(EPSILON)));
 }
 
-vec3 qrot(in vec4 q, in vec3 v) 
+vec3 qrot(in vec4 q, in vec3 v)
 {
     return v + 2.0 * cross(q.xyz, cross(q.xyz, v) + q.w * v);
 }
 
 /*
-vec3 qrot(in vec4 quat, in vec3 vec) 
+vec3 qrot(in vec4 quat, in vec3 vec)
 {
     float x = vec[0], y = vec[1], z = vec[2],
         qx = quat[0], qy = quat[1], qz = quat[2], qw = quat[3];
@@ -62,31 +66,31 @@ mat3 mat3_transpose(mat3 m) {
 }
 */
 mat4 identity() {
-    return mat4(1.0, 0.0, 0.0, 0.0, 
-                0.0, 1.0, 0.0, 0.0, 
-                0.0, 0.0, 1.0, 0.0, 
-                0.0, 0.0, 0.0, 1.0);
+    return mat4(1.0, ZERO_VALUE_MATH, ZERO_VALUE_MATH, ZERO_VALUE_MATH,
+                ZERO_VALUE_MATH, 1.0, ZERO_VALUE_MATH, ZERO_VALUE_MATH,
+                ZERO_VALUE_MATH, ZERO_VALUE_MATH, 1.0, ZERO_VALUE_MATH,
+                ZERO_VALUE_MATH, ZERO_VALUE_MATH, ZERO_VALUE_MATH, 1.0);
 }
 
 mat4 rotation_x(float angle) {
-    return mat4(1.0, 0.0, 0.0, 0.0, 
-                0.0, cos(angle), sin(angle), 0.0, 
-                0.0,-sin(angle), cos(angle), 0.0, 
-                0.0, 0.0, 0.0, 1.0);
+    return mat4(1.0, ZERO_VALUE_MATH, ZERO_VALUE_MATH, ZERO_VALUE_MATH,
+                ZERO_VALUE_MATH, cos(angle), sin(angle), ZERO_VALUE_MATH,
+                ZERO_VALUE_MATH,-sin(angle), cos(angle), ZERO_VALUE_MATH,
+                ZERO_VALUE_MATH, ZERO_VALUE_MATH, ZERO_VALUE_MATH, 1.0);
 }
 
 mat4 rotation_y(float angle) {
-    return mat4(cos(angle), 0.0,-sin(angle), 0.0, 
-                0.0, 1.0, 0.0, 0.0, 
-                sin(angle), 0.0, cos(angle), 0.0, 
-                0.0, 0.0, 0.0, 1.0);
+    return mat4(cos(angle), ZERO_VALUE_MATH,-sin(angle), ZERO_VALUE_MATH,
+                ZERO_VALUE_MATH, 1.0, ZERO_VALUE_MATH, ZERO_VALUE_MATH,
+                sin(angle), ZERO_VALUE_MATH, cos(angle), ZERO_VALUE_MATH,
+                ZERO_VALUE_MATH, ZERO_VALUE_MATH, ZERO_VALUE_MATH, 1.0);
 }
 
 mat4 rotation_z(float angle) {
-    return mat4(cos(angle), sin(angle), 0.0, 0.0, 
-               -sin(angle), cos(angle), 0.0, 0.0, 
-                0.0, 0.0, 1.0, 0.0, 
-                0.0, 0.0, 0.0, 1.0);
+    return mat4(cos(angle), sin(angle), ZERO_VALUE_MATH, ZERO_VALUE_MATH,
+               -sin(angle), cos(angle), ZERO_VALUE_MATH, ZERO_VALUE_MATH,
+                ZERO_VALUE_MATH, ZERO_VALUE_MATH, 1.0, ZERO_VALUE_MATH,
+                ZERO_VALUE_MATH, ZERO_VALUE_MATH, ZERO_VALUE_MATH, 1.0);
 }
 
 vertex tbn_norm(in vertex v) {

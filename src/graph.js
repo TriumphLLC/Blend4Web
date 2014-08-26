@@ -1058,7 +1058,7 @@ function state_back_track(state) {
     var in_2 = state.in_2;
     var out_1 = state.out_1;
     var out_2 = state.out_2;
-  
+
     if (state.orig_core_len < core_len) {
         if (in_1[added_node1] == core_len)
 		    in_1[added_node1] = 0;
@@ -1067,7 +1067,7 @@ function state_back_track(state) {
 		    if (in_1[other] == core_len)
                 in_1[other]=0;
 		}
-        
+
 		if (out_1[added_node1] == core_len)
 		    out_1[added_node1] = 0;
 	    for (var i = 0; i < out_edge_count(g1, added_node1); i++) {
@@ -1075,7 +1075,7 @@ function state_back_track(state) {
 		    if (out_1[other] == core_len)
 			    out_1[other] = 0;
 		}
-	    
+
 		var node2 = core_1[added_node1];
 
         if (in_2[node2] == core_len)
@@ -1085,7 +1085,7 @@ function state_back_track(state) {
 		    if (in_2[other] == core_len)
 			    in_2[other] = 0;
 		}
-        
+
 		if (out_2[node2] == core_len)
 		    out_2[node2] = 0;
 
@@ -1094,7 +1094,7 @@ function state_back_track(state) {
 		    if (out_2[other] == core_len)
 			    out_2[other] = 0;
 		}
-	    
+
 	    core_1[added_node1] = NULL_NODE;
 		core_2[node2] = NULL_NODE;
 	    

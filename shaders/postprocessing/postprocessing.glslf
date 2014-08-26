@@ -35,21 +35,21 @@ void main(void) {
 
     offset += delta;
     color = texture2D(u_color, v_texcoord + offset);
-    gl_FragColor += color * 0.1945945946; 
+    gl_FragColor += color * 0.1945945946;
     color = texture2D(u_color, v_texcoord - offset);
-    gl_FragColor += color * 0.1945945946; 
+    gl_FragColor += color * 0.1945945946;
 
     offset += delta;
     color = texture2D(u_color, v_texcoord + offset);
-    gl_FragColor += color * 0.1216216216; 
+    gl_FragColor += color * 0.1216216216;
     color = texture2D(u_color, v_texcoord - offset);
-    gl_FragColor += color * 0.1216216216; 
+    gl_FragColor += color * 0.1216216216;
 
     offset += delta;
     color = texture2D(u_color, v_texcoord + offset);
-    gl_FragColor += color * 0.0540540541; 
+    gl_FragColor += color * 0.0540540541;
     color = texture2D(u_color, v_texcoord - offset);
-    gl_FragColor += color * 0.0540540541; 
+    gl_FragColor += color * 0.0540540541;
 
     offset += delta;
     color = texture2D(u_color, v_texcoord + offset);
@@ -68,7 +68,7 @@ void main(void) {
         if (color.a > 0.0)
             gl_FragColor = vec4(1.0, 1.0, 1.0, color.a);
         else {
-            color = texture2D(u_color, v_texcoord - delta);    
+            color = texture2D(u_color, v_texcoord - delta);
             if (color.a > 0.0)
                 gl_FragColor = vec4(1.0, 1.0, 1.0, color.a);
         }

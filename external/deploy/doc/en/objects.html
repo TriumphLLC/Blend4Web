@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Objects &mdash; User Manual: Blend4Web v14.07</title>
+    <title>Objects &mdash; User Manual: Blend4Web v14.08</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.07',
+        VERSION:     '14.08',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User Manual: Blend4Web v14.07" href="index.html" />
+    <link rel="top" title="User Manual: Blend4Web v14.08" href="index.html" />
     <link rel="next" title="Textures" href="textures.html" />
     <link rel="prev" title="The Addon" href="addon.html" /> 
   </head>
@@ -36,7 +36,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">User Manual: Blend4Web v14.07</a></div>
+          href="index.html">User Manual: Blend4Web v14.08</a></div>
         <div class="rel">
           <a href="addon.html" title="The Addon"
              accesskey="P">previous</a> |
@@ -86,9 +86,7 @@
 <div class="section" id="id3">
 <h2>Settings<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
 <p>The following is supported for all types of objects: transform, data reference, parent object, group membership and a range of the engine&#8217;s special properties.</p>
-<div class="align-center figure">
-<a class="reference internal image-reference" href="_images/object_setup.jpg"><img alt="Настройка объекта" src="_images/object_setup.jpg" style="width: 60%;" /></a>
-</div>
+<a class="reference internal image-reference" href="_images/object_setup.png"><img alt="_images/object_setup.png" class="align-center" src="_images/object_setup.png" style="width: 100%;" /></a>
 <dl class="docutils">
 <dt><em>Transform &gt; Location</em></dt>
 <dd><p class="first last">Position coordinates.</p>
@@ -159,6 +157,9 @@
 <dt><em>Blend4Web &gt; Wind bending</em></dt>
 <dd><p class="first last">Enable procedural animation under the influence of wind.</p>
 </dd>
+<dt><em>Blend4Web &gt; LOD transition ratio</em></dt>
+<dd><p class="first last">Parameter for smoothing the switching between the LOD objects. It defines the additional distance at which the LOD objects are still rendered before getting replaced by the next LOD objects. Assigned for the main object. Measured in fractions of the object&#8217;s bounding sphere radius.</p>
+</dd>
 <dt><em>Blend4Web &gt; Self LOD &gt; Distance</em></dt>
 <dd><p class="first">Distance from the camera at which the object is no longer rendered.</p>
 <div class="last deprecated">
@@ -193,9 +194,7 @@
 <div class="section" id="id6">
 <h3>Limiting the camera movement<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
 <p>There are several settings for the camera which limit its movement this way or another. They are grouped as <tt class="docutils literal"><span class="pre">Camera</span> <span class="pre">limits</span></tt>.</p>
-<div class="align-center figure">
-<img alt="Ограничения движения камеры" src="_images/camera_limits.jpg" />
-</div>
+<a class="reference internal image-reference" href="_images/camera_limits.png"><img alt="_images/camera_limits.png" class="align-center" src="_images/camera_limits.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -210,9 +209,7 @@
 <li><p class="first"><em>Max &lt; Min</em> - no movement limits</p>
 </li>
 </ul>
-<div class="align-center figure">
-<img alt="Ограничения приближения/удаления камеры" src="_images/distance_limits.png" />
-</div>
+<a class="reference internal image-reference" href="_images/distance_limits.png"><img alt="_images/distance_limits.png" class="align-center" src="_images/distance_limits.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -222,18 +219,14 @@
 </div>
 <p><em>Blend4Web &gt; Use horizontal rotation clamping</em> &#8211; available in the <tt class="docutils literal"><span class="pre">Target</span></tt> and <tt class="docutils literal"><span class="pre">Eye</span></tt> modes. Limits the camera&#8217;s horizontal rotation relative to the pivot point (in the <tt class="docutils literal"><span class="pre">Target</span></tt> mode) or relative to its position (in the <tt class="docutils literal"><span class="pre">Eye</span></tt> mode).</p>
 <p>The direction from <tt class="docutils literal"><span class="pre">Left</span></tt> to <tt class="docutils literal"><span class="pre">Right</span></tt> is considered positive and matches the counterclockwise direction for the <tt class="docutils literal"><span class="pre">Target</span></tt> mode, and the clockwise direction for the <tt class="docutils literal"><span class="pre">Eye</span></tt> mode:</p>
-<div class="align-center figure">
-<img alt="Ограничения горизонтального угла камеры" src="_images/horizontal_limits.png" />
-</div>
+<a class="reference internal image-reference" href="_images/horizontal_limits.png"><img alt="_images/horizontal_limits.png" class="align-center" src="_images/horizontal_limits.png" style="width: 100%;" /></a>
 <p>Default values: <em>Left = -180, Right = 180</em>.</p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <p><em>Blend4Web &gt; Use vertical rotation clamping</em> &#8211; available in the <tt class="docutils literal"><span class="pre">Target</span></tt> and <tt class="docutils literal"><span class="pre">Eye</span></tt> modes. Limits the camera&#8217;s vertical rotation relative to the pivot point (in the <tt class="docutils literal"><span class="pre">Target</span></tt> mode) or relative to its position (in the <tt class="docutils literal"><span class="pre">Eye</span></tt> mode).</p>
 <p>The direction from <tt class="docutils literal"><span class="pre">Down</span></tt> to <tt class="docutils literal"><span class="pre">Up</span></tt> is considered positive:</p>
-<div class="align-center figure">
-<img alt="Ограничения вертикального угла камеры типа" src="_images/vertical_limits.png" />
-</div>
+<a class="reference internal image-reference" href="_images/vertical_limits.png"><img alt="_images/vertical_limits.png" class="align-center" src="_images/vertical_limits.png" style="width: 100%;" /></a>
 <p>If the <em>Use horizontal rotation clamping</em> checkbox is enabled, vertical rotation will be limited at least to the interval <em>[-90, 90]</em>.</p>
 <p>Default values: <em>Down = -90, Up = 90</em>.</p>
 <div class="line-block">
@@ -244,9 +237,7 @@
 <li><p class="first">Swapping the <em>Left/Right</em> or <em>Down/Up</em> values swaps the rotations arcs.</p>
 </li>
 </ul>
-<div class="align-center figure">
-<img alt="Перемена мест значений углов, ограничивающих поворот" src="_images/limits_inversion.png" />
-</div>
+<a class="reference internal image-reference" href="_images/limits_inversion.png"><img alt="_images/limits_inversion.png" class="align-center" src="_images/limits_inversion.png" style="width: 100%;" /></a>
 <ul class="simple">
 <li><p class="first"><em>Left = Right, Up = Down</em> - fixes the camera horizontally and vertically (respectively).</p>
 </li>
@@ -263,13 +254,9 @@
 </li>
 </ul>
 <p>For horizontal limits:</p>
-<div class="align-center figure">
-<img alt="Варианты точки отсчета для ограничения вращения по горизонтали" src="_images/camera_space_world_space_h.png" />
-</div>
+<a class="reference internal image-reference" href="_images/camera_space_world_space_h.png"><img alt="_images/camera_space_world_space_h.png" class="align-center" src="_images/camera_space_world_space_h.png" style="width: 100%;" /></a>
 <p>For vertical limits:</p>
-<div class="align-center figure">
-<img alt="Варианты точки отсчета для ограничения вращения по горизонтали" src="_images/camera_space_world_space_v.png" />
-</div>
+<a class="reference internal image-reference" href="_images/camera_space_world_space_v.png"><img alt="_images/camera_space_world_space_v.png" class="align-center" src="_images/camera_space_world_space_v.png" style="width: 100%;" /></a>
 <p>The coordinate axes labelled on the pictures match the Blender&#8217;s world coordinate axes.</p>
 <p>By default the <tt class="docutils literal"><span class="pre">Camera</span> <span class="pre">space</span></tt> option is selected.</p>
 </div>
@@ -290,6 +277,7 @@
 <li class="toctree-l1"><a class="reference internal" href="setup.html">Development Environment Setup</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Workflow</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Scene Viewer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="web_player.html">Web Player</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">The Addon</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Objects</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#id2">Types</a></li>
@@ -347,7 +335,7 @@
           
     <div class="footer">
         &copy; Copyright 2014, Triumph LLC.
-      Last updated on 2014-07-23.
+      Last updated on 2014-08-25.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

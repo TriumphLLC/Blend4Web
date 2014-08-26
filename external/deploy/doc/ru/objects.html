@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Объекты &mdash; Руководство пользователя: Blend4Web v14.07</title>
+    <title>Объекты &mdash; Руководство пользователя: Blend4Web v14.08</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.07',
+        VERSION:     '14.08',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v14.07" href="index.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v14.08" href="index.html" />
     <link rel="next" title="Текстуры" href="textures.html" />
     <link rel="prev" title="Аддон" href="addon.html" /> 
   </head>
@@ -37,7 +37,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">Руководство пользователя: Blend4Web v14.07</a></div>
+          href="index.html">Руководство пользователя: Blend4Web v14.08</a></div>
         <div class="rel">
           <a href="addon.html" title="Аддон"
              accesskey="P">предыдущий</a> |
@@ -79,9 +79,7 @@
 <div class="section" id="id3">
 <h2>Настройка<a class="headerlink" href="#id3" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Для объектов всех типов поддерживаются расположение в пространстве, указатель на блок данных, родительский объект, принадлежность к группе и ряд специальных свойств движка.</p>
-<div class="align-center figure">
-<a class="reference internal image-reference" href="_images/object_setup.jpg"><img alt="Настройка объекта" src="_images/object_setup.jpg" style="width: 60%;" /></a>
-</div>
+<a class="reference internal image-reference" href="_images/object_setup.png"><img alt="_images/object_setup.png" class="align-center" src="_images/object_setup.png" style="width: 100%;" /></a>
 <dl class="docutils">
 <dt><em>Transform &gt; Location</em></dt>
 <dd>Координаты местоположения.</dd>
@@ -129,6 +127,9 @@
 <dd>Текстовое поле для названия пустого объекта, задающего плоскость отражения.</dd>
 <dt><em>Blend4Web &gt; Wind bending</em></dt>
 <dd>Включить процедурную анимацию под действием ветра.</dd>
+<dt><em>Blend4Web &gt; LOD transition ratio</em></dt>
+<dd>Параметр для сглаживания переключения между LOD объектами. Определяет, на каком дополнительном расстоянии LOD объекты будут видны до замены
+последующими LOD объектами. Назначается для главного объекта. Измеряется в долях от радиуса охватывающей сферы объекта.</dd>
 <dt><em>Blend4Web &gt; Self LOD &gt; Distance</em></dt>
 <dd><p class="first">Расстояние от камеры, на котором объект перестает отображаться.</p>
 <div class="last deprecated">
@@ -172,9 +173,7 @@
 <h3>Ограничения движения камеры<a class="headerlink" href="#id6" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Для камеры доступно несколько настроек, ограничивающих её движение тем или иным образом.
 Они объединены в группу <tt class="docutils literal"><span class="pre">Camera</span> <span class="pre">limits</span></tt>.</p>
-<div class="align-center figure">
-<img alt="Ограничения движения камеры" src="_images/camera_limits.jpg" />
-</div>
+<a class="reference internal image-reference" href="_images/camera_limits.png"><img alt="_images/camera_limits.png" class="align-center" src="_images/camera_limits.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -187,9 +186,7 @@
 <li><em>Max = Min</em> - фиксирование камеры на определенной высоте над объектом</li>
 <li><em>Max &lt; Min</em> - ограничение движения отсутствует</li>
 </ul>
-<div class="align-center figure">
-<img alt="Ограничения приближения/удаления камеры" src="_images/distance_limits.png" />
-</div>
+<a class="reference internal image-reference" href="_images/distance_limits.png"><img alt="_images/distance_limits.png" class="align-center" src="_images/distance_limits.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -199,18 +196,14 @@
 </div>
 <p><em>Blend4Web &gt; Use horizontal rotation clamping</em> &#8211; доступно в режимах <tt class="docutils literal"><span class="pre">Target</span></tt> и <tt class="docutils literal"><span class="pre">Eye</span></tt>. Ограничение горизонтального вращения камеры относительно точки вращения (в режиме <tt class="docutils literal"><span class="pre">Target</span></tt>) или относительно своего местоположения (в режиме <tt class="docutils literal"><span class="pre">Eye</span></tt>).</p>
 <p>Направление от <tt class="docutils literal"><span class="pre">Left</span></tt> к <tt class="docutils literal"><span class="pre">Right</span></tt> считается положительным и для режима <tt class="docutils literal"><span class="pre">Target</span></tt> совпадает с направлением против часовой стрелки, а для режима <tt class="docutils literal"><span class="pre">Eye</span></tt> - по часовой стрелке:</p>
-<div class="align-center figure">
-<img alt="Ограничения горизонтального угла камеры" src="_images/horizontal_limits.png" />
-</div>
+<a class="reference internal image-reference" href="_images/horizontal_limits.png"><img alt="_images/horizontal_limits.png" class="align-center" src="_images/horizontal_limits.png" style="width: 100%;" /></a>
 <p>Значения по умолчанию: <em>Left = -180, Right = 180</em>.</p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <p><em>Blend4Web &gt; Use vertical rotation clamping</em> &#8211; доступно в режимах <tt class="docutils literal"><span class="pre">Target</span></tt> и <tt class="docutils literal"><span class="pre">Eye</span></tt>. Ограничение вертикального вращения камеры относительно фиксированной точки (в режиме <tt class="docutils literal"><span class="pre">Target</span></tt>) или относительно своего местоположения (в режиме <tt class="docutils literal"><span class="pre">Eye</span></tt>).</p>
 <p>Направление от <tt class="docutils literal"><span class="pre">Down</span></tt> к <tt class="docutils literal"><span class="pre">Up</span></tt> считается положительным:</p>
-<div class="align-center figure">
-<img alt="Ограничения вертикального угла камеры типа" src="_images/vertical_limits.png" />
-</div>
+<a class="reference internal image-reference" href="_images/vertical_limits.png"><img alt="_images/vertical_limits.png" class="align-center" src="_images/vertical_limits.png" style="width: 100%;" /></a>
 <p>Если включена опция <em>Use horizontal rotation clamping</em>, то вертикальное вращение будет ограничено, по крайней мере, интервалом <em>[-90, 90]</em>.</p>
 <p>Значения по умолчанию: <em>Down = -90, Up = 90</em>.</p>
 <div class="line-block">
@@ -220,9 +213,7 @@
 <ul class="simple">
 <li>Перемена мест значений <em>Left/Right</em> или <em>Down/Up</em> приводит к движению по противоположной дуге окружности вращения.</li>
 </ul>
-<div class="align-center figure">
-<img alt="Перемена мест значений углов, ограничивающих поворот" src="_images/limits_inversion.png" />
-</div>
+<a class="reference internal image-reference" href="_images/limits_inversion.png"><img alt="_images/limits_inversion.png" class="align-center" src="_images/limits_inversion.png" style="width: 100%;" /></a>
 <ul class="simple">
 <li><em>Left = Right, Up = Down</em> - фиксирование камеры соответственно по горизонтали или вертикали.</li>
 </ul>
@@ -236,13 +227,9 @@
 <li><tt class="docutils literal"><span class="pre">World</span> <span class="pre">space</span></tt> - горизонтальные углы отсчитываются относительно направления оси Y в пространстве мировых координат, вертикальные - относительно горизонтальной плоскости XOY в мировом пространстве.</li>
 </ul>
 <p>Для ограничения по горизонтали:</p>
-<div class="align-center figure">
-<img alt="Варианты точки отсчета для ограничения вращения по горизонтали" src="_images/camera_space_world_space_h.png" />
-</div>
+<a class="reference internal image-reference" href="_images/camera_space_world_space_h.png"><img alt="_images/camera_space_world_space_h.png" class="align-center" src="_images/camera_space_world_space_h.png" style="width: 100%;" /></a>
 <p>Для ограничения по вертикали:</p>
-<div class="align-center figure">
-<img alt="Варианты точки отсчета для ограничения вращения по горизонтали" src="_images/camera_space_world_space_v.png" />
-</div>
+<a class="reference internal image-reference" href="_images/camera_space_world_space_v.png"><img alt="_images/camera_space_world_space_v.png" class="align-center" src="_images/camera_space_world_space_v.png" style="width: 100%;" /></a>
 <p>Оси координат, отмеченные на рисунках, совпадают с осями мировых координат в Blender&#8217;е.</p>
 <p>По умолчанию назначается вариант <tt class="docutils literal"><span class="pre">Camera</span> <span class="pre">space</span></tt>.</p>
 </div>
@@ -263,6 +250,7 @@
 <li class="toctree-l1"><a class="reference internal" href="setup.html">Развёртывание среды разработки</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Рабочий процесс</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Просмотрщик сцен</a></li>
+<li class="toctree-l1"><a class="reference internal" href="web_player.html">Веб-плеер</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">Аддон</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Объекты</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#id2">Типы</a></li>
@@ -320,7 +308,7 @@
           
     <div class="footer">
         &copy; Copyright 2014, ООО &#34;Триумф&#34;.
-      Обновлено: 2014-07-23.
+      Обновлено: 2014-08-25.
       Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

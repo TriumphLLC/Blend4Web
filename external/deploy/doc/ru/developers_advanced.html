@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Разработчикам движка &mdash; Руководство пользователя: Blend4Web v14.07</title>
+    <title>Разработчикам движка &mdash; Руководство пользователя: Blend4Web v14.08</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.07',
+        VERSION:     '14.08',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v14.07" href="index.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v14.08" href="index.html" />
     <link rel="next" title="Работа в команде. Использование git" href="git_short_manual.html" />
     <link rel="prev" title="Разработчикам приложений" href="developers.html" /> 
   </head>
@@ -37,7 +37,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">Руководство пользователя: Blend4Web v14.07</a></div>
+          href="index.html">Руководство пользователя: Blend4Web v14.08</a></div>
         <div class="rel">
           <a href="developers.html" title="Разработчикам приложений"
              accesskey="P">предыдущий</a> |
@@ -88,11 +88,29 @@
 <div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">FOO_BAR</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>
 </pre></div>
 </div>
-<p>Для внешних API названия методов и свойств пишутся как строка во избежание обфускации:</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">exports</span><span class="p">[</span><span class="s2">&quot;FOO_BAR&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">123</span><span class="p">;</span>
+<p>Для внешних API названия методов и свойств задаются через точку.
+Поля, требующие защиту от обфускации, помещаются в специальный тэг <tt class="docutils literal"><span class="pre">&#64;cc_externs</span></tt>:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">exports</span><span class="p">.</span><span class="nx">FOO_BAR</span> <span class="o">=</span> <span class="mi">123</span><span class="p">;</span>
 
-<span class="nx">exports</span><span class="p">[</span><span class="s2">&quot;foo_bar&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+<span class="nx">exports</span><span class="p">.</span><span class="nx">foo_bar</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
 
+<span class="p">}</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * Set properties.</span>
+<span class="cm"> * @method module:properties.set_props</span>
+<span class="cm"> * @param {Object} foo Foo object</span>
+<span class="cm"> * @cc_externs props_1 props_2</span>
+<span class="cm"> * @cc_externs props_3 props_4</span>
+<span class="cm"> */</span>
+<span class="nx">exports</span><span class="p">.</span><span class="nx">set_props</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">foo</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="kd">var</span> <span class="nx">bar_1</span> <span class="o">=</span> <span class="nx">foo</span><span class="p">.</span><span class="nx">props_1</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">bar_2</span> <span class="o">=</span> <span class="nx">foo</span><span class="p">.</span><span class="nx">props_2</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">bar_3</span> <span class="o">=</span> <span class="nx">foo</span><span class="p">.</span><span class="nx">props_3</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">bar_4</span> <span class="o">=</span> <span class="nx">foo</span><span class="p">.</span><span class="nx">props_4</span><span class="p">;</span>
+
+    <span class="p">...</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -518,6 +536,7 @@ NAME, которая нигде не используется.</td>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">Развёртывание среды разработки</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Рабочий процесс</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Просмотрщик сцен</a></li>
+<li class="toctree-l1"><a class="reference internal" href="web_player.html">Веб-плеер</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">Аддон</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Объекты</a></li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">Текстуры</a></li>
@@ -577,7 +596,7 @@ NAME, которая нигде не используется.</td>
           
     <div class="footer">
         &copy; Copyright 2014, ООО &#34;Триумф&#34;.
-      Обновлено: 2014-07-23.
+      Обновлено: 2014-08-25.
       Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

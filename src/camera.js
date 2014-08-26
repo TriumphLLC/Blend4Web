@@ -118,7 +118,6 @@ exports.camera_object_to_camera = function(camobj) {
 
     if (render.move_style == exports.MS_TARGET_CONTROLS)
         render.pivot.set(camobj_data["b4w_target"]);
-
     prepare_clamping_limits(camobj);
 }
 
@@ -172,12 +171,12 @@ function init_camera(type) {
         dof_on : 0,
 
         frustum_planes : {
-            left:   [0, 0, 0, 0],
-            right:  [0, 0, 0, 0],
-            top:    [0, 0, 0, 0],
-            bottom: [0, 0, 0, 0],
-            near:   [0, 0, 0, 0],
-            far:    [0, 0, 0, 0]
+            left:   new Float32Array([0, 0, 0, 0]),
+            right:  new Float32Array([0, 0, 0, 0]),
+            top:    new Float32Array([0, 0, 0, 0]),
+            bottom: new Float32Array([0, 0, 0, 0]),
+            near:   new Float32Array([0, 0, 0, 0]),
+            far:    new Float32Array([0, 0, 0, 0])
         },
 
         stereo_conv_dist : 0,
@@ -772,8 +771,11 @@ exports.update_camera = function(obj) {
             }
         } else
             m_cons.rotate_to(render.trans, render.quat, render.pivot);
-        m_cons.correct_up(obj, m_util.AXIS_Y);
     }
+
+    if (render.move_style == exports.MS_TARGET_CONTROLS ||
+            render.move_style == exports.MS_EYE_CONTROLS )
+        m_cons.correct_up(obj, m_util.AXIS_Y);
 }
 
 /**
@@ -1374,38 +1376,25 @@ exports.extract_frustum_corners = function(cam, near, far, corners) {
  */
 exports.assign_boundings = function(camobj) {
 
-    // camera collision capsule consists of the cylinder (with height) 
-    // and two hemispheres (with radius)
-    // its mass center coords are relative to camera pos
-    
-    var CAM_COLL_HEIGHT = 1.75; // how tall is camera collision volume
-    var CAM_COLL_RADIUS = 0.35; // how fat is camera collision volume, equels to cylinder radius
-
     var render = camobj._render;
 
-    // NOTE: center = 1/2 height
     var bb = m_bounds.zero_bounding_box();
 
-    bb.min_x =-0.5,
-    bb.max_x = 0.5,
-    bb.min_y =-0.5,
-    bb.max_y = 0.5
-    bb.min_z = 0.0,
-    bb.max_z = 1.8,
+    bb.min_x =-1;
+    bb.max_x = 1;
+    bb.min_y =-1;
+    bb.max_y = 1;
+    bb.min_z =-1;
+    bb.max_z = 1;
 
     render.bb_local = bb;
 
-    var bs = m_bounds.zero_bounding_sphere();
-    bs.radius = 2;
+    var bs = m_bounds.create_bounding_sphere(1, [0,0,0]);
     render.bs_local = bs;
 
-    var EYE_OFFSET = 0.15; //human eyes below head top
-
-    render.bcap_local = {
-        radius: CAM_COLL_RADIUS,
-        height: CAM_COLL_HEIGHT - 2 * CAM_COLL_RADIUS,
-        center: [0, 0, CAM_COLL_HEIGHT / 2 - EYE_OFFSET]
-    };
+    render.bcap_local = m_bounds.create_bounding_capsule(1, bb);
+    render.bcyl_local = m_bounds.create_bounding_cylinder(1, bb);
+    render.bcon_local = m_bounds.create_bounding_cone(1, bb);
 }
 
 exports.is_camera = is_camera;

@@ -64,7 +64,7 @@ _is_html_export = False
 
 _export_filepath = None
 _export_error = None
-_file_write_error = None
+_file_error = None
 
 _scene_active_layers = {}
 
@@ -107,6 +107,13 @@ class InternalError(Exception):
         else:
             return "B4W internal error: unknown"
 
+class FileError(Exception):
+    def __init__(self, message=None):
+        self.message = message
+        clean_exported_data()
+    def __str__(self):
+        return "Export file error: " + self.message
+
 class ExportErrorDialog(bpy.types.Operator):
     bl_idname = "b4w.export_error_dialog"
     bl_label = "Export Error Dialog"
@@ -137,9 +144,9 @@ class ExportErrorDialog(bpy.types.Operator):
             row = self.layout.row()
             row.label(_export_error.comment)
 
-class FileWriteErrorDialog(bpy.types.Operator):
-    bl_idname = "b4w.file_write_error_dialog"
-    bl_label = "File Write Error Dialog"
+class FileErrorDialog(bpy.types.Operator):
+    bl_idname = "b4w.file_error_dialog"
+    bl_label = "File Error Dialog"
 
     def execute(self, context):
         return {'FINISHED'}
@@ -149,15 +156,15 @@ class FileWriteErrorDialog(bpy.types.Operator):
         return wm.invoke_popup(self)
 
     def draw(self, context):
-        global _file_write_error
+        global _file_error
 
-        print(_file_write_error)
+        print(_file_error)
 
         row = self.layout.row()
         row.alignment = "CENTER"
-        row.label("=== BLEND4WEB: FILE WRITE ERROR ===")
+        row.label("=== BLEND4WEB: FILE ERROR ===")
         row = self.layout.row()
-        row.label("ERROR: " + _file_write_error.strerror)
+        row.label("ERROR: " + _file_error.message)
         row = self.layout.row()
 
 def calc_error_window_width():
@@ -184,9 +191,16 @@ def warn(message):
 def get_filepath_blend(export_filepath):
     """return path to blend relative to json"""
     blend_abs = bpy.data.filepath
+
     if blend_abs:
         json_abs = export_filepath
-        blend_rel = os.path.relpath(blend_abs, os.path.dirname(json_abs))
+
+        try:
+            blend_rel = os.path.relpath(blend_abs, os.path.dirname(json_abs))
+        except ValueError as exp:
+            _file_error = exp
+            raise FileError("Export to different disk is forbidden")
+
         return guard_slashes(os.path.normpath(blend_rel))
     else:
         return ""
@@ -709,6 +723,7 @@ def process_object(obj):
     dct["leaves_phase_col"] = detail_bend.leaves_phase_col
     dct["overall_stiffness_col"] = detail_bend.overall_stiffness_col
 
+    obj_data["b4w_lod_transition"] = round_num(obj.b4w_lod_transition, 3);
     obj_data["b4w_lod_distance"] = round_num(obj.b4w_lod_distance, 2)
 
     obj_data["lod_levels"] = process_object_lod_levels(obj)
@@ -1265,6 +1280,8 @@ def process_material(material):
     mat_data["b4w_collision_mask"] = process_mask(material.b4w_collision_mask)
     mat_data["b4w_double_sided_lighting"] = material.b4w_double_sided_lighting
     mat_data["b4w_wettable"] = material.b4w_wettable
+    mat_data["b4w_refractive"] = material.b4w_refractive
+    mat_data["b4w_refr_bump"] = material.b4w_refr_bump
 
     process_material_physics(mat_data, material)
 
@@ -1302,7 +1319,7 @@ def process_material(material):
     dct["use_backface_culling"] = game_settings.use_backface_culling
 
     # process material links
-    process_material_node_tree(mat_data, material)
+    process_node_tree(mat_data, material)
     process_material_texture_slots(mat_data, material)
 
     _export_data["materials"].append(mat_data)
@@ -1498,13 +1515,6 @@ def process_mesh(mesh, obj_user):
             for uv_texture in mesh.uv_textures:
                 mesh_data["uv_textures"].append(uv_texture.name)
 
-    if not mesh_data["materials"]:
-        if mesh_data["uv_textures"]:
-            raise ExportError("The mesh has a UV map but has no exported material", mesh)
-        if mesh.vertex_colors:
-            raise ExportError("The mesh has a vertex color layer but has no exported material", \
-                    mesh)
-
     active_vc = mesh_get_active_vc(mesh)
     if active_vc:
         mesh_data["active_vcol_name"] = active_vc.name
@@ -1593,7 +1603,7 @@ def process_mesh_boundings(mesh_data, mesh, bounding_data):
         dct["min_x"] = round_num(bounding_data["min_x"], 3)
         dct["min_y"] = round_num(bounding_data["min_y"], 3)
         dct["min_z"] = round_num(bounding_data["min_z"], 3)
-        
+
         mesh_data["b4w_bounding_sphere_radius"] \
                 = round_num(bounding_data["srad"], 3)
         mesh_data["b4w_bounding_cylinder_radius"] \
@@ -2143,6 +2153,8 @@ def process_particle(particle):
 
     part_data["b4w_billboard_align"] = bb_align
 
+    part_data["b4w_coordinate_system"] = particle.b4w_coordinate_system
+
     # process particle links
     # NOTE: it seams only single slot supported
     part_data["texture_slots"] = []
@@ -2381,7 +2393,9 @@ def process_modifier(modifier_data, mod):
             modifier_data["object"] = gen_uuid_obj(mod.object)
             process_object(mod.object)
         else:
-            modifier_data["object"] = None
+            warn("Armature modifier \"" + mod.name
+                    + "\" has no armature object. Modifier removed.")
+            return False
     elif mod.type == "ARRAY":
         modifier_data["fit_type"] = mod.fit_type
 
@@ -2426,7 +2440,7 @@ def process_modifier(modifier_data, mod):
                 return False
         else:
             warn("Curve modifier \"" + mod.name 
-                    + "\" hasn't curve object. Modifier removed.")
+                    + "\" has no curve object. Modifier removed.")
             return False
         modifier_data["deform_axis"] = mod.deform_axis
 
@@ -2600,7 +2614,7 @@ def process_object_particle_systems(obj):
 
             psys_data["name"] = psys.name
             psys_data["seed"] = psys.seed
-            
+
             # export particle transforms for hairs
             # [x0,y0,z0,scale0,x1...]
             if (psys.settings.type == "HAIR" and not
@@ -2641,15 +2655,15 @@ def process_object_particle_systems(obj):
             psystems_data.append(psys_data)
 
     return psystems_data
-       
-def process_material_node_tree(mat_data, material):
-    node_tree = material.node_tree
+
+def process_node_tree(data, tree_source):
+    node_tree = tree_source.node_tree
 
     if node_tree == None:
-        mat_data["node_tree"] = None
+        data["node_tree"] = None
         return
 
-    dct = mat_data["node_tree"] = OrderedDict()
+    dct = data["node_tree"] = OrderedDict()
     dct["nodes"] = []
 
     has_normalmap_node = False
@@ -2659,11 +2673,11 @@ def process_material_node_tree(mat_data, material):
     for node in node_tree.nodes:
 
         if not validate_node(node):
-            warn("The " + node.name + " node is not supported. The \""
-                    + material.name + "\" material will be rendered without nodes.")
-
-            mat_data["use_nodes"] = False
-            mat_data["node_tree"] = None
+            if data["use_nodes"]:
+                warn("The " + node.name + " node is not supported. "
+                        + "Nodes will be disable for \"" + tree_source.name + "\".")
+                data["use_nodes"] = False
+            data["node_tree"] = None
             return
 
         node_data = OrderedDict()
@@ -2679,8 +2693,9 @@ def process_material_node_tree(mat_data, material):
             node_data["color_layer"] = node.color_layer
 
         if node.type == "GROUP":
-            # NODE: temporary solution
             node_data["node_tree_name"] = node.node_tree.name
+            node_data["node_group"] = gen_uuid_obj(node.node_tree)
+            process_node_group(node)
 
         elif node.type == "MAPPING":
             node_data["translation"] = round_iterable(node.translation, 3)
@@ -2749,7 +2764,7 @@ def process_material_node_tree(mat_data, material):
 
     if has_normalmap_node and not has_material_node:
         raise ExportError("The material has a normal map but doesn't have " +
-                "any material nodes", material)
+                "any material nodes", tree_source)
 
     # node tree links
     dct["links"] = []
@@ -2770,6 +2785,10 @@ def process_material_node_tree(mat_data, material):
 
 def validate_node(node):
     if node.bl_idname == "ShaderNodeGroup":
+
+        if not node.node_tree:
+            return False
+
         for group_node in node.node_tree.nodes:
             if not validate_node(group_node):
                 print("Not valid: ", group_node.bl_idname)
@@ -2783,6 +2802,9 @@ def process_node_sockets(node_data, type_str, sockets):
 
     if len(sockets):
         for sock in sockets:
+            # system socket has no name
+            if not sock.name:
+                continue
             sock_data = OrderedDict()
             sock_data["name"] = sock.name
             sock_data["identifier"] = sock.identifier
@@ -2796,6 +2818,19 @@ def process_node_sockets(node_data, type_str, sockets):
                 sock_data["default_value"] = round_num(sock.default_value, 3)
 
             node_data[type_str].append(sock_data)
+
+def process_node_group(node_group):
+    if "export_done" in node_group.node_tree and node_group.node_tree["export_done"]:
+        return
+    node_group.node_tree["export_done"] = True
+    ng_data = OrderedDict()
+    ng_data["name"] = node_group.node_tree.name
+    ng_data["uuid"] = gen_uuid(node_group.node_tree)
+    process_node_tree(ng_data, node_group)
+
+    _export_data["node_groups"].append(ng_data)
+    _export_uuid_cache[ng_data["uuid"]] = ng_data
+    _bpy_uuid_cache[ng_data["uuid"]] = node_group
 
 def process_world_texture_slots(world_data, world):
     slots = world.texture_slots
@@ -2835,6 +2870,10 @@ def process_material_texture_slots(mat_data, material):
             # check texture availability
             if not slot.texture:
                 raise ExportError("No texture in texture slot", material)
+
+            if slot.use_map_color_diffuse and slot.texture.type == "ENVIRONMENT_MAP":
+                raise ExportError("Use of ENVIRONMENT_MAP as diffuse " \
+                    "color is not supported", material)
 
             slot_data = OrderedDict()
 
@@ -2917,7 +2956,11 @@ def get_default_path():
 
 def set_default_path(path):
     if bpy.data.filepath != "":
-        path = bpy.path.relpath(path)    
+        try:
+            path = bpy.path.relpath(path)
+        except ValueError as exp:
+            _file_error = exp
+            raise FileError("Export to different disk is forbidden")
     for i in range(len(bpy.data.scenes)):
         bpy.data.scenes[i].b4w_export_path_json = guard_slashes(path)
 
@@ -2927,7 +2970,7 @@ class B4W_ExportProcessor(bpy.types.Operator):
     bl_label = "B4W Export"
 
     filepath = bpy.props.StringProperty(subtype='FILE_PATH', default = "")
-    
+
     do_autosave = bpy.props.BoolProperty(
         name = "Autosave main file",
         description = "Proper linking between exported files requires saving file after exporting",
@@ -2955,7 +2998,7 @@ class B4W_ExportProcessor(bpy.types.Operator):
     def execute(self, context):
         if self.override_filepath:
             self.filepath = self.override_filepath
-    
+
         # append .json if needed
         filepath_val = self.filepath
         if not filepath_val.lower().endswith(".json"): 
@@ -2969,6 +3012,11 @@ class B4W_ExportProcessor(bpy.types.Operator):
             global _export_error
             _export_error = error
             bpy.ops.b4w.export_error_dialog('INVOKE_DEFAULT')
+            return {'CANCELLED'}
+        except FileError as error:
+            global _file_error
+            _file_error = error
+            bpy.ops.b4w.file_error_dialog('INVOKE_DEFAULT')
             return {'CANCELLED'}
 
         return {"FINISHED"}
@@ -3002,7 +3050,7 @@ class B4W_ExportProcessor(bpy.types.Operator):
 
         global _bpy_bindata_ushort
         _bpy_bindata_ushort = bytearray();
-        
+
         global _bpy_bindata_float
         _bpy_bindata_float = bytearray();
 
@@ -3063,7 +3111,8 @@ class B4W_ExportProcessor(bpy.types.Operator):
             "objects",
             "groups",
             "scenes",
-            "worlds"
+            "worlds",
+            "node_groups"
         ]
 
         # generate export data
@@ -3111,8 +3160,8 @@ class B4W_ExportProcessor(bpy.types.Operator):
                 try:
                     f = open(abs_path, "wb")
                 except IOError as exp:
-                    _file_write_error = exp
-                    bpy.ops.b4w.file_write_error_dialog('INVOKE_DEFAULT')
+                    _file_error = exp
+                    raise FileError("Permission denied")
                 else:
                     f.write(_packed_files_data[path])
                     f.close()
@@ -3123,8 +3172,8 @@ class B4W_ExportProcessor(bpy.types.Operator):
                 if binary_export_path is not None:
                     fb = open(binary_export_path, "wb")
             except IOError as exp:
-                _file_write_error = exp
-                bpy.ops.b4w.file_write_error_dialog('INVOKE_DEFAULT')
+                _file_error = exp
+                raise FileError("Permission denied")
             else:
                 f.write(_main_json_str)
                 f.close()
@@ -3415,17 +3464,17 @@ def check_binaries():
         from .init_validation import bin_invalid_message
         bpy.app.handlers.scene_update_pre.append(bin_invalid_message)
 
-def register(): 
+def register():
     check_binaries()
     bpy.utils.register_class(B4W_ExportProcessor)
     bpy.utils.register_class(B4W_ExportPathGetter)
     bpy.utils.register_class(ExportErrorDialog)
-    bpy.utils.register_class(FileWriteErrorDialog)
+    bpy.utils.register_class(FileErrorDialog)
     bpy.types.INFO_MT_file_export.append(b4w_export_menu_func)
 
-def unregister(): 
+def unregister():
     bpy.utils.unregister_class(B4W_ExportProcessor)
     bpy.utils.unregister_class(B4W_ExportPathGetter)
     bpy.utils.unregister_class(ExportErrorDialog)
-    bpy.utils.unregister_class(FileWriteErrorDialog)
+    bpy.utils.unregister_class(FileErrorDialog)
     bpy.types.INFO_MT_file_export.remove(b4w_export_menu_func)

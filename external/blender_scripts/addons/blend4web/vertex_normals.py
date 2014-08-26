@@ -140,8 +140,6 @@ class B4W_TreeVertexNormals(bpy.types.Operator):
 
         bpy.ops.object.mode_set(mode='OBJECT')
 
-        if 'b4w_vertex_normal_list' not in context.active_object:
-            context.active_object['b4w_vertex_normal_list'] = []
         if 'b4w_vertex_normal_list' in context.active_object:
             for i in range(vert_index):
                 if context.active_object.data.vertices[i].select == True:
@@ -158,6 +156,9 @@ class B4W_TreeVertexNormals(bpy.types.Operator):
                         item.normal = obj.data.vertices[i].normal
                     else:
                         context.object.b4w_vertex_normal_list[i]['normal'] = obj.data.vertices[i].normal
+        else:
+            context.active_object['b4w_vertex_normal_list'] = []
+
         context.area.tag_redraw()
         return {'FINISHED'}
 
@@ -178,8 +179,6 @@ class B4W_FoliageVertexNormals(bpy.types.Operator):
 
         bpy.ops.object.mode_set(mode='OBJECT')
         
-        if 'b4w_vertex_normal_list' not in context.active_object:
-            context.active_object['b4w_vertex_normal_list'] = []
         if 'b4w_vertex_normal_list' in context.active_object:
             for i in range(vert_index):
                 
@@ -194,6 +193,8 @@ class B4W_FoliageVertexNormals(bpy.types.Operator):
                         item.normal = obj.data.vertices[i].normal
                     else:
                         context.object.b4w_vertex_normal_list[i]['normal'] = obj.data.vertices[i].normal
+        else:
+            context.active_object['b4w_vertex_normal_list'] = []
         context.area.tag_redraw()
         return {'FINISHED'}
 
@@ -208,8 +209,6 @@ class B4W_FaceVertexNormals(bpy.types.Operator):
 
         bpy.ops.object.mode_set(mode='OBJECT')
         
-        if 'b4w_vertex_normal_list' not in context.active_object:
-            context.active_object['b4w_vertex_normal_list'] = []
         if 'b4w_vertex_normal_list' in context.active_object:
 
             sel_indices = []
@@ -242,6 +241,8 @@ class B4W_FaceVertexNormals(bpy.types.Operator):
                         item.normal = mesh.vertices[i].normal
                     else:
                         obj.b4w_vertex_normal_list[i]["normal"] = mesh.vertices[i].normal
+        else:
+            context.active_object['b4w_vertex_normal_list'] = []
 
         context.area.tag_redraw()
         return {'FINISHED'}

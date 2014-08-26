@@ -47,11 +47,11 @@ msgstr "The following material types are supported: ``Surface``, ``Halo``."
 msgid "Параметры освещения"
 msgstr "Lighting Parameters"
 
-#: ../materials.rst:28
+#: ../materials.rst:27
 msgid "*Diffuse > Color*"
 msgstr ""
 
-#: ../materials.rst:28
+#: ../materials.rst:27
 msgid ""
 "Цвет диффузного (рассеянного) света. Значение по умолчанию (0.8, 0.8, 0.8). "
 "Может взаимодействовать с цветом диффузной текстуры."
@@ -59,20 +59,20 @@ msgstr ""
 "Diffuse light color. The default value is (0.8, 0.8, 0.8). It may interact "
 "with the diffuse map color."
 
-#: ../materials.rst:31
+#: ../materials.rst:30
 msgid "*Diffuse > Intensity*"
 msgstr ""
 
-#: ../materials.rst:31
+#: ../materials.rst:30
 msgid ""
 "Интенсивность диффузного (рассеянного) света. Значение по умолчанию 0.8."
 msgstr "Diffuse light intensity. The default value is 0.8."
 
-#: ../materials.rst:34
+#: ../materials.rst:33
 msgid "*Diffuse > Shader*"
 msgstr ""
 
-#: ../materials.rst:34
+#: ../materials.rst:33
 msgid ""
 "Алгоритм расчета диффузного (рассеянного) освещения. Движок поддерживает "
 "следующие алгоритмы: Ламберта (``Lambert``), Орена-Найара (``Oren-Nayar``), "
@@ -81,11 +81,11 @@ msgstr ""
 "Diffuse shading algorithm. The engine supports the following algorithms: "
 "``Lambert``, ``Oren-Nayar``, ``Fresnel``. The default value is ``Lambert``."
 
-#: ../materials.rst:37
+#: ../materials.rst:36
 msgid "*Specular > Color*"
 msgstr ""
 
-#: ../materials.rst:37
+#: ../materials.rst:36
 msgid ""
 "Цвет отраженного света. Значение по умолчанию (1.0, 1.0, 1.0). Может "
 "взаимодействовать с цветом карты бликов."
@@ -93,19 +93,19 @@ msgstr ""
 "Specular light color. The default value is (1.0, 1.0, 1.0). It may interact "
 "with the specular map color."
 
-#: ../materials.rst:40
+#: ../materials.rst:39
 msgid "*Specular > Intensity*"
 msgstr ""
 
-#: ../materials.rst:40
+#: ../materials.rst:39
 msgid "Интенсивность отраженного света. Значение по умолчанию 0.5."
 msgstr "Specular light intensity. The default value is 0.5."
 
-#: ../materials.rst:43
+#: ../materials.rst:42
 msgid "*Specular > Hardness*"
 msgstr ""
 
-#: ../materials.rst:43
+#: ../materials.rst:42
 msgid ""
 "Степенной показатель в формуле расчета отраженного света (\"жесткость\" "
 "блика). Значение по умолчанию 50. Алгоритм применения в движке отличается от"
@@ -115,11 +115,11 @@ msgstr ""
 "50. Note that the formula used in the engine differs slightly from the "
 "Blender's one."
 
-#: ../materials.rst:46
+#: ../materials.rst:45
 msgid "*Specular > Shader*"
 msgstr ""
 
-#: ../materials.rst:46
+#: ../materials.rst:45
 msgid ""
 "Алгоритм расчета отраженного освещения. Движок поддерживает следующие "
 "алгоритмы: Кука-Торранса (``CookTorr``), Фонга (``Phong``) - поведение обоих"
@@ -130,38 +130,38 @@ msgstr ""
 "``CookTorr``, ``Phong`` - both are treated as the same, and ``WardIso``. The"
 " default value is ``CookTorr``."
 
-#: ../materials.rst:49
+#: ../materials.rst:48
 msgid "*Shading > Emit*"
 msgstr ""
 
-#: ../materials.rst:49
+#: ../materials.rst:48
 msgid "Интенсивность эмиссии (излучения). Значение по умолчанию 0.0."
 msgstr "Emission intensity. The default value is 0.0."
 
-#: ../materials.rst:52
+#: ../materials.rst:51
 msgid "*Shading > Ambient*"
 msgstr ""
 
-#: ../materials.rst:52
+#: ../materials.rst:51
 msgid ""
 "Фактор влияния освещения от окружающей среды на материал. Значение по "
 "умолчанию 1.0."
 msgstr "Ambient influence factor on material. The default value is 1.0."
 
-#: ../materials.rst:55
+#: ../materials.rst:54
 msgid "*Shading > Shadeless*"
 msgstr ""
 
-#: ../materials.rst:55
+#: ../materials.rst:54
 msgid ""
 "При включении материал не реагирует на освещение. По умолчанию выключено."
 msgstr "When enabled, a material doesn't react to light. Disabled by default."
 
-#: ../materials.rst:58
+#: ../materials.rst:57
 msgid "*Game Settings > Backface Culling*"
 msgstr ""
 
-#: ../materials.rst:58
+#: ../materials.rst:57
 msgid ""
 "При включении обратная сторона полигона не отображается движком. По "
 "умолчанию включено."
@@ -169,26 +169,26 @@ msgstr ""
 "When enabled, poligons' back faces are not rendered by the engine. Enabled "
 "by default."
 
-#: ../materials.rst:62
+#: ../materials.rst:61
 msgid "*Options > Vertex Color Paint*"
 msgstr ""
 
-#: ../materials.rst:61
+#: ../materials.rst:60
 msgid ""
 "Опция включает использование вертексного цвета меша вместо диффузного цвета."
 msgstr ""
 "Mesh vertex color is used instead of the material diffuse color when the "
 "checkbox is enabled."
 
-#: ../materials.rst:67
+#: ../materials.rst:68
 msgid "Прозрачность"
 msgstr "Transparency"
 
-#: ../materials.rst:72
+#: ../materials.rst:73
 msgid "Типы"
 msgstr "Types"
 
-#: ../materials.rst:74
+#: ../materials.rst:75
 msgid ""
 "Тип реализации прозрачности выбирается в меню ``Alpha Blend`` на панели "
 "``Materials > Game Settings`` (в режиме ``Blender Game``)."
@@ -196,7 +196,7 @@ msgstr ""
 "Transparency implementation type can be selected in the ``Alpha Blend`` menu"
 " on the ``Materials > Game Settings`` panel (in the ``Blender Game`` mode)."
 
-#: ../materials.rst:76
+#: ../materials.rst:77
 msgid ""
 "Движком поддерживаются следующие типы реализации прозрачности, перечисленные"
 " в порядке увеличения производительности:"
@@ -204,11 +204,11 @@ msgstr ""
 "The engine supports the following transparency implementation types (sorted "
 "in the ascending order by performance):"
 
-#: ../materials.rst:79
+#: ../materials.rst:80
 msgid "*Alpha Sort*"
 msgstr ""
 
-#: ../materials.rst:79
+#: ../materials.rst:80
 msgid ""
 "Прозрачный с градиентом. Для корректного отображения перекрывания одних "
 "прозрачных поверхностей другими движком производится сортировка "
@@ -221,11 +221,11 @@ msgstr ""
 " operation is computationally expensive. It is recommended to use this "
 "feature for closed transparent geometry (bottle, car glass etc)."
 
-#: ../materials.rst:82
+#: ../materials.rst:83
 msgid "*Alpha Blend*"
 msgstr ""
 
-#: ../materials.rst:82
+#: ../materials.rst:83
 msgid ""
 "Прозрачный с градиентом. Сортировка треугольников не производится. "
 "Рекомендуется применять для незамкнутых прозрачных объектов (поверхность "
@@ -235,11 +235,11 @@ msgstr ""
 "is recommended to use this feature for unclosed transparent geometry (water "
 "surface, decals)."
 
-#: ../materials.rst:85
+#: ../materials.rst:86
 msgid "*Add*"
 msgstr ""
 
-#: ../materials.rst:85
+#: ../materials.rst:86
 msgid ""
 "Прозрачный c градиентом. Сортировка треугольников не производится. Движок "
 "отключает запись в буфер глубины, что приводит к произвольному порядку "
@@ -251,11 +251,11 @@ msgstr ""
 "surfaces to be rendered in arbitrary order. It is recommended to use this "
 "feature for effects (particle systems, glowing beams)."
 
-#: ../materials.rst:88
+#: ../materials.rst:89
 msgid "*Alpha Clip*"
 msgstr ""
 
-#: ../materials.rst:88
+#: ../materials.rst:89
 msgid ""
 "Прозрачный без градиента. Движок отбрасывает пикселы (discard) с "
 "прозрачностью менее 0.5. Сортировка треугольников не производится. "
@@ -267,15 +267,15 @@ msgstr ""
 " to use this feature with a mask texture to visualize smaller details (tree "
 "leaves, grass)."
 
-#: ../materials.rst:91
+#: ../materials.rst:92
 msgid "*Opaque*"
 msgstr ""
 
-#: ../materials.rst:91
+#: ../materials.rst:92
 msgid "Непрозрачный. Альфа-канал игнорируется. Значение по умолчанию."
 msgstr "Non-transparent. Alpha is ignored. This is the default value."
 
-#: ../materials.rst:102 ../materials.rst:258
+#: ../materials.rst:102 ../materials.rst:259
 msgid "Дополнительные настройки"
 msgstr "Additional settings"
 
@@ -378,7 +378,7 @@ msgstr ""
 "A surface reflects the selected objects in their current position. Only "
 "reflection from a plane is supported."
 
-#: ../materials.rst:146 ../materials.rst:247
+#: ../materials.rst:146 ../materials.rst:249
 msgid "Активация"
 msgstr "Activation"
 
@@ -543,43 +543,43 @@ msgstr ""
 "is the Fresnel effect influence. If it is equal to zero the Fresnel effect "
 "is not observed."
 
-#: ../materials.rst:212
+#: ../materials.rst:211
 msgid "Специальные параметры движка"
 msgstr "Parameters Specific to the Engine"
 
-#: ../materials.rst:214
+#: ../materials.rst:213
 msgid "Располагаются в панели ``Blend4Web``."
 msgstr "Located on the ``Blend4Web`` panel."
 
-#: ../materials.rst:217
+#: ../materials.rst:216
 msgid "*Do not export*"
 msgstr ""
 
-#: ../materials.rst:217
+#: ../materials.rst:216
 msgid "Не экспортировать."
 msgstr "Material is not to be exported."
 
-#: ../materials.rst:220
+#: ../materials.rst:219
 msgid "*Special: Water*"
 msgstr ""
 
-#: ../materials.rst:220
+#: ../materials.rst:219
 msgid "Специальный материал для рендеринга воды."
 msgstr "A special material for water rendering."
 
-#: ../materials.rst:230
+#: ../materials.rst:224
 msgid "*Special: Collision*"
 msgstr ""
 
-#: ../materials.rst:228
+#: ../materials.rst:222
 msgid "Специальный материал для физического объекта."
 msgstr "A special material for collision geometry."
 
-#: ../materials.rst:234
+#: ../materials.rst:227
 msgid "*Double-sided Lighting*"
 msgstr ""
 
-#: ../materials.rst:233
+#: ../materials.rst:227
 msgid ""
 "Включить двухстороннее освещение. Опция полезна для однослойных "
 "непросвечивающих объектов."
@@ -587,11 +587,33 @@ msgstr ""
 "Enables the double-sided lighting mode. This option is useful for non-"
 "transparent objects with a single-layered mesh. "
 
-#: ../materials.rst:241
+#: ../materials.rst:236
+msgid "*Refractive*"
+msgstr ""
+
+#: ../materials.rst:230
+msgid ""
+"Включить рефракцию. Коэффициент возмущения задаётся опцией ``Reftaction "
+"bump`` на панели ``Reftaction Settings``. Значение по умолчанию 0.001."
+msgstr ""
+"Make object refractive. Perturbation factor can be set with option "
+"``Reftaction bump`` from ``Reftaction Settings`` panel. The default value is"
+" 0.001."
+
+#: ../materials.rst:235
+msgid ""
+"Для отображения эффекта необходимо включить опцию ``Render refraction`` на "
+"панели ``Scene > Blend4Web``. Объект должен быть с типом прозрачности Alpha "
+"Blend."
+msgstr ""
+"It needs to check option ``Render refraction`` from ``Scene > Blend4Web`` "
+"panel. Object's transparency type must be set to ``Alpha Blend``."
+
+#: ../materials.rst:243
 msgid "Материалы гало (Halo)"
 msgstr "Halo Materials"
 
-#: ../materials.rst:243
+#: ../materials.rst:245
 msgid ""
 "Используются в системах частиц и в статических мешах. Ниже рассматривается "
 "использование гало на статических мешах."
@@ -599,7 +621,7 @@ msgstr ""
 "Halo materials are used in particle systems and in static meshes. Using the "
 "halo in static meshes is described below. "
 
-#: ../materials.rst:249
+#: ../materials.rst:251
 msgid ""
 "Выставить тип ``Halo`` во вкладке ``Materials``. Рекомендуется также "
 "выставить тип прозрачности c градиентом (``Add``, ``Alpha Blend`` или "
@@ -609,45 +631,45 @@ msgstr ""
 "to select the transparency type with a gradient (``Add``, ``Alpha Blend`` or"
 " ``Alpha Sort``)."
 
-#: ../materials.rst:261
+#: ../materials.rst:262
 msgid "*Halo > Alpha*"
 msgstr ""
 
-#: ../materials.rst:261
+#: ../materials.rst:262
 msgid ""
 "Параметр прозрачности материала. Значение по умолчанию 1.0 (непрозрачный)."
 msgstr ""
 "Material transparency factor. The default value is 1.0 (non-transparent)."
 
-#: ../materials.rst:264
+#: ../materials.rst:265
 msgid "*Halo > Color*"
 msgstr ""
 
-#: ../materials.rst:264
+#: ../materials.rst:265
 msgid "Цвет материала. Значение по умолчанию (0.8, 0.8, 0.8) (почти белый)."
 msgstr "Material color. The default value is (0.8, 0.8, 0.8) (almost white)."
 
-#: ../materials.rst:267
+#: ../materials.rst:268
 msgid "*Halo > Seed*"
 msgstr ""
 
-#: ../materials.rst:267 ../materials.rst:276
+#: ../materials.rst:268 ../materials.rst:277
 msgid "Не используется."
 msgstr "Unused."
 
-#: ../materials.rst:270
+#: ../materials.rst:271
 msgid "*Halo > Size*"
 msgstr ""
 
-#: ../materials.rst:270
+#: ../materials.rst:271
 msgid "Размер частиц. Значение по умолчанию 0.5."
 msgstr "Particle size. The default value is 0.5."
 
-#: ../materials.rst:273
+#: ../materials.rst:274
 msgid "*Halo > Hardness*"
 msgstr ""
 
-#: ../materials.rst:273
+#: ../materials.rst:274
 msgid ""
 "Показатель степени при расчете градиента. Влияет на видимый размер частиц. "
 "Значение по умолчанию 50."
@@ -655,39 +677,39 @@ msgstr ""
 "Exponent for computing the gradient. Affects visible dimensions of "
 "particles. The default value is 50."
 
-#: ../materials.rst:276
+#: ../materials.rst:277
 msgid "*Halo > Add*"
 msgstr ""
 
-#: ../materials.rst:279
+#: ../materials.rst:280
 msgid "*Halo > Rings*"
 msgstr ""
 
-#: ../materials.rst:279
+#: ../materials.rst:280
 msgid "Использовать кольца. Настраивается относительное количество и цвет."
 msgstr "Use rings. Relative quantity and color can be set up."
 
-#: ../materials.rst:282
+#: ../materials.rst:283
 msgid "*Halo > Lines*"
 msgstr ""
 
-#: ../materials.rst:282
+#: ../materials.rst:283
 msgid "Использовать линии. Настраивается относительное количество и цвет."
 msgstr "Use lines. Relative quantity and color can be set up."
 
-#: ../materials.rst:285
+#: ../materials.rst:286
 msgid "*Halo > Star Tips*"
 msgstr ""
 
-#: ../materials.rst:285
+#: ../materials.rst:286
 msgid "Использовать звезды. Настраивается количество концов."
 msgstr "Use stars. The quantity of edges can be set up."
 
-#: ../materials.rst:288
+#: ../materials.rst:289
 msgid "*Blend4Web > Special: Stars*"
 msgstr ""
 
-#: ../materials.rst:288
+#: ../materials.rst:289
 msgid ""
 "Включает режим рендеринга звездного неба, при этом меш неподвижен "
 "относительно камеры. Для лампы необходимо также выставить опцию ``Blend4Web "
@@ -699,19 +721,19 @@ msgstr ""
 "Dynamic intensity`` checkbox. Applications must set up the hours of darkness"
 " via API."
 
-#: ../materials.rst:291
+#: ../materials.rst:292
 msgid "*Blend4Web > Blending Height*"
 msgstr ""
 
-#: ../materials.rst:291
+#: ../materials.rst:292
 msgid "Диапазон высот, на котором происходит затухание яркости звезд."
 msgstr "Height range for the fading of stars."
 
-#: ../materials.rst:294
+#: ../materials.rst:295
 msgid "*Blend4Web > Stars Minimum Height*"
 msgstr ""
 
-#: ../materials.rst:294
+#: ../materials.rst:295
 msgid ""
 "Минимальная высота в локальном пространстве объекта, на которой видны "
 "звезды."
@@ -722,16 +744,12 @@ msgstr ""
 msgid ":ref:`fresnel`"
 msgstr ""
 
-#: ../materials.rst:225
-msgid ":ref:`skydome_texture`"
-msgstr ""
-
-#: ../materials.rst:230
+#: ../materials.rst:224
 msgid ":ref:`physics`"
 msgstr ""
 
-#: ../materials.rst:3 ../materials.rst:15 ../materials.rst:64
-#: ../materials.rst:120 ../materials.rst:209 ../materials.rst:236
+#: ../materials.rst:3 ../materials.rst:15 ../materials.rst:63
+#: ../materials.rst:120 ../materials.rst:208 ../materials.rst:238
 msgid "материалы"
 msgstr "materials"
 
@@ -739,12 +757,12 @@ msgstr "materials"
 msgid "параметры освещения"
 msgstr "shading parameters"
 
-#: ../materials.rst:64 ../materials.rst:64 ../materials.rst:69
+#: ../materials.rst:63 ../materials.rst:63 ../materials.rst:70
 #: ../materials.rst:99
 msgid "прозрачность"
 msgstr "transparency"
 
-#: ../materials.rst:69
+#: ../materials.rst:70
 msgid "типы"
 msgstr "types"
 
@@ -769,18 +787,19 @@ msgstr "dynamic"
 msgid "эффект Френеля"
 msgstr "Fresnel effect"
 
-#: ../materials.rst:209
+#: ../materials.rst:208
 msgid "специальные параметры"
 msgstr "special parameters"
 
-#: ../materials.rst:236
+#: ../materials.rst:238
 msgid "гало"
 msgstr "halo"
 
-#: ../materials.rst:236
+#: ../materials.rst:238
 msgid "halo"
 msgstr ""
 
-
-
+#: ../materials.rst:236
+msgid ":ref:`alpha_blend`"
+msgstr ""
 

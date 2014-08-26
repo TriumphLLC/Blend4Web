@@ -17,21 +17,21 @@ var version = require("__version");
  * @method module:version.version
  * @returns {String} version string
  */
-exports["version"] = version.version;
+exports.version = version.version;
 
 /**
  * Get the release type: "DEBUG" or "RELEASE".
  * @method module:version.type
  * @returns {String} release type
  */
-exports["type"] = version.type;
+exports.type = version.type;
 
 /**
  * Return the build date or the current date for the "DEBUG" version.
  * @method module:version.date
  * @returns {String} date string in the format: "dd.mm.yyyy hh.mm.ss"
  */
-exports["date"] = version.date;
+exports.date = version.date;
 
 }
 

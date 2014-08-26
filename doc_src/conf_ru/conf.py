@@ -123,7 +123,7 @@ html_title = u"Руководство пользователя: Blend4Web v" + v
 
 # The name of an image file (relative to this directory) to place at the top
 # of the sidebar.
-html_logo = "../src_images/logo/b4w_logo.png"
+html_logo = "../src_images/b4w_logo.png"
 
 # The name of an image file (within the static path) to use as favicon of the
 # docs.  This file should be a Windows icon file (.ico) being 16x16 or 32x32

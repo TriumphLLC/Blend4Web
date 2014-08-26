@@ -23,6 +23,9 @@ var _exec_counters = {};
 var _telemetry_messages = [];
 var _depth_only_issue = -1;
 
+var _assert_struct_last_obj = null;
+var _assert_struct_init = false;
+
 exports.WIREFRAME_MODES = {
     "WM_OPAQUE_WIREFRAME": 0,
     "WM_TRANSPARENT_WIREFRAME": 1,
@@ -398,9 +401,11 @@ exports.assert_type = function(value, type) {
 }
 
 /**
- * Check whether the two objects have the same structure
+ * Check whether the two objects have the same structure.
  */
-exports.assert_structure = function(obj1, obj2) {
+exports.assert_structure = assert_structure;
+function assert_structure(obj1, obj2) {
+
     if (typeof obj1 != typeof obj2)
         m_util.panic("Structure assertion failed: incompatible types");
 
@@ -417,6 +422,17 @@ exports.assert_structure = function(obj1, obj2) {
     }
 }
 
+/**
+ * Assert stucture - sequential form.
+ */
+exports.assert_structure_seq = function(obj) {
+    if (!_assert_struct_init)
+        _assert_struct_init = true;
+    else
+        assert_structure(obj, _assert_struct_last_obj);
+
+    _assert_struct_last_obj = obj;
 }
 
+}
 

@@ -38,7 +38,6 @@
 Производится во вкладке ``Object Data`` при выборе объекта-лампы.
 
 .. image:: src_images/lighting/lighting_setup.jpg
-   :alt: Настройка источников света
    :align: center
    :width: 100%
 
@@ -84,7 +83,6 @@
 Включить опцию ``Environment Lighting`` во вкладке ``World``.
 
 .. image:: src_images/lighting/lighting_environment.jpg
-   :alt: Освещение от окружающей среды
    :align: center
    :width: 100%
 
@@ -132,7 +130,6 @@
 Для обеспечения приемлемого качества теней и одновременно покрытия значительных пространств необходимо использовать несколько стадий генерации теней (каскадов). При этом вблизи наблюдателя располагается каскад с наилучшим качеством, вдали от наблюдателя — с наихудшим.
 
 .. image:: src_images/lighting/shadow_cascades.jpg
-   :alt: Тени
    :align: center
    :width: 100%
 

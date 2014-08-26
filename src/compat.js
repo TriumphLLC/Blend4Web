@@ -65,6 +65,9 @@ exports.set_hardware_defaults = function(gl) {
         //}
     }
 
+    if (gl.getParameter(gl.MAX_VERTEX_TEXTURE_IMAGE_UNITS) == 0)
+        cfg_def.allow_vertex_textures = false;
+
     if (!depth_tex_available) {
         cfg_def.deferred_rendering = false;
 

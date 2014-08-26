@@ -19,7 +19,6 @@ var m_loader    = require("__loader");
 var m_assets    = require("__assets");
 var m_md5       = require("__md5");
 var m_obj       = require("__objects");
-var m_particles = require("__particles");
 var m_phy       = require("__physics");
 var m_print     = require("__print");
 var m_reformer  = require("__reformer");
@@ -29,7 +28,6 @@ var m_nla       = require("__nla");
 var m_sfx       = require("__sfx");
 var m_shaders   = require("__shaders");
 var m_tex       = require("__textures");
-var m_trans     = require("__transform");
 var m_nodemat   = require("__nodemat");
 var m_util      = require("__util");
 
@@ -76,7 +74,7 @@ exports.update = function() {
 function free_load_data(bpy_data, thread) {
     // free memory
     //m_assets.cleanup();
-    cleanup_meshes(get_all_objects(bpy_data, thread.id));
+    cleanup_meshes(get_all_objects_cached(bpy_data, thread.id));
     _bpy_data_array[thread.id] = null;
     _all_objects_cache[thread.id] = null;
 }
@@ -104,13 +102,13 @@ function print_image_info(image_data, image_path, show_path_warning) {
     m_print.log("%cLOAD IMAGE " + w + "x" + h, "color: #" + color, image_path);
 
     if (image_path.indexOf(_debug_resources_root) == -1 && show_path_warning)
-        m_print.warn("B4W Warning: image", image_path, "is not from app root");
+        m_print.warn("B4W Warning: image", image_path, "is not from app root.");
 }
 
 /**
  * Load main json
  */
-function load_main(bpy_data, thread, stage, cb_param, cb_finish, 
+function load_main(bpy_data, thread, stage, cb_param, cb_finish,
         cb_set_rate) {
 
     var main_path = thread.filepath;
@@ -126,7 +124,7 @@ function load_main(bpy_data, thread, stage, cb_param, cb_finish,
 
         check_version(loaded_bpy_data);
 
-        // copy-link its properties to initial bpy_data 
+        // copy-link its properties to initial bpy_data
         for (var prop in loaded_bpy_data)
             bpy_data[prop] = loaded_bpy_data[prop];
 
@@ -146,21 +144,21 @@ function load_main(bpy_data, thread, stage, cb_param, cb_finish,
         cb_set_rate(thread, stage, rate);
     }
 
-    m_assets.enqueue([[main_path, m_assets.AT_JSON, main_path]], asset_cb, null, 
+    m_assets.enqueue([[main_path, m_assets.AT_JSON, main_path]], asset_cb, null,
             progress_cb);
 }
 
 function show_export_warnings(bpy_data) {
     if (bpy_data["b4w_export_warnings"])
         for (var i = 0; i < bpy_data["b4w_export_warnings"].length; i++)
-            m_print.error("EXPORT WARNING:", 
+            m_print.error("EXPORT WARNING:",
                     bpy_data["b4w_export_warnings"][i]);
 }
 
 /**
  * Load binary file
  */
-function load_binaries(bpy_data, thread, stage, cb_param, cb_finish, 
+function load_binaries(bpy_data, thread, stage, cb_param, cb_finish,
         cb_set_rate) {
     var binary_path = dirname(thread.filepath) + thread.binary_name;
 
@@ -182,7 +180,7 @@ function load_binaries(bpy_data, thread, stage, cb_param, cb_finish,
         cb_set_rate(thread, stage, rate);
     }
 
-    m_assets.enqueue([[binary_path, m_assets.AT_ARRAYBUFFER, binary_path]], 
+    m_assets.enqueue([[binary_path, m_assets.AT_ARRAYBUFFER, binary_path]],
             binary_cb, null, progress_cb);
 }
 
@@ -197,7 +195,7 @@ function check_version(loaded_bpy_data) {
 /**
  * Prepare bin data after main libs loaded
  */
-function prepare_bindata(bpy_data, thread, stage, cb_param, cb_finish, 
+function prepare_bindata(bpy_data, thread, stage, cb_param, cb_finish,
         cb_set_rate) {
 
     var bin_data = bpy_data["bin_data"];
@@ -231,24 +229,24 @@ function prepare_bindata_submeshes(bin_data, bin_offsets, meshes, is_le) {
                 var length = submeshes[j][prop_name][1];
 
                 if (int_props.indexOf(prop_name) != -1) {
-                    var offset = submeshes[j][prop_name][0] * BINARY_INT_SIZE 
+                    var offset = submeshes[j][prop_name][0] * BINARY_INT_SIZE
                             + bin_offsets["int"];
-                    submeshes[j][prop_name] = extract_bindata_uint(bin_data, 
+                    submeshes[j][prop_name] = extract_bindata_uint(bin_data,
                             offset, length, is_le);
                 } else if (float_props.indexOf(prop_name) != -1) {
-                    var offset = submeshes[j][prop_name][0] * BINARY_FLOAT_SIZE 
+                    var offset = submeshes[j][prop_name][0] * BINARY_FLOAT_SIZE
                             + bin_offsets["float"];
-                    submeshes[j][prop_name] = extract_bindata_float(bin_data, 
+                    submeshes[j][prop_name] = extract_bindata_float(bin_data,
                             offset, length, is_le);
                 } else if (short_props.indexOf(prop_name) != -1) {
-                    var offset = submeshes[j][prop_name][0] * BINARY_SHORT_SIZE 
+                    var offset = submeshes[j][prop_name][0] * BINARY_SHORT_SIZE
                             + bin_offsets["short"];
-                    submeshes[j][prop_name] = extract_bindata_short(bin_data, 
+                    submeshes[j][prop_name] = extract_bindata_short(bin_data,
                             offset, length);
                 } else if (ushort_props.indexOf(prop_name) != -1) {
-                    var offset = submeshes[j][prop_name][0] * BINARY_SHORT_SIZE 
+                    var offset = submeshes[j][prop_name][0] * BINARY_SHORT_SIZE
                             + bin_offsets["ushort"];
-                    submeshes[j][prop_name] = extract_bindata_ushort(bin_data, 
+                    submeshes[j][prop_name] = extract_bindata_ushort(bin_data,
                             offset, length);
                 }
             }
@@ -262,10 +260,10 @@ function prepare_bindata_psystems(bin_data, bin_offsets, objects, is_le) {
 
         for (var j = 0; j < psystems.length; j++) {
             var psys = psystems[j];
-            var offset = psys["transforms"][0] * BINARY_FLOAT_SIZE 
+            var offset = psys["transforms"][0] * BINARY_FLOAT_SIZE
                     + bin_offsets["float"];
             var length = psys["transforms"][1];
-            psys["transforms"] = extract_bindata_float(bin_data, 
+            psys["transforms"] = extract_bindata_float(bin_data,
                     offset, length, is_le);
         }
     }
@@ -288,9 +286,9 @@ function prepare_bindata_actions(bin_data, bin_offsets, actions, is_le) {
             var channels = fcurves[data_path];
             for (var array_index in channels) {
                 var fcurve = channels[array_index];
-                var offset = bin_offsets["float"] 
+                var offset = bin_offsets["float"]
                         + fcurve["bin_data_pos"][0] * BINARY_FLOAT_SIZE;
-                var fcurve_bin_data = extract_bindata_float(bin_data, offset, 
+                var fcurve_bin_data = extract_bindata_float(bin_data, offset,
                         fcurve["bin_data_pos"][1], is_le);
 
                 var points = new Float32Array(arr_length);
@@ -299,7 +297,7 @@ function prepare_bindata_actions(bin_data, bin_offsets, actions, is_le) {
                 if (bflags === null)
                     bflags = new Int8Array(arr_length);
 
-                m_anim.approximate_curve(fcurve, fcurve_bin_data, 
+                m_anim.approximate_curve(fcurve, fcurve_bin_data,
                         points, bflags, start, end);
                 fcurve._pierced_points = points;
             }
@@ -313,7 +311,7 @@ function extract_bindata_float(bin_data, offset, length, is_le) {
     if (is_le)
         var arr = new Float32Array(bin_data, offset, length);
     else {
-        var arr = new Float32Array(length); 
+        var arr = new Float32Array(length);
         var dataview = new DataView(bin_data);
         for (var i = 0; i < length; i++)
             arr[i] = dataview.getFloat32(offset + i * BINARY_FLOAT_SIZE, true);
@@ -325,7 +323,7 @@ function extract_bindata_uint(bin_data, offset, length, is_le) {
     if (is_le)
         var arr = new Uint32Array(bin_data, offset, length);
     else {
-        var arr = new Uint32Array(length); 
+        var arr = new Uint32Array(length);
         var dataview = new DataView(bin_data);
         for (var i = 0; i < length; i++)
             arr[i] = dataview.getUint32(offset + i * BINARY_INT_SIZE, true);
@@ -377,23 +375,37 @@ function report_empty_submeshes(bpy_data) {
         var materials = mesh["materials"];
 
         for (var j = 0; j < submeshes.length; j++) {
-
-            if (submeshes[j]["base_length"] === 0 && 
+            if (submeshes[j]["base_length"] === 0 &&
                     !already_reported[mesh_name]) {
 
-                m_print.warn("B4W Warning: material \"" + materials[j]["name"] 
-                    + "\" is not assigned to any faces (object \"" 
-                    + obj["name"] + "\")");
+                m_print.warn("B4W Warning: material \"" + materials[j]["name"]
+                    + "\" is not assigned to any face (object \""
+                    + obj["name"] + "\").");
                 already_reported[mesh_name] = true;
             }
         }
     }
 }
 
+function report_odd_uvs(meshes) {
+    for (var i = 0; i < meshes.length; i++) {
+        var mesh = meshes[i];
+        var materials = mesh["materials"];
+        var submeshes = mesh["submeshes"];
+
+        if (!materials.length) {
+            // Unnecessary uv maps
+            if(mesh["uv_textures"].length)
+                m_print.warn("B4W Warning: mesh \"" + mesh["name"]
+                             + "\" has a UV map but has no exported material.");
+
+        }
+    }
+}
 /**
  * Prepare root data after main libs loaded
  */
-function prepare_root_datablocks(bpy_data, thread, stage, cb_param, cb_finish, 
+function prepare_root_datablocks(bpy_data, thread, stage, cb_param, cb_finish,
         cb_set_rate) {
 
     make_links(bpy_data);
@@ -411,12 +423,11 @@ function prepare_root_datablocks(bpy_data, thread, stage, cb_param, cb_finish,
         m_tex.create_texture_bpy(textures[i], global_af, bpy_data["scenes"]);
     }
 
-    create_special_materials(bpy_data);
-
-    var def_mat = m_util.keysearch("name", "DEFAULT", bpy_data["materials"]);
-    assign_default_material(def_mat, bpy_data["meshes"]);
-
     report_empty_submeshes(bpy_data);
+    report_odd_uvs(bpy_data["meshes"]);
+
+    create_special_materials(bpy_data);
+    assign_default_material(bpy_data);
 
     prepare_actions(bpy_data["actions"], thread.id);
 
@@ -426,17 +437,17 @@ function prepare_root_datablocks(bpy_data, thread, stage, cb_param, cb_finish,
     prepare_lods(bpy_data);
     update_all_objects(bpy_data, thread.id);
 
-    var objects = get_all_objects(bpy_data, thread.id);
+    var objects = get_all_objects_cached(bpy_data, thread.id);
 
     for (var i = 0; i < objects.length; i++) {
         var obj = objects[i];
         // NOTE: disable parenting to LAMP or CAMERA objects
-        if (!_data_is_primary && obj["parent"] && 
+        if (!_data_is_primary && obj["parent"] &&
                 SECONDARY_LOAD_TYPES_DISABLED.indexOf(obj["parent"]["type"]) > -1)
             obj["parent"] = "";
         m_obj.update_object(obj);
 
-        // NOTE: assign data_id property to differ objects and batches while 
+        // NOTE: assign data_id property to differ objects and batches while
         // secondary loading
         obj._render.data_id = thread.id;
     }
@@ -459,7 +470,7 @@ function check_primary_data(bpy_data, thread) {
         _primary_scene = bpy_data["scenes"][0];
 }
 
-function prepare_root_scenes(bpy_data, thread, stage, cb_param, cb_finish, 
+function prepare_root_scenes(bpy_data, thread, stage, cb_param, cb_finish,
         cb_set_rate) {
 
     // NOTE: save only first scene for secondary data
@@ -489,7 +500,7 @@ function prepare_root_scenes(bpy_data, thread, stage, cb_param, cb_finish,
         }
 
         // remove orphans before batch generation
-        remove_orphan_meshes(get_all_objects(bpy_data, thread.id), 
+        remove_orphan_meshes(get_all_objects_cached(bpy_data, thread.id),
                 bpy_data["meshes"]);
 
         if (_data_is_primary) {
@@ -507,7 +518,7 @@ function prepare_root_scenes(bpy_data, thread, stage, cb_param, cb_finish,
         } else {
             m_scenes.append_to_existed_scene(scene, _primary_scene);
 
-            if (cfg_phy.enabled && scene["b4w_enable_physics"] 
+            if (cfg_phy.enabled && scene["b4w_enable_physics"]
                     && !_primary_scene._physics)
                 m_phy.attach_scene_physics(_primary_scene);
 
@@ -592,7 +603,7 @@ function setup_dds_loading(bpy_data) {
 
                     var tex = node["texture"];
                     if (!tex) {
-                        m_print.warn("B4W Warning: material ", material["name"], " has empty textures");
+                        m_print.warn("B4W Warning: material ", material["name"], " has empty textures.");
                         continue;
                     }
 
@@ -623,7 +634,7 @@ function unset_images_dds(images) {
     }
 }
 
-/** 
+/**
  * global anisotropic filtering, may be overriden by individual textures
  * use value from the first scene because it's difficult
  * or impossible to assign textures to scenes
@@ -640,7 +651,7 @@ function get_global_anisotropic_filtering(bpy_data) {
  * remove odd objects (proxy sources)
  * unfold dupli_group objects
  */
-function duplicate_objects(bpy_data, thread, stage, cb_param, cb_finish, 
+function duplicate_objects(bpy_data, thread, stage, cb_param, cb_finish,
         cb_set_rate) {
 
     var groups = bpy_data["groups"];
@@ -685,7 +696,7 @@ function duplicate_objects_iter(obj_links, origin_name_prefix, obj_ids, grp_ids)
     for (var i = 0; i < obj_links.length; i++) {
         var obj_link = obj_links[i];
         var obj = obj_ids[obj_link["uuid"]];
-    
+
         var proxy_link = obj["proxy"];
         if (proxy_link) {
             // save to purge later
@@ -705,7 +716,7 @@ function duplicate_objects_iter(obj_links, origin_name_prefix, obj_ids, grp_ids)
             }
 
             // NOTE: handle missing b4w_proxy_inherit_anim as true (temporary)
-            if (!("b4w_proxy_inherit_anim" in obj) || 
+            if (!("b4w_proxy_inherit_anim" in obj) ||
                     obj["b4w_proxy_inherit_anim"]) {
                 var anim_data = obj["animation_data"];
                 if (anim_data)
@@ -737,7 +748,7 @@ function duplicate_objects_iter(obj_links, origin_name_prefix, obj_ids, grp_ids)
 
         if (origin_name_prefix) {
             var obj_new = m_util.clone_object_json(obj);
-            var obj_name = ("origin_name" in obj) ? obj["origin_name"] : 
+            var obj_name = ("origin_name" in obj) ? obj["origin_name"] :
                     obj["name"];
             obj_new["name"] = origin_name_prefix + "*" + obj_name;
             obj_new["origin_name"] = obj_name;
@@ -776,6 +787,11 @@ function duplicate_objects_iter(obj_links, origin_name_prefix, obj_ids, grp_ids)
 
             if (obj["parent"] && obj["parent"]["uuid"] in obj_id_overrides)
                 obj["parent"]["uuid"] = obj_id_overrides[obj["parent"]["uuid"]];
+            else if (obj["parent"]) {
+                m_print.warn("B4W Warning: Object's \"" + obj.name
+                     + "\" parent is not in dupli group. Disabling parenting.");
+                obj["parent"] = null;
+            }
 
             var consts = obj["constraints"];
             for (var j = 0; j < consts.length; j++) {
@@ -822,16 +838,23 @@ function assign_grp_id(grp) {
  */
 function make_links(bpy_data) {
 
-    var cameras   = bpy_data["cameras"];
-    var groups    = bpy_data["groups"];
-    var materials = bpy_data["materials"];
-    var meshes    = bpy_data["meshes"];
-    var objects   = bpy_data["objects"];
-    var particles = bpy_data["particles"];
-    var scenes    = bpy_data["scenes"];
-    var speakers  = bpy_data["speakers"];
-    var textures  = bpy_data["textures"];
-    var worlds    = bpy_data["worlds"];
+    var cameras     = bpy_data["cameras"];
+    var groups      = bpy_data["groups"];
+    var materials   = bpy_data["materials"];
+    var meshes      = bpy_data["meshes"];
+    var node_groups = bpy_data["node_groups"];
+    var objects     = bpy_data["objects"];
+    var particles   = bpy_data["particles"];
+    var scenes      = bpy_data["scenes"];
+    var speakers    = bpy_data["speakers"];
+    var textures    = bpy_data["textures"];
+    var worlds      = bpy_data["worlds"];
+
+    // NOTE: Temporary check. Can't do it in reformer.
+    if (!node_groups) {
+        m_print.warn("B4W Warning: \"node_groups\" datablock undefined. reexport main scene.");
+        node_groups = bpy_data["node_groups"] = [];
+    }
 
     var storage = gen_datablocks_storage(bpy_data);
 
@@ -840,7 +863,7 @@ function make_links(bpy_data) {
         var scene = scenes[i];
 
         var scene_objects = scene["objects"]; // names and libs
-        for (var j = 0; j < scene_objects.length; j++) 
+        for (var j = 0; j < scene_objects.length; j++)
             make_link_uuid(scene_objects, j, storage);
 
         if (scene["camera"])
@@ -855,7 +878,7 @@ function make_links(bpy_data) {
         var group = groups[i];
 
         var group_objects = group["objects"]; // names and libs
-        for (var j = 0; j < group_objects.length; j++) 
+        for (var j = 0; j < group_objects.length; j++)
             make_link_uuid(group_objects, j, storage);
     }
 
@@ -867,7 +890,7 @@ function make_links(bpy_data) {
     for (var i = 0; i < objects.length; i++) {
         var obj = objects[i];
 
-        if (obj["dupli_group"]) 
+        if (obj["dupli_group"])
             make_link_uuid(obj, "dupli_group", storage);
 
         // NOTE: not required anymore
@@ -985,14 +1008,14 @@ function make_links(bpy_data) {
     }
 
     /*
-     * MESHES 
+     * MESHES
      * make links from meshes to materials used by them
      */
     for (var i = 0; i < meshes.length; i++) {
         var mesh = meshes[i];
 
         var mesh_materials = mesh["materials"];
-        for (var j = 0; j < mesh_materials.length; j++) 
+        for (var j = 0; j < mesh_materials.length; j++)
             make_link_uuid(mesh_materials, j, storage);
     }
 
@@ -1014,27 +1037,21 @@ function make_links(bpy_data) {
         if (!node_tree)
             continue;
 
-        var nodes = node_tree["nodes"];
-        for (var j = 0; j < nodes.length; j++) {
-            var node = nodes[j];
+        process_node_tree(node_tree, storage);
+    }
 
-            if ((node["type"] == "MATERIAL" || node["type"] == "MATERIAL_EXT") 
-                    && node["material"])
-                make_link_uuid(node, "material", storage);
+    /*
+     * NODE GROUPS
+     * make links from node groups
+     */
+    for (var i = 0; i < node_groups.length; i++) {
+        var node_group = node_groups[i];
 
-            if (node["type"] == "TEXTURE" && node["texture"])
-                make_link_uuid(node, "texture", storage);
-        }
+        var node_tree = node_group["node_tree"];
+        if (!node_tree)
+            continue;
 
-        var links = node_tree["links"];
-        for (var j = 0; j < links.length; j++) {
-            var link = links[j];
-            make_link_name(link, "from_node", nodes);
-            make_link_name(link, "to_node", nodes);
-
-            make_link_ident(link, "from_socket", link["from_node"]["outputs"]);
-            make_link_ident(link, "to_socket", link["to_node"]["inputs"]);
-        }
+        process_node_tree(node_tree, storage);
     }
 
     /*
@@ -1105,6 +1122,34 @@ function make_links(bpy_data) {
     }
 }
 
+function process_node_tree(node_tree, storage) {
+    var nodes = node_tree["nodes"];
+    for (var j = 0; j < nodes.length; j++) {
+        var node = nodes[j];
+
+        if ((node["type"] == "MATERIAL" || node["type"] == "MATERIAL_EXT")
+                && node["material"])
+            make_link_uuid(node, "material", storage);
+
+        if (node["type"] == "TEXTURE" && node["texture"])
+            make_link_uuid(node, "texture", storage);
+
+        // NOTE: Check node["node_group"] for compatibility with older scenes
+        if (node["type"] == "GROUP" && node["node_group"])
+            make_link_uuid(node, "node_group", storage);
+    }
+
+    var links = node_tree["links"];
+    for (var j = 0; j < links.length; j++) {
+        var link = links[j];
+        make_link_name(link, "from_node", nodes);
+        make_link_name(link, "to_node", nodes);
+
+        make_link_ident(link, "from_socket", link["from_node"]["outputs"]);
+        make_link_ident(link, "to_socket", link["to_node"]["inputs"]);
+    }
+}
+
 function gen_datablocks_storage(bpy_data) {
 
     var DB_NAMES = [
@@ -1117,6 +1162,7 @@ function gen_datablocks_storage(bpy_data) {
         "lamps",
         "materials",
         "meshes",
+        "node_groups",
         "objects",
         "particles",
         "scenes",
@@ -1164,8 +1210,8 @@ function make_link_ident(storage, property, search_here) {
 
 function copy_link(from, to) {
     for (var prop in from)
-        // don't replace existing properties 
-        if (!(prop in to)) 
+        // don't replace existing properties
+        if (!(prop in to))
             to[prop] = from[prop];
 }
 
@@ -1188,7 +1234,7 @@ function load_textures(bpy_data, thread, stage, cb_param, cb_finish, cb_set_rate
             var tex_users = find_image_users(image, bpy_data["textures"]);
 
             if (!tex_users.length) {
-                m_print.warn("B4W Warning: image ", image["name"], " has no users");
+                m_print.warn("B4W Warning: image ", image["name"], " has no users.");
                 continue;
             }
 
@@ -1226,7 +1272,7 @@ function load_textures(bpy_data, thread, stage, cb_param, cb_finish, cb_set_rate
 
             var show_path_warning = true;
             print_image_info(image_data, path, show_path_warning);
- 
+
             var image = img_by_uri[uri];
             var tex_users = find_image_users(image, bpy_data["textures"]);
             for (var i = 0; i < tex_users.length; i++) {
@@ -1270,7 +1316,7 @@ function load_speakers(bpy_data, thread, stage, cb_param, cb_finish, cb_set_rate
     if (cfg_def.do_not_load_resources)
         return;
 
-    var objects = get_all_objects(bpy_data, thread.id);
+    var objects = get_all_objects_cached(bpy_data, thread.id);
     var dir_path = dirname(thread.filepath);
 
     var sound_assets = [];
@@ -1294,10 +1340,10 @@ function load_speakers(bpy_data, thread, stage, cb_param, cb_finish, cb_set_rate
                 var sound_path = normpath(dir_path + sound["filepath"]);
 
                 switch (m_sfx.source_type(obj)) {
-                case m_sfx.AST_ARRAY_BUFFER: 
+                case m_sfx.AST_ARRAY_BUFFER:
                     var asset_type = m_assets.AT_AUDIOBUFFER;
                     break;
-                case m_sfx.AST_HTML_ELEMENT: 
+                case m_sfx.AST_HTML_ELEMENT:
                     var asset_type = m_assets.AT_AUDIO_ELEMENT;
                     break;
                 }
@@ -1306,7 +1352,7 @@ function load_speakers(bpy_data, thread, stage, cb_param, cb_finish, cb_set_rate
                 var ext = m_sfx.detect_media_container(head_ext[1]);
 
                 if (ext != head_ext[1]) {
-                    // skip loading sounds for HTML-exported apps if current 
+                    // skip loading sounds for HTML-exported apps if current
                     // sound format is not supported
                     if (m_assets.is_built_in_data()) {
                         m_loader.skip_stage_by_name(thread, "load_speakers");
@@ -1331,8 +1377,8 @@ function load_speakers(bpy_data, thread, stage, cb_param, cb_finish, cb_set_rate
             m_print.log("%cLOAD SOUND", "color: #0aa", path);
 
             if (path.indexOf(_debug_resources_root) == -1)
-                m_print.warn("B4W Warning: sound", path, 
-                    "is not from app root");
+                m_print.warn("B4W Warning: sound", path,
+                    "is not from app root.");
 
             var spk_objs = spks_by_uuid[uuid];
             for (var i = 0; i < spk_objs.length; i++)
@@ -1378,7 +1424,8 @@ function find_sound_users(sound, objects) {
 }
 
 function speakers_play(scene) {
-    var spk_objs = m_scenes.get_scene_objs(scene, "SPEAKER");
+    var spk_objs = m_scenes.get_scene_objs(scene, "SPEAKER",
+            m_scenes.DATA_ID_ALL);
     for (var i = 0; i < spk_objs.length; i++) {
         var sobj = spk_objs[i];
 
@@ -1419,12 +1466,16 @@ function create_special_materials(bpy_data) {
 /**
  * Assign default material for meshes with empty materials
  */
-function assign_default_material(material, meshes) {
+function assign_default_material(bpy_data) {
+
+    var meshes = bpy_data["meshes"];
+    var def_mat = m_util.keysearch("name", "DEFAULT", bpy_data["materials"]);
+
     for (var i = 0; i < meshes.length; i++) {
         var mesh = meshes[i];
 
         if (mesh["materials"].length == 0)
-            mesh["materials"].push(material);
+            mesh["materials"].push(def_mat);
     }
 }
 
@@ -1440,7 +1491,7 @@ function prepare_actions(actions, data_id) {
  * Prepare LODs
  *      find objects with LODs, also check proxies
  *      make copy of lod objects
- *      remove old lod objects 
+ *      remove old lod objects
  *      add new lod objects to scene/group
  */
 function prepare_lods(bpy_data) {
@@ -1500,7 +1551,7 @@ function prepare_obj_lods(container, obj, added_objs, removed_objs) {
 
         var lod_obj_new = m_util.clone_object_nr(lod_obj);
 
-        lod_obj_new["name"] = obj["name"] + "_LOD_" + 
+        lod_obj_new["name"] = obj["name"] + "_LOD_" +
                 String(i + 1);
 
         assign_obj_id(lod_obj_new);
@@ -1539,7 +1590,7 @@ function prepare_hair_particles(bpy_data) {
 
                 if (pset["render_type"] == "OBJECT") {
                     //removed_objs.push(pset["dupli_object"]);
-                    // NOTE: update it, because we need some render/color_id 
+                    // NOTE: update it, because we need some render/color_id
                     // info later
                     m_obj.update_object(pset["dupli_object"]);
 
@@ -1557,8 +1608,8 @@ function prepare_hair_particles(bpy_data) {
                     for (var n = 0; n < dg["objects"].length; n++)
                         m_obj.update_object(dg["objects"][n]);
                 } else
-                    m_print.warn("B4W Warning: render type", pset["render_type"], 
-                            "not supported for particle systems (" + pset["name"] + ")");
+                    m_print.warn("B4W Warning: render type", pset["render_type"],
+                            "not supported for particle systems (" + pset["name"] + ").");
             }
         }
 
@@ -1614,7 +1665,7 @@ function set_frames_blending(obj, num_bones) {
     else if (num_bones > max_bones) {
         m_print.warn("B4W Warning: too many bones for \"" + obj["name"] + " / " +
             num_bones + " bones (max " + max_bones +
-            "). Blending between frames will be disabled");
+            "). Blending between frames will be disabled.");
 
         // causes optimizing out the half of the uniform arrays,
         // effectively doubles the limit of bones
@@ -1651,6 +1702,9 @@ function prepare_lod_objects(objects) {
                 break;
             }
 
+            // inherit transition ratio from the first LOD
+            lod_obj._render.lod_transition_ratio = obj._render.lod_transition_ratio;
+
             prev_lod_obj._render.lod_dist_max = obj["lod_levels"][j]["distance"];
             lod_obj._render.lod_dist_min = obj["lod_levels"][j]["distance"];
 
@@ -1670,7 +1724,7 @@ function prepare_lod_objects(objects) {
         if (DEBUG_LOD_DIST_NOT_SET &&
             obj["lod_levels"][lods_num - 1]["distance"] === 10000)
             m_print.warn("B4W Warning: object \"" + obj["name"]
-                + "\" has default LOD distance");
+                + "\" has default LOD distance.");
     }
 }
 
@@ -1753,10 +1807,10 @@ function prepare_vehicles(objects) {
                     obj_i._vehicle.steering_ratio = vh_set_j["steering_ratio"];
                     obj_i._vehicle.inverse_control = vh_set_j["inverse_control"];
 
-                    var wm_inv = m_mat4.invert(obj_i._render.world_matrix, 
+                    var wm_inv = m_mat4.invert(obj_i._render.world_matrix,
                             new Float32Array(16));
 
-                    var steering_wheel_matrix = m_mat4.multiply(wm_inv, 
+                    var steering_wheel_matrix = m_mat4.multiply(wm_inv,
                             obj_j._render.world_matrix, wm_inv);
                     obj_i._vehicle.steering_wheel_matrix = steering_wheel_matrix;
 
@@ -1806,7 +1860,7 @@ function prepare_vehicles(objects) {
 
         } else if (vh_set_i["part"] == "HULL") {
 
-            obj_i._vehicle = {}; 
+            obj_i._vehicle = {};
             obj_i._vehicle.props = [];
             obj_i._vehicle.prop_offsets = [];
 
@@ -1842,16 +1896,16 @@ function prepare_vehicles(objects) {
                     obj_i._vehicle.prop_offsets.push(new Float32Array(8));
 
                 } else if (m_phy.is_vehicle_steering_wheel(obj_j) && vh_set_i["name"] == vh_set_j["name"]) {
-                    obj_i._vehicle.steering_wheel = obj_j; 
+                    obj_i._vehicle.steering_wheel = obj_j;
 
                     obj_i._vehicle.steering_max = vh_set_j["steering_max"];
                     obj_i._vehicle.steering_ratio = vh_set_j["steering_ratio"];
                     obj_i._vehicle.inverse_control = vh_set_j["inverse_control"];
 
-                    var wm_inv = m_mat4.invert(obj_i._render.world_matrix, 
+                    var wm_inv = m_mat4.invert(obj_i._render.world_matrix,
                             new Float32Array(16));
 
-                    var steering_wheel_matrix = m_mat4.multiply(wm_inv, 
+                    var steering_wheel_matrix = m_mat4.multiply(wm_inv,
                             obj_j._render.world_matrix, wm_inv);
                     obj_i._vehicle.steering_wheel_matrix = steering_wheel_matrix;
 
@@ -1954,7 +2008,7 @@ function remove_object(remobj, scenes) {
         // from dupli groups
         for (var j = 0; j < scene_objs.length; j++) {
             var obj = scene_objs[j];
-        
+
             var dupli_group = obj["dupli_group"];
             if (dupli_group) {
                 var dg_objects = dupli_group["objects"];
@@ -1964,7 +2018,7 @@ function remove_object(remobj, scenes) {
                     dg_objects.splice(obj_index, 1);
             }
         }
-        
+
         // from scene
         var obj_index = scene_objs.indexOf(remobj);
         if (obj_index > -1)
@@ -1998,7 +2052,7 @@ function remove_orphan_meshes(root_objects, meshes) {
     }
 }
 
-function add_physics_objects(bpy_data, thread, stage, cb_param, cb_finish, 
+function add_physics_objects(bpy_data, thread, stage, cb_param, cb_finish,
         cb_set_rate) {
 
     for (var i = 0; i < bpy_data["scenes"].length; i++) {
@@ -2007,7 +2061,7 @@ function add_physics_objects(bpy_data, thread, stage, cb_param, cb_finish,
         if (_data_is_primary)
             var enable_physics = scene["b4w_enable_physics"];
         else
-            var enable_physics = _primary_scene["b4w_enable_physics"] 
+            var enable_physics = _primary_scene["b4w_enable_physics"]
                 || scene["b4w_enable_physics"];
 
         // secondary data objects are on primary scene already
@@ -2017,7 +2071,8 @@ function add_physics_objects(bpy_data, thread, stage, cb_param, cb_finish,
         for (var j = 0; j < ADD_PHY_TYPES.length; j++) {
             var type = ADD_PHY_TYPES[j];
 
-            var sobjs = m_scenes.get_scene_objs(scene, type);
+            var sobjs = m_scenes.get_scene_objs(scene, type,
+                    m_scenes.DATA_ID_ALL);
             for (var k = 0; k < sobjs.length; k++) {
                 var obj = sobjs[k];
                 // add only currently loaded objects
@@ -2037,7 +2092,7 @@ function add_physics_objects(bpy_data, thread, stage, cb_param, cb_finish,
 /**
  * Load shoremap image on corresponding scenes
  */
-function load_shoremap(bpy_data, thread, stage, cb_param, cb_finish, 
+function load_shoremap(bpy_data, thread, stage, cb_param, cb_finish,
         cb_set_rate) {
 
     var img_by_uri = {};
@@ -2214,7 +2269,7 @@ function load_smaa_textures(bpy_data, thread, stage, cb_param, cb_finish,
             cb_finish(thread, stage);
         }
         m_assets.enqueue(smaa_images, asset_cb, pack_cb);
-    } else 
+    } else
         cb_finish(thread, stage);
 }
 
@@ -2231,7 +2286,7 @@ function prepare_objects_adding(bpy_data, thread, stage, cb_param, cb_finish,
         if (!_data_is_primary)
             scene = _primary_scene;
 
-        var sobjs = m_scenes.get_scene_objs(scene);
+        var sobjs = m_scenes.get_scene_objs(scene, "ALL", m_scenes.DATA_ID_ALL);
         for (var j = 0; j < sobjs.length; j++) {
             var obj = sobjs[j];
 
@@ -2240,7 +2295,7 @@ function prepare_objects_adding(bpy_data, thread, stage, cb_param, cb_finish,
                 if (thread.load_hidden)
                     m_scenes.hide_object(obj);
                 cb_param.added_objects.push({
-                    scene: scene, 
+                    scene: scene,
                     obj: obj
                 });
             }
@@ -2248,7 +2303,7 @@ function prepare_objects_adding(bpy_data, thread, stage, cb_param, cb_finish,
     }
 }
 
-function add_objects(bpy_data, thread, stage, cb_param, cb_finish, 
+function add_objects(bpy_data, thread, stage, cb_param, cb_finish,
         cb_set_rate) {
 
     var obj_data = cb_param.added_objects;
@@ -2261,7 +2316,7 @@ function add_objects(bpy_data, thread, stage, cb_param, cb_finish,
         var scene = obj_data[obj_counter].scene;
 
         m_scenes.append_object(scene, obj);
-        if (ADD_SFX_TYPES.indexOf(obj["type"]) != -1 
+        if (ADD_SFX_TYPES.indexOf(obj["type"]) != -1
                 && scene["b4w_enable_audio"])
             m_sfx.append_object(obj, scene);
 
@@ -2287,9 +2342,9 @@ function end_objects_adding(bpy_data, thread, stage, cb_param, cb_finish,
         var scene0 = bpy_data["scenes"][0];
         m_scenes.set_active(scene0);
     } else
-        m_scenes.update_scene_permanent_uniforms(_primary_scene); 
+        m_scenes.update_scene_permanent_uniforms(_primary_scene);
 
-    var objects = get_all_objects(bpy_data, thread.id);
+    var objects = get_all_objects_cached(bpy_data, thread.id);
     m_obj.update_objects_dynamics(objects);
     cb_finish(thread, stage);
 }
@@ -2309,8 +2364,8 @@ function cleanup_meshes(objects) {
     }
 }
 
-/** 
- * path helper function 
+/**
+ * path helper function
  */
 function dirname(path) {
     var dirname = path.split("/").slice(0, -1).join("/");
@@ -2327,7 +2382,7 @@ function normpath(path) {
     var empty = '';
     var dot = '.';
     var dotdot = '..';
-    
+
     if (path == empty)
         return dot;
 
@@ -2344,7 +2399,7 @@ function normpath(path) {
         var comp = comps[i];
         if (comp == empty || comp == dot)
             continue;
-        if (comp != dotdot || (!initial_slashes && !new_comps.length) 
+        if (comp != dotdot || (!initial_slashes && !new_comps.length)
                 || (new_comps.length && (new_comps[new_comps.length - 1] == dotdot)))
             new_comps.push(comp);
         else if (new_comps.length)
@@ -2359,12 +2414,12 @@ function normpath(path) {
     return path || dot;
 }
 
-exports.load = function(path, loaded_cb, stageload_cb, wait_complete_loading, 
+exports.load = function(path, loaded_cb, stageload_cb, wait_complete_loading,
         load_hidden) {
 
     var stages = {
         "load_main": {
-            priority: m_loader.ASYNC_PRIORITY, 
+            priority: m_loader.ASYNC_PRIORITY,
             background_loading: false,
             inputs: [],
             is_resource: false,
@@ -2493,8 +2548,8 @@ exports.load = function(path, loaded_cb, stageload_cb, wait_complete_loading,
     }
 
     _bpy_data_array[scheduler.threads.length] = {};
-    var data_id = m_loader.create_thread(stages, path, loaded_cb, stageload_cb, 
-            free_load_data, wait_complete_loading, 
+    var data_id = m_loader.create_thread(stages, path, loaded_cb, stageload_cb,
+            free_load_data, wait_complete_loading,
             cfg_def.do_not_load_resources, load_hidden);
     return data_id;
 }
@@ -2503,7 +2558,7 @@ exports.unload = function(data_id) {
     // not even started loading
     // NOTE: data_id = 0 always allowed to unload
     var scheduler = m_loader.get_scheduler();
-    if (!scheduler || !scheduler.threads.length || data_id 
+    if (!scheduler || !scheduler.threads.length || data_id
             && !m_loader.thread_is_finished(scheduler.threads[data_id])) {
         m_print.error("Unable to unload data!");
         return;
@@ -2543,7 +2598,8 @@ exports.unload = function(data_id) {
         var scenes = m_scenes.get_all_scenes();
         for (var i = 0; i < scenes.length; i++) {
             var scene = scenes[i];
-            var objs = m_scenes.get_scene_objs(scene);
+            var objs = m_scenes.get_scene_objs(scene, "ALL",
+                    m_scenes.DATA_ID_ALL);
 
             for (var j = objs.length - 1; j >= 0; j--) {
                 var obj = objs[j];
@@ -2553,7 +2609,8 @@ exports.unload = function(data_id) {
 
                     // remove objects from scene
                     objs.splice(j, 1); // removing from scene._objects["ALL"]
-                    var typed_objs = m_scenes.get_scene_objs(scene, obj["type"]);
+                    var typed_objs = m_scenes.get_scene_objs(scene, obj["type"],
+                            m_scenes.DATA_ID_ALL);
                     var ind = typed_objs.indexOf(obj);
                     if (ind != -1)
                         typed_objs.splice(ind, 1);
@@ -2598,7 +2655,7 @@ exports.set_debug_resources_root = function(debug_resources_root) {
  * Get all unique objects from all scenes.
  * do not try to modify objects by this link
  */
-function get_all_objects(bpy_data, data_id) {
+function get_all_objects_cached(bpy_data, data_id) {
     if (!_all_objects_cache[data_id])
         update_all_objects(bpy_data, data_id);
 
@@ -2649,7 +2706,7 @@ function update_all_objects_iter(objects, grp_num, object_levels) {
         group_level[pnum] = group_level[pnum] || [];
 
         // don't process LAMP and CAMERA objects on secondary load
-        if (_data_is_primary 
+        if (_data_is_primary
                 || SECONDARY_LOAD_TYPES_DISABLED.indexOf(obj["type"]) == -1)
             // push unique (other scenes may link to same object)
             if (group_level[pnum].indexOf(obj) == -1)

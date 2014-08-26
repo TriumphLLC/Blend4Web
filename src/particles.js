@@ -13,6 +13,7 @@ var m_cfg    = require("__config");
 var m_geom   = require("__geometry");
 var m_scenes = require("__scenes");
 var m_util   = require("__util");
+var m_tsr    = require("__tsr");
 
 var m_vec3 = require("vec3");
 
@@ -20,6 +21,9 @@ var cfg_ani = m_cfg.animation;
 
 var STDGRAVITY = 9.81;
 var DELAYRANDFACTOR = 10;
+
+var tsr_tmp = new Float32Array(8);
+var vec3_tmp = new Float32Array(3);
 
 var _rand = function() {
     throw "_rand() undefined";
@@ -71,7 +75,7 @@ exports.has_dynamic_grass_particles = function(obj) {
  * process particle from each emitter vertex
  */
 exports.generate_emitter_particles_submesh = function(batch, emitter_mesh, 
-        psystem, pmaterial, world_matrix) {
+        psystem, pmaterial, tsr) {
 
     psystem._internal = psystem._internal || {};
 
@@ -94,6 +98,11 @@ exports.generate_emitter_particles_submesh = function(batch, emitter_mesh,
 
     init_particle_rand(psystem["seed"]);
 
+    var world_space = psystem._internal.use_world_space =
+            psystem["settings"]["b4w_coordinate_system"] == "WORLD"? true: false;
+
+    psystem._internal.frame = 0;
+
     var is_billboard = !batch.halo_particles;
 
     if (is_billboard) {
@@ -112,13 +121,27 @@ exports.generate_emitter_particles_submesh = function(batch, emitter_mesh,
     psystem._internal.positions_cache = new Float32Array(positions.length);
     psystem._internal.normals_cache = new Float32Array(normals.length);
 
-    pose_emitter(positions, normals, world_matrix, positions, normals);
+    psystem._internal.time = 0;
+    psystem._internal.prev_time = -1;
 
-    var maxdelay = time_end - time_start; 
-    var delay_attrs = gen_delay_attrs(pcount, maxdelay, is_rand_delay, is_billboard);
+    var delay_attrs = gen_delay_attrs(pcount, time_start, time_end, is_rand_delay, is_billboard);
     psystem._internal.delay_attrs = new Float32Array(delay_attrs);
 
+    // needed to restore original delays when using particles number factor
+    psystem._internal.delay_attrs_masked = new Float32Array(delay_attrs);
+
+    psystem._internal.emitter_tsr_snapshots = new Float32Array(delay_attrs.length * 8);
+    for (var i = 0; i < delay_attrs.length * 8; i++)
+        for (var j = 0; j < 8; j++)
+            psystem._internal.emitter_tsr_snapshots[8 * i + j] = tsr[j];
+
+    if (world_space)
+        pose_emitter_world(psystem, is_billboard, positions, normals, tsr, positions, normals);
+    else
+        pose_emitter_local(positions, normals, tsr, positions, normals);
+
     var lifetimes = gen_lifetimes(pcount, lifetime, lifetime_random, is_billboard);
+
     var vels = gen_velocities(pcount, vel_factor_rand, ang_vel_mode, ang_vel_factor, is_billboard);
 
     var submesh = m_util.create_empty_submesh("EMITTER_PARTICLES");
@@ -143,25 +166,80 @@ exports.generate_emitter_particles_submesh = function(batch, emitter_mesh,
     if (is_billboard)
         submesh.va_common["a_p_bb_vertex"] = bb_vertices;
 
-    set_emitter_particles_uniforms(batch, psystem, pmaterial);
-
     return submesh;
 }
 
 /**
- * Recalculate position/normals according to world location.
+ * Recalculate particles position/normals according to emitters world location.
  * dest positions/normals may be the same
  */
-function pose_emitter(positions, normals, world_matrix, positions_new,
+function pose_emitter_local(positions, normals, tsr, positions_new,
         normals_new) {
 
-    m_util.positions_multiply_matrix(positions, world_matrix, positions_new, 0);
-    m_util.vectors_multiply_matrix(normals, world_matrix, normals_new, 0);
+    m_tsr.transform_vectors(positions, tsr, positions_new, 0);
+    m_tsr.transform_dir_vectors(normals, tsr, normals_new, 0);
 }
 
 /**
- * Only for non-animated emitters
+ * Recalculate particles position/normals in world space.
  */
+function pose_emitter_world(psys, is_billboard, positions, normals, tsr,
+                            positions_new, normals_new) {
+
+    var delay_attrs = psys._internal.delay_attrs;
+    var em_snapshots = psys._internal.emitter_tsr_snapshots;
+    var time = psys._internal.time;
+    var prev_time = psys._internal.prev_time;
+
+    var step = is_billboard? 4: 1;
+
+    for (var j = 0; j < delay_attrs.length; j+=step) {
+        var delay = delay_attrs[j];
+
+        if (delay > prev_time && delay <= time)
+            for (var k = 0; k < 8; k++)
+                em_snapshots[8 * j + k]  = tsr[k];
+
+        for (var k = 0; k < 8; k++)
+            tsr_tmp[k] = em_snapshots[8 * j + k];
+
+        // positions
+        var pos = vec3_tmp;
+        pos[0] = positions[3 * j];
+        pos[1] = positions[3 * j + 1];
+        pos[2] = positions[3 * j + 2];
+
+        m_tsr.transform_vec3(pos, tsr_tmp, pos);
+
+        positions_new[3 * j]     = pos[0];
+        positions_new[3 * j + 1] = pos[1];
+        positions_new[3 * j + 2] = pos[2];
+
+        // normals
+        var norm = vec3_tmp;
+        norm[0] = normals[3 * j];
+        norm[1] = normals[3 * j + 1];
+        norm[2] = normals[3 * j + 2];
+
+        m_tsr.transform_dir_vec3(norm, tsr_tmp, norm);
+
+        normals_new[3 * j]     = norm[0];
+        normals_new[3 * j + 1] = norm[1];
+        normals_new[3 * j + 2] = norm[2];
+
+        if (is_billboard) {
+            for (var k = 1; k < 4; k++) {
+                positions_new[3 * (j + k)]     = positions_new[3 * j];
+                positions_new[3 * (j + k) + 1] = positions_new[3 * j + 1];
+                positions_new[3 * (j + k) + 2] = positions_new[3 * j + 2];
+                normals_new[3 * (j + k)]       = norm[0];
+                normals_new[3 * (j + k) + 1]   = norm[1];
+                normals_new[3 * (j + k) + 2]   = norm[2];
+            }
+        }
+    }
+}
+
 exports.update_emitter_transform = function(obj) {
 
     var batches = obj._batches;
@@ -174,11 +252,21 @@ exports.update_emitter_transform = function(obj) {
 
         var pbuf = batch.bufs_data;
 
+        var world_space = psys._internal.use_world_space;
+
         var pcache = psys._internal.positions_cache;
         var ncache = psys._internal.normals_cache;
 
-        pose_emitter(psys._internal.positions, psys._internal.normals,
-                obj._render.world_matrix, pcache, ncache);
+        var positions = psys._internal.positions;
+        var normals = psys._internal.normals;
+
+        if (world_space) {
+            var is_billboard = !batch.halo_particles;
+            pose_emitter_world(psys, is_billboard, positions, normals, obj._render.tsr,
+                         pcache, ncache);
+        } else
+            pose_emitter_local(positions, normals, obj._render.tsr,
+                         pcache, ncache);
 
         m_geom.make_dynamic(pbuf);
         m_geom.update_bufs_data_array(pbuf, "a_position", 3, pcache);
@@ -186,88 +274,7 @@ exports.update_emitter_transform = function(obj) {
     }
 }
 
-/**
- * Recalculate particle buffers (position/normals) according to emitter
- * animation (trans/quats)
- */
-exports.update_emitter_animation = function(obj) {
-
-    var batches = obj._batches;
-    for (var i = 0; i < batches.length; i++) {
-        var batch = batches[i];
-        var psys = batches[i].particle_system;
-
-        if (!psys)
-            continue;
-
-        var pbuf = batch.bufs_data;
-
-        var positions = psys._internal.positions;
-        var normals = psys._internal.normals;
-        var delay_attrs = psys._internal.delay_attrs;
-        var time_start = psys["settings"]["frame_start"] / cfg_ani.framerate;
-
-        var trans = obj._anim.trans;
-        var quats = obj._anim.quats;
-
-        if (!(trans && quats))
-            continue;
-
-        animate_pos_norm(positions, normals, delay_attrs, time_start, trans,
-                quats);
-
-        m_geom.make_dynamic(pbuf);
-        m_geom.update_bufs_data_array(pbuf, "a_position", 3, positions);
-        m_geom.update_bufs_data_array(pbuf, "a_normal", 3, normals);
-        m_geom.update_bufs_data_array(pbuf, "a_p_delay", 1, delay_attrs);
-    }
-}
-
-
-/**
- * recalculate position/normals according to animation
- */
-function animate_pos_norm(positions, normals, delay_attrs, time_start, trans, 
-        quats) {
-
-    for (var i = 0; i < positions.length; i+=3) {
-
-        var pos = [positions[i], positions[i+1], positions[i+2]];
-        var norm = [normals[i], normals[i+1], normals[i+2]];
-
-        var time = delay_attrs[i/3] + time_start;
-        var ff = time * cfg_ani.framerate;
-        var frame = Math.floor(ff);
-        var frame_next = frame + 1;
-        var frame_factor = ff - frame;
-
-        var tran, quat;
-
-        if (trans.length > 0 && frame >= 0 && frame < trans.length-1) {
-            tran = m_util.blend_arrays(trans[frame], trans[frame_next], frame_factor);
-            quat = m_util.blend_arrays(quats[frame], quats[frame_next], frame_factor);
-        } else {
-            tran = [0, 0, 0];
-            quat = [0, 0, 0, 1];
-        }
-        
-        var pos_new = [];
-        var norm_new = [];
-
-        m_vec3.transformQuat(pos, quat, pos_new);
-        m_vec3.transformQuat(norm, quat, norm_new);
-
-        positions[i] = pos_new[0] + tran[0];
-        positions[i+1] = pos_new[1] + tran[1];
-        positions[i+2] = pos_new[2] + tran[2];
-
-        normals[i] = norm_new[0];
-        normals[i+1] = norm_new[1];
-        normals[i+2] = norm_new[2];
-    }
-}
-
-function set_emitter_particles_uniforms(batch, psystem, pmaterial) {
+exports.set_emitter_particles_uniforms = function(batch, psystem, pmaterial) {
     var lifetime = psystem["settings"]["lifetime"] / cfg_ani.framerate;
     var time_start = psystem["settings"]["frame_start"] / cfg_ani.framerate;
     var time_end = psystem["settings"]["frame_end"] / cfg_ani.framerate;
@@ -280,8 +287,7 @@ function set_emitter_particles_uniforms(batch, psystem, pmaterial) {
     var fade_out = psystem["settings"]["b4w_fade_out"] /cfg_ani.framerate;
     var cyclic = psystem["settings"]["b4w_cyclic"];
 
-    batch.p_starttime = time_start;
-    batch.p_endtime = time_end;
+    batch.p_length = time_end - time_start;
     batch.p_cyclic = cyclic ? 1 : 0;
     batch.p_nfactor = nfactor; 
     batch.p_gravity = gravity; 
@@ -296,7 +302,6 @@ function set_emitter_particles_uniforms(batch, psystem, pmaterial) {
 
     batch.p_fade_in = fade_in; 
     batch.p_fade_out = fade_out; 
-
 
     var psize;
     var alpha_start;
@@ -538,11 +543,11 @@ function gen_normals(indices, encoords) {
 }
 
 
-function gen_delay_attrs(pcount, maxdelay, random, is_billboard) {
+function gen_delay_attrs(pcount, mindelay, maxdelay, random, is_billboard) {
 
     var darr = [];
 
-    var delayint = maxdelay/pcount;
+    var delayint = (maxdelay - mindelay)/pcount;
 
     for (var i = 0; i < pcount; i++) {
         
@@ -551,6 +556,8 @@ function gen_delay_attrs(pcount, maxdelay, random, is_billboard) {
             delay = delayint*i + DELAYRANDFACTOR * delayint * (0.5-_rand());
         } else
             delay = delayint*i;
+        delay += mindelay;
+
         darr.push(delay);
         if (is_billboard) {
             darr.push(delay);
@@ -630,6 +637,12 @@ function gen_velocities(pcount, vel_factor_rand, ang_vel_mode, ang_vel_factor, i
 
 }
 
+exports.set_time = function(psys, time) {
+    psys._internal.prev_time = psys._internal.time;
+    psys._internal.time = time;
+}
+
+
 /** 
  * Prepare buffer for lens flare
  */
@@ -658,6 +671,109 @@ exports.prepare_lens_flares = function(submesh) {
     submesh.va_common["a_texcoord"] = sub_tco;
 
     return submesh;
+}
+
+exports.set_size = function(obj, psys_name, size) {
+    var batches = obj._batches;
+    for (var i = 0; i < batches.length; i++) {
+        var batch = batches[i];
+        var psys = batch.particle_system;
+
+        if (!psys || psys["name"] != psys_name)
+            continue;
+
+        batch.p_size = size;
+    }
+}
+
+exports.set_normal_factor = function(obj, psys_name, nfactor) {
+    var batches = obj._batches;
+    for (var i = 0; i < batches.length; i++) {
+        var batch = batches[i];
+        var psys = batch.particle_system;
+
+        if (!psys || psys["name"] != psys_name)
+            continue;
+
+        batch.p_nfactor = nfactor;
+    }
+}
+
+exports.set_factor = function(obj, psys_name, factor) {
+    var batches = obj._batches;
+    for (var i = 0; i < batches.length; i++) {
+        var batch = batches[i];
+        var psys = batch.particle_system;
+
+        if (!psys || psys["name"] != psys_name)
+            continue;
+
+        var delay_attrs = psys._internal.delay_attrs;
+
+        if (factor == 1)
+            var delay_attrs_masked = delay_attrs;
+
+        else if (factor == 0) {
+            var is_billboard = !batch.halo_particles;
+            var inc = is_billboard? 4: 1;
+            var delay_attrs_masked = psys._internal.delay_attrs_masked;
+
+            for (var j = 0; j < delay_attrs_masked.length; j+=inc) {
+                delay_attrs_masked[j] = 10000;
+                if (is_billboard) {
+                    delay_attrs_masked[j+1] = delay_attrs_masked[j];
+                    delay_attrs_masked[j+2] = delay_attrs_masked[j];
+                    delay_attrs_masked[j+3] = delay_attrs_masked[j];
+                }
+            }
+        } else {
+            var step = 1 / factor;
+            var delay_attrs_masked = psys._internal.delay_attrs_masked;
+
+            var is_billboard = !batch.halo_particles;
+            var inc = is_billboard? 4: 1;
+
+            var ind = 0;
+            for (var j = 0; j < delay_attrs_masked.length; j+=inc) {
+                if (j >= ind) {
+                    delay_attrs_masked[j] = delay_attrs[j];
+                    ind += step;
+                } else
+                    delay_attrs_masked[j] = 10000;
+
+                if (is_billboard) {
+                    delay_attrs_masked[j+1] = delay_attrs_masked[j];
+                    delay_attrs_masked[j+2] = delay_attrs_masked[j];
+                    delay_attrs_masked[j+3] = delay_attrs_masked[j];
+                }
+            }
+        }
+        var pbuf = batch.bufs_data;
+        m_geom.update_bufs_data_array(pbuf, "a_p_delay", 1, delay_attrs_masked);
+    }
+}
+
+exports.update_start_pos = function(obj, trans, quats) {
+
+    var psystems = obj["particle_systems"];
+
+    for (var i = 0; i < psystems.length; i++) {
+        var psys = psystems[i];
+        var psettings = psys["settings"];
+        if (psettings["type"] == "EMITTER") {
+            var delay_attrs = psys._internal.delay_attrs;
+            for (var i = 0; i < delay_attrs.length * 8; i++) {
+                psys._internal.emitter_tsr_snapshots[8 * i] = trans[0];
+                psys._internal.emitter_tsr_snapshots[8 * i + 1] = trans[1];
+                psys._internal.emitter_tsr_snapshots[8 * i + 2] = trans[2];
+                psys._internal.emitter_tsr_snapshots[8 * i + 3] = trans[3];
+                psys._internal.emitter_tsr_snapshots[8 * i + 4] = quats[0];
+                psys._internal.emitter_tsr_snapshots[8 * i + 5] = quats[1];
+                psys._internal.emitter_tsr_snapshots[8 * i + 6] = quats[2];
+                psys._internal.emitter_tsr_snapshots[8 * i + 7] = quats[3];
+            }
+        }
+    }
 }
 
 }

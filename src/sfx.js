@@ -128,7 +128,7 @@ exports.attach_scene_sfx = function(scene) {
 
 function create_wa_context() {
 
-    var AudioContext = window["AudioContext"] || window["webkitAudioContext"];
+    var AudioContext = window.AudioContext || window.webkitAudioContext;
     if (AudioContext) {
         var ctx = new AudioContext();
         // simple WebAudio version check
@@ -266,7 +266,7 @@ exports.append_object = function(obj, scene) {
 }
 
 function check_media_element_node() {
-    if (window["MediaElementAudioSourceNode"]) {
+    if (window.MediaElementAudioSourceNode) {
         return true;
     } else {
         m_print.warn("B4W warning: MediaElementAudioSourceNode not found");
@@ -1360,10 +1360,10 @@ function spk_duration(obj) {
     var sfx = obj._sfx;
 
     if (sfx.behavior == "POSITIONAL" || sfx.behavior == "BACKGROUND_SOUND") {
-        var source = sfx.source_node;
+        var buffer = sfx.src;
 
-        if (source && source.buffer)
-            return source.buffer.duration;
+        if (buffer)
+            return buffer.duration;
         else
             return 0;
     } else {

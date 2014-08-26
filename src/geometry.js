@@ -76,7 +76,7 @@ exports.submesh_to_bufs_data = function(submesh, zsort_type, draw_mode, vc_usage
     var indices = submesh.indices;
     var base_length = submesh.base_length;
     var va_frames = submesh.va_frames;
-    
+
     var va_common = {};
     for (var attr_name in submesh.va_common)
         if (!(attr_name in vc_usage) || vc_usage[attr_name].generate_buffer)
@@ -89,12 +89,12 @@ exports.submesh_to_bufs_data = function(submesh, zsort_type, draw_mode, vc_usage
 
     // NOTE: Z-sorting is possible only for indexed buffers
     if (zsort_type != exports.ZSORT_DISABLED && is_indexed(submesh)) {
-        // object is movable and/or animatable so we cannot precalc 
+        // object is movable and/or animatable so we cannot precalc
         // world space triangle medians as for batches; so just save sources
 
         // NOTE: temporary
         var positions = va_frames[0]["a_position"];
-        
+
         bufs_data.info_for_z_sort_updates = {
             // caching is possible because count does not change
             // length = indices.length / 3 * 3
@@ -111,7 +111,7 @@ exports.submesh_to_bufs_data = function(submesh, zsort_type, draw_mode, vc_usage
 exports.is_long_submesh = is_long_submesh;
 /**
  * Check is given submesh is too long to have indices.
- * Max index value is 
+ * Max index value is
  * @methodOf geometry
  */
 function is_long_submesh(submesh) {
@@ -169,7 +169,7 @@ function submesh_drop_indices(submesh, count, is_manually_dropped) {
         var va_frame = va_frames[i];
 
         for (var name in va_frame) {
-            
+
             var arr = va_frame[name];
             var nc = num_comp(arr, base_length);
 
@@ -198,7 +198,7 @@ function expand_vertex_array_i(indices, vertex_array, num_comp) {
         var index = indices[i];
 
         for (var j = 0; j < num_comp; j++)
-            new_vertex_array[num_comp*i + j] = 
+            new_vertex_array[num_comp*i + j] =
                     vertex_array[num_comp*index + j];
     }
 
@@ -206,31 +206,21 @@ function expand_vertex_array_i(indices, vertex_array, num_comp) {
 }
 
 /**
- * Initialize rendering buffers data
- * @deprecated Unused
- *
- * @param indices specified for TRIANGLES rendering (Uint16Array)
- * @param count specified for POINTS rendering
+ * Update index array for buffers data
+ * @param {Object} bufs_data Buffers data
+ * @param {Number} draw_mode Buffers draw mode
+ * @param {Uint16Array|Uint32Array} indices Indices specified for TRIANGLES rendering
  */
-exports.create_bufs_data = function(draw_mode, indices, count) {
-
-    var bufs_data = init_bufs_data();
-
+exports.update_bufs_data_index_array = function(bufs_data, draw_mode, indices) {
     update_draw_mode(bufs_data, draw_mode);
 
-    if (bufs_data.mode == _gl.TRIANGLES) {
-        bufs_data.count = indices.length;
-        bufs_data.ibo_array = indices;
+    bufs_data.count = indices.length;
+    bufs_data.ibo_array = indices;
 
-        if (bufs_data.count <= MAX_SUBMESH_LENGTH)
-            bufs_data.ibo_type = _gl.UNSIGNED_SHORT;
-        else
-            bufs_data.ibo_type = _gl.UNSIGNED_INT;
-
-    } else if (bufs_data.mode == _gl.POINTS) {
-        bufs_data.count = count;
-        bufs_data.ibo_array = null;
-    }
+    if (indices instanceof Uint16Array)
+        bufs_data.ibo_type = _gl.UNSIGNED_SHORT;
+    else
+        bufs_data.ibo_type = _gl.UNSIGNED_INT;
 
     return bufs_data;
 }
@@ -265,7 +255,7 @@ exports.update_bufs_data_array = function(bufs_data, attrib_name, num_comp, arra
 
     if (pointer) {
         // replace attribute data
-     
+
         if (num_comp && pointer.num_comp != num_comp)
             throw "Error: invalid num_comp for \"" + attrib_name + "\"";
 
@@ -273,7 +263,7 @@ exports.update_bufs_data_array = function(bufs_data, attrib_name, num_comp, arra
     } else {
         // append new attribute data
 
-        // create new vbo_array 
+        // create new vbo_array
         var len = vbo_array.length;
         var vbo_array_new = new Float32Array(len + array.length);
 
@@ -286,7 +276,7 @@ exports.update_bufs_data_array = function(bufs_data, attrib_name, num_comp, arra
 
         // append new pointer
         pointers[attrib_name] = {
-            num_comp: num_comp, 
+            num_comp: num_comp,
             offset: len
         };
     }
@@ -340,7 +330,7 @@ function update_draw_mode(bufs_data, draw_mode) {
         usage = _gl.DYNAMIC_DRAW;
         break;
     case exports.DM_LINES:
-        mode = _gl.LINES; 
+        mode = _gl.LINES;
         usage = _gl.STATIC_DRAW;
         break;
     default:
@@ -407,7 +397,7 @@ function generate_bufs_data_arrays(bufs_data, indices, va_frames, va_common, bas
 
     var frames_count = va_frames.length;
     for (var name in va_frames[0]) {
-        
+
         var arr0 = va_frames[0][name];
         var len = arr0.length;
         var ncomp = num_comp(arr0, base_length);
@@ -438,7 +428,7 @@ function generate_bufs_data_arrays(bufs_data, indices, va_frames, va_common, bas
 
             // copy src arrays to vbo
             vbo_array.set(arr, offset);
-            
+
             offset += len;
         }
     }
@@ -470,7 +460,10 @@ function calc_vbo_length(va_frames, va_common) {
 
     return len;
 }
-
+/**
+ * Update gl buffers
+ */
+exports.update_gl_buffers = update_gl_buffers;
 function update_gl_buffers(bufs_data) {
 
     // index buffer object
@@ -607,7 +600,7 @@ function gen_buf_clone_source(source, n) {
 
     for (var i = 0; i < n; i++)
         for (var j = 0; j < len; j++)
-            new_buf[i*len + j] = source[j]; 
+            new_buf[i*len + j] = source[j];
 
     return new_buf;
 }
@@ -667,7 +660,7 @@ function submesh_list_join(submeshes) {
 
 function submesh_list_join_prepare_dest(submeshes) {
 
-    var new_submesh = m_util.create_empty_submesh("JOIN_" + submeshes.length 
+    var new_submesh = m_util.create_empty_submesh("JOIN_" + submeshes.length
             + "_SUBMESHES");
 
     var len = 0;
@@ -813,13 +806,13 @@ exports.extract_submesh = extract_submesh;
  * Extract submesh from mesh with given material index
  * @methodOf geometry
  */
-function extract_submesh(mesh, material_index, attr_names, bone_pointers, 
+function extract_submesh(mesh, material_index, attr_names, bone_pointers,
         vertex_colors_usage, uv_maps_usage) {
 
     // TODO: implement caching
     // TODO: handle cases when submesh can't provide requested attribute name
 
-    var submesh = m_util.create_empty_submesh("SUBMESH_" + mesh["name"] + "_" + 
+    var submesh = m_util.create_empty_submesh("SUBMESH_" + mesh["name"] + "_" +
             material_index);
 
     var bsub = mesh["submeshes"][material_index];
@@ -834,7 +827,7 @@ function extract_submesh(mesh, material_index, attr_names, bone_pointers,
         var texcoords = new Float32Array(0);
 
     // INFLUENCES (SKINNING)
-    var influences = extract_influences(attr_names, base_length, bone_pointers, 
+    var influences = extract_influences(attr_names, base_length, bone_pointers,
             bsub["group"]);
 
 
@@ -861,11 +854,11 @@ function extract_submesh(mesh, material_index, attr_names, bone_pointers,
         "a_influence": influences
     }
 
-    extract_vcols(va_common, submesh_vc_usage, bsub["vertex_colors"], 
-            bsub["color"], base_length);
+    extract_vcols(va_common, submesh_vc_usage, bsub["vertex_colors"],
+            bsub["color"], base_length, mesh.name);
 
     assign_node_uv_maps(mesh["uv_textures"], bsub["texcoord"],
-            bsub["texcoord2"], uv_maps_usage, base_length, va_common, 
+            bsub["texcoord2"], uv_maps_usage, base_length, va_common,
             mesh.name);
 
     submesh.va_common = va_common;
@@ -936,7 +929,7 @@ function extract_submesh(mesh, material_index, attr_names, bone_pointers,
     return submesh;
 }
 
-function extract_vcols(va_common, vc_usage, submesh_vc, bsub_color, base_length) {
+function extract_vcols(va_common, vc_usage, submesh_vc, bsub_color, base_length, mesh_name) {
 
     var submesh_vc_names = submesh_vc_get_names(submesh_vc);
     for (var attr_name in vc_usage) {
@@ -957,32 +950,33 @@ function extract_vcols(va_common, vc_usage, submesh_vc, bsub_color, base_length)
                 var color_name_index = submesh_vc_names.indexOf(color_name);
 
                 if (color_name_index == -1)
-                    throw "B4W Error: vertex color \"" + color_name + "\" not found";
-                
+                    throw "B4W Error: vertex color \"" + color_name
+                            + "\" for mesh \"" + mesh_name+ "\" not found.";
+
                 var mask_exported = submesh_vc[color_name_index]["mask"];
                 var exported_channels_count = m_util.rgb_mask_get_channels_count(mask_exported);
 
                 if ((color_mask & mask_exported) !== color_mask)
-                    m_print.error("B4W Error: Wrong color extraction from " 
+                    m_print.error("B4W Error: Wrong color extraction from "
                         + color_name + " to " + attr_name + ".");
-                              
-                var exported_colors_offset = submesh_vc_get_offset(submesh_vc, 
+
+                var exported_colors_offset = submesh_vc_get_offset(submesh_vc,
                         color_name_index, base_length);
 
                 for (var j = 0; j < base_length; j++)
                     for (var k = 0; k < COL_NUM_COMP; k++)
                         if (channels_presence[k]) {
-                            var dst_channel_index = dst_channel_index_offset 
-                                    + m_util.rgb_mask_get_channel_presence_index(color_mask, 
+                            var dst_channel_index = dst_channel_index_offset
+                                    + m_util.rgb_mask_get_channel_presence_index(color_mask,
                                     k);
-                            var exported_channel_index = 
-                                    m_util.rgb_mask_get_channel_presence_index(mask_exported, 
+                            var exported_channel_index =
+                                    m_util.rgb_mask_get_channel_presence_index(mask_exported,
                                     k);
-                            
-                            va_common[attr_name][j * dst_channels_count 
-                                    + dst_channel_index] 
-                                    = bsub_color[exported_colors_offset 
-                                    + j * exported_channels_count 
+
+                            va_common[attr_name][j * dst_channels_count
+                                    + dst_channel_index]
+                                    = bsub_color[exported_colors_offset
+                                    + j * exported_channels_count
                                     + exported_channel_index];
                         }
                 dst_channel_index_offset += exported_channels_count;
@@ -1017,7 +1011,7 @@ function assign_node_uv_maps(mesh_uvs, bsub_texcoord, bsub_texcoord2,
 
         var uv_map_index = mesh_uvs.indexOf(uv_name);
         if (uv_map_index == -1)
-            throw "B4W Error: uv map \"" + uv_name + 
+            throw "B4W Error: uv map \"" + uv_name +
                   "\" for mesh \"" + mesh_name + "\" not found";
 
         if (uv_map_index == 0)
@@ -1033,7 +1027,7 @@ function assign_node_uv_maps(mesh_uvs, bsub_texcoord, bsub_texcoord2,
  * Extract halo submesh
  */
 exports.extract_halo_submesh = function(submesh) {
-    
+
     var base_length = submesh.base_length;
     var position_in = submesh.va_frames[0]["a_position"];
 
@@ -1068,7 +1062,7 @@ exports.extract_halo_submesh = function(submesh) {
         bb_vert_arr[8 * i + 5] =  0.5;
         bb_vert_arr[8 * i + 6] =  0.5;
         bb_vert_arr[8 * i + 7] = -0.5;
-        
+
         // generate indices
         indices_out[6 * i]       =  4 * i + 2;
         indices_out[6 * i + 1]   =  4 * i + 1;
@@ -1125,7 +1119,7 @@ exports.extract_submesh_all_mats = function(mesh, attr_names) {
     return submesh_all;
 }
 
-function extract_influences(attr_names, base_length, bone_pointers, 
+function extract_influences(attr_names, base_length, bone_pointers,
         groups) {
     if (has_attr(attr_names, "a_influence") && bone_pointers) {
 
@@ -1148,8 +1142,8 @@ function extract_influences(attr_names, base_length, bone_pointers,
                 weights_buf.set(zero_weights);
                 bones_buf.set(zero_bones);
                 res_buf.set(zero_res);
-                influences.set(get_vertex_influences(groups, groups_num, i, base_length, 
-                        deform_bone_indices, weights_buf, bones_buf, res_buf), 
+                influences.set(get_vertex_influences(groups, groups_num, i, base_length,
+                        deform_bone_indices, weights_buf, bones_buf, res_buf),
                         i * INFLUENCE_NUM_COMP);
             }
     } else
@@ -1175,7 +1169,7 @@ function get_deform_bone_indices(bone_pointers, groups_num) {
     return deform_bone_indices;
 }
 
-function get_vertex_influences(vertex_groups, groups_num, vert_index, base_length, 
+function get_vertex_influences(vertex_groups, groups_num, vert_index, base_length,
         deform_bone_indices, weights_buf, bones_buf, res_buf) {
 
     var precision = 0.01;
@@ -1203,14 +1197,14 @@ function get_vertex_influences(vertex_groups, groups_num, vert_index, base_lengt
 
     // normalize weights (in case they were not normalized by author)
     var sum_weights = 0;
-    for (var i = 0; i < INFLUENCE_NUM_COMP; i++) 
+    for (var i = 0; i < INFLUENCE_NUM_COMP; i++)
         sum_weights += weights_buf[i];
     if (sum_weights < precision)
         return res_buf;
-    for (var i = 0; i < INFLUENCE_NUM_COMP; i++) 
+    for (var i = 0; i < INFLUENCE_NUM_COMP; i++)
         weights_buf[i] /= sum_weights;
 
-    // pack to one vector; use a group index in integer part and 
+    // pack to one vector; use a group index in integer part and
     // a bone weight in fractional part of a number
     if (Math.abs(weights_buf[0] - 1.0) < precision)
         // single group case
@@ -1235,7 +1229,7 @@ function num_comp(array, base_length) {
     var factor = array_length / base_length;
 
     if (factor != Math.floor(factor))
-        throw "Array size mismatch during geometry calculation: array length=" + 
+        throw "Array size mismatch during geometry calculation: array length=" +
             array_length + ", base length=" + base_length;
 
     return factor;
@@ -1249,7 +1243,7 @@ exports.update_buffers_movable = function(bufs_data, world_matrix, eye) {
 
     // retrieve data required for update
     var indices = bufs_data.ibo_array;
-    var positions = extract_array(bufs_data, "a_position"); 
+    var positions = extract_array(bufs_data, "a_position");
 
     var zinfo = bufs_data.info_for_z_sort_updates;
 
@@ -1266,8 +1260,8 @@ exports.update_buffers_movable = function(bufs_data, world_matrix, eye) {
     compute_triangle_dists(median_cache, eye, dist_cache);
     var indices = sort_triangles(dist_cache, indices);
 
-    // bind and update IBO 
-    _gl.bindBuffer(_gl.ELEMENT_ARRAY_BUFFER, bufs_data.ibo);    
+    // bind and update IBO
+    _gl.bindBuffer(_gl.ELEMENT_ARRAY_BUFFER, bufs_data.ibo);
     _gl.bufferData(_gl.ELEMENT_ARRAY_BUFFER, indices, _gl.DYNAMIC_DRAW);
 }
 
@@ -1275,7 +1269,7 @@ exports.update_buffers_movable = function(bufs_data, world_matrix, eye) {
  * Store medians to preallocated Float32Array
  */
 function compute_triangle_medians(indices, positions, medians) {
-            
+
     var num_faces = indices.length / 3;
 
     for (var i = 0; i < num_faces; i++) {
@@ -1323,7 +1317,7 @@ function compute_triangle_dists(medians, eye, dists) {
     return dists;
 }
 
-/** 
+/**
  * Using comb sort
  * currently supported BACK_TO_FRONT sort (discending order)
  */
@@ -1337,19 +1331,19 @@ function sort_triangles(dists, indices) {
     var gap = dlen;
     var swapped = false;
     var t;
- 
+
     while ((gap > 1) || swapped) {
         if (gap > 1) {
             gap = Math.floor(gap / COMB_SORT_JUMP_COEFF);
         }
- 
+
         swapped = false;
- 
+
         for (var i = 0; gap + i < dlen; i++) {
             if (dists[i] - dists[i + gap] < 0) {
 
-                t = dists[i]; 
-                dists[i] = dists[i+gap]; 
+                t = dists[i];
+                dists[i] = dists[i+gap];
                 dists[i+gap] = t;
 
                 swap_indices(indices, i, i+gap);
@@ -1369,29 +1363,29 @@ function sort_two_arrays(main_arr, extra_arr, ascending) {
     var tmp;
 
     var order_factor = ascending ? -1 : 1;
- 
+
     while (gap > 1 || swapped) {
         if (gap > 1)
             gap = Math.floor(gap / COMB_SORT_JUMP_COEFF);
- 
+
         swapped = false;
- 
+
         for (var i = 0; gap + i < arr_length; i++) {
             if (order_factor * (main_arr[i] - main_arr[i + gap]) < 0) {
 
-                tmp = main_arr[i]; 
-                main_arr[i] = main_arr[i + gap]; 
+                tmp = main_arr[i];
+                main_arr[i] = main_arr[i + gap];
                 main_arr[i + gap] = tmp;
 
-                tmp = extra_arr[i]; 
-                extra_arr[i] = extra_arr[i + gap]; 
+                tmp = extra_arr[i];
+                extra_arr[i] = extra_arr[i + gap];
                 extra_arr[i + gap] = tmp;
 
                 swapped = true;
             }
         }
     }
-    
+
 }
 
 /**
@@ -1455,13 +1449,13 @@ exports.calc_normals = function(indices, positions, shared_indices) {
             var angle2 = 1;
         }
 
-        calc_normal_for_face(index0, index1, index2, pos0, pos1, pos2, 
+        calc_normal_for_face(index0, index1, index2, pos0, pos1, pos2,
                 angle0, angle1, angle2, normals);
     }
 
     // perform normals smoothing
     if (shared_indices)
-        smooth_normals(shared_indices, normals); 
+        smooth_normals(shared_indices, normals);
 
     // normalize normals
     for (var i = 0; i < num_vertices; i++)
@@ -1478,11 +1472,11 @@ function angle(pos, pos1, pos2) {
 
     m_vec3.normalize(vec1, vec1);
     m_vec3.normalize(vec2, vec2);
-    
+
     return Math.acos(m_vec3.dot(vec1, vec2));
 }
 
-function calc_normal_for_face(index0, index1, index2, pos0, pos1, pos2, 
+function calc_normal_for_face(index0, index1, index2, pos0, pos1, pos2,
         angle0, angle1, angle2, dest) {
 
     // calculate a face normal (same for all 3 vertices in a triangle)
@@ -1493,7 +1487,7 @@ function calc_normal_for_face(index0, index1, index2, pos0, pos1, pos2,
         var i0 = NOR_NUM_COMP * index0 + i;
         var i1 = NOR_NUM_COMP * index1 + i;
         var i2 = NOR_NUM_COMP * index2 + i;
-    
+
         dest[i0] = angle0 * normal[i];
         dest[i1] = angle1 * normal[i];
         dest[i2] = angle2 * normal[i];
@@ -1557,7 +1551,7 @@ function calc_shared_indices(indices, shared_locations, locations) {
     var sh_loc_set = {};
     var len = shared_locations.length / 3;
     for (var i = 0; i < len; i++) {
-        var key = 
+        var key =
                 String(shared_locations[3*i]) +
                 String(shared_locations[3*i + 1]) +
                 String(shared_locations[3*i + 2]);
@@ -1567,7 +1561,7 @@ function calc_shared_indices(indices, shared_locations, locations) {
     var len = indices.length;
     for (var i = 0; i < len; i++) {
         var index = indices[i];
-        var key = 
+        var key =
                 String(locations[3 * index]) +
                 String(locations[3 * index + 1]) +
                 String(locations[3 * index + 2]);
@@ -1612,7 +1606,7 @@ exports.geometry_random_points = function(submesh, n, process_normals, seed) {
     for (var i = 0; i < n; i++) {
         var area = geom_area * m_util.rand_r(seed);
 
-        var tri_index = m_util.binary_search_max(cumulative_areas, area, 0, 
+        var tri_index = m_util.binary_search_max(cumulative_areas, area, 0,
                 cumulative_areas.length - 1);
 
         if (process_normals)
@@ -1646,7 +1640,7 @@ function extract_triangles(submesh, dest, process_normals) {
 
     if (is_indexed(submesh)) {
         var indices = submesh.indices;
-        
+
         var tnum = indices.length / 3;
         for (var i = 0; i < tnum; i++) {
             var tri = new Float32Array(9);
@@ -1669,7 +1663,7 @@ function extract_triangles(submesh, dest, process_normals) {
             dest[i] = tri;
         }
     } else {
-        
+
         var tnum = positions.length / 9;
         for (var i = 0; i < positions.length; i++) {
             var tri = new Float32Array(9);
@@ -1724,7 +1718,7 @@ function triangle_area(triangle) {
 
     var s = (a + b + c) / 2;
 
-    var t = Math.sqrt(s * (s - a) * (s - b) * (s - c)); 
+    var t = Math.sqrt(s * (s - a) * (s - b) * (s - c));
 
     return t;
 }

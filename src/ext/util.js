@@ -16,42 +16,42 @@ var m_mat4 = require("mat4");
  * x-axis vector
  * @const {Float32Array} module:util.AXIS_X
  */
-exports["AXIS_X"]  = new Float32Array([1, 0, 0]);
+exports.AXIS_X  = new Float32Array([1, 0, 0]);
 /**
  * y-axis vector
  * @const {Float32Array} module:util.AXIS_Y
  */
-exports["AXIS_Y"]  = new Float32Array([0, 1, 0]);
+exports.AXIS_Y  = new Float32Array([0, 1, 0]);
 /**
  * z-axis vector
  * @const {Float32Array} module:util.AXIS_Z
  */
-exports["AXIS_Z"]  = new Float32Array([0, 0, 1]);
+exports.AXIS_Z  = new Float32Array([0, 0, 1]);
 /**
  * negative x-axis vector
  * @const {Float32Array} module:util.AXIS_MX
  */
-exports["AXIS_MX"] = new Float32Array([-1, 0, 0]);
+exports.AXIS_MX = new Float32Array([-1, 0, 0]);
 /**
  * negative y-axis vector
  * @const {Float32Array} module:util.AXIS_MY
  */
-exports["AXIS_MY"] = new Float32Array([ 0,-1, 0]);
+exports.AXIS_MY = new Float32Array([ 0,-1, 0]);
 /**
  * negative z-axis vector
  * @const {Float32Array} module:util.AXIS_MZ
  */
-exports["AXIS_MZ"] = new Float32Array([ 0, 0,-1]);
+exports.AXIS_MZ = new Float32Array([ 0, 0,-1]);
 
 /**
  * @method module:util.keyfind
  */
-exports["keyfind"] = util.keyfind;
+exports.keyfind = util.keyfind;
 
 /**
  * @method module:util.keysearch
  */
-exports["keysearch"] = util.keysearch;
+exports.keysearch = util.keysearch;
 
 /**
  * Extract rotation from the 4x4 matrix to quaternion vector.
@@ -59,7 +59,7 @@ exports["keysearch"] = util.keysearch;
  * @param {Float32Array} matrix 4x4 matrix
  * @returns {Float32Array} Quaternion
  */
-exports["matrix_to_quat"] = function(matrix) {
+exports.matrix_to_quat = function(matrix) {
     return util.matrix_to_quat(matrix);
 }
 
@@ -77,7 +77,7 @@ exports["matrix_to_quat"] = function(matrix) {
  * @param {Float32Array} euler Euler vector
  * @retunrns {Float32Array} Quaternion vector
  */
-exports["euler_to_quat"] = function(euler) {
+exports.euler_to_quat = function(euler) {
     return util.euler_to_quat(euler);
 }
 
@@ -95,7 +95,7 @@ exports["euler_to_quat"] = function(euler) {
  * @param {Float32Array} quat Quaternion vector
  * @retunrns {Float32Array} Euler vector
  */
-exports["quat_to_euler"] = function(quat) {
+exports.quat_to_euler = function(quat) {
     return util.quat_to_euler(quat);
 }
 
@@ -105,7 +105,7 @@ exports["quat_to_euler"] = function(quat) {
  * @param {Number} value Input value
  * @returns {Number} -1,0,1 for negative, zero or positive number accordingly
  */
-exports["sign"] = util.sign;
+exports.sign = util.sign;
 
 /**
  * Clamp the number.
@@ -115,7 +115,7 @@ exports["sign"] = util.sign;
  * @param {Number} max Upper bound
  * @returns {Number} Clamped value
  */
-exports["clamp"] = util.clamp;
+exports.clamp = util.clamp;
 
 /**
  * Convert quaternion rotation to a directional vector.
@@ -125,14 +125,14 @@ exports["clamp"] = util.clamp;
  * @param {Float32Array} [dest] Destination vector
  * @returns {Float32Array} Destination vector.
  */
-exports["quat_to_dir"] = util.quat_to_dir;
+exports.quat_to_dir = util.quat_to_dir;
 
 /**
  * Project camera quaternion rotation on a horizontal plane.
  * @method module:util.ground_project_quat
  * @deprecated Bad implementation use quat_project instead
  */
-exports["ground_project_quat"] = function(quat, dest) {
+exports.ground_project_quat = function(quat, dest) {
     return util.quat_project(quat, util.AXIS_MY, util.AXIS_Y, util.AXIS_MZ, dest);
 }
 
@@ -143,7 +143,7 @@ exports["ground_project_quat"] = function(quat, dest) {
  * @param {Float32Array} [dest] Destination quaternion.
  * @returns {Float32Array} Destination quaternion.
  */
-exports["cam_quat_to_mesh_quat"] = function(cam_quat, dest) {
+exports.cam_quat_to_mesh_quat = function(cam_quat, dest) {
     return util.cam_quat_to_mesh_quat(cam_quat, dest);
 }
 
@@ -158,7 +158,7 @@ exports["cam_quat_to_mesh_quat"] = function(cam_quat, dest) {
  * @param {Float32Array} [dest] Destination quaternion.
  * @returns {Float32Array} Destination quaternion.
  */
-exports["quat_project"] = function(quat, quat_ident_dir,
+exports.quat_project = function(quat, quat_ident_dir,
         plane, plane_ident_dir, dest) {
 
     if (m_vec3.dot(plane, plane_ident_dir) != 0) {
@@ -170,7 +170,7 @@ exports["quat_project"] = function(quat, quat_ident_dir,
             plane, plane_ident_dir, dest);
 }
 
-exports["hash_code"] = util.hash_code;
+exports.hash_code = util.hash_code;
 
 /**
  * Perform exponential smoothing.
@@ -181,7 +181,7 @@ exports["hash_code"] = util.hash_code;
  * @param {Number} pariod Mean lifetime for avaraging.
  * @returns {Number} Smoothed value
  */
-exports["smooth"] = util.smooth;
+exports.smooth = util.smooth;
 
 /**
  * Perform exponential smoothing (vector form).
@@ -193,7 +193,7 @@ exports["smooth"] = util.smooth;
  * @param {Float32Array} [dest] Smoothed value
  * @returns {Float32Array} Smoothed value
  */
-exports["smooth_v"] = util.smooth_v;
+exports.smooth_v = util.smooth_v;
 
 /**
  * Check if object is a vector.
@@ -202,7 +202,7 @@ exports["smooth_v"] = util.smooth_v;
  * @param {Number} [dimension=0] Dimension, allow any if not specified
  * @returns {Boolean} Check result
  */
-exports["is_vector"] = util.is_vector;
+exports.is_vector = util.is_vector;
 
 /**
  * Correct the camera quaternion rotation.
@@ -210,14 +210,14 @@ exports["is_vector"] = util.is_vector;
  * @param {Float32Array} quat Quaternion to correct
  * @param {Boolean} up_only Disable upside-down camera view
  */
-exports["correct_cam_quat_up"] = util.correct_cam_quat_up;
+exports.correct_cam_quat_up = util.correct_cam_quat_up;
 
-exports["quat_to_angle_axis"] = util.quat_to_angle_axis;
+exports.quat_to_angle_axis = util.quat_to_angle_axis;
 
-exports["random_from_array"] = util.random_from_array;
+exports.random_from_array = util.random_from_array;
 
-exports["xz_direction"] = util.xz_direction;
+exports.xz_direction = util.xz_direction;
 
-exports["line_plane_intersect"] = util.line_plane_intersect;
+exports.line_plane_intersect = util.line_plane_intersect;
 
 }

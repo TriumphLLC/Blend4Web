@@ -8,7 +8,9 @@
  */
 b4w.module["__physics"] = function(exports, require) {
 
+var m_cam     = require("__camera");
 var m_cfg     = require("__config");
+var m_cons    = require("__constraints");
 var m_print   = require("__print");
 var m_debug   = require("__debug");
 var m_ipc     = require("__ipc");
@@ -170,7 +172,7 @@ exports.append_object = function(obj, bpy_scene) {
     if (is_vehicle_chassis(obj) || is_vehicle_hull(obj) ||
             is_character(obj) || is_floater_main(obj) || obj["b4w_collision"]) {
 
-        var phy = init_bounding_physics(obj, render.physics_type, 
+        var phy = init_bounding_physics(obj, render.physics_type,
                 compound_children);
         obj._physics = phy;
 
@@ -284,8 +286,8 @@ function process_message(msg_id, msg) {
             for (var i = 0; i < phy.ray_tests.length; i++) {
                 var test = phy.ray_tests[i];
 
-                if (m_util.cmp_arr_float(test.from, from, RAY_CMP_PRECISION) && 
-                        m_util.cmp_arr_float(test.to, to, RAY_CMP_PRECISION) && 
+                if (m_util.cmp_arr_float(test.from, from, RAY_CMP_PRECISION) &&
+                        m_util.cmp_arr_float(test.to, to, RAY_CMP_PRECISION) &&
                         test.local == local) {
 
                     for (var id in test.results)
@@ -298,7 +300,7 @@ function process_message(msg_id, msg) {
                     traverse_ray_test(test, _active_scene_phy);
                 }
             }
-            
+
         }
         break;
     case m_ipc.IN_PING:
@@ -336,7 +338,7 @@ function update_prop_offset(obj_chassis_hull, prop_num, trans, quat) {
 }
 
 function update_floater_bob_coords(obj_floater, bob_num, trans, quat) {
-    
+
     var obj_bob = obj_floater._floater.bobs[bob_num];
     m_trans.set_translation(obj_bob, trans);
     m_trans.set_rotation(obj_bob, quat);
@@ -428,9 +430,7 @@ exports.update = function(timeline, delta) {
                     _tsr8_tmp);
 
             m_trans.set_translation(obj, m_tsr.get_trans_view(tsr));
-
-            if (obj["type"] != "CAMERA")
-                m_trans.set_rotation(obj, m_tsr.get_quat_view(tsr));
+            m_trans.set_rotation(obj, m_tsr.get_quat_view(tsr));
 
             m_trans.update_transform(obj);
             sync_transform(obj);
@@ -459,6 +459,25 @@ exports.update = function(timeline, delta) {
             m_ipc.post_msg(m_ipc.OUT_SET_WATER_TIME, subs.time * wind);
         }
     }
+}
+
+/**
+ * NOTE: unused
+ */
+function correct_camera_up(obj, tsr) {
+    var quat_corr = m_cons.calc_cam_rot_correction(
+            m_tsr.get_quat_view(tsr), m_util.AXIS_Y, _quat4_tmp);
+
+    var angle_axis = m_util.quat_to_angle_axis(quat_corr, _vec4_tmp);
+
+    var x = angle_axis[0];
+    var y = angle_axis[1];
+    var z = angle_axis[2];
+    var torque = angle_axis[3] * 1000;
+        
+    var body_id = obj._physics.body_id;
+    m_ipc.post_msg(m_ipc.OUT_ACTIVATE, body_id);
+    m_ipc.post_msg(m_ipc.OUT_APPLY_TORQUE, body_id, x * torque, y * torque, z * torque);
 }
 
 function update_prop_transforms(obj_chassis_hull) {
@@ -559,7 +578,7 @@ function init_water_physics(batch) {
 function init_static_mesh_physics(obj, batch) {
 
     var body_id = get_unique_body_id();
-    
+
     var submesh = batch.submesh;
     var positions = submesh.va_frames[0]["a_position"];
     var indices = submesh.indices || null;
@@ -601,7 +620,8 @@ function init_physics(body_id) {
         linvel: new Float32Array(3),
         angvel: new Float32Array(3),
 
-        cached_trans: new Float32Array(3)
+        cached_trans: new Float32Array(3),
+        cached_quat: new Float32Array(4)
     };
 
     return phy;
@@ -642,21 +662,12 @@ function init_bounding_physics(obj, physics_type, compound_children) {
     var body_id = get_unique_body_id();
 
     if (obj["type"] == "CAMERA") {
+        var bounding_type = game["use_collision_bounds"] ?
+                game["collision_bounds_type"] : "BOX";
+        var bounding_object = find_bounding_type(bounding_type, render);
 
-        var bounding_type = "CAPSULE";
-
-        // NOTE: camera has no rotation, so simply define standard Y-bounding 
-        // capsule in world space (real camera capsule would be Z-aligned)
-
-        var bcap = render.bcap_local;
-
-        var bcap_new = {
-            center: [bcap.center[0], -bcap.center[2], bcap.center[1]],
-            radius: bcap.radius,
-            height: bcap.height
-        }
-        var bounding_object = bcap_new;
-        var quat = null;
+        var friction = render.friction;
+        var restitution = render.elasticity;
 
         var friction = 0.5;
         var restitution = 0.0;
@@ -664,15 +675,11 @@ function init_bounding_physics(obj, physics_type, compound_children) {
         var bounding_type = "EMPTY";
         var bounding_object = null;
 
-        var quat = render.quat;
-
         var friction = 0;
         var restitution = 0;
     } else {
         var bounding_type = game["use_collision_bounds"] ?
                 game["collision_bounds_type"] : "BOX";
-
-        var quat = render.quat;
         var bounding_object = find_bounding_type(bounding_type, render);
 
         var friction = render.friction;
@@ -680,8 +687,9 @@ function init_bounding_physics(obj, physics_type, compound_children) {
     }
 
     var trans = render.trans;
+    var quat = render.quat;
     var is_ghost = game["use_ghost"];
-    // use_sleep=true - no sleeping 
+    // use_sleep=true - no sleeping
     var disable_sleeping = game["use_sleep"];
     var mass = game["mass"];
     var velocity_min = game["velocity_min"];
@@ -760,25 +768,25 @@ function get_children_params(render, children, bt, wb) {
 
 function find_bounding_type(bounding_type, render) {
 
-        switch(bounding_type) {
-        case "BOX":
-            var bounding_object = render.bb_local;
-            break;
-        case "CYLINDER":
-            var bounding_object = render.bcyl_local;
-            break;
-        case "CONE":
-            var bounding_object = render.bcon_local;
-            break;
-        case "SPHERE":
-            var bounding_object = render.bs_local;
-            break;
-        case "CAPSULE":
-            var bounding_object = render.bcap_local;
-            break;
-        }
+    switch (bounding_type) {
+    case "BOX":
+        var bounding_object = render.bb_local;
+        break;
+    case "CYLINDER":
+        var bounding_object = render.bcyl_local;
+        break;
+    case "CONE":
+        var bounding_object = render.bcon_local;
+        break;
+    case "SPHERE":
+        var bounding_object = render.bs_local;
+        break;
+    case "CAPSULE":
+        var bounding_object = render.bcap_local;
+        break;
+    }
 
-        return bounding_object;
+    return bounding_object;
 }
 
 function create_worker_bounding(bounding_object) {
@@ -875,7 +883,7 @@ function add_vehicle_prop(obj_prop, obj_chassis_hull, chassis_body_id, is_front)
         var bb = obj_prop._render.bb_local;
         var radius = (bb.max_y - bb.min_y) / 2;
 
-        m_ipc.post_msg(m_ipc.OUT_ADD_CAR_WHEEL, chassis_body_id, conn_point, 
+        m_ipc.post_msg(m_ipc.OUT_ADD_CAR_WHEEL, chassis_body_id, conn_point,
                 suspension_rest_length, roll_influence, radius, is_front);
         break;
     case VT_HULL:
@@ -981,11 +989,11 @@ function has_physics(obj) {
  */
 exports.has_dynamic_physics = function(obj) {
     var phy = obj._physics;
-    if (phy && phy.simulated && 
+    if (phy && phy.simulated &&
             (phy.type == "RIGID_BODY" || phy.type == "DYNAMIC") &&
             phy.mass > 0 && phy.is_ghost == false)
         return true;
-    else 
+    else
         return false;
 }
 /**
@@ -1067,7 +1075,7 @@ function get_rbj_quat(cons) {
 
 function prepare_limits(cons) {
     var limits = {};
-        
+
     limits["use_limit_x"] = cons["use_limit_x"];
     limits["use_limit_y"] = cons["use_limit_y"];
     limits["use_limit_z"] = cons["use_limit_z"];
@@ -1166,14 +1174,15 @@ exports.sync_transform = sync_transform;
  */
 function sync_transform(obj) {
     if (allows_transform(obj) && transform_changed(obj)) {
-        m_vec3.copy(obj._render.trans, obj._physics.cached_trans);
+        obj._physics.cached_trans.set(obj._render.trans);
+        obj._physics.cached_quat.set(obj._render.quat);
         var phy = obj._physics;
 
         var msg_cache = m_ipc.get_msg_cache(m_ipc.OUT_SET_TRANSFORM);
         msg_cache["msg_id"] = m_ipc.OUT_SET_TRANSFORM;
         msg_cache["body_id"] = obj._physics.body_id;
         msg_cache["trans"] = obj._render.trans;
-        if (phy.type === "DYNAMIC") {        
+        if (phy.type === "DYNAMIC") {
             msg_cache["quat"] = _vec4_tmp;
             m_quat.identity(_vec4_tmp);
         } else
@@ -1210,19 +1219,20 @@ function allows_transform(obj) {
 function transform_changed(obj) {
     return obj._render.trans[0] != obj._physics.cached_trans[0] ||
            obj._render.trans[1] != obj._physics.cached_trans[1] ||
-           obj._render.trans[2] != obj._physics.cached_trans[2];
+           obj._render.trans[2] != obj._physics.cached_trans[2] ||
+           obj._render.quat[0] != obj._physics.cached_quat[0] ||
+           obj._render.quat[1] != obj._physics.cached_quat[1] ||
+           obj._render.quat[2] != obj._physics.cached_quat[2];
 }
 
 
 /**
  * Move object by applying velocity in world space.
  */
-exports.apply_velocity = function(obj, vx_local, vy_local, vz_local, 
-        allow_vertical, disable_up) {
+exports.apply_velocity = function(obj, vx_local, vy_local, vz_local) {
 
     var v_world = _vec3_tmp;
-    vector_to_world(obj, vx_local, vy_local, vz_local, allow_vertical, 
-            disable_up, v_world);
+    vector_to_world(obj, vx_local, vy_local, vz_local, v_world);
 
     var body_id = obj._physics.body_id;
     m_ipc.post_msg(m_ipc.OUT_ACTIVATE, body_id);
@@ -1258,7 +1268,7 @@ exports.apply_velocity = function(obj, vx_local, vy_local, vz_local,
 /**
  * Move the object by applying velocity in the world space.
  * @param disable_up Disable up speed (swimming on surface)
- * TODO: apply_velocity -> apply_velocity_local 
+ * TODO: apply_velocity -> apply_velocity_local
  */
 exports.apply_velocity_world = function(obj, vx, vy, vz) {
 
@@ -1268,37 +1278,16 @@ exports.apply_velocity_world = function(obj, vx, vy, vz) {
     m_ipc.post_msg(m_ipc.OUT_SET_LINEAR_VELOCITY, body_id, vx, vy, vz);
 }
 
-function vector_to_world(obj, vx_local, vy_local, vz_local, allow_vertical, 
-        disable_up, dest) {
+function vector_to_world(obj, vx_local, vy_local, vz_local, dest) {
 
     var v = dest || new Float32Array(3);
 
     var quat = obj._render.quat;
 
-    if (allow_vertical) {
-        v[0] = vx_local;
-        v[1] = vy_local;
-        v[2] = vz_local;
-        var v_world = m_vec3.transformQuat(v, quat, v);
-    } else if (obj["type"] == "CAMERA") {
-        // allow X,Y components affect world velocity
-        v[0] = vx_local;
-        v[1] = vy_local;
-        v[2] = 0;
-        var v_world = m_vec3.transformQuat(v, quat, v);
-        v_world[1] = -vz_local;
-    } else if (obj["type"] == "MESH") {
-        // allow X,Z components affect world velocity
-        v[0] = vx_local;
-        v[1] = 0;
-        v[2] = vz_local;
-        var v_world = m_vec3.transformQuat(v, quat, v);
-        v_world[1] = vy_local;
-    } else
-        throw "Wrong object type";
-
-    if (disable_up && v_world[1] > 0)
-        v_world[1] = 0;
+    v[0] = vx_local;
+    v[1] = vy_local;
+    v[2] = vz_local;
+    var v_world = m_vec3.transformQuat(v, quat, v);
 
     return v_world;
 }
@@ -1307,12 +1296,10 @@ function vector_to_world(obj, vx_local, vy_local, vz_local, allow_vertical,
  * Move the object by applying the force in the world space.
  */
 exports.apply_force = apply_force;
-function apply_force(obj, fx_local, fy_local, fz_local, 
-        allow_vertical, disable_up) {
+function apply_force(obj, fx_local, fy_local, fz_local) {
 
     var f_world = _vec3_tmp;
-    vector_to_world(obj, fx_local, fy_local, fz_local, allow_vertical, 
-            disable_up, f_world);
+    vector_to_world(obj, fx_local, fy_local, fz_local, f_world);
 
     var body_id = obj._physics.body_id;
 
@@ -1324,13 +1311,13 @@ function apply_force(obj, fx_local, fy_local, fz_local,
  * Rotate the object by applying torque in the world space.
  * @param tx_local Tx local space torque
  * @param ty_local Ty local space torque
- * @param tz_local Tz local space torque 
+ * @param tz_local Tz local space torque
  */
 exports.apply_torque = apply_torque;
 function apply_torque(obj, tx_local, ty_local, tz_local) {
 
     var t_world = _vec3_tmp;
-    vector_to_world(obj, tx_local, ty_local, tz_local, true, false, t_world);
+    vector_to_world(obj, tx_local, ty_local, tz_local, t_world);
 
     var body_id = obj._physics.body_id;
     m_ipc.post_msg(m_ipc.OUT_ACTIVATE, body_id);
@@ -1507,7 +1494,7 @@ function extract_collision_pairs(obj, collision_id) {
 
     var body_id_a = obj._physics.body_id;
     var body_id_b_arr = [];
-    
+
     collision_id_to_body_ids(collision_id, get_active_scene(),
             body_id_b_arr, null);
 
@@ -1633,7 +1620,7 @@ exports.clear_collision_impulse_test = function(obj) {
  * Append new ray test with given params and callback
  * @param {Object} obj Object ID
  */
-exports.append_ray_test = function(obj, collision_id, from, to, local_coords, 
+exports.append_ray_test = function(obj, collision_id, from, to, local_coords,
         callback) {
     // TODO: appending same tests with different callbacks
 
@@ -1714,10 +1701,10 @@ function order_ray_tests(body_id_a, ray_tests) {
         var test = ray_tests[i];
 
         // from, to, local flag must be unique
-        var id = m_util.array_stringify(test.from) + 
+        var id = m_util.array_stringify(test.from) +
                 m_util.array_stringify(test.to) + String(test.local);
 
-        body_id_baskets[id] = body_id_baskets[id] || 
+        body_id_baskets[id] = body_id_baskets[id] ||
                 {from: test.from, to: test.to, local: test.local, body_ids: []};
 
         var body_ids = body_id_baskets[id].body_ids;
@@ -1751,8 +1738,8 @@ exports.remove_ray_test = function(obj, collision_id, from, to, local_coords) {
     for (var i = 0; i < phy.ray_tests.length; i++) {
         var test = phy.ray_tests[i];
 
-        if (m_util.cmp_arr_float(test.from, from, RAY_CMP_PRECISION) && 
-                m_util.cmp_arr_float(test.to, to, RAY_CMP_PRECISION) && 
+        if (m_util.cmp_arr_float(test.from, from, RAY_CMP_PRECISION) &&
+                m_util.cmp_arr_float(test.to, to, RAY_CMP_PRECISION) &&
                 test.local == local_coords) {
             phy.ray_tests.splice(i, 1);
             i--;
@@ -1777,7 +1764,7 @@ function update_vehicle_controls(obj, vehicle) {
     var body_id = obj._physics.body_id;
     var engine_force = vehicle.engine_force * vehicle.force_max;
     var brake_force = vehicle.brake_force * vehicle.brake_max;
-    var steering = -vehicle.steering * vehicle.steering_max * 2 * Math.PI / 
+    var steering = -vehicle.steering * vehicle.steering_max * 2 * Math.PI /
         vehicle.steering_ratio;
     if (vehicle.inverse_control)
         steering *= -1;
@@ -1788,13 +1775,13 @@ function update_vehicle_controls(obj, vehicle) {
 
         m_ipc.post_msg(m_ipc.OUT_ACTIVATE, body_id);
 
-        m_ipc.post_msg(m_ipc.OUT_UPDATE_CAR_CONTROLS, body_id, engine_force, 
+        m_ipc.post_msg(m_ipc.OUT_UPDATE_CAR_CONTROLS, body_id, engine_force,
                 brake_force, steering);
         break;
     case VT_HULL:
         m_ipc.post_msg(m_ipc.OUT_ACTIVATE, body_id);
 
-        m_ipc.post_msg(m_ipc.OUT_UPDATE_BOAT_CONTROLS, body_id, engine_force, 
+        m_ipc.post_msg(m_ipc.OUT_UPDATE_BOAT_CONTROLS, body_id, engine_force,
                 brake_force, steering);
         break;
     }
@@ -1937,7 +1924,7 @@ exports.is_car_wheel = function(obj) {
 
     var part = obj["b4w_vehicle_settings"]["part"];
 
-    if (part == "WHEEL_FRONT_LEFT" || part == "WHEEL_FRONT_RIGHT" || 
+    if (part == "WHEEL_FRONT_LEFT" || part == "WHEEL_FRONT_RIGHT" ||
             part == "WHEEL_BACK_LEFT" || part == "WHEEL_BACK_RIGHT")
         return true;
     else

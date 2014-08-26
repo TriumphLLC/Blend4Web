@@ -15,7 +15,7 @@ class B4W_ShoreDistanceBakerUI(bpy.types.Panel):
     bl_space_type = 'VIEW_3D'
     bl_region_type = 'TOOLS'
     bl_category = "Blend4Web"
-    
+
     def draw(self, context):
 
         layout = self.layout
@@ -29,7 +29,7 @@ class B4W_ShoreDistanceBakerUI(bpy.types.Panel):
 
         row = box.row()
         row.prop(context.window_manager, 'b4w_shoremap_texure_size', text = 'Texture Size')
-        
+
 def init_properties():
     bpy.types.WindowManager.b4w_max_shore_distance = bpy.props.IntProperty(
         name="B4W: shoremap max distance",
@@ -49,12 +49,12 @@ def clear_properties():
             del x
         except:
             pass
-    
+
 class B4W_ShoreDistanceBaker(bpy.types.Operator):
     '''Generate distance field to the nearest shore vertex'''
     bl_idname = "b4w.shore_distance_baker"
     bl_label = "B4W Shore Distance Baker"
-   
+
     def execute(self, context):
         try:
             run()
@@ -356,7 +356,7 @@ def run():
     x_min = minx - max_shore_dist
     y_max = maxy + max_shore_dist
     y_min = miny - max_shore_dist
-    
+
     # list of distance values
     dist_list = [] * 4 * texture_size * texture_size
 
@@ -447,7 +447,7 @@ def store_to_texture(data, x_max, x_min, y_max, y_min, max_shore_dist,
                                                 height = texture_size)
     dst_texture.image.pixels = data
 
-def register(): 
+def register():
     bpy.utils.register_class(B4W_ShoreDistanceBaker)
     bpy.utils.register_class(B4W_ShoreDistanceBakerUI)
     bpy.utils.register_class(BakeErrorDialog)

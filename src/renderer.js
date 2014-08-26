@@ -222,9 +222,6 @@ function draw_bundle(subscene, camera, obj_render, batch) {
     // do not check
     var shader = batch.shader;
 
-    if (!shader.transient_uniform_setters.length)
-        assign_uniform_setters(shader);
-
     _gl.useProgram(shader.program);
 
     // retrieve buffers
@@ -253,12 +250,13 @@ function draw_bundle(subscene, camera, obj_render, batch) {
 
     setup_textures(batch.textures, batch.texture_names, shader.uniforms);
 
-    if (subscene.type == "SKY")
+    if (subscene.type == "SKY") {
         draw_sky_buffers(subscene, bufs_data, shader, obj_render);
-    else
+        subscene.debug_render_calls+=6;
+    } else {
         draw_buffers(bufs_data, shader, obj_render.va_frame);
-
-    subscene.debug_render_calls++;
+        subscene.debug_render_calls++;
+    }
 }
 
 function draw_sky_buffers(subscene, bufs_data, shader, obj_render) {
@@ -283,9 +281,7 @@ function draw_sky_buffers(subscene, bufs_data, shader, obj_render) {
 
         if (subscene.need_fog_update && i != CUBEMAP_BOTTOM_SIDE)
             update_subs_sky_fog(subscene, i);
-
     }
-    subscene.debug_render_calls++;
 }
 
 function update_subs_sky_fog(subscene, cubemap_side_ind) {
@@ -410,6 +406,7 @@ function get_cube_target_by_id(id) {
     }
 }
 
+exports.assign_uniform_setters = assign_uniform_setters;
 function assign_uniform_setters(shader) {
     var uniforms = shader.uniforms;
 
@@ -737,7 +734,7 @@ function assign_uniform_setters(shader) {
             break;
 
         // batch
-        case "u_diffuse_color": 
+        case "u_diffuse_color":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform4fv(loc, batch.diffuse_color);
             }
@@ -848,6 +845,12 @@ function assign_uniform_setters(shader) {
             }
             transient_uni = true;
             break;
+        case "u_refr_bump":
+            var fun = function(gl, loc, subscene, obj_render, batch, camera) {
+                gl.uniform1f(loc, batch.refr_bump);
+            }
+            transient_uni = true;
+            break;
 
         // lamp_data
         case "u_lamp_light_positions":
@@ -943,6 +946,12 @@ function assign_uniform_setters(shader) {
         case "u_diffuse_color_factor": 
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform1f(loc, batch.diffuse_color_factor);
+            }
+            transient_uni = true;
+            break;
+        case "u_alpha_factor":
+            var fun = function(gl, loc, subscene, obj_render, batch, camera) {
+                gl.uniform1f(loc, batch.alpha_factor);
             }
             transient_uni = true;
             break;
@@ -1063,16 +1072,10 @@ function assign_uniform_setters(shader) {
             transient_uni = true;
             break;
 
-        // particles
-        case "u_p_starttime": 
-            var fun = function(gl, loc, subscene, obj_render, batch, camera) {
-                gl.uniform1f(loc, batch.p_starttime);
-            }
-            transient_uni = true;
             break;
-        case "u_p_endtime": 
+        case "u_p_length":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
-                gl.uniform1f(loc, batch.p_endtime);
+                gl.uniform1f(loc, batch.p_length);
             }
             transient_uni = true;
             break;
@@ -1162,24 +1165,14 @@ function assign_uniform_setters(shader) {
             break;
 
         case "u_p_time":
-            // particles time
-            // updated here because particles module do not have own update()
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
-                // don't use object timeline, use global instead
-                if (batch.p_cyclic === 1)
-                    var p_time = subscene.time % (batch.p_endtime - batch.p_starttime);
-                else
-                    var p_time = obj_render.time;
-
-                gl.uniform1f(uniforms["u_p_time"], p_time);
+                gl.uniform1f(loc, batch.particle_system._internal.time);
             }
             transient_uni = true;
-
             break;
 
-
         // for vertex anim
-        case "u_va_frame_factor": 
+        case "u_va_frame_factor":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform1f(loc, obj_render.va_frame_factor);
             }

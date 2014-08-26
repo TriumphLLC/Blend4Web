@@ -25,8 +25,7 @@ uniform vec2 u_p_size_ramp[SIZE_RAMP_LENGTH];
 #endif
 
 uniform float u_p_time;
-uniform float u_p_starttime;
-uniform float u_p_endtime;
+uniform float u_p_length;
 uniform int u_p_cyclic;
 uniform float u_p_fade_in;
 uniform float u_p_fade_out;

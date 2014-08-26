@@ -77,28 +77,28 @@ msgstr ""
 "reference, parent object, group membership and a range of the engine's "
 "special properties."
 
-#: ../objects.rst:36
+#: ../objects.rst:35
 msgid "*Transform > Location*"
 msgstr ""
 
-#: ../objects.rst:36
+#: ../objects.rst:35
 msgid "Координаты местоположения."
 msgstr "Position coordinates."
 
-#: ../objects.rst:39
+#: ../objects.rst:38
 msgid "*Transform > Rotation*"
 msgstr ""
 
-#: ../objects.rst:39
+#: ../objects.rst:38
 msgid "Углы вращения. Должен быть выставлен режим по умолчанию ``XYZ Euler``."
 msgstr ""
 "Rotation angles. The ``XYZ Euler`` mode should be used (set by default)."
 
-#: ../objects.rst:42
+#: ../objects.rst:41
 msgid "*Transform > Scale*"
 msgstr ""
 
-#: ../objects.rst:42
+#: ../objects.rst:41
 msgid ""
 "Масштабирование. Все 3 компоненты (x, y, z) должны быть одинаковы. Для "
 "физических объектов масштабирование не поддерживается."
@@ -106,72 +106,72 @@ msgstr ""
 "Scaling. All 3 components (x, y, z) should be the same. Scaling for the "
 "physics objects is not supported."
 
-#: ../objects.rst:45
+#: ../objects.rst:44
 msgid "*Object Data* (вкладка)"
 msgstr "*Object Data* (tab)"
 
-#: ../objects.rst:45
+#: ../objects.rst:44
 msgid "Указатель на блок данных, специфичный для объектов разного типа."
 msgstr ""
 "Reference to the datablock which is specific for the objects of different "
 "types."
 
-#: ../objects.rst:48
+#: ../objects.rst:47
 msgid "*Relation > Parent*"
 msgstr ""
 
-#: ../objects.rst:48
+#: ../objects.rst:47
 msgid "Указатель на родительский объект."
 msgstr "Reference to the parent object."
 
-#: ../objects.rst:51
+#: ../objects.rst:50
 msgid "*Blend4Web > Do not export*"
 msgstr ""
 
-#: ../objects.rst:51
+#: ../objects.rst:50
 msgid "Не экспортировать."
 msgstr "Do not export."
 
-#: ../objects.rst:54
+#: ../objects.rst:53
 msgid "*Blend4Web > Apply modifiers*"
 msgstr ""
 
-#: ../objects.rst:54
+#: ../objects.rst:53
 msgid "Применить модификаторы объекта при экспорте."
 msgstr "Apply the object's modifiers upon export."
 
-#: ../objects.rst:57
+#: ../objects.rst:56
 msgid "*Blend4Web > Export vertex animation*"
 msgstr ""
 
-#: ../objects.rst:57
+#: ../objects.rst:56
 msgid ""
 "Экспортировать предварительно созданную и сохраненную вертексную анимацию."
 msgstr "Export previously created and saved vertex animation."
 
-#: ../objects.rst:60
+#: ../objects.rst:59
 msgid "*Blend4Web > Export edited normals*"
 msgstr ""
 
-#: ../objects.rst:60
+#: ../objects.rst:59
 msgid "Экспортировать предварительно отредактированные и сохраненные нормали."
 msgstr "Export previously edited and saved normals."
 
-#: ../objects.rst:63
+#: ../objects.rst:62
 msgid "*Blend4Web > Animation > Use default*"
 msgstr ""
 
-#: ../objects.rst:63
+#: ../objects.rst:62
 msgid "Начать воспроизведение в движке связанной с объектом анимации."
 msgstr ""
 "Upon loading into the engine start playback of the animation assigned to the"
 " object."
 
-#: ../objects.rst:66
+#: ../objects.rst:65
 msgid "*Blend4Web > Animation > Cyclic*"
 msgstr ""
 
-#: ../objects.rst:66
+#: ../objects.rst:65
 msgid ""
 "Циклически повторять связанную с объектом анимацию. Зацикливание анимации "
 "влияет также на анимацию системы частиц или спикера (в случае их "
@@ -180,115 +180,130 @@ msgstr ""
 "Сyclically repeat the animation assigned to the object. Animation cycling is"
 " also applied to particle systems and speakers (if they are present)"
 
-#: ../objects.rst:69
+#: ../objects.rst:68
 msgid "*Blend4Web > Detect collisions*"
 msgstr ""
 
-#: ../objects.rst:69
+#: ../objects.rst:68
 msgid "Активировать связанную с объектом физику."
 msgstr "Activate the object's physics."
 
-#: ../objects.rst:72
+#: ../objects.rst:71
 msgid "*Blend4Web > Character*"
 msgstr ""
 
-#: ../objects.rst:72
+#: ../objects.rst:71
 msgid ""
 "Активировать использование объекта в качестве физического каркаса игрового "
 "персонажа."
 msgstr "Enable the object as a physics character."
 
-#: ../objects.rst:75
+#: ../objects.rst:74
 msgid "*Blend4Web > Vehicle part*"
 msgstr ""
 
-#: ../objects.rst:75
+#: ../objects.rst:74
 msgid ""
 "Активировать использование объекта в качестве составной части транспортного "
 "средства."
 msgstr "Enable the object as a part of a vehicle."
 
-#: ../objects.rst:78
+#: ../objects.rst:77
 msgid "*Blend4Web > Do not batch*"
 msgstr ""
 
-#: ../objects.rst:81
+#: ../objects.rst:80
 msgid "*Blend4Web > Disable frustum culling*"
 msgstr ""
 
-#: ../objects.rst:81
+#: ../objects.rst:80
 msgid "Отключить оптимизацию отсечением по зоне видимости."
 msgstr "Disable frustum culling optimization."
 
-#: ../objects.rst:84
+#: ../objects.rst:83
 msgid "*Blend4Web > Disable fogging*"
 msgstr ""
 
-#: ../objects.rst:84
+#: ../objects.rst:83
 msgid "Отключить туман для объекта."
 msgstr "Disable fog for the object."
 
-#: ../objects.rst:87
+#: ../objects.rst:86
 msgid "*Blend4Web > Do not render*"
 msgstr ""
 
-#: ../objects.rst:87
+#: ../objects.rst:86
 msgid "Отключить рендеринг объекта (например, вспомогательный объект физики)."
 msgstr "Disable object rendering (for example useful for a physics object)."
 
-#: ../objects.rst:90
+#: ../objects.rst:89
 msgid "*Blend4Web > Shadows: Cast* и *Blend4Web > Shadows: Receive*"
 msgstr ""
 
-#: ../objects.rst:90
+#: ../objects.rst:89
 msgid ""
 "Отбрасывать и получать тени, соответственно. Могут быть включены "
 "одновременно."
 msgstr "Cast and receive shadows respectively. Can be enabled simultaneously."
 
-#: ../objects.rst:93
+#: ../objects.rst:92
 msgid "*Blend4Web > Reflections: Reflexible*"
 msgstr ""
 
-#: ../objects.rst:93
+#: ../objects.rst:92
 msgid "При включении объект будет отражаться от зеркальных поверхностей."
 msgstr "When enabled the object is reflected in the dynamic mirror surfaces."
 
-#: ../objects.rst:96
+#: ../objects.rst:95
 msgid "*Blend4Web > Reflections: Reflective*"
 msgstr ""
 
-#: ../objects.rst:96
+#: ../objects.rst:95
 msgid "При включении объект будет отражать своей поверхностью другие объекты."
 msgstr "When enabled the object surface reflects other objects."
 
-#: ../objects.rst:99
+#: ../objects.rst:98
 msgid "*Blend4Web > Reflections: Reflection plane*"
 msgstr ""
 
-#: ../objects.rst:99
+#: ../objects.rst:98
 msgid ""
 "Текстовое поле для названия пустого объекта, задающего плоскость отражения."
 msgstr ""
 "Text field for the name of the empty object defining the reflection plane."
 
-#: ../objects.rst:102
+#: ../objects.rst:101
 msgid "*Blend4Web > Wind bending*"
 msgstr ""
 
-#: ../objects.rst:102
+#: ../objects.rst:101
 msgid "Включить процедурную анимацию под действием ветра."
 msgstr "Enable procedural animation under the influence of wind."
 
-#: ../objects.rst:108
+#: ../objects.rst:105
+msgid "*Blend4Web > LOD transition ratio*"
+msgstr ""
+
+#: ../objects.rst:104
+msgid ""
+"Параметр для сглаживания переключения между LOD объектами. Определяет, на "
+"каком дополнительном расстоянии LOD объекты будут видны до замены "
+"последующими LOD объектами. Назначается для главного объекта. Измеряется в "
+"долях от радиуса охватывающей сферы объекта."
+msgstr ""
+"Parameter for smoothing the switching between the LOD objects. It defines "
+"the additional distance at which the LOD objects are still rendered before getting replaced "
+"by the next LOD objects. Assigned for the main object. Measured in fractions of the object's bounding sphere radius."
+
+#: ../objects.rst:111
 msgid "*Blend4Web > Self LOD > Distance*"
 msgstr ""
 
-#: ../objects.rst:114
+#: ../objects.rst:117
 msgid "*Blend4Web > Additional LOD objects*"
 msgstr ""
 
-#: ../objects.rst:111
+#: ../objects.rst:114
 msgid ""
 "Интерфейс добавления низкополигональных объектов для реализации переключения"
 " уровня детализации."
@@ -296,11 +311,11 @@ msgstr ""
 "The interface for adding low-poly objects used for switching the levels of "
 "detail."
 
-#: ../objects.rst:135
+#: ../objects.rst:138
 msgid "Камера"
 msgstr "Camera"
 
-#: ../objects.rst:137
+#: ../objects.rst:140
 msgid ""
 "Настройки камеры выставляются в панели ``Properties`` на вкладке ``Object "
 "Data``."
@@ -308,7 +323,7 @@ msgstr ""
 "The camera settings are specified in the ``Properties`` panel under the "
 "``Object Data`` tab."
 
-#: ../objects.rst:139
+#: ../objects.rst:142
 msgid ""
 "*Blend4Web > Move style* -- режим управления камерой. По умолчанию камера "
 "находится в статическом режиме (``Static``), допуская измененение своего "
@@ -321,7 +336,7 @@ msgstr ""
 "``Target`` mode the camera is rotating around a fixed point. The ``Eye`` "
 "mode allows rotation and translation as in first person view. "
 
-#: ../objects.rst:145
+#: ../objects.rst:148
 msgid ""
 "*Blend4Web > Target location* -- доступно в режиме ``Target``. Позиция "
 "точки, относительно которой будет вращаться камера. Кнопка ``Copy Cursor "
@@ -331,7 +346,7 @@ msgstr ""
 "the position of the camera pivot point. The ``Copy Cursor Location`` button "
 "copies the current 3D cursor position into this value."
 
-#: ../objects.rst:149
+#: ../objects.rst:152
 msgid ""
 "*Blend4Web > DOF front distance* -- описано в разделе "
 ":ref:`postprocessing_effects`"
@@ -339,7 +354,7 @@ msgstr ""
 "*Blend4Web > DOF front distance* -- described in the "
 ":ref:`postprocessing_effects` section."
 
-#: ../objects.rst:151
+#: ../objects.rst:154
 msgid ""
 "*Blend4Web > DOF rear distance* -- описано в разделе "
 ":ref:`postprocessing_effects`"
@@ -347,37 +362,37 @@ msgstr ""
 "*Blend4Web > DOF rear distance* -- described in the "
 ":ref:`postprocessing_effects` section."
 
-#: ../objects.rst:153
+#: ../objects.rst:156
 msgid ""
 "*Blend4Web > DOF power* -- описано в разделе :ref:`postprocessing_effects`"
 msgstr ""
 "*Blend4Web > DOF power* -- described in the :ref:`postprocessing_effects` "
 "section."
 
-#: ../objects.rst:78
+#: ../objects.rst:77
 msgid ""
 "Принудительно сделать объект :ref:`динамическим <static_dynamic_objects>`."
 msgstr ""
 "Force the object to become a :ref:`dynamic object <static_dynamic_objects>`."
 
-#: ../objects.rst:105
+#: ../objects.rst:108
 msgid "Расстояние от камеры, на котором объект перестает отображаться."
 msgstr "Distance from the camera at which the object is no longer rendered."
 
-#: ../objects.rst:107 ../objects.rst:113
+#: ../objects.rst:110 ../objects.rst:116
 msgid "реализовано в стандартном инструменте Blender ``Levels of Detail``."
 msgstr "implemented in the standard ``Levels of Detail`` Blender's tool."
 
-#: ../objects.rst:119
+#: ../objects.rst:122
 msgid "Статические и динамические объекты"
 msgstr "Static and Dynamic Objects"
 
-#: ../objects.rst:120
+#: ../objects.rst:123
 msgid ""
 "Все объекты типа ``MESH`` можно разделить на статические и динамические."
 msgstr "All ``MESH`` objects can be divided into static and dynamic objects."
 
-#: ../objects.rst:122
+#: ../objects.rst:125
 msgid ""
 "**Статические объекты** - объекты, меши которых могут быть объединены друг с"
 " другом, если они имеют одинаковый материал."
@@ -385,7 +400,7 @@ msgstr ""
 "**Static objects** are objects, the meshes of which can be merged together "
 "if they have the same material."
 
-#: ../objects.rst:124
+#: ../objects.rst:127
 msgid ""
 "**Динамические объекты** - объекты, меши которых не могут быть "
 "скомбинированы друг с другом."
@@ -393,7 +408,7 @@ msgstr ""
 "**Dynamic objects** are objects, the meshes of which cannot be combined with"
 " each other."
 
-#: ../objects.rst:126
+#: ../objects.rst:129
 msgid ""
 "Объединение статических объектов осуществляется в целях оптимизации "
 "количества вызовов отрисовки. Динамические объекты нужны в том случае, когда"
@@ -403,7 +418,7 @@ msgstr ""
 "Dynamic objects are needed to make the movement of a separate object "
 "possible."
 
-#: ../objects.rst:129
+#: ../objects.rst:132
 msgid ""
 "Среди объектов другого типа динамическими являются ``CAMERA`` и "
 "``ARMATURE``. Остальные - статические."
@@ -411,7 +426,7 @@ msgstr ""
 "Among objects of the other type the dynamic ones are ``CAMERA`` and "
 "``ARMATURE``. All other objects are static."
 
-#: ../objects.rst:131
+#: ../objects.rst:134
 msgid ""
 "Объекты, имеющие анимацию, физику или родителя, являющегося динамическим "
 "объектом, уже рассматриваются как динамические. Если же необходимо "
@@ -424,11 +439,11 @@ msgstr ""
 "but is not apparent from its settings, then its nesessary to enable the "
 "`Blend4Web > Do not batch` checkbox."
 
-#: ../objects.rst:157
+#: ../objects.rst:160
 msgid "Ограничения движения камеры"
 msgstr "Limiting the camera movement"
 
-#: ../objects.rst:158
+#: ../objects.rst:161
 msgid ""
 "Для камеры доступно несколько настроек, ограничивающих её движение тем или "
 "иным образом. Они объединены в группу ``Camera limits``."
@@ -436,11 +451,11 @@ msgstr ""
 "There are several settings for the camera which limit its movement this way "
 "or another. They are grouped as ``Camera limits``."
 
-#: ../objects.rst:167
+#: ../objects.rst:170
 msgid "**Виды ограничений**"
 msgstr "**Types of limits**"
 
-#: ../objects.rst:169
+#: ../objects.rst:172
 msgid ""
 "*Blend4Web > Use distance limits* -- доступно в режиме ``Target``. Задание "
 "минимального и максимального расстояния от камеры до точки вращения."
@@ -448,11 +463,11 @@ msgstr ""
 "*Blend4Web > Use distance limits* -- available in the ``Target`` mode. This "
 "defines the minimum and maximum distance from the camera to the pivot point."
 
-#: ../objects.rst:172
+#: ../objects.rst:175
 msgid "Варианты интервалов:"
 msgstr "Interval variants:"
 
-#: ../objects.rst:174
+#: ../objects.rst:177
 msgid ""
 "*Max > Min* - расстояние от камеры до объекта ограничено интервалом *[Min, "
 "Max]*"
@@ -460,20 +475,20 @@ msgstr ""
 "*Max > Min* - the distance from the camera to the object is limited by the "
 "interval *[Min, Max]*"
 
-#: ../objects.rst:176
+#: ../objects.rst:179
 msgid "*Max = Min* - фиксирование камеры на определенной высоте над объектом"
 msgstr ""
 "*Max = Min* - the camera is fixed on a certain height above the object"
 
-#: ../objects.rst:178
+#: ../objects.rst:181
 msgid "*Max < Min* - ограничение движения отсутствует"
 msgstr "*Max < Min* - no movement limits"
 
-#: ../objects.rst:186
+#: ../objects.rst:189
 msgid "Значения по умолчанию: *Min = 1, Max = 100*."
 msgstr "Default values: *Min = 1, Max = 100*."
 
-#: ../objects.rst:190
+#: ../objects.rst:193
 msgid ""
 "*Blend4Web > Use horizontal rotation clamping* -- доступно в режимах "
 "``Target`` и ``Eye``. Ограничение горизонтального вращения камеры "
@@ -485,7 +500,7 @@ msgstr ""
 "relative to the pivot point (in the ``Target`` mode) or relative to its "
 "position (in the ``Eye`` mode)."
 
-#: ../objects.rst:192
+#: ../objects.rst:195
 msgid ""
 "Направление от ``Left`` к ``Right`` считается положительным и для режима "
 "``Target`` совпадает с направлением против часовой стрелки, а для режима "
@@ -495,11 +510,11 @@ msgstr ""
 "the counterclockwise direction for the ``Target`` mode, and the clockwise "
 "direction for the ``Eye`` mode:"
 
-#: ../objects.rst:198
+#: ../objects.rst:201
 msgid "Значения по умолчанию: *Left = -180, Right = 180*."
 msgstr "Default values: *Left = -180, Right = 180*."
 
-#: ../objects.rst:202
+#: ../objects.rst:205
 msgid ""
 "*Blend4Web > Use vertical rotation clamping* -- доступно в режимах "
 "``Target`` и ``Eye``. Ограничение вертикального вращения камеры относительно"
@@ -511,11 +526,11 @@ msgstr ""
 "pivot point (in the ``Target`` mode) or relative to its position (in the "
 "``Eye`` mode)."
 
-#: ../objects.rst:204
+#: ../objects.rst:207
 msgid "Направление от ``Down`` к ``Up`` считается положительным:"
 msgstr "The direction from ``Down`` to ``Up`` is considered positive:"
 
-#: ../objects.rst:211
+#: ../objects.rst:214
 msgid ""
 "Если включена опция *Use horizontal rotation clamping*, то вертикальное "
 "вращение будет ограничено, по крайней мере, интервалом *[-90, 90]*."
@@ -523,22 +538,22 @@ msgstr ""
 "If the *Use horizontal rotation clamping* checkbox is enabled, vertical "
 "rotation will be limited at least to the interval *[-90, 90]*."
 
-#: ../objects.rst:214
+#: ../objects.rst:217
 msgid "Значения по умолчанию: *Down = -90, Up = 90*."
 msgstr "Default values: *Down = -90, Up = 90*."
 
-#: ../objects.rst:218
+#: ../objects.rst:221
 msgid "**Особенности значений, ограничивающих поворот**"
 msgstr "**Possible rotation limits pitfalls**"
 
-#: ../objects.rst:220
+#: ../objects.rst:223
 msgid ""
 "Перемена мест значений *Left/Right* или *Down/Up* приводит к движению по "
 "противоположной дуге окружности вращения."
 msgstr ""
 "Swapping the *Left/Right* or *Down/Up* values swaps the rotations arcs."
 
-#: ../objects.rst:226
+#: ../objects.rst:229
 msgid ""
 "*Left = Right, Up = Down* - фиксирование камеры соответственно по "
 "горизонтали или вертикали."
@@ -546,11 +561,11 @@ msgstr ""
 "*Left = Right, Up = Down* - fixes the camera horizontally and vertically "
 "(respectively)."
 
-#: ../objects.rst:230
+#: ../objects.rst:233
 msgid "**Отсчет углов поворота**"
 msgstr "**Rotation angles origin**"
 
-#: ../objects.rst:232
+#: ../objects.rst:235
 msgid ""
 "При ограничении горизонтального и вертикального вращения можно выбрать "
 "пространство координат:"
@@ -558,7 +573,7 @@ msgstr ""
 "You can choose the space of coordinates for horizontal and vertical rotation"
 " limits:"
 
-#: ../objects.rst:234
+#: ../objects.rst:237
 msgid ""
 "``Camera space`` - все углы отсчитываются относительно начального положения "
 "и ориентации камеры."
@@ -566,7 +581,7 @@ msgstr ""
 "``Camera space`` - all angles are measured relative to the initial camera "
 "position and orientation."
 
-#: ../objects.rst:236
+#: ../objects.rst:239
 msgid ""
 "``World space`` - горизонтальные углы отсчитываются относительно направления"
 " оси Y в пространстве мировых координат, вертикальные - относительно "
@@ -576,15 +591,15 @@ msgstr ""
 " the world space, while vertical angles - relative to the horizontal plane "
 "XOY in the world space."
 
-#: ../objects.rst:238
+#: ../objects.rst:241
 msgid "Для ограничения по горизонтали:"
 msgstr "For horizontal limits:"
 
-#: ../objects.rst:244
+#: ../objects.rst:247
 msgid "Для ограничения по вертикали:"
 msgstr "For vertical limits:"
 
-#: ../objects.rst:250
+#: ../objects.rst:253
 msgid ""
 "Оси координат, отмеченные на рисунках, совпадают с осями мировых координат в"
 " Blender'е."
@@ -592,8 +607,10 @@ msgstr ""
 "The coordinate axes labelled on the pictures match the Blender's world "
 "coordinate axes."
 
-#: ../objects.rst:252
+#: ../objects.rst:255
 msgid "По умолчанию назначается вариант ``Camera space``."
 msgstr "By default the ``Camera space`` option is selected."
+
+
 
 

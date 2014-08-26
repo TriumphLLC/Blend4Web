@@ -55,11 +55,11 @@ msgstr ""
 "A current stable version of Blender should be used. It can be downloaded "
 "from the `official site <http://www.blender.org/download>`_."
 
-#: ../first_steps.rst:31
+#: ../first_steps.rst:30
 msgid "Установка аддона движка"
 msgstr "The Engine Addon Install"
 
-#: ../first_steps.rst:33
+#: ../first_steps.rst:32
 msgid ""
 "Запустить Blender, загрузить сцену по умолчанию :file:`File > New`. Вызвать "
 "окно пользовательских настроек :file:`File > User Preferences...`. Во "
@@ -73,18 +73,18 @@ msgstr ""
 " addon files. After that turn on the :file:`Import-Export: Blend4Web`  "
 "checkbox."
 
-#: ../first_steps.rst:43
+#: ../first_steps.rst:41
 msgid ""
 "Далее нажать :file:`Save User Settings` и закрыть окно пользовательских "
 "настроек."
 msgstr ""
 "Then click :file:`Save User Settings` and close the user preferences window."
 
-#: ../first_steps.rst:51
+#: ../first_steps.rst:49
 msgid "Экспорт и просмотр сцены"
 msgstr "Exporting and Viewing Scenes"
 
-#: ../first_steps.rst:53
+#: ../first_steps.rst:51
 msgid ""
 "Созданную сцену можно экспортировать в формате HTML. Для этого нужно выбрать"
 " опцию :file:`File > Export > Blend4Web (.html)` и указать путь экспорта. "
@@ -96,38 +96,38 @@ msgstr ""
 "filepath. The resulting HTML file can be opened with any browser with WebGL "
 "support."
 
-#: ../first_steps.rst:56
+#: ../first_steps.rst:54
 msgid ":ref:`browser_webgl_support`"
 msgstr ""
 
-#: ../first_steps.rst:26 ../first_steps.rst:45 ../first_steps.rst:58
+#: ../first_steps.rst:25 ../first_steps.rst:43 ../first_steps.rst:56
 msgid "экспорт"
 msgstr "export"
 
-#: ../first_steps.rst:26
+#: ../first_steps.rst:25
 msgid "установка программы Blender"
 msgstr "Blender installation"
 
-#: ../first_steps.rst:45
+#: ../first_steps.rst:43
 msgid "установка аддона"
 msgstr "addon installation"
 
-#: ../first_steps.rst:58
+#: ../first_steps.rst:56
 msgid "просмотр сцены"
 msgstr "viewing scenes"
 
-#: ../first_steps.rst:64
+#: ../first_steps.rst:62
 msgid "Установка новой версии аддона"
 msgstr "Upgrading the Addon"
 
-#: ../first_steps.rst:66
+#: ../first_steps.rst:64
 msgid ""
 "Чтобы установить новую версию аддона, необходимо **сначала отключить, а "
 "затем удалить** старую версию."
 msgstr ""
 "To upgrade the addon **first disable the old version and then remove it**."
 
-#: ../first_steps.rst:68
+#: ../first_steps.rst:66
 msgid ""
 "Для отключения аддона запустить Blender, загрузить сцену по умолчанию "
 ":file:`File > New`. Вызвать окно пользовательских настроек :file:`File > "
@@ -136,20 +136,17 @@ msgid ""
 "Blend4Web`. Далее нажать :file:`Save User Settings` и **перезапустить "
 "Blender**."
 msgstr ""
-"To disable the addon: run Blender, load the default scene :file:`File > New`. Open the user "
-"preferences :file:`File > User Preferences...`. Go to the "
-":file:`Addons` tab and choose the :file:`Import-Export` category. Disable the"
-" :file:`Import-Export: Blend4Web` checkbox. "
-"Then click :file:`Save User Settings` and **restart Blender**."
+"To disable the addon: run Blender, load the default scene :file:`File > "
+"New`. Open the user preferences :file:`File > User Preferences...`. Go to "
+"the :file:`Addons` tab and choose the :file:`Import-Export` category. "
+"Disable the :file:`Import-Export: Blend4Web` checkbox. Then click "
+":file:`Save User Settings` and **restart Blender**."
 
-#: ../first_steps.rst:70
+#: ../first_steps.rst:68
 msgid ""
 "Затем для удаления аддона снова вызвать окно пользовательских настроек, "
 "раскрыть панель информации об аддоне Blend4Web и нажать кнопку "
 ":file:`Remove`."
 msgstr ""
-"Then to remove the addon open the user "
-"preferences window again, expand the Blend4Web info panel and click the :file:`Remove` button. "
-
-
-
+"Then to remove the addon open the user preferences window again, expand the "
+"Blend4Web info panel and click the :file:`Remove` button. "

@@ -15,6 +15,7 @@
     setup.rst
     workflow.rst
     viewer.rst
+    web_player.rst
     addon.rst
     objects.rst
     textures.rst

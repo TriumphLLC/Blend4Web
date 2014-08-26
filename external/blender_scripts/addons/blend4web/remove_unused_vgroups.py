@@ -1,10 +1,30 @@
 import bpy
 
+class B4W_RemoveUnusedVertexGroupsUI(bpy.types.Panel):
+    bl_idname = "Vertex groups"
+    bl_label = 'B4W VGroups Cleaner'
+    bl_space_type = 'VIEW_3D'
+    bl_region_type = 'TOOLS'
+    bl_category = "Blend4Web"
+
+    @classmethod
+    def poll(self, context):
+        try:
+            ob = context.active_object
+            mode = context.mode
+            return (ob.type == 'MESH')
+        except AttributeError:
+            return 0
+
+    def draw(self, context):
+        layout = self.layout
+        layout.operator('b4w.remove_unused_vgroups', text = 'Remove Unused VGroups')
+
 class B4W_Remove_Unused_Vertex_Groups(bpy.types.Operator):
-    '''Remove Unused VGroups'''
+    '''Remove VGroups which are not used by armatures'''
     bl_idname = "b4w.remove_unused_vgroups"
     bl_label = "B4W Remove Unused VGroups"
-   
+
     def execute(self, context):
         run(self)
         return {"FINISHED"}
@@ -20,10 +40,10 @@ def run(self):
         if vgroup_is_unused(obj, vgroup):
             vgroups.remove(vgroup)
             counter = counter + 1
-            
+
     self.report({"INFO"}, "Removed " + str(counter) + " vertex groups")
 
-    
+
 def vgroup_is_unused(obj, search_vgroup):
 
     for vert in obj.data.vertices:
@@ -31,11 +51,13 @@ def vgroup_is_unused(obj, search_vgroup):
             if vgroup.group == search_vgroup.index:
                 return False
     return True
-        
- 
-def register(): 
+
+
+def register():
     bpy.utils.register_class(B4W_Remove_Unused_Vertex_Groups)
+    bpy.utils.register_class(B4W_RemoveUnusedVertexGroupsUI)
 
 def unregister():
     bpy.utils.unregister_class(B4W_Remove_Unused_Vertex_Groups)
+    bpy.utils.unregister_class(B4W_RemoveUnusedVertexGroupsUI)
 

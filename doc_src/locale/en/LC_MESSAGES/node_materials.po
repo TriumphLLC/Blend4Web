@@ -46,12 +46,12 @@ msgstr ""
 #: ../node_materials.rst:23
 msgid ""
 "``Material``, ``Extended Material`` - допускается не больше одной ноды на "
-"материал, не поддерживаются входы ``Refl``, ``Ambient``, ``SpecTra``, ``Ray "
-"Mirror`` и выход ``AO``."
+"материал, не поддерживаются входы ``Refl``, ``Ambient``, ``SpecTra`` и выход"
+" ``AO``."
 msgstr ""
 "``Material``, ``Extended Material`` - no more than one node per material is "
-"allowed; the ``Refl``, ``Ambient``, ``SpecTra``, ``Ray Mirror`` inputs are "
-"not supported; the ``AO`` output is not supported."
+"allowed; the ``Refl``, ``Ambient``, ``SpecTra`` inputs are not supported; "
+"the ``AO`` output is not supported."
 
 #: ../node_materials.rst:25
 msgid "``RGB Curves`` - не поддерживается."
@@ -200,6 +200,7 @@ msgstr ""
 "The node implements the texture coordinates offset using a height map."
 
 #: ../node_materials.rst:81 ../node_materials.rst:110
+#: ../node_materials.rst:148
 msgid "Входные параметры"
 msgstr "Input parameters"
 
@@ -248,6 +249,7 @@ msgid "Максимальное расстояние от камеры, на к�
 msgstr "Maximum distance from camera at which the effect is observed."
 
 #: ../node_materials.rst:99 ../node_materials.rst:137
+#: ../node_materials.rst:158
 msgid "Выходные параметры"
 msgstr "Output parameters"
 
@@ -360,7 +362,7 @@ msgstr "*Spot Diffuse Factor = 0* - the light spot has the diffuse color"
 msgid "*Spot Diffuse Factor = 1* - световое пятно имеет белый цвет"
 msgstr "*Spot Diffuse Factor = 1* - the light spot color is white"
 
-#: ../node_materials.rst:139
+#: ../node_materials.rst:140
 msgid "*Translucency*"
 msgstr ""
 
@@ -371,6 +373,51 @@ msgid ""
 msgstr ""
 "The output should be connected to the ``Translucency`` input of the "
 "``Extended Material`` node."
+
+#: ../node_materials.rst:143
+msgid "REFRACTION"
+msgstr ""
+
+#: ../node_materials.rst:145
+msgid "Реализует эффект преломления."
+msgstr "Get refracted image behind object."
+
+#: ../node_materials.rst:150
+msgid "*Normal*"
+msgstr ""
+
+#: ../node_materials.rst:151
+msgid "Карта нормалей, по которой происходит возмущение (сдвиг)."
+msgstr "Normal map for adding perturbations."
+
+#: ../node_materials.rst:155
+msgid "*Refraction bump*"
+msgstr ""
+
+#: ../node_materials.rst:153
+msgid "Коэффицент возмущения (сдвига) текстуры сцены позади объекта."
+msgstr "Value of perturbation strength."
+
+#: ../node_materials.rst:155
+msgid "Значение по умолчанию: 0.001."
+msgstr "The default value is 0.001."
+
+#: ../node_materials.rst:112 ../node_materials.rst:161
+msgid "*Color*"
+msgstr ""
+
+#: ../node_materials.rst:161
+msgid "Текстура сцены позади объекта с внесённым возмущением."
+msgstr "Rendered texture behind object with perturbations."
+
+#: ../node_materials.rst:165
+msgid ""
+"Для отображения эффекта необходимо включить опцию ``Render refraction`` на "
+"панели ``Scene > Blend4Web``. Объект должен быть с типом прозрачности Alpha "
+"Blend."
+msgstr ""
+"It needs to check option ``Render refraction`` from ``Scene > Blend4Web`` "
+"panel. Object's transparency type must be set to ``Alpha Blend``."
 
 #: ../node_materials.rst:50
 msgid ":ref:`gamma_nodes`"
@@ -388,4 +435,6 @@ msgstr "materials"
 msgid "ноды"
 msgstr "nodes"
 
-
+#: ../node_materials.rst:166
+msgid ":ref:`alpha_blend`"
+msgstr ""

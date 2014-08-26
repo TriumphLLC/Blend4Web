@@ -1666,6 +1666,19 @@ def add_object_properties():
         default = False
     )
 
+    obj_type.b4w_lod_transition = bpy.props.FloatProperty(
+        name = "B4W: LOD transition ratio",
+        description = "LOD transition ratio",
+        default = 0.01,
+        min = 0.00,
+        max = 100,
+        soft_min = 0,
+        soft_max = 1,
+        step = 1,
+        precision = 3
+    )
+
+    # deprecated
     b4w_lod_distance = bpy.props.FloatProperty(
         name = "B4W: LOD distance",
         description = "LOD maximum distance",
@@ -1679,16 +1692,17 @@ def add_object_properties():
     )
     obj_type.b4w_lod_distance = b4w_lod_distance
 
+    # deprecated
     obj_type.b4w_lods = bpy.props.CollectionProperty(
             type=B4W_LodProperty, 
             name="B4W: LODS")
-
+    # deprecated
     obj_type.b4w_lod_index = bpy.props.IntProperty(
             name="B4W: LOD index",
             description="LOD index used in the interface",
             default=0, min=0, max=100, soft_min=0, soft_max=5
     )
-
+    # deprecated
     obj_type.b4w_refl_plane_index = bpy.props.IntProperty(
             name="B4W: Reflection Plane index",
             description="Reflection plane index used in the interface",
@@ -2164,6 +2178,19 @@ def add_material_properties():
         default = False
     )
 
+    mat_type.b4w_refractive = bpy.props.BoolProperty(
+        name = "B4W: refraction",
+        description = "Enable refraction for the material by using normal",
+        default = False
+    )
+    mat_type.b4w_refr_bump = bpy.props.FloatProperty(
+        name = "B4W: refraction bump",
+        description = "Perturbation power of refraction",
+        default = 0.001,
+        min = 0.0,
+        max = 0.2
+    )
+
     mat_type.b4w_halo_sky_stars = bpy.props.BoolProperty(
         name = "B4W: halo sky stars",
         description = "Make halo material stars object",
@@ -2534,6 +2561,16 @@ def add_particle_settings_properties():
         name = "B4W: vcol to name",
         description = "Vertex color on instance",
         default = ""
+    )
+
+    pset_type.b4w_coordinate_system = bpy.props.EnumProperty(
+        name = "B4W: coordinate system",
+        description = "Particles coordinate system",
+        items = [
+            ("WORLD", "World", "World coordinate system"),
+            ("LOCAL", "Local", "Emitter's coordinate system"),
+        ],
+        default = "LOCAL"
     )
 
 def register(): 

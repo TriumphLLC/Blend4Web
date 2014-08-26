@@ -18,8 +18,7 @@
 
 Должна использоваться текущая стабильная версия Blender. Загрузить Blender можно с `официального сайта <http://www.blender.org/download>`_.
 
-.. image:: src_images/blender_screens/blender_first_run.jpg
-   :alt: Запуск программы Blender
+.. image:: src_images/first_steps/blender_first_run.jpg
    :align: center
    :width: 100%
 
@@ -33,8 +32,7 @@
 Запустить Blender, загрузить сцену по умолчанию :file:`File > New`.
 Вызвать окно пользовательских настроек :file:`File > User Preferences...`. Во вкладке :file:`Addons` нажать :file:`Install from File...` и затем выбрать zip-архив с файлами аддона. После этого необходимо отметить галочку напротив :file:`Import-Export: Blend4Web`.
 
-.. image:: src_images/blender_screens/user_preferences_install_b2w.jpg
-   :alt: Указание пути для скриптов в окне пользовательских настроек
+.. image:: src_images/first_steps/user_preferences_install_b4w.jpg
    :align: center
    :width: 100%
 
@@ -69,7 +67,7 @@
 
 Затем для удаления аддона снова вызвать окно пользовательских настроек, раскрыть панель информации об аддоне Blend4Web и нажать кнопку :file:`Remove`.
 
-.. image:: src_images/blender_screens/user_preferences_disable_addon.jpg
+.. image:: src_images/first_steps/user_preferences_disable_addon.jpg
    :align: center
    :width: 100%
 

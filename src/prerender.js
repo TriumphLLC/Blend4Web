@@ -18,7 +18,6 @@ var m_vec3  = require("vec3");
 var cfg_def = m_cfg.defaults;
 
 var USE_FRUSTUM_CULLING = true;
-var USE_LOD_TRANSITION = false;
 var SUBS_UPDATE_DO_RENDER = ["MAIN_OPAQUE", "MAIN_BLEND", "MAIN_REFLECT", 
         "SHADOW_CAST", "DEPTH", "GLOW_MASK", "WIREFRAME", "COLOR_PICKING"];
 
@@ -170,17 +169,14 @@ function is_lod_visible(obj_render, camera) {
     var dist_min = obj_render.lod_dist_min;
     var dist_max = obj_render.lod_dist_max;
 
-    // Additional interval for last lod to perform fade-out 
-    if (USE_LOD_TRANSITION && obj_render.last_lod)
-        dist_max += obj_render.bs_world.radius;
-
     var dist = Math.sqrt((center[0] - eye[0]) * (center[0] - eye[0]) +
             (center[1] - eye[1])*(center[1] - eye[1]) +
             (center[2] - eye[2])*(center[2] - eye[2]));
 
-    var tr_int = USE_LOD_TRANSITION ? cfg_def.lod_transition_interval : 0;
+    // additional interval for transition, fixes LOD flickering
+    var tr_int = obj_render.lod_transition_ratio * obj_render.bs_world.radius;
 
-    if (dist >= Math.max(0, dist_min - tr_int) && dist < dist_max)
+    if (dist >= dist_min && dist < (dist_max + tr_int))
         return true;
     else
         return false;

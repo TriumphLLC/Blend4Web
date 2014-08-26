@@ -17,7 +17,7 @@ msgstr "Problems and Solutions"
 
 #: ../problems_and_solutions.rst:12
 msgid "Проблемы при запуске рендерера"
-msgstr "Problems when Running the Renderer"
+msgstr "Problems When Running the Renderer"
 
 #: ../problems_and_solutions.rst:14
 msgid "*1. Появляется сообщение \"Browser could not initialize WebGL.\"*"
@@ -65,9 +65,9 @@ msgid ""
 "обеспечивающая полную поддержку WebGL (примеры: Internet Explorer 11 / "
 "Windows, открытые драйверы / Linux)."
 msgstr ""
-"You are using a combination of browser/drivers/operating system which does not "
-"fully support WebGL (examples are: Internet Explorer 11 / MS Windows, open "
-"source drivers / Linux)."
+"You are using a combination of browser/drivers/operating system which does "
+"not fully support WebGL (examples are: Internet Explorer 11 / MS Windows, "
+"open source drivers / Linux)."
 
 #: ../problems_and_solutions.rst:32
 msgid "Ошибка инициализации WebGL"
@@ -103,14 +103,14 @@ msgstr ""
 "card and its vendor please type **about:gpu** to the address bar of Chrome "
 "browser..."
 
-#: ../problems_and_solutions.rst:49
+#: ../problems_and_solutions.rst:48
 msgid ""
 "или воспользоваться средством диагностики DirectX **dxdiag** (только для "
 "Windows)."
 msgstr ""
 "or run the DirectX Diagnostic Tool called **dxdiag** (MS Windows only)."
 
-#: ../problems_and_solutions.rst:61
+#: ../problems_and_solutions.rst:59
 msgid ""
 "Необходимо загрузить драйверы с соответствующего центра поддержки (например,"
 " `Intel <http://downloadcenter.intel.com/Default.aspx?lang=rus>`_, `Nvidia "
@@ -121,48 +121,49 @@ msgstr ""
 "Download the drivers from the corresponding support center (for example "
 "`Intel <http://downloadcenter.intel.com/Default.aspx>`_, `Nvidia "
 "<http://www.nvidia.com/Download/index.aspx>`_, `AMD/ATI "
-"<http://support.amd.com/en-us/download>`_). Reboot the system after "
-"the drivers are installed."
+"<http://support.amd.com/en-us/download>`_). Reboot the system after the "
+"drivers are installed."
 
-#: ../problems_and_solutions.rst:63
+#: ../problems_and_solutions.rst:61
 msgid ""
 "Если в результате вышеперечисленных действий инициализировать рендеринг не "
 "удается (или нет возможности обновить систему), можно попробовать изменить "
 "настройки браузера."
 msgstr ""
 "If the measures described above did not help to initialize rendering (or "
-"there is no possibility to update the system) try to change the browser settings."
+"there is no possibility to update the system) try to change the browser "
+"settings."
 
-#: ../problems_and_solutions.rst:65
+#: ../problems_and_solutions.rst:63
 msgid "*В Chrome*:"
 msgstr "*For Chrome*:"
 
-#: ../problems_and_solutions.rst:67
+#: ../problems_and_solutions.rst:65
 msgid ""
 "Ввести **about:flags** (или **chrome://flags/**) в адресную строку браузера,"
 " нажать :file:`Включить` (:file:`Enable`) под опцией :file:`Переопределение "
 "списка программного рендеринга` (:file:`Override software rendering list`) и"
 " перезапустить браузер."
 msgstr ""
-"Enter **about:flags** (or **chrome://flags/**) into the browser's address bar,"
-" click :file:`Enable` under the :file:`Override software rendering list` "
-"option and restart the browser."
+"Enter **about:flags** (or **chrome://flags/**) into the browser's address "
+"bar, click :file:`Enable` under the :file:`Override software rendering list`"
+" option and restart the browser."
 
-#: ../problems_and_solutions.rst:78
+#: ../problems_and_solutions.rst:75
 msgid "*В Firefox*:"
 msgstr "*For Firefox*:"
 
-#: ../problems_and_solutions.rst:80
+#: ../problems_and_solutions.rst:77
 msgid ""
 "Ввести **about:config** в адресную строку браузера, найти параметр ``webgl"
 ".force-enabled`` и переключить его двойным щелчком мыши из ``false`` в "
 "``true``."
 msgstr ""
-"Enter **about:config** into the browser's address bar, search for the ``webgl"
-".force-enabled`` parameter and double-click on it to switch from ``false`` "
-"to ``true``."
+"Enter **about:config** into the browser's address bar, search for the "
+"``webgl.force-enabled`` parameter and double-click on it to switch from "
+"``false`` to ``true``."
 
-#: ../problems_and_solutions.rst:91
+#: ../problems_and_solutions.rst:87
 msgid ""
 "Для пользователей Linux - ввиду неполной реализации OpenGL стека в драйверах"
 " с открытым кодом в настоящий момент рекомендуется использовать "
@@ -173,15 +174,15 @@ msgstr ""
 "drivers at the moment it is recommended to use current versions of "
 "proprietary drivers for Nvidia and AMD video cards."
 
-#: ../problems_and_solutions.rst:120
+#: ../problems_and_solutions.rst:116
 msgid "или::"
 msgstr "or::"
 
-#: ../problems_and_solutions.rst:98
+#: ../problems_and_solutions.rst:94
 msgid "Использование локального web-сервера"
 msgstr "Using a Local Web Server"
 
-#: ../problems_and_solutions.rst:100
+#: ../problems_and_solutions.rst:96
 msgid ""
 "Простым вариантом обеспечения просмотра локальных ресурсов в браузерах может"
 " быть запуск web-сервера из стандартной библиотеки `Python "
@@ -191,11 +192,11 @@ msgstr ""
 "server from the standard `Python "
 "<http://en.wikipedia.org/wiki/Python_(programming_language)>`_ library."
 
-#: ../problems_and_solutions.rst:102
+#: ../problems_and_solutions.rst:98
 msgid "*На Windows*:"
 msgstr "*Under MS Windows*:"
 
-#: ../problems_and_solutions.rst:104
+#: ../problems_and_solutions.rst:100
 msgid ""
 "Загрузить и инсталлировать последнюю версию Python с `официального сайта "
 "<http://www.python.org/download/releases/>`_. На сегодняшний день это версия"
@@ -203,19 +204,19 @@ msgid ""
 "диске :file:`C`."
 msgstr ""
 "Download and install the latest Python distribution from the `official site "
-"<http://www.python.org/download/releases/>`_. The current version is 3.4 and by "
-"default it will be installed to the :file:`Python34` directory on the "
+"<http://www.python.org/download/releases/>`_. The current version is 3.4 and"
+" by default it will be installed to the :file:`Python34` directory on the "
 ":file:`C` drive."
 
-#: ../problems_and_solutions.rst:106
+#: ../problems_and_solutions.rst:102
 msgid "Запустить командную строку (Command Prompt)."
 msgstr "Run Command Prompt."
 
-#: ../problems_and_solutions.rst:108
+#: ../problems_and_solutions.rst:104
 msgid "Выполнить команды::"
 msgstr "Enter the following commands::"
 
-#: ../problems_and_solutions.rst:113
+#: ../problems_and_solutions.rst:109
 msgid ""
 "Перейти на страницу http://localhost:8000, на которой выбрать нужный файл "
 "для отображения."
@@ -223,11 +224,10 @@ msgstr ""
 "Open the http://localhost:8000 page and select the required file for "
 "displaying. "
 
-#: ../problems_and_solutions.rst:115
+#: ../problems_and_solutions.rst:111
 msgid "*На Linux*::"
 msgstr "*Under Linux*::"
 
-#: ../problems_and_solutions.rst:125
+#: ../problems_and_solutions.rst:121
 msgid "Можно указать порт дополнительным параметром::"
 msgstr "A port number can be specified by the additional parameter::"
-

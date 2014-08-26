@@ -10,7 +10,7 @@ import blend4web
 import blend4web.exporter as exporter
 
 class B4W_HTMLExportProcessor(bpy.types.Operator):
-    
+
     """Export for Blend4Web (.html)"""
     bl_idname = "b4w.html_export"
     bl_label = "B4W HTMLExport"
@@ -71,7 +71,10 @@ class B4W_HTMLExportProcessor(bpy.types.Operator):
         except exporter.ExportError as error:
             exporter._export_error = error
             bpy.ops.b4w.export_error_dialog('INVOKE_DEFAULT')
-        
+        except exporter.FileError as error:
+            exporter._file_error = error
+            bpy.ops.b4w.file_error_dialog('INVOKE_DEFAULT')
+
         return {"FINISHED"}
 
     def cancel(self, context):
@@ -97,7 +100,7 @@ class B4W_HTMLExportProcessor(bpy.types.Operator):
     def run(self, export_filepath):
         export_dir = os.path.split(export_filepath)[0]
 
-        # NOTE: fictional json filename, won't be exported, 
+        # NOTE: fictional json filename, won't be exported,
         # json data will be inserted into html
         json_name = "main.json"
         json_path = os.path.join(export_dir, json_name)
@@ -135,8 +138,8 @@ class B4W_HTMLExportProcessor(bpy.types.Operator):
 
             f  = open(export_filepath, "w")
         except IOError as exp:
-            exporter._file_write_error = exp
-            bpy.ops.b4w.file_write_error_dialog('INVOKE_DEFAULT')
+            exporter._file_error = exp
+            raise exporter.FileError("Permission denied")
         else:
             f.write(app_str)
             f.close()

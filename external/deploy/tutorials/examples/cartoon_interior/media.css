@@ -1,0 +1,336 @@
+/* 1024 px */
+@media screen and (max-width: 1079px) {
+    /* coeff = 1024/1080 */
+    .top-line {
+        height: 95px;
+    }
+    .bottom-line {
+        height: 133px;
+    }
+        .button-container {
+            height: 123px;
+        }
+            .data-button {
+                width: 123px;
+                height: 123px;
+            }
+                .data-button:not(.delete-container):before {
+                    width: 138px;
+                    height: 138px;
+                    margin: -7px 0 0 -7px;
+                }
+            .rot-button-container {
+                width: 284px;
+                height: 123px;
+            }
+}
+
+/* 900 px */
+@media screen and (max-width: 1023px) {
+    /* coeff = 900/1080 */
+    .top-line {
+        height: 83px;
+    }
+    .bottom-line {
+        height: 117px;
+    }
+        .button-container {
+            height: 108px;
+        }
+            .data-button {
+                width: 108px;
+                height: 108px;
+            }
+                .data-button:not(.delete-container):before {
+                    width: 122px;
+                    height: 122px;
+                    margin: -7px 0 0 -7px;
+                }
+            .rot-button-container {
+                width: 250px;
+                height: 108px;
+            }
+}
+
+/* 800 px */
+@media screen and (max-width: 899px) {
+    /* coeff = 800/1080 */
+    .top-line {
+        height: 74px;
+    }
+    .bottom-line {
+        height: 104px;
+    }
+        .button-container {
+            height: 96px;
+        }
+            .data-button {
+                width: 96px;
+                height: 96px;
+            }
+                .data-button:not(.delete-container):before {
+                    width: 108px;
+                    height: 108px;
+                    margin: -6px 0 0 -6px;
+                }
+            .rot-button-container {
+                width: 222px;
+                height: 96px;
+            }
+}
+
+/* 768 px */
+@media screen and (max-width: 799px) {
+    /* coeff = 768/1080 */
+    .top-line {
+        height: 72px;
+    }
+    .bottom-line {
+        height: 100px;
+    }
+        .button-container {
+            height: 92px;
+        }
+            .data-button {
+                width: 92px;
+                height: 92px;
+            }
+                .data-button:not(.delete-container):before {
+                    width: 104px;
+                    height: 104px;
+                    margin: -6px 0 0 -6px;
+                }
+            .rot-button-container {
+                width: 213px;
+                height: 92px;
+            }
+}
+
+/* 640 px */
+@media screen and (max-width: 767px) {
+    /* coeff = 640/1080 */
+    .top-line {
+        height: 59px;
+    }
+    .bottom-line {
+        height: 83px;
+    }
+        .button-container {
+            height: 77px;
+        }
+            .data-button {
+                width: 77px;
+                height: 77px;
+            }
+                .data-button:not(.delete-container):before {
+                    width: 87px;
+                    height: 87px;
+                    margin: -5px 0 0 -5px;
+                }
+            .rot-button-container {
+                width: 177px;
+                height: 77px;
+            }
+}
+
+/* 550 px */
+@media screen and (max-width: 639px) {
+    /* coeff = 550/1080 */
+    .top-line {
+        height: 51px;
+    }
+    .bottom-line {
+        height: 71px;
+    }
+        .button-container {
+            height: 66px;
+        }
+            .data-button {
+                width: 66px;
+                height: 66px;
+            }
+                .data-button:not(.delete-container):before {
+                    width: 74px;
+                    height: 74px;
+                    margin: -4px 0 0 -4px;
+                }
+            .rot-button-container {
+                width: 153px;
+                height: 66px;
+            }
+}
+
+/* 480 px */
+@media screen and (max-width: 549px) {
+    /* coeff = 480/1080 */
+    .top-line {
+        height: 44px;
+    }
+    .bottom-line {
+        height: 62px;
+    }
+        .button-container {
+            height: 57px;
+        }
+            .data-button {
+                width: 57px;
+                height: 57px;
+            }
+                .data-button:not(.delete-container):before {
+                    width: 65px;
+                    height: 65px;
+                    margin: -4px 0 0 -4px;
+                }
+            .rot-button-container {
+                width: 133px;
+                height: 57px;
+            }
+}
+
+/* 360 px */
+@media screen and (max-width: 479px) and (max-height: 400px) {
+    /* coeff = 360/1080 */
+    .top-line {
+        height: 33px;
+    }
+    .bottom-line {
+        height: 47px;
+    }
+        .button-container {
+            height: 43px;
+        }
+            .data-button {
+                width: 43px;
+                height: 43px;
+            }
+                .data-button:not(.delete-container):before {
+                    width: 49px;
+                    height: 49px;
+                    margin: -3px 0 0 -3px;
+                }
+            .rot-button-container {
+                width: 100px;
+                height: 43px;
+            }
+}
+
+/* 480 px */
+/* Exceptional case for vertical design */
+@media screen and (max-width: 479px) and (min-height: 400px) {
+    /* coeff = 480/1080 */
+    #controls-container {
+        position: fixed;
+        height:  342px;
+        width: 106px;
+        bottom: 0;
+    }
+        .top-line {
+            float: right;
+            width: 44px;
+            height: 100%;
+            background: url("./interface/9.png") repeat-y;
+            background-size: 100% 100%;
+            -moz-transform: scaleX(-1);
+            -o-transform: scaleX(-1);
+            -webkit-transform: scaleX(-1);
+            transform: scaleX(-1);
+            filter: FlipH;
+            -ms-filter: "FlipH";
+        }
+            .top-line:before {
+                content: "";
+                position: absolute;
+                width: 44px;
+                height: 44px;
+                top: -44px;
+                left: 0;
+
+                background: url("./interface/10.png");
+                background-size: 100% 100%;
+            }
+        .bottom-line {
+            position: relative;
+            float: right;
+            width: 62px;
+            height: 342px;
+        }
+            .bottom-line:before {
+                content: "";
+                position: absolute;
+                width: 62px;
+                height: 44px;
+                top: -44px;
+                left: 0;
+
+                background: url("./interface/8.png");
+                background-size: 100% 100%;
+            }
+            .button-container {
+                position: relative;
+                float: right;
+                width: 57px;
+                height: 100%;
+            }
+                .button {
+                    width: 100%;
+                    height: 57px;
+                }
+                    .delete-container {
+                        position: absolute;
+                        bottom: 0;
+                    }
+                    .data-button:not(.delete-container) {
+                        position: relative;
+                    }
+                        .data-button:not(.delete-container):before {
+                            position: absolute;
+                            margin-top: auto;
+                            width: 65px;
+                            height: 65px;
+                            top: -4px;
+                            left: 0;
+                        }
+            .rot-button-container {
+                position: fixed;
+                right: 0;
+                bottom: 0;
+                width: 133px;
+                height: 57px;
+            }
+                .rot-button-container:before {
+                    content: "";
+                    position: absolute;
+                    width: 44px;
+                    height: 57px;
+                    left: -44px;
+
+                    background: url("./interface/9.png") repeat-y;
+                    background-size: 100% 100%;
+                }
+                .rot-button-container:after {
+                    content: "";
+                    position: absolute;
+                    width: 100%;
+                    height: 44px;
+                    top: -44px;
+                    left: 0;
+
+                    background: url("./interface/8.png") repeat-x;
+                    background-size: 100% 100%;
+                }
+                .rotation-button {
+                    float: left;
+                    width: 50%;
+                }
+                #rot-ccw:before {
+                    content: "";
+                    position: absolute;
+                    width: 44px;
+                    height: 44px;
+                    top: -44px;
+                    left: -44px;
+
+                    background: url("./interface/10.png");
+                    background-size: 100% 100%;
+                }
+}

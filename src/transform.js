@@ -179,7 +179,7 @@ exports.get_object_center = function(obj, calc_bs_center, dest) {
 }
 
 /**
- * Calculate new translation based on distances in local space 
+ * Calculate new translation based on distances in local space
  */
 exports.move_local = function(obj, dx, dy, dz) {
     var render = obj._render;
@@ -234,7 +234,7 @@ function update_transform(obj) {
 
     m_mat4.invert(wm, render.inv_world_matrix);
 
-    if (obj._anim && !obj._anim.trans && m_particles.has_particles(obj))
+    if (obj._anim_slots && m_particles.has_anim_particles(obj))
         m_particles.update_emitter_transform(obj);
 
     // NOTE: available only after batch creation (really needed now?)
@@ -274,7 +274,7 @@ function update_transform(obj) {
             m_scs.schedule_grass_map_update(active_scene);
         }
     }
-    
+
     var descends = obj._descends;
 
     for (var i = 0; i < descends.length; i++)
@@ -287,6 +287,17 @@ exports.distance = function(obj1, obj2) {
 
 exports.obj_point_distance = function(obj, point) {
     return m_vec3.dist(obj._render.trans, point);
+}
+
+exports.get_object_bounding_box = function(obj) {
+    return {
+        max_x: obj._render.bb_world.max_x,
+        min_x: obj._render.bb_world.min_x,
+        max_y: obj._render.bb_world.max_y,
+        min_y: obj._render.bb_world.min_y,
+        max_z: obj._render.bb_world.max_z,
+        min_z: obj._render.bb_world.min_z
+    };
 }
 
 }

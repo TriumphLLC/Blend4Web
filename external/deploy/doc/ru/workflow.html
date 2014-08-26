@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Рабочий процесс &mdash; Руководство пользователя: Blend4Web v14.07</title>
+    <title>Рабочий процесс &mdash; Руководство пользователя: Blend4Web v14.08</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.07',
+        VERSION:     '14.08',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v14.07" href="index.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v14.08" href="index.html" />
     <link rel="next" title="Просмотрщик сцен" href="viewer.html" />
     <link rel="prev" title="Развёртывание среды разработки" href="setup.html" /> 
   </head>
@@ -37,7 +37,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">Руководство пользователя: Blend4Web v14.07</a></div>
+          href="index.html">Руководство пользователя: Blend4Web v14.08</a></div>
         <div class="rel">
           <a href="setup.html" title="Развёртывание среды разработки"
              accesskey="P">предыдущий</a> |
@@ -93,12 +93,7 @@
 <p>Экспорт производится выбором в меню <tt class="docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">Export</span></tt> опции <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">(.json)</span></tt>. Быстрый доступ - поиск по <tt class="docutils literal"><span class="pre">b4w</span> <span class="pre">export</span></tt> (горячая клавиша <tt class="docutils literal"><span class="pre">ПРОБЕЛ</span></tt>).</p>
 <p>Экспортные файлы рекомендуется размещать в директории, предназначенной для развертывания приложения, например <tt class="docutils literal"><span class="pre">external/deploy/assets/имя_проекта</span></tt>.</p>
 <p>Необходимо использовать относительные пути для изображений (как правило, это происходит по умолчанию). В случаях, когда это не так, необходимо выполнить команду <tt class="docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">External</span> <span class="pre">Data</span> <span class="pre">&gt;</span> <span class="pre">Make</span> <span class="pre">All</span> <span class="pre">Paths</span> <span class="pre">Relative</span></tt> (т.е. сделать все пути относительными). Использование абсолютных путей вместо относительных может приводить к ошибкам при попытках загрузки <tt class="docutils literal"><span class="pre">.blend</span></tt> и <tt class="docutils literal"><span class="pre">.json</span></tt> файлов на других компьютерах.</p>
-<p>В момент экспорта происходит проверка сцены на предмет использования не поддерживаемых движком возможностей Blender&#8217;a. В таких случаях генерируется сообщение об ошибке:</p>
-<a class="reference internal image-reference" href="_images/error_message.jpg"><img alt="Сообщение об ошибке при экспорте" class="align-center" src="_images/error_message.jpg" style="width: 100%;" /></a>
-<div class="line-block">
-<div class="line"><br /></div>
-</div>
-<p>Перечень возможных ошибок экспорта перечислен в <a class="reference internal" href="addon.html#export-errors"><em>соответствующем разделе</em></a>.</p>
+<p>В момент экспорта происходит проверка сцены на предмет использования не поддерживаемых движком возможностей Blender&#8217;a. В таких случаях генерируется сообщение об ошибке. Перечень возможных ошибок экспорта перечислен в <a class="reference internal" href="addon.html#export-errors"><em>соответствующем разделе</em></a>.</p>
 <div class="section" id="id4">
 <h3>Опции экспорта<a class="headerlink" href="#id4" title="Ссылка на этот заголовок">¶</a></h3>
 <dl class="docutils">
@@ -146,7 +141,7 @@
 </div>
 <p>Добавление можно осуществить копированием и вставкой описания похожей сцены в нужной категории и последующим редактированием ее названия и пути к экспортному файлу.</p>
 <p>В случае успешного добавления сцена должна появиться в списке сцен просмотрщика в нужной категории.</p>
-<a class="reference internal image-reference" href="_images/viewer_apple_scene.jpg"><img alt="Отображение сцены в просмотрщике." class="align-center" src="_images/viewer_apple_scene.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/viewer_apple_scene.jpg"><img alt="_images/viewer_apple_scene.jpg" class="align-center" src="_images/viewer_apple_scene.jpg" style="width: 100%;" /></a>
 </div>
 </div>
 <div class="section" id="id7">
@@ -175,6 +170,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Просмотрщик сцен</a></li>
+<li class="toctree-l1"><a class="reference internal" href="web_player.html">Веб-плеер</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">Аддон</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Объекты</a></li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">Текстуры</a></li>
@@ -226,7 +222,7 @@
           
     <div class="footer">
         &copy; Copyright 2014, ООО &#34;Триумф&#34;.
-      Обновлено: 2014-07-23.
+      Обновлено: 2014-08-25.
       Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

@@ -38,18 +38,18 @@ exports.defaults = {
     do_not_load_resources    : false,
 
     use_min50                : false,
-   
+
     fps_measurement_interval : 1.5,
-    
+
     fps_callback_interval    : 10,
-    
+
     background_color         : [0.0, 0.0, 0.0, 0.0],
 
     force_selectable         : false,
 
     all_objs_selectable      : false,
 
-    lod_transition_interval  : 50,
+    lod_transition_ratio     : 0.01,
 
     resolution_factor        : 1.0,
 
@@ -67,7 +67,7 @@ exports.defaults = {
     shadows                  : "DEPTH",
 
     anaglyph_use             : false,
-    
+
     reflections              : true,
 
     reflect_multiplier       : 0.5,
@@ -122,6 +122,8 @@ exports.defaults = {
 
     // quality profile
     quality                  : exports.P_HIGH,
+
+    allow_vertex_textures    : true,
 
     glsl_unroll_hack         : false,
 

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>The Addon &mdash; User Manual: Blend4Web v14.07</title>
+    <title>The Addon &mdash; User Manual: Blend4Web v14.08</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.07',
+        VERSION:     '14.08',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,9 +25,9 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User Manual: Blend4Web v14.07" href="index.html" />
+    <link rel="top" title="User Manual: Blend4Web v14.08" href="index.html" />
     <link rel="next" title="Objects" href="objects.html" />
-    <link rel="prev" title="Scene Viewer" href="viewer.html" /> 
+    <link rel="prev" title="Web Player" href="web_player.html" /> 
   </head>
   <body>
     <div class="header-wrapper">
@@ -36,9 +36,9 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">User Manual: Blend4Web v14.07</a></div>
+          href="index.html">User Manual: Blend4Web v14.08</a></div>
         <div class="rel">
-          <a href="viewer.html" title="Scene Viewer"
+          <a href="web_player.html" title="Web Player"
              accesskey="P">previous</a> |
           <a href="objects.html" title="Objects"
              accesskey="N">next</a> |
@@ -61,7 +61,7 @@
 <div class="section" id="initialization-errors">
 <span id="index-0"></span><span id="id2"></span><h2>Initialization Errors<a class="headerlink" href="#initialization-errors" title="Permalink to this headline">¶</a></h2>
 <p>Initialization errors can arise upon installation of the addon or when a scene is opened in Blender. In this case a dialog window with the error description is showed.</p>
-<a class="reference internal image-reference" href="_images/init_error_message.jpg"><img alt="Сообщение об ошибке при инициализации" class="align-center" src="_images/init_error_message.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/init_error_message.jpg"><img alt="_images/init_error_message.jpg" class="align-center" src="_images/init_error_message.jpg" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -102,7 +102,7 @@ Current version is VER_CURRENT.</td>
 <p><tt class="docutils literal"><span class="pre">NAME</span></tt> - component name.</p>
 <p><tt class="docutils literal"><span class="pre">ERROR</span></tt> - short description of the occured problem.</p>
 </div></blockquote>
-<a class="reference internal image-reference" href="_images/error_message.jpg"><img alt="Сообщение об ошибке при экспорте" class="align-center" src="_images/error_message.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/error_message.jpg"><img alt="_images/error_message.jpg" class="align-center" src="_images/error_message.jpg" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -126,52 +126,57 @@ exported</td>
 <td><p class="first last">None of the objects in the GROUP_NAME group which were selected for duplication on the OBJECT_NAME object can be exported. Permission to export at least one object of the group, or to remove the duplication of the group is required.</p>
 </td>
 </tr>
-<tr class="row-odd"><td>Incompatible meshes; Check
+<tr class="row-odd"><td>Export to different disk is
+forbidden</td>
+<td><p class="first last">Export to a directory located on a different disk is forbidden</p>
+</td>
+</tr>
+<tr class="row-even"><td>Incompatible meshes; Check
 MESH_NAME1 and MESH_NAME2 UV Maps/
 Vertex colors</td>
 <td><p class="first last">There are two meshes with the same material. Such meshes are merged automatically into one by the engine with the purpose of optimization, and so they should have the same number of <tt class="docutils literal"><span class="pre">UV</span> <span class="pre">Maps</span></tt> and <tt class="docutils literal"><span class="pre">Vertex</span> <span class="pre">Colors</span></tt>.</p>
 </td>
 </tr>
-<tr class="row-even"><td>Incompatible objects with
+<tr class="row-odd"><td>Incompatible objects with
 a shared mesh; The OBJECT_NAME
 object has both vertex groups and
 a shared mesh</td>
 <td><p class="first last">Export of an object with both a shared mesh and vertex groups is not allowed. Exceptions: export is possible if an object has the <tt class="docutils literal"><span class="pre">Apply</span> <span class="pre">modifiers</span></tt>, <tt class="docutils literal"><span class="pre">Export</span> <span class="pre">vertex</span> <span class="pre">animation</span></tt>, <tt class="docutils literal"><span class="pre">Export</span> <span class="pre">edited</span> <span class="pre">normals</span></tt> options turned on (because in these cases a full copying of meshes occurs).</p>
 </td>
 </tr>
-<tr class="row-odd"><td>Incomplete mesh; Dynamic grass
+<tr class="row-even"><td>Incomplete mesh; Dynamic grass
 vertex colors required
 by material settings</td>
 <td><p class="first last">The <tt class="docutils literal"><span class="pre">Dynamic</span> <span class="pre">grass</span> <span class="pre">size</span></tt> and/or <tt class="docutils literal"><span class="pre">Dynamic</span> <span class="pre">grass</span> <span class="pre">color</span></tt> options are used by the special terrain material but the mesh has no vertex colors with such names.</p>
 </td>
 </tr>
-<tr class="row-even"><td>Incomplete mesh; Material slot is
+<tr class="row-odd"><td>Incomplete mesh; Material slot is
 empty</td>
 <td><p class="first last">Material slot is empty.</p>
 </td>
 </tr>
-<tr class="row-odd"><td>Incomplete mesh; No UV in mesh
+<tr class="row-even"><td>Incomplete mesh; No UV in mesh
 with UV-textured material</td>
 <td><p class="first last">In the material of the mesh there are textures with texture coordinates type <tt class="docutils literal"><span class="pre">UV</span></tt>, but the mesh lacks UV map layers.</p>
 </td>
 </tr>
-<tr class="row-even"><td>Incomplete mesh; Material settings
+<tr class="row-odd"><td>Incomplete mesh; Material settings
 require vertex colors</td>
 <td><p class="first last">The <tt class="docutils literal"><span class="pre">Vertex</span> <span class="pre">Color</span> <span class="pre">Paint</span></tt> option is enabled for the mesh material, but the mesh has no vertex color layers.</p>
 </td>
 </tr>
-<tr class="row-odd"><td>Incomplete vehicle. The NAME
+<tr class="row-even"><td>Incomplete vehicle. The NAME
 vehicle doesn&#8217;t have any chassis
 or hull</td>
 <td><p class="first last">The modelled NAME vehicle is not complete as it should contain a <tt class="docutils literal"><span class="pre">Chassis</span></tt> or a <tt class="docutils literal"><span class="pre">Hull</span></tt> element.</p>
 </td>
 </tr>
-<tr class="row-even"><td>Incomplete vehicle. The NAME
+<tr class="row-odd"><td>Incomplete vehicle. The NAME
 vehicle requires at least one bob</td>
 <td><p class="first last">The modelled NAME vehicle is not complete as it should contain at least one <tt class="docutils literal"><span class="pre">Bob</span></tt> element.</p>
 </td>
 </tr>
-<tr class="row-odd"><td>Incomplete vehicle. The NAME
+<tr class="row-even"><td>Incomplete vehicle. The NAME
 vehicle requires at least one wheel</td>
 <td><p class="first last">The modelled NAME vehicle is not complete as it should contain at least one <tt class="docutils literal"><span class="pre">Wheel</span></tt> element.</p>
 </td>
@@ -413,6 +418,7 @@ without nodes.</td>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">Development Environment Setup</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Workflow</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Scene Viewer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="web_player.html">Web Player</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">The Addon</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#initialization-errors">Initialization Errors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#export-errors">Export Errors</a></li>
@@ -457,7 +463,7 @@ without nodes.</td>
     <div class="footer-wrapper">
       <div class="footer">
         <div class="left">
-          <a href="viewer.html" title="Scene Viewer"
+          <a href="web_player.html" title="Web Player"
              >previous</a> |
           <a href="objects.html" title="Objects"
              >next</a> |
@@ -469,7 +475,7 @@ without nodes.</td>
           
     <div class="footer">
         &copy; Copyright 2014, Triumph LLC.
-      Last updated on 2014-07-23.
+      Last updated on 2014-08-25.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

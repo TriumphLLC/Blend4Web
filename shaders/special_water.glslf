@@ -17,7 +17,7 @@
 #include <math.glslv>
 
 #define REFL_BUMP 0.001  //How much normal affects reflection displacement
-#define REFR_BUMP 0.0001 //How much normal affects refraction displacement
+#define REFR_BUMP 0.001  //How much normal affects refraction displacement
 
 /*============================================================================
                                GLOBAL UNIFORMS
@@ -74,7 +74,7 @@ uniform samplerCube u_mirrormap;
 #endif
 
 #if SHORE_SMOOTHING
-uniform sampler2D u_shore_depth;
+uniform sampler2D u_scene_depth;
 #elif ALPHA_MAP
 uniform sampler2D u_alphamap;
 #endif
@@ -138,6 +138,10 @@ uniform vec2 u_foam_mag;
 uniform vec2 u_foam_scale;
 #endif
 
+#if REFRACTIVE
+uniform float u_refr_bump;
+#endif
+
 /*============================================================================
                                    VARYINGS
 ============================================================================*/
@@ -173,20 +177,7 @@ varying float v_view_depth;
 #endif
 
 #if REFRACTIVE && SHORE_SMOOTHING
-float refraction (in float shore_depth,
-                 inout vec2 refract_coord, in vec2 screen_coord) {
-
-    vec4  shore_depth_refr_rgba = texture2D(u_shore_depth, refract_coord);
-    float shore_depth_refr      = unpack_depth(shore_depth_refr_rgba);
-
-    // if refracted object is closer than water surface use undisturbed coords
-    if (shore_depth_refr < v_view_depth) {
-        refract_coord = screen_coord;
-        return shore_depth;
-    } else {
-        return shore_depth_refr;
-    }
-}
+#include <refraction.glslf>
 #endif
 
 vec3 reflection (in vec2 screen_coord, in vec3 normal, in vec3 eye_dir,
@@ -345,15 +336,15 @@ void main(void) {
 #if SHORE_SMOOTHING
     float alpha = u_diffuse_color.a;
 
-    vec4 shore_depth_rgba = texture2DProj(u_shore_depth, v_tex_pos_clip);
-    float shore_depth = unpack_depth(shore_depth_rgba);
-    float delta = max(shore_depth - v_view_depth, 0.0);
+    vec4 scene_depth_rgba = texture2DProj(u_scene_depth, v_tex_pos_clip);
+    float scene_depth = unpack_depth(scene_depth_rgba);
+    float delta = max(scene_depth - v_view_depth, 0.0);
 
 # if REFRACTIVE
-    vec2 refract_coord = screen_coord + normal.xz * REFR_BUMP
+    vec2 refract_coord = screen_coord + normal.xz * u_refr_bump
                                                   / v_view_depth;
-    float shore_depth_refr = refraction(shore_depth, refract_coord, screen_coord);
-    float delta_refr = max(shore_depth_refr - v_view_depth, 0.0);
+    float scene_depth_refr = refraction_correction(scene_depth, refract_coord, screen_coord);
+    float delta_refr = max(scene_depth_refr - v_view_depth, 0.0);
     float depth_diff_refr = u_view_max_depth / ABSORB * delta_refr;
 
     float refract_factor;
@@ -533,7 +524,7 @@ void main(void) {
     fog(color, surf_dist, fog_color);
 # endif //WATER_EFFECTS
 #endif //!DISABLE_FOG
-    
+
     lin_to_srgb(color);
 
 #if !REFRACTIVE

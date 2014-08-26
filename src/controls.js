@@ -821,6 +821,7 @@ exports.keyup_cb = function(e) {
 
 exports.mouse_down_cb = function(e) {
 
+    var pick = false;
     var selected_obj = null;
 
     for (var i = 0; i < _sensors.length; i++) {
@@ -832,8 +833,10 @@ exports.mouse_down_cb = function(e) {
 
         // update selection sensors
         if (sensor.type == ST_SELECTION) {
-            if (!selected_obj)
+            if (!pick) {
                 selected_obj = m_scs.pick_object(e.clientX, e.clientY);
+                pick = true;
+            }
             sensor.value = (selected_obj == sensor.obj);
         }
     }
@@ -916,12 +919,16 @@ exports.touch_start_cb = function(e) {
         var y = touch.pageY;
 
         // update selection sensors
+        var pick = false;
         var selected_obj = null;
+
         for (var i = 0; i < _sensors.length; i++) {
             var sensor = _sensors[i];
             if (sensor.type == ST_SELECTION) {
-                if (!selected_obj)
+                if (!pick) {
                     selected_obj = m_scs.pick_object(x, y);
+                    pick = true;
+                }
                 sensor.value = (selected_obj == sensor.obj);
             }
         }

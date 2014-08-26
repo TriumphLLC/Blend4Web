@@ -21,26 +21,26 @@ attribute vec4 a_influence;
 #endif
 
 #if WIND_BEND || DYNAMIC_GRASS || HAIR_BILLBOARD
-    AU_QUALIFIER vec3 au_center_pos;
+AU_QUALIFIER vec3 au_center_pos;
 #endif
 
 #if WIND_BEND
-    #if MAIN_BEND_COL
-        attribute float a_bending_col_main;
-        #if DETAIL_BEND
-            attribute vec3 a_bending_col_detail;
-            attribute vec3 a_normal;
-            AU_QUALIFIER float au_detail_bending_amp;
-            AU_QUALIFIER float au_branch_bending_amp;
-            AU_QUALIFIER float au_detail_bending_freq;
-        #endif
-    #endif
-    AU_QUALIFIER float au_wind_bending_amp;
-    AU_QUALIFIER float au_wind_bending_freq;
+# if MAIN_BEND_COL
+attribute float a_bending_col_main;
+#  if DETAIL_BEND
+attribute vec3 a_bending_col_detail;
+attribute vec3 a_normal;
+AU_QUALIFIER float au_detail_bending_amp;
+AU_QUALIFIER float au_branch_bending_amp;
+AU_QUALIFIER float au_detail_bending_freq;
+#  endif  // DETAIL_BEND
+# endif  // MAIN_BEND_COL
+AU_QUALIFIER float au_wind_bending_amp;
+AU_QUALIFIER float au_wind_bending_freq;
 # if BEND_CENTER_ONLY
     attribute vec3 a_emitter_center;
 # endif
-#endif
+#endif  // WIND_BEND
 
 #if VERTEX_ANIM
 attribute vec3 a_position_next;

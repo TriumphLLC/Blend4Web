@@ -31,19 +31,19 @@ var data    = require("__data");
  * @param {Boolean} [load_hidden=false] Hide/disable loaded objects
  * @returns {Number} ID of loaded data.
  */
-exports["load"] = data.load;
+exports.load = data.load;
 /**
  * @method module:data.load_and_add_new
  * @deprecated Use load() instead
  */
-exports["load_and_add_new"] = data.load;
+exports.load_and_add_new = data.load;
 
 /**
  * Unload the previously loaded data.
  * @method module:data.unload
  * @param {Number} [data_id=0] ID of unloaded data. Unload all data if data_id is zero.
  */
-exports["unload"] = function(data_id) {
+exports.unload = function(data_id) {
     data_id = data_id | 0;
     data.unload(data_id);
 }
@@ -51,13 +51,13 @@ exports["unload"] = function(data_id) {
  * @method module:data.cleanup
  * @deprecated Use unload() method
  */
-exports["cleanup"] = exports["unload"];
+exports.cleanup = exports.unload;
 
 /**
  * @method module:data.get_bpy_world
  * @deprecated Execution forbidden
  */
-exports["get_bpy_world"] = function(world_name) {
+exports.get_bpy_world = function(world_name) {
     m_print.error("get_bpy_world() deprecated");
     return null;
 }
@@ -69,13 +69,13 @@ exports["get_bpy_world"] = function(world_name) {
  * @method module:data.set_debug_resources_root
  * @param {String} debug_resources_root App root directory.
  */
-exports["set_debug_resources_root"] = data.set_debug_resources_root;
+exports.set_debug_resources_root = data.set_debug_resources_root;
 
 /**
  * Check if the engine primary data is loaded (detect the last loading stage).
  * @method module:data.is_primary_loaded
  * @returns {Boolean} Check result
  */
-exports["is_primary_loaded"] = data.is_primary_loaded;
+exports.is_primary_loaded = data.is_primary_loaded;
 
 }

@@ -16,7 +16,7 @@ var m_print = require("__print");
  * Used by mixer addon.
  * @method module:hud.draw_mixer_strip
  */
-exports["draw_mixer_strip"] = m_hud.draw_mixer_strip;
+exports.draw_mixer_strip = m_hud.draw_mixer_strip;
 
 /**
  * Plot the array.
@@ -29,6 +29,6 @@ exports["draw_mixer_strip"] = m_hud.draw_mixer_strip;
  * @param {Number} val_min Minimum plot value
  * @param {Number} val_max Maximum plot value
  */
-exports["plot_array"] = m_hud.plot_array;
+exports.plot_array = m_hud.plot_array;
 
 }

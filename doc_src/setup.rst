@@ -35,8 +35,7 @@
 Для работы движка требуется :ref:`браузер с поддержкой WebGL <browser_webgl_support>`. Для проверки можно перейти на страницу http://get.webgl.org/. Должна
 появиться надпись зеленого цвета и вращающийся куб:
 
-.. image:: src_images/browser_supports_webgl.jpg
-   :alt: Страница тестового сайта при успешной инициализации WebGL
+.. image:: src_images/setup/browser_supports_webgl.jpg
    :align: center
    :width: 100%
 
@@ -61,8 +60,7 @@
 
 |
 
-.. image:: src_images/chrome_file_access.jpg
-   :alt: Настройка Chrome для загрузки локальных ресурсов
+.. image:: src_images/setup/chrome_file_access.png
    :align: center
    :width: 100%
 
@@ -99,8 +97,7 @@
 
 |
 
-.. image:: src_images/firefox_strict_origin.jpg
-   :alt: Настройка Firefox для загрузки локальных ресурсов
+.. image:: src_images/setup/firefox_strict_origin.jpg
    :align: center
    :width: 100%
 
@@ -110,8 +107,7 @@
 
 Включить в настройках отображение меню "Develop", затем активировать опцию "Disable Local File Restrictions".
 
-.. image:: src_images/safari_setup.png
-   :alt: Настройка Safari для загрузки локальных ресурсов
+.. image:: src_images/setup/safari_setup.png
    :align: center
    :width: 100%
 
@@ -125,14 +121,8 @@
 Запуск просмотрщика сцен
 ========================
 
-Откройте файл :file:`apps_dev/viewer/viewer_dev.html` в настроенном браузере. Должна отобразиться страница с окном рендерера и элементами интерфейса.
+Откройте файл :file:`apps_dev/viewer/viewer_dev.html` в настроенном браузере. Должна отобразиться страница :ref:`просмотрщика сцен <viewer>` с окном рендерера и элементами интерфейса.
 
-.. image:: src_images/engine_screens/default_page.jpg
-   :alt: Первый запуск рендерера
-   :align: center
-   :width: 100%
-
-|
 
 .. note::
 
@@ -153,8 +143,7 @@
 Запустить Blender, загрузить сцену по умолчанию :file:`File > New` (горячие клавиши :file:`Ctrl-N`).
 Вызвать окно пользовательских настроек :file:`File > User Preferences...` (горячие клавиши :file:`Ctrl-Alt-U`). Во вкладке  :file:`File` в поле  :file:`Scripts` выбрать путь к директории :file:`blender_scripts`. 
 
-.. image:: src_images/blender_screens/user_preferences_scripts_path.jpg
-   :alt: Указание пути для скриптов в окне пользовательских настроек
+.. image:: src_images/setup/user_preferences_scripts_path.jpg
    :align: center
    :width: 100%
 
@@ -170,8 +159,7 @@
 
 Повторно загрузить сцену по умолчанию, вызвать окно пользовательских настроек, перейти на вкладку :file:`Addons` и выбрать категорию :file:`Import-Export`. Отметить галочку напротив :file:`Import-Export: Blend4Web`. 
 
-.. image:: src_images/blender_screens/user_preferences_enable_addon.jpg
-   :alt: Инициализация скриптов в окне пользовательских настроек
+.. image:: src_images/setup/user_preferences_enable_addon.jpg
    :align: center
    :width: 100%
 
@@ -192,8 +180,7 @@
 В случае необходимости (например, если требуется отладка HTML экспорта) данную опцию можно включить. Для этого указать путь к сборке приложения ``embed``, входящего в состав дистрибутива, в поле :file:`Path to b4w source`. Стандартный путь относительно корня движка :file:`external/deploy/apps/embed`.
 
 
-.. image:: src_images/blender_screens/user_preferences_enable_addon_HTML_option.jpg
-   :alt: Включение опции экспорта в HTML
+.. image:: src_images/setup/user_preferences_enable_addon_HTML_option.jpg
    :align: center
    :width: 100%
 
