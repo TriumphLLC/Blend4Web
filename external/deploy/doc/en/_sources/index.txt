@@ -18,8 +18,8 @@
     web_player.rst
     addon.rst
     objects.rst
-    textures.rst
     materials.rst
+    textures.rst
     node_materials.rst
     lighting.rst
     postprocessing_effects.rst
@@ -35,6 +35,7 @@
     developers_advanced.rst
     git_short_manual.rst
     problems_and_solutions.rst
+    release_notes.rst
 
 
 * :ref:`genindex`

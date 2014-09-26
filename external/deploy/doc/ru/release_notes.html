@@ -1,0 +1,297 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Замечания к релизам &mdash; Руководство пользователя: Blend4Web v14.09</title>
+    
+    <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '14.09',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="author" title="Об этих документах" href="about.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v14.09" href="index.html" />
+    <link rel="prev" title="Проблемы и решения" href="problems_and_solutions.html" /> 
+  </head>
+  <body>
+    <div class="header-wrapper">
+      <div class="header">
+          <p class="logo"><a href="index.html">
+            <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
+          </a></p>
+        <div class="headertitle"><a
+          href="index.html">Руководство пользователя: Blend4Web v14.09</a></div>
+        <div class="rel">
+          <a href="problems_and_solutions.html" title="Проблемы и решения"
+             accesskey="P">предыдущий</a> |
+          <a href="genindex.html" title="Алфавитный указатель"
+             accesskey="I">указатель</a>
+        </div>
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="release-notes">
+<span id="id1"></span><h1>Замечания к релизам<a class="headerlink" href="#release-notes" title="Ссылка на этот заголовок">¶</a></h1>
+<div class="section" id="v14-09">
+<span id="index-0"></span><h2>v14.09<a class="headerlink" href="#v14-09" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="id2">
+<h3>Новый функционал<a class="headerlink" href="#id2" title="Ссылка на этот заголовок">¶</a></h3>
+<ul>
+<li><p class="first"><em>Поддержка типа ABSOLUTE для ноды MATH.</em></p>
+</li>
+<li><dl class="first docutils">
+<dt><em>Поддержка специализированной ноды LEVELS_OF_QUALITY.</em></dt>
+<dd><p class="first last">Позволяет управлять сложностью материала в зависимости от профиля качества,
+указанного пользователем при загрузке движка.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><em>Поддержка специализированной ноды SMOOTHSTEP.</em></dt>
+<dd><p class="first last">Упрощает создание некоторых эффектов в нодовом материале.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><em>Поддержка нодовых групп.</em></dt>
+<dd><p class="first last"><a class="reference external" href="http://wiki.blender.org/index.php/Doc:2.6/Manual/Composite_Nodes/Node_Groups">Нодовые группы</a> позволяют повторное использования блока нод одного материала в составе другого.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><em>Возможность вывода промежуточных результатов рендеринга с целью отладки.</em></dt>
+<dd><p class="first last">Результат рендеринга конкретной стадии теперь можно вывести поверх основного изображения. Настройка осуществляется в модуле <tt class="docutils literal"><span class="pre">config.js</span></tt> опциями группы <tt class="docutils literal"><span class="pre">debug_subs</span></tt>.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><em>Реализация логики управления NLA-анимацией в Blender с помощью визуального редактора.</em></dt>
+<dd><p class="first last">В интерфейс Blender добавлен инструмент NLA Script, который позволяет с
+помощью визуальных блоков реализовывать простые сценарии, например
+осуществить управление текущей анимацией в ответ на действия пользователя.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><em>Многочисленные улучшения системы сенсоров.</em></dt>
+<dd><p class="first last">В модуле <tt class="docutils literal"><span class="pre">controls</span></tt> разрешено регистрировать <em>множества сенсоров</em>
+глобально, без привязки к конкретному объекту, для чего в соответствующие
+API необходимо подавать параметр <tt class="docutils literal"><span class="pre">null</span></tt>. Обеспечена более предсказуемая и
+надёжная обработка логики сенсоров, в соответствии с последовательностью
+создания их <em>множеств</em>. Обработчики событий, связанных с действиями
+пользователя теперь назначаются с помощью функций вида
+<tt class="docutils literal"><span class="pre">register_&lt;inputtype&gt;_events()</span></tt>. В данные функции теперь можно подавать
+флаг <tt class="docutils literal"><span class="pre">prevent_default</span></tt>, позволяющий заблокировать стандартное поведение
+браузера, происходящее после возникновения соответствующих событий.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><em>Поддержка использования физики в веб-плеере.</em></dt>
+<dd><p class="first last">Работает только в версии веб-плеера с раздельной загрузкой JSON-файлов. В
+одиночных HTML файлах физика не поддерживается.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><em>Поддержка смешивания различных скелетных анимаций.</em></dt>
+<dd><p class="first last">В модуле <tt class="docutils literal"><span class="pre">animation.js</span></tt> добавились API, позволяющие осуществлять плавные
+переходы между скелетными анимациями: get_skel_mix_factor() - для получения
+текущего значения коэффициента смешинвания и set_skel_mix_factor() - для его
+назначения.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><em>Поддержка анимации ноды Value в нодовых материалах.</em></dt>
+<dd><p class="first last">Функциональность работает аналогично другим видам анимации. Поддерживается работа в NLA.</p>
+</dd>
+</dl>
+</li>
+<li><p class="first"><em>Поддержка параметров Specular и Diffuse в источниках освещения.</em></p>
+</li>
+<li><dl class="first docutils">
+<dt><em>Возможность рендеринга полупрозрачного объекта поверх остальных объектов на сцене.</em></dt>
+<dd><p class="first last">Активируется с помощью опции <tt class="docutils literal"><span class="pre">Render</span> <span class="pre">above</span> <span class="pre">all</span></tt> для прозрачных материалов (т.е. не <tt class="docutils literal"><span class="pre">Opaque</span></tt>).</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><em>Автоматическое применение масштаба к мешу объекта.</em></dt>
+<dd><p class="first last">Реализуется включением опции <tt class="docutils literal"><span class="pre">Apply</span> <span class="pre">scale</span></tt> в настройках объекта.</p>
+</dd>
+</dl>
+</li>
+<li><p class="first"><em>Поддержка профиля высокого качества (включая тени, динамическое отражение и антиалиасинг) для iOS.</em></p>
+</li>
+</ul>
+</div>
+<div class="section" id="id4">
+<h3>Изменения<a class="headerlink" href="#id4" title="Ссылка на этот заголовок">¶</a></h3>
+<ul>
+<li><dl class="first docutils">
+<dt><em>Улучшение рендеринга теней.</em></dt>
+<dd><p class="first last">Существенно изменена система отрисовки теней, которая теперь основывается на технике <tt class="docutils literal"><span class="pre">Stable</span> <span class="pre">Cascaded</span> <span class="pre">Shadow</span> <span class="pre">Maps</span></tt>. Техника позволяет существенно уменьшить мерцание краев теней при движении камеры. Между каскадами реализовано сглаживание. Также тени последнего каскада плавно исчезают при удалении. Для рендеринга мягких теней реализована техника <tt class="docutils literal"><span class="pre">Percentage</span> <span class="pre">Closer</span> <span class="pre">Shadows</span></tt>. Переработана и упрощена система пользовательских настроек теней. Теперь можно задавать размеры карт теней, степень размытия, настройки для компенсации ошибок самозатенения. Новые настройки подробно <a class="reference internal" href="lighting.html#shadows"><em>документированы</em></a>.</p>
+</dd>
+</dl>
+</li>
+<li><p class="first"><em>Настройка качества графики в веб-плеере теперь сохраняется для каждой сцены независимо.</em></p>
+</li>
+<li><dl class="first docutils">
+<dt><em>Изменено поведение настроек конфигурации приложения: physics_uranium_path, smaa_search_texture_path и smaa_area_texture_path.</em></dt>
+<dd><p class="first last">Данные настройки конфигурации теперь рассчитываются автоматически в зависимости от местоположения запускаемого HTML-файла, если они не были переопределены при инициализации приложения.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><em>Завершён переход на систему модулей, подключаемых через вызов b4w.require().</em></dt>
+<dd><p class="first last">Это также означает, что начиная с текущей версии в релиз-версии движка
+модули нельзя вызывать с помощью устаревшего интерфейса <tt class="docutils literal"><span class="pre">b4w.&lt;module&gt;</span></tt>.
+С целью совместимости создан аддон <tt class="docutils literal"><span class="pre">ns_compat.js</span></tt>, подключение которого
+позволяет восстановить старое поведение.</p>
+</dd>
+</dl>
+</li>
+<li><p class="first"><em>Добавлена возможность сокрытия панели управления в веб-плеере.</em></p>
+</li>
+<li><dl class="first docutils">
+<dt><em>Скелетная анимация применяется только к объекту арматуры.</em></dt>
+<dd><p class="first last">Нет необходимости применять скелетную анимацию к объектам типа <tt class="docutils literal"><span class="pre">MESH</span></tt>.
+Eсли они привязаны к какой-либо анимированной арматуре, скиннинг будет происходить автоматически.</p>
+</dd>
+</dl>
+</li>
+<li><p class="first"><em>Демонстрационные приложения и обучающие материалы приведены в соответствие с новым функционалом.</em></p>
+</li>
+</ul>
+</div>
+<div class="section" id="id5">
+<h3>Исправления<a class="headerlink" href="#id5" title="Ссылка на этот заголовок">¶</a></h3>
+<ul class="simple">
+<li><em>Индикатор загрузки не скрывался, если в процессе происходила ошибка загрузки ресурса (текстуры либо звукового файла).</em></li>
+<li><em>Исправлены лаги при масштабировании и повороте на touch-устройствах.</em></li>
+<li><em>Устранено дрожание камеры типа TARGET при небольших поворотах.</em></li>
+<li><em>Исправлено управление камерой типа EYE на мобильных устройствах.</em></li>
+<li><em>Улучшено управление в приложении Ферма в браузере Safari.</em></li>
+<li><em>Исправлены ошибки при использовании неподдерживаемых моделей освещения на нодовых материалах.</em></li>
+<li><em>Для объектов без материалов теперь работает опция &#8220;Selectable&#8221;.</em></li>
+<li><em>Более нет необходимости включать &#8220;Do not batch&#8221; для объектов, анимирующихся с использованием NLA.</em></li>
+<li><em>Исправлена ошибка для систем частиц, в которых дуплицируемый объект входит в иерархию с другими объектами.</em></li>
+</ul>
+</div>
+<div class="section" id="id6">
+<h3>Известные проблемы<a class="headerlink" href="#id6" title="Ссылка на этот заголовок">¶</a></h3>
+<ul>
+<li><dl class="first docutils">
+<dt><em>Проблемы с обновлением аддона в Blender</em></dt>
+<dd><p class="first last">Настоятельно не рекомендуется устанавливать новую версию аддона Blender, не удалив предварительно старую версию, особенно это касается систем Windows.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="sidebar">
+          <h3>Оглавление</h3>
+          <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">Общие сведения</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">Функционал движка</a></li>
+<li class="toctree-l1"><a class="reference internal" href="first_steps.html">Экспресс-установка</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">Развёртывание среды разработки</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow.html">Рабочий процесс</a></li>
+<li class="toctree-l1"><a class="reference internal" href="viewer.html">Просмотрщик сцен</a></li>
+<li class="toctree-l1"><a class="reference internal" href="web_player.html">Веб-плеер</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">Аддон</a></li>
+<li class="toctree-l1"><a class="reference internal" href="objects.html">Объекты</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materials.html">Материалы</a></li>
+<li class="toctree-l1"><a class="reference internal" href="textures.html">Текстуры</a></li>
+<li class="toctree-l1"><a class="reference internal" href="node_materials.html">Нодовые материалы</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lighting.html">Освещение, тени и фон</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Постпроцессинговые эффекты</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles.html">Система частиц</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Система частиц для инстансинга объектов</a></li>
+<li class="toctree-l1"><a class="reference internal" href="animation.html">Анимация</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Рендеринг наружных сцен</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Гамма-коррекция и альфа-композитинг</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audio.html">Звуковая подсистема</a></li>
+<li class="toctree-l1"><a class="reference internal" href="physics.html">Физика</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nla.html">Нелинейная анимация</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers.html">Разработчикам приложений</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">Разработчикам движка</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Работа в команде. Использование git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Проблемы и решения</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Замечания к релизам</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#v14-09">v14.09</a></li>
+</ul>
+</li>
+</ul>
+
+          <h3 style="margin-top: 1.5em;">Поиск</h3>
+          <form class="search" action="search.html" method="get">
+            <input type="text" name="q" />
+            <input type="submit" value="Искать" />
+            <input type="hidden" name="check_keywords" value="yes" />
+            <input type="hidden" name="area" value="default" />
+          </form>
+          <p class="searchtip" style="font-size: 90%">
+            Введите слова для поиска или имя модуля, класса или функции.
+          </p>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+    <div class="footer-wrapper">
+      <div class="footer">
+        <div class="left">
+          <a href="problems_and_solutions.html" title="Проблемы и решения"
+             >предыдущий</a> |
+          <a href="genindex.html" title="Алфавитный указатель"
+             >указатель</a>
+        </div>
+
+        <div class="right">
+          
+    <div class="footer">
+        &copy; Copyright 2014, ООО &#34;Триумф&#34;.
+      Обновлено: 2014-09-25.
+      Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+  </body>
+</html>

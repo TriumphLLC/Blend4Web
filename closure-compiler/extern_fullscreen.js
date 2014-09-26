@@ -1,6 +1,6 @@
 Object.prototype.requestFullScreen;
-Object.prototype.webkitrequestFullScreen;
-Object.prototype.mozrequestFullScreen;
+Object.prototype.webkitRequestFullScreen;
+Object.prototype.mozRequestFullScreen;
 Object.prototype.msRequestFullscreen;
 
 Object.prototype.exitFullscreen;
@@ -8,9 +8,10 @@ Object.prototype.webkitExitFullscreen;
 Object.prototype.mozCancelFullScreen;
 Object.prototype.msExitFullscreen;
 
-Object.prototype.FullScreenElement;
+Object.prototype.fullscreenElement;
 Object.prototype.webkitFullScreenElement;
 Object.prototype.mozFullScreenElement;
+Object.prototype.webkitIsFullScreen;
 Object.prototype.msFullscreenElement;
 
 Object.prototype.fullscreenEnabled;

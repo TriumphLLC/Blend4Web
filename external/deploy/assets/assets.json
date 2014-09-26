@@ -1,44 +1,5 @@
 [
     {
-        "name": "Fridge",
-        "items": [
-            {
-                "name": "Apple",
-                "load_file": "fridge/fruits/apple/apple.json"
-            }
-        ]
-    },
-    {
-        "name": "Dev - Render",
-        "items": [
-            {
-                "name": "B4W Logo",
-                "load_file": "dev/logo.json"
-            }
-        ]
-    },
-    {
-        "name": "Dev - Performance",
-        "items": [
-            {
-                "name": "Empty scene",
-                "load_file": "dev_performance/empty.json"
-            },
-            {
-                "name": "Many Pixels",
-                "load_file": "dev_performance/many_pixels.json"
-            },
-            {
-                "name": "Many Lights",
-                "load_file": "dev_performance/many_lights.json"
-            },
-            {
-                "name": "Many Draw Calls",
-                "load_file": "dev_performance/many_draw_calls.json"
-            }
-        ]
-    },
-    {
         "name": "Tutorials",
         "items": [
             {
@@ -104,6 +65,62 @@
             {
                 "name": "Tortoise Part 2",
                 "load_file": "tutorials/mediterranean_tortoise_2/mediterranean_tortoise.json"
+            }
+        ]
+    },
+    {
+        "name": "Fridge",
+        "items": [
+            {
+                "name": "Apple",
+                "load_file": "fridge/fruits/apple/apple.json"
+            }
+        ]
+    },
+    {
+        "name": "Dev - Render",
+        "items": [
+            {
+                "name": "B4W Logo",
+                "load_file": "dev/logo.json"
+            }
+        ]
+    },
+    {
+        "name": "Dev - Performance",
+        "items": [
+            {
+                "name": "Empty scene",
+                "load_file": "dev_performance/empty.json"
+            },
+            {
+                "name": "Many Pixels",
+                "load_file": "dev_performance/many_pixels.json"
+            },
+            {
+                "name": "Many Lights",
+                "load_file": "dev_performance/many_lights.json"
+            },
+            {
+                "name": "Many Draw Calls",
+                "load_file": "dev_performance/many_draw_calls.json"
+            }
+        ]
+    },
+    {
+        "name": "Dev - Physics",
+        "items": [
+            {
+                "name": "Compound",
+                "load_file": "dev_physics/compound.json"
+            },
+            {
+                "name": "Rigid Body Joints",
+                "load_file": "dev_physics/rigid_body_joints.json"
+            },
+            {
+                "name": "Jumping (elasticity)",
+                "load_file": "dev_physics/jumping.json"
             }
         ]
     }

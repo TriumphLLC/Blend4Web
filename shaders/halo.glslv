@@ -12,19 +12,25 @@ uniform PRECISION float u_halo_size;
 
 varying vec2 v_texcoord;
 varying float v_vertex_random;
+
+#if STATIC_BATCH
+const mat4 u_model_matrix = mat4(1.0);
+#else
+uniform mat4 u_model_matrix;
+#endif
+
 #if WATER_EFFECTS && !DISABLE_FOG
     varying vec4 v_position_world;
 #endif
 
 void main(void) {
 
-    vec3 position = a_position;
+    vec3 position = (u_model_matrix * vec4(a_position, 1.0)).xyz;
 
     v_texcoord = a_halo_bb_vertex * 2.0;
 
     //random value for every halo (0..1)
     v_vertex_random = fract(position.x + position.y + position.z);
-
 
 #if SKY_STARS
     mat4 bb_matrix = billboard_spherical(position, u_view_matrix);

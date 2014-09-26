@@ -477,7 +477,7 @@ exports.is_character = function(obj) {
  * @method module:physics.set_character_move_dir
  * @param {Object} obj Object ID
  * @param {Number} forw Apply forward speed
- * @param {Number} back Apply side speed
+ * @param {Number} side Apply side speed
  */
 exports.set_character_move_dir = function(obj, forw, side) {
     if(!physics.has_physics(obj)) {

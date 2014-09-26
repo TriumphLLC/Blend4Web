@@ -5,6 +5,8 @@ import os
 import cProfile
 import bgl
 
+from . import nla_script
+
 # serialize data to json
 
 _OBJECT_PT_constraints = None
@@ -30,6 +32,8 @@ class B4W_ScenePanel(bpy.types.Panel):
             if getattr(scene, "b4w_use_nla"):
                 row = layout.row()
                 row.prop(scene, "b4w_nla_cyclic", text="Cyclic NLA")
+
+                nla_script.draw(layout, context)
 
             row = layout.row()
             row.prop(scene, "b4w_enable_audio", text="Enable audio")
@@ -138,21 +142,32 @@ class B4W_WorldPanel(bpy.types.Panel):
 
             row = col.row()
             row.prop(shadow, "csm_num", text="CSM number")
+
+            col.label("CSM first cascade:")
             row = col.row()
-            row.prop(shadow, "csm_near", text="CSM near")
+            sides = row.split(align=True)
+            sides.prop(shadow, "csm_first_cascade_border", text="Border")
+            sides.prop(shadow, "first_cascade_blur_radius", text="Blur radius")
+
+            col.label("CSM last cascade:")
             row = col.row()
-            row.prop(shadow, "csm_far", text="CSM far")
-            row = col.row()
-            row.prop(shadow, "csm_lambda", text="CSM lambda")
+            sides = row.split(align=True)
+            sides.prop(shadow, "csm_last_cascade_border", text="Border")
+            sides.prop(shadow, "last_cascade_blur_radius", text="Blur radius")
+            row.active = getattr(shadow, "csm_num") > 1
 
             row = col.row()
-            row.prop(shadow, "visibility_falloff", text="Visibility falloff")
+            row.prop(shadow, "csm_resolution", text="Resolution")
+
             row = col.row()
-            row.prop(shadow, "blur_depth_size_mult", text="Blur depth size mult")
+            row.prop(shadow, "self_shadow_polygon_offset", text="Self-shadow polygon offset")
             row = col.row()
-            row.prop(shadow, "blur_depth_edge_size", text="Blur depth edge size")
+            row.prop(shadow, "self_shadow_normal_offset", text="Self-shadow normal offset")
             row = col.row()
-            row.prop(shadow, "blur_depth_diff_threshold", text="Blur depth diff threshold")
+            row.prop(shadow, "fade_last_cascade", text="Fade-out last cascade")
+            row = col.row()
+            row.prop(shadow, "blend_between_cascades", text="Blend between cascades")
+            row.active = getattr(shadow, "csm_num") > 1
 
             ssao = world.b4w_ssao_settings
             row = layout.row()
@@ -282,6 +297,7 @@ class B4W_ObjectPanel(bpy.types.Panel):
         col.prop(obj, "b4w_do_not_export", text="Do not export")
 
         if obj.type == "MESH":
+            col.prop(obj, "b4w_apply_scale", text="Apply scale")
             col.prop(obj, "b4w_apply_modifiers", text="Apply modifiers")
             col.prop(obj, "b4w_loc_export_vertex_anim", text="Export vertex " +
                     "animation")
@@ -293,6 +309,9 @@ class B4W_ObjectPanel(bpy.types.Panel):
         col = row.column()
         col.prop(obj, "b4w_use_default_animation", text="Use default")
         col.prop(obj, "b4w_cyclic_animation", text="Cyclic")
+
+        if obj.type == "ARMATURE":
+            col.prop(obj, "b4w_animation_mixing", text="Animation blending")
 
         if obj.type == "EMPTY" and obj.dupli_group:
             row = layout.row()
@@ -394,7 +413,7 @@ class B4W_ObjectPanel(bpy.types.Panel):
                 box = row.box()
                 col = box.column()
                 col.label("Glow settings:")
- 
+
                 row = col.row()
                 row.prop(obj.b4w_glow_settings, "glow_duration", text="Glow duration")
                 row = col.row()
@@ -639,6 +658,10 @@ class B4W_MaterialPanel(bpy.types.Panel):
         if mat:
             row = layout.row()
             row.prop(mat, "b4w_do_not_export", text="Do not export")
+
+            if mat.game_settings.alpha_blend not in ["OPAQUE", "CLIP"]:
+                row = layout.row()
+                row.prop(mat, "b4w_render_above_all", text="Render above all")
 
             if mat.type == "HALO":
                 row = layout.row()
@@ -960,7 +983,7 @@ class B4W_ParticlePanel(bpy.types.Panel):
 
             if getattr(pset, "b4w_dynamic_grass"):
                 row = box.row()
-                row.prop(pset, "b4w_dynamic_grass_scale_threshold", 
+                row.prop(pset, "b4w_dynamic_grass_scale_threshold",
                         text="Scale Threshold")
 
             row = layout.row(align=True)

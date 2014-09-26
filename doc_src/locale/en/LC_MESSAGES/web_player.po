@@ -11,7 +11,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../web_player.rst:7 ../web_player.rst:1
+#: ../web_player.rst:1
+msgid "веб-плеер"
+msgstr "web player"
+
+#: ../web_player.rst:7
 msgid "Веб-плеер"
 msgstr "Web Player"
 
@@ -150,3 +154,5 @@ msgstr "the ``load`` attribute is not found or is void;"
 #: ../web_player.rst:83
 msgid "ошибка инициализации WebGL."
 msgstr "WebGL initialization error."
+
+

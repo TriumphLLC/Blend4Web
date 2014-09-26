@@ -22,7 +22,10 @@ void apply_mirror(inout vec3 base_color, in vec3 eye_dir, in vec3 normal,
 {
     vec3 eye_reflected = reflect(-eye_dir, normal);
 
-    float r = fresnel_mirror(eye_dir, eye_reflected, N, r0);
+    float r = 1.0;
+    // NOTE: fix for devices with low precision
+    if (N != 0.0)
+        r = fresnel_mirror(eye_dir, eye_reflected, N, r0);
 
 # if REFLECTIVE
     vec3 norm_proj_refl = u_refl_plane.xyz * dot(normal, u_refl_plane.xyz);

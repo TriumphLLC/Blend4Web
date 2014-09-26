@@ -1,6 +1,7 @@
 #var AU_QUALIFIER uniform
 #var MAX_BONES 0
 #var PRECISION lowp
+#var VERTEX_ANIM_MIX_NORMALS_FACTOR u_va_frame_factor
 
 /*============================================================================
                                   INCLUDES
@@ -121,6 +122,8 @@ uniform PRECISION float u_time;
 uniform vec3 u_texture_scale;
 
 #if SHADOW_SRC != SHADOW_SRC_MASK && SHADOW_SRC != SHADOW_SRC_NONE
+    uniform float u_normal_offset;
+
     uniform mat4 u_v_light_matrix;
 
     // bias light matrix
@@ -217,7 +220,7 @@ void main(void) {
 
 #if VERTEX_ANIM
     position = mix(position, a_position_next, u_va_frame_factor);
-    normal = mix(normal, a_normal_next, u_va_frame_factor);
+    normal = mix(normal, a_normal_next, VERTEX_ANIM_MIX_NORMALS_FACTOR);
 
 # if TEXTURE_NORM
     vec3 tangent_next = vec3(a_tangent);
@@ -240,58 +243,36 @@ void main(void) {
     vec3 center = vec3(0.0);
 #endif
 
-#if TEXTURE_NORM
-# if DYNAMIC_GRASS
+#if DYNAMIC_GRASS
     vertex world = grass_vertex(position, tangent, binormal, normal,
             center, u_grass_map_depth, u_grass_map_color,
             u_grass_map_dim, u_grass_size, u_camera_eye, u_camera_quat,
             u_view_matrix);
-# else  // DYNAMIC_GRASS
-#  if HAIR_BILLBOARD
+#else
+
+# if HAIR_BILLBOARD
     vec3 wcen = (u_model_matrix * vec4(center, 1.0)).xyz;
     mat4 model_matrix = billboard_matrix(u_camera_eye, wcen, u_view_matrix);
-#   if WIND_BEND && HAIR_BILLBOARD_JITTERED
+#  if WIND_BEND && HAIR_BILLBOARD_JITTERED
     vec3 vec_seed = (u_model_matrix * vec4(center, 1.0)).xyz;
     model_matrix = model_matrix * bend_jitter_matrix(u_wind, u_time,
             u_jitter_amp, u_jitter_freq, vec_seed);
-#   endif  // WIND_BEND && HAIR_BILLBOARD_JITTERED
+#  endif  // WIND_BEND && HAIR_BILLBOARD_JITTERED
     vertex world = to_world(position - center, center, tangent, binormal, normal,
             model_matrix);
     world.center = wcen;
-#  else  // HAIR_BILLBOARD
+# else  // HAIR_BILLBOARD
     vertex world = to_world(position, center, tangent, binormal, normal,
             u_model_matrix);
-#  endif  // HAIR_BILLBOARD
-# endif  // DYNAMIC_GRASS
+# endif  // HAIR_BILLBOARD
+#endif  // DYNAMIC_GRASS
 
+#if TEXTURE_NORM
     // calculate handedness as described in Math for 3D GP and CG, page 185
     float m = (dot(cross(world.normal, world.tangent),
         world.binormal) < 0.0) ? -1.0 : 1.0;
 
     v_tangent = vec4(world.tangent, m);
-#else
-# if DYNAMIC_GRASS
-    vertex world = grass_vertex(position, vec3(0.0), vec3(0.0), normal,
-            center, u_grass_map_depth, u_grass_map_color,
-            u_grass_map_dim, u_grass_size, u_camera_eye, u_camera_quat,
-            u_view_matrix);
-# else
-#  if HAIR_BILLBOARD
-    vec3 wcen = (u_model_matrix * vec4(center, 1.0)).xyz;
-    mat4 model_matrix = billboard_matrix(u_camera_eye, wcen, u_view_matrix);
-#   if WIND_BEND && HAIR_BILLBOARD_JITTERED
-    vec3 vec_seed = (u_model_matrix * vec4(center, 1.0)).xyz;
-    model_matrix = model_matrix * bend_jitter_matrix(u_wind, u_time,
-            u_jitter_amp, u_jitter_freq, vec_seed);
-#   endif
-    vertex world = to_world(position - center, center, vec3(0.0), vec3(0.0), normal,
-            model_matrix);
-    world.center = wcen;
-#  else
-    vertex world = to_world(position, center, vec3(0.0), vec3(0.0), normal,
-            u_model_matrix);
-#  endif
-# endif
 #endif
 
 #if WIND_BEND
@@ -330,7 +311,7 @@ void main(void) {
     get_shadow_coords(world.position);
 #endif
 
-#if REFLECTIVE || REFRACTIVE
+#if REFLECTIVE || SHADOW_SRC == SHADOW_SRC_MASK || REFRACTIVE
     float xc = pos_clip.x;
     float yc = pos_clip.y;
     float wc = pos_clip.w;

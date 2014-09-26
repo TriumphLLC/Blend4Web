@@ -10,7 +10,7 @@ float get(float x, float y, float multiplier) {
     vec2 coord = v_texcoord + vec2(x,y) * u_texel_size;
     vec4 rgba_depth = texture2D(u_sampler, coord) * multiplier;
 
-    return unpack_depth(rgba_depth);
+    return unpack_float(rgba_depth);
 }
 
 void main(void) {

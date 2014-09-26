@@ -1,0 +1,378 @@
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: B4W 14.09\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-09-19 14:29+0400\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../release_notes.rst:5
+msgid "Замечания к релизам"
+msgstr "Release Notes"
+
+#: ../release_notes.rst:7
+msgid "замечания к релизам"
+msgstr "release notes"
+
+#: ../release_notes.rst:10
+msgid "v14.09"
+msgstr ""
+
+#: ../release_notes.rst:13
+msgid "Новый функционал"
+msgstr "New features"
+
+#: ../release_notes.rst:15
+msgid "*Поддержка типа ABSOLUTE для ноды MATH.*"
+msgstr "*ABSOLUTE type support for the MATH node.*"
+
+#: ../release_notes.rst:19
+msgid "*Поддержка специализированной ноды LEVELS_OF_QUALITY.*"
+msgstr "*Support for LEVELS_OF_QUALITY special node.*"
+
+#: ../release_notes.rst:18
+msgid ""
+"Позволяет управлять сложностью материала в зависимости от профиля качества, "
+"указанного пользователем при загрузке движка."
+msgstr ""
+"Allows to control the material's complexity depending on the quality profile"
+" which is specified by the user upon engine start."
+
+#: ../release_notes.rst:22
+msgid "*Поддержка специализированной ноды SMOOTHSTEP.*"
+msgstr "*Support for SMOOTHSTEP special node.*"
+
+#: ../release_notes.rst:22
+msgid "Упрощает создание некоторых эффектов в нодовом материале."
+msgstr "Simplifies the creation of some effects in node materials."
+
+#: ../release_notes.rst:25
+msgid "*Поддержка нодовых групп.*"
+msgstr "*Node groups support.*"
+
+#: ../release_notes.rst:25
+msgid ""
+"`Нодовые группы "
+"<http://wiki.blender.org/index.php/Doc:2.6/Manual/Composite_Nodes/Node_Groups>`_"
+" позволяют повторное использования блока нод одного материала в составе "
+"другого."
+msgstr ""
+"`Node groups "
+"<http://wiki.blender.org/index.php/Doc:2.6/Manual/Composite_Nodes/Node_Groups>`_"
+" allow the sharing of node blocks between materials."
+
+#: ../release_notes.rst:28
+msgid ""
+"*Возможность вывода промежуточных результатов рендеринга с целью отладки.*"
+msgstr "*The ability to output intermediate rendering results for debugging.*"
+
+#: ../release_notes.rst:28
+msgid ""
+"Результат рендеринга конкретной стадии теперь можно вывести поверх основного"
+" изображения. Настройка осуществляется в модуле ``config.js`` опциями группы"
+" ``debug_subs``."
+msgstr ""
+"The rendering result for a certain stage can be now output above the main "
+"picture. This can be set up in the ``config.js`` module through the "
+"``debug_subs`` options."
+
+#: ../release_notes.rst:33
+msgid ""
+"*Реализация логики управления NLA-анимацией в Blender с помощью визуального "
+"редактора.*"
+msgstr ""
+"*The logic for controling Blender's NLA animation using a visual editor has "
+"been implemented.*"
+
+#: ../release_notes.rst:31
+msgid ""
+"В интерфейс Blender добавлен инструмент NLA Script, который позволяет с "
+"помощью визуальных блоков реализовывать простые сценарии, например "
+"осуществить управление текущей анимацией в ответ на действия пользователя."
+msgstr ""
+"The NLA Script tool has been added to Blender's interface to allow the "
+"implementing of simple scenarios using visual blocks, for example playing an"
+" animation in response to the user actions."
+
+#: ../release_notes.rst:36
+msgid ""
+"В модуле ``controls`` разрешено регистрировать *множества сенсоров* "
+"глобально, без привязки к конкретному объекту, для чего в соответствующие "
+"API необходимо подавать параметр ``null``. Обеспечена более предсказуемая и "
+"надёжная обработка логики сенсоров, в соответствии с последовательностью "
+"создания их *множеств*. Обработчики событий, связанных с действиями "
+"пользователя теперь назначаются с помощью функций вида "
+"``register_<inputtype>_events()``. В данные функции теперь можно подавать "
+"флаг ``prevent_default``, позволяющий заблокировать стандартное поведение "
+"браузера, происходящее после возникновения соответствующих событий."
+msgstr ""
+"It is now permitted to register *sensor manifolds* globally using a "
+"``controls`` module method with no connection to any object. To do this "
+"``null`` should be passed into the corresponding API. The sensor logic is "
+"processed in a more predictable and robust way according to the sequence in "
+"which their *manifolds* are created. Callbacks of the user action events are"
+" now assigned using the ``register_<inputtype>_events()`` functions. To "
+"these functions it is now possible to pass the ``prevent_default`` flag "
+"which allows to unblock the standard browser behavior for the corresponding "
+"events."
+
+#: ../release_notes.rst:44
+msgid "*Многочисленные улучшения системы сенсоров.*"
+msgstr "*Multiple sensor system improvements.*"
+
+#: ../release_notes.rst:48
+msgid "*Поддержка использования физики в веб-плеере.*"
+msgstr "*The web player now supports physics.*"
+
+#: ../release_notes.rst:47
+msgid ""
+"Работает только в версии веб-плеера с раздельной загрузкой JSON-файлов. В "
+"одиночных HTML файлах физика не поддерживается."
+msgstr ""
+"Works only in the web player version where JSON files are loaded separately."
+" Physics still not supported in the single HTML files."
+
+#: ../release_notes.rst:54
+msgid "*Поддержка смешивания различных скелетных анимаций.*"
+msgstr "*Skeletal animation mixing is now supported.*"
+
+#: ../release_notes.rst:51
+msgid ""
+"В модуле ``animation.js`` добавились API, позволяющие осуществлять плавные "
+"переходы между скелетными анимациями: get_skel_mix_factor() - для получения "
+"текущего значения коэффициента смешинвания и set_skel_mix_factor() - для его"
+" назначения."
+msgstr ""
+"The ``animation.js`` module now contains API for smooth transitions betweeen"
+" skeletal animations: get_skel_mix_factor() - for getting the current mixing"
+" factor value and set_skel_mix_factor() - for setting it."
+
+#: ../release_notes.rst:57
+msgid "*Поддержка анимации ноды Value в нодовых материалах.*"
+msgstr "*The Value node can now be animated in node materials.*"
+
+#: ../release_notes.rst:57
+msgid ""
+"Функциональность работает аналогично другим видам анимации. Поддерживается "
+"работа в NLA."
+msgstr ""
+"The functionality is similar to other animation types. Working in NLA is "
+"also supported."
+
+#: ../release_notes.rst:59
+msgid "*Поддержка параметров Specular и Diffuse в источниках освещения.*"
+msgstr "*Diffuse and Specular lamp's properties are now supported.*"
+
+#: ../release_notes.rst:62
+msgid ""
+"*Возможность рендеринга полупрозрачного объекта поверх остальных объектов на"
+" сцене.*"
+msgstr ""
+"*The possibility to render a transparent object above other objects on the "
+"scene.*"
+
+#: ../release_notes.rst:62
+msgid ""
+"Активируется с помощью опции ``Render above all`` для прозрачных материалов "
+"(т.е. не ``Opaque``)."
+msgstr ""
+"Activated with the ``Render above all`` checkbox for transparent materials "
+"(i.e. not ``Opaque``)."
+
+#: ../release_notes.rst:65
+msgid "*Автоматическое применение масштаба к мешу объекта.*"
+msgstr "*Scale is applied automatically to the object mesh.*"
+
+#: ../release_notes.rst:65
+msgid "Реализуется включением опции ``Apply scale`` в настройках объекта."
+msgstr ""
+"Activated by enabling the ``Apply scale`` checkbox in the object settings."
+
+#: ../release_notes.rst:67
+msgid ""
+"*Поддержка профиля высокого качества (включая тени, динамическое отражение и"
+" антиалиасинг) для iOS.*"
+msgstr ""
+"*High quality profile (including shadows, dynamic reflections and anti-"
+"aliasing) has been implemented for iOS.*"
+
+#: ../release_notes.rst:71
+msgid "Изменения"
+msgstr "Changes"
+
+#: ../release_notes.rst:74
+msgid "*Улучшение рендеринга теней.*"
+msgstr "*Shadow rendering improved.*"
+
+#: ../release_notes.rst:74
+msgid ""
+"Существенно изменена система отрисовки теней, которая теперь основывается на"
+" технике ``Stable Cascaded Shadow Maps``. Техника позволяет существенно "
+"уменьшить мерцание краев теней при движении камеры. Между каскадами "
+"реализовано сглаживание. Также тени последнего каскада плавно исчезают при "
+"удалении. Для рендеринга мягких теней реализована техника ``Percentage "
+"Closer Shadows``. Переработана и упрощена система пользовательских настроек "
+"теней. Теперь можно задавать размеры карт теней, степень размытия, настройки"
+" для компенсации ошибок самозатенения. Новые настройки подробно "
+":ref:`документированы <shadows>`."
+msgstr ""
+"Shadow rendering system is significantly changed: it is now based on the "
+"``Stable Cascaded Shadow Maps`` technique. This technique allows to greatly "
+"diminish the flickering of shadow edges when the camera moves. Smoothing is "
+"implemented between cascades. Also shadows of the last cascade fade out at "
+"distancing. Softened shadows are rendered using the ``Percentage Closer "
+"Shadows`` technique. The shadows' user settings are reworked and simplified."
+" Now its possible to tweak the size of shadow maps, blur ratio and the "
+"setting for removing self-shadowing artefacts. The new settings are "
+":ref:`documented <shadows>` in detail."
+
+#: ../release_notes.rst:76
+msgid ""
+"*Настройка качества графики в веб-плеере теперь сохраняется для каждой сцены"
+" независимо.*"
+msgstr ""
+"*In the web player graphics quality settings are now saved independently for"
+" each scene.*"
+
+#: ../release_notes.rst:79
+msgid ""
+"*Изменено поведение настроек конфигурации приложения: physics_uranium_path, "
+"smaa_search_texture_path и smaa_area_texture_path.*"
+msgstr ""
+"*The behavior of the app configuration parameters has been changed: "
+"physics_uranium_path, smaa_search_texture_path and smaa_area_texture_path.*"
+
+#: ../release_notes.rst:79
+msgid ""
+"Данные настройки конфигурации теперь рассчитываются автоматически в "
+"зависимости от местоположения запускаемого HTML-файла, если они не были "
+"переопределены при инициализации приложения."
+msgstr ""
+"These parameters are now calculated automatically depending on the running "
+"HTML files location, if they haven't been overriden during the app's "
+"initialization."
+
+#: ../release_notes.rst:85
+msgid ""
+"*Завершён переход на систему модулей, подключаемых через вызов "
+"b4w.require().*"
+msgstr ""
+"*Transition is completed to the system of modules which are linked via "
+"b4w.require() call.*"
+
+#: ../release_notes.rst:82
+msgid ""
+"Это также означает, что начиная с текущей версии в релиз-версии движка "
+"модули нельзя вызывать с помощью устаревшего интерфейса ``b4w.<module>``. С "
+"целью совместимости создан аддон ``ns_compat.js``, подключение которого "
+"позволяет восстановить старое поведение."
+msgstr ""
+"This also means that starting form the current version its impossible to "
+"call modules in the engine's release version using the old ``b4w.<module>`` "
+"namespaces. For compatibility purposes the ``ns_compat.js`` addon has been "
+"implemeted, the linking of which allows to restore the old behavior."
+
+#: ../release_notes.rst:87
+msgid "*Добавлена возможность сокрытия панели управления в веб-плеере.*"
+msgstr "*The web player's control panel can now be hidden.*"
+
+#: ../release_notes.rst:91
+msgid "*Скелетная анимация применяется только к объекту арматуры.*"
+msgstr "*Skeletal animation is now applied to armature objects only.*"
+
+#: ../release_notes.rst:90
+msgid ""
+"Нет необходимости применять скелетную анимацию к объектам типа ``MESH``. "
+"Eсли они привязаны к какой-либо анимированной арматуре, скиннинг будет "
+"происходить автоматически."
+msgstr ""
+"There is no need to apply skeletal animation to ``MESH`` objects. If they "
+"are linked to some animated armature, their skinning will be automatic."
+
+#: ../release_notes.rst:93
+msgid ""
+"*Демонстрационные приложения и обучающие материалы приведены в соответствие "
+"с новым функционалом.*"
+msgstr ""
+"*Demos and tutorials are updated according to the newly implemented "
+"features.*"
+
+#: ../release_notes.rst:96
+msgid "Исправления"
+msgstr "Fixes"
+
+#: ../release_notes.rst:98
+msgid ""
+"*Индикатор загрузки не скрывался, если в процессе происходила ошибка "
+"загрузки ресурса (текстуры либо звукового файла).*"
+msgstr ""
+"*The preloader didn't diappear in case of a loading error (texture or sound "
+"file).*"
+
+#: ../release_notes.rst:100
+msgid "*Исправлены лаги при масштабировании и повороте на touch-устройствах.*"
+msgstr "*Lagging during scaling and turning on mobile devices is fixed.*"
+
+#: ../release_notes.rst:102
+msgid "*Устранено дрожание камеры типа TARGET при небольших поворотах.*"
+msgstr "*TARGET-type camera shimmering has been removed for small turnings.*"
+
+#: ../release_notes.rst:104
+msgid "*Исправлено управление камерой типа EYE на мобильных устройствах.*"
+msgstr "*EYE-type camera controls was fixed for mobile devices.*"
+
+#: ../release_notes.rst:106
+msgid "*Улучшено управление в приложении Ферма в браузере Safari.*"
+msgstr "*The Farm demo controls are improved for Safari browser.*"
+
+#: ../release_notes.rst:108
+msgid ""
+"*Исправлены ошибки при использовании неподдерживаемых моделей освещения на "
+"нодовых материалах.*"
+msgstr ""
+"*Errors concerning using the unsupported shading models in node materials "
+"are now fixed.*"
+
+#: ../release_notes.rst:110
+msgid "*Для объектов без материалов теперь работает опция \"Selectable\".*"
+msgstr "*\"Selectable\" option now works for the objects without materials.*"
+
+#: ../release_notes.rst:112
+msgid ""
+"*Более нет необходимости включать \"Do not batch\" для объектов, "
+"анимирующихся с использованием NLA.*"
+msgstr ""
+"*There is no longer need to enable \"Do not batch\"* for the objects that "
+"are animated using NLA."
+
+#: ../release_notes.rst:114
+msgid ""
+"*Исправлена ошибка для систем частиц, в которых дуплицируемый объект входит "
+"в иерархию с другими объектами.*"
+msgstr ""
+"*The particle system error when the object being instanced is parented to "
+"another object, has been fixed.*"
+
+#: ../release_notes.rst:117
+msgid "Известные проблемы"
+msgstr "Known issues"
+
+#: ../release_notes.rst:120
+msgid "*Проблемы с обновлением аддона в Blender*"
+msgstr "*Blender addon upgrading problems*"
+
+#: ../release_notes.rst:120
+msgid ""
+"Настоятельно не рекомендуется устанавливать новую версию аддона Blender, не "
+"удалив предварительно старую версию, особенно это касается систем Windows."
+msgstr ""
+"We strongly don't recommend to install the new Blender addon version without"
+" uninstalling the previous version first (especially for Windows)."
+
+
+

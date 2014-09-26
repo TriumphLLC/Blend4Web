@@ -71,8 +71,9 @@ msgid ""
 "требующие защиту от обфускации, помещаются в специальный тэг "
 "``@cc_externs``:"
 msgstr ""
-"The names of external API methods and properties are "
-"written after a point. To avoid obfuscation of fields they must be listed with the ``@cc_externs`` tag:"
+"The names of external API methods and properties are written after a point. "
+"To avoid obfuscation of fields they must be listed with the ``@cc_externs`` "
+"tag:"
 
 #: ../developers_advanced.rst:79
 msgid "Комментарии только на английском языке. Стиль комментирования - JSDoc."
@@ -169,6 +170,10 @@ msgstr "Name"
 msgid "Назначение"
 msgstr "Purpose"
 
+#: ../developers_advanced.rst:124
+msgid "Пакет в дистрибутиве Ubuntu 14.04"
+msgstr "Ubuntu 14.04 package"
+
 #: ../developers_advanced.rst:127
 msgid "Bash"
 msgstr ""
@@ -250,6 +255,14 @@ msgstr ""
 msgid "libnvtt-bin"
 msgstr ""
 
+#: ../developers_advanced.rst:144
+msgid "Libav"
+msgstr ""
+
+#: ../developers_advanced.rst:144
+msgid "libav-tools"
+msgstr ""
+
 #: ../developers_advanced.rst:146
 msgid "Gnuplot"
 msgstr ""
@@ -320,8 +333,8 @@ msgid "сборка документации (документация на API)
 msgstr "building the API documentation"
 
 #: ../developers_advanced.rst:168
-msgid "Способ именования идентификаторов функций и переменных"
-msgstr "How to Name Functions and Variables"
+msgid "Названия функций и переменных"
+msgstr "Naming Functions and Variables"
 
 #: ../developers_advanced.rst:170
 msgid ""
@@ -446,6 +459,11 @@ msgstr "where ``graph.gv`` is the name of the file with the saved graph."
 msgid "Шейдеры"
 msgstr "Shaders"
 
+#: ../developers_advanced.rst:228 ../developers_advanced.rst:257
+#: ../developers_advanced.rst:280 ../developers_advanced.rst:339
+msgid "обфускатор шейдеров"
+msgstr "shader obfuscator"
+
 #: ../developers_advanced.rst:231
 msgid "Обфускатор"
 msgstr "Obfuscator"
@@ -536,6 +554,10 @@ msgstr "parser generation script - glsl_utils/pegjs/gen_nodejs.sh"
 msgid "парсер - glsl_utils/compiler/glsl_parser.js"
 msgstr "parser - glsl_utils/compiler/glsl_parser.js"
 
+#: ../developers_advanced.rst:257
+msgid "директивы import/export"
+msgstr "import/export directives"
+
 #: ../developers_advanced.rst:260
 msgid "Директивы import/export"
 msgstr "import/export directives"
@@ -591,6 +613,10 @@ msgstr ""
 "import/export directives it's considered by default that the include file "
 "does not use external declarations and does not allow the using of internal "
 "ones."
+
+#: ../developers_advanced.rst:280
+msgid "ограничения"
+msgstr "limitations"
 
 #: ../developers_advanced.rst:283
 msgid "Рекомендации и ограничения по использованию обфускатора"
@@ -702,6 +728,14 @@ msgstr ""
 "The shader's malfunction can also be caused by nontrivial using of "
 "preprocessing, for example, creating an invalid GLSL code:"
 
+#: ../developers_advanced.rst:329
+msgid "WebGL"
+msgstr ""
+
+#: ../developers_advanced.rst:329
+msgid "расширения"
+msgstr "extensions"
+
 #: ../developers_advanced.rst:332
 msgid "Поддержка WebGL-расширений"
 msgstr "WebGL extensions support"
@@ -719,6 +753,10 @@ msgstr ""
 #: ../developers_advanced.rst:337
 msgid "OES_standard_derivatives"
 msgstr ""
+
+#: ../developers_advanced.rst:339
+msgid "ошибки"
+msgstr "errors"
 
 #: ../developers_advanced.rst:342
 msgid "Ошибки обфускатора"
@@ -952,42 +990,6 @@ msgid ""
 "В файле FILE_NAME объявлена переменная NAME, которая нигде не используется."
 msgstr "An unused variable NAME is declared in the FILE_NAME file."
 
-#: ../developers_advanced.rst:228 ../developers_advanced.rst:257
-#: ../developers_advanced.rst:280 ../developers_advanced.rst:339
-msgid "обфускатор шейдеров"
-msgstr "shader obfuscator"
-
-#: ../developers_advanced.rst:257
-msgid "директивы import/export"
-msgstr "import/export directives"
-
-#: ../developers_advanced.rst:280
-msgid "ограничения"
-msgstr "limitations"
-
-#: ../developers_advanced.rst:329
-msgid "WebGL"
-msgstr ""
-
-#: ../developers_advanced.rst:329
-msgid "расширения"
-msgstr "extensions"
-
-#: ../developers_advanced.rst:339
-msgid "ошибки"
-msgstr "errors"
-
-#: ../developers_advanced.rst:124
-msgid "Пакет в дистрибутиве Ubuntu 14.04"
-msgstr "Ubuntu 14.04 package"
-
-#: ../developers_advanced.rst:144
-msgid "Libav"
-msgstr ""
-
-#: ../developers_advanced.rst:144
-msgid "libav-tools"
-msgstr ""
 
 
 

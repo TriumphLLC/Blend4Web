@@ -17,7 +17,7 @@ var m_trans = require("transform");
 var m_cfg   = require("config");
 
 var _character = null;
-var _character_body = null;
+var _character_rig = null;
 
 var ROT_SPEED = 1.5;
 var CAMERA_OFFSET = new Float32Array([0, 1.5, -4]);
@@ -59,15 +59,15 @@ function load() {
 
 function load_cb(data_id) {
     _character = m_scs.get_first_character();
-    _character_body = m_scs.get_object_by_empty_name("character",
-                                                     "character_body");
+    _character_rig = m_scs.get_object_by_empty_name("character",
+                                                     "character_rig");
     setup_movement();
     setup_rotation();
     setup_jumping();
 
-    m_anim.apply(_character_body, "character_idle_01");
-    m_anim.play(_character_body);
-    m_anim.set_behavior(_character_body, m_anim.AB_CYCLIC);
+    m_anim.apply(_character_rig, "character_idle_01");
+    m_anim.play(_character_rig);
+    m_anim.set_behavior(_character_rig, m_anim.AB_CYCLIC);
 
     setup_camera();
 }
@@ -91,22 +91,22 @@ function setup_movement() {
             switch(id) {
             case "FORWARD":
                 var move_dir = 1;
-                m_anim.apply(_character_body, "character_run");
+                m_anim.apply(_character_rig, "character_run");
                 break;
             case "BACKWARD":
                 var move_dir = -1;
-                m_anim.apply(_character_body, "character_run");
+                m_anim.apply(_character_rig, "character_run");
                 break;
             }
         } else {
             var move_dir = 0;
-            m_anim.apply(_character_body, "character_idle_01");
+            m_anim.apply(_character_rig, "character_idle_01");
         }
 
         m_phy.set_character_move_dir(obj, move_dir, 0);
 
-        m_anim.play(_character_body);
-        m_anim.set_behavior(_character_body, m_anim.AB_CYCLIC);
+        m_anim.play(_character_rig);
+        m_anim.set_behavior(_character_rig, m_anim.AB_CYCLIC);
     };
 
     m_ctl.create_sensor_manifold(_character, "FORWARD", m_ctl.CT_TRIGGER,

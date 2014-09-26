@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Анимация &mdash; Руководство пользователя: Blend4Web v14.08</title>
+    <title>Анимация &mdash; Руководство пользователя: Blend4Web v14.09</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.08',
+        VERSION:     '14.09',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v14.08" href="index.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v14.09" href="index.html" />
     <link rel="next" title="Рендеринг наружных сцен" href="outdoor_rendering.html" />
     <link rel="prev" title="Система частиц для инстансинга объектов" href="particles_instancing.html" /> 
   </head>
@@ -37,7 +37,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">Руководство пользователя: Blend4Web v14.08</a></div>
+          href="index.html">Руководство пользователя: Blend4Web v14.09</a></div>
         <div class="rel">
           <a href="particles_instancing.html" title="Система частиц для инстансинга объектов"
              accesskey="P">предыдущий</a> |
@@ -63,9 +63,7 @@
 Движком поддерживаются следующие типы анимации:</p>
 <ul class="simple">
 <li>Объектная анимация. Заключается в перемещении объекта в пространстве как
-единого целого. Изменяемые параметры: координаты центра (<tt class="docutils literal"><span class="pre">Location</span></tt>),
-кватернион поворота (<tt class="docutils literal"><span class="pre">Rotation</span></tt> в режиме <tt class="docutils literal"><span class="pre">Quaternion(WXYZ)</span></tt>) и
-масштабирование (<tt class="docutils literal"><span class="pre">Scale</span></tt>).</li>
+единого целого.</li>
 <li>Скелетная анимация, то есть деформация геометрии объекта с помощью системы
 костей (скиннинг). Сюда же относится анимация костей в арматурном объекте с
 целью прикрепления объектов к костям.</li>
@@ -73,6 +71,7 @@
 последующим воспроизведением.</li>
 <li>Параметризация источников звука. Изменяемые параметры: громкость
 (<tt class="docutils literal"><span class="pre">Volume</span></tt>) и высота звука (<tt class="docutils literal"><span class="pre">Pitch</span></tt>).</li>
+<li>Анимация выходного значения ноды <tt class="docutils literal"><span class="pre">Value</span></tt> в нодовом материале.</li>
 <li>Процедурная анимация в виде колебаний объекта под действием ветра. Описано
 <a class="reference internal" href="outdoor_rendering.html#wind"><em>отдельно</em></a>.</li>
 <li>Эмиссия частиц из источника. Описано в <a class="reference internal" href="particles.html#particles"><em>соответствующем разделе</em></a>.</li>
@@ -92,8 +91,9 @@
 <p>Для отладки анимации имеет смысл использовать интерфейс <tt class="docutils literal"><span class="pre">Animation</span></tt>
 программы-просмотрщика, рассмотренный в <a class="reference internal" href="viewer.html#viewer"><em>соответствующем разделе</em></a>.</p>
 </div>
-<div class="section" id="id3">
-<h2>Объектная анимация<a class="headerlink" href="#id3" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="whole-object-anim">
+<span id="id3"></span><h2>Объектная анимация<a class="headerlink" href="#whole-object-anim" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Изменяемые параметры: координаты центра (<tt class="docutils literal"><span class="pre">Location</span></tt>), кватернион поворота (<tt class="docutils literal"><span class="pre">Rotation</span></tt> в режиме <tt class="docutils literal"><span class="pre">Quaternion(WXYZ)</span></tt>) и масштабирование (<tt class="docutils literal"><span class="pre">Scale</span></tt>).</p>
 <a class="reference internal image-reference" href="_images/wind_generator.jpg"><img alt="_images/wind_generator.jpg" class="align-center" src="_images/wind_generator.jpg" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
@@ -187,6 +187,18 @@
 </ul>
 <p>Параметризация источников звука по своей сути повторяет объектную анимацию.</p>
 </div>
+<div class="section" id="value">
+<span id="node-anim"></span><h2>Анимация ноды <tt class="docutils literal"><span class="pre">Value</span></tt><a class="headerlink" href="#value" title="Ссылка на этот заголовок">¶</a></h2>
+<a class="reference internal image-reference" href="_images/node_value_anim.jpg"><img alt="_images/node_value_anim.jpg" class="align-center" src="_images/node_value_anim.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>Работает аналогично <a class="reference internal" href="#whole-object-anim"><em>объектной анимации</em></a>. Может быть также использована для создания треков в <a class="reference internal" href="nla.html#nla-editor"><em>редакторе нелинейной анимации</em></a>. Поддерживается несколько анимированных нод <tt class="docutils literal"><span class="pre">Value</span></tt> в одном материале.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">См.также</p>
+<p class="last"><a class="reference internal" href="node_materials.html#node-materials"><em>Нодовые материалы</em></a></p>
+</div>
+</div>
 </div>
 
 
@@ -206,8 +218,8 @@
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Веб-плеер</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">Аддон</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Объекты</a></li>
-<li class="toctree-l1"><a class="reference internal" href="textures.html">Текстуры</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Материалы</a></li>
+<li class="toctree-l1"><a class="reference internal" href="textures.html">Текстуры</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Нодовые материалы</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lighting.html">Освещение, тени и фон</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Постпроцессинговые эффекты</a></li>
@@ -215,10 +227,11 @@
 <li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Система частиц для инстансинга объектов</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Анимация</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#id2">Управление анимацией</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id3">Объектная анимация</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#whole-object-anim">Объектная анимация</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id4">Скиннинг и скелетная анимация</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id5">Вертексная анимация</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id6">Параметризация источников звука</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#value">Анимация ноды <tt class="docutils literal"><span class="pre">Value</span></tt></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Рендеринг наружных сцен</a></li>
@@ -230,6 +243,7 @@
 <li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">Разработчикам движка</a></li>
 <li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Работа в команде. Использование git</a></li>
 <li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Проблемы и решения</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Замечания к релизам</a></li>
 </ul>
 
           <h3 style="margin-top: 1.5em;">Поиск</h3>
@@ -262,7 +276,7 @@
           
     <div class="footer">
         &copy; Copyright 2014, ООО &#34;Триумф&#34;.
-      Обновлено: 2014-08-25.
+      Обновлено: 2014-09-25.
       Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

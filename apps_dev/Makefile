@@ -16,6 +16,7 @@ export CAMANIM_JS    = $(ROOT_DIR)/src/addons/camera_anim.js
 export PRELOADER_JS  = $(ROOT_DIR)/src/addons/preloader.js
 
 export B4W_PATH      = $(ROOT_DIR)/external/deploy/apps/common/b4w.min.js
+export URANIUM_PATH  = $(ROOT_DIR)/external/deploy/apps/common/uranium.js
 
 export APP_DIR_CAPRI = $(ROOT_DIR)/apps_dev/capri
 

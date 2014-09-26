@@ -3,6 +3,7 @@
 
 #include <precision_statement.glslf>
 #include <depth_fetch.glslf>
+#include <procedural.glslf>
 
 #define SSAO_QUALITY_16 1
 #define SSAO_QUALITY_32 2
@@ -23,41 +24,29 @@ uniform float u_ssao_gauss_width_left_square; // was 0.1 * 0.1 // self-shadowing
 uniform float u_ssao_influence; // was 0.7 // how much ao affects final rendering
 uniform float u_ssao_dist_factor; // did not exist // how much ao decreases with distance
 
-// generating noise/pattern texture for dithering
-vec2 generate_dithering_tex(vec2 coord) { 
-
-    float d1 = dot(coord, vec2(12.9898, 78.233));
-    float d2 = dot(coord, vec2(12.9898, 78.233) * 2.0);
-
-    float noiseX = fract(sin(d1) * 43758.5453) * 2.0 - 1.0;
-    float noiseY = fract(sin(d2) * 43758.5453) * 2.0 - 1.0;
-
-    return vec2(noiseX, noiseY);
-}
-
 float read_depth(in vec2 coord) {
     return depth_fetch(u_depth, coord, u_camera_range);
 }
 
-float compare_depths(in float depth1, in float depth2, inout int far) {   
+float compare_depths(in float depth1, in float depth2, inout int far) {
 
     float gauss_area_square = u_ssao_gauss_width_square;
 
     float depth_diff = (depth1 - depth2) * 100.0; // depth difference (0-100)
 
-    //reduce left bell width to avoid self-shadowing 
+    //reduce left bell width to avoid self-shadowing
     if (depth_diff < u_ssao_gauss_center)
         gauss_area_square = u_ssao_gauss_width_left_square;
     else
         far = 1;
-    
+
     float d = depth_diff - u_ssao_gauss_center;
     float gauss = exp(-2.0 * d * d / gauss_area_square);
 
     return gauss;
-}   
+}
 
-float calculate_ao(float depth, vec2 d) {  
+float calculate_ao(float depth, vec2 d) {
     float temp = 0.0;
     float temp2 = 0.0;
 
@@ -70,22 +59,22 @@ float calculate_ao(float depth, vec2 d) {
 
     vec2 coord1 = v_texcoord + d;
     vec2 coord2 = v_texcoord - d;
-    
+
     int far = 0;
     temp = compare_depths(depth, f * read_depth(coord1), far);
 
     if (far > 0 ||  /* depth extrapolation */
                     /* remove darker banding at the screen edges */
-        coord1.y < 0.0 || coord1.y > 1.0 || coord1.x < 0.0 || coord1.x > 1.0) { 
+        coord1.y < 0.0 || coord1.y > 1.0 || coord1.x < 0.0 || coord1.x > 1.0) {
 
         temp2 = compare_depths(f * read_depth(coord2), depth, far);
-        temp += (1.0 - temp) * temp2; 
+        temp += (1.0 - temp) * temp2;
     }
 
-    return temp;  
-}   
+    return temp;
+}
 
-void main(void) {  
+void main(void) {
 
     vec2 noise = generate_dithering_tex(v_texcoord) * u_ssao_dithering_amount;
 
@@ -95,25 +84,25 @@ void main(void) {
 
     float depth = read_depth(v_texcoord);
     float ao = 0.0;
-    
+
     vec2 p = u_texel_size * 0.5;
 
-    for (int i = 0; i < 4; i++) {  
+    for (int i = 0; i < 4; i++) {
         //calculate color bleeding and ao:
 
         #if SSAO_QUALITY == SSAO_QUALITY_16
         if (i == 0 || i == 2) {
         #endif
-            ao += calculate_ao(depth, p);  
-            ao += calculate_ao(depth, vec2( p.x, -p.y));  
-            ao += calculate_ao(depth, vec2(-p.x,  p.y));  
+            ao += calculate_ao(depth, p);
+            ao += calculate_ao(depth, vec2( p.x, -p.y));
+            ao += calculate_ao(depth, vec2(-p.x,  p.y));
             ao += calculate_ao(depth, vec2(-p.x, -p.y));
         #if SSAO_QUALITY == SSAO_QUALITY_16
         } else if (i == 1 || i == 3) {
         #endif
-            ao += calculate_ao(depth, vec2( p.x * 1.2, 0.0));  
-            ao += calculate_ao(depth, vec2(-p.x * 1.2, 0.0));  
-            ao += calculate_ao(depth, vec2(0.0,  p.y * 1.2));  
+            ao += calculate_ao(depth, vec2( p.x * 1.2, 0.0));
+            ao += calculate_ao(depth, vec2(-p.x * 1.2, 0.0));
+            ao += calculate_ao(depth, vec2(0.0,  p.y * 1.2));
             ao += calculate_ao(depth, vec2(0.0, -p.y * 1.2));
         #if SSAO_QUALITY == SSAO_QUALITY_16
         }
@@ -123,8 +112,8 @@ void main(void) {
         p += noise;
 
         //increase sampling area:
-        p *= u_ssao_radius_increase;  
-    }         
+        p *= u_ssao_radius_increase;
+    }
 
     //final values, some adjusting:
     #if SSAO_QUALITY == SSAO_QUALITY_16
@@ -146,4 +135,4 @@ void main(void) {
     float tex_input = texture2D(u_color, v_texcoord).r;
 
     gl_FragColor = vec4(tex_input, ao, 0.0, 1.0);
-}  
+}

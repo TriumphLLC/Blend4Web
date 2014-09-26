@@ -9,7 +9,10 @@
 
 Для более серьезных задач необходима установка :ref:`комплекта средств разработки <setup>`.
 
+
 .. _quick_install_blender:
+
+.. index:: Blender; установка
 
 Установка программы Blender
 ===========================
@@ -22,9 +25,10 @@
    :align: center
    :width: 100%
 
-.. index:: экспорт; установка программы Blender
 
 .. _quick_install_addon:
+
+.. index:: аддон; установка
 
 Установка аддона движка
 =======================
@@ -40,7 +44,9 @@
 
 Далее нажать :file:`Save User Settings` и закрыть окно пользовательских настроек.
 
-.. index:: экспорт; установка аддона
+
+
+.. index:: экспорт
 
 .. _quick_install_export_viewer:
 
@@ -53,8 +59,9 @@
 
 .. seealso:: :ref:`browser_webgl_support`
 
-.. index:: экспорт; просмотр сцены
 
+
+.. index:: аддон; установка новой версии
 
 .. _quick_install_addon_upgrade:
 

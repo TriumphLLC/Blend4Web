@@ -304,7 +304,7 @@
             
 <dt>
     
-        <h4 class="name" id="apply"><span class="type-signature">(static) </span>apply<span class="signature">(obj, name, slot_num)</span><span class="type-signature"></span></h4>
+        <h4 class="name" id="apply"><span class="type-signature">(static) </span>apply<span class="signature">(obj, name, slot_num<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
         
     
@@ -335,7 +335,11 @@
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
+        
+        <th>Default</th>
         
 
         <th class="last">Description</th>
@@ -360,7 +364,19 @@
             </td>
 
             
+                <td class="attributes">
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
             
 
             <td class="description last">Object ID</td>
@@ -383,7 +399,19 @@
             </td>
 
             
+                <td class="attributes">
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
             
 
             <td class="description last">Animation name</td>
@@ -406,7 +434,23 @@
             </td>
 
             
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    SLOT_0
+                
+                </td>
             
 
             <td class="description last">Animation slot number</td>
@@ -442,7 +486,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line118">line 118</a>
+        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line114">line 114</a>
     </li></ul></dd>
     
 
@@ -565,7 +609,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line158">line 158</a>
+        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line165">line 165</a>
     </li></ul></dd>
     
 
@@ -596,7 +640,7 @@
             
 <dt>
     
-        <h4 class="name" id="apply_smoothing"><span class="type-signature">(static) </span>apply_smoothing<span class="signature">(obj, trans_period<span class="signature-attributes">opt</span>, quat_period<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+        <h4 class="name" id="apply_smoothing"><span class="type-signature">(static) </span>apply_smoothing<span class="signature">(obj, trans_period<span class="signature-attributes">opt</span>, quat_period<span class="signature-attributes">opt</span>, slot_num<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
         
     
@@ -605,7 +649,7 @@
 
     
     <div class="description">
-        Apply smoothing. 
+        Apply smoothing.
 Specify zero periods in order to disable
     </div>
     
@@ -754,6 +798,45 @@ Specify zero periods in order to disable
         </tr>
 
     
+
+        <tr>
+            
+                <td class="name"><code>slot_num</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    SLOT_0
+                
+                </td>
+            
+
+            <td class="description last">Animation slot number</td>
+        </tr>
+
+    
     </tbody>
 </table>
     
@@ -783,7 +866,7 @@ Specify zero periods in order to disable
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line417">line 417</a>
+        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line409">line 409</a>
     </li></ul></dd>
     
 
@@ -814,7 +897,7 @@ Specify zero periods in order to disable
             
 <dt>
     
-        <h4 class="name" id="apply_to_first_empty_slot"><span class="type-signature">(static) </span>apply_to_first_empty_slot<span class="signature">(obj, name)</span><span class="type-signature"></span></h4>
+        <h4 class="name" id="apply_to_first_empty_slot"><span class="type-signature">(static) </span>apply_to_first_empty_slot<span class="signature">(obj, name)</span><span class="type-signature"> &rarr; {Number}</span></h4>
 
         
     
@@ -886,7 +969,7 @@ Specify zero periods in order to disable
             <td class="type">
             
                 
-<span class="param-type">Number</span>
+<span class="param-type">String</span>
 
 
             
@@ -929,7 +1012,7 @@ Specify zero periods in order to disable
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line533">line 533</a>
+        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line528">line 528</a>
     </li></ul></dd>
     
 
@@ -956,10 +1039,22 @@ Specify zero periods in order to disable
     
             
 <div class="param-desc">
-    Slot number;
+    Slot number
 </div>
 
 
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Number</span>
+
+
+    </dd>
+</dl>
 
         
 
@@ -970,7 +1065,7 @@ Specify zero periods in order to disable
             
 <dt>
     
-        <h4 class="name" id="cyclic"><span class="type-signature">(static) </span>cyclic<span class="signature">(obj, cyclic_flag, slot_num)</span><span class="type-signature"></span></h4>
+        <h4 class="name" id="cyclic"><span class="type-signature">(static) </span>cyclic<span class="signature">(obj, cyclic_flag, slot_num<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
         
     
@@ -1001,7 +1096,11 @@ Specify zero periods in order to disable
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
+        
+        <th>Default</th>
         
 
         <th class="last">Description</th>
@@ -1026,7 +1125,19 @@ Specify zero periods in order to disable
             </td>
 
             
+                <td class="attributes">
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
             
 
             <td class="description last">Object ID</td>
@@ -1049,7 +1160,19 @@ Specify zero periods in order to disable
             </td>
 
             
+                <td class="attributes">
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
             
 
             <td class="description last"></td>
@@ -1072,7 +1195,23 @@ Specify zero periods in order to disable
             </td>
 
             
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    SLOT_0
+                
+                </td>
             
 
             <td class="description last">Animation slot number</td>
@@ -1110,7 +1249,7 @@ Specify zero periods in order to disable
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line355">line 355</a>
+        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line352">line 352</a>
     </li></ul></dd>
     
 
@@ -1141,7 +1280,7 @@ Specify zero periods in order to disable
             
 <dt>
     
-        <h4 class="name" id="frame_to_sec"><span class="type-signature">(static) </span>frame_to_sec<span class="signature">(frame)</span><span class="type-signature"></span></h4>
+        <h4 class="name" id="frame_to_sec"><span class="type-signature">(static) </span>frame_to_sec<span class="signature">(frame)</span><span class="type-signature"> &rarr; {Number}</span></h4>
 
         
     
@@ -1150,7 +1289,7 @@ Specify zero periods in order to disable
 
     
     <div class="description">
-        Convert frames to seconds
+        Convert animation frames to seconds.
     </div>
     
 
@@ -1189,13 +1328,18 @@ Specify zero periods in order to disable
 
             <td class="type">
             
+                
+<span class="param-type">Number</span>
+
+
+            
             </td>
 
             
 
             
 
-            <td class="description last"></td>
+            <td class="description last">Frame number</td>
         </tr>
 
     
@@ -1228,7 +1372,7 @@ Specify zero periods in order to disable
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line446">line 446</a>
+        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line440">line 440</a>
     </li></ul></dd>
     
 
@@ -1251,6 +1395,28 @@ Specify zero periods in order to disable
     
 
     
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    Number of seconds
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Number</span>
+
+
+    </dd>
+</dl>
+
+        
 
     
 </dd>
@@ -1358,7 +1524,7 @@ Specify zero periods in order to disable
             
 <dt>
     
-        <h4 class="name" id="get_anim_length"><span class="type-signature">(static) </span>get_anim_length<span class="signature">(obj, slot_num)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+        <h4 class="name" id="get_anim_length"><span class="type-signature">(static) </span>get_anim_length<span class="signature">(obj, slot_num<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Number}</span></h4>
 
         
     
@@ -1389,7 +1555,11 @@ Specify zero periods in order to disable
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
+        
+        <th>Default</th>
         
 
         <th class="last">Description</th>
@@ -1414,7 +1584,19 @@ Specify zero periods in order to disable
             </td>
 
             
+                <td class="attributes">
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
             
 
             <td class="description last">Object ID</td>
@@ -1437,7 +1619,23 @@ Specify zero periods in order to disable
             </td>
 
             
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    SLOT_0
+                
+                </td>
             
 
             <td class="description last">Animation slot number</td>
@@ -1473,7 +1671,7 @@ Specify zero periods in order to disable
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line337">line 337</a>
+        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line335">line 335</a>
     </li></ul></dd>
     
 
@@ -1526,7 +1724,7 @@ Specify zero periods in order to disable
             
 <dt>
     
-        <h4 class="name" id="get_anim_name"><span class="type-signature">(static) </span>get_anim_name<span class="signature">(obj, slot_num)</span><span class="type-signature"></span></h4>
+        <h4 class="name" id="get_anim_name"><span class="type-signature">(static) </span>get_anim_name<span class="signature">(obj, slot_num<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; (nullable) {String}</span></h4>
 
         
     
@@ -1557,7 +1755,11 @@ Specify zero periods in order to disable
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
+        
+        <th>Default</th>
         
 
         <th class="last">Description</th>
@@ -1582,7 +1784,19 @@ Specify zero periods in order to disable
             </td>
 
             
+                <td class="attributes">
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
             
 
             <td class="description last">Object ID</td>
@@ -1605,7 +1819,23 @@ Specify zero periods in order to disable
             </td>
 
             
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    SLOT_0
+                
+                </td>
             
 
             <td class="description last">Slot number</td>
@@ -1641,7 +1871,7 @@ Specify zero periods in order to disable
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line503">line 503</a>
+        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line498">line 498</a>
     </li></ul></dd>
     
 
@@ -1668,10 +1898,22 @@ Specify zero periods in order to disable
     
             
 <div class="param-desc">
-    Animation name;
+    Animation name
 </div>
 
 
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">String</span>
+
+
+    </dd>
+</dl>
 
         
 
@@ -1774,7 +2016,7 @@ Specify zero periods in order to disable
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line90">line 90</a>
+        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line86">line 86</a>
     </li></ul></dd>
     
 
@@ -1827,7 +2069,7 @@ Specify zero periods in order to disable
             
 <dt>
     
-        <h4 class="name" id="get_anim_start_frame"><span class="type-signature">(static) </span>get_anim_start_frame<span class="signature">(obj, slot_num)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+        <h4 class="name" id="get_anim_start_frame"><span class="type-signature">(static) </span>get_anim_start_frame<span class="signature">(obj, slot_num<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Number}</span></h4>
 
         
     
@@ -1858,7 +2100,11 @@ Specify zero periods in order to disable
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
+        
+        <th>Default</th>
         
 
         <th class="last">Description</th>
@@ -1883,7 +2129,19 @@ Specify zero periods in order to disable
             </td>
 
             
+                <td class="attributes">
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
             
 
             <td class="description last">Object ID</td>
@@ -1906,7 +2164,23 @@ Specify zero periods in order to disable
             </td>
 
             
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    SLOT_0
+                
+                </td>
             
 
             <td class="description last">Animation slot number</td>
@@ -1995,7 +2269,7 @@ Specify zero periods in order to disable
             
 <dt>
     
-        <h4 class="name" id="get_anim_type"><span class="type-signature">(static) </span>get_anim_type<span class="signature">(obj, slot_num)</span><span class="type-signature"></span></h4>
+        <h4 class="name" id="get_anim_type"><span class="type-signature">(static) </span>get_anim_type<span class="signature">(obj, slot_num<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; (nullable) {Number}</span></h4>
 
         
     
@@ -2026,7 +2300,11 @@ Specify zero periods in order to disable
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
+        
+        <th>Default</th>
         
 
         <th class="last">Description</th>
@@ -2051,7 +2329,19 @@ Specify zero periods in order to disable
             </td>
 
             
+                <td class="attributes">
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
             
 
             <td class="description last">Object ID</td>
@@ -2074,7 +2364,23 @@ Specify zero periods in order to disable
             </td>
 
             
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    SLOT_0
+                
+                </td>
             
 
             <td class="description last">Slot number</td>
@@ -2110,7 +2416,7 @@ Specify zero periods in order to disable
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line519">line 519</a>
+        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line514">line 514</a>
     </li></ul></dd>
     
 
@@ -2137,10 +2443,22 @@ Specify zero periods in order to disable
     
             
 <div class="param-desc">
-    Animation name;
+    Animation type
 </div>
 
 
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Number</span>
+
+
+    </dd>
+</dl>
 
         
 
@@ -2151,7 +2469,7 @@ Specify zero periods in order to disable
             
 <dt>
     
-        <h4 class="name" id="get_behavior"><span class="type-signature">(static) </span>get_behavior<span class="signature">(obj, slot_num)</span><span class="type-signature"></span></h4>
+        <h4 class="name" id="get_behavior"><span class="type-signature">(static) </span>get_behavior<span class="signature">(obj, slot_num<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
         
     
@@ -2182,7 +2500,11 @@ Specify zero periods in order to disable
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
+        
+        <th>Default</th>
         
 
         <th class="last">Description</th>
@@ -2207,7 +2529,19 @@ Specify zero periods in order to disable
             </td>
 
             
+                <td class="attributes">
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
             
 
             <td class="description last">Object ID</td>
@@ -2230,7 +2564,23 @@ Specify zero periods in order to disable
             </td>
 
             
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    SLOT_0
+                
+                </td>
             
 
             <td class="description last">Animation slot number</td>
@@ -2266,7 +2616,7 @@ Specify zero periods in order to disable
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line402">line 402</a>
+        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line394">line 394</a>
     </li></ul></dd>
     
 
@@ -2399,7 +2749,7 @@ Specify zero periods in order to disable
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line454">line 454</a>
+        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line449">line 449</a>
     </li></ul></dd>
     
 
@@ -2430,7 +2780,551 @@ Specify zero periods in order to disable
             
 <dt>
     
-        <h4 class="name" id="get_bone_translation"><span class="type-signature">(static) </span>get_bone_translation<span class="signature">(obj)</span><span class="type-signature"></span></h4>
+        <h4 class="name" id="get_current_action"><span class="type-signature">(static) </span>get_current_action<span class="signature">(obj, slot_num<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+
+        
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Return applied action name
+    </div>
+    
+
+    
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Object ID</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>slot_num</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    SLOT_0
+                
+                </td>
+            
+
+            <td class="description last">Animation slot number</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Use get_current_anim_name()</li><ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line75">line 75</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        
+            
+<dt>
+    
+        <h4 class="name" id="get_current_anim_name"><span class="type-signature">(static) </span>get_current_anim_name<span class="signature">(obj, slot_num<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+
+        
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Return applied animation name.
+    </div>
+    
+
+    
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Object ID</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>slot_num</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    SLOT_0
+                
+                </td>
+            
+
+            <td class="description last">Animation slot number</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line99">line 99</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    Current animation name or null
+</div>
+
+
+
+        
+
+    
+</dd>
+
+        
+            
+<dt>
+    
+        <h4 class="name" id="get_current_frame_float"><span class="type-signature">(static) </span>get_current_frame_float<span class="signature">(obj, slot_num<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+
+        
+    
+</dt>
+<dd>
+
+    
+
+    
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Object ID</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>slot_num</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    SLOT_0
+                
+                </td>
+            
+
+            <td class="description last">Animation slot number</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Replaced by get_frame()</li><ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line228">line 228</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        
+            
+<dt>
+    
+        <h4 class="name" id="get_first_armature_object"><span class="type-signature">(static) </span>get_first_armature_object<span class="signature">(obj)</span><span class="type-signature"> &rarr; (nullable) {Object}</span></h4>
 
         
     
@@ -2522,7 +3416,7 @@ Specify zero periods in order to disable
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line476">line 476</a>
+        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line471">line 471</a>
     </li></ul></dd>
     
 
@@ -2549,314 +3443,22 @@ Specify zero periods in order to disable
     
             
 <div class="param-desc">
-    Armature object ID or null;
+    Armature object ID or null
 </div>
 
 
 
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
         
-
-    
-</dd>
-
-        
-            
-<dt>
-    
-        <h4 class="name" id="get_current_action"><span class="type-signature">(static) </span>get_current_action<span class="signature">(obj, slot_num)</span><span class="type-signature"></span></h4>
-
-        
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Return applied action name
-    </div>
-    
-
-    
-
-    
-
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>obj</code></td>
-            
-
-            <td class="type">
-            
-                
 <span class="param-type">Object</span>
 
 
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Object ID</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>slot_num</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Animation slot number</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-    
-
-    
-<dl class="details">
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Use get_current_anim_name()</li><ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line75">line 75</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
+    </dd>
 </dl>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dd>
-
-        
-            
-<dt>
-    
-        <h4 class="name" id="get_current_anim_name"><span class="type-signature">(static) </span>get_current_anim_name<span class="signature">(obj, slot_num)</span><span class="type-signature"></span></h4>
-
-        
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Return applied animation name.
-    </div>
-    
-
-    
-
-    
-
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>obj</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Object ID</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>slot_num</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Animation slot number</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-    
-
-    
-<dl class="details">
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line103">line 103</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <h5>Returns:</h5>
-    
-            
-<div class="param-desc">
-    Current animation name or null
-</div>
-
-
 
         
 
@@ -2867,151 +3469,7 @@ Specify zero periods in order to disable
             
 <dt>
     
-        <h4 class="name" id="get_current_frame_float"><span class="type-signature">(static) </span>get_current_frame_float<span class="signature">(obj, slot_num)</span><span class="type-signature"></span></h4>
-
-        
-    
-</dt>
-<dd>
-
-    
-
-    
-
-    
-
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>obj</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Object ID</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>slot_num</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Animation slot number</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-    
-
-    
-<dl class="details">
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Replaced by get_frame()</li><ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line224">line 224</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dd>
-
-        
-            
-<dt>
-    
-        <h4 class="name" id="get_frame"><span class="type-signature">(static) </span>get_frame<span class="signature">(obj, slot_num)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+        <h4 class="name" id="get_frame"><span class="type-signature">(static) </span>get_frame<span class="signature">(obj, slot_num<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Number}</span></h4>
 
         
     
@@ -3042,7 +3500,11 @@ Specify zero periods in order to disable
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
+        
+        <th>Default</th>
         
 
         <th class="last">Description</th>
@@ -3067,7 +3529,19 @@ Specify zero periods in order to disable
             </td>
 
             
+                <td class="attributes">
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
             
 
             <td class="description last">Object ID</td>
@@ -3090,7 +3564,23 @@ Specify zero periods in order to disable
             </td>
 
             
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    SLOT_0
+                
+                </td>
             
 
             <td class="description last">Animation slot number</td>
@@ -3179,7 +3669,7 @@ Specify zero periods in order to disable
             
 <dt>
     
-        <h4 class="name" id="get_frame_range"><span class="type-signature">(static) </span>get_frame_range<span class="signature">(obj, slot_num)</span><span class="type-signature"> &rarr; {Array}</span></h4>
+        <h4 class="name" id="get_frame_range"><span class="type-signature">(static) </span>get_frame_range<span class="signature">(obj, slot_num<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Array}</span></h4>
 
         
     
@@ -3210,7 +3700,11 @@ Specify zero periods in order to disable
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
+        
+        <th>Default</th>
         
 
         <th class="last">Description</th>
@@ -3235,7 +3729,19 @@ Specify zero periods in order to disable
             </td>
 
             
+                <td class="attributes">
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
             
 
             <td class="description last">Object ID</td>
@@ -3258,7 +3764,23 @@ Specify zero periods in order to disable
             </td>
 
             
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    SLOT_0
+                
+                </td>
             
 
             <td class="description last">Animation slot number</td>
@@ -3349,7 +3871,152 @@ Specify zero periods in order to disable
             
 <dt>
     
-        <h4 class="name" id="get_slot_num_by_anim"><span class="type-signature">(static) </span>get_slot_num_by_anim<span class="signature">(obj, anim_name)</span><span class="type-signature"></span></h4>
+        <h4 class="name" id="get_skel_mix_factor"><span class="type-signature">(static) </span>get_skel_mix_factor<span class="signature">(armobj)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+
+        
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Get the mix factor for two last skeletal animations.
+    </div>
+    
+
+    
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>armobj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Armature object ID</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line538">line 538</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    Mix factor
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Number</span>
+
+
+    </dd>
+</dl>
+
+        
+
+    
+</dd>
+
+        
+            
+<dt>
+    
+        <h4 class="name" id="get_slot_num_by_anim"><span class="type-signature">(static) </span>get_slot_num_by_anim<span class="signature">(obj, anim_name)</span><span class="type-signature"> &rarr; (nullable) {Number}</span></h4>
 
         
     
@@ -3464,7 +4131,7 @@ Specify zero periods in order to disable
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line489">line 489</a>
+        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line484">line 484</a>
     </li></ul></dd>
     
 
@@ -3491,10 +4158,22 @@ Specify zero periods in order to disable
     
             
 <div class="param-desc">
-    Animation slot number;
+    Animation slot number
 </div>
 
 
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Number</span>
+
+
+    </dd>
+</dl>
 
         
 
@@ -3505,7 +4184,7 @@ Specify zero periods in order to disable
             
 <dt>
     
-        <h4 class="name" id="get_speed"><span class="type-signature">(static) </span>get_speed<span class="signature">(obj, slot_num)</span><span class="type-signature"></span></h4>
+        <h4 class="name" id="get_speed"><span class="type-signature">(static) </span>get_speed<span class="signature">(obj, slot_num<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
         
     
@@ -3536,7 +4215,11 @@ Specify zero periods in order to disable
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
+        
+        <th>Default</th>
         
 
         <th class="last">Description</th>
@@ -3561,7 +4244,19 @@ Specify zero periods in order to disable
             </td>
 
             
+                <td class="attributes">
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
             
 
             <td class="description last">Object ID.</td>
@@ -3584,7 +4279,23 @@ Specify zero periods in order to disable
             </td>
 
             
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    SLOT_0
+                
+                </td>
             
 
             <td class="description last">Animation slot number</td>
@@ -3774,7 +4485,7 @@ Specify zero periods in order to disable
             
 <dt>
     
-        <h4 class="name" id="is_cyclic"><span class="type-signature">(static) </span>is_cyclic<span class="signature">(obj, slot_num)</span><span class="type-signature"></span></h4>
+        <h4 class="name" id="is_cyclic"><span class="type-signature">(static) </span>is_cyclic<span class="signature">(obj, slot_num<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
         
     
@@ -3805,7 +4516,11 @@ Specify zero periods in order to disable
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
+        
+        <th>Default</th>
         
 
         <th class="last">Description</th>
@@ -3830,7 +4545,19 @@ Specify zero periods in order to disable
             </td>
 
             
+                <td class="attributes">
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
             
 
             <td class="description last">Object ID</td>
@@ -3853,7 +4580,23 @@ Specify zero periods in order to disable
             </td>
 
             
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    SLOT_0
+                
+                </td>
             
 
             <td class="description last">Animation slot number</td>
@@ -3891,7 +4634,7 @@ Specify zero periods in order to disable
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line372">line 372</a>
+        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line364">line 364</a>
     </li></ul></dd>
     
 
@@ -3922,7 +4665,7 @@ Specify zero periods in order to disable
             
 <dt>
     
-        <h4 class="name" id="is_play"><span class="type-signature">(static) </span>is_play<span class="signature">(obj, slot_num)</span><span class="type-signature"></span></h4>
+        <h4 class="name" id="is_play"><span class="type-signature">(static) </span>is_play<span class="signature">(obj, slot_num<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
         
     
@@ -3953,7 +4696,11 @@ Specify zero periods in order to disable
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
+        
+        <th>Default</th>
         
 
         <th class="last">Description</th>
@@ -3978,7 +4725,19 @@ Specify zero periods in order to disable
             </td>
 
             
+                <td class="attributes">
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
             
 
             <td class="description last">Object ID</td>
@@ -4001,7 +4760,23 @@ Specify zero periods in order to disable
             </td>
 
             
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    SLOT_0
+                
+                </td>
             
 
             <td class="description last">Animation slot number</td>
@@ -4037,7 +4812,7 @@ Specify zero periods in order to disable
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line196">line 196</a>
+        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line204">line 204</a>
     </li></ul></dd>
     
 
@@ -4068,7 +4843,7 @@ Specify zero periods in order to disable
             
 <dt>
     
-        <h4 class="name" id="play"><span class="type-signature">(static) </span>play<span class="signature">(obj, finish_callback<span class="signature-attributes">opt</span>, slot_num)</span><span class="type-signature"></span></h4>
+        <h4 class="name" id="play"><span class="type-signature">(static) </span>play<span class="signature">(obj, finish_callback<span class="signature-attributes">opt</span>, slot_num<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
         
     
@@ -4103,6 +4878,8 @@ Specify zero periods in order to disable
         
 
         
+        <th>Default</th>
+        
 
         <th class="last">Description</th>
     </tr>
@@ -4136,6 +4913,10 @@ Specify zero periods in order to disable
             
 
             
+                <td class="default">
+                
+                </td>
+            
 
             <td class="description last">Object ID</td>
         </tr>
@@ -4164,6 +4945,10 @@ Specify zero periods in order to disable
             
 
             
+                <td class="default">
+                
+                </td>
+            
 
             <td class="description last">Callback to execute on finished animation</td>
         </tr>
@@ -4187,6 +4972,8 @@ Specify zero periods in order to disable
             
                 <td class="attributes">
                 
+                    &lt;optional><br>
+                
 
                 
 
@@ -4194,6 +4981,12 @@ Specify zero periods in order to disable
                 </td>
             
 
+            
+                <td class="default">
+                
+                    SLOT_0
+                
+                </td>
             
 
             <td class="description last">Animation slot number</td>
@@ -4229,7 +5022,7 @@ Specify zero periods in order to disable
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line167">line 167</a>
+        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line174">line 174</a>
     </li></ul></dd>
     
 
@@ -4352,7 +5145,7 @@ Specify zero periods in order to disable
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line136">line 136</a>
+        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line143">line 143</a>
     </li></ul></dd>
     
 
@@ -4383,7 +5176,7 @@ Specify zero periods in order to disable
             
 <dt>
     
-        <h4 class="name" id="remove_slot_animation"><span class="type-signature">(static) </span>remove_slot_animation<span class="signature">(obj)</span><span class="type-signature"></span></h4>
+        <h4 class="name" id="remove_slot_animation"><span class="type-signature">(static) </span>remove_slot_animation<span class="signature">(slot_num<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
         
     
@@ -4414,7 +5207,11 @@ Specify zero periods in order to disable
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
+        
+        <th>Default</th>
         
 
         <th class="last">Description</th>
@@ -4422,170 +5219,6 @@ Specify zero periods in order to disable
     </thead>
 
     <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>obj</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Object ID</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-    
-
-    
-<dl class="details">
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line145">line 145</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dd>
-
-        
-            
-<dt>
-    
-        <h4 class="name" id="set_behavior"><span class="type-signature">(static) </span>set_behavior<span class="signature">(obj, behavior, slot_num)</span><span class="type-signature"></span></h4>
-
-        
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Set animation behavior.
-    </div>
-    
-
-    
-
-    
-
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>obj</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Object ID</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>behavior</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Behavior enum</td>
-        </tr>
-
     
 
         <tr>
@@ -4603,7 +5236,23 @@ Specify zero periods in order to disable
             </td>
 
             
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    SLOT_0
+                
+                </td>
             
 
             <td class="description last">Animation slot number</td>
@@ -4639,7 +5288,7 @@ Specify zero periods in order to disable
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line387">line 387</a>
+        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line152">line 152</a>
     </li></ul></dd>
     
 
@@ -4670,7 +5319,215 @@ Specify zero periods in order to disable
             
 <dt>
     
-        <h4 class="name" id="set_current_frame_float"><span class="type-signature">(static) </span>set_current_frame_float<span class="signature">(obj, cff, slot_num)</span><span class="type-signature"></span></h4>
+        <h4 class="name" id="set_behavior"><span class="type-signature">(static) </span>set_behavior<span class="signature">(obj, behavior, slot_num<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+
+        
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Set animation behavior.
+    </div>
+    
+
+    
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Object ID</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>behavior</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Behavior enum</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>slot_num</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    SLOT_0
+                
+                </td>
+            
+
+            <td class="description last">Animation slot number</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line379">line 379</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        
+            
+<dt>
+    
+        <h4 class="name" id="set_current_frame_float"><span class="type-signature">(static) </span>set_current_frame_float<span class="signature">(obj, cff, slot_num<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
         
     
@@ -4701,7 +5558,11 @@ Specify zero periods in order to disable
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
+        
+        <th>Default</th>
         
 
         <th class="last">Description</th>
@@ -4726,7 +5587,19 @@ Specify zero periods in order to disable
             </td>
 
             
+                <td class="attributes">
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
             
 
             <td class="description last">Object ID</td>
@@ -4749,7 +5622,19 @@ Specify zero periods in order to disable
             </td>
 
             
+                <td class="attributes">
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
             
 
             <td class="description last">Current frame</td>
@@ -4772,7 +5657,23 @@ Specify zero periods in order to disable
             </td>
 
             
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    SLOT_0
+                
+                </td>
             
 
             <td class="description last">Animation slot number</td>
@@ -4810,7 +5711,7 @@ Specify zero periods in order to disable
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line209">line 209</a>
+        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line217">line 217</a>
     </li></ul></dd>
     
 
@@ -4841,7 +5742,7 @@ Specify zero periods in order to disable
             
 <dt>
     
-        <h4 class="name" id="set_frame"><span class="type-signature">(static) </span>set_frame<span class="signature">(obj, frame, slot_num)</span><span class="type-signature"></span></h4>
+        <h4 class="name" id="set_frame"><span class="type-signature">(static) </span>set_frame<span class="signature">(obj, frame, slot_num<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
         
     
@@ -4872,7 +5773,11 @@ Specify zero periods in order to disable
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
+        
+        <th>Default</th>
         
 
         <th class="last">Description</th>
@@ -4897,7 +5802,19 @@ Specify zero periods in order to disable
             </td>
 
             
+                <td class="attributes">
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
             
 
             <td class="description last">Object ID.</td>
@@ -4920,7 +5837,19 @@ Specify zero periods in order to disable
             </td>
 
             
+                <td class="attributes">
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
             
 
             <td class="description last">Current frame (float).</td>
@@ -4943,7 +5872,23 @@ Specify zero periods in order to disable
             </td>
 
             
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    SLOT_0
+                
+                </td>
             
 
             <td class="description last">Animation slot number</td>
@@ -5010,7 +5955,222 @@ Specify zero periods in order to disable
             
 <dt>
     
-        <h4 class="name" id="set_speed"><span class="type-signature">(static) </span>set_speed<span class="signature">(obj, speed, slot_num)</span><span class="type-signature"></span></h4>
+        <h4 class="name" id="set_skel_mix_factor"><span class="type-signature">(static) </span>set_skel_mix_factor<span class="signature">(armobj, factor, time<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+
+        
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Change mix factor used to mix the last two skeletal animations.
+The non-zero time allows to perform smooth animation transitions.
+    </div>
+    
+
+    
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>armobj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Armature object ID</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>factor</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Target animation mix factor</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>time</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    0
+                
+                </td>
+            
+
+            <td class="description last">Time interval for changing the mix factor from
+the current to the target value.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line548">line 548</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        
+            
+<dt>
+    
+        <h4 class="name" id="set_speed"><span class="type-signature">(static) </span>set_speed<span class="signature">(obj, speed, slot_num<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
         
     
@@ -5041,7 +6201,11 @@ Specify zero periods in order to disable
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
+        
+        <th>Default</th>
         
 
         <th class="last">Description</th>
@@ -5066,7 +6230,19 @@ Specify zero periods in order to disable
             </td>
 
             
+                <td class="attributes">
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
             
 
             <td class="description last">Object ID.</td>
@@ -5089,7 +6265,19 @@ Specify zero periods in order to disable
             </td>
 
             
+                <td class="attributes">
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
             
 
             <td class="description last">Speed (may be negative) (float).</td>
@@ -5112,7 +6300,23 @@ Specify zero periods in order to disable
             </td>
 
             
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    SLOT_0
+                
+                </td>
             
 
             <td class="description last">Animation slot number</td>
@@ -5179,7 +6383,7 @@ Specify zero periods in order to disable
             
 <dt>
     
-        <h4 class="name" id="stop"><span class="type-signature">(static) </span>stop<span class="signature">(obj)</span><span class="type-signature"></span></h4>
+        <h4 class="name" id="stop"><span class="type-signature">(static) </span>stop<span class="signature">(obj, slot_num<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
         
     
@@ -5210,7 +6414,11 @@ Specify zero periods in order to disable
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
+        
+        <th>Default</th>
         
 
         <th class="last">Description</th>
@@ -5235,156 +6443,22 @@ Specify zero periods in order to disable
             </td>
 
             
+                <td class="attributes">
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
             
 
             <td class="description last">Object ID</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-    
-
-    
-<dl class="details">
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line185">line 185</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dd>
-
-        
-            
-<dt>
-    
-        <h4 class="name" id="update_object_animation"><span class="type-signature">(static) </span>update_object_animation<span class="signature">(obj, elapsed, slot_num)</span><span class="type-signature"></span></h4>
-
-        
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        Update object animation (set the pose)
-    </div>
-    
-
-    
-
-    
-
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>obj</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Object ID</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>elapsed</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Animation delay</td>
         </tr>
 
     
@@ -5404,7 +6478,23 @@ Specify zero periods in order to disable
             </td>
 
             
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    SLOT_0
+                
+                </td>
             
 
             <td class="description last">Animation slot number</td>
@@ -5440,7 +6530,220 @@ Specify zero periods in order to disable
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line430">line 430</a>
+        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line192">line 192</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dd>
+
+        
+            
+<dt>
+    
+        <h4 class="name" id="update_object_animation"><span class="type-signature">(static) </span>update_object_animation<span class="signature">(obj, elapsed, slot_num<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+
+        
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Update object animation (set the pose)
+    </div>
+    
+
+    
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Object ID</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>elapsed</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Animation delay</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>slot_num</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    SLOT_0
+                
+                </td>
+            
+
+            <td class="description last">Animation slot number</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_animation.js.html">ext/animation.js</a>, <a href="ext_animation.js.html#line424">line 424</a>
     </li></ul></dd>
     
 
@@ -5489,7 +6792,7 @@ Specify zero periods in order to disable
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-dev</a> on Mon Aug 25 2014 12:11:12 GMT+0400 (MSK)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-dev</a> on Thu Sep 25 2014 18:06:48 GMT+0400 (MSK)
 </footer>
 
 <script> prettyPrint(); </script>

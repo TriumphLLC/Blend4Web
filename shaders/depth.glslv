@@ -1,5 +1,6 @@
 #var AU_QUALIFIER uniform
 #var MAX_BONES 0
+#var SHADOW_TEX_RES 0.0
 
 /*============================================================================
                                   INCLUDES
@@ -16,6 +17,11 @@
 
 attribute vec3 a_position;
 
+#if WIND_BEND && MAIN_BEND_COL && DETAIL_BEND || SHADOW_SRC != SHADOW_SRC_MASK \
+        && SHADOW_SRC != SHADOW_SRC_NONE
+attribute vec3 a_normal;
+#endif
+
 #if SKINNED
 attribute vec4 a_influence;
 #endif
@@ -29,7 +35,6 @@ AU_QUALIFIER vec3 au_center_pos;
 attribute float a_bending_col_main;
 #  if DETAIL_BEND
 attribute vec3 a_bending_col_detail;
-attribute vec3 a_normal;
 AU_QUALIFIER float au_detail_bending_amp;
 AU_QUALIFIER float au_branch_bending_amp;
 AU_QUALIFIER float au_detail_bending_freq;
@@ -109,11 +114,12 @@ uniform float u_va_frame_factor;
 uniform vec3 u_texture_scale;
 #endif
 
-#if SHADOW_DST == SHADOW_DST_NONE || SHADOW_DST == SHADOW_DST_RGBA || SHADOW_DST == SHADOW_DST_VSM
+#if SHADOW_DST == SHADOW_DST_NONE
 uniform float u_view_max_depth;
 #endif
 
-#if SHADOW_SRC != SHADOW_SRC_NONE
+#if SHADOW_SRC != SHADOW_SRC_MASK && SHADOW_SRC != SHADOW_SRC_NONE
+uniform float u_normal_offset;
 uniform mat4 u_v_light_matrix;
 
 // bias light matrix
@@ -143,7 +149,7 @@ uniform mat4 u_p_light_matrix3;
 varying vec2 v_texcoord;
 #endif
 
-#if SHADOW_DST == SHADOW_DST_NONE || SHADOW_DST == SHADOW_DST_RGBA || SHADOW_DST == SHADOW_DST_VSM
+#if SHADOW_DST == SHADOW_DST_NONE
 varying float v_vertex_z;
 #endif
 
@@ -207,7 +213,7 @@ void main(void) {
 
 #if DYNAMIC_GRASS
     vertex world = grass_vertex(position, vec3(0.0), vec3(0.0), vec3(0.0), center,
-            u_grass_map_depth, u_grass_map_color, u_grass_map_dim, u_grass_size, 
+            u_grass_map_depth, u_grass_map_color, u_grass_map_dim, u_grass_size,
             u_camera_eye, u_camera_quat, u_view_matrix);
 #else
 # if HAIR_BILLBOARD
@@ -215,7 +221,7 @@ void main(void) {
     mat4 model_matrix = billboard_matrix(u_camera_eye, wcen, u_view_matrix);
 #  if WIND_BEND && HAIR_BILLBOARD_JITTERED
     vec3 vec_seed = (u_model_matrix * vec4(center, 1.0)).xyz;
-    model_matrix = model_matrix * bend_jitter_matrix(u_wind, u_time, 
+    model_matrix = model_matrix * bend_jitter_matrix(u_wind, u_time,
             u_jitter_amp, u_jitter_freq, vec_seed);
 #  endif
     vertex world = to_world(position - center, center, vec3(0.0), vec3(0.0), vec3(0.0),
@@ -252,9 +258,19 @@ void main(void) {
     v_pos_view = pos_view;
 #endif
 
-#if SHADOW_DST == SHADOW_DST_NONE || SHADOW_DST == SHADOW_DST_RGBA || SHADOW_DST == SHADOW_DST_VSM
+#if SHADOW_DST == SHADOW_DST_NONE
     v_vertex_z = -pos_view.z / u_view_max_depth;
     //v_vertex_z = pos_clip.z / pos_clip.w * 0.5 + 0.5;
+#endif
+
+#if SHADOW_SRC == SHADOW_SRC_NONE && SHADOW_DST == SHADOW_DST_DEPTH
+    // NOTE: shift coords to remove shadow map panning
+
+    // NOTE: u_view_matrix[3] is world space origin translated into light space
+    vec2 shift = (u_proj_matrix * u_view_matrix[3]).xy;
+    float half_tex_res = SHADOW_TEX_RES / 2.0;
+    shift = floor(shift * half_tex_res + 0.5) / half_tex_res - shift;
+    pos_clip.xy += shift;
 #endif
 
     gl_Position = pos_clip;

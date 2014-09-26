@@ -126,9 +126,8 @@ exports.get_trans_speed = function(camobj) {
  * @param {Float32Array} eye Eye vector
  * @param {Float32Array} target Target vector
  * @param {Float32Array} up Up vector
- * @param {Number} elapsed The time which is elapsed from the previous execution
  */
-exports.set_look_at = function(camobj, eye, target, up, elapsed) {
+exports.set_look_at = function(camobj, eye, target, up) {
     var render = camobj._render;
 
     camera.eye_target_up_to_trans_quat(eye, target, up, render.trans, render.quat);
@@ -444,7 +443,7 @@ exports.get_stereo_distance = function(camobj, conv_dist) {
 /**
  * Returns true if the camera's eye is located under the water surface
  * @method module:camera.is_underwater
- * @param camobj Camera Object ID
+ * @param {Object} camobj Camera Object ID
  * @returns {Boolean}
  * @deprecated Always returns false
  */

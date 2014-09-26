@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Проблемы и решения &mdash; Руководство пользователя: Blend4Web v14.08</title>
+    <title>Проблемы и решения &mdash; Руководство пользователя: Blend4Web v14.09</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.08',
+        VERSION:     '14.09',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,8 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v14.08" href="index.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v14.09" href="index.html" />
+    <link rel="next" title="Замечания к релизам" href="release_notes.html" />
     <link rel="prev" title="Работа в команде. Использование git" href="git_short_manual.html" /> 
   </head>
   <body>
@@ -36,10 +37,12 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">Руководство пользователя: Blend4Web v14.08</a></div>
+          href="index.html">Руководство пользователя: Blend4Web v14.09</a></div>
         <div class="rel">
           <a href="git_short_manual.html" title="Работа в команде. Использование git"
              accesskey="P">предыдущий</a> |
+          <a href="release_notes.html" title="Замечания к релизам"
+             accesskey="N">следующий</a> |
           <a href="genindex.html" title="Алфавитный указатель"
              accesskey="I">указатель</a>
         </div>
@@ -73,9 +76,9 @@
 <p>Сайт <a class="reference external" href="http://get.webgl.org/">http://get.webgl.org/</a> при просмотре в браузерах Chrome или Firefox последней версии сообщает о проблемах. Что делать?</p>
 <ol class="arabic simple">
 <li>Установить доступные обновления для системы (для Windows см. <a class="reference external" href="http://support.microsoft.com/kb/311047/ru">инструкцию</a>). В случае Windows установить последнюю версию <a class="reference external" href="http://www.microsoft.com/ru-ru/download/details.aspx?id=35">DirectX</a>. Перезагрузить систему.</li>
-<li>Рекомендуется проводить своевременное обновление драйверов для графических карт. Чтобы определить тип и производителя карты, можно ввести <strong>about:gpu</strong> в адресную строку браузера Chrome...</li>
+<li>Рекомендуется проводить своевременное обновление драйверов для графических карт. Чтобы определить тип и производителя карты, можно ввести <strong>about:gpu</strong> (или <strong>chrome://gpu</strong>) в адресную строку браузера Chrome...</li>
 </ol>
-<a class="reference internal image-reference" href="_images/about_gpu_directx.jpg"><img alt="_images/about_gpu_directx.jpg" class="align-center" src="_images/about_gpu_directx.jpg" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/chrome_gpu.jpg"><img alt="_images/chrome_gpu.jpg" class="align-center" src="_images/chrome_gpu.jpg" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -92,7 +95,7 @@
 <li>Если в результате вышеперечисленных действий инициализировать рендеринг не удается (или нет возможности обновить систему), можно попробовать изменить настройки браузера.</li>
 </ol>
 <p><em>В Chrome</em>:</p>
-<p>Ввести <strong>about:flags</strong> (или <strong>chrome://flags/</strong>) в адресную строку браузера, нажать <tt class="file docutils literal"><span class="pre">Включить</span></tt> (<tt class="file docutils literal"><span class="pre">Enable</span></tt>) под опцией <tt class="file docutils literal"><span class="pre">Переопределение</span> <span class="pre">списка</span> <span class="pre">программного</span> <span class="pre">рендеринга</span></tt> (<tt class="file docutils literal"><span class="pre">Override</span> <span class="pre">software</span> <span class="pre">rendering</span> <span class="pre">list</span></tt>) и перезапустить браузер.</p>
+<p>Ввести <strong>about:flags</strong> (или <strong>chrome://flags</strong>) в адресную строку браузера, нажать <tt class="file docutils literal"><span class="pre">Включить</span></tt> (<tt class="file docutils literal"><span class="pre">Enable</span></tt>) под опцией <tt class="file docutils literal"><span class="pre">Переопределение</span> <span class="pre">списка</span> <span class="pre">программного</span> <span class="pre">рендеринга</span></tt> (<tt class="file docutils literal"><span class="pre">Override</span> <span class="pre">software</span> <span class="pre">rendering</span> <span class="pre">list</span></tt>) и перезапустить браузер.</p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -158,8 +161,8 @@
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Веб-плеер</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">Аддон</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Объекты</a></li>
-<li class="toctree-l1"><a class="reference internal" href="textures.html">Текстуры</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Материалы</a></li>
+<li class="toctree-l1"><a class="reference internal" href="textures.html">Текстуры</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Нодовые материалы</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lighting.html">Освещение, тени и фон</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Постпроцессинговые эффекты</a></li>
@@ -180,6 +183,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#web">Использование локального web-сервера</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Замечания к релизам</a></li>
 </ul>
 
           <h3 style="margin-top: 1.5em;">Поиск</h3>
@@ -202,6 +206,8 @@
         <div class="left">
           <a href="git_short_manual.html" title="Работа в команде. Использование git"
              >предыдущий</a> |
+          <a href="release_notes.html" title="Замечания к релизам"
+             >следующий</a> |
           <a href="genindex.html" title="Алфавитный указатель"
              >указатель</a>
         </div>
@@ -210,7 +216,7 @@
           
     <div class="footer">
         &copy; Copyright 2014, ООО &#34;Триумф&#34;.
-      Обновлено: 2014-08-25.
+      Обновлено: 2014-09-25.
       Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

@@ -25,109 +25,115 @@ exports.context = {
 exports.context_save = m_util.clone_object_r(exports.context);
 
 exports.defaults = {
-    alpha_sort               : true,
+    alpha_sort                 : true,
 
-    alpha_sort_threshold     : 0.1,
+    alpha_sort_threshold       : 0.1,
 
-    min_format_version       : 5.0,
+    min_format_version         : 5.0,
 
-    max_fps                  : 10000,
+    max_fps                    : 10000,
 
-    console_verbose          : false,
+    console_verbose            : false,
 
-    do_not_load_resources    : false,
+    do_not_load_resources      : false,
 
-    use_min50                : false,
+    use_min50                  : false,
 
-    fps_measurement_interval : 1.5,
+    fps_measurement_interval   : 1.5,
 
-    fps_callback_interval    : 10,
+    fps_callback_interval      : 10,
 
-    background_color         : [0.0, 0.0, 0.0, 0.0],
+    background_color           : [0.0, 0.0, 0.0, 0.0],
 
-    force_selectable         : false,
+    force_selectable           : false,
 
-    all_objs_selectable      : false,
+    all_objs_selectable        : false,
 
-    lod_transition_ratio     : 0.01,
+    lod_transition_ratio       : 0.01,
 
-    resolution_factor        : 1.0,
+    resolution_factor          : 1.0,
 
-    texture_min_filter       : 3,
+    texture_min_filter         : 3,
 
-    anisotropic_filtering    : true,
+    anisotropic_filtering      : true,
 
     // init and show HUD on canvas provided by app
-    show_hud_debug_info      : false,
+    show_hud_debug_info        : false,
 
     // required for DEPTH shadows
-    depth_textures           : true,
+    depth_textures             : true,
 
-    // "NONE", "RGBA", "RGBA_PCF", "DEPTH", "VSM"
-    shadows                  : "DEPTH",
+    // "NONE", "DEPTH"
+    shadows                    : "DEPTH",
 
-    anaglyph_use             : false,
+    anaglyph_use               : false,
 
-    reflections              : true,
+    reflections                : true,
 
-    reflect_multiplier       : 0.5,
+    reflect_multiplier         : 0.5,
 
-    refractions              : true,
+    refractions                : true,
 
-    glow                     : true,
+    glow                       : true,
 
-    ssao                     : true,
+    ssao                       : true,
 
-    dof                      : true,
+    dof                        : true,
 
-    god_rays                 : true,
+    god_rays                   : true,
 
-    bloom                    : true,
+    bloom                      : true,
 
-    motion_blur              : true,
+    motion_blur                : true,
 
-    compositing              : true,
+    compositing                : true,
 
-    antialiasing             : true,
+    antialiasing               : true,
 
-    smaa                     : false,
+    smaa                       : false,
 
-    wireframe_debug          : false,
-
-    poly_offset_multiplier   : 1.0, 
+    wireframe_debug            : false,
 
     // properties updated from hardware capability
-    foam                     : true,
+    foam                       : true,
 
-    parallax                 : true,
+    parallax                   : true,
 
-    dynamic_grass            : true,
+    dynamic_grass              : true,
 
-    procedural_fog           : true,
+    procedural_fog             : true,
 
-    water_dynamic            : true,
+    water_dynamic              : true,
 
-    shore_smoothing          : true,
+    shore_smoothing            : true,
 
-    shore_distance           : true,
+    shore_distance             : true,
+
+    max_texture_size           : 1024,
 
     // Windows ANGLE limits, returned by determine_max_bones()
-    max_bones                : 53, 
-    
-    use_dds                  : true,
+    max_bones                  : 53,
 
-    precision                : "highp",
+    use_dds                    : true,
 
-    deferred_rendering       : true,
+    precision                  : "highp",
+
+    deferred_rendering         : true,
 
     // quality profile
-    quality                  : exports.P_HIGH,
+    quality                    : exports.P_HIGH,
 
-    allow_vertex_textures    : true,
+    allow_vertex_textures      : true,
 
-    glsl_unroll_hack         : false,
+    glsl_unroll_hack           : false,
 
-    no_phy_interp_hack       : false
+    no_phy_interp_hack         : false,
+
+    shader_constants_hack      : false,
+
+    disable_blend_shadows_hack : false,
+
+    vert_anim_mix_normals_hack : false
 }
 
 exports.defaults_save = m_util.clone_object_r(exports.defaults);
@@ -161,15 +167,22 @@ exports.paths = {
     shaders_include_dir : "include/",
     shader_texts_module : "shader_texts",
     built_in_data_module : "built_in_data",
-    smaa_search_texture_path: "../../external/deploy/apps/common/smaa_search_texture.png",
-    smaa_area_texture_path: "../../external/deploy/apps/common/smaa_area_texture.png"
+    smaa_search_texture_path: "",
+    smaa_area_texture_path: "",
+    resources_dir: "../external/deploy/apps/common/",
+    resources_search_paths: [
+        "b4w.min.js",
+        "b4w.full.min.js",
+        "embed.min.js",
+        "src/data.js"
+    ]
 }
 
 // physics config
 exports.physics = {
     enabled: true,
     max_fps: 60,
-    uranium_path: "../../external/deploy/apps/common/uranium.js"
+    uranium_path: ""
 }
 exports.physics_save = m_util.clone_object_r(exports.physics);
 
@@ -179,10 +192,10 @@ exports.scenes = {
     // texture rendering
     offscreen_tex_size: 1.0*1024,
 
-    // shadow rendering 
-    shadow_tex_size: 2.0*1024,
+    grass_tex_size: 2*512,
 
-    grass_tex_size: 2*512
+    // default adjusted size
+    cubemap_tex_size: 384
 }
 exports.scenes_save = m_util.clone_object_r(exports.scenes);
 
@@ -191,6 +204,14 @@ exports.sfx = {
     mix_mode  : false
 }
 exports.sfx_save = m_util.clone_object_r(exports.sfx);
+
+exports.debug_subs = {
+    enabled     : false,
+    subs_type   : "MAIN_OPAQUE",
+    subs_number : 0,
+    slink_type  : "COLOR"
+}
+exports.debug_subs_save = m_util.clone_object_r(exports.debug_subs);
 
 /**
  * Override default values of engine settings according to quality param
@@ -237,8 +258,6 @@ exports.apply_quality = function() {
 
         cfg_scs.offscreen_tex_size = 2.0*1024;
 
-        cfg_scs.shadow_tex_size = 4.0*1024;
-
         cfg_scs.grass_tex_size = 4.0*512;
 
         cfg_def.texture_min_filter = 3;
@@ -268,7 +287,7 @@ exports.apply_quality = function() {
         break;
 
     case exports.P_HIGH:
-    
+
         cfg_def.shadows = "DEPTH";
 
         cfg_def.shore_smoothing = true;
@@ -300,8 +319,6 @@ exports.apply_quality = function() {
         cfg_def.resolution_factor = 1;
 
         cfg_scs.offscreen_tex_size = 1.0*1024;
-
-        cfg_scs.shadow_tex_size = 2.0*1024;
 
         cfg_scs.grass_tex_size = 2*512;
 
@@ -364,8 +381,6 @@ exports.apply_quality = function() {
         cfg_def.resolution_factor = 1; // can be 0.5
 
         cfg_scs.offscreen_tex_size = 0.5*1024;
-
-        cfg_scs.shadow_tex_size = 1*1024;
 
         cfg_scs.grass_tex_size = 1*512;
 
@@ -441,6 +456,9 @@ function set(prop, value) {
         break;
     case "context_antialias":
         exports.context.antialias = value;
+        break;
+    case "debug_subs_enabled":
+        exports.debug_subs.enabled = value;
         break;
     case "deferred_rendering":
         exports.defaults.deferred_rendering = value;
@@ -519,11 +537,13 @@ exports.get = function(prop) {
     case "background_color":
         return exports.defaults.background_color;
     case "built_in_module_name":
-        return exports.paths.built_in_data_module;    
+        return exports.paths.built_in_data_module;
     case "console_verbose":
         return exports.defaults.console_verbose;
     case "context_antialias":
         return exports.context.antialias;
+    case "debug_subs_enabled":
+        return exports.debug_subs.enabled;
     case "deferred_rendering":
         return exports.defaults.deferred_rendering;
     case "do_not_load_resources":
@@ -569,6 +589,52 @@ exports.reset = function() {
     exports.physics = m_util.clone_object_r(exports.physics_save);
     exports.scenes = m_util.clone_object_r(exports.scenes_save);
     exports.sfx = m_util.clone_object_r(exports.sfx_save);
+    exports.debug_subs = m_util.clone_object_r(exports.debug_subs_save);
+}
+
+/**
+ * Set configuration paths for uranium engine and smaa textures.
+ */
+exports.set_resources_paths = function() {
+    var paths = exports.paths;
+    var phys = exports.physics;
+
+    if (paths.smaa_search_texture_path == ""
+            || paths.smaa_area_texture_path == "" || phys.uranium_path == "") {
+
+        var src_path = null;
+
+        var scripts = document.getElementsByTagName('script');
+        for (var i = 0; i < scripts.length; i++) {
+            var src = scripts[i].src;
+
+            for (var j = 0; j < paths.resources_search_paths.length; j++) {
+                var script_path = paths.resources_search_paths[j];
+                if (src.indexOf(script_path) >= 0) {
+                    src_path = src;
+                    break;
+                }
+            }
+
+            if (src_path !== null)
+                break;
+        }
+
+        src_path = src_path || document.location.href;
+        var index = src_path.indexOf("?");
+        if (index >= 0)
+            src_path = src_path.substring(0, index);
+
+        var js_src_dir = src_path.substring(0, src_path.lastIndexOf("/") + 1);
+        var resources_dir = js_src_dir + paths.resources_dir;
+
+        set("physics_uranium_path", phys.uranium_path
+                || resources_dir + "uranium.js");
+        set("smaa_search_texture_path", paths.smaa_search_texture_path
+                || resources_dir + "smaa_search_texture.png");
+        set("smaa_area_texture_path", paths.smaa_area_texture_path
+                || resources_dir + "smaa_area_texture.png");
+    }
 }
 
 }

@@ -76,19 +76,18 @@ WebGL (Web Graphics Library, т.е. графическая библиотека 
 * `Chrome <http://www.google.com/chrome>`_
 * `Firefox <http://www.mozilla.org/firefox>`_
 * `Opera <http://www.opera.com/browser>`_
-
+* `Safari <http://www.apple.com/safari/>`_ 8+
 
 Экспериментальная поддержка
 ---------------------------
 
 * `Internet Explorer <http://windows.microsoft.com/en-us/internet-explorer/download-ie>`_ 11
-* `Safari <http://www.apple.com/safari/>`_ 8
 
 
 Мобильные платформы
 -------------------
 
-* Android (на большей части современных устройств)
+* Android (на современных устройствах)
 * BlackBerry
 * Firefox OS
 * iOS 8

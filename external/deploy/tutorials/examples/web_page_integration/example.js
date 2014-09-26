@@ -42,17 +42,17 @@ function init_cb(canvas_elem, success) {
 }
 
 function load_cb(root) {
-    var letters_obj = m_scs.get_object_by_name('beads');
-    m_anim.stop(letters_obj);
+    var letters_arm = m_scs.get_object_by_name('beads_armature');
+    m_anim.stop(letters_arm);
 
     run_button.addEventListener("mousedown", demo_link_click, false);
 }
 
 function demo_link_click(e) {
-    var letters_obj = m_scs.get_object_by_name('beads');
+    var letters_arm = m_scs.get_object_by_name('beads_armature');
 
-    m_anim.apply(letters_obj, "flying_letters");
-    m_anim.play(letters_obj, letters_obj_cb);
+    m_anim.apply(letters_arm, "flying_letters");
+    m_anim.play(letters_arm, letters_obj_cb);
 }
 
 function letters_obj_cb(obj) {

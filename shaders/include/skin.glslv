@@ -103,12 +103,12 @@ vec4 quat4_slerp(in vec4 quat, in vec4 quat2, in float slerp) {
 
 # if FRAMES_BLENDING
 
-vec3 skin_point(in vec3 position, 
+vec3 skin_point(in vec3 position,
                     in vec4 quatb,
                     in vec4 quata,
                     in vec4 tranb,
                     in vec4 trana,
-                    in float frame_factor) 
+                    in float frame_factor)
 {
 #  if SKIN_SLERP
     vec4 quat = quat4_slerp(quatb, quata, frame_factor);
@@ -146,7 +146,7 @@ vec3 skin_vector(in vec3 vector,
 #  endif
 }
 
-# else
+# else //  FRAMES_BLENDING
 
 vec3 skin_point(in vec3 position, 
                 in vec4 quatb,

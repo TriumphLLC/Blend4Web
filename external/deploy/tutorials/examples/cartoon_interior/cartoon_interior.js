@@ -43,7 +43,6 @@ exports.init = function() {
         callback: init_cb,
         physics_enabled: true,
         force_selectable: true,
-        physics_uranium_path: "uranium.js",
         alpha: false,
         background_color: [1.0, 1.0, 1.0, 0.0]
     });
@@ -160,16 +159,18 @@ function loaded_cb(data_id) {
     if (m_ctl.check_sensor_manifold(cam, "COLLISION"))
         m_ctl.remove_sensor_manifold(cam, "COLLISION");
 
-    var objs = m_scenes.get_all_objects("ALL", data_id);
+    var objs = m_scenes.get_all_objects();
 
     // spawn appended object in a certain position
     for (var i = 0; i < objs.length; i++) {
         var obj = objs[i];
-        if (m_phy.has_physics(obj)) {
-            m_phy.enable_simulation(obj);
-            m_trans.set_translation_v(obj, spawner_pos);
+        if (m_scenes.get_object_data_id(obj) == data_id) {
+            if (m_phy.has_physics(obj)) {
+                m_phy.enable_simulation(obj);
+                m_trans.set_translation_v(obj, spawner_pos);
+            }
+            m_scenes.show_object(obj);
         }
-        m_scenes.show_object(obj);
     }
 
     // create sensors to detect collisions

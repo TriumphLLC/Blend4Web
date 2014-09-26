@@ -23,10 +23,9 @@ var _filter_mag_arr = null;
 var _filter_phase_arr = null;
 
 /**
- * Enable mixer controls and attach to the given object.
- * @param {Object} obj Object ID
+ * Enable mixer controls.
  */
-exports.enable_mixer_controls = function(obj) {
+exports.enable_mixer_controls = function() {
     init();
 
     // switch mixer strip / switch mixer param
@@ -70,17 +69,16 @@ exports.enable_mixer_controls = function(obj) {
             m_ctl.reset_timer_sensor(obj, id, 5, 10);
         }
     }
-    m_ctl.create_sensor_manifold(obj, "SWITCH_STRIP", m_ctl.CT_TRIGGER, 
+    m_ctl.create_sensor_manifold(null, "SWITCH_STRIP", m_ctl.CT_TRIGGER, 
             mixer_keys, switch_strip_logic, switch_spk_cb);
-    m_ctl.create_sensor_manifold(obj, "SWITCH_STRIP_HOLD", m_ctl.CT_SHOT, 
+    m_ctl.create_sensor_manifold(null, "SWITCH_STRIP_HOLD", m_ctl.CT_SHOT, 
             mixer_keys, switch_strip_logic_hold, switch_spk_cb);
-
 
     var switch_param_cb = function(obj, id, pulse) {
         var dir = Boolean(m_ctl.get_sensor_value(obj, id, 0)) ? -1 : 1;
         switch_param(dir);
     }
-    m_ctl.create_sensor_manifold(obj, "SWITCH_PARAM", m_ctl.CT_SHOT, 
+    m_ctl.create_sensor_manifold(null, "SWITCH_PARAM", m_ctl.CT_SHOT, 
             mixer_keys, switch_param_logic, switch_param_cb);
 
 
@@ -105,9 +103,9 @@ exports.enable_mixer_controls = function(obj) {
     var inc_dec_logic_hold = function(s) {
         return ((s[2] || s[3]) && !s[4] && s[6]);
     }
-    m_ctl.create_sensor_manifold(obj, "INC_DEC", m_ctl.CT_TRIGGER, 
+    m_ctl.create_sensor_manifold(null, "INC_DEC", m_ctl.CT_TRIGGER, 
             mixer_keys, inc_dec_logic, inc_dec_cb);
-    m_ctl.create_sensor_manifold(obj, "INC_DEC_HOLD", m_ctl.CT_SHOT, 
+    m_ctl.create_sensor_manifold(null, "INC_DEC_HOLD", m_ctl.CT_SHOT, 
             mixer_keys, inc_dec_logic_hold, inc_dec_cb);
 
 
@@ -121,16 +119,16 @@ exports.enable_mixer_controls = function(obj) {
     var mute_solo_logic = function(s) {
         return ((s[2] || s[3]) && s[4]);
     }
-    m_ctl.create_sensor_manifold(obj, "MUTE_SOLO", m_ctl.CT_SHOT,
+    m_ctl.create_sensor_manifold(null, "MUTE_SOLO", m_ctl.CT_SHOT,
             mixer_keys, mute_solo_logic, mute_solo_cb);
 
     var elapsed = m_ctl.create_elapsed_sensor();
 
-    m_ctl.create_sensor_manifold(obj, "MIXER_DRAW", m_ctl.CT_CONTINUOUS,
+    m_ctl.create_sensor_manifold(null, "MIXER_DRAW", m_ctl.CT_CONTINUOUS,
         [elapsed], null, function() {draw()});
 
     var timer = m_ctl.create_timer_sensor(1);
-    m_ctl.create_sensor_manifold(obj, "MIXER_UPDATE", m_ctl.CT_TRIGGER,
+    m_ctl.create_sensor_manifold(null, "MIXER_UPDATE", m_ctl.CT_TRIGGER,
             [timer], null, function() {
         var strip_range = active_strip_range();
         for (var i = strip_range[0]; i <= strip_range[1]; i++)

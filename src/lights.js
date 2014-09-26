@@ -12,20 +12,20 @@ var m_util = require("__util");
 
 var m_vec3 = require("vec3");
 
-var _lamps_numb = 0;
-
 /**
  * Convert blender lamp object to light
  * @param lamp_obj lamp object
  */
 exports.lamp_to_light = function(lamp_obj) {
     var light = init_light();
-    light.index = _lamps_numb++;
 
     light.name = lamp_obj["name"];
 
     var data = lamp_obj["data"];
     light.type = data["type"];
+
+    light.use_diffuse = data["use_diffuse"];
+    light.use_specular = data["use_specular"];
 
     var quat = lamp_obj._render.quat;
     var dir = m_util.quat_to_dir(quat, m_util.AXIS_Y, []);
@@ -76,7 +76,7 @@ function init_light() {
     update_color_intensity(light);
 
     light.distance = 25.0;
-    
+
     light.generate_shadows = false;
 
     return light;
@@ -127,13 +127,6 @@ function update_light_transform(obj) {
 
     m_util.quat_to_dir(obj._render.quat, m_util.AXIS_Y, light.direction);
 
-}
-
-/**
- * Perform module cleanup
- */
-exports.cleanup = function() {
-    _lamps_numb = 0;
 }
 
 }

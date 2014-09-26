@@ -1,4 +1,4 @@
-#export cellular2x2_caust snoise cellular2x2
+#export cellular2x2_caust snoise cellular2x2 generate_dithering_tex
 
 vec4 mod289(vec4 x) {
     return x - floor(x * (1.0 / 289.0)) * 289.0;
@@ -107,7 +107,7 @@ mat3 cellular2x2_caust(vec2 P, float aber) {
 //     License : Copyright (C) 2011 Ashima Arts. All rights reserved.
 //               Distributed under the MIT License. See LICENSE file.
 //               https://github.com/ashima/webgl-noise
-// 
+//
 
 vec3 permute3(vec3 x) {
     return mod289(((x*34.0)+1.0)*x);
@@ -160,4 +160,16 @@ float snoise(vec2 v)
     g.x  = a0.x  * x0.x  + h.x  * x0.y;
     g.yz = a0.yz * x12.xz + h.yz * x12.yw;
     return 130.0 * dot(m, g);
+}
+
+// generating noise/pattern texture for dithering
+vec2 generate_dithering_tex(vec2 coord) {
+
+    float d1 = dot(coord, vec2(12.9898, 78.233));
+    float d2 = dot(coord, vec2(12.9898, 78.233) * 2.0);
+
+    float noiseX = fract(sin(d1) * 43758.5453) * 2.0 - 1.0;
+    float noiseY = fract(sin(d2) * 43758.5453) * 2.0 - 1.0;
+
+    return vec2(noiseX, noiseY);
 }

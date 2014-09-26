@@ -48,6 +48,10 @@ msgid ""
 "Настройка физических параметров производится в режиме ``Blender Game``."
 msgstr "Physical parameters can be set up in the ``Blender Game`` mode."
 
+#: ../physics.rst:34
+msgid "Статический тип физики"
+msgstr "Static Physics Type"
+
 #: ../physics.rst:36
 msgid ""
 "Может использоваться как ограничитель движения других объектов, например, "
@@ -108,6 +112,10 @@ msgstr ""
 "material belongs to. The ``Collision mask`` field defines all physics groups"
 " with which this material will interact."
 
+#: ../physics.rst:67
+msgid "Динамический тип физики"
+msgstr "Dynamic Physics Type"
+
 #: ../physics.rst:69
 msgid "Предназначен для симуляции движения жесткого тела."
 msgstr "Intended for rigid body movement simulation."
@@ -157,6 +165,16 @@ msgstr ""
 " with a specific object (for example for detecting proximity of a FPS "
 "character to different items) and can be left empty."
 
+#: ../physics.rst:97
+msgid ""
+"Для материала такого объекта поддерживаются: трение (``Friction``), "
+"упругость (``Elasticity``). В случае использования на одном меше нескольких "
+"материалов физические настройки считываются с первого из них."
+msgstr ""
+"``Friction`` and ``Elasticity`` are supported for the material of such an "
+"object. When multiple materials are used on a single mesh, the physics "
+"parameters are taken from the first of them."
+
 #: ../physics.rst:99
 msgid ""
 "Для объекта-камеры должна использоваться настройка ``Physics Type`` = "
@@ -175,6 +193,24 @@ msgid ""
 "объектов."
 msgstr ""
 "Physical constraints are used for limiting the objects' degrees of freedom."
+
+#: ../physics.rst:113
+msgid ""
+"Установка физического ограничителя (``Rigid Body Joint``) на объект "
+"происходит в панели ``Object Constraints``. Поддерживаемые типы (``Pivot "
+"Type``): ``Ball``, ``Hinge``, ``Cone Twist``, ``Generic 6 DoF``. Физический "
+"ограничитель можно установить на один из двух взаимодействующих объектов, "
+"при этом другой выступает в качестве цели (``Target``). Оба объекта могут "
+"быть со статическим и/или динамическим типом физики. В ограничителях (кроме "
+"``Ball``) могут настраиваться пределы перемещения и вращения."
+msgstr ""
+"Adding a physical constraint (``Rigid Body Joint``) to the object can be "
+"performed on the ``Object Constraints`` panel. The supported types (``Pivot "
+"Type``) are: ``Ball``, ``Hinge``, ``Cone Twist``, ``Generic 6 DoF``. A "
+"physical constraint can be added to one of the two interacting objects, "
+"while the other object acts as a ``Target``. Both objects can have a static "
+"and/or dynamic physics type. In constraints (except ``Ball``) the "
+"translation and rotation limits can be set up."
 
 #: ../physics.rst:123
 msgid "Колесные транспортные средства"
@@ -307,7 +343,7 @@ msgid ""
 "передним колесам (``Steering ratio``). Максимальное значение угла поворота "
 "указывается в оборотах. Один оборот равен 360 градусам. Таким образом, "
 "поставив ``Steering max`` равным единице, а ``Steering ratio`` равным 10, "
-"максимальный поворот руля получится равным 360 градусав, а максимальный "
+"максимальный поворот руля получится равным 360 градусам, а максимальный "
 "поворот передних колес 36 градусов."
 msgstr ""
 "For the ``Steering wheel`` it is necessary to specify the maximum steering "
@@ -435,38 +471,4 @@ msgstr ""
 msgid "Параметры настройки плавающего транспортного средства"
 msgstr "Watercraft settings"
 
-#: ../physics.rst:34
-msgid "Статический тип физики"
-msgstr "Static Physics Type"
 
-#: ../physics.rst:67
-msgid "Динамический тип физики"
-msgstr "Dynamic Physics Type"
-
-#: ../physics.rst:97
-msgid ""
-"Для материала такого объекта поддерживаются: трение (``Friction``), "
-"упругость (``Elasticity``). В случае использования на одном меше нескольких "
-"материалов физические настройки считываются с первого из них."
-msgstr ""
-"``Friction`` and ``Elasticity`` are supported for the material of such an "
-"object. When multiple materials are used on a single mesh, the physics "
-"parameters are taken from the first of them."
-
-#: ../physics.rst:113
-msgid ""
-"Установка физического ограничителя (``Rigid Body Joint``) на объект "
-"происходит в панели ``Object Constraints``. Поддерживаемые типы (``Pivot "
-"Type``): ``Ball``, ``Hinge``, ``Cone Twist``, ``Generic 6 DoF``. Физический "
-"ограничитель можно установить на один из двух взаимодействующих объектов, "
-"при этом другой выступает в качестве цели (``Target``). Оба объекта могут "
-"быть со статическим и/или динамическим типом физики. В ограничителях (кроме "
-"``Ball``) могут настраиваться пределы перемещения и вращения."
-msgstr ""
-"Adding a physical constraint (``Rigid Body Joint``) to the object can be "
-"performed on the ``Object Constraints`` panel. The supported types (``Pivot "
-"Type``) are: ``Ball``, ``Hinge``, ``Cone Twist``, ``Generic 6 DoF``. A "
-"physical constraint can be added to one of the two interacting objects, "
-"while the other object acts as a ``Target``. Both objects can have a static "
-"and/or dynamic physics type. In constraints (except ``Ball``) the "
-"translation and rotation limits can be set up."

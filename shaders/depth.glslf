@@ -18,9 +18,11 @@ uniform vec4 u_diffuse_color;
 uniform sampler2D u_sampler;
 #endif
 
-uniform float u_shadow_visibility_falloff;
-
 #if SHADOW_SRC != SHADOW_SRC_NONE
+# if SHADOW_SRC != SHADOW_SRC_MASK
+uniform vec4 u_pcf_blur_radii;
+uniform vec4 u_csm_center_dists;
+# endif
 uniform sampler2D u_shadow_map0;
 
 # if CSM_SECTION1
@@ -35,10 +37,10 @@ uniform sampler2D u_shadow_map2;
 uniform sampler2D u_shadow_map3;
 # endif
 
-#endif
-
 #if SHADOW_SRC == SHADOW_SRC_MASK
 uniform sampler2D u_shadow_mask;
+#endif
+
 #endif
 
 /*============================================================================
@@ -49,7 +51,7 @@ uniform sampler2D u_shadow_mask;
 varying vec2 v_texcoord;
 #endif
 
-#if SHADOW_DST == SHADOW_DST_NONE || SHADOW_DST == SHADOW_DST_RGBA || SHADOW_DST == SHADOW_DST_VSM
+#if SHADOW_DST == SHADOW_DST_NONE
 varying float v_vertex_z;
 #endif
 
@@ -82,7 +84,10 @@ varying vec4 v_pos_view;
                                   INCLUDE
 ============================================================================*/
 
+#if !SHADELESS
+#include <procedural.glslf>
 #include <shadow.glslf>
+#endif
 
 /*============================================================================
                                     MAIN
@@ -100,28 +105,18 @@ void main(void) {
         discard;
 #endif
 
-    
+
 #if SHADOW_SRC == SHADOW_SRC_NONE   // SHADOW_CAST or just DEPTH
 # if SHADOW_DST == SHADOW_DST_NONE
     gl_FragColor = pack(v_vertex_z);
-# elif SHADOW_DST == SHADOW_DST_RGBA
-    gl_FragColor = pack(v_vertex_z);
 # elif SHADOW_DST == SHADOW_DST_DEPTH
     gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
-# elif SHADOW_DST == SHADOW_DST_VSM
-    float depth = v_vertex_z;
-    float square = depth * depth;
-
-    //float dx = dFdx(depth);
-    //float dy = dFdy(depth);
-    //square += 0.25 * (dx*dx + dy*dy);
-    gl_FragColor = vec4(depth, square, 0.0, 1.0);
 # elif SHADOW_DST == SHADOW_DST_MASK // DEPTH + SHADOW_RECEIVE
     gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
 # endif
 
 #elif SHADOW_DST == SHADOW_DST_MASK // DEPTH + SHADOW_RECEIVE
-    gl_FragColor = vec4(shadow_visibility(v_pos_view.z, u_shadow_visibility_falloff), 1.0, 1.0, 1.0);
+    gl_FragColor = vec4(shadow_visibility(v_pos_view.z), 1.0, 1.0, 1.0);
 #endif
 }
 

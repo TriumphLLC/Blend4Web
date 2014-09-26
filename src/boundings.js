@@ -8,12 +8,16 @@
  */
 b4w.module["__boundings"] = function(exports, require) {
 
+var m_geom = require("__geometry");
 var m_util = require("__util");
 var m_tsr  = require("__tsr");
 
 var m_vec3 = require("vec3");
 
 var _bb_corners_cache = new Float32Array(3 * 8);
+var _vec3_tmp = new Float32Array(3);
+var _vec3_tmp2 = new Float32Array(3);
+var _vec3_tmp3 = new Float32Array(3);
 
 exports.copy_bb = function(bb_from, bb_to) {
     bb_to.min_x = bb_from.min_x;
@@ -61,7 +65,7 @@ exports.zero_bounding_box = function(dest) {
  * bb_exp - expanding bounding box
  */
 exports.expand_bounding_box = function(bb, bb_exp) {
-    
+
     var max_x = bb.max_x;
     var max_y = bb.max_y;
     var max_z = bb.max_z;
@@ -136,6 +140,7 @@ exports.bounding_box_transform = function(bb, matrix, bb_new) {
 /**
  * Extract 8 corner coords from bounding box
  */
+exports.extract_bb_corners = extract_bb_corners;
 function extract_bb_corners(bb, dest) {
 
     if (!dest)
@@ -163,6 +168,7 @@ function extract_bb_corners(bb, dest) {
 
 
 /**
+ * NOTE: unused
  * Shrink given bounding box by another
  * return very small bounding box if shrink contstraints do not affect it
  */
@@ -308,7 +314,7 @@ exports.big_bounding_sphere = function() {
 exports.expand_bounding_sphere = function(bs, bs_exp) {
     // GARBAGE
 
-    // vector between 2 centers 
+    // vector between 2 centers
     var v = m_vec3.subtract(bs_exp.center, bs.center, m_vec3.create());
 
     // set explicit direction for concentric spheres
@@ -419,6 +425,9 @@ exports.create_bounding_cone = function(radius, bounding_box) {
     return bcon_local;
 }
 
+/**
+ * NOTE: unused
+ */
 exports.check_bb_intersection = function(bb1, bb2) {
     if (bb1.min_x > bb2.max_x || bb1.max_x < bb2.min_x)
         return false;
@@ -467,7 +476,7 @@ exports.recalculate_mesh_boundings = function(mesh) {
             min_x = Math.min(x, min_x);
             min_y = Math.min(y, min_y);
             min_z = Math.min(z, min_z);
-            
+
             srad = Math.max(Math.sqrt(x * x + y * y + z * z), srad);
             crad = Math.max(Math.sqrt(x * x + z * z), crad);
         }
@@ -482,6 +491,132 @@ exports.recalculate_mesh_boundings = function(mesh) {
 
     mesh["b4w_bounding_sphere_radius"]  = srad;
     mesh["b4w_bounding_cylinder_radius"] = crad;
+}
+
+/**
+ * Get minimal enclosing circle (MEC) for frustum diagonal plane in 3d space
+ */
+exports.get_frustum_mec = function(corners) {
+    // left bottom near
+    var p0 = corners.subarray(0, 3);
+    // right top near
+    var p1 = corners.subarray(6, 9);
+    // left bottom far
+    var p2 = corners.subarray(12, 15);
+    // right top far
+    var p3 = corners.subarray(18, 21);
+
+    // basis vector: l
+    var l = m_vec3.subtract(p1, p0, _vec3_tmp);
+    m_vec3.normalize(l, l);
+
+    // basis vector: m
+    var normal = m_geom.get_plane_normal(p0, p1, p2, _vec3_tmp2);
+    var m = m_vec3.cross(normal, l, normal);
+    m_vec3.normalize(m, m);
+
+    // transform points coordinates for new 2D Cartesian coordinate system
+    // q0 - center of the new system (former p0);
+    // NOTE: using gl_matrix vec3 for simplicity
+    var q0 = m_vec3.create();
+
+    var q1 = m_vec3.create();
+    m_vec3.subtract(p1, p0, _vec3_tmp3);
+    q1[0] = m_vec3.dot(_vec3_tmp3, l);
+    q1[1] = m_vec3.dot(_vec3_tmp3, m);
+
+    var q2 = m_vec3.create();
+    m_vec3.subtract(p2, p0, _vec3_tmp3);
+    q2[0] = m_vec3.dot(_vec3_tmp3, l);
+    q2[1] = m_vec3.dot(_vec3_tmp3, m);
+
+    var q3 = m_vec3.create();
+    m_vec3.subtract(p3, p0, _vec3_tmp3);
+    q3[0] = m_vec3.dot(_vec3_tmp3, l);
+    q3[1] = m_vec3.dot(_vec3_tmp3, m);
+
+    var bs = exports.zero_bounding_sphere();
+    bs = get_mec_2d([q0, q1, q2, q3], bs);
+
+    var center_origin = m_vec3.scale(l, bs.center[0], _vec3_tmp3);
+    m_vec3.scaleAndAdd(center_origin, m, bs.center[1], center_origin);
+    m_vec3.add(center_origin, p0, bs.center);
+
+    return bs;
+}
+
+/**
+ * Calculate minimum enclosing circle MEC
+ * E.Welzl algorithm, O(n) complexity
+ * @see http://www.cs.arizona.edu/classes/cs437/fall11/Lecture4.pdf
+ * @see http://www.sunshine2k.de/coding/java/Welzl/Welzl.html
+ */
+function get_mec_2d(points, bs) {
+
+    bs = mec_by_2_points(bs, points[0], points[1]);
+
+    for (var i = 2; i < points.length; i++)
+        if (m_vec3.distance(bs.center, points[i]) > bs.radius)
+            bs = mec_step1(bs, points, points[i], i - 1);
+
+    return bs;
+}
+
+function mec_step1(bs, points, q, points_range) {
+    bs = mec_by_2_points(bs, q, points[0]);
+
+    for (var i = 1; i <= points_range; i++)
+        if (m_vec3.distance(bs.center, points[i]) > bs.radius)
+            bs = mec_step2(bs, points, q, points[i], i - 1);
+
+    return bs;
+}
+
+function mec_step2(bs, points, q0, q1, points_range) {
+    bs = mec_by_2_points(bs, q0, q1);
+
+    for (var i = 0; i <= points_range; i++)
+        if (m_vec3.distance(bs.center, points[i]) > bs.radius)
+            bs = mec_by_3_points(bs, q0, q1, points[i]);
+
+    return bs;
+}
+
+function mec_by_2_points(bs, A, B) {
+    m_vec3.add(A, B, bs.center)
+    m_vec3.scale(bs.center, 0.5, bs.center);
+
+    bs.radius = m_vec3.distance(bs.center, A);
+    return bs;
+}
+
+/**
+ * Use circumcenter barycentric coordinates
+ * @see http://mathworld.wolfram.com/BarycentricCoordinates.html
+ */
+function mec_by_3_points(bs, A, B, C) {
+    var BC = m_vec3.subtract(B, C, _vec3_tmp3);
+    var a_sq = m_vec3.squaredLength(BC);
+
+    var AC = m_vec3.subtract(A, C, _vec3_tmp3);
+    var b_sq = m_vec3.squaredLength(AC);
+
+    var AB = m_vec3.subtract(A, B, _vec3_tmp3);
+    var c_sq = m_vec3.squaredLength(AB);
+
+    var a_coeff = a_sq * (b_sq + c_sq - a_sq);
+    var b_coeff = b_sq * (c_sq + a_sq - b_sq);
+    var c_coeff = c_sq * (a_sq + b_sq - c_sq);
+    var sum = a_coeff + b_coeff + c_coeff;
+
+    m_vec3.copy(A, bs.center);
+    m_vec3.scale(bs.center, a_coeff / sum, bs.center);
+    m_vec3.scaleAndAdd(bs.center, B, b_coeff / sum, bs.center);
+    m_vec3.scaleAndAdd(bs.center, C, c_coeff / sum, bs.center);
+
+    bs.radius = m_vec3.distance(bs.center, A);
+
+    return bs;
 }
 
 }

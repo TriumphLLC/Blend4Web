@@ -1,6 +1,11 @@
 import bpy
 for obj in bpy.context.selected_objects:
     bpy.context.scene.objects.active = obj    
+    bpy.ops.object.lod_add()
+    bpy.context.object.lod_levels[1].distance = 300
+    #bpy.ops.object.lod_remove(index=1)
+
+    
     
     '''   
     #  Для создания пустых вертексных слоев
@@ -38,6 +43,7 @@ for obj in bpy.context.selected_objects:
        bpy.context.scene.objects.active = obj
        bpy.context.object.data.uv_textures["UVMap"].name = "UVMap_0"
     '''
+    '''
     #Для переименования первого вертексного цвета или создания нового
     #Вместо mask поствить нужное имя      
     if len(obj.data.vertex_colors):
@@ -46,7 +52,8 @@ for obj in bpy.context.selected_objects:
     elif len(obj.data.vertex_colors) == 0:
        bpy.ops.mesh.vertex_color_add()
        bpy.context.object.data.vertex_colors[0].name = "mask"
-        
     '''
-#   bpy.ops.object.modifier_add(type='DECIMATE')
+             
+    '''
+    bpy.ops.object.modifier_add(type='DECIMATE')
     '''

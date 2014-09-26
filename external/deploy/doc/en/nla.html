@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Non-Linear Animation &mdash; User Manual: Blend4Web v14.08</title>
+    <title>Non-Linear Animation &mdash; User Manual: Blend4Web v14.09</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.08',
+        VERSION:     '14.09',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User Manual: Blend4Web v14.08" href="index.html" />
+    <link rel="top" title="User Manual: Blend4Web v14.09" href="index.html" />
     <link rel="next" title="For Application Developers" href="developers.html" />
     <link rel="prev" title="Physics" href="physics.html" /> 
   </head>
@@ -36,7 +36,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">User Manual: Blend4Web v14.08</a></div>
+          href="index.html">User Manual: Blend4Web v14.09</a></div>
         <div class="rel">
           <a href="physics.html" title="Physics"
              accesskey="P">previous</a> |
@@ -58,6 +58,8 @@
             
   <div class="section" id="nla">
 <span id="id1"></span><h1>Non-Linear Animation<a class="headerlink" href="#nla" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="nla-editor">
+<span id="id2"></span><h2>NLA editor<a class="headerlink" href="#nla-editor" title="Permalink to this headline">¶</a></h2>
 <p>The Blender&#8217;s non-linear editor lets us set the scene&#8217;s behavior in a comfortable way. With its help we can implement a simple scenario which does not require any interference from the user. This way coding is not needed for simple scenes and demo applications.</p>
 <a class="reference internal image-reference" href="_images/simple_machinima.jpg"><img alt="_images/simple_machinima.jpg" class="align-center" src="_images/simple_machinima.jpg" style="width: 100%;" /></a>
 <div class="line-block">
@@ -73,8 +75,8 @@
 </li>
 </ul>
 <a class="reference internal image-reference" href="_images/nla_editor.jpg"><img alt="_images/nla_editor.jpg" class="align-center" src="_images/nla_editor.jpg" style="width: 100%;" /></a>
-<div class="section" id="id2">
-<h2>Activation<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id3">
+<h3>Usage<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
 <ol class="arabic simple">
 <li><p class="first">Enable the <tt class="docutils literal"><span class="pre">Use</span> <span class="pre">NLA</span></tt> checkbox under the <tt class="docutils literal"><span class="pre">Scene</span></tt> tab.</p>
 </li>
@@ -84,12 +86,12 @@
 </li>
 </ol>
 </div>
-<div class="section" id="id3">
-<h2>Additional Options<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id4">
+<h3>Additional settings<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
 <p>The <em>Blend4Web &gt; Cyclic NLA</em> scene setting activates the cyclic NLA animation mode.</p>
 </div>
-<div class="section" id="id4">
-<h2>Limitations<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id5">
+<h3>Limitations<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p class="first">Vertex animation is not supported.</p>
 </li>
@@ -98,6 +100,49 @@
 <li><p class="first">A simultanious playback of differnet types of animation for the same object is not supported.</p>
 </li>
 </ul>
+</div>
+</div>
+<div class="section" id="nla-script">
+<span id="id6"></span><h2>Visual Programming (NLA Script)<a class="headerlink" href="#nla-script" title="Permalink to this headline">¶</a></h2>
+<p>Performed by appending logic slots (NLA Script Slot) under the scene tab in Blender. These slots can extend the scene functionality significantly without any coding.</p>
+<a class="reference internal image-reference" href="_images/interactive_nla_example.jpg"><img alt="_images/interactive_nla_example.jpg" class="align-center" src="_images/interactive_nla_example.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>The slots themselves are logic blocks that are executed from the first to the last sequentially except this slot explicitly contains a transition (<tt class="docutils literal"><span class="pre">Jump</span></tt>). When the end of the list is reached the logic stops to execute, or - if <em>Blend4Web &gt; Cyclic NLA</em> checkbox is enabled - starts again.</p>
+<a class="reference internal image-reference" href="_images/interactive_nla_brick.png"><img alt="_images/interactive_nla_brick.png" class="align-center" src="_images/interactive_nla_brick.png" style="width: 100%;" /></a>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Using <em>Blend4Web &gt; Cyclic NLA</em> together with NLA Script does not result in automatic looping of the animation.</p>
+</div>
+<p>All possible slots are described below.</p>
+<div class="section" id="play">
+<h3>Play<a class="headerlink" href="#play" title="Permalink to this headline">¶</a></h3>
+<p>Play back the NLA segment starting from the frame to which the marker points. Animation is played back until the next marker met, or to the end of the timeline. Finally the next slot receives the control.</p>
+<a class="reference internal image-reference" href="_images/interactive_nla_anim.png"><img alt="_images/interactive_nla_anim.png" class="align-center" src="_images/interactive_nla_anim.png" style="width: 100%;" /></a>
+</div>
+<div class="section" id="select-play">
+<h3>Select &amp; Play<a class="headerlink" href="#select-play" title="Permalink to this headline">¶</a></h3>
+<p>Wait until the user selects an object (on desktops - with the mouse click, on mobile devices - with the touch). If the object is selected that is specified in this slot - start animation similar to <tt class="docutils literal"><span class="pre">Play</span></tt> slot. If any other object is selected - immediately transfer the control to the next slot.</p>
+<p>The latter functionality can be used for selecting one of the multiple objects. In this case it is convenient to place <tt class="docutils literal"><span class="pre">Select</span> <span class="pre">&amp;</span> <span class="pre">Play</span></tt> slots in the stack one by one. The result of the user selection is catched up by one of this sequence slots because the transition without animation is performed instantly.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">In order to allow the user to select an object, enable the <tt class="docutils literal"><span class="pre">Selectable</span></tt> checkbox in its settings, similar to implementation of the <a class="reference internal" href="postprocessing_effects.html#glow"><em>glow effect</em></a>.</p>
+</div>
+</div>
+<div class="section" id="jump">
+<h3>Jump<a class="headerlink" href="#jump" title="Permalink to this headline">¶</a></h3>
+<p>Go to the specified slot.</p>
+<a class="reference internal image-reference" href="_images/interactive_nla_jump.png"><img alt="_images/interactive_nla_jump.png" class="align-center" src="_images/interactive_nla_jump.png" style="width: 100%;" /></a>
+</div>
+<div class="section" id="select-jump">
+<h3>Select &amp; Jump<a class="headerlink" href="#select-jump" title="Permalink to this headline">¶</a></h3>
+<p>Is similar to the <tt class="docutils literal"><span class="pre">Select</span> <span class="pre">&amp;</span> <span class="pre">Play</span></tt> slot, except the transition happens instead of animation. This function allows to implement a complicated logic because in this case there is a possibility to identify the user selection results (selecting an object leads to the transition to the named slot which is needn&#8217;t to be the next in the list).</p>
+</div>
+<div class="section" id="noop">
+<h3>Noop<a class="headerlink" href="#noop" title="Permalink to this headline">¶</a></h3>
+<p>Shortening of &#8220;No Operation&#8221;. When such a slot is processed no actions are performed. This slot is convenient to place together with a <tt class="docutils literal"><span class="pre">Jump</span></tt> slot.</p>
+</div>
 </div>
 </div>
 
@@ -118,8 +163,8 @@
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Web Player</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">The Addon</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
-<li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing Effects</a></li>
@@ -131,15 +176,15 @@
 <li class="toctree-l1"><a class="reference internal" href="audio.html">Audio System</a></li>
 <li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Non-Linear Animation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#id2">Activation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id3">Additional Options</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id4">Limitations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#nla-editor">NLA editor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#nla-script">Visual Programming (NLA Script)</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="developers.html">For Application Developers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">For Engine Developers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Team Work. Using Git</a></li>
 <li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Problems and Solutions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
 </ul>
 
           <h3 style="margin-top: 1.5em;">Search</h3>
@@ -172,7 +217,7 @@
           
     <div class="footer">
         &copy; Copyright 2014, Triumph LLC.
-      Last updated on 2014-08-25.
+      Last updated on 2014-09-25.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

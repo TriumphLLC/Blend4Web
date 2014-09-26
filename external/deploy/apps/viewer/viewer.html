@@ -131,6 +131,10 @@
                     <label for="anim_frame_current">Set frame:</label>
                     <input id="anim_frame_current" data-highlight="true" value="0.0" min="0.0" max="1.0" type="range" step="1.0" data-mini="true /">
                 </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="anim_mix_factor">Skeletal mix factor:</label>
+                    <input id="anim_mix_factor" data-highlight="true" value="1.0" min="0.0" max="1.0" type="range" step="0.01" data-mini="true /">
+                </div>
 
                 <h3>Max bones:</h3>
 
@@ -261,21 +265,14 @@
 
             <div class="ui-grid-solo">
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
-                    <label for="shadow_color">Color (unused):</label>
-                    <div><div id="shadow_color" class="color_selector"><div></div></div></div>
-                </div>
-                <div class="ui-block-a colapsed_content ui-body ui-body-c">
-                    <label for="optimize_shadow_volume">Optimize shadow volume:</label>
-                    <div><select id="optimize_shadow_volume" data-role="slider" data-mini="true">
-                        <option value="1">Yes</option>
-                        <option value="0">No</option>
-                    </select></div>
-                </div>
-                <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <legend>Cascades:</legend>
                     <div class="ui-grid-b">
                         <div class="ui-block-a"><label>Number:</label></div>
                         <div class="ui-block-b"><span id="csm_num">?</span></div>
+                    </div>
+                    <div class="ui-grid-b">
+                        <div class="ui-block-a"><label>Resolution:</label></div>
+                        <div class="ui-block-b"><span id="csm_resolution">?</span></div>
                     </div>
                     <div class="ui-grid-b">
                         <div class=""><label>Borders:</label></div>
@@ -283,32 +280,35 @@
                     </div>
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
-                    <label for="csm_near">CSM near:</label>
-                    <input id="csm_near" data-highlight="true" value="0.0" min="0.01" max="10.0" type="range" step="0.01" data-mini="true /">
+                    <label for="csm_first_cascade_border">CSM first cascade border:</label>
+                    <input id="csm_first_cascade_border" data-highlight="true" value="0.0" min="0.01" max="1000.0" type="range" step="0.01" data-mini="true /">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
-                    <label for="csm_far">CSM far:</label>
-                    <input id="csm_far" data-highlight="true" value="0.0" min="1.0" max="1000.0" type="range" step="1.0" data-mini="true /">
+                    <label for="csm_last_cascade_border">CSM last cascade border:</label>
+                    <input id="csm_last_cascade_border" data-highlight="true" value="0.0" min="0.01" max="1000.0" type="range" step="0.01" data-mini="true /">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
-                    <label for="csm_lambda">CSM lambda:</label>
-                    <input id="csm_lambda" data-highlight="true" value="0.0" min="0.0" max="1.0" type="range" step="0.001" data-mini="true /">
+                    <label for="self_shadow_polygon_offset">Self-shadow polygon offset:</label>
+                    <input id="self_shadow_polygon_offset" data-highlight="true" value="0.0" min="0.0" max="50.0" type="range" step="0.01" data-mini="true /">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
-                    <label for="shadow_visibility_falloff">Visibility Falloff:</label>
-                    <input id="shadow_visibility_falloff" data-highlight="true" value="999.0" min="0.0" max="50000.0" type="range" step="1.0" data-mini="true /">
+                    <label for="self_shadow_normal_offset">Self-shadow normal offset:</label>
+                    <input id="self_shadow_normal_offset" data-highlight="true" value="0.0" min="0.0" max="1.0" type="range" step="0.001" data-mini="true /">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
-                    <label for="blur_depth_size_mult">Blur Depth Size Mult:</label>
-                    <input id="blur_depth_size_mult" data-highlight="true" value="0.0" min="0.0" max="10.0" type="range" step="0.1" data-mini="true /">
+                    <div class="ui-grid-b">
+                        <div class=""><label>Blur radii:</label></div>
+                        <div class=""><span id="blur_radii">?</span></div>
+                    </div>
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
-                    <label for="blur_depth_edge_size">Blur Depth Edge Size:</label>
-                    <input id="blur_depth_edge_size" data-highlight="true" value="0.0" min="0.0" max="10.0" type="range" step="0.01" data-mini="true /">
+                    <label for="first_cascade_blur_radius">First cascade blur radius:</label>
+                    <input id="first_cascade_blur_radius" data-highlight="true" value="0.0" min="0.0" max="10.0" type="range" step="0.01" data-mini="true /">
                 </div>
+
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
-                    <label for="blur_depth_diff_threshold">Blur Depth Diff Threshold x 1000:</label>
-                    <input id="blur_depth_diff_threshold" data-highlight="true" value="0.0" min="0.0" max="1.0" type="range" step="0.001" data-mini="true /">
+                    <label for="last_cascade_blur_radius">Last cascade blur radius:</label>
+                    <input id="last_cascade_blur_radius" data-highlight="true" value="0.0" min="0.0" max="10.0" type="range" step="0.01" data-mini="true /">
                 </div>
             </div>
         </div>
@@ -481,11 +481,11 @@
             <div class="ui-grid-solo">
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="fog_density">Density:</label>
-                    <input id="fog_density" data-highlight="true" value="0.0" min="0.0" max="1.0" type="range" step="0.01" data-mini="true /">
+                    <input id="fog_density" data-highlight="true" value="0.0" min="0.0" max="1.0" type="range" step="0.001" data-mini="true /">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="fog_density1000">Density x 1000:</label>
-                    <input id="fog_density1000" data-highlight="true" value="0.0" min="0.0" max="200.0" type="range" step="0.02" data-mini="true /">
+                    <input id="fog_density1000" data-highlight="true" value="0.0" min="0.0" max="200.0" type="range" step="0.002" data-mini="true /">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="fog_color">Color:</label>

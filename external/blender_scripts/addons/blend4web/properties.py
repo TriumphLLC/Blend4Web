@@ -4,25 +4,26 @@ import math
 import os
 import cProfile
 from .interface import *
+from . import nla_script
 
 class B4W_LodProperty(bpy.types.PropertyGroup):
     pass
 
 class B4W_DetailBendingColors(bpy.types.PropertyGroup):
-    
+
     leaves_stiffness_col = bpy.props.StringProperty(
         name = "B4W: leaves stiffness color",
-        description = "Vertex color used for leaves stiffness", 
+        description = "Vertex color used for leaves stiffness",
         default = ""
     )
     leaves_phase_col = bpy.props.StringProperty(
         name = "B4W: leaves phase color",
-        description = "Vertex color used for leaves stiffness", 
+        description = "Vertex color used for leaves stiffness",
         default = ""
     )
     overall_stiffness_col = bpy.props.StringProperty(
         name = "B4W: overall stiffness color",
-        description = "Vertex color used for overall stiffness", 
+        description = "Vertex color used for overall stiffness",
         default = ""
     )
 
@@ -340,7 +341,7 @@ class B4W_CharacterSettings(bpy.types.PropertyGroup):
         step = 0.01,
         precision = 3
     )
-    
+
 class B4W_ShadowSettings(bpy.types.PropertyGroup):
 
     csm_num = bpy.props.IntProperty(
@@ -350,75 +351,90 @@ class B4W_ShadowSettings(bpy.types.PropertyGroup):
         min = 1,
         max = 4
     )
-    
-    csm_near = bpy.props.FloatProperty(
-        name = "csm_near",
-        description = "Shadows near border. Input data for calculating cascaded shadow maps borders",
-        default = 0.1,
+
+    csm_first_cascade_border = bpy.props.FloatProperty(
+        name = "csm_first_cascade_border",
+        description = "Shadow map first cascade border",
+        default = 10,
         min = 0.01,
-        max = 10.0,
-        step = 0.01,
+        soft_max = 100,
+        step = 10,
         precision = 2
     )
 
-    csm_far = bpy.props.FloatProperty(
-        name = "csm_far",
-        description = "Shadows far border. Input data for calculating cascaded shadow maps borders",
-        default = 100.0,
-        min = 1.0,
-        max = 1000.0,
-        step = 1.0,
-        precision = 1
+    first_cascade_blur_radius = bpy.props.FloatProperty(
+        name = "first_cascade_blur_radius",
+        description = "PCF blur radius for the first cascade",
+        default = 3,
+        min = 0,
+        soft_max = 10,
+        step = 10,
+        precision = 2
     )
 
-    csm_lambda = bpy.props.FloatProperty(
-        name = "csm_lambda",
-        description = "Correction factor for calculating cascaded shadow maps borders",
-        default = 0.875,
-        min = 0.0,
-        max = 1.0,
-        step = 0.001,
-        precision = 3
+    csm_last_cascade_border = bpy.props.FloatProperty(
+        name = "csm_last_cascade_border",
+        description = "Shadow map last cascade border",
+        default = 100,
+        min = 0.01,
+        soft_max = 100,
+        step = 10,
+        precision = 2
     )
 
-    visibility_falloff = bpy.props.FloatProperty(
-        name = "visibility_falloff",
-        description = "Shadow visibility falloff for receivers. Smaller values reduce self-shadowing artefacts",
-        default = 3500.0,
-        min = 0.0,
-        max = 50000.0,
-        step = 1,
-        precision = 1
+    last_cascade_blur_radius = bpy.props.FloatProperty(
+        name = "last_cascade_blur_radius",
+        description = "PCF blur radius for the last cascade",
+        default = 1.5,
+        min = 0,
+        soft_max = 10,
+        step = 10,
+        precision = 2
     )
 
-    blur_depth_size_mult = bpy.props.FloatProperty(
-        name = "blur_depth_size_mult",
-        description = "Shadow blur kernel size multiplier. Affects shadow softness",
-        default = 1.0,
-        min = 0.0,
-        max = 10.0,
+    csm_resolution = bpy.props.EnumProperty(
+        name = "csm_resolution",
+        description = "Shadow map resolution",
+        default = "2048",
+        items = [
+            ("512",  "512",  "512x512"),
+            ("1024", "1024", "1024x1024"),
+            ("2048", "2048", "2048x2048"),
+            ("4096", "4096", "4096x4096"),
+            ("8192", "8192", "8192x8192")
+        ]
+    )
+
+    self_shadow_polygon_offset = bpy.props.FloatProperty(
+        name = "self_shadow_polygon_offset",
+        description = "Polygon offset value to prevent shadow acne",
+        default = 1,
+        min = 0,
+        soft_max = 50,
+        step = 10,
+        precision = 2
+    )
+
+    self_shadow_normal_offset = bpy.props.FloatProperty(
+        name = "self_shadow_normal_offset",
+        description = "Normal offset value to prevent shadow acne",
+        default = 0.01,
+        min = 0,
+        soft_max = 1,
         step = 0.1,
-        precision = 1
-    )
-
-    blur_depth_edge_size = bpy.props.FloatProperty(
-        name = "blur_depth_edge_size",
-        description = "Difference between samples (in texels) for edge detection. Reduces haloing by not blurring the edges",
-        default = 2.0,
-        min = 0.0,
-        max = 10.0,
-        step = 0.01,
-        precision = 2
-    )
-
-    blur_depth_diff_threshold = bpy.props.FloatProperty(
-        name = "blur_depth_diff_threshold",
-        description = "Depth difference maximum (normalized) for edge detection, multiplied by 1000. Reduces haloing by not blurring the edges",
-        default = 0.1,
-        min = 0.0,
-        max = 1.0,
-        step = 0.001,
         precision = 3
+    )
+
+    fade_last_cascade = bpy.props.BoolProperty(
+        name = "fade_last_cascade",
+        description = "The last cascade will be faded out",
+        default = True
+    )
+
+    blend_between_cascades = bpy.props.BoolProperty(
+        name = "blend_between_cascades",
+        description = "Neighbouring cascades will be blended with each other",
+        default = True
     )
 
 class B4W_ColorCorrectionSettings(bpy.types.PropertyGroup):
@@ -617,7 +633,7 @@ class B4W_MotionBlurSettings(bpy.types.PropertyGroup):
         default = 0.01,
         min = 0.001,
         soft_min = 0.001,
-        max = 1.0, 
+        max = 1.0,
         soft_max = 1.0,
         step = 0.1,
         precision = 3
@@ -629,7 +645,7 @@ class B4W_MotionBlurSettings(bpy.types.PropertyGroup):
         default = 0.01,
         min = 0.0,
         soft_min = 0.0,
-        max = 1.0, 
+        max = 1.0,
         soft_max = 1.0,
         step = 0.1,
         precision = 3
@@ -883,7 +899,7 @@ def add_b4w_props():
 
     b4w_do_not_export = bpy.props.BoolProperty(
         name = "B4W: do not export",
-        description = "Check if you do NOT wish to export this component", 
+        description = "Check if you do NOT wish to export this component",
         default = False
     )
 
@@ -921,12 +937,12 @@ def add_b4w_props():
 
     b4w_export_path_json = bpy.props.StringProperty(
         name = "B4W: export path json",
-        description = "Exported json file path relative to the blend file", 
+        description = "Exported json file path relative to the blend file",
         default = ""
     )
     b4w_export_path_html = bpy.props.StringProperty(
         name = "B4W: export path html",
-        description = "Exported html file path relative to the blend file", 
+        description = "Exported html file path relative to the blend file",
         default = ""
     )
     bpy.types.Scene.b4w_export_path_json = b4w_export_path_json
@@ -999,7 +1015,7 @@ def add_b4w_props():
 
     bpy.types.World.b4w_color_correction_settings = bpy.props.PointerProperty(
         name = "B4W: color correction settings",
-        type = B4W_ColorCorrectionSettings 
+        type = B4W_ColorCorrectionSettings
     )
 
     bpy.types.World.b4w_ssao_settings = bpy.props.PointerProperty(
@@ -1053,7 +1069,7 @@ def add_b4w_props():
 
     b4w_use_distance_limits = bpy.props.BoolProperty(
         name = "B4W: use distance limits",
-        description = "Check if you wish to set distance limits", 
+        description = "Check if you wish to set distance limits",
         default = False
     )
     bpy.types.Camera.b4w_use_distance_limits = b4w_use_distance_limits
@@ -1084,7 +1100,7 @@ def add_b4w_props():
 
     b4w_use_horizontal_clamping = bpy.props.BoolProperty(
         name = "B4W: use horizontal rotation clamping",
-        description = "Check if you wish to set horizontal clamping angles", 
+        description = "Check if you wish to set horizontal clamping angles",
         default = False
     )
     bpy.types.Camera.b4w_use_horizontal_clamping = b4w_use_horizontal_clamping
@@ -1098,7 +1114,7 @@ def add_b4w_props():
            max = 2 * math.pi,
            soft_max = 2 * math.pi,
            precision = 1,
-           subtype = "ANGLE",   
+           subtype = "ANGLE",
        )
     bpy.types.Camera.b4w_rotation_left_limit = b4w_rotation_left_limit
 
@@ -1127,7 +1143,7 @@ def add_b4w_props():
 
     b4w_use_vertical_clamping = bpy.props.BoolProperty(
         name = "B4W: use vertical rotation clamping",
-        description = "Check if you wish to set vertical clamping angles", 
+        description = "Check if you wish to set vertical clamping angles",
         default = False
     )
     bpy.types.Camera.b4w_use_vertical_clamping = b4w_use_vertical_clamping
@@ -1216,7 +1232,7 @@ def add_b4w_props():
            precision = 3,
        )
     bpy.types.Camera.b4w_dof_front = b4w_dof_front
-    
+
     b4w_dof_rear = bpy.props.FloatProperty(
            name = "B4W: DOF rear distance",
            description = "Distance to the rear DOF plane",
@@ -1349,7 +1365,7 @@ def add_scene_properties():
         default = False
     )
     scene_type.b4w_enable_god_rays = b4w_enable_god_rays
-    
+
     b4w_enable_ssao = bpy.props.BoolProperty(
         name = "B4W: enable SSAO",
         description = "Enable screen space ambient occlusion",
@@ -1410,7 +1426,10 @@ def add_scene_properties():
     )
     scene_type.b4w_enable_antialiasing = b4w_enable_antialiasing
 
-    
+    scene_type.b4w_nla_script= bpy.props.CollectionProperty(
+            type=nla_script.B4W_ScriptSlot,
+            name="B4W: NLA Script")
+
 def add_object_properties():
     """Add properties for the object panel"""
 
@@ -1432,6 +1451,12 @@ def add_object_properties():
     obj_type.b4w_export_edited_normals = bpy.props.BoolProperty(
         name = "B4W: export edited normals",
         description = "Export baked vertex normals",
+        default = False
+    )
+
+    obj_type.b4w_apply_scale = bpy.props.BoolProperty(
+        name = "B4W: apply scale",
+        description = "Apply scale before export",
         default = False
     )
 
@@ -1519,6 +1544,11 @@ def add_object_properties():
         description = "The object animation will be cyclically repeated",
         default = False
     )
+    obj_type.b4w_animation_mixing = bpy.props.BoolProperty(
+        name = "B4W: animation mixing",
+        description = "Allow skeletal animations to be mixed with each other",
+        default = False
+    )
 
     b4w_group_relative = bpy.props.BoolProperty(
         name = "B4W: group relative",
@@ -1591,7 +1621,7 @@ def add_object_properties():
 
     b4w_main_bend_stiffness_col = bpy.props.StringProperty(
         name = "B4W: Main stiffness vertex color",
-        description = "Vertex color for main bending stiffness (A channel)", 
+        description = "Vertex color for main bending stiffness (A channel)",
         default = ""
     )
     obj_type.b4w_main_bend_stiffness_col = b4w_main_bend_stiffness_col
@@ -1606,7 +1636,7 @@ def add_object_properties():
     obj_type.b4w_glow_settings = bpy.props.PointerProperty(
         name = "B4W: glow settings",
         type = B4W_GlowSettings
-    ) 
+    )
 
     obj_type.b4w_collision = bpy.props.BoolProperty(
         name = "B4W: detect collisions",
@@ -1615,7 +1645,7 @@ def add_object_properties():
     )
     obj_type.b4w_collision_id = bpy.props.StringProperty(
         name = "B4W: collision ID",
-        description = "Collision ID for internal application purposes", 
+        description = "Collision ID for internal application purposes",
         default = ""
     )
 
@@ -1628,7 +1658,7 @@ def add_object_properties():
     obj_type.b4w_vehicle_settings = bpy.props.PointerProperty(
         name = "B4W: vehicle settings",
         type = B4W_VehicleSettings
-    ) 
+    )
 
     obj_type.b4w_floating = bpy.props.BoolProperty(
         name = "B4W: enable floating",
@@ -1650,7 +1680,7 @@ def add_object_properties():
     obj_type.b4w_character_settings = bpy.props.PointerProperty(
         name = "B4W: character settings",
         type = B4W_CharacterSettings
-    ) 
+    )
 
     # not exported
     obj_type.b4w_anim_clean_keys = bpy.props.BoolProperty(
@@ -1694,7 +1724,7 @@ def add_object_properties():
 
     # deprecated
     obj_type.b4w_lods = bpy.props.CollectionProperty(
-            type=B4W_LodProperty, 
+            type=B4W_LodProperty,
             name="B4W: LODS")
     # deprecated
     obj_type.b4w_lod_index = bpy.props.IntProperty(
@@ -1710,7 +1740,7 @@ def add_object_properties():
     )
 
     obj_type.b4w_detail_bend_colors = bpy.props.PointerProperty(
-            type=B4W_DetailBendingColors, 
+            type=B4W_DetailBendingColors,
             name="B4W: Detail Bend")
 
     obj_type.b4w_correct_bounding_offset = bpy.props.EnumProperty(
@@ -1828,7 +1858,7 @@ def add_speaker_properties():
 
     spk_type.b4w_playlist_id = bpy.props.StringProperty(
         name = "B4W: playlist ID",
-        description = "Playlist ID", 
+        description = "Playlist ID",
         default = ""
     )
 
@@ -1850,7 +1880,7 @@ def add_material_properties():
     mat_type.b4w_water_dynamic = bpy.props.BoolProperty(
         name = "B4W: water dynamic",
         description = "Dynamic water surface",
-        default = False 
+        default = False
     )
     mat_type.b4w_waves_height = bpy.props.FloatProperty(
         name = "B4W: waves height",
@@ -2147,12 +2177,12 @@ def add_material_properties():
     )
     mat_type.b4w_dynamic_grass_size = bpy.props.StringProperty(
         name = "B4W: Dynamic grass size",
-        description = "Optional vertex color used for grass sizing (R)", 
+        description = "Optional vertex color used for grass sizing (R)",
         default = ""
     )
     mat_type.b4w_dynamic_grass_color = bpy.props.StringProperty(
         name = "B4W: Dynamic grass color",
-        description = "Optional vertex color used for grass tinting", 
+        description = "Optional vertex color used for grass tinting",
         default = ""
     )
 
@@ -2168,7 +2198,7 @@ def add_material_properties():
     )
     mat_type.b4w_collision_id = bpy.props.StringProperty(
         name = "B4W: collision ID",
-        description = "Collision ID for internal application purposes", 
+        description = "Collision ID for internal application purposes",
         default = ""
     )
 
@@ -2230,6 +2260,13 @@ def add_material_properties():
         description = "Material will get wet near water",
         default = False,
     )
+
+    mat_type.b4w_render_above_all = bpy.props.BoolProperty(
+        name = "B4W: render above all",
+        description = "Material will be render above all others",
+        default = False,
+    )
+
 
 def add_texture_properties():
     """Add properties for texture panel"""
@@ -2348,7 +2385,7 @@ def add_texture_properties():
 
     b4w_render_scene = bpy.props.StringProperty(
         name = "B4W: scene",
-        description = "Name of the scene, which will be rendered on the texture", 
+        description = "Name of the scene, which will be rendered on the texture",
         default = ""
     )
     bpy.types.Texture.b4w_render_scene = b4w_render_scene
@@ -2573,7 +2610,7 @@ def add_particle_settings_properties():
         default = "LOCAL"
     )
 
-def register(): 
+def register():
     bpy.utils.register_class(B4W_LodProperty)
     bpy.utils.register_class(B4W_VehicleSettings)
     bpy.utils.register_class(B4W_GlowSettings)
@@ -2591,7 +2628,7 @@ def register():
     bpy.utils.register_class(B4W_BoundingsSettings)
     add_b4w_props()
 
-def unregister(): 
+def unregister():
     bpy.utils.unregister_class(B4W_LodProperty)
     bpy.utils.unregister_class(B4W_VehicleSettings)
     bpy.utils.unregister_class(B4W_GlowSettings)

@@ -4,7 +4,7 @@
 Постпроцессинговые эффекты
 **************************
 
-.. index:: размытие при движении, motion blur
+.. index:: размытие при движении (motion blur)
 
 .. _motion_blur:
 
@@ -35,7 +35,7 @@
 
 |
 
-.. index:: глубина резкости камеры, depth of field, DOF
+.. index:: глубина резкости камеры (depth of field), DOF
 
 .. _dof:
 
@@ -74,7 +74,7 @@
 
 |
 
-.. index:: взаимное затенение, screen-space ambient occlusion, SSAO
+.. index:: взаимное затенение (screen-space ambient occlusion), SSAO
 
 .. _ssao:
 
@@ -124,7 +124,7 @@
 
 |
 
-.. index:: сумеречные лучи, crepuscular rays, god rays
+.. index:: сумеречные лучи (crepuscular rays), god rays
 
 .. _god_rays:
 
@@ -188,7 +188,7 @@
 
 |
 
-.. index:: свечение, glow
+.. index:: свечение (glow)
 
 .. _glow:
 
@@ -231,7 +231,7 @@
    :align: center
    :width: 100%
    
-.. index:: анаглиф, стереоизображение, anaglyph
+.. index:: анаглиф, стереоизображение
 
 .. _anaglyph:
 
@@ -256,7 +256,7 @@
 |
 
 
-.. index:: коррекция цвета, color correction
+.. index:: коррекция цвета
 
 .. _color_correction:
 
@@ -292,7 +292,7 @@
 
 |
 
-.. index:: сглаживание, anti-aliasing
+.. index:: сглаживание
 
 .. _antialiasing:
 

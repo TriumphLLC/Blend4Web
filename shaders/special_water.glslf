@@ -75,8 +75,6 @@ uniform samplerCube u_mirrormap;
 
 #if SHORE_SMOOTHING
 uniform sampler2D u_scene_depth;
-#elif ALPHA_MAP
-uniform sampler2D u_alphamap;
 #endif
 
 #if FOAM
@@ -337,7 +335,7 @@ void main(void) {
     float alpha = u_diffuse_color.a;
 
     vec4 scene_depth_rgba = texture2DProj(u_scene_depth, v_tex_pos_clip);
-    float scene_depth = unpack_depth(scene_depth_rgba);
+    float scene_depth = unpack_float(scene_depth_rgba);
     float delta = max(scene_depth - v_view_depth, 0.0);
 
 # if REFRACTIVE
@@ -369,19 +367,13 @@ void main(void) {
     alpha *= min(5.0 * surf_dist, 1.0);
 
 #else // SHORE_SMOOTHING
-# if ALPHA_MAP
-    vec4 alphamap = texture2D(u_alphamap, texcoord);
-    float alpha = alphamap.r;
-# else
+
     float alpha = u_diffuse_color.a;
-# endif // ALPHA_MAP
 
 # if REFRACTIVE
     float refract_factor = 1.0 - alpha;
-    vec2 refract_coord = screen_coord + normal.xz * REFR_BUMP
-                                                  / v_view_depth;
+    vec2 refract_coord = screen_coord + normal.xz * REFR_BUMP / v_view_depth;
 # endif
-
 #endif // SHORE_SMOOTHING
 
 #if REFRACTIVE

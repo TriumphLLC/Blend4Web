@@ -7,9 +7,10 @@
  */
 b4w.module["geometry"] = function(exports, require) {
 
-var m_batch = require("__batch");
-var m_geom  = require("__geometry");
-var m_print = require("__print");
+var m_batch  = require("__batch");
+var m_geom   = require("__geometry");
+var m_print  = require("__print");
+var m_render = require("__renderer");
 
 /**
  * Extract the vertex array from the object.
@@ -217,6 +218,7 @@ exports.override_geometry = function(obj, mat_name, ibo_array,
                 }
 
                 m_geom.update_gl_buffers(bufs_data);
+                m_render.assign_attribute_setters(batch);
 
                 // NOTE: process child batches if bufs_data was copied not by link
                 if (batch.childs)

@@ -15,26 +15,11 @@ msgstr ""
 msgid "Нелинейная анимация"
 msgstr "Non-Linear Animation"
 
-#: ../nla.rst:18
-msgid "Движком поддерживается управление следующими сущностями:"
-msgstr "The engine supports controlling the following entities:"
+#: ../nla.rst:10
+msgid "Редактор NLA"
+msgstr "NLA editor"
 
-#: ../nla.rst:20
-msgid ""
-"Любая анимация, параметры которой могут быть представлены с помощью "
-"`действий` (Action)"
-msgstr "Any animation the parameters of which can be presented with Actions"
-
-#: ../nla.rst:22
-msgid "Воспроизведение звуков"
-msgstr "Audio playback"
-
-#: ../nla.rst:24
-msgid "Эмиссия частиц (в виде привязки к глобальной шкале времени)"
-msgstr ""
-"Particles emission (in the form of a connection with the global timeline)"
-
-#: ../nla.rst:7
+#: ../nla.rst:12
 msgid ""
 "Редактор нелинейной анимации, имеющийся в программе Blender, позволяет в "
 "удобной форме задавать поведение сцены. С его помощью можно реализовать "
@@ -47,44 +32,47 @@ msgstr ""
 " not require any interference from the user. This way coding is not needed "
 "for simple scenes and demo applications."
 
-#: ../nla.rst:32
-msgid "Активация"
-msgstr "Activation"
+#: ../nla.rst:23
+msgid "Движком поддерживается управление следующими сущностями:"
+msgstr "The engine supports controlling the following entities:"
 
-#: ../nla.rst:34
+#: ../nla.rst:25
+msgid ""
+"Любая анимация, параметры которой могут быть представлены с помощью "
+"`действий` (Action)"
+msgstr "Any animation the parameters of which can be presented with Actions"
+
+#: ../nla.rst:27
+msgid "Воспроизведение звуков"
+msgstr "Audio playback"
+
+#: ../nla.rst:29
+msgid "Эмиссия частиц (в виде привязки к глобальной шкале времени)"
+msgstr ""
+"Particles emission (in the form of a connection with the global timeline)"
+
+#: ../nla.rst:37
+msgid "Использование"
+msgstr "Usage"
+
+#: ../nla.rst:39
 msgid "Во вкладке ``Scene`` выбрать опцию ``Use NLA``."
 msgstr "Enable the ``Use NLA`` checkbox under the ``Scene`` tab."
 
-#: ../nla.rst:35
+#: ../nla.rst:40
 msgid ""
 "В редакторе ``NLA Editor`` задать необходимую конфигурацию поведения сцены."
 msgstr "In the ``NLA Editor`` set up the required behavior for the scene."
 
-#: ../nla.rst:36
+#: ../nla.rst:41
 msgid "На панели ``Timeline`` выбрать интервал времени анимации."
 msgstr "Choose the animation time interval on the ``Timeline`` panel."
 
 #: ../nla.rst:45
-msgid "Ограничения"
-msgstr "Limitations"
+msgid "Дополнительные настройки"
+msgstr "Additional settings"
 
 #: ../nla.rst:47
-msgid "Вертексная анимация не поддерживается."
-msgstr "Vertex animation is not supported."
-
-#: ../nla.rst:49
-msgid ""
-"Одновременное проигрывание различных видов анимации для одного объекта не "
-"поддерживается."
-msgstr ""
-"A simultanious playback of differnet types of animation for the same object "
-"is not supported. "
-
-#: ../nla.rst:39
-msgid "Дополнительные опции"
-msgstr "Additional Options"
-
-#: ../nla.rst:41
 msgid ""
 "Настройка сцены *Blend4Web > Cyclic NLA* позволяет активировать режим "
 "циклической NLA-анимации."
@@ -92,8 +80,158 @@ msgstr ""
 "The *Blend4Web > Cyclic NLA* scene setting activates the cyclic NLA "
 "animation mode."
 
-#: ../nla.rst:48
+#: ../nla.rst:51
+msgid "Ограничения"
+msgstr "Limitations"
+
+#: ../nla.rst:53
+msgid "Вертексная анимация не поддерживается."
+msgstr "Vertex animation is not supported."
+
+#: ../nla.rst:54
 msgid ""
 "Масштабирование и зацикливание отдельных полос анимации (Strip) не "
 "поддерживается."
 msgstr "Scaling and looping of separate animation strips is not supported."
+
+#: ../nla.rst:55
+msgid ""
+"Одновременное проигрывание различных видов анимации для одного объекта не "
+"поддерживается."
+msgstr ""
+"A simultanious playback of differnet types of animation for the same object "
+"is not supported. "
+
+#: ../nla.rst:61
+msgid "Визуальное программирование (NLA Script)"
+msgstr "Visual Programming (NLA Script)"
+
+#: ../nla.rst:63
+msgid ""
+"Осуществляется с помощью добавления слотов логики (NLA Script Slot) на "
+"вкладке настроек сцены Blender. С их помощью можно существенно расширить "
+"функциональность сцены, не прибегая при этом к программированию."
+msgstr ""
+"Performed by appending logic slots (NLA Script Slot) under the scene tab in "
+"Blender. These slots can extend the scene functionality significantly "
+"without any coding."
+
+#: ../nla.rst:73
+msgid ""
+"Слоты являются логическими блоками, которые выполняются с первого по "
+"последний последовательно, за исключением случаев, когда в слоте явно "
+"обозначен переход (``Jump``). При достижении конца списка, выполнение логики"
+" останавливается, либо, если на сцене активирована настройка *Blend4Web > "
+"Cyclic NLA*, начинается сначала."
+msgstr ""
+"The slots themselves are logic blocks that are executed from the first to "
+"the last sequentially except this slot explicitly contains a transition "
+"(``Jump``). When the end of the list is reached the logic stops to execute, "
+"or - if *Blend4Web > Cyclic NLA* checkbox is enabled - starts again."
+
+#: ../nla.rst:83
+msgid ""
+"Использование настройки *Blend4Web > Cyclic NLA* совместно с NLA Script не "
+"приводит к автоматическому зацикливанию анимации."
+msgstr ""
+"Using *Blend4Web > Cyclic NLA* together with NLA Script does not result in "
+"automatic looping of the animation."
+
+#: ../nla.rst:86
+msgid "Ниже рассмотрены все возможные варианты слотов."
+msgstr "All possible slots are described below. "
+
+#: ../nla.rst:89
+msgid "Play"
+msgstr ""
+
+#: ../nla.rst:91
+msgid ""
+"Проигрывать участок NLA, начиная с кадра, на который указывает маркер. "
+"Анимация воспроизводится до следующего маркера, либо до конца шкалы времени "
+"сцены, после чего управление переходит к следующему слоту."
+msgstr ""
+"Play back the NLA segment starting from the frame to which the marker "
+"points. Animation is played back until the next marker met, or to the end of"
+" the timeline. Finally the next slot receives the control."
+
+#: ../nla.rst:101
+msgid "Select & Play"
+msgstr ""
+
+#: ../nla.rst:103
+msgid ""
+"Ожидать, когда пользователь выберет объект (с помощью клика мышью в версии "
+"движка для десктопа, либо нажатия на экране в мобильной версии). Если выбран"
+" объект, указанный в параметрах слота, начать играть анимацию аналогично "
+"слоту ``Play``, если же был выбран любой другой объект - немедленно передать"
+" управление следующему слоту."
+msgstr ""
+"Wait until the user selects an object (on desktops - with the mouse click, "
+"on mobile devices - with the touch). If the object is selected that is "
+"specified in this slot - start animation similar to ``Play`` slot. If any "
+"other object is selected - immediately transfer the control to the next "
+"slot."
+
+#: ../nla.rst:109
+msgid ""
+"Последняя функциональность используется для выбора одного из нескольких "
+"объектов, причём ``Select & Play`` удобно размещать в стеке один за другим. "
+"В данном случае результат выбора пользователя может быть подхвачен одним из "
+"слотов из данной последовательности, поскольку переход без анимации "
+"производится мгновенно."
+msgstr ""
+"The latter functionality can be used for selecting one of the multiple "
+"objects. In this case it is convenient to place ``Select & Play`` slots in "
+"the stack one by one. The result of the user selection is catched up by one "
+"of this sequence slots because the transition without animation is performed"
+" instantly."
+
+#: ../nla.rst:116
+msgid ""
+"Чтобы пользователь имел возможность выбрать объект, в его настройках "
+"необходимо активировать опцию ``Selectable``, как в случае реализации "
+":ref:`эффекта свечения силуэта <glow>`."
+msgstr ""
+"In order to allow the user to select an object, enable the ``Selectable`` "
+"checkbox in its settings, similar to implementation of the :ref:`glow effect"
+" <glow>`."
+
+#: ../nla.rst:119
+msgid "Jump"
+msgstr ""
+
+#: ../nla.rst:121
+msgid "Перейти к указанному слоту."
+msgstr "Go to the specified slot."
+
+#: ../nla.rst:129
+msgid "Select & Jump"
+msgstr ""
+
+#: ../nla.rst:131
+msgid ""
+"Аналогично слоту ``Select & Play``, за исключением того, что вместо анимации"
+" осуществляется переход. Указанная функция позволяет реализовать более "
+"сложную логику, поскольку появляется возможность распознавания результата "
+"выбора пользователя (выделение текущего объекта приводит к переходу по имени"
+" слота, который не обязательно является следующим в списке)."
+msgstr ""
+"Is similar to the ``Select & Play`` slot, except the transition happens "
+"instead of animation. This function allows to implement a complicated logic "
+"because in this case there is a possibility to identify the user selection "
+"results (selecting an object leads to the transition to the named slot which"
+" is needn't to be the next in the list)."
+
+#: ../nla.rst:138
+msgid "Noop"
+msgstr ""
+
+#: ../nla.rst:140
+msgid ""
+"Сокращение от \"No Operation\". Означает, что при обработке слота данного типа, "
+"никаких действий произведено не будет. Слот удобно использовать совместно с "
+"типом ``Jump``."
+msgstr ""
+"Shortening of \"No Operation\". When such a slot is processed no actions are"
+" performed. This slot is convenient to place together with a ``Jump`` slot."

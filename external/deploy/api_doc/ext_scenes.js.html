@@ -36,10 +36,12 @@
 b4w.module["scenes"] = function(exports, require) {
 
 var m_batch     = require("__batch");
+var m_cam       = require("__camera");
+var m_graph     = require("__graph");
 var m_print     = require("__print");
 var physics     = require("__physics");
 var m_scenes    = require("__scenes");
-var util        = require("__util");
+var m_util      = require("__util");
 
 /**
  * All possible data IDs.
@@ -61,7 +63,7 @@ var LIGHT_SUBSCENE_TYPES = ["MAIN_OPAQUE", "MAIN_BLEND", "MAIN_REFLECT",
 exports.set_active = function(scene_name) {
     // NOTE: keysearch is dangerous
     var scenes = m_scenes.get_all_scenes();
-    m_scenes.set_active(util.keysearch("name", scene_name, scenes));
+    m_scenes.set_active(m_util.keysearch("name", scene_name, scenes));
 }
 
 /**
@@ -87,15 +89,6 @@ exports.get_scenes = function() {
         scene_names.push(scenes[i]["name"]);
 
     return scene_names;
-}
-/**
- * Get all on-screen scene names (ignore the ones used for texture rendering)
- * @method module:scenes.get_screen_scenes
- * @deprecated No scene switching anymore
- */
-exports.get_screen_scenes = function() {
-    m_print.log("get_screen_scenes() deprecated");
-    return "";
 }
 /**
  * Return the active camera object from the active scene
@@ -242,45 +235,16 @@ exports.set_glow_color = function(color) {
     }
 }
 
-/**
- * @method module:scenes.set_light_pos
- * @deprecated use lights module instead
- */
-exports.set_light_pos = function() {
-    m_print.error("set_light_pos() deprecated, use lights module instead");
-}
-
-/**
- * @method module:scenes.set_light_direction
- * @deprecated use lights module instead
- */
-exports.set_light_direction = function() {
-    m_print.error("set_light_direction() deprecated, use lights module instead");
-}
-
-/**
- * @method module:scenes.set_dir_light_color
- * @deprecated use lights module instead
- */
-exports.set_dir_light_color = function(index, val) {
-    m_print.error("set_dir_light_color() deprecated, use lights module instead");
-}
-
-/**
- * @method module:scenes.get_lights_names
- * @deprecated use lights module instead
- */
-exports.get_lights_names = function() {
-    m_print.error("set_dir_light_color() deprecated, use lights module instead");
-}
 
 /**
  * Get shadow params.
  * @method module:scenes.get_shadow_params
  * @returns {Object} Shadow params
- * @cc_externs blur_depth_size_mult blur_depth_edge_size
- * @cc_externs blur_depth_diff_threshold shadow_visibility_falloff
- * @cc_externs csm_near csm_far csm_num csm_lambda csm_borders
+ * @cc_externs csm_num csm_first_cascade_border first_cascade_blur_radius
+ * @cc_externs csm_last_cascade_border last_cascade_blur_radius csm_resolution
+ * @cc_externs self_shadow_normal_offset self_shadow_polygon_offset
+ * @cc_externs pcf_blur_radius fade_last_cascade blend_between_cascades
+ * @cc_externs csm_borders blur_radii
  */
 exports.get_shadow_params = function() {
     if (!m_scenes.check_active()) {
@@ -296,24 +260,29 @@ exports.get_shadow_params = function() {
 
     var shadow_params = {};
 
-    var subs = m_scenes.get_subs(active_scene, "BLUR_DEPTH");
-    if (subs) {
-        shadow_params.blur_depth_size_mult = subs.blur_depth_size_mult;
-        shadow_params.blur_depth_edge_size = subs.blur_depth_edge_size;
-        shadow_params.blur_depth_diff_threshold = subs.blur_depth_diff_threshold * 1000;
-    }
+    shadow_params.self_shadow_polygon_offset = shadow_cast.self_shadow_polygon_offset;
 
     var subs = m_scenes.get_subs(active_scene, "DEPTH");
-    if (subs) {
-        shadow_params.shadow_visibility_falloff = subs.shadow_visibility_falloff;
-    }
+    if (subs)
+        shadow_params.self_shadow_normal_offset = subs.self_shadow_normal_offset;
 
+    var subs_main = m_scenes.get_subs(active_scene, "MAIN_OPAQUE");
     var shs = active_scene._render.shadow_params;
-    shadow_params.csm_near = shs.csm_near;
-    shadow_params.csm_far = shs.csm_far;
+
     shadow_params.csm_num = shs.csm_num;
-    shadow_params.csm_lambda = shs.csm_lambda;
-    shadow_params.csm_borders = m_scenes.get_csm_borders(active_scene);
+    shadow_params.csm_first_cascade_border = shs.csm_first_cascade_border;
+    shadow_params.first_cascade_blur_radius = shs.first_cascade_blur_radius;
+    shadow_params.csm_last_cascade_border = shs.csm_last_cascade_border;
+    shadow_params.last_cascade_blur_radius = shs.last_cascade_blur_radius;
+    shadow_params.csm_resolution = shs.csm_resolution;
+    shadow_params.fade_last_cascade = shs.fade_last_cascade;
+    shadow_params.blend_between_cascades = shs.blend_between_cascades;
+
+    shadow_params.csm_borders = m_scenes.get_csm_borders(active_scene,
+            subs_main.camera);
+    shadow_params.blur_radii = new Float32Array(shs.csm_num);
+    shadow_params.blur_radii.set(subs_main.camera.pcf_blur_radii.subarray(0,
+            shs.csm_num));
 
     return shadow_params;
 }
@@ -330,56 +299,44 @@ exports.set_shadow_params = function(shadow_params) {
     }
 
     var active_scene = m_scenes.get_active();
-    var subscenes = m_scenes.subs_array(active_scene, LIGHT_SUBSCENE_TYPES);
 
-    var subs = m_scenes.get_subs(active_scene, "DEPTH");
-    if (subs) {
-        if (typeof shadow_params.shadow_visibility_falloff == "number")
-            subs.shadow_visibility_falloff = shadow_params.shadow_visibility_falloff;
+    if (typeof shadow_params.self_shadow_polygon_offset == "number")
+        m_graph.traverse(active_scene._render.graph, function(node, attr) {
+            if (attr.type === "SHADOW_CAST")
+                attr.self_shadow_polygon_offset = shadow_params.self_shadow_polygon_offset;
+        });
+
+    var subs_depth = m_scenes.get_subs(active_scene, "DEPTH");
+    if (subs_depth) {
+        if (typeof shadow_params.self_shadow_normal_offset == "number")
+            subs_depth.self_shadow_normal_offset = shadow_params.self_shadow_normal_offset;
+        if (typeof shadow_params.pcf_blur_radius == "number")
+            subs_depth.pcf_blur_radius = shadow_params.pcf_blur_radius;
     }
 
-    var subscenes = m_scenes.subs_array(active_scene, ["BLUR_DEPTH"]);
+    var subs_main_blend = m_scenes.get_subs(active_scene, "MAIN_BLEND");
+    if (subs_main_blend) {
+        if (typeof shadow_params.self_shadow_normal_offset == "number")
+            subs_main_blend.self_shadow_normal_offset = shadow_params.self_shadow_normal_offset;
+        if (typeof shadow_params.pcf_blur_radius == "number")
+            subs_main_blend.pcf_blur_radius = shadow_params.pcf_blur_radius;
 
-    for (var i = 0; i &lt; subscenes.length; i++) {
-
-        var subs = subscenes[i];
-
-        if (typeof shadow_params.blur_depth_size_mult == "number") {
-            subs.blur_depth_size_mult = shadow_params.blur_depth_size_mult;
-
-            var bundles = subs.bundles;
-            var batch = bundles[0].batch;
-            if (batch) {
-                m_batch.set_texel_size_mult(batch, shadow_params.blur_depth_size_mult);
-                m_scenes.set_texel_size(subs, 1/subs.camera.width, 1/subs.camera.width);
-            }
-        }
-
-        if (typeof shadow_params.blur_depth_edge_size == "number")
-            subs.blur_depth_edge_size = shadow_params.blur_depth_edge_size;
-
-        if (typeof shadow_params.blur_depth_diff_threshold == "number")
-            subs.blur_depth_diff_threshold = shadow_params.blur_depth_diff_threshold / 1000;
-
-        subs.need_perm_uniforms_update = true;
+        subs_main_blend.need_perm_uniforms_update = true;
     }
 
     var shs = active_scene._render.shadow_params;
-
-    if (typeof shadow_params.csm_near == "number")
-        shs.csm_near = shadow_params.csm_near;
-
-    if (typeof shadow_params.csm_far == "number")
-        shs.csm_far = shadow_params.csm_far;
-
-    if (typeof shadow_params.csm_lambda == "number")
-        shs.csm_lambda = shadow_params.csm_lambda;
+    if (typeof shadow_params.csm_first_cascade_border == "number")
+        shs.csm_first_cascade_border = shadow_params.csm_first_cascade_border;
+    if (typeof shadow_params.first_cascade_blur_radius == "number")
+        shs.first_cascade_blur_radius = shadow_params.first_cascade_blur_radius;
+    if (typeof shadow_params.csm_last_cascade_border == "number")
+        shs.csm_last_cascade_border = shadow_params.csm_last_cascade_border;
+    if (typeof shadow_params.last_cascade_blur_radius == "number")
+        shs.last_cascade_blur_radius = shadow_params.last_cascade_blur_radius;
 
     // update directives; only depth subs supported
-    var subs = m_scenes.get_subs(active_scene, "DEPTH");
-    if (subs) {
-
-        var bundles = subs.bundles;
+    if (subs_depth) {
+        var bundles = subs_depth.bundles;
 
         for (var i = 0; i &lt; bundles.length; i++) {
 
@@ -389,13 +346,18 @@ exports.set_shadow_params = function(shadow_params) {
                 continue;
 
             var batch = bundle.batch;
-
-            m_batch.assign_shadow_receive_dirs(batch, m_scenes.get_csm_borders(active_scene));
+            m_batch.assign_shadow_receive_dirs(batch, shs);
 
             m_batch.update_shader(batch);
         }
-        subs.need_perm_uniforms_update = true;
+        subs_depth.need_perm_uniforms_update = true;
     }
+
+    // update size of shadow cascades
+    var upd_cameras = active_scene["camera"]._render.cameras;
+    for (var i = 0; i &lt; upd_cameras.length; i++)
+        m_cam.update_camera_csm(upd_cameras[i], shs);
+
     m_scenes.schedule_shadow_update(active_scene);
 }
 
@@ -760,32 +722,6 @@ exports.update_scene_materials_params = function() {
     m_scenes.update_scene_permanent_uniforms(active_scene);
 }
 
-/**
- * Append the object to an active scene.
- * @method module:scenes.append_object
- * @deprecated Unused
- */
-exports.append_object = function(obj) {
-    throw "Method \"append_object\" is deprecated";
-}
-
-/**
- * @method module:scenes.add_object
- * @deprecated Unused
- */
-exports.add_object = function(obj) {
-    throw "Method \"add_object\" is deprecated";
-}
-
-/**
- * Remove the object from an active scene.
- * @method module:scenes.remove_object
- * @deprecated Unused
- */
-exports.remove_object = function(obj) {
-    throw "Method \"remove_object\" is deprecated";
-}
-
 
 /**
  * Hide object.
@@ -829,32 +765,6 @@ exports.check_object = function(obj) {
 
     return m_scenes.check_object(obj, m_scenes.get_active());
 }
-
-/**
- * Remove all objects from all scenes.
- * @method module:scenes.remove_all
- * @deprecated Usage is forbidden.
- */
-exports.remove_all = function() {
-    throw("unimplemented");
-}
-/**
- * Check if the object collides with an object/material which has the given collision ID.
- * @method module:scenes.check_collision
- * @deprecated By async physics
- */
-exports.check_collision = function() {
-    return false;
-}
-/**
- * Check if ray has hit through the collision ID.
- * @method module:scenes.check_ray_hit
- * @deprecated By async physics
- */
-exports.check_ray_hit = function() {
-    return false;
-}
-
 
 /**
  * Get all objects from the active scene.
@@ -989,6 +899,44 @@ exports.get_type_mesh_object = function(obj) {
     return null;
 }
 
+
+// DEPRECATED
+
+exports.append_object = function(obj) {
+    m_util.panic("Method \"append_object\" is deprecated");
+}
+exports.add_object = function(obj) {
+    m_util.panic("Method \"add_object\" is deprecated");
+}
+exports.remove_object = function(obj) {
+    m_util.panic("Method \"remove_object\" is deprecated");
+}
+exports.get_screen_scenes = function() {
+    m_util.panic("get_screen_scenes() deprecated");
+}
+exports.set_light_pos = function() {
+    m_util.panic("set_light_pos() deprecated, use lights module instead");
+}
+exports.set_light_direction = function() {
+    m_util.panic("set_light_direction() deprecated, use lights module instead");
+}
+exports.set_dir_light_color = function(index, val) {
+    m_util.panic("set_dir_light_color() deprecated, use lights module instead");
+}
+exports.get_lights_names = function() {
+    m_util.panic("get_lights_names() deprecated, use lights module instead");
+}
+exports.remove_all = function() {
+    m_util.panic("remove_all() deprecated, use lights module instead");
+}
+exports.check_collision = function() {
+    m_util.panic("check_collision() deprecated, use lights module instead");
+}
+exports.check_ray_hit = function() {
+    m_util.panic("check_ray_hit() deprecated, use lights module instead");
+}
+
+
 }
 </code></pre>
         </article>
@@ -1006,7 +954,7 @@ exports.get_type_mesh_object = function(obj) {
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-dev</a> on Mon Aug 25 2014 12:11:12 GMT+0400 (MSK)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-dev</a> on Thu Sep 25 2014 18:06:48 GMT+0400 (MSK)
 </footer>
 
 <script> prettyPrint(); </script>

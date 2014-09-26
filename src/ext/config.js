@@ -1,6 +1,6 @@
 "use strict";
 
-/** 
+/**
  * API for the engine's global configuration.
  * <p>Use the set()/get() function to change/get the value of a property.
  * Use the reset() function to reset all properties to their default state.
@@ -48,7 +48,8 @@
  * <dt>physics_enabled
  * <dd>Boolean, enable uranium.js physics engine.
  * <dt>physics_uranium_path
- * <dd>String, path to uranium.js module.
+ * <dd>String, path to uranium.js module, if not specified search in the
+ * directory with the engine's source.
  * <dt>precision
  * <dd>String, preferred GLSL floating point precision.
  * <dt>quality
@@ -62,9 +63,11 @@
  * <dt>smaa
  * <dd>Boolean, enable SMAA antialiasing.
  * <dt>smaa_search_texture_path
- * <dd>String, path to SMAA search texture.
+ * <dd>String, path to SMAA search texture, if not specified search in the
+ * directory with the engine's source.
  * <dt>smaa_area_texture_path
- * <dd>String, path to SMAA area texture.
+ * <dd>String, path to SMAA area texture, if not specified search in the
+ * directory with the engine's source.
  * <dt>wireframe_debug
  * <dd>Boolean, enable wireframe debug mode.
  * </dl>
@@ -124,4 +127,3 @@ exports.get = m_cfg.get;
 exports.reset = m_cfg.reset;
 
 }
-

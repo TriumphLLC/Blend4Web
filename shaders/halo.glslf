@@ -115,7 +115,7 @@ void main(void) {
     // generate array of random numbers long enough for both lines and rings
     float randoms[rand_arr_length];
     for (int i = 0; i < rand_arr_length; i++) {
-        randoms[i] =  fract(v_vertex_random / float(i)) - 1.0;
+        randoms[i] =  fract(v_vertex_random / (float(i) + 0.01)) - 1.0;
     }
 #endif
 

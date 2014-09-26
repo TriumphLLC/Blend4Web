@@ -7,17 +7,12 @@
 
 // shadows
 #define SHADOW_SRC_NONE     1
-#define SHADOW_SRC_RGBA     2
-#define SHADOW_SRC_RGBA_PCF 3
-#define SHADOW_SRC_DEPTH    4
-#define SHADOW_SRC_VSM      5
-#define SHADOW_SRC_MASK     6
+#define SHADOW_SRC_DEPTH    2
+#define SHADOW_SRC_MASK     3
 
 #define SHADOW_DST_NONE     1
-#define SHADOW_DST_RGBA     2
-#define SHADOW_DST_DEPTH    3
-#define SHADOW_DST_VSM      4
-#define SHADOW_DST_MASK     5
+#define SHADOW_DST_DEPTH    2
+#define SHADOW_DST_MASK     3
 
 // materials
 #define SPECULAR_PHONG      1

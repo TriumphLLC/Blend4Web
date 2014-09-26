@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Node Materials &mdash; User Manual: Blend4Web v14.08</title>
+    <title>Node Materials &mdash; User Manual: Blend4Web v14.09</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.08',
+        VERSION:     '14.09',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,9 +25,9 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User Manual: Blend4Web v14.08" href="index.html" />
+    <link rel="top" title="User Manual: Blend4Web v14.09" href="index.html" />
     <link rel="next" title="Lighting, Shadows and Background" href="lighting.html" />
-    <link rel="prev" title="Materials" href="materials.html" /> 
+    <link rel="prev" title="Textures" href="textures.html" /> 
   </head>
   <body>
     <div class="header-wrapper">
@@ -36,9 +36,9 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">User Manual: Blend4Web v14.08</a></div>
+          href="index.html">User Manual: Blend4Web v14.09</a></div>
         <div class="rel">
-          <a href="materials.html" title="Materials"
+          <a href="textures.html" title="Textures"
              accesskey="P">previous</a> |
           <a href="lighting.html" title="Lighting, Shadows and Background"
              accesskey="N">next</a> |
@@ -56,12 +56,13 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <span class="target" id="node-materials"></span><div class="section" id="index-0">
-<span id="id1"></span><h1>Node Materials<a class="headerlink" href="#index-0" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="node-materials">
+<span id="index-0"></span><span id="id1"></span><h1>Node Materials<a class="headerlink" href="#node-materials" title="Permalink to this headline">¶</a></h1>
 <p>Shader nodes extend significantly the potential of Blender&#8217;s standard materials by means of presenting shading as a batch of basic transformations.</p>
+<a class="reference internal image-reference" href="_images/node_example.jpg"><img alt="_images/node_example.jpg" class="align-center" src="_images/node_example.jpg" style="width: 100%;" /></a>
 <div class="section" id="generic-node-materials">
-<span id="index-1"></span><span id="id2"></span><h2>Standard Nodes<a class="headerlink" href="#generic-node-materials" title="Permalink to this headline">¶</a></h2>
-<p id="index-2">All Blender functions are supported except the following cases:</p>
+<span id="id2"></span><h2>Standard Nodes<a class="headerlink" href="#generic-node-materials" title="Permalink to this headline">¶</a></h2>
+<p id="index-1">All Blender functions are supported except the following cases:</p>
 <ul class="simple">
 <li><p class="first"><tt class="docutils literal"><span class="pre">Geometry</span></tt> - the <tt class="docutils literal"><span class="pre">Local</span></tt>, <tt class="docutils literal"><span class="pre">Orco</span></tt> and <tt class="docutils literal"><span class="pre">Vertex</span> <span class="pre">Alpha</span></tt> outputs are not supported.</p>
 </li>
@@ -81,11 +82,16 @@
 <p>It is not recommended to create very complex materials especially if they use many <tt class="docutils literal"><span class="pre">Geometry</span></tt> or <tt class="docutils literal"><span class="pre">Texture</span></tt> nodes.</p>
 </div>
 <div class="section" id="custom-node-materials">
-<span id="id3"></span><h2>Special Nodes<a class="headerlink" href="#custom-node-materials" title="Permalink to this headline">¶</a></h2>
-<p id="index-3">Special nodes extend the standard nodes&#8217; functionality in order to support the engine features. Special nodes are created as node groups (<tt class="docutils literal"><span class="pre">Node</span> <span class="pre">groups</span></tt> or <tt class="docutils literal"><span class="pre">Node</span> <span class="pre">tree</span></tt>) with specially determined names and input formats. All special nodes are gathered in the <tt class="docutils literal"><span class="pre">special_nodes.blend</span></tt> file for convenience.</p>
+<span id="id3"></span><h2>Engine Specific Nodes<a class="headerlink" href="#custom-node-materials" title="Permalink to this headline">¶</a></h2>
+<p id="index-2">Engine specific nodes extend the standard nodes&#8217; functionality in order to support the engine features. These nodes are created as node groups (<tt class="docutils literal"><span class="pre">Node</span> <span class="pre">groups</span></tt> or <tt class="docutils literal"><span class="pre">Node</span> <span class="pre">tree</span></tt>) with specially determined names and input formats. All special nodes are gathered in the <tt class="docutils literal"><span class="pre">external/blender/dev_nodes/special_nodes.blend</span></tt> file for convenience.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="animation.html#node-anim"><em>Value Node Animation</em></a></p>
+</div>
 <div class="section" id="linear-to-srgb-srgb-to-linear">
 <h3>LINEAR_TO_SRGB and SRGB_TO_LINEAR<a class="headerlink" href="#linear-to-srgb-srgb-to-linear" title="Permalink to this headline">¶</a></h3>
 <p>Color correction from linear color space to sRGB space and back.</p>
+<a class="reference internal image-reference" href="_images/srgb_to_linear.jpg"><img alt="_images/srgb_to_linear.jpg" class="align-center" src="_images/srgb_to_linear.jpg" style="width: 100%;" /></a>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
 <p class="last"><a class="reference internal" href="gamma_alpha.html#gamma-nodes"><em>Gamma Correction in Node Materials</em></a></p>
@@ -94,6 +100,10 @@
 <div class="section" id="replace">
 <h3>REPLACE<a class="headerlink" href="#replace" title="Permalink to this headline">¶</a></h3>
 <p>The node replaces the inputs depending on the working environment (i.e. Blender viewport or Blend4Web). When working in Blender the <tt class="docutils literal"><span class="pre">Color1</span></tt> input is connected to the <tt class="docutils literal"><span class="pre">Color</span></tt> output and the <tt class="docutils literal"><span class="pre">Color2</span></tt> input is ignored. On the contrary when working in the engine the inputs are interchanged (the <tt class="docutils literal"><span class="pre">Color1</span></tt> one is ignored and the <tt class="docutils literal"><span class="pre">Color2</span></tt> one is connected to the output). The node is intended to display one node structure in the viewport and another - in the engine.</p>
+<a class="reference internal image-reference" href="_images/replace.jpg"><img alt="_images/replace.jpg" class="align-center" src="_images/replace.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
 <p>As a rule it is used for normal mapping. Blender&#8217;s node materials do not support a tangent space of coordinates. Therefore the only possible method to display normal maps in the viewport correctly is their usage inside the Material nodes.</p>
 </div>
 <div class="section" id="clamp">
@@ -104,9 +114,9 @@
 <h3>TIME<a class="headerlink" href="#time" title="Permalink to this headline">¶</a></h3>
 <p>Provides the timeline counting from the engine start (in seconds). May be used for animating any parameters in the node materials.</p>
 </div>
-<div class="section" id="normal-view">
-<h3>NORMAL_VIEW<a class="headerlink" href="#normal-view" title="Permalink to this headline">¶</a></h3>
-<p>The node transforms a normal into the camera&#8217;s space of coordinates. Transformation is necessary because the engine defines all normals in the world space of coordinates. A normal should be used only for effects and not for connecting to the output of the <tt class="docutils literal"><span class="pre">Material</span></tt> or <tt class="docutils literal"><span class="pre">Extended</span> <span class="pre">Material</span></tt> nodes.</p>
+<div class="section" id="vector-view">
+<h3>VECTOR_VIEW<a class="headerlink" href="#vector-view" title="Permalink to this headline">¶</a></h3>
+<p>The node transforms a vector into the camera&#8217;s space of coordinates. Transformation is necessary because the engine defines most of vectors in the world space of coordinates. If normal vector is being transformed by this node it should be used only for effects and not for connecting to the output of the <tt class="docutils literal"><span class="pre">Material</span></tt> or <tt class="docutils literal"><span class="pre">Extended</span> <span class="pre">Material</span></tt> nodes.</p>
 </div>
 <div class="section" id="parallax">
 <h3>PARALLAX<a class="headerlink" href="#parallax" title="Permalink to this headline">¶</a></h3>
@@ -117,7 +127,7 @@
 <dt><em>UV</em></dt>
 <dd><p class="first last">Source texture coordinates</p>
 </dd>
-<dt><em>Height</em></dt>
+<dt><em>Height Map</em></dt>
 <dd><p class="first last">RGBA texture with a height map packed into the alpha channel.</p>
 </dd>
 <dt><em>Scale</em></dt>
@@ -220,6 +230,67 @@
 </div>
 </div>
 </div>
+<div class="section" id="levels-of-quality">
+<h3>LEVELS_OF_QUALITY<a class="headerlink" href="#levels-of-quality" title="Permalink to this headline">¶</a></h3>
+<p>Node sets output color value depending on quality profile.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="developers.html#quality-settings"><em>Quality Profiles</em></a></p>
+</div>
+<div class="section" id="id10">
+<h4>Input parameters<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h4>
+<dl class="docutils">
+<dt><em>HIGH</em></dt>
+<dd><p class="first last">Node links this parameter to <tt class="docutils literal"><span class="pre">Color</span></tt> parameter in case of high and maximum quality usage.</p>
+</dd>
+<dt><em>LOW</em></dt>
+<dd><p class="first last">Node links this parameter to <tt class="docutils literal"><span class="pre">Color</span></tt> parameter in case of low quality usage.</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="id11">
+<h4>Output parameters<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h4>
+<dl class="docutils">
+<dt><em>Color</em></dt>
+<dd><p class="first last">Output color.</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><tt class="docutils literal"><span class="pre">HIGH</span></tt> input parameter is used for rendering in the Blender viewport.</p>
+</div>
+</div>
+</div>
+<div class="section" id="smoothstep">
+<h3>SMOOTHSTEP<a class="headerlink" href="#smoothstep" title="Permalink to this headline">¶</a></h3>
+<p>Perform smooth interpolation between two input values based on first value</p>
+<div class="section" id="id12">
+<h4>Input parameters<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h4>
+<dl class="docutils">
+<dt><em>Value</em></dt>
+<dd><p class="first last">Value which determines interpolation smoothness</p>
+</dd>
+<dt><em>Edge0</em></dt>
+<dd><p class="first last">First interpolation value</p>
+</dd>
+<dt><em>Edge1</em></dt>
+<dd><p class="first last">Second interpolation value</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="id13">
+<h4>Output parameters<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h4>
+<dl class="docutils">
+<dt><em>Value</em></dt>
+<dd><p class="first last">Interpolated value</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">For the correct interpolation input &#8216;&#8217;Value&#8217;&#8217; had to be between &#8216;&#8217;Edge0&#8217;&#8217; and &#8216;&#8217;Edge1&#8217;&#8216;</p>
+</div>
+</div>
+</div>
 </div>
 </div>
 
@@ -240,11 +311,11 @@
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Web Player</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">The Addon</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
-<li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Node Materials</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#generic-node-materials">Standard Nodes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#custom-node-materials">Special Nodes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#custom-node-materials">Engine Specific Nodes</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
@@ -261,6 +332,7 @@
 <li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">For Engine Developers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Team Work. Using Git</a></li>
 <li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Problems and Solutions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
 </ul>
 
           <h3 style="margin-top: 1.5em;">Search</h3>
@@ -281,7 +353,7 @@
     <div class="footer-wrapper">
       <div class="footer">
         <div class="left">
-          <a href="materials.html" title="Materials"
+          <a href="textures.html" title="Textures"
              >previous</a> |
           <a href="lighting.html" title="Lighting, Shadows and Background"
              >next</a> |
@@ -293,7 +365,7 @@
           
     <div class="footer">
         &copy; Copyright 2014, Triumph LLC.
-      Last updated on 2014-08-25.
+      Last updated on 2014-09-25.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

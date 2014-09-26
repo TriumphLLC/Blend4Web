@@ -51,3 +51,11 @@ e.g:
 
     vector instanceof Object;       // true
     vector instanceof Float32Array; // true, so type of the vector is Float32Array
+
+**Object**
+
+To prevent confusion between a 3D object rendered on the scene and
+some other JavaScript Object the former is always referenced as "Object ID" in
+the documentation. Currently, "Object ID" is a JavaScript Object, but it's strongly
+discouraged to access it by its properties. Instead, you should always rely on the
+engine's API to manipulate your 3D objects.

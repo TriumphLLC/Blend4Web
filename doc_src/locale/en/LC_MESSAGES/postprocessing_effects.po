@@ -15,6 +15,10 @@ msgstr ""
 msgid "Постпроцессинговые эффекты"
 msgstr "Postprocessing Effects"
 
+#: ../postprocessing_effects.rst:7
+msgid "размытие при движении (motion blur)"
+msgstr "motion blur"
+
 #: ../postprocessing_effects.rst:12
 msgid "Размытие при движении"
 msgstr "Motion Blur"
@@ -78,6 +82,14 @@ msgid ""
 msgstr ""
 "Blur fade-out ratio. The higher this value is the more distinct is the "
 "effect. The default value is 0.01."
+
+#: ../postprocessing_effects.rst:38
+msgid "DOF"
+msgstr ""
+
+#: ../postprocessing_effects.rst:38
+msgid "глубина резкости камеры (depth of field)"
+msgstr "depth of field"
 
 #: ../postprocessing_effects.rst:43
 msgid "Глубина резкости камеры"
@@ -159,6 +171,14 @@ msgstr ""
 #: ../postprocessing_effects.rst:69
 msgid "Степень размытия. Значение по умолчанию 3.0."
 msgstr "Blurring ratio. The default value is 3.0."
+
+#: ../postprocessing_effects.rst:77
+msgid "взаимное затенение (screen-space ambient occlusion)"
+msgstr "screen-space ambient occlusion"
+
+#: ../postprocessing_effects.rst:77
+msgid "SSAO"
+msgstr ""
 
 #: ../postprocessing_effects.rst:82
 msgid "Взаимное затенение"
@@ -280,6 +300,14 @@ msgstr ""
 "Number of samples (the more samples there are the better is the quality but "
 "the poorer is the performance). The default value is 16."
 
+#: ../postprocessing_effects.rst:127
+msgid "сумеречные лучи (crepuscular rays)"
+msgstr "crepuscular rays"
+
+#: ../postprocessing_effects.rst:127
+msgid "god rays"
+msgstr ""
+
 #: ../postprocessing_effects.rst:132
 msgid "Сумеречные лучи"
 msgstr "God Rays"
@@ -329,114 +357,6 @@ msgstr ""
 "Rays length factor. Defines the step between samples of radial blurring. The"
 " default value is 1.0."
 
-#: ../postprocessing_effects.rst:239
-msgid "Анаглиф стереоизображение"
-msgstr "Stereoscopic Rendering (Anaglyph)"
-
-#: ../postprocessing_effects.rst:244
-msgid ""
-"Режим стереоизображения предназначен для просмотра контента в специальных "
-"очках и активируется приложением."
-msgstr ""
-"The stereoscopic rendering mode is intended for viewing the content using "
-"special glasses. It is activated by an application via API."
-
-#: ../postprocessing_effects.rst:249
-msgid "Нет."
-msgstr "No."
-
-#: ../postprocessing_effects.rst:264
-msgid "Коррекция цвета"
-msgstr "Color Correction"
-
-#: ../postprocessing_effects.rst:269
-msgid ""
-"Выставить опцию ``Enable Color Correction`` на панели ``Scene > Blend4Web``."
-msgstr ""
-"Enable the ``Enable Color Correction`` checkbox on the ``Scene > Blend4Web``"
-" panel."
-
-#: ../postprocessing_effects.rst:274
-msgid "На панели \"мира\" ``World > Blend4Web > Color Correction Settings``:"
-msgstr "On the ``World > Blend4Web > Color Correction Settings`` panel:"
-
-#: ../postprocessing_effects.rst:277
-msgid "*Brightness*"
-msgstr ""
-
-#: ../postprocessing_effects.rst:277
-msgid "Яркость. Значение по умолчанию 0.0."
-msgstr "The default value is 0.0."
-
-#: ../postprocessing_effects.rst:280
-msgid "*Contrast*"
-msgstr ""
-
-#: ../postprocessing_effects.rst:280
-msgid "Контрастность. Значение по умолчанию 0.0."
-msgstr "The default value is 0.0."
-
-#: ../postprocessing_effects.rst:283
-msgid "*Exposure*"
-msgstr ""
-
-#: ../postprocessing_effects.rst:283
-msgid "Экспозиция. Значение по умолчанию 1.0."
-msgstr "The default value is 1.0."
-
-#: ../postprocessing_effects.rst:287
-msgid "*Saturation*"
-msgstr ""
-
-#: ../postprocessing_effects.rst:286
-msgid "Насыщенность. Значение по умолчанию 1.0."
-msgstr "The default value is 1.0."
-
-#: ../postprocessing_effects.rst:300
-msgid "Сглаживание"
-msgstr "Anti-Aliasing"
-
-#: ../postprocessing_effects.rst:302
-msgid ""
-"Сглаживание (anti-aliasing) необходимо для уменьшения влияния нежелательных "
-"артефактов рендеринга (\"зубчатости\")."
-msgstr ""
-"Anti-aliasing is used to reduce undesirable rendering artefacts (poor "
-"pixelization)."
-
-#: ../postprocessing_effects.rst:307
-msgid ""
-"Выставить опцию ``Enable Antialiasing`` на панели ``Scene > Blend4Web``."
-msgstr ""
-"Enable the ``Enable Antialiasing`` on the ``Scene > Blend4Web`` panel."
-
-#: ../postprocessing_effects.rst:312
-msgid ""
-"Метод сглаживания назначается одновременно с выбором профиля работы движка."
-msgstr ""
-"The anti-aliasing method is assigned simultaneously with the selection of "
-"the engine performance profile. "
-
-#: ../postprocessing_effects.rst:314
-msgid "*низкое качество* - антиалиасинг отключен"
-msgstr "*low quality* - anti-aliasing is disabled"
-
-#: ../postprocessing_effects.rst:315
-msgid ""
-"*высокое качество* - метод антиалиасинга FXAA (Fast Approximate Anti-"
-"Aliasing), предложенный Nvidia"
-msgstr ""
-"*high quality* - the anti-aliasing method is FXAA (Fast Approximate Anti-"
-"Aliasing) by Nvidia"
-
-#: ../postprocessing_effects.rst:316
-msgid ""
-"*максимальное качество* - метод антиалиасинга SMAA (Enhanced Subpixel "
-"Morphological Anti-Aliasing), предложенный Crytek"
-msgstr ""
-"*maximum quality* - the anti-aliasing method is SMAA (Enhanced Subpixel "
-"Morphological Anti-Aliasing) by Crytek"
-
 #: ../postprocessing_effects.rst:162
 msgid "Эффект засветки ярких деталей"
 msgstr "Bloom"
@@ -485,6 +405,10 @@ msgid ""
 msgstr ""
 "The boundary value of an element's relative brightness above which the bloom"
 " effect appears."
+
+#: ../postprocessing_effects.rst:191
+msgid "свечение (glow)"
+msgstr "glow"
 
 #: ../postprocessing_effects.rst:196
 msgid "Свечение вокруг объекта (Glow)"
@@ -576,50 +500,6 @@ msgstr ""
 "These settings are taken as default when the glow effect is initiated via "
 "API."
 
-#: ../postprocessing_effects.rst:7
-msgid "размытие при движении"
-msgstr "motion blur"
-
-#: ../postprocessing_effects.rst:7
-msgid "motion blur"
-msgstr ""
-
-#: ../postprocessing_effects.rst:38
-msgid "глубина резкости камеры"
-msgstr "depth of field"
-
-#: ../postprocessing_effects.rst:38
-msgid "depth of field"
-msgstr ""
-
-#: ../postprocessing_effects.rst:38
-msgid "DOF"
-msgstr ""
-
-#: ../postprocessing_effects.rst:77
-msgid "взаимное затенение"
-msgstr "screen-space ambient occlusion"
-
-#: ../postprocessing_effects.rst:77
-msgid "screen-space ambient occlusion"
-msgstr ""
-
-#: ../postprocessing_effects.rst:77
-msgid "SSAO"
-msgstr ""
-
-#: ../postprocessing_effects.rst:127
-msgid "сумеречные лучи"
-msgstr "crepuscular rays"
-
-#: ../postprocessing_effects.rst:127
-msgid "crepuscular rays"
-msgstr ""
-
-#: ../postprocessing_effects.rst:127
-msgid "god rays"
-msgstr ""
-
 #: ../postprocessing_effects.rst:234
 msgid "анаглиф"
 msgstr "anaglyph"
@@ -628,30 +508,119 @@ msgstr "anaglyph"
 msgid "стереоизображение"
 msgstr "stereoscopic rendering"
 
-#: ../postprocessing_effects.rst:234
-msgid "anaglyph"
+#: ../postprocessing_effects.rst:239
+msgid "Анаглиф стереоизображение"
+msgstr "Stereoscopic Rendering (Anaglyph)"
+
+#: ../postprocessing_effects.rst:244
+msgid ""
+"Режим стереоизображения предназначен для просмотра контента в специальных "
+"очках и активируется приложением."
 msgstr ""
+"The stereoscopic rendering mode is intended for viewing the content using "
+"special glasses. It is activated by an application via API."
+
+#: ../postprocessing_effects.rst:249
+msgid "Нет."
+msgstr "No."
 
 #: ../postprocessing_effects.rst:259
 msgid "коррекция цвета"
 msgstr "color correction"
 
-#: ../postprocessing_effects.rst:259
-msgid "color correction"
+#: ../postprocessing_effects.rst:264
+msgid "Коррекция цвета"
+msgstr "Color Correction"
+
+#: ../postprocessing_effects.rst:269
+msgid ""
+"Выставить опцию ``Enable Color Correction`` на панели ``Scene > Blend4Web``."
 msgstr ""
+"Enable the ``Enable Color Correction`` checkbox on the ``Scene > Blend4Web``"
+" panel."
+
+#: ../postprocessing_effects.rst:274
+msgid "На панели \"мира\" ``World > Blend4Web > Color Correction Settings``:"
+msgstr "On the ``World > Blend4Web > Color Correction Settings`` panel:"
+
+#: ../postprocessing_effects.rst:277
+msgid "*Brightness*"
+msgstr ""
+
+#: ../postprocessing_effects.rst:277
+msgid "Яркость. Значение по умолчанию 0.0."
+msgstr "The default value is 0.0."
+
+#: ../postprocessing_effects.rst:280
+msgid "*Contrast*"
+msgstr ""
+
+#: ../postprocessing_effects.rst:280
+msgid "Контрастность. Значение по умолчанию 0.0."
+msgstr "The default value is 0.0."
+
+#: ../postprocessing_effects.rst:283
+msgid "*Exposure*"
+msgstr ""
+
+#: ../postprocessing_effects.rst:283
+msgid "Экспозиция. Значение по умолчанию 1.0."
+msgstr "The default value is 1.0."
+
+#: ../postprocessing_effects.rst:287
+msgid "*Saturation*"
+msgstr ""
+
+#: ../postprocessing_effects.rst:286
+msgid "Насыщенность. Значение по умолчанию 1.0."
+msgstr "The default value is 1.0."
 
 #: ../postprocessing_effects.rst:295
 msgid "сглаживание"
 msgstr "anti-aliasing"
 
-#: ../postprocessing_effects.rst:295
-msgid "anti-aliasing"
-msgstr ""
+#: ../postprocessing_effects.rst:300
+msgid "Сглаживание"
+msgstr "Anti-Aliasing"
 
-#: ../postprocessing_effects.rst:191
-msgid "свечение"
-msgstr "glow"
-
-#: ../postprocessing_effects.rst:191
-msgid "glow"
+#: ../postprocessing_effects.rst:302
+msgid ""
+"Сглаживание (anti-aliasing) необходимо для уменьшения влияния нежелательных "
+"артефактов рендеринга (\"зубчатости\")."
 msgstr ""
+"Anti-aliasing is used to reduce undesirable rendering artefacts (poor "
+"pixelization)."
+
+#: ../postprocessing_effects.rst:307
+msgid ""
+"Выставить опцию ``Enable Antialiasing`` на панели ``Scene > Blend4Web``."
+msgstr ""
+"Enable the ``Enable Antialiasing`` on the ``Scene > Blend4Web`` panel."
+
+#: ../postprocessing_effects.rst:312
+msgid ""
+"Метод сглаживания назначается одновременно с выбором профиля работы движка."
+msgstr ""
+"The anti-aliasing method is assigned simultaneously with the selection of "
+"the engine performance profile. "
+
+#: ../postprocessing_effects.rst:314
+msgid "*низкое качество* - антиалиасинг отключен"
+msgstr "*low quality* - anti-aliasing is disabled"
+
+#: ../postprocessing_effects.rst:315
+msgid ""
+"*высокое качество* - метод антиалиасинга FXAA (Fast Approximate Anti-"
+"Aliasing), предложенный Nvidia"
+msgstr ""
+"*high quality* - the anti-aliasing method is FXAA (Fast Approximate Anti-"
+"Aliasing) by Nvidia"
+
+#: ../postprocessing_effects.rst:316
+msgid ""
+"*максимальное качество* - метод антиалиасинга SMAA (Enhanced Subpixel "
+"Morphological Anti-Aliasing), предложенный Crytek"
+msgstr ""
+"*maximum quality* - the anti-aliasing method is SMAA (Enhanced Subpixel "
+"Morphological Anti-Aliasing) by Crytek"
+

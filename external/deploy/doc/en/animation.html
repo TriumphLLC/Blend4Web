@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Animation &mdash; User Manual: Blend4Web v14.08</title>
+    <title>Animation &mdash; User Manual: Blend4Web v14.09</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.08',
+        VERSION:     '14.09',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User Manual: Blend4Web v14.08" href="index.html" />
+    <link rel="top" title="User Manual: Blend4Web v14.09" href="index.html" />
     <link rel="next" title="Outdoor Rendering" href="outdoor_rendering.html" />
     <link rel="prev" title="Particle System for Instancing Objects" href="particles_instancing.html" /> 
   </head>
@@ -36,7 +36,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">User Manual: Blend4Web v14.08</a></div>
+          href="index.html">User Manual: Blend4Web v14.09</a></div>
         <div class="rel">
           <a href="particles_instancing.html" title="Particle System for Instancing Objects"
              accesskey="P">previous</a> |
@@ -60,13 +60,15 @@
 <span id="id1"></span><h1>Animation<a class="headerlink" href="#index-0" title="Permalink to this headline">¶</a></h1>
 <p>In general animation is changing the object&#8217;s parameters in time. The engine supports the following types of animation:</p>
 <ul class="simple">
-<li><p class="first">Object animation is the moving an object as a whole. The parameters that can be animated are the center coordinates (<tt class="docutils literal"><span class="pre">Location</span></tt>), the rotation&#8217;s quaternion (<tt class="docutils literal"><span class="pre">Rotation</span></tt> in the <tt class="docutils literal"><span class="pre">Quaternion(WXYZ)</span></tt> mode) and scaling (<tt class="docutils literal"><span class="pre">Scale</span></tt>).</p>
+<li><p class="first">Object animation means the moving an object as a whole.</p>
 </li>
 <li><p class="first">Skeletal animation, i.e. object deformation using bones. Animation of a standalone armature object is also supported (for parenting to bones).</p>
 </li>
 <li><p class="first">Vertex animation. An object&#8217;s deformations can be recorded as frames and then reproduced in the engine.</p>
 </li>
 <li><p class="first">Audio sources parametrization. Speaker&#8217;s <tt class="docutils literal"><span class="pre">Volume</span></tt> and <tt class="docutils literal"><span class="pre">Pitch</span></tt> can be animated.</p>
+</li>
+<li><p class="first">Animation of the <tt class="docutils literal"><span class="pre">Value</span></tt> node output in node materials.</p>
 </li>
 <li><p class="first">Wind bending - a procedural animation. Described <a class="reference internal" href="outdoor_rendering.html#wind"><em>separately</em></a>.</p>
 </li>
@@ -84,8 +86,9 @@
 </ol>
 <p>It&#8217;s useful to use the <tt class="docutils literal"><span class="pre">Animation</span></tt> interface for tweaking animation. This is covered in the <a class="reference internal" href="viewer.html#viewer"><em>corresponding section</em></a>.</p>
 </div>
-<div class="section" id="id3">
-<h2>Object Animation<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="whole-object-anim">
+<span id="id3"></span><h2>Object Animation<a class="headerlink" href="#whole-object-anim" title="Permalink to this headline">¶</a></h2>
+<p>The parameters that can be animated are the center coordinates (<tt class="docutils literal"><span class="pre">Location</span></tt>), the rotation&#8217;s quaternion (<tt class="docutils literal"><span class="pre">Rotation</span></tt> in the <tt class="docutils literal"><span class="pre">Quaternion(WXYZ)</span></tt> mode) and scaling (<tt class="docutils literal"><span class="pre">Scale</span></tt>).</p>
 <a class="reference internal image-reference" href="_images/wind_generator.jpg"><img alt="_images/wind_generator.jpg" class="align-center" src="_images/wind_generator.jpg" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
@@ -171,6 +174,18 @@
 </ul>
 <p>Audio sources parametering in essence follows object animation.</p>
 </div>
+<div class="section" id="value">
+<span id="node-anim"></span><h2><tt class="docutils literal"><span class="pre">Value</span></tt> Node Animation<a class="headerlink" href="#value" title="Permalink to this headline">¶</a></h2>
+<a class="reference internal image-reference" href="_images/node_value_anim.jpg"><img alt="_images/node_value_anim.jpg" class="align-center" src="_images/node_value_anim.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>Works similar to the <a class="reference internal" href="#whole-object-anim"><em>object animation</em></a>. Can be also used to create tracks in the <a class="reference internal" href="nla.html#nla-editor"><em>non-linear animation editor</em></a>. Multiple animated <tt class="docutils literal"><span class="pre">Value</span></tt> nodes are supported per single material.</p>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="node_materials.html#node-materials"><em>Node Materials</em></a></p>
+</div>
+</div>
 </div>
 
 
@@ -190,8 +205,8 @@
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Web Player</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">The Addon</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
-<li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing Effects</a></li>
@@ -199,10 +214,11 @@
 <li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System for Instancing Objects</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Animation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#id2">Animation Control</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id3">Object Animation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#whole-object-anim">Object Animation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id4">Skinning and Skeletal Animation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id5">Vertex Animation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id6">Audio Source Parametrization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#value"><tt class="docutils literal"><span class="pre">Value</span></tt> Node Animation</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Rendering</a></li>
@@ -214,6 +230,7 @@
 <li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">For Engine Developers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Team Work. Using Git</a></li>
 <li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Problems and Solutions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
 </ul>
 
           <h3 style="margin-top: 1.5em;">Search</h3>
@@ -246,7 +263,7 @@
           
     <div class="footer">
         &copy; Copyright 2014, Triumph LLC.
-      Last updated on 2014-08-25.
+      Last updated on 2014-09-25.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

@@ -97,10 +97,10 @@ msgstr ""
 msgid ""
 "Рекомендуется проводить своевременное обновление драйверов для графических "
 "карт. Чтобы определить тип и производителя карты, можно ввести **about:gpu**"
-" в адресную строку браузера Chrome..."
+" (или **chrome://gpu**) в адресную строку браузера Chrome..."
 msgstr ""
 "It is recommended to timely update video card drivers. To detect your video "
-"card and its vendor please type **about:gpu** to the address bar of Chrome "
+"card and its vendor please type **about:gpu** (or **chrome://gpu**) to the address bar of Chrome "
 "browser..."
 
 #: ../problems_and_solutions.rst:48
@@ -140,12 +140,12 @@ msgstr "*For Chrome*:"
 
 #: ../problems_and_solutions.rst:65
 msgid ""
-"Ввести **about:flags** (или **chrome://flags/**) в адресную строку браузера,"
-" нажать :file:`Включить` (:file:`Enable`) под опцией :file:`Переопределение "
+"Ввести **about:flags** (или **chrome://flags**) в адресную строку браузера, "
+"нажать :file:`Включить` (:file:`Enable`) под опцией :file:`Переопределение "
 "списка программного рендеринга` (:file:`Override software rendering list`) и"
 " перезапустить браузер."
 msgstr ""
-"Enter **about:flags** (or **chrome://flags/**) into the browser's address "
+"Enter **about:flags** (or **chrome://flags**) into the browser's address "
 "bar, click :file:`Enable` under the :file:`Override software rendering list`"
 " option and restart the browser."
 
@@ -231,3 +231,5 @@ msgstr "*Under Linux*::"
 #: ../problems_and_solutions.rst:121
 msgid "Можно указать порт дополнительным параметром::"
 msgstr "A port number can be specified by the additional parameter::"
+
+

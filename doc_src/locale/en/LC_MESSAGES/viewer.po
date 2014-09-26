@@ -428,7 +428,7 @@ msgid ""
 "при загрузке сцены. Красный свет означает ошибки, желтый - предупреждения, "
 "зеленый - загрузка сцены прошла успешно."
 msgstr ""
-"Is located under the FPS counter. Shows errors and warnings which occured "
+"Is located under the FPS counter. Shows errors and warnings which occurred "
 "during scene load. Red light means errors, yellow - warnings and green means"
 " that the scene was loaded successfully."
 

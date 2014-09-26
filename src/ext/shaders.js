@@ -30,17 +30,10 @@ var SHADERS = [
                 "ALPHA",
                 "CSM_SECTION1",
                 "CSM_SECTION2",
-                "CSM_SECTION3",
-                "PCF_SHADOWS",
-                "VSM_SHADOWS"
+                "CSM_SECTION3"
             ],
             number: [
-                ["MAX_BONES", [100]],
-                ["CSM_SECTION_DIST0", [2.0001]],
-                ["CSM_SECTION_DIST1", [4.0001]],
-                ["CSM_SECTION_DIST2", [7.0001]],
-                ["CSM_SECTION_DIST3", [9.0001]],
-                ["PCF_TEXEL_SIZE", [1/1024]]
+                ["MAX_BONES", [100]]
             ],
             enumerated: [
                 ["SHADOW_SOURCE", ["SHADOW_SOURCE_NONE", "SHADOW_SOURCE_MAP", "SHADOW_SOURCE_MASK"]]
@@ -84,15 +77,6 @@ var SHADERS = [
             enumerated: [
                 ["AA_METHOD", ["AA_METHOD_PASS", "AA_METHOD_LIGHT", "AA_METHOD_QUALITY"]]
             ]
-        }
-    },
-    {
-        vert: "postprocessing/postprocessing.glslv",
-        frag: "postprocessing/blur_depth.glslf",
-        directives: {
-            bool: [],
-            number: [],
-            enumerated: []
         }
     },
     {
@@ -357,19 +341,12 @@ function determine_max_bones(frames_blending) {
                 ["REFLECTIVE", 0],
                 ["REFLECTION_PASS", 0],
                 ["SHADOW_SRC_NONE", 10],
-                ["SHADOW_SRC_RGBA", 20],
-                ["SHADOW_SRC_RGBA_PCF", 30],
-                ["SHADOW_SRC_DEPTH", 40],
-                ["SHADOW_SRC_VSM", 50],
-                ["SHADOW_SRC_MASK", 60],
+                ["SHADOW_SRC_DEPTH", 20],
+                ["SHADOW_SRC_MASK", 30],
                 ["SHADOW_SRC", "SHADOW_SRC_DEPTH"],
                 ["CSM_SECTION1", 1],
                 ["CSM_SECTION2", 1],
                 ["CSM_SECTION3", 0],
-                ["CSM_SECTION_DIST0", 2.0001],
-                ["CSM_SECTION_DIST1", 4.0001],
-                ["CSM_SECTION_DIST2", 7.0001],
-                ["CSM_SECTION_DIST3", 9.0001],
                 ["NUM_LIGHTS", 4],
                 ["DOUBLE_SIDED_LIGHTING", 1],
                 ["NUM_CAUSTS", 3],

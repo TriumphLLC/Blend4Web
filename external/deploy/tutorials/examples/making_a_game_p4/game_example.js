@@ -17,7 +17,7 @@ var m_cfg   = require("config");
 var m_print = require("print");
 
 var _character = null;
-var _character_body = null;
+var _character_rig = null;
 
 var ROT_SPEED = 1.5;
 var CAM_SOFTNESS = 0.2;
@@ -67,8 +67,8 @@ function load() {
 
 function load_cb(data_id) {
     _character = m_scs.get_first_character();
-    _character_body = m_scs.get_object_by_empty_name("character",
-                                                         "character_body");
+    _character_rig = m_scs.get_object_by_empty_name("character",
+                                                         "character_rig");
 
     var right_arrow = m_ctl.create_custom_sensor(0);
     var left_arrow  = m_ctl.create_custom_sensor(0);
@@ -109,22 +109,22 @@ function setup_movement(up_arrow, down_arrow) {
             switch(id) {
             case "FORWARD":
                 var move_dir = 1;
-                m_anim.apply(_character_body, "character_run_B4W_BAKED");
+                m_anim.apply(_character_rig, "character_run_B4W_BAKED");
                 break;
             case "BACKWARD":
                 var move_dir = -1;
-                m_anim.apply(_character_body, "character_run_B4W_BAKED");
+                m_anim.apply(_character_rig, "character_run_B4W_BAKED");
                 break;
             }
         } else {
             var move_dir = 0;
-            m_anim.apply(_character_body, "character_idle_01_B4W_BAKED");
+            m_anim.apply(_character_rig, "character_idle_01_B4W_BAKED");
         }
 
         m_phy.set_character_move_dir(obj, move_dir, 0);
 
-        m_anim.play(_character_body);
-        m_anim.set_behavior(_character_body, m_anim.AB_CYCLIC);
+        m_anim.play(_character_rig);
+        m_anim.set_behavior(_character_rig, m_anim.AB_CYCLIC);
     };
 
     m_ctl.create_sensor_manifold(_character, "FORWARD", m_ctl.CT_TRIGGER,
@@ -132,9 +132,9 @@ function setup_movement(up_arrow, down_arrow) {
     m_ctl.create_sensor_manifold(_character, "BACKWARD", m_ctl.CT_TRIGGER,
         move_array, backward_logic, move_cb);
 
-    m_anim.apply(_character_body, "character_idle_01_B4W_BAKED");
-    m_anim.play(_character_body);
-    m_anim.set_behavior(_character_body, m_anim.AB_CYCLIC);
+    m_anim.apply(_character_rig, "character_idle_01_B4W_BAKED");
+    m_anim.play(_character_rig);
+    m_anim.set_behavior(_character_rig, m_anim.AB_CYCLIC);
 }
 
 function setup_rotation(right_arrow, left_arrow) {

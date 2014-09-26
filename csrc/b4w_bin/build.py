@@ -33,13 +33,15 @@ def build():
     EXTENSION_NAME = "b4w_bin"
     PL_SUFFIX = b4w_bin_suffix.get_platform_suffix()
     INIT_FUNC_NAME = "PyInit_b4w_bin" + PL_SUFFIX
+    MODULE_NAME = "b4w_bin" + PL_SUFFIX
 
     set_command_line_arguments(DEBUG_MODE)
 
     module1 = Extension(EXTENSION_NAME,
             sources = ['bindings.c', 'mikktspace.c', 'weldmesh.c'],
             undef_macros=['NDEBUG'],
-            define_macros=[("INIT_FUNC_NAME", INIT_FUNC_NAME)],
+            define_macros=[("MODULE_NAME", MODULE_NAME),
+                    ("INIT_FUNC_NAME", INIT_FUNC_NAME)],
             export_symbols=[INIT_FUNC_NAME])
 
     setup(name = 'B4W Export Utils',

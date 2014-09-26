@@ -15,6 +15,10 @@
 #define MAX(a, b) ((a) > (b) ? (a) : (b))
 #define MIN(a, b) ((a) < (b) ? (a) : (b))
 
+#ifndef MODULE_NAME
+#define MODULE_NAME b4w_bin
+#endif
+
 #ifndef INIT_FUNC_NAME
 #define INIT_FUNC_NAME PyInit_b4w_bin
 #else
@@ -23,6 +27,9 @@ PyMODINIT_FUNC PyInit_b4w_bin(void) {
     return NULL;
 }
 #endif
+
+#define STR(s) #s
+#define XSTR(s) STR(s)
 
 /* ********************* PYTHON C API INITIALIZATION ************************ */
 
@@ -51,7 +58,7 @@ static PyMethodDef b4w_bin_methods[] = {
 
 static struct PyModuleDef b4w_bin_module = {
     PyModuleDef_HEAD_INIT,
-    "test",
+    XSTR(MODULE_NAME),
     NULL,
     -1,
     b4w_bin_methods

@@ -70,9 +70,9 @@ var MAIN_SHADER_FILE = 37;
 var INCLUDE_FILE = 38;
 
 
-exports.run = function(ast, reserved_ids, shared_ids_data, varyings_aliases, 
+exports.run = function(ast, reserved_ids, shared_ids_data, varyings_aliases,
         dead_functions, dead_variables, filename) {
-    init_data(ast, reserved_ids, shared_ids_data, varyings_aliases, dead_functions, 
+    init_data(ast, reserved_ids, shared_ids_data, varyings_aliases, dead_functions,
             dead_variables, filename);
     ast.result = traverse_ast(ast.result);
 
@@ -86,7 +86,7 @@ exports.run = function(ast, reserved_ids, shared_ids_data, varyings_aliases,
     }
 }
 
-function init_data(ast, reserved_ids, shared_ids_data, varyings_aliases, 
+function init_data(ast, reserved_ids, shared_ids_data, varyings_aliases,
         dead_functions, dead_variables, filename) {
     AST = ast.result;
     IMPORT_EXPORT_DATA = ast.import_export;
@@ -209,7 +209,7 @@ var data_manager;
 
 // Data manager collecting data
 function dm_read_offset(data_manager, node) {
-    if (node.offset) 
+    if (node.offset)
         data_manager.auxiliaries.node_curr_offset = node.offset;
 }
 
@@ -227,13 +227,13 @@ function dm_check_include(data_manager, node) {
     if (node.offset) {
         var include_bounds = {}
 
-        for (var incl_name in shared_data_manager.incl_positions) {    
+        for (var incl_name in shared_data_manager.incl_positions) {
             var incl_data = shared_data_manager.incl_positions[incl_name];
             for (var i = 0; i < incl_data.length; i++) {
                 var offsets = incl_data[i];
-                
+
                 for (var i = 0; i < offsets.length; i++)
-                    if (data_manager.auxiliaries.node_prev_offset < offsets[i] 
+                    if (data_manager.auxiliaries.node_prev_offset < offsets[i]
                             && data_manager.auxiliaries.node_curr_offset > offsets[i])
                         include_bounds[offsets[i]] = [i==0 ? DM_INCLUDE_START : DM_INCLUDE_END, incl_name];
             }
@@ -350,10 +350,12 @@ function dm_check_declaration(data_manager, node) {
             decl_in_include: FILE_INCLUDES[FILE_INCLUDES.length - 1]
         }
 
-        data.decl_obfuscation_allowed = !data.decl_is_reserved 
-                && allow_obfuscation(data.decl_id_type_qualifier);
+        data.decl_obfuscation_allowed = !data.decl_is_reserved
+                && allow_obfuscation(data.decl_id_type_qualifier)
+                && b4w_disable_obfuscation.indexOf(data.decl_id.name) == -1;
 
-        if (data.decl_is_reserved && data.decl_id.name != "main")
+        if (data.decl_is_reserved
+                && reserved_words.special.indexOf(data.decl_id.name) == -1)
             debug_message(DB_DECL_RESERVED, data.decl_id.name, data.decl_type);
 
         data_manager.main_sequence.push(data);
@@ -433,7 +435,7 @@ function dm_move_struct_fields(data_manager) {
     for (var struct_id in struct_scopes) {
         var struct = data_manager.main_sequence[struct_id];
         struct.fields = [];
-        
+
         var bnd = struct_scopes[struct_id];
         if (bnd !== null) {
             for (var i = bnd[0] + 1; i < bnd[1]; i++) {
@@ -482,7 +484,7 @@ function dm_service_actions(data_manager) {
     }
 }
 
-/** 
+/**
  * Fix obfuscation status collisions
  */
 function dm_fix_obf_collisions(data_manager) {
@@ -541,12 +543,12 @@ function dm_fix_obf_collisions(data_manager) {
  * Check dead functions in current file
  *
  * Format of 'result' object:
- *  result { 
+ *  result {
  *      dead: {
  *          main_shaders {
  *              FILENAME: [DECLARATION_NAME, ...],
  *              ...
- *          }, 
+ *          },
  *          includes: {
  *              FILENAME: [DECLARATION_NAME, ...],
  *              ...
@@ -617,7 +619,7 @@ function dm_check_dead_functions(data_manager) {
             break;
         case "id_usage":
             if (data.id_usage_type == DM_US_FUNC_CALL)
-                tmp_func_body_calls.push(data.id_usage_id.name); 
+                tmp_func_body_calls.push(data.id_usage_id.name);
             break;
         }
     }
@@ -634,17 +636,17 @@ function dm_check_dead_functions(data_manager) {
             }
             delete declarations[level_func_curr[i]];
         }
-        
+
         level_func_curr = level_func_next;
         level_func_next = [];
 
         for (var i = 0; i < level_func_curr.length; i++)
-            dm_fill_dead_func_result(result, declarations[level_func_curr[i]], 
+            dm_fill_dead_func_result(result, declarations[level_func_curr[i]],
                     level_func_curr[i], "alive");
 
     } while (level_func_curr.length > 0);
     for (var func_name in declarations)
-        dm_fill_dead_func_result(result, declarations[func_name], func_name, 
+        dm_fill_dead_func_result(result, declarations[func_name], func_name,
                 "dead");
 
 
@@ -655,7 +657,7 @@ function dm_check_dead_functions(data_manager) {
         if (incl_name in shared_data_manager.dead_functions.dead.includes)
             for (var i = 0; i < result.alive.includes[incl_name].length; i++) {
                 var func_name = result.alive.includes[incl_name][i];
-                var shared_dead_funcs 
+                var shared_dead_funcs
                         = shared_data_manager.dead_functions.dead.includes[incl_name];
                 var index = shared_dead_funcs.indexOf(func_name);
                 if (index != -1)
@@ -667,7 +669,7 @@ function dm_check_dead_functions(data_manager) {
         if (incl_name in shared_data_manager.dead_functions.alive.includes)
             for (var i = result.dead.includes[incl_name].length - 1; i >= 0 ; i--) {
                 var func_name = result.dead.includes[incl_name][i];
-                var shared_alive_funcs 
+                var shared_alive_funcs
                         = shared_data_manager.dead_functions.alive.includes[incl_name];
                 var index = shared_alive_funcs.indexOf(func_name);
                 if (index != -1)
@@ -694,19 +696,19 @@ function dm_check_dead_functions(data_manager) {
  * Check dead variables in current file
  *
  * Format of 'var_declarations' object:
- *  var_declarations = { 
+ *  var_declarations = {
  *      dead: {
  *          DECLARATION_NAME {
  *              SCOPE_ID: DECLARATION_DATA,
  *              ...
- *          }, 
+ *          },
  *          ...
  *      }
  *      alive: {
  *          DECLARATION_NAME {
  *              SCOPE_ID: DECLARATION_DATA,
  *              ...
- *          }, 
+ *          },
  *          ...
  *      }
  *  }
@@ -717,7 +719,7 @@ function dm_check_dead_functions(data_manager) {
  *          main_shaders {
  *              FILENAME: [DECLARATION_NAME, ...],
  *              ...
- *          }, 
+ *          },
  *          includes: {
  *              FILENAME: [DECLARATION_NAME, ...],
  *              ...
@@ -793,11 +795,11 @@ function dm_check_dead_variables(data_manager) {
                 };
 
                 var curr_include_ids = ism.ids[ism.ids.length - 1];
-                decl.incl_scope_id = (file_type == INCLUDE_FILE) 
+                decl.incl_scope_id = (file_type == INCLUDE_FILE)
                         ? curr_include_ids[curr_include_ids.length - 1] : null;
                 var_declarations.dead[decl_name][data.decl_in_scope] = decl;
 
-                // NOTE: for preprocessing redeclaration delete 'alive' var and 
+                // NOTE: for preprocessing redeclaration delete 'alive' var and
                 // treat variable as new one
                 if (decl_name in var_declarations.alive)
                     if (data.decl_in_scope in var_declarations.alive[decl_name])
@@ -814,7 +816,7 @@ function dm_check_dead_variables(data_manager) {
                         if (scope_id in var_declarations.dead[name]) {
                             if (!(name in var_declarations.alive))
                                 var_declarations.alive[name] = {}
-                            var_declarations.alive[name][scope_id] 
+                            var_declarations.alive[name][scope_id]
                                     = var_declarations.dead[name][scope_id];
                             delete var_declarations.dead[name][scope_id];
                             break;
@@ -835,7 +837,7 @@ function dm_check_dead_variables(data_manager) {
                 if (data.file_type == INCLUDE_FILE) {
                     var incl_scope_id = data.incl_scope_id;
                     new_data["incl_" + incl_scope_id] = data;
-                } else 
+                } else
                     new_data[scope_id] = data;
             }
             var_declarations[status][decl_name] = new_data;
@@ -876,7 +878,7 @@ function dm_check_dead_variables(data_manager) {
         for (var decl_name in var_declarations[status]) {
             for (var scope_id in var_declarations[status][decl_name]) {
                 var data = var_declarations[status][decl_name][scope_id];
-                var file_type = (data.file_type == INCLUDE_FILE) 
+                var file_type = (data.file_type == INCLUDE_FILE)
                         ? "includes" : "main_shaders";
 
                 var sh_data_files = shared_data_manager.dead_variables[status][file_type];
@@ -886,7 +888,7 @@ function dm_check_dead_variables(data_manager) {
                 if (!(decl_name in sh_data_files[data.file_name]))
                     sh_data_files[data.file_name][decl_name] = {};
                 if (!(scope_id in sh_data_files[data.file_name][decl_name]))
-                    sh_data_files[data.file_name][decl_name][scope_id] 
+                    sh_data_files[data.file_name][decl_name][scope_id]
                             = var_declarations[status][decl_name][scope_id];
             }
         }
@@ -950,7 +952,7 @@ function dm_obfuscate(data_manager) {
 
         case "id_usage":
             if (!data.id_usage_is_reserved) {
-                var decl = search_declaration(data_manager, data.id_usage_ast_uid, 
+                var decl = search_declaration(data_manager, data.id_usage_ast_uid,
                         data.id_usage_id.name, data.id_usage_type);
 
                 var curr_incl = FILE_INCLUDES[FILE_INCLUDES.length - 1];
@@ -971,8 +973,8 @@ function dm_obfuscate(data_manager) {
                         if (incl_name !== null && incl_name != FILE_INCLUDES[FILE_INCLUDES.length - 1]) {
                             if (incl_name in IMPORT_EXPORT_DATA)
                                 if (!(data.id_usage_id.name in IMPORT_EXPORT_DATA[incl_name]["export"]))
-                                    debug_message(DB_EXP_DATA_VIOLATION, 
-                                            data.id_usage_id.name, data.id_usage_type, 
+                                    debug_message(DB_EXP_DATA_VIOLATION,
+                                            data.id_usage_id.name, data.id_usage_type,
                                             incl_name);
                         }
                     }
@@ -981,7 +983,7 @@ function dm_obfuscate(data_manager) {
                         data.id_usage_id.old_name = data.id_usage_id.name;
                         data.id_usage_id.name = decl.decl_id.name;
                     }
-                } else if (!(data.id_usage_type == DM_US_FIELD 
+                } else if (!(data.id_usage_type == DM_US_FIELD
                         && data.id_usage_id.name.replace(/[rgbaxyzwstpq]/g, "").length == 0)) {
 
                     // check include import violations
@@ -992,7 +994,7 @@ function dm_obfuscate(data_manager) {
                                 import_violation = true;
 
                     if (import_violation)
-                        debug_message(DB_IMP_DATA_VIOLATION, data.id_usage_id.name, 
+                        debug_message(DB_IMP_DATA_VIOLATION, data.id_usage_id.name,
                                 data.id_usage_type);
                     else
                         debug_message(DB_UNDECLARED_ID, data.id_usage_id.name, data.id_usage_type);
@@ -1151,7 +1153,7 @@ function get_not_shared_id(curr_id) {
             if (curr_id >= ids[0] && curr_id < ids[1]) {
                 out_id = get_not_shared_id(ids[1]);
                 break;
-            } 
+            }
         }
 
     return out_id;
@@ -1181,7 +1183,7 @@ function search_declaration(data_manager, node_ast_uid, name, type) {
     if (type != DM_US_FIELD)
         for (var i = 0; i < data_manager.service.curr_seq_index; i++) {
             var data = data_manager.main_sequence[i];
-            if (data.type == "declaration" 
+            if (data.type == "declaration"
                     && data_manager.service.curr_scopes_chain.indexOf(data.decl_in_scope) != -1
                     && get_id_name(data.decl_id) == name)
                 // last declaration needed
@@ -1210,7 +1212,7 @@ function get_struct_name_by_field(ast, field_ast_uid) {
     var struct_name = null;
 
     var parent_node = search_node_parent(ast, field_ast_uid);
-    
+
     if (parent_node !== THIS_IS_ROOT && parent_node !== NOT_FOUND)
         struct_name = get_struct_name_by_parent(parent_node);
 
@@ -1241,7 +1243,7 @@ function get_struct_name_by_parent(node, id_type) {
             if (node.operator.node == "field_selection") {
                 if (s_name.last_str_name)
                     s_name = s_name.last_str_name;
-                
+
                 var struct_decl = search_struct_decl(s_name);
                 if (struct_decl) {
                     var name = get_id_name(node.operator.identifier);
@@ -1307,7 +1309,7 @@ function search_node_parent(data, ast_uid) {
         for (var i = 0; i < nodes_parents.length; i++) {
             var node = nodes_parents[i];
 
-            // such node can be reached only if it is root/in root array 
+            // such node can be reached only if it is root/in root array
             if (node.uid == ast_uid)
                 return THIS_IS_ROOT;
 
@@ -1356,7 +1358,7 @@ function generate_id(gen, counter) {
 
 function charcodes_by_number(number, base) {
     var digits = [];
-    
+
     number += base;
     var dig_count = Math.floor(Math.log(number) / Math.log(base));
     number -= Math.pow(base, dig_count);
@@ -1367,7 +1369,7 @@ function charcodes_by_number(number, base) {
         number = (number - remainder) / base;
     }
     digits.push(number);
-    
+
     for (var i = 0; i < dig_count - digits.length; i++)
         digits.push(0);
 
@@ -1379,12 +1381,15 @@ function is_valid(str) {
     if (is_reserved(str))
         return false;
 
+    if (b4w_disable_obfuscation.indexOf(str) != -1)
+        return false;
+
     if (reserved_words.vardef_additional.indexOf(str) > -1)
         return false;
 
     // NOTE: disallow names from all extensions even disabled
     for (var ext_name in reserved_words.extensions)
-        if (reserved_words.extensions[ext_name].behavior == "disable" 
+        if (reserved_words.extensions[ext_name].behavior == "disable"
                 && reserved_words.extensions[ext_name].reserved.indexOf(str) > -1)
             return false;
 
@@ -1408,7 +1413,7 @@ function restore_gen_id() {
 // TODO: support GLSL macros related to extensions?
 
 var reserved_words = {
-    keywords: ["attribute", "const", "uniform", "varying", "break", 
+    keywords: ["attribute", "const", "uniform", "varying", "break",
         "continue", "do", "for", "while", "if", "else", "in", "out", "inout",
         "float", "int", "void", "bool", "true", "false", "lowp", "mediump",
         "highp", "precision", "invariant", "discard", "return", "mat2",
@@ -1445,8 +1450,12 @@ var reserved_words = {
     prefixes: ["gl_", "webgl_"],
     infixes: ["__"],
     special: ["main"],
-    vardef_additional: []
+
+    vardef_additional: [],
 }
+
+// NOTE: specific b4w identifiers coming from engine
+var b4w_disable_obfuscation = ["ZERO_VALUE_NODES", "UNITY_VALUE_NODES"];
 
 /*==============================================================================
                                     UTILS
@@ -1459,7 +1468,7 @@ function get_instance(data) {
         return ARRAY_DATA;
     else if(data.constructor == Object)
         return OBJECT_DATA;
-    else 
+    else
         return OTHER_DATA;
 }
 
@@ -1535,7 +1544,7 @@ function get_type_name(node) {
         return get_id_name(type.identifier);
     case "struct_specifier":
         return get_id_name(type.struct_type.identifier);
-    default: 
+    default:
         return null;
     }
 }
@@ -1625,8 +1634,8 @@ function debug_message(message_type) {
         var identifier_name = arguments[1];
         var declaration_type = arguments[2];
         message_level = DB_ERROR;
-        message = "Using reserved word in " 
-                + decl_type_to_description(declaration_type) + " '" 
+        message = "Using reserved word in "
+                + decl_type_to_description(declaration_type) + " '"
                 + identifier_name + "'. ";
         break;
 
@@ -1634,8 +1643,8 @@ function debug_message(message_type) {
         var identifier_name = arguments[1];
         var usage_type = arguments[2];
         message_level = DB_ERROR;
-        message = "Undeclared " 
-                + usage_type_to_description(usage_type) + ": '" 
+        message = "Undeclared "
+                + usage_type_to_description(usage_type) + ": '"
                 + identifier_name + "'. ";
         break;
 
@@ -1653,8 +1662,8 @@ function debug_message(message_type) {
         var incl_name = arguments[3];
         message_level = DB_ERROR;
 
-        message = "Undeclared " 
-                + usage_type_to_description(usage_type) + ": '" 
+        message = "Undeclared "
+                + usage_type_to_description(usage_type) + ": '"
                 + identifier_name + "'. Possibly exporting needed in include file '" + incl_name + "'. ";
         break;
 
@@ -1663,8 +1672,8 @@ function debug_message(message_type) {
         var usage_type = arguments[2];
         message_level = DB_ERROR;
 
-        message = "Undeclared " 
-                + usage_type_to_description(usage_type) + ": '" 
+        message = "Undeclared "
+                + usage_type_to_description(usage_type) + ": '"
                 + identifier_name + "'. Importing data missed. ";
         break;
 
@@ -1673,8 +1682,8 @@ function debug_message(message_type) {
         var usage_type = arguments[2];
         message_level = DB_ERROR;
 
-        message = "Undeclared " 
-                + usage_type_to_description(usage_type) + ": '" 
+        message = "Undeclared "
+                + usage_type_to_description(usage_type) + ": '"
                 + identifier_name + "'. Possibly importing needed. ";
         break;
 

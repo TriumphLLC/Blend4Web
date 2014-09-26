@@ -493,7 +493,7 @@ msgstr ""
 " ``YZ plane``, ``ZX plane`` - align to the corresponding plane (in the world"
 " coordinate system of Blender). The default is ``View``."
 
-#: ../particles.rst:187
+#: ../particles.rst:186
 msgid "*Blend4Web > Dissolve intervals > Fade-in* и *Fade-out*"
 msgstr "*Blend4Web > Dissolve intervals > Fade-in* and *Fade-out*"
 
@@ -505,15 +505,15 @@ msgstr ""
 "Starting and ending intervals (measured in frames) for gradually increasing "
 "and decreasing the particles' transparency."
 
-#: ../particles.rst:192
+#: ../particles.rst:195
 msgid "Текстуры в системах частиц"
 msgstr "Textures in Particle Systems"
 
-#: ../particles.rst:195
+#: ../particles.rst:198
 msgid "Текстуры материала частиц"
 msgstr "Textures of the particle's material"
 
-#: ../particles.rst:197
+#: ../particles.rst:200
 msgid ""
 "В материалах частиц типа ``Surface`` **необходимо** наличие диффузной "
 "текстуры (обычно с альфа-каналом). В меню ``Mapping > Coordinates`` выбрать "
@@ -524,7 +524,7 @@ msgstr ""
 "Coordinates`` menu choose the ``UV`` option.  Make sure that the emitter's "
 "mesh has a UV layer."
 
-#: ../particles.rst:199
+#: ../particles.rst:202
 msgid ""
 "В материалах частиц типа ``Halo`` **возможно** использование текстуры типа "
 "``Blend`` с линейным (``Linear``) градиентом. В меню ``Mapping > "
@@ -537,11 +537,11 @@ msgstr ""
 "choose the ``Strand / Particle`` option. It is required to enable ``Ramp`` "
 "on a texture. Up to 4 gradient control points are supported. "
 
-#: ../particles.rst:206
+#: ../particles.rst:209
 msgid "Текстуры системы частиц"
 msgstr "Textures of particle systems"
 
-#: ../particles.rst:208
+#: ../particles.rst:211
 msgid ""
 "Для настройки поведения системы частиц могут быть использованы текстуры. В "
 "отличие от текстур, используемых материалами частиц, такие текстуры "
@@ -555,7 +555,7 @@ msgstr ""
 " particle system it is required to go **from** the ``Particles`` tab to the "
 "``Textures`` tab and then to click the ``New`` button."
 
-#: ../particles.rst:210
+#: ../particles.rst:213
 msgid ""
 "Поддерживаются только текстуры типа ``Blend`` с линейным (``Linear``) "
 "градиентом. На текстуре необходимо включить использование рампы (``Ramp``). "
@@ -565,7 +565,7 @@ msgstr ""
 " ``Ramp`` should be enabled on the texture. Up to 4 gradient control points "
 "are supported. "
 
-#: ../particles.rst:212
+#: ../particles.rst:215
 msgid ""
 "На панели ``Influence`` необходимо выбрать параметр, на который воздействует"
 " текстура. В настоящий момент поддерживается только ``Size`` (размер)."
@@ -573,7 +573,7 @@ msgstr ""
 "On the ``Influence`` panel choose the parameter which is influenced by the "
 "texture. At the moment the only supported parameter is ``Size``."
 
-#: ../particles.rst:220
+#: ../particles.rst:223
 msgid ""
 "Результат применения текстур градиента для материала частиц и для системы "
 "частиц:"
@@ -585,8 +585,22 @@ msgstr ""
 msgid "система частиц"
 msgstr "particle system"
 
-#: ../particles.rst:227
+#: ../particles.rst:230
 msgid "`Ссылка на модель <http://www.blendswap.com/blends/view/13977>`_"
 msgstr ""
 "`The original model was taken from here "
 "<http://www.blendswap.com/blends/view/13977>`_"
+
+#: ../particles.rst:190
+msgid "*Blend4Web > Coordinate system*"
+msgstr ""
+
+#: ../particles.rst:189
+msgid ""
+"Система координат испускаемых частиц: ``Local`` - исользовать локальную "
+"систему коориднат эмиттера, ``World`` - использовать мировую систему "
+"координат."
+msgstr "Coordinate system of emitting particles: ``Local`` - use local "
+"coordinate system of emitter object, ``World`` - use world coordinate "
+"system"
+

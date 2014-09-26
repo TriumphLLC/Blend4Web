@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Рендеринг наружных сцен &mdash; Руководство пользователя: Blend4Web v14.08</title>
+    <title>Рендеринг наружных сцен &mdash; Руководство пользователя: Blend4Web v14.09</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.08',
+        VERSION:     '14.09',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v14.08" href="index.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v14.09" href="index.html" />
     <link rel="next" title="Гамма-коррекция и альфа-композитинг" href="gamma_alpha.html" />
     <link rel="prev" title="Анимация" href="animation.html" /> 
   </head>
@@ -37,7 +37,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">Руководство пользователя: Blend4Web v14.08</a></div>
+          href="index.html">Руководство пользователя: Blend4Web v14.09</a></div>
         <div class="rel">
           <a href="animation.html" title="Анимация"
              accesskey="P">предыдущий</a> |
@@ -59,8 +59,8 @@
             
   <div class="section" id="outdoor-rendering">
 <span id="id1"></span><h1>Рендеринг наружных сцен<a class="headerlink" href="#outdoor-rendering" title="Ссылка на этот заголовок">¶</a></h1>
-<div class="section" id="id2">
-<h2>Вода<a class="headerlink" href="#id2" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="water">
+<span id="id2"></span><h2>Вода<a class="headerlink" href="#water" title="Ссылка на этот заголовок">¶</a></h2>
 <div class="section" id="id3">
 <h3>Активация<a class="headerlink" href="#id3" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Для предполагаемого материала воды включить опцию <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Special:</span> <span class="pre">Water</span></tt> во вкладке <tt class="docutils literal"><span class="pre">Material</span></tt>.</p>
@@ -97,7 +97,6 @@
 <dt><em>Blend4Web &gt; Water Settings &gt; Water absorb factor</em></dt>
 <dd>Коэффициент поглощения света водой. Чем он выше, тем прозрачнее вода.</dd>
 </dl>
-<p>В режиме совместимости вместо этой опции может использоваться <a class="reference internal" href="textures.html#texture-alpha-map"><em>карта прозрачности (alpha map)</em></a>.</p>
 </div>
 <div class="section" id="id9">
 <h3>Градиент цвета<a class="headerlink" href="#id9" title="Ссылка на этот заголовок">¶</a></h3>
@@ -245,7 +244,7 @@
 <p>Во вкладке <tt class="docutils literal"><span class="pre">World</span></tt> выставить опцию <tt class="docutils literal"><span class="pre">Sky</span> <span class="pre">Settings</span> <span class="pre">&gt;</span> <span class="pre">Procedural</span> <span class="pre">skydome</span></tt>. Если одновременно с этим используется статическая <a class="reference internal" href="textures.html#skydome-texture"><em>текстура неба</em></a>, она будет заменена.</p>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
-<p class="last">Кроме того, процедурная текстура неба может быть использована для имитации рассеянного освещения на объектах, по аналогии со статической <a class="reference internal" href="textures.html#skydome-texture"><em>текстурой неба</em></a>. Для этого необходимо выставить опции <tt class="docutils literal"><span class="pre">Sky</span> <span class="pre">Settings</span> <span class="pre">&gt;</span> <span class="pre">Use</span> <span class="pre">as</span> <span class="pre">environment</span> <span class="pre">lighting</span></tt> и <tt class="docutils literal"><span class="pre">Environment</span> <span class="pre">Lighting</span> <span class="pre">&gt;</span> <span class="pre">Sky</span> <span class="pre">Texture</span></tt>. Если текстура мира для рассеянного освещения уже существует, она будет заменена.</p>
+<p class="last">Кроме того, процедурная текстура неба может быть использована для имитации рассеянного <a class="reference internal" href="lighting.html#environment-lighting"><em>освещения от окружающей среды</em></a>, по аналогии со статической <a class="reference internal" href="textures.html#skydome-texture"><em>текстурой неба</em></a>. Для этого необходимо выставить опции <tt class="docutils literal"><span class="pre">Sky</span> <span class="pre">Settings</span> <span class="pre">&gt;</span> <span class="pre">Use</span> <span class="pre">as</span> <span class="pre">environment</span> <span class="pre">lighting</span></tt> и <tt class="docutils literal"><span class="pre">Environment</span> <span class="pre">Lighting</span> <span class="pre">&gt;</span> <span class="pre">Sky</span> <span class="pre">Texture</span></tt>. Если текстура мира для рассеянного освещения уже существует, она будет заменена.</p>
 </div>
 <a class="reference internal image-reference" href="_images/skydome_procedural.jpg"><img alt="_images/skydome_procedural.jpg" class="align-center" src="_images/skydome_procedural.jpg" style="width: 100%;" /></a>
 <div class="line-block">
@@ -379,8 +378,8 @@
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Веб-плеер</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">Аддон</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Объекты</a></li>
-<li class="toctree-l1"><a class="reference internal" href="textures.html">Текстуры</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Материалы</a></li>
+<li class="toctree-l1"><a class="reference internal" href="textures.html">Текстуры</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Нодовые материалы</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lighting.html">Освещение, тени и фон</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Постпроцессинговые эффекты</a></li>
@@ -388,7 +387,7 @@
 <li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Система частиц для инстансинга объектов</a></li>
 <li class="toctree-l1"><a class="reference internal" href="animation.html">Анимация</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Рендеринг наружных сцен</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#id2">Вода</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#water">Вода</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#atmosphere">Атмосфера</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#wind">Ветер</a></li>
 </ul>
@@ -401,6 +400,7 @@
 <li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">Разработчикам движка</a></li>
 <li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Работа в команде. Использование git</a></li>
 <li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Проблемы и решения</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Замечания к релизам</a></li>
 </ul>
 
           <h3 style="margin-top: 1.5em;">Поиск</h3>
@@ -433,7 +433,7 @@
           
     <div class="footer">
         &copy; Copyright 2014, ООО &#34;Триумф&#34;.
-      Обновлено: 2014-08-25.
+      Обновлено: 2014-09-25.
       Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

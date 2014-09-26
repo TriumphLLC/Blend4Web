@@ -1,7 +1,7 @@
 "use strict";
 
 /**
- * Main Blend4Web module. 
+ * Main Blend4Web module.
  * Implements methods to initialize and change the global params of the engine.
  * @module main
  */
@@ -83,6 +83,8 @@ var _requestAnimFrame = (function() {
  */
 exports.init = function(elem_canvas_webgl, elem_canvas_hud) {
 
+    config.set_resources_paths();
+
     // NOTE: for debug purposes
     // works in chrome with --enable-memory-info --js-flags="--expose-gc"
     //window.setInterval(function() {window.gc();}, 1000);
@@ -131,7 +133,7 @@ function setup_clock() {
     _global_timeline = 0;
 
     //window.performance = null;
-    
+
     if (!window.performance) {
         m_print.log("Apply performance workaround");
         window.performance = {};
@@ -149,7 +151,7 @@ function setup_clock() {
         }
 
         return init_time;
-    } else 
+    } else
         return init_time - performance.now();
 }
 
@@ -173,7 +175,7 @@ function get_context(canvas) {
 }
 
 function init_context(canvas, gl) {
-    canvas.addEventListener("webglcontextlost", 
+    canvas.addEventListener("webglcontextlost",
             function(event) {
                 event.preventDefault();
 
@@ -188,10 +190,10 @@ function init_context(canvas, gl) {
 
     var rinfo = extensions.get_renderer_info();
     if (rinfo)
-        m_print.log("%cRENDERER INFO:", "color: #00a", 
-            gl.getParameter(rinfo.UNMASKED_VENDOR_WEBGL) + ", " + 
+        m_print.log("%cRENDERER INFO:", "color: #00a",
+            gl.getParameter(rinfo.UNMASKED_VENDOR_WEBGL) + ", " +
             gl.getParameter(rinfo.UNMASKED_RENDERER_WEBGL));
-    
+
     renderer.setup_context(gl);
     geometry.setup_context(gl);
     textures.setup_context(gl);
@@ -280,7 +282,7 @@ exports.set_on_before_render_callback = function(callback) {
  * @param {Number} delta Delta
  * @param {Number} timeline Timeline
  */
- 
+
 /**
  * Set the rendering callback which is executed for every frame
  * @method module:main.set_render_callback
@@ -324,25 +326,9 @@ exports.global_timeline = function() {
 }
 
 /**
- * @method module:main.set_texture_quality
- * @deprecated Use engine's default values
- */
-exports.set_texture_quality = function(level) {
-    m_print.error("set_texture_quality() deprecated");
-}
-
-/**
- * @method module:main.set_shaders_dir
- * @deprecated Use one place for all shaders
- */
-exports.set_shaders_dir = function(shdir) {
-    m_print.error("set_shaders_dir() deprecated");
-}
-
-/**
- * Force redraw
+ * Force redraw.
  * @method module:main.redraw
- * @deprecated Not required anymore
+ * @deprecated Never required
  */
 exports.redraw = function() {
     frame(_global_timeline, 0);
@@ -406,7 +392,7 @@ function loop() {
             delta -= (_resume_time - Math.max(_pause_time, _last_abs_time));
 
         _global_timeline += delta;
-        
+
         m_debug.update();
 
         assets.update();
@@ -472,7 +458,7 @@ function frame(timeline, delta) {
 
 function init_fps_counter() {
     var fps_avg = 60;       // decent default value
-    var phy_fps_avg = 0;    // stays zero for disabled physics 
+    var phy_fps_avg = 0;    // stays zero for disabled physics
 
     var fps_frame_counter = 0;
     var interval = cfg_def.fps_measurement_interval;
@@ -528,6 +514,17 @@ exports.canvas_data_url = function(callback) {
 exports.get_canvas_elem = function() {
     return _elem_canvas_webgl;
 }
+
+// DEPRECATED
+
+exports.set_texture_quality = function() {
+    util.panic("set_texture_quality() deprecated");
+}
+
+exports.set_shaders_dir = function() {
+    util.panic("set_shaders_dir() deprecated");
+}
+
 
 }
 

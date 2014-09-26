@@ -16,6 +16,7 @@ var m_cfg       = require("__config");
 var m_cons      = require("__constraints");
 var m_curve     = require("__curve");
 var m_lights    = require("__lights");
+var m_nla       = require("__nla");
 var m_particles = require("__particles");
 var m_print     = require("__print");
 var m_scenes    = require("__scenes");
@@ -38,7 +39,7 @@ var _quat4_tmp = new Float32Array(4);
 
 /**
  * Create abstract render
- * @param {String} type "DYNAMIC", "STATIC", "CAMERA", "EMPTY", "NONE" 
+ * @param {String} type "DYNAMIC", "STATIC", "CAMERA", "EMPTY", "NONE"
  */
 exports.create_render = create_render;
 function create_render(type) {
@@ -128,11 +129,22 @@ function create_render(type) {
         frames_blending: false,
         vertex_anim: false,
         is_skinning: false,
+        anim_mixing: false,
+        anim_mix_factor: 1.0,
+        anim_mix_factor_change_speed: 0,
+        anim_destination_mix_factor: 1.0,
+        two_last_skeletal_slots: new Int8Array([-1, -1]),
+        skinned_renders: [],
+        mesh_to_arm_bone_maps: [],
+        skinning_data_cache: [],
         quats_before: null,
         quats_after: null,
         trans_before: null,
         trans_after: null,
         bone_pointers: null,
+        pose_data: null,
+        mats_anim_values: null,
+        mats_anim_inds: null,
 
         // bounding volumes properties
         bb_local: null,
@@ -160,9 +172,10 @@ function create_render(type) {
 /**
  * Update object: convert bpy object to b4w format,
  * by attaching such properties as _render, _constraint, _descends etc
+ * @param {Boolean} non_recursive Perform only partial object's update
  */
 exports.update_object = update_object;
-function update_object(obj) {
+function update_object(obj, non_recursive) {
     var is_dynamic = obj_is_dynamic(obj);
     obj._is_dynamic = is_dynamic;
 
@@ -220,14 +233,24 @@ function update_object(obj) {
 
         var bone_pointers = m_anim.calc_armature_bone_pointers(obj);
         render.bone_pointers = bone_pointers;
-
         var pose_data = m_anim.calc_pose_data(obj, bone_pointers);
 
-        render.quats_before = pose_data.quats;
-        render.quats_after  = pose_data.quats;
-        render.trans_before = pose_data.trans;
-        render.trans_after  = pose_data.trans;
+        if (obj["b4w_animation_mixing"]) {
+            var length = pose_data.quats.length;
+            render.quats_before = new Float32Array(pose_data.quats);
+            render.quats_after  = new Float32Array(pose_data.quats);
+            render.trans_before = new Float32Array(pose_data.trans);
+            render.trans_after  = new Float32Array(pose_data.trans);
+        } else {
+            render.quats_before = pose_data.quats;
+            render.quats_after  = pose_data.quats;
+            render.trans_before = pose_data.trans;
+            render.trans_after  = pose_data.trans;
+        }
+
+        render.pose_data = pose_data;
         render.frame_factor = 0;
+        render.anim_mixing = obj["b4w_animation_mixing"];
 
         break;
     case "MESH":
@@ -245,27 +268,38 @@ function update_object(obj) {
             _color_id_counter++;
         }
 
-        prepare_skinning_info(obj);
         prepare_vertex_anim(obj);
 
         // apply pose if any
         var armobj = m_anim.get_first_armature_object(obj);
         if (armobj) {
+            prepare_skinning_info(obj, armobj);
             var bone_pointers = obj._render.bone_pointers;
             var pose_data = m_anim.calc_pose_data(armobj, bone_pointers);
 
-            render.quats_before = pose_data.quats;
-            render.quats_after  = pose_data.quats;
-            render.trans_before = pose_data.trans;
-            render.trans_after  = pose_data.trans;
+            if (armobj["b4w_animation_mixing"]) {
+                render.quats_before = new Float32Array(pose_data.quats);
+                render.quats_after  = new Float32Array(pose_data.quats);
+                render.trans_before = new Float32Array(pose_data.trans);
+                render.trans_after  = new Float32Array(pose_data.trans);
+            } else {
+                render.quats_before = pose_data.quats;
+                render.quats_after  = pose_data.quats;
+                render.trans_before = pose_data.trans;
+                render.trans_after  = pose_data.trans;
+            }
+            render.pose_data = pose_data;
             render.frame_factor = 0;
         }
+
+        if (m_anim.has_animated_nodemats(obj))
+            prepare_nodemats_anim_info(obj);
 
         obj._batches = [];
 
         render.shadow_cast = obj["b4w_shadow_cast"];
         render.shadow_receive = obj["b4w_shadow_receive"];
-        render.shadow_cast_only = obj["b4w_shadow_cast_only"] 
+        render.shadow_cast_only = obj["b4w_shadow_cast_only"]
                 && render.shadow_cast;
 
         render.reflexible = obj["b4w_reflexible"];
@@ -336,49 +370,49 @@ function update_object(obj) {
         break;
     }
 
-    // NOTE: temporary disable armature parenting
-    if (obj["parent"] && obj["parent_type"] == "OBJECT" && obj["parent"]["type"] != "ARMATURE") {
-        var trans = render.trans;
-        var quat = render.quat;
-        var scale = render.scale;
-        m_cons.append_stiff_obj(obj, obj["parent"], trans, quat, scale);
-    } else if (obj["parent"] && obj["parent_type"] == "BONE" &&
-            obj["parent"]["type"] == "ARMATURE") {
-        var trans = render.trans;
-        var quat = render.quat;
-        m_cons.append_stiff_bone(obj, obj["parent"], obj["parent_bone"], trans, quat);
-    } else if (obj._dg_parent && obj._dg_parent["b4w_group_relative"]) {
-        // get offset from render before child-of constraint being applied
-        var offset = m_tsr.create_sep(render.trans, render.scale, render.quat);
-        m_cons.append_child_of(obj, obj._dg_parent, offset);
-    } else if (obj._dg_parent && !obj._dg_parent["b4w_group_relative"]) {
-        m_trans.update_transform(obj);    // to get world matrix
-        var wm = render.world_matrix;
-        m_mat4.multiply(obj._dg_parent._render.world_matrix, wm, wm);
+    if (!non_recursive) {
+        if (obj["parent"] && obj["parent_type"] == "OBJECT") {
+            var trans = render.trans;
+            var quat = render.quat;
+            var scale = render.scale;
+            m_cons.append_stiff_obj(obj, obj["parent"], trans, quat, scale);
+        } else if (obj["parent"] && obj["parent_type"] == "BONE" &&
+                obj["parent"]["type"] == "ARMATURE") {
+            var trans = render.trans;
+            var quat = render.quat;
+            m_cons.append_stiff_bone(obj, obj["parent"], obj["parent_bone"], trans, quat);
+        } else if (obj._dg_parent && obj._dg_parent["b4w_group_relative"]) {
+            // get offset from render before child-of constraint being applied
+            var offset = m_tsr.create_sep(render.trans, render.scale, render.quat);
+            m_cons.append_child_of(obj, obj._dg_parent, offset);
+        } else if (obj._dg_parent && !obj._dg_parent["b4w_group_relative"]) {
+            m_trans.update_transform(obj);    // to get world matrix
+            var wm = render.world_matrix;
+            m_mat4.multiply(obj._dg_parent._render.world_matrix, wm, wm);
 
-        var trans = m_util.matrix_to_trans(wm);
-        var scale = m_util.matrix_to_scale(wm);
-        var quat = m_util.matrix_to_quat(wm);
+            var trans = m_util.matrix_to_trans(wm);
+            var scale = m_util.matrix_to_scale(wm);
+            var quat = m_util.matrix_to_quat(wm);
 
-        m_trans.set_translation(obj, trans);
-        m_trans.set_rotation(obj, quat);
-        m_trans.set_scale(obj, scale);
+            m_trans.set_translation(obj, trans);
+            m_trans.set_rotation(obj, quat);
+            m_trans.set_scale(obj, scale);
+        }
+        // make links from group objects to their parent
+        var dupli_group = obj["dupli_group"];
+        if (dupli_group) {
+            var dg_objects = dupli_group["objects"];
+            for (var i = 0; i < dg_objects.length; i++) {
+                var dg_obj = dg_objects[i];
+                dg_obj._dg_parent = obj;
+            }
+        }
     }
 
     // store force field
     if (obj["field"]) {
         render.force_strength = obj["field"]["strength"];
         m_scenes.update_force(obj);
-    }
-
-    // make links from group objects to their parent
-    var dupli_group = obj["dupli_group"];
-    if (dupli_group) {
-        var dg_objects = dupli_group["objects"];
-        for (var i = 0; i < dg_objects.length; i++) {
-            var dg_obj = dg_objects[i];
-            dg_obj._dg_parent = obj;
-        }
     }
 
     render.use_collision_compound = obj["game"]["use_collision_compound"];
@@ -389,8 +423,6 @@ function update_object(obj) {
 
 exports.update_objects_dynamics = update_objects_dynamics;
 function update_objects_dynamics(objects) {
-
-    var anim_arms = [];
 
     for (var i = 0; i < objects.length; i++) {
         var obj = objects[i];
@@ -403,41 +435,6 @@ function update_objects_dynamics(objects) {
         if (obj["b4w_use_default_animation"] && m_anim.is_animatable(obj)) {
             m_anim.apply_def(obj);
             m_anim.play(obj, null, m_anim.SLOT_ALL);
-
-            if (obj.type == "ARMATURE")
-                anim_arms.push(obj);
-        }
-    }
-
-    // optimization
-    if (!anim_arms.length)
-        return;
-
-    // auto apply armature default animation to meshes
-    for (var i = 0; i < objects.length; i++) {
-        var obj = objects[i];
-
-        if (!m_util.is_mesh(obj))
-            continue;
-
-        for (var j = 0; j < anim_arms.length; j++) {
-            var armobj = anim_arms[j];
-
-            if (m_anim.get_first_armature_object(obj) != armobj)
-                continue;
-
-            var anim_name =
-                m_anim.get_anim_by_slot_num(armobj, m_anim.SLOT_0);
-
-            if (!anim_name)
-                continue;
-
-            var slot_num = m_anim.apply_to_first_empty_slot(obj, anim_name);
-            var behavior = armobj["b4w_cyclic_animation"] ? m_anim.AB_CYCLIC :
-                                                    m_anim.AB_FINISH_RESET;
-
-            m_anim.set_behavior(obj, behavior, slot_num);
-            m_anim.play(obj, null, slot_num);
         }
     }
 }
@@ -464,6 +461,7 @@ function mesh_obj_is_dynamic(bpy_obj) {
     var is_floater_part = bpy_obj["b4w_floating"];
     var is_character = bpy_obj["b4w_character"];
     var dyn_grass_emitter = m_particles.has_dynamic_grass_particles(bpy_obj);
+    var has_nla = m_nla.has_nla(bpy_obj);
 
     // lens flares not strictly required to be dynamic
     // make it so just to prevent some possible bugs in the future
@@ -471,7 +469,7 @@ function mesh_obj_is_dynamic(bpy_obj) {
     return DEBUG_DISABLE_STATIC_OBJS || is_animated || has_do_not_batch 
             || dynamic_geom || is_collision || is_vehicle_part
             || is_floater_part || has_lens_flares_mat(bpy_obj)
-            || dyn_grass_emitter || is_character;
+            || dyn_grass_emitter || is_character || has_nla;
 }
 
 function has_lens_flares_mat(obj) {
@@ -491,30 +489,16 @@ function has_lens_flares_mat(obj) {
  * and save to mesh internals for using in buffers generation.
  * Finally mark render to use skinning shaders
  */
-function prepare_skinning_info(obj) {
-
-    if (obj["type"] != "MESH")
-        throw("Wrong object type: " + obj["name"]);
+function prepare_skinning_info(obj, armobj) {
 
     // search for armature modifiers
-
     var render = obj._render;
-
-    var armobj = m_anim.get_first_armature_object(obj);
-    if (!armobj) {
-        render.is_skinning = false; 
-        return;
-    }
 
     var mesh = obj["data"];
 
-    if (mesh["vertex_groups"].length) {
-        render.is_skinning = true; 
-        var vertex_groups = mesh["vertex_groups"];
-    } else {
-        render.is_skinning = false; 
+    var vertex_groups = mesh["vertex_groups"];
+    if (!vertex_groups.length)
         return; 
-    }
 
     // collect deformation bones
 
@@ -550,6 +534,7 @@ function prepare_skinning_info(obj) {
     render.bone_pointers = bone_pointers;
     // will be extended beyond this limit later
     render.max_bones = num_bones;
+    render.is_skinning = true;
 }
 
 function prepare_vertex_anim(obj) {
@@ -570,6 +555,60 @@ function first_mesh_material(obj) {
         throw "Wrong object";
 
     return obj["data"]["materials"][0];
+}
+
+function prepare_nodemats_anim_info(obj) {
+
+    var render = obj._render;
+    var materials = obj["data"]["materials"];
+
+    var mats_anim_values = [];
+    var mats_anim_inds = [];
+
+    for (var i = 0; i < materials.length; i++) {
+        var mat = materials[i];
+        var node_tree = mat["node_tree"];
+        var anim_data = node_tree["animation_data"];
+
+        if (node_tree && node_tree["animation_data"]) {
+
+            var processed_params = {};
+
+            var action = anim_data["action"];
+            if (action)
+                extract_nodemat_action_params(action, mats_anim_values,
+                                                      mats_anim_inds, processed_params);
+
+            var nla_tracks = anim_data["nla_tracks"]
+
+            for (var j = 0; j < nla_tracks.length; j++) {
+                var nla_strips = nla_tracks[j]["strips"];
+                for (var k = 0; k <nla_tracks[j]["strips"].length; k++) {
+                    var strip = nla_strips[k];
+                    var action = strip["action"];
+                    extract_nodemat_action_params(action, mats_anim_values,
+                                                          mats_anim_inds, processed_params);
+                }
+            }
+        }
+    }
+    render.mats_anim_values = mats_anim_values;
+    render.mats_anim_inds = mats_anim_inds;
+}
+
+function extract_nodemat_action_params(action, val_arr, inds_arr, processed) {
+    var params = action._render.params;
+    for (var param in params) {
+
+        var param_name = action["name"] + "_" + param;
+
+        if (!(param in processed)) {
+            processed[param] = val_arr.length
+            val_arr.push(params[param][0]);
+        }
+
+        inds_arr.push(param_name, processed[param]);
+    }
 }
 
 exports.cleanup = function() {

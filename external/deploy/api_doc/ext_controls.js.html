@@ -27,7 +27,7 @@
         <article>
             <pre class="prettyprint source linenums"><code>"use strict";
 
-/** 
+/**
  * Controls API.
  *
  * &lt;dl>
@@ -37,13 +37,13 @@
  * exactly one output value of type integer number (mostly 0 or 1)&lt;/dd>
  *
  * &lt;dt>Sensor Manifold (or simply manifold)&lt;/dt>
- * &lt;dd>A manifold of sensors. Has a single attached logic function, which performs 
- * a logic operation on a set of sensor values. Generates a pulse based on the control 
+ * &lt;dd>A manifold of sensors. Has a single attached logic function, which performs
+ * a logic operation on a set of sensor values. Generates a pulse based on the control
  * type and the logic function's result.&lt;/dd>
  * &lt;/dl>
  *
- * &lt;p>Registering the user input callbacks is required to perform a correct
- * operation of sensors, see *_cb() docs.
+ * &lt;p>Registering the user event callbacks is required to perform a correct
+ * operation of input sensors, for more info see see *_cb() docs.
  * @module controls
  */
 b4w.module["controls"] = function(exports, require) {
@@ -153,97 +153,6 @@ exports.KEY_LEFT_SQ_BRACKET  = 219;
 exports.KEY_BACK_SLASH       = 220;
 exports.KEY_RIGHT_SQ_BRACKET = 221;
 exports.KEY_SINGLE_QUOTE     = 222;
-
-
-/**
- * Rotate the camera horizontally
- * @const module:controls.H_ROT
- * @deprecated By new sensor-based api
- */
-exports.H_ROT = 0;
-/**
- * Rotate the camera vertically
- * @const module:controls.V_ROT
- * @deprecated By new sensor-based api
- */
-exports.V_ROT = 0;
-/**
- * Translate the camera horizontally
- * @const module:controls.H_TRA
- * @deprecated By new sensor-based api
- */
-exports.H_TRA = 0;
-/**
- * Translate the camera vertically
- * @const module:controls.V_TRA
- * @deprecated By new sensor-based api
- */
-exports.V_TRA = 0;
-/**
- * Translate the camera forward-backward
- * @const module:controls.F_TRA
- * @deprecated By new sensor-based api
- */
-exports.F_TRA = 0;
-/**
- * Jump
- * @const module:controls.JUMP
- * @deprecated By new sensor-based api
- */
-exports.JUMP = 0;
-/**
- * Translation along the X-axis
- * @const module:controls.X_TRA
- * @deprecated By new sensor-based api
- */
-exports.X_TRA = 0;
-/**
- * Translation along the Y-axis
- * @const module:controls.Y_TRA
- * @deprecated By new sensor-based api
- */
-exports.Y_TRA = 0;
-/**
- * Translation along the Z-axis
- * @const module:controls.Z_TRA
- * @deprecated By new sensor-based api
- */
-exports.Z_TRA = 0;
-/**
- * Set object control.
- * @method module:controls.set
- * @deprecated By new sensor-based api
- */
-exports.set = function() {
-    m_print.error("set() deprecated, use new sensor-based API");
-}
-/**
- * Get object control value.
- * @method module:controls.get
- * @deprecated By new sensor-based api
- */
-exports.get = function() {
-    m_print.error("get() deprecated, use new sensor-based API");
-    return null;
-}
-/**
- * Get object control type.
- * @method module:controls.get_type
- * @deprecated By new sensor-based api
- */
-exports.get_type = function() {
-    m_print.error("get_type() deprecated, use new sensor-based API");
-    return null;
-}
-/**
- * Release object control
- * @method module:controls.release
- * @deprecated By new sensor-based api
- */
-exports.release = function() {
-    m_print.error("release() deprecated, use new sensor-based API");
-}
-
 
 
 /**
@@ -360,7 +269,7 @@ exports.create_timer_sensor = m_ctl.create_timer_sensor;
  * Reset the timer sensor.
  * @method module:controls.reset_timer_sensor
  * @param {Object} obj Object ID
- * @param {String} manifold_id Object's manifold ID 
+ * @param {String} manifold_id Object's manifold ID
  * @param {Number} num Sensor number in manifold
  */
 exports.reset_timer_sensor = m_ctl.reset_timer_sensor;
@@ -373,7 +282,7 @@ exports.reset_timer_sensor = m_ctl.reset_timer_sensor;
 exports.create_elapsed_sensor = m_ctl.create_elapsed_sensor;
 /**
  * Create a timeline sensor.
- * The sensor's value is the global engine timeline 
+ * The sensor's value is the global engine timeline
  * @method module:controls.create_timeline_sensor
  * @returns {Object} Sensor object
  */
@@ -385,7 +294,9 @@ exports.create_timeline_sensor = m_ctl.create_timeline_sensor;
  * @method module:controls.create_selection_sensor
  * @returns {Object} Sensor object
  */
-exports.create_selection_sensor = m_ctl.create_selection_sensor;
+exports.create_selection_sensor = function(obj, auto_release) {
+    return m_ctl.create_selection_sensor(obj, auto_release || false);
+}
 
 /**
  * Set the value of the custom sensor.
@@ -410,54 +321,23 @@ exports.get_custom_sensor = function(sensor, value) {
 /**
  * Return the sensor value.
  * @method module:controls.get_sensor_value
- * @param {Object} obj Object ID
- * @param {String} manifold_id Object's manifold ID 
+ * @param {?Object} obj Object ID or null for global object.
+ * @param {String} manifold_id Object's manifold ID
  * @param {Number} num Sensor number in manifold
  * @returns {Number} Sensor value
  */
-exports.get_sensor_value = function(obj, manifold_id, num) {
-
-    var manifolds = obj._sensor_manifolds;
-
-    if (!manifolds || !manifolds[manifold_id]) {
-        m_print.error("get_sensor_value(): wrong object");
-        return null;
-    }
-
-    var sensor = manifolds[manifold_id].sensors[num];
-    if (!sensor) {
-        m_print.error("get_sensor_value(): sensor not found");
-        return null;
-    }
-
-    return sensor.value;
-}
+exports.get_sensor_value = m_ctl.get_sensor_value;
 
 /**
  * Return the sensor payload data
  * @method module:controls.get_sensor_payload
- * @param {Object} obj Object ID
- * @param {String} manifold_id Object's manifold ID 
+ * @param {?Object} obj Object ID or null for global object.
+ * @param {String} manifold_id Object's manifold ID
  * @param {Number} num Sensor number in manifold
  * @returns {*} Sensor payload
  */
-exports.get_sensor_payload = function(obj, manifold_id, num) {
+exports.get_sensor_payload = m_ctl.get_sensor_payload;
 
-    var manifolds = obj._sensor_manifolds;
-
-    if (!manifolds || !manifolds[manifold_id]) {
-        m_print.error("get_sensor_payload(): wrong object");
-        return null;
-    }
-
-    var sensor = manifolds[manifold_id].sensors[num];
-    if (!sensor) {
-        m_print.error("get_sensor_payload(): sensor not found");
-        return null;
-    }
-
-    return sensor.payload;
-}
 
 exports.sensor_make_positive = function(sensor) {
     throw "Deprecated method execution";
@@ -472,6 +352,7 @@ exports.sensor_make_negative = function(sensor) {
  * @param {Object} sensor Sensor object
  * @param {Array} lock_sensors The array of the sensors which lock the current sensor
  * @param lock_logic_fun Logic function
+ * @deprecated Not necessary anymore
  */
 exports.create_sensor_lock = function(sensor, lock_sensors, lock_logic_fun) {
     sensor.lock_sensors = lock_sensors.slice(0);
@@ -483,6 +364,7 @@ exports.create_sensor_lock = function(sensor, lock_sensors, lock_logic_fun) {
  * Remove the sensor lock.
  * @method module:controls.remove_sensor_lock
  * @param {Object} sensor Sensor object
+ * @deprecated Not necessary anymore
  */
 exports.remove_sensor_lock = function(sensor) {
     sensor.lock_sensors = null;
@@ -494,13 +376,13 @@ exports.remove_sensor_lock = function(sensor) {
  * Function to handle a manifold's logic.
  * @callback manifold_logic_function
  * @param {Array} s Array with sensor values
- * @returns {Number} The result of a logic function 
+ * @returns {Number} The result of a logic function
  */
 
 /**
  * Manifold callback.
  * @callback manifold_callback
- * @param {Object} obj Object ID
+ * @param {?Object} obj Object ID or null for global object
  * @param {String} id Manifold ID
  * @param {Number} pulse Manifold pulse value
  * @param {*} [param] Callback param
@@ -509,13 +391,14 @@ exports.remove_sensor_lock = function(sensor) {
 /**
  * Create a sensor manifold.
  * @method module:controls.create_sensor_manifold
- * @param {Object} obj Object ID to attach the manifold to
+ * @param {?Object} obj Object ID to attach the manifold to or null for global
+ * object
  * @param {String} id New manifold ID
  * @param {Number} type Manifold control type
  * @param {Array} sensors Sensors in manifold
  * @param {manifold_logic_function} logic_fun Function to handle the manifold's logic
  * @param {manifold_callback} callback Manifold callback
- * @param {*} [callback_param] Param to pass to manifold callback
+ * @param {*} [callback_param] Param to pass to manifold callback (e.g some state)
  */
 exports.create_sensor_manifold = m_ctl.create_sensor_manifold;
 
@@ -523,14 +406,14 @@ exports.create_sensor_manifold = m_ctl.create_sensor_manifold;
  * Convenience function.
  * Create one keyboard sensor, create and attach a manifold.
  * @method module:controls.create_kb_sensor_manifold
- * @param {Object} obj Object ID to attach the manifold to
+ * @param {?Object} obj Object ID to attach the manifold to or null for global object
  * @param {String} id New manifold ID
  * @param {Number} type Manifold control type
  * @param {Number} key Keyboar key
  * @param {manifold_callback} callback Manifold callback
  * @param {*} [callback_param] Param to pass to manifold callback
  */
-exports.create_kb_sensor_manifold = function(obj, id, type, key, 
+exports.create_kb_sensor_manifold = function(obj, id, type, key,
         callback, callback_param) {
     var kb_sensor = m_ctl.create_keyboard_sensor(key);
     m_ctl.create_sensor_manifold(obj, id, type, [kb_sensor], null,
@@ -540,7 +423,7 @@ exports.create_kb_sensor_manifold = function(obj, id, type, key,
 /**
  * Check whether an object has some manifold attached or not.
  * @method module:controls.check_sensor_manifolds
- * @param {Object} obj Object ID
+ * @param {?Object} obj Object ID or null for global object
  * @returns {Boolean} Check result
  */
 exports.check_sensor_manifolds = function(obj) {
@@ -550,7 +433,7 @@ exports.check_sensor_manifolds = function(obj) {
 /**
  * Check whether an object has manifold attached or not.
  * @method module:controls.check_sensor_manifold
- * @param {Object} obj Object ID
+ * @param {?Object} obj Object ID or null for global object
  * @param {String} id Manifold ID
  * @returns {Boolean} Check result
  */
@@ -559,7 +442,7 @@ exports.check_sensor_manifold = m_ctl.check_sensor_manifold;
 /**
  * Remove all sensor manifolds registered for the given object.
  * @method module:controls.remove_sensor_manifolds
- * @param {Object} obj Object ID to delete manifolds from
+ * @param {?Object} obj Object ID to delete manifolds from or null for global object
  * @deprecated Use remove_sensor_manifold with null manifold ID
  */
 exports.remove_sensor_manifolds = function(obj) {
@@ -568,11 +451,11 @@ exports.remove_sensor_manifolds = function(obj) {
 /**
  * Remove the sensor manifold registered for the given object.
  * @method module:controls.remove_sensor_manifold
- * @param {Object} obj Object ID to delete manifolds from
+ * @param {?Object} obj Object ID to delete manifolds from or null for global object
  * @param {String} [id=null] ID of the sensor manifold or null to delete all of
  * them
  */
-exports.remove_sensor_manifold = m_ctl.remove_sensor_manifold; 
+exports.remove_sensor_manifold = m_ctl.remove_sensor_manifold;
 
 /**
  * Reset controls for all the objects.
@@ -581,48 +464,62 @@ exports.remove_sensor_manifold = m_ctl.remove_sensor_manifold;
 exports.reset = m_ctl.reset;
 
 /**
- * Key-down callback.
- * Should be executed by an external event callback.
- * @method module:controls.keydown_cb
+ * Register events for keyboard sensors (onkeydown, onkeyup).
+ * @param {HTMLElement} element Target HTML element
+ * @param {Boolean} prevent_default Prevent browser default actions for
+ * registered events.
+ * @method module:controls.register_keyboard_events
  */
-exports.keydown_cb = m_ctl.keydown_cb;
+exports.register_keyboard_events = m_ctl.register_keyboard_events;
 /**
- * Key-up callback. 
- * Should be executed by an external event callback.
- * @method module:controls.keyup_cb
+ * Register events for mouse sensors (onmousedown, onmouseup, onmousemove).
+ * @param {HTMLElement} element Target HTML element
+ * @param {Boolean} prevent_default Prevent browser default actions for
+ * registered events.
+ * @method module:controls.register_mouse_events
  */
-exports.keyup_cb = m_ctl.keyup_cb;
+exports.register_mouse_events = m_ctl.register_mouse_events;
 /**
- * Mouse click callback. Should be executed by an external event callback.
- * @method module:controls.mouse_down_cb
+ * Register events for mouse wheel sensors (onmousewheel, DOMMouseScroll).
+ * @param {HTMLElement} element Target HTML element
+ * @param {Boolean} prevent_default Prevent browser default actions for
+ * registered events.
+ * @method module:controls.register_wheel_events
  */
-exports.mouse_down_cb = m_ctl.mouse_down_cb;
+exports.register_wheel_events = m_ctl.register_wheel_events;
 /**
- * Mouse click callback. Should be executed by an external event callback.
- * @method module:controls.mouse_up_cb
+ * Register events for touchscreen sensors (touchstart, touchmove).
+ * @param {HTMLElement} element Target HTML element
+ * @param {Boolean} prevent_default Prevent browser default actions for
+ * registered events.
+ * @method module:controls.register_touch_events
  */
-exports.mouse_up_cb = m_ctl.mouse_up_cb;
-/**
- * Mouse-wheel callback. Should be executed by an external event callback.
- * @method module:controls.mouse_wheel_cb
- */
-exports.mouse_wheel_cb = m_ctl.mouse_wheel_cb;
-/**
- * mousemove event handler
- * @method module:controls.mouse_move_cb
- */
-exports.mouse_move_cb = m_ctl.mouse_move_cb;
-/**
- * touchstart event handler
- * @method module:controls.touch_start_cb
- */
-exports.touch_start_cb = m_ctl.touch_start_cb;
-/**
- * touchmove event handler
- * @method module:controls.touch_move_cb
- */
-exports.touch_move_cb = m_ctl.touch_move_cb;
+exports.register_touch_events = m_ctl.register_touch_events;
 
+/**
+ * Unregister events for keyboard sensors.
+ * @param {HTMLElement} element Target HTML element
+ * @method module:controls.unregister_keyboard_events
+ */
+exports.unregister_keyboard_events = m_ctl.unregister_keyboard_events;
+/**
+ * Unregister events for mouse sensors.
+ * @param {HTMLElement} element Target HTML element
+ * @method module:controls.unregister_mouse_events
+ */
+exports.unregister_mouse_events = m_ctl.unregister_mouse_events;
+/**
+ * Unregister events for mouse wheel sensors.
+ * @param {HTMLElement} element Target HTML element
+ * @method module:controls.unregister_wheel_events
+ */
+exports.unregister_wheel_events = m_ctl.unregister_wheel_events;
+/**
+ * Unregister events for touchscreen sensors.
+ * @param {HTMLElement} element Target HTML element
+ * @method module:controls.unregister_touch_events
+ */
+exports.unregister_touch_events = m_ctl.unregister_touch_events;
 }
 </code></pre>
         </article>
@@ -640,7 +537,7 @@ exports.touch_move_cb = m_ctl.touch_move_cb;
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-dev</a> on Mon Aug 25 2014 12:11:12 GMT+0400 (MSK)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-dev</a> on Thu Sep 25 2014 18:06:48 GMT+0400 (MSK)
 </footer>
 
 <script> prettyPrint(); </script>

@@ -14,8 +14,8 @@
 
 #if !SHADELESS
 #include <lighting.glslf>
-# if CAUSTICS
 #include <procedural.glslf>
+# if CAUSTICS
 #include <caustics.glslf>
 # endif
 #endif
@@ -38,8 +38,6 @@ uniform samplerCube u_sky_texture;
 uniform vec3  u_horizon_color;
 uniform vec3  u_zenith_color;
 uniform float u_environment_energy;
-
-uniform float u_shadow_visibility_falloff;
 
 uniform vec3 u_light_positions[NUM_LIGHTS];
 uniform vec3 u_light_directions[NUM_LIGHTS];
@@ -106,6 +104,8 @@ uniform samplerCube u_mirrormap;
 #if SHADOW_SRC == SHADOW_SRC_MASK
 uniform sampler2D u_shadow_mask;
 #elif SHADOW_SRC != SHADOW_SRC_NONE
+uniform vec4 u_pcf_blur_radii;
+uniform vec4 u_csm_center_dists;
 uniform sampler2D u_shadow_map0;
 # if CSM_SECTION1
 uniform sampler2D u_shadow_map1;
@@ -149,6 +149,7 @@ uniform float u_specular_color_factor;
 
 uniform vec3  u_specular_color;
 uniform vec3  u_specular_params;
+uniform float u_specular_alpha;
 
 #if TEXTURE_NORM && PARALLAX
 uniform float u_parallax_scale;
@@ -214,7 +215,9 @@ varying float v_view_depth;
                                   FUNCTIONS
 ============================================================================*/
 
+#if !SHADELESS
 #include <shadow.glslf>
+#endif
 #include <mirror.glslf>
 
 #if REFRACTIVE
@@ -388,7 +391,7 @@ void main(void) {
 
     vec3 A = u_ambient * environment_color;
 
-    float shadow_factor = calc_shadow_factor(u_shadow_visibility_falloff, D);
+    float shadow_factor = calc_shadow_factor(D);
 
     // emission
     vec3 E = u_emit * diffuse_color.rgb;
@@ -451,7 +454,7 @@ void main(void) {
     float alpha = diffuse_color.a;
 #  if !SHADELESS
     // make pixels with high specular more opaque; note: only the first channel of S is used
-    alpha += lresult.color.a * S.r;
+    alpha += lresult.color.a * S.r * u_specular_alpha;
 #  endif  // SHADELESS
 # endif  // ALPHA CLIP
 #else  // ALPHA

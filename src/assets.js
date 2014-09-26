@@ -4,7 +4,7 @@
  *
  * NOTE: setup Nginx /etc/nginx/mime.types:
  * audio/ogg ogg;
- * to prevent 206 partial content response 
+ * to prevent 206 partial content response
  *
  * @name assets
  * @namespace
@@ -91,7 +91,7 @@ function FakeHttpRequest() {
                     req.response = req._parse_response(bd[req._source_url]);
             }
             var get_type = {};
-            if (get_type.toString.call(req.onreadystatechange) 
+            if (get_type.toString.call(req.onreadystatechange)
                     === '[object Function]')
                 req.onreadystatechange();
         }
@@ -138,7 +138,7 @@ exports.get_text_sync = function(asset_uri) {
             // save in cache
             _loaded_assets[asset_uri] = resp_text;
             return resp_text;
-        } else 
+        } else
             throw "Error XHR: responce is empty, GET " + asset_uri;
     } else {
         throw "Error XHR: " + req.status + ", GET " + asset_uri;
@@ -288,7 +288,6 @@ function request_arraybuffer(asset, response_type) {
                         }
 
                         asset.asset_cb(response, asset.uri, asset.type, asset.filepath);
-                        asset.state = ASTATE_RECEIVED;
                     } else {
                         asset.asset_cb(null, asset.uri, asset.type, asset.filepath);
                         m_print.error("B4W Error: empty responce when trying to get " + asset.filepath);
@@ -297,6 +296,7 @@ function request_arraybuffer(asset, response_type) {
                     asset.asset_cb(null, asset.uri, asset.type, asset.filepath);
                     m_print.error("B4W Error: " + req.status + " when trying to get " + asset.filepath);
                 }
+                asset.state = ASTATE_RECEIVED;
             }
     };
 
@@ -333,6 +333,7 @@ function request_audiobuffer(asset) {
                         var fail_cb = function() {
                             asset.asset_cb(null, asset.uri, asset.type, asset.filepath);
                             m_print.error("B4W Error: failed to decode " + asset.filepath);
+                            asset.state = ASTATE_RECEIVED;
                         }
 
                         sfx.decode_audio_data(response, decode_cb, fail_cb);
@@ -340,10 +341,12 @@ function request_audiobuffer(asset) {
                     } else {
                         asset.asset_cb(null, asset.uri, asset.type, asset.filepath);
                         m_print.error("B4W Error: empty responce when trying to get " + asset.filepath);
+                        asset.state = ASTATE_RECEIVED;
                     }
                 } else {
                     asset.asset_cb(null, asset.uri, asset.type, asset.filepath);
                     m_print.error("B4W Error: " + req.status + " when trying to get " + asset.filepath);
+                    asset.state = ASTATE_RECEIVED;
                 }
             }
     };
@@ -360,8 +363,11 @@ function request_image(asset) {
         }
     };
     image.addEventListener("error", function() {
-        if (asset.state != ASTATE_HALTED)
+        if (asset.state != ASTATE_HALTED) {
+            asset.asset_cb(null, asset.uri, asset.type, asset.filepath);
             m_print.error("B4W Error: could not load image: " + asset.filepath);
+            asset.state = ASTATE_RECEIVED;
+        }
     }, false);
 
     var bd = get_built_in_data();
@@ -387,8 +393,11 @@ function request_audio(asset) {
         }
     }, false);
     audio.addEventListener("error", function() {
-        if (asset.state != ASTATE_HALTED)
+        if (asset.state != ASTATE_HALTED) {
+            asset.asset_cb(null, asset.uri, asset.type, asset.filepath);
             m_print.error("B4W Error: could not load sound: " + asset.filepath);
+            asset.state = ASTATE_RECEIVED;
+        }
     }, false);
 
     var bd = get_built_in_data();
@@ -459,7 +468,7 @@ function handle_packs(queue) {
             if (pack_cb_exec) {
                 queue[i-1].pack_cb();
                 var spliced_count = i-pack_first_index;
-                queue.splice(pack_first_index, spliced_count); 
+                queue.splice(pack_first_index, spliced_count);
                 i-=spliced_count;
             }
 

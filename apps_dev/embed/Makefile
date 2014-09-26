@@ -8,7 +8,9 @@ $(APPS_EXT)/embed/embed.min.js: $(APPS_DEV)/embed/embed.js \
 	@touch $(APPS_EXT)/embed/embed_tmp.js
 	@echo "Compiling app embed"
 	java -jar $(JAR_CP) \
-	    --compilation_level ADVANCED_OPTIMIZATIONS \
+	    --compilation_level=ADVANCED_OPTIMIZATIONS \
+	    --language_in=ECMASCRIPT5 \
+		--externs=$(EXTERNS)/extern_fullscreen.js \
 		--externs=$(EXTERNS)/extern_modules.js \
 		--externs=$(EXTERNS)/extern_globals.js \
 		--externs=$(EXTERNS)/extern_gl-matrix.js \
@@ -23,6 +25,7 @@ $(APPS_EXT)/embed/embed.min.js: $(APPS_DEV)/embed/embed.js \
 	$(RM) $(APPS_EXT)/embed/embed_tmp.js
 	cp $(APPS_DEV)/embed/smaa_area_texture.png $(APPS_EXT)/embed
 	cp $(APPS_DEV)/embed/smaa_search_texture.png $(APPS_EXT)/embed
+	cp $(URANIUM_PATH) $(APPS_EXT)/embed
 
 $(APPS_EXT)/embed/embed.html: $(APPS_DEV)/embed/embed_dev.html
 	$(PY_PARSER) $(APPS_DEV)/embed/embed_dev.html \

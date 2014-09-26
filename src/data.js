@@ -42,9 +42,9 @@ var cfg_anim = m_cfg.animation;
 var DEBUG_BPYDATA = false;
 var DEBUG_LOD_DIST_NOT_SET = false;
 
-var BINARY_INT_SIZE = 4
-var BINARY_SHORT_SIZE = 2
-var BINARY_FLOAT_SIZE = 4
+var BINARY_INT_SIZE = 4;
+var BINARY_SHORT_SIZE = 2;
+var BINARY_FLOAT_SIZE = 4;
 
 var _bpy_data_array = null;
 var _all_objects_cache = null;
@@ -52,6 +52,7 @@ var _debug_resources_root = "";
 
 var _data_is_primary = false;
 var _primary_scene = null;
+var _dupli_obj_id_overrides = {};
 
 var SECONDARY_LOAD_TYPES_DISABLED = ["LAMP", "CAMERA"];
 var ADD_PHY_TYPES = ["MESH", "CAMERA", "EMPTY"];
@@ -378,9 +379,14 @@ function report_empty_submeshes(bpy_data) {
             if (submeshes[j]["base_length"] === 0 &&
                     !already_reported[mesh_name]) {
 
-                m_print.warn("B4W Warning: material \"" + materials[j]["name"]
-                    + "\" is not assigned to any face (object \""
-                    + obj["name"] + "\").");
+                if (materials[j])
+                    m_print.warn("B4W Warning: material \"" + materials[j]["name"]
+                        + "\" is not assigned to any face (object \""
+                        + obj["name"] + "\").");
+                else
+                    m_print.warn("B4W Warning: Mesh \"" + mesh["name"] +
+                            "\" has no faces (object \"" + obj["name"] + "\").");
+
                 already_reported[mesh_name] = true;
             }
         }
@@ -445,12 +451,15 @@ function prepare_root_datablocks(bpy_data, thread, stage, cb_param, cb_finish,
         if (!_data_is_primary && obj["parent"] &&
                 SECONDARY_LOAD_TYPES_DISABLED.indexOf(obj["parent"]["type"]) > -1)
             obj["parent"] = "";
-        m_obj.update_object(obj);
+        m_obj.update_object(obj, false);
 
         // NOTE: assign data_id property to differ objects and batches while
         // secondary loading
         obj._render.data_id = thread.id;
     }
+
+    // make link from armature to its skinned objects for skeletal animation
+    link_skinned_objs(objects);
 
     calc_max_bones(objects);
     prepare_lod_objects(objects);
@@ -458,6 +467,39 @@ function prepare_root_datablocks(bpy_data, thread, stage, cb_param, cb_finish,
     prepare_floaters(objects);
 
     cb_finish(thread, stage);
+}
+
+function link_skinned_objs(objects) {
+
+    for (var i = 0; i < objects.length; i++) {
+
+        var skinned_obj = objects[i];
+        if (skinned_obj["type"] != "MESH")
+            continue;
+
+        var armobj = m_anim.get_first_armature_object(skinned_obj);
+        if (armobj) {
+            var render = armobj._render;
+            if (render.anim_mixing) {
+                var skinned_render = skinned_obj._render;
+                var bone_pointers = skinned_render.bone_pointers;
+                // construct bone map for deform_bone -> bone indices compliance
+                // Needed only for mixing skeletal animation
+                var mesh_bone_map = [];
+                for (var bone_name in bone_pointers) {
+                    var bp = bone_pointers[bone_name];
+                    var bone_index = bp.bone_index;
+                    var deform_bone_index = bp.deform_bone_index;
+
+                    var sk_ind = 4 * deform_bone_index;
+                    var ind = 4 * bone_index;
+                    mesh_bone_map.push(sk_ind, ind);
+                }
+                render.mesh_to_arm_bone_maps.push(mesh_bone_map);
+            }
+            render.skinned_renders.push(skinned_obj._render);
+        }
+    }
 }
 
 /**
@@ -821,6 +863,8 @@ function duplicate_objects_iter(obj_links, origin_name_prefix, obj_ids, grp_ids)
             }
         }
     }
+    for (var key in obj_id_overrides)
+        _dupli_obj_id_overrides[key] = obj_id_overrides[key];
 }
 
 function assign_obj_id(obj) {
@@ -871,6 +915,13 @@ function make_links(bpy_data) {
 
         if (scene["world"])
             make_link_uuid(scene, "world", storage);
+
+        //var nla_script = scene["b4w_nla_script"] || [];
+        //for (var j = 0; j < nla_script.length; j++) {
+        //    var slot = nla_script[j];
+        //    if (slot["object"])
+        //        make_link_uuid(slot, "object", storage);
+        //}
     }
 
     // make links from groups to their objects
@@ -969,19 +1020,12 @@ function make_links(bpy_data) {
             break;
 
         case "LAMP":
-            make_link_uuid(obj, "data", storage);
-            break;
         case "CAMERA":
-            make_link_uuid(obj, "data", storage);
-            break;
         case "SPEAKER":
-            make_link_uuid(obj, "data", storage);
-            break;
-        case "EMPTY":
-            break;
         case "CURVE":
             make_link_uuid(obj, "data", storage);
             break;
+        case "EMPTY":
         default:
             break;
         }
@@ -1134,6 +1178,13 @@ function process_node_tree(node_tree, storage) {
         if (node["type"] == "TEXTURE" && node["texture"])
             make_link_uuid(node, "texture", storage);
 
+        if (node["type"] == "LAMP" && node["lamp"]) {
+            if (node["lamp"]["uuid"] in _dupli_obj_id_overrides)
+                node["lamp"]["uuid"] = _dupli_obj_id_overrides[node["lamp"]["uuid"]];
+            if (!storage[node["lamp"]["uuid"]])
+                m_print.error("Dangling link found:", "lamp", node);
+        }
+
         // NOTE: Check node["node_group"] for compatibility with older scenes
         if (node["type"] == "GROUP" && node["node_group"])
             make_link_uuid(node, "node_group", storage);
@@ -1147,6 +1198,22 @@ function process_node_tree(node_tree, storage) {
 
         make_link_ident(link, "from_socket", link["from_node"]["outputs"]);
         make_link_ident(link, "to_socket", link["to_node"]["inputs"]);
+    }
+
+    var adata = node_tree["animation_data"];
+    if (adata) {
+
+        if (adata["action"])
+            make_link_uuid(adata, "action", storage);
+
+        if (adata["nla_tracks"])
+            for (var j = 0; j < adata["nla_tracks"].length; j++) {
+                var track = adata["nla_tracks"][j];
+
+                for (var k = 0; k < track["strips"].length; k++)
+                    if (track["strips"][k]["action"])
+                        make_link_uuid(track["strips"][k], "action", storage);
+            }
     }
 }
 
@@ -1267,19 +1334,19 @@ function load_textures(bpy_data, thread, stage, cb_param, cb_finish, cb_set_rate
         cb_param.image_counter = 0;
         var asset_cb = function(image_data, uri, type, path) {
 
-            if (!image_data) // image not loaded
-                return;
+            // process only loaded images
+            if (image_data) {
+                var show_path_warning = true;
+                print_image_info(image_data, path, show_path_warning);
 
-            var show_path_warning = true;
-            print_image_info(image_data, path, show_path_warning);
-
-            var image = img_by_uri[uri];
-            var tex_users = find_image_users(image, bpy_data["textures"]);
-            for (var i = 0; i < tex_users.length; i++) {
-                var tex_user = tex_users[i];
-                var filepath = tex_user["image"]["filepath"];
-                m_tex.update_texture(tex_user._render, image_data,
-                                     image._is_dds, filepath);
+                var image = img_by_uri[uri];
+                var tex_users = find_image_users(image, bpy_data["textures"]);
+                for (var i = 0; i < tex_users.length; i++) {
+                    var tex_user = tex_users[i];
+                    var filepath = tex_user["image"]["filepath"];
+                    m_tex.update_texture(tex_user._render, image_data,
+                                         image._is_dds, filepath);
+                }
             }
 
             var rate = ++cb_param.image_counter / image_assets.length;
@@ -1371,18 +1438,18 @@ function load_speakers(bpy_data, thread, stage, cb_param, cb_finish, cb_set_rate
     if (sound_assets.length) {
         var asset_cb = function(sound_data, uuid, type, path) {
 
-            if (!sound_data) // sound not loaded
-                return;
+            // process only loaded sounds
+            if (sound_data) {
+                m_print.log("%cLOAD SOUND", "color: #0aa", path);
 
-            m_print.log("%cLOAD SOUND", "color: #0aa", path);
+                if (path.indexOf(_debug_resources_root) == -1)
+                    m_print.warn("B4W Warning: sound", path,
+                        "is not from app root.");
 
-            if (path.indexOf(_debug_resources_root) == -1)
-                m_print.warn("B4W Warning: sound", path,
-                    "is not from app root.");
-
-            var spk_objs = spks_by_uuid[uuid];
-            for (var i = 0; i < spk_objs.length; i++)
-                m_sfx.update_spkobj(spk_objs[i], sound_data);
+                var spk_objs = spks_by_uuid[uuid];
+                for (var i = 0; i < spk_objs.length; i++)
+                    m_sfx.update_spkobj(spk_objs[i], sound_data);
+            }
 
             var rate = ++cb_param.sound_counter / sound_assets.length;
             cb_set_rate(thread, stage, rate);
@@ -1590,9 +1657,9 @@ function prepare_hair_particles(bpy_data) {
 
                 if (pset["render_type"] == "OBJECT") {
                     //removed_objs.push(pset["dupli_object"]);
-                    // NOTE: update it, because we need some render/color_id
+                    // NOTE: Make partial update, because we need some render/color_id
                     // info later
-                    m_obj.update_object(pset["dupli_object"]);
+                    m_obj.update_object(pset["dupli_object"], true);
 
                 } else if (pset["render_type"] == "GROUP") {
 
@@ -1606,7 +1673,7 @@ function prepare_hair_particles(bpy_data) {
                             removed_objs.push(empty_objs[n]);
 
                     for (var n = 0; n < dg["objects"].length; n++)
-                        m_obj.update_object(dg["objects"][n]);
+                        m_obj.update_object(dg["objects"][n], true);
                 } else
                     m_print.warn("B4W Warning: render type", pset["render_type"],
                             "not supported for particle systems (" + pset["name"] + ").");
@@ -1661,9 +1728,9 @@ function set_frames_blending(obj, num_bones) {
     var render = obj._render;
 
     if (num_bones > 2 * max_bones)
-        m_util.panic("B4W Error: too many bones for \"" + obj["name"]);
+        m_util.panic("B4W Error: too many bones for \"" + obj["name"] + "\"");
     else if (num_bones > max_bones) {
-        m_print.warn("B4W Warning: too many bones for \"" + obj["name"] + " / " +
+        m_print.warn("B4W Warning: too many bones for \"" + obj["name"] + "\" / " +
             num_bones + " bones (max " + max_bones +
             "). Blending between frames will be disabled.");
 
@@ -2545,6 +2612,7 @@ exports.load = function(path, loaded_cb, stageload_cb, wait_complete_loading,
         scheduler = m_loader.create_scheduler();
         _bpy_data_array = [];
         _all_objects_cache = [];
+        _dupli_obj_id_overrides = {};
     }
 
     _bpy_data_array[scheduler.threads.length] = {};
@@ -2572,7 +2640,6 @@ exports.unload = function(data_id) {
         m_sfx.cleanup();
         m_nla.cleanup();
         m_scenes.cleanup();
-        m_lights.cleanup();
         m_loader.cleanup();
         m_phy.cleanup();
         m_obj.cleanup();
@@ -2585,6 +2652,7 @@ exports.unload = function(data_id) {
         m_assets.cleanup();
 
         _all_objects_cache = null;
+        _dupli_obj_id_overrides = {};
         _data_is_primary = false;
         _primary_scene = null;
         _bpy_data_array = null;

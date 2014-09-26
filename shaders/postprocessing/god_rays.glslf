@@ -1,13 +1,13 @@
 #include <precision_statement.glslf>
 #include <depth_fetch.glslf>
 #include <procedural.glslf>
+#include <pack.glslf>
 
 #var STEPS_PER_PASS 0.0
 
 uniform float u_time;
 uniform float u_radial_blur_step;
 
-uniform vec3 u_sun_intensity;
 uniform sampler2D u_input;
 
 #if DEPTH_RGBA
@@ -23,7 +23,6 @@ varying vec4 v_sun_pos_clip;
 
 void main(void) {
 
-    vec3 lcolorint = u_sun_intensity;
     // delta from current pixel to sun position
     vec2 delta = (v_sun_pos_clip.xy - v_texcoord);
     float dist = length(delta);
@@ -38,7 +37,7 @@ void main(void) {
     iters = max(iters, STEPS_PER_PASS);
     
     vec2 uv = v_texcoord;
-    float col = 0.0;
+    float intens = 0.0;
 
     for (float i = 0.0; i < STEPS_PER_PASS; i += 1.0 ) {
         
@@ -47,9 +46,10 @@ void main(void) {
             //On further iterations only performs blur of the given texture.
 #if DEPTH_RGBA
             float depth = depth_fetch(u_input, uv, u_camera_range);
-            col += (1.0 - pow(dist, 0.3)) * step(0.9, depth); //brighter at center
+            intens += max((1.0 - pow(dist, 0.3)) * step(0.9, depth), 0.0); //brighter at center
 #else
-            col += texture2D(u_input, uv).r;
+            vec4 input_col = texture2D(u_input, uv);
+            intens += unpack_float(input_col);
 #endif
         }
         uv += stepv;
@@ -74,8 +74,8 @@ void main(void) {
         );
 
     noise *= clamp(1.2 - sqrt(0.2 * dist), 0.0, 1.0) * v_underwater;
-    col = max(noise, col);
+    intens = max(noise, intens);
 #endif
 
-    gl_FragColor = vec4(col / STEPS_PER_PASS * clamp(lcolorint, 0.4, 0.8), 1.0);
+    gl_FragColor = pack(intens / STEPS_PER_PASS);
 }

@@ -6,8 +6,9 @@
  */
 b4w.module["data"] = function(exports, require) {
 
-var m_print = require("__print");
 var data    = require("__data");
+var m_print = require("__print");
+var m_util  = require("__util");
 
 /**
  * Data loaded callback.
@@ -32,11 +33,6 @@ var data    = require("__data");
  * @returns {Number} ID of loaded data.
  */
 exports.load = data.load;
-/**
- * @method module:data.load_and_add_new
- * @deprecated Use load() instead
- */
-exports.load_and_add_new = data.load;
 
 /**
  * Unload the previously loaded data.
@@ -47,20 +43,7 @@ exports.unload = function(data_id) {
     data_id = data_id | 0;
     data.unload(data_id);
 }
-/**
- * @method module:data.cleanup
- * @deprecated Use unload() method
- */
-exports.cleanup = exports.unload;
 
-/**
- * @method module:data.get_bpy_world
- * @deprecated Execution forbidden
- */
-exports.get_bpy_world = function(world_name) {
-    m_print.error("get_bpy_world() deprecated");
-    return null;
-}
 
 /**
  * Set the root which contains the resources, for debug purposes. 
@@ -77,5 +60,17 @@ exports.set_debug_resources_root = data.set_debug_resources_root;
  * @returns {Boolean} Check result
  */
 exports.is_primary_loaded = data.is_primary_loaded;
+
+
+// DEPRECATED
+
+exports.load_and_add_new = data.load;
+
+exports.get_bpy_world = function(world_name) {
+    m_util.panic("get_bpy_world() deprecated");
+    return null;
+}
+
+exports.cleanup = exports.unload;
 
 }

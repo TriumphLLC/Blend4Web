@@ -13,6 +13,8 @@ b4w.module["__renderer"] = function(exports, require) {
 var config     = require("__config");
 var debug      = require("__debug");
 var m_textures = require("__textures");
+var m_util     = require("__util");
+
 
 var cfg_def = config.defaults;
 
@@ -90,7 +92,6 @@ exports.draw = function(subscene) {
         if (bundle.do_render) {
             var obj_render = bundle.obj_render;
             var batch = bundle.batch;
-
             draw_bundle(subscene, camera, obj_render, batch);
         }
     }
@@ -108,7 +109,7 @@ function prepare_subscene(subscene) {
     if (subscene.assign_texture) {
         var tex = camera.color_attachment;
 
-        _gl.framebufferTexture2D(_gl.FRAMEBUFFER, _gl.COLOR_ATTACHMENT0, 
+        _gl.framebufferTexture2D(_gl.FRAMEBUFFER, _gl.COLOR_ATTACHMENT0,
             tex.w_target, tex.w_texture, 0);
     }
 
@@ -135,14 +136,12 @@ function prepare_subscene(subscene) {
     switch (subscene.type) {
     case "SHADOW_CAST":
         _gl.enable(_gl.POLYGON_OFFSET_FILL);
-        _gl.polygonOffset(1.0 * cfg_def.poly_offset_multiplier, 
-                1.0 * cfg_def.poly_offset_multiplier);
+        _gl.polygonOffset(subscene.self_shadow_polygon_offset,
+                subscene.self_shadow_polygon_offset);
         /*
-         * bad as it leads to impossibility to use backface culling 
+         * bad as it leads to impossibility to use backface culling
          * for some objects.
-         * Instead visibility falloff is used to reduce 
-         * self-shadowing artefacts.
-         * _gl.cullFace(_gl.FRONT); 
+         * _gl.cullFace(_gl.FRONT);
          */
         _gl.cullFace(_gl.BACK);
         break;
@@ -163,7 +162,7 @@ function prepare_subscene(subscene) {
 exports.clear = clear;
 function clear(subscene) {
     if (subscene) {
-        var bitfield = (subscene.clear_color ? _gl.COLOR_BUFFER_BIT : 0) | 
+        var bitfield = (subscene.clear_color ? _gl.COLOR_BUFFER_BIT : 0) |
             (subscene.clear_depth ? _gl.DEPTH_BUFFER_BIT : 0);
 
         // do nothing
@@ -182,6 +181,7 @@ function clear(subscene) {
             var bc = SHADOW_BG_COLOR;
             break;
         case "COLOR_PICKING":
+        case "COLOR_PICKING_XRAY":
             var bc = COLOR_PICKING_BG_COLOR;
             break;
         case "GLOW_MASK":
@@ -218,7 +218,6 @@ function setup_smaa_jitter(subscene) {
 }
 
 function draw_bundle(subscene, camera, obj_render, batch) {
-
     // do not check
     var shader = batch.shader;
 
@@ -226,8 +225,9 @@ function draw_bundle(subscene, camera, obj_render, batch) {
 
     // retrieve buffers
     var bufs_data = batch.bufs_data;
+    var attribute_setters = batch.attribute_setters;
 
-    // setup uniforms that are common for all objects 
+    // setup uniforms that are common for all objects
 
     var transient_uniform_setters = shader.transient_uniform_setters;
     var i = transient_uniform_setters.length;
@@ -251,15 +251,17 @@ function draw_bundle(subscene, camera, obj_render, batch) {
     setup_textures(batch.textures, batch.texture_names, shader.uniforms);
 
     if (subscene.type == "SKY") {
-        draw_sky_buffers(subscene, bufs_data, shader, obj_render);
+        draw_sky_buffers(subscene, bufs_data, shader, obj_render,
+                attribute_setters);
         subscene.debug_render_calls+=6;
     } else {
-        draw_buffers(bufs_data, shader, obj_render.va_frame);
+        draw_buffers(bufs_data, attribute_setters, obj_render.va_frame);
         subscene.debug_render_calls++;
     }
 }
 
-function draw_sky_buffers(subscene, bufs_data, shader, obj_render) {
+function draw_sky_buffers(subscene, bufs_data, shader, obj_render,
+        attribute_setters) {
 
     var camera = subscene.camera;
     var uniforms = shader.uniforms;
@@ -274,10 +276,10 @@ function draw_sky_buffers(subscene, bufs_data, shader, obj_render) {
         var color_attachment = camera.color_attachment;
         var w_tex            = color_attachment.w_texture;
 
-        _gl.framebufferTexture2D(_gl.FRAMEBUFFER, _gl.COLOR_ATTACHMENT0, 
+        _gl.framebufferTexture2D(_gl.FRAMEBUFFER, _gl.COLOR_ATTACHMENT0,
             w_target, w_tex, 0);
 
-        draw_buffers(bufs_data, shader, obj_render.va_frame);
+        draw_buffers(bufs_data, attribute_setters, obj_render.va_frame);
 
         if (subscene.need_fog_update && i != CUBEMAP_BOTTOM_SIDE)
             update_subs_sky_fog(subscene, i);
@@ -341,29 +343,17 @@ function setup_vec4_attribute(attributes, name, value) {
 /**
  * frame used for vertex animation
  */
-function draw_buffers(bufs_data, shader, frame) {
-
-    // setup attritbutes
-
-    var attributes = shader.attributes;
-    var attribute_names = shader.attribute_names;
+function draw_buffers(bufs_data, attribute_setters, frame) {
 
     _gl.bindBuffer(_gl.ARRAY_BUFFER, bufs_data.vbo);
 
-    var pointers = bufs_data.pointers;
+    for (var i = 0; i < attribute_setters.length; i++) {
+        var setter = attribute_setters[i];
 
-    var i = attribute_names.length;
-    while(i--) {
-        var attr = attribute_names[i];
-        var attribute_loc = attributes[attr];
-        var p = pointers[attr];
+        _gl.enableVertexAttribArray(setter.loc);
 
-        _gl.enableVertexAttribArray(attribute_loc);
-        if (frame && p.frames > 1)
-            var offset = (p.offset + frame * p.length) * FLOAT_BYTE_SIZE;
-        else
-            var offset = p.offset * FLOAT_BYTE_SIZE;
-        _gl.vertexAttribPointer(attribute_loc, p.num_comp, _gl.FLOAT, false, 0, 
+        var offset = setter.base_offset + setter.frame_length * frame;
+        _gl.vertexAttribPointer(setter.loc, setter.num_comp, _gl.FLOAT, false, 0,
                 offset);
     }
 
@@ -376,10 +366,9 @@ function draw_buffers(bufs_data, shader, frame) {
         _gl.drawArrays(bufs_data.mode, 0, bufs_data.count);
 
     // cleanup attributes
-    var i = attribute_names.length;
-    while(i--) {
-        var attr = attribute_names[i];
-        _gl.disableVertexAttribArray(attributes[attr]);
+    for (var i = 0; i < attribute_setters.length; i++) {
+        var setter = attribute_setters[i];
+        _gl.disableVertexAttribArray(setter.loc);
     }
 }
 
@@ -403,6 +392,33 @@ function get_cube_target_by_id(id) {
     case 5:
         return _gl.TEXTURE_CUBE_MAP_NEGATIVE_Z;
         break;
+    }
+}
+
+exports.assign_attribute_setters = function(batch) {
+    var attr_setters = batch.attribute_setters;
+    attr_setters.length = 0;
+
+    var bufs_data = batch.bufs_data;
+    var shader = batch.shader;
+
+    if (!bufs_data || !shader)
+        m_util.panic("Incomplete batch");
+
+    var pointers = bufs_data.pointers;
+    var attributes = shader.attributes;
+
+    for (var name in attributes) {
+        var p = pointers[name];
+
+        var setter = {
+            loc: attributes[name],
+            base_offset: p.offset * FLOAT_BYTE_SIZE,
+            frame_length: p.frames > 1 ? p.length * FLOAT_BYTE_SIZE : 0,
+            num_comp: p.num_comp
+        };
+
+        attr_setters.push(setter);
     }
 }
 
@@ -463,7 +479,7 @@ function assign_uniform_setters(shader) {
             }
             transient_uni = true;
             break;
-        case "u_camera_quat": 
+        case "u_camera_quat":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform4fv(loc, camera.quat);
             }
@@ -480,6 +496,12 @@ function assign_uniform_setters(shader) {
                 gl.uniform2f(loc, camera.near, camera.far);
             }
             break;
+        case "u_csm_center_dists":
+            var fun = function(gl, loc, subscene, obj_render, batch, camera) {
+                gl.uniform4fv(loc, camera.csm_center_dists);
+            }
+            break;
+
         case "u_cam_water_depth":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform1f(loc, subscene.cam_water_depth);
@@ -506,11 +528,6 @@ function assign_uniform_setters(shader) {
                 gl.uniform4fv(loc, subscene.water_fog_color_density);
             }
             break;
-        case "u_shadow_visibility_falloff":
-            var fun = function(gl, loc, subscene, obj_render, batch, camera) {
-                gl.uniform1f(loc, subscene.shadow_visibility_falloff);
-            }
-            break;
         case "u_bloom_key":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform1f(loc, subscene.bloom_key);
@@ -522,129 +539,129 @@ function assign_uniform_setters(shader) {
             }
             break;
 
-        case "u_time": 
+        case "u_time":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform1f(loc, subscene.time);
             }
             transient_uni = true;
             break;
-        case "u_wind": 
+        case "u_wind":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform3fv(loc, subscene.wind);
             }
             break;
 
-        case "u_horizon_color": 
+        case "u_horizon_color":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform3fv(loc, subscene.horizon_color);
             }
             break;
-        case "u_zenith_color": 
+        case "u_zenith_color":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform3fv(loc, subscene.zenith_color);
             }
             break;
-        case "u_environment_energy": 
+        case "u_environment_energy":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform1f(loc, subscene.environment_energy);
             }
             break;
 
         // sky
-        case "u_sky_color": 
+        case "u_sky_color":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform3fv(loc, subscene.sky_color);
             }
             break;
-        case "u_rayleigh_brightness": 
+        case "u_rayleigh_brightness":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform1f(loc, subscene.rayleigh_brightness);
             }
             break;
-        case "u_mie_brightness": 
+        case "u_mie_brightness":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform1f(loc, subscene.mie_brightness);
             }
             break;
-        case "u_spot_brightness": 
+        case "u_spot_brightness":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform1f(loc, subscene.spot_brightness);
             }
             break;
-        case "u_scatter_strength": 
+        case "u_scatter_strength":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform1f(loc, subscene.scatter_strength);
             }
             break;
-        case "u_rayleigh_strength": 
+        case "u_rayleigh_strength":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform1f(loc, subscene.rayleigh_strength);
             }
             break;
-        case "u_mie_strength": 
+        case "u_mie_strength":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform1f(loc, subscene.mie_strength);
             }
             break;
-        case "u_rayleigh_collection_power": 
+        case "u_rayleigh_collection_power":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform1f(loc, subscene.rayleigh_collection_power);
             }
             break;
-        case "u_mie_collection_power": 
+        case "u_mie_collection_power":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform1f(loc, subscene.mie_collection_power);
             }
             break;
-        case "u_mie_distribution": 
+        case "u_mie_distribution":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform1f(loc, subscene.mie_distribution);
             }
             break;
 
         // light
-        case "u_light_positions": 
+        case "u_light_positions":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform3fv(loc, subscene.light_positions);
             }
             break;
-        case "u_light_directions": 
+        case "u_light_directions":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform3fv(loc, subscene.light_directions);
             }
             break;
-        case "u_light_color_intensities": 
+        case "u_light_color_intensities":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform3fv(loc, subscene.light_color_intensities);
             }
             break;
-        case "u_light_factors1": 
+        case "u_light_factors1":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform4fv(loc, subscene.light_factors1);
             }
             break;
-        case "u_light_factors2": 
+        case "u_light_factors2":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform4fv(loc, subscene.light_factors2);
             }
             break;
-        case "u_sun_quaternion": 
+        case "u_sun_quaternion":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform4fv(loc, subscene.sun_quaternion);
             }
             break;
-        case "u_sun_intensity": 
+        case "u_sun_intensity":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform3fv(loc, subscene.sun_intensity);
             }
             break;
-        case "u_sun_direction": 
+        case "u_sun_direction":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform3fv(loc, subscene.sun_direction);
             }
             break;
 
-        case "u_height": 
+        case "u_height":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform1f(loc, camera.height);
             }
@@ -652,7 +669,7 @@ function assign_uniform_setters(shader) {
             break;
 
         // obj render
-        case "u_model_matrix": 
+        case "u_model_matrix":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniformMatrix4fv(loc, false, obj_render.world_matrix);
             }
@@ -695,20 +712,20 @@ function assign_uniform_setters(shader) {
             transient_uni = true;
             break;
 
-        case "au_center_pos": 
+        case "au_center_pos":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 // consider zeros by default
                 //gl.uniform4fv(loc, obj_render.center_pos);
             }
             transient_uni = true;
             break;
-        case "au_wind_bending_amp": 
+        case "au_wind_bending_amp":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform1f(loc, obj_render.wind_bending_amp);
             }
             transient_uni = true;
             break;
-        case "au_wind_bending_freq": 
+        case "au_wind_bending_freq":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform1f(loc, obj_render.wind_bending_freq);
             }
@@ -720,15 +737,21 @@ function assign_uniform_setters(shader) {
             }
             transient_uni = true;
             break;
-        case "au_detail_bending_amp": 
+        case "au_detail_bending_amp":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform1f(loc, obj_render.detail_bending_amp);
             }
             transient_uni = true;
             break;
-        case "au_branch_bending_amp": 
+        case "au_branch_bending_amp":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform1f(loc, obj_render.branch_bending_amp);
+            }
+            transient_uni = true;
+            break;
+        case "u_anim_values":
+            var fun = function(gl, loc, subscene, obj_render, batch, camera) {
+                gl.uniform1fv(loc, obj_render.mats_anim_values);
             }
             transient_uni = true;
             break;
@@ -740,7 +763,7 @@ function assign_uniform_setters(shader) {
             }
             transient_uni = true;
             break;
-        case "u_diffuse_intensity": 
+        case "u_diffuse_intensity":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform1f(loc, batch.diffuse_intensity);
             }
@@ -752,37 +775,43 @@ function assign_uniform_setters(shader) {
             }
             transient_uni = true;
             break;
-        case "u_emit": 
+        case "u_emit":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform1f(loc, batch.emit);
             }
             transient_uni = true;
             break;
-        case "u_ambient": 
+        case "u_ambient":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform1f(loc, batch.ambient);
             }
             transient_uni = true;
             break;
-        case "u_specular_color": 
+        case "u_specular_color":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform3fv(loc, batch.specular_color);
             }
             transient_uni = true;
             break;
-        case "u_specular_params": 
+        case "u_specular_alpha":
+            var fun = function(gl, loc, subscene, obj_render, batch, camera) {
+                gl.uniform1f(loc, batch.specular_alpha);
+            }
+            transient_uni = true;
+        break;
+        case "u_specular_params":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform3fv(loc, batch.specular_params);
             }
             transient_uni = true;
             break;
-        case "u_reflect_factor": 
+        case "u_reflect_factor":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform1f(loc, batch.reflect_factor);
             }
             transient_uni = true;
             break;
-        case "u_mirror_factor": 
+        case "u_mirror_factor":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform1f(loc, batch.mirror_factor);
             }
@@ -911,7 +940,7 @@ function assign_uniform_setters(shader) {
             }
             transient_uni = true;
             break;
-        case "u_fresnel_params": 
+        case "u_fresnel_params":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform4fv(loc, batch.fresnel_params);
             }
@@ -923,19 +952,19 @@ function assign_uniform_setters(shader) {
             }
             transient_uni = true;
             break;
-        case "u_parallax_scale": 
+        case "u_parallax_scale":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform1f(loc, batch.parallax_scale);
             }
             transient_uni = true;
             break;
-        case "u_color_id": 
+        case "u_color_id":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform3fv(loc, batch.color_id);
             }
             transient_uni = true;
             break;
-        case "u_line_points": 
+        case "u_line_points":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform3fv(loc, batch.line_points);
             }
@@ -943,7 +972,7 @@ function assign_uniform_setters(shader) {
             break;
 
         // texture factors
-        case "u_diffuse_color_factor": 
+        case "u_diffuse_color_factor":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform1f(loc, batch.diffuse_color_factor);
             }
@@ -955,13 +984,13 @@ function assign_uniform_setters(shader) {
             }
             transient_uni = true;
             break;
-        case "u_specular_color_factor": 
+        case "u_specular_color_factor":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform1f(loc, batch.specular_color_factor);
             }
             transient_uni = true;
             break;
-        case "u_normal_factor": 
+        case "u_normal_factor":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform1f(loc, batch.normal_factor);
             }
@@ -971,55 +1000,55 @@ function assign_uniform_setters(shader) {
         // animated uv velocities
         case "u_colormap0_uv_velocity":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
-                gl.uniform2fv(loc, batch.colormap0_uv_velocity);        
+                gl.uniform2fv(loc, batch.colormap0_uv_velocity);
             }
             transient_uni = true;
             break;
         case "u_normalmap0_uv_velocity":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
-                gl.uniform2fv(loc, batch.normalmap_uv_velocities[0]);        
+                gl.uniform2fv(loc, batch.normalmap_uv_velocities[0]);
             }
             transient_uni = true;
             break;
         case "u_normalmap1_uv_velocity":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
-                gl.uniform2fv(loc, batch.normalmap_uv_velocities[1]);        
+                gl.uniform2fv(loc, batch.normalmap_uv_velocities[1]);
             }
             transient_uni = true;
             break;
         case "u_normalmap2_uv_velocity":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
-                gl.uniform2fv(loc, batch.normalmap_uv_velocities[2]);        
+                gl.uniform2fv(loc, batch.normalmap_uv_velocities[2]);
             }
             transient_uni = true;
             break;
         case "u_normalmap3_uv_velocity":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
-                gl.uniform2fv(loc, batch.normalmap_uv_velocities[3]);        
+                gl.uniform2fv(loc, batch.normalmap_uv_velocities[3]);
             }
             transient_uni = true;
             break;
         case "u_normalmap0_scale":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
-                gl.uniform2fv(loc, batch.normalmap_scales[0]);        
+                gl.uniform2fv(loc, batch.normalmap_scales[0]);
             }
             transient_uni = true;
             break;
         case "u_normalmap1_scale":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
-                gl.uniform2fv(loc, batch.normalmap_scales[1]);        
+                gl.uniform2fv(loc, batch.normalmap_scales[1]);
             }
             transient_uni = true;
             break;
         case "u_normalmap2_scale":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
-                gl.uniform2fv(loc, batch.normalmap_scales[2]);        
+                gl.uniform2fv(loc, batch.normalmap_scales[2]);
             }
             transient_uni = true;
             break;
         case "u_normalmap3_scale":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
-                gl.uniform2fv(loc, batch.normalmap_scales[3]);        
+                gl.uniform2fv(loc, batch.normalmap_scales[3]);
             }
             transient_uni = true;
             break;
@@ -1031,7 +1060,7 @@ function assign_uniform_setters(shader) {
             break;
         case "u_foam_uv_freq":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
-                gl.uniform2fv(loc, batch.foam_uv_freq);        
+                gl.uniform2fv(loc, batch.foam_uv_freq);
             }
             transient_uni = true;
             break;
@@ -1072,86 +1101,85 @@ function assign_uniform_setters(shader) {
             transient_uni = true;
             break;
 
-            break;
         case "u_p_length":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform1f(loc, batch.p_length);
             }
             transient_uni = true;
             break;
-        case "u_p_cyclic": 
+        case "u_p_cyclic":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform1i(loc, batch.p_cyclic);
             }
             transient_uni = true;
             break;
-        case "u_p_max_lifetime": 
+        case "u_p_max_lifetime":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform1f(loc, batch.p_max_lifetime);
             }
             transient_uni = true;
             break;
-        case "u_p_fade_in": 
+        case "u_p_fade_in":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform1f(loc, batch.p_fade_in);
             }
             transient_uni = true;
             break;
-        case "u_p_fade_out": 
+        case "u_p_fade_out":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform1f(loc, batch.p_fade_out);
             }
             transient_uni = true;
             break;
-        case "u_p_size": 
+        case "u_p_size":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform1f(loc, batch.p_size);
             }
             transient_uni = true;
             break;
-        case "u_p_alpha_start": 
+        case "u_p_alpha_start":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform1f(loc, batch.p_alpha_start);
             }
             transient_uni = true;
             break;
-        case "u_p_alpha_end": 
+        case "u_p_alpha_end":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform1f(loc, batch.p_alpha_end);
             }
             transient_uni = true;
             break;
-        case "u_p_nfactor": 
+        case "u_p_nfactor":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform1f(loc, batch.p_nfactor);
             }
             transient_uni = true;
             break;
-        case "u_p_gravity": 
+        case "u_p_gravity":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform1f(loc, batch.p_gravity);
             }
             transient_uni = true;
             break;
-        case "u_p_mass": 
+        case "u_p_mass":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform1f(loc, batch.p_mass);
             }
             transient_uni = true;
             break;
-        case "u_p_size_ramp": 
+        case "u_p_size_ramp":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform2fv(loc, batch.p_size_ramp);
             }
             transient_uni = true;
             break;
-        case "u_p_color_ramp": 
+        case "u_p_color_ramp":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform4fv(loc, batch.p_color_ramp);
             }
             transient_uni = true;
             break;
-        case "u_p_wind": 
+        case "u_p_wind":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform3fv(loc, batch.p_wind);
             }
@@ -1180,6 +1208,16 @@ function assign_uniform_setters(shader) {
             break;
 
         // shadow receive subscene
+        case "u_normal_offset":
+            var fun = function(gl, loc, subscene, obj_render, batch, camera) {
+                gl.uniform1f(loc, subscene.self_shadow_normal_offset);
+            }
+            break;
+        case "u_pcf_blur_radii":
+            var fun = function(gl, loc, subscene, obj_render, batch, camera) {
+                gl.uniform4fv(loc, camera.pcf_blur_radii);
+            }
+            break;
         case "u_v_light_matrix":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniformMatrix4fv(loc, false, subscene.v_light_matrix);
@@ -1222,13 +1260,13 @@ function assign_uniform_setters(shader) {
             }
             transient_uni = true;
             break;
-        case "u_refl_plane": 
+        case "u_refl_plane":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform4fv(loc, subscene.reflection_plane);
             }
             break;
 
-        // for god_rays 
+        // for god_rays
         case "u_radial_blur_step":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform1f(loc, subscene.radial_blur_step);
@@ -1316,18 +1354,6 @@ function assign_uniform_setters(shader) {
             transient_uni = true;
             break;
 
-        // blur depth
-        case "u_blur_depth_edge_size":
-            var fun = function(gl, loc, subscene, obj_render, batch, camera) {
-                gl.uniform1f(loc, subscene.blur_depth_edge_size);
-            }
-            break;
-        case "u_blur_depth_diff_threshold":
-            var fun = function(gl, loc, subscene, obj_render, batch, camera) {
-                gl.uniform1f(loc, subscene.blur_depth_diff_threshold);
-            }
-            break;
-
         // color correction
         case "u_brightness":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
@@ -1401,7 +1427,7 @@ exports.read_pixels = read_pixels;
 /**
  * Get pixels from the framebuffer. Used for objects picking.
  * @param framebuffer FBO
- * @param x x-coord starting from left 
+ * @param x x-coord starting from left
  * @param y y-coord starting from bottom
  * @param [width=1] Width of rectangle to read
  * @param [height=1] Height of rectangle to read
@@ -1417,7 +1443,7 @@ function read_pixels(framebuffer, x, y, width, height, storage) {
     if (!storage)
         var storage = new Uint8Array(4 * width * height);
     if (storage.length != 4 * width * height)
-        throw "Wrong storage";
+        m_util.panic("read_pixels(): Wrong storage");
 
     _gl.bindFramebuffer(_gl.FRAMEBUFFER, framebuffer);
     _gl.readPixels(x, y, width, height, _gl.RGBA, _gl.UNSIGNED_BYTE, storage);
@@ -1480,10 +1506,10 @@ exports.render_target_create = function(color_attachment, depth_attachment) {
         var texture = color_attachment;
 
         var w_tex = texture.w_texture;
-        var w_target = (texture.w_target == _gl.TEXTURE_CUBE_MAP) ? 
+        var w_target = (texture.w_target == _gl.TEXTURE_CUBE_MAP) ?
                         _gl.TEXTURE_CUBE_MAP_NEGATIVE_Z : texture.w_target;
 
-        _gl.framebufferTexture2D(_gl.FRAMEBUFFER, _gl.COLOR_ATTACHMENT0, 
+        _gl.framebufferTexture2D(_gl.FRAMEBUFFER, _gl.COLOR_ATTACHMENT0,
             w_target, w_tex, 0);
     }
 
@@ -1491,7 +1517,7 @@ exports.render_target_create = function(color_attachment, depth_attachment) {
     if (m_textures.is_renderbuffer(depth_attachment)) {
         var renderbuffer = depth_attachment.w_renderbuffer;
 
-        _gl.framebufferRenderbuffer(_gl.FRAMEBUFFER, _gl.DEPTH_ATTACHMENT, 
+        _gl.framebufferRenderbuffer(_gl.FRAMEBUFFER, _gl.DEPTH_ATTACHMENT,
             _gl.RENDERBUFFER, renderbuffer);
 
     } else if (m_textures.is_texture(depth_attachment)) {
@@ -1500,7 +1526,7 @@ exports.render_target_create = function(color_attachment, depth_attachment) {
         var w_tex = texture.w_texture;
         var w_target = texture.w_target;
 
-        _gl.framebufferTexture2D(_gl.FRAMEBUFFER, _gl.DEPTH_ATTACHMENT, w_target, 
+        _gl.framebufferTexture2D(_gl.FRAMEBUFFER, _gl.DEPTH_ATTACHMENT, w_target,
                 w_tex, 0);
     }
     debug.check_bound_fb();
@@ -1511,7 +1537,7 @@ exports.render_target_create = function(color_attachment, depth_attachment) {
     return framebuffer;
 }
 
-exports.render_target_cleanup = function(framebuffer, color_attachment, 
+exports.render_target_cleanup = function(framebuffer, color_attachment,
         depth_attachment, width, height) {
 
     // handle simple case first

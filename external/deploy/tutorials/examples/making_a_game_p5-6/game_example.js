@@ -34,7 +34,7 @@ var LAVA_DAMAGE_INTERVAL = 0.01;
 var MAX_CHAR_HP = 100;
 
 var _character = null;
-var _character_body = null;
+var _character_rig = null;
 var _character_hp;
 
 var _vec3_tmp = new Float32Array(3);
@@ -83,8 +83,8 @@ function load() {
 
 function load_cb(data_id) {
     _character = m_scs.get_first_character();
-    _character_body = m_scs.get_object_by_dupli_name("character",
-                                                         "character_body");
+    _character_rig = m_scs.get_object_by_dupli_name("character",
+                                                         "character_rig");
     _character_hp = MAX_CHAR_HP;
 
     var right_arrow = m_ctl.create_custom_sensor(0);
@@ -130,22 +130,22 @@ function setup_movement(up_arrow, down_arrow) {
             switch(id) {
             case "FORWARD":
                 var move_dir = 1;
-                m_anim.apply(_character_body, "character_run");
+                m_anim.apply(_character_rig, "character_run");
                 break;
             case "BACKWARD":
                 var move_dir = -1;
-                m_anim.apply(_character_body, "character_run");
+                m_anim.apply(_character_rig, "character_run");
                 break;
             }
         } else {
             var move_dir = 0;
-            m_anim.apply(_character_body, "character_idle_01");
+            m_anim.apply(_character_rig, "character_idle_01");
         }
 
         m_phy.set_character_move_dir(obj, move_dir, 0);
 
-        m_anim.play(_character_body);
-        m_anim.set_behavior(_character_body, m_anim.AB_CYCLIC);
+        m_anim.play(_character_rig);
+        m_anim.set_behavior(_character_rig, m_anim.AB_CYCLIC);
     };
 
     m_ctl.create_sensor_manifold(_character, "FORWARD", m_ctl.CT_TRIGGER,
@@ -153,9 +153,9 @@ function setup_movement(up_arrow, down_arrow) {
     m_ctl.create_sensor_manifold(_character, "BACKWARD", m_ctl.CT_TRIGGER,
         move_array, backward_logic, move_cb);
 
-    m_anim.apply(_character_body, "character_idle_01");
-    m_anim.play(_character_body);
-    m_anim.set_behavior(_character_body, m_anim.AB_CYCLIC);
+    m_anim.apply(_character_rig, "character_idle_01");
+    m_anim.play(_character_rig);
+    m_anim.set_behavior(_character_rig, m_anim.AB_CYCLIC);
 }
 
 function setup_rotation(right_arrow, left_arrow, elapsed_sensor) {
@@ -509,9 +509,9 @@ function reduce_char_hp(amount) {
 }
 
 function kill_character() {
-    m_anim.apply(_character_body, "character_death");
-    m_anim.play(_character_body);
-    m_anim.set_behavior(_character_body, m_anim.AB_FINISH_STOP);
+    m_anim.apply(_character_rig, "character_death");
+    m_anim.play(_character_rig);
+    m_anim.set_behavior(_character_rig, m_anim.AB_FINISH_STOP);
     m_phy.set_character_move_dir(_character, 0, 0);
     m_ctl.remove_sensor_manifolds(_character);
 }

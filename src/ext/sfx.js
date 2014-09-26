@@ -97,7 +97,7 @@ exports.speaker_playback_rate = function(obj, playrate) {
  * Change the speaker playback rate value.
  * @method module:sfx.playrate
  * @param {Object} obj Object ID
- * @param playrate Playback rate (1.0 - normal speed).
+ * @param {Number} playrate Playback rate (1.0 - normal speed).
  */
 exports.playrate = function(obj, playrate) {
     m_sfx.playrate(obj, playrate);
@@ -106,7 +106,7 @@ exports.playrate = function(obj, playrate) {
 /**
  * Set cyclic flag.
  * @method module:sfx.cyclic
- * @param obj Speaker object ID
+ * @param {Object} obj Speaker object ID
  * @param {Boolean} cyclic New cyclic flag value.
  */
 exports.cyclic = function(obj, cyclic) {
@@ -116,7 +116,7 @@ exports.cyclic = function(obj, cyclic) {
 /**
  * Check if the cyclic flag is set.
  * @method module:sfx.is_cyclic
- * @param obj Speaker object ID
+ * @param {Object} obj Speaker object ID
  * @returns {Boolean} Cyclic flag value.
  */
 exports.is_cyclic = function(obj) {
@@ -127,6 +127,8 @@ exports.is_cyclic = function(obj) {
  * Reset the listener speed.
  * Use after quick listener movements to neutralize undesirable doppler effect.
  * @method module:sfx.listener_reset_speed
+ * @param {Number} speed The listener new speed
+ * @param {?Float32Array} [dir=null] The listener new direction
  */
 exports.listener_reset_speed = function(speed, dir) {
     m_sfx.listener_reset_speed(speed, dir);
@@ -137,7 +139,9 @@ exports.listener_reset_speed = function(speed, dir) {
  * It's necessary to nullify speed after the speaker has moved quickly in order
  * to neutralize the undesirable doppler effect.
  * @method module:sfx.speaker_reset_speed
- * @param obj Speaker object ID
+ * @param {Object} obj Speaker object ID
+ * @param {Number} speed The speaker's new speed
+ * @param {?Float32Array} [dir=null] The speaker's new direction
  */
 exports.speaker_reset_speed = function(obj, speed, dir) {
     m_sfx.speaker_reset_speed(obj, speed, dir);
@@ -146,7 +150,7 @@ exports.speaker_reset_speed = function(obj, speed, dir) {
 /**
  * Get volume level.
  * @method module:sfx.get_volume
- * @param {Object} obj Object ID or null for MASTER volume
+ * @param {?Object} obj Object ID or null for MASTER volume
  * @returns {Number} Volume (0..1)
  */
 exports.get_volume = function(obj) {
@@ -158,7 +162,7 @@ exports.get_volume = function(obj) {
 /**
  * Set volume level.
  * @method module:sfx.set_volume
- * @param {Object} obj Object ID or null for MASTER volume
+ * @param {?Object} obj Object ID or null for MASTER volume
  * @param {Number} volume Volume (0..1)
  */
 exports.set_volume = function(obj, volume) {
@@ -171,7 +175,7 @@ exports.set_volume = function(obj, volume) {
 /**
  * Mute/unmute.
  * @method module:sfx.mute
- * @param obj Speaker object ID or null for all of them
+ * @param {?Object} obj Speaker object ID or null for all of them
  * @param {Boolean} muted New state
  */
 exports.mute = function(obj, muted) {
@@ -184,7 +188,7 @@ exports.mute = function(obj, muted) {
 /**
  * Check if the speaker is muted.
  * @method module:sfx.is_muted
- * @param obj Speaker object ID or null for all of them.
+ * @param {?Object} obj Speaker object ID or null for all of them.
  * @returns {Boolean} Muted state.
  */
 exports.is_muted = function(obj) {
@@ -232,7 +236,7 @@ exports.get_compressor_params = function() {
  * Duck (reduce the volume).
  * works independently from the volume API and the volume randomization
  * @method module:sfx.duck
- * @param {Object} obj Object ID
+ * @param {?Object} obj Object ID or null for MASTER
  * @param {Number} value Duck amount.
  * @param {Number} time Time to change volume.
  */
@@ -246,7 +250,7 @@ exports.duck = function(obj, value, time) {
 /**
  * Unduck (restore the volume).
  * @method module:sfx.unduck
- * @param {Object} obj Object ID
+ * @param {?Object} obj Object ID or null for MASTER
  */
 exports.unduck = function(obj) {
     if (obj && typeof obj === "object")

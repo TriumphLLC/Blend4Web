@@ -1,7 +1,7 @@
 bl_info = {
     "name": "Blend4Web",
     "author": "Blend4Web Development Team",
-    "version": (14, 8, 0),
+    "version": (14, 9, 0),
     "blender": (2, 71, 0),
     "b4w_format_version": "5.00",
     "location": "File > Import-Export",
@@ -11,51 +11,69 @@ bl_info = {
     "category": "Import-Export"
 }
 
-import os
+if "bpy" in locals():
+    import imp
+    imp.reload(init_validation)
+    imp.reload(properties)
+    imp.reload(interface)
+    imp.reload(exporter)
+    imp.reload(html_exporter)
+    imp.reload(anim_baker)
+    imp.reload(vertex_anim_baker)
+    imp.reload(camera_target_copier)
+    imp.reload(weights_copy)
+    imp.reload(split_actions)
+    imp.reload(weights_mirror)
+    imp.reload(vertex_normals)
+    imp.reload(vertex_groups_to_materials)
+    imp.reload(shore_distance_baker)
+    imp.reload(remove_unused_vgroups)
+    imp.reload(boundings_draw)
+    imp.reload(nla_script)
+else:
+    # B4W addon validation on start
+    from . import init_validation
+
+    # B4W custom properties
+    from . import properties
+
+    # B4W custom panels and buttons
+    from . import interface
+
+    # Blend4Web exporter
+    from . import exporter
+
+    # Blend4Web HTML exporter
+    from . import html_exporter
+
+    # Script for baking skeletal animation
+    from . import anim_baker
+
+    # Script for baking vertex animation
+    from . import vertex_anim_baker
+
+    # Copies cursor location as Blend4Web camera target
+    from . import camera_target_copier
+
+    # Old script needed for transfer of animation from Maya
+    from . import weights_copy
+
+    # scripts written by the artist
+    from . import split_actions
+    from . import weights_mirror
+
+    from . import vertex_normals
+    from . import vertex_groups_to_materials
+    from . import shore_distance_baker
+    from . import remove_unused_vgroups
+    from . import boundings_draw
+    from . import nla_script
 
 import bpy
 from bpy.types import AddonPreferences
 from bpy.props import StringProperty
 
-# B4W addon validation on start
-from . import init_validation
-
-# B4W custom properties
-from . import properties
-
-# B4W custom panels and buttons
-from . import interface
-
-# Blend4Web exporter
-from . import exporter
-
-# Blend4Web HTML exporter
-from . import html_exporter
-
-# Script for baking skeletal animation
-from . import anim_baker
-
-# Script for baking vertex animation
-from . import vertex_anim_baker
-
-# Copies cursor location as Blend4Web camera target
-from . import camera_target_copier
-
-# Old script needed for transfer of animation from Maya
-from . import weights_copy
-
-# Some scripts written by the artist
-from . import split_actions, weights_mirror 
-
-from . import vertex_normals
-
-from . import vertex_groups_to_materials
-
-from . import shore_distance_baker
-
-from . import remove_unused_vgroups
-
-from . import boundings_draw
+import os
 
 def update_b4w_src_path(addon_pref, context):
     if addon_pref.b4w_src_path != "":
@@ -75,6 +93,8 @@ class B4WPreferences(AddonPreferences):
         layout.prop(self, "b4w_src_path", text="Path to b4w source")
 
 def register():
+    nla_script.register()
+
     properties.register()
     interface.register()
     exporter.register()
@@ -99,6 +119,8 @@ def register():
 
 
 def unregister():
+    nla_script.unregister()
+
     properties.unregister()
     interface.unregister()
     exporter.unregister()

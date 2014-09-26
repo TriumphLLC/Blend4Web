@@ -16,6 +16,10 @@ var m_ext   = require("__extensions");
 
 var m_vec3 = require("vec3");
 
+var _vec3_tmp = new Float32Array(3);
+var _vec3_tmp2 = new Float32Array(3);
+var _vec3_tmp3 = new Float32Array(3);
+
 var MAX_SUBMESH_LENGTH = 256*256;
 
 var COMB_SORT_JUMP_COEFF = 1.247330950103979;
@@ -1586,9 +1590,18 @@ exports.geometry_random_points = function(submesh, n, process_normals, seed) {
     var tnum = triangles.length;
     var areas = new Float32Array(tnum);
 
+    var A = _vec3_tmp;
+    var B = _vec3_tmp2;
+    var C = _vec3_tmp3;
+
     for (var i = 0; i < tnum; i++) {
         var tri = triangles[i];
-        areas[i] = triangle_area(tri);
+
+        A.set(tri.subarray(0, 3));
+        B.set(tri.subarray(3, 6));
+        C.set(tri.subarray(6));
+
+        areas[i] = triangle_area(A, B, C);
     }
 
     var cumulative_areas = new Float32Array(tnum);
@@ -1705,22 +1718,45 @@ function extract_polyindices(submesh) {
  * Calculate triangle area using Heron's formula
  * @methodOf geometry
  */
-function triangle_area(triangle) {
+function triangle_area(A, B, C) {
+    return Math.sqrt(triangle_area_squared(A, B, C));
+}
 
-    // NOTE: unoptimizied
-    var pos0 = new Float32Array([triangle[0], triangle[1], triangle[2]]);
-    var pos1 = new Float32Array([triangle[3], triangle[4], triangle[5]]);
-    var pos2 = new Float32Array([triangle[6], triangle[7], triangle[8]]);
+/**
+ * Calculate squared triangle area using Heron's formula
+ * @methodOf geometry
+ */
+exports.triangle_area_squared = triangle_area_squared;
+function triangle_area_squared(A, B, C) {
+    var a = m_vec3.dist(A, B);
+    var b = m_vec3.dist(A, C);
+    var c = m_vec3.dist(B, C);
 
-    var a = m_vec3.dist(pos0, pos1);
-    var b = m_vec3.dist(pos0, pos2);
-    var c = m_vec3.dist(pos1, pos2);
+    var p = (a + b + c) / 2;
 
-    var s = (a + b + c) / 2;
+    return p * (p - a) * (p - b) * (p - c);
+}
 
-    var t = Math.sqrt(s * (s - a) * (s - b) * (s - c));
+/**
+ * Calculate plane normal by 3 points through the point-normal form of the
+ * plane equation
+ * @methodOf geometry
+ */
+exports.get_plane_normal = function(a, b, c, dest) {
+    var a12 = b[0] - a[0];
+    var a13 = c[0] - a[0];
 
-    return t;
+    var a22 = b[1] - a[1];
+    var a23 = c[1] - a[1];
+
+    var a32 = b[2] - a[2];
+    var a33 = c[2] - a[2];
+
+    dest[0] = a22 * a33 - a32 * a23;
+    dest[1] = a13 * a32 - a12 * a33;
+    dest[2] = a12 * a23 - a22 * a13;
+
+    return dest;
 }
 
 /**

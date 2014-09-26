@@ -5,6 +5,7 @@ $(APPS_EXT)/viewer/viewer.min.js: $(APPS_DEV)/viewer/viewer.js
 	@echo "Compiling app viewer"
 	java -jar $(JAR_CP) \
 	    --compilation_level SIMPLE_OPTIMIZATIONS \
+	    --language_in=ECMASCRIPT5 \
 	    --js=$(APPS_DEV)/viewer/viewer.js \
 	    --js_output_file=$(APPS_EXT)/viewer/viewer.min.js
 

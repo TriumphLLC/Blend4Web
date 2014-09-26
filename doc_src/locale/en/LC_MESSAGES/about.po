@@ -15,6 +15,10 @@ msgstr ""
 msgid "Общие сведения"
 msgstr "Overview"
 
+#: ../about.rst:7
+msgid "Blend4Web"
+msgstr ""
+
 #: ../about.rst:12
 msgid "Что такое Blend4Web"
 msgstr "What's Blend4Web"
@@ -64,6 +68,10 @@ msgstr ""
 "The Blend4Web 3D engine has been developed by Triumph LLC employees since "
 "2010. The engine was first released on March 28 2014."
 
+#: ../about.rst:25
+msgid "движок"
+msgstr "engine"
+
 #: ../about.rst:30
 msgid "\"Движок\""
 msgstr "About Engines"
@@ -89,6 +97,14 @@ msgstr ""
 "existance of software engines is multiple usage of the same functionality. "
 "For example developers may create relatively cheap online shops or games "
 "using one or another engine."
+
+#: ../about.rst:37
+msgid "графический движок"
+msgstr "graphics engine"
+
+#: ../about.rst:37
+msgid "трехмерный движок"
+msgstr "three-dimensional engine"
 
 #: ../about.rst:42
 msgid "Графический движок, трехмерный движок"
@@ -127,6 +143,10 @@ msgstr ""
 " logic editors producing a **three-dimensional engine** - an integrated "
 "environment for authoring 3D applications."
 
+#: ../about.rst:52 ../about.rst:62 ../about.rst:98
+msgid "WebGL"
+msgstr ""
+
 #: ../about.rst:57
 msgid "Что такое WebGL"
 msgstr "What's WebGL"
@@ -141,6 +161,10 @@ msgstr ""
 "WebGL (Web Graphics Library) is one of the modern browser technologies which"
 " allows authoring 3D graphics applications. In other words WebGL is \"3D in "
 "a browser\"."
+
+#: ../about.rst:62
+msgid "поддержка в браузерах"
+msgstr "browser support"
 
 #: ../about.rst:67
 msgid "Поддержка WebGL в браузерах"
@@ -173,6 +197,10 @@ msgstr ""
 msgid "`Opera <http://www.opera.com/browser>`_"
 msgstr ""
 
+#: ../about.rst:79
+msgid "`Safari <http://www.apple.com/safari/>`_ 8+"
+msgstr ""
+
 #: ../about.rst:82
 msgid "Экспериментальная поддержка"
 msgstr "Experimental Support"
@@ -183,57 +211,57 @@ msgid ""
 "/download-ie>`_ 11"
 msgstr ""
 
-#: ../about.rst:85
-msgid "`Safari <http://www.apple.com/safari/>`_ 8"
-msgstr ""
-
-#: ../about.rst:89
+#: ../about.rst:88
 msgid "Мобильные платформы"
 msgstr "Mobile Platforms"
 
-#: ../about.rst:91
-msgid "Android (на большей части современных устройств)"
-msgstr "Android (on the majority of modern devices)"
+#: ../about.rst:90
+msgid "Android (на современных устройствах)"
+msgstr "Android (on modern devices)"
 
-#: ../about.rst:92
+#: ../about.rst:91
 msgid "BlackBerry"
 msgstr ""
 
-#: ../about.rst:93
+#: ../about.rst:92
 msgid "Firefox OS"
 msgstr ""
 
-#: ../about.rst:94
+#: ../about.rst:93
 msgid "iOS 8"
 msgstr ""
 
-#: ../about.rst:95
+#: ../about.rst:94
 msgid "Tizen"
 msgstr ""
 
-#: ../about.rst:96
+#: ../about.rst:95
 msgid "Ubuntu Touch"
 msgstr ""
 
-#: ../about.rst:97
+#: ../about.rst:96
 msgid "WebOS"
 msgstr ""
 
-#: ../about.rst:104
+#: ../about.rst:98
+msgid "преимущества"
+msgstr "advantages"
+
+#: ../about.rst:103
 msgid "Преимущества WebGL"
 msgstr "Advantages of WebGL"
 
-#: ../about.rst:106
+#: ../about.rst:105
 msgid "работает в браузерах без установки дополнительных программ (плагинов)"
 msgstr "works in browsers without installing additional software (plugins)"
 
-#: ../about.rst:107
+#: ../about.rst:106
 msgid ""
 "кроссплатформенный, предназначен для работы во всех стационарных и мобильных"
 " системах"
 msgstr "crossplatform, intended for all desktop and embedded systems"
 
-#: ../about.rst:108
+#: ../about.rst:107
 msgid ""
 "является `открытым стандартом "
 "<http://ru.wikipedia.org/wiki/%D0%9E%D1%82%D0%BA%D1%80%D1%8B%D1%82%D1%8B%D0%B9_%D1%81%D1%82%D0%B0%D0%BD%D0%B4%D0%B0%D1%80%D1%82>`_,"
@@ -242,7 +270,7 @@ msgstr ""
 "`open standard <http://en.wikipedia.org/wiki/Open_standard>`_, does not "
 "require licensing fees"
 
-#: ../about.rst:109
+#: ../about.rst:108
 msgid ""
 "поддерживается ведущими участниками рынка IT (Google, Apple, Microsoft, "
 "Nvidia, Samsung, Adobe и др.)"
@@ -250,22 +278,26 @@ msgstr ""
 "supported by the leading participants of the IT market (Google, Apple, "
 "Microsoft, Nvidia, Samsung, Adobe and others)"
 
-#: ../about.rst:110
+#: ../about.rst:109
 msgid "основан на знакомой разработчикам технологии OpenGL"
 msgstr "based on OpenGL which is familiar to developers"
 
-#: ../about.rst:111
+#: ../about.rst:110
 msgid ""
 "интегрируется с другими :ref:`браузерными технологиями <about_browser_tech>`"
 msgstr ""
 "can be integrated with other :ref:`browser technologies "
 "<about_browser_tech>`"
 
-#: ../about.rst:119
+#: ../about.rst:113
+msgid "Blender"
+msgstr ""
+
+#: ../about.rst:118
 msgid "Что такое Blender"
 msgstr "What's Blender"
 
-#: ../about.rst:121
+#: ../about.rst:120
 msgid ""
 "Blender - это популярная программа для создания 3D-моделей и анимации, "
 "бесплатная и с открытым кодом. Подготовленные в программе модели и сцены "
@@ -277,22 +309,22 @@ msgstr ""
 "can be displayed, for example, by means of a :ref:`three-dimensional engine "
 "<about_graphics_engine>` on a web page."
 
-#: ../about.rst:129 ../about.rst:124
+#: ../about.rst:128 ../about.rst:123
 msgid "3D моделирование"
 msgstr "3D Modeling"
 
-#: ../about.rst:131
+#: ../about.rst:130
 msgid ""
 "Создание графических ресурсов требует наличия подготовленных специалистов - "
 "3D-художников."
 msgstr ""
 "Authoring graphics resources requires trained specialists - 3D artists."
 
-#: ../about.rst:133
+#: ../about.rst:132
 msgid "Типичный рабочий процесс может состоять из следующих этапов:"
 msgstr "A typical workflow may include the following stages:"
 
-#: ../about.rst:135
+#: ../about.rst:134
 msgid ""
 "подбор фотографий и/или создание концепта и скетчей "
 "(\"спереди\"-\"сбоку\"-\"сверху\") будущей модели или сцены"
@@ -300,13 +332,13 @@ msgstr ""
 "choosing photos and/or creating concepts and sketches (views from the front "
 "- from the side - from the above) of the future model or scene"
 
-#: ../about.rst:136
+#: ../about.rst:135
 msgid ""
 "моделирование - создается трехмерная модель, состоящая из многоугольников "
 "(полигонов)"
 msgstr "modeling - a 3D model consisting of polygons is created"
 
-#: ../about.rst:137
+#: ../about.rst:136
 msgid ""
 "текстурная развертка - на модели создается разметка для последующего "
 "наложения текстур (плоских изображений)"
@@ -314,11 +346,11 @@ msgstr ""
 "UV mapping - the model is unwrapped for further overlaying of textures (flat"
 " images) "
 
-#: ../about.rst:138
+#: ../about.rst:137
 msgid "текстурирование - на 3D-модель накладываются текстуры"
 msgstr "texturing - textures are overlayed on the 3D model"
 
-#: ../about.rst:139
+#: ../about.rst:138
 msgid ""
 "подбор материалов - назначение различным частям модели материалов и их "
 "настройка (например, деревянная дверь с металлической ручкой)"
@@ -326,7 +358,7 @@ msgstr ""
 "materials setup - materials are assigned for different parts of the model "
 "and tuned (for example, a wooden door with a metal handle)"
 
-#: ../about.rst:140
+#: ../about.rst:139
 msgid ""
 "риггинг (от англ. rigging, т.е. \"оснастка\") - к модели прикрепляются "
 "управляющие элементы (\"кости\" \"скелета\") с целью дальнейшей анимации"
@@ -334,7 +366,7 @@ msgstr ""
 "rigging - the controlling elements (\"skeletal bones\") are attached to the "
 "model to animate it"
 
-#: ../about.rst:141
+#: ../about.rst:140
 msgid ""
 "анимация - модель приводится в движение с целью визуализации действий "
 "(например, персонажей)"
@@ -342,7 +374,7 @@ msgstr ""
 "animation - the model is set in motion to visualize actions for example - of"
 " characters"
 
-#: ../about.rst:142
+#: ../about.rst:141
 msgid ""
 "экспорт - выполняется на любом этапе с целью отображения 3D-модели в ее "
 "конечном виде, например, на веб-странице"
@@ -350,7 +382,7 @@ msgstr ""
 "export - can be performed on any stage to display the 3D model in its final "
 "form, for example, on a web page"
 
-#: ../about.rst:144
+#: ../about.rst:143
 msgid ""
 "Кроме того, в процессе создания 3D-моделей часто используются техники "
 "повышения реализма, требующие отдельных этапов:"
@@ -358,14 +390,14 @@ msgstr ""
 "In addition, realism improving techniques are often used in the process of "
 "creating 3D models which require additional stages:"
 
-#: ../about.rst:146
+#: ../about.rst:145
 msgid ""
 "создание высокополигональной модели - создается детализированная версия "
 "модели"
 msgstr ""
 "creating a high-poly model - a detailed version of the model is created"
 
-#: ../about.rst:147
+#: ../about.rst:146
 msgid ""
 "\"запекание\" карты нормалей - детали из высокополигональной модели "
 "переносятся на основную модель в виде специальной текстуры (карты нормалей)"
@@ -373,7 +405,7 @@ msgstr ""
 "\"baking\" of a normal map - details from the high-poly model are "
 "transferred to the main model in the form of a special texture (normal map)"
 
-#: ../about.rst:148
+#: ../about.rst:147
 msgid ""
 "создание карты отражения - различным частям модели назначается различный "
 "цвет и степень отражения света"
@@ -381,7 +413,7 @@ msgstr ""
 "creating a specular map - different reflection color and ratio are assigned "
 "to different model parts"
 
-#: ../about.rst:149
+#: ../about.rst:148
 msgid ""
 "запекание карт окружения - производится с целью реализации эффекта отражения"
 " окружающей среды на поверхности модели"
@@ -389,15 +421,15 @@ msgstr ""
 "baking environment maps - is performed to visualize the surrounding "
 "environment reflection on the model surface"
 
-#: ../about.rst:150
+#: ../about.rst:149
 msgid "настройка камеры и источников света на сцене"
 msgstr "setting up the camera and the light sources on the scene"
 
-#: ../about.rst:151
+#: ../about.rst:150
 msgid "настройка параметров физической симуляции - частицы, ткань"
 msgstr "physical simulation parameters setup - particles, cloth"
 
-#: ../about.rst:153
+#: ../about.rst:152
 msgid ""
 "Затраты времени при изготовлении 3D-моделей и анимации зависят от их "
 "сложности и требуемого качества, и могут изменяться от 1-2 дней (например, "
@@ -411,11 +443,19 @@ msgstr ""
 "several months (realistic characters with clothing, hair, face sets, with "
 "animation and figure parameters setup)."
 
-#: ../about.rst:161
+#: ../about.rst:155
+msgid "браузерные технологии"
+msgstr "browser technologies"
+
+#: ../about.rst:155
+msgid "браузер"
+msgstr "browser"
+
+#: ../about.rst:160
 msgid "Браузерные технологии"
 msgstr "Browser Technologies"
 
-#: ../about.rst:163
+#: ../about.rst:162
 msgid ""
 "Браузер (от англ. \"browser\", т.е. \"просмотрщик\") - программа для "
 "воспроизведения содержимого сети Интернет. На заре развития интернет-"
@@ -429,7 +469,7 @@ msgstr ""
 " static images (\"hyper-text\"). Modern browsers are full-scale platforms "
 "for multimedia web applications."
 
-#: ../about.rst:165
+#: ../about.rst:164
 msgid ""
 "Среди реализованных и перспективных возможностей браузеров, используемых в "
 ":ref:`Blend4Web <about_product>`, можно отметить следующие технологии:"
@@ -437,7 +477,7 @@ msgstr ""
 "Among the already implemented and promising browser features which are used "
 "in :ref:`Blend4Web <about_product>` the following technologies can be noted:"
 
-#: ../about.rst:167
+#: ../about.rst:166
 msgid ""
 "трехмерная графика, `WebGL "
 "<https://www.khronos.org/registry/webgl/specs/latest/>`_"
@@ -445,14 +485,14 @@ msgstr ""
 "three-dimensional graphics, `WebGL "
 "<https://www.khronos.org/registry/webgl/specs/latest/>`_"
 
-#: ../about.rst:168
+#: ../about.rst:167
 msgid ""
 "типизированные массивы, `Typed Array "
 "<https://www.khronos.org/registry/typedarray/specs/latest/>`_"
 msgstr ""
 "`Typed Array <https://www.khronos.org/registry/typedarray/specs/latest/>`_"
 
-#: ../about.rst:169
+#: ../about.rst:168
 msgid ""
 "временной контроль анимации (requestAnimationFrame), `Timing control for "
 "script-based animations <http://www.w3.org/TR/animation-timing/>`_"
@@ -460,7 +500,7 @@ msgstr ""
 "`Timing control for script-based animations <http://www.w3.org/TR/animation-"
 "timing/>`_ (requestAnimationFrame)"
 
-#: ../about.rst:170
+#: ../about.rst:169
 msgid ""
 "двухмерная графика, `HTML Canvas 2D Context "
 "<http://www.w3.org/TR/2dcontext/>`_"
@@ -468,11 +508,11 @@ msgstr ""
 "two-dimensional graphics, `HTML Canvas 2D Context "
 "<http://www.w3.org/TR/2dcontext/>`_"
 
-#: ../about.rst:171
+#: ../about.rst:170
 msgid "обработка звука, `Web Audio API <http://www.w3.org/TR/webaudio/>`_"
 msgstr "sound processing, `Web Audio API <http://www.w3.org/TR/webaudio/>`_"
 
-#: ../about.rst:172
+#: ../about.rst:171
 msgid ""
 "загрузка бинарных данных, `XMLHttpRequest Level 2 "
 "<http://www.w3.org/TR/XMLHttpRequest/>`_"
@@ -480,14 +520,14 @@ msgstr ""
 "binary data loading, `XMLHttpRequest Level 2 "
 "<http://www.w3.org/TR/XMLHttpRequest/>`_"
 
-#: ../about.rst:173
+#: ../about.rst:172
 msgid ""
 "полноэкранный режим, `Fullscreen <http://dvcs.w3.org/hg/fullscreen/raw-"
 "file/tip/Overview.html>`_"
 msgstr ""
 "`Fullscreen <http://dvcs.w3.org/hg/fullscreen/raw-file/tip/Overview.html>`_"
 
-#: ../about.rst:174
+#: ../about.rst:173
 msgid ""
 "захват курсора мыши, `Pointer Lock <http://dvcs.w3.org/hg/pointerlock/raw-"
 "file/default/index.html>`_"
@@ -495,22 +535,22 @@ msgstr ""
 "`Pointer Lock <http://dvcs.w3.org/hg/pointerlock/raw-"
 "file/default/index.html>`_"
 
-#: ../about.rst:175
+#: ../about.rst:174
 msgid ""
 "многопоточные вычисления, `Web Workers <http://www.w3.org/TR/workers/>`_"
 msgstr "multithreading, `Web Workers <http://www.w3.org/TR/workers/>`_"
 
-#: ../about.rst:177
+#: ../about.rst:176
 msgid "Другие перспективные технологии:"
 msgstr "Other promising technologies:"
 
-#: ../about.rst:179
+#: ../about.rst:178
 msgid ""
 "векторная графика, `Scalable Vector Graphics (SVG) "
 "<http://www.w3.org/TR/SVG/>`_"
 msgstr "`Scalable Vector Graphics (SVG) <http://www.w3.org/TR/SVG/>`_"
 
-#: ../about.rst:180
+#: ../about.rst:179
 msgid ""
 "безопасный доступ к файлам, `File API <http://www.w3.org/TR/FileAPI/>`_, "
 "`File API: Directories and System <http://www.w3.org/TR/file-system-api/>`_"
@@ -518,7 +558,7 @@ msgstr ""
 "safe file access, `File API <http://www.w3.org/TR/FileAPI/>`_, `File API: "
 "Directories and System <http://www.w3.org/TR/file-system-api/>`_"
 
-#: ../about.rst:181
+#: ../about.rst:180
 msgid ""
 "потоковое соединение между браузерами, `WebRTC "
 "<http://dev.w3.org/2011/webrtc/editor/webrtc.html>`_"
@@ -526,7 +566,7 @@ msgstr ""
 "real-time communication between browsers, `WebRTC "
 "<http://dev.w3.org/2011/webrtc/editor/webrtc.html>`_"
 
-#: ../about.rst:182
+#: ../about.rst:181
 msgid ""
 "постоянное сетевое подключение, `The WebSocket API "
 "<http://www.w3.org/TR/websockets/>`_"
@@ -534,18 +574,22 @@ msgstr ""
 "persistent network connection, `The WebSocket API "
 "<http://www.w3.org/TR/websockets/>`_"
 
-#: ../about.rst:183
+#: ../about.rst:182
 msgid ""
 "игровые пульты, `Gamepad <http://dvcs.w3.org/hg/gamepad/raw-"
 "file/default/gamepad.html>`_"
 msgstr ""
 "`Gamepad <http://dvcs.w3.org/hg/gamepad/raw-file/default/gamepad.html>`_"
 
-#: ../about.rst:192
+#: ../about.rst:186
+msgid "интерактивная графика"
+msgstr "interactive graphics"
+
+#: ../about.rst:191
 msgid "Интерактивная графика"
 msgstr "Interactive Graphics"
 
-#: ../about.rst:194
+#: ../about.rst:193
 msgid ""
 "Термин \"интерактивный\" в приложении к компьютерной графике означает, что "
 "пользователь имеет возможность взаимодействовать с постоянно меняющимся "
@@ -558,7 +602,7 @@ msgstr ""
 "change the view direction in a 3D scene, move the objects, trigger animation"
 " and carry out other actions normally associated with computer games."
 
-#: ../about.rst:196
+#: ../about.rst:195
 msgid ""
 "Интерактивность графики достигается за счет частой смены изображений, так "
 "что действие пользователя (например, движение курсора или нажатие кнопки) в "
@@ -573,7 +617,7 @@ msgstr ""
 "replace each other so frequently that the human eye could not recognize them"
 " individually (at least 30 frames per second)."
 
-#: ../about.rst:198
+#: ../about.rst:197
 msgid ""
 "Близким по смыслу термином является также \"графика реального времени\", или"
 " \"рендеринг реального времени\" (от англ. rendering, т.е. \"отображение\")."
@@ -581,11 +625,19 @@ msgstr ""
 "\"Real-time graphics\" or \"real-time rendering\" are also similar in "
 "meaning to the term."
 
-#: ../about.rst:206
+#: ../about.rst:200
+msgid "видео-карта"
+msgstr "video card"
+
+#: ../about.rst:200
+msgid "драйверы"
+msgstr "drivers"
+
+#: ../about.rst:205
 msgid "Видео-карты и драйверы"
 msgstr "Video Cards and Drivers"
 
-#: ../about.rst:208
+#: ../about.rst:207
 msgid ""
 "Интерактивная графика реализуется специализированной аппаратной частью "
 "современных компьютеров, называемой графическим процессором, который может "
@@ -596,7 +648,7 @@ msgstr ""
 "modern computers so called graphics processor which can be implemeted as a "
 "discrete device (video card) or as a part of the central processing unit."
 
-#: ../about.rst:210
+#: ../about.rst:209
 msgid ""
 "Основные производители графических процессоров (в скобках указаны их "
 "торговые марки), для настольных компьютеров - NVidia (GeForce, Quadro), AMD "
@@ -608,7 +660,7 @@ msgstr ""
 "(Mali), PowerVR (SGX), Nvidia (Tegra), Qualcomm (Adreno) (trade marks are "
 "specified in brackets)."
 
-#: ../about.rst:212
+#: ../about.rst:211
 msgid ""
 "Доступ программ к ресурсам графического процессора осуществляется через "
 "программу-посредника, называемого драйвером. Важным условием для корректной "
@@ -623,56 +675,4 @@ msgstr ""
 "the system. Drivers can be installed (or upgraded) from corresponding "
 "websites of graphics processors vendors. See detailed info in the section "
 ":ref:`webgl_not_working`."
-
-#: ../about.rst:7
-msgid "Blend4Web"
-msgstr "Blend4Web"
-
-#: ../about.rst:25
-msgid "движок"
-msgstr "engine"
-
-#: ../about.rst:37
-msgid "графический движок"
-msgstr "graphics engine"
-
-#: ../about.rst:37
-msgid "трехмерный движок"
-msgstr "three-dimensional engine"
-
-#: ../about.rst:52 ../about.rst:62 ../about.rst:99
-msgid "WebGL"
-msgstr "WebGL"
-
-#: ../about.rst:62
-msgid "поддержка в браузерах"
-msgstr "browser support"
-
-#: ../about.rst:99
-msgid "преимущества"
-msgstr "advantages"
-
-#: ../about.rst:114
-msgid "Blender"
-msgstr "Blender"
-
-#: ../about.rst:156
-msgid "браузерные технологии"
-msgstr "browser technologies"
-
-#: ../about.rst:156
-msgid "браузер"
-msgstr "browser"
-
-#: ../about.rst:187
-msgid "интерактивная графика"
-msgstr "interactive graphics"
-
-#: ../about.rst:201
-msgid "видео-карта"
-msgstr "video card"
-
-#: ../about.rst:201
-msgid "драйверы"
-msgstr "drivers"
 

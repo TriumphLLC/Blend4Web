@@ -52,10 +52,10 @@ var LEVELS;
  */
 exports.setup_context = function(gl) {
     LEVELS = [
-        gl.NEAREST_MIPMAP_NEAREST, 
-        gl.NEAREST_MIPMAP_LINEAR,   
-        gl.LINEAR_MIPMAP_NEAREST, // better and faster than gl.NEAREST_MIPMAP_LINEAR
-        gl.LINEAR_MIPMAP_LINEAR    
+        gl.NEAREST_MIPMAP_NEAREST,
+        gl.NEAREST_MIPMAP_LINEAR,
+        gl.LINEAR_MIPMAP_NEAREST, // faster than gl.NEAREST_MIPMAP_LINEAR
+        gl.LINEAR_MIPMAP_LINEAR
     ];
 
     exports.TF_NEAREST = gl.NEAREST;
@@ -118,7 +118,7 @@ exports.create_texture = function(name, type) {
         _gl.bindTexture(w_target, null);
 
         texture.w_target = w_target;
-        texture.w_texture = w_texture; 
+        texture.w_texture = w_texture;
     }
 
     return texture;
@@ -169,7 +169,7 @@ exports.create_cubemap_texture = function(name, size) {
     texture.height = 2*size;
     texture.compress_ratio = 1;
 
-    texture.w_texture = w_texture; 
+    texture.w_texture = w_texture;
     texture.w_target = _gl.TEXTURE_CUBE_MAP;
 
     return texture;
@@ -200,7 +200,7 @@ exports.set_filters = function(texture, min_filter, mag_filter) {
  * Get texture MIN/MAG filters (TF_*)
  */
 exports.get_filters = function(texture) {
-    
+
     // consider that renderbuffer has NEAREST filtering
     if (texture.type == exports.TT_RENDERBUFFER) {
         return {
@@ -229,12 +229,14 @@ exports.resize = function(texture, width, height) {
     var width = Math.max(width, 1);
     var height = Math.max(height, 1);
 
+    check_texture_size(width, height);
+
     if (texture.width == width && texture.height == height)
         return;
 
     if (texture.type == exports.TT_RENDERBUFFER) {
         _gl.bindRenderbuffer(_gl.RENDERBUFFER, texture.w_renderbuffer);
-        _gl.renderbufferStorage(_gl.RENDERBUFFER, _gl.DEPTH_COMPONENT16, 
+        _gl.renderbufferStorage(_gl.RENDERBUFFER, _gl.DEPTH_COMPONENT16,
                 width, height);
         _gl.bindRenderbuffer(_gl.RENDERBUFFER, null);
     } else {
@@ -311,7 +313,7 @@ exports.create_texture_bpy = function(bpy_texture, global_af, bpy_scenes) {
         return null;
 
     default:
-        m_print.error("B4W warning: texture \"" + bpy_texture["name"] + 
+        m_print.error("B4W warning: texture \"" + bpy_texture["name"] +
             "\" has unsupported type \"" + tex_type + "\"");
         return null;
     }
@@ -326,7 +328,7 @@ exports.create_texture_bpy = function(bpy_texture, global_af, bpy_scenes) {
     setup_anisotropic_filtering(bpy_texture, global_af, w_target);
 
     var tex_extension = bpy_texture["extension"];
-    if (tex_extension == "REPEAT" && tex_type != "NONE") {
+    if (tex_extension == "REPEAT" && tex_type != "NONE" && !bpy_texture["b4w_shore_dist_map"]) {
         _gl.texParameteri(w_target, _gl.TEXTURE_WRAP_S, _gl.REPEAT);
         _gl.texParameteri(w_target, _gl.TEXTURE_WRAP_T, _gl.REPEAT);
     } else {
@@ -406,6 +408,7 @@ exports.create_texture_canvas = function(name, width, height) {
     return texture;
 }
 
+/*
 exports.resize_texture_canvas = function(texture, width, height) {
 
     if (texture.source != "CANVAS")
@@ -442,6 +445,7 @@ function update_texture_canvas(texture) {
     texture.width = width;
     texture.height = height;
 }
+*/
 
 /**
  * Load image data into texture object
@@ -460,21 +464,21 @@ exports.update_texture = function(texture, image_data, is_dds, filepath) {
     if (image_data.length == 4) {
         var update_color = true;
         var image_data = new Uint8Array([
-            image_data[0] * 255, 
-            image_data[1] * 255, 
-            image_data[2] * 255, 
+            image_data[0] * 255,
+            image_data[1] * 255,
+            image_data[2] * 255,
             image_data[3] * 255
         ]);
     }
 
     if (tex_type == "IMAGE") {
         if (update_color) {
-            _gl.texImage2D(w_target, 0, _gl.RGBA, 1, 1, 0, _gl.RGBA, _gl.UNSIGNED_BYTE, 
+            _gl.texImage2D(w_target, 0, _gl.RGBA, 1, 1, 0, _gl.RGBA, _gl.UNSIGNED_BYTE,
                     image_data);
             texture.width = 1;
             texture.height = 1;
         } else if (is_dds) {
-            m_dds.upload_dds_levels(_gl, extensions.get_s3tc(), image_data, 
+            m_dds.upload_dds_levels(_gl, extensions.get_s3tc(), image_data,
                     true);
             var dds_wh = m_dds.get_width_height(image_data);
 
@@ -491,6 +495,8 @@ exports.update_texture = function(texture, image_data, is_dds, filepath) {
             _gl.pixelStorei(_gl.UNPACK_FLIP_Y_WEBGL, true);
             //_gl.pixelStorei(_gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);
 
+            check_texture_size(image_data.width, image_data.height);
+
             _gl.texImage2D(w_target, 0, _gl.RGBA, _gl.RGBA, _gl.UNSIGNED_BYTE, image_data);
 
             texture.width = image_data.width;
@@ -501,18 +507,18 @@ exports.update_texture = function(texture, image_data, is_dds, filepath) {
                     m_print.warn("B4W warning: using NPOT-texture", filepath);
                 prepare_npot_texture(w_target);
             } else
-                _gl.generateMipmap(w_target);   
+                _gl.generateMipmap(w_target);
         }
 
     } else if (tex_type == "ENVIRONMENT_MAP") {
 
         // get six images from Blender-packed environment map
         var infos = [
-            ["POSITIVE_X", 2, 0], 
+            ["POSITIVE_X", 2, 0],
             ["NEGATIVE_X", 0, 0],
-            ["POSITIVE_Y", 1, 1], 
+            ["POSITIVE_Y", 1, 1],
             ["NEGATIVE_Y", 0, 1],
-            ["POSITIVE_Z", 1, 0], 
+            ["POSITIVE_Z", 1, 0],
             ["NEGATIVE_Z", 2, 1]
         ];
 
@@ -526,7 +532,6 @@ exports.update_texture = function(texture, image_data, is_dds, filepath) {
             texture.width = 3;
             texture.height = 2;
         } else {
-
             // Restore default OpenGL state in case it was changed earlier
             _gl.pixelStorei(_gl.UNPACK_FLIP_Y_WEBGL, false);
 
@@ -550,10 +555,10 @@ exports.update_texture = function(texture, image_data, is_dds, filepath) {
                     ctx.scale(-1, 1);
                 }
 
-                ctx.drawImage(image_data, info[1] * dim, info[2] * dim, dim, dim, 
+                ctx.drawImage(image_data, info[1] * dim, info[2] * dim, dim, dim,
                     0, 0, dim, dim);
 
-                _gl.texImage2D(_gl["TEXTURE_CUBE_MAP_" + info[0]], 0, _gl.RGBA, 
+                _gl.texImage2D(_gl["TEXTURE_CUBE_MAP_" + info[0]], 0, _gl.RGBA,
                     _gl.RGBA, _gl.UNSIGNED_BYTE, tmpcanvas);
             }
 
@@ -703,4 +708,10 @@ exports.get_texture_channel_size = function(tex) {
 
     return size;
 }
+
+function check_texture_size(width, height) {
+    if (width > cfg_def.max_texture_size || height > cfg_def.max_texture_size)
+        util.panic("Maximum texture size exceeded");
+}
+
 }

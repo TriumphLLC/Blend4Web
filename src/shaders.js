@@ -94,7 +94,7 @@ function get_directive(shaders_info, name) {
  * Check if given name is a valid directive name and its value is true
  */
 exports.is_enabled = function(shaders_info, name) {
-    
+
     var dirs = shaders_info.directives;
 
     for (var i = 0; i < dirs.length; i++)
@@ -105,7 +105,7 @@ exports.is_enabled = function(shaders_info, name) {
 }
 
 /**
- * Set default directives according to shader names 
+ * Set default directives according to shader names
  */
 exports.set_default_directives = function(sinfo) {
 
@@ -114,9 +114,10 @@ exports.set_default_directives = function(sinfo) {
     var dir_names = [
         "ALPHA",
         "ALPHA_CLIP",
-        "ALPHA_MAP",
         "BEND_CENTER_ONLY",
         "CAUSTICS",
+        "CSM_BLEND_BETWEEEN_CASCADES",
+        "CSM_FADE_LAST_CASCADE",
         "CSM_SECTION0",
         "CSM_SECTION1",
         "CSM_SECTION2",
@@ -134,6 +135,7 @@ exports.set_default_directives = function(sinfo) {
         "FRAMES_BLENDING",
         "HAIR_BILLBOARD_JITTERED",
         "HAIR_BILLBOARD_SPHERICAL",
+        "SHADOW_TEX_RES",
         "MAIN_BEND_COL",
         "MAX_BONES",
         "NUM_NORMALMAPS",
@@ -156,6 +158,7 @@ exports.set_default_directives = function(sinfo) {
         "TEXTURE_SPEC",
         "TEXTURE_STENCIL_ALPHA_MASK",
         "VERTEX_ANIM",
+        "VERTEX_ANIM_MIX_NORMALS_FACTOR",
         "VERTEX_COLOR",
         "WATER_EFFECTS",
         "WIND_BEND",
@@ -166,10 +169,6 @@ exports.set_default_directives = function(sinfo) {
         "NUM_LIGHTS",
         "NUM_LAMP_LIGHTS",
         "MAX_STEPS",
-        "CSM_SECTION_DIST0",
-        "CSM_SECTION_DIST1",
-        "CSM_SECTION_DIST2",
-        "CSM_SECTION_DIST3",
         "BILLBOARD_ALIGN",
         "SHADOW_SRC",
         "SHADOW_DST",
@@ -197,7 +196,6 @@ exports.set_default_directives = function(sinfo) {
         // default 0
         case "ALPHA":
         case "ALPHA_CLIP":
-        case "ALPHA_MAP":
         case "CAUSTICS":
         case "CSM_SECTION0":
         case "CSM_SECTION1":
@@ -218,8 +216,8 @@ exports.set_default_directives = function(sinfo) {
         case "MAIN_BEND_COL":
         case "MAX_BONES":
         case "NUM_NORMALMAPS":
-        case "PARALLAX": 
-        case "PARALLAX_STEPS": 
+        case "PARALLAX":
+        case "PARALLAX_STEPS":
         case "PROCEDURAL_FOG":
         case "REFLECTION":
         case "REFLECTION_PASS":
@@ -255,6 +253,8 @@ exports.set_default_directives = function(sinfo) {
         // default 1
         case "ALPHA_AS_SPEC":
         case "BEND_CENTER_ONLY":
+        case "CSM_BLEND_BETWEEEN_CASCADES":
+        case "CSM_FADE_LAST_CASCADE":
         case "DEPTH_RGBA":
         case "HAIR_BILLBOARD_SPHERICAL":
         case "NUM_LIGHTS":
@@ -267,17 +267,8 @@ exports.set_default_directives = function(sinfo) {
         // ...
 
         // float
-        case "CSM_SECTION_DIST0": 
-            val = 2.0001;
-            break;
-        case "CSM_SECTION_DIST1": 
-            val = 4.0001;
-            break;
-        case "CSM_SECTION_DIST2":
-            val = 7.0001;
-            break;
-        case "CSM_SECTION_DIST3":
-            val = 9.0001;
+        case "SHADOW_TEX_RES":
+            val = glsl_value(2048.0);
             break;
 
         // string
@@ -317,6 +308,9 @@ exports.set_default_directives = function(sinfo) {
                 val = 0.000001;
             else
                 val = 0.0001;
+            break;
+        case "VERTEX_ANIM_MIX_NORMALS_FACTOR":
+            val = "u_va_frame_factor";
             break;
         default:
             m_print.error("Unknown directive (" + sinfo.vert + ", " +
@@ -383,13 +377,13 @@ function get_compiled_shader(shaders_info, node_elements) {
         return null;
 
     // prepend by define directives
-    
+
     var directives = shaders_info.directives || [];
     var vshader_text = preprocess_shader("vert", vshader_ast, directives, node_elements);
     var fshader_text = preprocess_shader("frag", fshader_ast, directives, node_elements);
 
     // compile
-    _compiled_shaders[shader_id] = compiled_shader = 
+    _compiled_shaders[shader_id] = compiled_shader =
         init_shader(_gl, vshader_text, fshader_text, shader_id, shaders_info);
 
     return compiled_shader;
@@ -748,7 +742,7 @@ function expand_macro_iter(tokens, dirs, fdirs, empty_as_zero, result) {
             // TODO
             //if (token in fdirs) {
             //}
-            
+
             var new_tokens = dirs[token];
             if (new_tokens.length == 0 && empty_as_zero)
                 result.push(0);
@@ -762,9 +756,9 @@ function expand_macro_iter(tokens, dirs, fdirs, empty_as_zero, result) {
 function init_shader(gl, vshader_text, fshader_text,
                      shader_id, shaders_info) {
 
-    var vshader = compile_shader(gl, shader_id, vshader_text, 
+    var vshader = compile_shader(gl, shader_id, vshader_text,
         gl.VERTEX_SHADER, shaders_info);
-    var fshader = compile_shader(gl, shader_id, fshader_text, 
+    var fshader = compile_shader(gl, shader_id, fshader_text,
         gl.FRAGMENT_SHADER, shaders_info);
 
     var program = gl.createProgram();
@@ -787,7 +781,6 @@ function init_shader(gl, vshader_text, fshader_text,
         program    : program,
         attributes : {},
         uniforms   : {},
-        attribute_names : [],
 
         permanent_uniform_setters : [],
         // speeds up access by uniform name
@@ -806,7 +799,6 @@ function init_shader(gl, vshader_text, fshader_text,
         var att_loc = gl.getAttribLocation(program, att_name);
 
         compiled_shader.attributes[att_name] = att_loc;
-        compiled_shader.attribute_names.push(att_name);
     }
 
     var uni_count = gl.getProgramParameter(program, gl.ACTIVE_UNIFORMS);
@@ -831,7 +823,7 @@ function debug_compilation_uniqueness(shader_id, shader_text, shader_type, shade
     else
         var shader_filename = shaders_info.frag;
 
-    var hc = util.hash_code_string(shader_text, 0); 
+    var hc = util.hash_code_string(shader_text, 0);
     var info = _debug_hash_codes[hc];
 
     if (info) {
@@ -872,7 +864,7 @@ function cleanup() {
         var shader = _compiled_shaders[shader_id];
         _gl.deleteProgram(shader.program);
         // shaders automatically detached here
-        
+
         _gl.deleteShader(shader.vshader);
         _gl.deleteShader(shader.fshader);
         delete _compiled_shaders[shader_id];
@@ -887,7 +879,7 @@ function cleanup() {
 
 exports.debug_shaders_info = function(shaders_info) {
     var dirs = shaders_info.directives;
-    m_print.log("Shader: " + shaders_info.vert + " " + shaders_info.frag + 
+    m_print.log("Shader: " + shaders_info.vert + " " + shaders_info.frag +
             ", " + String(dirs.length) + " directives: ");
     for (var i = 0; i < dirs.length; i++)
         m_print.log("  " + dirs[i][0], dirs[i][1]);
@@ -896,7 +888,8 @@ exports.debug_shaders_info = function(shaders_info) {
 /**
  * dim = 0 - assign automatically
  */
-exports.glsl_value = function(value, dim) {
+exports.glsl_value = glsl_value;
+function glsl_value(value, dim) {
     if (!dim && value.length)
         dim = value.length;
     else if (!dim)
@@ -919,19 +912,19 @@ exports.glsl_value = function(value, dim) {
         break;
     case 9:
         return "mat3(" + glsl_float(value[0]) + "," + glsl_float(value[1]) + "," +
-                glsl_float(value[2]) + "," + glsl_float(value[3]) + "," + 
-                glsl_float(value[4]) + "," + glsl_float(value[5]) + "," + 
-                glsl_float(value[6]) + "," + glsl_float(value[7]) + "," + 
+                glsl_float(value[2]) + "," + glsl_float(value[3]) + "," +
+                glsl_float(value[4]) + "," + glsl_float(value[5]) + "," +
+                glsl_float(value[6]) + "," + glsl_float(value[7]) + "," +
                 glsl_float(value[8]) + ")";
         break;
     case 16:
         return "mat4(" + glsl_float(value[0]) + "," + glsl_float(value[1]) + "," +
-                glsl_float(value[2]) + "," + glsl_float(value[3]) + "," + 
-                glsl_float(value[4]) + "," + glsl_float(value[5]) + "," + 
-                glsl_float(value[6]) + "," + glsl_float(value[7]) + "," + 
-                glsl_float(value[8]) + "," + glsl_float(value[9]) + "," + 
-                glsl_float(value[10]) + "," + glsl_float(value[11]) + "," + 
-                glsl_float(value[12]) + "," + glsl_float(value[13]) + "," + 
+                glsl_float(value[2]) + "," + glsl_float(value[3]) + "," +
+                glsl_float(value[4]) + "," + glsl_float(value[5]) + "," +
+                glsl_float(value[6]) + "," + glsl_float(value[7]) + "," +
+                glsl_float(value[8]) + "," + glsl_float(value[9]) + "," +
+                glsl_float(value[10]) + "," + glsl_float(value[11]) + "," +
+                glsl_float(value[12]) + "," + glsl_float(value[13]) + "," +
                 glsl_float(value[14]) + "," + glsl_float(value[15]) + ")";
         break;
     default:

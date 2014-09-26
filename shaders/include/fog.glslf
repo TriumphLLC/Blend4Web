@@ -64,12 +64,11 @@ void fog_underwater(inout vec3 color, in float eye_dist,
     eye_dist = max(eye_dist - max(cam_depth/eye_dir_y, 0.0), 0.0);
     float water_factor = underwater_fog_color_density.w * eye_dist;
     float wat_vis = 1.0 - water_factor;
-    wat_vis = clamp(wat_vis, 0.0, 1.0);
+    wat_vis = max(wat_vis, 0.0);
 
     // vertical gradient to smooth fog artifacts
-    wat_vis += max(dist_to_water_level, 0.0);
-
     water_fog_factor(wat_vis);
+    wat_vis += max(dist_to_water_level - 0.5, 0.0);
 
     // apply more dense fog (air or water)
     if (wat_vis < air_vis) {
@@ -82,7 +81,7 @@ void fog_underwater(inout vec3 color, in float eye_dist,
         fog_color = mix(fog_color, vec3(0.0), cam_depth)
                   * light_col_intensity;
         color = mix(fog_color, color, wat_vis);
-    }
+    } // else {
     if (wat_vis >= air_vis) {
         color = mix(fog_color_density.rgb, color, air_vis);
     }

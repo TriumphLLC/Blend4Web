@@ -38,7 +38,9 @@ html:
 	@echo "Build finished. The HTML pages are in $(BUILDDIR)."
 
 latexpdf:
-	rm -r latex/*
+	-rm -rf latex/*
+
+	mkdir -p $(PUBDIR)
 
 	$(SPHINXBUILD) -b latex $(RUOPT) $(ALLSPHINXOPTS) latex
 	sed -e "/DeclareUnicodeCharacter/d" latex/b4w_tmp.tex > latex/b4w_tmp.tex~ 

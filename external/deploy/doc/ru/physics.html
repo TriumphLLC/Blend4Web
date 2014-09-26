@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Физика &mdash; Руководство пользователя: Blend4Web v14.08</title>
+    <title>Физика &mdash; Руководство пользователя: Blend4Web v14.09</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.08',
+        VERSION:     '14.09',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v14.08" href="index.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v14.09" href="index.html" />
     <link rel="next" title="Нелинейная анимация" href="nla.html" />
     <link rel="prev" title="Звуковая подсистема" href="audio.html" /> 
   </head>
@@ -37,7 +37,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">Руководство пользователя: Blend4Web v14.08</a></div>
+          href="index.html">Руководство пользователя: Blend4Web v14.09</a></div>
         <div class="rel">
           <a href="audio.html" title="Звуковая подсистема"
              accesskey="P">предыдущий</a> |
@@ -67,7 +67,7 @@
 </pre></div>
 </div>
 <p>Для задействования физики на сцене необходимо установить флаг <tt class="docutils literal"><span class="pre">Enable</span> <span class="pre">physics</span></tt> в вкладке сцены в Blender&#8217;е.</p>
-<a class="reference internal image-reference" href="_images/scene_interface.png"><img alt="_images/scene_interface.png" class="align-center" src="_images/scene_interface.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/scene_interface_phys_enable.png"><img alt="_images/scene_interface_phys_enable.png" class="align-center" src="_images/scene_interface_phys_enable.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -164,7 +164,7 @@
 </dl>
 <p>Для рулевого колеса(<tt class="docutils literal"><span class="pre">Steering</span> <span class="pre">wheel</span></tt>) необходимо указать максимальный угол поворота(<tt class="docutils literal"><span class="pre">Steering</span> <span class="pre">max</span></tt>) и передаточное отношение угла поворота руля к
 передним колесам (<tt class="docutils literal"><span class="pre">Steering</span> <span class="pre">ratio</span></tt>). Максимальное значение угла поворота указывается в оборотах. Один оборот равен 360 градусам. Таким образом,
-поставив <tt class="docutils literal"><span class="pre">Steering</span> <span class="pre">max</span></tt> равным единице, а <tt class="docutils literal"><span class="pre">Steering</span> <span class="pre">ratio</span></tt> равным 10, максимальный поворот руля получится равным 360 градусав, а максимальный
+поставив <tt class="docutils literal"><span class="pre">Steering</span> <span class="pre">max</span></tt> равным единице, а <tt class="docutils literal"><span class="pre">Steering</span> <span class="pre">ratio</span></tt> равным 10, максимальный поворот руля получится равным 360 градусам, а максимальный
 поворот передних колес 36 градусов.</p>
 <p>На этом этапе можно произвести экспорт и загрузить сцену в движок. Рекомендуется создать дорожную поверхность с физическим материалом. В просмотрщике нажать клавишу <tt class="docutils literal"><span class="pre">Q</span></tt> для выбора контролируемого объекта, и выбрать шасси. Использовать <tt class="docutils literal"><span class="pre">W</span></tt>, <tt class="docutils literal"><span class="pre">A</span></tt>, <tt class="docutils literal"><span class="pre">S</span></tt>, <tt class="docutils literal"><span class="pre">D</span></tt> для управления.</p>
 <p>Дополнительно можно настроить демпфирование <tt class="docutils literal"><span class="pre">Damping</span></tt> перемещения (<tt class="docutils literal"><span class="pre">Translation</span></tt>) и вращения (<tt class="docutils literal"><span class="pre">Rotation</span></tt>). Свойство влияет на скорость перемещения и инерционность ТС.</p>
@@ -233,8 +233,8 @@
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Веб-плеер</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">Аддон</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Объекты</a></li>
-<li class="toctree-l1"><a class="reference internal" href="textures.html">Текстуры</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Материалы</a></li>
+<li class="toctree-l1"><a class="reference internal" href="textures.html">Текстуры</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Нодовые материалы</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lighting.html">Освещение, тени и фон</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Постпроцессинговые эффекты</a></li>
@@ -259,6 +259,7 @@
 <li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">Разработчикам движка</a></li>
 <li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Работа в команде. Использование git</a></li>
 <li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Проблемы и решения</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Замечания к релизам</a></li>
 </ul>
 
           <h3 style="margin-top: 1.5em;">Поиск</h3>
@@ -291,7 +292,7 @@
           
     <div class="footer">
         &copy; Copyright 2014, ООО &#34;Триумф&#34;.
-      Обновлено: 2014-08-25.
+      Обновлено: 2014-09-25.
       Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

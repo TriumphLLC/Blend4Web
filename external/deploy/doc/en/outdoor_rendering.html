@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Outdoor Rendering &mdash; User Manual: Blend4Web v14.08</title>
+    <title>Outdoor Rendering &mdash; User Manual: Blend4Web v14.09</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.08',
+        VERSION:     '14.09',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User Manual: Blend4Web v14.08" href="index.html" />
+    <link rel="top" title="User Manual: Blend4Web v14.09" href="index.html" />
     <link rel="next" title="Gamma Correction and Alpha Compositing" href="gamma_alpha.html" />
     <link rel="prev" title="Animation" href="animation.html" /> 
   </head>
@@ -36,7 +36,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">User Manual: Blend4Web v14.08</a></div>
+          href="index.html">User Manual: Blend4Web v14.09</a></div>
         <div class="rel">
           <a href="animation.html" title="Animation"
              accesskey="P">previous</a> |
@@ -58,8 +58,8 @@
             
   <div class="section" id="outdoor-rendering">
 <span id="id1"></span><h1>Outdoor Rendering<a class="headerlink" href="#outdoor-rendering" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="id2">
-<h2>Water<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="water">
+<span id="id2"></span><h2>Water<a class="headerlink" href="#water" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id3">
 <h3>Activation<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
 <p>For the supposed water material enable the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Special:</span> <span class="pre">Water</span></tt> option under the <tt class="docutils literal"><span class="pre">Material</span></tt> tab.</p>
@@ -100,7 +100,6 @@
 <dd><p class="first last">Light absorption coefficient for the water. The higher it is the more transparent isthe water.</p>
 </dd>
 </dl>
-<p>In the low quality mode an <a class="reference internal" href="textures.html#texture-alpha-map"><em>alpha map</em></a> can be used instead of this option.</p>
 </div>
 <div class="section" id="id9">
 <h3>Color gradient<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
@@ -277,7 +276,7 @@
 <p>Enable the <tt class="docutils literal"><span class="pre">Sky</span> <span class="pre">Settings</span> <span class="pre">&gt;</span> <span class="pre">Procedural</span> <span class="pre">skydome</span></tt> option under the <tt class="docutils literal"><span class="pre">World</span></tt> tab. If a static <a class="reference internal" href="textures.html#skydome-texture"><em>skydome texture</em></a> is being used at the same time, it will be replaced.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">Also, a procedural sky texture can be used to imitate environment lighting for objects, similar to the static <a class="reference internal" href="textures.html#skydome-texture"><em>skydome texture</em></a>. To do this, enable the <tt class="docutils literal"><span class="pre">Sky</span> <span class="pre">Settings</span> <span class="pre">&gt;</span> <span class="pre">Use</span> <span class="pre">as</span> <span class="pre">environment</span> <span class="pre">lighting</span></tt> and <tt class="docutils literal"><span class="pre">Environment</span> <span class="pre">Lighting</span> <span class="pre">&gt;</span> <span class="pre">Sky</span> <span class="pre">Texture</span></tt> checkboxes. If the world texture for environmet lighting already exists, it will be replaced.</p>
+<p class="last">Also, a procedural sky texture can be used to imitate scattered <a class="reference internal" href="lighting.html#environment-lighting"><em>environment lighting</em></a> similar to the static <a class="reference internal" href="textures.html#skydome-texture"><em>skydome texture</em></a>. To do this, enable the <tt class="docutils literal"><span class="pre">Sky</span> <span class="pre">Settings</span> <span class="pre">&gt;</span> <span class="pre">Use</span> <span class="pre">as</span> <span class="pre">environment</span> <span class="pre">lighting</span></tt> and <tt class="docutils literal"><span class="pre">Environment</span> <span class="pre">Lighting</span> <span class="pre">&gt;</span> <span class="pre">Sky</span> <span class="pre">Texture</span></tt> checkboxes. If the world texture for environment lighting already exists, it will be replaced.</p>
 </div>
 <a class="reference internal image-reference" href="_images/skydome_procedural.jpg"><img alt="_images/skydome_procedural.jpg" class="align-center" src="_images/skydome_procedural.jpg" style="width: 100%;" /></a>
 <div class="line-block">
@@ -435,8 +434,8 @@
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Web Player</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">The Addon</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
-<li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing Effects</a></li>
@@ -444,7 +443,7 @@
 <li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System for Instancing Objects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="animation.html">Animation</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Outdoor Rendering</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#id2">Water</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#water">Water</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#atmosphere">Atmosphere</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#wind">Wind</a></li>
 </ul>
@@ -457,6 +456,7 @@
 <li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">For Engine Developers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Team Work. Using Git</a></li>
 <li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Problems and Solutions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
 </ul>
 
           <h3 style="margin-top: 1.5em;">Search</h3>
@@ -489,7 +489,7 @@
           
     <div class="footer">
         &copy; Copyright 2014, Triumph LLC.
-      Last updated on 2014-08-25.
+      Last updated on 2014-09-25.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

@@ -54,6 +54,7 @@ var m_vec3 = require("vec3");
 // radian/pixel
 var MOUSE_ROTATION_MULT_PX = 0.003;
 var TOUCH_ROTATION_MULT_PX = 0.005;
+var EYE_ROTATION_DECREMENT = 0.5;
 
 var MOUSE_ZOOM_FACTOR = 0.1;
 var TOUCH_ZOOM_FACTOR = 0.005;
@@ -101,6 +102,7 @@ var _vec3_tmp2 = new Float32Array(3);
  */
 
 exports.init = function(options) {
+
     options = options || {};
 
     var canvas_container_id = null;
@@ -648,12 +650,10 @@ exports.enable_camera_controls = function(trans_speed, rot_speed, zoom_speed,
         if (pulse == 1) {
             var value = m_ctl.get_sensor_value(obj, id, 1);
 
-            if (use_pivot) {
-                var r_mult = MOUSE_ROTATION_MULT_PX * rot_speed;
+            var r_mult = MOUSE_ROTATION_MULT_PX * rot_speed;
 
-                dest_x_mouse += (param == "X") ? -value * r_mult : 0;
-                dest_y_mouse += (param == "Y") ? -value * r_mult : 0;
-            }
+            dest_x_mouse += (param == "X") ? -value * r_mult : 0;
+            dest_y_mouse += (param == "Y") ? -value * r_mult : 0;
         }
     }
 
@@ -671,13 +671,11 @@ exports.enable_camera_controls = function(trans_speed, rot_speed, zoom_speed,
 
     var touch_cb = function(obj, id, pulse, param) {
         if (pulse == 1) {
-            if (use_pivot) {
-                var r_mult = TOUCH_ROTATION_MULT_PX * rot_speed;
+            var r_mult = TOUCH_ROTATION_MULT_PX * rot_speed;
 
-                var value = m_ctl.get_sensor_value(obj, id, 0);
-                dest_x_touch += (param == "X") ? -value * r_mult : 0;
-                dest_y_touch += (param == "Y") ? -value * r_mult : 0;
-            }
+            var value = m_ctl.get_sensor_value(obj, id, 0);
+            dest_x_touch += (param == "X") ? -value * r_mult : 0;
+            dest_y_touch += (param == "Y") ? -value * r_mult : 0;
         }
     }
 
@@ -692,8 +690,7 @@ exports.enable_camera_controls = function(trans_speed, rot_speed, zoom_speed,
         if (pulse == 1 &amp;&amp; (Math.abs(dest_x_mouse) > 0.001 ||
                            Math.abs(dest_y_mouse) > 0.001 ||
                            Math.abs(dest_x_touch) > 0.001 ||
-                           Math.abs(dest_y_touch) > 0.001)
-                       &amp;&amp; use_pivot) {
+                           Math.abs(dest_y_touch) > 0.001)) {
 
             var value = m_ctl.get_sensor_value(obj, id, 0);
 
@@ -709,7 +706,20 @@ exports.enable_camera_controls = function(trans_speed, rot_speed, zoom_speed,
             dest_x_touch -= x_touch;
             dest_y_touch -= y_touch;
 
-            m_cam.rotate_pivot(obj, x_mouse + x_touch, y_mouse + y_touch);
+            if (use_pivot) {
+                m_cam.rotate_pivot(obj, x_mouse + x_touch, y_mouse + y_touch);
+            } else {
+                m_cam.rotate(obj, (x_mouse + x_touch) * EYE_ROTATION_DECREMENT,
+                        -(y_mouse + y_touch) * EYE_ROTATION_DECREMENT);
+
+                if (character) {
+                    var angles = _vec2_tmp;
+                    m_cam.get_angles(obj, angles);
+                    angles[0] += Math.PI;
+                    angles[1] *= -1;
+                    m_phy.set_character_rotation(character, angles[0], angles[1]);
+                }
+            }
         }
     }
     m_ctl.create_sensor_manifold(obj, "ROT_INTERPOL", m_ctl.CT_CONTINUOUS,
@@ -745,7 +755,7 @@ exports.disable_camera_controls = function() {
 }
 
 /**
- * Assign standard controls to the object.
+ * Assign some controls to the non-camera object.
  * @param {Object} obj Object ID
  */
 exports.enable_object_controls = function(obj) {
@@ -831,7 +841,7 @@ exports.enable_object_controls = function(obj) {
 }
 
 /**
- * Disable controls for the object or the camera.
+ * Disable controls for the non-camera object.
  * @param {Object} Object ID or Camera object ID
  */
 exports.disable_object_controls = function(obj) {
@@ -847,24 +857,10 @@ exports.disable_object_controls = function(obj) {
  * @param {HTMLCanvasElement} canvas_elem Canvas element
  */
 exports.enable_controls = function(canvas_elem) {
-    document.addEventListener("keydown", m_ctl.keydown_cb, false);
-    document.addEventListener("keyup", m_ctl.keyup_cb, false);
-
-    // NOTE: both are deprecated by feature WheelEvent
-    canvas_elem.addEventListener("mousewheel",     m_ctl.mouse_wheel_cb, false); // chrome
-    canvas_elem.addEventListener("DOMMouseScroll", m_ctl.mouse_wheel_cb, false); // firefox
-
-    // NOTE: register for body, while pointer lock also assign on body
-    canvas_elem.addEventListener("mousedown", m_ctl.mouse_down_cb, false);
-    canvas_elem.addEventListener("mouseup",   m_ctl.mouse_up_cb,   false);
-
-    // NOTE: register for canvas to prevent panel issues in viewer
-    canvas_elem.addEventListener("mousemove", m_ctl.mouse_move_cb, false);
-    canvas_elem.addEventListener("touchstart", m_ctl.touch_start_cb, false);
-    canvas_elem.addEventListener("touchmove", m_ctl.touch_move_cb, false);
-
-    // HACK: fix touch events issue on some mobile devices
-    document.addEventListener("touchstart", function(){});
+    m_ctl.register_keyboard_events(document, false);
+    m_ctl.register_mouse_events(canvas_elem, true);
+    m_ctl.register_wheel_events(canvas_elem, true);
+    m_ctl.register_touch_events(canvas_elem, true);
 }
 
 /**
@@ -872,19 +868,10 @@ exports.enable_controls = function(canvas_elem) {
  * @param {HTMLCanvasElement} canvas_elem Canvas element
  */
 exports.disable_controls = function(canvas_elem) {
-    document.removeEventListener("keydown", m_ctl.keydown_cb, false);
-    document.removeEventListener("keyup", m_ctl.keyup_cb, false);
-
-    // NOTE: both are deprecated by feature WheelEvent
-    canvas_elem.removeEventListener("mousewheel",     m_ctl.mouse_wheel_cb, false); // chrome
-    canvas_elem.removeEventListener("DOMMouseScroll", m_ctl.mouse_wheel_cb, false); // firefox
-    // NOTE: use document.body (canvas events disabled in fullscreen mode)
-    document.body.removeEventListener("mousedown", m_ctl.mouse_down_cb, false);
-    document.body.removeEventListener("mouseup",   m_ctl.mouse_up_cb, false);
-
-    canvas_elem.removeEventListener("mousemove", m_ctl.mouse_move_cb, false);
-    canvas_elem.removeEventListener("touchstart", m_ctl.touch_start_cb, false);
-    canvas_elem.removeEventListener("touchmove", m_ctl.touch_move_cb, false);
+    m_ctl.unregister_keyboard_events(document);
+    m_ctl.unregister_mouse_events(canvas_elem);
+    m_ctl.unregister_wheel_events(canvas_elem);
+    m_ctl.unregister_touch_events(canvas_elem);
 }
 
 /**
@@ -896,16 +883,13 @@ exports.disable_controls = function(canvas_elem) {
  * &lt;/ul>
  */
 exports.enable_debug_controls = function() {
-
-    var obj = m_scs.get_active_camera();
-
-    m_ctl.create_kb_sensor_manifold(obj, "CAMERA_SHOT", m_ctl.CT_SHOT,
+    m_ctl.create_kb_sensor_manifold(null, "CAMERA_SHOT", m_ctl.CT_SHOT,
             m_ctl.KEY_K, function() {m_dbg.make_camera_frustum_shot();});
 
-    m_ctl.create_kb_sensor_manifold(obj, "LIGHT_SHOT", m_ctl.CT_SHOT,
+    m_ctl.create_kb_sensor_manifold(null, "LIGHT_SHOT", m_ctl.CT_SHOT,
             m_ctl.KEY_L, function() {m_dbg.make_light_frustum_shot();});
 
-    m_ctl.create_kb_sensor_manifold(obj, "TELEMETRY", m_ctl.CT_SHOT,
+    m_ctl.create_kb_sensor_manifold(null, "TELEMETRY", m_ctl.CT_SHOT,
             m_ctl.KEY_T, function() {m_dbg.plot_telemetry();});
 }
 
@@ -1095,7 +1079,7 @@ exports.get_url_params = function() {
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-dev</a> on Mon Aug 25 2014 12:11:12 GMT+0400 (MSK)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-dev</a> on Thu Sep 25 2014 18:06:48 GMT+0400 (MSK)
 </footer>
 
 <script> prettyPrint(); </script>

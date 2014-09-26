@@ -73,7 +73,7 @@ exports.append_stiff_obj = function(obj, obj_parent, offset, rotation_offset, sc
     cons.offset = new Float32Array(offset);
     cons.scale_offset = scale_offset || 1;
 
-    cons.rotation_offset = 
+    cons.rotation_offset =
             rotation_offset ? new Float32Array(rotation_offset) : null;
 
     apply_cons(obj, cons);
@@ -93,7 +93,7 @@ exports.append_stiff_bone = function(obj, armobj, bone_name, offset,
     cons.bone_name = bone_name;
     cons.offset = new Float32Array(offset);
 
-    cons.rotation_offset = 
+    cons.rotation_offset =
             rotation_offset ? new Float32Array(rotation_offset) : null;
 
     apply_cons(obj, cons);
@@ -128,8 +128,8 @@ exports.append_semi_stiff_obj = function(obj, obj_parent, offset, rotation_offse
 /**
  * Apply semi-stiff-to-object constraint with camera rotation clamping.
  */
-exports.append_semi_stiff_cam_obj = function(obj, obj_parent, offset, 
-                                             rotation_offset, clamp_left, 
+exports.append_semi_stiff_cam_obj = function(obj, obj_parent, offset,
+                                             rotation_offset, clamp_left,
                                              clamp_right, clamp_up, clamp_down) {
 
     var cons = init_cons(CONS_TYPE_SEMI_STIFF_CAM_OBJ);
@@ -326,8 +326,8 @@ function update_cons(obj, cons, elapsed) {
 
         var quat = obj._render.quat;
 
-        var p_world_matrix = cons.obj_parent._render.world_matrix; 
-        var p_quat = cons.obj_parent._render.quat; 
+        var p_world_matrix = cons.obj_parent._render.world_matrix;
+        var p_quat = cons.obj_parent._render.quat;
 
         if (cons.rotation_offset) {
             m_quat.copy(cons.rotation_offset, quat);
@@ -343,9 +343,9 @@ function update_cons(obj, cons, elapsed) {
 
         var trans = obj._render.trans;
         var quat = obj._render.quat;
-        
-        var p_world_matrix = cons.obj_parent._render.world_matrix; 
-        var p_quat = cons.obj_parent._render.quat; 
+
+        var p_world_matrix = cons.obj_parent._render.world_matrix;
+        var p_quat = cons.obj_parent._render.quat;
 
         // Qp * Qp_prev_inv * Q
         m_quat.multiply(
@@ -361,9 +361,9 @@ function update_cons(obj, cons, elapsed) {
 
         var trans = obj._render.trans;
         var quat = obj._render.quat;
-        
-        var p_world_matrix = cons.obj_parent._render.world_matrix; 
-        var p_quat = cons.obj_parent._render.quat; 
+
+        var p_world_matrix = cons.obj_parent._render.world_matrix;
+        var p_quat = cons.obj_parent._render.quat;
 
         // Qp * Qp_prev_inv * Q
         m_quat.multiply(
@@ -423,7 +423,7 @@ function update_cons(obj, cons, elapsed) {
     case CONS_TYPE_TRACK_OBJ:
         var trans = obj._render.trans;
         var quat = obj._render.quat;
-        var t_trans = cons.obj_parent._render.trans; 
+        var t_trans = cons.obj_parent._render.trans;
 
         rotate_to(trans, quat, t_trans);
         if (obj._render.type == "CAMERA")
@@ -432,7 +432,7 @@ function update_cons(obj, cons, elapsed) {
     case CONS_TYPE_TRACK_POINT:
         var trans = obj._render.trans;
         var quat = obj._render.quat;
-        var t_trans = cons.target; 
+        var t_trans = cons.target;
 
         rotate_to(trans, quat, t_trans);
         if (obj._render.type == "CAMERA")
@@ -442,11 +442,11 @@ function update_cons(obj, cons, elapsed) {
     case CONS_TYPE_FOLLOW_OBJ:
         var trans = obj._render.trans;
         var quat = obj._render.quat;
-        var t_trans = cons.obj_parent._render.trans; 
+        var t_trans = cons.obj_parent._render.trans;
 
-        var is_overshooted = rotate_to_limits(trans, quat, t_trans, 
+        var is_overshooted = rotate_to_limits(trans, quat, t_trans,
                 cons.offset_min, CONS_ROTATE_LIMIT);
-        
+
         // shrink distance
         var dist = m_vec3.dist(trans, t_trans);
 
@@ -469,7 +469,7 @@ function update_cons(obj, cons, elapsed) {
             m_vec3.scale(_vec3_tmp, delta, _vec3_tmp);
             m_vec3.add(trans, _vec3_tmp, trans);
         }
-        
+
         if (obj._render.type == "CAMERA")
             correct_up(obj, m_util.AXIS_Y);
 
@@ -477,9 +477,9 @@ function update_cons(obj, cons, elapsed) {
     case CONS_TYPE_FOLLOW_POINT:
         var trans = obj._render.trans;
         var quat = obj._render.quat;
-        var t_trans = cons.target; 
+        var t_trans = cons.target;
 
-        var is_overshooted = rotate_to_limits(trans, quat, t_trans, 
+        var is_overshooted = rotate_to_limits(trans, quat, t_trans,
                 cons.offset_min, CONS_ROTATE_LIMIT);
 
         // shrink distance
@@ -504,16 +504,16 @@ function update_cons(obj, cons, elapsed) {
             m_vec3.scale(_vec3_tmp, delta, _vec3_tmp);
             m_vec3.add(trans, _vec3_tmp, trans);
         }
-        
+
         if (obj._render.type == "CAMERA")
             correct_up(obj, m_util.AXIS_Y);
         break;
     case CONS_TYPE_STIFF_TRANS_OBJ:
-        var p_world_matrix = cons.obj_parent._render.world_matrix; 
+        var p_world_matrix = cons.obj_parent._render.world_matrix;
         m_vec3.transformMat4(cons.offset, p_world_matrix, obj._render.trans);
         break;
     case CONS_TYPE_COPY_TRANS_OBJ:
-        var p_trans = cons.obj_parent._render.trans; 
+        var p_trans = cons.obj_parent._render.trans;
         var trans = obj._render.trans;
         m_vec3.add(p_trans, cons.offset, trans);
         break;
@@ -533,13 +533,13 @@ function update_cons(obj, cons, elapsed) {
         m_vec3.transformMat4(cons.offset, p_world_matrix, obj._render.trans);
         break;
     case CONS_TYPE_CHILD_OF:
-        var prender = cons.obj_parent._render; 
+        var prender = cons.obj_parent._render;
         var ptsr = m_tsr.create_sep(prender.trans, prender.scale, prender.quat,
                 _tsr8_tmp);
         var tsr_offset = cons.tsr_offset;
 
         m_tsr.multiply(ptsr, tsr_offset, ptsr);
-        
+
         var trans = obj._render.trans;
         trans[0] = ptsr[0];
         trans[1] = ptsr[1];
@@ -562,12 +562,12 @@ function update_cons(obj, cons, elapsed) {
 function clamp_angles(obj, cons) {
 
     var quat = obj._render.quat;
-    var p_quat = cons.obj_parent._render.quat; 
+    var p_quat = cons.obj_parent._render.quat;
 
     var y_world_cam = m_vec3.transformQuat(m_util.AXIS_Y, quat, _vec3_tmp);
     var p_quat_inv = m_quat.invert(p_quat, _quat4_tmp);
 
-    var y_cam_parent = m_vec3.transformQuat(y_world_cam, p_quat_inv, 
+    var y_cam_parent = m_vec3.transformQuat(y_world_cam, p_quat_inv,
             _vec3_tmp_2);
 
     var y_world_cam_proj = _vec3_tmp_3;
@@ -615,9 +615,9 @@ function clamp_angles(obj, cons) {
         y_world_cam_new[2] = -cos_theta * cos_phi;
 
         m_vec3.transformQuat(y_world_cam_new, p_quat, y_world_cam_new);
-        var clamp_rotation = m_quat.rotationTo(y_world_cam, y_world_cam_new, 
-                _quat4_tmp);    
-        
+        var clamp_rotation = m_quat.rotationTo(y_world_cam, y_world_cam_new,
+                _quat4_tmp);
+
         m_quat.multiply(clamp_rotation, quat, quat);
         m_quat.normalize(quat, quat);
     }
@@ -637,13 +637,13 @@ function rotate_to(trans, quat, target) {
     m_vec3.normalize(dir_to, dir_to);
 
     var rotation = _vec4_tmp;
-    m_quat.rotationTo(dir_from, dir_to, rotation);
+    m_util.rotation_to_stable(dir_from, dir_to, rotation);
 
     m_quat.multiply(rotation, quat, quat);
 }
 
 /**
- * Apply rotation to quat only for limited angles considering overshooting 
+ * Apply rotation to quat only for limited angles considering overshooting
  * case (minimum distance clamping)
  * uses _vec3_tmp, _vec3_tmp_2
  */
@@ -660,7 +660,7 @@ function rotate_to_limits(trans, quat, target, min_distance, limit_angle) {
     var dist = m_vec3.length(dir_to);
 
     m_vec3.normalize(dir_to, dir_to);
-    
+
     if (m_vec3.dot(dir_from, dir_to) < Math.cos(limit_angle)) {
         m_vec3.scale(dir_to, -1, dir_to);
         is_overshooted = true;
@@ -669,7 +669,7 @@ function rotate_to_limits(trans, quat, target, min_distance, limit_angle) {
     // do not rotate camera closer than minimum distance
     // considering standard calculation errors
     if (dist > min_distance - CAMERA_DIST_CLAMPING_ERROR) {
-        var rotation = m_quat.rotationTo(dir_from, dir_to, _vec4_tmp);
+        var rotation = m_util.rotation_to_stable(dir_from, dir_to, _vec4_tmp);
         m_quat.multiply(rotation, quat, quat);
         m_quat.normalize(quat, quat);
     }
@@ -746,7 +746,7 @@ function calc_cam_rot_correction(quat, y_axis, dest) {
     }
 
     var x_cam_world_new = m_vec3.cross(y_world, y_cam_world, y_cam_world);
-    
+
     m_vec3.normalize(x_cam_world_new, x_cam_world_new);
 
     // Y coord of local camera Z axis in world space

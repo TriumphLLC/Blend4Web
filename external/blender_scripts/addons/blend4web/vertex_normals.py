@@ -1,41 +1,4 @@
-# (c) Blend4Web Development Team 2014
-# (c) adsn 2012, Recalc Vertex Normals
-# 
-# This addon manipulates vertex normals and stores them into an object
-# property.
-# 
-#
-#
-# ***** BEGIN GPL LICENSE BLOCK *****
-#
-#
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software Foundation,
-# Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
-#
-# ***** END GPL LICENCE BLOCK *****
-#
-#bl_info = {
-#    "name": "Recalc Vertex Normals",
-#    "author": "adsn",
-#    "version": (1, 1),
-#    "blender": (2, 6, 3),
-#    "location": "View3D > Toolbar",
-#    "description": "This addon manipulates vertex normals and stores them into an object property.",
-#    "warning": "",
-#    "wiki_url": "",
-#    "tracker_url": "",
-#    "category": "Game Engine"}
+# Original idea from the Recalc Vertex Normals addon by adsn
     
 import bpy
 import mathutils
@@ -45,9 +8,8 @@ from rna_prop_ui import PropertyPanel
 
 from math import sqrt
 
-##########################################################
-# draw UI ButtonS
 class B4W_VertexNormalsUI(bpy.types.Panel):
+    # draw UI buttons
     bl_idname = "Recalc Vertex Normals"
     bl_label = 'B4W Vertex Normals Editor'
     bl_space_type = 'VIEW_3D'
@@ -119,15 +81,13 @@ class B4W_VertexNormalsUI(bpy.types.Panel):
         row.operator('object.copy_normals_from_mesh', text = 'Copy from source mesh')
         row.operator('b4w.approx_normals_from_mesh', text = 'Approximate from source mesh')
 
-##########################################################
-# toggle vertices selection
-
-##########################################################
-# tree vertex normals
-# process only selected vertices
-# skip unselected to preserve normals on non transparent geometry
 
 class B4W_TreeVertexNormals(bpy.types.Operator):
+    # toggle vertices selection
+    # tree vertex normals
+    # process only selected vertices
+    # skip unselected to preserve normals on non transparent geometry
+
     bl_idname = 'object.tree_vertex_normals'
     bl_label = 'Vertex Normal Tree'
     bl_description = 'Align selected verts pointing away from 3d cursor'
@@ -163,11 +123,9 @@ class B4W_TreeVertexNormals(bpy.types.Operator):
         return {'FINISHED'}
 
 
-##########################################################
-# foliage vertex normals
-# align selected verts to global z axis
-
 class B4W_FoliageVertexNormals(bpy.types.Operator):
+    # foliage vertex normals
+    # align selected verts to global z axis
     bl_idname = 'object.foliage_vertex_normals'
     bl_label = 'Vertex Normal Foliage'
     bl_description = 'Selected verts to Z axis, unselected away from 3d cursor'
@@ -404,11 +362,8 @@ class B4W_ApproxNormalsFromMesh(bpy.types.Operator):
             vert_src.co[1] = old_src_co_list[vert_src.index * 3 + 1]
             vert_src.co[2] = old_src_co_list[vert_src.index * 3 + 2]
 
-##########################################################
-# custom vertex normal vector
-## custom 1
 def update_custom_normal1(self, context):
-
+    # custom vertex normal vector
     obj = context.active_object
     if 'b4w_vertex_normal_list' not in context.active_object:
         context.active_object['b4w_vertex_normal_list'] = []
@@ -431,9 +386,7 @@ def update_custom_normal1(self, context):
                 else:
                     context.object.b4w_vertex_normal_list[i]['normal'] = obj.data.vertices[i].normal
 
-## custom 2
 def update_custom_normal2(self, context):
-
     obj = context.active_object
     if 'b4w_vertex_normal_list' not in context.active_object:
         context.active_object['b4w_vertex_normal_list'] = []
@@ -457,9 +410,8 @@ def update_custom_normal2(self, context):
 
 
 
-##########################################################
-# select next vertex
 class B4W_SelectVertex(bpy.types.Operator):
+    # select next vertex
     bl_idname = 'object.select_vertex'
     bl_label = 'Select Vertex'
     bl_description = 'Toggles vertex selection'
@@ -491,9 +443,9 @@ class B4W_SelectVertex(bpy.types.Operator):
                     context.active_object.data.vertices[i].select = False
 
             return {'FINISHED'}  
-##########################################################
-# invert vertex selection
+
 class B4W_InvertSelection(bpy.types.Operator):
+    # invert vertex selection
     bl_idname = 'object.invert_selection'
     bl_label = 'Invert Selection'
     bl_description = 'Inverts Selected Vertices'
@@ -511,9 +463,8 @@ class B4W_InvertSelection(bpy.types.Operator):
 
         return {'FINISHED'}
 
-##########################################################
-# copy normal
 class B4W_CopyNormal(bpy.types.Operator):
+    # copy normal
     bl_idname = 'object.copy_normal'
     bl_label = 'Copy Normal'
     bl_description = 'Copies normal from selected Vertex'
@@ -536,9 +487,8 @@ class B4W_CopyNormal(bpy.types.Operator):
             self.report({'INFO'}, 'please select a single vertex')
         return {'FINISHED'}
 
-##########################################################
-# paste normal
 class B4W_PasteNormal(bpy.types.Operator):
+    # paste normal
     bl_idname = 'object.paste_normal'
     bl_label = 'Paste Normal'
     bl_description = 'Paste normal to selected Vertex'
@@ -573,9 +523,8 @@ class B4W_PasteNormal(bpy.types.Operator):
         context.area.tag_redraw()
         return {'FINISHED'}
 
-##########################################################
-# save all vertexnormals
 class B4W_SaveNormals(bpy.types.Operator):
+    # save all vertexnormals
 
     bl_idname = 'object.save_normals'
     bl_label = 'Save Normals'
@@ -603,13 +552,12 @@ class B4W_SaveNormals(bpy.types.Operator):
                     context.object.b4w_vertex_normal_list[i]['normal'] = obj.data.vertices[i].normal
             return {'FINISHED'}
 
-##########################################################
-# create vertex normal list for saving them normals
 class B4W_VertexNormalList(bpy.types.PropertyGroup):
+    # create vertex normal list for saving them normals
     normal = bpy.props.FloatVectorProperty(default=(0.0, 0.0, 0.0))
 
-# update list
 class B4W_UpdateNormalList(bpy.types.Operator):
+    # update list
     bl_idname = "object.b4w_update_normal_list" 
     bl_label = "Update Vertex Normals"
     bl_description = 'Update vertex normals after EDITMODE'
@@ -631,8 +579,8 @@ class B4W_UpdateNormalList(bpy.types.Operator):
         
         return{'FINISHED'}
 
-# clean up normal list
 class B4W_CleanUpNormalList(bpy.types.Operator):
+    # clean up normal list
     bl_idname = "object.b4w_clean_up_normal_list" 
     bl_label = "Clean Up Vertex Normals List"
     bl_description = 'Clean up vertex normals list'
@@ -653,13 +601,11 @@ class B4W_CleanUpNormalList(bpy.types.Operator):
         
         return{'FINISHED'}
 
-##########################################################
-##########################################################
-# draw Normals in OBJECTMODE
 def draw_line(self, context, vertexloc, vertexnorm, colour, thick):
+    # draw normals in object mode
     obj = context.active_object
     
-    #get obj rotation
+    # get obj rotation
     rot = obj.rotation_euler.to_matrix().inverted()
     scale = obj.scale
     vertex = vertexloc * rot
@@ -702,8 +648,8 @@ def InitGLOverlay(self, context):
                 draw_line(self, context, vertex[i].co, vertex[i].normal, (0.0,0.0,0.0,0.6),3)
                 draw_line(self, context, vertex[i].co, vertex[i].normal, (0.0,0.6,0.8,0.6),1)
 
-# draw normals in object mode operator
 class B4W_DrawNormals(bpy.types.Operator):
+    # draw normals in object mode operator
     bl_idname = 'object.draw_normals'
     bl_label = 'draw_normals'
     bl_description = 'Draw normals in OBJECTMODE'
@@ -737,8 +683,6 @@ class B4W_DrawNormals(bpy.types.Operator):
             self.report({'WARNING'}, "View3D not found, can't run operator")
             return {'CANCELLED'}
 
-##########################################################
-# init properties
 def init_properties():
     
     bpy.types.Object.b4w_vertex_normal_list = bpy.props.CollectionProperty(
@@ -787,16 +731,7 @@ def clear_properties():
         except:
             pass
     
-##########################################################
-### REGISTERING
-#def add_object_button(self, context):
-#    self.layout.operator(
-#        VertexNormals.bl_idname,
-#        text='Vertex Normals',
-#        icon='NODE_SEL')
-
 def register():
-    
     bpy.utils.register_class(B4W_VertexNormalList)
     bpy.utils.register_class(B4W_TreeVertexNormals)
     bpy.utils.register_class(B4W_FoliageVertexNormals)
@@ -816,7 +751,6 @@ def register():
     init_properties()
 
 def unregister():
-    
     bpy.utils.unregister_class(B4W_VertexNormalList)   
     bpy.utils.unregister_class(B4W_TreeVertexNormals)
     bpy.utils.unregister_class(B4W_FoliageVertexNormals)

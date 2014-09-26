@@ -160,7 +160,7 @@ exports.set_day_time = set_day_time;
 /**
  * Set the time of day.
  * @method module:lights.set_day_time
- * @param time new time (0.0...24.0)
+ * @param {Number} time new time (0.0...24.0)
  */
 function set_day_time(time) {
     var scene = scenes.get_active();

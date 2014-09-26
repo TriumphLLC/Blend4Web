@@ -212,16 +212,30 @@
 
 Располагаются в панели ``Blend4Web``.
 
+.. image:: src_images/materials/panel_b4w.png
+   :align: center
+   :width: 100%
+
+|
+
 *Do not export*
     Не экспортировать.
     
 *Special: Water*
-    Специальный материал для рендеринга воды.
+    Специальный материал для :ref:`рендеринга воды <water>`.
+
+*Terrain dynamic grass*
+    Материал используется для :ref:`рендеринга травяного покрова <particles_grass>`.
     
 *Special: Collision*
     Специальный материал для физического объекта.
 
     .. seealso:: :ref:`physics`
+
+*Wettable*
+    Для материала активируется эффект смачивания водой.
+
+    .. seealso:: :ref:`water`
 
 *Double-sided Lighting*
     Включить двухстороннее освещение. Опция полезна для однослойных непросвечивающих объектов.

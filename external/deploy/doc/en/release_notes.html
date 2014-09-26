@@ -1,0 +1,286 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Release Notes &mdash; User Manual: Blend4Web v14.09</title>
+    
+    <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '14.09',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="top" title="User Manual: Blend4Web v14.09" href="index.html" />
+    <link rel="prev" title="Problems and Solutions" href="problems_and_solutions.html" /> 
+  </head>
+  <body>
+    <div class="header-wrapper">
+      <div class="header">
+          <p class="logo"><a href="index.html">
+            <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
+          </a></p>
+        <div class="headertitle"><a
+          href="index.html">User Manual: Blend4Web v14.09</a></div>
+        <div class="rel">
+          <a href="problems_and_solutions.html" title="Problems and Solutions"
+             accesskey="P">previous</a> |
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a>
+        </div>
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="release-notes">
+<span id="id1"></span><h1>Release Notes<a class="headerlink" href="#release-notes" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="v14-09">
+<span id="index-0"></span><h2>v14.09<a class="headerlink" href="#v14-09" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id2">
+<h3>New features<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first"><em>ABSOLUTE type support for the MATH node.</em></p>
+</li>
+<li><dl class="first docutils">
+<dt><em>Support for LEVELS_OF_QUALITY special node.</em></dt>
+<dd><p class="first last">Allows to control the material&#8217;s complexity depending on the quality profile which is specified by the user upon engine start.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><em>Support for SMOOTHSTEP special node.</em></dt>
+<dd><p class="first last">Simplifies the creation of some effects in node materials.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><em>Node groups support.</em></dt>
+<dd><p class="first last"><a class="reference external" href="http://wiki.blender.org/index.php/Doc:2.6/Manual/Composite_Nodes/Node_Groups">Node groups</a> allow the sharing of node blocks between materials.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><em>The ability to output intermediate rendering results for debugging.</em></dt>
+<dd><p class="first last">The rendering result for a certain stage can be now output above the main picture. This can be set up in the <tt class="docutils literal"><span class="pre">config.js</span></tt> module through the <tt class="docutils literal"><span class="pre">debug_subs</span></tt> options.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><em>The logic for controling Blender&#8217;s NLA animation using a visual editor has been implemented.</em></dt>
+<dd><p class="first last">The NLA Script tool has been added to Blender&#8217;s interface to allow the implementing of simple scenarios using visual blocks, for example playing an animation in response to the user actions.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><em>Multiple sensor system improvements.</em></dt>
+<dd><p class="first last">It is now permitted to register <em>sensor manifolds</em> globally using a <tt class="docutils literal"><span class="pre">controls</span></tt> module method with no connection to any object. To do this <tt class="docutils literal"><span class="pre">null</span></tt> should be passed into the corresponding API. The sensor logic is processed in a more predictable and robust way according to the sequence in which their <em>manifolds</em> are created. Callbacks of the user action events are now assigned using the <tt class="docutils literal"><span class="pre">register_&lt;inputtype&gt;_events()</span></tt> functions. To these functions it is now possible to pass the <tt class="docutils literal"><span class="pre">prevent_default</span></tt> flag which allows to unblock the standard browser behavior for the corresponding events.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><em>The web player now supports physics.</em></dt>
+<dd><p class="first last">Works only in the web player version where JSON files are loaded separately. Physics still not supported in the single HTML files.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><em>Skeletal animation mixing is now supported.</em></dt>
+<dd><p class="first last">The <tt class="docutils literal"><span class="pre">animation.js</span></tt> module now contains API for smooth transitions betweeen skeletal animations: get_skel_mix_factor() - for getting the current mixing factor value and set_skel_mix_factor() - for setting it.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><em>The Value node can now be animated in node materials.</em></dt>
+<dd><p class="first last">The functionality is similar to other animation types. Working in NLA is also supported.</p>
+</dd>
+</dl>
+</li>
+<li><p class="first"><em>Diffuse and Specular lamp&#8217;s properties are now supported.</em></p>
+</li>
+<li><dl class="first docutils">
+<dt><em>The possibility to render a transparent object above other objects on the scene.</em></dt>
+<dd><p class="first last">Activated with the <tt class="docutils literal"><span class="pre">Render</span> <span class="pre">above</span> <span class="pre">all</span></tt> checkbox for transparent materials (i.e. not <tt class="docutils literal"><span class="pre">Opaque</span></tt>).</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><em>Scale is applied automatically to the object mesh.</em></dt>
+<dd><p class="first last">Activated by enabling the <tt class="docutils literal"><span class="pre">Apply</span> <span class="pre">scale</span></tt> checkbox in the object settings.</p>
+</dd>
+</dl>
+</li>
+<li><p class="first"><em>High quality profile (including shadows, dynamic reflections and anti-aliasing) has been implemented for iOS.</em></p>
+</li>
+</ul>
+</div>
+<div class="section" id="id4">
+<h3>Changes<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><dl class="first docutils">
+<dt><em>Shadow rendering improved.</em></dt>
+<dd><p class="first last">Shadow rendering system is significantly changed: it is now based on the <tt class="docutils literal"><span class="pre">Stable</span> <span class="pre">Cascaded</span> <span class="pre">Shadow</span> <span class="pre">Maps</span></tt> technique. This technique allows to greatly diminish the flickering of shadow edges when the camera moves. Smoothing is implemented between cascades. Also shadows of the last cascade fade out at distancing. Softened shadows are rendered using the <tt class="docutils literal"><span class="pre">Percentage</span> <span class="pre">Closer</span> <span class="pre">Shadows</span></tt> technique. The shadows&#8217; user settings are reworked and simplified. Now its possible to tweak the size of shadow maps, blur ratio and the setting for removing self-shadowing artefacts. The new settings are <a class="reference internal" href="lighting.html#shadows"><em>documented</em></a> in detail.</p>
+</dd>
+</dl>
+</li>
+<li><p class="first"><em>In the web player graphics quality settings are now saved independently for each scene.</em></p>
+</li>
+<li><dl class="first docutils">
+<dt><em>The behavior of the app configuration parameters has been changed: physics_uranium_path, smaa_search_texture_path and smaa_area_texture_path.</em></dt>
+<dd><p class="first last">These parameters are now calculated automatically depending on the running HTML files location, if they haven&#8217;t been overriden during the app&#8217;s initialization.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><em>Transition is completed to the system of modules which are linked via b4w.require() call.</em></dt>
+<dd><p class="first last">This also means that starting form the current version its impossible to call modules in the engine&#8217;s release version using the old <tt class="docutils literal"><span class="pre">b4w.&lt;module&gt;</span></tt> namespaces. For compatibility purposes the <tt class="docutils literal"><span class="pre">ns_compat.js</span></tt> addon has been implemeted, the linking of which allows to restore the old behavior.</p>
+</dd>
+</dl>
+</li>
+<li><p class="first"><em>The web player&#8217;s control panel can now be hidden.</em></p>
+</li>
+<li><dl class="first docutils">
+<dt><em>Skeletal animation is now applied to armature objects only.</em></dt>
+<dd><p class="first last">There is no need to apply skeletal animation to <tt class="docutils literal"><span class="pre">MESH</span></tt> objects. If they are linked to some animated armature, their skinning will be automatic.</p>
+</dd>
+</dl>
+</li>
+<li><p class="first"><em>Demos and tutorials are updated according to the newly implemented features.</em></p>
+</li>
+</ul>
+</div>
+<div class="section" id="id5">
+<h3>Fixes<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p class="first"><em>The preloader didn&#8217;t diappear in case of a loading error (texture or sound file).</em></p>
+</li>
+<li><p class="first"><em>Lagging during scaling and turning on mobile devices is fixed.</em></p>
+</li>
+<li><p class="first"><em>TARGET-type camera shimmering has been removed for small turnings.</em></p>
+</li>
+<li><p class="first"><em>EYE-type camera controls was fixed for mobile devices.</em></p>
+</li>
+<li><p class="first"><em>The Farm demo controls are improved for Safari browser.</em></p>
+</li>
+<li><p class="first"><em>Errors concerning using the unsupported shading models in node materials are now fixed.</em></p>
+</li>
+<li><p class="first"><em>&#8220;Selectable&#8221; option now works for the objects without materials.</em></p>
+</li>
+<li><p class="first"><em>There is no longer need to enable &#8220;Do not batch&#8221;</em> for the objects that are animated using NLA.</p>
+</li>
+<li><p class="first"><em>The particle system error when the object being instanced is parented to another object, has been fixed.</em></p>
+</li>
+</ul>
+</div>
+<div class="section" id="id6">
+<h3>Known issues<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><dl class="first docutils">
+<dt><em>Blender addon upgrading problems</em></dt>
+<dd><p class="first last">We strongly don&#8217;t recommend to install the new Blender addon version without uninstalling the previous version first (especially for Windows).</p>
+</dd>
+</dl>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="sidebar">
+          <h3>Table Of Contents</h3>
+          <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">The Engine Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="first_steps.html">Quick Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">Development Environment Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow.html">Workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="viewer.html">Scene Viewer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="web_player.html">Web Player</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">The Addon</a></li>
+<li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing Effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System for Instancing Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="animation.html">Animation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Rendering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Gamma Correction and Alpha Compositing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audio.html">Audio System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nla.html">Non-Linear Animation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers.html">For Application Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">For Engine Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Team Work. Using Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Problems and Solutions</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Release Notes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#v14-09">v14.09</a></li>
+</ul>
+</li>
+</ul>
+
+          <h3 style="margin-top: 1.5em;">Search</h3>
+          <form class="search" action="search.html" method="get">
+            <input type="text" name="q" />
+            <input type="submit" value="Go" />
+            <input type="hidden" name="check_keywords" value="yes" />
+            <input type="hidden" name="area" value="default" />
+          </form>
+          <p class="searchtip" style="font-size: 90%">
+            Enter search terms or a module, class or function name.
+          </p>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+    <div class="footer-wrapper">
+      <div class="footer">
+        <div class="left">
+          <a href="problems_and_solutions.html" title="Problems and Solutions"
+             >previous</a> |
+          <a href="genindex.html" title="General Index"
+             >index</a>
+        </div>
+
+        <div class="right">
+          
+    <div class="footer">
+        &copy; Copyright 2014, Triumph LLC.
+      Last updated on 2014-09-25.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+  </body>
+</html>

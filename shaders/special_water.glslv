@@ -107,7 +107,6 @@ vec3 extract_shore_params(in vec2 pos) {
     vec2 shore_coords = 
             vec2((pos.x - SHORE_MAP_CENTER_X) / SHORE_MAP_SIZE_X,
                  -(SHORE_MAP_CENTER_Z + pos.y) / SHORE_MAP_SIZE_Z) + 0.5;
-    shore_coords = clamp(shore_coords, 0.0, 1.0);
 
     // unpack shore distance from texture
     vec4 shore_params = texture2D(u_shore_dist_map, shore_coords);

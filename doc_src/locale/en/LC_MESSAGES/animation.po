@@ -15,10 +15,6 @@ msgstr ""
 msgid "анимация"
 msgstr "animation"
 
-#: ../animation.rst:3
-msgid "animation"
-msgstr ""
-
 #: ../animation.rst:7
 msgid "Анимация"
 msgstr "Animation"
@@ -34,16 +30,11 @@ msgstr ""
 #: ../animation.rst:12
 msgid ""
 "Объектная анимация. Заключается в перемещении объекта в пространстве как "
-"единого целого. Изменяемые параметры: координаты центра (``Location``), "
-"кватернион поворота (``Rotation`` в режиме ``Quaternion(WXYZ)``) и "
-"масштабирование (``Scale``)."
+"единого целого."
 msgstr ""
-"Object animation is the moving an object as a whole. The parameters that can"
-" be animated are the center coordinates (``Location``), the rotation's "
-"quaternion (``Rotation`` in the ``Quaternion(WXYZ)`` mode) and scaling "
-"(``Scale``)."
+"Object animation means the moving an object as a whole."
 
-#: ../animation.rst:17
+#: ../animation.rst:15
 msgid ""
 "Скелетная анимация, то есть деформация геометрии объекта с помощью системы "
 "костей (скиннинг). Сюда же относится анимация костей в арматурном объекте с "
@@ -52,7 +43,7 @@ msgstr ""
 "Skeletal animation, i.e. object deformation using bones. Animation of a "
 "standalone armature object is also supported (for parenting to bones). "
 
-#: ../animation.rst:21
+#: ../animation.rst:19
 msgid ""
 "Вертексная анимация. Заключается в покадровой записи деформаций объекта с их"
 " последующим воспроизведением."
@@ -60,13 +51,17 @@ msgstr ""
 "Vertex animation. An object's deformations can be recorded as frames and "
 "then reproduced in the engine."
 
-#: ../animation.rst:24
+#: ../animation.rst:22
 msgid ""
 "Параметризация источников звука. Изменяемые параметры: громкость "
 "(``Volume``) и высота звука (``Pitch``)."
 msgstr ""
 "Audio sources parametrization. Speaker's ``Volume`` and ``Pitch`` can be "
 "animated."
+
+#: ../animation.rst:25
+msgid "Анимация выходного значения ноды ``Value`` в нодовом материале."
+msgstr "Animation of the ``Value`` node output in node materials."
 
 #: ../animation.rst:27
 msgid ""
@@ -120,11 +115,20 @@ msgstr ""
 "It's useful to use the ``Animation`` interface for tweaking animation. This "
 "is covered in the :ref:`corresponding section <viewer>`."
 
-#: ../animation.rst:50
+#: ../animation.rst:53
 msgid "Объектная анимация"
 msgstr "Object Animation"
 
-#: ../animation.rst:58
+#: ../animation.rst:55
+msgid ""
+"Изменяемые параметры: координаты центра (``Location``), кватернион поворота "
+"(``Rotation`` в режиме ``Quaternion(WXYZ)``) и масштабирование (``Scale``)."
+msgstr ""
+"The parameters that can be animated are the center coordinates (``Location``), the rotation's "
+"quaternion (``Rotation`` in the ``Quaternion(WXYZ)`` mode) and scaling "
+"(``Scale``)."
+
+#: ../animation.rst:63
 msgid ""
 "Осуществляется с помощью добавления ключей анимации для движения объекта в "
 "программе Blender и их последующего воспроизведения в движке."
@@ -132,19 +136,19 @@ msgstr ""
 "Animation keyframes can be added for an object motion in Blender and then "
 "reproduced in the engine."
 
-#: ../animation.rst:61
+#: ../animation.rst:66
 msgid "Поддерживаются следующие типы ключей:"
 msgstr "The following keyframe types are supported:"
 
-#: ../animation.rst:63
+#: ../animation.rst:68
 msgid "*Location*"
 msgstr ""
 
-#: ../animation.rst:65
+#: ../animation.rst:70
 msgid "*Rotation* -- необходимо осуществлять в режиме ``Quaternion(WXYZ)``."
 msgstr "*Rotation* -- the ``Quaternion(WXYZ)`` mode is required."
 
-#: ../animation.rst:67
+#: ../animation.rst:72
 msgid ""
 "*Scale* -- для получения корректных результатов, фактор масштабирования "
 "должен быть одинаковым вдоль любых из осей."
@@ -152,23 +156,23 @@ msgstr ""
 "*Scale* -- for correct results the scale factor should be the same along all"
 " 3 axes. "
 
-#: ../animation.rst:70
+#: ../animation.rst:75
 msgid "*LocRot* -- комбинация *Location* и *Rotation*."
 msgstr "*LocRot* -- a combination of *Location* and *Rotation*."
 
-#: ../animation.rst:72
+#: ../animation.rst:77
 msgid "*LocScale* -- комбинация *Location* и *Scale*."
 msgstr "*LocScale* -- a combination of *Location* and *Scale*."
 
-#: ../animation.rst:74
+#: ../animation.rst:79
 msgid "*LocRotScale* -- комбинация *Location*, *Rotation* и *Scale*."
 msgstr "*LocRotScale* -- a combination of *Location*, *Rotation* and *Scale*."
 
-#: ../animation.rst:76
+#: ../animation.rst:81
 msgid "*RotScale* -- комбинация *Rotation* и *Scale*."
 msgstr "*RotScale* -- a combination of *Rotation* and *Scale*."
 
-#: ../animation.rst:78
+#: ../animation.rst:83
 msgid ""
 "В случае анимации объекта-меша, необходимо назначение свойства ``Do not "
 "batch`` на вкладке свойств объекта."
@@ -176,11 +180,11 @@ msgstr ""
 "If an object-mesh is animated it is required to enable the ``Do not batch`` "
 "checkbox under the object properties tab."
 
-#: ../animation.rst:82
+#: ../animation.rst:88
 msgid "Скиннинг и скелетная анимация"
 msgstr "Skinning and Skeletal Animation"
 
-#: ../animation.rst:90
+#: ../animation.rst:96
 msgid ""
 "Для осуществления скелетной анимации, кроме деформируемого объекта-меша "
 "требуется объект-арматура. Осуществляется в четыре этапа:"
@@ -188,11 +192,11 @@ msgstr ""
 "For skeletal animation both a mesh object and an armature object are needed."
 " The four steps should be carried out:"
 
-#: ../animation.rst:93
+#: ../animation.rst:99
 msgid "Создание скелета объекта в арматурном объекте."
 msgstr "Create the object's \"skeleton\" in the armature object. "
 
-#: ../animation.rst:94
+#: ../animation.rst:100
 msgid ""
 "Назначение вертексных групп в объекте-меше и их привязка к костям. Может "
 "быть осуществлено, например, методом \"раскраски\" весов (weight painting)."
@@ -200,7 +204,7 @@ msgstr ""
 "Assign vertex groups in the mesh object and link them to the bones. This can"
 " be performed by weight painting for example. "
 
-#: ../animation.rst:95
+#: ../animation.rst:101
 msgid ""
 "Анимация костей в арматурном объекте. Используются те же ключи, что и в "
 "случае объектной анимации."
@@ -208,7 +212,7 @@ msgstr ""
 "Animate the bones in the pose mode of the armature object. The same keyframe"
 " types can be used as for the object animation."
 
-#: ../animation.rst:97
+#: ../animation.rst:103
 msgid ""
 "В случае нетривиальных видов скелетной анимации, включающих инверсную "
 "кинематику, требуется стадия запекания анимационных акторов (блок ``Action``"
@@ -220,7 +224,7 @@ msgstr ""
 " Blender). Baking can be performed using the ``B4W Animation Bake`` "
 "interface located on the ``Blend4Web`` panel."
 
-#: ../animation.rst:107
+#: ../animation.rst:113
 msgid ""
 "Запекание производится при выделенном арматурном объекте. Элементы "
 "интерфейса ``B4W Animation Bake``:"
@@ -228,7 +232,7 @@ msgstr ""
 "Baking is performed with the armature object selected. Elements of the ``B4W"
 " Animation Bake`` interface:"
 
-#: ../animation.rst:109
+#: ../animation.rst:115
 msgid ""
 "*Clean keyframes* -- произвести оптимизацию ключей анимации после запекания."
 " В случае получения некорректных результатов, рекомендуется отключить опцию."
@@ -236,7 +240,7 @@ msgstr ""
 "*Clean keyframes* -- optimize the animation keyframes after baking. In case "
 "of incorrect results it's recommended to turn this option off."
 
-#: ../animation.rst:112
+#: ../animation.rst:118
 msgid ""
 "окно со списком запекаемых акторов -- запекать только те акторы, которые "
 "указаны в списке, иначе запекать все возможные акторы."
@@ -244,12 +248,12 @@ msgstr ""
 "window with the list of actions being baked -- bake only the actions which "
 "are listed, else - bake all the actions possible."
 
-#: ../animation.rst:115
+#: ../animation.rst:121
 msgid "*Name* -- имя текущего актора из списка запекаемых акторов."
 msgstr ""
 "*Name* -- the current action name from the list of actions being baked."
 
-#: ../animation.rst:117
+#: ../animation.rst:123
 msgid ""
 "*Bake* -- произвести запекание. В случае успешного окончания процесса, на "
 "сцене появляются акторы с именами вида *ИМЯ_B4W_BAKED*. Данные акторы будут "
@@ -264,7 +268,7 @@ msgstr ""
 "garanteed, although the *Cons Mute*/*Cons Unmute* interface can help in some"
 " cases."
 
-#: ../animation.rst:123
+#: ../animation.rst:129
 msgid ""
 "*Cons Mute*/*Cons Unmute* -- отключить/активировать ограничители, "
 "установленные на костях. Инструмент может быть использован для тестирования "
@@ -273,7 +277,7 @@ msgstr ""
 "*Cons Mute*/*Cons Unmute* -- switch bone constraints off/on. The tool can be"
 " used for testing the baked actions."
 
-#: ../animation.rst:128
+#: ../animation.rst:134
 msgid ""
 "Движок поддерживает не более 4-х вертексных групп на каждом из вертексов, "
 "эти группы отбираются по величине влияния или \"веса\" вертекса. В процессе "
@@ -285,7 +289,7 @@ msgstr ""
 "selected. When the scene is loaded the vertex weights are normalized i.e. "
 "their sum is reduced to 1."
 
-#: ../animation.rst:133
+#: ../animation.rst:139
 msgid ""
 "Для удаления вертексных групп, которые не используются арматурой, можно "
 "воспользоваться кнопкой ``Remove Unused VGroups``, которая расположена в "
@@ -294,11 +298,11 @@ msgstr ""
 "To remove vertex groups which are not used by armature, use button ``Remove "
 "Unused VGroups`` from ``B4W Vertex Group`` interface."
 
-#: ../animation.rst:142
+#: ../animation.rst:148
 msgid "Вертексная анимация"
 msgstr "Vertex Animation"
 
-#: ../animation.rst:150
+#: ../animation.rst:156
 msgid ""
 "Позволяет записать любые изменения геометрии объекта-меша. Необходимо "
 "учитывать, что каждый кадр вертексной анимации эквивалентен мешу. Не "
@@ -312,7 +316,7 @@ msgstr ""
 "and exported files significantly and can also slow down the work of the "
 "engine."
 
-#: ../animation.rst:156
+#: ../animation.rst:162
 msgid ""
 "Для запекания вертексной анимации предусмотрен инструмент ``B4W Vertex Anim "
 "Baker``, расположенный на панели инструментов ``Blend4Web``."
@@ -320,11 +324,11 @@ msgstr ""
 "A special tool is used for baking vertex animation - ``B4W Vertex Anim "
 "Baker`` - located on the ``Blend4Web`` tools panel."
 
-#: ../animation.rst:164
+#: ../animation.rst:171
 msgid "Параметризация источников звука"
 msgstr "Audio Source Parametrization"
 
-#: ../animation.rst:166
+#: ../animation.rst:173
 msgid ""
 "На объектах-спикерах дополнительно поддерживаются следующие типы "
 "анимационных ключей:"
@@ -332,15 +336,38 @@ msgstr ""
 "In addition the following animation key types are supported for the speaker "
 "objects: "
 
-#: ../animation.rst:169
+#: ../animation.rst:176
 msgid "*Volume* -- громкость звука источника."
 msgstr "*Volume*"
 
-#: ../animation.rst:171
+#: ../animation.rst:178
 msgid "*Pitch* -- высота звука источника."
 msgstr "*Pitch*"
 
-#: ../animation.rst:173
+#: ../animation.rst:180
 msgid ""
 "Параметризация источников звука по своей сути повторяет объектную анимацию."
 msgstr "Audio sources parametering in essence follows object animation."
+
+#: ../animation.rst:186
+msgid "Анимация ноды ``Value``"
+msgstr "``Value`` Node Animation"
+
+#: ../animation.rst:196
+msgid ""
+"Работает аналогично :ref:`объектной анимации <whole_object_anim>`. Может "
+"быть также использована для создания треков в :ref:`редакторе нелинейной "
+"анимации <nla_editor>`. Поддерживается несколько анимированных нод ``Value``"
+" в одном материале."
+msgstr ""
+"Works similar to the :ref:`object animation <whole_object_anim>`. Can be "
+"also used to create tracks in the :ref:`non-linear animation editor "
+"<nla_editor>`. Multiple animated ``Value`` nodes are supported per single "
+"material."
+
+#: ../animation.rst:198
+msgid ":ref:`node_materials`"
+msgstr ""
+
+
+
