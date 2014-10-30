@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Веб-плеер &mdash; Руководство пользователя: Blend4Web v14.09</title>
+    <title>Веб-плеер &mdash; Руководство пользователя: Blend4Web v14.10</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.09',
+        VERSION:     '14.10',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v14.09" href="index.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v14.10" href="index.html" />
     <link rel="next" title="Аддон" href="addon.html" />
     <link rel="prev" title="Просмотрщик сцен" href="viewer.html" /> 
   </head>
@@ -37,7 +37,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">Руководство пользователя: Blend4Web v14.09</a></div>
+          href="index.html">Руководство пользователя: Blend4Web v14.10</a></div>
         <div class="rel">
           <a href="viewer.html" title="Просмотрщик сцен"
              accesskey="P">предыдущий</a> |
@@ -66,7 +66,7 @@
 </div>
 <div class="section" id="id2">
 <h2>Использование<a class="headerlink" href="#id2" title="Ссылка на этот заголовок">¶</a></h2>
-<p>Директорию с файлами веб-плеера <tt class="docutils literal"><span class="pre">external/deploy/apps/embed</span></tt> можно скопировать из дистрибутива Blend4Web SDK и разместить на сайте. Полученные в результате экспорта файлы сцен можно разместить на сайте и указать путь к ним (абсолютный или относительный) с помощью параметра веб-плеера <tt class="docutils literal"><span class="pre">load</span></tt>.</p>
+<p>Директорию с файлами веб-плеера <tt class="docutils literal"><span class="pre">external/deploy/apps/webplayer</span></tt> можно скопировать из дистрибутива Blend4Web SDK и разместить на сайте. Полученные в результате экспорта файлы сцен можно разместить на сайте и указать путь к ним (абсолютный или относительный) с помощью параметра веб-плеера <tt class="docutils literal"><span class="pre">load</span></tt>.</p>
 <p>При экспорте в единый HTML файл интерфейс веб-плеера интегрируется автоматически.</p>
 </div>
 <div class="section" id="id3">
@@ -75,14 +75,16 @@
 </div>
 <div class="section" id="id4">
 <h2>Панель управления<a class="headerlink" href="#id4" title="Ссылка на этот заголовок">¶</a></h2>
-<p>Ниже приведена панель управления веб-плеера.</p>
-<a class="reference internal image-reference" href="_images/web_player_interface.png"><img alt="_images/web_player_interface.png" class="align-center" src="_images/web_player_interface.png" style="width: 100%;" /></a>
+<p>Ниже показана панель управления веб-плеера.</p>
+<a class="reference internal image-reference" href="_images/web_player_interface.jpg"><img alt="_images/web_player_interface.jpg" class="align-center" src="_images/web_player_interface.jpg" style="width: 100%;" /></a>
 <ol class="arabic simple">
+<li>показ / скрытие панели управления;</li>
 <li>включение / выключение полноэкранного режима;</li>
-<li>включение / выключение автоматического поворота камеры вокруг сцены;</li>
 <li>установка качества сцены;</li>
 <li>включение / выключение звука;</li>
+<li>включение / выключение автоматического поворота камеры вокруг сцены;</li>
 <li>запуск / остановка движка.</li>
+<li>открытие помощи.</li>
 </ol>
 </div>
 <div class="section" id="id5">
@@ -104,21 +106,21 @@
 <ol class="arabic simple">
 <li>атрибутом <tt class="docutils literal"><span class="pre">load</span></tt> указан неверный путь к JSON файлу или данный файл неисправен;</li>
 </ol>
-<a class="reference internal image-reference" href="_images/error_wrong_json_path.png"><img alt="_images/error_wrong_json_path.png" class="align-center" src="_images/error_wrong_json_path.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/error_wrong_json_path.jpg"><img alt="_images/error_wrong_json_path.jpg" class="align-center" src="_images/error_wrong_json_path.jpg" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <ol class="arabic simple" start="2">
 <li>атрибут <tt class="docutils literal"><span class="pre">load</span></tt> не найден или его значение пустое;</li>
 </ol>
-<a class="reference internal image-reference" href="_images/error_not_load_attr.png"><img alt="_images/error_not_load_attr.png" class="align-center" src="_images/error_not_load_attr.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/error_not_load_attr.jpg"><img alt="_images/error_not_load_attr.jpg" class="align-center" src="_images/error_not_load_attr.jpg" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <ol class="arabic simple" start="3">
 <li>ошибка инициализации WebGL.</li>
 </ol>
-<a class="reference internal image-reference" href="_images/error_webgl.png"><img alt="_images/error_webgl.png" class="align-center" src="_images/error_webgl.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/error_webgl.jpg"><img alt="_images/error_webgl.jpg" class="align-center" src="_images/error_webgl.jpg" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -199,7 +201,7 @@
           
     <div class="footer">
         &copy; Copyright 2014, ООО &#34;Триумф&#34;.
-      Обновлено: 2014-09-25.
+      Обновлено: 2014-10-30.
       Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

@@ -26,7 +26,7 @@ attribute vec3 a_normal;
 attribute vec4 a_influence;
 #endif
 
-#if WIND_BEND || DYNAMIC_GRASS || HAIR_BILLBOARD
+#if WIND_BEND || DYNAMIC_GRASS || BILLBOARD
 AU_QUALIFIER vec3 au_center_pos;
 #endif
 
@@ -71,9 +71,13 @@ uniform vec2 u_subpixel_jitter;
 
 uniform mat4 u_view_matrix;
 uniform mat4 u_proj_matrix;
-# if DYNAMIC_GRASS || HAIR_BILLBOARD
+# if DYNAMIC_GRASS || BILLBOARD
 uniform vec3 u_camera_eye;
 # endif
+
+#if BILLBOARD && SHADOW_SRC == SHADOW_SRC_NONE && SHADOW_DST == SHADOW_DST_DEPTH
+uniform mat4 u_shadow_cast_billboard_view_matrix;
+#endif
 
 #if DYNAMIC_GRASS
 uniform sampler2D u_grass_map_depth;
@@ -98,7 +102,7 @@ uniform float u_scale_threshold;
 #endif
 
 #if WIND_BEND
-#if HAIR_BILLBOARD_JITTERED
+#if BILLBOARD_JITTERED
 uniform float u_jitter_amp;
 uniform float u_jitter_freq;
 #endif
@@ -205,7 +209,7 @@ void main(void) {
     skin(position, tangent, binormal, normal);
 #endif
 
-#if WIND_BEND || DYNAMIC_GRASS || HAIR_BILLBOARD
+#if WIND_BEND || DYNAMIC_GRASS || BILLBOARD
     vec3 center = au_center_pos;
 #else
     vec3 center = vec3(0.0);
@@ -216,10 +220,18 @@ void main(void) {
             u_grass_map_depth, u_grass_map_color, u_grass_map_dim, u_grass_size,
             u_camera_eye, u_camera_quat, u_view_matrix);
 #else
-# if HAIR_BILLBOARD
+# if BILLBOARD
     vec3 wcen = (u_model_matrix * vec4(center, 1.0)).xyz;
-    mat4 model_matrix = billboard_matrix(u_camera_eye, wcen, u_view_matrix);
-#  if WIND_BEND && HAIR_BILLBOARD_JITTERED
+
+// NOTE: only for non-particles geometry on SHADOW_CAST subscene
+# if !HAIR_BILLBOARD && SHADOW_SRC == SHADOW_SRC_NONE && SHADOW_DST == SHADOW_DST_DEPTH
+    mat4 bill_view_matrix = u_shadow_cast_billboard_view_matrix;
+# else
+    mat4 bill_view_matrix = u_view_matrix;
+# endif
+
+    mat4 model_matrix = billboard_matrix(u_camera_eye, wcen, bill_view_matrix);
+#  if WIND_BEND && BILLBOARD_JITTERED
     vec3 vec_seed = (u_model_matrix * vec4(center, 1.0)).xyz;
     model_matrix = model_matrix * bend_jitter_matrix(u_wind, u_time,
             u_jitter_amp, u_jitter_freq, vec_seed);

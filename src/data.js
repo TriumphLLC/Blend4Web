@@ -136,7 +136,7 @@ function load_main(bpy_data, thread, stage, cb_param, cb_finish,
             m_loader.skip_stage_by_name(thread, "load_binaries");
             m_loader.skip_stage_by_name(thread, "prepare_bindata");
         }
-
+        show_export_errors(bpy_data);
         show_export_warnings(bpy_data);
         cb_finish(thread, stage);
     }
@@ -152,8 +152,15 @@ function load_main(bpy_data, thread, stage, cb_param, cb_finish,
 function show_export_warnings(bpy_data) {
     if (bpy_data["b4w_export_warnings"])
         for (var i = 0; i < bpy_data["b4w_export_warnings"].length; i++)
-            m_print.error("EXPORT WARNING:",
+            m_print.warn("EXPORT WARNING:",
                     bpy_data["b4w_export_warnings"][i]);
+}
+
+function show_export_errors(bpy_data) {
+    if (bpy_data["b4w_export_errors"])
+        for (var i = 0; i < bpy_data["b4w_export_errors"].length; i++)
+            m_print.error("EXPORT ERROR:",
+                    bpy_data["b4w_export_errors"][i]);
 }
 
 /**
@@ -283,7 +290,23 @@ function prepare_bindata_actions(bin_data, bin_offsets, actions, is_le) {
         var arr_length = m_anim.get_approx_curve_length(start, end);
         var bflags = null;
 
+        // HACK: do not process euler rotation if quaternion rotation exists
+        // currently applied in Blender b4w addon; temporary backward compatibility
+        var has_euler_rot = false;
+        var has_quat_rot = false;
         for (var data_path in fcurves) {
+            has_euler_rot |= data_path.indexOf("rotation_euler") > -1;
+            has_quat_rot |= data_path.indexOf("rotation_quaternion") > -1;
+        }
+
+        for (var data_path in fcurves) {
+            // HACK: see above
+            if (has_euler_rot && has_quat_rot
+                    && data_path.indexOf("rotation_euler") > -1) {
+                delete fcurves[data_path];
+                continue;
+            }
+
             var channels = fcurves[data_path];
             for (var array_index in channels) {
                 var fcurve = channels[array_index];
@@ -302,6 +325,9 @@ function prepare_bindata_actions(bin_data, bin_offsets, actions, is_le) {
                         points, bflags, start, end);
                 fcurve._pierced_points = points;
             }
+
+            if (data_path.indexOf("rotation_euler") > -1)
+                m_anim.fcurves_replace_euler_by_quat(fcurves, data_path);
         }
 
         action._bflags = bflags;
@@ -766,6 +792,9 @@ function duplicate_objects_iter(obj_links, origin_name_prefix, obj_ids, grp_ids)
 
                 proxy["b4w_use_default_animation"] = obj["b4w_use_default_animation"];
                 proxy["b4w_auto_skel_anim"] = obj["b4w_auto_skel_anim"];
+                proxy["b4w_anim_behavior"] = obj["b4w_anim_behavior"];
+
+                // NOTE: deprecated
                 proxy["b4w_cyclic_animation"] = obj["b4w_cyclic_animation"];
             }
         }
@@ -1129,8 +1158,21 @@ function make_links(bpy_data) {
         if (speaker["sound"])
             make_link_uuid(speaker, "sound", storage);
 
-        if (speaker["animation_data"] && speaker["animation_data"]["action"])
-            make_link_uuid(speaker["animation_data"], "action", storage);
+        if (speaker["animation_data"]) {
+            var adata = speaker["animation_data"];
+
+            if (adata["action"])
+                make_link_uuid(adata, "action", storage);
+
+            if (adata["nla_tracks"])
+                for (var j = 0; j < adata["nla_tracks"].length; j++) {
+                    var track = adata["nla_tracks"][j];
+
+                    for (var k = 0; k < track["strips"].length; k++)
+                        if (track["strips"][k]["action"])
+                            make_link_uuid(track["strips"][k], "action", storage);
+                }
+        }
     }
 
     /*
@@ -1308,7 +1350,8 @@ function load_textures(bpy_data, thread, stage, cb_param, cb_finish, cb_set_rate
             if (tex_users[0]["b4w_shore_dist_map"])
                 continue;
 
-            var image_path = normpath(dir_path + image["filepath"]);
+            var image_path = normpath_preserve_protocol(dir_path + 
+                    image["filepath"]);
 
             if (image._is_dds)
                 var asset_type = m_assets.AT_ARRAYBUFFER;
@@ -1404,7 +1447,8 @@ function load_speakers(bpy_data, thread, stage, cb_param, cb_finish, cb_set_rate
             if (!(uuid in spks_by_uuid)) {
                 spks_by_uuid[uuid] = [];
 
-                var sound_path = normpath(dir_path + sound["filepath"]);
+                var sound_path = normpath_preserve_protocol(
+                        dir_path + sound["filepath"]);
 
                 switch (m_sfx.source_type(obj)) {
                 case m_sfx.AST_ARRAY_BUFFER:
@@ -1503,6 +1547,13 @@ function speakers_play(scene) {
         if (m_sfx.is_cyclic(sobj))
             m_sfx.play_def(sobj);
     }
+}
+
+
+function start_nla(bpy_data, thread, stage, cb_param, cb_finish, cb_set_rate) {
+    m_nla.start();
+    m_print.log("%cSTART NLA", "color: #0a0");
+    cb_finish(thread, stage);
 }
 
 
@@ -2177,7 +2228,8 @@ function load_shoremap(bpy_data, thread, stage, cb_param, cb_finish,
             if (image && image["source"] === "FILE") {
                 var uuid = image["uuid"];
                 var dir_path = dirname(thread.filepath);
-                var image_path = normpath(dir_path + image["filepath"]);
+                var image_path = normpath_preserve_protocol(dir_path + 
+                        image["filepath"]);
 
                 if (image._is_dds)
                     var asset_type = m_assets.AT_ARRAYBUFFER;
@@ -2398,7 +2450,8 @@ function end_objects_adding(bpy_data, thread, stage, cb_param, cb_finish,
 
     if (_data_is_primary) {
         for (var i = 0; i < bpy_data["scenes"].length; i++) {
-            var scene = bpy_data["scenes"][i]
+            var scene = bpy_data["scenes"][i];
+            m_scenes.sort_lamps(scene);
             m_scenes.prepare_rendering(scene);
 
             if (scene["b4w_use_nla"])
@@ -2479,6 +2532,15 @@ function normpath(path) {
         path = sep + path;
 
     return path || dot;
+}
+
+function normpath_preserve_protocol(dir_path) {
+    var separated_str = dir_path.split('://',2);
+    if (separated_str.length > 1) {
+        separated_str[1] = normpath(separated_str[1]);
+        return separated_str.join('://');
+    } else
+        return normpath(dir_path);   
 }
 
 exports.load = function(path, loaded_cb, stageload_cb, wait_complete_loading,
@@ -2604,6 +2666,15 @@ exports.load = function(path, loaded_cb, stageload_cb, wait_complete_loading,
             cb_param: {
                 sound_counter: 0
             }
+        },
+        "start_nla": {
+            priority: m_loader.SYNC_PRIORITY,
+            background_loading: true,
+            inputs: ["load_speakers"],
+            is_resource: false,
+            relative_size: 5,
+            primary_only: false,
+            cb_before: start_nla
         }
     };
 

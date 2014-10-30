@@ -11,6 +11,10 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+#: ../particles.rst:3
+msgid "система частиц"
+msgstr "particle system"
+
 #: ../particles.rst:7
 msgid "Система частиц"
 msgstr "Particle System"
@@ -505,6 +509,19 @@ msgstr ""
 "Starting and ending intervals (measured in frames) for gradually increasing "
 "and decreasing the particles' transparency."
 
+#: ../particles.rst:190
+msgid "*Blend4Web > Coordinate system*"
+msgstr ""
+
+#: ../particles.rst:189
+msgid ""
+"Система координат испускаемых частиц: ``Local`` - использовать локальную "
+"систему координат эмиттера, ``World`` - использовать мировую систему "
+"координат."
+msgstr ""
+"Coordinate system of emitting particles: ``Local`` - use local coordinate "
+"system of the emitter object, ``World`` - use world coordinate system."
+
 #: ../particles.rst:195
 msgid "Текстуры в системах частиц"
 msgstr "Textures in Particle Systems"
@@ -581,26 +598,10 @@ msgstr ""
 "The result of using gradient textures on the particle material and the "
 "particle system: "
 
-#: ../particles.rst:3
-msgid "система частиц"
-msgstr "particle system"
-
 #: ../particles.rst:230
 msgid "`Ссылка на модель <http://www.blendswap.com/blends/view/13977>`_"
 msgstr ""
 "`The original model was taken from here "
 "<http://www.blendswap.com/blends/view/13977>`_"
 
-#: ../particles.rst:190
-msgid "*Blend4Web > Coordinate system*"
-msgstr ""
-
-#: ../particles.rst:189
-msgid ""
-"Система координат испускаемых частиц: ``Local`` - исользовать локальную "
-"систему коориднат эмиттера, ``World`` - использовать мировую систему "
-"координат."
-msgstr "Coordinate system of emitting particles: ``Local`` - use local "
-"coordinate system of emitter object, ``World`` - use world coordinate "
-"system"
 

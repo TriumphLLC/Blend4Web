@@ -25,11 +25,15 @@ class VertexAnim(bpy.types.PropertyGroup):
 
     averaging = bpy.props.BoolProperty(name="Averaging", 
             description="Perform vertex animation averaging: mix end " +
-            "frames with first ones", default=False);
+            "frames with first ones", default=False)
     averaging_interval  = bpy.props.IntProperty(name="Interval",
             description="Averaging interval",
             default=5, min=0, max=1000, soft_min=1, soft_max=50,
-            subtype="TIME");
+            subtype="TIME")
+
+    allow_nla = bpy.props.BoolProperty(name="Allow NLA", 
+            description="Allow animation to be controlled by the NLA",
+            default=True)
 
 
 class B4W_VertexAnimBakerPanel(bpy.types.Panel):
@@ -71,6 +75,9 @@ class B4W_VertexAnimBakerPanel(bpy.types.Panel):
         row = layout.row(align=True)
         row.prop(va[va_index], "averaging")
         row.prop(va[va_index], "averaging_interval")
+
+        row = layout.row()
+        row.prop(va[va_index], "allow_nla")
 
         row = layout.row()
         if va[va_index].frames:
@@ -139,7 +146,7 @@ class B4W_VertexAnimBakeOperator(bpy.types.Operator):
         if obj.type != "MESH": return False
 
         mesh = obj.data
-
+        current_frame = bpy.context.scene.frame_current
         frames = va_item.frames
         # remove old elements
         if frames:
@@ -172,7 +179,7 @@ class B4W_VertexAnimBakeOperator(bpy.types.Operator):
             if deform_object:
                 deform_object.data = deform_object_mesh_save
                 bpy.data.meshes.remove(deform_mesh_tmp)
-
+        bpy.context.scene.frame_set(current_frame)
         return True
 
     def find_deform_object(self, obj):

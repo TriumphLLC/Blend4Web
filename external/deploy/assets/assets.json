@@ -3,6 +3,10 @@
         "name": "Tutorials",
         "items": [
             {
+                "name": "Sunglasses",
+                "load_file": "tutorials/sunglasses/sunglasses.json"
+            },
+            {
                 "name": "Flying Letters",
                 "load_file": "../tutorials/examples/web_page_integration/flying_letters.json"
             },
@@ -17,10 +21,6 @@
             {
                 "name": "Flag Blend4Web",
                 "load_file": "tutorials/flag/flag_caches_mix.json"
-            },
-            {
-                "name": "Making a Game",
-                "load_file": "../tutorials/examples/making_a_game_p5-6/main_scene.json"
             },
             {
                 "name": "Grass",

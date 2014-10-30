@@ -789,15 +789,17 @@ function append_nmat_node(graph, bpy_node, geometry_output_num, anim_data) {
             type = "SMOOTHSTEP";
             break;
         default:
-            var node_tree = m_util.clone_object_json(bpy_node["node_group"]["node_tree"]);
+            var node_tree = clone_node_tree(bpy_node["node_group"]["node_tree"]);
 
             if (node_name == "REPLACE" || node_name == "LEVELS_OF_QUALITY") {
                 var gi = init_bpy_node("Group input", "GROUP_INPUT", [], bpy_node["inputs"]);
                 var go = init_bpy_node("Group output", "GROUP_OUTPUT", bpy_node["outputs"], []);
 
                 var link = null;
+
                 if (node_name == "REPLACE" ||
-                    node_name == "LEVELS_OF_QUALITY" && m_config.get("quality") == m_config.P_LOW) {
+                    node_name == "LEVELS_OF_QUALITY" && 
+                    (cfg_def.quality == m_config.P_LOW || cfg_def.force_low_quality_nodes)) {
                     link = init_bpy_link(gi, gi["outputs"][1], go, go["inputs"][0]);
                 } else
                     link = init_bpy_link(gi, gi["outputs"][0], go, go["inputs"][0]);
@@ -1244,40 +1246,7 @@ function append_nmat_node(graph, bpy_node, geometry_output_num, anim_data) {
         break;
     case "VALUE":
 
-        var anim_param_name = null;
-        if (anim_data) {
-            var action = anim_data["action"];
-            if (action) {
-                var act_params = action._render.params;
-                for (var act_param in act_params) {
-                    // extract text between "[" and "]" which is exactly a node name
-                    var node_inside_anim = act_param.substring(7,7 + bpy_node["name"].length);
-                    if (node_inside_anim == bpy_node["name"]) {
-                        anim_param_name = action["name"] + "_" + act_param;
-                        break;
-                    }
-                }
-            }
-
-            var nla_tracks = anim_data["nla_tracks"]
-
-            for (var j = 0; j < nla_tracks.length; j++) {
-                var nla_strips = nla_tracks[j]["strips"];
-                for (var k = 0; k <nla_tracks[j]["strips"].length; k++) {
-                    var strip = nla_strips[k];
-                    var action = strip["action"];
-                    var act_params = action._render.params;
-                    for (var act_param in act_params) {
-                        // extract text between "[" and "]" which is exactly a node name
-                        var node_inside_anim = act_param.substring(7,7 + bpy_node["name"].length);
-                        if (node_inside_anim == bpy_node["name"]) {
-                            anim_param_name = action["name"] + "_" + act_param;
-                            break;
-                        }
-                    }
-                }
-            }
-        }
+        var anim_param_name = get_value_node_anim_param(anim_data, bpy_node);
 
         var output = node_output_by_ident(bpy_node, "Value");
 
@@ -1367,6 +1336,37 @@ function append_nmat_node(graph, bpy_node, geometry_output_num, anim_data) {
 
 function reset_shader_ident_counters() {
     _shader_ident_counters = {};
+}
+
+function copy_obj(obj) {
+    var type = typeof(obj);
+    if (type == "string" || type == "number" || type == "boolean" || !obj)
+        return obj;
+    return m_util.clone_object_nr(obj);
+}
+
+function clone_node_tree(tree) {
+    var new_tree = {};
+
+    for (var i in tree) {
+        if (i == "links" || i == "nodes") {
+            new_tree[i] = [];
+            for (var j = 0; j < tree[i].length; j++) {
+                new_tree[i][j] = {};
+                for (var k in tree[i][j]) {
+                    if (i == "links") {
+                        new_tree[i][j][k] = {};
+                        for (var l in tree[i][j][k])
+                            new_tree[i][j][k][l] = copy_obj(tree[i][j][k][l]);
+                    } else
+                        new_tree[i][j][k] = copy_obj(tree[i][j][k]);
+                }
+            }
+        } else
+            new_tree[i] = copy_obj(tree[i]);
+    }
+
+    return new_tree;
 }
 
 /**
@@ -1904,6 +1904,41 @@ function change_node_groups_links(node, links, graph) {
                 output_node = node;
         });
         change_default_values(links, graph, output_node, unused_output_links);
+    }
+}
+
+function get_value_node_anim_param(anim_data, bpy_node) {
+
+    if (!anim_data)
+        return null
+
+    var action = anim_data["action"];
+    if (action) {
+        var act_params = action._render.params;
+        for (var act_param in act_params) {
+            // extract text between "[" and "]" which is exactly a node name
+            var node_inside_anim = act_param.match(/"(.*?)"/ )[1];
+            if (node_inside_anim == bpy_node["name"]) {
+                return(action["name"] + "_" + act_param);
+            }
+        }
+    }
+
+    var nla_tracks = anim_data["nla_tracks"]
+    for (var j = 0; j < nla_tracks.length; j++) {
+        var nla_strips = nla_tracks[j]["strips"];
+        for (var k = 0; k <nla_tracks[j]["strips"].length; k++) {
+            var strip = nla_strips[k];
+            var action = strip["action"];
+            var act_params = action._render.params;
+            for (var act_param in act_params) {
+                // extract text between "[" and "]" which is exactly a node name
+                var node_inside_anim = act_param.match(/"(.*?)"/ )[1];
+                if (node_inside_anim == bpy_node["name"]) {
+                    return(action["name"] + "_" + act_param);
+                }
+            }
+        }
     }
 }
 

@@ -27,13 +27,6 @@ msgstr ""
 "In general animation is changing the object's parameters in time. The engine"
 " supports the following types of animation:"
 
-#: ../animation.rst:12
-msgid ""
-"Объектная анимация. Заключается в перемещении объекта в пространстве как "
-"единого целого."
-msgstr ""
-"Object animation means the moving an object as a whole."
-
 #: ../animation.rst:15
 msgid ""
 "Скелетная анимация, то есть деформация геометрии объекта с помощью системы "
@@ -58,10 +51,6 @@ msgid ""
 msgstr ""
 "Audio sources parametrization. Speaker's ``Volume`` and ``Pitch`` can be "
 "animated."
-
-#: ../animation.rst:25
-msgid "Анимация выходного значения ноды ``Value`` в нодовом материале."
-msgstr "Animation of the ``Value`` node output in node materials."
 
 #: ../animation.rst:27
 msgid ""
@@ -121,12 +110,11 @@ msgstr "Object Animation"
 
 #: ../animation.rst:55
 msgid ""
-"Изменяемые параметры: координаты центра (``Location``), кватернион поворота "
-"(``Rotation`` в режиме ``Quaternion(WXYZ)``) и масштабирование (``Scale``)."
+"Изменяемые параметры: координаты центра (``Location``), поворот "
+"(``Rotation``) и масштабирование (``Scale``)."
 msgstr ""
-"The parameters that can be animated are the center coordinates (``Location``), the rotation's "
-"quaternion (``Rotation`` in the ``Quaternion(WXYZ)`` mode) and scaling "
-"(``Scale``)."
+"The parameters that can be animated are the center coordinates "
+"(``Location``), ``Rotation`` and ``Scale``."
 
 #: ../animation.rst:63
 msgid ""
@@ -145,8 +133,10 @@ msgid "*Location*"
 msgstr ""
 
 #: ../animation.rst:70
-msgid "*Rotation* -- необходимо осуществлять в режиме ``Quaternion(WXYZ)``."
-msgstr "*Rotation* -- the ``Quaternion(WXYZ)`` mode is required."
+msgid ""
+"*Rotation* -- необходимо осуществлять в режиме ``Quaternion(WXYZ)`` либо "
+"``XYZ Euler``."
+msgstr "*Rotation* -- the ``Quaternion(WXYZ)`` or ``XYZ Euler`` mode is required."
 
 #: ../animation.rst:72
 msgid ""
@@ -349,6 +339,16 @@ msgid ""
 "Параметризация источников звука по своей сути повторяет объектную анимацию."
 msgstr "Audio sources parametering in essence follows object animation."
 
+#: ../animation.rst:12
+msgid ""
+"Объектная анимация. Заключается в перемещении объекта в пространстве как "
+"единого целого."
+msgstr "Object animation means the moving an object as a whole."
+
+#: ../animation.rst:25
+msgid "Анимация выходного значения ноды ``Value`` в нодовом материале."
+msgstr "Animation of the ``Value`` node output in node materials."
+
 #: ../animation.rst:186
 msgid "Анимация ноды ``Value``"
 msgstr "``Value`` Node Animation"
@@ -368,6 +368,5 @@ msgstr ""
 #: ../animation.rst:198
 msgid ":ref:`node_materials`"
 msgstr ""
-
 
 

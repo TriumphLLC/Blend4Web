@@ -1,6 +1,6 @@
 "use strict";
 
-/** 
+/**
  * Implements various utility functions.
  * @module util
  */
@@ -75,10 +75,14 @@ exports.matrix_to_quat = function(matrix) {
  * <p>Using euler angles is discouraged, use quaternion instead.
  * @method module:util.euler_to_quat
  * @param {Float32Array} euler Euler vector
+ * @param {Float32Array} quat Destination quaternion vector
  * @retunrns {Float32Array} Quaternion vector
  */
-exports.euler_to_quat = function(euler) {
-    return util.euler_to_quat(euler);
+exports.euler_to_quat = function(euler, quat) {
+    if (!quat)
+        quat = new Float32Array(4);
+
+    return util.euler_to_quat(euler, quat);
 }
 
 /**
@@ -93,10 +97,14 @@ exports.euler_to_quat = function(euler) {
  * <p>Using euler angles is discouraged, use quaternion instead.
  * @method module:util.quat_to_euler
  * @param {Float32Array} quat Quaternion vector
+ * @param {Float32Array} euler Destination euler vector
  * @retunrns {Float32Array} Euler vector
  */
-exports.quat_to_euler = function(quat) {
-    return util.quat_to_euler(quat);
+exports.quat_to_euler = function(quat, euler) {
+    if (!euler)
+        euler = new Float32Array(3);
+
+    return util.quat_to_euler(quat, euler);
 }
 
 /**

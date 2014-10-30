@@ -229,8 +229,6 @@ exports.resize = function(texture, width, height) {
     var width = Math.max(width, 1);
     var height = Math.max(height, 1);
 
-    check_texture_size(width, height);
-
     if (texture.width == width && texture.height == height)
         return;
 
@@ -250,7 +248,10 @@ exports.resize = function(texture, width, height) {
 
         _gl.bindTexture(w_target, null);
     }
-
+    if (check_texture_size(width, height)) {
+        m_print.error("B4W warning: texture has unsupported size" ,filepath);
+        return;
+    }
     texture.width = width;
     texture.height = height;
 }
@@ -259,7 +260,8 @@ exports.resize = function(texture, width, height) {
  * Create b4w texture object with 1-pixel image as placeholder
  * @param bpy_texture b4w texture object
  */
-exports.create_texture_bpy = function(bpy_texture, global_af, bpy_scenes) {
+exports.create_texture_bpy = create_texture_bpy;
+function create_texture_bpy(bpy_texture, global_af, bpy_scenes) {
 
     var tex_type = bpy_texture["type"];
     var image_data = new Uint8Array([0.8*255, 0.8*255, 0.8*255, 1*255]);
@@ -267,6 +269,7 @@ exports.create_texture_bpy = function(bpy_texture, global_af, bpy_scenes) {
     var texture = init_texture();
 
     switch(tex_type) {
+    case "DATA_TEX2D":
     case "IMAGE":
         var w_texture = _gl.createTexture();
         var w_target = _gl.TEXTURE_2D;
@@ -318,7 +321,7 @@ exports.create_texture_bpy = function(bpy_texture, global_af, bpy_scenes) {
         return null;
     }
 
-    if (tex_type == "NONE")
+    if (tex_type == "NONE" || tex_type == "DATA_TEX2D")
         _gl.texParameteri(w_target, _gl.TEXTURE_MIN_FILTER, _gl.LINEAR);
     else
         _gl.texParameteri(w_target, _gl.TEXTURE_MIN_FILTER, LEVELS[cfg_def.texture_min_filter]);
@@ -478,9 +481,13 @@ exports.update_texture = function(texture, image_data, is_dds, filepath) {
             texture.width = 1;
             texture.height = 1;
         } else if (is_dds) {
+            var dds_wh = m_dds.get_width_height(image_data);
+            if(check_texture_size(dds_wh.width, dds_wh.height)) {
+                m_print.error("B4W warning: texture has unsupported size", filepath);
+                return;
+            }
             m_dds.upload_dds_levels(_gl, extensions.get_s3tc(), image_data,
                     true);
-            var dds_wh = m_dds.get_width_height(image_data);
 
             if (is_non_power_of_two(dds_wh.width, dds_wh.height)) {
                 if (!texture.auxilary_texture)
@@ -495,7 +502,10 @@ exports.update_texture = function(texture, image_data, is_dds, filepath) {
             _gl.pixelStorei(_gl.UNPACK_FLIP_Y_WEBGL, true);
             //_gl.pixelStorei(_gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);
 
-            check_texture_size(image_data.width, image_data.height);
+            if(check_texture_size(image_data.width, image_data.height)) {
+                m_print.error("B4W warning: texture has unsupported size", filepath);
+                return;
+            }
 
             _gl.texImage2D(w_target, 0, _gl.RGBA, _gl.RGBA, _gl.UNSIGNED_BYTE, image_data);
 
@@ -537,6 +547,11 @@ exports.update_texture = function(texture, image_data, is_dds, filepath) {
 
             var dim = image_data.width / 3;
 
+            if (check_cube_map_size(dim,dim)) {
+                m_print.error("B4W warning: cubemap has unsupported size", filepath);
+                return;
+            }
+
             for (var i = 0; i < 6; i++) {
                 var info = infos[i];
 
@@ -572,6 +587,11 @@ exports.update_texture = function(texture, image_data, is_dds, filepath) {
                 _gl.generateMipmap(w_target);
             }
         }
+    } else if (tex_type == "DATA_TEX2D") {
+        _gl.texImage2D(w_target, 0, _gl.RGBA, image_data.width, image_data.height, 0,
+                       _gl.RGBA, _gl.UNSIGNED_BYTE, image_data.data);
+        texture.width = image_data.width;
+        texture.height = image_data.height;
     }
 
     _gl.bindTexture(w_target, null);
@@ -710,8 +730,30 @@ exports.get_texture_channel_size = function(tex) {
 }
 
 function check_texture_size(width, height) {
-    if (width > cfg_def.max_texture_size || height > cfg_def.max_texture_size)
-        util.panic("Maximum texture size exceeded");
+    return (width > cfg_def.max_texture_size || height > cfg_def.max_texture_size);
+}
+
+function check_cube_map_size(width, height) {
+    return (width > cfg_def.max_cube_map_size || height > cfg_def.max_cube_map_size);
+}
+
+exports.generate_texture = function(type, subs) {
+    var texture = null;
+    switch(type) {
+        case "SSAO_TEXTURE":
+            texture = {
+                "name": "special_ssao_texture",
+                "type": "DATA_TEX2D",
+                "extension": "REPEAT",
+                "b4w_anisotropic_filtering": "OFF",
+            };
+            create_texture_bpy(texture, null, subs);
+            texture["image"] = { "filepath": null };
+            break;
+        default:
+            break;
+    }
+    return texture;
 }
 
 }

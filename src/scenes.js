@@ -74,6 +74,15 @@ var MAX_SHADER_VARYING_COUNT = 10;
 
 var GRASS_MAP_MARGIN = 1E-4;
 
+var MAX_SHADOW_CAST_BB_PROPORTION = 2;
+var MAX_OPTIMAL_BB_ANGLE = Math.PI / 2;
+var OPTIMAL_BB_COUNT = 10;
+
+// prevent shadows stretching near edges
+var SHADOW_MAP_EPSILON_XY = 0.005;
+// fix depth rendering near clipping planes
+var SHADOW_MAP_EPSILON_Z = 0.005;
+
 exports.GET_OBJECT_BY_NAME = 0;
 exports.GET_OBJECT_BY_DUPLI_NAME = 1;
 exports.GET_OBJECT_BY_DUPLI_NAME_LIST = 2;
@@ -87,8 +96,10 @@ var _vec4_tmp2 = new Float32Array(4);
 var _quat4_tmp = new Float32Array(4);
 var _mat4_tmp = new Float32Array(16);
 var _corners_cache = new Float32Array(24);
+var _corners_cache2 = new Float32Array(24);
 
 var _bb_tmp = m_bounds.zero_bounding_box();
+var _bb_tmp2 = m_bounds.zero_bounding_box();
 
 var _wind = new Float32Array(3);
 
@@ -278,16 +289,30 @@ function append_scene(bpy_scene) {
     var shs  = bpy_scene["world"]["b4w_shadow_settings"];
     var rshs = render.shadow_params = {};
 
-    rshs.csm_num                    = shs["csm_num"];
-    rshs.csm_first_cascade_border   = shs["csm_first_cascade_border"];
-    rshs.first_cascade_blur_radius  = shs["first_cascade_blur_radius"];
-    rshs.csm_last_cascade_border    = shs["csm_last_cascade_border"];
-    rshs.last_cascade_blur_radius   = shs["last_cascade_blur_radius"];
     rshs.csm_resolution             = shs["csm_resolution"];
     rshs.self_shadow_polygon_offset = shs["self_shadow_polygon_offset"];
     rshs.self_shadow_normal_offset  = shs["self_shadow_normal_offset"];
-    rshs.fade_last_cascade          = shs["fade_last_cascade"];
-    rshs.blend_between_cascades     = shs["blend_between_cascades"];
+    rshs.b4w_enable_csm             = shs["b4w_enable_csm"];
+
+    if (rshs.b4w_enable_csm) {
+        rshs.csm_num                    = shs["csm_num"];
+        rshs.csm_first_cascade_border   = shs["csm_first_cascade_border"];
+        rshs.first_cascade_blur_radius  = shs["first_cascade_blur_radius"];
+        rshs.csm_last_cascade_border    = shs["csm_last_cascade_border"];
+        rshs.last_cascade_blur_radius   = shs["last_cascade_blur_radius"];
+
+        rshs.fade_last_cascade          = shs["fade_last_cascade"];
+        rshs.blend_between_cascades     = shs["blend_between_cascades"];
+    } else {
+        rshs.csm_num                    = 1;
+        rshs.csm_first_cascade_border   = shs["csm_first_cascade_border"];
+        rshs.first_cascade_blur_radius  = shs["first_cascade_blur_radius"];
+        rshs.csm_last_cascade_border    = shs["csm_last_cascade_border"];
+        rshs.last_cascade_blur_radius   = shs["last_cascade_blur_radius"];
+
+        rshs.fade_last_cascade          = false;
+        rshs.blend_between_cascades     = false;
+    }
 
     var fog_color = bpy_scene["world"]["b4w_fog_color"];
     var fog_dens  = bpy_scene["world"]["b4w_fog_density"];
@@ -630,10 +655,9 @@ function extract_ssao_params(bpy_scene) {
     var ssao_settings = bpy_scene["world"]["b4w_ssao_settings"];
 
     ssao_params.radius_increase         = ssao_settings["radius_increase"];
-    ssao_params.dithering_amount        = ssao_settings["dithering_amount"];
-    ssao_params.gauss_center            = ssao_settings["gauss_center"];
-    ssao_params.gauss_width_square      = ssao_settings["gauss_width"] * ssao_settings["gauss_width"];
-    ssao_params.gauss_width_left_square = ssao_settings["gauss_width_left"] * ssao_settings["gauss_width_left"];
+    ssao_params.hemisphere              = ssao_settings["hemisphere"];
+    ssao_params.blur_depth              = ssao_settings["blur_depth"];
+    ssao_params.blur_discard_value      = ssao_settings["blur_discard_value"];
     ssao_params.influence               = ssao_settings["influence"];
     ssao_params.dist_factor             = ssao_settings["dist_factor"];
     ssao_params.samples                 = ssao_settings["samples"];
@@ -842,8 +866,11 @@ exports.generate_auxiliary_batches = function(graph) {
             batch = m_batch.create_postprocessing_batch(subs.pp_effect);
             break;
         case "SSAO":
-            batch = m_batch.create_ssao_batch(subs.ssao_samples);
-
+            batch = m_batch.create_ssao_batch(subs);
+            break;
+        case "SSAO_BLUR":
+            batch = m_batch.create_ssao_blur_batch(subs);
+            m_batch.set_texel_size(batch, 1 / subs.camera.width, 1 / subs.camera.height);
             break;
         case "DEPTH_PACK":
             batch = m_batch.create_depth_pack_batch();
@@ -1305,8 +1332,7 @@ function add_object_subs_main(subs, obj, graph, main_type, bpy_scene) {
             if (batch.procedural_sky) {
                 var tex = subs_sky.camera.color_attachment;
                 m_batch.append_texture(batch, tex, "u_sky");
-            } else if (cfg_def.procedural_fog &&
-                  (subs.type === "MAIN_OPAQUE" || subs.type === "MAIN_BLEND")) {
+            } else if (cfg_def.procedural_fog) {
                 // by link
                 batch.cube_fog = subs_sky.cube_fog;
                 m_shaders.set_directive(shaders_info, "PROCEDURAL_FOG", 1);
@@ -1371,77 +1397,74 @@ function add_object_subs_main(subs, obj, graph, main_type, bpy_scene) {
         // check for textures used in offscreen rendering
         // NOTE: create and attach subgraph, it's possible to do so here
         // because we have only one texture for each subscene
-        if (main_type === "OPAQUE" || main_type === "BLEND") {
-            var textures = batch.textures;
+        var textures = batch.textures;
 
-            for (var j = 0; j < textures.length; j++) {
-                var tex = textures[j];
+        for (var j = 0; j < textures.length; j++) {
+            var tex = textures[j];
 
-                var src = tex.offscreen_scene;
+            var src = tex.offscreen_scene;
 
-                if (src) {
-                    var src_graph = src._render.graph;
+            if (src) {
+                var src_graph = src._render.graph;
 
-                    var subs_tex = null;
-                    var slink_tex = null;
+                var subs_tex = null;
+                var slink_tex = null;
 
-                    m_graph.traverse_edges(src_graph, function(id1, id2, attr) {
-                        var slink = attr;
+                m_graph.traverse_edges(src_graph, function(id1, id2, attr) {
+                    var slink = attr;
 
-                        if (slink.from == "SCREEN") {
-                            subs_tex = m_graph.get_node_attr(src_graph, id1);
-                            slink_tex = slink;
-                            return true;
-                        }
-                    });
-
-                    if (!subs_tex || !slink_tex)
-                        throw "Failed to assign RTT";
-
-                    m_tex.set_filters(tex, m_tex.TF_LINEAR, m_tex.TF_LINEAR);
-
-                    slink_tex.texture = tex;
-
-                    var cam_tex = subs_tex.camera;
-                    cam_tex.color_attachment = tex;
-                    cam_tex.framebuffer = m_render.render_target_create(tex, null);
-
-                    var o_width = cfg_scs.offscreen_tex_size;
-                    var o_height = cfg_scs.offscreen_tex_size;
-
-                    setup_scene_dim(src, o_width, o_height, true);
-
-                    var queue_tex = m_scgraph.create_rendering_queue(src_graph);
-                    for (var k = queue_tex.length-1; k >= 0; k--) {
-                        var subs_k = queue_tex[k];
-                        var cam_k = subs_k.camera;
-
-                        m_cam.set_projection(cam_k, 1);
-
-                        // update size of shadow cascades
-                        if (subs.type == "MAIN_OPAQUE"
-                                && cam_k.type == m_cam.TYPE_PERSP)
-                            m_cam.update_camera_csm(cam_k,
-                                    src._render.shadow_params);
-
-                        bpy_scene._render.queue.unshift(subs_k);
+                    if (slink.from == "SCREEN") {
+                        subs_tex = m_graph.get_node_attr(src_graph, id1);
+                        slink_tex = slink;
+                        return true;
                     }
+                });
+
+                if (!subs_tex || !slink_tex)
+                    throw "Failed to assign RTT";
+
+                m_tex.set_filters(tex, m_tex.TF_LINEAR, m_tex.TF_LINEAR);
+
+                slink_tex.texture = tex;
+
+                var cam_tex = subs_tex.camera;
+                cam_tex.color_attachment = tex;
+                cam_tex.framebuffer = m_render.render_target_create(tex, null);
+
+                var o_width = cfg_scs.offscreen_tex_size;
+                var o_height = cfg_scs.offscreen_tex_size;
+
+                setup_scene_dim(src, o_width, o_height, true);
+
+                var queue_tex = m_scgraph.create_rendering_queue(src_graph);
+                for (var k = queue_tex.length-1; k >= 0; k--) {
+                    var subs_k = queue_tex[k];
+                    var cam_k = subs_k.camera;
+
+                    m_cam.set_projection(cam_k, 1);
+
+                    if (subs.type == "MAIN_OPAQUE"
+                            && cam_k.type == m_cam.TYPE_PERSP)
+                        m_cam.update_camera_shadows(cam_k,
+                                src._render.shadow_params);
+
+                    bpy_scene._render.queue.unshift(subs_k);
                 }
             }
+        }
 
-            if (batch.lamp_uuid_indexes) {
-                var lamp_size = 0;
-                for (var key in batch.lamp_uuid_indexes)
-                    lamp_size++;
-                m_shaders.set_directive(shaders_info, "NUM_LAMP_LIGHTS", lamp_size);
-                batch.lamp_light_positions = new Float32Array(lamp_size * 3);
-                batch.lamp_light_directions = new Float32Array(lamp_size * 3);
-                batch.lamp_light_color_intensities = new Float32Array(lamp_size * 3);
-                batch.lamp_light_factors = new Float32Array(lamp_size * 4);
-                for (var j = 0; j < bpy_scene._objects["LAMP"].length; j++) {
-                    var lamp = bpy_scene._objects["LAMP"][j];
-                    set_lamp_data(batch, lamp);
-                }
+        if (batch.lamp_uuid_indexes) {
+            var lamp_size = 0;
+            for (var key in batch.lamp_uuid_indexes)
+                lamp_size++;
+            m_shaders.set_directive(shaders_info, "NUM_LAMP_LIGHTS", lamp_size);
+            batch.lamp_light_positions = new Float32Array(lamp_size * 3);
+            batch.lamp_light_directions = new Float32Array(lamp_size * 3);
+            batch.lamp_light_color_intensities = new Float32Array(lamp_size * 3);
+            batch.lamp_light_factors = new Float32Array(lamp_size * 4);
+            for (var j = 0; j < bpy_scene._objects["LAMP"].length; j++) {
+                var lamp = bpy_scene._objects["LAMP"][j];
+                set_lamp_data(batch, lamp);
             }
         }
 
@@ -1912,7 +1935,7 @@ function update_shadow_subscenes(bpy_scene) {
 
 /**
  * Update shadow subscene camera based on main subscene light
- * uses _vec3_tmp, _mat4_tmp
+ * uses _vec3_tmp, _mat4_tmp, _corners_cache
  * @methodOf scenes
  */
 function update_subs_shadow(subs, subs_main, cast_bundles, bpy_scene,
@@ -1932,70 +1955,128 @@ function update_subs_shadow(subs, subs_main, cast_bundles, bpy_scene,
 
     // NOTE: inherit light camera eye from main camera (used in LOD calculations)
     m_vec3.copy(cam_main.eye, cam.eye);
+    // NOTE: inherit view_matrix from main camera
+    m_mat4.copy(cam_main.view_matrix, cam.shadow_cast_billboard_view_matrix);
 
+    // determine camera frustum for shadow casting
 
-    // update bounding box for subscene cascade
+    var bb_world = get_shadow_casters_bb(cast_bundles, _bb_tmp);
+    var bb_corners = m_bounds.extract_bb_corners(bb_world, _corners_cache);
+    // transform bb corners to light view space
+    m_util.positions_multiply_matrix(bb_corners, cam.view_matrix, bb_corners);
 
-    // calculate world center and radius
-    var center = m_vec3.copy(cam_main.csm_centers[subs.csm_index], _vec3_tmp);
-    var main_view_inv = m_mat4.invert(cam_main.view_matrix, _mat4_tmp);
-    m_util.positions_multiply_matrix(center, main_view_inv, center);
+    if (bpy_scene._render.shadow_params.b4w_enable_csm) {
+        // calculate world center and radius
+        var center = m_vec3.copy(cam_main.csm_centers[subs.csm_index], _vec3_tmp);
+        var main_view_inv = m_mat4.invert(cam_main.view_matrix, _mat4_tmp);
+        m_util.positions_multiply_matrix(center, main_view_inv, center);
 
-    // transform sphere center to light view space
-    m_util.positions_multiply_matrix(center, cam.view_matrix, center);
+        // transform sphere center to light view space
+        m_util.positions_multiply_matrix(center, cam.view_matrix, center);
 
-    var radius = cam_main.csm_radii[subs.csm_index];
+        var radius = cam_main.csm_radii[subs.csm_index];
 
-    // get minimum z value for bounding box from light camera for all casters
-    if (recalc_min_z)
-        _shadow_cast_min_z = get_cascade_min_z(cast_bundles, cam.view_matrix);
+        // get minimum z value for bounding box from light camera for all casters
+        if (recalc_min_z) {
+            _shadow_cast_min_z = 0;
+            for (var i = 2; i < bb_corners.length; i+=3)
+                _shadow_cast_min_z = Math.min(_shadow_cast_min_z, bb_corners[i]);
+        }
 
-    var bb_view = _bb_tmp;
-    bb_view.max_x = center[0] + radius;
-    bb_view.max_y = center[1] + radius;
-    bb_view.max_z = 0;
+        var bb_view = _bb_tmp;
+        bb_view.max_x = center[0] + radius;
+        bb_view.max_y = center[1] + radius;
+        bb_view.max_z = 0;
 
-    bb_view.min_x = center[0] - radius;
-    bb_view.min_y = center[1] - radius;
-    bb_view.min_z = _shadow_cast_min_z;
+        bb_view.min_x = center[0] - radius;
+        bb_view.min_y = center[1] - radius;
+        bb_view.min_z = _shadow_cast_min_z;
+    } else {
+        var bb_view = _bb_tmp;
+        var optimal_angle = get_optimal_bb_and_angle(bb_corners, bb_view);
+        if (optimal_angle > 0) {
+            var rot_mat = m_mat4.identity(_mat4_tmp);
+            m_mat4.rotate(rot_mat, optimal_angle, m_util.AXIS_MZ, rot_mat);
+            m_mat4.multiply(rot_mat, cam.view_matrix, cam.view_matrix);
+        }
+
+        bb_view = correct_bb_proportions(bb_view);
+    }
 
     m_cam.set_frustum_asymmetric(cam, bb_view.min_x, bb_view.max_x,
             bb_view.min_y, bb_view.max_y, -bb_view.max_z, -bb_view.min_z);
-
     m_cam.set_projection(cam);
-
     m_util.extract_frustum_planes(cam.view_proj_matrix, cam.frustum_planes);
 }
 
-function get_cascade_min_z(cast_bundles, light_view_matrix) {
-    // calculate bounding box in world space for all casters
-    var bb_cast = get_shadow_casters_bb(cast_bundles, _bb_tmp);
+/**
+ * Get optimal bounding box in light space (smallest cross
+ * sectional area seen from the light source) and angle for light rotation
+ * uses _mat4_tmp, _corners_cache2, _bb_tmp2
+ * @methodOf scenes
+ */
+function get_optimal_bb_and_angle(bb_corners, bb_dest) {
+    var rot_corners = _corners_cache2;
+    rot_corners.set(bb_corners);
 
-    // transform bb points to light view space
-    var corners = m_bounds.extract_bb_corners(bb_cast, _corners_cache);
-    m_util.positions_multiply_matrix(corners, light_view_matrix, corners);
+    var angle_delta = MAX_OPTIMAL_BB_ANGLE / (OPTIMAL_BB_COUNT - 1);
 
-    var min_z = 0;
-    for (var i = 2; i < corners.length; i+=3)
-        min_z = Math.min(min_z, corners[i]);
-    return min_z;
+    var rot_mat = m_mat4.identity(_mat4_tmp);
+    m_mat4.rotate(rot_mat, angle_delta, m_util.AXIS_MZ, rot_mat);
+
+    var min = -1;
+    var min_index = -1;
+    for (var i = 0; i < OPTIMAL_BB_COUNT; i++) {
+        var bb_all = m_bounds.bb_from_coords(rot_corners, _bb_tmp2);
+        var S = (bb_all.max_x - bb_all.min_x) * (bb_all.max_y - bb_all.min_y);
+
+        if (min == -1 || S < min) {
+            min = S;
+            min_index = i;
+            m_bounds.copy_bb(bb_all, bb_dest);
+        }
+        m_util.positions_multiply_matrix(rot_corners, rot_mat, rot_corners);
+    }
+
+    return min_index * angle_delta;
+}
+
+function correct_bb_proportions(bb) {
+    var x = bb.max_x - bb.min_x;
+    var y = bb.max_y - bb.min_y;
+
+    if (x && y) {
+        var diff = Math.abs(x - y) / 2;
+        if (x/y > MAX_SHADOW_CAST_BB_PROPORTION) {
+            bb.max_y += diff;
+            bb.min_y -= diff;
+        } else if (y/x > MAX_SHADOW_CAST_BB_PROPORTION) {
+            bb.max_x += diff;
+            bb.min_x -= diff;
+        }
+    }
+
+    bb.max_x += SHADOW_MAP_EPSILON_XY;
+    bb.max_y += SHADOW_MAP_EPSILON_XY;
+    bb.max_z += SHADOW_MAP_EPSILON_Z;
+    bb.min_x -= SHADOW_MAP_EPSILON_XY;
+    bb.min_y -= SHADOW_MAP_EPSILON_XY;
+    bb.min_z -= SHADOW_MAP_EPSILON_Z;
+
+    return bb;
 }
 
 function get_shadow_casters_bb(cast_bundles, dest) {
     m_bounds.zero_bounding_box(dest);
 
-    var init_bb_flag = false;
-
     for (var i = 0; i < cast_bundles.length; i++) {
         // not all casters will be unique
         var render = cast_bundles[i].obj_render;
 
-        if (init_bb_flag)
-            m_bounds.expand_bounding_box(dest, render.bb_world);
-        else {
+        if (i == 0)
             m_bounds.copy_bb(render.bb_world, dest);
-            init_bb_flag = true;
-        }
+        else
+            m_bounds.expand_bounding_box(dest, render.bb_world);
     }
 
     return dest;
@@ -2309,6 +2390,42 @@ function prepare_light_factors(light, light_factor1, light_factor2) {
     }
 }
 
+function sort_func(l1, l2) {
+    if (l2.use_diffuse && l2.use_specular &&
+        !(l1.use_diffuse && l1.use_specular))
+        return true;
+    if (!l1.use_diffuse)
+        if(l2.use_diffuse || (!l1.use_specular && l2.use_specular))
+            return true;
+    return false;
+}
+
+exports.sort_lamps = function(scene) {
+    var lamps = scene._objects["LAMP"];
+    if (lamps.length != scene._render.num_lamps_added)
+        return;
+
+    var lamp_indexes = [];
+    for (var i = 0; i < lamps.length; i++)
+        lamp_indexes[lamps[i]._light.index] = i;
+
+    for (var i = 0; i < lamp_indexes.length - 1; i++) {
+        for (var j = i + 1; j < lamp_indexes.length; j++) {
+            if (sort_func(lamps[lamp_indexes[i]]._light,
+                          lamps[lamp_indexes[j]]._light)) {
+                var tmp = lamp_indexes[i];
+                lamp_indexes[i] = lamp_indexes[j];
+                lamp_indexes[j] = tmp;
+            }
+        }
+    }
+
+    for (var i = 0; i < lamp_indexes.length; i++) {
+        lamps[lamp_indexes[i]]._light.index = i;
+        update_lamp_scene(lamps[lamp_indexes[i]], scene, true);
+    }
+}
+
 exports.update_lamp_scene = update_lamp_scene;
 /**
  * Update light parameters on subscenes
@@ -2382,7 +2499,8 @@ function update_sky(scene, subs) {
 
     if (subs.need_fog_update) {
         var main_subs = subs_array(scene, ["MAIN_OPAQUE",
-                                           "MAIN_BLEND"]);
+                                           "MAIN_BLEND",
+                                           "MAIN_XRAY"]);
         for (var i = 0; i < main_subs.length; i++) {
             var m_subs = main_subs[i];
             var bundles = m_subs.bundles;
@@ -2552,7 +2670,7 @@ function setup_scene_dim(scene, width, height, override_update_dim) {
 
         // NOTE: update size of camera shadow cascades
         if (sc_render.render_shadows)
-            m_cam.update_camera_csm(cam, sc_render.shadow_params);
+            m_cam.update_camera_shadows(cam, sc_render.shadow_params);
     }
 
     if (sc_render.render_shadows) {
@@ -2818,6 +2936,7 @@ exports.set_fog_color_density = function(scene, val) {
 exports.get_ssao_params = function(scene) {
 
     var subs = get_subs(scene, "SSAO");
+    var subs_blur = get_subs(scene, "SSAO_BLUR");
     if (!subs)
         return null;
 
@@ -2826,11 +2945,10 @@ exports.get_ssao_params = function(scene) {
     var ssao_params = {};
 
     ssao_params.ssao_quality = m_batch.get_batch_directive(batch, "SSAO_QUALITY")[1];
+    ssao_params.ssao_hemisphere = subs.ssao_hemisphere;
+    ssao_params.ssao_blur_depth = subs_blur.ssao_blur_depth;
+    ssao_params.blur_discard_value = subs_blur.ssao_blur_discard_value;
     ssao_params.radius_increase = subs.ssao_radius_increase;
-    ssao_params.dithering_amount = subs.ssao_dithering_amount;
-    ssao_params.gauss_center = subs.ssao_gauss_center;
-    ssao_params.gauss_width_square = subs.ssao_gauss_width_square;
-    ssao_params.gauss_width_left_square = subs.ssao_gauss_width_left_square;
     ssao_params.influence = subs.ssao_influence;
     ssao_params.dist_factor = subs.ssao_dist_factor;
     ssao_params.ssao_only = subs.ssao_only;
@@ -2845,6 +2963,8 @@ exports.get_ssao_params = function(scene) {
 exports.set_ssao_params = function(scene, ssao_params) {
 
     var subs = get_subs(scene, "SSAO");
+    var subs_blur = get_subs(scene, "SSAO_BLUR");
+
     if (!subs) {
         m_print.error("SSAO is not enabled on scene");
         return 0;
@@ -2856,21 +2976,23 @@ exports.set_ssao_params = function(scene, ssao_params) {
         m_batch.update_shader(batch, true);
     }
 
-    if (typeof ssao_params.ssao_radius_increase == "number"){
-        subs.ssao_radius_increase = ssao_params.ssao_radius_increase;
+    if (typeof ssao_params.ssao_hemisphere == "number") {
+        var batch = subs.bundles[0].batch;
+        m_batch.set_batch_directive(batch, "SSAO_HEMISPHERE", ssao_params.ssao_hemisphere);
+        m_batch.update_shader(batch, true);
     }
 
-    if (typeof ssao_params.ssao_dithering_amount == "number")
-        subs.ssao_dithering_amount = ssao_params.ssao_dithering_amount;
+    if (typeof ssao_params.ssao_blur_depth == "number") {
+        var batch = subs_blur.bundles[0].batch;
+        m_batch.set_batch_directive(batch, "SSAO_BLUR_DEPTH", ssao_params.ssao_blur_depth);
+        m_batch.update_shader(batch, true);
+    }
 
-    if (typeof ssao_params.ssao_gauss_center == "number")
-        subs.ssao_gauss_center = ssao_params.ssao_gauss_center;
+    if (typeof ssao_params.ssao_blur_discard_value == "number")
+        subs_blur.ssao_blur_discard_value = ssao_params.ssao_blur_discard_value;
 
-    if (typeof ssao_params.ssao_gauss_width_square == "number")
-        subs.ssao_gauss_width_square = ssao_params.ssao_gauss_width_square;
-
-    if (typeof ssao_params.ssao_gauss_width_left_square == "number")
-        subs.ssao_gauss_width_left_square = ssao_params.ssao_gauss_width_left_square;
+    if (typeof ssao_params.ssao_radius_increase == "number")
+        subs.ssao_radius_increase = ssao_params.ssao_radius_increase;
 
     if (typeof ssao_params.ssao_influence == "number")
         subs.ssao_influence = ssao_params.ssao_influence;
@@ -2895,6 +3017,7 @@ exports.set_ssao_params = function(scene, ssao_params) {
     }
 
     subs.need_perm_uniforms_update = true;
+    subs_blur.need_perm_uniforms_update = true;
 }
 
 exports.get_dof_params = function(scene) {

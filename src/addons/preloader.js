@@ -285,7 +285,7 @@ exports.update_preloader = function(percentage) {
         _canvas_container_elem.style.zIndex = 1;
 
         if (_preloader.background)
-            _preloader.background.style.zIndex = 0;
+                _preloader.background.style.zIndex = 0;
     }
 }
 

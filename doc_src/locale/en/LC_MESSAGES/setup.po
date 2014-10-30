@@ -289,19 +289,6 @@ msgstr ""
 "not active by default contrary to the standalone version of the addon (see "
 ":ref:`Quick Install <quick_install>`)."
 
-#: ../setup.rst:180
-msgid ""
-"В случае необходимости (например, если требуется отладка HTML экспорта) "
-"данную опцию можно включить. Для этого указать путь к сборке приложения "
-"``embed``, входящего в состав дистрибутива, в поле :file:`Path to b4w "
-"source`. Стандартный путь относительно корня движка "
-":file:`external/deploy/apps/embed`."
-msgstr ""
-"If required (for example for HTML export debugging) this option can be "
-"enabled. To do this specify the path to the ``embed`` application build of "
-"the distribution in the :file:`Path to b4w source` field. The standard path "
-"relative to the engine's root is :file:`external/deploy/apps/embed`."
-
 #: ../setup.rst:28
 msgid "браузер"
 msgstr "browser"
@@ -325,3 +312,14 @@ msgstr "launch"
 #: ../setup.rst:132
 msgid "Blender"
 msgstr "Blender"
+
+#: ../setup.rst:180
+msgid ""
+"В случае необходимости (например, если требуется отладка HTML экспорта) "
+"данную опцию можно включить. Для этого указать путь к Blend4Web SDK, в поле "
+":file:`Path to Blend4Web SDK`."
+msgstr ""
+"If required (for example for HTML export debugging) this option can be enabled. "
+"To do this specify the path to the Blend4Web SDK distribution in "
+"the :file:`Path to Blend4Web SDK` field."
+

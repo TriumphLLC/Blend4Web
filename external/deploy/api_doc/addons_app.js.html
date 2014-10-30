@@ -22,6 +22,7 @@
     
 
 
+
     
     <section>
         <article>
@@ -81,41 +82,49 @@ var _vec3_tmp2 = new Float32Array(3);
 
 /**
  * Initialize the engine.
- * The "options" object may be extended by adding properties from the engine's configuration.
+ * The "options" object may be extended by adding properties from the engine's
+ * configuration.
  * In that case they will be applied before engine initialization.
- * @param {Object} [options={}] Initialization options.
- * @param {String} [options.canvas_containter_id=null] Canvas container ID.
+ * @param {Object}   [options={}] Initialization options.
+ * @param {String}   [options.canvas_container_id=null] Canvas container ID.
  * @param {Function} [options.callback=function(){}] Initialization callback.
- * @param {Boolean} [options.gl_debug=false] Enable WebGL debugging.
- * @param {Boolean} [options.show_hud_debug_info=false] Show HUD with developer info.
- * @param {Boolean} [options.show_fps=false] Show FPS counter.
- * @param {Boolean} [options.report_init_failure=true] Show elements with info
+ * @param {Boolean}  [options.error_purge_elements=null] Remove interface
+ * elements after error.
+ * @param {Boolean}  [options.gl_debug=false] Enable WebGL debugging.
+ * @param {Boolean}  [options.show_hud_debug_info=false] Show HUD with
+ * developer info.
+ * @param {Boolean}  [options.show_fps=false] Show FPS counter.
+ * @param {String}   [options.fps_elem_id=null] Custom fps counter id.
+ * @param {String}   [options.fps_wrapper_id=null] Show FPS wrapper with
+ * current id.
+ * @param {Boolean}  [options.report_init_failure=true] Show elements with info
  * about init failure
- * @param {Boolean} [options.pause_invisible=true] Pause engine simulation if
+ * @param {Boolean}  [options.pause_invisible=true] Pause engine simulation if
  * page is not visible (in other tab or minimized).
- * @param {Boolean} [options.key_pause_enabled=true] Enable key pause
+ * @param {Boolean}  [options.key_pause_enabled=true] Enable key pause
  * @cc_externs canvas_container_id callback gl_debug show_hud_debug_info
  * @cc_externs sfx_mix_mode show_fps fps_elem_id error_purge_elements
  * @cc_externs report_init_failure pause_invisible key_pause_enabled
- * @cc_externs alpha alpha_sort_threshold assets_dds_available assets_min50_available
- * @cc_externs console_verbose physics_enabled quality
+ * @cc_externs alpha alpha_sort_threshold assets_dds_available
+ * @cc_externs assets_min50_available quality fps_wrapper_id
+ * @cc_externs console_verbose physics_enabled
  */
 
 exports.init = function(options) {
-
     options = options || {};
 
     var canvas_container_id = null;
     var callback = function() {};
     var gl_debug = false;
-    var show_hud_debug_info = false;
-    var sfx_mix_mode = false;
-    var show_fps = false;
-    var fps_elem_id = null;
     var error_purge_elements = null;
-    var report_init_failure = true;
-    var pause_invisible = true;
+    var fps_elem_id = null;
+    var fps_wrapper_id = null;
     var key_pause_enabled = true;
+    var sfx_mix_mode = false;
+    var pause_invisible = true;
+    var report_init_failure = true;
+    var show_fps = false;
+    var show_hud_debug_info = false;
 
     for (var opt in options) {
         switch (opt) {
@@ -139,6 +148,9 @@ exports.init = function(options) {
             break;
         case "show_fps":
             show_fps = options.show_fps;
+            break;
+        case "fps_wrapper_id":
+            fps_wrapper_id = options.fps_wrapper_id;
             break;
         case "fps_elem_id":
             fps_elem_id = options.fps_elem_id;
@@ -191,7 +203,7 @@ exports.init = function(options) {
         m_main.set_check_gl_errors(gl_debug);
 
         if (show_fps) {
-            create_fps_logger_elem(fps_elem_id);
+            create_fps_logger_elem(fps_elem_id, fps_wrapper_id);
             m_main.set_fps_callback(fps_callback);
         }
 
@@ -202,7 +214,6 @@ exports.init = function(options) {
     };
 
     var onunload_cb = function() {
-        m_main.pause();
         m_data.cleanup();
     };
 
@@ -246,7 +257,7 @@ function setup_canvas(canvas_container_id, init_hud_canvas,
     if (!m_main.init(canvas_elem, canvas_elem_hud)) {
         if (report_init_failure)
             report_app_error("Browser could not initialize WebGL", "For more info visit",
-                      "http://blend4web.com/troubleshooting", purge_elements);
+                      "https://www.blend4web.com/troubleshooting", purge_elements);
         return null;
     }
 
@@ -267,11 +278,14 @@ function setup_canvas(canvas_container_id, init_hud_canvas,
     return append_to;
 }
 
-function create_fps_logger_elem(fps_elem_id) {
+function create_fps_logger_elem(fps_elem_id, fps_wrapper_id) {
 
-    if (fps_elem_id)
+    if (fps_elem_id) {
+        if (fps_wrapper_id)
+            document.getElementById(fps_wrapper_id).style.display = "block";
+
         _fps_logger_elem = document.getElementById(fps_elem_id);
-    else {
+    } else {
         _fps_logger_elem = document.createElement("div");
         _fps_logger_elem.innerHTML = 0;
         _fps_logger_elem.style.cssText = " \
@@ -1002,10 +1016,8 @@ exports.report_app_error = report_app_error;
 function report_app_error(text_message, link_message, link, purge_elements) {
 
     var elem = document.createElement("div");
-    var top_border_elem = document.createElement("div");
-    var bottom_border_elem = document.createElement("div");
-    var bottom_conteiner_elem = document.createElement("div");
-    var logo_elem = document.createElement("div");
+    var top_elem = document.createElement("div");
+    var bottom_elem = document.createElement("div");
 
     if (purge_elements) {
         for (var i = 0; i &lt; purge_elements.length; i++) {
@@ -1016,20 +1028,15 @@ function report_app_error(text_message, link_message, link, purge_elements) {
         }
     }
 
-    elem.style.cssText = "z-index:10;width:100%;height:100%;position:absolute;"
-    bottom_conteiner_elem.style.cssText = "position:absolute;bottom:0;width:100%;height:auto;";
-    logo_elem.style.cssText = "position:relative;float:right;margin:20px;width:70px;height:70px;background-image:url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEYAAABGCAYAAABxLuKEAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAN1wAADdcBQiibeAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAABgbSURBVHic7Vx5VFPX1t8JxDDJLGESQSwCFVAI4ICiURAFHNFa0epSsEKltnXGoYMVqKWvfVLLE6k+i8UBoaACQR5aLfg9BEGoBRmEMCcEqMyZ7/dHctOTSxKC2n7vW+v91lLusM+9e+/sc87eZ+9zSRiGwV8FEolkAQB2AGAEAMbIX/wYAKAfAF7I/vUjf1sxDOv+y3j9MxVDIpFIAGAPAB4AMBsArF7xkV0A8AQAqgCAhf2JzP8piiGRSC4A4AUA7vCHJbxu9ANANQA8xjCs9nU//LUqhkQizQCA9QAwfTxaMpkMEonkdb26CQAyMQxrfF0PfC2KIZFIVgCwFqRdRinMzMwooaGhFkuWLLHy8vKydHJysmhoaOAGBAQUdHZ2ClBaGo02qaioKPCNN96waGho6H78+DH73r17Xbdu3eru7e0VqmGlCgB+wjCs65VlehXFkEgkYwAIBYD5AEAm3qfRaJOOHDkyMyQkZIaDg4MZmUweQxMXF/fg6NGjz9Brp06dco6NjV1EpJVIJJLm5ube27dvN8bHx9dxOBwBkQYAJADwEABuYRj24qVle1nFyMaRXQCgR7xHp9MNY2NjZ61YsWKmjo4ORdUzRCKROCQkJLugoKAXvR4YGGiWm5u7RltbW0tVWx6PJ8zPz6+Li4t7Wl5ePqCEZAQAUl52/HkpxZBIJAYAbACClfj7+5ucPn3a29vbe5psRhrL7cgIv7a2llNeXs7+7rvvGqurq4eU0bm7uxtER0fPoNPpli4uLjQ9PT2qMjoMw7CysrKWAwcOPHrw4AHRQiQAkIFh2N0JyzgRxZBIJC0A2AwAfuh1CoVCOnPmjEdERISXsl+5vr6ek52d3XDnzh32vXv3+iY66JLJZFiyZIlpYGCg5Zo1a95wcnKiEWmEQqE4JSWlbO/evb+KxWKiUMUAkI5hmFjTd2qsGBKJNBkA3gWAN9Drfn5+xhcvXlw8Y8YMC/S6WCyWFBcXN3399ddPc3JyXqtjtnr1aouPPvpo1oIFC6ZraWkpWG1dXR1727ZtP5eWlhK7VwMAnMMwbFCTd2ikGJlSDgHAFPT6V199NSsmJsaXQqHIrQTDMCwnJ+e3o0ePVtXU1AxrwsTLwtXVVf/UqVMeq1evfhPtugKBQJSYmPiQOKgDABcAvtBEOeMqRtZ9PgSCpVy6dIn+zjvveKLX2Gx2//vvv38/IyODPd6LidDS0iJhGIa9jG+zYcMGyzNnzvhbWloqOJOpqallkZGRlQTyBgD4erxuNWb6VILNQFDK9evX56JKwTAMy8rK+tXZ2TlzokoJDw+3Li0tDRwcHNw2NDS0vbS0NDA8PNx6Is/IyMhgOzs7Z2ZlZf2KhgkRERHe6enpPgTyN2QyqYVai5HNPm/h52QyGXJycvxCQkJc8WtCoVD03nvvFZ4/f75NU0GoVCr5gw8+cHj33Xc9HBwczJXRNDc395w7d67qm2++aebz+RqbUWRk5NSzZ88GUCgUbfzazZs3f1u7dm0JwRqvqZutVCpG5qe8D4hVZWVlzV+7du0s/JzP5wt37NjBTE9P18jTNDMzoxw/ftw5PDzczdzc3ECTNj09PUM//vjjrydPnnw2jtcrx+bNm60uXLgQRKVS5T7UTz/99HTdunUPETIJAJxR5ecoVYzMo/0YEOctJibG/syZM4H4+ejoqGDr1q35mZmZnPEYdXFx0Ttx4sSsVatWuerp6U3SRDgiRkZGBDdv3qz57LPPntbW1o6MR79+/XpaWlraCl1dXfn73n///TtJSUks9LEA8KkyD1mVYrYC4qu4urrql5aWrjcwMNABAODz+aL169ffzM3N7VHHHIPBMD1y5Ij74sWLZ2hra2syno0LkUgk+fnnnxvj4+Or796926eONjg42DwzM3MVlUrVBgAYGhri+fr6ZhJmy2IMw9KIbccwKwsI5+PnWlpapOvXry/BlQIAkJCQUKxOKdu2bbOpqKhYUVRUFLZs2TKn16UUAABtbW3ysmXLnIqKisIqKipWbNu2zUYVbW5ubk9CQkIxfm5gYKBz/fr1JVpaWqhXPl8mswLGWAyJRIoGJEpOSUmZExkZ6Y2f379/v3Hx4sVjBi0qlUrev3//9IiICHd7e3ulA+qfBRaL1ZOamlqdmJjYpGyg/vnnnxn+/v4z8PPz58+X7dq1C53GqzAM+w5to6AY2XrKAfzcwcFB59mzZ5snTZqkDQDQ3d094O7unkWMav38/IwzMzODLCwsDF9ZyldAd3f3wPr165nFxcUKYwaNRptUXV29DudPIBCInJ2d05ubm3kI2Zfoeg7RxNejJ/Hx8R64UgAAdu/efVdZqF9cXPyCwWDcKigoeCaRSP66RWQE1dXV7QEBAbeJSgEA4HA4gt27d8utfNKkSdrx8fHEtSMF2eUWI5ueP8Bv2NnZ6dTX17+NT3llZWUtPj4+BeMx6OfnZ5yYmOjj6+trPxHBXhZCoVD87bfflu7fv//peF7zo0ePlnt7e08DkLoaTk5OV1pbW1Gr+QafvlGL8UIfEhcX54b6AZ9//nkF8UWZmZnzent7w/Pz8xe5u7sbAEitZ+7cuXfCwsJynj17NuHQYCJgsVg9y5Yty/zoo4+eSiQSMDMzo+Tk5Czo7e0Nv3r1qi+RHpWBSqVS4uLi3Agkf+hAZjEkADgNAOcA4JylpeXF0dFRASZDZWVlG34P/zd37tyrGAKhUCi6ceNGlZ2d3SWULjo6Or+tra0Xe42QSCSSH3/8sVJHR+c8/p4NGzbkcDicfpRuzpw56US+Kysr2/D7o6OjAktLy4vI/dMg60XS/0gkBwA4jCvr4MGDjl988cVS/Hzjxo03iTEQjUabVFNTs8HU1FQfvT46OipIT0+vPnjwYHVfX58IQDrlb9iwgTZ//nwLDw8PcxqNZtDZ2TnY0tIy0NHRMdzd3c3jcrl8GxsbXScnJ6Pp06cb+fj42E2ePFkHCBCJROLDhw/f++qrr5oAAPT09Mjff/89/a233vJAI+y+vr4hJyenDKK3vGHDBsvr16+vws8PHTpUdPr06ecISQKGYc24YtYAwAr8zp07d/wDAgJmAkhHehqNdpXIIIB0CfMf//jHfC8vLzvivYGBgdGUlJSK48eP1/J4vAmHzFQqlRwRETF13759Xng8NTo6KoiIiCjAQ5C5c+caXbt2LcDOzs4UbdvW1ta3adOmwocPH/YrezaHw9mEz1CFhYV1gYGB95Hb+RiGZeNjzGyCwLb4cVlZWTvxwfr6+loAAOXl5QN0Op0ZHR3NZLPZCkwYGhrq7t+/f0FLS8vG06dPu+JjEFF4X19fw+DgYPOwsDDam2++qY+vl/P5fMnZs2dbXFxcsr///vtyLpc7GBoaehNXysaNGy0LCwtXE5XCZDKfubm5ZeNKwXlFgcqEykrUhQUgfZDBYGSg/XTPnj1MIPTTmJiYgszMzGpra2t5/9TT0zufnJxcyuPxBJgKdHR0/F5ZWdlWWlra3N7e3icSicREGoFAILx9+/Zvenp659F3amlppeDHhw8fLhIKhSK0HY/HExw5cqQIp6FQKCk//PDD45iYmAIi/3v27GGibRkMRgaBxoIM0lyyHGvXrpVrUCwWS65cudJJ1HhFRcWLdevWudXV1W2Kj493oVAopJGREUlUVNQTZ2fnKxcvXiwfGBgYJbaztrY2nj17tq2Pj4+9jY2NCXFZEgCAQqFoBwcHu65cuVJhtRBfxz116pRzXFwcA11bbm1t7WUwGFnx8fGNANLYrqqqKmTr1q2eFRUVY/yaK1eudIrFYnn3RmWWwY4MhBTq7Nmz5QzV19dzlIX6jx496heJRGIDAwOdw4cPL2xsbFy/detWawAAFovF27FjR4WtrW16XFzcg+fPn3OxCWYieDyesLGxccyyaEREhO3hw4f90AREXl5e7axZs+RdJyoqyq60tHS9i4uLlUgkEj969GjMONPb2yusr6+XrwqgMstgpA3SSgM5TE1N5UsN7e3tyvI1IBQKsa6urv6pU6eaAgDY2dmZ/vDDDyHR0dGshISEJzk5Od2Dg4Pio0ePPjt69Ogze3t7nU2bNtnS6XRzQ0NDqq6uLoXNZg81Njb219bW9g8ODoqmTJlCNTMzo2pra5Pu37/PffLkiUJaZe7cuUZJSUkBeNJOIpFgJ06cuHfq1KlGAAAdHR3y5cuXfdatW+eOK66rq6tfKBQq/VXa29sHXFxcrIgyy2CsDQSLMTEx0cWPuVzumO6Ag8Vi/Y4rBmHePjs72/758+fctLS03/72t789HxwcFLNYLF5CQkIjALx0bvnvf/+7L5q8S0xMLMGVQqfTDa9evbrU0dFR4ZdnsVi/q3oeKhsqswxGZCBYjLGxsVx7HA5H5YJQQ0ODypc6OjpO+eSTTxZ3dnaGMxgMU1V0miIsLIzm4+Njj5/n5eXVHjp0qAYAYNGiRcYPHjxYR1TKeDyisqEy45cUFDN58mQtdMWLzWartJinT5+qfCkOAwMDHYFA8MolDVu2bHHEj0dGRgRRUVFlOL9paWnLUJ415RGVTVdXd9LkyZPRad1YYfB1dHRUMKmOjg6ViikrKxtXMQAAtbW1r5xbWrBgwTT8uLi4uAkP/C5fvjyX6MdoyiNRNoLsRgrTZX9/vwg9NzAw0AYVKCsrGxCJRGqtYWRkRIDOal5eXpM///xzZ2tra43XfRkMhqm5uflk/JzJZLYBAEydOpWKZiuIEIlEkrKyMqWTB8BY2Yiya4O0MkkHAKC5uZknFArFeGZx2rRpCnEQCj6fL2Gz2S9sbW1V/mICgUD+Ml9fX8OSkpKNWlpa5KCgIHs6nc5U1Q7FwYMH5VkJsVgsuXz5cjsAwPbt2+3IZLLSwgEAADab/UJd2gWVTSgUigmLVv1kkBb/yfH777/LTd/W1lalYgAAWCyW2voTY2NjPRcXFz0AAB8fH1PcofPy8rLTJKnGYDBM8ZgNAODRo0ctXC5XCAAQHBzs8Cq8obKhMsvwYoxiuFyu3H+wtLRUq5iGhga1q/QAAEFBQTQAgOzs7C6RSCRPix47dow+XtvExERf1CrOnTtXAwBgb2+vQ6fTxwSuE+ENlQ2VWYYXZJB2JTm6u7vl2qPRaGoV89tvv41bseTv728FANDW1sYvKSlpxq87Oztbqlvhd3V11Z8zZ85U/Ly0tJR16dKlDgCAvXv3zlAWTkyEN1Q2VGYZxnYlNpstJxovW1hWVjauxaxcudIZj6zj4uKqJMj6Y2Jiov/MmTPHVGQBSGMjoVAoAgAYHh7mv/POO8UAADY2NtTt27fPVtZmIryhsqEyyzDWYtrb2+VmZWFhYahuBiktLR1AgzFloFAo2klJST4AAHfu3OlNT09/gjJ3586dlZaWlmPeUVdXNxIeHp538eLFcj8/v8z6+voRAIDLly8vUOKQKUAsFkuU1MfIYW1tPQnNaKAyy9BPBoBW9EpOTo48mtbW1iZHR0erLE3l8/mSrq4upYtBKBYtWjQjLCyMBgAQGRlZIVsqBQBpnMVkMpcpa5eRkcHesWNHBR43ffjhhw6LFy+eoYwWRVdXV7+6GSkqKmo6mgREZZahlYxJy9DlSfmSkpIXzc3N8izjmjVr1DLS0tKikaN3+vTpBfr6+lo8Hk+ybNmywufPn3Pxex4eHrbHjh17Q1376Ohou4SEhCWavGs8nlCZmpube0pKStDhpAvDsG5ca0/Qhrm5ufJgz9XV1crV1VXlIPz48eNxk/oAAA4ODuaFhYUMLS0tUl9fnyggICAfXbPZt2+fL5VKHTOgkslkSEhIcE1KSlqO5rjUQR1PLi4uem+++aY8JYvKKsMTgD/SJ1XoneTk5OeYbBGFRCKRoqKiHEEFYmNjazgcjsr+jGLevHkO2dnZCwCkzuS1a9ee4veMjY31duzYIV8w0tLSIh08eNCxubk57NChQ37qnDkUHA5nIDY2tkbV/d27dzvii+YYhmHJycnPCSRVAH8ohgXIIFxTUzNcU1Mj717BwcEqu9Pw8LD4wIEDD/AZZDyEhIS47ty50xYA4NNPP63h8/nykGHz5s1O+PG9e/cYX3zxxVJ1sRARQqFQdODAgQfDw8Mqy8hCQkLkstTU1HQRKh/6QaoLqWJk1lGNPiA7O1tuYra2tibqGEpLS+sMDQ3N6e7u1shy9u7d6wEA0NHRwc/Ly6vDr8+ZM0fu1/T29qoMYJWhu7t7IDQ0NCctLW3MUiwKdA0JlVGGarynoH36MUqRlJTU1Nra2gcAUFVV1TEeYwUFBb2enp4/PX78uHU8Wjc3Nxt/f38TAIBffvlFbpn6+vpU3K+pqakZ10eSM/74caunp+dPxApzZXj69GknAEBra2tfUlJSE/FR+IFcMZg0Zysn5HA4AjqdnrN06dIbixcvLtSEwY6ODr6Pjw/zwoUL5dg4C70eHh5GsjYKljFv3jwTAIDy8vJxFYNhGHbhwoVyHx8fZkdHB18THpcsWVIYFBSUSafTcwgFCk0YUnZGnAUy0RMulyu8e/dun7o+S4REIoGdO3dW7Nq1K39oaIinim7KlCk6AACtra0KinF3dzcBkC64q3vP0NAQb9euXfk7d+6smEgJbH9/v6igoKAXD0YRKMiuoBhMWh+iMEO9LFJTU9sXLlyYhfpEKMzMzKgAACwWS0ExpqamVAAANpstUGV0zc3NPQsXLsxKTU0dkwx8SVRhhL1OygKxn0Ba0agSOjo6GpWOPXnyZMjNzS2noKCAWKENpqamOgBSBaBRt76+PgVAGisJBIIxqZuCgoJnbm5uOcQsgipQKBQSobSMCAlIZVbAGAEx6Saoh8TrAABubm4GnZ2dGzkcTvjJkyedNWFseHhYHBQU9ODkyZP3hUKhXAG4YgCkeW78WFdXV+7EjY6OyhUjFArFJ0+evB8UFKR2Okbx2WefzWSz2W9zudzNCxYsMFZB9hBTsvFL1S9/C6SlngrYvXu3o5WVlbGhoaHusWPHFqWlpY27poLjxIkTdWvWrMnp6ekZBAAwMjKSb7Pp7++Xj0V6enryFMno6KgAAKCnp2dwzZo1OSdOnKgDDZGWlkY/fvy4v6mpqYGJiYl+ZGSkMid1BKSyjoFSxWDSutcUIHSpvLy8DnS22bJliyeTyVxEoVA08krz8vJ6PD09syorK9sMDQ3lFtPT0yN3stANGzweT1RZWdnm6emZlZeXp7Z0FmlPYjKZi7Zs2aJQ0p+bm0t0OSQg3eildN1G5Vghm7oy0Gu5ubk9+/bt+xc6Jixfvty5pKQk0MjISKM4pq2tje/t7c3Mysqqx6/dvn1bvoBVWFgo94OuXLlS4+3tzWxra9NoKjYyMtIuKSkJXL58ubybi0Qi8b59+/6lZI9DBqZm95smu08UiqEBAN5++22r1NTU5WiVd1NTEzcmJuYXTX9ZIvBliRs3bmgUlBKxcuVK86SkpIXTp0+XJ95GRkYEERERBVeuXCGOIUqLnlG89LacpUuXmt64cWMlumiEYRiWn5//LCoqqoxQ9Penwc7OTic5Odl7xYoVzmhF1YsXL0bCwsLyioqKiI6iRttyXmkjl7u7u0F+fv5Ka2trhRF/ZGSE/91335XHxsbWqEqqvyooFAopLi7ONTo6mk7cL9nZ2flixYoVeUr2W76+jVxyQhVb/8zMzCjffvvtnLCwMHdiaXxXV9cLJpPZ+M9//rNJyUbOl8KiRYuMt2/fPj0oKGiGlZWVwg8iEokkN27cqN6zZ0+lkvKV17/1T06sYrMogLRM4+zZs/M8PT2VpjU6Ojp+Lyoqar506VLTeJsjiGAwGKbbtm2bvnTpUgcbGxulkX5FRUXre++99z///ve/lYUSf95mUYVGKrYXA0gLdz7++OP5NBpNZfk8j8cT9vX1Dff09AxxOJxhNps93N7ePgwgTYRZWlrq02g0fXNzcwNTU1N9dXu3ORzOwKeffvowOTlZWVT/12wvVmioZkO6np4e+cCBAzNWrVo13cPDw3a8HNBEIRaLJVVVVe03b95s+vLLLxtHRkaUhTB//YZ0eeNxPmEAIE1V7Nq1yz40NPSVlIQr49atW00pKSks4vcgEPzffsJA4SEafPQCQKqkt956y2batGkGNjY2+jQaTX/KlCn6ZmZm+iYmJvoA0jxyb2/vMJfLHeZwOMMdHR3DLS0tQ9euXetQowwc/xkfvRjzsAl8JoUIvL73JT+d8p/5mZQxD/3vh3XGefh/P8Wk4cv+H328638B28gWIGwyefAAAAAASUVORK5CYII=')";
-    top_border_elem.style.cssText = "position:relative;top:0;width:100%;background-color:#000;opacity:0.6;height:auto;color:#ffd42a;text-align:center;font-size:32px;padding:10px 0;font-family: Arial;";
-    bottom_border_elem.style.cssText = "position:relative;clear:both;bottom:0;width:100%;background-color:#000;opacity:0.6;height:auto;color:#fff;text-align:center;font-size:20px;padding:10px 0;font-family: Arial;";
+    elem.style.cssText = "z-index:10;width:100%;height:auto;position:absolute;top:50%;margin-top:150px;text-align:center;";
+    top_elem.style.cssText = "color:#fff;font-size:24px;";
+    bottom_elem.style.cssText = "color:#fff;font-size:20px;";
 
-    top_border_elem.innerHTML = text_message;
-    bottom_border_elem.innerHTML = link_message + '   ' + '&lt;a style="color:#ffd42a;font-size:20px;width:100%;" href="' + link + '">'+link+'&lt;/a>';
+    top_elem.innerHTML = text_message;
+    bottom_elem.innerHTML = link_message + '   ' + '&lt;a style="color:#fff;font-size:20px;width:100%;" href="' + link + '">'+link.replace("https://www.", "")+'&lt;/a>';
 
-    bottom_conteiner_elem.appendChild(logo_elem);
-    bottom_conteiner_elem.appendChild(bottom_border_elem);
-
-    elem.appendChild(top_border_elem);
-    elem.appendChild(bottom_conteiner_elem);
+    elem.appendChild(top_elem);
+    elem.appendChild(bottom_elem);
 
     document.body.appendChild(elem);
 }
@@ -1079,7 +1086,7 @@ exports.get_url_params = function() {
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-dev</a> on Thu Sep 25 2014 18:06:48 GMT+0400 (MSK)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-dev</a> on Wed Oct 29 2014 10:03:11 GMT+0300 (MSK)
 </footer>
 
 <script> prettyPrint(); </script>

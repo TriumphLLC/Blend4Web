@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Release Notes &mdash; User Manual: Blend4Web v14.09</title>
+    <title>Release Notes &mdash; User Manual: Blend4Web v14.10</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.09',
+        VERSION:     '14.10',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User Manual: Blend4Web v14.09" href="index.html" />
+    <link rel="top" title="User Manual: Blend4Web v14.10" href="index.html" />
     <link rel="prev" title="Problems and Solutions" href="problems_and_solutions.html" /> 
   </head>
   <body>
@@ -35,7 +35,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">User Manual: Blend4Web v14.09</a></div>
+          href="index.html">User Manual: Blend4Web v14.10</a></div>
         <div class="rel">
           <a href="problems_and_solutions.html" title="Problems and Solutions"
              accesskey="P">previous</a> |
@@ -55,10 +55,132 @@
             
   <div class="section" id="release-notes">
 <span id="id1"></span><h1>Release Notes<a class="headerlink" href="#release-notes" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="v14-09">
-<span id="index-0"></span><h2>v14.09<a class="headerlink" href="#v14-09" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="v14-10">
+<span id="index-0"></span><h2>v14.10<a class="headerlink" href="#v14-10" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id2">
 <h3>New features<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><dl class="first docutils">
+<dt><em>The new web player.</em></dt>
+<dd><p class="first last">The new minimalistic web player design blends perfectly with any 3D scenes. It has a simplified user interface and build-in help. The web player works on all devices including mobile ones.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><em>Improved shadows.</em></dt>
+<dd><p class="first last">It&#8217;s now possible to choose a non-cascaded shadow model, based on a single optimized shadow map. Such model is easier to configure and suits well for relatively small scenes. For more info see the <a class="reference internal" href="lighting.html#shadows"><em>docs</em></a>.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><em>Many NLA system improvements.</em></dt>
+<dd><p class="first">It&#8217;s now possible to create a complex logic using the <tt class="docutils literal"><span class="pre">Conditional</span> <span class="pre">Jump</span></tt>, <tt class="docutils literal"><span class="pre">Register</span> <span class="pre">Store</span></tt>, <tt class="docutils literal"><span class="pre">Math</span> <span class="pre">Operation</span></tt> NLA Script logic blocks and register-stored variables.</p>
+<p class="last">It&#8217;s now possible to use all types of supported animations in the NLA, including sound playback, vertex animation and particle emission. It&#8217;s now possible to play different animation types simultaneously.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><em>Billboard objects support.</em></dt>
+<dd><p class="first last">The objects received the new set of <a class="reference internal" href="objects.html#objects-billboarding-properties"><em>options</em></a>, allowing to configure billboarding.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><em>The &#8220;XYZ Euler&#8221; mode is supported for animating rotations.</em></dt>
+<dd><p class="first last">Object and skeletal animations now support the <tt class="docutils literal"><span class="pre">XYZ</span> <span class="pre">Euler</span></tt> mode for rotations.</p>
+</dd>
+</dl>
+</li>
+<li><p class="first"><em>Support for the GENERATED texture coordinates.</em></p>
+</li>
+<li><p class="first"><em>Support for Cross-origin resource sharing (CORS).</em></p>
+</li>
+<li><dl class="first docutils">
+<dt><em>Scene export process simplified.</em></dt>
+<dd><p class="first last">The range of material export errors are now not blocking the export. Instead this material will be highlighted pink at scene loading. Detailed error descriptions can be found in the <a class="reference internal" href="addon.html#export-errors-warnings"><em>manual</em></a>.</p>
+</dd>
+</dl>
+</li>
+<li><p class="first"><em>Added support for the &#8220;Do not export&#8221; option for particle systems.</em></p>
+</li>
+<li><p class="first"><em>Improved stability on devices with the Apple iOS operating system.</em></p>
+</li>
+</ul>
+</div>
+<div class="section" id="id3">
+<h3>Changes<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><dl class="first docutils">
+<dt><em>Changed SDK path setting for HTML export.</em></dt>
+<dd><p class="first last">It&#8217;s now needed to set the SDK path setting for HTML export to SDK root directory. Earlier it was required to provide the full path to embed application. Pay attention, the old behavior is not supported anymore.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><em>Deprecated the &#8220;UV translation velocity&#8221; option.</em></dt>
+<dd><p class="first last">Will be removed since version 14.11.</p>
+</dd>
+</dl>
+</li>
+<li><p class="first"><em>Removed option &#8220;Do not export&#8221; from the &#8220;Object data&#8221; panel.</em></p>
+</li>
+<li><dl class="first docutils">
+<dt><em>Removed &#8220;Blend4Web &gt; Animation &gt; Cyclic&#8221; option from the object properties panel</em>.</dt>
+<dd><p class="first last">Instead one should use <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Animation</span> <span class="pre">&gt;</span> <span class="pre">Behavior</span></tt> option located in the same place. Scenes with default animations may work incorrectly, so they need behavior property to be set to <tt class="docutils literal"><span class="pre">Cyclic</span></tt>.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><em>Improved SSAO algorithm</em></dt>
+<dd><p class="first last">The new implementation is much faster and shows better quality. The settings of the algorithm are changed too. For more info see the <a class="reference internal" href="postprocessing_effects.html#ssao"><em>manual section</em></a>.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</div>
+<div class="section" id="id4">
+<h3>Fixes<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first"><em>Fixed rendering error for HALO materials.</em></p>
+</li>
+<li><p class="first"><em>Fixed rendering error when an object with &#8220;Do not batch&#8221; property set has a parent object</em></p>
+</li>
+<li><dl class="first docutils">
+<dt><em>Fixed error with keyboard shortcuts in Blender.</em></dt>
+<dd><p class="first last">Fixed error with inability to assign keyboard shortcuts in Blender for export menu items:<tt class="docutils literal"><span class="pre">File-&gt;Export-&gt;Blend4Web(.json)</span></tt> and <tt class="docutils literal"><span class="pre">File-&gt;Export-&gt;Blend4Web(.html)</span></tt>.</p>
+</dd>
+</dl>
+</li>
+<li><p class="first"><em>Fixed crash when loading textures with size exceeding device limits.</em></p>
+</li>
+<li><p class="first"><em>Fixed node material errors resulting in unstable engine behavior</em>.</p>
+</li>
+<li><p class="first"><em>Fixed error in the node materials with complex Node Groups</em>.</p>
+</li>
+<li><p class="first"><em>Fixed shader compilation errors on mobile devices with Qualcomm Adreno 305 GPU.</em></p>
+</li>
+<li><p class="first"><em>Fixed rendering error when using REFRACTION nodes in transparent meterials.</em></p>
+</li>
+<li><p class="first"><em>Fixed an issue in &#8220;B4W Vertex Anim Baker&#8221; tool when current frame reset was occured after using bake.</em></p>
+</li>
+</ul>
+</div>
+<div class="section" id="id5">
+<h3>Known issues<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><dl class="first docutils">
+<dt><em>Blender addon upgrading problems</em></dt>
+<dd><p class="first last">We strongly don&#8217;t recommend to install the new Blender addon version without uninstalling the previous version first (especially for Windows).</p>
+</dd>
+</dl>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="v14-09">
+<h2>v14.09<a class="headerlink" href="#v14-09" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id6">
+<h3>New features<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>ABSOLUTE type support for the MATH node.</em></p>
 </li>
@@ -134,8 +256,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id4">
-<h3>Changes<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id8">
+<h3>Changes<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><dl class="first docutils">
 <dt><em>Shadow rendering improved.</em></dt>
@@ -169,8 +291,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id5">
-<h3>Fixes<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id9">
+<h3>Fixes<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p class="first"><em>The preloader didn&#8217;t diappear in case of a loading error (texture or sound file).</em></p>
 </li>
@@ -192,12 +314,22 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id6">
-<h3>Known issues<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id10">
+<h3>Known issues<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><dl class="first docutils">
 <dt><em>Blender addon upgrading problems</em></dt>
 <dd><p class="first last">We strongly don&#8217;t recommend to install the new Blender addon version without uninstalling the previous version first (especially for Windows).</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><em>Skeletal animation mixing doesn&#8217;t work in some browsers</em></dt>
+<dd><p class="first">If skeletal animation mixing API brings unexpected errors, it is neccessary to override standard Math.sign function as follows:</p>
+<div class="last highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_util</span>  <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;util&quot;</span><span class="p">);</span>
+<span class="nb">Math</span><span class="p">.</span><span class="nx">sign</span> <span class="o">=</span> <span class="nx">m_util</span><span class="p">.</span><span class="nx">sign</span><span class="p">;</span>
+</pre></div>
+</div>
 </dd>
 </dl>
 </li>
@@ -241,6 +373,7 @@
 <li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Team Work. Using Git</a></li>
 <li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Problems and Solutions</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Release Notes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#v14-10">v14.10</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#v14-09">v14.09</a></li>
 </ul>
 </li>
@@ -274,7 +407,7 @@
           
     <div class="footer">
         &copy; Copyright 2014, Triumph LLC.
-      Last updated on 2014-09-25.
+      Last updated on 2014-10-30.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

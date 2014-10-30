@@ -21,6 +21,10 @@ vec4 shadow_ssao;
 const float SHADOW_BLUR_OFFSET = 0.1;
 const float SHADOW_FADE_OFFSET = 0.1;
 
+# if SHADOW_SRC != SHADOW_SRC_MASK
+const float FIRST_CASCADE_BLUR_INDENT = 0.05;
+# endif
+
 # if SHADOW_SRC == SHADOW_SRC_DEPTH
 // Poisson disk
 mat4 POISSON_DISK_X = mat4(
@@ -112,8 +116,9 @@ float shadow_map_visibility_overlap(vec3 shadow_coord0, sampler2D shadow_map0,
 }
 
 # if SHADOW_SRC != SHADOW_SRC_MASK
-bool is_tex_coords_inside(vec2 coords) {
-    return all(lessThanEqual(coords, vec2(1.0))) && all(greaterThanEqual(coords, vec2(0.0)));
+bool is_tex_coords_inside(vec2 coords, float indent) {
+    return all(lessThanEqual(coords, vec2(1.0 + indent)))
+            && all(greaterThanEqual(coords, vec2(0.0 - indent)));
 }
 
 float get_edge_distance_tex(vec2 coords) {
@@ -138,7 +143,7 @@ float get_visibility_blended(vec3 tex_coords0, vec3 tex_coords1,
     float edge_dist = get_edge_distance_tex(tex_coords0.xy);
     if (-depth > center_dist && edge_dist >= 0.0
             && edge_dist <= SHADOW_BLUR_OFFSET
-            && is_tex_coords_inside(tex_coords1.xy)) {
+            && is_tex_coords_inside(tex_coords1.xy, 0.0)) {
         float blend_factor = 1.0 - edge_dist / SHADOW_BLUR_OFFSET;
         vis = shadow_map_visibility_overlap(tex_coords0,
                 shadow_map0, tex_coords1, shadow_map1, blur_radius0,
@@ -179,21 +184,24 @@ float shadow_visibility(float depth) {
     vec3 shadow_coord3 = v_shadow_coord3.xyz / v_shadow_coord3.w;
 #  endif
 
-    if (is_tex_coords_inside(shadow_coord0.xy)) {
 #  if CSM_SECTION1
+    if (is_tex_coords_inside(shadow_coord0.xy, 0.0)) {
         vis = get_visibility_blended(shadow_coord0, shadow_coord1,
                 u_shadow_map0, u_shadow_map1, u_pcf_blur_radii[0],
                 u_pcf_blur_radii[1], u_csm_center_dists[0], depth);
+    }
 #  else
+    // NOTE: small indent for single cascade blur (especially for non-csm scheme)
+    if (is_tex_coords_inside(shadow_coord0.xy, FIRST_CASCADE_BLUR_INDENT)) {
         vis = get_visibility_faded(shadow_coord0, u_shadow_map0,
                 u_pcf_blur_radii[0], u_csm_center_dists[0], depth);
-#  endif
     }
+#  endif
 
 
 #  if CSM_SECTION1
     else {
-        if (is_tex_coords_inside(shadow_coord1.xy)) {
+        if (is_tex_coords_inside(shadow_coord1.xy, 0.0)) {
 #   if CSM_SECTION2
             vis = get_visibility_blended(shadow_coord1, shadow_coord2,
                 u_shadow_map1, u_shadow_map2, u_pcf_blur_radii[1],
@@ -207,7 +215,7 @@ float shadow_visibility(float depth) {
 
 #   if CSM_SECTION2
         else {
-            if (is_tex_coords_inside(shadow_coord2.xy)) {
+            if (is_tex_coords_inside(shadow_coord2.xy, 0.0)) {
 #    if CSM_SECTION3
                 vis = get_visibility_blended(shadow_coord2, shadow_coord3,
                     u_shadow_map2, u_shadow_map3, u_pcf_blur_radii[2],
@@ -221,7 +229,7 @@ float shadow_visibility(float depth) {
 
 #    if CSM_SECTION3
             else {
-                if (is_tex_coords_inside(shadow_coord3.xy))
+                if (is_tex_coords_inside(shadow_coord3.xy, 0.0))
                     vis = get_visibility_faded(shadow_coord3, u_shadow_map3,
                         u_pcf_blur_radii[3], u_csm_center_dists[3], depth);
             }

@@ -101,19 +101,9 @@ msgstr ""
 msgid "Дополнительные ноды"
 msgstr "Engine Specific Nodes"
 
-#: ../node_materials.rst:46
-msgid ""
-"Дополнительные ноды расширяют функционал стандартных с учётом специфики "
-"работы движка. Ноды оформляются в виде нодовых групп (``Node groups`` или "
-"``Node tree``) со специально выбранным именем и форматом входов. Для "
-"удобства, все дополнительные ноды собраны в файл "
-"``external/blender/dev_nodes/special_nodes.blend``."
+#: ../node_materials.rst:48
+msgid ":ref:`node_anim`"
 msgstr ""
-"Engine specific nodes extend the standard nodes' functionality in order to "
-"support the engine features. These nodes are created as node groups (``Node "
-"groups`` or ``Node tree``) with specially determined names and input "
-"formats. All special nodes are gathered in the "
-"``external/blender/dev_nodes/special_nodes.blend`` file for convenience."
 
 #: ../node_materials.rst:51
 msgid "LINEAR_TO_SRGB и SRGB_TO_LINEAR"
@@ -397,7 +387,7 @@ msgstr ""
 
 #: ../node_materials.rst:160
 msgid "Реализует эффект преломления."
-msgstr "Get refracted image behind object."
+msgstr "Get the refracted image behind object."
 
 #: ../node_materials.rst:165
 msgid "*Normal*"
@@ -433,8 +423,8 @@ msgid ""
 "панели ``Scene > Blend4Web``. Объект должен быть с типом прозрачности Alpha "
 "Blend."
 msgstr ""
-"It needs to check option ``Render refraction`` from ``Scene > Blend4Web`` "
-"panel. Object's transparency type must be set to ``Alpha Blend``."
+"It's neccessary to enable the ``Render refraction``  option from the ``Scene > Blend4Web`` "
+"panel. The object's transparency type must be set to ``Alpha Blend``."
 
 #: ../node_materials.rst:181
 msgid ":ref:`alpha_blend`"
@@ -448,7 +438,7 @@ msgstr ""
 msgid ""
 "Устанавливает значение выходного цвета в зависимости от установленного "
 "профиля качества изображения."
-msgstr "Node sets output color value depending on quality profile."
+msgstr "This node sets output color value depending on the quality profile."
 
 #: ../node_materials.rst:188
 msgid ":ref:`quality_settings`"
@@ -487,13 +477,6 @@ msgstr ""
 msgid "Значение выходного цвета."
 msgstr "Output color."
 
-#: ../node_materials.rst:206
-msgid ""
-"Для отображения во вьюпорте Blender'а используется входной параметр "
-"``HIGH``."
-msgstr ""
-"``HIGH`` input parameter is used for rendering in the Blender viewport."
-
 #: ../node_materials.rst:209
 msgid "SMOOTHSTEP"
 msgstr ""
@@ -502,7 +485,7 @@ msgstr ""
 msgid ""
 "Осуществить мягкую интерполяцию двух значений, исходя из первого значения."
 msgstr ""
-"Perform smooth interpolation between two input values based on first value"
+"Perform smooth interpolation between two input values based on first value."
 
 #: ../node_materials.rst:216 ../node_materials.rst:227
 msgid "*Value*"
@@ -510,7 +493,7 @@ msgstr ""
 
 #: ../node_materials.rst:217
 msgid "Значение, на основе которого осуществляется интерполяция."
-msgstr "Value which determines interpolation smoothness"
+msgstr "Value which determines interpolation smoothness."
 
 #: ../node_materials.rst:218
 msgid "*Edge0*"
@@ -518,7 +501,7 @@ msgstr ""
 
 #: ../node_materials.rst:219
 msgid "Первое eначениe для интерполяции."
-msgstr "First interpolation value"
+msgstr "First interpolation value."
 
 #: ../node_materials.rst:221
 msgid "*Edge1*"
@@ -526,11 +509,11 @@ msgstr ""
 
 #: ../node_materials.rst:221
 msgid "Второе значениe для интерполяции."
-msgstr "Second interpolation value"
+msgstr "Second interpolation value."
 
 #: ../node_materials.rst:227
 msgid "Сглаженное значение."
-msgstr "Interpolated value"
+msgstr "Interpolated value."
 
 #: ../node_materials.rst:230
 msgid ""
@@ -538,10 +521,27 @@ msgid ""
 "диапазоне между ''Edge0'' и ''Edge1''."
 msgstr ""
 "For the correct interpolation input ''Value'' had to be between ''Edge0'' "
-"and ''Edge1''"
+"and ''Edge1''."
 
-#: ../node_materials.rst:48
-msgid ":ref:`node_anim`"
+#: ../node_materials.rst:46
+msgid ""
+"Дополнительные ноды расширяют функционал стандартных с учётом специфики "
+"работы движка. Ноды оформляются в виде нодовых групп (``Node groups`` или "
+"``Node tree``) со специально выбранным именем и форматом входов. Для "
+"удобства, все дополнительные ноды собраны в файл "
+"``external/blender/dev_nodes/special_nodes.blend``."
 msgstr ""
+"Engine specific nodes extend the standard nodes' functionality in order to "
+"support the engine features. These nodes are created as node groups (``Node "
+"groups`` or ``Node tree``) with specially determined names and input "
+"formats. All special nodes are gathered in the "
+"``external/blender/dev_nodes/special_nodes.blend`` file for convenience."
+
+#: ../node_materials.rst:206
+msgid ""
+"Для отображения во вьюпорте Blender'а используется входной параметр "
+"``HIGH``."
+msgstr ""
+"``HIGH`` input parameter is used for rendering in the Blender viewport."
 
 

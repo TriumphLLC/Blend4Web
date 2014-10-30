@@ -35,11 +35,13 @@ class B4W_Anim_Baker(bpy.types.Operator):
 
         nla_mute_states = self.set_nla_tracks_mute_state(armobj)
 
+        current_frame = bpy.context.scene.frame_current
         valid_actions = self.get_valid_actions(armobj)
         for action in valid_actions:
             self.process_action(action, armobj)
 
         armobj.animation_data.action = current_action
+        bpy.context.scene.frame_set(current_frame)
 
         # restore auto keyframes tool mode
         bpy.context.scene.tool_settings.use_keyframe_insert_auto = use_kia
@@ -270,7 +272,6 @@ class B4W_Anim_Baker(bpy.types.Operator):
                     fcurve.select = False
         bpy.ops.graph.simplify(error = 0.03)
         '''
-     
         bpy.context.area.type = old_area
 
     def near_zero(self, value):

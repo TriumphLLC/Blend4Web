@@ -20,6 +20,7 @@ var m_util      = require("__util");
 
 var m_mat4 = require("mat4");
 var m_quat = require("quat");
+var m_vec4 = require("vec4");
 
 var cfg_ani = m_config.animation;
 
@@ -150,7 +151,7 @@ function apply_vertex_anim(obj, va, slot_num) {
     anim_slot.animation_name = va["name"];
 
     // calculate VBO offset for given vertex animation
-    var va_frame_offset = 0; 
+    var va_frame_offset = 0;
     for (var i = 0; i < obj["data"]["b4w_vertex_anim"].length; i++) {
         var va_i = obj["data"]["b4w_vertex_anim"][i];
 
@@ -243,7 +244,7 @@ exports.get_anim_names = function(obj) {
             anim_names.push(obj["data"]["b4w_vertex_anim"][i]["name"]);
     }
 
-    var actions = get_default_actions(obj)
+    var actions = get_actions(obj);
     for (var i = 0; i < actions.length; i++) {
         anim_names.push(strip_baked_suffix(actions[i]["name"]));
     }
@@ -288,8 +289,8 @@ exports.apply_def = function(obj) {
         do_before_apply(obj, slot_num);
         apply_action(obj, action, slot_num);
         do_after_apply(obj, slot_num);
-        obj._anim_slots[slot_num].behavior = obj["b4w_cyclic_animation"] ?
-                                            AB_CYCLIC : AB_FINISH_RESET;
+        obj._anim_slots[slot_num].behavior =
+                anim_behavior_bpy_b4w(obj["b4w_anim_behavior"]);
         slot_num++
     }
 
@@ -302,8 +303,9 @@ exports.apply_def = function(obj) {
             apply_particles_anim(obj, psys, slot_num);
             do_after_apply(obj, slot_num);
             obj._anim_slots[slot_num].behavior =
-                    obj["b4w_cyclic_animation"] || psettings["b4w_cyclic"]?
-                    AB_CYCLIC : AB_FINISH_RESET;
+                    anim_behavior_bpy_b4w(obj["b4w_anim_behavior"]);
+            if (psettings["b4w_cyclic"])
+                obj._anim_slots[slot_num].behavior = AB_CYCLIC;
             slot_num++
         }
     }
@@ -312,8 +314,8 @@ exports.apply_def = function(obj) {
         do_before_apply(obj, slot_num);
         apply_vertex_anim(obj, obj["data"]["b4w_vertex_anim"][0], slot_num);
         do_after_apply(obj, slot_num);
-        obj._anim_slots[slot_num].behavior = obj["b4w_cyclic_animation"] ?
-                                             AB_CYCLIC : AB_FINISH_RESET;
+        obj._anim_slots[slot_num].behavior =
+                anim_behavior_bpy_b4w(obj["b4w_anim_behavior"]);
         slot_num++
 
     } else if (!actions.length && !m_particles.has_anim_particles(obj)) {
@@ -323,7 +325,7 @@ exports.apply_def = function(obj) {
         anim_slot.type = OBJ_ANIM_TYPE_STATIC;
         anim_slot.animation_name = obj.name + "_STATIC";
         // TODO: proper obj -> scene -> timeline
-        
+
         var frame_range = m_scs.get_scene_timeline(m_scs.get_active());
         anim_slot.start = frame_range[0];
         // last frame will be rendered
@@ -332,7 +334,50 @@ exports.apply_def = function(obj) {
     }
 }
 
-/** 
+function anim_behavior_bpy_b4w(b4w_behavior) {
+    switch (b4w_behavior) {
+    case "CYCLIC":
+        return AB_CYCLIC;
+    case "FINISH_RESET":
+        return AB_FINISH_RESET;
+    case "FINISH_STOP":
+        return AB_FINISH_STOP;
+    default:
+        m_util.panic("Wrong animation behavior");
+    }
+}
+
+/**
+ * Returns object specific actions
+ */
+function get_actions(obj) {
+
+    var act_list = [];
+
+    for (var i = 0; i < _actions.length; i++) {
+        var action = _actions[i];
+        var bones = action._render.bones;
+        var bones_num = m_util.get_dict_length(bones);
+        var act_render = action._render;
+
+        if (bones_num) {
+            if (obj["type"] == "ARMATURE")
+                act_list.push(action);
+        } else if (act_render.params["volume"] || act_render.params["pitch"]) {
+            if (m_sfx.is_speaker(obj))
+                act_list.push(action);
+        } else if (!is_material_action(action)) {
+            act_list.push(action);
+        }
+    }
+
+    if (obj["type"] == "MESH")
+        act_list = act_list.concat(get_material_actions(obj));
+
+    return act_list;
+}
+
+/**
  * Try to get action from the following places:
  *  obj.animation_data.action
  *  spkobj.data.animation_data
@@ -342,7 +387,7 @@ exports.apply_def = function(obj) {
  */
 function get_default_actions(obj) {
 
-    var anim_list = [];
+    var act_list = [];
 
     // animation_data
     var anim_data = obj["animation_data"];
@@ -351,25 +396,36 @@ function get_default_actions(obj) {
         var bones = anim_data["action"]._render.bones;
         var bones_num = m_util.get_dict_length(bones);
         if (obj["type"] == "ARMATURE" || !bones_num)
-            anim_list.push(anim_data["action"]);
+            act_list.push(anim_data["action"]);
     }
 
     if (m_sfx.is_speaker(obj) && obj["data"]["animation_data"] &&
             obj["data"]["animation_data"]["action"])
-        anim_list.push(obj["data"]["animation_data"]["action"]);
+        act_list.push(obj["data"]["animation_data"]["action"]);
 
-    if (obj.type == "MESH") {
-        var materials = obj["data"]["materials"];
-        for (var j = 0; j < materials.length; j++) {
-            var mat = materials[j];
-            var node_tree = mat["node_tree"];
+    if (obj["type"] == "MESH")
+        act_list = act_list.concat(get_material_actions(obj));
 
-            if (node_tree && node_tree["animation_data"]
-                          && node_tree["animation_data"]["action"])
-                    anim_list.push(node_tree["animation_data"]["action"]);
+    return act_list;
+}
+
+function get_material_actions(obj) {
+
+    var act_list = [];
+
+    var materials = obj["data"]["materials"];
+    for (var i = 0; i < materials.length; i++) {
+        var mat = materials[i];
+        var node_tree = mat["node_tree"];
+
+        if (node_tree && node_tree["animation_data"]) {
+            var anim_data = node_tree["animation_data"];
+            if (anim_data["action"]) {
+                act_list.push(anim_data["action"]);
+            }
         }
     }
-    return anim_list;
+    return act_list;
 }
 
 function has_vertex_anim(obj) {
@@ -384,7 +440,7 @@ function get_first_armature_object(obj) {
     var modifiers = obj["modifiers"];
     for (var i = 0; i < modifiers.length; i++) {
         var modifier = modifiers[i];
-        if (modifier["type"] == "ARMATURE") 
+        if (modifier["type"] == "ARMATURE")
             return modifier["object"];
     }
 
@@ -393,7 +449,7 @@ function get_first_armature_object(obj) {
 
 
 /**
- * Start to play preset animation 
+ * Start to play preset animation
  * offset in seconds
  */
 exports.play = function(obj, finish_callback, slot_num) {
@@ -414,7 +470,7 @@ exports.play = function(obj, finish_callback, slot_num) {
 }
 
 /**
- * Stop object animation 
+ * Stop object animation
  */
 exports.stop = function(obj, slot_num) {
     function stop_slot(anim_slot) {
@@ -530,7 +586,7 @@ function update_object_animation(obj, elapsed, slot_num) {
  * <p>animation is possible, if one of the following conditions is met:
  * <ol>
  * <li>obj is an armature
- * <li>obj has a link to an armature 
+ * <li>obj has a link to an armature
  * <li>obj has an animation_data.action
  * <li>obj is a speaker with param animation
  * <li>obj has particle system
@@ -600,21 +656,14 @@ function apply_action(obj, action, slot_num) {
     var bones = act_render.bones;
     var num_bones = m_util.get_dict_length(bones);
 
-    var node_val = false;
-    for (var param in act_render.params)
-        if (param.indexOf("nodes") != -1) {
-            node_val = param;
-            break;
-        }
-
     if (m_util.is_armature(obj) && num_bones) {
         anim_slot.type = OBJ_ANIM_TYPE_ARMATURE;
 
-        var pose_data_frames = get_cached_pose_data(obj, action);
+        var pose_data_frames = get_cached_anim_data(obj, action);
         if (!pose_data_frames) {
             var bone_pointers = calc_armature_bone_pointers(obj);
             var pose_data_frames = calc_pose_data_frames(obj, action, bone_pointers);
-            cache_pose_data(obj, action, pose_data_frames);
+            cache_anim_data(obj, action, pose_data_frames);
         }
 
         anim_slot.trans = pose_data_frames.trans;
@@ -629,38 +678,35 @@ function apply_action(obj, action, slot_num) {
         anim_slot.pitch = act_render.params["pitch"] || null;
         anim_slot.type = OBJ_ANIM_TYPE_SOUND;
 
-    } else if (obj["type"] == "MESH" && node_val) {
+    } else if (obj["type"] == "MESH" && is_material_action(action)) {
 
         anim_slot.type = OBJ_ANIM_TYPE_MATERIAL;
 
-        var val_ind_pairs = obj._render.mats_anim_inds;
+        var nodemat_anim_data = get_cached_anim_data(obj, action);
 
-        for (var node_val_name in act_render.params) {
-            var act_node_val_name = action["name"] + "_" + node_val_name;
-            for (var i = 0; i < val_ind_pairs.length; i+=2) {
-                var name = val_ind_pairs[i];
-                if (act_node_val_name == name) {
-                    var ind = val_ind_pairs[i+1];
-                    anim_slot.node_value_inds.push(ind);
-                    anim_slot.nodemat_values.push(act_render.params[node_val_name]);
-                    break;
-                }
-            }
+        if (!nodemat_anim_data) {
+            nodemat_anim_data = calc_nodemat_anim_data(obj, action);
+            cache_anim_data(obj, action, nodemat_anim_data);
         }
+
+        anim_slot.node_value_inds = nodemat_anim_data.value_inds;
+        anim_slot.nodemat_values = nodemat_anim_data.values;
+
     } else {
         var tsr = act_render.params["tsr"];
         if (tsr) {
-            anim_slot.trans = [];
-            anim_slot.quats = [];
 
-            // TODO: clarify length/frame_range/num_pierced
-            var num_pierced = act_render.num_pierced;
-
-            for (var i = 0; i < num_pierced; i++) {
-                anim_slot.trans.push(tsr.subarray(i*8, i*8 + 4));
-                anim_slot.quats.push(tsr.subarray(i*8 + 4, i*8 + 8));
-            }
             anim_slot.type = OBJ_ANIM_TYPE_OBJECT;
+
+            var obj_anim_data = get_cached_anim_data(obj, action);
+
+            if (!obj_anim_data) {
+                obj_anim_data = calc_obj_anim_data(obj, action, tsr);
+                cache_anim_data(obj, action, obj_anim_data);
+            }
+
+            anim_slot.trans = obj_anim_data.trans;
+            anim_slot.quats = obj_anim_data.quats;
 
             // move particles with world coordinate system to objects position
             if (m_particles.has_particles(obj)) {
@@ -679,7 +725,7 @@ function apply_action(obj, action, slot_num) {
         recalculate_armature_anim_slots(obj, slot_num);
 }
 
-function get_cached_pose_data(obj, action) {
+function get_cached_anim_data(obj, action) {
 
     var cache = obj._action_anim_cache;
 
@@ -690,9 +736,9 @@ function get_cached_pose_data(obj, action) {
     return null;
 }
 
-function cache_pose_data(obj, action, pose_data) {
+function cache_anim_data(obj, action, data) {
     var cache = obj._action_anim_cache;
-    cache.push(action, pose_data);
+    cache.push(action, data);
 }
 
 function init_skinned_objs_data(armobj, slot_num, action) {
@@ -833,13 +879,52 @@ function calc_armature_bone_pointers(armobj) {
         bone_pointers[bone_name] = {
             bone_index: i,
             deform_bone_index: i,
-            pose_bone_index: m_util.get_index_for_key_value(pose_bones, "name", 
+            pose_bone_index: m_util.get_index_for_key_value(pose_bones, "name",
                     bone_name),
             vgroup_index: -1
         }
     }
 
     return bone_pointers;
+}
+
+function calc_nodemat_anim_data(obj, action) {
+
+    var value_inds = [];
+    var values = [];
+
+    var act_render = action._render;
+    var val_ind_pairs = obj._render.mats_anim_inds;
+
+    for (var node_val_name in act_render.params) {
+        var act_node_val_name = action["name"] + "_" + node_val_name;
+        for (var i = 0; i < val_ind_pairs.length; i+=2) {
+            var name = val_ind_pairs[i];
+            if (act_node_val_name == name) {
+                var ind = val_ind_pairs[i+1];
+                value_inds.push(ind);
+                values.push(act_render.params[node_val_name]);
+                break;
+            }
+        }
+    }
+    return {value_inds: value_inds, values: values};
+}
+
+function calc_obj_anim_data(obj, action, tsr) {
+
+    var act_render = action._render;
+
+    // TODO: clarify length/frame_range/num_pierced
+    var num_pierced = act_render.num_pierced;
+
+    var anim_trans = [];
+    var anim_quats = [];
+    for (var i = 0; i < num_pierced; i++) {
+        anim_trans.push(tsr.subarray(i*8, i*8 + 4));
+        anim_quats.push(tsr.subarray(i*8 + 4, i*8 + 8));
+    }
+    return {trans: anim_trans, quats: anim_quats};
 }
 
 /**
@@ -856,13 +941,25 @@ function calc_bone_pointer(bone_name, armobj) {
         var bone_pointer = {
             bone_index: bone_index,
             deform_bone_index: 0,
-            pose_bone_index: m_util.get_index_for_key_value(pose_bones, "name", 
+            pose_bone_index: m_util.get_index_for_key_value(pose_bones, "name",
                     bone_name),
             vgroup_index: -1
         }
         return bone_pointer;
     } else
         return null;
+}
+
+function is_material_action(action) {
+
+    var act_render = action._render;
+
+    for (var param in act_render.params)
+        if (param.indexOf("nodes") != -1) {
+            return true;
+        }
+
+    return false;
 }
 
 function animate(obj, elapsed, slot_num) {
@@ -877,7 +974,7 @@ function animate(obj, elapsed, slot_num) {
         return
 
     var render = obj._render;
-    
+
     var cff = anim_slot.current_frame_float;
     var start = anim_slot.start;
     var length = anim_slot.length;
@@ -937,7 +1034,7 @@ function animate(obj, elapsed, slot_num) {
             animate_skinned_objs(render, anim_slot, frame, frame_next, frame_factor);
             m_trans.update_transform(obj);
         }
-    break;
+        break;
 
     case OBJ_ANIM_TYPE_OBJECT:
         var finfo = action_anim_finfo(anim_slot, cff, _frame_info_tmp);
@@ -986,12 +1083,13 @@ function animate(obj, elapsed, slot_num) {
             var volume = (1-ff) * anim_slot.volume[fc] + ff * anim_slot.volume[fn];
             m_sfx.set_volume(obj, volume);
         }
-        
+
         if (anim_slot.pitch) {
             var pitch = (1-ff) * anim_slot.pitch[fc] + ff * anim_slot.pitch[fn];
             m_sfx.playrate(obj, pitch);
         }
         break;
+
     case OBJ_ANIM_TYPE_PARTICLES:
         var time = cff / cfg_ani.framerate;
         var psys = anim_slot.particle_system;
@@ -1043,7 +1141,7 @@ function action_anim_finfo(anim_slot, cff, dest) {
 
     if (index_float < 0)
         index_float = 0;
-    if (index_float >= range) 
+    if (index_float >= range)
         index_float = range;
 
     var step = anim_slot.action_step;
@@ -1173,7 +1271,7 @@ function mix_skeletal_animation(obj, elapsed) {
         // frame_factor is common for two animations as they are synced when applied
         frame_factor = finfo_1[2];
     } else if (ind_0 != -1 && skeletal_slot_0.play) {
-        mix_factor = 0; 
+        mix_factor = 0;
     } else {
         return;
     }
@@ -1269,7 +1367,7 @@ function process_mix_factor(obj, elapsed) {
     var delta = dest_mix_factor - cur_mix_factor;
     var increment = speed * elapsed;
 
-    if (Math.sign(delta) == Math.sign(speed) // still need changes
+    if (m_util.sign(delta) == m_util.sign(speed) // still need changes
             && Math.abs(increment) < Math.abs(delta))
         render.anim_mix_factor += increment;
     else {
@@ -1278,7 +1376,7 @@ function process_mix_factor(obj, elapsed) {
     }
 }
 
-/** 
+/**
  * Calculate skeletal animation data (i.e. pose) for every "pierced" frame
  * using prepared in action curves
  */
@@ -1380,7 +1478,7 @@ function calc_pose_bone(pose_bone, dest_trans_scale, dest_quat) {
 
         var tsr_channel = pose_bone._tsr_channel_cache;
 
-        // this can be already calculated because 
+        // this can be already calculated because
         // a bone can participate in other chains
         // else calculate channel TSR
         if (pose_bone._tsr_channel_cache_valid) {
@@ -1392,7 +1490,7 @@ function calc_pose_bone(pose_bone, dest_trans_scale, dest_quat) {
         var tsr_local = pose_bone._tsr_local;
         // pose bone-relative TSR
         var tsr_basis = pose_bone._tsr_basis;
-        
+
         // apply basis translation (delta) in armature space
         // go to bone space, apply pose, return back to armature space
         // tsr_local * (tsr_basis * tsr_locali)
@@ -1402,7 +1500,7 @@ function calc_pose_bone(pose_bone, dest_trans_scale, dest_quat) {
 
         // apply hierarchy
         m_tsr.multiply(tsr_channel_parent, _tsr8_tmp, tsr_channel);
-        
+
         // save
         tsr_channel_parent = tsr_channel;
         pose_bone._tsr_channel_cache_valid = true;
@@ -1479,7 +1577,7 @@ exports.append_action = function(action) {
 
         if (!storage_obj[name])
             storage_obj[name] = init_storage(pierced_points, def_val);
-        
+
         return storage_obj[name];
     }
 
@@ -1502,7 +1600,7 @@ exports.append_action = function(action) {
         return base_offset + channel_offset;
     }
     var fcurves = action["fcurves"];
-    
+
     var params = {};
     var bones = {};
 
@@ -1544,7 +1642,7 @@ exports.append_action = function(action) {
     act_render.bones = bones;
     act_render.bflags = action._bflags;
     act_render.num_pierced = num_pierced;
-    
+
     _actions.push(action);
 }
 
@@ -1578,12 +1676,12 @@ function get_transform_from_group(channels, pierced_index, animation_name) {
 
         if (data_path.indexOf("location") > -1)
             storage = tran;
-        else if (data_path.indexOf("rotation_quaternion") > -1) 
+        else if (data_path.indexOf("rotation_quaternion") > -1)
             storage = quat;
         else if (data_path.indexOf("scale") > -1)
             storage = scal;
         else {
-            m_print.error("B4W warning: unsupported fcurve data path: " + data_path + 
+            m_print.error("B4W warning: unsupported fcurve data path: " + data_path +
                 " (Animation: " + animation_name + ")");
             break;
         }
@@ -1592,7 +1690,7 @@ function get_transform_from_group(channels, pierced_index, animation_name) {
     }
 
     // uniform scale supported
-    scal = (scal[0] + scal[1] + scal[2]) / 3; 
+    scal = (scal[0] + scal[1] + scal[2]) / 3;
 
     // pack scale to translation
     tran = [tran[0], tran[1], tran[2], scal];
@@ -1613,7 +1711,7 @@ exports.get_approx_curve_length = function(start, end) {
  * Write points array for each fcurve
  * Update bflags array for each fcurve in action (write only unit values)
  */
-exports.approximate_curve = function(fcurve, fcurve_bin_data, points, bflags, 
+exports.approximate_curve = function(fcurve, fcurve_bin_data, points, bflags,
         start, end) {
 
     // initialize util arrays
@@ -1651,14 +1749,14 @@ exports.approximate_curve = function(fcurve, fcurve_bin_data, points, bflags,
             var interp = fcurve_bin_data[bin_cursor];
             var offset_to_next_kf = 3;
             if (interp === KF_INTERP_BEZIER)
-                offset_to_next_kf += 2; 
+                offset_to_next_kf += 2;
             if (interp_prev === KF_INTERP_BEZIER)
                 offset_to_next_kf += 2;
             var is_blended = (interp === KF_INTERP_CONSTANT) ? 0 : 1;
 
-            // NOTE: if next frame time same as current (decimal converted to 
+            // NOTE: if next frame time same as current (decimal converted to
             // integer) then move to next frame immediately
-            if (fcurve_bin_data[bin_cursor + 1] 
+            if (fcurve_bin_data[bin_cursor + 1]
                     == fcurve_bin_data[bin_cursor + offset_to_next_kf + 1]) {
                 interp_prev = interp;
                 bin_cursor += offset_to_next_kf;
@@ -1676,7 +1774,7 @@ exports.approximate_curve = function(fcurve, fcurve_bin_data, points, bflags,
                 substep_from++;
             }
 
-            // process points for fcurve last keyframe (extrapolation, 
+            // process points for fcurve last keyframe (extrapolation,
             // outside fcurve)
             if (i == last_frame)
                 for (var j = substep_from; j < cfg_ani.frame_steps; j++)
@@ -1750,7 +1848,7 @@ exports.approximate_curve = function(fcurve, fcurve_bin_data, points, bflags,
 }
 
 function calc_linear_params(v1, v4) {
-    var x1 = v1[0], y1 = v1[1], 
+    var x1 = v1[0], y1 = v1[1],
         x2 = v4[0], y2 = v4[1];
     var k = (y2 - y1) / (x2 - x1);
     var b = y1 - k * x1;
@@ -1762,7 +1860,7 @@ function linear(x, linear_params) {
 }
 
 
-/** 
+/**
  * The total length of the handles is not allowed to be more
  * than the horizontal distance between (v1-v4).
  * (prevent curve loops)
@@ -1772,16 +1870,16 @@ function correct_bezpart(v1, v2, v3, v4) {
     var h1 = [];
     var h2 = [];
     var len1, len2, len, fac;
-    
+
 	// calc handle deltas
 	h1[0] = v1[0] - v2[0];
 	h1[1] = v1[1] - v2[1];
-	
+
 	h2[0] = v4[0] - v3[0];
 	h2[1] = v4[1] - v3[1];
-	
-	// calculate distances: 
-	// len- span of time between keyframes 
+
+	// calculate distances:
+	// len- span of time between keyframes
 	// len1	- length of handle of start key
 	// len2	- length of handle of end key
 	len = v4[0]- v1[0];
@@ -1789,17 +1887,17 @@ function correct_bezpart(v1, v2, v3, v4) {
 	len2 = Math.abs(h2[0]);
 
 	// if the handles have no length, no need to do any corrections
-	if ((len1 + len2) == 0) 
-		return;		
+	if ((len1 + len2) == 0)
+		return;
 
 	// the two handles cross over each other, so force them
-	// apart using the proportion they overlap 
+	// apart using the proportion they overlap
 	if (len1 + len2 > len) {
 		fac = len / (len1 + len2);
-		
+
 		v2[0] = v1[0] - fac * h1[0];
 		v2[1] = v1[1] - fac * h1[1];
-		
+
 		v3[0] = v4[0] - fac * h2[0];
 		v3[1] = v4[1] - fac * h2[1];
 	}
@@ -1829,7 +1927,7 @@ function bezier_find_root(t0_so_far, t1_so_far, x_needed, x0, x1, x2, x3) {
 
     if (Math.abs(dx) < precision)
         return t;
-    
+
     if (dx > 0)
         return bezier_find_root(t0_so_far, t, x_needed, x0, x1, x2, x3);
     else
@@ -1839,9 +1937,9 @@ function bezier_find_root(t0_so_far, t1_so_far, x_needed, x0, x1, x2, x3) {
 function bezier_parametric(t, p0, p1, p2, p3) {
     var t1 = 1 - t;
 
-    return p0 * t1 * t1 * t1 + 
-       3 * p1 * t1 * t1 * t + 
-       3 * p2 * t1 * t  * t + 
+    return p0 * t1 * t1 * t1 +
+       3 * p1 * t1 * t1 * t +
+       3 * p2 * t1 * t  * t +
            p3 * t  * t  * t;
 }
 
@@ -2026,8 +2124,8 @@ exports.remove_actions = function(data_id) {
 
 exports.apply_to_first_empty_slot = function(obj, name) {
     if (!obj._anim_slots) {
-        if (apply(obj, name, 0))
-            return 0;
+        if (apply(obj, name, SLOT_0))
+            return SLOT_0;
         else
             return -1;
     }
@@ -2094,5 +2192,45 @@ exports.cleanup = function() {
     _actions.length = 0;
 }
 
+/**
+ * uses _vec3_tmp, _quat4_tmp
+ */
+exports.fcurves_replace_euler_by_quat = function(fcurves, data_path) {
+    var channels = fcurves[data_path];
+
+    var ch = channels[0] || channels[1] || channels[2];
+    var pcount = ch._pierced_points.length;
+
+    var quat = _quat4_tmp;
+    var euler_angles = _vec3_tmp;
+
+    var is_x_rot = Boolean(channels[0]);
+    if (!is_x_rot)
+        channels[0] = { _pierced_points: new Float32Array(pcount) };
+    var is_y_rot = Boolean(channels[1]);
+    if (!is_y_rot)
+        channels[1] = { _pierced_points: new Float32Array(pcount) };
+    var is_z_rot = Boolean(channels[2]);
+    if (!is_z_rot)
+        channels[2] = { _pierced_points: new Float32Array(pcount) };
+    channels[3] = { _pierced_points: new Float32Array(pcount) };
+
+    for (var i = 0; i < pcount; i++) {
+        euler_angles[0] = (is_x_rot) ? channels[0]._pierced_points[i]: 0;
+        euler_angles[1] = (is_y_rot) ? channels[1]._pierced_points[i]: 0;
+        euler_angles[2] = (is_z_rot) ? channels[2]._pierced_points[i]: 0;
+        m_util.euler_to_quat(euler_angles, quat);
+
+        // (x, y, z, w) to (w, x, y, z) fcurve format
+        channels[0]._pierced_points[i] = quat[3];
+        channels[1]._pierced_points[i] = quat[0];
+        channels[2]._pierced_points[i] = quat[1];
+        channels[3]._pierced_points[i] = quat[2];
+    }
+
+    var new_path = data_path.replace("euler", "quaternion")
+    fcurves[new_path] = channels;
+    delete fcurves[data_path];
+}
 
 }

@@ -448,6 +448,12 @@ function assign_uniform_setters(shader) {
             }
             transient_uni = true;
             break;
+        case "u_shadow_cast_billboard_view_matrix":
+            var fun = function(gl, loc, subscene, obj_render, batch, camera) {
+                gl.uniformMatrix4fv(loc, false, camera.shadow_cast_billboard_view_matrix);
+            }
+            transient_uni = true;
+            break;
         case "u_view_proj_prev":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniformMatrix4fv(loc, false, camera.prev_view_proj_matrix);
@@ -715,7 +721,7 @@ function assign_uniform_setters(shader) {
         case "au_center_pos":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 // consider zeros by default
-                //gl.uniform4fv(loc, obj_render.center_pos);
+                //gl.uniform3fv(loc, obj_render.center_pos);
             }
             transient_uni = true;
             break;
@@ -1284,25 +1290,11 @@ function assign_uniform_setters(shader) {
                 gl.uniform1f(loc, subscene.ssao_radius_increase);
             }
             break;
-        case "u_ssao_dithering_amount":
+        case "u_ssao_blur_discard_value":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
-                gl.uniform1f(loc, subscene.ssao_dithering_amount);
+                gl.uniform1f(loc, subscene.ssao_blur_discard_value);
             }
-            break;
-        case "u_ssao_gauss_center":
-            var fun = function(gl, loc, subscene, obj_render, batch, camera) {
-                gl.uniform1f(loc, subscene.ssao_gauss_center);
-            }
-            break;
-        case "u_ssao_gauss_width_square":
-            var fun = function(gl, loc, subscene, obj_render, batch, camera) {
-                gl.uniform1f(loc, subscene.ssao_gauss_width_square);
-            }
-            break;
-        case "u_ssao_gauss_width_left_square":
-            var fun = function(gl, loc, subscene, obj_render, batch, camera) {
-                gl.uniform1f(loc, subscene.ssao_gauss_width_left_square);
-            }
+            transient_uni = true;
             break;
         case "u_ssao_influence":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {

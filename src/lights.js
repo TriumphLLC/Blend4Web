@@ -13,16 +13,60 @@ var m_util = require("__util");
 var m_vec3 = require("vec3");
 
 /**
+ * Create light
+ * @param type Light type: POINT, SUN,...
+ */
+exports.init_light = init_light;
+function init_light(type) {
+
+    // initialize properties (do not consider values as default!)
+    var light = {
+        name: "",
+        index: 0,
+        type: type,
+
+        use_diffuse: false,
+        use_specular: false,
+
+        direction: new Float32Array(3),
+        color: new Float32Array(3),
+        color_intensity: new Float32Array(3),
+
+        energy: 0,
+        distance: 0,
+
+        spot_size: 0,
+        spot_blend: 0,
+
+        falloff_type: "",
+
+        generate_shadows: false,
+
+        // have influence only for sun
+        dynamic_intensity: false
+    }
+
+    //setting default values
+    light.use_diffuse = true;
+    light.use_specular = true;
+    light.energy = 1;
+    light.distance = 25;
+    light.falloff_type = "INVERSE_SQUARE";
+
+    return light;
+}
+
+/**
  * Convert blender lamp object to light
  * @param lamp_obj lamp object
  */
 exports.lamp_to_light = function(lamp_obj) {
-    var light = init_light();
-
-    light.name = lamp_obj["name"];
 
     var data = lamp_obj["data"];
-    light.type = data["type"];
+
+    var light = init_light(data["type"]);
+
+    light.name = lamp_obj["name"];
 
     light.use_diffuse = data["use_diffuse"];
     light.use_specular = data["use_specular"];
@@ -47,9 +91,8 @@ exports.lamp_to_light = function(lamp_obj) {
 
     light.distance = data["distance"];
 
-    if (light.type === "POINT" || light.type === "SPOT") {
+    if (light.type === "POINT" || light.type === "SPOT")
         light.falloff_type = data["falloff_type"];
-    }
 
     if (light.type === "SPOT") {
         light.spot_size = data["spot_size"];
@@ -58,29 +101,10 @@ exports.lamp_to_light = function(lamp_obj) {
 
     light.generate_shadows = data["b4w_generate_shadows"];
     light.dynamic_intensity = data["b4w_dynamic_intensity"];
+
     lamp_obj._light = light;
 }
 
-
-function init_light() {
-
-    var light = {};
-
-    light.direction = new Float32Array(3);
-    m_vec3.normalize(light.direction, light.direction);
-
-    light.color = new Float32Array(3);
-    light.energy = 1.0;
-
-    light.color_intensity = new Float32Array(3);
-    update_color_intensity(light);
-
-    light.distance = 25.0;
-
-    light.generate_shadows = false;
-
-    return light;
-}
 
 /**
  * Set light color

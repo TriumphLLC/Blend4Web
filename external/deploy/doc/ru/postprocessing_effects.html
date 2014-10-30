@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Постпроцессинговые эффекты &mdash; Руководство пользователя: Blend4Web v14.09</title>
+    <title>Постпроцессинговые эффекты &mdash; Руководство пользователя: Blend4Web v14.10</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.09',
+        VERSION:     '14.10',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v14.09" href="index.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v14.10" href="index.html" />
     <link rel="next" title="Система частиц" href="particles.html" />
     <link rel="prev" title="Освещение, тени и фон" href="lighting.html" /> 
   </head>
@@ -37,7 +37,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">Руководство пользователя: Blend4Web v14.09</a></div>
+          href="index.html">Руководство пользователя: Blend4Web v14.10</a></div>
         <div class="rel">
           <a href="lighting.html" title="Освещение, тени и фон"
              accesskey="P">предыдущий</a> |
@@ -121,22 +121,20 @@
 <p>Эффект взаимного затенения (screen-space ambient occlusion, SSAO) применяется с целью воспроизведения сложного переотражения света от объектов. Пространство между близкими объектами менее доступно для рассеянного света и поэтому затеняется сильнее.</p>
 <div class="section" id="id9">
 <h3>Активация<a class="headerlink" href="#id9" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Выставить опцию <tt class="docutils literal"><span class="pre">Enable</span> <span class="pre">SSAO</span></tt> на панели <tt class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span></tt>.</p>
+<p>Выставить опции <tt class="docutils literal"><span class="pre">Enable</span> <span class="pre">SSAO</span></tt> и <tt class="docutils literal"><span class="pre">Render</span> <span class="pre">Shadows</span></tt> на панели <tt class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span></tt>.</p>
 </div>
 <div class="section" id="id10">
 <h3>Дополнительные настройки<a class="headerlink" href="#id10" title="Ссылка на этот заголовок">¶</a></h3>
 <p>На панели &#8220;мира&#8221; <tt class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">SSAO</span> <span class="pre">Settings</span></tt>:</p>
 <dl class="docutils">
 <dt><em>Radius Increase</em></dt>
-<dd>Фактор умножения радиуса сферического сэмплинга при переходе от внутреннего кольца к внешнему. Значение по умолчанию 1.7.</dd>
-<dt><em>Dithering Amount</em></dt>
-<dd>Степень подмешивания случайного шума для уменьшения проявления полос (дитеринг). Значение по умолчанию 0.1.</dd>
-<dt><em>Gauss Center</em></dt>
-<dd>Математическое ожидание - параметр распределения Гаусса для разницы глубин пиксела и соседнего сэмпла. Значение по умолчанию 0.2.</dd>
-<dt><em>Gauss Width</em></dt>
-<dd>Стандартное отклонение - параметр распределения Гаусса для разницы глубин пиксела и соседнего сэмпла. Значение по умолчанию 2.0.</dd>
-<dt><em>Gauss Width Left</em></dt>
-<dd>Стандартное отклонение в случае, когда разница глубин меньше математического ожидания. Значение по умолчанию 0.1.</dd>
+<dd>Фактор умножения радиуса сферического сэмплинга при переходе от внутреннего кольца к внешнему. Значение по умолчанию 3.0.</dd>
+<dt><em>Use Hemisphere</em></dt>
+<dd>Использовать для расчёта затенения полусферический сэмплинг вместо сферического. Помимо этого используется другой закон затенения.</dd>
+<dt><em>Use Blur Depth Test</em></dt>
+<dd>Если активировано - используется размытие SSAO на основе буфера глубины. Иначе - размытие по квадарту 4х4 по соседним пикселям.</dd>
+<dt><em>Blur Depth Test Discard Value</em></dt>
+<dd>Влияние разницы глубины сэмлов на их вес в размытии. Используется при активированном параметре <tt class="docutils literal"><span class="pre">Use</span> <span class="pre">Blur</span> <span class="pre">Depth</span> <span class="pre">Test</span></tt>. Значение по умолчанию 1.0.</dd>
 <dt><em>Influence</em></dt>
 <dd>Степень проявленности эффекта взаимного затенения. Значение по умолчанию 0.7.</dd>
 <dt><em>Distance Factor</em></dt>
@@ -370,7 +368,7 @@
           
     <div class="footer">
         &copy; Copyright 2014, ООО &#34;Триумф&#34;.
-      Обновлено: 2014-09-25.
+      Обновлено: 2014-10-30.
       Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

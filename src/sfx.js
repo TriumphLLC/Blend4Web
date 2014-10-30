@@ -205,8 +205,12 @@ exports.append_object = function(obj, scene) {
         obj._sfx.behavior = _wa ? speaker["b4w_behavior"] : "NONE";
         break;
     case "BACKGROUND_MUSIC":
-        obj._sfx.behavior = _wa ? (check_media_element_node() ?
-                "BACKGROUND_MUSIC" : "BACKGROUND_SOUND") : "NONE";
+        if (cfg_sfx.disable_bkg_music_hack)
+            obj._sfx.behavior = "NONE";
+        else
+            obj._sfx.behavior = _wa ? (check_media_element_node() ?
+                    "BACKGROUND_MUSIC" : "BACKGROUND_SOUND") : "NONE";
+
         break;
     default:
         throw "Wrong speaker behavior";
@@ -302,12 +306,10 @@ exports.source_type = function(obj) {
  * @param {ArrayBuffer|<audio>} sound_data Sound Data
  */
 exports.update_spkobj = function(obj, sound_data) {
-    if (obj["type"] != "SPEAKER")
-        throw "Wrong object type";
 
     var sfx = obj._sfx;
 
-    switch(sfx.behavior) {
+    switch (sfx.behavior) {
     case "POSITIONAL":
     case "BACKGROUND_SOUND":
     case "BACKGROUND_MUSIC":

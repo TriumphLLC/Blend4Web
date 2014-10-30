@@ -168,14 +168,10 @@ typedef struct PreviewImage {
 
 #ifdef __BIG_ENDIAN__
    /* big endian */
-#  define MAKE_ID2(c, d)		( (c)<<8 | (d) )
-#  define MOST_SIG_BYTE			0
-#  define BBIG_ENDIAN
+#  define MAKE_ID2(c, d)  ((c) << 8 | (d))
 #else
    /* little endian  */
-#  define MAKE_ID2(c, d)		( (d)<<8 | (c) )
-#  define MOST_SIG_BYTE			1
-#  define BLITTLE_ENDIAN
+#  define MAKE_ID2(c, d)  ((d) << 8 | (c))
 #endif
 
 /* ID from database */
@@ -186,7 +182,7 @@ typedef struct PreviewImage {
 #define ID_CU		MAKE_ID2('C', 'U') /* Curve */
 #define ID_MB		MAKE_ID2('M', 'B') /* MetaBall */
 #define ID_MA		MAKE_ID2('M', 'A') /* Material */
-#define ID_TE		MAKE_ID2('T', 'E') /* Texture */
+#define ID_TE		MAKE_ID2('T', 'E') /* Tex (Texture) */
 #define ID_IM		MAKE_ID2('I', 'M') /* Image */
 #define ID_LT		MAKE_ID2('L', 'T') /* Lattice */
 #define ID_LA		MAKE_ID2('L', 'A') /* Lamp */
@@ -196,23 +192,25 @@ typedef struct PreviewImage {
 #define ID_WO		MAKE_ID2('W', 'O') /* World */
 #define ID_SCR		MAKE_ID2('S', 'R') /* Screen */
 #define ID_SCRN		MAKE_ID2('S', 'N') /* (depreciated?) */
-#define ID_VF		MAKE_ID2('V', 'F') /* VectorFont */
+#define ID_VF		MAKE_ID2('V', 'F') /* VFont (Vector Font) */
 #define ID_TXT		MAKE_ID2('T', 'X') /* Text */
 #define ID_SPK		MAKE_ID2('S', 'K') /* Speaker */
 #define ID_SO		MAKE_ID2('S', 'O') /* Sound */
 #define ID_GR		MAKE_ID2('G', 'R') /* Group */
 #define ID_ID		MAKE_ID2('I', 'D') /* (internal use only) */
-#define ID_AR		MAKE_ID2('A', 'R') /* Armature */
-#define ID_AC		MAKE_ID2('A', 'C') /* Action */
+#define ID_AR		MAKE_ID2('A', 'R') /* bArmature */
+#define ID_AC		MAKE_ID2('A', 'C') /* bAction */
 #define ID_SCRIPT	MAKE_ID2('P', 'Y') /* Script (depreciated) */
-#define ID_NT		MAKE_ID2('N', 'T') /* NodeTree */
+#define ID_NT		MAKE_ID2('N', 'T') /* bNodeTree */
 #define ID_BR		MAKE_ID2('B', 'R') /* Brush */
 #define ID_PA		MAKE_ID2('P', 'A') /* ParticleSettings */
-#define ID_GD		MAKE_ID2('G', 'D') /* GreasePencil */
+#define ID_GD		MAKE_ID2('G', 'D') /* bGPdata, (Grease Pencil) */
 #define ID_WM		MAKE_ID2('W', 'M') /* WindowManager */
 #define ID_MC		MAKE_ID2('M', 'C') /* MovieClip */
 #define ID_MSK		MAKE_ID2('M', 'S') /* Mask */
 #define ID_LS		MAKE_ID2('L', 'S') /* FreestyleLineStyle */
+#define ID_PAL		MAKE_ID2('P', 'L') /* Palette */
+#define ID_PC		MAKE_ID2('P', 'C') /* PaintCurve  */
 
 	/* NOTE! Fake IDs, needed for g.sipo->blocktype or outliner */
 #define ID_SEQ		MAKE_ID2('S', 'Q')
@@ -235,7 +233,7 @@ typedef struct PreviewImage {
 #  undef GS
 #endif
 // #define GS(a)	(*((short *)(a)))
-#define GS(a)	(CHECK_TYPE_INLINE(a, const char *), (*((short *)(a))))
+#define GS(a)	(CHECK_TYPE_INLINE(a, char *), (*((short *)(a))))
 
 #define ID_NEW(a)		if (      (a) && (a)->id.newid ) (a) = (void *)(a)->id.newid
 #define ID_NEW_US(a)	if (      (a)->id.newid)       { (a) = (void *)(a)->id.newid;       (a)->id.us++; }

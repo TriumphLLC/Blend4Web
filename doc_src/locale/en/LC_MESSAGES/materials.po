@@ -275,7 +275,7 @@ msgstr ""
 msgid "Непрозрачный. Альфа-канал игнорируется. Значение по умолчанию."
 msgstr "Non-transparent. Alpha is ignored. This is the default value."
 
-#: ../materials.rst:102 ../materials.rst:273
+#: ../materials.rst:102 ../materials.rst:276
 msgid "Дополнительные настройки"
 msgstr "Additional settings"
 
@@ -378,7 +378,7 @@ msgstr ""
 "A surface reflects the selected objects in their current position. Only "
 "reflection from a plane is supported."
 
-#: ../materials.rst:146 ../materials.rst:263
+#: ../materials.rst:146 ../materials.rst:266
 msgid "Активация"
 msgstr "Activation"
 
@@ -559,50 +559,23 @@ msgstr ""
 msgid "Не экспортировать."
 msgstr "Material is not to be exported."
 
-#: ../materials.rst:225
+#: ../materials.rst:228
 msgid "*Special: Water*"
 msgstr ""
 
-#: ../materials.rst:225
-msgid "Специальный материал для :ref:`рендеринга воды <water>`."
-msgstr "Special material for :ref:`water rendering <water>`."
-
-#: ../materials.rst:228
-msgid "*Terrain dynamic grass*"
-msgstr ""
-
-#: ../materials.rst:228
-msgid ""
-"Материал используется для :ref:`рендеринга травяного покрова "
-"<particles_grass>`."
-msgstr ""
-"Material is used for :ref:`grass rendering <particles_grass>`."
-
-#: ../materials.rst:233
+#: ../materials.rst:236
 msgid "*Special: Collision*"
 msgstr ""
 
-#: ../materials.rst:231
+#: ../materials.rst:234
 msgid "Специальный материал для физического объекта."
 msgstr "A special material for collision geometry."
 
-#: ../materials.rst:238
-msgid "*Wettable*"
-msgstr ""
-
-#: ../materials.rst:236
-msgid "Для материала активируется эффект смачивания водой."
-msgstr "Water wetting effect is activated for the material."
-
-#: ../materials.rst:238
-msgid ":ref:`water`"
-msgstr ""
-
-#: ../materials.rst:241
+#: ../materials.rst:244
 msgid "*Double-sided Lighting*"
 msgstr ""
 
-#: ../materials.rst:241
+#: ../materials.rst:244
 msgid ""
 "Включить двухстороннее освещение. Опция полезна для однослойных "
 "непросвечивающих объектов."
@@ -610,11 +583,11 @@ msgstr ""
 "Enables the double-sided lighting mode. This option is useful for non-"
 "transparent objects with a single-layered mesh. "
 
-#: ../materials.rst:250
+#: ../materials.rst:253
 msgid "*Refractive*"
 msgstr ""
 
-#: ../materials.rst:244
+#: ../materials.rst:247
 msgid ""
 "Включить рефракцию. Коэффициент возмущения задаётся опцией ``Reftaction "
 "bump`` на панели ``Reftaction Settings``. Значение по умолчанию 0.001."
@@ -623,7 +596,7 @@ msgstr ""
 "``Reftaction bump`` from ``Reftaction Settings`` panel. The default value is"
 " 0.001."
 
-#: ../materials.rst:249
+#: ../materials.rst:252
 msgid ""
 "Для отображения эффекта необходимо включить опцию ``Render refraction`` на "
 "панели ``Scene > Blend4Web``. Объект должен быть с типом прозрачности Alpha "
@@ -632,11 +605,11 @@ msgstr ""
 "It needs to check option ``Render refraction`` from ``Scene > Blend4Web`` "
 "panel. Object's transparency type must be set to ``Alpha Blend``."
 
-#: ../materials.rst:257
+#: ../materials.rst:260
 msgid "Материалы гало (Halo)"
 msgstr "Halo Materials"
 
-#: ../materials.rst:259
+#: ../materials.rst:262
 msgid ""
 "Используются в системах частиц и в статических мешах. Ниже рассматривается "
 "использование гало на статических мешах."
@@ -644,7 +617,7 @@ msgstr ""
 "Halo materials are used in particle systems and in static meshes. Using the "
 "halo in static meshes is described below. "
 
-#: ../materials.rst:265
+#: ../materials.rst:268
 msgid ""
 "Выставить тип ``Halo`` во вкладке ``Materials``. Рекомендуется также "
 "выставить тип прозрачности c градиентом (``Add``, ``Alpha Blend`` или "
@@ -654,45 +627,45 @@ msgstr ""
 "to select the transparency type with a gradient (``Add``, ``Alpha Blend`` or"
 " ``Alpha Sort``)."
 
-#: ../materials.rst:276
+#: ../materials.rst:279
 msgid "*Halo > Alpha*"
 msgstr ""
 
-#: ../materials.rst:276
+#: ../materials.rst:279
 msgid ""
 "Параметр прозрачности материала. Значение по умолчанию 1.0 (непрозрачный)."
 msgstr ""
 "Material transparency factor. The default value is 1.0 (non-transparent)."
 
-#: ../materials.rst:279
+#: ../materials.rst:282
 msgid "*Halo > Color*"
 msgstr ""
 
-#: ../materials.rst:279
+#: ../materials.rst:282
 msgid "Цвет материала. Значение по умолчанию (0.8, 0.8, 0.8) (почти белый)."
 msgstr "Material color. The default value is (0.8, 0.8, 0.8) (almost white)."
 
-#: ../materials.rst:282
+#: ../materials.rst:285
 msgid "*Halo > Seed*"
 msgstr ""
 
-#: ../materials.rst:282 ../materials.rst:291
+#: ../materials.rst:285 ../materials.rst:294
 msgid "Не используется."
 msgstr "Unused."
 
-#: ../materials.rst:285
+#: ../materials.rst:288
 msgid "*Halo > Size*"
 msgstr ""
 
-#: ../materials.rst:285
+#: ../materials.rst:288
 msgid "Размер частиц. Значение по умолчанию 0.5."
 msgstr "Particle size. The default value is 0.5."
 
-#: ../materials.rst:288
+#: ../materials.rst:291
 msgid "*Halo > Hardness*"
 msgstr ""
 
-#: ../materials.rst:288
+#: ../materials.rst:291
 msgid ""
 "Показатель степени при расчете градиента. Влияет на видимый размер частиц. "
 "Значение по умолчанию 50."
@@ -700,39 +673,39 @@ msgstr ""
 "Exponent for computing the gradient. Affects visible dimensions of "
 "particles. The default value is 50."
 
-#: ../materials.rst:291
+#: ../materials.rst:294
 msgid "*Halo > Add*"
 msgstr ""
 
-#: ../materials.rst:294
+#: ../materials.rst:297
 msgid "*Halo > Rings*"
 msgstr ""
 
-#: ../materials.rst:294
+#: ../materials.rst:297
 msgid "Использовать кольца. Настраивается относительное количество и цвет."
 msgstr "Use rings. Relative quantity and color can be set up."
 
-#: ../materials.rst:297
+#: ../materials.rst:300
 msgid "*Halo > Lines*"
 msgstr ""
 
-#: ../materials.rst:297
+#: ../materials.rst:300
 msgid "Использовать линии. Настраивается относительное количество и цвет."
 msgstr "Use lines. Relative quantity and color can be set up."
 
-#: ../materials.rst:300
+#: ../materials.rst:303
 msgid "*Halo > Star Tips*"
 msgstr ""
 
-#: ../materials.rst:300
+#: ../materials.rst:303
 msgid "Использовать звезды. Настраивается количество концов."
 msgstr "Use stars. The quantity of edges can be set up."
 
-#: ../materials.rst:303
+#: ../materials.rst:306
 msgid "*Blend4Web > Special: Stars*"
 msgstr ""
 
-#: ../materials.rst:303
+#: ../materials.rst:306
 msgid ""
 "Включает режим рендеринга звездного неба, при этом меш неподвижен "
 "относительно камеры. Для лампы необходимо также выставить опцию ``Blend4Web "
@@ -744,19 +717,19 @@ msgstr ""
 "Dynamic intensity`` checkbox. Applications must set up the hours of darkness"
 " via API."
 
-#: ../materials.rst:306
+#: ../materials.rst:309
 msgid "*Blend4Web > Blending Height*"
 msgstr ""
 
-#: ../materials.rst:306
+#: ../materials.rst:309
 msgid "Диапазон высот, на котором происходит затухание яркости звезд."
 msgstr "Height range for the fading of stars."
 
-#: ../materials.rst:309
+#: ../materials.rst:312
 msgid "*Blend4Web > Stars Minimum Height*"
 msgstr ""
 
-#: ../materials.rst:309
+#: ../materials.rst:312
 msgid ""
 "Минимальная высота в локальном пространстве объекта, на которой видны "
 "звезды."
@@ -767,12 +740,12 @@ msgstr ""
 msgid ":ref:`fresnel`"
 msgstr ""
 
-#: ../materials.rst:233
+#: ../materials.rst:236
 msgid ":ref:`physics`"
 msgstr ""
 
 #: ../materials.rst:3 ../materials.rst:15 ../materials.rst:63
-#: ../materials.rst:120 ../materials.rst:208 ../materials.rst:252
+#: ../materials.rst:120 ../materials.rst:208 ../materials.rst:255
 msgid "материалы"
 msgstr "materials"
 
@@ -814,15 +787,55 @@ msgstr "Fresnel effect"
 msgid "специальные параметры"
 msgstr "special parameters"
 
-#: ../materials.rst:252
+#: ../materials.rst:255
 msgid "гало"
 msgstr "halo"
 
-#: ../materials.rst:252
+#: ../materials.rst:255
 msgid "halo"
 msgstr ""
 
-#: ../materials.rst:250
+#: ../materials.rst:253
 msgid ":ref:`alpha_blend`"
 msgstr ""
 
+#: ../materials.rst:228
+msgid "Специальный материал для :ref:`рендеринга воды <water>`."
+msgstr "Special material for :ref:`water rendering <water>`."
+
+#: ../materials.rst:231
+msgid "*Terrain dynamic grass*"
+msgstr ""
+
+#: ../materials.rst:231
+msgid ""
+"Материал используется для :ref:`рендеринга травяного покрова "
+"<particles_grass>`."
+msgstr "Material is used for :ref:`grass rendering <particles_grass>`."
+
+#: ../materials.rst:241
+msgid "*Wettable*"
+msgstr ""
+
+#: ../materials.rst:239
+msgid "Для материала активируется эффект смачивания водой."
+msgstr "Water wetting effect is activated for the material."
+
+#: ../materials.rst:241
+msgid ":ref:`water`"
+msgstr ""
+
+#: ../materials.rst:225
+msgid "*Render above all*"
+msgstr ""
+
+#: ../materials.rst:225
+msgid ""
+"Материал отрисовывается поверх всех объектов на сцене. Требует тип "
+"прозрачности c градиентом (``Add``, ``Alpha Blend`` или ``Alpha Sort``)"
+msgstr ""
+"Material is rendered on top of all scene objects. Transparency type "
+"with a gradient is requred (``Add``, ``Alpha Blend`` or ``Alpha Sort``)."
+
+#~ msgid "Специальный материал для рендеринга воды."
+#~ msgstr ""

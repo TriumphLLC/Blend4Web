@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Освещение, тени и фон &mdash; Руководство пользователя: Blend4Web v14.09</title>
+    <title>Освещение, тени и фон &mdash; Руководство пользователя: Blend4Web v14.10</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.09',
+        VERSION:     '14.10',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v14.09" href="index.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v14.10" href="index.html" />
     <link rel="next" title="Постпроцессинговые эффекты" href="postprocessing_effects.html" />
     <link rel="prev" title="Нодовые материалы" href="node_materials.html" /> 
   </head>
@@ -37,7 +37,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">Руководство пользователя: Blend4Web v14.09</a></div>
+          href="index.html">Руководство пользователя: Blend4Web v14.10</a></div>
         <div class="rel">
           <a href="node_materials.html" title="Нодовые материалы"
              accesskey="P">предыдущий</a> |
@@ -230,8 +230,8 @@
 </div>
 <div class="section" id="shadows">
 <span id="id11"></span><h2>Тени<a class="headerlink" href="#shadows" title="Ссылка на этот заголовок">¶</a></h2>
-<p>Тени - это один из важнейших элементов при рендеринге конечного изображения. Они не только добавляют реалистичности 3D-сцене, но и предоставляют важную информацию о взаимном расположении объектов, форме их поверхности, положении источника света и т.д.
-В движке Blend4Web для теней поддерживается только один источник направленного (directional) света типа <tt class="docutils literal"><span class="pre">Sun</span></tt>.</p>
+<p>Тени - один из важнейших элементов при рендеринге конечного изображения. Они предоставляют зрителю не только информацию о силуэте объектов, но и об их высоте и взаимном расположении, положении источника света и т.д.</p>
+<p>Платформой Blend4Web реализуются такие техники, как каскадные карты теней (CSM) и смягченные тени (PCF). Для расчета теней от источников света любого типа используется модель направленного (directional) света типа <tt class="docutils literal"><span class="pre">Sun</span></tt>.</p>
 <div class="section" id="id12">
 <h3>Активация<a class="headerlink" href="#id12" title="Ссылка на этот заголовок">¶</a></h3>
 <ol class="arabic simple">
@@ -246,16 +246,56 @@
 <dt><em>Направление</em></dt>
 <dd>В случае наличия нескольких источников света рекомендуется указать, какой именно источник света будет использоваться для расчета падающих теней, включив опцию <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Generate</span> <span class="pre">shadows</span></tt> во вкладке <tt class="docutils literal"><span class="pre">Object</span> <span class="pre">Data</span></tt> при выборе объекта-лампы.</dd>
 <dt><em>Цвет</em></dt>
-<dd>Цвет тени определяется настройками освещения от окружающей среды.</dd>
+<dd>Цвет тени определяется настройками <a class="reference internal" href="#environment-lighting"><em>освещения от окружающей среды</em></a>.</dd>
 </dl>
 <p>Во вкладке <tt class="docutils literal"><span class="pre">World</span></tt> на панели <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Shadow</span> <span class="pre">Settings</span></tt> находятся дополнительные настройки:</p>
 <img alt="_images/b4w_shadow_settings.png" class="align-center" src="_images/b4w_shadow_settings.png" />
+<dl class="docutils">
+<dt><em>Resolution</em></dt>
+<dd>Разрешение используемой карты теней. Значение по умолчанию: 2048x2048px.</dd>
+<dt><em>Self-shadow polygon offset</em></dt>
+<dd>Коэффициент смещения полигона в зависимости от ориентации к источнику света. Значение по умолчанию: 1.</dd>
+<dt><em>Self-shadow normal offset</em></dt>
+<dd>Коэффициент смещения полигона по нормали. Значение по умолчанию: 0.01.</dd>
+</dl>
+<p>Последние две настройки служат для борьбы с артефактами самозатенения. Они проявляются на объектах, одновременно отбрасывающих и принимающих тени.
+Параметр <tt class="docutils literal"><span class="pre">Self-shadow</span> <span class="pre">polygon</span> <span class="pre">offset</span></tt> лучше справляется с артефактами во внутренних областях полигонов, а <tt class="docutils literal"><span class="pre">Self-shadow</span> <span class="pre">normal</span> <span class="pre">offset</span></tt> - в приграничных.
+Оба параметра приводят к искажению теней, поэтому рекомендуется держать их как можно меньшими.</p>
+<a class="reference internal image-reference" href="_images/self_shadow_artifacts.png"><img alt="_images/self_shadow_artifacts.png" class="align-center" src="_images/self_shadow_artifacts.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
+<dl class="docutils">
+<dt><em>Enable CSM</em></dt>
+<dd>Включение каскадной модели теней; открывает доступ к расширенным настройкам. Отключено по умолчанию.</dd>
+</dl>
+<p>Эта опция позволяет выбрать один из следующих вариантов наложения теней:</p>
+<ul class="simple">
+<li>Стандартная модель, использующая одну оптимизированную карту теней, охватывающую всю сцену (<tt class="docutils literal"><span class="pre">Enable</span> <span class="pre">CSM</span></tt> отключена).</li>
+<li>Каскады теней (<tt class="docutils literal"><span class="pre">Enable</span> <span class="pre">CSM</span></tt> включена).</li>
+</ul>
+<dl class="docutils">
+<dt><em>Blur radius</em></dt>
+<dd>Коэффициент размытия теней, позволяющий настроить cмягченные тени. Значение по умолчанию: 3. Коэффициент 0 даст жесткие тени.</dd>
+</dl>
+<a class="reference internal image-reference" href="_images/blur_radius.png"><img alt="_images/blur_radius.png" class="align-center" src="_images/blur_radius.png" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>Смягченные тени могут повысить качество и реалистичность изображения. Они скрывают неизбежную при использовании основанных на изображениях техник зубчатость краев, особенно сильно проявляющуюся для карт теней низкого разрешения. Использование смягченных теней часто позволяет снизить разрешение без существенной потери качества.</p>
 <div class="section" id="id14">
-<h4>Каскады<a class="headerlink" href="#id14" title="Ссылка на этот заголовок">¶</a></h4>
-<p>Для обеспечения приемлемого качества теней и одновременно покрытия значительных пространств необходимо использовать несколько стадий генерации теней (каскадов). При этом вблизи наблюдателя располагается каскад с наилучшим качеством, вдали от наблюдателя — с наихудшим.</p>
+<h4>Стандартная модель<a class="headerlink" href="#id14" title="Ссылка на этот заголовок">¶</a></h4>
+<p>Этот вариант больше подходит для маленьких сцен, состоящих из небольшого числа объектов. Благодаря оптимизации на таких сценах можно добиться более высокого качества теней по сравнению с каскадной моделью. Данный вариант проще и быстрее настроить, а использование всего лишь одной карты теней положительно сказывается на производительности.</p>
+</div>
+<div class="section" id="id15">
+<h4>Каскады теней<a class="headerlink" href="#id15" title="Ссылка на этот заголовок">¶</a></h4>
+<p>Для обеспечения приемлемого качества теней и одновременно покрытия значительных пространств необходимо использовать несколько стадий генерации теней (каскадов). При этом вблизи наблюдателя располагается каскад с наилучшим качеством, вдали от наблюдателя — с наихудшим.
+Этот вариант больше подходит для сцен среднего и большого размера, например, игровых уровней.</p>
+<p>При включении предоставляет расширенные настройки:</p>
+<img alt="_images/b4w_shadow_settings_csm.png" class="align-center" src="_images/b4w_shadow_settings_csm.png" />
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
 <dl class="docutils">
 <dt><em>CSM number</em></dt>
 <dd>Количество каскадов теней. Поддерживается от 1 до 4 каскадов. Значение по умолчанию: 1.</dd>
@@ -264,51 +304,26 @@
 <dt><em>CSM last cascade border</em></dt>
 <dd>Размер последнего каскада. Значение по умолчанию: 100.0.</dd>
 </dl>
-<p>Размеры промежуточных каскадов интерполируются на основе последних двух параметров.
-При настройке следует помнить, что чем меньше размер каскада, тем качественнее и детальнее тени на нем, но тем раньше начнется следующий каскад.</p>
+<p>Размеры промежуточных каскадов интерполируются на основе последних двух параметров.</p>
+<div class="admonition note">
+<p class="first admonition-title">Примечание</p>
+<p class="last">При настройке следует помнить, что, увеличивая размер каскада, мы получаем на нем менее качественные тени. С другой стороны, уменьшение параметра <tt class="docutils literal"><span class="pre">CSM</span> <span class="pre">first</span> <span class="pre">cascade</span> <span class="pre">border</span></tt> приблизит к камере и сделает более заметными последующие менее детальные каскады. Уменьшение параметра <tt class="docutils literal"><span class="pre">CSM</span> <span class="pre">last</span> <span class="pre">cascade</span> <span class="pre">border</span></tt> приведет к исчезновению теней на более близком расстоянии от камеры. Однако, при использовании мягких теней качество в целом улучшится благодаря размытию на границах.</p>
+</div>
 <a class="reference internal image-reference" href="_images/csm_cascade_distance.png"><img alt="_images/csm_cascade_distance.png" class="align-center" src="_images/csm_cascade_distance.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <dl class="docutils">
-<dt><em>Resolution</em></dt>
-<dd>Разрешение используемой карты теней. Значение по умолчанию: 2048x2048px.</dd>
-</dl>
-</div>
-<div class="section" id="id15">
-<h4>Мягкие тени<a class="headerlink" href="#id15" title="Ссылка на этот заголовок">¶</a></h4>
-<p>Мягкие тени могут повысить качество и реалистичность изображения. Они уменьшают ступенчатый эффект, особенно сильно проявляющийся для карт теней низкого разрешения. Благодаря этому, использование мягких теней часто позволяет снизить разрешение либо увеличить размер каскадов без существенной потери качества.</p>
-<dl class="docutils">
 <dt><em>CSM first cascade blur radius</em></dt>
-<dd>Коэффициент размытия на первом каскаде. Значение по умолчанию: 3.</dd>
+<dd>Коэффициент размытия на первом каскаде. Значение по умолчанию: 3. Коэффициент 0 даст жесткие тени.</dd>
 <dt><em>CSM last cascade blur radius</em></dt>
-<dd>Коэффициент размытия на последнем каскаде. Значение по умолчанию: 1.5.</dd>
+<dd>Коэффициент размытия на последнем каскаде. Значение по умолчанию: 1.5. Коэффициент 0 даст жесткие тени.</dd>
 </dl>
-<p>Радиус размытия промежуточных каскадов интерполируется на основе этих параметров.</p>
-<a class="reference internal image-reference" href="_images/csm_first_cascade_blur_radius.png"><img alt="_images/csm_first_cascade_blur_radius.png" class="align-center" src="_images/csm_first_cascade_blur_radius.png" style="width: 100%;" /></a>
-<div class="line-block">
-<div class="line"><br /></div>
+<p>Радиус размытия каждого промежуточного каскада интерполируется на основе этих параметров.</p>
+<div class="admonition note">
+<p class="first admonition-title">Примечание</p>
+<p class="last">Смягченные тени рекомендуется настраивать сначала на первом каскаде опцией <tt class="docutils literal"><span class="pre">CSM</span> <span class="pre">first</span> <span class="pre">cascade</span> <span class="pre">blur</span> <span class="pre">radius</span></tt>, а далее на всех остальных с помощью <tt class="docutils literal"><span class="pre">CSM</span> <span class="pre">last</span> <span class="pre">cascade</span> <span class="pre">blur</span> <span class="pre">radius</span></tt>. Часто на последнем каскаде может потребоваться размытие меньшее, нежели на первом. Это нужно для того, чтобы тени на последнем каскаде не стали слишком блеклыми из-за низкой детализации, к тому же это уменьшит нежелательные артефакты самозатенения.</p>
 </div>
-<p>Рекомендуется сначала настроить тени на первом каскаде опцией <tt class="docutils literal"><span class="pre">CSM</span> <span class="pre">first</span> <span class="pre">cascade</span> <span class="pre">blur</span> <span class="pre">radius</span></tt>, а далее на всех остальных с помощью <tt class="docutils literal"><span class="pre">CSM</span> <span class="pre">last</span> <span class="pre">cascade</span> <span class="pre">blur</span> <span class="pre">radius</span></tt>. Часто на последнем каскаде может потребоваться размытие меньшее, нежели на первом. Это нужно для того, чтобы тени на последнем каскаде не стали слишком блеклыми из-за низкой детализации, к тому же это уменьшит нежелательные артефакты самозатенения.</p>
-</div>
-<div class="section" id="id16">
-<h4>Артефакты самозатенения<a class="headerlink" href="#id16" title="Ссылка на этот заголовок">¶</a></h4>
-<p>Данные артефакты проявляются на объектах, одновременно отбрасывающих и принимающих тени. Для их устранения используются следующие настройки:</p>
-<dl class="docutils">
-<dt><em>Self-shadow polygon offset</em></dt>
-<dd>Коэффициент смещения полигона в зависимости от ориентации к источнику света. Значение по умолчанию: 1.</dd>
-<dt><em>Self-shadow normal offset</em></dt>
-<dd>Коэффициент смещения полигона по нормали. Значение по умолчанию: 0.01.</dd>
-</dl>
-<p>Параметр <tt class="docutils literal"><span class="pre">Self-shadow</span> <span class="pre">polygon</span> <span class="pre">offset</span></tt> лучше справляется с артефактами во внутренних областях полигонов, а <tt class="docutils literal"><span class="pre">Self-shadow</span> <span class="pre">normal</span> <span class="pre">offset</span></tt> - в приграничных.
-Оба параметра приводят к искажению теней, поэтому рекомендуется держать их как можно меньшими.</p>
-<a class="reference internal image-reference" href="_images/self_shadow_artifacts.png"><img alt="_images/self_shadow_artifacts.png" class="align-center" src="_images/self_shadow_artifacts.png" style="width: 100%;" /></a>
-<div class="line-block">
-<div class="line"><br /></div>
-</div>
-</div>
-<div class="section" id="id17">
-<h4>Обработка границ каскадов<a class="headerlink" href="#id17" title="Ссылка на этот заголовок">¶</a></h4>
 <dl class="docutils">
 <dt><em>Fade-out last cascade</em></dt>
 <dd>Плавное исчезновение последнего каскада. По умолчанию включено.</dd>
@@ -323,7 +338,7 @@
 </div>
 </div>
 <div class="section" id="index-4">
-<span id="id18"></span><h2>Цвет фона<a class="headerlink" href="#index-4" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="id16"></span><h2>Цвет фона<a class="headerlink" href="#index-4" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Цвет фона можно задать несколькими способами:</p>
 <ol class="arabic">
 <li><p class="first">Поместить сцену внутрь модели (например, куба или сферы) с направленными внутрь нормалями, с материалом и опциональной текстурой.</p>
@@ -441,7 +456,7 @@
           
     <div class="footer">
         &copy; Copyright 2014, ООО &#34;Триумф&#34;.
-      Обновлено: 2014-09-25.
+      Обновлено: 2014-10-30.
       Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

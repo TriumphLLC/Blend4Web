@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Non-Linear Animation &mdash; User Manual: Blend4Web v14.09</title>
+    <title>Non-Linear Animation &mdash; User Manual: Blend4Web v14.10</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.09',
+        VERSION:     '14.10',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User Manual: Blend4Web v14.09" href="index.html" />
+    <link rel="top" title="User Manual: Blend4Web v14.10" href="index.html" />
     <link rel="next" title="For Application Developers" href="developers.html" />
     <link rel="prev" title="Physics" href="physics.html" /> 
   </head>
@@ -36,7 +36,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">User Manual: Blend4Web v14.09</a></div>
+          href="index.html">User Manual: Blend4Web v14.10</a></div>
         <div class="rel">
           <a href="physics.html" title="Physics"
              accesskey="P">previous</a> |
@@ -59,8 +59,8 @@
   <div class="section" id="nla">
 <span id="id1"></span><h1>Non-Linear Animation<a class="headerlink" href="#nla" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="nla-editor">
-<span id="id2"></span><h2>NLA editor<a class="headerlink" href="#nla-editor" title="Permalink to this headline">¶</a></h2>
-<p>The Blender&#8217;s non-linear editor lets us set the scene&#8217;s behavior in a comfortable way. With its help we can implement a simple scenario which does not require any interference from the user. This way coding is not needed for simple scenes and demo applications.</p>
+<span id="id2"></span><h2>NLA Editor<a class="headerlink" href="#nla-editor" title="Permalink to this headline">¶</a></h2>
+<p>The Blender&#8217;s non-linear editor lets us set the scene&#8217;s behavior in a comfortable way. With its help we can implement simple scenarios. This way coding is not needed for simple scenes and applications.</p>
 <a class="reference internal image-reference" href="_images/simple_machinima.jpg"><img alt="_images/simple_machinima.jpg" class="align-center" src="_images/simple_machinima.jpg" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
@@ -109,21 +109,30 @@
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p>The slots themselves are logic blocks that are executed from the first to the last sequentially except this slot explicitly contains a transition (<tt class="docutils literal"><span class="pre">Jump</span></tt>). When the end of the list is reached the logic stops to execute, or - if <em>Blend4Web &gt; Cyclic NLA</em> checkbox is enabled - starts again.</p>
-<a class="reference internal image-reference" href="_images/interactive_nla_brick.png"><img alt="_images/interactive_nla_brick.png" class="align-center" src="_images/interactive_nla_brick.png" style="width: 100%;" /></a>
+<p>The slots themselves are logic blocks that are executed from the first to the last sequentially except that this slot explicitly contains a transition (<tt class="docutils literal"><span class="pre">Jump</span></tt> or <tt class="docutils literal"><span class="pre">Conditional</span> <span class="pre">Jump</span></tt>). When the end of the list is reached the logic stops to execute, or - if <em>Blend4Web &gt; Cyclic NLA</em> checkbox is enabled - starts again.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">Using <em>Blend4Web &gt; Cyclic NLA</em> together with NLA Script does not result in automatic looping of the animation.</p>
 </div>
+<p>Для реализации сложной логики предусмотрены числовые переменные, называемые
+регистрами. Каждый из 8 регистров может хранить в себе одно числовое значение.
+Регистры могут быть использованы для хранения какого-либо состояния сцены
+(например это может быть счётчик проигрываемых анимаций, количество жизней,
+оставшихся у персонажа итд.).</p>
+<p>Пример исользования NLA Script:</p>
+<a class="reference internal image-reference" href="_images/interactive_nla_brick.png"><img alt="_images/interactive_nla_brick.png" class="align-center" src="_images/interactive_nla_brick.png" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
 <p>All possible slots are described below.</p>
 <div class="section" id="play">
 <h3>Play<a class="headerlink" href="#play" title="Permalink to this headline">¶</a></h3>
-<p>Play back the NLA segment starting from the frame to which the marker points. Animation is played back until the next marker met, or to the end of the timeline. Finally the next slot receives the control.</p>
+<p>Play back the NLA segment starting from the frame to which the marker points. Animation is played back until the next marker is met, or to the end of the timeline. Finally the next slot receives the control.</p>
 <a class="reference internal image-reference" href="_images/interactive_nla_anim.png"><img alt="_images/interactive_nla_anim.png" class="align-center" src="_images/interactive_nla_anim.png" style="width: 100%;" /></a>
 </div>
 <div class="section" id="select-play">
 <h3>Select &amp; Play<a class="headerlink" href="#select-play" title="Permalink to this headline">¶</a></h3>
-<p>Wait until the user selects an object (on desktops - with the mouse click, on mobile devices - with the touch). If the object is selected that is specified in this slot - start animation similar to <tt class="docutils literal"><span class="pre">Play</span></tt> slot. If any other object is selected - immediately transfer the control to the next slot.</p>
+<p>Wait until the user selects an object (on desktops - with a mouse click, on mobile devices - with a touch). If an object that is specified in this slot is selected - start animation similar to <tt class="docutils literal"><span class="pre">Play</span></tt> slot. If any other object is selected - immediately transfer the control to the next slot.</p>
 <p>The latter functionality can be used for selecting one of the multiple objects. In this case it is convenient to place <tt class="docutils literal"><span class="pre">Select</span> <span class="pre">&amp;</span> <span class="pre">Play</span></tt> slots in the stack one by one. The result of the user selection is catched up by one of this sequence slots because the transition without animation is performed instantly.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -139,9 +148,24 @@
 <h3>Select &amp; Jump<a class="headerlink" href="#select-jump" title="Permalink to this headline">¶</a></h3>
 <p>Is similar to the <tt class="docutils literal"><span class="pre">Select</span> <span class="pre">&amp;</span> <span class="pre">Play</span></tt> slot, except the transition happens instead of animation. This function allows to implement a complicated logic because in this case there is a possibility to identify the user selection results (selecting an object leads to the transition to the named slot which is needn&#8217;t to be the next in the list).</p>
 </div>
+<div class="section" id="conditinal-jump">
+<h3>Conditinal Jump<a class="headerlink" href="#conditinal-jump" title="Permalink to this headline">¶</a></h3>
+<p>Перейти к указанному слоту в случае выполнения выбранного условия. В качестве
+параметров условия (операндов) могут выступать также регистры, которые
+активируются с помощью соответствующих переключателей.</p>
+</div>
+<div class="section" id="register-store">
+<h3>Register Store<a class="headerlink" href="#register-store" title="Permalink to this headline">¶</a></h3>
+<p>Записать числовое значение в регистр.</p>
+</div>
+<div class="section" id="math-operation">
+<h3>Math Operation<a class="headerlink" href="#math-operation" title="Permalink to this headline">¶</a></h3>
+<p>Выполнить математическую операцию и сохранить результат в регистр. Любой из
+параметров (операндов) может быть либо числовым значением, либо регистром.</p>
+</div>
 <div class="section" id="noop">
 <h3>Noop<a class="headerlink" href="#noop" title="Permalink to this headline">¶</a></h3>
-<p>Shortening of &#8220;No Operation&#8221;. When such a slot is processed no actions are performed. This slot is convenient to place together with a <tt class="docutils literal"><span class="pre">Jump</span></tt> slot.</p>
+<p>Shortening of &#8220;No Operation&#8221;. When such a slot is processed no actions are performed. This slot is convenient to place together with a <tt class="docutils literal"><span class="pre">Jump</span></tt> or <tt class="docutils literal"><span class="pre">Conditional</span> <span class="pre">Jump</span></tt> slot.</p>
 </div>
 </div>
 </div>
@@ -176,7 +200,7 @@
 <li class="toctree-l1"><a class="reference internal" href="audio.html">Audio System</a></li>
 <li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Non-Linear Animation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#nla-editor">NLA editor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#nla-editor">NLA Editor</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#nla-script">Visual Programming (NLA Script)</a></li>
 </ul>
 </li>
@@ -217,7 +241,7 @@
           
     <div class="footer">
         &copy; Copyright 2014, Triumph LLC.
-      Last updated on 2014-09-25.
+      Last updated on 2014-10-30.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

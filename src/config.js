@@ -55,6 +55,10 @@ exports.defaults = {
 
     texture_min_filter         : 3,
 
+    allow_cors                 : false,
+
+    force_low_quality_nodes    : false,
+
     anisotropic_filtering      : true,
 
     // init and show HUD on canvas provided by app
@@ -110,6 +114,8 @@ exports.defaults = {
     shore_distance             : true,
 
     max_texture_size           : 1024,
+
+    max_cube_map_size          : 512,       //NEW
 
     // Windows ANGLE limits, returned by determine_max_bones()
     max_bones                  : 53,
@@ -200,8 +206,9 @@ exports.scenes = {
 exports.scenes_save = m_util.clone_object_r(exports.scenes);
 
 exports.sfx = {
-    webaudio  : true,
-    mix_mode  : false
+    webaudio               : true,
+    mix_mode               : false,
+    disable_bkg_music_hack : false
 }
 exports.sfx_save = m_util.clone_object_r(exports.sfx);
 
@@ -430,6 +437,9 @@ function set(prop, value) {
     case "alpha_sort_threshold":
         exports.defaults.alpha_sort_threshold = value;
         break;
+    case "allow_cors":
+        exports.defaults.allow_cors = value;
+        break;
     case "anaglyph_use":
         exports.defaults.anaglyph_use = value;
         break;
@@ -518,6 +528,8 @@ exports.get = function(prop) {
     switch (prop) {
     case "all_objs_selectable":
         return exports.defaults.all_objs_selectable;
+    case "allow_cors":
+        return exports.defaults.allow_cors;
     case "alpha":
         return exports.context.alpha;
     case "alpha_sort":

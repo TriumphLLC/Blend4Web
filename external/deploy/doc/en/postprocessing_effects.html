@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Postprocessing Effects &mdash; User Manual: Blend4Web v14.09</title>
+    <title>Postprocessing Effects &mdash; User Manual: Blend4Web v14.10</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.09',
+        VERSION:     '14.10',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User Manual: Blend4Web v14.09" href="index.html" />
+    <link rel="top" title="User Manual: Blend4Web v14.10" href="index.html" />
     <link rel="next" title="Particle System" href="particles.html" />
     <link rel="prev" title="Lighting, Shadows and Background" href="lighting.html" /> 
   </head>
@@ -36,7 +36,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">User Manual: Blend4Web v14.09</a></div>
+          href="index.html">User Manual: Blend4Web v14.10</a></div>
         <div class="rel">
           <a href="lighting.html" title="Lighting, Shadows and Background"
              accesskey="P">previous</a> |
@@ -127,26 +127,23 @@
 <p>The screen-space ambient occlusion (SSAO) effect can be used to fake complex light reflections from objects. The basis of this effect is that the space between close objects is less accessible for diffused light and hence is darker.</p>
 <div class="section" id="id9">
 <h3>Activation<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
-<p>Enable the <tt class="docutils literal"><span class="pre">Enable</span> <span class="pre">SSAO</span></tt> checkbox on the <tt class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span></tt> panel.</p>
+<p>Enable the <tt class="docutils literal"><span class="pre">Enable</span> <span class="pre">SSAO</span></tt> and <tt class="docutils literal"><span class="pre">Render</span> <span class="pre">Shadows</span></tt> checkboxes on the <tt class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span></tt> panel.</p>
 </div>
 <div class="section" id="id10">
 <h3>Additional settings<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
 <p>On the <tt class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">SSAO</span> <span class="pre">Settings</span></tt> panel:</p>
 <dl class="docutils">
 <dt><em>Radius Increase</em></dt>
-<dd><p class="first last">The spherical sampling radius multiply factor when transfering from the internal sampling ring to the external one. The default value is 1.7.</p>
+<dd><p class="first last">The spherical sampling radius multiply factor when transfering from the internal sampling ring to the external one. The default value is 3.0.</p>
 </dd>
-<dt><em>Dithering Amount</em></dt>
-<dd><p class="first last">Ratio for random noise mixing used for reducing strips. The default value is 0.1.</p>
+<dt><em>Use Hemisphere</em></dt>
+<dd><p class="first last">Use a hemispherical sampling for shading instead of a spherical. Besides it uses different shading law.</p>
 </dd>
-<dt><em>Gauss Center</em></dt>
-<dd><p class="first last">Mathematical expectation - Gauss distribution parameter for the depth difference between a pixel and a neighbouring sample. The default value is 0.2.</p>
+<dt><em>Use Blur Depth Test</em></dt>
+<dd><p class="first last">Use edge-preserving blur to SSAO if flag will be turned on. Otherwise it uses blur which averages a 4x4 rectangle around each pixel.</p>
 </dd>
-<dt><em>Gauss Width</em></dt>
-<dd><p class="first last">Standard deviation - Gauss distribution parameter for the depth difference between a pixel and a neighbouring sample. The default value is 2.0.</p>
-</dd>
-<dt><em>Gauss Width Left</em></dt>
-<dd><p class="first last">Standard deviation in case the depth difference is less than the mathematical expectation. The default value is 0.1.</p>
+<dt><em>Blur Depth Test Discard Value</em></dt>
+<dd><p class="first last">Influence of depth difference between samples on blur weight. It uses with <tt class="docutils literal"><span class="pre">Use</span> <span class="pre">Blur</span> <span class="pre">Depth</span> <span class="pre">Test</span></tt> activated flag. The default value is 1.0.</p>
 </dd>
 <dt><em>Influence</em></dt>
 <dd><p class="first last">SSAO appearance factor. The default value is 0.7.</p>
@@ -402,7 +399,7 @@
           
     <div class="footer">
         &copy; Copyright 2014, Triumph LLC.
-      Last updated on 2014-09-25.
+      Last updated on 2014-10-30.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

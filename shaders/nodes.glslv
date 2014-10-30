@@ -46,7 +46,7 @@ attribute vec4 a_influence;
 # endif
 #endif // WIND_BEND
 
-#if WIND_BEND || HAIR_BILLBOARD
+#if WIND_BEND || BILLBOARD
     AU_QUALIFIER vec3 au_center_pos;
 #endif
 
@@ -72,7 +72,7 @@ uniform mat4 u_model_matrix;
 
 uniform mat4 u_view_matrix;
 uniform mat4 u_proj_matrix;
-# if HAIR_BILLBOARD
+# if BILLBOARD
 uniform vec3 u_camera_eye;
 # endif
 
@@ -94,7 +94,7 @@ uniform float u_frame_factor;
 
 
 #if WIND_BEND
-#if HAIR_BILLBOARD_JITTERED
+#if BILLBOARD_JITTERED
 uniform float u_jitter_amp;
 uniform float u_jitter_freq;
 #endif
@@ -246,16 +246,16 @@ void main(void) {
     skin(position, tangent, binormal, normal);
 #endif
 
-#if WIND_BEND || HAIR_BILLBOARD
+#if WIND_BEND || BILLBOARD
     vec3 center = au_center_pos;
 #else
     vec3 center = vec3(0.0);
 #endif
 
-#if HAIR_BILLBOARD
+#if BILLBOARD
     vec3 wcen = (u_model_matrix * vec4(center, 1.0)).xyz;
     mat4 model_matrix = billboard_matrix(u_camera_eye, wcen, u_view_matrix);
-# if WIND_BEND && HAIR_BILLBOARD_JITTERED
+# if WIND_BEND && BILLBOARD_JITTERED
     vec3 vec_seed = (u_model_matrix * vec4(center, 1.0)).xyz;
     model_matrix = model_matrix * bend_jitter_matrix(u_wind, u_time,
             u_jitter_amp, u_jitter_freq, vec_seed);

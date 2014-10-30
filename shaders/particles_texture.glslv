@@ -80,12 +80,12 @@ void main(void) {
         bb_matrix[3] = vec4(pp.position, 1.0);
     } else if (BILLBOARD_ALIGN == BILLBOARD_ALIGN_ZX) {
         // NOTE: scattering only in horizontal space 
-        rotation_angle = vec_vec_angle(vec2(0.0, -1.0), vec2(a_normal.x,
+        rotation_angle = vec_vec_angle(vec2(EPSILON, 1.0), vec2(a_normal.x,
                 a_normal.z)) + pp.angle;
         bb_matrix = rotation_x(radians(-90.0));
         bb_matrix[3] = vec4(pp.position, 1.0);
     }
-    
+
     vec4 pos_local = vec4(a_p_bb_vertex * 2.0 * pp.size * u_p_size, 0.0, 1.0);
     vec4 pos_world = bb_matrix * rotation_z(rotation_angle) * pos_local;
 

@@ -10,6 +10,8 @@
  * <dl>
  * <dt>all_objs_selectable
  * <dd>Boolean, make all objects selectable and "glowable".
+ * <dt>allow_cors
+ * <dd>Boolean, cross-origin resource sharing.
  * <dt>alpha
  * <dd>Boolean, enable WebGL canvas transparency.
  * <dt>alpha_sort

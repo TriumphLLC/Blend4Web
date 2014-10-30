@@ -19,6 +19,7 @@ var m_util  = require("__util");
 var version = require("__version");
 
 var cfg_ldr = config.assets;
+var cfg_def = config.defaults;
 
 // asset types
 exports.AT_ARRAYBUFFER   = 10;
@@ -356,6 +357,8 @@ function request_audiobuffer(asset) {
 
 function request_image(asset) {
     var image = document.createElement("img");
+    if (cfg_def.allow_cross_origin_sharing)
+        image.crossOrigin = "Anonymous";
     image.onload = function() {
         if (asset.state != ASTATE_HALTED) {
             asset.asset_cb(image, asset.uri, asset.type, asset.filepath);
@@ -385,6 +388,8 @@ function request_image(asset) {
 
 function request_audio(asset) {
     var audio = document.createElement("audio");
+    if (cfg_def.allow_cross_origin_sharing)
+        audio.crossOrigin = "Anonymous";
     // HACK: workaround for some chrome garbage collector bug
     audio.addEventListener("loadeddata", function() {
         if (asset.state != ASTATE_HALTED) {
@@ -418,7 +423,7 @@ function request_audio(asset) {
 function get_image_mime_type(file_path) {
     var ext = m_util.get_file_extension(file_path);
     var mime_type = "image";
-    switch(ext) {
+    switch(ext.toLowerCase()) {
     case "jpeg":
     case "jpg":
         mime_type += "/jpeg";
@@ -434,7 +439,7 @@ function get_image_mime_type(file_path) {
 function get_sound_mime_type(file_path) {
     var ext = m_util.get_file_extension(file_path);
     var mime_type = "audio";
-    switch(ext) {
+    switch(ext.toLowerCase()) {
     case "ogg":
         mime_type += "/ogg";
         break;

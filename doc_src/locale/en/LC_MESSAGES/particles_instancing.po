@@ -27,40 +27,6 @@ msgstr "using for instancing"
 msgid "Система частиц для инстансинга объектов"
 msgstr "Particle System for Instancing Objects"
 
-#: ../particles_instancing.rst:9
-msgid ""
-"Система частиц может использоваться для создания множественных копий "
-"объектов (инстансинга). Кроме сокращения времени на создание сцены, "
-"инстансинг позволяет сэкономить на времени загрузки и сократить потребление "
-"памяти сценой, нежели при использовании отдельных объектов."
-msgstr ""
-"A particle system can be used to create multiple object copies (so called "
-"instancing). This technique simplifies scene authoring and also reduces "
-"loading time and memory consumption as compared to the using of single "
-"objects."
-
-#: ../particles_instancing.rst:20
-msgid "Использование системы частиц для инстансинга имеет ограничения:"
-msgstr "Using particle systems for instancing has some limitations:"
-
-#: ../particles_instancing.rst:22
-msgid ""
-"Невозможно осуществлять движение и анимацию объектов внутри системы частиц."
-msgstr ""
-"Movement and animation of objects inside a particle system is not allowed."
-
-#: ../particles_instancing.rst:24
-msgid ""
-"Не допускается создавать иерархические сущности среди объектов внутри "
-"системы частиц за исключением дуплицирования групп."
-msgstr ""
-"Parenting is not possible among the objects inside a particle system, except"
-" for dupli-groups."
-
-#: ../particles_instancing.rst:27
-msgid "Не допускается инстансинг отличных от объектов-мешей сущностей."
-msgstr "Instancing of non-mesh objects is not possible."
-
 #: ../particles_instancing.rst:31
 msgid "Настройки системы частиц"
 msgstr "Particle System Setup"
@@ -664,3 +630,42 @@ msgstr ""
 "The resulting vertex color layer with the ``Blend4Web > Vertex Color > to`` "
 "name may be used in the particle's node material for its tinting or other "
 "effects."
+
+#: ../particles_instancing.rst:9
+msgid ""
+"Система частиц может использоваться для создания множественных копий "
+"объектов (инстансинга). Кроме сокращения времени на создание сцены, "
+"инстансинг позволяет сэкономить на времени загрузки и сократить потребление "
+"памяти сценой, нежели при использовании отдельных объектов."
+msgstr ""
+"A particle system can be used to create multiple object copies (so called "
+"instancing). This technique simplifies scene authoring and also reduces "
+"loading time and memory consumption as compared to the using of single "
+"objects."
+
+#: ../particles_instancing.rst:20
+msgid "Использование системы частиц для инстансинга имеет ограничения:"
+msgstr "Using particle systems for instancing has some limitations:"
+
+#: ../particles_instancing.rst:22
+msgid ""
+"Невозможно осуществлять движение и анимацию объектов внутри системы частиц."
+msgstr ""
+"Movement and animation of objects inside a particle system is not allowed."
+
+#: ../particles_instancing.rst:24
+msgid ""
+"Не допускается создавать иерархические сущности среди объектов внутри "
+"системы частиц за исключением дуплицирования групп."
+msgstr ""
+"Parenting is not possible among the objects inside a particle system, except"
+" for dupli-groups."
+
+#: ../particles_instancing.rst:27
+msgid "Не допускается инстансинг отличных от объектов-мешей сущностей."
+msgstr "Instancing of non-mesh objects is not possible."
+
+#~ msgid ""
+#~ "Система частиц может использоваться для создания множественных копий "
+#~ "объектов (инстансинга)."
+#~ msgstr ""

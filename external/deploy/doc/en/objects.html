@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Objects &mdash; User Manual: Blend4Web v14.09</title>
+    <title>Objects &mdash; User Manual: Blend4Web v14.10</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.09',
+        VERSION:     '14.10',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User Manual: Blend4Web v14.09" href="index.html" />
+    <link rel="top" title="User Manual: Blend4Web v14.10" href="index.html" />
     <link rel="next" title="Materials" href="materials.html" />
     <link rel="prev" title="The Addon" href="addon.html" /> 
   </head>
@@ -36,7 +36,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">User Manual: Blend4Web v14.09</a></div>
+          href="index.html">User Manual: Blend4Web v14.10</a></div>
         <div class="rel">
           <a href="addon.html" title="The Addon"
              accesskey="P">previous</a> |
@@ -86,13 +86,14 @@
 <p>All <tt class="docutils literal"><span class="pre">MESH</span></tt> objects can be divided into static and dynamic objects.</p>
 <p><strong>Static objects</strong> are objects, the meshes of which can be merged together if they have the same material.</p>
 <p><strong>Dynamic objects</strong> are objects, the meshes of which cannot be combined with each other.</p>
-<p>Static objects are merged in order to optimize the number of draw calls. Dynamic objects are needed to make the movement of a separate object possible.</p>
+<p>Merging of static objects - so called batching - is performed automatically when the scene is loaded in order to optimize the number of draw calls. The conversion is performed even if there is just one object in the scene. The center of the resulting mesh is located in the origin.</p>
 <p>Among objects of the other type the dynamic ones are <tt class="docutils literal"><span class="pre">CAMERA</span></tt> and <tt class="docutils literal"><span class="pre">ARMATURE</span></tt>. All other objects are static.</p>
-<p>The objects which have animation, physics or a parent, which is a dynamic object, are considered dynamic by default. When object movement is required but is not apparent from its settings, then its nesessary to enable the <cite>Blend4Web &gt; Do not batch</cite> checkbox.</p>
+<p>The objects which have animation, physics or a parent, which is a dynamic object, are considered dynamic.</p>
+<p>Object movement via API is possible only for dynamic objects. In order to make the movement of the object without dynamic settings possible, it is necessary to activate <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Do</span> <span class="pre">not</span> <span class="pre">batch</span></tt> option in its settings.</p>
 </div>
 <div class="section" id="id4">
 <h2>Settings<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
-<p>The following is supported for all types of objects: transform, data reference, parent object, group membership and a range of the engine&#8217;s special properties.</p>
+<p>The following is supported for all types of objects: transform, data reference, parent object, group membership and a set of the Blend4Web&#8217;s special properties.</p>
 <div class="section" id="object">
 <h3>Object tab<a class="headerlink" href="#object" title="Permalink to this headline">¶</a></h3>
 <a class="reference internal image-reference" href="_images/object_setup.png"><img alt="_images/object_setup.png" class="align-center" src="_images/object_setup.png" style="width: 100%;" /></a>
@@ -104,7 +105,7 @@
 <dd><p class="first last">Position coordinates.</p>
 </dd>
 <dt><em>Transform &gt; Rotation</em></dt>
-<dd><p class="first last">Rotation angles. The <tt class="docutils literal"><span class="pre">XYZ</span> <span class="pre">Euler</span></tt> mode should be used (set by default). In order to create the <a class="reference internal" href="animation.html#whole-object-anim"><em>object animation</em></a> the switching to the <tt class="docutils literal"><span class="pre">Quaternion</span> <span class="pre">(WXYZ)</span></tt> mode is required.</p>
+<dd><p class="first last">Rotation angles. For the object rotation all available modes can be used (<tt class="docutils literal"><span class="pre">Rotation</span> <span class="pre">Mode</span></tt>). However only <tt class="docutils literal"><span class="pre">Quaternion</span> <span class="pre">(WXYZ)</span></tt> and <tt class="docutils literal"><span class="pre">XYZ</span> <span class="pre">Euler</span></tt> are supported for <a class="reference internal" href="animation.html#whole-object-anim"><em>object animation</em></a>.</p>
 </dd>
 <dt><em>Transform &gt; Scale</em></dt>
 <dd><p class="first last">Scaling. All 3 components (x, y, z) should be the same. Scaling for the physics objects is not supported.</p>
@@ -116,7 +117,7 @@
 <dd><p class="first last">Objects&#8217; groups to whcih this object belongs.</p>
 </dd>
 </dl>
-<a class="reference internal image-reference" href="_images/object_setup_b4w.png"><img alt="_images/object_setup_b4w.png" class="align-center" src="_images/object_setup_b4w.png" style="width: 100%;" /></a>
+<img alt="_images/object_setup_b4w.png" class="align-center" src="_images/object_setup_b4w.png" />
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -128,7 +129,7 @@
 <dd><p class="first last">Apply the object&#8217;s scale upon export. Also applies the modifiers.</p>
 </dd>
 <dt><em>Blend4Web &gt; Apply modifiers</em></dt>
-<dd><p class="first last">Apply the object&#8217;s modifiers upon export.</p>
+<dd><p class="first last">Apply the object&#8217;s modifiers upon export. If the <tt class="docutils literal"><span class="pre">SKIN</span></tt> modifier is used we recommend to apply it before the export because it resets vertex color and UV layers which may result in errors.</p>
 </dd>
 <dt><em>Blend4Web &gt; Export vertex animation</em></dt>
 <dd><p class="first last">Export previously created and saved vertex animation.</p>
@@ -139,8 +140,11 @@
 <dt><em>Blend4Web &gt; Animation &gt; Use default</em></dt>
 <dd><p class="first last">Upon loading into the engine start playback of the animation assigned to the object.</p>
 </dd>
-<dt><em>Blend4Web &gt; Animation &gt; Cyclic</em></dt>
-<dd><p class="first last">Loop the animation assigned to the object.</p>
+<dt><em>Blend4Web &gt; Animation &gt; Animation blending</em></dt>
+<dd><p class="first last">Only for armature objects. Allows blending between skeletal animations.</p>
+</dd>
+<dt><em>Blend4Web &gt; Animation &gt; Behavior</em></dt>
+<dd><p class="first last">Animation behavior when the last frame is reached: <tt class="docutils literal"><span class="pre">Finish</span> <span class="pre">stop</span></tt> - stop, <tt class="docutils literal"><span class="pre">Finish</span> <span class="pre">reset</span></tt> - stop and go to the zero frame, <tt class="docutils literal"><span class="pre">Cyclic</span></tt> - loop.</p>
 </dd>
 <dt><em>Blend4Web &gt; Do not batch</em></dt>
 <dd><p class="first last">Force the object to become a <a class="reference internal" href="#static-dynamic-objects"><em>dynamic object</em></a>.</p>
@@ -161,7 +165,7 @@
 <dd><p class="first last">The object will cast shadows.</p>
 </dd>
 <dt><em>Blend4Web &gt; Shadows: Cast only</em></dt>
-<dd><p class="first last">The object will cast shadows but will remain invisible itself.</p>
+<dd><p class="first last">The object will cast shadows but will remain invisible itself. Becomes available after enabling <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Shadows:</span> <span class="pre">Cast</span></tt>.</p>
 </dd>
 <dt><em>Blend4Web &gt; Shadows: Receive</em></dt>
 <dd><p class="first last">The object will receive shadows from other adjacent objects.</p>
@@ -170,13 +174,13 @@
 <dd><p class="first last">When enabled the object is reflected in the dynamic mirror surfaces.</p>
 </dd>
 <dt><em>Blend4Web &gt; Reflections: Reflexible only</em></dt>
-<dd><p class="first last">The object will be reflected but will remain invisible itself.</p>
+<dd><p class="first last">The object will be reflected but will remain invisible itself. Becomes available after enabling <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Reflections:</span> <span class="pre">Reflexible</span></tt>.</p>
 </dd>
 <dt><em>Blend4Web &gt; Reflections: Reflective</em></dt>
 <dd><p class="first last">When enabled the object surface reflects other objects.</p>
 </dd>
 <dt><em>Blend4Web &gt; Reflections: Reflection plane</em></dt>
-<dd><p class="first last">Text field for the name of the empty object defining the reflection plane.</p>
+<dd><p class="first last">Text field for the name of the empty object defining the reflection plane. Becomes available after enabling <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Reflections:</span> <span class="pre">Reflective</span></tt>.</p>
 </dd>
 <dt><em>Blend4Web &gt; Caustics</em></dt>
 <dd><p class="first last">The object will render caustics effects from the adjacent water.</p>
@@ -186,6 +190,14 @@
 </dd>
 <dt><em>Blend4Web &gt; Selectable</em></dt>
 <dd><p class="first last">Allow selection of the object with the mouse or with another input device, and also allow its <a class="reference internal" href="postprocessing_effects.html#glow"><em>glowing</em></a>.</p>
+</dd>
+</dl>
+<dl class="docutils" id="objects-billboarding-properties">
+<dt><em>Blend4Web &gt; Billboard</em></dt>
+<dd><p class="first last">Use the object as a billboard (i.e. automatically orient relative to the camera).</p>
+</dd>
+<dt><em>Blend4Web &gt; Billboarding geometry</em></dt>
+<dd><p class="first last">Billboard orientation mode. <tt class="docutils literal"><span class="pre">Spherical</span></tt> (by default) - the object is always oriented with one side to the camera, regardless of the view angle, <tt class="docutils literal"><span class="pre">Cylindrical</span></tt> - similar to <tt class="docutils literal"><span class="pre">Spherical</span></tt>, but the rotation is limited by the Blender&#8217;s world Z axis. Becomes available after enabling <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Billboard</span></tt>.</p>
 </dd>
 <dt><em>Blend4Web &gt; LOD transition ratio</em></dt>
 <dd><p class="first last">Parameter for smoothing the switching between the LOD objects. It defines the additional distance at which the LOD objects are still rendered before getting replaced by the next LOD objects. Assigned for the main object. Measured in fractions of the object&#8217;s bounding sphere radius.</p>
@@ -383,7 +395,7 @@
           
     <div class="footer">
         &copy; Copyright 2014, Triumph LLC.
-      Last updated on 2014-09-25.
+      Last updated on 2014-10-30.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

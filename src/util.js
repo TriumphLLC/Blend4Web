@@ -350,9 +350,6 @@ exports.init_rand_r_seed = function(seed_number, dest) {
  * Convert euler angles to quaternion
  */
 exports.euler_to_quat = function(euler, quat) {
-    if (!quat)
-        quat = new Float32Array(4);
-
     var c1 = Math.cos(euler[1]/2);
     var c2 = Math.cos(euler[2]/2);
     var c3 = Math.cos(euler[0]/2);
@@ -384,10 +381,9 @@ exports.euler_to_quat = function(euler, quat) {
  * @methodOf util
  * @see http://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToEuler/index.htm
  * @param {vec4} quat Quaternion
+ * @param {vec3} euler Destination euler vector
  */
-exports.quat_to_euler = function(quat) {
-    var euler = [];
-
+exports.quat_to_euler = function(quat, euler) {
     //var quat = new Float32Array([quat[0], quat[2], quat[1], quat[3]])
     //var quat_rot = [-0.7071, 0, 0, 0.7071];
     //var quat = m_quat.multiply(quat_rot, quat, []);
@@ -598,7 +594,8 @@ exports.init_object = function(name, type) {
         "name": name,
         "type": type,
         "modifiers": [],
-        "particle_systems": []
+        "particle_systems": [],
+        "data": null
     };
     return obj;
 }
@@ -709,6 +706,13 @@ exports.is_mesh = function(obj) {
 }
 exports.is_dynamic_mesh = function(obj) {
     if (obj["type"] === "MESH" && obj._render && obj._render.type === "DYNAMIC")
+        return true;
+    else
+        return false;
+}
+
+exports.is_empty = function(obj) {
+    if (obj["type"] === "EMPTY")
         return true;
     else
         return false;

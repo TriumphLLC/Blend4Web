@@ -116,9 +116,9 @@ function create_render(type) {
         bend_center_only: false,
 
         // billboarding properties
-        hair_billboard_type: "",
-        hair_billboard: false,
-        hair_billboard_spherical: false,
+        billboard: false,
+        billboard_type: "",
+        billboard_spherical: false,
 
         // animation properties
         frame_factor: 0,
@@ -222,7 +222,7 @@ function update_object(obj, non_recursive) {
 
             pose_bone._tail = tail;
 
-            // include current bone to chain with its parents 
+            // include current bone to chain with its parents
             pose_bone._chain = [pose_bone].concat(pose_bone["parent_recursive"]);
 
             pose_bone._tsr_local = m_tsr.from_mat4(mat_loc, m_tsr.create());
@@ -256,6 +256,12 @@ function update_object(obj, non_recursive) {
     case "MESH":
         render.selectable = cfg_def.all_objs_selectable || obj["b4w_selectable"];
         render.origin_selectable = obj["b4w_selectable"];
+
+        render.billboard = obj["b4w_billboard"];
+        // set default object billboard type
+        render.billboard_type = "BASIC";
+        render.billboard_spherical = obj["b4w_billboard_geometry"] == "SPHERICAL";
+
         render.glow_anim_settings = {
             glow_duration: obj["b4w_glow_settings"]["glow_duration"],
             glow_period: obj["b4w_glow_settings"]["glow_period"],
@@ -303,14 +309,14 @@ function update_object(obj, non_recursive) {
                 && render.shadow_cast;
 
         render.reflexible = obj["b4w_reflexible"];
-        render.reflexible_only = obj["b4w_reflexible_only"] 
+        render.reflexible_only = obj["b4w_reflexible_only"]
                 && render.reflexible;
         render.reflective = obj["b4w_reflective"];
         render.caustics   = obj["b4w_caustics"];
 
         render.wind_bending = obj["b4w_wind_bending"];
         render.wind_bending_angle = obj["b4w_wind_bending_angle"];
-        var amp = m_batch.wb_angle_to_amp(obj["b4w_wind_bending_angle"], 
+        var amp = m_batch.wb_angle_to_amp(obj["b4w_wind_bending_angle"],
                 m_batch.bb_bpy_to_b4w(obj["data"]["b4w_bounding_box"]), obj["scale"][0]);
         render.wind_bending_amp = amp;
         render.wind_bending_freq   = obj["b4w_wind_bending_freq"];
@@ -445,11 +451,19 @@ function obj_is_dynamic(bpy_obj) {
     if (parent && parent._is_dynamic)
         return true;
 
-    if (bpy_obj["type"] === "ARMATURE" || bpy_obj["type"] === "CAMERA"
-            || bpy_obj["type"] === "MESH" && mesh_obj_is_dynamic(bpy_obj))
+    if (bpy_obj["type"] === "ARMATURE" || bpy_obj["type"] === "CAMERA" ||
+            (bpy_obj["type"] === "MESH" && mesh_obj_is_dynamic(bpy_obj)) ||
+            (bpy_obj["type"] === "EMPTY" && empty_obj_is_dynamic(bpy_obj)))
         return true;
 
     return false;
+}
+
+function empty_obj_is_dynamic(bpy_obj) {
+    var is_animated = m_anim.is_animatable(bpy_obj);
+    var has_nla = m_nla.has_nla(bpy_obj);
+
+    return is_animated || has_nla;
 }
 
 function mesh_obj_is_dynamic(bpy_obj) {
@@ -460,16 +474,17 @@ function mesh_obj_is_dynamic(bpy_obj) {
     var is_vehicle_part = bpy_obj["b4w_vehicle"];
     var is_floater_part = bpy_obj["b4w_floating"];
     var is_character = bpy_obj["b4w_character"];
+    var is_billboard = bpy_obj["b4w_billboard"];
     var dyn_grass_emitter = m_particles.has_dynamic_grass_particles(bpy_obj);
     var has_nla = m_nla.has_nla(bpy_obj);
 
-    // lens flares not strictly required to be dynamic
-    // make it so just to prevent some possible bugs in the future
+    // lens flares are not strictly required to be dynamic
+    // make them so to prevent possible bugs in the future
 
-    return DEBUG_DISABLE_STATIC_OBJS || is_animated || has_do_not_batch 
+    return DEBUG_DISABLE_STATIC_OBJS || is_animated || has_do_not_batch
             || dynamic_geom || is_collision || is_vehicle_part
             || is_floater_part || has_lens_flares_mat(bpy_obj)
-            || dyn_grass_emitter || is_character || has_nla;
+            || dyn_grass_emitter || is_character || is_billboard || has_nla;
 }
 
 function has_lens_flares_mat(obj) {
@@ -498,7 +513,7 @@ function prepare_skinning_info(obj, armobj) {
 
     var vertex_groups = mesh["vertex_groups"];
     if (!vertex_groups.length)
-        return; 
+        return;
 
     // collect deformation bones
 
@@ -517,7 +532,7 @@ function prepare_skinning_info(obj, armobj) {
         if (!vgroup)
             continue;
 
-        var pose_bone_index = m_util.get_index_for_key_value(pose_bones, "name", 
+        var pose_bone_index = m_util.get_index_for_key_value(pose_bones, "name",
                 bone_name);
 
         bone_pointers[bone_name] = {
@@ -568,9 +583,10 @@ function prepare_nodemats_anim_info(obj) {
     for (var i = 0; i < materials.length; i++) {
         var mat = materials[i];
         var node_tree = mat["node_tree"];
-        var anim_data = node_tree["animation_data"];
 
         if (node_tree && node_tree["animation_data"]) {
+
+            var anim_data = node_tree["animation_data"];
 
             var processed_params = {};
 

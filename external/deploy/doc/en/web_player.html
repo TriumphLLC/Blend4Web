@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Web Player &mdash; User Manual: Blend4Web v14.09</title>
+    <title>Web Player &mdash; User Manual: Blend4Web v14.10</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.09',
+        VERSION:     '14.10',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User Manual: Blend4Web v14.09" href="index.html" />
+    <link rel="top" title="User Manual: Blend4Web v14.10" href="index.html" />
     <link rel="next" title="The Addon" href="addon.html" />
     <link rel="prev" title="Scene Viewer" href="viewer.html" /> 
   </head>
@@ -36,7 +36,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">User Manual: Blend4Web v14.09</a></div>
+          href="index.html">User Manual: Blend4Web v14.10</a></div>
         <div class="rel">
           <a href="viewer.html" title="Scene Viewer"
              accesskey="P">previous</a> |
@@ -65,7 +65,7 @@
 </div>
 <div class="section" id="id2">
 <h2>Use<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
-<p>You can copy the directory containing the web player files <tt class="docutils literal"><span class="pre">external/deploy/apps/embed</span></tt> from the Blend4Web SDK distribution and deploy it on your web site. You can place the exported scene files on your web site and specify the path to them (absolute or relative) with the <tt class="docutils literal"><span class="pre">load</span></tt> web player parameter.</p>
+<p>You can copy the directory containing the web player files <tt class="docutils literal"><span class="pre">external/deploy/apps/webplayer</span></tt> from the Blend4Web SDK distribution and deploy it on your web site. You can place the exported scene files on your web site and specify the path to them (absolute or relative) with the <tt class="docutils literal"><span class="pre">load</span></tt> web player parameter.</p>
 <p>When you export into a single HTML file the web player interface is integrated automatically into it.</p>
 </div>
 <div class="section" id="id3">
@@ -74,18 +74,22 @@
 </div>
 <div class="section" id="id4">
 <h2>Control Panel<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
-<p>The web player&#8217;s control panel is displayed below.</p>
-<a class="reference internal image-reference" href="_images/web_player_interface.png"><img alt="_images/web_player_interface.png" class="align-center" src="_images/web_player_interface.png" style="width: 100%;" /></a>
+<p>The web player&#8217;s control panel is shown below.</p>
+<a class="reference internal image-reference" href="_images/web_player_interface.jpg"><img alt="_images/web_player_interface.jpg" class="align-center" src="_images/web_player_interface.jpg" style="width: 100%;" /></a>
 <ol class="arabic simple">
-<li><p class="first">fullscreen mode on / off;</p>
+<li><p class="first">show / hide control panel;</p>
 </li>
-<li><p class="first">camera auto rotation mode on / off;</p>
+<li><p class="first">fullscreen mode on / off;</p>
 </li>
 <li><p class="first">set the scene quality;</p>
 </li>
 <li><p class="first">sound on / off;</p>
 </li>
+<li><p class="first">camera auto rotation mode on / off;</p>
+</li>
 <li><p class="first">start / stop the engine.</p>
+</li>
+<li><p class="first">show help.</p>
 </li>
 </ol>
 </div>
@@ -112,7 +116,7 @@
 <li><p class="first">the <tt class="docutils literal"><span class="pre">load</span></tt> attribute specifies a wrong path to the JSON file or the file is corrupt;</p>
 </li>
 </ol>
-<a class="reference internal image-reference" href="_images/error_wrong_json_path.png"><img alt="_images/error_wrong_json_path.png" class="align-center" src="_images/error_wrong_json_path.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/error_wrong_json_path.jpg"><img alt="_images/error_wrong_json_path.jpg" class="align-center" src="_images/error_wrong_json_path.jpg" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -120,7 +124,7 @@
 <li><p class="first">the <tt class="docutils literal"><span class="pre">load</span></tt> attribute is not found or is void;</p>
 </li>
 </ol>
-<a class="reference internal image-reference" href="_images/error_not_load_attr.png"><img alt="_images/error_not_load_attr.png" class="align-center" src="_images/error_not_load_attr.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/error_not_load_attr.jpg"><img alt="_images/error_not_load_attr.jpg" class="align-center" src="_images/error_not_load_attr.jpg" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -128,7 +132,7 @@
 <li><p class="first">WebGL initialization error.</p>
 </li>
 </ol>
-<a class="reference internal image-reference" href="_images/error_webgl.png"><img alt="_images/error_webgl.png" class="align-center" src="_images/error_webgl.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/error_webgl.jpg"><img alt="_images/error_webgl.jpg" class="align-center" src="_images/error_webgl.jpg" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -209,7 +213,7 @@
           
     <div class="footer">
         &copy; Copyright 2014, Triumph LLC.
-      Last updated on 2014-09-25.
+      Last updated on 2014-10-30.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

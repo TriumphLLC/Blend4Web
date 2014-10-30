@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Node Materials &mdash; User Manual: Blend4Web v14.09</title>
+    <title>Node Materials &mdash; User Manual: Blend4Web v14.10</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.09',
+        VERSION:     '14.10',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User Manual: Blend4Web v14.09" href="index.html" />
+    <link rel="top" title="User Manual: Blend4Web v14.10" href="index.html" />
     <link rel="next" title="Lighting, Shadows and Background" href="lighting.html" />
     <link rel="prev" title="Textures" href="textures.html" /> 
   </head>
@@ -36,7 +36,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">User Manual: Blend4Web v14.09</a></div>
+          href="index.html">User Manual: Blend4Web v14.10</a></div>
         <div class="rel">
           <a href="textures.html" title="Textures"
              accesskey="P">previous</a> |
@@ -200,7 +200,7 @@
 </div>
 <div class="section" id="refraction">
 <h3>REFRACTION<a class="headerlink" href="#refraction" title="Permalink to this headline">¶</a></h3>
-<p>Get refracted image behind object.</p>
+<p>Get the refracted image behind object.</p>
 <div class="section" id="id8">
 <h4>Input parameters<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
@@ -222,7 +222,7 @@
 </dl>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">It needs to check option <tt class="docutils literal"><span class="pre">Render</span> <span class="pre">refraction</span></tt> from <tt class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span></tt> panel. Object&#8217;s transparency type must be set to <tt class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Blend</span></tt>.</p>
+<p class="last">It&#8217;s neccessary to enable the <tt class="docutils literal"><span class="pre">Render</span> <span class="pre">refraction</span></tt>  option from the <tt class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span></tt> panel. The object&#8217;s transparency type must be set to <tt class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Blend</span></tt>.</p>
 </div>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
@@ -232,7 +232,7 @@
 </div>
 <div class="section" id="levels-of-quality">
 <h3>LEVELS_OF_QUALITY<a class="headerlink" href="#levels-of-quality" title="Permalink to this headline">¶</a></h3>
-<p>Node sets output color value depending on quality profile.</p>
+<p>This node sets output color value depending on the quality profile.</p>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
 <p class="last"><a class="reference internal" href="developers.html#quality-settings"><em>Quality Profiles</em></a></p>
@@ -263,18 +263,18 @@
 </div>
 <div class="section" id="smoothstep">
 <h3>SMOOTHSTEP<a class="headerlink" href="#smoothstep" title="Permalink to this headline">¶</a></h3>
-<p>Perform smooth interpolation between two input values based on first value</p>
+<p>Perform smooth interpolation between two input values based on first value.</p>
 <div class="section" id="id12">
 <h4>Input parameters<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
 <dt><em>Value</em></dt>
-<dd><p class="first last">Value which determines interpolation smoothness</p>
+<dd><p class="first last">Value which determines interpolation smoothness.</p>
 </dd>
 <dt><em>Edge0</em></dt>
-<dd><p class="first last">First interpolation value</p>
+<dd><p class="first last">First interpolation value.</p>
 </dd>
 <dt><em>Edge1</em></dt>
-<dd><p class="first last">Second interpolation value</p>
+<dd><p class="first last">Second interpolation value.</p>
 </dd>
 </dl>
 </div>
@@ -282,12 +282,12 @@
 <h4>Output parameters<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
 <dt><em>Value</em></dt>
-<dd><p class="first last">Interpolated value</p>
+<dd><p class="first last">Interpolated value.</p>
 </dd>
 </dl>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">For the correct interpolation input &#8216;&#8217;Value&#8217;&#8217; had to be between &#8216;&#8217;Edge0&#8217;&#8217; and &#8216;&#8217;Edge1&#8217;&#8216;</p>
+<p class="last">For the correct interpolation input &#8216;&#8217;Value&#8217;&#8217; had to be between &#8216;&#8217;Edge0&#8217;&#8217; and &#8216;&#8217;Edge1&#8217;&#8216;.</p>
 </div>
 </div>
 </div>
@@ -365,7 +365,7 @@
           
     <div class="footer">
         &copy; Copyright 2014, Triumph LLC.
-      Last updated on 2014-09-25.
+      Last updated on 2014-10-30.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

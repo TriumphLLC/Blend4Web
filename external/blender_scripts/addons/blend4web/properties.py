@@ -344,6 +344,45 @@ class B4W_CharacterSettings(bpy.types.PropertyGroup):
 
 class B4W_ShadowSettings(bpy.types.PropertyGroup):
 
+    csm_resolution = bpy.props.EnumProperty(
+        name = "csm_resolution",
+        description = "Shadow map resolution",
+        default = "2048",
+        items = [
+            ("512",  "512",  "512x512"),
+            ("1024", "1024", "1024x1024"),
+            ("2048", "2048", "2048x2048"),
+            ("4096", "4096", "4096x4096"),
+            ("8192", "8192", "8192x8192")
+        ]
+    )
+
+    self_shadow_polygon_offset = bpy.props.FloatProperty(
+        name = "self_shadow_polygon_offset",
+        description = "Polygon offset value to prevent shadow acne",
+        default = 1,
+        min = 0,
+        soft_max = 50,
+        step = 10,
+        precision = 2
+    )
+
+    self_shadow_normal_offset = bpy.props.FloatProperty(
+        name = "self_shadow_normal_offset",
+        description = "Normal offset value to prevent shadow acne",
+        default = 0.01,
+        min = 0,
+        soft_max = 1,
+        step = 0.1,
+        precision = 3
+    )
+
+    b4w_enable_csm  = bpy.props.BoolProperty(
+        name = "b4w_enable_csm",
+        description = "Enable cascaded shadow maps",
+        default = False
+    )
+
     csm_num = bpy.props.IntProperty(
         name = "csm_num",
         description = "Number of cascaded shadow maps",
@@ -390,39 +429,6 @@ class B4W_ShadowSettings(bpy.types.PropertyGroup):
         soft_max = 10,
         step = 10,
         precision = 2
-    )
-
-    csm_resolution = bpy.props.EnumProperty(
-        name = "csm_resolution",
-        description = "Shadow map resolution",
-        default = "2048",
-        items = [
-            ("512",  "512",  "512x512"),
-            ("1024", "1024", "1024x1024"),
-            ("2048", "2048", "2048x2048"),
-            ("4096", "4096", "4096x4096"),
-            ("8192", "8192", "8192x8192")
-        ]
-    )
-
-    self_shadow_polygon_offset = bpy.props.FloatProperty(
-        name = "self_shadow_polygon_offset",
-        description = "Polygon offset value to prevent shadow acne",
-        default = 1,
-        min = 0,
-        soft_max = 50,
-        step = 10,
-        precision = 2
-    )
-
-    self_shadow_normal_offset = bpy.props.FloatProperty(
-        name = "self_shadow_normal_offset",
-        description = "Normal offset value to prevent shadow acne",
-        default = 0.01,
-        min = 0,
-        soft_max = 1,
-        step = 0.1,
-        precision = 3
     )
 
     fade_last_cascade = bpy.props.BoolProperty(
@@ -484,51 +490,33 @@ class B4W_SSAOSettings(bpy.types.PropertyGroup):
     radius_increase = bpy.props.FloatProperty(
         name = "radius_increase",
         description = "Radius Increase",
-        default = 1.7,
+        default = 3.0,
         min = 0.0,
         max = 15.0,
         step = 0.01,
         precision = 2
     )
 
-    dithering_amount = bpy.props.FloatProperty(
-        name = "dithering_amount",
-        description = "Dithering amount multiplied by 1000",
-        default = 0.1,
-        min = 0.0,
-        max = 4.0,
-        step = 0.001,
-        precision = 3
+    hemisphere = bpy.props.BoolProperty(
+        name = "hemisphere",
+        description = "Calculation ssao with hemisphere",
+        default = False
     )
 
-    gauss_center = bpy.props.FloatProperty(
-        name = "gauss_center",
-        description = "Gauss bell center",
-        default = 0.2,
+    blur_depth = bpy.props.BoolProperty(
+        name = "blur_depth",
+        description = "Apply edge-preserving blur to ssao",
+        default = False
+    )
+
+    blur_discard_value = bpy.props.FloatProperty(
+        name = "blur_discard_value",
+        description = "Blur depth discard value",
+        default = 1.0,
         min = 0.0,
         max = 2.0,
-        step = 0.005,
-        precision = 3
-    )
-
-    gauss_width = bpy.props.FloatProperty(
-        name = "gauss_width",
-        description = "Gauss bell width",
-        default = 2.0,
-        min = 0.0,
-        max = 16.0,
-        step = 0.02,
-        precision = 2
-    )
-
-    gauss_width_left = bpy.props.FloatProperty(
-        name = "gauss_width_left",
-        description = "Self-shadowing reduction",
-        default = 0.1,
-        min = 0.0,
-        max = 2.0,
-        step = 0.005,
-        precision = 3
+        step = 0.01,
+        precision = 1
     )
 
     influence = bpy.props.FloatProperty(
@@ -554,9 +542,12 @@ class B4W_SSAOSettings(bpy.types.PropertyGroup):
     samples = bpy.props.EnumProperty(
         name = "samples",
         description = "Number of samples aka quality",
+        default = "16",
         items = [
-            ("16", "16", "0", 0),
-            ("32", "32", "1", 1),
+            ("8", "8", "0", 0),
+            ("16", "16", "1", 1),
+            ("24", "24", "2", 2),
+            ("32", "32", "3", 3),
         ]
     )
 
@@ -929,9 +920,23 @@ def add_b4w_props():
         'World'
     ]
 
-    for class_name in class_names:
+    class_names_for_export = [
+        'Action',
+        'Image',
+        'Material',
+        'Object',
+        'ParticleSettings',
+        'Scene',
+        'Texture',
+        'World'
+    ]
+
+    for class_name in class_names_for_export:
         cl = getattr(bpy.types, class_name)
         cl.b4w_do_not_export = b4w_do_not_export
+
+    for class_name in class_names:
+        cl = getattr(bpy.types, class_name)
         # deprecated
         cl.b4w_export_path   = b4w_export_path
 
@@ -1539,10 +1544,15 @@ def add_object_properties():
         description = "The object will be animated if possible",
         default = False
     )
-    obj_type.b4w_cyclic_animation = bpy.props.BoolProperty(
-        name = "B4W: cyclic animation",
-        description = "The object animation will be cyclically repeated",
-        default = False
+    obj_type.b4w_anim_behavior = bpy.props.EnumProperty(
+        name = "B4W: animation behavior",
+        description = "The behavior of finished animation: stop, repeat or reset",
+        default = "FINISH_STOP",
+        items = [
+            ("CYCLIC", "Cyclic", "Behavior: cyclically repeat the finished animation"),
+            ("FINISH_RESET", "Finish reset", "Behavior: reset the finished animation"),
+            ("FINISH_STOP", "Finish stop", "Behavior: stop the finished animation")
+        ]
     )
     obj_type.b4w_animation_mixing = bpy.props.BoolProperty(
         name = "B4W: animation mixing",
@@ -1632,6 +1642,24 @@ def add_object_properties():
         default = False
     )
     obj_type.b4w_selectable = b4w_selectable
+
+    b4w_billboard = bpy.props.BoolProperty(
+        name = "B4W: billboard",
+        description = "Object billboarding",
+        default = False
+    )
+    obj_type.b4w_billboard = b4w_billboard
+
+    b4w_billboard_geometry = bpy.props.EnumProperty(
+        name = "B4W: billboard geometry",
+        description = "Object billboarding geometry",
+        default = "SPHERICAL",
+        items = [
+            ("SPHERICAL", "Spherical", "Spherical billboarding"),
+            ("CYLINDRICAL", "Cylindrical", "Cylindrical billboarding"),
+        ]
+    )
+    obj_type.b4w_billboard_geometry = b4w_billboard_geometry
 
     obj_type.b4w_glow_settings = bpy.props.PointerProperty(
         name = "B4W: glow settings",
@@ -2422,16 +2450,23 @@ def add_texture_properties():
     bpy.types.Texture.b4w_disable_compression = b4w_disable_compression
 
 def add_particle_settings_properties():
+    """Add properties for particles panel"""
 
     pset_type = bpy.types.ParticleSettings
 
-    """Add properties for particles panel"""
-    b4w_cyclic = bpy.props.BoolProperty(
+    # "EMITTER"
+
+    pset_type.b4w_cyclic = bpy.props.BoolProperty(
         name = "B4W: cyclic emission",
         description = "Loop particles emission",
         default = False
     )
-    pset_type.b4w_cyclic = b4w_cyclic
+
+    pset_type.b4w_allow_nla = bpy.props.BoolProperty(
+        name = "B4W: allow NLA",
+        description = "Allow particles emission to be controlled by the NLA",
+        default = True
+    )
 
     b4w_randomize_emission = bpy.props.BoolProperty(
         name = "B4W: randomize emission",
@@ -2472,7 +2507,18 @@ def add_particle_settings_properties():
         ]
     )
 
+    pset_type.b4w_coordinate_system = bpy.props.EnumProperty(
+        name = "B4W: coordinate system",
+        description = "Particles coordinate system",
+        items = [
+            ("WORLD", "World", "World coordinate system"),
+            ("LOCAL", "Local", "Emitter's coordinate system"),
+        ],
+        default = "LOCAL"
+    )
+
     # "HAIR"
+
     pset_type.b4w_dynamic_grass = bpy.props.BoolProperty(
         name = "B4W: dynamic grass",
         description = "Render on the terrain materials as dynamic grass",
@@ -2598,16 +2644,6 @@ def add_particle_settings_properties():
         name = "B4W: vcol to name",
         description = "Vertex color on instance",
         default = ""
-    )
-
-    pset_type.b4w_coordinate_system = bpy.props.EnumProperty(
-        name = "B4W: coordinate system",
-        description = "Particles coordinate system",
-        items = [
-            ("WORLD", "World", "World coordinate system"),
-            ("LOCAL", "Local", "Emitter's coordinate system"),
-        ],
-        default = "LOCAL"
     )
 
 def register():

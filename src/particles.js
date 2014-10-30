@@ -95,6 +95,7 @@ exports.generate_emitter_particles_submesh = function(batch, emitter_mesh,
     var ang_vel_factor = psystem["settings"]["angular_velocity_factor"];
 
     var is_rand_delay = psystem["settings"]["b4w_randomize_emission"];
+    var cyclic = psystem["settings"]["b4w_cyclic"];
 
     init_particle_rand(psystem["seed"]);
 
@@ -124,7 +125,8 @@ exports.generate_emitter_particles_submesh = function(batch, emitter_mesh,
     psystem._internal.time = 0;
     psystem._internal.prev_time = -1;
 
-    var delay_attrs = gen_delay_attrs(pcount, time_start, time_end, is_rand_delay, is_billboard);
+    var delay_attrs = gen_delay_attrs(pcount, time_start, time_end,
+                                      is_rand_delay, is_billboard, cyclic);
     psystem._internal.delay_attrs = new Float32Array(delay_attrs);
 
     // needed to restore original delays when using particles number factor
@@ -543,7 +545,8 @@ function gen_normals(indices, encoords) {
 }
 
 
-function gen_delay_attrs(pcount, mindelay, maxdelay, random, is_billboard) {
+function gen_delay_attrs(pcount, mindelay, maxdelay, random, is_billboard,
+                         cyclic) {
 
     var darr = [];
 
@@ -556,7 +559,9 @@ function gen_delay_attrs(pcount, mindelay, maxdelay, random, is_billboard) {
             delay = delayint*i + DELAYRANDFACTOR * delayint * (0.5-_rand());
         } else
             delay = delayint*i;
-        delay += mindelay;
+
+        if (!cyclic)
+            delay += mindelay;
 
         darr.push(delay);
         if (is_billboard) {

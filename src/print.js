@@ -35,10 +35,9 @@ exports.error = function() {
 }
 
 exports.warn = function() {
-    if (_verbose) {
-        _warning_count++;
-        console.warn.apply(console, arguments);
-    }
+    // always reporting warnings
+    _warning_count++;
+    console.warn.apply(console, arguments);
 }
 
 exports.time = function() {

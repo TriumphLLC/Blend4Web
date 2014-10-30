@@ -3,6 +3,7 @@ export APPS_DEV      = $(ROOT_DIR)/apps_dev/
 export APPS_EXT      = $(ROOT_DIR)/external/deploy/apps/
 
 export JAR_CP        = $(ROOT_DIR)/closure-compiler/compiler.jar
+export YUI_CP        = $(ROOT_DIR)/yuicompressor/yuicompressor.jar
 export PARSER        = $(ROOT_DIR)/apps_dev/parse_html.py
 export PY_PARSER     = python3 $(PARSER)
 export EXTERNS       = $(ROOT_DIR)/closure-compiler/
@@ -25,12 +26,12 @@ export RM            = -rm
 .PHONY: all
 all:
 	$(MAKE) -C capri
-	$(MAKE) -C embed
 	$(MAKE) -C fashion
 	$(MAKE) -C firstperson
 	$(MAKE) -C flight
 	$(MAKE) -C gallery
 	$(MAKE) -C viewer
+	$(MAKE) -C webplayer
 
 .PHONY: clean
 clean:

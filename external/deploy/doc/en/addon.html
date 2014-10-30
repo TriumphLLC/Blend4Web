@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>The Addon &mdash; User Manual: Blend4Web v14.09</title>
+    <title>The Addon &mdash; User Manual: Blend4Web v14.10</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.09',
+        VERSION:     '14.10',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User Manual: Blend4Web v14.09" href="index.html" />
+    <link rel="top" title="User Manual: Blend4Web v14.10" href="index.html" />
     <link rel="next" title="Objects" href="objects.html" />
     <link rel="prev" title="Web Player" href="web_player.html" /> 
   </head>
@@ -36,7 +36,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">User Manual: Blend4Web v14.09</a></div>
+          href="index.html">User Manual: Blend4Web v14.10</a></div>
         <div class="rel">
           <a href="web_player.html" title="Web Player"
              accesskey="P">previous</a> |
@@ -95,7 +95,7 @@ Current version is VER_CURRENT.</td>
 </table>
 </div>
 <div class="section" id="export-errors">
-<span id="index-2"></span><span id="id3"></span><h2>Export Errors<a class="headerlink" href="#export-errors" title="Permalink to this headline">¶</a></h2>
+<span id="index-2"></span><span id="id3"></span><h2>Critical Export Errors<a class="headerlink" href="#export-errors" title="Permalink to this headline">¶</a></h2>
 <p>In case of export errors a <tt class="docutils literal"><span class="pre">BLEND4WEB</span> <span class="pre">EXPORT</span> <span class="pre">ERROR</span></tt> dialog box describing of the problem appears:</p>
 <blockquote>
 <div><p><tt class="docutils literal"><span class="pre">COMPONENT</span></tt> - type of component (object, mesh, material, texture etc) that has caused the export error.</p>
@@ -176,11 +176,6 @@ vehicle requires at least one bob</td>
 <td><p class="first last">The modelled NAME vehicle is not complete as it should contain at least one <tt class="docutils literal"><span class="pre">Bob</span></tt> element.</p>
 </td>
 </tr>
-<tr class="row-even"><td>Incomplete vehicle. The NAME
-vehicle requires at least one wheel</td>
-<td><p class="first last">The modelled NAME vehicle is not complete as it should contain at least one <tt class="docutils literal"><span class="pre">Wheel</span></tt> element.</p>
-</td>
-</tr>
 </tbody>
 </table>
 <table border="1" class="docutils">
@@ -189,18 +184,28 @@ vehicle requires at least one wheel</td>
 <col width="54%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td>Incorrect mesh; Wrong group indices</td>
+<tr class="row-odd"><td>Incomplete vehicle. The NAME
+vehicle requires at least one wheel</td>
+<td><p class="first last">The modelled NAME vehicle is not complete as it should contain at least one <tt class="docutils literal"><span class="pre">Wheel</span></tt> element.</p>
+</td>
+</tr>
+<tr class="row-even"><td>Incorrect mesh; Wrong group indices</td>
 <td><p class="first last">The mesh has vertices assigned to the non-existing vertex group.</p>
 </td>
 </tr>
-<tr class="row-even"><td>Incorrect vertex animation; Object
+<tr class="row-odd"><td>Incorrect vertex animation; Object
 has no vertex animation</td>
 <td><p class="first last">The object&#8217;s vertex animation export option is on, but there is no vertex animation.</p>
 </td>
 </tr>
-<tr class="row-odd"><td>Incorrect vertex animation; Unbaked
+<tr class="row-even"><td>Incorrect vertex animation; Unbaked
 &#8220;ANIM_NAME&#8221; vertex animation</td>
 <td><p class="first last">Vertex animation export is turned on for the mesh, but the ANIM_NAME animation doesn&#8217;t have any frames.</p>
+</td>
+</tr>
+<tr class="row-odd"><td>Loading of resources from different
+disk is forbidden</td>
+<td><p class="first last">Loading of resources from different disk is forbidden.</p>
 </td>
 </tr>
 <tr class="row-even"><td>The material has a normal map but
@@ -218,28 +223,12 @@ but has no exported material</td>
 <td><p class="first last">The mesh has a vertex color layer but has no material for export.</p>
 </td>
 </tr>
-<tr class="row-odd"><td>Missing active camera</td>
-<td><p class="first last">There is no active camera on the scene (<tt class="docutils literal"><span class="pre">Camera</span></tt> property on the <tt class="docutils literal"><span class="pre">Scene</span></tt> tab).</p>
-</td>
-</tr>
-<tr class="row-even"><td>Missing lamp</td>
+<tr class="row-odd"><td>Missing lamp</td>
 <td><p class="first last">There should be at least one light source in the scene.</p>
 </td>
 </tr>
-<tr class="row-odd"><td>Missing world</td>
-<td><p class="first last">There should be at least one world datablock in the scene.</p>
-</td>
-</tr>
-<tr class="row-even"><td>No image</td>
-<td><p class="first last">The texture has no image.</p>
-</td>
-</tr>
-<tr class="row-odd"><td>No such file or directory</td>
+<tr class="row-even"><td>No such file or directory</td>
 <td><p class="first last">The file or directory does not exist.</p>
-</td>
-</tr>
-<tr class="row-even"><td>No texture in texture slot</td>
-<td><p class="first last">There is no texture in the material texture slot.</p>
 </td>
 </tr>
 <tr class="row-odd"><td>Node material invalid; Check
@@ -272,33 +261,28 @@ inverse transform</td>
 <col width="54%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td>Only 2 UV textures are allowed for
-a mesh; The mesh has N UVs</td>
-<td><p class="first last">The engine supports up to 2 UV texture layers for each mesh. The number of UV layers for this mesh is N.</p>
-</td>
-</tr>
-<tr class="row-even"><td>Particle system error; Dupli group
+<tr class="row-odd"><td>Particle system error; Dupli group
 isn&#8217;t specified</td>
 <td><p class="first last">Particle system error: no group is selected as a particle.</p>
 </td>
 </tr>
-<tr class="row-odd"><td>Particle system error; Dupli object
+<tr class="row-even"><td>Particle system error; Dupli object
 isn&#8217;t specified</td>
 <td><p class="first last">Particle system error: no object is selected as a particle.</p>
 </td>
 </tr>
-<tr class="row-even"><td>Particle system error; Dupli object
+<tr class="row-odd"><td>Particle system error; Dupli object
 OBJECT_NAME doesn&#8217;t export</td>
 <td><p class="first last">The OBJECT_NAME object which is selected as a particle can not be exported (the <tt class="docutils literal"><span class="pre">Do</span> <span class="pre">not</span> <span class="pre">export</span></tt> checkbox is set).</p>
 </td>
 </tr>
-<tr class="row-odd"><td>Particle system error; The
+<tr class="row-even"><td>Particle system error; The
 GROUP_NAME dupli group contains no
 valid object for export</td>
 <td><p class="first last">The GROUP_NAME dupli group which is selected as a particle contains no valid object for export. Either such objects have the <tt class="docutils literal"><span class="pre">Do</span> <span class="pre">not</span> <span class="pre">export</span></tt> checkbox enabled or the types of the objects are unsuitable. Supported object types: <tt class="docutils literal"><span class="pre">MESH</span></tt>.</p>
 </td>
 </tr>
-<tr class="row-even"><td>Particle system error; The &#8220;NAME&#8221;
+<tr class="row-odd"><td>Particle system error; The &#8220;NAME&#8221;
 vertex color specified in the
 <tt class="docutils literal"><span class="pre">from</span></tt> field is missing in the
 last of the &#8220;OBJECT_NAME&#8221;
@@ -306,7 +290,7 @@ object&#8217;s vertex colors</td>
 <td><p class="first last">The NAME vertex color is specified in the <tt class="docutils literal"><span class="pre">from</span></tt> field but it not present in the OBJECT_NAME emitter.</p>
 </td>
 </tr>
-<tr class="row-odd"><td>Particle system error; The
+<tr class="row-even"><td>Particle system error; The
 &#8220;NAME&#8221; vertex color specified in
 the &#8220;<tt class="docutils literal"><span class="pre">to</span></tt> field is missing in the
 &#8220;OBJECT_NAME&#8221; object
@@ -314,7 +298,7 @@ the &#8220;<tt class="docutils literal"><span class="pre">to</span></tt> field i
 <td><p class="first last">The NAME vertex color is specified in the <tt class="docutils literal"><span class="pre">to</span></tt> field but it is not present in the OBJECT_NAME object of the GROUP_NAME group which is selected as a particle.</p>
 </td>
 </tr>
-<tr class="row-even"><td>Particle system error; The &#8220;NAME&#8221;
+<tr class="row-odd"><td>Particle system error; The &#8220;NAME&#8221;
 vertex color specified in the
 <tt class="docutils literal"><span class="pre">to</span></tt> field is missing in the list
 of the &#8220;OBJECT_NAME&#8221;
@@ -322,23 +306,13 @@ object&#8217;s vertex colors</td>
 <td><p class="first last">The NAME vertex color is specified in the <tt class="docutils literal"><span class="pre">to</span></tt> field but it is not present in the OBJECT_NAME object which is selected as a particle.</p>
 </td>
 </tr>
-<tr class="row-odd"><td>Particle system error; Wrong dupli
+<tr class="row-even"><td>Particle system error; Wrong dupli
 object type TYPE_NAME</td>
 <td><p class="first last">An object of unsuitable type is selected for the particle. Supported types: <tt class="docutils literal"><span class="pre">MESH</span></tt>.</p>
 </td>
 </tr>
-<tr class="row-even"><td>Permission denied</td>
+<tr class="row-odd"><td>Permission denied</td>
 <td><p class="first last">No access rights to the current directory.</p>
-</td>
-</tr>
-<tr class="row-odd"><td>Wind bending: vertex colors weren&#8217;t
-properly assigned</td>
-<td><p class="first last">Wind bending parameters setup: it&#8217;s required to specify the names of either all vertex color layers (<tt class="docutils literal"><span class="pre">Main</span> <span class="pre">stiffness</span> <span class="pre">(A)</span></tt>, <tt class="docutils literal"><span class="pre">Leaves</span> <span class="pre">stiffness</span> <span class="pre">(R)</span></tt>, <tt class="docutils literal"><span class="pre">Leaves</span> <span class="pre">phase</span> <span class="pre">(G)</span></tt>, <tt class="docutils literal"><span class="pre">Overall</span> <span class="pre">stiffness</span> <span class="pre">(B)</span></tt>), or of the main one only (<tt class="docutils literal"><span class="pre">Main</span> <span class="pre">stiffness</span> <span class="pre">(A)</span></tt>), or of none of them.</p>
-</td>
-</tr>
-<tr class="row-even"><td>Wind bending: not all
-vertex colors exist</td>
-<td><p class="first last">Wind bending parameters setup: all specified vertex color layers should exist.</p>
 </td>
 </tr>
 </tbody>
@@ -349,6 +323,16 @@ vertex colors exist</td>
 <col width="54%" />
 </colgroup>
 <tbody valign="top">
+<tr class="row-odd"><td>Wind bending: vertex colors weren&#8217;t
+properly assigned</td>
+<td><p class="first last">Wind bending parameters setup: it&#8217;s required to specify the names of either all vertex color layers (<tt class="docutils literal"><span class="pre">Main</span> <span class="pre">stiffness</span> <span class="pre">(A)</span></tt>, <tt class="docutils literal"><span class="pre">Leaves</span> <span class="pre">stiffness</span> <span class="pre">(R)</span></tt>, <tt class="docutils literal"><span class="pre">Leaves</span> <span class="pre">phase</span> <span class="pre">(G)</span></tt>, <tt class="docutils literal"><span class="pre">Overall</span> <span class="pre">stiffness</span> <span class="pre">(B)</span></tt>), or of the main one only (<tt class="docutils literal"><span class="pre">Main</span> <span class="pre">stiffness</span> <span class="pre">(A)</span></tt>), or of none of them.</p>
+</td>
+</tr>
+<tr class="row-even"><td>Wind bending: not all
+vertex colors exist</td>
+<td><p class="first last">Wind bending parameters setup: all specified vertex color layers should exist.</p>
+</td>
+</tr>
 <tr class="row-odd"><td>Wrong edited normals count; It
 doesn&#8217;t match with the mesh
 vertices count</td>
@@ -361,11 +345,7 @@ values</td>
 <td><p class="first last">Wrong dimensions are specified when overriding the mesh&#8217;s <tt class="docutils literal"><span class="pre">BoundingBox</span></tt>: minimum value is greater than maximum value for at least one of the dimensions.</p>
 </td>
 </tr>
-<tr class="row-odd"><td>Wrong texture coordinates type</td>
-<td><p class="first last">For textures with images the following coordinate types are supported: <tt class="docutils literal"><span class="pre">UV</span></tt>, <tt class="docutils literal"><span class="pre">Normal</span></tt>.</p>
-</td>
-</tr>
-<tr class="row-even"><td>Wrong vertex animation vertices
+<tr class="row-odd"><td>Wrong vertex animation vertices
 count; It doesn&#8217;t match with the
 mesh vertices count for &#8220;ANIM_NAME&#8221;</td>
 <td><p class="first last">Vertex animation export is enabled but the number of vertices in the baked ANIM_NAME animation frames does not match the mesh vertices number. Possible solution is to &#8220;re-bake&#8221; the animation.</p>
@@ -375,10 +355,125 @@ mesh vertices count for &#8220;ANIM_NAME&#8221;</td>
 </table>
 <span class="target" id="export-errors-warnings"></span></div>
 <div class="section" id="index-3">
-<span id="id4"></span><h2>Warnings About Export Errors<a class="headerlink" href="#index-3" title="Permalink to this headline">¶</a></h2>
-<p>In contrast to the above-listed export errors, these errors don&#8217;t prohibit the export, but can make scenes displayed incorrectly. To view these warnings, open the browser console when a scene is loaded. The message looks like this:</p>
+<span id="id4"></span><h2>Non-Critical Export Errors<a class="headerlink" href="#index-3" title="Permalink to this headline">¶</a></h2>
+<p>In contrast to the above-listed critical export errors, these errors don&#8217;t prohibit the export, but can make scenes displayed incorrectly. These messages can be viewed in the browser console (opens with <tt class="docutils literal"><span class="pre">F12</span></tt>) when a scene is loaded. The message (colored red) looks like this:</p>
 <blockquote>
-<div><p><tt class="docutils literal"><span class="pre">EXPORT</span> <span class="pre">WARNING:</span> <span class="pre">error</span> <span class="pre">message</span></tt></p>
+<div><p><tt class="docutils literal"><span class="pre">EXPORT</span> <span class="pre">ERROR:</span> <span class="pre">Error</span> <span class="pre">message</span></tt></p>
+</div></blockquote>
+<a class="reference internal image-reference" href="_images/noncritical_messages.jpg"><img alt="_images/noncritical_messages.jpg" class="align-center" src="_images/noncritical_messages.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="46%" />
+<col width="54%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head"><p class="first last">Error message</p>
+</th>
+<th class="head"><p class="first last">Cause</p>
+</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>The NAME action has decimal frames.
+Converted to integer.</td>
+<td><p class="first last">The NAME action has decimal frames. Converted to integer.</p>
+</td>
+</tr>
+<tr class="row-odd"><td>The NAME armature modifier has no
+armature object or it is not
+exported. Modifier removed.</td>
+<td><p class="first last">The NAME <tt class="docutils literal"><span class="pre">Armature</span></tt> modifier has no armature object or it is not exported. Modifier removed.</p>
+</td>
+</tr>
+<tr class="row-even"><td>The NAME curve modifier has no curve
+object. Modifier removed.</td>
+<td><p class="first last">The NAME curve modifier has no object. Modifier removed.</p>
+</td>
+</tr>
+<tr class="row-odd"><td>The NAME curve modifier has
+unsupported curve object. Modifier
+removed.</td>
+<td><p class="first last">The NAME curve modifier has unsupported object. Modifier removed.</p>
+</td>
+</tr>
+<tr class="row-even"><td>Exported UV-layer is missing in node
+&#8220;GEOMETRY&#8221;. Material: NAME.</td>
+<td><p class="first last">The UV layer specified in the <tt class="docutils literal"><span class="pre">GEOMETRY</span></tt> node is not exported (for UV texture coordinates).</p>
+</td>
+</tr>
+<tr class="row-odd"><td>Exported UV-layer is missing in
+texture NAME. [Material: NAME.]</td>
+<td><p class="first last">Exported UV-layer is missing in the texture (for UV texture coordinates).</p>
+</td>
+</tr>
+<tr class="row-even"><td>The NAME LAMP node has no lamp
+object. Material: NAME.</td>
+<td><p class="first last">Wrong object specified in the NAME <tt class="docutils literal"><span class="pre">LAMP</span></tt> node.</p>
+</td>
+</tr>
+<tr class="row-odd"><td>Ignoring LODs after empty LOD for
+the NAME object.</td>
+<td><p class="first last">All LOD objects that follow the empty slot were ignored (in the LOD objects list for the NAME object).</p>
+</td>
+</tr>
+<tr class="row-even"><td>Incorrect NLA script, falling back
+to simple sequential NLA.</td>
+<td><p class="first last">Incorrect NLA script, falling back to simple sequential NLA.</p>
+</td>
+</tr>
+<tr class="row-odd"><td>No image in the NAME texture.
+[Material: NAME.]</td>
+<td><p class="first last">The texture has no image.</p>
+</td>
+</tr>
+<tr class="row-even"><td>No texture in the texture slot.
+Material: NAME.</td>
+<td><p class="first last">There is no texture in the material texture slot.</p>
+</td>
+</tr>
+<tr class="row-odd"><td>No texture in the NAME world
+texture slot.</td>
+<td><p class="first last">No texture in the NAME world&#8217;s texture slot</p>
+</td>
+</tr>
+<tr class="row-even"><td>No texture for the NAME particle
+settings texture slot.</td>
+<td><p class="first last">No texture in the particle settings&#8217; texture slot.</p>
+</td>
+</tr>
+<tr class="row-odd"><td>Only 2 UV textures are allowed for
+a mesh; The mesh has N UVs.</td>
+<td><p class="first last">The engine supports up to 2 UV texture layers for each mesh. The number of UV layers for this mesh is N.</p>
+</td>
+</tr>
+<tr class="row-even"><td>The NAME node is not supported.
+The NAME material will be rendered
+without nodes. Material: NAME.</td>
+<td><p class="first last">The engine does not support the node with the this name, and so the node material will be turned off. Often this happens when Cycles nodes are used.</p>
+</td>
+</tr>
+<tr class="row-odd"><td>Using &#8220;REFRACTION&#8221; node with
+incorrect type of Alpha Blend.
+Material: NAME.</td>
+<td><p class="first last">A node material with incorrect Alpha Blend property is used. <tt class="docutils literal"><span class="pre">Alpha</span> <span class="pre">sort</span></tt>, <tt class="docutils literal"><span class="pre">Alpha</span> <span class="pre">blend</span></tt> and <tt class="docutils literal"><span class="pre">Add</span></tt> are allowed when using a &#8220;REFRACTION&#8221; node.</p>
+</td>
+</tr>
+<tr class="row-even"><td>Wrong texture coordinates type
+in texture NAME. [Material: NAME.]</td>
+<td><p class="first last">The following coordinate types are supported for image textures: <tt class="docutils literal"><span class="pre">UV</span></tt>, <tt class="docutils literal"><span class="pre">Normal</span></tt> and <tt class="docutils literal"><span class="pre">Generated</span></tt>.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id5">
+<h2>Other Messages for Users&#8217; Attention<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<p>These messages can be viewed in the browser console (opens with <tt class="docutils literal"><span class="pre">F12</span></tt>) when a scene is loaded. The message (colored yellow) looks like this:</p>
+<blockquote>
+<div><p><tt class="docutils literal"><span class="pre">EXPORT</span> <span class="pre">WARNING:</span> <span class="pre">Export</span> <span class="pre">message</span> <span class="pre">which</span> <span class="pre">requires</span> <span class="pre">the</span> <span class="pre">user's</span> <span class="pre">attention</span></tt></p>
 </div></blockquote>
 <table border="1" class="docutils">
 <colgroup>
@@ -393,10 +488,14 @@ mesh vertices count for &#8220;ANIM_NAME&#8221;</td>
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td>The NAME node is not supported.
-The NAME material will be rendered
-without nodes.</td>
-<td><p class="first last">The engine does not support the node with the this name, and so the node material will be turned off. Often this happens when Cycles nodes are used.</p>
+<tr class="row-even"><td>Missing active camera or wrong
+active camera object</td>
+<td><p class="first last">There is no active camera on the scene (<tt class="docutils literal"><span class="pre">Camera</span></tt> property on the <tt class="docutils literal"><span class="pre">Scene</span></tt> tab).</p>
+</td>
+</tr>
+<tr class="row-odd"><td>Missing world or wrong active world
+object</td>
+<td><p class="first last">There should be at least one world datablock in the scene.</p>
 </td>
 </tr>
 </tbody>
@@ -421,8 +520,9 @@ without nodes.</td>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Web Player</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">The Addon</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#index-1">Initialization Errors</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#export-errors">Export Errors</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#index-3">Warnings About Export Errors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#export-errors">Critical Export Errors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#index-3">Non-Critical Export Errors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">Other Messages for Users&#8217; Attention</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
@@ -476,7 +576,7 @@ without nodes.</td>
           
     <div class="footer">
         &copy; Copyright 2014, Triumph LLC.
-      Last updated on 2014-09-25.
+      Last updated on 2014-10-30.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

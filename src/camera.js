@@ -157,10 +157,13 @@ function init_camera(type) {
         eye_last              : new Float32Array(3),
         quat                  : new Float32Array(4),
         view_matrix           : new Float32Array(16),
+        billboard_view_matrix : new Float32Array(16),
         proj_matrix           : new Float32Array(16),
         view_proj_inv_matrix  : new Float32Array(16),
         prev_view_proj_matrix : new Float32Array(16),
         sky_vp_inv_matrix     : new Float32Array(16),
+
+        shadow_cast_billboard_view_matrix : new Float32Array(16),
 
         // used to extract frustum planes from
         view_proj_matrix : new Float32Array(16),
@@ -338,15 +341,14 @@ function set_stereo_params(cam, conv_dist, eye_dist) {
 
     set_projection(cam, cam.aspect);
 
-    // update size of shadow cascades
+    // update camera shadows
     if (m_scenes.check_active()) {
         var active_scene = m_scenes.get_active();
+        var sh_params = active_scene._render.shadow_params;
 
-        // update size of shadow cascades
         var upd_cameras = active_scene["camera"]._render.cameras;
         for (var i = 0; i < upd_cameras.length; i++)
-            update_camera_csm(upd_cameras[i],
-                    active_scene._render.shadow_params);
+            update_camera_shadows(upd_cameras[i], sh_params);
     }
 }
 
@@ -1444,7 +1446,14 @@ exports.is_target_camera = function(obj) {
         return false;
 }
 
-exports.update_camera_csm = update_camera_csm;
+exports.update_camera_shadows = update_camera_shadows;
+function update_camera_shadows(cam, shadow_params) {
+    if (shadow_params.b4w_enable_csm)
+        update_camera_csm(cam, shadow_params);
+    else
+        cam.pcf_blur_radii[0] = shadow_params.first_cascade_blur_radius;
+}
+
 function update_camera_csm(cam, shadow_params) {
     var N = shadow_params.csm_num;
 
@@ -1481,8 +1490,6 @@ function init_camera_csm(cam, shadow_params) {
         cam.csm_centers[i] = new Float32Array(3);
 
     cam.csm_radii = new Float32Array(csm_num);
-
-    update_camera_csm(cam, shadow_params);
 }
 
 exports.csm_far_plane = csm_far_plane;

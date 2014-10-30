@@ -127,7 +127,7 @@ typedef struct Object {
 	struct Object *proxy, *proxy_group, *proxy_from;
 	struct Ipo *ipo  DNA_DEPRECATED;  /* old animation system, deprecated for 2.5 */
 	/* struct Path *path; */
-	struct BoundBox *bb;
+	struct BoundBox *bb;  /* axis aligned boundbox (in localspace) */
 	struct bAction *action  DNA_DEPRECATED;	 // XXX deprecated... old animation system
 	struct bAction *poselib;
 	struct bPose *pose;  /* pose data, armature objects only */
@@ -188,6 +188,7 @@ typedef struct Object {
 	char scavisflag;			/* more display settings for game logic */
 	char depsflag;
 
+	/* dupli-frame settings */
 	int dupon, dupoff, dupsta, dupend;
 
 	int pad;
@@ -315,7 +316,6 @@ typedef struct ObHook {
 typedef struct DupliObject {
 	struct DupliObject *next, *prev;
 	struct Object *ob;
-	unsigned int origlay, pad;
 	float mat[4][4];
 	float orco[3], uv[2];
 
@@ -362,13 +362,13 @@ enum {
 #define OB_TYPE_SUPPORT_VGROUP(_type) \
 	(ELEM(_type, OB_MESH, OB_LATTICE))
 #define OB_TYPE_SUPPORT_EDITMODE(_type) \
-	(ELEM7(_type, OB_MESH, OB_FONT, OB_CURVE, OB_SURF, OB_MBALL, OB_LATTICE, OB_ARMATURE))
+	(ELEM(_type, OB_MESH, OB_FONT, OB_CURVE, OB_SURF, OB_MBALL, OB_LATTICE, OB_ARMATURE))
 #define OB_TYPE_SUPPORT_PARVERT(_type) \
-	(ELEM4(_type, OB_MESH, OB_SURF, OB_CURVE, OB_LATTICE))
+	(ELEM(_type, OB_MESH, OB_SURF, OB_CURVE, OB_LATTICE))
 
 /* is this ID type used as object data */
 #define OB_DATA_SUPPORT_ID(_id_type) \
-	(ELEM8(_id_type, ID_ME, ID_CU, ID_MB, ID_LA, ID_SPK, ID_CA, ID_LT, ID_AR))
+	(ELEM(_id_type, ID_ME, ID_CU, ID_MB, ID_LA, ID_SPK, ID_CA, ID_LT, ID_AR))
 
 #define OB_DATA_SUPPORT_ID_CASE \
 	ID_ME: case ID_CU: case ID_MB: case ID_LA: case ID_SPK: case ID_CA: case ID_LT: case ID_AR

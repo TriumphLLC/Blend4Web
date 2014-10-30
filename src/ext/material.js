@@ -427,11 +427,11 @@ exports.get_diffuse_color_factor = function(obj, mat_name) {
 }
 
 /**
- * Set the diffuse alpha factor for the object material.
- * @method module:material.set_diffuse_color_factor
+ * Set the alpha factor for the object material.
+ * @method module:material.set_alpha_factor
  * @param {Object} obj Object ID
  * @param {String} mat_name Material name
- * @param {Number} alpha_factor Diffuse alpha factor value
+ * @param {Number} alpha_factor Alpha factor value
  */
 exports.set_alpha_factor = function(obj, mat_name,
         diffuse_color_factor) {

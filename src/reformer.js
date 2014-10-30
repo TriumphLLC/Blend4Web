@@ -24,10 +24,14 @@ var REPORT_COMPATIBILITY_ISSUES = true;
 
 var _unreported_compat_issues = false;
 
+var _params_reported = {};
+
 /**
  * Check bpy_data, perform necessary compatibility hacks.
  */
 exports.check_bpy_data = function(bpy_data) {
+
+    _params_reported = {};
 
     var check_modifier = function(mod, obj) {
         switch (mod["type"]) {
@@ -69,6 +73,22 @@ exports.check_bpy_data = function(bpy_data) {
         var world = worlds[i];
 
         var shadows = world["b4w_shadow_settings"];
+        if(!("csm_resolution" in shadows)) {
+            report("world", world, "b4w_shadow_settings.csm_resolution");
+            shadows["csm_resolution"] = 2048;
+        }
+        if(!("self_shadow_polygon_offset" in shadows)) {
+            report("world", world, "b4w_shadow_settings.self_shadow_polygon_offset");
+            shadows["self_shadow_polygon_offset"] = 1;
+        }
+        if(!("self_shadow_normal_offset" in shadows)) {
+            report("world", world, "b4w_shadow_settings.self_shadow_normal_offset");
+            shadows["self_shadow_normal_offset"] = 0.01;
+        }
+        if(!("b4w_enable_csm" in shadows)) {
+            report("world", world, "b4w_shadow_settings.b4w_enable_csm");
+            shadows["b4w_enable_csm"] = false;
+        }
         if(!("csm_num" in shadows)) {
             report("world", world, "b4w_shadow_settings.csm_num");
             shadows["csm_num"] = 1;
@@ -89,18 +109,6 @@ exports.check_bpy_data = function(bpy_data) {
             report("world", world, "b4w_shadow_settings.last_cascade_blur_radius");
             shadows["last_cascade_blur_radius"] = 1.5;
         }
-        if(!("csm_resolution" in shadows)) {
-            report("world", world, "b4w_shadow_settings.csm_resolution");
-            shadows["csm_resolution"] = 2048;
-        }
-        if(!("self_shadow_polygon_offset" in shadows)) {
-            report("world", world, "b4w_shadow_settings.self_shadow_polygon_offset");
-            shadows["self_shadow_polygon_offset"] = 1;
-        }
-        if(!("self_shadow_normal_offset" in shadows)) {
-            report("world", world, "b4w_shadow_settings.self_shadow_normal_offset");
-            shadows["self_shadow_normal_offset"] = 0.01;
-        }
         if(!("fade_last_cascade" in shadows)) {
             report("world", world, "b4w_shadow_settings.fade_last_cascade");
             shadows["fade_last_cascade"] = true;
@@ -115,6 +123,21 @@ exports.check_bpy_data = function(bpy_data) {
             report("world", world, "b4w_ssao_settings.dist_factor");
             ssao["dist_factor"] = 0.0;
             ssao["samples"] = 16;
+        }
+
+        if(!("hemisphere" in ssao)) {
+            report("world", world, "b4w_ssao_settings.hemisphere");
+            ssao["hemisphere"] = false;
+        }
+
+        if(!("blur_depth" in ssao)) {
+            report("world", world, "b4w_ssao_settings.blur_depth");
+            ssao["blur_depth"] = false;
+        }
+
+        if(!("blur_discard_value" in ssao)) {
+            report("world", world, "b4w_ssao_settings.blur_discard_value");
+            ssao["blur_discard_value"] = 1.0;
         }
 
         if (!("b4w_glow_color" in world)) {
@@ -280,38 +303,46 @@ exports.check_bpy_data = function(bpy_data) {
     for (var i = 0; i < meshes.length; i++) {
         var mesh = meshes[i];
 
-        if(!mesh["b4w_bounding_box"]) {
+        if (!mesh["b4w_bounding_box"]) {
             report("mesh", mesh, "b4w_bounding_box");
             mesh["b4w_bounding_box"] = {"max_x" : 0, "max_y" : 0, "max_z" : 0,
                 "min_x" : 0, "min_y" : 0, "min_z" : 0};
         }
 
-        if(!mesh["uv_textures"]) {
+        if (!mesh["uv_textures"]) {
             report("mesh", mesh, "uv_textures");
             mesh["uv_textures"] = [];
         }
 
-        if(!mesh["b4w_bounding_sphere_center"]) {
+        if (!mesh["b4w_bounding_sphere_center"]) {
             //report("mesh", mesh, "b4w_bounding_sphere_center");
             mesh["b4w_bounding_sphere_center"] = [0, 0, 0];
         }
 
-        if(!mesh["b4w_bounding_cylinder_center"]) {
+        if (!mesh["b4w_bounding_cylinder_center"]) {
             //report("mesh", mesh, "b4w_bounding_cylinder_center");
             mesh["b4w_bounding_cylinder_center"] = [0, 0, 0];
         }
 
-        if(!mesh["b4w_bounding_ellipsoid_center"]) {
+        if (!mesh["b4w_bounding_ellipsoid_center"]) {
             //report("mesh", mesh, "b4w_bounding_cylinder_center");
             mesh["b4w_bounding_ellipsoid_center"] = [0, 0, 0];
         }
 
-        if(!mesh["b4w_bounding_ellipsoid_axes"]) {
+        if (!mesh["b4w_bounding_ellipsoid_axes"]) {
             //report("mesh", mesh, "b4w_bounding_ellipsoid_axes");
             var bb = mesh["b4w_bounding_box"];
             mesh["b4w_bounding_ellipsoid_axes"] = [(bb["max_x"] - bb["min_x"])/2,
-                                                  (bb["max_y"] - bb["min_y"])/2,
-                                                  (bb["max_z"] - bb["min_z"])/2];
+                                                   (bb["max_y"] - bb["min_y"])/2,
+                                                   (bb["max_z"] - bb["min_z"])/2];
+        }
+
+        for (var j = 0; j < mesh["b4w_vertex_anim"].length; j++) {
+            var va = mesh["b4w_vertex_anim"][j];
+            if (!("allow_nla" in va)) {
+                report("mesh[\"b4w_vertex_anim\"]", mesh, "allow_nla");
+                va["allow_nla"] = true;
+            }
         }
     }
 
@@ -478,7 +509,6 @@ exports.check_bpy_data = function(bpy_data) {
 
     for (var i = 0; i < textures.length; i++) {
         var texture = textures[i];
-
         if (!("b4w_anisotropic_filtering" in texture)) {
             texture["b4w_anisotropic_filtering"] = "OFF";
             report("texture", texture, "b4w_anisotropic_filtering");
@@ -1049,6 +1079,14 @@ exports.check_bpy_data = function(bpy_data) {
                 obj["b4w_selectable"] = false;
                 report("object", obj, "b4w_selectable");
             }
+            if (!("b4w_billboard" in obj)) {
+                obj["b4w_billboard"] = false;
+                report("object", obj, "b4w_billboard");
+            }
+            if (!("b4w_billboard_geometry" in obj)) {
+                obj["b4w_billboard_geometry"] = "SPHERICAL";
+                report("object", obj, "b4w_billboard_geometry");
+            }
             if (!("b4w_glow_settings" in obj)) {
                 obj["b4w_glow_settings"] = {};
                 obj["b4w_glow_settings"]["glow_duration"] = 1.0;
@@ -1077,6 +1115,12 @@ exports.check_bpy_data = function(bpy_data) {
             break;
         default:
             break;
+        }
+
+        if (!("b4w_anim_behavior" in obj)) {
+            obj["b4w_anim_behavior"] = obj["b4w_cyclic_animation"] ?
+                    "CYCLIC" : "FINISH_STOP";
+            report("object", obj, "b4w_anim_behavior");
         }
 
         if (!("rotation_quaternion" in obj)) {
@@ -1203,6 +1247,11 @@ exports.check_bpy_data = function(bpy_data) {
                 pset["b4w_coordinate_system"] = "LOCAL";
                 report("particle_settings", pset, "b4w_coordinate_system");
             }
+
+            if (!("b4w_allow_nla" in pset)) {
+                pset["b4w_allow_nla"] = true;
+                report("particle_settings", pset, "b4w_allow_nla");
+            }
         }
 
         if (!("constraints" in obj)) {
@@ -1273,6 +1322,14 @@ exports.check_bpy_data = function(bpy_data) {
 
     if (_unreported_compat_issues)
         m_print.error("Compatibility issues detected");
+
+    for (var param in _params_reported) {
+        var param_data = _params_reported[param];
+        var param_name = param.match(/.*?(?=>>|$)/i)[0]
+        m_print.warn("WARNING " + String(param_name) +
+            " is " + param_data.report_type + " for " + param_data.type +
+             ", reexport " + bpy_data["b4w_filepath_blend"]);
+    }
 }
 
 function quat_b4w_bpy(quat, dest) {
@@ -1299,9 +1356,17 @@ function report(type, obj, missing_param) {
         return;
     }
 
-    m_print.warn("WARNING " + String(missing_param) + " for " + String(type) + " " +
-            "\"" + obj["name"] + "\"" + " undefined, reexport " +
-            (obj["library"] ? "library " + libname(obj) : "main scene"));
+    var param_id = missing_param+">>"+type;
+
+    if (!(param_id in _params_reported)) {
+        _params_reported[param_id] = {
+            storage: [],
+            report_type: "undefined",
+            type: type
+        }
+    }
+
+    _params_reported[param_id].storage.push(obj.name);
 }
 /**
  * Report about missing datablock.
@@ -1323,9 +1388,15 @@ function report_deprecated(type, obj, deprecated_param) {
         return;
     }
 
-    m_print.warn("B4W Warning: \"" + String(deprecated_param) + "\" for " + String(type) + " " +
-            "\"" + obj["name"] + "\"" + " is deprecated, reexport " +
-            (obj["library"] ? "library \"" + libname(obj) + "\"" : "main scene."));
+    if (!(param_id in _params_reported)) {
+        _params_reported[param_id] = {
+            storage: [],
+            report_type: "deprecated",
+            type: type
+        }
+    }
+
+    _params_reported[param_id].storage.push(obj.name);
 }
 function report_modifier(type, obj) {
     if (!REPORT_COMPATIBILITY_ISSUES) {

@@ -206,7 +206,16 @@ var SHADERS = [
         vert: "postprocessing/postprocessing.glslv",
         frag: "postprocessing/ssao.glslf",
         directives: {
-            bool: ["SSAO_WHITE"],
+            bool: ["SSAO_HEMISPHERE", "SSAO_WHITE"],
+            number: [],
+            enumerated: []
+        }
+    },
+    {
+        vert: "postprocessing/postprocessing.glslv",
+        frag: "postprocessing/ssao_blur.glslf",
+        directives: {
+            bool: ["SSAO_BLUR_DEPTH"],
             number: [],
             enumerated: []
         }
@@ -350,7 +359,7 @@ function determine_max_bones(frames_blending) {
                 ["NUM_LIGHTS", 4],
                 ["DOUBLE_SIDED_LIGHTING", 1],
                 ["NUM_CAUSTS", 3],
-                ["TEXTURE_COORDS_UV", 10],
+                ["TEXTURE_COORDS_UV_ORCO", 10],
                 ["TEXTURE_COORDS_NORMAL", 20],
                 ["TEXTURE_COORDS", "TEXTURE_COORDS_NORMAL"],
                 ["DISABLE_FOG", 0],

@@ -265,27 +265,10 @@
 
             <div class="ui-grid-solo">
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
-                    <legend>Cascades:</legend>
-                    <div class="ui-grid-b">
-                        <div class="ui-block-a"><label>Number:</label></div>
-                        <div class="ui-block-b"><span id="csm_num">?</span></div>
-                    </div>
                     <div class="ui-grid-b">
                         <div class="ui-block-a"><label>Resolution:</label></div>
-                        <div class="ui-block-b"><span id="csm_resolution">?</span></div>
+                        <div class="ui-block-b" id="res_ui-block-b"><span id="csm_resolution">?</span></div>
                     </div>
-                    <div class="ui-grid-b">
-                        <div class=""><label>Borders:</label></div>
-                        <div class=""><span id="csm_borders">?</span></div>
-                    </div>
-                </div>
-                <div class="ui-block-a colapsed_content ui-body ui-body-c">
-                    <label for="csm_first_cascade_border">CSM first cascade border:</label>
-                    <input id="csm_first_cascade_border" data-highlight="true" value="0.0" min="0.01" max="1000.0" type="range" step="0.01" data-mini="true /">
-                </div>
-                <div class="ui-block-a colapsed_content ui-body ui-body-c">
-                    <label for="csm_last_cascade_border">CSM last cascade border:</label>
-                    <input id="csm_last_cascade_border" data-highlight="true" value="0.0" min="0.01" max="1000.0" type="range" step="0.01" data-mini="true /">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="self_shadow_polygon_offset">Self-shadow polygon offset:</label>
@@ -295,20 +278,39 @@
                     <label for="self_shadow_normal_offset">Self-shadow normal offset:</label>
                     <input id="self_shadow_normal_offset" data-highlight="true" value="0.0" min="0.0" max="1.0" type="range" step="0.001" data-mini="true /">
                 </div>
-                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                <div id="cascades-info-block" class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <legend>Cascades:</legend>
+                    <div class="ui-grid-b">
+                        <div class="ui-block-a"><label>Number:</label></div>
+                        <div class="ui-block-b" id="num_ui-block-b"><span id="csm_num">?</span></div>
+                    </div>
+                    <div class="ui-grid-b">
+                        <div class=""><label>Borders:</label></div>
+                        <div class=""><span id="csm_borders">?</span></div>
+                    </div>
+                </div>
+                <div id="csm_first_cascade_border-info-block" class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="csm_first_cascade_border">CSM first cascade border:</label>
+                    <input id="csm_first_cascade_border" data-highlight="true" value="0.0" min="0.01" max="1000.0" type="range" step="0.01" data-mini="true /">
+                </div>
+                <div id="csm_last_cascade_border-info-block"  class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="csm_last_cascade_border">CSM last cascade border:</label>
+                    <input id="csm_last_cascade_border" data-highlight="true" value="0.0" min="0.01" max="1000.0" type="range" step="0.01" data-mini="true /">
+                </div>
+                <div id="blur_radii-info-block" class="ui-block-a colapsed_content ui-body ui-body-c">
                     <div class="ui-grid-b">
                         <div class=""><label>Blur radii:</label></div>
-                        <div class=""><span id="blur_radii">?</span></div>
+                        <div class="" id="blur_ui-block-b"><span id="blur_radii">?</span></div>
                     </div>
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
-                    <label for="first_cascade_blur_radius">First cascade blur radius:</label>
-                    <input id="first_cascade_blur_radius" data-highlight="true" value="0.0" min="0.0" max="10.0" type="range" step="0.01" data-mini="true /">
+                    <label id="first_cascade_blur_radius-label" for="first_cascade_blur_radius">First cascade blur radius:</label>
+                    <input id="first_cascade_blur_radius" data-highlight="true" value="0.0" min="0.0" max="50.0" type="range" step="0.01" data-mini="true /">
                 </div>
 
-                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                <div id="last_cascade_blur_radius-info-block" class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="last_cascade_blur_radius">Last cascade blur radius:</label>
-                    <input id="last_cascade_blur_radius" data-highlight="true" value="0.0" min="0.0" max="10.0" type="range" step="0.01" data-mini="true /">
+                    <input id="last_cascade_blur_radius" data-highlight="true" value="0.0" min="0.0" max="50.0" type="range" step="0.01" data-mini="true /">
                 </div>
             </div>
         </div>
@@ -516,29 +518,33 @@
                 <div class="ui-block-a colapsed_content ui-body ui-body-c ssao_quality">
                     <label for="ssao_quality">SSAO quality:</label>
                     <select id="ssao_quality" name="ssao_quality" data-native-menu="false" data-mini="true">
-                        <option value="SSAO_QUALITY_32">32 samples</option>
+                        <option value="SSAO_QUALITY_8">8 samples</option>
                         <option value="SSAO_QUALITY_16">16 samples</option>
+                        <option value="SSAO_QUALITY_24">24 samples</option>
+                        <option value="SSAO_QUALITY_32">32 samples</option>
                     </select>
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="ssao_hemisphere">SSAO use hemisphere:</label>
+                    <div><select id="ssao_hemisphere" data-role="slider" data-mini="true">
+                        <option value="0" selected>No</option>
+                        <option value="1">Yes</option>
+                    </select></div>
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="ssao_blur_depth">SSAO blur depth test:</label>
+                    <div><select id="ssao_blur_depth" data-role="slider" data-mini="true">
+                        <option value="0" selected>No</option>
+                        <option value="1">Yes</option>
+                    </select></div>
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="ssao_blur_discard_value">Blur depth discard:</label>
+                    <input id="ssao_blur_discard_value" data-highlight="true" value="0.0" min="0.0" max="2.0" type="range" step="0.01" data-mini="true /">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="ssao_radius_increase">Radius Increase:</label>
                     <input id="ssao_radius_increase" data-highlight="true" value="0.0" min="0.0" max="15.0" type="range" step="0.01" data-mini="true /">
-                </div>
-                <div class="ui-block-a colapsed_content ui-body ui-body-c">
-                    <label for="ssao_dithering_amount">Dithering amount x 1000:</label>
-                    <input id="ssao_dithering_amount" data-highlight="true" value="0.0" min="0.0" max="4.0" type="range" step="0.01" data-mini="true /">
-                </div>
-                <div class="ui-block-a colapsed_content ui-body ui-body-c">
-                    <label for="ssao_gauss_center">Gauss center:</label>
-                    <input id="ssao_gauss_center" data-highlight="true" value="0.01" min="0.0" max="2.0" type="range" step="0.005" data-mini="true /">
-                </div>
-                <div class="ui-block-a colapsed_content ui-body ui-body-c">
-                    <label for="ssao_gauss_width_square">Gauss width:</label>
-                    <input id="ssao_gauss_width_square" data-highlight="true" value="0.0" min="0.0" max="16.0" type="range" step="0.02" data-mini="true /">
-                </div>
-                <div class="ui-block-a colapsed_content ui-body ui-body-c">
-                    <label for="ssao_gauss_width_left_square">Gauss width left:</label>
-                    <input id="ssao_gauss_width_left_square" data-highlight="true" value="0.0" min="0.0" max="2.0" type="range" step="0.005" data-mini="true /">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="ssao_influence">Influence:</label>

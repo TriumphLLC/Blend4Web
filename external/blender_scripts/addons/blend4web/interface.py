@@ -141,33 +141,40 @@ class B4W_WorldPanel(bpy.types.Panel):
             col.label("Shadow Settings:")
 
             row = col.row()
-            row.prop(shadow, "csm_num", text="CSM number")
-
-            col.label("CSM first cascade:")
-            row = col.row()
-            sides = row.split(align=True)
-            sides.prop(shadow, "csm_first_cascade_border", text="Border")
-            sides.prop(shadow, "first_cascade_blur_radius", text="Blur radius")
-
-            col.label("CSM last cascade:")
-            row = col.row()
-            sides = row.split(align=True)
-            sides.prop(shadow, "csm_last_cascade_border", text="Border")
-            sides.prop(shadow, "last_cascade_blur_radius", text="Blur radius")
-            row.active = getattr(shadow, "csm_num") > 1
-
-            row = col.row()
             row.prop(shadow, "csm_resolution", text="Resolution")
-
             row = col.row()
             row.prop(shadow, "self_shadow_polygon_offset", text="Self-shadow polygon offset")
             row = col.row()
             row.prop(shadow, "self_shadow_normal_offset", text="Self-shadow normal offset")
+
             row = col.row()
-            row.prop(shadow, "fade_last_cascade", text="Fade-out last cascade")
-            row = col.row()
-            row.prop(shadow, "blend_between_cascades", text="Blend between cascades")
-            row.active = getattr(shadow, "csm_num") > 1
+            row.prop(shadow, "b4w_enable_csm", text="Enable CSM")
+
+            if getattr(shadow, "b4w_enable_csm"):
+                row = col.row()
+                row.prop(shadow, "csm_num", text="CSM number")
+
+                col.label("CSM first cascade:")
+                row = col.row()
+                sides = row.split(align=True)
+                sides.prop(shadow, "csm_first_cascade_border", text="Border")
+                sides.prop(shadow, "first_cascade_blur_radius", text="Blur radius")
+
+                col.label("CSM last cascade:")
+                row = col.row()
+                sides = row.split(align=True)
+                sides.prop(shadow, "csm_last_cascade_border", text="Border")
+                sides.prop(shadow, "last_cascade_blur_radius", text="Blur radius")
+                row.active = getattr(shadow, "csm_num") > 1
+
+                row = col.row()
+                row.prop(shadow, "fade_last_cascade", text="Fade-out last cascade")
+                row = col.row()
+                row.prop(shadow, "blend_between_cascades", text="Blend between cascades")
+                row.active = getattr(shadow, "csm_num") > 1
+            else:
+                row = col.row()
+                row.prop(shadow, "first_cascade_blur_radius", text="Blur radius")
 
             ssao = world.b4w_ssao_settings
             row = layout.row()
@@ -177,13 +184,11 @@ class B4W_WorldPanel(bpy.types.Panel):
             row = col.row()
             row.prop(ssao, "radius_increase", text="Radius Increase")
             row = col.row()
-            row.prop(ssao, "dithering_amount", text="Dithering Amount")
+            row.prop(ssao, "hemisphere", text="Use Hemisphere")
             row = col.row()
-            row.prop(ssao, "gauss_center", text="Gauss Center")
+            row.prop(ssao, "blur_depth", text="Use Blur Depth Test")
             row = col.row()
-            row.prop(ssao, "gauss_width", text="Gauss Width")
-            row = col.row()
-            row.prop(ssao, "gauss_width_left", text="Gauss Width Left")
+            row.prop(ssao, "blur_discard_value", text="Blur Depth Test Discard Value")
             row = col.row()
             row.prop(ssao, "influence", text="Influence")
             row = col.row()
@@ -303,15 +308,22 @@ class B4W_ObjectPanel(bpy.types.Panel):
                     "animation")
             col.prop(obj, "b4w_export_edited_normals", text="Export edited normals")
 
-        row = layout.row(align=True)
-        row.label("Animation:")
 
-        col = row.column()
-        col.prop(obj, "b4w_use_default_animation", text="Use default")
-        col.prop(obj, "b4w_cyclic_animation", text="Cyclic")
+        row = layout.row(align=True)
+        box = row.box()
+        col = box.column()
+        col.label("Animation:")
+
+        row = col.row()
+        row.prop(obj, "b4w_use_default_animation", text="Use default")
 
         if obj.type == "ARMATURE":
-            col.prop(obj, "b4w_animation_mixing", text="Animation blending")
+            row = col.row()
+            row.prop(obj, "b4w_animation_mixing", text="Animation blending")
+
+        row = col.row()
+        row.prop(obj, "b4w_anim_behavior", text="Behavior")
+
 
         if obj.type == "EMPTY" and obj.dupli_group:
             row = layout.row()
@@ -421,6 +433,13 @@ class B4W_ObjectPanel(bpy.types.Panel):
                 row = col.row()
                 row.prop(obj.b4w_glow_settings, "glow_relapses", text="Glow relapses")
 
+            row = layout.row()
+            row.prop(obj, "b4w_billboard", text="Billboard")
+            if obj.b4w_billboard:
+                row = layout.row()
+                row.label("Billboarding geometry:")
+                row.prop(obj, "b4w_billboard_geometry", expand=True)
+
             self.add_lod_props(layout, obj)
 
     def add_lod_props(self, layout, obj):
@@ -500,9 +519,6 @@ class B4W_DataPanel(bpy.types.Panel):
 
         cam = context.camera
         if cam:
-            row = layout.row()
-            row.prop(cam, "b4w_do_not_export", text="Do not export")
-
             row = layout.row(align=True)
             row.prop(cam, "b4w_move_style", text="Move style")
 
@@ -556,9 +572,6 @@ class B4W_DataPanel(bpy.types.Panel):
         spk = context.speaker
         if spk:
             row = layout.row()
-            row.prop(spk, "b4w_do_not_export", text="Do not export")
-
-            row = layout.row()
             row.prop(spk, "b4w_behavior", text="Speaker behavior")
 
             row = layout.row()
@@ -602,30 +615,14 @@ class B4W_DataPanel(bpy.types.Panel):
         lmp = context.lamp
         if lmp:
             row = layout.row()
-            row.prop(lmp, "b4w_do_not_export", text="Do not export")
-
-            row = layout.row()
             row.prop(lmp, "b4w_generate_shadows", text="Generate shadows")
 
             if lmp.type == "SUN":
                 row = layout.row()
                 row.prop(lmp, "b4w_dynamic_intensity", text="Dynamic intensity")
 
-        crv = context.curve
-        if crv:
-            row = layout.row()
-            row.prop(crv, "b4w_do_not_export", text="Do not export")
-
-        arm = context.armature
-        if arm:
-            row = layout.row()
-            row.prop(arm, "b4w_do_not_export", text="Do not export")
-
         msh = context.mesh
         if msh:
-            row = layout.row()
-            row.prop(msh, "b4w_do_not_export", text="Do not export")
-
             row = layout.row()
             row.prop(msh, "b4w_override_boundings", text="Override boundings")
 
@@ -931,6 +928,9 @@ class B4W_ParticlePanel(bpy.types.Panel):
         if pset.type == "EMITTER":
             row = layout.row()
             row.prop(pset, "b4w_cyclic", text="Cyclic emission")
+
+            row = layout.row()
+            row.prop(pset, "b4w_allow_nla", text="Allow NLA")
 
             row = layout.row()
             row.prop(pset, "b4w_randomize_emission", text="Random emission")

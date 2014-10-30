@@ -9,10 +9,12 @@ import bpy
 import blend4web
 import blend4web.exporter as exporter
 
+PATH_TO_WEBPLAYER = "external/deploy/apps/webplayer/"
+
 class B4W_HTMLExportProcessor(bpy.types.Operator):
 
     """Export for Blend4Web (.html)"""
-    bl_idname = "b4w.html_export"
+    bl_idname = "export_scene.b4w_html"
     bl_label = "B4W HTMLExport"
 
     filepath = bpy.props.StringProperty(subtype='FILE_PATH', default = "")
@@ -25,8 +27,8 @@ class B4W_HTMLExportProcessor(bpy.types.Operator):
 
     override_filepath = bpy.props.StringProperty(
         name = "Filepath",
-        description = "Required for running in command line", 
-        default = ""    
+        description = "Required for running in command line",
+        default = ""
     )
 
     save_export_path = bpy.props.BoolProperty(
@@ -39,8 +41,8 @@ class B4W_HTMLExportProcessor(bpy.types.Operator):
     def poll(cls, context):
         path = cls.get_b4w_src_path()
         if path is not None:
-            tpl_path = os.path.join(path, "embed_template.html")
-            js_path = os.path.join(path, "embed.min.js")
+            tpl_path = os.path.join(path, "webplayer_template.html")
+            js_path = os.path.join(path, "webplayer.min.js")
             if os.path.isfile(tpl_path) and os.path.isfile(js_path):
                 return True
         return False
@@ -63,7 +65,7 @@ class B4W_HTMLExportProcessor(bpy.types.Operator):
 
         # append .html if needed
         filepath_val = self.filepath
-        if not filepath_val.lower().endswith(".html"): 
+        if not filepath_val.lower().endswith(".html"):
             filepath_val += ".html"
 
         try:
@@ -91,10 +93,12 @@ class B4W_HTMLExportProcessor(bpy.types.Operator):
         addon_prefs = bpy.context.user_preferences.addons[__package__].preferences
         if not addon_prefs.is_property_set("b4w_src_path"):
             addon_prefs["b4w_src_path"] = ""
-        
+
         path = addon_prefs["b4w_src_path"]
         if path == "":
             path = os.path.dirname(blend4web.__file__)
+        else:
+            path = os.path.join(path, PATH_TO_WEBPLAYER)
         return path
 
     def run(self, export_filepath):
@@ -106,11 +110,11 @@ class B4W_HTMLExportProcessor(bpy.types.Operator):
         json_path = os.path.join(export_dir, json_name)
 
         b4w_src_path = self.get_b4w_src_path()
-        html_tpl_path = os.path.join(b4w_src_path, "embed_template.html")
-        b4w_minjs_path = os.path.join(b4w_src_path, "embed.min.js")
-        b4w_css_path = os.path.join(b4w_src_path, "embed.css")
+        html_tpl_path = os.path.join(b4w_src_path, "webplayer_template.html")
+        b4w_minjs_path = os.path.join(b4w_src_path, "webplayer.min.js")
+        b4w_css_path = os.path.join(b4w_src_path, "webplayer.min.css")
 
-        if "CANCELLED" in bpy.ops.b4w.export("EXEC_DEFAULT", \
+        if "CANCELLED" in bpy.ops.export_scene.b4w_json("EXEC_DEFAULT", \
                 filepath=json_path, do_autosave=False, save_export_path=False, \
                 is_html_export=True):
             return
@@ -176,7 +180,7 @@ def get_default_path():
 
 def set_default_path(path):
     if bpy.data.filepath != "":
-        path = bpy.path.relpath(path)    
+        path = bpy.path.relpath(path)
     for i in range(len(bpy.data.scenes)):
         bpy.data.scenes[i].b4w_export_path_html = exporter.guard_slashes(path)
 
@@ -206,7 +210,7 @@ def extract_data(json_path, json_filename):
         for i in range(len(json_parsed["images"])):
             img = json_parsed["images"][i]
             if img["source"] == "FILE":
-                data[img["filepath"]] = get_encoded_resource_data(img["filepath"], 
+                data[img["filepath"]] = get_encoded_resource_data(img["filepath"],
                         json_path)
 
     if "sounds" in json_parsed:

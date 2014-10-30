@@ -197,10 +197,6 @@ msgstr ""
 msgid "`Opera <http://www.opera.com/browser>`_"
 msgstr ""
 
-#: ../about.rst:79
-msgid "`Safari <http://www.apple.com/safari/>`_ 8+"
-msgstr ""
-
 #: ../about.rst:82
 msgid "Экспериментальная поддержка"
 msgstr "Experimental Support"
@@ -214,10 +210,6 @@ msgstr ""
 #: ../about.rst:88
 msgid "Мобильные платформы"
 msgstr "Mobile Platforms"
-
-#: ../about.rst:90
-msgid "Android (на современных устройствах)"
-msgstr "Android (on modern devices)"
 
 #: ../about.rst:91
 msgid "BlackBerry"
@@ -676,3 +668,16 @@ msgstr ""
 "websites of graphics processors vendors. See detailed info in the section "
 ":ref:`webgl_not_working`."
 
+#: ../about.rst:79
+msgid "`Safari <http://www.apple.com/safari/>`_ 8+"
+msgstr ""
+
+#: ../about.rst:90
+msgid "Android (на современных устройствах)"
+msgstr "Android (on modern devices)"
+
+#~ msgid "`Safari <http://www.apple.com/safari/>`_ 8"
+#~ msgstr ""
+
+#~ msgid "Android (на большей части современных устройств)"
+#~ msgstr ""

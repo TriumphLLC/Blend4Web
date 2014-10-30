@@ -165,9 +165,7 @@ vec3 skin_vector(in vec3 vector,
     vec3 vector_rot_before = qrot(quatb, vector);
     return vector_rot_before;
 }
-
 # endif // FRAMES_BLENDING
-
 
 void skin(inout vec3 position, inout vec3 tangent, inout vec3 binormal, inout vec3 normal)
 {
@@ -184,25 +182,25 @@ void skin(inout vec3 position, inout vec3 tangent, inout vec3 binormal, inout ve
         vec3 sbnr = vec3(0.0, 0.0, 0.0);
         vec3 snrm = vec3(0.0, 0.0, 0.0);
 
+        // NOTE: Copy attributes to prevent bugs on some Qualcomm GPUs
+        vec4 influece  = a_influence;
+
         for (int i = 0; i < 4; i++) {
-
-            int   index  = int  (a_influence[i]);
-            float weight = fract(a_influence[i]);
-
+            int ind = int(influece[i]);
+            float wght = fract(influece[i]);
 # if FRAMES_BLENDING
-            spos += weight * skin_point(position, u_quatsb[index], u_quatsa[index], 
-                    u_transb[index], u_transa[index], ff);
-            stng += weight * skin_vector(tangent,  u_quatsb[index], u_quatsa[index], ff);      
-            sbnr += weight * skin_vector(binormal, u_quatsb[index], u_quatsa[index], ff);
-            snrm += weight * skin_vector(normal,   u_quatsb[index], u_quatsa[index], ff);        
+            spos += wght * skin_point(position, u_quatsb[ind], u_quatsa[ind],
+                                        u_transb[ind], u_transa[ind], ff);
+            stng += wght * skin_vector(tangent,  u_quatsb[ind], u_quatsa[ind], ff);
+            sbnr += wght * skin_vector(binormal, u_quatsb[ind], u_quatsa[ind], ff);
+            snrm += wght * skin_vector(normal,   u_quatsb[ind], u_quatsa[ind], ff);
 # else
-            spos += weight * skin_point(position, u_quatsb[index], u_transb[index]);
-            stng += weight * skin_vector(tangent,  u_quatsb[index]);      
-            sbnr += weight * skin_vector(binormal, u_quatsb[index]);
-            snrm += weight * skin_vector(normal,   u_quatsb[index]);        
+            spos += wght * skin_point(position, u_quatsb[ind], u_transb[ind]);
+            stng += wght * skin_vector(tangent,  u_quatsb[ind]);
+            sbnr += wght * skin_vector(binormal, u_quatsb[ind]);
+            snrm += wght * skin_vector(normal,   u_quatsb[ind]);
 # endif
         }
-        
         position = spos;
         tangent  = stng;
         binormal = sbnr;

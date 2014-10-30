@@ -1,9 +1,9 @@
 bl_info = {
     "name": "Blend4Web",
     "author": "Blend4Web Development Team",
-    "version": (14, 9, 0),
-    "blender": (2, 71, 0),
-    "b4w_format_version": "5.00",
+    "version": (14, 10, 0),
+    "blender": (2, 72, 0),
+    "b4w_format_version": "5.01",
     "location": "File > Import-Export",
     "description": "Blend4Web is a Blender-friendly 3D web framework",
     "warning": "",
@@ -85,12 +85,12 @@ class B4WPreferences(AddonPreferences):
     # this must match the addon name, use '__package__'
     # when defining this in a submodule of a python package.
     bl_idname = __name__
-    b4w_src_path = StringProperty(name="Path to b4w source", \
+    b4w_src_path = StringProperty(name="Path to Blend4Web SDK", \
             subtype='DIR_PATH', update=update_b4w_src_path)
 
     def draw(self, context):
         layout = self.layout
-        layout.prop(self, "b4w_src_path", text="Path to b4w source")
+        layout.prop(self, "b4w_src_path", text="Path to Blend4Web SDK")
 
 def register():
     nla_script.register()

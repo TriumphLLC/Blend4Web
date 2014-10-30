@@ -16,7 +16,7 @@
                                   ATTRIBUTES
 ============================================================================*/
 
-#define TEXCOORD (TEXTURE_COLOR && TEXTURE_COORDS == TEXTURE_COORDS_UV || TEXTURE_STENCIL_ALPHA_MASK || TEXTURE_SPEC || TEXTURE_NORM)
+#define TEXCOORD (TEXTURE_COLOR && TEXTURE_COORDS == TEXTURE_COORDS_UV_ORCO || TEXTURE_STENCIL_ALPHA_MASK || TEXTURE_SPEC || TEXTURE_NORM)
 
 attribute vec3 a_position;
 attribute vec3 a_normal;
@@ -29,7 +29,7 @@ attribute vec3 a_normal;
     attribute vec4 a_influence;
 #endif
 
-#if WIND_BEND || DYNAMIC_GRASS || HAIR_BILLBOARD
+#if WIND_BEND || DYNAMIC_GRASS || BILLBOARD
     AU_QUALIFIER vec3 au_center_pos;
 #endif
 
@@ -107,7 +107,7 @@ uniform float u_scale_threshold;
 #endif
 
 #if WIND_BEND
-#if HAIR_BILLBOARD_JITTERED
+#if BILLBOARD_JITTERED
 uniform float u_jitter_amp;
 uniform float u_jitter_freq;
 #endif
@@ -237,7 +237,7 @@ void main(void) {
 
     // apply detailed wind bending (branches and leaves)
 
-#if WIND_BEND || DYNAMIC_GRASS || HAIR_BILLBOARD
+#if WIND_BEND || DYNAMIC_GRASS || BILLBOARD
     vec3 center = au_center_pos;
 #else
     vec3 center = vec3(0.0);
@@ -250,21 +250,21 @@ void main(void) {
             u_view_matrix);
 #else
 
-# if HAIR_BILLBOARD
+# if BILLBOARD
     vec3 wcen = (u_model_matrix * vec4(center, 1.0)).xyz;
     mat4 model_matrix = billboard_matrix(u_camera_eye, wcen, u_view_matrix);
-#  if WIND_BEND && HAIR_BILLBOARD_JITTERED
+#  if WIND_BEND && BILLBOARD_JITTERED
     vec3 vec_seed = (u_model_matrix * vec4(center, 1.0)).xyz;
     model_matrix = model_matrix * bend_jitter_matrix(u_wind, u_time,
             u_jitter_amp, u_jitter_freq, vec_seed);
-#  endif  // WIND_BEND && HAIR_BILLBOARD_JITTERED
+#  endif  // WIND_BEND && BILLBOARD_JITTERED
     vertex world = to_world(position - center, center, tangent, binormal, normal,
             model_matrix);
     world.center = wcen;
-# else  // HAIR_BILLBOARD
+# else  // BILLBOARD
     vertex world = to_world(position, center, tangent, binormal, normal,
             u_model_matrix);
-# endif  // HAIR_BILLBOARD
+# endif  // BILLBOARD
 #endif  // DYNAMIC_GRASS
 
 #if TEXTURE_NORM

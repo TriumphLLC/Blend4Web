@@ -51,16 +51,17 @@ var NPC_MAX_ACTIVITY_DISTANCE = 100;
 /**
  * Creates a new event track based on a given graph.
  * @param {Object} graph Animation graph with a number of movement params.
- * @param {Array} graph.path A path which the NPC will be moving around.
+ * @param {Array} graph.path A list of [x,y,z] points NPC will be moving around.
  * @param {Number} graph.delay Time delay before each path step.
  * @param {Object} graph.actions Actions for every movement type (move, idle, etc).
  * @param {Object} graph.obj Animated object ID.
+ * @param {Object} graph.rig Armature object ID.
  * @param {Object} graph.collider Collider object ID which will be used for collision detection.
  * @param {Object} graph.empty The corresponding empty object.
  * @param {Number} graph.speed Movement speed.
+ * @param {Number} graph.rot_speed Rotation speed.
  * @param {Boolean} graph.random Determines whether the object will perform random moves or not.
  * @param {Number} graph.type NPC movement type (NT_WALKING, NT_FLYING, etc).
- * @param {Number} graph.rot_speed Rotation speed.
  * @method module:npc_ai.npc_ai
  * @cc_externs path delay actions obj collider empty speed random rig
  * @cc_externs type rot_speed max_height min_height

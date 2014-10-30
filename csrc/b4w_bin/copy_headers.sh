@@ -1,6 +1,6 @@
 #!/bin/bash
 
-BLENDER_SRC_PATH="$HOME/src/blender-v2.71/source"
+BLENDER_SRC_PATH="$HOME/src/blender-2.72b/source"
 
 cp -v "$BLENDER_SRC_PATH/blender/blenlib/BLI_sys_types.h" ./includes/blenlib
 

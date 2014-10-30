@@ -133,8 +133,9 @@ exports.set_default_directives = function(sinfo) {
         "DYNAMIC_GRASS_SIZE",
         "FOAM",
         "FRAMES_BLENDING",
-        "HAIR_BILLBOARD_JITTERED",
-        "HAIR_BILLBOARD_SPHERICAL",
+        "BILLBOARD_JITTERED",
+        "BILLBOARD_SPHERICAL",
+        "HAIR_BILLBOARD",
         "SHADOW_TEX_RES",
         "MAIN_BEND_COL",
         "MAX_BONES",
@@ -149,6 +150,8 @@ exports.set_default_directives = function(sinfo) {
         "SHORE_SMOOTHING",
         "SKINNED",
         "SKY_TEXTURE",
+        "SSAO_HEMISPHERE",
+        "SSAO_BLUR_DEPTH",
         "SSAO_ONLY",
         "SSAO_WHITE",
         "STATIC_BATCH",
@@ -178,8 +181,8 @@ exports.set_default_directives = function(sinfo) {
         "TEXTURE_COORDS",
         "AA_METHOD",
         "AU_QUALIFIER",
-        "HAIR_BILLBOARD",
-        "HAIR_BILLBOARD_RANDOM",
+        "BILLBOARD",
+        "BILLBOARD_RANDOM",
         "PRECISION",
         "EPSILON",
         "WIREFRAME_QUALITY",
@@ -212,7 +215,7 @@ exports.set_default_directives = function(sinfo) {
         case "DYNAMIC_GRASS_SIZE":
         case "FOAM":
         case "FRAMES_BLENDING":
-        case "HAIR_BILLBOARD_JITTERED":
+        case "BILLBOARD_JITTERED":
         case "MAIN_BEND_COL":
         case "MAX_BONES":
         case "NUM_NORMALMAPS":
@@ -226,6 +229,8 @@ exports.set_default_directives = function(sinfo) {
         case "SHORE_SMOOTHING":
         case "SKINNED":
         case "SKY_TEXTURE":
+        case "SSAO_HEMISPHERE":
+        case "SSAO_BLUR_DEPTH":
         case "SSAO_ONLY":
         case "SSAO_WHITE":
         case "STATIC_BATCH":
@@ -240,8 +245,9 @@ exports.set_default_directives = function(sinfo) {
         case "WIND_BEND":
         case "DETAIL_BEND":
         case "SHORE_PARAMS":
+        case "BILLBOARD":
+        case "BILLBOARD_RANDOM":
         case "HAIR_BILLBOARD":
-        case "HAIR_BILLBOARD_RANDOM":
         case "WIREFRAME_QUALITY":
         case "SIZE_RAMP_LENGTH":
         case "COLOR_RAMP_LENGTH":
@@ -256,7 +262,7 @@ exports.set_default_directives = function(sinfo) {
         case "CSM_BLEND_BETWEEEN_CASCADES":
         case "CSM_FADE_LAST_CASCADE":
         case "DEPTH_RGBA":
-        case "HAIR_BILLBOARD_SPHERICAL":
+        case "BILLBOARD_SPHERICAL":
         case "NUM_LIGHTS":
         case "NUM_LAMP_LIGHTS":
         case "MAX_STEPS":
@@ -298,7 +304,7 @@ exports.set_default_directives = function(sinfo) {
             val = "TEXTURE_BLEND_TYPE_MIX";
             break;
         case "TEXTURE_COORDS":
-            val = "TEXTURE_COORDS_UV";
+            val = "TEXTURE_COORDS_UV_ORCO";
             break;
         case "PRECISION":
             val = config.defaults.precision;
@@ -623,6 +629,8 @@ function preprocess_shader(type, ast, dirs_arr, node_elements) {
     }
 
     function process_nodes_main(node_elements) {
+        var replaces = {};
+
         for (var i = 0; i < node_elements.length; i++) {
             var nelem = node_elements[i];
 
@@ -635,8 +643,7 @@ function preprocess_shader(type, ast, dirs_arr, node_elements) {
             var output_index = 0;
             var param_index = 0;
 
-            nelem.replaces = {};
-
+            replaces[i] = {};
             for (var j = 0; j < node_parts.length; j++) {
                 var part = node_parts[j];
 
@@ -653,7 +660,7 @@ function preprocess_shader(type, ast, dirs_arr, node_elements) {
                         lines.push(main_var_line);
                     }
 
-                    nelem.replaces[part.name] = new_name;
+                    replaces[i][part.name] = new_name;
 
                     input_index++;
                     break;
@@ -665,7 +672,7 @@ function preprocess_shader(type, ast, dirs_arr, node_elements) {
                     main_var_line += ";";
                     lines.push(main_var_line);
 
-                    nelem.replaces[part.name] = new_name;
+                    replaces[i][part.name] = new_name;
 
                     output_index++;
                     break;
@@ -676,7 +683,7 @@ function preprocess_shader(type, ast, dirs_arr, node_elements) {
                     else if (type == "frag")
                         var new_name = nelem.params[param_index];
 
-                    nelem.replaces[part.name] = new_name;
+                    replaces[i][part.name] = new_name;
 
                     param_index++;
                     break;
@@ -704,8 +711,8 @@ function preprocess_shader(type, ast, dirs_arr, node_elements) {
                     for (var k = 0; k < part.tokens.length; k++) {
                         var tok = part.tokens[k];
 
-                        if (tok in nelem.replaces)
-                            new_part.tokens.push(nelem.replaces[tok]);
+                        if (tok in replaces[i])
+                            new_part.tokens.push(replaces[i][tok]);
                         else
                             new_part.tokens.push(tok);
                     }

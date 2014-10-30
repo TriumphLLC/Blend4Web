@@ -136,11 +136,7 @@ exports.set_tsr = function(obj, tsr) {
 
 exports.get_object_size = function(obj) {
 
-    if (obj._render.type == "STATIC")
-        var render = obj._dyn_render;
-    else
-        var render = obj._render;
-
+    var render = obj._render;
     var bpy_bb = obj["data"]["b4w_bounding_box"];
 
     var x_size = render.scale * (bpy_bb["max_x"] - bpy_bb["min_x"]);
@@ -161,11 +157,7 @@ exports.get_object_center = function(obj, calc_bs_center, dest) {
         m_vec3.copy(render.bs_world.center, dest);
     } else {
 
-        if (obj._render.type == "STATIC")
-            var render = obj._dyn_render;
-        else
-            var render = obj._render;
-
+        var render = obj._render;
         var bpy_bb = obj["data"]["b4w_bounding_box"];
 
         dest[0] = (bpy_bb["max_x"] + bpy_bb["min_x"])/2;

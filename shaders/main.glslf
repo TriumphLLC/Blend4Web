@@ -27,7 +27,7 @@
                                GLOBAL UNIFORMS
 ============================================================================*/
 
-#define TEXCOORD (TEXTURE_COLOR && TEXTURE_COORDS == TEXTURE_COORDS_UV || TEXTURE_STENCIL_ALPHA_MASK || TEXTURE_SPEC || TEXTURE_NORM)
+#define TEXCOORD (TEXTURE_COLOR && TEXTURE_COORDS == TEXTURE_COORDS_UV_ORCO || TEXTURE_STENCIL_ALPHA_MASK || TEXTURE_SPEC || TEXTURE_NORM)
 
 uniform float u_time;
 #if SKY_TEXTURE
@@ -344,7 +344,7 @@ void main(void) {
     vec4 texture_color1;
 #  if TEXTURE_COORDS == TEXTURE_COORDS_NORMAL
     texture_color1 = texture2D(u_colormap1, texcoord_norm);
-#  elif TEXTURE_COORDS == TEXTURE_COORDS_UV
+#  elif TEXTURE_COORDS == TEXTURE_COORDS_UV_ORCO
     texture_color1 = texture2D(u_colormap1, texcoord);
 #  endif
     srgb_to_lin(texture_color1.rgb);
@@ -355,7 +355,7 @@ void main(void) {
 # else  // TEXTURE_STENCIL_ALPHA_MASK
 #  if TEXTURE_COORDS == TEXTURE_COORDS_NORMAL
     vec4 texture_color = texture2D(u_colormap0, texcoord_norm);
-#  elif TEXTURE_COORDS == TEXTURE_COORDS_UV
+#  elif TEXTURE_COORDS == TEXTURE_COORDS_UV_ORCO
     vec4 texture_color = texture2D(u_colormap0, texcoord + u_time * u_colormap0_uv_velocity);
 #  endif
     srgb_to_lin(texture_color.rgb);

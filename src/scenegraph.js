@@ -692,13 +692,9 @@ exports.create_rendering_graph = function(render_to_texture, sc_render, cam_rend
 
     // shadow stuff
     if (render_shadows) {
+        m_cam.update_camera_shadows(main_cams[0], shadow_params);
+
         var csm_num = shadow_params.csm_num;
-        if (!csm_num)
-            throw "Zero CSM sections is forbidden";
-
-        // calculate csm parameters for main camera
-        m_cam.update_camera_csm(main_cams[0], shadow_params);
-
         for (var i = 0; i < csm_num; i++) {
             var subs_shadow = create_subs_shadow_cast(i, shadow_params);
             m_graph.append_node_attr(graph, subs_shadow);
@@ -804,6 +800,7 @@ exports.create_rendering_graph = function(render_to_texture, sc_render, cam_rend
             var slink_depth_d = create_slink("DEPTH", "u_depth", 1, 1, true);
 
             if (ssao) {
+                // ssao
                 var cam_ssao = cam_copy(cam);
                 cam_render.cameras.push(cam_ssao);
 
@@ -811,10 +808,22 @@ exports.create_rendering_graph = function(render_to_texture, sc_render, cam_rend
                 var subs_ssao = create_subs_ssao(cam_ssao, fog, ssao_params);
                 m_graph.append_node_attr(graph, subs_ssao);
 
-                var slink_ssao = create_slink("COLOR", "u_shadow_mask", 1, 1, true);
+                var slink_ssao = create_slink("COLOR", "u_ssao_mask", 1, 1, true);
 
                 m_graph.append_edge_attr(graph, subs_depth, subs_ssao, slink_depth_c);
                 m_graph.append_edge_attr(graph, subs_depth, subs_ssao, slink_depth_d);
+
+                // ssao_blur
+                var cam_ssao_blur = cam_copy(cam);
+                cam_render.cameras.push(cam_ssao_blur);
+
+                var subs_ssao_blur = create_subs_ssao_blur(cam_ssao_blur, ssao_params);
+                m_graph.append_node_attr(graph, subs_ssao_blur);
+
+                var slink_ssao_blur = create_slink("COLOR", "u_shadow_mask", 1, 1, true);
+
+                m_graph.append_edge_attr(graph, subs_ssao, subs_ssao_blur, slink_ssao);
+                m_graph.append_edge_attr(graph, subs_depth, subs_ssao_blur, slink_depth_d);
             }
 
             var cam_depth_pack = cam_copy(cam_depth);
@@ -870,7 +879,7 @@ exports.create_rendering_graph = function(render_to_texture, sc_render, cam_rend
         m_graph.append_edge_attr(graph, subs_depth, subs_main, slinks_main_depth_o[i]);
 
         if (slink_ssao)
-            m_graph.append_edge_attr(graph, subs_ssao, subs_main, slink_ssao);
+            m_graph.append_edge_attr(graph, subs_ssao_blur, subs_main, slink_ssao_blur);
         else
             // NOTE: same as slink_depth_c
             m_graph.append_edge_attr(graph, subs_depth, subs_main,
@@ -1557,38 +1566,14 @@ exports.create_rendering_graph = function(render_to_texture, sc_render, cam_rend
         curr_level.push(subs_sky);
     }
 
+    var subs_sink = create_subs_sink();
+    m_graph.append_node_attr(graph, subs_sink);
+
+
     if (cfg_dbg.enabled) {
         var subs_debug_view = create_subs_postprocessing("NONE");
         m_graph.append_node_attr(graph, subs_debug_view);
-
-        var subs_from = null;
-        var subs_num = 0;
-
-        m_graph.traverse(graph, function(id, attr) {
-            if (attr.type == cfg_dbg.subs_type) {
-                if (subs_num == cfg_dbg.subs_number) {
-                    subs_from = attr;
-                    return true;
-                } else
-                    subs_num++;
-            }
-        });
-        if (subs_from) {
-            var node = m_graph.node_by_attr(graph, subs_from);
-            m_graph.traverse_edges(graph, function(edge_from, edge_to, edge_attr) {
-                if (edge_from == node) {
-                    m_graph.append_edge_attr(graph, subs_from, subs_debug_view,
-                            create_slink(cfg_dbg.slink_type, "u_color",
-                            edge_attr.size, edge_attr.size_mult,
-                            edge_attr.update_dim));
-                    return true;
-                }
-            });
-        }
     }
-
-    var subs_sink = create_subs_sink();
-    m_graph.append_node_attr(graph, subs_sink);
 
     for (var i = 0; i < curr_level.length; i++) {
         var subs = curr_level[i];
@@ -1613,9 +1598,34 @@ exports.create_rendering_graph = function(render_to_texture, sc_render, cam_rend
         }
     }
 
-    if (cfg_dbg.enabled)
-        m_graph.append_edge_attr(graph, subs_debug_view, subs_sink,
-                create_slink("SCREEN", "NONE", 0.5, 0.5, true));
+    if (cfg_dbg.enabled) {
+        var subs_from = null;
+        var subs_num = 0;
+
+        m_graph.traverse(graph, function(id, attr) {
+            if (attr.type == cfg_dbg.subs_type) {
+                if (subs_num == cfg_dbg.subs_number) {
+                    subs_from = attr;
+                    return true;
+                } else
+                    subs_num++;
+            }
+        });
+        if (subs_from) {
+            var node = m_graph.node_by_attr(graph, subs_from);
+            m_graph.traverse_edges(graph, function(edge_from, edge_to, edge_attr) {
+                if (edge_from == node) {
+                    m_graph.append_edge_attr(graph, subs_from, subs_debug_view,
+                            create_slink(cfg_dbg.slink_type, "u_color",
+                            edge_attr.size, edge_attr.size_mult,
+                            edge_attr.update_dim));
+                    m_graph.append_edge_attr(graph, subs_debug_view, subs_sink,
+                            create_slink("SCREEN", "NONE", 0.5, 0.5, true));
+                    return true;
+                }
+            });
+        }
+    }
 
     // remove unattached depth subscenes
     // it would be better not to push them to graph at all
@@ -1743,15 +1753,15 @@ function init_subs(type) {
         sky_color: new Float32Array(3),
 
         // ssao properties
+        ssao_hemisphere: 0,
+        ssao_blur_depth: 0,
+        ssao_blur_discard_value: 0,
         ssao_radius_increase: 0,
-        ssao_dithering_amount: 0,
-        ssao_gauss_center: 0,
-        ssao_gauss_width_square: 0,
-        ssao_gauss_width_left_square: 0,
         ssao_influence: 0,
         ssao_dist_factor: 0,
         ssao_samples: 0,
         ssao_only: 0,
+        ssao_white: 0,
 
         // color correction properties
         brightness: 0,
@@ -2027,14 +2037,25 @@ function create_subs_ssao(cam, fog, ssao_params) {
     subs.fog_color_density = fog;
     subs.water_fog_color_density = new Float32Array(fog);
 
-    subs.ssao_radius_increase = ssao_params.radius_increase; // was 1.7 // sampling radius increase
-    subs.ssao_dithering_amount = ssao_params.dithering_amount / 1000; // was 0.0007 // dithering amount
-    subs.ssao_gauss_center = ssao_params.gauss_center; // was 0.2 // gauss bell center
-    subs.ssao_gauss_width_square = ssao_params.gauss_width_square; // was 2.0 * 2.0 // gauss bell width
-    subs.ssao_gauss_width_left_square = ssao_params.gauss_width_left_square; // was 0.1 * 0.1 // self-shadowing reduction
-    subs.ssao_influence = ssao_params.influence; // was 0.7 // how much AO affects final rendering
-    subs.ssao_dist_factor = ssao_params.dist_factor; // did not exist // how much ao decreases with distance
+    subs.ssao_radius_increase = ssao_params.radius_increase;
+    subs.ssao_hemisphere = ssao_params.hemisphere;
+    subs.ssao_influence = ssao_params.influence; // how much AO affects final rendering
+    subs.ssao_dist_factor = ssao_params.dist_factor; // how much ao decreases with distance
     subs.ssao_samples = ssao_params.samples; // number of samples aka quality
+
+    return subs;
+}
+
+function create_subs_ssao_blur(cam, ssao_params) {
+    var subs = init_subs("SSAO_BLUR");
+    subs.clear_color = false;
+    subs.clear_depth = false;
+    subs.depth_test = false;
+
+    subs.ssao_blur_depth = ssao_params.blur_depth;
+    subs.ssao_blur_discard_value = ssao_params.blur_discard_value;
+
+    subs.camera = cam;
 
     return subs;
 }

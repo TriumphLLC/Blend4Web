@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Объекты &mdash; Руководство пользователя: Blend4Web v14.09</title>
+    <title>Объекты &mdash; Руководство пользователя: Blend4Web v14.10</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.09',
+        VERSION:     '14.10',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v14.09" href="index.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v14.10" href="index.html" />
     <link rel="next" title="Материалы" href="materials.html" />
     <link rel="prev" title="Аддон" href="addon.html" /> 
   </head>
@@ -37,7 +37,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">Руководство пользователя: Blend4Web v14.09</a></div>
+          href="index.html">Руководство пользователя: Blend4Web v14.10</a></div>
         <div class="rel">
           <a href="addon.html" title="Аддон"
              accesskey="P">предыдущий</a> |
@@ -80,15 +80,14 @@
 <p>Все объекты типа <tt class="docutils literal"><span class="pre">MESH</span></tt> можно разделить на статические и динамические.</p>
 <p><strong>Статические объекты</strong> - объекты, меши которых могут быть объединены друг с другом, если они имеют одинаковый материал.</p>
 <p><strong>Динамические объекты</strong> - объекты, меши которых не могут быть скомбинированы друг с другом.</p>
-<p>Объединение статических объектов осуществляется в целях оптимизации количества вызовов отрисовки.
-Динамические объекты нужны в том случае, когда необходимо обеспечить движение отдельного объекта.</p>
+<p>Объединение статических объектов - т.н. батчинг (batching) - осуществляется автоматически при загрузке сцены в целях оптимизации количества вызовов отрисовки. Конвертация происходит, даже если на сцене присутствует всего один объект. Центр получившегося в результате конвертации меша находится в начале координат.</p>
 <p>Среди объектов другого типа динамическими являются <tt class="docutils literal"><span class="pre">CAMERA</span></tt> и <tt class="docutils literal"><span class="pre">ARMATURE</span></tt>. Остальные - статические.</p>
-<p>Объекты, имеющие анимацию, физику или родителя, являющегося динамическим объектом, уже рассматриваются как динамические.
-Если же необходимо обеспечить движение объекта, однако явным образом это не вытекает из имеющихся на нём опций, то следует включить настройку <cite>Blend4Web &gt; Do not batch</cite>.</p>
+<p>Объекты, имеющие анимацию, физику или родителя, являющегося динамическим объектом, рассматриваются как динамические.</p>
+<p>Перемещение посредством API возможно только в случае динамических объектов. Чтобы обеспечить движение объекта, не имеющего настроек динамического объекта, в его настройках следует активировать опцию <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Do</span> <span class="pre">not</span> <span class="pre">batch</span></tt>.</p>
 </div>
 <div class="section" id="id4">
 <h2>Настройка<a class="headerlink" href="#id4" title="Ссылка на этот заголовок">¶</a></h2>
-<p>Для объектов всех типов поддерживаются расположение в пространстве, указатель на блок данных, родительский объект, принадлежность к группе и ряд специальных свойств движка.</p>
+<p>Для объектов всех типов поддерживаются расположение в пространстве, указатель на блок данных, родительский объект, принадлежность к группе и ряд свойств, специфичных для Blend4Web.</p>
 <div class="section" id="object">
 <h3>Вкладка Object<a class="headerlink" href="#object" title="Ссылка на этот заголовок">¶</a></h3>
 <a class="reference internal image-reference" href="_images/object_setup.png"><img alt="_images/object_setup.png" class="align-center" src="_images/object_setup.png" style="width: 100%;" /></a>
@@ -99,7 +98,7 @@
 <dt><em>Transform &gt; Location</em></dt>
 <dd>Координаты местоположения.</dd>
 <dt><em>Transform &gt; Rotation</em></dt>
-<dd>Углы вращения. Должен быть выставлен режим по умолчанию <tt class="docutils literal"><span class="pre">XYZ</span> <span class="pre">Euler</span></tt>. При создании <a class="reference internal" href="animation.html#whole-object-anim"><em>объектной анимации</em></a> необходимо перейти в режим <tt class="docutils literal"><span class="pre">Quaternion</span> <span class="pre">(WXYZ)</span></tt>.</dd>
+<dd>Углы вращения. При повороте объекта доступны все режимы <tt class="docutils literal"><span class="pre">Rotation</span> <span class="pre">Mode</span></tt>, но при создании <a class="reference internal" href="animation.html#whole-object-anim"><em>объектной анимации</em></a> поддерживаются только <tt class="docutils literal"><span class="pre">Quaternion</span> <span class="pre">(WXYZ)</span></tt> и <tt class="docutils literal"><span class="pre">XYZ</span> <span class="pre">Euler</span></tt>.</dd>
 <dt><em>Transform &gt; Scale</em></dt>
 <dd>Масштабирование. Все 3 компоненты (x, y, z) должны быть одинаковы. Для физических объектов масштабирование не поддерживается.</dd>
 <dt><em>Relations &gt; Parent</em></dt>
@@ -107,7 +106,7 @@
 <dt><em>Groups</em></dt>
 <dd>Группы объектов, которым принадлежит данный объект.</dd>
 </dl>
-<a class="reference internal image-reference" href="_images/object_setup_b4w.png"><img alt="_images/object_setup_b4w.png" class="align-center" src="_images/object_setup_b4w.png" style="width: 100%;" /></a>
+<img alt="_images/object_setup_b4w.png" class="align-center" src="_images/object_setup_b4w.png" />
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -117,15 +116,20 @@
 <dt><em>Blend4Web &gt; Apply scale</em></dt>
 <dd>Применить масштабирование объекта при экспорте. Также применяет модификаторы.</dd>
 <dt><em>Blend4Web &gt; Apply modifiers</em></dt>
-<dd>Применить модификаторы объекта при экспорте.</dd>
+<dd>Применить модификаторы объекта при экспорте. При наличии модификатора <tt class="docutils literal"><span class="pre">SKIN</span></tt> рекомендуется применить его перед экспортом, т.к. он сбрасывает слои вертексных цветов и UV-текстур, что может привести к ошибкам экспорта.</dd>
 <dt><em>Blend4Web &gt; Export vertex animation</em></dt>
 <dd>Экспортировать предварительно созданную и сохраненную вертексную анимацию.</dd>
 <dt><em>Blend4Web &gt; Export edited normals</em></dt>
 <dd>Экспортировать предварительно отредактированные и сохраненные нормали.</dd>
 <dt><em>Blend4Web &gt; Animation &gt; Use default</em></dt>
 <dd>Начать воспроизведение в движке связанной с объектом анимации.</dd>
-<dt><em>Blend4Web &gt; Animation &gt; Cyclic</em></dt>
-<dd>Циклически повторять связанную с объектом анимацию.</dd>
+<dt><em>Blend4Web &gt; Animation &gt; Animation blending</em></dt>
+<dd>Только для арматурных объектов. Разрешить плавный переход от одной скелетной
+анимации к другой.</dd>
+<dt><em>Blend4Web &gt; Animation &gt; Behavior</em></dt>
+<dd>Поведение анимации при достижении последнего кадра: <tt class="docutils literal"><span class="pre">Finish</span> <span class="pre">stop</span></tt> -
+остановить, <tt class="docutils literal"><span class="pre">Finish</span> <span class="pre">reset</span></tt> - остановить и сбросить в нулевой кадр,
+<tt class="docutils literal"><span class="pre">Cyclic</span></tt> - циклически повторять.</dd>
 <dt><em>Blend4Web &gt; Do not batch</em></dt>
 <dd>Принудительно сделать объект <a class="reference internal" href="#static-dynamic-objects"><em>динамическим</em></a>.</dd>
 <dt><em>Blend4Web &gt; Dynamic Geometry</em></dt>
@@ -139,17 +143,17 @@
 <dt><em>Blend4Web &gt; Shadows: Cast</em></dt>
 <dd>Объект будет отбрасывать тени.</dd>
 <dt><em>Blend4Web &gt; Shadows: Cast only</em></dt>
-<dd>Объект будет отбрасывать тени, при этом сам будет оставаться невидимым.</dd>
+<dd>Объект будет отбрасывать тени, при этом сам будет оставаться невидимым. Становится доступным после включения <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Shadows:</span> <span class="pre">Cast</span></tt>.</dd>
 <dt><em>Blend4Web &gt; Shadows: Receive</em></dt>
 <dd>Разрешить затенение от прилегающих объектов (получение теней) на объекте.</dd>
 <dt><em>Blend4Web &gt; Reflections: Reflexible</em></dt>
 <dd>При включении объект будет отражаться от зеркальных поверхностей.</dd>
 <dt><em>Blend4Web &gt; Reflections: Reflexible only</em></dt>
-<dd>При включении объект будет отражаться, при этом сам будет оставаться невидимым.</dd>
+<dd>При включении объект будет отражаться, при этом сам будет оставаться невидимым. Становится доступным после включения <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Reflections:</span> <span class="pre">Reflexible</span></tt>.</dd>
 <dt><em>Blend4Web &gt; Reflections: Reflective</em></dt>
 <dd>При включении объект будет отражать своей поверхностью другие объекты.</dd>
 <dt><em>Blend4Web &gt; Reflections: Reflection plane</em></dt>
-<dd>Текстовое поле для названия пустого объекта, задающего плоскость отражения.</dd>
+<dd>Текстовое поле для названия пустого объекта, задающего плоскость отражения. Становится доступным после включения <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Reflections:</span> <span class="pre">Reflective</span></tt>.</dd>
 <dt><em>Blend4Web &gt; Caustics</em></dt>
 <dd>На объекте будут видны эффекты от прилегающей к нему воды (каустика).</dd>
 <dt><em>Blend4Web &gt; Wind bending</em></dt>
@@ -157,6 +161,12 @@
 <dt><em>Blend4Web &gt; Selectable</em></dt>
 <dd>Разрешить выделение объекта с помощью мыши или другого устройства ввода, а
 также его подсвечивание (<a class="reference internal" href="postprocessing_effects.html#glow"><em>эффект Glow</em></a>).</dd>
+</dl>
+<dl class="docutils" id="objects-billboarding-properties">
+<dt><em>Blend4Web &gt; Billboard</em></dt>
+<dd>Использовать объект в качестве билборда (т.е. автоматически ориентировать его относительно камеры).</dd>
+<dt><em>Blend4Web &gt; Billboarding geometry</em></dt>
+<dd>Способ ориентирования билборда. <tt class="docutils literal"><span class="pre">Spherical</span></tt> (по умолчанию) - объект всегда ориентирован к камере одной стороной независимо от угла обзора, <tt class="docutils literal"><span class="pre">Cylindrical</span></tt> - аналогично <tt class="docutils literal"><span class="pre">Spherical</span></tt>, только вращение ограничено осью Z мирового пространства в Blender. Становится доступным после включения <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Billboard</span></tt>.</dd>
 <dt><em>Blend4Web &gt; LOD transition ratio</em></dt>
 <dd>Параметр для сглаживания переключения между LOD объектами. Определяет, на
 каком дополнительном расстоянии LOD объекты будут видны до замены
@@ -357,7 +367,7 @@
           
     <div class="footer">
         &copy; Copyright 2014, ООО &#34;Триумф&#34;.
-      Обновлено: 2014-09-25.
+      Обновлено: 2014-10-30.
       Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

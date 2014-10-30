@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Аддон &mdash; Руководство пользователя: Blend4Web v14.09</title>
+    <title>Аддон &mdash; Руководство пользователя: Blend4Web v14.10</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.09',
+        VERSION:     '14.10',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v14.09" href="index.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v14.10" href="index.html" />
     <link rel="next" title="Объекты" href="objects.html" />
     <link rel="prev" title="Веб-плеер" href="web_player.html" /> 
   </head>
@@ -37,7 +37,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">Руководство пользователя: Blend4Web v14.09</a></div>
+          href="index.html">Руководство пользователя: Blend4Web v14.10</a></div>
         <div class="rel">
           <a href="web_player.html" title="Веб-плеер"
              accesskey="P">предыдущий</a> |
@@ -98,7 +98,7 @@ VER_CURRENT.</td>
 </table>
 </div>
 <div class="section" id="export-errors">
-<span id="index-2"></span><span id="id3"></span><h2>Ошибки экспорта<a class="headerlink" href="#export-errors" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="index-2"></span><span id="id3"></span><h2>Критические ошибки экспорта<a class="headerlink" href="#export-errors" title="Ссылка на этот заголовок">¶</a></h2>
 <p>При возникновении ошибок во время экспорта появляется диалоговое окно <tt class="docutils literal"><span class="pre">BLEND4WEB</span> <span class="pre">EXPORT</span> <span class="pre">ERROR</span></tt> с описанием проблемы:</p>
 <blockquote>
 <div><p><tt class="docutils literal"><span class="pre">COMPONENT</span></tt> - тип компонента (объект, меш, материал, текстура и т.д.), при экспорте которого произошла ошибка.</p>
@@ -202,12 +202,6 @@ vehicle requires at least one bob</td>
 является незавершенным: оно должно
 содержать хотя бы один элемент <tt class="docutils literal"><span class="pre">Bob</span></tt>.</td>
 </tr>
-<tr class="row-even"><td>Incomplete vehicle. The NAME
-vehicle requires at least one wheel</td>
-<td>Моделируемое средство передвижения NAME
-является незавершенным: оно должно
-содержать хотя бы один элемент <tt class="docutils literal"><span class="pre">wheel</span></tt>.</td>
-</tr>
 </tbody>
 </table>
 <table border="1" class="docutils">
@@ -216,20 +210,31 @@ vehicle requires at least one wheel</td>
 <col width="54%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td>Incorrect mesh; Wrong group indices</td>
+<tr class="row-odd"><td>Incomplete vehicle. The NAME
+vehicle requires at least one wheel</td>
+<td>Моделируемое средство передвижения NAME
+является незавершенным: оно должно
+содержать хотя бы один элемент <tt class="docutils literal"><span class="pre">wheel</span></tt>.</td>
+</tr>
+<tr class="row-even"><td>Incorrect mesh; Wrong group indices</td>
 <td>Меш содержит вершины, привязанные к
 несуществующей группе.</td>
 </tr>
-<tr class="row-even"><td>Incorrect vertex animation; Object
+<tr class="row-odd"><td>Incorrect vertex animation; Object
 has no vertex animation</td>
 <td>Включен экспорт вертексной анимации для
 объекта, но ни одной анимации не имеется.</td>
 </tr>
-<tr class="row-odd"><td>Incorrect vertex animation; Unbaked
+<tr class="row-even"><td>Incorrect vertex animation; Unbaked
 &#8220;ANIM_NAME&#8221; vertex animation</td>
 <td>Включен экспорт вертексной анимации для
 меша, но анимация ANIM_NAME не содержит
 ни одного кадра.</td>
+</tr>
+<tr class="row-odd"><td>Loading of resources from different
+disk is forbidden</td>
+<td>Не разрешен экспорт ресурсов из
+директории, находящейся на другом диске.</td>
 </tr>
 <tr class="row-even"><td>The material has a normal map but
 doesn&#8217;t have any material nodes</td>
@@ -249,27 +254,12 @@ but has no exported material</td>
 имеет материала, который бы
 экспортировался.</td>
 </tr>
-<tr class="row-odd"><td>Missing active camera</td>
-<td>На сцене отсутствует активная камера
-(свойство <tt class="docutils literal"><span class="pre">Camera</span></tt> на вкладке
-<tt class="docutils literal"><span class="pre">Scene</span></tt>).</td>
-</tr>
-<tr class="row-even"><td>Missing lamp</td>
+<tr class="row-odd"><td>Missing lamp</td>
 <td>На сцене должен быть хотя бы один
 источник света.</td>
 </tr>
-<tr class="row-odd"><td>Missing world</td>
-<td>На сцене должен быть хотя бы один мир.</td>
-</tr>
-<tr class="row-even"><td>No image</td>
-<td>У текстуры отсутствует изображение.</td>
-</tr>
-<tr class="row-odd"><td>No such file or directory</td>
+<tr class="row-even"><td>No such file or directory</td>
 <td>Данная директория не существует.</td>
-</tr>
-<tr class="row-even"><td>No texture in texture slot</td>
-<td>В текстурном слоте материала отсутствует
-текстура.</td>
 </tr>
 <tr class="row-odd"><td>Node material invalid; Check
 sockets compatibility: FROM_NODE
@@ -311,30 +301,24 @@ inverse transform</td>
 <col width="54%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td>Only 2 UV textures are allowed for
-a mesh; The mesh has N UVs</td>
-<td>Движком поддерживаются только до 2 UV
-текстур на каждый меш. Меш содержит UV
-текстуры в количестве N.</td>
-</tr>
-<tr class="row-even"><td>Particle system error; Dupli group
+<tr class="row-odd"><td>Particle system error; Dupli group
 isn&#8217;t specified</td>
 <td>Ошибка системы частиц. Не выбрана группа,
 используемая в качестве частицы.</td>
 </tr>
-<tr class="row-odd"><td>Particle system error; Dupli object
+<tr class="row-even"><td>Particle system error; Dupli object
 isn&#8217;t specified</td>
 <td>Ошибка системы частиц. Не выбран объект,
 используемый в качестве частицы.</td>
 </tr>
-<tr class="row-even"><td>Particle system error; Dupli object
+<tr class="row-odd"><td>Particle system error; Dupli object
 OBJECT_NAME doesn&#8217;t export</td>
 <td>Ошибка системы частиц. Объект
 OBJECT_NAME, выбранный в качестве
 частицы, не экспортируется (на нем
 выбрана опция <tt class="docutils literal"><span class="pre">Do</span> <span class="pre">not</span> <span class="pre">export</span></tt>).</td>
 </tr>
-<tr class="row-odd"><td>Particle system error; The
+<tr class="row-even"><td>Particle system error; The
 GROUP_NAME dupli group contains no
 valid object for export</td>
 <td>Ошибка системы частиц. Ни один подходящий
@@ -345,7 +329,7 @@ valid object for export</td>
 неподходящий тип.
 Поддерживаемые типы: <tt class="docutils literal"><span class="pre">MESH</span></tt>.</td>
 </tr>
-<tr class="row-even"><td>Particle system error; The &#8220;NAME&#8221;
+<tr class="row-odd"><td>Particle system error; The &#8220;NAME&#8221;
 vertex color specified in the
 <tt class="docutils literal"><span class="pre">from</span></tt> field is missing in the
 last of the &#8220;OBJECT_NAME&#8221;
@@ -354,7 +338,7 @@ object&#8217;s vertex colors</td>
 NAME указанный в поле <tt class="docutils literal"><span class="pre">from</span></tt>,
 отсутствует в эмиттере OBJECT_NAME.</td>
 </tr>
-<tr class="row-odd"><td>Particle system error; The
+<tr class="row-even"><td>Particle system error; The
 &#8220;NAME&#8221; vertex color specified in
 the &#8220;<tt class="docutils literal"><span class="pre">to</span></tt> field is missing in the
 &#8220;OBJECT_NAME&#8221; object
@@ -364,7 +348,7 @@ NAME указанный в поле <tt class="docutils literal"><span class="pr
 присутствует в объекте OBJECT_NAME группы
 GROUP_NAME, выбранной в качестве частицы.</td>
 </tr>
-<tr class="row-even"><td>Particle system error; The &#8220;NAME&#8221;
+<tr class="row-odd"><td>Particle system error; The &#8220;NAME&#8221;
 vertex color specified in the
 <tt class="docutils literal"><span class="pre">to</span></tt> field is missing in the list
 of the &#8220;OBJECT_NAME&#8221;
@@ -374,15 +358,23 @@ NAME указанный в поле <tt class="docutils literal"><span class="pr
 в объекте OBJECT_NAME, выбранном в
 качестве частицы.</td>
 </tr>
-<tr class="row-odd"><td>Particle system error; Wrong dupli
+<tr class="row-even"><td>Particle system error; Wrong dupli
 object type TYPE_NAME</td>
 <td>Ошибка системы частиц. В качестве частицы
 выбран объект неподходящего типа.
 Поддерживаемые типы: <tt class="docutils literal"><span class="pre">MESH</span></tt>.</td>
 </tr>
-<tr class="row-even"><td>Permission denied</td>
+<tr class="row-odd"><td>Permission denied</td>
 <td>Нет прав доступа к текущей директории.</td>
 </tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="46%" />
+<col width="54%" />
+</colgroup>
+<tbody valign="top">
 <tr class="row-odd"><td>Wind bending: vertex colors weren&#8217;t
 properly assigned</td>
 <td>Настройки процедурной анимации деревьев;
@@ -402,14 +394,6 @@ vertex colors exist</td>
 должны существовать все указанные
 слои вертексных цветов.</td>
 </tr>
-</tbody>
-</table>
-<table border="1" class="docutils">
-<colgroup>
-<col width="46%" />
-<col width="54%" />
-</colgroup>
-<tbody valign="top">
 <tr class="row-odd"><td>Wrong edited normals count; It
 doesn&#8217;t match with the mesh
 vertices count</td>
@@ -427,12 +411,7 @@ values</td>
 минимальное значение больше максимального
 для хотя бы одного из измерений.</td>
 </tr>
-<tr class="row-odd"><td>Wrong texture coordinates type</td>
-<td>Для текстур с изображением (image)
-поддерживаются следующие типы координат:
-<tt class="docutils literal"><span class="pre">UV</span></tt>, <tt class="docutils literal"><span class="pre">Normal</span></tt>.</td>
-</tr>
-<tr class="row-even"><td>Wrong vertex animation vertices
+<tr class="row-odd"><td>Wrong vertex animation vertices
 count; It doesn&#8217;t match with the
 mesh vertices count for &#8220;ANIM_NAME&#8221;</td>
 <td>Включен экспорт вертексной анимации, но
@@ -445,13 +424,15 @@ ANIM_NAME не совпадает с числом вершин
 </table>
 <span class="target" id="export-errors-warnings"></span></div>
 <div class="section" id="index-3">
-<span id="id4"></span><h2>Предупреждения об ошибках экспорта<a class="headerlink" href="#index-3" title="Ссылка на этот заголовок">¶</a></h2>
-<p>В отличие от ошибок экспорта, рассмотренных ранее, данные ошибки не препятствуют
-экспорту, однако могут приводит к некорректному отображению сцен. Чтобы увидеть
-описание предупреждения, необходимо воспользоваться консолью браузера, в котором
-загружена сцена. Сообщение имеет вид:</p>
+<span id="id4"></span><h2>Некритические ошибки экспорта<a class="headerlink" href="#index-3" title="Ссылка на этот заголовок">¶</a></h2>
+<p>В отличие от критических ошибок экспорта, рассмотренных ранее, данные ошибки не препятствуют
+экспорту, однако могут приводить к некорректному отображению сцен. Сообщения выводятся в консоли браузера (горячая клавиша <tt class="docutils literal"><span class="pre">F12</span></tt>) при загрузке сцены. Сообщение (красного цвета) имеет вид:</p>
 <blockquote>
-<div><tt class="docutils literal"><span class="pre">EXPORT</span> <span class="pre">WARNING:</span> <span class="pre">сообщение</span> <span class="pre">об</span> <span class="pre">ошибке</span></tt></div></blockquote>
+<div><tt class="docutils literal"><span class="pre">EXPORT</span> <span class="pre">ERROR:</span> <span class="pre">Сообщение</span> <span class="pre">об</span> <span class="pre">ошибке</span></tt></div></blockquote>
+<a class="reference internal image-reference" href="_images/noncritical_messages.jpg"><img alt="_images/noncritical_messages.jpg" class="align-center" src="_images/noncritical_messages.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
 <table border="1" class="docutils">
 <colgroup>
 <col width="46%" />
@@ -463,14 +444,134 @@ ANIM_NAME не совпадает с числом вершин
 </tr>
 </thead>
 <tbody valign="top">
+<tr class="row-even"><td>The NAME action has decimal frames.
+Converted to integer.</td>
+<td>Анимация NAME содержит дробные значения
+кадров. Округлено до целых.</td>
+</tr>
+<tr class="row-odd"><td>The NAME armature modifier has no
+armature object or it is not
+exported. Modifier removed.</td>
+<td>В модификаторе NAME типа <tt class="docutils literal"><span class="pre">Armature</span></tt> не
+указан объект, либо объект не
+экспортируется. Модификатор удален.</td>
+</tr>
+<tr class="row-even"><td>The NAME curve modifier has no curve
+object. Modifier removed.</td>
+<td>В модификаторе NAME типа <tt class="docutils literal"><span class="pre">Curve</span></tt> не
+указан объект. Модификатор удален.</td>
+</tr>
+<tr class="row-odd"><td>The NAME curve modifier has
+unsupported curve object. Modifier
+removed.</td>
+<td>В модификаторе NAME типа <tt class="docutils literal"><span class="pre">Curve</span></tt> указан
+неподходящий объект. Модификатор удален.</td>
+</tr>
+<tr class="row-even"><td>Exported UV-layer is missing in node
+&#8220;GEOMETRY&#8221;. Material: NAME.</td>
+<td>В ноде типа <tt class="docutils literal"><span class="pre">GEOMETRY</span></tt> указан не
+экспортируемый UV-слой для текстурных
+координат типа UV.</td>
+</tr>
+<tr class="row-odd"><td>Exported UV-layer is missing in
+texture NAME. [Material: NAME.]</td>
+<td>В текстуре указан не экспортируемый
+UV-слой для текстурных координат типа UV.</td>
+</tr>
+<tr class="row-even"><td>The NAME LAMP node has no lamp
+object. Material: NAME.</td>
+<td>В ноде NAME типа <tt class="docutils literal"><span class="pre">LAMP</span></tt> не указан
+подходящий объект.</td>
+</tr>
+<tr class="row-odd"><td>Ignoring LODs after empty LOD for
+the NAME object.</td>
+<td>В списке LOD объектов, настроенных для
+объекта NAME, были проигнорированы все
+LOD объекты, следующие за пустым.</td>
+</tr>
+<tr class="row-even"><td>Incorrect NLA script, falling back
+to simple sequential NLA.</td>
+<td>Некорректный NLA-скрипт. Вместо него
+будет использоваться стандартная
+NLA-анимация.</td>
+</tr>
+<tr class="row-odd"><td>No image in the NAME texture.
+[Material: NAME.]</td>
+<td>У текстуры отсутствует изображение.</td>
+</tr>
+<tr class="row-even"><td>No texture in the texture slot.
+Material: NAME.</td>
+<td>В текстурном слоте материала отсутствует
+текстура.</td>
+</tr>
+<tr class="row-odd"><td>No texture in the NAME world
+texture slot.</td>
+<td>В текстурном слоте объекта <tt class="docutils literal"><span class="pre">World</span></tt>
+отсутствует текстура.</td>
+</tr>
+<tr class="row-even"><td>No texture for the NAME particle
+settings texture slot.</td>
+<td>В текстурном слоте системы частиц
+отсутствует текстура.</td>
+</tr>
+<tr class="row-odd"><td>Only 2 UV textures are allowed for
+a mesh; The mesh has N UVs.</td>
+<td>Движком поддерживаются только до 2 UV
+текстур на каждый меш. Меш содержит UV
+текстуры в количестве N.</td>
+</tr>
 <tr class="row-even"><td>The NAME node is not supported.
 The NAME material will be rendered
-without nodes.</td>
+without nodes. Material: NAME.</td>
 <td>Нода с данным именем не поддерживается
 движком, поэтому нодовый материал будет
 отключён. Чаще всего проблемы подобного
 рода возникают при использовании нод
 Cycles.</td>
+</tr>
+<tr class="row-odd"><td>Using &#8220;REFRACTION&#8221; node with
+incorrect type of Alpha Blend.
+Material: NAME.</td>
+<td>Используется нодовый материал
+с неправильно заданным свойством Alpha
+Blend. Допускается значение
+<tt class="docutils literal"><span class="pre">Alpha</span> <span class="pre">sort</span></tt>, <tt class="docutils literal"><span class="pre">Alpha</span> <span class="pre">blend</span></tt> и <tt class="docutils literal"><span class="pre">Add</span></tt>
+при использовании ноды &#8220;REFRACTION&#8221;.</td>
+</tr>
+<tr class="row-even"><td>Wrong texture coordinates type
+in texture NAME. [Material: NAME.]</td>
+<td>Для текстур с изображением (image)
+поддерживаются следующие типы координат:
+<tt class="docutils literal"><span class="pre">UV</span></tt>, <tt class="docutils literal"><span class="pre">Normal</span></tt> и <tt class="docutils literal"><span class="pre">Generated</span></tt>.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id5">
+<h2>Прочие сообщения, требующие внимания пользователя<a class="headerlink" href="#id5" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Сообщения выводятся в консоли браузера (горячая клавиша <tt class="docutils literal"><span class="pre">F12</span></tt>) при загрузке сцены. Сообщение (желтого цвета) имеет вид:</p>
+<blockquote>
+<div><tt class="docutils literal"><span class="pre">EXPORT</span> <span class="pre">WARNING:</span> <span class="pre">Сообщение</span> <span class="pre">экспорта,</span> <span class="pre">требующее</span> <span class="pre">внимания</span> <span class="pre">пользователя</span></tt></div></blockquote>
+<table border="1" class="docutils">
+<colgroup>
+<col width="46%" />
+<col width="54%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Сообщение об ошибке</th>
+<th class="head">Причина</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Missing active camera or wrong
+active camera object</td>
+<td>На сцене отсутствует активная камера
+(свойство <tt class="docutils literal"><span class="pre">Camera</span></tt> на вкладке
+<tt class="docutils literal"><span class="pre">Scene</span></tt>).</td>
+</tr>
+<tr class="row-odd"><td>Missing world or wrong active world
+object</td>
+<td>На сцене должен быть хотя бы один мир.</td>
 </tr>
 </tbody>
 </table>
@@ -494,8 +595,9 @@ Cycles.</td>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Веб-плеер</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Аддон</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#index-1">Ошибки инициализации</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#export-errors">Ошибки экспорта</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#index-3">Предупреждения об ошибках экспорта</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#export-errors">Критические ошибки экспорта</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#index-3">Некритические ошибки экспорта</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">Прочие сообщения, требующие внимания пользователя</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Объекты</a></li>
@@ -549,7 +651,7 @@ Cycles.</td>
           
     <div class="footer">
         &copy; Copyright 2014, ООО &#34;Триумф&#34;.
-      Обновлено: 2014-09-25.
+      Обновлено: 2014-10-30.
       Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

@@ -365,11 +365,10 @@ function init_ui() {
 
     // ssao
     bind_control(set_ssao_params, "ssao_quality", "string");
+    bind_control(set_ssao_params, "ssao_hemisphere", "bool");
+    bind_control(set_ssao_params, "ssao_blur_depth", "bool");
+    bind_control(set_ssao_params, "ssao_blur_discard_value", "number");
     bind_control(set_ssao_params, "ssao_radius_increase", "number");
-    bind_control(set_ssao_params, "ssao_dithering_amount", "number");
-    bind_control(set_ssao_params, "ssao_gauss_center", "number");
-    bind_control(set_ssao_params, "ssao_gauss_width_square", "number");
-    bind_control(set_ssao_params, "ssao_gauss_width_left_square", "number");
     bind_control(set_ssao_params, "ssao_influence", "number");
     bind_control(set_ssao_params, "ssao_dist_factor", "number");
     bind_control(set_ssao_params, "ssao_only", "bool");
@@ -1214,11 +1213,10 @@ function update_anim_ui_slots(obj) {
 function get_ssao_params() {
     var ssao = m_scenes.get_ssao_params();
     var ssao_param_names = ["ssao_quality",
+                            "ssao_hemisphere",
+                            "ssao_blur_depth",
+                            "ssao_blur_discard_value",
                             "ssao_radius_increase",
-                            "ssao_dithering_amount",
-                            "ssao_gauss_center",
-                            "ssao_gauss_width_square",
-                            "ssao_gauss_width_left_square",
                             "ssao_influence",
                             "ssao_dist_factor",
                             "ssao_only",
@@ -1230,15 +1228,19 @@ function get_ssao_params() {
     }
 
     forbid_params(ssao_param_names, "enable");
-
     sel_by_val(document.getElementById("ssao_quality"), ssao["ssao_quality"]);
     $("#ssao_quality").selectmenu("refresh");
 
+    var opt_index = Number(ssao["ssao_hemisphere"]);
+    document.getElementById("ssao_hemisphere").options[opt_index].selected = true;
+    $("#ssao_hemisphere").slider("refresh");
+
+    var opt_index = Number(ssao["ssao_blur_depth"]);
+    document.getElementById("ssao_blur_depth").options[opt_index].selected = true;
+    $("#ssao_blur_depth").slider("refresh");
+
+    set_slider("ssao_blur_discard_value", ssao["blur_discard_value"]);
     set_slider("ssao_radius_increase", ssao["radius_increase"]);
-    set_slider("ssao_dithering_amount", 1000 * ssao["dithering_amount"]);
-    set_slider("ssao_gauss_center", ssao["gauss_center"]);
-    set_slider("ssao_gauss_width_square", Math.sqrt(ssao["gauss_width_square"]));
-    set_slider("ssao_gauss_width_left_square", Math.sqrt(ssao["gauss_width_left_square"]));
     set_slider("ssao_influence", ssao["influence"]);
     set_slider("ssao_dist_factor", ssao["dist_factor"]);
 
@@ -1259,21 +1261,18 @@ function set_ssao_params(value) {
     if ("ssao_quality" in value)
         ssao_params["ssao_quality"] = get_sel_val(document.getElementById("ssao_quality"));
 
+    if ("ssao_hemisphere" in value)
+        ssao_params["ssao_hemisphere"] = Number(value.ssao_hemisphere);
+
+    if ("ssao_blur_depth" in value)
+        ssao_params["ssao_blur_depth"] = Number(value.ssao_blur_depth);
+
+    if ("ssao_blur_discard_value" in value)
+        ssao_params["ssao_blur_discard_value"] = value.ssao_blur_discard_value;
+
     if ("ssao_radius_increase" in value)
         ssao_params["ssao_radius_increase"] = value.ssao_radius_increase;
 
-    if ("ssao_dithering_amount" in value)
-        ssao_params["ssao_dithering_amount"] = value.ssao_dithering_amount / 1000;
-
-    if ("ssao_gauss_center" in value)
-        ssao_params["ssao_gauss_center"] = value.ssao_gauss_center;
-
-    if ("ssao_gauss_width_square" in value)
-        ssao_params["ssao_gauss_width_square"] = value.ssao_gauss_width_square *
-                                                 value.ssao_gauss_width_square;
-    if ("ssao_gauss_width_left_square" in value)
-        ssao_params["ssao_gauss_width_left_square"] = value.ssao_gauss_width_left_square *
-                                                      value.ssao_gauss_width_left_square;
     if ("ssao_influence" in value)
         ssao_params["ssao_influence"] = value.ssao_influence;
 
@@ -1398,29 +1397,41 @@ function get_shadow_params() {
         "self_shadow_polygon_offset",
         "self_shadow_normal_offset",
         "first_cascade_blur_radius",
-        "last_cascade_blur_radius"
+        "last_cascade_blur_radius",
+        "res_ui-block-b",
+        "num_ui-block-b",
+        "blur_ui-block-b"
     ];
 
     if (!shadow_params) {
         forbid_params(shadow_param_names, "disable");
+        document.getElementById("csm_resolution").innerHTML = "";
+        document.getElementById("csm_num").innerHTML = "";
+        document.getElementById("csm_borders").innerHTML = "";
+        document.getElementById("blur_radii").innerHTML = "";
         return null;
     }
 
     forbid_params(shadow_param_names, "enable");
 
-    display_csm_info(shadow_params);
-
-    set_slider("csm_first_cascade_border", shadow_params["csm_first_cascade_border"]);
-    set_slider("first_cascade_blur_radius", shadow_params["first_cascade_blur_radius"]);
-
-    if (shadow_params["csm_num"] > 1) {
-        set_slider("csm_last_cascade_border", shadow_params["csm_last_cascade_border"]);
-        set_slider("last_cascade_blur_radius", shadow_params["last_cascade_blur_radius"]);
-    } else
-        forbid_params(["csm_last_cascade_border", "last_cascade_blur_radius"], "disable");
+    display_shadows_info(shadow_params);
 
     set_slider("self_shadow_polygon_offset", shadow_params["self_shadow_polygon_offset"]);
     set_slider("self_shadow_normal_offset", shadow_params["self_shadow_normal_offset"]);
+
+    set_slider("first_cascade_blur_radius", shadow_params["first_cascade_blur_radius"]);
+
+    if (shadow_params["b4w_enable_csm"]) {
+        set_slider("csm_first_cascade_border", shadow_params["csm_first_cascade_border"]);
+
+        if (shadow_params["csm_num"] > 1) {
+            set_slider("csm_last_cascade_border", shadow_params["csm_last_cascade_border"]);
+            set_slider("last_cascade_blur_radius", shadow_params["last_cascade_blur_radius"]);
+        } else
+            forbid_params(["csm_last_cascade_border", "last_cascade_blur_radius"], "disable");
+    } else
+        forbid_params(["csm_first_cascade_border", "csm_last_cascade_border",
+                "last_cascade_blur_radius"], "disable");
 }
 
 function set_shadow_params(value) {
@@ -1441,30 +1452,39 @@ function set_shadow_params(value) {
 
     m_scenes.set_shadow_params(shadow_params);
 
-    display_csm_info(m_scenes.get_shadow_params());
+    display_shadows_info(m_scenes.get_shadow_params());
 }
 
-function display_csm_info(shadow_params) {
+function display_shadows_info(shadow_params) {
 
-    document.getElementById("csm_num").innerHTML = " " + shadow_params["csm_num"];
     document.getElementById("csm_resolution").innerHTML = "&nbsp;&nbsp;"
             + shadow_params["csm_resolution"];
 
-    var data_blocks = ["csm_borders", "blur_radii"];
+    if (shadow_params["b4w_enable_csm"]) {
+        document.getElementById("csm_num").innerHTML = " " + shadow_params["csm_num"];
 
-    for (var i = 0; i < data_blocks.length; i++) {
-        var name = data_blocks[i];
+        var data_blocks = ["csm_borders", "blur_radii"];
+        for (var i = 0; i < data_blocks.length; i++) {
+            var name = data_blocks[i];
 
-        var values = shadow_params[name];
-        var elem = document.getElementById(name);
+            var values = shadow_params[name];
+            var elem = document.getElementById(name);
 
-        elem.innerHTML = "(";
-        for (var j = 0; j < values.length; j++) {
-            if (j > 0)
-                elem.innerHTML += " __ ";
-            elem.innerHTML += Math.round(10 * values[j]) / 10;
+            elem.innerHTML = "(";
+            for (var j = 0; j < values.length; j++) {
+                if (j > 0)
+                    elem.innerHTML += " __ ";
+                elem.innerHTML += Math.round(10 * values[j]) / 10;
+            }
+            elem.innerHTML += ")";
         }
-        elem.innerHTML += ")";
+    } else {
+        document.getElementById("cascades-info-block").style.display = "none";
+        document.getElementById("csm_first_cascade_border-info-block").style.display = "none";
+        document.getElementById("csm_last_cascade_border-info-block").style.display = "none";
+        document.getElementById("blur_radii-info-block").style.display = "none";
+        document.getElementById("first_cascade_blur_radius-label").innerHTML = "Blur radius";
+        document.getElementById("last_cascade_blur_radius-info-block").style.display = "none";
     }
 }
 
@@ -2243,6 +2263,7 @@ function forbid_params(params, state) {
             elem.addClass('ui-disabled');
     }
 }
+
 
 });
 

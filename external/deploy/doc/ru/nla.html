@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Нелинейная анимация &mdash; Руководство пользователя: Blend4Web v14.09</title>
+    <title>Нелинейная анимация &mdash; Руководство пользователя: Blend4Web v14.10</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.09',
+        VERSION:     '14.10',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v14.09" href="index.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v14.10" href="index.html" />
     <link rel="next" title="Разработчикам приложений" href="developers.html" />
     <link rel="prev" title="Физика" href="physics.html" /> 
   </head>
@@ -37,7 +37,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">Руководство пользователя: Blend4Web v14.09</a></div>
+          href="index.html">Руководство пользователя: Blend4Web v14.10</a></div>
         <div class="rel">
           <a href="physics.html" title="Физика"
              accesskey="P">предыдущий</a> |
@@ -63,8 +63,8 @@
 <span id="id2"></span><h2>Редактор NLA<a class="headerlink" href="#nla-editor" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Редактор нелинейной анимации, имеющийся в программе Blender, позволяет в удобной
 форме задавать поведение сцены. С его помощью можно реализовать несложные
-сценарии, не требующие вмешательства со стороны пользователя. Таким образом
-исключается необходимость программирования простых сцен и демо-приложений.</p>
+сценарии. Таким образом
+исключается необходимость программирования простых сцен и приложений.</p>
 <a class="reference internal image-reference" href="_images/simple_machinima.jpg"><img alt="_images/simple_machinima.jpg" class="align-center" src="_images/simple_machinima.jpg" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
@@ -109,13 +109,23 @@
 </div>
 <p>Слоты являются логическими блоками, которые выполняются с первого по последний
 последовательно, за исключением случаев, когда в слоте явно обозначен переход
-(<tt class="docutils literal"><span class="pre">Jump</span></tt>). При достижении конца списка, выполнение логики останавливается, либо,
-если на сцене активирована настройка <em>Blend4Web &gt; Cyclic NLA</em>, начинается сначала.</p>
-<a class="reference internal image-reference" href="_images/interactive_nla_brick.png"><img alt="_images/interactive_nla_brick.png" class="align-center" src="_images/interactive_nla_brick.png" style="width: 100%;" /></a>
+(<tt class="docutils literal"><span class="pre">Jump</span></tt> или <tt class="docutils literal"><span class="pre">Conditional</span> <span class="pre">Jump</span></tt>). При достижении конца списка, выполнение
+логики останавливается, либо, если на сцене активирована настройка <em>Blend4Web &gt;
+Cyclic NLA</em>, начинается сначала.</p>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
 <p class="last">Использование настройки <em>Blend4Web &gt; Cyclic NLA</em> совместно с NLA Script не
 приводит к автоматическому зацикливанию анимации.</p>
+</div>
+<p>Для реализации сложной логики предусмотрены числовые переменные, называемые
+регистрами. Каждый из 8 регистров может хранить в себе одно числовое значение.
+Регистры могут быть использованы для хранения какого-либо состояния сцены
+(например это может быть счётчик проигрываемых анимаций, количество жизней,
+оставшихся у персонажа итд.).</p>
+<p>Пример исользования NLA Script:</p>
+<a class="reference internal image-reference" href="_images/interactive_nla_brick.png"><img alt="_images/interactive_nla_brick.png" class="align-center" src="_images/interactive_nla_brick.png" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
 </div>
 <p>Ниже рассмотрены все возможные варианты слотов.</p>
 <div class="section" id="play">
@@ -155,11 +165,26 @@
 пользователя (выделение текущего объекта приводит к переходу по имени слота,
 который не обязательно является следующим в списке).</p>
 </div>
+<div class="section" id="conditinal-jump">
+<h3>Conditinal Jump<a class="headerlink" href="#conditinal-jump" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Перейти к указанному слоту в случае выполнения выбранного условия. В качестве
+параметров условия (операндов) могут выступать также регистры, которые
+активируются с помощью соответствующих переключателей.</p>
+</div>
+<div class="section" id="register-store">
+<h3>Register Store<a class="headerlink" href="#register-store" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Записать числовое значение в регистр.</p>
+</div>
+<div class="section" id="math-operation">
+<h3>Math Operation<a class="headerlink" href="#math-operation" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Выполнить математическую операцию и сохранить результат в регистр. Любой из
+параметров (операндов) может быть либо числовым значением, либо регистром.</p>
+</div>
 <div class="section" id="noop">
 <h3>Noop<a class="headerlink" href="#noop" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Сокращение от &#8220;No Operation&#8221;. Означает, что при обработке слота данного типа,
 никаких действий произведено не будет. Слот удобно использовать совместно с
-типом <tt class="docutils literal"><span class="pre">Jump</span></tt>.</p>
+типом <tt class="docutils literal"><span class="pre">Jump</span></tt> или <tt class="docutils literal"><span class="pre">Conditional</span> <span class="pre">Jump</span></tt>.</p>
 </div>
 </div>
 </div>
@@ -235,7 +260,7 @@
           
     <div class="footer">
         &copy; Copyright 2014, ООО &#34;Триумф&#34;.
-      Обновлено: 2014-09-25.
+      Обновлено: 2014-10-30.
       Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

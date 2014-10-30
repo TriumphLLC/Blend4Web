@@ -1,5 +1,5 @@
 // textures
-#define TEXTURE_COORDS_UV       1
+#define TEXTURE_COORDS_UV_ORCO  1
 #define TEXTURE_COORDS_NORMAL   2
 
 #define TEXTURE_BLEND_TYPE_MIX      1

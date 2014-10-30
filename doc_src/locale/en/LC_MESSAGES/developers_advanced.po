@@ -332,10 +332,6 @@ msgstr ""
 msgid "сборка документации (документация на API)"
 msgstr "building the API documentation"
 
-#: ../developers_advanced.rst:168
-msgid "Названия функций и переменных"
-msgstr "Naming Functions and Variables"
-
 #: ../developers_advanced.rst:170
 msgid ""
 "Рекомендуется при создании новых функций и переменных использовать следующие"
@@ -990,6 +986,9 @@ msgid ""
 "В файле FILE_NAME объявлена переменная NAME, которая нигде не используется."
 msgstr "An unused variable NAME is declared in the FILE_NAME file."
 
+#: ../developers_advanced.rst:168
+msgid "Названия функций и переменных"
+msgstr "Naming Functions and Variables"
 
-
-
+#~ msgid "Способ именования идентификаторов функций и переменных"
+#~ msgstr ""

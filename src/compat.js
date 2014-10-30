@@ -16,14 +16,17 @@ var m_util  = require("__util");
 var VECTORS_RESERVED = 50;
 var MIN_VERTEX_UNIFORMS_SUPPORTED = 128;
 var MIN_VARYINGS_REQUIRED = 10;
+var MIN_FRAGMENT_UNIFORMS_SUPPORTED = 128;
 
 exports.set_hardware_defaults = function(gl) {
     var cfg_anim = m_cfg.animation;
     var cfg_def = m_cfg.defaults;
     var cfg_ctx = m_cfg.context;
     var cfg_scs = m_cfg.scenes;
+    var cfg_sfx = m_cfg.sfx;
 
     cfg_def.max_texture_size = gl.getParameter(gl.MAX_TEXTURE_SIZE);
+    cfg_def.max_cube_map_size = gl.getParameter(gl.MAX_CUBE_MAP_TEXTURE_SIZE);
 
     var depth_tex_available = Boolean(m_ext.get_depth_texture());
 
@@ -33,16 +36,22 @@ exports.set_hardware_defaults = function(gl) {
         m_print.warn("Firefox 28 detected, applying depth hack");
         depth_tex_available = false;
     }
-
     if (check_user_agent("iPad") || check_user_agent("iPhone")) {
         m_print.warn("iOS detected, applying alpha hack, applying vertex "
                 + "animation mix normals hack and disable smaa. Disable ssao " +
-                "for performance.");
+                "for performance. Disable background music.");
         if (!cfg_ctx.alpha)
             cfg_def.background_color[3] = 1.0;
         cfg_def.vert_anim_mix_normals_hack = true;
         cfg_def.smaa = false;
         cfg_def.ssao = false;
+        cfg_def.precision = "highp";
+        cfg_sfx.disable_bkg_music_hack = true;
+
+    } else if (check_user_agent("Mac OS X") && check_user_agent("Safari")
+            && !check_user_agent("Chrome")) {
+        m_print.warn("OS X / Safari detected, disable background music.");
+        cfg_sfx.disable_bkg_music_hack = true;
     }
 
     if (detect_mobile()) {
@@ -66,6 +75,7 @@ exports.set_hardware_defaults = function(gl) {
         }
         if (gl.getParameter(rinfo.UNMASKED_VENDOR_WEBGL).indexOf("ARM") > -1
                 && gl.getParameter(rinfo.UNMASKED_RENDERER_WEBGL).indexOf("Mali-400") > -1) {
+            m_print.warn("ARM Mali-400 detected, applying depth and frames blending hacks");
             depth_tex_available = false;
             cfg_anim.frames_blending_hack = true;
         }
@@ -74,14 +84,33 @@ exports.set_hardware_defaults = function(gl) {
             m_print.warn("ARM Mali-T604 detected, set \"highp\" precision and disable shadows.");
             cfg_def.precision = "highp";
             cfg_def.shadows = "NONE";
+            cfg_sfx.disable_bkg_music_hack = true;
         }
         if (gl.getParameter(rinfo.UNMASKED_VENDOR_WEBGL).indexOf("Qualcomm") > -1
-               && gl.getParameter(rinfo.UNMASKED_RENDERER_WEBGL).indexOf("Adreno") > -1)
+               && gl.getParameter(rinfo.UNMASKED_RENDERER_WEBGL).indexOf("Adreno") > -1) {
+            m_print.warn("Qualcomm Adreno detected, applying shader constans hack.");
             cfg_def.shader_constants_hack = true;
+            if (gl.getParameter(rinfo.UNMASKED_RENDERER_WEBGL).indexOf("305") > -1) {
+                m_print.warn("Qualcomm Adreno305 detected, set \"highp\" precision.");
+                cfg_def.precision = "highp";
+            }
+            if (gl.getParameter(rinfo.UNMASKED_RENDERER_WEBGL).indexOf("330") > -1) {
+                m_print.warn("Qualcomm Adreno330 detected, set \"highp\" precision.");
+                cfg_def.precision = "highp";
+            }
+        }
+        if (gl.getParameter(rinfo.UNMASKED_VENDOR_WEBGL).indexOf("NVIDIA") > -1
+               && gl.getParameter(rinfo.UNMASKED_RENDERER_WEBGL).indexOf("Tegra 3") > -1) {
+            m_print.warn("NVIDIA Tegra 3 detected, force low quality for "
+                                              + "LEVELS_OF_QUALITY nodes.");
+            cfg_def.force_low_quality_nodes = true;
+        }
     }
 
-    if (gl.getParameter(gl.MAX_VERTEX_TEXTURE_IMAGE_UNITS) == 0)
+    if (gl.getParameter(gl.MAX_VERTEX_TEXTURE_IMAGE_UNITS) == 0) {
+        m_print.warn("Vertex textures are not allowed. Disabling vertex textures");
         cfg_def.allow_vertex_textures = false;
+    }
 
     if (!depth_tex_available) {
         cfg_def.deferred_rendering = false;
@@ -120,6 +149,12 @@ exports.set_hardware_defaults = function(gl) {
     if (is_ie11()) {
         m_print.warn("IE11 detected. Set sky cubemap texture size to 512 (power of two).");
         cfg_scs.cubemap_tex_size = 512;
+    }
+
+    if(gl.getParameter(gl.MAX_FRAGMENT_UNIFORM_VECTORS) <= MIN_FRAGMENT_UNIFORMS_SUPPORTED) {
+        m_print.warn("Not enough fragment uniforms, force low quality for " 
+                    + "LEVELS_OF_QUALITY nodes.");
+        cfg_def.force_low_quality_nodes = true;
     }
 }
 

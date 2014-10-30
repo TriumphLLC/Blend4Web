@@ -72,10 +72,8 @@ exports.delete_buffers = function(geometry_id) {
  * Convert mesh/material object to gl buffer data
  */
 exports.submesh_to_bufs_data = function(submesh, zsort_type, draw_mode, vc_usage) {
-
-    if (is_long_submesh(submesh) && is_indexed(submesh)) {
+    if (is_long_submesh(submesh))
         submesh_drop_indices(submesh);
-    }
 
     var indices = submesh.indices;
     var base_length = submesh.base_length;
@@ -149,6 +147,9 @@ exports.submesh_drop_indices = submesh_drop_indices;
  * Drop indices from long submesh and recalculate all VAs
  */
 function submesh_drop_indices(submesh, count, is_manually_dropped) {
+
+    if (!is_indexed(submesh))
+        return submesh;
 
     count = count || 1;
 
@@ -821,12 +822,13 @@ function extract_submesh(mesh, material_index, attr_names, bone_pointers,
 
     var bsub = mesh["submeshes"][material_index];
     var base_length = bsub["base_length"];
+    var mat = mesh["materials"][material_index];
 
     submesh.base_length = base_length;
 
     // TEXTURE COORDS
     if (has_attr(attr_names, "a_texcoord"))
-        var texcoords = new Float32Array(bsub["texcoord"]);
+        var texcoords = extract_texcoords(mesh, material_index);
     else
         var texcoords = new Float32Array(0);
 
@@ -931,6 +933,54 @@ function extract_submesh(mesh, material_index, attr_names, bone_pointers,
     }
 
     return submesh;
+}
+
+function extract_texcoords(mesh, material_index) {
+
+    var texcoords = null;
+    var material = mesh["materials"][material_index];
+    var submesh = mesh["submeshes"][material_index];
+
+    if (material["texture_slots"].length) {
+        var slot = material["texture_slots"][0];
+
+        switch (slot["texture_coords"]) {
+        case "UV":
+            var index = mesh["uv_textures"].indexOf(slot["uv_layer"]);
+            if (index == -1 || index == 0)
+                texcoords = new Float32Array(submesh["texcoord"]);
+            else if (index == 1)
+                texcoords = new Float32Array(submesh["texcoord2"]);
+            break;
+        case "ORCO":
+            texcoords = generate_orco_texcoords(mesh["b4w_bounding_box"], submesh);
+            break;
+        }
+    }
+
+    if (texcoords === null)
+        texcoords = new Float32Array(submesh["texcoord"]);
+
+    return texcoords;
+}
+
+function generate_orco_texcoords(bb, submesh) {
+    var texcoords = new Float32Array(submesh["base_length"] * 2);
+    var pos = submesh["position"];
+
+    var center_x = (bb.max_x + bb.min_x) / 2;
+    var center_z = (bb.max_z + bb.min_z) / 2;
+    var size_x = bb.max_x - bb.min_x;
+    var size_z = bb.max_z - bb.min_z;
+
+    var texco_index = 0;
+    for (var i = 0; i < submesh["position"].length; i+=3) {
+        texcoords[texco_index++] = (submesh["position"][i] - center_x) / size_x + 0.5;
+        // y -> -z
+        texcoords[texco_index++] = (center_z - submesh["position"][i + 2]) / size_z + 0.5;
+    }
+
+    return texcoords;
 }
 
 function extract_vcols(va_common, vc_usage, submesh_vc, bsub_color, base_length, mesh_name) {

@@ -17,20 +17,18 @@ msgstr "Non-Linear Animation"
 
 #: ../nla.rst:10
 msgid "Редактор NLA"
-msgstr "NLA editor"
+msgstr "NLA Editor"
 
 #: ../nla.rst:12
 msgid ""
 "Редактор нелинейной анимации, имеющийся в программе Blender, позволяет в "
 "удобной форме задавать поведение сцены. С его помощью можно реализовать "
-"несложные сценарии, не требующие вмешательства со стороны пользователя. "
-"Таким образом исключается необходимость программирования простых сцен и "
-"демо-приложений."
+"несложные сценарии. Таким образом исключается необходимость программирования"
+" простых сцен и приложений."
 msgstr ""
 "The Blender's non-linear editor lets us set the scene's behavior in a "
-"comfortable way. With its help we can implement a simple scenario which does"
-" not require any interference from the user. This way coding is not needed "
-"for simple scenes and demo applications."
+"comfortable way. With its help we can implement simple scenarios. This way "
+"coding is not needed for simple scenes and applications."
 
 #: ../nla.rst:23
 msgid "Движком поддерживается управление следующими сущностями:"
@@ -116,20 +114,7 @@ msgstr ""
 "Blender. These slots can extend the scene functionality significantly "
 "without any coding."
 
-#: ../nla.rst:73
-msgid ""
-"Слоты являются логическими блоками, которые выполняются с первого по "
-"последний последовательно, за исключением случаев, когда в слоте явно "
-"обозначен переход (``Jump``). При достижении конца списка, выполнение логики"
-" останавливается, либо, если на сцене активирована настройка *Blend4Web > "
-"Cyclic NLA*, начинается сначала."
-msgstr ""
-"The slots themselves are logic blocks that are executed from the first to "
-"the last sequentially except this slot explicitly contains a transition "
-"(``Jump``). When the end of the list is reached the logic stops to execute, "
-"or - if *Blend4Web > Cyclic NLA* checkbox is enabled - starts again."
-
-#: ../nla.rst:83
+#: ../nla.rst:80
 msgid ""
 "Использование настройки *Blend4Web > Cyclic NLA* совместно с NLA Script не "
 "приводит к автоматическому зацикливанию анимации."
@@ -137,29 +122,29 @@ msgstr ""
 "Using *Blend4Web > Cyclic NLA* together with NLA Script does not result in "
 "automatic looping of the animation."
 
-#: ../nla.rst:86
+#: ../nla.rst:97
 msgid "Ниже рассмотрены все возможные варианты слотов."
-msgstr "All possible slots are described below. "
+msgstr "All possible slots are described below."
 
-#: ../nla.rst:89
+#: ../nla.rst:100
 msgid "Play"
 msgstr ""
 
-#: ../nla.rst:91
+#: ../nla.rst:102
 msgid ""
 "Проигрывать участок NLA, начиная с кадра, на который указывает маркер. "
 "Анимация воспроизводится до следующего маркера, либо до конца шкалы времени "
 "сцены, после чего управление переходит к следующему слоту."
 msgstr ""
 "Play back the NLA segment starting from the frame to which the marker "
-"points. Animation is played back until the next marker met, or to the end of"
-" the timeline. Finally the next slot receives the control."
+"points. Animation is played back until the next marker is met, or to the end"
+" of the timeline. Finally the next slot receives the control."
 
-#: ../nla.rst:101
+#: ../nla.rst:112
 msgid "Select & Play"
 msgstr ""
 
-#: ../nla.rst:103
+#: ../nla.rst:114
 msgid ""
 "Ожидать, когда пользователь выберет объект (с помощью клика мышью в версии "
 "движка для десктопа, либо нажатия на экране в мобильной версии). Если выбран"
@@ -167,13 +152,12 @@ msgid ""
 "слоту ``Play``, если же был выбран любой другой объект - немедленно передать"
 " управление следующему слоту."
 msgstr ""
-"Wait until the user selects an object (on desktops - with the mouse click, "
-"on mobile devices - with the touch). If the object is selected that is "
-"specified in this slot - start animation similar to ``Play`` slot. If any "
-"other object is selected - immediately transfer the control to the next "
-"slot."
+"Wait until the user selects an object (on desktops - with a mouse click, on "
+"mobile devices - with a touch). If an object that is specified in this slot "
+"is selected - start animation similar to ``Play`` slot. If any other object "
+"is selected - immediately transfer the control to the next slot."
 
-#: ../nla.rst:109
+#: ../nla.rst:120
 msgid ""
 "Последняя функциональность используется для выбора одного из нескольких "
 "объектов, причём ``Select & Play`` удобно размещать в стеке один за другим. "
@@ -187,7 +171,7 @@ msgstr ""
 "of this sequence slots because the transition without animation is performed"
 " instantly."
 
-#: ../nla.rst:116
+#: ../nla.rst:127
 msgid ""
 "Чтобы пользователь имел возможность выбрать объект, в его настройках "
 "необходимо активировать опцию ``Selectable``, как в случае реализации "
@@ -197,19 +181,19 @@ msgstr ""
 "checkbox in its settings, similar to implementation of the :ref:`glow effect"
 " <glow>`."
 
-#: ../nla.rst:119
+#: ../nla.rst:130
 msgid "Jump"
 msgstr ""
 
-#: ../nla.rst:121
+#: ../nla.rst:132
 msgid "Перейти к указанному слоту."
 msgstr "Go to the specified slot."
 
-#: ../nla.rst:129
+#: ../nla.rst:140
 msgid "Select & Jump"
 msgstr ""
 
-#: ../nla.rst:131
+#: ../nla.rst:142
 msgid ""
 "Аналогично слоту ``Select & Play``, за исключением того, что вместо анимации"
 " осуществляется переход. Указанная функция позволяет реализовать более "
@@ -223,15 +207,72 @@ msgstr ""
 "results (selecting an object leads to the transition to the named slot which"
 " is needn't to be the next in the list)."
 
-#: ../nla.rst:138
+#: ../nla.rst:167
 msgid "Noop"
 msgstr ""
 
-#: ../nla.rst:140
+#: ../nla.rst:73
 msgid ""
-"Сокращение от \"No Operation\". Означает, что при обработке слота данного типа, "
-"никаких действий произведено не будет. Слот удобно использовать совместно с "
-"типом ``Jump``."
+"Слоты являются логическими блоками, которые выполняются с первого по "
+"последний последовательно, за исключением случаев, когда в слоте явно "
+"обозначен переход (``Jump`` или ``Conditional Jump``). При достижении конца "
+"списка, выполнение логики останавливается, либо, если на сцене активирована "
+"настройка *Blend4Web > Cyclic NLA*, начинается сначала."
+msgstr ""
+"The slots themselves are logic blocks that are executed from the first to "
+"the last sequentially except that this slot explicitly contains a transition"
+" (``Jump`` or ``Conditional Jump``). When the end of the list is reached the logic stops to execute,"
+" or - if *Blend4Web > Cyclic NLA* checkbox is enabled - starts again."
+
+#: ../nla.rst:83
+msgid ""
+"Для реализации сложной логики предусмотрены числовые переменные, называемые "
+"регистрами. Каждый из 8 регистров может хранить в себе одно числовое "
+"значение. Регистры могут быть использованы для хранения какого-либо "
+"состояния сцены (например это может быть счётчик проигрываемых анимаций, "
+"количество жизней, оставшихся у персонажа итд.)."
+msgstr ""
+
+#: ../nla.rst:89
+msgid "Пример исользования NLA Script:"
+msgstr ""
+
+#: ../nla.rst:149
+msgid "Conditinal Jump"
+msgstr ""
+
+#: ../nla.rst:151
+msgid ""
+"Перейти к указанному слоту в случае выполнения выбранного условия. В "
+"качестве параметров условия (операндов) могут выступать также регистры, "
+"которые активируются с помощью соответствующих переключателей."
+msgstr ""
+
+#: ../nla.rst:156
+msgid "Register Store"
+msgstr ""
+
+#: ../nla.rst:158
+msgid "Записать числовое значение в регистр."
+msgstr ""
+
+#: ../nla.rst:161
+msgid "Math Operation"
+msgstr ""
+
+#: ../nla.rst:163
+msgid ""
+"Выполнить математическую операцию и сохранить результат в регистр. Любой из "
+"параметров (операндов) может быть либо числовым значением, либо регистром."
+msgstr ""
+
+#: ../nla.rst:169
+msgid ""
+"Сокращение от \"No Operation\". Означает, что при обработке слота данного "
+"типа, никаких действий произведено не будет. Слот удобно использовать "
+"совместно с типом ``Jump`` или ``Conditional Jump``."
 msgstr ""
 "Shortening of \"No Operation\". When such a slot is processed no actions are"
-" performed. This slot is convenient to place together with a ``Jump`` slot."
+" performed. This slot is convenient to place together with a ``Jump`` or ``Conditional Jump`` slot."
+
+

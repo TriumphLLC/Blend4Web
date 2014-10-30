@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Textures &mdash; User Manual: Blend4Web v14.09</title>
+    <title>Textures &mdash; User Manual: Blend4Web v14.10</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.09',
+        VERSION:     '14.10',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User Manual: Blend4Web v14.09" href="index.html" />
+    <link rel="top" title="User Manual: Blend4Web v14.10" href="index.html" />
     <link rel="next" title="Node Materials" href="node_materials.html" />
     <link rel="prev" title="Materials" href="materials.html" /> 
   </head>
@@ -36,7 +36,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">User Manual: Blend4Web v14.09</a></div>
+          href="index.html">User Manual: Blend4Web v14.10</a></div>
         <div class="rel">
           <a href="materials.html" title="Materials"
              accesskey="P">previous</a> |
@@ -135,7 +135,7 @@
 </dl>
 <dl class="docutils" id="index-3">
 <dt><em>Mapping &gt; Coordinates</em></dt>
-<dd><p class="first last">Texture coordinates type. Supported types are <tt class="docutils literal"><span class="pre">UV</span></tt> (use UV map), <tt class="docutils literal"><span class="pre">Normal</span></tt> (use direction at the camera; available only for diffuse maps; used for the creation of <strong>material capture</strong>, <strong>matcap</strong>). The default value is <tt class="docutils literal"><span class="pre">Generated</span></tt> (!).</p>
+<dd><p class="first last">Texture coordinates type. Supported types are <tt class="docutils literal"><span class="pre">UV</span></tt> (use UV map), <tt class="docutils literal"><span class="pre">Normal</span></tt> (use direction at the camera; available only for diffuse maps; used for the creation of <strong>material capture</strong>, <strong>matcap</strong>) and <tt class="docutils literal"><span class="pre">Generated</span></tt>. The default value is <tt class="docutils literal"><span class="pre">Generated</span></tt>.</p>
 </dd>
 <dt><em>Mapping &gt; Offset</em></dt>
 <dd><p class="first last">Unsupported.</p>
@@ -150,7 +150,10 @@
 <dd><p class="first last">Anisotropic filtering factor for the individual texture. It has priority over the similar parameter for the scene. The default value is <tt class="docutils literal"><span class="pre">DEFAULT</span></tt> (i.e. use the scene settings).</p>
 </dd>
 <dt><em>Blend4Web &gt; UV translation velocity</em></dt>
-<dd><p class="first last">Animation speed of texture coordinates along respective axes. The default values are 0.0.</p>
+<dd><p class="first">Animation speed of texture coordinates along respective axes. The default values are 0.0.</p>
+<div class="last deprecated">
+<p><span class="versionmodified">Deprecated since version 14.10: </span>such functionality can be implemented within node materials using a TIME node.</p>
+</div>
 </dd>
 <dt><em>Blend4Web &gt; Water Foam</em></dt>
 <dd><p class="first last">The foam texture. Used by the water rendering material.</p>
@@ -439,7 +442,7 @@
           
     <div class="footer">
         &copy; Copyright 2014, Triumph LLC.
-      Last updated on 2014-09-25.
+      Last updated on 2014-10-30.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
         </div>

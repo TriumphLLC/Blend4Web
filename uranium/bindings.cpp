@@ -1427,7 +1427,7 @@ void du_set_character_rotation(du_character_id character, float angle_h,
 void du_set_character_hor_rotation(du_character_id character, float angle)
 {
     duCharacter *du_character = reinterpret_cast <duCharacter*>(character);
-    du_character->setVertRotation(angle);
+    du_character->setHorRotation(angle);
 }
 
 void du_set_character_vert_rotation(du_character_id character, float angle)

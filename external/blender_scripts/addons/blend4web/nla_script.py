@@ -19,21 +19,31 @@ def check_marker(scene, marker):
     else:
         return False
 
-def marker_to_frame_range(scene, marker):
+def markers_to_frame_range(scene, marker_start, marker_end):
+    if not check_marker(scene, marker_start):
+        return None
+
+    if not (marker_end == "" or check_marker(scene, marker_end)):
+        return None
+
     markers = scene.timeline_markers
-    if len(markers) and marker in markers:
-        first = markers[marker].frame
-        if first < scene.frame_start:
-            first = scene.frame_start
+
+    first = markers[marker_start].frame
+    if first < scene.frame_start:
+        first = scene.frame_start
+
+    if marker_end == "":
         last = scene.frame_end
 
         for marker in markers:
             if marker.frame > first and marker.frame < last:
                 last = marker.frame
-
-        return [first, last]
     else:
-        return [0,0]
+        last = markers[marker_end].frame
+        if last > scene.frame_end:
+            last = scene.frame_end
+
+    return [first, last]
 
 def object_by_name(objects, name):
     """Allow 'dg_name1*dg_name2...*name' format for the object's name"""
@@ -63,22 +73,130 @@ class B4W_ScriptSlot(bpy.types.PropertyGroup):
         description = "Script slot type",
         default = "PLAY",
         items = [
-            ("PLAY", "Play", "Play NLA animation"),
-            ("SELECT", "Select & Jump", "Select an object"),
-            ("SELECT_PLAY", "Select & Play", "Select an object then play"),
+            ("NOOP", "Noop", "No operation"),
+            ("MATH", "Math operation", "Perform a math operation"),
+            ("REGSTORE", "Register store", "Store a value to a register"),
+            ("CONDJUMP", "Conditional Jump", "Conditional jump"),
             ("JUMP", "Jump", "Jump to the slot by label"),
-            ("NOOP", "Noop", "No operation")
+            ("SELECT_PLAY", "Select & Play", "Select an object then play"),
+            ("SELECT", "Select & Jump", "Select an object"),
+            ("PLAY", "Play", "Play NLA animation")
         ]
     )
-    param1 = bpy.props.StringProperty(
-        name = "Script slot param 1",
-        description = "Script slot param 1", 
+    param_marker_start = bpy.props.StringProperty(
+        name = "Start Marker",
+        description = "First marker of the playback", 
         default = ""
     )
-    param2 = bpy.props.StringProperty(
-        name = "Script slot param 2",
-        description = "Script slot param 2", 
+    param_marker_end = bpy.props.StringProperty(
+        name = "End Marker",
+        description = "Final marker of the playback", 
         default = ""
+    )
+    param_slot = bpy.props.StringProperty(
+        name = "Target Slot",
+        description = "Name of the target slot", 
+        default = ""
+    )
+    param_object = bpy.props.StringProperty(
+        name = "Object",
+        description = "Name of the object", 
+        default = ""
+    )
+    param_register1 = bpy.props.EnumProperty(
+        name = "Register 1",
+        description = "First register operand",
+        default = "R1",
+        items = [
+            ("R8", "R8", "Register 8"),
+            ("R7", "R7", "Register 7"),
+            ("R6", "R6", "Register 6"),
+            ("R5", "R5", "Register 5"),
+            ("R4", "R4", "Register 4"),
+            ("R3", "R3", "Register 3"),
+            ("R2", "R2", "Register 2"),
+            ("R1", "R1", "Register 1")
+        ]
+    )
+    param_register2 = bpy.props.EnumProperty(
+        name = "Register 2",
+        description = "Second register operand",
+        default = "R1",
+        items = [
+            ("R8", "R8", "Register 8"),
+            ("R7", "R7", "Register 7"),
+            ("R6", "R6", "Register 6"),
+            ("R5", "R5", "Register 5"),
+            ("R4", "R4", "Register 4"),
+            ("R3", "R3", "Register 3"),
+            ("R2", "R2", "Register 2"),
+            ("R1", "R1", "Register 1")
+        ]
+    )
+    param_register_dest = bpy.props.EnumProperty(
+        name = "Destination Register",
+        description = "Destination register operand",
+        default = "R1",
+        items = [
+            ("R8", "R8", "Register 8"),
+            ("R7", "R7", "Register 7"),
+            ("R6", "R6", "Register 6"),
+            ("R5", "R5", "Register 5"),
+            ("R4", "R4", "Register 4"),
+            ("R3", "R3", "Register 3"),
+            ("R2", "R2", "Register 2"),
+            ("R1", "R1", "Register 1")
+        ]
+    )
+
+    param_number1 = bpy.props.FloatProperty(
+        name = "Number",
+        description = "First numeric operand",
+        default = 0,
+        step = 100
+    )
+    param_number2 = bpy.props.FloatProperty(
+        name = "Number",
+        description = "Second numeric operand",
+        default = 0,
+        step = 100
+    )
+
+    param_register_flag1 = bpy.props.BoolProperty(
+        name = "Register",
+        description = "First register operand",
+        default = False
+    )
+    param_register_flag2 = bpy.props.BoolProperty(
+        name = "Register",
+        description = "Second register operand",
+        default = False
+    )
+
+    param_operation = bpy.props.EnumProperty(
+        name = "Operation",
+        description = "Operation to perform on input operands",
+        default = "ADD",
+        items = [
+            ("DIV", "Divide", "Divide"),
+            ("SUB", "Subtract", "Subtract"),
+            ("MUL", "Multiply", "Multiply"),
+            ("ADD", "Add", "Add")
+        ]
+    )
+
+    param_condition = bpy.props.EnumProperty(
+        name = "Condition",
+        description = "Conditonal operator",
+        default = "EQUAL",
+        items = [
+            ("GEQUAL", "Greater Than or Equal (>=)", "Greater than or equal"),
+            ("LEQUAL", "Less Than or Equal (<=)", "Less than or equal"),
+            ("GREATER", "Greater Than (>)", "Greater than"),
+            ("LESS", "Less Than (<)", "Less than"),
+            ("NOTEQUAL", "Not Equal (!=)", "Not equal"),
+            ("EQUAL", "Equal (=)", "Equal")
+        ]
     )
 
 class B4W_ScriptAddOperator(bpy.types.Operator):
@@ -187,50 +305,126 @@ def draw(layout, context):
         col.prop(slot, "type", text="Type")
 
         if slot.type == "PLAY":
-            if check_marker(scene, slot.param1):
+            if check_marker(scene, slot.param_marker_start):
                 icon = "MARKER"
             else:
                 icon = "ERROR"
-            col.prop(slot, "param1", text="Marker", icon=icon)
+            col.prop(slot, "param_marker_start", icon=icon)
+
+            if slot.param_marker_end == "":
+                icon = "NONE"
+            elif check_marker(scene, slot.param_marker_end):
+                icon = "MARKER"
+            else:
+                icon = "ERROR"
+            col.prop(slot, "param_marker_end", icon=icon)
 
         elif slot.type == "SELECT":
 
-            if object_by_name(scene.objects, slot.param1):
+            if object_by_name(scene.objects, slot.param_object):
                 icon = "OBJECT_DATA"
             else:
                 icon = "ERROR"
 
-            col.prop(slot, "param1", text="Object", icon=icon)
+            col.prop(slot, "param_object", icon=icon)
 
-            if slot.param2 and label_to_slot_num(scene, slot.param2) > -1:
+            if slot.param_slot and label_to_slot_num(scene, slot.param_slot) > -1:
                 icon = "NODE"
             else:
                 icon = "ERROR"
 
-            col.prop(slot, "param2", text="Target slot name", icon=icon)
+            col.prop(slot, "param_slot", icon=icon)
 
         elif slot.type == "SELECT_PLAY":
 
-            if object_by_name(scene.objects, slot.param1):
+            if object_by_name(scene.objects, slot.param_object):
                 icon = "OBJECT_DATA"
             else:
                 icon = "ERROR"
 
-            col.prop(slot, "param1", text="Object", icon=icon)
+            col.prop(slot, "param_object", icon=icon)
 
-            if check_marker(scene, slot.param2):
+            if check_marker(scene, slot.param_marker_start):
                 icon = "MARKER"
             else:
                 icon = "ERROR"
-            col.prop(slot, "param2", text="Marker", icon=icon)
+            col.prop(slot, "param_marker_start", icon=icon)
+
+            if slot.param_marker_end == "":
+                icon = "NONE"
+            elif check_marker(scene, slot.param_marker_end):
+                icon = "MARKER"
+            else:
+                icon = "ERROR"
+            col.prop(slot, "param_marker_end", icon=icon)
 
         elif slot.type == "JUMP":
-            if slot.param1 and label_to_slot_num(scene, slot.param1) > -1:
+            if slot.param_slot and label_to_slot_num(scene, slot.param_slot) > -1:
                 icon = "NODE"
             else:
                 icon = "ERROR"
 
-            col.prop(slot, "param1", text="Target slot name", icon=icon)
+            col.prop(slot, "param_slot", icon=icon)
+
+        elif slot.type == "CONDJUMP":
+
+            col.prop(slot, "param_condition")
+
+            row = col.row()
+            row.label("First operand:")
+            if slot.param_register_flag1:
+                row.prop(slot, "param_register1", text="")
+            else:
+                row.prop(slot, "param_number1")
+            row.prop(slot, "param_register_flag1")
+
+            row = col.row()
+            row.label("Second operand:")
+            if slot.param_register_flag2:
+                row.prop(slot, "param_register2", text="")
+            else:
+                row.prop(slot, "param_number2")
+            row.prop(slot, "param_register_flag2")
+
+            if slot.param_slot and label_to_slot_num(scene, slot.param_slot) > -1:
+                icon = "NODE"
+            else:
+                icon = "ERROR"
+
+            col.prop(slot, "param_slot", icon=icon)
+
+        elif slot.type == "REGSTORE":
+
+            row = col.row()
+
+            row.label("Register:")
+            row.prop(slot, "param_register_dest", text="")
+            row.prop(slot, "param_number1")
+
+        elif slot.type == "MATH":
+
+            col.prop(slot, "param_operation")
+
+            row = col.row()
+            row.label("First operand:")
+            if slot.param_register_flag1:
+                row.prop(slot, "param_register1", text="")
+            else:
+                row.prop(slot, "param_number1")
+            row.prop(slot, "param_register_flag1")
+
+            row = col.row()
+            row.label("Second operand:")
+            if slot.param_register_flag2:
+                row.prop(slot, "param_register2", text="")
+            else:
+                row.prop(slot, "param_number2")
+            row.prop(slot, "param_register_flag2")
+
+            row = col.row()
+            row.label("Destination:")
+            row.prop(slot, "param_register_dest", text="")
+            row.label("")
 
 def register():
     bpy.utils.register_class(B4W_ScriptSlot)
