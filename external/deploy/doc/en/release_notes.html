@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Release Notes &mdash; User Manual: Blend4Web v14.10</title>
+    <title>Release Notes &mdash; User Manual: Blend4Web v14.11</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.10',
+        VERSION:     '14.11',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User Manual: Blend4Web v14.10" href="index.html" />
+    <link rel="top" title="User Manual: Blend4Web v14.11" href="index.html" />
     <link rel="prev" title="Problems and Solutions" href="problems_and_solutions.html" /> 
   </head>
   <body>
@@ -35,7 +35,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">User Manual: Blend4Web v14.10</a></div>
+          href="index.html">User Manual: Blend4Web v14.11</a></div>
         <div class="rel">
           <a href="problems_and_solutions.html" title="Problems and Solutions"
              accesskey="P">previous</a> |
@@ -55,10 +55,111 @@
             
   <div class="section" id="release-notes">
 <span id="id1"></span><h1>Release Notes<a class="headerlink" href="#release-notes" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="v14-10">
-<span id="index-0"></span><h2>v14.10<a class="headerlink" href="#v14-10" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="v14-11">
+<span id="index-0"></span><h2>v14.11<a class="headerlink" href="#v14-11" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id2">
 <h3>New features<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><dl class="first docutils">
+<dt><em>Video textures support.</em></dt>
+<dd><p class="first last"><a class="reference internal" href="textures.html#video-texture"><em>Video textures</em></a> are now supported for <tt class="docutils literal"><span class="pre">Image</span> <span class="pre">or</span> <span class="pre">Movie</span></tt> textures.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><em>Frame rate.</em></dt>
+<dd><p class="first last">Frame rate for animation and video textures can now be changed through the <tt class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">Dimensions</span> <span class="pre">&gt;</span> <span class="pre">Frame</span> <span class="pre">rate</span></tt> option.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><em>Canvas textures support.</em></dt>
+<dd><p class="first last">A canvas HTML element can be now used as a <a class="reference internal" href="textures.html#render-to-texture-canvas"><em>texture</em></a>. The workflow is described in the <a class="reference internal" href="developers.html#canvas-texture"><em>manual</em></a>.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><em>Сamera panning.</em></dt>
+<dd><p class="first last">In the mode when the camera is rotating around a single point (<tt class="docutils literal"><span class="pre">Target</span></tt>) the users now have the ability to move the pivot point withing the view plane (so called camera panning) while right or middle mouse buttons are pressed. This function is turned on by default and can be turned off in Blender settings at need.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><em>New camera control mode - Hover.</em></dt>
+<dd><p class="first last">The <tt class="docutils literal"><span class="pre">Hover</span></tt> mode is now available when the camera is gliding over the horizontal plane (including zooming in and out). This camera mode makes it possible to realize scenarios for a convenient viewing of scenes which are spread in two dimensions (rooms, game levels).</p>
+</dd>
+</dl>
+</li>
+<li><p class="first"><em>The SDK now contains a root index.html webpage for simplifying navigation within the distribution.</em></p>
+</li>
+<li><p class="first"><em>The resource converter now has the ability to convert videos.</em></p>
+</li>
+<li><p class="first"><em>We have added a build system which was absent in previous public SDK distributions.</em></p>
+</li>
+<li><dl class="first docutils">
+<dt><em>The export Strict mode is implemented in the addon.</em></dt>
+<dd><p class="first last">Activating <tt class="docutils literal"><span class="pre">Strict</span> <span class="pre">mode</span></tt> gives the possibility to display all possible errors and warnings connected with incorrect scene settings. The option is useful for final scene debugging for getting the most correct and optimized resource files.</p>
+</dd>
+</dl>
+</li>
+<li><p class="first"><em>Audio playback support for iOS devices.</em></p>
+</li>
+</ul>
+</div>
+<div class="section" id="id3">
+<h3>Changes<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><dl class="first docutils">
+<dt><em>The webplayer&#8217;s &#8220;bg&#8221; parameter is renamed to &#8220;fallback_image&#8221;.</em></dt>
+<dd><p class="first last">This option also has changed its behavior. If the <tt class="docutils literal"><span class="pre">fallback_image</span></tt> is defined the error message that WebGL is unavailable is not shown any more, instead the user sees just the image.</p>
+</dd>
+</dl>
+</li>
+<li><p class="first"><em>Now in the webplayer the sound mute button is not shown when there are no sound sources in the scene.</em></p>
+</li>
+<li><p class="first"><em>Generic materials workflow is now more predictable.</em></p>
+</li>
+<li><p class="first"><em>The &#8220;mouse_down&#8221; sensor provides the code of the mouse button pressed. This code can be obtained from the payload sensor&#8217;s parameter.</em></p>
+</li>
+<li><p class="first"><em>Hair particle systems can be now exported significantly faster.</em></p>
+</li>
+</ul>
+</div>
+<div class="section" id="id4">
+<h3>Fixes<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><dl class="first docutils">
+<dt><em>Normal maps now work with the Generated and Normal texture coordinates.</em></dt>
+<dd><p class="first last">Using UV layers is no more required for normal maps.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><em>Fixed the problem with the wrong path to the physics engine in the webplayer.</em></dt>
+<dd><p class="first last">This error arose when uranium.js was moved out the directory containing the main HTML file of the webplayer.</p>
+</dd>
+</dl>
+</li>
+<li><p class="first"><em>In the addon we have fixed the problem with packed textures. Export crashed when the &#8220;Automatically Pack Into .blend&#8221; option was enabled.</em></p>
+</li>
+</ul>
+</div>
+<div class="section" id="id5">
+<h3>Known issues<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><dl class="first docutils">
+<dt><em>Blender addon upgrading problems</em></dt>
+<dd><p class="first last">We strongly don&#8217;t recommend to install the new Blender addon version without uninstalling the previous version first (especially for Windows).</p>
+</dd>
+</dl>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="v14-10">
+<h2>v14.10<a class="headerlink" href="#v14-10" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id6">
+<h3>New features<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><dl class="first docutils">
 <dt><em>The new web player.</em></dt>
@@ -107,8 +208,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id3">
-<h3>Changes<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id7">
+<h3>Changes<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><dl class="first docutils">
 <dt><em>Changed SDK path setting for HTML export.</em></dt>
@@ -138,8 +239,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id4">
-<h3>Fixes<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id8">
+<h3>Fixes<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>Fixed rendering error for HALO materials.</em></p>
 </li>
@@ -165,12 +266,18 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id5">
-<h3>Known issues<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id9">
+<h3>Known issues<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><dl class="first docutils">
 <dt><em>Blender addon upgrading problems</em></dt>
 <dd><p class="first last">We strongly don&#8217;t recommend to install the new Blender addon version without uninstalling the previous version first (especially for Windows).</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><em>Normal maps don&#8217;t work for Generated texture type.</em></dt>
+<dd><p class="first last">It is necessary to use UV mapping for normal maps.</p>
 </dd>
 </dl>
 </li>
@@ -179,8 +286,8 @@
 </div>
 <div class="section" id="v14-09">
 <h2>v14.09<a class="headerlink" href="#v14-09" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id6">
-<h3>New features<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id10">
+<h3>New features<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>ABSOLUTE type support for the MATH node.</em></p>
 </li>
@@ -256,8 +363,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id8">
-<h3>Changes<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id12">
+<h3>Changes<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><dl class="first docutils">
 <dt><em>Shadow rendering improved.</em></dt>
@@ -291,8 +398,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id9">
-<h3>Fixes<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id13">
+<h3>Fixes<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p class="first"><em>The preloader didn&#8217;t diappear in case of a loading error (texture or sound file).</em></p>
 </li>
@@ -314,8 +421,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id10">
-<h3>Known issues<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id14">
+<h3>Known issues<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><dl class="first docutils">
 <dt><em>Blender addon upgrading problems</em></dt>
@@ -373,6 +480,7 @@
 <li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Team Work. Using Git</a></li>
 <li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Problems and Solutions</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Release Notes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#v14-11">v14.11</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#v14-10">v14.10</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#v14-09">v14.09</a></li>
 </ul>
@@ -407,8 +515,8 @@
           
     <div class="footer">
         &copy; Copyright 2014, Triumph LLC.
-      Last updated on 2014-10-30.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+      Last updated on 2014-11-28.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
         </div>
         <div class="clearer"></div>

@@ -25,8 +25,9 @@ $(APPS_EXT)/webplayer/webplayer.min.js: $(APPS_DEV)/webplayer/webplayer.js \
 	    --js_output_file=$(APPS_EXT)/webplayer/webplayer_tmp.js
 	cat $(B4W_PATH) $(APPS_EXT)/webplayer/webplayer_tmp.js > $(APPS_EXT)/webplayer/webplayer.min.js
 	$(RM) $(APPS_EXT)/webplayer/webplayer_tmp.js
-	cp $(APPS_DEV)/webplayer/smaa_area_texture.png $(APPS_EXT)/webplayer
-	cp $(APPS_DEV)/webplayer/smaa_search_texture.png $(APPS_EXT)/webplayer
+
+	cp $(SMAA_AREA_TEX_PATH) $(APPS_EXT)/webplayer
+	cp $(SMAA_SEARCH_TEX_PATH) $(APPS_EXT)/webplayer
 	cp $(URANIUM_PATH) $(APPS_EXT)/webplayer
 
 $(APPS_EXT)/webplayer/webplayer.html: $(APPS_DEV)/webplayer/webplayer_dev.html

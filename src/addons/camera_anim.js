@@ -253,6 +253,10 @@ exports.auto_rotate = function(auto_rotate_ratio, callback) {
             case m_cam.MS_EYE_CONTROLS:
                 m_cam.rotate(obj, value * auto_rotate_ratio, 0);
                 break;
+
+            case m_cam.MS_HOVER_CONTROLS:
+                m_cam.rotate_hover_cam(obj, value * auto_rotate_ratio);
+                break;
             }
         }
     }

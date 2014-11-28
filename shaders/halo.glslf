@@ -1,4 +1,3 @@
-#var NUM_LIGHTS 0
 #var NUM_LINES 0
 #var NUM_RINGS 0
 #var NUM_STARS 0

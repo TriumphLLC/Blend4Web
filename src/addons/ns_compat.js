@@ -10,7 +10,7 @@ if (!window["b4w"])
  *
  * @cc_externs animation assets camera config controls constraints
  * @cc_externs data debug geometry hud lights main material particles physics
- * @cc_externs scenes sfx shaders transform util version 
+ * @cc_externs scenes sfx shaders textures transform util version 
  *
  * @cc_externs vec3 vec4 quat mat3 mat4
  *

@@ -38,6 +38,7 @@ var cfg_def = m_cfg.defaults;
 var cfg_ldr = m_cfg.assets;
 var cfg_phy = m_cfg.physics;
 var cfg_anim = m_cfg.animation;
+var cfg_sfx = m_cfg.sfx;
 
 var DEBUG_BPYDATA = false;
 var DEBUG_LOD_DIST_NOT_SET = false;
@@ -54,10 +55,16 @@ var _data_is_primary = false;
 var _primary_scene = null;
 var _dupli_obj_id_overrides = {};
 
+var PLAY_MEDIA_IMAGE_MOBILE = "data:image/png;base64,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"
+var _play_media_btn = null;
+var _play_media_bkg = null;
+var _canvas_container_z_index = 0;
+
 var SECONDARY_LOAD_TYPES_DISABLED = ["LAMP", "CAMERA"];
 var ADD_PHY_TYPES = ["MESH", "CAMERA", "EMPTY"];
 var ADD_SFX_TYPES = ["SPEAKER"];
 
+var _gl = null;
 /**
  * Check if primary scene is loaded (detect last loading stage)
  */
@@ -105,6 +112,25 @@ function print_image_info(image_data, image_path, show_path_warning) {
     if (image_path.indexOf(_debug_resources_root) == -1 && show_path_warning)
         m_print.warn("B4W Warning: image", image_path, "is not from app root.");
 }
+
+function print_video_info(video, image_path, show_path_warning) {
+
+    var w = video.videoWidth;
+    var h = video.videoHeight;
+
+    var color;
+    if (w > 2048 || h > 2048)
+        color = "a00";
+    else if (w > 1024 || h > 1024)
+        color = "aa0";
+    else
+        color = "0a0";
+    m_print.log("%cLOAD VIDEO " + w + "x" + h, "color: #" + color, image_path);
+
+    if (image_path.indexOf(_debug_resources_root) == -1 && show_path_warning)
+        m_print.warn("B4W Warning: video", image_path, "is not from app root.");
+}
+
 
 /**
  * Load main json
@@ -450,8 +476,8 @@ function prepare_root_datablocks(bpy_data, thread, stage, cb_param, cb_finish,
     var global_af = get_global_anisotropic_filtering(bpy_data);
     for (var i = 0; i < textures.length; i++) {
         // NOTE: disable offscreen rendering for secondary loaded data
-        if (!_data_is_primary)
-            textures[i]["b4w_render_scene"] = "";
+        if ((!_data_is_primary) && (textures[i]["b4w_source_type"] == "SCENE"))
+            textures[i]["b4w_source_id"] = "";  
         m_tex.create_texture_bpy(textures[i], global_af, bpy_data["scenes"]);
     }
 
@@ -548,6 +574,9 @@ function prepare_root_scenes(bpy_data, thread, stage, cb_param, cb_finish,
                 "Only the first one will be loaded.");
     }
 
+    if (cfg_anim.framerate == -1 && _data_is_primary)
+        cfg_anim.framerate = bpy_data["scenes"][0]["fps"];
+
     for (var i = 0; i < bpy_data["scenes"].length; i++) {
 
         var scene = bpy_data["scenes"][i];
@@ -572,7 +601,10 @@ function prepare_root_scenes(bpy_data, thread, stage, cb_param, cb_finish,
                 bpy_data["meshes"]);
 
         if (_data_is_primary) {
-            m_scenes.append_scene(scene);
+            m_scenes.append_scene(scene, bpy_data["textures"]);
+
+            if (scene._render.video_textures.length)
+                thread.has_video_textures = true;
 
             if (cfg_phy.enabled && scene["b4w_enable_physics"])
                 m_phy.attach_scene_physics(scene);
@@ -584,7 +616,7 @@ function prepare_root_scenes(bpy_data, thread, stage, cb_param, cb_finish,
             var grid_size = scene["b4w_batch_grid_size"];
 
         } else {
-            m_scenes.append_to_existed_scene(scene, _primary_scene);
+            m_scenes.append_to_existed_scene(scene, _primary_scene, bpy_data["textures"]);
 
             if (cfg_phy.enabled && scene["b4w_enable_physics"]
                     && !_primary_scene._physics)
@@ -598,7 +630,7 @@ function prepare_root_scenes(bpy_data, thread, stage, cb_param, cb_finish,
         }
 
         var meta_objects = m_batch.generate_main_batches(scene_graph,
-                grid_size, scene_objects, scene["world"]);
+                grid_size, scene_objects, scene["world"], _primary_scene._render.lamps_number);
 
         if (_data_is_primary) {
             m_scenes.add_meta_objects(scene, meta_objects);
@@ -641,6 +673,7 @@ function setup_dds_loading(bpy_data) {
 
             var image = texture["image"];
 
+
             if (image._is_dds) {
                 // it was already marked as dds on previous cycle - so do nothing
             } else if (image["filepath"].indexOf(".dds") > -1) {
@@ -652,7 +685,8 @@ function setup_dds_loading(bpy_data) {
                 image._is_dds = !texture["b4w_disable_compression"] &&
                                 !texture_slot["use_map_normal"] &&
                                 texture["type"] != "ENVIRONMENT_MAP" &&
-                                !texture["b4w_shore_dist_map"];
+                                !texture["b4w_shore_dist_map"] &&
+                                image["source"] != "MOVIE";
 
                 if (image._is_dds)
                     image["filepath"] += ".dds";
@@ -681,7 +715,8 @@ function setup_dds_loading(bpy_data) {
                         // it was already marked as dds on previous cycle - so do nothing
                     } else {
                         image._is_dds = tex._render.allow_node_dds &&
-                                        !tex["b4w_disable_compression"];
+                                        !tex["b4w_disable_compression"] &&
+                                        image["source"] != "MOVIE";
 
                         if (image._is_dds)
                             image["filepath"] += ".dds";
@@ -1224,7 +1259,7 @@ function process_node_tree(node_tree, storage) {
             if (node["lamp"]["uuid"] in _dupli_obj_id_overrides)
                 node["lamp"]["uuid"] = _dupli_obj_id_overrides[node["lamp"]["uuid"]];
             if (!storage[node["lamp"]["uuid"]])
-                m_print.error("Dangling link found:", "lamp", node);
+                node["lamp"] = null;
         }
 
         // NOTE: Check node["node_group"] for compatibility with older scenes
@@ -1338,7 +1373,7 @@ function load_textures(bpy_data, thread, stage, cb_param, cb_finish, cb_set_rate
         var image = images[i];
         var uuid = image["uuid"];
 
-        if (image["source"] === "FILE") {
+        if (image["source"] === "FILE" || image["source"] === "MOVIE") {
 
             var tex_users = find_image_users(image, bpy_data["textures"]);
 
@@ -1353,19 +1388,27 @@ function load_textures(bpy_data, thread, stage, cb_param, cb_finish, cb_set_rate
             var image_path = normpath_preserve_protocol(dir_path + 
                     image["filepath"]);
 
-            if (image._is_dds)
-                var asset_type = m_assets.AT_ARRAYBUFFER;
-            else
-                var asset_type = m_assets.AT_IMAGE_ELEMENT;
+            if (image["source"] === "FILE") {
+                if (image._is_dds)
+                    var asset_type = m_assets.AT_ARRAYBUFFER;
+                else
+                    var asset_type = m_assets.AT_IMAGE_ELEMENT;
 
-            if (cfg_ldr.min50_available && cfg_def.use_min50) {
+                if (cfg_ldr.min50_available && cfg_def.use_min50) {
+                    var head_ext = m_assets.split_extension(image_path);
+                    if (head_ext[1] == "dds") {
+                        var head_ext_wo_dds = m_assets.split_extension(head_ext[0]);
+                        image_path = head_ext_wo_dds[0] + ".min50." +
+                            head_ext_wo_dds[1] + ".dds";
+                    } else
+                        image_path = head_ext[0] + ".min50." + head_ext[1];
+                    }
+            } else if (image["source"] === "MOVIE") {
                 var head_ext = m_assets.split_extension(image_path);
-                if (head_ext[1] == "dds") {
-                    var head_ext_wo_dds = m_assets.split_extension(head_ext[0]);
-                    image_path = head_ext_wo_dds[0] + ".min50." +
-                        head_ext_wo_dds[1] + ".dds";
-                } else
-                    image_path = head_ext[0] + ".min50." + head_ext[1];
+                var ext = m_sfx.detect_video_container(head_ext[1]);
+                if (ext != "")
+                    image_path = head_ext[0] + "." + ext;
+                var asset_type = m_assets.AT_VIDEO_ELEMENT;
             }
 
             image_assets.push([uuid, asset_type, image_path, image["name"]]);
@@ -1376,11 +1419,12 @@ function load_textures(bpy_data, thread, stage, cb_param, cb_finish, cb_set_rate
     if (image_assets.length) {
         cb_param.image_counter = 0;
         var asset_cb = function(image_data, uri, type, path) {
-
             // process only loaded images
             if (image_data) {
                 var show_path_warning = true;
-                print_image_info(image_data, path, show_path_warning);
+                if (type == m_assets.AT_VIDEO_ELEMENT)
+                    print_video_info(image_data, path, show_path_warning);
+                else print_image_info(image_data, path, show_path_warning);
 
                 var image = img_by_uri[uri];
                 var tex_users = find_image_users(image, bpy_data["textures"]);
@@ -1397,6 +1441,7 @@ function load_textures(bpy_data, thread, stage, cb_param, cb_finish, cb_set_rate
         }
         var pack_cb = function() {
             m_print.log("%cLOADED ALL IMAGES", "color: #0a0");
+            
             cb_finish(thread, stage);
         }
 
@@ -1439,10 +1484,12 @@ function load_speakers(bpy_data, thread, stage, cb_param, cb_finish, cb_set_rate
 
             var sound = obj["data"]["sound"];
             var uuid = sound["uuid"];
-
             // BACKGROUND_MUSIC speaker needs a unique resource (unique uuid)
-            if (m_sfx.get_spk_behavior(obj) == "BACKGROUND_MUSIC")
+            if (m_sfx.get_spk_behavior(obj) == "BACKGROUND_MUSIC") {
                 uuid = m_util.gen_uuid();
+                thread.has_background_music = true;
+            } else if (m_sfx.get_spk_behavior(obj) != "NONE" && cfg_def.init_wa_context_hack)
+                thread.init_wa_context = true;
 
             if (!(uuid in spks_by_uuid)) {
                 spks_by_uuid[uuid] = [];
@@ -1460,12 +1507,12 @@ function load_speakers(bpy_data, thread, stage, cb_param, cb_finish, cb_set_rate
                 }
 
                 var head_ext = m_assets.split_extension(sound_path);
-                var ext = m_sfx.detect_media_container(head_ext[1]);
+                var ext = m_sfx.detect_audio_container(head_ext[1]);
 
                 if (ext != head_ext[1]) {
                     // skip loading sounds for HTML-exported apps if current
                     // sound format is not supported
-                    if (m_assets.is_built_in_data()) {
+                    if (m_cfg.is_built_in_data()) {
                         m_loader.skip_stage_by_name(thread, "load_speakers");
                         return;
                     }
@@ -1500,7 +1547,6 @@ function load_speakers(bpy_data, thread, stage, cb_param, cb_finish, cb_set_rate
         }
         var pack_cb = function() {
             m_print.log("%cLOADED ALL SOUNDS", "color: #0aa");
-            speakers_play(m_scenes.get_active());
             cb_finish(thread, stage);
         }
 
@@ -1534,7 +1580,7 @@ function find_sound_users(sound, objects) {
     return spk_sound_users;
 }
 
-function speakers_play(scene) {
+function speakers_play(scene, force_init) {
     var spk_objs = m_scenes.get_scene_objs(scene, "SPEAKER",
             m_scenes.DATA_ID_ALL);
     for (var i = 0; i < spk_objs.length; i++) {
@@ -1543,10 +1589,17 @@ function speakers_play(scene) {
         if (!m_sfx.is_speaker(sobj))
             continue;
 
-        // NOTE: autostart cyclic
-        if (m_sfx.is_cyclic(sobj))
+        // NOTE: autostart cyclic or init for mobile devices
+        if (m_sfx.is_cyclic(sobj) || force_init)
             m_sfx.play_def(sobj);
     }
+}
+
+function video_play(scene) {
+    var textures = scene._render.video_textures;
+    for (var i = 0; i < textures.length; i++)
+        if (textures[i]._render.video_file && textures[i]["use_auto_refresh"])
+            textures[i]._render.video_file.play();
 }
 
 
@@ -1564,10 +1617,6 @@ function check_scene(bpy_scene) {
     // check camera existence
     if (!bpy_scene["camera"])
         throw "Scene check failed: No camera";
-
-    var lamp_objs = m_scenes.combine_scene_objects(bpy_scene, "LAMP");
-    if (!lamp_objs.length)
-        throw "Scene check failed: No lamp";
 }
 
 /**
@@ -2428,9 +2477,7 @@ function add_objects(bpy_data, thread, stage, cb_param, cb_finish,
     var obj_data = cb_param.added_objects;
     var obj_counter = cb_param.obj_counter;
 
-    if (!obj_data)
-        var rate = 1;
-    else {
+    if (obj_data.length) {
         var obj = obj_data[obj_counter].obj;
         var scene = obj_data[obj_counter].scene;
 
@@ -2440,7 +2487,8 @@ function add_objects(bpy_data, thread, stage, cb_param, cb_finish,
             m_sfx.append_object(obj, scene);
 
         var rate = ++cb_param.obj_counter / obj_data.length;
-    }
+    } else
+        var rate = 1;
 
     cb_set_rate(thread, stage, rate);
 }
@@ -2469,6 +2517,118 @@ function end_objects_adding(bpy_data, thread, stage, cb_param, cb_finish,
     cb_finish(thread, stage);
 }
 
+function synchronize_media(bpy_data, thread, stage, cb_param, cb_finish,
+        cb_set_rate) {
+
+    if (_data_is_primary)
+        for (var i = 0; i < bpy_data["scenes"].length; i++) {
+            if (!bpy_data["scenes"][i]["b4w_use_nla"])
+                video_play(bpy_data["scenes"][i]);
+            speakers_play(bpy_data["scenes"][i]);
+        }
+    else { 
+        // NOTE: play video-textures from dynamically loaded non-NLA scenes
+        if (!bpy_data["scenes"][0]["b4w_use_nla"])
+            video_play(_primary_scene);
+        speakers_play(_primary_scene); 
+    }
+        
+
+    cb_finish(thread, stage);
+}
+
+exports.setup_context = function(gl) {
+    _gl = gl;
+}
+
+function mobile_media_start(bpy_data, thread, stage, cb_param, cb_finish,
+        cb_set_rate) {
+    if (cfg_def.is_mobile_device && (thread.has_video_textures ||
+                thread.has_background_music || thread.init_wa_context)) {
+        if (!_play_media_btn) {
+            create_media_controls(bpy_data, cb_finish, thread, stage);
+        }
+    } else
+        cb_finish(thread, stage);
+}
+
+function create_media_controls(bpy_data, cb_finish, thread, stage) {
+    var canvas_container = _gl.canvas.parentElement;
+    _canvas_container_z_index = canvas_container.style.zIndex;
+    canvas_container.style.zIndex = "999";
+
+    _play_media_btn = document.createElement("div");
+    _play_media_btn.style.position = "relative";
+    _play_media_btn.style.height = "88px";
+    _play_media_btn.style.width = "88px";
+
+    var h = Math.round(_gl.canvas.offsetHeight / 2 - 44);
+    var w = Math.round(_gl.canvas.offsetWidth / 2 - 44);
+
+    _play_media_btn.style.top = h.toString() + "px";
+    _play_media_btn.style.left = w.toString() + "px";
+    _play_media_btn.style.backgroundImage = "url('" + PLAY_MEDIA_IMAGE_MOBILE + "')";
+
+    _play_media_bkg = document.createElement("div");
+    _play_media_bkg.style.position = "relative";
+    _play_media_bkg.style.height = _gl.canvas.offsetHeight.toString() + "px";
+    _play_media_bkg.style.width = _gl.canvas.offsetWidth.toString() + "px";
+    _play_media_bkg.style.background = "rgba(0, 0, 0, 0.5)";
+    _play_media_bkg.style.zIndex = "999";
+
+    canvas_container.appendChild(_play_media_bkg);
+
+    _play_media_bkg.appendChild(_play_media_btn);
+
+    _play_media_btn.addEventListener("click", function() {
+
+        if (thread.has_video_textures) {
+            m_tex.play();
+            m_tex.pause();
+        }
+
+        if (thread.has_background_music) {
+            if (_data_is_primary)
+                for (var i = 0; i < bpy_data["scenes"].length; i++)
+                    speakers_play(bpy_data["scenes"][i], true);
+            else
+                speakers_play(_primary_scene, true);
+            m_sfx.pause();
+        }
+
+        if (thread.init_wa_context) {
+            m_sfx.play_empty_sound();
+        }
+
+        remove_media_controls();
+        cb_finish(thread, stage);
+    }, false);
+}
+
+function remove_media_controls() {
+    if (_play_media_btn) {
+        var canvas_container = _gl.canvas.parentElement;
+        canvas_container.style.zIndex = _canvas_container_z_index;
+        _play_media_bkg.removeChild(_play_media_btn);
+        canvas_container.removeChild(_play_media_bkg);
+        _play_media_bkg = null;
+        _play_media_btn = null;
+        _canvas_container_z_index = 0;
+    }
+}
+
+exports.update_media_controls = function (width, height) {
+    if(_play_media_btn) {
+        _play_media_bkg.style.height = height.toString() + "px";
+        _play_media_bkg.style.width = width.toString() + "px";
+
+        var h = Math.round(height / 2 - 44);
+        var w = Math.round(width / 2 - 44);
+
+        _play_media_btn.style.top = h.toString() + "px";
+        _play_media_btn.style.left = w.toString() + "px";
+    }
+}
 /**
  * Drop mesh geometry (submeshes)
  */
@@ -2667,10 +2827,29 @@ exports.load = function(path, loaded_cb, stageload_cb, wait_complete_loading,
                 sound_counter: 0
             }
         },
+        "mobile_media_start": {
+            priority: m_loader.SYNC_PRIORITY,
+            background_loading: !cfg_def.is_mobile_device,
+            inputs: ["load_textures", "load_speakers"],
+            is_resource: true,
+            relative_size: 5,
+            primary_only: false,
+            cb_before: mobile_media_start,
+            cb_loop: mobile_media_start
+        },
+        "synchronize_media": {
+            priority: m_loader.SYNC_PRIORITY,
+            background_loading: true,
+            inputs: ["mobile_media_start"],
+            is_resource: true,
+            relative_size: 70,
+            primary_only: false,
+            cb_before: synchronize_media
+        },
         "start_nla": {
             priority: m_loader.SYNC_PRIORITY,
             background_loading: true,
-            inputs: ["load_speakers"],
+            inputs: ["mobile_media_start"],
             is_resource: false,
             relative_size: 5,
             primary_only: false,
@@ -2688,7 +2867,7 @@ exports.load = function(path, loaded_cb, stageload_cb, wait_complete_loading,
 
     _bpy_data_array[scheduler.threads.length] = {};
     var data_id = m_loader.create_thread(stages, path, loaded_cb, stageload_cb,
-            free_load_data, wait_complete_loading,
+            free_load_data, wait_complete_loading || cfg_sfx.audio_loading_hack,
             cfg_def.do_not_load_resources, load_hidden);
     return data_id;
 }
@@ -2721,6 +2900,7 @@ exports.unload = function(data_id) {
         m_ctl.cleanup();
         m_ext.cleanup();
         m_assets.cleanup();
+        m_tex.cleanup();
 
         _all_objects_cache = null;
         _dupli_obj_id_overrides = {};
@@ -2757,6 +2937,8 @@ exports.unload = function(data_id) {
             }
         }
     }
+
+    remove_media_controls();
 }
 
 function prepare_object_unloading(scene, obj) {

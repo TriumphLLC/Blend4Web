@@ -209,6 +209,11 @@ function init_cb(canvas_elem, success) {
 }
 
 function add_config_button(button_id, cb) {
+    window.oncontextmenu = function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+    };
 
     var elem = document.getElementById(button_id);
 

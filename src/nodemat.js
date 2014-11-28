@@ -825,15 +825,15 @@ function append_nmat_node(graph, bpy_node, geometry_output_num, anim_data) {
         }
         break;
     case "LAMP":
-        outputs.push(node_output_by_ident(bpy_node, "Color"));
-        outputs.push(node_output_by_ident(bpy_node, "Light Vector"));
-        outputs.push(node_output_by_ident(bpy_node, "Distance"));
-        outputs.push(node_output_by_ident(bpy_node, "Visibility Factor"));
         var lamp = bpy_node["lamp"];
         if (!lamp) {
             m_print.error("There is no lamp in node: " + bpy_node["name"]);
             return false;
         }
+        outputs.push(node_output_by_ident(bpy_node, "Color"));
+        outputs.push(node_output_by_ident(bpy_node, "Light Vector"));
+        outputs.push(node_output_by_ident(bpy_node, "Distance"));
+        outputs.push(node_output_by_ident(bpy_node, "Visibility Factor"));
         if (!(lamp["uuid"] in _lamp_indexes)) {
             _lamp_indexes[lamp["uuid"]] = _lamp_index;
             params.push(node_param(shader_ident("param_LAMP_lamp_index"), _lamp_index++, 1));

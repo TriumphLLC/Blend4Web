@@ -91,7 +91,10 @@ exports.create_thread = function(stages, path, loaded_callback,
         complete_load_cb: complete_load_cb || (function() {}),
         
         stage_graph: null,
-        stages_queue: null
+        stages_queue: null,
+        has_video_textures: false,
+        has_background_music: false,
+        init_wa_context: false
     }
 
     var loaded_cb = loaded_callback || (function() {});

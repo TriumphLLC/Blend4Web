@@ -28,6 +28,7 @@ exports.AT_TEXT          = 30;
 exports.AT_AUDIOBUFFER   = 40;
 exports.AT_IMAGE_ELEMENT = 50;
 exports.AT_AUDIO_ELEMENT = 60;
+exports.AT_VIDEO_ELEMENT = 70;
 
 // asset states: enqueued -> requested -> received
 var ASTATE_ENQUEUED = 10;
@@ -43,7 +44,7 @@ var _loaded_assets = {};
 
 
 function get_built_in_data() {
-    if (is_built_in_data())
+    if (config.is_built_in_data())
         return require(config.paths.built_in_data_module)["data"];
     else
         return null;
@@ -242,6 +243,9 @@ function request_assets(queue) {
         case exports.AT_AUDIO_ELEMENT:
             request_audio(asset);
             break;
+        case exports.AT_VIDEO_ELEMENT:
+            request_video(asset);
+            break;
         default:
             throw "Wrong asset type: " + asset.type;
             break;
@@ -357,7 +361,7 @@ function request_audiobuffer(asset) {
 
 function request_image(asset) {
     var image = document.createElement("img");
-    if (cfg_def.allow_cross_origin_sharing)
+    if (cfg_def.allow_cors)
         image.crossOrigin = "Anonymous";
     image.onload = function() {
         if (asset.state != ASTATE_HALTED) {
@@ -388,15 +392,16 @@ function request_image(asset) {
 
 function request_audio(asset) {
     var audio = document.createElement("audio");
-    if (cfg_def.allow_cross_origin_sharing)
+    if (cfg_def.allow_cors)
         audio.crossOrigin = "Anonymous";
-    // HACK: workaround for some chrome garbage collector bug
+    
     audio.addEventListener("loadeddata", function() {
         if (asset.state != ASTATE_HALTED) {
             asset.asset_cb(audio, asset.uri, asset.type, asset.filepath);
             asset.state = ASTATE_RECEIVED;
         }
     }, false);
+
     audio.addEventListener("error", function() {
         if (asset.state != ASTATE_HALTED) {
             asset.asset_cb(null, asset.uri, asset.type, asset.filepath);
@@ -410,14 +415,66 @@ function request_audio(asset) {
         if (bd[asset.filepath]) {
             var snd_mime_type = get_sound_mime_type(asset.filepath);
             audio.src = "data:" + snd_mime_type + ";base64," + bd[asset.filepath];
+            if (asset.state != ASTATE_HALTED) {
+                asset.asset_cb(audio, asset.uri, asset.type, asset.filepath);
+                asset.state = ASTATE_RECEIVED;
+            }
+
         } else {
             var event = new CustomEvent("error");
             audio.dispatchEvent(event);
         }
-    } else
+    } else {
         audio.src = asset.filepath;
+        if (cfg_def.is_mobile_device)
+            audio.load();
+    }
 
+    // HACK: workaround for some garbage collector bug
     setTimeout(function() {audio.some_prop_to_prevent_gc = 1}, 5000);
+}
+
+function request_video(asset) {
+    var video = document.createElement("video");
+    video.muted = true;
+    // HACK: allow crossOrigin for mobile devices (Android Chrome bug)
+    if (cfg_def.allow_cors || cfg_def.is_mobile_device)
+        video.crossOrigin = "Anonymous";
+    video.addEventListener("loadeddata", function() {
+        if (asset.state != ASTATE_HALTED) {
+            asset.asset_cb(video, asset.uri, asset.type, asset.filepath);
+            asset.state = ASTATE_RECEIVED;
+        }
+    }, false);
+
+    video.addEventListener("error", function() {
+        if (asset.state != ASTATE_HALTED) {
+            asset.asset_cb(null, asset.uri, asset.type, asset.filepath);
+            m_print.error("B4W Error: could not load video: " + asset.filepath);
+            asset.state = ASTATE_RECEIVED;
+        }
+    }, false);
+
+    var bd = get_built_in_data();
+    if (bd && asset.filepath in bd) {
+        if (bd[asset.filepath]) {
+            var vid_mime_type = get_video_mime_type(asset.filepath);
+            video.src = "data:" + vid_mime_type + ";base64," + bd[asset.filepath];
+            if (asset.state != ASTATE_HALTED) {
+                asset.asset_cb(video, asset.uri, asset.type, asset.filepath);
+                asset.state = ASTATE_RECEIVED;
+            }
+        } else {
+            var event = new CustomEvent("error");
+            video.dispatchEvent(event);
+        }
+    } else {
+        video.src = asset.filepath;
+        if (cfg_def.is_mobile_device)
+            video.load();
+    }
+    // HACK: workaround for some garbage collector bug
+    setTimeout(function() {video.some_prop_to_prevent_gc = 1}, 10000);
 }
 
 function get_image_mime_type(file_path) {
@@ -440,13 +497,36 @@ function get_sound_mime_type(file_path) {
     var ext = m_util.get_file_extension(file_path);
     var mime_type = "audio";
     switch(ext.toLowerCase()) {
+    case "ogv":
     case "ogg":
         mime_type += "/ogg";
         break;
     case "mp3":
         mime_type += "/mpeg";
         break;
+    case "m4v":    
     case "mp4":
+        mime_type += "/mp4";
+        break;
+    case "webm":
+        mime_type += "/webm";
+        break;
+    }
+
+    return mime_type;
+}
+
+function get_video_mime_type(file_path) {
+    var ext = m_util.get_file_extension(file_path);
+    var mime_type = "video";
+    switch(ext.toLowerCase()) {
+    case "ogv":
+        mime_type += "/ogg";
+        break;
+    case "webm":
+        mime_type += "/webm";
+        break;
+    case "m4v":
         mime_type += "/mp4";
         break;
     }
@@ -500,11 +580,6 @@ function debug_queue(queue, opt_log_prefix) {
         m_print.log(opt_log_prefix, state_str);
     else
         m_print.log(state_str);
-}
-
-exports.is_built_in_data = is_built_in_data;
-function is_built_in_data() {
-    return b4w.module_check(config.paths.built_in_data_module);
 }
 
 }

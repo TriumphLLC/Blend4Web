@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>For Engine Developers &mdash; User Manual: Blend4Web v14.10</title>
+    <title>For Engine Developers &mdash; User Manual: Blend4Web v14.11</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.10',
+        VERSION:     '14.11',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User Manual: Blend4Web v14.10" href="index.html" />
+    <link rel="top" title="User Manual: Blend4Web v14.11" href="index.html" />
     <link rel="next" title="Team Work. Using Git" href="git_short_manual.html" />
     <link rel="prev" title="For Application Developers" href="developers.html" /> 
   </head>
@@ -36,7 +36,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">User Manual: Blend4Web v14.10</a></div>
+          href="index.html">User Manual: Blend4Web v14.11</a></div>
         <div class="rel">
           <a href="developers.html" title="For Application Developers"
              accesskey="P">previous</a> |
@@ -116,7 +116,27 @@
 </div>
 </div>
 <div class="section" id="id4">
-<h2>Building the Addon<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<h2>Building the Engine<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p>Before building please make sure that your system has all required dependencies installed (see the <a class="reference internal" href="#dependencies"><em>table</em></a>).</p>
+<p>To compile the engine and the applications included into the SDK please execute the following command (in the SDK root):</p>
+<div class="highlight-bash"><div class="highlight"><pre>make compile
+</pre></div>
+</div>
+<p>The full building that includes converting the resources (textures, sounds and videos), compilation and converting the docs, can be performed with the following command:</p>
+<div class="highlight-bash"><div class="highlight"><pre>make build
+</pre></div>
+</div>
+<p>Building the archives with the distributions:</p>
+<div class="highlight-bash"><div class="highlight"><pre>make dist
+</pre></div>
+</div>
+<p>All above mentioned operations can be performed with a single command:</p>
+<div class="highlight-bash"><div class="highlight"><pre>make all
+</pre></div>
+</div>
+</div>
+<div class="section" id="id5">
+<h2>Building the Addon<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
 <p>Binary Blend4Web addon builds are available for the following platforms: Linux x32/64, OS X x64, Windows x32/64. At the same time users can compile the addon by themselves.</p>
 <p>To do this Python 3.x (it&#8217;s better if it&#8217;s the same version as in Blender) and a C compiler are required. Under Linux it&#8217;s enough to install the python3-dev and build-essential packages.</p>
 <dl class="docutils">
@@ -138,7 +158,7 @@
 <p>located in the same directory as the addon. Example: <tt class="docutils literal"><span class="pre">b4w_bin_Linux_64.so</span></tt>. After this the addon is ready to use under this platform.</p>
 </div>
 <div class="section" id="dependencies">
-<span id="id5"></span><h2>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this headline">¶</a></h2>
+<span id="id6"></span><h2>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this headline">¶</a></h2>
 <p>In order to effectively develop the engine and the applications a number of third party programs is neccessary (so called dependencies). The majority of these dependencies are part of modern GNU/Linux distributions such as Ubuntu. Under other Unix-like systems (Apple OS X, FreeBSD) installing them from source codes or from other sources is not a problem.</p>
 <p>All dependencies are listed in the table below in order of decreasing importance.</p>
 <table border="1" class="docutils">
@@ -179,12 +199,13 @@
 <td><p class="first last">compiling and obfuscating the engine modules</p>
 </td>
 </tr>
-<tr class="row-even"><td>LLVM, Clang</td>
-<td>llvm, clang</td>
+<tr class="row-even"><td>Emscripten</td>
+<td><p class="first last">from the source code</p>
+</td>
 <td><p class="first last">building Uranium</p>
 </td>
 </tr>
-<tr class="row-odd"><td>Emscripten</td>
+<tr class="row-odd"><td>LLVM, Clang</td>
 <td><p class="first last">from the source code</p>
 </td>
 <td><p class="first last">building Uranium</p>
@@ -200,44 +221,49 @@
 <td><p class="first last">converting the resources</p>
 </td>
 </tr>
-<tr class="row-even"><td>Libav</td>
+<tr class="row-even"><td>NVIDIA Cg Toolkit</td>
+<td>nvidia-cg-toolkit</td>
+<td><p class="first last">debugging shaders</p>
+</td>
+</tr>
+<tr class="row-odd"><td>Libav</td>
 <td>libav-tools</td>
 <td><p class="first last">converting the resources</p>
 </td>
 </tr>
-<tr class="row-odd"><td>Gnuplot</td>
+<tr class="row-even"><td>Gnuplot</td>
 <td>gnuplot</td>
 <td><p class="first last">debugging</p>
 </td>
 </tr>
-<tr class="row-even"><td>Graphviz</td>
+<tr class="row-odd"><td>Graphviz</td>
 <td>graphviz</td>
 <td><p class="first last">debugging</p>
 </td>
 </tr>
-<tr class="row-odd"><td>xsel</td>
+<tr class="row-even"><td>xsel</td>
 <td>xsel</td>
 <td><p class="first last">debugging</p>
 </td>
 </tr>
-<tr class="row-even"><td>Sphinx</td>
+<tr class="row-odd"><td>Sphinx</td>
 <td>sphinx-doc</td>
 <td><p class="first last">building the manual (HTML version)</p>
 </td>
 </tr>
-<tr class="row-odd"><td>sphinx-intl</td>
+<tr class="row-even"><td>sphinx-intl</td>
 <td><p class="first last">installed with PIP</p>
 </td>
 <td><p class="first last">building the manual (internationalization)</p>
 </td>
 </tr>
-<tr class="row-even"><td>TeX Live</td>
+<tr class="row-odd"><td>TeX Live</td>
 <td>texlive, texlive-latex-extra
 texlive-lang-cyrillic</td>
 <td><p class="first last">building the manual (PDF version)</p>
 </td>
 </tr>
-<tr class="row-odd"><td>JSDoc 3</td>
+<tr class="row-even"><td>JSDoc 3</td>
 <td><p class="first last">from the source code</p>
 </td>
 <td><p class="first last">building the API documentation</p>
@@ -246,8 +272,8 @@ texlive-lang-cyrillic</td>
 </tbody>
 </table>
 </div>
-<div class="section" id="id6">
-<h2>Naming Functions and Variables<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id7">
+<h2>Naming Functions and Variables<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
 <p>When creating new functions and variables it is recommended to use the following prefixes and suffixes.</p>
 <dl class="docutils">
 <dt><em>init_</em></dt>
@@ -283,7 +309,7 @@ texlive-lang-cyrillic</td>
 </dl>
 </div>
 <div class="section" id="debugging">
-<span id="id7"></span><h2>Debugging<a class="headerlink" href="#debugging" title="Permalink to this headline">¶</a></h2>
+<span id="id8"></span><h2>Debugging<a class="headerlink" href="#debugging" title="Permalink to this headline">¶</a></h2>
 <p>Engine debugging is performed with the <tt class="docutils literal"><span class="pre">debug.js</span></tt> module methods.</p>
 <p>The structure of the current render graph can be saved in the DOT format using the <tt class="docutils literal"><span class="pre">b4w.debug.scenegraph_to_dot()</span></tt> call, for example, in the browser console. After calling this method save the console&#8217;s output into the file with the .gv extension. To get the graph in a visual form the <a class="reference external" href="http://www.graphviz.org/">graphviz</a> utilities are required. Converting to the SVG format is performed using the command:</p>
 <div class="highlight-bash"><div class="highlight"><pre>&gt; dot -Tsvg graph.gv -o graph.svg
@@ -292,9 +318,9 @@ texlive-lang-cyrillic</td>
 <p>where <tt class="docutils literal"><span class="pre">graph.gv</span></tt> is the name of the file with the saved graph.</p>
 </div>
 <div class="section" id="shaders">
-<span id="id8"></span><h2>Shaders<a class="headerlink" href="#shaders" title="Permalink to this headline">¶</a></h2>
+<span id="id9"></span><h2>Shaders<a class="headerlink" href="#shaders" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="index-0">
-<span id="id9"></span><h3>Obfuscator<a class="headerlink" href="#index-0" title="Permalink to this headline">¶</a></h3>
+<span id="id10"></span><h3>Obfuscator<a class="headerlink" href="#index-0" title="Permalink to this headline">¶</a></h3>
 <p>The shaders used in the engine are converted with an obfuscator. In order to perform the obfuscation it is required to run one of the following commnads in the repository root:</p>
 <ul class="simple">
 <li><p class="first"><strong>make</strong> <em>compile_shaders</em> - check, obfuscate and export the shaders</p>
@@ -341,7 +367,7 @@ texlive-lang-cyrillic</td>
 <p>Ids can be both variable names and function names. If there are no import/export directives it&#8217;s considered by default that the include file does not use external declarations and does not allow the using of internal ones.</p>
 </div>
 <div class="section" id="index-2">
-<span id="id10"></span><h3>Recommendations and limitations for obfuscation<a class="headerlink" href="#index-2" title="Permalink to this headline">¶</a></h3>
+<span id="id11"></span><h3>Recommendations and limitations for obfuscation<a class="headerlink" href="#index-2" title="Permalink to this headline">¶</a></h3>
 <p>Because of the following reasons: preprocessing, the need to process multiple shaders and include files and due to the obfuscator&#8217;s features - its possible to garantee the work of the output code only if a number of rules and limitations are respected relative to the shader source code.</p>
 <ol class="arabic simple">
 <li><p class="first">In order to describe constants which are defined by the engine at run, it&#8217;s neccessary to use the <tt class="docutils literal"><span class="pre">#var</span></tt> special directive. For example:</p>
@@ -401,7 +427,7 @@ texlive-lang-cyrillic</td>
 </div></blockquote>
 </div>
 <div class="section" id="index-4">
-<span id="id11"></span><h3>Obfuscation errors<a class="headerlink" href="#index-4" title="Permalink to this headline">¶</a></h3>
+<span id="id12"></span><h3>Obfuscation errors<a class="headerlink" href="#index-4" title="Permalink to this headline">¶</a></h3>
 <p>In case of an error the obfuscator will output the corresponding message into the console.</p>
 <p>Table of possible errors:</p>
 <table border="1" class="docutils">
@@ -557,9 +583,10 @@ FILE_NAME, but never used.</td>
 <li class="toctree-l1"><a class="reference internal" href="developers.html">For Application Developers</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">For Engine Developers</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#coding-style">Coding Style</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id4">Building the Addon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">Building the Engine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">Building the Addon</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#dependencies">Dependencies</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id6">Naming Functions and Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id7">Naming Functions and Variables</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#debugging">Debugging</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#shaders">Shaders</a></li>
 </ul>
@@ -599,8 +626,8 @@ FILE_NAME, but never used.</td>
           
     <div class="footer">
         &copy; Copyright 2014, Triumph LLC.
-      Last updated on 2014-10-30.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+      Last updated on 2014-11-28.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
         </div>
         <div class="clearer"></div>

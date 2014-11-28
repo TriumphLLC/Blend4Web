@@ -59,8 +59,8 @@ function load() {
 
 function load_cb(data_id) {
     _character = m_scs.get_first_character();
-    _character_rig = m_scs.get_object_by_empty_name("character",
-                                                     "character_rig");
+    _character_rig = m_scs.get_object_by_dupli_name("character",
+                                                    "character_rig");
     setup_movement();
     setup_rotation();
     setup_jumping();

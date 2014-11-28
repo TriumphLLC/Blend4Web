@@ -199,6 +199,7 @@ function init_context(canvas, gl) {
     textures.setup_context(gl);
     shaders.setup_context(gl);
     m_debug.setup_context(gl);
+    data.setup_context(gl);
 
     scenes.setup_dim(canvas.width, canvas.height);
     //scenes.setup_dim(gl.drawingBufferWidth, gl.drawingBufferHeight);
@@ -236,8 +237,8 @@ exports.resize = function(width, height) {
         _elem_canvas_hud.style.height = height + "px";
     }
 
-    _elem_canvas_webgl.width  = width;
-    _elem_canvas_webgl.height = height;
+    _elem_canvas_webgl.width  = width * cfg_def.canvas_resolution_factor;
+    _elem_canvas_webgl.height = height * cfg_def.canvas_resolution_factor;
 
     if (_elem_canvas_hud) {
         _elem_canvas_hud.width  = width;
@@ -245,11 +246,14 @@ exports.resize = function(width, height) {
     }
     hud.update_dim();
 
-    scenes.setup_dim(width, height);
+    scenes.setup_dim(width * cfg_def.canvas_resolution_factor,
+            height * cfg_def.canvas_resolution_factor);
     //scenes.setup_dim(_gl.drawingBufferWidth, _gl.drawingBufferHeight);
     renderer.clear();
 
     frame(_global_timeline, 0);
+
+    data.update_media_controls(_elem_canvas_webgl.width, _elem_canvas_webgl.height);
 }
 
 /**
@@ -346,6 +350,7 @@ function pause() {
     _pause_time = performance.now() / 1000;
     sfx.pause();
     physics.pause();
+    textures.pause();
 }
 
 /**
@@ -359,6 +364,7 @@ exports.resume = function() {
     _resume_time = performance.now() / 1000;
     sfx.resume();
     physics.resume();
+    textures.play();
 }
 
 /**
@@ -449,11 +455,10 @@ function frame(timeline, delta) {
     // rendering
     scenes.update(timeline, delta);
 
-    // NOTE: disable unused feature to save time
-    //if (_canvas_data_url_callback) {
-    //    _canvas_data_url_callback(_elem_canvas_webgl.toDataURL());
-    //    _canvas_data_url_callback = null;
-    //}
+    if (_canvas_data_url_callback) {
+        _canvas_data_url_callback(_elem_canvas_webgl.toDataURL());
+        _canvas_data_url_callback = null;
+    }
 }
 
 function init_fps_counter() {

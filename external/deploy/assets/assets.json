@@ -69,15 +69,6 @@
         ]
     },
     {
-        "name": "Fridge",
-        "items": [
-            {
-                "name": "Apple",
-                "load_file": "fridge/fruits/apple/apple.json"
-            }
-        ]
-    },
-    {
         "name": "Dev - Render",
         "items": [
             {
@@ -121,6 +112,35 @@
             {
                 "name": "Jumping (elasticity)",
                 "load_file": "dev_physics/jumping.json"
+            }
+        ]
+    },
+    {
+        "name": "Dev - Sound",
+        "items": [
+            {
+                "name": "Speaker",
+                "load_file": "dev_sound/speaker.json"
+            },
+            {
+                "name": "Loop",
+                "load_file": "dev_sound/loop.json"
+            },
+            {
+                "name": "Crossfading",
+                "load_file": "dev_sound/cross_fade.json"
+            },
+            {
+                "name": "Speaker Anim",
+                "load_file": "dev_sound/speaker_anim.json"
+            },
+            {
+                "name": "Speaker Cone",
+                "load_file": "dev_sound/speaker_cone.json"
+            },
+            {
+                "name": "Music Test",
+                "load_file": "dev_sound/music_test.json"
             }
         ]
     }

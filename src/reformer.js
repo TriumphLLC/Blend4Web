@@ -237,6 +237,11 @@ exports.check_bpy_data = function(bpy_data) {
             report("scene", scene, "b4w_use_nla");
         }
 
+        if (!("fps" in scene)) {
+            scene["fps"] = 24;
+            report("scene", scene, "fps");
+        }
+
         if (!("b4w_nla_cyclic" in scene)) {
             scene["b4w_nla_cyclic"] = false;
             report("scene", scene, "b4w_nla_cyclic");
@@ -375,6 +380,25 @@ exports.check_bpy_data = function(bpy_data) {
             report("camera", camera, "b4w_distance_max");
         }
 
+        if (!("b4w_horizontal_translation_min" in camera)) {
+            camera["b4w_horizontal_translation_min"] = -100;
+            report("camera", camera, "b4w_horizontal_translation_min");
+        }
+        if (!("b4w_horizontal_translation_max" in camera)) {
+            camera["b4w_horizontal_translation_max"] = 100;
+            report("camera", camera, "b4w_horizontal_translation_max");
+        }
+
+        if (!("b4w_vertical_translation_min" in camera)) {
+            camera["b4w_vertical_translation_min"] = -100;
+            report("camera", camera, "b4w_vertical_translation_min");
+        }
+
+        if (!("b4w_vertical_translation_max" in camera)) {
+            camera["b4w_vertical_translation_max"] = 100;
+            report("camera", camera, "b4w_vertical_translation_max");
+        }
+
         if (!("b4w_use_horizontal_clamping" in camera)) {
             camera["b4w_use_horizontal_clamping"] = false;
             report("camera", camera, "b4w_use_horizontal_clamping");
@@ -411,6 +435,25 @@ exports.check_bpy_data = function(bpy_data) {
         if (!("b4w_vertical_clamping_type" in camera)) {
             camera["b4w_vertical_clamping_type"] = "LOCAL";
             report("camera", camera, "b4w_vertical_clamping_type");
+        }
+
+        if (!("b4w_hover_angle_min" in camera)) {
+            camera["b4w_hover_angle_min"] = Math.PI / 6;
+            report("camera", camera, "b4w_hover_angle_min");
+        }
+        if (!("b4w_hover_angle_max" in camera)) {
+            camera["b4w_hover_angle_max"] = Math.PI / 6;
+            report("camera", camera, "b4w_hover_angle_max");
+        }
+
+        if (!("b4w_enable_hover_hor_rotation" in camera)) {
+            camera["b4w_enable_hover_hor_rotation"] = true;
+            report("camera", camera, "b4w_enable_hover_hor_rotation");
+        }
+
+        if (!("b4w_use_panning" in camera)) {
+            camera["b4w_use_panning"] = true;
+            report("camera", camera, "b4w_use_panning");
         }
     }
 
@@ -558,6 +601,21 @@ exports.check_bpy_data = function(bpy_data) {
         if (!("b4w_disable_compression" in texture)) {
             texture["b4w_disable_compression"] = false;
             report("texture", texture, "b4w_disable_compression");
+        }
+
+        if (!("b4w_source_type" in texture)) {
+            texture["b4w_source_type"] = "";
+            report("texture", texture, "b4w_source_type");
+        }
+
+        if (!("b4w_source_id" in texture)) {
+            texture["b4w_source_id"] = "";
+            report("texture", texture, "b4w_source_id");
+        }
+
+        if (!("b4w_source_size" in texture)) {
+            texture["b4w_source_size"] = 1024;
+            report("texture", texture, "b4w_source_size");
         }
     }
 

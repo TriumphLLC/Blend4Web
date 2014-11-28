@@ -37,7 +37,8 @@ var _vec3_tmp2 = new Float32Array(3);
 var _vec3_tmp3 = new Float32Array(3);
 
 // permanent vars
-var _supported_media = [];
+var _supported_audio = [];
+var _supported_video = [];
 var _wa = null;
 
 // per-loaded-scene vars
@@ -55,18 +56,33 @@ var _playlist = null;
 exports.init = function() {
     // NOTE: DOM Exception 5 if not found
     var audio = document.createElement("audio");
-
+    var video = document.createElement("video");
     // do not detect codecs here, simply follow the rules:
     // ogg - vorbis
     // mp3 - mp3
     // mp4 - aac
     if (audio.canPlayType) {
-        if (audio.canPlayType("audio/ogg") != "")
-            _supported_media.push("ogg");
+        if (audio.canPlayType("audio/ogg") != "") {
+            _supported_audio.push("ogg");
+            _supported_audio.push("ogv");
+        }
         if (audio.canPlayType("audio/mpeg") != "")
-            _supported_media.push("mp3");
-        if (audio.canPlayType("audio/mp4") != "")
-            _supported_media.push("mp4");
+            _supported_audio.push("mp3");
+        if (audio.canPlayType("audio/mp4") != "") {
+            _supported_audio.push("mp4");
+            _supported_audio.push("m4v");
+        }
+        if (audio.canPlayType("audio/webm") != "")
+            _supported_audio.push("webm");
+    }
+
+    if (video.canPlayType) {
+        if (video.canPlayType("video/ogg") != "")
+            _supported_video.push("ogv");
+        if (video.canPlayType("video/mp4") != "")
+            _supported_video.push("m4v");
+        if (video.canPlayType("video/webm") != "")
+            _supported_video.push("webm");
     }
 
     // NOTE: register context once and reuse for all loaded scenes to prevent
@@ -149,38 +165,56 @@ exports.set_active_scene = function(scene) {
     _active_scene = scene;
 }
 
-/**
- * Detect supported audio containter.
- * Containers have same meaning as file extension here, for each one possible
- * fallback exists:
- * <ul>
- * <li>ogg -> mp4
- * <li>mp3 -> ogg
- * <li>mp4 -> ogg
- * </ul>
- * @param {String} [hint="ogg"] Required container
- * @returns {String} Supported containter or ""
- */
-exports.detect_media_container = function(hint) {
+exports.detect_audio_container = function(hint) {
     if (!hint)
         var hint = "ogg";
-
-    var audio = new Audio();
 
     // only one fallback required in most cases
 
     // requested hint is supported
-    if (_supported_media.indexOf(hint) > -1)
+    if (_supported_audio.indexOf(hint) > -1)
         return hint;
     // ogg -> mp4
-    else if (hint == "ogg" && _supported_media.indexOf("mp4") > -1)
+    else if (hint == "ogg" && _supported_audio.indexOf("mp4") > -1)
         return "mp4";
     // mp3 -> ogg
-    else if (hint == "mp3" && _supported_media.indexOf("ogg") > -1)
+    else if (hint == "mp3" && _supported_audio.indexOf("ogg") > -1)
         return "ogg";
     // mp4 -> ogg
-    else if (hint == "mp4" && _supported_media.indexOf("ogg") > -1)
+    else if (hint == "mp4" && _supported_audio.indexOf("ogg") > -1)
         return "ogg";
+    // ogv -> m4v
+    else if (hint == "ogv" && _supported_audio.indexOf("m4v") > -1)
+        return "m4v";
+    // webm -> m4v
+    else if (hint == "webm" && _supported_audio.indexOf("m4v") > -1)
+        return "m4v";
+    // m4v -> webm
+    else if (hint == "m4v" && _supported_audio.indexOf("webm") > -1)
+        return "webm";
+    // unsupported and no fallback
+    else
+        return "";
+}
+
+exports.detect_video_container = function(hint) {
+    if (!hint)
+        var hint = "webm";
+
+    // only one fallback required in most cases
+
+    // requested hint is supported
+    if (_supported_video.indexOf(hint) > -1)
+        return hint;
+    // ogv -> m4v
+    else if (hint == "ogv" && _supported_video.indexOf("m4v") > -1)
+        return "m4v";
+    // webm -> m4v
+    else if (hint == "webm" && _supported_video.indexOf("m4v") > -1)
+        return "m4v";
+    // m4v -> webm
+    else if (hint == "m4v" && _supported_video.indexOf("webm") > -1)
+        return "webm";
     // unsupported and no fallback
     else
         return "";
@@ -205,12 +239,8 @@ exports.append_object = function(obj, scene) {
         obj._sfx.behavior = _wa ? speaker["b4w_behavior"] : "NONE";
         break;
     case "BACKGROUND_MUSIC":
-        if (cfg_sfx.disable_bkg_music_hack)
-            obj._sfx.behavior = "NONE";
-        else
-            obj._sfx.behavior = _wa ? (check_media_element_node() ?
-                    "BACKGROUND_MUSIC" : "BACKGROUND_SOUND") : "NONE";
-
+        obj._sfx.behavior = _wa ? (check_media_element_node() ?
+                "BACKGROUND_MUSIC" : "BACKGROUND_SOUND") : "NONE";
         break;
     default:
         throw "Wrong speaker behavior";
@@ -323,6 +353,16 @@ exports.update_spkobj = function(obj, sound_data) {
     }
 }
 
+/**
+ * HACK: Initialize WebAudio context for iOS mobile devices
+ */
+exports.play_empty_sound = function() {
+    var source = _wa.createBufferSource();
+    source.buffer = _wa.createBuffer(1, 22050, 22050);
+    source.connect(_wa.destination);
+    source.start(0);
+}
+
 exports.decode_audio_data = function(arr_buf, decode_cb, fail_cb) {
     if (_wa)
         _wa.decodeAudioData(arr_buf, decode_cb, fail_cb);
@@ -370,7 +410,6 @@ exports.cleanup = function() {
 
     _active_scene = null;
     _speaker_objects.splice(0);
-
     _playlist = null;
 }
 
@@ -455,6 +494,7 @@ function play(obj, when, duration) {
     sfx.base_seed = Math.floor(50000 * Math.random());
 
     var start_time = _wa.currentTime + when;
+
     sfx.start_time = start_time;
 
     sfx.state = SPKSTATE_PLAY;
@@ -1120,6 +1160,14 @@ function is_speaker(obj) {
 
 exports.get_spk_behavior = function(obj) {
     return obj._sfx.behavior;
+}
+
+exports.check_active_speakers = function() {
+    for (var i = 0; i < _speaker_objects.length; i++)
+        if (spk_is_active(_speaker_objects[i]))
+            return true;
+
+    return false;
 }
 
 function spk_is_active(obj) {

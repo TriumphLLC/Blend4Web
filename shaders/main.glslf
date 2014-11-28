@@ -27,30 +27,31 @@
                                GLOBAL UNIFORMS
 ============================================================================*/
 
-#define TEXCOORD (TEXTURE_COLOR && TEXTURE_COORDS == TEXTURE_COORDS_UV_ORCO || TEXTURE_STENCIL_ALPHA_MASK || TEXTURE_SPEC || TEXTURE_NORM)
-
 uniform float u_time;
 #if SKY_TEXTURE
 uniform samplerCube u_sky_texture;
 #endif
 
+uniform float u_environment_energy;
+
 #if !SHADELESS
 uniform vec3  u_horizon_color;
 uniform vec3  u_zenith_color;
-uniform float u_environment_energy;
 
+# if NUM_LIGHTS > 0
 uniform vec3 u_light_positions[NUM_LIGHTS];
 uniform vec3 u_light_directions[NUM_LIGHTS];
 uniform vec3 u_light_color_intensities[NUM_LIGHTS];
 uniform vec4 u_light_factors1[NUM_LIGHTS];
 uniform vec4 u_light_factors2[NUM_LIGHTS];
+# endif
 
 # if WATER_EFFECTS && CAUSTICS
 uniform vec4 u_sun_quaternion;
 # endif
 #endif
 
-#if TEXTURE_COORDS == TEXTURE_COORDS_NORMAL || REFLECTIVE
+#if NORMAL_TEXCOORD || REFLECTIVE
 uniform mat4 u_view_matrix_frag;
 #endif
 
@@ -78,15 +79,15 @@ uniform mat4 u_cube_fog;
                                SAMPLER UNIFORMS
 ============================================================================*/
 
-#if TEXTURE_COLOR
+#if TEXTURE_COLOR0_CO
     uniform sampler2D u_colormap0;
 #endif
 
 #if TEXTURE_SPEC && !ALPHA_AS_SPEC
-    uniform sampler2D u_specmap;
+    uniform sampler2D u_specmap0;
 #endif
 
-#if TEXTURE_NORM
+#if TEXTURE_NORM_CO
     uniform sampler2D u_normalmap0;
 #endif
 
@@ -133,11 +134,14 @@ uniform float u_diffuse_intensity;
 uniform float u_emit;
 uniform float u_ambient;
 
-uniform float u_normal_factor;
-uniform vec2  u_normalmap0_uv_velocity;
 uniform vec4  u_fresnel_params;
 
-#if TEXTURE_COLOR
+#if TEXTURE_NORM_CO
+uniform float u_normal_factor;
+uniform vec2  u_normalmap0_uv_velocity;
+#endif
+
+#if TEXTURE_COLOR0_CO
 uniform float u_diffuse_color_factor;
 uniform float u_alpha_factor;
 uniform vec2  u_colormap0_uv_velocity;
@@ -151,7 +155,7 @@ uniform vec3  u_specular_color;
 uniform vec3  u_specular_params;
 uniform float u_specular_alpha;
 
-#if TEXTURE_NORM && PARALLAX
+#if TEXTURE_NORM_CO && PARALLAX
 uniform float u_parallax_scale;
 #endif
 
@@ -174,11 +178,11 @@ varying vec3 v_eye_dir;
 varying vec3 v_pos_world;
 varying vec3 v_normal;
 
-#if !DISABLE_FOG || (TEXTURE_NORM && PARALLAX) || (WATER_EFFECTS && CAUSTICS)
+#if !DISABLE_FOG || (TEXTURE_NORM_CO && PARALLAX) || (WATER_EFFECTS && CAUSTICS)
 varying vec4 v_pos_view;
 #endif
 
-#if TEXTURE_NORM
+#if TEXTURE_NORM_CO
 varying vec4 v_tangent;
 #endif
 
@@ -248,21 +252,26 @@ void main(void) {
         sided_normal = -sided_normal;
 #endif
 
-#if TEXTURE_NORM
+#if TEXTURE_NORM_CO
     vec3 binormal = cross(sided_normal, v_tangent.xyz) * v_tangent.w;
     mat3 tbn_matrix = mat3(v_tangent.xyz, binormal, sided_normal);
 #endif
 
-#if !DISABLE_FOG || (TEXTURE_NORM && PARALLAX) || (WATER_EFFECTS && CAUSTICS)
+#if !DISABLE_FOG || (TEXTURE_NORM_CO && PARALLAX) || (WATER_EFFECTS && CAUSTICS)
     float view_dist = length(v_pos_view);
 #endif
 
-#if TEXTURE_NORM && PARALLAX
+#if NORMAL_TEXCOORD
+    vec2 texcoord_norm = normalize(u_view_matrix_frag * vec4(v_normal, 0.0)).st;
+    texcoord_norm = texcoord_norm * vec2(0.495) + vec2(0.5);
+#endif
+
+#if TEXTURE_NORM_CO && PARALLAX
     // parallax relief mapping
     // http://steps3d.narod.ru/tutorials/parallax-mapping-tutorial.html
     if (view_dist < PARALLAX_LOD_DIST) {
 
-        float multiplier = clamp(5.0 - 0.5 * view_dist, 0.0, 1.0);
+        float multiplier = clamp(0.5 * (PARALLAX_LOD_DIST - view_dist), 0.0, 1.0);
         float parallax_scale = u_parallax_scale * multiplier;
 
         // transform eye to tangent space
@@ -276,32 +285,57 @@ void main(void) {
 
         float height = 1.0;
 
-        float h = texture2D(u_normalmap0, texcoord).a; // get height
+        float h; // get height
+# if TEXTURE_NORM_CO == TEXTURE_COORDS_NORMAL
+        vec2 parallax_texcoord = texcoord_norm;
+# else
+        vec2 parallax_texcoord = texcoord;
+# endif
+        h = texture2D(u_normalmap0, parallax_texcoord
+                                + u_time * u_normalmap0_uv_velocity).a;
 
         for (float i = 1.0; i <= PARALLAX_STEPS; i++)
         {
             if (h < height) {
                 height   -= pstep;
-                texcoord -= dtex;
-                h         = texture2D(u_normalmap0, texcoord).a;
+                parallax_texcoord -= dtex;
+                h = texture2D(u_normalmap0, parallax_texcoord).a;
             }
         }
 
         // find point via linear interpolation
-        vec2 prev = texcoord + dtex;
+        vec2 prev = parallax_texcoord + dtex;
         float h_prev = texture2D(u_normalmap0, prev).a - (height + pstep);
         float h_current = h - height;
         float weight = h_current / (h_current - h_prev);
 
         // interpolate to get tex coords
-        texcoord = weight * prev + (1.0 - weight) * texcoord;
+        parallax_texcoord = weight * prev + (1.0 - weight) * parallax_texcoord;
+
+        // include parallax offset in other texture coordinates
+# if TEXTURE_NORM_CO == TEXTURE_COORDS_NORMAL
+#  if TEXCOORD
+        texcoord += parallax_texcoord - texcoord_norm;
+#  endif
+        texcoord_norm = parallax_texcoord;
+# else // TEXTURE_NORM_CO == TEXTURE_COORDS_NORMAL
+#  if NORMAL_TEXCOORD
+        texcoord_norm += parallax_texcoord - texcoord;
+#  endif
+        texcoord = parallax_texcoord;
+# endif // TEXTURE_NORM_CO == TEXTURE_COORDS_NORMAL
     }
 
-#endif
+#endif // TEXTURE_NORM_CO && PARALLAX
 
-#if TEXTURE_NORM
-    vec4 normalmap = texture2D(u_normalmap0, texcoord +
-        u_time * u_normalmap0_uv_velocity);
+#if TEXTURE_NORM_CO
+    vec4 normalmap;
+#  if TEXTURE_NORM_CO == TEXTURE_COORDS_NORMAL
+    normalmap = texture2D(u_normalmap0, texcoord_norm);
+#  else
+    normalmap = texture2D(u_normalmap0, texcoord
+                                        + u_time * u_normalmap0_uv_velocity);
+#  endif
 
     vec3 n = normalmap.rgb - 0.5;
     n = mix(vec3(0.0, 0.0, 1.0), n, u_normal_factor);
@@ -314,6 +348,12 @@ void main(void) {
 #endif
 
     normal = normalize(normal);
+
+// recalculate normal texcoords with parallax and normalmapping applied
+#if NORMAL_TEXCOORD
+    texcoord_norm = normalize(u_view_matrix_frag * vec4(normal, 0.0)).st;
+    texcoord_norm = texcoord_norm * vec2(0.495) + vec2(0.5);
+#endif
 
     vec3 eye_dir = normalize(v_eye_dir);
 
@@ -330,35 +370,30 @@ void main(void) {
 #endif
     float spec_alpha = 1.0;
 
-#if TEXTURE_COLOR
+#if TEXTURE_COLOR0_CO == TEXTURE_COORDS_NORMAL
+    vec4 texture_color = texture2D(u_colormap0, texcoord_norm);
+#elif TEXTURE_COLOR0_CO == TEXTURE_COORDS_UV_ORCO
+    vec4 texture_color = texture2D(u_colormap0, texcoord + u_time * u_colormap0_uv_velocity);
+#endif
 
-# if TEXTURE_COORDS == TEXTURE_COORDS_NORMAL
-    vec2 texcoord_norm = normalize(u_view_matrix_frag * vec4(normal, 0.0)).st;
-    texcoord_norm = texcoord_norm * vec2(0.495) + vec2(0.5);
-# endif
+#if TEXTURE_COLOR0_CO
+    srgb_to_lin(texture_color.rgb);
 
 # if TEXTURE_STENCIL_ALPHA_MASK
-    vec4 texture_color0 = texture2D(u_colormap0, texcoord);
-    srgb_to_lin(texture_color0.rgb);
-
     vec4 texture_color1;
-#  if TEXTURE_COORDS == TEXTURE_COORDS_NORMAL
+#  if TEXTURE_COLOR1_CO == TEXTURE_COORDS_NORMAL
     texture_color1 = texture2D(u_colormap1, texcoord_norm);
-#  elif TEXTURE_COORDS == TEXTURE_COORDS_UV_ORCO
+#  else
     texture_color1 = texture2D(u_colormap1, texcoord);
 #  endif
     srgb_to_lin(texture_color1.rgb);
 
-    vec4 texture_stencil0 = texture2D(u_stencil0, texcoord);
-    vec4 texture_color = mix(texture_color0, texture_color1, texture_stencil0.r);
-
-# else  // TEXTURE_STENCIL_ALPHA_MASK
-#  if TEXTURE_COORDS == TEXTURE_COORDS_NORMAL
-    vec4 texture_color = texture2D(u_colormap0, texcoord_norm);
-#  elif TEXTURE_COORDS == TEXTURE_COORDS_UV_ORCO
-    vec4 texture_color = texture2D(u_colormap0, texcoord + u_time * u_colormap0_uv_velocity);
+#  if TEXTURE_STENCIL_ALPHA_MASK_CO == TEXTURE_COORDS_NORMAL
+    vec4 texture_stencil = texture2D(u_stencil0, texcoord_norm);
+#  else
+    vec4 texture_stencil = texture2D(u_stencil0, texcoord);
 #  endif
-    srgb_to_lin(texture_color.rgb);
+    texture_color = mix(texture_color, texture_color1, texture_stencil.r);
 # endif  // TEXTURE_STENCIL_ALPHA_MASK
 
 # if TEXTURE_BLEND_TYPE == TEXTURE_BLEND_TYPE_MIX
@@ -372,7 +407,7 @@ void main(void) {
     diffuse_color.a = texture_color.a;
     spec_alpha = texture_color.a;
 # endif
-#endif  // TEXTURE_COLOR
+#endif  // TEXTURE_COLOR0_CO
 
     vec3 D = u_diffuse_intensity * diffuse_color.rgb;
 
@@ -401,8 +436,10 @@ void main(void) {
 # if TEXTURE_SPEC
 #  if ALPHA_AS_SPEC
     vec3 stexture_color = vec3(spec_alpha);
+#  elif TEXTURE_SPEC_CO == TEXTURE_COORDS_NORMAL
+    vec3 stexture_color = texture2D(u_specmap0, texcoord_norm).rgb;
 #  else
-    vec3 stexture_color = texture2D(u_specmap, texcoord).rgb;
+    vec3 stexture_color = texture2D(u_specmap0, texcoord).rgb;
 #  endif
     srgb_to_lin(stexture_color.rgb);
 
@@ -412,10 +449,14 @@ void main(void) {
     vec2 spec_params = vec2(u_specular_params[1], u_specular_params[2]);
     vec3 S = specint * specular_color;
 
+# if NUM_LIGHTS == 0
+    lighting_result lresult = lighting_ambient(E, A, D);
+# else
     lighting_result lresult = lighting(E, A, D, S, v_pos_world, normal, eye_dir,
         spec_params, u_diffuse_params, shadow_factor, u_light_positions,
         u_light_directions, u_light_color_intensities, u_light_factors1,
         u_light_factors2, 0.0, vec4(0.0));
+# endif
     vec3 color = lresult.color.rgb;
 #endif // SHADELESS
 
@@ -466,6 +507,11 @@ void main(void) {
     alpha = 1.0;
 #endif
 
+
+#if !DISABLE_FOG && (!PROCEDURAL_FOG || WATER_EFFECTS)
+    float energy_coeff = clamp(length(u_sun_intensity) + u_environment_energy, 0.0, 1.0);
+#endif
+
 #if !DISABLE_FOG
 # if PROCEDURAL_FOG
     vec3 cube_fog  = procedural_fog_color(u_cube_fog, eye_dir);
@@ -473,12 +519,11 @@ void main(void) {
     srgb_to_lin(fog_color.rgb);
 # else  // PROCEDURAL_FOG
     vec4 fog_color = u_fog_color_density;
-    fog_color.rgb *= u_sun_intensity;
+    fog_color.rgb *= energy_coeff;
 # endif  // PROCEDURAL_FOG
-# if WATER_EFFECTS && !SHADELESS
+# if WATER_EFFECTS
     fog_underwater(color, view_dist, eye_dir, u_cam_water_depth,
-        u_underwater_fog_color_density, fog_color, dist_to_water,
-        length(u_sun_intensity) + u_environment_energy);
+        u_underwater_fog_color_density, fog_color, dist_to_water, energy_coeff);
 # else
     fog(color, view_dist, fog_color);
 # endif  // WATER_EFFECTS

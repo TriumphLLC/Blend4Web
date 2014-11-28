@@ -215,6 +215,12 @@ exports.get_speakers = function() {
 }
 
 /**
+ * Check if there are some active speakers in use or not.
+ * @returns {Boolean} Check result
+ */
+exports.check_active_speakers = m_sfx.check_active_speakers;
+
+/**
  * Set compressor params.
  * @method module:sfx.set_compressor_params
  * @param {Object} params Params object
@@ -274,6 +280,34 @@ exports.apply_playlist = m_sfx.apply_playlist;
  */
 exports.clear_playlist = m_sfx.clear_playlist;
 
+/**
+ * Detect supported audio containter.
+ * Containers have same meaning as file extension here, for each one possible
+ * fallback exists:
+ * <ul>
+ * <li>ogg -> mp4
+ * <li>mp3 -> ogg
+ * <li>mp4 -> ogg
+ * </ul>
+ * @method module:sfx.detect_audio_container
+ * @param {String} [hint="ogg"] Required container
+ * @returns {String} Supported containter or ""
+ */
+exports.detect_audio_container = m_sfx.detect_audio_container;
+/**
+ * Detect supported video containter.
+ * Containers have same meaning as file extension here, for each one possible
+ * fallback exists:
+ * <ul>
+ * <li>ogv -> m4v
+ * <li>m4v -> webm
+ * <li>webm -> m4v
+ * </ul>
+ * @method module:sfx.detect_video_container
+ * @param {String} [hint="webm"] Required container
+ * @returns {String} Supported containter or ""
+ */
+exports.detect_video_container = m_sfx.detect_video_container;
 /**
  * Set positional params.
  * @method module:sfx.set_positional_params

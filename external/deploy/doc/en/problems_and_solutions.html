@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Problems and Solutions &mdash; User Manual: Blend4Web v14.10</title>
+    <title>Problems and Solutions &mdash; User Manual: Blend4Web v14.11</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.10',
+        VERSION:     '14.11',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User Manual: Blend4Web v14.10" href="index.html" />
+    <link rel="top" title="User Manual: Blend4Web v14.11" href="index.html" />
     <link rel="next" title="Release Notes" href="release_notes.html" />
     <link rel="prev" title="Team Work. Using Git" href="git_short_manual.html" /> 
   </head>
@@ -36,7 +36,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">User Manual: Blend4Web v14.10</a></div>
+          href="index.html">User Manual: Blend4Web v14.11</a></div>
         <div class="rel">
           <a href="git_short_manual.html" title="Team Work. Using Git"
              accesskey="P">previous</a> |
@@ -116,37 +116,6 @@
 <p class="last">For Linux users - due to incomplete OpenGL implementation in open source drivers at the moment it is recommended to use current versions of proprietary drivers for Nvidia and AMD video cards.</p>
 </div>
 </div>
-<div class="section" id="web">
-<span id="local-web-server"></span><h2>Using a Local Web Server<a class="headerlink" href="#web" title="Permalink to this headline">¶</a></h2>
-<p>An easy way for viewing local resources in browsers is running the web server from the standard <a class="reference external" href="http://en.wikipedia.org/wiki/Python_(programming_language)">Python</a> library.</p>
-<p><em>Under MS Windows</em>:</p>
-<ol class="arabic">
-<li><p class="first">Download and install the latest Python distribution from the <a class="reference external" href="http://www.python.org/download/releases/">official site</a>. The current version is 3.4 and by default it will be installed to the <tt class="file docutils literal"><span class="pre">Python34</span></tt> directory on the <tt class="file docutils literal"><span class="pre">C</span></tt> drive.</p>
-</li>
-<li><p class="first">Run Command Prompt.</p>
-</li>
-<li><p class="first">Enter the following commands:</p>
-<div class="highlight-python"><div class="highlight"><pre>&gt; c:
-&gt; /Python34/python -m http.server
-</pre></div>
-</div>
-</li>
-<li><p class="first">Open the <a class="reference external" href="http://localhost:8000">http://localhost:8000</a> page and select the required file for displaying.</p>
-</li>
-</ol>
-<p><em>Under Linux</em>:</p>
-<div class="highlight-python"><div class="highlight"><pre>&gt; python -m SimpleHTTPServer
-</pre></div>
-</div>
-<p>or:</p>
-<div class="highlight-python"><div class="highlight"><pre>&gt; python3 -m http.server
-</pre></div>
-</div>
-<p>A port number can be specified by the additional parameter:</p>
-<div class="highlight-python"><div class="highlight"><pre>&gt; python -m SimpleHTTPServer 8080
-</pre></div>
-</div>
-</div>
 </div>
 
 
@@ -185,7 +154,6 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="">Problems and Solutions</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#renderer-not-working">Problems When Running the Renderer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#webgl">WebGL Failed to Init</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#web">Using a Local Web Server</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
@@ -221,8 +189,8 @@
           
     <div class="footer">
         &copy; Copyright 2014, Triumph LLC.
-      Last updated on 2014-10-30.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+      Last updated on 2014-11-28.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
         </div>
         <div class="clearer"></div>

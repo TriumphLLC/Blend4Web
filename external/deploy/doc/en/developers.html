@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>For Application Developers &mdash; User Manual: Blend4Web v14.10</title>
+    <title>For Application Developers &mdash; User Manual: Blend4Web v14.11</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.10',
+        VERSION:     '14.11',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User Manual: Blend4Web v14.10" href="index.html" />
+    <link rel="top" title="User Manual: Blend4Web v14.11" href="index.html" />
     <link rel="next" title="For Engine Developers" href="developers_advanced.html" />
     <link rel="prev" title="Non-Linear Animation" href="nla.html" /> 
   </head>
@@ -36,7 +36,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">User Manual: Blend4Web v14.10</a></div>
+          href="index.html">User Manual: Blend4Web v14.11</a></div>
         <div class="rel">
           <a href="nla.html" title="Non-Linear Animation"
              accesskey="P">previous</a> |
@@ -417,9 +417,6 @@
 <dt><strong>apps_dev</strong></dt>
 <dd><p class="first last">source code of the applications (not all applications are available as a free version)</p>
 </dd>
-<dt><strong>closure-compiler</strong></dt>
-<dd><p class="first last">Google Closure compiler, its externs and their generators</p>
-</dd>
 <dt><strong>csrc</strong></dt>
 <dd><p class="first last">source code (in C) of the binary part of the engine exporter and of the other utilities</p>
 </dd>
@@ -468,21 +465,6 @@
 </dd>
 <dt><strong>reexporter.py</strong> and <strong>Makefile</strong></dt>
 <dd><p class="first last">Python script and makefile for exporting of all the scenes located in the <em>external/deploy/assets</em> automatically</p>
-</dd>
-</dl>
-</dd>
-<dt><strong>glsl_utils</strong></dt>
-<dd><dl class="first last docutils">
-<dt><strong>compiler</strong></dt>
-<dd><p class="first">compiler for the engine&#8217;s GLSL shaders</p>
-<dl class="last docutils">
-<dt><strong>out</strong></dt>
-<dd><p class="first last">contains the result of the engine&#8217;s GLSL shaders compilation</p>
-</dd>
-</dl>
-</dd>
-<dt><strong>pegjs</strong></dt>
-<dd><p class="first last">grammars of the PEG.js parser generator for implementing the GLSL preprocessor, and also the script for generating the parser modules from these grammars</p>
 </dd>
 </dl>
 </dd>
@@ -549,10 +531,31 @@
 <dd><p class="first last">source code of the addons (not included into the engine&#8217;s kernel, should be linked separately)</p>
 </dd>
 <dt><strong>ext</strong></dt>
-<dd><p class="first last">source code of the external declarations (forms the engine&#8217;s API)</p>
+<dd><p class="first last">source code of the external declarations that form the engine&#8217;s API</p>
 </dd>
-<dt><strong>third_party</strong></dt>
-<dd><p class="first last">code of the third party libraries</p>
+<dt><strong>libs</strong></dt>
+<dd><p class="first last">source code of the libraries</p>
+</dd>
+</dl>
+</dd>
+<dt><strong>tools</strong></dt>
+<dd><p class="first">Various tools for building the engine and applications</p>
+<dl class="last docutils">
+<dt><strong>closure-compiler</strong></dt>
+<dd><p class="first last">Google Closure compiler, its externs and their generators</p>
+</dd>
+<dt><strong>glsl</strong></dt>
+<dd><dl class="first last docutils">
+<dt><strong>compiler</strong></dt>
+<dd><p class="first last">compiler for the engine&#8217;s GLSL shaders</p>
+</dd>
+<dt><strong>pegjs</strong></dt>
+<dd><p class="first last">grammars of the PEG.js parser generator for implementing the GLSL preprocessor, and also the script for generating the parser modules from these grammars</p>
+</dd>
+</dl>
+</dd>
+<dt><strong>yuicompressor</strong></dt>
+<dd><p class="first last">utility for compressing CSS files</p>
 </dd>
 </dl>
 </dd>
@@ -563,6 +566,20 @@
 <dd><p class="first last">contains the current version of the engine</p>
 </dd>
 </dl>
+</div>
+<div class="section" id="canvas">
+<span id="canvas-texture"></span><h2>Canvas Textures<a class="headerlink" href="#canvas" title="Permalink to this headline">¶</a></h2>
+<p>Such textures can be accessed via <tt class="docutils literal"><span class="pre">textures</span></tt> module. The workflow is described below.</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_tex</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;textures&quot;</span><span class="p">);</span>
+<span class="p">...</span>
+<span class="kd">var</span> <span class="nx">ctx</span> <span class="o">=</span> <span class="nx">m_tex</span><span class="p">.</span><span class="nx">get_canvas_texture_context</span><span class="p">(</span><span class="s2">&quot;canvas_id&quot;</span><span class="p">);</span>
+<span class="p">...</span>
+<span class="c1">// operations with canvas context</span>
+<span class="p">...</span>
+<span class="nx">m_tex</span><span class="p">.</span><span class="nx">update_canvas_texture_context</span><span class="p">(</span><span class="s2">&quot;canvas_id&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The context can be obtained with the <tt class="docutils literal"><span class="pre">get_canvas_texture_context()</span></tt> function, to which a &#8220;canvas_id&#8221; identifier specified by the user in Blender is passed. After any <a class="reference external" href="http://www.w3.org/TR/2014/CR-2dcontext-20140821/">operations with the context</a> the <tt class="docutils literal"><span class="pre">update_canvas_texture_context()</span></tt> function should be executed, which performs visualization of the changes of the &#8220;canvas_id&#8221; element.</p>
 </div>
 </div>
 
@@ -606,6 +623,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#event-model">Event-Driven Model</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#quality-settings">Quality Profiles</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#sdk">SDK File Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#canvas">Canvas Textures</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">For Engine Developers</a></li>
@@ -644,8 +662,8 @@
           
     <div class="footer">
         &copy; Copyright 2014, Triumph LLC.
-      Last updated on 2014-10-30.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+      Last updated on 2014-11-28.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
         </div>
         <div class="clearer"></div>

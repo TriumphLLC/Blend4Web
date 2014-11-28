@@ -265,24 +265,32 @@ function draw_sky_buffers(subscene, bufs_data, shader, obj_render,
 
     var camera = subscene.camera;
     var uniforms = shader.uniforms;
+    var color_attachment = camera.color_attachment;
+    var w_tex            = color_attachment.w_texture;
 
     var v_matrs = subscene.cube_view_matrices;
 
     for (var i = 0; i < 6; i++) {
+        var w_target = get_cube_target_by_id(i);
+        if (cfg_def.clear_procedural_sky_hack) {
+            var image_data = new Uint8Array([0.36*255, 0.56*255,
+                                             0.96*255, 255]);
+            var w_target_cube = _gl.TEXTURE_CUBE_MAP;
+            _gl.bindTexture(w_target_cube, w_tex);
+            _gl.texImage2D(w_target, 0, _gl.RGBA,
+                    1, 1, 0, _gl.RGBA, _gl.UNSIGNED_BYTE, image_data);
+        } else {
+            _gl.uniformMatrix4fv(uniforms["u_cube_view_matrix"], false, v_matrs[i]);
 
-        _gl.uniformMatrix4fv(uniforms["u_cube_view_matrix"], false, v_matrs[i]);
 
-        var w_target         = get_cube_target_by_id(i);
-        var color_attachment = camera.color_attachment;
-        var w_tex            = color_attachment.w_texture;
+            _gl.framebufferTexture2D(_gl.FRAMEBUFFER, _gl.COLOR_ATTACHMENT0,
+                w_target, w_tex, 0);
 
-        _gl.framebufferTexture2D(_gl.FRAMEBUFFER, _gl.COLOR_ATTACHMENT0,
-            w_target, w_tex, 0);
+            draw_buffers(bufs_data, attribute_setters, obj_render.va_frame);
 
-        draw_buffers(bufs_data, attribute_setters, obj_render.va_frame);
-
-        if (subscene.need_fog_update && i != CUBEMAP_BOTTOM_SIDE)
-            update_subs_sky_fog(subscene, i);
+            if (subscene.need_fog_update && i != CUBEMAP_BOTTOM_SIDE)
+                update_subs_sky_fog(subscene, i);
+        }
     }
 }
 

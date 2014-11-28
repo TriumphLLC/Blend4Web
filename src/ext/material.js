@@ -444,7 +444,7 @@ exports.set_alpha_factor = function(obj, mat_name,
 
 /**
  * Get the diffuse alpha factor for the object material.
- * @method module:material.get_diffuse_color_factor
+ * @method module:material.get_alpha_factor
  * @param {Object} obj Object ID
  * @param {String} mat_name Material name
  * @returns {Number} Diffuse alpha factor value
@@ -605,7 +605,7 @@ exports.set_material_extended_params = function(obj, mat_name, mat_params) {
     }
 
     if (batch.type == "MAIN") {
-        if (typeof mat_params.material_reflectivity == "number" && obj._render.reflective) {
+        if (typeof mat_params.material_reflectivity == "number") {
             var refl = mat_params.material_reflectivity;
             batch.reflect_factor = refl;
         }

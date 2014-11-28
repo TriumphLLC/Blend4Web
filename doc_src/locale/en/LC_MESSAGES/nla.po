@@ -114,6 +114,20 @@ msgstr ""
 "Blender. These slots can extend the scene functionality significantly "
 "without any coding."
 
+#: ../nla.rst:73
+msgid ""
+"Слоты являются логическими блоками, которые выполняются с первого по "
+"последний последовательно, за исключением случаев, когда в слоте явно "
+"обозначен переход (``Jump`` или ``Conditional Jump``). При достижении конца "
+"списка, выполнение логики останавливается, либо, если на сцене активирована "
+"настройка *Blend4Web > Cyclic NLA*, начинается сначала."
+msgstr ""
+"The slots themselves are logic blocks that are executed from the first to "
+"the last sequentially except that this slot explicitly contains a transition"
+" (``Jump`` or ``Conditional Jump``). When the end of the list is reached the"
+" logic stops to execute, or - if *Blend4Web > Cyclic NLA* checkbox is "
+"enabled - starts again."
+
 #: ../nla.rst:80
 msgid ""
 "Использование настройки *Blend4Web > Cyclic NLA* совместно с NLA Script не "
@@ -121,6 +135,23 @@ msgid ""
 msgstr ""
 "Using *Blend4Web > Cyclic NLA* together with NLA Script does not result in "
 "automatic looping of the animation."
+
+#: ../nla.rst:83
+msgid ""
+"Для реализации сложной логики предусмотрены числовые переменные, называемые "
+"регистрами. Каждый из 8 регистров может хранить в себе одно числовое "
+"значение. Регистры могут быть использованы для хранения какого-либо "
+"состояния сцены (например, это может быть счётчик проигрываемых анимаций, "
+"количество жизней, оставшихся у персонажа итд.)."
+msgstr ""
+"For implementing complicated logic there are numeric variables called "
+"registers. Each of 8 registers can store a single numeric value. The "
+"registers can be used for storing some scene state (e.g. this can be a "
+"counter of animation playbacks, character's health points etc)."
+
+#: ../nla.rst:89
+msgid "Пример использования NLA Script:"
+msgstr "NLA Script usage example:"
 
 #: ../nla.rst:97
 msgid "Ниже рассмотрены все возможные варианты слотов."
@@ -207,38 +238,8 @@ msgstr ""
 "results (selecting an object leads to the transition to the named slot which"
 " is needn't to be the next in the list)."
 
-#: ../nla.rst:167
-msgid "Noop"
-msgstr ""
-
-#: ../nla.rst:73
-msgid ""
-"Слоты являются логическими блоками, которые выполняются с первого по "
-"последний последовательно, за исключением случаев, когда в слоте явно "
-"обозначен переход (``Jump`` или ``Conditional Jump``). При достижении конца "
-"списка, выполнение логики останавливается, либо, если на сцене активирована "
-"настройка *Blend4Web > Cyclic NLA*, начинается сначала."
-msgstr ""
-"The slots themselves are logic blocks that are executed from the first to "
-"the last sequentially except that this slot explicitly contains a transition"
-" (``Jump`` or ``Conditional Jump``). When the end of the list is reached the logic stops to execute,"
-" or - if *Blend4Web > Cyclic NLA* checkbox is enabled - starts again."
-
-#: ../nla.rst:83
-msgid ""
-"Для реализации сложной логики предусмотрены числовые переменные, называемые "
-"регистрами. Каждый из 8 регистров может хранить в себе одно числовое "
-"значение. Регистры могут быть использованы для хранения какого-либо "
-"состояния сцены (например это может быть счётчик проигрываемых анимаций, "
-"количество жизней, оставшихся у персонажа итд.)."
-msgstr ""
-
-#: ../nla.rst:89
-msgid "Пример исользования NLA Script:"
-msgstr ""
-
 #: ../nla.rst:149
-msgid "Conditinal Jump"
+msgid "Conditional Jump"
 msgstr ""
 
 #: ../nla.rst:151
@@ -247,6 +248,8 @@ msgid ""
 "качестве параметров условия (операндов) могут выступать также регистры, "
 "которые активируются с помощью соответствующих переключателей."
 msgstr ""
+"Go to the specified slot if the certain condition is met. The parameters (operands) "
+"can also be registers that are activated using the corresponding switches."
 
 #: ../nla.rst:156
 msgid "Register Store"
@@ -254,7 +257,7 @@ msgstr ""
 
 #: ../nla.rst:158
 msgid "Записать числовое значение в регистр."
-msgstr ""
+msgstr "Save a numeric value in the register."
 
 #: ../nla.rst:161
 msgid "Math Operation"
@@ -265,6 +268,12 @@ msgid ""
 "Выполнить математическую операцию и сохранить результат в регистр. Любой из "
 "параметров (операндов) может быть либо числовым значением, либо регистром."
 msgstr ""
+"Perform a math operation and save the result in the register. Any of parameters (operands) "
+"can be either a numeric value or a register."
+
+#: ../nla.rst:167
+msgid "Noop"
+msgstr ""
 
 #: ../nla.rst:169
 msgid ""
@@ -273,6 +282,7 @@ msgid ""
 "совместно с типом ``Jump`` или ``Conditional Jump``."
 msgstr ""
 "Shortening of \"No Operation\". When such a slot is processed no actions are"
-" performed. This slot is convenient to place together with a ``Jump`` or ``Conditional Jump`` slot."
+" performed. This slot is convenient to place together with a ``Jump`` or "
+"``Conditional Jump`` slot."
 
 

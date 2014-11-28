@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Разработчикам движка &mdash; Руководство пользователя: Blend4Web v14.10</title>
+    <title>Разработчикам движка &mdash; Руководство пользователя: Blend4Web v14.11</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.10',
+        VERSION:     '14.11',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v14.10" href="index.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v14.11" href="index.html" />
     <link rel="next" title="Работа в команде. Использование git" href="git_short_manual.html" />
     <link rel="prev" title="Разработчикам приложений" href="developers.html" /> 
   </head>
@@ -37,12 +37,12 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">Руководство пользователя: Blend4Web v14.10</a></div>
+          href="index.html">Руководство пользователя: Blend4Web v14.11</a></div>
         <div class="rel">
           <a href="developers.html" title="Разработчикам приложений"
-             accesskey="P">предыдущий</a> |
+             accesskey="P">назад</a> |
           <a href="git_short_manual.html" title="Работа в команде. Использование git"
-             accesskey="N">следующий</a> |
+             accesskey="N">вперёд</a> |
           <a href="genindex.html" title="Алфавитный указатель"
              accesskey="I">указатель</a>
         </div>
@@ -118,7 +118,30 @@
 </div>
 </div>
 <div class="section" id="id4">
-<h2>Сборка аддона<a class="headerlink" href="#id4" title="Ссылка на этот заголовок">¶</a></h2>
+<h2>Сборка движка<a class="headerlink" href="#id4" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Перед сборкой необходимо убедиться, что в системе присутствуют все необходимые
+зависимости, для чего следует свериться с <a class="reference internal" href="#dependencies"><em>таблицей</em></a>.</p>
+<p>Для компиляции движка и входящих в SDK приложений достаточно выполнить команду
+из корневой директории SDK:</p>
+<div class="highlight-bash"><div class="highlight"><pre>make compile
+</pre></div>
+</div>
+<p>Полная сборка, включающая конвертацию ресурсов (текстур, звуков и видео),
+компиляцию и подготовку документации вызывается командой:</p>
+<div class="highlight-bash"><div class="highlight"><pre>make build
+</pre></div>
+</div>
+<p>Сборка архивов с дистрибутивами:</p>
+<div class="highlight-bash"><div class="highlight"><pre>make dist
+</pre></div>
+</div>
+<p>Все вышеперечисленные операции могут быть выполнены одной командой:</p>
+<div class="highlight-bash"><div class="highlight"><pre>make all
+</pre></div>
+</div>
+</div>
+<div class="section" id="id5">
+<h2>Сборка аддона<a class="headerlink" href="#id5" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Бинарные сборки аддона Blend4Web подготовлены для следующих платформ: Linux x32/64, OS X x64, Windows x32/64.
 В то же время пользователи имеют возможность произвести сборку самостоятельно.</p>
 <p>Для этого необходимо наличие Python 3.x (желательно, чтобы версия была эквивалентна используемой в Blender) и компилятора языка C (в Linux достаточно установить пакеты python3-dev и build-essential).</p>
@@ -139,7 +162,7 @@
 <p>размещенный в каталоге с аддоном. Пример: <tt class="docutils literal"><span class="pre">b4w_bin_Linux_64.so</span></tt>. После этого аддон станет готовым к использованию на данной платформе.</p>
 </div>
 <div class="section" id="dependencies">
-<span id="id5"></span><h2>Зависимости<a class="headerlink" href="#dependencies" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="id6"></span><h2>Зависимости<a class="headerlink" href="#dependencies" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Для ведения эффективной разработки движка и приложений, необходим ряд сторонних
 программ (зависимостей). Большинство этих зависимостей находится в составе
 современных дистрибутивов GNU/Linux, таких как Ubuntu. В других Unix-подобных
@@ -178,11 +201,11 @@
 <td>компиляция и обфускация
 модулей движка</td>
 </tr>
-<tr class="row-even"><td>LLVM, Clang</td>
-<td>llvm, clang</td>
+<tr class="row-even"><td>Emscripten</td>
+<td>из исходных текстов</td>
 <td>сборка Uranium</td>
 </tr>
-<tr class="row-odd"><td>Emscripten</td>
+<tr class="row-odd"><td>LLVM, Clang</td>
 <td>из исходных текстов</td>
 <td>сборка Uranium</td>
 </tr>
@@ -194,39 +217,43 @@
 <td>libnvtt-bin</td>
 <td>конвертация ресурсов</td>
 </tr>
-<tr class="row-even"><td>Libav</td>
+<tr class="row-even"><td>NVIDIA Cg Toolkit</td>
+<td>nvidia-cg-toolkit</td>
+<td>отладка шейдеров</td>
+</tr>
+<tr class="row-odd"><td>Libav</td>
 <td>libav-tools</td>
 <td>конвертация ресурсов</td>
 </tr>
-<tr class="row-odd"><td>Gnuplot</td>
+<tr class="row-even"><td>Gnuplot</td>
 <td>gnuplot</td>
 <td>отладка</td>
 </tr>
-<tr class="row-even"><td>Graphviz</td>
+<tr class="row-odd"><td>Graphviz</td>
 <td>graphviz</td>
 <td>отладка</td>
 </tr>
-<tr class="row-odd"><td>xsel</td>
+<tr class="row-even"><td>xsel</td>
 <td>xsel</td>
 <td>отладка</td>
 </tr>
-<tr class="row-even"><td>Sphinx</td>
+<tr class="row-odd"><td>Sphinx</td>
 <td>sphinx-doc</td>
 <td>сборка документации
 (HTML-версия)</td>
 </tr>
-<tr class="row-odd"><td>sphinx-intl</td>
+<tr class="row-even"><td>sphinx-intl</td>
 <td>устанавливается с помощью PIP</td>
 <td>сборка документации
 (перевод)</td>
 </tr>
-<tr class="row-even"><td>TeX Live</td>
+<tr class="row-odd"><td>TeX Live</td>
 <td>texlive, texlive-latex-extra
 texlive-lang-cyrillic</td>
 <td>сборка документации
 (PDF-версия)</td>
 </tr>
-<tr class="row-odd"><td>JSDoc 3</td>
+<tr class="row-even"><td>JSDoc 3</td>
 <td>из исходных текстов</td>
 <td>сборка документации
 (документация на API)</td>
@@ -234,8 +261,8 @@ texlive-lang-cyrillic</td>
 </tbody>
 </table>
 </div>
-<div class="section" id="id6">
-<h2>Названия функций и переменных<a class="headerlink" href="#id6" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="id7">
+<h2>Названия функций и переменных<a class="headerlink" href="#id7" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Рекомендуется при создании новых функций и переменных использовать следующие префиксы и суффиксы.</p>
 <dl class="docutils">
 <dt><em>init_</em></dt>
@@ -261,7 +288,7 @@ texlive-lang-cyrillic</td>
 </dl>
 </div>
 <div class="section" id="debugging">
-<span id="id7"></span><h2>Отладка<a class="headerlink" href="#debugging" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="id8"></span><h2>Отладка<a class="headerlink" href="#debugging" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Отладка движка производится с помощью методов модуля <tt class="docutils literal"><span class="pre">debug.js</span></tt>.</p>
 <p>Структура текущего рендер-графа может быть сохранена в формате DOT с помощью
 вызова <tt class="docutils literal"><span class="pre">b4w.debug.scenegraph_to_dot()</span></tt>, например, в консоли браузера. После
@@ -274,9 +301,9 @@ texlive-lang-cyrillic</td>
 <p>где <tt class="docutils literal"><span class="pre">graph.gv</span></tt> имя файла с сохранённым графом.</p>
 </div>
 <div class="section" id="shaders">
-<span id="id8"></span><h2>Шейдеры<a class="headerlink" href="#shaders" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="id9"></span><h2>Шейдеры<a class="headerlink" href="#shaders" title="Ссылка на этот заголовок">¶</a></h2>
 <div class="section" id="index-0">
-<span id="id9"></span><h3>Обфускатор<a class="headerlink" href="#index-0" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="id10"></span><h3>Обфускатор<a class="headerlink" href="#index-0" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Используемые в движке шейдеры подвергаются обработке обфускатором.
 Для запуска обфускации требуется выполнить одну из команд в корне репозитория:</p>
 <ul class="simple">
@@ -317,7 +344,7 @@ GLSL-кода. На данный момент в нем реализованы �
 <p>Идентификаторами могут быть как имена переменных, так и имена функций. По умолчанию при отсутствии директив import/export считается, что include-файл не использует внешние объявления и не предоставляет пользование внутренними.</p>
 </div>
 <div class="section" id="index-2">
-<span id="id10"></span><h3>Рекомендации и ограничения по использованию обфускатора<a class="headerlink" href="#index-2" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="id11"></span><h3>Рекомендации и ограничения по использованию обфускатора<a class="headerlink" href="#index-2" title="Ссылка на этот заголовок">¶</a></h3>
 <p>В связи с наличием препроцессинга, необходимостью совместной обработки нескольких шейдеров и include-файлов, а также особенностями реализации обфускатора гарантировать работоспособность полученного на выходе кода можно только при соблюдении ряда правил или ограничений на текст исходных шейдеров:</p>
 <ol class="arabic simple">
 <li>Обязательное использование специальной директивы <tt class="docutils literal"><span class="pre">#var</span></tt> для описания констант, определяемых движком в момент запуска. Например:</li>
@@ -370,7 +397,7 @@ GLSL-кода. На данный момент в нем реализованы �
 </div></blockquote>
 </div>
 <div class="section" id="index-4">
-<span id="id11"></span><h3>Ошибки обфускатора<a class="headerlink" href="#index-4" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="id12"></span><h3>Ошибки обфускатора<a class="headerlink" href="#index-4" title="Ссылка на этот заголовок">¶</a></h3>
 <p>В случае ошибки обфускатор выведет соответствующее сообщение в консоли.</p>
 <p>Перечень возможных ошибок:</p>
 <table border="1" class="docutils">
@@ -555,9 +582,10 @@ NAME, которая нигде не используется.</td>
 <li class="toctree-l1"><a class="reference internal" href="developers.html">Разработчикам приложений</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Разработчикам движка</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#coding-style">Стиль оформления кода</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id4">Сборка аддона</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">Сборка движка</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">Сборка аддона</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#dependencies">Зависимости</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id6">Названия функций и переменных</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id7">Названия функций и переменных</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#debugging">Отладка</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#shaders">Шейдеры</a></li>
 </ul>
@@ -586,9 +614,9 @@ NAME, которая нигде не используется.</td>
       <div class="footer">
         <div class="left">
           <a href="developers.html" title="Разработчикам приложений"
-             >предыдущий</a> |
+             >назад</a> |
           <a href="git_short_manual.html" title="Работа в команде. Использование git"
-             >следующий</a> |
+             >вперёд</a> |
           <a href="genindex.html" title="Алфавитный указатель"
              >указатель</a>
         </div>
@@ -597,8 +625,8 @@ NAME, которая нигде не используется.</td>
           
     <div class="footer">
         &copy; Copyright 2014, ООО &#34;Триумф&#34;.
-      Обновлено: 2014-10-30.
-      Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+      Обновлено: 2014-11-28.
+      Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
         </div>
         <div class="clearer"></div>

@@ -93,8 +93,6 @@ exports.init = function() {
         console_verbose: is_debug,
         error_purge_elements: ['control_panel'],
         alpha: false,
-        smaa_search_texture_path: "smaa_search_texture.png",
-        smaa_area_texture_path: "smaa_area_texture.png",
         key_pause_enabled: false,
         fps_elem_id: "fps_container",
         fps_wrapper_id: "fps_wrapper"
@@ -142,10 +140,15 @@ function init_cb(canvas_element, success) {
     if (!success) {
         var url_params = m_app.get_url_params();
 
-        if (url_params && url_params["bg"])
-            document.body.style.backgroundImage = 'url(' + url_params["bg"] + ')';
-        report_app_error("Browser could not initialize WebGL", "For more info visit",
-                      "https://www.blend4web.com/troubleshooting")
+        if (url_params && url_params["fallback_image"]) {
+            var image_wrapper = document.createElement("div");
+            image_wrapper.className = "image_wrapper";
+            document.body.appendChild(image_wrapper);
+            preloader_container.style.display = "none";
+            image_wrapper.style.backgroundImage = 'url(' + url_params["fallback_image"] + ')';
+        } else
+            report_app_error("Browser could not initialize WebGL", "For more info visit",
+                          "https://www.blend4web.com/troubleshooting")
 
         return;
     }
@@ -209,6 +212,12 @@ function init_cb(canvas_element, success) {
 }
 
 function init_control_buttons() {
+    window.oncontextmenu = function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+    };
+
     for (var i = 0; i < _player_buttons.length; i++) {
         var button = _player_buttons[i];
 
@@ -269,14 +278,6 @@ function turn_rotate_button_off() {
 
 function auto_rotate_camera() {
     m_camera_anim.auto_rotate(CAMERA_AUTO_ROTATE_SPEED, turn_rotate_button_off);
-}
-
-function pause_clicked() {
-    m_main.pause();
-}
-
-function resume_clicked() {
-    m_main.resume();
 }
 
 function play_sound() {
@@ -450,7 +451,7 @@ function preloader_callback(percentage, load_time) {
 
         circle_container.style.webkitTransform = 'rotate('+ (percentage * 3.6 - 503) + 'deg)';
         circle_container.style.transform = 'rotate('+ (percentage * 3.6 - 503) + 'deg)';
-    } else {
+    } else if (percentage != 100) {
         second_stage.style.marginTop = "0px";
         third_stage.style.backgroundColor = "#000";
         third_stage.style.height = "0px";
@@ -463,6 +464,14 @@ function preloader_callback(percentage, load_time) {
     }
 
     if (percentage == 100) {
+        var first_elem = document.getElementById("first_stage");
+
+        if (!first_elem)
+            return;
+
+        if (!m_sfx.check_active_speakers())
+            sound_on_button.parentElement.removeChild(sound_on_button);
+
         first_stage.parentElement.removeChild(first_stage)
         second_stage.parentElement.removeChild(second_stage)
         third_stage.parentElement.removeChild(third_stage)
@@ -527,16 +536,39 @@ function check_fullscreen(elem, button) {
     if (!_is_in_fullscreen) {
         m_app.request_fullscreen(document.body,
             function() {
+                if (!check_cursor_position("buttons_container"))
+                    deffered_close();
+
                 _is_in_fullscreen = true;
                 update_fullscreen_button(_is_in_fullscreen, elem, button);
             },
             function() {
+                if (!check_cursor_position("buttons_container"))
+                    deffered_close();
+
                 _is_in_fullscreen = false;
                 update_fullscreen_button(_is_in_fullscreen, elem, button);
             });
     } else {
         m_app.exit_fullscreen();
     }
+}
+
+function check_cursor_position(elem_id) {
+    var hover = false;
+
+    if (document.querySelectorAll) {
+        var elems = document.querySelectorAll( ":hover" );
+
+        for (var i = 0; i < elems.length; i++) {
+            if (elems[i].id == elem_id) {
+                hover = true;
+                break;
+            }
+        }
+    }
+
+    return hover;
 }
 
 function update_fullscreen_button(is_fullscreen, elem, button) {

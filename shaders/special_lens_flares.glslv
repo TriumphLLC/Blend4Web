@@ -18,6 +18,7 @@ void main(void) {
     v_texcoord = a_texcoord;
 
     // locate flare center
+
     vec3 dir = normalize(u_light_directions[LIGHT_INDEX]);
     vec4 pos_clip = u_proj_matrix * u_view_matrix * vec4(dir, 0.0);
 

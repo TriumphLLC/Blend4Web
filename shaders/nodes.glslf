@@ -36,11 +36,13 @@ uniform float u_environment_energy;
 uniform samplerCube u_sky_texture;
 #endif
 
+#if NUM_LIGHTS > 0
 uniform vec3 u_light_positions[NUM_LIGHTS];
 uniform vec3 u_light_directions[NUM_LIGHTS];
 uniform vec3 u_light_color_intensities[NUM_LIGHTS];
 uniform vec4 u_light_factors1[NUM_LIGHTS];
 uniform vec4 u_light_factors2[NUM_LIGHTS];
+#endif
 
 #if WATER_EFFECTS && CAUSTICS
 uniform vec4 u_sun_quaternion;
@@ -262,17 +264,16 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal,
  lighting_result mat_lighting(vec3 E, vec3 A, vec3 D, vec3 S,
               vec3 pos_world, vec3 normal, vec3 eye_dir, vec2 specular_params,
               vec2 diffuse_params, float shadow_factor,
-              vec3 light_positions[NUM_LIGHTS],
-              vec3 light_directions[NUM_LIGHTS],
-              vec3 light_color_intensities[NUM_LIGHTS],
-              vec4 light_factors1[NUM_LIGHTS],
-              vec4 light_factors2[NUM_LIGHTS],
               float translucency_color, vec4 translucency_params)
 {
 #if !SHADELESS_MAT
+# if NUM_LIGHTS > 0
     return lighting(E, A, D, S, pos_world, normal, eye_dir, specular_params,
-        diffuse_params, shadow_factor, light_positions, light_directions, light_color_intensities,
-        light_factors1, light_factors2, translucency_color, translucency_params);
+        diffuse_params, shadow_factor, u_light_positions, u_light_directions, u_light_color_intensities,
+        u_light_factors1, u_light_factors2, translucency_color, translucency_params);
+# else
+    return lighting_ambient(E, A, D);
+# endif
 #else
     lighting_result lresult;
     lresult.color = vec4(D, ZERO_VALUE_NODES);
@@ -912,8 +913,7 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal,
 
     lighting_result lresult = mat_lighting(E, A, D, S, nin_pos_world,
         normal, nin_eye_dir, sp_params, diffuse_param, shadow_factor,
-        u_light_positions, u_light_directions, u_light_color_intensities,
-        u_light_factors1, u_light_factors2, ZERO_VALUE_NODES, vec4(ZERO_VALUE_NODES));
+        ZERO_VALUE_NODES, vec4(ZERO_VALUE_NODES));
 
     color_out = (use_diffuse == UNITY_VALUE_NODES) ? lresult.color.rgb : ZERO_VECTOR;
     alpha_out = alpha_in;
@@ -982,8 +982,7 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal,
 
     lighting_result lresult = mat_lighting(E, A, D, S, nin_pos_world,
         normal, nin_eye_dir, sp_params, diffuse_param, shadow_factor,
-        u_light_positions, u_light_directions, u_light_color_intensities,
-        u_light_factors1, u_light_factors2, translucency_color, translucency_params);
+        translucency_color, translucency_params);
 
     color_out = (use_diffuse == UNITY_VALUE_NODES) ? lresult.color.rgb : ZERO_VECTOR;
     alpha_out = alpha_in;
@@ -1531,11 +1530,15 @@ void main(void) {
     color = max(color - sqrt(0.01 * -min(plane_dist, ZERO_VALUE_NODES)), 0.5 * color);
 # endif
 # if CAUSTICS
-        apply_caustics(color, plane_dist, u_time, nout_shadow_factor, sided_normal,
+        apply_caustics(color, plane_dist, u_time, nout_shadow_factor, nout_normal,
                        u_sun_direction, sun_color_intens, u_sun_quaternion,
                        v_pos_world, length(v_pos_view));
 # endif  // CAUSTICS
 #endif  // WATER_EFFECTS
+
+#if !DISABLE_FOG && (!PROCEDURAL_FOG || WATER_EFFECTS)
+    float energy_coeff = clamp(length(u_sun_intensity) + u_environment_energy, 0.0, 1.0);
+#endif
 
 #if !DISABLE_FOG
 # if PROCEDURAL_FOG
@@ -1544,12 +1547,12 @@ void main(void) {
     srgb_to_lin(fog_color.rgb);
 # else
     vec4 fog_color = u_fog_color_density;
-    fog_color.rgb *= sun_color_intens;
+    fog_color.rgb *= energy_coeff;
 # endif  // PROCEDURAL_FOG
 # if WATER_EFFECTS
     fog_underwater(color, length(v_pos_view), nin_eye_dir, u_cam_water_depth,
         u_underwater_fog_color_density, fog_color, plane_dist,
-        length(sun_color_intens) + u_environment_energy);
+        energy_coeff);
 # else
     fog(color, length(v_pos_view), fog_color);
 # endif  // WATER_EFFECTS

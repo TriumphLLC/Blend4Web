@@ -1327,7 +1327,7 @@ function apply_torque(obj, tx_local, ty_local, tz_local) {
 /**
  * Set character moving direction (may be zero vector).
  * @param forw Apply forward move (may be negative)
- * @param back Apply side move (may be negative)
+ * @param side Apply side move (may be negative)
  */
 exports.set_character_move_dir = function(obj, forw, side) {
     var body_id = obj._physics.body_id;

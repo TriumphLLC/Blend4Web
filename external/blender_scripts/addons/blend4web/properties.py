@@ -1053,7 +1053,8 @@ def add_b4w_props():
         items = [
             ("STATIC", "Static", "Static camera"),
             ("TARGET", "Target", "Move target"),
-            ("EYE", "Eye", "Move eye")
+            ("EYE", "Eye", "Move eye"),
+            ("HOVER", "Hover", "Hover mode")
         ]
     )
     bpy.types.Camera.b4w_move_style = b4w_move_style
@@ -1103,9 +1104,61 @@ def add_b4w_props():
        )
     bpy.types.Camera.b4w_distance_max = b4w_distance_max
 
+    b4w_horizontal_translation_min = bpy.props.FloatProperty(
+           name = "B4W: Minimum value of the horizontal translation",
+           description = "Minimum value of the horizontal translation",
+           default = -100.0,
+           min = -1000000.0,
+           soft_min = -1000.0,
+           max = 1000000.0,
+           soft_max = 1000.0,
+           precision = 3,
+       )
+    bpy.types.Camera.b4w_horizontal_translation_min \
+            = b4w_horizontal_translation_min
+
+    b4w_horizontal_translation_max = bpy.props.FloatProperty(
+           name = "B4W: Maximum value of the horizontal translation",
+           description = "Maximum value of the horizontal translation",
+           default = 100.0,
+           min = -1000000.0,
+           soft_min = -1000.0,
+           max = 1000000.0,
+           soft_max = 1000.0,
+           precision = 3,
+       )
+    bpy.types.Camera.b4w_horizontal_translation_max \
+            = b4w_horizontal_translation_max
+
+    b4w_vertical_translation_min = bpy.props.FloatProperty(
+           name = "B4W: Minimum value of the vertical translation",
+           description = "Minimum value of the vertical translation",
+           default = -100.0,
+           min = -1000000.0,
+           soft_min = -1000.0,
+           max = 1000000.0,
+           soft_max = 1000.0,
+           precision = 3,
+       )
+    bpy.types.Camera.b4w_vertical_translation_min \
+            = b4w_vertical_translation_min 
+
+    b4w_vertical_translation_max = bpy.props.FloatProperty(
+           name = "B4W: Maximum value of the vertical translation",
+           description = "Maximum value of the vertical translation",
+           default = 100.0,
+           min = -1000000.0,
+           soft_min = -1000.0,
+           max = 1000000.0,
+           soft_max = 1000.0,
+           precision = 3,
+       )
+    bpy.types.Camera.b4w_vertical_translation_max \
+            = b4w_vertical_translation_max 
+
     b4w_use_horizontal_clamping = bpy.props.BoolProperty(
-        name = "B4W: use horizontal rotation clamping",
-        description = "Check if you wish to set horizontal clamping angles",
+        name = "B4W: use horizontal clamping",
+        description = "Check if you wish to set horizontal clamping values",
         default = False
     )
     bpy.types.Camera.b4w_use_horizontal_clamping = b4w_use_horizontal_clamping
@@ -1136,9 +1189,35 @@ def add_b4w_props():
        )
     bpy.types.Camera.b4w_rotation_right_limit = b4w_rotation_right_limit
 
+    b4w_hover_angle_min = bpy.props.FloatProperty(
+           name = "B4W: Minimum rotation angle",
+           description = "Minimum rotation angle",
+           default = 0,
+           min = 0,
+           soft_min = 0,
+           max = math.pi / 2,
+           soft_max = math.pi / 2,
+           precision = 1,
+           subtype = "ANGLE",
+       )
+    bpy.types.Camera.b4w_hover_angle_min = b4w_hover_angle_min
+
+    b4w_hover_angle_max = bpy.props.FloatProperty(
+           name = "B4W: Maximum rotation angle",
+           description = "Maximum rotation angle",
+           default = math.pi / 2,
+           min = 0,
+           soft_min = 0,
+           max = math.pi / 2,
+           soft_max = math.pi / 2,
+           precision = 1,
+           subtype = "ANGLE",
+       )
+    bpy.types.Camera.b4w_hover_angle_max = b4w_hover_angle_max
+
     bpy.types.Camera.b4w_horizontal_clamping_type = bpy.props.EnumProperty(
-        name = "B4W: horizontal clamping type",
-        description = "Horizontal clamping type",
+        name = "B4W: horizontal rotation clamping type",
+        description = "Horizontal rotation clamping type",
         default = "LOCAL",
         items = [
             ("LOCAL", "Camera space", "Clamp angles in camera space"),
@@ -1147,12 +1226,28 @@ def add_b4w_props():
     )
 
     b4w_use_vertical_clamping = bpy.props.BoolProperty(
-        name = "B4W: use vertical rotation clamping",
-        description = "Check if you wish to set vertical clamping angles",
+        name = "B4W: use vertical clamping",
+        description = "Check if you wish to set vertical clamping values",
         default = False
     )
-    bpy.types.Camera.b4w_use_vertical_clamping = b4w_use_vertical_clamping
+    bpy.types.Camera.b4w_use_vertical_clamping \
+            = b4w_use_vertical_clamping
 
+    b4w_enable_hover_hor_rotation = bpy.props.BoolProperty(
+        name = "B4W: enable horizontal rotation",
+        description = "Enable horizontal rotation",
+        default = True
+    )
+    bpy.types.Camera.b4w_enable_hover_hor_rotation \
+            = b4w_enable_hover_hor_rotation
+
+    b4w_use_panning = bpy.props.BoolProperty(
+        name = "B4W: enable panning mode",
+        description = "Enable panning mode",
+        default = True
+    )
+    bpy.types.Camera.b4w_use_panning \
+            = b4w_use_panning
 
     def get_rotation_down_limit(self):
         value = self.b4w_rotation_down_limit_storage
@@ -1216,8 +1311,8 @@ def add_b4w_props():
             default = math.pi / 2)
 
     bpy.types.Camera.b4w_vertical_clamping_type = bpy.props.EnumProperty(
-        name = "B4W: vertical clamping type",
-        description = "Vertical clamping type",
+        name = "B4W: vertical rotation clamping type",
+        description = "Vertical rotation clamping type",
         default = "LOCAL",
         items = [
             ("LOCAL", "Camera space", "Clamp angles in camera space"),
@@ -1401,6 +1496,7 @@ def add_scene_properties():
             ("16x", "16x", "4", 4)
         ]
     )
+
     scene_type.b4w_anisotropic_filtering = b4w_anisotropic_filtering
 
     b4w_enable_bloom = bpy.props.BoolProperty(
@@ -2182,9 +2278,9 @@ def add_material_properties():
     mat_type.b4w_water_sss_strength = bpy.props.FloatProperty(
         name = "B4W: water sss strength",
         description = "Strength of subsurface scattering",
-        default = 5.9,
+        default = 1.0,
         min = 0.0,
-        max = 100.0,
+        max = 10.0,
         step = 0.1,
         precision = 2,
     )
@@ -2336,6 +2432,50 @@ def add_texture_properties():
     )
     bpy.types.Texture.b4w_parallax_lod_dist = b4w_parallax_lod_dist;
 
+    b4w_source_type = bpy.props.EnumProperty(
+        name = "B4W: source type",
+        description = "Source type",
+        default = "NONE",
+        items = [
+            ("NONE", "None", "None"),
+            ("SCENE", "Scene", "Scene"),
+            ("CANVAS", "Canvas", "Canvas")
+        ]
+    )
+    bpy.types.Texture.b4w_source_type = b4w_source_type;
+
+    b4w_source_id = bpy.props.StringProperty(
+        name = "B4W: scene",
+        description = "Source ID",
+        default = ""
+    )
+    bpy.types.Texture.b4w_source_id = b4w_source_id
+
+    b4w_source_size = bpy.props.EnumProperty(
+        name = "B4W: source size",
+        description = "Source size",
+        items = [
+            ("128",      "128",        "128", 128),
+            ("256",      "256",        "256", 256),
+            ("512",      "512",        "512", 512),
+            ("1024",      "1024",      "1024", 1024),
+            ("2048",      "2048",      "2048", 2048),
+            ("4096",      "4096",      "4096", 4096),
+            ("8192",      "8192",      "8192", 8192)
+        ]
+    )
+    bpy.types.Texture.b4w_source_size = b4w_source_size
+
+    b4w_extension = bpy.props.EnumProperty(
+        name = "B4W: extension",
+        description = "How the image is extrapolated past its original bounds",
+        items = [
+            ("CLIP",     "Clip",      "Clip"),
+            ("REPEAT",   "Repeat",    "Repeat")
+        ]
+    )
+    bpy.types.Texture.b4w_extension = b4w_extension
+
     # see also b4w_anisotropic_filtering for scene
     b4w_anisotropic_filtering = bpy.props.EnumProperty(
         name = "B4W: anisotropic filtering",
@@ -2410,13 +2550,6 @@ def add_texture_properties():
         default = False
     )
     bpy.types.Texture.b4w_shore_dist_map = b4w_shore_dist_map
-
-    b4w_render_scene = bpy.props.StringProperty(
-        name = "B4W: scene",
-        description = "Name of the scene, which will be rendered on the texture",
-        default = ""
-    )
-    bpy.types.Texture.b4w_render_scene = b4w_render_scene
 
     b4w_shore_boundings = bpy.props.FloatVectorProperty(
         name = "B4W: shore boundings",

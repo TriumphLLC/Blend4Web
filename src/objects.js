@@ -56,6 +56,9 @@ function create_render(type) {
         world_matrix: new Float32Array(16),
         inv_world_matrix: new Float32Array(16),
         pivot: new Float32Array(3),
+        hover_pivot: new Float32Array(3),
+
+        use_panning: false,
 
         move_style: 0,
         trans_speed: 0,
@@ -69,8 +72,11 @@ function create_render(type) {
         distance_min: 0,
         distance_max: 0,
         use_distance_limits: false,
+        
         horizontal_limits: null,
         vertical_limits: null,
+        hover_angle_limits: null,
+        enable_hover_hor_rotation: true,
         cameras: null,
         glow_anim_settings: null,
 

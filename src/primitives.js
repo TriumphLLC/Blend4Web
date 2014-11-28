@@ -12,6 +12,8 @@ b4w.module["__primitives"] = function(exports, require) {
 
 var geometry = require("__geometry");
 var util     = require("__util");
+var config   = require("__config");
+var cfg_def  = config.defaults;
 
 exports.generate_lines = function(num) {
     var submesh = util.create_empty_submesh("LINE");
@@ -107,7 +109,6 @@ exports.generate_multigrid = function(num_cascads, subdivs, detailed_dist) {
 
     var indices      = [];
     var positions    = [];
-    var cascad_steps = [];
 
     var prev_x = 0;
     var prev_z = 0;
@@ -165,14 +166,18 @@ exports.generate_multigrid = function(num_cascads, subdivs, detailed_dist) {
                     // push to positions array if needed
                     if ( !is_merged_vertex(i, j) ) {
                         if (coinciding_ind == null) {
-                            if ( ((j == 0 || j == z_subdiv - 1) ||
-                                  (i == 0 || i == x_subdiv - 1)) &&
-                                   c != num_cascads - 1 ) {
-                                cascad_steps.push(2 * delta_x);
+                            if ((j == 0 || j == z_subdiv - 1 ||
+                                 i == 0 || i == x_subdiv - 1)) {
+
+                                if (c == num_cascads - 1)
+                                    var cascad_step = delta_x;
+                                else
+                                    var cascad_step = 2 * delta_x;
+
                                 cur_utmost_verts.push(x, z, idx0);
                             } else
-                                cascad_steps.push(delta_x);
-                            positions.push(x, 0, z);
+                                var cascad_step = delta_x;
+                            positions.push(x, cascad_step, z);
                             last_added_ind++; 
                         }
                         indices_in_row.push(idx0);
@@ -285,22 +290,23 @@ exports.generate_multigrid = function(num_cascads, subdivs, detailed_dist) {
         z_size *= 2;
     }
 
-    // generate outer cascad from 8 vertices
+    // generate outer cascad from 8 vertices [Optional]
     var required_mesh_size = 20000;
     if (prev_x < required_mesh_size) {
 
-        var x = -required_mesh_size;
-        positions.push(-required_mesh_size,   -1, -required_mesh_size  );
-        positions.push(-required_mesh_size,   -1,  required_mesh_size  );
-        positions.push(-prev_x, -1, -prev_z);
-        positions.push(-prev_x, -1,  prev_z);
-        positions.push( required_mesh_size,   -1, -required_mesh_size  );
-        positions.push( required_mesh_size,   -1,  required_mesh_size  );
-        positions.push( prev_x, -1, -prev_z);
-        positions.push( prev_x, -1,  prev_z);
+        var casc_step = -(2 * prev_x) / (x_subdiv - 1);
+
+        positions.push(-required_mesh_size, casc_step, -required_mesh_size  );
+        positions.push(-required_mesh_size, casc_step,  required_mesh_size  );
+        positions.push(-prev_x, casc_step, -prev_z);
+        positions.push(-prev_x, casc_step,  prev_z);
+        positions.push( required_mesh_size, casc_step, -required_mesh_size  );
+        positions.push( required_mesh_size, casc_step,  required_mesh_size  );
+        positions.push( prev_x, casc_step, -prev_z);
+        positions.push( prev_x, casc_step,  prev_z);
 
         var idx0 = last_added_ind + 1;
-        indices.push(idx0 + 3, idx0 + 2, idx0 + 1, 
+        indices.push(idx0 + 3, idx0 + 2, idx0 + 1,
                      idx0 + 2, idx0 + 0, idx0 + 1,
                      idx0 + 6, idx0 + 4, idx0 + 2,
                      idx0 + 4, idx0 + 0, idx0 + 2,
@@ -308,24 +314,24 @@ exports.generate_multigrid = function(num_cascads, subdivs, detailed_dist) {
                      idx0 + 7, idx0 + 3, idx0 + 1,
                      idx0 + 5, idx0 + 4, idx0 + 7,
                      idx0 + 7, idx0 + 4, idx0 + 6);
-
-        var delta_x = (2 * prev_x) / (x_subdiv - 1);
-        for (var i = 0; i < 8; i++) {
-            cascad_steps.push(-delta_x);
-        }
     }
 
     // construct submesh
     var va_frame = util.create_empty_va_frame();
 
-    va_frame["a_position"]     = new Float32Array(positions);
-    va_frame["a_cascad_step"]  = new Float32Array(cascad_steps);
+    va_frame["a_position"] = new Float32Array(positions);
 
     var submesh = util.create_empty_submesh("multigrid_plane");
 
     submesh.va_frames[0] = va_frame;
     submesh.indices = new Uint32Array(indices);
     submesh.base_length = positions.length/3;
+
+    // debug wireframe mode
+    if (cfg_def.water_wireframe_debug) {
+        geometry.submesh_drop_indices(submesh, 1, true);
+        va_frame["a_polyindex"]  = geometry.extract_polyindices(submesh);
+    }
 
     return submesh;
 }

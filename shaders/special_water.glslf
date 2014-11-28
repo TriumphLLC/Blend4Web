@@ -17,7 +17,7 @@
 #include <math.glslv>
 
 #define REFL_BUMP 0.001  //How much normal affects reflection displacement
-#define REFR_BUMP 0.001  //How much normal affects refraction displacement
+#define REFR_BUMP 0.0005  //How much normal affects refraction displacement
 
 /*============================================================================
                                GLOBAL UNIFORMS
@@ -32,11 +32,13 @@ uniform float u_environment_energy;
 uniform samplerCube u_sky_texture;
 #endif
 
+#if NUM_LIGHTS > 0
 uniform vec3 u_light_positions[NUM_LIGHTS];
 uniform vec3 u_light_directions[NUM_LIGHTS];
 uniform vec3 u_light_color_intensities[NUM_LIGHTS];
 uniform vec4 u_light_factors1[NUM_LIGHTS];
 uniform vec4 u_light_factors2[NUM_LIGHTS];
+#endif
 uniform vec3 u_sun_intensity;
 uniform vec3 u_sun_direction;
 
@@ -95,6 +97,9 @@ uniform vec4 u_fresnel_params;
 uniform vec3 u_specular_color;
 uniform vec3 u_specular_params;
 
+uniform vec3 u_shallow_water_col;
+uniform vec3 u_shore_water_col;
+
 #if NUM_NORMALMAPS > 0
 uniform vec2 u_normalmap0_uv_velocity;
 uniform vec2 u_normalmap0_scale;
@@ -112,10 +117,10 @@ uniform vec2 u_normalmap3_scale;
 # endif
 #endif
 
-#if REFLECTIVE
-uniform float u_reflect_factor;
-#elif TEXTURE_MIRROR
+#if TEXTURE_MIRROR
 uniform float u_mirror_factor;
+#else
+uniform float u_reflect_factor;
 #endif
 
 #if SHORE_SMOOTHING || !DISABLE_FOG
@@ -123,8 +128,6 @@ uniform float u_view_max_depth;
 #endif
 
 #if SHORE_PARAMS
-uniform vec3 u_shallow_water_col;
-uniform vec3 u_shore_water_col;
 uniform float u_water_shallow_col_fac;
 uniform float u_water_shore_col_fac;
 #endif
@@ -138,6 +141,11 @@ uniform vec2 u_foam_scale;
 
 #if REFRACTIVE
 uniform float u_refr_bump;
+#endif
+
+#if DEBUG_WIREFRAME
+const float WIREFRAME_WIDTH = 1.0;
+uniform vec3 u_wireframe_edge_color;
 #endif
 
 /*============================================================================
@@ -174,6 +182,10 @@ varying vec3 v_tex_pos_clip;
 varying float v_view_depth;
 #endif
 
+#if DEBUG_WIREFRAME
+varying vec3 v_barycentric;
+#endif
+
 #if REFRACTIVE && SHORE_SMOOTHING
 #include <refraction.glslf>
 #endif
@@ -206,10 +218,10 @@ vec3 reflection (in vec2 screen_coord, in vec3 normal, in vec3 eye_dir,
     vec3 reflect_color = light_energies * textureCube(u_mirrormap, eye_reflected).rgb;
     srgb_to_lin(reflect_color);
 #else // REFLECTIVE
-    mirror_factor = 1.0;
+    mirror_factor = u_reflect_factor;
     vec3 reflect_color = light_energies * vec3(0.3,0.5,1.0);
     srgb_to_lin(reflect_color);
-#endif
+#endif // REFLECTIVE
 
     // calculate mirror factor using fresnel
     vec3 reflected_halfway = normalize(eye_reflected + eye_dir);
@@ -244,7 +256,7 @@ void main(void) {
     vec3 normal = vec3(0.0, 1.0, 0.0);
 #endif // DYNAMIC
 
-#if DYNAMIC && (REFLECTIVE || FOAM || (WATER_EFFECTS && !DISABLE_FOG)) || GENERATED_MESH
+#if DYNAMIC && FOAM
     float dist_to_water = v_pos_world.y - WATER_LEVEL;
 #endif
 
@@ -403,8 +415,8 @@ void main(void) {
 
 # if DYNAMIC
 
-    float foam_waves_factor = max( 3.0 * dist_to_water, 0.0);
-    foam_waves_factor *= foam_waves_factor;
+    float foam_waves_factor = max(dist_to_water / WAVES_HEIGHT + 0.1, 0.0);
+    //foam_waves_factor *= foam_waves_factor;
 
 #  if SHORE_PARAMS
     // add foam to directional waves
@@ -456,7 +468,18 @@ void main(void) {
 
     vec3 color = u_diffuse_intensity * diffuse_color;
 
-#if SHORE_PARAMS && DYNAMIC
+#if NUM_LIGHTS > 0
+    lighting_result lresult = lighting(vec3(0.0), vec3(0.0), color, S, v_pos_world,
+        normal, eye_dir, spec_params, u_diffuse_params, 1.0,
+        u_light_positions, u_light_directions, u_light_color_intensities,
+        u_light_factors1, u_light_factors2, 0.0, vec4(0.0));
+#else
+    lighting_result lresult = lighting_ambient(vec3(0.0), vec3(0.0), color);
+#endif
+
+    color = lresult.color.rgb;
+
+#if DYNAMIC
     // fake subsurface scattering (SSS)
 
     float sss_fact = max(dot(u_sun_direction, -v_normal) + SSS_WIDTH, 0.0)
@@ -468,13 +491,6 @@ void main(void) {
     color = mix(color, u_shore_water_col, sss_fact);
 #endif
 
-    lighting_result lresult = lighting(vec3(0.0), vec3(0.0), color, S, v_pos_world,
-        normal, eye_dir, spec_params, u_diffuse_params, 1.0,
-        u_light_positions, u_light_directions, u_light_color_intensities,
-        u_light_factors1, u_light_factors2, 0.0, vec4(0.0));
-
-    color = lresult.color.rgb;
-
 #if REFRACTIVE
     // refraction
     color = mix(refract_color, color, refract_factor);
@@ -484,8 +500,8 @@ void main(void) {
     color = mix(color, reflect_color, mirror_factor);
 
 #if FOAM
-    float foam_sum = mix(foam.g, foam.r, clamp(4.0 * (foam_factor - 0.75), 0.0, 1.0));
-    foam_sum = mix(foam.b, foam_sum, clamp(2.0 * foam_factor - 1.0, 0.0, 1.0));
+    float foam_sum = mix(foam.g, foam.r, max(4.0 * (foam_factor - 0.75), 0.0));
+    foam_sum = mix(foam.b, foam_sum, max(2.0 * foam_factor - 1.0, 0.0));
     foam_sum = mix(0.0, foam_sum, foam_factor);
     color = mix(color, light_energies, foam_sum);
 #endif
@@ -508,7 +524,7 @@ void main(void) {
         //Underwater fog
         water_fog(color, surf_dist, u_cam_water_depth,
                   u_underwater_fog_color_density,
-                  length(u_sun_intensity) + u_environment_energy);
+                  clamp(length(u_sun_intensity) + u_environment_energy, 0.0, 1.0));
     } else {
         fog(color, surf_dist, fog_color);
     }
@@ -530,6 +546,18 @@ void main(void) {
 
 #if ALPHA
     premultiply_alpha(color, alpha);
+#endif
+
+#if DEBUG_WIREFRAME
+	#extension GL_OES_standard_derivatives: enable
+
+	vec3 derivatives = fwidth(v_barycentric);
+	vec3 smoothed_bc = smoothstep(vec3(0.0), derivatives * WIREFRAME_WIDTH, v_barycentric);
+	float edge_factor = min(min(smoothed_bc.x, smoothed_bc.y), smoothed_bc.z);
+	edge_factor = clamp(edge_factor, 0.0, 1.0);
+
+    color = mix(u_wireframe_edge_color, color, edge_factor);
+    alpha = mix(1.0, alpha, edge_factor);
 #endif
 
     gl_FragColor = vec4(color, alpha);

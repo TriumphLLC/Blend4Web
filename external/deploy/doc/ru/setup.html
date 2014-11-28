@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Развёртывание среды разработки &mdash; Руководство пользователя: Blend4Web v14.10</title>
+    <title>Развёртывание среды разработки &mdash; Руководство пользователя: Blend4Web v14.11</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.10',
+        VERSION:     '14.11',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v14.10" href="index.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v14.11" href="index.html" />
     <link rel="next" title="Рабочий процесс" href="workflow.html" />
     <link rel="prev" title="Экспресс-установка" href="first_steps.html" /> 
   </head>
@@ -37,12 +37,12 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">Руководство пользователя: Blend4Web v14.10</a></div>
+          href="index.html">Руководство пользователя: Blend4Web v14.11</a></div>
         <div class="rel">
           <a href="first_steps.html" title="Экспресс-установка"
-             accesskey="P">предыдущий</a> |
+             accesskey="P">назад</a> |
           <a href="workflow.html" title="Рабочий процесс"
-             accesskey="N">следующий</a> |
+             accesskey="N">вперёд</a> |
           <a href="genindex.html" title="Алфавитный указатель"
              accesskey="I">указатель</a>
         </div>
@@ -84,7 +84,7 @@
 </div>
 <div class="section" id="browser-for-local-loading">
 <span id="id4"></span><h2>Настройка браузера для загрузки локальных ресурсов<a class="headerlink" href="#browser-for-local-loading" title="Ссылка на этот заголовок">¶</a></h2>
-<p>Рендерер движка является Web-приложением, и его работа происходит при просмотре HTML-файла в браузере. После инициализации происходит загрузка ресурсов (сцен, текстур), которая подчиняется <a class="reference external" href="http://ru.wikipedia.org/wiki/Правило_ограничения_домена">правилу ограничения домена</a>, запрещающему, в частности, загрузку из локальной директории. Простым способом обхода этого ограничения может быть настройка браузера (рекомендуется). Другой способ заключается в использовании <a class="reference internal" href="problems_and_solutions.html#local-web-server"><em>локального web-сервера</em></a>.</p>
+<p>Рендерер движка является Web-приложением, и его работа происходит при просмотре HTML-файла в браузере. После инициализации происходит загрузка ресурсов (сцен, текстур), которая подчиняется <a class="reference external" href="http://ru.wikipedia.org/wiki/Правило_ограничения_домена">правилу ограничения домена</a>, запрещающему, в частности, загрузку из локальной директории. Простым способом обхода этого ограничения может быть настройка браузера (рекомендуется). Другой способ заключается в использовании <a class="reference internal" href="#local-web-server"><em>локального web-сервера</em></a>.</p>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
 <p class="last">Рекомендуется использовать такой браузер только для просмотра локального контента, поскольку изменение настроек может привести к понижению безопасности.</p>
@@ -141,16 +141,55 @@
 <div class="line"><br /></div>
 </div>
 </div>
+<div class="section" id="web">
+<span id="local-web-server"></span><h2>Использование локального web-сервера<a class="headerlink" href="#web" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Простым вариантом обеспечения просмотра локальных ресурсов в браузерах может быть запуск web-сервера из стандартной библиотеки <a class="reference external" href="http://ru.wikipedia.org/wiki/Python">Python</a>.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p><em>На Windows</em>:</p>
+<ol class="arabic">
+<li><p class="first">Загрузить и инсталлировать последнюю версию Python с <a class="reference external" href="http://www.python.org/downloads/">официального сайта</a>. В процессе установки выберите опцию добавления пути к исполняемому файлу (<tt class="docutils literal"><span class="pre">Add</span> <span class="pre">python.exe</span> <span class="pre">to</span> <span class="pre">Path</span></tt>).</p>
+</li>
+<li><p class="first">Запустить командную строку (Command Prompt).</p>
+</li>
+<li><p class="first">Выполнить команду в корневой директории SDK:</p>
+<div class="highlight-python"><div class="highlight"><pre>&gt; python -m http.server
+</pre></div>
+</div>
+</li>
+</ol>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p><em>На Linux/OS X</em>:</p>
+<ol class="arabic">
+<li><p class="first">В случае отсутствия в дистрибутиве, загрузить и инсталлировать последнюю версию Python с <a class="reference external" href="http://www.python.org/downloads/">официального сайта</a>.</p>
+</li>
+<li><p class="first">Запустить командную строку (Terminal).</p>
+</li>
+<li><p class="first">Выполнить команду в корневой директории SDK:</p>
+<div class="highlight-python"><div class="highlight"><pre>&gt; python3 -m http.server
+</pre></div>
+</div>
+</li>
+</ol>
+<p>После загрузки сервера, в любом браузере открыть корневую страницу с приложениями из состава SDK, расположенную по адресу <a class="reference external" href="http://localhost:8000">http://localhost:8000</a>.</p>
+<p>В случае необходимости, можно указать порт дополнительным параметром:</p>
+<div class="highlight-python"><div class="highlight"><pre>&gt; python3 -m http.server 8080
+</pre></div>
+</div>
+</div>
 <div class="section" id="getting-started-launching-viewer">
-<span id="index-1"></span><span id="id6"></span><h2>Запуск просмотрщика сцен<a class="headerlink" href="#getting-started-launching-viewer" title="Ссылка на этот заголовок">¶</a></h2>
-<p>Откройте файл <tt class="file docutils literal"><span class="pre">apps_dev/viewer/viewer_dev.html</span></tt> в настроенном браузере. Должна отобразиться страница <a class="reference internal" href="viewer.html#viewer"><em>просмотрщика сцен</em></a> с окном рендерера и элементами интерфейса.</p>
+<span id="index-1"></span><span id="id8"></span><h2>Запуск демо приложений и просмотрщика сцен<a class="headerlink" href="#getting-started-launching-viewer" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Откройте файл <tt class="file docutils literal"><span class="pre">index.html</span></tt> в настроенном браузере. Должна отобразиться страница со ссылками на приложения из состава SDK, включая просмотрщик сцен.</p>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
-<p class="last">Если страница не отображается корректно, или появляются сообщения об ошибках, необходимо предпринять действия, описанные в разделе <a class="reference internal" href="problems_and_solutions.html#renderer-not-working"><em>Проблемы при запуске рендерера</em></a>.</p>
+<p class="last">Если приложения SDK не отображаются корректно, или появляются сообщения об ошибках, необходимо предпринять действия, описанные в разделе <a class="reference internal" href="problems_and_solutions.html#renderer-not-working"><em>Проблемы при запуске рендерера</em></a>.</p>
 </div>
 </div>
 <div class="section" id="getting-started-addon">
-<span id="index-2"></span><span id="id7"></span><h2>Установка аддона движка<a class="headerlink" href="#getting-started-addon" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="index-2"></span><span id="id9"></span><h2>Установка аддона движка<a class="headerlink" href="#getting-started-addon" title="Ссылка на этот заголовок">¶</a></h2>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
 <p class="last">Если аддон ранее был установлен с помощью <a class="reference internal" href="first_steps.html#quick-install"><em>экспресс-установки</em></a>, то рекомендуется прежде его удалить.</p>
@@ -196,7 +235,8 @@
 <li class="toctree-l2"><a class="reference internal" href="#getting-started-distribution">Установка дистрибутива</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#getting-started-browser">Выбор браузера</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#browser-for-local-loading">Настройка браузера для загрузки локальных ресурсов</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#getting-started-launching-viewer">Запуск просмотрщика сцен</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#web">Использование локального web-сервера</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#getting-started-launching-viewer">Запуск демо приложений и просмотрщика сцен</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#getting-started-addon">Установка аддона движка</a></li>
 </ul>
 </li>
@@ -244,9 +284,9 @@
       <div class="footer">
         <div class="left">
           <a href="first_steps.html" title="Экспресс-установка"
-             >предыдущий</a> |
+             >назад</a> |
           <a href="workflow.html" title="Рабочий процесс"
-             >следующий</a> |
+             >вперёд</a> |
           <a href="genindex.html" title="Алфавитный указатель"
              >указатель</a>
         </div>
@@ -255,8 +295,8 @@
           
     <div class="footer">
         &copy; Copyright 2014, ООО &#34;Триумф&#34;.
-      Обновлено: 2014-10-30.
-      Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+      Обновлено: 2014-11-28.
+      Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
         </div>
         <div class="clearer"></div>

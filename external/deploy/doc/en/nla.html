@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Non-Linear Animation &mdash; User Manual: Blend4Web v14.10</title>
+    <title>Non-Linear Animation &mdash; User Manual: Blend4Web v14.11</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.10',
+        VERSION:     '14.11',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User Manual: Blend4Web v14.10" href="index.html" />
+    <link rel="top" title="User Manual: Blend4Web v14.11" href="index.html" />
     <link rel="next" title="For Application Developers" href="developers.html" />
     <link rel="prev" title="Physics" href="physics.html" /> 
   </head>
@@ -36,7 +36,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">User Manual: Blend4Web v14.10</a></div>
+          href="index.html">User Manual: Blend4Web v14.11</a></div>
         <div class="rel">
           <a href="physics.html" title="Physics"
              accesskey="P">previous</a> |
@@ -114,12 +114,8 @@
 <p class="first admonition-title">Note</p>
 <p class="last">Using <em>Blend4Web &gt; Cyclic NLA</em> together with NLA Script does not result in automatic looping of the animation.</p>
 </div>
-<p>Для реализации сложной логики предусмотрены числовые переменные, называемые
-регистрами. Каждый из 8 регистров может хранить в себе одно числовое значение.
-Регистры могут быть использованы для хранения какого-либо состояния сцены
-(например это может быть счётчик проигрываемых анимаций, количество жизней,
-оставшихся у персонажа итд.).</p>
-<p>Пример исользования NLA Script:</p>
+<p>For implementing complicated logic there are numeric variables called registers. Each of 8 registers can store a single numeric value. The registers can be used for storing some scene state (e.g. this can be a counter of animation playbacks, character&#8217;s health points etc).</p>
+<p>NLA Script usage example:</p>
 <a class="reference internal image-reference" href="_images/interactive_nla_brick.png"><img alt="_images/interactive_nla_brick.png" class="align-center" src="_images/interactive_nla_brick.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
@@ -148,20 +144,17 @@
 <h3>Select &amp; Jump<a class="headerlink" href="#select-jump" title="Permalink to this headline">¶</a></h3>
 <p>Is similar to the <tt class="docutils literal"><span class="pre">Select</span> <span class="pre">&amp;</span> <span class="pre">Play</span></tt> slot, except the transition happens instead of animation. This function allows to implement a complicated logic because in this case there is a possibility to identify the user selection results (selecting an object leads to the transition to the named slot which is needn&#8217;t to be the next in the list).</p>
 </div>
-<div class="section" id="conditinal-jump">
-<h3>Conditinal Jump<a class="headerlink" href="#conditinal-jump" title="Permalink to this headline">¶</a></h3>
-<p>Перейти к указанному слоту в случае выполнения выбранного условия. В качестве
-параметров условия (операндов) могут выступать также регистры, которые
-активируются с помощью соответствующих переключателей.</p>
+<div class="section" id="conditional-jump">
+<h3>Conditional Jump<a class="headerlink" href="#conditional-jump" title="Permalink to this headline">¶</a></h3>
+<p>Go to the specified slot if the certain condition is met. The parameters (operands) can also be registers that are activated using the corresponding switches.</p>
 </div>
 <div class="section" id="register-store">
 <h3>Register Store<a class="headerlink" href="#register-store" title="Permalink to this headline">¶</a></h3>
-<p>Записать числовое значение в регистр.</p>
+<p>Save a numeric value in the register.</p>
 </div>
 <div class="section" id="math-operation">
 <h3>Math Operation<a class="headerlink" href="#math-operation" title="Permalink to this headline">¶</a></h3>
-<p>Выполнить математическую операцию и сохранить результат в регистр. Любой из
-параметров (операндов) может быть либо числовым значением, либо регистром.</p>
+<p>Perform a math operation and save the result in the register. Any of parameters (operands) can be either a numeric value or a register.</p>
 </div>
 <div class="section" id="noop">
 <h3>Noop<a class="headerlink" href="#noop" title="Permalink to this headline">¶</a></h3>
@@ -241,8 +234,8 @@
           
     <div class="footer">
         &copy; Copyright 2014, Triumph LLC.
-      Last updated on 2014-10-30.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+      Last updated on 2014-11-28.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
         </div>
         <div class="clearer"></div>

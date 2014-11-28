@@ -47,18 +47,18 @@ exports.create_rendering_graph_compat = function(cam_render, sc_render) {
     var water_params = sc_render.water_params;
 
     var subs_main_opaque = create_subs_main("OPAQUE", cam, true, water_params,
-                                            num_lights, fog, wls_params);
+            num_lights, fog, wls_params, null, sc_render.sun_exist);
     m_graph.append_node_attr(graph, subs_main_opaque);
 
     var subs_main_blend = create_subs_main("BLEND", cam, true, water_params,
-                                            num_lights, fog, wls_params, null);
+            num_lights, fog, wls_params, null, null, sc_render.sun_exist);
     m_graph.append_node_attr(graph, subs_main_blend);
     m_graph.append_edge_attr(graph, subs_main_opaque, subs_main_blend,
             create_slink("SCREEN", "NONE", 1, 1, true));
 
     if (sc_render.xray) {
         var subs_main_xray = create_subs_main("XRAY", cam, false, water_params,
-                num_lights, fog, wls_params, null);
+                num_lights, fog, wls_params, null, sc_render.sun_exist);
         m_graph.append_node_attr(graph, subs_main_xray);
         m_graph.append_edge_attr(graph, subs_main_blend, subs_main_xray,
                 create_slink("SCREEN", "NONE", 1, 1, true));
@@ -117,7 +117,7 @@ exports.create_rendering_graph_compat = function(cam_render, sc_render) {
         }
     }
 
-    if (sc_render.procedural_sky) {
+    if (sc_render.sky_params.procedural_skydome) {
         var sky_params = sc_render.sky_params;
         var subs_sky = create_subs_sky(num_lights, sky_params);
 
@@ -726,7 +726,7 @@ exports.create_rendering_graph = function(render_to_texture, sc_render, cam_rend
             cam_render.cameras.push(cam);
 
             var subs_main = create_subs_main("REFLECT", cam, false,
-                    water_params, num_lights, fog, wls_params);
+                    water_params, num_lights, fog, wls_params, null, sc_render.sun_exist);
             subs_main.reflection_plane = refl_planes[0];
             subs_main.camera.reflection_plane = refl_planes[0];
 
@@ -871,7 +871,7 @@ exports.create_rendering_graph = function(render_to_texture, sc_render, cam_rend
 
         // main
         var subs_main = create_subs_main("OPAQUE", cam, false,
-                water_params, num_lights, fog, wls_params);
+                water_params, num_lights, fog, wls_params, null, sc_render.sun_exist);
 
         m_graph.append_node_attr(graph, subs_main);
         curr_level.push(subs_main);
@@ -953,7 +953,7 @@ exports.create_rendering_graph = function(render_to_texture, sc_render, cam_rend
         cam_render.cameras.push(cam);
 
         var subs_main = create_subs_main("BLEND", cam, false, water_params,
-                num_lights, fog, wls_params, shadow_params);
+                num_lights, fog, wls_params, shadow_params, sc_render.sun_exist);
 
         curr_level.push(subs_main);
         m_graph.append_node_attr(graph, subs_main);
@@ -1016,7 +1016,7 @@ exports.create_rendering_graph = function(render_to_texture, sc_render, cam_rend
             cam_render.cameras.push(cam);
 
             var subs_main = create_subs_main("XRAY", cam, false, water_params,
-                    num_lights, fog, wls_params, shadow_params);
+                    num_lights, fog, wls_params, shadow_params, sc_render.sun_exist);
 
             curr_level.push(subs_main);
             m_graph.append_node_attr(graph, subs_main);
@@ -1558,7 +1558,7 @@ exports.create_rendering_graph = function(render_to_texture, sc_render, cam_rend
         else
             curr_level.push(subs_color_picking);
 
-    if (!render_to_texture && sc_render.procedural_sky) {
+    if (!render_to_texture && sc_render.sky_params.procedural_skydome) {
         var sky_params = sc_render.sky_params;
         var subs_sky = create_subs_sky(num_lights, sky_params);
         m_graph.append_node_attr(graph, subs_sky);
@@ -1709,7 +1709,7 @@ function init_subs(type) {
         light_factors2: null,
         horizon_color: new Float32Array(3),
         zenith_color: new Float32Array(3),
-        sun_intensity: new Float32Array([1,1,1]), // affects fog color
+        sun_intensity: new Float32Array([0,0,0]), // affects fog color
         sun_direction: new Float32Array(3),
         sun_quaternion: new Float32Array(4),
         sky_texture_slots: null,
@@ -1874,8 +1874,7 @@ function create_subs_bloom_blur(graph, subs_input, pp_effect) {
  * attachments)
  */
 function create_subs_main(main_type, cam, opaque_do_clear_depth,
-        water_params, num_lights, fog, wls_params, shadow_params) {
-
+        water_params, num_lights, fog, wls_params, shadow_params, sun_exist) {
     var subs = init_subs("MAIN_" + main_type);
 
     if (main_type === "OPAQUE") {
@@ -1911,7 +1910,7 @@ function create_subs_main(main_type, cam, opaque_do_clear_depth,
     subs.fog_color_density = fog;
 
     if (water_params)
-        assign_water_params(subs, water_params)
+        assign_water_params(subs, water_params, sun_exist)
 
     subs.light_directions        = new Float32Array(num_lights * 3); // vec3's
     subs.light_positions         = new Float32Array(num_lights * 3); // vec3's
@@ -1922,7 +1921,7 @@ function create_subs_main(main_type, cam, opaque_do_clear_depth,
     return subs;
 }
 
-function assign_water_params(subs, water_params) {
+function assign_water_params(subs, water_params, sun_exist) {
     subs.water_params = water_params;
 
     var wp = water_params;
@@ -1937,7 +1936,7 @@ function assign_water_params(subs, water_params) {
     subs.water_level        = wp.water_level;
 
     // caustics
-    if (wp.caustic_scale) {
+    if (wp.caustic_scale && sun_exist) {
         subs.caustics         = true;
         subs.caust_scale      = wp.caustic_scale;
         subs.caust_speed.set(wp.caustic_speed);
@@ -2359,20 +2358,6 @@ function create_subs_bloom_combine(blur) {
 
     subs.camera = m_cam.create_camera(m_cam.TYPE_NONE);
     subs.bloom_blur = blur;
-
-    return subs;
-}
-
-/**
- * Create HUD subscene, unused
- */
-function create_subs_hud() {
-
-    var subs = init_subs("HUD");
-    subs.clear_color = false;
-    subs.clear_depth = false;
-
-    subs.camera = m_cam.create_camera(m_cam.TYPE_NONE);
 
     return subs;
 }

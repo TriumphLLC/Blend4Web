@@ -153,64 +153,6 @@ msgstr ""
 "drivers at the moment it is recommended to use current versions of "
 "proprietary drivers for Nvidia and AMD video cards."
 
-#: ../problems_and_solutions.rst:116
-msgid "или::"
-msgstr "or::"
-
-#: ../problems_and_solutions.rst:94
-msgid "Использование локального web-сервера"
-msgstr "Using a Local Web Server"
-
-#: ../problems_and_solutions.rst:96
-msgid ""
-"Простым вариантом обеспечения просмотра локальных ресурсов в браузерах может"
-" быть запуск web-сервера из стандартной библиотеки `Python "
-"<http://ru.wikipedia.org/wiki/Python>`_."
-msgstr ""
-"An easy way for viewing local resources in browsers is running the web "
-"server from the standard `Python "
-"<http://en.wikipedia.org/wiki/Python_(programming_language)>`_ library."
-
-#: ../problems_and_solutions.rst:98
-msgid "*На Windows*:"
-msgstr "*Under MS Windows*:"
-
-#: ../problems_and_solutions.rst:100
-msgid ""
-"Загрузить и инсталлировать последнюю версию Python с `официального сайта "
-"<http://www.python.org/download/releases/>`_. На сегодняшний день это версия"
-" 3.4, и по умолчанию установка произойдет в директорию :file:`Python34` на "
-"диске :file:`C`."
-msgstr ""
-"Download and install the latest Python distribution from the `official site "
-"<http://www.python.org/download/releases/>`_. The current version is 3.4 and"
-" by default it will be installed to the :file:`Python34` directory on the "
-":file:`C` drive."
-
-#: ../problems_and_solutions.rst:102
-msgid "Запустить командную строку (Command Prompt)."
-msgstr "Run Command Prompt."
-
-#: ../problems_and_solutions.rst:104
-msgid "Выполнить команды::"
-msgstr "Enter the following commands::"
-
-#: ../problems_and_solutions.rst:109
-msgid ""
-"Перейти на страницу http://localhost:8000, на которой выбрать нужный файл "
-"для отображения."
-msgstr ""
-"Open the http://localhost:8000 page and select the required file for "
-"displaying. "
-
-#: ../problems_and_solutions.rst:111
-msgid "*На Linux*::"
-msgstr "*Under Linux*::"
-
-#: ../problems_and_solutions.rst:121
-msgid "Можно указать порт дополнительным параметром::"
-msgstr "A port number can be specified by the additional parameter::"
-
 #: ../problems_and_solutions.rst:39
 msgid ""
 "Рекомендуется проводить своевременное обновление драйверов для графических "
@@ -232,15 +174,3 @@ msgstr ""
 "bar, click :file:`Enable` under the :file:`Override software rendering list`"
 " option and restart the browser."
 
-#~ msgid ""
-#~ "Рекомендуется проводить своевременное обновление драйверов для графических "
-#~ "карт. Чтобы определить тип и производителя карты, можно ввести **about:gpu**"
-#~ " в адресную строку браузера Chrome..."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Ввести **about:flags** (или **chrome://flags/**) в адресную строку браузера,"
-#~ " нажать :file:`Включить` (:file:`Enable`) под опцией :file:`Переопределение "
-#~ "списка программного рендеринга` (:file:`Override software rendering list`) и"
-#~ " перезапустить браузер."
-#~ msgstr ""

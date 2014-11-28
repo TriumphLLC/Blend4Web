@@ -25,6 +25,12 @@ class B4W_HTMLExportProcessor(bpy.types.Operator):
         default = True
     )
 
+    strict_mode = bpy.props.BoolProperty(
+        name = "Strict mode",
+        description = "This option blocks export with errors and warnings",
+        default = False
+    )
+
     override_filepath = bpy.props.StringProperty(
         name = "Filepath",
         description = "Required for running in command line",
@@ -87,6 +93,7 @@ class B4W_HTMLExportProcessor(bpy.types.Operator):
     def draw(self, context):
         layout = self.layout
         layout.prop(self, "do_autosave")
+        layout.prop(self, "strict_mode")
 
     @classmethod
     def get_b4w_src_path(cls):
@@ -114,44 +121,45 @@ class B4W_HTMLExportProcessor(bpy.types.Operator):
         b4w_minjs_path = os.path.join(b4w_src_path, "webplayer.min.js")
         b4w_css_path = os.path.join(b4w_src_path, "webplayer.min.css")
 
+        
         if "CANCELLED" in bpy.ops.export_scene.b4w_json("EXEC_DEFAULT", \
                 filepath=json_path, do_autosave=False, save_export_path=False, \
-                is_html_export=True):
+                is_html_export=True, strict_mode=False):
             return
+        if (not self.strict_mode or not exporter._b4w_export_errors 
+                    and not exporter._b4w_export_warnings):
+            try:
+                scripts = ""
+                if os.path.isfile(b4w_minjs_path):
+                    with open(b4w_minjs_path, "r") as f:
+                        scripts = f.read()
+                        f.close()
+                styles = ""
+                if os.path.isfile(b4w_css_path):
+                    with open(b4w_css_path, "r") as f:
+                        styles = f.read()
+                        f.close()
+                data = json.dumps(extract_data(json_path, json_name))
 
-        try:
-            scripts = ""
-            if os.path.isfile(b4w_minjs_path):
-                with open(b4w_minjs_path, "r") as f:
-                    scripts = f.read()
-                    f.close()
+                insertions = dict(scripts=scripts, built_in_data=data,
+                                  styles=styles,
+                                  b4w_meta=("<meta name='b4w_export_path_html' content='"
+                                            + get_filepath_blend(self.filepath) +"'/>"))
+                app_str = get_html_template(html_tpl_path).substitute(insertions)
 
-            styles = ""
-            if os.path.isfile(b4w_css_path):
-                with open(b4w_css_path, "r") as f:
-                    styles = f.read()
-                    f.close()
-
-            data = json.dumps(extract_data(json_path, json_name))
-
-            insertions = dict(scripts=scripts, built_in_data=data,
-                              styles=styles,
-                              b4w_meta=("<meta name='b4w_export_path_html' content='"
-                                        + get_filepath_blend(self.filepath) +"'/>"))
-            app_str = get_html_template(html_tpl_path).substitute(insertions)
-
-            f  = open(export_filepath, "w")
-        except IOError as exp:
-            exporter._file_error = exp
-            raise exporter.FileError("Permission denied")
+                f  = open(export_filepath, "w")
+            except IOError as exp:
+                exporter._file_error = exp
+                raise exporter.FileError("Permission denied")
+            else:
+                f.write(app_str)
+                f.close()
+                if self.save_export_path:
+                    set_default_path(export_filepath)
+                print("HTML file saved to " + export_filepath)
+                print("HTML EXPORT OK")
         else:
-            f.write(app_str)
-            f.close()
-            if self.save_export_path:
-                set_default_path(export_filepath)
-            print("HTML file saved to " + export_filepath)
-            print("HTML EXPORT OK")
-
+            bpy.ops.b4w.export_messages_dialog('INVOKE_DEFAULT')
         if self.do_autosave:
             autosave()
 
@@ -161,6 +169,7 @@ class B4W_ExportHTMLPathGetter(bpy.types.Operator):
     """Get Export Path for blend file"""
     bl_idname = "b4w.get_export_html_path"
     bl_label = "B4W Get Export HTML Path"
+    bl_options = {'INTERNAL'}
 
     def execute(self, context):
         print("B4W Export HTML Path = " + get_default_path())
@@ -209,7 +218,7 @@ def extract_data(json_path, json_filename):
     if "images" in json_parsed:
         for i in range(len(json_parsed["images"])):
             img = json_parsed["images"][i]
-            if img["source"] == "FILE":
+            if img["source"] == "FILE" or img["source"] == "MOVIE":
                 data[img["filepath"]] = get_encoded_resource_data(img["filepath"],
                         json_path)
 

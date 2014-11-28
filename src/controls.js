@@ -851,7 +851,6 @@ exports.create_sensor_manifold = function(obj, id, type, sensors,
             if (get_sensor_users_num(sensors[i], _objects) === 1) {
                 remove_sensor(sensors[i], _sensors);
             }
-
         var man_index = manifolds_arr.indexOf(old_manifold);
         if (man_index > -1)
             manifolds_arr.splice(man_index, 1);
@@ -864,12 +863,12 @@ exports.create_sensor_manifold = function(obj, id, type, sensors,
         type: type,
         sensors: sensors.slice(0),
 
-        logic_fun: logic_fun || default_AND_logic_fun,
+        logic_fun: logic_fun,
         // cache for logic function
         sensor_values: new Array(sensors.length),
 
         callback: callback,
-        callback_param: callback_param || null,
+        callback_param: callback_param,
 
         last_pulse: -1,
         // for LEVEL control type
@@ -1023,6 +1022,7 @@ function mouse_down_cb(e) {
 
         if (sensor.type == ST_MOUSE_CLICK) {
             sensor_set_value(sensor, 1);
+            sensor.payload = e.which;
         }
 
         // update selection sensors

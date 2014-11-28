@@ -1839,9 +1839,10 @@ function set_water_material_params(value) {
 
 function get_lighting_params(light_name) {
     var lparams = m_lights.get_light_params(light_name);
-
-    set_color_picker("light_color", lparams["light_color"]);
-    set_slider("light_energy", lparams["light_energy"]);
+    if(lparams) {
+        set_color_picker("light_color", lparams["light_color"]);
+        set_slider("light_energy", lparams["light_energy"]);
+    }   
 }
 
 function set_lighting_params(value) {
@@ -1932,17 +1933,18 @@ function run_sun_clicked() {
 
 function check_lighting_params() {
     var sun = m_lights.get_lamps("SUN")[0];
-
-    var light_param_names = ["run_sun",
+    var lamps = m_lights.get_lamps();
+    var light_param_turn_off = ["sn-ui-grid-b"];
+    if (!lamps.length)
+        forbid_params(light_param_turn_off,"disable");
+    else if (!sun) {
+        var light_param_names = ["run_sun",
                              "stop_sun",
                              "date",
                              "sun_time_multiplier",
                              "day_time",
                              "max_sun_angle"];
-
-    if (!sun) {
         forbid_params(light_param_names, "disable");
-        return null;
     }
 }
 

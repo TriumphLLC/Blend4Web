@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Текстуры &mdash; Руководство пользователя: Blend4Web v14.10</title>
+    <title>Текстуры &mdash; Руководство пользователя: Blend4Web v14.11</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.10',
+        VERSION:     '14.11',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v14.10" href="index.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v14.11" href="index.html" />
     <link rel="next" title="Нодовые материалы" href="node_materials.html" />
     <link rel="prev" title="Материалы" href="materials.html" /> 
   </head>
@@ -37,12 +37,12 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">Руководство пользователя: Blend4Web v14.10</a></div>
+          href="index.html">Руководство пользователя: Blend4Web v14.11</a></div>
         <div class="rel">
           <a href="materials.html" title="Материалы"
-             accesskey="P">предыдущий</a> |
+             accesskey="P">назад</a> |
           <a href="node_materials.html" title="Нодовые материалы"
-             accesskey="N">следующий</a> |
+             accesskey="N">вперёд</a> |
           <a href="genindex.html" title="Алфавитный указатель"
              accesskey="I">указатель</a>
         </div>
@@ -73,6 +73,7 @@
 <li><a class="reference internal" href="#normal-map"><em>карта нормалей (normal map)</em></a></li>
 <li>карта высот (height map), может содержаться только в альфа-канале карты нормалей, используется для <a class="reference internal" href="#parallax-mapping"><em>реализации рельефной поверхности (parallax mapping)</em></a></li>
 <li><a class="reference internal" href="#stencil-map"><em>карта смешивания (stencil map)</em></a></li>
+<li><a class="reference internal" href="#video-texture"><em>видеотекстура</em></a></li>
 </ul>
 </dd>
 </dl>
@@ -90,7 +91,7 @@
 <li><dl class="first docutils">
 <dt><tt class="docutils literal"><span class="pre">None</span></tt>, пустая</dt>
 <dd><ul class="first last simple">
-<li>применена на кубе в стартовой сцене Blender&#8217;a, в движке генерируется серая текстура. Также используется для <a class="reference internal" href="#render-to-texture"><em>рендеринга сцены в текстуру</em></a>.</li>
+<li>применена на кубе в стартовой сцене Blender&#8217;a. Также используется для <a class="reference internal" href="#render-to-texture-scene"><em>рендеринга сцены в текстуру</em></a>, а также для <a class="reference internal" href="#render-to-texture-canvas"><em>рендеринга canvas-текстуры</em></a>.</li>
 </ul>
 </dd>
 </dl>
@@ -244,16 +245,52 @@
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
+</div>
+</div>
+<div class="section" id="video-texture">
+<span id="id20"></span><h2>Видео-текстуры<a class="headerlink" href="#video-texture" title="Ссылка на этот заголовок">¶</a></h2>
+<p>В качестве текстуры может применяться видеозапись. Для этого должен быть выбран тип текстуры <tt class="docutils literal"><span class="pre">Image</span> <span class="pre">or</span> <span class="pre">Movie</span></tt>. Также, если была включена опция <tt class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Use</span> <span class="pre">NLA</span></tt>, то воспроизведение видеотекстур будет происходить и в рамках NLA-сценария.</p>
+<div class="admonition note">
+<p class="first admonition-title">Примечание</p>
+<p class="last">Видеотекстура поддерживает только воспроизведение видеоряда. Звуковое сопровождение следует накладывать, используя объект типа <tt class="docutils literal"><span class="pre">SPEAKER</span></tt>.</p>
+</div>
+<div class="section" id="id21">
+<h3>Настройка текстуры<a class="headerlink" href="#id21" title="Ссылка на этот заголовок">¶</a></h3>
+<p>При использовании видео-текстуры можно настроить следующие опции на панели <tt class="docutils literal"><span class="pre">Texture</span> <span class="pre">&gt;</span> <span class="pre">Image</span></tt>:</p>
+<ol class="arabic simple">
+<li><tt class="docutils literal"><span class="pre">Frames</span></tt> - длина воспроизводимого фрагмента видеозаписи в кадрах.</li>
+<li><tt class="docutils literal"><span class="pre">Start</span></tt> - задержка воспроизведения видеозаписи в кадрах при использовании нелинейной анимации (опция <tt class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Use</span> <span class="pre">NLA</span></tt>).</li>
+<li><tt class="docutils literal"><span class="pre">Offset</span></tt> - номер кадра, с которого будет начинаться воспроизведение видеозаписи.</li>
+<li><tt class="docutils literal"><span class="pre">Auto</span> <span class="pre">refresh</span></tt> - воспроизводить видеозапись сразу после загрузки. Не актуальна при использовании нелинейной анимации: воспроизведение видео определяется остальными параметрами.</li>
+<li><tt class="docutils literal"><span class="pre">Cyclic</span></tt> - начинать воспроизводить видеозапись заново каждый раз после ее завершения.</li>
+</ol>
+<img alt="_images/video_tex.jpg" class="align-center" src="_images/video_tex.jpg" />
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>Существует возможность ускоренного воспроизведения видеозаписей. Для этого необходимо задать значение свойства <tt class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">Dimensions</span> <span class="pre">&gt;</span> <span class="pre">Frame</span> <span class="pre">rate</span></tt> отличным от значения fps (кадров в секунду) для видеозаписи. При этом скорость воспроизведения видеозаписи расчитывается как отношение Frame rate сцены к fps видеозаписи.</p>
+<img alt="_images/fps.jpg" class="align-center" src="_images/fps.jpg" />
+</div>
+<div class="section" id="id22">
+<h3>Особенности работы на мобильных устройствах<a class="headerlink" href="#id22" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Присутствуют следующие особенности реализации на мобильных устройствах:</p>
+<ol class="arabic simple">
+<li>нормальная работа видеотекстур на iPhone невозможна в связи с тем, что данное устройство воспроизводит видеоданные через свой стандартный видеопроигрыватель.</li>
+<li>на некоторых мобильных устройствах имеется поддержка воспроизведения только одного видеофайла.</li>
+<li>не гарантируется стабильная работа при выставлении опции <tt class="docutils literal"><span class="pre">Offset</span></tt> в ненулевое значение.</li>
+<li>не на всех устройствах поддерживается ускореное воспроизведение видео.</li>
+<li>на iPad и iPhone отсутствует возможность управления громкостью звука видеофайла, поэтому следует убрать аудио дорожку из видео перед добавлением файла в Blender.</li>
+</ol>
 <span class="target" id="environment-map"></span></div>
 </div>
 <div class="section" id="index-9">
-<span id="id20"></span><h2>Карта окружения (environment map)<a class="headerlink" href="#index-9" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="id23"></span><h2>Карта окружения (environment map)<a class="headerlink" href="#index-9" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Применяется в качестве <a class="reference internal" href="#mirror-map"><em>карты зеркального отражения (mirror map)</em></a>, в качестве статической <a class="reference internal" href="#skydome-texture"><em>текстуры неба (skydome)</em></a>, а также для реализации одной из методик <a class="reference internal" href="lighting.html#environment-lighting"><em>освещения от окружающей среды</em></a>.</p>
 <p>В движке представлена кубической текстурой. Растры для карт окружения должны содержать 6 спроецированных изображений окружающей среды, упакованных в 2 ряда по 3 (формат, используемый в Blender&#8217;e). Размер растров для каждого из изображений должен подчиняться правилу 2<sup>N</sup> (512, 1024 и т.п.).</p>
 <p>Во избежание проявления швов рекомендуется использовать формат без потери качества (PNG).</p>
 <a class="reference internal image-reference" href="_images/environment_map.png"><img alt="_images/environment_map.png" class="align-center" src="_images/environment_map.png" style="width: 100%;" /></a>
-<div class="section" id="id21">
-<h3>Создание карты окружения<a class="headerlink" href="#id21" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id24">
+<h3>Создание карты окружения<a class="headerlink" href="#id24" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Blender позволяет запекать сцену в карту окружения. Для этого:</p>
 <ol class="arabic simple">
 <li>Создать сцену для запекания.</li>
@@ -271,14 +308,14 @@
 </div>
 </div>
 <div class="section" id="mirror-map">
-<span id="index-10"></span><span id="id22"></span><h2>Карта зеркального отражения (mirror map)<a class="headerlink" href="#mirror-map" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="index-10"></span><span id="id25"></span><h2>Карта зеркального отражения (mirror map)<a class="headerlink" href="#mirror-map" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Применяется для визуализации отражающей способности поверхности. Представляет собой <a class="reference internal" href="#environment-map"><em>карту окружения</em></a>.</p>
-<div class="section" id="id23">
-<h3>Активация<a class="headerlink" href="#id23" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id26">
+<h3>Активация<a class="headerlink" href="#id26" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Выбрать тип текстуры (<tt class="docutils literal"><span class="pre">Type</span></tt>) <tt class="docutils literal"><span class="pre">Environment</span> <span class="pre">Map</span></tt>. Выставить опцию <tt class="docutils literal"><span class="pre">Shading</span> <span class="pre">&gt;</span> <span class="pre">Mirror</span></tt> на панели <tt class="docutils literal"><span class="pre">Textures</span> <span class="pre">&gt;</span> <span class="pre">Influence</span></tt>.</p>
 </div>
-<div class="section" id="id24">
-<h3>Дополнительные настройки<a class="headerlink" href="#id24" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id27">
+<h3>Дополнительные настройки<a class="headerlink" href="#id27" title="Ссылка на этот заголовок">¶</a></h3>
 <dl class="docutils">
 <dt><em>Influence &gt; Shading &gt; Mirror</em></dt>
 <dd>Степень влияния карты зеркального отражения. Значение по умолчанию 1.0.</dd>
@@ -293,8 +330,8 @@
 <span id="skydome-texture"></span><span id="index-11"></span><h2>Текстура неба (skydome)<a class="headerlink" href="#skydome" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Применяется для визуализации бесконечно удаленного окружения (например, небесного свода). Представляет собой <a class="reference internal" href="#environment-map"><em>карту окружения</em></a>.</p>
 <p>Также может применяться для реализации одной из методик <a class="reference internal" href="lighting.html#environment-lighting"><em>освещения от окружающей среды</em></a>.</p>
-<div class="section" id="id25">
-<h3>Активация<a class="headerlink" href="#id25" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id28">
+<h3>Активация<a class="headerlink" href="#id28" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Создать текстуру мира (world texture) с типом &#8220;Environment Map&#8221;. Выбрать опцию <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Sky</span> <span class="pre">texture</span> <span class="pre">usage</span> <span class="pre">&gt;</span> <span class="pre">SKYDOME</span></tt>.</p>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
@@ -305,22 +342,27 @@
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<span class="target" id="render-to-texture"></span></div>
 </div>
-<div class="section" id="render-to-texture-rtt">
-<span id="index-12"></span><h2>Рендеринг в текстуру (render-to-texture, RTT)<a class="headerlink" href="#render-to-texture-rtt" title="Ссылка на этот заголовок">¶</a></h2>
+</div>
+<div class="section" id="index-12">
+<span id="id29"></span><h2>Особые типы текстур<a class="headerlink" href="#index-12" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="d-a">
+<span id="render-to-texture-scene"></span><h3>3D сценa<a class="headerlink" href="#d-a" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Изображение 3D сцены может быть использовано в качестве текстуры на объекте другой (&#8220;главной&#8221;) сцены.</p>
-<div class="section" id="id26">
-<h3>Активация<a class="headerlink" href="#id26" title="Ссылка на этот заголовок">¶</a></h3>
 <ol class="arabic simple">
 <li>Создать дополнительную сцену-источник, переименовать для удобства, создать <tt class="docutils literal"><span class="pre">World</span></tt>, добавить нужные объекты, настроить вид из камеры.</li>
-<li>В главной сцене для текстуры целевого объекта выставить тип <tt class="docutils literal"><span class="pre">None</span></tt>, в поле <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Source</span> <span class="pre">scene</span></tt> указать название сцены-источника. В меню <tt class="docutils literal"><span class="pre">Mapping</span> <span class="pre">&gt;</span> <span class="pre">Coordinates</span></tt> выбрать <tt class="docutils literal"><span class="pre">UV</span></tt>.  Убедиться, что меш объекта имеет развертку.</li>
+<li>В главной сцене для текстуры целевого объекта выставить тип <tt class="docutils literal"><span class="pre">None</span></tt>, в поле <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Source</span> <span class="pre">type</span></tt> указать тип <tt class="docutils literal"><span class="pre">Scene</span></tt>. В поле <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Source</span> <span class="pre">id</span></tt> указать название сцены-источника. В поле <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Source</span> <span class="pre">size</span></tt> указать размер текстуры в пикселях.</li>
 </ol>
 <a class="reference internal image-reference" href="_images/render_to_texture.jpg"><img alt="_images/render_to_texture.jpg" class="align-center" src="_images/render_to_texture.jpg" style="width: 100%;" /></a>
+<div class="admonition note">
+<p class="first admonition-title">Примечание</p>
+<p class="last">В настоящее время имеется баг, вынуждающий иметь в обеих сценах один общий источник света.</p>
 </div>
-<div class="section" id="id27">
-<h3>Ограничения<a class="headerlink" href="#id27" title="Ссылка на этот заголовок">¶</a></h3>
-<p>В настоящее время имеется баг, вынуждающий иметь в обеих сценах один общий источник света.</p>
+</div>
+<div class="section" id="canvas">
+<span id="render-to-texture-canvas"></span><h3>Canvas<a class="headerlink" href="#canvas" title="Ссылка на этот заголовок">¶</a></h3>
+<p>В качестве текстуры используется HTML-элемент &lt;canvas&gt;. Его редактирование осуществляется при помощи <a class="reference internal" href="developers.html#canvas-texture"><em>API</em></a>.</p>
+<p>В главной сцене для текстуры целевого объекта выставить тип <tt class="docutils literal"><span class="pre">None</span></tt>, в поле <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Source</span> <span class="pre">type</span></tt> указать тип <tt class="docutils literal"><span class="pre">Canvas</span></tt>. В поле <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Source</span> <span class="pre">id</span></tt> указать идентификатор объекта типа <tt class="docutils literal"><span class="pre">Canvas</span></tt>. В поле <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Source</span> <span class="pre">size</span></tt> указать размер текстуры в пикселях.</p>
 </div>
 </div>
 </div>
@@ -351,10 +393,11 @@
 <li class="toctree-l2"><a class="reference internal" href="#index-6">Карта нормалей (normal map)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#height-map-parallax-mapping">Карта высот (height map). Parallax mapping</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#index-8">Карта смешивания (stencil map)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#video-texture">Видео-текстуры</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#index-9">Карта окружения (environment map)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#mirror-map">Карта зеркального отражения (mirror map)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#skydome">Текстура неба (skydome)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#render-to-texture-rtt">Рендеринг в текстуру (render-to-texture, RTT)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#index-12">Особые типы текстур</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Нодовые материалы</a></li>
@@ -394,9 +437,9 @@
       <div class="footer">
         <div class="left">
           <a href="materials.html" title="Материалы"
-             >предыдущий</a> |
+             >назад</a> |
           <a href="node_materials.html" title="Нодовые материалы"
-             >следующий</a> |
+             >вперёд</a> |
           <a href="genindex.html" title="Алфавитный указатель"
              >указатель</a>
         </div>
@@ -405,8 +448,8 @@
           
     <div class="footer">
         &copy; Copyright 2014, ООО &#34;Триумф&#34;.
-      Обновлено: 2014-10-30.
-      Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+      Обновлено: 2014-11-28.
+      Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
         </div>
         <div class="clearer"></div>

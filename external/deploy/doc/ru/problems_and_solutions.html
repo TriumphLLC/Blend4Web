@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Проблемы и решения &mdash; Руководство пользователя: Blend4Web v14.10</title>
+    <title>Проблемы и решения &mdash; Руководство пользователя: Blend4Web v14.11</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.10',
+        VERSION:     '14.11',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v14.10" href="index.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v14.11" href="index.html" />
     <link rel="next" title="Замечания к релизам" href="release_notes.html" />
     <link rel="prev" title="Работа в команде. Использование git" href="git_short_manual.html" /> 
   </head>
@@ -37,12 +37,12 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">Руководство пользователя: Blend4Web v14.10</a></div>
+          href="index.html">Руководство пользователя: Blend4Web v14.11</a></div>
         <div class="rel">
           <a href="git_short_manual.html" title="Работа в команде. Использование git"
-             accesskey="P">предыдущий</a> |
+             accesskey="P">назад</a> |
           <a href="release_notes.html" title="Замечания к релизам"
-             accesskey="N">следующий</a> |
+             accesskey="N">вперёд</a> |
           <a href="genindex.html" title="Алфавитный указатель"
              accesskey="I">указатель</a>
         </div>
@@ -111,37 +111,6 @@
 <p class="last">Для пользователей Linux - ввиду неполной реализации OpenGL стека в драйверах с открытым кодом в настоящий момент рекомендуется использовать проприетарные драйверы текущей версии для графических процессоров Nvidia и AMD.</p>
 </div>
 </div>
-<div class="section" id="web">
-<span id="local-web-server"></span><h2>Использование локального web-сервера<a class="headerlink" href="#web" title="Ссылка на этот заголовок">¶</a></h2>
-<p>Простым вариантом обеспечения просмотра локальных ресурсов в браузерах может быть запуск web-сервера из стандартной библиотеки <a class="reference external" href="http://ru.wikipedia.org/wiki/Python">Python</a>.</p>
-<p><em>На Windows</em>:</p>
-<ol class="arabic">
-<li><p class="first">Загрузить и инсталлировать последнюю версию Python с <a class="reference external" href="http://www.python.org/download/releases/">официального сайта</a>. На сегодняшний день это версия 3.4, и по умолчанию установка произойдет в директорию <tt class="file docutils literal"><span class="pre">Python34</span></tt> на диске <tt class="file docutils literal"><span class="pre">C</span></tt>.</p>
-</li>
-<li><p class="first">Запустить командную строку (Command Prompt).</p>
-</li>
-<li><p class="first">Выполнить команды:</p>
-<div class="highlight-python"><div class="highlight"><pre>&gt; c:
-&gt; /Python34/python -m http.server
-</pre></div>
-</div>
-</li>
-<li><p class="first">Перейти на страницу <a class="reference external" href="http://localhost:8000">http://localhost:8000</a>, на которой выбрать нужный файл для отображения.</p>
-</li>
-</ol>
-<p><em>На Linux</em>:</p>
-<div class="highlight-python"><div class="highlight"><pre>&gt; python -m SimpleHTTPServer
-</pre></div>
-</div>
-<p>или:</p>
-<div class="highlight-python"><div class="highlight"><pre>&gt; python3 -m http.server
-</pre></div>
-</div>
-<p>Можно указать порт дополнительным параметром:</p>
-<div class="highlight-python"><div class="highlight"><pre>&gt; python -m SimpleHTTPServer 8080
-</pre></div>
-</div>
-</div>
 </div>
 
 
@@ -180,7 +149,6 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="">Проблемы и решения</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#renderer-not-working">Проблемы при запуске рендерера</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#webgl">Ошибка инициализации WebGL</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#web">Использование локального web-сервера</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="release_notes.html">Замечания к релизам</a></li>
@@ -205,9 +173,9 @@
       <div class="footer">
         <div class="left">
           <a href="git_short_manual.html" title="Работа в команде. Использование git"
-             >предыдущий</a> |
+             >назад</a> |
           <a href="release_notes.html" title="Замечания к релизам"
-             >следующий</a> |
+             >вперёд</a> |
           <a href="genindex.html" title="Алфавитный указатель"
              >указатель</a>
         </div>
@@ -216,8 +184,8 @@
           
     <div class="footer">
         &copy; Copyright 2014, ООО &#34;Триумф&#34;.
-      Обновлено: 2014-10-30.
-      Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+      Обновлено: 2014-11-28.
+      Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
         </div>
         <div class="clearer"></div>

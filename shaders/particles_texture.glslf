@@ -19,11 +19,13 @@ uniform vec3  u_horizon_color;
 uniform vec3  u_zenith_color;
 uniform float u_environment_energy;
 
+#if NUM_LIGHTS > 0
 uniform vec3 u_light_positions[NUM_LIGHTS];
 uniform vec3 u_light_directions[NUM_LIGHTS];
 uniform vec3 u_light_color_intensities[NUM_LIGHTS];
 uniform vec4 u_light_factors1[NUM_LIGHTS];
 uniform vec4 u_light_factors2[NUM_LIGHTS];
+#endif
 
 #if !DISABLE_FOG
 uniform vec4 u_fog_color_density;
@@ -97,11 +99,14 @@ void main(void) {
     vec3 S = specint * u_specular_color;
 
     vec3 eye_dir = normalize(v_eye_dir);
-
+# if NUM_LIGHTS>0
     lighting_result lresult = lighting(E, A, D, S, v_pos_world, normal, eye_dir,
         spec_params, u_diffuse_params, 1.0, u_light_positions,
         u_light_directions, u_light_color_intensities, u_light_factors1,
         u_light_factors2, 0.0, vec4(0.0));
+# else
+    lighting_result lresult = lighting_ambient(E, A, D);
+# endif
 
     vec3 color = lresult.color.rgb;
 #else // !PARTICLES_SHADELESS

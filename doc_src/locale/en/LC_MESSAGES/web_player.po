@@ -122,10 +122,10 @@ msgstr ""
 
 #: ../web_player.rst:60
 msgid ""
-"необязательный атрибут ``bg`` используется для установки фона, заменяющего "
-"сцену при возникновении ошибки WebGL."
+"необязательный атрибут ``fallback_image`` используется для установки фона, "
+"заменяющего сцену при возникновении ошибки WebGL."
 msgstr ""
-"in case of a WebGL error the optional ``bg`` attribute is used to setup the "
+"in case of a WebGL error the optional ``fallback_image`` attribute is used to setup the "
 "background image instead of 3D content."
 
 #: ../web_player.rst:61

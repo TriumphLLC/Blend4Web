@@ -125,6 +125,73 @@ Uses Web Audio API for sound effects and HTML5 audio for background music.</div>
     
 
     
+        <h3 class="subsection-title">Members</h3>
+
+        <dl>
+            
+<dt>
+    <h4 class="name" id="check_active_speakers"><span class="type-signature">(static) </span>check_active_speakers<span class="type-signature"></span></h4>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        Check if there are some active speakers in use or not.
+    </div>
+    
+
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line221">line 221</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+</dd>
+
+        </dl>
+    
 
     
         <h3 class="subsection-title">Methods</h3>
@@ -277,7 +344,7 @@ The new playlist starts playing immediately.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line262">line 262</a>
+        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line268">line 268</a>
     </li></ul></dd>
     
 
@@ -357,7 +424,7 @@ The new playlist starts playing immediately.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line271">line 271</a>
+        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line277">line 277</a>
     </li></ul></dd>
     
 
@@ -539,6 +606,360 @@ The new playlist starts playing immediately.
             
 <dt>
     
+        <h4 class="name" id="detect_audio_container"><span class="type-signature">(static) </span>detect_audio_container<span class="signature">(hint<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {String}</span></h4>
+
+        
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Detect supported audio containter.
+Containers have same meaning as file extension here, for each one possible
+fallback exists:
+<ul>
+<li>ogg -> mp4
+<li>mp3 -> ogg
+<li>mp4 -> ogg
+</ul>
+    </div>
+    
+
+    
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>hint</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    "ogg"
+                
+                </td>
+            
+
+            <td class="description last">Required container</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line283">line 283</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    Supported containter or ""
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">String</span>
+
+
+    </dd>
+</dl>
+
+        
+
+    
+</dd>
+
+        
+            
+<dt>
+    
+        <h4 class="name" id="detect_video_container"><span class="type-signature">(static) </span>detect_video_container<span class="signature">(hint<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {String}</span></h4>
+
+        
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        Detect supported video containter.
+Containers have same meaning as file extension here, for each one possible
+fallback exists:
+<ul>
+<li>ogv -> m4v
+<li>m4v -> webm
+<li>webm -> m4v
+</ul>
+    </div>
+    
+
+    
+
+    
+
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>hint</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    "webm"
+                
+                </td>
+            
+
+            <td class="description last">Required container</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line297">line 297</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    Supported containter or ""
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">String</span>
+
+
+    </dd>
+</dl>
+
+        
+
+    
+</dd>
+
+        
+            
+<dt>
+    
         <h4 class="name" id="duck"><span class="type-signature">(static) </span>duck<span class="signature">(obj<span class="signature-attributes">nullable</span>, value, time)</span><span class="type-signature"></span></h4>
 
         
@@ -711,7 +1132,7 @@ works independently from the volume API and the volume randomization
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line235">line 235</a>
+        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line241">line 241</a>
     </li></ul></dd>
     
 
@@ -791,7 +1212,7 @@ works independently from the volume API and the volume randomization
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line226">line 226</a>
+        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line232">line 232</a>
     </li></ul></dd>
     
 
@@ -1010,7 +1431,7 @@ works independently from the volume API and the volume randomization
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line309">line 309</a>
+        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line343">line 343</a>
     </li></ul></dd>
     
 
@@ -1138,7 +1559,7 @@ works independently from the volume API and the volume randomization
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line301">line 301</a>
+        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line335">line 335</a>
     </li></ul></dd>
     
 
@@ -1288,7 +1709,7 @@ works independently from the volume API and the volume randomization
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line285">line 285</a>
+        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line319">line 319</a>
     </li></ul></dd>
     
 
@@ -3078,7 +3499,7 @@ Use after quick listener movements to neutralize undesirable doppler effect.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line217">line 217</a>
+        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line223">line 223</a>
     </li></ul></dd>
     
 
@@ -3229,7 +3650,7 @@ Use after quick listener movements to neutralize undesirable doppler effect.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line293">line 293</a>
+        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line327">line 327</a>
     </li></ul></dd>
     
 
@@ -3380,7 +3801,7 @@ Use after quick listener movements to neutralize undesirable doppler effect.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line277">line 277</a>
+        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line311">line 311</a>
     </li></ul></dd>
     
 
@@ -4522,7 +4943,7 @@ to neutralize the undesirable doppler effect.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line250">line 250</a>
+        <a href="ext_sfx.js.html">ext/sfx.js</a>, <a href="ext_sfx.js.html#line256">line 256</a>
     </li></ul></dd>
     
 
@@ -4565,13 +4986,13 @@ to neutralize the undesirable doppler effect.
 </div>
 
 <nav>
-    <h2><a href="index.html">Index</a></h2><h3>Modules</h3><ul><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-pointerlock.html">pointerlock</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-util.html">util</a></li><li><a href="module-version.html">version</a></li></ul><h3><a href="global.html">Global</a></h3>
+    <h2><a href="index.html">Index</a></h2><h3>Modules</h3><ul><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-pointerlock.html">pointerlock</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-texture.html">texture</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-util.html">util</a></li><li><a href="module-version.html">version</a></li></ul><h3><a href="global.html">Global</a></h3>
 </nav>
 
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-dev</a> on Wed Oct 29 2014 10:03:13 GMT+0300 (MSK)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-dev</a> on Fri Nov 28 2014 15:29:38 GMT+0300 (MSK)
 </footer>
 
 <script> prettyPrint(); </script>

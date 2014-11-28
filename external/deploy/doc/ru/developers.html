@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Разработчикам приложений &mdash; Руководство пользователя: Blend4Web v14.10</title>
+    <title>Разработчикам приложений &mdash; Руководство пользователя: Blend4Web v14.11</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.10',
+        VERSION:     '14.11',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v14.10" href="index.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v14.11" href="index.html" />
     <link rel="next" title="Разработчикам движка" href="developers_advanced.html" />
     <link rel="prev" title="Нелинейная анимация" href="nla.html" /> 
   </head>
@@ -37,12 +37,12 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">Руководство пользователя: Blend4Web v14.10</a></div>
+          href="index.html">Руководство пользователя: Blend4Web v14.11</a></div>
         <div class="rel">
           <a href="nla.html" title="Нелинейная анимация"
-             accesskey="P">предыдущий</a> |
+             accesskey="P">назад</a> |
           <a href="developers_advanced.html" title="Разработчикам движка"
-             accesskey="N">следующий</a> |
+             accesskey="N">вперёд</a> |
           <a href="genindex.html" title="Алфавитный указатель"
              accesskey="I">указатель</a>
         </div>
@@ -436,8 +436,6 @@ manifold). Множество является логическим контей
 <dl class="docutils">
 <dt><strong>apps_dev</strong></dt>
 <dd>исходный код приложений (не все приложения доступны в бесплатной версии)</dd>
-<dt><strong>closure-compiler</strong></dt>
-<dd>компилятор Google Closure, файлы исключений к нему, генераторы файлов исключений</dd>
 <dt><strong>csrc</strong></dt>
 <dd>исходный код бинарной части экспортера движка и других утилит на языке C</dd>
 <dt><strong>doc_src</strong></dt>
@@ -484,20 +482,6 @@ Viewer</dd>
 <dt><strong>reexporter.py</strong> и <strong>Makefile</strong></dt>
 <dd>Python-скрипт и файл сборки для автоматического экспорта всех сцен в
 <em>external/deploy/assets</em></dd>
-</dl>
-</dd>
-<dt><strong>glsl_utils</strong></dt>
-<dd><dl class="first last docutils">
-<dt><strong>compiler</strong></dt>
-<dd><p class="first">компилятор GLSL-шейдеров движка</p>
-<dl class="last docutils">
-<dt><strong>out</strong></dt>
-<dd>содержит результат компиляции GLSL-шейдеров движка</dd>
-</dl>
-</dd>
-<dt><strong>pegjs</strong></dt>
-<dd>грамматики парсер-генератора PEG.js для реализации препроцессора GLSL,
-а также скрипт для генерации модулей парсеров из этих грамматик</dd>
 </dl>
 </dd>
 <dt><strong>index.html</strong></dt>
@@ -550,9 +534,27 @@ Viewer</dd>
 <dt><strong>addons</strong></dt>
 <dd>исходный код дополнений (не входят в ядро движка, подключаются отдельно)</dd>
 <dt><strong>ext</strong></dt>
-<dd>исходный код внешних объявлений (формирует API движка)</dd>
-<dt><strong>third_party</strong></dt>
-<dd>код сторонних библиотек</dd>
+<dd>исходный код внешних объявлений, формирующих API движка</dd>
+<dt><strong>libs</strong></dt>
+<dd>исходный код библиотек</dd>
+</dl>
+</dd>
+<dt><strong>tools</strong></dt>
+<dd><p class="first">Различные инструменты для сборки движка и приложений</p>
+<dl class="last docutils">
+<dt><strong>closure-compiler</strong></dt>
+<dd>компилятор Google Closure, файлы исключений к нему, генераторы файлов исключений</dd>
+<dt><strong>glsl</strong></dt>
+<dd><dl class="first last docutils">
+<dt><strong>compiler</strong></dt>
+<dd>компилятор GLSL-шейдеров движка</dd>
+<dt><strong>pegjs</strong></dt>
+<dd>грамматики парсер-генератора PEG.js для реализации препроцессора GLSL,
+а также скрипт для генерации модулей парсеров из этих грамматик</dd>
+</dl>
+</dd>
+<dt><strong>yuicompressor</strong></dt>
+<dd>утилита для сжатия файлов CSS</dd>
 </dl>
 </dd>
 <dt><strong>uranium</strong></dt>
@@ -560,6 +562,20 @@ Viewer</dd>
 <dt><strong>VERSION</strong></dt>
 <dd>содержит текущую версию движка</dd>
 </dl>
+</div>
+<div class="section" id="canvas">
+<span id="canvas-texture"></span><h2>Текстура типа Canvas<a class="headerlink" href="#canvas" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Для работы с подобными текстурами используется модуль <tt class="docutils literal"><span class="pre">textures</span></tt>. Пример работы с ним описан ниже.</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_tex</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;textures&quot;</span><span class="p">);</span>
+<span class="p">...</span>
+<span class="kd">var</span> <span class="nx">ctx</span> <span class="o">=</span> <span class="nx">m_tex</span><span class="p">.</span><span class="nx">get_canvas_texture_context</span><span class="p">(</span><span class="s2">&quot;canvas_id&quot;</span><span class="p">);</span>
+<span class="p">...</span>
+<span class="c1">// operations with canvas context</span>
+<span class="p">...</span>
+<span class="nx">m_tex</span><span class="p">.</span><span class="nx">update_canvas_texture_context</span><span class="p">(</span><span class="s2">&quot;canvas_id&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Для получения контекста используется функция <tt class="docutils literal"><span class="pre">get_canvas_texture_context()</span></tt>, куда передается идентификатор &#8220;canvas_id&#8221;, задаваемый пользователем в Blender. После <a class="reference external" href="http://www.w3.org/TR/2014/CR-2dcontext-20140821/">преобразований с контекстом</a> вызывается функция <tt class="docutils literal"><span class="pre">update_canvas_texture_context()</span></tt>, которая осуществляет визуализацию изменений элемента с идентификатором &#8220;canvas_id&#8221;.</p>
 </div>
 </div>
 
@@ -603,6 +619,7 @@ Viewer</dd>
 <li class="toctree-l2"><a class="reference internal" href="#event-model">Событийная модель</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#quality-settings">Профили качества изображения</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#sdk">Файловая структура SDK</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#canvas">Текстура типа Canvas</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">Разработчикам движка</a></li>
@@ -630,9 +647,9 @@ Viewer</dd>
       <div class="footer">
         <div class="left">
           <a href="nla.html" title="Нелинейная анимация"
-             >предыдущий</a> |
+             >назад</a> |
           <a href="developers_advanced.html" title="Разработчикам движка"
-             >следующий</a> |
+             >вперёд</a> |
           <a href="genindex.html" title="Алфавитный указатель"
              >указатель</a>
         </div>
@@ -641,8 +658,8 @@ Viewer</dd>
           
     <div class="footer">
         &copy; Copyright 2014, ООО &#34;Триумф&#34;.
-      Обновлено: 2014-10-30.
-      Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+      Обновлено: 2014-11-28.
+      Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
         </div>
         <div class="clearer"></div>

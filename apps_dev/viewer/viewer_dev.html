@@ -59,10 +59,10 @@
 <script type="text/javascript" src="../../src/util.js"></script>
 <script type="text/javascript" src="../../src/nla.js"></script>
 <script type="text/javascript" src="../../src/sfx.js"></script>
-<script type="text/javascript" src="../../src/third_party/gl-matrix2.js"></script>
-<script type="text/javascript" src="../../src/third_party/gpp_eval.js"></script>
-<script type="text/javascript" src="../../src/third_party/gpp_parser.js"></script>
-<script type="text/javascript" src="../../src/third_party/md5.js"></script>
+<script type="text/javascript" src="../../src/libs/gl-matrix2.js"></script>
+<script type="text/javascript" src="../../src/libs/gpp_eval.js"></script>
+<script type="text/javascript" src="../../src/libs/gpp_parser.js"></script>
+<script type="text/javascript" src="../../src/libs/md5.js"></script>
 
 <script type="text/javascript" src="../../src/ext/animation.js"></script>
 <script type="text/javascript" src="../../src/ext/assets.js"></script>
@@ -84,6 +84,7 @@
 <script type="text/javascript" src="../../src/ext/transform.js"></script>
 <script type="text/javascript" src="../../src/ext/util.js"></script>
 <script type="text/javascript" src="../../src/ext/version.js"></script>
+<script type="text/javascript" src="../../src/ext/textures.js"></script>
 
 <script type="text/javascript" src="../../src/ext/main.js"></script>
 
@@ -92,6 +93,7 @@
 <script type="text/javascript" src="../../src/addons/storage.js"></script>
 <script type="text/javascript" src="../../src/addons/app.js"></script>
 
+<script type="text/javascript" src="../../src/addons/screenshooter.js"></script>
 <script type="text/javascript" src="../../src/addons/ns_compat.js"></script>
 
 <script type="text/javascript" src="viewer.js"></script>
@@ -288,7 +290,7 @@
 
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <legend>Real time sun movement:</legend>
-                    <div class="ui-grid-b">
+                    <div class="ui-grid-b" id="sn-ui-grid-b">
                         <input type="button" value="Play" id="run_sun" data-inline="true" data-icon="arrow-r" data-mini="true" />
                         <input type="button" value="Stop" id="stop_sun" data-inline="true" data-icon="delete" data-mini="true" />
                     </div>
@@ -494,7 +496,7 @@
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c ui-disabled">
                     <label for="sss_strength">SSS strength:</label>
-                    <input id="sss_strength" data-highlight="true" value="6.0" min="0.0" max="100.0" type="range" step="0.1" data-mini="true /">
+                    <input id="sss_strength" data-highlight="true" value="6.0" min="0.0" max="30.0" type="range" step="0.1" data-mini="true /">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c ui-disabled">
                     <label for="sss_width">SSS width:</label>
@@ -506,7 +508,7 @@
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c ui-disabled">
                     <label for="waves_length">Waves length:</label>
-                    <input id="waves_length" data-highlight="true" value="10.0" min="0.0" max="200.0" type="range" step="1.0" data-mini="true /">
+                    <input id="waves_length" data-highlight="true" value="10.0" min="0.0" max="50.0" type="range" step="1.0" data-mini="true /">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c ui-disabled">
                     <label for="dst_noise_scale0">Noise distant scale 0:</label>

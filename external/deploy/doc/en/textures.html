@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Textures &mdash; User Manual: Blend4Web v14.10</title>
+    <title>Textures &mdash; User Manual: Blend4Web v14.11</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.10',
+        VERSION:     '14.11',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User Manual: Blend4Web v14.10" href="index.html" />
+    <link rel="top" title="User Manual: Blend4Web v14.11" href="index.html" />
     <link rel="next" title="Node Materials" href="node_materials.html" />
     <link rel="prev" title="Materials" href="materials.html" /> 
   </head>
@@ -36,7 +36,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">User Manual: Blend4Web v14.10</a></div>
+          href="index.html">User Manual: Blend4Web v14.11</a></div>
         <div class="rel">
           <a href="materials.html" title="Materials"
              accesskey="P">previous</a> |
@@ -77,6 +77,8 @@
 </li>
 <li><p class="first"><a class="reference internal" href="#stencil-map"><em>stencil map</em></a></p>
 </li>
+<li><p class="first"><a class="reference internal" href="#video-texture"><em>video texture</em></a></p>
+</li>
 </ul>
 </dd>
 </dl>
@@ -97,7 +99,7 @@
 <li><dl class="first docutils">
 <dt><tt class="docutils literal"><span class="pre">None</span></tt></dt>
 <dd><ul class="first last simple">
-<li><p class="first">applied to the Blender&#8217;s default scene cube. A gray texture is generated in the engine. It is also used for <a class="reference internal" href="#render-to-texture"><em>rendering a scene to texture</em></a>.</p>
+<li><p class="first">applied to the Blender&#8217;s default scene cube. It is also used for <a class="reference internal" href="#render-to-texture-scene"><em>rendering a scene to texture</em></a> and for <a class="reference internal" href="#render-to-texture-canvas"><em>rendering canvas textures</em></a>.</p>
 </li>
 </ul>
 </dd>
@@ -272,16 +274,62 @@
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
+</div>
+</div>
+<div class="section" id="video-texture">
+<span id="id20"></span><h2>Video Textures<a class="headerlink" href="#video-texture" title="Permalink to this headline">¶</a></h2>
+<p>A video can be used as a texture if <tt class="docutils literal"><span class="pre">Image</span> <span class="pre">or</span> <span class="pre">Movie</span></tt> texture type is selected. Also, if the <tt class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Use</span> <span class="pre">NLA</span></tt> is enabled the video textures playback is possible.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Video textures support playing back just video tracks. Audio tracks should played back by using a <tt class="docutils literal"><span class="pre">SPEAKER</span></tt> object.</p>
+</div>
+<div class="section" id="id21">
+<h3>Setting up the Texture<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h3>
+<p>The following settings are available for video textures on the <tt class="docutils literal"><span class="pre">Texture</span> <span class="pre">&gt;</span> <span class="pre">Image</span></tt> panel:</p>
+<ol class="arabic simple">
+<li><p class="first"><tt class="docutils literal"><span class="pre">Frames</span></tt> - length of patch of the video played back.</p>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">Start</span></tt> - video playback delay (in frames), applicable for non-linear animation (<tt class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Use</span> <span class="pre">NLA</span></tt> option).</p>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">Offset</span></tt> - the number of the frame from which the video playback starts.</p>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">Auto</span> <span class="pre">refresh</span></tt> - play back the video immediately after loading is complete. Ignored for non-linear animation - other parameters are applicable for video playback.</p>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">Cyclic</span></tt> - start video playback afresh each time it finishes.</p>
+</li>
+</ol>
+<img alt="_images/video_tex.jpg" class="align-center" src="_images/video_tex.jpg" />
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>Video playback rate can be increased. To do this set <tt class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">Dimensions</span> <span class="pre">&gt;</span> <span class="pre">Frame</span> <span class="pre">rate</span></tt> to a value which is different from the FPS value for the videos. Video playback rate is increased proportionally to the ratio of scene&#8217;s FPS and video&#8217;s FPS.</p>
+<img alt="_images/fps.jpg" class="align-center" src="_images/fps.jpg" />
+</div>
+<div class="section" id="id22">
+<h3>Peculiarities of mobile devices<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h3>
+<p>On mobile devices there are the following peculiarities:</p>
+<ol class="arabic simple">
+<li><p class="first">normal operation of video textures on iPhones is impossible because these devices play back videos via standard iOS video player.</p>
+</li>
+<li><p class="first">some devices only support playing back only one video file.</p>
+</li>
+<li><p class="first">stable operation is not garanteed if the <tt class="docutils literal"><span class="pre">Offset</span></tt> value is not zero.</p>
+</li>
+<li><p class="first">not all devices support changing the video playback rate.</p>
+</li>
+<li><p class="first">iPad and iPhone do not provide the possibility to control audio volume for video, and so the audio track should be removed from the video before the file is added to Blender.</p>
+</li>
+</ol>
 <span class="target" id="environment-map"></span></div>
 </div>
 <div class="section" id="index-9">
-<span id="id20"></span><h2>Environment Map<a class="headerlink" href="#index-9" title="Permalink to this headline">¶</a></h2>
+<span id="id23"></span><h2>Environment Map<a class="headerlink" href="#index-9" title="Permalink to this headline">¶</a></h2>
 <p>An environment map can be used as a <a class="reference internal" href="#mirror-map"><em>mirror map</em></a>, as a static <a class="reference internal" href="#skydome-texture"><em>sky texture (skydome)</em></a> and also for implementation of an <a class="reference internal" href="lighting.html#environment-lighting"><em>environment lighting</em></a> method.</p>
 <p>The engine considers it as a cube texture. Environment map bitmaps should contain 6 projected environment images, packed in 2 rows 3 pieces in each (a Blender format). Bitmap dimensions for each image should follow the 2<sup>N</sup> rule (512, 1024 etc).</p>
 <p>It is recommended to use the lossless format (PNG) in order to avoid seams.</p>
 <a class="reference internal image-reference" href="_images/environment_map.png"><img alt="_images/environment_map.png" class="align-center" src="_images/environment_map.png" style="width: 100%;" /></a>
-<div class="section" id="id21">
-<h3>Environment map creation<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id24">
+<h3>Environment map creation<a class="headerlink" href="#id24" title="Permalink to this headline">¶</a></h3>
 <p>Blender has an option for baking a scene into an environment map. To do this:</p>
 <ol class="arabic simple">
 <li><p class="first">Create a scene for baking.</p>
@@ -305,14 +353,14 @@
 </div>
 </div>
 <div class="section" id="mirror-map">
-<span id="index-10"></span><span id="id22"></span><h2>Mirror Map<a class="headerlink" href="#mirror-map" title="Permalink to this headline">¶</a></h2>
+<span id="index-10"></span><span id="id25"></span><h2>Mirror Map<a class="headerlink" href="#mirror-map" title="Permalink to this headline">¶</a></h2>
 <p>A mirror map is used to visualize the surface reflection. This is an <a class="reference internal" href="#environment-map"><em>environment map</em></a>.</p>
-<div class="section" id="id23">
-<h3>Activation<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id26">
+<h3>Activation<a class="headerlink" href="#id26" title="Permalink to this headline">¶</a></h3>
 <p>Select the <tt class="docutils literal"><span class="pre">Environment</span> <span class="pre">Map</span></tt> texture type (<tt class="docutils literal"><span class="pre">Type</span></tt>). Enable the <tt class="docutils literal"><span class="pre">Shading</span> <span class="pre">&gt;</span> <span class="pre">Mirror</span></tt> checkbox on the <tt class="docutils literal"><span class="pre">Textures</span> <span class="pre">&gt;</span> <span class="pre">Influence</span></tt> panel.</p>
 </div>
-<div class="section" id="id24">
-<h3>Additional settings<a class="headerlink" href="#id24" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id27">
+<h3>Additional settings<a class="headerlink" href="#id27" title="Permalink to this headline">¶</a></h3>
 <dl class="docutils">
 <dt><em>Influence &gt; Shading &gt; Mirror</em></dt>
 <dd><p class="first last">The degree to which the mirror map affects the reflection. The default value is 1.0.</p>
@@ -328,8 +376,8 @@
 <span id="skydome-texture"></span><span id="index-11"></span><h2>Skydome<a class="headerlink" href="#skydome" title="Permalink to this headline">¶</a></h2>
 <p>A skydome is used to visualize an infinitely far environment (for example the sky). This is an <a class="reference internal" href="#environment-map"><em>environment map</em></a>.</p>
 <p>Can be also used to implement one of the <a class="reference internal" href="lighting.html#environment-lighting"><em>environment lighting</em></a> methods.</p>
-<div class="section" id="id25">
-<h3>Activation<a class="headerlink" href="#id25" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id28">
+<h3>Activation<a class="headerlink" href="#id28" title="Permalink to this headline">¶</a></h3>
 <p>Create a world texture with the <tt class="docutils literal"><span class="pre">Environment</span> <span class="pre">Map</span></tt> type and select the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Sky</span> <span class="pre">texture</span> <span class="pre">usage</span> <span class="pre">&gt;</span> <span class="pre">SKYDOME</span></tt> option.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -340,24 +388,29 @@
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<span class="target" id="render-to-texture"></span></div>
 </div>
-<div class="section" id="render-to-texture-rtt">
-<span id="index-12"></span><h2>Render-to-Texture, RTT<a class="headerlink" href="#render-to-texture-rtt" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="index-12">
+<span id="id29"></span><h2>Special Texture Types<a class="headerlink" href="#index-12" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="d-a">
+<span id="render-to-texture-scene"></span><h3>3D scene<a class="headerlink" href="#d-a" title="Permalink to this headline">¶</a></h3>
 <p>A 3D scene&#8217;s real-time rendered image can be used as a texture by an object from another scene (&#8220;main&#8221; scene).</p>
-<div class="section" id="id26">
-<h3>Activation<a class="headerlink" href="#id26" title="Permalink to this headline">¶</a></h3>
 <ol class="arabic simple">
 <li><p class="first">Create an additional source scene, rename it for convenience, create a <tt class="docutils literal"><span class="pre">World</span></tt>, add the objects wanted, setup the camera view.</p>
 </li>
-<li><p class="first">Set the <tt class="docutils literal"><span class="pre">None</span></tt> type for a texture of the target object on the main scene, and specify the source scene&#8217;s name in the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Source</span> <span class="pre">scene</span></tt> field. Select the <tt class="docutils literal"><span class="pre">UV</span></tt> in the <tt class="docutils literal"><span class="pre">Mapping</span> <span class="pre">&gt;</span> <span class="pre">Coordinates</span></tt> menu. Make sure that the target object mesh has a UV map.</p>
+<li><p class="first">Set the <tt class="docutils literal"><span class="pre">None</span></tt> type for a texture of the target object on the main scene, and select the <tt class="docutils literal"><span class="pre">Scene</span></tt> type in the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Source</span> <span class="pre">type</span></tt> menu. Specify the name of the source scene in the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Source</span> <span class="pre">id</span></tt> field. Set the texture size in the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Source</span> <span class="pre">size</span></tt> field (in pixels).</p>
 </li>
 </ol>
 <a class="reference internal image-reference" href="_images/render_to_texture.jpg"><img alt="_images/render_to_texture.jpg" class="align-center" src="_images/render_to_texture.jpg" style="width: 100%;" /></a>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Note that there is a bug at the moment which requires both scenes to have at least one shared light source.</p>
 </div>
-<div class="section" id="id27">
-<h3>Limitations<a class="headerlink" href="#id27" title="Permalink to this headline">¶</a></h3>
-<p>Note that there is a bug at the moment which requires both scenes to have at least one shared light source.</p>
+</div>
+<div class="section" id="canvas">
+<span id="render-to-texture-canvas"></span><h3>Canvas<a class="headerlink" href="#canvas" title="Permalink to this headline">¶</a></h3>
+<p>A &lt;canvas&gt; HTML element can be used as a texture. It can be modified via <a class="reference internal" href="developers.html#canvas-texture"><em>API</em></a>.</p>
+<p>Set the <tt class="docutils literal"><span class="pre">None</span></tt> type for a texture of the target object on the main scene, and select the <tt class="docutils literal"><span class="pre">Canvas</span></tt> type in the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Source</span> <span class="pre">type</span></tt> menu. Specify the id of the canvas HTML element in the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Source</span> <span class="pre">id</span></tt> field. Set the texture size in the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Source</span> <span class="pre">size</span></tt> field (in pixels).</p>
 </div>
 </div>
 </div>
@@ -388,10 +441,11 @@
 <li class="toctree-l2"><a class="reference internal" href="#index-6">Normal Map</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#height-map-parallax-mapping">Height Map. Parallax Mapping</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#index-8">Stencil Map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#video-texture">Video Textures</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#index-9">Environment Map</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#mirror-map">Mirror Map</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#skydome">Skydome</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#render-to-texture-rtt">Render-to-Texture, RTT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#index-12">Special Texture Types</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
@@ -442,8 +496,8 @@
           
     <div class="footer">
         &copy; Copyright 2014, Triumph LLC.
-      Last updated on 2014-10-30.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+      Last updated on 2014-11-28.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
         </div>
         <div class="clearer"></div>

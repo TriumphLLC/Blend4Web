@@ -29,6 +29,7 @@ BINARY_SHORT_SIZE = 2
 BINARY_FLOAT_SIZE = 4
 
 MSG_SYMBOL_WIDTH = 6
+ROW_HEIGHT = 20
 
 JSON_PRETTY_PRINT = False
 SUPPORTED_OBJ_TYPES = ["MESH", "CURVE", "ARMATURE", "EMPTY", "CAMERA", "LAMP", \
@@ -75,6 +76,8 @@ _b4w_export_errors = []
 _vehicle_integrity = {}
 
 _packed_files_data = {}
+
+_canvases_identifiers = []
 
 # currently processed data
 _curr_scene = None
@@ -135,6 +138,7 @@ class FileError(Exception):
 class ExportErrorDialog(bpy.types.Operator):
     bl_idname = "b4w.export_error_dialog"
     bl_label = "Export Error Dialog"
+    bl_options = {'INTERNAL'}
 
     def execute(self, context):
         return {'FINISHED'}
@@ -142,6 +146,10 @@ class ExportErrorDialog(bpy.types.Operator):
     def invoke(self, context, event):
         wm = context.window_manager
         window_width = calc_export_error_window_width()
+        window_height = calc_export_error_window_height()
+        context.window.cursor_warp(round(context.window.width / 2),
+                round(context.window.height/2 + window_height / 2))
+
         return wm.invoke_props_dialog(self, window_width)
 
     def draw(self, context):
@@ -162,9 +170,51 @@ class ExportErrorDialog(bpy.types.Operator):
             row = self.layout.row()
             row.label(_export_error.comment)
 
+class ExportMessagesDialog(bpy.types.Operator):
+    bl_idname = "b4w.export_messages_dialog"
+    bl_label = "Export Messages Dialog"
+    bl_options = {'INTERNAL'}
+
+    def execute(self, context):
+        return {'FINISHED'}
+
+    def invoke(self, context, event):
+        wm = context.window_manager
+        window_width = calc_export_messages_window_width()
+        window_height = calc_export_messages_window_height()
+        context.window.cursor_warp(round(context.window.width / 2),
+                round(context.window.height/2 + window_height / 2))
+
+        return wm.invoke_props_dialog(self, window_width)
+
+    def draw(self, context):
+        global _b4w_export_warnings
+        global _b4w_export_errors
+
+        row = self.layout.row()
+        row.alignment = "CENTER"
+        row.label("=== BLEND4WEB: EXPORT MESSAGES ===")
+        if _b4w_export_errors:
+            print(_b4w_export_errors)
+            row = self.layout.row()
+            row.label("ERRORS:")
+            for string in _b4w_export_errors:
+                row = self.layout.row()
+                row.label(string)
+            row = self.layout.row()
+            row.label("")
+        if _b4w_export_warnings:
+            print(_b4w_export_warnings)
+            row = self.layout.row()
+            row.label("WARNINGS:")
+            for string in _b4w_export_warnings:
+                row = self.layout.row()
+                row.label(string)
+
 class FileErrorDialog(bpy.types.Operator):
     bl_idname = "b4w.file_error_dialog"
     bl_label = "File Error Dialog"
+    bl_options = {'INTERNAL'}
 
     def execute(self, context):
         return {'FINISHED'}
@@ -172,6 +222,10 @@ class FileErrorDialog(bpy.types.Operator):
     def invoke(self, context, event):
         wm = context.window_manager
         window_width = calc_file_error_window_width()
+        window_height = calc_file_error_window_height()
+        context.window.cursor_warp(round(context.window.width / 2),
+                round(context.window.height/2 + window_height / 2))
+
         return wm.invoke_props_dialog(self, window_width)
 
     def draw(self, context):
@@ -203,6 +257,15 @@ def calc_export_error_window_width():
 
     return window_width
 
+def calc_export_error_window_height():
+
+    num_rows = 5
+    if _export_error.comment:
+        num_rows = 6
+    window_height = num_rows * ROW_HEIGHT
+
+    return window_height
+
 def calc_file_error_window_width():
 
     global _file_error
@@ -216,6 +279,44 @@ def calc_file_error_window_width():
     window_width = max(window_width, 220)
 
     return window_width
+
+def calc_file_error_window_height():
+
+    num_rows = 4
+    window_height = num_rows * ROW_HEIGHT
+
+    return window_height
+
+def calc_export_messages_window_width():
+    num_symbols = 0
+
+    for string in _b4w_export_warnings:
+        if num_symbols < len("WARNINGS: " + string):
+            num_symbols = len("WARNINGS: " + string)
+    for string in _b4w_export_errors:
+        if num_symbols < len("ERRORS: " + string):
+            num_symbols = len("ERRORS: " + string)
+
+    window_width = num_symbols * MSG_SYMBOL_WIDTH
+    window_width = max(window_width, 220)
+
+    return window_width
+
+def calc_export_messages_window_height():
+    num_rows = 3
+
+    if _b4w_export_errors:
+        num_rows = 5
+        for string in _b4w_export_errors:
+            num_rows += 1
+    if _b4w_export_warnings:
+        num_rows += 1
+        for string in _b4w_export_warnings:
+            num_rows += 1
+
+    window_height = num_rows * ROW_HEIGHT
+    return window_height
+
 
 def warn(message):
     _b4w_export_warnings.append(message)
@@ -649,6 +750,8 @@ def process_scene(scene):
     scene_data["frame_start"] = scene.frame_start
     scene_data["frame_end"] = scene.frame_end
 
+    scene_data["fps"] = scene.render.fps
+
     scene_data["audio_volume"] = round_num(scene.audio_volume, 3)
     scene_data["audio_doppler_speed"] = round_num(scene.audio_doppler_speed, 3)
     scene_data["audio_doppler_factor"] \
@@ -795,9 +898,7 @@ def process_object(obj):
     # process object links
     data = get_obj_data(obj, _curr_scene)
     if data is None and obj_data["type"] != "EMPTY":
-        raise ExportError("Object data not available", obj,
-                "Check the \"Do not export\" flag on the " + obj_data["name"] +
-                " data")
+        raise InternalError("Object data not available for \"" + obj.name + "\"")
 
     obj_data["data"] = gen_uuid_obj(data)
 
@@ -1249,7 +1350,8 @@ def process_camera(camera):
     cam_data["b4w_distance_min"] = round_num(camera.b4w_distance_min, 3)
     cam_data["b4w_distance_max"] = round_num(camera.b4w_distance_max, 3)
 
-    cam_data["b4w_use_horizontal_clamping"] = camera.b4w_use_horizontal_clamping
+    cam_data["b4w_use_horizontal_clamping"] \
+            = camera.b4w_use_horizontal_clamping
     cam_data["b4w_rotation_left_limit"] \
             = round_num(camera.b4w_rotation_left_limit, 6)
     cam_data["b4w_rotation_right_limit"] \
@@ -1257,13 +1359,34 @@ def process_camera(camera):
     cam_data["b4w_horizontal_clamping_type"] \
             = camera.b4w_horizontal_clamping_type
 
-    cam_data["b4w_use_vertical_clamping"] = camera.b4w_use_vertical_clamping
+    cam_data["b4w_use_vertical_clamping"] \
+            = camera.b4w_use_vertical_clamping
     cam_data["b4w_rotation_down_limit"] \
             = round_num(camera.b4w_rotation_down_limit, 6)
     cam_data["b4w_rotation_up_limit"] \
             = round_num(camera.b4w_rotation_up_limit, 6)
     cam_data["b4w_vertical_clamping_type"] \
             = camera.b4w_vertical_clamping_type
+
+    cam_data["b4w_horizontal_translation_min"] \
+            = round_num(camera.b4w_horizontal_translation_min, 3)
+    cam_data["b4w_horizontal_translation_max"] \
+            = round_num(camera.b4w_horizontal_translation_max, 3)
+
+    cam_data["b4w_vertical_translation_min"] \
+            = round_num(camera.b4w_vertical_translation_min , 3)
+    cam_data["b4w_vertical_translation_max"] \
+            = round_num(camera.b4w_vertical_translation_max , 3)
+
+    cam_data["b4w_hover_angle_min"] \
+            = round_num(camera.b4w_hover_angle_min, 6)
+    cam_data["b4w_hover_angle_max"] \
+            = round_num(camera.b4w_hover_angle_max, 6)
+
+    cam_data["b4w_enable_hover_hor_rotation"] \
+            = camera.b4w_enable_hover_hor_rotation
+
+    cam_data["b4w_use_panning"] = camera.b4w_use_panning;
 
     # translate to b4w coordinates
     b4w_target = [camera.b4w_target[0], camera.b4w_target[2], \
@@ -1359,6 +1482,7 @@ def process_lamp(lamp):
     _bpy_uuid_cache[lamp_data["uuid"]] = lamp
 
 def process_material(material):
+    global _curr_mesh
     _curr_material_stack.append(material)
     material["in_use"] = True
     mat_data = OrderedDict()
@@ -1399,6 +1523,10 @@ def process_material(material):
     mat_data["emit"] = round_num(material.emit, 3)
     mat_data["ambient"] = round_num(material.ambient, 3)
     mat_data["use_vertex_color_paint"] = material.use_vertex_color_paint
+
+    if mat_data["use_vertex_color_paint"] and not _curr_mesh.vertex_colors:
+        raise MaterialError("Incomplete mesh \"" + _curr_mesh.name +
+            "\" Material settings require vertex colors.")
 
     # export custom properties
     mat_data["b4w_water"] = material.b4w_water
@@ -1455,6 +1583,13 @@ def process_material(material):
     mat_data["b4w_terrain"] = material.b4w_terrain
     mat_data["b4w_dynamic_grass_size"] = material.b4w_dynamic_grass_size
     mat_data["b4w_dynamic_grass_color"] = material.b4w_dynamic_grass_color
+
+    # check dynamic grass vertex colors
+    if material.b4w_terrain:
+        if not check_vertex_color_empty(_curr_mesh, mat_data["b4w_dynamic_grass_size"]) \
+                or not check_vertex_color_empty(_curr_mesh, mat_data["b4w_dynamic_grass_color"]):
+            raise MaterialError("Incomplete mesh \"" +_curr_mesh.name + 
+                "\" Dynamic grass vertex colors required by material settings.")
 
     mat_data["b4w_collision"] = material.b4w_collision
     mat_data["b4w_use_ghost"] = material.b4w_use_ghost
@@ -1540,12 +1675,26 @@ def process_texture(texture):
     tex_data["uuid"] = gen_uuid(texture)
     tex_data["type"] = texture.type
 
-    tex_data["b4w_render_scene"] = texture.b4w_render_scene
+    tex_data["b4w_source_type"] = texture.b4w_source_type
+    tex_data["b4w_source_id"] = texture.b4w_source_id
+    tex_data["b4w_source_size"] = texture.b4w_source_size
 
     if hasattr(texture, "extension"):
         tex_data["extension"] = texture.extension
     else:
         tex_data["extension"] = None
+
+    if texture.type == "NONE":
+        tex_data["extension"] = texture.b4w_extension
+        if texture.b4w_source_type == "CANVAS":
+            if not texture.b4w_source_id:
+                raise MaterialError("Empty canvas texture ID for texture " +
+                        "\"" + tex_data["name"] + "\".")
+            if texture.b4w_source_id in _canvases_identifiers:
+                raise MaterialError("Canvas texture ID " + "\"" + tex_data["b4w_source_id"] + 
+                        "\"" + " already exists. Texture " + "\"" + tex_data["name"] + "\".")
+            else:
+                _canvases_identifiers.append(texture.b4w_source_id)
 
     tex_data["b4w_use_map_parallax"] = texture.b4w_use_map_parallax
     tex_data["b4w_parallax_scale"] = round_num(texture.b4w_parallax_scale, 3)
@@ -1582,6 +1731,27 @@ def process_texture(texture):
             process_image(image)
     else:
         tex_data["image"] = None
+
+    if (texture.type == "ENVIRONMENT_MAP" or texture.type == "IMAGE" and 
+                texture.image.source == "MOVIE"):
+        tex_data["frame_duration"] = texture.image_user.frame_duration
+        tex_data["frame_offset"] = texture.image_user.frame_offset
+        tex_data["frame_start"] = texture.image_user.frame_start
+        tex_data["use_auto_refresh"] = texture.image_user.use_auto_refresh
+        tex_data["use_cyclic"] = texture.image_user.use_cyclic
+        ctx = bpy.context.copy()
+        ctx["edit_image"] = texture.image
+        ctx["edit_image_user"] = texture.image_user
+        bpy.ops.image.match_movie_length(ctx)
+        tex_data["movie_length"] = texture.image_user.frame_duration
+        texture.image_user.frame_duration = tex_data["frame_duration"]
+    else:
+        tex_data["frame_duration"] = 0
+        tex_data["frame_offset"] = 0
+        tex_data["frame_start"] = 0
+        tex_data["use_auto_refresh"] = False
+        tex_data["use_cyclic"] = False
+        tex_data["movie_length"] = 0
 
 
     if texture.type == 'VORONOI':
@@ -1640,7 +1810,6 @@ def process_image(image):
 
     image_data["size"] = list(image.size)
     image_data["source"] = image.source
-
     _export_data["images"].append(image_data)
     _export_uuid_cache[image_data["uuid"]] = image_data
     _bpy_uuid_cache[image_data["uuid"]] = image
@@ -1671,7 +1840,6 @@ def get_json_relative_filepath(path):
         raise FileError("Loading of resources from different disk is forbidden")
     # clean
     return guard_slashes(os.path.normpath(path_relative))
-
 
 def process_mesh(mesh, obj_user):
     if "export_done" in mesh and mesh["export_done"]:
@@ -1783,7 +1951,6 @@ def process_mesh(mesh, obj_user):
     _export_data["meshes"].append(mesh_data)
     _export_uuid_cache[mesh_data["uuid"]] = mesh_data
     _bpy_uuid_cache[mesh_data["uuid"]] = mesh
-    check_mesh_data(mesh_data, mesh)
 
 def process_mesh_boundings(mesh_data, mesh, bounding_data):
     if (mesh.b4w_override_boundings):
@@ -2030,7 +2197,7 @@ def export_submesh(mesh, mesh_ptr, obj_user, obj_ptr, mat_index, disab_flat, \
                             "Unbaked \"" + anim.name + "\" vertex animation")
                 elif len(mesh.vertices) != len(anim.frames[0].vertices):
                     raise ExportError("Wrong vertex animation vertices count", \
-                            mesh, "It doesn't match with the mesh vertices " +
+                            mesh, "It doesn't match with the mesh vertices " + \
                             "count for \"" + anim.name + "\"")
 
     is_degenerate_mesh = not bool(max( \
@@ -2374,6 +2541,9 @@ def process_particle(particle):
             = particle.b4w_reflection_inheritance
     part_data["b4w_vcol_from_name"] = particle.b4w_vcol_from_name
     part_data["b4w_vcol_to_name"] = particle.b4w_vcol_to_name
+
+
+
 
     bb_align_blender = particle.b4w_billboard_align
     if bb_align_blender == "XY":
@@ -2848,9 +3018,9 @@ def obj_cons_target(cons):
 
 def process_object_particle_systems(obj):
     psystems_data = []
-
-    if obj.particle_systems:
-        for psys in obj.particle_systems:
+    for m in obj.modifiers:
+        if m.type == 'PARTICLE_SYSTEM' and m.particle_system:
+            psys = m.particle_system
             if do_export(psys.settings):
 
                 psys_data = OrderedDict()
@@ -2867,8 +3037,7 @@ def process_object_particle_systems(obj):
 
                     for i in range(len(psys.particles)):
                         particle = psys.particles[i]
-                        x,y,z = particle.hair_keys[0].co.xyz
-
+                        x,y,z = particle.hair_keys[0].co_object(obj, m, particle).xyz
                         # calc length as z coord of the last hair key
                         #length = particle.hair_keys[-1:][0].co_local.z
                         #length = particle.hair_keys[-1:][0].co.z - z
@@ -2933,10 +3102,11 @@ def process_node_tree(data, tree_source):
                 node_data["uv_layer"] = ""
                 raise MaterialError("Exported UV-layer is missing in node \"GEOMETRY\".")
 
-            if check_vertex_color(_curr_mesh, node.color_layer):
+            if check_vertex_color_empty(_curr_mesh, node.color_layer):
                 node_data["color_layer"] = node.color_layer
             else:
                 node_data["color_layer"] = ""
+                raise MaterialError("Wrong vertex color layer is used in node \"GEOMETRY\".")
 
         if node.type == "GROUP":
             if node.node_tree.name == "REFRACTION":
@@ -2998,7 +3168,6 @@ def process_node_tree(data, tree_source):
 
         elif node.type == "LAMP":
             if node.lamp_object is None:
-                # err("\"" + node.name + "\"" + " has no lamp object.")
                 raise MaterialError("The \"" + node.name + "\" LAMP node has no lamp object.")
             else:
                 node_data["lamp"] = gen_uuid_obj(node.lamp_object)
@@ -3090,8 +3259,6 @@ def process_world_texture_slots(world_data, world):
                 if do_export(slot.texture):
                     if slot.texture.b4w_use_sky != "OFF" and len(slot.texture.users_material) == 0:
                         slot_data = OrderedDict()
-                        check_tex_slot(slot)
-
                         # there are a lot of properties in addition to these
                         slot_data["texture_coords"] = slot.texture_coords
                         slot_data["use_rgb_to_intensity"] = slot.use_rgb_to_intensity
@@ -3099,6 +3266,7 @@ def process_world_texture_slots(world_data, world):
                         slot_data["offset"] = round_iterable(slot.offset, 3)
                         slot_data["scale"] = round_iterable(slot.scale, 3)
                         slot_data["blend_type"] = slot.blend_type
+
                         if slot.texture.type != "ENVIRONMENT_MAP":
                             raise ExportError(slot.texture.type + " isn't supported", world)
                         slot_data["texture"] = gen_uuid_obj(slot.texture)
@@ -3134,6 +3302,9 @@ def process_material_texture_slots(mat_data, material):
                 slot_data["texture_coords"] = tc
 
                 if tc == "UV":
+                    if len(_curr_mesh.uv_textures) == 0:
+                        raise MaterialError("Incomplete mesh \"" + _curr_mesh.name +
+                                "\" No UV in mesh with UV-textured material.")
                     if check_uv_layers_limited(_curr_mesh, slot.uv_layer):
                         slot_data["uv_layer"] = slot.uv_layer
                     else:
@@ -3233,6 +3404,12 @@ class B4W_ExportProcessor(bpy.types.Operator):
         default = True
     )
 
+    strict_mode = bpy.props.BoolProperty(
+        name = "Strict mode",
+        description = "This option blocks export with errors and warnings",
+        default = False
+    )
+
     override_filepath = bpy.props.StringProperty(
         name = "Filepath",
         description = "Required for running in command line",
@@ -3297,6 +3474,9 @@ class B4W_ExportProcessor(bpy.types.Operator):
         layout = self.layout
         layout.prop(self, "do_autosave")
 
+        layout.prop(self, "strict_mode")
+
+
     def run(self, export_filepath):
         global _bpy_bindata_int
         _bpy_bindata_int = bytearray();
@@ -3355,6 +3535,9 @@ class B4W_ExportProcessor(bpy.types.Operator):
         global _b4w_export_errors
         _b4w_export_errors = []
 
+        global _canvases_identifiers
+        _canvases_identifiers = []
+
         global _vehicle_integrity
         _vehicle_integrity = {}
 
@@ -3401,80 +3584,88 @@ class B4W_ExportProcessor(bpy.types.Operator):
 
         clean_exported_data()
 
-        _export_data["binaries"] = []
-        binary_data = OrderedDict()
-        if len(_bpy_bindata_int) + len(_bpy_bindata_float) \
-                 + len(_bpy_bindata_short) + len(_bpy_bindata_ushort):
-            base = os.path.splitext(os.path.basename(export_filepath))[0]
-            binary_load_path = base + '.bin'
-            base = os.path.splitext(export_filepath)[0]
-            binary_export_path = base + '.bin'
-            binary_data["binfile"] = binary_load_path
-        else:
-            binary_export_path = None
-            binary_data["binfile"] = None
-        binary_data["int"] = 0
-        binary_data["float"] = len(_bpy_bindata_int)
-        binary_data["short"] = binary_data["float"] + len(_bpy_bindata_float)
-        binary_data["ushort"] = binary_data["short"] + len(_bpy_bindata_short)
-        _export_data["binaries"].append(binary_data)
 
-        _export_data["b4w_export_warnings"] = _b4w_export_warnings
-        _export_data["b4w_export_errors"] = _b4w_export_errors
+        if (not self.strict_mode or not _b4w_export_errors 
+                    and not _b4w_export_warnings):
+            _export_data["binaries"] = []
+            binary_data = OrderedDict()
+            if len(_bpy_bindata_int) + len(_bpy_bindata_float) \
+                     + len(_bpy_bindata_short) + len(_bpy_bindata_ushort):
+                base = os.path.splitext(os.path.basename(export_filepath))[0]
+                binary_load_path = base + '.bin'
+                base = os.path.splitext(export_filepath)[0]
+                binary_export_path = base + '.bin'
+                binary_data["binfile"] = binary_load_path
+            else:
+                binary_export_path = None
+                binary_data["binfile"] = None
+            binary_data["int"] = 0
+            binary_data["float"] = len(_bpy_bindata_int)
+            binary_data["short"] = binary_data["float"] + len(_bpy_bindata_float)
+            binary_data["ushort"] = binary_data["short"] + len(_bpy_bindata_short)
+            _export_data["binaries"].append(binary_data)
 
-        # NOTE: much faster than dumping immediately to file (json.dump())
-        if JSON_PRETTY_PRINT:
-            _main_json_str = json.dumps(_export_data, indent=2, separators=(',', ': '))
-        else:
-            _main_json_str = json.dumps(_export_data)
+            _export_data["b4w_export_warnings"] = _b4w_export_warnings
+            _export_data["b4w_export_errors"] = _b4w_export_errors
 
-        if not _is_html_export:
-            # write packed files (images, sounds) for non-html export
-            for path in _packed_files_data:
-                abs_path = os.path.join(os.path.dirname(export_filepath), path)
+            # NOTE: much faster than dumping immediately to file (json.dump())
+            if JSON_PRETTY_PRINT:
+                _main_json_str = json.dumps(_export_data, indent=2, separators=(',', ': '))
+            else:
+                _main_json_str = json.dumps(_export_data)
+
+            if not _is_html_export:
+                # write packed files (images, sounds) for non-html export
+                for path in _packed_files_data:
+                    abs_path = os.path.join(os.path.dirname(export_filepath), path)
+                    try:
+                        f = open(abs_path, "wb")
+                    except IOError as exp:
+                        _file_error = exp
+                        raise FileError("Permission denied")
+                    else:
+                        f.write(_packed_files_data[path])
+                        f.close()
+
+                # write main binary and json files
                 try:
-                    f = open(abs_path, "wb")
+                    f  = open(export_filepath, "w")
+                    if binary_export_path is not None:
+                        fb = open(binary_export_path, "wb")
                 except IOError as exp:
                     _file_error = exp
                     raise FileError("Permission denied")
                 else:
-                    f.write(_packed_files_data[path])
+                    f.write(_main_json_str)
                     f.close()
+                    if self.save_export_path:
+                        set_default_path(export_filepath)
 
-            # write main binary and json files
-            try:
-                f  = open(export_filepath, "w")
-                if binary_export_path is not None:
-                    fb = open(binary_export_path, "wb")
-            except IOError as exp:
-                _file_error = exp
-                raise FileError("Permission denied")
-            else:
-                f.write(_main_json_str)
-                f.close()
-                if self.save_export_path:
-                    set_default_path(export_filepath)
+                    print("Scene saved to " + export_filepath)
 
-                print("Scene saved to " + export_filepath)
+                    if binary_export_path is not None:
+                        # NOTE: write data in this order (4-bit, 4-bit, 2-bit, 2-bit
+                        # arrays) to simplify data loading
+                        fb.write(_bpy_bindata_int)
+                        fb.write(_bpy_bindata_float)
+                        fb.write(_bpy_bindata_short)
+                        fb.write(_bpy_bindata_ushort)
+                        fb.close()
+                        print("Binary data saved to " + binary_export_path)
 
-                if binary_export_path is not None:
-                    # NOTE: write data in this order (4-bit, 4-bit, 2-bit, 2-bit
-                    # arrays) to simplify data loading
-                    fb.write(_bpy_bindata_int)
-                    fb.write(_bpy_bindata_float)
-                    fb.write(_bpy_bindata_short)
-                    fb.write(_bpy_bindata_ushort)
-                    fb.close()
-                    print("Binary data saved to " + binary_export_path)
-
-                print("EXPORT OK")
-
+                    print("EXPORT OK")
+        else:
+            bpy.ops.b4w.export_messages_dialog('INVOKE_DEFAULT')
 
         if self.do_autosave:
             filepath = bpy.data.filepath
             if filepath:
                 if os.access(filepath, os.W_OK):
-                    bpy.ops.wm.save_mainfile(filepath=filepath)
+                    try:
+                        bpy.ops.wm.save_mainfile(filepath=filepath)
+                    except Exception as e:
+                        # NOTE: raising exception here leads to segfault
+                        print("Could not autosave: " + str(e))
                     print("File autosaved to " + filepath)
                 else:
                     print("Could not autosave: permission denied")
@@ -3525,14 +3716,6 @@ def check_shared_data(export_data):
     for mat_data in materials:
         check_material_nodes_links(mat_data);
 
-        mat_users = []
-        for mesh_data in meshes:
-            for mesh_mat in mesh_data["materials"]:
-                if mat_data == _export_uuid_cache[mesh_mat["uuid"]]:
-                    mat_users.append(mesh_data)
-
-        check_meshes_shared_mat_compat(mat_users)
-
 def check_objs_shared_mesh_compat(mesh_users):
     if len(mesh_users) <= 1:
         return
@@ -3563,23 +3746,6 @@ def check_material_nodes_links(mat_data):
                 raise ExportError("Node material invalid", material,
                         "Check sockets compatibility: " + link.from_node.name \
                         + " to " + link.to_node.name)
-
-def check_meshes_shared_mat_compat(mat_users):
-    for i in range(len(mat_users) - 1):
-        mesh_data = mat_users[i]
-        mesh_data_next = mat_users[i + 1]
-        mesh = _bpy_uuid_cache[mesh_data["uuid"]]
-        mesh_next = _bpy_uuid_cache[mesh_data_next["uuid"]]
-
-        if len(mesh_data["uv_textures"]) != len(mesh_data_next["uv_textures"]):
-            raise ExportError("Incompatible meshes", mesh, "Check " \
-                    + mesh_data["name"] + " and " + mesh_data_next["name"] \
-                    + " UV Maps")
-
-        if len(mesh.vertex_colors) != len(mesh_next.vertex_colors):
-            raise ExportError("Incompatible meshes", mesh, "Check " \
-                    + mesh_data["name"] + " and " + mesh_data_next["name"] \
-                    + " Vertex colors")
 
 def create_fallback_camera(scene_data):
     global _fallback_camera
@@ -3630,13 +3796,10 @@ def create_fallback_world(scene_data):
     process_world(_fallback_world)
 
 def check_scene_data(scene_data, scene):
-    # need camera and lamp
+    # need camera
     if scene_data["camera"] is None:
         create_fallback_camera(scene_data)
         warn("Missing active camera or wrong active camera object")
-
-    if get_exported_obj_first_rec(scene_data["objects"], "LAMP") is None:
-        raise ExportError("Missing lamp", scene)
 
     if scene_data["world"] is None:
         create_fallback_world(scene_data)
@@ -3671,15 +3834,23 @@ def check_object_data(obj_data, obj):
 
         if colors != "" and (m_s_col == "" or detail_colors != "" and \
                 (l_s_col == "" or l_p_col == "" or o_s_col == "")):
-            raise ExportError("Wind bending: vertex colors weren't properly assigned", \
-                    obj)
+            obj_data["b4w_main_bend_stiffness_col"] = ""
+            detail_bend["leaves_stiffness_col"] = ""
+            detail_bend["leaves_phase_col"] = ""
+            detail_bend["overall_stiffness_col"] = ""
+            err("Wind bending: vertex colors weren't properly assigned for \"" + obj.name +
+                                "\". Properties were set to default values.")
 
-        if (m_s_col != "" and not check_vertex_color(obj.data, m_s_col) \
-                or l_s_col != "" and not check_vertex_color(obj.data, l_s_col) \
-                or l_p_col != "" and not check_vertex_color(obj.data, l_p_col) \
-                or o_s_col != "" and not check_vertex_color(obj.data, o_s_col)):
-            raise ExportError("Wind bending: not all vertex colors exist", \
-                    obj)
+        if (not check_vertex_color_empty(obj.data, m_s_col) \
+                or not check_vertex_color_empty(obj.data, l_s_col) \
+                or not check_vertex_color_empty(obj.data, l_p_col) \
+                or not check_vertex_color_empty(obj.data, o_s_col)):
+            obj_data["b4w_main_bend_stiffness_col"] = ""
+            detail_bend["leaves_stiffness_col"] = ""
+            detail_bend["leaves_phase_col"] = ""
+            detail_bend["overall_stiffness_col"] = ""
+            err("Wind bending: not all vertex colors exist for \"" + obj.name +
+                                "\". Properties were set to default values.")
 
     check_obj_particle_systems(obj_data, obj)
 
@@ -3688,27 +3859,27 @@ def check_obj_particle_systems(obj_data, obj):
         pset_uuid = psys_data["settings"]["uuid"]
         pset_data = _export_uuid_cache[pset_uuid]
 
-        if pset_data["b4w_vcol_from_name"]:
-            if not check_vertex_color(obj.data, pset_data["b4w_vcol_from_name"]):
-                pset = _bpy_uuid_cache[pset_data["uuid"]]
-                raise ExportError("Particle system error", pset, \
-                        "The \"" + pset_data["b4w_vcol_from_name"] +
-                        "\" vertex color specified in the \"from\" field is " +
-                        "missing in the list of the \"" + obj_data["name"]
-                        + "\" object's vertex colors")
+        if not check_vertex_color_empty(obj.data, pset_data["b4w_vcol_from_name"]):
+            pset = _bpy_uuid_cache[pset_data["uuid"]]
+            err("Particle system error for \"" + pset.name +
+                    "\" The \"" + pset_data["b4w_vcol_from_name"] +
+                    "\" vertex color specified in the \"from\" field is " +
+                    "missing in the list of the \"" + obj_data["name"]
+                    + "\" object's vertex colors")
+            pset_data["b4w_vcol_from_name"] = ""
 
         if pset_data["render_type"] == "OBJECT":
             dobj_uuid = pset_data["dupli_object"]["uuid"]
             dobj_data = _export_uuid_cache[dobj_uuid]
             dobj = _bpy_uuid_cache[dobj_data["uuid"]]
 
-            if pset_data["b4w_vcol_to_name"]:
-                if not check_vertex_color(dobj.data, pset_data["b4w_vcol_to_name"]):
-                    raise ExportError("Particle system error", obj, \
-                            "The \"" + pset_data["b4w_vcol_to_name"] +
-                            "\" vertex color specified in the \"to\" field is " +
-                            "missing in the list of the \"" + dobj_data["name"]
-                            + "\" object's vertex colors")
+            if not check_vertex_color_empty(dobj.data, pset_data["b4w_vcol_to_name"]):
+                err("Particle system error for \"" + pset.name +
+                        "\" The \"" + pset_data["b4w_vcol_to_name"] +
+                        "\" vertex color specified in the \"to\" field is " +
+                        "missing in the list of the \"" + dobj_data["name"]
+                        + "\" object's vertex colors")
+                pset_data["b4w_vcol_to_name"] = ""
 
         elif pset_data["render_type"] == "GROUP":
             dg_uuid = pset_data["dupli_group"]["uuid"]
@@ -3718,15 +3889,18 @@ def check_obj_particle_systems(obj_data, obj):
                 dgobj_data = _export_uuid_cache[item["uuid"]]
                 dgobj = _bpy_uuid_cache[dgobj_data["uuid"]]
 
-                if pset_data["b4w_vcol_to_name"]:
-                    if not check_vertex_color(dgobj.data, pset_data["b4w_vcol_to_name"]):
-                        raise ExportError("Particle system error", obj,
-                                "The \"" + pset_data["b4w_vcol_to_name"] +
-                                "\" vertex color specified in the \"to\" field is " +
-                                "missing in the \"" + dgobj_data["name"] +
-                                "\" object (\"" + dg_data["name"] + "\" dupli group)")
+                if not check_vertex_color_empty(dgobj.data, pset_data["b4w_vcol_to_name"]):
+                    err("Particle system error" + pset.name +
+                            "\" The \"" + pset_data["b4w_vcol_to_name"] +
+                            "\" vertex color specified in the \"to\" field is " +
+                            "missing in the \"" + dgobj_data["name"] +
+                            "\" object (\"" + dg_data["name"] + "\" dupli group)")
+                    pset_data["b4w_vcol_to_name"] = ""
 
-def check_vertex_color(mesh, vc_name):
+def check_vertex_color_empty(mesh, vc_name):
+    # Allow special case for empty vertex color layer name
+    if vc_name == "":
+        return True
     for color_layer in mesh.vertex_colors:
         if color_layer.name == vc_name:
             return True
@@ -3739,27 +3913,6 @@ def check_uv_layers_limited(mesh, uv_layer_name):
         return True
     index = mesh.uv_textures.find(uv_layer_name)
     return index == 0 or index == 1
-
-def check_mesh_data(mesh_data, mesh):
-    for mat in mesh_data["materials"]:
-        mat_data = _export_uuid_cache[mat["uuid"]]
-
-        if mat_data["use_vertex_color_paint"] and not mesh.vertex_colors:
-            raise ExportError("Incomplete mesh", mesh,
-                "Material settings require vertex colors")
-        # check dynamic grass vertex colors
-        if mat_data["b4w_dynamic_grass_size"] and not \
-                check_vertex_color(mesh, mat_data["b4w_dynamic_grass_size"]) \
-                or mat_data["b4w_dynamic_grass_color"] and not \
-                check_vertex_color(mesh, mat_data["b4w_dynamic_grass_color"]):
-            raise ExportError("Incomplete mesh", mesh,
-                "Dynamic grass vertex colors required by material settings")
-
-        # ensure that mesh has uvs if one of its materials uses "UV" texture slots
-        for tex_slot in mat_data["texture_slots"]:
-            if tex_slot["texture_coords"] == "UV" and not mesh_data["uv_textures"]:
-                raise ExportError("Incomplete mesh", mesh,
-                        "No UV in mesh with UV-textured material")
 
 def check_tex_slot(tex_slot):
     tex = tex_slot.texture
@@ -3774,6 +3927,7 @@ def clean_exported_data():
     global _fallback_camera
     global _fallback_world
     global _fallback_material
+    global _canvases_identifiers
     if bpy.data.particles:
         scenes_restore_selected_layers()
     remove_overrided_meshes()
@@ -3788,11 +3942,14 @@ def clean_exported_data():
     if _fallback_material:
         bpy.data.materials.remove(_fallback_material)
         _fallback_material = None
+    if _canvases_identifiers:
+        _canvases_identifiers = []
 
 class B4W_ExportPathGetter(bpy.types.Operator):
     """Get Export Path for blend file"""
     bl_idname = "b4w.get_export_path"
     bl_label = "B4W Get Export Path"
+    bl_options = {'INTERNAL'}
 
     def execute(self, context):
 
@@ -3817,6 +3974,7 @@ def register():
     bpy.utils.register_class(B4W_ExportPathGetter)
     bpy.utils.register_class(ExportErrorDialog)
     bpy.utils.register_class(FileErrorDialog)
+    bpy.utils.register_class(ExportMessagesDialog)
     bpy.types.INFO_MT_file_export.append(b4w_export_menu_func)
 
 def unregister():
@@ -3824,4 +3982,5 @@ def unregister():
     bpy.utils.unregister_class(B4W_ExportPathGetter)
     bpy.utils.unregister_class(ExportErrorDialog)
     bpy.utils.unregister_class(FileErrorDialog)
+    bpy.utils.unregister_class(ExportMessagesDialog)
     bpy.types.INFO_MT_file_export.remove(b4w_export_menu_func)

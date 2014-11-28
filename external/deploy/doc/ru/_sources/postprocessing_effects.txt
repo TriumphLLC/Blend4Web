@@ -117,7 +117,7 @@
 
 .. image:: src_images/postprocessing_effects/ssao.jpg
    :align: center
-   :width: 100%
+   :width: 50%
 
 |
 

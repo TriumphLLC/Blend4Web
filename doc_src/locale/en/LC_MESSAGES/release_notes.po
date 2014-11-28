@@ -20,14 +20,204 @@ msgid "замечания к релизам"
 msgstr "release notes"
 
 #: ../release_notes.rst:10
+msgid "v14.11"
+msgstr ""
+
+#: ../release_notes.rst:16
+msgid "*Поддержка видео-текстур.*"
+msgstr "*Video textures support.*"
+
+#: ../release_notes.rst:16
+msgid ""
+"Осуществлена поддержка :ref:`видео-текстур <video_texture>` для текстур типа"
+" ``Image or Movie``."
+msgstr ""
+":ref:`Video textures <video_texture>` are now supported for ``Image or "
+"Movie`` textures."
+
+#: ../release_notes.rst:19
+msgid "*Частота кадров.*"
+msgstr "*Frame rate.*"
+
+#: ../release_notes.rst:19
+msgid ""
+"Добавлена поддержка изменения частоты кадров для анимации и видеотекстур. "
+"Частоту кадров можно задать опцией ``Scene > Dimensions > Frame rate``."
+msgstr ""
+"Frame rate for animation and video textures can now be changed through the "
+"``Scene > Dimensions > Frame rate`` option."
+
+#: ../release_notes.rst:22
+msgid "*Поддержка текстур типа Canvas.*"
+msgstr "*Canvas textures support.*"
+
+#: ../release_notes.rst:22
+msgid ""
+"В качестве :ref:`текстуры <render_to_texture_canvas>` используется HTML-"
+"элемент Canvas. Работа с ней :ref:`описана <canvas_texture>` в документации."
+msgstr ""
+"A canvas HTML element can be now used as a :ref:`texture "
+"<render_to_texture_canvas>`. The workflow is described in the :ref:`manual "
+"<canvas_texture>`."
+
+#: ../release_notes.rst:25
+msgid "*Сamera panning.*"
+msgstr "*Сamera panning.*"
+
+#: ../release_notes.rst:25
+msgid ""
+"В режиме вращающейся вокруг точки камеры (``Target``) теперь имеется "
+"возможность перемещения точки вращения в плоскости обзора (т.н. "
+"панорамирование) при зажатой правой или средней кнопках мыши. Функция "
+"включена по умолчанию и при необходимости выключается в настройках в "
+"Blender'е."
+msgstr ""
+"In the mode when the camera is rotating around a single point (``Target``) "
+"the users now have the ability to move the pivot point withing the view "
+"plane (so called camera panning) while right or middle mouse buttons are "
+"pressed. This function is turned on by default and can be turned off in "
+"Blender settings at need."
+
+#: ../release_notes.rst:28
+msgid "*Новый режим управления камерой - Hover.*"
+msgstr "*New camera control mode - Hover.*"
+
+#: ../release_notes.rst:28
+msgid ""
+"Реализован режим скольжения камеры над плоскостью (``Hover``), включающий "
+"возможность приближения и удаления. Этот режим камеры позволяет "
+"реализовывать сценарии удобного просмотра протяженных в двух измерениях сцен"
+" (помещений, игровых уровней)."
+msgstr ""
+"The ``Hover`` mode is now available when the camera is gliding over the "
+"horizontal plane (including zooming in and out). This camera mode makes it "
+"possible to realize scenarios for a convenient viewing of scenes which are "
+"spread in two dimensions (rooms, game levels)."
+
+#: ../release_notes.rst:30
+msgid ""
+"*В SDK добавлена корневая веб-страница index.html для упрощения навигации по"
+" дистрибутиву.*"
+msgstr ""
+"*The SDK now contains a root index.html webpage for simplifying navigation "
+"within the distribution.*"
+
+#: ../release_notes.rst:33
+msgid ""
+"*Поддержка преобразования форматов видео-файлов в конвертере ресурсов.*"
+msgstr "*The resource converter now has the ability to convert videos.*"
+
+#: ../release_notes.rst:35
+msgid ""
+"*Добавлена система сборки, ранее отсутствовавшая в публичных дистрибутивах "
+"SDK.*"
+msgstr ""
+"*We have added a build system which was absent in previous public SDK "
+"distributions.*"
+
+#: ../release_notes.rst:38
+msgid ""
+"Активация режима ``Strict mode`` позволяет вывести все возможные ошибки и "
+"предупреждения, связанные с некорректной настройкой сцены. Опция полезна для"
+" финальной отладки сцены с целью получения максимально корректных и "
+"оптимизированных ресурсных файлов."
+msgstr ""
+"Activating ``Strict mode`` gives the possibility to display all possible "
+"errors and warnings connected with incorrect scene settings. The option is "
+"useful for final scene debugging for getting the most correct and optimized "
+"resource files."
+
+#: ../release_notes.rst:41
+msgid "*Поддержка режима экспорта \"Strict mode\" в аддоне.*"
+msgstr "*The export Strict mode is implemented in the addon.*"
+
+#: ../release_notes.rst:43
+msgid "*Поддержка воспроизведения звуков на устройствах с iOS.*"
+msgstr "*Audio playback support for iOS devices.*"
+
+#: ../release_notes.rst:50
+msgid ""
+"Также притерпела изменение логика поведения опции. При указании "
+"``fallback_image`` информация об отсутствии поддержки WebGL теперь не "
+"выводится, вместо неё пользователю демонстрируется изображение."
+msgstr ""
+"This option also has changed its behavior. If the ``fallback_image`` is "
+"defined the error message that WebGL is unavailable is not shown any more, "
+"instead the user sees just the image."
+
+#: ../release_notes.rst:52
+msgid "*Опция \"bg\" веб-плеера переименована в \"fallback_image\".*"
+msgstr "*The webplayer's \"bg\" parameter is renamed to \"fallback_image\".*"
+
+#: ../release_notes.rst:54
+msgid ""
+"*В веб-плеере опция отключения звука теперь не показывается для сцен не "
+"имеющих источников звука.*"
+msgstr ""
+"*Now in the webplayer the sound mute button is not shown when there are no "
+"sound sources in the scene.*"
+
+#: ../release_notes.rst:57
+msgid "*Улучшена стабильность работы стековых материалов.*"
+msgstr "*Generic materials workflow is now more predictable.*"
+
+#: ../release_notes.rst:59
+msgid ""
+"*В сенсор \"mouse_down\" добавлен код нажатой кнопки мыши, который доступен "
+"в поле payload сенсора.*"
+msgstr ""
+"*The \"mouse_down\" sensor provides the code of the mouse button pressed. "
+"This code can be obtained from the payload sensor's parameter.*"
+
+#: ../release_notes.rst:61
+msgid "*Значительно оптимизирован экспорт систем частиц типа Hair.*"
+msgstr "*Hair particle systems can be now exported significantly faster.*"
+
+#: ../release_notes.rst:67
+msgid ""
+"*Карты нормалей теперь работают с типами текстурных координат Generated и "
+"Normal*"
+msgstr ""
+"*Normal maps now work with the Generated and Normal texture coordinates.*"
+
+#: ../release_notes.rst:67
+msgid ""
+"При использовании карт нормалей теперь нет необходимости использовать UV-"
+"развертку."
+msgstr "Using UV layers is no more required for normal maps."
+
+#: ../release_notes.rst:71
+msgid ""
+"*Исправлена проблема с неверными путями к физическому движку в веб-плеере.*"
+msgstr ""
+"*Fixed the problem with the wrong path to the physics engine in the "
+"webplayer.*"
+
+#: ../release_notes.rst:70
+msgid ""
+"Ошибка проявлялась при перемещении файла uranium.js из директории с главным "
+"HTML-файлом веб-плеера."
+msgstr ""
+"This error arose when uranium.js was moved out the directory containing the "
+"main HTML file of the webplayer."
+
+#: ../release_notes.rst:73
+msgid ""
+"*В аддоне исправлена проблема с упакованными текстурами, проявляющаяся при "
+"экспорте при включённой опции \"Automatically Pack Into .blend\".*"
+msgstr ""
+"*In the addon we have fixed the problem with packed textures. Export crashed"
+" when the \"Automatically Pack Into .blend\" option was enabled.*"
+
+#: ../release_notes.rst:83
 msgid "v14.10"
 msgstr ""
 
-#: ../release_notes.rst:18
+#: ../release_notes.rst:91
 msgid "*Новый веб-плеер*"
 msgstr "*The new web player.*"
 
-#: ../release_notes.rst:16
+#: ../release_notes.rst:89
 msgid ""
 "Новый минималистичный дизайн веб-плеера удачно сочетается с любыми "
 "трёхмерными сценами, имеет упрощённый интерфейс и встроенную подсказку по "
@@ -38,7 +228,7 @@ msgstr ""
 "It has a simplified user interface and build-in help. The web player works "
 "on all devices including mobile ones."
 
-#: ../release_notes.rst:21
+#: ../release_notes.rst:94
 msgid ""
 "Добавлена возможность выбора некаскадной модели теней на основе одной "
 "оптимизированной карты теней. Такая модель проще в настройке и хорошо "
@@ -48,11 +238,11 @@ msgstr ""
 "optimized shadow map. Such model is easier to configure and suits well for "
 "relatively small scenes. For more info see the :ref:`docs <shadows>`."
 
-#: ../release_notes.rst:23
+#: ../release_notes.rst:96
 msgid "*Улучшение системы теней.*"
 msgstr "*Improved shadows.*"
 
-#: ../release_notes.rst:26
+#: ../release_notes.rst:99
 msgid ""
 "Появилась возможность создания сложной логики в инструменте NLA Script с "
 "помощью блоков ``Conditional Jump``, ``Register Store`` и ``Math "
@@ -62,7 +252,7 @@ msgstr ""
 "``Register Store``, ``Math Operation`` NLA Script logic blocks and register-"
 "stored variables."
 
-#: ../release_notes.rst:30
+#: ../release_notes.rst:103
 msgid ""
 "Возможность использования в NLA всех типов анимации, поддерживаемых движком,"
 " включая воспроизведение звуков, вертексную анимацию и эмиссию частиц. "
@@ -72,15 +262,15 @@ msgstr ""
 "including sound playback, vertex animation and particle emission. It's now "
 "possible to play different animation types simultaneously."
 
-#: ../release_notes.rst:32
+#: ../release_notes.rst:105
 msgid "*Многочисленные улучшения в системе нелинейной анимации (NLA).*"
 msgstr "*Many NLA system improvements.*"
 
-#: ../release_notes.rst:35
+#: ../release_notes.rst:108
 msgid "*Поддержка биллбординга объектов*"
 msgstr "*Billboard objects support.*"
 
-#: ../release_notes.rst:35
+#: ../release_notes.rst:108
 msgid ""
 "Объектам добавлены :ref:`опции <objects_billboarding_properties>`, "
 "позволяющие настроить биллбординг."
@@ -88,11 +278,11 @@ msgstr ""
 "The objects received the new set of :ref:`options "
 "<objects_billboarding_properties>`, allowing to configure billboarding."
 
-#: ../release_notes.rst:38
+#: ../release_notes.rst:111
 msgid "*Поддержка режима \"XYZ Euler\" для анимации поворота.*"
 msgstr "*The \"XYZ Euler\" mode is supported for animating rotations.*"
 
-#: ../release_notes.rst:38
+#: ../release_notes.rst:111
 msgid ""
 "Объектная и скелетная анимация теперь поддерживают режим ``XYZ Euler`` для "
 "анимации поворота."
@@ -100,21 +290,21 @@ msgstr ""
 "Object and skeletal animations now support the ``XYZ Euler`` mode for "
 "rotations."
 
-#: ../release_notes.rst:40
+#: ../release_notes.rst:113
 msgid "*Поддержка текстурных координат типа GENERATED.*"
 msgstr "*Support for the GENERATED texture coordinates.*"
 
-#: ../release_notes.rst:42
+#: ../release_notes.rst:115
 msgid ""
 "*Добавлена поддержка загрузки ресурсов с удаленного сервера (Cross-origin "
 "resource sharing).*"
 msgstr "*Support for Cross-origin resource sharing (CORS).*"
 
-#: ../release_notes.rst:48
+#: ../release_notes.rst:121
 msgid "*Упрощен процесс экспорта сцен.*"
 msgstr "*Scene export process simplified.*"
 
-#: ../release_notes.rst:45
+#: ../release_notes.rst:118
 msgid ""
 "Ряд ошибок, возникающих при экспорте материала, теперь не блокирует экспорт."
 " Вместо этого при загрузке сцены данный материал будет отображаться розовым "
@@ -125,17 +315,17 @@ msgstr ""
 " this material will be highlighted pink at scene loading. Detailed error "
 "descriptions can be found in the :ref:`manual <export_errors_warnings>`."
 
-#: ../release_notes.rst:50
+#: ../release_notes.rst:123
 msgid "*Добавлена поддержка опции \"Do not export\" для системы частиц.*"
 msgstr "*Added support for the \"Do not export\" option for particle systems.*"
 
-#: ../release_notes.rst:52
+#: ../release_notes.rst:125
 msgid ""
 "*Улучшена стабильность работы приложений на устройствах с мобильной "
 "операционной системой Apple iOS*"
 msgstr "*Improved stability on devices with the Apple iOS operating system.*"
 
-#: ../release_notes.rst:60
+#: ../release_notes.rst:133
 msgid ""
 "В настройках аддона, установленного через SDK, теперь достаточно указывать "
 "путь непосредственно к корневой директории SDK. Ранее требовалось указывать "
@@ -146,30 +336,30 @@ msgstr ""
 "directory. Earlier it was required to provide the full path to embed "
 "application. Pay attention, the old behavior is not supported anymore."
 
-#: ../release_notes.rst:63
+#: ../release_notes.rst:136
 msgid "*В SDK изменился путь для настройки экспорта в HTML.*"
 msgstr "*Changed SDK path setting for HTML export.*"
 
-#: ../release_notes.rst:66
+#: ../release_notes.rst:139
 msgid "Опция будет удалена начиная с версии 14.11."
 msgstr "Will be removed since version 14.11."
 
-#: ../release_notes.rst:66
+#: ../release_notes.rst:139
 msgid "*Объявлена устаревшей опция текстур \"UV translation velocity\".*"
 msgstr "*Deprecated the \"UV translation velocity\" option.*"
 
-#: ../release_notes.rst:68
+#: ../release_notes.rst:141
 msgid "*Удалена опция \"Do not export\" на панели \"Object data\".*"
 msgstr "*Removed option \"Do not export\" from the \"Object data\" panel.*"
 
-#: ../release_notes.rst:74
+#: ../release_notes.rst:147
 msgid ""
 "*Опция Blend4Web>Animation>Cyclic на вкладке свойств объектов удалена.*"
 msgstr ""
 "*Removed \"Blend4Web > Animation > Cyclic\" option from the object "
 "properties panel*."
 
-#: ../release_notes.rst:71
+#: ../release_notes.rst:144
 msgid ""
 "Вместо неё следует использовать опцию ``Blend4Web > Animation > Behavior``, "
 "расположенную там же. В сценах, где циклическая анимация назначается по "
@@ -180,11 +370,11 @@ msgstr ""
 "in the same place. Scenes with default animations may work incorrectly, so "
 "they need behavior property to be set to ``Cyclic``."
 
-#: ../release_notes.rst:78
+#: ../release_notes.rst:151
 msgid "*Изменена реализация алгоритма SSAO*"
 msgstr "*Improved SSAO algorithm*"
 
-#: ../release_notes.rst:77
+#: ../release_notes.rst:150
 msgid ""
 "Новая реализация работает значительно быстрее и показывает лучшее качество "
 "изображения. Параметры настройки алгоритма также изменились. Подробнее в "
@@ -194,11 +384,11 @@ msgstr ""
 " of the algorithm are changed too. For more info see the :ref:`manual "
 "section <ssao>`."
 
-#: ../release_notes.rst:83
+#: ../release_notes.rst:156
 msgid "*Исправлена ошибка рендеринга материала типа HALO.*"
 msgstr "*Fixed rendering error for HALO materials.*"
 
-#: ../release_notes.rst:85
+#: ../release_notes.rst:158
 msgid ""
 "*Исправлена ошибка рендеринга объекта при выставлении опции \"Do not "
 "batch\", если он имел родительский объект.*"
@@ -206,12 +396,12 @@ msgstr ""
 "*Fixed rendering error when an object with \"Do not batch\" property set has"
 " a parent object*"
 
-#: ../release_notes.rst:89
+#: ../release_notes.rst:162
 msgid ""
 "*Исправлена ошибка назначения горячих клавиш на экспорт аддона Blend4Web.*"
 msgstr "*Fixed error with keyboard shortcuts in Blender.*"
 
-#: ../release_notes.rst:88
+#: ../release_notes.rst:161
 msgid ""
 "Устранена ошибка, не позволяющая назначить горячие клавиши на экспорт в "
 "форматы JSON и HTML: ``File->Export->Blend4Web(.json)`` и "
@@ -221,26 +411,26 @@ msgstr ""
 "export menu items:``File->Export->Blend4Web(.json)`` and "
 "``File->Export->Blend4Web(.html)``."
 
-#: ../release_notes.rst:91
+#: ../release_notes.rst:164
 msgid ""
 "*Исправлена ошибка загрузки текстур, превышающих допустимый размер для "
 "данного устройства.*"
 msgstr ""
 "*Fixed crash when loading textures with size exceeding device limits.*"
 
-#: ../release_notes.rst:93
+#: ../release_notes.rst:166
 msgid ""
 "*Исправлены ошибки анимации нодовых материалов, приводившие к нестабильной "
 "работе движка.*"
 msgstr "*Fixed node material errors resulting in unstable engine behavior*."
 
-#: ../release_notes.rst:95
+#: ../release_notes.rst:168
 msgid ""
 "*Устранена ошибка нодовых материалов, содержащих сложные группы нод (Node "
 "Groups)*"
 msgstr "*Fixed error in the node materials with complex Node Groups*."
 
-#: ../release_notes.rst:98
+#: ../release_notes.rst:171
 msgid ""
 "*Исправлены ошибки компиляции шейдеров на устройствах с мобильной графикой "
 "Qualcomm Adreno 305*"
@@ -248,7 +438,7 @@ msgstr ""
 "*Fixed shader compilation errors on mobile devices with Qualcomm Adreno 305 "
 "GPU.*"
 
-#: ../release_notes.rst:100
+#: ../release_notes.rst:173
 msgid ""
 "*Исправлена ошибка рендеринга при использовании ноды REFRACTION на "
 "непрозрачных материалах.*"
@@ -256,7 +446,7 @@ msgstr ""
 "*Fixed rendering error when using REFRACTION nodes in transparent "
 "meterials.*"
 
-#: ../release_notes.rst:102
+#: ../release_notes.rst:175
 msgid ""
 "*Исправлен сброс значения текущего кадра анимации после её запечения при "
 "помощи инструмента \"B4W Vertex Anim Baker\".*"
@@ -264,15 +454,15 @@ msgstr ""
 "*Fixed an issue in \"B4W Vertex Anim Baker\" tool when current frame reset "
 "was occured after using bake.*"
 
-#: ../release_notes.rst:106 ../release_notes.rst:219
+#: ../release_notes.rst:77 ../release_notes.rst:179 ../release_notes.rst:295
 msgid "Известные проблемы"
 msgstr "Known issues"
 
-#: ../release_notes.rst:109 ../release_notes.rst:222
+#: ../release_notes.rst:80 ../release_notes.rst:182 ../release_notes.rst:298
 msgid "*Проблемы с обновлением аддона в Blender*"
 msgstr "*Blender addon upgrading problems*"
 
-#: ../release_notes.rst:109 ../release_notes.rst:222
+#: ../release_notes.rst:80 ../release_notes.rst:182 ../release_notes.rst:298
 msgid ""
 "Настоятельно не рекомендуется устанавливать новую версию аддона Blender, не "
 "удалив предварительно старую версию, особенно это касается систем Windows."
@@ -280,23 +470,31 @@ msgstr ""
 "We strongly don't recommend to install the new Blender addon version without"
 " uninstalling the previous version first (especially for Windows)."
 
-#: ../release_notes.rst:112
+#: ../release_notes.rst:185
+msgid "*Карты нормалей не работают с типом текстурных координат Generated.*"
+msgstr "*Normal maps don't work for Generated texture type.*"
+
+#: ../release_notes.rst:185
+msgid "При использовании карт нормалей необходимо использовать UV-развертку."
+msgstr "It is necessary to use UV mapping for normal maps."
+
+#: ../release_notes.rst:188
 msgid "v14.09"
 msgstr ""
 
-#: ../release_notes.rst:13 ../release_notes.rst:115
+#: ../release_notes.rst:13 ../release_notes.rst:86 ../release_notes.rst:191
 msgid "Новый функционал"
 msgstr "New features"
 
-#: ../release_notes.rst:117
+#: ../release_notes.rst:193
 msgid "*Поддержка типа ABSOLUTE для ноды MATH.*"
 msgstr "*ABSOLUTE type support for the MATH node.*"
 
-#: ../release_notes.rst:121
+#: ../release_notes.rst:197
 msgid "*Поддержка специализированной ноды LEVELS_OF_QUALITY.*"
 msgstr "*Support for LEVELS_OF_QUALITY special node.*"
 
-#: ../release_notes.rst:120
+#: ../release_notes.rst:196
 msgid ""
 "Позволяет управлять сложностью материала в зависимости от профиля качества, "
 "указанного пользователем при загрузке движка."
@@ -304,19 +502,19 @@ msgstr ""
 "Allows to control the material's complexity depending on the quality profile"
 " which is specified by the user upon engine start."
 
-#: ../release_notes.rst:124
+#: ../release_notes.rst:200
 msgid "*Поддержка специализированной ноды SMOOTHSTEP.*"
 msgstr "*Support for SMOOTHSTEP special node.*"
 
-#: ../release_notes.rst:124
+#: ../release_notes.rst:200
 msgid "Упрощает создание некоторых эффектов в нодовом материале."
 msgstr "Simplifies the creation of some effects in node materials."
 
-#: ../release_notes.rst:127
+#: ../release_notes.rst:203
 msgid "*Поддержка нодовых групп.*"
 msgstr "*Node groups support.*"
 
-#: ../release_notes.rst:127
+#: ../release_notes.rst:203
 msgid ""
 "`Нодовые группы "
 "<http://wiki.blender.org/index.php/Doc:2.6/Manual/Composite_Nodes/Node_Groups>`_"
@@ -327,12 +525,12 @@ msgstr ""
 "<http://wiki.blender.org/index.php/Doc:2.6/Manual/Composite_Nodes/Node_Groups>`_"
 " allow the sharing of node blocks between materials."
 
-#: ../release_notes.rst:130
+#: ../release_notes.rst:206
 msgid ""
 "*Возможность вывода промежуточных результатов рендеринга с целью отладки.*"
 msgstr "*The ability to output intermediate rendering results for debugging.*"
 
-#: ../release_notes.rst:130
+#: ../release_notes.rst:206
 msgid ""
 "Результат рендеринга конкретной стадии теперь можно вывести поверх основного"
 " изображения. Настройка осуществляется в модуле ``config.js`` опциями группы"
@@ -342,7 +540,7 @@ msgstr ""
 "picture. This can be set up in the ``config.js`` module through the "
 "``debug_subs`` options."
 
-#: ../release_notes.rst:135
+#: ../release_notes.rst:211
 msgid ""
 "*Реализация логики управления NLA-анимацией в Blender с помощью визуального "
 "редактора.*"
@@ -350,7 +548,7 @@ msgstr ""
 "*The logic for controling Blender's NLA animation using a visual editor has "
 "been implemented.*"
 
-#: ../release_notes.rst:133
+#: ../release_notes.rst:209
 msgid ""
 "В интерфейс Blender добавлен инструмент NLA Script, который позволяет с "
 "помощью визуальных блоков реализовывать простые сценарии, например "
@@ -360,7 +558,7 @@ msgstr ""
 "implementing of simple scenarios using visual blocks, for example playing an"
 " animation in response to the user actions."
 
-#: ../release_notes.rst:138
+#: ../release_notes.rst:214
 msgid ""
 "В модуле ``controls`` разрешено регистрировать *множества сенсоров* "
 "глобально, без привязки к конкретному объекту, для чего в соответствующие "
@@ -382,15 +580,15 @@ msgstr ""
 "which allows to unblock the standard browser behavior for the corresponding "
 "events."
 
-#: ../release_notes.rst:146
+#: ../release_notes.rst:222
 msgid "*Многочисленные улучшения системы сенсоров.*"
 msgstr "*Multiple sensor system improvements.*"
 
-#: ../release_notes.rst:150
+#: ../release_notes.rst:226
 msgid "*Поддержка использования физики в веб-плеере.*"
 msgstr "*The web player now supports physics.*"
 
-#: ../release_notes.rst:149
+#: ../release_notes.rst:225
 msgid ""
 "Работает только в версии веб-плеера с раздельной загрузкой JSON-файлов. В "
 "одиночных HTML файлах физика не поддерживается."
@@ -398,11 +596,11 @@ msgstr ""
 "Works only in the web player version where JSON files are loaded separately."
 " Physics still not supported in the single HTML files."
 
-#: ../release_notes.rst:156
+#: ../release_notes.rst:232
 msgid "*Поддержка смешивания различных скелетных анимаций.*"
 msgstr "*Skeletal animation mixing is now supported.*"
 
-#: ../release_notes.rst:153
+#: ../release_notes.rst:229
 msgid ""
 "В модуле ``animation.js`` добавились API, позволяющие осуществлять плавные "
 "переходы между скелетными анимациями: get_skel_mix_factor() - для получения "
@@ -413,11 +611,11 @@ msgstr ""
 " skeletal animations: get_skel_mix_factor() - for getting the current mixing"
 " factor value and set_skel_mix_factor() - for setting it."
 
-#: ../release_notes.rst:159
+#: ../release_notes.rst:235
 msgid "*Поддержка анимации ноды Value в нодовых материалах.*"
 msgstr "*The Value node can now be animated in node materials.*"
 
-#: ../release_notes.rst:159
+#: ../release_notes.rst:235
 msgid ""
 "Функциональность работает аналогично другим видам анимации. Поддерживается "
 "работа в NLA."
@@ -425,11 +623,11 @@ msgstr ""
 "The functionality is similar to other animation types. Working in NLA is "
 "also supported."
 
-#: ../release_notes.rst:161
+#: ../release_notes.rst:237
 msgid "*Поддержка параметров Specular и Diffuse в источниках освещения.*"
 msgstr "*Diffuse and Specular lamp's properties are now supported.*"
 
-#: ../release_notes.rst:164
+#: ../release_notes.rst:240
 msgid ""
 "*Возможность рендеринга полупрозрачного объекта поверх остальных объектов на"
 " сцене.*"
@@ -437,7 +635,7 @@ msgstr ""
 "*The possibility to render a transparent object above other objects on the "
 "scene.*"
 
-#: ../release_notes.rst:164
+#: ../release_notes.rst:240
 msgid ""
 "Активируется с помощью опции ``Render above all`` для прозрачных материалов "
 "(т.е. не ``Opaque``)."
@@ -445,16 +643,16 @@ msgstr ""
 "Activated with the ``Render above all`` checkbox for transparent materials "
 "(i.e. not ``Opaque``)."
 
-#: ../release_notes.rst:167
+#: ../release_notes.rst:243
 msgid "*Автоматическое применение масштаба к мешу объекта.*"
 msgstr "*Scale is applied automatically to the object mesh.*"
 
-#: ../release_notes.rst:167
+#: ../release_notes.rst:243
 msgid "Реализуется включением опции ``Apply scale`` в настройках объекта."
 msgstr ""
 "Activated by enabling the ``Apply scale`` checkbox in the object settings."
 
-#: ../release_notes.rst:169
+#: ../release_notes.rst:245
 msgid ""
 "*Поддержка профиля высокого качества (включая тени, динамическое отражение и"
 " антиалиасинг) для iOS.*"
@@ -462,15 +660,15 @@ msgstr ""
 "*High quality profile (including shadows, dynamic reflections and anti-"
 "aliasing) has been implemented for iOS.*"
 
-#: ../release_notes.rst:57 ../release_notes.rst:173
+#: ../release_notes.rst:47 ../release_notes.rst:130 ../release_notes.rst:249
 msgid "Изменения"
 msgstr "Changes"
 
-#: ../release_notes.rst:176
+#: ../release_notes.rst:252
 msgid "*Улучшение рендеринга теней.*"
 msgstr "*Shadow rendering improved.*"
 
-#: ../release_notes.rst:176
+#: ../release_notes.rst:252
 msgid ""
 "Существенно изменена система отрисовки теней, которая теперь основывается на"
 " технике ``Stable Cascaded Shadow Maps``. Техника позволяет существенно "
@@ -492,7 +690,7 @@ msgstr ""
 "setting for removing self-shadowing artefacts. The new settings are "
 ":ref:`documented <shadows>` in detail."
 
-#: ../release_notes.rst:178
+#: ../release_notes.rst:254
 msgid ""
 "*Настройка качества графики в веб-плеере теперь сохраняется для каждой сцены"
 " независимо.*"
@@ -500,7 +698,7 @@ msgstr ""
 "*In the web player graphics quality settings are now saved independently for"
 " each scene.*"
 
-#: ../release_notes.rst:181
+#: ../release_notes.rst:257
 msgid ""
 "*Изменено поведение настроек конфигурации приложения: physics_uranium_path, "
 "smaa_search_texture_path и smaa_area_texture_path.*"
@@ -508,7 +706,7 @@ msgstr ""
 "*The behavior of the app configuration parameters has been changed: "
 "physics_uranium_path, smaa_search_texture_path and smaa_area_texture_path.*"
 
-#: ../release_notes.rst:181
+#: ../release_notes.rst:257
 msgid ""
 "Данные настройки конфигурации теперь рассчитываются автоматически в "
 "зависимости от местоположения запускаемого HTML-файла, если они не были "
@@ -518,7 +716,7 @@ msgstr ""
 "HTML files location, if they haven't been overriden during the app's "
 "initialization."
 
-#: ../release_notes.rst:187
+#: ../release_notes.rst:263
 msgid ""
 "*Завершён переход на систему модулей, подключаемых через вызов "
 "b4w.require().*"
@@ -526,7 +724,7 @@ msgstr ""
 "*Transition is completed to the system of modules which are linked via "
 "b4w.require() call.*"
 
-#: ../release_notes.rst:184
+#: ../release_notes.rst:260
 msgid ""
 "Это также означает, что начиная с текущей версии в релиз-версии движка "
 "модули нельзя вызывать с помощью устаревшего интерфейса ``b4w.<module>``. С "
@@ -538,15 +736,15 @@ msgstr ""
 "namespaces. For compatibility purposes the ``ns_compat.js`` addon has been "
 "implemeted, the linking of which allows to restore the old behavior."
 
-#: ../release_notes.rst:189
+#: ../release_notes.rst:265
 msgid "*Добавлена возможность сокрытия панели управления в веб-плеере.*"
 msgstr "*The web player's control panel can now be hidden.*"
 
-#: ../release_notes.rst:193
+#: ../release_notes.rst:269
 msgid "*Скелетная анимация применяется только к объекту арматуры.*"
 msgstr "*Skeletal animation is now applied to armature objects only.*"
 
-#: ../release_notes.rst:192
+#: ../release_notes.rst:268
 msgid ""
 "Нет необходимости применять скелетную анимацию к объектам типа ``MESH``. "
 "Eсли они привязаны к какой-либо анимированной арматуре, скиннинг будет "
@@ -555,7 +753,7 @@ msgstr ""
 "There is no need to apply skeletal animation to ``MESH`` objects. If they "
 "are linked to some animated armature, their skinning will be automatic."
 
-#: ../release_notes.rst:195
+#: ../release_notes.rst:271
 msgid ""
 "*Демонстрационные приложения и обучающие материалы приведены в соответствие "
 "с новым функционалом.*"
@@ -563,11 +761,11 @@ msgstr ""
 "*Demos and tutorials are updated according to the newly implemented "
 "features.*"
 
-#: ../release_notes.rst:81 ../release_notes.rst:198
+#: ../release_notes.rst:64 ../release_notes.rst:154 ../release_notes.rst:274
 msgid "Исправления"
 msgstr "Fixes"
 
-#: ../release_notes.rst:200
+#: ../release_notes.rst:276
 msgid ""
 "*Индикатор загрузки не скрывался, если в процессе происходила ошибка "
 "загрузки ресурса (текстуры либо звукового файла).*"
@@ -575,23 +773,23 @@ msgstr ""
 "*The preloader didn't diappear in case of a loading error (texture or sound "
 "file).*"
 
-#: ../release_notes.rst:202
+#: ../release_notes.rst:278
 msgid "*Исправлены лаги при масштабировании и повороте на touch-устройствах.*"
 msgstr "*Lagging during scaling and turning on mobile devices is fixed.*"
 
-#: ../release_notes.rst:204
+#: ../release_notes.rst:280
 msgid "*Устранено дрожание камеры типа TARGET при небольших поворотах.*"
 msgstr "*TARGET-type camera shimmering has been removed for small turnings.*"
 
-#: ../release_notes.rst:206
+#: ../release_notes.rst:282
 msgid "*Исправлено управление камерой типа EYE на мобильных устройствах.*"
 msgstr "*EYE-type camera controls was fixed for mobile devices.*"
 
-#: ../release_notes.rst:208
+#: ../release_notes.rst:284
 msgid "*Улучшено управление в приложении Ферма в браузере Safari.*"
 msgstr "*The Farm demo controls are improved for Safari browser.*"
 
-#: ../release_notes.rst:210
+#: ../release_notes.rst:286
 msgid ""
 "*Исправлены ошибки при использовании неподдерживаемых моделей освещения на "
 "нодовых материалах.*"
@@ -599,11 +797,11 @@ msgstr ""
 "*Errors concerning using the unsupported shading models in node materials "
 "are now fixed.*"
 
-#: ../release_notes.rst:212
+#: ../release_notes.rst:288
 msgid "*Для объектов без материалов теперь работает опция \"Selectable\".*"
 msgstr "*\"Selectable\" option now works for the objects without materials.*"
 
-#: ../release_notes.rst:214
+#: ../release_notes.rst:290
 msgid ""
 "*Более нет необходимости включать \"Do not batch\" для объектов, "
 "анимирующихся с использованием NLA.*"
@@ -611,7 +809,7 @@ msgstr ""
 "*There is no longer need to enable \"Do not batch\"* for the objects that "
 "are animated using NLA."
 
-#: ../release_notes.rst:216
+#: ../release_notes.rst:292
 msgid ""
 "*Исправлена ошибка для систем частиц, в которых дуплицируемый объект входит "
 "в иерархию с другими объектами.*"
@@ -619,7 +817,7 @@ msgstr ""
 "*The particle system error when the object being instanced is parented to "
 "another object, has been fixed.*"
 
-#: ../release_notes.rst:225
+#: ../release_notes.rst:301
 msgid ""
 "Если при использовании API смешивания скелетной анимации возникают "
 "необработанные ошибки, следует переопределить стандартную функцию Math.sign "
@@ -628,7 +826,8 @@ msgstr ""
 "If skeletal animation mixing API brings unexpected errors, it is neccessary "
 "to override standard Math.sign function as follows:"
 
-#: ../release_notes.rst:230
+#: ../release_notes.rst:306
 msgid "*Смешивание скелетной анимации не работает в некоторых браузерах*"
 msgstr "*Skeletal animation mixing doesn't work in some browsers*"
+
 

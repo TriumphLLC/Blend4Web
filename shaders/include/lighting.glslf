@@ -1,4 +1,4 @@
-#export lighting_result lighting
+#export lighting_result lighting lighting_ambient
 
 #var NUM_LIGHTS 0
 
@@ -228,6 +228,7 @@ void process_lamp(inout lighting_result lresult, vec3 D, vec3 S, vec3 pos_world,
 # endif
 }
 
+#if NUM_LIGHTS > 0
 lighting_result lighting(
               vec3 E,
               vec3 A,
@@ -256,14 +257,12 @@ lighting_result lighting(
 // HACK: unroll for iOS. (loops causing a great performance dropdown)
 
 # if UNROLL_LOOPS
-# if NUM_LIGHTS > 0
     process_lamp(lresult, D, S, pos_world, normal,
         eye_dir, specular_params, diffuse_params,
         shadow_factor, light_positions[0],
         light_directions[0], light_color_intensities[0],
         light_factors1[0], light_factors2[0],
         translucency_color, translucency_params);
-#endif
 # if NUM_LIGHTS > 1
     process_lamp(lresult, D, S, pos_world, normal,
         eye_dir, specular_params, diffuse_params,
@@ -411,3 +410,13 @@ lighting_result lighting(
 #endif
     return lresult;
 }
+#else
+lighting_result lighting_ambient(vec3 E, vec3 A, vec3 D) {
+    lighting_result lresult;
+
+    // sum color as described in Math for 3D GP and CG, page 206
+    lresult.color = vec4(E + D * A, ZERO_VALUE);
+    lresult.specular = vec3(ZERO_VALUE);
+    return lresult;
+}
+#endif

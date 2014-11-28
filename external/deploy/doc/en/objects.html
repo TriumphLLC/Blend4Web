@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Objects &mdash; User Manual: Blend4Web v14.10</title>
+    <title>Objects &mdash; User Manual: Blend4Web v14.11</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.10',
+        VERSION:     '14.11',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User Manual: Blend4Web v14.10" href="index.html" />
+    <link rel="top" title="User Manual: Blend4Web v14.11" href="index.html" />
     <link rel="next" title="Materials" href="materials.html" />
     <link rel="prev" title="The Addon" href="addon.html" /> 
   </head>
@@ -36,7 +36,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">User Manual: Blend4Web v14.10</a></div>
+          href="index.html">User Manual: Blend4Web v14.11</a></div>
         <div class="rel">
           <a href="addon.html" title="The Addon"
              accesskey="P">previous</a> |
@@ -245,7 +245,7 @@
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p><em>Blend4Web &gt; Move style</em> &#8211; camera control mode. By default the camera is in <tt class="docutils literal"><span class="pre">Static</span></tt> mode and this can be changed only through the API call. In the <tt class="docutils literal"><span class="pre">Target</span></tt> mode the camera is rotating around a fixed point. The <tt class="docutils literal"><span class="pre">Eye</span></tt> mode allows rotation and translation as in first person view.</p>
+<p><em>Blend4Web &gt; Move style</em> &#8211; camera control mode. By default the camera is in <tt class="docutils literal"><span class="pre">Static</span></tt> mode and its position can be changed only through an API call. In the <tt class="docutils literal"><span class="pre">Target</span></tt> mode the camera is rotating around a fixed point the position of which can be changed (see <a class="reference internal" href="#panning-mode"><em>camera panning</em></a>). The <tt class="docutils literal"><span class="pre">Eye</span></tt> mode allows rotation and translation as in first person view. In the <tt class="docutils literal"><span class="pre">Hover</span></tt> mode the camera is gliding over the horizontal plane.</p>
 <p><em>Blend4Web &gt; Target location</em> &#8211; available in the <tt class="docutils literal"><span class="pre">Target</span></tt> mode. This is the position of the camera pivot point. The <tt class="docutils literal"><span class="pre">Copy</span> <span class="pre">Cursor</span> <span class="pre">Location</span></tt> button copies the current 3D cursor position into this value.</p>
 <p><em>Blend4Web &gt; DOF front distance</em> &#8211; described in the <a class="reference internal" href="postprocessing_effects.html#postprocessing-effects"><em>Postprocessing Effects</em></a> section.</p>
 <p><em>Blend4Web &gt; DOF rear distance</em> &#8211; described in the <a class="reference internal" href="postprocessing_effects.html#postprocessing-effects"><em>Postprocessing Effects</em></a> section.</p>
@@ -258,8 +258,8 @@
 <div class="line"><br /></div>
 </div>
 <p><strong>Types of limits</strong></p>
-<p><em>Blend4Web &gt; Use distance limits</em> &#8211; available in the <tt class="docutils literal"><span class="pre">Target</span></tt> mode. This defines the minimum and maximum distance from the camera to the pivot point.</p>
-<p>Interval variants:</p>
+<p><em>Blend4Web &gt; Use distance limits</em> &#8211; available in the <tt class="docutils literal"><span class="pre">Target</span></tt> and in the <tt class="docutils literal"><span class="pre">Hover</span></tt> modes. In the <tt class="docutils literal"><span class="pre">Target</span></tt> mode these parameters define the minimum and maximum distance from the camera to the pivot point.</p>
+<p>Available options for the <tt class="docutils literal"><span class="pre">Target</span></tt> camera:</p>
 <ul class="simple">
 <li><p class="first"><em>Max &gt; Min</em> - the distance from the camera to the object is limited by the interval <em>[Min, Max]</em></p>
 </li>
@@ -273,6 +273,71 @@
 <div class="line"><br /></div>
 </div>
 <p>Default values: <em>Min = 1, Max = 100</em>.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>For the <tt class="docutils literal"><span class="pre">Hover</span></tt> camera these parameters define minimum and maximum distances from the camera to the point of intersection between the camera view direction and the horizontal plane (OXY Blender&#8217;s world coordinates plane by default).</p>
+<p>Available options for the <tt class="docutils literal"><span class="pre">Hover</span></tt> camera:</p>
+<ul class="simple">
+<li><p class="first"><em>Max &gt; Min</em> - distance from the camera to the pivot is limited by the <em>[Min, Max]</em> range.</p>
+</li>
+<li><p class="first"><em>Max = Min</em> - the camera is fixed on the certain distance to the pivot.</p>
+</li>
+<li><p class="first"><em>Max &lt; Min</em> - the camera can freely move along the OZ Blender world axis, the pivot is not defined.</p>
+</li>
+</ul>
+<p>Default values: <em>Min = 1, Max = 100</em>.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p><em>Blend4Web &gt; Use horizontal translation limits</em> &#8211; available in the <tt class="docutils literal"><span class="pre">Hover</span></tt> mode. These settings limit the pivot&#8217;s movement by the OX Blender world axis.</p>
+<p>Interval variants:</p>
+<ul class="simple">
+<li><p class="first"><em>Max &gt; Min</em> - the pivot&#8217;s movement is limited by the <em>[Min, Max]</em> range.</p>
+</li>
+<li><p class="first"><em>Max = Min</em> - the pivot is fixed.</p>
+</li>
+<li><p class="first"><em>Max &lt; Min</em> - no limits.</p>
+</li>
+</ul>
+<p>Default values are <em>Min = -100, Max = 100</em>.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p><em>Blend4Web &gt; Use vertical translation limits</em> &#8211; available in the <tt class="docutils literal"><span class="pre">Hover</span></tt> mode. These settings limit the pivot&#8217;s movement by the OY Blender world axis.</p>
+<p>Interval variants:</p>
+<ul class="simple">
+<li><p class="first"><em>Max &gt; Min</em> - the pivot&#8217;s movement is limited by the <em>[Min, Max]</em> range.</p>
+</li>
+<li><p class="first"><em>Max = Min</em> - the pivot is fixed.</p>
+</li>
+<li><p class="first"><em>Max &lt; Min</em> - no limits.</p>
+</li>
+</ul>
+<p>Default values are <em>Min = -100, Max = 100</em>.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p><em>Blend4Web &gt; Camera angle limits</em> &#8211; available in the <tt class="docutils literal"><span class="pre">Hover</span></tt> mode if <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Use</span> <span class="pre">distance</span> <span class="pre">limits</span></tt> option is enabled. These settings limit the camera&#8217;s inclination (the angle between camera view direction and the horizontal plane).</p>
+<p>Interval variants:</p>
+<ul class="simple">
+<li><p class="first"><em>Max &gt; Min</em> - camera rotation angle is limited by the <em>[Min, Max]</em> range.</p>
+</li>
+<li><p class="first"><em>Max = Min</em> - the camera&#8217;s inclination is fixed, the distance from the camera to the pivot is the <em>Min</em> value of the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Use</span> <span class="pre">distance</span> <span class="pre">limits</span></tt> field.</p>
+</li>
+<li><p class="first"><em>Max &lt; Min</em> - <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Use</span> <span class="pre">distance</span> <span class="pre">limits</span></tt> is disabled.</p>
+</li>
+</ul>
+<p>Allowable values: 0 <span class="math">\(\le\)</span> Min, Max <span class="math">\(\le\)</span> 90.</p>
+<p>Default values: <em>Min = 0, Max = 90</em>.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p id="panning-mode"><em>Blend4Web &gt; Use panning mode</em> &#8211; available in the <tt class="docutils literal"><span class="pre">Target</span></tt> mode. Allows camera panning.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p><em>Blend4Web &gt; Use horizontal rotation</em> &#8211; available in the <tt class="docutils literal"><span class="pre">Hover</span></tt> mode if <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Use</span> <span class="pre">distance</span> <span class="pre">limits</span></tt> option is enabled. These settings allow the camera&#8217;s rotation in the horizontal plane relative to its pivot.</p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -395,8 +460,8 @@
           
     <div class="footer">
         &copy; Copyright 2014, Triumph LLC.
-      Last updated on 2014-10-30.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+      Last updated on 2014-11-28.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
         </div>
         <div class="clearer"></div>

@@ -839,9 +839,6 @@ function extract_submesh(mesh, material_index, attr_names, bone_pointers,
 
     // VERTEX COLORS
 
-    // if usage was not specified but vertex colors were requested - just use
-    // the one that is not being used by wind bending/dynamic grass
-
     if (vertex_colors_usage)
         var submesh_vc_usage = m_util.clone_object_r(vertex_colors_usage);
     else
@@ -886,12 +883,18 @@ function extract_submesh(mesh, material_index, attr_names, bone_pointers,
     else
         var use_tangent = false;
 
+    if (use_normal && mat["texture_slots"].length && has_attr(attr_names, "a_tangent") &&
+            mat["texture_slots"][0]["texture_coords"] == "ORCO")
+        var use_orco_coords = true;
+    else
+        var use_orco_coords = false;
+
     for (var i = 0; i < frames; i++) {
         var va_frame = {};
 
         var pos_arr = new Float32Array(base_length * POS_NUM_COMP);
         var nor_arr = new Float32Array(use_normal ? base_length * NOR_NUM_COMP : 0);
-        var tan_arr = new Float32Array(use_tangent ? base_length * TAN_NUM_COMP : 0);
+        var tan_arr = new Float32Array((use_tangent || use_orco_coords) ? base_length * TAN_NUM_COMP : 0);
 
         var from_index = i * base_length * POS_NUM_COMP;
         var to_index = from_index + base_length * POS_NUM_COMP;
@@ -907,6 +910,12 @@ function extract_submesh(mesh, material_index, attr_names, bone_pointers,
             var from_index = i * base_length * TAN_NUM_COMP;
             var to_index = from_index + base_length * TAN_NUM_COMP;
             tan_arr.set(bsub["tangent"].subarray(from_index, to_index), 0);
+        } else if (use_orco_coords) {
+            generate_orco_tangents(nor_arr, tan_arr, base_length, mesh["name"]);
+        } else if (use_normal && has_attr(attr_names, "a_tangent")) {
+            var tan_arr = new Float32Array(base_length * TAN_NUM_COMP);
+            for (var i = 0; i < tan_arr.length; i++)
+                tan_arr[i] = 1.0;
         }
 
         va_frame["a_position"] = pos_arr;
@@ -981,6 +990,34 @@ function generate_orco_texcoords(bb, submesh) {
     }
 
     return texcoords;
+}
+
+function generate_orco_tangents(nor_arr, tan_arr, base_length, mesh_name) {
+    m_print.warn("B4W Warning: Not precise tangents calculation for normalmap " +
+                 "using GENERATED texture coordinates in mesh: \"" + mesh_name +
+                 "\". Please add a UV-map.");
+    for (var i = 0; i < base_length; i++) {
+
+        var nor = _vec3_tmp;
+        var tan = _vec3_tmp2;
+
+        nor[0] = nor_arr[NOR_NUM_COMP * i];
+        nor[1] = nor_arr[NOR_NUM_COMP * i + 1];
+        nor[2] = nor_arr[NOR_NUM_COMP * i + 2];
+
+        m_vec3.cross(nor, m_util.AXIS_Z, tan);
+
+        //HACK: rotate tangent for 90 degrees if it has zero length
+        if (m_vec3.length(tan) == 0.0)
+            m_vec3.cross(nor, m_util.AXIS_X, tan);
+
+        m_vec3.normalize(tan, tan);
+
+        tan_arr[TAN_NUM_COMP * i]     = tan[0];
+        tan_arr[TAN_NUM_COMP * i + 1] = tan[1];
+        tan_arr[TAN_NUM_COMP * i + 2] = tan[2];
+        tan_arr[TAN_NUM_COMP * i + 3] = 1;
+    }
 }
 
 function extract_vcols(va_common, vc_usage, submesh_vc, bsub_color, base_length, mesh_name) {

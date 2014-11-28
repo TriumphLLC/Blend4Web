@@ -373,7 +373,16 @@ exports.remove_sensor_lock = function(sensor) {
  * @param {manifold_callback} callback Manifold callback
  * @param {*} [callback_param] Param to pass to manifold callback (e.g some state)
  */
-exports.create_sensor_manifold = m_ctl.create_sensor_manifold;
+exports.create_sensor_manifold = function(obj, id, type, sensors,
+                                          logic_fun, callback, callback_param) {
+
+    callback_param = callback_param === undefined? null: callback_param;
+    var logic_fun = logic_fun || m_ctl.default_AND_logic_fun;
+
+    m_ctl.create_sensor_manifold(obj, id, type, sensors, logic_fun, callback,
+                                 callback_param);
+}
+
 
 /**
  * Convenience function.
@@ -389,8 +398,12 @@ exports.create_sensor_manifold = m_ctl.create_sensor_manifold;
 exports.create_kb_sensor_manifold = function(obj, id, type, key,
         callback, callback_param) {
     var kb_sensor = m_ctl.create_keyboard_sensor(key);
-    m_ctl.create_sensor_manifold(obj, id, type, [kb_sensor], null,
-            callback, callback_param);
+
+    callback_param = callback_param === undefined? null: callback_param;
+    var logic_fun = m_ctl.default_AND_logic_fun;
+
+    m_ctl.create_sensor_manifold(obj, id, type, [kb_sensor], logic_fun,
+                                 callback, callback_param);
 }
 
 /**

@@ -18,7 +18,7 @@ def help():
     print("""conversion options:
     resize_textures
     convert_dds
-    convert_sounds
+    convert_media
     cleanup_textures
     cleanup_dds
     cleanup_sounds""")
@@ -176,7 +176,7 @@ def is_older(path, path2):
     else:
         return False
 
-def convert_sound(args):
+def convert_media(args):
     root = args[0]
     filename = args[1]
     head_ext = os.path.splitext(filename)
@@ -184,7 +184,8 @@ def convert_sound(args):
     ext = head_ext[1]
 
     if (head.find(".lossconv") == -1 and
-            (ext == ".ogg" or ext == ".mp3" or ext == ".mp4")):
+            (ext == ".ogg" or ext == ".mp3" or ext == ".mp4" or 
+             ext == ".ogv" or ext == ".webm" or ext == ".m4v")):
         path_from = os.path.join(root, filename)
 
         if ext == ".ogg":
@@ -194,13 +195,20 @@ def convert_sound(args):
         elif ext == ".mp4":
             new_ext = ".ogg"
 
+        elif ext == ".ogv":
+            new_ext = ".m4v"
+        elif ext == ".webm":
+            new_ext = ".m4v"
+        elif ext == ".m4v":
+            new_ext = ".webm"
+
         path_to = os.path.join(root, head + ".lossconv" + new_ext)
 
         # optimization: only convert modified src files (like make)
         if is_older(path_from, path_to):
             return
 
-        print("converting file", path_from)
+        print("converting media file", path_from)
 
         if avconv_conv(path_from, path_to):
             print("Conversion error")
@@ -215,7 +223,7 @@ def avconv_conv(path_from, path_to):
         args += ["-acodec", "libvorbis"]
     elif ext_to == ".mp3":
         args += ["-acodec", "mp3"]
-    elif ext_to == ".mp4":
+    elif ext_to == ".mp4" or ext_to == ".m4v":
         # NOTE: use -strict experimental to allow AAC in avconv
         # NOTE: resample all to 48000 (96000 is incompatible with AAC)
         args += ["-acodec", "aac", "-strict", "experimental", "-ar", "48000"] 
@@ -260,9 +268,9 @@ if __name__ == "__main__":
 
     paths = [ASSETS_DIR, TUTS_DIR]
 
-    if task == "convert_sounds":
+    if task == "convert_media":
         paths.append(APPS_DIR)
-        handler = convert_sound
+        handler = convert_media
 
     elif task == "cleanup_sounds":
         paths.append(APPS_DIR)
@@ -287,7 +295,8 @@ if __name__ == "__main__":
     args = [];
 
     for path in paths:
-        for root, dirs, files in os.walk(path):
+        abs_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), path)
+        for root, dirs, files in os.walk(abs_path):
             for f in files:
                 args.append([root, f])
 

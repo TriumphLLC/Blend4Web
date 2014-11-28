@@ -227,6 +227,7 @@ function init_context(canvas, gl) {
     textures.setup_context(gl);
     shaders.setup_context(gl);
     m_debug.setup_context(gl);
+    data.setup_context(gl);
 
     scenes.setup_dim(canvas.width, canvas.height);
     //scenes.setup_dim(gl.drawingBufferWidth, gl.drawingBufferHeight);
@@ -264,8 +265,8 @@ exports.resize = function(width, height) {
         _elem_canvas_hud.style.height = height + "px";
     }
 
-    _elem_canvas_webgl.width  = width;
-    _elem_canvas_webgl.height = height;
+    _elem_canvas_webgl.width  = width * cfg_def.canvas_resolution_factor;
+    _elem_canvas_webgl.height = height * cfg_def.canvas_resolution_factor;
 
     if (_elem_canvas_hud) {
         _elem_canvas_hud.width  = width;
@@ -273,11 +274,14 @@ exports.resize = function(width, height) {
     }
     hud.update_dim();
 
-    scenes.setup_dim(width, height);
+    scenes.setup_dim(width * cfg_def.canvas_resolution_factor,
+            height * cfg_def.canvas_resolution_factor);
     //scenes.setup_dim(_gl.drawingBufferWidth, _gl.drawingBufferHeight);
     renderer.clear();
 
     frame(_global_timeline, 0);
+
+    data.update_media_controls(_elem_canvas_webgl.width, _elem_canvas_webgl.height);
 }
 
 /**
@@ -374,6 +378,7 @@ function pause() {
     _pause_time = performance.now() / 1000;
     sfx.pause();
     physics.pause();
+    textures.pause();
 }
 
 /**
@@ -387,6 +392,7 @@ exports.resume = function() {
     _resume_time = performance.now() / 1000;
     sfx.resume();
     physics.resume();
+    textures.play();
 }
 
 /**
@@ -477,11 +483,10 @@ function frame(timeline, delta) {
     // rendering
     scenes.update(timeline, delta);
 
-    // NOTE: disable unused feature to save time
-    //if (_canvas_data_url_callback) {
-    //    _canvas_data_url_callback(_elem_canvas_webgl.toDataURL());
-    //    _canvas_data_url_callback = null;
-    //}
+    if (_canvas_data_url_callback) {
+        _canvas_data_url_callback(_elem_canvas_webgl.toDataURL());
+        _canvas_data_url_callback = null;
+    }
 }
 
 function init_fps_counter() {
@@ -567,13 +572,13 @@ exports.set_shaders_dir = function() {
 </div>
 
 <nav>
-    <h2><a href="index.html">Index</a></h2><h3>Modules</h3><ul><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-pointerlock.html">pointerlock</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-util.html">util</a></li><li><a href="module-version.html">version</a></li></ul><h3><a href="global.html">Global</a></h3>
+    <h2><a href="index.html">Index</a></h2><h3>Modules</h3><ul><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-pointerlock.html">pointerlock</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-texture.html">texture</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-util.html">util</a></li><li><a href="module-version.html">version</a></li></ul><h3><a href="global.html">Global</a></h3>
 </nav>
 
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-dev</a> on Wed Oct 29 2014 10:03:11 GMT+0300 (MSK)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-dev</a> on Fri Nov 28 2014 15:29:37 GMT+0300 (MSK)
 </footer>
 
 <script> prettyPrint(); </script>

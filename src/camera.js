@@ -48,6 +48,9 @@ exports.MS_TARGET_CONTROLS = 2;
 // controlled by keyboard key directions
 exports.MS_EYE_CONTROLS = 3;
 
+// controlled by keyboard key directions:
+exports.MS_HOVER_CONTROLS = 4;
+
 // global params for all cameras
 
 // convergence distance
@@ -65,11 +68,14 @@ var DEF_PERSP_FAR   = 1000;
 
 var MIN_CLAMPING_INTERVAL = 0.001;
 
+var MAX_HOVER_INIT_CORRECT_DIST = 100;
+
 // for internal usage
 var _vec2_tmp = new Float32Array(2);
 var _vec3_tmp = new Float32Array(3);
 var _vec3_tmp2 = new Float32Array(3);
 var _quat4_tmp = new Float32Array(4);
+var _quat4_tmp2 = new Float32Array(4);
 var _vec4_tmp = new Float32Array(4);
 var _vec4_tmp2 = new Float32Array(4);
 var _mat3_tmp = new Float32Array(16);
@@ -99,7 +105,7 @@ exports.camera_object_to_camera = function(camobj) {
         break;
     case "ORTHO":
         var cam = create_camera(exports.TYPE_ORTHO);
-        // vertical fit is only supported
+        // vertical rotation fit is only supported
         var top_bound = camobj_data["ortho_scale"] / 2;
         set_frustum(cam, top_bound, camobj_data["clip_start"],
                 camobj_data["clip_end"]);
@@ -108,20 +114,81 @@ exports.camera_object_to_camera = function(camobj) {
 
     cam.name = camobj["name"];
 
-    render.trans_speed        = cfg_ctl.cam_trans_base_speed.slice();
-    render.underwater         = false;
-    render.move_style         = move_style_bpy_to_b4w(camobj_data["b4w_move_style"]);
-    render.dof_distance       = camobj["data"]["dof_distance"];
-    render.dof_object         = camobj["data"]["dof_object"];
-    render.dof_front          = camobj["data"]["b4w_dof_front"];
-    render.dof_rear           = camobj["data"]["b4w_dof_rear"];
-    render.dof_power          = camobj["data"]["b4w_dof_power"];
+    render.trans_speed               = cfg_ctl.cam_trans_base_speed.slice();
+    render.underwater                = false;
+    render.move_style                = move_style_bpy_to_b4w(camobj_data["b4w_move_style"]);
+    render.dof_distance              = camobj["data"]["dof_distance"];
+    render.dof_object                = camobj["data"]["dof_object"];
+    render.dof_front                 = camobj["data"]["b4w_dof_front"];
+    render.dof_rear                  = camobj["data"]["b4w_dof_rear"];
+    render.dof_power                 = camobj["data"]["b4w_dof_power"];
+    render.enable_hover_hor_rotation = camobj["data"]["b4w_enable_hover_hor_rotation"];
 
     render.cameras  = [cam];
 
     if (render.move_style == exports.MS_TARGET_CONTROLS)
         render.pivot.set(camobj_data["b4w_target"]);
     prepare_clamping_limits(camobj);
+
+    init_hover_camera(camobj);
+}
+
+function init_hover_camera(camobj) {
+    var render = camobj._render;
+
+    if (render.move_style === exports.MS_HOVER_CONTROLS 
+            && render.use_distance_limits) {
+        if (!render.hover_angle_limits)
+            // up and down value are not defined
+            render.use_distance_limits = false;
+        else {
+
+            var cur_abs_angle = get_hover_angle(camobj);
+
+            var z_world_cam = m_util.quat_to_dir(render.quat, m_util.AXIS_Z,
+                    _vec3_tmp);
+            var theta = 0;
+
+            if (z_world_cam[1] > 0) {
+                theta -= Math.asin(z_world_cam[1] / m_vec3.len(z_world_cam));
+            }
+
+            if (cur_abs_angle > render.hover_angle_limits.up)
+                theta += cur_abs_angle - render.hover_angle_limits.up;
+            else if (cur_abs_angle < render.hover_angle_limits.down)
+                theta += render.hover_angle_limits.down - cur_abs_angle;
+
+            if (theta || cur_abs_angle < 0) 
+                 m_print.warn("B4W Warning: Active hover camera has wrong orientation");
+
+            if (theta) {
+                var local_axis_x = m_util.quat_to_dir(render.quat, m_util.AXIS_X, 
+                    _vec3_tmp2);
+                var rotation_quat = m_quat.setAxisAngle(local_axis_x, -theta, 
+                    _quat4_tmp);
+
+                m_quat.normalize(rotation_quat, rotation_quat);
+
+                m_quat.multiply(rotation_quat, render.quat, render.quat);
+            }
+
+            var view_vector = m_util.quat_to_dir(render.quat, m_util.AXIS_MY, 
+                    _vec3_tmp);
+            var normal_plane_oxy = _vec4_tmp;
+            normal_plane_oxy.set(m_util.AXIS_Y);
+            normal_plane_oxy[3] = 0;
+
+            var res = m_util.line_plane_intersect(normal_plane_oxy, 0, render.trans, 
+                    view_vector, render.hover_pivot);
+
+            // It is used to check parallel line and plane
+            if (!res || m_vec3.len(res) > MAX_HOVER_INIT_CORRECT_DIST) {
+                render.hover_pivot[0] = render.trans[0];
+                render.hover_pivot[1] = 0;
+                render.hover_pivot[2] = render.trans[2];
+            }
+        }
+    }
 }
 
 /**
@@ -210,6 +277,9 @@ function move_style_bpy_to_b4w(bpy_move_style) {
         break;
     case "EYE":
         return exports.MS_EYE_CONTROLS;
+        break;
+    case "HOVER":
+        return exports.MS_HOVER_CONTROLS;
         break;
     default:
         throw "Unknown move style";
@@ -438,7 +508,7 @@ function rotate_v_local(camobj, angle) {
 
 exports.get_angles = get_angles;
 /**
- * Get camera vertical and horizontal angles
+ * Get camera vertical rotation and horizontal rotation angles
  * @methodOf camera
  * @param cam Camera ID
  * @param {vec2} dest Destination vector for camera angles ([h, v]),
@@ -801,39 +871,70 @@ exports.update_camera = function(obj) {
 }
 
 /**
- * Prepare camera vertical and horizontal clamping limits
+ * Prepare camera vertical rotation and horizontal rotation clamping limits
  * uses _vec3_tmp
  */
 function prepare_clamping_limits(obj) {
     var render = obj._render;
-    // clamping used only for TARGET and EYE camera
+    // clamping used only for TARGET, EYE and HOVER camera
     if (render.move_style !== exports.MS_TARGET_CONTROLS
-            && render.move_style !== exports.MS_EYE_CONTROLS)
+            && render.move_style !== exports.MS_EYE_CONTROLS
+            && render.move_style !== exports.MS_HOVER_CONTROLS)
         return;
 
     var data = obj["data"];
 
-    if (data["b4w_use_horizontal_clamping"])
-        render.horizontal_limits = {
-            left: data["b4w_rotation_left_limit"],
-            right: data["b4w_rotation_right_limit"]
-        }
-    if (data["b4w_use_vertical_clamping"])
-        render.vertical_limits = {
-            down: data["b4w_rotation_down_limit"],
-            up: data["b4w_rotation_up_limit"]
-        }
+    if (render.move_style === exports.MS_TARGET_CONTROLS 
+            || render.move_style === exports.MS_EYE_CONTROLS) {
+        if (data["b4w_use_horizontal_clamping"])
+            render.horizontal_limits = {
+                left: data["b4w_rotation_left_limit"],
+                right: data["b4w_rotation_right_limit"]
+            }
+        if (data["b4w_use_vertical_clamping"])
+            render.vertical_limits = {
+                down: data["b4w_rotation_down_limit"],
+                up: data["b4w_rotation_up_limit"]
+            }
+        if (data["b4w_horizontal_clamping_type"] == "LOCAL")
+            horizontal_limits_local_to_world(obj);
+        if (data["b4w_vertical_clamping_type"] == "LOCAL")
+            vertical_limits_local_to_world(obj);
+        vertical_limits_correct(obj);
 
-    if (data["b4w_horizontal_clamping_type"] == "LOCAL")
-        horizontal_limits_local_to_world(obj);
-    if (data["b4w_vertical_clamping_type"] == "LOCAL")
-        vertical_limits_local_to_world(obj);
-    vertical_limits_correct(obj);
+        if (data["b4w_use_panning"])
+            render.use_panning = data["b4w_use_panning"]
 
+    } else if (render.move_style === exports.MS_HOVER_CONTROLS) {
+        if (data["b4w_use_horizontal_clamping"]
+                && (data["b4w_horizontal_translation_min"]
+                <= data["b4w_horizontal_translation_max"]))
+            render.horizontal_limits = {
+                left: data["b4w_horizontal_translation_min"],
+                right: data["b4w_horizontal_translation_max"]
+            }
+        if (data["b4w_use_vertical_clamping"]
+                && (data["b4w_vertical_translation_min"]
+                <= data["b4w_vertical_translation_max"]))
+            render.vertical_limits = {
+                down: -data["b4w_vertical_translation_max"],
+                up: -data["b4w_vertical_translation_min"]
+            }
+        if (data["b4w_use_distance_limits"]
+                && (data["b4w_hover_angle_min"]
+                <= data["b4w_hover_angle_max"])) {
+            render.hover_angle_limits = {
+                down: data["b4w_hover_angle_min"],
+                up: data["b4w_hover_angle_max"]
+            }
+
+        }
+    }
     // NOTE: disable distance clamping if distance_min > distance_max
     render.use_distance_limits = data["b4w_use_distance_limits"]
             && (data["b4w_distance_min"]
             <= data["b4w_distance_max"]);
+
 
     if (render.use_distance_limits) {
         render.distance_min = data["b4w_distance_min"];
@@ -899,7 +1000,7 @@ function vertical_limits_local_to_world(obj) {
 exports.vertical_limits_correct = vertical_limits_correct;
 function vertical_limits_correct(obj) {
     var render = obj._render;
-    // NOTE: correct vertical limits if horizontal limits switched on
+    // NOTE: correct vertical rotation limits if horizontal rotation limits switched on
     if (render.horizontal_limits) {
         if (render.vertical_limits) {
             // rotate by PI / 2 CW and convert into [0, 2PI] range for
@@ -918,7 +1019,7 @@ function vertical_limits_correct(obj) {
                 render.vertical_limits.up = Math.PI / 2;
             }
         } else {
-            // set default vertical limits for horizontal clamping
+            // set default vertical rotation limits for horizontal rotation clamping
             render.vertical_limits = {
                 down: -Math.PI / 2,
                 up: Math.PI / 2
@@ -933,70 +1034,90 @@ function vertical_limits_correct(obj) {
 exports.clamp_limits = function(obj) {
 
     var render = obj._render;
-    if (render.move_style !== exports.MS_TARGET_CONTROLS
-            && render.move_style !== exports.MS_EYE_CONTROLS)
-        return;
+    if (render.move_style === exports.MS_TARGET_CONTROLS
+            || render.move_style === exports.MS_EYE_CONTROLS) {
 
-    // horizontal clamping
-    if (render.horizontal_limits) {
-        var left = render.horizontal_limits.left;
-        var right = render.horizontal_limits.right;
+        // horizontal rotation clamping
+        if (render.horizontal_limits) {
+            var left = render.horizontal_limits.left;
+            var right = render.horizontal_limits.right;
+            
+            var angles = get_angles(obj, _vec2_tmp);
 
-        var angles = get_angles(obj, _vec2_tmp);
+            var phi = angles[0];
 
-        var phi = angles[0];
-
-        if (render.move_style == exports.MS_TARGET_CONTROLS)
-            // camera angle around target
-            phi -= Math.PI;
-        else
-            // camera eye angle
-            phi *= -1;
-
-        var return_angle = get_returning_angle(phi, left, right);
-
-        if (return_angle) {
             if (render.move_style == exports.MS_TARGET_CONTROLS)
-                target_cam_rotate_pos_phi(obj, return_angle);
+                // camera angle around target
+                phi -= Math.PI;
             else
-                eye_cam_rotate_pos_phi(obj, return_angle);
+                // camera eye angle
+                phi *= -1;
+
+            var return_angle = get_returning_angle(phi, left, right);
+
+            if (return_angle) {
+                if (render.move_style == exports.MS_TARGET_CONTROLS)
+                    target_cam_rotate_pos_phi(obj, return_angle);
+                else
+                    eye_cam_rotate_pos_phi(obj, return_angle);
+            }
         }
-    }
 
-    // vertical clamping
-    if (render.vertical_limits) {
-        var down = render.vertical_limits.down;
-        var up = render.vertical_limits.up;
+        // vertical rotation clamping
+        if (render.vertical_limits) {
+            var down = render.vertical_limits.down;
+            var up = render.vertical_limits.up;
 
-        var angles = get_angles(obj, _vec2_tmp);
+            var angles = get_angles(obj, _vec2_tmp);
 
-        // theta angle for target camera
-        var theta = angles[1];
-        if (render.move_style == exports.MS_TARGET_CONTROLS)
-            theta *= -1;
-
-        // check upside-down camera position for extending theta angle to
-        // [-PI, PI] range
-        var z_world_cam = m_util.quat_to_dir(render.quat, m_util.AXIS_Z,
-                _vec3_tmp);
-        if (z_world_cam[1] > 0)
-            var theta_ext = m_util.sign(theta) * Math.PI - theta;
-        else
-            var theta_ext = theta;
-
-        var return_angle = get_returning_angle(theta_ext, down, up);
-        if (return_angle) {
+            // theta angle for target camera
+            var theta = angles[1];
             if (render.move_style == exports.MS_TARGET_CONTROLS)
-                target_cam_rotate_pos_theta(obj, return_angle);
-            else
-                eye_cam_rotate_pos_theta(obj, return_angle);
-        }
-    }
+                theta *= -1;
 
-    // distance clamping
-    if (render.move_style == exports.MS_TARGET_CONTROLS)
-        if (render.use_distance_limits)
-            target_cam_clamp_distance(obj);
+            // check upside-down camera position for extending theta angle to
+            // [-PI, PI] range
+            var z_world_cam = m_util.quat_to_dir(render.quat, m_util.AXIS_Z,
+                    _vec3_tmp);
+            if (z_world_cam[1] > 0)
+                var theta_ext = m_util.sign(theta) * Math.PI - theta;
+            else
+                var theta_ext = theta;
+
+            var return_angle = get_returning_angle(theta_ext, down, up);
+            if (return_angle) {
+                if (render.move_style == exports.MS_TARGET_CONTROLS)
+                    target_cam_rotate_pos_theta(obj, return_angle);
+                else
+                    eye_cam_rotate_pos_theta(obj, return_angle);
+            }
+        }
+
+        // distance clamping
+        if (render.move_style === exports.MS_TARGET_CONTROLS)
+            if (render.use_distance_limits)
+                target_cam_clamp_distance(obj);
+    }
+    
+    if (render.move_style === exports.MS_HOVER_CONTROLS) { 
+
+        // horizontal, vertical translation clamping
+        hover_cam_clamp_axis_limits(obj); 
+
+        hover_cam_clamp_rot_trans(obj)
+    }
+}
+
+exports.get_hover_angle = get_hover_angle;
+
+function get_hover_angle(obj) {
+    var render = obj._render;
+
+    var view_vector = m_util.quat_to_dir(render.quat, m_util.AXIS_MY, 
+            _vec3_tmp);
+    m_vec3.normalize(view_vector, view_vector);
+
+    return -Math.asin(view_vector[1]);
 }
 
 /**
@@ -1119,6 +1240,88 @@ function target_cam_clamp_distance(obj) {
     }
 }
 
+function hover_cam_clamp_axis_limits(obj) {
+    var render = obj._render;
+
+    if (render.use_distance_limits)
+        var target = render.hover_pivot;
+    else
+        var target = render.trans;
+
+    if (render.horizontal_limits)
+        target[0] = m_util.clamp(target[0], 
+                render.horizontal_limits.left, render.horizontal_limits.right);
+
+    if (render.vertical_limits)
+        target[2] = m_util.clamp(target[2], 
+                render.vertical_limits.down, render.vertical_limits.up);
+}
+
+/**
+ * uses _vec3_tmp 
+ */
+function get_hover_dir_pivot(obj, dest) {
+    var render = obj._render;
+
+    if (render.use_distance_limits) {
+        var view_vector = m_util.quat_to_dir(render.quat, m_util.AXIS_MY, 
+                _vec3_tmp);
+        m_vec3.normalize(view_vector, view_vector);
+
+        if (render.hover_angle_limits.up - render.hover_angle_limits.down) {
+            var cur_abs_angle = -Math.asin(view_vector[1]);
+            var rot_factor = (cur_abs_angle - render.hover_angle_limits.down) /
+                    (render.hover_angle_limits.up - render.hover_angle_limits.down);
+            rot_factor = Math.max(rot_factor, 0);
+        } else {
+            // set minimum distance for equal up and down angles
+            rot_factor = 0;
+        }
+
+        var dir_vector = m_vec3.scale(view_vector, -(rot_factor 
+                * (render.distance_max - render.distance_min) 
+                + render.distance_min), dest);
+
+        return dir_vector;
+    } 
+    return null;
+}
+
+function hover_cam_clamp_rot_trans(obj) {
+    var render = obj._render;
+
+    if (render.use_distance_limits) {
+
+        var z_world_cam = m_util.quat_to_dir(render.quat, m_util.AXIS_Z,
+                _vec3_tmp);
+        var rotate = 0;
+
+        if (z_world_cam[1] > 0) {
+            rotate = Math.asin(z_world_cam[1] / m_vec3.len(z_world_cam));
+        }
+
+        var angles = m_vec3.negate(get_angles(obj, _vec2_tmp), _vec2_tmp);
+        
+        if (angles[1] < render.hover_angle_limits.down)
+            rotate += angles[1] - render.hover_angle_limits.down;
+        else if (angles[1] > render.hover_angle_limits.up)
+            rotate += angles[1] - render.hover_angle_limits.up;
+
+        if (rotate) {
+            var local_axis_x = m_util.quat_to_dir(render.quat, m_util.AXIS_X, 
+                    _vec3_tmp2);
+            m_vec3.normalize(local_axis_x, local_axis_x);
+            var rotation_quat = m_quat.setAxisAngle(local_axis_x, rotate,
+                    _quat4_tmp);
+            m_quat.normalize(rotation_quat, rotation_quat);
+            m_quat.multiply(rotation_quat, render.quat, render.quat);
+        }
+
+        var dir_trans = get_hover_dir_pivot(obj, _vec3_tmp);
+        m_vec3.add(render.hover_pivot, dir_trans, render.trans);
+    }
+}
+
 /**
  * Check if camera has float or fixed aspect ratio
  */
@@ -1221,7 +1424,7 @@ function set_projection_stereo(cam) {
     var top = cam.near * fov_tan;
     var bottom = -top;
 
-    // half of convergence plane in horizontal direction
+    // half of convergence plane in horizontal rotation direction
     var a = cam.aspect * cam.stereo_conv_dist * fov_tan;
 
     if (cam.type == exports.TYPE_STEREO_LEFT) {
@@ -1441,6 +1644,28 @@ function is_camera(obj) {
 exports.is_target_camera = function(obj) {
     if (is_camera(obj) && obj._render &&
             obj._render.move_style == exports.MS_TARGET_CONTROLS)
+        return true;
+    else
+        return false;
+}
+
+/**
+ * Check if object is camera and has MS_HOVER_CONTROLS move style
+ */
+exports.is_hover_camera = function(obj) {
+    if (is_camera(obj) && obj._render &&
+            obj._render.move_style == exports.MS_HOVER_CONTROLS)
+        return true;
+    else
+        return false;
+}
+
+/**
+ * Check if object is camera and has MS_TARGET_CONTROLS move style
+ */
+exports.is_eye_camera = function(obj) {
+    if (is_camera(obj) && obj._render &&
+            obj._render.move_style == exports.MS_EYE_CONTROLS)
         return true;
     else
         return false;

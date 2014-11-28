@@ -16,12 +16,10 @@
                                   ATTRIBUTES
 ============================================================================*/
 
-#define TEXCOORD (TEXTURE_COLOR && TEXTURE_COORDS == TEXTURE_COORDS_UV_ORCO || TEXTURE_STENCIL_ALPHA_MASK || TEXTURE_SPEC || TEXTURE_NORM)
-
 attribute vec3 a_position;
 attribute vec3 a_normal;
 
-#if TEXTURE_NORM
+#if TEXTURE_NORM_CO
     attribute vec4 a_tangent;
 #endif
 
@@ -34,28 +32,28 @@ attribute vec3 a_normal;
 #endif
 
 #if WIND_BEND
-    #if MAIN_BEND_COL
-        attribute float a_bending_col_main;
-        #if DETAIL_BEND
-            attribute vec3 a_bending_col_detail;
-            AU_QUALIFIER float au_detail_bending_amp;
-            AU_QUALIFIER float au_branch_bending_amp;
-            AU_QUALIFIER float au_detail_bending_freq;
-        #endif
-    #endif
+# if MAIN_BEND_COL
+    attribute float a_bending_col_main;
+#  if DETAIL_BEND
+    attribute vec3 a_bending_col_detail;
+    AU_QUALIFIER float au_detail_bending_amp;
+    AU_QUALIFIER float au_branch_bending_amp;
+    AU_QUALIFIER float au_detail_bending_freq;
+#  endif
+# endif // MAIN_BEND_COL
     AU_QUALIFIER float au_wind_bending_amp;
     AU_QUALIFIER float au_wind_bending_freq;
 # if BEND_CENTER_ONLY
     attribute vec3 a_emitter_center;
 # endif
-#endif
+#endif // WIND_BEND
 
 #if VERTEX_ANIM
     attribute vec3 a_position_next;
     attribute vec3 a_normal_next;
-    #if TEXTURE_NORM
-        attribute vec4 a_tangent_next;
-    #endif
+# if TEXTURE_NORM_CO
+    attribute vec4 a_tangent_next;
+# endif
 #endif
 
 #if TEXCOORD
@@ -156,41 +154,41 @@ varying vec3 v_eye_dir;
 varying vec3 v_pos_world;
 varying vec3 v_normal;
 
-#if !DISABLE_FOG || (TEXTURE_NORM && PARALLAX) || (WATER_EFFECTS && CAUSTICS)
+#if !DISABLE_FOG || (TEXTURE_NORM_CO && PARALLAX) || (WATER_EFFECTS && CAUSTICS)
 varying vec4 v_pos_view;
 #endif
 
-#if TEXTURE_NORM
-    varying vec4 v_tangent;
+#if TEXTURE_NORM_CO
+varying vec4 v_tangent;
 #endif
 
 #if TEXCOORD
-    varying vec2 v_texcoord;
+varying vec2 v_texcoord;
 #endif
 
 #if VERTEX_COLOR || DYNAMIC_GRASS
-    varying vec3 v_color;
+varying vec3 v_color;
 #endif
 
 #if SHADOW_SRC != SHADOW_SRC_MASK && SHADOW_SRC != SHADOW_SRC_NONE
-    varying vec4 v_shadow_coord0;
-    #if CSM_SECTION1
-        varying vec4 v_shadow_coord1;
-    #endif
-    #if CSM_SECTION2
-        varying vec4 v_shadow_coord2;
-    #endif
-    #if CSM_SECTION3
-        varying vec4 v_shadow_coord3;
-    #endif
+varying vec4 v_shadow_coord0;
+# if CSM_SECTION1
+varying vec4 v_shadow_coord1;
+# endif
+# if CSM_SECTION2
+varying vec4 v_shadow_coord2;
+# endif
+# if CSM_SECTION3
+varying vec4 v_shadow_coord3;
+# endif
 #endif
 
 #if REFLECTIVE || SHADOW_SRC == SHADOW_SRC_MASK || REFRACTIVE
-    varying vec3 v_tex_pos_clip;
+varying vec3 v_tex_pos_clip;
 #endif
 
 #if REFRACTIVE
-    varying float v_view_depth;
+varying float v_view_depth;
 #endif
 /*============================================================================
                                   INCLUDES
@@ -210,9 +208,16 @@ void main(void) {
     vec3 position = a_position;
     vec3 normal = a_normal;
 
-#if TEXTURE_NORM
+#if TEXTURE_NORM_CO == TEXTURE_COORDS_UV_ORCO
     vec3 tangent = vec3(a_tangent);
     vec3 binormal = a_tangent[3] * cross(normal, tangent);
+#elif TEXTURE_NORM_CO == TEXTURE_COORDS_NORMAL
+    // NOTE: absolutely not precise. Better too avoid using such a setup
+    vec3 world_pos = (u_model_matrix * vec4(a_position, 1.0)).xyz;
+    vec3 norm_world = normalize((u_model_matrix * vec4(a_normal, 0.0)).xyz);
+    vec3 eye_dir = world_pos - u_camera_eye;
+    vec3 binormal = cross(eye_dir, norm_world);
+    vec3 tangent = cross(norm_world, binormal);
 #else
     vec3 tangent = vec3(0.0);
     vec3 binormal = vec3(0.0);
@@ -222,7 +227,7 @@ void main(void) {
     position = mix(position, a_position_next, u_va_frame_factor);
     normal = mix(normal, a_normal_next, VERTEX_ANIM_MIX_NORMALS_FACTOR);
 
-# if TEXTURE_NORM
+# if TEXTURE_NORM_CO
     vec3 tangent_next = vec3(a_tangent);
     vec3 binormal_next = a_tangent_next[3] * cross(a_normal_next, tangent_next);
 
@@ -267,7 +272,7 @@ void main(void) {
 # endif  // BILLBOARD
 #endif  // DYNAMIC_GRASS
 
-#if TEXTURE_NORM
+#if TEXTURE_NORM_CO
     // calculate handedness as described in Math for 3D GP and CG, page 185
     float m = (dot(cross(world.normal, world.tangent),
         world.binormal) < 0.0) ? -1.0 : 1.0;
@@ -295,7 +300,7 @@ void main(void) {
 
     vec4 pos_view = u_view_matrix * vec4(world.position, 1.0);
 
-#if !DISABLE_FOG || (TEXTURE_NORM && PARALLAX) || (WATER_EFFECTS && CAUSTICS)
+#if !DISABLE_FOG || (TEXTURE_NORM_CO && PARALLAX) || (WATER_EFFECTS && CAUSTICS)
     v_pos_view = pos_view;
 #endif
 
@@ -320,8 +325,8 @@ void main(void) {
     v_tex_pos_clip.z = wc;
 #endif
 
-    #if REFRACTIVE
-        v_view_depth = -pos_view.z / u_view_max_depth;
-    #endif
+#if REFRACTIVE
+    v_view_depth = -pos_view.z / u_view_max_depth;
+#endif
     gl_Position = pos_clip;
 }

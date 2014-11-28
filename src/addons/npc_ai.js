@@ -163,7 +163,6 @@ function move_destination_if_too_close(ev_track, dest, cur_loc) {
 
     var cur_rot_q = _quat4_tmp_2;
     var cur_hor_dir = _vec3_tmp_3;
-    var hor_dir_to_dest = _vec3_tmp_4;
 
     var speed = ev_track.speed;
     var rot_speed = ev_track.rot_speed;

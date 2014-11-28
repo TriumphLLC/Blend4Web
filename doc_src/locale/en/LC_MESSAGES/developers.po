@@ -655,7 +655,6 @@ msgstr ""
 "Application developers can also set the **quality** parameter upon engine "
 "initialization using the ``app.js`` addon:"
 
-
 #: ../developers.rst:443
 msgid "Файловая структура SDK"
 msgstr "SDK File Structure"
@@ -671,45 +670,45 @@ msgstr ""
 "source code of the applications (not all applications are available as a "
 "free version)"
 
-#: ../developers.rst:449
+#: ../developers.rst:572
 msgid "**closure-compiler**"
 msgstr ""
 
-#: ../developers.rst:449
+#: ../developers.rst:572
 msgid ""
 "компилятор Google Closure, файлы исключений к нему, генераторы файлов "
 "исключений"
 msgstr "Google Closure compiler, its externs and their generators"
 
-#: ../developers.rst:452
+#: ../developers.rst:449
 msgid "**csrc**"
 msgstr ""
 
-#: ../developers.rst:452
+#: ../developers.rst:449
 msgid ""
 "исходный код бинарной части экспортера движка и других утилит на языке C"
 msgstr ""
 "source code (in C) of the binary part of the engine exporter and of the "
 "other utilities"
 
-#: ../developers.rst:455
+#: ../developers.rst:452
 msgid "**doc_src**"
 msgstr ""
 
-#: ../developers.rst:455
+#: ../developers.rst:452
 msgid ""
 "исходный код настоящего руководства пользователя на языке разметки reST"
 msgstr "source files of the current manual written in reST"
 
-#: ../developers.rst:498
+#: ../developers.rst:495
 msgid "**external**"
 msgstr ""
 
-#: ../developers.rst:460
+#: ../developers.rst:457
 msgid "**blender**"
 msgstr ""
 
-#: ../developers.rst:459
+#: ../developers.rst:456
 msgid ""
 "исходные файлы сцен в формате Blender (не все сцены доступны в бесплатной "
 "версии)"
@@ -717,34 +716,35 @@ msgstr ""
 "source files of the Blender scenes (not all scenes are available as a free "
 "version)"
 
-#: ../developers.rst:463
+#: ../developers.rst:460
 msgid "**blender_scripts**"
 msgstr ""
 
-#: ../developers.rst:463
+#: ../developers.rst:460
 msgid "экспортер и вспомогательные скрипты для Blender'а"
 msgstr "exporter and utility scripts for Blender"
 
-#: ../developers.rst:476
+#: ../developers.rst:473
 msgid "**common**"
 msgstr ""
 
-#: ../developers.rst:475
+#: ../developers.rst:472
 msgid ""
 "Файлы скомпилированного движка. Используются всеми приложениями из состава "
 "SDK (отсюда и название)."
 msgstr ""
-"The compiled engine files. They are used by all apps in the SDK (hence the name)."
+"The compiled engine files. They are used by all apps in the SDK (hence the "
+"name)."
 
-#: ../developers.rst:494
+#: ../developers.rst:491
 msgid "**deploy**"
 msgstr ""
 
-#: ../developers.rst:468
+#: ../developers.rst:465
 msgid "**api_doc**"
 msgstr ""
 
-#: ../developers.rst:467
+#: ../developers.rst:464
 msgid ""
 "документация API движка для разработчиков в формате HTML (собирается "
 "автоматически, на основе исходного кода движка)"
@@ -752,22 +752,22 @@ msgstr ""
 "engine's API documentation for developers in HTML format (built "
 "automatically based on the engine source code)"
 
-#: ../developers.rst:476
+#: ../developers.rst:473
 msgid "**apps**"
 msgstr ""
 
-#: ../developers.rst:471
+#: ../developers.rst:468
 msgid ""
 "3D-приложения, предназначенные для развертывания, директория дублирует "
 "*apps_dev*"
 msgstr ""
 "3D applications intended for deploying; the directory duplicates *apps_dev*"
 
-#: ../developers.rst:484
+#: ../developers.rst:481
 msgid "**assets**"
 msgstr ""
 
-#: ../developers.rst:479
+#: ../developers.rst:476
 msgid ""
 "загружаемые ресурсы: сцены, текстуры, звуковые файлы (не все ресурсы "
 "доступны в бесплатной версии)"
@@ -775,47 +775,47 @@ msgstr ""
 "loading resources: scenes, textures, sounds (not all resources are available"
 " as a free version)"
 
-#: ../developers.rst:483
+#: ../developers.rst:480
 msgid ""
 "метаданные с информацией о сценах, загружаемых просмотрщиком сцен Viewer"
 msgstr "meta data with information about scenes loaded by the Viewer"
 
-#: ../developers.rst:484
+#: ../developers.rst:481
 msgid "**assets.json**"
 msgstr ""
 
-#: ../developers.rst:488
+#: ../developers.rst:485
 msgid "**doc**"
 msgstr ""
 
-#: ../developers.rst:487
+#: ../developers.rst:484
 msgid ""
 "настоящее руководство пользователя в формате HTML, собирается автоматически "
 "из *doc_src*"
 msgstr ""
 "the current user manual in HTML format, built autamatically from *doc_src*"
 
-#: ../developers.rst:491
+#: ../developers.rst:488
 msgid "**globals_detect**"
 msgstr ""
 
-#: ../developers.rst:491
+#: ../developers.rst:488
 msgid "вспомогательный код для определения глобальных переменных"
 msgstr "utility code for detecting global variables"
 
-#: ../developers.rst:494
+#: ../developers.rst:491
 msgid "**tutorials**"
 msgstr ""
 
-#: ../developers.rst:494
+#: ../developers.rst:491
 msgid "исходные файлы обучающих примеров"
 msgstr "source files for the tutorials"
 
-#: ../developers.rst:498
+#: ../developers.rst:495
 msgid "**reexporter.py** и **Makefile**"
 msgstr "**reexporter.py** and **Makefile**"
 
-#: ../developers.rst:497
+#: ../developers.rst:494
 msgid ""
 "Python-скрипт и файл сборки для автоматического экспорта всех сцен в "
 "*external/deploy/assets*"
@@ -823,31 +823,227 @@ msgstr ""
 "Python script and makefile for exporting of all the scenes located in the "
 "*external/deploy/assets* automatically"
 
-#: ../developers.rst:509
-msgid "**glsl_utils**"
+#: ../developers.rst:498
+msgid "**index.html**"
 msgstr ""
 
-#: ../developers.rst:505
-msgid "**compiler**"
+#: ../developers.rst:498
+msgid ""
+"web-страница со ссылками на 3D-приложения (недоступен в бесплатной версии)"
+msgstr ""
+"web page with links to 3D applications (not available as a free version)"
+
+#: ../developers.rst:501
+msgid "**license**"
 msgstr ""
 
-#: ../developers.rst:502
-msgid "компилятор GLSL-шейдеров движка"
-msgstr "compiler for the engine's GLSL shaders"
+#: ../developers.rst:501
+msgid "файлы с текстами лицензионных соглашений"
+msgstr "files with license texts"
 
 #: ../developers.rst:505
-msgid "**out**"
+msgid "**Makefile**"
 msgstr ""
 
-#: ../developers.rst:505
-msgid "содержит результат компиляции GLSL-шейдеров движка"
-msgstr "contains the result of the engine's GLSL shaders compilation"
+#: ../developers.rst:504
+msgid ""
+"файл сборки для компиляции движка, приложений, документации, развертывания "
+"на удаленном сервере (недоступен в бесплатной версии)"
+msgstr ""
+"makefile for building the engine, the applications, the documentation and "
+"for deploying on a remote server (not available as a free version)"
 
-#: ../developers.rst:509
-msgid "**pegjs**"
+#: ../developers.rst:508
+msgid "**README.rst**"
 msgstr ""
 
 #: ../developers.rst:508
+msgid "файл README"
+msgstr "README file"
+
+#: ../developers.rst:517
+msgid "**compile_b4w.py**"
+msgstr ""
+
+#: ../developers.rst:551
+msgid "**scripts**"
+msgstr ""
+
+#: ../developers.rst:511
+msgid "дополнительные скрипты"
+msgstr "utility scripts"
+
+#: ../developers.rst:514
+msgid "**chrome_debug.sh**"
+msgstr ""
+
+#: ../developers.rst:514
+msgid "скрипт, запускающий браузер Chrome в режиме отладки"
+msgstr "script which starts Chrome in debugging mode"
+
+#: ../developers.rst:517
+msgid ""
+"скрипт для вызова Google Closure compiler с целью минификации и обфускации "
+"кода движка и приложений"
+msgstr ""
+"script for executing Google Closure compiler to minify and obfuscate the "
+"engine and applications code"
+
+#: ../developers.rst:520
+msgid "**converter.py**"
+msgstr ""
+
+#: ../developers.rst:520
+msgid ""
+"скрипт, осуществляющий: уменьшение разрешения текстур вдвое, компрессию "
+"текстур в формат DDS, конвертацию звуковых файлов в форматы mp4 и ogg"
+msgstr ""
+"script which halves the texture dimensions, compresses the textures into the"
+" DDS format, converts sound files into mp4 and ogg formats"
+
+#: ../developers.rst:523
+msgid "**custom_json_encoder.py**"
+msgstr ""
+
+#: ../developers.rst:523
+msgid ""
+"форк Python-модуля json, сортирует ключи по алфавиту в обратном порядке"
+msgstr "fork of the json Python module, sorts the keys in reverse order"
+
+#: ../developers.rst:527
+msgid "**gen_glmatrix.sh**"
+msgstr ""
+
+#: ../developers.rst:526
+msgid ""
+"скрипт для генерации математического модуля на основе исходных файлов из "
+"репозитория glMatrix 2"
+msgstr ""
+"script for generating the math module based on the source code of glMatrix 2"
+
+#: ../developers.rst:531
+msgid "**gpu_shader_analyzer_server.py**"
+msgstr ""
+
+#: ../developers.rst:530
+msgid ""
+"скрипт, запускающий локальный веб-сервер, который осуществляет подсчет "
+"сложности шейдеров"
+msgstr ""
+"script starting the local web server which calculates complexity of the "
+"shaders"
+
+#: ../developers.rst:535
+msgid "**graph.sh**"
+msgstr ""
+
+#: ../developers.rst:534
+msgid ""
+"генератор текущего графа сцены в формате svg, используется для отладки "
+"рендеринга"
+msgstr ""
+"SVG generator for the current scene graph, used for debugging rendering"
+
+#: ../developers.rst:538
+msgid "**memory.sh**"
+msgstr ""
+
+#: ../developers.rst:538
+msgid "скрипт для проверки обычной (RAM) и видео-памяти (VRAM)"
+msgstr "script for checking memory (RAM) and video memory (VRAM)"
+
+#: ../developers.rst:541
+msgid "**plot.sh**"
+msgstr ""
+
+#: ../developers.rst:541
+msgid "построитель графиков отладочной информации"
+msgstr "debugging information graph builder"
+
+#: ../developers.rst:544
+msgid "**remove_alpha_channel.sh**"
+msgstr ""
+
+#: ../developers.rst:544
+msgid "скрипт для удаления альфа-канала изображения"
+msgstr "script for removing the images alpha channel"
+
+#: ../developers.rst:548
+msgid "**report_unused_resources.py**"
+msgstr ""
+
+#: ../developers.rst:547
+msgid ""
+"скрипт для проверки и сообщения о неиспользуемых ресурсах (изображения и "
+"звуки, на которые ссылаются экспотируемые файлы)"
+msgstr ""
+"script for checking of and reporting about unused resources (images and "
+"sounds referenced by the exported files)"
+
+#: ../developers.rst:551
+msgid "**screencast.sh**"
+msgstr ""
+
+#: ../developers.rst:551
+msgid "скрипт для записи видео с экрана"
+msgstr "script for screen video recording"
+
+#: ../developers.rst:554
+msgid "**shaders**"
+msgstr ""
+
+#: ../developers.rst:554
+msgid "GLSL-шейдеры движка"
+msgstr "GLSL shaders of the engine"
+
+#: ../developers.rst:557
+msgid "основной исходный код ядра движка"
+msgstr "main source code of the engine's kernel"
+
+#: ../developers.rst:560
+msgid "**addons**"
+msgstr ""
+
+#: ../developers.rst:560
+msgid ""
+"исходный код дополнений (не входят в ядро движка, подключаются отдельно)"
+msgstr ""
+"source code of the addons (not included into the engine's kernel, should be "
+"linked separately)"
+
+#: ../developers.rst:563
+msgid "**ext**"
+msgstr ""
+
+#: ../developers.rst:563
+msgid "исходный код внешних объявлений, формирующих API движка"
+msgstr "source code of the external declarations that form the engine's API"
+
+#: ../developers.rst:566
+msgid "**libs**"
+msgstr ""
+
+#: ../developers.rst:566
+msgid "**src**"
+msgstr ""
+
+#: ../developers.rst:566
+msgid "исходный код библиотек"
+msgstr "source code of the libraries"
+
+#: ../developers.rst:569
+msgid "Различные инструменты для сборки движка и приложений"
+msgstr "Various tools for building the engine and applications"
+
+#: ../developers.rst:576
+msgid "**compiler**"
+msgstr ""
+
+#: ../developers.rst:576
+msgid "компилятор GLSL-шейдеров движка"
+msgstr "compiler for the engine's GLSL shaders"
+
+#: ../developers.rst:579
 msgid ""
 "грамматики парсер-генератора PEG.js для реализации препроцессора GLSL, а "
 "также скрипт для генерации модулей парсеров из этих грамматик"
@@ -856,233 +1052,69 @@ msgstr ""
 "preprocessor, and also the script for generating the parser modules from "
 "these grammars"
 
-#: ../developers.rst:512
-msgid "**index.html**"
-msgstr ""
-
-#: ../developers.rst:512
-msgid ""
-"web-страница со ссылками на 3D-приложения (недоступен в бесплатной версии)"
-msgstr ""
-"web page with links to 3D applications (not available as a free version)"
-
-#: ../developers.rst:515
-msgid "**license**"
-msgstr ""
-
-#: ../developers.rst:515
-msgid "файлы с текстами лицензионных соглашений"
-msgstr "files with license texts"
-
-#: ../developers.rst:519
-msgid "**Makefile**"
-msgstr ""
-
-#: ../developers.rst:518
-msgid ""
-"файл сборки для компиляции движка, приложений, документации, развертывания "
-"на удаленном сервере (недоступен в бесплатной версии)"
-msgstr ""
-"makefile for building the engine, the applications, the documentation and "
-"for deploying on a remote server (not available as a free version)"
-
-#: ../developers.rst:522
-msgid "**README.rst**"
-msgstr ""
-
-#: ../developers.rst:522
-msgid "файл README"
-msgstr "README file"
-
-#: ../developers.rst:531
-msgid "**compile_b4w.py**"
-msgstr ""
-
-#: ../developers.rst:565
-msgid "**scripts**"
-msgstr ""
-
-#: ../developers.rst:525
-msgid "дополнительные скрипты"
-msgstr "utility scripts"
-
-#: ../developers.rst:528
-msgid "**chrome_debug.sh**"
-msgstr ""
-
-#: ../developers.rst:528
-msgid "скрипт, запускающий браузер Chrome в режиме отладки"
-msgstr "script which starts Chrome in debugging mode"
-
-#: ../developers.rst:531
-msgid ""
-"скрипт для вызова Google Closure compiler с целью минификации и обфускации "
-"кода движка и приложений"
-msgstr ""
-"script for executing Google Closure compiler to minify and obfuscate the "
-"engine and applications code"
-
-#: ../developers.rst:534
-msgid "**converter.py**"
-msgstr ""
-
-#: ../developers.rst:534
-msgid ""
-"скрипт, осуществляющий: уменьшение разрешения текстур вдвое, компрессию "
-"текстур в формат DDS, конвертацию звуковых файлов в форматы mp4 и ogg"
-msgstr ""
-"script which halves the texture dimensions, compresses the textures into the"
-" DDS format, converts sound files into mp4 and ogg formats"
-
-#: ../developers.rst:537
-msgid "**custom_json_encoder.py**"
-msgstr ""
-
-#: ../developers.rst:537
-msgid ""
-"форк Python-модуля json, сортирует ключи по алфавиту в обратном порядке"
-msgstr "fork of the json Python module, sorts the keys in reverse order"
-
-#: ../developers.rst:541
-msgid "**gen_glmatrix.sh**"
-msgstr ""
-
-#: ../developers.rst:540
-msgid ""
-"скрипт для генерации математического модуля на основе исходных файлов из "
-"репозитория glMatrix 2"
-msgstr ""
-"script for generating the math module based on the source code of glMatrix 2"
-
-#: ../developers.rst:545
-msgid "**gpu_shader_analyzer_server.py**"
-msgstr ""
-
-#: ../developers.rst:544
-msgid ""
-"скрипт, запускающий локальный веб-сервер, который осуществляет подсчет "
-"сложности шейдеров"
-msgstr ""
-"script starting the local web server which calculates complexity of the "
-"shaders"
-
-#: ../developers.rst:549
-msgid "**graph.sh**"
-msgstr ""
-
-#: ../developers.rst:548
-msgid ""
-"генератор текущего графа сцены в формате svg, используется для отладки "
-"рендеринга"
-msgstr ""
-"SVG generator for the current scene graph, used for debugging rendering"
-
-#: ../developers.rst:552
-msgid "**memory.sh**"
-msgstr ""
-
-#: ../developers.rst:552
-msgid "скрипт для проверки обычной (RAM) и видео-памяти (VRAM)"
-msgstr "script for checking memory (RAM) and video memory (VRAM)"
-
-#: ../developers.rst:555
-msgid "**plot.sh**"
-msgstr ""
-
-#: ../developers.rst:555
-msgid "построитель графиков отладочной информации"
-msgstr "debugging information graph builder"
-
-#: ../developers.rst:558
-msgid "**remove_alpha_channel.sh**"
-msgstr ""
-
-#: ../developers.rst:558
-msgid "скрипт для удаления альфа-канала изображения"
-msgstr "script for removing the images alpha channel"
-
-#: ../developers.rst:562
-msgid "**report_unused_resources.py**"
-msgstr ""
-
-#: ../developers.rst:561
-msgid ""
-"скрипт для проверки и сообщения о неиспользуемых ресурсах (изображения и "
-"звуки, на которые ссылаются экспотируемые файлы)"
-msgstr ""
-"script for checking of and reporting about unused resources (images and "
-"sounds referenced by the exported files)"
-
-#: ../developers.rst:565
-msgid "**screencast.sh**"
-msgstr ""
-
-#: ../developers.rst:565
-msgid "скрипт для записи видео с экрана"
-msgstr "script for screen video recording"
-
-#: ../developers.rst:568
-msgid "**shaders**"
-msgstr ""
-
-#: ../developers.rst:568
-msgid "GLSL-шейдеры движка"
-msgstr "GLSL shaders of the engine"
-
 #: ../developers.rst:580
-msgid "**src**"
-msgstr ""
-
-#: ../developers.rst:571
-msgid "основной исходный код ядра движка"
-msgstr "main source code of the engine's kernel"
-
-#: ../developers.rst:574
-msgid "**addons**"
-msgstr ""
-
-#: ../developers.rst:574
-msgid ""
-"исходный код дополнений (не входят в ядро движка, подключаются отдельно)"
-msgstr ""
-"source code of the addons (not included into the engine's kernel, should be "
-"linked separately)"
-
-#: ../developers.rst:577
-msgid "**ext**"
-msgstr ""
-
-#: ../developers.rst:577
-msgid "исходный код внешних объявлений (формирует API движка)"
-msgstr "source code of the external declarations (forms the engine's API)"
-
-#: ../developers.rst:580
-msgid "**third_party**"
+msgid "**pegjs**"
 msgstr ""
 
 #: ../developers.rst:580
-msgid "код сторонних библиотек"
-msgstr "code of the third party libraries"
+msgid "**glsl**"
+msgstr ""
 
 #: ../developers.rst:583
+msgid "**yuicompressor**"
+msgstr ""
+
+#: ../developers.rst:583
+msgid "утилита для сжатия файлов CSS"
+msgstr "utility for compressing CSS files"
+
+#: ../developers.rst:583
+msgid "**tools**"
+msgstr ""
+
+#: ../developers.rst:586
 msgid "**uranium**"
 msgstr ""
 
-#: ../developers.rst:583
+#: ../developers.rst:586
 msgid "исходный код и скрипты сборки физического движка Uranium (форк Bullet)"
 msgstr ""
 "source code and building scripts of the Uranium physics engine (the fork of "
 "Bullet)"
 
-#: ../developers.rst:585
+#: ../developers.rst:590
 msgid "**VERSION**"
 msgstr ""
 
-#: ../developers.rst:586
+#: ../developers.rst:589
 msgid "содержит текущую версию движка"
 msgstr "contains the current version of the engine"
 
+#: ../developers.rst:595
+msgid "Текстура типа Canvas"
+msgstr "Canvas Textures"
 
+#: ../developers.rst:597
+msgid ""
+"Для работы с подобными текстурами используется модуль ``textures``. Пример "
+"работы с ним описан ниже."
+msgstr ""
+"Such textures can be accessed via ``textures`` module. The workflow is "
+"described below."
 
-
+#: ../developers.rst:610
+msgid ""
+"Для получения контекста используется функция "
+"``get_canvas_texture_context()``, куда передается идентификатор "
+"\"canvas_id\", задаваемый пользователем в Blender. После `преобразований с "
+"контекстом <http://www.w3.org/TR/2014/CR-2dcontext-20140821/>`_ вызывается "
+"функция ``update_canvas_texture_context()``, которая осуществляет "
+"визуализацию изменений элемента с идентификатором \"canvas_id\"."
+msgstr ""
+"The context can be obtained with the ``get_canvas_texture_context()`` function, to"
+" which a \"canvas_id\" identifier specified by the user in Blender is "
+"passed. After any `operations with the context <http://www.w3.org/TR/2014"
+"/CR-2dcontext-20140821/>`_ the ``update_canvas_texture_context()`` function should"
+" be executed, which performs visualization of the changes of the "
+"\"canvas_id\" element."
 

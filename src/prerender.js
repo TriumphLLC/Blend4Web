@@ -19,7 +19,8 @@ var cfg_def = m_cfg.defaults;
 
 var USE_FRUSTUM_CULLING = true;
 var SUBS_UPDATE_DO_RENDER = ["MAIN_OPAQUE", "MAIN_BLEND", "MAIN_REFLECT", 
-        "SHADOW_CAST", "DEPTH", "GLOW_MASK", "WIREFRAME", "COLOR_PICKING"];
+        "SHADOW_CAST", "DEPTH", "GLOW_MASK", "WIREFRAME", "COLOR_PICKING", 
+        "MAIN_XRAY", "COLOR_PICKING_XRAY"];
 
 /**
  * Set do_render flag for subscenes/bundles

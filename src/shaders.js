@@ -218,6 +218,7 @@ exports.set_default_directives = function(sinfo) {
         case "BILLBOARD_JITTERED":
         case "MAIN_BEND_COL":
         case "MAX_BONES":
+        case "NUM_LIGHTS":
         case "NUM_NORMALMAPS":
         case "PARALLAX":
         case "PARALLAX_STEPS":
@@ -263,7 +264,6 @@ exports.set_default_directives = function(sinfo) {
         case "CSM_FADE_LAST_CASCADE":
         case "DEPTH_RGBA":
         case "BILLBOARD_SPHERICAL":
-        case "NUM_LIGHTS":
         case "NUM_LAMP_LIGHTS":
         case "MAX_STEPS":
             val = 1;
@@ -949,6 +949,10 @@ exports.check_uniform = function(shader, name) {
         return true;
     else
         return false;
+}
+
+exports.get_varyings_count = function(shader) {
+    return (_gl.getShaderSource(shader).match(/(?:^|\s)varying(?=\s)/g) || []).length;
 }
 
 }

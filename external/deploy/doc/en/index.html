@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Table of contents &mdash; User Manual: Blend4Web v14.10</title>
+    <title>Table of contents &mdash; User Manual: Blend4Web v14.11</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.10',
+        VERSION:     '14.11',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User Manual: Blend4Web v14.10" href="#" />
+    <link rel="top" title="User Manual: Blend4Web v14.11" href="#" />
     <link rel="next" title="Overview" href="about.html" /> 
   </head>
   <body>
@@ -35,7 +35,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="#">User Manual: Blend4Web v14.10</a></div>
+          href="#">User Manual: Blend4Web v14.11</a></div>
         <div class="rel">
           <a href="about.html" title="Overview"
              accesskey="N">next</a> |
@@ -98,7 +98,8 @@
 <li class="toctree-l2"><a class="reference internal" href="setup.html#getting-started-distribution">Distribution Installation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="setup.html#getting-started-browser">Choosing a Browser</a></li>
 <li class="toctree-l2"><a class="reference internal" href="setup.html#browser-for-local-loading">Setting up the Browser for Loading Local Resources</a></li>
-<li class="toctree-l2"><a class="reference internal" href="setup.html#getting-started-launching-viewer">Running The Scenes Viewer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="setup.html#web">Using a Local Web Server</a></li>
+<li class="toctree-l2"><a class="reference internal" href="setup.html#getting-started-launching-viewer">Running The Demos and the Scenes Viewer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="setup.html#getting-started-addon">Engine Addon Installation</a></li>
 </ul>
 </li>
@@ -128,6 +129,7 @@
 <li class="toctree-l2"><a class="reference internal" href="addon.html#export-errors">Critical Export Errors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="addon.html#index-3">Non-Critical Export Errors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="addon.html#id5">Other Messages for Users&#8217; Attention</a></li>
+<li class="toctree-l2"><a class="reference internal" href="addon.html#id6">Exporting in Strict Mode</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a><ul>
@@ -153,10 +155,11 @@
 <li class="toctree-l2"><a class="reference internal" href="textures.html#index-6">Normal Map</a></li>
 <li class="toctree-l2"><a class="reference internal" href="textures.html#height-map-parallax-mapping">Height Map. Parallax Mapping</a></li>
 <li class="toctree-l2"><a class="reference internal" href="textures.html#index-8">Stencil Map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="textures.html#video-texture">Video Textures</a></li>
 <li class="toctree-l2"><a class="reference internal" href="textures.html#index-9">Environment Map</a></li>
 <li class="toctree-l2"><a class="reference internal" href="textures.html#mirror-map">Mirror Map</a></li>
 <li class="toctree-l2"><a class="reference internal" href="textures.html#skydome">Skydome</a></li>
-<li class="toctree-l2"><a class="reference internal" href="textures.html#render-to-texture-rtt">Render-to-Texture, RTT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="textures.html#index-12">Special Texture Types</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a><ul>
@@ -250,13 +253,15 @@
 <li class="toctree-l2"><a class="reference internal" href="developers.html#event-model">Event-Driven Model</a></li>
 <li class="toctree-l2"><a class="reference internal" href="developers.html#quality-settings">Quality Profiles</a></li>
 <li class="toctree-l2"><a class="reference internal" href="developers.html#sdk">SDK File Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developers.html#canvas">Canvas Textures</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">For Engine Developers</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="developers_advanced.html#coding-style">Coding Style</a></li>
-<li class="toctree-l2"><a class="reference internal" href="developers_advanced.html#id4">Building the Addon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developers_advanced.html#id4">Building the Engine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developers_advanced.html#id5">Building the Addon</a></li>
 <li class="toctree-l2"><a class="reference internal" href="developers_advanced.html#dependencies">Dependencies</a></li>
-<li class="toctree-l2"><a class="reference internal" href="developers_advanced.html#id6">Naming Functions and Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developers_advanced.html#id7">Naming Functions and Variables</a></li>
 <li class="toctree-l2"><a class="reference internal" href="developers_advanced.html#debugging">Debugging</a></li>
 <li class="toctree-l2"><a class="reference internal" href="developers_advanced.html#shaders">Shaders</a></li>
 </ul>
@@ -278,10 +283,10 @@
 <li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Problems and Solutions</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="problems_and_solutions.html#renderer-not-working">Problems When Running the Renderer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="problems_and_solutions.html#webgl">WebGL Failed to Init</a></li>
-<li class="toctree-l2"><a class="reference internal" href="problems_and_solutions.html#web">Using a Local Web Server</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#v14-11">v14.11</a></li>
 <li class="toctree-l2"><a class="reference internal" href="release_notes.html#v14-10">v14.10</a></li>
 <li class="toctree-l2"><a class="reference internal" href="release_notes.html#v14-09">v14.09</a></li>
 </ul>
@@ -359,8 +364,8 @@
           
     <div class="footer">
         &copy; Copyright 2014, Triumph LLC.
-      Last updated on 2014-10-30.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+      Last updated on 2014-11-28.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
         </div>
         <div class="clearer"></div>

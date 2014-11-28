@@ -39,24 +39,37 @@ exports.set_hardware_defaults = function(gl) {
     if (check_user_agent("iPad") || check_user_agent("iPhone")) {
         m_print.warn("iOS detected, applying alpha hack, applying vertex "
                 + "animation mix normals hack and disable smaa. Disable ssao " +
-                "for performance. Disable background music.");
+                "for performance. Disable video textures. Initialize WebAudio context " +
+                "with empty sound.");
         if (!cfg_ctx.alpha)
             cfg_def.background_color[3] = 1.0;
         cfg_def.vert_anim_mix_normals_hack = true;
         cfg_def.smaa = false;
         cfg_def.ssao = false;
         cfg_def.precision = "highp";
-        cfg_sfx.disable_bkg_music_hack = true;
+        cfg_def.init_wa_context_hack = true;
 
     } else if (check_user_agent("Mac OS X") && check_user_agent("Safari")
             && !check_user_agent("Chrome")) {
-        m_print.warn("OS X / Safari detected, disable background music.");
-        cfg_sfx.disable_bkg_music_hack = true;
+        m_print.warn("OS X / Safari detected, force to wait complete loading. " +
+                "Applying playback rate hack for video textures.");
+        cfg_sfx.audio_loading_hack = true;
+        cfg_sfx.clamp_playback_rate_hack = true;
+    }
+    if ((check_user_agent("Windows"))
+            && (check_user_agent("Firefox/33") || check_user_agent("Chrome/40") || check_user_agent("Chrome/41"))) {
+        m_print.warn("Condititions for clear procedural skydome hack detected");
+        cfg_def.clear_procedural_sky_hack = true;
     }
 
     if (detect_mobile()) {
-        m_print.warn("Mobile detected, applying glsl loops unroll hack");
+        m_print.warn("Mobile detected, applying glsl loops unroll hack, applying various hacks for video textures.");
         cfg_def.glsl_unroll_hack = true;
+        cfg_def.is_mobile_device = true;
+        if (!(check_user_agent("iPad") || check_user_agent("iPhone"))) {
+            m_print.warn("Mobile (not iOS) detected, disable playback rate for video textures.");
+            cfg_sfx.disable_playback_rate_hack = true;
+        }
     }
 
     if (gl.getParameter(gl.MAX_VARYING_VECTORS) < MIN_VARYINGS_REQUIRED) {
@@ -84,11 +97,10 @@ exports.set_hardware_defaults = function(gl) {
             m_print.warn("ARM Mali-T604 detected, set \"highp\" precision and disable shadows.");
             cfg_def.precision = "highp";
             cfg_def.shadows = "NONE";
-            cfg_sfx.disable_bkg_music_hack = true;
         }
         if (gl.getParameter(rinfo.UNMASKED_VENDOR_WEBGL).indexOf("Qualcomm") > -1
                && gl.getParameter(rinfo.UNMASKED_RENDERER_WEBGL).indexOf("Adreno") > -1) {
-            m_print.warn("Qualcomm Adreno detected, applying shader constans hack.");
+            m_print.warn("Qualcomm Adreno detected, applying shader constants hack.");
             cfg_def.shader_constants_hack = true;
             if (gl.getParameter(rinfo.UNMASKED_RENDERER_WEBGL).indexOf("305") > -1) {
                 m_print.warn("Qualcomm Adreno305 detected, set \"highp\" precision.");

@@ -237,10 +237,8 @@ exports.get_light_params = function(light_name) {
         }
     }
 
-    if (!light) {
-        m_print.error("B4W Warning: light \"" + light_name + "\" not found");
+    if (!light)
         return false;
-    }
 
     var rslt = {
         "light_color": light.color,

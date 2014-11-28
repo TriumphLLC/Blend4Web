@@ -424,7 +424,7 @@ def store_to_texture(data, x_max, x_min, y_max, y_min, max_shore_dist,
         # create new texture slot
         dst_tex_slot = material_dst.texture_slots.add()
         dst_tex_slot.use_map_color_diffuse = False
-        dst_tex_slot.texture_coords = 'UV'
+        dst_tex_slot.texture_coords = 'ORCO'
 
     if not dst_texture:
         # create new texture

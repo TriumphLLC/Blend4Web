@@ -22,7 +22,7 @@ void main(void) {
         // apply underwater fog to the skyplane
         float cam_depth = u_camera_eye_frag.y - WATER_LEVEL;
         cam_depth = min(-cam_depth * 0.03, 0.8);
-        float sun_color_intens = length(u_sun_intensity) + u_environment_energy;
+        float sun_color_intens = clamp(length(u_sun_intensity) + u_environment_energy, 0.0, 1.0);
         vec3 ray = normalize(v_ray);
 
         // color of underwater depth

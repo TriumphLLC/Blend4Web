@@ -11,6 +11,13 @@ from . import nla_script
 
 _OBJECT_PT_constraints = None
 
+def check_vertex_color(mesh, vc_name):
+    for color_layer in mesh.vertex_colors:
+        if color_layer.name == vc_name:
+            return True
+    # no found
+    return False
+
 class B4W_ScenePanel(bpy.types.Panel):
     bl_label = "Blend4Web"
     bl_idname = "SCENE_PT_b4w"
@@ -395,7 +402,17 @@ class B4W_ObjectPanel(bpy.types.Panel):
                 row.prop(obj, "b4w_wind_bending_angle", slider=True, text="Angle")
                 row.prop(obj, "b4w_wind_bending_freq", text="Frequency")
                 row = col.row()
-                row.prop(obj, "b4w_main_bend_stiffness_col", text="Main stiffness (A)")
+
+                icon_stiffnes = "NONE"
+                icon_leaves_stiffness = "NONE"
+                icon_phase = "NONE"
+                icon_overall = "NONE"
+
+                if obj.b4w_main_bend_stiffness_col != "":
+                    icon_stiffnes = "ERROR"
+                    if check_vertex_color(obj.data, obj.b4w_main_bend_stiffness_col):
+                        icon_stiffnes = "GROUP_VCOL"
+                row.prop(obj, "b4w_main_bend_stiffness_col", text="Main stiffness (A)", icon=icon_stiffnes)
 
                 detail_bend = obj.b4w_detail_bend_colors
                 row = layout.row(align=True)
@@ -411,12 +428,23 @@ class B4W_ObjectPanel(bpy.types.Panel):
                 row.prop(obj, "b4w_detail_bending_freq", slider=True,
                         text="Detail bending frequency")
                 row = col.row()
-                row.prop(detail_bend, "leaves_stiffness_col", text="Leaves stiffness (R)")
+                if detail_bend.leaves_stiffness_col != "":
+                    icon_leaves_stiffness = "ERROR"
+                    if check_vertex_color(obj.data, detail_bend.leaves_stiffness_col):
+                        icon_leaves_stiffness = "GROUP_VCOL"
+                row.prop(detail_bend, "leaves_stiffness_col", text="Leaves stiffness (R)", icon=icon_leaves_stiffness)
                 row = col.row()
-                row.prop(detail_bend, "leaves_phase_col", text="Leaves phase (G)")
+                if detail_bend.leaves_phase_col != "":
+                    icon_phase = "ERROR"
+                    if check_vertex_color(obj.data, detail_bend.leaves_phase_col):
+                        icon_phase = "GROUP_VCOL"
+                row.prop(detail_bend, "leaves_phase_col", text="Leaves phase (G)", icon=icon_phase)
                 row = col.row()
-                row.prop(detail_bend, "overall_stiffness_col", text="Overall stiffness (B)")
-
+                if detail_bend.overall_stiffness_col != "":
+                    icon_overall = "ERROR"
+                    if check_vertex_color(obj.data, detail_bend.overall_stiffness_col):
+                        icon_overall = "GROUP_VCOL"
+                row.prop(detail_bend, "overall_stiffness_col", text="Overall stiffness (B)", icon=icon_overall)
             row = layout.row()
             row.prop(obj, "b4w_selectable", text="Selectable")
 
@@ -527,12 +555,33 @@ class B4W_DataPanel(bpy.types.Panel):
                 row.prop(cam, "b4w_target", text="Target location")
                 row.operator("b4w.camera_target_copy", text="Copy Cursor Location")
 
-            if cam.b4w_move_style == "TARGET" or cam.b4w_move_style == "EYE":
+            if cam.b4w_move_style == "TARGET" \
+                    or cam.b4w_move_style == "EYE" \
+                    or cam.b4w_move_style == "HOVER":
                 box = layout.box()
                 col = box.column()
                 col.label("Camera limits:")
 
-            if cam.b4w_move_style == "TARGET":
+            if cam.b4w_move_style == "HOVER":
+                row = col.row()
+                row.prop(cam, "b4w_use_horizontal_clamping", 
+                        text="Use horizontal translation limits")
+
+                row = col.split(0.5, align=True)
+                row.active = getattr(cam, "b4w_use_horizontal_clamping")
+                row.prop(cam, "b4w_horizontal_translation_min", text="Min")
+                row.prop(cam, "b4w_horizontal_translation_max", text="Max")
+
+                row = col.row()
+                row.prop(cam, "b4w_use_vertical_clamping", 
+                        text="Use vertical translation limits")
+
+                row = col.split(0.5, align=True)
+                row.active = getattr(cam, "b4w_use_vertical_clamping")
+                row.prop(cam, "b4w_vertical_translation_min", text="Min")
+                row.prop(cam, "b4w_vertical_translation_max", text="Max")
+
+            if cam.b4w_move_style == "TARGET" or cam.b4w_move_style == "HOVER":
                 row = col.row()
                 row.prop(cam, "b4w_use_distance_limits", text="Use distance limits")
 
@@ -541,9 +590,24 @@ class B4W_DataPanel(bpy.types.Panel):
                 row.prop(cam, "b4w_distance_min", text="Min")
                 row.prop(cam, "b4w_distance_max", text="Max")
 
+            if cam.b4w_move_style == "HOVER":
+                row = col.row()
+                row.active = getattr(cam, "b4w_use_distance_limits")
+                row.label("Camera angle limits:")
+                row = col.split(0.5, align=True)
+                row.active = getattr(cam, "b4w_use_distance_limits")
+                row.prop(cam, "b4w_hover_angle_min", text="Min")
+                row.prop(cam, "b4w_hover_angle_max", text="Max")
+
+                row = col.row()
+                row.active = getattr(cam, "b4w_use_distance_limits")
+                row.prop(cam, "b4w_enable_hover_hor_rotation", 
+                        text="Use horizontal rotation")
+
             if cam.b4w_move_style == "TARGET" or cam.b4w_move_style == "EYE":
                 row = col.row()
-                row.prop(cam, "b4w_use_horizontal_clamping", text="Use horizontal rotation clamping")
+                row.prop(cam, "b4w_use_horizontal_clamping", 
+                        text="Use horizontal rotation clamping")
 
                 row = col.split(1/3, align=True)
                 row.active = getattr(cam, "b4w_use_horizontal_clamping")
@@ -552,13 +616,17 @@ class B4W_DataPanel(bpy.types.Panel):
                 row.prop(cam, "b4w_horizontal_clamping_type", text="")
 
                 row = col.row()
-                row.prop(cam, "b4w_use_vertical_clamping", text="Use vertical rotation clamping")
+                row.prop(cam, "b4w_use_vertical_clamping", 
+                        text="Use vertical rotation clamping")
 
                 row = col.split(1/3, align=True)
                 row.active = getattr(cam, "b4w_use_vertical_clamping")
                 row.prop(cam, "b4w_rotation_down_limit", text="Down angle")
                 row.prop(cam, "b4w_rotation_up_limit", text="Up angle")
                 row.prop(cam, "b4w_vertical_clamping_type", text="")
+
+                row = col.row()
+                row.prop(cam, "b4w_use_panning", text="Use panning mode");
 
             row = layout.row()
             row.prop(cam, "b4w_dof_front", text="DOF front distance")
@@ -782,16 +850,33 @@ class B4W_MaterialPanel(bpy.types.Panel):
                     row.active = getattr(mat, "b4w_generated_mesh")
                     row.prop(mat, "b4w_water_detailed_dist", text="Detailed distance")
 
+                icon_size = "NONE"
+                icon_color = "NONE"
+                obj = bpy.context.active_object
                 row = layout.row()
                 row.prop(mat, "b4w_terrain", text="Terrain dynamic grass")
 
-                row = layout.row()
-                row.active = getattr(mat, "b4w_terrain")
-                row.prop(mat, "b4w_dynamic_grass_size", text="Dynamic grass size (R)")
+                grass_size = mat.b4w_dynamic_grass_size
+                grass_color = mat.b4w_dynamic_grass_color
+
+                if grass_size != "":
+                    icon_size = "ERROR"
+                if grass_color != "":
+                    icon_color = "ERROR"
+
+                if obj.type == "MESH":
+                    if check_vertex_color(obj.data, grass_size):
+                        icon_size = "GROUP_VCOL"
+                    if check_vertex_color(obj.data, grass_color):
+                        icon_color = "GROUP_VCOL"
 
                 row = layout.row()
                 row.active = getattr(mat, "b4w_terrain")
-                row.prop(mat, "b4w_dynamic_grass_color", text="Dynamic grass color (RGB)")
+                row.prop(mat, "b4w_dynamic_grass_size", text="Dynamic grass size (R)", icon=icon_size)
+
+                row = layout.row()
+                row.active = getattr(mat, "b4w_terrain")
+                row.prop(mat, "b4w_dynamic_grass_color", text="Dynamic grass color (RGB)", icon=icon_color)
 
                 row = layout.row()
                 row.prop(mat, "b4w_collision", text="Special: Collision")
@@ -838,8 +923,24 @@ class B4W_TexturePanel(bpy.types.Panel):
         layout = self.layout
 
         if tex and tex.type == "NONE":
-            row = layout.row()
-            row.prop(tex, "b4w_render_scene", text="Source scene")
+            icon_source = "NONE"
+            if tex.b4w_source_type == "SCENE":
+                icon_source = "ERROR"
+                for scene in bpy.data.scenes:
+                    if scene.name == tex.b4w_source_id:
+                        icon_source = "SCENE_DATA"
+                        break
+            else:
+                for texture in bpy.data.textures:
+                    if (texture.b4w_source_id == tex.b4w_source_id 
+                            and texture != tex or tex.b4w_source_id == ""):
+                        icon_source = "ERROR"
+                        break
+            layout.prop(tex, "b4w_source_type", text="Source type")
+            if tex.b4w_source_type != "NONE":
+                layout.prop(tex, "b4w_source_id", text="Source id", icon=icon_source)
+                layout.prop(tex, "b4w_source_size", text="Source size")           
+                layout.prop(tex, "b4w_extension", text="Extension")
 
         if tex:
             if tex.type == "ENVIRONMENT_MAP" and len(tex.users_material) == 0:
@@ -922,10 +1023,18 @@ class B4W_ParticlePanel(bpy.types.Panel):
         layout = self.layout
         pset = context.particle_system.settings
 
-        row = layout.row()
-        row.prop(pset, "b4w_do_not_export", text="Do not export")
 
         if pset.type == "EMITTER":
+            if pset.render_type != "BILLBOARD" and pset.render_type != "HALO":
+                split = layout.split()
+                col = split.column()
+                col.label(text="The \"Emitter\" particle system requires \"Halo\"" + 
+                        " or \"Billboard\" render type.")
+                return
+
+            row = layout.row()
+            row.prop(pset, "b4w_do_not_export", text="Do not export")
+
             row = layout.row()
             row.prop(pset, "b4w_cyclic", text="Cyclic emission")
 
@@ -949,6 +1058,16 @@ class B4W_ParticlePanel(bpy.types.Panel):
             row.prop(pset, "b4w_coordinate_system", text="Coordinate system")
 
         if pset.type == "HAIR":
+            if pset.render_type != "GROUP" and pset.render_type != "OBJECT":
+                split = layout.split()
+                col = split.column()
+                col.label(text="The \"Hair\" particle system requires \"Object\"" + 
+                        " or \"Group\" render type.")
+                return
+
+            row = layout.row()
+            row.prop(pset, "b4w_do_not_export", text="Do not export")
+
             row = layout.row()
             row.prop(pset, "b4w_randomize_location", text="Random location and size")
 
@@ -1006,8 +1125,38 @@ class B4W_ParticlePanel(bpy.types.Panel):
             row = col.row()
             row.label("Vertex color:")
             row = col.row()
-            row.prop(pset, "b4w_vcol_from_name", text="from", expand=True)
-            row.prop(pset, "b4w_vcol_to_name", text="to", expand=True)
+
+
+            icon_from = "NONE"
+            icon_to = "NONE"
+
+            from_name = pset.b4w_vcol_from_name
+            to_name = pset.b4w_vcol_to_name
+            if from_name != "":
+                icon_from = "ERROR"
+                mesh_from = bpy.context.active_object.data
+
+                if mesh_from and check_vertex_color(mesh_from, from_name):
+                    icon_from = "GROUP_VCOL"
+
+            if to_name != "":
+                icon_to = "ERROR"    
+                if pset.render_type == "OBJECT" and pset.dupli_object \
+                        and pset.dupli_object.type == "MESH":
+                    mesh_to = pset.dupli_object.data
+                    if check_vertex_color(mesh_to, to_name):
+                        icon_to = "GROUP_VCOL"
+
+                if pset.render_type == "GROUP" and pset.dupli_group:
+                    for obj in pset.dupli_group.objects:
+                        if obj.type == "MESH" and check_vertex_color(obj.data, to_name):
+                            icon_to = "GROUP_VCOL"
+                        else:
+                            icon_to = "ERROR"
+                            break
+
+            row.prop(pset, "b4w_vcol_from_name", text="from", expand=True, icon=icon_from)
+            row.prop(pset, "b4w_vcol_to_name", text="to", expand=True, icon=icon_to)
 
 class B4W_PhysicsPanel(bpy.types.Panel):
     bl_label = "Blend4Web"

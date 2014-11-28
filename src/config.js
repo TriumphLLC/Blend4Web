@@ -53,6 +53,8 @@ exports.defaults = {
 
     resolution_factor          : 1.0,
 
+    canvas_resolution_factor   : 1.0,
+
     texture_min_filter         : 3,
 
     allow_cors                 : false,
@@ -98,6 +100,8 @@ exports.defaults = {
 
     wireframe_debug            : false,
 
+    water_wireframe_debug      : false,
+
     // properties updated from hardware capability
     foam                       : true,
 
@@ -139,13 +143,19 @@ exports.defaults = {
 
     disable_blend_shadows_hack : false,
 
-    vert_anim_mix_normals_hack : false
+    vert_anim_mix_normals_hack : false,
+
+    is_mobile_device           : false,
+
+    init_wa_context_hack       : false,
+
+    clear_procedural_sky_hack  : false
 }
 
 exports.defaults_save = m_util.clone_object_r(exports.defaults);
 
 exports.animation = {
-    framerate: 24,
+    framerate: -1,
     frames_blending_hack: false,
     frame_steps: 1
 }
@@ -175,11 +185,13 @@ exports.paths = {
     built_in_data_module : "built_in_data",
     smaa_search_texture_path: "",
     smaa_area_texture_path: "",
+
+    // for developer version
     resources_dir: "../external/deploy/apps/common/",
     resources_search_paths: [
         "b4w.min.js",
         "b4w.full.min.js",
-        "embed.min.js",
+        "webplayer.min.js",
         "src/data.js"
     ]
 }
@@ -208,7 +220,10 @@ exports.scenes_save = m_util.clone_object_r(exports.scenes);
 exports.sfx = {
     webaudio               : true,
     mix_mode               : false,
-    disable_bkg_music_hack : false
+    audio_loading_hack     : false,
+    clamp_playback_rate_hack: false,
+    disable_playback_rate_hack: false
+
 }
 exports.sfx_save = m_util.clone_object_r(exports.sfx);
 
@@ -518,6 +533,9 @@ function set(prop, value) {
     case "wireframe_debug":
         exports.defaults.wireframe_debug = value;
         break;
+    case "water_wireframe_debug":
+        exports.defaults.water_wireframe_debug = value;
+        break;
     default:
         m_print.error("B4W config set - property unknown: " + prop);
         break;
@@ -588,6 +606,8 @@ exports.get = function(prop) {
         return exports.paths.smaa_area_texture_path;
     case "wireframe_debug":
         return exports.defaults.wireframe_debug;
+    case "water_wireframe_debug":
+        return exports.defaults.water_wireframe_debug;
     default:
         m_print.error("B4W config get - property unknown: " + prop);
         break;
@@ -604,15 +624,22 @@ exports.reset = function() {
     exports.debug_subs = m_util.clone_object_r(exports.debug_subs_save);
 }
 
+exports.is_built_in_data = is_built_in_data;
+function is_built_in_data() {
+    return b4w.module_check(exports.paths.built_in_data_module);
+}
+
 /**
  * Set configuration paths for uranium engine and smaa textures.
  */
 exports.set_resources_paths = function() {
-    var paths = exports.paths;
-    var phys = exports.physics;
-
-    if (paths.smaa_search_texture_path == ""
-            || paths.smaa_area_texture_path == "" || phys.uranium_path == "") {
+    var cfg_pth = exports.paths;
+    var cfg_phy = exports.physics;
+    if (is_built_in_data()) {
+        cfg_pth.smaa_search_texture_path = "smaa_search_texture.png";
+        cfg_pth.smaa_area_texture_path = "smaa_area_texture.png";
+    } else if (cfg_pth.smaa_search_texture_path == ""
+            || cfg_pth.smaa_area_texture_path == "" || cfg_phy.uranium_path == "") {
 
         var src_path = null;
 
@@ -620,8 +647,8 @@ exports.set_resources_paths = function() {
         for (var i = 0; i < scripts.length; i++) {
             var src = scripts[i].src;
 
-            for (var j = 0; j < paths.resources_search_paths.length; j++) {
-                var script_path = paths.resources_search_paths[j];
+            for (var j = 0; j < cfg_pth.resources_search_paths.length; j++) {
+                var script_path = cfg_pth.resources_search_paths[j];
                 if (src.indexOf(script_path) >= 0) {
                     src_path = src;
                     break;
@@ -632,20 +659,24 @@ exports.set_resources_paths = function() {
                 break;
         }
 
-        src_path = src_path || document.location.href;
+        if (!src_path) {
+            m_print.error("Couldn't determine path to external resources, " + 
+                    "fallback to current page URL");
+            src_path = document.location.href;
+        }
+
         var index = src_path.indexOf("?");
         if (index >= 0)
             src_path = src_path.substring(0, index);
 
         var js_src_dir = src_path.substring(0, src_path.lastIndexOf("/") + 1);
-        var resources_dir = js_src_dir + paths.resources_dir;
+        var resources_dir = js_src_dir + cfg_pth.resources_dir;
 
-        set("physics_uranium_path", phys.uranium_path
-                || resources_dir + "uranium.js");
-        set("smaa_search_texture_path", paths.smaa_search_texture_path
-                || resources_dir + "smaa_search_texture.png");
-        set("smaa_area_texture_path", paths.smaa_area_texture_path
-                || resources_dir + "smaa_area_texture.png");
+        cfg_phy.uranium_path = cfg_phy.uranium_path || resources_dir + "uranium.js";
+        cfg_pth.smaa_search_texture_path = cfg_pth.smaa_search_texture_path || 
+                resources_dir + "smaa_search_texture.png";
+        cfg_pth.smaa_area_texture_path = cfg_pth.smaa_area_texture_path ||
+                resources_dir + "smaa_area_texture.png";
     }
 }
 
