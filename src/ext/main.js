@@ -364,7 +364,7 @@ exports.resume = function() {
     _resume_time = performance.now() / 1000;
     sfx.resume();
     physics.resume();
-    textures.play();
+    textures.play(true);
 }
 
 /**
@@ -528,6 +528,10 @@ exports.set_texture_quality = function() {
 
 exports.set_shaders_dir = function() {
     util.panic("set_shaders_dir() deprecated");
+}
+
+exports.detect_mobile = function() {
+    return m_compat.detect_mobile();
 }
 
 

@@ -80,8 +80,8 @@ msgid ""
 "Максимальная производительность вследствие использования тега Audio, "
 "минимальная гибкость."
 msgstr ""
-"``Background music`` --- used for music playback. It has maximum "
-"performance due to the use of the Audio HTML tag, but has minimum flexibility."
+"``Background music`` --- used for music playback. It has maximum performance"
+" due to the use of the Audio HTML tag, but has minimum flexibility."
 
 #: ../audio.rst:38
 msgid "*Disable doppler*"
@@ -116,8 +116,8 @@ msgid ""
 "Дополнительная рандомизация задержки, результирующее значение определяется "
 "по формуле :math:`Delay_{result} = Delay + Delay_{random} * Random_{[0-1]}`."
 msgstr ""
-"Additional delay randomization. The resulting value is calculated "
-"according to the formula :math:`Delay_{result} = Delay + Delay_{random} * "
+"Additional delay randomization. The resulting value is calculated according "
+"to the formula :math:`Delay_{result} = Delay + Delay_{random} * "
 "Random_{[0-1]}`."
 
 #: ../audio.rst:52
@@ -129,8 +129,8 @@ msgid ""
 "Дополнительная рандомизация громкости. Результирующее значение определяется "
 "аналогично задержке."
 msgstr ""
-"Additional volume randomization. The resulting value is calculated "
-"as for the delay."
+"Additional volume randomization. The resulting value is calculated as for "
+"the delay."
 
 #: ../audio.rst:56
 msgid "*Random pitch*"
@@ -141,8 +141,8 @@ msgid ""
 "Дополнительная рандомизация скорости проигрывания звука. Результирующее "
 "значение определяется аналогично задержке."
 msgstr ""
-"Additional randomization of the sound playback speed. The resulting value "
-"is calculated as for the delay."
+"Additional randomization of the sound playback speed. The resulting value is"
+" calculated as for the delay."
 
 #: ../audio.rst:59
 msgid "*Fade-in*"
@@ -172,8 +172,8 @@ msgid ""
 "sound``."
 msgstr ""
 "Loop the sound playback. Contrary to the ``Cyclic play`` option it "
-"guarantees a zero delay upon repeat. The option is available only for "
-"sound sources with ``Positional`` or ``Background sound`` behavior."
+"guarantees a zero delay upon repeat. The option is available only for sound "
+"sources with ``Positional`` or ``Background sound`` behavior."
 
 #: ../audio.rst:71
 msgid "*Loop count*"
@@ -221,43 +221,15 @@ msgid ""
 msgstr ""
 "It is recommended to use **ogg** as it is an open standard, is widespread in"
 " browsers and provides good sound quality. The optimal format in respect to "
-"the quality and compatibility is 48kHz/16bit. Single-channel sound "
-"(mono) is used to store shot samples while two-channel sound (stereo) is"
-" used for music playback."
+"the quality and compatibility is 48kHz/16bit. Single-channel sound (mono) is"
+" used to store shot samples while two-channel sound (stereo) is used for "
+"music playback."
 
 #: ../audio.rst:103
 msgid ""
-"В состав дистрибутива включен Python скрипт (scripts/converter.py) для "
-"конвертации исходных файлов в другие форматы с целью расширения спектра "
-"поддерживаемых платформ. Для конвертации необходимо выполнить команду:"
+"Конвертация ресурсов в различные форматы описывается в :ref:`соответствующем"
+" разделе <converter>`."
 msgstr ""
-"To support a wider range of platforms, a Python script (scripts/converter.py) for converting the "
-"source files into other formats is included into the distribution. Run "
-"it with the command:"
-
-#: ../audio.rst:111
-msgid "Преобразование происходит по схеме:"
-msgstr "Converting is performed according to the scheme:"
-
-#: ../audio.rst:113
-msgid "ogg -> mp4"
-msgstr ""
-
-#: ../audio.rst:114
-msgid "mp3 -> ogg"
-msgstr ""
-
-#: ../audio.rst:115
-msgid "mp4 -> ogg"
-msgstr ""
-
-#: ../audio.rst:117
-msgid ""
-"Конвертация ресурсов происходит с потерей качества, поэтому "
-"сконвертированные файлы получают суффикс .lossconv."
-msgstr ""
-"Resource converting is performed with quality loss and so the resulting "
-"files receive a .lossconv suffix."
-
-
+"Converting resources between different formats is described in the :ref:`corresponding"
+" section <converter>`."
 

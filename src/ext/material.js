@@ -542,6 +542,7 @@ exports.get_water_material_params = function(obj, water_mat_name) {
         }
 
         water_mat_params.foam_factor = batch.foam_factor;
+        water_mat_params.norm_uv_velocity = batch.water_norm_uv_velocity;
         water_mat_params.absorb_factor = m_batch.get_batch_directive(batch,
                 "ABSORB")[1];
         water_mat_params.sss_strength = m_batch.get_batch_directive(batch,
@@ -641,7 +642,7 @@ exports.set_material_extended_params = function(obj, mat_name, mat_params) {
  * @param {Object} water_mat_params Water material params
  * @cc_externs shallow_water_col shore_water_col shallow_water_col_fac
  * @cc_externs shore_water_col_fac foam_factor absorb_factor sss_strength
- * @cc_externs sss_width shore_smoothing
+ * @cc_externs sss_width shore_smoothing norm_uv_velocity
  */
 exports.set_water_material_params = function(obj, water_mat_name, water_mat_params) {
 
@@ -695,7 +696,9 @@ exports.set_water_material_params = function(obj, water_mat_name, water_mat_para
         if (typeof water_mat_params.foam_factor == "number" && cfg_def.foam) {
             batch.foam_factor = water_mat_params.foam_factor;
         }
-
+        if (typeof water_mat_params.norm_uv_velocity == "number") {
+            batch.water_norm_uv_velocity = water_mat_params.norm_uv_velocity;
+        }
 
         if (cfg_def.water_dynamic && batch.water_dynamic) {
             if (typeof water_mat_params.water_dynamic == "boolean") {

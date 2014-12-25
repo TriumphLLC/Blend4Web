@@ -7,6 +7,7 @@ var m_app    = require("app");
 var m_data   = require("data");
 var m_main   = require("main");
 var m_scs    = require("scenes");
+var m_sfx    = require("sfx");
 
 exports.init = function() {
     m_app.init({
@@ -43,6 +44,7 @@ function init_cb(canvas_elem, success) {
 
 function load_cb(root) {
     var letters_arm = m_scs.get_object_by_name('beads_armature');
+
     m_anim.stop(letters_arm);
 
     run_button.addEventListener("mousedown", demo_link_click, false);
@@ -50,7 +52,9 @@ function load_cb(root) {
 
 function demo_link_click(e) {
     var letters_arm = m_scs.get_object_by_name('beads_armature');
+    var spk = m_scs.get_object_by_name("Speaker");
 
+    m_sfx.play_def(spk);
     m_anim.apply(letters_arm, "flying_letters");
     m_anim.play(letters_arm, letters_obj_cb);
 }

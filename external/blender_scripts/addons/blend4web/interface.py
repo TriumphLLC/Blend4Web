@@ -468,61 +468,9 @@ class B4W_ObjectPanel(bpy.types.Panel):
                 row.label("Billboarding geometry:")
                 row.prop(obj, "b4w_billboard_geometry", expand=True)
 
-            self.add_lod_props(layout, obj)
-
-    def add_lod_props(self, layout, obj):
-        layout.separator()
-
-        if obj.proxy:
-            column = layout.column()
-            column.label("LODs for proxy objects disabled")
-            column.label("edit source object instead")
-            return
-
-        if obj.library:
-            column = layout.column()
-            column.label("LODs for linked objects disabled")
-            column.label("edit source object instead")
-            return
-
-        row = layout.row()
-        row.prop(obj, "b4w_lod_transition", text="LOD transition ratio")
-
-        row = layout.row()
-        row.label("Self LOD (deprecated):")
-
-        row = layout.row()
-        row.prop(obj, "b4w_lod_distance", text="Distance")
-
-        row = layout.row()
-        row.label("Additional LOD objects (deprecated):")
-
-        row = layout.row()
-        row.template_list("UI_UL_list", "OBJECT_UL_lods", obj, "b4w_lods",
-                obj, "b4w_lod_index", rows=3)
-        col = row.column(align=True)
-        col.operator("lod.add", icon='ZOOMIN', text="")
-        col.operator("lod.remove", icon='ZOOMOUT', text="")
-
-        lods = obj.b4w_lods
-        if not lods:
-            return
-
-        index = obj.b4w_lod_index
-        lod_cons = get_locked_track_constraint(obj, index)
-        if lod_cons:
             row = layout.row()
-            row.prop(obj.b4w_lods[index], "name", text="Name")
+            row.prop(obj, "b4w_lod_transition", text="LOD transition ratio")
 
-            row = layout.row()
-            row.prop(lod_cons, "target", text="Object")
-
-            """
-            if lod_cons.target:
-                lod_obj = lod_cons.target
-                row = layout.row(align=False)
-                row.prop(lod_obj, "b4w_lod_distance", text="Distance")
-            """
 
 def get_locked_track_constraint(obj, index):
     constraint_index = 0
@@ -531,9 +479,6 @@ def get_locked_track_constraint(obj, index):
             if constraint_index == index:
                 return cons
             constraint_index += 1
-
-
-
 
 class B4W_DataPanel(bpy.types.Panel):
     bl_label = "Blend4Web"
@@ -554,6 +499,19 @@ class B4W_DataPanel(bpy.types.Panel):
                 row = layout.column()
                 row.prop(cam, "b4w_target", text="Target location")
                 row.operator("b4w.camera_target_copy", text="Copy Cursor Location")
+
+            if cam.b4w_move_style == "TARGET" \
+                    or cam.b4w_move_style == "EYE" \
+                    or cam.b4w_move_style == "HOVER":
+                row = layout.row()
+                row.prop(cam, "b4w_trans_velocity", text="Translation velocity")
+                row = layout.row()
+                row.prop(cam, "b4w_rot_velocity", text="Rotation velocity")
+
+            if cam.b4w_move_style == "TARGET" \
+                    or cam.b4w_move_style == "HOVER":
+                row = layout.row()
+                row.prop(cam, "b4w_zoom_velocity", text="Zoom velocity")
 
             if cam.b4w_move_style == "TARGET" \
                     or cam.b4w_move_style == "EYE" \
@@ -625,6 +583,7 @@ class B4W_DataPanel(bpy.types.Panel):
                 row.prop(cam, "b4w_rotation_up_limit", text="Up angle")
                 row.prop(cam, "b4w_vertical_clamping_type", text="")
 
+            if cam.b4w_move_style == "TARGET":
                 row = col.row()
                 row.prop(cam, "b4w_use_panning", text="Use panning mode");
 
@@ -779,13 +738,14 @@ class B4W_MaterialPanel(bpy.types.Panel):
                     split.prop(mat, "b4w_shore_water_col_fac", text="Factor")
 
                     row = col.row()
+                    row.prop(mat, "b4w_water_sss_strength", text="SSS strength")
+                    row.prop(mat, "b4w_water_sss_width", text="SSS width")
 
                     row = col.row()
                     row.prop(mat, "b4w_foam_factor", text="Water foam factor")
 
                     row = col.row()
-                    row.prop(mat, "b4w_water_sss_strength", text="SSS strength")
-                    row.prop(mat, "b4w_water_sss_width", text="SSS width")
+                    row.prop(mat, "b4w_water_norm_uv_velocity", text="Normalmap uv velocity")
 
                     row = col.row()
                     row.prop(mat, "b4w_water_dynamic", text="Water dynamic")
@@ -941,6 +901,8 @@ class B4W_TexturePanel(bpy.types.Panel):
                 layout.prop(tex, "b4w_source_id", text="Source id", icon=icon_source)
                 layout.prop(tex, "b4w_source_size", text="Source size")           
                 layout.prop(tex, "b4w_extension", text="Extension")
+                if tex.b4w_source_type == "CANVAS":
+                    layout.prop(tex, "b4w_enable_canvas_mipmapping", text="Enable mipmapping")
 
         if tex:
             if tex.type == "ENVIRONMENT_MAP" and len(tex.users_material) == 0:
@@ -989,8 +951,6 @@ class B4W_TexturePanel(bpy.types.Panel):
                 split = layout.split()
                 col = split.column()
                 col.label(text="UV translation velocity:")
-                col = split.column()
-                col.prop(tex, "b4w_uv_velocity_trans", text="")
 
                 row = layout.row()
                 row.prop(tex, "b4w_water_foam", text="Water Foam")
@@ -1341,80 +1301,14 @@ class CustomConstraintsPanel(bpy.types.OBJECT_PT_constraints):
             _OBJECT_PT_constraints.draw_constraint(self, context, con)
 
 
-class B4W_LodAddOperator(bpy.types.Operator):
-    bl_idname      = 'lod.add'
-    bl_label       = "Add"
-    bl_description = "Add new LOD slot"
-
-    def invoke(self, context, event):
-        obj = context.active_object
-
-        lods = obj.b4w_lods
-
-        lods.add()
-
-        bpy.ops.object.constraint_add(type="LOCKED_TRACK")
-
-        index = len(lods) - 1
-        lods[index].name = "New LOD"
-
-        cons = get_locked_track_constraint(obj, index)
-
-        if obj.b4w_reflective:
-            # copy last constraint params to reflection plane constraint
-            obj.b4w_refl_plane_index += 1
-            cons_refl = get_locked_track_constraint(obj, obj.b4w_refl_plane_index)
-            if cons_refl:
-                cons_refl.name = cons.name
-                cons_refl.target = cons.target
-
-        cons.name = "LOD N " + str(index + 1)
-        cons.target = None
-        # disable fake LOCKED_TRACK constraint
-        cons.mute = True
-
-        return{'FINISHED'}
-
-class B4W_LodRemOperator(bpy.types.Operator):
-    bl_idname      = 'lod.remove'
-    bl_label       = "Remove"
-    bl_description = "Remove selected LOD slot"
-
-    def invoke(self, context, event):
-        obj = context.active_object
-
-        lods = obj.b4w_lods
-
-        index = obj.b4w_lod_index
-        if len(lods) > 0 and index >= 0:
-
-            lods.remove(index)
-
-            cons = get_locked_track_constraint(obj, index)
-            obj.constraints.remove(cons)
-            obj.b4w_lod_index -= 1
-
-            # Assign new names based on constraint slot position
-            # from 1
-            cons_slot_pos = 1
-            for cons in obj.constraints:
-                if cons.type == "LOCKED_TRACK" and cons_slot_pos <= len(lods) + 1:
-                    cons.name = "LOD N " + str(cons_slot_pos)
-                    cons_slot_pos += 1
-
-            if obj.b4w_reflective:
-                obj.b4w_refl_plane_index -= 1
-
-        return{'FINISHED'}
-
 def add_remove_refl_plane(obj):
 
     if obj.b4w_reflective:
         #add reflection plane
         bpy.ops.object.constraint_add(type="LOCKED_TRACK")
 
-        lods = obj.b4w_lods
-        index = len(lods)
+        # TODO: index was needed for deprecated LODs
+        index = 0
         obj.b4w_refl_plane_index = index
 
         cons = get_locked_track_constraint(obj, index)
@@ -1434,9 +1328,6 @@ def add_remove_refl_plane(obj):
 def register():
     global _OBJECT_PT_constraints
 
-    bpy.utils.register_class(B4W_LodAddOperator)
-    bpy.utils.register_class(B4W_LodRemOperator)
-
     bpy.utils.register_class(B4W_ScenePanel)
     bpy.utils.register_class(B4W_WorldPanel)
     bpy.utils.register_class(B4W_ObjectPanel)
@@ -1452,9 +1343,6 @@ def register():
 
 def unregister():
     global _OBJECT_PT_constraints
-
-    bpy.utils.unregister_class(B4W_LodAddOperator)
-    bpy.utils.unregister_class(B4W_LodRemOperator)
 
     bpy.utils.unregister_class(B4W_ScenePanel)
     bpy.utils.unregister_class(B4W_WorldPanel)

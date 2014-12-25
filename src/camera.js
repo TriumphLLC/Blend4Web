@@ -114,7 +114,6 @@ exports.camera_object_to_camera = function(camobj) {
 
     cam.name = camobj["name"];
 
-    render.trans_speed               = cfg_ctl.cam_trans_base_speed.slice();
     render.underwater                = false;
     render.move_style                = move_style_bpy_to_b4w(camobj_data["b4w_move_style"]);
     render.dof_distance              = camobj["data"]["dof_distance"];
@@ -125,6 +124,14 @@ exports.camera_object_to_camera = function(camobj) {
     render.enable_hover_hor_rotation = camobj["data"]["b4w_enable_hover_hor_rotation"];
 
     render.cameras  = [cam];
+
+    if (render.move_style == exports.MS_TARGET_CONTROLS
+            || render.move_style == exports.MS_EYE_CONTROLS
+            || render.move_style == exports.MS_HOVER_CONTROLS) {
+        render.velocity_trans = camobj["data"]["b4w_trans_velocity"];
+        render.velocity_rot   = camobj["data"]["b4w_rot_velocity"];
+        render.velocity_zoom  = camobj["data"]["b4w_zoom_velocity"];
+    }
 
     if (render.move_style == exports.MS_TARGET_CONTROLS)
         render.pivot.set(camobj_data["b4w_target"]);
@@ -1135,7 +1142,9 @@ function get_returning_angle(angle, min_angle, max_angle) {
     max_angle = m_util.angle_wrap_0_2pi(max_angle);
 
     // disable err clamping
-    if (Math.abs(min_angle - max_angle) < MIN_CLAMPING_INTERVAL)
+    var delta = Math.abs(min_angle - max_angle);
+    if (delta < MIN_CLAMPING_INTERVAL 
+            || Math.abs(delta - 2 * Math.PI) < MIN_CLAMPING_INTERVAL)
         return 0;
 
     // rotate unit circle to ease calculation

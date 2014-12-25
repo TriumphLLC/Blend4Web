@@ -1,7 +1,9 @@
 # Blend4Web free SDK distribution list
+apps_dev/flight
 apps_dev/gallery
 apps_dev/Makefile
-apps_dev/parse_html.py
+apps_dev/new_year
+apps_dev/project.py
 apps_dev/viewer
 apps_dev/webplayer
 
@@ -18,13 +20,17 @@ external/blender/dev_physics/compound.blend
 external/blender/dev_physics/jumping.blend
 external/blender/dev_physics/rigid_body_joints.blend
 external/blender/dev_sound
+external/blender/flight_over_island
+external/blender/new_year
 
 external/blender_scripts
 
 external/deploy/api_doc
 
 external/deploy/apps/common
+external/deploy/apps/flight
 external/deploy/apps/gallery
+external/deploy/apps/new_year
 external/deploy/apps/viewer
 external/deploy/apps/webplayer
 
@@ -47,7 +53,9 @@ external/deploy/assets/dev_physics/jumping.json
 external/deploy/assets/dev_physics/rigid_body_joints.bin
 external/deploy/assets/dev_physics/rigid_body_joints.json
 external/deploy/assets/dev_sound
+external/deploy/assets/flight_over_island
 external/deploy/assets/fridge/table_plane
+external/deploy/assets/new_year
 external/deploy/assets/tutorials
 external/deploy/doc
 external/deploy/globals_detect
@@ -112,6 +120,10 @@ VERSION
 !*/tutorials/examples/making_a_game_p7/*
 !*/tutorials/examples/making_a_game_p8/*
 !*/tutorials/materials_guide/*
+
+# exclude cg event stuff
+!external/deploy/tutorials/cg_event_2014/
+!external/deploy/assets/cg_event_2014/
 
 # mix demo is for internal usage only
 !external/blender/dev_sound/mix.blend

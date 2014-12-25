@@ -66,7 +66,7 @@ exports.matrix_to_quat = function(matrix) {
 /**
  * <p>Convert euler rotation to quaternion rotation.
  *
- * <p>The euler angles have the following meaning:
+ * <p>The euler angles have the following meaning (intrinsic system):
  * <ul>
  * <li>euler[0]: heading, y
  * <li>euler[1]: attitude, z
@@ -88,7 +88,7 @@ exports.euler_to_quat = function(euler, quat) {
 /**
  * <p>Convert quaternion rotation to euler rotation.
  *
- * <p>The euler angles have the following meaning:
+ * <p>The euler angles have the following meaning (intrinsic system):
  * <ul>
  * <li>euler[0]: heading, y
  * <li>euler[1]: attitude, z

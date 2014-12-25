@@ -64,17 +64,16 @@ var CAMERA_DIST_CLAMPING_ERROR = 1E-3;
 /**
  * Apply stiff-to-object constraint.
  */
-exports.append_stiff_obj = function(obj, obj_parent, offset, rotation_offset, scale_offset) {
-
+exports.append_stiff_obj = function(obj, obj_parent, offset, rotation_offset, 
+        scale_offset) {
     var cons = init_cons(CONS_TYPE_STIFF_OBJ);
 
     // link to parent object
     cons.obj_parent = obj_parent;
     cons.offset = new Float32Array(offset);
-    cons.scale_offset = scale_offset || 1;
-
     cons.rotation_offset =
             rotation_offset ? new Float32Array(rotation_offset) : null;
+    cons.scale_offset = scale_offset;
 
     apply_cons(obj, cons);
     update_cons(obj, cons, 0);
@@ -84,7 +83,7 @@ exports.append_stiff_obj = function(obj, obj_parent, offset, rotation_offset, sc
  * Apply stiff-to-bone constraint.
  */
 exports.append_stiff_bone = function(obj, armobj, bone_name, offset,
-        rotation_offset) {
+        rotation_offset, scale_offset) {
 
     var cons = init_cons(CONS_TYPE_STIFF_BONE);
 
@@ -92,9 +91,9 @@ exports.append_stiff_bone = function(obj, armobj, bone_name, offset,
     cons.obj_parent = armobj;
     cons.bone_name = bone_name;
     cons.offset = new Float32Array(offset);
-
     cons.rotation_offset =
             rotation_offset ? new Float32Array(rotation_offset) : null;
+    cons.scale_offset = scale_offset;
 
     apply_cons(obj, cons);
     update_cons(obj, cons, 0);
@@ -406,10 +405,11 @@ function update_cons(obj, cons, elapsed) {
     case CONS_TYPE_STIFF_BONE:
         var quat = obj._render.quat;
 
-        var p_trans = _vec4_tmp;
+        var p_transscale = _vec4_tmp;
         var p_quat = _quat4_tmp;
 
-        get_bone_pose(cons.obj_parent, cons.bone_name, true, p_trans, p_quat);
+        get_bone_pose(cons.obj_parent, cons.bone_name, true, p_transscale, 
+                p_quat);
 
         if (cons.rotation_offset) {
             m_quat.copy(cons.rotation_offset, quat);
@@ -417,7 +417,10 @@ function update_cons(obj, cons, elapsed) {
         } else
             m_quat.copy(p_quat, quat);
 
-        m_util.transform_vec3(cons.offset, 1, p_quat, p_trans, obj._render.trans);
+        obj._render.scale = cons.scale_offset * p_transscale[3];
+
+        m_util.transform_vec3(cons.offset, p_transscale[3], p_quat, p_transscale, 
+                obj._render.trans);
 
         break;
     case CONS_TYPE_TRACK_OBJ:
@@ -740,7 +743,7 @@ function calc_cam_rot_correction(quat, y_axis, dest) {
     y_cam_world[2] = rmat[5];
 
     // handle extreme case (camera looks UP or DOWN)
-    if (Math.abs(m_vec3.dot(y_world, y_cam_world)) > 0.999) {
+    if (Math.abs(m_vec3.dot(y_world, y_cam_world)) > 0.999999) {
         m_quat.identity(dest);
         return dest;
     }

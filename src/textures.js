@@ -103,10 +103,11 @@ function init_texture() {
         allow_node_dds: true,
 
         source_size: 1024,
-
+        enable_canvas_mipmapping: false,
         canvas_context: null,
 
         video_file: null,
+        video_was_stopped: false,
         is_movie: false,
         frame_start: 0,
         frame_offset: 0,
@@ -374,10 +375,12 @@ function create_texture_bpy(bpy_texture, global_af, bpy_scenes) {
         return null;
     }
 
-    if (tex_type == "NONE" || tex_type == "DATA_TEX2D")
+    if (tex_type == "NONE" && !(bpy_texture["b4w_enable_canvas_mipmapping"] && 
+            bpy_texture["b4w_source_type"] == "CANVAS") || tex_type == "DATA_TEX2D")
         _gl.texParameteri(w_target, _gl.TEXTURE_MIN_FILTER, _gl.LINEAR);
     else
         _gl.texParameteri(w_target, _gl.TEXTURE_MIN_FILTER, LEVELS[cfg_def.texture_min_filter]);
+
     _gl.texParameteri(w_target, _gl.TEXTURE_MAG_FILTER, _gl.LINEAR);
 
     setup_anisotropic_filtering(bpy_texture, global_af, w_target);
@@ -402,6 +405,7 @@ function create_texture_bpy(bpy_texture, global_af, bpy_scenes) {
         var id = bpy_texture["b4w_source_id"];
         var size = bpy_texture["b4w_source_size"];
         
+        texture.enable_canvas_mipmapping = bpy_texture["b4w_enable_canvas_mipmapping"];
         texture.name = id;
         texture.source = "CANVAS";
         
@@ -461,7 +465,8 @@ function update_texture_canvas(texture) {
     _gl.pixelStorei(_gl.UNPACK_FLIP_Y_WEBGL, true);
     _gl.texImage2D(w_target, 0, w_format, w_format, w_type, canvas);
     _gl.pixelStorei(_gl.UNPACK_FLIP_Y_WEBGL, false);
-
+    if (texture.enable_canvas_mipmapping)
+        _gl.generateMipmap(w_target);
     _gl.bindTexture(w_target, null);
 
     texture.width = canvas.width;
@@ -527,7 +532,7 @@ exports.update_texture = function(texture, image_data, is_dds, filepath) {
 
             if (is_non_power_of_two(dds_wh.width, dds_wh.height)) {
                 if (!texture.auxilary_texture)
-                    m_print.warn("B4W warning: using NPOT-texture", filepath);
+                    m_print.warn("B4W warning: using NPOT texture", filepath);
                 prepare_npot_texture(w_target);
             }
 
@@ -544,8 +549,10 @@ exports.update_texture = function(texture, image_data, is_dds, filepath) {
             }
             if (texture.is_movie) {
                 texture.video_file = image_data;
+
                 texture.video_file.loop = texture.use_cyclic;
-                _video_textures_cache[texture.name] = texture;
+                if (image_data)
+                    _video_textures_cache[texture.name] = texture;
                 texture.fps = cfg_ani.framerate;
 
                 if (image_data.duration)
@@ -565,10 +572,14 @@ exports.update_texture = function(texture, image_data, is_dds, filepath) {
 
             if (is_non_power_of_two(image_data.width, image_data.height)) {
                 if (!texture.auxilary_texture)
-                    m_print.warn("B4W warning: using NPOT-texture", filepath);
+                    if (texture.is_movie)
+                        m_print.warn("B4W warning: using NPOT video texture", filepath);
+                    else
+                        m_print.warn("B4W warning: using NPOT texture", filepath);
                 prepare_npot_texture(w_target);
             } else
-                _gl.generateMipmap(w_target);
+                if (!texture.is_movie)
+                    _gl.generateMipmap(w_target);
         }
 
     } else if (tex_type == "ENVIRONMENT_MAP") {
@@ -820,6 +831,15 @@ exports.play_video = function(texture_name) {
         return null;
 }
 
+exports.reset_video = function(texture_name) {
+    if (texture_name in _video_textures_cache) {
+        var tex = _video_textures_cache[texture_name]
+        tex.video_file.currentTime = tex.frame_offset / tex.fps;
+        return true;
+    } else
+        return null;
+}
+
 exports.stop_video = function(texture_name) {
     if (texture_name in _video_textures_cache) {
         _video_textures_cache[texture_name].video_file.pause();
@@ -830,14 +850,27 @@ exports.stop_video = function(texture_name) {
 
 exports.pause = function() {
     for (var tex in _video_textures_cache)
-        if (_video_textures_cache[tex].video_file)
+        if (!_video_textures_cache[tex].video_file.paused) {
             _video_textures_cache[tex].video_file.pause();
+            _video_textures_cache[tex].video_was_stopped = true;
+        }
 }
 
-exports.play = function() {
-    for (var tex in _video_textures_cache)
-        if (_video_textures_cache[tex].video_file)
-            _video_textures_cache[tex].video_file.play();
+exports.reset = function() {
+    for (var tex in _video_textures_cache) {
+        _video_textures_cache[tex].currentTime = 
+            _video_textures_cache[tex].frame_offset / _video_textures_cache[tex].fps;
+        _video_textures_cache[tex].video_was_stopped = false;
+    }
+}
+
+exports.play = function(resume_stopped_only) {
+    for (var tex in _video_textures_cache) {
+        if (resume_stopped_only && !_video_textures_cache[tex].video_was_stopped)
+            continue;
+        _video_textures_cache[tex].video_file.play();
+        _video_textures_cache[tex].video_was_stopped = false;
+    }
 }
 
 }

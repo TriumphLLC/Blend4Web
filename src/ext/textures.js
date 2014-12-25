@@ -3,7 +3,7 @@
 /**
  * Textures Blend4Web module.
  * This module works with textures.
- * @module texture
+ * @module textures
  */
 b4w.module["textures"] = function(exports, require) {
 
@@ -51,6 +51,16 @@ exports.play_video = function(texture_name) {
  */
 exports.stop_video = function(texture_name) {
     if (!m_textures.stop_video(texture_name))
+        m_print.error("Texture with name \"" + texture_name + "\" not found!");
+}
+
+/**
+ * Reset video.
+ * @method module:textures.reset_video
+ * @param {String} texture_name Texture name
+ */
+exports.reset_video = function(texture_name) {
+    if (!m_textures.reset_video(texture_name))
         m_print.error("Texture with name \"" + texture_name + "\" not found!");
 }
 

@@ -1,26 +1,11 @@
 <!DOCTYPE html>
-<html>
 <head>
-
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
-<link rel="stylesheet" href="../common/jquery.mobile-1.4.3.min.css" />
-<script src="../common/jquery-2.1.1.min.js"></script>
-<script src="../common/jquery.mobile-1.4.3.min.js"></script>
-
-<!-- color picker begin -->
-<link rel="stylesheet" href="../common/colorpicker/css/colorpicker.css" type="text/css" />
-<script type="text/javascript" src="../common/colorpicker/colorpicker.js"></script>
-<!-- color picker end -->
-
-<link href="viewer.css" rel="stylesheet" type="text/css" />
-
-<script type="text/javascript" src="../common/b4w.full.min.js"></script>
-<script type="text/javascript" src="viewer.min.js"></script>
-
-</head>
-<body>
+    <meta charset='utf-8' />
+    <title>Blend4Web Scene Viewer</title>
+    <link type='text/css' rel='stylesheet' href='viewer.min.css'/>
+    <script type='text/javascript' src='../common/b4w.full.min.js'></script>
+    <script type='text/javascript' src='viewer.min.js'></script>
+</head><body>
 
 <div class="backgr_checker"></div>
 
@@ -202,7 +187,7 @@
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="light_energy">Energy:</label>
-                    <input id="light_energy" data-highlight="true" min="0" max="3.0" value="0" type="range" step="0.01" data-mini="true /">
+                    <input id="light_energy" data-highlight="true" min="0" max="10.0" value="0" type="range" step="0.01" data-mini="true /">
                 </div>
 
                 <h3>For sun only:</h3>
@@ -405,6 +390,10 @@
                 <div class="ui-block-a colapsed_content ui-body ui-body-c ui-disabled">
                     <label for="foam_factor">Water foam factor:</label>
                     <input id="foam_factor" data-highlight="true" value="0.5" min="0.0" max="1.0" type="range" step="0.001" data-mini="true /">
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c ui-disabled">
+                    <label for="norm_uv_velocity">Normal UV velocity:</label>
+                    <input id="norm_uv_velocity" data-highlight="true" value="0.05" min="0.0" max="1.0" type="range" step="0.001" data-mini="true /">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c ui-disabled">
                     <label for="water_dynamic">Water dynamic:</label>
@@ -724,4 +713,5 @@
     </div>
   </div> </div>
 
-</body></html>
+</body>
+</html>

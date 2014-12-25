@@ -7,6 +7,7 @@ var m_cam    = require("camera");
 var m_ctl    = require("controls");
 var m_data   = require("data");
 var m_main   = require("main");
+var m_mouse  = require("mouse");
 var m_phy    = require("physics");
 var m_scenes = require("scenes");
 var m_trans  = require("transform");
@@ -221,8 +222,8 @@ function main_canvas_down(e) {
     if (e.preventDefault)
         e.preventDefault();
 
-    var x = get_coords_x(e);
-    var y = get_coords_y(e);
+    var x = m_mouse.get_coords_x(e);
+    var y = m_mouse.get_coords_y(e);
 
     var obj = m_scenes.pick_object(x, y);
 
@@ -269,8 +270,8 @@ function main_canvas_move(e) {
             // calculate viewport coordinates
             var cam = m_scenes.get_active_camera();
 
-            var x = get_coords_x(e);
-            var y = get_coords_y(e);
+            var x = m_mouse.get_coords_x(e);
+            var y = m_mouse.get_coords_y(e);
 
             if (x >= 0 && y >= 0) {
                 x -= _obj_delta_xy[0];
@@ -309,14 +310,6 @@ function limit_object_position(obj) {
         obj_pos[2] += WALL_Z_MIN - bb.min_z;
 
     m_trans.set_translation_v(_selected_obj, obj_pos);
-}
-
-function get_coords_x(event) {
-    return event.clientX || (event.touches && event.touches[0].pageX) || -1;
-}
-
-function get_coords_y(event) {
-    return event.clientY || (event.touches && event.touches[0].pageY) || -1;
 }
 
 });

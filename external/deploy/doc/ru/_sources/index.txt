@@ -18,6 +18,7 @@
     web_player.rst
     addon.rst
     objects.rst
+    camera.rst
     materials.rst
     textures.rst
     node_materials.rst

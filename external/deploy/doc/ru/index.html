@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Содержание &mdash; Руководство пользователя: Blend4Web v14.11</title>
+    <title>Содержание &mdash; Руководство пользователя: Blend4Web v14.12</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.11',
+        VERSION:     '14.12',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v14.11" href="#" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v14.12" href="#" />
     <link rel="next" title="Общие сведения" href="about.html" /> 
   </head>
   <body>
@@ -36,7 +36,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="#">Руководство пользователя: Blend4Web v14.11</a></div>
+          href="#">Руководство пользователя: Blend4Web v14.12</a></div>
         <div class="rel">
           <a href="about.html" title="Общие сведения"
              accesskey="N">вперёд</a> |
@@ -137,7 +137,12 @@
 <li class="toctree-l2"><a class="reference internal" href="objects.html#id2">Типы</a></li>
 <li class="toctree-l2"><a class="reference internal" href="objects.html#static-dynamic-objects">Статические и динамические объекты</a></li>
 <li class="toctree-l2"><a class="reference internal" href="objects.html#id4">Настройка</a></li>
-<li class="toctree-l2"><a class="reference internal" href="objects.html#id5">Камера</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="camera.html">Камера</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="camera.html#id2">Режимы управления и общие настройки</a></li>
+<li class="toctree-l2"><a class="reference internal" href="camera.html#camera-velocity">Скорость движения камеры</a></li>
+<li class="toctree-l2"><a class="reference internal" href="camera.html#id4">Ограничения движения камеры</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Материалы</a><ul>
@@ -150,7 +155,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">Текстуры</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="textures.html#index-1">Типы текстур</a></li>
-<li class="toctree-l2"><a class="reference internal" href="textures.html#index-2">Общие настройки</a></li>
+<li class="toctree-l2"><a class="reference internal" href="textures.html#main-conf">Общие настройки</a></li>
 <li class="toctree-l2"><a class="reference internal" href="textures.html#index-4">Диффузная текстура (diffuse map)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="textures.html#index-5">Карта бликов (specular map)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="textures.html#index-6">Карта нормалей (normal map)</a></li>
@@ -245,15 +250,17 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="developers.html">Разработчикам приложений</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="developers.html#hello-world">Простейшее приложение (Hello world!)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developers.html#hello-world">Hello world!</a></li>
 <li class="toctree-l2"><a class="reference internal" href="developers.html#id2">Загрузка сцены в приложение</a></li>
 <li class="toctree-l2"><a class="reference internal" href="developers.html#id3">Быстрое создание приложений</a></li>
-<li class="toctree-l2"><a class="reference internal" href="developers.html#id4">Система модулей</a></li>
-<li class="toctree-l2"><a class="reference internal" href="developers.html#id5">Управление перемещением объектов</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developers.html#sdk">Разработка приложений в составе SDK</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developers.html#converter">Конвертер ресурсов</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developers.html#id5">Система модулей</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developers.html#id6">Управление перемещением объектов</a></li>
 <li class="toctree-l2"><a class="reference internal" href="developers.html#index-0">Кватернионы</a></li>
 <li class="toctree-l2"><a class="reference internal" href="developers.html#event-model">Событийная модель</a></li>
 <li class="toctree-l2"><a class="reference internal" href="developers.html#quality-settings">Профили качества изображения</a></li>
-<li class="toctree-l2"><a class="reference internal" href="developers.html#sdk">Файловая структура SDK</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developers.html#repo-file-structure">Файловая структура SDK</a></li>
 <li class="toctree-l2"><a class="reference internal" href="developers.html#canvas">Текстура типа Canvas</a></li>
 </ul>
 </li>
@@ -287,6 +294,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="release_notes.html">Замечания к релизам</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#v14-12">v14.12</a></li>
 <li class="toctree-l2"><a class="reference internal" href="release_notes.html#v14-11">v14.11</a></li>
 <li class="toctree-l2"><a class="reference internal" href="release_notes.html#v14-10">v14.10</a></li>
 <li class="toctree-l2"><a class="reference internal" href="release_notes.html#v14-09">v14.09</a></li>
@@ -317,6 +325,7 @@
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Веб-плеер</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">Аддон</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Объекты</a></li>
+<li class="toctree-l1"><a class="reference internal" href="camera.html">Камера</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Материалы</a></li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">Текстуры</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Нодовые материалы</a></li>
@@ -365,7 +374,7 @@
           
     <div class="footer">
         &copy; Copyright 2014, ООО &#34;Триумф&#34;.
-      Обновлено: 2014-11-28.
+      Обновлено: 2014-12-24.
       Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
         </div>

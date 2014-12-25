@@ -42,6 +42,7 @@ uniform vec3 u_light_directions[NUM_LIGHTS];
 uniform vec3 u_light_color_intensities[NUM_LIGHTS];
 uniform vec4 u_light_factors1[NUM_LIGHTS];
 uniform vec4 u_light_factors2[NUM_LIGHTS];
+uniform int u_shadow_lamp_id;
 #endif
 
 #if WATER_EFFECTS && CAUSTICS
@@ -143,11 +144,11 @@ uniform float u_anim_values[NUM_ANIM_VALUES];
 varying vec3 v_pos_world;
 varying vec4 v_pos_view;
 
-#if USE_NODE_MATERIAL || USE_NODE_MATERIAL_EXT || USE_NODE_GEOMETRY_NO || CAUSTICS
+#if USE_NODE_MATERIAL || USE_NODE_MATERIAL_EXT || USE_NODE_GEOMETRY_NO || CAUSTICS || CALC_TBN_SPACE
 varying vec3 v_normal;
-# if CALC_TBN_SPACE
+#endif
+#if CALC_TBN_SPACE
 varying vec4 v_tangent;
-# endif
 #endif
 
 #if SHADOW_SRC != SHADOW_SRC_MASK && SHADOW_SRC != SHADOW_SRC_NONE
@@ -270,7 +271,8 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal,
 # if NUM_LIGHTS > 0
     return lighting(E, A, D, S, pos_world, normal, eye_dir, specular_params,
         diffuse_params, shadow_factor, u_light_positions, u_light_directions, u_light_color_intensities,
-        u_light_factors1, u_light_factors2, translucency_color, translucency_params);
+        u_light_factors1, u_light_factors2, translucency_color,
+        translucency_params, u_shadow_lamp_id);
 # else
     return lighting_ambient(E, A, D);
 # endif
@@ -453,8 +455,14 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal,
     #node_in vec3 vec_in
     #node_out vec3 vec
     #node_param vec3 scale
+    #node_param float mapping_type
+
     //vec = (vec_in + 0.5) * scale - 0.5;
     vec = vec_in * scale;
+
+    if (mapping_type == MAPPING_TYPE_NORMAL)
+        vec = normalize(vec);
+
 #endnode
 
 #node MAPPING_HEAVY
@@ -465,17 +473,21 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal,
     #node_param float use_max
     #node_param vec3 min_clip
     #node_param vec3 max_clip
+    #node_param float mapping_type
 
     vec = (trs_matrix * vec4(vec_in, UNITY_VALUE_NODES)).xyz;
-
-    // FIXME AMD/Windows issue
-    //vec = (mat4(0.6, 0.0, 0.0, 0.0, 0.0, 0.6, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, -0.175, 0.0, 1.0) * vec4(vec_in, 1.0)).xyz;
-    //vec = (mat4(-0.69, -0.012, 0.0, 0.0, 0.012, -0.69, 0.0, 0.0, 0.0, 0.0, 0.69, 0.0, 0.26, 1.28, 0.0, 1.0) * vec4(vec_in, 1.0)).xyz;
 
     if (use_min == UNITY_VALUE_NODES)
         vec = max(vec, min_clip);
     if (use_max == UNITY_VALUE_NODES)
         vec = min(vec, max_clip);
+
+    if (mapping_type == MAPPING_TYPE_NORMAL)
+        vec = normalize(vec);
+
+    // FIXME AMD/Windows issue
+    //vec = (mat4(0.6, 0.0, 0.0, 0.0, 0.0, 0.6, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, -0.175, 0.0, 1.0) * vec4(vec_in, 1.0)).xyz;
+    //vec = (mat4(-0.69, -0.012, 0.0, 0.0, 0.012, -0.69, 0.0, 0.0, 0.0, 0.0, 0.69, 0.0, 0.26, 1.28, 0.0, 1.0) * vec4(vec_in, 1.0)).xyz;
 #endnode
 
 #node MATH_ADD
@@ -1482,7 +1494,7 @@ void main(void) {
     float plane_dist = v_pos_world.y - WATER_LEVEL;
 #endif
 
-#if USE_NODE_MATERIAL || USE_NODE_MATERIAL_EXT || USE_NODE_GEOMETRY_NO || CAUSTICS
+#if USE_NODE_MATERIAL || USE_NODE_MATERIAL_EXT || USE_NODE_GEOMETRY_NO || CAUSTICS || CALC_TBN_SPACE
     vec3 sided_normal = v_normal;
 # if DOUBLE_SIDED_LIGHTING
     // NOTE: workaround for some bug with gl_FrontFacing on Intel graphics
@@ -1492,12 +1504,12 @@ void main(void) {
     else
         sided_normal = -sided_normal;
 # endif
-# if CALC_TBN_SPACE
+    vec3 nin_normal = normalize(sided_normal);
+#endif
+#if CALC_TBN_SPACE
     vec3 binormal = cross(sided_normal, v_tangent.xyz) * v_tangent.w;
     mat3 tbn_matrix = mat3(v_tangent.xyz, binormal, sided_normal);
     mat3 nin_tbn_matrix = tbn_matrix;
-# endif
-    vec3 nin_normal = normalize(sided_normal);
 #endif
 
     // NOTE: array uniforms used in nodes can't be renamed:
@@ -1537,7 +1549,7 @@ void main(void) {
 #endif  // WATER_EFFECTS
 
 #if !DISABLE_FOG && (!PROCEDURAL_FOG || WATER_EFFECTS)
-    float energy_coeff = clamp(length(u_sun_intensity) + u_environment_energy, 0.0, 1.0);
+    float energy_coeff = clamp(length(u_sun_intensity) + u_environment_energy, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
 #endif
 
 #if !DISABLE_FOG

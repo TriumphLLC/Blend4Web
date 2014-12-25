@@ -47,7 +47,7 @@ class B4W_HTMLExportProcessor(bpy.types.Operator):
     def poll(cls, context):
         path = cls.get_b4w_src_path()
         if path is not None:
-            tpl_path = os.path.join(path, "webplayer_template.html")
+            tpl_path = os.path.join(path, "template", "webplayer_template.html")
             js_path = os.path.join(path, "webplayer.min.js")
             if os.path.isfile(tpl_path) and os.path.isfile(js_path):
                 return True
@@ -117,7 +117,7 @@ class B4W_HTMLExportProcessor(bpy.types.Operator):
         json_path = os.path.join(export_dir, json_name)
 
         b4w_src_path = self.get_b4w_src_path()
-        html_tpl_path = os.path.join(b4w_src_path, "webplayer_template.html")
+        html_tpl_path = os.path.join(b4w_src_path, "template", "webplayer_template.html")
         b4w_minjs_path = os.path.join(b4w_src_path, "webplayer.min.js")
         b4w_css_path = os.path.join(b4w_src_path, "webplayer.min.css")
 

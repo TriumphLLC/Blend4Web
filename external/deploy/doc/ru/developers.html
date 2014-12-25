@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Разработчикам приложений &mdash; Руководство пользователя: Blend4Web v14.11</title>
+    <title>Разработчикам приложений &mdash; Руководство пользователя: Blend4Web v14.12</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.11',
+        VERSION:     '14.12',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v14.11" href="index.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v14.12" href="index.html" />
     <link rel="next" title="Разработчикам движка" href="developers_advanced.html" />
     <link rel="prev" title="Нелинейная анимация" href="nla.html" /> 
   </head>
@@ -37,7 +37,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">Руководство пользователя: Blend4Web v14.11</a></div>
+          href="index.html">Руководство пользователя: Blend4Web v14.12</a></div>
         <div class="rel">
           <a href="nla.html" title="Нелинейная анимация"
              accesskey="P">назад</a> |
@@ -60,8 +60,8 @@
   <div class="section" id="developers">
 <span id="id1"></span><h1>Разработчикам приложений<a class="headerlink" href="#developers" title="Ссылка на этот заголовок">¶</a></h1>
 <div class="section" id="hello-world">
-<h2>Простейшее приложение (Hello world!)<a class="headerlink" href="#hello-world" title="Ссылка на этот заголовок">¶</a></h2>
-<p>Простейшее приложение на движке может иметь вид:</p>
+<h2>Hello world!<a class="headerlink" href="#hello-world" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Простейшее приложение на основе Blend4Web может иметь вид:</p>
 <div class="highlight-html"><div class="highlight"><pre><span class="cp">&lt;!DOCTYPE html&gt;</span>
 <span class="nt">&lt;html&gt;</span>
 <span class="nt">&lt;head&gt;</span>
@@ -161,8 +161,80 @@
 указанным идентификатором <tt class="docutils literal"><span class="pre">body_id</span></tt>, осуществит инициализацию движка при
 загрузке страницы и сообщит о её окончании с помощью обработчика <tt class="docutils literal"><span class="pre">load_cb</span></tt>.</p>
 </div>
-<div class="section" id="id4">
-<h2>Система модулей<a class="headerlink" href="#id4" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="sdk">
+<span id="app-building"></span><h2>Разработка приложений в составе SDK<a class="headerlink" href="#sdk" title="Ссылка на этот заголовок">¶</a></h2>
+<p>В составе SDK присутствует скрипт <tt class="docutils literal"><span class="pre">apps_dev/project.py</span></tt>, предназначенный для
+сборки приложений.</p>
+<p>Пример:</p>
+<div class="highlight-bash"><div class="highlight"><pre>./project.py -a my_app_path -o advanced -b copy
+</pre></div>
+</div>
+<ul class="simple">
+<li>Опция <tt class="docutils literal"><span class="pre">&quot;-a&quot;</span></tt> указывает на имя директории, в которой находится приложение.</li>
+<li>Опция <tt class="docutils literal"><span class="pre">&quot;-o&quot;</span></tt> (необязательная) используется для указания метода оптимизации js-файлов.
+Доступные варианты: <strong>simple</strong> (по умолчанию) и <strong>advanced</strong>.</li>
+<li>Опция <tt class="docutils literal"><span class="pre">&quot;-b&quot;</span></tt> (необязательная) указывает из какой директории брать движок.
+Доступные варианты: <strong>link</strong> (по умолчанию) - движок подключается из директории
+<tt class="docutils literal"><span class="pre">external/deploy/apps/common/</span></tt>, <strong>copy</strong> - движок копируется в директорию
+с собранным приложением, <strong>combine</strong> - движок объединяется с минимизированным
+скриптом в корне приложения.</li>
+<li>Опция <tt class="docutils literal"><span class="pre">&quot;-d&quot;</span></tt> (необязательная) указывает в какой директории размещать скомпилированное приложение.</li>
+<li>Опция <tt class="docutils literal"><span class="pre">&quot;-s&quot;</span></tt> (необязательная) указывает из какой директории брать ресурсы для сцены.</li>
+</ul>
+<p>Структура приложения:</p>
+<ul class="simple">
+<li>В корне директории должен находится единственный html-файл.</li>
+<li>Скрипты и стили могут находиться как в корне приложения, так и
+во вложенных папках.</li>
+</ul>
+<p>Описание работы сборщика приложений:</p>
+<ul class="simple">
+<li>Приложение полностью копируется в директорию <tt class="docutils literal"><span class="pre">external/deploy/apps/app_name/</span></tt>.</li>
+<li>Если указана опция <strong>&#8216;-d&#8217;</strong>, приложение копируется в соответствующую директорию.</li>
+<li>Скрипты и стили компилируются относительно родительской директории.</li>
+</ul>
+</div>
+<div class="section" id="converter">
+<span id="id4"></span><h2>Конвертер ресурсов<a class="headerlink" href="#converter" title="Ссылка на этот заголовок">¶</a></h2>
+<p>В состав дистрибутива включен Python скрипт (scripts/converter.py) для
+конвертации исходных файлов в другие форматы с целью расширения спектра
+поддерживаемых платформ, а также для уменьшения размера ресурсов.
+Для конвертации необходимо выполнить команду:</p>
+<div class="highlight-bash"><div class="highlight"><pre>&gt; ./converter.py <span class="o">[</span>-d file_path<span class="o">]</span> resize_textures | convert_dds | convert_media
+</pre></div>
+</div>
+<p>С помощью опции -d можно указать путь к директории,
+в которой будет производится конвертация.</p>
+<p>Аргумент <strong>resize_textures</strong> используется для изменения размера
+текстур в режиме <strong>LOW</strong>.</p>
+<p>Преобразование происходит по схеме:</p>
+<dl class="docutils">
+<dt>для аудио (convert_media):</dt>
+<dd><ul class="first last simple">
+<li>ogg -&gt; mp4</li>
+<li>mp3 -&gt; ogg</li>
+<li>mp4 -&gt; ogg</li>
+</ul>
+</dd>
+<dt>для видео (convert_media):</dt>
+<dd><ul class="first last simple">
+<li>ogv -&gt; webm</li>
+<li>m4v -&gt; webm</li>
+<li>webm -&gt; m4v</li>
+</ul>
+</dd>
+<dt>для изображений (convert_dds):</dt>
+<dd><ul class="first last simple">
+<li>png -&gt; dds</li>
+<li>jpg -&gt; dds</li>
+</ul>
+</dd>
+</dl>
+<p>Конвертация медиа ресурсов происходит с потерей качества, поэтому сконвертированные
+аудио и видео файлы получают суффикс <strong>.lossconv</strong>.</p>
+</div>
+<div class="section" id="id5">
+<h2>Система модулей<a class="headerlink" href="#id5" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Несмотря на то, что движок предоставляет прикладному программисту API в объёме
 десятков модулей, в процессе работы он занимает в глобальном пространстве имён
 единственный объект <tt class="docutils literal"><span class="pre">b4w</span></tt>. При необходимости обращения к модулю, последний
@@ -197,8 +269,8 @@
 </pre></div>
 </div>
 </div>
-<div class="section" id="id5">
-<h2>Управление перемещением объектов<a class="headerlink" href="#id5" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="id6">
+<h2>Управление перемещением объектов<a class="headerlink" href="#id6" title="Ссылка на этот заголовок">¶</a></h2>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
 <p class="last">Необходимо обеспечить, чтобы объект, над которым выполняется преобразование, был <a class="reference internal" href="objects.html#static-dynamic-objects"><em>динамическим</em></a>.</p>
@@ -227,7 +299,7 @@
 </dl>
 </div>
 <div class="section" id="index-0">
-<span id="id6"></span><h2>Кватернионы<a class="headerlink" href="#index-0" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="id7"></span><h2>Кватернионы<a class="headerlink" href="#index-0" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Кватернионы представляют собой четырёхмерные векторы, используемые для осуществления поворотов. Использование кватернионов обладает рядом преимуществ перед другими способами представления поворотов:</p>
 <blockquote>
 <div><ul class="simple">
@@ -257,8 +329,8 @@
 <dt><em>util.euler_to_quat, util.quat_to_euler</em>.</dt>
 <dd>Преобразование из углов Эйлера и наоборот.</dd>
 </dl>
-<div class="section" id="id7">
-<h3>Пример работы с кватернионами<a class="headerlink" href="#id7" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id8">
+<h3>Пример работы с кватернионами<a class="headerlink" href="#id8" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Требуется повернуть объект на 60 градусов в горизонтальной плоскости вправо. В программе Blender имеется соответствующая модель с названием &#8220;Cessna&#8221;.</p>
 <a class="reference internal image-reference" href="_images/aircraft.jpg"><img alt="_images/aircraft.jpg" class="align-center" src="_images/aircraft.jpg" style="width: 100%;" /></a>
 <div class="line-block">
@@ -306,12 +378,12 @@
 </div>
 </div>
 <div class="section" id="event-model">
-<span id="id8"></span><h2>Событийная модель<a class="headerlink" href="#event-model" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="id9"></span><h2>Событийная модель<a class="headerlink" href="#event-model" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Событийная модель предоставляет унифицированный интерфейс для описания
 изменения состояний 3D сцены, упрощая обработку событий физики и действий
 пользователя.</p>
 <div class="section" id="index-1">
-<span id="id9"></span><h3>Сенсоры<a class="headerlink" href="#index-1" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="id10"></span><h3>Сенсоры<a class="headerlink" href="#index-1" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Основным блоком событийной модели является сенсор (sensor). Сенсор является
 программной сущностью, и может быть только активным (1, единица) или неактивным (0, ноль).
 Некоторые сенсоры несут полезную нагрузку (payload). Например, сенсор трассировки лучей (Ray Sensor)
@@ -343,8 +415,8 @@ manifold). Множество является логическим контей
 </li>
 </ul>
 </div>
-<div class="section" id="id10">
-<h3>Пример<a class="headerlink" href="#id10" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id11">
+<h3>Пример<a class="headerlink" href="#id11" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Поставлена задача озвучить удар бросаемого камня так, чтобы
 при ударе о различные среды (например, земля и стена) выводился характерный звук.
 На сцене в Blender&#8217;е имеются ограничивающие меши с физическими материалами, их идентификаторы &#8220;TERRAIN&#8221; и &#8220;WALL&#8221;.
@@ -399,7 +471,7 @@ manifold). Множество является логическим контей
 </div>
 </div>
 <div class="section" id="quality-settings">
-<span id="id11"></span><h2>Профили качества изображения<a class="headerlink" href="#quality-settings" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="id12"></span><h2>Профили качества изображения<a class="headerlink" href="#quality-settings" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Для поддержки различных по функциональности платформ в движке реализовано несколько профилей качества изображения:</p>
 <blockquote>
 <div><ul class="simple">
@@ -431,8 +503,8 @@ manifold). Множество является логическим контей
 </pre></div>
 </div>
 </div>
-<div class="section" id="sdk">
-<span id="repo-file-structure"></span><h2>Файловая структура SDK<a class="headerlink" href="#sdk" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="repo-file-structure">
+<span id="id13"></span><h2>Файловая структура SDK<a class="headerlink" href="#repo-file-structure" title="Ссылка на этот заголовок">¶</a></h2>
 <dl class="docutils">
 <dt><strong>apps_dev</strong></dt>
 <dd>исходный код приложений (не все приложения доступны в бесплатной версии)</dd>
@@ -596,6 +668,7 @@ Viewer</dd>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Веб-плеер</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">Аддон</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Объекты</a></li>
+<li class="toctree-l1"><a class="reference internal" href="camera.html">Камера</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Материалы</a></li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">Текстуры</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Нодовые материалы</a></li>
@@ -610,15 +683,17 @@ Viewer</dd>
 <li class="toctree-l1"><a class="reference internal" href="physics.html">Физика</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nla.html">Нелинейная анимация</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Разработчикам приложений</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#hello-world">Простейшее приложение (Hello world!)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#hello-world">Hello world!</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id2">Загрузка сцены в приложение</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id3">Быстрое создание приложений</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id4">Система модулей</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id5">Управление перемещением объектов</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sdk">Разработка приложений в составе SDK</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#converter">Конвертер ресурсов</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">Система модулей</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">Управление перемещением объектов</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#index-0">Кватернионы</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#event-model">Событийная модель</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#quality-settings">Профили качества изображения</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#sdk">Файловая структура SDK</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#repo-file-structure">Файловая структура SDK</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#canvas">Текстура типа Canvas</a></li>
 </ul>
 </li>
@@ -658,7 +733,7 @@ Viewer</dd>
           
     <div class="footer">
         &copy; Copyright 2014, ООО &#34;Триумф&#34;.
-      Обновлено: 2014-11-28.
+      Обновлено: 2014-12-24.
       Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
         </div>

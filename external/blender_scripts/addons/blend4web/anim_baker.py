@@ -36,12 +36,56 @@ class B4W_Anim_Baker(bpy.types.Operator):
         nla_mute_states = self.set_nla_tracks_mute_state(armobj)
 
         current_frame = bpy.context.scene.frame_current
+        current_active_obj = bpy.context.scene.objects.active
+
+        # save valid armature actions 
         valid_actions = self.get_valid_actions(armobj)
+
+        # save poses, modes, actions
+        buf_action = None
+        armatures = []
+        current_modes = []
+        current_poselibs = []
+
+        for obj in bpy.data.objects:
+            if obj.type == "ARMATURE" and obj.library is None:
+                bpy.context.scene.objects.active = obj
+                current_modes.append(obj.mode)
+                bpy.ops.object.mode_set(mode='POSE')
+                current_poselibs.append(obj.pose_library)
+
+                if buf_action is None:
+                    bpy.ops.poselib.new()
+                    buf_action = obj.pose_library
+
+                armatures.append(obj.name)
+                obj.pose_library = buf_action
+                bpy.ops.poselib.pose_add(frame=len(buf_action.pose_markers))
+
+        # create baked actions
         for action in valid_actions:
             self.process_action(action, armobj)
 
         armobj.animation_data.action = current_action
         bpy.context.scene.frame_set(current_frame)
+
+        # restore poses, modes, actions
+        for armname in enumerate(armatures):
+            obj = bpy.data.objects[armname[1]]
+            bpy.context.scene.objects.active = obj
+            obj.pose_library = buf_action
+            bpy.ops.poselib.apply_pose(pose_index=armname[0])
+            bpy.ops.poselib.unlink()
+            bpy.ops.object.mode_set(mode=current_modes[armname[0]])
+            obj.pose_library = current_poselibs[armname[0]]
+        
+        if buf_action is not None:
+            bpy.data.actions.remove(buf_action)
+            
+        bpy.context.scene.objects.active = current_active_obj
+        del armatures
+        del current_modes
+        del current_poselibs
 
         # restore auto keyframes tool mode
         bpy.context.scene.tool_settings.use_keyframe_insert_auto = use_kia
@@ -141,11 +185,6 @@ class B4W_Anim_Baker(bpy.types.Operator):
                 new_fcurves.new(data_path + "scale", 0, bname)
                 new_fcurves.new(data_path + "scale", 1, bname)
                 new_fcurves.new(data_path + "scale", 2, bname)
-
-        # go pose mode, select all bones and clear pose
-        bpy.ops.object.mode_set(mode='POSE')
-        bpy.ops.pose.select_all(action="SELECT")
-        bpy.ops.pose.transforms_clear()
 
         # enable currect action
         armobj.animation_data.action = action

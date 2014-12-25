@@ -8,6 +8,7 @@ for obj in bpy.context.selected_objects:
     empty = bpy.context.object
     empty.scale = scale
     empty.name = "EMPTY_"+obj.name
+    group_name = obj.name[0:3]+obj.name[4]
     bpy.context.object.dupli_type = 'GROUP'                         #Эта часть кода добавляет в empty dupli group
-    bpy.context.object.dupli_group = bpy.data.groups["group_name"]  #Вместо group_name необходимо вставить нужное имя группы
+    bpy.context.object.dupli_group = bpy.data.groups[group_name]  #Вместо group_name необходимо вставить нужное имя группы
 

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Аддон &mdash; Руководство пользователя: Blend4Web v14.11</title>
+    <title>Аддон &mdash; Руководство пользователя: Blend4Web v14.12</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.11',
+        VERSION:     '14.12',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v14.11" href="index.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v14.12" href="index.html" />
     <link rel="next" title="Объекты" href="objects.html" />
     <link rel="prev" title="Веб-плеер" href="web_player.html" /> 
   </head>
@@ -37,7 +37,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">Руководство пользователя: Blend4Web v14.11</a></div>
+          href="index.html">Руководство пользователя: Blend4Web v14.12</a></div>
         <div class="rel">
           <a href="web_player.html" title="Веб-плеер"
              accesskey="P">назад</a> |
@@ -147,7 +147,8 @@ a shared mesh</td>
 на объекте включены опции
 <tt class="docutils literal"><span class="pre">Apply</span> <span class="pre">modifiers</span></tt>,
 <tt class="docutils literal"><span class="pre">Export</span> <span class="pre">vertex</span> <span class="pre">animation</span></tt>,
-<tt class="docutils literal"><span class="pre">Export</span> <span class="pre">edited</span> <span class="pre">normals</span></tt>
+<tt class="docutils literal"><span class="pre">Export</span> <span class="pre">edited</span> <span class="pre">normals</span></tt>,
+<tt class="docutils literal"><span class="pre">Apply</span> <span class="pre">scale</span></tt>
 (т.к. в этом случае при экспорте
 происходит полное копирование мешей).</td>
 </tr>
@@ -241,34 +242,24 @@ with TO_NODE</td>
 не установлено свойство
 <tt class="docutils literal"><span class="pre">Target</span> <span class="pre">Object</span></tt>.</td>
 </tr>
-<tr class="row-odd"><td>Object-parent relation is not
-supported; Clear the parent&#8217;s
-inverse transform</td>
-<td>При использовании отношения
-родитель-потомок для объекта-потомка
-требуется сбросить перемещение
-командой
-<tt class="docutils literal"><span class="pre">Object</span> <span class="pre">&gt;</span> <span class="pre">Parent</span> <span class="pre">&gt;</span> <span class="pre">Clear</span> <span class="pre">Parent</span> <span class="pre">Inverse</span></tt>
-(Alt-P).</td>
-</tr>
-<tr class="row-even"><td>Particle system error; Dupli group
+<tr class="row-odd"><td>Particle system error; Dupli group
 isn&#8217;t specified</td>
 <td>Ошибка системы частиц. Не выбрана группа,
 используемая в качестве частицы.</td>
 </tr>
-<tr class="row-odd"><td>Particle system error; Dupli object
+<tr class="row-even"><td>Particle system error; Dupli object
 isn&#8217;t specified</td>
 <td>Ошибка системы частиц. Не выбран объект,
 используемый в качестве частицы.</td>
 </tr>
-<tr class="row-even"><td>Particle system error; Dupli object
+<tr class="row-odd"><td>Particle system error; Dupli object
 OBJECT_NAME doesn&#8217;t export</td>
 <td>Ошибка системы частиц. Объект
 OBJECT_NAME, выбранный в качестве
 частицы, не экспортируется (на нем
 выбрана опция <tt class="docutils literal"><span class="pre">Do</span> <span class="pre">not</span> <span class="pre">export</span></tt>).</td>
 </tr>
-<tr class="row-odd"><td>Particle system error; The
+<tr class="row-even"><td>Particle system error; The
 GROUP_NAME dupli group contains no
 valid object for export</td>
 <td>Ошибка системы частиц. Ни один подходящий
@@ -279,16 +270,16 @@ valid object for export</td>
 неподходящий тип.
 Поддерживаемые типы: <tt class="docutils literal"><span class="pre">MESH</span></tt>.</td>
 </tr>
-<tr class="row-even"><td>Particle system error; Wrong dupli
+<tr class="row-odd"><td>Particle system error; Wrong dupli
 object type TYPE_NAME</td>
 <td>Ошибка системы частиц. В качестве частицы
 выбран объект неподходящего типа.
 Поддерживаемые типы: <tt class="docutils literal"><span class="pre">MESH</span></tt>.</td>
 </tr>
-<tr class="row-odd"><td>Permission denied</td>
+<tr class="row-even"><td>Permission denied</td>
 <td>Нет прав доступа к текущей директории.</td>
 </tr>
-<tr class="row-even"><td>Wrong edited normals count; It
+<tr class="row-odd"><td>Wrong edited normals count; It
 doesn&#8217;t match with the mesh
 vertices count</td>
 <td>Число редактируемых нормалей не
@@ -297,7 +288,7 @@ vertices count</td>
 <tt class="docutils literal"><span class="pre">Save</span></tt> в панели
 <tt class="docutils literal"><span class="pre">B4W</span> <span class="pre">Vertex</span> <span class="pre">Normals</span> <span class="pre">Editor</span></tt>.</td>
 </tr>
-<tr class="row-odd"><td>Wrong overridden bounding box;
+<tr class="row-even"><td>Wrong overridden bounding box;
 Check the mesh&#8217;s bounding box
 values</td>
 <td>Указаны неверные размеры при
@@ -305,7 +296,7 @@ values</td>
 минимальное значение больше максимального
 для хотя бы одного из измерений.</td>
 </tr>
-<tr class="row-even"><td>Wrong vertex animation vertices
+<tr class="row-odd"><td>Wrong vertex animation vertices
 count; It doesn&#8217;t match with the
 mesh vertices count for &#8220;ANIM_NAME&#8221;</td>
 <td>Включен экспорт вертексной анимации, но
@@ -492,7 +483,13 @@ NAME указанный в поле <tt class="docutils literal"><span class="pr
 присутствует в объекте OBJECT_NAME группы
 GROUP_NAME, выбранной в качестве частицы.</td>
 </tr>
-<tr class="row-even"><td>The NAME node is not supported.
+<tr class="row-even"><td>The NAME armature modifier has a
+proxy object as an armature.
+Modifier removed.</td>
+<td>Модификатор арматуры имеет прокси объект
+в качестве арматуры.</td>
+</tr>
+<tr class="row-odd"><td>The NAME node is not supported.
 The NAME material will be rendered
 without nodes. Material: NAME.</td>
 <td>Нода с данным именем не поддерживается
@@ -500,6 +497,13 @@ without nodes. Material: NAME.</td>
 отключён. Чаще всего проблемы подобного
 рода возникают при использовании нод
 Cycles.</td>
+</tr>
+<tr class="row-even"><td>The NAME object has NAME armature
+modifier which references the wrong
+group. Modifier removed.</td>
+<td>Объект должен находиться в той же группе,
+что и арматура или оба объекта должны явно
+присутствовать на сцене.</td>
 </tr>
 <tr class="row-odd"><td>Using &#8220;REFRACTION&#8221; node with
 incorrect type of Alpha Blend.
@@ -544,6 +548,10 @@ values.</td>
 <td>Настройки процедурной анимации деревьев:
 должны существовать все указанные
 слои вертексных цветов.</td>
+</tr>
+<tr class="row-even"><td>Empty material slot in node
+&#8220;NAME&#8221;. Material: &#8220;NAME&#8221;.</td>
+<td>Не задан материал в ноде: &#8220;NAME&#8221;</td>
 </tr>
 </tbody>
 </table>
@@ -615,6 +623,7 @@ object</td>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Объекты</a></li>
+<li class="toctree-l1"><a class="reference internal" href="camera.html">Камера</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Материалы</a></li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">Текстуры</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Нодовые материалы</a></li>
@@ -665,7 +674,7 @@ object</td>
           
     <div class="footer">
         &copy; Copyright 2014, ООО &#34;Триумф&#34;.
-      Обновлено: 2014-11-28.
+      Обновлено: 2014-12-24.
       Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
         </div>

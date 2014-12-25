@@ -5,6 +5,7 @@
 #export tbn_norm
 
 float ZERO_VALUE_MATH = 0.0;
+float UNITY_VALUE_MATH = 1.0;
 
 struct vertex
 {
@@ -66,31 +67,31 @@ mat3 mat3_transpose(mat3 m) {
 }
 */
 mat4 identity() {
-    return mat4(1.0, ZERO_VALUE_MATH, ZERO_VALUE_MATH, ZERO_VALUE_MATH,
-                ZERO_VALUE_MATH, 1.0, ZERO_VALUE_MATH, ZERO_VALUE_MATH,
-                ZERO_VALUE_MATH, ZERO_VALUE_MATH, 1.0, ZERO_VALUE_MATH,
-                ZERO_VALUE_MATH, ZERO_VALUE_MATH, ZERO_VALUE_MATH, 1.0);
+    return mat4(UNITY_VALUE_MATH, ZERO_VALUE_MATH, ZERO_VALUE_MATH, ZERO_VALUE_MATH,
+                ZERO_VALUE_MATH, UNITY_VALUE_MATH, ZERO_VALUE_MATH, ZERO_VALUE_MATH,
+                ZERO_VALUE_MATH, ZERO_VALUE_MATH, UNITY_VALUE_MATH, ZERO_VALUE_MATH,
+                ZERO_VALUE_MATH, ZERO_VALUE_MATH, ZERO_VALUE_MATH, UNITY_VALUE_MATH);
 }
 
 mat4 rotation_x(float angle) {
-    return mat4(1.0, ZERO_VALUE_MATH, ZERO_VALUE_MATH, ZERO_VALUE_MATH,
+    return mat4(UNITY_VALUE_MATH, ZERO_VALUE_MATH, ZERO_VALUE_MATH, ZERO_VALUE_MATH,
                 ZERO_VALUE_MATH, cos(angle), sin(angle), ZERO_VALUE_MATH,
                 ZERO_VALUE_MATH,-sin(angle), cos(angle), ZERO_VALUE_MATH,
-                ZERO_VALUE_MATH, ZERO_VALUE_MATH, ZERO_VALUE_MATH, 1.0);
+                ZERO_VALUE_MATH, ZERO_VALUE_MATH, ZERO_VALUE_MATH, UNITY_VALUE_MATH);
 }
 
 mat4 rotation_y(float angle) {
     return mat4(cos(angle), ZERO_VALUE_MATH,-sin(angle), ZERO_VALUE_MATH,
-                ZERO_VALUE_MATH, 1.0, ZERO_VALUE_MATH, ZERO_VALUE_MATH,
+                ZERO_VALUE_MATH, UNITY_VALUE_MATH, ZERO_VALUE_MATH, ZERO_VALUE_MATH,
                 sin(angle), ZERO_VALUE_MATH, cos(angle), ZERO_VALUE_MATH,
-                ZERO_VALUE_MATH, ZERO_VALUE_MATH, ZERO_VALUE_MATH, 1.0);
+                ZERO_VALUE_MATH, ZERO_VALUE_MATH, ZERO_VALUE_MATH, UNITY_VALUE_MATH);
 }
 
 mat4 rotation_z(float angle) {
     return mat4(cos(angle), sin(angle), ZERO_VALUE_MATH, ZERO_VALUE_MATH,
                -sin(angle), cos(angle), ZERO_VALUE_MATH, ZERO_VALUE_MATH,
-                ZERO_VALUE_MATH, ZERO_VALUE_MATH, 1.0, ZERO_VALUE_MATH,
-                ZERO_VALUE_MATH, ZERO_VALUE_MATH, ZERO_VALUE_MATH, 1.0);
+                ZERO_VALUE_MATH, ZERO_VALUE_MATH, UNITY_VALUE_MATH, ZERO_VALUE_MATH,
+                ZERO_VALUE_MATH, ZERO_VALUE_MATH, ZERO_VALUE_MATH, UNITY_VALUE_MATH);
 }
 
 vertex tbn_norm(in vertex v) {

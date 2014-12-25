@@ -54,14 +54,22 @@ exports.CT_SHOT = m_ctl.CT_SHOT;
  */
 exports.CT_LEVEL = m_ctl.CT_LEVEL;
 
+exports.KEY_BACKSPACE = 8;
+exports.KEY_TAB   = 9;
+exports.KEY_ENTER = 13;
 exports.KEY_SHIFT = 16;
+exports.KEY_CTRL  = 17;
+exports.KEY_ALT   = 18;
+exports.KEY_PAUSE = 19;
+exports.KEY_CAPSLOCK = 20;
+exports.KEY_ESC      = 27;
 
 exports.KEY_SPACE = 32;
 
 exports.KEY_LEFT  = 37;
 exports.KEY_UP    = 38;
 exports.KEY_RIGHT = 39;
-exports.KEY_DOWN = 40;
+exports.KEY_DOWN  = 40;
 
 exports.KEY_NUM0 = 96;
 exports.KEY_NUM1 = 97;

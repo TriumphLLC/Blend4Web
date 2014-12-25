@@ -24,6 +24,9 @@ var cfg_ani = m_cfg.animation;
 var _nla_arr = [];
 var _start_time = -1;
 
+// to fix precision issues with freezing current frame
+var CF_FREEZE_EPSILON = 0.000001;
+
 exports.update_scene_nla = function(scene, is_cyclic) {
     var nla = {
         frame_start: scene["frame_start"],
@@ -417,8 +420,9 @@ exports.update = function(timeline, elapsed) {
             for (var k = 0; k < nla_events.length; k++) {
                 var ev = nla_events[k];
 
-                if (ev.type == "SOUND" && cf < nla.last_frame)
+                if (ev.type == "SOUND" && cf < (nla.last_frame - CF_FREEZE_EPSILON)) {
                     ev.scheduled = false;
+                }
             }
 
             for (var k = 0; k < nla_events.length; k++) {
@@ -443,7 +447,7 @@ exports.update = function(timeline, elapsed) {
 
                     break;
                 case "SOUND":
-                    if ((cf < nla.last_frame || nla.last_frame < ev.frame_start) &&
+                    if ((cf < (nla.last_frame - CF_FREEZE_EPSILON) || nla.last_frame < ev.frame_start) &&
                             ev.frame_start <= cf && cf < ev.frame_end) {
                         if (!ev.scheduled) {
                             process_sound_event(obj, ev, cf);

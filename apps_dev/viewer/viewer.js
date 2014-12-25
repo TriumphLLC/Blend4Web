@@ -33,7 +33,8 @@ var DEFAULT_SCENE      = "dev/logo.json";
 var ANIM_OBJ_DEFAULT_INDEX = 0;
 var ANIM_NAME_DEFAULT_INDEX = 0;
 
-var _vec3_tmp = new Float32Array(3);
+var _vec3_tmp  = new Float32Array(3);
+var _vec3_tmp2 = new Float32Array(3);
 
 var _auto_view = false;
 var _auto_view_timeout_handle;
@@ -119,11 +120,7 @@ function init_cb(canvas_elem, success) {
 }
 
 function get_asset_path(filename) {
-    // path to assets directory
-    if (DEBUG)
-        var assets_dir =  "../../external/deploy/assets/";
-    else
-        var assets_dir = "../../assets/";
+    var assets_dir = m_cfg.get_std_assets_path();
 
     return assets_dir + filename;
 }
@@ -312,6 +309,7 @@ function init_ui() {
     bind_colpick(set_water_material_params, "shore_water_col");
     bind_control(set_water_material_params, "shore_water_col_fac", "number");
     bind_control(set_water_material_params, "foam_factor", "number");
+    bind_control(set_water_material_params, "norm_uv_velocity", "number");
     bind_control(set_water_material_params, "water_dynamic", "bool");
     bind_control(set_water_material_params, "waves_height", "number");
     bind_control(set_water_material_params, "waves_length", "number");
@@ -576,7 +574,7 @@ function loaded_callback(data_id) {
                 var sel_obj_pos = _vec3_tmp;
                 var calc_bs_center = true;
                 m_trans.get_object_center(sel_obj, calc_bs_center, sel_obj_pos);
-                var cam_eye = m_cam.get_eye(obj);
+                var cam_eye = m_cam.get_eye(obj, _vec3_tmp2);
                 var dist = m_vec3.dist(sel_obj_pos, cam_eye);
                 _dist_to_camera = dist.toFixed(3);
             }
@@ -1672,6 +1670,7 @@ function get_water_material_params(obj, mat_name) {
                              "sss_strength",
                              "sss_width",
                              "foam_factor",
+                             "norm_uv_velocity",
                              "waves_height",
                              "waves_length",
                              "dst_noise_scale0",
@@ -1719,6 +1718,7 @@ function get_water_material_params(obj, mat_name) {
     set_slider("sss_strength",      mparams["sss_strength"]);
     set_slider("sss_width",         mparams["sss_width"]);
     set_slider("foam_factor",       mparams["foam_factor"]);
+    set_slider("norm_uv_velocity",  mparams["norm_uv_velocity"]);
     set_slider("waves_height",      mparams["waves_height"]);
     set_slider("waves_length",      mparams["waves_length"]);
     set_slider("dst_noise_scale0",  mparams["dst_noise_scale0"]);
@@ -1791,6 +1791,8 @@ function set_water_material_params(value) {
         water_material_params["shore_water_col_fac"] = value["shore_water_col_fac"];
     if ("foam_factor" in value)
         water_material_params["foam_factor"] = value["foam_factor"];
+    if ("norm_uv_velocity" in value)
+        water_material_params["norm_uv_velocity"] = value["norm_uv_velocity"];
 
     // water dynamic
     if ("sss_strength" in value)
@@ -1971,6 +1973,7 @@ function forbid_material_params() {
                    "sss_strength",
                    "sss_width",
                    "foam_factor",
+                   "norm_uv_velocity",
                    "waves_height",
                    "waves_length",
                    "dst_noise_scale0",

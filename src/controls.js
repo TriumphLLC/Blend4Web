@@ -53,7 +53,6 @@ var _prev_def_mouse_events = false;
 var _prev_def_wheel_events = false;
 var _prev_def_touch_events = false;
 
-
 // sensor types for internal usage
 var ST_CUSTOM            = 10;
 var ST_KEYBOARD          = 20;
@@ -1017,6 +1016,9 @@ function mouse_down_cb(e) {
     var pick = false;
     var selected_obj = null;
 
+    _mouse_curr_x = e.clientX;
+    _mouse_curr_y = e.clientY;
+
     for (var i = 0; i < _sensors.length; i++) {
         var sensor = _sensors[i];
 
@@ -1113,7 +1115,6 @@ function mouse_wheel_cb(e) {
     if (_prev_def_wheel_events)
         e.preventDefault();
 }
-
 
 function touch_start_cb(e) {
 
@@ -1283,8 +1284,10 @@ exports.register_keyboard_events = function(element, prevent_default) {
 
 exports.register_mouse_events = function(element, prevent_default) {
     element.addEventListener("mousedown", mouse_down_cb, false);
-    element.addEventListener("mouseup",   mouse_up_cb,   false);
     element.addEventListener("mousemove", mouse_move_cb, false);
+    // NOTE: use mouse_up_cb in case mouse leave "element"
+    element.addEventListener("mouseout", mouse_up_cb, false);
+    element.addEventListener("mouseup", mouse_up_cb, false);
 
     _prev_def_mouse_events = prevent_default;
 }
@@ -1314,8 +1317,9 @@ exports.unregister_keyboard_events = function(element) {
 
 exports.unregister_mouse_events = function(element) {
     element.removeEventListener("mousedown", mouse_down_cb, false);
-    element.removeEventListener("mouseup",   mouse_up_cb,   false);
     element.removeEventListener("mousemove", mouse_move_cb, false);
+    element.removeEventListener("mouseout", mouse_up_cb, false);
+    element.removeEventListener("mouseup", mouse_up_cb, false);
 }
 
 exports.unregister_wheel_events = function(element) {

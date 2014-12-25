@@ -26,6 +26,70 @@ var _unreported_compat_issues = false;
 
 var _params_reported = {};
 
+
+function reform_node (node) {
+    switch(node["type"]) {
+    case "MAPPING":
+        if(!node["vector_type"]) {
+            node["vector_type"] = "POINT";
+            report("node Mapping", node, "vector_type");
+        }
+        break;
+    case "MATERIAL":
+    case "MATERIAL_EXT":
+        if (!("specular_shader" in node)) {
+            node["specular_shader"] = "COOKTORR";
+            report("node material", node, "specular_shader");
+        }
+
+        if (!("specular_hardness" in node)) {
+            node["specular_hardness"] = 50;
+            report("node material", node, "specular_hardness");
+        }
+
+        if (!("specular_slope" in node)) {
+            node["specular_slope"] = 0.1;
+            report("node material", node, "specular_slope");
+        }
+
+        if (!("specular_toon_size" in node)) {
+            node["specular_toon_size"] = 0.5;
+            report("node material", node, "specular_toon_size");
+        }
+
+        if (!("specular_toon_smooth" in node)) {
+            node["specular_toon_smooth"] = 0.1;
+            report("node material", node, "specular_toon_smooth");
+        }
+
+        if (!("specular_intensity" in node)) {
+            node["specular_intensity"] = 0.5;
+            report("node material", node, "specular_intensity");
+        }
+
+        if (!("diffuse_shader" in node)) {
+            node["diffuse_shader"] = "LAMBERT";
+            report("node material", node, "diffuse_shader");
+        }
+
+        if (!("roughness" in node)) {
+            node["roughness"] = 0.5;
+            report("node material", node, "roughness");
+        }
+
+        if (!("diffuse_fresnel" in node)) {
+            node["diffuse_fresnel"] = 0.1;
+            report("node material", node, "diffuse_fresnel");
+        }
+
+        if (!("diffuse_fresnel_factor" in node)) {
+            node["diffuse_fresnel_factor"] = 0.5;
+            report("node material", node, "diffuse_fresnel_factor");
+        }
+        break;
+    }
+}
+
 /**
  * Check bpy_data, perform necessary compatibility hacks.
  */
@@ -366,6 +430,21 @@ exports.check_bpy_data = function(bpy_data) {
             report_deprecated("camera", camera, "b4w_eye_target_dist");
         }
 
+        if (!("b4w_trans_velocity" in camera)) {
+            camera["b4w_trans_velocity"] = 1;
+            report("camera", camera, "b4w_trans_velocity");
+        }
+        
+        if (!("b4w_rot_velocity" in camera)) {
+            camera["b4w_rot_velocity"] = 1;
+            report("camera", camera, "b4w_rot_velocity");
+        }
+
+        if (!("b4w_zoom_velocity" in camera)) {
+            camera["b4w_zoom_velocity"] = 0.1;
+            report("camera", camera, "b4w_zoom_velocity");
+        }
+
         if (!("b4w_use_distance_limits" in camera)) {
             camera["b4w_use_distance_limits"] = false;
             report("camera", camera, "b4w_use_distance_limits");
@@ -617,6 +696,11 @@ exports.check_bpy_data = function(bpy_data) {
             texture["b4w_source_size"] = 1024;
             report("texture", texture, "b4w_source_size");
         }
+
+        if (!("b4w_enable_canvas_mipmapping" in texture)) {
+            texture["b4w_enable_canvas_mipmapping"] = true;
+            report("texture", texture, "b4w_enable_canvas_mipmapping");
+        }
     }
 
     /* materials */
@@ -754,6 +838,7 @@ exports.check_bpy_data = function(bpy_data) {
             mat["b4w_dynamic_grass_size"] = "";
             //report("material", mat, "b4w_dynamic_grass_size");
         }
+
         if (!("b4w_dynamic_grass_color" in mat)) {
             mat["b4w_dynamic_grass_color"] = "";
             //report("material", mat, "b4w_dynamic_grass_color");
@@ -848,6 +933,7 @@ exports.check_bpy_data = function(bpy_data) {
             mat["b4w_refractive"] = false;
             report("material", mat, "b4w_refractive");
         }
+
         if (!("b4w_refr_bump" in mat)) {
             mat["b4w_refr_bump"] = 0;
             report("material", mat, "b4w_refr_bump");
@@ -857,29 +943,39 @@ exports.check_bpy_data = function(bpy_data) {
             mat["b4w_shallow_water_col"] = [0.0, 0.8, 0.3];
             report("material", mat, "b4w_shallow_water_col");
         }
+
         if (!("b4w_shore_water_col" in mat)) {
             mat["b4w_shore_water_col"] = [0.0, 0.9, 0.2];
             report("material", mat, "b4w_shore_water_col");
         }
+
         if (!("b4w_shallow_water_col_fac" in mat)) {
             mat["b4w_shallow_water_col_fac"] = 1.0;
             report("material", mat, "b4w_shallow_water_col_fac");
         }
+
         if (!("b4w_shore_water_col_fac" in mat)) {
             mat["b4w_shore_water_col_fac"] = 0.5;
             report("material", mat, "b4w_shore_water_col_fac");
         }
+
         if (!("b4w_water_sss_strength" in mat)) {
             mat["b4w_water_sss_strength"] = 5.9;
             report("material", mat, "b4w_water_sss_strength");
         }
+
         if (!("b4w_water_sss_width" in mat)) {
             mat["b4w_water_sss_width"] = 0.45;
             report("material", mat, "b4w_water_sss_width");
         }
+
         if (!("b4w_render_above_all" in mat)) {
             mat["b4w_render_above_all"] = false;
             report("material", mat, "b4w_render_above_all");
+        }
+        if (!("b4w_water_norm_uv_velocity" in mat)) {
+            mat["b4w_water_norm_uv_velocity"] = 0.05;
+            report("material", mat, "b4w_water_norm_uv_velocity");
         }
 
         var texture_slots = mat["texture_slots"];
@@ -890,6 +986,22 @@ exports.check_bpy_data = function(bpy_data) {
                 report("texture_slot", slot, "blend_type");
             }
         }
+
+        if (mat["node_tree"]) {
+            var nodes = mat["node_tree"]["nodes"];
+            for (var j = 0; j < nodes.length; j++)
+                reform_node(nodes[j]);
+        }
+    }
+
+    /*node_groups*/
+    var node_groups = bpy_data["node_groups"];
+
+    for (var i = 0; i < node_groups.length; i++) {
+        var nodes = node_groups[i]["node_tree"]["nodes"];
+
+        for (var j = 0; j < nodes.length; j++)
+            reform_node(nodes[j]);
     }
 
     var objects = bpy_data["objects"];

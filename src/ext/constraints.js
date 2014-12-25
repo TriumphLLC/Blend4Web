@@ -17,13 +17,18 @@ var m_trans = require("__transform");
  * @param {(Object|Array)} target Object ID or [Armature object ID, Bone Name]
  * @param {Float32Array} offset Offset in parent local space
  * @param {Float32Array} [rotation_offset] Rotation offset in parent local space
+ * @param {Number} [scale_offset] Scale offset in parent local space
  */
-exports.append_stiff = function(obj, target, offset, rotation_offset) {
+exports.append_stiff = function(obj, target, offset, rotation_offset, 
+        scale_offset) {
 
+    scale_offset = scale_offset || 1;
     if (target instanceof Array && target.length == 2)
-        m_cons.append_stiff_bone(obj, target[0], target[1], offset, rotation_offset);
+        m_cons.append_stiff_bone(obj, target[0], target[1], offset, 
+                rotation_offset, scale_offset);
     else
-        m_cons.append_stiff_obj(obj, target, offset, rotation_offset);
+        m_cons.append_stiff_obj(obj, target, offset, rotation_offset, 
+                scale_offset);
 
     m_trans.update_transform(obj);
     m_phy.sync_transform(obj);

@@ -29,6 +29,11 @@ exports.set_hardware_defaults = function(gl) {
     cfg_def.max_cube_map_size = gl.getParameter(gl.MAX_CUBE_MAP_TEXTURE_SIZE);
 
     var depth_tex_available = Boolean(m_ext.get_depth_texture());
+    
+    if (check_user_agent("Firefox") && m_cfg.is_built_in_data()) {
+        m_print.warn("Firefox detected for single HTML version, disable video textures.");
+        cfg_def.firefox_disable_html_video_tex_hack = true;
+    }
 
     // HACK: fix depth issue in Firefox 28
     if (check_user_agent("Firefox/28.0") &&
@@ -57,8 +62,15 @@ exports.set_hardware_defaults = function(gl) {
         cfg_sfx.clamp_playback_rate_hack = true;
     }
     if ((check_user_agent("Windows"))
-            && (check_user_agent("Firefox/33") || check_user_agent("Chrome/40") || check_user_agent("Chrome/41"))) {
-        m_print.warn("Condititions for clear procedural skydome hack detected");
+            && (check_user_agent("Firefox/33") ||
+                check_user_agent("Firefox/34"))) {
+        m_print.warn("Windows/Firefox33-34 detected. Applying procedural skydome update hack.");
+        cfg_def.sky_update_hack = true;
+    }
+    if ((check_user_agent("Windows"))
+             &&(check_user_agent("Chrome/40") ||
+                check_user_agent("Chrome/41"))) {
+        m_print.warn("Windows/Chrome40-41 detected. Applying clear procedural skydome hack.");
         cfg_def.clear_procedural_sky_hack = true;
     }
 
@@ -161,6 +173,7 @@ exports.set_hardware_defaults = function(gl) {
     if (is_ie11()) {
         m_print.warn("IE11 detected. Set sky cubemap texture size to 512 (power of two).");
         cfg_scs.cubemap_tex_size = 512;
+        cfg_def.ie_video_textures_hack = true;
     }
 
     if(gl.getParameter(gl.MAX_FRAGMENT_UNIFORM_VECTORS) <= MIN_FRAGMENT_UNIFORMS_SUPPORTED) {
@@ -180,7 +193,7 @@ function check_user_agent(str) {
     else
         return false;
 }
-
+exports.detect_mobile = detect_mobile;
 function detect_mobile() {
     return navigator.userAgent.match(/Android/i)
         || navigator.userAgent.match(/webOS/i)

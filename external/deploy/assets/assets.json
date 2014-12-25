@@ -69,6 +69,23 @@
         ]
     },
     {
+        "name": "New Year",
+        "items": [
+            {
+                "name": "Letter Test",
+                "load_file": "new_year/letter.json"
+            },
+            {
+                "name": "New Year",
+                "load_file": "new_year/christmas_tree.json"
+            },
+            {
+                "name": "Confetti",
+                "load_file": "new_year/confetti.json"
+            }
+        ]
+    },
+    {
         "name": "Dev - Render",
         "items": [
             {
@@ -141,6 +158,27 @@
             {
                 "name": "Music Test",
                 "load_file": "dev_sound/music_test.json"
+            }
+        ]
+    },
+    {
+        "name": "Flight over Island",
+        "items": [
+            {
+                "name": "Island",
+                "load_file": "flight_over_island/island.json"
+            },
+            {
+                "name": "Animated Camera",
+                "load_file": "flight_over_island/animated_camera.json"
+            },
+            {
+                "name": "Flight over Island",
+                "load_file": "flight_over_island/flight_over_island.json"
+            },
+            {
+                "name": "Cessna Skylane 182T",
+                "load_file": "flight_over_island/cessna_skylane_182t.json"
             }
         ]
     }

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Textures &mdash; User Manual: Blend4Web v14.11</title>
+    <title>Textures &mdash; User Manual: Blend4Web v14.12</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.11',
+        VERSION:     '14.12',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User Manual: Blend4Web v14.11" href="index.html" />
+    <link rel="top" title="User Manual: Blend4Web v14.12" href="index.html" />
     <link rel="next" title="Node Materials" href="node_materials.html" />
     <link rel="prev" title="Materials" href="materials.html" /> 
   </head>
@@ -36,7 +36,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">User Manual: Blend4Web v14.11</a></div>
+          href="index.html">User Manual: Blend4Web v14.12</a></div>
         <div class="rel">
           <a href="materials.html" title="Materials"
              accesskey="P">previous</a> |
@@ -125,12 +125,14 @@
 </li>
 </ol>
 </div>
-<div class="section" id="index-2">
-<span id="id3"></span><h2>Generic Settings<a class="headerlink" href="#index-2" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="main-conf">
+<span id="index-2"></span><span id="id3"></span><h2>Generic Settings<a class="headerlink" href="#main-conf" title="Permalink to this headline">¶</a></h2>
 <dl class="docutils">
 <dt><em>Dimensions</em></dt>
 <dd><p class="first last">Bitmap dimensions for image textures (image width and height in pixels) should be a 2<sup>N</sup> number, i.e. 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096 px. Using textures with other dimensions (so-called NPOT) is supported but is not recommended. Dimensions should be at least 4 pixels for the correct texture compression. Normally square images are used (e.g. 512 x 512 px), however rectangular ones can be used too (e.g. 4 x 128 px). Using images bigger than 2048 px is not recommended.</p>
 </dd>
+</dl>
+<dl class="docutils" id="texture-extension">
 <dt><em>Image Mapping &gt; Extension</em></dt>
 <dd><p class="first last">Texture coordinates interpretation mode (Wrap Mode in WebGL). This is available for <tt class="docutils literal"><span class="pre">Image</span> <span class="pre">or</span> <span class="pre">Movie</span></tt> texture type. In case of <tt class="docutils literal"><span class="pre">Repeat</span></tt> value the engine sets the <tt class="docutils literal"><span class="pre">REPEAT</span></tt> mode for the texture. In this case the integer part of the texture coordinates is ignored and the fractional part is used. In all other cases (for example <tt class="docutils literal"><span class="pre">Extend</span></tt>) the engine sets the <tt class="docutils literal"><span class="pre">CLAMP_TO_EDGE</span></tt> mode. In this case the texture coordinates are limited by the [0, 1] segment. The default value is <tt class="docutils literal"><span class="pre">Repeat</span></tt>.</p>
 </dd>
@@ -281,35 +283,40 @@
 <p>A video can be used as a texture if <tt class="docutils literal"><span class="pre">Image</span> <span class="pre">or</span> <span class="pre">Movie</span></tt> texture type is selected. Also, if the <tt class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Use</span> <span class="pre">NLA</span></tt> is enabled the video textures playback is possible.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">Video textures support playing back just video tracks. Audio tracks should played back by using a <tt class="docutils literal"><span class="pre">SPEAKER</span></tt> object.</p>
+<p class="last">Video textures support playing back just video tracks. Audio tracks should be played back by using a <tt class="docutils literal"><span class="pre">SPEAKER</span></tt> object.</p>
 </div>
 <div class="section" id="id21">
 <h3>Setting up the Texture<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h3>
 <p>The following settings are available for video textures on the <tt class="docutils literal"><span class="pre">Texture</span> <span class="pre">&gt;</span> <span class="pre">Image</span></tt> panel:</p>
-<ol class="arabic simple">
-<li><p class="first"><tt class="docutils literal"><span class="pre">Frames</span></tt> - length of patch of the video played back.</p>
-</li>
-<li><p class="first"><tt class="docutils literal"><span class="pre">Start</span></tt> - video playback delay (in frames), applicable for non-linear animation (<tt class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Use</span> <span class="pre">NLA</span></tt> option).</p>
-</li>
-<li><p class="first"><tt class="docutils literal"><span class="pre">Offset</span></tt> - the number of the frame from which the video playback starts.</p>
-</li>
-<li><p class="first"><tt class="docutils literal"><span class="pre">Auto</span> <span class="pre">refresh</span></tt> - play back the video immediately after loading is complete. Ignored for non-linear animation - other parameters are applicable for video playback.</p>
-</li>
-<li><p class="first"><tt class="docutils literal"><span class="pre">Cyclic</span></tt> - start video playback afresh each time it finishes.</p>
-</li>
-</ol>
+<dl class="docutils">
+<dt><em>Image &gt; Frames</em></dt>
+<dd><p class="first last">Length of the played fragment in frames.</p>
+</dd>
+<dt><em>Image &gt; Start</em></dt>
+<dd><p class="first last">Video playback delay (in frames), applicable for non-linear animation (<tt class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Use</span> <span class="pre">NLA</span></tt> option).</p>
+</dd>
+<dt><em>Image &gt; Offset</em></dt>
+<dd><p class="first last">The number of the frame from which the video playback starts.</p>
+</dd>
+<dt><em>Image &gt; Auto refresh</em></dt>
+<dd><p class="first last">Play back the video immediately after loading is complete. Ignored for non-linear animation - other parameters are applicable for video playback.</p>
+</dd>
+<dt><em>Image &gt; Cyclic</em></dt>
+<dd><p class="first last">Start video playback afresh each time it finishes.</p>
+</dd>
+</dl>
 <img alt="_images/video_tex.jpg" class="align-center" src="_images/video_tex.jpg" />
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p>Video playback rate can be increased. To do this set <tt class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">Dimensions</span> <span class="pre">&gt;</span> <span class="pre">Frame</span> <span class="pre">rate</span></tt> to a value which is different from the FPS value for the videos. Video playback rate is increased proportionally to the ratio of scene&#8217;s FPS and video&#8217;s FPS.</p>
+<p>The video playback rate can be increased. To do this set <tt class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">Dimensions</span> <span class="pre">&gt;</span> <span class="pre">Frame</span> <span class="pre">rate</span></tt> to a value which is different from the FPS value for the videos. Video playback rate is increased proportionally to the ratio of the scene&#8217;s FPS and the video&#8217;s FPS.</p>
 <img alt="_images/fps.jpg" class="align-center" src="_images/fps.jpg" />
 </div>
 <div class="section" id="id22">
 <h3>Peculiarities of mobile devices<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h3>
-<p>On mobile devices there are the following peculiarities:</p>
+<p>The peculiarities for mobile devices are as follows:</p>
 <ol class="arabic simple">
-<li><p class="first">normal operation of video textures on iPhones is impossible because these devices play back videos via standard iOS video player.</p>
+<li><p class="first">normal operation of video textures on iPhones is impossible because these devices play back videos via the standard iOS video player.</p>
 </li>
 <li><p class="first">some devices only support playing back only one video file.</p>
 </li>
@@ -317,7 +324,7 @@
 </li>
 <li><p class="first">not all devices support changing the video playback rate.</p>
 </li>
-<li><p class="first">iPad and iPhone do not provide the possibility to control audio volume for video, and so the audio track should be removed from the video before the file is added to Blender.</p>
+<li><p class="first">iPad and iPhone do not provide the possibility to control the audio volume for video, and so the audio track should be removed from the video before the file is added to Blender.</p>
 </li>
 </ol>
 <span class="target" id="environment-map"></span></div>
@@ -392,6 +399,30 @@
 </div>
 <div class="section" id="index-12">
 <span id="id29"></span><h2>Special Texture Types<a class="headerlink" href="#index-12" title="Permalink to this headline">¶</a></h2>
+<p>In order to use such textures, select <tt class="docutils literal"><span class="pre">None</span></tt> type under the <tt class="docutils literal"><span class="pre">Textures</span></tt> tab.</p>
+<img alt="_images/type_none.jpg" class="align-center" src="_images/type_none.jpg" />
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>On the <tt class="docutils literal"><span class="pre">Textures</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span></tt> panel, you can set up properties for these textures:</p>
+<dl class="docutils">
+<dt><em>Blend4Web &gt; Source type</em></dt>
+<dd><p class="first last">Select texture type: <tt class="docutils literal"><span class="pre">Scene</span></tt> - for rendering a 3D scene into the texture, <tt class="docutils literal"><span class="pre">Canvas</span></tt> - for using &lt;canvas&gt; HTML element and <tt class="docutils literal"><span class="pre">None</span></tt> - for indicating of its absence.</p>
+</dd>
+<dt><em>Blend4Web &gt; Source id</em></dt>
+<dd><p class="first last">The name of the scene which will be rendered into the texture (for <tt class="docutils literal"><span class="pre">Scene</span></tt>), or ID of the &lt;canvas&gt; HTML element (for <tt class="docutils literal"><span class="pre">Canvas</span></tt>).</p>
+</dd>
+<dt><em>Blend4Web &gt; Source size</em></dt>
+<dd><p class="first last">Texture resolution.</p>
+</dd>
+<dt><em>Blend4Web &gt; Extension</em></dt>
+<dd><p class="first last"><a class="reference internal" href="#texture-extension"><em>Texture coordinates interpretation mode</em></a>. Default is <tt class="docutils literal"><span class="pre">Repeat</span></tt>.</p>
+</dd>
+<dt><em>Blend4Web &gt; Enable mipmapping</em></dt>
+<dd><p class="first last">Enable mipmapping for the Canvas texture. Enabled by default.</p>
+</dd>
+</dl>
+<img alt="_images/canvas_tex.jpg" class="align-center" src="_images/canvas_tex.jpg" />
 <div class="section" id="d-a">
 <span id="render-to-texture-scene"></span><h3>3D scene<a class="headerlink" href="#d-a" title="Permalink to this headline">¶</a></h3>
 <p>A 3D scene&#8217;s real-time rendered image can be used as a texture by an object from another scene (&#8220;main&#8221; scene).</p>
@@ -410,7 +441,7 @@
 <div class="section" id="canvas">
 <span id="render-to-texture-canvas"></span><h3>Canvas<a class="headerlink" href="#canvas" title="Permalink to this headline">¶</a></h3>
 <p>A &lt;canvas&gt; HTML element can be used as a texture. It can be modified via <a class="reference internal" href="developers.html#canvas-texture"><em>API</em></a>.</p>
-<p>Set the <tt class="docutils literal"><span class="pre">None</span></tt> type for a texture of the target object on the main scene, and select the <tt class="docutils literal"><span class="pre">Canvas</span></tt> type in the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Source</span> <span class="pre">type</span></tt> menu. Specify the id of the canvas HTML element in the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Source</span> <span class="pre">id</span></tt> field. Set the texture size in the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Source</span> <span class="pre">size</span></tt> field (in pixels).</p>
+<p>Set the <tt class="docutils literal"><span class="pre">None</span></tt> type for the texture of the target object on the main scene, and select the <tt class="docutils literal"><span class="pre">Canvas</span></tt> type in the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Source</span> <span class="pre">type</span></tt> menu. Specify the id of the canvas HTML element in the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Source</span> <span class="pre">id</span></tt> field. Set the texture size in the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Source</span> <span class="pre">size</span></tt> field (in pixels).</p>
 </div>
 </div>
 </div>
@@ -430,12 +461,13 @@
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Workflow</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Scene Viewer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Web Player</a></li>
-<li class="toctree-l1"><a class="reference internal" href="addon.html">The Addon</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">The Add-on</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Textures</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#index-1">Texture Types</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#index-2">Generic Settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#main-conf">Generic Settings</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#index-4">Diffuse Map</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#index-5">Specular Map</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#index-6">Normal Map</a></li>
@@ -496,7 +528,7 @@
           
     <div class="footer">
         &copy; Copyright 2014, Triumph LLC.
-      Last updated on 2014-11-28.
+      Last updated on 2014-12-24.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
         </div>

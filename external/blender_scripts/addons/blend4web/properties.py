@@ -6,9 +6,6 @@ import cProfile
 from .interface import *
 from . import nla_script
 
-class B4W_LodProperty(bpy.types.PropertyGroup):
-    pass
-
 class B4W_DetailBendingColors(bpy.types.PropertyGroup):
 
     leaves_stiffness_col = bpy.props.StringProperty(
@@ -1059,6 +1056,39 @@ def add_b4w_props():
     )
     bpy.types.Camera.b4w_move_style = b4w_move_style
 
+    b4w_trans_velocity = bpy.props.FloatProperty(
+           name = "B4W: Translation velocity of the camera",
+           description = "Translation velocity of the camera",
+           default = 1.0,
+           min = 0.0,
+           soft_min = 0.0,
+           precision = 3,
+       )
+    bpy.types.Camera.b4w_trans_velocity = b4w_trans_velocity
+
+    b4w_rot_velocity = bpy.props.FloatProperty(
+           name = "B4W: Rotation velocity of the camera",
+           description = "Rotation velocity of the camera",
+           default = 1.0,
+           min = 0.0,
+           soft_min = 0.0,
+           precision = 3,
+       )
+    bpy.types.Camera.b4w_rot_velocity = b4w_rot_velocity
+
+    b4w_zoom_velocity = bpy.props.FloatProperty(
+           name = "B4W: Zoom velocity of the camera",
+           description = "Zoom velocity of the camera",
+           default = 0.1,
+           min = 0.0,
+           max = 1.0,
+           soft_max = 1.0,
+           soft_min = 0.0,
+           step = 0.1,
+           precision = 3,
+       )
+    bpy.types.Camera.b4w_zoom_velocity = b4w_zoom_velocity
+
     b4w_target = bpy.props.FloatVectorProperty(
         name = "B4W: target",
         description = "Camera target location for \"TARGET\" camera",
@@ -1832,37 +1862,6 @@ def add_object_properties():
         precision = 3
     )
 
-    # deprecated
-    b4w_lod_distance = bpy.props.FloatProperty(
-        name = "B4W: LOD distance",
-        description = "LOD maximum distance",
-        default = 10000,
-        min = 0.0,
-        max = 100000,
-        soft_min = 0,
-        soft_max = 10000,
-        step = 10,
-        precision = 2
-    )
-    obj_type.b4w_lod_distance = b4w_lod_distance
-
-    # deprecated
-    obj_type.b4w_lods = bpy.props.CollectionProperty(
-            type=B4W_LodProperty,
-            name="B4W: LODS")
-    # deprecated
-    obj_type.b4w_lod_index = bpy.props.IntProperty(
-            name="B4W: LOD index",
-            description="LOD index used in the interface",
-            default=0, min=0, max=100, soft_min=0, soft_max=5
-    )
-    # deprecated
-    obj_type.b4w_refl_plane_index = bpy.props.IntProperty(
-            name="B4W: Reflection Plane index",
-            description="Reflection plane index used in the interface",
-            default=0, min=0, max=100, soft_min=0, soft_max=5
-    )
-
     obj_type.b4w_detail_bend_colors = bpy.props.PointerProperty(
             type=B4W_DetailBendingColors,
             name="B4W: Detail Bend")
@@ -1876,6 +1875,13 @@ def add_object_properties():
             ("OFF",  "OFF",  "Disable bounding offset correction"),
             ("ON",   "ON",   "Enable bounding offset correction")
         ]
+    )
+
+    # deprecated
+    obj_type.b4w_refl_plane_index = bpy.props.IntProperty(
+            name="B4W: Reflection Plane index",
+            description="Reflection plane index used in the interface",
+            default=0, min=0, max=100, soft_min=0, soft_max=5
     )
 
 def add_speaker_properties():
@@ -2293,6 +2299,15 @@ def add_material_properties():
         step = 0.01,
         precision = 2,
     )
+    mat_type.b4w_water_norm_uv_velocity = bpy.props.FloatProperty(
+        name = "B4W: water norm uv velocity",
+        description = "Water normal uv velocity",
+        default = 0.05,
+        min = 0.0,
+        max = 1.0,
+        step = 0.005,
+        precision = 3,
+    )
 
     mat_type.b4w_terrain = bpy.props.BoolProperty(
         name = "B4W: Terrain dynamic grass",
@@ -2466,9 +2481,17 @@ def add_texture_properties():
     )
     bpy.types.Texture.b4w_source_size = b4w_source_size
 
+    b4w_enable_canvas_mipmapping = bpy.props.BoolProperty(
+        name = "B4W: Enable mipmapping",
+        description = "Use mipmapping for canvas texture",
+        default = True
+    )
+    bpy.types.Texture.b4w_enable_canvas_mipmapping = b4w_enable_canvas_mipmapping
+
     b4w_extension = bpy.props.EnumProperty(
         name = "B4W: extension",
         description = "How the image is extrapolated past its original bounds",
+        default = "REPEAT",
         items = [
             ("CLIP",     "Clip",      "Clip"),
             ("REPEAT",   "Repeat",    "Repeat")
@@ -2502,18 +2525,6 @@ def add_texture_properties():
         ]
     )
     bpy.types.Texture.b4w_use_sky = b4w_use_sky
-
-    # NOTE: it is saved to texture, so there may be issues when textures are shared between materials
-    b4w_uv_velocity_trans = bpy.props.FloatVectorProperty(
-        name = "B4W: UV translation velocity",
-        description = "UV translation velocity for the animated texture",
-        default = (0.0, 0.0),
-        min = -99.0,
-        max = 99.0,
-        precision = 3,
-        size = 2
-    )
-    bpy.types.Texture.b4w_uv_velocity_trans = b4w_uv_velocity_trans
 
     b4w_water_foam = bpy.props.BoolProperty(
         name = "B4W: Water foam",
@@ -2780,7 +2791,6 @@ def add_particle_settings_properties():
     )
 
 def register():
-    bpy.utils.register_class(B4W_LodProperty)
     bpy.utils.register_class(B4W_VehicleSettings)
     bpy.utils.register_class(B4W_GlowSettings)
     bpy.utils.register_class(B4W_FloatingSettings)
@@ -2798,7 +2808,6 @@ def register():
     add_b4w_props()
 
 def unregister():
-    bpy.utils.unregister_class(B4W_LodProperty)
     bpy.utils.unregister_class(B4W_VehicleSettings)
     bpy.utils.unregister_class(B4W_GlowSettings)
     bpy.utils.unregister_class(B4W_FloatingSettings)

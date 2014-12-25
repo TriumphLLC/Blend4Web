@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Table of contents &mdash; User Manual: Blend4Web v14.11</title>
+    <title>Table of contents &mdash; User Manual: Blend4Web v14.12</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.11',
+        VERSION:     '14.12',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User Manual: Blend4Web v14.11" href="#" />
+    <link rel="top" title="User Manual: Blend4Web v14.12" href="#" />
     <link rel="next" title="Overview" href="about.html" /> 
   </head>
   <body>
@@ -35,7 +35,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="#">User Manual: Blend4Web v14.11</a></div>
+          href="#">User Manual: Blend4Web v14.12</a></div>
         <div class="rel">
           <a href="about.html" title="Overview"
              accesskey="N">next</a> |
@@ -124,7 +124,7 @@
 <li class="toctree-l2"><a class="reference internal" href="web_player.html#id6">Scene Errors</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="addon.html">The Addon</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">The Add-on</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="addon.html#index-1">Initialization Errors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="addon.html#export-errors">Critical Export Errors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="addon.html#index-3">Non-Critical Export Errors</a></li>
@@ -136,7 +136,12 @@
 <li class="toctree-l2"><a class="reference internal" href="objects.html#id2">Types</a></li>
 <li class="toctree-l2"><a class="reference internal" href="objects.html#static-dynamic-objects">Static and Dynamic Objects</a></li>
 <li class="toctree-l2"><a class="reference internal" href="objects.html#id4">Settings</a></li>
-<li class="toctree-l2"><a class="reference internal" href="objects.html#id5">Camera</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="camera.html#id2">Move Styles and General Settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="camera.html#camera-velocity">Camera Movement Velocity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="camera.html#id4">Limiting the Camera Movement</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a><ul>
@@ -149,7 +154,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="textures.html#index-1">Texture Types</a></li>
-<li class="toctree-l2"><a class="reference internal" href="textures.html#index-2">Generic Settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="textures.html#main-conf">Generic Settings</a></li>
 <li class="toctree-l2"><a class="reference internal" href="textures.html#index-4">Diffuse Map</a></li>
 <li class="toctree-l2"><a class="reference internal" href="textures.html#index-5">Specular Map</a></li>
 <li class="toctree-l2"><a class="reference internal" href="textures.html#index-6">Normal Map</a></li>
@@ -244,15 +249,17 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="developers.html">For Application Developers</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="developers.html#hello-world">A Hello World! App</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developers.html#hello-world">Hello World!</a></li>
 <li class="toctree-l2"><a class="reference internal" href="developers.html#id2">Loading a Scene into an App</a></li>
 <li class="toctree-l2"><a class="reference internal" href="developers.html#id3">Creating Apps Quickly</a></li>
-<li class="toctree-l2"><a class="reference internal" href="developers.html#id4">Module System</a></li>
-<li class="toctree-l2"><a class="reference internal" href="developers.html#id5">Moving Objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developers.html#sdk">Application Development Inside the SDK</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developers.html#converter">Resource Converter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developers.html#id5">Module System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developers.html#id6">Moving Objects</a></li>
 <li class="toctree-l2"><a class="reference internal" href="developers.html#index-0">Quaternions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="developers.html#event-model">Event-Driven Model</a></li>
 <li class="toctree-l2"><a class="reference internal" href="developers.html#quality-settings">Quality Profiles</a></li>
-<li class="toctree-l2"><a class="reference internal" href="developers.html#sdk">SDK File Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developers.html#repo-file-structure">SDK File Structure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="developers.html#canvas">Canvas Textures</a></li>
 </ul>
 </li>
@@ -286,6 +293,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#v14-12">v14.12</a></li>
 <li class="toctree-l2"><a class="reference internal" href="release_notes.html#v14-11">v14.11</a></li>
 <li class="toctree-l2"><a class="reference internal" href="release_notes.html#v14-10">v14.10</a></li>
 <li class="toctree-l2"><a class="reference internal" href="release_notes.html#v14-09">v14.09</a></li>
@@ -314,8 +322,9 @@
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Workflow</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Scene Viewer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Web Player</a></li>
-<li class="toctree-l1"><a class="reference internal" href="addon.html">The Addon</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">The Add-on</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
@@ -364,7 +373,7 @@
           
     <div class="footer">
         &copy; Copyright 2014, Triumph LLC.
-      Last updated on 2014-11-28.
+      Last updated on 2014-12-24.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
         </div>

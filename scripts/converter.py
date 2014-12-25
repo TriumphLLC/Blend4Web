@@ -1,7 +1,8 @@
 #!/usr/bin/python3
 
 import math
-import os,sys,subprocess, multiprocessing, re
+import os,sys,subprocess, multiprocessing, re, getopt
+import shutil
 
 ASSETS_DIR = "../external/deploy/assets"
 APPS_DIR = "../external/deploy/apps"
@@ -13,7 +14,7 @@ RED    = "\033[91m"
 ENDCOL = "\033[0m"
 
 def help():
-    print("usage: converter.py <conversion_option>")
+    print("usage: converter.py [-d dir_path] <conversion_option>")
     print("")
     print("""conversion options:
     resize_textures
@@ -214,6 +215,18 @@ def convert_media(args):
             print("Conversion error")
             sys.exit(1)
 
+        qt_path = shutil.which("qt-faststart")
+        if os.access(qt_path, os.X_OK):
+            result = qt_faststart_conv(path_to)
+            if result is not None:
+                if result:
+                    print("Conversion error (qt_faststart)")
+                    sys.exit(1)
+                else:
+                    os.rename(path_to + ".tmp", path_to)
+
+
+
 def avconv_conv(path_from, path_to):
 
     ext_to = os.path.splitext(path_to)[1]
@@ -226,12 +239,24 @@ def avconv_conv(path_from, path_to):
     elif ext_to == ".mp4" or ext_to == ".m4v":
         # NOTE: use -strict experimental to allow AAC in avconv
         # NOTE: resample all to 48000 (96000 is incompatible with AAC)
-        args += ["-acodec", "aac", "-strict", "experimental", "-ar", "48000"] 
+        args += ["-acodec", "aac", "-strict", "experimental", "-ar", "48000"]
 
     args += [path_to]
+
     print(args)
 
     return os.spawnvp(os.P_WAIT, "avconv", args)
+
+def qt_faststart_conv(path):
+    ext_to = os.path.splitext(path)[1]
+
+    if ext_to == ".mp4" or ext_to == ".m4v":
+        args = ["qt-faststart", path]
+        args += [path + ".tmp"] 
+        print(args)
+        return os.spawnvp(os.P_WAIT, "qt-faststart", args)
+    return None
+
 
 def remove_sound(args):
     root = args[0]
@@ -259,21 +284,37 @@ def remove_dds(args):
 
 
 if __name__ == "__main__":
-
-    if len(sys.argv) != 2:
-        help()
-        exit(0)
-
-    task = sys.argv[1]
+    try:
+        opts, args = getopt.getopt(sys.argv[1:],
+                            "d:h:", ["dir=", "help"])
+    except getopt.GetoptError as err:
+        print(err)
+        sys.exit(1)
 
     paths = [ASSETS_DIR, TUTS_DIR]
 
+    for o, a in opts:
+        if o == "--dir" or o == "-d":
+            if os.path.isdir(a):
+                paths = [a]
+            else:
+                print("Directory does not exist")
+                sys.exit(1)
+
+    if not len(args):
+        print("You must specify assignment")
+        sys.exit(1)
+
+    if len(args) > 1:
+        print("You may specify only one assignment")
+        sys.exit(1)
+
+    task = args[0]
+
     if task == "convert_media":
-        paths.append(APPS_DIR)
         handler = convert_media
 
     elif task == "cleanup_sounds":
-        paths.append(APPS_DIR)
         handler = remove_sound
 
     elif task == "resize_textures":

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Particle System for Instancing Objects &mdash; User Manual: Blend4Web v14.11</title>
+    <title>Particle System for Instancing Objects &mdash; User Manual: Blend4Web v14.12</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.11',
+        VERSION:     '14.12',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User Manual: Blend4Web v14.11" href="index.html" />
+    <link rel="top" title="User Manual: Blend4Web v14.12" href="index.html" />
     <link rel="next" title="Animation" href="animation.html" />
     <link rel="prev" title="Particle System" href="particles.html" /> 
   </head>
@@ -36,7 +36,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">User Manual: Blend4Web v14.11</a></div>
+          href="index.html">User Manual: Blend4Web v14.12</a></div>
         <div class="rel">
           <a href="particles.html" title="Particle System"
              accesskey="P">previous</a> |
@@ -95,33 +95,36 @@
 <div class="line"><br /></div>
 </div>
 <p><strong>Setup</strong></p>
-<dl class="docutils">
-<dt><em>Render &gt; Use Count</em></dt>
-<dd><p class="first last">The option is available for groups of particle objects. When enabled the interface for setting the relative number of objects in a group is displayed. The engine doesn&#8217;t reproduce the exact location of objects of set types.</p>
-</dd>
-<dt><em>Blend4Web &gt; Random location and size</em></dt>
-<dd><p class="first last">The option enables randomization for the location and the size of the objects. If enabled the engine generates random coordinates and size (limited to the ±25% range) for the particle objects. If it is disabled then the current coordinates and sizes of the particle objects are exported and used. Enabled by default.</p>
-</dd>
-<dt><em>Blend4Web &gt; Initial random rotation</em></dt>
-<dd><p class="first last">The option enables random rotation of the objects relative to the axis which is defined by the <tt class="docutils literal"><span class="pre">Rotation</span> <span class="pre">type</span></tt> parameter. If enabled the engine generates random rotation angles for the particle objects. If disabled the zero rotation angle is used. Enabled by default.</p>
-</dd>
-<dt><em>Blend4Web &gt; Rotation type</em></dt>
-<dd><dl class="first docutils">
-<dt>The axis for randomly turning the object (the option is available when the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Initial</span> <span class="pre">random</span> <span class="pre">rotation</span></tt> checkbox is set). 2 options are available:</dt>
-<dd><ul class="first last simple">
+<p><em>Render &gt; Use Count</em></p>
+<blockquote>
+<div><p>The option is available for groups of particle objects. When enabled the interface for setting the relative number of objects in a group is displayed. The engine doesn&#8217;t reproduce the exact location of objects of set types.</p>
+</div></blockquote>
+<p><em>Blend4Web &gt; Random location and size</em></p>
+<blockquote>
+<div><p>The option enables randomization for the location and the size of the objects. If enabled the engine generates random coordinates and size (limited to the ±25% range) for the particle objects. If it is disabled then the current coordinates and sizes of the particle objects are exported and used. Enabled by default.</p>
+</div></blockquote>
+<p><em>Blend4Web &gt; Initial random rotation</em></p>
+<blockquote>
+<div><p>The option enables random rotation of the objects relative to the axis which is defined by the <tt class="docutils literal"><span class="pre">Rotation</span> <span class="pre">type</span></tt> parameter. If enabled the engine generates random rotation angles for the particle objects. If disabled the zero rotation angle is used. Enabled by default.</p>
+</div></blockquote>
+<p><em>Blend4Web &gt; Rotation type</em></p>
+<blockquote>
+<div><p>The axis for randomly turning the object (the option is available when the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Initial</span> <span class="pre">random</span> <span class="pre">rotation</span></tt> checkbox is set). 2 options are available:</p>
+<blockquote>
+<div><ul class="simple">
 <li><p class="first"><tt class="docutils literal"><span class="pre">Z</span> <span class="pre">axis</span></tt> - the objects are turned randomly around the vertical Z axis</p>
 </li>
 <li><p class="first"><tt class="docutils literal"><span class="pre">Random</span> <span class="pre">axis</span></tt> - the objects are turned randomly around a random axis</p>
 </li>
 </ul>
-</dd>
-</dl>
-<p class="last">The default is <tt class="docutils literal"><span class="pre">Z</span> <span class="pre">axis</span></tt></p>
-</dd>
-<dt><em>Blend4Web &gt; Rotation strength</em></dt>
-<dd><dl class="first docutils">
-<dt>The coefficient defining the range of random rotation angles - counting from the direction towards the camera (the option is available when the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Initial</span> <span class="pre">random</span> <span class="pre">rotation</span></tt> checkbox is enabled). Examples:</dt>
-<dd><ul class="first last simple">
+</div></blockquote>
+<p>The default is <tt class="docutils literal"><span class="pre">Z</span> <span class="pre">axis</span></tt></p>
+</div></blockquote>
+<p><em>Blend4Web &gt; Rotation strength</em></p>
+<blockquote>
+<div><p>The coefficient defining the range of random rotation angles - counting from the direction towards the camera (the option is available when the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Initial</span> <span class="pre">random</span> <span class="pre">rotation</span></tt> checkbox is enabled). Examples:</p>
+<blockquote>
+<div><ul class="simple">
 <li><p class="first"><tt class="docutils literal"><span class="pre">Rotation</span> <span class="pre">strength</span> <span class="pre">=</span> <span class="pre">1</span></tt> - the angles will lie within the <span class="math">\([-\pi, \pi]\)</span> range</p>
 </li>
 <li><p class="first"><tt class="docutils literal"><span class="pre">Rotation</span> <span class="pre">strength</span> <span class="pre">=</span> <span class="pre">0.5</span></tt> - the angles will lie within the <span class="math">\([-0.5 \cdot \pi, 0.5 \cdot \pi]\)</span> range</p>
@@ -129,17 +132,18 @@
 <li><p class="first"><tt class="docutils literal"><span class="pre">Rotation</span> <span class="pre">strength</span> <span class="pre">=</span> <span class="pre">0.1</span></tt> - the angles will lie within the <span class="math">\([-0.1 \cdot \pi, 0.1 \cdot \pi]\)</span> range</p>
 </li>
 </ul>
-</dd>
-</dl>
-<p class="last">The default value is 1.</p>
-</dd>
-<dt><em>Blend4Web &gt; Billboard</em></dt>
-<dd><p class="first last">Enables billboarding for particles. Disabled by default.</p>
-</dd>
-<dt><em>Blend4Web &gt; Billboard type</em></dt>
-<dd><dl class="first docutils">
-<dt>Billboarding type (the option is available when the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Billboard</span></tt> option is set). 3 types are available:</dt>
-<dd><ul class="first last simple">
+</div></blockquote>
+<p>The default value is 1.</p>
+</div></blockquote>
+<p><em>Blend4Web &gt; Billboard</em></p>
+<blockquote>
+<div><p>Enables billboarding for particles. Disabled by default.</p>
+</div></blockquote>
+<p><em>Blend4Web &gt; Billboard type</em></p>
+<blockquote>
+<div><p>Billboarding type (the option is available when the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Billboard</span></tt> option is set). 3 types are available:</p>
+<blockquote>
+<div><ul class="simple">
 <li><p class="first"><tt class="docutils literal"><span class="pre">Basic</span></tt> - simple one-sided billboarding: particles will be turned with their front side to the observer</p>
 </li>
 <li><p class="first"><tt class="docutils literal"><span class="pre">Random</span></tt> - random two-sided billboarding: particles will be more often turned with their front or rear side to the observer and less often with their side; also there will be a small random turn; this model was created specially for instancing grass</p>
@@ -147,85 +151,86 @@
 <li><p class="first"><tt class="docutils literal"><span class="pre">Jittered</span></tt> - one-sided billboarding with particles wavering along the plane which is turned to the observer; this model was created specially for instancing tree leaves</p>
 </li>
 </ul>
-</dd>
-</dl>
-<p class="last">The default is <tt class="docutils literal"><span class="pre">Basic</span></tt>.</p>
-</dd>
-<dt><em>Blend4Web &gt; Jitter amplitude</em></dt>
-<dd><p class="first last">The coefficient of the particle oscillation amplitude (the option is available when the <tt class="docutils literal"><span class="pre">Jittered</span></tt> type is selected from the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Billboard</span> <span class="pre">type</span></tt> menu). The bigger this parameter is the bigger is the oscillation amplitude. The default value is 0.</p>
-</dd>
-<dt><em>Blend4Web &gt; Jitter frequency</em></dt>
-<dd><p class="first last">The particle oscillation frequency in hertz (the option is available when the <tt class="docutils literal"><span class="pre">Jittered</span></tt> type is selected from the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Billboard</span> <span class="pre">type</span></tt> menu). The default value is 0.</p>
-</dd>
-<dt><em>Blend4Web &gt; Billboard geometry</em></dt>
-<dd><dl class="first docutils">
-<dt>Billboard rotation type (the option is available when the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Billboard</span></tt> checkbox is set). 2 types are available:</dt>
-<dd><ul class="first last simple">
+</div></blockquote>
+<p>The default is <tt class="docutils literal"><span class="pre">Basic</span></tt>.</p>
+</div></blockquote>
+<p><em>Blend4Web &gt; Jitter amplitude</em></p>
+<blockquote>
+<div><p>The coefficient of the particle oscillation amplitude (the option is available when the <tt class="docutils literal"><span class="pre">Jittered</span></tt> type is selected from the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Billboard</span> <span class="pre">type</span></tt> menu). The bigger this parameter is the bigger is the oscillation amplitude. The default value is 0.</p>
+</div></blockquote>
+<p><em>Blend4Web &gt; Jitter frequency</em></p>
+<blockquote>
+<div><p>The particle oscillation frequency in hertz (the option is available when the <tt class="docutils literal"><span class="pre">Jittered</span></tt> type is selected from the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Billboard</span> <span class="pre">type</span></tt> menu). The default value is 0.</p>
+</div></blockquote>
+<p><em>Blend4Web &gt; Billboard geometry</em></p>
+<blockquote>
+<div><p>Billboard rotation type (the option is available when the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Billboard</span></tt> checkbox is set). 2 types are available:</p>
+<blockquote>
+<div><ul class="simple">
 <li><p class="first"><tt class="docutils literal"><span class="pre">Spherical</span></tt> - spherical billboarding i.e. particles are fully oriented to the observer and their rotation is unlimited</p>
 </li>
 <li><p class="first"><tt class="docutils literal"><span class="pre">Cylindrical</span></tt> - cylindrical billboarding i.e. particles are rotating only around the vertical Z axis.</p>
 </li>
 </ul>
-</dd>
-</dl>
-<p class="last">The default is <tt class="docutils literal"><span class="pre">Spherical</span></tt>.</p>
-</dd>
-<dt><em>Blend4Web &gt; Dynamic Grass</em></dt>
-<dd><p class="first last">The option enables the dynamic grass rendering mode. Disabled by default.</p>
-</dd>
-<dt><em>Blend4Web &gt; Wind bending</em></dt>
-<dd><dl class="first docutils">
-<dt>Inheriting the wind bending settings by the particles:</dt>
-<dd><ul class="first last simple">
+</div></blockquote>
+<p>The default is <tt class="docutils literal"><span class="pre">Spherical</span></tt>.</p>
+</div></blockquote>
+<p><em>Blend4Web &gt; Dynamic Grass</em></p>
+<blockquote>
+<div><p>The option enables the dynamic grass rendering mode. Disabled by default.</p>
+</div></blockquote>
+<p><em>Blend4Web &gt; Wind bending</em></p>
+<blockquote>
+<div><p>Inheriting the wind bending settings by the particles:</p>
+<blockquote>
+<div><ul class="simple">
 <li><p class="first"><tt class="docutils literal"><span class="pre">Parent</span></tt> - inherited from the emitter</p>
 </li>
 <li><p class="first"><tt class="docutils literal"><span class="pre">Instance</span></tt> - inherited from the particle object itself</p>
 </li>
 </ul>
-</dd>
-</dl>
-<p class="last">The default is <tt class="docutils literal"><span class="pre">Parent</span></tt>.</p>
-</dd>
-<dt><em>Blend4Web &gt; Shadows</em></dt>
-<dd><dl class="first docutils">
-<dt>Inheriting the shadow settings by particles:</dt>
-<dd><ul class="first last simple">
+</div></blockquote>
+<p>The default is <tt class="docutils literal"><span class="pre">Parent</span></tt>.</p>
+</div></blockquote>
+<p><em>Blend4Web &gt; Shadows</em></p>
+<blockquote>
+<div><p>Inheriting the shadow settings by particles:</p>
+<blockquote>
+<div><ul class="simple">
 <li><p class="first"><tt class="docutils literal"><span class="pre">Parent</span></tt> - inherited from the emitter</p>
 </li>
 <li><p class="first"><tt class="docutils literal"><span class="pre">Instance</span></tt> - inherited from the particle object itself</p>
 </li>
 </ul>
-</dd>
-</dl>
-<p class="last">The default is <tt class="docutils literal"><span class="pre">Parent</span></tt>.</p>
-</dd>
-<dt><em>Blend4Web &gt; Reflection</em></dt>
-<dd><dl class="first docutils">
-<dt>Inheriting the reflection settings by particles:</dt>
-<dd><ul class="first last simple">
+</div></blockquote>
+<p>The default is <tt class="docutils literal"><span class="pre">Parent</span></tt>.</p>
+</div></blockquote>
+<p><em>Blend4Web &gt; Reflection</em></p>
+<blockquote>
+<div><p>Inheriting the reflection settings by particles:</p>
+<blockquote>
+<div><ul class="simple">
 <li><p class="first"><tt class="docutils literal"><span class="pre">Parent</span></tt> - inherited from the emitter</p>
 </li>
 <li><p class="first"><tt class="docutils literal"><span class="pre">Instance</span></tt> - inherited from the particle object itself</p>
 </li>
 </ul>
-</dd>
-</dl>
-<p class="last">The default is <tt class="docutils literal"><span class="pre">Parent</span></tt>.</p>
-</dd>
-<dt><em>Blend4Web &gt; Vertex color</em></dt>
-<dd><dl class="first docutils">
-<dt>Inheriting the vertex color from the emitter. Contains 2 fields:</dt>
-<dd><ul class="first last simple">
+</div></blockquote>
+<p>The default is <tt class="docutils literal"><span class="pre">Parent</span></tt>.</p>
+</div></blockquote>
+<p><em>Blend4Web &gt; Vertex color</em></p>
+<blockquote>
+<div><p>Inheriting the vertex color from the emitter. Contains 2 fields:</p>
+<blockquote>
+<div><ul class="simple">
 <li><p class="first"><tt class="docutils literal"><span class="pre">from</span></tt> - the emitter&#8217;s existing vertex color name</p>
 </li>
 <li><p class="first"><tt class="docutils literal"><span class="pre">to</span></tt> - the particle&#8217;s existing vertex color name</p>
 </li>
 </ul>
-</dd>
-</dl>
-<p class="last">There is no inheritance by default.</p>
-</dd>
-</dl>
+</div></blockquote>
+<p>There is no inheritance by default.</p>
+</div></blockquote>
 </div>
 <div class="section" id="particles-grass">
 <span id="id3"></span><h2>Grass<a class="headerlink" href="#particles-grass" title="Permalink to this headline">¶</a></h2>
@@ -322,8 +327,9 @@
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Workflow</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Scene Viewer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Web Player</a></li>
-<li class="toctree-l1"><a class="reference internal" href="addon.html">The Addon</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">The Add-on</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
@@ -379,7 +385,7 @@
           
     <div class="footer">
         &copy; Copyright 2014, Triumph LLC.
-      Last updated on 2014-11-28.
+      Last updated on 2014-12-24.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
         </div>

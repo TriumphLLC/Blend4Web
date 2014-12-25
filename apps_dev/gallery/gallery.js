@@ -33,9 +33,7 @@ var INIT_PARAMS = {
 
 var AUTO_ROTATE_RATIO = 0.1;
 
-var ROOT = DEBUG ? "../../external/deploy/" : "../../";
-var APP_STATIC_PATH = ROOT + "apps/gallery/";
-var ASSETS_PATH = ROOT + "assets/";
+var ASSETS_PATH = m_cfg.get_std_assets_path();
 
 var BUTTON_ACTIVE_STYLE = "0 0 15px #008eff";
 
@@ -501,7 +499,7 @@ function fill_scene_buttons(tag) {
     var s = "";
     for (var i = 0; i < SCENES.length; i++) {
         var id = SCENES[i].name;
-        var path = APP_STATIC_PATH + SCENES[i].icon;
+        var path = SCENES[i].icon;
         var tags = SCENES[i].tags;
         if (tags.indexOf(tag) > -1)
             s += "<div id='" + id + 
@@ -558,8 +556,7 @@ function loaded_callback(data_id) {
         //m_scenes.set_aa_params({"aa_method": "AA_METHOD_FXAA_LIGHT"});
     }
 
-    var cam_rot_speed = 1;
-    m_app.enable_camera_controls(1, cam_rot_speed);
+    m_app.enable_camera_controls();
 }
 
 function preloader_callback(percentage, load_time) {

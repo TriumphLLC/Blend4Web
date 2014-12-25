@@ -44,6 +44,7 @@ uniform vec3 u_light_directions[NUM_LIGHTS];
 uniform vec3 u_light_color_intensities[NUM_LIGHTS];
 uniform vec4 u_light_factors1[NUM_LIGHTS];
 uniform vec4 u_light_factors2[NUM_LIGHTS];
+uniform int u_shadow_lamp_id;
 # endif
 
 # if WATER_EFFECTS && CAUSTICS
@@ -138,13 +139,11 @@ uniform vec4  u_fresnel_params;
 
 #if TEXTURE_NORM_CO
 uniform float u_normal_factor;
-uniform vec2  u_normalmap0_uv_velocity;
 #endif
 
 #if TEXTURE_COLOR0_CO
 uniform float u_diffuse_color_factor;
 uniform float u_alpha_factor;
-uniform vec2  u_colormap0_uv_velocity;
 #endif
 
 #if TEXTURE_SPEC
@@ -291,8 +290,7 @@ void main(void) {
 # else
         vec2 parallax_texcoord = texcoord;
 # endif
-        h = texture2D(u_normalmap0, parallax_texcoord
-                                + u_time * u_normalmap0_uv_velocity).a;
+        h = texture2D(u_normalmap0, parallax_texcoord).a;
 
         for (float i = 1.0; i <= PARALLAX_STEPS; i++)
         {
@@ -333,8 +331,7 @@ void main(void) {
 #  if TEXTURE_NORM_CO == TEXTURE_COORDS_NORMAL
     normalmap = texture2D(u_normalmap0, texcoord_norm);
 #  else
-    normalmap = texture2D(u_normalmap0, texcoord
-                                        + u_time * u_normalmap0_uv_velocity);
+    normalmap = texture2D(u_normalmap0, texcoord);
 #  endif
 
     vec3 n = normalmap.rgb - 0.5;
@@ -373,7 +370,7 @@ void main(void) {
 #if TEXTURE_COLOR0_CO == TEXTURE_COORDS_NORMAL
     vec4 texture_color = texture2D(u_colormap0, texcoord_norm);
 #elif TEXTURE_COLOR0_CO == TEXTURE_COORDS_UV_ORCO
-    vec4 texture_color = texture2D(u_colormap0, texcoord + u_time * u_colormap0_uv_velocity);
+    vec4 texture_color = texture2D(u_colormap0, texcoord);
 #endif
 
 #if TEXTURE_COLOR0_CO
@@ -455,7 +452,7 @@ void main(void) {
     lighting_result lresult = lighting(E, A, D, S, v_pos_world, normal, eye_dir,
         spec_params, u_diffuse_params, shadow_factor, u_light_positions,
         u_light_directions, u_light_color_intensities, u_light_factors1,
-        u_light_factors2, 0.0, vec4(0.0));
+        u_light_factors2, 0.0, vec4(0.0), u_shadow_lamp_id);
 # endif
     vec3 color = lresult.color.rgb;
 #endif // SHADELESS

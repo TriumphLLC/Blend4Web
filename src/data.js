@@ -711,16 +711,17 @@ function setup_dds_loading(bpy_data) {
 
                     var image = tex["image"];
 
-                    if (image._is_dds) {
-                        // it was already marked as dds on previous cycle - so do nothing
-                    } else {
-                        image._is_dds = tex._render.allow_node_dds &&
-                                        !tex["b4w_disable_compression"] &&
-                                        image["source"] != "MOVIE";
+                    if (image)
+                        if (image._is_dds) {
+                            // it was already marked as dds on previous cycle - so do nothing
+                        } else {
+                            image._is_dds = tex._render.allow_node_dds &&
+                                            !tex["b4w_disable_compression"] &&
+                                            image["source"] != "MOVIE";
 
-                        if (image._is_dds)
-                            image["filepath"] += ".dds";
-                    }
+                            if (image._is_dds)
+                                image["filepath"] += ".dds";
+                        }
                 }
             }
         }
@@ -1248,10 +1249,6 @@ function process_node_tree(node_tree, storage) {
     for (var j = 0; j < nodes.length; j++) {
         var node = nodes[j];
 
-        if ((node["type"] == "MATERIAL" || node["type"] == "MATERIAL_EXT")
-                && node["material"])
-            make_link_uuid(node, "material", storage);
-
         if (node["type"] == "TEXTURE" && node["texture"])
             make_link_uuid(node, "texture", storage);
 
@@ -1385,6 +1382,10 @@ function load_textures(bpy_data, thread, stage, cb_param, cb_finish, cb_set_rate
             if (tex_users[0]["b4w_shore_dist_map"])
                 continue;
 
+            if (image["source"] === "MOVIE" 
+                    && cfg_def.firefox_disable_html_video_tex_hack)
+                continue;
+
             var image_path = normpath_preserve_protocol(dir_path + 
                     image["filepath"]);
 
@@ -1402,12 +1403,15 @@ function load_textures(bpy_data, thread, stage, cb_param, cb_finish, cb_set_rate
                             head_ext_wo_dds[1] + ".dds";
                     } else
                         image_path = head_ext[0] + ".min50." + head_ext[1];
-                    }
-            } else if (image["source"] === "MOVIE") {
+                }
+            } else if (image["source"] === "MOVIE" 
+                    && !cfg_def.ie_video_textures_hack) {
                 var head_ext = m_assets.split_extension(image_path);
                 var ext = m_sfx.detect_video_container(head_ext[1]);
-                if (ext != "")
-                    image_path = head_ext[0] + "." + ext;
+                if (ext != head_ext[1])
+                    image_path = head_ext[0] +".lossconv." + ext;
+                else
+                    image_path = head_ext[0] +"." + ext;
                 var asset_type = m_assets.AT_VIDEO_ELEMENT;
             }
 
@@ -1598,8 +1602,9 @@ function speakers_play(scene, force_init) {
 function video_play(scene) {
     var textures = scene._render.video_textures;
     for (var i = 0; i < textures.length; i++)
-        if (textures[i]._render.video_file && textures[i]["use_auto_refresh"])
+        if (textures[i]._render.video_file && textures[i]["use_auto_refresh"]) {
             textures[i]._render.video_file.play();
+        }
 }
 
 
@@ -2500,7 +2505,11 @@ function end_objects_adding(bpy_data, thread, stage, cb_param, cb_finish,
         for (var i = 0; i < bpy_data["scenes"].length; i++) {
             var scene = bpy_data["scenes"][i];
             m_scenes.sort_lamps(scene);
-            m_scenes.prepare_rendering(scene);
+            m_scenes.update_shadow_lamp_id(scene);
+
+            // need to draw only 1-st scene or rendered to texture one
+            if (scene._render_to_texture || i == 0)
+                m_scenes.prepare_rendering(scene);
 
             if (scene["b4w_use_nla"])
                 m_nla.update_scene_nla(scene, scene["b4w_nla_cyclic"]);
@@ -2535,6 +2544,13 @@ function synchronize_media(bpy_data, thread, stage, cb_param, cb_finish,
         
 
     cb_finish(thread, stage);
+
+    // HACK: Update sky for firefox 33/34
+    if (cfg_def.sky_update_hack) {
+        var scenes = bpy_data["scenes"];
+        for (var i = 0; i < scenes.length; i++)
+            m_scenes.set_sky_params(scenes[i], {});
+    }
 }
 
 exports.setup_context = function(gl) {
@@ -2585,6 +2601,7 @@ function create_media_controls(bpy_data, cb_finish, thread, stage) {
         if (thread.has_video_textures) {
             m_tex.play();
             m_tex.pause();
+            m_tex.reset();
         }
 
         if (thread.has_background_music) {

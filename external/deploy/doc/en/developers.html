@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>For Application Developers &mdash; User Manual: Blend4Web v14.11</title>
+    <title>For Application Developers &mdash; User Manual: Blend4Web v14.12</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.11',
+        VERSION:     '14.12',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User Manual: Blend4Web v14.11" href="index.html" />
+    <link rel="top" title="User Manual: Blend4Web v14.12" href="index.html" />
     <link rel="next" title="For Engine Developers" href="developers_advanced.html" />
     <link rel="prev" title="Non-Linear Animation" href="nla.html" /> 
   </head>
@@ -36,7 +36,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">User Manual: Blend4Web v14.11</a></div>
+          href="index.html">User Manual: Blend4Web v14.12</a></div>
         <div class="rel">
           <a href="nla.html" title="Non-Linear Animation"
              accesskey="P">previous</a> |
@@ -59,7 +59,7 @@
   <div class="section" id="developers">
 <span id="id1"></span><h1>For Application Developers<a class="headerlink" href="#developers" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="hello-world">
-<h2>A Hello World! App<a class="headerlink" href="#hello-world" title="Permalink to this headline">¶</a></h2>
+<h2>Hello World!<a class="headerlink" href="#hello-world" title="Permalink to this headline">¶</a></h2>
 <p>The simplest Blend4Web app may look like this:</p>
 <div class="highlight-html"><div class="highlight"><pre><span class="cp">&lt;!DOCTYPE html&gt;</span>
 <span class="nt">&lt;html&gt;</span>
@@ -79,7 +79,7 @@
 </pre></div>
 </div>
 <p>The engine library is embedded with the <tt class="docutils literal"><span class="pre">&lt;script</span> <span class="pre">src=&quot;...&quot;&gt;</span></tt> tag. The app waits for the page to load and prints the current version in the browser window. In this example <tt class="docutils literal"><span class="pre">version</span></tt> is the only used module which has a function with the same name - <tt class="docutils literal"><span class="pre">version()</span></tt>. A more detailed info about the usage of engine&#8217;s modules and function can be found in the <a class="reference external" href="http://www.blend4web.com/api_doc/index.html">API documentation</a>.</p>
-<p>The compiled engine files are located in the SDK&#8217;s <tt class="docutils literal"><span class="pre">external/deploy/apps/common</span></tt> directory. The <tt class="docutils literal"><span class="pre">b4w.min.js</span></tt> file contains a basic version. If you need to use the addons, <tt class="docutils literal"><span class="pre">b4w.full.min.js</span></tt> must be taken instead.</p>
+<p>The compiled engine files are located in the SDK&#8217;s <tt class="docutils literal"><span class="pre">external/deploy/apps/common</span></tt> directory. The <tt class="docutils literal"><span class="pre">b4w.min.js</span></tt> file contains a basic version. If you need to use the add-ons, <tt class="docutils literal"><span class="pre">b4w.full.min.js</span></tt> should be taken instead.</p>
 </div>
 <div class="section" id="id2">
 <h2>Loading a Scene into an App<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
@@ -117,7 +117,7 @@
 </div>
 <div class="section" id="id3">
 <h2>Creating Apps Quickly<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
-<p>Creating an app from scratch can be a tedious task, especially for beginners. To address this there is a special addon for the engine called <tt class="docutils literal"><span class="pre">app</span></tt>:</p>
+<p>Creating an app from scratch can be a tedious task, especially for beginners. To address this there is a special add-on for the engine called <tt class="docutils literal"><span class="pre">app</span></tt>:</p>
 <div class="highlight-html"><div class="highlight"><pre><span class="cp">&lt;!DOCTYPE html&gt;</span>
 <span class="nt">&lt;html&gt;</span>
 <span class="nt">&lt;head&gt;</span>
@@ -146,8 +146,77 @@
 </div>
 <p>In this case the <tt class="docutils literal"><span class="pre">app</span></tt> module creates a <tt class="docutils literal"><span class="pre">&lt;canvas&gt;</span></tt> element inside the <tt class="docutils literal"><span class="pre">body_id</span></tt> container, inits the engine upon page loading and then calls the <tt class="docutils literal"><span class="pre">load_cb</span></tt> callback.</p>
 </div>
-<div class="section" id="id4">
-<h2>Module System<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="sdk">
+<span id="app-building"></span><h2>Application Development Inside the SDK<a class="headerlink" href="#sdk" title="Permalink to this headline">¶</a></h2>
+<p>The SDK includes a script <tt class="docutils literal"><span class="pre">apps_dev/project.py</span></tt> for building applications.</p>
+<p>Example:</p>
+<div class="highlight-bash"><div class="highlight"><pre>./project.py -a my_app_path -o advanced -b copy
+</pre></div>
+</div>
+<ul class="simple">
+<li><p class="first">With the <tt class="docutils literal"><span class="pre">&quot;-a&quot;</span></tt> parameter the app&#8217;s directory can be specified.</p>
+</li>
+<li><p class="first">The <tt class="docutils literal"><span class="pre">&quot;-o&quot;</span></tt> parameter (optional) is used in order to specify the optimization level for JavaScript files. Available options: <strong>simple</strong> (default) and <strong>advanced</strong>.</p>
+</li>
+<li><p class="first">Available options: <strong>link</strong> (default) - the engine file is linked from <tt class="docutils literal"><span class="pre">external/deploy/apps/common/</span></tt>, <strong>copy</strong> - the engine file is copied into the directory with the built app, <strong>combine</strong> - the engine file is merged with the minified script located in the app&#8217;s root.With the <tt class="docutils literal"><span class="pre">&quot;-b&quot;</span></tt> parameter (optional) the engine&#8217;s directory can be specified.</p>
+</li>
+<li><p class="first">With the <tt class="docutils literal"><span class="pre">&quot;-d&quot;</span></tt> parameter (optional) the directory for the compiled app can be specified.</p>
+</li>
+<li><p class="first">With the <tt class="docutils literal"><span class="pre">&quot;-s&quot;</span></tt> parameter (optional) the directory can be specified where the scene resources are located.</p>
+</li>
+</ul>
+<p>App structure:</p>
+<ul class="simple">
+<li><p class="first">Single HTML file should be located in the app&#8217;s root.</p>
+</li>
+<li><p class="first">Scripts and styles can be located both in the app&#8217;s root and in the nested directories.</p>
+</li>
+</ul>
+<p>How the app builder works:</p>
+<ul class="simple">
+<li><p class="first">An app is copied as a whole into <tt class="docutils literal"><span class="pre">external/deploy/apps/app_name/</span></tt>.</p>
+</li>
+<li><p class="first">If the <strong>&#8216;-d&#8217;</strong> parameter is used, the app is compiled into the corresponding directory.</p>
+</li>
+<li><p class="first">Scripts and styles are compiled relative to the parent directory.</p>
+</li>
+</ul>
+</div>
+<div class="section" id="converter">
+<span id="id4"></span><h2>Resource Converter<a class="headerlink" href="#converter" title="Permalink to this headline">¶</a></h2>
+<p>To support a wider range of platforms, a Python script (scripts/converter.py) for converting the source files into other formats is included into the distribution. Run it with the command:</p>
+<div class="highlight-bash"><div class="highlight"><pre>&gt; ./converter.py <span class="o">[</span>-d file_path<span class="o">]</span> resize_textures | convert_dds | convert_media
+</pre></div>
+</div>
+<p>With the -d parameter you can specify the path to a directory in which converting will take place.</p>
+<p>The <strong>resize_textures</strong> argument is used for decreasing texture resolution for the <strong>LOW</strong> mode.</p>
+<p>Converting is performed according to the scheme:</p>
+<dl class="docutils">
+<dt>for audio (convert_media):</dt>
+<dd><ul class="first last simple">
+<li>ogg -&gt; mp4</li>
+<li>mp3 -&gt; ogg</li>
+<li>mp4 -&gt; ogg</li>
+</ul>
+</dd>
+<dt>for video (convert_media):</dt>
+<dd><ul class="first last simple">
+<li>ogv -&gt; webm</li>
+<li>m4v -&gt; webm</li>
+<li>webm -&gt; m4v</li>
+</ul>
+</dd>
+<dt>for images (convert_dds):</dt>
+<dd><ul class="first last simple">
+<li>png -&gt; dds</li>
+<li>jpg -&gt; dds</li>
+</ul>
+</dd>
+</dl>
+<p>Resource converting is performed with quality loss and so the resulting files receive a .lossconv suffix.</p>
+</div>
+<div class="section" id="id5">
+<h2>Module System<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
 <p>While the engine gives an app programmer an API in the scale of dozens of modules, it occupies a single <tt class="docutils literal"><span class="pre">b4w</span></tt> namespace. To call a module&#8217;s method import it first with the <tt class="docutils literal"><span class="pre">b4w.require</span></tt> function.</p>
 <p>It is possible to register external modules if their names do not collide with already existing modules. A module can be registered with a <tt class="docutils literal"><span class="pre">b4w.register</span></tt> call. Check if a module with some name already exists with a <tt class="docutils literal"><span class="pre">b4w.module_check</span></tt> call.</p>
 <p>Example:</p>
@@ -176,8 +245,8 @@
 </pre></div>
 </div>
 </div>
-<div class="section" id="id5">
-<h2>Moving Objects<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id6">
+<h2>Moving Objects<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">Make sure that the object you are trying to move is a <a class="reference internal" href="objects.html#static-dynamic-objects"><em>dynamic object</em></a>.</p>
@@ -208,7 +277,7 @@
 </dl>
 </div>
 <div class="section" id="index-0">
-<span id="id6"></span><h2>Quaternions<a class="headerlink" href="#index-0" title="Permalink to this headline">¶</a></h2>
+<span id="id7"></span><h2>Quaternions<a class="headerlink" href="#index-0" title="Permalink to this headline">¶</a></h2>
 <p>Quaternion is a four-component vector used to perform rotating. Quaternions have a number of advantages over other rotation methods such as:</p>
 <blockquote>
 <div><ul class="simple">
@@ -249,8 +318,8 @@
 <dd><p class="first last">Сonversion from Euler angles and back.</p>
 </dd>
 </dl>
-<div class="section" id="id7">
-<h3>Example of working with quaternions<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id8">
+<h3>Example of working with quaternions<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
 <p>We need to rotate the object by 60 degrees in a horizontal plane to the right. We have a model named &#8220;Cessna&#8221; in Blender.</p>
 <a class="reference internal image-reference" href="_images/aircraft.jpg"><img alt="_images/aircraft.jpg" class="align-center" src="_images/aircraft.jpg" style="width: 100%;" /></a>
 <div class="line-block">
@@ -301,10 +370,10 @@
 </div>
 </div>
 <div class="section" id="event-model">
-<span id="id8"></span><h2>Event-Driven Model<a class="headerlink" href="#event-model" title="Permalink to this headline">¶</a></h2>
+<span id="id9"></span><h2>Event-Driven Model<a class="headerlink" href="#event-model" title="Permalink to this headline">¶</a></h2>
 <p>The event-driven model provides a universal interface for describing the 3D scene&#8217;s change of state. It simpifies the processing of physics events and user actions.</p>
 <div class="section" id="index-1">
-<span id="id9"></span><h3>Sensors<a class="headerlink" href="#index-1" title="Permalink to this headline">¶</a></h3>
+<span id="id10"></span><h3>Sensors<a class="headerlink" href="#index-1" title="Permalink to this headline">¶</a></h3>
 <p>The basic unit of the event-driven model is a sensor. A sensor is a programming entity and can only be active (1, one) or inactive (0, zero). Some sensors may carry a payload. For example the ray-tracing sensor (Ray Sensor) provides the relative length of the intersection ray.</p>
 <p id="index-2">Users cannot directly control sensors via the external API. Instead all sensors must be present in one or multiple collections - so called sensor manifolds. A manifold is a logic container associated with a scene object. It generates a response to a defined set of sensor events by executing a callback function. To define the manifold it is required to have the following information (see also the API documenation for decription of the <tt class="docutils literal"><span class="pre">controls.create_sensor_manifold()</span></tt> function):</p>
 <ul>
@@ -328,8 +397,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id10">
-<h3>Example<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id11">
+<h3>Example<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
 <p>Lets consider the task to insonify the impact of a thrown stone. A distinctive sound should be produced for impacting different media (for example terrain and wall). There are collision meshes with physical materials in the Blender scene, material ids are &#8220;TERRAIN&#8221; and &#8220;WALL&#8221;. There is also a physical object being thrown in the scene, the object is named &#8220;Stone&#8221;.</p>
 <p>Lets define a collision sensor for each medium, by the type of the sound produced.</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span class="c1">// import the modules</span>
@@ -376,7 +445,7 @@
 </div>
 </div>
 <div class="section" id="quality-settings">
-<span id="id11"></span><h2>Quality Profiles<a class="headerlink" href="#quality-settings" title="Permalink to this headline">¶</a></h2>
+<span id="id12"></span><h2>Quality Profiles<a class="headerlink" href="#quality-settings" title="Permalink to this headline">¶</a></h2>
 <p>Several quality profiles are implemented in order to support platforms with different functionality.</p>
 <blockquote>
 <div><ul class="simple">
@@ -400,7 +469,7 @@
 <span class="nx">m_main</span><span class="p">.</span><span class="nx">init</span><span class="p">(...);</span>
 </pre></div>
 </div>
-<p>Application developers can also set the <strong>quality</strong> parameter upon engine initialization using the <tt class="docutils literal"><span class="pre">app.js</span></tt> addon:</p>
+<p>Application developers can also set the <strong>quality</strong> parameter upon engine initialization using the <tt class="docutils literal"><span class="pre">app.js</span></tt> add-on:</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_cfg</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">m_app</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;app&quot;</span><span class="p">);</span>
 
@@ -411,8 +480,8 @@
 </pre></div>
 </div>
 </div>
-<div class="section" id="sdk">
-<span id="repo-file-structure"></span><h2>SDK File Structure<a class="headerlink" href="#sdk" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="repo-file-structure">
+<span id="id13"></span><h2>SDK File Structure<a class="headerlink" href="#repo-file-structure" title="Permalink to this headline">¶</a></h2>
 <dl class="docutils">
 <dt><strong>apps_dev</strong></dt>
 <dd><p class="first last">source code of the applications (not all applications are available as a free version)</p>
@@ -528,7 +597,7 @@
 <dd><p class="first">main source code of the engine&#8217;s kernel</p>
 <dl class="last docutils">
 <dt><strong>addons</strong></dt>
-<dd><p class="first last">source code of the addons (not included into the engine&#8217;s kernel, should be linked separately)</p>
+<dd><p class="first last">source code of the add-ons (not included into the engine&#8217;s kernel, should be linked separately)</p>
 </dd>
 <dt><strong>ext</strong></dt>
 <dd><p class="first last">source code of the external declarations that form the engine&#8217;s API</p>
@@ -569,7 +638,7 @@
 </div>
 <div class="section" id="canvas">
 <span id="canvas-texture"></span><h2>Canvas Textures<a class="headerlink" href="#canvas" title="Permalink to this headline">¶</a></h2>
-<p>Such textures can be accessed via <tt class="docutils literal"><span class="pre">textures</span></tt> module. The workflow is described below.</p>
+<p>Such textures can be accessed via the <tt class="docutils literal"><span class="pre">textures</span></tt> module. The workflow is described below.</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_tex</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;textures&quot;</span><span class="p">);</span>
 <span class="p">...</span>
 <span class="kd">var</span> <span class="nx">ctx</span> <span class="o">=</span> <span class="nx">m_tex</span><span class="p">.</span><span class="nx">get_canvas_texture_context</span><span class="p">(</span><span class="s2">&quot;canvas_id&quot;</span><span class="p">);</span>
@@ -598,8 +667,9 @@
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Workflow</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Scene Viewer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Web Player</a></li>
-<li class="toctree-l1"><a class="reference internal" href="addon.html">The Addon</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">The Add-on</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
@@ -614,15 +684,17 @@
 <li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nla.html">Non-Linear Animation</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">For Application Developers</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#hello-world">A Hello World! App</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#hello-world">Hello World!</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id2">Loading a Scene into an App</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id3">Creating Apps Quickly</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id4">Module System</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id5">Moving Objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sdk">Application Development Inside the SDK</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#converter">Resource Converter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">Module System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">Moving Objects</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#index-0">Quaternions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#event-model">Event-Driven Model</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#quality-settings">Quality Profiles</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#sdk">SDK File Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#repo-file-structure">SDK File Structure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#canvas">Canvas Textures</a></li>
 </ul>
 </li>
@@ -662,7 +734,7 @@
           
     <div class="footer">
         &copy; Copyright 2014, Triumph LLC.
-      Last updated on 2014-11-28.
+      Last updated on 2014-12-24.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
         </div>

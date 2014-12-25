@@ -149,7 +149,13 @@ exports.defaults = {
 
     init_wa_context_hack       : false,
 
-    clear_procedural_sky_hack  : false
+    ie_video_textures_hack     : false,
+
+    clear_procedural_sky_hack  : false,
+
+    firefox_disable_html_video_tex_hack: false,
+
+    sky_update_hack            : false
 }
 
 exports.defaults_save = m_util.clone_object_r(exports.defaults);
@@ -161,16 +167,11 @@ exports.animation = {
 }
 
 exports.controls = {
-    // x-right, y-forward, z-up, w-jump
-    cam_trans_base_speed: [5, 5, 5, 5],
-    // zoom is not forward
-    // 10% speed multiplier for single notch
-    cam_zoom_base_speed: 0.1,
-
     mouse_wheel_notch_multiplier: 1/120
 }
 
 exports.assets = {
+    dir: "ASSETS=../../external/deploy/assets/",
     max_requests: 15,
     prevent_caching: true,
     min50_available: false,
@@ -660,7 +661,7 @@ exports.set_resources_paths = function() {
         }
 
         if (!src_path) {
-            m_print.error("Couldn't determine path to external resources, " + 
+            m_print.warn("Couldn't determine path to external resources, " + 
                     "fallback to current page URL");
             src_path = document.location.href;
         }
@@ -678,6 +679,10 @@ exports.set_resources_paths = function() {
         cfg_pth.smaa_area_texture_path = cfg_pth.smaa_area_texture_path ||
                 resources_dir + "smaa_area_texture.png";
     }
+}
+
+exports.get_std_assets_path = function() {
+    return exports.assets.dir.replace("ASSETS=", "");
 }
 
 }

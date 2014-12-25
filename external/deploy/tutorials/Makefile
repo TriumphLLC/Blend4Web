@@ -27,4 +27,4 @@ build_examples:
 	-cp $(URANIUM_JS) examples/making_a_game_p5-6/
 	-cp $(URANIUM_JS) examples/making_a_game_p7/
 
-	rm -fv flag.zip; zip -r flag.zip flag -x *.blend1 *.blend2
+	#rm -fv flag.zip; zip -r flag.zip flag -x *.blend1 *.blend2

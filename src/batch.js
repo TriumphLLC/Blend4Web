@@ -132,8 +132,6 @@ function init_batch(type) {
         offset_z: 0,
         refr_bump: 0,
         diffuse_params: new Array(2),
-        normalmap_uv_velocities: new Array(4),
-        colormap0_uv_velocity: new Float32Array(2),
         specular_params: new Float32Array(3),
         texture_scale: new Float32Array(3),
         specular_color: new Float32Array(3),
@@ -153,6 +151,7 @@ function init_batch(type) {
         water_num_cascads: 0,
         water_subdivs: 0,
         water_detailed_dist: 0,
+        water_norm_uv_velocity: 0.1,
         shallow_water_col_fac: 0,
         shore_water_col_fac: 0,
         foam_factor: 0,
@@ -694,10 +693,37 @@ function merge_metabatches(metabatches) {
             var index = batches_ids[batch.id];
             var collision_batch = unique_data[index].batch;
             var collision_render = unique_data[index].render;
+
+            // NOTE: remove some properties to avoid circular structure
+            var canvas_context = null;
+            var video_elements = null;
+            for (var j = 0; j < batch.textures.length; j++) {
+                var ctx = batch.textures[j].canvas_context;
+                if (ctx) {
+                    if (!canvas_context)
+                        canvas_context = {};
+                    canvas_context[j] = ctx;
+                    batch.textures[j].canvas_context = null;
+                }
+                var video = batch.textures[j].video_file;
+                if (video) {
+                    if(!video_elements)
+                        video_elements = {};
+                    video_elements[j] = video;
+                    batch.textures[j].video_file = null;
+                }
+            }
             if (util.strict_objs_is_equal(batch, collision_batch)
                     && util.strict_objs_is_equal(render, collision_render))
                 var batch_data = unique_data[index];
 
+            // return removed properties
+            if (canvas_context)
+                for (var j in canvas_context)
+                    batch.textures[j].canvas_context = canvas_context[j];
+            if (video_elements)
+                for (var j in video_elements)
+                    batch.textures[j].video_file = video_elements[j];
             // collision case, set new unique batch id
             if (!batch_data)
                 do {
@@ -937,12 +963,6 @@ function update_batch_material_main(batch, material, update_tex_color) {
     if (material["use_nodes"])
         return false;
 
-    for (var i = 0; i < 4; i++) {
-        batch.normalmap_uv_velocities[i] = new Float32Array([0.0, 0.0]);
-        // 4 ones are used in water
-        // in other materials only one is being used
-    }
-
     update_batch_game_settings(batch, material);
 
     var gs = material["game_settings"];
@@ -1016,8 +1036,6 @@ function update_batch_material_main(batch, material, update_tex_color) {
             else
                 batch.alpha_factor = 0.0;
 
-            batch.colormap0_uv_velocity.set(
-                    colormap0["texture"]["b4w_uv_velocity_trans"]);
             batch.texture_scale.set(colormap0["scale"]);
         }
 
@@ -1043,7 +1061,6 @@ function update_batch_material_main(batch, material, update_tex_color) {
             batch.normal_factor = normalmap0["normal_factor"];
 
             var nm0tex = normalmap0["texture"];
-            batch.normalmap_uv_velocities[0].set(nm0tex["b4w_uv_velocity_trans"]);
 
             if (nm0tex["b4w_use_map_parallax"] && cfg_def.parallax) {
 
@@ -1304,13 +1321,13 @@ function init_water_material(material, batch) {
     if (normalmaps.length) {
         var tex_nm = get_batch_texture(normalmaps[0]);
         append_texture(batch, tex_nm, "u_normalmap0");
+        batch.water_norm_uv_velocity = material["b4w_water_norm_uv_velocity"];
     }
 
     set_batch_directive(batch, "NUM_NORMALMAPS", normalmaps.length);
 
     batch.normalmap_scales = new Array(normalmaps.length);
     for (var i = 0; i < normalmaps.length; i++) {
-        batch.normalmap_uv_velocities[i].set(normalmaps[i]["texture"]["b4w_uv_velocity_trans"]);
         batch.normalmap_scales[i] = new Float32Array(2);
         batch.normalmap_scales[i].set([normalmaps[i]["scale"][0], normalmaps[i]["scale"][1]]);
     }
@@ -1599,13 +1616,13 @@ function update_batch_material_nodes(batch, material) {
             break;
         case "MATERIAL":
         case "MATERIAL_EXT":
-            var mat = attr.data.value;
+            var mat_data = attr.data.value;
             set_batch_c_attr(batch, "a_normal");
-            set_batch_directive(batch, "DIFFUSE_SHADER", "DIFFUSE_" + mat["diffuse_shader"]);
-            set_batch_directive(batch, "SPECULAR_SHADER", "SPECULAR_" + mat["specular_shader"]);
-            set_batch_directive(batch, "SHADELESS_MAT", mat["use_shadeless"]? 1: 0);
-            batch.use_shadeless = mat["use_shadeless"];
-            batch.specular_alpha = mat["specular_alpha"];
+            set_batch_directive(batch, "DIFFUSE_SHADER", "DIFFUSE_" + mat_data.diffuse_shader);
+            set_batch_directive(batch, "SPECULAR_SHADER", "SPECULAR_" + mat_data.specular_shader);
+            set_batch_directive(batch, "SHADELESS_MAT", mat_data.use_shadeless? 1: 0);
+            batch.use_shadeless = mat_data.use_shadeless;
+            batch.specular_alpha = mat_data.specular_alpha;
             has_material_nodes = true;
             break;
         case "TEXTURE_COLOR":
@@ -1727,14 +1744,12 @@ function update_batch_material_depth(batch, material) {
                 colormap0["texture"]._render.source == "ENVIRONMENT_MAP") {
             var tex = get_batch_texture(colormap0);
             append_texture(batch, tex, "u_colormap0");
-            batch.colormap0_uv_velocity.set(colormap0["texture"]["b4w_uv_velocity_trans"]);
         }
 
         // for texture rendering
         if (colormap0["texture"]._render.source == "NONE") {
             var tex = get_batch_texture(colormap0);
             append_texture(batch, tex, "u_colormap0");
-            batch.colormap0_uv_velocity.set(colormap0["texture"]["b4w_uv_velocity_trans"]);
         }
     } else
         set_batch_directive(batch, "TEXTURE_COLOR", 0);
@@ -1818,14 +1833,12 @@ function update_batch_material_color_id(batch, material) {
                 colormap0["texture"]._render.source == "ENVIRONMENT_MAP") {
             var tex = get_batch_texture(colormap0);
             append_texture(batch, tex, "u_colormap0");
-            batch.colormap0_uv_velocity.set(colormap0["texture"]["b4w_uv_velocity_trans"]);
         }
 
         // for texture rendering
         if (colormap0["texture"]._render.source == "NONE") {
             var tex = get_batch_texture(colormap0);
             append_texture(batch, tex, "u_colormap0");
-            batch.colormap0_uv_velocity.set(colormap0["texture"]["b4w_uv_velocity_trans"]);
         }
     } else
         set_batch_directive(batch, "TEXTURE_COLOR", 0);
@@ -3174,7 +3187,7 @@ function tsr_from_render(render) {
 }
 
 function update_batch_id(batch, render_id) {
-    // NOTE: remove offscreen_scene property to avoid circular structure
+    // NOTE: remove some properties to avoid circular structure
     var offscreen_scenes = null;
     var canvas_context = null;
     var video_elements = null;
@@ -3207,7 +3220,7 @@ function update_batch_id(batch, render_id) {
     batch.render_id = render_id;
     batch.id = util.calc_variable_id(batch, render_id);
 
-    // return offscreen_scene property
+    // return removed properties
     if (offscreen_scenes)
         for (var i in offscreen_scenes)
             batch.textures[i].offscreen_scene = offscreen_scenes[i];
@@ -3373,7 +3386,6 @@ exports.create_shadow_batch_form_depth = function(batch_src, shadow_src,
         batch.texture_names[0] = batch_src.texture_names[0];
     }
 
-    batch.colormap0_uv_velocity.set(batch_src.colormap0_uv_velocity);
     batch.common_attributes = batch_src.common_attributes;
     batch.jitter_amp = batch_src.jitter_amp;
     batch.jitter_freq = batch_src.jitter_freq;

@@ -61,7 +61,9 @@ function create_render(type) {
         use_panning: false,
 
         move_style: 0,
-        trans_speed: 0,
+        velocity_trans: 1,
+        velocity_rot: 1,
+        velocity_zoom: 1,
         dof_distance: 0,
         dof_front: 0,
         dof_rear: 0,
@@ -392,7 +394,8 @@ function update_object(obj, non_recursive) {
                 obj["parent"]["type"] == "ARMATURE") {
             var trans = render.trans;
             var quat = render.quat;
-            m_cons.append_stiff_bone(obj, obj["parent"], obj["parent_bone"], trans, quat);
+            var scale = render.scale;
+            m_cons.append_stiff_bone(obj, obj["parent"], obj["parent_bone"], trans, quat, scale);
         } else if (obj._dg_parent && obj._dg_parent["b4w_group_relative"]) {
             // get offset from render before child-of constraint being applied
             var offset = m_tsr.create_sep(render.trans, render.scale, render.quat);

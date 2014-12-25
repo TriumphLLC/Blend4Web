@@ -48,6 +48,7 @@ exports.create_simple_preloader = function(options) {
 
     var container = document.createElement("div");
     var frame = document.createElement("div");
+    container.id = "simple_preloader_container";
     var bar = document.createElement("div");
     var caption = document.createElement("div");
     var background_container = document.getElementById(background_container_id);
@@ -62,6 +63,8 @@ exports.create_simple_preloader = function(options) {
         position: absolute;\
         margin: 0;\
         padding: 0;\
+        top: 0;\
+        left: 0;\
     ";
 
     frame.style.cssText = " \
@@ -73,9 +76,9 @@ exports.create_simple_preloader = function(options) {
         margin-left: -200px;\
         margin-top: -10px;\
         border-style:solid;\
-        border-width:2px;\
-        border-color: " + bar_color + ";\
-        border-radius: 6px;\
+        border-width:4px;\
+        border-color: " + "#000" + ";\
+        border-radius: 0px;\
     ";
 
     bar.style.cssText = " \
@@ -85,7 +88,7 @@ exports.create_simple_preloader = function(options) {
         width: 0px;\
         height: 18px;\
         background-color: " + bar_color + ";\
-        border-radius: 4px;\
+        border-radius: 0px;\
     ";
 
     caption.style.cssText = " \
@@ -98,7 +101,8 @@ exports.create_simple_preloader = function(options) {
         margin-top: -10px;\
         text-align: center;\
         font-size: 17px;\
-        color: #ffffff;\
+        font-weight: bold;\
+        color: #000;\
         font-family: Verdana;\
     ";
 

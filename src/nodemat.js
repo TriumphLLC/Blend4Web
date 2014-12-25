@@ -15,6 +15,7 @@ var m_util    = require("__util");
 var m_config  = require("__config");
 
 var m_vec3 = require("vec3");
+var m_vec4 = require("vec4");
 var m_mat3 = require("mat3");
 var m_mat4 = require("mat4");
 
@@ -22,6 +23,7 @@ var _shader_ident_counters = {};
 var _composed_node_graphs = {};
 var _lamp_indexes = {};
 var _lamp_index = 0;
+var _vec4_tmp = new Float32Array(4);
 
 var cfg_def = m_config.defaults;
 
@@ -98,30 +100,8 @@ function compose_nmat_graph(node_tree, graph_id, is_node_group) {
     merge_nodes(graph_out);
     optimize_geometry_vcol(graph_out);
 
-    if (!check_normalmaps_usage(graph_out)) {
-        m_print.error("Material has normalmap node but no material node");
-        _composed_node_graphs[graph_id] = null;
-        return null;
-    }
-
     _composed_node_graphs[graph_id] = graph_out;
     return graph_out;
-}
-
-function check_normalmaps_usage(graph) {
-    var has_normalmap_node = false;
-    var has_material_node = false;
-    m_graph.traverse(graph, function(id, node) {
-        if (node.type == "MATERIAL" || node.type == "MATERIAL_EXT")
-            has_material_node = true;
-        if (node.type == "TEXTURE_NORMAL")
-            has_normalmap_node = true;
-    });
-
-    if (has_normalmap_node && !has_material_node)
-        return false;
-
-    return true;
 }
 
 function clean_sockets_linked_property(graph) {
@@ -850,6 +830,7 @@ function append_nmat_node(graph, bpy_node, geometry_output_num, anim_data) {
                 output_norm.default_value, 3));
         break;
     case "MAPPING":
+        var vector_type = bpy_node["vector_type"];
 
         inputs.push(node_input_by_ident(bpy_node, "Vector"));
         outputs.push(node_output_by_ident(bpy_node, "Vector"));
@@ -863,49 +844,41 @@ function append_nmat_node(graph, bpy_node, geometry_output_num, anim_data) {
         }
         else {
             type = "MAPPING_HEAVY";
-
-            // rotation
             var rot = bpy_node["rotation"];
-            var rot_matrix = m_mat3.create();
-
-            var cosX = Math.cos(rot[0]);
-            var cosY = Math.cos(rot[1]);
-            var cosZ = Math.cos(rot[2]);
-            var sinX = Math.sin(rot[0]);
-            var sinY = Math.sin(rot[1]);
-            var sinZ = Math.sin(rot[2]);
-
-            var cosXcosZ = cosX * cosZ;
-            var cosXsinZ = cosX * sinZ;
-            var sinXcosZ = sinX * cosZ;
-            var sinXsinZ = sinX * sinZ;
-
-            rot_matrix[0] = cosY * cosZ;
-            rot_matrix[1] = cosY * sinZ;
-            rot_matrix[2] = -sinY;
-
-            rot_matrix[3] = sinY * sinXcosZ - cosXsinZ;
-            rot_matrix[4] = sinY * sinXsinZ + cosXcosZ;
-            rot_matrix[5] = cosY * sinX;
-
-            rot_matrix[6] = sinY * cosXcosZ + sinXsinZ;
-            rot_matrix[7] = sinY * cosXsinZ - sinXcosZ;
-            rot_matrix[8] = cosY * cosX;
-
-            // scale
             var scale = bpy_node["scale"];
-            var scale_matrix = new Float32Array([scale[0],0,0,0,scale[1],0,0,0,scale[2]]);
-            var trs_matrix = m_mat3.create();
-            // order of transforms: translation -> rotation -> scale
-            m_mat3.multiply(rot_matrix, scale_matrix, trs_matrix);
-
-            // translation
             var trans = bpy_node["translation"];
-            trs_matrix = m_util.mat3_to_mat4(trs_matrix, m_mat4.create());
-            trs_matrix[12] = trans[0];
-            trs_matrix[13] = trans[1];
-            trs_matrix[14] = trans[2];
+            var trs_matrix = m_mat3.create();
 
+            //rotation
+            var rot_matrix = m_util.euler_to_rotation_matrix(rot);
+            // scale
+            var scale_matrix = new Float32Array([scale[0],0,0,0,scale[1],0,0,0,scale[2]]);
+
+            m_mat3.multiply(rot_matrix, scale_matrix, trs_matrix);
+            trs_matrix = m_util.mat3_to_mat4(trs_matrix, m_mat4.create());
+            switch (vector_type) {
+            case "POINT":
+                // order of transforms: translation -> rotation -> scale
+                // translation
+                trs_matrix[12] = trans[0];
+                trs_matrix[13] = trans[1];
+                trs_matrix[14] = trans[2];
+                break;
+            case "TEXTURE":
+                // order of transforms: translation -> rotation -> scale -> invert
+                // translation
+                trs_matrix[12] = trans[0];
+                trs_matrix[13] = trans[1];
+                trs_matrix[14] = trans[2];
+                trs_matrix = m_mat4.invert(trs_matrix, trs_matrix);
+                break;
+            case "NORMAL":
+                // order of transforms: rotation -> scale -> invert ->transpose
+                m_mat4.invert(trs_matrix, trs_matrix);
+                m_mat4.transpose(trs_matrix, trs_matrix);
+                break;
+            }
+            
             params.push(node_param(shader_ident("param_MAPPING_HEAVY_trs_matrix"),
                     trs_matrix, 16));
 
@@ -916,22 +889,36 @@ function append_nmat_node(graph, bpy_node, geometry_output_num, anim_data) {
             params.push(node_param(shader_ident("param_MAPPING_HEAVY_use_max"),
                     ~~bpy_node["use_max"], 1));
 
-            params.push(node_param(shader_ident("param_MAPPING_LIGHT_min_clip"),
+            params.push(node_param(shader_ident("param_MAPPING_HEAVY_min_clip"),
                     bpy_node["min"], 3));
-            params.push(node_param(shader_ident("param_MAPPING_LIGHT_max_clip"),
+            params.push(node_param(shader_ident("param_MAPPING_HEAVY_max_clip"),
                     bpy_node["max"], 3));
 
         }
 
+        switch (vector_type) {
+        case "TEXTURE":
+            params.push(node_param(shader_ident("param_MAPPING_vector_type"),
+                0, 1));
+            break;
+        case "POINT":
+            params.push(node_param(shader_ident("param_MAPPING_vector_type"),
+                1, 1));
+            break;
+        case "VECTOR":
+            params.push(node_param(shader_ident("param_MAPPING_vector_type"),
+                2, 1));
+            break;
+        case "NORMAL":
+            params.push(node_param(shader_ident("param_MAPPING_vector_type"),
+                3, 1));
+            break;
+        }
+
+
         break;
     case "MATERIAL":
     case "MATERIAL_EXT":
-        var mat = bpy_node["material"];
-        if (!mat) {
-            m_print.error("Emtpy material slot in node: " + bpy_node["name"]);
-            return false;
-        }
-
         // INPUT 0
         var input = node_input_by_ident(bpy_node, "Color");
         input.default_value.splice(3); // vec4 -> vec3
@@ -1009,45 +996,45 @@ function append_nmat_node(graph, bpy_node, geometry_output_num, anim_data) {
 
         var spec_param_0;
         var spec_param_1 = 0;
-        switch(mat["specular_shader"]) {
+        switch(bpy_node["specular_shader"]) {
         case "COOKTORR":
         case "PHONG":
-            spec_param_0 = mat["specular_hardness"];
+            spec_param_0 = bpy_node["specular_hardness"];
             break;
         case "WARDISO":
-            spec_param_0 = mat["specular_slope"];
+            spec_param_0 = bpy_node["specular_slope"];
             break;
         case "TOON":
-            spec_param_0 = mat["specular_toon_size"];
-            spec_param_1 = mat["specular_toon_smooth"];
+            spec_param_0 = bpy_node["specular_toon_size"];
+            spec_param_1 = bpy_node["specular_toon_smooth"];
             break;
         default:
             m_print.error("B4W Error: unsupported specular shader: " +
-                mat["specular_shader"] + " (material \"" +
-                mat["name"] + "\")");
-            spec_param_0 = mat["specular_hardness"];
+                bpy_node["specular_shader"] + " (material \"" +
+                bpy_node["material_name"] + "\")");
+            spec_param_0 = bpy_node["specular_hardness"];
             break;
         }
 
         var diffuse_param;
         var diffuse_param2;
-        switch(mat["diffuse_shader"]) {
+        switch(bpy_node["diffuse_shader"]) {
         case "LAMBERT":
             diffuse_param = 0.0;
             diffuse_param2 = 0.0;
             break;
         case "OREN_NAYAR":
-            diffuse_param = mat["roughness"];
+            diffuse_param = bpy_node["roughness"];
             diffuse_param2 = 0.0;
             break;
         case "FRESNEL":
-            diffuse_param = mat["diffuse_fresnel"];
-            diffuse_param2 = mat["diffuse_fresnel_factor"];
+            diffuse_param = bpy_node["diffuse_fresnel"];
+            diffuse_param2 = bpy_node["diffuse_fresnel_factor"];
             break;
         default:
             m_print.error("B4W Error: unsupported diffuse shader: " +
-                mat["diffuse_shader"] + " (material \"" +
-                mat["name"] + "\")");
+                bpy_node["diffuse_shader"] + " (material \"" +
+                bpy_node["material_name"] + "\")");
             diffuse_param = 0.0;
             diffuse_param2 = 0.0;
             break;
@@ -1059,14 +1046,20 @@ function append_nmat_node(graph, bpy_node, geometry_output_num, anim_data) {
 
         params.push(node_param(shader_ident("param_MATERIAL_spec"),
                                [bpy_node["use_specular"]? 1: 0,
-                                mat["specular_intensity"],
+                                bpy_node["specular_intensity"],
                                 spec_param_0, spec_param_1], 4));
 
         params.push(node_param(shader_ident("param_MATERIAL_norm"),
                                 input_norm.is_linked ? 1: 0, 1));
+
         data = {
             name: bpy_node["name"],
-            value: mat
+            value: {
+                specular_shader: bpy_node["specular_shader"],
+                diffuse_shader: bpy_node["diffuse_shader"],
+                use_shadeless: bpy_node["use_shadeless"],
+                specular_alpha: bpy_node["specular_alpha"]
+            }
         }
         break;
     case "MATH":
@@ -1561,13 +1554,18 @@ function node_param(name, value, dim) {
         var pval = m_shaders.glsl_value(value, dim);
 
     // HACK: too many vertex shader constants issue
+    // NOTE: can't process parameters defined as "const" in shader
     if (cfg_def.shader_constants_hack && pval) {
         var param_names = [
             "param_MAPPING_HEAVY_trs_matrix",
+            "param_MAPPING_HEAVY_min_clip",
+            "param_MAPPING_HEAVY_max_clip",
+            "param_MAPPING_HEAVY_use_min",
+            "param_MAPPING_HEAVY_use_max",
             "param_MAPPING_LIGHT_min_clip",
             "param_MAPPING_LIGHT_max_clip",
-            "param_MAPPING_HEAVY_use_min",
-            "param_MAPPING_HEAVY_use_max"
+            "param_MAPPING_LIGHT_scale",
+            "param_MAPPING_vector_type"
         ]
 
         var replace_allowed = false;
@@ -1692,7 +1690,6 @@ function init_node_elem(mat_node) {
             finputs.push(shader_ident("in_" + mat_node.type + "_" + input.identifier));
 
             var input_val = m_shaders.glsl_value(input.default_value, 0);
-
             // HACK: too many vertex shader constants issue
             if (cfg_def.shader_constants_hack)
                 if (mat_node.type.indexOf("MIX_RGB_") >= 0
@@ -1701,7 +1698,9 @@ function init_node_elem(mat_node) {
                         || input.identifier == "Fac") ||
                         mat_node.type.indexOf("MATH_") >= 0
                         && (input.identifier == "Value"
-                        || input.identifier == "Value_001"))
+                        || input.identifier == "Value_001") ||
+                        mat_node.type.indexOf("VECT_MATH_") >= 0
+                        && (input.identifier == "Vector_001"))
                     input_val = replace_zero_unity_vals(input_val);
 
             finput_values.push(input_val);

@@ -1,41 +1,12 @@
-export ROOT_DIR      = ../../
-export APPS_DEV      = $(ROOT_DIR)/apps_dev/
-export APPS_EXT      = $(ROOT_DIR)/external/deploy/apps/
-
-export JAR_CP        = $(ROOT_DIR)/tools/closure-compiler/compiler.jar
-export YUI_CP        = $(ROOT_DIR)/tools/yuicompressor/yuicompressor.jar
-export PARSER        = $(ROOT_DIR)/apps_dev/parse_html.py
-export PY_PARSER     = python3 $(PARSER)
-export EXTERNS       = $(ROOT_DIR)/tools/closure-compiler/
-
-export STORAGE_JS    = $(ROOT_DIR)/src/addons/storage.js
-export APP_JS        = $(ROOT_DIR)/src/addons/app.js
-export PL_JS         = $(ROOT_DIR)/src/addons/pointerlock.js
-export NPC_AI_JS     = $(ROOT_DIR)/src/addons/npc_ai.js
-export MIXER_JS      = $(ROOT_DIR)/src/addons/mixer.js
-export CAMANIM_JS    = $(ROOT_DIR)/src/addons/camera_anim.js
-export PRELOADER_JS  = $(ROOT_DIR)/src/addons/preloader.js
-
-export B4W_PATH             = $(ROOT_DIR)/external/deploy/apps/common/b4w.min.js
-export URANIUM_PATH         = $(ROOT_DIR)/external/deploy/apps/common/uranium.js
-export SMAA_AREA_TEX_PATH   = $(ROOT_DIR)/external/deploy/apps/common/smaa_area_texture.png
-export SMAA_SEARCH_TEX_PATH = $(ROOT_DIR)/external/deploy/apps/common/smaa_search_texture.png
-
-export APP_DIR_CAPRI = $(ROOT_DIR)/apps_dev/capri
-
-export RM            = -rm
-
 .PHONY: all
 all:
-	-$(MAKE) -C capri
-	-$(MAKE) -C fashion
-	-$(MAKE) -C firstperson
-	-$(MAKE) -C flight
-	-$(MAKE) -C gallery
-	-$(MAKE) -C viewer
-	-$(MAKE) -C webplayer
-
-.PHONY: clean
-clean:
+	@$(SH) ./project.py -a viewer
+	@$(SH) ./project.py -a capri -o advanced
+	@$(SH) ./project.py -a flight -o advanced
+	@$(SH) ./project.py -a webplayer -b combine -o advanced
+	@$(SH) ./project.py -a firstperson -o advanced
+	@$(SH) ./project.py -a fashion -o advanced
+	@$(SH) ./project.py -a gallery -o advanced
+	@$(SH) ./project.py -a new_year -o simple
 
 # vim: set noet ts=4 sw=4:

@@ -133,7 +133,7 @@ void main(void) {
 #endif
 
     dist *= alpha;
-    vec3 color = u_diffuse_color.rgb * dist;
+    vec3 color = u_diffuse_color.rgb;
 
 #if NUM_RINGS
     // apply rings modification

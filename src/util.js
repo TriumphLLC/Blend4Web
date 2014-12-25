@@ -26,6 +26,7 @@ var _vec4_tmp = new Float32Array(4);
 var _vec4_tmp2 = new Float32Array(4);
 var _mat3_tmp = new Float32Array(9);
 var _mat4_tmp = new Float32Array(16);
+var _mat4_tmp2 = new Float32Array(16);
 
 var _hash_buffer_in = new Float64Array(1);
 var _hash_buffer_out = new Uint32Array(_hash_buffer_in.buffer);
@@ -347,7 +348,7 @@ exports.init_rand_r_seed = function(seed_number, dest) {
 }
 
 /**
- * Convert euler angles to quaternion
+ * <p>Translate GL euler to GL quat
  */
 exports.euler_to_quat = function(euler, quat) {
     var c1 = Math.cos(euler[1]/2);
@@ -366,6 +367,51 @@ exports.euler_to_quat = function(euler, quat) {
     quat[3] = c1 * c2 * c3 - s1 * s2 * s3;
 
     return quat;
+}
+
+ /**
+ * <p>Return rotation matrix from euler angles
+ *
+ * <p>Euler angles have following meaning:
+ * <ol>
+ * <li>heading, x
+ * <li>attitude, y
+ * <li>bank, z
+ * </ol>
+ * <p>Usage discouraged
+ *
+ * @methodOf util
+ * @param {vec3} euler Euler
+ */
+exports.euler_to_rotation_matrix = function(euler) {
+
+    var matrix = m_mat3.create();
+
+    var cosX = Math.cos(euler[0]);
+    var cosY = Math.cos(euler[1]);
+    var cosZ = Math.cos(euler[2]);
+    var sinX = Math.sin(euler[0]);
+    var sinY = Math.sin(euler[1]);
+    var sinZ = Math.sin(euler[2]);
+
+    var cosXcosZ = cosX * cosZ;
+    var cosXsinZ = cosX * sinZ;
+    var sinXcosZ = sinX * cosZ;
+    var sinXsinZ = sinX * sinZ;
+
+    matrix[0] = cosY * cosZ;
+    matrix[1] = cosY * sinZ;
+    matrix[2] = - sinY;
+
+    matrix[3] = sinY * sinXcosZ - cosXsinZ;
+    matrix[4] = sinY * sinXsinZ + cosXcosZ;
+    matrix[5] = cosY * sinX;
+
+    matrix[6] = sinY * cosXcosZ + sinXsinZ;
+    matrix[7] = sinY * cosXsinZ - sinXcosZ;
+    matrix[8] = cosY * cosX;
+
+    return matrix;
 }
 /**
  * <p>Translate GL quat to GL euler
@@ -1180,9 +1226,16 @@ exports.transform_mat4 = function(matrix, scale, quat, trans, dest) {
 exports.transform_vec3 = function(vec, scale, quat, trans, dest) {
     if (!dest)
         var dest = new Float32Array(3);
-    var m = m_mat4.fromRotationTranslation(quat, trans, _mat4_tmp);
+    
+    var m1 = m_mat4.fromRotationTranslation(quat, trans, _mat4_tmp);
+    if (scale !== 1) {
+        var m2 = m_mat4.identity(_mat4_tmp2);
+        var s = m_vec3.set(scale, scale, scale, _vec3_tmp);
+        m_mat4.scale(m2, s, m2);
+        m_mat4.multiply(m1, m2, m1);
+    }
 
-    m_vec3.transformMat4(vec, m, dest);
+    m_vec3.transformMat4(vec, m1, dest);
 
     return dest;
 }
@@ -1272,15 +1325,15 @@ exports.generate_cubemap_matrices = function() {
     m_mat4.scale(x_pos, [-1, 1, 1], x_pos);
     m_mat4.scale(x_pos, [-1, 1,-1], x_neg);
 
-    m_mat4.lookAt(eye_pos, [0, 0, -1], [0, -1, 0], y_pos);
-    m_mat4.scale(y_pos, [-1, 1, 1], y_pos);
-    m_mat4.scale(y_pos, [-1, 1,-1], y_neg);
+    m_mat4.lookAt(eye_pos, [0, -1, 0], [0, 0, -1], y_pos);
+    m_mat4.scale(y_pos, [1, 1,-1], y_pos);
+    m_mat4.scale(y_pos, [1,-1,-1], y_neg);
 
-    m_mat4.lookAt(eye_pos, [0, -1, 0], [0, 0, -1], z_neg);
-    m_mat4.scale(z_neg, [ 1, 1,-1], z_neg);
-    m_mat4.scale(z_neg, [-1,-1,-1], z_pos);
+    m_mat4.lookAt(eye_pos, [0, 0, -1], [0, -1, 0], z_pos);
+    m_mat4.scale(z_pos, [-1, 1, 1], z_pos);
+    m_mat4.scale(z_pos, [-1, 1,-1], z_neg);
 
-    return [z_pos, z_neg, x_pos, x_neg, y_pos, y_neg];
+    return [x_pos, x_neg, y_pos, y_neg, z_pos, z_neg];
 }
 
 /**

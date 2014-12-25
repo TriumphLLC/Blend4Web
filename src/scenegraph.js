@@ -1702,6 +1702,7 @@ function init_subs(type) {
         // environment properties
         environment_energy: 0,
         num_lights: 0,
+        shadow_lamp_id: 0,
         light_directions: null,
         light_positions: null,
         light_color_intensities: null,

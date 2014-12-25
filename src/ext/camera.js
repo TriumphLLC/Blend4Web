@@ -88,42 +88,67 @@ exports.set_move_style = function(camobj, move_style) {
  */
 exports.get_move_style = function(camobj) {
     if (!camera.is_camera(camobj)) {
-        m_print.error("Wrong object");
+        m_print.error("get_move_style(): Wrong object");
         return null;
     }
 
     return camera.get_move_style(camobj);
 }
+
+/**
+ * Set camera velocity params
+ * @method module:camera.set_velocity_params
+ * @param {Object} camobj Camera Object ID
+ * @param {Float32Array} velocity Camera velocity params (velocity_trans, velocity_rot, velocity_zoom)
+ */
+exports.set_velocity_params = function(camobj, velocity) {
+    if (!camera.is_target_camera(camobj)
+            && !camera.is_eye_camera(camobj)
+            && !camera.is_hover_camera(camobj)) {
+        m_print.error("set_velocity_params(): Wrong object or camera move style");
+        return null;
+    }
+
+    var render = camobj._render;
+
+    render.velocity_trans = velocity[0];
+    render.velocity_rot = velocity[1];
+    render.velocity_zoom = velocity[2];
+}
+/**
+ * Get camera velocity params
+ * @method module:camera.get_velocity_params
+ * @param {Object} camobj Camera Object ID
+ * @param {Float32Array} [dest] Velocity params
+ * @returns {Float32Array} Velocity params (velocity_trans, velocity_rot, velocity_zoom)
+ */
+exports.get_velocity_params = function(camobj, dest) {
+    if (!camera.is_target_camera(camobj)
+            && !camera.is_eye_camera(camobj)
+            && !camera.is_hover_camera(camobj)) {
+        m_print.error("get_velocity_params(): Wrong object or camera move style");
+        return null;
+    }
+
+    if (!dest) {
+        dest = new Float32Array(3);
+    }
+
+    var render = camobj._render;
+
+    dest[0] = render.velocity_trans;
+    dest[1]   = render.velocity_rot;
+    dest[2]  = render.velocity_zoom;
+
+    return dest;
+}
+
 /**
  * @method module:camera.change_eye_target_dist
  * @deprecated eye-target distance is a constant now
  */
 exports.change_eye_target_dist = function() {
     m_print.error("change_eye_target_dist() deprecated");
-}
-/**
- * Multiply camera translation speed by a factor
- * @method module:camera.change_trans_speed
- * @param {Object} camobj Camera Object ID
- * @param {Number} factor Speed factor
- */
-exports.change_trans_speed = function(camobj, factor) {
-
-    var render = camobj._render;
-
-    var trans_speed = render.trans_speed[0];
-    trans_speed *= (1 + factor * cfg_ctl.cam_zoom_base_speed);
-    render.trans_speed = [trans_speed, trans_speed, trans_speed];
-}
-
-// TODO: this is just a storage for speed, check or remove it
-exports.get_trans_speed = function(camobj) {
-    if (!camera.is_camera(camobj)) {
-        m_print.error("Wrong object");
-        return 0;
-    }
-
-    return camobj._render.trans_speed[0];
 }
 
 /**
@@ -147,10 +172,20 @@ exports.set_look_at = function(camobj, eye, target, up) {
  * Get camera eye vector.
  * @method module:camera.get_eye
  * @param {Object} camobj Camera Object ID
- * @returns {Float32Array} Eye
+ * @param {Float32Array} [dest] Destination eye vector
+ * @returns {Float32Array} Destination eye vector
  */
-exports.get_eye = function(camobj) {
-    return camobj._render.trans;
+exports.get_eye = function(camobj, dest) {
+    if (!camera.is_camera(camobj)) {
+        m_print.error("get_eye(): Wrong object");
+        return;
+    }
+    
+    if (!dest)
+        var dest = new Float32Array(3);
+
+    m_vec3.copy(camobj._render.trans, dest);
+    return dest;
 }
 
 exports.set_pivot = set_pivot;
@@ -221,8 +256,14 @@ exports.rotate_pivot = function(camobj, angle_h_delta, angle_v_delta) {
     axis[1] = 1;
     axis[2] = 0;
 
-    m_quat.setAxisAngle(axis, angle_h_delta, rot);
-    util.rotate_point_pivot(render.trans, render.pivot, rot, render.trans);
+    var view_vector = util.quat_to_dir(render.quat, util.AXIS_MY, 
+            _vec3_tmp2);
+
+    // handle extreme case (camera looks UP or DOWN)
+    if (Math.abs(m_vec3.dot(view_vector, axis)) < 0.999999) {
+        m_quat.setAxisAngle(axis, angle_h_delta, rot);
+        util.rotate_point_pivot(render.trans, render.pivot, rot, render.trans);
+    }
 
     // angle_v_delta around local X transformed to world space
     axis[0] = 1;

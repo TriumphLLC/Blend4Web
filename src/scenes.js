@@ -561,7 +561,7 @@ function get_water_params(bpy_scene) {
                 if (texture["type"] == "VORONOI") {
                     // caustics stuff
                     wp.caustic_scale      = texture["noise_scale"];
-                    wp.caustic_speed.set(texture["b4w_uv_velocity_trans"]);
+                    wp.caustic_speed.set([0.3, 0.7]);
                     wp.caustic_brightness = texture["noise_intensity"];
                 }
                 if (texture["b4w_shore_dist_map"] === true) {
@@ -1918,7 +1918,6 @@ function update_subs_shadow(subs, subs_main, cast_bundles, bpy_scene,
 
     var cam_main = subs_main.camera;
     var lamps = get_scene_objs(bpy_scene, "LAMP", exports.DATA_ID_ALL);
-
     // light view matrix
     var lamp = find_first_lamp_with_shadows(lamps) || lamps[0];
     var lamp_render = lamp._render;
@@ -2464,10 +2463,23 @@ function update_lamp_scene(lamp, scene) {
     }
 }
 
+exports.update_shadow_lamp_id = update_shadow_lamp_id;
+function update_shadow_lamp_id(scene) {
+
+    var lamps = get_scene_objs(scene, "LAMP", exports.DATA_ID_ALL);
+    var shadow_lamp = find_first_lamp_with_shadows(lamps) || lamps[0];
+    if (!shadow_lamp)
+        return;
+
+    var subs_arr = subs_array(scene, LIGHT_SUBSCENE_TYPES);
+    for (var i = 0; i < subs_arr.length; i++) {
+        var subs = subs_arr[i];
+        subs.shadow_lamp_id = shadow_lamp._light.index;
+    }
+}
+
 function update_sky(scene, subs) {
-
     m_render.draw(subs);
-
     if (subs.need_fog_update) {
         var main_subs = subs_array(scene, ["MAIN_OPAQUE",
                                            "MAIN_BLEND",
@@ -2819,20 +2831,17 @@ exports.get_sky_params = function(scene) {
  */
 exports.set_sky_params = function(scene, sky_params) {
 
-    var sky_subscenes = subs_array(scene, ["SKY"]);
+    var subs = get_subs(scene, "SKY");
 
-    for (var i = 0; i < sky_subscenes.length; i++) {
-        var subs = sky_subscenes[i];
-
+    if (subs) {
         if (typeof sky_params.procedural_skydome == "number")
             subs.procedural_skydome = sky_params.procedural_skydome;
 
         if (typeof sky_params.use_as_environment_lighting == "number")
             subs.use_as_environment_lighting = sky_params.use_as_environment_lighting;
 
-        if (typeof sky_params.color == "object") {
+        if (typeof sky_params.color == "object")
             subs.sky_color.set(sky_params.color);
-        }
 
         if (typeof sky_params.rayleigh_brightness == "number")
             subs.rayleigh_brightness = sky_params.rayleigh_brightness;
@@ -2863,8 +2872,7 @@ exports.set_sky_params = function(scene, sky_params) {
 
         subs.need_perm_uniforms_update = true;
         subs.need_fog_update = true;
-        update_sky(get_active(), subs);
-        m_render.draw(subs);
+        update_sky(scene, subs);
     }
 }
 
@@ -3465,6 +3473,7 @@ exports.update = function(timeline, elapsed) {
                 var start_time = texture.frame_offset / texture.fps;
 
                 var frame_eps = (cfg_def.is_mobile_device) ? FRAME_EPS : 0;
+
                 if ((curren_frame < texture.frame_offset - frame_eps) || 
                         textures[j]._render.use_cyclic && curren_frame > end_frame)
                     video.currentTime = start_time;

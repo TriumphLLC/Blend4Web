@@ -127,5 +127,10 @@ exports.get = m_cfg.get;
  * @method module:config.reset
  */
 exports.reset = m_cfg.reset;
+/**
+ * Get path to assets.
+ * @method module:config.get_std_assets_path
+ */
+exports.get_std_assets_path = m_cfg.get_std_assets_path;
 
 }

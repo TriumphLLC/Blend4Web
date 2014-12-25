@@ -11,10 +11,10 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../textures.rst:3 ../textures.rst:13 ../textures.rst:39 ../textures.rst:79
-#: ../textures.rst:103 ../textures.rst:129 ../textures.rst:150
-#: ../textures.rst:183 ../textures.rst:269 ../textures.rst:307
-#: ../textures.rst:331 ../textures.rst:361
+#: ../textures.rst:3 ../textures.rst:13 ../textures.rst:39 ../textures.rst:83
+#: ../textures.rst:107 ../textures.rst:133 ../textures.rst:154
+#: ../textures.rst:187 ../textures.rst:282 ../textures.rst:320
+#: ../textures.rst:344 ../textures.rst:374
 msgid "текстуры"
 msgstr "textures"
 
@@ -157,15 +157,15 @@ msgstr "``Voronoi`` procedural texture type"
 msgid "настройки"
 msgstr "settings"
 
-#: ../textures.rst:42
+#: ../textures.rst:44
 msgid "Общие настройки"
 msgstr "Generic Settings"
 
-#: ../textures.rst:45
+#: ../textures.rst:47
 msgid "*Размер*"
 msgstr "*Dimensions*"
 
-#: ../textures.rst:45
+#: ../textures.rst:47
 msgid ""
 "Размер растров для текстур-изображений (длина и ширина изображения в "
 "пикселах) должен быть числом 2\\ :sup:`N`, т.е. 4, 8, 16, 32, 64, 128, 256, "
@@ -184,11 +184,11 @@ msgstr ""
 "x 512 px), however rectangular ones can be used too (e.g. 4 x 128 px). Using"
 " images bigger than 2048 px is not recommended."
 
-#: ../textures.rst:48
+#: ../textures.rst:52
 msgid "*Image Mapping > Extension*"
 msgstr ""
 
-#: ../textures.rst:48
+#: ../textures.rst:52
 msgid ""
 "Режим интерпретации текстурных координат (в WebGL - Wrap Mode). Доступен для"
 " текстур типа ``Image or Movie``. В случае значения ``Repeat`` движок "
@@ -206,19 +206,19 @@ msgstr ""
 "``CLAMP_TO_EDGE`` mode. In this case the texture coordinates are limited by "
 "the [0, 1] segment. The default value is ``Repeat``."
 
-#: ../textures.rst:50
+#: ../textures.rst:54
 msgid "material capture"
 msgstr ""
 
-#: ../textures.rst:50
+#: ../textures.rst:54
 msgid "matcap"
 msgstr ""
 
-#: ../textures.rst:53
+#: ../textures.rst:57
 msgid "*Mapping > Coordinates*"
 msgstr ""
 
-#: ../textures.rst:53
+#: ../textures.rst:57
 msgid ""
 "Тип текстурных координат. Поддерживаются ``UV`` (использовать развертку), "
 "``Normal`` (использовать направление на камеру, только для диффузных "
@@ -231,37 +231,37 @@ msgstr ""
 "used for the creation of **material capture**, **matcap**) and "
 "``Generated``. The default value is ``Generated``."
 
-#: ../textures.rst:56
+#: ../textures.rst:60
 msgid "*Mapping > Offset*"
 msgstr ""
 
-#: ../textures.rst:56
+#: ../textures.rst:60
 msgid "Не поддерживается."
 msgstr "Unsupported."
 
-#: ../textures.rst:59
+#: ../textures.rst:63
 msgid "*Mapping > Size*"
 msgstr ""
 
-#: ../textures.rst:59
+#: ../textures.rst:63
 msgid ""
 "Масштабирование развертки по соответствующим осям. Значения по умолчанию "
 "1.0."
 msgstr "Scaling the UV map along respective axes. The default values are 1.0."
 
-#: ../textures.rst:62
+#: ../textures.rst:66
 msgid "*Blend4Web > Do not export*"
 msgstr ""
 
-#: ../textures.rst:62
+#: ../textures.rst:66
 msgid "Не экспортировать текстуру. По умолчанию отключено."
 msgstr "Do not export the texture. Disabled by default."
 
-#: ../textures.rst:65
+#: ../textures.rst:69
 msgid "*Blend4Web > Anisotropic Filtering*"
 msgstr ""
 
-#: ../textures.rst:65
+#: ../textures.rst:69
 msgid ""
 "Фактор анизотропной фильтрации для индивидуальной текстуры. Имеет приоритет "
 "перед аналогичной настройкой для сцены. Значение по умолчанию ``DEFAULT`` "
@@ -271,11 +271,11 @@ msgstr ""
 "over the similar parameter for the scene. The default value is ``DEFAULT`` "
 "(i.e. use the scene settings)."
 
-#: ../textures.rst:71
+#: ../textures.rst:75
 msgid "*Blend4Web > UV translation velocity*"
 msgstr ""
 
-#: ../textures.rst:68
+#: ../textures.rst:72
 msgid ""
 "Скорость анимации текстурных координат по соответствующим осям. Значения по "
 "умолчанию 0.0."
@@ -283,7 +283,7 @@ msgstr ""
 "Animation speed of texture coordinates along respective axes. The default "
 "values are 0.0."
 
-#: ../textures.rst:70
+#: ../textures.rst:74
 msgid ""
 "указанная функциональность может быть реализована в нодовых материалах с "
 "помощью ноды TIME."
@@ -291,27 +291,27 @@ msgstr ""
 "such functionality can be implemented within node materials using a TIME "
 "node."
 
-#: ../textures.rst:75
+#: ../textures.rst:79
 msgid "*Blend4Web > Water Foam*"
 msgstr ""
 
-#: ../textures.rst:74
+#: ../textures.rst:78
 msgid "Текстура пены. Используется материалом для рендеринга воды."
 msgstr "The foam texture. Used by the water rendering material."
 
-#: ../textures.rst:79
+#: ../textures.rst:83
 msgid "диффузная"
 msgstr "diffuse"
 
-#: ../textures.rst:79
+#: ../textures.rst:83
 msgid "diffuse map"
 msgstr ""
 
-#: ../textures.rst:82
+#: ../textures.rst:86
 msgid "Диффузная текстура (diffuse map)"
 msgstr "Diffuse Map"
 
-#: ../textures.rst:84
+#: ../textures.rst:88
 msgid ""
 "Диффузная текстура применяется для указания распределения цвета рассеянного "
 "света (модель Ламберта)."
@@ -325,38 +325,38 @@ msgstr ""
 msgid "Активация"
 msgstr "Activation"
 
-#: ../textures.rst:87 ../textures.rst:111 ../textures.rst:137
-#: ../textures.rst:158 ../textures.rst:191 ../textures.rst:317
-#: ../textures.rst:343
+#: ../textures.rst:91 ../textures.rst:115 ../textures.rst:141
+#: ../textures.rst:162 ../textures.rst:195 ../textures.rst:330
+#: ../textures.rst:356
 msgid "Активация"
 msgstr "Activation"
 
-#: ../textures.rst:89
+#: ../textures.rst:93
 msgid ""
 "Выставить опцию ``Diffuse > Color`` на панели ``Textures > Influence``."
 msgstr ""
 "Enable the ``Diffuse > Color`` checkbox on the ``Textures > Influence`` "
 "panel."
 
-#: ../textures.rst:92 ../textures.rst:116 ../textures.rst:142
-#: ../textures.rst:163 ../textures.rst:197 ../textures.rst:322
+#: ../textures.rst:96 ../textures.rst:120 ../textures.rst:146
+#: ../textures.rst:167 ../textures.rst:201 ../textures.rst:335
 msgid "Дополнительные настройки"
 msgstr "Additional settings"
 
-#: ../textures.rst:95
+#: ../textures.rst:99
 msgid "*Influence > Diffuse > Color*"
 msgstr ""
 
-#: ../textures.rst:95
+#: ../textures.rst:99
 msgid "Степень влияния текстуры на диффузный цвет. Значение по умолчанию 1.0."
 msgstr ""
 "Influence of the texture on the diffuse color. The default value is 1.0."
 
-#: ../textures.rst:99 ../textures.rst:122
+#: ../textures.rst:103 ../textures.rst:126
 msgid "*Influence > Blend*"
 msgstr ""
 
-#: ../textures.rst:98
+#: ../textures.rst:102
 msgid ""
 "Тип взаимодействия с цветом материала (``Material > Diffuse > Color``), или "
 "с вертексным цветом, если включена опция ``Vertex Color Paint``. "
@@ -368,19 +368,19 @@ msgstr ""
 " enabled. The following types are supported: ``Mix`` (mixes with the color),"
 " ``Multiply`` (multiplies by the color). The default value is ``Mix``."
 
-#: ../textures.rst:103
+#: ../textures.rst:107
 msgid "карта бликов"
 msgstr "specular map"
 
-#: ../textures.rst:103
+#: ../textures.rst:107
 msgid "specular map"
 msgstr ""
 
-#: ../textures.rst:106
+#: ../textures.rst:110
 msgid "Карта бликов (specular map)"
 msgstr "Specular Map"
 
-#: ../textures.rst:108
+#: ../textures.rst:112
 msgid ""
 "Карта бликов применяется для указания распределения цвета отраженного света "
 "(модель Фонга)."
@@ -388,7 +388,7 @@ msgstr ""
 "The specular map is used for specifying the reflected light color "
 "distribution (the Phong model)."
 
-#: ../textures.rst:113
+#: ../textures.rst:117
 msgid ""
 "Выставить опцию ``Specular > Color`` на панели ``Textures > Influence`` "
 "(опция ``Specular > Intensity`` не поддерживается)."
@@ -396,11 +396,11 @@ msgstr ""
 "Enable the ``Specular > Color`` checkbox on the ``Textures > Influence`` "
 "panel (the ``Specular > Intensity`` checkbox is not supported)."
 
-#: ../textures.rst:119
+#: ../textures.rst:123
 msgid "*Influence > Specular > Color*"
 msgstr ""
 
-#: ../textures.rst:119
+#: ../textures.rst:123
 msgid ""
 "Степень влияния текстуры на цвет отраженного света. Значение по умолчанию "
 "1.0."
@@ -408,7 +408,7 @@ msgstr ""
 "The influence of the texture on the reflected light color. The default value"
 " is 1.0."
 
-#: ../textures.rst:122
+#: ../textures.rst:126
 msgid ""
 "Тип взаимодействия с цветом отраженного света материала (``Material > "
 "Specular > Color``). Поддерживается только ``Mix`` (смешивается с цветом). "
@@ -418,7 +418,7 @@ msgstr ""
 "(``Material > Specular > Color``). ``Mix`` (mixes with the color) is the "
 "only supported type. The default value is ``Mix``."
 
-#: ../textures.rst:124
+#: ../textures.rst:128
 msgid ""
 "Карта бликов может быть упакована в альфа-канал диффузной текстуры в целях "
 "оптимизации. В этом случае для текстуры необходимо одновременно выставить "
@@ -430,19 +430,19 @@ msgstr ""
 "enable the ``Diffuse > Color`` and ``Specular > Color`` checkboxes "
 "simultaneously. The color range is limited by gray tints."
 
-#: ../textures.rst:129
+#: ../textures.rst:133
 msgid "карта нормалей"
 msgstr "normal map"
 
-#: ../textures.rst:129
+#: ../textures.rst:133
 msgid "normal map"
 msgstr ""
 
-#: ../textures.rst:132
+#: ../textures.rst:136
 msgid "Карта нормалей (normal map)"
 msgstr "Normal Map"
 
-#: ../textures.rst:134
+#: ../textures.rst:138
 msgid ""
 "Карта нормалей применяется для указания распределения нормалей "
 "(перпендикуляров) к поверхности с целью увеличения уровня детализации ее "
@@ -455,40 +455,40 @@ msgstr ""
 "coordinates. Normal maps baked in the object space of coordinates are not "
 "supported."
 
-#: ../textures.rst:139
+#: ../textures.rst:143
 msgid ""
 "Выставить опцию ``Geometry > Normal`` на панели ``Textures > Influence``."
 msgstr ""
 "Enable the ``Geometry > Normal`` checkbox on the ``Textures > Influence`` "
 "panel."
 
-#: ../textures.rst:146
+#: ../textures.rst:150
 msgid "*Influence > Geometry > Normal*"
 msgstr ""
 
-#: ../textures.rst:145
+#: ../textures.rst:149
 msgid "Степень участия карты в расчетах нормалей. Значение по умолчанию 1.0."
 msgstr ""
 "Normal map influence on the resulting normals calculation. The default value"
 " is 1.0."
 
-#: ../textures.rst:150
+#: ../textures.rst:154
 msgid "карта высот"
 msgstr "height map"
 
-#: ../textures.rst:150
+#: ../textures.rst:154
 msgid "height map"
 msgstr ""
 
-#: ../textures.rst:150
+#: ../textures.rst:154
 msgid "parallax mapping"
 msgstr ""
 
-#: ../textures.rst:153
+#: ../textures.rst:157
 msgid "Карта высот (height map). Parallax mapping"
 msgstr "Height Map. Parallax Mapping"
 
-#: ../textures.rst:155
+#: ../textures.rst:159
 msgid ""
 "Карта высот содержит информацию о распределении относительных высот рельефа."
 " Более высокий уровень поверхности обозначается более светлым цветом. Карта "
@@ -502,7 +502,7 @@ msgstr ""
 "relief surface effect (parallax mapping). A height map should be present in "
 "the alpha channel of a normal map."
 
-#: ../textures.rst:160
+#: ../textures.rst:164
 msgid ""
 "Для карты нормалей дополнительно к опции ``Geometry > Normal`` на панели "
 "``Textures > Influence`` выставить опцию ``Parallax`` на панели ``Textures >"
@@ -512,21 +512,21 @@ msgstr ""
 "Blend4Web`` panel in addition to the ``Geometry > Normal`` checkbox on the "
 "``Textures > Influence`` panel."
 
-#: ../textures.rst:166
+#: ../textures.rst:170
 msgid "*Blend4Web > Parallax Scale*"
 msgstr ""
 
-#: ../textures.rst:166
+#: ../textures.rst:170
 msgid ""
 "Фактор влияния эффекта рельефной поверхности. Значение по умолчанию 0.03."
 msgstr ""
 "Influence factor for the relief surface effect. The default value is 0.03."
 
-#: ../textures.rst:169
+#: ../textures.rst:173
 msgid "*Blend4Web > Parallax Steps*"
 msgstr ""
 
-#: ../textures.rst:169
+#: ../textures.rst:173
 msgid ""
 "Количество итераций в расчетах рельефной поверхности. Большее значение "
 "приводит к лучшему качеству и к большим затратам вычислительных ресурсов. "
@@ -535,27 +535,27 @@ msgstr ""
 "The number of iterations for the relief surface calculations. Bigger value "
 "leads to better quality but is more computationaly expensive."
 
-#: ../textures.rst:172
+#: ../textures.rst:176
 msgid "*Blend4Web > Parallax LOD distance*"
 msgstr ""
 
-#: ../textures.rst:172
+#: ../textures.rst:176
 msgid "Расстояние на котором виден эффект параллакса."
 msgstr "Distance at which the parallax effect is observed."
 
-#: ../textures.rst:183
+#: ../textures.rst:187
 msgid "карта смешивания"
 msgstr "stencil map"
 
-#: ../textures.rst:183
+#: ../textures.rst:187
 msgid "stencil map"
 msgstr ""
 
-#: ../textures.rst:186
+#: ../textures.rst:190
 msgid "Карта смешивания (stencil map)"
 msgstr "Stencil Map"
 
-#: ../textures.rst:188
+#: ../textures.rst:192
 msgid ""
 "Специальная текстура (цветная или оттенков серого), содержащая информацию о "
 "распределении других текстур по поверхности."
@@ -563,7 +563,7 @@ msgstr ""
 "The special purpose texture (colorful or grayscale) contains information "
 "about the distribution of other texture surfaces."
 
-#: ../textures.rst:193
+#: ../textures.rst:197
 msgid ""
 "В случае нодовых материалов карта смешивания должна использоваться "
 "соответствующим образом в нодовой структуре."
@@ -571,7 +571,7 @@ msgstr ""
 "In case of node materials a stencil map should be used in the corresponding "
 "node structure."
 
-#: ../textures.rst:194
+#: ../textures.rst:198
 msgid ""
 "В случае обычных материалов карта смешивания должна располагаться в "
 "текстурном слоте между двумя смешиваемыми диффузными текстурами. Для "
@@ -583,7 +583,7 @@ msgstr ""
 "the ``RGB to Intensity`` and the ``Stencil`` checkboxes on the ``Textures > "
 "Influence`` panel."
 
-#: ../textures.rst:199
+#: ../textures.rst:203
 msgid ""
 "В случае обычных материалов для одной из смешиваемых диффузных текстур "
 "поддерживается тип текстурных координат ``Normal`` (\"matcap\")."
@@ -591,11 +591,11 @@ msgstr ""
 "In the case of generic materials one of the mixed diffuse textures can have "
 "the ``Normal`` (\"matcap\") texture coordinates type."
 
-#: ../textures.rst:202
+#: ../textures.rst:206
 msgid "Ограничения"
 msgstr "Limitations"
 
-#: ../textures.rst:204
+#: ../textures.rst:208
 msgid ""
 "В случае обычных материалов движком интерпретируется только красный канал "
 "текстуры смешивания. Карта бликов или карта нормалей при их наличии "
@@ -607,11 +607,11 @@ msgstr ""
 " ``Mapping > Size`` setting is extracted from the first texture and is "
 "applied to all remaining textures."
 
-#: ../textures.rst:207
+#: ../textures.rst:211
 msgid "Пример"
 msgstr "Example"
 
-#: ../textures.rst:209
+#: ../textures.rst:213
 msgid ""
 "Материал яблока имеет текстуры: карту нормалей, диффузную текстуру с картой "
 "бликов в альфа-канале, карту смешивания, диффузную карту \"matcap\", карту "
@@ -621,11 +621,11 @@ msgstr ""
 " texture with a specular map in its alpha channel, a stencil map, a diffuse "
 "\"matcap\" map, an environment map."
 
-#: ../textures.rst:227
+#: ../textures.rst:231
 msgid "Видео-текстуры"
 msgstr "Video Textures"
 
-#: ../textures.rst:229
+#: ../textures.rst:233
 msgid ""
 "В качестве текстуры может применяться видеозапись. Для этого должен быть "
 "выбран тип текстуры ``Image or Movie``. Также, если была включена опция "
@@ -636,19 +636,19 @@ msgstr ""
 "selected. Also, if the ``Scene > Blend4Web > Use NLA`` is enabled the video "
 "textures playback is possible."
 
-#: ../textures.rst:233
+#: ../textures.rst:237
 msgid ""
 "Видеотекстура поддерживает только воспроизведение видеоряда. Звуковое "
 "сопровождение следует накладывать, используя объект типа ``SPEAKER``."
 msgstr ""
 "Video textures support playing back just video tracks. Audio tracks should "
-"played back by using a ``SPEAKER`` object."
+"be played back by using a ``SPEAKER`` object."
 
-#: ../textures.rst:236
+#: ../textures.rst:240
 msgid "Настройка текстуры"
 msgstr "Setting up the Texture"
 
-#: ../textures.rst:238
+#: ../textures.rst:242
 msgid ""
 "При использовании видео-текстуры можно настроить следующие опции на панели "
 "``Texture > Image``:"
@@ -656,42 +656,57 @@ msgstr ""
 "The following settings are available for video textures on the ``Texture > "
 "Image`` panel:"
 
-#: ../textures.rst:240
-msgid "``Frames`` - длина воспроизводимого фрагмента видеозаписи в кадрах."
-msgstr "``Frames`` - length of patch of the video played back."
-
-#: ../textures.rst:241
-msgid ""
-"``Start`` - задержка воспроизведения видеозаписи в кадрах при использовании "
-"нелинейной анимации (опция ``Scene > Blend4Web > Use NLA``)."
+#: ../textures.rst:245
+msgid "*Image > Frames*"
 msgstr ""
-"``Start`` - video playback delay (in frames), applicable for non-linear "
-"animation (``Scene > Blend4Web > Use NLA`` option)."
 
-#: ../textures.rst:242
-msgid ""
-"``Offset`` - номер кадра, с которого будет начинаться воспроизведение "
-"видеозаписи."
+#: ../textures.rst:245
+msgid "Длина воспроизводимого фрагмента видеозаписи в кадрах."
+msgstr "Length of the played fragment in frames."
+
+#: ../textures.rst:248
+msgid "*Image > Start*"
 msgstr ""
-"``Offset`` - the number of the frame from which the video playback starts."
 
-#: ../textures.rst:243
+#: ../textures.rst:248
 msgid ""
-"``Auto refresh`` - воспроизводить видеозапись сразу после загрузки. Не "
-"актуальна при использовании нелинейной анимации: воспроизведение видео "
-"определяется остальными параметрами."
+"Задержка воспроизведения видеозаписи в кадрах при использовании нелинейной "
+"анимации (опция ``Scene > Blend4Web > Use NLA``)."
 msgstr ""
-"``Auto refresh`` - play back the video immediately after loading is "
-"complete. Ignored for non-linear animation - other parameters are applicable"
-" for video playback."
-
-#: ../textures.rst:244
-msgid ""
-"``Cyclic`` - начинать воспроизводить видеозапись заново каждый раз после ее "
-"завершения."
-msgstr "``Cyclic`` - start video playback afresh each time it finishes."
+"Video playback delay (in frames), applicable for non-linear animation "
+"(``Scene > Blend4Web > Use NLA`` option)."
 
 #: ../textures.rst:251
+msgid "*Image > Offset*"
+msgstr ""
+
+#: ../textures.rst:251
+msgid "Номер кадра, с которого будет начинаться воспроизведение видеозаписи."
+msgstr "The number of the frame from which the video playback starts."
+
+#: ../textures.rst:254
+msgid "*Image > Auto refresh*"
+msgstr ""
+
+#: ../textures.rst:254
+msgid ""
+"Воспроизводить видеозапись сразу после загрузки. Не актуальна при "
+"использовании нелинейной анимации: воспроизведение видео определяется "
+"остальными параметрами."
+msgstr ""
+"Play back the video immediately after loading is complete. Ignored for non-"
+"linear animation - other parameters are applicable for video playback."
+
+#: ../textures.rst:257
+msgid "*Image > Cyclic*"
+msgstr ""
+
+#: ../textures.rst:257
+msgid ""
+"Начинать воспроизводить видеозапись заново каждый раз после ее завершения."
+msgstr "Start video playback afresh each time it finishes."
+
+#: ../textures.rst:264
 msgid ""
 "Существует возможность ускоренного воспроизведения видеозаписей. Для этого "
 "необходимо задать значение свойства ``Scene > Dimensions > Frame rate`` "
@@ -699,69 +714,69 @@ msgid ""
 "скорость воспроизведения видеозаписи расчитывается как отношение Frame rate "
 "сцены к fps видеозаписи."
 msgstr ""
-"Video playback rate can be increased. To do this set ``Scene > Dimensions > "
-"Frame rate`` to a value which is different from the FPS value for the "
-"videos. Video playback rate is increased proportionally to the ratio of "
-"scene's FPS and video's FPS."
+"The video playback rate can be increased. To do this set ``Scene > "
+"Dimensions > Frame rate`` to a value which is different from the FPS value "
+"for the videos. Video playback rate is increased proportionally to the ratio"
+" of the scene's FPS and the video's FPS."
 
-#: ../textures.rst:257
+#: ../textures.rst:270
 msgid "Особенности работы на мобильных устройствах"
 msgstr "Peculiarities of mobile devices"
 
-#: ../textures.rst:259
+#: ../textures.rst:272
 msgid ""
 "Присутствуют следующие особенности реализации на мобильных устройствах:"
-msgstr "On mobile devices there are the following peculiarities:"
+msgstr "The peculiarities for mobile devices are as follows:"
 
-#: ../textures.rst:261
+#: ../textures.rst:274
 msgid ""
 "нормальная работа видеотекстур на iPhone невозможна в связи с тем, что "
 "данное устройство воспроизводит видеоданные через свой стандартный "
 "видеопроигрыватель."
 msgstr ""
 "normal operation of video textures on iPhones is impossible because these "
-"devices play back videos via standard iOS video player."
+"devices play back videos via the standard iOS video player."
 
-#: ../textures.rst:262
+#: ../textures.rst:275
 msgid ""
 "на некоторых мобильных устройствах имеется поддержка воспроизведения только "
 "одного видеофайла."
 msgstr "some devices only support playing back only one video file."
 
-#: ../textures.rst:263
+#: ../textures.rst:276
 msgid ""
 "не гарантируется стабильная работа при выставлении опции ``Offset`` в "
 "ненулевое значение."
 msgstr ""
 "stable operation is not garanteed if the ``Offset`` value is not zero."
 
-#: ../textures.rst:264
+#: ../textures.rst:277
 msgid "не на всех устройствах поддерживается ускореное воспроизведение видео."
 msgstr "not all devices support changing the video playback rate."
 
-#: ../textures.rst:265
+#: ../textures.rst:278
 msgid ""
 "на iPad и iPhone отсутствует возможность управления громкостью звука "
 "видеофайла, поэтому следует убрать аудио дорожку из видео перед добавлением "
 "файла в Blender."
 msgstr ""
-"iPad and iPhone do not provide the possibility to control audio volume for "
-"video, and so the audio track should be removed from the video before the "
-"file is added to Blender."
+"iPad and iPhone do not provide the possibility to control the audio volume "
+"for video, and so the audio track should be removed from the video before "
+"the file is added to Blender."
 
-#: ../textures.rst:269
+#: ../textures.rst:282
 msgid "карта окружения"
 msgstr "environment map"
 
-#: ../textures.rst:269
+#: ../textures.rst:282
 msgid "environment map"
 msgstr ""
 
-#: ../textures.rst:272
+#: ../textures.rst:285
 msgid "Карта окружения (environment map)"
 msgstr "Environment Map"
 
-#: ../textures.rst:274
+#: ../textures.rst:287
 msgid ""
 "Применяется в качестве :ref:`карты зеркального отражения (mirror map) "
 "<mirror_map>`, в качестве статической :ref:`текстуры неба (skydome) "
@@ -773,7 +788,7 @@ msgstr ""
 "implementation of an :ref:`environment lighting <environment_lighting>` "
 "method."
 
-#: ../textures.rst:276
+#: ../textures.rst:289
 msgid ""
 "В движке представлена кубической текстурой. Растры для карт окружения должны"
 " содержать 6 спроецированных изображений окружающей среды, упакованных в 2 "
@@ -785,33 +800,33 @@ msgstr ""
 " Blender format). Bitmap dimensions for each image should follow the 2\\ "
 ":sup:`N` rule (512, 1024 etc)."
 
-#: ../textures.rst:278
+#: ../textures.rst:291
 msgid ""
 "Во избежание проявления швов рекомендуется использовать формат без потери "
 "качества (PNG)."
 msgstr ""
 "It is recommended to use the lossless format (PNG) in order to avoid seams."
 
-#: ../textures.rst:286
+#: ../textures.rst:299
 msgid "Создание карты окружения"
 msgstr "Environment map creation"
 
-#: ../textures.rst:288
+#: ../textures.rst:301
 msgid "Blender позволяет запекать сцену в карту окружения. Для этого:"
 msgstr ""
 "Blender has an option for baking a scene into an environment map. To do "
 "this: "
 
-#: ../textures.rst:290
+#: ../textures.rst:303
 msgid "Создать сцену для запекания."
 msgstr "Create a scene for baking."
 
-#: ../textures.rst:291
+#: ../textures.rst:304
 msgid ""
 "Добавить пустой объект в предполагаемом центре обзора (``Add > Empty``)."
 msgstr "Add an empty object in the supposed point of view (``Add > Empty``)."
 
-#: ../textures.rst:292
+#: ../textures.rst:305
 msgid ""
 "Перейти во вкладку ``World``, затем перейти во вкладку ``Textures``, создать"
 " новую текстуру, выбрать тип ``Environment Map``."
@@ -819,7 +834,7 @@ msgstr ""
 "Go to the ``World`` tab then to the ``Textures`` tab and create a new "
 "texture with the ``Environment Map`` type."
 
-#: ../textures.rst:293
+#: ../textures.rst:306
 msgid ""
 "На панели ``Environment Map`` выбрать источник ``Static``, выбрать созданный"
 " пустой объект в поле ``Viewport Object``, установить разрешение 2\\ "
@@ -829,27 +844,27 @@ msgstr ""
 "the empty object in the ``Viewport Object`` field, then set the 2\\ :sup:`N`"
 " dimension (512, 1024 etc)."
 
-#: ../textures.rst:294
+#: ../textures.rst:307
 msgid "Выполнить рендеринг сцены ``F12`` (требуется наличие камеры)."
 msgstr "Render the scene by pressing ``F12`` (a camera is required)."
 
-#: ../textures.rst:295
+#: ../textures.rst:308
 msgid "Сохранить карту окружения в файл."
 msgstr "Save the environment map into a file."
 
-#: ../textures.rst:307
+#: ../textures.rst:320
 msgid "карта зеркального отражения"
 msgstr "mirror map"
 
-#: ../textures.rst:307
+#: ../textures.rst:320
 msgid "mirror map"
 msgstr ""
 
-#: ../textures.rst:312
+#: ../textures.rst:325
 msgid "Карта зеркального отражения (mirror map)"
 msgstr "Mirror Map"
 
-#: ../textures.rst:314
+#: ../textures.rst:327
 msgid ""
 "Применяется для визуализации отражающей способности поверхности. "
 "Представляет собой :ref:`карту окружения <environment_map>`."
@@ -857,7 +872,7 @@ msgstr ""
 "A mirror map is used to visualize the surface reflection. This is an "
 ":ref:`environment map <environment_map>`."
 
-#: ../textures.rst:319
+#: ../textures.rst:332
 msgid ""
 "Выбрать тип текстуры (``Type``) ``Environment Map``. Выставить опцию "
 "``Shading > Mirror`` на панели ``Textures > Influence``."
@@ -865,34 +880,34 @@ msgstr ""
 "Select the ``Environment Map`` texture type (``Type``). Enable the ``Shading"
 " > Mirror`` checkbox on the ``Textures > Influence`` panel."
 
-#: ../textures.rst:325
+#: ../textures.rst:338
 msgid ""
 "Степень влияния карты зеркального отражения. Значение по умолчанию 1.0."
 msgstr ""
 "The degree to which the mirror map affects the reflection. The default value"
 " is 1.0."
 
-#: ../textures.rst:326
+#: ../textures.rst:339
 msgid "*Influence > Shading > Mirror*"
 msgstr ""
 
-#: ../textures.rst:328
+#: ../textures.rst:341
 msgid ":ref:`Статическое отражение <reflection_static>`."
 msgstr ":ref:`Static reflection <reflection_static>`."
 
-#: ../textures.rst:331
+#: ../textures.rst:344
 msgid "небо"
 msgstr "sky"
 
-#: ../textures.rst:331
+#: ../textures.rst:344
 msgid "skydome"
 msgstr ""
 
-#: ../textures.rst:336
+#: ../textures.rst:349
 msgid "Текстура неба (skydome)"
 msgstr "Skydome"
 
-#: ../textures.rst:338
+#: ../textures.rst:351
 msgid ""
 "Применяется для визуализации бесконечно удаленного окружения (например, "
 "небесного свода). Представляет собой :ref:`карту окружения "
@@ -901,7 +916,7 @@ msgstr ""
 "A skydome is used to visualize an infinitely far environment (for example "
 "the sky). This is an :ref:`environment map <environment_map>`."
 
-#: ../textures.rst:340
+#: ../textures.rst:353
 msgid ""
 "Также может применяться для реализации одной из методик :ref:`освещения от "
 "окружающей среды <environment_lighting>`."
@@ -909,7 +924,7 @@ msgstr ""
 "Can be also used to implement one of the :ref:`environment lighting "
 "<environment_lighting>` methods."
 
-#: ../textures.rst:345
+#: ../textures.rst:358
 msgid ""
 "Создать текстуру мира (world texture) с типом \"Environment Map\". Выбрать "
 "опцию ``Blend4Web > Sky texture usage > SKYDOME``."
@@ -917,7 +932,7 @@ msgstr ""
 "Create a world texture with the ``Environment Map`` type and select the "
 "``Blend4Web > Sky texture usage > SKYDOME`` option."
 
-#: ../textures.rst:349
+#: ../textures.rst:362
 msgid ""
 "Для имитации :ref:`освещения от окружающей среды <environment_lighting>` "
 "можно воспользоваться опцией ``Blend4Web > Sky texture usage > "
@@ -929,7 +944,7 @@ msgstr ""
 "you should select the corresponding option in the world settings: "
 "``Environment Lighting > Sky Texture``."
 
-#: ../textures.rst:351
+#: ../textures.rst:364
 msgid ""
 "Для создания обоих эффектов от одной текстуры необходимо выставить опцию "
 "``Blend4Web > Sky texture usage > BOTH``."
@@ -937,27 +952,98 @@ msgstr ""
 "To use the world texture both for skydome and for environment lighting, "
 "select ``Blend4Web > Sky texture usage > BOTH``."
 
-#: ../textures.rst:361
+#: ../textures.rst:374
 msgid "рендеринг в"
 msgstr "render to"
 
-#: ../textures.rst:361
+#: ../textures.rst:374
 msgid "render-to-texture"
 msgstr ""
 
-#: ../textures.rst:361
+#: ../textures.rst:374
 msgid "RTT"
 msgstr ""
 
-#: ../textures.rst:365
+#: ../textures.rst:378
 msgid "Особые типы текстур"
 msgstr "Special Texture Types"
 
-#: ../textures.rst:370
+#: ../textures.rst:380
+msgid ""
+"Для использования особых типов текстур необходимо выставить тип текстуры "
+"``None`` на панели ``Textures``."
+msgstr ""
+"In order to use such textures, select ``None`` type under the ``Textures`` "
+"tab."
+
+#: ../textures.rst:387
+msgid ""
+"В меню ``Textures > Blend4Web`` имеется возможность задать основные свойства"
+" для данного типа текстуры:"
+msgstr ""
+"On the ``Textures > Blend4Web`` panel, you can set up properties for these "
+"textures:"
+
+#: ../textures.rst:390
+msgid "*Blend4Web > Source type*"
+msgstr ""
+
+#: ../textures.rst:390
+msgid ""
+"Выбор особого типа текстуры: ``Scene`` - для рендеринга 3D сцены в текстуру,"
+" ``Canvas`` - использование HTML-элемента <canvas> и ``None`` - отсутствие "
+"текстуры."
+msgstr ""
+"Select texture type: ``Scene`` - for rendering a 3D scene into the texture, "
+"``Canvas`` - for using <canvas> HTML element and ``None`` - for indicating "
+"of its absence."
+
+#: ../textures.rst:393
+msgid "*Blend4Web > Source id*"
+msgstr ""
+
+#: ../textures.rst:393
+msgid ""
+"Имя сцены, которая будет отображена в текстуре, в случае 3D сцены либо "
+"идентификатор HTML-элемента <canvas> в случае Canvas-текстуры."
+msgstr ""
+"The name of the scene which will be rendered into the texture (for "
+"``Scene``), or ID of the <canvas> HTML element (for ``Canvas``)."
+
+#: ../textures.rst:396
+msgid "*Blend4Web > Source size*"
+msgstr ""
+
+#: ../textures.rst:396
+msgid "Разрешение текстуры."
+msgstr "Texture resolution."
+
+#: ../textures.rst:399
+msgid "*Blend4Web > Extension*"
+msgstr ""
+
+#: ../textures.rst:399
+msgid ""
+":ref:`Режим интерпретации текстурных координат <texture_extension>`. "
+"Значение по умолчанию ``Repeat``."
+msgstr ""
+":ref:`Texture coordinates interpretation mode <texture_extension>`. Default "
+"is ``Repeat``."
+
+#: ../textures.rst:402
+msgid "*Blend4Web > Enable mipmapping*"
+msgstr ""
+
+#: ../textures.rst:402
+msgid ""
+"Включение MIP-текстурирования для Canvas-текстуры. По умолчанию включено."
+msgstr "Enable mipmapping for the Canvas texture. Enabled by default."
+
+#: ../textures.rst:410
 msgid "3D сценa"
 msgstr "3D scene"
 
-#: ../textures.rst:372
+#: ../textures.rst:412
 msgid ""
 "Изображение 3D сцены может быть использовано в качестве текстуры на объекте "
 "другой (\"главной\") сцены."
@@ -965,7 +1051,7 @@ msgstr ""
 "A 3D scene's real-time rendered image can be used as a texture by an object "
 "from another scene (\"main\" scene)."
 
-#: ../textures.rst:374
+#: ../textures.rst:414
 msgid ""
 "Создать дополнительную сцену-источник, переименовать для удобства, создать "
 "``World``, добавить нужные объекты, настроить вид из камеры."
@@ -973,7 +1059,7 @@ msgstr ""
 "Create an additional source scene, rename it for convenience, create a "
 "``World``, add the objects wanted, setup the camera view."
 
-#: ../textures.rst:375
+#: ../textures.rst:415
 msgid ""
 "В главной сцене для текстуры целевого объекта выставить тип ``None``, в поле"
 " ``Blend4Web > Source type`` указать тип ``Scene``. В поле ``Blend4Web > "
@@ -985,7 +1071,7 @@ msgstr ""
 "Specify the name of the source scene in the ``Blend4Web > Source id`` field."
 " Set the texture size in the ``Blend4Web > Source size`` field (in pixels)."
 
-#: ../textures.rst:383
+#: ../textures.rst:423
 msgid ""
 "В настоящее время имеется баг, вынуждающий иметь в обеих сценах один общий "
 "источник света."
@@ -993,11 +1079,11 @@ msgstr ""
 "Note that there is a bug at the moment which requires both scenes to have at"
 " least one shared light source."
 
-#: ../textures.rst:389
+#: ../textures.rst:429
 msgid "Canvas"
 msgstr "Canvas"
 
-#: ../textures.rst:391
+#: ../textures.rst:431
 msgid ""
 "В качестве текстуры используется HTML-элемент <canvas>. Его редактирование "
 "осуществляется при помощи :ref:`API <canvas_texture>`."
@@ -1005,15 +1091,16 @@ msgstr ""
 "A <canvas> HTML element can be used as a texture. It can be modified via "
 ":ref:`API <canvas_texture>`."
 
-#: ../textures.rst:393
+#: ../textures.rst:433
 msgid ""
 "В главной сцене для текстуры целевого объекта выставить тип ``None``, в поле"
 " ``Blend4Web > Source type`` указать тип ``Canvas``. В поле ``Blend4Web > "
 "Source id`` указать идентификатор объекта типа ``Canvas``. В поле "
 "``Blend4Web > Source size`` указать размер текстуры в пикселях."
 msgstr ""
-"Set the ``None`` type for a texture of the target object on the main scene, "
-"and select the ``Canvas`` type in the ``Blend4Web > Source type`` menu. "
-"Specify the id of the canvas HTML element in the ``Blend4Web > Source id`` "
-"field. Set the texture size in the ``Blend4Web > Source size`` field (in "
-"pixels)."
+"Set the ``None`` type for the texture of the target object on the main "
+"scene, and select the ``Canvas`` type in the ``Blend4Web > Source type`` "
+"menu. Specify the id of the canvas HTML element in the ``Blend4Web > Source "
+"id`` field. Set the texture size in the ``Blend4Web > Source size`` field "
+"(in pixels)."
+

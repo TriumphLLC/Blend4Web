@@ -72,9 +72,20 @@
 
 *Chrome на OS X*:
 
-Открыть Терминал и запустить браузер с параметром::
+Открыть Терминал и запустить браузер с параметром:
+
+.. only:: latex
+
+    > /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome\
+
+    > --allow-file-access-from-files
+
+
+
+.. only:: html
 
     > /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --allow-file-access-from-files
+
 
 |
 

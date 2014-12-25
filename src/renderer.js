@@ -177,9 +177,6 @@ function clear(subscene) {
         case "DEPTH":
             var bc = DEPTH_BG_COLOR;
             break;
-        case "SHORE_SMOOTHING":
-            var bc = SHADOW_BG_COLOR;
-            break;
         case "COLOR_PICKING":
         case "COLOR_PICKING_XRAY":
             var bc = COLOR_PICKING_BG_COLOR;
@@ -272,6 +269,7 @@ function draw_sky_buffers(subscene, bufs_data, shader, obj_render,
 
     for (var i = 0; i < 6; i++) {
         var w_target = get_cube_target_by_id(i);
+
         if (cfg_def.clear_procedural_sky_hack) {
             var image_data = new Uint8Array([0.36*255, 0.56*255,
                                              0.96*255, 255]);
@@ -282,15 +280,13 @@ function draw_sky_buffers(subscene, bufs_data, shader, obj_render,
         } else {
             _gl.uniformMatrix4fv(uniforms["u_cube_view_matrix"], false, v_matrs[i]);
 
-
             _gl.framebufferTexture2D(_gl.FRAMEBUFFER, _gl.COLOR_ATTACHMENT0,
                 w_target, w_tex, 0);
 
             draw_buffers(bufs_data, attribute_setters, obj_render.va_frame);
-
-            if (subscene.need_fog_update && i != CUBEMAP_BOTTOM_SIDE)
-                update_subs_sky_fog(subscene, i);
         }
+        if (subscene.need_fog_update && i != CUBEMAP_BOTTOM_SIDE)
+            update_subs_sky_fog(subscene, i);
     }
 }
 
@@ -383,23 +379,17 @@ function draw_buffers(bufs_data, attribute_setters, frame) {
 function get_cube_target_by_id(id) {
     switch (id) {
     case 0:
-        return _gl.TEXTURE_CUBE_MAP_NEGATIVE_Y;
-        break;
-    case 1:
-        return _gl.TEXTURE_CUBE_MAP_POSITIVE_Y;
-        break;
-    case 2:
         return _gl.TEXTURE_CUBE_MAP_POSITIVE_X;
-        break;
-    case 3:
+    case 1:
         return _gl.TEXTURE_CUBE_MAP_NEGATIVE_X;
-        break;
+    case 2:
+        return _gl.TEXTURE_CUBE_MAP_POSITIVE_Y;
+    case 3:
+        return _gl.TEXTURE_CUBE_MAP_NEGATIVE_Y;
     case 4:
         return _gl.TEXTURE_CUBE_MAP_POSITIVE_Z;
-        break;
     case 5:
         return _gl.TEXTURE_CUBE_MAP_NEGATIVE_Z;
-        break;
     }
 }
 
@@ -657,6 +647,11 @@ function assign_uniform_setters(shader) {
         case "u_light_factors2":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform4fv(loc, subscene.light_factors2);
+            }
+            break;
+        case "u_shadow_lamp_id":
+            var fun = function(gl, loc, subscene, obj_render, batch, camera) {
+                gl.uniform1i(loc, subscene.shadow_lamp_id);
             }
             break;
         case "u_sun_quaternion":
@@ -1011,37 +1006,6 @@ function assign_uniform_setters(shader) {
             transient_uni = true;
             break;
 
-        // animated uv velocities
-        case "u_colormap0_uv_velocity":
-            var fun = function(gl, loc, subscene, obj_render, batch, camera) {
-                gl.uniform2fv(loc, batch.colormap0_uv_velocity);
-            }
-            transient_uni = true;
-            break;
-        case "u_normalmap0_uv_velocity":
-            var fun = function(gl, loc, subscene, obj_render, batch, camera) {
-                gl.uniform2fv(loc, batch.normalmap_uv_velocities[0]);
-            }
-            transient_uni = true;
-            break;
-        case "u_normalmap1_uv_velocity":
-            var fun = function(gl, loc, subscene, obj_render, batch, camera) {
-                gl.uniform2fv(loc, batch.normalmap_uv_velocities[1]);
-            }
-            transient_uni = true;
-            break;
-        case "u_normalmap2_uv_velocity":
-            var fun = function(gl, loc, subscene, obj_render, batch, camera) {
-                gl.uniform2fv(loc, batch.normalmap_uv_velocities[2]);
-            }
-            transient_uni = true;
-            break;
-        case "u_normalmap3_uv_velocity":
-            var fun = function(gl, loc, subscene, obj_render, batch, camera) {
-                gl.uniform2fv(loc, batch.normalmap_uv_velocities[3]);
-            }
-            transient_uni = true;
-            break;
         case "u_normalmap0_scale":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform2fv(loc, batch.normalmap_scales[0]);
@@ -1087,6 +1051,12 @@ function assign_uniform_setters(shader) {
         case "u_foam_scale":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform2fv(loc, batch.foam_scale);
+            }
+            transient_uni = true;
+            break;
+        case "u_water_norm_uv_velocity":
+            var fun = function(gl, loc, subscene, obj_render, batch, camera) {
+                gl.uniform1f(loc, batch.water_norm_uv_velocity);
             }
             transient_uni = true;
             break;

@@ -103,7 +103,7 @@ void main(void) {
     lighting_result lresult = lighting(E, A, D, S, v_pos_world, normal, eye_dir,
         spec_params, u_diffuse_params, 1.0, u_light_positions,
         u_light_directions, u_light_color_intensities, u_light_factors1,
-        u_light_factors2, 0.0, vec4(0.0));
+        u_light_factors2, 0.0, vec4(0.0), 0);
 # else
     lighting_result lresult = lighting_ambient(E, A, D);
 # endif

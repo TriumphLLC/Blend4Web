@@ -101,16 +101,13 @@ uniform vec3 u_shallow_water_col;
 uniform vec3 u_shore_water_col;
 
 #if NUM_NORMALMAPS > 0
-uniform vec2 u_normalmap0_uv_velocity;
+uniform float u_water_norm_uv_velocity;
 uniform vec2 u_normalmap0_scale;
 # if NUM_NORMALMAPS > 1
-uniform vec2 u_normalmap1_uv_velocity;
 uniform vec2 u_normalmap1_scale;
 #  if NUM_NORMALMAPS > 2
-uniform vec2 u_normalmap2_uv_velocity;
 uniform vec2 u_normalmap2_scale;
 #   if NUM_NORMALMAPS > 3
-uniform vec2 u_normalmap3_uv_velocity;
 uniform vec2 u_normalmap3_scale;
 #   endif
 #  endif
@@ -274,7 +271,7 @@ void main(void) {
     // wave motion
     vec3 n_sum = vec3(0.0);
     vec3 tex_norm = texture2D(u_normalmap0, texcoord * u_normalmap0_scale
-                                 + u_normalmap0_uv_velocity * u_time).xyz - 0.5;
+                              + vec2(0.3, 0.5) * u_water_norm_uv_velocity * u_time).xyz - 0.5;
     n_sum += tex_norm;
 # if FOAM
     vec3 n_foam = vec3(0.0);
@@ -285,7 +282,7 @@ void main(void) {
 #endif
 #if NUM_NORMALMAPS > 1
     tex_norm = texture2D(u_normalmap0, texcoord * u_normalmap1_scale
-                                 + u_normalmap1_uv_velocity * u_time).xyz - 0.5;
+                         + vec2(-0.3, 0.7) * u_water_norm_uv_velocity * u_time).xyz - 0.5;
     n_sum += tex_norm;
 # if FOAM
 #  if NORM_FOAM1
@@ -295,7 +292,7 @@ void main(void) {
 #endif
 #if NUM_NORMALMAPS > 2
     tex_norm = texture2D(u_normalmap0, texcoord * u_normalmap2_scale
-                                 + u_normalmap2_uv_velocity * u_time).xyz - 0.5;
+                         + vec2(0.0, 1.1) * u_water_norm_uv_velocity * u_time).xyz - 0.5;
     n_sum += tex_norm;
 # if FOAM
 #  if NORM_FOAM2
@@ -305,7 +302,7 @@ void main(void) {
 #endif
 #if NUM_NORMALMAPS > 3
     tex_norm = texture2D(u_normalmap0, texcoord * u_normalmap3_scale
-                                 + u_normalmap3_uv_velocity * u_time).xyz - 0.5;
+                         + vec2(-0.66, -0.3) * u_water_norm_uv_velocity * u_time).xyz - 0.5;
     n_sum += tex_norm;
 # if FOAM
 #  if NORM_FOAM3
@@ -405,8 +402,6 @@ void main(void) {
 #endif
 
 #if FOAM
-    // water foam near the shore and on top of the waves
-
 # if SHORE_SMOOTHING
     float foam_factor = max(1.0 - u_view_max_depth * delta, 0.0);
 # else
@@ -416,13 +411,13 @@ void main(void) {
 # if DYNAMIC
 
     float foam_waves_factor = max(dist_to_water / WAVES_HEIGHT + 0.1, 0.0);
-    //foam_waves_factor *= foam_waves_factor;
 
 #  if SHORE_PARAMS
     // add foam to directional waves
     vec3 dir_shore = normalize(vec3(v_shore_params.r, 0.0, v_shore_params.g));
     vec3 foam_dir = normalize(mix(vec3(0.0, 1.0, 0.0), dir_shore, 0.8));
-    float foam_shore_waves = max(2.5 * dot(normal_foam, foam_dir) - 0.7, 0.0);
+    float foam_shore_waves = 1.25*max(dot(normal_foam, foam_dir) - 0.2, 0.0);
+    foam_shore_waves += max(dot(normal_foam, vec3(0.0, -1.0, 0.0)), 0.0);
     foam_factor += foam_shore_waves * (1.0 - v_shore_params.b);
     foam_waves_factor *= (1.0 - 0.95 * pow(v_shore_params.b, 0.1));
 #  endif // SHORE_PARAMS
@@ -472,7 +467,7 @@ void main(void) {
     lighting_result lresult = lighting(vec3(0.0), vec3(0.0), color, S, v_pos_world,
         normal, eye_dir, spec_params, u_diffuse_params, 1.0,
         u_light_positions, u_light_directions, u_light_color_intensities,
-        u_light_factors1, u_light_factors2, 0.0, vec4(0.0));
+        u_light_factors1, u_light_factors2, 0.0, vec4(0.0), 0);
 #else
     lighting_result lresult = lighting_ambient(vec3(0.0), vec3(0.0), color);
 #endif

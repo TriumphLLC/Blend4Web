@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Система частиц для инстансинга объектов &mdash; Руководство пользователя: Blend4Web v14.11</title>
+    <title>Система частиц для инстансинга объектов &mdash; Руководство пользователя: Blend4Web v14.12</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.11',
+        VERSION:     '14.12',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v14.11" href="index.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v14.12" href="index.html" />
     <link rel="next" title="Анимация" href="animation.html" />
     <link rel="prev" title="Система частиц" href="particles.html" /> 
   </head>
@@ -37,7 +37,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">Руководство пользователя: Blend4Web v14.11</a></div>
+          href="index.html">Руководство пользователя: Blend4Web v14.12</a></div>
         <div class="rel">
           <a href="particles.html" title="Система частиц"
              accesskey="P">назад</a> |
@@ -92,112 +92,117 @@
 <div class="line"><br /></div>
 </div>
 <p><strong>Настройка</strong></p>
-<dl class="docutils">
-<dt><em>Render &gt; Use Count</em></dt>
-<dd>Опция доступна для групп объектов-частиц. При включении появляется интерфейс установки относительного количества входящих в группу объектов. Движок не воспроизводит точное местонахождение объектов заданных типов.</dd>
-<dt><em>Blend4Web &gt; Random location and size</em></dt>
-<dd>Опция устанавливает случайный характер расположения и размеров объектов. Если опция включена, движок генерирует случайные координаты и размер (в пределах ±25%) объектов-частиц. Если опция выключена, производится экспорт и использование текущих координат и размеров объектов-частиц. По умолчанию включено.</dd>
-<dt><em>Blend4Web &gt; Initial random rotation</em></dt>
-<dd>Опция устанавливает случайный характер вращения объектов относительно оси определяемой параметром <tt class="docutils literal"><span class="pre">Rotation</span> <span class="pre">type</span></tt>. Если опция включена, движок генерирует случайные углы вращения объектов-частиц. Если опция выключена, устанавливается нулевой угол вращения. По умолчанию включено.</dd>
-<dt><em>Blend4Web &gt; Rotation type</em></dt>
-<dd><dl class="first docutils">
-<dt>Ось случайного поворота объекта (опция доступна при включении <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Initial</span> <span class="pre">random</span> <span class="pre">rotation</span></tt>). Возможны 2 варианта:</dt>
-<dd><ul class="first last simple">
+<p><em>Render &gt; Use Count</em></p>
+<blockquote>
+<div>Опция доступна для групп объектов-частиц. При включении появляется интерфейс установки относительного количества входящих в группу объектов. Движок не воспроизводит точное местонахождение объектов заданных типов.</div></blockquote>
+<p><em>Blend4Web &gt; Random location and size</em></p>
+<blockquote>
+<div>Опция устанавливает случайный характер расположения и размеров объектов. Если опция включена, движок генерирует случайные координаты и размер (в пределах ±25%) объектов-частиц. Если опция выключена, производится экспорт и использование текущих координат и размеров объектов-частиц. По умолчанию включено.</div></blockquote>
+<p><em>Blend4Web &gt; Initial random rotation</em></p>
+<blockquote>
+<div>Опция устанавливает случайный характер вращения объектов относительно оси определяемой параметром <tt class="docutils literal"><span class="pre">Rotation</span> <span class="pre">type</span></tt>. Если опция включена, движок генерирует случайные углы вращения объектов-частиц. Если опция выключена, устанавливается нулевой угол вращения. По умолчанию включено.</div></blockquote>
+<p><em>Blend4Web &gt; Rotation type</em></p>
+<blockquote>
+<div><p>Ось случайного поворота объекта (опция доступна при включении <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Initial</span> <span class="pre">random</span> <span class="pre">rotation</span></tt>). Возможны 2 варианта:</p>
+<blockquote>
+<div><ul class="simple">
 <li><tt class="docutils literal"><span class="pre">Z</span> <span class="pre">axis</span></tt> - случайный поворот будет осуществлен относительно вертикальной оси Z</li>
 <li><tt class="docutils literal"><span class="pre">Random</span> <span class="pre">axis</span></tt> - случайный поворот будет осуществлен относительно случайной оси</li>
 </ul>
-</dd>
-</dl>
-<p class="last">Значение по умолчанию <tt class="docutils literal"><span class="pre">Z</span> <span class="pre">axis</span></tt>.</p>
-</dd>
-<dt><em>Blend4Web &gt; Rotation strength</em></dt>
-<dd><dl class="first docutils">
-<dt>Коэффициент, определяющий диапазон случайных углов поворота, отсчитываемых от направления на камеру (опция доступна при включении <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Initial</span> <span class="pre">random</span> <span class="pre">rotation</span></tt>). Например:</dt>
-<dd><ul class="first last simple">
+</div></blockquote>
+<p>Значение по умолчанию <tt class="docutils literal"><span class="pre">Z</span> <span class="pre">axis</span></tt>.</p>
+</div></blockquote>
+<p><em>Blend4Web &gt; Rotation strength</em></p>
+<blockquote>
+<div><p>Коэффициент, определяющий диапазон случайных углов поворота, отсчитываемых от направления на камеру (опция доступна при включении <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Initial</span> <span class="pre">random</span> <span class="pre">rotation</span></tt>). Например:</p>
+<blockquote>
+<div><ul class="simple">
 <li><tt class="docutils literal"><span class="pre">Rotation</span> <span class="pre">strength</span> <span class="pre">=</span> <span class="pre">1</span></tt> - углы будут лежать в пределах <span class="math">\([-\pi, \pi]\)</span></li>
 <li><tt class="docutils literal"><span class="pre">Rotation</span> <span class="pre">strength</span> <span class="pre">=</span> <span class="pre">0.5</span></tt> - углы будут лежать в пределах <span class="math">\([-0.5 \cdot \pi, 0.5 \cdot \pi]\)</span></li>
 <li><tt class="docutils literal"><span class="pre">Rotation</span> <span class="pre">strength</span> <span class="pre">=</span> <span class="pre">0.1</span></tt> - углы будут лежать в пределах <span class="math">\([-0.1 \cdot \pi, 0.1 \cdot \pi]\)</span></li>
 </ul>
-</dd>
-</dl>
-<p class="last">Значение по умолчанию 1.</p>
-</dd>
-<dt><em>Blend4Web &gt; Billboard</em></dt>
-<dd>Включение биллбординга для частиц. По умолчанию выключено.</dd>
-<dt><em>Blend4Web &gt; Billboard type</em></dt>
-<dd><dl class="first docutils">
-<dt>Тип биллбординга (опция доступна при включении <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Billboard</span></tt>). Доступны 3 типа:</dt>
-<dd><ul class="first last simple">
+</div></blockquote>
+<p>Значение по умолчанию 1.</p>
+</div></blockquote>
+<p><em>Blend4Web &gt; Billboard</em></p>
+<blockquote>
+<div>Включение биллбординга для частиц. По умолчанию выключено.</div></blockquote>
+<p><em>Blend4Web &gt; Billboard type</em></p>
+<blockquote>
+<div><p>Тип биллбординга (опция доступна при включении <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Billboard</span></tt>). Доступны 3 типа:</p>
+<blockquote>
+<div><ul class="simple">
 <li><tt class="docutils literal"><span class="pre">Basic</span></tt> - простой односторонний биллбординг: частицы всегда будут повернуты лицевой стороной</li>
 <li><tt class="docutils literal"><span class="pre">Random</span></tt> - случайный двусторонний биллбординг: частицы чаще всего будут повернуты лицевой, либо обратной стороной, реже - боком; присутствует небольшой случайный поворот; модель создана специально для инстансинга травы</li>
 <li><tt class="docutils literal"><span class="pre">Jittered</span></tt> - односторонний биллбординг с колебанием частиц в плоскости, обращенной к наблюдателю; модель создана специально для инстансинга листвы деревьев</li>
 </ul>
-</dd>
-</dl>
-<p class="last">Значение по умолчанию <tt class="docutils literal"><span class="pre">Basic</span></tt>.</p>
-</dd>
-<dt><em>Blend4Web &gt; Jitter amplitude</em></dt>
-<dd>Коэффициент амплитуды колебаний частиц (опция доступна при выборе типа <tt class="docutils literal"><span class="pre">Jittered</span></tt> в  <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Billboard</span> <span class="pre">type</span></tt>). При увеличении параметра амплитуда растет. Значение по умолчанию 0.</dd>
-<dt><em>Blend4Web &gt; Jitter frequency</em></dt>
-<dd>Частота колебаний частиц, Гц (опция доступна при выборе типа <tt class="docutils literal"><span class="pre">Jittered</span></tt> в  <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Billboard</span> <span class="pre">type</span></tt>). Значение по умолчанию 0.</dd>
-<dt><em>Blend4Web &gt; Billboard geometry</em></dt>
-<dd><dl class="first docutils">
-<dt>Тип вращения биллбордов (опция доступна при включении <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Billboard</span></tt>). Доступны 2 типа:</dt>
-<dd><ul class="first last simple">
+</div></blockquote>
+<p>Значение по умолчанию <tt class="docutils literal"><span class="pre">Basic</span></tt>.</p>
+</div></blockquote>
+<p><em>Blend4Web &gt; Jitter amplitude</em></p>
+<blockquote>
+<div>Коэффициент амплитуды колебаний частиц (опция доступна при выборе типа <tt class="docutils literal"><span class="pre">Jittered</span></tt> в  <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Billboard</span> <span class="pre">type</span></tt>). При увеличении параметра амплитуда растет. Значение по умолчанию 0.</div></blockquote>
+<p><em>Blend4Web &gt; Jitter frequency</em></p>
+<blockquote>
+<div>Частота колебаний частиц, Гц (опция доступна при выборе типа <tt class="docutils literal"><span class="pre">Jittered</span></tt> в  <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Billboard</span> <span class="pre">type</span></tt>). Значение по умолчанию 0.</div></blockquote>
+<p><em>Blend4Web &gt; Billboard geometry</em></p>
+<blockquote>
+<div><p>Тип вращения биллбордов (опция доступна при включении <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Billboard</span></tt>). Доступны 2 типа:</p>
+<blockquote>
+<div><ul class="simple">
 <li><tt class="docutils literal"><span class="pre">Spherical</span></tt> - сферический биллбординг, полная ориентация частиц по отношению к наблюдателю, вращение ничем не ограничено</li>
 <li><tt class="docutils literal"><span class="pre">Cylindrical</span></tt> - цилиндрический биллбординг, вращение частиц только относительно оси Z</li>
 </ul>
-</dd>
-</dl>
-<p class="last">Значение по умолчанию <tt class="docutils literal"><span class="pre">Spherical</span></tt>.</p>
-</dd>
-<dt><em>Blend4Web &gt; Dynamic Grass</em></dt>
-<dd>Опция включает режим динамического рендеринга травяного покрова. По умолчанию отключено.</dd>
-<dt><em>Blend4Web &gt; Wind bending</em></dt>
-<dd><dl class="first docutils">
-<dt>Наследование частицами настроек Wind bending:</dt>
-<dd><ul class="first last simple">
+</div></blockquote>
+<p>Значение по умолчанию <tt class="docutils literal"><span class="pre">Spherical</span></tt>.</p>
+</div></blockquote>
+<p><em>Blend4Web &gt; Dynamic Grass</em></p>
+<blockquote>
+<div>Опция включает режим динамического рендеринга травяного покрова. По умолчанию отключено.</div></blockquote>
+<p><em>Blend4Web &gt; Wind bending</em></p>
+<blockquote>
+<div><p>Наследование частицами настроек Wind bending:</p>
+<blockquote>
+<div><ul class="simple">
 <li><tt class="docutils literal"><span class="pre">Parent</span></tt> - наследование с эмиттера</li>
 <li><tt class="docutils literal"><span class="pre">Instance</span></tt> - наследование с объекта самой частицы</li>
 </ul>
-</dd>
-</dl>
-<p class="last">Значение по умолчанию <tt class="docutils literal"><span class="pre">Parent</span></tt>.</p>
-</dd>
-<dt><em>Blend4Web &gt; Shadows</em></dt>
-<dd><dl class="first docutils">
-<dt>Наследование частицами настроек теней:</dt>
-<dd><ul class="first last simple">
+</div></blockquote>
+<p>Значение по умолчанию <tt class="docutils literal"><span class="pre">Parent</span></tt>.</p>
+</div></blockquote>
+<p><em>Blend4Web &gt; Shadows</em></p>
+<blockquote>
+<div><p>Наследование частицами настроек теней:</p>
+<blockquote>
+<div><ul class="simple">
 <li><tt class="docutils literal"><span class="pre">Parent</span></tt> - наследование с эмиттера</li>
 <li><tt class="docutils literal"><span class="pre">Instance</span></tt> - наследование с объекта самой частицы</li>
 </ul>
-</dd>
-</dl>
-<p class="last">Значение по умолчанию <tt class="docutils literal"><span class="pre">Parent</span></tt>.</p>
-</dd>
-<dt><em>Blend4Web &gt; Reflection</em></dt>
-<dd><dl class="first docutils">
-<dt>Наследование частицами настроек отражений:</dt>
-<dd><ul class="first last simple">
+</div></blockquote>
+<p>Значение по умолчанию <tt class="docutils literal"><span class="pre">Parent</span></tt>.</p>
+</div></blockquote>
+<p><em>Blend4Web &gt; Reflection</em></p>
+<blockquote>
+<div><p>Наследование частицами настроек отражений:</p>
+<blockquote>
+<div><ul class="simple">
 <li><tt class="docutils literal"><span class="pre">Parent</span></tt> - наследование с эмиттера</li>
 <li><tt class="docutils literal"><span class="pre">Instance</span></tt> - наследование с объекта самой частицы</li>
 </ul>
-</dd>
-</dl>
-<p class="last">Значение по умолчанию <tt class="docutils literal"><span class="pre">Parent</span></tt>.</p>
-</dd>
-<dt><em>Blend4Web &gt; Vertex color</em></dt>
-<dd><dl class="first docutils">
-<dt>Наследование частицами вертексного цвета с эмиттера. Содержит 2 поля:</dt>
-<dd><ul class="first last simple">
+</div></blockquote>
+<p>Значение по умолчанию <tt class="docutils literal"><span class="pre">Parent</span></tt>.</p>
+</div></blockquote>
+<p><em>Blend4Web &gt; Vertex color</em></p>
+<blockquote>
+<div><p>Наследование частицами вертексного цвета с эмиттера. Содержит 2 поля:</p>
+<blockquote>
+<div><ul class="simple">
 <li><tt class="docutils literal"><span class="pre">from</span></tt> - имя существующего у эмиттера вертексного цвета</li>
 <li><tt class="docutils literal"><span class="pre">to</span></tt> - имя существующего у частицы вертексного цвета</li>
 </ul>
-</dd>
-</dl>
-<p class="last">По умолчанию наследования не происходит.</p>
-</dd>
-</dl>
+</div></blockquote>
+<p>По умолчанию наследования не происходит.</p>
+</div></blockquote>
 </div>
 <div class="section" id="particles-grass">
 <span id="id3"></span><h2>Травяной покров<a class="headerlink" href="#particles-grass" title="Ссылка на этот заголовок">¶</a></h2>
@@ -284,6 +289,7 @@
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Веб-плеер</a></li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">Аддон</a></li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Объекты</a></li>
+<li class="toctree-l1"><a class="reference internal" href="camera.html">Камера</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Материалы</a></li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">Текстуры</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Нодовые материалы</a></li>
@@ -339,7 +345,7 @@
           
     <div class="footer">
         &copy; Copyright 2014, ООО &#34;Триумф&#34;.
-      Обновлено: 2014-11-28.
+      Обновлено: 2014-12-24.
       Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
         </div>

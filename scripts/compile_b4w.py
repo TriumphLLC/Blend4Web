@@ -21,7 +21,7 @@ ADDONS            = ["src/addons/app.js",
                      "src/addons/camera_anim.js",
                      "src/addons/mixer.js",
                      "src/addons/npc_ai.js",
-                     "src/addons/pointerlock.js",
+                     "src/addons/mouse.js",
                      "src/addons/preloader.js",
                      "src/addons/storage.js"]
 
@@ -163,6 +163,7 @@ def run():
 
     for line in config_js_text:
         line = re.sub(r'(resources_dir\s*:\s*[\"|\'])+(..\/external\/deploy\/apps\/common)', r'\1.', line)
+        line = re.sub(r'(ASSETS=..\/..\/)+(external\/deploy\/)+(assets\/)', r'\1\3', line)
 
         config_rel_js_file.write(line)
 

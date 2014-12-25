@@ -10,6 +10,7 @@ import shutil
 import struct
 import time
 import cProfile
+import operator
 
 import blend4web
 
@@ -68,6 +69,7 @@ _export_error = None
 _file_error = None
 
 _scene_active_layers = {}
+_dupli_group_ids = {}
 
 _b4w_export_warnings = []
 
@@ -87,6 +89,8 @@ _curr_material_stack = []
 _fallback_camera = None
 _fallback_world = None
 _fallback_material = None
+
+_dg_counter = 0
 
 # temp property will exist to the end of session
 # and will not be saved to blend file
@@ -365,8 +369,18 @@ def attach_export_properties(tags):
         source = getattr(bpy.data, tag)
         for component in source:
             component["export_done"] = False
-    for mat in bpy.data.materials:
-        mat["in_use"] = False
+
+def check_dupli_groups(objects, group_number):
+    global _dg_counter
+    for obj in objects:
+        if obj.dupli_group:
+            _dg_counter += 1
+            check_dupli_groups(obj.dupli_group.objects, _dg_counter)
+
+        if obj.as_pointer() in _dupli_group_ids:
+            _dupli_group_ids[obj.as_pointer()].append(group_number)
+        else:
+            _dupli_group_ids[obj.as_pointer()] = [group_number]
 
 def detach_export_properties(tags):
     for tag in tags:
@@ -425,7 +439,7 @@ def get_obj_data(obj, scene):
 
     if obj.data:
         if obj_to_mesh_needed(obj):
-            data = obj.to_mesh(scene, obj.b4w_apply_modifiers or obj.b4w_apply_scale, "PREVIEW")
+            data = obj.to_mesh(scene, obj.b4w_apply_modifiers, "PREVIEW")
             if obj.b4w_apply_modifiers:
                 data.name = obj.name + "_MODIFIERS_APPLIED"
             elif obj.b4w_loc_export_vertex_anim:
@@ -939,9 +953,6 @@ def process_object(obj):
 
     parent = obj.parent
     if parent and do_export(parent) and object_is_valid(parent):
-        if not is_identity_matrix(obj.matrix_parent_inverse):
-            raise ExportError("Object-parent relation is not supported",
-                    obj, "Clear the parent's inverse transform")
         obj_data["parent"] = gen_uuid_obj(parent)
         process_object(parent)
     else:
@@ -953,10 +964,8 @@ def process_object(obj):
     arm_mod = find_modifier(obj, "ARMATURE")
     # NOTE: give more freedom to objs with edited normals
     obj_data["modifiers"] = []
-    if not obj.b4w_apply_modifiers and obj.b4w_export_edited_normals and arm_mod:
-        process_object_modifiers(obj_data["modifiers"], [arm_mod])
-    elif not obj_to_mesh_needed(obj):
-        process_object_modifiers(obj_data["modifiers"], obj.modifiers)
+    if not obj.b4w_apply_modifiers:
+        process_object_modifiers(obj_data["modifiers"], obj.modifiers, obj)
 
     obj_data["constraints"] = process_object_constraints(obj.constraints)
     obj_data["particle_systems"] = process_object_particle_systems(obj)
@@ -996,7 +1005,6 @@ def process_object(obj):
     dct["overall_stiffness_col"] = detail_bend.overall_stiffness_col
 
     obj_data["b4w_lod_transition"] = round_num(obj.b4w_lod_transition, 3);
-    obj_data["b4w_lod_distance"] = round_num(obj.b4w_lod_distance, 2)
 
     obj_data["lod_levels"] = process_object_lod_levels(obj)
 
@@ -1084,17 +1092,31 @@ def process_object(obj):
     process_object_pose(obj_data, obj, obj.pose)
     process_object_force_field(obj_data, obj.field)
 
-    loc = obj.location
-    obj_data["location"] = round_iterable([loc[0], loc[2], -loc[1]], 5)
-
     rot = get_rotation_quat(obj)
-    obj_data["rotation_quaternion"] = round_iterable([rot[0], rot[1], rot[3], -rot[2]], 5)
-
+    loc = obj.location
     if not (obj_data["type"] == "MESH" and obj.b4w_apply_scale):
         sca = obj.scale
-        obj_data["scale"] = round_iterable([sca[0], sca[2], sca[1]], 5)
     else:
-        obj_data["scale"] = round_iterable([1.0, 1.0, 1.0], 5)
+        sca = [1.0, 1.0, 1.0]
+
+    # resolving clean_parent_inverse issue
+    if obj.parent:
+        sca_parent = obj.parent.scale
+        mat_inv_parent = obj.matrix_parent_inverse
+        scale = mat_inv_parent.to_scale()
+        loc = mat_inv_parent * loc
+        if obj.parent.b4w_apply_scale:
+            scale = list(map(operator.mul, sca_parent, scale))
+            loc = list(map(operator.mul, sca_parent, loc))
+
+        sca = list(map(operator.mul, sca, scale))
+        rot.rotate(mat_inv_parent)
+
+    obj_data["location"] = round_iterable([loc[0], loc[2], -loc[1]], 5)
+
+    obj_data["rotation_quaternion"] = round_iterable([rot[0], rot[1], rot[3], -rot[2]], 5)
+
+    obj_data["scale"] = round_iterable([sca[0], sca[2], sca[1]], 5)
 
     _export_data["objects"].append(obj_data)
     _export_uuid_cache[obj_data["uuid"]] = obj_data
@@ -1346,6 +1368,10 @@ def process_camera(camera):
     cam_data["b4w_dof_power"] = round_num(camera.b4w_dof_power, 2)
     cam_data["b4w_move_style"] = camera.b4w_move_style
 
+    cam_data["b4w_trans_velocity"] = round_num(camera.b4w_trans_velocity, 3)
+    cam_data["b4w_rot_velocity"] = round_num(camera.b4w_rot_velocity, 3)
+    cam_data["b4w_zoom_velocity"] = round_num(camera.b4w_zoom_velocity, 3)
+
     cam_data["b4w_use_distance_limits"] = camera.b4w_use_distance_limits
     cam_data["b4w_distance_min"] = round_num(camera.b4w_distance_min, 3)
     cam_data["b4w_distance_max"] = round_num(camera.b4w_distance_max, 3)
@@ -1484,7 +1510,6 @@ def process_lamp(lamp):
 def process_material(material):
     global _curr_mesh
     _curr_material_stack.append(material)
-    material["in_use"] = True
     mat_data = OrderedDict()
 
     mat_data["name"] = material.name
@@ -1580,6 +1605,7 @@ def process_material(material):
     mat_data["b4w_water_sss_strength"] \
             = round_num(material.b4w_water_sss_strength, 3)
     mat_data["b4w_water_sss_width"] = round_num(material.b4w_water_sss_width, 3)
+    mat_data["b4w_water_norm_uv_velocity"] = round_num(material.b4w_water_norm_uv_velocity, 3)
     mat_data["b4w_terrain"] = material.b4w_terrain
     mat_data["b4w_dynamic_grass_size"] = material.b4w_dynamic_grass_size
     mat_data["b4w_dynamic_grass_color"] = material.b4w_dynamic_grass_color
@@ -1678,6 +1704,7 @@ def process_texture(texture):
     tex_data["b4w_source_type"] = texture.b4w_source_type
     tex_data["b4w_source_id"] = texture.b4w_source_id
     tex_data["b4w_source_size"] = texture.b4w_source_size
+    tex_data["b4w_enable_canvas_mipmapping"] = texture.b4w_enable_canvas_mipmapping
 
     if hasattr(texture, "extension"):
         tex_data["extension"] = texture.extension
@@ -1710,8 +1737,6 @@ def process_texture(texture):
     tex_data["b4w_shore_boundings"] \
             = round_iterable(texture.b4w_shore_boundings, 3)
     tex_data["b4w_max_shore_dist"] = round_num(texture.b4w_max_shore_dist, 3)
-    tex_data["b4w_uv_velocity_trans"] \
-            = round_iterable(texture.b4w_uv_velocity_trans, 3)
 
     tex_data["b4w_disable_compression"] = texture.b4w_disable_compression
     tex_data["b4w_use_as_skydome"] = False
@@ -1915,12 +1940,12 @@ def process_mesh(mesh, obj_user):
     vertex_colors = bool(mesh.vertex_colors)
 
     if obj_user.b4w_apply_scale:
-        sca = obj_user.scale
+        sca_obj = obj_user.scale
         for v_index in range(len(mesh.vertices)):
             vert = mesh.vertices[v_index]
-            vert.co.x = vert.co.x * sca[0]
-            vert.co.y = vert.co.y * sca[1]
-            vert.co.z = vert.co.z * sca[2]
+            vert.co.x *= sca_obj[0]
+            vert.co.y *= sca_obj[1]
+            vert.co.z *= sca_obj[2]
 
     mesh_ptr = mesh.as_pointer()
     bounding_data = b4w_bin.calc_bounding_data(mesh_ptr);
@@ -2060,39 +2085,47 @@ def vc_channel_nodes_usage(mat):
     vc_nodes_usage = {}
 
     if mat is not None and mat.node_tree is not None:
-        separate_rgb_out = {}
-        geometry_vcols = {}
+        vc_node_usage_iter(mat.node_tree, vc_nodes_usage)
 
-        for link in mat.node_tree.links:
-            if link.from_node.bl_idname == "ShaderNodeGeometry" \
-                    and link.from_socket.identifier == "Vertex Color":
-                vcol_name = link.from_node.color_layer
-                if vcol_name:
-                    to_name = link.to_node.name
-                    if vcol_name not in geometry_vcols:
-                        geometry_vcols[vcol_name] = []
-                    if to_name not in geometry_vcols[vcol_name]:
-                        geometry_vcols[vcol_name].append(to_name)
+    return vc_nodes_usage
 
-            elif link.from_node.bl_idname == "ShaderNodeSeparateRGB" \
-                    and link.from_socket.identifier in "RGB":
-                seprgb_name = link.from_node.name
-                mask = rgb_channels_to_mask(link.from_socket.identifier)
-                if seprgb_name in separate_rgb_out:
-                    separate_rgb_out[seprgb_name] |= mask
-                else:
-                    separate_rgb_out[seprgb_name] = mask
+def vc_node_usage_iter(node_tree, vc_nodes_usage):
+    separate_rgb_out = {}
+    geometry_vcols = {}
 
-        for vcol_name in geometry_vcols:
-            for to_name in geometry_vcols[vcol_name]:
-                if to_name in separate_rgb_out:
-                    mask = separate_rgb_out[to_name]
-                else:
-                    mask = rgb_channels_to_mask("RGB")
-                if vcol_name in vc_nodes_usage:
-                    vc_nodes_usage[vcol_name] |= mask
-                else:
-                    vc_nodes_usage[vcol_name] = mask
+    for link in node_tree.links:
+        if link.from_node.bl_idname == "ShaderNodeGeometry" \
+                and link.from_socket.identifier == "Vertex Color":
+            vcol_name = link.from_node.color_layer
+            if vcol_name:
+                to_name = link.to_node.name
+                if vcol_name not in geometry_vcols:
+                    geometry_vcols[vcol_name] = []
+                if to_name not in geometry_vcols[vcol_name]:
+                    geometry_vcols[vcol_name].append(to_name)
+
+        elif link.from_node.bl_idname == "ShaderNodeSeparateRGB" \
+                and link.from_socket.identifier in "RGB":
+            seprgb_name = link.from_node.name
+            mask = rgb_channels_to_mask(link.from_socket.identifier)
+            if seprgb_name in separate_rgb_out:
+                separate_rgb_out[seprgb_name] |= mask
+            else:
+                separate_rgb_out[seprgb_name] = mask
+        elif link.from_node.type == "GROUP" \
+                and link.from_node.node_tree is not None:
+            vc_node_usage_iter(link.from_node.node_tree, vc_nodes_usage)
+
+    for vcol_name in geometry_vcols:
+        for to_name in geometry_vcols[vcol_name]:
+            if to_name in separate_rgb_out:
+                mask = separate_rgb_out[to_name]
+            else:
+                mask = rgb_channels_to_mask("RGB")
+            if vcol_name in vc_nodes_usage:
+                vc_nodes_usage[vcol_name] |= mask
+            else:
+                vc_nodes_usage[vcol_name] = mask
 
     return vc_nodes_usage
 
@@ -2773,13 +2806,6 @@ def process_animation_data(obj_data, component, actions):
     else:
         obj_data["animation_data"] = None
 
-def is_identity_matrix(m):
-    identity = mathutils.Matrix()
-    if m == identity:
-        return True
-    else:
-        return False
-
 def find_modifier(obj, mtype):
     for modifier in obj.modifiers:
         if modifier.type == mtype:
@@ -2787,22 +2813,34 @@ def find_modifier(obj, mtype):
 
     return None
 
-def process_object_modifiers(mod_data, modifiers):
+def process_object_modifiers(mod_data, modifiers, current_obj):
     for modifier in modifiers:
         modifier_data = OrderedDict()
         modifier_data["name"] = modifier.name
 
         # NOTE: don't export modifier in some cases
-        if not process_modifier(modifier_data, modifier):
+        if not process_modifier(modifier_data, modifier, current_obj):
             continue
         modifier_data["type"] = modifier.type
         mod_data.append(modifier_data)
 
-def process_modifier(modifier_data, mod):
+def process_modifier(modifier_data, mod, current_obj):
+    global _dupli_group_ids
     if mod.type == "ARMATURE":
         if mod.object and do_export(mod.object):
-            modifier_data["object"] = gen_uuid_obj(mod.object)
-            process_object(mod.object)
+            if mod.object.proxy:
+                err("The \"" + mod.name
+                        + "\" armature modifier has a proxy object as an armature. Modifier removed.")
+                return False
+            if len(set(_dupli_group_ids[mod.object.as_pointer()]) 
+                        & set(_dupli_group_ids[current_obj.as_pointer()])) > 0:
+                modifier_data["object"] = gen_uuid_obj(mod.object)
+                process_object(mod.object)
+            else:
+                err("The \"" + current_obj.name
+                        + "\" object has \"" + mod.name + "\" armature modifier which references the "
+                        + "wrong group. Modifier removed.")
+                return False
         else:
             err("The \"" + mod.name
                     + "\" armature modifier has no armature object or it is not exported. "
@@ -2945,36 +2983,9 @@ def process_object_lod_levels(obj):
     lod_levels = obj.lod_levels
     obj_name = obj.name
     cons = obj.constraints
-    lods_num = round_num(len(obj.b4w_lods), 1)
-    lod_dist = round_num(obj.b4w_lod_distance, 2)
 
     lod_levels_data = []
     is_target_lod_empty = True
-
-    if not len(lod_levels) and lod_dist < 10000:
-        for con in cons:
-            if con.type == "LOCKED_TRACK" and con.target:
-                lods_data = OrderedDict()
-                lods_data["distance"] = lod_dist
-
-                if con.target:
-                    process_object(con.target)
-                    lods_data["object"] = gen_uuid_obj(con.target)
-                else:
-                    lods_data["object"] = None
-
-                lods_data["use_mesh"] = True
-                lods_data["use_material"] = True
-                lod_dist = round_num(con.target.b4w_lod_distance, 2)
-                lod_levels_data.append(lods_data)
-
-        if lod_dist < 10000:
-            lods_data = OrderedDict()
-            lods_data["distance"] = lod_dist
-            lods_data["object"] = None
-            lods_data["use_mesh"] = True
-            lods_data["use_material"] = True
-            lod_levels_data.append(lods_data)
 
     for lod in lod_levels:
 
@@ -3124,6 +3135,8 @@ def process_node_tree(data, tree_source):
             node_data["rotation"] = round_iterable(node.rotation, 3)
             node_data["scale"] = round_iterable(node.scale, 3)
 
+            node_data["vector_type"] = node.vector_type
+
             node_data["use_min"] = node.use_min
             node_data["use_max"] = node.use_max
 
@@ -3132,11 +3145,31 @@ def process_node_tree(data, tree_source):
 
         elif node.type == "MATERIAL" or node.type == "MATERIAL_EXT":
             if node.material:
-                node_data["material"] = gen_uuid_obj(node.material)
-                if not("in_use" in node.material and node.material["in_use"] == True):
-                    process_material(node.material)
+                material = node.material
+
+                node_data["material_name"] = material.name
+                node_data["specular_shader"] = material.specular_shader
+                node_data["specular_hardness"] \
+                        = round_num(material.specular_hardness, 4)
+                node_data["specular_slope"] \
+                        = round_num(material.specular_slope, 4)
+                node_data["specular_toon_size"] \
+                        = round_num(material.specular_toon_size, 4)
+                node_data["specular_toon_smooth"] \
+                        = round_num(material.specular_toon_smooth, 4)
+                node_data["specular_intensity"] \
+                        = round_num(material.specular_intensity, 4)
+
+                node_data["diffuse_shader"] = material.diffuse_shader
+                node_data["use_shadeless"] = material.use_shadeless
+                node_data["specular_alpha"] = material.specular_alpha
+                node_data["roughness"] = round_num(material.roughness, 3)
+                node_data["diffuse_fresnel"] \
+                        = round_num(material.diffuse_fresnel, 3)
+                node_data["diffuse_fresnel_factor"] \
+                        = round_num(material.diffuse_fresnel_factor, 3)
             else:
-                node_data["material"] = None
+                raise MaterialError("Empty material slot in node \"" + node.name + "\".")
 
             node_data["use_diffuse"] = node.use_diffuse
             node_data["use_specular"] = node.use_specular
@@ -3173,10 +3206,6 @@ def process_node_tree(data, tree_source):
                 node_data["lamp"] = gen_uuid_obj(node.lamp_object)
 
         dct["nodes"].append(node_data)
-
-    if has_normalmap_node and not has_material_node:
-        raise ExportError("The material has a normal map but doesn't have " +
-                "any material nodes", tree_source)
 
     # node tree links
     dct["links"] = []
@@ -3280,12 +3309,15 @@ def process_material_texture_slots(mat_data, material):
     global _curr_mesh
     slots = material.texture_slots
     use_slots = material.use_textures
-
     mat_data["texture_slots"] = []
+    if material.game_settings.alpha_blend == "OPAQUE" and material.use_nodes:
+        return
     for i in range(len(slots)):
         slot = slots[i]
         use = use_slots[i]
         if slot and use:
+            if not slot.use_map_alpha and material.use_nodes:
+                continue
             # check texture availability
             if not slot.texture:
                 raise MaterialError("No texture in the texture slot.")
@@ -3293,7 +3325,6 @@ def process_material_texture_slots(mat_data, material):
                 if slot.use_map_color_diffuse and slot.texture.type == "ENVIRONMENT_MAP":
                     raise ExportError("Use of ENVIRONMENT_MAP as diffuse " \
                         "color is not supported", material)
-
                 slot_data = OrderedDict()
 
                 tc = slot.texture_coords
@@ -3334,6 +3365,9 @@ def process_material_texture_slots(mat_data, material):
                 process_texture(slot.texture)
 
                 mat_data["texture_slots"].append(slot_data)
+
+                if slot.use_map_alpha and material.use_nodes:
+                    break
 
 def process_particle_dupli_weights(dupli_weights_data, particle):
     for i in range(len(particle.dupli_weights)):
@@ -3544,6 +3578,12 @@ class B4W_ExportProcessor(bpy.types.Operator):
         global _packed_files_data
         _packed_files_data = {}
 
+        global _dupli_group_ids
+        _dupli_group_ids = {}
+
+        global _dg_counter
+        _dg_counter = 0
+
         global _file_write_error
 
         # escape from edit mode
@@ -3577,6 +3617,9 @@ class B4W_ExportProcessor(bpy.types.Operator):
         _export_data["b4w_filepath_blend"] = get_filepath_blend(export_filepath)
 
         attach_export_properties(tags)
+        for scene in bpy.data. scenes:
+            check_dupli_groups(scene.objects, _dg_counter)
+            _dg_counter += 1
         process_components(tags)
         detach_export_properties(tags)
 
@@ -3651,7 +3694,6 @@ class B4W_ExportProcessor(bpy.types.Operator):
                         fb.write(_bpy_bindata_short)
                         fb.write(_bpy_bindata_ushort)
                         fb.close()
-                        print("Binary data saved to " + binary_export_path)
 
                     print("EXPORT OK")
         else:
@@ -3928,6 +3970,8 @@ def clean_exported_data():
     global _fallback_world
     global _fallback_material
     global _canvases_identifiers
+    global _dupli_group_ids
+    global _dg_counter
     if bpy.data.particles:
         scenes_restore_selected_layers()
     remove_overrided_meshes()
@@ -3944,6 +3988,8 @@ def clean_exported_data():
         _fallback_material = None
     if _canvases_identifiers:
         _canvases_identifiers = []
+    _dupli_group_ids = {}
+    _dg_counter = 0
 
 class B4W_ExportPathGetter(bpy.types.Operator):
     """Get Export Path for blend file"""

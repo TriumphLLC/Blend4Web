@@ -79,12 +79,12 @@ mat4 billboard_matrix(in vec3 camera_eye, in vec3 wcen, in mat4 view_matrix) {
     if (alpha_diff <= MAX_BILLBOARD_ANGLE)
         res_angle += alpha_diff;
     else if (alpha_diff <= M_PI - MAX_BILLBOARD_ANGLE)
-        res_angle += MAX_BILLBOARD_ANGLE * (2.0 * alpha_diff - M_PI) \
+        res_angle += MAX_BILLBOARD_ANGLE * (2.0 * alpha_diff - M_PI) 
                 / (2.0 * MAX_BILLBOARD_ANGLE - M_PI);
     else if (alpha_diff <= M_PI + MAX_BILLBOARD_ANGLE)
         res_angle += alpha_diff - M_PI;
     else if (alpha_diff <= 2.0 * M_PI - MAX_BILLBOARD_ANGLE)
-        res_angle += MAX_BILLBOARD_ANGLE * (2.0 * alpha_diff - M_PI) \
+        res_angle += MAX_BILLBOARD_ANGLE * (2.0 * alpha_diff - M_PI) 
                 / (2.0 * MAX_BILLBOARD_ANGLE - M_PI) + M_PI;
     else
         res_angle += alpha_diff - 2.0 * M_PI;

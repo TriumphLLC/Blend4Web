@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>The Addon &mdash; User Manual: Blend4Web v14.11</title>
+    <title>The Add-on &mdash; User Manual: Blend4Web v14.12</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '14.11',
+        VERSION:     '14.12',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User Manual: Blend4Web v14.11" href="index.html" />
+    <link rel="top" title="User Manual: Blend4Web v14.12" href="index.html" />
     <link rel="next" title="Objects" href="objects.html" />
     <link rel="prev" title="Web Player" href="web_player.html" /> 
   </head>
@@ -36,7 +36,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">User Manual: Blend4Web v14.11</a></div>
+          href="index.html">User Manual: Blend4Web v14.12</a></div>
         <div class="rel">
           <a href="web_player.html" title="Web Player"
              accesskey="P">previous</a> |
@@ -57,10 +57,10 @@
           <div class="body">
             
   <span class="target" id="addon"></span><div class="section" id="index-0">
-<span id="id1"></span><h1>The Addon<a class="headerlink" href="#index-0" title="Permalink to this headline">¶</a></h1>
+<span id="id1"></span><h1>The Add-on<a class="headerlink" href="#index-0" title="Permalink to this headline">¶</a></h1>
 <span class="target" id="initialization-errors"></span><div class="section" id="index-1">
 <span id="id2"></span><h2>Initialization Errors<a class="headerlink" href="#index-1" title="Permalink to this headline">¶</a></h2>
-<p>Initialization errors can arise upon installation of the addon or when a scene is opened in Blender. In this case a dialog window with the error description is showed.</p>
+<p>Initialization errors can arise upon installation of the add-on or when a scene is opened in Blender. In this case a dialog window with the error description is showed.</p>
 <a class="reference internal image-reference" href="_images/init_error_message.jpg"><img alt="_images/init_error_message.jpg" class="align-center" src="_images/init_error_message.jpg" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
@@ -81,7 +81,7 @@
 <tr class="row-even"><td>Blend4Web initialization error!
 Addon is not compatible with
 the PLATFORM platform.</td>
-<td><p class="first last">The Blend4Web addon is not compatible with the PLATFORM platform.</p>
+<td><p class="first last">The Blend4Web add-on is not compatible with the PLATFORM platform.</p>
 </td>
 </tr>
 <tr class="row-odd"><td>Warning: Blender version mismatch.
@@ -135,7 +135,7 @@ forbidden</td>
 a shared mesh; The OBJECT_NAME
 object has both vertex groups and
 a shared mesh</td>
-<td><p class="first last">Export of an object with both a shared mesh and vertex groups is not allowed. Exceptions: export is possible if an object has the <tt class="docutils literal"><span class="pre">Apply</span> <span class="pre">modifiers</span></tt>, <tt class="docutils literal"><span class="pre">Export</span> <span class="pre">vertex</span> <span class="pre">animation</span></tt>, <tt class="docutils literal"><span class="pre">Export</span> <span class="pre">edited</span> <span class="pre">normals</span></tt> options turned on (because in these cases a full copying of meshes occurs).</p>
+<td><p class="first last">Incompatible objects with a shared mesh. Export of an object with both a shared mesh and vertex groups is not allowed. Exceptions: export is possible if an object has the <tt class="docutils literal"><span class="pre">Apply</span> <span class="pre">modifiers</span></tt>, <tt class="docutils literal"><span class="pre">Export</span> <span class="pre">vertex</span> <span class="pre">animation</span></tt>, <tt class="docutils literal"><span class="pre">Export</span> <span class="pre">edited</span> <span class="pre">normals</span></tt>, <tt class="docutils literal"><span class="pre">Apply</span> <span class="pre">scale</span></tt> options turned on (because in these cases a full copying of meshes occurs).</p>
 </td>
 </tr>
 <tr class="row-odd"><td>Incomplete mesh; Material slot is
@@ -219,55 +219,49 @@ with TO_NODE</td>
 <td><p class="first last">The <tt class="docutils literal"><span class="pre">Target</span> <span class="pre">Object</span></tt> property for the object constraint (on the <tt class="docutils literal"><span class="pre">Object</span> <span class="pre">Constraints</span></tt> tab) was not set.</p>
 </td>
 </tr>
-<tr class="row-odd"><td>Object-parent relation is not
-supported; Clear the parent&#8217;s
-inverse transform</td>
-<td><p class="first last">When using parenting it&#8217;s required to reset transform for the child object using the <tt class="docutils literal"><span class="pre">Object</span> <span class="pre">&gt;</span> <span class="pre">Parent</span> <span class="pre">&gt;</span> <span class="pre">Clear</span> <span class="pre">Parent</span> <span class="pre">Inverse</span></tt> operator (Alt-P).</p>
-</td>
-</tr>
-<tr class="row-even"><td>Particle system error; Dupli group
+<tr class="row-odd"><td>Particle system error; Dupli group
 isn&#8217;t specified</td>
 <td><p class="first last">Particle system error: no group is selected as a particle.</p>
 </td>
 </tr>
-<tr class="row-odd"><td>Particle system error; Dupli object
+<tr class="row-even"><td>Particle system error; Dupli object
 isn&#8217;t specified</td>
 <td><p class="first last">Particle system error: no object is selected as a particle.</p>
 </td>
 </tr>
-<tr class="row-even"><td>Particle system error; Dupli object
+<tr class="row-odd"><td>Particle system error; Dupli object
 OBJECT_NAME doesn&#8217;t export</td>
 <td><p class="first last">The OBJECT_NAME object which is selected as a particle can not be exported (the <tt class="docutils literal"><span class="pre">Do</span> <span class="pre">not</span> <span class="pre">export</span></tt> checkbox is set).</p>
 </td>
 </tr>
-<tr class="row-odd"><td>Particle system error; The
+<tr class="row-even"><td>Particle system error; The
 GROUP_NAME dupli group contains no
 valid object for export</td>
 <td><p class="first last">The GROUP_NAME dupli group which is selected as a particle contains no valid object for export. Either such objects have the <tt class="docutils literal"><span class="pre">Do</span> <span class="pre">not</span> <span class="pre">export</span></tt> checkbox enabled or the types of the objects are unsuitable. Supported object types: <tt class="docutils literal"><span class="pre">MESH</span></tt>.</p>
 </td>
 </tr>
-<tr class="row-even"><td>Particle system error; Wrong dupli
+<tr class="row-odd"><td>Particle system error; Wrong dupli
 object type TYPE_NAME</td>
 <td><p class="first last">An object of unsuitable type is selected for the particle. Supported types: <tt class="docutils literal"><span class="pre">MESH</span></tt>.</p>
 </td>
 </tr>
-<tr class="row-odd"><td>Permission denied</td>
+<tr class="row-even"><td>Permission denied</td>
 <td><p class="first last">No access rights to the current directory.</p>
 </td>
 </tr>
-<tr class="row-even"><td>Wrong edited normals count; It
+<tr class="row-odd"><td>Wrong edited normals count; It
 doesn&#8217;t match with the mesh
 vertices count</td>
 <td><p class="first last">The number of edited normals does not match the number of the mesh vertices. Execute <tt class="docutils literal"><span class="pre">Clean</span> <span class="pre">Up</span></tt> or <tt class="docutils literal"><span class="pre">Save</span></tt> in the <tt class="docutils literal"><span class="pre">B4W</span> <span class="pre">Vertex</span> <span class="pre">Normals</span> <span class="pre">Editor</span></tt> panel.</p>
 </td>
 </tr>
-<tr class="row-odd"><td>Wrong overridden bounding box;
+<tr class="row-even"><td>Wrong overridden bounding box;
 Check the mesh&#8217;s bounding box
 values</td>
 <td><p class="first last">Wrong dimensions are specified when overriding the mesh&#8217;s <tt class="docutils literal"><span class="pre">BoundingBox</span></tt>: minimum value is greater than maximum value for at least one of the dimensions.</p>
 </td>
 </tr>
-<tr class="row-even"><td>Wrong vertex animation vertices
+<tr class="row-odd"><td>Wrong vertex animation vertices
 count; It doesn&#8217;t match with the
 mesh vertices count for &#8220;ANIM_NAME&#8221;</td>
 <td><p class="first last">Vertex animation export is enabled but the number of vertices in the baked ANIM_NAME animation frames does not match the mesh vertices number. Possible solution is to &#8220;re-bake&#8221; the animation.</p>
@@ -437,10 +431,22 @@ the &#8220;OBJECT_NAME&#8221; object
 <td><p class="first last">The NAME vertex color is specified in the <tt class="docutils literal"><span class="pre">to</span></tt> field but it is not present in the OBJECT_NAME object of the GROUP_NAME group which is selected as a particle.</p>
 </td>
 </tr>
-<tr class="row-even"><td>The NAME node is not supported.
+<tr class="row-even"><td>The NAME armature modifier has a
+proxy object as an armature.
+Modifier removed.</td>
+<td><p class="first last">An armature modifier has a proxy object as an armature.</p>
+</td>
+</tr>
+<tr class="row-odd"><td>The NAME node is not supported.
 The NAME material will be rendered
 without nodes. Material: NAME.</td>
 <td><p class="first last">The engine does not support the node with the this name, and so the node material will be turned off. Often this happens when Cycles nodes are used.</p>
+</td>
+</tr>
+<tr class="row-even"><td>The NAME object has NAME armature
+modifier which references the wrong
+group. Modifier removed.</td>
+<td><p class="first last">An object should be in the same group as an armature, or both these objects should be explicitly present in the scene.</p>
 </td>
 </tr>
 <tr class="row-odd"><td>Using &#8220;REFRACTION&#8221; node with
@@ -472,6 +478,11 @@ vertex colors exist for &#8220;NAME&#8221;.
 Properties were set to default
 values.</td>
 <td><p class="first last">Wind bending parameters setup: all specified vertex color layers should exist.</p>
+</td>
+</tr>
+<tr class="row-even"><td>Empty material slot in node
+&#8220;NAME&#8221;. Material: &#8220;NAME&#8221;.</td>
+<td><p class="first last">Empty material slot in &#8220;NAME&#8221; node.</p>
 </td>
 </tr>
 </tbody>
@@ -536,7 +547,7 @@ object</td>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Workflow</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Scene Viewer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Web Player</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">The Addon</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="">The Add-on</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#index-1">Initialization Errors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#export-errors">Critical Export Errors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#index-3">Non-Critical Export Errors</a></li>
@@ -545,6 +556,7 @@ object</td>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
@@ -595,7 +607,7 @@ object</td>
           
     <div class="footer">
         &copy; Copyright 2014, Triumph LLC.
-      Last updated on 2014-11-28.
+      Last updated on 2014-12-24.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
         </div>

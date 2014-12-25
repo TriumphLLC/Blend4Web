@@ -17,7 +17,7 @@
 
 attribute vec3 a_position;
 
-#if USE_NODE_MATERIAL || USE_NODE_MATERIAL_EXT || USE_NODE_GEOMETRY_NO || CAUSTICS
+#if USE_NODE_MATERIAL || USE_NODE_MATERIAL_EXT || USE_NODE_GEOMETRY_NO || CAUSTICS || CALC_TBN_SPACE
 attribute vec3 a_normal;
 #endif
 
@@ -52,7 +52,7 @@ attribute vec4 a_influence;
 
 #if VERTEX_ANIM
 attribute vec3 a_position_next;
-# if USE_NODE_MATERIAL || USE_NODE_MATERIAL_EXT || USE_NODE_GEOMETRY_NO || CAUSTICS
+# if USE_NODE_MATERIAL || USE_NODE_MATERIAL_EXT || USE_NODE_GEOMETRY_NO || CAUSTICS || CALC_TBN_SPACE
 attribute vec3 a_normal_next;
 #  if CALC_TBN_SPACE
 attribute vec4 a_tangent_next;
@@ -138,11 +138,11 @@ uniform PRECISION float u_view_max_depth;
 varying vec3 v_pos_world;
 varying vec4 v_pos_view;
 
-#if USE_NODE_MATERIAL || USE_NODE_MATERIAL_EXT || USE_NODE_GEOMETRY_NO || CAUSTICS
+#if USE_NODE_MATERIAL || USE_NODE_MATERIAL_EXT || USE_NODE_GEOMETRY_NO || CAUSTICS || CALC_TBN_SPACE
 varying vec3 v_normal;
-# if CALC_TBN_SPACE
+#endif
+#if CALC_TBN_SPACE
 varying vec4 v_tangent;
-# endif
 #endif
 
 #if SHADOW_SRC != SHADOW_SRC_MASK && SHADOW_SRC != SHADOW_SRC_NONE
@@ -214,15 +214,14 @@ void main(void) {
 
     vec3 position = a_position;
 
-#if USE_NODE_MATERIAL || USE_NODE_MATERIAL_EXT || USE_NODE_GEOMETRY_NO || CAUSTICS
+#if CALC_TBN_SPACE
     vec3 normal = a_normal;
-# if CALC_TBN_SPACE
     vec3 tangent = vec3(a_tangent);
     vec3 binormal = a_tangent[3] * cross(normal, tangent);
-# else
+#elif USE_NODE_MATERIAL || USE_NODE_MATERIAL_EXT || USE_NODE_GEOMETRY_NO || CAUSTICS
+    vec3 normal = a_normal;
     vec3 tangent = vec3(0.0);
     vec3 binormal = vec3(0.0);
-# endif
 #else
     vec3 normal = vec3(0.0);
     vec3 tangent = vec3(0.0);
@@ -231,14 +230,14 @@ void main(void) {
 
 #if VERTEX_ANIM
     position = mix(position, a_position_next, u_va_frame_factor);
-# if USE_NODE_MATERIAL || USE_NODE_MATERIAL_EXT || USE_NODE_GEOMETRY_NO || CAUSTICS
+# if USE_NODE_MATERIAL || USE_NODE_MATERIAL_EXT || USE_NODE_GEOMETRY_NO || CAUSTICS || CALC_TBN_SPACE
     normal = mix(normal, a_normal_next, VERTEX_ANIM_MIX_NORMALS_FACTOR);
-#  if CALC_TBN_SPACE
+# endif
+# if CALC_TBN_SPACE
     vec3 tangent_next = vec3(a_tangent);
     vec3 binormal_next = a_tangent_next[3] * cross(a_normal_next, tangent_next);
     tangent = mix(tangent, tangent_next, u_va_frame_factor);
     binormal = mix(binormal, binormal_next, u_va_frame_factor);
-#  endif
 # endif
 #endif
 
@@ -274,15 +273,15 @@ void main(void) {
 
     v_pos_world = world.position;
 
-#if USE_NODE_MATERIAL || USE_NODE_MATERIAL_EXT || USE_NODE_GEOMETRY_NO || CAUSTICS
+#if USE_NODE_MATERIAL || USE_NODE_MATERIAL_EXT || USE_NODE_GEOMETRY_NO || CAUSTICS || CALC_TBN_SPACE
     v_normal = world.normal;
-# if CALC_TBN_SPACE
+#endif
+#if CALC_TBN_SPACE
     // calculate handedness as described in Math for 3D GP and CG, page 185
     float m = (dot(cross(world.normal, world.tangent),
-        world.binormal) < 0.0) ? -1.0 : 1.0;
+                   world.binormal) < 0.0) ? -1.0 : 1.0;
 
     v_tangent = vec4(world.tangent, m);
-# endif
 #endif
 
     v_pos_view = u_view_matrix * vec4(world.position, 1.0);

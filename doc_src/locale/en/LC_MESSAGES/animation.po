@@ -136,7 +136,8 @@ msgstr ""
 msgid ""
 "*Rotation* -- необходимо осуществлять в режиме ``Quaternion(WXYZ)`` либо "
 "``XYZ Euler``."
-msgstr "*Rotation* -- the ``Quaternion(WXYZ)`` or ``XYZ Euler`` mode is required."
+msgstr ""
+"*Rotation* -- the ``Quaternion(WXYZ)`` or ``XYZ Euler`` mode is required."
 
 #: ../animation.rst:72
 msgid ""
@@ -214,7 +215,7 @@ msgstr ""
 " Blender). Baking can be performed using the ``B4W Animation Bake`` "
 "interface located on the ``Blend4Web`` panel."
 
-#: ../animation.rst:113
+#: ../animation.rst:115
 msgid ""
 "Запекание производится при выделенном арматурном объекте. Элементы "
 "интерфейса ``B4W Animation Bake``:"
@@ -222,7 +223,7 @@ msgstr ""
 "Baking is performed with the armature object selected. Elements of the ``B4W"
 " Animation Bake`` interface:"
 
-#: ../animation.rst:115
+#: ../animation.rst:117
 msgid ""
 "*Clean keyframes* -- произвести оптимизацию ключей анимации после запекания."
 " В случае получения некорректных результатов, рекомендуется отключить опцию."
@@ -230,7 +231,7 @@ msgstr ""
 "*Clean keyframes* -- optimize the animation keyframes after baking. In case "
 "of incorrect results it's recommended to turn this option off."
 
-#: ../animation.rst:118
+#: ../animation.rst:120
 msgid ""
 "окно со списком запекаемых акторов -- запекать только те акторы, которые "
 "указаны в списке, иначе запекать все возможные акторы."
@@ -238,12 +239,12 @@ msgstr ""
 "window with the list of actions being baked -- bake only the actions which "
 "are listed, else - bake all the actions possible."
 
-#: ../animation.rst:121
+#: ../animation.rst:123
 msgid "*Name* -- имя текущего актора из списка запекаемых акторов."
 msgstr ""
 "*Name* -- the current action name from the list of actions being baked."
 
-#: ../animation.rst:123
+#: ../animation.rst:125
 msgid ""
 "*Bake* -- произвести запекание. В случае успешного окончания процесса, на "
 "сцене появляются акторы с именами вида *ИМЯ_B4W_BAKED*. Данные акторы будут "
@@ -258,7 +259,7 @@ msgstr ""
 "garanteed, although the *Cons Mute*/*Cons Unmute* interface can help in some"
 " cases."
 
-#: ../animation.rst:129
+#: ../animation.rst:131
 msgid ""
 "*Cons Mute*/*Cons Unmute* -- отключить/активировать ограничители, "
 "установленные на костях. Инструмент может быть использован для тестирования "
@@ -267,7 +268,7 @@ msgstr ""
 "*Cons Mute*/*Cons Unmute* -- switch bone constraints off/on. The tool can be"
 " used for testing the baked actions."
 
-#: ../animation.rst:134
+#: ../animation.rst:136
 msgid ""
 "Движок поддерживает не более 4-х вертексных групп на каждом из вертексов, "
 "эти группы отбираются по величине влияния или \"веса\" вертекса. В процессе "
@@ -279,7 +280,7 @@ msgstr ""
 "selected. When the scene is loaded the vertex weights are normalized i.e. "
 "their sum is reduced to 1."
 
-#: ../animation.rst:139
+#: ../animation.rst:141
 msgid ""
 "Для удаления вертексных групп, которые не используются арматурой, можно "
 "воспользоваться кнопкой ``Remove Unused VGroups``, которая расположена в "
@@ -288,11 +289,11 @@ msgstr ""
 "To remove vertex groups which are not used by armature, use button ``Remove "
 "Unused VGroups`` from ``B4W Vertex Group`` interface."
 
-#: ../animation.rst:148
+#: ../animation.rst:150
 msgid "Вертексная анимация"
 msgstr "Vertex Animation"
 
-#: ../animation.rst:156
+#: ../animation.rst:158
 msgid ""
 "Позволяет записать любые изменения геометрии объекта-меша. Необходимо "
 "учитывать, что каждый кадр вертексной анимации эквивалентен мешу. Не "
@@ -306,7 +307,7 @@ msgstr ""
 "and exported files significantly and can also slow down the work of the "
 "engine."
 
-#: ../animation.rst:162
+#: ../animation.rst:164
 msgid ""
 "Для запекания вертексной анимации предусмотрен инструмент ``B4W Vertex Anim "
 "Baker``, расположенный на панели инструментов ``Blend4Web``."
@@ -314,11 +315,11 @@ msgstr ""
 "A special tool is used for baking vertex animation - ``B4W Vertex Anim "
 "Baker`` - located on the ``Blend4Web`` tools panel."
 
-#: ../animation.rst:171
+#: ../animation.rst:173
 msgid "Параметризация источников звука"
 msgstr "Audio Source Parametrization"
 
-#: ../animation.rst:173
+#: ../animation.rst:175
 msgid ""
 "На объектах-спикерах дополнительно поддерживаются следующие типы "
 "анимационных ключей:"
@@ -326,15 +327,15 @@ msgstr ""
 "In addition the following animation key types are supported for the speaker "
 "objects: "
 
-#: ../animation.rst:176
+#: ../animation.rst:178
 msgid "*Volume* -- громкость звука источника."
 msgstr "*Volume*"
 
-#: ../animation.rst:178
+#: ../animation.rst:180
 msgid "*Pitch* -- высота звука источника."
 msgstr "*Pitch*"
 
-#: ../animation.rst:180
+#: ../animation.rst:182
 msgid ""
 "Параметризация источников звука по своей сути повторяет объектную анимацию."
 msgstr "Audio sources parametering in essence follows object animation."
@@ -349,11 +350,11 @@ msgstr "Object animation means the moving an object as a whole."
 msgid "Анимация выходного значения ноды ``Value`` в нодовом материале."
 msgstr "Animation of the ``Value`` node output in node materials."
 
-#: ../animation.rst:186
+#: ../animation.rst:188
 msgid "Анимация ноды ``Value``"
 msgstr "``Value`` Node Animation"
 
-#: ../animation.rst:196
+#: ../animation.rst:198
 msgid ""
 "Работает аналогично :ref:`объектной анимации <whole_object_anim>`. Может "
 "быть также использована для создания треков в :ref:`редакторе нелинейной "
@@ -365,8 +366,6 @@ msgstr ""
 "<nla_editor>`. Multiple animated ``Value`` nodes are supported per single "
 "material."
 
-#: ../animation.rst:198
+#: ../animation.rst:200
 msgid ":ref:`node_materials`"
 msgstr ""
-
-
