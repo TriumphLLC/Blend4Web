@@ -14,6 +14,7 @@ var m_util  = require("__util");
  * Data loaded callback.
  * @callback loaded_callback
  * @param {Number} data_id Data ID
+ * @param {Boolean} success Load success
  */
 
 /**
@@ -29,7 +30,7 @@ var m_util  = require("__util");
  * @param {loaded_callback} [loaded_cb=null] Callback to be executed right after load
  * @param {stageload_callback} [stageload_cb=null] Callback to report about the loading progress
  * @param {Boolean} [wait_complete_loading=false] Wait until all resources are loaded
- * @param {Boolean} [load_hidden=false] Hide/disable loaded objects
+ * @param {Boolean} [load_hidden=false] Hide loaded and disable physics objects
  * @returns {Number} ID of loaded data.
  */
 exports.load = data.load;

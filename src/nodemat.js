@@ -1225,6 +1225,10 @@ function append_nmat_node(graph, bpy_node, geometry_output_num, anim_data) {
         }
 
         if (type == "TEXTURE_NORMAL") {
+            if (bpy_node["texture"]["type"] == "ENVIRONMENT_MAP") {
+                m_print.error("Wrong output for ENVIRONMENT_MAP texture: " + bpy_node["name"]);
+                return false;
+            }
             outputs.push(node_output_by_ident(bpy_node, "Normal"));
             outputs.push(node_output_by_ident(bpy_node, "Value"));
         }

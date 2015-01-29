@@ -12,6 +12,7 @@ var m_cons     = require("constraints");
 var m_ctl      = require("controls");
 var m_data     = require("data");
 var m_debug    = require("debug");
+var m_gyro     = require("gyroscope");
 var m_lights   = require("lights");
 var m_main     = require("main");
 var m_mixer    = require("mixer");
@@ -60,6 +61,7 @@ exports.init = function() {
     m_storage.init("b4w_viewer");
     set_quality_config();
     set_stereo_view_config();
+    set_gyro_cam_rotate_config();
 
     m_app.init({
         canvas_container_id: "main_canvas_container",
@@ -108,6 +110,9 @@ function init_cb(canvas_elem, success) {
     tmp_event.initEvent("resize", false, false);
     window.dispatchEvent(tmp_event);
 
+    if (!m_main.detect_mobile())
+        forbid_params(["gyro_use"], "disable");
+
     var asset_cb = function(data, uri, type, path) {
         _manifest = data;
         init_ui();
@@ -115,14 +120,8 @@ function init_cb(canvas_elem, success) {
         process_scene(item_id, false, false);
     }
 
-    m_assets.enqueue([["manifest", m_assets.AT_JSON,
-            get_asset_path("assets.json")]], asset_cb, null);
-}
-
-function get_asset_path(filename) {
-    var assets_dir = m_cfg.get_std_assets_path();
-
-    return assets_dir + filename;
+    m_assets.enqueue([["manifest", m_assets.AT_JSON, "assets.json"]],
+            asset_cb, null);
 }
 
 function get_selected_object() {
@@ -403,6 +402,9 @@ function init_ui() {
     bind_control(set_stereo_view_and_reload, "anaglyph_use", "bool");
     refresh_stereo_view_ui();
 
+    // gyroscope use
+    bind_control(set_gyro_cam_rotate_reload, "gyro_use", "bool");
+    refresh_gyro_use_ui();
     // wind
     bind_control(set_wind_params, "wind_dir", "number");
     bind_control(set_wind_params, "wind_strength", "number");
@@ -500,8 +502,8 @@ function load_scene(wait_textures) {
     cf_elem.setAttribute("title", name + " (" + file + ")");
 
     // load
-    m_data.load(get_asset_path(file), loaded_callback, preloader_callback,
-            wait_textures);
+    m_data.load(m_cfg.get_std_assets_path() + file, loaded_callback,
+            preloader_callback, wait_textures);
 }
 
 function manifest_item_clicked(e) {
@@ -558,6 +560,9 @@ function loaded_callback(data_id) {
 
     if (get_mix_mode_config())
         m_mixer.enable_mixer_controls();
+
+    if (m_cfg.get("gyro_use"))
+        m_gyro.enable_camera_rotation();
 
     m_main.set_render_callback(render_callback);
 
@@ -943,6 +948,10 @@ function set_stereo_view_config() {
     m_cfg.set("anaglyph_use", m_storage.get("anaglyph_use") === "true");
 }
 
+function set_gyro_cam_rotate_config() {
+    m_cfg.set("gyro_use", m_storage.get("gyro_use") === "true");
+}
+
 function refresh_hud_debug_info_ui() {
     var opt_index = Number(m_storage.get("show_hud_debug_info") === "true");
     document.getElementById("show_hud_debug_info").options[opt_index].selected = true;
@@ -971,8 +980,19 @@ function refresh_stereo_view_ui() {
     $("#anaglyph_use").slider("refresh");
 }
 
+function refresh_gyro_use_ui() {
+    var opt_index = Number(m_storage.get("gyro_use") === "true");
+    document.getElementById("gyro_use").options[opt_index].selected = true;
+    $("#gyro_use").slider("refresh");
+}
+
 function set_stereo_view_and_reload(value) {
     m_storage.set("anaglyph_use", value.anaglyph_use);
+    window.location.reload();
+}
+
+function set_gyro_cam_rotate_reload(value) {
+    m_storage.set("gyro_use", value.gyro_use);
     window.location.reload();
 }
 
@@ -990,7 +1010,10 @@ function on_resize(e) {
 
     m_main.resize(w, h);
 
-    document.getElementById("info_left_up").innerHTML = w + "x" + h;
+    var canvas = m_main.get_canvas_elem();
+
+    document.getElementById("info_left_up").innerHTML = canvas.width + "x" +
+            canvas.height + " (" + canvas.width / w + ":1)";
 }
 
 function cleanup() {
@@ -2268,7 +2291,6 @@ function forbid_params(params, state) {
             elem.addClass('ui-disabled');
     }
 }
-
 
 });
 

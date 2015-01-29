@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: addons/gyroscope.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: addons/gyroscope.js</h1>
+
+    
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>"use strict";
+
+/**
+ * Gyroscope actions add-on.
+ * Provides support for gyroscope for mobile devices.
+ * @see http://www.w3.org/TR/orientation-event/
+ * @module gyroscope
+ */
+
+b4w.module["gyroscope"] = function(exports, require) {
+
+var m_ctl        = require("controls");
+var m_scenes     = require("scenes");
+var m_cam        = require("camera");
+
+var _begin_angles = new Float32Array(3);
+var _curr_angles = new Float32Array(3);
+
+var VERTICAL_BETA_ANGLE_THRESHOLD_UP = Math.PI * 110 / 180;
+var VERTICAL_BETA_ANGLE_THRESHOLD_DOWN = Math.PI * 70 / 180;
+var VERTICAL_GAMMA_ANGLE_THRESHOLD_UP = Math.PI * 70 / 180;
+var VERTICAL_GAMMA_ANGLE_THRESHOLD_DOWN = - Math.PI * 70 / 180;
+
+exports.enable_camera_rotation = function() {
+    var cam_obj = m_scenes.get_active_camera();
+    create_camera_rotation_sensors(cam_obj);
+}
+
+function create_camera_rotation_sensors(obj) {
+
+    var g_a_sensor = m_ctl.create_gyro_angles_sensor();
+    var save_angles = true;
+
+    var cam_rotate_cb = function(obj, id, pulse) {
+        if (pulse > 0) {
+
+            _curr_angles = m_ctl.get_sensor_payload(obj, id, 0);
+
+            if (save_angles) {
+                _begin_angles[0] = _curr_angles[0];
+                _begin_angles[1] = _curr_angles[1];
+                _begin_angles[2] = _curr_angles[2];
+                save_angles = false;
+            }
+            var delta_beta = 0;
+            var delta_gamma = 0;
+
+            if (window.orientation == 0) {
+                delta_beta = (_curr_angles[1] - _begin_angles[1]);
+                delta_gamma = (_curr_angles[0] - _begin_angles[0]);
+                if (_curr_angles[1] > VERTICAL_BETA_ANGLE_THRESHOLD_DOWN &amp;&amp; 
+                        _curr_angles[1] &lt; VERTICAL_BETA_ANGLE_THRESHOLD_UP)
+                    delta_gamma = 0;
+            }
+
+            if (window.orientation == 180) {
+                delta_beta = (_curr_angles[1] - _begin_angles[1]);
+                if (_curr_angles[1] &lt; 0)
+                    delta_beta = -delta_beta;
+                delta_gamma = (_begin_angles[0] - _curr_angles[0]);
+                if (delta_beta > Math.PI / 2 || delta_beta &lt; - Math.PI / 2)
+                    delta_beta = 0;
+                if (_curr_angles[1] > - VERTICAL_BETA_ANGLE_THRESHOLD_UP &amp;&amp; 
+                        _curr_angles[1] &lt; - VERTICAL_BETA_ANGLE_THRESHOLD_DOWN)
+                    delta_gamma = 0;
+            }
+            
+            if (window.orientation == -90) {
+                delta_beta = (_curr_angles[0] - _begin_angles[0]);
+                if (delta_beta > Math.PI / 2 || delta_beta &lt; - Math.PI / 2)
+                    delta_beta = 0;
+                delta_gamma = (_begin_angles[1] - _curr_angles[1]);
+                if (_curr_angles[0] > VERTICAL_GAMMA_ANGLE_THRESHOLD_UP || 
+                        _curr_angles[0] &lt; VERTICAL_GAMMA_ANGLE_THRESHOLD_DOWN)
+                    delta_gamma = 0;
+            }
+
+            if (window.orientation == 90) {
+                delta_beta = (_begin_angles[0] - _curr_angles[0]);
+                if (delta_beta > Math.PI / 2 || delta_beta &lt; - Math.PI / 2)
+                    delta_beta = 0;
+                delta_gamma = (_curr_angles[1] - _begin_angles[1]);
+                if (_curr_angles[0] > VERTICAL_GAMMA_ANGLE_THRESHOLD_UP || 
+                        _curr_angles[0] &lt; VERTICAL_GAMMA_ANGLE_THRESHOLD_DOWN)
+                    delta_gamma = 0;
+            }
+
+            var cam_type = m_cam.get_move_style(obj);
+            switch (cam_type) {
+            case m_cam.MS_TARGET_CONTROLS:
+                m_cam.rotate_pivot(obj, delta_gamma, delta_beta);
+                break;
+            case m_cam.MS_EYE_CONTROLS:
+                m_cam.rotate(obj, delta_gamma, delta_beta);
+                break;
+            case m_cam.MS_HOVER_CONTROLS:
+                m_cam.rotate_hover_cam(obj, delta_gamma);
+                break;
+            }
+            _begin_angles[0] = _curr_angles[0];
+            _begin_angles[1] = _curr_angles[1];
+            _begin_angles[2] = _curr_angles[2];
+        }
+    }
+    m_ctl.create_sensor_manifold(obj, "CAMERA_ROTATE_GYRO", 
+            m_ctl.CT_CONTINUOUS, [g_a_sensor], null, 
+            cam_rotate_cb);
+}
+
+};</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Index</a></h2><h3>Modules</h3><ul><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-util.html">util</a></li><li><a href="module-version.html">version</a></li></ul><h3><a href="global.html">Global</a></h3>
+</nav>
+
+<br clear="both">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha8</a> on Wed Jan 28 2015 12:11:44 GMT+0300 (MSK)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

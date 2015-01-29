@@ -5,6 +5,7 @@ b4w.register("embed_main", function(exports, require) {
 var m_app         = require("app");
 var m_camera_anim = require("camera_anim");
 var m_cfg         = require("config");
+var m_scs         = require("scenes");
 var m_data        = require("data");
 var m_main        = require("main");
 var m_sfx         = require("sfx");
@@ -69,7 +70,14 @@ exports.init = function() {
 
     var is_debug   = (m_version.type() == "DEBUG");
     var show_fps   = false;
+    var dds_available = false;
+    var min50_available = false;
     var url_params = m_app.get_url_params();
+
+    if (url_params && "compressed_textures" in url_params && !is_html && !is_debug) {
+        dds_available = true;
+        min50_available = true;
+    }
 
     if (url_params && "show_fps" in url_params)
         show_fps = true;
@@ -78,7 +86,7 @@ exports.init = function() {
         m_storage.init("b4w_webplayer:" + url_params["load"]);
     else
         m_storage.init("b4w_webplayer:" + window.location.href);
-
+        
     set_quality_config();
 
     var is_html = b4w.module_check(m_cfg.get("built_in_module_name"));
@@ -95,7 +103,9 @@ exports.init = function() {
         alpha: false,
         key_pause_enabled: false,
         fps_elem_id: "fps_container",
-        fps_wrapper_id: "fps_wrapper"
+        fps_wrapper_id: "fps_wrapper",
+        assets_dds_available: dds_available,
+        assets_min50_available: min50_available
     });
 }
 
@@ -116,24 +126,6 @@ function close_help(is_cb) {
 
     if (is_cb)
         deffered_close();
-}
-
-function check_file_exist(file) {
-    var file_exist = true;
-
-    var xhr = new XMLHttpRequest();
-    xhr.open("HEAD", file, false);
-
-    try {
-        xhr.send(null)
-    } catch(e) {
-        file_exist = false;
-    }
-
-    if (xhr.status != 200 && xhr.status != 0)
-        file_exist = false;
-
-    return file_exist;
 }
 
 function init_cb(canvas_element, success) {
@@ -177,18 +169,9 @@ function init_cb(canvas_element, success) {
 
         logo_container.style.display = "block";
 
-        if (url_params && url_params["load"]) {
-            var file_exist = check_file_exist(url_params["load"]);
-
-            if (file_exist)
-                file = url_params["load"];
-            else {
-                report_app_error("Could not load the scene",
-                                       "For more info visit",
-                                       "https://www.blend4web.com/troubleshooting");
-                return null;
-            }
-        } else {
+        if (url_params && url_params["load"])
+            file = url_params["load"];
+        else {
             report_app_error("Please specify a scene to load",
                                    "For more info visit",
                                    "https://www.blend4web.com/troubleshooting");
@@ -263,6 +246,18 @@ function swap_buttons(elem, button) {
     button.replace_button_id = old_elem_id;
 }
 
+function set_rotate_button_on() {
+    var elem = document.getElementById("auto_rotate_on_button");
+
+    if (elem)
+        for (var i = 0; i < _player_buttons.length; i++)
+            if (_player_buttons[i].id == "auto_rotate_on_button") {
+                var player_button = _player_buttons[i];
+                swap_buttons(elem, player_button);
+                return;
+            } 
+}
+
 function turn_rotate_button_off() {
     var elem = document.getElementById("auto_rotate_off_button");
 
@@ -270,7 +265,6 @@ function turn_rotate_button_off() {
         for (var i = 0; i < _player_buttons.length; i++)
             if (_player_buttons[i].id == "auto_rotate_on_button") {
                 var player_button = _player_buttons[i];
-                var old_elem_id = elem.id;
                 swap_buttons(elem, player_button);
                 return;
             }
@@ -427,10 +421,29 @@ function on_resize() {
     m_main.resize(w, h);
 }
 
-function loaded_callback(data_id) {
+function loaded_callback(data_id, success) {
+    if (!success) {
+        report_app_error("Could not load the scene",
+                "For more info visit",
+                "https://www.blend4web.com/troubleshooting");
+        return;
+    }
+
     m_app.enable_camera_controls();
     m_main.set_render_callback(render_callback);
     on_resize();
+
+    var url_params = m_app.get_url_params();
+
+    if (url_params && "autorotate" in url_params) {
+        set_rotate_button_on();
+        auto_rotate_camera();
+    }
+
+    var meta_tags = m_scs.get_meta_tags();
+
+    if (meta_tags.title)
+        document.title = meta_tags.title;
 }
 
 function preloader_callback(percentage, load_time) {

@@ -3,15 +3,20 @@
 import math
 import os,sys,subprocess, multiprocessing, re, getopt
 import shutil
+import struct
+import hashlib
+import glob
 
-ASSETS_DIR = "../external/deploy/assets"
-APPS_DIR = "../external/deploy/apps"
-TUTS_DIR = "../external/deploy/tutorials/examples"
+ASSETS_DIR = "../deploy/assets"
+APPS_DIR = "../deploy/apps"
+TUTS_DIR = "../deploy/tutorials"
 
 WHITE  = "\033[97m"
 YELLOW = "\033[93m"
 RED    = "\033[91m"
 ENDCOL = "\033[0m"
+
+SEQ_VIDEO_FPS = 12
 
 def help():
     print("usage: converter.py [-d dir_path] <conversion_option>")
@@ -22,7 +27,7 @@ def help():
     convert_media
     cleanup_textures
     cleanup_dds
-    cleanup_sounds""")
+    cleanup_media""")
 
 
 def resize_texture(args):
@@ -184,7 +189,22 @@ def convert_media(args):
     head = head_ext[0]
     ext = head_ext[1]
 
-    if (head.find(".lossconv") == -1 and
+    if (head.find(".altconv") == -1 and
+            (ext == ".ogv" or ext == ".webm" or ext == ".m4v")):
+        path_from = os.path.join(root, filename)
+
+        new_ext = ".seq"
+
+        path_to = os.path.join(root, head + ".altconv" + new_ext)
+
+        if is_older(path_from, path_to):
+            return
+
+        if sequential_video_file_conv(path_from, path_to):
+            print("Conversion error")
+            sys.exit(1)
+
+    if (head.find(".altconv") == -1 and
             (ext == ".ogg" or ext == ".mp3" or ext == ".mp4" or 
              ext == ".ogv" or ext == ".webm" or ext == ".m4v")):
         path_from = os.path.join(root, filename)
@@ -203,7 +223,7 @@ def convert_media(args):
         elif ext == ".m4v":
             new_ext = ".webm"
 
-        path_to = os.path.join(root, head + ".lossconv" + new_ext)
+        path_to = os.path.join(root, head + ".altconv" + new_ext)
 
         # optimization: only convert modified src files (like make)
         if is_older(path_from, path_to):
@@ -257,13 +277,70 @@ def qt_faststart_conv(path):
         return os.spawnvp(os.P_WAIT, "qt-faststart", args)
     return None
 
+def sequential_video_file_conv(path_from, path_to):
+    
+    tmp_folder = os.path.join(os.path.dirname(path_from), 
+            hashlib.md5(path_from.encode()).hexdigest())
+    ext = os.path.splitext(path_from)[1]
+    os.mkdir(tmp_folder)
 
-def remove_sound(args):
+    fps = str(SEQ_VIDEO_FPS)
+
+    if ext == ".m4v":
+        rez = os.system("avconv -i " + path_from + " -r " + fps + " -strict experimental " + tmp_folder + "/_seq_tmp" + ext)
+    else:
+        rez = os.system("avconv -i " + path_from + " -r " + fps + " " + tmp_folder + "/_seq_tmp" + ext)
+    if rez != 0:
+        shutil.rmtree(tmp_folder)
+        print("Could not convert video ", path_from)
+        return rez
+
+    args = ["avconv", "-i", tmp_folder + "/_seq_tmp" + ext, tmp_folder + "/out%08d.jpg"]
+    rez =  os.spawnvp(os.P_WAIT, "avconv", args)
+    if rez != 0:
+        shutil.rmtree(tmp_folder)
+        print("Could not split frames ", path_from)
+        return rez
+
+    try:
+        sequential_video = open(path_to, "wb")
+    except OSError as exp:
+        raise FileError("Permission denied")
+    else:
+        number_of_files = len(glob.glob(tmp_folder + "/*.jpg"))
+
+        sequential_video.write(bytes("B4WSWWWWHHHH", "UTF-8"))
+
+        sequential_video.write(struct.pack("i", number_of_files))
+        sequential_video.write(struct.pack("i", SEQ_VIDEO_FPS))
+
+        for i in range(1, number_of_files + 1):
+            number = str(i)
+            try:
+                frame = open(tmp_folder + "/out" + number.zfill(8) + ".jpg", "rb")
+            except OSError as exp:
+                raise FileError("Permission denied")
+            else:
+                file_stat = os.stat(tmp_folder + "/out" + number.zfill(8) + ".jpg")
+                size = file_stat.st_size
+                sequential_video.write(struct.pack("i", size))
+                sequential_video.write(frame.read())
+                for j in range(4 - size % 4):
+                    sequential_video.write(struct.pack("B", 0))
+                frame.close()
+
+        sequential_video.close()
+        shutil.rmtree(tmp_folder)
+        return None
+
+
+def remove_media(args):
     root = args[0]
     file = args[1]
     ext = os.path.splitext(file)[1]
-    if (".lossconv" in file and
-            (ext == ".ogg" or ext == ".mp3" or ext == ".mp4")):
+    if (".seq" in file or ".altconv" in file and
+            (ext == ".ogg" or ext == ".mp3" or ext == ".mp4" or
+            ext == ".ogv" or ext == ".webm" or ext == ".m4v")):
         print("removing", os.path.join(root, file))
         os.remove(os.path.join(root, file))
 
@@ -281,7 +358,6 @@ def remove_dds(args):
     if ".jpg.dds" in file or ".jpeg.dds" in file or ".png.dds" in file:
         print("removing", os.path.join(root, file))
         os.remove(os.path.join(root, file))
-
 
 if __name__ == "__main__":
     try:
@@ -314,8 +390,8 @@ if __name__ == "__main__":
     if task == "convert_media":
         handler = convert_media
 
-    elif task == "cleanup_sounds":
-        handler = remove_sound
+    elif task == "cleanup_media":
+        handler = remove_media
 
     elif task == "resize_textures":
         handler = resize_texture

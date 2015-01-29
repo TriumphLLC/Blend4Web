@@ -45,6 +45,7 @@ exports.AT_AUDIO_ELEMENT = m_assets.AT_AUDIO_ELEMENT;
  * @param {Array} assets_pack Assets pack: [[uri, type, filepath], ...]
  * @param [asset_cb] A single asset loaded callback
  * @param [pack_cb] Assets pack loaded callback
+ * @param [progress_cb] Loading progress callback
  */
 exports.enqueue = function(asset_pack, asset_cb, pack_cb) {
     m_assets.enqueue(asset_pack, asset_cb, pack_cb);

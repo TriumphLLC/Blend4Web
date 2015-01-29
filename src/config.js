@@ -149,13 +149,17 @@ exports.defaults = {
 
     init_wa_context_hack       : false,
 
-    ie_video_textures_hack     : false,
-
     clear_procedural_sky_hack  : false,
 
     firefox_disable_html_video_tex_hack: false,
 
-    sky_update_hack            : false
+    sky_update_hack            : false,
+
+    seq_video_fallback         : false,
+
+    allow_hidpi                : false,
+
+    gyro_use                   : false
 }
 
 exports.defaults_save = m_util.clone_object_r(exports.defaults);
@@ -171,7 +175,7 @@ exports.controls = {
 }
 
 exports.assets = {
-    dir: "ASSETS=../../external/deploy/assets/",
+    dir: "ASSETS=../../deploy/assets/",
     max_requests: 15,
     prevent_caching: true,
     min50_available: false,
@@ -182,18 +186,17 @@ exports.assets_save = m_util.clone_object_r(exports.assets);
 exports.paths = {
     shaders_dir         : "../../shaders/",
     shaders_include_dir : "include/",
-    shader_texts_module : "shader_texts",
     built_in_data_module : "built_in_data",
     smaa_search_texture_path: "",
     smaa_area_texture_path: "",
 
     // for developer version
-    resources_dir: "../external/deploy/apps/common/",
+    resources_dir: "../deploy/apps/common/",
     resources_search_paths: [
         "b4w.min.js",
         "b4w.full.min.js",
-        "webplayer.min.js",
-        "src/data.js"
+        "src/data.js",
+        "USER_DEFINED_MODULE"
     ]
 }
 
@@ -305,6 +308,8 @@ exports.apply_quality = function() {
 
         cfg_def.motion_blur = true;
 
+        cfg_def.allow_hidpi = true;
+
         cfg_phy.max_fps = 120;
 
         break;
@@ -366,6 +371,8 @@ exports.apply_quality = function() {
         cfg_def.compositing = true;
 
         cfg_def.motion_blur = true;
+
+        cfg_def.allow_hidpi = false;
 
         cfg_phy.max_fps = 60;
 
@@ -429,6 +436,8 @@ exports.apply_quality = function() {
 
         cfg_def.motion_blur = false;
 
+        cfg_def.allow_hidpi = false;
+
         cfg_phy.max_fps = 60;
 
         break;
@@ -444,6 +453,12 @@ function set(prop, value) {
     case "all_objs_selectable":
         exports.defaults.all_objs_selectable = value;
         break;
+    case "allow_cors":
+        exports.defaults.allow_cors = value;
+        break;
+    case "allow_hidpi":
+        exports.defaults.allow_hidpi = value;
+        break;
     case "alpha":
         exports.context.alpha = value;
         break;
@@ -452,9 +467,6 @@ function set(prop, value) {
         break;
     case "alpha_sort_threshold":
         exports.defaults.alpha_sort_threshold = value;
-        break;
-    case "allow_cors":
-        exports.defaults.allow_cors = value;
         break;
     case "anaglyph_use":
         exports.defaults.anaglyph_use = value;
@@ -477,14 +489,14 @@ function set(prop, value) {
     case "built_in_module_name":
         exports.paths.built_in_data_module = value;
         break;
+    case "canvas_resolution_factor":
+        exports.defaults.canvas_resolution_factor = value;
+        break;
     case "console_verbose":
         exports.defaults.console_verbose = value;
         break;
     case "context_antialias":
         exports.context.antialias = value;
-        break;
-    case "debug_subs_enabled":
-        exports.debug_subs.enabled = value;
         break;
     case "deferred_rendering":
         exports.defaults.deferred_rendering = value;
@@ -494,6 +506,9 @@ function set(prop, value) {
         break;
     case "force_selectable":
         exports.defaults.force_selectable = value;
+        break;
+    case "gyro_use":
+        exports.defaults.gyro_use = value;
         break;
     case "glow":
         exports.defaults.glow = value;
@@ -534,9 +549,6 @@ function set(prop, value) {
     case "wireframe_debug":
         exports.defaults.wireframe_debug = value;
         break;
-    case "water_wireframe_debug":
-        exports.defaults.water_wireframe_debug = value;
-        break;
     default:
         m_print.error("B4W config set - property unknown: " + prop);
         break;
@@ -549,6 +561,8 @@ exports.get = function(prop) {
         return exports.defaults.all_objs_selectable;
     case "allow_cors":
         return exports.defaults.allow_cors;
+    case "allow_hidpi":
+        return exports.defaults.allow_hidpi;
     case "alpha":
         return exports.context.alpha;
     case "alpha_sort":
@@ -569,18 +583,20 @@ exports.get = function(prop) {
         return exports.defaults.background_color;
     case "built_in_module_name":
         return exports.paths.built_in_data_module;
+    case "canvas_resolution_factor":
+        return exports.defaults.canvas_resolution_factor;
     case "console_verbose":
         return exports.defaults.console_verbose;
     case "context_antialias":
         return exports.context.antialias;
-    case "debug_subs_enabled":
-        return exports.debug_subs.enabled;
     case "deferred_rendering":
         return exports.defaults.deferred_rendering;
     case "do_not_load_resources":
         return exports.defaults.do_not_load_resources;
     case "force_selectable":
         return exports.defaults.force_selectable;
+    case "gyro_use":
+        return exports.defaults.gyro_use;
     case "glow":
         return exports.defaults.glow;
     case "physics_enabled":
@@ -607,8 +623,6 @@ exports.get = function(prop) {
         return exports.paths.smaa_area_texture_path;
     case "wireframe_debug":
         return exports.defaults.wireframe_debug;
-    case "water_wireframe_debug":
-        return exports.defaults.water_wireframe_debug;
     default:
         m_print.error("B4W config get - property unknown: " + prop);
         break;

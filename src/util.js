@@ -750,12 +750,6 @@ exports.is_mesh = function(obj) {
     else
         return false;
 }
-exports.is_dynamic_mesh = function(obj) {
-    if (obj["type"] === "MESH" && obj._render && obj._render.type === "DYNAMIC")
-        return true;
-    else
-        return false;
-}
 
 exports.is_empty = function(obj) {
     if (obj["type"] === "EMPTY")

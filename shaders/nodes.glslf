@@ -108,7 +108,9 @@ uniform sampler2D u_shadow_map3;
 
 #if USE_NODE_REFRACTION
 uniform sampler2D u_refractmap;
+# if USE_REFRACTION
 uniform sampler2D u_scene_depth;
+# endif
 #endif
 
 /*============================================================================
@@ -164,11 +166,11 @@ varying vec4 v_shadow_coord3;
 # endif
 #endif
 
-#if REFLECTIVE || SHADOW_SRC == SHADOW_SRC_MASK || (USE_NODE_REFRACTION && REFRACTIVE)
+#if REFLECTIVE || SHADOW_SRC == SHADOW_SRC_MASK || USE_NODE_REFRACTION
 varying vec3 v_tex_pos_clip;
 #endif
 
-#if USE_NODE_REFRACTION && REFRACTIVE
+#if USE_NODE_REFRACTION && USE_REFRACTION
 varying float v_view_depth;
 #endif
 
@@ -178,8 +180,8 @@ varying float v_view_depth;
 
 float ZERO_VALUE_NODES = 0.0;
 float UNITY_VALUE_NODES = 1.0;
-vec3 UNITY_VECTOR = vec3(UNITY_VALUE_NODES);
 vec3 ZERO_VECTOR = vec3(ZERO_VALUE_NODES);
+vec3 UNITY_VECTOR = vec3(UNITY_VALUE_NODES);
 
 /*============================================================================
                                   FUNCTIONS
@@ -189,13 +191,19 @@ vec3 ZERO_VECTOR = vec3(ZERO_VALUE_NODES);
 #include <mirror.glslf>
 
 #if USE_NODE_REFRACTION
-#include <refraction.glslf>
+# if USE_REFRACTION
+# include <refraction.glslf>
+# endif
 
 vec3 refraction_node(in vec3 normal_in, in float refr_bump) {
     vec3 refract_color = ZERO_VECTOR;
-#if REFRACTIVE
+# if USE_REFRACTION
     refract_color = material_refraction(v_tex_pos_clip, normal_in.xz * refr_bump);
-#endif
+# else
+    //refract_color = texture2D(u_refractmap, v_tex_pos_clip.xy/v_tex_pos_clip.z).rgb;
+    refract_color = vec3(0.0);
+    srgb_to_lin(refract_color);
+# endif
     return refract_color;
 }
 #endif

@@ -1,9 +1,8 @@
-EXTDIR = external
-APIDOCDIR = $(EXTDIR)/deploy/api_doc
+APIDOCDIR = deploy/api_doc
 DOCSRCDIR = doc_src 
 APPDIR = apps_dev
 SCRIPTSDIR = scripts
-TUTORIALS_DIR = $(EXTDIR)/deploy/tutorials
+TUTORIALS_DIR = deploy/tutorials
 VERSION=test
 
 .PHONY: all
@@ -75,15 +74,15 @@ reexport: reexport_json reexport_html
 
 .PHONY: reexport_json
 reexport_json:
-	$(MAKE) reexport_json -C $(EXTDIR)
+	@$(SH) ./$(SCRIPTSDIR)/reexporter.py json_only
 
 .PHONY: reexport_html
 reexport_html:
-	$(MAKE) reexport_html -C $(EXTDIR)
+	@$(SH) ./$(SCRIPTSDIR)/reexporter.py html_only
 
 .PHONY: report_broken_exports
 report_broken_exports:
-	$(MAKE) report_broken_exports -C $(EXTDIR)
+	@$(SH) ./$(SCRIPTSDIR)/reexporter.py report_only
 
 .PHONY: dist
 dist:

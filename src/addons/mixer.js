@@ -15,6 +15,9 @@ var m_scenes = require("scenes");
 var m_sfx    = require("sfx");
 var m_util   = require("util");
 
+var TIMER_SLOW_PERIOD = 0.15;
+var TIMER_FAST_PERIOD = 0.05;
+
 var _mixer_strips = [];
 var _active_strip = 0;
 
@@ -39,8 +42,8 @@ exports.enable_mixer_controls = function() {
     // modifier key
     var key_shift = m_ctl.create_keyboard_sensor(m_ctl.KEY_SHIFT);
 
-    var timer_slow = m_ctl.create_timer_sensor(0.15);
-    var timer_fast = m_ctl.create_timer_sensor(0.05);
+    var timer_slow = m_ctl.create_timer_sensor(TIMER_SLOW_PERIOD, true);
+    var timer_fast = m_ctl.create_timer_sensor(TIMER_FAST_PERIOD, true);
 
     var mixer_keys = [key_left_sqbr, key_right_sqbr, key_semi, key_quote,
             key_shift, timer_slow, timer_fast];
@@ -61,9 +64,9 @@ exports.enable_mixer_controls = function() {
             var dir = Boolean(m_ctl.get_sensor_value(obj, id, 0)) ? -1 : 1;
             switch_strip(dir);
             if (id == "SWITCH_STRIP")
-                m_ctl.reset_timer_sensor(obj, id, 5, 0.3);
+                m_ctl.reset_timer_sensor(obj, id, 5, TIMER_SLOW_PERIOD + 0.3);
             else
-                m_ctl.reset_timer_sensor(obj, id, 5, 0);
+                m_ctl.reset_timer_sensor(obj, id, 5, TIMER_SLOW_PERIOD);
         } else {
             // hold on some time
             m_ctl.reset_timer_sensor(obj, id, 5, 10);
@@ -89,9 +92,9 @@ exports.enable_mixer_controls = function() {
             param_inc_dec(dir);
 
             if (id == "INC_DEC")
-                m_ctl.reset_timer_sensor(obj, id, 6, 0.3);
+                m_ctl.reset_timer_sensor(obj, id, 6, TIMER_FAST_PERIOD + 0.3);
             else
-                m_ctl.reset_timer_sensor(obj, id, 6, 0);
+                m_ctl.reset_timer_sensor(obj, id, 6, TIMER_FAST_PERIOD);
         } else {
             // hold on some time
             m_ctl.reset_timer_sensor(obj, id, 6, 10);
@@ -127,7 +130,7 @@ exports.enable_mixer_controls = function() {
     m_ctl.create_sensor_manifold(null, "MIXER_DRAW", m_ctl.CT_CONTINUOUS,
         [elapsed], null, function() {draw()});
 
-    var timer = m_ctl.create_timer_sensor(1);
+    var timer = m_ctl.create_timer_sensor(1, true);
     m_ctl.create_sensor_manifold(null, "MIXER_UPDATE", m_ctl.CT_TRIGGER,
             [timer], null, function() {
         var strip_range = active_strip_range();

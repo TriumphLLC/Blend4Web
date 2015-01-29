@@ -107,6 +107,10 @@ function init_texture() {
         canvas_context: null,
 
         video_file: null,
+        seq_video: null,
+        seq_fps: 1,
+        seq_cur_frame: 0,
+        seq_video_played: false,
         video_was_stopped: false,
         is_movie: false,
         frame_start: 0,
@@ -297,7 +301,6 @@ exports.resize = function(texture, width, height) {
  */
 exports.create_texture_bpy = create_texture_bpy;
 function create_texture_bpy(bpy_texture, global_af, bpy_scenes) {
-
     var tex_type = bpy_texture["type"];
     var image_data = new Uint8Array([0.8*255, 0.8*255, 0.8*255, 1*255]);
     var texture = init_texture();
@@ -474,7 +477,6 @@ function update_texture_canvas(texture) {
 }
 
 exports.update_video_texture = function(texture) {
-
     var w_texture = texture.w_texture;
     var w_target = texture.w_target;
 
@@ -491,6 +493,22 @@ exports.update_video_texture = function(texture) {
 
 }
 
+exports.update_seq_video_texture = update_seq_video_texture;
+function update_seq_video_texture(texture) {
+
+    var w_texture = texture.w_texture;
+    var w_target = texture.w_target;
+
+    _gl.bindTexture(w_target, w_texture);
+
+    _gl.pixelStorei(_gl.UNPACK_FLIP_Y_WEBGL, true);
+
+    _gl.texImage2D(w_target, 0, _gl.RGBA, _gl.RGBA,
+            _gl.UNSIGNED_BYTE, texture.seq_video[texture.seq_cur_frame]);
+
+    _gl.bindTexture(w_target, null);
+}
+
 /**
  * Load image data into texture object
  * @param texture texture object
@@ -498,7 +516,6 @@ exports.update_video_texture = function(texture) {
  * texture object
  */
 exports.update_texture = function(texture, image_data, is_dds, filepath) {
-
     var tex_type = texture.source;
     var w_texture = texture.w_texture;
     var w_target = texture.w_target;
@@ -548,27 +565,47 @@ exports.update_texture = function(texture, image_data, is_dds, filepath) {
                 return;
             }
             if (texture.is_movie) {
-                texture.video_file = image_data;
+                if (!cfg_def.seq_video_fallback) {
+                    texture.video_file = image_data;
 
-                texture.video_file.loop = texture.use_cyclic;
-                if (image_data)
-                    _video_textures_cache[texture.name] = texture;
-                texture.fps = cfg_ani.framerate;
+                    texture.video_file.loop = texture.use_cyclic;
+                    if (image_data)
+                        _video_textures_cache[texture.name] = texture;
+                    texture.fps = cfg_ani.framerate;
 
-                if (image_data.duration)
-                    texture.fps = texture.movie_length / image_data.duration;
-                
-                if (!cfg_sfx.disable_playback_rate_hack) {
-                    image_data.playbackRate = cfg_ani.framerate / texture.fps;
-                    if (cfg_sfx.clamp_playback_rate_hack && image_data.playbackRate > 
-                                PLAYBACK_RATE)
-                        image_data.playbackRate = PLAYBACK_RATE;
+                    if (image_data.duration)
+                        texture.fps = texture.movie_length / image_data.duration;
+                    
+                    if (!cfg_sfx.disable_playback_rate_hack) {
+                        image_data.playbackRate = cfg_ani.framerate / texture.fps;
+                        if (cfg_sfx.clamp_playback_rate_hack && image_data.playbackRate > 
+                                    PLAYBACK_RATE)
+                            image_data.playbackRate = PLAYBACK_RATE;
+                    }
+                    _gl.texImage2D(w_target, 0, _gl.RGBA, _gl.RGBA,
+                            _gl.UNSIGNED_BYTE, texture.video_file);
+                } else {
+                    if (image_data) {
+                        _video_textures_cache[texture.name] = texture;
+                        texture.seq_video = image_data;
+                        texture.fps = texture.movie_length / image_data.length;
+                        texture.frame_duration = Math.round(texture.frame_duration / texture.fps);
+                        texture.frame_offset = Math.round(texture.frame_offset / texture.fps);
+                        texture.frame_start = Math.round(texture.frame_start / texture.fps);
+                        texture.seq_cur_frame = texture.frame_offset;
+                        _gl.texImage2D(w_target, 0, _gl.RGBA, _gl.RGBA,
+                                _gl.UNSIGNED_BYTE, texture.seq_video[0]);
+                    }
                 }
             } else
                 _gl.texImage2D(w_target, 0, _gl.RGBA, _gl.RGBA, _gl.UNSIGNED_BYTE, image_data);
-
-            texture.width = image_data.width;
-            texture.height = image_data.height;
+            if (cfg_def.seq_video_fallback && texture.is_movie) {
+                texture.width = image_data[0].width;
+                texture.height = image_data[0].height;
+            } else {
+                texture.width = image_data.width;
+                texture.height = image_data.height;
+            }
 
             if (is_non_power_of_two(image_data.width, image_data.height)) {
                 if (!texture.auxilary_texture)
@@ -807,7 +844,7 @@ exports.generate_texture = function(type, subs) {
                 "name": "special_ssao_texture",
                 "type": "DATA_TEX2D",
                 "extension": "REPEAT",
-                "b4w_anisotropic_filtering": "OFF",
+                "b4w_anisotropic_filtering": "OFF"
             };
             create_texture_bpy(texture, null, subs);
             texture["image"] = { "filepath": null };
@@ -823,53 +860,69 @@ exports.cleanup = function() {
     _video_textures_cache = {};
 }
 
-exports.play_video = function(texture_name) {
+exports.play_video = play_video;
+function play_video(texture_name) {
     if (texture_name in _video_textures_cache) {
-        _video_textures_cache[texture_name].video_file.play();
+        if (cfg_def.seq_video_fallback)
+            _video_textures_cache[texture_name].seq_video_played = true;
+        else
+            _video_textures_cache[texture_name].video_file.play();
         return true;
     } else
         return null;
 }
 
-exports.reset_video = function(texture_name) {
+exports.reset_video = reset_video;
+function reset_video(texture_name) {
     if (texture_name in _video_textures_cache) {
         var tex = _video_textures_cache[texture_name]
-        tex.video_file.currentTime = tex.frame_offset / tex.fps;
+        if (cfg_def.seq_video_fallback) {
+            tex.seq_cur_frame = tex.frame_offset;
+            update_seq_video_texture(tex);
+            tex.seq_cur_frame++;
+        }
+        else
+            tex.video_file.currentTime = tex.frame_offset / tex.fps;
         return true;
     } else
         return null;
 }
 
-exports.stop_video = function(texture_name) {
+exports.pause_video = pause_video;
+function pause_video(texture_name) {
     if (texture_name in _video_textures_cache) {
-        _video_textures_cache[texture_name].video_file.pause();
+        if (cfg_def.seq_video_fallback)
+            _video_textures_cache[texture_name].seq_video_played = false;
+        else
+            _video_textures_cache[texture_name].video_file.pause();
         return true;
     } else
         return null;
 }
 
 exports.pause = function() {
-    for (var tex in _video_textures_cache)
-        if (!_video_textures_cache[tex].video_file.paused) {
-            _video_textures_cache[tex].video_file.pause();
-            _video_textures_cache[tex].video_was_stopped = true;
-        }
-}
-
-exports.reset = function() {
-    for (var tex in _video_textures_cache) {
-        _video_textures_cache[tex].currentTime = 
-            _video_textures_cache[tex].frame_offset / _video_textures_cache[tex].fps;
-        _video_textures_cache[tex].video_was_stopped = false;
+    for (var texture_name in _video_textures_cache) {
+        if (cfg_def.seq_video_fallback && !_video_textures_cache[texture_name].seq_video_played ||
+                !cfg_def.seq_video_fallback && _video_textures_cache[texture_name].video_file.paused)
+            continue;
+        pause_video(texture_name);
+        _video_textures_cache[texture_name].video_was_stopped = true;
     }
 }
 
+exports.reset = function() {
+    for (var texture_name in _video_textures_cache) {
+        reset_video(texture_name);
+        _video_textures_cache[texture_name].video_was_stopped = false;
+    } 
+}
+
 exports.play = function(resume_stopped_only) {
-    for (var tex in _video_textures_cache) {
-        if (resume_stopped_only && !_video_textures_cache[tex].video_was_stopped)
+    for (var texture_name in _video_textures_cache) {
+        if (resume_stopped_only && !_video_textures_cache[texture_name].video_was_stopped)
             continue;
-        _video_textures_cache[tex].video_file.play();
-        _video_textures_cache[tex].video_was_stopped = false;
+        play_video(texture_name)
+        _video_textures_cache[texture_name].video_was_stopped = false;
     }
 }
 

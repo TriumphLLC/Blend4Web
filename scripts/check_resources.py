@@ -3,7 +3,7 @@
 import os,sys,subprocess,json
 from converter import check_alpha_usage
 
-ASSETS_DIR = "../external/deploy/assets/"
+ASSETS_DIR = "../deploy/assets/"
 MANIFEST = "assets.json"
 
 # colors
@@ -107,7 +107,7 @@ def check_unused(root, filename):
     path = os.path.abspath(os.path.join(root, filename))
 
     if (head.find(".min50") == -1 and (ext == ".jpg" or ext == ".jpeg" or ext == ".png")) or \
-        (head.find(".lossconv") == -1 and (ext == ".ogg" or ext == ".mp3" or ext == ".mp4")):
+        (head.find(".altconv") == -1 and (ext == ".ogg" or ext == ".mp3" or ext == ".mp4")):
 
         if not path in _resource_dict:
             print(RED + " [FILE UNUSED]" + ENDCOL, path, WHITE)

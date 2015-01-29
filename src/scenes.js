@@ -66,12 +66,23 @@ var SHORE_DIST_COMPAT = 100;
 
 var MAX_BATCH_TEXTURES = 8;
 
+var _seq_video_time = 0;
+
 var _active_scene = null;
 var _scenes = [];
 var _glow_anim_objs = [];
 
-var _canvas_width;
-var _canvas_height;
+var _canvas_size = {
+    width: 0,
+    height: 0,
+    scale: 1,
+    offset_top: 0,
+    offset_left: 0
+}
+
+var _canvas_width = 0;
+var _canvas_height = 0;
+var _canvas_scale = 1;
 
 var MAX_SHADER_VARYING_COUNT = 10;
 
@@ -129,7 +140,7 @@ exports.prepare_rendering = function(scene) {
         for (var i = 0; i < queue.length; i++)
             render.queue.push(queue[i]);
 
-        setup_scene_dim(scene, _canvas_width, _canvas_height, false);
+        setup_scene_dim(scene, _canvas_size.width, _canvas_size.height, false);
     }
 
     var subs_arr = subs_array(scene, TIME_SUBSCENE_TYPES);
@@ -149,7 +160,7 @@ exports.get_active = get_active;
  */
 function get_active() {
     if (!_active_scene)
-        throw("no active scene");
+        throw "No active scene available";
     return _active_scene;
 }
 
@@ -159,6 +170,10 @@ function check_active() {
         return true;
     else
         return false;
+}
+
+exports.get_camera = function(scene) {
+    return scene["camera"];
 }
 
 exports.get_all_scenes = get_all_scenes;
@@ -205,7 +220,6 @@ exports.get_object = function() {
 }
 
 function get_object_by_name(name, objects, origin_name, data_id) {
-    data_id = data_id | 0;
     var obj_found = null;
 
     for (var i = 0; i < objects.length; i++) {
@@ -266,7 +280,7 @@ exports.append_to_existed_scene = function(bpy_scene, bpy_scene_existed, texture
                 if (tex_not_exist)
                     video_texs.push(textures[i]);
             }
-        }          
+        }
 
         if (!(type in bpy_scene_existed._objects))
             bpy_scene_existed._objects[type] = [];
@@ -352,6 +366,7 @@ function append_scene(bpy_scene, textures) {
     render.world_light_set   = get_world_light_set(bpy_scene);
     render.lamps_number      = get_scene_objs(bpy_scene, "LAMP", exports.DATA_ID_ALL).length;
     render.water_params      = get_water_params(bpy_scene);
+    render.materials_params  = get_material_params(bpy_scene);
     render.color_picking     = check_selectable_objects(bpy_scene) || cfg_def.force_selectable;
     render.xray              = check_xray_materials(bpy_scene);
     render.num_lamps_added   = 0;
@@ -361,6 +376,7 @@ function append_scene(bpy_scene, textures) {
     } else {
         var rtt = bpy_scene._render_to_texture;
 
+        render.anaglyph_use    = check_anaglyph_use(cam_render);
         render.render_shadows  = check_render_shadows(bpy_scene);
         render.fog_color       = bpy_scene["world"]["b4w_fog_color"];
         render.shore_smoothing = check_shore_smoothing(bpy_scene);
@@ -372,6 +388,7 @@ function append_scene(bpy_scene, textures) {
         render.glow_params     = extract_glow_params(bpy_scene);
         render.dof             = cfg_def.dof && (cam_render.dof_distance > 0
                                               || cam_render.dof_object);
+
         render.dynamic_grass   = check_dynamic_grass(bpy_scene);
         render.motion_blur     = (cfg_def.motion_blur && bpy_scene["b4w_enable_motion_blur"]);
         render.compositing     = (cfg_def.compositing && bpy_scene["b4w_enable_color_correction"]);
@@ -588,6 +605,54 @@ function get_water_params(bpy_scene) {
         return wp;
     } else
         return null;
+}
+
+function get_material_params(bpy_scene) {
+
+    var materials_properties_existance = {}
+
+    var materials = get_scene_materials(bpy_scene);
+
+    var get_nodes_properties = function(node_tree) {
+        if (!node_tree)
+            return;
+        var nodes = node_tree["nodes"];
+        for (var j = 0; j < nodes.length; j++) {
+            var node = nodes[j];
+
+            if (node["type"] == "GROUP" && node["node_group"])
+                get_nodes_properties(node["node_group"]["node_tree"]);
+
+            if (node["type"] == "GROUP" && node["node_tree_name"] == "REFRACTION")
+                materials_properties_existance.refractions = true;
+            // check other properties here
+
+        }
+    }
+
+    for (var i = 0; i < materials.length; i++) {
+        var material = materials[i];
+
+        if (material["b4w_refractive"])
+            materials_properties_existance.refractions = true;
+        // check other properties here
+
+        if (!material["node_tree"])
+            continue;
+
+        get_nodes_properties(material["node_tree"]);
+    }
+
+    return materials_properties_existance;
+}
+
+function check_anaglyph_use(cam_render) {
+    // NOTE: disable anaglyph stereo for the non-PERSP camera
+    if (cam_render.cameras[0].type != m_cam.TYPE_PERSP && cfg_def.anaglyph_use) {
+        m_print.warn("B4W Warning: Anaglyph stereo is disabled for the non-perspective camera");
+        return false;
+    } else
+        return cfg_def.anaglyph_use;
 }
 
 /**
@@ -1301,7 +1366,7 @@ function add_object_subs_main(subs, obj, graph, main_type, bpy_scene) {
         m_batch.assign_shadow_receive_dirs(batch, shadow_params);
 
         m_shaders.set_directive(shaders_info, "NUM_LIGHTS", subs.num_lights);
-        
+
         if (m_shaders.get_fname(shaders_info) == "special_skydome.glslf")
             m_shaders.set_directive(shaders_info, "REFLECTION_PASS", 0);
         m_shaders.set_directive(shaders_info, "SSAO_ONLY", 0);
@@ -1375,10 +1440,23 @@ function add_object_subs_main(subs, obj, graph, main_type, bpy_scene) {
                 prepare_dynamic_grass_batch(batch, subs_grass_map, obj_render);
         }
 
-        if (m_scgraph.find_subs(graph, "REFRACT") && batch.refractive)
-            m_shaders.set_directive(shaders_info, "REFRACTIVE", 1);
-        else
+        if (batch.refractive) {
+            if (batch.type == "NODES") {
+                m_shaders.set_directive(shaders_info, "REFRACTIVE", 1);
+                if (bpy_scene._render.refractions)
+                    m_shaders.set_directive(shaders_info, "USE_REFRACTION", 1);
+                else
+                    m_shaders.set_directive(shaders_info, "USE_REFRACTION", 0);
+            } else {
+                if (bpy_scene._render.refractions)
+                    m_shaders.set_directive(shaders_info, "REFRACTIVE", 1);
+                else
+                    m_shaders.set_directive(shaders_info, "REFRACTIVE", 0);
+            }
+        } else {
             m_shaders.set_directive(shaders_info, "REFRACTIVE", 0);
+            m_shaders.set_directive(shaders_info, "USE_REFRACTION", 0);
+        }
 
         if (batch.water) {
             if (batch.water_shore_smoothing && m_scgraph.find_subs(graph, "DEPTH"))
@@ -2630,10 +2708,13 @@ exports.get_scene_timeline = function(scene) {
 }
 
 
-exports.setup_dim = function(width, height) {
+exports.setup_dim = function(width, height, scale, offset_left, offset_top) {
 
-    _canvas_width = width;
-    _canvas_height = height;
+    _canvas_size.width = width;
+    _canvas_size.height = height;
+    _canvas_size.scale = scale;
+    _canvas_size.offset_top = offset_top;
+    _canvas_size.offset_left = offset_left;
 
     if (_active_scene)
         setup_scene_dim(_active_scene, width, height, false);
@@ -3463,12 +3544,13 @@ exports.update = function(timeline, elapsed) {
         }
 
         var textures = scene._render.video_textures;
+        
         for (var j = 0; j < textures.length; j++) {
-            var video = textures[j]._render.video_file;
-            var end_frame = textures[j]._render.frame_duration + 
-                    textures[j]._render.frame_offset;
+            var texture = textures[j]._render;
+            var video = texture.video_file;
+            var end_frame = texture.frame_duration + 
+                    texture.frame_offset;
             if (video) {
-                var texture = textures[j]._render;
                 var curren_frame = Math.round(video.currentTime * texture.fps);
                 var start_time = texture.frame_offset / texture.fps;
 
@@ -3478,14 +3560,28 @@ exports.update = function(timeline, elapsed) {
                         textures[j]._render.use_cyclic && curren_frame > end_frame)
                     video.currentTime = start_time;
 
-                if (!textures[j]._render.use_cyclic && curren_frame > end_frame)
+                if (!texture.use_cyclic && curren_frame > end_frame)
                     video.pause();
 
-                if (video.readyState >= 2)
+                if (video.readyState >= 2 && !video.paused)
                     m_tex.update_video_texture(texture);
+            } else
+                if (texture.seq_video) {
+                    var length = Math.min(texture.seq_video.length, texture.frame_duration + texture.frame_offset);
+                    if ((texture.seq_cur_frame < texture.frame_offset) || 
+                            texture.use_cyclic && texture.seq_cur_frame >= length)
+                        texture.seq_cur_frame = texture.frame_offset;
+                    if (!texture.use_cyclic && texture.seq_cur_frame >= length)
+                        texture.seq_video_played = false;
+                    var time = Math.round(timeline * cfg_ani.framerate / texture.fps) * texture.seq_fps;
+                    if (time != _seq_video_time && texture.seq_video_played) {
+                        m_tex.update_seq_video_texture(texture);
+                        texture.seq_cur_frame++;
+                    }
+
+                    _seq_video_time = time;
             }
         }
-
         m_graph.traverse(graph, function(node, attr) {
             var subs = attr;
             if (TIME_SUBSCENE_TYPES.indexOf(subs.type) > -1) {
@@ -3912,6 +4008,13 @@ exports.pick_object = function(x, y) {
     var active_scene = get_active();
     var subs_color_pick = get_subs(active_scene, "COLOR_PICKING");
     if (subs_color_pick) {
+
+        x -= _canvas_size.offset_left;
+        y -= _canvas_size.offset_top;
+
+        x *= _canvas_size.scale;
+        y *= _canvas_size.scale;
+
         // NOTE: may be some delay since exports.update() execution
         m_prerender.prerender_subs(subs_color_pick);
         m_render.draw(subs_color_pick, subs_color_pick.bundles);
@@ -3962,6 +4065,20 @@ exports.get_selectable_objects = function(scene) {
             sel_objects.push(obj);
     }
     return sel_objects;
+}
+
+exports.get_meta_tags = function(scene) {
+    var tags = {
+        title: "",
+        description: ""
+    };
+
+    if (scene["b4w_tags"]) {
+        tags.title = scene["b4w_tags"]["title"];
+        tags.description = scene["b4w_tags"]["description"];
+    }
+
+    return tags;
 }
 
 

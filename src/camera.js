@@ -23,6 +23,7 @@ var m_mat3 = require("mat3");
 var m_mat4 = require("mat4");
 
 var cfg_ctl = m_cfg.controls;
+var cfg_def = m_cfg.defaults;
 
 // constants
 
@@ -137,10 +138,10 @@ exports.camera_object_to_camera = function(camobj) {
         render.pivot.set(camobj_data["b4w_target"]);
     prepare_clamping_limits(camobj);
 
-    init_hover_camera(camobj);
+    init_spec_camera(camobj);
 }
 
-function init_hover_camera(camobj) {
+function init_spec_camera(camobj) {
     var render = camobj._render;
 
     if (render.move_style === exports.MS_HOVER_CONTROLS 
@@ -188,6 +189,9 @@ function init_hover_camera(camobj) {
             var res = m_util.line_plane_intersect(normal_plane_oxy, 0, render.trans, 
                     view_vector, render.hover_pivot);
 
+            render.init_dist = m_vec3.dist(render.trans, render.hover_pivot);
+            render.init_top = render.cameras[0].top;
+
             // It is used to check parallel line and plane
             if (!res || m_vec3.len(res) > MAX_HOVER_INIT_CORRECT_DIST) {
                 render.hover_pivot[0] = render.trans[0];
@@ -195,6 +199,9 @@ function init_hover_camera(camobj) {
                 render.hover_pivot[2] = render.trans[2];
             }
         }
+    } else if (render.move_style === exports.MS_TARGET_CONTROLS) { 
+        render.init_dist = m_vec3.dist(render.trans, render.pivot);
+        render.init_top = render.cameras[0].top;
     }
 }
 
@@ -307,11 +314,11 @@ function create_camera(type) {
     switch (type) {
     case exports.TYPE_PERSP:
         set_frustum(cam, DEF_PERSP_FOV,
-                DEF_PERSP_NEAR, DEF_PERSP_FAR)
+                DEF_PERSP_NEAR, DEF_PERSP_FAR);
         break;
     case exports.TYPE_ORTHO:
         set_frustum(cam, DEF_ORTHO_SCALE,
-                DEF_PERSP_NEAR, DEF_PERSP_FAR)
+                DEF_PERSP_NEAR, DEF_PERSP_FAR);
         break;
 
     case exports.TYPE_PERSP_ASPECT:
@@ -423,7 +430,7 @@ function set_stereo_params(cam, conv_dist, eye_dist) {
         var active_scene = m_scenes.get_active();
         var sh_params = active_scene._render.shadow_params;
 
-        var upd_cameras = active_scene["camera"]._render.cameras;
+        var upd_cameras = m_scenes.get_camera(active_scene)._render.cameras;
         for (var i = 0; i < upd_cameras.length; i++)
             update_camera_shadows(upd_cameras[i], sh_params);
     }
@@ -829,7 +836,12 @@ exports.eye_target_up_to_trans_quat = function(eye, target, up, trans, quat) {
     m_quat.fromMat3(rot_matrix, quat);
 }
 
-exports.update_camera_transform = function(obj) {
+/**
+ * 
+ */
+exports.update_camera_transform = update_camera_transform;
+
+function update_camera_transform (obj) {
     var cameras = obj._render.cameras;
     if (!cameras)
         throw "Wrong object";
@@ -1036,6 +1048,41 @@ function vertical_limits_correct(obj) {
 }
 
 /**
+ * uses _vec3_tmp
+ */
+exports.update_ortho_scale = update_ortho_scale;
+
+function update_ortho_scale(obj) {
+    var render = obj._render;
+
+    if (!is_camera(obj))
+        return;
+
+    if (render.cameras[0].type === exports.TYPE_ORTHO) {
+        if (render.move_style === exports.MS_TARGET_CONTROLS) {
+            var dir_dist = m_vec3.dist(render.trans, render.pivot);
+            var new_scale = dir_dist / render.init_dist * 
+                        render.init_top;
+        } else if (render.use_distance_limits 
+                    && render.move_style === exports.MS_HOVER_CONTROLS) {
+            var dir_trans = get_hover_dir_pivot(obj, _vec3_tmp);
+            var dir_dist = m_vec3.len(dir_trans);
+            var new_scale = dir_dist / render.init_dist * 
+                        render.init_top;            
+        } else
+            var new_scale = render.init_top;
+
+        for (var i in obj._render.cameras) {
+            var cam = obj._render.cameras[i];
+            cam.top = new_scale;
+            set_projection(cam, cam.aspect);
+        }
+
+        update_camera_transform(obj);
+    }
+}
+
+/**
  * uses _vec2_tmp, _vec3_tmp
  */
 exports.clamp_limits = function(obj) {
@@ -1101,9 +1148,12 @@ exports.clamp_limits = function(obj) {
         }
 
         // distance clamping
-        if (render.move_style === exports.MS_TARGET_CONTROLS)
+        if (render.move_style === exports.MS_TARGET_CONTROLS) {
             if (render.use_distance_limits)
                 target_cam_clamp_distance(obj);
+
+            update_ortho_scale(obj);
+        }
     }
     
     if (render.move_style === exports.MS_HOVER_CONTROLS) { 
@@ -1269,6 +1319,8 @@ function hover_cam_clamp_axis_limits(obj) {
 /**
  * uses _vec3_tmp 
  */
+exports.get_hover_dir_pivot = get_hover_dir_pivot;
+
 function get_hover_dir_pivot(obj, dest) {
     var render = obj._render;
 
@@ -1328,6 +1380,8 @@ function hover_cam_clamp_rot_trans(obj) {
 
         var dir_trans = get_hover_dir_pivot(obj, _vec3_tmp);
         m_vec3.add(render.hover_pivot, dir_trans, render.trans);
+
+        update_ortho_scale(obj);
     }
 }
 

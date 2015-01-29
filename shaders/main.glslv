@@ -188,7 +188,7 @@ varying vec3 v_tex_pos_clip;
 #endif
 
 #if REFRACTIVE
-varying float v_view_depth;
+    varying float v_view_depth;
 #endif
 /*============================================================================
                                   INCLUDES

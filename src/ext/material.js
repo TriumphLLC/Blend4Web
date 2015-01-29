@@ -9,6 +9,7 @@ b4w.module["material"] = function(exports, require) {
 var m_batch   = require("__batch");
 var m_cfg     = require("__config");
 var m_print   = require("__print");
+var m_obj     = require("__objects");
 var m_shaders = require("__shaders");
 var m_util    = require("__util");
 
@@ -55,7 +56,7 @@ exports.set_batch_param = function() {
 exports.inherit_material = function(obj_from, mat_from_name, obj_to, 
         mat_to_name) {
 
-    if (!m_util.is_dynamic_mesh(obj_to) || !m_util.is_dynamic_mesh(obj_from)) {
+    if (!m_obj.is_dynamic_mesh(obj_to) || !m_obj.is_dynamic_mesh(obj_from)) {
         m_print.error("Wrong or batched object(s)");
         return;
     }

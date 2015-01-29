@@ -57,6 +57,8 @@ function create_render(type) {
         inv_world_matrix: new Float32Array(16),
         pivot: new Float32Array(3),
         hover_pivot: new Float32Array(3),
+        init_dist: 0,
+        init_top: 0,
 
         use_panning: false,
 
@@ -634,6 +636,25 @@ function extract_nodemat_action_params(action, val_arr, inds_arr, processed) {
 
         inds_arr.push(param_name, processed[param]);
     }
+}
+
+exports.is_dynamic_mesh = function(obj) {
+    if (obj["type"] == "MESH" && obj._is_dynamic)
+        return true;
+    else
+        return false;
+}
+
+exports.get_meta_tags = function(obj) {
+    var obj_tags = obj["b4w_object_tags"];
+
+    var copy_tags = {
+        title: obj_tags["title"],
+        description: obj_tags["description"],
+        category: obj_tags["category"]
+    };
+
+    return copy_tags;
 }
 
 exports.cleanup = function() {

@@ -9,17 +9,21 @@ b4w.module["camera_anim"] = function(exports, require) {
 
 var m_cam   = require("camera");
 var m_ctl   = require("controls");
+var m_print = require("print");
 var m_scs   = require("scenes");
 var m_trans = require("transform");
 var m_util  = require("util");
 
 // Global temporary vars
+var _vec2_tmp   = new Float32Array(2);
 var _vec3_tmp   = new Float32Array(3);
 var _vec3_tmp2  = new Float32Array(3);
 var _vec3_tmp3  = new Float32Array(3);
 var _quat4_tmp  = new Float32Array(4);
 
 var PI = Math.PI;
+
+var ROTATION_OFFSET = 0.2;
 
 var m_vec3 = require("vec3");
 var m_quat = require("quat");
@@ -221,13 +225,32 @@ exports.track_to_target = function(cam_obj, target, rot_speed, zoom_mult,
                                 track_cb);
 }
 
+function init_limited_rotation_ratio(obj, auto_rotate_ratio){
+    var cam_type = m_cam.get_move_style(obj);
+    var angle_limits = m_cam.get_horizontal_limits(obj);
+    var angles = m_cam.get_angles(obj, _vec2_tmp);
+    var phi = angles[0];
+
+    if (cam_type == m_cam.MS_TARGET_CONTROLS)
+        // camera angle around target
+        phi -= Math.PI;
+    else
+        // camera eye angle
+        phi *= -1;
+
+    return auto_rotate_ratio * 
+            Math.min(1, (angle_limits[1] - phi) / ROTATION_OFFSET, 
+                (phi - angle_limits[0]) / ROTATION_OFFSET);
+}
+
+
 /**
  * Callback to be executed when mouse button is clicked.
  * @callback mouse_event_callback
  */
 
 /**
- * Auto-rotate the MS_TARGET camera around the pivot point and
+ * Auto-rotate the MS_TARGET and MS_HOVER camera around the pivot point and
  * auto-rotate the MS_EYE camera about itself.
  * @param {Number} auto_rotate_ratio Speed ratio of the camera
  * @param {mouse_event_callback} Optional callback
@@ -239,31 +262,85 @@ exports.auto_rotate = function(auto_rotate_ratio, callback) {
     var obj = m_scs.get_active_camera();
     var cam_type = m_cam.get_move_style(obj);
 
-    if (cam_type == m_cam.MS_STATIC)
-        throw "wrong camera type";
+    if (cam_type == m_cam.MS_STATIC) {
+        m_print.error("auto_rotate(): wrong camera type");
+        return;
+    }
+
+    if (m_cam.has_horizontal_limits(obj))
+        var cur_rotate_ratio = init_limited_rotation_ratio(obj, auto_rotate_ratio);
 
     function elapsed_cb(obj, id, pulse) {
         if (pulse == 1) {
-            var value = m_ctl.get_sensor_value(obj, id, 0);
+            if (cam_type != m_cam.MS_HOVER_CONTROLS
+                    && m_cam.has_horizontal_limits(obj))
+                limited_auto_rotate(obj, id, pulse);
+            else
+                unlimited_auto_rotate(obj, id, pulse); 
+        }
+    }
 
-            switch (cam_type) {
-            case m_cam.MS_TARGET_CONTROLS:
-                m_cam.rotate_pivot(obj, value * auto_rotate_ratio, 0);
-                break;
-            case m_cam.MS_EYE_CONTROLS:
-                m_cam.rotate(obj, value * auto_rotate_ratio, 0);
-                break;
+    function limited_auto_rotate(obj, id, pulse) {
+        var value = m_ctl.get_sensor_value(obj, id, 0);
+        var cam_type = m_cam.get_move_style(obj);
+        var angle_limits = m_cam.get_horizontal_limits(obj);
+        var angles = m_cam.get_angles(obj, _vec2_tmp);
+        var phi = angles[0];
+        var cur_rotation_offset = Math.min(ROTATION_OFFSET,
+                (angle_limits[1] - angle_limits[0]) / 2 );
 
-            case m_cam.MS_HOVER_CONTROLS:
-                m_cam.rotate_hover_cam(obj, value * auto_rotate_ratio);
-                break;
-            }
+        if (cam_type == m_cam.MS_TARGET_CONTROLS)
+            // camera angle around target
+            phi -= Math.PI;
+        else
+            // camera eye angle
+            phi *= -1;
+
+        if (angle_limits[1] - phi > cur_rotation_offset 
+                && phi - angle_limits[0] > cur_rotation_offset)
+
+            cur_rotate_ratio = m_util.sign(cur_rotate_ratio) * auto_rotate_ratio;
+
+        else if (angle_limits[1] - phi < cur_rotation_offset)
+            cur_rotate_ratio = cur_rotate_ratio - 
+                    Math.pow(auto_rotate_ratio, 2) / (2 * ROTATION_OFFSET) * value; 
+
+        else if (phi - angle_limits[0] < cur_rotation_offset)
+            cur_rotate_ratio = cur_rotate_ratio +
+                    Math.pow(auto_rotate_ratio, 2) / (2 * ROTATION_OFFSET) * value;
+
+        switch (cam_type) {
+        case m_cam.MS_TARGET_CONTROLS:
+            m_cam.rotate_pivot(obj, value * cur_rotate_ratio, 0);
+            break;
+        case m_cam.MS_EYE_CONTROLS:
+            m_cam.rotate(obj, value * cur_rotate_ratio, 0);
+            break;
+        }
+    }
+
+    function unlimited_auto_rotate(obj, id, pulse) {
+        var value = m_ctl.get_sensor_value(obj, id, 0);
+        var cam_type = m_cam.get_move_style(obj);
+
+        switch (cam_type) {
+        case m_cam.MS_TARGET_CONTROLS:
+            m_cam.rotate_pivot(obj, value * auto_rotate_ratio, 0);
+            break;
+        case m_cam.MS_EYE_CONTROLS:
+            m_cam.rotate(obj, value * auto_rotate_ratio, 0);
+            break;
+
+        case m_cam.MS_HOVER_CONTROLS:
+            m_cam.rotate_hover_cam(obj, value * auto_rotate_ratio);
+            break;
         }
     }
 
     function mouse_cb() {
         m_ctl.remove_sensor_manifold(obj, "AUTO_ROTATE");
         m_ctl.remove_sensor_manifold(obj, "DISABLE_AUTO_ROTATE");
+
         callback();
     }
 

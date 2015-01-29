@@ -17,6 +17,7 @@ var m_print = require("__print");
 var sfx     = require("__sfx");
 var m_util  = require("__util");
 var version = require("__version");
+var m_compat = require("__compat");
 
 var cfg_ldr = config.assets;
 var cfg_def = config.defaults;
@@ -29,6 +30,7 @@ exports.AT_AUDIOBUFFER   = 40;
 exports.AT_IMAGE_ELEMENT = 50;
 exports.AT_AUDIO_ELEMENT = 60;
 exports.AT_VIDEO_ELEMENT = 70;
+exports.AT_SEQ_VIDEO_ELEMENT = 80;
 
 // asset states: enqueued -> requested -> received
 var ASTATE_ENQUEUED = 10;
@@ -157,12 +159,6 @@ exports.cleanup = function() {
     _loaded_assets = {};
 }
 
-/**
- * Enqueue assets pack.
- * @param assets_pack Assets pack: [[uri, type, filepath], ...]
- * @param [asset_cb] A single asset loaded callback
- * @param [pack_cb] Assets pack loaded callback
- */
 exports.enqueue = function(assets_pack, asset_cb, pack_cb, progress_cb) {
     for (var i = 0; i < assets_pack.length; i++) {
         var pack_elem = assets_pack[i];
@@ -245,6 +241,9 @@ function request_assets(queue) {
             break;
         case exports.AT_VIDEO_ELEMENT:
             request_video(asset);
+            break;
+        case exports.AT_SEQ_VIDEO_ELEMENT:
+            request_seq_video(asset);
             break;
         default:
             throw "Wrong asset type: " + asset.type;
@@ -383,8 +382,12 @@ function request_image(asset) {
             var img_mime_type = get_image_mime_type(asset.filepath);
             image.src = "data:" + img_mime_type + ";base64," + bd[asset.filepath];
         } else {
-            var event = new CustomEvent("error");
-            image.dispatchEvent(event);
+            if (m_compat.is_ie11()) {
+                var e = document.createEvent("CustomEvent");
+                e.initCustomEvent("error", false, false, null);
+            } else
+                var e = new CustomEvent("error");
+            image.dispatchEvent(e);
         }
     } else
         image.src = asset.filepath;
@@ -421,8 +424,12 @@ function request_audio(asset) {
             }
 
         } else {
-            var event = new CustomEvent("error");
-            audio.dispatchEvent(event);
+            if (m_compat.is_ie11()) {
+                var e = document.createEvent("CustomEvent");
+                e.initCustomEvent("error", false, false, null);
+            } else
+                var e = new CustomEvent("error");
+            audio.dispatchEvent(e);
         }
     } else {
         audio.src = asset.filepath;
@@ -465,8 +472,12 @@ function request_video(asset) {
                 asset.state = ASTATE_RECEIVED;
             }
         } else {
-            var event = new CustomEvent("error");
-            video.dispatchEvent(event);
+            if (m_compat.is_ie11()) {
+                var e = document.createEvent("CustomEvent");
+                e.initCustomEvent("error", false, false, null);
+            } else
+                var e = new CustomEvent("error");
+            video.dispatchEvent(e);
         }
     } else {
         video.src = asset.filepath;
@@ -475,6 +486,71 @@ function request_video(asset) {
     }
     // HACK: workaround for some garbage collector bug
     setTimeout(function() {video.some_prop_to_prevent_gc = 1}, 10000);
+}
+
+function request_seq_video(asset) {
+    var bd = get_built_in_data();
+    if (bd && asset.filepath in bd)
+        var req = new FakeHttpRequest();
+    else
+        var req = new XMLHttpRequest();
+    req.open("GET", asset.filepath, true);
+    req.responseType = "arraybuffer";
+
+    function load_cb(images) { 
+        asset.asset_cb(images, asset.uri, asset.type, asset.filepath);
+    }
+
+    req.onreadystatechange = function() {
+    if (asset.state != ASTATE_HALTED)
+        if (req.readyState == 4) {
+            if (req.status == 200 || req.status == 0) {
+                var response = req.response;
+                if (response) {
+                    parse_seq_video_file(response, load_cb);                    
+                }
+                else {
+                    asset.asset_cb(null, asset.uri, asset.type, asset.filepath);
+                    m_print.error("B4W Error: empty responce when trying to get " + asset.filepath);
+                }
+            } else {
+                asset.asset_cb(null, asset.uri, asset.type, asset.filepath);
+                m_print.error("B4W Error: " + req.status + " when trying to get " + asset.filepath);
+            }
+            asset.state = ASTATE_RECEIVED;
+        }
+    };
+    req.addEventListener("progress", function(e) {
+        // compute progress information if total size is known
+        if (e.lengthComputable)
+            asset.progress_cb(e.loaded / e.total);
+    }, false);
+
+    req.send(null);
+}
+
+function parse_seq_video_file(response, callback) {
+    var buffer = new Int32Array(response);
+    var seq_image_data = new Int8Array(response);
+    var number = buffer[3];
+    var data = {
+        images: [],
+        fps: buffer[4]
+    };
+    var offset = 20;
+    for (var j = 0; j < number; j++) {
+        var size = buffer[offset/4];
+        var frame = seq_image_data.subarray(offset + 4, offset + 4 + size);
+        var blob = new Blob([frame], {type: "image/jpg"});
+        var image = document.createElement("img");
+        image.src = window.URL.createObjectURL(blob);
+        data.images.push(image);
+        offset +=size + 8 - size % 4;
+    }
+    // NOTE: wait for loading last image
+    image.onload = function() {
+        callback(data);
+    }
 }
 
 function get_image_mime_type(file_path) {

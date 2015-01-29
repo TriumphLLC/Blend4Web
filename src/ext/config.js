@@ -4,14 +4,19 @@
  * API for the engine's global configuration.
  * <p>Use the set()/get() function to change/get the value of a property.
  * Use the reset() function to reset all properties to their default state.
- * Any configuration change must occur before engine initialization, also some
- * of the properties are affected by quality profile and client's hardware/browser.
+ * Any change in configuration must occur before engine initialization. Keep in
+ * mind that some of the properties are affected by a quality profile and client's
+ * hardware/browser. In the former case set CUSTOM profile to allow changing of
+ * such properties.
  * <h3>Allowed configuration properties</h3>
  * <dl>
  * <dt>all_objs_selectable
  * <dd>Boolean, make all objects selectable and "glowable".
  * <dt>allow_cors
- * <dd>Boolean, cross-origin resource sharing.
+ * <dd>Boolean, allow cross-origin resource sharing.
+ * <dt>allow_hidpi
+ * <dd>Boolean, allow HIDPI mode on supported devices (set CUSTOM profile to
+ * change).
  * <dt>alpha
  * <dd>Boolean, enable WebGL canvas transparency.
  * <dt>alpha_sort
@@ -23,7 +28,8 @@
  * <dt>animation_framerate
  * <dd>Number, animation framerate
  * <dt>antialiasing
- * <dd>Boolean, enable postprocessing-based antialiasing.
+ * <dd>Boolean, enable postprocessing-based antialiasing (set CUSTOM profile to
+ * change).
  * <dt>assets_dds_available
  * <dd>Boolean, allow engine to use compressed DDS textures, you must provide
  * them along non-compressed ones.
@@ -31,9 +37,11 @@
  * <dd>Boolean, allow engine to use low quality textures, you must provide
  * them along high quality ones.
  * <dt>background_color
- * <dd>Float32Array, WebGL canvas background color.
+ * <dd>Float32Array, RGBA vector with WebGL canvas background color.
  * <dt>built_in_module_name
- * <dd>String, Name of build-in module (for HTML export only).
+ * <dd>String, name of build-in module (for HTML export only).
+ * <dt>canvas_resolution_factor
+ * <dd>Boolean, set canvas resolution factor.
  * <dt>console_verbose
  * <dd>Boolean, print more debug info.
  * <dt>context_antialias
@@ -46,24 +54,29 @@
  * <dd>Boolean, initialize color picking and glow even there is no selectable
  * objects on the main (zero) scene (used for dynamic scene loading).
  * <dt>glow
- * <dd>Boolean, enable glow effect.
+ * <dd>Boolean, enable glow effect (set CUSTOM profile to change).
  * <dt>physics_enabled
  * <dd>Boolean, enable uranium.js physics engine.
  * <dt>physics_uranium_path
  * <dd>String, path to uranium.js module, if not specified search in the
  * directory with the engine's source.
  * <dt>precision
- * <dd>String, preferred GLSL floating point precision.
+ * <dd>String, preferred GLSL floating point precision (set CUSTOM profile to
+ * change).
  * <dt>quality
- * <dd>Number, preferred rendering quality profile (one of P_* constants).
+ * <dd>Number, preferred rendering quality profile (one of P_LOW, P_HIGH,
+ * P_ULTRA, P_CUSTOM constants).
  * <dt>resolution_factor
- * <dd>Number, canvas resolution factor.
+ * <dd>Number, internal rendering resolution factor (set CUSTOM profile to
+ * change).
+ * <dt>sfx_mix_mode
+ * <dd>Boolean, enable mixer mode in SFX subsystem
  * <dt>shaders_dir
  * <dd>String, path to shaders directory.
  * <dt>show_hud_debug_info
  * <dd>Boolean, show HUD with debug information.
  * <dt>smaa
- * <dd>Boolean, enable SMAA antialiasing.
+ * <dd>Boolean, enable SMAA antialiasing (set CUSTOM profile to change).
  * <dt>smaa_search_texture_path
  * <dd>String, path to SMAA search texture, if not specified search in the
  * directory with the engine's source.
@@ -74,13 +87,13 @@
  * <dd>Boolean, enable wireframe debug mode.
  * </dl>
  * @module config
- * @cc_externs all_objs_selectable alpha alpha_sort alpha_sort_threshold
- * @cc_externs anaglyph_use animation_framerate antialiasing
+ * @cc_externs all_objs_selectable allow_cors allow_hidpi alpha alpha_sort
+ * @cc_externs alpha_sort_threshold anaglyph_use animation_framerate antialiasing
  * @cc_externs assets_dds_available assets_min50_available background_color
- * @cc_externs built_in_module_name console_verbose context_antialias
- * @cc_externs deferred_rendering do_not_load_resources force_selectable
- * @cc_externs glow physics_enabled physics_uranium_path precision
- * @cc_externs quality resolution_factor shaders_dir show_hud_debug_info
+ * @cc_externs built_in_module_name canvas_resolution_factor console_verbose
+ * @cc_externs context_antialias deferred_rendering do_not_load_resources
+ * @cc_externs force_selectable glow physics_enabled physics_uranium_path precision
+ * @cc_externs quality resolution_factor sfx_mix_mode shaders_dir show_hud_debug_info
  * @cc_externs smaa smaa_search_texture_path smaa_area_texture_path wireframe_debug
  */
 b4w.module["config"] = function(exports, require) {

@@ -230,14 +230,6 @@ msgstr ""
 msgid "Отображение сцен в просмотрщике"
 msgstr "Displaying Scenes in the Viewer"
 
-#: ../workflow.rst:68
-msgid ""
-"Для того, чтобы сцена появилась в списке сцен просмотрщика, нужно вручную "
-"добавить запись в текстовой файл ``external/deploy/assets/assets.json``."
-msgstr ""
-"For the scene to appear in the viewer list it's required to manually add an "
-"entry to the text file ``external/deploy/assets/assets.json``."
-
 #: ../workflow.rst:70
 msgid ""
 "Для добавления новой сцены нужно знать категорию, в которой она должна "
@@ -304,3 +296,12 @@ msgstr "viewer"
 #: ../workflow.rst:63
 msgid "добавление сцен"
 msgstr "scene adding"
+
+#: ../workflow.rst:68
+msgid ""
+"Для того, чтобы сцена появилась в списке сцен просмотрщика, нужно вручную "
+"добавить запись в текстовой файл ``apps_dev/viewer/assets.json``."
+msgstr ""
+"For the scene to appear in the viewer list it's required to manually add an "
+"entry to the text file ``apps_dev/viewer/assets.json``."
+

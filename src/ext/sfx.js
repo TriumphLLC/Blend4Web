@@ -10,6 +10,7 @@ b4w.module["sfx"] = function(exports, require) {
 
 var m_scs = require("__scenes");
 var m_sfx = require("__sfx");
+var m_print = require("__print");
 
 /**
  * Play sound through the speaker.
@@ -86,6 +87,24 @@ exports.stop = function(obj) {
 }
 
 /**
+ * Pause the speaker.
+ * @method module:sfx.pause
+ * @param {Object} obj Object ID
+ */
+exports.pause = function(obj) {
+    m_sfx.speaker_pause(obj);
+}
+
+/**
+ * Resume the paused speaker.
+ * @method module:sfx.resume
+ * @param {Object} obj Object ID
+ */
+exports.resume = function(obj) {
+    m_sfx.speaker_resume(obj);
+}
+
+/**
  * Change the speaker playback rate value
  * @method module:sfx.speaker_playback_rate
  * @deprecated Use playrate()
@@ -101,6 +120,16 @@ exports.speaker_playback_rate = function(obj, playrate) {
  */
 exports.playrate = function(obj, playrate) {
     m_sfx.playrate(obj, playrate);
+}
+
+/**
+ * Get the speaker playback rate value.
+ * @method module:sfx.playrate
+ * @param {Object} obj Object ID
+ * @returns {Number} Playback rate
+ */
+exports.get_playrate = function(obj) {
+    return m_sfx.get_playrate(obj);
 }
 
 /**
@@ -349,6 +378,21 @@ exports.get_filter_params = m_sfx.get_filter_params;
  * @param {Float32Array} phase_arr Output array with filter response phases.
  */
 exports.get_filter_freq_response = m_sfx.get_filter_freq_response;
+
+/**
+ * Get duration.
+ * @method module:sfx.get_volume
+ * @param {?Object} obj Object ID or null for MASTER volume
+ * @returns {Number} Volume (0..1)
+ */
+exports.get_duration = function(obj) {
+    if (!obj || !m_sfx.is_speaker(obj)) {
+        m_print.error("Object \"" + (obj ? obj["name"]:undefined) +
+                      "\" is not a valid speaker");
+        return;
+    }
+    return m_sfx.get_duration(obj);
+}
 
 }
 

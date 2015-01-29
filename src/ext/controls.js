@@ -136,6 +136,11 @@ exports.KEY_RIGHT_SQ_BRACKET = 221;
 exports.KEY_SINGLE_QUOTE     = 222;
 
 
+exports.PL_SINGLE_TOUCH_MOVE = m_ctl.PL_SINGLE_TOUCH_MOVE;
+exports.PL_MULTITOUCH_MOVE_ZOOM = m_ctl.PL_MULTITOUCH_MOVE_ZOOM;
+exports.PL_MULTITOUCH_MOVE_PAN = m_ctl.PL_MULTITOUCH_MOVE_PAN;
+
+
 /**
  * Create a custom sensor.
  * Custom sensor controlled by set_custom_sensor()
@@ -238,20 +243,39 @@ exports.create_motion_sensor = m_ctl.create_motion_sensor;
  */
 exports.create_vertical_velocity_sensor = m_ctl.create_vertical_velocity_sensor;
 /**
- * Create a timer sensor.
- * The sensor's value becomes 1 for the frame whcih comes next after the time period has elapsed.
- * Don't try to measure the period which is less than the frame's duration
- * @method module:controls.create_timer_sensor
- * @param {Number} period Timer period in seconds
+ * Create a gyroscope sensor.
+ * The sensor's payload stores the euler angles of rotation mobile device.
+ * @method module:controls.create_gyroscope_angles_sensor
  * @returns {Object} Sensor object
  */
-exports.create_timer_sensor = m_ctl.create_timer_sensor;
+exports.create_gyro_angles_sensor = m_ctl.create_gyro_angles_sensor;
 /**
- * Reset the timer sensor.
+ * Create a gyroscope sensor.
+ * The sensor's payload stores the euler angles differences between current and previous states of mobile device.
+ * @method module:controls.create_gyroscope_angles_sensor
+ * @returns {Object} Sensor object
+ */
+exports.create_gyro_delta_sensor = m_ctl.create_gyro_delta_sensor;
+/**
+ * Create a timer sensor.
+ * The sensor's value becomes 1 for the frame which comes next after the time
+ * period has elapsed. After that the value is 0 again. Timer precision depends
+ * on current FPS value, so don't try to measure short intervals.
+ * @method module:controls.create_timer_sensor
+ * @param {Number} period Timer period in seconds
+ * @param {Boolean} [do_repeat=false] Periodically repeat expired timer
+ * @returns {Object} Sensor object
+ */
+exports.create_timer_sensor = function(period, do_repeat) {
+    return m_ctl.create_timer_sensor(period, do_repeat || false);
+}
+/**
+ * Reset the timer sensor and set the new period value.
  * @method module:controls.reset_timer_sensor
  * @param {Object} obj Object ID
  * @param {String} manifold_id Object's manifold ID
  * @param {Number} num Sensor number in manifold
+ * @param {Number} period Sensor's new period value
  */
 exports.reset_timer_sensor = m_ctl.reset_timer_sensor;
 /**
@@ -453,6 +477,7 @@ exports.remove_sensor_manifold = m_ctl.remove_sensor_manifold;
 
 /**
  * Reset controls for all the objects.
+ * Usage discouraged, use remove_sensor_manifold/remove_sensor_manifolds instead.
  * @method module:controls.reset
  */
 exports.reset = m_ctl.reset;
@@ -470,9 +495,16 @@ exports.register_keyboard_events = m_ctl.register_keyboard_events;
  * @param {HTMLElement} element Target HTML element
  * @param {Boolean} prevent_default Prevent browser default actions for
  * registered events.
+ * @param {Boolean} [allow_element_exit=false] Allows to leave mouse event over
+ * canvas element.
  * @method module:controls.register_mouse_events
  */
-exports.register_mouse_events = m_ctl.register_mouse_events;
+exports.register_mouse_events = function(element, prevent_default,
+                                         allow_element_exit,
+                                         allow_element_mouse_event) {
+
+    m_ctl.register_mouse_events(element, prevent_default, !!allow_element_exit)
+}
 /**
  * Register events for mouse wheel sensors (onmousewheel, DOMMouseScroll).
  * @param {HTMLElement} element Target HTML element
@@ -489,6 +521,12 @@ exports.register_wheel_events = m_ctl.register_wheel_events;
  * @method module:controls.register_touch_events
  */
 exports.register_touch_events = m_ctl.register_touch_events;
+
+/**
+ * Register events for device orientation sensors.
+ * @method module:controls.register_device_orientation
+ */
+exports.register_device_orientation = m_ctl.register_device_orientation;
 
 /**
  * Unregister events for keyboard sensors.
@@ -509,9 +547,15 @@ exports.unregister_mouse_events = m_ctl.unregister_mouse_events;
  */
 exports.unregister_wheel_events = m_ctl.unregister_wheel_events;
 /**
+ * Unregister events for device orientation sensors.
+ * @method module:controls.register_device_orientation
+ */
+exports.unregister_device_orientation = m_ctl.register_device_orientation;
+/**
  * Unregister events for touchscreen sensors.
  * @param {HTMLElement} element Target HTML element
  * @method module:controls.unregister_touch_events
  */
 exports.unregister_touch_events = m_ctl.unregister_touch_events;
+
 }

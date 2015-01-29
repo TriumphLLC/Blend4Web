@@ -1,0 +1,397 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Particle System for Instancing Objects &mdash; User Manual: Blend4Web v15.01</title>
+    
+    <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '15.01',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="top" title="User Manual: Blend4Web v15.01" href="index.html" />
+    <link rel="next" title="Animation" href="animation.html" />
+    <link rel="prev" title="Particle System" href="particles.html" /> 
+  </head>
+  <body>
+    <div class="header-wrapper">
+      <div class="header">
+          <p class="logo"><a href="index.html">
+            <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
+          </a></p>
+        <div class="headertitle"><a
+          href="index.html">User Manual: Blend4Web v15.01</a></div>
+        <div class="rel">
+          <a href="particles.html" title="Particle System"
+             accesskey="P">previous</a> |
+          <a href="animation.html" title="Animation"
+             accesskey="N">next</a> |
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a>
+        </div>
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <span class="target" id="particles-instancing"></span><div class="section" id="index-0">
+<span id="id1"></span><h1>Particle System for Instancing Objects<a class="headerlink" href="#index-0" title="Permalink to this headline">¶</a></h1>
+<p>A particle system can be used to create multiple object copies (so called instancing). This technique simplifies scene authoring and also reduces loading time and memory consumption as compared to the using of single objects.</p>
+<a class="reference internal image-reference" href="_images/particles_instancing_example.jpg"><img alt="_images/particles_instancing_example.jpg" class="align-center" src="_images/particles_instancing_example.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>Using particle systems for instancing has some limitations:</p>
+<ul class="simple">
+<li><p class="first">Movement and animation of objects inside a particle system is not allowed.</p>
+</li>
+<li><p class="first">Parenting is not possible among the objects inside a particle system, except for dupli-groups.</p>
+</li>
+<li><p class="first">Instancing of non-mesh objects is not possible.</p>
+</li>
+</ul>
+<div class="section" id="id2">
+<h2>Particle System Setup<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p><strong>Activation</strong></p>
+<ol class="arabic simple">
+<li><p class="first">Create a particle system of the <tt class="docutils literal"><span class="pre">Hair</span></tt> type on the emitter.</p>
+</li>
+<li><p class="first">On the <tt class="docutils literal"><span class="pre">Render</span></tt> panel select the <tt class="docutils literal"><span class="pre">Object</span></tt> (or the <tt class="docutils literal"><span class="pre">Group</span></tt>) rendering type.</p>
+</li>
+<li><p class="first">In the <tt class="docutils literal"><span class="pre">Dupli</span> <span class="pre">Object</span></tt> field (or in the <tt class="docutils literal"><span class="pre">Dupli</span> <span class="pre">Group</span></tt> field) select the object (or the object group) for instancing. Both local and linked objects (or groups) are supported.</p>
+</li>
+</ol>
+<p><strong>Recommended additional settings</strong></p>
+<ol class="arabic simple">
+<li><p class="first">For correct size displaying set the <tt class="docutils literal"><span class="pre">Emission</span> <span class="pre">&gt;</span> <span class="pre">Hair</span> <span class="pre">Length</span></tt> and <tt class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Size</span></tt> parameters to 1.0.</p>
+</li>
+<li><p class="first">For correct orientation temporarily enable the <tt class="docutils literal"><span class="pre">Advanced</span></tt> option, activate the <tt class="docutils literal"><span class="pre">Rotation</span></tt> panel and select <tt class="docutils literal"><span class="pre">None</span></tt> in the <tt class="docutils literal"><span class="pre">Initial</span> <span class="pre">Orientation</span></tt> menu. Disable the <tt class="docutils literal"><span class="pre">Advanced</span></tt> option. It is also recommended to enable the <tt class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Rotation</span></tt> option.</p>
+</li>
+</ol>
+<a class="reference internal image-reference" href="_images/particles_instancing_setup.jpg"><img alt="_images/particles_instancing_setup.jpg" class="align-center" src="_images/particles_instancing_setup.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p><strong>Setup</strong></p>
+<p><em>Render &gt; Use Count</em></p>
+<blockquote>
+<div><p>The option is available for groups of particle objects. When enabled the interface for setting the relative number of objects in a group is displayed. The engine doesn&#8217;t reproduce the exact location of objects of set types.</p>
+</div></blockquote>
+<p><em>Blend4Web &gt; Random location and size</em></p>
+<blockquote>
+<div><p>The option enables randomization for the location and the size of the objects. If enabled the engine generates random coordinates and size (limited to the ±25% range) for the particle objects. If it is disabled then the current coordinates and sizes of the particle objects are exported and used. Enabled by default.</p>
+</div></blockquote>
+<p><em>Blend4Web &gt; Initial random rotation</em></p>
+<blockquote>
+<div><p>The option enables random rotation of the objects relative to the axis which is defined by the <tt class="docutils literal"><span class="pre">Rotation</span> <span class="pre">type</span></tt> parameter. If enabled the engine generates random rotation angles for the particle objects. If disabled the zero rotation angle is used. Enabled by default.</p>
+</div></blockquote>
+<p><em>Blend4Web &gt; Rotation type</em></p>
+<blockquote>
+<div><p>The axis for randomly turning the object (the option is available when the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Initial</span> <span class="pre">random</span> <span class="pre">rotation</span></tt> checkbox is set). 2 options are available:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p class="first"><tt class="docutils literal"><span class="pre">Z</span> <span class="pre">axis</span></tt> - the objects are turned randomly around the vertical Z axis</p>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">Random</span> <span class="pre">axis</span></tt> - the objects are turned randomly around a random axis</p>
+</li>
+</ul>
+</div></blockquote>
+<p>The default is <tt class="docutils literal"><span class="pre">Z</span> <span class="pre">axis</span></tt></p>
+</div></blockquote>
+<p><em>Blend4Web &gt; Rotation strength</em></p>
+<blockquote>
+<div><p>The coefficient defining the range of random rotation angles - counting from the direction towards the camera (the option is available when the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Initial</span> <span class="pre">random</span> <span class="pre">rotation</span></tt> checkbox is enabled). Examples:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p class="first"><tt class="docutils literal"><span class="pre">Rotation</span> <span class="pre">strength</span> <span class="pre">=</span> <span class="pre">1</span></tt> - the angles will lie within the <span class="math">\([-\pi, \pi]\)</span> range</p>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">Rotation</span> <span class="pre">strength</span> <span class="pre">=</span> <span class="pre">0.5</span></tt> - the angles will lie within the <span class="math">\([-0.5 \cdot \pi, 0.5 \cdot \pi]\)</span> range</p>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">Rotation</span> <span class="pre">strength</span> <span class="pre">=</span> <span class="pre">0.1</span></tt> - the angles will lie within the <span class="math">\([-0.1 \cdot \pi, 0.1 \cdot \pi]\)</span> range</p>
+</li>
+</ul>
+</div></blockquote>
+<p>The default value is 1.</p>
+</div></blockquote>
+<p><em>Blend4Web &gt; Billboard</em></p>
+<blockquote>
+<div><p>Enables billboarding for particles. Disabled by default.</p>
+</div></blockquote>
+<p><em>Blend4Web &gt; Billboard type</em></p>
+<blockquote>
+<div><p>Billboarding type (the option is available when the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Billboard</span></tt> option is set). 3 types are available:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p class="first"><tt class="docutils literal"><span class="pre">Basic</span></tt> - simple one-sided billboarding: particles will be turned with their front side to the observer</p>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">Random</span></tt> - random two-sided billboarding: particles will be more often turned with their front or rear side to the observer and less often with their side; also there will be a small random turn; this model was created specially for instancing grass</p>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">Jittered</span></tt> - one-sided billboarding with particles wavering along the plane which is turned to the observer; this model was created specially for instancing tree leaves</p>
+</li>
+</ul>
+</div></blockquote>
+<p>The default is <tt class="docutils literal"><span class="pre">Basic</span></tt>.</p>
+</div></blockquote>
+<p><em>Blend4Web &gt; Jitter amplitude</em></p>
+<blockquote>
+<div><p>The coefficient of the particle oscillation amplitude (the option is available when the <tt class="docutils literal"><span class="pre">Jittered</span></tt> type is selected from the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Billboard</span> <span class="pre">type</span></tt> menu). The bigger this parameter is the bigger is the oscillation amplitude. The default value is 0.</p>
+</div></blockquote>
+<p><em>Blend4Web &gt; Jitter frequency</em></p>
+<blockquote>
+<div><p>The particle oscillation frequency in hertz (the option is available when the <tt class="docutils literal"><span class="pre">Jittered</span></tt> type is selected from the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Billboard</span> <span class="pre">type</span></tt> menu). The default value is 0.</p>
+</div></blockquote>
+<p><em>Blend4Web &gt; Billboard geometry</em></p>
+<blockquote>
+<div><p>Billboard rotation type (the option is available when the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Billboard</span></tt> checkbox is set). 2 types are available:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p class="first"><tt class="docutils literal"><span class="pre">Spherical</span></tt> - spherical billboarding i.e. particles are fully oriented to the observer and their rotation is unlimited</p>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">Cylindrical</span></tt> - cylindrical billboarding i.e. particles are rotating only around the vertical Z axis.</p>
+</li>
+</ul>
+</div></blockquote>
+<p>The default is <tt class="docutils literal"><span class="pre">Spherical</span></tt>.</p>
+</div></blockquote>
+<p><em>Blend4Web &gt; Dynamic Grass</em></p>
+<blockquote>
+<div><p>The option enables the dynamic grass rendering mode. Disabled by default.</p>
+</div></blockquote>
+<p><em>Blend4Web &gt; Wind bending</em></p>
+<blockquote>
+<div><p>Inheriting the wind bending settings by the particles:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p class="first"><tt class="docutils literal"><span class="pre">Parent</span></tt> - inherited from the emitter</p>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">Instance</span></tt> - inherited from the particle object itself</p>
+</li>
+</ul>
+</div></blockquote>
+<p>The default is <tt class="docutils literal"><span class="pre">Parent</span></tt>.</p>
+</div></blockquote>
+<p><em>Blend4Web &gt; Shadows</em></p>
+<blockquote>
+<div><p>Inheriting the shadow settings by particles:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p class="first"><tt class="docutils literal"><span class="pre">Parent</span></tt> - inherited from the emitter</p>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">Instance</span></tt> - inherited from the particle object itself</p>
+</li>
+</ul>
+</div></blockquote>
+<p>The default is <tt class="docutils literal"><span class="pre">Parent</span></tt>.</p>
+</div></blockquote>
+<p><em>Blend4Web &gt; Reflection</em></p>
+<blockquote>
+<div><p>Inheriting the reflection settings by particles:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p class="first"><tt class="docutils literal"><span class="pre">Parent</span></tt> - inherited from the emitter</p>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">Instance</span></tt> - inherited from the particle object itself</p>
+</li>
+</ul>
+</div></blockquote>
+<p>The default is <tt class="docutils literal"><span class="pre">Parent</span></tt>.</p>
+</div></blockquote>
+<p><em>Blend4Web &gt; Vertex color</em></p>
+<blockquote>
+<div><p>Inheriting the vertex color from the emitter. Contains 2 fields:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p class="first"><tt class="docutils literal"><span class="pre">from</span></tt> - the emitter&#8217;s existing vertex color name</p>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">to</span></tt> - the particle&#8217;s existing vertex color name</p>
+</li>
+</ul>
+</div></blockquote>
+<p>There is no inheritance by default.</p>
+</div></blockquote>
+</div>
+<div class="section" id="particles-grass">
+<span id="id3"></span><h2>Grass<a class="headerlink" href="#particles-grass" title="Permalink to this headline">¶</a></h2>
+<p>Instancing of objects can be used for visualizing vast grass. In this case grass is rendered near the camera when it moves through the landscape.</p>
+<a class="reference internal image-reference" href="_images/dynamic_grass.jpg"><img alt="_images/dynamic_grass.jpg" class="align-center" src="_images/dynamic_grass.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p><strong>Activation</strong></p>
+<ol class="arabic simple">
+<li><p class="first">On a separate plane object create a particle system for object instancing. Enable the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Dynamic</span> <span class="pre">Grass</span></tt> option.</p>
+</li>
+<li><p class="first">On the supposed landscape material enable the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Terrain</span> <span class="pre">dynamic</span> <span class="pre">grass</span></tt> option.</p>
+</li>
+</ol>
+<p><strong>Setup</strong></p>
+<p>It is recommended to create a few planes (for example 3) with sizes corresponding to the desired grass cascades (e.g. 100, 150 and 250 meters).</p>
+<p>On the landscape <strong>material</strong> the following text fields get active when the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Terrain</span> <span class="pre">dynamic</span> <span class="pre">grass</span></tt> option is enabled:</p>
+<dl class="docutils">
+<dt><em>Dynamic grass size (R)</em></dt>
+<dd><p class="first last">Vertex color layer name of the landscape mesh which is intended for modifying the grass size. The size (i.e. height) of the grass is defined by gray tints - the brighter color the is the higher is the grass.</p>
+</dd>
+<dt><em>Dynamic grass color (RGB)</em></dt>
+<dd><p class="first last">Name of the landscape mesh&#8217;s vertex color layer which is intended for grass tinting. The vertex color is multiplied by the grass material color. The <tt class="docutils literal"><span class="pre">Influence</span> <span class="pre">&gt;</span> <span class="pre">Blend</span></tt> parameter for the grass material&#8217;s diffuse texture should have the <tt class="docutils literal"><span class="pre">Multiply</span></tt> value.</p>
+</dd>
+</dl>
+<p>Vertex color layers with such names should exist in the landscape mesh.</p>
+<p>It is also recommended to disable rendering of the emitter (the <tt class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Emitter</span></tt> option).</p>
+<a class="reference internal image-reference" href="_images/dynamic_grass_setup.jpg"><img alt="_images/dynamic_grass_setup.jpg" class="align-center" src="_images/dynamic_grass_setup.jpg" style="width: 100%;" /></a>
+</div>
+<div class="section" id="particles-leaves">
+<span id="id4"></span><h2>Tree Leaves<a class="headerlink" href="#particles-leaves" title="Permalink to this headline">¶</a></h2>
+<p>Instancing suits the rendering of tree leaves well and allows to get a better level of detail.</p>
+<a class="reference internal image-reference" href="_images/tree_leaves.jpg"><img alt="_images/tree_leaves.jpg" class="align-center" src="_images/tree_leaves.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p><strong>Activation</strong></p>
+<p>Performed as described in the <tt class="docutils literal"><span class="pre">Particle</span> <span class="pre">system</span> <span class="pre">setup</span> <span class="pre">-&gt;</span> <span class="pre">Activation</span></tt> section (see above). In this case the tree is the emitter and the leaves and the small branches are the particles.</p>
+<p>Additionally the following operations should be performed for the emitter:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p class="first">create a vertex group which includes vertices on which the particles will be placed</p>
+</li>
+<li><p class="first">create a vertex color layer for the wind bending parameters of the tree and the leaves</p>
+</li>
+<li><p class="first">create a vertex color layer to be inherited by the particles (for example it can be used for tinting the particles)</p>
+</li>
+</ul>
+</div></blockquote>
+<p><strong>Setup</strong></p>
+<ol class="arabic simple">
+<li><p class="first"><tt class="docutils literal"><span class="pre">Random</span> <span class="pre">rotation</span> <span class="pre">settings</span></tt></p>
+</li>
+</ol>
+<p>If the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Initial</span> <span class="pre">random</span> <span class="pre">rotation</span></tt> checkbox is enabled then it is recommended to select the vertical axis for random rotation - <tt class="docutils literal"><span class="pre">Z</span> <span class="pre">axis</span></tt> (the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Rotation</span> <span class="pre">type</span></tt> menu). The <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Rotation</span> <span class="pre">strength</span></tt> value can be set too.</p>
+<ol class="arabic simple" start="2">
+<li><p class="first"><tt class="docutils literal"><span class="pre">Billboarding</span> <span class="pre">settings</span></tt></p>
+</li>
+</ol>
+<p>It is recommended to enable billboarding, to set its type as <tt class="docutils literal"><span class="pre">Jittered</span></tt> (the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Billboard</span> <span class="pre">type</span></tt> menu) and to make it spherical - <tt class="docutils literal"><span class="pre">Spherical</span></tt> (the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Billboard</span> <span class="pre">geometry</span></tt> menu). The <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Jitter</span> <span class="pre">amplitude</span></tt> and <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Jitter</span> <span class="pre">frequency</span></tt> values can be set too.</p>
+<ol class="arabic simple" start="3">
+<li><p class="first"><tt class="docutils literal"><span class="pre">Particles</span> <span class="pre">location</span> <span class="pre">settings</span></tt></p>
+</li>
+</ol>
+<p>It is recommended to select the <tt class="docutils literal"><span class="pre">Verts</span></tt> value from the <tt class="docutils literal"><span class="pre">Emission</span> <span class="pre">&gt;</span> <span class="pre">Emit</span> <span class="pre">From</span></tt> menu, and to select in the <tt class="docutils literal"><span class="pre">Vertex</span> <span class="pre">Group</span> <span class="pre">&gt;</span> <span class="pre">Density</span></tt> field the emitter&#8217;s vertex group which defines the placing of particles. Also the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Random</span> <span class="pre">location</span> <span class="pre">and</span> <span class="pre">size</span></tt> checkbox shoud be disabled.</p>
+<ol class="arabic simple" start="4">
+<li><p class="first"><tt class="docutils literal"><span class="pre">Wind</span> <span class="pre">Bending</span> <span class="pre">settings</span></tt></p>
+</li>
+</ol>
+<p>It is recommended to enable inheritance settings from the emitter - select the <tt class="docutils literal"><span class="pre">Parent</span></tt> in the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Wind</span> <span class="pre">bending</span></tt> menu. Then for the emitter on the <tt class="docutils literal"><span class="pre">Object</span></tt> panel enable the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Wind</span> <span class="pre">bending</span></tt> checkbox and setup the bending parameters. For a tree it is enough to specify the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Main</span> <span class="pre">Bending</span> <span class="pre">&gt;</span> <span class="pre">Angle</span></tt> and <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Main</span> <span class="pre">Bending</span> <span class="pre">&gt;</span> <span class="pre">Frequency</span></tt> parameters and also a vertex color name for bending in the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Main</span> <span class="pre">Bending</span> <span class="pre">&gt;</span> <span class="pre">Main</span> <span class="pre">stiffness</span></tt> field.</p>
+<ol class="arabic simple" start="5">
+<li><p class="first"><tt class="docutils literal"><span class="pre">Vertex</span> <span class="pre">color</span> <span class="pre">inheritance</span> <span class="pre">settings</span></tt></p>
+</li>
+</ol>
+<p>For the emitter&#8217;s vertex color to be inherited it is required to specify the emitter&#8217;s vertex color name and the particle&#8217;s vertex color name respectively in the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Vertex</span> <span class="pre">Color</span> <span class="pre">&gt;</span> <span class="pre">from</span></tt> and <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Vertex</span> <span class="pre">Color</span> <span class="pre">&gt;</span> <span class="pre">to</span></tt> fields. The color of the emitter&#8217;s vertex that is closest to the particle and specified in the <tt class="docutils literal"><span class="pre">from</span></tt> field will be copied and propagated into the <tt class="docutils literal"><span class="pre">to</span></tt> particle&#8217;s vertex color layer, as a result.</p>
+<p>The resulting vertex color layer with the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Vertex</span> <span class="pre">Color</span> <span class="pre">&gt;</span> <span class="pre">to</span></tt> name may be used in the particle&#8217;s node material for its tinting or other effects.</p>
+<a class="reference internal image-reference" href="_images/particle_settings.jpg"><img alt="_images/particle_settings.jpg" class="align-center" src="_images/particle_settings.jpg" style="width: 100%;" /></a>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="sidebar">
+          <h3>Table Of Contents</h3>
+          <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">The Engine Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="first_steps.html">Quick Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">Development Environment Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow.html">Workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="viewer.html">Scene Viewer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="web_player.html">Web Player</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">The Add-on</a></li>
+<li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing Effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Particle System for Instancing Objects</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">Particle System Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#particles-grass">Grass</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#particles-leaves">Tree Leaves</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="animation.html">Animation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Rendering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Gamma Correction and Alpha Compositing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audio.html">Audio System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nla.html">Non-Linear Animation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers.html">For Application Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">For Engine Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Team Work. Using Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Problems and Solutions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
+</ul>
+
+          <h3 style="margin-top: 1.5em;">Search</h3>
+          <form class="search" action="search.html" method="get">
+            <input type="text" name="q" />
+            <input type="submit" value="Go" />
+            <input type="hidden" name="check_keywords" value="yes" />
+            <input type="hidden" name="area" value="default" />
+          </form>
+          <p class="searchtip" style="font-size: 90%">
+            Enter search terms or a module, class or function name.
+          </p>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+    <div class="footer-wrapper">
+      <div class="footer">
+        <div class="left">
+          <a href="particles.html" title="Particle System"
+             >previous</a> |
+          <a href="animation.html" title="Animation"
+             >next</a> |
+          <a href="genindex.html" title="General Index"
+             >index</a>
+        </div>
+
+        <div class="right">
+          
+    <div class="footer">
+        &copy; Copyright 2015, Triumph LLC.
+      Last updated on 2015-01-29.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+  </body>
+</html>

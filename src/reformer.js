@@ -364,6 +364,14 @@ exports.check_bpy_data = function(bpy_data) {
             scene["b4w_enable_antialiasing"] = true;
             report("scene", scene, "b4w_enable_antialiasing");
         }
+
+        if (!("b4w_tags" in scene)) {
+            scene["b4w_tags"] = {
+                "title": "",
+                "description": ""
+            };
+            report("scene", scene, "b4w_tags");
+        }
     }
 
     /* object data - meshes */
@@ -862,6 +870,11 @@ exports.check_bpy_data = function(bpy_data) {
         if (!("b4w_collision_mask" in mat)) {
             mat["b4w_collision_mask"] = 127;
             report("material", mat, "b4w_collision_mask");
+        }
+
+        if (!("b4w_do_not_render" in mat)) {
+            mat["b4w_do_not_render"] = false;
+            report("material", mat, "b4w_do_not_render");
         }
 
         if (mat.type == "HALO" && !("b4w_halo_sky_stars" in mat)) {
@@ -2039,6 +2052,46 @@ function mesh_transform_locations(mesh, matrix) {
                 submesh["normal"], 0);
         m_util.tangents_multiply_matrix(submesh["tangent"], matrix,
                 submesh["tangent"], 0);
+    }
+}
+
+/**
+ * Rewrite object params according to NLA script.
+ * Not the best place to do such things, but other methods are much harder to
+ * implement (see update_object())
+ */
+exports.assign_nla_object_params = function(objects, scenes) {
+    for (var i = 0; i < scenes.length; i++) {
+        var scene = scenes[i];
+
+        if (!scene["b4w_use_nla"])
+            continue;
+
+        var nla_script = scene["b4w_nla_script"];
+
+        for (var j = 0; j < nla_script.length; j++) {
+            var sslot = nla_script[j];
+
+            switch (sslot["type"]) {
+            case "SELECT":
+            case "SELECT_PLAY":
+                for (var k = 0; k < objects.length; k++) {
+                    var obj = objects[k];
+                    if (obj["name"] == sslot["object"])
+                        obj["b4w_selectable"] = true;
+                }
+
+                break;
+            case "SHOW":
+            case "HIDE":
+                for (var k = 0; k < objects.length; k++) {
+                    var obj = objects[k];
+                    if (obj["name"] == sslot["object"])
+                        obj["b4w_do_not_batch"] = true;
+                }
+                break;
+            }
+        }
     }
 }
 

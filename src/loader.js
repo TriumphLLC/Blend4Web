@@ -63,7 +63,7 @@ exports.create_scheduler = function() {
  * @param {Function} complete_load_cb Callback on all stages loading
  * @param {Boolean} wait_complete_loading Perform callback on all or all non-background stages loading
  * @param {Boolean} do_not_load_resources To load or not to load application resources
- * @param {Boolean} load_hidden Hide/disable loaded objects
+ * @param {Boolean} load_hidden Hide loaded and disable physics objects
  * @returns {Number} Id of loaded data.
  */
 exports.create_thread = function(stages, path, loaded_callback, 
@@ -78,6 +78,8 @@ exports.create_thread = function(stages, path, loaded_callback,
 
         filepath: path,
         binary_name: "",
+
+        loaded_cb: loaded_callback || (function() {}),
 
         load_hidden: load_hidden || false,
         wait_complete_loading: wait_complete_loading,
@@ -97,9 +99,8 @@ exports.create_thread = function(stages, path, loaded_callback,
         init_wa_context: false
     }
 
-    var loaded_cb = loaded_callback || (function() {});
     var graph = create_loading_graph(thread.id === 0, stages, 
-            wait_complete_loading, do_not_load_resources, loaded_cb);
+            wait_complete_loading, do_not_load_resources);
     thread.stage_graph = graph;
 
     var stages_queue = [];
@@ -121,7 +122,7 @@ exports.create_thread = function(stages, path, loaded_callback,
 }
 
 function create_loading_graph(is_primary, stages, wait_complete_loading, 
-        do_not_load_resources, loaded_cb) {
+        do_not_load_resources) {
     var scheduler = get_scheduler();
 
     var graph = m_graph.create();
@@ -155,7 +156,7 @@ function create_loading_graph(is_primary, stages, wait_complete_loading,
         if (thread.status != THREAD_FINISHED)
             thread.status = THREAD_FINISHED_NO_RESOURCES;
 
-        loaded_cb(thread.id);
+        thread.loaded_cb(thread.id, true);
         cb_finish(thread, stage);
         m_print.log("%cTHREAD " + thread.id + ": LOADED CALLBACK", DEBUG_COLOR);
     }
@@ -163,7 +164,8 @@ function create_loading_graph(is_primary, stages, wait_complete_loading,
     var finish_node = init_stage({
         name: "out",
         priority: exports.FINISH_PRIORITY,
-        cb_before: loaded_cb_wrapper
+        cb_before: loaded_cb_wrapper,
+        relative_size: 5
     });
 
     var prefinish_nodes = [];

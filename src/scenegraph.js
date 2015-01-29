@@ -652,7 +652,7 @@ exports.create_rendering_graph = function(render_to_texture, sc_render, cam_rend
     var render_shadows  = sc_render.render_shadows;
     var ssao            = sc_render.ssao;
     var god_rays        = sc_render.god_rays;
-    var refractions     = sc_render.refractions;
+    var mat_params      = sc_render.materials_params;
     var refl_planes     = sc_render.refl_planes;
     var bloom           = sc_render.bloom;
     var motion_blur     = sc_render.motion_blur;
@@ -672,7 +672,7 @@ exports.create_rendering_graph = function(render_to_texture, sc_render, cam_rend
 
     var main_cams = [];
 
-    if (cfg_def.anaglyph_use && !render_to_texture) {
+    if (sc_render.anaglyph_use && !render_to_texture) {
 
         var cam_left = cam_render.cameras[0];
         var cam_right = cam_copy(cam_left);
@@ -932,7 +932,7 @@ exports.create_rendering_graph = function(render_to_texture, sc_render, cam_rend
         var subs_color_picking = null;
 
     // refraction subscene
-    if (refractions && !render_to_texture) {
+    if (mat_params.refractions && !render_to_texture) {
         for (var i = 0; i < main_cams.length; i++) {
             var subs_refr = create_subs_refract();
             m_graph.append_node_attr(graph, subs_refr);
@@ -1515,7 +1515,7 @@ exports.create_rendering_graph = function(render_to_texture, sc_render, cam_rend
         curr_level = [];
     }
 
-    if (cfg_def.anaglyph_use && !render_to_texture) {
+    if (sc_render.anaglyph_use && !render_to_texture) {
         var subs_anaglyph = create_subs_anaglyph();
 
         m_graph.append_node_attr(graph, subs_anaglyph);

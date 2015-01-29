@@ -1,0 +1,324 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Physics &mdash; User Manual: Blend4Web v15.01</title>
+    
+    <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '15.01',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="top" title="User Manual: Blend4Web v15.01" href="index.html" />
+    <link rel="next" title="Non-Linear Animation" href="nla.html" />
+    <link rel="prev" title="Audio System" href="audio.html" /> 
+  </head>
+  <body>
+    <div class="header-wrapper">
+      <div class="header">
+          <p class="logo"><a href="index.html">
+            <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
+          </a></p>
+        <div class="headertitle"><a
+          href="index.html">User Manual: Blend4Web v15.01</a></div>
+        <div class="rel">
+          <a href="audio.html" title="Audio System"
+             accesskey="P">previous</a> |
+          <a href="nla.html" title="Non-Linear Animation"
+             accesskey="N">next</a> |
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a>
+        </div>
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="physics">
+<span id="id1"></span><h1>Physics<a class="headerlink" href="#physics" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id2">
+<h2>Preparing for Use<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>To enable physics on the scene use the <tt class="docutils literal"><span class="pre">Enable</span> <span class="pre">physics</span></tt> checkbox under the scene tab in Blender.</p>
+<a class="reference internal image-reference" href="_images/scene_interface_phys_enable.png"><img alt="_images/scene_interface_phys_enable.png" class="align-center" src="_images/scene_interface_phys_enable.png" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>Physical parameters can be set up in the <tt class="docutils literal"><span class="pre">Blender</span> <span class="pre">Game</span></tt> mode.</p>
+<a class="reference internal image-reference" href="_images/info_panel.jpg"><img alt="_images/info_panel.jpg" class="align-center" src="_images/info_panel.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="section" id="id3">
+<h2>Static Physics Type<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>Can be used to limit the movement of other objects, for example to detect collisions with a landscape, walls and so on. In the physics settings of such an object the <tt class="docutils literal"><span class="pre">Static</span></tt> value (set by default) should be selected for the <tt class="docutils literal"><span class="pre">Physics</span> <span class="pre">Type</span></tt> option.</p>
+<a class="reference internal image-reference" href="_images/physics_panel_static.png"><img alt="_images/physics_panel_static.png" class="align-center" src="_images/physics_panel_static.png" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>One or multiple physics materials can be assigned to a mesh. Under the <tt class="docutils literal"><span class="pre">Material</span></tt> tab the <tt class="docutils literal"><span class="pre">Special:</span> <span class="pre">Collision</span></tt> checkbox must be enabled. The material physics settings are also located on the <tt class="docutils literal"><span class="pre">Physics</span></tt> panel under the <tt class="docutils literal"><span class="pre">Material</span></tt> tab (in the <tt class="docutils literal"><span class="pre">Blender</span> <span class="pre">Game</span></tt> mode). The following material physics settings are supported: <tt class="docutils literal"><span class="pre">Friction</span></tt>, <tt class="docutils literal"><span class="pre">Elasticity</span></tt>.</p>
+<a class="reference internal image-reference" href="_images/material_panel_physics.png"><img alt="_images/material_panel_physics.png" class="align-center" src="_images/material_panel_physics.png" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>The <tt class="docutils literal"><span class="pre">Collision</span> <span class="pre">ID</span></tt> field is intended for detecting collisions with specific materials and can be left empty. An example of <tt class="docutils literal"><span class="pre">Collision</span> <span class="pre">ID</span></tt> usage is detecting the landscape surface a character is located on - grass, sand, wooden coating and so on.</p>
+<p>The <tt class="docutils literal"><span class="pre">Ghost</span></tt> option excludes the material from physical interactions but still notifies the application about the contact with it. An example - detecting that the character is located on a vertical ladder.</p>
+<a class="reference internal image-reference" href="_images/water_tower.jpg"><img alt="_images/water_tower.jpg" class="align-center" src="_images/water_tower.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>The <tt class="docutils literal"><span class="pre">Collision</span> <span class="pre">group</span></tt> field corresponds to the physics group which the material belongs to. The <tt class="docutils literal"><span class="pre">Collision</span> <span class="pre">mask</span></tt> field defines all physics groups with which this material will interact.</p>
+</div>
+<div class="section" id="id4">
+<h2>Dynamic Physics Type<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p>Intended for rigid body movement simulation.</p>
+<a class="reference internal image-reference" href="_images/physics_dynamic.jpg"><img alt="_images/physics_dynamic.jpg" class="align-center" src="_images/physics_dynamic.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>In the physics settings of such an object the <tt class="docutils literal"><span class="pre">Rigid</span> <span class="pre">Body</span></tt> (with rotations) or <tt class="docutils literal"><span class="pre">Dynamic</span></tt> (without rotations) values can be selected for the <tt class="docutils literal"><span class="pre">Physics</span> <span class="pre">Type</span></tt> option. In the <tt class="docutils literal"><span class="pre">Collision</span> <span class="pre">Bounds</span></tt> settings the collider type can be selected - the supported types are: <tt class="docutils literal"><span class="pre">Box</span></tt>, <tt class="docutils literal"><span class="pre">Capsule</span></tt>, <tt class="docutils literal"><span class="pre">Sphere</span></tt>, <tt class="docutils literal"><span class="pre">Cylinder</span></tt>, <tt class="docutils literal"><span class="pre">Cone</span></tt>. Other supported settings are: <tt class="docutils literal"><span class="pre">Mass</span></tt>, <tt class="docutils literal"><span class="pre">Damping</span></tt> - for <tt class="docutils literal"><span class="pre">Translation</span></tt> and <tt class="docutils literal"><span class="pre">Rotation</span></tt>.</p>
+<p>The <tt class="docutils literal"><span class="pre">Collision</span> <span class="pre">group</span></tt> field corresponds to the physics group which the object belongs to.</p>
+<p>The <tt class="docutils literal"><span class="pre">Collision</span> <span class="pre">mask</span></tt> field defines all physics groups with which this object will interact.</p>
+<a class="reference internal image-reference" href="_images/physics_panel_dynamic.png"><img alt="_images/physics_panel_dynamic.png" class="align-center" src="_images/physics_panel_dynamic.png" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>The <tt class="docutils literal"><span class="pre">Detect</span> <span class="pre">collisions</span></tt> checkbox must be enabled under the object&#8217;s physics tab. The <tt class="docutils literal"><span class="pre">Collision</span> <span class="pre">ID</span></tt> field is intended for detecting collisions with a specific object (for example for detecting proximity of a FPS character to different items) and can be left empty.</p>
+<a class="reference internal image-reference" href="_images/object.png"><img alt="_images/object.png" class="align-center" src="_images/object.png" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">Friction</span></tt> and <tt class="docutils literal"><span class="pre">Elasticity</span></tt> are supported for the material of such an object. When multiple materials are used on a single mesh, the physics parameters are taken from the first of them.</p>
+<p>For the camera object the <tt class="docutils literal"><span class="pre">Physics</span> <span class="pre">Type</span></tt> = <tt class="docutils literal"><span class="pre">Dynamic</span></tt> parameter must be used, and the <tt class="docutils literal"><span class="pre">Detect</span> <span class="pre">collisions</span></tt> checkbox must be enabled.</p>
+</div>
+<div class="section" id="constraints">
+<h2>Constraints<a class="headerlink" href="#constraints" title="Permalink to this headline">¶</a></h2>
+<p>Physical constraints are used for limiting the objects&#8217; degrees of freedom.</p>
+<a class="reference internal image-reference" href="_images/physics_constraints.jpg"><img alt="_images/physics_constraints.jpg" class="align-center" src="_images/physics_constraints.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>Adding a physical constraint (<tt class="docutils literal"><span class="pre">Rigid</span> <span class="pre">Body</span> <span class="pre">Joint</span></tt>) to the object can be performed on the <tt class="docutils literal"><span class="pre">Object</span> <span class="pre">Constraints</span></tt> panel. The supported types (<tt class="docutils literal"><span class="pre">Pivot</span> <span class="pre">Type</span></tt>) are: <tt class="docutils literal"><span class="pre">Ball</span></tt>, <tt class="docutils literal"><span class="pre">Hinge</span></tt>, <tt class="docutils literal"><span class="pre">Cone</span> <span class="pre">Twist</span></tt>, <tt class="docutils literal"><span class="pre">Generic</span> <span class="pre">6</span> <span class="pre">DoF</span></tt>. A physical constraint can be added to one of the two interacting objects, while the other object acts as a <tt class="docutils literal"><span class="pre">Target</span></tt>. Both objects can have a static and/or dynamic physics type. In constraints (except <tt class="docutils literal"><span class="pre">Ball</span></tt>) the translation and rotation limits can be set up.</p>
+<a class="reference internal image-reference" href="_images/physics_constraints_panel.png"><img alt="_images/physics_constraints_panel.png" class="align-center" src="_images/physics_constraints_panel.png" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="section" id="id5">
+<h2>Wheeled Vehicles<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<p>The model of a vehicle must consist of 6 separate objects - a chassis, 4 wheels and a steering wheel. The chassis&#8217; mesh center should correspond to the mass center. The centers of the wheels&#8217; and the steering wheel&#8217;s meshes should be located on the rotation axes. The steering wheel should be oriented in the local space of coordinates - X - the rotation axis, Y - to the right and Z - upwards. The object can have any names.</p>
+<a class="reference internal image-reference" href="_images/physics_vehicle_wheeled.jpg"><img alt="_images/physics_vehicle_wheeled.jpg" class="align-center" src="_images/physics_vehicle_wheeled.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>For all 6 objects: select the <tt class="docutils literal"><span class="pre">Vehicle</span> <span class="pre">part</span></tt>, specify the same id in the <tt class="docutils literal"><span class="pre">Vehicle</span> <span class="pre">name</span></tt> field, select the right object type - <tt class="docutils literal"><span class="pre">Chassis</span></tt>, <tt class="docutils literal"><span class="pre">Steering</span> <span class="pre">wheel</span></tt>, <tt class="docutils literal"><span class="pre">Back</span> <span class="pre">right</span> <span class="pre">wheel</span></tt> and so on. A <tt class="docutils literal"><span class="pre">Suspension</span> <span class="pre">rest</span> <span class="pre">length</span></tt> setting is also available for the wheels.</p>
+<p>It is neccessary to specify a realistic mass for the chassis (because the default value is only 1 kg). To do this go to the physics settings, choose the <tt class="docutils literal"><span class="pre">Rigid</span> <span class="pre">Body</span></tt> value for the <tt class="docutils literal"><span class="pre">Physics</span> <span class="pre">Type</span></tt> option and specify the required value (for example, 1000 kg) in the <tt class="docutils literal"><span class="pre">Mass</span></tt> field.</p>
+<div class="section" id="id6">
+<h3>Chassis settings parameters<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt><em>Vehicle Settings &gt; Force max</em></dt>
+<dd><p class="first last">Maximum driving force of the vehicle</p>
+</dd>
+<dt><em>Vehicle Settings &gt; Brake max</em></dt>
+<dd><p class="first last">Maximum braking coefficient</p>
+</dd>
+<dt><em>Vehicle Settings &gt; Suspension compression</em></dt>
+<dd><p class="first last">Damping coefficient for suspension stretching</p>
+</dd>
+<dt><em>Vehicle Settings &gt; Suspension stiffness</em></dt>
+<dd><p class="first last">Suspension stiffness coefficient</p>
+</dd>
+<dt><em>Vehicle Settings &gt; Suspension damping</em></dt>
+<dd><p class="first last">Suspension damping coefficient</p>
+</dd>
+<dt><em>Vehicle Settings &gt; Wheel friction</em></dt>
+<dd><p class="first last">Friction constant between the wheels and the surface. It should be around 0.8 for realistic vehicles. But it can be increased significantly to achieve a better control (1000 and more).</p>
+</dd>
+<dt><em>Vehicle Settings &gt; Roll influence</em></dt>
+<dd><p class="first last">Decreases the wheels&#8217; torque decreasing the probability of the vehicle overturning (0 - no torque, 1 - real physics behavior).</p>
+</dd>
+<dt><em>Vehicle Settings &gt; Max suspension travel cm</em></dt>
+<dd><p class="first last">Maximum suspension travel in centimeters.</p>
+</dd>
+</dl>
+<p>For the <tt class="docutils literal"><span class="pre">Steering</span> <span class="pre">wheel</span></tt> it is necessary to specify the maximum steering angle (<tt class="docutils literal"><span class="pre">Steering</span> <span class="pre">max</span></tt>) and the ratio between the turn of the steering wheel and the turn of the wheels  (<tt class="docutils literal"><span class="pre">Steering</span> <span class="pre">ratio</span></tt>). The maximum steering angle value is specified in revolutions. A single revolution equals to 360 degrees. Therefore if <tt class="docutils literal"><span class="pre">Steering</span> <span class="pre">max</span></tt> is equal to one and <tt class="docutils literal"><span class="pre">Steering</span> <span class="pre">ratio</span></tt> is equal to 10, the maximum turn of the steering wheel will be 360 degrees and the maximum turn of the front wheels will be 36 degrees.</p>
+<p>On this stage you can export and load the scene into the engine. We recommend to create a road surface with a physics material. To choose the controlled object press the <tt class="docutils literal"><span class="pre">Q</span></tt> key in the Viewer and select the chassis. Use the <tt class="docutils literal"><span class="pre">W</span></tt>, <tt class="docutils literal"><span class="pre">A</span></tt>, <tt class="docutils literal"><span class="pre">S</span></tt>, <tt class="docutils literal"><span class="pre">D</span></tt> keys as controls.</p>
+<p>We can additionally tweak the <tt class="docutils literal"><span class="pre">Damping</span></tt> of <tt class="docutils literal"><span class="pre">Translation</span></tt> and <tt class="docutils literal"><span class="pre">Rotation</span></tt>. This will influence the speed and inertion of the vehicle.</p>
+<p>The friction and elasticity of the road surface material do not influence the vehicle&#8217;s behavior.</p>
+</div>
+</div>
+<div class="section" id="id7">
+<h2>Floating Objects<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
+<a class="reference internal image-reference" href="_images/physics_floater.jpg"><img alt="_images/physics_floater.jpg" class="align-center" src="_images/physics_floater.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>In order for the object to float on the water surface (an object with the <tt class="docutils literal"><span class="pre">Special</span> <span class="pre">water</span></tt> material), it is neccessary to enable the <tt class="docutils literal"><span class="pre">Floating</span></tt> checkbox. There are two types of floating objects: <tt class="docutils literal"><span class="pre">Main</span> <span class="pre">body</span></tt> - the floating object itself and <tt class="docutils literal"><span class="pre">Bob</span></tt> - an auxiallary bob-object onto which the buoyancy will be acting. A floating object can have an unlimited number of <tt class="docutils literal"><span class="pre">Bob</span></tt> objects. This can be both meshes or <tt class="docutils literal"><span class="pre">Empty</span></tt> objects.</p>
+<p>All objects that are part of the same floating object must have the same name in the <tt class="docutils literal"><span class="pre">Floater</span> <span class="pre">name</span></tt> field.</p>
+<div class="section" id="id8">
+<h3>Floating object settings<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt><em>Floating settings &gt; Floating factor</em></dt>
+<dd><p class="first last">Buoyancy coefficient</p>
+</dd>
+<dt><em>Floating settings &gt; Water linear damping</em></dt>
+<dd><p class="first last">Linear velocity damping when the object is on the water surface (or under water). When the object is not in water the physics settings are used.</p>
+</dd>
+<dt><em>Floating settings &gt; Water rotation damping</em></dt>
+<dd><p class="first last">Rotation damping when the object is on the water surface (or under water). When the object is not in water the physics settings are used.</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="id9">
+<h2>Floating Vehicles aka Watercrafts<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h2>
+<a class="reference internal image-reference" href="_images/physics_boat.jpg"><img alt="_images/physics_boat.jpg" class="align-center" src="_images/physics_boat.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>Watercrafts use some parameters from the <tt class="docutils literal"><span class="pre">Vehicle</span> <span class="pre">settings</span></tt> and all the settings which are similar to <tt class="docutils literal"><span class="pre">Floating</span> <span class="pre">settings</span></tt>. It is neccessary to set the <tt class="docutils literal"><span class="pre">Vehicle</span> <span class="pre">part</span></tt> type <tt class="docutils literal"><span class="pre">Hull</span></tt> on the main object. Similar to a floating object a watercraft requires auxillary <tt class="docutils literal"><span class="pre">Bob</span></tt> objects.</p>
+<div class="section" id="id10">
+<h3>Watercraft settings<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt><em>Vehicle Settings &gt; Force max</em></dt>
+<dd><p class="first last">Maximum driving force of the vehicle</p>
+</dd>
+<dt><em>Vehicle Settings &gt; Brake max</em></dt>
+<dd><p class="first last">Maximum braking coefficient</p>
+</dd>
+<dt><em>Floating settings &gt; Floating factor</em></dt>
+<dd><p class="first last">Buoyancy coefficient</p>
+</dd>
+<dt><em>Floating settings &gt; Water linear damping</em></dt>
+<dd><p class="first last">Linear velocity damping when the object is on the water surface (or under water). When the object is not in water the physics settings are used.</p>
+</dd>
+<dt><em>Floating settings &gt; Water rotation damping</em></dt>
+<dd><p class="first last">Rotation damping when the object is on the water surface (or under water). When the object is not in water the physics settings are used.</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="id11">
+<h2>Using in applications<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h2>
+<p>The physics system is implemented in the <strong>uranium.js</strong> module and loaded separately from the engine&#8217;s main code. The <strong>uranium.js</strong> module itself is a modification of the <a class="reference external" href="http://bulletphysics.org/">Bullet</a> physics engine, which is ported to work in browsers. To enable physics system just place the module <strong>uranium.js</strong> in the same directory as the source code of your application.</p>
+<p>Another method is to explicitly specify the <strong>uranium.js</strong> module&#8217;s loading path, using the following API:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">b4w</span><span class="p">.</span><span class="nx">config</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;physics_uranium_path&quot;</span><span class="p">,</span> <span class="s2">&quot;.../uranium.js&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>If physics is not required, it&#8217;s adviced to disable the loading of <strong>uranium.js</strong> module before the engine&#8217;s initialization by using the method <strong>set</strong> from <strong>config.js</strong> module:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">b4w</span><span class="p">.</span><span class="nx">config</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">&quot;physics_enabled&quot;</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="sidebar">
+          <h3>Table Of Contents</h3>
+          <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">The Engine Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="first_steps.html">Quick Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">Development Environment Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow.html">Workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="viewer.html">Scene Viewer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="web_player.html">Web Player</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">The Add-on</a></li>
+<li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing Effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System for Instancing Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="animation.html">Animation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Rendering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Gamma Correction and Alpha Compositing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audio.html">Audio System</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Physics</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">Preparing for Use</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">Static Physics Type</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">Dynamic Physics Type</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#constraints">Constraints</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">Wheeled Vehicles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id7">Floating Objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id9">Floating Vehicles aka Watercrafts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id11">Using in applications</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="nla.html">Non-Linear Animation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers.html">For Application Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">For Engine Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Team Work. Using Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Problems and Solutions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
+</ul>
+
+          <h3 style="margin-top: 1.5em;">Search</h3>
+          <form class="search" action="search.html" method="get">
+            <input type="text" name="q" />
+            <input type="submit" value="Go" />
+            <input type="hidden" name="check_keywords" value="yes" />
+            <input type="hidden" name="area" value="default" />
+          </form>
+          <p class="searchtip" style="font-size: 90%">
+            Enter search terms or a module, class or function name.
+          </p>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+    <div class="footer-wrapper">
+      <div class="footer">
+        <div class="left">
+          <a href="audio.html" title="Audio System"
+             >previous</a> |
+          <a href="nla.html" title="Non-Linear Animation"
+             >next</a> |
+          <a href="genindex.html" title="General Index"
+             >index</a>
+        </div>
+
+        <div class="right">
+          
+    <div class="footer">
+        &copy; Copyright 2015, Triumph LLC.
+      Last updated on 2015-01-29.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+  </body>
+</html>

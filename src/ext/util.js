@@ -228,4 +228,12 @@ exports.xz_direction = util.xz_direction;
 
 exports.line_plane_intersect = util.line_plane_intersect;
 
+/**
+ * Check if object is of type MESH
+ * @method module:util.is_mesh
+ * @param {Object} obj Object ID
+ * @returns {Boolean} Check result
+ */
+exports.is_mesh = util.is_mesh;
+
 }

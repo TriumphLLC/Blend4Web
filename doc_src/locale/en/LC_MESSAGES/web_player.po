@@ -104,15 +104,15 @@ msgstr "start / stop the engine."
 msgid "открытие помощи."
 msgstr "show help."
 
-#: ../web_player.rst:49
+#: ../web_player.rst:51
 msgid "Атрибуты"
 msgstr "Attributes"
 
-#: ../web_player.rst:51
+#: ../web_player.rst:53
 msgid "Веб-плеер принимает атрибуты из адресной строки браузера:"
 msgstr "Web player accepts attributes from the browser address line:"
 
-#: ../web_player.rst:59
+#: ../web_player.rst:61
 msgid ""
 "для загрузки сцены используется обязательный атрибут ``load``, в который "
 "помещается относительный путь к JSON файлу."
@@ -120,15 +120,15 @@ msgstr ""
 "the special attribute ``load`` is used to load the scene, this attribute "
 "contains relative path to a JSON file."
 
-#: ../web_player.rst:60
+#: ../web_player.rst:62
 msgid ""
 "необязательный атрибут ``fallback_image`` используется для установки фона, "
 "заменяющего сцену при возникновении ошибки WebGL."
 msgstr ""
-"in case of a WebGL error the optional ``fallback_image`` attribute is used to setup the "
-"background image instead of 3D content."
+"in case of a WebGL error the optional ``fallback_image`` attribute is used "
+"to setup the background image instead of 3D content."
 
-#: ../web_player.rst:61
+#: ../web_player.rst:63
 msgid ""
 "необязательный атрибут ``show_fps`` применяется для отображения счетчика "
 "кадров в секунду в правом верхнем углу плеера."
@@ -136,18 +136,18 @@ msgstr ""
 "the optional ``show_fps`` attribute is used to display the FPS counter in "
 "the player's top right corner."
 
-#: ../web_player.rst:64
+#: ../web_player.rst:78
 msgid "Ошибки сцены"
 msgstr "Scene Errors"
 
-#: ../web_player.rst:66
+#: ../web_player.rst:80
 msgid ""
 "В случае некорректного использования веб-плеера выводятся сообщения об "
 "ошибках."
 msgstr ""
 "If the player is used incorrectly it displays the corresponding errors."
 
-#: ../web_player.rst:69
+#: ../web_player.rst:83
 msgid ""
 "атрибутом ``load`` указан неверный путь к JSON файлу или данный файл "
 "неисправен;"
@@ -155,12 +155,40 @@ msgstr ""
 "the ``load`` attribute specifies a wrong path to the JSON file or the file "
 "is corrupt;"
 
-#: ../web_player.rst:77
+#: ../web_player.rst:91
 msgid "атрибут ``load`` не найден или его значение пустое;"
 msgstr "the ``load`` attribute is not found or is void;"
 
-#: ../web_player.rst:85
+#: ../web_player.rst:99
 msgid "ошибка инициализации WebGL."
 msgstr "WebGL initialization error."
 
+#: ../web_player.rst:64
+msgid ""
+"необязательный атрибут ``autorotate`` используется для включения "
+"автоматического вращения камеры сразу после загрузки сцены."
+msgstr ""
+"optional parameter ``autorotate`` is used to enable "
+"automatic camera rotation just after the scene loads."
 
+#: ../web_player.rst:65
+msgid ""
+"необязательный атрибут ``compressed_textures`` используется для включения "
+"загрузки min50 и dds текстур."
+msgstr ""
+"optional parameter ``compressed_textures`` is used to enable "
+"loading of min50 and dds textures."
+
+#: ../web_player.rst:70
+msgid "Отображение названия сцены в браузере"
+msgstr "Page title"
+
+#: ../web_player.rst:72
+msgid ""
+"По умолчанию веб-плеер устанавливает тег ``title`` равным ``Blend4Web Web "
+"Player``. С помощью мета-тега ``title`` в настройках сцены можно изменить "
+"значение по умолчанию."
+msgstr ""
+"By default the Web Player has the ``Blend4Web Web Player`` title. "
+"Assigning the meta tag ``title`` on the scene in Blender you can change "
+"that value to something else."

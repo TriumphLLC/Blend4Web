@@ -504,7 +504,6 @@ void main(void) {
     alpha = 1.0;
 #endif
 
-
 #if !DISABLE_FOG && (!PROCEDURAL_FOG || WATER_EFFECTS)
     float energy_coeff = clamp(length(u_sun_intensity) + u_environment_energy, 0.0, 1.0);
 #endif

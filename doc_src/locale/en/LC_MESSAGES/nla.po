@@ -248,8 +248,9 @@ msgid ""
 "качестве параметров условия (операндов) могут выступать также регистры, "
 "которые активируются с помощью соответствующих переключателей."
 msgstr ""
-"Go to the specified slot if the certain condition is met. The parameters (operands) "
-"can also be registers that are activated using the corresponding switches."
+"Go to the specified slot if the certain condition is met. The parameters "
+"(operands) can also be registers that are activated using the corresponding "
+"switches."
 
 #: ../nla.rst:156
 msgid "Register Store"
@@ -268,14 +269,14 @@ msgid ""
 "Выполнить математическую операцию и сохранить результат в регистр. Любой из "
 "параметров (операндов) может быть либо числовым значением, либо регистром."
 msgstr ""
-"Perform a math operation and save the result in the register. Any of parameters (operands) "
-"can be either a numeric value or a register."
+"Perform a math operation and save the result in the register. Any of "
+"parameters (operands) can be either a numeric value or a register."
 
-#: ../nla.rst:167
+#: ../nla.rst:182
 msgid "Noop"
 msgstr ""
 
-#: ../nla.rst:169
+#: ../nla.rst:184
 msgid ""
 "Сокращение от \"No Operation\". Означает, что при обработке слота данного "
 "типа, никаких действий произведено не будет. Слот удобно использовать "
@@ -285,4 +286,29 @@ msgstr ""
 " performed. This slot is convenient to place together with a ``Jump`` or "
 "``Conditional Jump`` slot."
 
+#: ../nla.rst:167
+msgid "Show Object и Hide Object"
+msgstr "Show Object and Hide Object"
 
+#: ../nla.rst:169
+msgid "Используются для скрытия и отображения объектов."
+msgstr "This is used to hide and show 3D objects."
+
+#: ../nla.rst:172
+msgid "Page Redirect"
+msgstr ""
+
+#: ../nla.rst:174
+msgid "Служит для перенаправления на другие веб-страницы."
+msgstr "This serves as page redirect to other web-pages"
+
+#: ../nla.rst:177
+msgid "Page Param"
+msgstr ""
+
+#: ../nla.rst:179
+msgid ""
+"Позволяет сохранить произвольный параметр веб-страницы в выбранном числовом "
+"регистре."
+msgstr ""
+"Allows to store any webpage parameter to the given numerical register."

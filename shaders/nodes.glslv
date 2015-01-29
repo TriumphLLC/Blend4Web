@@ -158,7 +158,7 @@ varying vec4 v_shadow_coord3;
 # endif
 #endif
 
-#if REFLECTIVE || SHADOW_SRC == SHADOW_SRC_MASK || (USE_NODE_REFRACTION && REFRACTIVE)
+#if REFLECTIVE || SHADOW_SRC == SHADOW_SRC_MASK || USE_NODE_REFRACTION
 varying vec3 v_tex_pos_clip;
 #endif
 

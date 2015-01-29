@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-import os, subprocess, shutil, getopt, sys
+import os, subprocess, shutil, getopt, sys, re
 
 from pathlib import Path
 from html.parser import HTMLParser
@@ -9,16 +9,17 @@ from html.parser import HTMLParser
 _os_norm = os.path.normpath
 _os_join = os.path.join
 
-GREEN  = '\033[92m'
-RED    = "\033[91m"
-YELLOW = "\033[93m"
-ENDCOL = "\033[0m"
+GREEN   = '\033[92m'
+BLUE    = '\033[94m'
+RED     = "\033[91m"
+YELLOW  = "\033[93m"
+ENDCOL  = "\033[0m"
 
 BASE_DIR      = _os_norm(os.path.abspath(os.path.dirname(__file__)))
 
 SRC_PATH      = _os_norm(_os_join(BASE_DIR, "..", "src"))
 
-GLOBALS_PATH  = _os_norm(_os_join(BASE_DIR, "..", "external",
+GLOBALS_PATH  = _os_norm(_os_join(BASE_DIR, "..",
                                   "deploy", "globals_detect"))
 
 CP_EXT_PATH   = _os_join(BASE_DIR, "..", "tools", "closure-compiler")
@@ -37,6 +38,9 @@ CSS_CP_PARAMS = ["java",
                  "-jar",
                  CSS_CP_PATH]
 
+ENGINE_CP     = ["python3", _os_norm(_os_join("..", "scripts",
+                                              "compile_b4w.py"))]
+
 EXTERNS       = [_os_norm(_os_join(CP_EXT_PATH, "extern_modules.js")),
                  _os_norm(_os_join(CP_EXT_PATH, "extern_jquery-1.9.js")),
                  _os_norm(_os_join(CP_EXT_PATH, "extern_globals.js")),
@@ -44,7 +48,7 @@ EXTERNS       = [_os_norm(_os_join(CP_EXT_PATH, "extern_modules.js")),
                  _os_norm(_os_join(CP_EXT_PATH, "extern_gl-matrix.js")),
                  _os_norm(_os_join(CP_EXT_PATH, "extern_pointerlock.js"))]
 
-_apps_path    = _os_norm(_os_join(BASE_DIR, "..", "external",
+_apps_path    = _os_norm(_os_join(BASE_DIR, "..",
                                   "deploy", "apps"))
 
 
@@ -106,12 +110,13 @@ def run():
 
     try:
         opts, args = getopt.getopt(sys.argv[1:],
-                            "hb:o:a:d:s:",
+                            "hb:o:a:d:s:p:",
                            ["help",
                             "b4w=",
                             "optimization=",
                             "app=",
                             "dir=",
+                            "assets_path=",
                             "assets="])
     except getopt.GetoptError as err:
         sys.exit(1)
@@ -120,11 +125,12 @@ def run():
         help("You must specify '-a' or '-app' option")
         sys.exit(1)
 
-    opt_level   = "SIMPLE"
+    opt_level   = "SIMPLE_OPTIMIZATIONS"
     app_name    = False
     engine_type = False
     ext_path    = False
     only_copy   = False
+    assets_path = ""
 
     global _apps_path
 
@@ -138,11 +144,27 @@ def run():
                 engine_type = "COMBINE"
             elif a == "compile":
                 engine_type = "COMPILE"
+            elif a == "external":
+                pass
+            else:
+                help("Arg '" + a +
+                     "' for 'b4w' option not recognize")
+                sys.exit(0)
         elif o == "--optimization" or o == "-o":
-            if a == "advanced":
-                opt_level = "ADVANCED"
+            if a == "simple":
+                opt_level = "SIMPLE_OPTIMIZATIONS"
+            elif a == "advanced":
+                opt_level = "ADVANCED_OPTIMIZATIONS"
+            elif a == "whitespace":
+                opt_level = "WHITESPACE_ONLY"
+            else:
+                help("Arg '" + a +
+                     "' for 'optimization' option not recognize")
+                sys.exit(0)
         elif o == "--app" or o == "-a":
             app_name = a
+        elif o == "--assets_path" or o == "-p":
+            assets_path = a
         elif o == "--assets" or o == "-s":
             assets_paths.append(a)
         elif o == "--dir" or o == "-d":
@@ -154,7 +176,8 @@ def run():
             sys.exit(0)
 
     if not engine_type and only_copy:
-        help("You must choose 'COPY' or 'COMBINE' args for -b option, " +
+        help("You must choose 'copy'," +
+             "'combine' or 'compile' args for -b option, " +
              "if you're going build standalone app")
         sys.exit(0)
 
@@ -172,11 +195,12 @@ def run():
         help("You can use '-s' option only with '-d' option")
         sys.exit(0)
 
-    check_app_struct(app_path)
+    check_app_struct(_os_norm(app_path))
 
-    JS_CP_PARAMS.append("--compilation_level=" + opt_level + "_OPTIMIZATIONS")
+    JS_CP_PARAMS.append("--compilation_level=" + opt_level)
 
-    compile_app(app_name, engine_type, opt_level, assets_paths, ext_path)
+    compile_app(app_name, engine_type, opt_level,
+                assets_paths, ext_path, assets_path)
 
 
 def check_sdk_resources():
@@ -220,7 +244,8 @@ def check_app_struct(app_path):
         sys.exit(0)
 
 
-def compile_app(app_path, engine_type, opt_level, assets_paths, ext_path):
+def compile_app(app_path, engine_type, opt_level,
+                assets_paths, ext_path, app_assets_path):
     app_path_obj = Path(app_path)
     app_path_name = app_path_obj.parts[-1]
 
@@ -239,9 +264,9 @@ def compile_app(app_path, engine_type, opt_level, assets_paths, ext_path):
         for assets_path in assets_paths:
             if os.path.exists(assets_path):
                 shutil.copytree(assets_path,
-                                new_app_path +
-                                "/assets/" +
-                                os.path.basename(_os_norm(assets_path)))
+                                _os_norm(_os_join(new_app_path,
+                                  "assets",
+                                  os.path.basename(_os_norm(assets_path)))))
 
     new_app_path_obj = Path(new_app_path)
 
@@ -272,10 +297,10 @@ def compile_app(app_path, engine_type, opt_level, assets_paths, ext_path):
                                     new_app_path, app_path_name + ".min.js"))
 
     if len(js_paths):
-        compile_js(js_paths, app_path_name, opt_level)
+        compile_js(js_paths, app_path_name, opt_level, engine_type)
 
     compile_html(app_path_name, css_paths, js_paths, new_body_lines,
-                 parser, engine_type, new_app_path, ext_path)
+                 parser, engine_type, new_app_path, ext_path, app_assets_path)
 
 
 def parse_html_file(new_app_path, html_file, app_path_name):
@@ -310,14 +335,14 @@ def parse_body(start_body, end_body, src_lines):
 
 
 def compile_html(app_path_name, css_paths, js_paths, body_lines,
-                 parser, engine_type, new_app_path, ext_path):
+                 parser, engine_type, new_app_path, ext_path, assets_path):
     meta = parser.meta_list
     title = parser.title
 
     out_html_file_path = _os_norm(_os_join(
                                      new_app_path, app_path_name + ".html"))
 
-    print(GREEN + "Compiling :", out_html_file_path + ENDCOL)
+    print_wrapper(out_html_file_path)
 
     html_file = open(out_html_file_path, 'w')
 
@@ -342,19 +367,19 @@ def compile_html(app_path_name, css_paths, js_paths, body_lines,
     if title:
         title_text = title
 
-    engine_src = "../common/b4w.full.min.js"
+    engine_src = _os_norm(_os_join("..", "common", "b4w.full.min.js"))
 
     if engine_type:
         engine_path = _os_norm(
                         _os_join(
                             BASE_DIR,
-                            "..", "external", "deploy", "apps",
+                            "..", "deploy", "apps",
                             "common", "b4w.full.min.js"))
 
         smaa_area_path = _os_norm(
                 _os_join(
                      BASE_DIR,
-                     "..", "external", "deploy", "apps",
+                     "..", "deploy", "apps",
                      "common", "smaa_area_texture.png"))
 
         shutil.copyfile(smaa_area_path, _os_norm(_os_join(
@@ -363,7 +388,7 @@ def compile_html(app_path_name, css_paths, js_paths, body_lines,
         smaa_search_path = _os_norm(
                 _os_join(
                      BASE_DIR,
-                     "..", "external", "deploy", "apps",
+                     "..", "deploy", "apps",
                      "common", "smaa_search_texture.png"))
 
         shutil.copyfile(smaa_search_path, _os_norm(_os_join(
@@ -372,7 +397,7 @@ def compile_html(app_path_name, css_paths, js_paths, body_lines,
         phys_path = _os_norm(
                         _os_join(
                             BASE_DIR,
-                            "..", "external", "deploy", "apps",
+                            "..", "deploy", "apps",
                             "common", "uranium.js"))
 
         shutil.copyfile(phys_path, _os_norm(_os_join(
@@ -383,9 +408,9 @@ def compile_html(app_path_name, css_paths, js_paths, body_lines,
             new_engine_path = _os_norm(_os_join(new_app_path, "b4w.full.min.js"))
             shutil.copyfile(engine_path, new_engine_path)
 
-            change_assets_path(ext_path, new_engine_path)
+            change_assets_path(ext_path, new_engine_path, assets_path)
 
-        if engine_type == "COMBINE" or engine_type == "COMPILE":
+        if engine_type == "COMBINE":
             engine_src = False
 
             temp_js_path = _os_norm(_os_join(
@@ -396,17 +421,23 @@ def compile_html(app_path_name, css_paths, js_paths, body_lines,
             new_engine_path = _os_norm(_os_join(new_app_path, "b4w.full.min.js"))
             shutil.copyfile(engine_path, new_engine_path)
 
-            change_assets_path(ext_path, new_engine_path)
+            change_assets_path(ext_path, new_engine_path, assets_path)
 
             with open(temp_js_path, 'wb') as temp_js:
-                    with open(new_engine_path,'rb') as f:
-                        shutil.copyfileobj(f, temp_js, 1024*1024*10)
-                    with open(js_path, 'rb') as f:
-                        shutil.copyfileobj(f, temp_js, 1024*1024*10)
+                with open(new_engine_path,'rb') as f:
+                    shutil.copyfileobj(f, temp_js, 1024*1024*10)
+                with open(js_path, 'rb') as f:
+                    shutil.copyfileobj(f, temp_js, 1024*1024*10)
 
             os.remove(js_path)
             os.rename(temp_js_path, js_path)
             os.remove(new_engine_path)
+
+        if engine_type == "COMPILE":
+            engine_src = False
+            js_path = _os_norm(_os_join(
+                                    new_app_path, app_path_name + ".min.js"))
+            change_assets_path(ext_path, js_path, assets_path)
 
     inner_text.append(
         "\n    <title>" + title_text + "</title>")
@@ -444,7 +475,7 @@ def compile_html(app_path_name, css_paths, js_paths, body_lines,
     html_file.close()
 
 
-def change_assets_path(ext_path, new_engine_path):
+def change_assets_path(ext_path, new_engine_path, assets_path):
     """
     Modifies path for assets in standalone application.
     """
@@ -453,7 +484,7 @@ def change_assets_path(ext_path, new_engine_path):
         file_data = engine_file.read()
         engine_file.close()
         new_data = file_data.replace("ASSETS=../../assets/",
-                                     "ASSETS=assets/")
+                                     "ASSETS=" + assets_path + "assets/")
 
         engine_file = open(new_engine_path, "w")
         engine_file.write(new_data)
@@ -475,7 +506,7 @@ def compile_css(css_paths, file_name):
         css_adv_params.append("-o")
         css_adv_params.append(output_css_path)
 
-        print(GREEN + "Compiling :", output_css_path + ENDCOL)
+        print_wrapper(output_css_path)
 
         subprocess.call(css_adv_params)
 
@@ -485,29 +516,101 @@ def compile_css(css_paths, file_name):
         os.remove(temp_css_path)
 
 
-def compile_js(js_paths, file_name, opt_level):
+def compile_js(js_paths, file_name, opt_level, engine_type):
     for parent in js_paths:
-        prepared_src_js = ["--js=" + x for x in js_paths[parent]]
+        if engine_type == "COMPILE":
+            ENGINE_CP.extend(["--ext_js=" + _os_join(GLOBALS_PATH, "begin.js")])
+            ENGINE_CP.extend(["--ext_js=" + _os_join(SRC_PATH, "modules.js")])
+            ENGINE_CP.extend(["--ext_js=" +
+                              i for i in get_used_modules(js_paths[parent])])
+            ENGINE_CP.extend(["--ext_js=" + i for i in js_paths[parent]])
+            ENGINE_CP.extend(["--ext_js=" + _os_join(GLOBALS_PATH, "end.js")])
+            ENGINE_CP.extend(["-d", _os_join(parent, file_name + ".min.js")])
+            ENGINE_CP.extend(["-g"])
 
-        output_js_path = _os_join(parent, file_name + ".min.js")
+            if opt_level == "ADVANCED_OPTIMIZATIONS":
+                ENGINE_CP.append("--optimization=advanced")
+            elif opt_level == "WHITESPACE_ONLY":
+                ENGINE_CP.append("--optimization=whitespace")
 
-        js_adv_params = list.copy(JS_CP_PARAMS)
+            subprocess.call(ENGINE_CP)
+        else:
+            prepared_src_js = ["--js=" + x for x in js_paths[parent]]
 
-        if opt_level == "ADVANCED":
-            prepared_src_ext = ["--externs=" + _os_join(BASE_DIR, x)
-                                           for x in EXTERNS]
-            js_adv_params.extend(prepared_src_ext)
+            output_js_path = _os_join(parent, file_name + ".min.js")
 
-        js_adv_params.extend(prepared_src_js)
-        js_adv_params.append(
-            "--js_output_file=" + output_js_path)
+            js_adv_params = list.copy(JS_CP_PARAMS)
 
-        print(GREEN + "Compiling :", output_js_path + ENDCOL)
+            if opt_level == "ADVANCED_OPTIMIZATIONS":
+                prepared_src_ext = ["--externs=" + _os_join(BASE_DIR, x)
+                                               for x in EXTERNS]
+                js_adv_params.extend(prepared_src_ext)
 
-        subprocess.call(js_adv_params)
+            js_adv_params.extend(prepared_src_js)
+            js_adv_params.append(
+                "--js_output_file=" + output_js_path)
+
+            print_wrapper(output_js_path)
+
+            subprocess.call(js_adv_params)
 
         for js in js_paths[parent]:
             os.remove(js)
+
+
+def get_used_modules(js_files):
+    pattern_1 = r'= *require\([\"|\'](.*)[\"\']\)'
+    pattern_2 = r'b4w\.module+\[[\"|\'](.*)[\"|\']\] *= *function'
+    pattern_3 = r'b4w\.module+\[[\"|\'](.*)[\"|\']\] *= *b4w\.module'
+
+    modules = []
+    module_names = {}
+    reserved_mods = []
+    paths = {}
+
+    for root, dirs, files in os.walk(SRC_PATH):
+        files = [f for f in files if os.path.splitext(f)[1] == ".js"]
+
+        paths[root] = files
+
+    for js_file in js_files:
+        f = open(js_file)
+        string = f.read()
+        f.close()
+
+        modules.extend(re.findall(pattern_1, string))
+
+        for path in paths:
+            for f in paths[path]:
+                with open(os.path.join(path, f)) as ff:
+                    text = ff.read()
+                    file_modules = re.findall(pattern_2, text)
+                    file_modules.extend(re.findall(pattern_3, text))
+
+                    for file_module in file_modules:
+                        if not file_module in module_names:
+                            module_names[file_module] = os.path.join(path, f)
+
+    for module in modules:
+        check_file_modules(module, module_names, reserved_mods, pattern_1)
+
+    return reserved_mods
+
+
+def check_file_modules(module, module_names, reserved_mods, pattern_1):
+    if not module in module_names:
+        return
+
+    reserved_mods.append(module_names[module])
+
+    with open(module_names[module]) as parent_module:
+        par_mod_text = parent_module.read()
+        ch_modules = re.findall(pattern_1, par_mod_text)
+
+        for ch_module in ch_modules:
+            if not module_names[ch_module] in reserved_mods:
+                check_file_modules(ch_module, module_names,
+                                   reserved_mods, pattern_1)
 
 
 def exist_files(included_files, files, app_path_name):
@@ -543,21 +646,40 @@ def exist_files(included_files, files, app_path_name):
     return processed_files
 
 
+def print_wrapper(output_path):
+    """
+    Wraps print by horizontal lines.
+    """
+    print("    " + "-"*(len(output_path) + len("  Compiling : ")))
+    print(GREEN, "   Compiling", ENDCOL, ":", BLUE, output_path, ENDCOL)
+    print("    " + "-"*(len(output_path) + len("  Compiling : ")))
+
+
 def help(err=""):
+    """
+    Display help for compiler.
+    """
     if err:
-        print("project.py: ", RED + err + ENDCOL)
-        print("Try './project.py --help' for more information.")
+        print("     " + "-"*(len(err)))
+        print("   ", RED, err, ENDCOL)
+        print("     " + "-"*(len(err)))
+        print("     " +
+              "-"*(len("   Try './project.py --help' for more information.")))
+        print(BLUE, "   ", "Try '", GREEN, "./project.py --help'",
+              BLUE, "for more information.", ENDCOL)
+        print("     " +
+              "-"*(len("   Try './project.py --help' for more information.")))
     else:
         print("Arguments:")
         print("    -a, --app=APP              \
             application directory name")
         print("    -o, --optimization=TYPE    \
-            javaScript optimization type: 'simple' or 'advanced'")
-        print("    -b, --b4w                  \
-            copy b4w engine into application direcotory")
+            javaScript optimization type: 'whitespace', 'simple' or 'advanced'")
+        print("    -b, --b4w=TYPE             \
+            b4w engine type: 'external', 'copy', 'combine', 'compile' ")
         print("    -d, --dir                  \
             choose application directory")
-        print("    -s, --assets                  \
+        print("    -s, --assets               \
             choose assets directory")
         print("    -h, --help                 \
             give this help list")

@@ -16,9 +16,10 @@ var m_scenes   = require("__scenes");
 var sfx        = require("__sfx");
 var m_textures = require("__textures");
 var m_util     = require("__util");
+var m_config     = require("__config");
 
 var m_vec3 = require("vec3");
-
+var cfg_def = m_config.defaults;
 /**
  * Print info about the physics worker
  * @method module:debug.physics_worker
@@ -312,7 +313,6 @@ exports.num_textures = function() {
 
                         if (tex_list.indexOf(tex) === -1) {
                             tex_list.push(tex);
-
                             var mem = batch_tex.width * batch_tex.height *
                                 4 / (1024 * 1024) / batch_tex.compress_ratio;
 

@@ -8,7 +8,7 @@ import fnmatch
 from custom_json_encoder import CustomJSONEncoder
 
 SRC=os.path.join(os.path.abspath(os.path.dirname(__file__)), "..")
-DEST=os.path.join(SRC, "external", "deploy", "pub")
+DEST=os.path.join(SRC, "deploy", "pub")
 
 def help():
     print("Usage: make_dist.py [-i] [-v version] [-f] DIST_FILE")
@@ -78,7 +78,8 @@ def process_dist_list(dist_path, ignore_path, version, force):
             if check_path(path_root_rel, pos_patterns, neg_patterns):
                 print("Writing:", path_root_rel)
 
-                if path_root_rel == "external/deploy/assets/assets.json":
+                if (path_root_rel == "apps_dev/viewer/assets.json" or 
+                        path_root_rel == "deploy/apps/viewer/assets.json"):
                     assets = assets_cleanup(path_curr_rel, pos_patterns,
                             neg_patterns)
                     # modify access rights
@@ -156,7 +157,7 @@ def assets_cleanup_obj(sections, pos_patterns, neg_patterns):
 
         for item in items:
 
-            path = os.path.normpath(os.path.join("external/deploy/assets",
+            path = os.path.normpath(os.path.join("deploy/assets",
                     item["load_file"]))
 
             if check_path(path, pos_patterns, neg_patterns):

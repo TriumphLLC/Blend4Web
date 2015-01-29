@@ -1,0 +1,299 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Объекты &mdash; Руководство пользователя: Blend4Web v15.01</title>
+    
+    <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '15.01',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="author" title="Об этих документах" href="about.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v15.01" href="index.html" />
+    <link rel="next" title="Камера" href="camera.html" />
+    <link rel="prev" title="Аддон" href="addon.html" /> 
+  </head>
+  <body>
+    <div class="header-wrapper">
+      <div class="header">
+          <p class="logo"><a href="index.html">
+            <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
+          </a></p>
+        <div class="headertitle"><a
+          href="index.html">Руководство пользователя: Blend4Web v15.01</a></div>
+        <div class="rel">
+          <a href="addon.html" title="Аддон"
+             accesskey="P">назад</a> |
+          <a href="camera.html" title="Камера"
+             accesskey="N">вперёд</a> |
+          <a href="genindex.html" title="Алфавитный указатель"
+             accesskey="I">указатель</a>
+        </div>
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="objects">
+<span id="id1"></span><h1>Объекты<a class="headerlink" href="#objects" title="Ссылка на этот заголовок">¶</a></h1>
+<p>Объекты служат целям размещения компонентов различного типа (мешей, камер, ламп и т.д.) в пространстве 3D сцены.</p>
+<div class="section" id="id2">
+<h2>Типы<a class="headerlink" href="#id2" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Движком поддерживаются объекты следующих типов:</p>
+<blockquote>
+<div><ul class="simple">
+<li>меш (mesh)</li>
+<li>камера (camera)</li>
+<li>лампа (lamp)</li>
+<li>пустой (empty)</li>
+<li>скелет (armature)</li>
+<li>источник звука (speaker)</li>
+<li>кривая (curve)</li>
+<li>текст (text)</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="static-dynamic-objects">
+<span id="id3"></span><h2>Статические и динамические объекты<a class="headerlink" href="#static-dynamic-objects" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Все объекты типа <tt class="docutils literal"><span class="pre">MESH</span></tt> можно разделить на статические и динамические.</p>
+<p><strong>Статические объекты</strong> - объекты, меши которых могут быть объединены друг с другом, если они имеют одинаковый материал.</p>
+<p><strong>Динамические объекты</strong> - объекты, меши которых не могут быть скомбинированы друг с другом.</p>
+<p>Объединение статических объектов - т.н. батчинг (batching) - осуществляется автоматически при загрузке сцены в целях оптимизации количества вызовов отрисовки. Конвертация происходит, даже если на сцене присутствует всего один объект. Центр получившегося в результате конвертации меша находится в начале координат.</p>
+<p>Среди объектов другого типа динамическими являются <tt class="docutils literal"><span class="pre">CAMERA</span></tt> и <tt class="docutils literal"><span class="pre">ARMATURE</span></tt>. Остальные - статические.</p>
+<p>Объекты, имеющие анимацию, физику или родителя, являющегося динамическим объектом, рассматриваются как динамические.</p>
+<p>Перемещение посредством API возможно только в случае динамических объектов. Чтобы обеспечить движение объекта, не имеющего настроек динамического объекта, в его настройках следует активировать опцию <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Do</span> <span class="pre">not</span> <span class="pre">batch</span></tt>.</p>
+</div>
+<div class="section" id="id4">
+<h2>Настройка<a class="headerlink" href="#id4" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Для объектов всех типов поддерживаются расположение в пространстве, указатель на блок данных, родительский объект, принадлежность к группе и ряд свойств, специфичных для Blend4Web.</p>
+<div class="section" id="object">
+<h3>Вкладка Object<a class="headerlink" href="#object" title="Ссылка на этот заголовок">¶</a></h3>
+<a class="reference internal image-reference" href="_images/object_setup.png"><img alt="_images/object_setup.png" class="align-center" src="_images/object_setup.png" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<dl class="docutils">
+<dt><em>Transform &gt; Location</em></dt>
+<dd>Координаты местоположения.</dd>
+<dt><em>Transform &gt; Rotation</em></dt>
+<dd>Углы вращения. При повороте объекта доступны все режимы <tt class="docutils literal"><span class="pre">Rotation</span> <span class="pre">Mode</span></tt>, но при создании <a class="reference internal" href="animation.html#whole-object-anim"><em>объектной анимации</em></a> поддерживаются только <tt class="docutils literal"><span class="pre">Quaternion</span> <span class="pre">(WXYZ)</span></tt> и <tt class="docutils literal"><span class="pre">XYZ</span> <span class="pre">Euler</span></tt>.</dd>
+<dt><em>Transform &gt; Scale</em></dt>
+<dd>Масштабирование. Все 3 компоненты (x, y, z) должны быть одинаковы. Для физических объектов масштабирование не поддерживается.</dd>
+<dt><em>Relations &gt; Parent</em></dt>
+<dd>Указатель на родительский объект.</dd>
+<dt><em>Groups</em></dt>
+<dd>Группы объектов, которым принадлежит данный объект.</dd>
+</dl>
+<img alt="_images/object_setup_b4w.png" class="align-center" src="_images/object_setup_b4w.png" />
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<dl class="docutils">
+<dt><em>Blend4Web &gt; Do not export</em></dt>
+<dd>Не экспортировать.</dd>
+<dt><em>Blend4Web &gt; Apply scale</em></dt>
+<dd>Применить масштабирование объекта при экспорте.</dd>
+</dl>
+<dl class="docutils" id="apply-modifiers">
+<dt><em>Blend4Web &gt; Apply modifiers</em></dt>
+<dd>Применить модификаторы объекта при экспорте. При наличии модификатора <tt class="docutils literal"><span class="pre">SKIN</span></tt> рекомендуется применить его перед экспортом, т.к. он сбрасывает слои вертексных цветов и UV-текстур, что может привести к ошибкам экспорта.</dd>
+<dt><em>Blend4Web &gt; Export vertex animation</em></dt>
+<dd>Экспортировать предварительно созданную и сохраненную вертексную анимацию.</dd>
+<dt><em>Blend4Web &gt; Export edited normals</em></dt>
+<dd>Экспортировать предварительно отредактированные и сохраненные нормали.</dd>
+<dt><em>Blend4Web &gt; Animation &gt; Use default</em></dt>
+<dd>Начать воспроизведение в движке связанной с объектом анимации.</dd>
+<dt><em>Blend4Web &gt; Animation &gt; Animation blending</em></dt>
+<dd>Только для арматурных объектов. Разрешить плавный переход от одной скелетной
+анимации к другой.</dd>
+<dt><em>Blend4Web &gt; Animation &gt; Behavior</em></dt>
+<dd>Поведение анимации при достижении последнего кадра: <tt class="docutils literal"><span class="pre">Finish</span> <span class="pre">stop</span></tt> -
+остановить, <tt class="docutils literal"><span class="pre">Finish</span> <span class="pre">reset</span></tt> - остановить и сбросить в нулевой кадр,
+<tt class="docutils literal"><span class="pre">Cyclic</span></tt> - циклически повторять.</dd>
+<dt><em>Blend4Web &gt; Do not batch</em></dt>
+<dd>Принудительно сделать объект <a class="reference internal" href="#static-dynamic-objects"><em>динамическим</em></a>.</dd>
+<dt><em>Blend4Web &gt; Dynamic Geometry</em></dt>
+<dd>Разрешить изменение геометрии объекта через API Blend4Web.</dd>
+<dt><em>Blend4Web &gt; Disable frustum culling</em></dt>
+<dd>Отключить оптимизацию отсечением по зоне видимости.</dd>
+<dt><em>Blend4Web &gt; Disable fogging</em></dt>
+<dd>Отключить туман для объекта.</dd>
+<dt><em>Blend4Web &gt; Do not render</em></dt>
+<dd>Отключить рендеринг объекта (например, вспомогательный объект физики).</dd>
+<dt><em>Blend4Web &gt; Shadows: Cast</em></dt>
+<dd>Объект будет отбрасывать тени.</dd>
+<dt><em>Blend4Web &gt; Shadows: Cast only</em></dt>
+<dd>Объект будет отбрасывать тени, при этом сам будет оставаться невидимым. Становится доступным после включения <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Shadows:</span> <span class="pre">Cast</span></tt>.</dd>
+<dt><em>Blend4Web &gt; Shadows: Receive</em></dt>
+<dd>Разрешить затенение от прилегающих объектов (получение теней) на объекте.</dd>
+<dt><em>Blend4Web &gt; Reflections: Reflexible</em></dt>
+<dd>При включении объект будет отражаться от зеркальных поверхностей.</dd>
+<dt><em>Blend4Web &gt; Reflections: Reflexible only</em></dt>
+<dd>При включении объект будет отражаться, при этом сам будет оставаться невидимым. Становится доступным после включения <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Reflections:</span> <span class="pre">Reflexible</span></tt>.</dd>
+<dt><em>Blend4Web &gt; Reflections: Reflective</em></dt>
+<dd>При включении объект будет отражать своей поверхностью другие объекты.</dd>
+<dt><em>Blend4Web &gt; Reflections: Reflection plane</em></dt>
+<dd>Текстовое поле для названия пустого объекта, задающего плоскость отражения. Становится доступным после включения <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Reflections:</span> <span class="pre">Reflective</span></tt>.</dd>
+<dt><em>Blend4Web &gt; Caustics</em></dt>
+<dd>На объекте будут видны эффекты от прилегающей к нему воды (каустика).</dd>
+<dt><em>Blend4Web &gt; Wind bending</em></dt>
+<dd>Включить процедурную анимацию под действием ветра.</dd>
+<dt><em>Blend4Web &gt; Selectable</em></dt>
+<dd>Разрешить выделение объекта с помощью мыши или другого устройства ввода, а
+также его подсвечивание (<a class="reference internal" href="postprocessing_effects.html#glow"><em>эффект Glow</em></a>).</dd>
+</dl>
+<dl class="docutils" id="objects-billboarding-properties">
+<dt><em>Blend4Web &gt; Billboard</em></dt>
+<dd>Использовать объект в качестве билборда (т.е. автоматически ориентировать его относительно камеры).</dd>
+<dt><em>Blend4Web &gt; Billboarding geometry</em></dt>
+<dd>Способ ориентирования билборда. <tt class="docutils literal"><span class="pre">Spherical</span></tt> (по умолчанию) - объект всегда ориентирован к камере одной стороной независимо от угла обзора, <tt class="docutils literal"><span class="pre">Cylindrical</span></tt> - аналогично <tt class="docutils literal"><span class="pre">Spherical</span></tt>, только вращение ограничено осью Z мирового пространства в Blender. Становится доступным после включения <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Billboard</span></tt>.</dd>
+<dt><em>Blend4Web &gt; LOD transition ratio</em></dt>
+<dd>Параметр для сглаживания переключения между LOD объектами. Определяет, на
+каком дополнительном расстоянии LOD объекты будут видны до замены
+последующими LOD объектами. Назначается для главного объекта. Измеряется в
+долях от радиуса охватывающей сферы объекта.</dd>
+<dt><em>Blend4Web &gt; Self LOD &gt; Distance</em></dt>
+<dd><p class="first">Расстояние от камеры, на котором объект перестает отображаться.</p>
+<div class="last deprecated">
+<p><span class="versionmodified">Не рекомендуется, начиная с версии 14.06: </span>реализовано в стандартном инструменте Blender <tt class="docutils literal"><span class="pre">Levels</span> <span class="pre">of</span> <span class="pre">Detail</span></tt>.</p>
+</div>
+</dd>
+<dt><em>Blend4Web &gt; Additional LOD objects</em></dt>
+<dd><p class="first">Интерфейс добавления низкополигональных объектов для реализации переключения уровня детализации.</p>
+<div class="last deprecated">
+<p><span class="versionmodified">Не рекомендуется, начиная с версии 14.06: </span>реализовано в стандартном инструменте Blender <tt class="docutils literal"><span class="pre">Levels</span> <span class="pre">of</span> <span class="pre">Detail</span></tt>.</p>
+</div>
+</dd>
+</dl>
+</div>
+<div class="section" id="physics-blender-game">
+<h3>Вкладка Physics (в режиме Blender Game)<a class="headerlink" href="#physics-blender-game" title="Ссылка на этот заголовок">¶</a></h3>
+<a class="reference internal image-reference" href="_images/object_setup_phys.png"><img alt="_images/object_setup_phys.png" class="align-center" src="_images/object_setup_phys.png" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<dl class="docutils">
+<dt><em>Blend4Web &gt; Detect collisions</em></dt>
+<dd>Активировать связанную с объектом физику.</dd>
+<dt><em>Blend4Web &gt; Floating</em></dt>
+<dd>Сделать объект плавучим. Подробное описание настроек плавучих объектов можно
+найти в разделе <a class="reference internal" href="physics.html#physics"><em>физика</em></a>.</dd>
+<dt><em>Blend4Web &gt; Vehicle</em></dt>
+<dd>Активировать использование объекта в качестве составной части транспортного
+средства. Подробное описание настроек транспортных средств можно найти в
+разделе <a class="reference internal" href="physics.html#physics"><em>физика</em></a>.</dd>
+<dt><em>Blend4Web &gt; Character</em></dt>
+<dd>Активировать использование объекта в качестве физического каркаса игрового
+персонажа. Подробное описание настроек персонажа можно найти в разделе
+<a class="reference internal" href="physics.html#physics"><em>физика</em></a>.</dd>
+</dl>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="sidebar">
+          <h3>Оглавление</h3>
+          <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">Общие сведения</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">Функционал движка</a></li>
+<li class="toctree-l1"><a class="reference internal" href="first_steps.html">Экспресс-установка</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">Развёртывание среды разработки</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow.html">Рабочий процесс</a></li>
+<li class="toctree-l1"><a class="reference internal" href="viewer.html">Просмотрщик сцен</a></li>
+<li class="toctree-l1"><a class="reference internal" href="web_player.html">Веб-плеер</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">Аддон</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Объекты</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">Типы</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#static-dynamic-objects">Статические и динамические объекты</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">Настройка</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="camera.html">Камера</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materials.html">Материалы</a></li>
+<li class="toctree-l1"><a class="reference internal" href="textures.html">Текстуры</a></li>
+<li class="toctree-l1"><a class="reference internal" href="node_materials.html">Нодовые материалы</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lighting.html">Освещение, тени и фон</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Постпроцессинговые эффекты</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles.html">Система частиц</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Система частиц для инстансинга объектов</a></li>
+<li class="toctree-l1"><a class="reference internal" href="animation.html">Анимация</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Рендеринг наружных сцен</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Гамма-коррекция и альфа-композитинг</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audio.html">Звуковая подсистема</a></li>
+<li class="toctree-l1"><a class="reference internal" href="physics.html">Физика</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nla.html">Нелинейная анимация</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers.html">Разработчикам приложений</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">Разработчикам движка</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Работа в команде. Использование git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Проблемы и решения</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Замечания к релизам</a></li>
+</ul>
+
+          <h3 style="margin-top: 1.5em;">Поиск</h3>
+          <form class="search" action="search.html" method="get">
+            <input type="text" name="q" />
+            <input type="submit" value="Искать" />
+            <input type="hidden" name="check_keywords" value="yes" />
+            <input type="hidden" name="area" value="default" />
+          </form>
+          <p class="searchtip" style="font-size: 90%">
+            Введите слова для поиска или имя модуля, класса или функции.
+          </p>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+    <div class="footer-wrapper">
+      <div class="footer">
+        <div class="left">
+          <a href="addon.html" title="Аддон"
+             >назад</a> |
+          <a href="camera.html" title="Камера"
+             >вперёд</a> |
+          <a href="genindex.html" title="Алфавитный указатель"
+             >указатель</a>
+        </div>
+
+        <div class="right">
+          
+    <div class="footer">
+        &copy; Copyright 2015, ООО &#34;Триумф&#34;.
+      Обновлено: 2015-01-29.
+      Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+  </body>
+</html>

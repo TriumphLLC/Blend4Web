@@ -30,8 +30,8 @@ var BLACK_BG_COLOR = [0,0,0,0];
 
 var FLOAT_BYTE_SIZE = 4;
 
-var CUBEMAP_BOTTOM_SIDE = 0;
-var CUBEMAP_UPPER_SIDE  = 1;
+var CUBEMAP_UPPER_SIDE = 2;
+var CUBEMAP_BOTTOM_SIDE = 3;
 
 // smaa stuff
 var JITTER = [new Float32Array([0.25, -0.25]),
@@ -308,6 +308,10 @@ function update_subs_sky_fog(subscene, cubemap_side_ind) {
         subscene.cube_fog[3]  = res_r;
         subscene.cube_fog[7]  = res_g;
         subscene.cube_fog[11] = res_b;
+    } else if (cubemap_side_ind < 2) {
+        subscene.cube_fog[4 * cubemap_side_ind]     = res_r;
+        subscene.cube_fog[4 * cubemap_side_ind + 1] = res_g;
+        subscene.cube_fog[4 * cubemap_side_ind + 2] = res_b;
     } else {
         subscene.cube_fog[4 * (cubemap_side_ind - 2)]     = res_r;
         subscene.cube_fog[4 * (cubemap_side_ind - 2) + 1] = res_g;

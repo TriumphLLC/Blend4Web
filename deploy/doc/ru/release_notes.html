@@ -1,0 +1,810 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Замечания к релизам &mdash; Руководство пользователя: Blend4Web v15.01</title>
+    
+    <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '15.01',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="author" title="Об этих документах" href="about.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v15.01" href="index.html" />
+    <link rel="prev" title="Проблемы и решения" href="problems_and_solutions.html" /> 
+  </head>
+  <body>
+    <div class="header-wrapper">
+      <div class="header">
+          <p class="logo"><a href="index.html">
+            <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
+          </a></p>
+        <div class="headertitle"><a
+          href="index.html">Руководство пользователя: Blend4Web v15.01</a></div>
+        <div class="rel">
+          <a href="problems_and_solutions.html" title="Проблемы и решения"
+             accesskey="P">назад</a> |
+          <a href="genindex.html" title="Алфавитный указатель"
+             accesskey="I">указатель</a>
+        </div>
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="release-notes">
+<span id="id1"></span><h1>Замечания к релизам<a class="headerlink" href="#release-notes" title="Ссылка на этот заголовок">¶</a></h1>
+<div class="section" id="v15-01">
+<span id="index-0"></span><h2>v15.01<a class="headerlink" href="#v15-01" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="id2">
+<h3>Новый функционал<a class="headerlink" href="#id2" title="Ссылка на этот заголовок">¶</a></h3>
+<ul>
+<li><p class="first"><em>Поддержка режима панорамирования для устройств с сенсорным экраном.</em></p>
+<blockquote>
+<div><p>Движение камеры в режиме панорамирования осуществляется параллельным перемещением двух пальцев по поверхности экрана.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Поддержка объектов типа &#8220;Text&#8221;.</em></p>
+<blockquote>
+<div><p>Данные объекты теперь автоматически конвертируются в меш при экспорте.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Расширение функционала инструмента NLA Script.</em></p>
+<blockquote>
+<div><p>Добавлены новые логические слоты: <tt class="docutils literal"><span class="pre">Show</span> <span class="pre">Object</span></tt> и <tt class="docutils literal"><span class="pre">Hide</span> <span class="pre">Object</span></tt> используются для скрытия и отображения объектов, <tt class="docutils literal"><span class="pre">Page</span> <span class="pre">Redirect</span></tt> - для перенаправления на другие веб-страницы, <tt class="docutils literal"><span class="pre">Page</span> <span class="pre">Param</span></tt> - для сохранения произвольного параметра веб-страницы в выбранном числовом регистре. Упрощено использование слотов <tt class="docutils literal"><span class="pre">Select</span> <span class="pre">&amp;</span> <span class="pre">Jump</span></tt> и <tt class="docutils literal"><span class="pre">Select</span> <span class="pre">&amp;</span> <span class="pre">Play</span></tt> - теперь для выделяемых объектов нет необходимости указывать свойство <tt class="docutils literal"><span class="pre">Selectable</span></tt>.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Поддержка экранов сверхвысокого разрешения (HIDPI, Retina).</em></p>
+<blockquote>
+<div><p>Режим HIDPI позволяет достичь существенного улучшения качества картинки на устройствах с высоким разрешением. Режим включается автоматически при запуске приложений с настройками качества ULTRA. При необходимости, высокое разрешение может быть включено и для других профилей качества.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Поддержка масштабирования для ортографической камеры.</em></p>
+<blockquote>
+<div><p>Добавлено API для изменения масштабирования камеры типа <tt class="docutils literal"><span class="pre">Orthographic</span></tt> (<tt class="docutils literal"><span class="pre">Orthographic</span> <span class="pre">scale</span></tt> в Blender&#8217;e).</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>В веб-плеер добавлена опция autorotate.</em></p>
+<blockquote>
+<div><p><a class="reference internal" href="web_player.html#webplayer-attributes"><em>Опция</em></a> autorotate используется для автоматического включения вращения камеры сразу после загрузки сцены.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>В функцию &#8220;enable_camera_controls&#8221; из аддона &#8220;app.js&#8221; добавлен облегченный режим управления с клавиатуры.</em></p>
+<blockquote>
+<div><p>Включить режим можно передав необязательный параметр <tt class="docutils literal"><span class="pre">disable_letter_controls</span></tt>. При этом будет отключено управление посредством алфавитно-цифровых клавиш клавиатуры (WASD и т.д.). Указанная функциональность может быть использована для тех случаев, когда в приложении необходимо использовать клавиши для целей, не связанных с перемещением камеры.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Поддержка работы с гироскопом на мобильном устройстве.</em></p>
+<blockquote>
+<div><p>Добавлены два сенсора для работы с гироскопом на мобильных устройствах. Первый сенсор позволяет оперировать с разностью текущего положения устройства с предыдущим, создается функцией <tt class="docutils literal"><span class="pre">create_gyro_delta_sensor</span></tt> из модуля &#8220;controls.js&#8221;. Второй сенсор - с текущим значением угла. Создается функцией <tt class="docutils literal"><span class="pre">create_gyro_angles_sensor</span></tt> из модуля &#8220;controls.js&#8221;. Стоит отметить, что все значения вычисляются в радианах. Также был создан аддон &#8220;gyroscope.js&#8221;, в котором реализовано движение камеры при угловых перемещениях устройства. С примером работы данного функционала для мобильных устройств можно ознакомиться в нашей программе &#8220;Viewer&#8221;, включив опцию &#8220;Gyroscope&#8221; в меню программы.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Добавлено новое свойство ``Do not Render`` в настройках материала.</em></p>
+<blockquote>
+<div><p>Включение данного свойства позволяет не отображать на сцене все объекты, использующие этот материал.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Поддержка видеотекстур на IE 11 и iPhone.</em></p>
+<blockquote>
+<div><p>Поддержка добавлена посредством создания простого формата видео-секвенции <tt class="docutils literal"><span class="pre">*.seq</span></tt>.  Более полную информацию можно посмотреть <a class="reference internal" href="developers.html#seq"><em>в соответствующем разделе документации</em></a>.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Поддержка тега &#8220;title&#8221; в веб-плеере.</em></p>
+<blockquote>
+<div><p>Тег &#8220;title&#8221; для веб-плеера, необходимый для вывода названия сцены в браузере, теперь берется из JSON-файла сцены. С более подробной информацией
+можно ознакомиться <a class="reference internal" href="web_player.html#wp-title"><em>в соответствующем разделе документации</em></a>.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Поддержка мета-тегов в Blender.</em></p>
+<blockquote>
+<div><p>В Blender появилась возмосжность добавлять мета-теги к сцене и к объектам. Для сцены это &#8220;title&#8221; и &#8220;description&#8221;, для
+объекта &#8220;title&#8221;, &#8220;description&#8221; и &#8220;category&#8221;.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Добавлена возможность вызова пользовательских функций каждый кадр.</em></p>
+<blockquote>
+<div><p>Для возможности создания более сложных приложений в модуле &#8220;main.js&#8221; была добавлена функция <tt class="docutils literal"><span class="pre">append_loop_cb</span></tt>, позволяющая вызывать переданную в нее функцию каждый кадр. При этом в эту функцию каждый кадр будут передаваться два параметра: время с начала старта приложения и разница во времени между текущим кадром и предыдущим. Обе величины измеряются в секундах. Для того, чтобы больше не вызывать переданную функцию необходимо удалить ее вызовом функции <tt class="docutils literal"><span class="pre">remove_loop_cb</span></tt> из модуля &#8220;main.js&#8221;.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Добавлена анимация простого экрана загрузки приложения.</em></p>
+<blockquote>
+<div><p>Для создания приложения с анимированным экраном загрузки в функцию <tt class="docutils literal"><span class="pre">create_simple_preloader</span></tt> из модуля &#8220;preloader.js&#8221; необходимо передать опцию &#8220;preloader_fadeout&#8221; со значением &#8220;true&#8221;.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Добавлена возможность экспорта конвертированных медиаданных в HTML-файл.</em></p>
+<blockquote>
+<div><p>Теперь при экспорте в html имеется возможность записать конвертированные данные в файл. Для этого при экспорте необходимо задать свойство &#8220;Export converted media&#8221; в <a class="reference internal" href="addon.html#export-opts"><em>опциях экспорта</em></a>.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Добавлена возможность использования min50 и dds текстур при просмотре сцен через webplayer.</em></p>
+<blockquote>
+<div><p>Для этого необходимо <a class="reference internal" href="web_player.html#webplayer-attributes"><em>передать атрибут</em></a> &#8220;compressed_textures&#8221; при запуске приложения.</p>
+</div></blockquote>
+</li>
+</ul>
+</div>
+<div class="section" id="id3">
+<h3>Изменения<a class="headerlink" href="#id3" title="Ссылка на этот заголовок">¶</a></h3>
+<ul>
+<li><p class="first"><em>Упрощена файловая структура SDK.</em></p>
+<blockquote>
+<div><p>Директория <tt class="docutils literal"><span class="pre">external</span></tt> больше не существует, всё её содержимое перемещено на уровень выше - в кореневую директорию SDK. Файл со списком сцен для просмоторщика <tt class="docutils literal"><span class="pre">assets.json</span></tt> теперь находится в директории <tt class="docutils literal"><span class="pre">apps_dev/viewer</span></tt>.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Изменено поведение автовращения камеры (экспериментально).</em></p>
+<blockquote>
+<div><p>При наличии ограничений на горизонтальное вращение камера, приближаясь к границам, плавно замедляется и продолжает движение в обратном направлении.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Изменено поведение настройки ``Special: Collision`` в настройках материала.</em></p>
+<blockquote>
+<div><p>Ранее включение опции автоматически приводило к сокрытию объектов, теперь для этой цели необходимо использовать настройку материала <tt class="docutils literal"><span class="pre">Do</span> <span class="pre">not</span> <span class="pre">Render</span></tt>.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Изменен суффикс конвертированных медиаданных.</em></p>
+<blockquote>
+<div><p>Суффикс <tt class="docutils literal"><span class="pre">*.lossconv.*</span></tt> заменен на <tt class="docutils literal"><span class="pre">*.altconv.*</span></tt>.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Изменена работа опции &#8220;Do not render&#8221; на объекте.</em></p>
+<blockquote>
+<div><p>Теперь выставление данной опции на объекте не приводит к потере физических свойств объекта. Объект всего лишь становится невидимым.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Доработана комплектация SDK.</em></p>
+<blockquote>
+<div><p>В бесплатной и коммерческой версиях SDK были добавлены новые сцены с примерами использования движка; устаревшие и малоинформативные сцены исключены.</p>
+</div></blockquote>
+</li>
+</ul>
+</div>
+<div class="section" id="id4">
+<h3>Исправления<a class="headerlink" href="#id4" title="Ссылка на этот заголовок">¶</a></h3>
+<ul class="simple">
+<li><em>При выставлении в Blender&#8217;е камере типа &#8220;Panoramic&#8221; в движке принудительно используется камера типа &#8220;Perspective&#8221;.</em></li>
+<li><em>Исправлено дрожание камеры типа &#8220;Target&#8221; в отдельных случаях.</em></li>
+<li><em>Небольшие исправления в работе аддона &#8220;B4W Anim Baker&#8221;.</em></li>
+<li><em>Исправлена проблема со звуком на сценах с несколькими камерами.</em></li>
+<li><em>В модуле &#8220;controls&#8221; улучшена стабильность работы сенсоров типа &#8220;Timer&#8221;.</em></li>
+<li><em>Устранена ошибка, возникающая при просмотре сцены через IE при экспорте в HTML.</em></li>
+<li><em>Оптимизирована работа видеотекстуры. Теперь не производится обновление видеотекстуры при остановке видео.</em></li>
+<li><em>Исправлена ошибка рендеринга нодового материала, содержащего ноду ``REFRACTION``.</em></li>
+</ul>
+</div>
+<div class="section" id="id5">
+<h3>Известные проблемы<a class="headerlink" href="#id5" title="Ссылка на этот заголовок">¶</a></h3>
+<ul>
+<li><p class="first"><em>Проблемы с обновлением аддона в Blender.</em></p>
+<blockquote>
+<div><p>Настоятельно не рекомендуется устанавливать новую версию аддона Blender, не удалив предварительно старую версию, особенно это касается систем Windows.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Не работают видеотекстуры в Firefox при экспорте сцены в формате HTML.</em></p>
+</li>
+<li><p class="first"><em>Текущая реализация depth-текстур в Firefox 35 приводит к значительному снижению FPS и другим неисправностям.</em></p>
+<blockquote>
+<div><p>В различных сценах наблюдается снижение FPS, например, при включении теней. Также некорректно отображаются тени для текстур с использованием прозрачности, например, <tt class="docutils literal"><span class="pre">ALPHA_CLIP</span></tt>. Соответствующая <a class="reference external" href="https://bugzilla.mozilla.org/show_bug.cgi?id=1125445">ошибка</a>,
+возможно, будет исправлена в ближайшее время в будущих обновлениях браузера.</p>
+</div></blockquote>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="v14-12">
+<h2>v14.12<a class="headerlink" href="#v14-12" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="id7">
+<h3>Новый функционал<a class="headerlink" href="#id7" title="Ссылка на этот заголовок">¶</a></h3>
+<ul>
+<li><p class="first"><em>Поддержка настройки скоростей камеры.</em></p>
+<blockquote>
+<div><p>Осуществлена поддержка пользовательской <a class="reference internal" href="camera.html#camera-velocity"><em>настройки скоростей</em></a> перемещения, вращения, масштабирования камер типа <tt class="docutils literal"><span class="pre">Target</span></tt>,
+<tt class="docutils literal"><span class="pre">Hover</span></tt>, <tt class="docutils literal"><span class="pre">Eye</span></tt>. Настройка может быть выполнена как в интерфейсе Blender&#8217;а, так и посредством API Blend4Web.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Поддержка MIP-текстурирования для Canvas-текстур.</em></p>
+<blockquote>
+<div><p>Осуществлена поддержка MIP-текстурирования для <a class="reference internal" href="textures.html#render-to-texture-canvas"><em>Canvas-текстур</em></a>.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Полная поддержка ноды &#8220;MAPPING&#8221;.</em></p>
+<blockquote>
+<div><p>Осуществлена поддержка всех возможных значений <tt class="docutils literal"><span class="pre">Vector</span> <span class="pre">type</span></tt> для ноды <tt class="docutils literal"><span class="pre">MAPPING</span></tt>: <tt class="docutils literal"><span class="pre">Texture</span></tt>, <tt class="docutils literal"><span class="pre">Point</span></tt>, <tt class="docutils literal"><span class="pre">Vector</span></tt> и <tt class="docutils literal"><span class="pre">Normal</span></tt>.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Glow-эффект при наведении курсора мыши на объект.</em></p>
+<blockquote>
+<div><p>Для эффекта подсветки объекта под курсором мыши доступно API модуля <tt class="docutils literal"><span class="pre">mouse.js</span></tt>. Управление эффектом осуществляется с помощью функций <tt class="docutils literal"><span class="pre">enable_mouse_hover_glow()</span></tt> и <tt class="docutils literal"><span class="pre">disable_mouse_hover_glow()</span></tt>. При этом на объекте должно быть выставлено свойство <tt class="docutils literal"><span class="pre">Object</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Selectable</span></tt>.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Новая система сборки приложений.</em></p>
+<blockquote>
+<div><p>Теперь пользователи имеют возможность вести разработку приложений непосредственно в составе SDK, благодаря новой утилите <tt class="docutils literal"><span class="pre">project.py</span></tt>. <a class="reference internal" href="developers.html#app-building"><em>Данный скрипт</em></a> позволяет собирать приложения вместе с движком, минимизировать JavaScript и CSS-файлы, а также экспортировать готовое приложение для последующего развертывания на сервере.</p>
+</div></blockquote>
+</li>
+</ul>
+</div>
+<div class="section" id="id8">
+<h3>Изменения<a class="headerlink" href="#id8" title="Ссылка на этот заголовок">¶</a></h3>
+<ul>
+<li><p class="first"><em>Удалена поддержка устаревшей опции текстур &#8220;UV translation velocity&#8221;.</em></p>
+<blockquote>
+<div><p>Вместо неё рекомендуется использовать функционал нодовых материалов.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Удалена поддержка устаревшего интерфейса &#8220;Levels of Detail&#8221;.</em></p>
+<blockquote>
+<div><p>Аналогичный функционал теперь реализуется штатным инструментом Blender
+&#8220;Levels of Detail&#8221;.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Аддон pointerlock.js переименован в mouse.js.</em></p>
+</li>
+<li><p class="first"><em>Добавлено срабатывание события mouseup при покидании курсора мыши вьюпорта приложения.</em></p>
+<blockquote>
+<div><p>Таким образом была исправлена наблюдавшаяся ранее проблема с нарушением контроля камеры.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Сообщение об ошибке &#8220;Clear parent inverse&#8221; более не появляется.</em></p>
+<blockquote>
+<div><p>Ранее при использовании отношения родитель-потомок требовалось сбрасывать перемещение, вращение и масштаб
+объекта-потомка (<tt class="docutils literal"><span class="pre">Object</span> <span class="pre">&gt;</span> <span class="pre">Parent</span> <span class="pre">&gt;</span> <span class="pre">Clear</span> <span class="pre">Parent</span> <span class="pre">Inverse</span></tt>). Указанная трансформация теперь поддерживается движком.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Использование &#8220;Apply scale&#8221; теперь не приводит к применению модификаторов.</em></p>
+<blockquote>
+<div><p>Для применения модификаторов по-прежнему следует использовать флаг <a class="reference internal" href="objects.html#apply-modifiers"><em>Apply modifiers</em></a>.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Использование карты нормалей в нодовом материале больше не требует наличия нод Material или Extended Material.</em></p>
+<blockquote>
+<div><p>В некоторых случаях (например, рефракция) карты нормалей могут применяться в материалах без освещения.</p>
+</div></blockquote>
+</li>
+</ul>
+</div>
+<div class="section" id="id9">
+<h3>Исправления<a class="headerlink" href="#id9" title="Ссылка на этот заголовок">¶</a></h3>
+<ul>
+<li><p class="first"><em>Исправлена ошибка воспроизведения звуков через инструмент NLA.</em></p>
+<blockquote>
+<div><p>Ошибка проявлялась вследствие недостаточной точности чисел с плавающей
+запятой.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Исправлен некорректный рендеринг источников света на мобильных устройствах.</em></p>
+</li>
+<li><p class="first"><em>Исправлено наложение тени при нескольких активных источниках освещения.</em></p>
+<blockquote>
+<div><p>Теперь тень накладывается так же как в Blender, не затеняя те участки, куда попадает
+свет от других источников.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Исправлена ошибка отображения нодовых материалов.</em></p>
+<blockquote>
+<div><p>Ошибка возникала при использовании нод <tt class="docutils literal"><span class="pre">MATERIAL</span></tt> и <tt class="docutils literal"><span class="pre">MATERIAL_EXT</span></tt> с добавленным по ссылке (из
+другого .blend-файла) материалом.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Исправлен сброс позы арматуры при использовании &#8220;B4W Animation Bake&#8221;.</em></p>
+<blockquote>
+<div><p>Теперь при использовании инструмента <a class="reference internal" href="animation.html#animation-bake"><em>запекания анимации</em></a>
+арматурный объект остаётся в позе, в которой он находился до запекания.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Исправлено резкое движение камеры после старта приложения.</em></p>
+</li>
+<li><p class="first"><em>Исправлена ошибка, связанная с неверным определением лимитов горизонтального вращения камеры.</em></p>
+</li>
+<li><p class="first"><em>Исправлена ошибка, связанная с экспортом неиспользуемых текстур.</em></p>
+</li>
+</ul>
+</div>
+<div class="section" id="id10">
+<h3>Известные проблемы<a class="headerlink" href="#id10" title="Ссылка на этот заголовок">¶</a></h3>
+<ul>
+<li><p class="first"><em>Проблемы с обновлением аддона в Blender.</em></p>
+<blockquote>
+<div><p>Настоятельно не рекомендуется устанавливать новую версию аддона Blender, не удалив предварительно старую версию, особенно это касается систем Windows.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Не работают видеотекстуры в Firefox при экспорте сцены в формате HTML.</em></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="v14-11">
+<h2>v14.11<a class="headerlink" href="#v14-11" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="id11">
+<h3>Новый функционал<a class="headerlink" href="#id11" title="Ссылка на этот заголовок">¶</a></h3>
+<ul>
+<li><p class="first"><em>Поддержка видео-текстур.</em></p>
+<blockquote>
+<div><p>Осуществлена поддержка <a class="reference internal" href="textures.html#video-texture"><em>видео-текстур</em></a> для текстур типа <tt class="docutils literal"><span class="pre">Image</span> <span class="pre">or</span> <span class="pre">Movie</span></tt>.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Частота кадров.</em></p>
+<blockquote>
+<div><p>Добавлена поддержка изменения частоты кадров для анимации и видеотекстур. Частоту кадров можно задать опцией <tt class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">Dimensions</span> <span class="pre">&gt;</span> <span class="pre">Frame</span> <span class="pre">rate</span></tt>.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Поддержка текстур типа Canvas.</em></p>
+<blockquote>
+<div><p>В качестве <a class="reference internal" href="textures.html#render-to-texture-canvas"><em>текстуры</em></a> используется HTML-элемент Canvas. Работа с ней <a class="reference internal" href="developers.html#canvas-texture"><em>описана</em></a> в документации.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Сamera panning.</em></p>
+<blockquote>
+<div><p>В режиме вращающейся вокруг точки камеры (<tt class="docutils literal"><span class="pre">Target</span></tt>) теперь имеется возможность перемещения точки вращения в плоскости обзора (т.н. панорамирование) при зажатой правой или средней кнопках мыши. Функция включена по умолчанию и при необходимости выключается в настройках в Blender&#8217;е.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Новый режим управления камерой - Hover.</em></p>
+<blockquote>
+<div><p>Реализован режим скольжения камеры над плоскостью (<tt class="docutils literal"><span class="pre">Hover</span></tt>), включающий возможность приближения и удаления. Этот режим камеры позволяет реализовывать сценарии удобного просмотра протяженных в двух измерениях сцен (помещений, игровых уровней).</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>В SDK добавлена корневая веб-страница index.html для упрощения навигации по
+дистрибутиву.</em></p>
+</li>
+<li><p class="first"><em>Поддержка преобразования форматов видео-файлов в конвертере ресурсов.</em></p>
+</li>
+<li><p class="first"><em>Добавлена система сборки, ранее отсутствовавшая в публичных дистрибутивах SDK.</em></p>
+</li>
+<li><p class="first"><em>Поддержка режима экспорта &#8220;Strict mode&#8221; в аддоне.</em></p>
+<blockquote>
+<div><p>Активация режима <tt class="docutils literal"><span class="pre">Strict</span> <span class="pre">mode</span></tt> позволяет вывести все возможные ошибки и
+предупреждения, связанные с некорректной настройкой сцены. Опция полезна для
+финальной отладки сцены с целью получения максимально корректных и
+оптимизированных ресурсных файлов.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Поддержка воспроизведения звуков на устройствах с iOS.</em></p>
+</li>
+</ul>
+</div>
+<div class="section" id="id12">
+<h3>Изменения<a class="headerlink" href="#id12" title="Ссылка на этот заголовок">¶</a></h3>
+<ul>
+<li><p class="first"><em>Опция &#8220;bg&#8221; веб-плеера переименована в &#8220;fallback_image&#8221;.</em></p>
+<blockquote>
+<div><p>Также притерпела изменение логика поведения опции. При указании
+<tt class="docutils literal"><span class="pre">fallback_image</span></tt> информация об отсутствии поддержки WebGL теперь не
+выводится, вместо неё пользователю демонстрируется изображение.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>В веб-плеере опция отключения звука теперь не показывается для сцен, не имеющих источников звука.</em></p>
+</li>
+<li><p class="first"><em>Улучшена стабильность работы стековых материалов.</em></p>
+</li>
+<li><p class="first"><em>В сенсор &#8220;mouse_down&#8221; добавлен код нажатой кнопки мыши, который доступен в поле payload сенсора.</em></p>
+</li>
+<li><p class="first"><em>Значительно оптимизирован экспорт систем частиц типа Hair.</em></p>
+</li>
+</ul>
+</div>
+<div class="section" id="id13">
+<h3>Исправления<a class="headerlink" href="#id13" title="Ссылка на этот заголовок">¶</a></h3>
+<ul>
+<li><p class="first"><em>Карты нормалей теперь работают с типами текстурных координат Generated и Normal</em></p>
+<blockquote>
+<div><p>При использовании карт нормалей теперь нет необходимости использовать UV-развертку.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Исправлена проблема с неверными путями к физическому движку в веб-плеере.</em></p>
+<blockquote>
+<div><p>Ошибка проявлялась при перемещении файла uranium.js из директории с главным
+HTML-файлом веб-плеера.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>В аддоне исправлена проблема с упакованными текстурами, проявляющаяся при
+экспорте при включённой опции &#8220;Automatically Pack Into .blend&#8221;.</em></p>
+</li>
+</ul>
+</div>
+<div class="section" id="id14">
+<h3>Известные проблемы<a class="headerlink" href="#id14" title="Ссылка на этот заголовок">¶</a></h3>
+<ul>
+<li><p class="first"><em>Проблемы с обновлением аддона в Blender.</em></p>
+<blockquote>
+<div><p>Настоятельно не рекомендуется устанавливать новую версию аддона Blender, не удалив предварительно старую версию, особенно это касается систем Windows.</p>
+</div></blockquote>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="v14-10">
+<h2>v14.10<a class="headerlink" href="#v14-10" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="id15">
+<h3>Новый функционал<a class="headerlink" href="#id15" title="Ссылка на этот заголовок">¶</a></h3>
+<ul>
+<li><p class="first"><em>Новый веб-плеер</em></p>
+<blockquote>
+<div><p>Новый минималистичный дизайн веб-плеера удачно сочетается с любыми трёхмерными
+сценами, имеет упрощённый интерфейс и встроенную подсказку по управлению.
+Веб-плеер работает на всём спектре оборудования, включая мобильные устройства.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Улучшение системы теней.</em></p>
+<blockquote>
+<div><p>Добавлена возможность выбора некаскадной модели теней на основе одной
+оптимизированной карты теней. Такая модель проще в настройке и хорошо
+подходит для небольших сцен. Подробности в <a class="reference internal" href="lighting.html#shadows"><em>документации</em></a>.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Многочисленные улучшения в системе нелинейной анимации (NLA).</em></p>
+<blockquote>
+<div><p>Появилась возможность создания сложной логики в инструменте NLA Script
+с помощью блоков <tt class="docutils literal"><span class="pre">Conditional</span> <span class="pre">Jump</span></tt>, <tt class="docutils literal"><span class="pre">Register</span> <span class="pre">Store</span></tt> и <tt class="docutils literal"><span class="pre">Math</span>
+<span class="pre">Operation</span></tt>, а также переменных, сохраняемых в регистрах.</p>
+<p>Возможность использования в NLA всех типов анимации, поддерживаемых движком,
+включая воспроизведение звуков, вертексную анимацию и эмиссию частиц.
+Анимацию различных типов теперь возможно проигрывать параллельно.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Поддержка биллбординга объектов</em></p>
+<blockquote>
+<div><p>Объектам добавлены <a class="reference internal" href="objects.html#objects-billboarding-properties"><em>опции</em></a>, позволяющие настроить биллбординг.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Поддержка режима &#8220;XYZ Euler&#8221; для анимации поворота.</em></p>
+<blockquote>
+<div><p>Объектная и скелетная анимация теперь поддерживают режим <tt class="docutils literal"><span class="pre">XYZ</span> <span class="pre">Euler</span></tt> для анимации поворота.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Поддержка текстурных координат типа GENERATED.</em></p>
+</li>
+<li><p class="first"><em>Добавлена поддержка загрузки ресурсов с удаленного сервера (Cross-origin resource sharing).</em></p>
+</li>
+<li><p class="first"><em>Упрощен процесс экспорта сцен.</em></p>
+<blockquote>
+<div><p>Ряд ошибок, возникающих при экспорте материала, теперь не блокирует экспорт.
+Вместо этого при загрузке сцены данный материал будет
+отображаться розовым цветом. Более подробное описание ошибок доступно в
+<a class="reference internal" href="addon.html#export-errors-warnings"><em>документации</em></a>.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Добавлена поддержка опции &#8220;Do not export&#8221; для системы частиц.</em></p>
+</li>
+<li><p class="first"><em>Улучшена стабильность работы приложений на устройствах с мобильной
+операционной системой Apple iOS</em></p>
+</li>
+</ul>
+</div>
+<div class="section" id="id16">
+<h3>Изменения<a class="headerlink" href="#id16" title="Ссылка на этот заголовок">¶</a></h3>
+<ul>
+<li><p class="first"><em>В SDK изменился путь для настройки экспорта в HTML.</em></p>
+<blockquote>
+<div><p>В настройках аддона, установленного через SDK, теперь достаточно указывать
+путь непосредственно к корневой директории SDK. Ранее требовалось указывать
+путь к приложению embed. Обратите внимание, старое поведение более не
+поддерживается.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Объявлена устаревшей опция текстур &#8220;UV translation velocity&#8221;.</em></p>
+<blockquote>
+<div><p>Опция будет удалена начиная с версии 14.12.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Удалена опция &#8220;Do not export&#8221; на панели &#8220;Object data&#8221;.</em></p>
+</li>
+<li><p class="first"><em>Опция Blend4Web&gt;Animation&gt;Cyclic на вкладке свойств объектов удалена.</em></p>
+<blockquote>
+<div><p>Вместо неё следует использовать опцию <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Animation</span> <span class="pre">&gt;</span>
+<span class="pre">Behavior</span></tt>, расположенную там же. В сценах, где циклическая анимация
+назначается по умолчанию, возможно нарушение работы анимации, соответственно
+в них необходимо установить поведение в <tt class="docutils literal"><span class="pre">Cyclic</span></tt>.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Изменена реализация алгоритма SSAO</em></p>
+<blockquote>
+<div><p>Новая реализация работает значительно быстрее и показывает лучшее качество изображения.
+Параметры настройки алгоритма также изменились. Подробнее в <a class="reference internal" href="postprocessing_effects.html#ssao"><em>документации</em></a>.</p>
+</div></blockquote>
+</li>
+</ul>
+</div>
+<div class="section" id="id17">
+<h3>Исправления<a class="headerlink" href="#id17" title="Ссылка на этот заголовок">¶</a></h3>
+<ul>
+<li><p class="first"><em>Исправлена ошибка рендеринга материала типа HALO.</em></p>
+</li>
+<li><p class="first"><em>Исправлена ошибка рендеринга объекта при выставлении опции &#8220;Do not batch&#8221;, если он имел родительский объект.</em></p>
+</li>
+<li><p class="first"><em>Исправлена ошибка назначения горячих клавиш на экспорт аддона Blend4Web.</em></p>
+<blockquote>
+<div><p>Устранена ошибка, не позволяющая назначить горячие клавиши на экспорт в форматы JSON и HTML:
+<tt class="docutils literal"><span class="pre">File-&gt;Export-&gt;Blend4Web(.json)</span></tt> и <tt class="docutils literal"><span class="pre">File-&gt;Export-&gt;Blend4Web(.html)</span></tt>.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Исправлена ошибка загрузки текстур, превышающих допустимый размер для данного устройства.</em></p>
+</li>
+<li><p class="first"><em>Исправлены ошибки анимации нодовых материалов, приводившие к нестабильной работе движка.</em></p>
+</li>
+<li><p class="first"><em>Устранена ошибка нодовых материалов, содержащих сложные группы нод (Node
+Groups)</em></p>
+</li>
+<li><p class="first"><em>Исправлены ошибки компиляции шейдеров на устройствах с мобильной графикой
+Qualcomm Adreno 305</em></p>
+</li>
+<li><p class="first"><em>Исправлена ошибка рендеринга при использовании ноды REFRACTION на непрозрачных материалах.</em></p>
+</li>
+<li><p class="first"><em>Исправлен сброс значения текущего кадра анимации после её запечения при
+помощи инструмента &#8220;B4W Vertex Anim Baker&#8221;.</em></p>
+</li>
+</ul>
+</div>
+<div class="section" id="id18">
+<h3>Известные проблемы<a class="headerlink" href="#id18" title="Ссылка на этот заголовок">¶</a></h3>
+<ul>
+<li><p class="first"><em>Проблемы с обновлением аддона в Blender.</em></p>
+<blockquote>
+<div><p>Настоятельно не рекомендуется устанавливать новую версию аддона Blender, не удалив предварительно старую версию, особенно это касается систем Windows.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Карты нормалей не работают с типом текстурных координат Generated.</em></p>
+<blockquote>
+<div><p>При использовании карт нормалей необходимо использовать UV-развертку.</p>
+</div></blockquote>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="v14-09">
+<h2>v14.09<a class="headerlink" href="#v14-09" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="id19">
+<h3>Новый функционал<a class="headerlink" href="#id19" title="Ссылка на этот заголовок">¶</a></h3>
+<ul>
+<li><p class="first"><em>Поддержка типа ABSOLUTE для ноды MATH.</em></p>
+</li>
+<li><p class="first"><em>Поддержка специализированной ноды LEVELS_OF_QUALITY.</em></p>
+<blockquote>
+<div><p>Позволяет управлять сложностью материала в зависимости от профиля качества,
+указанного пользователем при загрузке движка.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Поддержка специализированной ноды SMOOTHSTEP.</em></p>
+<blockquote>
+<div><p>Упрощает создание некоторых эффектов в нодовом материале.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Поддержка нодовых групп.</em></p>
+<blockquote>
+<div><p><a class="reference external" href="http://wiki.blender.org/index.php/Doc:2.6/Manual/Composite_Nodes/Node_Groups">Нодовые группы</a> позволяют повторное использования блока нод одного материала в составе другого.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Возможность вывода промежуточных результатов рендеринга с целью отладки.</em></p>
+<blockquote>
+<div><p>Результат рендеринга конкретной стадии теперь можно вывести поверх основного изображения. Настройка осуществляется в модуле <tt class="docutils literal"><span class="pre">config.js</span></tt> опциями группы <tt class="docutils literal"><span class="pre">debug_subs</span></tt>.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Реализация логики управления NLA-анимацией в Blender с помощью визуального редактора.</em></p>
+<blockquote>
+<div><p>В интерфейс Blender добавлен инструмент NLA Script, который позволяет с
+помощью визуальных блоков реализовывать простые сценарии, например
+осуществить управление текущей анимацией в ответ на действия пользователя.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Многочисленные улучшения системы сенсоров.</em></p>
+<blockquote>
+<div><p>В модуле <tt class="docutils literal"><span class="pre">controls</span></tt> разрешено регистрировать <em>множества сенсоров</em>
+глобально, без привязки к конкретному объекту, для чего в соответствующие
+API необходимо подавать параметр <tt class="docutils literal"><span class="pre">null</span></tt>. Обеспечена более предсказуемая и
+надёжная обработка логики сенсоров, в соответствии с последовательностью
+создания их <em>множеств</em>. Обработчики событий, связанных с действиями
+пользователя теперь назначаются с помощью функций вида
+<tt class="docutils literal"><span class="pre">register_&lt;inputtype&gt;_events()</span></tt>. В данные функции теперь можно подавать
+флаг <tt class="docutils literal"><span class="pre">prevent_default</span></tt>, позволяющий заблокировать стандартное поведение
+браузера, происходящее после возникновения соответствующих событий.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Поддержка использования физики в веб-плеере.</em></p>
+<blockquote>
+<div><p>Работает только в версии веб-плеера с раздельной загрузкой JSON-файлов. В
+одиночных HTML файлах физика не поддерживается.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Поддержка смешивания различных скелетных анимаций.</em></p>
+<blockquote>
+<div><p>В модуле <tt class="docutils literal"><span class="pre">animation.js</span></tt> добавились API, позволяющие осуществлять плавные
+переходы между скелетными анимациями: get_skel_mix_factor() - для получения
+текущего значения коэффициента смешинвания и set_skel_mix_factor() - для его
+назначения.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Поддержка анимации ноды Value в нодовых материалах.</em></p>
+<blockquote>
+<div><p>Функциональность работает аналогично другим видам анимации. Поддерживается работа в NLA.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Поддержка параметров Specular и Diffuse в источниках освещения.</em></p>
+</li>
+<li><p class="first"><em>Возможность рендеринга полупрозрачного объекта поверх остальных объектов на сцене.</em></p>
+<blockquote>
+<div><p>Активируется с помощью опции <tt class="docutils literal"><span class="pre">Render</span> <span class="pre">above</span> <span class="pre">all</span></tt> для прозрачных материалов (т.е. не <tt class="docutils literal"><span class="pre">Opaque</span></tt>).</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Автоматическое применение масштаба к мешу объекта.</em></p>
+<blockquote>
+<div><p>Реализуется включением опции <tt class="docutils literal"><span class="pre">Apply</span> <span class="pre">scale</span></tt> в настройках объекта.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Поддержка профиля высокого качества (включая тени, динамическое отражение и антиалиасинг) для iOS.</em></p>
+</li>
+</ul>
+</div>
+<div class="section" id="id21">
+<h3>Изменения<a class="headerlink" href="#id21" title="Ссылка на этот заголовок">¶</a></h3>
+<ul>
+<li><p class="first"><em>Улучшение рендеринга теней.</em></p>
+<blockquote>
+<div><p>Существенно изменена система отрисовки теней, которая теперь основывается на технике <tt class="docutils literal"><span class="pre">Stable</span> <span class="pre">Cascaded</span> <span class="pre">Shadow</span> <span class="pre">Maps</span></tt>. Техника позволяет существенно уменьшить мерцание краев теней при движении камеры. Между каскадами реализовано сглаживание. Также тени последнего каскада плавно исчезают при удалении. Для рендеринга мягких теней реализована техника <tt class="docutils literal"><span class="pre">Percentage</span> <span class="pre">Closer</span> <span class="pre">Shadows</span></tt>. Переработана и упрощена система пользовательских настроек теней. Теперь можно задавать размеры карт теней, степень размытия, настройки для компенсации ошибок самозатенения. Новые настройки подробно <a class="reference internal" href="lighting.html#shadows"><em>документированы</em></a>.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Настройка качества графики в веб-плеере теперь сохраняется для каждой сцены независимо.</em></p>
+</li>
+<li><p class="first"><em>Изменено поведение настроек конфигурации приложения: physics_uranium_path, smaa_search_texture_path и smaa_area_texture_path.</em></p>
+<blockquote>
+<div><p>Данные настройки конфигурации теперь рассчитываются автоматически в зависимости от местоположения запускаемого HTML-файла, если они не были переопределены при инициализации приложения.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Завершён переход на систему модулей, подключаемых через вызов b4w.require().</em></p>
+<blockquote>
+<div><p>Это также означает, что начиная с текущей версии в релиз-версии движка
+модули нельзя вызывать с помощью устаревшего интерфейса <tt class="docutils literal"><span class="pre">b4w.&lt;module&gt;</span></tt>.
+С целью совместимости создан аддон <tt class="docutils literal"><span class="pre">ns_compat.js</span></tt>, подключение которого
+позволяет восстановить старое поведение.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Добавлена возможность сокрытия панели управления в веб-плеере.</em></p>
+</li>
+<li><p class="first"><em>Скелетная анимация применяется только к объекту арматуры.</em></p>
+<blockquote>
+<div><p>Нет необходимости применять скелетную анимацию к объектам типа <tt class="docutils literal"><span class="pre">MESH</span></tt>.
+Eсли они привязаны к какой-либо анимированной арматуре, скиннинг будет происходить автоматически.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Демонстрационные приложения и обучающие материалы приведены в соответствие с новым функционалом.</em></p>
+</li>
+</ul>
+</div>
+<div class="section" id="id22">
+<h3>Исправления<a class="headerlink" href="#id22" title="Ссылка на этот заголовок">¶</a></h3>
+<ul class="simple">
+<li><em>Индикатор загрузки не скрывался, если в процессе происходила ошибка загрузки ресурса (текстуры либо звукового файла).</em></li>
+<li><em>Исправлены лаги при масштабировании и повороте на touch-устройствах.</em></li>
+<li><em>Устранено дрожание камеры типа TARGET при небольших поворотах.</em></li>
+<li><em>Исправлено управление камерой типа EYE на мобильных устройствах.</em></li>
+<li><em>Улучшено управление в приложении Ферма в браузере Safari.</em></li>
+<li><em>Исправлены ошибки при использовании неподдерживаемых моделей освещения на нодовых материалах.</em></li>
+<li><em>Для объектов без материалов теперь работает опция &#8220;Selectable&#8221;.</em></li>
+<li><em>Более нет необходимости включать &#8220;Do not batch&#8221; для объектов, анимирующихся с использованием NLA.</em></li>
+<li><em>Исправлена ошибка для систем частиц, в которых дуплицируемый объект входит в иерархию с другими объектами.</em></li>
+</ul>
+</div>
+<div class="section" id="id23">
+<h3>Известные проблемы<a class="headerlink" href="#id23" title="Ссылка на этот заголовок">¶</a></h3>
+<ul>
+<li><p class="first"><em>Проблемы с обновлением аддона в Blender.</em></p>
+<blockquote>
+<div><p>Настоятельно не рекомендуется устанавливать новую версию аддона Blender, не удалив предварительно старую версию, особенно это касается систем Windows.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Смешивание скелетной анимации не работает в некоторых браузерах</em></p>
+<blockquote>
+<div><p>Если при использовании API смешивания скелетной анимации возникают необработанные ошибки, следует переопределить стандартную функцию Math.sign следующим образом:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_util</span>  <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;util&quot;</span><span class="p">);</span>
+<span class="nb">Math</span><span class="p">.</span><span class="nx">sign</span> <span class="o">=</span> <span class="nx">m_util</span><span class="p">.</span><span class="nx">sign</span><span class="p">;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="sidebar">
+          <h3>Оглавление</h3>
+          <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">Общие сведения</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">Функционал движка</a></li>
+<li class="toctree-l1"><a class="reference internal" href="first_steps.html">Экспресс-установка</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">Развёртывание среды разработки</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow.html">Рабочий процесс</a></li>
+<li class="toctree-l1"><a class="reference internal" href="viewer.html">Просмотрщик сцен</a></li>
+<li class="toctree-l1"><a class="reference internal" href="web_player.html">Веб-плеер</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">Аддон</a></li>
+<li class="toctree-l1"><a class="reference internal" href="objects.html">Объекты</a></li>
+<li class="toctree-l1"><a class="reference internal" href="camera.html">Камера</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materials.html">Материалы</a></li>
+<li class="toctree-l1"><a class="reference internal" href="textures.html">Текстуры</a></li>
+<li class="toctree-l1"><a class="reference internal" href="node_materials.html">Нодовые материалы</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lighting.html">Освещение, тени и фон</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Постпроцессинговые эффекты</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles.html">Система частиц</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Система частиц для инстансинга объектов</a></li>
+<li class="toctree-l1"><a class="reference internal" href="animation.html">Анимация</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Рендеринг наружных сцен</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Гамма-коррекция и альфа-композитинг</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audio.html">Звуковая подсистема</a></li>
+<li class="toctree-l1"><a class="reference internal" href="physics.html">Физика</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nla.html">Нелинейная анимация</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers.html">Разработчикам приложений</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">Разработчикам движка</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Работа в команде. Использование git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Проблемы и решения</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Замечания к релизам</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#v15-01">v15.01</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v14-12">v14.12</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v14-11">v14.11</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v14-10">v14.10</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v14-09">v14.09</a></li>
+</ul>
+</li>
+</ul>
+
+          <h3 style="margin-top: 1.5em;">Поиск</h3>
+          <form class="search" action="search.html" method="get">
+            <input type="text" name="q" />
+            <input type="submit" value="Искать" />
+            <input type="hidden" name="check_keywords" value="yes" />
+            <input type="hidden" name="area" value="default" />
+          </form>
+          <p class="searchtip" style="font-size: 90%">
+            Введите слова для поиска или имя модуля, класса или функции.
+          </p>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+    <div class="footer-wrapper">
+      <div class="footer">
+        <div class="left">
+          <a href="problems_and_solutions.html" title="Проблемы и решения"
+             >назад</a> |
+          <a href="genindex.html" title="Алфавитный указатель"
+             >указатель</a>
+        </div>
+
+        <div class="right">
+          
+    <div class="footer">
+        &copy; Copyright 2015, ООО &#34;Триумф&#34;.
+      Обновлено: 2015-01-29.
+      Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+  </body>
+</html>

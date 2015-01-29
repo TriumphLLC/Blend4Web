@@ -18,9 +18,10 @@ var m_print     = require("__print");
 var m_scs       = require("__scenes");
 var m_sfx       = require("__sfx");
 var m_util      = require("__util");
+var m_tex       = require("__textures");
 
 var cfg_ani = m_cfg.animation;
-
+var cfg_def = m_cfg.defaults;
 var _nla_arr = [];
 var _start_time = -1;
 
@@ -167,22 +168,28 @@ exports.update_scene_nla = function(scene, is_cyclic) {
 
     var textures = scene._render.video_textures;
     for (var j = 0; j < textures.length; j++) {
-        var ev = init_event();
         var texture = textures[j]._render;
+        if (texture.video_file || texture.seq_video) {
+            var ev = init_event();
 
-        ev.type = "VIDEO";
-        ev.frame_start = Math.min(texture.frame_start, nla.frame_end);
+            ev.type = "VIDEO";
+            var fps_mult = 1;
+            if (cfg_def.seq_video_fallback)
+                fps_mult = texture.fps;
 
-        if (texture.use_cyclic)
-            ev.frame_end = nla.frame_end;
-        else 
-            ev.frame_end =  Math.min(texture.frame_duration + texture.frame_start 
-                    + texture.frame_offset, nla.frame_end);
+            ev.frame_start = Math.min(texture.frame_start * fps_mult, nla.frame_end);
 
-        ev.anim_name = textures[j].name;
+            if (texture.use_cyclic)
+                ev.frame_end = nla.frame_end;
+            else 
+                ev.frame_end =  Math.min((texture.frame_duration + texture.frame_start 
+                        + texture.frame_offset) * fps_mult, nla.frame_end);
 
-        texture._nla_tex_event = ev;
-        nla.textures.push(texture);
+            ev.anim_name = textures[j].name;
+
+            texture._nla_tex_event = ev;
+            nla.textures.push(texture);
+        }
     }
 
     enforce_nla_consistency(nla);
@@ -313,6 +320,27 @@ function prepare_nla_script(scene, nla) {
                 reg2: sslot["register2"],
                 num1: sslot["number1"],
                 num2: sslot["number2"],
+                regd: sslot["registerd"]
+            });
+            break;
+        case "SHOW":
+        case "HIDE":
+            var obj = m_scs.get_object(m_scs.GET_OBJECT_BY_NAME, sslot["object"], 0);
+            nla_script.push({
+                type: sslot["type"],
+                obj: obj
+            });
+            break;
+        case "REDIRECT":
+            nla_script.push({
+                type: "REDIRECT",
+                url: sslot["url"]
+            });
+            break;
+        case "PAGEPARAM":
+            nla_script.push({
+                type: "PAGEPARAM",
+                param_name: sslot["param_name"],
                 regd: sslot["registerd"]
             });
             break;
@@ -620,11 +648,56 @@ function process_nla_script(nla, timeline, elapsed, start_time) {
         nla.curr_script_slot++;
         process_nla_script(nla, timeline, elapsed, start_time);
         break;
+    case "SHOW":
+        m_scs.show_object(slot.obj);
+
+        nla.curr_script_slot++;
+        process_nla_script(nla, timeline, elapsed, start_time);
+        break;
+    case "HIDE":
+        m_scs.hide_object(slot.obj);
+
+        nla.curr_script_slot++;
+        process_nla_script(nla, timeline, elapsed, start_time);
+        break;
+    case "REDIRECT":
+        window.location.href = slot.url
+
+        // prevents further NLA processing
+        nla.script.length = 0;
+        break;
+    case "PAGEPARAM":
+        nla.registers[slot.regd] = get_url_param(slot.param_name);
+
+        nla.curr_script_slot++;
+        process_nla_script(nla, timeline, elapsed, start_time);
+        break;
     case "NOOP":
         nla.curr_script_slot++;
         process_nla_script(nla, timeline, elapsed, start_time);
         break;
     }
+}
+
+/**
+ * Return numerical URL param
+ */
+function get_url_param(name) {
+
+    var url = location.href.toString();
+    if (url.indexOf("?") == -1)
+        return 0;
+
+    var params = url.split("?")[1].split("&");
+
+    for (var i = 0; i < params.length; i++) {
+        var param = params[i].split("=");
+
+        if (param.length > 1 && param[0] == name)
+            return Number(param[1]);
+    }
+
+    return 0;
 }
 
 function reset_nla_selection(nla, curr_slot) {
@@ -699,10 +772,10 @@ function process_sound_event(obj, ev, frame) {
 
 function process_video_event(texture, stop) {
     if (stop)
-        texture.video_file.pause();
+        m_tex.pause_video(texture.name);
     else {
-        texture.video_file.currentTime = texture.frame_offset / cfg_ani.framerate;
-        texture.video_file.play();
+        m_tex.reset_video(texture.name);
+        m_tex.play_video(texture.name);
     }
 }
 

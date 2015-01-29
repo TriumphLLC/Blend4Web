@@ -1,0 +1,296 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Gamma Correction and Alpha Compositing &mdash; User Manual: Blend4Web v15.01</title>
+    
+    <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '15.01',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="top" title="User Manual: Blend4Web v15.01" href="index.html" />
+    <link rel="next" title="Audio System" href="audio.html" />
+    <link rel="prev" title="Outdoor Rendering" href="outdoor_rendering.html" /> 
+  </head>
+  <body>
+    <div class="header-wrapper">
+      <div class="header">
+          <p class="logo"><a href="index.html">
+            <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
+          </a></p>
+        <div class="headertitle"><a
+          href="index.html">User Manual: Blend4Web v15.01</a></div>
+        <div class="rel">
+          <a href="outdoor_rendering.html" title="Outdoor Rendering"
+             accesskey="P">previous</a> |
+          <a href="audio.html" title="Audio System"
+             accesskey="N">next</a> |
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a>
+        </div>
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="gamma">
+<span id="id1"></span><h1>Gamma Correction and Alpha Compositing<a class="headerlink" href="#gamma" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id2">
+<h2>Overview<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>The essence of gamma correction is packing the image brightness channel into 8 bits of information.</p>
+<p>Graphics editors normally work in a non-linear color space where the darker components are encoded using more bits than the brighter ones. That means that a bigger RGB value corresponds to 0.5 of the real light intensity (a physical quantity called illuminance) - in a simplest case this value equals to 0.5 ^ (1/2.2) = 0.73.</p>
+<a class="reference internal image-reference" href="_images/gamma.jpg"><img alt="_images/gamma.jpg" class="align-center" src="_images/gamma.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>Images are always stored in a non-linear space because if they were not, 8 bits of information would not be enough to encode the light intensity and it would result in a wrong rendering of the darker tints.</p>
+<p>Web browsers work in a non-linear space.</p>
+<p>When the <tt class="docutils literal"><span class="pre">Color</span> <span class="pre">Management</span> <span class="pre">&gt;</span> <span class="pre">Display</span> <span class="pre">Device</span> <span class="pre">&gt;</span> <span class="pre">sRGB</span></tt> option is enabled for a scene, Blender works in a linear space. Material colors and lamp settings correspond to physical values. For texture images (except normal maps) it is required to select the <tt class="docutils literal"><span class="pre">Image</span> <span class="pre">&gt;</span> <span class="pre">Input</span> <span class="pre">Color</span> <span class="pre">Space</span> <span class="pre">&gt;</span> <span class="pre">sRGB</span></tt> option. In this case an automatic image unpacking (sRGB -&gt; Linear) is performed at the time of rendering.</p>
+<p>Engines and renderers work in a linear space because this is the only correct way to represent light behavior in the real world. For example, the illuminance from two identical lamps exceeds the illuminance from one lamp exactly by two times.</p>
+<p>Some values of illuminance:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="54%" />
+<col width="46%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head"><p class="first last">Description</p>
+</th>
+<th class="head"><p class="first last">Illuminance, lux</p>
+</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><p class="first last">Summer noon</p>
+</td>
+<td>17 000</td>
+</tr>
+<tr class="row-odd"><td><p class="first last">Winter noon</p>
+</td>
+<td>5 000</td>
+</tr>
+<tr class="row-even"><td><p class="first last">Dull day</p>
+</td>
+<td>1 000</td>
+</tr>
+<tr class="row-odd"><td><p class="first last">In a light room</p>
+</td>
+<td>100</td>
+</tr>
+<tr class="row-even"><td><p class="first last">Full moon by night</p>
+</td>
+<td>0.2</td>
+</tr>
+<tr class="row-odd"><td><p class="first last">Moonless light</p>
+</td>
+<td>0.001</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id3">
+<h2>Human Vision, Monitors and Gamma Correction<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>While the human vision is non-linear (a human recognizes the darker light tints better than the brighter ones), the light coming into the eye still obeys the physical laws (see the lamps example).</p>
+<p>In CRT monitors the brightness is dependent non-linearly upon the electric voltage applied to the monitor&#8217;s input (the voltage itself is determined by the color channel value in the video memory). LCD monitors mimic the same characteristics. Nevertheless the light emitted by such monitors obeys the physical laws. For example the addition of a second light source to a virtual scene should cause the brightness to double (in the perfect case).</p>
+<p>Therefore the perception characteristics of the human eye and the technical characteristics of monitors have a secondary significance for gamma correction.</p>
+</div>
+<div class="section" id="id4">
+<h2>Gamma<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p>Used in the following simplified formula:</p>
+<blockquote>
+<div>V<sub>out</sub> = V<sub>in</sub><sup>γ</sup></div></blockquote>
+<p>γ &lt; 1 - packing gamma, γ &gt; 1 - unpacking gamma. In the simplest case 1/2.2 and 2.2 values are used respectively. Hereinafter the &#8220;packing&#8221; (Linear -&gt; sRGB) and &#8220;unpacking&#8221; (sRGB -&gt; Linear) terms are used instead of &#8220;gamma correction&#8221;.</p>
+</div>
+<div class="section" id="gamma-nodes">
+<span id="id5"></span><h2>Gamma Correction in Node Materials<a class="headerlink" href="#gamma-nodes" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id6">
+<h3>Nodes for colouring<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<p>Unpacking (sRGB -&gt; Linear) is required when textures and vertex colors are used for colouring (not for masking). The texture node implements unpacking automatically. For vertex colors the unpacking should be performed explicitely with the <cite>SRGB_TO_LINEAR</cite> special node.</p>
+<p>Note that the alpha channel of a texture node is not corrected. Its values are in the linear space.</p>
+</div>
+<div class="section" id="id7">
+<h3>Nodes for masking<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<p>Textures and vertex colors can be used as masks i.e. for mixing colors and for other mathematical operations. In such a case no transformations are required.</p>
+<p>In case of a texture however there is a nuance: a texture node implements unpacking automatically. This results in necessity of the additional transformation back to the non-linear space, for which the <cite>LINEAR_TO_SRGB</cite> node is used.</p>
+</div>
+<div class="section" id="id8">
+<h3>Normal maps<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<p>No transformations are performed for normal maps.</p>
+</div>
+<div class="section" id="id9">
+<h3>Resulting table of correction in node materials<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head"><p class="first last">Use case</p>
+</th>
+<th class="head"><p class="first last">Correction</p>
+</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><p class="first last">Texture for colouring</p>
+</td>
+<td><p class="first last">implemented automatically in the texture node (the alpha channel is not corrected)</p>
+</td>
+</tr>
+<tr class="row-odd"><td><p class="first last">Texture for masking</p>
+</td>
+<td>LINEAR_TO_SRGB</td>
+</tr>
+<tr class="row-even"><td><p class="first last">Vertex color for colouring</p>
+</td>
+<td>SRGB_TO_LINEAR</td>
+</tr>
+<tr class="row-odd"><td><p class="first last">Vertex color for masking</p>
+</td>
+<td><p class="first last">not required</p>
+</td>
+</tr>
+<tr class="row-even"><td><p class="first last">Normal map</p>
+</td>
+<td><p class="first last">not required</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="alpha-compositing">
+<span id="id10"></span><h2>Alpha Compositing<a class="headerlink" href="#alpha-compositing" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id11">
+<h3>Overview<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<p>Physically correct alpha compositing is performed according to the formula [<a class="reference external" href="http://wwwnew.cs.princeton.edu/courses/archive/spring05/cos426/papers/smith95a.pdf">source</a>]:</p>
+<blockquote>
+<div><span class="math">\(C_o = C_a \alpha_a + C_b \alpha_b (1 - \alpha_a)\)</span>.</div></blockquote>
+<p>This formula differs from the classic mix operation (aka convex combination) because it has the <span class="math">\(\alpha_b\)</span> multiplier in the second summand. Therefore not only the <span class="math">\(\alpha_a\)</span> value of the source pixel should be known for alpha compositing, but also the <span class="math">\(\alpha_b\)</span> value of the pixel over which the rendering is performed.</p>
+<p>In case of preliminary multiplication of the <span class="math">\(\alpha\)</span> values by the color channels (so called premultiplied alpha) the formula becomes as following:</p>
+<blockquote>
+<div><span class="math">\(C_o = C_a + C_b (1 - \alpha_a)\)</span>.</div></blockquote>
+<p>The last formula is used also to calculate the resulting <span class="math">\(\alpha_o\)</span> value:</p>
+<blockquote>
+<div><span class="math">\(\alpha_o = \alpha_a + \alpha_b (1 - \alpha_a)\)</span>.</div></blockquote>
+<p>Preliminary multiplication of the color channels by the <span class="math">\(\alpha\)</span> values allows to save two multiplication operations. The more significant thing is that the derived formula can be used repeatedly without the need to divide the <span class="math">\(C_o\)</span> color by the <span class="math">\(\alpha_o\)</span> value on each consequent iteration.</p>
+</div>
+<div class="section" id="id13">
+<h3>Implementation<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
+<p>The blending function used in Blend4Web is the following:</p>
+<div class="highlight-none"><div class="highlight"><pre>gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+</pre></div>
+</div>
+<p>WebGL context initialization is performed using the <cite>premultipliedAlpha = true</cite> parameter (that is the default value). Also multiplication of all the color channels by the <span class="math">\(\alpha\)</span> value is performed on the output of the shaders.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="sidebar">
+          <h3>Table Of Contents</h3>
+          <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">The Engine Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="first_steps.html">Quick Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">Development Environment Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow.html">Workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="viewer.html">Scene Viewer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="web_player.html">Web Player</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">The Add-on</a></li>
+<li class="toctree-l1"><a class="reference internal" href="objects.html">Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materials.html">Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="textures.html">Textures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing Effects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System for Instancing Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="animation.html">Animation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Rendering</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Gamma Correction and Alpha Compositing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">Human Vision, Monitors and Gamma Correction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">Gamma</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#gamma-nodes">Gamma Correction in Node Materials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#alpha-compositing">Alpha Compositing</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="audio.html">Audio System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nla.html">Non-Linear Animation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers.html">For Application Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">For Engine Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Team Work. Using Git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Problems and Solutions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
+</ul>
+
+          <h3 style="margin-top: 1.5em;">Search</h3>
+          <form class="search" action="search.html" method="get">
+            <input type="text" name="q" />
+            <input type="submit" value="Go" />
+            <input type="hidden" name="check_keywords" value="yes" />
+            <input type="hidden" name="area" value="default" />
+          </form>
+          <p class="searchtip" style="font-size: 90%">
+            Enter search terms or a module, class or function name.
+          </p>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+    <div class="footer-wrapper">
+      <div class="footer">
+        <div class="left">
+          <a href="outdoor_rendering.html" title="Outdoor Rendering"
+             >previous</a> |
+          <a href="audio.html" title="Audio System"
+             >next</a> |
+          <a href="genindex.html" title="General Index"
+             >index</a>
+        </div>
+
+        <div class="right">
+          
+    <div class="footer">
+        &copy; Copyright 2015, Triumph LLC.
+      Last updated on 2015-01-29.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+  </body>
+</html>

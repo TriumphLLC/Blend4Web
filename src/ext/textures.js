@@ -45,12 +45,20 @@ exports.play_video = function(texture_name) {
 }
 
 /**
- * Stop video.
  * @method module:textures.stop_video
- * @param {String} texture_name Texture name
+ * @deprecated use textures.pause_video instead
  */
 exports.stop_video = function(texture_name) {
-    if (!m_textures.stop_video(texture_name))
+    m_print.warn("stop_video() deprecated, use pause_video() instead");
+    return exports.pause_video(texture_name);
+}
+/**
+ * Pause video.
+ * @method module:textures.pause_video
+ * @param {String} texture_name Texture name
+ */
+exports.pause_video = function(texture_name) {
+    if (!m_textures.pause_video(texture_name))
         m_print.error("Texture with name \"" + texture_name + "\" not found!");
 }
 

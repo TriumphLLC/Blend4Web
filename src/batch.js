@@ -451,18 +451,17 @@ function make_static_metabatches(static_objects, graph, grid_size, lamps_number)
 function make_object_metabatches(obj, render, graph, lamps_number) {
     var metabatches = [];
 
-    // perform some object culling
-    if (obj["b4w_do_not_render"])
-        return metabatches;
-
     // NOTE: generate all batches
     var batch_types = get_batch_types(graph, render);
     var render_id = util.calc_variable_id(render, 0);
     var mesh = obj["data"];
     var materials = mesh["materials"];
-
+    
     for (var i = 0; i < batch_types.length; i++) {
         var type = batch_types[i];
+
+        if (obj["b4w_do_not_render"] && type != "PHYSICS")
+            continue;
 
         // j == submesh index == material index
         for (var j = 0; j < materials.length; j++) {
@@ -922,7 +921,6 @@ function get_batch_types(graph, render) {
  * @param update_tex_color Keep texture images (do not update by colors)
  */
 function update_batch_material(batch, material, update_tex_color) {
-
     var ret;
     switch (batch.type) {
     case "MAIN":
@@ -957,7 +955,7 @@ function update_batch_material(batch, material, update_tex_color) {
 }
 
 function update_batch_material_main(batch, material, update_tex_color) {
-    if (material["b4w_collision"])
+    if (material["b4w_do_not_render"])
         return false;
 
     if (material["use_nodes"])
@@ -1528,7 +1526,7 @@ function update_batch_diffuse_params(batch, material) {
 }
 
 function update_batch_material_nodes(batch, material) {
-    if (!material["use_nodes"])
+    if (!material["use_nodes"] || material["b4w_do_not_render"])
         return false;
 
     var node_tree = material["node_tree"];
@@ -1709,7 +1707,7 @@ function update_batch_material_depth(batch, material) {
 
     if (material["name"] === "LENS_FLARES" ||
             material["b4w_water"] ||
-            material["b4w_collision"] ||
+            material["b4w_do_not_render"] ||
             material["type"] === "HALO")
         return false;
 
@@ -1790,7 +1788,7 @@ function update_batch_material_physics(batch, material) {
 
 function update_batch_material_color_id(batch, material) {
     if (material["name"] === "LENS_FLARES" ||
-            material["b4w_collision"] ||
+            material["b4w_do_not_render"] ||
             material["type"] === "HALO")
         return false;
 
@@ -1849,7 +1847,7 @@ function update_batch_material_color_id(batch, material) {
 function update_batch_material_wireframe(batch, material) {
     if (material["name"] === "LENS_FLARES" ||
             material["b4w_water"] ||
-            material["b4w_collision"] ||
+            material["b4w_do_not_render"] ||
             material["type"] === "HALO")
         return false;
 
@@ -1872,7 +1870,7 @@ function update_batch_material_wireframe(batch, material) {
 }
 
 function update_batch_material_grass_map(batch, material) {
-    if (!material["b4w_terrain"])
+    if (!material["b4w_terrain"] || material["b4w_do_not_render"])
         return false;
 
     update_batch_game_settings(batch, material);
@@ -1924,6 +1922,8 @@ function update_batch_material_grass_map(batch, material) {
 }
 
 function update_batch_material_particles(batch, material) {
+    if (material["b4w_do_not_render"])
+        return false;
 
     var texture_slots = material["texture_slots"];
 

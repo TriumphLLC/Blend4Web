@@ -29,7 +29,7 @@ exports.set_hardware_defaults = function(gl) {
     cfg_def.max_cube_map_size = gl.getParameter(gl.MAX_CUBE_MAP_TEXTURE_SIZE);
 
     var depth_tex_available = Boolean(m_ext.get_depth_texture());
-    
+
     if (check_user_agent("Firefox") && m_cfg.is_built_in_data()) {
         m_print.warn("Firefox detected for single HTML version, disable video textures.");
         cfg_def.firefox_disable_html_video_tex_hack = true;
@@ -62,15 +62,11 @@ exports.set_hardware_defaults = function(gl) {
         cfg_sfx.clamp_playback_rate_hack = true;
     }
     if ((check_user_agent("Windows"))
-            && (check_user_agent("Firefox/33") ||
-                check_user_agent("Firefox/34"))) {
-        m_print.warn("Windows/Firefox33-34 detected. Applying procedural skydome update hack.");
-        cfg_def.sky_update_hack = true;
-    }
-    if ((check_user_agent("Windows"))
              &&(check_user_agent("Chrome/40") ||
-                check_user_agent("Chrome/41"))) {
-        m_print.warn("Windows/Chrome40-41 detected. Applying clear procedural skydome hack.");
+                check_user_agent("Firefox/33") ||
+                check_user_agent("Firefox/34") ||
+                check_user_agent("Firefox/35"))) {
+        m_print.warn("Windows/Chrome40 or Firefox33-35 detected. Applying clear procedural skydome hack.");
         cfg_def.clear_procedural_sky_hack = true;
     }
 
@@ -82,6 +78,11 @@ exports.set_hardware_defaults = function(gl) {
             m_print.warn("Mobile (not iOS) detected, disable playback rate for video textures.");
             cfg_sfx.disable_playback_rate_hack = true;
         }
+    }
+
+    if (check_user_agent("iPhone") || is_ie11()) {
+        m_print.warn("iPhone or IE11 detected. Enable sequential video fallback for video textures.");
+        cfg_def.seq_video_fallback = true;
     }
 
     if (gl.getParameter(gl.MAX_VARYING_VECTORS) < MIN_VARYINGS_REQUIRED) {
@@ -110,6 +111,11 @@ exports.set_hardware_defaults = function(gl) {
             cfg_def.precision = "highp";
             cfg_def.shadows = "NONE";
         }
+        if (gl.getParameter(rinfo.UNMASKED_VENDOR_WEBGL).indexOf("ARM") > -1
+                && gl.getParameter(rinfo.UNMASKED_RENDERER_WEBGL).indexOf("Mali-T760") > -1) {
+            m_print.warn("ARM Mali-T760 detected, disable SSAO.");
+            cfg_def.ssao = false;
+        }
         if (gl.getParameter(rinfo.UNMASKED_VENDOR_WEBGL).indexOf("Qualcomm") > -1
                && gl.getParameter(rinfo.UNMASKED_RENDERER_WEBGL).indexOf("Adreno") > -1) {
             m_print.warn("Qualcomm Adreno detected, applying shader constants hack.");
@@ -136,6 +142,13 @@ exports.set_hardware_defaults = function(gl) {
         cfg_def.allow_vertex_textures = false;
     }
 
+    // no need on HIDPI displays
+    if (cfg_def.allow_hidpi && window.devicePixelRatio > 1) {
+        m_print.log("%cENABLE HIDPI MODE", "color: #00a");
+        cfg_def.resolution_factor = 1;
+        cfg_def.smaa = false;
+    }
+
     if (!depth_tex_available) {
         cfg_def.deferred_rendering = false;
 
@@ -146,6 +159,7 @@ exports.set_hardware_defaults = function(gl) {
         cfg_def.water_dynamic =   false;
         cfg_def.shore_smoothing = false;
         cfg_def.shore_distance =  false;
+        cfg_def.refractions =     false;
 
         cfg_def.smaa =            false;
     }
@@ -173,10 +187,9 @@ exports.set_hardware_defaults = function(gl) {
     if (is_ie11()) {
         m_print.warn("IE11 detected. Set sky cubemap texture size to 512 (power of two).");
         cfg_scs.cubemap_tex_size = 512;
-        cfg_def.ie_video_textures_hack = true;
     }
 
-    if(gl.getParameter(gl.MAX_FRAGMENT_UNIFORM_VECTORS) <= MIN_FRAGMENT_UNIFORMS_SUPPORTED) {
+    if (gl.getParameter(gl.MAX_FRAGMENT_UNIFORM_VECTORS) <= MIN_FRAGMENT_UNIFORMS_SUPPORTED) {
         m_print.warn("Not enough fragment uniforms, force low quality for " 
                     + "LEVELS_OF_QUALITY nodes.");
         cfg_def.force_low_quality_nodes = true;
@@ -204,10 +217,18 @@ function detect_mobile() {
         || navigator.userAgent.match(/Windows Phone/i);
 }
 
+exports.apply_context_alpha_hack = function() {
+    if ((check_user_agent("Firefox/35.0") || check_user_agent("Firefox/36.0")) &&
+            check_user_agent("Windows")) {
+        m_print.warn("Windows/Firefox 35/36 detected, forcing context's alpha");
+        m_cfg.context.alpha = true;
+    }
+}
 /**
  * Detect Internet Explorer 11
  * @see http://stackoverflow.com/questions/21825157/internet-explorer-11-detection
  */
+exports.is_ie11 = is_ie11;
 function is_ie11() {
     return !(window.ActiveXObject) && "ActiveXObject" in window;
 }

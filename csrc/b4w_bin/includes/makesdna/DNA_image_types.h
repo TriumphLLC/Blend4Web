@@ -64,6 +64,10 @@ typedef struct ImageUser {
 
 } ImageUser;
 
+typedef struct RenderSlot {
+	char name[64];  /* 64 = MAX_NAME */
+} RenderSlot;
+
 /* iuser->flag */
 #define	IMA_ANIM_ALWAYS		1
 #define IMA_ANIM_REFRESHED	2
@@ -109,6 +113,7 @@ typedef struct Image {
 	int gen_x, gen_y;
 	char gen_type, gen_flag;
 	short gen_depth;
+	float gen_color[4];
 	
 	/* display aspect - for UV editing images resized for faster openGL display */
 	float aspx, aspy;
@@ -118,6 +123,7 @@ typedef struct Image {
 	char alpha_mode;
 
 	char pad[7];
+	RenderSlot render_slots[8];  /* 8 = IMA_MAX_RENDER_SLOT */
 } Image;
 
 

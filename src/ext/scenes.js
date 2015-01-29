@@ -11,6 +11,7 @@ b4w.module["scenes"] = function(exports, require) {
 var m_batch     = require("__batch");
 var m_cam       = require("__camera");
 var m_graph     = require("__graph");
+var m_obj       = require("__objects");
 var m_print     = require("__print");
 var physics     = require("__physics");
 var m_scenes    = require("__scenes");
@@ -73,19 +74,19 @@ exports.get_active_camera = function() {
         m_print.error("No active scene");
         return false;
     } else
-        return m_scenes.get_active()["camera"];
+        return m_scenes.get_camera(m_scenes.get_active());
 }
 
 /**
  * Get object by name.
  * @method module:scenes.get_object_by_name
  * @param {String} name Object name
- * @param {Number} data_id Id of loaded data
+ * @param {Number} [data_id=0] ID of loaded data
  * @returns {Object} Object ID
  */
 exports.get_object_by_name = function(name, data_id) {
     return m_scenes.get_object(m_scenes.GET_OBJECT_BY_NAME, name,
-            data_id);
+            data_id | 0);
 }
 
 /**
@@ -93,25 +94,25 @@ exports.get_object_by_name = function(name, data_id) {
  * @method module:scenes.get_object_by_dupli_name
  * @param {String} empty_name EMPTY object name
  * @param {String} dupli_name DUPLI object name
- * @param {Number} data_id Id of loaded data
+ * @param {Number} [data_id=0] ID of loaded data
  * @returns {Object} Object ID
  */
 exports.get_object_by_dupli_name = function(empty_name, dupli_name,
         data_id) {
     return m_scenes.get_object(m_scenes.GET_OBJECT_BY_DUPLI_NAME, empty_name,
-            dupli_name, data_id);
+            dupli_name, data_id | 0);
 }
 
 /**
  * Get object by empty name and dupli name list.
  * @method module:scenes.get_object_by_dupli_name_list
  * @param {Array} name_list List of EMPTY and DUPLI object names
- * @param {Number} data_id Id of loaded data
+ * @param {Number} [data_id=0] ID of loaded data
  * @returns {Object} Object ID
  */
 exports.get_object_by_dupli_name_list = function(name_list, data_id) {
     return m_scenes.get_object(m_scenes.GET_OBJECT_BY_DUPLI_NAME_LIST,
-            name_list, data_id);
+            name_list, data_id | 0);
 }
 
 /**
@@ -128,12 +129,11 @@ exports.get_object_by_empty_name = function(empty_name, dupli_name,
  * Returns object data_id property
  * @method module:scenes.get_object_data_id
  * @param {Object} obj Object ID
- * @returns {Number} [data_id] Data id property
+ * @returns {Number} data_id Data ID property
  */
 exports.get_object_data_id = function(obj) {
     return m_scenes.get_object_data_id(obj);
 }
-
 
 /**
  * For given mouse coords, render the color scene and return an object
@@ -702,20 +702,28 @@ exports.update_scene_materials_params = function() {
 
 /**
  * Hide object.
+ * Supported only for dynamic meshes.
  * @method module:scenes.hide_object
  * @param {Object} obj Object ID
  */
 exports.hide_object = function(obj) {
-    m_scenes.hide_object(obj);
+    if (m_obj.is_dynamic_mesh(obj))
+        m_scenes.hide_object(obj);
+    else
+        m_print.error("B4W Error: show/hide is only supported for dynamic meshes");
 }
 
 /**
  * Show object.
+ * Supported only for dynamic meshes.
  * @method module:scenes.show_object
  * @param {Object} obj Object ID
  */
 exports.show_object = function(obj) {
-    m_scenes.show_object(obj);
+    if (m_obj.is_dynamic_mesh(obj))
+        m_scenes.show_object(obj);
+    else
+        m_print.error("B4W Error: show/hide is only supported for dynamic meshes");
 }
 
 /**
@@ -874,6 +882,30 @@ exports.get_type_mesh_object = function(obj) {
     if (obj["type"] == "MESH")
         return obj._render.type;
     return null;
+}
+
+/**
+ * @typedef SceneMetaTags
+ * @type {Object}
+ * @property {String} title The title meta tag.
+ * @property {String} description The description meta tag.
+ */
+
+/**
+ * Get the Blender-assigned meta tags from the active scene.
+ * @method module:scenes.get_meta_tags
+ * @returns {SceneMetaTags} Scene meta tags
+ * @cc_externs title description
+ */
+exports.get_meta_tags = function() {
+    if (!m_scenes.check_active()) {
+        m_print.error("No active scene");
+        return false;
+    }
+
+    var active_scene = m_scenes.get_active();
+
+    return m_scenes.get_meta_tags(active_scene);
 }
 
 

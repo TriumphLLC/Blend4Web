@@ -215,7 +215,7 @@ function init_anim(obj, slot_num) {
         pitch: null,
 
         nodemat_values: [],
-        node_value_inds: [],
+        node_value_inds: []
     };
 
     obj._anim_slots[slot_num] = anim_slot;
@@ -1323,6 +1323,7 @@ function mix_skeletal_animation(obj, elapsed) {
         m_util.blend_arrays(trans_next_0, trans_next_1, mix_factor,
                             render.trans_after);
     }
+    m_trans.update_transform(obj);
 
     // update skinned objects
     var skinned_renders = render.skinned_renders;

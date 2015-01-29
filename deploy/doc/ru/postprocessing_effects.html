@@ -1,0 +1,381 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Постпроцессинговые эффекты &mdash; Руководство пользователя: Blend4Web v15.01</title>
+    
+    <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '15.01',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="author" title="Об этих документах" href="about.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v15.01" href="index.html" />
+    <link rel="next" title="Система частиц" href="particles.html" />
+    <link rel="prev" title="Освещение, тени и фон" href="lighting.html" /> 
+  </head>
+  <body>
+    <div class="header-wrapper">
+      <div class="header">
+          <p class="logo"><a href="index.html">
+            <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
+          </a></p>
+        <div class="headertitle"><a
+          href="index.html">Руководство пользователя: Blend4Web v15.01</a></div>
+        <div class="rel">
+          <a href="lighting.html" title="Освещение, тени и фон"
+             accesskey="P">назад</a> |
+          <a href="particles.html" title="Система частиц"
+             accesskey="N">вперёд</a> |
+          <a href="genindex.html" title="Алфавитный указатель"
+             accesskey="I">указатель</a>
+        </div>
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="postprocessing-effects">
+<span id="id1"></span><h1>Постпроцессинговые эффекты<a class="headerlink" href="#postprocessing-effects" title="Ссылка на этот заголовок">¶</a></h1>
+<div class="section" id="motion-blur">
+<span id="index-0"></span><span id="id2"></span><h2>Размытие при движении<a class="headerlink" href="#motion-blur" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Эффект размытия при движении (motion blur) служит целям увеличения реализма интерактивной сцены. Он проявляется при движении камеры или объектов в виде &#8220;смазывания&#8221; изображения.</p>
+<div class="section" id="id3">
+<h3>Активация<a class="headerlink" href="#id3" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Выставить опцию <tt class="docutils literal"><span class="pre">Enable</span> <span class="pre">Motion</span> <span class="pre">Blur</span></tt> на панели <tt class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span></tt>.</p>
+</div>
+<div class="section" id="id4">
+<h3>Дополнительные настройки<a class="headerlink" href="#id4" title="Ссылка на этот заголовок">¶</a></h3>
+<p>На панели <tt class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Motion</span> <span class="pre">blur</span> <span class="pre">settings</span></tt>:</p>
+<dl class="docutils">
+<dt><em>Motion blur factor</em></dt>
+<dd>Степень проявления эффекта. Чем выше значение, тем сильнее эффект размытия. Значение по умолчанию 0.01.</dd>
+<dt><em>Motion blur decay threshold</em></dt>
+<dd>Степень плавности размытия. Чем выше значение, тем более резким будет эффект. Значение по умолчанию 0.01.</dd>
+</dl>
+<a class="reference internal image-reference" href="_images/motion_blur.jpg"><img alt="_images/motion_blur.jpg" class="align-center" src="_images/motion_blur.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</div>
+</div>
+<div class="section" id="dof">
+<span id="index-1"></span><span id="id5"></span><h2>Глубина резкости камеры<a class="headerlink" href="#dof" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Эффект глубины резкости камеры (depth of field, DOF) акцентирует внимание зрителя на части сцены. Проявляется в размытии изображения ближе и дальше от фокуса камеры.</p>
+<div class="section" id="id6">
+<h3>Активация<a class="headerlink" href="#id6" title="Ссылка на этот заголовок">¶</a></h3>
+<ol class="arabic">
+<li><p class="first">Выбрать активную камеру, перейти на панель ее настроек (<tt class="docutils literal"><span class="pre">Object</span> <span class="pre">Data</span></tt>).</p>
+</li>
+<li><p class="first">Далее возможны два варианта:</p>
+<blockquote>
+<div><ul class="simple">
+<li>На панели <tt class="docutils literal"><span class="pre">Depth</span> <span class="pre">of</span> <span class="pre">Field</span></tt> в меню <tt class="docutils literal"><span class="pre">Focus</span></tt> выбрать объект, на котором будет сфокусирована камера. В этом случае при удалении или приближении к этому объекту будет происходит соответствующая коррекция фокуса камеры.</li>
+<li>На панели <tt class="docutils literal"><span class="pre">Depth</span> <span class="pre">of</span> <span class="pre">Field</span></tt> установить ненулевое значение <tt class="docutils literal"><span class="pre">Distance</span></tt> (в метрах). В этом случае фокус камеры будет располагаться на заданном расстоянии от камеры и перемещаться вместе с ней.</li>
+</ul>
+</div></blockquote>
+</li>
+</ol>
+</div>
+<div class="section" id="id7">
+<h3>Дополнительные настройки<a class="headerlink" href="#id7" title="Ссылка на этот заголовок">¶</a></h3>
+<p>На панели настроек активной камеры <tt class="docutils literal"><span class="pre">Object</span> <span class="pre">Data</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span></tt>:</p>
+<dl class="docutils">
+<dt><em>DOF front distance</em></dt>
+<dd>Расстояние от фокуса до ближней к камере плоскости, за которой происходит полное размытие (в метрах). Значение по умолчанию 1.0.</dd>
+<dt><em>DOF rear distance</em></dt>
+<dd>Расстояние от фокуса до дальней от камеры плоскости, за которой происходит полное размытие (в метрах). Значение по умолчанию 1.0.</dd>
+<dt><em>DOF power</em></dt>
+<dd>Степень размытия. Значение по умолчанию 3.0.</dd>
+</dl>
+<a class="reference internal image-reference" href="_images/dof.jpg"><img alt="_images/dof.jpg" class="align-center" src="_images/dof.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</div>
+</div>
+<div class="section" id="ssao">
+<span id="index-2"></span><span id="id8"></span><h2>Взаимное затенение<a class="headerlink" href="#ssao" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Эффект взаимного затенения (screen-space ambient occlusion, SSAO) применяется с целью воспроизведения сложного переотражения света от объектов. Пространство между близкими объектами менее доступно для рассеянного света и поэтому затеняется сильнее.</p>
+<div class="section" id="id9">
+<h3>Активация<a class="headerlink" href="#id9" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Выставить опции <tt class="docutils literal"><span class="pre">Enable</span> <span class="pre">SSAO</span></tt> и <tt class="docutils literal"><span class="pre">Render</span> <span class="pre">Shadows</span></tt> на панели <tt class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span></tt>.</p>
+</div>
+<div class="section" id="id10">
+<h3>Дополнительные настройки<a class="headerlink" href="#id10" title="Ссылка на этот заголовок">¶</a></h3>
+<p>На панели &#8220;мира&#8221; <tt class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">SSAO</span> <span class="pre">Settings</span></tt>:</p>
+<dl class="docutils">
+<dt><em>Radius Increase</em></dt>
+<dd>Фактор умножения радиуса сферического сэмплинга при переходе от внутреннего кольца к внешнему. Значение по умолчанию 3.0.</dd>
+<dt><em>Use Hemisphere</em></dt>
+<dd>Использовать для расчёта затенения полусферический сэмплинг вместо сферического. Помимо этого используется другой закон затенения.</dd>
+<dt><em>Use Blur Depth Test</em></dt>
+<dd>Если активировано - используется размытие SSAO на основе буфера глубины. Иначе - размытие по квадарту 4х4 по соседним пикселям.</dd>
+<dt><em>Blur Depth Test Discard Value</em></dt>
+<dd>Влияние разницы глубины сэмлов на их вес в размытии. Используется при активированном параметре <tt class="docutils literal"><span class="pre">Use</span> <span class="pre">Blur</span> <span class="pre">Depth</span> <span class="pre">Test</span></tt>. Значение по умолчанию 1.0.</dd>
+<dt><em>Influence</em></dt>
+<dd>Степень проявленности эффекта взаимного затенения. Значение по умолчанию 0.7.</dd>
+<dt><em>Distance Factor</em></dt>
+<dd>Фактор уменьшения проявленности эффекта взаимного затенения с расстоянием. Значение по умолчанию 0.0 (т.е. уменьшения нет).</dd>
+<dt><em>Samples</em></dt>
+<dd>Количество сэмплов (чем больше, тем лучше качество, но меньше производительность). Значение по умолчанию 16.</dd>
+</dl>
+<a class="reference internal image-reference" href="_images/ssao.jpg"><img alt="_images/ssao.jpg" class="align-center" src="_images/ssao.jpg" style="width: 50%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</div>
+</div>
+<div class="section" id="god-rays">
+<span id="index-3"></span><span id="id11"></span><h2>Сумеречные лучи<a class="headerlink" href="#god-rays" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Эффект сумеречных лучей (crepuscular rays, &#8220;god rays&#8221;) симулирует известное природное явление - свечение освещенных областей воздуха.</p>
+<div class="section" id="id12">
+<h3>Активация<a class="headerlink" href="#id12" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Выставить опцию <tt class="docutils literal"><span class="pre">Enable</span> <span class="pre">God</span> <span class="pre">Rays</span></tt> на панели <tt class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span></tt>.</p>
+</div>
+<div class="section" id="id13">
+<h3>Дополнительные настройки<a class="headerlink" href="#id13" title="Ссылка на этот заголовок">¶</a></h3>
+<p>На панели &#8220;мира&#8221; <tt class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">God</span> <span class="pre">Rays</span> <span class="pre">Settings</span></tt>:</p>
+<dl class="docutils">
+<dt><em>God Rays Intensity</em></dt>
+<dd>Степень проявленности эффекта. Значение по умолчанию 0.7.</dd>
+<dt><em>Maximum Ray Length</em></dt>
+<dd>Фактор длины лучей. Определяет шаг сэмплов радиального размытия. Значение по умолчанию 1.0.</dd>
+<dt><em>Steps Per Pass</em></dt>
+<dd>Количество шагов на один сэмпл. Значение по умолчанию 10.0.</dd>
+</dl>
+<a class="reference internal image-reference" href="_images/god_rays.jpg"><img alt="_images/god_rays.jpg" class="align-center" src="_images/god_rays.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</div>
+</div>
+<div class="section" id="id14">
+<h2>Эффект засветки ярких деталей<a class="headerlink" href="#id14" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Эффект засветки (Bloom) проявляется при наличии на экране элементов с большой разницей в яркости. Вокруг ярких деталей создается светящийся ореол.</p>
+<div class="section" id="id15">
+<h3>Активация<a class="headerlink" href="#id15" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Выставить опцию <tt class="docutils literal"><span class="pre">Enable</span> <span class="pre">Bloom</span></tt> на панели <tt class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span></tt>.</p>
+</div>
+<div class="section" id="id16">
+<h3>Дополнительные настройки<a class="headerlink" href="#id16" title="Ссылка на этот заголовок">¶</a></h3>
+<p>На панели &#8220;мира&#8221; <tt class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Bloom</span> <span class="pre">Settings</span></tt>:</p>
+<dl class="docutils">
+<dt><em>Key</em></dt>
+<dd>Интенсивность эффекта свечения.</dd>
+<dt><em>Blur</em></dt>
+<dd>Степень размытия засветки.</dd>
+<dt><em>Edge Luminance</em></dt>
+<dd>Граничное значение относительной яркости элемента, выше которого начинает проявляться эффект засветки.</dd>
+</dl>
+<a class="reference internal image-reference" href="_images/bloom.jpg"><img alt="_images/bloom.jpg" class="align-center" src="_images/bloom.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</div>
+</div>
+<div class="section" id="glow">
+<span id="index-4"></span><span id="id17"></span><h2>Свечение вокруг объекта (Glow)<a class="headerlink" href="#glow" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Эффект Glow заключается в подсвечивании конкретного объекта по контуру некоторым цветом. В результате вокруг объекта будет создан светящийся ореол.</p>
+<div class="section" id="id18">
+<h3>Активация<a class="headerlink" href="#id18" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Эффект Glow активируется программно через API. Может быть реализован как эффект постоянного свечения, так и затухающего, пульсирующего и любой другой модели. Чтобы разрешить его использование на конкретном объекте, необходимо выставить опцию <tt class="docutils literal"><span class="pre">Selectable</span></tt> на панели <tt class="docutils literal"><span class="pre">Object</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span></tt>.</p>
+</div>
+<div class="section" id="id19">
+<h3>Дополнительные настройки<a class="headerlink" href="#id19" title="Ссылка на этот заголовок">¶</a></h3>
+<p>На панели <tt class="docutils literal"><span class="pre">Object</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span></tt>:</p>
+<dl class="docutils">
+<dt><em>Glow duration</em></dt>
+<dd>Длительность Glow-анимации, сек. Значение по умолчанию 1.</dd>
+<dt><em>Glow period</em></dt>
+<dd>Период повторения Glow-анимации, сек. Значение по умолчанию 1.</dd>
+<dt><em>Glow relapses</em></dt>
+<dd>Количество итераций Glow-анимации. В случае 0 анимация будет повторяться бесконечно. Значение по умолчанию 0.</dd>
+</dl>
+<p>На панели <tt class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span></tt>:</p>
+<dl class="docutils">
+<dt><em>Objects glow color</em></dt>
+<dd>Общий цвет эффекта для всех объектов. Значение по умолчанию (1,1,1).</dd>
+<dt><em>Glow factor</em></dt>
+<dd>Толщина и яркость ореола, окружающего объект. Падает с уменьшением параметра. Значение по умолчанию 1.</dd>
+</dl>
+<p>При управлении через API данные настройки воспринимаются как настройки по умолчанию.</p>
+<a class="reference internal image-reference" href="_images/glow.jpg"><img alt="_images/glow.jpg" class="align-center" src="_images/glow.jpg" style="width: 100%;" /></a>
+</div>
+</div>
+<div class="section" id="anaglyph">
+<span id="index-5"></span><span id="id20"></span><h2>Анаглиф стереоизображение<a class="headerlink" href="#anaglyph" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="id21">
+<h3>Активация<a class="headerlink" href="#id21" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Режим стереоизображения предназначен для просмотра контента в специальных очках и активируется приложением.</p>
+</div>
+<div class="section" id="id22">
+<h3>Дополнительные настройки<a class="headerlink" href="#id22" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Нет.</p>
+<a class="reference internal image-reference" href="_images/anaglyph.jpg"><img alt="_images/anaglyph.jpg" class="align-center" src="_images/anaglyph.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</div>
+</div>
+<div class="section" id="color-correction">
+<span id="index-6"></span><span id="id23"></span><h2>Коррекция цвета<a class="headerlink" href="#color-correction" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="id24">
+<h3>Активация<a class="headerlink" href="#id24" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Выставить опцию <tt class="docutils literal"><span class="pre">Enable</span> <span class="pre">Color</span> <span class="pre">Correction</span></tt> на панели <tt class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span></tt>.</p>
+</div>
+<div class="section" id="id25">
+<h3>Дополнительные настройки<a class="headerlink" href="#id25" title="Ссылка на этот заголовок">¶</a></h3>
+<p>На панели &#8220;мира&#8221; <tt class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Color</span> <span class="pre">Correction</span> <span class="pre">Settings</span></tt>:</p>
+<dl class="docutils">
+<dt><em>Brightness</em></dt>
+<dd>Яркость. Значение по умолчанию 0.0.</dd>
+<dt><em>Contrast</em></dt>
+<dd>Контрастность. Значение по умолчанию 0.0.</dd>
+<dt><em>Exposure</em></dt>
+<dd>Экспозиция. Значение по умолчанию 1.0.</dd>
+<dt><em>Saturation</em></dt>
+<dd>Насыщенность. Значение по умолчанию 1.0.</dd>
+</dl>
+<a class="reference internal image-reference" href="_images/color_correction.jpg"><img alt="_images/color_correction.jpg" class="align-center" src="_images/color_correction.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</div>
+</div>
+<div class="section" id="antialiasing">
+<span id="index-7"></span><span id="id26"></span><h2>Сглаживание<a class="headerlink" href="#antialiasing" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Сглаживание (anti-aliasing) необходимо для уменьшения влияния нежелательных артефактов рендеринга (&#8220;зубчатости&#8221;).</p>
+<div class="section" id="id27">
+<h3>Активация<a class="headerlink" href="#id27" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Выставить опцию <tt class="docutils literal"><span class="pre">Enable</span> <span class="pre">Antialiasing</span></tt> на панели <tt class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span></tt>.</p>
+</div>
+<div class="section" id="id28">
+<h3>Дополнительные настройки<a class="headerlink" href="#id28" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Метод сглаживания назначается одновременно с выбором профиля работы движка.</p>
+<blockquote>
+<div><ul class="simple">
+<li><em>низкое качество</em> - антиалиасинг отключен</li>
+<li><em>высокое качество</em> - метод антиалиасинга FXAA (Fast Approximate Anti-Aliasing), предложенный Nvidia</li>
+<li><em>максимальное качество</em> - метод антиалиасинга SMAA (Enhanced Subpixel Morphological Anti-Aliasing), предложенный Crytek</li>
+</ul>
+</div></blockquote>
+<a class="reference internal image-reference" href="_images/antialiasing.jpg"><img alt="_images/antialiasing.jpg" class="align-center" src="_images/antialiasing.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="sidebar">
+          <h3>Оглавление</h3>
+          <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">Общие сведения</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">Функционал движка</a></li>
+<li class="toctree-l1"><a class="reference internal" href="first_steps.html">Экспресс-установка</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">Развёртывание среды разработки</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow.html">Рабочий процесс</a></li>
+<li class="toctree-l1"><a class="reference internal" href="viewer.html">Просмотрщик сцен</a></li>
+<li class="toctree-l1"><a class="reference internal" href="web_player.html">Веб-плеер</a></li>
+<li class="toctree-l1"><a class="reference internal" href="addon.html">Аддон</a></li>
+<li class="toctree-l1"><a class="reference internal" href="objects.html">Объекты</a></li>
+<li class="toctree-l1"><a class="reference internal" href="camera.html">Камера</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materials.html">Материалы</a></li>
+<li class="toctree-l1"><a class="reference internal" href="textures.html">Текстуры</a></li>
+<li class="toctree-l1"><a class="reference internal" href="node_materials.html">Нодовые материалы</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lighting.html">Освещение, тени и фон</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Постпроцессинговые эффекты</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#motion-blur">Размытие при движении</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#dof">Глубина резкости камеры</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#ssao">Взаимное затенение</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#god-rays">Сумеречные лучи</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id14">Эффект засветки ярких деталей</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#glow">Свечение вокруг объекта (Glow)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#anaglyph">Анаглиф стереоизображение</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#color-correction">Коррекция цвета</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#antialiasing">Сглаживание</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="particles.html">Система частиц</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Система частиц для инстансинга объектов</a></li>
+<li class="toctree-l1"><a class="reference internal" href="animation.html">Анимация</a></li>
+<li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Рендеринг наружных сцен</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Гамма-коррекция и альфа-композитинг</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audio.html">Звуковая подсистема</a></li>
+<li class="toctree-l1"><a class="reference internal" href="physics.html">Физика</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nla.html">Нелинейная анимация</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers.html">Разработчикам приложений</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">Разработчикам движка</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Работа в команде. Использование git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Проблемы и решения</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes.html">Замечания к релизам</a></li>
+</ul>
+
+          <h3 style="margin-top: 1.5em;">Поиск</h3>
+          <form class="search" action="search.html" method="get">
+            <input type="text" name="q" />
+            <input type="submit" value="Искать" />
+            <input type="hidden" name="check_keywords" value="yes" />
+            <input type="hidden" name="area" value="default" />
+          </form>
+          <p class="searchtip" style="font-size: 90%">
+            Введите слова для поиска или имя модуля, класса или функции.
+          </p>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+    <div class="footer-wrapper">
+      <div class="footer">
+        <div class="left">
+          <a href="lighting.html" title="Освещение, тени и фон"
+             >назад</a> |
+          <a href="particles.html" title="Система частиц"
+             >вперёд</a> |
+          <a href="genindex.html" title="Алфавитный указатель"
+             >указатель</a>
+        </div>
+
+        <div class="right">
+          
+    <div class="footer">
+        &copy; Copyright 2015, ООО &#34;Триумф&#34;.
+      Обновлено: 2015-01-29.
+      Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+  </body>
+</html>

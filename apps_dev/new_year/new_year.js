@@ -57,7 +57,10 @@ exports.init = function() {
         callback: init_cb,
         pause_invisible: false,
         physics_enabled: false,
-        key_pause_enabled: false
+        key_pause_enabled: false,
+        assets_dds_available: !DEBUG,
+        assets_min50_available: !DEBUG,
+        console_verbose: DEBUG
     });
 }
 
@@ -74,7 +77,8 @@ function init_cb(canvas_elem, success) {
             bg_color:"#00000000",
             bar_color:"#FFF",
             background_container_id: "background_image_container",
-            canvas_container_id: "canvas3d"});
+            canvas_container_id: "canvas3d",
+            preloader_fadeout: true});
 
     if (!m_main.detect_mobile())
        canvas_elem.addEventListener("mousedown", main_canvas_down);
@@ -87,7 +91,7 @@ function init_cb(canvas_elem, success) {
 
 function load() {
     if (DEBUG)
-        _assets_dir =  "../../external/deploy/assets/new_year/";
+        _assets_dir =  "../../deploy/assets/new_year/";
     else
         _assets_dir = "../../assets/new_year/";
     var p_cb = PRELOADING ? preloader_cb : null;
@@ -135,8 +139,6 @@ function load_data() {
     
     prepare_cam_and_lamp_params();
     prepare_objects_anim();
-    var container = document.getElementById("simple_preloader_container");
-    document.body.removeChild(container);
 
     var param = m_app.get_url_params();
 
@@ -227,7 +229,50 @@ function prepare_objects_anim() {
     m_anim.apply(obj_bear, "bear_wiggle");
     m_anim.set_behavior(obj_bear, m_anim.AB_FINISH_STOP);
     m_anim.set_frame(obj_bear, 0);
-    
+
+    set_letter_objs_visibility(true);
+    set_monkey_objs_visibility(true);
+    set_confetti_objs_visibility(true);
+}
+
+function set_letter_objs_visibility(visibility) {
+    var obj_letter_paper = m_scenes.get_object_by_dupli_name("letter", "letter");
+    var obj_letter_seal = m_scenes.get_object_by_dupli_name("letter", "wax_seal_rope");
+    if (!visibility) {
+        m_scenes.show_object(obj_letter_paper);
+        m_scenes.show_object(obj_letter_seal);
+    } else {
+        m_scenes.hide_object(obj_letter_paper);
+        m_scenes.hide_object(obj_letter_seal);
+    }
+}
+
+function set_monkey_objs_visibility(visibility) {
+    var obj_monkey_head = m_scenes.get_object_by_dupli_name("gift_monkey.001", "monkey");
+    var obj_monkey_neck = m_scenes.get_object_by_dupli_name("gift_monkey.001", "monkey.001");
+    if (!visibility) {
+        m_scenes.show_object(obj_monkey_head);
+        m_scenes.show_object(obj_monkey_neck);
+    } else {
+        m_scenes.hide_object(obj_monkey_head);
+        m_scenes.hide_object(obj_monkey_neck);
+    }
+}
+
+function set_confetti_objs_visibility(visibility) {
+    var confetti_ribbons_above = m_scenes.get_object_by_dupli_name("confetti_ribbons", "ribbons_flom_above");
+    var confetti_ribbons_below = m_scenes.get_object_by_dupli_name("confetti", "ribbons_from_below");
+    if (!visibility) {
+        m_scenes.show_object(confetti_ribbons_above);
+        m_scenes.show_object(confetti_ribbons_below);
+        for (var i = 0; i < _objs_confetti.length; i++)
+            m_scenes.show_object(_objs_confetti[i]);
+    } else {
+        m_scenes.hide_object(confetti_ribbons_above);
+        m_scenes.hide_object(confetti_ribbons_below);
+        for (var i = 0; i < _objs_confetti.length; i++)
+            m_scenes.hide_object(_objs_confetti[i]);
+    }
 }
 
 function prepare_cam_and_lamp_params() {
@@ -292,7 +337,7 @@ function start() {
         m_anim.set_speed(obj_arm, -2);
         
         m_anim.play(obj_letter);
-        m_anim.play(obj_letter_gift);
+        m_anim.play(obj_letter_gift, set_letter_objs_visibility);
         m_anim.play(obj_arm);
 
         m_app.enable_camera_controls();
@@ -346,6 +391,17 @@ function on_resize() {
     var html = document.getElementsByTagName("html")[0];
     html.style.height = h.toString() + "px";
     html.style.width = w.toString() + "px";
+
+    var bkg_img = document.getElementById("background_image_container");
+    if (bkg_img) {
+        bkg_img.style.height = h.toString() + "px";
+        bkg_img.style.width = w.toString() + "px";
+    }
+    var preloader = document.getElementById("simple_preloader_container");
+    if (preloader) {
+        preloader.style.height = h.toString() + "px";
+        preloader.style.width = w.toString() + "px";
+    }
 
     var container = document.getElementById("container");
 
@@ -480,6 +536,9 @@ function play_letter_box_anim() {
     var obj_arm = m_scenes.get_object_by_dupli_name("letter", "armature_letter");
     var obj_letter_gift = m_scenes.get_object_by_dupli_name("gift", "Armature.001");
     var speaker = m_scenes.get_object_by_dupli_name("gift", "letter");
+
+    set_letter_objs_visibility();
+
     m_sfx.speaker_stop(speaker);
     m_sfx.speaker_play(speaker);
 
@@ -521,7 +580,7 @@ function tv_play() {
 
     if (_video_started) {
         //m_lights.set_light_params("Point", {light_energy:0});
-        m_tex.stop_video("Texture");
+        m_tex.pause_video("Texture");
         m_tex.reset_video("Texture");
         m_sfx.speaker_stop(speaker);
     } else {
@@ -539,6 +598,7 @@ function play_monkey_box_anim() {
     m_sfx.speaker_stop(speaker);
     m_sfx.speaker_play(speaker);
     if (!_trigger_monkey_box) {
+        set_monkey_objs_visibility();
         m_anim.set_speed(obj_monkey_box, 1);
         m_anim.play(obj_monkey_box);
 
@@ -547,7 +607,7 @@ function play_monkey_box_anim() {
 
     } else {
         m_anim.set_speed(obj_monkey_box, -1.7);
-        m_anim.play(obj_monkey_box);
+        m_anim.play(obj_monkey_box, set_monkey_objs_visibility);
 
         m_anim.set_speed(obj_monkey, -3);
         m_anim.play(obj_monkey);
@@ -563,6 +623,7 @@ function play_confetti_box_anim() {
     m_sfx.speaker_stop(speaker);
 
     if (!_trigger_confetti_box) {
+        set_confetti_objs_visibility();
         m_anim.set_speed(obj_confetti_box, 1);
         m_anim.play(obj_confetti_box);
         m_anim.play(confetti_ribbons_below, play_confetti_ribbons_above);
@@ -582,13 +643,14 @@ function play_confetti_box_anim() {
         m_anim.set_frame(confetti_ribbons_below, 0);
         m_anim.stop(confetti_ribbons_above);
         m_anim.set_frame(confetti_ribbons_above, 0);
+        set_confetti_objs_visibility(true);
     }
     _trigger_confetti_box = !_trigger_confetti_box;
 }
 
 function play_confetti_ribbons_above() {
     var confetti_ribbons_above = m_scenes.get_object_by_dupli_name("confetti_ribbons", "ribbons_flom_above");
-    m_anim.play(confetti_ribbons_above);
+    m_anim.play(confetti_ribbons_above, set_confetti_objs_visibility);
 }
 
 function calc_camera_sensor_data() {

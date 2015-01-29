@@ -113,10 +113,15 @@ function print_image_info(image_data, image_path, show_path_warning) {
         m_print.warn("B4W Warning: image", image_path, "is not from app root.");
 }
 
-function print_video_info(video, image_path, show_path_warning) {
+function print_video_info(video, image_path, show_path_warning, type) {
 
-    var w = video.videoWidth;
-    var h = video.videoHeight;
+    if (type == m_assets.AT_VIDEO_ELEMENT) {
+        var w = video.videoWidth;
+        var h = video.videoHeight;
+    } else {
+        var w = video.images[0].width;
+        var h = video.images[0].height;
+    }
 
     var color;
     if (w > 2048 || h > 2048)
@@ -144,8 +149,10 @@ function load_main(bpy_data, thread, stage, cb_param, cb_finish,
 
     var asset_cb = function(loaded_bpy_data, uri, type, path) {
 
-        if (!loaded_bpy_data) // Failed to load scene main file
+        if (!loaded_bpy_data) { // Failed to load scene main file
+            thread.loaded_cb(thread.id, false);
             return;
+        }
 
         m_print.log("%cLOAD METADATA", "color: #616", path);
 
@@ -496,6 +503,7 @@ function prepare_root_datablocks(bpy_data, thread, stage, cb_param, cb_finish,
     update_all_objects(bpy_data, thread.id);
 
     var objects = get_all_objects_cached(bpy_data, thread.id);
+    m_reformer.assign_nla_object_params(objects, bpy_data["scenes"]);
 
     for (var i = 0; i < objects.length; i++) {
         var obj = objects[i];
@@ -1404,15 +1412,20 @@ function load_textures(bpy_data, thread, stage, cb_param, cb_finish, cb_set_rate
                     } else
                         image_path = head_ext[0] + ".min50." + head_ext[1];
                 }
-            } else if (image["source"] === "MOVIE" 
-                    && !cfg_def.ie_video_textures_hack) {
-                var head_ext = m_assets.split_extension(image_path);
-                var ext = m_sfx.detect_video_container(head_ext[1]);
-                if (ext != head_ext[1])
-                    image_path = head_ext[0] +".lossconv." + ext;
-                else
-                    image_path = head_ext[0] +"." + ext;
-                var asset_type = m_assets.AT_VIDEO_ELEMENT;
+            } else if (image["source"] === "MOVIE") {
+                if (!cfg_def.seq_video_fallback) {
+                    var head_ext = m_assets.split_extension(image_path);
+                    var ext = m_sfx.detect_video_container(head_ext[1]);
+                    if (ext != head_ext[1])
+                        image_path = head_ext[0] +".altconv." + ext;
+                    else
+                        image_path = head_ext[0] +"." + ext;
+                    var asset_type = m_assets.AT_VIDEO_ELEMENT;
+                } else {
+                    var head_ext = m_assets.split_extension(image_path);
+                    image_path = head_ext[0] +".altconv.seq";
+                    var asset_type = m_assets.AT_SEQ_VIDEO_ELEMENT;
+                }
             }
 
             image_assets.push([uuid, asset_type, image_path, image["name"]]);
@@ -1426,17 +1439,24 @@ function load_textures(bpy_data, thread, stage, cb_param, cb_finish, cb_set_rate
             // process only loaded images
             if (image_data) {
                 var show_path_warning = true;
-                if (type == m_assets.AT_VIDEO_ELEMENT)
-                    print_video_info(image_data, path, show_path_warning);
+                if (type == m_assets.AT_VIDEO_ELEMENT 
+                        || type == m_assets.AT_SEQ_VIDEO_ELEMENT)
+                    print_video_info(image_data, path, show_path_warning, type);
                 else print_image_info(image_data, path, show_path_warning);
 
                 var image = img_by_uri[uri];
                 var tex_users = find_image_users(image, bpy_data["textures"]);
+
                 for (var i = 0; i < tex_users.length; i++) {
                     var tex_user = tex_users[i];
                     var filepath = tex_user["image"]["filepath"];
-                    m_tex.update_texture(tex_user._render, image_data,
-                                         image._is_dds, filepath);
+                    if (type == m_assets.AT_SEQ_VIDEO_ELEMENT) {
+                        tex_user._render.seq_fps = image_data.fps;
+                        m_tex.update_texture(tex_user._render, image_data.images,
+                                image._is_dds, filepath);
+                    } else
+                        m_tex.update_texture(tex_user._render, image_data,
+                                image._is_dds, filepath);
                 }
             }
 
@@ -1445,7 +1465,7 @@ function load_textures(bpy_data, thread, stage, cb_param, cb_finish, cb_set_rate
         }
         var pack_cb = function() {
             m_print.log("%cLOADED ALL IMAGES", "color: #0a0");
-            
+
             cb_finish(thread, stage);
         }
 
@@ -1514,13 +1534,7 @@ function load_speakers(bpy_data, thread, stage, cb_param, cb_finish, cb_set_rate
                 var ext = m_sfx.detect_audio_container(head_ext[1]);
 
                 if (ext != head_ext[1]) {
-                    // skip loading sounds for HTML-exported apps if current
-                    // sound format is not supported
-                    if (m_cfg.is_built_in_data()) {
-                        m_loader.skip_stage_by_name(thread, "load_speakers");
-                        return;
-                    }
-                    sound_path = head_ext[0] +".lossconv." + ext;
+                    sound_path = head_ext[0] +".altconv." + ext;
                 } else
                     sound_path = head_ext[0] +"." + ext;
 
@@ -1558,6 +1572,7 @@ function load_speakers(bpy_data, thread, stage, cb_param, cb_finish, cb_set_rate
 
     } else
         cb_finish(thread, stage);
+
 }
 
 function is_loaded_spk(obj) {
@@ -1602,11 +1617,11 @@ function speakers_play(scene, force_init) {
 function video_play(scene) {
     var textures = scene._render.video_textures;
     for (var i = 0; i < textures.length; i++)
-        if (textures[i]._render.video_file && textures[i]["use_auto_refresh"]) {
+        if (cfg_def.seq_video_fallback && textures[i]["use_auto_refresh"])
+            textures[i]._render.seq_video_played = true;
+        else if (textures[i]._render.video_file && textures[i]["use_auto_refresh"])
             textures[i]._render.video_file.play();
-        }
 }
-
 
 function start_nla(bpy_data, thread, stage, cb_param, cb_finish, cb_set_rate) {
     m_nla.start();
@@ -2465,7 +2480,7 @@ function prepare_objects_adding(bpy_data, thread, stage, cb_param, cb_finish,
 
             // add only currently loaded objects
             if (obj._render.data_id == thread.id) {
-                if (thread.load_hidden)
+                if (thread.load_hidden && m_util.is_mesh(obj))
                     m_scenes.hide_object(obj);
                 cb_param.added_objects.push({
                     scene: scene,
@@ -2541,16 +2556,9 @@ function synchronize_media(bpy_data, thread, stage, cb_param, cb_finish,
             video_play(_primary_scene);
         speakers_play(_primary_scene); 
     }
-        
+
 
     cb_finish(thread, stage);
-
-    // HACK: Update sky for firefox 33/34
-    if (cfg_def.sky_update_hack) {
-        var scenes = bpy_data["scenes"];
-        for (var i = 0; i < scenes.length; i++)
-            m_scenes.set_sky_params(scenes[i], {});
-    }
 }
 
 exports.setup_context = function(gl) {
@@ -2560,7 +2568,7 @@ exports.setup_context = function(gl) {
 function mobile_media_start(bpy_data, thread, stage, cb_param, cb_finish,
         cb_set_rate) {
     if (cfg_def.is_mobile_device && (thread.has_video_textures ||
-                thread.has_background_music || thread.init_wa_context)) {
+            thread.has_background_music || thread.init_wa_context)) {
         if (!_play_media_btn) {
             create_media_controls(bpy_data, cb_finish, thread, stage);
         }
@@ -2717,7 +2725,7 @@ function normpath_preserve_protocol(dir_path) {
         separated_str[1] = normpath(separated_str[1]);
         return separated_str.join('://');
     } else
-        return normpath(dir_path);   
+        return normpath(dir_path);
 }
 
 exports.load = function(path, loaded_cb, stageload_cb, wait_complete_loading,

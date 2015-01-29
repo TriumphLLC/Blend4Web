@@ -884,6 +884,7 @@ function is_play(obj) {
     return (obj._sfx.state == SPKSTATE_PLAY);
 }
 
+exports.speaker_pause = speaker_pause;
 /**
  * Pause speaker.
  * @param obj Speaker object ID
@@ -937,6 +938,7 @@ function calc_buf_offset(sfx, current_time) {
     return (buf_dur / playrate - (time - current_time)) * playrate;
 }
 
+exports.speaker_resume = speaker_resume;
 /**
  * Resume speaker.
  * @param obj Speaker object ID
@@ -1002,7 +1004,7 @@ exports.playrate = function(obj, playrate) {
         schedule_volume_pitch_random(sfx);
     }
 
-    // NOTE: Consider BACKGROUND_MUSIC implementation
+    // TODO: Consider BACKGROUND_MUSIC implementation
 }
 
 exports.get_playrate = function(obj) {
@@ -1405,6 +1407,7 @@ exports.apply_playlist = function(objs, delay, random) {
     }
 }
 
+exports.get_duration = spk_duration;
 function spk_duration(obj) {
 
     var sfx = obj._sfx;

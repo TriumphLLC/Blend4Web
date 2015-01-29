@@ -104,7 +104,7 @@ void shade_diffuse_fresnel(vec3 n, vec3 l, float fpower, float fblend_fac, out f
 }
 #endif
 
-# if UNROLL_LOOPS && NUM_LIGHTS > 1
+# if UNROLL_LOOPS && NUM_LIGHTS > 0
 void process_lamp(inout lighting_result lresult, vec3 D, vec3 S, vec3 pos_world, vec3 normal,
           vec3 eye_dir, vec2 specular_params, vec2 diffuse_params,
           float shadow_factor, vec3 lpos,
@@ -259,7 +259,7 @@ lighting_result lighting(
 
 // HACK: unroll for mobiles. (loops causing a great performance dropdown)
 
-# if UNROLL_LOOPS && NUM_LIGHTS > 1
+# if UNROLL_LOOPS
     float shadow_factor_0 = UNITY_VALUE_LIGHT;
     if (shadow_lamp_id == 0)
         shadow_factor_0 = shadow_factor;

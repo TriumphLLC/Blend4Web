@@ -245,7 +245,8 @@ function update_transform(obj) {
         break;
     case "CAMERA":
         m_cam.update_camera_transform(obj);
-        if (m_scs.check_active())
+        // listener only for active scene camera
+        if (m_scs.check_active() && m_scs.get_camera(m_scs.get_active()) == obj)
             m_sfx.listener_update_transform(m_scs.get_active(), trans, quat, _elapsed);
         break;
     case "LAMP":

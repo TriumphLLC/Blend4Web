@@ -1662,7 +1662,11 @@ void calc_bounding_data(struct BoundingData *bdata, Mesh *mesh) {
         tmp_scen[2] = bdata->scen_z / (z_width? z_width: 1.0);
         tmp_rad = 0.5;
 
-        //enlarge and move boundings if there are some vertices out of them
+        // Enlarge and move boundings if there are some vertices out of them.
+        // Taken from: Lengyel E. - Mathematics for 3D Game Programming and Computer Graphics,
+        // Third Edition. Chapter 8.1.3 Bounding Sphere Construction.
+        // NOTE: bounding sphere (center and radius) won't be absolutely optimal, 
+        // because of using approximate algorithm here
         for (i = 0; i < mesh->totvert; i++) {
             x = vertices[i].co[0];
             y = vertices[i].co[2];

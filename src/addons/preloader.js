@@ -7,6 +7,7 @@
  */
 b4w.module["preloader"] = function(exports, require) {
 
+var m_app    = require("app");
 
 var _preloader = {};
 var _canvas_container_elem = null;
@@ -20,7 +21,7 @@ var _canvas_container_elem = null;
  * @param {String} [options.bg_color] Background color.
  * @param {String} [options.bar_color] Load bar color.
  * @cc_externs bar_color bg_color background_container_id
- * @cc_externs canvas_container_id
+ * @cc_externs canvas_container_id preloader_fadeout
  */
 exports.create_simple_preloader = function(options) {
 
@@ -42,6 +43,9 @@ exports.create_simple_preloader = function(options) {
             break;
         case "bar_color":
             bar_color = options.bar_color;
+            break;
+        case "preloader_fadeout":
+            _preloader.fadeout = options.preloader_fadeout;
             break;
         }
     }
@@ -71,9 +75,9 @@ exports.create_simple_preloader = function(options) {
         position: absolute;\
         left: 50%;\
         top: 82%;\
-        width: 400px;\
+        width: 300px;\
         height: 20px;\
-        margin-left: -200px;\
+        margin-left: -150px;\
         margin-top: -10px;\
         border-style:solid;\
         border-width:4px;\
@@ -97,7 +101,7 @@ exports.create_simple_preloader = function(options) {
         top: 50%;\
         width: 100%;\
         height: 100%;\
-        margin-left: -200px;\
+        margin-left: -150px;\
         margin-top: -10px;\
         text-align: center;\
         font-size: 17px;\
@@ -284,13 +288,23 @@ exports.update_preloader = function(percentage) {
     if (_preloader.type == "ROTATION")
         _preloader.anim_elem.style.transform = "rotate(" + percentage + "deg)";
 
-    if (percentage == 100) {
-        _preloader.container.style.zIndex = 0;
-        _canvas_container_elem.style.zIndex = 1;
+    if (percentage == 100)
+        if (_preloader.fadeout) {
+            m_app.css_animate(_preloader.background, "opacity", 1, 0, 1500, null, function(){
+                _preloader.background.style.display = "none";
+            });
+            m_app.css_animate(_preloader.container, "opacity", 1, 0, 1000, null, function(){
+                _preloader.container.style.display = "none";
+            });
+        }
+        else {
+            _preloader.container.style.display = "none";
+            _canvas_container_elem.style.zIndex = 1;
 
-        if (_preloader.background)
-                _preloader.background.style.zIndex = 0;
-    }
+            if (_preloader.background)
+                _preloader.background.style.display = "none";
+        }
+
 }
 
 }

@@ -9,10 +9,10 @@ b4w.module["main"] = function(exports, require) {
 
 var animation  = require("__animation");
 var m_compat   = require("__compat");
-var config     = require("__config");
+var m_cfg      = require("__config");
 var m_print    = require("__print");
 var controls   = require("__controls");
-var data       = require("__data");
+var m_data     = require("__data");
 var m_debug    = require("__debug");
 var extensions = require("__extensions");
 var geometry   = require("__geometry");
@@ -25,22 +25,21 @@ var scenes     = require("__scenes");
 var sfx        = require("__sfx");
 var shaders    = require("__shaders");
 var textures   = require("__textures");
+var m_time     = require("__time");
 var transform  = require("__transform");
 var util       = require("__util");
 var version    = require("__version");
 
-var cfg_ctx = config.context;
-var cfg_def = config.defaults;
+var cfg_ctx = m_cfg.context;
+var cfg_def = m_cfg.defaults;
 
 var _elem_canvas_webgl = null;
 var _elem_canvas_hud = null;
 
-// engine timeline (since initialization)
-var _global_timeline = 0;
-
 var _last_abs_time = 0;
 var _pause_time = 0;
 var _resume_time = 0;
+var _loop_cb = [];
 
 /**
  * FPS callback
@@ -83,7 +82,7 @@ var _requestAnimFrame = (function() {
  */
 exports.init = function(elem_canvas_webgl, elem_canvas_hud) {
 
-    config.set_resources_paths();
+    m_cfg.set_resources_paths();
 
     // NOTE: for debug purposes
     // works in chrome with --enable-memory-info --js-flags="--expose-gc"
@@ -102,6 +101,7 @@ exports.init = function(elem_canvas_webgl, elem_canvas_hud) {
     var init_time = setup_clock();
 
     _elem_canvas_webgl = elem_canvas_webgl;
+    m_compat.apply_context_alpha_hack(gl);
 
     var gl = get_context(elem_canvas_webgl);
     if (!gl)
@@ -110,7 +110,7 @@ exports.init = function(elem_canvas_webgl, elem_canvas_hud) {
     _gl = gl;
 
     init_context(_elem_canvas_webgl, gl);
-    config.apply_quality();
+    m_cfg.apply_quality();
     m_compat.set_hardware_defaults(gl);
 
     m_print.log("%cSET PRECISION:", "color: #00a", cfg_def.precision);
@@ -120,8 +120,8 @@ exports.init = function(elem_canvas_webgl, elem_canvas_hud) {
         _elem_canvas_hud = elem_canvas_hud;
     } else {
         // disable features which depend on HUD
-        config.defaults.show_hud_debug_info = false;
-        config.sfx.mix_mode = false;
+        m_cfg.defaults.show_hud_debug_info = false;
+        m_cfg.sfx.mix_mode = false;
     }
 
     physics.init_engine(init_time);
@@ -130,9 +130,7 @@ exports.init = function(elem_canvas_webgl, elem_canvas_hud) {
 }
 
 function setup_clock() {
-    _global_timeline = 0;
-
-    //window.performance = null;
+    m_time.set_timeline(0);
 
     if (!window.performance) {
         m_print.log("Apply performance workaround");
@@ -199,16 +197,46 @@ function init_context(canvas, gl) {
     textures.setup_context(gl);
     shaders.setup_context(gl);
     m_debug.setup_context(gl);
-    data.setup_context(gl);
+    m_data.setup_context(gl);
 
-    scenes.setup_dim(canvas.width, canvas.height);
-    //scenes.setup_dim(gl.drawingBufferWidth, gl.drawingBufferHeight);
+    scenes.setup_dim(canvas.width, canvas.height, 1,
+                     calc_canvas_offset("x"), calc_canvas_offset("y"));
 
     sfx.init();
 
     _fps_counter = init_fps_counter();
 
     loop();
+}
+
+function calc_canvas_offset(axis) {
+    if (axis == "x")
+        var offset = _elem_canvas_webgl.offsetLeft;
+    else if (axis == "y")
+        var offset = _elem_canvas_webgl.offsetTop;
+    else
+        return 0
+
+    return get_parent_offset(offset, _elem_canvas_webgl, axis);
+}
+
+function get_parent_offset(offset, elem, axis) {
+    offset = offset || 0;
+
+    var parent_elem_offset = elem.offsetParent;
+
+    if (parent_elem_offset) {
+        if (axis == "x")
+            var parent_offset = parent_elem_offset.offsetLeft;
+        else if (axis == "y")
+            var parent_offset = parent_elem_offset.offsetTop;
+
+        offset += parent_offset;
+
+        offset = get_parent_offset(offset, parent_elem_offset, axis);
+    }
+
+    return offset;
 }
 
 /**
@@ -226,34 +254,65 @@ exports.set_check_gl_errors = function(val) {
  * @method module:main.resize
  * @param {Number} width New canvas width
  * @param {Number} height New canvas height
+ * @param {Boolean} [update_canvas_css=true] Change canvas CSS width/height
  */
-exports.resize = function(width, height) {
+exports.resize = function(width, height, update_canvas_css) {
 
-    _elem_canvas_webgl.style.width = width + "px";
-    _elem_canvas_webgl.style.height = height + "px";
+    if (update_canvas_css !== false) {
+        _elem_canvas_webgl.style.width = width + "px";
+        _elem_canvas_webgl.style.height = height + "px";
 
-    if (_elem_canvas_hud) {
-        _elem_canvas_hud.style.width = width + "px";
-        _elem_canvas_hud.style.height = height + "px";
+        if (_elem_canvas_hud) {
+            _elem_canvas_hud.style.width = width + "px";
+            _elem_canvas_hud.style.height = height + "px";
+        }
     }
 
-    _elem_canvas_webgl.width  = width * cfg_def.canvas_resolution_factor;
-    _elem_canvas_webgl.height = height * cfg_def.canvas_resolution_factor;
-
     if (_elem_canvas_hud) {
+        // no HIDPI/resolution factor for HUD canvas
         _elem_canvas_hud.width  = width;
         _elem_canvas_hud.height = height;
+        hud.update_dim();
     }
-    hud.update_dim();
 
-    scenes.setup_dim(width * cfg_def.canvas_resolution_factor,
-            height * cfg_def.canvas_resolution_factor);
-    //scenes.setup_dim(_gl.drawingBufferWidth, _gl.drawingBufferHeight);
+
+    if (navigator.userAgent.match(/iPhone/i) ||
+        navigator.userAgent.match(/iPad/i) ||
+        navigator.userAgent.match(/iPod/i))
+            cfg_def.canvas_resolution_factor = 1;
+
+    var cw = width * cfg_def.canvas_resolution_factor;
+    var ch = height * cfg_def.canvas_resolution_factor;
+
+    if (cfg_def.allow_hidpi && window.devicePixelRatio > 1) {
+        cw *= window.devicePixelRatio;
+        ch *= window.devicePixelRatio;
+    }
+
+    _elem_canvas_webgl.width  = cw;
+    _elem_canvas_webgl.height = ch;
+
+    if (cw > _gl.drawingBufferWidth || ch > _gl.drawingBufferHeight) {
+        m_print.warn("B4W Warning: canvas size exceeds platform limits, downscaling");
+
+        var downscale = Math.min(_gl.drawingBufferWidth/cw, 
+                _gl.drawingBufferHeight/ch);
+
+        cw *= downscale;
+        ch *= downscale;
+
+        _elem_canvas_webgl.width  = cw;
+        _elem_canvas_webgl.height = ch;
+    }
+
+    scenes.setup_dim(cw, ch, cw/width, calc_canvas_offset("x"),
+                                       calc_canvas_offset("y"));
+
     renderer.clear();
 
-    frame(_global_timeline, 0);
+    frame(m_time.get_timeline(), 0);
 
-    data.update_media_controls(_elem_canvas_webgl.width, _elem_canvas_webgl.height);
+    m_data.update_media_controls(_elem_canvas_webgl.width, _elem_canvas_webgl.height);
 }
 
 /**
@@ -326,7 +385,7 @@ function clear_render_callback() {
  * @returns {Number} Floating-point number of seconds elapsed since the engine start-up
  */
 exports.global_timeline = function() {
-    return _global_timeline;
+    return m_time.get_timeline();
 }
 
 /**
@@ -335,7 +394,7 @@ exports.global_timeline = function() {
  * @deprecated Never required
  */
 exports.redraw = function() {
-    frame(_global_timeline, 0);
+    frame(m_time.get_timeline(), 0);
 }
 
 exports.pause = pause;
@@ -392,18 +451,24 @@ function loop() {
     if (delta < 1/cfg_def.max_fps)
         return;
 
+    var timeline = m_time.get_timeline();
+
+    for (var i = 0; i < _loop_cb.length; i++)
+        _loop_cb[i](timeline, delta);
+
     if (!is_paused()) {
         // correct delta if resume occured since last frame
         if (_resume_time > _last_abs_time)
             delta -= (_resume_time - Math.max(_pause_time, _last_abs_time));
 
-        _global_timeline += delta;
+        timeline += delta;
+        m_time.set_timeline(timeline);
 
         m_debug.update();
 
         assets.update();
-        data.update();
-        frame(_global_timeline, delta);
+        m_data.update();
+        frame(timeline, delta);
 
         _fps_counter(delta);
     }
@@ -413,7 +478,7 @@ function loop() {
 
 function frame(timeline, delta) {
     // possible unload between frames
-    if (!data.is_primary_loaded())
+    if (!m_data.is_primary_loaded())
         return;
 
     hud.reset();
@@ -429,27 +494,27 @@ function frame(timeline, delta) {
     animation.update(delta);
 
     // possible unload in animation callbacks
-    if (!data.is_primary_loaded())
+    if (!m_data.is_primary_loaded())
         return;
 
     physics.update(timeline, delta);
 
     // possible unload in physics callbacks
-    if (!data.is_primary_loaded())
+    if (!m_data.is_primary_loaded())
         return;
 
     // user callback
     _render_callback(delta, timeline);
 
     // possible unload in render callback
-    if (!data.is_primary_loaded())
+    if (!m_data.is_primary_loaded())
         return;
 
     // controls
     controls.update(timeline, delta);
 
     // possible unload in controls callbacks
-    if (!data.is_primary_loaded())
+    if (!m_data.is_primary_loaded())
         return;
 
     // rendering
@@ -488,12 +553,11 @@ function init_fps_counter() {
  * @method module:main.reset
  */
 exports.reset = function() {
-    data.unload();
+    m_data.unload();
 
     _elem_canvas_webgl = null;
     _elem_canvas_hud = null;
 
-    _global_timeline = 0;
     _last_abs_time = 0;
 
     _pause_time = 0;
@@ -503,6 +567,8 @@ exports.reset = function() {
     _fps_counter = function() {};
 
     _render_callback = function() {};
+
+    _loop_cb.length = 0;
 
     _gl = null;
 }
@@ -533,7 +599,29 @@ exports.set_shaders_dir = function() {
 exports.detect_mobile = function() {
     return m_compat.detect_mobile();
 }
-
+/**
+ * Append callback to be executed every frame.
+ * @method module:main.append_loop_cb
+ * @param callback Callback
+ */
+exports.append_loop_cb = function(callback) {
+    for (var i = 0; i < _loop_cb.length; i++)
+        if (_loop_cb[i] == callback)
+            return;
+    _loop_cb.push(callback);
+}
+/**
+ * Remove loop callback.
+ * @method module:main.remove_loop_cb
+ * @param callback Callback
+ */
+exports.remove_loop_cb = function(callback) {
+    for (var i = 0; i < _loop_cb.length; i++)
+        if (_loop_cb[i] == callback) {
+            _loop_cb.splice(i, 1);
+            break;
+        }
+}
 
 }
 

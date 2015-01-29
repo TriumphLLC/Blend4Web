@@ -5,7 +5,7 @@ from distutils import sysconfig
 import os
 import sys
 
-B4W_PATH = os.path.join("..", "..", "external", "blender_scripts", "addons", \
+B4W_PATH = os.path.join("..", "..","blender_scripts", "addons", \
         "blend4web")
 sys.path.append(B4W_PATH)
 import b4w_bin_suffix

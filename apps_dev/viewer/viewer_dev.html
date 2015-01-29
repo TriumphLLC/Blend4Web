@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="viewer.css" type="text/css" />
 
 
-<script type="text/javascript" src="../../external/deploy/globals_detect/begin.js"></script>
+<script type="text/javascript" src="../../deploy/globals_detect/begin.js"></script>
 
 <script type="text/javascript" src="jquery-2.1.1.js"></script>
 <script type="text/javascript" src="jquery.mobile-1.4.3.js"></script>
@@ -50,6 +50,7 @@
 <script type="text/javascript" src="../../src/batch.js"></script>
 <script type="text/javascript" src="../../src/nodemat.js"></script>
 <script type="text/javascript" src="../../src/animation.js"></script>
+<script type="text/javascript" src="../../src/time.js"></script>
 <script type="text/javascript" src="../../src/transform.js"></script>
 <script type="text/javascript" src="../../src/tsr.js"></script>
 <script type="text/javascript" src="../../src/util.js"></script>
@@ -81,6 +82,7 @@
 <script type="text/javascript" src="../../src/ext/util.js"></script>
 <script type="text/javascript" src="../../src/ext/version.js"></script>
 <script type="text/javascript" src="../../src/ext/textures.js"></script>
+<script type="text/javascript" src="../../src/ext/objects.js"></script>
 
 <script type="text/javascript" src="../../src/ext/main.js"></script>
 
@@ -88,13 +90,14 @@
 <script type="text/javascript" src="../../src/addons/mixer.js"></script>
 <script type="text/javascript" src="../../src/addons/storage.js"></script>
 <script type="text/javascript" src="../../src/addons/app.js"></script>
+<script type="text/javascript" src="../../src/addons/gyroscope.js"></script>
 
 <script type="text/javascript" src="../../src/addons/screenshooter.js"></script>
 <script type="text/javascript" src="../../src/addons/ns_compat.js"></script>
 
 <script type="text/javascript" src="viewer.js"></script>
 
-<script type="text/javascript" src="../../external/deploy/globals_detect/end.js"></script>
+<script type="text/javascript" src="../../deploy/globals_detect/end.js"></script>
 </head>
 
 <body>
@@ -765,6 +768,20 @@
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="anaglyph_use">Anaglyph use:</label>
                     <select id="anaglyph_use" data-role="slider" data-mini="true">
+                        <option value="0" selected>No</option>
+                        <option value="1">Yes</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div data-role="collapsible" data-collapsed="true">
+            <h1>Gyroscope</h1>
+
+            <div class="ui-grid-solo">
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="gyro_use">Gyroscope use:</label>
+                    <select id="gyro_use" data-role="slider" data-mini="true">
                         <option value="0" selected>No</option>
                         <option value="1">Yes</option>
                     </select>

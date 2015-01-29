@@ -10,59 +10,62 @@ apps_dev/webplayer
 csrc
 doc_src
 
-external/blender/dev/logo.blend
-external/blender/dev_nodes/special_nodes.blend
-external/blender/dev_performance/empty.blend
-external/blender/dev_performance/many_draw_calls.blend
-external/blender/dev_performance/many_lights.blend
-external/blender/dev_performance/many_pixels.blend
-external/blender/dev_physics/compound.blend
-external/blender/dev_physics/jumping.blend
-external/blender/dev_physics/rigid_body_joints.blend
-external/blender/dev_sound
-external/blender/flight_over_island
-external/blender/new_year
+blender/dev/logo.blend
+blender/dev_nla/camera_views.blend
+blender/dev_nla/nla_script*
+blender/dev_nla/nla_simple_cube.blend
+blender/dev_nodes/special_nodes.blend
+blender/dev_performance/empty.blend
+blender/dev_performance/many_draw_calls.blend
+blender/dev_performance/many_lights.blend
+blender/dev_performance/many_pixels.blend
+blender/dev_physics/compound.blend
+blender/dev_physics/jumping.blend
+blender/dev_physics/rigid_body_joints.blend
+blender/dev_sound
+blender/flight_over_island
+blender/new_year
 
-external/blender_scripts
+blender_scripts
 
-external/deploy/api_doc
+deploy/api_doc
 
-external/deploy/apps/common
-external/deploy/apps/flight
-external/deploy/apps/gallery
-external/deploy/apps/new_year
-external/deploy/apps/viewer
-external/deploy/apps/webplayer
+deploy/apps/common
+deploy/apps/flight
+deploy/apps/gallery
+deploy/apps/new_year
+deploy/apps/viewer
+deploy/apps/webplayer
 
-external/deploy/assets/assets.json
-
-external/deploy/assets/dev/logo.*
-external/deploy/assets/dev/logo_norm.*
-external/deploy/assets/dev_performance/empty.bin
-external/deploy/assets/dev_performance/empty.json
-external/deploy/assets/dev_performance/many_draw_calls.bin
-external/deploy/assets/dev_performance/many_draw_calls.json
-external/deploy/assets/dev_performance/many_lights.bin
-external/deploy/assets/dev_performance/many_lights.json
-external/deploy/assets/dev_performance/many_pixels.bin
-external/deploy/assets/dev_performance/many_pixels.json
-external/deploy/assets/dev_physics/compound.bin
-external/deploy/assets/dev_physics/compound.json
-external/deploy/assets/dev_physics/jumping.bin
-external/deploy/assets/dev_physics/jumping.json
-external/deploy/assets/dev_physics/rigid_body_joints.bin
-external/deploy/assets/dev_physics/rigid_body_joints.json
-external/deploy/assets/dev_sound
-external/deploy/assets/flight_over_island
-external/deploy/assets/fridge/table_plane
-external/deploy/assets/new_year
-external/deploy/assets/tutorials
-external/deploy/doc
-external/deploy/globals_detect
-external/deploy/pub/b4w_manual_*.pdf
-external/deploy/tutorials
-external/Makefile
-external/reexporter.py
+deploy/assets/dev/logo.*
+deploy/assets/dev/logo_norm.*
+deploy/assets/dev_nla/camera_views.*
+deploy/assets/dev_nla/nla_script*
+deploy/assets/dev_nla/nla_simple_cube.*
+deploy/assets/dev_performance/empty.bin
+deploy/assets/dev_performance/empty.json
+deploy/assets/dev_performance/many_draw_calls.bin
+deploy/assets/dev_performance/many_draw_calls.json
+deploy/assets/dev_performance/many_lights.bin
+deploy/assets/dev_performance/many_lights.json
+deploy/assets/dev_performance/many_pixels.bin
+deploy/assets/dev_performance/many_pixels.json
+deploy/assets/dev_physics/compound.bin
+deploy/assets/dev_physics/compound.json
+deploy/assets/dev_physics/jumping.bin
+deploy/assets/dev_physics/jumping.json
+deploy/assets/dev_physics/rigid_body_joints.bin
+deploy/assets/dev_physics/rigid_body_joints.json
+deploy/assets/dev_sound
+deploy/assets/flight_over_island
+deploy/assets/fridge/table_plane
+deploy/assets/new_year
+deploy/assets/tutorials
+deploy/doc
+deploy/globals_detect
+deploy/pub/b4w_manual_*.pdf
+deploy/tutorials
+Makefile
 
 index.html
 index_assets
@@ -82,6 +85,7 @@ scripts/graph.sh
 scripts/make_dist.py
 scripts/memory.sh
 scripts/plot.sh
+scripts/reexporter.py
 scripts/remove_alpha_channel.sh
 scripts/screencast.sh
 scripts/screenshooter.py
@@ -103,29 +107,26 @@ VERSION
 !*.pyc
 !*/__pycache__/*
 !uranium/build/src/.libs
-!external/deploy/doc/locale/
+!deploy/doc/locale/
 !doc_src/doctrees
 !doc_src/latex/
 !doc_src/locale/.doctrees/
 !doc_src/locale/*.pot
 !doc_src/locale/*.mo
-!external/deploy/*/.buildinfo
+!deploy/*/.buildinfo
 !*.swp
 !*.js~
 !*.json~
 !*.html~
 
 # exclude incomplete tutorials
-!*/tutorials/palm/*
-!*/tutorials/examples/making_a_game_p7/*
 !*/tutorials/examples/making_a_game_p8/*
 !*/tutorials/materials_guide/*
 
 # exclude cg event stuff
-!external/deploy/tutorials/cg_event_2014/
-!external/deploy/assets/cg_event_2014/
+!deploy/tutorials/cg_event_2014/interactive_scenes/*
 
 # mix demo is for internal usage only
-!external/blender/dev_sound/mix.blend
-!external/deploy/assets/dev_sound/mix.*
-!external/deploy/assets/dev_sound/text_drive_*
+!blender/dev_sound/mix.blend
+!deploy/assets/dev_sound/mix.*
+!deploy/assets/dev_sound/text_drive_*

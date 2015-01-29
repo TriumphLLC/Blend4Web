@@ -532,7 +532,7 @@ void main(void) {
 
 #if !REFRACTIVE
     // when there is no refraction make alpha stronger
-    // in shiny areas and in ares with foam
+    // in shiny areas and in areas with foam
     alpha = max(alpha, lresult.specular.r);
  #if FOAM
     alpha += foam_sum;

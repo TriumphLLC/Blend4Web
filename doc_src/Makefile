@@ -5,8 +5,8 @@
 SPHINXOPTS    =
 SPHINXBUILD   = sphinx-build
 PAPER         = a4
-BUILDDIR      = ../external/deploy/doc
-PUBDIR       = ../external/deploy/pub
+BUILDDIR      = ../deploy/doc
+PUBDIR       = ../deploy/pub
 
 # Internal variables.
 PAPEROPT_a4     = -D latex_paper_size=a4

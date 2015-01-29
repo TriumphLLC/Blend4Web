@@ -18,8 +18,8 @@ var util       = require("__util");
 var cfg_pth = config.paths;
 
 // shader texts available for compiled version only
-if (b4w.module_check(config.paths.shader_texts_module)) {
-    var shader_texts = require(config.paths.shader_texts_module);
+if (b4w.module_check("shader_texts")) {
+    var shader_texts = require("shader_texts");
     var gpp_parser = null;
 } else {
     var shader_texts = null;
@@ -147,6 +147,7 @@ exports.set_default_directives = function(sinfo) {
         "REFLECTION_PASS",
         "REFLECTIVE",
         "REFRACTIVE",
+        "USE_REFRACTION",
         "SHORE_SMOOTHING",
         "SKINNED",
         "SKY_TEXTURE",
@@ -227,6 +228,7 @@ exports.set_default_directives = function(sinfo) {
         case "REFLECTION_PASS":
         case "REFLECTIVE":
         case "REFRACTIVE":
+        case "USE_REFRACTION":
         case "SHORE_SMOOTHING":
         case "SKINNED":
         case "SKY_TEXTURE":
