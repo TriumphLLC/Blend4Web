@@ -10,6 +10,7 @@ b4w.module["__constraints"] = function(exports, require) {
 
 var m_tsr  = require("__tsr");
 var m_util = require("__util");
+var m_cam  = require("__camera");
 
 var m_vec3 = require("vec3");
 var m_quat = require("quat");
@@ -447,23 +448,19 @@ function update_cons(obj, cons, elapsed) {
         var quat = obj._render.quat;
         var t_trans = cons.obj_parent._render.trans;
 
-        var is_overshooted = rotate_to_limits(trans, quat, t_trans,
-                cons.offset_min, CONS_ROTATE_LIMIT);
+        rotate_to_limits(trans, quat, t_trans, cons.offset_min, 
+                CONS_ROTATE_LIMIT);
 
         // shrink distance
         var dist = m_vec3.dist(trans, t_trans);
 
         // passing target location
-        if (is_overshooted)
-            delta = dist + cons.offset_min;
-        else {
-            if (dist > cons.offset_max)
-                var delta = dist - cons.offset_max;
-            else if (dist < cons.offset_min)
-                var delta = dist - cons.offset_min;
-            else
-                var delta = 0.0;
-        }
+        if (dist > cons.offset_max)
+            var delta = dist - cons.offset_max;
+        else if (dist < cons.offset_min)
+            var delta = dist - cons.offset_min;
+        else
+            var delta = 0.0;
 
         if (delta) {
             // NOTE: from trans to t_trans
@@ -482,23 +479,19 @@ function update_cons(obj, cons, elapsed) {
         var quat = obj._render.quat;
         var t_trans = cons.target;
 
-        var is_overshooted = rotate_to_limits(trans, quat, t_trans,
-                cons.offset_min, CONS_ROTATE_LIMIT);
+        rotate_to_limits(trans, quat, t_trans, cons.offset_min, 
+                CONS_ROTATE_LIMIT);
 
         // shrink distance
         var dist = m_vec3.dist(trans, t_trans);
 
         // passing target location
-        if (is_overshooted)
-            delta = dist + cons.offset_min;
-        else {
-            if (dist > cons.offset_max)
-                var delta = dist - cons.offset_max;
-            else if (dist < cons.offset_min)
-                var delta = dist - cons.offset_min;
-            else
-                var delta = 0.0;
-        }
+        if (dist > cons.offset_max)
+            var delta = dist - cons.offset_max;
+        else if (dist < cons.offset_min)
+            var delta = dist - cons.offset_min;
+        else
+            var delta = 0.0;
 
         if (delta) {
             // NOTE: from trans to t_trans
@@ -652,8 +645,6 @@ function rotate_to(trans, quat, target) {
  */
 exports.rotate_to_limits = rotate_to_limits;
 function rotate_to_limits(trans, quat, target, min_distance, limit_angle) {
-    var is_overshooted = false;
-
     var dir_from = _vec3_tmp;
     m_util.quat_to_dir(quat, m_util.AXIS_MY, dir_from);
     m_vec3.normalize(dir_from, dir_from);
@@ -664,11 +655,6 @@ function rotate_to_limits(trans, quat, target, min_distance, limit_angle) {
 
     m_vec3.normalize(dir_to, dir_to);
 
-    if (m_vec3.dot(dir_from, dir_to) < Math.cos(limit_angle)) {
-        m_vec3.scale(dir_to, -1, dir_to);
-        is_overshooted = true;
-    }
-
     // do not rotate camera closer than minimum distance
     // considering standard calculation errors
     if (dist > min_distance - CAMERA_DIST_CLAMPING_ERROR) {
@@ -676,8 +662,6 @@ function rotate_to_limits(trans, quat, target, min_distance, limit_angle) {
         m_quat.multiply(rotation, quat, quat);
         m_quat.normalize(quat, quat);
     }
-
-    return is_overshooted;
 }
 
 /**
@@ -716,62 +700,58 @@ function cam_rotate_to(quat, dir, dest) {
 exports.correct_up = correct_up;
 /**
  * Rotate camera to fix UP direction.
- * @methodOf constraints
+ * Uses _vec3_tmp, _vec3_tmp_2, _vec3_tmp_3
  */
 function correct_up(camobj, y_axis) {
-    var quat = camobj._render.quat;
-
-    var rotation = calc_cam_rot_correction(quat, y_axis, _quat4_tmp);
-    m_quat.multiply(rotation, quat, quat);
-}
-
-exports.calc_cam_rot_correction = calc_cam_rot_correction;
-/**
- * Rotate camera to fix UP direction.
- * @methodOf constraints
- */
-function calc_cam_rot_correction(quat, y_axis, dest) {
-    // convenient to get 3x3 matrix
-    var rmat = m_mat3.fromQuat(quat, _mat3_tmp);
+    var render = camobj._render;
+    var quat = render.quat;
 
     var y_world = y_axis;
 
     // local camera Y in world space
-    var y_cam_world = _vec3_tmp;
-    y_cam_world[0] = rmat[3];
-    y_cam_world[1] = rmat[4];
-    y_cam_world[2] = rmat[5];
-
+    var y_cam_world = m_util.quat_to_dir(render.quat, m_util.AXIS_Y, _vec3_tmp)
+    m_vec3.normalize(y_cam_world, y_cam_world);
     // handle extreme case (camera looks UP or DOWN)
-    if (Math.abs(m_vec3.dot(y_world, y_cam_world)) > 0.999999) {
-        m_quat.identity(dest);
-        return dest;
+    if (Math.abs(m_vec3.dot(y_world, y_cam_world)) > 0.999999)
+        var rotation = m_quat.identity(_quat4_tmp);
+    else {
+
+        var x_cam_world_new = m_vec3.cross(y_world, y_cam_world, _vec3_tmp_2);
+
+        m_vec3.normalize(x_cam_world_new, x_cam_world_new);
+
+        if (render.move_style == m_cam.MS_TARGET_CONTROLS) {
+            if (render.target_cam_upside_down) {
+                x_cam_world_new[0] *= -1;
+                x_cam_world_new[1] *= -1;
+                x_cam_world_new[2] *= -1;
+            }
+        } else {
+            // Y coord of local camera Z axis in world space
+            var z_cam_world = m_util.quat_to_dir(render.quat, m_util.AXIS_Z, _vec3_tmp_3);
+            if (z_cam_world[1] > 0) {
+                x_cam_world_new[0] *= -1;
+                x_cam_world_new[1] *= -1;
+                x_cam_world_new[2] *= -1;
+            }
+        }
+
+        var x_cam_world = m_util.quat_to_dir(render.quat, m_util.AXIS_X, _vec3_tmp_3);
+        m_vec3.normalize(x_cam_world, x_cam_world);
+
+        var cosine = m_util.clamp(m_vec3.dot(x_cam_world, x_cam_world_new), -1, 1);
+        var angle = Math.acos(cosine);
+
+        if (cosine <= -0.999999)
+            var rotation = m_quat.setAxisAngle(y_cam_world, angle, _quat4_tmp);
+        else
+            var rotation = m_quat.rotationTo(x_cam_world, x_cam_world_new, _quat4_tmp);
+
+        m_quat.normalize(rotation, rotation);
     }
 
-    var x_cam_world_new = m_vec3.cross(y_world, y_cam_world, y_cam_world);
-
-    m_vec3.normalize(x_cam_world_new, x_cam_world_new);
-
-    // Y coord of local camera Z axis in world space
-    var z_cam_world_y = rmat[7];
-    if (z_cam_world_y > 0) {
-        x_cam_world_new[0] *= -1;
-        x_cam_world_new[1] *= -1;
-        x_cam_world_new[2] *= -1;
-    }
-
-    // _vec_3_tmp is available now
-    var x_cam_world = _vec3_tmp_2;
-    x_cam_world[0] = rmat[0];
-    x_cam_world[1] = rmat[1];
-    x_cam_world[2] = rmat[2];
-    m_vec3.normalize(x_cam_world, x_cam_world);
-
-    m_quat.rotationTo(x_cam_world, x_cam_world_new, dest);
-
-    return dest;
+    m_quat.multiply(rotation, quat, quat);
 }
-
 
 /**
  * Remove object constraint

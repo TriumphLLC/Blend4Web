@@ -4,6 +4,8 @@
  * Main Blend4Web module.
  * Implements methods to initialize and change the global params of the engine.
  * @module main
+ * @local fps_callback
+ * @local render_callback
  */
 b4w.module["main"] = function(exports, require) {
 
@@ -19,7 +21,7 @@ var geometry   = require("__geometry");
 var hud        = require("__hud");
 var nla        = require("__nla");
 var assets     = require("__assets");
-var physics    = require("__physics");
+var m_phy      = require("__physics");
 var renderer   = require("__renderer");
 var scenes     = require("__scenes");
 var sfx        = require("__sfx");
@@ -124,20 +126,18 @@ exports.init = function(elem_canvas_webgl, elem_canvas_hud) {
         m_cfg.sfx.mix_mode = false;
     }
 
-    physics.init_engine(init_time);
+    m_phy.init_engine(init_time);
 
     return gl;
 }
 
 function setup_clock() {
-    m_time.set_timeline(0);
-
     if (!window.performance) {
         m_print.log("Apply performance workaround");
         window.performance = {};
     }
 
-    var init_time = Date.now();
+    var curr_time = Date.now();
 
     if (!window.performance.now) {
         m_print.log("Apply performance.now() workaround");
@@ -145,12 +145,14 @@ function setup_clock() {
         //cfg_def.no_phy_interp_hack = true;
 
         window.performance.now = function() {
-            return Date.now() - init_time;
+            return Date.now() - curr_time;
         }
-
-        return init_time;
+        var init_time = curr_time;
     } else
-        return init_time - performance.now();
+        var init_time = curr_time - performance.now();
+
+    m_time.set_timeline(0);
+    return init_time;
 }
 
 
@@ -163,7 +165,9 @@ function get_context(canvas) {
 
         try {
             ctx = canvas.getContext(name, cfg_ctx);
-        } catch(e) {}
+        } catch(e) {
+            // nothing
+        }
 
         if (ctx)
             break;
@@ -308,8 +312,6 @@ exports.resize = function(width, height, update_canvas_css) {
     scenes.setup_dim(cw, ch, cw/width, calc_canvas_offset("x"),
                                        calc_canvas_offset("y"));
 
-    renderer.clear();
-
     frame(m_time.get_timeline(), 0);
 
     m_data.update_media_controls(_elem_canvas_webgl.width, _elem_canvas_webgl.height);
@@ -408,7 +410,7 @@ function pause() {
 
     _pause_time = performance.now() / 1000;
     sfx.pause();
-    physics.pause();
+    m_phy.pause();
     textures.pause();
 }
 
@@ -422,7 +424,7 @@ exports.resume = function() {
 
     _resume_time = performance.now() / 1000;
     sfx.resume();
-    physics.resume();
+    m_phy.resume();
     textures.play(true);
 }
 
@@ -497,7 +499,7 @@ function frame(timeline, delta) {
     if (!m_data.is_primary_loaded())
         return;
 
-    physics.update(timeline, delta);
+    m_phy.update(timeline, delta);
 
     // possible unload in physics callbacks
     if (!m_data.is_primary_loaded())
@@ -536,7 +538,7 @@ function init_fps_counter() {
 
     var fps_counter = function(delta) {
         fps_avg = util.smooth(1/delta, fps_avg, delta, interval);
-        phy_fps_avg = util.smooth(physics.get_fps(), phy_fps_avg, delta, interval);
+        phy_fps_avg = util.smooth(m_phy.get_fps(), phy_fps_avg, delta, interval);
 
         fps_frame_counter = (fps_frame_counter + 1) % interval_cb;
         if (fps_frame_counter == 0) {
@@ -553,7 +555,8 @@ function init_fps_counter() {
  * @method module:main.reset
  */
 exports.reset = function() {
-    m_data.unload();
+    m_data.unload(0);
+    m_phy.reset();
 
     _elem_canvas_webgl = null;
     _elem_canvas_hud = null;
@@ -571,6 +574,8 @@ exports.reset = function() {
     _loop_cb.length = 0;
 
     _gl = null;
+
+    m_time.reset();
 }
 
 exports.canvas_data_url = function(callback) {

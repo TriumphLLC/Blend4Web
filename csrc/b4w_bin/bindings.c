@@ -383,7 +383,7 @@ void normalize_v3(float *v3)
 /**
  * Get tri-face normal
  */
-void normal_tri_v3(float *no, const float v1[3], const float v2[3], 
+void _normal_tri_v3(float *no, const float v1[3], const float v2[3],
         const float v3[3])
 {
     float n1[3], n2[3];
@@ -406,7 +406,7 @@ void normal_tri_v3(float *no, const float v1[3], const float v2[3],
 /**
  * Get quad-face normal
  */
-void normal_quad_v3(float *no, const float v1[3], const float v2[3], 
+void _normal_quad_v3(float *no, const float v1[3], const float v2[3],
         const float v3[3], const float v4[3])
 {
     float n1[3], n2[3];
@@ -429,10 +429,10 @@ void normal_quad_v3(float *no, const float v1[3], const float v2[3],
 void calc_face_normal(MFace mface, MVert *mvert, float *no)
 {
     if (mface.v4)
-        normal_quad_v3(no, mvert[mface.v1].co, mvert[mface.v2].co, 
+        _normal_quad_v3(no, mvert[mface.v1].co, mvert[mface.v2].co,
                 mvert[mface.v3].co, mvert[mface.v4].co);
     else
-        normal_tri_v3(no, mvert[mface.v1].co, mvert[mface.v2].co, 
+        _normal_tri_v3(no, mvert[mface.v1].co, mvert[mface.v2].co,
                 mvert[mface.v3].co);
 }
 

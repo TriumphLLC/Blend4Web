@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 import subprocess

@@ -10,6 +10,7 @@ b4w.module["__sfx"] = function(exports, require) {
 
 var m_cfg   = require("__config");
 var m_print = require("__print");
+var m_time  = require("__time");
 var m_util  = require("__util");
 
 var m_vec3 = require("vec3");
@@ -292,7 +293,8 @@ exports.append_object = function(obj, scene) {
     obj._sfx.speed_avg = new Float32Array(3);
 
     // for BACKGROUND_MUSIC
-    obj._sfx.bgm_stop_timeout = null;
+    obj._sfx.bgm_start_timeout = -1;
+    obj._sfx.bgm_stop_timeout = -1;
 
     obj._sfx.duck_time = 0;
 
@@ -431,9 +433,8 @@ exports.update = function(timeline, elapsed) {
         var curr_time = _wa.currentTime;
 
         // handle restarts
-        if (!sfx.loop && sfx.cyclic && sfx.state == SPKSTATE_PLAY &&
-                sfx.duration && _wa &&
-                (sfx.start_time + sfx.duration < curr_time))
+        if (_wa && !sfx.loop && sfx.cyclic && sfx.state == SPKSTATE_PLAY &&
+                sfx.duration && (sfx.start_time + sfx.duration < curr_time))
             play_def(obj);
 
         // handle volume pitch randomization
@@ -467,9 +468,6 @@ function playlist_switch_next(playlist, timeline) {
 }
 
 exports.play = play;
-/**
- * @methodOf sfx
- */
 function play(obj, when, duration) {
 
     var sfx = obj._sfx;
@@ -481,7 +479,6 @@ function play(obj, when, duration) {
         var duration = 0.0;
 
     var sound = obj["data"]["sound"];
-
 
     var loop = sfx.loop;
     var playrate = sfx.pitch;
@@ -547,12 +544,24 @@ function play(obj, when, duration) {
 
     } else if (sfx.behavior == "BACKGROUND_MUSIC") {
 
-        window.clearTimeout(sfx.bgm_stop_timeout);
+        m_time.clear_timeout(sfx.bgm_start_timeout);
+        m_time.clear_timeout(sfx.bgm_stop_timeout);
 
-        fire_audio_element(obj);
+        var start_cb = function() {
+            fire_audio_element(obj);
+        }
 
-        // NOTE: <audio> duration currently not supported
-        sfx.duration = 1000000;
+        if (when == 0)
+            start_cb();
+        else
+            sfx.bgm_start_timeout = m_time.set_timeout(start_cb, when * 1000);
+
+        if (loop) {
+            sfx.duration = 0;
+        } else {
+            var el_dur = get_duration(obj);
+            sfx.duration = el_dur;
+        }
     }
 
     schedule_fades(sfx, start_time);
@@ -584,15 +593,19 @@ function update_proc_chain(obj) {
     // panner->filter->gain->fade->rand
     case "POSITIONAL":
         var ap = _wa.createPanner();
-        // NOTE: HRTF panning gives too much volume gain
-        // NOTE: string enums specified in the new spec
-        ap.panningModel = ap.EQUALPOWER;
-        //ap.panningModel = "equalpower";
+        
+        // default HRTF panning gives too much volume gain
+        
+        if (typeof ap.panningModel != "string") {
+            // old spec
+            ap.panningModel = ap.EQUALPOWER;
+            ap.distanceModel = ap.INVERSE_DISTANCE;
+        } else {
+            // new spec
+            ap.panningModel = "equalpower";
+            ap.distanceModel = "inverse";
+        }
 
-        ap.distanceModel = ap.INVERSE_DISTANCE;
-        //ap.distanceModel = "linear";
-        //ap.distanceModel = "exponential";
-        //ap.distanceModel = "inverse";
 
         ap.setPosition(pos[0], pos[1], pos[2]);
         sfx.last_position.set(pos);
@@ -805,7 +818,7 @@ function fire_audio_element(obj) {
     if (audio) {
         // volume will be controlled by gain node
         audio.volume = 1.0;
-        audio.loop = sfx.cyclic;
+        audio.loop = sfx.loop;
 
         // NOTE: audio element will be invalidated after construction execution,
         // so use previous MediaElementSourceNode
@@ -814,8 +827,22 @@ function fire_audio_element(obj) {
 
         sfx.source_node.connect(sfx.proc_chain_in);
 
-        if (sfx.state == SPKSTATE_PLAY)
+        if (sfx.state == SPKSTATE_PLAY) {
+            if (audio.currentTime)
+                audio.currentTime = 0;
             audio.play();
+        }
+    }
+}
+
+function stop_audio_element(obj) {
+    var sfx = obj._sfx;
+    var audio = sfx.src;
+    if (audio) {
+        // exact sequence
+        if (audio.currentTime)
+            audio.currentTime = 0;
+        audio.pause();
     }
 }
 
@@ -846,13 +873,13 @@ function stop(sobj) {
         var audio_el = sfx.src;
         if (audio_el) {
             var stop_cb = function() {
-                // exact sequence
-                // can't change this value for empty tag
-                if (audio_el.currentTime)
-                    audio_el.currentTime = 0;
-                audio_el.pause();
+                stop_audio_element(sobj);
             }
-            sfx.bgm_stop_timeout = window.setTimeout(stop_cb,
+
+            m_time.clear_timeout(sfx.bgm_start_timeout);
+            m_time.clear_timeout(sfx.bgm_stop_timeout);
+
+            sfx.bgm_stop_timeout = m_time.set_timeout(stop_cb,
                     sfx.fade_out * 1000);
         }
     } else {
@@ -896,6 +923,9 @@ function speaker_pause(obj) {
     if (sfx.state != SPKSTATE_PLAY)
         return;
 
+    var current_time = _wa.currentTime;
+    sfx.pause_time = current_time;
+
     if (sfx.behavior == "BACKGROUND_MUSIC") {
         var audio_el = sfx.src;
         if (audio_el)
@@ -903,9 +933,6 @@ function speaker_pause(obj) {
     } else {
         var source = sfx.source_node;
         var playrate = source.playbackRate.value;
-
-        var current_time = _wa.currentTime;
-        sfx.pause_time = current_time;
 
         var buf_dur = source.buffer.duration;
 
@@ -950,27 +977,26 @@ function speaker_resume(obj) {
     if (sfx.state != SPKSTATE_PAUSE)
         return;
 
+    var current_time = _wa.currentTime;
+    sfx.start_time += (current_time - sfx.pause_time);
+
     if (sfx.behavior == "BACKGROUND_MUSIC") {
         var audio_el = sfx.src;
         audio_el.play();
     } else {
         update_source_node(obj);
-        var current_time = _wa.currentTime;
-
-        sfx.start_time += (current_time - sfx.pause_time);
         sfx.vp_rand_end_time = current_time;
 
         var source = sfx.source_node;
         var playrate = source.playbackRate.value;
-
         var buf_dur = source.buffer.duration;
 
         source.start(sfx.start_time, sfx.buf_offset);
 
         schedule_volume_pitch_random(sfx);
-        schedule_fades(sfx, sfx.start_time);
     }
-
+    
+    schedule_fades(sfx, sfx.start_time);
     sfx.state = SPKSTATE_PLAY;
 }
 
@@ -1396,19 +1422,26 @@ exports.apply_playlist = function(objs, delay, random) {
 
     for (var i = 0; i < objs.length; i++) {
         var obj = objs[i];
-        var sfx = obj._sfx;
+
+        var duration = get_duration(obj);
+
+        if (duration == 0) {
+            m_print.warn("B4W warning: Ignoring speaker with zero duration: " + obj["name"]);
+            continue;
+        }
 
         stop(obj);
 
-        _playlist.speakers.push(obj);
+        var sfx = obj._sfx;
+        sfx.cyclic = false;
 
-        var duration = spk_duration(obj);
+        _playlist.speakers.push(obj);
         _playlist.durations.push(duration + delay);
     }
 }
 
-exports.get_duration = spk_duration;
-function spk_duration(obj) {
+exports.get_duration = get_duration;
+function get_duration(obj) {
 
     var sfx = obj._sfx;
 

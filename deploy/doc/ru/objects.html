@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Объекты &mdash; Руководство пользователя: Blend4Web v15.01</title>
+    <title>Объекты &mdash; Руководство пользователя: Blend4Web v15.02</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '15.01',
+        VERSION:     '15.02',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v15.01" href="index.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v15.02" href="index.html" />
     <link rel="next" title="Камера" href="camera.html" />
     <link rel="prev" title="Аддон" href="addon.html" /> 
   </head>
@@ -37,7 +37,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">Руководство пользователя: Blend4Web v15.01</a></div>
+          href="index.html">Руководство пользователя: Blend4Web v15.02</a></div>
         <div class="rel">
           <a href="addon.html" title="Аддон"
              accesskey="P">назад</a> |
@@ -73,6 +73,8 @@
 <li>источник звука (speaker)</li>
 <li>кривая (curve)</li>
 <li>текст (text)</li>
+<li>метасфера (metaball)</li>
+<li>поверхность (surface)</li>
 </ul>
 </div></blockquote>
 </div>
@@ -121,9 +123,9 @@
 <dt><em>Blend4Web &gt; Apply modifiers</em></dt>
 <dd>Применить модификаторы объекта при экспорте. При наличии модификатора <tt class="docutils literal"><span class="pre">SKIN</span></tt> рекомендуется применить его перед экспортом, т.к. он сбрасывает слои вертексных цветов и UV-текстур, что может привести к ошибкам экспорта.</dd>
 <dt><em>Blend4Web &gt; Export vertex animation</em></dt>
-<dd>Экспортировать предварительно созданную и сохраненную вертексную анимацию.</dd>
+<dd>Экспортировать предварительно созданную и сохраненную вертексную анимацию. Актуально только для объектов типа <tt class="docutils literal"><span class="pre">MESH</span></tt>.</dd>
 <dt><em>Blend4Web &gt; Export edited normals</em></dt>
-<dd>Экспортировать предварительно отредактированные и сохраненные нормали.</dd>
+<dd>Экспортировать предварительно отредактированные и сохраненные нормали. Актуально только для объектов типа <tt class="docutils literal"><span class="pre">MESH</span></tt>.</dd>
 <dt><em>Blend4Web &gt; Animation &gt; Use default</em></dt>
 <dd>Начать воспроизведение в движке связанной с объектом анимации.</dd>
 <dt><em>Blend4Web &gt; Animation &gt; Animation blending</em></dt>
@@ -168,6 +170,10 @@
 <dl class="docutils" id="objects-billboarding-properties">
 <dt><em>Blend4Web &gt; Billboard</em></dt>
 <dd>Использовать объект в качестве билборда (т.е. автоматически ориентировать его относительно камеры).</dd>
+</dl>
+<dl class="docutils" id="billboarding-preserve">
+<dt><em>Blend4Web &gt; Preserve global orientation and scale</em></dt>
+<dd>Билбординг объекта с учетом его ориентации и масштабирования в мировом пространстве. Объект всегда будет обращен к камере той стороной, которая видна при взгляде на него вдоль направления оси Y в системе координат Blender&#8217;а. Становится доступным после включения <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Billboard</span></tt>.</dd>
 <dt><em>Blend4Web &gt; Billboarding geometry</em></dt>
 <dd>Способ ориентирования билборда. <tt class="docutils literal"><span class="pre">Spherical</span></tt> (по умолчанию) - объект всегда ориентирован к камере одной стороной независимо от угла обзора, <tt class="docutils literal"><span class="pre">Cylindrical</span></tt> - аналогично <tt class="docutils literal"><span class="pre">Spherical</span></tt>, только вращение ограничено осью Z мирового пространства в Blender. Становится доступным после включения <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Billboard</span></tt>.</dd>
 <dt><em>Blend4Web &gt; LOD transition ratio</em></dt>
@@ -252,7 +258,7 @@
 <li class="toctree-l1"><a class="reference internal" href="nla.html">Нелинейная анимация</a></li>
 <li class="toctree-l1"><a class="reference internal" href="developers.html">Разработчикам приложений</a></li>
 <li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">Разработчикам движка</a></li>
-<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Работа в команде. Использование git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Работа в команде с использованием Git</a></li>
 <li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Проблемы и решения</a></li>
 <li class="toctree-l1"><a class="reference internal" href="release_notes.html">Замечания к релизам</a></li>
 </ul>
@@ -287,7 +293,7 @@
           
     <div class="footer">
         &copy; Copyright 2015, ООО &#34;Триумф&#34;.
-      Обновлено: 2015-01-29.
+      Обновлено: 2015-02-25.
       Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
         </div>

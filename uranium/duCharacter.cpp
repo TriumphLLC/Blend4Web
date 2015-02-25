@@ -23,6 +23,8 @@ duCharacter::duCharacter (btRigidBody* character, const btScalar angle,
     m_turnAngle(angle),
     m_verticalAngle(0.f),
     m_distToWater(1.f),
+    m_water(NULL),
+    m_waterInd(0),
     m_collisionGroup(collisionGroup),
     m_collisionMask(collisionMask),
     m_maxLinearVelocity(walkSpeed), // meters/sec

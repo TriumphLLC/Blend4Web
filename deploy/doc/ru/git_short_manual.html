@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Работа в команде. Использование git &mdash; Руководство пользователя: Blend4Web v15.01</title>
+    <title>Работа в команде с использованием Git &mdash; Руководство пользователя: Blend4Web v15.02</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '15.01',
+        VERSION:     '15.02',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v15.01" href="index.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v15.02" href="index.html" />
     <link rel="next" title="Проблемы и решения" href="problems_and_solutions.html" />
     <link rel="prev" title="Разработчикам движка" href="developers_advanced.html" /> 
   </head>
@@ -37,7 +37,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">Руководство пользователя: Blend4Web v15.01</a></div>
+          href="index.html">Руководство пользователя: Blend4Web v15.02</a></div>
         <div class="rel">
           <a href="developers_advanced.html" title="Разработчикам движка"
              accesskey="P">назад</a> |
@@ -58,12 +58,17 @@
           <div class="body">
             
   <div class="section" id="git">
-<span id="git-short-manual"></span><span id="index-0"></span><h1>Работа в команде. Использование git<a class="headerlink" href="#git" title="Ссылка на этот заголовок">¶</a></h1>
+<span id="git-short-manual"></span><span id="index-0"></span><h1>Работа в команде с использованием Git<a class="headerlink" href="#git" title="Ссылка на этот заголовок">¶</a></h1>
 <div class="section" id="what-is-git">
 <span id="id1"></span><h2>Общие сведения<a class="headerlink" href="#what-is-git" title="Ссылка на этот заголовок">¶</a></h2>
-<p>Для организации командной работы над проектом может быть использована система контроля версий файлов git.</p>
-<p>Основная функция git - сохранение истории изменений с возможностью возврата к предыдущим версиям файлов. Другая важная функция - синхронизация с автоматическим слиянием изменений.</p>
-<p>git - распределенная система, и каждый разработчик или дизайнер имеет собственный локальный репозиторий (хранилище). Синхронизация между локальными репозиториями может осуществляться через центральное &#8220;общее&#8221; хранилище, которое можно разместить на специально выделенной для этой цели машине (сервере). К серверу может быть организован доступ по протоколу SSH.</p>
+<p>Для организации командной работы над проектом может быть использована система контроля версий файлов Git. Использование Git имеет ряд преимуществ перед другими способами организации совместной работы:</p>
+<ul class="simple">
+<li>сохранение полной истории изменений файлов с возможностью возврата к предыдущим версиям</li>
+<li>синхронизация изменений между пользователями и автоматическое слияние изменений</li>
+<li>возможность работы с бинарными файлами большого объёма</li>
+</ul>
+<p>Git - распределенная система, и каждый разработчик или дизайнер имеет собственный локальный репозиторий (хранилище). Синхронизация между локальными репозиториями может осуществляться через центральное &#8220;общее&#8221; хранилище, которое можно разместить на специально выделенной для этой цели машине (сервере). К серверу может быть организован доступ по протоколу SSH.</p>
+<p>Хотя для Git существует множество графических утилит, упрощающих работу начинающих пользователей, здесь мы рассмотрим работу со штатной консольной утилитой, вызываемой командой <tt class="docutils literal"><span class="pre">git</span></tt>.</p>
 </div>
 <div class="section" id="git-pipeline">
 <span id="id2"></span><h2>Типичный рабочий процесс<a class="headerlink" href="#git-pipeline" title="Ссылка на этот заголовок">¶</a></h2>
@@ -74,8 +79,7 @@
 <li>Осуществляется коммит.</li>
 <li>Локальные изменения загружаются в общее хранилище и становятся доступными для коллег.</li>
 </ol>
-<p>Для git имеются графические оболочки, предоставляющие пользовательский интерфейс к командам. Тем не менее, непосредственный ввод команд git достаточно удобен.</p>
-<p>Далее описывается ограниченный набор команд git, рекомендуемых к использованию при создании приложений и графических ресурсов.</p>
+<p>Далее описывается ограниченный набор команд Git, рекомендуемых к использованию при создании приложений и графических ресурсов.</p>
 <p>Перед выполнением команд необходимо перейти в репозиторий, например:</p>
 <div class="highlight-bash"><div class="highlight"><pre>&gt; <span class="nb">cd</span> ~/blend4web
 </pre></div>
@@ -198,7 +202,7 @@ index 4381c99..44b3b15 100644
 </div>
 <div class="section" id="id11">
 <h3>Удаление файлов<a class="headerlink" href="#id11" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Некоторые файлы могут быть отмечены как удаленные из git после выполнения команды <tt class="docutils literal"><span class="pre">git</span> <span class="pre">status</span></tt>, например:</p>
+<p>Некоторые файлы могут быть отмечены как удаленные из Git после выполнения команды <tt class="docutils literal"><span class="pre">git</span> <span class="pre">status</span></tt>, например:</p>
 <div class="highlight-none"><div class="highlight"><pre># On branch master
 # Your branch is ahead of &#39;origin/master&#39; by 2 commits.
 #
@@ -280,7 +284,7 @@ Fast-forward
  src/data.js                                        |    5 +
  src/physics.js                                     |  185 +-
  19 files changed, 1452 insertions(+), 2767 deletions(-)
- create mode 100644    external/deploy/assets/location_agriculture/textures/rotonda_02_diff.png
+ create mode 100644    deploy/assets/location_agriculture/textures/rotonda_02_diff.png
 </pre></div>
 </div>
 <p>При желании можно посмотреть, какие изменения были внесены коллегами, командой:</p>
@@ -299,10 +303,10 @@ remote: Total 6 (delta 5), reused 0 (delta 0)
 Unpacking objects: 100% (6/6), done.
 From lixer:blend4web
    ff715c2..dbf316a  master     -&gt; origin/master
-warning: Cannot merge binary files: external/blender/landscape_objects/Fallen_tree.blend (...)
+warning: Cannot merge binary files: blender/landscape_objects/Fallen_tree.blend (...)
 
-Auto-merging external/blender/landscape_objects/Fallen_tree.blend
-CONFLICT (content): Merge conflict in external/blender/landscape_objects/Fallen_tree.blend
+Auto-merging blender/landscape_objects/Fallen_tree.blend
+CONFLICT (content): Merge conflict in blender/landscape_objects/Fallen_tree.blend
 Automatic merge failed; fix conflicts and then commit the result.
 </pre></div>
 </div>
@@ -369,7 +373,7 @@ Merge the remote changes (e.g. &#39;git pull&#39;) before pushing again.  See th
 # Unmerged paths:
 #   (use &quot;git add/rm &lt;file&gt;...&quot; as appropriate to mark resolution)
 #
-#   both modified:      external/blender/landscape_objects/Fallen_tree.blend
+#   both modified:      blender/landscape_objects/Fallen_tree.blend
 #
 no changes added to commit (use &quot;git add&quot; and/or &quot;git commit -a&quot;)
 </pre></div>
@@ -382,22 +386,22 @@ no changes added to commit (use &quot;git add&quot; and/or &quot;git commit -a&q
 <p>На данном этапе конфликтующие бинарные файлы находятся в том состоянии, в котором они находились в локальном репозитории до попытки синхронизации. Файлы полностью функциональны (например, открываются графическими редакторами).</p>
 <p>В случае конфликта бинарных файлов необходимо выяснить с коллегами или самостоятельно, какую из версий оставить, а какую отбросить. Выбор осуществляется командой <tt class="docutils literal"><span class="pre">git</span> <span class="pre">checkout</span></tt>.</p>
 <p>Выбрать локальную версию файла (<strong>- -ours</strong>). Его можно открыть и убедиться в этом.</p>
-<div class="highlight-none"><div class="highlight"><pre>&gt; git checkout --ours external/blender/landscape_objects/Fallen_tree.blend
+<div class="highlight-none"><div class="highlight"><pre>&gt; git checkout --ours blender/landscape_objects/Fallen_tree.blend
 </pre></div>
 </div>
 <p>Выбрать удаленную версию файла (<strong>- -theirs</strong>). Его можно открыть и убедиться в этом.</p>
-<div class="highlight-none"><div class="highlight"><pre>&gt; git checkout --theirs external/blender/landscape_objects/Fallen_tree.blend
+<div class="highlight-none"><div class="highlight"><pre>&gt; git checkout --theirs blender/landscape_objects/Fallen_tree.blend
 </pre></div>
 </div>
 <p>Снова выбрать локальную версию файла (<strong>- -ours</strong>).</p>
-<div class="highlight-none"><div class="highlight"><pre>&gt; git checkout --ours external/blender/landscape_objects/Fallen_tree.blend
+<div class="highlight-none"><div class="highlight"><pre>&gt; git checkout --ours blender/landscape_objects/Fallen_tree.blend
 </pre></div>
 </div>
 <p>В итоге необходимо остановиться на нужной версии файла. При угрозе потери работы можно сохранить отбрасываемую версию файла вне репозитория.</p>
 </div>
 <div class="section" id="id20">
 <h3>Текстовые файлы<a class="headerlink" href="#id20" title="Ссылка на этот заголовок">¶</a></h3>
-<p>На данном этапе в конфликтующие текстовые файлы git&#8217;ом вносятся как локальные, так и удаленные изменения одновременно, в особом формате. Такие текстовые файлы как правило, не работоспособны.</p>
+<p>На данном этапе в конфликтующие текстовые файлы Git&#8217;ом вносятся как локальные, так и удаленные изменения одновременно, в особом формате. Такие текстовые файлы как правило, не работоспособны.</p>
 <p>Пример. Один участник разработки изменил имя сцены с &#8220;Blue Lizard&#8221; на &#8220;Green Lizard&#8221; в файле приложения и загрузил изменения в центральный репозиторий. Другой участник разработки изменил в той же строке &#8220;Blue Lizard&#8221; на &#8220;Red Lizard&#8221;, совершил коммит и выполнил команду <tt class="docutils literal"><span class="pre">git</span> <span class="pre">pull</span></tt>. В результате именно на этого участника ложится ответственность по разрешению конфликта. В его файле приложения будут находиться строки:</p>
 <div class="highlight-none"><div class="highlight"><pre>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
                 &quot;name&quot;: &quot;Red Lizard&quot;,
@@ -411,7 +415,7 @@ no changes added to commit (use &quot;git add&quot; and/or &quot;git commit -a&q
 <div class="section" id="id21">
 <h3>Корректирующий коммит<a class="headerlink" href="#id21" title="Ссылка на этот заголовок">¶</a></h3>
 <p>После выбора нужных файлов или редактирования изменений, добавить их для коммита:</p>
-<div class="highlight-none"><div class="highlight"><pre>&gt; git add external/blender/landscape_objects/Fallen_tree.blend
+<div class="highlight-none"><div class="highlight"><pre>&gt; git add blender/landscape_objects/Fallen_tree.blend
 &gt; git status
 </pre></div>
 </div>
@@ -511,7 +515,7 @@ nothing to commit (working directory clean)
 <li class="toctree-l1"><a class="reference internal" href="nla.html">Нелинейная анимация</a></li>
 <li class="toctree-l1"><a class="reference internal" href="developers.html">Разработчикам приложений</a></li>
 <li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">Разработчикам движка</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Работа в команде. Использование git</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Работа в команде с использованием Git</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#what-is-git">Общие сведения</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#git-pipeline">Типичный рабочий процесс</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#git-config">Индивидуальные настройки</a></li>
@@ -559,7 +563,7 @@ nothing to commit (working directory clean)
           
     <div class="footer">
         &copy; Copyright 2015, ООО &#34;Триумф&#34;.
-      Обновлено: 2015-01-29.
+      Обновлено: 2015-02-25.
       Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
         </div>

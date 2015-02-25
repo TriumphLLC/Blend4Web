@@ -1278,14 +1278,14 @@ function get_batch_texture(texture_slot, color) {
 /**
  * Return array of valid textures
  */
-function find_valid_textures(key, value, array) {
+function find_valid_textures(key, value, slots) {
     var results = [];
 
-    var len = array.length;
+    var len = slots.length;
     for (var i = 0; i < len; i++) {
-        var obj = array[i];
-        if (obj[key] == value && obj["texture"] && obj["texture"]._render)
-            results.push(obj);
+        var slot = slots[i];
+        if (slot[key] == value && slot["texture"] && slot["texture"]._render)
+            results.push(slot);
     }
     return results;
 }
@@ -1397,7 +1397,7 @@ function init_water_material(material, batch) {
     } else {
         set_batch_directive(batch, "SHORE_PARAMS", 0);
     }
-    if (material["b4w_generated_mesh"] && cfg_def.deferred_rendering) {
+    if (material["b4w_generated_mesh"] && cfg_def.depth_tex_available) {
         set_batch_directive(batch, "GENERATED_MESH", 1);
         batch.water_generated_mesh = true;
         batch.water_num_cascads    = material["b4w_water_num_cascads"];
@@ -1644,7 +1644,7 @@ function update_batch_material_nodes(batch, material) {
         case "TEXTURE_NORMAL2":
         case "TEXTURE_NORMAL3":
         case "TEXTURE_NORMAL4":
-        case "PARALLAX":
+        case "B4W_PARALLAX":
             set_batch_directive(batch, "CALC_TBN_SPACE", 1);
             set_batch_c_attr(batch, "a_normal");
             set_batch_c_attr(batch, "a_tangent");
@@ -1663,7 +1663,7 @@ function update_batch_material_nodes(batch, material) {
             if (attr.data)
                 batch.lamp_uuid_indexes = attr.data;
             break;
-        case "REFRACTION":
+        case "B4W_REFRACTION":
             batch.refractive = true;
             break;
         }
@@ -2076,6 +2076,9 @@ function update_batch_render(batch, render) {
     else
         set_batch_directive(batch, "BEND_CENTER_ONLY", 0);
 
+    set_batch_directive(batch, "BILLBOARD_PRES_GLOB_ORIENTATION", 
+            render.billboard_pres_glob_orientation | 0);
+
     if (render.billboard)
         set_batch_directive(batch, "BILLBOARD", 1);
     else
@@ -2385,6 +2388,9 @@ function update_batch_particles_emitter(batch, psystem) {
     }
     // NOTE: disable standard billboarding
     set_batch_directive(batch, "BILLBOARD", 0);
+
+    var world_space = psystem["settings"]["b4w_coordinate_system"] == "WORLD"? 1: 0;
+    m_shaders.set_directive(batch.shaders_info, "WORLD_SPACE", world_space);
 }
 
 /**
@@ -3187,18 +3193,10 @@ function tsr_from_render(render) {
 }
 
 function update_batch_id(batch, render_id) {
-    // NOTE: remove some properties to avoid circular structure
-    var offscreen_scenes = null;
+    // NOTE: remove some properties
     var canvas_context = null;
     var video_elements = null;
     for (var i = 0; i < batch.textures.length; i++) {
-        var scene = batch.textures[i].offscreen_scene;
-        if (scene) {
-            if (!offscreen_scenes)
-                offscreen_scenes = {};
-            offscreen_scenes[i] = scene;
-            batch.textures[i].offscreen_scene = null;
-        }
         var ctx = batch.textures[i].canvas_context;
         if (ctx) {
             if (!canvas_context)
@@ -3221,9 +3219,6 @@ function update_batch_id(batch, render_id) {
     batch.id = util.calc_variable_id(batch, render_id);
 
     // return removed properties
-    if (offscreen_scenes)
-        for (var i in offscreen_scenes)
-            batch.textures[i].offscreen_scene = offscreen_scenes[i];
     if (canvas_context)
         for (var j in canvas_context)
             batch.textures[j].canvas_context = canvas_context[j];
@@ -3298,6 +3293,10 @@ function append_texture(batch, texture, name) {
         batch.textures.push(texture);
         batch.texture_names.push(name);
     }
+
+    // if something is appended after shader compilation
+    if (batch.shader)
+        m_render.assign_texture_uniforms(batch);
 }
 
 exports.replace_texture = function(batch, texture, name) {
@@ -3341,6 +3340,9 @@ function update_shader(batch) {
                                                batch.node_elements);
     m_render.assign_uniform_setters(batch.shader);
     m_render.assign_attribute_setters(batch);
+
+    // also do that in append_texture()
+    m_render.assign_texture_uniforms(batch);
 }
 
 /**

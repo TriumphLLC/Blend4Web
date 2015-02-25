@@ -11,6 +11,7 @@ import struct
 import time
 import cProfile
 import operator
+import webbrowser
 
 import blend4web
 
@@ -24,6 +25,7 @@ except:
 
 from . import anim_baker
 from . import nla_script
+from . import server
 
 BINARY_INT_SIZE = 4
 BINARY_SHORT_SIZE = 2
@@ -32,9 +34,11 @@ BINARY_FLOAT_SIZE = 4
 MSG_SYMBOL_WIDTH = 6
 ROW_HEIGHT = 20
 
+PATH_TO_VIEWER = "apps_dev/viewer/viewer_dev.html"
+
 JSON_PRETTY_PRINT = False
 SUPPORTED_OBJ_TYPES = ["MESH", "CURVE", "ARMATURE", "EMPTY", "CAMERA", "LAMP", \
-        "SPEAKER", "FONT"]
+        "SPEAKER", "FONT", "META", "SURFACE"]
 SUPPORTED_NODES = ["NodeFrame", "ShaderNodeMaterial", "ShaderNodeCameraData", \
         "ShaderNodeValue", "ShaderNodeRGB", "ShaderNodeTexture", \
         "ShaderNodeGeometry", "ShaderNodeExtendedMaterial", "ShaderNodeLampData", \
@@ -80,6 +84,8 @@ _vehicle_integrity = {}
 _packed_files_data = {}
 
 _canvases_identifiers = []
+
+_additional_scene_objects = []
 
 # currently processed data
 _curr_scene = None
@@ -369,6 +375,9 @@ def attach_export_properties(tags):
         source = getattr(bpy.data, tag)
         for component in source:
             component["export_done"] = False
+            if tag == "objects":
+                component["curve_exp_done"] = False
+
 
 def check_dupli_groups(objects, group_number):
     global _dg_counter
@@ -427,9 +436,10 @@ def get_component_export_path(component):
 
 def obj_to_mesh_needed(obj):
     """Check if object require copy of obj.data during export"""
-    if obj.type == "FONT" or obj.type == "MESH" and (obj.b4w_apply_modifiers 
+    if (obj.type == "CURVE" or obj.type == "SURFACE" or obj.type == "META" 
+            or obj.type == "FONT" or obj.type == "MESH" and (obj.b4w_apply_modifiers 
             or obj.b4w_loc_export_vertex_anim or obj.b4w_export_edited_normals 
-            or obj.b4w_apply_scale):
+            or obj.b4w_apply_scale)):
         return True
     else:
         return False
@@ -441,34 +451,47 @@ def get_obj_data(obj, scene):
         if obj_to_mesh_needed(obj):            
             data = obj.to_mesh(scene, obj.b4w_apply_modifiers, "PREVIEW")
 
-            if obj.b4w_apply_modifiers:
-                data.name = obj.name + "_MODIFIERS_APPLIED"
-            elif obj.b4w_loc_export_vertex_anim:
-                data.name = obj.name + "_VERTEX_ANIM"
-            elif obj.b4w_export_edited_normals:
-                data.name = obj.name + "_VERTEX_NORMALS"
-            elif obj.b4w_apply_scale:
-                data.name = obj.name + "_NONUNIFORM_SCALE_APPLIED"
+            if data:
+                if obj.type == "META":
+                    for slot in obj.material_slots:
+                        if slot.material is not None:
+                            data.materials.append(slot.material)
 
-            if obj.type == "MESH":
-                data.b4w_override_boundings = obj.data.b4w_override_boundings
+                new_name = None
+                if obj.b4w_apply_modifiers:
+                    new_name = obj.name + "_MODIFIERS_APPLIED"
+                elif obj.b4w_loc_export_vertex_anim:
+                    new_name = obj.name + "_VERTEX_ANIM"
+                elif obj.b4w_export_edited_normals:
+                    new_name = obj.name + "_VERTEX_NORMALS"
+                elif obj.b4w_apply_scale:
+                    new_name = obj.name + "_NONUNIFORM_SCALE_APPLIED"
 
-                data.b4w_boundings.min_x = obj.data.b4w_boundings.min_x
-                data.b4w_boundings.min_y = obj.data.b4w_boundings.min_y
-                data.b4w_boundings.min_z = obj.data.b4w_boundings.min_z
-                data.b4w_boundings.max_x = obj.data.b4w_boundings.max_x
-                data.b4w_boundings.max_y = obj.data.b4w_boundings.max_y
-                data.b4w_boundings.max_z = obj.data.b4w_boundings.max_z
-            else:
-                data.b4w_override_boundings = False
+                if new_name is not None:
+                    # prevent bugs when linked and local meshes have the same name
+                    if obj.data.library is not None:
+                        new_name += obj.data.library.filepath
+                    data.name = new_name
 
-            if len(data.vertex_colors):
-                # NOTE: workaround for blender (v.2.70+) bug - restore vertex
-                # colors names
-                for i in range(len(obj.data.vertex_colors)):
-                    data.vertex_colors[i].name = obj.data.vertex_colors[i].name
+                if obj.type == "MESH":
+                    data.b4w_override_boundings = obj.data.b4w_override_boundings
 
-            _overrided_meshes.append(data)
+                    data.b4w_boundings.min_x = obj.data.b4w_boundings.min_x
+                    data.b4w_boundings.min_y = obj.data.b4w_boundings.min_y
+                    data.b4w_boundings.min_z = obj.data.b4w_boundings.min_z
+                    data.b4w_boundings.max_x = obj.data.b4w_boundings.max_x
+                    data.b4w_boundings.max_y = obj.data.b4w_boundings.max_y
+                    data.b4w_boundings.max_z = obj.data.b4w_boundings.max_z
+                else:
+                    data.b4w_override_boundings = False
+
+                if len(data.vertex_colors):
+                    # NOTE: workaround for blender (v.2.70+) bug - restore vertex
+                    # colors names
+                    for i in range(len(obj.data.vertex_colors)):
+                        data.vertex_colors[i].name = obj.data.vertex_colors[i].name
+
+                _overrided_meshes.append(data)
         else:
             data = obj.data
 
@@ -560,6 +583,7 @@ def process_components(tags):
     for scene in getattr(bpy.data, "scenes"):
         if do_export(scene):
             process_scene(scene)
+            _additional_scene_objects = []
 
     check_shared_data(_export_data)
 
@@ -788,6 +812,9 @@ def process_scene(scene):
     scene_data["audio_doppler_factor"] \
             = round_num(scene.audio_doppler_factor, 3)
 
+    # add CURVE objects buffer to scene data
+    scene_data["objects"].extend(_additional_scene_objects)
+
     _export_data["scenes"].append(scene_data)
     _export_uuid_cache[scene_data["uuid"]] = scene_data
     _bpy_uuid_cache[scene_data["uuid"]] = scene
@@ -944,27 +971,50 @@ def process_scene_dyn_compr_settings(scene_data, scene):
     dct["release"] = round_num(dcompr.release, 3)
 
 # 2
-def process_object(obj):
-    if "export_done" in obj and obj["export_done"]:
+def process_object(obj, is_curve=False):
+    prop = "export_done"
+    if is_curve:
+        prop = "curve_exp_done"
+
+    if prop in obj and obj[prop]:
         return
-    obj["export_done"] = True
+    obj[prop] = True
 
     obj_data = OrderedDict()
 
     obj_data["name"] = obj.name
     obj_data["uuid"] = gen_uuid(obj)
 
-    if obj.type == "FONT":
+    # process object links
+    if is_curve:
+        data = obj.data
+    else:
+        data = get_obj_data(obj, _curr_scene)
+
+    obj_data["body_text"] = None
+    if obj.type == "SURFACE":
+        obj_data["type"] = "MESH"
+    elif obj.type == "CURVE":
+        if is_curve:
+            obj_data["type"] = "CURVE"
+        else:
+            obj_data["type"] = "MESH"
+    elif obj.type == "META":
+        if data:
+            obj_data["type"] = "MESH"
+        else:
+            obj_data["type"] = "EMPTY"
+    elif obj.type == "FONT":
         obj_data["type"] = "MESH"
         obj_data["body_text"] = obj.data.body
     else:
         obj_data["type"] = obj.type
-        obj_data["body_text"] = None
 
-    # process object links
-    data = get_obj_data(obj, _curr_scene)
-    if data is None and obj_data["type"] != "EMPTY":
+    if data is None and obj_data["type"] != "EMPTY" and obj.type != "CURVE":
         raise InternalError("Object data not available for \"" + obj.name + "\"")
+
+    if obj_data["type"] == "MESH" and (data is None or not len(data.polygons)):
+        obj_data["type"] = "EMPTY"
 
     obj_data["data"] = gen_uuid_obj(data)
 
@@ -1066,6 +1116,7 @@ def process_object(obj):
 
     obj_data["b4w_selectable"] = obj.b4w_selectable
     obj_data["b4w_billboard"] = obj.b4w_billboard
+    obj_data["b4w_pres_glob_orientation"] = obj.b4w_pres_glob_orientation
     obj_data["b4w_billboard_geometry"] = obj.b4w_billboard_geometry
 
     gw_set = obj.b4w_glow_settings
@@ -2949,8 +3000,13 @@ def process_modifier(modifier_data, mod, current_obj):
 
     elif mod.type == "CURVE":
         if mod.object and object_is_valid(mod.object):
+            name_tmp = mod.object.name
+            mod.object.name += "_RENAMED_CURVE"
             modifier_data["object"] = gen_uuid_obj(mod.object)
-            process_object(mod.object)
+            # add object CURVE to buffer
+            _additional_scene_objects.append(modifier_data["object"])
+            process_object(mod.object, is_curve=True)
+            mod.object.name = name_tmp
             if not (len(mod.object.data.splines) \
                     and mod.object.data.splines[0].type == "NURBS" \
                     and mod.object.data.splines[0].use_endpoint_u):
@@ -3250,9 +3306,11 @@ def process_node_tree(data, tree_source):
 
         elif node.type == "MATH":
             node_data["operation"] = node.operation
+            node_data["use_clamp"] = node.use_clamp
 
         elif node.type == "MIX_RGB":
             node_data["blend_type"] = node.blend_type
+            node_data["use_clamp"] = node.use_clamp
 
         elif node.type == "TEXTURE":
 
@@ -3515,6 +3573,12 @@ class B4W_ExportProcessor(bpy.types.Operator):
         default = False
     )
 
+    run_in_viewer = bpy.props.BoolProperty(
+        name = "Run in Viewer",
+        description = "This option runs exported scene in Viewer",
+        default = False
+    )
+
     override_filepath = bpy.props.StringProperty(
         name = "Filepath",
         description = "Required for running in command line",
@@ -3578,9 +3642,17 @@ class B4W_ExportProcessor(bpy.types.Operator):
     def draw(self, context):
         layout = self.layout
         layout.prop(self, "do_autosave")
-
         layout.prop(self, "strict_mode")
 
+        file_path = context.space_data.params.directory
+        path_to_sdk = bpy.context.user_preferences.addons[__package__].preferences.b4w_src_path
+        os.path.abspath(path_to_sdk)
+        rel_filepath = os.path.relpath(file_path, path_to_sdk)
+        if (rel_filepath.find(os.pardir) == -1 and 
+                server.B4WStartServer.server_process is not None):
+            layout.prop(self, "run_in_viewer")
+        else:
+            self.run_in_viewer = False
 
     def run(self, export_filepath):
         global _bpy_bindata_int
@@ -3654,6 +3726,9 @@ class B4W_ExportProcessor(bpy.types.Operator):
 
         global _dg_counter
         _dg_counter = 0
+
+        global _additional_scene_objects
+        _additional_scene_objects = []
 
         global _file_write_error
 
@@ -3752,6 +3827,7 @@ class B4W_ExportProcessor(bpy.types.Operator):
                 else:
                     f.write(_main_json_str)
                     f.close()
+                        
                     if self.save_export_path:
                         set_default_path(export_filepath)
 
@@ -3766,6 +3842,15 @@ class B4W_ExportProcessor(bpy.types.Operator):
                         fb.write(_bpy_bindata_ushort)
                         fb.close()
 
+                    if self.run_in_viewer:
+                        path_to_sdk = bpy.context.user_preferences.addons[__package__].preferences.b4w_src_path
+                        path_to_viewer = os.path.join(path_to_sdk, os.path.dirname(PATH_TO_VIEWER))
+                        relpath_to_viewer = os.path.relpath(export_filepath, path_to_viewer)
+                        relpath_to_viewer = guard_slashes(os.path.normpath(relpath_to_viewer))
+
+                        port = bpy.context.user_preferences.addons[__package__].preferences.b4w_port_number
+                        url = "http://localhost:" + str(port) + "/" + PATH_TO_VIEWER + "?load=" + relpath_to_viewer
+                        server.open_browser(url)
                     print("EXPORT OK")
         else:
             bpy.ops.b4w.export_messages_dialog('INVOKE_DEFAULT')

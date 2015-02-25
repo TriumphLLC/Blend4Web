@@ -851,6 +851,31 @@ msgid ""
 msgstr ""
 "Panoramic cameras are not supported. Perspective mode is used instead."
 
+#: ../addon.rst:375
+msgid "Опции экспорта"
+msgstr "Export Options"
+
+#: ../addon.rst:378
+msgid "*Autosave main file*"
+msgstr ""
+
+#: ../addon.rst:378
+msgid ""
+"Автосохранение файла, из которого осуществляется экспорт. **Включено по "
+"умолчанию**. Осуществляется непосредственно после экспорта с целью поддержки"
+" соответствия между текущим содержимым blend-файла и экспортного файла. "
+"Кроме того, для удобства в blend-файле сохраняется относительный путь к "
+"экспортному файлу."
+msgstr ""
+"Autosaving the file from which export occurs. **Enabled by default**. "
+"Autosaving is performed right after the export to guarantee conformity between "
+"the current blend file and the exported file contents. In addition, the "
+"relative path to the exported file is saved for convenience."
+
+#: ../addon.rst:387
+msgid "*Strict mode*"
+msgstr ""
+
 #: ../addon.rst:387
 msgid ""
 "Данный режим блокирует экспорт при наличии ошибок и сообщений, требующих "
@@ -869,22 +894,6 @@ msgstr ""
 "If there are any non-critical errors or messages for users' attention, a "
 "dialog window will be show like this:"
 
-#: ../addon.rst:375
-msgid "Опции экспорта"
-msgstr "Exporting Options"
-
-#: ../addon.rst:378
-msgid "*Autosave main file*"
-msgstr ""
-
-#: ../addon.rst:378
-msgid "При удачном экспорте производится сохранение текущего blend-файла."
-msgstr "Upon successful export the current blend-file will be saved."
-
-#: ../addon.rst:387
-msgid "*Strict mode*"
-msgstr ""
-
 #: ../addon.rst:404
 msgid "*Export converted media*"
 msgstr ""
@@ -898,8 +907,42 @@ msgid ""
 "записываться файлы, созданные с использованием :ref:`нашего конвертера "
 "<converter>`."
 msgstr ""
-"This option is available for html-export. Selecting this option "
-"allows us to write converted mediafiles of different formats in the HTML file. "
-"Using different mediafiles is essential to create cross-browser and cross-platform applications while using html export. "
-"Thus, files created by :ref:`converter <converter>` will be written in the HTML file."
+"This option is available for html-export. Selecting this option allows us to"
+" write converted mediafiles of different formats in the HTML file. Using "
+"different mediafiles is essential to create cross-browser and cross-platform"
+" applications while using html export. Thus, files created by "
+":ref:`converter <converter>` will be written in the HTML file."
+
+#: ../addon.rst:415
+msgid ""
+"Автоматически запустить просмотрщик сцен и добавить в него экспортируемую "
+"сцену."
+msgstr "Automatically launch the Scene Viewer and add the exported scene to it."
+
+#: ../addon.rst:417
+msgid ""
+"При использовании :ref:`локального сервера разработки "
+"<local_development_server>`, имеется возможность открыть сцену, "
+"экспортированную в формате ``.json``, в просмотрщике сцен. Для этого при "
+"экспорте необходимо выбрать любой путь, лежащий внутри файловой структуры "
+"Blend4Web SDK."
+msgstr ""
+"When using the :ref:`local development server <local_development_server>`, there is a possibility to open the exported ``.json`` scene in the Scene Viewer. "
+"To do this, select any path inside the Blend4Web SDK file structure upon export."
+
+#: ../addon.rst:419
+msgid "*Run in Viewer*"
+msgstr ""
+
+#: ../addon.rst:419
+msgid ""
+"В качестве директории для экспорта может использоваться созданная "
+"пользователем директория внутри Blend4Web SDK. При несоблюдении этого "
+"условия опция не будет отображаться в меню экспорта. Также опция не будет "
+"отображаться если локальный web-сервер не запущен."
+msgstr ""
+"A directory inside the SDK should be used for export. If not, this option "
+"will not be displayed in the menu. Also it will not be displayed if the "
+"local development server is down."
+
 

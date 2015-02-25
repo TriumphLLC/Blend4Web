@@ -3,6 +3,7 @@
 /**
  * Animation API.
  * @module animation
+ * @local finish_callback
  */
 b4w.module["animation"] = function(exports, require) {
 
@@ -175,7 +176,7 @@ exports.apply_def = function(obj) {
  * Play object animation.
  * @method module:animation.play
  * @param {Object} obj Object ID
- * @param [finish_callback] Callback to execute on finished animation
+ * @param {finish_callback} [finish_callback] Callback to execute on finished animation
  * @param {Number} [slot_num = SLOT_0] Animation slot number
  */
 exports.play = function(obj, finish_callback, slot_num) {

@@ -27,6 +27,12 @@ msgstr ""
 "In general animation is changing the object's parameters in time. The engine"
 " supports the following types of animation:"
 
+#: ../animation.rst:12
+msgid ""
+"Объектная анимация. Заключается в перемещении объекта в пространстве как "
+"единого целого."
+msgstr "Object animation means the moving an object as a whole."
+
 #: ../animation.rst:15
 msgid ""
 "Скелетная анимация, то есть деформация геометрии объекта с помощью системы "
@@ -51,6 +57,10 @@ msgid ""
 msgstr ""
 "Audio sources parametrization. Speaker's ``Volume`` and ``Pitch`` can be "
 "animated."
+
+#: ../animation.rst:25
+msgid "Анимация выходного значения ноды ``Value`` в нодовом материале."
+msgstr "Animation of the ``Value`` node output in node materials."
 
 #: ../animation.rst:27
 msgid ""
@@ -340,19 +350,9 @@ msgid ""
 "Параметризация источников звука по своей сути повторяет объектную анимацию."
 msgstr "Audio sources parametering in essence follows object animation."
 
-#: ../animation.rst:12
-msgid ""
-"Объектная анимация. Заключается в перемещении объекта в пространстве как "
-"единого целого."
-msgstr "Object animation means the moving an object as a whole."
-
-#: ../animation.rst:25
-msgid "Анимация выходного значения ноды ``Value`` в нодовом материале."
-msgstr "Animation of the ``Value`` node output in node materials."
-
 #: ../animation.rst:188
-msgid "Анимация ноды ``Value``"
-msgstr "``Value`` Node Animation"
+msgid "Анимация ноды Value"
+msgstr "Value Node Animation"
 
 #: ../animation.rst:198
 msgid ""
@@ -369,3 +369,5 @@ msgstr ""
 #: ../animation.rst:200
 msgid ":ref:`node_materials`"
 msgstr ""
+
+

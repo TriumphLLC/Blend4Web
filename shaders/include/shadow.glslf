@@ -20,6 +20,7 @@ vec4 shadow_ssao;
 #if SHADOW_SRC != SHADOW_SRC_NONE
 const float SHADOW_BLUR_OFFSET = 0.1;
 const float SHADOW_FADE_OFFSET = 0.1;
+const float SINGLE_CASCADE_BORDER_INDENT = -0.01;
 
 # if SHADOW_SRC != SHADOW_SRC_MASK
 const float FIRST_CASCADE_BLUR_INDENT = 0.05;
@@ -40,6 +41,13 @@ mat4 POISSON_DISK_Y = mat4(
     -0.39906216, 0.45771432, 0.99706507, -0.97511554,
     -0.87912464, -0.76890725, 0.9143759, 0.7564837
 );
+# endif
+
+# if SHADOW_SRC != SHADOW_SRC_MASK
+bool is_tex_coords_inside(vec2 coords, float indent) {
+    return all(lessThanEqual(coords, vec2(1.0 + indent)))
+            && all(greaterThanEqual(coords, vec2(0.0 - indent)));
+}
 # endif
 
 float shadow_map_visibility(vec3 shadow_coord, sampler2D shadow_map,
@@ -65,7 +73,15 @@ float shadow_map_visibility(vec3 shadow_coord, sampler2D shadow_map,
 
             offset = rotation_mat * offset;
             coords = shadow_coord.xy + offset * blur_radius / SHADOW_TEX_RES;
-            visibility += step(shadow_coord.z, texture2D(shadow_map, coords).r);
+
+#  if !CSM_SECTION1
+            // NOTE: fix issue with solid black border at the edge of the last cascade
+            // caused by FIRST_CASCADE_BLUR_INDENT for single cascade scheme
+            if (!is_tex_coords_inside(coords, SINGLE_CASCADE_BORDER_INDENT))
+                visibility += 1.0;
+            else
+#  endif
+                visibility += step(shadow_coord.z, texture2D(shadow_map, coords).r);
         }
 
     visibility /= 16.0;
@@ -116,11 +132,6 @@ float shadow_map_visibility_overlap(vec3 shadow_coord0, sampler2D shadow_map0,
 }
 
 # if SHADOW_SRC != SHADOW_SRC_MASK
-bool is_tex_coords_inside(vec2 coords, float indent) {
-    return all(lessThanEqual(coords, vec2(1.0 + indent)))
-            && all(greaterThanEqual(coords, vec2(0.0 - indent)));
-}
-
 float get_edge_distance_tex(vec2 coords) {
     float a = min(coords.x, coords.y);
     float b = min(1.0 - coords.x, 1.0 - coords.y);

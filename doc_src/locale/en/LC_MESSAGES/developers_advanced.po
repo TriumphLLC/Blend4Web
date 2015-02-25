@@ -89,21 +89,25 @@ msgid ""
 "необходимые зависимости, для чего следует свериться с :ref:`таблицей "
 "<dependencies>`."
 msgstr ""
-"Before building please make sure that your system has all required dependencies installed (see the :ref:`table <dependencies>`)."
+"Before building please make sure that your system has all required "
+"dependencies installed (see the :ref:`table <dependencies>`)."
 
 #: ../developers_advanced.rst:88
 msgid ""
 "Для компиляции движка и входящих в SDK приложений достаточно выполнить "
 "команду из корневой директории SDK:"
 msgstr ""
-"To compile the engine and the applications included into the SDK please execute the following command (in the SDK root):"
+"To compile the engine and the applications included into the SDK please "
+"execute the following command (in the SDK root):"
 
 #: ../developers_advanced.rst:95
 msgid ""
 "Полная сборка, включающая конвертацию ресурсов (текстур, звуков и видео), "
 "компиляцию и подготовку документации вызывается командой:"
 msgstr ""
-"The full building that includes converting the resources (textures, sounds and videos), compilation and converting the docs, can be performed with the following command:"
+"The full building that includes converting the resources (textures, sounds "
+"and videos), compilation and converting the docs, can be performed with the "
+"following command:"
 
 #: ../developers_advanced.rst:102
 msgid "Сборка архивов с дистрибутивами:"
@@ -111,7 +115,8 @@ msgstr "Building the archives with the distributions:"
 
 #: ../developers_advanced.rst:108
 msgid "Все вышеперечисленные операции могут быть выполнены одной командой:"
-msgstr "All above mentioned operations can be performed with a single command:"
+msgstr ""
+"All above mentioned operations can be performed with a single command:"
 
 #: ../developers_advanced.rst:115
 msgid "Сборка аддона"
@@ -137,17 +142,17 @@ msgstr ""
 "and a C compiler are required. Under Linux it's enough to install the "
 "python3-dev and build-essential packages."
 
+#: ../developers_advanced.rst:123
+msgid "скрипт сборки: ``csrc/b4w_bin/build.py``"
+msgstr "build script: ``csrc/b4w_bin/build.py``"
+
+#: ../developers_advanced.rst:124
+msgid "аддон Blend4Web: ``blender_scripts/addons/blend4web/``"
+msgstr "Blend4Web addon: ``blender_scripts/addons/blend4web/``"
+
 #: ../developers_advanced.rst:124
 msgid "Пути относительно корня репозитория:"
 msgstr "Paths relative to the repository root:"
-
-#: ../developers_advanced.rst:123
-msgid "скрипт сборки: ``./csrc/b4w_bin/build.py``"
-msgstr "building script: ``./csrc/b4w_bin/build.py``"
-
-#: ../developers_advanced.rst:124
-msgid "аддон Blend4Web: ``./external/blender_scripts/addons/blend4web/``"
-msgstr "Blend4Web addon: ``./external/blender_scripts/addons/blend4web/``"
 
 #: ../developers_advanced.rst:126
 msgid "Запуск сборки осуществляется следующим образом:"
@@ -503,7 +508,7 @@ msgid "Шейдеры"
 msgstr "Shaders"
 
 #: ../developers_advanced.rst:261 ../developers_advanced.rst:290
-#: ../developers_advanced.rst:313 ../developers_advanced.rst:372
+#: ../developers_advanced.rst:313 ../developers_advanced.rst:374
 msgid "обфускатор шейдеров"
 msgstr "shader obfuscator"
 
@@ -772,18 +777,29 @@ msgstr ""
 "preprocessing, for example, creating an invalid GLSL code:"
 
 #: ../developers_advanced.rst:362
+msgid ""
+"Не следует объявлять переменные с именами вида "
+"``node_[NODE_NAME]_var_[IN_OUT_NODE]``, где ``NODE_NAME`` --- название "
+"некоторой ноды, ``IN_OUT_NODE`` --- название одного из входов или выходов "
+"ноды."
+msgstr ""
+"Do not declare variables with such names as "
+"``node_[NODE_NAME]_var_[IN_OUT_NODE]``, where ``NODE_NAME`` --- name of "
+"some node, ``IN_OUT_NODE`` --- name of an input or an output of the node."
+
+#: ../developers_advanced.rst:364
 msgid "WebGL"
 msgstr ""
 
-#: ../developers_advanced.rst:362
+#: ../developers_advanced.rst:364
 msgid "расширения"
 msgstr "extensions"
 
-#: ../developers_advanced.rst:365
+#: ../developers_advanced.rst:367
 msgid "Поддержка WebGL-расширений"
 msgstr "WebGL extensions support"
 
-#: ../developers_advanced.rst:367
+#: ../developers_advanced.rst:369
 msgid ""
 "Работа обфускатора может зависеть от используемых WebGL-расширений, если они"
 " каким-либо образом влияют на шейдерный язык. На данный момент "
@@ -793,53 +809,53 @@ msgstr ""
 "if they somehow influence the shading language. At the moment the following "
 "extensions are supported:"
 
-#: ../developers_advanced.rst:370
+#: ../developers_advanced.rst:372
 msgid "OES_standard_derivatives"
 msgstr ""
 
-#: ../developers_advanced.rst:372
+#: ../developers_advanced.rst:374
 msgid "ошибки"
 msgstr "errors"
 
-#: ../developers_advanced.rst:375
+#: ../developers_advanced.rst:377
 msgid "Ошибки обфускатора"
 msgstr "Obfuscation errors"
 
-#: ../developers_advanced.rst:377
+#: ../developers_advanced.rst:379
 msgid ""
 "В случае ошибки обфускатор выведет соответствующее сообщение в консоли."
 msgstr ""
 "In case of an error the obfuscator will output the corresponding message "
 "into the console."
 
-#: ../developers_advanced.rst:379
+#: ../developers_advanced.rst:381
 msgid "Перечень возможных ошибок:"
 msgstr "Table of possible errors:"
 
-#: ../developers_advanced.rst:382
+#: ../developers_advanced.rst:384
 msgid "Сообщение об ошибке"
 msgstr "Error message"
 
-#: ../developers_advanced.rst:382
+#: ../developers_advanced.rst:384
 msgid "Причина"
 msgstr "Cause"
 
-#: ../developers_advanced.rst:384
+#: ../developers_advanced.rst:386
 msgid "Error! Ambiguous obfuscation in include file 'FILE_NAME'."
 msgstr ""
 
-#: ../developers_advanced.rst:384
+#: ../developers_advanced.rst:386
 msgid "Ошибка! Неоднозначная обфускация include-файла FILE_NAME."
 msgstr "Ambiguous obfuscation in the 'FILE_NAME' include file."
 
-#: ../developers_advanced.rst:387
+#: ../developers_advanced.rst:389
 msgid ""
 "Error! Bad preprocessing collision while obfuscation identifier: \\'NAME'. "
 "Varying/uniform or varying/attribute qualifiers combination. File: "
 "'FILE_NAME'."
 msgstr ""
 
-#: ../developers_advanced.rst:387
+#: ../developers_advanced.rst:389
 msgid ""
 "Ошибка в файле FILE_NAME. Невозможность обфускации переменной с именем NAME "
 "из-за переопределения при препроцессинге. Переопределение одной и той же "
@@ -851,11 +867,11 @@ msgstr ""
 "different qualifiers. Unacceptable combinations: varying/uniform, "
 "varying/attribute."
 
-#: ../developers_advanced.rst:395
+#: ../developers_advanced.rst:397
 msgid "Error! Extension NAME is unsupported in obfuscator. File: 'FILE_NAME'."
 msgstr ""
 
-#: ../developers_advanced.rst:395
+#: ../developers_advanced.rst:397
 msgid ""
 "Ошибка! WebGL-расширение с именем NAME, использованное в файле FILE_NAME, не"
 " поддерживается обфускатором."
@@ -863,19 +879,19 @@ msgstr ""
 "The NAME WebGL extension used in the FILE_NAME file is not supported by the "
 "obfuscator."
 
-#: ../developers_advanced.rst:399
+#: ../developers_advanced.rst:401
 msgid "Error! Include 'FILE_NAME' not found."
 msgstr ""
 
-#: ../developers_advanced.rst:399
+#: ../developers_advanced.rst:401
 msgid "Ошибка! При подключении не найден include-файл FILE_NAME."
 msgstr "The FILE_NAME include file could not be found."
 
-#: ../developers_advanced.rst:402
+#: ../developers_advanced.rst:404
 msgid "Error! Undeclared TYPE: 'NAME'. File: 'FILE_NAME'."
 msgstr ""
 
-#: ../developers_advanced.rst:402
+#: ../developers_advanced.rst:404
 msgid ""
 "Ошибка в файле FILE_NAME. Необъявленный идентификатор типа TYPE (переменная,"
 " функция, структура, ...) с именем NAME."
@@ -883,12 +899,12 @@ msgstr ""
 "Error in FILE_NAME file. Undeclared identifier NAME of type TYPE (variable, "
 "function, structure etc)."
 
-#: ../developers_advanced.rst:406
+#: ../developers_advanced.rst:408
 msgid ""
 "Error! Undeclared TYPE: 'NAME'. Importing data missed. File: 'FILE_NAME'."
 msgstr ""
 
-#: ../developers_advanced.rst:406
+#: ../developers_advanced.rst:408
 msgid ""
 "Ошибка! Необъявленный идентификатор типа TYPE (переменная, функция, "
 "структура, ... ) с именем NAME. Отсутствует объявление идентификатора, "
@@ -898,13 +914,13 @@ msgstr ""
 " Declaration missing for the identifier required in the FILE_NAME include "
 "file according to the ``#import`` directive."
 
-#: ../developers_advanced.rst:413
+#: ../developers_advanced.rst:415
 msgid ""
 "Error! Undeclared TYPE: 'NAME'. Possibly exporting needed in include file "
 "'INCLUDE_NAME'. File: 'FILE_NAME'."
 msgstr ""
 
-#: ../developers_advanced.rst:413
+#: ../developers_advanced.rst:415
 msgid ""
 "Ошибка в файле FILE_NAME. Необъявленный идентификатор типа TYPE (переменная,"
 " функция, структура, ...) с именем NAME. Возможно требуется разрешить его "
@@ -914,13 +930,13 @@ msgstr ""
 "function, structure etc). Possibly its export into the INCLUDE_NAME include "
 "file should be allowed."
 
-#: ../developers_advanced.rst:419
+#: ../developers_advanced.rst:421
 msgid ""
 "Error! Undeclared TYPE: 'NAME'. Possibly importing needed. File: "
 "'FILE_NAME'."
 msgstr ""
 
-#: ../developers_advanced.rst:419
+#: ../developers_advanced.rst:421
 msgid ""
 "Ошибка! Необъявленный идентификатор типа TYPE (переменная, функция, "
 "структура, ... ) с именем NAME. Возможно требуется указать его как "
@@ -929,11 +945,11 @@ msgstr ""
 "Undeclared identifier NAME of type TYPE (variable, function, structure etc)."
 " Possibly it should be specified as imported in the FILE_NAME include file."
 
-#: ../developers_advanced.rst:425
+#: ../developers_advanced.rst:427
 msgid "Error! Unused export token 'NAME' in include file 'FILE_NAME'."
 msgstr ""
 
-#: ../developers_advanced.rst:425
+#: ../developers_advanced.rst:427
 msgid ""
 "Ошибка! В include-файле FILE_NAME разрешен для экспорта необъявленный "
 "идентификатор с именем NAME."
@@ -941,11 +957,11 @@ msgstr ""
 "Undeclared identifier NAME is allowed for export in the FILE_NAME include "
 "file."
 
-#: ../developers_advanced.rst:431
+#: ../developers_advanced.rst:433
 msgid "Error! Using reserved word in TYPE 'NAME'. File: 'FILE_NAME'."
 msgstr ""
 
-#: ../developers_advanced.rst:431
+#: ../developers_advanced.rst:433
 msgid ""
 "Ошибка в файле FILE_NAME. Использование зарезервированного слова при "
 "объявлении идентификатора типа TYPE (переменная, функция, структура, ...) с "
@@ -954,13 +970,13 @@ msgstr ""
 "Error in FILE_NAME file. A reserved id is used for declaring the identifier "
 "NAME of type TYPE (variable, function, structure etc). "
 
-#: ../developers_advanced.rst:436
+#: ../developers_advanced.rst:438
 msgid ""
 "Error! 'all' extension cannot have BEHAVIOR_TYPE behavior. File: "
 "'FILE_NAME'."
 msgstr ""
 
-#: ../developers_advanced.rst:436
+#: ../developers_advanced.rst:438
 msgid ""
 "Ошибка! Директива ``#extension``, указанная для всех (``all``) WebGL-"
 "расширений в файле FILE_NAME, не поддерживает поведение BEHAVIOR_TYPE."
@@ -968,13 +984,13 @@ msgstr ""
 "The ``#extension`` directive specified for ``all`` WebGL extensions in the "
 "FILE_NAME file does not support the behavior BEHAVIOR_TYPE."
 
-#: ../developers_advanced.rst:441
+#: ../developers_advanced.rst:443
 msgid ""
 "Syntax Error. ERROR_MESSAGE. File: FILE_NAME, line: LINE_NUMBER, column: "
 "COL_NUMBER."
 msgstr ""
 
-#: ../developers_advanced.rst:441
+#: ../developers_advanced.rst:443
 msgid ""
 "Ошибка синтаксиса в строке LINE_NUMBER, столбце COL_NUMBER при парсинге "
 "шейдера FILE_NAME. Исходное описание ошибки приведено в ERROR_MESSAGE. В "
@@ -988,23 +1004,23 @@ msgstr ""
 "attached to the message (note the peculiarity of pegjs parser which specify "
 "the line which is a little bit after the actual error."
 
-#: ../developers_advanced.rst:451
+#: ../developers_advanced.rst:453
 msgid ""
 "Warning! Function 'NAME' is declared in [include ]file FILE_NAME, but never "
 "used."
 msgstr ""
 
-#: ../developers_advanced.rst:451
+#: ../developers_advanced.rst:453
 msgid ""
 "В файле FILE_NAME объявлена функция NAME, которая нигде не используется."
 msgstr "An unused function NAME is declared in the FILE_NAME file."
 
-#: ../developers_advanced.rst:455
+#: ../developers_advanced.rst:457
 msgid ""
 "Warning! Include file 'FILE_NAME' not used in any shader, would be omitted!"
 msgstr ""
 
-#: ../developers_advanced.rst:455
+#: ../developers_advanced.rst:457
 msgid ""
 "Include-файл FILE_NAME не используется ни в одном из шейдеров, поэтому будет"
 " исключен из закомпиленной версии."
@@ -1012,23 +1028,23 @@ msgstr ""
 "The FILE_NAME include file is not used in any of the shaders and so it will "
 "be excluded from the obfuscated version."
 
-#: ../developers_advanced.rst:459
+#: ../developers_advanced.rst:461
 msgid "Warning! Unused import token 'NAME' in include file 'FILE_NAME'."
 msgstr ""
 
-#: ../developers_advanced.rst:459
+#: ../developers_advanced.rst:461
 msgid ""
 "Идентификатор с именем NAME импортируется в include-файле FILE_NAME, но "
 "нигде не используется."
 msgstr "An unused id NAME is imported in the FILE_NAME include file."
 
-#: ../developers_advanced.rst:463
+#: ../developers_advanced.rst:465
 msgid ""
 "Warning! Variable 'NAME' is declared in include file FILE_NAME, but never "
 "used."
 msgstr ""
 
-#: ../developers_advanced.rst:463
+#: ../developers_advanced.rst:465
 msgid ""
 "В файле FILE_NAME объявлена переменная NAME, которая нигде не используется."
 msgstr "An unused variable NAME is declared in the FILE_NAME file."

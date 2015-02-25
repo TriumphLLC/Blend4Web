@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Разработчикам приложений &mdash; Руководство пользователя: Blend4Web v15.01</title>
+    <title>Разработчикам приложений &mdash; Руководство пользователя: Blend4Web v15.02</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '15.01',
+        VERSION:     '15.02',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v15.01" href="index.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v15.02" href="index.html" />
     <link rel="next" title="Разработчикам движка" href="developers_advanced.html" />
     <link rel="prev" title="Нелинейная анимация" href="nla.html" /> 
   </head>
@@ -37,7 +37,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">Руководство пользователя: Blend4Web v15.01</a></div>
+          href="index.html">Руководство пользователя: Blend4Web v15.02</a></div>
         <div class="rel">
           <a href="nla.html" title="Нелинейная анимация"
              accesskey="P">назад</a> |
@@ -83,10 +83,10 @@
 приложение ожидает окончания загрузки страницы и выводит сообщение с текущей
 версией в окне браузера. В данном примере используется единственный модуль
 <tt class="docutils literal"><span class="pre">version</span></tt>, в котором находится одноимённая функция <tt class="docutils literal"><span class="pre">version()</span></tt>. Подробную
-информацию о предназначении модулей и функций движка можно найти в <a class="reference external" href="http://www.blend4web.com/api_doc/index.html">документации
+информацию о предназначении модулей и функций движка можно найти в <a class="reference external" href="https://www.blend4web.com/api_doc/index.html">документации
 по API</a>.</p>
 <p>Файлы со скомпилированным кодом движка находятся в директории SDK
-<tt class="docutils literal"><span class="pre">external/deploy/apps/common</span></tt>. Файл <tt class="docutils literal"><span class="pre">b4w.min.js</span></tt> содержит в себе базовую
+<tt class="docutils literal"><span class="pre">deploy/apps/common</span></tt>. Файл <tt class="docutils literal"><span class="pre">b4w.min.js</span></tt> содержит в себе базовую
 версию, в случае необходимости использования аддонов, вместо него используется
 <tt class="docutils literal"><span class="pre">b4w.full.min.js</span></tt>.</p>
 </div>
@@ -166,21 +166,23 @@
 <p>В составе SDK присутствует скрипт <tt class="docutils literal"><span class="pre">apps_dev/project.py</span></tt>, предназначенный для
 сборки приложений.</p>
 <p>Пример:</p>
-<div class="highlight-bash"><div class="highlight"><pre>./project.py -a my_app_path -o advanced -b copy
+<div class="highlight-bash"><div class="highlight"><pre>./project.py -a my_app_path -o advanced -b copy -v 15.02 -s my_resources_path
 </pre></div>
 </div>
 <ul class="simple">
 <li>Опция <tt class="docutils literal"><span class="pre">&quot;-a&quot;</span></tt> указывает на имя директории, в которой находится приложение.</li>
 <li>Опция <tt class="docutils literal"><span class="pre">&quot;-o&quot;</span></tt> (необязательная) используется для указания метода оптимизации js-файлов.
-Доступные варианты: <strong>simple</strong> (по умолчанию) и <strong>advanced</strong>.</li>
+Доступные варианты: <strong>whitespace</strong>, <strong>simple</strong> (по умолчанию) и <strong>advanced</strong>.</li>
 <li>Опция <tt class="docutils literal"><span class="pre">&quot;-b&quot;</span></tt> (необязательная) указывает из какой директории брать движок.
 Доступные варианты: <strong>link</strong> (по умолчанию) - движок подключается из директории
-<tt class="docutils literal"><span class="pre">external/deploy/apps/common/</span></tt>, <strong>copy</strong> - движок копируется в директорию
+<tt class="docutils literal"><span class="pre">deploy/apps/common/</span></tt>, <strong>copy</strong> - движок копируется в директорию
 с собранным приложением, <strong>combine</strong> - движок объединяется с минимизированным
 скриптом в корне приложения, <strong>compile</strong> - необходимые модули движка компилируются вместе
 со скриптами приложения.</li>
 <li>Опция <tt class="docutils literal"><span class="pre">&quot;-d&quot;</span></tt> (необязательная) указывает в какой директории размещать скомпилированное приложение.</li>
 <li>Опция <tt class="docutils literal"><span class="pre">&quot;-s&quot;</span></tt> (необязательная) указывает из какой директории брать ресурсы для сцены.</li>
+<li>Опция <tt class="docutils literal"><span class="pre">&quot;-p&quot;</span></tt> (необязательная) указывает в какой директории будут располагаться ресурсы для сцены относительно корня приложения.</li>
+<li>Опция <tt class="docutils literal"><span class="pre">&quot;-v&quot;</span></tt> (необязательная) добавляет к скриптам и стилям версию. Это делается для того, чтобы браузер не брал из кэша старые скрипты и стили.</li>
 </ul>
 <p>Структура приложения:</p>
 <ul class="simple">
@@ -190,7 +192,7 @@
 </ul>
 <p>Описание работы сборщика приложений:</p>
 <ul class="simple">
-<li>Приложение полностью копируется в директорию <tt class="docutils literal"><span class="pre">external/deploy/apps/app_name/</span></tt>.</li>
+<li>Приложение полностью копируется в директорию <tt class="docutils literal"><span class="pre">deploy/apps/app_name/</span></tt>.</li>
 <li>Если указана опция <strong>&#8216;-d&#8217;</strong>, приложение копируется в соответствующую директорию.</li>
 <li>Скрипты и стили компилируются относительно родительской директории.</li>
 </ul>
@@ -629,8 +631,6 @@ SDK (отсюда и название).</dd>
 звуки, на которые ссылаются экспотируемые файлы)</dd>
 <dt><strong>screencast.sh</strong></dt>
 <dd>скрипт для записи видео с экрана</dd>
-<dt><strong>screenshooter.py</strong></dt>
-<dd>скрипт для записи скриншотов Blend4Web-приложений</dd>
 <dt><strong>shader_analyzer.py</strong></dt>
 <dd>скрипт, запускающий локальный веб-сервер, который осуществляет подсчет
 сложности шейдеров</dd>
@@ -687,6 +687,91 @@ SDK (отсюда и название).</dd>
 </div>
 <p>Для получения контекста используется функция <tt class="docutils literal"><span class="pre">get_canvas_texture_context()</span></tt>, куда передается идентификатор &#8220;canvas_id&#8221;, задаваемый пользователем в Blender. После <a class="reference external" href="http://www.w3.org/TR/2014/CR-2dcontext-20140821/">преобразований с контекстом</a> вызывается функция <tt class="docutils literal"><span class="pre">update_canvas_texture_context()</span></tt>, которая осуществляет визуализацию изменений элемента с идентификатором &#8220;canvas_id&#8221;.</p>
 </div>
+<div class="section" id="browser-for-local-loading">
+<span id="id15"></span><h2>Настройка браузера для загрузки локальных ресурсов<a class="headerlink" href="#browser-for-local-loading" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Начиная с версии 15.02, в состав Blend4Web SDK входит <a class="reference internal" href="setup.html#local-development-server"><em>сервер разработки</em></a>, решающий проблему загрузки локальных ресурсов. Тем не менее, приведенные ниже инструкции могут быть полезны разработчикам.</p>
+<p>Рендерер движка является Web-приложением, и его работа происходит при просмотре HTML-файла в браузере. После инициализации происходит загрузка ресурсов (сцен, текстур), которая подчиняется <a class="reference external" href="http://ru.wikipedia.org/wiki/Правило_ограничения_домена">правилу ограничения домена</a>, запрещающему, в частности, загрузку из локальной директории. Простым способом обхода этого ограничения может быть настройка браузера для загрузки локальных ресурсов. Другой способ - <a class="reference internal" href="#local-web-server"><em>использование локального web-сервера</em></a>.</p>
+<p>Настройка браузера для загрузки локальных ресурсов является простым и универсальным методом обойти ограничения безопасности. Однако использовать настроенный подобным образом браузер рекомендуется только для просмотра локального контента.</p>
+<p><em>Chrome на Windows</em>:</p>
+<p>Правой кнопкой мыши нажать на ярлыке на рабочем столе, выбрать <tt class="docutils literal"><span class="pre">Свойства</span></tt> (<tt class="docutils literal"><span class="pre">Properties</span></tt>), после чего в поле для пути к исполняемому файлу добавить после пробела <tt class="docutils literal"><span class="pre">--allow-file-access-from-files</span></tt>. Нажать <tt class="docutils literal"><span class="pre">ОК</span></tt>.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<a class="reference internal image-reference" href="_images/chrome_file_access.png"><img alt="_images/chrome_file_access.png" class="align-center" src="_images/chrome_file_access.png" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>Для удобства можно предварительно создать копию ярлыка и изменить ее для локального просмотра, оставив оригинальную версию ярлыка для запуска браузера в обычном режиме.</p>
+<p><em>Chrome на OS X</em>:</p>
+<p>Открыть Терминал и запустить браузер с параметром:</p>
+<p>&gt; /Applications/GoogleChrome.app/Contents/MacOS/GoogleChrome &#8211;allow-file-access-from-files</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p><em>Chrome/Chromium на Linux</em>:</p>
+<p>Запустить браузер с параметром:</p>
+<div class="highlight-python"><div class="highlight"><pre>&gt; google-chrome --allow-file-access-from-files
+</pre></div>
+</div>
+<p>или:</p>
+<div class="highlight-python"><div class="highlight"><pre>&gt; chromium-browser --allow-file-access-from-files
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p><em>Firefox на Windows/Linux/OS X</em>:</p>
+<p>Ввести <strong>about:config</strong> в адресную строку браузера, найти параметр <tt class="docutils literal"><span class="pre">security.fileuri.strict_origin_policy</span></tt> и переключить его двойным щелчком мыши из <tt class="docutils literal"><span class="pre">true</span></tt> в <tt class="docutils literal"><span class="pre">false</span></tt>.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<a class="reference internal image-reference" href="_images/firefox_strict_origin.jpg"><img alt="_images/firefox_strict_origin.jpg" class="align-center" src="_images/firefox_strict_origin.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p><em>Safari/OS X</em>:</p>
+<p>Включить в настройках отображение меню &#8220;Develop&#8221;, затем активировать опцию &#8220;Disable Local File Restrictions&#8221;.</p>
+<a class="reference internal image-reference" href="_images/safari_setup.png"><img alt="_images/safari_setup.png" class="align-center" src="_images/safari_setup.png" style="width: 100%;" /></a>
+</div>
+<div class="section" id="local-web-server">
+<span id="id17"></span><h2>Запуск локального сервера<a class="headerlink" href="#local-web-server" title="Ссылка на этот заголовок">¶</a></h2>
+<p>При желании вместо имеющегося в составе SDK <a class="reference internal" href="setup.html#local-development-server"><em>сервера разработки</em></a> можно использовать собственный web-сервер. Наиболее простым решением является использование простого веб-сервера из стандартной библиотеки <a class="reference external" href="http://ru.wikipedia.org/wiki/Python">Python</a>.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p><em>На Windows</em>:</p>
+<ol class="arabic">
+<li><p class="first">Загрузить и инсталлировать последнюю версию Python с <a class="reference external" href="http://www.python.org/downloads/">официального сайта</a>. В процессе установки выберите опцию добавления пути к исполняемому файлу (<tt class="docutils literal"><span class="pre">Add</span> <span class="pre">python.exe</span> <span class="pre">to</span> <span class="pre">Path</span></tt>).</p>
+</li>
+<li><p class="first">Запустить командную строку (Command Prompt).</p>
+</li>
+<li><p class="first">Выполнить команду в корневой директории SDK:</p>
+<div class="highlight-python"><div class="highlight"><pre>&gt; python -m http.server
+</pre></div>
+</div>
+</li>
+</ol>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p><em>На Linux/OS X</em>:</p>
+<ol class="arabic">
+<li><p class="first">В случае отсутствия в дистрибутиве, загрузить и инсталлировать последнюю версию Python с <a class="reference external" href="http://www.python.org/downloads/">официального сайта</a>.</p>
+</li>
+<li><p class="first">Запустить командную строку (Terminal).</p>
+</li>
+<li><p class="first">Выполнить команду в корневой директории SDK:</p>
+<div class="highlight-python"><div class="highlight"><pre>&gt; python3 -m http.server
+</pre></div>
+</div>
+</li>
+</ol>
+<p>После загрузки сервера, в любом браузере открыть корневую страницу с приложениями из состава SDK, расположенную по адресу <a class="reference external" href="http://localhost:8000">http://localhost:8000</a>.</p>
+<p>В случае необходимости, можно указать порт дополнительным параметром:</p>
+<div class="highlight-python"><div class="highlight"><pre>&gt; python3 -m http.server 8080
+</pre></div>
+</div>
+</div>
 </div>
 
 
@@ -733,10 +818,12 @@ SDK (отсюда и название).</dd>
 <li class="toctree-l2"><a class="reference internal" href="#quality-settings">Профили качества изображения</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#repo-file-structure">Файловая структура SDK</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#canvas">Текстура типа Canvas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#browser-for-local-loading">Настройка браузера для загрузки локальных ресурсов</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#local-web-server">Запуск локального сервера</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">Разработчикам движка</a></li>
-<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Работа в команде. Использование git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Работа в команде с использованием Git</a></li>
 <li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Проблемы и решения</a></li>
 <li class="toctree-l1"><a class="reference internal" href="release_notes.html">Замечания к релизам</a></li>
 </ul>
@@ -771,7 +858,7 @@ SDK (отсюда и название).</dd>
           
     <div class="footer">
         &copy; Copyright 2015, ООО &#34;Триумф&#34;.
-      Обновлено: 2015-01-29.
+      Обновлено: 2015-02-25.
       Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
         </div>

@@ -60,6 +60,9 @@ function create_render(type) {
         init_dist: 0,
         init_top: 0,
 
+        // correct only for TARGET camera
+        target_cam_upside_down: false,
+
         use_panning: false,
 
         move_style: 0,
@@ -268,6 +271,7 @@ function update_object(obj, non_recursive) {
         render.origin_selectable = obj["b4w_selectable"];
 
         render.billboard = obj["b4w_billboard"];
+        render.billboard_pres_glob_orientation = obj["b4w_pres_glob_orientation"];
         // set default object billboard type
         render.billboard_type = "BASIC";
         render.billboard_spherical = obj["b4w_billboard_geometry"] == "SPHERICAL";
@@ -451,7 +455,8 @@ function update_objects_dynamics(objects) {
         // try to use default animation
         if (obj["b4w_use_default_animation"] && m_anim.is_animatable(obj)) {
             m_anim.apply_def(obj);
-            m_anim.play(obj, null, m_anim.SLOT_ALL);
+            if (obj._anim_slots)
+                m_anim.play(obj, null, m_anim.SLOT_ALL);
         }
     }
 }

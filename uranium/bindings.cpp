@@ -895,9 +895,9 @@ du_floater_id du_create_floater(du_body_id body, float float_factor,
     return reinterpret_cast <du_floater_id>(floater);
 }
 
-du_water_id du_create_water()
+du_water_id du_create_water(btScalar waterLevel)
 {
-    duWater* du_water = new duWater();
+    duWater* du_water = new duWater(waterLevel);
     return reinterpret_cast <du_water_id>(du_water);
 }
 
@@ -910,8 +910,7 @@ void du_add_water_wrapper(du_water_id water, float dst_noise_scale0,
                             float size_x, float size_z, float center_x,
                             float center_z, float max_shore_dist,
                             float waves_height, float waves_length,
-                            float water_level, float shoremap_tex_size,
-                            float* shore_dist_array)
+                            float shoremap_tex_size, float* shore_dist_array)
 {
     duWaterDynInfo* di = new duWaterDynInfo();
 
@@ -931,8 +930,7 @@ void du_add_water_wrapper(du_water_id water, float dst_noise_scale0,
 
     du_water->appendWrapper(di, shore_dist_array, size_x, size_z,
                  center_x, center_z, max_shore_dist, waves_height,
-                 waves_length, water_level, shoremap_tex_size);
-
+                 waves_length, shoremap_tex_size);
 }
 
 void du_set_water_time(du_water_id water, float time)

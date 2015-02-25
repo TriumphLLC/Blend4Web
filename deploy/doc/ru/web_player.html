@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Веб-плеер &mdash; Руководство пользователя: Blend4Web v15.01</title>
+    <title>Веб-плеер &mdash; Руководство пользователя: Blend4Web v15.02</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '15.01',
+        VERSION:     '15.02',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v15.01" href="index.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v15.02" href="index.html" />
     <link rel="next" title="Аддон" href="addon.html" />
     <link rel="prev" title="Просмотрщик сцен" href="viewer.html" /> 
   </head>
@@ -37,7 +37,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">Руководство пользователя: Blend4Web v15.01</a></div>
+          href="index.html">Руководство пользователя: Blend4Web v15.02</a></div>
         <div class="rel">
           <a href="viewer.html" title="Просмотрщик сцен"
              accesskey="P">назад</a> |
@@ -60,13 +60,19 @@
   <div class="section" id="web-player">
 <span id="index-0"></span><span id="id1"></span><h1>Веб-плеер<a class="headerlink" href="#web-player" title="Ссылка на этот заголовок">¶</a></h1>
 <p>Веб-плеер представляет собой специализированное приложение для отображения моделей и сцен в режиме демонстрации.</p>
+<p>Десктопная версия:</p>
 <a class="reference internal image-reference" href="_images/web_player_example.jpg"><img alt="_images/web_player_example.jpg" class="align-center" src="_images/web_player_example.jpg" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>Мобильная версия:</p>
+<a class="reference internal image-reference" href="_images/web_player_example_mobile.jpg"><img alt="_images/web_player_example_mobile.jpg" class="align-center" src="_images/web_player_example_mobile.jpg" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <div class="section" id="id2">
 <h2>Использование<a class="headerlink" href="#id2" title="Ссылка на этот заголовок">¶</a></h2>
-<p>Директорию с файлами веб-плеера <tt class="docutils literal"><span class="pre">external/deploy/apps/webplayer</span></tt> можно скопировать из дистрибутива Blend4Web SDK и разместить на сайте. Полученные в результате экспорта файлы сцен можно разместить на сайте и указать путь к ним (абсолютный или относительный) с помощью параметра веб-плеера <tt class="docutils literal"><span class="pre">load</span></tt>.</p>
+<p>Директорию с файлами веб-плеера <tt class="docutils literal"><span class="pre">deploy/apps/webplayer</span></tt> можно скопировать из дистрибутива Blend4Web SDK и разместить на сайте. Полученные в результате экспорта файлы сцен можно разместить на сайте и указать путь к ним (абсолютный или относительный) с помощью параметра веб-плеера <tt class="docutils literal"><span class="pre">load</span></tt>.</p>
 <p>При экспорте в единый HTML файл интерфейс веб-плеера интегрируется автоматически.</p>
 </div>
 <div class="section" id="id3">
@@ -83,8 +89,12 @@
 <li>установка качества сцены;</li>
 <li>включение / выключение звука;</li>
 <li>включение / выключение автоматического поворота камеры вокруг сцены;</li>
-<li>запуск / остановка движка.</li>
-<li>открытие помощи.</li>
+<li>запуск / остановка движка;</li>
+<li>открытие окно помощи;</li>
+<li>кнопка Твиттер;</li>
+<li>кнопка Facebook;</li>
+<li>кнопка Google+;</li>
+<li>кнопка ВКонтакте.</li>
 </ol>
 </div>
 <div class="section" id="webplayer-attributes">
@@ -97,13 +107,19 @@
 <ol class="arabic simple">
 <li>для загрузки сцены используется обязательный атрибут <tt class="docutils literal"><span class="pre">load</span></tt>, в который помещается относительный путь к JSON файлу.</li>
 <li>необязательный атрибут <tt class="docutils literal"><span class="pre">fallback_image</span></tt> используется для установки фона, заменяющего сцену при возникновении ошибки WebGL.</li>
+<li>необязательный атрибут <tt class="docutils literal"><span class="pre">fallback_video</span></tt> используется для установки видео, заменяющего сцену при возникновении ошибки WebGL.
+Может использоваться неоднократно с целью добавления видео файлов различных форматов.</li>
 <li>необязательный атрибут <tt class="docutils literal"><span class="pre">show_fps</span></tt> применяется для отображения счетчика кадров в секунду в правом верхнем углу плеера.</li>
 <li>необязательный атрибут <tt class="docutils literal"><span class="pre">autorotate</span></tt> используется для включения автоматического вращения камеры сразу после загрузки сцены.</li>
-<li>необязательный атрибут <tt class="docutils literal"><span class="pre">compressed_textures</span></tt> используется для включения загрузки min50 и dds текстур.</li>
+<li>необязательный атрибут <tt class="docutils literal"><span class="pre">compressed_textures</span></tt> используется для включения загрузки уменьшенных текстур и текстур в формате с компрессией (DDS).</li>
 </ol>
+<div class="admonition note">
+<p class="first admonition-title">Примечание</p>
+<p class="last">Если указаны параметры <tt class="docutils literal"><span class="pre">fallback_image</span></tt> и <tt class="docutils literal"><span class="pre">fallback_video</span></tt>, приоритет имеет <tt class="docutils literal"><span class="pre">fallback_image</span></tt>.</p>
+</div>
 </div>
 <div class="section" id="wp-title">
-<span id="id6"></span><h2>Отображение названия сцены в браузере<a class="headerlink" href="#wp-title" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="id6"></span><h2>Название сцены в заголовке<a class="headerlink" href="#wp-title" title="Ссылка на этот заголовок">¶</a></h2>
 <p>По умолчанию веб-плеер устанавливает тег <tt class="docutils literal"><span class="pre">title</span></tt> равным <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">Web</span> <span class="pre">Player</span></tt>. С помощью мета-тега <tt class="docutils literal"><span class="pre">title</span></tt>
 в настройках сцены можно изменить значение по умолчанию.</p>
 <img alt="_images/title.jpg" src="_images/title.jpg" />
@@ -154,7 +170,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#id3">Навигация</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id4">Панель управления</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#webplayer-attributes">Атрибуты</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#wp-title">Отображение названия сцены в браузере</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#wp-title">Название сцены в заголовке</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id7">Ошибки сцены</a></li>
 </ul>
 </li>
@@ -176,7 +192,7 @@
 <li class="toctree-l1"><a class="reference internal" href="nla.html">Нелинейная анимация</a></li>
 <li class="toctree-l1"><a class="reference internal" href="developers.html">Разработчикам приложений</a></li>
 <li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">Разработчикам движка</a></li>
-<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Работа в команде. Использование git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Работа в команде с использованием Git</a></li>
 <li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Проблемы и решения</a></li>
 <li class="toctree-l1"><a class="reference internal" href="release_notes.html">Замечания к релизам</a></li>
 </ul>
@@ -211,7 +227,7 @@
           
     <div class="footer">
         &copy; Copyright 2015, ООО &#34;Триумф&#34;.
-      Обновлено: 2015-01-29.
+      Обновлено: 2015-02-25.
       Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
         </div>

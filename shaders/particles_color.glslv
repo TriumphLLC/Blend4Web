@@ -31,6 +31,9 @@ uniform mat4 u_view_matrix;
 uniform mat4 u_proj_matrix;
 uniform float u_height;
 uniform float u_p_size;
+#if !WORLD_SPACE
+uniform mat4 u_model_matrix;
+#endif
 
 varying float v_alpha;
 varying vec3 v_color;

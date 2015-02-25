@@ -15,6 +15,10 @@ msgstr ""
 msgid "Проблемы и решения"
 msgstr "Problems and Solutions"
 
+#: ../problems_and_solutions.rst:11
+msgid "Проблемы при запуске движка"
+msgstr "Problems Upon Startup"
+
 #: ../problems_and_solutions.rst:13
 msgid "*1. Появляется сообщение \"Browser could not initialize WebGL.\"*"
 msgstr "*1. The \"Browser could not initialize WebGL\" message is shown*."
@@ -25,17 +29,56 @@ msgid ""
 msgstr ""
 "Follow the instructions listed in the :ref:`webgl_not_working` section."
 
+#: ../problems_and_solutions.rst:21
+msgid ""
+"*2. Видны элементы интерфейса или пустой экран, но сцена не отображается. "
+"При этом тестовый сайт* http://get.webgl.org/ *и другие WebGL приложения "
+"работают корректно.*"
+msgstr ""
+"*2. The user interface or background is shown but the default scene is not "
+"rendered. At the same time the* http://get.webgl.org/ *site and other WebGL "
+"applications are working correctly.*"
+
 #: ../problems_and_solutions.rst:23
 msgid "Вероятные причины:"
 msgstr "Possible causes:"
 
 #: ../problems_and_solutions.rst:25
 msgid ""
-"Браузер не настроен для работы с локальными ресурсами. См. раздел "
-":ref:`browser_for_local_loading`."
+"Не используется локальный веб-сервер или браузер не настроен для работы с "
+"локальными ресурсами. См. раздел :ref:`browser_for_local_loading`."
 msgstr ""
-"The browser is not set up for loading local resources. See the "
+"A local web server is not used or the browser is not set up for loading local resources. See the "
 ":ref:`browser_for_local_loading` section."
+
+#: ../problems_and_solutions.rst:27
+msgid ""
+"Файлы ресурсов, которые пытается загрузить движок, были перемещены или "
+"удалены."
+msgstr "The engine tries to load resource files which were moved or deleted."
+
+#: ../problems_and_solutions.rst:29
+msgid "Используются старые версии драйверов."
+msgstr "You are using the old versions of video drivers."
+
+#: ../problems_and_solutions.rst:31
+msgid "Используются открытые драйвера, не обеспечивающие поддержку WebGL."
+msgstr "You are using open source drivers which do not fully support WebGL."
+
+#: ../problems_and_solutions.rst:33
+msgid ""
+"Для пользователей Linux - ввиду неполной реализации OpenGL стека в драйверах"
+" с открытым кодом в настоящий момент рекомендуется использовать "
+"проприетарные драйверы текущей версии для графических процессоров Nvidia и "
+"AMD."
+msgstr ""
+"For Linux users - due to incomplete OpenGL implementation in open source "
+"drivers at the moment it is recommended to use current versions of "
+"proprietary drivers for Nvidia and AMD video cards."
+
+#: ../problems_and_solutions.rst:37
+msgid "Используется устаревшая операционная система, такая как Windows XP."
+msgstr "You are using an outdated operating system, such as Windows XP."
 
 #: ../problems_and_solutions.rst:43
 msgid "Ошибка инициализации WebGL"
@@ -60,6 +103,27 @@ msgstr ""
 "<http://support.microsoft.com/kb/311047>`_). In case of MS Windows install "
 "the latest `DirectX runtime <http://www.microsoft.com/en-"
 "us/download/details.aspx?id=35>`_. Reboot."
+
+#: ../problems_and_solutions.rst:50
+msgid ""
+"Рекомендуется проводить своевременное обновление драйверов для графических "
+"карт. Чтобы определить тип и производителя карты, можно ввести **about:gpu**"
+" (или **chrome://gpu**) в адресную строку браузера Chrome..."
+msgstr ""
+"It is recommended to timely update video card drivers. To detect your video "
+"card and its vendor please type **about:gpu** (or **chrome://gpu**) to the "
+"address bar of Chrome browser..."
+
+#: ../problems_and_solutions.rst:58
+msgid "или Firefox..."
+msgstr "or Firefox..."
+
+#: ../problems_and_solutions.rst:66
+msgid ""
+"Для операционных систем семейства Windows можно воспользоваться средством "
+"диагностики DirectX **dxdiag**."
+msgstr ""
+"For Windows, you can run the DirectX Diagnostic Tool called **dxdiag**."
 
 #: ../problems_and_solutions.rst:75
 msgid ""
@@ -89,6 +153,17 @@ msgstr ""
 msgid "*В Chrome*:"
 msgstr "*For Chrome*:"
 
+#: ../problems_and_solutions.rst:81
+msgid ""
+"Ввести **about:flags** (или **chrome://flags**) в адресную строку браузера, "
+"нажать :file:`Включить` (:file:`Enable`) под опцией :file:`Переопределение "
+"списка программного рендеринга` (:file:`Override software rendering list`) и"
+" перезапустить браузер."
+msgstr ""
+"Enter **about:flags** (or **chrome://flags**) into the browser's address "
+"bar, click :file:`Enable` under the :file:`Override software rendering list`"
+" option and restart the browser."
+
 #: ../problems_and_solutions.rst:91
 msgid "*В Firefox*:"
 msgstr "*For Firefox*:"
@@ -103,77 +178,4 @@ msgstr ""
 "``webgl.force-enabled`` parameter and double-click on it to switch from "
 "``false`` to ``true``."
 
-#: ../problems_and_solutions.rst:33
-msgid ""
-"Для пользователей Linux - ввиду неполной реализации OpenGL стека в драйверах"
-" с открытым кодом в настоящий момент рекомендуется использовать "
-"проприетарные драйверы текущей версии для графических процессоров Nvidia и "
-"AMD."
-msgstr ""
-"For Linux users - due to incomplete OpenGL implementation in open source "
-"drivers at the moment it is recommended to use current versions of "
-"proprietary drivers for Nvidia and AMD video cards."
 
-#: ../problems_and_solutions.rst:50
-msgid ""
-"Рекомендуется проводить своевременное обновление драйверов для графических "
-"карт. Чтобы определить тип и производителя карты, можно ввести **about:gpu**"
-" (или **chrome://gpu**) в адресную строку браузера Chrome..."
-msgstr ""
-"It is recommended to timely update video card drivers. To detect your video "
-"card and its vendor please type **about:gpu** (or **chrome://gpu**) to the "
-"address bar of Chrome browser..."
-
-#: ../problems_and_solutions.rst:81
-msgid ""
-"Ввести **about:flags** (или **chrome://flags**) в адресную строку браузера, "
-"нажать :file:`Включить` (:file:`Enable`) под опцией :file:`Переопределение "
-"списка программного рендеринга` (:file:`Override software rendering list`) и"
-" перезапустить браузер."
-msgstr ""
-"Enter **about:flags** (or **chrome://flags**) into the browser's address "
-"bar, click :file:`Enable` under the :file:`Override software rendering list`"
-" option and restart the browser."
-
-#: ../problems_and_solutions.rst:11
-msgid "Проблемы при запуске движка"
-msgstr "Problems during startup"
-
-#: ../problems_and_solutions.rst:21
-msgid ""
-"*2. Видны элементы интерфейса или пустой экран, но сцена не отображается. "
-"При этом тестовый сайт* http://get.webgl.org/ *и другие WebGL приложения "
-"работают корректно.*"
-msgstr ""
-"*2. The user interface or background is shown but the default scene is not "
-"rendered. At the same time the* http://get.webgl.org/ *site and other WebGL "
-"applications are working correctly.*"
-
-#: ../problems_and_solutions.rst:27
-msgid ""
-"Файлы ресурсов, которые пытается загрузить движок, были перемещены или "
-"удалены."
-msgstr "The engine tries to load resource files which were moved or deleted."
-
-#: ../problems_and_solutions.rst:29
-msgid "Используются старые версии драйверов."
-msgstr "You are using the old versions of video drivers."
-
-#: ../problems_and_solutions.rst:31
-msgid "Используются открытые драйвера, не обеспечивающие поддержку WebGL."
-msgstr "You are using open source drivers which do not fully support WebGL."
-
-#: ../problems_and_solutions.rst:37
-msgid "Используется устаревшая операционная система."
-msgstr "You are using an old version of an operating system."
-
-#: ../problems_and_solutions.rst:58
-msgid "или Firefox..."
-msgstr "or Firefox..."
-
-#: ../problems_and_solutions.rst:66
-msgid ""
-"Для операционных систем семейства Windows можно воспользоваться средством "
-"диагностики DirectX **dxdiag**."
-msgstr ""
-"For Windows, you can run the DirectX Diagnostic Tool called **dxdiag**."

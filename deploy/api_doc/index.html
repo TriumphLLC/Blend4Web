@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Index</title>
+    <title>JSDoc: Home</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,15 +17,17 @@
 
 <div id="main">
 
-    <h1 class="page-title">Index</h1>
+    <h1 class="page-title">Home</h1>
 
     
+
 
 
     
 
 
     <h3> </h3>
+
 
 
 
@@ -45,26 +47,26 @@
 <p>Use <code>b4w.require(module_name, module_function)</code> to import module.</p>
 <p><strong>Basic usage example</strong></p>
 <pre class="prettyprint source"><code>// check if module exists
-if (b4w.module_check("my_module"))
-    throw "Failed to register module: my_module";
+if (b4w.module_check(&quot;my_module&quot;))
+    throw &quot;Failed to register module: my_module&quot;;
 
 // register my_module
-b4w.register("my_module", function(exports, require) {
+b4w.register(&quot;my_module&quot;, function(exports, require) {
 
-    // import module "version"
-    var m_version = require("version");
+    // import module &quot;version&quot;
+    var m_version = require(&quot;version&quot;);
 
-    // export print_build_date() from module "my_module"
+    // export print_build_date() from module &quot;my_module&quot;
     exports.print_build_date = function() {
-        // exec function date() from module "version"
-        console.log("Engine build date: " + m_version.date());
+        // exec function date() from module &quot;version&quot;
+        console.log(&quot;Engine build date: &quot; + m_version.date());
     }
 });
 
-// import module "my_module"
-var m_my_module = b4w.require("my_module");
+// import module &quot;my_module&quot;
+var m_my_module = b4w.require(&quot;my_module&quot;);
 
-// exec function print_build_date() from module "my_module"
+// exec function print_build_date() from module &quot;my_module&quot;
 m_my_module.print_build_date();</code></pre><p><strong>Type system</strong></p>
 <p>The engine API accepts only the types explicitly specified in the reference.
 Cases with multiple allowed types are documented explicitly. A variable type
@@ -92,13 +94,13 @@ engine's API to manipulate your 3D objects.</p></article>
 </div>
 
 <nav>
-    <h2><a href="index.html">Index</a></h2><h3>Modules</h3><ul><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-util.html">util</a></li><li><a href="module-version.html">version</a></li></ul><h3><a href="global.html">Global</a></h3>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul>
 </nav>
 
-<br clear="both">
+<br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha8</a> on Wed Jan 28 2015 12:11:44 GMT+0300 (MSK)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Wed Feb 25 2015 10:34:05 GMT+0300 (MSK)
 </footer>
 
 <script> prettyPrint(); </script>

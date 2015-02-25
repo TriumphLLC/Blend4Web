@@ -167,7 +167,7 @@ exports.enqueue = function(assets_pack, asset_cb, pack_cb, progress_cb) {
             uri: pack_elem[0],
             type: pack_elem[1],
             filepath: pack_elem[2],
-            name: pack_elem[3],
+            opt_param: pack_elem[3],
 
             state: ASTATE_ENQUEUED,
 
@@ -285,19 +285,19 @@ function request_arraybuffer(asset, response_type) {
                             try {
                                 response = JSON.parse(response);
                             } catch(e) {
-                                asset.asset_cb(null, asset.uri, asset.type, asset.filepath);
+                                asset.asset_cb(null, asset.uri, asset.type, asset.filepath, asset.opt_param);
                                 m_print.error(e + " (parsing JSON " + asset.filepath + ")");
                                 return;
                             }
                         }
 
-                        asset.asset_cb(response, asset.uri, asset.type, asset.filepath);
+                        asset.asset_cb(response, asset.uri, asset.type, asset.filepath, asset.opt_param);
                     } else {
-                        asset.asset_cb(null, asset.uri, asset.type, asset.filepath);
+                        asset.asset_cb(null, asset.uri, asset.type, asset.filepath, asset.opt_param);
                         m_print.error("B4W Error: empty responce when trying to get " + asset.filepath);
                     }
                 } else {
-                    asset.asset_cb(null, asset.uri, asset.type, asset.filepath);
+                    asset.asset_cb(null, asset.uri, asset.type, asset.filepath, asset.opt_param);
                     m_print.error("B4W Error: " + req.status + " when trying to get " + asset.filepath);
                 }
                 asset.state = ASTATE_RECEIVED;
@@ -331,11 +331,11 @@ function request_audiobuffer(asset) {
                     var response = req.response;
                     if (response) {
                         var decode_cb = function(audio_buffer) {
-                            asset.asset_cb(audio_buffer, asset.uri, asset.type, asset.filepath);
+                            asset.asset_cb(audio_buffer, asset.uri, asset.type, asset.filepath, asset.opt_param);
                             asset.state = ASTATE_RECEIVED;
                         }
                         var fail_cb = function() {
-                            asset.asset_cb(null, asset.uri, asset.type, asset.filepath);
+                            asset.asset_cb(null, asset.uri, asset.type, asset.filepath, asset.opt_param);
                             m_print.error("B4W Error: failed to decode " + asset.filepath);
                             asset.state = ASTATE_RECEIVED;
                         }
@@ -343,12 +343,12 @@ function request_audiobuffer(asset) {
                         sfx.decode_audio_data(response, decode_cb, fail_cb);
 
                     } else {
-                        asset.asset_cb(null, asset.uri, asset.type, asset.filepath);
+                        asset.asset_cb(null, asset.uri, asset.type, asset.filepath, asset.opt_param);
                         m_print.error("B4W Error: empty responce when trying to get " + asset.filepath);
                         asset.state = ASTATE_RECEIVED;
                     }
                 } else {
-                    asset.asset_cb(null, asset.uri, asset.type, asset.filepath);
+                    asset.asset_cb(null, asset.uri, asset.type, asset.filepath, asset.opt_param);
                     m_print.error("B4W Error: " + req.status + " when trying to get " + asset.filepath);
                     asset.state = ASTATE_RECEIVED;
                 }
@@ -364,13 +364,13 @@ function request_image(asset) {
         image.crossOrigin = "Anonymous";
     image.onload = function() {
         if (asset.state != ASTATE_HALTED) {
-            asset.asset_cb(image, asset.uri, asset.type, asset.filepath);
+            asset.asset_cb(image, asset.uri, asset.type, asset.filepath, asset.opt_param);
             asset.state = ASTATE_RECEIVED;
         }
     };
     image.addEventListener("error", function() {
         if (asset.state != ASTATE_HALTED) {
-            asset.asset_cb(null, asset.uri, asset.type, asset.filepath);
+            asset.asset_cb(null, asset.uri, asset.type, asset.filepath, asset.opt_param);
             m_print.error("B4W Error: could not load image: " + asset.filepath);
             asset.state = ASTATE_RECEIVED;
         }
@@ -400,14 +400,14 @@ function request_audio(asset) {
     
     audio.addEventListener("loadeddata", function() {
         if (asset.state != ASTATE_HALTED) {
-            asset.asset_cb(audio, asset.uri, asset.type, asset.filepath);
+            asset.asset_cb(audio, asset.uri, asset.type, asset.filepath, asset.opt_param);
             asset.state = ASTATE_RECEIVED;
         }
     }, false);
 
     audio.addEventListener("error", function() {
         if (asset.state != ASTATE_HALTED) {
-            asset.asset_cb(null, asset.uri, asset.type, asset.filepath);
+            asset.asset_cb(null, asset.uri, asset.type, asset.filepath, asset.opt_param);
             m_print.error("B4W Error: could not load sound: " + asset.filepath);
             asset.state = ASTATE_RECEIVED;
         }
@@ -419,7 +419,7 @@ function request_audio(asset) {
             var snd_mime_type = get_sound_mime_type(asset.filepath);
             audio.src = "data:" + snd_mime_type + ";base64," + bd[asset.filepath];
             if (asset.state != ASTATE_HALTED) {
-                asset.asset_cb(audio, asset.uri, asset.type, asset.filepath);
+                asset.asset_cb(audio, asset.uri, asset.type, asset.filepath, asset.opt_param);
                 asset.state = ASTATE_RECEIVED;
             }
 
@@ -449,7 +449,7 @@ function request_video(asset) {
         video.crossOrigin = "Anonymous";
     video.addEventListener("loadeddata", function() {
         if (asset.state != ASTATE_HALTED) {
-            asset.asset_cb(video, asset.uri, asset.type, asset.filepath);
+            asset.asset_cb(video, asset.uri, asset.type, asset.filepath, asset.opt_param);
             asset.state = ASTATE_RECEIVED;
         }
     }, false);
@@ -457,7 +457,7 @@ function request_video(asset) {
     video.addEventListener("error", function() {
         if (asset.state != ASTATE_HALTED) {
             asset.asset_cb(null, asset.uri, asset.type, asset.filepath);
-            m_print.error("B4W Error: could not load video: " + asset.filepath);
+            m_print.error("B4W Error: could not load video: " + asset.filepath, asset.opt_param);
             asset.state = ASTATE_RECEIVED;
         }
     }, false);
@@ -468,7 +468,7 @@ function request_video(asset) {
             var vid_mime_type = get_video_mime_type(asset.filepath);
             video.src = "data:" + vid_mime_type + ";base64," + bd[asset.filepath];
             if (asset.state != ASTATE_HALTED) {
-                asset.asset_cb(video, asset.uri, asset.type, asset.filepath);
+                asset.asset_cb(video, asset.uri, asset.type, asset.filepath, asset.opt_param);
                 asset.state = ASTATE_RECEIVED;
             }
         } else {
@@ -498,7 +498,7 @@ function request_seq_video(asset) {
     req.responseType = "arraybuffer";
 
     function load_cb(images) { 
-        asset.asset_cb(images, asset.uri, asset.type, asset.filepath);
+        asset.asset_cb(images, asset.uri, asset.type, asset.filepath, asset.opt_param);
     }
 
     req.onreadystatechange = function() {
@@ -510,11 +510,11 @@ function request_seq_video(asset) {
                     parse_seq_video_file(response, load_cb);                    
                 }
                 else {
-                    asset.asset_cb(null, asset.uri, asset.type, asset.filepath);
+                    asset.asset_cb(null, asset.uri, asset.type, asset.filepath, asset.opt_param);
                     m_print.error("B4W Error: empty responce when trying to get " + asset.filepath);
                 }
             } else {
-                asset.asset_cb(null, asset.uri, asset.type, asset.filepath);
+                asset.asset_cb(null, asset.uri, asset.type, asset.filepath, asset.opt_param);
                 m_print.error("B4W Error: " + req.status + " when trying to get " + asset.filepath);
             }
             asset.state = ASTATE_RECEIVED;

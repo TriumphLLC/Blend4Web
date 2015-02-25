@@ -442,10 +442,6 @@ function report_empty_submeshes(bpy_data) {
                     m_print.warn("B4W Warning: material \"" + materials[j]["name"]
                         + "\" is not assigned to any face (object \""
                         + obj["name"] + "\").");
-                else
-                    m_print.warn("B4W Warning: Mesh \"" + mesh["name"] +
-                            "\" has no faces (object \"" + obj["name"] + "\").");
-
                 already_reported[mesh_name] = true;
             }
         }
@@ -1428,7 +1424,7 @@ function load_textures(bpy_data, thread, stage, cb_param, cb_finish, cb_set_rate
                 }
             }
 
-            image_assets.push([uuid, asset_type, image_path, image["name"]]);
+            image_assets.push([uuid, asset_type, image_path]);
             img_by_uri[uuid] = image;
         }
     }
@@ -2305,7 +2301,7 @@ function load_shoremap(bpy_data, thread, stage, cb_param, cb_finish,
                 else
                     var asset_type = m_assets.AT_IMAGE_ELEMENT;
 
-                image_assets.push([uuid, asset_type, image_path, image["name"]]);
+                image_assets.push([uuid, asset_type, image_path]);
                 img_by_uri[uuid] = image;
             }
         }
@@ -2408,12 +2404,10 @@ function load_smaa_textures(bpy_data, thread, stage, cb_param, cb_finish,
     var asset_type = m_assets.AT_IMAGE_ELEMENT;
 
     var search_texture_path = m_cfg.paths.smaa_search_texture_path;
-    smaa_images.push(["SEARCH_TEXTURE", asset_type, search_texture_path,
-                       "smaa_search_texture"]);
+    smaa_images.push(["SEARCH_TEXTURE", asset_type, search_texture_path]);
 
     var area_texture_path = m_cfg.paths.smaa_area_texture_path;
-    smaa_images.push(["AREA_TEXTURE", asset_type, area_texture_path,
-                       "smaa_area_texture"]);
+    smaa_images.push(["AREA_TEXTURE", asset_type, area_texture_path]);
 
     for (var i = 0; i < subs_smaa_arr.length; i++) {
         var subs_smaa = subs_smaa_arr[i];
@@ -2517,22 +2511,21 @@ function end_objects_adding(bpy_data, thread, stage, cb_param, cb_finish,
         cb_set_rate) {
 
     if (_data_is_primary) {
-        for (var i = 0; i < bpy_data["scenes"].length; i++) {
-            var scene = bpy_data["scenes"][i];
+
+        var scenes = m_scenes.get_rendered_scenes();
+        var scene_main = scenes[scenes.length-1];
+
+        for (var i = 0; i < scenes.length; i++) {
+            var scene = scenes[i];
             m_scenes.sort_lamps(scene);
             m_scenes.update_shadow_lamp_id(scene);
-
-            // need to draw only 1-st scene or rendered to texture one
-            if (scene._render_to_texture || i == 0)
-                m_scenes.prepare_rendering(scene);
+            m_scenes.prepare_rendering(scene, scene_main);
 
             if (scene["b4w_use_nla"])
                 m_nla.update_scene_nla(scene, scene["b4w_nla_cyclic"]);
         }
 
-        // NOTE: set first scene as active
-        var scene0 = bpy_data["scenes"][0];
-        m_scenes.set_active(scene0);
+        m_scenes.set_active(scene_main);
     } else
         m_scenes.update_scene_permanent_uniforms(_primary_scene);
 

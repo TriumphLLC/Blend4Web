@@ -30,6 +30,7 @@ var cfg_def = m_cfg.defaults;
 
 var RAY_CMP_PRECISION = 0.0000001;
 
+var _worker = null;
 var _phy_fps = 0;
 
 var _active_scene_phy = null;
@@ -61,8 +62,8 @@ exports.init_engine = function(init_time) {
     if (cfg_phy.enabled) {
         var path = cfg_phy.uranium_path + m_version.timestamp();
         m_print.log("%cLOAD PHYSICS", "color: #0a0", path, "Max FPS: " + cfg_phy.max_fps);
-        var worker = new Worker(path);
-        m_ipc.init(worker, process_message);
+        _worker = new Worker(path);
+        m_ipc.init(_worker, process_message);
         m_ipc.post_msg(m_ipc.OUT_INIT, init_time, cfg_phy.max_fps);
         //setInterval(function() {m_ipc.post_msg(m_ipc.OUT_PING, performance.now())}, 1000);
     }
@@ -129,42 +130,6 @@ exports.append_object = function(obj, bpy_scene) {
     if (render.use_collision_compound)
         add_compound_children(obj, compound_children);
 
-    var batches = obj._batches || [];
-
-    for (var i = 0; i < batches.length; i++) {
-
-        var batch = batches[i];
-
-        if (batch.type != "PHYSICS" || has_batch(bpy_scene, batch))
-            continue;
-
-        if (!batch.submesh.base_length) {
-            m_print.error("Object " + obj["name"] +
-                    " has collision material with no assigned vertices");
-            continue;
-        }
-
-        if (batch.water && bpy_scene._render.water_params) {
-            init_water_physics(batch);
-            continue;
-        }
-
-        if (batch.use_ghost)
-            var phy = init_ghost_mesh_physics(obj, batch);
-        else
-            var phy = init_static_mesh_physics(obj, batch);
-
-        phy.id = batch.collision_id;
-
-        // physics bundle
-        var pb = {
-            batch: batch,
-            physics: phy
-        };
-
-        bpy_scene._physics.bundles.push(pb);
-    }
-
     // NOTE_1: object physics has higher priority
     // NOTE_2: object physics is always bounding physics due to high performance
     // constraints
@@ -182,6 +147,42 @@ exports.append_object = function(obj, bpy_scene) {
         };
 
         bpy_scene._physics.bundles.push(pb);
+    } else {
+        var batches = obj._batches || [];
+
+        for (var i = 0; i < batches.length; i++) {
+
+            var batch = batches[i];
+
+            if (batch.type != "PHYSICS" || has_batch(bpy_scene, batch))
+                continue;
+
+            if (!batch.submesh.base_length) {
+                m_print.error("Object " + obj["name"] +
+                        " has collision material with no assigned vertices");
+                continue;
+            }
+
+            if (batch.water && bpy_scene._render.water_params) {
+                init_water_physics(batch);
+                continue;
+            }
+
+            if (batch.use_ghost)
+                var phy = init_ghost_mesh_physics(obj, batch);
+            else
+                var phy = init_static_mesh_physics(obj, batch);
+
+            phy.id = batch.collision_id;
+
+            // physics bundle
+            var pb = {
+                batch: batch,
+                physics: phy
+            };
+
+            bpy_scene._physics.bundles.push(pb);
+        }
     }
 
     if (is_vehicle_chassis(obj) || is_vehicle_hull(obj)) {
@@ -461,25 +462,6 @@ exports.update = function(timeline, delta) {
     }
 }
 
-/**
- * NOTE: unused
- */
-function correct_camera_up(obj, tsr) {
-    var quat_corr = m_cons.calc_cam_rot_correction(
-            m_tsr.get_quat_view(tsr), m_util.AXIS_Y, _quat4_tmp);
-
-    var angle_axis = m_util.quat_to_angle_axis(quat_corr, _vec4_tmp);
-
-    var x = angle_axis[0];
-    var y = angle_axis[1];
-    var z = angle_axis[2];
-    var torque = angle_axis[3] * 1000;
-        
-    var body_id = obj._physics.body_id;
-    m_ipc.post_msg(m_ipc.OUT_ACTIVATE, body_id);
-    m_ipc.post_msg(m_ipc.OUT_APPLY_TORQUE, body_id, x * torque, y * torque, z * torque);
-}
-
 function update_prop_transforms(obj_chassis_hull) {
 
     var obj_props = obj_chassis_hull._vehicle.props;
@@ -532,11 +514,13 @@ function get_unique_body_id() {
 
 function init_water_physics(batch) {
 
-    m_ipc.post_msg(m_ipc.OUT_APPEND_WATER);
+    var scene = get_active_scene();
 
     // NOTE: taking some params from subscene to match water rendering
-    var scene = get_active_scene();
     var subs = m_scs.get_subs(scene, "MAIN_OPAQUE");
+
+    var water_level = subs.water_level;
+    m_ipc.post_msg(m_ipc.OUT_APPEND_WATER, water_level);
 
     // TODO: get subscene water_params for proper water (not common one)
     if (subs.water_params && batch.water_dynamics) {
@@ -556,7 +540,6 @@ function init_water_physics(batch) {
 
         var waves_height   = subs.water_waves_height;
         var waves_length   = subs.water_waves_length;
-        var water_level    = subs.water_level;
         if (subs.use_shoremap) {
             var size_x         = subs.shoremap_size[0];
             var size_y         = subs.shoremap_size[1];
@@ -566,11 +549,11 @@ function init_water_physics(batch) {
             var array_width    = subs.shoremap_tex_size;
             m_ipc.post_msg(m_ipc.OUT_ADD_WATER_WRAPPER, water_dyn_info, size_x,
                            size_y, center_x, center_y, max_shore_dist,
-                           waves_height, waves_length, water_level, array_width,
+                           waves_height, waves_length, array_width,
                            scene._render.shore_distances);
         } else {
             m_ipc.post_msg(m_ipc.OUT_ADD_WATER_WRAPPER, water_dyn_info, 0, 0, 0, 0,
-                           0, waves_height, waves_length, water_level, 0, null);
+                           0, waves_height, waves_length, 0, null);
         }
     }
 }
@@ -2027,6 +2010,10 @@ exports.remove_bounding_object = function(obj) {
             _bounding_objects_cache.splice(cache_ind, 1);
     } else
         m_print.error("Object ", obj.name, " doesn't have bounding physics");
+}
+
+exports.reset = function() {
+    _worker.terminate();
 }
 
 }

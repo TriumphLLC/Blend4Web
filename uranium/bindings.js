@@ -991,14 +991,14 @@ function ray_test_id(body_id, from, to, local_coords) {
     return id;
 }
 
-function append_water() {
+function append_water(water_level) {
 
     world = active_world();
 
     if (world.water)
         return;
 
-    var du_water_id = _du_create_water()
+    var du_water_id = _du_create_water(water_level)
 
     var water = {
         du_id: du_water_id,
@@ -1023,7 +1023,7 @@ function append_water() {
 }
 
 function add_water_wrapper(dynamics_info, size_x, size_y, center_x, center_y,
-                      max_shore_dist, waves_height, waves_length, water_level,
+                      max_shore_dist, waves_height, waves_length,
                       array_width, shore_dist_array) {
 
     world = active_world();
@@ -1064,7 +1064,7 @@ function add_water_wrapper(dynamics_info, size_x, size_y, center_x, center_y,
                           dir_freq, dir_noise_scale, dir_noise_freq,
                           dir_min_noise_fac, dst_min_fac, waves_hor_fac,
                           size_x, size_y, center_x, center_y, max_shore_dist,
-                          waves_height, waves_length, water_level, array_width,
+                          waves_height, waves_length, array_width,
                           dist_arr);
 
     if (dist_arr) {

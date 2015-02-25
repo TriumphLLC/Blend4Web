@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Нодовые материалы &mdash; Руководство пользователя: Blend4Web v15.01</title>
+    <title>Нодовые материалы &mdash; Руководство пользователя: Blend4Web v15.02</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '15.01',
+        VERSION:     '15.02',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v15.01" href="index.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v15.02" href="index.html" />
     <link rel="next" title="Освещение, тени и фон" href="lighting.html" />
     <link rel="prev" title="Текстуры" href="textures.html" /> 
   </head>
@@ -37,7 +37,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">Руководство пользователя: Blend4Web v15.01</a></div>
+          href="index.html">Руководство пользователя: Blend4Web v15.02</a></div>
         <div class="rel">
           <a href="textures.html" title="Текстуры"
              accesskey="P">назад</a> |
@@ -81,13 +81,14 @@
 </div>
 <div class="section" id="custom-node-materials">
 <span id="id3"></span><h2>Дополнительные ноды<a class="headerlink" href="#custom-node-materials" title="Ссылка на этот заголовок">¶</a></h2>
-<p id="index-2">Дополнительные ноды расширяют функционал стандартных с учётом специфики работы движка. Ноды оформляются в виде нодовых групп (<tt class="docutils literal"><span class="pre">Node</span> <span class="pre">groups</span></tt> или <tt class="docutils literal"><span class="pre">Node</span> <span class="pre">tree</span></tt>) со специально выбранным именем и форматом входов. Для удобства, все дополнительные ноды собраны в файл <tt class="docutils literal"><span class="pre">external/blender/dev_nodes/special_nodes.blend</span></tt>.</p>
+<p id="index-2">Дополнительные ноды расширяют функционал стандартных с учётом специфики работы движка. Ноды оформляются в виде нодовых групп (<tt class="docutils literal"><span class="pre">Node</span> <span class="pre">groups</span></tt> или <tt class="docutils literal"><span class="pre">Node</span> <span class="pre">tree</span></tt>) со специально выбранным именем и форматом входов. Для удобства, все дополнительные ноды добавляются в blend-файл при его открытии.</p>
+<img alt="_images/b4w_nodes.png" class="align-center" src="_images/b4w_nodes.png" />
 <div class="admonition seealso">
 <p class="first admonition-title">См.также</p>
 <p class="last"><a class="reference internal" href="animation.html#node-anim"><em>Анимация ноды Value</em></a></p>
 </div>
-<div class="section" id="linear-to-srgb-srgb-to-linear">
-<h3>LINEAR_TO_SRGB и SRGB_TO_LINEAR<a class="headerlink" href="#linear-to-srgb-srgb-to-linear" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="b4w-linear-to-srgb-b4w-srgb-to-linear">
+<h3>B4W_LINEAR_TO_SRGB и B4W_SRGB_TO_LINEAR<a class="headerlink" href="#b4w-linear-to-srgb-b4w-srgb-to-linear" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Преобразование цвета из линейного цветового пространства в пространство sRGB и наоборот.</p>
 <a class="reference internal image-reference" href="_images/srgb_to_linear.jpg"><img alt="_images/srgb_to_linear.jpg" class="align-center" src="_images/srgb_to_linear.jpg" style="width: 100%;" /></a>
 <div class="admonition seealso">
@@ -95,8 +96,8 @@
 <p class="last"><a class="reference internal" href="gamma_alpha.html#gamma-nodes"><em>Коррекция в нодовых материалах</em></a></p>
 </div>
 </div>
-<div class="section" id="replace">
-<h3>REPLACE<a class="headerlink" href="#replace" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="b4w-replace">
+<h3>B4W_REPLACE<a class="headerlink" href="#b4w-replace" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Осуществляет замену входов в зависимости от того, в какой среде (viewport Blender&#8217;а или движок) в данный момент работает текущая сцена. При работе в Blender вход <tt class="docutils literal"><span class="pre">Color1</span></tt> подключается к выходу <tt class="docutils literal"><span class="pre">Color</span></tt>, вход <tt class="docutils literal"><span class="pre">Color2</span></tt> игнорируется. При работе в движке входы меняются местами (<tt class="docutils literal"><span class="pre">Color1</span></tt> игнорируется, <tt class="docutils literal"><span class="pre">Color2</span></tt> подключается к выходу). Нода предназначена для отображения во viewport&#8217;e одной конструкции нодов, а в движке - другой.</p>
 <a class="reference internal image-reference" href="_images/replace.jpg"><img alt="_images/replace.jpg" class="align-center" src="_images/replace.jpg" style="width: 100%;" /></a>
 <div class="line-block">
@@ -104,21 +105,21 @@
 </div>
 <p>Используется, как правило, для подключения карт нормалей. Нодовые материалы Blender&#8217;а не поддерживают тангентное пространство координат, в связи с чем единственный способ корректного отображения карт нормалей во viewport&#8217;e - их подключение внутри нод Material.</p>
 </div>
-<div class="section" id="clamp">
-<h3>CLAMP<a class="headerlink" href="#clamp" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="b4w-clamp">
+<h3>B4W_CLAMP<a class="headerlink" href="#b4w-clamp" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Осуществить операцию ограничения над входом. В результате, все элементы вектора на выходе
 получают значения от 0 до 1 включительно.</p>
 </div>
-<div class="section" id="time">
-<h3>TIME<a class="headerlink" href="#time" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="b4w-time">
+<h3>B4W_TIME<a class="headerlink" href="#b4w-time" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Осуществляет отсчет времени с момента старта движка в секундах. Может использоваться для анимации любых параметров в нодовых материалах.</p>
 </div>
-<div class="section" id="vector-view">
-<h3>VECTOR_VIEW<a class="headerlink" href="#vector-view" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="b4w-vector-view">
+<h3>B4W_VECTOR_VIEW<a class="headerlink" href="#b4w-vector-view" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Осуществить преобразование вектора в пространство камеры. Преобразование необходимо, поскольку при работе в движке большинство векторов определены в мировой системе координат (например нормали, направления источников освещения и т.д). Преобразованный таким образом вектор нормали используется только для различных эффектов и не должен подключаться к входу ноды <tt class="docutils literal"><span class="pre">Material</span></tt> или <tt class="docutils literal"><span class="pre">Extended</span> <span class="pre">Material</span></tt>.</p>
 </div>
-<div class="section" id="parallax">
-<h3>PARALLAX<a class="headerlink" href="#parallax" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="b4w-parallax">
+<h3>B4W_PARALLAX<a class="headerlink" href="#b4w-parallax" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Реализует смещение текстурных координат в соответствии с картой высот.</p>
 <div class="section" id="id4">
 <h4>Входные параметры<a class="headerlink" href="#id4" title="Ссылка на этот заголовок">¶</a></h4>
@@ -143,8 +144,8 @@
 </dl>
 </div>
 </div>
-<div class="section" id="translucency">
-<h3>TRANSLUCENCY<a class="headerlink" href="#translucency" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="b4w-translucency">
+<h3>B4W_TRANSLUCENCY<a class="headerlink" href="#b4w-translucency" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Реализует эффект полупрозрачности (только по отношению к источникам света) для тонких объектов, таких как ткань, листва, бумага и др. Эффект состоит из двух частей: засвечивание обратной по отношению к источнику стороны объекта и появление светового пятна непосредственно в том месте, где должен был находится источник.</p>
 <div class="section" id="id6">
 <h4>Входные параметры<a class="headerlink" href="#id6" title="Ссылка на этот заголовок">¶</a></h4>
@@ -184,8 +185,8 @@
 </dl>
 </div>
 </div>
-<div class="section" id="refraction">
-<h3>REFRACTION<a class="headerlink" href="#refraction" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="b4w-refraction">
+<h3>B4W_REFRACTION<a class="headerlink" href="#b4w-refraction" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Реализует эффект преломления.</p>
 <div class="section" id="id8">
 <h4>Входные параметры<a class="headerlink" href="#id8" title="Ссылка на этот заголовок">¶</a></h4>
@@ -214,8 +215,8 @@
 </div>
 </div>
 </div>
-<div class="section" id="levels-of-quality">
-<h3>LEVELS_OF_QUALITY<a class="headerlink" href="#levels-of-quality" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="b4w-levels-of-quality">
+<h3>B4W_LEVELS_OF_QUALITY<a class="headerlink" href="#b4w-levels-of-quality" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Устанавливает значение выходного цвета в зависимости от установленного профиля качества изображения.</p>
 <div class="admonition seealso">
 <p class="first admonition-title">См.также</p>
@@ -242,8 +243,8 @@
 </div>
 </div>
 </div>
-<div class="section" id="smoothstep">
-<h3>SMOOTHSTEP<a class="headerlink" href="#smoothstep" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="b4w-smoothstep">
+<h3>B4W_SMOOTHSTEP<a class="headerlink" href="#b4w-smoothstep" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Осуществить мягкую интерполяцию двух значений, исходя из первого значения.</p>
 <div class="section" id="id12">
 <h4>Входные параметры<a class="headerlink" href="#id12" title="Ссылка на этот заголовок">¶</a></h4>
@@ -308,7 +309,7 @@
 <li class="toctree-l1"><a class="reference internal" href="nla.html">Нелинейная анимация</a></li>
 <li class="toctree-l1"><a class="reference internal" href="developers.html">Разработчикам приложений</a></li>
 <li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">Разработчикам движка</a></li>
-<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Работа в команде. Использование git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Работа в команде с использованием Git</a></li>
 <li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Проблемы и решения</a></li>
 <li class="toctree-l1"><a class="reference internal" href="release_notes.html">Замечания к релизам</a></li>
 </ul>
@@ -343,7 +344,7 @@
           
     <div class="footer">
         &copy; Copyright 2015, ООО &#34;Триумф&#34;.
-      Обновлено: 2015-01-29.
+      Обновлено: 2015-02-25.
       Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
         </div>

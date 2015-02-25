@@ -201,8 +201,14 @@ function update_transform(obj) {
     m_cons.update_constraint(obj, _elapsed);
     m_cam.update_camera(obj);
 
-    if (obj["type"] == "CAMERA")
+    if (obj["type"] == "CAMERA") {
         m_cam.clamp_limits(obj);
+
+        if (render.move_style == m_cam.MS_TARGET_CONTROLS) {
+            var z_world_cam = m_util.quat_to_dir(render.quat, m_util.AXIS_Z, _vec3_tmp);
+            render.target_cam_upside_down = z_world_cam[1] > 0;
+        }
+    }
 
     // should not change after constraint update
     var trans = render.trans;

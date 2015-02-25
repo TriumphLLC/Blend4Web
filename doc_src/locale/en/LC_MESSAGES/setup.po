@@ -17,280 +17,51 @@ msgstr "Development Environment Setup"
 
 #: ../setup.rst:7
 msgid ""
-"Следующий вариант установки подойдет для разработчиков 3D приложений. Если "
-"же нужно простое ознакомление с аддоном Blend4Web, то, возможно, будет "
-"удобнее :ref:`экспресс-установка <quick_install>`."
+"Вариант установки с развёртыванием дистрибутива SDK рекомендуется для "
+"разработчиков 3D-приложений. Если же нужно быстрое ознакомление с "
+"возможностями Blend4Web, то, возможно, будет удобнее :ref:`экспресс-"
+"установка <quick_install>`."
 msgstr ""
-"This setup option suits 3D application developers. To familiarize yourself "
-"with the Blend4Web addon :ref:`quick install <quick_install>` can be a "
-"better option."
+"Setting up the development environment suits 3D application developers. To "
+"familiarize yourself with the Blend4Web addon :ref:`quick install "
+"<quick_install>` can be a better option."
 
-#: ../setup.rst:10
+#: ../setup.rst:9
 msgid ""
-"Для работы необходим дистрибутив движка, браузер (настроенный для локального"
-" просмотра) и Blender (с установленным аддоном)."
+"Для работы необходим дистрибутив движка, браузер с поддержкой WebGL и "
+"Blender."
 msgstr ""
-"In order to work you must have the engine distribution, a browser (suitable "
-"for local viewing) and Blender (with the addon installed)."
+"You will need the engine distribution, a WebGL-capable browser and Blender."
 
-#: ../setup.rst:16
+#: ../setup.rst:14
 msgid "Установка дистрибутива"
 msgstr "Distribution Installation"
 
-#: ../setup.rst:18
+#: ../setup.rst:16
 msgid ""
 "Стабильные версии дистрибутива поставляются в виде архива "
-"(``blend4web_sdk_free.zip`` -- бесплатный SDK, ``blend4web_sdk_pro.zip`` -- "
-"коммерческий SDK). Для установки достаточно распаковать данный архив в любое"
-" место на диске."
+"(``blend4web_sdk_free_YY_MM.zip`` -- бесплатный SDK, "
+"``blend4web_sdk_pro_YY_MM.zip`` -- коммерческий SDK). Для установки "
+"достаточно распаковать данный архив в любое место на диске."
 msgstr ""
 "Stable versions of the distribution are available as an archive "
-"(``blend4web_sdk_free.zip`` -- free SDK, ``blend4web_sdk_pro.zip`` -- "
-"commercial SDK). Simply unpack this archive somewhere."
+"(``blend4web_sdk_free_YY_MM.zip`` -- free SDK, "
+"``blend4web_sdk_pro_YY_MM.zip`` -- commercial SDK). Simply unpack this "
+"archive somewhere."
 
-#: ../setup.rst:23
-msgid ""
-"В дистрибутиве находятся исходный код движка, компактная версия для "
-"приложений, скрипты к Blender'у, исходные blend-файлы группы разработки, "
-"экспортированные сцены, текстуры и звуковые файлы (см. подробную "
-":ref:`структуру репозитория <repo_file_structure>`)."
-msgstr ""
-"The distribution consists of the engine's source code, the minified version "
-"for applications, the Blender scripts, the source blend-files, the exported "
-"scenes, textures and sound files (see detailed :ref:`repository structure "
-"<repo_file_structure>`)."
-
-#: ../setup.rst:28
-msgid "браузер"
-msgstr "browser"
-
-#: ../setup.rst:28
-msgid "настройка"
-msgstr "setup"
-
-#: ../setup.rst:33
-msgid "Выбор браузера"
-msgstr "Choosing a Browser"
-
-#: ../setup.rst:35
-msgid ""
-"Для работы движка требуется :ref:`браузер с поддержкой WebGL "
-"<browser_webgl_support>`. Для проверки можно перейти на страницу "
-"http://get.webgl.org/. Должна появиться надпись зеленого цвета и вращающийся"
-" куб:"
-msgstr ""
-"The engine requires a :ref:`browser with WebGL support "
-"<browser_webgl_support>`. Just to check it open the page "
-"http://get.webgl.org/. The green message and rotating cube should appear:"
-
-#: ../setup.rst:48
-msgid "Настройка браузера для загрузки локальных ресурсов"
-msgstr "Setting up the Browser for Loading Local Resources"
-
-#: ../setup.rst:50
-msgid ""
-"Рендерер движка является Web-приложением, и его работа происходит при "
-"просмотре HTML-файла в браузере. После инициализации происходит загрузка "
-"ресурсов (сцен, текстур), которая подчиняется `правилу ограничения домена "
-"<http://ru.wikipedia.org/wiki/Правило_ограничения_домена>`_, запрещающему, в"
-" частности, загрузку из локальной директории. Простым способом обхода этого "
-"ограничения может быть настройка браузера (рекомендуется). Другой способ "
-"заключается в использовании :ref:`локального web-сервера "
-"<local_web_server>`."
-msgstr ""
-"The engine's renderer is a web application and it works when you view an "
-"HTML file in a browser. After initialization the resources (scenes, "
-"textures) are loaded. This process is subject to the `same-origin policy "
-"<http://en.wikipedia.org/wiki/Same-origin_policy>`_ rule. In particular this"
-" rule forbids loading from a local directory. A simple way to bypass this "
-"limitation is to set up the browser for loading local resources "
-"(recommended). Another way is to use a :ref:`local web server "
-"<local_web_server>`."
-
-#: ../setup.rst:53
-msgid ""
-"Рекомендуется использовать такой браузер только для просмотра локального "
-"контента, поскольку изменение настроек может привести к понижению "
-"безопасности."
-msgstr ""
-"It is recommended to use such browser only for viewing local content because"
-" changing the default settings can damage security."
-
-#: ../setup.rst:57
-msgid "*Chrome на Windows*:"
-msgstr "*Chrome under Windows*:"
-
-#: ../setup.rst:59
-msgid ""
-"Правой кнопкой мыши нажать на ярлыке на рабочем столе, выбрать ``Свойства`` "
-"(``Properties``), после чего в поле для пути к исполняемому файлу добавить "
-"после пробела ``--allow-file-access-from-files``. Нажать ``ОК``."
-msgstr ""
-"Right click on the browser shortcut, select the ``Properties`` option and "
-"add the ``--allow-file-access-from-files`` option to the executable filepath"
-" (after the space symbol). Click ``ОК``."
-
-#: ../setup.rst:69
-msgid ""
-"Для удобства можно предварительно создать копию ярлыка и изменить ее для "
-"локального просмотра, оставив оригинальную версию ярлыка для запуска "
-"браузера в обычном режиме."
-msgstr ""
-"For convenience create a copy of the shortcut and modify it for local "
-"viewing while leaving the original shortcut untouched for normal surfing."
-
-#: ../setup.rst:73
-msgid "*Chrome на OS X*:"
-msgstr "*Chrome under OS X*:"
-
-#: ../setup.rst:92
-msgid "*Chrome/Chromium на Linux*:"
-msgstr "*Chrome/Chromium under Linux*:"
-
-#: ../setup.rst:94
-msgid "Запустить браузер с параметром::"
-msgstr "Run the browser with the parameter::"
-
-#: ../setup.rst:99
-msgid "или::"
-msgstr "or::"
-
-#: ../setup.rst:105
-msgid "*Firefox на Windows/Linux/OS X*:"
-msgstr "*Firefox under Windows/Linux/OS X*:"
-
-#: ../setup.rst:107
-msgid ""
-"Ввести **about:config** в адресную строку браузера, найти параметр "
-"``security.fileuri.strict_origin_policy`` и переключить его двойным щелчком "
-"мыши из ``true`` в ``false``."
-msgstr ""
-"Enter **about:config** to the browser's address bar, search for the "
-"``security.fileuri.strict_origin_policy`` parameter and double-click on it "
-"to switch from ``true`` to ``false``."
-
-#: ../setup.rst:117
-msgid "*Safari/OS X*:"
-msgstr ""
-
-#: ../setup.rst:119
-msgid ""
-"Включить в настройках отображение меню \"Develop\", затем активировать опцию"
-" \"Disable Local File Restrictions\"."
-msgstr ""
-"Enable the \"Develop\" menu in Preferences, and activate the  \"Disable "
-"Local File Restrictions\" option."
-
-#: ../setup.rst:131
-msgid "Использование локального web-сервера"
-msgstr "Using a Local Web Server"
-
-#: ../setup.rst:133
-msgid ""
-"Простым вариантом обеспечения просмотра локальных ресурсов в браузерах может"
-" быть запуск web-сервера из стандартной библиотеки `Python "
-"<http://ru.wikipedia.org/wiki/Python>`_."
-msgstr ""
-"An easy way for viewing local resources in browsers is running the web "
-"server from the standard `Python "
-"<http://en.wikipedia.org/wiki/Python_(programming_language)>`_ library."
-
-#: ../setup.rst:137
-msgid "*На Windows*:"
-msgstr "*Under MS Windows*:"
-
-#: ../setup.rst:139
-msgid ""
-"Загрузить и инсталлировать последнюю версию Python с `официального сайта "
-"<http://www.python.org/downloads/>`_. В процессе установки выберите опцию "
-"добавления пути к исполняемому файлу (``Add python.exe to Path``)."
-msgstr ""
-"Download and install the latest Python distribution from the `official site "
-"<http://www.python.org/downloads/>`_. When installing select the option for "
-"adding the executable to the path (``Add python.exe to Path``)."
-
-#: ../setup.rst:141
-msgid "Запустить командную строку (Command Prompt)."
-msgstr "Run Command Prompt."
-
-#: ../setup.rst:143 ../setup.rst:155
-msgid "Выполнить команду в корневой директории SDK::"
-msgstr "Type the following command in the SDK's root directory::"
-
-#: ../setup.rst:149
-msgid "*На Linux/OS X*:"
-msgstr "*Under Linux*:"
-
-#: ../setup.rst:151
-msgid ""
-"В случае отсутствия в дистрибутиве, загрузить и инсталлировать последнюю "
-"версию Python с `официального сайта <http://www.python.org/downloads/>`_."
-msgstr ""
-"If Python is not already present in your distribution, download and install "
-"its current version from the `official site "
-"<http://www.python.org/downloads/>`_."
-
-#: ../setup.rst:153
-msgid "Запустить командную строку (Terminal)."
-msgstr "Run Terminal."
-
-#: ../setup.rst:160
-msgid ""
-"После загрузки сервера, в любом браузере открыть корневую страницу с "
-"приложениями из состава SDK, расположенную по адресу http://localhost:8000."
-msgstr ""
-"After starting the server, open the index webpage with the SDK links by "
-"navigating to http://localhost:8000."
-
-#: ../setup.rst:162
-msgid "В случае необходимости, можно указать порт дополнительным параметром::"
-msgstr ""
-"If needed, a port number can be specified by the additional parameter::"
-
-#: ../setup.rst:167
-msgid "просмотрщик"
-msgstr "viewer"
-
-#: ../setup.rst:167
-msgid "запуск"
-msgstr "launch"
-
-#: ../setup.rst:172
-msgid "Запуск демо приложений и просмотрщика сцен"
-msgstr "Running The Demos and the Scenes Viewer"
-
-#: ../setup.rst:174
-msgid ""
-"Откройте файл :file:`index.html` в настроенном браузере. Должна отобразиться"
-" страница со ссылками на приложения из состава SDK, включая просмотрщик "
-"сцен."
-msgstr ""
-"Open the :file:`index.html` file in a set up browser. The page with links to"
-" the SDK apps should be displayed (including the Scenes Viewer)."
-
-#: ../setup.rst:178
-msgid ""
-"Если приложения SDK не отображаются корректно, или появляются сообщения об "
-"ошибках, необходимо предпринять действия, описанные в разделе "
-":ref:`renderer_not_working`."
-msgstr ""
-"If the SDK apps aren't displayed correctly, or an error messages are shown, "
-"follow the instructions described in the :ref:`renderer_not_working` "
-"section."
-
-#: ../setup.rst:181
+#: ../setup.rst:21
 msgid "установка"
 msgstr "installation"
 
-#: ../setup.rst:181
+#: ../setup.rst:21
 msgid "Blender"
 msgstr "Blender"
 
-#: ../setup.rst:186
-msgid "Установка аддона движка"
-msgstr "Engine Addon Installation"
+#: ../setup.rst:26
+msgid "Подключение аддона"
+msgstr "Setting up the Addon"
 
-#: ../setup.rst:190
+#: ../setup.rst:30
 msgid ""
 "Если аддон ранее был установлен с помощью :ref:`экспресс-установки "
 "<quick_install>`, то рекомендуется прежде его удалить."
@@ -298,7 +69,7 @@ msgstr ""
 "It is recommended to remove the addon first if it was originally installed "
 "using :ref:`quick install <quick_install>`."
 
-#: ../setup.rst:192
+#: ../setup.rst:32
 msgid ""
 "Запустить Blender, загрузить сцену по умолчанию :file:`File > New` (горячие "
 "клавиши :file:`Ctrl-N`). Вызвать окно пользовательских настроек :file:`File "
@@ -312,11 +83,11 @@ msgstr ""
 " the :file:`Scripts` field choose the path to the :file:`blender_scripts` "
 "directory."
 
-#: ../setup.rst:199
-msgid "Нажать :file:`Save User Settings` и перезапустить Blender."
-msgstr "Click :file:`Save User Settings` and restart Blender."
+#: ../setup.rst:39
+msgid "Нажать :file:`Save User Settings` и **перезапустить** Blender."
+msgstr "Click :file:`Save User Settings` and **restart** Blender."
 
-#: ../setup.rst:204
+#: ../setup.rst:44
 msgid ""
 "Вместо этого можно скопировать директорию со скриптами "
 ":file:`blender_scripts/addons/blend4web` в уже используемую пользовательскую"
@@ -326,13 +97,13 @@ msgstr ""
 ":file:`blender_scripts/addons/blend4web` to the already used directory for "
 "scripts or even to the installation directory, for example:"
 
-#: ../setup.rst:206
+#: ../setup.rst:46
 msgid ""
 ":file:`C:\\\\Program Files\\\\Blender "
 "Foundation\\\\Blender\\\\2.70\\\\scripts\\\\addons\\\\blend4web`."
 msgstr ""
 
-#: ../setup.rst:209
+#: ../setup.rst:49
 msgid ""
 "Повторно загрузить сцену по умолчанию, вызвать окно пользовательских "
 "настроек, перейти на вкладку :file:`Addons` и выбрать категорию :file"
@@ -343,15 +114,25 @@ msgstr ""
 ":file:`Addons` tab and choose the :file:`Import-Export` category. Enable the"
 " :file:`Import-Export: Blend4Web` checkbox. "
 
-#: ../setup.rst:217
+#: ../setup.rst:57
+msgid ""
+"Раскрыть вкладку аддона и указать путь к директории с SDK в поле \"Path to "
+"Blend4Web SDK\". Здесь также можно изменить номер порта, используемый при "
+"создании локального сервера разработки (6687 по умолчанию)."
+msgstr ""
+"Expand the addon panel and specify the \"Path to Blend4Web SDK\". Here you "
+"can also change the port number to be used to run the development server "
+"(6687 by default)."
+
+#: ../setup.rst:65
 msgid "Нажать :file:`Save User Settings`. Перезапуск Blender не требуется."
 msgstr "Click :file:`Save User Settings`. Restarting Blender isn't required."
 
-#: ../setup.rst:219
+#: ../setup.rst:67
 msgid "*Для проверки:*"
-msgstr "*For checking:*"
+msgstr "*To check:*"
 
-#: ../setup.rst:221
+#: ../setup.rst:69
 msgid ""
 "В меню :file:`File > Export` должны появиться опции :file:`Blend4Web "
 "(.json)` и :file:`Blend4Web (.html)`. Кроме того должны появиться операторы "
@@ -361,30 +142,85 @@ msgstr ""
 ":file:`Blend4Web (.html)` options should appear. Also the operators should "
 "appear in the search box when searching for \"B4W\" (hot key :file:`SPACE`)."
 
-#: ../setup.rst:225
-msgid "Включение опции экспорта в HTML"
-msgstr "Enabling the HTML export option"
-
-#: ../setup.rst:227
-msgid ""
-"Опция :file:`Blend4Web (.html)` в меню :file:`File > Export` по умолчанию не"
-" активна, в отличие от версии одиночного аддона (см. :ref:`экспресс-"
-"установка <quick_install>`)."
-msgstr ""
-"The :file:`Blend4Web (.html)` option in the :file:`File > Export` menu is "
-"not active by default contrary to the standalone version of the addon (see "
-":ref:`Quick Install <quick_install>`)."
-
-#: ../setup.rst:229
-msgid ""
-"В случае необходимости (например, если требуется отладка HTML экспорта) "
-"данную опцию можно включить. Для этого указать путь к Blend4Web SDK, в поле "
-":file:`Path to Blend4Web SDK`."
-msgstr ""
-"If required (for example for HTML export debugging) this option can be "
-"enabled. To do this specify the path to the Blend4Web SDK distribution in "
-"the :file:`Path to Blend4Web SDK` field."
-
 #: ../setup.rst:75
-msgid "Открыть Терминал и запустить браузер с параметром:"
-msgstr "Open Terminal and run the browser with the following parameter:"
+msgid "Локальный сервер разработки"
+msgstr "Local Development Server"
+
+#: ../setup.rst:77
+msgid ""
+"Для запуска сервера перейдите во вкладку ``Render`` и нажмите кнопку "
+"``Start`` на панели ``Blend4Web``:"
+msgstr ""
+"To start the server, go to the ``Render`` tab and press the ``Start`` button"
+" on the ``Blend4Web`` panel:"
+
+#: ../setup.rst:86
+msgid ""
+"Если путь к Blend4Web SDK не был указан, запуск локального сервера "
+"невозможен. При этом вместо кнопки ``Start`` будет выведено соответствующее "
+"сообщение."
+msgstr ""
+"If the path to the Blend4Web SDK is not specified, the local development "
+"server cannot be launched. In this case the corresponding message will be "
+"displayed instead of the ``Start`` button."
+
+#: ../setup.rst:88
+msgid ""
+"В случае ошибки запуска сервера будет показано окно с описанием причины:"
+msgstr ""
+"If the server is failed to run, an error message will be shown describing "
+"the reason:"
+
+#: ../setup.rst:96
+msgid ""
+"Нажмите кнопку ``Open SDK`` для запуска в браузере обзорной веб-страницы "
+"Blend4Web SDK, доступной по адресу http://localhost:6687."
+msgstr ""
+"Press the ``Open SDK`` button to open the index web page of the Blend4Web "
+"SDK in the browser. This page is available at http://localhost:6687."
+
+#: ../setup.rst:103
+msgid ""
+"При этом будет автоматически запущен браузер, используемой в операционной "
+"системе по умолчанию."
+msgstr ""
+"As a result, the default browser for your operating system will be launched."
+
+#: ../setup.rst:105
+msgid ""
+"Сервер может быть остановлен по нажатию на кнопку ``Stop``. Сервер также "
+"прекращает работу при закрытии программы Blender."
+msgstr ""
+"The server can be stopped by pressing the ``Stop`` button. It is also "
+"stopped when Blender is closed."
+
+#: ../setup.rst:108
+msgid "просмотрщик"
+msgstr "viewer"
+
+#: ../setup.rst:108
+msgid "запуск"
+msgstr "launch"
+
+#: ../setup.rst:113
+msgid "Запуск просмотрщика сцен и демо-приложений"
+msgstr "Running Viewer and Demos"
+
+#: ../setup.rst:115
+msgid ""
+"На обзорной странице имеются ссылки для запуска просмотрщика сцен и демо-"
+"приложений. Для их запуска необходим :ref:`браузер с поддержкой WebGL "
+"<browser_webgl_support>`."
+msgstr ""
+"The index page contains links for launching the scene viewer and the demo "
+"applications. A :ref:`WebGL-capable browser <browser_webgl_support>` is "
+"required to run these apps."
+
+#: ../setup.rst:125
+msgid ""
+"Если приложения SDK не отображаются корректно, или появляются сообщения об "
+"ошибках, необходимо предпринять действия, описанные в разделе "
+":ref:`renderer_not_working`."
+msgstr ""
+"If the SDK apps aren't displayed correctly, or an error messages are shown, "
+"follow the instructions in the :ref:`renderer_not_working` section."

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Освещение, тени и фон &mdash; Руководство пользователя: Blend4Web v15.01</title>
+    <title>Освещение, тени и фон &mdash; Руководство пользователя: Blend4Web v15.02</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '15.01',
+        VERSION:     '15.02',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v15.01" href="index.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v15.02" href="index.html" />
     <link rel="next" title="Постпроцессинговые эффекты" href="postprocessing_effects.html" />
     <link rel="prev" title="Нодовые материалы" href="node_materials.html" /> 
   </head>
@@ -37,7 +37,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">Руководство пользователя: Blend4Web v15.01</a></div>
+          href="index.html">Руководство пользователя: Blend4Web v15.02</a></div>
         <div class="rel">
           <a href="node_materials.html" title="Нодовые материалы"
              accesskey="P">назад</a> |
@@ -231,7 +231,7 @@
 <div class="section" id="shadows">
 <span id="id11"></span><h2>Тени<a class="headerlink" href="#shadows" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Тени - один из важнейших элементов при рендеринге конечного изображения. Они предоставляют зрителю не только информацию о силуэте объектов, но и об их высоте и взаимном расположении, положении источника света и т.д.</p>
-<p>Платформой Blend4Web реализуются такие техники, как каскадные карты теней (CSM) и смягченные тени (PCF). Для расчета теней от источников света любого типа используется модель направленного (directional) света типа <tt class="docutils literal"><span class="pre">Sun</span></tt>.</p>
+<p>Платформой Blend4Web реализуются такие техники, как каскадные карты теней (CSM) и смягченные тени (PCF).</p>
 <div class="section" id="id12">
 <h3>Активация<a class="headerlink" href="#id12" title="Ссылка на этот заголовок">¶</a></h3>
 <ol class="arabic simple">
@@ -239,6 +239,14 @@
 <li>На объектах, <strong>получающих</strong> тени, включить опцию <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Shadows:</span> <span class="pre">Receive</span></tt> во вкладке <tt class="docutils literal"><span class="pre">Object</span></tt>.</li>
 <li>Убедиться, что включена опция <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Render</span> <span class="pre">shadows</span></tt> во вкладке <tt class="docutils literal"><span class="pre">Scene</span></tt>.</li>
 </ol>
+<div class="admonition note">
+<p class="first admonition-title">Примечание</p>
+<p>Объекты, имеющие <a class="reference internal" href="materials.html#alpha-blend"><em>прозрачные материалы с градиентом</em></a>, не отбрасывают теней.</p>
+<a class="last reference internal image-reference" href="_images/alpha_shadows.jpg"><img alt="_images/alpha_shadows.jpg" class="align-center" src="_images/alpha_shadows.jpg" style="width: 100%;" /></a>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
 </div>
 <div class="section" id="id13">
 <h3>Настройка<a class="headerlink" href="#id13" title="Ссылка на этот заголовок">¶</a></h3>
@@ -289,6 +297,10 @@
 </div>
 <div class="section" id="id15">
 <h4>Каскады теней<a class="headerlink" href="#id15" title="Ссылка на этот заголовок">¶</a></h4>
+<div class="admonition note">
+<p class="first admonition-title">Примечание</p>
+<p class="last">Данные настройки поддерживаются только для источников освещения типа <tt class="docutils literal"><span class="pre">Sun</span></tt>. Для других источников каскады автоматически отключаются.</p>
+</div>
 <p>Для обеспечения приемлемого качества теней и одновременно покрытия значительных пространств необходимо использовать несколько стадий генерации теней (каскадов). При этом вблизи наблюдателя располагается каскад с наилучшим качеством, вдали от наблюдателя — с наихудшим.
 Этот вариант больше подходит для сцен среднего и большого размера, например, игровых уровней.</p>
 <p>При включении предоставляет расширенные настройки:</p>
@@ -340,9 +352,12 @@
 <div class="section" id="index-4">
 <span id="id16"></span><h2>Цвет фона<a class="headerlink" href="#index-4" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Цвет фона можно задать несколькими способами:</p>
-<ol class="arabic">
-<li><p class="first">Поместить сцену внутрь модели (например, куба или сферы) с направленными внутрь нормалями, с материалом и опциональной текстурой.</p>
-</li>
+<ol class="arabic simple">
+<li>Поместить сцену внутрь модели (например, куба или сферы) с направленными внутрь нормалями, с материалом и опциональной текстурой.</li>
+<li>Разместить перед камерой поверхность с материалом и опциональной текстурой, присоединить ее к камере связью родитель-потомок. При необходимости настроить расстояние до поверхности, переднюю и заднюю плоскости отсечения камеры.</li>
+</ol>
+<a class="reference internal image-reference" href="_images/parented_background.jpg"><img alt="_images/parented_background.jpg" class="align-center" src="_images/parented_background.jpg" style="width: 100%;" /></a>
+<ol class="arabic" start="3">
 <li><p class="first">Использовать <a class="reference internal" href="textures.html#skydome-texture"><em>текстуру неба</em></a>.</p>
 </li>
 <li><p class="first">Настроить динамически генерируемую <a class="reference internal" href="outdoor_rendering.html#atmosphere"><em>атмосферу</em></a>.</p>
@@ -422,7 +437,7 @@
 <li class="toctree-l1"><a class="reference internal" href="nla.html">Нелинейная анимация</a></li>
 <li class="toctree-l1"><a class="reference internal" href="developers.html">Разработчикам приложений</a></li>
 <li class="toctree-l1"><a class="reference internal" href="developers_advanced.html">Разработчикам движка</a></li>
-<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Работа в команде. Использование git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Работа в команде с использованием Git</a></li>
 <li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Проблемы и решения</a></li>
 <li class="toctree-l1"><a class="reference internal" href="release_notes.html">Замечания к релизам</a></li>
 </ul>
@@ -457,7 +472,7 @@
           
     <div class="footer">
         &copy; Copyright 2015, ООО &#34;Триумф&#34;.
-      Обновлено: 2015-01-29.
+      Обновлено: 2015-02-25.
       Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
         </div>

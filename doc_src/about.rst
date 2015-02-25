@@ -172,6 +172,7 @@ Blender - это популярная программа для создания
 * полноэкранный режим, `Fullscreen <http://dvcs.w3.org/hg/fullscreen/raw-file/tip/Overview.html>`_
 * захват курсора мыши, `Pointer Lock <http://dvcs.w3.org/hg/pointerlock/raw-file/default/index.html>`_
 * многопоточные вычисления, `Web Workers <http://www.w3.org/TR/workers/>`_
+* ориентация и перемещение мобильных устройств, `Device Orientation <http://www.w3.org/TR/orientation-event/>`_
 
 Другие перспективные технологии:
 
@@ -180,7 +181,6 @@ Blender - это популярная программа для создания
 * потоковое соединение между браузерами, `WebRTC <http://dev.w3.org/2011/webrtc/editor/webrtc.html>`_
 * постоянное сетевое подключение, `The WebSocket API <http://www.w3.org/TR/websockets/>`_
 * игровые пульты, `Gamepad <http://dvcs.w3.org/hg/gamepad/raw-file/default/gamepad.html>`_
-
 
 
 .. index:: интерактивная графика

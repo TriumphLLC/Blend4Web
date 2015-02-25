@@ -52,6 +52,7 @@ var m_mat4 = require("mat4");
 
 var cfg_ctl = config.controls;
 
+var _vec2_tmp = new Float32Array(2);
 var _vec3_tmp = new Float32Array(3);
 var _vec3_tmp2 = new Float32Array(3);
 var _quat4_tmp = new Float32Array(4);
@@ -225,14 +226,31 @@ exports.set_pivot = set_pivot;
  * @param {Float32Array} coords Pivot vector
  */
 function set_pivot(camobj, coords) {
-
     if (!camera.is_target_camera(camobj)) {
         m_print.error("set_pivot(): Wrong object or camera move style");
         return;
     }
 
     m_vec3.copy(coords, camobj._render.pivot);
+    transform.update_transform(camobj);
+    m_phy.sync_transform(camobj);
+}
 
+exports.set_trans_pivot = set_trans_pivot;
+/**
+ * Set translation and pivot point for TARGET camera.
+ * @method module:camera.set_trans_pivot
+ * @param {Object} camobj Camera Object ID
+ * @param {Float32Array} coords Pivot vector
+ */
+function set_trans_pivot(camobj, trans, pivot) {
+    if (!camera.is_target_camera(camobj)) {
+        m_print.error("set_trans_pivot(): Wrong object or camera move style");
+        return;
+    }
+
+    m_vec3.copy(trans, camobj._render.trans);
+    m_vec3.copy(pivot, camobj._render.pivot);
     transform.update_transform(camobj);
     m_phy.sync_transform(camobj);
 }
@@ -245,7 +263,6 @@ function set_pivot(camobj, coords) {
  * @returns {Float32Array} Destination pivot vector
  */
 exports.get_pivot = function(camobj, dest) {
-
     if (!camera.is_target_camera(camobj)) {
         m_print.error("get_pivot(): Wrong object or camera move style");
         return;
@@ -274,8 +291,15 @@ exports.rotate_pivot = function(camobj, angle_h_delta, angle_v_delta) {
         m_print.error("rotate_pivot(): wrong object");
         return;
     }
-
     var render = camobj._render;
+    var angles = camera.get_angles(camobj, _vec2_tmp);
+
+    var z_world_cam = util.quat_to_dir(render.quat, util.AXIS_Z, _vec3_tmp);
+    if (z_world_cam[1] > 0)
+        angles[1] = util.sign(angles[1]) * Math.PI - angles[1];
+
+    var new_v_cam_angle = Math.abs(angles[1] + angle_v_delta) % (2 * Math.PI);
+    render.target_cam_upside_down = new_v_cam_angle > Math.PI / 2 &amp;&amp; new_v_cam_angle &lt; 3 * Math.PI / 2;
 
     var axis = _vec3_tmp;
     var rot = _quat4_tmp;
@@ -978,16 +1002,22 @@ exports.set_ortho_scale = function(camobj, ortho_scale) {
         return;
     }
 
-    for (var i in camobj._render.cameras){
-        var cam = camobj._render.cameras[i];
+    var render = camobj._render;
 
-        if (cam.type == camera.TYPE_ORTHO) {
-            cam.top = ortho_scale / 2;
-            camera.set_projection(cam, cam.aspect);
-        }
-    }
+    if (camera.is_target_camera(camobj)) {
+        var dir_dist = m_vec3.dist(render.trans, render.pivot);
+        render.init_top = ortho_scale / 2 * render.init_dist / dir_dist;
+    } else if (camera.is_hover_camera(camobj) 
+            &amp;&amp; exports.has_distance_limits(camobj)) {
 
-    camera.update_camera_transform(camobj);
+        var dir_trans = camera.get_hover_dir_pivot(camobj);
+        var dir_dist = m_vec3.len(dir_trans);
+        render.init_top = ortho_scale / 2 * render.init_dist / dir_dist;
+    } else
+        // hover camera without distance limits, eye or static camera
+        render.init_top = ortho_scale / 2;
+
+    camera.update_ortho_scale(camobj);
 }
 
 /**
@@ -1134,13 +1164,13 @@ exports.project_point = function(camobj, point, dest) {
 </div>
 
 <nav>
-    <h2><a href="index.html">Index</a></h2><h3>Modules</h3><ul><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-util.html">util</a></li><li><a href="module-version.html">version</a></li></ul><h3><a href="global.html">Global</a></h3>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul>
 </nav>
 
-<br clear="both">
+<br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-dev</a> on Thu Jan 22 2015 11:40:39 GMT+0300 (MSK)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Wed Feb 25 2015 10:34:05 GMT+0300 (MSK)
 </footer>
 
 <script> prettyPrint(); </script>

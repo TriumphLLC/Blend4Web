@@ -323,6 +323,7 @@ exports.create_mouse_wheel_sensor = function() {
 exports.create_mouse_move_sensor = function(axis) {
     var sensor = init_sensor(ST_MOUSE_MOVE);
     sensor.axis = axis || "XY";
+    sensor.payload = (sensor.axis == "XY") ? new Float32Array(2) : 0;
     return sensor;
 }
 
@@ -1161,15 +1162,19 @@ function mouse_move_cb(e) {
         var sensor = _sensors[i];
 
         if (sensor.type === ST_MOUSE_MOVE) {
-            switch(sensor.axis) {
+            switch (sensor.axis) {
             case "X":
                 sensor_set_value(sensor, delta_x);
+                sensor.payload = x;
                 break;
             case "Y":
                 sensor_set_value(sensor, delta_y);
+                sensor.payload = y;
                 break;
             case "XY":
                 sensor_set_value(sensor, delta);
+                sensor.payload[0] = x;
+                sensor.payload[1] = y;
                 break;
             }
         }

@@ -230,7 +230,13 @@ void main(void) {
     mat4 bill_view_matrix = u_view_matrix;
 # endif
 
+# if BILLBOARD_PRES_GLOB_ORIENTATION
+    mat4 model_matrix = billboard_matrix_global(u_camera_eye, wcen, 
+            bill_view_matrix, u_model_matrix);
+# else
     mat4 model_matrix = billboard_matrix(u_camera_eye, wcen, bill_view_matrix);
+# endif
+
 #  if WIND_BEND && BILLBOARD_JITTERED
     vec3 vec_seed = (u_model_matrix * vec4(center, 1.0)).xyz;
     model_matrix = model_matrix * bend_jitter_matrix(u_wind, u_time,

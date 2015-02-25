@@ -110,9 +110,9 @@ class B4W_HTMLExportProcessor(bpy.types.Operator):
     def get_b4w_src_path(cls):
         addon_prefs = bpy.context.user_preferences.addons[__package__].preferences
         if not addon_prefs.is_property_set("b4w_src_path"):
-            addon_prefs["b4w_src_path"] = ""
+            addon_prefs.b4w_src_path = ""
 
-        path = addon_prefs["b4w_src_path"]
+        path = addon_prefs.b4w_src_path
         if path == "":
             path = os.path.dirname(blend4web.__file__)
         else:

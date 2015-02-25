@@ -50,10 +50,12 @@ function compile(argv) {
         files.main_files[i].text_with_includes = text;
     }
 
+    
+
     // Ast building
     var vardef_ids = [];
     var ast_arrays = [];
-    for (var i = 0; i < files.main_files.length; i++) {   
+    for (var i = 0; i < files.main_files.length; i++) {
         var ast_data = source_to_ast(files.main_files[i].text_with_includes, 
                 files.main_files[i].name);
         vardef_ids = vardef_ids.concat(ast_data.vardef_ids);

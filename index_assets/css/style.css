@@ -105,3 +105,13 @@ table > tbody > tr:nth-child(odd) {
     font-family: Open Sans Semibold;
     src: url(../fonts/Open_Sans/OpenSans-Semibold.woff);
 }
+
+#support_message.green {
+    color: green;
+    font-weight: bold;
+}
+
+#support_message.red {
+    color: red;
+    font-weight: bold;
+}

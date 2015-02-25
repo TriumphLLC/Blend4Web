@@ -188,12 +188,6 @@ function init_cb(canvas_elem, success) {
         change_quality(m_cfg.P_ULTRA);
     });
     
-    // NOTE: disable all postprocessing in LOW quality 
-    // (gives better performance)
-    var quality = m_storage.get("quality");
-    if (quality == "LOW")
-         m_cfg.set("deferred_rendering", false);
-
     // disable glow (some scenes may have selectable objects)
     m_cfg.set("glow", false);
 

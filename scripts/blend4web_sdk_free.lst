@@ -65,6 +65,7 @@ deploy/doc
 deploy/globals_detect
 deploy/pub/b4w_manual_*.pdf
 deploy/tutorials
+deploy/webglreport
 Makefile
 
 index.html
@@ -88,7 +89,6 @@ scripts/plot.sh
 scripts/reexporter.py
 scripts/remove_alpha_channel.sh
 scripts/screencast.sh
-scripts/screenshooter.py
 scripts/shader_analyzer.py
 
 shaders
@@ -130,3 +130,6 @@ VERSION
 !blender/dev_sound/mix.blend
 !deploy/assets/dev_sound/mix.*
 !deploy/assets/dev_sound/text_drive_*
+
+!blender_scripts/addons/oscurart_tools/
+!blender_scripts/scripts/*

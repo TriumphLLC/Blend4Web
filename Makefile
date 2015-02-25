@@ -1,9 +1,11 @@
 APIDOCDIR = deploy/api_doc
 DOCSRCDIR = doc_src 
 APPDIR = apps_dev
+APIDOCRESDIR = doc_src/api_doc/jsdoc_resources
 SCRIPTSDIR = scripts
 TUTORIALS_DIR = deploy/tutorials
-VERSION=test
+#VERSION=`sed -e "s/.\+/\0\_pre/" VERSION`
+VERSION=`sed -e "s/.\+/\0\_rc/" VERSION`
 
 .PHONY: all
 all: build
@@ -17,18 +19,18 @@ compile: compile_shaders compile_b4w compile_apps build_tutorials
 .PHONY: compile_shaders
 compile_shaders:
 	@echo "Compiling b4w shaders"
-	@nodejs tools/glsl/compiler/compile_shader_texts.js
+	@`which node || which nodejs` tools/glsl/compiler/compile_shader_texts.js
 
 .PHONY: verify_shaders
 verify_shaders:
 	@echo "Verifying b4w shaders"
-	@nodejs tools/glsl/compiler/compile_shader_texts.js --dry-run
+	@`which node || which nodejs` tools/glsl/compiler/compile_shader_texts.js --dry-run
 
 .PHONY: compile_b4w
 compile_b4w:
 	@echo "Compiling b4w javascript"
-	@$(SH) ./scripts/compile_b4w.py -g
-	@$(SH) ./scripts/compile_b4w.py -a -g
+	@$(SH) ./scripts/compile_b4w.py -g -o advanced
+	@$(SH) ./scripts/compile_b4w.py -a -g -o advanced
 
 .PHONY: compile_apps
 compile_apps:
@@ -59,7 +61,7 @@ doc_clean:
 
 .PHONY: api_doc
 api_doc:
-	jsdoc --destination $(APIDOCDIR) src/ext src/addons doc_src/api_doc/API_REF.md
+	jsdoc --destination $(APIDOCDIR) src/b4w.js src/ext src/addons src/libs/gl-matrix2.js doc_src/api_doc/API_REF.md -c $(APIDOCRESDIR)/conf.json -t $(APIDOCRESDIR)/b4w_default
 
 .PHONY: api_doc_pdf
 api_doc_pdf:
@@ -86,12 +88,14 @@ report_broken_exports:
 
 .PHONY: dist
 dist:
+	@echo "Creating $(VERSION) family of distributions"
 	@$(SH) ./$(SCRIPTSDIR)/make_dist.py -i -v $(VERSION) $(SCRIPTSDIR)/blend4web.lst
 	@$(SH) ./$(SCRIPTSDIR)/make_dist.py -v $(VERSION) $(SCRIPTSDIR)/blend4web_sdk_free.lst
 	@$(SH) ./$(SCRIPTSDIR)/make_dist.py -v $(VERSION) $(SCRIPTSDIR)/blend4web_sdk_pro.lst
 
 .PHONY: dist_force
 dist_force:
+	@echo "Creating $(VERSION) family of distributions (overwrite mode)"
 	@$(SH) ./$(SCRIPTSDIR)/make_dist.py -f -i -v $(VERSION) $(SCRIPTSDIR)/blend4web.lst
 	@$(SH) ./$(SCRIPTSDIR)/make_dist.py -f -v $(VERSION) $(SCRIPTSDIR)/blend4web_sdk_free.lst
 	@$(SH) ./$(SCRIPTSDIR)/make_dist.py -f -v $(VERSION) $(SCRIPTSDIR)/blend4web_sdk_pro.lst

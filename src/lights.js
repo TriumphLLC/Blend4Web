@@ -92,7 +92,7 @@ exports.lamp_to_light = function(lamp_obj) {
     light.distance = data["distance"];
 
     if (light.type === "POINT" || light.type === "SPOT")
-        light.falloff_type = data["falloff_type"];
+        light.distance = data["distance"];
 
     if (light.type === "SPOT") {
         light.spot_size = data["spot_size"];
@@ -119,6 +119,27 @@ exports.set_light_color = function(light, color) {
 }
 
 /**
+ * Set light spot blend
+ */
+exports.set_light_spot_blend = function(light, spot_blend) {
+    light.spot_blend = spot_blend;
+}
+
+/**
+ * Set light distance
+ */
+exports.set_light_distance = function(light, distance) {
+    light.distance = distance;
+}
+
+/**
+ * Set light spot size
+ */
+exports.set_light_spot_size = function(light, spot_size) {
+    light.spot_size = spot_size;
+}
+
+/**
  * Set light energy
  */
 exports.set_light_energy = function(light, energy) {
@@ -127,6 +148,12 @@ exports.set_light_energy = function(light, energy) {
     update_color_intensity(light);
 }
 
+exports.is_lamp = function(obj) {
+    if (obj["type"] === "LAMP")
+        return true;
+    else
+        return false;
+}
 /**
  * color, energy -> color_intensity
  */

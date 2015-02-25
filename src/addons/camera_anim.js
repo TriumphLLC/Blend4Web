@@ -4,6 +4,8 @@
  * Camera animation add-on.
  * Provides support for camera procedural animation.
  * @module camera_anim
+ * @local zoom_callback
+ * @local mouse_event_callback
  */
 b4w.module["camera_anim"] = function(exports, require) {
 
@@ -238,8 +240,8 @@ function init_limited_rotation_ratio(obj, auto_rotate_ratio){
         // camera eye angle
         phi *= -1;
 
-    return auto_rotate_ratio * 
-            Math.min(1, (angle_limits[1] - phi) / ROTATION_OFFSET, 
+    return auto_rotate_ratio *
+            Math.min(1, (angle_limits[1] - phi) / ROTATION_OFFSET,
                 (phi - angle_limits[0]) / ROTATION_OFFSET);
 }
 
@@ -276,7 +278,7 @@ exports.auto_rotate = function(auto_rotate_ratio, callback) {
                     && m_cam.has_horizontal_limits(obj))
                 limited_auto_rotate(obj, id, pulse);
             else
-                unlimited_auto_rotate(obj, id, pulse); 
+                unlimited_auto_rotate(obj, id, pulse);
         }
     }
 
@@ -296,14 +298,14 @@ exports.auto_rotate = function(auto_rotate_ratio, callback) {
             // camera eye angle
             phi *= -1;
 
-        if (angle_limits[1] - phi > cur_rotation_offset 
+        if (angle_limits[1] - phi > cur_rotation_offset
                 && phi - angle_limits[0] > cur_rotation_offset)
 
             cur_rotate_ratio = m_util.sign(cur_rotate_ratio) * auto_rotate_ratio;
 
         else if (angle_limits[1] - phi < cur_rotation_offset)
-            cur_rotate_ratio = cur_rotate_ratio - 
-                    Math.pow(auto_rotate_ratio, 2) / (2 * ROTATION_OFFSET) * value; 
+            cur_rotate_ratio = cur_rotate_ratio -
+                    Math.pow(auto_rotate_ratio, 2) / (2 * ROTATION_OFFSET) * value;
 
         else if (phi - angle_limits[0] < cur_rotation_offset)
             cur_rotate_ratio = cur_rotate_ratio +
@@ -337,7 +339,7 @@ exports.auto_rotate = function(auto_rotate_ratio, callback) {
         }
     }
 
-    function mouse_cb() {
+    function disable_cb() {
         m_ctl.remove_sensor_manifold(obj, "AUTO_ROTATE");
         m_ctl.remove_sensor_manifold(obj, "DISABLE_AUTO_ROTATE");
 
@@ -348,20 +350,33 @@ exports.auto_rotate = function(auto_rotate_ratio, callback) {
         var mouse_move_x = m_ctl.create_mouse_move_sensor("X");
         var mouse_move_y = m_ctl.create_mouse_move_sensor("Y");
         var mouse_down   = m_ctl.create_mouse_click_sensor();
+        var touch_move   = m_ctl.create_touch_move_sensor();
+        var touch_zoom   = m_ctl.create_touch_zoom_sensor();
         var elapsed      = m_ctl.create_elapsed_sensor();
 
-        var logic_func = function(s) {return (s[0] && s[2]) || (s[1] && s[2])};
+        var logic_func = function(s) {return (s[0] && s[2]) || (s[1] && s[2]) || s[3] || s[4]};
 
         m_ctl.create_sensor_manifold(obj, "DISABLE_AUTO_ROTATE", m_ctl.CT_LEVEL,
-                                    [mouse_move_x, mouse_move_y, mouse_down],
-                                    logic_func,
-                                    mouse_cb);
+                                    [mouse_move_x, mouse_move_y, mouse_down,
+                                    touch_move, touch_zoom], logic_func,
+                                    disable_cb);
 
         m_ctl.create_sensor_manifold(obj, "AUTO_ROTATE", m_ctl.CT_CONTINUOUS,
                                     [elapsed], function(s) {return s[0]},
                                     elapsed_cb);
     } else
-        mouse_cb();
+        disable_cb();
+}
+
+/**
+ * Check if the camera is autorotate
+ * @method module:camera_anim.is_auto_rotate
+ * @returns {Boolean} Autorotated flag
+ */
+exports.is_auto_rotate = function() {
+    var obj = m_scs.get_active_camera();
+
+    return m_ctl.check_sensor_manifold(obj, "AUTO_ROTATE");
 }
 
 }

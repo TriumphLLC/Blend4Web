@@ -8,10 +8,11 @@
  */
 b4w.module["__prerender"] = function(exports, require) {
 
-var m_cfg   = require("__config");
-var m_debug = require("__debug");
-var m_geom  = require("__geometry");
-var m_util  = require("__util");
+var m_cfg    = require("__config");
+var m_debug  = require("__debug");
+var m_geom   = require("__geometry");
+var m_util   = require("__util");
+var m_render = require("__renderer");
 
 var m_vec3  = require("vec3");
 
@@ -32,14 +33,13 @@ exports.prerender_subs = function(subs) {
 
         for (var i = 0; i < bundles.length; i++) {
             var bundle = bundles[i];
-
             prerender_bundle(bundle, subs);
             if (bundle.do_render)
                 has_render_bundles = true;
         }
 
         var cam = subs.camera;
-        
+
         switch (subs.type) {
         case "WIREFRAME":
             // NOTE: wireframe subs rendered optionally
@@ -49,8 +49,12 @@ exports.prerender_subs = function(subs) {
             if (subs.type === "MAIN_OPAQUE" || subs.type === "DEPTH" 
                     || has_render_bundles)
                 subs.do_render = true;
-            else
+            else {
+                // clear subscene if it switches "do_render" flag to false
+                if (subs.do_render)
+                    m_render.clear(subs);
                 subs.do_render = false;
+            }
             break;
         }
     }

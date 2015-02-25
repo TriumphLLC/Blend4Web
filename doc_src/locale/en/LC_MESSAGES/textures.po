@@ -728,6 +728,18 @@ msgid ""
 "Присутствуют следующие особенности реализации на мобильных устройствах:"
 msgstr "The peculiarities for mobile devices are as follows:"
 
+#: ../textures.rst:274
+msgid ""
+"на iPhone используется специально разработанный видеоформат ``.seq``, потому"
+" что данное устройство открывает все стандартные видеозаписи через свой "
+"видеопроигрыватель. Видео надо сконвертировать заранее, используя :ref:`наш "
+"конвертер <converter>`."
+msgstr ""
+"Normal operation of video textures on iPhones is not possible because these "
+"devices play back videos via the standard iOS video player. For these "
+"devices you need to convert your videos to special ``.seq`` format by using "
+"our :ref:`converter <converter>`."
+
 #: ../textures.rst:275
 msgid ""
 "на некоторых мобильных устройствах имеется поддержка воспроизведения только "
@@ -1062,19 +1074,11 @@ msgstr ""
 "Specify the name of the source scene in the ``Blend4Web > Source id`` field."
 " Set the texture size in the ``Blend4Web > Source size`` field (in pixels)."
 
-#: ../textures.rst:423
-msgid ""
-"В настоящее время имеется баг, вынуждающий иметь в обеих сценах один общий "
-"источник света."
-msgstr ""
-"Note that there is a bug at the moment which requires both scenes to have at"
-" least one shared light source."
-
-#: ../textures.rst:429
+#: ../textures.rst:425
 msgid "Canvas"
 msgstr "Canvas"
 
-#: ../textures.rst:431
+#: ../textures.rst:427
 msgid ""
 "В качестве текстуры используется HTML-элемент <canvas>. Его редактирование "
 "осуществляется при помощи :ref:`API <canvas_texture>`."
@@ -1082,7 +1086,7 @@ msgstr ""
 "A <canvas> HTML element can be used as a texture. It can be modified via "
 ":ref:`API <canvas_texture>`."
 
-#: ../textures.rst:433
+#: ../textures.rst:429
 msgid ""
 "В главной сцене для текстуры целевого объекта выставить тип ``None``, в поле"
 " ``Blend4Web > Source type`` указать тип ``Canvas``. В поле ``Blend4Web > "
@@ -1094,14 +1098,3 @@ msgstr ""
 "menu. Specify the id of the canvas HTML element in the ``Blend4Web > Source "
 "id`` field. Set the texture size in the ``Blend4Web > Source size`` field "
 "(in pixels)."
-
-#: ../textures.rst:274
-msgid ""
-"на iPhone используется специально разработанный видеоформат ``.seq``, потому"
-" что данное устройство открывает все стандартные видеозаписи через свой "
-"видеопроигрыватель. Видео надо сконвертировать заранее, используя :ref:`наш "
-"конвертер <converter>`."
-msgstr ""
-"Normal operation of video textures on iPhones is not possible because these "
-"devices play back videos via the standard iOS video player. For these devices you need "
-"to convert your videos to special ``.seq`` format by using our :ref:`converter <converter>`."

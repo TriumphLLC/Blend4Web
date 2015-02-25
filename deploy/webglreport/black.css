@@ -1,0 +1,119 @@
+a, a:link, a:visited {
+    color: #218bb0;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+a img {
+    border: none;
+}
+
+h1 {
+    color: white;
+    text-align: center;
+    font-family: arial, Sans-Serif;
+    font-size: 26pt;
+}
+
+body {
+    font-family: arial, Sans-Serif;
+    color: white;
+    background-image: url(images/mtimoon_fromSTK_3d.jpg);
+    background-position: right top;
+    background-repeat: no-repeat;
+    background-color: black;
+    margin: 0px;
+}
+
+.align-center {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+table.report {
+    margin-left: auto;
+    margin-right: auto;
+    width: 700px;
+    color: black;
+    font-size: 9pt;
+    text-align: left;
+    border-style: ridge;
+    border-width: 3px;
+    padding: 6px;
+    border-color: #AFC7C7;
+    background-color: #FFFFFF;
+}
+
+td, th {
+    text-align: left;
+    vertical-align: top;
+}
+
+th {
+    font-weight: bold;
+}
+
+.pipeline {
+    width: 600px;
+    height: 660px;
+    color: white;
+    position: relative;
+}
+
+.pipeline table {
+    width: 100%;
+}
+
+.pipeline .vertexShader, .pipeline .rasterizer, .pipeline .fragmentShader, .pipeline .framebuffer, .pipeline .textures {
+    position: absolute;
+    width: 245px;
+}
+
+.pipeline h1 {
+    font-size: 2em;
+    margin: 0px;
+}
+
+.pipeline .vertexShader {
+    top: 10px;
+    left: 5px;
+}
+
+.pipeline .rasterizer {
+    top: 220px;
+    left: 5px;
+}
+
+.pipeline .fragmentShader {
+    top: 350px;
+    left: 5px;
+}
+
+.pipeline .framebuffer {
+    top: 520px;
+    left: 5px;
+}
+
+.pipeline .textures {
+    top: 200px;
+    left: 330px;
+}
+
+a.extension {
+    font-family: "Courier New", monospace;
+}
+
+a.unsupported {
+    color: rgb(200, 200, 200);
+}

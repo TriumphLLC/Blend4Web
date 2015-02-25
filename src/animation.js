@@ -2054,7 +2054,7 @@ function apply(obj, name, slot_num) {
             do_before_apply(obj, slot_num);
             apply_vertex_anim(obj, vertex_anim, slot_num);
             do_after_apply(obj, slot_num);
-            return 1;
+            return true;
         }
 
         var psys = m_util.keysearch("name", name, obj["particle_systems"]);
@@ -2064,7 +2064,7 @@ function apply(obj, name, slot_num) {
                 do_before_apply(obj, slot_num);
                 apply_particles_anim(obj, psys, slot_num);
                 do_after_apply(obj, slot_num);
-                return 1;
+                return true;
             }
         }
     }
@@ -2075,18 +2075,18 @@ function apply(obj, name, slot_num) {
 
         if (!m_util.get_dict_length(action["fcurves"])) {
             m_print.error("No fcurves in action \"" + action["name"] + "\"");
-            return 0;
+            return false;
         }
 
         do_before_apply(obj, slot_num);
         apply_action(obj, action, slot_num);
         do_after_apply(obj, slot_num);
-        return 1;
+        return true;
     }
 
     m_print.error("Unsupported object: \"", obj.name,
                   "\" or animation name: \"", name, "\"");
-    return 0;
+    return false;
 }
 
 exports.get_slot_num_by_anim = get_slot_num_by_anim

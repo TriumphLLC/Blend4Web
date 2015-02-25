@@ -139,8 +139,6 @@ exports.generate_emitter_particles_submesh = function(batch, emitter_mesh,
 
     if (world_space)
         pose_emitter_world(psystem, is_billboard, positions, normals, tsr, positions, normals);
-    else
-        pose_emitter_local(positions, normals, tsr, positions, normals);
 
     var lifetimes = gen_lifetimes(pcount, lifetime, lifetime_random, is_billboard);
 
@@ -169,17 +167,6 @@ exports.generate_emitter_particles_submesh = function(batch, emitter_mesh,
         submesh.va_common["a_p_bb_vertex"] = bb_vertices;
 
     return submesh;
-}
-
-/**
- * Recalculate particles position/normals according to emitters world location.
- * dest positions/normals may be the same
- */
-function pose_emitter_local(positions, normals, tsr, positions_new,
-        normals_new) {
-
-    m_tsr.transform_vectors(positions, tsr, positions_new, 0);
-    m_tsr.transform_dir_vectors(normals, tsr, normals_new, 0);
 }
 
 /**
@@ -256,19 +243,18 @@ exports.update_emitter_transform = function(obj) {
 
         var world_space = psys._internal.use_world_space;
 
+        if (!world_space)
+            return;
+
         var pcache = psys._internal.positions_cache;
         var ncache = psys._internal.normals_cache;
 
         var positions = psys._internal.positions;
         var normals = psys._internal.normals;
 
-        if (world_space) {
-            var is_billboard = !batch.halo_particles;
-            pose_emitter_world(psys, is_billboard, positions, normals, obj._render.tsr,
-                         pcache, ncache);
-        } else
-            pose_emitter_local(positions, normals, obj._render.tsr,
-                         pcache, ncache);
+        var is_billboard = !batch.halo_particles;
+        pose_emitter_world(psys, is_billboard, positions, normals, obj._render.tsr,
+                     pcache, ncache);
 
         m_geom.make_dynamic(pbuf);
         m_geom.update_bufs_data_array(pbuf, "a_position", 3, pcache);

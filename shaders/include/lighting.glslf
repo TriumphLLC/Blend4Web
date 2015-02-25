@@ -196,7 +196,7 @@ void process_lamp(inout lighting_result lresult, vec3 D, vec3 S, vec3 pos_world,
 # endif
     }
 
-# if USE_NODE_TRANSLUCENCY
+# if USE_NODE_B4W_TRANSLUCENCY
     // backside lighting
     if (dot(ldir, normal) * dot(eye_dir, normal) < ZERO_VALUE_LIGHT) {
         float backside_factor = translucency_params.x;
@@ -390,7 +390,7 @@ lighting_result lighting(
 #endif
             }
 
-#if USE_NODE_TRANSLUCENCY
+#if USE_NODE_B4W_TRANSLUCENCY
             // backside lighting
             if (dot(ldir, normal) * dot(eye_dir, normal) < ZERO_VALUE_LIGHT) {
                 float backside_factor = translucency_params.x;

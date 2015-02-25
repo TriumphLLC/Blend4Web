@@ -9,34 +9,33 @@
 b4w.module["vec3"] = function(exports, require) {
 
 
+
 var GLMAT_EPSILON = 0.0000001;
 var GLMAT_ARRAY_TYPE = (typeof Float32Array !== 'undefined') ? Float32Array : Array;
 var GLMAT_RANDOM = Math.random;
 
-/* Copyright (c) 2013, Brandon Jones, Colin MacKenzie IV. All rights reserved.
+/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
 
-Redistribution and use in source and binary forms, with or without modification,
-are permitted provided that the following conditions are met:
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-  * Redistributions of source code must retain the above copyright notice, this
-    list of conditions and the following disclaimer.
-  * Redistributions in binary form must reproduce the above copyright notice,
-    this list of conditions and the following disclaimer in the documentation 
-    and/or other materials provided with the distribution.
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
 
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
-DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
-ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
-ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE. */
 
 /**
- * @class 3 Dimensional Vector
+ * @module 3 Dimensional Vector
  * @name vec3
  */
 var vec3 = exports;
@@ -45,6 +44,7 @@ var vec3 = exports;
  * Creates a new, empty vec3
  *
  * @returns {vec3} a new 3D vector
+ * @method module:vec3.create
  */
 vec3.create = function() {
     var out = new GLMAT_ARRAY_TYPE(3);
@@ -59,6 +59,7 @@ vec3.create = function() {
  *
  * @param {vec3} a vector to clone
  * @returns {vec3} a new 3D vector
+ * @method module:vec3.clone
  */
 vec3.clone = function(a) {
     var out = new GLMAT_ARRAY_TYPE(3);
@@ -75,6 +76,7 @@ vec3.clone = function(a) {
  * @param {Number} y Y component
  * @param {Number} z Z component
  * @returns {vec3} a new 3D vector
+ * @method module:vec3.fromValues
  */
 vec3.fromValues = function(x, y, z) {
     var out = new GLMAT_ARRAY_TYPE(3);
@@ -87,9 +89,10 @@ vec3.fromValues = function(x, y, z) {
 /**
  * Copy the values from one vec3 to another
  *
- * @param {vec3} out the receiving vector
  * @param {vec3} a the source vector
  * @returns {vec3} out
+ * @param {vec3} out the receiving vector
+ * @method module:vec3.copy
  */
 vec3.copy = function(a, out) {
     out[0] = a[0];
@@ -101,11 +104,12 @@ vec3.copy = function(a, out) {
 /**
  * Set the components of a vec3 to the given values
  *
- * @param {vec3} out the receiving vector
  * @param {Number} x X component
  * @param {Number} y Y component
  * @param {Number} z Z component
  * @returns {vec3} out
+ * @param {vec3} out the receiving vector
+ * @method module:vec3.set
  */
 vec3.set = function(x, y, z, out) {
     out[0] = x;
@@ -117,10 +121,11 @@ vec3.set = function(x, y, z, out) {
 /**
  * Adds two vec3's
  *
- * @param {vec3} out the receiving vector
  * @param {vec3} a the first operand
  * @param {vec3} b the second operand
  * @returns {vec3} out
+ * @param {vec3} out the receiving vector
+ * @method module:vec3.add
  */
 vec3.add = function(a, b, out) {
     out[0] = a[0] + b[0];
@@ -132,10 +137,11 @@ vec3.add = function(a, b, out) {
 /**
  * Subtracts vector b from vector a
  *
- * @param {vec3} out the receiving vector
  * @param {vec3} a the first operand
  * @param {vec3} b the second operand
  * @returns {vec3} out
+ * @param {vec3} out the receiving vector
+ * @method module:vec3.subtract
  */
 vec3.subtract = function(a, b, out) {
     out[0] = a[0] - b[0];
@@ -147,16 +153,18 @@ vec3.subtract = function(a, b, out) {
 /**
  * Alias for {@link vec3.subtract}
  * @function
+ * @method module:vec3.sub
  */
 vec3.sub = vec3.subtract;
 
 /**
  * Multiplies two vec3's
  *
- * @param {vec3} out the receiving vector
  * @param {vec3} a the first operand
  * @param {vec3} b the second operand
  * @returns {vec3} out
+ * @param {vec3} out the receiving vector
+ * @method module:vec3.multiply
  */
 vec3.multiply = function(a, b, out) {
     out[0] = a[0] * b[0];
@@ -168,16 +176,18 @@ vec3.multiply = function(a, b, out) {
 /**
  * Alias for {@link vec3.multiply}
  * @function
+ * @method module:vec3.mul
  */
 vec3.mul = vec3.multiply;
 
 /**
  * Divides two vec3's
  *
- * @param {vec3} out the receiving vector
  * @param {vec3} a the first operand
  * @param {vec3} b the second operand
  * @returns {vec3} out
+ * @param {vec3} out the receiving vector
+ * @method module:vec3.divide
  */
 vec3.divide = function(a, b, out) {
     out[0] = a[0] / b[0];
@@ -189,16 +199,18 @@ vec3.divide = function(a, b, out) {
 /**
  * Alias for {@link vec3.divide}
  * @function
+ * @method module:vec3.div
  */
 vec3.div = vec3.divide;
 
 /**
  * Returns the minimum of two vec3's
  *
- * @param {vec3} out the receiving vector
  * @param {vec3} a the first operand
  * @param {vec3} b the second operand
  * @returns {vec3} out
+ * @param {vec3} out the receiving vector
+ * @method module:vec3.min
  */
 vec3.min = function(a, b, out) {
     out[0] = Math.min(a[0], b[0]);
@@ -210,10 +222,11 @@ vec3.min = function(a, b, out) {
 /**
  * Returns the maximum of two vec3's
  *
- * @param {vec3} out the receiving vector
  * @param {vec3} a the first operand
  * @param {vec3} b the second operand
  * @returns {vec3} out
+ * @param {vec3} out the receiving vector
+ * @method module:vec3.max
  */
 vec3.max = function(a, b, out) {
     out[0] = Math.max(a[0], b[0]);
@@ -225,10 +238,11 @@ vec3.max = function(a, b, out) {
 /**
  * Scales a vec3 by a scalar number
  *
- * @param {vec3} out the receiving vector
  * @param {vec3} a the vector to scale
  * @param {Number} b amount to scale the vector by
  * @returns {vec3} out
+ * @param {vec3} out the receiving vector
+ * @method module:vec3.scale
  */
 vec3.scale = function(a, b, out) {
     out[0] = a[0] * b;
@@ -240,11 +254,12 @@ vec3.scale = function(a, b, out) {
 /**
  * Adds two vec3's after scaling the second operand by a scalar value
  *
- * @param {vec3} out the receiving vector
  * @param {vec3} a the first operand
  * @param {vec3} b the second operand
  * @param {Number} scale the amount to scale b by before adding
  * @returns {vec3} out
+ * @param {vec3} out the receiving vector
+ * @method module:vec3.scaleAndAdd
  */
 vec3.scaleAndAdd = function(a, b, scale, out) {
     out[0] = a[0] + (b[0] * scale);
@@ -259,6 +274,7 @@ vec3.scaleAndAdd = function(a, b, scale, out) {
  * @param {vec3} a the first operand
  * @param {vec3} b the second operand
  * @returns {Number} distance between a and b
+ * @method module:vec3.distance
  */
 vec3.distance = function(a, b) {
     var x = b[0] - a[0],
@@ -270,6 +286,7 @@ vec3.distance = function(a, b) {
 /**
  * Alias for {@link vec3.distance}
  * @function
+ * @method module:vec3.dist
  */
 vec3.dist = vec3.distance;
 
@@ -279,6 +296,7 @@ vec3.dist = vec3.distance;
  * @param {vec3} a the first operand
  * @param {vec3} b the second operand
  * @returns {Number} squared distance between a and b
+ * @method module:vec3.squaredDistance
  */
 vec3.squaredDistance = function(a, b) {
     var x = b[0] - a[0],
@@ -290,6 +308,7 @@ vec3.squaredDistance = function(a, b) {
 /**
  * Alias for {@link vec3.squaredDistance}
  * @function
+ * @method module:vec3.sqrDist
  */
 vec3.sqrDist = vec3.squaredDistance;
 
@@ -298,6 +317,7 @@ vec3.sqrDist = vec3.squaredDistance;
  *
  * @param {vec3} a vector to calculate length of
  * @returns {Number} length of a
+ * @method module:vec3.length
  */
 vec3.length = function (a) {
     var x = a[0],
@@ -309,6 +329,7 @@ vec3.length = function (a) {
 /**
  * Alias for {@link vec3.length}
  * @function
+ * @method module:vec3.len
  */
 vec3.len = vec3.length;
 
@@ -317,6 +338,7 @@ vec3.len = vec3.length;
  *
  * @param {vec3} a vector to calculate squared length of
  * @returns {Number} squared length of a
+ * @method module:vec3.squaredLength
  */
 vec3.squaredLength = function (a) {
     var x = a[0],
@@ -328,15 +350,17 @@ vec3.squaredLength = function (a) {
 /**
  * Alias for {@link vec3.squaredLength}
  * @function
+ * @method module:vec3.sqrLen
  */
 vec3.sqrLen = vec3.squaredLength;
 
 /**
  * Negates the components of a vec3
  *
- * @param {vec3} out the receiving vector
  * @param {vec3} a vector to negate
  * @returns {vec3} out
+ * @param {vec3} out the receiving vector
+ * @method module:vec3.negate
  */
 vec3.negate = function(a, out) {
     out[0] = -a[0];
@@ -348,9 +372,10 @@ vec3.negate = function(a, out) {
 /**
  * Returns the inverse of the components of a vec3
  *
- * @param {vec3} out the receiving vector
  * @param {vec3} a vector to invert
  * @returns {vec3} out
+ * @param {vec3} out the receiving vector
+ * @method module:vec3.inverse
  */
 vec3.inverse = function(a, out) {
   out[0] = 1.0 / a[0];
@@ -362,9 +387,10 @@ vec3.inverse = function(a, out) {
 /**
  * Normalize a vec3
  *
- * @param {vec3} out the receiving vector
  * @param {vec3} a vector to normalize
  * @returns {vec3} out
+ * @param {vec3} out the receiving vector
+ * @method module:vec3.normalize
  */
 vec3.normalize = function(a, out) {
     var x = a[0],
@@ -387,6 +413,7 @@ vec3.normalize = function(a, out) {
  * @param {vec3} a the first operand
  * @param {vec3} b the second operand
  * @returns {Number} dot product of a and b
+ * @method module:vec3.dot
  */
 vec3.dot = function (a, b) {
     return a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
@@ -395,10 +422,11 @@ vec3.dot = function (a, b) {
 /**
  * Computes the cross product of two vec3's
  *
- * @param {vec3} out the receiving vector
  * @param {vec3} a the first operand
  * @param {vec3} b the second operand
  * @returns {vec3} out
+ * @param {vec3} out the receiving vector
+ * @method module:vec3.cross
  */
 vec3.cross = function(a, b, out) {
     var ax = a[0], ay = a[1], az = a[2],
@@ -413,11 +441,12 @@ vec3.cross = function(a, b, out) {
 /**
  * Performs a linear interpolation between two vec3's
  *
- * @param {vec3} out the receiving vector
  * @param {vec3} a the first operand
  * @param {vec3} b the second operand
  * @param {Number} t interpolation amount between the two inputs
  * @returns {vec3} out
+ * @param {vec3} out the receiving vector
+ * @method module:vec3.lerp
  */
 vec3.lerp = function (a, b, t, out) {
     var ax = a[0],
@@ -432,9 +461,10 @@ vec3.lerp = function (a, b, t, out) {
 /**
  * Generates a random vector with the given scale
  *
- * @param {vec3} out the receiving vector
  * @param {Number} [scale] Length of the resulting vector. If ommitted, a unit vector will be returned
  * @returns {vec3} out
+ * @param {vec3} out the receiving vector
+ * @method module:vec3.random
  */
 vec3.random = function (scale, out) {
     scale = scale || 1.0;
@@ -453,10 +483,11 @@ vec3.random = function (scale, out) {
  * Transforms the vec3 with a mat4.
  * 4th vector component is implicitly '1'
  *
- * @param {vec3} out the receiving vector
  * @param {vec3} a the vector to transform
  * @param {mat4} m matrix to transform with
  * @returns {vec3} out
+ * @param {vec3} out the receiving vector
+ * @method module:vec3.transformMat4
  */
 vec3.transformMat4 = function(a, m, out) {
     var x = a[0], y = a[1], z = a[2],
@@ -471,10 +502,11 @@ vec3.transformMat4 = function(a, m, out) {
 /**
  * Transforms the vec3 with a mat3.
  *
- * @param {vec3} out the receiving vector
  * @param {vec3} a the vector to transform
  * @param {mat4} m the 3x3 matrix to transform with
  * @returns {vec3} out
+ * @param {vec3} out the receiving vector
+ * @method module:vec3.transformMat3
  */
 vec3.transformMat3 = function(a, m, out) {
     var x = a[0], y = a[1], z = a[2];
@@ -487,10 +519,11 @@ vec3.transformMat3 = function(a, m, out) {
 /**
  * Transforms the vec3 with a quat
  *
- * @param {vec3} out the receiving vector
  * @param {vec3} a the vector to transform
  * @param {quat} q quaternion to transform with
  * @returns {vec3} out
+ * @param {vec3} out the receiving vector
+ * @method module:vec3.transformQuat
  */
 vec3.transformQuat = function(a, q, out) {
     // benchmarks: http://jsperf.com/quaternion-transform-vec3-implementations
@@ -512,13 +545,14 @@ vec3.transformQuat = function(a, q, out) {
 };
 
 /**
-* Rotate a 3D vector around the x-axis
-* @param {vec3} out The receiving vec3
-* @param {vec3} a The vec3 point to rotate
-* @param {vec3} b The origin of the rotation
-* @param {Number} c The angle of rotation
-* @returns {vec3} out
-*/
+ * Rotate a 3D vector around the x-axis
+ * @param {vec3} a The vec3 point to rotate
+ * @param {vec3} b The origin of the rotation
+ * @param {Number} c The angle of rotation
+ * @returns {vec3} out
+ * @param {vec3} out The receiving vec3
+ * @method module:vec3.rotateX
+ */
 vec3.rotateX = function(a, b, c, out){
    var p = [], r=[];
 	  //Translate point to the origin
@@ -540,13 +574,14 @@ vec3.rotateX = function(a, b, c, out){
 };
 
 /**
-* Rotate a 3D vector around the y-axis
-* @param {vec3} out The receiving vec3
-* @param {vec3} a The vec3 point to rotate
-* @param {vec3} b The origin of the rotation
-* @param {Number} c The angle of rotation
-* @returns {vec3} out
-*/
+ * Rotate a 3D vector around the y-axis
+ * @param {vec3} a The vec3 point to rotate
+ * @param {vec3} b The origin of the rotation
+ * @param {Number} c The angle of rotation
+ * @returns {vec3} out
+ * @param {vec3} out The receiving vec3
+ * @method module:vec3.rotateY
+ */
 vec3.rotateY = function(a, b, c, out){
   	var p = [], r=[];
   	//Translate point to the origin
@@ -568,13 +603,14 @@ vec3.rotateY = function(a, b, c, out){
 };
 
 /**
-* Rotate a 3D vector around the z-axis
-* @param {vec3} out The receiving vec3
-* @param {vec3} a The vec3 point to rotate
-* @param {vec3} b The origin of the rotation
-* @param {Number} c The angle of rotation
-* @returns {vec3} out
-*/
+ * Rotate a 3D vector around the z-axis
+ * @param {vec3} a The vec3 point to rotate
+ * @param {vec3} b The origin of the rotation
+ * @param {Number} c The angle of rotation
+ * @returns {vec3} out
+ * @param {vec3} out The receiving vec3
+ * @method module:vec3.rotateZ
+ */
 vec3.rotateZ = function(a, b, c, out){
   	var p = [], r=[];
   	//Translate point to the origin
@@ -606,6 +642,7 @@ vec3.rotateZ = function(a, b, c, out){
  * @param {Object} [arg] additional argument to pass to fn
  * @returns {Array} a
  * @function
+ * @method module:vec3.forEach
  */
 vec3.forEach = (function() {
     var vec = vec3.create();
@@ -637,10 +674,35 @@ vec3.forEach = (function() {
 })();
 
 /**
+ * Get the angle between two 3D vectors
+ * @param {vec3} a The first operand
+ * @param {vec3} b The second operand
+ * @returns {Number} The angle in radians
+ * @method module:vec3.angle
+ */
+vec3.angle = function(a, b) {
+   
+    var tempA = vec3.fromValues(a[0], a[1], a[2]);
+    var tempB = vec3.fromValues(b[0], b[1], b[2]);
+ 
+    vec3.normalize(tempA, tempA);
+    vec3.normalize(tempB, tempB);
+ 
+    var cosine = vec3.dot(tempA, tempB);
+
+    if(cosine > 1.0){
+        return 0;
+    } else {
+        return Math.acos(cosine);
+    }     
+};
+
+/**
  * Returns a string representation of a vector
  *
  * @param {vec3} vec vector to represent as a string
  * @returns {String} string representation of the vector
+ * @method module:vec3.str
  */
 vec3.str = function (a) {
     return 'vec3(' + a[0] + ', ' + a[1] + ', ' + a[2] + ')';
@@ -649,40 +711,39 @@ vec3.str = function (a) {
 if(typeof(exports) !== 'undefined') {
     exports.vec3 = vec3;
 }
-
 }
 
+
 b4w.module["vec4"] = function(exports, require) {
+
 
 
 var GLMAT_EPSILON = 0.0000001;
 var GLMAT_ARRAY_TYPE = (typeof Float32Array !== 'undefined') ? Float32Array : Array;
 var GLMAT_RANDOM = Math.random;
 
-/* Copyright (c) 2013, Brandon Jones, Colin MacKenzie IV. All rights reserved.
+/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
 
-Redistribution and use in source and binary forms, with or without modification,
-are permitted provided that the following conditions are met:
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-  * Redistributions of source code must retain the above copyright notice, this
-    list of conditions and the following disclaimer.
-  * Redistributions in binary form must reproduce the above copyright notice,
-    this list of conditions and the following disclaimer in the documentation 
-    and/or other materials provided with the distribution.
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
 
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
-DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
-ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
-ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE. */
 
 /**
- * @class 4 Dimensional Vector
+ * @module 4 Dimensional Vector
  * @name vec4
  */
 var vec4 = exports;
@@ -691,6 +752,7 @@ var vec4 = exports;
  * Creates a new, empty vec4
  *
  * @returns {vec4} a new 4D vector
+ * @method module:vec4.create
  */
 vec4.create = function() {
     var out = new GLMAT_ARRAY_TYPE(4);
@@ -706,6 +768,7 @@ vec4.create = function() {
  *
  * @param {vec4} a vector to clone
  * @returns {vec4} a new 4D vector
+ * @method module:vec4.clone
  */
 vec4.clone = function(a) {
     var out = new GLMAT_ARRAY_TYPE(4);
@@ -724,6 +787,7 @@ vec4.clone = function(a) {
  * @param {Number} z Z component
  * @param {Number} w W component
  * @returns {vec4} a new 4D vector
+ * @method module:vec4.fromValues
  */
 vec4.fromValues = function(x, y, z, w) {
     var out = new GLMAT_ARRAY_TYPE(4);
@@ -737,9 +801,10 @@ vec4.fromValues = function(x, y, z, w) {
 /**
  * Copy the values from one vec4 to another
  *
- * @param {vec4} out the receiving vector
  * @param {vec4} a the source vector
  * @returns {vec4} out
+ * @param {vec4} out the receiving vector
+ * @method module:vec4.copy
  */
 vec4.copy = function(a, out) {
     out[0] = a[0];
@@ -752,12 +817,13 @@ vec4.copy = function(a, out) {
 /**
  * Set the components of a vec4 to the given values
  *
- * @param {vec4} out the receiving vector
  * @param {Number} x X component
  * @param {Number} y Y component
  * @param {Number} z Z component
  * @param {Number} w W component
  * @returns {vec4} out
+ * @param {vec4} out the receiving vector
+ * @method module:vec4.set
  */
 vec4.set = function(x, y, z, w, out) {
     out[0] = x;
@@ -770,10 +836,11 @@ vec4.set = function(x, y, z, w, out) {
 /**
  * Adds two vec4's
  *
- * @param {vec4} out the receiving vector
  * @param {vec4} a the first operand
  * @param {vec4} b the second operand
  * @returns {vec4} out
+ * @param {vec4} out the receiving vector
+ * @method module:vec4.add
  */
 vec4.add = function(a, b, out) {
     out[0] = a[0] + b[0];
@@ -786,10 +853,11 @@ vec4.add = function(a, b, out) {
 /**
  * Subtracts vector b from vector a
  *
- * @param {vec4} out the receiving vector
  * @param {vec4} a the first operand
  * @param {vec4} b the second operand
  * @returns {vec4} out
+ * @param {vec4} out the receiving vector
+ * @method module:vec4.subtract
  */
 vec4.subtract = function(a, b, out) {
     out[0] = a[0] - b[0];
@@ -802,16 +870,18 @@ vec4.subtract = function(a, b, out) {
 /**
  * Alias for {@link vec4.subtract}
  * @function
+ * @method module:vec4.sub
  */
 vec4.sub = vec4.subtract;
 
 /**
  * Multiplies two vec4's
  *
- * @param {vec4} out the receiving vector
  * @param {vec4} a the first operand
  * @param {vec4} b the second operand
  * @returns {vec4} out
+ * @param {vec4} out the receiving vector
+ * @method module:vec4.multiply
  */
 vec4.multiply = function(a, b, out) {
     out[0] = a[0] * b[0];
@@ -824,16 +894,18 @@ vec4.multiply = function(a, b, out) {
 /**
  * Alias for {@link vec4.multiply}
  * @function
+ * @method module:vec4.mul
  */
 vec4.mul = vec4.multiply;
 
 /**
  * Divides two vec4's
  *
- * @param {vec4} out the receiving vector
  * @param {vec4} a the first operand
  * @param {vec4} b the second operand
  * @returns {vec4} out
+ * @param {vec4} out the receiving vector
+ * @method module:vec4.divide
  */
 vec4.divide = function(a, b, out) {
     out[0] = a[0] / b[0];
@@ -846,16 +918,18 @@ vec4.divide = function(a, b, out) {
 /**
  * Alias for {@link vec4.divide}
  * @function
+ * @method module:vec4.div
  */
 vec4.div = vec4.divide;
 
 /**
  * Returns the minimum of two vec4's
  *
- * @param {vec4} out the receiving vector
  * @param {vec4} a the first operand
  * @param {vec4} b the second operand
  * @returns {vec4} out
+ * @param {vec4} out the receiving vector
+ * @method module:vec4.min
  */
 vec4.min = function(a, b, out) {
     out[0] = Math.min(a[0], b[0]);
@@ -868,10 +942,11 @@ vec4.min = function(a, b, out) {
 /**
  * Returns the maximum of two vec4's
  *
- * @param {vec4} out the receiving vector
  * @param {vec4} a the first operand
  * @param {vec4} b the second operand
  * @returns {vec4} out
+ * @param {vec4} out the receiving vector
+ * @method module:vec4.max
  */
 vec4.max = function(a, b, out) {
     out[0] = Math.max(a[0], b[0]);
@@ -884,10 +959,11 @@ vec4.max = function(a, b, out) {
 /**
  * Scales a vec4 by a scalar number
  *
- * @param {vec4} out the receiving vector
  * @param {vec4} a the vector to scale
  * @param {Number} b amount to scale the vector by
  * @returns {vec4} out
+ * @param {vec4} out the receiving vector
+ * @method module:vec4.scale
  */
 vec4.scale = function(a, b, out) {
     out[0] = a[0] * b;
@@ -900,11 +976,12 @@ vec4.scale = function(a, b, out) {
 /**
  * Adds two vec4's after scaling the second operand by a scalar value
  *
- * @param {vec4} out the receiving vector
  * @param {vec4} a the first operand
  * @param {vec4} b the second operand
  * @param {Number} scale the amount to scale b by before adding
  * @returns {vec4} out
+ * @param {vec4} out the receiving vector
+ * @method module:vec4.scaleAndAdd
  */
 vec4.scaleAndAdd = function(a, b, scale, out) {
     out[0] = a[0] + (b[0] * scale);
@@ -920,6 +997,7 @@ vec4.scaleAndAdd = function(a, b, scale, out) {
  * @param {vec4} a the first operand
  * @param {vec4} b the second operand
  * @returns {Number} distance between a and b
+ * @method module:vec4.distance
  */
 vec4.distance = function(a, b) {
     var x = b[0] - a[0],
@@ -932,6 +1010,7 @@ vec4.distance = function(a, b) {
 /**
  * Alias for {@link vec4.distance}
  * @function
+ * @method module:vec4.dist
  */
 vec4.dist = vec4.distance;
 
@@ -941,6 +1020,7 @@ vec4.dist = vec4.distance;
  * @param {vec4} a the first operand
  * @param {vec4} b the second operand
  * @returns {Number} squared distance between a and b
+ * @method module:vec4.squaredDistance
  */
 vec4.squaredDistance = function(a, b) {
     var x = b[0] - a[0],
@@ -953,6 +1033,7 @@ vec4.squaredDistance = function(a, b) {
 /**
  * Alias for {@link vec4.squaredDistance}
  * @function
+ * @method module:vec4.sqrDist
  */
 vec4.sqrDist = vec4.squaredDistance;
 
@@ -961,6 +1042,7 @@ vec4.sqrDist = vec4.squaredDistance;
  *
  * @param {vec4} a vector to calculate length of
  * @returns {Number} length of a
+ * @method module:vec4.length
  */
 vec4.length = function (a) {
     var x = a[0],
@@ -973,6 +1055,7 @@ vec4.length = function (a) {
 /**
  * Alias for {@link vec4.length}
  * @function
+ * @method module:vec4.len
  */
 vec4.len = vec4.length;
 
@@ -981,6 +1064,7 @@ vec4.len = vec4.length;
  *
  * @param {vec4} a vector to calculate squared length of
  * @returns {Number} squared length of a
+ * @method module:vec4.squaredLength
  */
 vec4.squaredLength = function (a) {
     var x = a[0],
@@ -993,15 +1077,17 @@ vec4.squaredLength = function (a) {
 /**
  * Alias for {@link vec4.squaredLength}
  * @function
+ * @method module:vec4.sqrLen
  */
 vec4.sqrLen = vec4.squaredLength;
 
 /**
  * Negates the components of a vec4
  *
- * @param {vec4} out the receiving vector
  * @param {vec4} a vector to negate
  * @returns {vec4} out
+ * @param {vec4} out the receiving vector
+ * @method module:vec4.negate
  */
 vec4.negate = function(a, out) {
     out[0] = -a[0];
@@ -1014,9 +1100,10 @@ vec4.negate = function(a, out) {
 /**
  * Returns the inverse of the components of a vec4
  *
- * @param {vec4} out the receiving vector
  * @param {vec4} a vector to invert
  * @returns {vec4} out
+ * @param {vec4} out the receiving vector
+ * @method module:vec4.inverse
  */
 vec4.inverse = function(a, out) {
   out[0] = 1.0 / a[0];
@@ -1029,9 +1116,10 @@ vec4.inverse = function(a, out) {
 /**
  * Normalize a vec4
  *
- * @param {vec4} out the receiving vector
  * @param {vec4} a vector to normalize
  * @returns {vec4} out
+ * @param {vec4} out the receiving vector
+ * @method module:vec4.normalize
  */
 vec4.normalize = function(a, out) {
     var x = a[0],
@@ -1055,6 +1143,7 @@ vec4.normalize = function(a, out) {
  * @param {vec4} a the first operand
  * @param {vec4} b the second operand
  * @returns {Number} dot product of a and b
+ * @method module:vec4.dot
  */
 vec4.dot = function (a, b) {
     return a[0] * b[0] + a[1] * b[1] + a[2] * b[2] + a[3] * b[3];
@@ -1063,11 +1152,12 @@ vec4.dot = function (a, b) {
 /**
  * Performs a linear interpolation between two vec4's
  *
- * @param {vec4} out the receiving vector
  * @param {vec4} a the first operand
  * @param {vec4} b the second operand
  * @param {Number} t interpolation amount between the two inputs
  * @returns {vec4} out
+ * @param {vec4} out the receiving vector
+ * @method module:vec4.lerp
  */
 vec4.lerp = function (a, b, t, out) {
     var ax = a[0],
@@ -1084,9 +1174,10 @@ vec4.lerp = function (a, b, t, out) {
 /**
  * Generates a random vector with the given scale
  *
- * @param {vec4} out the receiving vector
  * @param {Number} [scale] Length of the resulting vector. If ommitted, a unit vector will be returned
  * @returns {vec4} out
+ * @param {vec4} out the receiving vector
+ * @method module:vec4.random
  */
 vec4.random = function (scale, out) {
     scale = scale || 1.0;
@@ -1104,10 +1195,11 @@ vec4.random = function (scale, out) {
 /**
  * Transforms the vec4 with a mat4.
  *
- * @param {vec4} out the receiving vector
  * @param {vec4} a the vector to transform
  * @param {mat4} m matrix to transform with
  * @returns {vec4} out
+ * @param {vec4} out the receiving vector
+ * @method module:vec4.transformMat4
  */
 vec4.transformMat4 = function(a, m, out) {
     var x = a[0], y = a[1], z = a[2], w = a[3];
@@ -1121,10 +1213,11 @@ vec4.transformMat4 = function(a, m, out) {
 /**
  * Transforms the vec4 with a quat
  *
- * @param {vec4} out the receiving vector
  * @param {vec4} a the vector to transform
  * @param {quat} q quaternion to transform with
  * @returns {vec4} out
+ * @param {vec4} out the receiving vector
+ * @method module:vec4.transformQuat
  */
 vec4.transformQuat = function(a, q, out) {
     var x = a[0], y = a[1], z = a[2],
@@ -1140,6 +1233,7 @@ vec4.transformQuat = function(a, q, out) {
     out[0] = ix * qw + iw * -qx + iy * -qz - iz * -qy;
     out[1] = iy * qw + iw * -qy + iz * -qx - ix * -qz;
     out[2] = iz * qw + iw * -qz + ix * -qy - iy * -qx;
+    out[3] = a[3];
     return out;
 };
 
@@ -1154,6 +1248,7 @@ vec4.transformQuat = function(a, q, out) {
  * @param {Object} [arg] additional argument to pass to fn
  * @returns {Array} a
  * @function
+ * @method module:vec4.forEach
  */
 vec4.forEach = (function() {
     var vec = vec4.create();
@@ -1189,6 +1284,7 @@ vec4.forEach = (function() {
  *
  * @param {vec4} vec vector to represent as a string
  * @returns {String} string representation of the vector
+ * @method module:vec4.str
  */
 vec4.str = function (a) {
     return 'vec4(' + a[0] + ', ' + a[1] + ', ' + a[2] + ', ' + a[3] + ')';
@@ -1197,10 +1293,11 @@ vec4.str = function (a) {
 if(typeof(exports) !== 'undefined') {
     exports.vec4 = vec4;
 }
-
 }
 
+
 b4w.module["quat"] = function(exports, require) {
+
 
 var vec3 = require("vec3");
 var vec4 = require("vec4");
@@ -1210,30 +1307,28 @@ var GLMAT_EPSILON = 0.0000001;
 var GLMAT_ARRAY_TYPE = (typeof Float32Array !== 'undefined') ? Float32Array : Array;
 var GLMAT_RANDOM = Math.random;
 
-/* Copyright (c) 2013, Brandon Jones, Colin MacKenzie IV. All rights reserved.
+/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
 
-Redistribution and use in source and binary forms, with or without modification,
-are permitted provided that the following conditions are met:
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-  * Redistributions of source code must retain the above copyright notice, this
-    list of conditions and the following disclaimer.
-  * Redistributions in binary form must reproduce the above copyright notice,
-    this list of conditions and the following disclaimer in the documentation 
-    and/or other materials provided with the distribution.
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
 
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
-DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
-ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
-ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE. */
 
 /**
- * @class Quaternion
+ * @module Quaternion
  * @name quat
  */
 var quat = exports;
@@ -1242,6 +1337,7 @@ var quat = exports;
  * Creates a new identity quat
  *
  * @returns {quat} a new quaternion
+ * @method module:quat.create
  */
 quat.create = function() {
     var out = new GLMAT_ARRAY_TYPE(4);
@@ -1258,10 +1354,11 @@ quat.create = function() {
  *
  * Both vectors are assumed to be unit length.
  *
- * @param {quat} out the receiving quaternion.
  * @param {vec3} a the initial vector
  * @param {vec3} b the destination vector
  * @returns {quat} out
+ * @param {quat} out the receiving quaternion.
+ * @method module:quat.rotationTo
  */
 quat.rotationTo = (function() {
     var tmpvec3 = vec3.create();
@@ -1271,11 +1368,11 @@ quat.rotationTo = (function() {
     return function(a, b, out) {
         var dot = vec3.dot(a, b);
         if (dot < -0.9999999) {
-            vec3.cross(xUnitVec3, a, tmpvec3); /* NOTE: CUSTOM REORDER: (tmpvec3, xUnitVec3, a)->(xUnitVec3, a, tmpvec3) */
+            vec3.cross(xUnitVec3, a, tmpvec3); /* NOTE: CUSTOM REORDER: (tmpvec3, xUnitVec3, a)->(xUnitVec3, a ,tmpvec3) */
             if (vec3.length(tmpvec3) < 0.000001)
-                vec3.cross(yUnitVec3, a, tmpvec3); /* NOTE: CUSTOM REORDER: (tmpvec3, yUnitVec3, a)->(yUnitVec3, a, tmpvec3) */
+                vec3.cross(yUnitVec3, a, tmpvec3); /* NOTE: CUSTOM REORDER: (tmpvec3, yUnitVec3, a)->(yUnitVec3, a ,tmpvec3) */
             vec3.normalize(tmpvec3, tmpvec3);
-            quat.setAxisAngle(tmpvec3, Math.PI, out); /* NOTE: CUSTOM REORDER: (out, tmpvec3, Math.PI)->(tmpvec3, Math.PI, out)*/
+            quat.setAxisAngle(tmpvec3, Math.PI, out); /* NOTE: CUSTOM REORDER: (out, tmpvec3, Math.PI)->(tmpvec3, Math.PI ,out)*/
             return out;
         } else if (dot > 0.9999999) {
             out[0] = 0;
@@ -1284,7 +1381,7 @@ quat.rotationTo = (function() {
             out[3] = 1;
             return out;
         } else {
-            vec3.cross(a, b, tmpvec3); /* NOTE: CUSTOM REORDER: (tmpvec3, a, b)->(a, b, tmpvec3) */
+            vec3.cross(a, b, tmpvec3); /* NOTE: CUSTOM REORDER: (tmpvec3, a, b)->(a, b ,tmpvec3) */
             out[0] = tmpvec3[0];
             out[1] = tmpvec3[1];
             out[2] = tmpvec3[2];
@@ -1303,6 +1400,7 @@ quat.rotationTo = (function() {
  * @param {vec3} right the vector representing the local "right" direction
  * @param {vec3} up    the vector representing the local "up" direction
  * @returns {quat} out
+ * @method module:quat.setAxes
  */
 quat.setAxes = (function() {
     var matr = mat3.create();
@@ -1330,6 +1428,7 @@ quat.setAxes = (function() {
  * @param {quat} a quaternion to clone
  * @returns {quat} a new quaternion
  * @function
+ * @method module:quat.clone
  */
 quat.clone = vec4.clone;
 
@@ -1342,37 +1441,41 @@ quat.clone = vec4.clone;
  * @param {Number} w W component
  * @returns {quat} a new quaternion
  * @function
+ * @method module:quat.fromValues
  */
 quat.fromValues = vec4.fromValues;
 
 /**
  * Copy the values from one quat to another
  *
- * @param {quat} out the receiving quaternion
  * @param {quat} a the source quaternion
  * @returns {quat} out
  * @function
+ * @param {quat} out the receiving quaternion
+ * @method module:quat.copy
  */
 quat.copy = vec4.copy;
 
 /**
  * Set the components of a quat to the given values
  *
- * @param {quat} out the receiving quaternion
  * @param {Number} x X component
  * @param {Number} y Y component
  * @param {Number} z Z component
  * @param {Number} w W component
  * @returns {quat} out
  * @function
+ * @param {quat} out the receiving quaternion
+ * @method module:quat.set
  */
 quat.set = vec4.set;
 
 /**
  * Set a quat to the identity quaternion
  *
- * @param {quat} out the receiving quaternion
  * @returns {quat} out
+ * @param {quat} out the receiving quaternion
+ * @method module:quat.identity
  */
 quat.identity = function(out) {
     out[0] = 0;
@@ -1386,11 +1489,12 @@ quat.identity = function(out) {
  * Sets a quat from the given angle and rotation axis,
  * then returns it.
  *
- * @param {quat} out the receiving quaternion
  * @param {vec3} axis the axis around which to rotate
  * @param {Number} rad the angle in radians
  * @returns {quat} out
- **/
+ * @param {quat} out the receiving quaternion
+ * @method module:quat.setAxisAngle
+ */
 quat.setAxisAngle = function(axis, rad, out) {
     rad = rad * 0.5;
     var s = Math.sin(rad);
@@ -1404,21 +1508,23 @@ quat.setAxisAngle = function(axis, rad, out) {
 /**
  * Adds two quat's
  *
- * @param {quat} out the receiving quaternion
  * @param {quat} a the first operand
  * @param {quat} b the second operand
  * @returns {quat} out
  * @function
+ * @param {quat} out the receiving quaternion
+ * @method module:quat.add
  */
 quat.add = vec4.add;
 
 /**
  * Multiplies two quat's
  *
- * @param {quat} out the receiving quaternion
  * @param {quat} a the first operand
  * @param {quat} b the second operand
  * @returns {quat} out
+ * @param {quat} out the receiving quaternion
+ * @method module:quat.multiply
  */
 quat.multiply = function(a, b, out) {
     var ax = a[0], ay = a[1], az = a[2], aw = a[3],
@@ -1434,27 +1540,30 @@ quat.multiply = function(a, b, out) {
 /**
  * Alias for {@link quat.multiply}
  * @function
+ * @method module:quat.mul
  */
 quat.mul = quat.multiply;
 
 /**
  * Scales a quat by a scalar number
  *
- * @param {quat} out the receiving vector
  * @param {quat} a the vector to scale
  * @param {Number} b amount to scale the vector by
  * @returns {quat} out
  * @function
+ * @param {quat} out the receiving vector
+ * @method module:quat.scale
  */
 quat.scale = vec4.scale;
 
 /**
  * Rotates a quaternion by the given angle about the X axis
  *
- * @param {quat} out quat receiving operation result
  * @param {quat} a quat to rotate
  * @param {number} rad angle (in radians) to rotate
  * @returns {quat} out
+ * @param {quat} out quat receiving operation result
+ * @method module:quat.rotateX
  */
 quat.rotateX = function (a, rad, out) {
     rad *= 0.5; 
@@ -1472,10 +1581,11 @@ quat.rotateX = function (a, rad, out) {
 /**
  * Rotates a quaternion by the given angle about the Y axis
  *
- * @param {quat} out quat receiving operation result
  * @param {quat} a quat to rotate
  * @param {number} rad angle (in radians) to rotate
  * @returns {quat} out
+ * @param {quat} out quat receiving operation result
+ * @method module:quat.rotateY
  */
 quat.rotateY = function (a, rad, out) {
     rad *= 0.5; 
@@ -1493,10 +1603,11 @@ quat.rotateY = function (a, rad, out) {
 /**
  * Rotates a quaternion by the given angle about the Z axis
  *
- * @param {quat} out quat receiving operation result
  * @param {quat} a quat to rotate
  * @param {number} rad angle (in radians) to rotate
  * @returns {quat} out
+ * @param {quat} out quat receiving operation result
+ * @method module:quat.rotateZ
  */
 quat.rotateZ = function (a, rad, out) {
     rad *= 0.5; 
@@ -1516,9 +1627,10 @@ quat.rotateZ = function (a, rad, out) {
  * Assumes that quaternion is 1 unit in length.
  * Any existing W component will be ignored.
  *
- * @param {quat} out the receiving quaternion
  * @param {quat} a quat to calculate W component of
  * @returns {quat} out
+ * @param {quat} out the receiving quaternion
+ * @method module:quat.calculateW
  */
 quat.calculateW = function (a, out) {
     var x = a[0], y = a[1], z = a[2];
@@ -1526,7 +1638,7 @@ quat.calculateW = function (a, out) {
     out[0] = x;
     out[1] = y;
     out[2] = z;
-    out[3] = -Math.sqrt(Math.abs(1.0 - x * x - y * y - z * z));
+    out[3] = Math.sqrt(Math.abs(1.0 - x * x - y * y - z * z));
     return out;
 };
 
@@ -1537,29 +1649,32 @@ quat.calculateW = function (a, out) {
  * @param {quat} b the second operand
  * @returns {Number} dot product of a and b
  * @function
+ * @method module:quat.dot
  */
 quat.dot = vec4.dot;
 
 /**
  * Performs a linear interpolation between two quat's
  *
- * @param {quat} out the receiving quaternion
  * @param {quat} a the first operand
  * @param {quat} b the second operand
  * @param {Number} t interpolation amount between the two inputs
  * @returns {quat} out
  * @function
+ * @param {quat} out the receiving quaternion
+ * @method module:quat.lerp
  */
 quat.lerp = vec4.lerp;
 
 /**
  * Performs a spherical linear interpolation between two quat
  *
- * @param {quat} out the receiving quaternion
  * @param {quat} a the first operand
  * @param {quat} b the second operand
  * @param {Number} t interpolation amount between the two inputs
  * @returns {quat} out
+ * @param {quat} out the receiving quaternion
+ * @method module:quat.slerp
  */
 quat.slerp = function (a, b, t, out) {
     // benchmarks:
@@ -1605,9 +1720,10 @@ quat.slerp = function (a, b, t, out) {
 /**
  * Calculates the inverse of a quat
  *
- * @param {quat} out the receiving quaternion
  * @param {quat} a quat to calculate inverse of
  * @returns {quat} out
+ * @param {quat} out the receiving quaternion
+ * @method module:quat.invert
  */
 quat.invert = function(a, out) {
     var a0 = a[0], a1 = a[1], a2 = a[2], a3 = a[3],
@@ -1627,9 +1743,10 @@ quat.invert = function(a, out) {
  * Calculates the conjugate of a quat
  * If the quaternion is normalized, this function is faster than quat.inverse and produces the same result.
  *
- * @param {quat} out the receiving quaternion
  * @param {quat} a quat to calculate conjugate of
  * @returns {quat} out
+ * @param {quat} out the receiving quaternion
+ * @method module:quat.conjugate
  */
 quat.conjugate = function (a, out) {
     out[0] = -a[0];
@@ -1645,12 +1762,14 @@ quat.conjugate = function (a, out) {
  * @param {quat} a vector to calculate length of
  * @returns {Number} length of a
  * @function
+ * @method module:quat.length
  */
 quat.length = vec4.length;
 
 /**
  * Alias for {@link quat.length}
  * @function
+ * @method module:quat.len
  */
 quat.len = quat.length;
 
@@ -1660,22 +1779,25 @@ quat.len = quat.length;
  * @param {quat} a vector to calculate squared length of
  * @returns {Number} squared length of a
  * @function
+ * @method module:quat.squaredLength
  */
 quat.squaredLength = vec4.squaredLength;
 
 /**
  * Alias for {@link quat.squaredLength}
  * @function
+ * @method module:quat.sqrLen
  */
 quat.sqrLen = quat.squaredLength;
 
 /**
  * Normalize a quat
  *
- * @param {quat} out the receiving quaternion
  * @param {quat} a quaternion to normalize
  * @returns {quat} out
  * @function
+ * @param {quat} out the receiving quaternion
+ * @method module:quat.normalize
  */
 quat.normalize = vec4.normalize;
 
@@ -1685,10 +1807,11 @@ quat.normalize = vec4.normalize;
  * NOTE: The resultant quaternion is not normalized, so you should be sure
  * to renormalize the quaternion yourself where necessary.
  *
- * @param {quat} out the receiving quaternion
  * @param {mat3} m rotation matrix
  * @returns {quat} out
  * @function
+ * @param {quat} out the receiving quaternion
+ * @method module:quat.fromMat3
  */
 quat.fromMat3 = function(m, out) {
     // Algorithm in Ken Shoemake's article in 1987 SIGGRAPH course notes
@@ -1730,6 +1853,7 @@ quat.fromMat3 = function(m, out) {
  *
  * @param {quat} vec vector to represent as a string
  * @returns {String} string representation of the vector
+ * @method module:quat.str
  */
 quat.str = function (a) {
     return 'quat(' + a[0] + ', ' + a[1] + ', ' + a[2] + ', ' + a[3] + ')';
@@ -1738,40 +1862,39 @@ quat.str = function (a) {
 if(typeof(exports) !== 'undefined') {
     exports.quat = quat;
 }
-
 }
 
+
 b4w.module["mat3"] = function(exports, require) {
+
 
 
 var GLMAT_EPSILON = 0.0000001;
 var GLMAT_ARRAY_TYPE = (typeof Float32Array !== 'undefined') ? Float32Array : Array;
 var GLMAT_RANDOM = Math.random;
 
-/* Copyright (c) 2013, Brandon Jones, Colin MacKenzie IV. All rights reserved.
+/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
 
-Redistribution and use in source and binary forms, with or without modification,
-are permitted provided that the following conditions are met:
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-  * Redistributions of source code must retain the above copyright notice, this
-    list of conditions and the following disclaimer.
-  * Redistributions in binary form must reproduce the above copyright notice,
-    this list of conditions and the following disclaimer in the documentation 
-    and/or other materials provided with the distribution.
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
 
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
-DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
-ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
-ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE. */
 
 /**
- * @class 3x3 Matrix
+ * @module 3x3 Matrix
  * @name mat3
  */
 var mat3 = exports;
@@ -1780,6 +1903,7 @@ var mat3 = exports;
  * Creates a new identity mat3
  *
  * @returns {mat3} a new 3x3 matrix
+ * @method module:mat3.create
  */
 mat3.create = function() {
     var out = new GLMAT_ARRAY_TYPE(9);
@@ -1798,9 +1922,10 @@ mat3.create = function() {
 /**
  * Copies the upper-left 3x3 values into the given mat3.
  *
- * @param {mat3} out the receiving 3x3 matrix
  * @param {mat4} a   the source 4x4 matrix
  * @returns {mat3} out
+ * @param {mat3} out the receiving 3x3 matrix
+ * @method module:mat3.fromMat4
  */
 mat3.fromMat4 = function(a, out) {
     out[0] = a[0];
@@ -1820,6 +1945,7 @@ mat3.fromMat4 = function(a, out) {
  *
  * @param {mat3} a matrix to clone
  * @returns {mat3} a new 3x3 matrix
+ * @method module:mat3.clone
  */
 mat3.clone = function(a) {
     var out = new GLMAT_ARRAY_TYPE(9);
@@ -1838,9 +1964,10 @@ mat3.clone = function(a) {
 /**
  * Copy the values from one mat3 to another
  *
- * @param {mat3} out the receiving matrix
  * @param {mat3} a the source matrix
  * @returns {mat3} out
+ * @param {mat3} out the receiving matrix
+ * @method module:mat3.copy
  */
 mat3.copy = function(a, out) {
     out[0] = a[0];
@@ -1858,8 +1985,9 @@ mat3.copy = function(a, out) {
 /**
  * Set a mat3 to the identity matrix
  *
- * @param {mat3} out the receiving matrix
  * @returns {mat3} out
+ * @param {mat3} out the receiving matrix
+ * @method module:mat3.identity
  */
 mat3.identity = function(out) {
     out[0] = 1;
@@ -1877,9 +2005,10 @@ mat3.identity = function(out) {
 /**
  * Transpose the values of a mat3
  *
- * @param {mat3} out the receiving matrix
  * @param {mat3} a the source matrix
  * @returns {mat3} out
+ * @param {mat3} out the receiving matrix
+ * @method module:mat3.transpose
  */
 mat3.transpose = function(a, out) {
     // If we are transposing ourselves we can skip a few steps but have to cache some values
@@ -1909,9 +2038,10 @@ mat3.transpose = function(a, out) {
 /**
  * Inverts a mat3
  *
- * @param {mat3} out the receiving matrix
  * @param {mat3} a the source matrix
  * @returns {mat3} out
+ * @param {mat3} out the receiving matrix
+ * @method module:mat3.invert
  */
 mat3.invert = function(a, out) {
     var a00 = a[0], a01 = a[1], a02 = a[2],
@@ -1945,9 +2075,10 @@ mat3.invert = function(a, out) {
 /**
  * Calculates the adjugate of a mat3
  *
- * @param {mat3} out the receiving matrix
  * @param {mat3} a the source matrix
  * @returns {mat3} out
+ * @param {mat3} out the receiving matrix
+ * @method module:mat3.adjoint
  */
 mat3.adjoint = function(a, out) {
     var a00 = a[0], a01 = a[1], a02 = a[2],
@@ -1971,6 +2102,7 @@ mat3.adjoint = function(a, out) {
  *
  * @param {mat3} a the source matrix
  * @returns {Number} determinant of a
+ * @method module:mat3.determinant
  */
 mat3.determinant = function (a) {
     var a00 = a[0], a01 = a[1], a02 = a[2],
@@ -1983,10 +2115,11 @@ mat3.determinant = function (a) {
 /**
  * Multiplies two mat3's
  *
- * @param {mat3} out the receiving matrix
  * @param {mat3} a the first operand
  * @param {mat3} b the second operand
  * @returns {mat3} out
+ * @param {mat3} out the receiving matrix
+ * @method module:mat3.multiply
  */
 mat3.multiply = function (a, b, out) {
     var a00 = a[0], a01 = a[1], a02 = a[2],
@@ -2014,16 +2147,18 @@ mat3.multiply = function (a, b, out) {
 /**
  * Alias for {@link mat3.multiply}
  * @function
+ * @method module:mat3.mul
  */
 mat3.mul = mat3.multiply;
 
 /**
  * Translate a mat3 by the given vector
  *
- * @param {mat3} out the receiving matrix
  * @param {mat3} a the matrix to translate
  * @param {vec2} v vector to translate by
  * @returns {mat3} out
+ * @param {mat3} out the receiving matrix
+ * @method module:mat3.translate
  */
 mat3.translate = function(a, v, out) {
     var a00 = a[0], a01 = a[1], a02 = a[2],
@@ -2048,10 +2183,11 @@ mat3.translate = function(a, v, out) {
 /**
  * Rotates a mat3 by the given angle
  *
- * @param {mat3} out the receiving matrix
  * @param {mat3} a the matrix to rotate
  * @param {Number} rad the angle to rotate the matrix by
  * @returns {mat3} out
+ * @param {mat3} out the receiving matrix
+ * @method module:mat3.rotate
  */
 mat3.rotate = function (a, rad, out) {
     var a00 = a[0], a01 = a[1], a02 = a[2],
@@ -2078,11 +2214,12 @@ mat3.rotate = function (a, rad, out) {
 /**
  * Scales the mat3 by the dimensions in the given vec2
  *
- * @param {mat3} out the receiving matrix
  * @param {mat3} a the matrix to rotate
  * @param {vec2} v the vec2 to scale the matrix by
  * @returns {mat3} out
- **/
+ * @param {mat3} out the receiving matrix
+ * @method module:mat3.scale
+ */
 mat3.scale = function(a, v, out) {
     var x = v[0], y = v[1];
 
@@ -2101,12 +2238,94 @@ mat3.scale = function(a, v, out) {
 };
 
 /**
+ * Creates a matrix from a vector translation
+ * This is equivalent to (but much faster than):
+ *
+ *     mat3.identity(dest);
+ *     mat3.translate(dest, dest, vec);
+ *
+ * @param {vec2} v Translation vector
+ * @returns {mat3} out
+ * @param {mat3} out mat3 receiving operation result
+ * @method module:mat3.fromTranslation
+ */
+mat3.fromTranslation = function(v, out) {
+    out[0] = 1;
+    out[1] = 0;
+    out[2] = 0;
+    out[3] = 0;
+    out[4] = 1;
+    out[5] = 0;
+    out[6] = v[0];
+    out[7] = v[1];
+    out[8] = 1;
+    return out;
+}
+
+/**
+ * Creates a matrix from a given angle
+ * This is equivalent to (but much faster than):
+ *
+ *     mat3.identity(dest);
+ *     mat3.rotate(dest, dest, rad);
+ *
+ * @param {Number} rad the angle to rotate the matrix by
+ * @returns {mat3} out
+ * @param {mat3} out mat3 receiving operation result
+ * @method module:mat3.fromRotation
+ */
+mat3.fromRotation = function(rad, out) {
+    var s = Math.sin(rad), c = Math.cos(rad);
+
+    out[0] = c;
+    out[1] = s;
+    out[2] = 0;
+
+    out[3] = -s;
+    out[4] = c;
+    out[5] = 0;
+
+    out[6] = 0;
+    out[7] = 0;
+    out[8] = 1;
+    return out;
+}
+
+/**
+ * Creates a matrix from a vector scaling
+ * This is equivalent to (but much faster than):
+ *
+ *     mat3.identity(dest);
+ *     mat3.scale(dest, dest, vec);
+ *
+ * @param {vec2} v Scaling vector
+ * @returns {mat3} out
+ * @param {mat3} out mat3 receiving operation result
+ * @method module:mat3.fromScaling
+ */
+mat3.fromScaling = function(v, out) {
+    out[0] = v[0];
+    out[1] = 0;
+    out[2] = 0;
+
+    out[3] = 0;
+    out[4] = v[1];
+    out[5] = 0;
+
+    out[6] = 0;
+    out[7] = 0;
+    out[8] = 1;
+    return out;
+}
+
+/**
  * Copies the values from a mat2d into a mat3
  *
- * @param {mat3} out the receiving matrix
  * @param {mat2d} a the matrix to copy
  * @returns {mat3} out
- **/
+ * @param {mat3} out the receiving matrix
+ * @method module:mat3.fromMat2d
+ */
 mat3.fromMat2d = function(a, out) {
     out[0] = a[0];
     out[1] = a[1];
@@ -2125,11 +2344,12 @@ mat3.fromMat2d = function(a, out) {
 /**
 * Calculates a 3x3 matrix from the given quaternion
 *
-* @param {mat3} out mat3 receiving operation result
 * @param {quat} q Quaternion to create matrix from
 *
 * @returns {mat3} out
-*/
+* @param {mat3} out mat3 receiving operation result
+ * @method module:mat3.fromQuat
+ */
 mat3.fromQuat = function (q, out) {
     var x = q[0], y = q[1], z = q[2], w = q[3],
         x2 = x + x,
@@ -2164,11 +2384,12 @@ mat3.fromQuat = function (q, out) {
 /**
 * Calculates a 3x3 normal matrix (transpose inverse) from the 4x4 matrix
 *
-* @param {mat3} out mat3 receiving operation result
 * @param {mat4} a Mat4 to derive the normal matrix from
 *
 * @returns {mat3} out
-*/
+* @param {mat3} out mat3 receiving operation result
+ * @method module:mat3.normalFromMat4
+ */
 mat3.normalFromMat4 = function (a, out) {
     var a00 = a[0], a01 = a[1], a02 = a[2], a03 = a[3],
         a10 = a[4], a11 = a[5], a12 = a[6], a13 = a[7],
@@ -2216,6 +2437,7 @@ mat3.normalFromMat4 = function (a, out) {
  *
  * @param {mat3} mat matrix to represent as a string
  * @returns {String} string representation of the matrix
+ * @method module:mat3.str
  */
 mat3.str = function (a) {
     return 'mat3(' + a[0] + ', ' + a[1] + ', ' + a[2] + ', ' + 
@@ -2228,6 +2450,7 @@ mat3.str = function (a) {
  *
  * @param {mat3} a the matrix to calculate Frobenius norm of
  * @returns {Number} Frobenius norm
+ * @method module:mat3.frob
  */
 mat3.frob = function (a) {
     return(Math.sqrt(Math.pow(a[0], 2) + Math.pow(a[1], 2) + Math.pow(a[2], 2) + Math.pow(a[3], 2) + Math.pow(a[4], 2) + Math.pow(a[5], 2) + Math.pow(a[6], 2) + Math.pow(a[7], 2) + Math.pow(a[8], 2)))
@@ -2237,40 +2460,39 @@ mat3.frob = function (a) {
 if(typeof(exports) !== 'undefined') {
     exports.mat3 = mat3;
 }
-
 }
 
+
 b4w.module["mat4"] = function(exports, require) {
+
 
 
 var GLMAT_EPSILON = 0.0000001;
 var GLMAT_ARRAY_TYPE = (typeof Float32Array !== 'undefined') ? Float32Array : Array;
 var GLMAT_RANDOM = Math.random;
 
-/* Copyright (c) 2013, Brandon Jones, Colin MacKenzie IV. All rights reserved.
+/* Copyright (c) 2015, Brandon Jones, Colin MacKenzie IV.
 
-Redistribution and use in source and binary forms, with or without modification,
-are permitted provided that the following conditions are met:
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-  * Redistributions of source code must retain the above copyright notice, this
-    list of conditions and the following disclaimer.
-  * Redistributions in binary form must reproduce the above copyright notice,
-    this list of conditions and the following disclaimer in the documentation 
-    and/or other materials provided with the distribution.
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
 
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
-DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
-ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
-ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE. */
 
 /**
- * @class 4x4 Matrix
+ * @module 4x4 Matrix
  * @name mat4
  */
 var mat4 = exports;
@@ -2279,6 +2501,7 @@ var mat4 = exports;
  * Creates a new identity mat4
  *
  * @returns {mat4} a new 4x4 matrix
+ * @method module:mat4.create
  */
 mat4.create = function() {
     var out = new GLMAT_ARRAY_TYPE(16);
@@ -2306,6 +2529,7 @@ mat4.create = function() {
  *
  * @param {mat4} a matrix to clone
  * @returns {mat4} a new 4x4 matrix
+ * @method module:mat4.clone
  */
 mat4.clone = function(a) {
     var out = new GLMAT_ARRAY_TYPE(16);
@@ -2331,9 +2555,10 @@ mat4.clone = function(a) {
 /**
  * Copy the values from one mat4 to another
  *
- * @param {mat4} out the receiving matrix
  * @param {mat4} a the source matrix
  * @returns {mat4} out
+ * @param {mat4} out the receiving matrix
+ * @method module:mat4.copy
  */
 mat4.copy = function(a, out) {
     out[0] = a[0];
@@ -2358,8 +2583,9 @@ mat4.copy = function(a, out) {
 /**
  * Set a mat4 to the identity matrix
  *
- * @param {mat4} out the receiving matrix
  * @returns {mat4} out
+ * @param {mat4} out the receiving matrix
+ * @method module:mat4.identity
  */
 mat4.identity = function(out) {
     out[0] = 1;
@@ -2384,9 +2610,10 @@ mat4.identity = function(out) {
 /**
  * Transpose the values of a mat4
  *
- * @param {mat4} out the receiving matrix
  * @param {mat4} a the source matrix
  * @returns {mat4} out
+ * @param {mat4} out the receiving matrix
+ * @method module:mat4.transpose
  */
 mat4.transpose = function(a, out) {
     // If we are transposing ourselves we can skip a few steps but have to cache some values
@@ -2432,9 +2659,10 @@ mat4.transpose = function(a, out) {
 /**
  * Inverts a mat4
  *
- * @param {mat4} out the receiving matrix
  * @param {mat4} a the source matrix
  * @returns {mat4} out
+ * @param {mat4} out the receiving matrix
+ * @method module:mat4.invert
  */
 mat4.invert = function(a, out) {
     var a00 = a[0], a01 = a[1], a02 = a[2], a03 = a[3],
@@ -2486,9 +2714,10 @@ mat4.invert = function(a, out) {
 /**
  * Calculates the adjugate of a mat4
  *
- * @param {mat4} out the receiving matrix
  * @param {mat4} a the source matrix
  * @returns {mat4} out
+ * @param {mat4} out the receiving matrix
+ * @method module:mat4.adjoint
  */
 mat4.adjoint = function(a, out) {
     var a00 = a[0], a01 = a[1], a02 = a[2], a03 = a[3],
@@ -2520,6 +2749,7 @@ mat4.adjoint = function(a, out) {
  *
  * @param {mat4} a the source matrix
  * @returns {Number} determinant of a
+ * @method module:mat4.determinant
  */
 mat4.determinant = function (a) {
     var a00 = a[0], a01 = a[1], a02 = a[2], a03 = a[3],
@@ -2547,10 +2777,11 @@ mat4.determinant = function (a) {
 /**
  * Multiplies two mat4's
  *
- * @param {mat4} out the receiving matrix
  * @param {mat4} a the first operand
  * @param {mat4} b the second operand
  * @returns {mat4} out
+ * @param {mat4} out the receiving matrix
+ * @method module:mat4.multiply
  */
 mat4.multiply = function (a, b, out) {
     var a00 = a[0], a01 = a[1], a02 = a[2], a03 = a[3],
@@ -2588,16 +2819,18 @@ mat4.multiply = function (a, b, out) {
 /**
  * Alias for {@link mat4.multiply}
  * @function
+ * @method module:mat4.mul
  */
 mat4.mul = mat4.multiply;
 
 /**
  * Translate a mat4 by the given vector
  *
- * @param {mat4} out the receiving matrix
  * @param {mat4} a the matrix to translate
  * @param {vec3} v vector to translate by
  * @returns {mat4} out
+ * @param {mat4} out the receiving matrix
+ * @method module:mat4.translate
  */
 mat4.translate = function (a, v, out) {
     var x = v[0], y = v[1], z = v[2],
@@ -2631,11 +2864,12 @@ mat4.translate = function (a, v, out) {
 /**
  * Scales the mat4 by the dimensions in the given vec3
  *
- * @param {mat4} out the receiving matrix
  * @param {mat4} a the matrix to scale
  * @param {vec3} v the vec3 to scale the matrix by
  * @returns {mat4} out
- **/
+ * @param {mat4} out the receiving matrix
+ * @method module:mat4.scale
+ */
 mat4.scale = function(a, v, out) {
     var x = v[0], y = v[1], z = v[2];
 
@@ -2659,13 +2893,14 @@ mat4.scale = function(a, v, out) {
 };
 
 /**
- * Rotates a mat4 by the given angle
+ * Rotates a mat4 by the given angle around the given axis
  *
- * @param {mat4} out the receiving matrix
  * @param {mat4} a the matrix to rotate
  * @param {Number} rad the angle to rotate the matrix by
  * @param {vec3} axis the axis to rotate around
  * @returns {mat4} out
+ * @param {mat4} out the receiving matrix
+ * @method module:mat4.rotate
  */
 mat4.rotate = function (a, rad, axis, out) {
     var x = axis[0], y = axis[1], z = axis[2],
@@ -2724,10 +2959,11 @@ mat4.rotate = function (a, rad, axis, out) {
 /**
  * Rotates a matrix by the given angle around the X axis
  *
- * @param {mat4} out the receiving matrix
  * @param {mat4} a the matrix to rotate
  * @param {Number} rad the angle to rotate the matrix by
  * @returns {mat4} out
+ * @param {mat4} out the receiving matrix
+ * @method module:mat4.rotateX
  */
 mat4.rotateX = function (a, rad, out) {
     var s = Math.sin(rad),
@@ -2767,10 +3003,11 @@ mat4.rotateX = function (a, rad, out) {
 /**
  * Rotates a matrix by the given angle around the Y axis
  *
- * @param {mat4} out the receiving matrix
  * @param {mat4} a the matrix to rotate
  * @param {Number} rad the angle to rotate the matrix by
  * @returns {mat4} out
+ * @param {mat4} out the receiving matrix
+ * @method module:mat4.rotateY
  */
 mat4.rotateY = function (a, rad, out) {
     var s = Math.sin(rad),
@@ -2810,10 +3047,11 @@ mat4.rotateY = function (a, rad, out) {
 /**
  * Rotates a matrix by the given angle around the Z axis
  *
- * @param {mat4} out the receiving matrix
  * @param {mat4} a the matrix to rotate
  * @param {Number} rad the angle to rotate the matrix by
  * @returns {mat4} out
+ * @param {mat4} out the receiving matrix
+ * @method module:mat4.rotateZ
  */
 mat4.rotateZ = function (a, rad, out) {
     var s = Math.sin(rad),
@@ -2851,6 +3089,227 @@ mat4.rotateZ = function (a, rad, out) {
 };
 
 /**
+ * Creates a matrix from a vector translation
+ * This is equivalent to (but much faster than):
+ *
+ *     mat4.identity(dest);
+ *     mat4.translate(dest, dest, vec);
+ *
+ * @param {vec3} v Translation vector
+ * @returns {mat4} out
+ * @param {mat4} out mat4 receiving operation result
+ * @method module:mat4.fromTranslation
+ */
+mat4.fromTranslation = function(v, out) {
+    out[0] = 1;
+    out[1] = 0;
+    out[2] = 0;
+    out[3] = 0;
+    out[4] = 0;
+    out[5] = 1;
+    out[6] = 0;
+    out[7] = 0;
+    out[8] = 0;
+    out[9] = 0;
+    out[10] = 1;
+    out[11] = 0;
+    out[12] = v[0];
+    out[13] = v[1];
+    out[14] = v[2];
+    out[15] = 1;
+    return out;
+}
+
+/**
+ * Creates a matrix from a vector scaling
+ * This is equivalent to (but much faster than):
+ *
+ *     mat4.identity(dest);
+ *     mat4.scale(dest, dest, vec);
+ *
+ * @param {vec3} v Scaling vector
+ * @returns {mat4} out
+ * @param {mat4} out mat4 receiving operation result
+ * @method module:mat4.fromScaling
+ */
+mat4.fromScaling = function(v, out) {
+    out[0] = v[0];
+    out[1] = 0;
+    out[2] = 0;
+    out[3] = 0;
+    out[4] = 0;
+    out[5] = v[1];
+    out[6] = 0;
+    out[7] = 0;
+    out[8] = 0;
+    out[9] = 0;
+    out[10] = v[2];
+    out[11] = 0;
+    out[12] = 0;
+    out[13] = 0;
+    out[14] = 0;
+    out[15] = 1;
+    return out;
+}
+
+/**
+ * Creates a matrix from a given angle around a given axis
+ * This is equivalent to (but much faster than):
+ *
+ *     mat4.identity(dest);
+ *     mat4.rotate(dest, dest, rad, axis);
+ *
+ * @param {Number} rad the angle to rotate the matrix by
+ * @param {vec3} axis the axis to rotate around
+ * @returns {mat4} out
+ * @param {mat4} out mat4 receiving operation result
+ * @method module:mat4.fromRotation
+ */
+mat4.fromRotation = function(rad, axis, out) {
+    var x = axis[0], y = axis[1], z = axis[2],
+        len = Math.sqrt(x * x + y * y + z * z),
+        s, c, t;
+    
+    if (Math.abs(len) < GLMAT_EPSILON) { return null; }
+    
+    len = 1 / len;
+    x *= len;
+    y *= len;
+    z *= len;
+    
+    s = Math.sin(rad);
+    c = Math.cos(rad);
+    t = 1 - c;
+    
+    // Perform rotation-specific matrix multiplication
+    out[0] = x * x * t + c;
+    out[1] = y * x * t + z * s;
+    out[2] = z * x * t - y * s;
+    out[3] = 0;
+    out[4] = x * y * t - z * s;
+    out[5] = y * y * t + c;
+    out[6] = z * y * t + x * s;
+    out[7] = 0;
+    out[8] = x * z * t + y * s;
+    out[9] = y * z * t - x * s;
+    out[10] = z * z * t + c;
+    out[11] = 0;
+    out[12] = 0;
+    out[13] = 0;
+    out[14] = 0;
+    out[15] = 1;
+    return out;
+}
+
+/**
+ * Creates a matrix from the given angle around the X axis
+ * This is equivalent to (but much faster than):
+ *
+ *     mat4.identity(dest);
+ *     mat4.rotateX(dest, dest, rad);
+ *
+ * @param {Number} rad the angle to rotate the matrix by
+ * @returns {mat4} out
+ * @param {mat4} out mat4 receiving operation result
+ * @method module:mat4.fromXRotation
+ */
+mat4.fromXRotation = function(rad, out) {
+    var s = Math.sin(rad),
+        c = Math.cos(rad);
+    
+    // Perform axis-specific matrix multiplication
+    out[0]  = 1;
+    out[1]  = 0;
+    out[2]  = 0;
+    out[3]  = 0;
+    out[4] = 0;
+    out[5] = c;
+    out[6] = s;
+    out[7] = 0;
+    out[8] = 0;
+    out[9] = -s;
+    out[10] = c;
+    out[11] = 0;
+    out[12] = 0;
+    out[13] = 0;
+    out[14] = 0;
+    out[15] = 1;
+    return out;
+}
+
+/**
+ * Creates a matrix from the given angle around the Y axis
+ * This is equivalent to (but much faster than):
+ *
+ *     mat4.identity(dest);
+ *     mat4.rotateY(dest, dest, rad);
+ *
+ * @param {Number} rad the angle to rotate the matrix by
+ * @returns {mat4} out
+ * @param {mat4} out mat4 receiving operation result
+ * @method module:mat4.fromYRotation
+ */
+mat4.fromYRotation = function(rad, out) {
+    var s = Math.sin(rad),
+        c = Math.cos(rad);
+    
+    // Perform axis-specific matrix multiplication
+    out[0]  = c;
+    out[1]  = 0;
+    out[2]  = -s;
+    out[3]  = 0;
+    out[4] = 0;
+    out[5] = 1;
+    out[6] = 0;
+    out[7] = 0;
+    out[8] = s;
+    out[9] = 0;
+    out[10] = c;
+    out[11] = 0;
+    out[12] = 0;
+    out[13] = 0;
+    out[14] = 0;
+    out[15] = 1;
+    return out;
+}
+
+/**
+ * Creates a matrix from the given angle around the Z axis
+ * This is equivalent to (but much faster than):
+ *
+ *     mat4.identity(dest);
+ *     mat4.rotateZ(dest, dest, rad);
+ *
+ * @param {Number} rad the angle to rotate the matrix by
+ * @returns {mat4} out
+ * @param {mat4} out mat4 receiving operation result
+ * @method module:mat4.fromZRotation
+ */
+mat4.fromZRotation = function(rad, out) {
+    var s = Math.sin(rad),
+        c = Math.cos(rad);
+    
+    // Perform axis-specific matrix multiplication
+    out[0]  = c;
+    out[1]  = s;
+    out[2]  = 0;
+    out[3]  = 0;
+    out[4] = -s;
+    out[5] = c;
+    out[6] = 0;
+    out[7] = 0;
+    out[8] = 0;
+    out[9] = 0;
+    out[10] = 1;
+    out[11] = 0;
+    out[12] = 0;
+    out[13] = 0;
+    out[14] = 0;
+    out[15] = 1;
+    return out;
+}
+
+/**
  * Creates a matrix from a quaternion rotation and vector translation
  * This is equivalent to (but much faster than):
  *
@@ -2860,10 +3319,11 @@ mat4.rotateZ = function (a, rad, out) {
  *     quat4.toMat4(quat, quatMat);
  *     mat4.multiply(dest, quatMat);
  *
- * @param {mat4} out mat4 receiving operation result
  * @param {quat4} q Rotation quaternion
  * @param {vec3} v Translation vector
  * @returns {mat4} out
+ * @param {mat4} out mat4 receiving operation result
+ * @method module:mat4.fromRotationTranslation
  */
 mat4.fromRotationTranslation = function (q, v, out) {
     // Quaternion math
@@ -2944,7 +3404,6 @@ mat4.fromQuat = function (q, out) {
 /**
  * Generates a frustum matrix with the given bounds
  *
- * @param {mat4} out mat4 frustum matrix will be written into
  * @param {Number} left Left bound of the frustum
  * @param {Number} right Right bound of the frustum
  * @param {Number} bottom Bottom bound of the frustum
@@ -2952,6 +3411,8 @@ mat4.fromQuat = function (q, out) {
  * @param {Number} near Near bound of the frustum
  * @param {Number} far Far bound of the frustum
  * @returns {mat4} out
+ * @param {mat4} out mat4 frustum matrix will be written into
+ * @method module:mat4.frustum
  */
 mat4.frustum = function (left, right, bottom, top, near, far, out) {
     var rl = 1 / (right - left),
@@ -2979,12 +3440,13 @@ mat4.frustum = function (left, right, bottom, top, near, far, out) {
 /**
  * Generates a perspective projection matrix with the given bounds
  *
- * @param {mat4} out mat4 frustum matrix will be written into
  * @param {number} fovy Vertical field of view in radians
  * @param {number} aspect Aspect ratio. typically viewport width/height
  * @param {number} near Near bound of the frustum
  * @param {number} far Far bound of the frustum
  * @returns {mat4} out
+ * @param {mat4} out mat4 frustum matrix will be written into
+ * @method module:mat4.perspective
  */
 mat4.perspective = function (fovy, aspect, near, far, out) {
     var f = 1.0 / Math.tan(fovy / 2),
@@ -3009,9 +3471,47 @@ mat4.perspective = function (fovy, aspect, near, far, out) {
 };
 
 /**
+ * Generates a perspective projection matrix with the given field of view.
+ * This is primarily useful for generating projection matrices to be used
+ * with the still experiemental WebVR API.
+ *
+ * @param {number} fov Object containing the following values: upDegrees, downDegrees, leftDegrees, rightDegrees
+ * @param {number} near Near bound of the frustum
+ * @param {number} far Far bound of the frustum
+ * @returns {mat4} out
+ * @param {mat4} out mat4 frustum matrix will be written into
+ * @method module:mat4.perspectiveFromFieldOfView
+ */
+mat4.perspectiveFromFieldOfView = function (fov, near, far, out) {
+    var upTan = Math.tan(fov.upDegrees * Math.PI/180.0),
+        downTan = Math.tan(fov.downDegrees * Math.PI/180.0),
+        leftTan = Math.tan(fov.leftDegrees * Math.PI/180.0),
+        rightTan = Math.tan(fov.rightDegrees * Math.PI/180.0),
+        xScale = 2.0 / (leftTan + rightTan),
+        yScale = 2.0 / (upTan + downTan);
+
+    out[0] = xScale;
+    out[1] = 0.0;
+    out[2] = 0.0;
+    out[3] = 0.0;
+    out[4] = 0.0;
+    out[5] = yScale;
+    out[6] = 0.0;
+    out[7] = 0.0;
+    out[8] = -((leftTan - rightTan) * xScale * 0.5);
+    out[9] = ((upTan - downTan) * yScale * 0.5);
+    out[10] = far / (near - far);
+    out[11] = -1.0;
+    out[12] = 0.0;
+    out[13] = 0.0;
+    out[14] = (far * near) / (near - far);
+    out[15] = 0.0;
+    return out;
+}
+
+/**
  * Generates a orthogonal projection matrix with the given bounds
  *
- * @param {mat4} out mat4 frustum matrix will be written into
  * @param {number} left Left bound of the frustum
  * @param {number} right Right bound of the frustum
  * @param {number} bottom Bottom bound of the frustum
@@ -3019,6 +3519,8 @@ mat4.perspective = function (fovy, aspect, near, far, out) {
  * @param {number} near Near bound of the frustum
  * @param {number} far Far bound of the frustum
  * @returns {mat4} out
+ * @param {mat4} out mat4 frustum matrix will be written into
+ * @method module:mat4.ortho
  */
 mat4.ortho = function (left, right, bottom, top, near, far, out) {
     var lr = 1 / (left - right),
@@ -3046,11 +3548,12 @@ mat4.ortho = function (left, right, bottom, top, near, far, out) {
 /**
  * Generates a look-at matrix with the given eye position, focal point, and up axis
  *
- * @param {mat4} out mat4 frustum matrix will be written into
  * @param {vec3} eye Position of the viewer
  * @param {vec3} center Point the viewer is looking at
  * @param {vec3} up vec3 pointing up
  * @returns {mat4} out
+ * @param {mat4} out mat4 frustum matrix will be written into
+ * @method module:mat4.lookAt
  */
 mat4.lookAt = function (eye, center, up, out) {
     var x0, x1, x2, y0, y1, y2, z0, z1, z2, len,
@@ -3135,6 +3638,7 @@ mat4.lookAt = function (eye, center, up, out) {
  *
  * @param {mat4} mat matrix to represent as a string
  * @returns {String} string representation of the matrix
+ * @method module:mat4.str
  */
 mat4.str = function (a) {
     return 'mat4(' + a[0] + ', ' + a[1] + ', ' + a[2] + ', ' + a[3] + ', ' +
@@ -3148,6 +3652,7 @@ mat4.str = function (a) {
  *
  * @param {mat4} a the matrix to calculate Frobenius norm of
  * @returns {Number} Frobenius norm
+ * @method module:mat4.frob
  */
 mat4.frob = function (a) {
     return(Math.sqrt(Math.pow(a[0], 2) + Math.pow(a[1], 2) + Math.pow(a[2], 2) + Math.pow(a[3], 2) + Math.pow(a[4], 2) + Math.pow(a[5], 2) + Math.pow(a[6], 2) + Math.pow(a[7], 2) + Math.pow(a[8], 2) + Math.pow(a[9], 2) + Math.pow(a[10], 2) + Math.pow(a[11], 2) + Math.pow(a[12], 2) + Math.pow(a[13], 2) + Math.pow(a[14], 2) + Math.pow(a[15], 2) ))
@@ -3157,5 +3662,6 @@ mat4.frob = function (a) {
 if(typeof(exports) !== 'undefined') {
     exports.mat4 = mat4;
 }
-
 }
+
+

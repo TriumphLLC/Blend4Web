@@ -1,7 +1,7 @@
 bl_info = {
     "name": "Blend4Web",
     "author": "Blend4Web Development Team",
-    "version": (15, 1, 0),
+    "version": (15, 2, 0),
     "blender": (2, 73, 0),
     "b4w_format_version": "5.01",
     "location": "File > Import-Export",
@@ -68,12 +68,49 @@ else:
     from . import remove_unused_vgroups
     from . import boundings_draw
     from . import nla_script
+    from . import server
 
 import bpy
 from bpy.types import AddonPreferences
-from bpy.props import StringProperty
+from bpy.props import StringProperty, IntProperty
 
 import os
+
+PATH_TO_ASSETS = "apps_dev/viewer"
+ASSETS_NAME = "assets.json"
+NODE_TREE_BLEND = "b4w_nodes.blend"
+
+@bpy.app.handlers.persistent
+def add_asset_file(arg):
+    path_to_sdk = bpy.context.user_preferences.addons[__package__].preferences.b4w_src_path
+    os.path.abspath(path_to_sdk)
+    path_to_assets = os.path.join(path_to_sdk, PATH_TO_ASSETS, ASSETS_NAME)
+    path_to_assets = exporter.guard_slashes(os.path.normpath(path_to_assets))
+    if os.path.isfile(path_to_assets):
+        for text in bpy.data.texts:
+            if text.b4w_assets_load and text.name == ASSETS_NAME:
+                if (text.filepath != path_to_assets or text.is_modified):
+                    bpy.data.texts.remove(text)
+                    break
+                else:
+                    return
+        text = bpy.data.texts.load(path_to_assets)
+        text.b4w_assets_load = True
+    else:
+        for text in bpy.data.texts:
+            if text.b4w_assets_load:
+                bpy.data.texts.remove(text)
+                break
+
+@bpy.app.handlers.persistent
+def add_node_tree(arg):
+    path_to_tree = os.path.join(os.path.dirname(__file__), NODE_TREE_BLEND)
+    path_to_tree = exporter.guard_slashes(os.path.normpath(path_to_tree))
+    if os.path.isfile(path_to_tree):
+        with bpy.data.libraries.load(path_to_tree) as (data_from, data_to):
+            for b4w_node in data_from.node_groups:
+                if not b4w_node in data_to.node_groups:
+                    data_to.node_groups.append(b4w_node)
 
 def update_b4w_src_path(addon_pref, context):
     if addon_pref.b4w_src_path != "":
@@ -87,10 +124,13 @@ class B4WPreferences(AddonPreferences):
     bl_idname = __name__
     b4w_src_path = StringProperty(name="Path to Blend4Web SDK", \
             subtype='DIR_PATH', update=update_b4w_src_path)
+    b4w_port_number = IntProperty(name="Server port", default=6687, min=0, 
+            max=65535)
 
     def draw(self, context):
         layout = self.layout
         layout.prop(self, "b4w_src_path", text="Path to Blend4Web SDK")
+        layout.prop(self, "b4w_port_number", text="Server port")
 
 def register():
     nla_script.register()
@@ -112,10 +152,13 @@ def register():
     shore_distance_baker.register()
     remove_unused_vgroups.register()
     boundings_draw.register()
+    server.register()
 
     bpy.utils.register_class(B4WPreferences)
 
     bpy.app.handlers.scene_update_pre.append(init_validation.validate_version)
+    bpy.app.handlers.load_post.append(add_asset_file)
+    bpy.app.handlers.load_post.append(add_node_tree)
 
 
 def unregister():
@@ -138,6 +181,7 @@ def unregister():
     shore_distance_baker.unregister()
     remove_unused_vgroups.unregister()
     boundings_draw.unregister()
+    server.unregister()
 
     bpy.utils.unregister_class(B4WPreferences)
 

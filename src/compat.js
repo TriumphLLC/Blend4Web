@@ -65,8 +65,9 @@ exports.set_hardware_defaults = function(gl) {
              &&(check_user_agent("Chrome/40") ||
                 check_user_agent("Firefox/33") ||
                 check_user_agent("Firefox/34") ||
-                check_user_agent("Firefox/35"))) {
-        m_print.warn("Windows/Chrome40 or Firefox33-35 detected. Applying clear procedural skydome hack.");
+                check_user_agent("Firefox/35") ||
+                check_user_agent("Firefox/36"))) {
+        m_print.warn("Windows/Chrome40 or Firefox33-36 detected. Applying clear procedural skydome hack.");
         cfg_def.clear_procedural_sky_hack = true;
     }
 
@@ -78,6 +79,12 @@ exports.set_hardware_defaults = function(gl) {
             m_print.warn("Mobile (not iOS) detected, disable playback rate for video textures.");
             cfg_sfx.disable_playback_rate_hack = true;
         }
+    }
+
+    if ((check_user_agent("Firefox/35.0") || check_user_agent("Firefox/36.0")) &&
+            check_user_agent("Windows")) {
+        m_print.warn("Windows/Firefox 35/36 detected, applying shadows slink hack");
+        cfg_def.firefox_shadows_slink_hack = true;
     }
 
     if (check_user_agent("iPhone") || is_ie11()) {
@@ -132,7 +139,7 @@ exports.set_hardware_defaults = function(gl) {
         if (gl.getParameter(rinfo.UNMASKED_VENDOR_WEBGL).indexOf("NVIDIA") > -1
                && gl.getParameter(rinfo.UNMASKED_RENDERER_WEBGL).indexOf("Tegra 3") > -1) {
             m_print.warn("NVIDIA Tegra 3 detected, force low quality for "
-                                              + "LEVELS_OF_QUALITY nodes.");
+                                              + "B4W_LEVELS_OF_QUALITY nodes.");
             cfg_def.force_low_quality_nodes = true;
         }
     }
@@ -150,21 +157,18 @@ exports.set_hardware_defaults = function(gl) {
     }
 
     if (!depth_tex_available) {
-        cfg_def.deferred_rendering = false;
-
         cfg_def.foam =            false;
         cfg_def.parallax =        false;
         cfg_def.dynamic_grass =   false;
-        cfg_def.procedural_fog =  false;
         cfg_def.water_dynamic =   false;
         cfg_def.shore_smoothing = false;
         cfg_def.shore_distance =  false;
         cfg_def.refractions =     false;
-
         cfg_def.smaa =            false;
     }
 
     cfg_def.use_dds = Boolean(m_ext.get_s3tc());
+    cfg_def.depth_tex_available = depth_tex_available;
 
     var max_vert_uniforms = gl.getParameter(gl.MAX_VERTEX_UNIFORM_VECTORS);
     var num_supported = m_util.clamp(max_vert_uniforms,
@@ -191,7 +195,7 @@ exports.set_hardware_defaults = function(gl) {
 
     if (gl.getParameter(gl.MAX_FRAGMENT_UNIFORM_VECTORS) <= MIN_FRAGMENT_UNIFORMS_SUPPORTED) {
         m_print.warn("Not enough fragment uniforms, force low quality for " 
-                    + "LEVELS_OF_QUALITY nodes.");
+                    + "B4W_LEVELS_OF_QUALITY nodes.");
         cfg_def.force_low_quality_nodes = true;
     }
 }
@@ -218,9 +222,8 @@ function detect_mobile() {
 }
 
 exports.apply_context_alpha_hack = function() {
-    if ((check_user_agent("Firefox/35.0") || check_user_agent("Firefox/36.0")) &&
-            check_user_agent("Windows")) {
-        m_print.warn("Windows/Firefox 35/36 detected, forcing context's alpha");
+    if (check_user_agent("Firefox/35.0") && check_user_agent("Windows")) {
+        m_print.warn("Windows/Firefox 35 detected, forcing context's alpha");
         m_cfg.context.alpha = true;
     }
 }

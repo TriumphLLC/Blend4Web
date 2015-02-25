@@ -63,24 +63,27 @@
 
     for (var i = 0; i < units.length; i++) {
       var unit = units[i][0];
-
       if (current_node !== null && unit.type !== "endnode") {
         if (unit.type == "node_in" || unit.type == "node_out" 
             || unit.type == "node_param" || unit.type == "textline") {
           unit.node_parent = current_node;
           node_structure[current_node].push(unit);
-        } else {
+          continue;
+        } else if (unit.type == "node_condition")
+            // do not move node_condition to nodes_main or nodes_global
+            unit.node_parent = current_node;
+        else {
           console.error("Error! Outlier directive #" + unit.type 
               + " in node " + current_node);
+          continue;
         }
-        continue;
       }
-
       if (unit.node == "directive")
         listing += "/*%directive%" + unit.source_str + "%directive_end%*/\n";
       else if (unit.node == "include")
         listing += "/*%" + unit.type + "%" + unit.name + "%*/\n";
       else if (unit.node == "node_directive") {
+
         switch (unit.type) {
           case "node":
             listing += "/*%" + unit.type + "%" + unit.name + "%*/\n";
@@ -116,6 +119,10 @@
               nodes_global_block += "/*%remove_end%nodes_global_duplicate%*/\n";
             }
             listing += nodes_global_block;
+            break;
+          case "node_condition": 
+            listing += "/*%" + unit.type + "%" + unit.source_str + "%" + 
+                unit.node_parent + "%" + unit.offset + "%*/\n";
             break;
         }
       } else if (unit.node == "text")
@@ -179,7 +186,7 @@
       }
 
     listing += text;
-    listing += "/*%node_textline_end%*/\n";
+    listing += "/*%node_textline_end%" + ndir.offset + "%*/\n";
     return listing;
   }
 
@@ -199,7 +206,8 @@
       listing += ndir.decl_type.precision_qualifier.value.name + " ";
     listing += ndir.decl_type.type_specifier.name.name + " ";
     listing += "node_" + ndir.node_parent + "_var_" + ndir.identifier.name + ";";
-    listing += "/*%" + ndir.type + "_end%" + ndir.node_parent + "%*/\n";
+    listing += "/*%" + ndir.type + "_end%" + ndir.is_optional + "%";
+    listing += ndir.node_parent + "%" + ndir.offset + "%*/\n";
 
     return listing;
   }
@@ -226,8 +234,20 @@
     if (str.charAt(0) == "%") {
       check_directive(str) || check_replace(str) || check_node_insertion(str)
       || check_node_borders(str) || check_node_parameters(str) 
-      || check_include(str) || check_remove(str) || check_import_export(str);
+      || check_include(str) || check_remove(str) || check_import_export(str)
+      || check_node_condition(str);
     }
+  }
+
+  function check_node_condition(str) {
+    var expr = /^%node_condition.*?%$/i;
+    var res = expr.exec(str);
+
+    if (res) {
+      _pp_node_directives[offset()] = "/*" + str + "*/";
+      return true;
+    }
+    return false; 
   }
 
   function check_directive(str) {
@@ -294,9 +314,7 @@
   }
 
   function check_node_parameters(str) {
-    var expr_str = "^%(node_in|node_in_end|node_out|node_out_end|node_param|" 
-        + "node_param_end|node_textline|node_textline_end).*?%$";
-    var expr = new RegExp(expr_str, "i");
+    var expr = /^%(node_in|node_in_end|node_out|node_out_end|node_param|node_param_end|node_textline|node_textline_end).*?%$/i;
     var res = expr.exec(str);
     if (res) {
       _pp_node_directives[offset()] = "/*" + str + "*/";
@@ -1929,9 +1947,30 @@ pp_directives
 
 pp_node_dir
   = nodes_insertion
+  / nodes_condition
   / nodes_parameters
   / node
   / endnode
+
+nodes_condition
+  = dir:("#" _ 
+      (
+        "node_ifdef" / "node_ifndef" / "node_if" / "node_elif" / "node_else" / "node_endif"
+      ) 
+      (
+        line_terminator_sequence { return "" }
+        / (MSS str:till_string_end) { return " " + str }
+      )
+    )
+  { 
+    var source_str = "#" + dir[2] + " " + dir[3];
+    return common_node({
+      node: "node_directive",
+      type: "node_condition",
+      subtype: dir[2],
+      source_str: source_str
+    });
+  }
 
 nodes_insertion
   = _ "#" _ type:("nodes_global" / "nodes_main") till_string_end
@@ -1962,7 +2001,8 @@ endnode
   }
 
 nodes_parameters
-  = _ "#" _ type:("node_in" / "node_out" / "node_param") MSS 
+  = _ "#" _ type:("node_in" / "node_out" / "node_param") 
+    opt:(MSS "optional")? MSS
     decl_type:fully_specified_type MSS 
     id:IDENTIFIER
   {
@@ -1970,7 +2010,8 @@ nodes_parameters
       node: "node_directive",
       type: type,
       decl_type: decl_type,
-      identifier: id
+      identifier: id,
+      is_optional: Boolean(opt)
     });
   }
 

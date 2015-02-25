@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 
 import os, subprocess, shutil, getopt, sys, re
 
@@ -50,6 +50,8 @@ EXTERNS       = [_os_norm(_os_join(CP_EXT_PATH, "extern_modules.js")),
 
 _apps_path    = _os_norm(_os_join(BASE_DIR, "..",
                                   "deploy", "apps"))
+
+_version = None
 
 
 class HTMLProcessor(HTMLParser):
@@ -110,14 +112,15 @@ def run():
 
     try:
         opts, args = getopt.getopt(sys.argv[1:],
-                            "hb:o:a:d:s:p:",
+                            "hb:o:a:d:s:p:v:",
                            ["help",
                             "b4w=",
                             "optimization=",
                             "app=",
                             "dir=",
+                            "assets=",
                             "assets_path=",
-                            "assets="])
+                            "version="])
     except getopt.GetoptError as err:
         sys.exit(1)
 
@@ -132,7 +135,7 @@ def run():
     only_copy   = False
     assets_path = ""
 
-    global _apps_path
+    global _apps_path, _version
 
     assets_paths = []
 
@@ -167,6 +170,8 @@ def run():
             assets_path = a
         elif o == "--assets" or o == "-s":
             assets_paths.append(a)
+        elif o == "--version" or o == "-v":
+            _version = a
         elif o == "--dir" or o == "-d":
             _apps_path = a
             ext_path = True
@@ -282,6 +287,7 @@ def compile_app(app_path, engine_type, opt_level,
     css_paths = exist_files(parser.css,
                                          css_files,
                                          app_path_name)
+
     out_css_file_path = _os_norm(_os_join(
                                      new_app_path, app_path_name + ".min.css"))
 
@@ -338,6 +344,11 @@ def compile_html(app_path_name, css_paths, js_paths, body_lines,
                  parser, engine_type, new_app_path, ext_path, assets_path):
     meta = parser.meta_list
     title = parser.title
+
+    suffix = ""
+
+    if _version:
+        suffix = "?v=" + _version
 
     out_html_file_path = _os_norm(_os_join(
                                      new_app_path, app_path_name + ".html"))
@@ -448,23 +459,23 @@ def compile_html(app_path_name, css_paths, js_paths, body_lines,
         inner_text.append(
             "\n    <link type='text/css' rel='stylesheet' href='" +
             _os_norm(_os_join(rel, app_path_name)) +
-            ".min.css'/>")
+            ".min.css" + suffix + "'/>")
 
     if engine_src:
         inner_text.append(
             "\n    <script type='text/javascript' src='" +
-            engine_src + "'></script>")
+            engine_src + suffix + "'></script>")
 
     for parent in js_paths:
         rel = os.path.relpath(parent, start=new_app_path)
 
         inner_text.append(
             "\n    <script type='text/javascript' src='" +
-            _os_norm(_os_join(rel, app_path_name)) + ".min.js'></script>")
+            _os_norm(_os_join(rel, app_path_name)) + ".min.js" + suffix + "'></script>")
 
     for js in parser.ext_js:
         inner_text.append(
-            "\n    <script type='text/javascript' src='" + js + "'></script>")
+            "\n    <script type='text/javascript' src='" + js + suffix + "'></script>")
 
     inner_text.append("\n</head>")
     inner_text.extend(body_lines)
@@ -520,7 +531,7 @@ def compile_js(js_paths, file_name, opt_level, engine_type):
     for parent in js_paths:
         if engine_type == "COMPILE":
             ENGINE_CP.extend(["--ext_js=" + _os_join(GLOBALS_PATH, "begin.js")])
-            ENGINE_CP.extend(["--ext_js=" + _os_join(SRC_PATH, "modules.js")])
+            ENGINE_CP.extend(["--ext_js=" + _os_join(SRC_PATH, "b4w.js")])
             ENGINE_CP.extend(["--ext_js=" +
                               i for i in get_used_modules(js_paths[parent])])
             ENGINE_CP.extend(["--ext_js=" + i for i in js_paths[parent]])
@@ -681,6 +692,10 @@ def help(err=""):
             choose application directory")
         print("    -s, --assets               \
             choose assets directory")
+        print("    -p, --assets_path               \
+            choose assets path for compiled app")
+        print("    -v, --version               \
+            add version to js and css files")
         print("    -h, --help                 \
             give this help list")
 

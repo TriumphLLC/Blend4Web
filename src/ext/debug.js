@@ -424,10 +424,17 @@ exports.make_light_frustum_shot = function() {
  * @method module:debug.scenegraph_to_dot
  */
 exports.scenegraph_to_dot = function() {
-    var scene = m_scenes.get_active();
-    var graph = m_scenes.get_graph(scene);
+    var scenes = m_scenes.get_all_scenes();
 
-    m_print.log(scenegraph.debug_convert_to_dot(graph));
+    for (var i = 0; i < scenes.length; i++) {
+        var scene = scenes[i];
+        var graph = m_scenes.get_graph(scene);
+        m_print.log(scenegraph.debug_convert_to_dot(graph));
+    }
+}
+
+exports.scenes_to_dot = function() {
+
 }
 
 /**

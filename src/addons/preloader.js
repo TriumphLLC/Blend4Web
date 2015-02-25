@@ -153,6 +153,9 @@ exports.create_rotation_preloader = function(options) {
         case "frame_bg_color":
             frame_bg_color = options.frame_bg_color;
             break;
+        case "bg_color":
+            bg_color = options.bg_color;
+            break;
         case "frame_class":
             frame_class = options.frame_class;
             break;
@@ -178,6 +181,8 @@ exports.create_rotation_preloader = function(options) {
         position: absolute;\
         margin: 0;\
         padding: 0;\
+        top: 0;\
+        left: 0;\
     ";
 
     frame.style.cssText = " \
@@ -219,7 +224,7 @@ exports.create_rotation_preloader = function(options) {
     frame.appendChild(caption);
     container.appendChild(frame);
 
-    document.body.appendChild(container);
+    _canvas_container_elem.appendChild(container);
 
     _preloader.type = "ROTATION";
     _preloader.container = container;

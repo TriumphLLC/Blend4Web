@@ -138,10 +138,16 @@ exports.camera_object_to_camera = function(camobj) {
         render.pivot.set(camobj_data["b4w_target"]);
     prepare_clamping_limits(camobj);
 
-    init_spec_camera(camobj);
+    init_hover_camera(camobj);
+    init_ortho_props(camobj);
+
+    var z_world_cam = m_util.quat_to_dir(render.quat, m_util.AXIS_Z, _vec3_tmp);
+
+    if (render.move_style == exports.MS_TARGET_CONTROLS)
+        render.target_cam_upside_down = z_world_cam[1] > 0;
 }
 
-function init_spec_camera(camobj) {
+function init_hover_camera(camobj) {
     var render = camobj._render;
 
     if (render.move_style === exports.MS_HOVER_CONTROLS 
@@ -189,9 +195,6 @@ function init_spec_camera(camobj) {
             var res = m_util.line_plane_intersect(normal_plane_oxy, 0, render.trans, 
                     view_vector, render.hover_pivot);
 
-            render.init_dist = m_vec3.dist(render.trans, render.hover_pivot);
-            render.init_top = render.cameras[0].top;
-
             // It is used to check parallel line and plane
             if (!res || m_vec3.len(res) > MAX_HOVER_INIT_CORRECT_DIST) {
                 render.hover_pivot[0] = render.trans[0];
@@ -199,9 +202,22 @@ function init_spec_camera(camobj) {
                 render.hover_pivot[2] = render.trans[2];
             }
         }
-    } else if (render.move_style === exports.MS_TARGET_CONTROLS) { 
+    }
+}
+
+function init_ortho_props(camobj) {
+    var render = camobj._render;
+    switch (render.move_style) {
+    case exports.MS_TARGET_CONTROLS:
         render.init_dist = m_vec3.dist(render.trans, render.pivot);
         render.init_top = render.cameras[0].top;
+        break;
+    case exports.MS_HOVER_CONTROLS:
+        if (render.use_distance_limits) {
+            render.init_dist = m_vec3.dist(render.trans, render.hover_pivot);
+            render.init_top = render.cameras[0].top;
+        }
+        break;
     }
 }
 
@@ -871,15 +887,8 @@ exports.update_camera = function(obj) {
     // equal to append_track_point, append_follow_point (with distance limits)
     if (render.move_style == exports.MS_TARGET_CONTROLS) {
         if (render.use_distance_limits) {
-            var is_overshooted = m_cons.rotate_to_limits(render.trans, render.quat,
-                    render.pivot, render.distance_min, m_cons.CONS_ROTATE_LIMIT);
-
-            if (is_overshooted) {
-                // handle overshooting case: move camera back
-                var dir = m_vec3.subtract(render.trans, render.pivot, _vec3_tmp);
-                m_vec3.scale(dir, -render.distance_min/m_vec3.length(dir), dir);
-                m_vec3.add(render.pivot, dir, render.trans);
-            }
+            m_cons.rotate_to_limits(render.trans, render.quat, render.pivot, 
+                    render.distance_min, m_cons.CONS_ROTATE_LIMIT);
         } else
             m_cons.rotate_to(render.trans, render.quat, render.pivot);
     }
@@ -1736,7 +1745,7 @@ exports.is_eye_camera = function(obj) {
 
 exports.update_camera_shadows = update_camera_shadows;
 function update_camera_shadows(cam, shadow_params) {
-    if (shadow_params.b4w_enable_csm)
+    if (shadow_params.enable_csm)
         update_camera_csm(cam, shadow_params);
     else
         cam.pcf_blur_radii[0] = shadow_params.first_cascade_blur_radius;

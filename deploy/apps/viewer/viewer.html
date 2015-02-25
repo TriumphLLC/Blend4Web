@@ -2,33 +2,35 @@
 <head>
     <meta charset='utf-8' />
     <title>Blend4Web Scene Viewer</title>
-    <link type='text/css' rel='stylesheet' href='viewer.min.css'/>
-    <script type='text/javascript' src='../common/b4w.full.min.js'></script>
-    <script type='text/javascript' src='viewer.min.js'></script>
+    <link type='text/css' rel='stylesheet' href='viewer.min.css?v=15.02'/>
+    <script type='text/javascript' src='../common/b4w.full.min.js?v=15.02'></script>
+    <script type='text/javascript' src='viewer.min.js?v=15.02'></script>
 </head><body>
 
-<div class="backgr_checker"></div>
+<div id="main_canvas_container">
 
-<div id="main_canvas_container"></div>
+    <div class="backgr_checker"></div>
 
-<div class="info_corner left_up">
-    <div class="info_corner_backgr"></div>
-    <span id="info_left_up" class="info_corner_text"></span>
-</div>
+    <div class="info_corner right_up">
+        <div class="info_corner_backgr"></div>
+        <span id="info_right_up" class="info_corner_text"></span>
+    </div>
 
-<div class="info_corner left_down">
-    <div class="info_corner_backgr"></div>
-    <span id="info_left_down" class="info_corner_text"></span>
-</div>
+    <div class="info_corner left_up">
+        <div class="info_corner_backgr"></div>
+        <span id="info_left_up" class="info_corner_text"></span>
+    </div>
 
-<div class="info_corner right_up">
-    <div class="info_corner_backgr"></div>
-    <span id="info_right_up" class="info_corner_text"></span>
-</div>
+    <div class="info_corner left_down">
+        <div class="info_corner_backgr"></div>
+        <span id="info_left_down" class="info_corner_text"></span>
+    </div>
 
-<div class="info_corner right_down">
-    <div class="info_corner_backgr"></div>
-    <span id="info_right_down" class="info_corner_text"></span>
+    <div class="info_corner right_down">
+        <div class="info_corner_backgr"></div>
+        <span id="info_right_down" class="info_corner_text"></span>
+    </div>
+
 </div>
 
 <div id="controls_container">
@@ -182,12 +184,31 @@
                     <select id="light_name" name="light_name" data-native-menu="false" data-mini="true"></select>
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="light_type">Type:</label>
+                    <label id="light_type"></label>
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="light_color">Color:</label>
                     <div><div id="light_color" class="color_selector"><div></div></div></div>
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="light_energy">Energy:</label>
                     <input id="light_energy" data-highlight="true" min="0" max="10.0" value="0" type="range" step="0.01" data-mini="true /">
+                </div>
+
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="light_spot_size">Spot size:</label>
+                    <input id="light_spot_size" data-highlight="true" min="1" max="180" value="1" type="range" step="1" data-mini="true /">
+                </div>
+
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="light_spot_blend">Spot blend:</label>
+                    <input id="light_spot_blend" data-highlight="true" min="0" max="1.0" value="0" type="range" step="0.001" data-mini="true /">
+                </div>
+
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="light_distance">Distance:</label>
+                    <input id="light_distance" data-highlight="true" min="0" max="100.0" value="0" type="range" step="0.01" data-mini="true /">
                 </div>
 
                 <h3>For sun only:</h3>
@@ -698,6 +719,11 @@
             <h1>Debug</h1>
 
             <div class="ui-grid-solo">
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <input type="button" value="Make Screenshot" 
+                        id="make_screenshot" data-inline="true"
+                        data-icon="camera" data-mini="true" />
+                </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c wireframe_mode">
                     <label for="wireframe_mode">Wireframe modes:</label>
                     <select id="wireframe_mode" name="wireframe_mode" data-native-menu="false" data-mini="true">

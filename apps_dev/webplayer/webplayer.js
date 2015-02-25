@@ -12,13 +12,12 @@ var m_sfx         = require("sfx");
 var m_storage     = require("storage");
 var m_version     = require("version");
 
-var SCENE_PATH               = null;
 var BUILT_IN_SCRIPTS_ID      = "built_in_scripts";
 var DEFAULT_QUALITY          = "HIGH";
 var CAMERA_AUTO_ROTATE_SPEED = 0.3;
 
 var HIDE_MENU_DELAY          = 2000;
-var ANIM_ELEM_DELAY          = 20;
+var ANIM_ELEM_DELAY          = 50;
 var LOGO_SHOW_DELAY          = 300;
 var LOGO_HIDE_DELAY          = 300;
 var LOGO_CIRCLE_HIDE_DELAY   = 300;
@@ -27,54 +26,83 @@ var CAPTION_HIDE_DELAY       = 300;
 var MENU_BUTTON_SHOW_DELAY   = 300;
 var PRELOADER_HIDE_DELAY     = 300;
 
-var _is_in_fullscreen        = false;
 var _menu_close_func         = null;
-var _is_control_panel_opened = false;
-var _is_anim_in_process      = false;
+var _is_panel_open_top       = false;
+var _is_panel_open_left      = false;
+var _is_anim_top             = false;
+var _is_anim_left            = false;
 var _is_qual_menu_opened     = false;
 var _is_help_menu_opened     = false;
 
+var _circle_container;
+var _preloader_caption;
+var _first_stage;
+var _second_stage;
+var _third_stage;
+var _load_container;
+var _preloader_container;
+var _opened_button;
+var _logo_container;
+var _buttons_container;
+var _quality_buttons_container;
+var _help_info_container;
+var _help_button;
+
 var _player_buttons = [
     {type: "simple_button", id: "opened_button", callback: open_menu},
+
     {type: "simple_button", id: "help_button", callback: open_help},
+
     {type: "simple_button", id: "close_help", callback: close_help},
-    {type: "trigger_button", id: "fullscreen_on_button",
-            replace_button_id: "fullscreen_off_button",
-            replace_button_cb: check_fullscreen,
-            callback: check_fullscreen},
-    {type: "trigger_button", id: "pause_button",
-            replace_button_id: "play_button",
-            replace_button_cb: resume_clicked,
-            callback: pause_clicked},
-    {type: "trigger_button", id: "auto_rotate_on_button",
-            replace_button_id: "auto_rotate_off_button",
-            replace_button_cb: auto_rotate_camera,
-            callback: auto_rotate_camera},
-    {type: "trigger_button", id: "sound_on_button",
-            replace_button_id: "sound_off_button",
-            replace_button_cb: stop_sound,
-            callback: play_sound},
-    {type: "menu_button", id: "quality_buttons_container",
-            child_buttons_array_id: ["low_mode_button",
-                                     "high_mode_button",
-                                     "ultra_mode_button"],
-            child_buttons_array_cb: [
+
+    {type:              "trigger_button",
+     id:                "fullscreen_on_button",
+     callback:          enter_fullscreen,
+     replace_button_id: "fullscreen_off_button",
+     replace_button_cb: exit_fullscreen},
+
+    {type:              "trigger_button",
+     id:                "pause_button",
+     callback:          pause_engine,
+     replace_button_id: "play_button",
+     replace_button_cb: resume_engine},
+
+    {type:              "trigger_button",
+     id:                "auto_rotate_on_button",
+     callback:          rotate_camera,
+     replace_button_id: "auto_rotate_off_button",
+     replace_button_cb: stop_camera},
+
+    {type:              "trigger_button",
+     id:                "sound_on_button",
+     callback:          play_sound,
+     replace_button_id: "sound_off_button",
+     replace_button_cb: stop_sound},
+
+    {type:                   "menu_button",
+     id:                     "quality_buttons_container",
+     callback:               open_qual_menu,
+     child_buttons_array_id: ["low_mode_button",
+                              "high_mode_button",
+                              "ultra_mode_button"],
+     child_buttons_array_cb: [
                  function(){change_quality(m_cfg.P_LOW)},
                  function(){change_quality(m_cfg.P_HIGH)},
-                 function(){change_quality(m_cfg.P_ULTRA)}],
-            callback: open_qual_menu}
+                 function(){change_quality(m_cfg.P_ULTRA)}]}
 ]
+
 
 exports.init = function() {
     m_cfg.set("background_color", [0.224, 0.224, 0.224, 1.0]);
 
-    var is_debug   = (m_version.type() == "DEBUG");
-    var show_fps   = false;
+    var is_debug = (m_version.type() == "DEBUG");
+    var show_fps = false;
     var dds_available = false;
     var min50_available = false;
     var url_params = m_app.get_url_params();
 
-    if (url_params && "compressed_textures" in url_params && !is_html && !is_debug) {
+    if (url_params &&"compressed_textures" in url_params &&
+            !is_html && !is_debug) {
         dds_available = true;
         min50_available = true;
     }
@@ -86,7 +114,7 @@ exports.init = function() {
         m_storage.init("b4w_webplayer:" + url_params["load"]);
     else
         m_storage.init("b4w_webplayer:" + window.location.href);
-        
+
     set_quality_config();
 
     var is_html = b4w.module_check(m_cfg.get("built_in_module_name"));
@@ -109,89 +137,122 @@ exports.init = function() {
     });
 }
 
-function open_help() {
-    help_info_container.style.display = "block";
-    help_button.style.display = "none";
-    _is_help_menu_opened = true;
-    clear_deffered_close();
-}
-
-function close_help(is_cb) {
-    if (!_is_help_menu_opened)
-        return;
-
-    help_info_container.style.display = "none";
-    help_button.style.display = "block";
-    _is_help_menu_opened = false;
-
-    if (is_cb)
-        deffered_close();
-}
-
 function init_cb(canvas_element, success) {
+    define_dom_elems();
+
     if (!success) {
-        var url_params = m_app.get_url_params();
-
-        if (url_params && url_params["fallback_image"]) {
-            var image_wrapper = document.createElement("div");
-            image_wrapper.className = "image_wrapper";
-            document.body.appendChild(image_wrapper);
-            preloader_container.style.display = "none";
-            image_wrapper.style.backgroundImage = 'url(' + url_params["fallback_image"] + ')';
-        } else
-            report_app_error("Browser could not initialize WebGL", "For more info visit",
-                          "https://www.blend4web.com/troubleshooting")
-
+        display_no_webgl_bg();
         return;
     }
 
     m_main.pause();
 
+    add_engine_version();
+
+    check_fullscreen();
+
     set_quality_button();
 
     init_control_buttons();
 
-    if (!m_app.check_fullscreen())
-        fullscreen_on_button.parentElement.removeChild(fullscreen_on_button);
+    var file = search_file();
 
-    // search source file
-    var file = SCENE_PATH;
+    if (!file)
+        return;
 
-    var module_name = m_cfg.get("built_in_module_name");
+    anim_logo(file);
 
-    if (b4w.module_check(module_name)) {
-        var bd = require(module_name);
-        var file = bd["data"]["main_file"];
-
-        remove_built_in_scripts();
-    } else {
-        var url_params = m_app.get_url_params();
-
-        logo_container.style.display = "block";
-
-        if (url_params && url_params["load"])
-            file = url_params["load"];
-        else {
-            report_app_error("Please specify a scene to load",
-                                   "For more info visit",
-                                   "https://www.blend4web.com/troubleshooting");
-            return null;
-        }
-    }
-
-    anim_elem(logo_container, "opacity", LOGO_SHOW_DELAY, 1, 0, "", "", function() {
-        preloader_caption.style.display = "block";
-        anim_elem(preloader_caption, "opacity", CAPTION_SHOW_DELAY, 1, 0, "", "", function() {
-            m_main.resume();
-        });
-    })
-
-    // load
-    m_data.load(file, loaded_callback, preloader_callback, false);
     m_app.enable_controls(canvas_element);
 
     window.addEventListener("resize", on_resize, false);
+
     on_resize();
+}
+
+function display_no_webgl_bg() {
+    var url_params = m_app.get_url_params(true);
+
+    if (url_params && url_params["fallback_image"]) {
+        var image_wrapper = document.createElement("div");
+        image_wrapper.className = "image_wrapper";
+        document.body.appendChild(image_wrapper);
+        _preloader_container.style.display = "none";
+        image_wrapper.style.backgroundImage = 'url(' + url_params["fallback_image"] + ')';
+    } else if (url_params && url_params["fallback_video"]) {
+        var video_wrapper = document.createElement("div");
+        var video_elem = document.createElement("video");
+
+        video_wrapper.className = "video_wrapper";
+        video_wrapper.appendChild(video_elem);
+
+        video_elem.autoplay = true;
+
+        for (var i = 0; i < url_params["fallback_video"].length; i++) {
+            var source = document.createElement("source");
+            source.src = url_params["fallback_video"][i];
+
+            video_elem.appendChild(source);
+        }
+
+        document.body.appendChild(video_wrapper);
+        _preloader_container.style.display = "none";
+    } else
+        report_app_error("Browser could not initialize WebGL", "For more info visit",
+                      "https://www.blend4web.com/troubleshooting")
+}
+
+function define_dom_elems() {
+    _circle_container = document.querySelector("#circle_container");
+    _preloader_caption = document.querySelector("#preloader_caption");
+    _first_stage = document.querySelector("#first_stage");
+    _second_stage = document.querySelector("#second_stage");
+    _third_stage = document.querySelector("#third_stage");
+    _load_container = document.querySelector("#load_container");
+    _preloader_container = document.querySelector("#preloader_container");
+    _opened_button = document.querySelector("#opened_button");
+    _logo_container = document.querySelector("#logo_container");
+    _buttons_container = document.querySelector("#buttons_container");
+    _quality_buttons_container = document.querySelector("#quality_buttons_container");
+    _help_info_container = document.querySelector("#help_info_container");
+    _help_button = document.querySelector("#help_button");
+}
+
+function add_engine_version() {
+    var version_cont = document.querySelector("#rel_version");
+    var version = m_version.version();
+
+    if (version)
+        version_cont.innerHTML = m_version.version();
+}
+
+function check_fullscreen() {
+    var fullscreen_on_button = document.querySelector("#fullscreen_on_button");
+
+    if (!m_app.check_fullscreen())
+        fullscreen_on_button.parentElement.removeChild(fullscreen_on_button);
+}
+
+function set_quality_button() {
+    var quality = m_storage.get("quality");
+
+    if (!quality || quality == "CUSTOM") {
+        quality = DEFAULT_QUALITY;
+        m_storage.set("quality", quality);
+    }
+
+    _quality_buttons_container.className = "control_panel_button";
+
+    switch (quality) {
+    case "LOW":
+        _quality_buttons_container.className = "control_panel_button low_mode_button";
+        break;
+    case "HIGH":
+        _quality_buttons_container.className = "control_panel_button high_mode_button";
+        break;
+    case "ULTRA":
+        _quality_buttons_container.className = "control_panel_button ultra_mode_button";
+        break;
+    }
 }
 
 function init_control_buttons() {
@@ -201,159 +262,469 @@ function init_control_buttons() {
         return false;
     };
 
+    init_links();
+
     for (var i = 0; i < _player_buttons.length; i++) {
         var button = _player_buttons[i];
 
+        var elem = document.getElementById(button.id);
+
+        add_hover_class_to_button(elem);
+
         switch (button.type) {
         case "simple_button":
-            var elem = document.getElementById(button.id);
-
             if (elem)
                 elem.addEventListener("mouseup", button.callback, false);
             break;
         case "menu_button":
-            var elem = document.getElementById(button.id);
-
             if (elem)
-                elem.addEventListener("mouseup",
-                      function(e) {
+                elem.addEventListener("mouseup", function(e) {
                           button.callback(e, button);
                       }, false);
             break;
         case "trigger_button":
-            (function(button) {
-                var elem = document.getElementById(button.id);
-                var button_cb = {};
-
-                button_cb[button.id] = button.callback;
-                button_cb[button.replace_button_id] = button.replace_button_cb;
-
+            (function(button){
                 if (elem)
                     elem.addEventListener("mouseup", function(e) {
-                        var old_elem_id = elem.id;
-                        swap_buttons(elem, button);
-                        button_cb[old_elem_id](elem, button);
-                    }, false)
-            }(button));
+                        button.callback(e);
+                    }, false);
+            })(button);
             break;
         }
     }
 }
 
-function swap_buttons(elem, button) {
+function init_links() {
+    var button_links = document.querySelectorAll(".control_panel_button a");
+
+    for (var i = 0; i < button_links.length; i++) {
+        var link = button_links[i];
+
+        if (link.hasAttribute("href"))
+            link.href += document.location.href;
+
+        add_hover_class_to_button(link.parentNode);
+    }
+}
+
+function search_file() {
+    var module_name = m_cfg.get("built_in_module_name");
+
+    if (b4w.module_check(module_name)) {
+        var bd = require(module_name);
+        var file = bd["data"]["main_file"];
+
+        remove_built_in_scripts();
+
+        return file;
+    } else {
+        var url_params = m_app.get_url_params();
+
+        _logo_container.style.display = "block";
+
+        if (url_params && url_params["load"]) {
+            file = url_params["load"];
+
+            return file;
+        }
+        else {
+            report_app_error("Please specify a scene to load",
+                                   "For more info visit",
+                                   "https://www.blend4web.com/troubleshooting");
+            return null;
+        }
+    }
+}
+
+function anim_logo(file) {
+    anim_elem(_logo_container, "opacity", LOGO_SHOW_DELAY, 1, 0, "", "", function() {
+        _preloader_caption.style.display = "block";
+        anim_elem(_preloader_caption, "opacity", CAPTION_SHOW_DELAY, 1, 0, "", "", function() {
+            m_main.resume();
+            m_data.load(file, loaded_callback, preloader_callback, false);
+        });
+    })
+}
+
+function open_help() {
+    if (is_anim_in_process())
+        return;
+
+    if (is_touch())
+        _help_info_container.className = "touch";
+    else
+        _help_info_container.className = "";
+
+    _help_info_container.style.display = "block";
+    _help_button.style.display = "none";
+    _is_help_menu_opened = true;
+}
+
+function close_help(is_cb) {
+    if (!_is_help_menu_opened)
+        return;
+
+    _help_info_container.style.display = "none";
+    _help_button.style.display = "block";
+    _is_help_menu_opened = false;
+}
+
+function get_button_object_from_id(elem_id) {
+    for (var i = 0; i < _player_buttons.length; i++)
+        if (_player_buttons[i].id == elem_id)
+            return _player_buttons[i];
+
+    return null;
+}
+
+function add_hover_class_to_button(elem) {
+    if (!elem)
+        return;
+
+    if (is_touch()) {
+        elem.addEventListener("touchstart", function() {
+            elem.className += " hover";
+            clear_deffered_close();
+        }, false);
+        elem.addEventListener("touchend", function() {
+            elem.className = elem.className.replace(" hover", "");
+            deffered_close();
+        }, false);
+    } else {
+        elem.addEventListener("mouseenter", function() {
+            elem.className += " hover";
+        }, false);
+
+        elem.addEventListener("mouseout", function(e) {
+            elem.className = elem.className.replace(" hover", "");
+        }, false);
+    }
+}
+
+function rotate_camera(e) {
+    if (is_anim_in_process())
+        return;
+
+    if (e)
+        var elem = e.target
+    else
+        var elem = document.querySelector("#auto_rotate_on_button");
+
+    m_camera_anim.auto_rotate(CAMERA_AUTO_ROTATE_SPEED, function(){
+        if (elem)
+            update_button(elem);
+    });
+
+    if (elem)
+        update_button(elem);
+
+    if (m_main.is_paused()) {
+        resume_engine();
+        update_play_pause_button();
+    }
+}
+
+function stop_camera(e) {
+    if (is_anim_in_process())
+        return;
+
+    m_camera_anim.auto_rotate(CAMERA_AUTO_ROTATE_SPEED);
+
+    if (e)
+        update_button(e.target);
+}
+
+function play_sound(e) {
+    if (is_anim_in_process())
+        return;
+
+    m_sfx.mute(null, true);
+    update_button(e.target);
+}
+
+function stop_sound(e) {
+    if (is_anim_in_process())
+        return;
+
+    m_sfx.mute(null, false);
+    update_button(e.target);
+}
+
+function pause_engine(e) {
+    if (is_anim_in_process())
+        return;
+
+    m_main.pause();
+
+    if (e)
+        update_button(e.target);
+
+    if (m_camera_anim.is_auto_rotate()) {
+        stop_camera();
+        update_auto_rotate_button();
+    }
+}
+
+function resume_engine(e) {
+    if (is_anim_in_process())
+        return;
+
+    m_main.resume();
+
+    if (e)
+        update_button(e.target);
+}
+
+function enter_fullscreen(e) {
+    if (is_anim_in_process())
+        return;
+
+    m_app.request_fullscreen(document.body, fullscreen_cb, fullscreen_cb);
+
+    if (e)
+        update_button(e.target)
+}
+
+function exit_fullscreen(e) {
+    if (is_anim_in_process())
+        return;
+
+    m_app.exit_fullscreen();
+
+    if (e)
+        update_button(e.target)
+}
+
+function fullscreen_cb() {
+    if (!check_cursor_position("buttons_container")) {
+        deffered_close();
+    }
+}
+
+function update_button(elem) {
     var old_elem_id = elem.id;
-    elem.id = button.replace_button_id;
+    var button = get_button_object_from_id(elem.id);
+    var old_callback = button.callback;
+
+    elem.id = button.id =  button.replace_button_id;
     button.replace_button_id = old_elem_id;
+
+    button.callback = button.replace_button_cb;
+    button.replace_button_cb = old_callback;
 }
 
-function set_rotate_button_on() {
-    var elem = document.getElementById("auto_rotate_on_button");
+function update_play_pause_button() {
+    var elem = document.querySelector("#play_button") ||
+               document.querySelector("#pause_button");
 
     if (elem)
-        for (var i = 0; i < _player_buttons.length; i++)
-            if (_player_buttons[i].id == "auto_rotate_on_button") {
-                var player_button = _player_buttons[i];
-                swap_buttons(elem, player_button);
-                return;
-            } 
+        update_button(elem);
 }
 
-function turn_rotate_button_off() {
-    var elem = document.getElementById("auto_rotate_off_button");
+function update_auto_rotate_button() {
+    var elem = document.querySelector("#auto_rotate_on_button") ||
+               document.querySelector("#auto_rotate_off_button");
 
     if (elem)
-        for (var i = 0; i < _player_buttons.length; i++)
-            if (_player_buttons[i].id == "auto_rotate_on_button") {
-                var player_button = _player_buttons[i];
-                swap_buttons(elem, player_button);
-                return;
+        update_button(elem);
+}
+
+function check_cursor_position(elem_id) {
+    var hover = false;
+
+    if (document.querySelectorAll) {
+        var elems = document.querySelectorAll( ":hover" );
+
+        for (var i = 0; i < elems.length; i++) {
+            if (elems[i].id == elem_id) {
+                hover = true;
+                break;
             }
-}
+        }
+    }
 
-function auto_rotate_camera() {
-    m_camera_anim.auto_rotate(CAMERA_AUTO_ROTATE_SPEED, turn_rotate_button_off);
-}
-
-function play_sound() {
-    m_sfx.mute(null, true)
-}
-
-function stop_sound() {
-    m_sfx.mute(null, false)
+    return hover;
 }
 
 function close_menu() {
-    if (_is_anim_in_process)
+    if (is_anim_in_process())
         return;
+
+    _buttons_container.removeEventListener("mouseleave", deffered_close);
+    _buttons_container.removeEventListener("mouseenter", clear_deffered_close);
+    document.body.removeEventListener("touchmove", deffered_close);
 
     close_qual_menu();
 
-    close_help();
+    var hor_elem = document.querySelector("#help_button");
+    var vert_elem = document.querySelector("#tw_button");
 
-    _is_anim_in_process = true;
+    var drop_left = function(elem) {
+        _is_anim_left = true;
 
-    var elem = help_button;
-
-    var drop_down = function(elem) {
-        anim_elem(elem, "marginRight", ANIM_ELEM_DELAY, -45, 0, "", "px", function() {
-            elem.style.display = "none";
-        });
+        anim_elem(elem, "marginRight", ANIM_ELEM_DELAY, -45, 0, "", "px");
 
         anim_elem(elem, "opacity", ANIM_ELEM_DELAY, 0, 1, "", "", function() {
-            if (elem.previousElementSibling && elem.previousElementSibling.id != "opened_button")
-                drop_down(elem.previousElementSibling);
+            if (elem.nextElementSibling && elem.nextElementSibling.id != "opened_button")
+                drop_left(elem.nextElementSibling);
             else {
-                _is_anim_in_process = false;
-                _is_control_panel_opened = false;
+                setTimeout(function() {
+                    _is_anim_left = false;
+                    _is_panel_open_left = false;
+                    check_anim_end();
+                }, 100);
+
                 return;
             }
         });
     }
 
-    drop_down(elem);
+    var drop_top = function(elem) {
+        _is_anim_top = true;
+
+        anim_elem(elem, "marginBottom", ANIM_ELEM_DELAY, -45, 0, "", "px");
+
+        anim_elem(elem, "opacity", ANIM_ELEM_DELAY, 0, 1, "", "", function() {
+            if (elem.nextElementSibling && elem.nextElementSibling.id != "opened_button")
+                drop_top(elem.nextElementSibling);
+            else {
+                setTimeout(function() {
+                    _is_anim_top = false;
+                    _is_panel_open_top = false;
+                    check_anim_end();
+                }, 100);
+
+                return;
+            }
+        });
+    }
+
+    drop_left(hor_elem);
+    drop_top(vert_elem);
 }
 
 function open_menu() {
-    if (_is_anim_in_process)
+    clear_deffered_close();
+
+    if (is_anim_in_process())
         return;
 
-    if (_is_control_panel_opened) {
+    disable_opened_button();
+
+    if (is_control_panel_opened()) {
         close_menu();
         return;
     }
 
-    _is_anim_in_process = true;
+    var hor_elem = document.querySelector("#fullscreen_on_button") ||
+                   document.querySelector("#fullscreen_off_button") ||
+                   document.querySelector("#quality_buttons_container");
 
-    var elem = opened_button;
+    var vert_elem = document.querySelector("#vk_button");
 
-    var drop_down = function(elem) {
-        elem.style.display = "block";
+    var drop_left = function(elem) {
+        _is_anim_left = true;
+
         elem.style.marginRight = "-45px";
+
+        if (elem.id == "help_button" && _is_help_menu_opened) {
+            setTimeout(function() {
+                _is_anim_left = false;
+                _is_panel_open_left = true;
+                check_anim_end();
+            }, 100);
+
+            return;
+        }
+
+        elem.style.display = "block";
 
         anim_elem(elem, "marginRight", ANIM_ELEM_DELAY, 0, -45, "", "px", function() {
 
-            if (!elem.nextElementSibling) {
-                _is_anim_in_process = false;
-                _is_control_panel_opened = true;
+            if (!elem.previousElementSibling) {
+                setTimeout(function() {
+                    _is_anim_left = false;
+                    _is_panel_open_left = true;
+                    check_anim_end();
+                }, 100);
+
                 return;
             }
 
-            drop_down(elem.nextElementSibling)
+            drop_left(elem.previousElementSibling)
         });
 
         anim_elem(elem, "opacity", ANIM_ELEM_DELAY, 1, 0, "", "");
     }
 
-    drop_down(elem.nextElementSibling);
+    var drop_top = function(elem) {
+        _is_anim_top = true;
 
-    buttons_container.addEventListener("mouseleave", deffered_close, false);
-    main_canvas_container.addEventListener("touchmove", deffered_close, false);
-    buttons_container.addEventListener("mouseenter", clear_deffered_close, false);
+        elem.style.marginBottom = "-45px";
+        elem.style.display = "block";
+
+        anim_elem(elem, "marginBottom", ANIM_ELEM_DELAY, 0, -45, "", "px", function() {
+
+            if (!elem.previousElementSibling) {
+                setTimeout(function() {
+                    _is_anim_top = false;
+                    _is_panel_open_top = true;
+                    check_anim_end();
+                }, 100);
+                return;
+            }
+
+            drop_top(elem.previousElementSibling)
+        });
+
+        anim_elem(elem, "opacity", ANIM_ELEM_DELAY, 1, 0, "", "");
+    }
+
+    drop_left(hor_elem);
+    drop_top(vert_elem);
+
+    _buttons_container.addEventListener("mouseleave", deffered_close, false);
+    _buttons_container.addEventListener("mouseenter", clear_deffered_close, false);
+    document.body.addEventListener("touchmove", deffered_close, false);
 }
 
-function deffered_close() {
-    if (_is_help_menu_opened)
+function check_anim_end() {
+    if (!is_anim_in_process()) {
+        enable_opened_button();
+
+        if ((!check_cursor_position("buttons_container") &&
+                is_control_panel_opened()) ||
+                (is_touch() && is_control_panel_opened()))
+            deffered_close();
+    }
+}
+
+function is_touch() {
+    return !!(("ontouchstart" in window && !isFinite(navigator.maxTouchPoints))
+              || navigator.maxTouchPoints)
+}
+
+function is_anim_in_process() {
+    return _is_anim_top || _is_anim_left;
+}
+
+function is_control_panel_opened() {
+    return _is_panel_open_top || _is_panel_open_left;
+}
+
+function disable_opened_button() {
+    _opened_button.removeEventListener("mouseup", open_menu);
+}
+
+function enable_opened_button() {
+    _opened_button.addEventListener("mouseup", open_menu, false);
+}
+
+function deffered_close(e) {
+    if (is_anim_in_process())
         return;
+
+    clear_deffered_close();
 
     _menu_close_func = setTimeout(close_menu, HIDE_MENU_DELAY);
 }
@@ -363,6 +734,9 @@ function clear_deffered_close() {
 }
 
 function close_qual_menu(e) {
+    if (is_anim_in_process())
+        return;
+
     if (!_is_qual_menu_opened)
         return;
 
@@ -374,24 +748,23 @@ function close_qual_menu(e) {
     } else
         var active_elem = document.querySelectorAll(".active_elem")[0];
 
-    var elem = quality_buttons_container;
+    _quality_buttons_container.style.marginRight = "0px";
 
-    elem.style.marginRight = "0px";
-
-    for (var i = 0; i < elem.children.length; i++) {
-        elem.children[i].style.display = "none";
-        elem.children[i].style.opacity = 0;
+    for (var i = 0, child = _quality_buttons_container.children; i < child.length; i++) {
+        child[i].style.display = "none";
+        child[i].style.opacity = 0;
     }
 
-    elem.className = "control_panel_button " + active_elem.id;
+    _quality_buttons_container.className = "control_panel_button " + active_elem.id;
 }
 
 function open_qual_menu(e, button) {
+    if (is_anim_in_process())
+        return;
+
     _is_qual_menu_opened = true;
 
-    var elem = quality_buttons_container;
-
-    elem.style.marginRight = "-30px";
+    _quality_buttons_container.style.marginRight = "-30px";
 
     var child_id = button.child_buttons_array_id;
     var child_cb = button.child_buttons_array_cb;
@@ -399,7 +772,7 @@ function open_qual_menu(e, button) {
     for (var i = 0; i < child_id.length; i++) {
         var child_elem = document.getElementById(child_id[i]);
 
-        if (elem.className.indexOf(child_id[i]) < 0)
+        if (_quality_buttons_container.className.indexOf(child_id[i]) < 0)
             child_elem.addEventListener("mouseup", child_cb[i], false)
         else {
             child_elem.className = "active_elem";
@@ -407,17 +780,18 @@ function open_qual_menu(e, button) {
         }
     }
 
-    elem.className = "quality_buttons_container";
+    _quality_buttons_container.className = "quality_buttons_container";
 
-    for (var i = 0; i < elem.children.length; i++) {
-        elem.children[i].style.display = "block";
-        elem.children[i].style.opacity = 1;
+    for (var i = 0, child = _quality_buttons_container.children; i < child.length; i++) {
+        child[i].style.display = "block";
+        child[i].style.opacity = 1;
     }
 }
 
 function on_resize() {
     var w = window.innerWidth;
     var h = window.innerHeight;
+
     m_main.resize(w, h);
 }
 
@@ -426,6 +800,7 @@ function loaded_callback(data_id, success) {
         report_app_error("Could not load the scene",
                 "For more info visit",
                 "https://www.blend4web.com/troubleshooting");
+
         return;
     }
 
@@ -435,10 +810,8 @@ function loaded_callback(data_id, success) {
 
     var url_params = m_app.get_url_params();
 
-    if (url_params && "autorotate" in url_params) {
-        set_rotate_button_on();
-        auto_rotate_camera();
-    }
+    if (url_params && "autorotate" in url_params)
+        rotate_camera();
 
     var meta_tags = m_scs.get_meta_tags();
 
@@ -447,59 +820,58 @@ function loaded_callback(data_id, success) {
 }
 
 function preloader_callback(percentage, load_time) {
-    preloader_caption.innerHTML = percentage + "%";
+    _preloader_caption.innerHTML = percentage + "%";
 
     if (percentage < 33) {
-        circle_container.style.display = "block";
-        first_stage.style.width = percentage * 4.7 + "px";
-        circle_container.style.webkitTransform = 'rotate('+ (percentage * 3.6 - 503) + 'deg)';
-        circle_container.style.transform = 'rotate('+ (percentage * 3.6 - 503) + 'deg)';
+        _circle_container.style.display = "block";
+        _first_stage.style.width = percentage * 4.7 + "px";
+        _circle_container.style.webkitTransform = 'rotate('+ (percentage * 3.6 - 503) + 'deg)';
+        _circle_container.style.transform = 'rotate('+ (percentage * 3.6 - 503) + 'deg)';
     } else if (percentage < 66) {
-        first_stage.style.width = 142 + "px";
-        second_stage.style.backgroundColor = "#000";
-        second_stage.style.marginTop = "135px";
+        _first_stage.style.width = 142 + "px";
+        _second_stage.style.backgroundColor = "#000";
+        _second_stage.style.marginTop = "135px";
 
         if (135 - (percentage - 33) * 4.5 > 0)
-            second_stage.style.marginTop = 135 - (percentage - 33) * 3.5 + "px";
+            _second_stage.style.marginTop = 135 - (percentage - 33) * 3.5 + "px";
 
-        circle_container.style.webkitTransform = 'rotate('+ (percentage * 3.6 - 503) + 'deg)';
-        circle_container.style.transform = 'rotate('+ (percentage * 3.6 - 503) + 'deg)';
+        _circle_container.style.webkitTransform = 'rotate('+ (percentage * 3.6 - 503) + 'deg)';
+        _circle_container.style.transform = 'rotate('+ (percentage * 3.6 - 503) + 'deg)';
     } else if (percentage != 100) {
-        second_stage.style.marginTop = "0px";
-        third_stage.style.backgroundColor = "#000";
-        third_stage.style.height = "0px";
+        _second_stage.style.marginTop = "0px";
+        _third_stage.style.backgroundColor = "#000";
+        _third_stage.style.height = "0px";
 
         if (percentage > 75)
-            third_stage.style.height = (percentage * 0.1) + "px";
+            _third_stage.style.height = (percentage * 0.1) + "px";
 
-        circle_container.style.webkitTransform = 'rotate('+ (percentage * 3.6 - 503) + 'deg)';
-        circle_container.style.transform = 'rotate('+ (percentage * 3.6 - 503) + 'deg)';
+        _circle_container.style.webkitTransform = 'rotate('+ (percentage * 3.6 - 503) + 'deg)';
+        _circle_container.style.transform = 'rotate('+ (percentage * 3.6 - 503) + 'deg)';
     }
 
     if (percentage == 100) {
-        var first_elem = document.getElementById("first_stage");
+        if (!m_sfx.check_active_speakers()) {
+            var sound_on_button = document.querySelector("#sound_on_button");
 
-        if (!first_elem)
-            return;
-
-        if (!m_sfx.check_active_speakers())
             sound_on_button.parentElement.removeChild(sound_on_button);
+        }
 
-        first_stage.parentElement.removeChild(first_stage)
-        second_stage.parentElement.removeChild(second_stage)
-        third_stage.parentElement.removeChild(third_stage)
-        circle_container.parentElement.removeChild(circle_container)
-        load_container.style.backgroundColor = "#000";
+        _first_stage.parentElement.removeChild(_first_stage)
+        _second_stage.parentElement.removeChild(_second_stage)
+        _third_stage.parentElement.removeChild(_third_stage)
+        _circle_container.parentElement.removeChild(_circle_container)
+        _load_container.style.backgroundColor = "#000";
 
-        anim_elem(preloader_caption, "opacity", CAPTION_HIDE_DELAY, 0, 1, "", "", function() {
-            anim_elem(load_container, "opacity", LOGO_CIRCLE_HIDE_DELAY, 0, 1, "", "", function() {
-                anim_elem(logo_container, "opacity", LOGO_HIDE_DELAY, 0, 1, "", "", function() {
-                    anim_elem(preloader_container, "opacity", PRELOADER_HIDE_DELAY, 0, 1, "", "", function() {
-                        preloader_container.parentElement.removeChild(preloader_container);
+        anim_elem(_preloader_caption, "opacity", CAPTION_HIDE_DELAY, 0, 1, "", "", function() {
+            anim_elem(_load_container, "opacity", LOGO_CIRCLE_HIDE_DELAY, 0, 1, "", "", function() {
+                anim_elem(_logo_container, "opacity", LOGO_HIDE_DELAY, 0, 1, "", "", function() {
+                    anim_elem(_preloader_container, "opacity", PRELOADER_HIDE_DELAY, 0, 1, "", "", function() {
+                        _preloader_container.parentElement.removeChild(_preloader_container);
+                        open_menu();
                     });
                 });
-                opened_button.style.display = "block";
-                anim_elem(opened_button, "transform", MENU_BUTTON_SHOW_DELAY, 1, 0, "scale(", ")");
+                _opened_button.style.display = "block";
+                anim_elem(_opened_button, "transform", MENU_BUTTON_SHOW_DELAY, 1, 0, "scale(", ")");
             });
         });
     }
@@ -511,14 +883,6 @@ function remove_built_in_scripts() {
     var scripts = document.getElementById(BUILT_IN_SCRIPTS_ID);
 
     scripts.parentElement.removeChild(scripts);
-}
-
-function pause_clicked() {
-    m_main.pause();
-}
-
-function resume_clicked() {
-    m_main.resume();
 }
 
 function change_quality(qual) {
@@ -545,51 +909,6 @@ function change_quality(qual) {
     }
 }
 
-function check_fullscreen(elem, button) {
-    if (!_is_in_fullscreen) {
-        m_app.request_fullscreen(document.body,
-            function() {
-                if (!check_cursor_position("buttons_container"))
-                    deffered_close();
-
-                _is_in_fullscreen = true;
-                update_fullscreen_button(_is_in_fullscreen, elem, button);
-            },
-            function() {
-                if (!check_cursor_position("buttons_container"))
-                    deffered_close();
-
-                _is_in_fullscreen = false;
-                update_fullscreen_button(_is_in_fullscreen, elem, button);
-            });
-    } else {
-        m_app.exit_fullscreen();
-    }
-}
-
-function check_cursor_position(elem_id) {
-    var hover = false;
-
-    if (document.querySelectorAll) {
-        var elems = document.querySelectorAll( ":hover" );
-
-        for (var i = 0; i < elems.length; i++) {
-            if (elems[i].id == elem_id) {
-                hover = true;
-                break;
-            }
-        }
-    }
-
-    return hover;
-}
-
-function update_fullscreen_button(is_fullscreen, elem, button) {
-    if (is_fullscreen && elem.id == "fullscreen_on_button"
-            || !is_fullscreen && elem.id == "fullscreen_off_button")
-        swap_buttons(elem, button);
-}
-
 function set_quality_config() {
     var quality = m_storage.get("quality");
 
@@ -611,34 +930,6 @@ function set_quality_config() {
     }
 
     m_cfg.set("quality", qual);
-}
-
-function set_quality_button() {
-    var quality = m_storage.get("quality");
-
-    if (!quality || quality == "CUSTOM") {
-        quality = DEFAULT_QUALITY;
-        m_storage.set("quality", quality);
-    }
-
-    var elem = quality_buttons_container;
-
-    if (!elem)
-        return null;
-
-    elem.className = "control_panel_button";
-
-    switch (quality) {
-    case "LOW":
-        elem.className = "control_panel_button low_mode_button";
-        break;
-    case "HIGH":
-        elem.className = "control_panel_button high_mode_button";
-        break;
-    case "ULTRA":
-        elem.className = "control_panel_button ultra_mode_button";
-        break;
-    }
 }
 
 function anim_elem(elem, prop, time, max_val, min_val, prefix, suffix, cb) {
@@ -710,12 +1001,16 @@ function anim_elem(elem, prop, time, max_val, min_val, prefix, suffix, cb) {
 }
 
 function report_app_error(text_message, link_message, link) {
-    circle_container.style.display = "none";
+    var error_name = document.querySelector("#error_name");
+    var error_info = document.querySelector("#error_info");
+    var error_container = document.querySelector("#error_container");
+
+    _circle_container.style.display = "none";
     error_name.innerHTML = text_message;
     error_info.innerHTML = link_message + " <a href=" + link + ">" + link.replace("https://www.", "") + "</a>";
     error_container.style.display = "block";
-    logo_container.style.opacity = 1;
-    logo_container.style.marginTop = "-90px";
+    _logo_container.style.opacity = 1;
+    _logo_container.style.marginTop = "-90px";
 }
 
 });

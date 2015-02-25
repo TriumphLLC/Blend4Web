@@ -1071,6 +1071,8 @@ def add_b4w_props():
 
     add_object_properties()
 
+    add_text_properties()
+
     # for camera panel
     b4w_move_style = bpy.props.EnumProperty(
         name = "B4W: movement style",
@@ -1603,6 +1605,17 @@ def add_scene_properties():
             type=nla_script.B4W_ScriptSlot,
             name="B4W: NLA Script")
 
+def add_text_properties():
+
+    text_type = bpy.types.Text
+
+    b4w_assets_load = bpy.props.BoolProperty(
+        name="B4W: assets load",
+        description = "",
+        default = False
+    )
+    text_type.b4w_assets_load = b4w_assets_load
+
 def add_object_properties():
     """Add properties for the object panel"""
 
@@ -1818,6 +1831,13 @@ def add_object_properties():
     )
     obj_type.b4w_billboard = b4w_billboard
 
+    b4w_pres_glob_orientation = bpy.props.BoolProperty(
+        name = "B4W: preserve global orientation and scale",
+        description = "Preserve global orientation and scale for billboard object",
+        default = False
+    )
+    obj_type.b4w_pres_glob_orientation = b4w_pres_glob_orientation
+
     b4w_billboard_geometry = bpy.props.EnumProperty(
         name = "B4W: billboard geometry",
         description = "Object billboarding geometry",
@@ -1960,7 +1980,7 @@ def add_speaker_properties():
 
     spk_type.b4w_cyclic_play = bpy.props.BoolProperty(
         name = "B4W: cyclic play",
-        description = "Loop speaker play",
+        description = "Repeat speaker's playback",
         default = False
     )
     spk_type.b4w_delay = bpy.props.FloatProperty(
@@ -2021,7 +2041,7 @@ def add_speaker_properties():
 
     spk_type.b4w_loop = bpy.props.BoolProperty(
         name = "B4W: loop",
-        description = "Make loop",
+        description = "Make loop (repeated playback inside current play cycle)",
         default = False
     )
     spk_type.b4w_loop_count = bpy.props.IntProperty(

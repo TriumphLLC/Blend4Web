@@ -161,14 +161,20 @@ exports.remove_edge = function(graph, id1, id2, edge_num) {
  * Append node by attribute.
  * Perform attribute uniqueness test and append newly allocated node to graph
  * with that unique attribute.
+ * @returns New node ID
  */
 exports.append_node_attr = function(graph, attr) {
-    if (node_by_attr(graph, attr) == NULL_NODE)
-        append_node(graph, gen_node_id(graph), attr);
-    else
+    if (node_by_attr(graph, attr) == NULL_NODE) {
+        var node_id = gen_node_id(graph)
+        append_node(graph, node_id, attr);
+        return node_id;
+    } else
         throw "Non-unique attribute";
 }
 
+/**
+ * For edges connecting two node IDs with given attribute replace it by the new one.
+ */
 exports.replace_edge_attr = function(graph, id1, id2, attr_old, attr_new) {
     var edges = graph.edges;
     for (var i = 0; i < edges.length; i+=3)
@@ -204,7 +210,8 @@ function node_by_attr(graph, attr) {
 }
 
 /**
- * Append new edge by two (unique) node attributes.
+ * Append new edge by two node attributes.
+ * All node attributes must be unique, because the edge is appended only ones.
  */
 exports.append_edge_attr = function(graph, attr_node1, attr_node2, attr_edge) {
     var id1 = node_by_attr(graph, attr_node1);
@@ -900,7 +907,7 @@ function compatible_edge(edge_comp, graph1, node11, node12, graph2, node21, node
     var graph2_edge_count = get_edge_count(graph2, node21, node22);
 
     // NOTE: for each edge in graph1 find compatible in graph2
-    
+
     for (var i = 0; i < graph1_edge_count; i++) {
         var edge_match = false;
 
@@ -1019,7 +1026,7 @@ function state_add_pair(state, node1, node2) {
 		        state.t1both_len++;
         }
     }
-    
+
     for (var i = 0; i < in_edge_count(g2, node2); i++) {
         var other = get_in_edge(g2, node2, i);
         if (!in_2[other]) {
@@ -1097,7 +1104,7 @@ function state_back_track(state) {
 
 	    core_1[added_node1] = NULL_NODE;
 		core_2[node2] = NULL_NODE;
-	    
+
 	    state.core_len = state.orig_core_len;
 		state.added_node1 = NULL_NODE;
 	}
@@ -1173,6 +1180,22 @@ exports.replace = function(graph, rnode_ids, new_node_attr) {
     }
 
     append_node(graph, new_node_id, new_node_attr);
+}
+
+/**
+ * Reconnect all edges connecting two given node IDs.
+ */
+exports.reconnect_edges = function(graph, id1, id2, new_id1, new_id2) {
+    if (!has_edge(graph, id1, id2))
+        throw "Edge not found";
+
+    var edges = graph.edges;
+
+    for (var i = 0; i < edges.length; i+=3)
+        if (edges[i] == id1 && edges[i+1] == id2) {
+            edges[i] = new_id1;
+            edges[i+1] = new_id2;
+        }
 }
 
 exports.debug_dot = function(graph, label_cb) {

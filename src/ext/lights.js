@@ -50,6 +50,7 @@ exports.get_sun_params = get_sun_params;
  * Get the sun parameters.
  * @method module:lights.get_sun_params
  * @returns {Object} Sun params object
+ * @cc_externs hor_position vert_position
  */
 function get_sun_params() {
     var scene = scenes.get_active();
@@ -215,105 +216,110 @@ exports.set_max_sun_angle = function(angle) {
 /**
  * Get the light params.
  * @method module:lights.get_light_params
- * @param {String} light_name Name of the light object
+ * @param {Object} lamp_obj Lamp object ID
  * @returns {Object} Light params
  */
-exports.get_light_params = function(light_name) {
+exports.get_light_params = function(lamp_obj) {
 
-    var scene = scenes.get_active();
-
-    if (!scene) {
-        m_print.error("No active scene");
+    if (lights.is_lamp(lamp_obj))
+        var light = lamp_obj._light;
+    else {
+        m_print.error("get_light_params(): Wrong object");
         return false;
     }
 
-    var lamps = scenes.get_scene_objs(scene, "LAMP", scenes.DATA_ID_ALL);
+    var type = get_light_type(lamp_obj);
 
-    for (var i = 0; i < lamps.length; i++) {
-        var lamp = lamps[i];
-        if (lamp["name"] === light_name) {
-            var light = lamp._light;
+    if (type)
+        switch(type) {
+        case "SPOT":
+            var rslt = {
+                "light_type": type,
+                "light_color": light.color,
+                "light_energy": light.energy,
+                "light_spot_blend": light.spot_blend,
+                "light_spot_size": light.spot_size,
+                "light_distance" : light.distance
+            };
+            break;
+        case "POINT":
+            var rslt = {
+                "light_type": type,
+                "light_color": light.color,
+                "light_energy": light.energy,
+                "light_distance" : light.distance
+            };
+            break;
+        default:
+            var rslt = {
+                "light_type": type,
+                "light_color": light.color,
+                "light_energy": light.energy
+            };
             break;
         }
-    }
-
-    if (!light)
+    if (rslt)
+        return rslt;
+    else
         return false;
-
-    var rslt = {
-        "light_color": light.color,
-        "light_energy": light.energy
-    };
-
-    return rslt;
 }
 
+exports.get_light_type = get_light_type
+/**
+ * Get the light type.
+ * @method module:lights.get_light_type
+ * @param {Object} lamp_obj Lamp object ID
+ * @returns {String} Light type
+ */
+function get_light_type(lamp_obj) {
+    if (lights.is_lamp(lamp_obj))
+        return lamp_obj._light.type;
+    else
+        m_print.error("get_light_type(): Wrong object");
+    return false;
+}
 /**
  * Set the light params.
  * @method module:lights.set_light_params
- * @param {String} light_name Name of the light object
+ * @param {Object} lamp_obj Lamp object ID                  
  * @param {Object} light_params Light params
- * @cc_externs hor_position vert_position light_energy light_color
+ * @cc_externs light_distance light_spot_size light_spot_blend light_energy light_color
  */
-exports.set_light_params = function(light_name, light_params) {
+exports.set_light_params = function(lamp_obj, light_params) {
+
+    if (lights.is_lamp(lamp_obj))
+        var light = lamp_obj._light;
+    else {
+        m_print.error("set_light_params(): Wrong object");
+        return false;
+    }
 
     var scene = scenes.get_active();
 
-    if (!scene) {
-        m_print.error("No active scene");
-        return false;
-    }
-
-    var lamps = scenes.get_scene_objs(scene, "LAMP", scenes.DATA_ID_ALL);
-
-    for (var i = 0; i < lamps.length; i++) {
-        var lamp = lamps[i];
-        if (lamp["name"] === light_name) {
-            var light = lamp._light;
-            break;
-        }
-    }
-
-    if (!light) {
-        m_print.error("B4W Warning: light \"" + light_name +
-            "\" not found");
-        return false;
-    }
-
     if (typeof light_params.light_energy == "number") {
         lights.set_light_energy(light, light_params.light_energy);
-        scenes.update_lamp_scene(lamp, scene);
+        scenes.update_lamp_scene(lamp_obj, scene);
     }
 
     if (typeof light_params.light_color == "object") {
         lights.set_light_color(light, light_params.light_color);
-        scenes.update_lamp_scene(lamp, scene);
-    }
-}
-
-/**
- * Get all lights' names.
- * @method module:lights.get_lights_names
- * @returns {Array} Lights' names
- */
-exports.get_lights_names = function() {
-
-    var scene = scenes.get_active();
-
-    if (!scene) {
-        m_print.error("No active scene");
-        return false;
+        scenes.update_lamp_scene(lamp_obj, scene);
     }
 
-    var rslt = [];
-
-    var lamps = scenes.get_scene_objs(scene, "LAMP", scenes.DATA_ID_ALL);
-
-    for (var i = 0; i < lamps.length; i++) {
-        var lamp = lamps[i];
-        rslt.push(lamp._light.name);
+    if (typeof light_params.light_spot_blend == "number") {
+        lights.set_light_spot_blend(light, light_params.light_spot_blend);
+        scenes.update_lamp_scene(lamp_obj, scene);
     }
-    return rslt;
+
+    if (typeof light_params.light_spot_size == "number") {
+        lights.set_light_spot_size(light, light_params.light_spot_size);
+        scenes.update_lamp_scene(lamp_obj, scene);
+    }
+
+    if (typeof light_params.light_distance == "number") {
+        lights.set_light_distance(light, light_params.light_distance);
+        scenes.update_lamp_scene(lamp_obj, scene);
+    }
 }
 
 function update_sun_position(time) {

@@ -197,6 +197,14 @@ msgstr ""
 msgid "`Opera <http://www.opera.com/browser>`_"
 msgstr ""
 
+#: ../about.rst:79
+msgid "`Safari <http://www.apple.com/safari/>`_ 8+"
+msgstr ""
+
+#: ../about.rst:90
+msgid "Android (на современных устройствах)"
+msgstr "Android (on modern devices)"
+
 #: ../about.rst:82
 msgid "Экспериментальная поддержка"
 msgstr "Experimental Support"
@@ -532,17 +540,23 @@ msgid ""
 "многопоточные вычисления, `Web Workers <http://www.w3.org/TR/workers/>`_"
 msgstr "multithreading, `Web Workers <http://www.w3.org/TR/workers/>`_"
 
-#: ../about.rst:176
+#: ../about.rst:175
+msgid ""
+"ориентация и перемещение мобильных устройств, `Device Orientation <http://www.w3.org/TR/orientation-event/>`_"
+msgstr ""
+"`Device Orientation <http://www.w3.org/TR/orientation-event/>`_"
+
+#: ../about.rst:177
 msgid "Другие перспективные технологии:"
 msgstr "Other promising technologies:"
 
-#: ../about.rst:178
+#: ../about.rst:179
 msgid ""
 "векторная графика, `Scalable Vector Graphics (SVG) "
 "<http://www.w3.org/TR/SVG/>`_"
 msgstr "`Scalable Vector Graphics (SVG) <http://www.w3.org/TR/SVG/>`_"
 
-#: ../about.rst:179
+#: ../about.rst:180
 msgid ""
 "безопасный доступ к файлам, `File API <http://www.w3.org/TR/FileAPI/>`_, "
 "`File API: Directories and System <http://www.w3.org/TR/file-system-api/>`_"
@@ -550,7 +564,7 @@ msgstr ""
 "safe file access, `File API <http://www.w3.org/TR/FileAPI/>`_, `File API: "
 "Directories and System <http://www.w3.org/TR/file-system-api/>`_"
 
-#: ../about.rst:180
+#: ../about.rst:181
 msgid ""
 "потоковое соединение между браузерами, `WebRTC "
 "<http://dev.w3.org/2011/webrtc/editor/webrtc.html>`_"
@@ -558,7 +572,7 @@ msgstr ""
 "real-time communication between browsers, `WebRTC "
 "<http://dev.w3.org/2011/webrtc/editor/webrtc.html>`_"
 
-#: ../about.rst:181
+#: ../about.rst:182
 msgid ""
 "постоянное сетевое подключение, `The WebSocket API "
 "<http://www.w3.org/TR/websockets/>`_"
@@ -566,7 +580,7 @@ msgstr ""
 "persistent network connection, `The WebSocket API "
 "<http://www.w3.org/TR/websockets/>`_"
 
-#: ../about.rst:182
+#: ../about.rst:183
 msgid ""
 "игровые пульты, `Gamepad <http://dvcs.w3.org/hg/gamepad/raw-"
 "file/default/gamepad.html>`_"
@@ -668,16 +682,7 @@ msgstr ""
 "websites of graphics processors vendors. See detailed info in the section "
 ":ref:`webgl_not_working`."
 
-#: ../about.rst:79
-msgid "`Safari <http://www.apple.com/safari/>`_ 8+"
-msgstr ""
 
-#: ../about.rst:90
-msgid "Android (на современных устройствах)"
-msgstr "Android (on modern devices)"
 
-#~ msgid "`Safari <http://www.apple.com/safari/>`_ 8"
-#~ msgstr ""
 
-#~ msgid "Android (на большей части современных устройств)"
-#~ msgstr ""
+

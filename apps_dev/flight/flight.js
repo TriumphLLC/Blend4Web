@@ -113,9 +113,6 @@ function init_cb(canvas_elem, success) {
             m_app.request_fullscreen(document.body);
     }, false);
 
-    // NOTE: provide minimum feature set
-    m_cfg.set("deferred_rendering", false);
-
     load_stuff();
 }
 

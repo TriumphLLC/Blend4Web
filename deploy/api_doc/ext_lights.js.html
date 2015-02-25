@@ -78,6 +78,7 @@ exports.get_sun_params = get_sun_params;
  * Get the sun parameters.
  * @method module:lights.get_sun_params
  * @returns {Object} Sun params object
+ * @cc_externs hor_position vert_position
  */
 function get_sun_params() {
     var scene = scenes.get_active();
@@ -243,105 +244,110 @@ exports.set_max_sun_angle = function(angle) {
 /**
  * Get the light params.
  * @method module:lights.get_light_params
- * @param {String} light_name Name of the light object
+ * @param {Object} lamp_obj Lamp object ID
  * @returns {Object} Light params
  */
-exports.get_light_params = function(light_name) {
+exports.get_light_params = function(lamp_obj) {
 
-    var scene = scenes.get_active();
-
-    if (!scene) {
-        m_print.error("No active scene");
+    if (lights.is_lamp(lamp_obj))
+        var light = lamp_obj._light;
+    else {
+        m_print.error("get_light_params(): Wrong object");
         return false;
     }
 
-    var lamps = scenes.get_scene_objs(scene, "LAMP", scenes.DATA_ID_ALL);
+    var type = get_light_type(lamp_obj);
 
-    for (var i = 0; i &lt; lamps.length; i++) {
-        var lamp = lamps[i];
-        if (lamp["name"] === light_name) {
-            var light = lamp._light;
+    if (type)
+        switch(type) {
+        case "SPOT":
+            var rslt = {
+                "light_type": type,
+                "light_color": light.color,
+                "light_energy": light.energy,
+                "light_spot_blend": light.spot_blend,
+                "light_spot_size": light.spot_size,
+                "light_distance" : light.distance
+            };
+            break;
+        case "POINT":
+            var rslt = {
+                "light_type": type,
+                "light_color": light.color,
+                "light_energy": light.energy,
+                "light_distance" : light.distance
+            };
+            break;
+        default:
+            var rslt = {
+                "light_type": type,
+                "light_color": light.color,
+                "light_energy": light.energy
+            };
             break;
         }
-    }
-
-    if (!light)
+    if (rslt)
+        return rslt;
+    else
         return false;
-
-    var rslt = {
-        "light_color": light.color,
-        "light_energy": light.energy
-    };
-
-    return rslt;
 }
 
+exports.get_light_type = get_light_type
+/**
+ * Get the light type.
+ * @method module:lights.get_light_type
+ * @param {Object} lamp_obj Lamp object ID
+ * @returns {String} Light type
+ */
+function get_light_type(lamp_obj) {
+    if (lights.is_lamp(lamp_obj))
+        return lamp_obj._light.type;
+    else
+        m_print.error("get_light_type(): Wrong object");
+    return false;
+}
 /**
  * Set the light params.
  * @method module:lights.set_light_params
- * @param {String} light_name Name of the light object
+ * @param {Object} lamp_obj Lamp object ID                  
  * @param {Object} light_params Light params
- * @cc_externs hor_position vert_position light_energy light_color
+ * @cc_externs light_distance light_spot_size light_spot_blend light_energy light_color
  */
-exports.set_light_params = function(light_name, light_params) {
+exports.set_light_params = function(lamp_obj, light_params) {
+
+    if (lights.is_lamp(lamp_obj))
+        var light = lamp_obj._light;
+    else {
+        m_print.error("set_light_params(): Wrong object");
+        return false;
+    }
 
     var scene = scenes.get_active();
 
-    if (!scene) {
-        m_print.error("No active scene");
-        return false;
-    }
-
-    var lamps = scenes.get_scene_objs(scene, "LAMP", scenes.DATA_ID_ALL);
-
-    for (var i = 0; i &lt; lamps.length; i++) {
-        var lamp = lamps[i];
-        if (lamp["name"] === light_name) {
-            var light = lamp._light;
-            break;
-        }
-    }
-
-    if (!light) {
-        m_print.error("B4W Warning: light \"" + light_name +
-            "\" not found");
-        return false;
-    }
-
     if (typeof light_params.light_energy == "number") {
         lights.set_light_energy(light, light_params.light_energy);
-        scenes.update_lamp_scene(lamp, scene);
+        scenes.update_lamp_scene(lamp_obj, scene);
     }
 
     if (typeof light_params.light_color == "object") {
         lights.set_light_color(light, light_params.light_color);
-        scenes.update_lamp_scene(lamp, scene);
-    }
-}
-
-/**
- * Get all lights' names.
- * @method module:lights.get_lights_names
- * @returns {Array} Lights' names
- */
-exports.get_lights_names = function() {
-
-    var scene = scenes.get_active();
-
-    if (!scene) {
-        m_print.error("No active scene");
-        return false;
+        scenes.update_lamp_scene(lamp_obj, scene);
     }
 
-    var rslt = [];
-
-    var lamps = scenes.get_scene_objs(scene, "LAMP", scenes.DATA_ID_ALL);
-
-    for (var i = 0; i &lt; lamps.length; i++) {
-        var lamp = lamps[i];
-        rslt.push(lamp._light.name);
+    if (typeof light_params.light_spot_blend == "number") {
+        lights.set_light_spot_blend(light, light_params.light_spot_blend);
+        scenes.update_lamp_scene(lamp_obj, scene);
     }
-    return rslt;
+
+    if (typeof light_params.light_spot_size == "number") {
+        lights.set_light_spot_size(light, light_params.light_spot_size);
+        scenes.update_lamp_scene(lamp_obj, scene);
+    }
+
+    if (typeof light_params.light_distance == "number") {
+        lights.set_light_distance(light, light_params.light_distance);
+        scenes.update_lamp_scene(lamp_obj, scene);
+    }
 }
 
 function update_sun_position(time) {
@@ -458,13 +464,13 @@ function calendar_to_julian(date) {
 </div>
 
 <nav>
-    <h2><a href="index.html">Index</a></h2><h3>Modules</h3><ul><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-util.html">util</a></li><li><a href="module-version.html">version</a></li></ul><h3><a href="global.html">Global</a></h3>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul>
 </nav>
 
-<br clear="both">
+<br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-dev</a> on Thu Jan 22 2015 11:40:39 GMT+0300 (MSK)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Wed Feb 25 2015 10:34:05 GMT+0300 (MSK)
 </footer>
 
 <script> prettyPrint(); </script>

@@ -184,8 +184,8 @@ Baker``, расположенный на панели инструментов `
 
 .. _node_anim:
 
-Анимация ноды ``Value``
-=======================
+Анимация ноды Value
+===================
 
 
 .. image:: src_images/animation/node_value_anim.jpg

@@ -580,15 +580,14 @@ function blend_arrays(a1, a2, f, dest) {
     return dest;
 }
 
-exports.unique_id = unique_id;
 /**
- * Return string containing unique ID
- * @methodOf util
+ * Compose unique string ID.
  */
-function unique_id() {
+exports.unique_id = function() {
     _unique_counter++;
     return _unique_counter.toString(16);
 }
+
 
 /**
  * Compose unique name based on given name.

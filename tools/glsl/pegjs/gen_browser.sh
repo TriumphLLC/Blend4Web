@@ -3,10 +3,10 @@
 PEGJS=pegjs
 
 PARSER_IN="gpp_parser.pegjs"
-PARSER_OUT="../../src/third_party/gpp_parser.js"
+PARSER_OUT="../../../src/libs/gpp_parser.js"
 
 EVAL_IN="eval.pegjs"
-EVAL_OUT="../../src/third_party/gpp_eval.js"
+EVAL_OUT="../../../src/libs/gpp_eval.js"
 
 TMP="/tmp/pegjs_tmp.js"
 

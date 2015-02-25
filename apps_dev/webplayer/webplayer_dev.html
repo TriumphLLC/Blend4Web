@@ -5,11 +5,16 @@
 <meta charset="utf-8">
 <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width" />
 
+<meta property="og:title" content="Blend4Web Web Player" />
+<meta property="og:description" content="Check this awesome Blend4Web 3D scene." />
+
+<meta name="description" content="Check this awesome Blend4Web 3D scene." />
+
 <link href="webplayer.css" rel="stylesheet" type="text/css" />
 
 <script type="text/javascript" src="../../deploy/globals_detect/begin.js"></script>
 
-<script type="text/javascript" src="../../src/modules.js"></script>
+<script type="text/javascript" src="../../src/b4w.js"></script>
 <script type="text/javascript" src="../../src/version.js"></script>
 <script type="text/javascript" src="../../src/boundings.js"></script>
 <script type="text/javascript" src="../../src/constraints.js"></script>
@@ -110,19 +115,28 @@
     </div>
     <div id="buttons_container">
         <div id="opened_button" class="control_panel_button"></div>
-        <div id="fullscreen_on_button" class="control_panel_button"></div>
-        <div id="quality_buttons_container" class="control_panel_button">
-            <div id="ultra_mode_button" class="qual_button"></div>
-            <div id="high_mode_button" class="qual_button"></div>
-            <div id="low_mode_button" class="qual_button"></div>
+        <div id="hor_button_section">
+            <div id="help_button" class="control_panel_button"></div>
+            <div id="pause_button" class="control_panel_button"></div>
+            <div id="auto_rotate_on_button" class="control_panel_button"></div>
+            <div id="sound_on_button" class="control_panel_button"></div>
+            <div id="quality_buttons_container" class="control_panel_button">
+                <div id="ultra_mode_button" class="qual_button"></div>
+                <div id="high_mode_button" class="qual_button"></div>
+                <div id="low_mode_button" class="qual_button"></div>
+            </div>
+            <div id="fullscreen_on_button" class="control_panel_button"></div>
         </div>
-        <div id="sound_on_button" class="control_panel_button"></div>
-        <div id="auto_rotate_on_button" class="control_panel_button"></div>
-        <div id="pause_button" class="control_panel_button"></div>
-        <div id="help_button" class="control_panel_button"></div>
+        <div id="vert_section_button">
+            <div id="tw_button" class="control_panel_button"><a target="_blank" href="//twitter.com/intent/tweet?via=blend4web&text=Check this awesome Blend4Web 3D scene.&url="></a></div>
+            <div id="fb_button" class="control_panel_button"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u="></a></div>
+            <div id="g_button" class="control_panel_button"><a target="_blank" href="https://plus.google.com/share?url="></a></div>
+            <div id="vk_button" class="control_panel_button"><a target="_blank" href="https://vk.com/share.php?url="></a></div>
+        </div>
     </div>
     <div id="help_info_container">
         <div id="close_help"></div>
+        <div id="rel_version">dev</div>
         <a id="site_link" target="_blank" href="https://www.blend4web.com">blend4web.com</a>
     </div>
     <div id="error_container">

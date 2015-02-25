@@ -8,26 +8,21 @@ b4w.module["screenshooter"] = function(exports, require) {
 
 var m_main = require("main");
 
-var SHOT_URL = "/screenshot";
-
+/**
+ * Take a screenshot and download as screenshot.png image.
+ */
 exports.shot = function() {
 
     var cb = function(data) {
-        console.log("Sending screenshot to server");
+        var a = window.document.createElement("a");
+        document.body.appendChild(a);
 
-        var req = new XMLHttpRequest();
-        req.open("POST", SHOT_URL, false);
-        req.send(data);
+        a.style = "display: none";
+        a.href = data;
+        a.download = "screenshot.png";
+        a.click();
 
-        if (req.status == 200 || req.status == 0) {
-            var resp_text = req.responseText;
-            if (resp_text.length) {
-                console.log("Screenshot sent");
-            } else
-                throw "Error XHR: responce is empty, POST " + SHOT_URL;
-        } else {
-            throw "Error XHR: " + req.status + ", POST " + SHOT_URL;
-        }
+        document.body.removeChild(a);
     }
 
     m_main.canvas_data_url(cb);

@@ -46,8 +46,6 @@
  * <dd>Boolean, print more debug info.
  * <dt>context_antialias
  * <dd>Boolean, enable hardware antialiasing (for forward rendering only).
- * <dt>deferred_rendering
- * <dd>Boolean, use deferred rendering pipeline.
  * <dt>do_not_load_resources
  * <dd>Boolean, disable resource loading (textures and sounds).
  * <dt>force_selectable
@@ -91,7 +89,7 @@
  * @cc_externs alpha_sort_threshold anaglyph_use animation_framerate antialiasing
  * @cc_externs assets_dds_available assets_min50_available background_color
  * @cc_externs built_in_module_name canvas_resolution_factor console_verbose
- * @cc_externs context_antialias deferred_rendering do_not_load_resources
+ * @cc_externs context_antialias do_not_load_resources
  * @cc_externs force_selectable glow physics_enabled physics_uranium_path precision
  * @cc_externs quality resolution_factor sfx_mix_mode shaders_dir show_hud_debug_info
  * @cc_externs smaa smaa_search_texture_path smaa_area_texture_path wireframe_debug
@@ -141,8 +139,10 @@ exports.get = m_cfg.get;
  */
 exports.reset = m_cfg.reset;
 /**
- * Get path to assets.
+ * Get path to assets directory. Used when application development happens
+ * inside SDK.
  * @method module:config.get_std_assets_path
+ * @returns {String} Path to assets
  */
 exports.get_std_assets_path = m_cfg.get_std_assets_path;
 

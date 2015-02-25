@@ -26,8 +26,8 @@ var _unreported_compat_issues = false;
 
 var _params_reported = {};
 
-
 function reform_node (node) {
+
     switch(node["type"]) {
     case "MAPPING":
         if(!node["vector_type"]) {
@@ -85,6 +85,39 @@ function reform_node (node) {
         if (!("diffuse_fresnel_factor" in node)) {
             node["diffuse_fresnel_factor"] = 0.5;
             report("node material", node, "diffuse_fresnel_factor");
+        }
+        break;
+    case "MATH":
+    case "MIX_RGB":
+        if (!("use_clamp" in node)) {
+            node["use_clamp"] = false;
+            report("node " + node["type"], node, "use_clamp");
+        }
+        break;
+    case "GROUP":
+        // NOTE: allow auto-generated names for custom nodes
+        // (e.g consider TIME.001 as TIME)
+        node["node_tree_name"] = node["node_tree_name"].replace(/\.[0-9]{3,}$/g, "");
+
+        // HACK: prepend B4W_ prefix for special nodes; temporary backward compatibility
+        switch(node["node_tree_name"]) {
+        case "CLAMP":
+        case "LEVELS_OF_QUALITY":
+        case "LINEAR_TO_SRGB":
+        case "NORMAL_VIEW":
+        case "PARALLAX":
+        case "REFLECT":
+        case "REFRACTION":
+        case "REPLACE":
+        case "SMOOTHSTEP":
+        case "SRGB_TO_LINEAR":
+        case "TIME":
+        case "TRANSLUCENCY":
+        case "VECTOR_VIEW":
+            node["node_tree_name"] = "B4W_" + node["node_tree_name"];
+            break;
+        default:
+            break;
         }
         break;
     }
@@ -1009,14 +1042,12 @@ exports.check_bpy_data = function(bpy_data) {
 
     /*node_groups*/
     var node_groups = bpy_data["node_groups"];
-
     for (var i = 0; i < node_groups.length; i++) {
         var nodes = node_groups[i]["node_tree"]["nodes"];
 
         for (var j = 0; j < nodes.length; j++)
             reform_node(nodes[j]);
     }
-
     var objects = bpy_data["objects"];
 
     for (var i = 0; i < objects.length; i++) {
@@ -1269,6 +1300,10 @@ exports.check_bpy_data = function(bpy_data) {
             if (!("b4w_billboard_geometry" in obj)) {
                 obj["b4w_billboard_geometry"] = "SPHERICAL";
                 report("object", obj, "b4w_billboard_geometry");
+            }
+            if (!("b4w_pres_glob_orientation" in obj)) {
+                obj["b4w_pres_glob_orientation"] = false;
+                report("object", obj, "b4w_pres_glob_orientation");
             }
             if (!("b4w_glow_settings" in obj)) {
                 obj["b4w_glow_settings"] = {};
@@ -1613,6 +1648,9 @@ function libname(obj) {
 
 function check_uniform_scale(obj) {
     var scale = obj["scale"];
+
+    if (scale[0] == 0 && scale[1] == 0 && scale[2] == 0)
+        return true;
 
     var delta1 = Math.abs((scale[0] - scale[1]) / scale[0]);
     var delta2 = Math.abs((scale[1] - scale[2]) / scale[1]);

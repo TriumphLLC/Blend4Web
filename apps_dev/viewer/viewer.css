@@ -4,25 +4,34 @@ body {
     margin: 0;
 }
 
+#main_canvas_container {
+    position: absolute;
+    height: 100%;
+    left: 0px;
+    top: 0px;
+    right: 0px;
+}
+
+@media all and (min-width: 750px) {
+    #main_canvas_container {
+        right: 330px;
+    }
+}
+
 div.backgr_checker {
     position: absolute;
-    right: 344px;
+    right: 44px;
     top: 44px;
     width: 64px;
     height: 64px;
     background: url(images/backgr_checker.png);
 }
 
-#main_canvas_container {
-    position:absolute;
-    left: 0px;
-    top: 0px;
-}
-
 div.info_corner {
     position: absolute;
     width: auto;
     height: auto;
+    z-index: 1;
 }
 
 div.info_corner.left_up {
@@ -37,12 +46,12 @@ div.info_corner.left_down {
 
 div.info_corner.right_down {
     bottom: 5px;
-    right: 325px;
+    right: 5px;
 }
 
 div.info_corner.right_up {
     top: 5px;
-    right: 325px;
+    right: 5px;
 }
 
 div.info_corner_backgr {
@@ -72,24 +81,20 @@ span.info_corner_text {
     display: inline-block;
 }
 
-@media all and (min-width: 750px) {
-    #controls_container {
-        width: 320px;
-    }
-}
-
-@media all and (min-width: 1200px) {
-    #controls_container {
-        width: 320px;
-    }
-}
-
 #controls_container {
-    position:absolute;
+    position: absolute;
     right: 0px;
     top: 0px;
     height: 100%;
+    width: 0%;
 }
+
+@media all and (min-width: 750px) {
+    #controls_container {
+        width: 330px;
+    }
+}
+
 
 #manifest {
     height: 350px;
@@ -127,7 +132,7 @@ span.info_corner_text {
 }
 
 .color_selector div {
-    position: absolute;
+    position: relative;
     top: 3px;
     left: 3px;
     width: 30px;
@@ -161,6 +166,7 @@ html .ui-panel-page-container-c {
     color: #ffffff /*{c-body-color}*/;
     text-shadow: 0 /*{c-body-shadow-x}*/ 1px /*{c-body-shadow-y}*/ 0 /*{c-body-shadow-radius}*/ #f3f3f3 /*{c-body-shadow-color}*/;
 }
+
 .ui-body-c {
     border-width: 0px;
     border-style: solid;

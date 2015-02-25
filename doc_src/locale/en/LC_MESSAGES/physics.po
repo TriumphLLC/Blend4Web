@@ -457,7 +457,7 @@ msgstr "Watercraft settings"
 
 #: ../physics.rst:223
 msgid "Особенности использования в приложениях"
-msgstr "Using in applications"
+msgstr "Use in Applications"
 
 #: ../physics.rst:225
 msgid ""

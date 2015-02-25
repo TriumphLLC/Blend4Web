@@ -3,6 +3,14 @@
 #var NUM_LAMP_LIGHTS 0
 #var NUM_ANIM_VALUES 0
 
+// node dirs
+#var MAPPING_TRS_MATRIX mat4(0.0)
+#var MAPPING_SCALE vec3(0.0)
+#var MAPPING_TRANSLATION vec3(0.0)
+#var MAPPING_MIN_CLIP vec3(0.0)
+#var MAPPING_MAX_CLIP vec3(0.0)
+#var MAPPING_IS_NORMAL 0.0
+
 /*============================================================================
                                   INCLUDES
 ============================================================================*/
@@ -71,7 +79,7 @@ uniform vec3 u_sun_direction;
 uniform mat4 u_cube_fog;
 #endif
 
-#if USE_NODE_VECTOR_VIEW || REFLECTIVE
+#if USE_NODE_B4W_VECTOR_VIEW || REFLECTIVE
 uniform mat4 u_view_matrix_frag;
 #endif
 
@@ -106,7 +114,7 @@ uniform sampler2D u_shadow_map3;
 
 #endif
 
-#if USE_NODE_REFRACTION
+#if USE_NODE_B4W_REFRACTION
 uniform sampler2D u_refractmap;
 # if USE_REFRACTION
 uniform sampler2D u_scene_depth;
@@ -166,11 +174,11 @@ varying vec4 v_shadow_coord3;
 # endif
 #endif
 
-#if REFLECTIVE || SHADOW_SRC == SHADOW_SRC_MASK || USE_NODE_REFRACTION
+#if REFLECTIVE || SHADOW_SRC == SHADOW_SRC_MASK || USE_NODE_B4W_REFRACTION
 varying vec3 v_tex_pos_clip;
 #endif
 
-#if USE_NODE_REFRACTION && USE_REFRACTION
+#if USE_NODE_B4W_REFRACTION && USE_REFRACTION
 varying float v_view_depth;
 #endif
 
@@ -190,7 +198,7 @@ vec3 UNITY_VECTOR = vec3(UNITY_VALUE_NODES);
 #include <shadow.glslf>
 #include <mirror.glslf>
 
-#if USE_NODE_REFRACTION
+#if USE_NODE_B4W_REFRACTION
 # if USE_REFRACTION
 # include <refraction.glslf>
 # endif
@@ -200,8 +208,7 @@ vec3 refraction_node(in vec3 normal_in, in float refr_bump) {
 # if USE_REFRACTION
     refract_color = material_refraction(v_tex_pos_clip, normal_in.xz * refr_bump);
 # else
-    //refract_color = texture2D(u_refractmap, v_tex_pos_clip.xy/v_tex_pos_clip.z).rgb;
-    refract_color = vec3(0.0);
+    refract_color = texture2D(u_refractmap, v_tex_pos_clip.xy/v_tex_pos_clip.z).rgb;
     srgb_to_lin(refract_color);
 # endif
     return refract_color;
@@ -240,7 +247,7 @@ vec3 hsv_to_rgb(vec3 hsv)
 }
 #endif
 
-#if USE_NODE_GEOMETRY_UV || USE_NODE_PARALLAX
+#if USE_NODE_GEOMETRY_UV || USE_NODE_B4W_PARALLAX
 vec3 uv_to_vec(vec2 uv)
 {
     return vec3(uv*2.0 - vec2(UNITY_VALUE_NODES, UNITY_VALUE_NODES), ZERO_VALUE_NODES);
@@ -249,56 +256,30 @@ vec3 uv_to_vec(vec2 uv)
 
 #if USE_NODE_TEXTURE_COLOR || USE_NODE_TEXTURE_NORMAL || USE_NODE_TEXTURE_COLOR2 \
 || USE_NODE_TEXTURE_NORMAL2 || USE_NODE_TEXTURE_COLOR3 || USE_NODE_TEXTURE_NORMAL3 \
-|| USE_NODE_TEXTURE_NORMAL4 || USE_NODE_TEXTURE_COLOR4 || USE_NODE_PARALLAX
+|| USE_NODE_TEXTURE_NORMAL4 || USE_NODE_TEXTURE_COLOR4 || USE_NODE_B4W_PARALLAX
 vec2 vec_to_uv(vec3 vec)
 {
     return vec2(vec.xy * 0.5 + vec2(0.5, 0.5));
 }
 #endif
 
-// NOTE: make special function, because directives are not allowed into #node blocks
-void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal,
-                           float reflect_factor) {
-#if REFLECTIVE || TEXTURE_MIRROR
-# if CALC_TBN_SPACE
-    apply_mirror(color, eye_dir, normal, u_fresnel_params[2],
-                 u_fresnel_params[3], reflect_factor);
-# else
-    apply_mirror(color, eye_dir, normal, u_fresnel_params[2],
-                 u_fresnel_params[3], reflect_factor);
-# endif
-#endif
-}
-
- lighting_result mat_lighting(vec3 E, vec3 A, vec3 D, vec3 S,
-              vec3 pos_world, vec3 normal, vec3 eye_dir, vec2 specular_params,
-              vec2 diffuse_params, float shadow_factor,
-              float translucency_color, vec4 translucency_params)
-{
-#if !SHADELESS_MAT
-# if NUM_LIGHTS > 0
-    return lighting(E, A, D, S, pos_world, normal, eye_dir, specular_params,
-        diffuse_params, shadow_factor, u_light_positions, u_light_directions, u_light_color_intensities,
-        u_light_factors1, u_light_factors2, translucency_color,
-        translucency_params, u_shadow_lamp_id);
-# else
-    return lighting_ambient(E, A, D);
-# endif
-#else
-    lighting_result lresult;
-    lresult.color = vec4(D, ZERO_VALUE_NODES);
-    lresult.specular = ZERO_VECTOR;
-    return lresult;
-#endif
-}
-
 #node CAMERA
-    #node_out vec3 vec_view
-    #node_out float val_z
-    #node_out float val_dist
+    #node_out optional vec3 vec_view
+    #node_out optional float val_z
+    #node_out optional float val_dist
+
+# node_if USE_OUT_vec_view
     vec_view = normalize(nin_pos_view.xyz);
+# node_endif
+
+# node_if USE_OUT_val_z
     val_z = abs(nin_pos_view.z);
+# node_endif
+
+# node_if USE_OUT_val_dist
     val_dist = length(nin_pos_view.xyz);
+# node_endif
+
 #endnode
 
 #node COMBRGB
@@ -411,19 +392,20 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal,
     #node_param const float lamp_index_f
 {
     const int lamp_index = int(lamp_index_f);
-    vec4 llf = u_lamp_light_factors[lamp_index];
-    vec3 lld = u_lamp_light_directions[lamp_index];
-    vec3 llp = u_lamp_light_positions[lamp_index];
-
-    float lamp_dist = llf.z;
 
     color_out = u_lamp_light_color_intensities[lamp_index];
 
     // see process_lamp
+    vec4 llf = u_lamp_light_factors[lamp_index];
+    vec3 lld = u_lamp_light_directions[lamp_index];
+    vec3 llp = u_lamp_light_positions[lamp_index];
+    float lamp_dist = llf.z;
     if (lamp_dist != -UNITY_VALUE_NODES) { // point and spot
+
         light_vec_out = llp - v_pos_world;
         distance_out = length(light_vec_out);
         light_vec_out = normalize(light_vec_out);
+
         visibility_factor_out = lamp_dist / (lamp_dist + distance_out * distance_out);
 
         float spot_size = llf.x;
@@ -444,54 +426,55 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal,
 
 #node NORMAL
     #node_in vec3 normal_in
-    #node_out vec3 normal_out
-    #node_out float dot_out
+    #node_out optional vec3 normal_out
+    #node_out optional float dot_out
     #node_param vec3 normal_param
+
+# node_if USE_OUT_normal_out
     normal_out = normal_param;
+# node_endif
+
+# node_if USE_OUT_dot_out
     // NOTE: (-) mimic blender behavior
     dot_out = -dot(normal_in, normal_param);
+# node_endif
 #endnode
 
-#node VECTOR_VIEW
+#node B4W_VECTOR_VIEW
     #node_in vec3 normal_in
     #node_out vec3 normal
     // NOTE: (-) mimic blender behavior
     normal = -(u_view_matrix_frag * vec4(normal_in, ZERO_VALUE_NODES)).xyz;
 #endnode
 
-#node MAPPING_LIGHT
+#node MAPPING
     #node_in vec3 vec_in
     #node_out vec3 vec
-    #node_param vec3 scale
-    #node_param float mapping_type
 
-    //vec = (vec_in + 0.5) * scale - 0.5;
-    vec = vec_in * scale;
+vec = vec_in;
+# node_ifdef MAPPING_TRS_MATRIX
+    vec = (MAPPING_TRS_MATRIX * vec4(vec, UNITY_VALUE_NODES)).xyz;
+# node_endif
 
-    if (mapping_type == MAPPING_TYPE_NORMAL)
-        vec = normalize(vec);
+# node_ifdef MAPPING_SCALE
+    vec = vec * MAPPING_SCALE;
+# node_endif
 
-#endnode
+# node_ifdef MAPPING_TRANSLATION
+    vec = vec + MAPPING_TRANSLATION;
+# node_endif
 
-#node MAPPING_HEAVY
-    #node_in vec3 vec_in
-    #node_out vec3 vec
-    #node_param mat4 trs_matrix
-    #node_param float use_min
-    #node_param float use_max
-    #node_param vec3 min_clip
-    #node_param vec3 max_clip
-    #node_param float mapping_type
+# node_ifdef MAPPING_MIN_CLIP
+    vec = max(vec, MAPPING_MIN_CLIP);
+# node_endif
 
-    vec = (trs_matrix * vec4(vec_in, UNITY_VALUE_NODES)).xyz;
+# node_ifdef MAPPING_MAX_CLIP
+    vec = min(vec, MAPPING_MAX_CLIP);
+# node_endif
 
-    if (use_min == UNITY_VALUE_NODES)
-        vec = max(vec, min_clip);
-    if (use_max == UNITY_VALUE_NODES)
-        vec = min(vec, max_clip);
-
-    if (mapping_type == MAPPING_TYPE_NORMAL)
-        vec = normalize(vec);
+# node_if MAPPING_IS_NORMAL
+    vec = normalize(vec);
+# node_endif
 
     // FIXME AMD/Windows issue
     //vec = (mat4(0.6, 0.0, 0.0, 0.0, 0.0, 0.6, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, -0.175, 0.0, 1.0) * vec4(vec_in, 1.0)).xyz;
@@ -503,30 +486,45 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal,
     #node_in float val_in2
     #node_out float val
     val = val_in1 + val_in2;
+# node_if MATH_USE_CLAMP
+    val = clamp(val, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
+# node_endif
 #endnode
 #node MATH_SUBTRACT
     #node_in float val_in1
     #node_in float val_in2
     #node_out float val
     val = val_in1 - val_in2;
+# node_if MATH_USE_CLAMP
+    val = clamp(val, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
+# node_endif
 #endnode
 #node MATH_MULTIPLY
     #node_in float val_in1
     #node_in float val_in2
     #node_out float val
     val = val_in1 * val_in2;
+# node_if MATH_USE_CLAMP
+    val = clamp(val, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
+# node_endif
 #endnode
 #node MATH_DIVIDE
     #node_in float val_in1
     #node_in float val_in2
     #node_out float val
     val = (val_in2 != ZERO_VALUE_NODES) ? val_in1/val_in2 : ZERO_VALUE_NODES;
+# node_if MATH_USE_CLAMP
+    val = clamp(val, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
+# node_endif
 #endnode
 #node MATH_SINE
     #node_in float val_in1
     #node_in float val_in2
     #node_out float val
     val = sin(val_in1);
+# node_if MATH_USE_CLAMP
+    val = clamp(val, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
+# node_endif
     // NOTE: using unused variable to pass shader verification
     val_in2;
 #endnode
@@ -535,6 +533,9 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal,
     #node_in float val_in2
     #node_out float val
     val = cos(val_in1);
+# node_if MATH_USE_CLAMP
+    val = clamp(val, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
+# node_endif
     // NOTE: using unused variable to pass shader verification
     val_in2;
 #endnode
@@ -543,6 +544,9 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal,
     #node_in float val_in2
     #node_out float val
     val = tan(val_in1);
+# node_if MATH_USE_CLAMP
+    val = clamp(val, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
+# node_endif
     // NOTE: using unused variable to pass shader verification
     val_in2;
 #endnode
@@ -551,6 +555,9 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal,
     #node_in float val_in2
     #node_out float val
     val = (val_in1 <= UNITY_VALUE_NODES && val_in1 >= -UNITY_VALUE_NODES) ? asin(val_in1) : ZERO_VALUE_NODES;
+# node_if MATH_USE_CLAMP
+    val = clamp(val, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
+# node_endif
     // NOTE: using unused variable to pass shader verification
     val_in2;
 #endnode
@@ -559,6 +566,9 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal,
     #node_in float val_in2
     #node_out float val
     val = (val_in1 <= UNITY_VALUE_NODES && val_in1 >= -UNITY_VALUE_NODES) ? acos(val_in1) : ZERO_VALUE_NODES;
+# node_if MATH_USE_CLAMP
+    val = clamp(val, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
+# node_endif
     // NOTE: using unused variable to pass shader verification
     val_in2;
 #endnode
@@ -567,6 +577,9 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal,
     #node_in float val_in2
     #node_out float val
     val = atan(val_in1);
+# node_if MATH_USE_CLAMP
+    val = clamp(val, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
+# node_endif
     // NOTE: using unused variable to pass shader verification
     val_in2;
 #endnode
@@ -581,6 +594,9 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal,
         val = ZERO_VALUE_NODES;
     else
         val = pow(val_in1, val_in2);
+# node_if MATH_USE_CLAMP
+    val = clamp(val, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
+# node_endif
 #endnode
 #node MATH_LOGARITHM
     #node_in float val_in1
@@ -588,24 +604,36 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal,
     #node_out float val
     val = (val_in1 > ZERO_VALUE_NODES && val_in2 > ZERO_VALUE_NODES) ?
             log2(val_in1) / log2(val_in2) : ZERO_VALUE_NODES;
+# node_if MATH_USE_CLAMP
+    val = clamp(val, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
+# node_endif
 #endnode
 #node MATH_MINIMUM
     #node_in float val_in1
     #node_in float val_in2
     #node_out float val
     val = min(val_in1, val_in2);
+# node_if MATH_USE_CLAMP
+    val = clamp(val, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
+# node_endif
 #endnode
 #node MATH_MAXIMUM
     #node_in float val_in1
     #node_in float val_in2
     #node_out float val
     val = max(val_in1, val_in2);
+# node_if MATH_USE_CLAMP
+    val = clamp(val, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
+# node_endif
 #endnode
 #node MATH_ROUND
     #node_in float val_in1
     #node_in float val_in2
     #node_out float val
     val = floor(val_in1 + 0.5);
+# node_if MATH_USE_CLAMP
+    val = clamp(val, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
+# node_endif
     // NOTE: using unused variable to pass shader verification
     val_in2;
 #endnode
@@ -614,24 +642,36 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal,
     #node_in float val_in2
     #node_out float val
     val = (val_in1 < val_in2) ? UNITY_VALUE_NODES : ZERO_VALUE_NODES;
+# node_if MATH_USE_CLAMP
+    val = clamp(val, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
+# node_endif
 #endnode
 #node MATH_GREATER_THAN
     #node_in float val_in1
     #node_in float val_in2
     #node_out float val
     val = (val_in1 > val_in2) ? UNITY_VALUE_NODES : ZERO_VALUE_NODES;
+# node_if MATH_USE_CLAMP
+    val = clamp(val, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
+# node_endif
 #endnode
 #node MATH_MODULO
     #node_in float val_in1
     #node_in float val_in2
     #node_out float val
     val = abs(val_in2) > 0.000001 ? mod(val_in1, val_in2) : ZERO_VALUE_NODES;
+# node_if MATH_USE_CLAMP
+    val = clamp(val, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
+# node_endif
 #endnode
 #node MATH_ABSOLUTE
     #node_in float val_in1
     #node_in float val_in2
     #node_out float val
     val = abs(val_in1);
+# node_if MATH_USE_CLAMP
+    val = clamp(val, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
+# node_endif
     // NOTE: using unused variable to pass shader verification
     val_in2;
 #endnode
@@ -645,6 +685,9 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal,
 {
     float clamped_factor = clamp(factor, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
     color = mix(color1, color2, clamped_factor);
+# node_if MIX_RGB_USE_CLAMP
+    color = clamp(color, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
+# node_endif
 }
 #endnode
 #node MIX_RGB_ADD
@@ -655,6 +698,9 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal,
 {
     float clamped_factor = clamp(factor, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
     color = mix(color1, color1 + color2, clamped_factor);
+# node_if MIX_RGB_USE_CLAMP
+    color = clamp(color, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
+# node_endif
 }
 #endnode
 #node MIX_RGB_MULTIPLY
@@ -665,6 +711,9 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal,
 {
     float clamped_factor = clamp(factor, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
     color = mix(color1, color1 * color2, clamped_factor);
+# node_if MIX_RGB_USE_CLAMP
+    color = clamp(color, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
+# node_endif
 }
 #endnode
 #node MIX_RGB_SUBTRACT
@@ -675,6 +724,9 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal,
 {
     float clamped_factor = clamp(factor, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
     color = mix(color1, color1 - color2, clamped_factor);
+# node_if MIX_RGB_USE_CLAMP
+    color = clamp(color, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
+# node_endif
 }
 #endnode
 #node MIX_RGB_SCREEN
@@ -687,6 +739,9 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal,
     float factorm = UNITY_VALUE_NODES - clamped_factor;
     color = UNITY_VECTOR - (vec3(factorm) + clamped_factor*(UNITY_VECTOR - color2)) *
             (UNITY_VECTOR - color1);
+# node_if MIX_RGB_USE_CLAMP
+    color = clamp(color, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
+# node_endif
 }
 #endnode
 #node MIX_RGB_DIVIDE
@@ -699,6 +754,9 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal,
     float factorm = UNITY_VALUE_NODES - clamped_factor;
     color2 += step(color2, ZERO_VECTOR);
     color = factorm*color1 + clamped_factor*color1/color2;
+# node_if MIX_RGB_USE_CLAMP
+    color = clamp(color, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
+# node_endif
 }
 #endnode
 #node MIX_RGB_DIFFERENCE
@@ -709,6 +767,9 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal,
 {
     float clamped_factor = clamp(factor, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
     color = mix(color1, abs(color1 - color2), clamped_factor);
+# node_if MIX_RGB_USE_CLAMP
+    color = clamp(color, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
+# node_endif
 }
 #endnode
 #node MIX_RGB_DARKEN
@@ -719,6 +780,9 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal,
 {
     float clamped_factor = clamp(factor, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
     color = min(color1.rgb, color2.rgb * clamped_factor);
+# node_if MIX_RGB_USE_CLAMP
+    color = clamp(color, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
+# node_endif
 }
 #endnode
 #node MIX_RGB_LIGHTEN
@@ -729,6 +793,9 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal,
 {
     float clamped_factor = clamp(factor, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
     color = max(color1.rgb, color2.rgb * clamped_factor);
+# node_if MIX_RGB_USE_CLAMP
+    color = clamp(color, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
+# node_endif
 }
 #endnode
 #node MIX_RGB_OVERLAY
@@ -743,6 +810,9 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal,
     color = mix(color1 * (f_vec + 2.0*clamped_factor*color2),
                 UNITY_VECTOR - (f_vec + 2.0*clamped_factor*(UNITY_VECTOR - color2)) * (UNITY_VECTOR - color1),
                 step(0.5, color1));
+# node_if MIX_RGB_USE_CLAMP
+    color = clamp(color, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
+# node_endif
 }
 #endnode
 #node MIX_RGB_DODGE
@@ -758,6 +828,9 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal,
                   mix(UNITY_VECTOR, tmp1, step(tmp1, UNITY_VECTOR)),
                   UNITY_VECTOR,
                   step(tmp, ZERO_VECTOR));
+# node_if MIX_RGB_USE_CLAMP
+    color = clamp(color, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
+# node_endif
 }
 #endnode
 #node MIX_RGB_BURN
@@ -772,6 +845,9 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal,
     color = mix(mix(ZERO_VECTOR, mix(UNITY_VECTOR, tmp1, step(tmp1, UNITY_VECTOR)), step(ZERO_VALUE_NODES, tmp1)),
                 ZERO_VECTOR,
                 step(tmp, ZERO_VECTOR));
+# node_if MIX_RGB_USE_CLAMP
+    color = clamp(color, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
+# node_endif
 }
 #endnode
 #node MIX_RGB_HUE
@@ -794,6 +870,9 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal,
 
         color = mix(color, tmp, clamped_factor);
     }
+# node_if MIX_RGB_USE_CLAMP
+    color = clamp(color, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
+# node_endif
 }
 #endnode
 #node MIX_RGB_SATURATION
@@ -816,6 +895,9 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal,
         hsv.y = factorm*hsv.y + clamped_factor*hsv2.y;
         color = hsv_to_rgb(hsv);
     }
+# node_if MIX_RGB_USE_CLAMP
+    color = clamp(color, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
+# node_endif
 }
 #endnode
 #node MIX_RGB_VALUE
@@ -833,6 +915,9 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal,
 
     hsv.z = factorm*hsv.z + clamped_factor*hsv2.z;
     color = hsv_to_rgb(hsv);
+# node_if MIX_RGB_USE_CLAMP
+    color = clamp(color, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
+# node_endif
 }
 #endnode
 #node MIX_RGB_COLOR
@@ -856,6 +941,9 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal,
 
         color = mix(color, tmp, clamped_factor);
     }
+# node_if MIX_RGB_USE_CLAMP
+    color = clamp(color, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
+# node_endif
 }
 #endnode
 #node MIX_RGB_SOFT_LIGHT
@@ -869,8 +957,10 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal,
     vec3 scr = color2 + color1 - color2 * color1;
 
     color = color1 * (vec3(factorm) + vec3(clamped_factor) * ((UNITY_VECTOR - color1)*color2 + scr));
+# node_if MIX_RGB_USE_CLAMP
+    color = clamp(color, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
+# node_endif
 }
-
 #endnode
 #node MIX_RGB_LINEAR_LIGHT
     #node_in float factor
@@ -880,6 +970,9 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal,
 {
     float clamped_factor = clamp(factor, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
     color = clamp(color1 + clamped_factor * (2.0 * color2 - UNITY_VECTOR), ZERO_VALUE_NODES, UNITY_VALUE_NODES);
+# node_if MIX_RGB_USE_CLAMP
+    color = clamp(color, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
+# node_endif
 }
 #endnode
 
@@ -889,67 +982,89 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal,
 
     nout_color = color_in;
     nout_alpha = alpha_in;
+    
 #endnode
 
 #node MATERIAL
     #node_in vec3 color_in
     #node_in float alpha_in
     #node_in vec3 specular_color
-    #node_in vec3 normal_in
-    #node_out vec3 color_out
-    #node_out float alpha_out
-    #node_out vec3 normal_out
-    #node_param const vec3 diffuse_params // vec3(use_diffuse, diffuse_param, diffuse_param2)
-    #node_param const vec4 specular_params// vec3(use_spec, intensity, spec_param_0, spec_param_1)
-    #node_param const float use_normal_in
+    #node_in optional vec3 normal_in
+    #node_out optional vec3 color_out
+    #node_out optional float alpha_out
+    #node_out optional vec3 normal_out
+    #node_param const vec2 diffuse_params // vec2(diffuse_param, diffuse_param2)
+    #node_param const vec3 specular_params// vec3(intensity, spec_param_0, spec_param_1)
 {
-    // NOTE: fixes some cross-platform issues
-    color_in = clamp(color_in, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
-    alpha_in = clamp(alpha_in, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
-    specular_color = clamp(specular_color, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
-
     // diffuse
-    vec3 D = color_in;
-    float use_diffuse = diffuse_params[0];
-    vec2 diffuse_param = vec2(diffuse_params[1], diffuse_params[2]);
-    // emission
-    vec3 E = nin_emit * color_in;
+    vec3 D = clamp(color_in, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
     // specular
-    vec3 S = specular_params[1] * specular_color;
-    float use_spec = specular_params[0];
-    vec2 sp_params = vec2(specular_params[2], specular_params[3]);
+    vec3 S = specular_params[0] * clamp(specular_color, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
 
-    float shadow_factor = calc_shadow_factor(D);
+# node_if USE_MATERIAL_NORMAL
+    vec3 normal = normalize(normal_in);
+# node_else
+    vec3 normal = nin_normal;
+# node_endif
 
-    vec3 normal;
-    if (use_normal_in == UNITY_VALUE_NODES)
-        normal = normalize(normal_in);
-    else
-        normal = nin_normal;
-
+    lighting_result lresult;
+# node_if !SHADELESS_MAT
+    // emission
+    vec3 E = nin_emit * D;
     // ambient
     float sky_factor = 0.5 * normal.y + 0.5; // dot of vertical vector and normalz
     vec3 A = nin_ambient * u_environment_energy * get_environment_color(sky_factor, normal);
-
-    lighting_result lresult = mat_lighting(E, A, D, S, nin_pos_world,
-        normal, nin_eye_dir, sp_params, diffuse_param, shadow_factor,
-        ZERO_VALUE_NODES, vec4(ZERO_VALUE_NODES));
-
-    color_out = (use_diffuse == UNITY_VALUE_NODES) ? lresult.color.rgb : ZERO_VECTOR;
-    alpha_out = alpha_in;
-    normal_out = normal;
-
-    if (use_spec == UNITY_VALUE_NODES) {
-        alpha_out += lresult.color.a * S.r * nin_spec_alpha;
-        alpha_out = clamp(alpha_out, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
-        color_out += lresult.specular;
-        nout_specular_color = lresult.specular;
-    } else {
-        nout_specular_color = ZERO_VECTOR;
-    }
-
-    nout_normal = normal;
+    float shadow_factor = calc_shadow_factor(D);
+#  node_if NUM_LIGHTS > 0
+    // diffuse
+    vec2 dif_params = vec2(diffuse_params[0], diffuse_params[1]);
+    // specular
+    vec2 sp_params = vec2(specular_params[1], specular_params[2]);
+    lresult = lighting(E, A, D, S, nin_pos_world, normal, nin_eye_dir, sp_params,
+        dif_params, shadow_factor, u_light_positions, u_light_directions, 
+        u_light_color_intensities, u_light_factors1, u_light_factors2, ZERO_VALUE_NODES,
+        vec4(ZERO_VALUE_NODES), u_shadow_lamp_id);
+#  node_else
+    lresult = lighting_ambient(E, A, D);
+#  node_endif
     nout_shadow_factor = shadow_factor;
+# node_else
+    lresult.color = vec4(D, ZERO_VALUE_NODES);
+    lresult.specular = ZERO_VECTOR;
+# node_endif
+
+// color_out
+# node_if USE_OUT_color_out
+#  node_if USE_MATERIAL_DIFFUSE
+    color_out = lresult.color.rgb;
+#  node_else
+    color_out = ZERO_VECTOR;
+#  node_endif
+#  node_if USE_MATERIAL_SPECULAR
+    color_out += lresult.specular;
+#  node_endif
+# node_endif
+
+// alpha_out
+# node_if USE_OUT_alpha_out
+    alpha_out = clamp(alpha_in, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
+#  node_if USE_MATERIAL_SPECULAR
+    alpha_out += lresult.color.a * S.r * nin_spec_alpha;
+    alpha_out = clamp(alpha_out, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
+#  node_endif
+# node_endif
+
+// normal_out
+# node_if USE_OUT_normal_out
+    normal_out = normal;
+# node_endif
+
+# node_if USE_MATERIAL_SPECULAR
+    nout_specular_color = lresult.specular;
+# node_else
+    nout_specular_color = ZERO_VECTOR;
+# node_endif
+    nout_normal = normal;
 }
 #endnode
 
@@ -957,71 +1072,101 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal,
     #node_in vec3 color_in
     #node_in float alpha_in
     #node_in vec3 specular_color
-    #node_in vec3 normal_in
+    #node_in optional vec3 normal_in
     #node_in float emit_intensity
     #node_in float translucency_color
     #node_in vec4 translucency_params
     #node_in float reflect_factor
     #node_in float specular_alpha
-    #node_out vec3 color_out
-    #node_out float alpha_out
-    #node_out vec3 normal_out
-    #node_out vec3 diffuse_out
-    #node_out vec3 spec_out
-    #node_param const vec3 diffuse_params // vec3(use_diffuse, diffuse_param, diffuse_param2)
-    #node_param const vec4 specular_params// vec3(use_spec, intensity, spec_param_0, spec_param_1)
-    #node_param const float use_normal_in
+    #node_out optional vec3 color_out
+    #node_out optional float alpha_out
+    #node_out optional vec3 normal_out
+    #node_out optional vec3 diffuse_out
+    #node_out optional vec3 spec_out
+    #node_param const vec2 diffuse_params // vec2(diffuse_param, diffuse_param2)
+    #node_param const vec3 specular_params// vec3(intensity, spec_param_0, spec_param_1)
 {
-    // NOTE: fixes some cross-platform issues
-    color_in = clamp(color_in, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
-    alpha_in = clamp(alpha_in, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
-    specular_color = clamp(specular_color, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
-
     // diffuse
-    vec3 D = color_in;
-    float use_diffuse = diffuse_params[0];
-    vec2 diffuse_param = vec2(diffuse_params[1], diffuse_params[2]);
-    // emission
-    vec3 E = emit_intensity * color_in;
+    vec3 D = clamp(color_in, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
     // specular
-    vec3 S = specular_params[1] * specular_color;
-    float use_spec = specular_params[0];
-    vec2 sp_params = vec2(specular_params[2], specular_params[3]);
+    vec3 S = specular_params[0] * clamp(specular_color, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
 
+# node_if USE_MATERIAL_NORMAL
+    vec3 normal = normalize(normal_in);
+# node_else
+    vec3 normal = nin_normal;
+# node_endif
+
+    lighting_result lresult;
+# node_if !SHADELESS_MAT
     float shadow_factor = calc_shadow_factor(D);
-
-    vec3 normal;
-    if (use_normal_in == UNITY_VALUE_NODES)
-        normal = normalize(normal_in);
-    else
-        normal = nin_normal;
-
+    // emission
+    vec3 E = emit_intensity * D;
     // ambient
     float sky_factor = 0.5 * normal.y + 0.5; // dot of vertical vector and normalz
     vec3 A = nin_ambient * u_environment_energy * get_environment_color(sky_factor, normal);
-
-    lighting_result lresult = mat_lighting(E, A, D, S, nin_pos_world,
-        normal, nin_eye_dir, sp_params, diffuse_param, shadow_factor,
-        translucency_color, translucency_params);
-
-    color_out = (use_diffuse == UNITY_VALUE_NODES) ? lresult.color.rgb : ZERO_VECTOR;
-    alpha_out = alpha_in;
-    normal_out = normal;
-    diffuse_out = lresult.color.rgb;
-    spec_out = lresult.specular;
-
-    material_apply_mirror(color_out, nin_eye_dir, normal_out, reflect_factor);
-
-    if (use_spec == UNITY_VALUE_NODES) {
-        color_out += lresult.specular;
-        alpha_out += lresult.color.a * S.r * specular_alpha;
-        alpha_out = clamp(alpha_out, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
-        nout_specular_color = lresult.specular;
-    } else {
-        nout_specular_color = ZERO_VECTOR;
-    }
-    nout_normal = normal;
+#  node_if NUM_LIGHTS > 0
+    vec2 dif_params = vec2(diffuse_params[0], diffuse_params[1]);
+    vec2 sp_params = vec2(specular_params[1], specular_params[2]);
+    lresult = lighting(E, A, D, S, nin_pos_world, normal, nin_eye_dir, sp_params, 
+        dif_params, shadow_factor, u_light_positions, u_light_directions, 
+        u_light_color_intensities, u_light_factors1, u_light_factors2, 
+        translucency_color, translucency_params, u_shadow_lamp_id);
+#  node_else
+    lresult = lighting_ambient(E, A, D);
+#  node_endif
     nout_shadow_factor = shadow_factor;
+# node_else
+    lresult.color = vec4(D, ZERO_VALUE_NODES);
+    lresult.specular = ZERO_VECTOR;
+# node_endif
+
+// color_out
+# node_if USE_OUT_color_out
+#  node_if USE_MATERIAL_DIFFUSE
+    color_out = lresult.color.rgb;
+#  node_else
+    color_out = ZERO_VECTOR;
+#  node_endif
+#  node_if REFLECTIVE || TEXTURE_MIRROR
+    apply_mirror(color_out, nin_eye_dir, normal, u_fresnel_params[2],
+                 u_fresnel_params[3], reflect_factor);
+#  node_endif
+#  node_if USE_MATERIAL_SPECULAR
+    color_out += lresult.specular;
+#  node_endif   
+# node_endif
+
+// alpha_out
+# node_if USE_OUT_alpha_out
+    alpha_out = clamp(alpha_in, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
+#  node_if USE_MATERIAL_SPECULAR
+    alpha_out += lresult.color.a * S.r * specular_alpha;
+    alpha_out = clamp(alpha_out, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
+#  node_endif
+# node_endif
+
+// normal_out
+# node_if USE_OUT_normal_out    
+    normal_out = normal;
+# node_endif
+
+// diffuse_out
+# node_if USE_OUT_diffuse_out
+    diffuse_out = lresult.color.rgb;
+# node_endif
+
+// spec_out
+# node_if USE_OUT_spec_out
+    spec_out = lresult.specular;
+# node_endif
+
+# node_if USE_MATERIAL_SPECULAR
+    nout_specular_color = lresult.specular;
+# node_else
+    nout_specular_color = ZERO_VECTOR;
+# node_endif
+    nout_normal = normal;
 }
 #endnode
 
@@ -1039,25 +1184,42 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal,
 
 #node SEPRGB
     #node_in vec3 color
-    #node_out float r_out
-    #node_out float g_out
-    #node_out float b_out
-    // NODE: r = color.r  is not working
+    #node_out optional float r_out
+    #node_out optional float g_out
+    #node_out optional float b_out
+
+# node_if USE_OUT_r_out
     r_out = color.r;
+# node_endif
+
+# node_if USE_OUT_g_out
     g_out = color.g;
+# node_endif
+
+# node_if USE_OUT_b_out
     b_out = color.b;
+# node_endif
 #endnode
 
 #node SEPHSV
     #node_in vec3 color
-    #node_out float h_out
-    #node_out float s_out
-    #node_out float v_out
+    #node_out optional float h_out
+    #node_out optional float s_out
+    #node_out optional float v_out
 {
     vec3 out_col = rgb_to_hsv(color);
+
+# node_if USE_OUT_h_out
     h_out = out_col.r;
+# node_endif
+
+# node_if USE_OUT_s_out
     s_out = out_col.g;
+# node_endif
+
+# node_if USE_OUT_v_out
     v_out = out_col.b;
+# node_endif
 }
 #endnode
 
@@ -1069,13 +1231,13 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal,
     value = UNITY_VALUE_NODES / (UNITY_VALUE_NODES + pow(2.71828183, -((value_in-center)*width)));
 #endnode
 
-#node SRGB_TO_LINEAR
+#node B4W_SRGB_TO_LINEAR
     #node_in vec3 color_in
     #node_out vec3 color_out
     color_out = max(ZERO_VECTOR, color_in);
     color_out = pow(color_out, vec3(2.2));
 #endnode
-#node LINEAR_TO_SRGB
+#node B4W_LINEAR_TO_SRGB
     #node_in vec3 color_in
     #node_out vec3 color_out
     color_out = max(ZERO_VECTOR, color_in);
@@ -1086,12 +1248,20 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal,
     #node_in vec3 uv
     #node_out vec3 color
     #node_out float value
+    // #node_out optional vec3 color
+    // #node_out optionalfloat value
     #node_param uniform sampler2D texture
 {
     vec4 texval = texture2D(texture, vec_to_uv(uv));
+
+// # node_if USE_OUT_color
     color = texval.xyz;
     srgb_to_lin(color);
+// # node_endif
+
+// # node_if USE_OUT_value
     value = texval.w;
+// # node_endif
 }
 #endnode
 
@@ -1099,27 +1269,41 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal,
     #node_in vec3 uv
     #node_out vec3 normal
     #node_out float value
+
+    // #node_out optional vec3 normal
+    // #node_out optional float value
     #node_param uniform sampler2D texture
 {
     vec4 texval = texture2D(texture, vec_to_uv(uv));
+//# node_if USE_OUT_normal
     nout_normalmap = texval.xyz - 0.5;
     //n = mix(vec3(0.0, 0.0, 1.0), n, u_normal_factor);
     normal = normalize(nin_tbn_matrix * nout_normalmap);
     //normal = vec3(1.0, 1.0, 1.0);
+//# node_endif
+
+//# node_if USE_OUT_value
     value = texval.w;
+//# node_endif
 }
 #endnode
 
 #node TEXTURE_ENVIRONMENT
     #node_in vec3 coords
-    #node_out vec3 color
-    #node_out float value
+    #node_out optional vec3 color
+    #node_out optional float value
     #node_param uniform samplerCube texture
 {
     vec4 texval = textureCube(texture, coords);
+
+# node_if USE_OUT_color
     color = texval.xyz;
     srgb_to_lin(color);
+# node_endif
+
+# node_if USE_OUT_value
     value = texval.w;
+# node_endif
 }
 #endnode
 
@@ -1134,7 +1318,6 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal,
 {
     vec4 texval = texture2D(texture, vec_to_uv(uv));
     color = texval.xyz;
-
     srgb_to_lin(color);
     value = texval.w;
 
@@ -1334,64 +1517,79 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal,
     #node_in vec3 vec_in1
     #node_in vec3 vec_in2
     #node_out vec3 vec
-    #node_out float val
+    #node_out optional float val
+
     vec = vec_in1 + vec_in2;
-    // questionable
+# node_if USE_OUT_val
     val = (abs(vec[0]) + abs(vec[1]) + abs(vec[2]))/3.0;
+# node_endif
 #endnode
 #node VECT_MATH_SUBTRACT
     #node_in vec3 vec_in1
     #node_in vec3 vec_in2
     #node_out vec3 vec
-    #node_out float val
+    #node_out optional float val
+
     vec = vec_in1 - vec_in2;
-    // questionable
+# node_if USE_OUT_val
     val = (abs(vec[0]) + abs(vec[1]) + abs(vec[2]))/3.0;
+# node_endif
 #endnode
 #node VECT_MATH_AVERAGE
     #node_in vec3 vec_in1
     #node_in vec3 vec_in2
     #node_out vec3 vec
-    #node_out float val
+    #node_out optional float val
     vec = vec_in1 + vec_in2;
+# node_if USE_OUT_val
     val = length(vec);
+# node_endif
+# node_if USE_OUT_vec
     vec = normalize(vec);
+# node_endif
 #endnode
 #node VECT_MATH_DOT_PRODUCT
     #node_in vec3 vec_in1
     #node_in vec3 vec_in2
     #node_out vec3 vec
-    #node_out float val
+    #node_out optional float val
+
     vec = ZERO_VECTOR;
+# node_if USE_OUT_val
     val = dot(vec_in1, vec_in2);
+# node_endif
 #endnode
 #node VECT_MATH_CROSS_PRODUCT
     #node_in vec3 vec_in1
     #node_in vec3 vec_in2
     #node_out vec3 vec
-    #node_out float val
+    #node_out optional float val
     vec = cross(vec_in1, vec_in2);
+# node_if USE_OUT_val
     val = length(vec);
+# node_endif
 #endnode
 #node VECT_MATH_NORMALIZE
     #node_in vec3 vec_in1
     #node_in vec3 vec_in2
     #node_out vec3 vec
-    #node_out float val
+    #node_out optional float val
     vec = normalize(vec_in1);
+# node_if USE_OUT_val
     val = length(vec_in1);
+# node_endif
     // NOTE: using unused variable to pass shader verification
     vec_in2;
 #endnode
 
-#node REFLECT
+#node B4W_REFLECT
     #node_in vec3 vec_in1
     #node_in vec3 vec_in2
     #node_out vec3 vec_out
     vec_out = reflect(-vec_in1, vec_in2);
 #endnode
 
-#node PARALLAX
+#node B4W_PARALLAX
     #node_in vec3 uv_in
     #node_in float parallax_scale
     #node_in const float steps
@@ -1445,40 +1643,41 @@ void material_apply_mirror(inout vec3 color, vec3 eye_dir, vec3 normal,
 }
 #endnode
 
-#node CLAMP
+#node B4W_CLAMP
     #node_in vec3 vector_in
     #node_out vec3 vector_out
     vector_out = clamp(vector_in, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
 #endnode
 
-#node REFRACTION
+#node B4W_REFRACTION
     #node_in vec3 normal_in
     #node_in float refr_bump
     #node_out vec3 color_out
     color_out = refraction_node(normal_in, refr_bump);
 #endnode
 
-#node TRANSLUCENCY
+#node B4W_TRANSLUCENCY
     #node_in float color
     #node_in float backside_factor
     #node_in float spot_hardness
     #node_in float spot_intensity
     #node_in float spot_diff_factor
-
-    #node_out float translucency_color
-    #node_out vec4 translucency_params
-
+    #node_out optional float translucency_color
+    #node_out optional vec4 translucency_params
+# node_if USE_OUT_translucency_color
     translucency_color = color;
+# node_endif
+# node_if USE_OUT_translucency_params
     translucency_params = vec4(backside_factor, spot_hardness, spot_intensity, spot_diff_factor);
-
+# node_endif
 #endnode
 
-#node TIME
+#node B4W_TIME
     #node_out float time
     time = u_time;
 #endnode
 
-#node SMOOTHSTEP
+#node B4W_SMOOTHSTEP
     #node_in float value
     #node_in float edge0
     #node_in float edge1

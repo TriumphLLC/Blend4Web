@@ -18,6 +18,7 @@
  * <p>Registering the user event callbacks is required to perform a correct
  * operation of input sensors, for more info see see *_cb() docs.
  * @module controls
+ * @local manifold_callback
  */
 b4w.module["controls"] = function(exports, require) {
 
@@ -202,7 +203,7 @@ exports.create_mouse_click_sensor = m_ctl.create_mouse_click_sensor;
 exports.create_mouse_wheel_sensor = m_ctl.create_mouse_wheel_sensor;
 /**
  * Create a mouse movement sensor.
- * The sensor's value is a number of pixels
+ * The sensor's value is a number of pixels, the sensor's payload is (are) coorditate(s)
  * @method module:controls.create_mouse_move_sensor
  * @param {String} [axis="XY"] Axis type "X", "Y", "XY"
  * @returns {Object} Sensor object
@@ -296,6 +297,10 @@ exports.create_timeline_sensor = m_ctl.create_timeline_sensor;
 /**
  * Create an object selection sensor.
  * The sensor's value become 1 for sensor on selected object, 0 for others
+ * @param {Object} obj Object ID
+ * @param {Boolean} [auto_release=false] Release the sensor (set to 0) as soon as the
+ * mouse/touch has been released. If the value is false, release the sensor only
+ * if another object has been selected.
  * @method module:controls.create_selection_sensor
  * @returns {Object} Sensor object
  */

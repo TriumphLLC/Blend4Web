@@ -17,6 +17,7 @@ var m_lights   = require("lights");
 var m_main     = require("main");
 var m_mixer    = require("mixer");
 var m_mat      = require("material");
+var m_sshot    = require("screenshooter");
 var m_scenes   = require("scenes");
 var m_shaders  = require("shaders");
 var m_storage  = require("storage");
@@ -29,7 +30,11 @@ var m_vec3 = require("vec3");
 var DEBUG = (m_version.type() === "DEBUG");
 var AUTO_VIEW_INTERVAL = 1000;
 var AUTO_ROTATE_RATIO  = 0.3;
-var DEFAULT_SCENE      = "dev/logo.json";
+var DEFAULT_SCENE     = "dev/logo.json";
+var DEFAULT_NAME      = "Logo";
+
+var TO_RAD = Math.PI/180;
+var TO_DEG = 180/Math.PI;
 
 var ANIM_OBJ_DEFAULT_INDEX = 0;
 var ANIM_NAME_DEFAULT_INDEX = 0;
@@ -113,11 +118,13 @@ function init_cb(canvas_elem, success) {
     if (!m_main.detect_mobile())
         forbid_params(["gyro_use"], "disable");
 
+    var url_params = m_app.get_url_params();
+
     var asset_cb = function(data, uri, type, path) {
         _manifest = data;
         init_ui();
         var item_id = retrieve_last_item_id();
-        process_scene(item_id, false, false);
+        process_scene(item_id, false, false, url_params && url_params["load"]);
     }
 
     m_assets.enqueue([["manifest", m_assets.AT_JSON, "assets.json"]],
@@ -274,6 +281,7 @@ function init_ui() {
 
     // list of scenes
     init_scenes_list();
+    load_users_scene();
 
     // animation
     bind_control(set_animation_params, "anim_active_object", "string");
@@ -333,6 +341,9 @@ function init_ui() {
     bind_control(set_lighting_params, "light_name", "string");
     bind_colpick(set_lighting_params, "light_color");
     bind_control(set_lighting_params, "light_energy", "number");
+    bind_control(set_lighting_params, "light_spot_size", "number");
+    bind_control(set_lighting_params, "light_spot_blend", "number");
+    bind_control(set_lighting_params, "light_distance", "number");
     bind_colpick(set_sky_params, "sky_color");
     bind_control(set_sky_params, "rayleigh_brightness", "number");
     bind_control(set_sky_params, "mie_brightness", "number");
@@ -417,6 +428,7 @@ function init_ui() {
     bind_control(set_debug_params, "wireframe_mode", "string");
     bind_colpick(set_debug_params, "wireframe_edge_color", "object");
     bind_control(set_hud_debug_info_and_reload, "show_hud_debug_info", "bool"); //TODO
+    m_app.set_onclick("make_screenshot", make_screenshot_clicked);
     refresh_hud_debug_info_ui();
 }
 
@@ -437,6 +449,17 @@ function fill_select_options(elem_id, values) {
     $("#" + elem_id).selectmenu("refresh");
 }
 
+function load_users_scene() {
+    var load_button = document.getElementById("default_scene");
+    if (load_button)
+        load_button.onclick = function() {
+            // cancel auto view
+            _auto_view = false;
+            clearTimeout(_auto_view_timeout_handle);
+            process_scene(null, true, false, true);
+        };
+}
+
 function init_scenes_list() {
     var manifest_elem = document.getElementById("manifest");
 
@@ -447,6 +470,18 @@ function init_scenes_list() {
     }
 
     var s = "";
+    var url_params = m_app.get_url_params();
+    if (url_params && url_params["load"]) {
+        var elems = url_params["load"].split("/");
+        var scene_name = "Default (" + elems[elems.length - 1] + ")"
+    } else {
+        var elems = DEFAULT_SCENE.split("/");
+        var scene_name = "Default (" + elems[elems.length - 1] + ")"
+    }
+    s += "<div class='min_font' id='default_scene'>";
+    s += "<h6 class='ui-collapsible-heading'><a class='min_font ui-btn ui-btn-icon-right ui-icon-carat-r'>" + scene_name + "</a></h6>";
+    s += "</div>"
+
     for (var i = 0; i < _manifest.length; i++)
         s += init_scenes_list_category(_manifest[i]);
 
@@ -480,20 +515,32 @@ function init_scenes_list_category(category) {
 
 function reset_settings_to_default() {
 
-    for (var i = 0; i <_lights_elem.children.length; i++)
-        _lights_elem.children[i].style.visibility = "hidden";
+    if (_lights_elem)
+        for (var i = 0; i <_lights_elem.children.length; i++)
+            _lights_elem.children[i].style.visibility = "hidden";
 
-    _settings = {
-        load_file         : DEFAULT_SCENE,
-        animated_objects  : []
-    };
+    var url_params = m_app.get_url_params();
+    
+    if (url_params && url_params["load"]) {
+        var elems = url_params["load"].split("/");
+        _settings = {
+            load_file         : url_params["load"],
+            name              : elems[elems.length - 1].split(".")[0],
+            animated_objects  : []
+        };
+    } else
+        _settings = {
+            load_file         : m_cfg.get_std_assets_path() + DEFAULT_SCENE,
+            name              : DEFAULT_NAME,
+            animated_objects  : []
+        };
 
     _anim_obj = null;
     _scene_settings = null;
 }
 
 function load_scene(wait_textures) {
-    var name = _settings.name || "Logo";
+    var name = _settings.name;
     var file = _settings.load_file;
 
     // update ui
@@ -502,7 +549,7 @@ function load_scene(wait_textures) {
     cf_elem.setAttribute("title", name + " (" + file + ")");
 
     // load
-    m_data.load(m_cfg.get_std_assets_path() + file, loaded_callback,
+    m_data.load(file, loaded_callback,
             preloader_callback, wait_textures);
 }
 
@@ -519,23 +566,28 @@ function manifest_item_clicked(e) {
     _auto_view = false;
     clearTimeout(_auto_view_timeout_handle);
 
-    process_scene({category: category_name, item: item_name}, true, false);
+    process_scene({category: category_name, item: item_name}, true, false, false);
 }
 
-function process_scene(names, call_reset_b4w, wait_textures) {
+function process_scene(names, call_reset_b4w, wait_textures, load_from_url) {
     reset_settings_to_default();
 
-    if (names) {
-        var category = m_util.keyfind("name", names.category, _manifest)[0];
-        var item = m_util.keyfind("name", names.item, category.items)[0];
+    if (!load_from_url) {
+        if (names) {
+            var category = m_util.keyfind("name", names.category, _manifest)[0];
+            var item = m_util.keyfind("name", names.item, category.items)[0];
 
-        for (var prop in item)
-            _settings[prop] = item[prop];
+            for (var prop in item) {
+                if (prop == "load_file")
+                    _settings[prop] = m_cfg.get_std_assets_path() + item[prop];
+                else
+                    _settings[prop] = item[prop];
+            }
 
-        m_storage.set("last_item_name", names.item);
-    } else
-        m_storage.set("last_item_name", "");
-
+            m_storage.set("last_item_name", names.item);
+        } else
+            m_storage.set("last_item_name", "");
+    }
     if (call_reset_b4w)
         reset_b4w();
 
@@ -622,7 +674,7 @@ function auto_view_load_next() {
         item_id = {category: category.name, item: item.name};
     }
 
-    process_scene(item_id, true, true);
+    process_scene(item_id, true, true, false);
 }
 
 function preloader_callback(percentage, load_time) {
@@ -729,9 +781,13 @@ function prepare_scenes(global_settings) {
     get_ambient_params();
 
     // init lights list
-    var lnames = m_lights.get_lights_names();
+    var lights = m_scenes.get_all_objects("LAMP");
+    var lnames = [];
+    for (var i = 0; i < lights.length; i ++)
+        lnames.push(lights[i].name)
     fill_select_options("light_name", lnames);
-    get_lighting_params(lnames[0]);
+    if (lights.length > 0)
+        get_lighting_params(lights[0]);
 
     get_shadow_params();
     get_ssao_params();
@@ -1002,18 +1058,13 @@ function start_auto_view() {
 }
 
 function on_resize(e) {
-    var w = e.target.innerWidth;
-    var h = e.target.innerHeight;
 
-    var controls_width = document.getElementById("controls_container").offsetWidth;
-    w -= controls_width;
-
-    m_main.resize(w, h);
+    m_app.resize_to_containter();
 
     var canvas = m_main.get_canvas_elem();
 
     document.getElementById("info_left_up").innerHTML = canvas.width + "x" +
-            canvas.height + " (" + canvas.width / w + ":1)";
+            canvas.height + " (" + canvas.width / canvas.clientWidth + ":1)";
 }
 
 function cleanup() {
@@ -1539,6 +1590,10 @@ function set_debug_params(value) {
     m_debug.set_debug_params(debug_params);
 }
 
+function make_screenshot_clicked() {
+    m_sshot.shot();
+}
+
 function get_sky_params() {
     var sky_params = m_scenes.get_sky_params();
 
@@ -1862,17 +1917,33 @@ function set_water_material_params(value) {
     m_scenes.set_water_params(water_material_params);
 }
 
-function get_lighting_params(light_name) {
-    var lparams = m_lights.get_light_params(light_name);
+function get_lighting_params(light_obj) {
+    var lparams = m_lights.get_light_params(light_obj);
     if(lparams) {
         set_color_picker("light_color", lparams["light_color"]);
         set_slider("light_energy", lparams["light_energy"]);
-    }   
+        set_label("light_type", lparams["light_type"]);
+        if (lparams["light_type"] == "SPOT") {
+            forbid_params(["light_spot_blend", "light_spot_size"], "enable");
+            if ("light_spot_blend" in lparams)
+                set_slider("light_spot_blend", lparams["light_spot_blend"]);
+            if ("light_spot_size" in lparams)
+                set_slider("light_spot_size", Math.round(lparams["light_spot_size"] * TO_DEG));   
+        } else
+            forbid_params(["light_spot_blend", "light_spot_size"], "disable");
+        if (lparams["light_type"] == "SPOT" || lparams["light_type"] == "POINT") {
+            forbid_params(["light_distance"], "enable");
+            if ("light_distance" in lparams)
+                set_slider("light_distance", lparams["light_distance"]);
+        } else
+            forbid_params(["light_distance"], "disable");
+    }       
 }
 
 function set_lighting_params(value) {
+
     if ("light_name" in value)
-        get_lighting_params(value["light_name"]);
+        get_lighting_params(m_scenes.get_object_by_name(value["light_name"]));
 
     var light_params = {};
 
@@ -1882,7 +1953,17 @@ function set_lighting_params(value) {
     if ("light_energy" in value)
         light_params["light_energy"] = parseFloat(value["light_energy"]);
 
-    m_lights.set_light_params($("#light_name").val(), light_params);
+    if ("light_spot_size" in value)
+        light_params["light_spot_size"] = parseFloat(value["light_spot_size"] * TO_RAD);
+
+    if ("light_spot_blend" in value)
+        light_params["light_spot_blend"] = parseFloat(value["light_spot_blend"]);
+
+    if ("light_distance" in value)
+        light_params["light_distance"] = parseFloat(value["light_distance"]);
+
+    var lamp = m_scenes.get_object_by_name($("#light_name").val());
+    m_lights.set_light_params(lamp, light_params);
 }
 
 function get_sun_params() {
@@ -2225,6 +2306,10 @@ function set_wind_params(value) {
 function set_slider(id, val) {
     $("#" + id).val(val);
     $("#" + id).slider("refresh");
+}
+
+function set_label(id, val) {
+    $("#" + id).text(val);
 }
 
 function bind_control(fun, id, type) {

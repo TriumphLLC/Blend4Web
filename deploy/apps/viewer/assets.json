@@ -3,7 +3,7 @@
         "name": "Tutorials",
         "items": [
             {
-                "name": "CGEvent 2014",
+                "name": "CGEvent",
                 "load_file": "tutorials/cg_event_2014/pepper/pepper.json"
             },
             {

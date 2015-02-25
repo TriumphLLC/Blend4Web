@@ -87,7 +87,7 @@ def process_dist_list(dist_path, ignore_path, version, force):
                     info.external_attr = 0o664 << 16
                     z.writestr(info, assets)
                 elif path_root_rel == "index.html":
-                    index = index_cleanup(path_curr_rel, basename_dest)
+                    index = index_cleanup(path_curr_rel, basename_dest, version)
                     # modify access rights
                     info = zipfile.ZipInfo(path_arc)
                     info.external_attr = 0o664 << 16
@@ -176,7 +176,7 @@ def assets_cleanup_obj(sections, pos_patterns, neg_patterns):
 
     return sections_new
 
-def index_cleanup(index_path, basename_dist):
+def index_cleanup(index_path, basename_dist, version):
 
     try:
         fp = open(index_path, "r")
@@ -184,11 +184,18 @@ def index_cleanup(index_path, basename_dist):
         print("Index file not found: " + index_path)
         exit(1)
 
-    print("Performing index cleanup: " + index_path)
+    print("Prepocessing index: " + index_path)
 
     index_str = fp.read()
     fp.close()
 
+    # strip suffixes to simplify release process
+    version_pure = version.replace("_pre", "").replace("_rc", "")
+
+    # process version
+    index_str = index_str.replace("<!--version-->", version_pure)
+
+    # process exclusion directives
     index_spl = index_str.split("<!--" + basename_dist + "-->")
 
     if not len(index_spl) % 2:

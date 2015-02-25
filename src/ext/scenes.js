@@ -213,7 +213,7 @@ exports.set_glow_color = function(color) {
  * Get shadow params.
  * @method module:scenes.get_shadow_params
  * @returns {Object} Shadow params
- * @cc_externs b4w_enable_csm csm_num csm_first_cascade_border first_cascade_blur_radius
+ * @cc_externs enable_csm csm_num csm_first_cascade_border first_cascade_blur_radius
  * @cc_externs csm_last_cascade_border last_cascade_blur_radius csm_resolution
  * @cc_externs self_shadow_normal_offset self_shadow_polygon_offset
  * @cc_externs pcf_blur_radius fade_last_cascade blend_between_cascades
@@ -242,7 +242,7 @@ exports.get_shadow_params = function() {
     if (subs_depth)
         shadow_params.self_shadow_normal_offset = subs_depth.self_shadow_normal_offset;
 
-    shadow_params.b4w_enable_csm = shs.b4w_enable_csm;
+    shadow_params.enable_csm = shs.enable_csm;
     shadow_params.csm_num = shs.csm_num;
     shadow_params.csm_first_cascade_border = shs.csm_first_cascade_border;
     shadow_params.first_cascade_blur_radius = shs.first_cascade_blur_radius;
@@ -252,7 +252,7 @@ exports.get_shadow_params = function() {
     shadow_params.fade_last_cascade = shs.fade_last_cascade;
     shadow_params.blend_between_cascades = shs.blend_between_cascades;
 
-    if (shs.b4w_enable_csm) {
+    if (shs.enable_csm) {
         shadow_params.csm_borders = m_scenes.get_csm_borders(active_scene,
                 subs_main.camera);
         shadow_params.blur_radii = new Float32Array(shs.csm_num);

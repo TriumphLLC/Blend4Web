@@ -115,6 +115,7 @@ exports.set_default_directives = function(sinfo) {
         "ALPHA",
         "ALPHA_CLIP",
         "BEND_CENTER_ONLY",
+        "BILLBOARD_PRES_GLOB_ORIENTATION",
         "CAUSTICS",
         "CSM_BLEND_BETWEEEN_CASCADES",
         "CSM_FADE_LAST_CASCADE",
@@ -200,6 +201,7 @@ exports.set_default_directives = function(sinfo) {
         // default 0
         case "ALPHA":
         case "ALPHA_CLIP":
+        case "BILLBOARD_PRES_GLOB_ORIENTATION":
         case "CAUSTICS":
         case "CSM_SECTION0":
         case "CSM_SECTION1":
@@ -439,10 +441,20 @@ function preprocess_shader(type, ast, dirs_arr, node_elements) {
 
     var shader_nodes = {};
 
+    var usage_inputs = [];
+    for (var i in node_elements)
+        for (var j in node_elements[i].inputs)
+            usage_inputs.push(node_elements[i].inputs[j]);
+        
     // entry element
     process_group(ast);
 
     var text = lines.join("\n");
+
+    var input_index = 0;
+    var output_index = 0;
+    var param_index = 0;
+    
     return text;
 
     function process_group(elem) {
@@ -531,22 +543,22 @@ function preprocess_shader(type, ast, dirs_arr, node_elements) {
                 break;
             case "else":
                 process_group(pelem.group);
-                break;
+                return;
             case "ifdef":
                 if (pelem.name in dirs)
                     process_group(pelem.group);
-                break
+                break;
             case "ifndef":
                 if (!(pelem.name in dirs))
                     process_group(pelem.group);
-                break
+                break;
             }
         }
     }
 
     // throws SyntaxError if not parsed
-    function expression_result(expression) {
-        var expr_str = expand_macro(expression, dirs, fdirs, true);
+    function expression_result(expression, node_dirs) {
+        var expr_str = expand_macro(expression, dirs, fdirs, true, node_dirs);
         return gpp_eval.parser.parse(expr_str);
     }
 
@@ -591,24 +603,24 @@ function preprocess_shader(type, ast, dirs_arr, node_elements) {
 
 
     function process_node(elem) {
-        var name = elem.name;
-        var group_parts = elem.group.parts;
-        shader_nodes[name] = group_parts;
+        shader_nodes[elem.name] = elem;
     }
 
     function process_nodes_global(node_elements) {
+
         for (var i = 0; i < node_elements.length; i++) {
             var nelem = node_elements[i];
 
             var node_parts = shader_nodes[nelem.id];
+
             // ignore node not found in shader
             if (!node_parts)
                 continue;
 
             var param_index = 0;
 
-            for (var j = 0; j < node_parts.length; j++) {
-                var part = node_parts[j];
+            for (var j = 0; j < node_parts.declarations.length; j++) {
+                var part = node_parts.declarations[j];
                 if (part.type == "node_param") {
                     var glob_var_line = part.qualifier.join(" ") + " ";
 
@@ -620,7 +632,6 @@ function preprocess_shader(type, ast, dirs_arr, node_elements) {
                         if (nelem.param_values[param_index] !== null)
                             glob_var_line += " = " + nelem.param_values[param_index];
                     }
-
                     glob_var_line += ";";
 
                     lines.push(glob_var_line);
@@ -628,101 +639,152 @@ function preprocess_shader(type, ast, dirs_arr, node_elements) {
                 }
             }
         }
-    }
+    } 
 
-    function process_nodes_main(node_elements) {
-        var replaces = {};
-
-        for (var i = 0; i < node_elements.length; i++) {
-            var nelem = node_elements[i];
-
+    function process_nodes_main(nodes) {
+        for (var i = 0; i < nodes.length; i++) {
+            var nelem = nodes[i];
             var node_parts = shader_nodes[nelem.id];
+            
             // ignore node not found in shader
             if (!node_parts)
                 continue;
 
-            var input_index = 0;
-            var output_index = 0;
-            var param_index = 0;
+            var replaces = {};
+            var node_dirs = {};
 
-            replaces[i] = {};
-            for (var j = 0; j < node_parts.length; j++) {
-                var part = node_parts[j];
+            for (var j = 0; j < nelem.dirs.length; j++) {
+                node_dirs[nelem.dirs[j][0]] = [nelem.dirs[j][1]];
+            }
 
-                switch (part.type) {
-                case "node_in":
-                    var new_name = nelem.inputs[input_index];
+            input_index = 0;
+            output_index = 0;
+            param_index = 0;
 
-                    if (nelem.input_values[input_index] !== null) {
-                        var main_var_line = part.qualifier.join(" ") + " ";
-                        main_var_line += new_name;
-                        main_var_line += " = " + nelem.input_values[input_index];
+            process_node_declaration(nelem, node_parts.declarations, replaces, node_dirs);
+            process_node_statements(nelem, node_parts.statements, replaces, node_dirs);
+        }
+    }
 
-                        main_var_line += ";";
-                        lines.push(main_var_line);
+    function process_node_declaration(nelem, declarations, replaces, node_dirs) {
+        for (var j = 0; j < declarations.length; j++) {
+            var decl = declarations[j];
+
+            switch (decl.type) {
+            case "node_in":
+                var new_name = nelem.inputs[input_index];
+
+                // value != null for nonlinked inputs
+                if (nelem.input_values[input_index] !== null) {
+                    // NOTE: don't create variable for some shader nodes in 
+                    //       case of using is_optional flag
+                    // input_index === 3 --- normal_in
+                    if ((nelem.id == "MATERIAL" && input_index === 3 
+                            || nelem.id == "MATERIAL_EXT" && input_index === 3) 
+                            && decl.is_optional) {
+                        input_index++;
+                        continue;
                     }
 
-                    replaces[i][part.name] = new_name;
-
-                    input_index++;
-                    break;
-                case "node_out":
-                    var new_name = nelem.outputs[output_index];
-
-                    var main_var_line = part.qualifier.join(" ") + " ";
+                    var main_var_line = decl.qualifier.join(" ") + " ";
+                    main_var_line += new_name;
+                    main_var_line += " = " + nelem.input_values[input_index];
+                    main_var_line += ";";
+                    lines.push(main_var_line);
+                }
+                replaces[decl.name] = new_name;
+                input_index++;
+                break;
+            case "node_out":
+                var new_name = nelem.outputs[output_index];
+                
+                if (!decl.is_optional || usage_inputs.indexOf(new_name) > -1) {
+                    var main_var_line = decl.qualifier.join(" ") + " ";
                     main_var_line += new_name;
                     main_var_line += ";";
                     lines.push(main_var_line);
 
-                    replaces[i][part.name] = new_name;
-
-                    output_index++;
-                    break;
-                case "node_param":
-
-                    if (type == "vert")
-                        var new_name = nelem.vparams[param_index];
-                    else if (type == "frag")
-                        var new_name = nelem.params[param_index];
-
-                    replaces[i][part.name] = new_name;
-
-                    param_index++;
-                    break;
+                    replaces[decl.name] = new_name;
                 }
+
+                if (usage_inputs.indexOf(new_name) > -1)
+                    node_dirs["USE_OUT_" + decl.name] = [1];
+
+                output_index++;
+                break;
+            case "node_param":
+                if (type == "vert")
+                    var new_name = nelem.vparams[param_index];
+                else if (type == "frag")
+                    var new_name = nelem.params[param_index];
+
+                replaces[decl.name] = new_name;
+
+                param_index++;
+                break;
             }
         }
+        return replaces;
+    }
 
-        for (var i = 0; i < node_elements.length; i++) {
-            var nelem = node_elements[i];
+    function process_node_statements(nelem, statements, replaces, node_dirs) {
+        for (var i = 0; i < statements.length; i++) {
+            var part = statements[i];
 
-            var node_parts = shader_nodes[nelem.id];
-            // ignore node not found in shader
-            if (!node_parts)
-                continue;
+            switch(part.type) {
+            case "node_condition":
+                process_node_condition(nelem, part.parts, replaces, node_dirs);
+                break;
+            case "textline":
+                var tokens = [];
+                for (var k = 0; k < part.tokens.length; k++) {
+                    var tok = part.tokens[k];
 
-            for (var j = 0; j < node_parts.length; j++) {
-                var part = node_parts[j];
-
-                if (part.type == "textline") {
-                    var new_part = {
-                        type: "textline",
-                        tokens: []
-                    }
-
-                    for (var k = 0; k < part.tokens.length; k++) {
-                        var tok = part.tokens[k];
-
-                        if (tok in replaces[i])
-                            new_part.tokens.push(replaces[i][tok]);
-                        else
-                            new_part.tokens.push(tok);
-                    }
-
-                    process_textline(new_part);
+                    if (tok in replaces)
+                        tokens.push(replaces[tok]);
+                    else
+                        tokens.push(tok);
                 }
-            }
 
+                lines.push(expand_macro(tokens, dirs, fdirs, true, node_dirs));
+                break;
+            }
+        }
+    }
+
+    function process_node_condition(nelem, node_if_elements, replaces, node_dirs) {
+        for (var i = 0; i < node_if_elements.length; i++) {
+            var nielem = node_if_elements[i];
+
+            switch(nielem.type) {
+            case "node_if":
+            case "node_elif":
+                var expression = nielem.expression;
+                try {
+                    var result = expression_result(expression, node_dirs);
+                } catch (e) {
+                    // TODO: need better error explanation
+                    throw "Failed to process #" + nielem.type + " expression: "
+                        + expression.join(" ");
+                }
+                if (result) {
+                    process_node_statements(nelem, nielem.statements, replaces, node_dirs);
+                    return;
+                }
+
+                break;
+            case "node_else":
+                process_node_statements(nelem, nielem.statements, replaces, node_dirs);
+                return;
+            case "node_ifdef":
+                if (nielem.name in dirs || nielem.name in node_dirs)
+                    process_node_statements(nelem, nielem.statements, replaces, node_dirs);
+                break;
+            case "node_ifndef":
+                if (!(nielem.name in dirs) && !(nielem.name in node_dirs))
+                    process_node_statements(nelem, nielem.statements, replaces, node_dirs);
+                break;
+            }
         }
     }
 
@@ -737,26 +799,26 @@ function preprocess_shader(type, ast, dirs_arr, node_elements) {
  * @param empty_as_zero treat empty directive as zero or just ignore
  * (#define ABC ... #if ABC => #if 0) vs (#define ABC ... #if ABC => #if ABC)
  */
-function expand_macro(tokens, dirs, fdirs, empty_as_zero) {
+function expand_macro(tokens, dirs, fdirs, empty_as_zero, node_dirs) {
     var result = [];
-    expand_macro_iter(tokens, dirs, fdirs, empty_as_zero, result);
+    expand_macro_iter(tokens, dirs, fdirs, empty_as_zero, result, node_dirs);
     return result.join(" ");
 }
 
 
-function expand_macro_iter(tokens, dirs, fdirs, empty_as_zero, result) {
+function expand_macro_iter(tokens, dirs, fdirs, empty_as_zero, result, node_dirs) {
     for (var i = 0; i < tokens.length; i++) {
         var token = tokens[i];
-        if (token in dirs) {
+        if (token in dirs || node_dirs && token in node_dirs) {
             // TODO
             //if (token in fdirs) {
             //}
 
-            var new_tokens = dirs[token];
+            var new_tokens = node_dirs && node_dirs[token] || dirs[token];
             if (new_tokens.length == 0 && empty_as_zero)
                 result.push(0);
             else
-                expand_macro_iter(new_tokens, dirs, fdirs, empty_as_zero, result);
+                expand_macro_iter(new_tokens, dirs, fdirs, empty_as_zero, result, node_dirs);
         } else
             result.push(token);
     }

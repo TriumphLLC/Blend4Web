@@ -1,8 +1,49 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Blend4Web SDK Pro</title>
+    <title>Blend4Web SDK</title>
     <link rel="stylesheet" type="text/css" href="index_assets/css/style.css">
+
+<script type="text/javascript"> 
+
+var CONTEXT_NAMES = ["webgl", "experimental-webgl"];
+
+window.addEventListener("load", function() {
+    var msg = document.getElementById("support_message");
+
+    if (!window.WebGLRenderingContext) {
+        msg.innerHTML = "not supported";
+        msg.className = "red";
+    } else {
+        var canvas = document.createElement("canvas");
+
+        var ctx = null;
+
+        for (var i = 0; i < CONTEXT_NAMES.length; i++) {
+            var name = CONTEXT_NAMES[i];
+
+            try {
+                ctx = canvas.getContext(name);
+            } catch(e) {
+                // nothing
+            }
+
+            if (ctx)
+                break;
+        }
+
+        if (ctx) {
+            msg.innerHTML = "supported";
+            msg.className = "green";
+        } else {
+            msg.innerHTML = "unable to initialize";
+            msg.className = "red";
+        }
+        console.log(msg.innerHTML);
+    }
+}, false)
+</script>
+
 </head>
 
 <body>
@@ -10,13 +51,16 @@
         <h2>Blend4Web SDK
             
             <!--blend4web_sdk_pro-->Free<!--blend4web_sdk_pro-->
+            15.02
         </h2>
     </header>
 
     <div class="row">
-        <p>Please make sure your browser is <a href="deploy/doc/en/setup.html#browser-for-local-loading">set up for loading local resources</a>.</p>
+        <p>WebGL: <span id="support_message"></span></p>
 
-        
+        <p>Please make sure you are accessing this web page by using a web server. Alternatively, your browser must be <a href="deploy/doc/en/developers.html#browser-for-local-loading">set up for loading local resources</a>.</p>
+
+        <p>For more info about your WebGL implementation see <a href="deploy/webglreport/">WebGL Report</a>.</p>
 
         <table>
             <thead>
@@ -75,6 +119,7 @@
                     </td>
                 </tr>
                 
+
                 <!--blend4web_sdk_pro-->
                 
                 <tr>
@@ -239,10 +284,21 @@
             <tbody class="tut">
                 <tr>
                     <td>
+                        <img src="index_assets/img/tut_jungle_outpost.png">
+                    </td>
+                    <td>
+                        <a href="deploy/tutorials/examples/firstperson/example.html">Jungle Outpost</a>
+                    </td>
+                    <td colspan="2">
+                        examples/firstperson/blend/firstperson.blend
+                    </td>
+                </tr>
+                <tr>
+                    <td>
                         <img src="index_assets/img/tut_sunglasses.png">
                     </td>
                     <td>
-                        <a href="deploy/tutorials/sunglasses/sunglasses_packed.html">Sunglasses</a>
+                        <a href="deploy/tutorials/sunglasses/sunglasses_packed.html?autorotate">Sunglasses</a>
                     </td>
                     <td colspan="2">
                         sunglasses/sunglasses_packed.blend
@@ -292,7 +348,7 @@
                         <img src="index_assets/img/tut_cloth_workflow.png">
                     </td>
                     <td>
-                        <a href="deploy/tutorials/flag/flag_caches_mix.html">Cloth Simulation</a>
+                        <a href="deploy/tutorials/flag/flag_caches_mix.html?autorotate">Cloth Simulation</a>
                     </td>
                     <td colspan="2">
                         flag/flag_caches_mix.blend
@@ -303,8 +359,8 @@
                         <img src="index_assets/img/tut_tortoise.png">
                     </td>
                     <td>
-                        <a href="deploy/tutorials/mediterranean_tortoise_1/mediterranean_tortoise.html">Mediterranean Tortoise: Part 1</a>
-                        <a href="deploy/tutorials/mediterranean_tortoise_2/mediterranean_tortoise_2.html">Mediterranean Tortoise: Part 2</a>
+                        <a href="deploy/tutorials/mediterranean_tortoise_1/mediterranean_tortoise.html?autorotate">Mediterranean Tortoise: Part 1</a>
+                        <a href="deploy/tutorials/mediterranean_tortoise_2/mediterranean_tortoise_2.html?autorotate">Mediterranean Tortoise: Part 2</a>
                     </td>
                     <td colspan="2">
                         <div>mediterranean_tortoise_1/mediterranean_tortoise.blend</div>
@@ -316,7 +372,7 @@
                         <img src="index_assets/img/tut_grass.png">
                     </td>
                     <td>
-                        <a href="deploy/tutorials/grass/grass.html">Grass</a>
+                        <a href="deploy/tutorials/grass/grass.html?autorotate">Grass</a>
                     </td>
                     <td colspan="2">
                         grass/grass.blend
@@ -360,7 +416,7 @@
                         <img src="index_assets/img/tut_beach_umbrella.png">
                     </td>
                     <td>
-                        <a href="deploy/tutorials/beach_umbrella_demo/beach_umbrella_demo.html">Beach Umbrella</a>
+                        <a href="deploy/tutorials/beach_umbrella_demo/beach_umbrella_demo.html?autorotate">Beach Umbrella</a>
                     </td>
                     <td colspan="2">
                         beach_umbrella_demo/beach_umbrella_demo.blend
@@ -440,7 +496,7 @@
                         <img src="index_assets/img/greetcard_victory_day_2014.png">
                     </td>
                     <td>
-                        <a href="deploy/tutorials/victory_day/victory_day.html">Victory Day</a>
+                        <a href="deploy/tutorials/victory_day/victory_day.html?autorotate">Victory Day</a>
                     </td>
                     <td colspan="2">
                         victory_day/victory_day.blend

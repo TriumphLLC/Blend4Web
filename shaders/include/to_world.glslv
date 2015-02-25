@@ -2,7 +2,7 @@
 #import vertex
 
 #export to_world
-#export billboard_matrix bend_jitter_matrix billboard_spherical
+#export billboard_matrix billboard_matrix_global bend_jitter_matrix billboard_spherical
 
 #define SKIN_SLERP 0
 #define M_PI 3.14159265359
@@ -97,6 +97,19 @@ mat4 billboard_matrix(in vec3 camera_eye, in vec3 wcen, in mat4 view_matrix) {
 
     return bill_matrix;
 }
+
+#if BILLBOARD_PRES_GLOB_ORIENTATION
+mat4 billboard_matrix_global(in vec3 camera_eye, in vec3 wcen, in mat4 view_matrix, 
+        mat4 model_matrix) {
+
+    mat4 bill_matrix = billboard_matrix(camera_eye, wcen, view_matrix);
+    // NOTE: translation is already in bill_matrix
+    model_matrix[3] = vec4(0.0, 0.0, 0.0, 1.0);
+    bill_matrix *= model_matrix;
+
+    return bill_matrix;
+}
+#endif
 
 vertex to_world(in vec3 pos, in vec3 cen, in vec3 tng, in vec3 bnr, in vec3 nrm,
         in mat4 model_matrix) {

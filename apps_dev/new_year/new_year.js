@@ -276,8 +276,6 @@ function set_confetti_objs_visibility(visibility) {
 }
 
 function prepare_cam_and_lamp_params() {
-    // _lamp_params = m_lights.get_light_params("Point");
-    // m_lights.set_light_params("Point", {light_energy:0});
 
     var cam_obj = m_scenes.get_active_camera();
     _default_cam_eye = m_cam.get_eye(cam_obj);
@@ -579,12 +577,10 @@ function tv_play() {
     var speaker = m_scenes.get_object_by_dupli_name("TV", "speaker");
 
     if (_video_started) {
-        //m_lights.set_light_params("Point", {light_energy:0});
         m_tex.pause_video("Texture");
         m_tex.reset_video("Texture");
         m_sfx.speaker_stop(speaker);
     } else {
-        //m_lights.set_light_params("Point", {light_energy:_lamp_params["light_energy"]});
         m_tex.play_video("Texture");
         m_sfx.speaker_play(speaker);
     }

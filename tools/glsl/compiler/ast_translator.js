@@ -801,30 +801,62 @@ function return_vardef(text) {
 function return_nodes(text) {
     var node_tokens = {};
 
-    var expr_node_inout_param = /\/\*%(node_in|node_out|node_param)%\*\/\s*((?:.|[\s\S])*?);\s*\/\*%(?:node_in_end|node_out_end|node_param_end)%(.*?)%\*\//gm;
-    var expr_textlines = /\/\*%node_textline%(.*?)%\*\/((?:.|[\s\S])*?)\/\*%node_textline_end%\*\//g;
+    var expr_node_inout_param = /\/\*%(node_in|node_out|node_param)%\*\/\s*((?:.|[\s\S])*?);\s*\/\*%(?:node_in_end|node_out_end|node_param_end)%(.*?)%(.*?)%(\d+)%\*\//gm;
+    var expr_textlines = /\/\*%node_textline%(.*?)%\*\/((?:.|[\s\S])*?)\/\*%node_textline_end%(\d+)%\*\//g;
+    var expr_condition = /\/\*%node_condition%((?:.|[\s\S])*?)%(.*?)%(\d+)%\*\//g;
 
     // get node_params, node_in, node_out, textline tokens
     while ((res = expr_node_inout_param.exec(text)) != null) {
         var type = res[1];
         var value = res[2];
-        var node_parent = res[3];
+        var is_optional = (res[3] === "true");
+        var node_parent = res[4];
+        var offset = parseInt(res[5]);
         if (!(node_parent in node_tokens))
-            node_tokens[node_parent] = "";
-        node_tokens[node_parent] += "#" + type.trim() + " " + value.trim() + "\n";
+            node_tokens[node_parent] = [];
+
+        var text_str = "#" + type.trim() + (is_optional ? " optional ": " ") + value.trim() + "\n";
+        node_tokens[node_parent].push({
+            text: text_str,
+            offset: offset
+        });
     }
 
     while ((res = expr_textlines.exec(text)) != null) {
         var value = res[2];
         var node_parent = res[1];
+        var offset = parseInt(res[3]);
+
         if (!(node_parent in node_tokens))
-            node_tokens[node_parent] = "";
-        node_tokens[node_parent] += value.trim();
+            node_tokens[node_parent] = [];
+        node_tokens[node_parent].push({
+            text: value.trim() + "\n",
+            offset: offset            
+        });
     }
 
+    while ((res = expr_condition.exec(text)) != null) {
+        var source_txt = res[1];
+        var node_parent = res[2];
+        var offset = parseInt(res[3]);
+        if (!(node_parent in node_tokens))
+            node_tokens[node_parent] = [];
+        node_tokens[node_parent].push({
+            text: source_txt + "\n",
+            offset: offset
+        });
+    }
+
+    for (var i in node_tokens) 
+        node_tokens[i].sort( function(a, b) {
+            return a.offset - b.offset;
+        });
+
+    
     // remove node_params, node_in, node_out, textlines comments
     text = text.replace(expr_node_inout_param, "");
     text = text.replace(expr_textlines, "");
+    text = text.replace(expr_condition, "");
 
     // return node_params, node_in, node_out directives
     for (var node in node_tokens) {
@@ -832,19 +864,20 @@ function return_nodes(text) {
                 + "%\\*\\/)((?:.|[\\s\\S])*?)(\\/\\*%endnode%\\*\\/)";
         expr = new RegExp(expr_str, "im");
 
-        var replacement = "$1$2" + node_tokens[node] + "\n" + "$3";
+        var nodes_txt = "";
+
+        for (var i in node_tokens[node])
+            nodes_txt += node_tokens[node][i].text
+        var replacement = "$1$2" + nodes_txt + "\n" + "$3";
         text = text.replace(expr, replacement);
     }
-
     // return nodes_global, nodes_main directives after all node lines processed
     expr = /\/\*%(nodes_(?:global|main))%\*\/(?:.|[\s\S])*?\/\*%nodes_(?:global|main)_end%\*\//gi;
     text = text.replace(expr, "#$1");
-
     // return node, endnode directives
     expr = /\/\*%node%(.*?)%\*\//gi;
     text = text.replace(expr, "#node $1");
     expr = /\/\*%endnode%\*\//gi;
     text = text.replace(expr, "#endnode");
-
     return text;
 }

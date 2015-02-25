@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 
 import os, sys, subprocess, re, datetime, getopt
 
@@ -36,7 +36,8 @@ ADDONS            = ["src/addons/app.js",
                      "src/addons/npc_ai.js",
                      "src/addons/mouse.js",
                      "src/addons/preloader.js",
-                     "src/addons/storage.js"]
+                     "src/addons/storage.js",
+                     "src/addons/screenshooter.js"]
 
 EXTERNS           = ["tools/closure-compiler/extern_fullscreen.js",
                      "tools/closure-compiler/extern_gl-matrix.js",
@@ -44,7 +45,7 @@ EXTERNS           = ["tools/closure-compiler/extern_fullscreen.js",
                      "tools/closure-compiler/extern_pointerlock.js",
                      "tools/closure-compiler/w3c_audio.js"]
 
-SRC_FILES         = ['src/modules.js',
+SRC_FILES         = ['src/b4w.js',
                      'version_rel.js',
                      'config_rel.js',
                      'src/boundings.js',

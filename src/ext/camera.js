@@ -24,6 +24,7 @@ var m_mat4 = require("mat4");
 
 var cfg_ctl = config.controls;
 
+var _vec2_tmp = new Float32Array(2);
 var _vec3_tmp = new Float32Array(3);
 var _vec3_tmp2 = new Float32Array(3);
 var _quat4_tmp = new Float32Array(4);
@@ -197,14 +198,31 @@ exports.set_pivot = set_pivot;
  * @param {Float32Array} coords Pivot vector
  */
 function set_pivot(camobj, coords) {
-
     if (!camera.is_target_camera(camobj)) {
         m_print.error("set_pivot(): Wrong object or camera move style");
         return;
     }
 
     m_vec3.copy(coords, camobj._render.pivot);
+    transform.update_transform(camobj);
+    m_phy.sync_transform(camobj);
+}
 
+exports.set_trans_pivot = set_trans_pivot;
+/**
+ * Set translation and pivot point for TARGET camera.
+ * @method module:camera.set_trans_pivot
+ * @param {Object} camobj Camera Object ID
+ * @param {Float32Array} coords Pivot vector
+ */
+function set_trans_pivot(camobj, trans, pivot) {
+    if (!camera.is_target_camera(camobj)) {
+        m_print.error("set_trans_pivot(): Wrong object or camera move style");
+        return;
+    }
+
+    m_vec3.copy(trans, camobj._render.trans);
+    m_vec3.copy(pivot, camobj._render.pivot);
     transform.update_transform(camobj);
     m_phy.sync_transform(camobj);
 }
@@ -217,7 +235,6 @@ function set_pivot(camobj, coords) {
  * @returns {Float32Array} Destination pivot vector
  */
 exports.get_pivot = function(camobj, dest) {
-
     if (!camera.is_target_camera(camobj)) {
         m_print.error("get_pivot(): Wrong object or camera move style");
         return;
@@ -246,8 +263,15 @@ exports.rotate_pivot = function(camobj, angle_h_delta, angle_v_delta) {
         m_print.error("rotate_pivot(): wrong object");
         return;
     }
-
     var render = camobj._render;
+    var angles = camera.get_angles(camobj, _vec2_tmp);
+
+    var z_world_cam = util.quat_to_dir(render.quat, util.AXIS_Z, _vec3_tmp);
+    if (z_world_cam[1] > 0)
+        angles[1] = util.sign(angles[1]) * Math.PI - angles[1];
+
+    var new_v_cam_angle = Math.abs(angles[1] + angle_v_delta) % (2 * Math.PI);
+    render.target_cam_upside_down = new_v_cam_angle > Math.PI / 2 && new_v_cam_angle < 3 * Math.PI / 2;
 
     var axis = _vec3_tmp;
     var rot = _quat4_tmp;

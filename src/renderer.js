@@ -100,6 +100,12 @@ exports.draw = function(subscene) {
     _gl.bindFramebuffer(_gl.FRAMEBUFFER, null);
 }
 
+exports.clear = function(subscene) {
+    var camera = subscene.camera;
+    _gl.bindFramebuffer(_gl.FRAMEBUFFER, camera.framebuffer);
+    clear_binded_framebuffer(subscene);
+}
+
 function prepare_subscene(subscene) {
 
     var camera = subscene.camera;
@@ -115,7 +121,7 @@ function prepare_subscene(subscene) {
 
     _gl.viewport(0, 0, camera.width, camera.height);
 
-    clear(subscene);
+    clear_binded_framebuffer(subscene);
 
     if (subscene.blend)
         _gl.enable(_gl.BLEND);
@@ -159,8 +165,7 @@ function prepare_subscene(subscene) {
     //    setup_smaa_jitter(subscene);
 }
 
-exports.clear = clear;
-function clear(subscene) {
+function clear_binded_framebuffer(subscene) {
     if (subscene) {
         var bitfield = (subscene.clear_color ? _gl.COLOR_BUFFER_BIT : 0) |
             (subscene.clear_depth ? _gl.DEPTH_BUFFER_BIT : 0);
@@ -245,7 +250,7 @@ function draw_bundle(subscene, camera, obj_render, batch) {
             _gl.disable(_gl.CULL_FACE);
     }
 
-    setup_textures(batch.textures, batch.texture_names, shader.uniforms);
+    setup_textures(batch.textures);
 
     if (subscene.type == "SKY") {
         draw_sky_buffers(subscene, bufs_data, shader, obj_render,
@@ -1377,23 +1382,27 @@ function assign_uniform_setters(shader) {
     shader.permanent_uniform_setters_table = permanent_uniform_setters_table;
 }
 
-function setup_textures(textures, names, uniforms) {
-    var len = textures.length | 0;
+exports.assign_texture_uniforms = function(batch) {
+    var shader = batch.shader;
+    var textures = batch.textures;
+    var names = batch.texture_names;
 
-    if (len === 0) {
-        return;
-    } else if (len === 1) {
-        _gl.activeTexture(_gl.TEXTURE0);
-        _gl.bindTexture(textures[0].w_target, textures[0].w_texture);
-    } else {
-        for (var i = 0; i < len; i++) {
-            var tex = textures[i];
-            var name = names[i];
+    _gl.useProgram(shader.program);
 
-            _gl.activeTexture(_gl.TEXTURE0 + i);
-            _gl.bindTexture(tex.w_target, tex.w_texture);
-            _gl.uniform1i(uniforms[name], i);
-        }
+    for (var i = 0; i < textures.length; i++) {
+        var tex = textures[i];
+        var name = names[i];
+
+        _gl.uniform1i(shader.uniforms[name], i);
+    }
+}
+
+function setup_textures(textures) {
+    for (var i = 0; i < textures.length; i++) {
+        var tex = textures[i];
+
+        _gl.activeTexture(_gl.TEXTURE0 + i);
+        _gl.bindTexture(tex.w_target, tex.w_texture);
     }
 }
 

@@ -4,7 +4,7 @@ import math
 import os
 import cProfile
 import bgl
-
+from .server import B4WStartServer
 from . import nla_script
 
 # serialize data to json
@@ -323,7 +323,8 @@ class B4W_ObjectPanel(bpy.types.Panel):
         col = row.column()
         col.prop(obj, "b4w_do_not_export", text="Do not Export")
 
-        if obj.type == "MESH" or obj.type == "FONT":
+        if (obj.type == "MESH" or obj.type == "FONT" or obj.type == "META" 
+                or obj.type == "SURFACE"):
             col.prop(obj, "b4w_apply_scale", text="Apply Scale")
             col.prop(obj, "b4w_apply_modifiers", text="Apply Modifiers")
 
@@ -360,7 +361,8 @@ class B4W_ObjectPanel(bpy.types.Panel):
             col = row.column()
             col.prop(obj, "b4w_proxy_inherit_anim", text="Inherit Animation")
 
-        if obj.type == "MESH" or obj.type == "FONT":
+        if (obj.type == "MESH" or obj.type == "FONT" or obj.type == "META" 
+                or obj.type == "SURFACE"):
 
             row = layout.row()
             row.prop(obj, "b4w_do_not_batch", text="Do not Batch")
@@ -425,11 +427,12 @@ class B4W_ObjectPanel(bpy.types.Panel):
                 icon_phase = "NONE"
                 icon_overall = "NONE"
 
-                if obj.b4w_main_bend_stiffness_col != "":
-                    icon_stiffnes = "ERROR"
-                    if check_vertex_color(obj.data, obj.b4w_main_bend_stiffness_col):
-                        icon_stiffnes = "GROUP_VCOL"
-                row.prop(obj, "b4w_main_bend_stiffness_col", text="Main Stiffness (A)", icon=icon_stiffnes)
+                if obj.type == "MESH":
+                    if obj.b4w_main_bend_stiffness_col != "":
+                        icon_stiffnes = "ERROR"
+                        if check_vertex_color(obj.data, obj.b4w_main_bend_stiffness_col):
+                            icon_stiffnes = "GROUP_VCOL"
+                    row.prop(obj, "b4w_main_bend_stiffness_col", text="Main Stiffness (A)", icon=icon_stiffnes)
 
                 detail_bend = obj.b4w_detail_bend_colors
                 row = layout.row(align=True)
@@ -445,23 +448,24 @@ class B4W_ObjectPanel(bpy.types.Panel):
                 row.prop(obj, "b4w_detail_bending_freq", slider=True,
                         text="Detail Bending Frequency")
                 row = col.row()
-                if detail_bend.leaves_stiffness_col != "":
-                    icon_leaves_stiffness = "ERROR"
-                    if check_vertex_color(obj.data, detail_bend.leaves_stiffness_col):
-                        icon_leaves_stiffness = "GROUP_VCOL"
-                row.prop(detail_bend, "leaves_stiffness_col", text="Leaves Stiffness (R)", icon=icon_leaves_stiffness)
-                row = col.row()
-                if detail_bend.leaves_phase_col != "":
-                    icon_phase = "ERROR"
-                    if check_vertex_color(obj.data, detail_bend.leaves_phase_col):
-                        icon_phase = "GROUP_VCOL"
-                row.prop(detail_bend, "leaves_phase_col", text="Leaves Phase (G)", icon=icon_phase)
-                row = col.row()
-                if detail_bend.overall_stiffness_col != "":
-                    icon_overall = "ERROR"
-                    if check_vertex_color(obj.data, detail_bend.overall_stiffness_col):
-                        icon_overall = "GROUP_VCOL"
-                row.prop(detail_bend, "overall_stiffness_col", text="Overall Stiffness (B)", icon=icon_overall)
+                if obj.type == "MESH":
+                    if detail_bend.leaves_stiffness_col != "":
+                        icon_leaves_stiffness = "ERROR"
+                        if check_vertex_color(obj.data, detail_bend.leaves_stiffness_col):
+                            icon_leaves_stiffness = "GROUP_VCOL"
+                    row.prop(detail_bend, "leaves_stiffness_col", text="Leaves Stiffness (R)", icon=icon_leaves_stiffness)
+                    row = col.row()
+                    if detail_bend.leaves_phase_col != "":
+                        icon_phase = "ERROR"
+                        if check_vertex_color(obj.data, detail_bend.leaves_phase_col):
+                            icon_phase = "GROUP_VCOL"
+                    row.prop(detail_bend, "leaves_phase_col", text="Leaves Phase (G)", icon=icon_phase)
+                    row = col.row()
+                    if detail_bend.overall_stiffness_col != "":
+                        icon_overall = "ERROR"
+                        if check_vertex_color(obj.data, detail_bend.overall_stiffness_col):
+                            icon_overall = "GROUP_VCOL"
+                    row.prop(detail_bend, "overall_stiffness_col", text="Overall Stiffness (B)", icon=icon_overall)
             row = layout.row()
             row.prop(obj, "b4w_selectable", text="Selectable")
 
@@ -478,10 +482,12 @@ class B4W_ObjectPanel(bpy.types.Panel):
                 row = col.row()
                 row.prop(obj.b4w_glow_settings, "glow_relapses", text="Glow Relapses")
 
-            row = layout.row()
-            row.prop(obj, "b4w_billboard", text="Billboard")
+            box = layout.box()
+            box.prop(obj, "b4w_billboard", text="Billboard")
             if obj.b4w_billboard:
-                row = layout.row()
+                box.prop(obj, "b4w_pres_glob_orientation", 
+                        text="Preserve global orientation and scale")
+                row = box.row()
                 row.label("Billboarding geometry:")
                 row.prop(obj, "b4w_billboard_geometry", expand=True)
 
@@ -649,9 +655,11 @@ class B4W_DataPanel(bpy.types.Panel):
             row.prop(spk, "b4w_delay_random", text="Random Delay")
 
             row = layout.row()
+            row.active = (getattr(spk, "b4w_behavior") != "BACKGROUND_MUSIC")
             row.prop(spk, "b4w_volume_random", text="Random Volume")
 
             row = layout.row()
+            row.active = (getattr(spk, "b4w_behavior") != "BACKGROUND_MUSIC")
             row.prop(spk, "b4w_pitch_random", text="Random Pitch")
 
             row = layout.row(align=True)
@@ -659,18 +667,21 @@ class B4W_DataPanel(bpy.types.Panel):
             row.prop(spk, "b4w_fade_out", text="Fade-Out")
 
             row = layout.row()
-            row.active = (getattr(spk, "b4w_behavior") != "BACKGROUND_MUSIC")
             row.prop(spk, "b4w_loop", text="Loop")
 
+            # NOTE: not implemented
             row = layout.row()
-            row.active = getattr(spk, "b4w_loop")
+            row.active = getattr(spk, "b4w_loop") and False
             row.prop(spk, "b4w_loop_count", text="Loop Count")
 
+            # NOTE: not implemented
             row = layout.row()
-            row.active = getattr(spk, "b4w_loop")
+            row.active = getattr(spk, "b4w_loop") and False
             row.prop(spk, "b4w_loop_count_random", text="Random Loop Count")
 
+            # NOTE: not implemented
             row = layout.row()
+            row.active = False
             row.prop(spk, "b4w_playlist_id", text="Playlist ID")
 
         lmp = context.lamp
@@ -700,6 +711,32 @@ class B4W_DataPanel(bpy.types.Panel):
                 row.prop(boundings, "max_z", text="Maximum Z")
                 row = layout.row()
 
+class B4W_RenderPanel(bpy.types.Panel):
+    bl_label = "Blend4Web"
+    bl_idname = "RENDER_PT_b4w"
+    bl_space_type = "PROPERTIES"
+    bl_region_type = "WINDOW"
+    bl_context = "render"
+
+    def draw(self, context):
+        layout = self.layout
+        path_to_index = os.path.join(bpy.context.user_preferences.addons[__package__].preferences.b4w_src_path, "index.html")
+        os.path.normpath(path_to_index)
+        if os.path.exists(path_to_index):
+            box = layout.box()
+            if B4WStartServer.server_process is not None:
+                    box.label(text = ("Development server is running."))
+                    box.operator("b4w.start_server", text="Stop", icon="PAUSE")
+                    box.operator("b4w.open_sdk", text="Open SDK", icon="URL")
+            else:
+                if B4WStartServer.waiting_for_serv:
+                    box.label(text = ("Stopping server..."))
+                else:
+                    box.label(text = ("Development server is down."))
+                    box.operator("b4w.start_server", text="Start", icon="PLAY")
+        else:
+            layout.label(text = ("Blend4Web SDK was not found."))
+        
 class B4W_MaterialPanel(bpy.types.Panel):
     bl_label = "Blend4Web"
     bl_idname = "MATERIAL_PT_b4w"
@@ -1365,6 +1402,7 @@ def add_remove_refl_plane(obj):
 def register():
     global _OBJECT_PT_constraints
 
+    bpy.utils.register_class(B4W_RenderPanel)
     bpy.utils.register_class(B4W_ScenePanel)
     bpy.utils.register_class(B4W_WorldPanel)
     bpy.utils.register_class(B4W_ObjectPanel)
@@ -1381,6 +1419,7 @@ def register():
 def unregister():
     global _OBJECT_PT_constraints
 
+    bpy.utils.unregister_class(B4W_RenderPanel)
     bpy.utils.unregister_class(B4W_ScenePanel)
     bpy.utils.unregister_class(B4W_WorldPanel)
     bpy.utils.unregister_class(B4W_ObjectPanel)

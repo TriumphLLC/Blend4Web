@@ -44,7 +44,7 @@ IfSection
         parts:parts
       }
     }
-  
+
 IfGroup
   = "#" _ "if" MSS expression:Tokens _ LineTerminatorSequence __ group:Group {
       return {
@@ -187,24 +187,30 @@ ControlLine
       };
     }
 
-  
+
+
 Nodes
   = nodegroup:NodeGroup __ EndNodeLine {
       return nodegroup;
     }
-  / NodeInLine
-  / NodeOutLine
-  / NodeParamLine
   / NodesGlobalLine
   / NodesMainLine
 
-  
 NodeGroup
-  = "#" _ "node" MSS name:Identifier _ LineTerminatorSequence __ group:Group {
+  = "#" _ "node" MSS name:Identifier _ LineTerminatorSequence __ decl:(NodeDeclarationLine __)* stat:(NodeStatement __)* {
+      var declarations = [];
+      for (var i = 0; i < decl.length; i++)
+        declarations.push(decl[i][0]);
+
+      var statements = [];
+      for (var i = 0; i < stat.length; i++)
+        statements.push(stat[i][0]);
+
       return {
         type: "node",
         name: name,
-        group: group
+        declarations: declarations,
+        statements: statements
       };
     }
 
@@ -212,8 +218,96 @@ EndNodeLine
   // conserning ? sign see EndIfLine
   = "#" _ "endnode" _ LineTerminatorSequenceEOF?
 
+NodeDeclarationLine
+  = NodeInLine
+  / NodeOutLine
+  / NodeParamLine
+
+NodeStatement
+  = NodeIfSection
+  / TextLine
+
+NodeIfSection
+  = ifgroup:NodeIfGroup __ elifgroups:NodeElIfGroup* __ elsegroup:NodeElseGroup? __ NodeEndIfLine {
+      var parts = [ifgroup];
+
+      for (var i = 0; i < elifgroups.length; i++)
+        parts.push(elifgroups[i]);
+
+      if (elsegroup !== null)
+        parts.push(elsegroup)
+
+      return {
+        type: "node_condition",
+        parts: parts
+      }
+    }
+
+NodeIfGroup
+  = "#" _ "node_if" MSS expression:Tokens _ LineTerminatorSequence __ stat:(NodeStatement __)* {
+      var statements = [];
+      for (var i = 0; i < stat.length; i++)
+        statements.push(stat[i][0]);
+
+      return {
+        type: "node_if",
+        expression: expression,
+        statements: statements
+      };
+    }
+  / "#" _ "node_ifdef" MSS name:Identifier _ LineTerminatorSequence __ stat:(NodeStatement __)* {
+      var statements = [];
+      for (var i = 0; i < stat.length; i++)
+        statements.push(stat[i][0]);
+
+      return {
+        type: "node_ifdef",
+        name: name,
+        statements: statements
+      };
+    }
+  / "#" _ "node_ifndef" MSS name:Identifier _ LineTerminatorSequence __ stat:(NodeStatement __)* {
+      var statements = [];
+      for (var i = 0; i < stat.length; i++)
+        statements.push(stat[i][0]);
+
+      return {
+        type: "node_ifndef",
+        name: name,
+        statements: statements
+      };
+    }
+
+NodeElIfGroup
+  = "#" _ "node_elif" MSS expression:Tokens _ LineTerminatorSequence __ stat:(NodeStatement __)* __ {
+      var statements = [];
+      for (var i = 0; i < stat.length; i++)
+        statements.push(stat[i][0]);
+
+      return {
+        type: "node_elif",
+        expression: expression,
+        statements: statements
+      };
+    }
+
+NodeElseGroup
+  = "#" _ "node_else" _ LineTerminatorSequence __ stat:(NodeStatement __)* {
+      var statements = [];
+      for (var i = 0; i < stat.length; i++)
+        statements.push(stat[i][0]);
+
+      return {
+        type: "node_else",
+        statements: statements
+      };
+    }
+
+NodeEndIfLine
+  = "#" _ "node_endif" _ LineTerminatorSequenceEOF
+
 NodeInLine
-  = "#" _ "node_in" toks:(MSS Tokens)? _ LineTerminatorSequence {
+  = "#" _ "node_in" opt:(MSS "optional")? toks:(MSS Tokens)? _ LineTerminatorSequence {
       var tokens = [];
 
       if (toks !== null)
@@ -225,12 +319,13 @@ NodeInLine
       return {
         type: "node_in",
         name: last,
-        qualifier:tokens
+        qualifier:tokens,
+        is_optional: Boolean(opt)
       };
     }
 
 NodeOutLine
-  = "#" _ "node_out" toks:(MSS Tokens)? _ LineTerminatorSequence {
+  = "#" _ "node_out" opt:(MSS "optional")? toks:(MSS Tokens)? _ LineTerminatorSequence {
       var tokens = [];
 
       if (toks !== null)
@@ -242,7 +337,8 @@ NodeOutLine
       return {
         type: "node_out",
         name: last,
-        qualifier:tokens
+        qualifier:tokens,
+        is_optional: Boolean(opt)
       };
     }
 

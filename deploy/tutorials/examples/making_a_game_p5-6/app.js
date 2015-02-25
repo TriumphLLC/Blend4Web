@@ -247,7 +247,9 @@ function setup_canvas(canvas_container_id, init_hud_canvas,
         report_init_failure, purge_elements) {
 
     var canvas_elem = document.createElement("canvas");
-    canvas_elem.style.cssText = "position: absolute;left:0px; top:0px;"
+    canvas_elem.style.position = "absolute";
+    canvas_elem.style.left = "0px";
+    canvas_elem.style.top = "0px";
 
     if (init_hud_canvas) {
         var canvas_elem_hud = document.createElement("canvas");
@@ -256,7 +258,6 @@ function setup_canvas(canvas_container_id, init_hud_canvas,
             "left:0px; top:0px; pointer-events: none;"
     } else
         var canvas_elem_hud = null;
-
 
     if (!m_main.init(canvas_elem, canvas_elem_hud)) {
         if (report_init_failure)
@@ -274,6 +275,7 @@ function setup_canvas(canvas_container_id, init_hud_canvas,
             "\" not found, appending to body");
         append_to = document.body;
     }
+    //append_to.style.cssText = "width:100%; height:100%";
     append_to.appendChild(canvas_elem);
 
     if (canvas_elem_hud)
@@ -324,6 +326,16 @@ function elem_cloned(elem_id) {
     target.parentNode.replaceChild(new_element, target);
 
     return new_element;
+}
+
+/**
+ * Fit canvas elements to match the size of container element.
+ */
+exports.resize_to_containter = function() {
+    var w = _canvas_container_elem.clientWidth;
+    var h = _canvas_container_elem.clientHeight;
+
+    m_main.resize(w, h, true);
 }
 
 /**
@@ -1255,6 +1267,7 @@ function check_fullscreen() {
 
     var fullscreenEnabled = window.document.fullscreenEnabled ||
                             window.document.mozFullScreenEnabled ||
+                            window.document.msFullscreenEnabled ||
                             window.document.webkitFullscreenEnabled;
 
     if (fullscreenEnabled)
@@ -1314,25 +1327,41 @@ function report_app_error(text_message, link_message, link, purge_elements) {
 
 /**
  * Retrieve params object from the page URL or null.
+ * @param {Boolean} [allow_param_array=false] Allow create array for multiply params which have the same name.
  * @returns {Object|Null} Object with URL params
  */
-exports.get_url_params = function() {
+exports.get_url_params = function(allow_param_array) {
+    allow_param_array = !!allow_param_array;
 
     var url = location.href.toString();
+
     if (url.indexOf("?") == -1)
         return null;
 
     var params = url.split("?")[1].split("&");
-
     var out = {};
 
     for (var i = 0; i < params.length; i++) {
         var param = params[i].split("=");
+        var prop_name = param[0];
 
-        if (param.length > 1)
-            out[param[0]] = param[1];
-        else
-            out[param[0]] = '';
+        if (param.length > 1) {
+            var prop_val = param[1];
+
+            if (allow_param_array) {
+                if (prop_name in out)
+                    out[prop_name].push(prop_val);
+                else
+                    out[prop_name] = [prop_val];
+            } else
+                out[prop_name] = prop_val;
+        } else {
+            if (allow_param_array) {
+                if (!(prop_name in out))
+                    out[prop_name] = [];
+            } else
+                out[prop_name] = '';
+        }
     }
 
     return out;

@@ -128,8 +128,6 @@ exports.defaults = {
 
     precision                  : "highp",
 
-    deferred_rendering         : true,
-
     // quality profile
     quality                    : exports.P_HIGH,
 
@@ -159,7 +157,9 @@ exports.defaults = {
 
     allow_hidpi                : false,
 
-    gyro_use                   : false
+    gyro_use                   : false,
+
+    firefox_shadows_slink_hack : false
 }
 
 exports.defaults_save = m_util.clone_object_r(exports.defaults);
@@ -195,7 +195,7 @@ exports.paths = {
     resources_search_paths: [
         "b4w.min.js",
         "b4w.full.min.js",
-        "src/data.js",
+        "src/b4w.js",
         "USER_DEFINED_MODULE"
     ]
 }
@@ -209,13 +209,7 @@ exports.physics = {
 exports.physics_save = m_util.clone_object_r(exports.physics);
 
 exports.scenes = {
-    // offscreen rendering texture_dimensions (x = y)
-
-    // texture rendering
-    offscreen_tex_size: 1.0*1024,
-
     grass_tex_size: 2*512,
-
     // default adjusted size
     cubemap_tex_size: 384
 }
@@ -282,8 +276,6 @@ exports.apply_quality = function() {
 
         cfg_def.resolution_factor = 1.75;
 
-        cfg_scs.offscreen_tex_size = 2.0*1024;
-
         cfg_scs.grass_tex_size = 4.0*512;
 
         cfg_def.texture_min_filter = 3;
@@ -346,8 +338,6 @@ exports.apply_quality = function() {
 
         cfg_def.resolution_factor = 1;
 
-        cfg_scs.offscreen_tex_size = 1.0*1024;
-
         cfg_scs.grass_tex_size = 2*512;
 
         cfg_def.texture_min_filter = 3;
@@ -409,8 +399,6 @@ exports.apply_quality = function() {
         cfg_def.procedural_fog = false;
 
         cfg_def.resolution_factor = 1; // can be 0.5
-
-        cfg_scs.offscreen_tex_size = 0.5*1024;
 
         cfg_scs.grass_tex_size = 1*512;
 
@@ -497,9 +485,6 @@ function set(prop, value) {
         break;
     case "context_antialias":
         exports.context.antialias = value;
-        break;
-    case "deferred_rendering":
-        exports.defaults.deferred_rendering = value;
         break;
     case "do_not_load_resources":
         exports.defaults.do_not_load_resources = value;
@@ -589,8 +574,6 @@ exports.get = function(prop) {
         return exports.defaults.console_verbose;
     case "context_antialias":
         return exports.context.antialias;
-    case "deferred_rendering":
-        return exports.defaults.deferred_rendering;
     case "do_not_load_resources":
         return exports.defaults.do_not_load_resources;
     case "force_selectable":
@@ -675,8 +658,8 @@ exports.set_resources_paths = function() {
         }
 
         if (!src_path) {
-            m_print.warn("Couldn't determine path to external resources, " + 
-                    "fallback to current page URL");
+            m_print.warn("Couldn't determine path to ancillary resources, " + 
+                    "fallback to the current page directory");
             src_path = document.location.href;
         }
 

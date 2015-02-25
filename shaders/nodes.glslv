@@ -126,7 +126,7 @@ uniform mat4 u_p_light_matrix3;
 # endif
 #endif
 
-#if USE_NODE_REFRACTION
+#if USE_NODE_B4W_REFRACTION
 uniform PRECISION float u_view_max_depth;
 #endif
 
@@ -158,11 +158,11 @@ varying vec4 v_shadow_coord3;
 # endif
 #endif
 
-#if REFLECTIVE || SHADOW_SRC == SHADOW_SRC_MASK || USE_NODE_REFRACTION
+#if REFLECTIVE || SHADOW_SRC == SHADOW_SRC_MASK || USE_NODE_B4W_REFRACTION
 varying vec3 v_tex_pos_clip;
 #endif
 
-#if USE_NODE_REFRACTION && REFRACTIVE
+#if USE_NODE_B4W_REFRACTION && REFRACTIVE
 varying float v_view_depth;
 #endif
 
@@ -253,7 +253,14 @@ void main(void) {
 
 #if BILLBOARD
     vec3 wcen = (u_model_matrix * vec4(center, 1.0)).xyz;
+
+# if BILLBOARD_PRES_GLOB_ORIENTATION
+    mat4 model_matrix = billboard_matrix_global(u_camera_eye, wcen, 
+            u_view_matrix, u_model_matrix);
+# else
     mat4 model_matrix = billboard_matrix(u_camera_eye, wcen, u_view_matrix);
+# endif
+
 # if WIND_BEND && BILLBOARD_JITTERED
     vec3 vec_seed = (u_model_matrix * vec4(center, 1.0)).xyz;
     model_matrix = model_matrix * bend_jitter_matrix(u_wind, u_time,
@@ -298,7 +305,7 @@ void main(void) {
     get_shadow_coords(world.position);
 #endif
 
-#if REFLECTIVE || SHADOW_SRC == SHADOW_SRC_MASK || (USE_NODE_REFRACTION && REFRACTIVE)
+#if REFLECTIVE || SHADOW_SRC == SHADOW_SRC_MASK || (USE_NODE_B4W_REFRACTION && REFRACTIVE)
     float xc = pos_clip.x;
     float yc = pos_clip.y;
     float wc = pos_clip.w;
@@ -308,7 +315,7 @@ void main(void) {
     v_tex_pos_clip.z = wc;
 #endif
 
-#if USE_NODE_REFRACTION && REFRACTIVE
+#if USE_NODE_B4W_REFRACTION && REFRACTIVE
     v_view_depth = -v_pos_view.z / u_view_max_depth;
 #endif
 

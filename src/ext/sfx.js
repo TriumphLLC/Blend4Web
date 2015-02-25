@@ -17,13 +17,14 @@ var m_print = require("__print");
  * @method module:sfx.play
  * @param {Object} obj Object ID
  * @param {Number} [when=0] Delay after exec in seconds
- * @param {Number} [duration=0] Duration in seconds.
+ * @param {Number} [duration=0] Duration of the speaker's playback cycle (in
+ * seconds). duration=0 - assign default value according to sound playback length.
  */
 exports.play = function(obj, when, duration) {
     m_sfx.play(obj, when, duration);
 }
 /**
- * Play sound through the speaker using the default params.
+ * Play sound through the speaker using the default delay and duration params.
  * @method module:sfx.play_def
  * @param {Object} obj Object ID
  */
@@ -380,10 +381,11 @@ exports.get_filter_params = m_sfx.get_filter_params;
 exports.get_filter_freq_response = m_sfx.get_filter_freq_response;
 
 /**
- * Get duration.
+ * Get duration of the speaker's playback cycle.
+ * Zero duration means looped or non-ready speaker
  * @method module:sfx.get_volume
- * @param {?Object} obj Object ID or null for MASTER volume
- * @returns {Number} Volume (0..1)
+ * @param {?Object} obj Speaker object ID
+ * @returns {Number} Duration
  */
 exports.get_duration = function(obj) {
     if (!obj || !m_sfx.is_speaker(obj)) {

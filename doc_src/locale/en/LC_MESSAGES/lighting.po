@@ -604,7 +604,7 @@ msgstr "Activation"
 msgid "Включить опцию ``Environment Lighting`` во вкладке ``World``."
 msgstr "Enable the ``Environment Lighting`` checkbox on the ``World`` tab."
 
-#: ../lighting.rst:264 ../lighting.rst:312
+#: ../lighting.rst:264 ../lighting.rst:321
 msgid "Настройка"
 msgstr "Setup"
 
@@ -700,18 +700,18 @@ msgid ""
 " предоставляют зрителю не только информацию о силуэте объектов, но и об их "
 "высоте и взаимном расположении, положении источника света и т.д."
 msgstr ""
-"Shadows are exceptionally important for rendering the final picture. "
-"They provide the viewer not only with information about the objects' outline but also about their height and relative position, light source position and so on."
+"Shadows are exceptionally important for rendering the final picture. They "
+"provide the viewer not only with information about the objects' outline but "
+"also about their height and relative position, light source position and so "
+"on."
 
 #: ../lighting.rst:301
 msgid ""
 "Платформой Blend4Web реализуются такие техники, как каскадные карты теней "
-"(CSM) и смягченные тени (PCF). Для расчета теней от источников света любого "
-"типа используется модель направленного (directional) света типа ``Sun``."
+"(CSM) и смягченные тени (PCF)."
 msgstr ""
-"Blend4Web implements the following shadow rendering techniques: cascaded shadow maps "
-"(CSM) and softened shadows (PCF). For calculations of shadows from light sources of any type the "
-"directional model is always used (like ``Sun``)."
+"Blend4Web implements the following shadow rendering techniques: cascaded "
+"shadow maps (CSM) and softened shadows (PCF). "
 
 #: ../lighting.rst:306
 msgid ""
@@ -737,11 +737,19 @@ msgstr ""
 "Make sure that the ``Blend4Web > Render shadows`` checkbox is enabled in the"
 " ``Scene`` tab."
 
-#: ../lighting.rst:315
+#: ../lighting.rst:312
+msgid ""
+"Объекты, имеющие :ref:`прозрачные материалы с градиентом <alpha_blend>`, не "
+"отбрасывают теней."
+msgstr ""
+"Objects, which have :ref:`transparent materials with a gradient "
+"<alpha_blend>`, do not cast shadows."
+
+#: ../lighting.rst:324
 msgid "*Направление*"
 msgstr "*Direction*"
 
-#: ../lighting.rst:315
+#: ../lighting.rst:324
 msgid ""
 "В случае наличия нескольких источников света рекомендуется указать, какой "
 "именно источник света будет использоваться для расчета падающих теней, "
@@ -753,18 +761,19 @@ msgstr ""
 "``Blend4Web > Generate shadows`` checkbox under the ``Object Data`` tab for "
 "the selected lamp object."
 
-#: ../lighting.rst:318
+#: ../lighting.rst:327
 msgid ""
 "Цвет тени определяется настройками :ref:`освещения от окружающей среды "
 "<environment_lighting>`."
 msgstr ""
-"The shadow color is determined by the :ref:`environment lighting <environment_lighting>` settings."
+"The shadow color is determined by the :ref:`environment lighting "
+"<environment_lighting>` settings."
 
-#: ../lighting.rst:319
+#: ../lighting.rst:328
 msgid "*Цвет*"
 msgstr "*Color*"
 
-#: ../lighting.rst:321
+#: ../lighting.rst:330
 msgid ""
 "Во вкладке ``World`` на панели ``Blend4Web > Shadow Settings`` находятся "
 "дополнительные настройки:"
@@ -772,20 +781,20 @@ msgstr ""
 "The following additional settings are located on the ``Blend4Web > Shadow "
 "Settings`` panel of the ``World`` tab:"
 
-#: ../lighting.rst:327
+#: ../lighting.rst:336
 msgid "*Resolution*"
 msgstr ""
 
-#: ../lighting.rst:327
+#: ../lighting.rst:336
 msgid ""
 "Разрешение используемой карты теней. Значение по умолчанию: 2048x2048px."
 msgstr "Shadow map resolution. The default value is 2048x2048px."
 
-#: ../lighting.rst:330
+#: ../lighting.rst:339
 msgid "*Self-shadow polygon offset*"
 msgstr ""
 
-#: ../lighting.rst:330
+#: ../lighting.rst:339
 msgid ""
 "Коэффициент смещения полигона в зависимости от ориентации к источнику света."
 " Значение по умолчанию: 1."
@@ -793,17 +802,17 @@ msgstr ""
 "Coefficient for shifting polygons relative to light source orientation. The "
 "default value is 1."
 
-#: ../lighting.rst:333
+#: ../lighting.rst:342
 msgid "*Self-shadow normal offset*"
 msgstr ""
 
-#: ../lighting.rst:333
+#: ../lighting.rst:342
 msgid "Коэффициент смещения полигона по нормали. Значение по умолчанию: 0.01."
 msgstr ""
 "Coefficient for shifting polygons along their normals. The default value is "
 "0.01."
 
-#: ../lighting.rst:335
+#: ../lighting.rst:344
 msgid ""
 "Последние две настройки служат для борьбы с артефактами самозатенения. Они "
 "проявляются на объектах, одновременно отбрасывающих и принимающих тени. "
@@ -814,52 +823,55 @@ msgid ""
 msgstr ""
 "The last two parameters can be used to reduce self-shadowing artifacts. "
 "These artifacts appear for the objects that cast and receive shadows at the "
-"same time. "
-"The ``Self-shadow polygon offset`` parameter is more effective for fighting "
-"against artifacts in inner areas of poligons while ``Self-shadow normal "
-"offset`` is better for the boundary areas. Both these parameters lead to "
-"shadow distortions so we recommend to set them as low as possible."
+"same time. The ``Self-shadow polygon offset`` parameter is more effective "
+"for fighting against artifacts in inner areas of poligons while ``Self-"
+"shadow normal offset`` is better for the boundary areas. Both these "
+"parameters lead to shadow distortions so we recommend to set them as low as "
+"possible."
 
-#: ../lighting.rst:346
+#: ../lighting.rst:355
 msgid "*Enable CSM*"
 msgstr ""
 
-#: ../lighting.rst:346
+#: ../lighting.rst:355
 msgid ""
 "Включение каскадной модели теней; открывает доступ к расширенным настройкам."
 " Отключено по умолчанию."
 msgstr ""
-"Activates the using of cascaded shadows model; reveals additional options. Disabled by default."
+"Activates the using of cascaded shadows model; reveals additional options. "
+"Disabled by default."
 
-#: ../lighting.rst:348
+#: ../lighting.rst:357
 msgid ""
 "Эта опция позволяет выбрать один из следующих вариантов наложения теней:"
 msgstr ""
 "This option allows to choose between the following shadow generation models:"
 
-#: ../lighting.rst:350
+#: ../lighting.rst:359
 msgid ""
 "Стандартная модель, использующая одну оптимизированную карту теней, "
 "охватывающую всю сцену (``Enable CSM`` отключена)."
 msgstr ""
-"Generic model which uses a single optimized shadow map for the whole scene (``Enable CSM`` is turned off)."
+"Generic model which uses a single optimized shadow map for the whole scene "
+"(``Enable CSM`` is turned off)."
 
-#: ../lighting.rst:351
+#: ../lighting.rst:360
 msgid "Каскады теней (``Enable CSM`` включена)."
 msgstr "Shadow cascades (``Enable CSM`` is turned on)."
 
-#: ../lighting.rst:354
+#: ../lighting.rst:363
 msgid "*Blur radius*"
 msgstr ""
 
-#: ../lighting.rst:354
+#: ../lighting.rst:363
 msgid ""
 "Коэффициент размытия теней, позволяющий настроить cмягченные тени. Значение "
 "по умолчанию: 3. Коэффициент 0 даст жесткие тени."
 msgstr ""
-"Blur ratio for setting up softened shadows. The default value is 3. Zero value produces hard shadows."
+"Blur ratio for setting up softened shadows. The default value is 3. Zero "
+"value produces hard shadows."
 
-#: ../lighting.rst:362
+#: ../lighting.rst:371
 msgid ""
 "Смягченные тени могут повысить качество и реалистичность изображения. Они "
 "скрывают неизбежную при использовании основанных на изображениях техник "
@@ -867,16 +879,17 @@ msgid ""
 "разрешения. Использование смягченных теней часто позволяет снизить "
 "разрешение без существенной потери качества."
 msgstr ""
-"Softened shadows can improve visual quality and realism. They hide the jugged edges inevitable when using image-based techniques, "
-"that is especially noticable for low-resolution shadow maps. "
-"The using of softened shadows often allows to decrease resolution "
-"without substantial quality loss."
+"Softened shadows can improve visual quality and realism. They hide the "
+"jugged edges inevitable when using image-based techniques, that is "
+"especially noticable for low-resolution shadow maps. The using of softened "
+"shadows often allows to decrease resolution without substantial quality "
+"loss."
 
-#: ../lighting.rst:366
+#: ../lighting.rst:375
 msgid "Стандартная модель"
 msgstr "Generic shadows"
 
-#: ../lighting.rst:368
+#: ../lighting.rst:377
 msgid ""
 "Этот вариант больше подходит для маленьких сцен, состоящих из небольшого "
 "числа объектов. Благодаря оптимизации на таких сценах можно добиться более "
@@ -884,15 +897,25 @@ msgid ""
 "проще и быстрее настроить, а использование всего лишь одной карты теней "
 "положительно сказывается на производительности."
 msgstr ""
-"This option suits well smaller scenes with a limited number of objects. Thanks to optimizations applied for such scenes, "
-"one can achieve better shadow quality as compared with cascaded shadows. "
-"Also this option is simpler and faster for setting up, while using a single shadow map greatly improves the performance."
+"This option suits well smaller scenes with a limited number of objects. "
+"Thanks to optimizations applied for such scenes, one can achieve better "
+"shadow quality as compared with cascaded shadows. Also this option is "
+"simpler and faster for setting up, while using a single shadow map greatly "
+"improves the performance."
 
-#: ../lighting.rst:372
+#: ../lighting.rst:381
 msgid "Каскады теней"
 msgstr "Shadow cascades"
 
-#: ../lighting.rst:374
+#: ../lighting.rst:385
+msgid ""
+"Данные настройки поддерживаются только для источников освещения типа "
+"``Sun``. Для других источников каскады автоматически отключаются."
+msgstr ""
+"These settings are supported only for ``Sun`` light sources. Cascades are "
+"turned off for other types of light sources."
+
+#: ../lighting.rst:387
 msgid ""
 "Для обеспечения приемлемого качества теней и одновременно покрытия "
 "значительных пространств необходимо использовать несколько стадий генерации "
@@ -903,18 +926,18 @@ msgstr ""
 "In order to provide acceptable shadow quality and to cover considerable "
 "space at the same time it is required to use multiple stages for shadow "
 "generation (cascades). Thus the best quality cascades are situated near the "
-"observer while the worst quality cascades are in the distance. This option suits well "
-"middle-to-large scenes, e.g. game levels."
+"observer while the worst quality cascades are in the distance. This option "
+"suits well middle-to-large scenes, e.g. game levels."
 
-#: ../lighting.rst:377
+#: ../lighting.rst:390
 msgid "При включении предоставляет расширенные настройки:"
 msgstr "When enabled the following extended settings are revealed:"
 
-#: ../lighting.rst:385
+#: ../lighting.rst:398
 msgid "*CSM number*"
 msgstr ""
 
-#: ../lighting.rst:385
+#: ../lighting.rst:398
 msgid ""
 "Количество каскадов теней. Поддерживается от 1 до 4 каскадов. Значение по "
 "умолчанию: 1."
@@ -922,23 +945,23 @@ msgstr ""
 "Number of shadow cascades. From 1 to 4 cascades are supported. The default "
 "value is 1."
 
-#: ../lighting.rst:388
+#: ../lighting.rst:401
 msgid "*CSM first cascade border*"
 msgstr ""
 
-#: ../lighting.rst:388
+#: ../lighting.rst:401
 msgid "Размер первого каскада. Значение по умолчанию: 10.0."
 msgstr "First cascade size. The default value is 10.0."
 
-#: ../lighting.rst:391
+#: ../lighting.rst:404
 msgid "*CSM last cascade border*"
 msgstr ""
 
-#: ../lighting.rst:391
+#: ../lighting.rst:404
 msgid "Размер последнего каскада. Значение по умолчанию: 100.0."
 msgstr "Last cascade size. The default value is 100.0."
 
-#: ../lighting.rst:393
+#: ../lighting.rst:406
 msgid ""
 "Размеры промежуточных каскадов интерполируются на основе последних двух "
 "параметров."
@@ -946,7 +969,7 @@ msgstr ""
 "The sizes of the intermediate cascades are interpolated between the two "
 "above-mentioned parameters."
 
-#: ../lighting.rst:397
+#: ../lighting.rst:410
 msgid ""
 "При настройке следует помнить, что, увеличивая размер каскада, мы получаем "
 "на нем менее качественные тени. С другой стороны, уменьшение параметра ``CSM"
@@ -956,36 +979,40 @@ msgid ""
 "камеры. Однако, при использовании мягких теней качество в целом улучшится "
 "благодаря размытию на границах."
 msgstr ""
-"When setting up the shadows keep in mind that "
-"the bigger the cascade size is, the worse and less detailed are the shadows inside it. "
-"On the other hand, reducing the ``CSM"
-" first cascade border`` parameter makes the subsequent less detailed cascades closer to the camera and thus more noticeable. "
-"Reducing the ``CSM last cascade border`` parameter forces shadows to disappear at more close distance from the camera. "
-"However when softened shadows are used the overall quality will improve thanks to blurring at the edges."
+"When setting up the shadows keep in mind that the bigger the cascade size "
+"is, the worse and less detailed are the shadows inside it. On the other "
+"hand, reducing the ``CSM first cascade border`` parameter makes the "
+"subsequent less detailed cascades closer to the camera and thus more "
+"noticeable. Reducing the ``CSM last cascade border`` parameter forces "
+"shadows to disappear at more close distance from the camera. However when "
+"softened shadows are used the overall quality will improve thanks to "
+"blurring at the edges."
 
-#: ../lighting.rst:406
+#: ../lighting.rst:419
 msgid "*CSM first cascade blur radius*"
 msgstr ""
 
-#: ../lighting.rst:406
+#: ../lighting.rst:419
 msgid ""
 "Коэффициент размытия на первом каскаде. Значение по умолчанию: 3. "
 "Коэффициент 0 даст жесткие тени."
 msgstr ""
-"Blur ratio for the first cascade. The default value is 3. Zero value produces hard shadows."
+"Blur ratio for the first cascade. The default value is 3. Zero value "
+"produces hard shadows."
 
-#: ../lighting.rst:409
+#: ../lighting.rst:422
 msgid "*CSM last cascade blur radius*"
 msgstr ""
 
-#: ../lighting.rst:409
+#: ../lighting.rst:422
 msgid ""
 "Коэффициент размытия на последнем каскаде. Значение по умолчанию: 1.5. "
 "Коэффициент 0 даст жесткие тени."
 msgstr ""
-"Blur ratio for the last cascade. The default value is 1.5. Zero value produces hard shadows."
+"Blur ratio for the last cascade. The default value is 1.5. Zero value "
+"produces hard shadows."
 
-#: ../lighting.rst:411
+#: ../lighting.rst:424
 msgid ""
 "Радиус размытия каждого промежуточного каскада интерполируется на основе "
 "этих параметров."
@@ -993,7 +1020,7 @@ msgstr ""
 "The blur radii of the intermediate cascades are interpolated between the two"
 " above-mentioned parameters."
 
-#: ../lighting.rst:415
+#: ../lighting.rst:428
 msgid ""
 "Смягченные тени рекомендуется настраивать сначала на первом каскаде опцией "
 "``CSM first cascade blur radius``, а далее на всех остальных с помощью ``CSM"
@@ -1002,42 +1029,42 @@ msgid ""
 "последнем каскаде не стали слишком блеклыми из-за низкой детализации, к тому"
 " же это уменьшит нежелательные артефакты самозатенения."
 msgstr ""
-"We recommend to start setting up the softened shadows with the first cascade (using "
-"``CSM first cascade blur radius``) and then proceed to other cascades (using"
-" ``CSM last cascade blur radius``). Often the last cascade may need less "
-"blurring than the first one. This may be needed to prevent the shadows on "
-"the last cascade being too faded due to low resolution. This also reduces "
-"undesirable self-shadowing artifacts."
+"We recommend to start setting up the softened shadows with the first cascade"
+" (using ``CSM first cascade blur radius``) and then proceed to other "
+"cascades (using ``CSM last cascade blur radius``). Often the last cascade "
+"may need less blurring than the first one. This may be needed to prevent the"
+" shadows on the last cascade being too faded due to low resolution. This "
+"also reduces undesirable self-shadowing artifacts."
 
-#: ../lighting.rst:419
+#: ../lighting.rst:432
 msgid "*Fade-out last cascade*"
 msgstr ""
 
-#: ../lighting.rst:419
+#: ../lighting.rst:432
 msgid "Плавное исчезновение последнего каскада. По умолчанию включено."
 msgstr "Smooth dying-out of the last cascade. Enabled by default."
 
-#: ../lighting.rst:422
+#: ../lighting.rst:435
 msgid "*Blend between cascades*"
 msgstr ""
 
-#: ../lighting.rst:422
+#: ../lighting.rst:435
 msgid "Сглаживание границ между каскадами. По умолчанию включено."
 msgstr "Smoothing the boundaries between the cascades. Enabled by default."
 
-#: ../lighting.rst:430
+#: ../lighting.rst:443
 msgid "цвет фона"
 msgstr "background"
 
-#: ../lighting.rst:433
+#: ../lighting.rst:446
 msgid "Цвет фона"
 msgstr "Background"
 
-#: ../lighting.rst:435
+#: ../lighting.rst:448
 msgid "Цвет фона можно задать несколькими способами:"
 msgstr "You can change the background in the following ways:"
 
-#: ../lighting.rst:437
+#: ../lighting.rst:450
 msgid ""
 "Поместить сцену внутрь модели (например, куба или сферы) с направленными "
 "внутрь нормалями, с материалом и опциональной текстурой."
@@ -1045,15 +1072,26 @@ msgstr ""
 "Place the whole scene inside a model (e.g. a cube or a sphere) with its "
 "normals directed inside, with a material and an optional texture."
 
-#: ../lighting.rst:439
+#: ../lighting.rst:452
+msgid ""
+"Разместить перед камерой поверхность с материалом и опциональной текстурой, "
+"присоединить ее к камере связью родитель-потомок. При необходимости "
+"настроить расстояние до поверхности, переднюю и заднюю плоскости отсечения "
+"камеры."
+msgstr ""
+"Place a surface with a material and an optional texture in front of the "
+"camera. Parent it to the camera. If required, tweak the distance to this "
+"surface, starting and ending clipping planes for the camera."
+
+#: ../lighting.rst:458
 msgid "Использовать :ref:`текстуру неба <skydome_texture>`."
 msgstr "Use a :ref:`skydome <skydome_texture>`."
 
-#: ../lighting.rst:441
+#: ../lighting.rst:460
 msgid "Настроить динамически генерируемую :ref:`атмосферу <atmosphere>`."
 msgstr "Set up the procedurally generated :ref:`atmosphere <atmosphere>`."
 
-#: ../lighting.rst:443
+#: ../lighting.rst:462
 msgid ""
 "Установить параметр движка ``background_color``, используя программный метод"
 " ``config.set()``. Установленное значение используется в качестве аргумента "
@@ -1068,7 +1106,7 @@ msgstr ""
 "transparency off (the ``alpha`` parameter). Such the configuration is used "
 "by default in the engine's standard web player."
 
-#: ../lighting.rst:455
+#: ../lighting.rst:474
 msgid ""
 "В качестве фона можно использовать любой HTML контент, находящийся позади "
 "элемента ``canvas``, который используется для рендеринга. Для это необходимо"
@@ -1084,10 +1122,6 @@ msgstr ""
 "configuration is used by default in the :ref:`scene viewer<viewer>` of "
 "Blend4Web SDK."
 
-#: ../lighting.rst:468
+#: ../lighting.rst:487
 msgid ":ref:`alpha_compositing`"
 msgstr ""
-
-
-
-

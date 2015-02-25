@@ -3,6 +3,8 @@
 /**
  * Data API. Used to load/unload exported json data files.
  * @module data
+ * @local stageload_callback
+  * @local loaded_callback
  */
 b4w.module["data"] = function(exports, require) {
 

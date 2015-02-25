@@ -2,6 +2,7 @@
                             AST ARRAYS MERGING
 ==============================================================================*/
 var AST = null, SRC_FILENAME = null, FILE_INCLUDES = [null], IMPORT_EXPORT_DATA = null;
+var _node_dirs = null;
 
 // Type qualifiers
 var UNIFORM = "uniform";
@@ -91,6 +92,7 @@ function init_data(ast, reserved_ids, shared_ids_data, varyings_aliases,
     AST = ast.result;
     IMPORT_EXPORT_DATA = ast.import_export;
     SRC_FILENAME = filename;
+    _node_dirs = ast.node_dirs;
 
     if (reserved_ids)
         reserved_words.vardef_additional = reserved_ids;
@@ -173,6 +175,7 @@ function process_id_data(data_manager) {
     dm_check_dead_functions(data_manager);
     dm_check_dead_variables(data_manager);
     dm_obfuscate(data_manager);
+    dm_obfuscate_node_dirs(data_manager);
 }
 
 function traverse_data(data, cb_before, cb_after) {
@@ -1036,6 +1039,47 @@ function dm_obfuscate(data_manager) {
                 FILE_INCLUDES.pop();
             }
             break;
+        }
+    }
+}
+
+function dm_obfuscate_node_dirs(data_manager) {
+    var new_old_inout_ids = {};
+
+    for (var i = 0; i < data_manager.main_sequence.length; i++) {
+        var data = data_manager.main_sequence[i];
+        if (data.type == "declaration" && data.decl_id.old_name) {
+            var expr_node_inout_old_name = /node_(.*?)_var_(.*)/g;
+            if (res = expr_node_inout_old_name.exec(data.decl_id.old_name)) {
+
+                var node_name = res[1];
+                var old_name = res[2];
+                var new_name = data.decl_id.name;
+
+                if (!new_old_inout_ids[node_name])
+                    new_old_inout_ids[node_name] = {};
+
+                new_old_inout_ids[node_name][old_name] = new_name;
+            }
+        }
+    }
+    
+    for (var i in _node_dirs) {
+        var expr_node_condition = /\/\*%node_condition%(.*?)%(.*?)%(.*?)%\*\//g;
+        var expr_contain_use_decl = /USE_OUT_(.*?)([^_0-9a-zA-Z]|$)/g;
+
+        if ((res = expr_node_condition.exec(_node_dirs[i])) != null) {
+            var source_txt = res[1];
+            var node_name = res[2];
+            
+            while ((parts = expr_contain_use_decl.exec(source_txt)) != null) {
+                var old_name = parts[1];
+                var new_name = new_old_inout_ids[node_name][old_name];
+
+                _node_dirs[i] = _node_dirs[i].replace(
+                        new RegExp("\(USE_OUT_\)" + old_name), 
+                        "$1" + new_name)
+            }
         }
     }
 }

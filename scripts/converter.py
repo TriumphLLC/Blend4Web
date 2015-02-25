@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 
 import math
 import os,sys,subprocess, multiprocessing, re, getopt
@@ -235,8 +235,9 @@ def convert_media(args):
             print("Conversion error")
             sys.exit(1)
 
+        # optional
         qt_path = shutil.which("qt-faststart")
-        if os.access(qt_path, os.X_OK):
+        if qt_path and os.access(qt_path, os.X_OK):
             result = qt_faststart_conv(path_to)
             if result is not None:
                 if result:
@@ -378,11 +379,13 @@ if __name__ == "__main__":
                 sys.exit(1)
 
     if not len(args):
-        print("You must specify assignment")
+        help()
         sys.exit(1)
 
     if len(args) > 1:
         print("You may specify only one assignment")
+        print()
+        help()
         sys.exit(1)
 
     task = args[0]

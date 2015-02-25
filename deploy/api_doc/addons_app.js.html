@@ -275,7 +275,9 @@ function setup_canvas(canvas_container_id, init_hud_canvas,
         report_init_failure, purge_elements) {
 
     var canvas_elem = document.createElement("canvas");
-    canvas_elem.style.cssText = "position: absolute;left:0px; top:0px;"
+    canvas_elem.style.position = "absolute";
+    canvas_elem.style.left = "0px";
+    canvas_elem.style.top = "0px";
 
     if (init_hud_canvas) {
         var canvas_elem_hud = document.createElement("canvas");
@@ -284,7 +286,6 @@ function setup_canvas(canvas_container_id, init_hud_canvas,
             "left:0px; top:0px; pointer-events: none;"
     } else
         var canvas_elem_hud = null;
-
 
     if (!m_main.init(canvas_elem, canvas_elem_hud)) {
         if (report_init_failure)
@@ -302,6 +303,7 @@ function setup_canvas(canvas_container_id, init_hud_canvas,
             "\" not found, appending to body");
         append_to = document.body;
     }
+    //append_to.style.cssText = "width:100%; height:100%";
     append_to.appendChild(canvas_elem);
 
     if (canvas_elem_hud)
@@ -352,6 +354,16 @@ function elem_cloned(elem_id) {
     target.parentNode.replaceChild(new_element, target);
 
     return new_element;
+}
+
+/**
+ * Fit canvas elements to match the size of container element.
+ */
+exports.resize_to_containter = function() {
+    var w = _canvas_container_elem.clientWidth;
+    var h = _canvas_container_elem.clientHeight;
+
+    m_main.resize(w, h, true);
 }
 
 /**
@@ -499,8 +511,11 @@ function get_dest_zoom(obj, value, velocity_zoom, dest_value, dev_fact,
  * (arrow keys, ADSW, wheel and others)
  * @param {Boolean} [disable_default_pivot=false] Do not use the possible
  * camera-defined pivot point
+ * @param {Boolean} [disable_letter_controls=false] Disable keyboard letter controls
+ * (only arrow keys will be used to control the camera)
  */
-exports.enable_camera_controls = function(disable_default_pivot) {
+exports.enable_camera_controls = function(disable_default_pivot, 
+        disable_letter_controls) {
     var obj = m_scs.get_active_camera();
 
     var use_pivot = false;
@@ -702,12 +717,16 @@ exports.enable_camera_controls = function(disable_default_pivot) {
         }
     }
 
-    var key_w = m_ctl.create_keyboard_sensor(m_ctl.KEY_W);
-    var key_s = m_ctl.create_keyboard_sensor(m_ctl.KEY_S);
-    var key_a = m_ctl.create_keyboard_sensor(m_ctl.KEY_A);
-    var key_d = m_ctl.create_keyboard_sensor(m_ctl.KEY_D);
-    var key_r = m_ctl.create_keyboard_sensor(m_ctl.KEY_R);
-    var key_f = m_ctl.create_keyboard_sensor(m_ctl.KEY_F);
+    if (!disable_letter_controls) {
+        var key_w = m_ctl.create_keyboard_sensor(m_ctl.KEY_W);
+        var key_s = m_ctl.create_keyboard_sensor(m_ctl.KEY_S);
+        var key_a = m_ctl.create_keyboard_sensor(m_ctl.KEY_A);
+        var key_d = m_ctl.create_keyboard_sensor(m_ctl.KEY_D);
+        var key_r = m_ctl.create_keyboard_sensor(m_ctl.KEY_R);
+        var key_f = m_ctl.create_keyboard_sensor(m_ctl.KEY_F);
+    } else {
+        var key_w = key_s = key_a = key_d = key_r = key_f = m_ctl.create_custom_sensor(0);
+    }
 
     var key_up = m_ctl.create_keyboard_sensor(m_ctl.KEY_UP);
     var key_down = m_ctl.create_keyboard_sensor(m_ctl.KEY_DOWN);
@@ -1165,6 +1184,7 @@ exports.enable_controls = function(canvas_elem) {
     m_ctl.register_mouse_events(canvas_elem, true);
     m_ctl.register_wheel_events(canvas_elem, true);
     m_ctl.register_touch_events(canvas_elem, true);
+    m_ctl.register_device_orientation();
 }
 
 /**
@@ -1176,6 +1196,7 @@ exports.disable_controls = function(canvas_elem) {
     m_ctl.unregister_mouse_events(canvas_elem);
     m_ctl.unregister_wheel_events(canvas_elem);
     m_ctl.unregister_touch_events(canvas_elem);
+    m_ctl.unregister_device_orientation();
 }
 
 /**
@@ -1274,6 +1295,7 @@ function check_fullscreen() {
 
     var fullscreenEnabled = window.document.fullscreenEnabled ||
                             window.document.mozFullScreenEnabled ||
+                            window.document.msFullscreenEnabled ||
                             window.document.webkitFullscreenEnabled;
 
     if (fullscreenEnabled)
@@ -1333,30 +1355,56 @@ function report_app_error(text_message, link_message, link, purge_elements) {
 
 /**
  * Retrieve params object from the page URL or null.
+ * @param {Boolean} [allow_param_array=false] Allow create array for multiply params which have the same name.
  * @returns {Object|Null} Object with URL params
  */
-exports.get_url_params = function() {
+exports.get_url_params = function(allow_param_array) {
+    allow_param_array = !!allow_param_array;
 
     var url = location.href.toString();
+
     if (url.indexOf("?") == -1)
         return null;
 
     var params = url.split("?")[1].split("&amp;");
-
     var out = {};
 
     for (var i = 0; i &lt; params.length; i++) {
         var param = params[i].split("=");
+        var prop_name = param[0];
 
-        if (param.length > 1)
-            out[param[0]] = param[1];
-        else
-            out[param[0]] = '';
+        if (param.length > 1) {
+            var prop_val = param[1];
+
+            if (allow_param_array) {
+                if (prop_name in out)
+                    out[prop_name].push(prop_val);
+                else
+                    out[prop_name] = [prop_val];
+            } else
+                out[prop_name] = prop_val;
+        } else {
+            if (allow_param_array) {
+                if (!(prop_name in out))
+                    out[prop_name] = [];
+            } else
+                out[prop_name] = '';
+        }
     }
 
     return out;
 }
-
+/**
+ * Animate css-property value.
+ * @method module:app.css_animate
+ * @param {Object} elem HTML-element.
+ * @param {String} prop Animated css-property.
+ * @param {Number} from Value from.
+ * @param {Number} to Value to.
+ * @param {Number} timeout Time for animation.
+ * @param {String} opt_suffix Suffix of css-property (" px", "%" and etc).
+ * @param {Function} opt_callback Callback function.
+ */
 exports.css_animate = function(elem, prop, from, to, timeout, opt_suffix, opt_callback) {
 
     function css_anim_cb(val) {
@@ -1370,6 +1418,7 @@ exports.css_animate = function(elem, prop, from, to, timeout, opt_suffix, opt_ca
     animate(from, to, timeout, css_anim_cb);
 }
 
+// Animate value from "from" to "to" for "timeout" mseconds.
 function animate(from, to, timeout, anim_cb) {
 
     var start = m_main.global_timeline() * 1000;
@@ -1396,13 +1445,13 @@ function animate(from, to, timeout, anim_cb) {
 </div>
 
 <nav>
-    <h2><a href="index.html">Index</a></h2><h3>Modules</h3><ul><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-util.html">util</a></li><li><a href="module-version.html">version</a></li></ul><h3><a href="global.html">Global</a></h3>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul>
 </nav>
 
-<br clear="both">
+<br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-dev</a> on Thu Jan 22 2015 11:40:39 GMT+0300 (MSK)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Wed Feb 25 2015 10:34:05 GMT+0300 (MSK)
 </footer>
 
 <script> prettyPrint(); </script>

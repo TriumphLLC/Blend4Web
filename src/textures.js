@@ -287,10 +287,12 @@ exports.resize = function(texture, width, height) {
 
         _gl.bindTexture(w_target, null);
     }
+
     if (check_texture_size(width, height)) {
-        m_print.error("B4W warning: texture has unsupported size" ,filepath);
+        m_print.error("B4W warning: Slink texture \"" + texture.name + "\" has unsupported size");
         return;
     }
+
     texture.width = width;
     texture.height = height;
 }
@@ -305,7 +307,7 @@ function create_texture_bpy(bpy_texture, global_af, bpy_scenes) {
     var image_data = new Uint8Array([0.8*255, 0.8*255, 0.8*255, 1*255]);
     var texture = init_texture();
 
-    switch(tex_type) {
+    switch (tex_type) {
     case "DATA_TEX2D":
     case "IMAGE":
         var w_texture = _gl.createTexture();
@@ -333,9 +335,11 @@ function create_texture_bpy(bpy_texture, global_af, bpy_scenes) {
         var w_texture = _gl.createTexture();
         var w_target = _gl.TEXTURE_2D;
         _gl.bindTexture(w_target, w_texture);
+
         if (bpy_texture["b4w_source_type"] == "NONE")
             return null;
-        if (bpy_texture["b4w_source_type"] == "SCENE") {
+
+        else if (bpy_texture["b4w_source_type"] == "SCENE") {
 
             if (!bpy_texture["b4w_source_id"])
                 return null;
@@ -344,10 +348,9 @@ function create_texture_bpy(bpy_texture, global_af, bpy_scenes) {
             var scene = util.keysearch("name", name, bpy_scenes);
 
             if (scene) {
-                // NOTE: temporary hacks
-                texture.offscreen_scene = scene;
                 texture.source_size = bpy_texture["b4w_source_size"];
-                scene._render_to_texture = true;
+                scene._render_to_textures = scene._render_to_textures || [];
+                scene._render_to_textures.push(bpy_texture);
                 _gl.texImage2D(w_target, 0, _gl.RGBA, 1, 1, 0, _gl.RGBA, _gl.UNSIGNED_BYTE, image_data);
             } else
                 return null;
@@ -415,6 +418,9 @@ function create_texture_bpy(bpy_texture, global_af, bpy_scenes) {
         update_canvas_props(id, size, texture);
         _canvas_textures_cache[id] = texture;
         update_texture_canvas(texture);
+    } else if (bpy_texture["b4w_source_type"] == "SCENE" && tex_type == "NONE") {
+        texture.name = bpy_texture["b4w_source_id"];
+        texture.source = "SCENE";
     } else {
         texture.name = bpy_texture["name"];
         texture.source = tex_type;

@@ -5,6 +5,10 @@
  * Provides support for mouse pointer lock and low-level movement.
  * @see http://www.w3.org/TR/pointerlock/
  * @module mouse
+ * @local use_mouse_control_callback
+ * @local pointerlock_enabled_callback
+ * @local pointerlock_disabled_callback
+ * @local pointerlock_mouse_move_callback
  */
 b4w.module["mouse"] = function(exports, require) {
 
@@ -290,7 +294,7 @@ function objects_glow(event) {
 }
 /**
  * Get mouse X coordinate.
- * @param {HTMLElement} event MouseEvent
+ * @param {MouseEvent} event Mouse event
  * @method module:mouse.get_coords_x
  */
 exports.get_coords_x = get_coords_x;
@@ -299,7 +303,7 @@ function get_coords_x(event) {
 }
 /**
  * Get mouse Y coordinate.
- * @param {HTMLElement} event MouseEvent
+ * @param {MouseEvent} event Mouse event
  * @method module:mouse.get_coords_y
  */
 exports.get_coords_y = get_coords_y;
