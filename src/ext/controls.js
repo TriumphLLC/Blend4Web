@@ -348,14 +348,6 @@ exports.get_sensor_value = m_ctl.get_sensor_value;
  */
 exports.get_sensor_payload = m_ctl.get_sensor_payload;
 
-
-exports.sensor_make_positive = function(sensor) {
-    throw "Deprecated method execution";
-}
-exports.sensor_make_negative = function(sensor) {
-    throw "Deprecated method execution";
-}
-
 /**
  * Create a sensor lock.
  * @method module:controls.create_sensor_lock
@@ -365,6 +357,7 @@ exports.sensor_make_negative = function(sensor) {
  * @deprecated Not necessary anymore
  */
 exports.create_sensor_lock = function(sensor, lock_sensors, lock_logic_fun) {
+    m_print.error("create_sensor_lock() deprecated");
     sensor.lock_sensors = lock_sensors.slice(0);
     // cache for logic function
     sensor.lock_sensor_values = new Array(lock_sensors.length);
@@ -377,6 +370,7 @@ exports.create_sensor_lock = function(sensor, lock_sensors, lock_logic_fun) {
  * @deprecated Not necessary anymore
  */
 exports.remove_sensor_lock = function(sensor) {
+    m_print.error("remove_sensor_lock() deprecated");
     sensor.lock_sensors = null;
     sensor.lock_sensor_values = null;
     sensor.lock_logic_fun = null;
@@ -466,9 +460,10 @@ exports.check_sensor_manifold = m_ctl.check_sensor_manifold;
  * Remove all sensor manifolds registered for the given object.
  * @method module:controls.remove_sensor_manifolds
  * @param {?Object} obj Object ID to delete manifolds from or null for global object
- * @deprecated Use remove_sensor_manifold with null manifold ID
+ * @deprecated Use remove_sensor_manifold with null manifold ID instead
  */
 exports.remove_sensor_manifolds = function(obj) {
+    m_print.error("remove_sensor_manifolds() deprecated, use remove_sensor_manifold() instead");
     m_ctl.remove_sensor_manifold(obj, null);
 }
 /**
@@ -482,7 +477,7 @@ exports.remove_sensor_manifold = m_ctl.remove_sensor_manifold;
 
 /**
  * Reset controls for all the objects.
- * Usage discouraged, use remove_sensor_manifold/remove_sensor_manifolds instead.
+ * Usage discouraged, use remove_sensor_manifold instead.
  * @method module:controls.reset
  */
 exports.reset = m_ctl.reset;

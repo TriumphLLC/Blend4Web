@@ -21,6 +21,10 @@ var VERTICAL_BETA_ANGLE_THRESHOLD_DOWN = Math.PI * 70 / 180;
 var VERTICAL_GAMMA_ANGLE_THRESHOLD_UP = Math.PI * 70 / 180;
 var VERTICAL_GAMMA_ANGLE_THRESHOLD_DOWN = - Math.PI * 70 / 180;
 
+/**
+ * Enable camera rotation for mobile devices.
+ * @method module:gyroscope.enable_camera_rotation
+ */
 exports.enable_camera_rotation = function() {
     var cam_obj = m_scenes.get_active_camera();
     create_camera_rotation_sensors(cam_obj);
@@ -85,18 +89,8 @@ function create_camera_rotation_sensors(obj) {
                     delta_gamma = 0;
             }
 
-            var cam_type = m_cam.get_move_style(obj);
-            switch (cam_type) {
-            case m_cam.MS_TARGET_CONTROLS:
-                m_cam.rotate_pivot(obj, delta_gamma, delta_beta);
-                break;
-            case m_cam.MS_EYE_CONTROLS:
-                m_cam.rotate(obj, delta_gamma, delta_beta);
-                break;
-            case m_cam.MS_HOVER_CONTROLS:
-                m_cam.rotate_hover_cam(obj, delta_gamma);
-                break;
-            }
+            m_cam.rotate_camera(obj, delta_gamma, delta_beta);
+
             _begin_angles[0] = _curr_angles[0];
             _begin_angles[1] = _curr_angles[1];
             _begin_angles[2] = _curr_angles[2];

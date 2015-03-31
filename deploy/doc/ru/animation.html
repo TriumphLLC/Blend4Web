@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Анимация &mdash; Руководство пользователя: Blend4Web v15.02</title>
+    <title>Анимация &mdash; Руководство пользователя: Blend4Web v15.03</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '15.02',
+        VERSION:     '15.03',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v15.02" href="index.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v15.03" href="index.html" />
     <link rel="next" title="Рендеринг наружных сцен" href="outdoor_rendering.html" />
     <link rel="prev" title="Система частиц для инстансинга объектов" href="particles_instancing.html" /> 
   </head>
@@ -37,7 +37,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">Руководство пользователя: Blend4Web v15.02</a></div>
+          href="index.html">Руководство пользователя: Blend4Web v15.03</a></div>
         <div class="rel">
           <a href="particles_instancing.html" title="Система частиц для инстансинга объектов"
              accesskey="P">назад</a> |
@@ -81,7 +81,7 @@
 <p>Управление анимацией в движке осуществляется одним из двух способов:</p>
 <ol class="arabic simple">
 <li>Автоматически, с помощью указания свойств <tt class="docutils literal"><span class="pre">Animation:</span> <span class="pre">Use</span> <span class="pre">default</span></tt> и
-<tt class="docutils literal"><span class="pre">Animation:</span> <span class="pre">Cyclic</span></tt> в свойствах объекта. В данном случае будет осуществлён
+<tt class="docutils literal"><span class="pre">Animation:</span> <span class="pre">Behavior</span></tt> в свойствах объекта. В данном случае будет осуществлён
 поиск доступного метода и в случае положительного результата, объект
 анимируется с момента загрузки сцены. В случае скелетной анимации, по
 умолчанию воспроизводится актор, назначенный на объекте в окне <tt class="docutils literal"><span class="pre">Action</span>
@@ -111,7 +111,7 @@
 <li><em>LocRotScale</em> &#8211; комбинация <em>Location</em>, <em>Rotation</em> и <em>Scale</em>.</li>
 <li><em>RotScale</em> &#8211; комбинация <em>Rotation</em> и <em>Scale</em>.</li>
 </ul>
-<p>В случае анимации объекта-меша, необходимо назначение свойства <tt class="docutils literal"><span class="pre">Do</span> <span class="pre">not</span> <span class="pre">batch</span></tt> на
+<p>В случае анимации объекта-меша, необходимо назначение свойства <tt class="docutils literal"><span class="pre">Force</span> <span class="pre">Dynamic</span> <span class="pre">Object</span></tt> на
 вкладке свойств объекта.</p>
 </div>
 <div class="section" id="id4">
@@ -277,7 +277,7 @@
           
     <div class="footer">
         &copy; Copyright 2015, ООО &#34;Триумф&#34;.
-      Обновлено: 2015-02-25.
+      Обновлено: 2015-03-26.
       Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
         </div>

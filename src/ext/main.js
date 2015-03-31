@@ -9,6 +9,7 @@
  */
 b4w.module["main"] = function(exports, require) {
 
+var m_anchors  = require("__anchors");
 var animation  = require("__animation");
 var m_compat   = require("__compat");
 var m_cfg      = require("__config");
@@ -84,7 +85,7 @@ var _requestAnimFrame = (function() {
  */
 exports.init = function(elem_canvas_webgl, elem_canvas_hud) {
 
-    m_cfg.set_resources_paths();
+    m_cfg.set_paths();
 
     // NOTE: for debug purposes
     // works in chrome with --enable-memory-info --js-flags="--expose-gc"
@@ -94,7 +95,7 @@ exports.init = function(elem_canvas_webgl, elem_canvas_hud) {
 
     var ver_str = version.version() + " " + version.type() +
             " (" + version.date() + ")";
-    m_print.log("%cINIT B4W ENGINE", "color: #00a", ver_str);
+    m_print.log("%cINIT ENGINE", "color: #00a", ver_str);
 
     // check gl context and performance.now()
     if (!window["WebGLRenderingContext"])
@@ -127,6 +128,7 @@ exports.init = function(elem_canvas_webgl, elem_canvas_hud) {
     }
 
     m_phy.init_engine(init_time);
+    m_anchors.init(elem_canvas_webgl);
 
     return gl;
 }
@@ -181,7 +183,7 @@ function init_context(canvas, gl) {
             function(event) {
                 event.preventDefault();
 
-                m_print.error("B4W Error: WebGL context lost");
+                m_print.error("WebGL context lost");
 
                 // at least prevent freeze
                 pause();
@@ -297,7 +299,7 @@ exports.resize = function(width, height, update_canvas_css) {
     _elem_canvas_webgl.height = ch;
 
     if (cw > _gl.drawingBufferWidth || ch > _gl.drawingBufferHeight) {
-        m_print.warn("B4W Warning: canvas size exceeds platform limits, downscaling");
+        m_print.warn("Canvas size exceeds platform limits, downscaling");
 
         var downscale = Math.min(_gl.drawingBufferWidth/cw, 
                 _gl.drawingBufferHeight/ch);
@@ -338,6 +340,7 @@ exports.clear_fps_callback = function() {
  * @deprecated Use set_render_callback() instead
  */
 exports.set_on_before_render_callback = function(callback) {
+    m_print.error("set_on_before_render_callback() deprecated, use set_render_callback() instead");
     set_render_callback(callback);
 }
 
@@ -365,6 +368,7 @@ function set_render_callback(callback) {
  * @deprecated Use clear_render_callback() instead
  */
 exports.clear_on_before_render_callback = function() {
+    m_print.error("clear_on_before_render_callback() deprecated, use clear_render_callback() instead");
     clear_render_callback();
 }
 /**
@@ -396,6 +400,7 @@ exports.global_timeline = function() {
  * @deprecated Never required
  */
 exports.redraw = function() {
+    m_print.error("redraw() deprecated");
     frame(m_time.get_timeline(), 0);
 }
 
@@ -412,6 +417,7 @@ function pause() {
     sfx.pause();
     m_phy.pause();
     textures.pause();
+    m_anchors.pause();
 }
 
 /**
@@ -426,6 +432,7 @@ exports.resume = function() {
     sfx.resume();
     m_phy.resume();
     textures.play(true);
+    m_anchors.resume();
 }
 
 /**
@@ -519,8 +526,14 @@ function frame(timeline, delta) {
     if (!m_data.is_primary_loaded())
         return;
 
+    // anchors
+    m_anchors.update();
+
     // rendering
     scenes.update(timeline, delta);
+
+    // anchors
+    m_anchors.update_visibility();
 
     if (_canvas_data_url_callback) {
         _canvas_data_url_callback(_elem_canvas_webgl.toDataURL());
@@ -589,16 +602,6 @@ exports.canvas_data_url = function(callback) {
  */
 exports.get_canvas_elem = function() {
     return _elem_canvas_webgl;
-}
-
-// DEPRECATED
-
-exports.set_texture_quality = function() {
-    util.panic("set_texture_quality() deprecated");
-}
-
-exports.set_shaders_dir = function() {
-    util.panic("set_shaders_dir() deprecated");
 }
 
 exports.detect_mobile = function() {

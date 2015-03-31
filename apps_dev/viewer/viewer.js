@@ -67,10 +67,12 @@ exports.init = function() {
     set_quality_config();
     set_stereo_view_config();
     set_gyro_cam_rotate_config();
+    set_all_objs_selectable_config();
 
     m_app.init({
         canvas_container_id: "main_canvas_container",
         callback: init_cb,
+        autoresize: false,
         gl_debug: true,
         show_hud_debug_info: get_show_hud_debug_info_config(),
         sfx_mix_mode: get_mix_mode_config(),
@@ -81,7 +83,6 @@ exports.init = function() {
         assets_dds_available: !DEBUG,
         assets_min50_available: !DEBUG,
         console_verbose: true,
-        all_objs_selectable: true,
         physics_enabled: true,
         wireframe_debug: true
     });
@@ -107,7 +108,7 @@ function init_cb(canvas_elem, success) {
         return false;
     };
 
-    m_app.enable_controls(canvas_elem);
+    m_app.enable_controls();
 
     window.addEventListener("resize", on_resize, false);
 
@@ -428,6 +429,8 @@ function init_ui() {
     bind_control(set_debug_params, "wireframe_mode", "string");
     bind_colpick(set_debug_params, "wireframe_edge_color", "object");
     bind_control(set_hud_debug_info_and_reload, "show_hud_debug_info", "bool"); //TODO
+    bind_control(set_all_objs_selectable, "all_objs_selectable", "bool");
+    refresh_all_objs_select_ui();
     m_app.set_onclick("make_screenshot", make_screenshot_clicked);
     refresh_hud_debug_info_ui();
 }
@@ -473,13 +476,13 @@ function init_scenes_list() {
     var url_params = m_app.get_url_params();
     if (url_params && url_params["load"]) {
         var elems = url_params["load"].split("/");
-        var scene_name = "Default (" + elems[elems.length - 1] + ")"
+        var scene_name = "Home (" + elems[elems.length - 1] + ")"
     } else {
         var elems = DEFAULT_SCENE.split("/");
-        var scene_name = "Default (" + elems[elems.length - 1] + ")"
+        var scene_name = "Home (" + elems[elems.length - 1] + ")"
     }
     s += "<div class='min_font' id='default_scene'>";
-    s += "<h6 class='ui-collapsible-heading'><a class='min_font ui-btn ui-btn-icon-right ui-icon-carat-r'>" + scene_name + "</a></h6>";
+    s += "<h6 class='ui-collapsible-heading'><a class='ui-mini ui-btn ui-btn-icon-right ui-icon-home'>" + scene_name + "</a></h6>";
     s += "</div>"
 
     for (var i = 0; i < _manifest.length; i++)
@@ -719,8 +722,9 @@ function add_error_tooltip() {
 
     if (warnings || errors)
         _lights_elem.setAttribute("title",
-                                  "warnings:" + warnings +
-                                  '\n' + "errors:" + errors);
+                                  "Errors: " + errors + ", " +
+                                  "Warnings: " + warnings + "\n" +  
+                                  "See browser console for more info");
     else
         _lights_elem.setAttribute("title", "Loaded OK");
 }
@@ -729,9 +733,11 @@ function display_scene_stats() {
     var verts = m_debug.num_vertices();
     var tris = m_debug.num_triangles();
     var calls = m_debug.num_draw_calls();
+    var shaders = m_debug.num_shaders();
 
     document.getElementById("info_right_up").innerHTML =
-        verts + " verts" + ", " + tris + " tris" + ", " + calls + " draw calls";
+        verts + " verts" + ", " + tris + " tris" + ", " + 
+        calls + " draw calls" + ", " + shaders + " shaders";
 
     var gstats = m_debug.geometry_stats();
     var texinfo = m_debug.num_textures();
@@ -841,12 +847,6 @@ function change_apply_scene_settings(scene_name, settings) {
         var targ = settings.camera_target;
         m_cons.append_follow(camera, targ);
     }
-
-    var hang = settings.h_angle;
-    var vang = settings.v_angle;
-
-    if ((hang === 0 || hang) && (vang === 0 || vang))
-        m_cam.set_eye_params(camera, hang, vang);
 
     // init anim active objects list
 
@@ -1004,6 +1004,13 @@ function set_stereo_view_config() {
     m_cfg.set("anaglyph_use", m_storage.get("anaglyph_use") === "true");
 }
 
+function set_all_objs_selectable_config() {
+    if (m_storage.get("all_objs_selectable") == "")
+        m_cfg.set("all_objs_selectable", true)
+    else
+        m_cfg.set("all_objs_selectable", m_storage.get("all_objs_selectable") === "true");
+}
+
 function set_gyro_cam_rotate_config() {
     m_cfg.set("gyro_use", m_storage.get("gyro_use") === "true");
 }
@@ -1036,6 +1043,17 @@ function refresh_stereo_view_ui() {
     $("#anaglyph_use").slider("refresh");
 }
 
+function refresh_all_objs_select_ui() {
+    if (m_storage.get("all_objs_selectable") == "")
+        var opt_index = 1;
+    else
+        var opt_index = Number(m_storage.get("all_objs_selectable") === "true");
+
+    document.getElementById("all_objs_selectable").options[opt_index].selected = true;
+
+    $("#all_objs_selectable").slider("refresh");
+}
+
 function refresh_gyro_use_ui() {
     var opt_index = Number(m_storage.get("gyro_use") === "true");
     document.getElementById("gyro_use").options[opt_index].selected = true;
@@ -1052,6 +1070,11 @@ function set_gyro_cam_rotate_reload(value) {
     window.location.reload();
 }
 
+function set_all_objs_selectable(value) {
+    m_storage.set("all_objs_selectable", value.all_objs_selectable);
+    window.location.reload();
+}
+
 function start_auto_view() {
     _auto_view = true;
     auto_view_load_next();
@@ -1059,7 +1082,7 @@ function start_auto_view() {
 
 function on_resize(e) {
 
-    m_app.resize_to_containter();
+    m_app.resize_to_container();
 
     var canvas = m_main.get_canvas_elem();
 
@@ -1159,7 +1182,7 @@ function set_animation_params(value) {
     if ("anim_cyclic" in value) {
         var anim_name = document.getElementById("animation").value;
         var slot_num = m_anim.get_slot_num_by_anim(_anim_obj, anim_name);
-        m_anim.cyclic(_anim_obj, value.anim_cyclic, slot_num);
+        m_anim.set_behavior(_anim_obj, value.anim_cyclic ? m_anim.AB_CYCLIC : m_anim.AB_FINISH_RESET, slot_num);
     }
 
     if ("anim_frame_current" in value) {
@@ -1246,18 +1269,21 @@ function update_anim_ui_name(obj, slot_num) {
 
 function update_anim_info(obj, slot_num) {
     // cyclic
-    var cyclic = m_anim.is_cyclic(obj, slot_num);
-    set_slider("anim_cyclic", Number(cyclic));
+    set_slider("anim_cyclic", Number(m_anim.get_behavior(obj, slot_num) 
+            == m_anim.AB_CYCLIC));
 
     // frame range
     var fr_elem = document.getElementById("anim_frame_range");
-    var fr = m_anim.get_frame_range(obj, slot_num);
 
-    if (fr) {
-        fr_elem.innerHTML = fr[0] + " - " + fr[1];
+    var start_fr = m_anim.get_anim_start_frame(obj, slot_num);
+    var len = m_anim.get_anim_length(obj, slot_num);
+
+    if (start_fr != -1 && len != -1) {
+        var finish_fr = start_fr + len;
+        fr_elem.innerHTML = start_fr + " - " + finish_fr;
         var slider = document.getElementById("anim_frame_current");
-        slider.min = "" + fr[0];
-        slider.max = "" + fr[1];
+        slider.min = "" + start_fr;
+        slider.max = "" + finish_fr;
     } else
         fr_elem.innerHTML = "N/A";
 }

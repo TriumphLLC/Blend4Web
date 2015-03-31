@@ -33,10 +33,10 @@ var INIT_PARAMS = {
     physics_enabled: false,
     console_verbose: DEBUG,
     assets_dds_available: !DEBUG,
+
     // improves quality
     assets_min50_available: false,
-    quality: m_cfg.P_HIGH,
-    context_antialias: true
+    quality: m_cfg.P_HIGH
 };
 
 var TS_NONE     = 10;   // initial state
@@ -55,8 +55,6 @@ var _camera = null;
 var _playing = false;
 var _trigger_state = TS_NONE;
 
-var _control_panel_elem;
-var _scroll_panel_elem;
 var _hover_panel_elem;
 
 
@@ -71,12 +69,10 @@ function init_cb(canvas_elem, success) {
         return;
     }
 
-    // cache dom elements
-    _control_panel_elem = document.getElementById("control_panel");
-    _scroll_panel_elem = document.getElementById("scroll_panel");
-    _hover_panel_elem = document.getElementById("hover_panel");
+    // cache dom hover element
+    _hover_panel_elem = document.querySelector("#hover_panel");
 
-    m_app.enable_controls(canvas_elem);
+    m_app.enable_controls();
 
     m_preloader.create_advanced_preloader({
         img_width: 165,
@@ -89,7 +85,7 @@ function init_cb(canvas_elem, success) {
         canvas_container_id: "main_canvas_container"
     });
 
-    var preloader_frame = document.getElementById("preloader_frame");
+    var preloader_frame = document.querySelector("#preloader_frame");
 
     preloader_frame.style.visibility = "visible";
 
@@ -106,7 +102,7 @@ function init_cb(canvas_elem, success) {
         switch_view_mode();
     })
 
-    window.onresize = on_resize;
+    window.addEventListener("resize", on_resize, false);
 
     document.addEventListener("keydown", function(e) {
         if (e.keyCode == 13)    // enter
@@ -117,9 +113,7 @@ function init_cb(canvas_elem, success) {
 }
 
 function on_resize() {
-    var w = window.innerWidth;
-    var h = window.innerHeight;
-    m_main.resize(w, h);
+    m_app.resize_to_container();
 };
 
 function load_stuff() {
@@ -128,6 +122,7 @@ function load_stuff() {
     m_data.set_debug_resources_root("/flight_over_island/");
 
     var p_cb = PRELOADING ? preloader_callback : null;
+
     m_data.load(assets_dir + "flight_over_island/flight_over_island.json",
                 loaded_callback, p_cb, !true);
 
@@ -135,24 +130,27 @@ function load_stuff() {
 }
 
 function loaded_callback(data_id) {
-
     _camera = m_scs.get_active_camera();
 
-    _cessna_arm = m_scs.get_object_by_dupli_name("Cessna Rig",
+    var get_by_dupli = m_scs.get_object_by_dupli_name;
+    var set_behavior = m_anim.set_behavior;
+    var apply_anim   = m_anim.apply;
+
+    _cessna_arm = get_by_dupli("Cessna Rig",
             "Cessna Armature");
-    _cessna_spk = m_scs.get_object_by_dupli_name("Cessna Rig",
+    _cessna_spk = get_by_dupli("Cessna Rig",
             "Engine Speaker");
-    _pilot = m_scs.get_object_by_dupli_name("golf_player_fmale_rig",
+    _pilot = get_by_dupli("golf_player_fmale_rig",
             "rig");
 
-    m_anim.apply(_camera, "CameraAction.001");
-    m_anim.set_behavior(_camera, m_anim.AB_CYCLIC);
+    apply_anim(_camera, "CameraAction.001");
+    set_behavior(_camera, m_anim.AB_CYCLIC);
 
-    m_anim.apply(_cessna_arm, "fly_cessna");
-    m_anim.set_behavior(_cessna_arm, m_anim.AB_FINISH_STOP);
+    apply_anim(_cessna_arm, "fly_cessna");
+    set_behavior(_cessna_arm, m_anim.AB_FINISH_STOP);
 
-    m_anim.apply(_pilot, "fly_girl");
-    m_anim.set_behavior(_pilot, m_anim.AB_FINISH_STOP);
+    apply_anim(_pilot, "fly_girl");
+    set_behavior(_pilot, m_anim.AB_FINISH_STOP);
 
     apply_anim_cycle(_cessna_arm, _cessna_spk, _pilot);
 
@@ -223,11 +221,11 @@ function switch_view_mode() {
 }
 
 function init_control_button(elem_id, callback) {
-
     var target = document.getElementById(elem_id);
 
     // clone to prevent adding event listeners more than once
     var new_element = target.cloneNode(true);
+
     target.parentNode.replaceChild(new_element, target);
 
     new_element.addEventListener("mouseup", function(e) {
@@ -254,23 +252,23 @@ function mouseover_cb(scene_id, e) {
     if (isTouch)
         return null;
 
-    var elem = document.getElementById(scene_id);
-    var parent = elem.parentElement;
-    var glow_hover = document.getElementById('glow');
+    var target     = e.target;
+    var elem       = document.getElementById(scene_id);
+    var parent     = elem.parentElement;
+    var glow_hover = document.querySelector('#glow');
 
     if (!glow_hover) {
-
         var hover_glow_elem = document.createElement('div');
 
         hover_glow_elem.id = 'glow';
-        hover_glow_elem.style.top = e.target.offsetTop;
+        hover_glow_elem.style.top = target.offsetTop;
 
         _hover_panel_elem.appendChild(hover_glow_elem);
 
-        glow_hover = document.getElementById('glow');
+        glow_hover = hover_glow_elem;
     }
 
-    glow_hover.style.top = e.target.offsetTop - 20 + 'px';
+    glow_hover.style.top = target.offsetTop - 20 + 'px';
 }
 
 function mouseout_cb(scene_id, e) {
@@ -283,7 +281,7 @@ function mouseout_cb(scene_id, e) {
 
 function button_up(button_id, e) {
     var elem = document.getElementById(button_id);
-    var glow_down = document.getElementById('glow_down');
+    var glow_down = document.querySelector('#glow_down');
     var hover_glow_elem = document.createElement('div');
 
     hover_glow_elem.id = 'glow';
@@ -300,6 +298,7 @@ function button_up(button_id, e) {
 function button_down(scene_id, e) {
     var isTouch = !!("ontouchstart" in window) ||
             window.navigator.msMaxTouchPoints > 0;
+
     if (isTouch)
         return null;
 
@@ -316,15 +315,14 @@ function button_down(scene_id, e) {
 }
 
 function clear_glow() {
-    var glow_down = document.getElementById('glow_down');
-    var glow_hover = document.getElementById('glow');
+    var glow_down = document.querySelector('#glow_down');
+    var glow_hover = document.querySelector('#glow');
 
     if (glow_hover)
         _hover_panel_elem.removeChild(glow_hover);
 
     if (glow_down)
         _hover_panel_elem.removeChild(glow_down);
-
 }
 
 function change_controls_button_view(elem_id, class_name) {
@@ -349,17 +347,18 @@ function render_callback(elapsed, current_time) {
 }
 
 function move_camera() {
-
     if (_trigger_state == TS_CAM_ANIM)
         return;
 
     var target = _vec3_tmp;
+
     m_anim.get_bone_translation(_cessna_arm, "Root", target);
 
     if (_trigger_state == TS_TRACK)
         var eye = CAM_STAT_POS;
     else if (_trigger_state == TS_FOLLOW) {
         var eye = _vec3_tmp2;
+
         m_vec3.add(target, CAM_TRACKING_OFFSET, eye);
     }
 

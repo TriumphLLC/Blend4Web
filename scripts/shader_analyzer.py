@@ -8,6 +8,7 @@ ROOT_REL = "../"
 CGC_PATH = "cgc"
 TMP_GLSL_FILE = "/tmp/tmp_b4w_shader_analyzer.glsl"
 TMP_OUT = "/tmp/tmp_b4w_shader_analyzer.out.txt"
+PORT = 6687
 
 class http_handler(SimpleHTTPRequestHandler):
 
@@ -60,7 +61,9 @@ def run():
     root = os.path.normpath(os.path.join(root, ROOT_REL))
     os.chdir(root)
 
-    httpd = HTTPServer(('', 8000), http_handler)
+    print("Listening localhost:" + str(PORT))
+
+    httpd = HTTPServer(('', PORT), http_handler)
 
     try:
         httpd.serve_forever()

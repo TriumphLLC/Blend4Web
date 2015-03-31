@@ -70,7 +70,7 @@ function init_cb(canvas_elem, success) {
         console.log("b4w init failure");
         return;
     }
-    m_app.enable_controls(canvas_elem);
+    m_app.enable_controls();
 
     if (PRELOADING)
         m_preloader.create_simple_preloader({
@@ -284,7 +284,7 @@ function prepare_cam_and_lamp_params() {
     var cam_pivot = new Float32Array(3);
     m_cam.get_pivot(cam_obj, cam_pivot);
     _default_cam_dist = m_vec3.dist(cam_pivot, _default_cam_eye);
-    _default_cam_angles = m_cam.get_angles(cam_obj);
+    _default_cam_angles = m_cam.get_camera_angles(cam_obj);
 }
 
 function process_message(message) {
@@ -379,9 +379,10 @@ function send_button_click_cb() {
 
 function on_resize() {
 
-    var w = window.innerWidth;
+    m_app.resize_to_container();
+
     var h = window.innerHeight;
-    m_main.resize(w, h);
+    var w = window.innerWidth;
 
     var text_element = document.getElementById("text_element");
     text_element.style.fontSize = (0.025 * h).toString() + "px";
@@ -537,8 +538,8 @@ function play_letter_box_anim() {
 
     set_letter_objs_visibility();
 
-    m_sfx.speaker_stop(speaker);
-    m_sfx.speaker_play(speaker);
+    m_sfx.stop(speaker);
+    m_sfx.play_def(speaker);
 
     _disable_interaction = true;
     m_mouse.disable_mouse_hover_glow();
@@ -559,8 +560,8 @@ function play_letter_box_anim() {
 function play_bear_anim() {
     var obj_bear = m_scenes.get_object_by_dupli_name("bear", "bear");
     var speaker = m_scenes.get_object_by_dupli_name("bear", "spk_bear");
-    m_sfx.speaker_stop(speaker);
-    m_sfx.speaker_play(speaker);
+    m_sfx.stop(speaker);
+    m_sfx.play_def(speaker);
     if (!_trigger_bear) {
         m_anim.set_speed(obj_bear, 1);
         m_anim.play(obj_bear);      
@@ -579,10 +580,10 @@ function tv_play() {
     if (_video_started) {
         m_tex.pause_video("Texture");
         m_tex.reset_video("Texture");
-        m_sfx.speaker_stop(speaker);
+        m_sfx.stop(speaker);
     } else {
         m_tex.play_video("Texture");
-        m_sfx.speaker_play(speaker);
+        m_sfx.play_def(speaker);
     }
     _video_started = !_video_started;
 }
@@ -591,8 +592,8 @@ function play_monkey_box_anim() {
     var obj_monkey_box = m_scenes.get_object_by_dupli_name("gift_monkey", "Armature_gift_monkey");
     var obj_monkey = m_scenes.get_object_by_dupli_name("gift_monkey.001", "Armature");
     var speaker = m_scenes.get_object_by_dupli_name("gift_monkey", "monkey");
-    m_sfx.speaker_stop(speaker);
-    m_sfx.speaker_play(speaker);
+    m_sfx.stop(speaker);
+    m_sfx.play_def(speaker);
     if (!_trigger_monkey_box) {
         set_monkey_objs_visibility();
         m_anim.set_speed(obj_monkey_box, 1);
@@ -616,14 +617,14 @@ function play_confetti_box_anim() {
     var confetti_ribbons_below = m_scenes.get_object_by_dupli_name("confetti", "ribbons_from_below");
     var confetti_ribbons_above = m_scenes.get_object_by_dupli_name("confetti_ribbons", "ribbons_flom_above");
     var speaker = m_scenes.get_object_by_dupli_name("gift_5", "fireworks");
-    m_sfx.speaker_stop(speaker);
+    m_sfx.stop(speaker);
 
     if (!_trigger_confetti_box) {
         set_confetti_objs_visibility();
         m_anim.set_speed(obj_confetti_box, 1);
         m_anim.play(obj_confetti_box);
         m_anim.play(confetti_ribbons_below, play_confetti_ribbons_above);
-        m_sfx.speaker_play(speaker);
+        m_sfx.play_def(speaker);
 
         for (var i = 0; i < _objs_confetti.length; i++)
             m_anim.play(_objs_confetti[i]);
@@ -656,7 +657,7 @@ function calc_camera_sensor_data() {
     var cam_pivot = m_cam.get_pivot(cam_obj, _vec3_tmp);
     var cam_eye = m_cam.get_eye(cam_obj, _vec3_tmp2);
     _current_cam_dist = m_vec3.dist(cam_pivot, cam_eye);
-    m_cam.get_angles(cam_obj, _current_cam_angles);
+    m_cam.get_camera_angles(cam_obj, _current_cam_angles);
     if (_current_cam_angles[0] > Math.PI)
         _current_cam_angles[0] -= 2 * Math.PI;
 }
@@ -678,7 +679,7 @@ function create_sensors() {
             var delta_horisontal_angle = (_default_cam_angles[0] - _current_cam_angles[0]) * (elapsed/LETTER_ANIM_TIME);
             var delta_vertical_angle = (_default_cam_angles[1] - _current_cam_angles[1]) * (elapsed/LETTER_ANIM_TIME);
             m_trans.move_local(cam_obj, 0, delta_distance, 0);
-            m_cam.rotate_pivot(cam_obj, delta_horisontal_angle, delta_vertical_angle);
+            m_cam.rotate_target_camera(cam_obj, delta_horisontal_angle, delta_vertical_angle);
         } else {
             m_cam.set_look_at(cam_obj, _default_cam_eye, _default_cam_target, m_utils.AXIS_Y);
         }

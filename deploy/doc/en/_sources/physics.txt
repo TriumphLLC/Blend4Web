@@ -228,7 +228,12 @@
 
 .. code-block:: javascript
 
-    b4w.config.set("physics_uranium_path", ".../uranium.js");
+    m_config.set("physics_uranium_path", ".../uranium.js");
+
+.. note::
+
+    При разработке приложения :ref:`в составе SDK <sdk_dev>` путь к физическому движку определяется автоматически.
+
 
 Если использование физики не требуется, рекомендуется отключить загрузку модуля
 **uranium.js** до начала инициализации движка с помощью метода **set** из модуля
@@ -236,4 +241,4 @@
 
 .. code-block:: javascript
 
-    b4w.config.set("physics_enabled", false);
+    m_config.set("physics_enabled", false);

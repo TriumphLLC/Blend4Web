@@ -75,7 +75,7 @@ function kill_golem(golem_wrapper) {
     var quat = _quat4_tmp;
 
     m_trans.get_translation(golem, trans);
-    m_trans.get_rotation_quat(golem, quat);
+    m_trans.get_rotation(golem, quat);
     m_trans.set_translation_v(golem_death_empty, trans);
     m_trans.set_rotation_v(golem_death_empty, quat);
 
@@ -271,7 +271,7 @@ function atack_target(golem_wrapper, target, elapsed) {
         var cur_dir     = _vec3_tmp_2;
         var cur_rot_q  = _quat4_tmp;
 
-        m_trans.get_rotation_quat(golem_empty, cur_rot_q);
+        m_trans.get_rotation(golem_empty, cur_rot_q);
         m_vec3.transformQuat(m_util.AXIS_Z, cur_rot_q, cur_dir);
         var dir_dot =  Math.min(m_vec3.dot(dir_to_targ, cur_dir), 1.0);
 
@@ -309,7 +309,7 @@ function translate_golem(golem_wrapper, elapsed) {
     var walk_speaker = golem_wrapper.walk_speaker;
 
     m_trans.get_translation(empty, trans);
-    m_trans.get_rotation_quat(empty, cur_rot_q);
+    m_trans.get_rotation(empty, cur_rot_q);
     m_vec3.transformQuat(m_util.AXIS_Z, cur_rot_q, cur_dir);
 
     m_vec3.scaleAndAdd(trans, cur_dir, m_conf.GOLEM_SPEED * elapsed, trans);
@@ -333,7 +333,7 @@ function rotate_golem(golem_wrapper, elapsed) {
     var new_rot_q   = _quat4_tmp2;
 
     m_trans.get_translation(golem_empty, trans);
-    m_trans.get_rotation_quat(golem_empty, cur_rot_q);
+    m_trans.get_rotation(golem_empty, cur_rot_q);
     m_vec3.transformQuat(m_util.AXIS_Z, cur_rot_q, cur_dir);
 
     m_vec3.subtract(dest_pos, trans, dir_to_dest);

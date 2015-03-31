@@ -72,8 +72,7 @@ exports.set_hardware_defaults = function(gl) {
     }
 
     if (detect_mobile()) {
-        m_print.warn("Mobile detected, applying glsl loops unroll hack, applying various hacks for video textures.");
-        cfg_def.glsl_unroll_hack = true;
+        m_print.warn("Mobile detected, applying various hacks for video textures.");
         cfg_def.is_mobile_device = true;
         if (!(check_user_agent("iPad") || check_user_agent("iPhone"))) {
             m_print.warn("Mobile (not iOS) detected, disable playback rate for video textures.");
@@ -102,9 +101,8 @@ exports.set_hardware_defaults = function(gl) {
     if (rinfo) {
         if (check_user_agent("Macintosh")
                 && gl.getParameter(rinfo.UNMASKED_RENDERER_WEBGL).indexOf("Intel HD Graphics 3000") > -1) {
-            m_print.warn("OS X / Intel HD 3000 detected, applying depth and glsl loops unroll hacks");
+            m_print.warn("OS X / Intel HD 3000 detected, applying depth hack");
             depth_tex_available = false;
-            cfg_def.glsl_unroll_hack = true;
         }
         if (gl.getParameter(rinfo.UNMASKED_VENDOR_WEBGL).indexOf("ARM") > -1
                 && gl.getParameter(rinfo.UNMASKED_RENDERER_WEBGL).indexOf("Mali-400") > -1) {

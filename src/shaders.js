@@ -172,6 +172,7 @@ exports.set_default_directives = function(sinfo) {
         "ALPHA_AS_SPEC",
         "DEPTH_RGBA",
         "NUM_LIGHTS",
+        "NUM_LFACTORS",
         "NUM_LAMP_LIGHTS",
         "MAX_STEPS",
         "BILLBOARD_ALIGN",
@@ -222,6 +223,7 @@ exports.set_default_directives = function(sinfo) {
         case "MAIN_BEND_COL":
         case "MAX_BONES":
         case "NUM_LIGHTS":
+        case "NUM_LFACTORS":
         case "NUM_NORMALMAPS":
         case "PARALLAX":
         case "PARALLAX_STEPS":
@@ -368,9 +370,9 @@ exports.get_compiled_shader = get_compiled_shader;
  * @param shader_id JSONified shaders_info object
  * @methodOf shaders
  */
-function get_compiled_shader(shaders_info, node_elements) {
+function get_compiled_shader(shaders_info) {
 
-    var shader_id = JSON.stringify(shaders_info) + JSON.stringify(node_elements);
+    var shader_id = JSON.stringify(shaders_info);
 
     var compiled_shader = _compiled_shaders[shader_id];
     if (compiled_shader)
@@ -386,11 +388,8 @@ function get_compiled_shader(shaders_info, node_elements) {
     if (!vshader_ast || !fshader_ast)
         return null;
 
-    // prepend by define directives
-
-    var directives = shaders_info.directives || [];
-    var vshader_text = preprocess_shader("vert", vshader_ast, directives, node_elements);
-    var fshader_text = preprocess_shader("frag", fshader_ast, directives, node_elements);
+    var vshader_text = preprocess_shader("vert", vshader_ast, shaders_info);
+    var fshader_text = preprocess_shader("frag", fshader_ast, shaders_info);
 
     // compile
     _compiled_shaders[shader_id] = compiled_shader =
@@ -426,7 +425,13 @@ function get_shader_ast(dir, filename) {
     return ast;
 }
 
-function preprocess_shader(type, ast, dirs_arr, node_elements) {
+function preprocess_shader(type, ast, shaders_info) {
+
+    var node_elements = shaders_info.node_elements;
+    var lights_info = shaders_info.lights_info;
+    // prepend by define directives
+    var dirs_arr = shaders_info.directives || [];
+
     // output GLSL lines
     var lines = [];
     // set with predefined macros {"name": tokens}
@@ -440,6 +445,7 @@ function preprocess_shader(type, ast, dirs_arr, node_elements) {
     var fdirs = {};
 
     var shader_nodes = {};
+    var shader_lamp_nodes = {};
 
     var usage_inputs = [];
     for (var i in node_elements)
@@ -459,6 +465,7 @@ function preprocess_shader(type, ast, dirs_arr, node_elements) {
 
     function process_group(elem) {
         var parts = elem.parts;
+
         for (var i = 0; i < parts.length; i++) {
             var pelem = parts[i];
             switch(pelem.type) {
@@ -505,7 +512,14 @@ function preprocess_shader(type, ast, dirs_arr, node_elements) {
                 process_nodes_global(node_elements);
                 break;
             case "nodes_main":
-                process_nodes_main(node_elements);
+                process_nodes_main(node_elements, lights_info);
+                break;
+
+            case "lamp":
+                process_lamp(pelem);
+                break;
+            case "lamps_main":
+                process_lamps_main(lights_info, pelem);
                 break;
 
             case "textline":
@@ -682,6 +696,8 @@ function preprocess_shader(type, ast, dirs_arr, node_elements) {
                     if ((nelem.id == "MATERIAL" && input_index === 3 
                             || nelem.id == "MATERIAL_EXT" && input_index === 3) 
                             && decl.is_optional) {
+
+                        replaces[decl.name] = nelem.input_values[input_index];
                         input_index++;
                         continue;
                     }
@@ -792,6 +808,58 @@ function preprocess_shader(type, ast, dirs_arr, node_elements) {
         var tokens = elem.tokens;
         lines.push(expand_macro(tokens, dirs, fdirs, false));
     }
+
+    function process_lamp(elem) {
+        shader_lamp_nodes[elem.name] = elem;
+    }
+
+    function process_lamps_main(lights_info, elem) {
+        for (var i = 0; i < lights_info.length; i++) {
+
+            var linfo = lights_info[i];
+
+            if (!linfo.is_on)
+                continue;
+
+            var lamp_node = shader_lamp_nodes[linfo.type];
+            var statements = lamp_node.statements;
+
+            for (var j = 0; j < statements.length; j++) {
+                var part = statements[j];
+
+                var tokens = [];
+                for (var k = 0; k < part.tokens.length; k++) {
+                    var tok = part.tokens[k];
+                    switch (tok) {
+                    case "LAMP_IND":
+                        tok = linfo.index;
+                        break;
+                    case "LAMP_LIGHT_FACT_IND":
+                        tok = linfo.lfac_index;
+                        break;
+                    case "LAMP_FAC_CHANNELS":
+                        tok = linfo.lfac_channels;
+                        break;
+                    case "LAMP_SPOT_SIZE":
+                        tok = glsl_value(linfo.spot_size);
+                        break;
+                    case "LAMP_SPOT_BLEND":
+                        tok = glsl_value(linfo.spot_blend || 0.01);
+                        break;
+                    case "LAMP_LIGHT_DIST":
+                        tok = glsl_value(linfo.distance);
+                        break;
+                    case "LAMP_SHADOW_MAP_IND":
+                        tok = linfo.gen_shadow ? 1: 0;
+                        break;
+                    }
+                    tokens.push(tok);
+                }
+                var line = tokens.join(" ");
+                lines.push(line);
+            }
+        }
+    }
 }
 
 /**
@@ -804,7 +872,6 @@ function expand_macro(tokens, dirs, fdirs, empty_as_zero, node_dirs) {
     expand_macro_iter(tokens, dirs, fdirs, empty_as_zero, result, node_dirs);
     return result.join(" ");
 }
-
 
 function expand_macro_iter(tokens, dirs, fdirs, empty_as_zero, result, node_dirs) {
     for (var i = 0; i < tokens.length; i++) {
@@ -840,7 +907,7 @@ function init_shader(gl, vshader_text, fshader_text,
 
     gl.validateProgram(program);
     if (gl.getProgramParameter(program, gl.VALIDATE_STATUS) == gl.FALSE)
-        m_print.error("B4W Error - shader program is not valid", shader_id);
+        m_print.error("shader program is not valid", shader_id);
 
     m_debug.check_shader_linking(program, shader_id, vshader, fshader,
         vshader_text, fshader_text);

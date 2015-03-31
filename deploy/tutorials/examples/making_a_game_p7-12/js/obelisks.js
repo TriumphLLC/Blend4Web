@@ -81,7 +81,7 @@ function change_gems_num(id, num) {
 
         var gem_trans = _vec3_tmp; var gem_quat = _quat4_tmp;
         m_trans.get_translation(ob_gem, gem_trans);
-        m_trans.get_rotation_quat(ob_gem, gem_quat);
+        m_trans.get_rotation(ob_gem, gem_quat);
 
         emitt_shutters(gem_trans, gem_quat);
     }

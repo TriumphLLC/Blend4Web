@@ -8,6 +8,10 @@ from rna_prop_ui import PropertyPanel
 
 from math import sqrt
 
+def redraw():
+    if bpy.ops.object.shade_smooth.poll():
+        bpy.ops.object.shade_smooth()
+
 class B4W_VertexNormalsUI(bpy.types.Panel):
     # draw UI buttons
     bl_idname = "Recalc Vertex Normals"
@@ -77,8 +81,8 @@ class B4W_VertexNormalsUI(bpy.types.Panel):
         row.operator('object.foliage_vertex_normals', text = 'Foliage')
         row.operator('object.face_vertex_normals', text = 'Face')
         row = box.row(align=True)
-        row.operator('object.copy_normals_from_mesh', text = 'Copy from source mesh')
-        row.operator('b4w.approx_normals_from_mesh', text = 'Approximate from source mesh')
+        row.operator('object.copy_normals_from_mesh', text = 'Copy from Mesh')
+        row.operator('b4w.approx_normals_from_mesh', text = 'Approx from Mesh')
 
 
 class B4W_TreeVertexNormals(bpy.types.Operator):
@@ -119,6 +123,7 @@ class B4W_TreeVertexNormals(bpy.types.Operator):
             context.active_object['b4w_vertex_normal_list'] = []
 
         context.area.tag_redraw()
+        redraw()
         return {'FINISHED'}
 
 
@@ -153,6 +158,7 @@ class B4W_FoliageVertexNormals(bpy.types.Operator):
         else:
             context.active_object['b4w_vertex_normal_list'] = []
         context.area.tag_redraw()
+        redraw()
         return {'FINISHED'}
 
 class B4W_FaceVertexNormals(bpy.types.Operator):
@@ -202,6 +208,7 @@ class B4W_FaceVertexNormals(bpy.types.Operator):
             context.active_object['b4w_vertex_normal_list'] = []
 
         context.area.tag_redraw()
+        redraw()
         return {'FINISHED'}
 
 class B4W_CopyNormalsFromMesh(bpy.types.Operator):
@@ -384,6 +391,7 @@ def update_custom_normal1(self, context):
                     item.normal = obj.data.vertices[i].normal
                 else:
                     context.object.b4w_vertex_normal_list[i]['normal'] = obj.data.vertices[i].normal
+    redraw()
 
 def update_custom_normal2(self, context):
     obj = context.active_object
@@ -406,6 +414,7 @@ def update_custom_normal2(self, context):
                     item.normal = obj.data.vertices[i].normal
                 else:
                     context.object.b4w_vertex_normal_list[i]['normal'] = obj.data.vertices[i].normal
+    redraw()
 
 
 

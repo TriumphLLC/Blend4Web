@@ -631,21 +631,6 @@ exports.create_empty_submesh = function(name) {
 }
 
 /**
- * Create empty object
- * @deprecated Used only to create a new camobj or meta_object
- */
-exports.init_object = function(name, type) {
-    var obj = {
-        "name": name,
-        "type": type,
-        "modifiers": [],
-        "particle_systems": [],
-        "data": null
-    };
-    return obj;
-}
-
-/**
  * Clone object using JSON.stringify() than JSON.parse().
  * Safest, but not working for objects with links/buffers.
  */
@@ -1979,10 +1964,17 @@ exports.panic = function(s) {
 }
 
 /**
- * Convert radian angle into range [0, 2PI]
+ * Convert radian angle into range [from, to]
  */
+exports.angle_wrap_periodic = angle_wrap_periodic;
+function angle_wrap_periodic(angle, from, to) {
+    var rel_angle = angle - from;
+    var period = to - from;
+    return from + (rel_angle - Math.floor(rel_angle / period) * period);
+}
+
 exports.angle_wrap_0_2pi = function(angle) {
-    return angle - Math.floor(angle / (2 * Math.PI)) * 2 * Math.PI;
+    return angle_wrap_periodic(angle, 0, 2 * Math.PI);
 }
 
 exports.get_file_extension = function(file_path) {
@@ -2114,7 +2106,7 @@ exports.gen_color_id = function(counter) {
     counter %= 51;
     var b = counter;
 
-    var color_id = [r/51, g/51, b/51];
+    var color_id = new Float32Array([r/51, g/51, b/51]);
 
     return color_id;
 }

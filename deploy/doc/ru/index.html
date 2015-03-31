@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Содержание &mdash; Руководство пользователя: Blend4Web v15.02</title>
+    <title>Содержание &mdash; Руководство пользователя: Blend4Web v15.03</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '15.02',
+        VERSION:     '15.03',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v15.02" href="#" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v15.03" href="#" />
     <link rel="next" title="Общие сведения" href="about.html" /> 
   </head>
   <body>
@@ -36,7 +36,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="#">Руководство пользователя: Blend4Web v15.02</a></div>
+          href="#">Руководство пользователя: Blend4Web v15.03</a></div>
         <div class="rel">
           <a href="about.html" title="Общие сведения"
              accesskey="N">вперёд</a> |
@@ -127,23 +127,28 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="addon.html">Аддон</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="addon.html#index-1">Ошибки инициализации</a></li>
-<li class="toctree-l2"><a class="reference internal" href="addon.html#export-errors">Критические ошибки экспорта</a></li>
-<li class="toctree-l2"><a class="reference internal" href="addon.html#index-3">Некритические ошибки экспорта</a></li>
-<li class="toctree-l2"><a class="reference internal" href="addon.html#id5">Прочие сообщения, требующие внимания пользователя</a></li>
 <li class="toctree-l2"><a class="reference internal" href="addon.html#export-opts">Опции экспорта</a></li>
+<li class="toctree-l2"><a class="reference internal" href="addon.html#index-1">Ошибки инициализации</a></li>
+<li class="toctree-l2"><a class="reference internal" href="addon.html#version-errors">Ошибки совместимости версий аддона и движка</a></li>
+<li class="toctree-l2"><a class="reference internal" href="addon.html#export-errors">Критические ошибки экспорта</a></li>
+<li class="toctree-l2"><a class="reference internal" href="addon.html#index-4">Некритические ошибки экспорта</a></li>
+<li class="toctree-l2"><a class="reference internal" href="addon.html#id7">Прочие сообщения, требующие внимания пользователя</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Объекты</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="objects.html#id2">Типы</a></li>
 <li class="toctree-l2"><a class="reference internal" href="objects.html#static-dynamic-objects">Статические и динамические объекты</a></li>
 <li class="toctree-l2"><a class="reference internal" href="objects.html#id4">Настройка</a></li>
+<li class="toctree-l2"><a class="reference internal" href="objects.html#index-0">Управление перемещением объектов</a></li>
+<li class="toctree-l2"><a class="reference internal" href="objects.html#index-1">Кватернионы</a></li>
+<li class="toctree-l2"><a class="reference internal" href="objects.html#copy-obj">Копирование объектов (инстансинг)</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Камера</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="camera.html#id2">Режимы управления и общие настройки</a></li>
 <li class="toctree-l2"><a class="reference internal" href="camera.html#camera-velocity">Скорость движения камеры</a></li>
 <li class="toctree-l2"><a class="reference internal" href="camera.html#id4">Ограничения движения камеры</a></li>
+<li class="toctree-l2"><a class="reference internal" href="camera.html#api">Управление камерой через API</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="materials.html">Материалы</a><ul>
@@ -258,8 +263,6 @@
 <li class="toctree-l2"><a class="reference internal" href="developers.html#sdk">Разработка приложений в составе SDK</a></li>
 <li class="toctree-l2"><a class="reference internal" href="developers.html#converter">Конвертация ресурсов</a></li>
 <li class="toctree-l2"><a class="reference internal" href="developers.html#id5">Система модулей</a></li>
-<li class="toctree-l2"><a class="reference internal" href="developers.html#id6">Управление перемещением объектов</a></li>
-<li class="toctree-l2"><a class="reference internal" href="developers.html#index-0">Кватернионы</a></li>
 <li class="toctree-l2"><a class="reference internal" href="developers.html#event-model">Событийная модель</a></li>
 <li class="toctree-l2"><a class="reference internal" href="developers.html#quality-settings">Профили качества изображения</a></li>
 <li class="toctree-l2"><a class="reference internal" href="developers.html#repo-file-structure">Файловая структура SDK</a></li>
@@ -298,6 +301,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="release_notes.html">Замечания к релизам</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#v15-03">v15.03</a></li>
 <li class="toctree-l2"><a class="reference internal" href="release_notes.html#v15-02">v15.02</a></li>
 <li class="toctree-l2"><a class="reference internal" href="release_notes.html#v15-01">v15.01</a></li>
 <li class="toctree-l2"><a class="reference internal" href="release_notes.html#v14-12">v14.12</a></li>
@@ -380,7 +384,7 @@
           
     <div class="footer">
         &copy; Copyright 2015, ООО &#34;Триумф&#34;.
-      Обновлено: 2015-02-25.
+      Обновлено: 2015-03-26.
       Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
         </div>

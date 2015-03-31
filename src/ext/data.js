@@ -4,7 +4,7 @@
  * Data API. Used to load/unload exported json data files.
  * @module data
  * @local stageload_callback
-  * @local loaded_callback
+ * @local loaded_callback
  */
 b4w.module["data"] = function(exports, require) {
 
@@ -64,15 +64,7 @@ exports.set_debug_resources_root = data.set_debug_resources_root;
  */
 exports.is_primary_loaded = data.is_primary_loaded;
 
-
-// DEPRECATED
-
 exports.load_and_add_new = data.load;
-
-exports.get_bpy_world = function(world_name) {
-    m_util.panic("get_bpy_world() deprecated");
-    return null;
-}
 
 exports.cleanup = exports.unload;
 

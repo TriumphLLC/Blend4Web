@@ -7,25 +7,26 @@
 b4w.module["debug"] = function(exports, require) {
 
 var m_batch    = require("__batch");
+var m_cfg      = require("__config");
+var m_ctl      = require("__controls");
+var m_debug    = require("__debug");
+var m_phy      = require("__physics");
 var m_print    = require("__print");
-var controls   = require("__controls");
-var debug      = require("__debug");
-var physics    = require("__physics");
-var scenegraph = require("__scenegraph");
+var m_scgraph  = require("__scenegraph");
 var m_scenes   = require("__scenes");
-var sfx        = require("__sfx");
+var m_shaders  = require("__shaders");
+var m_sfx      = require("__sfx");
 var m_textures = require("__textures");
 var m_util     = require("__util");
-var m_config     = require("__config");
 
 var m_vec3 = require("vec3");
-var cfg_def = m_config.defaults;
+var cfg_def = m_cfg.defaults;
 /**
  * Print info about the physics worker
  * @method module:debug.physics_worker
  */
 exports.physics_worker = function() {
-    physics.debug_worker();
+    m_phy.debug_worker();
 }
 /**
  * Print object info by physics ID.
@@ -33,9 +34,9 @@ exports.physics_worker = function() {
  * @param id Physics ID
  */
 exports.physics_id = function(id) {
-    m_print.log("O", physics.find_obj_by_body_id(id))
+    m_print.log("O", m_phy.find_obj_by_body_id(id))
 
-    var bundles = physics.get_active_scene()._physics.bundles;
+    var bundles = m_phy.get_active_scene()._physics.bundles;
 
     for (var i = 0; i < bundles.length; i++) {
         var bundle = bundles[i];
@@ -218,6 +219,15 @@ exports.num_draw_calls = function() {
                  main_subscenes[1].bundles.length;
 
     return number;
+}
+
+/**
+ * Return the number of compiled shaders.
+ * @method module:debug.num_shaders
+ */
+exports.num_shaders = function() {
+    var compiled_shaders = m_shaders.get_compiled_shaders();
+    return m_util.get_dict_length(compiled_shaders);
 }
 
 /**
@@ -429,7 +439,7 @@ exports.scenegraph_to_dot = function() {
     for (var i = 0; i < scenes.length; i++) {
         var scene = scenes[i];
         var graph = m_scenes.get_graph(scene);
-        m_print.log(scenegraph.debug_convert_to_dot(graph));
+        m_print.log("\n" + m_scgraph.debug_convert_to_dot(graph));
     }
 }
 
@@ -441,7 +451,7 @@ exports.scenes_to_dot = function() {
  * Print info about the controls module.
  * @method module:debug.controls_info
  */
-exports.controls_info = controls.debug;
+exports.controls_info = m_ctl.debug;
 
 /**
  * Get the distance between two objects.
@@ -456,25 +466,25 @@ exports.object_distance = function(obj, obj2) {
  * Store a simple telemetry message.
  * @method module:debug.msg
  */
-exports.msg = debug.msg;
+exports.msg = m_debug.msg;
 
 /**
  * Store a flashback telemetry message.
  * @method module:debug.fbmsg
  */
-exports.fbmsg = debug.fbmsg;
+exports.fbmsg = m_debug.fbmsg;
 
 /**
  * Print the list of flashback messages.
  * @method module:debug.print_telemetry
  */
-exports.print_telemetry = debug.print_telemetry;
+exports.print_telemetry = m_debug.print_telemetry;
 
 /**
  * Plot the list of flashback messages as a gnuplot datafile.
  * @method module:debug.plot_telemetry
  */
-exports.plot_telemetry = debug.plot_telemetry;
+exports.plot_telemetry = m_debug.plot_telemetry;
 
 /**
  * Store the callback function result as a flashback message.
@@ -485,7 +495,7 @@ exports.fbres = function(fun, timeout) {
         timeout = 16;
 
     var cb = function() {
-        debug.fbmsg("FBRES", fun());
+        m_debug.fbmsg("FBRES", fun());
         setTimeout(cb, timeout);
     }
 
@@ -531,13 +541,13 @@ exports.assert_constants = function() {
  * @method module:debug.mute_music
  */
 exports.mute_music = function() {
-    var spks = sfx.get_speaker_objects();
+    var spks = m_sfx.get_speaker_objects();
 
     for (var i = 0; i < spks.length; i++) {
         var spk = spks[i];
 
-        if (sfx.get_spk_behavior(spk) == "BACKGROUND_MUSIC")
-            sfx.mute(spk, true);
+        if (m_sfx.get_spk_behavior(spk) == "BACKGROUND_MUSIC")
+            m_sfx.mute(spk, true);
     }
 }
 
@@ -546,7 +556,7 @@ exports.mute_music = function() {
  * @method module:debug.check_finite
  */
 exports.check_finite = function(o) {
-    debug.check_finite(o);
+    m_debug.check_finite(o);
 }
 
 /**

@@ -106,6 +106,7 @@ var _fps_logger_elem = null;
 
 // for internal usage
 var _vec2_tmp  = new Float32Array(2);
+var _vec2_tmp2  = new Float32Array(2);
 var _vec3_tmp  = new Float32Array(3);
 var _vec3_tmp2 = new Float32Array(3);
 var _vec3_tmp3 = new Float32Array(3);
@@ -134,12 +135,14 @@ var _quat4_tmp = new Float32Array(4);
  * @param {Boolean}  [options.pause_invisible=true] Pause engine simulation if
  * page is not visible (in other tab or minimized).
  * @param {Boolean}  [options.key_pause_enabled=true] Enable key pause
+ * @param {Boolean}  [options.autoresize=false] Automatically resize canvas to
+ * match the size of container element.
  * @cc_externs canvas_container_id callback gl_debug show_hud_debug_info
  * @cc_externs sfx_mix_mode show_fps fps_elem_id error_purge_elements
  * @cc_externs report_init_failure pause_invisible key_pause_enabled
  * @cc_externs alpha alpha_sort_threshold assets_dds_available
  * @cc_externs assets_min50_available quality fps_wrapper_id
- * @cc_externs console_verbose physics_enabled
+ * @cc_externs console_verbose physics_enabled autoresize
  */
 
 exports.init = function(options) {
@@ -147,6 +150,7 @@ exports.init = function(options) {
 
     var canvas_container_id = null;
     var callback = function() {};
+    var autoresize = false;
     var gl_debug = false;
     var error_purge_elements = null;
     var fps_elem_id = null;
@@ -165,6 +169,9 @@ exports.init = function(options) {
             break;
         case "callback":
             callback = options.callback;
+            break;
+        case "autoresize":
+            autoresize = options.autoresize;
             break;
         case "do_not_use_onload":
             // ignore deprecated option
@@ -231,6 +238,7 @@ exports.init = function(options) {
             return;
         }
         _canvas_container_elem = cont_elem;
+        resize_to_container();
 
         m_main.set_check_gl_errors(gl_debug);
 
@@ -241,6 +249,17 @@ exports.init = function(options) {
 
         if (pause_invisible)
             handle_page_visibility();
+
+        if (autoresize) {
+            m_main.append_loop_cb(function() {
+                var ccw = _canvas_container_elem.clientWidth;
+                var cch = _canvas_container_elem.clientHeight;
+
+                if (ccw != _canvas_elem.clientWidth ||
+                        cch != _canvas_elem.clientHeight)
+                    m_main.resize(ccw, cch, true);
+            });
+        }
 
         callback(_canvas_elem, true);
     };
@@ -276,14 +295,13 @@ function setup_canvas(canvas_container_id, init_hud_canvas,
 
     var canvas_elem = document.createElement("canvas");
     canvas_elem.style.position = "absolute";
-    canvas_elem.style.left = "0px";
-    canvas_elem.style.top = "0px";
 
     if (init_hud_canvas) {
         var canvas_elem_hud = document.createElement("canvas");
         // NOTE: pointer-events only for Chrome, Firefox, Safari
-        canvas_elem_hud.style.cssText = "z-index: 2; position:absolute; " +
-            "left:0px; top:0px; pointer-events: none;"
+        canvas_elem_hud.style.position = "absolute";
+        canvas_elem_hud.style.zIndex = "2";
+        canvas_elem_hud.style.pointerEvents = "none";
     } else
         var canvas_elem_hud = null;
 
@@ -322,16 +340,15 @@ function create_fps_logger_elem(fps_elem_id, fps_wrapper_id) {
     } else {
         _fps_logger_elem = document.createElement("div");
         _fps_logger_elem.innerHTML = 0;
-        _fps_logger_elem.style.cssText = " \
-            position:absolute;\
-            top: 23px;\
-            right: 20px;\
-            font-size: 45px;\
-            line-height: 50px;\
-            font-weight: bold;\
-            color: #000;\
-            z-index: 1;\
-        ";
+        _fps_logger_elem.style.cssText =
+            "position:absolute;" +
+            "top: 23px;" +
+            "right: 20px;" +
+            "font-size: 45px;" +
+            "line-height: 50px;" +
+            "font-weight: bold;" +
+            "color: #000;" +
+            "z-index: 1;";
         document.body.appendChild(_fps_logger_elem);
     }
 }
@@ -356,10 +373,11 @@ function elem_cloned(elem_id) {
     return new_element;
 }
 
+exports.resize_to_container = resize_to_container;
 /**
  * Fit canvas elements to match the size of container element.
  */
-exports.resize_to_containter = function() {
+function resize_to_container() {
     var w = _canvas_container_elem.clientWidth;
     var h = _canvas_container_elem.clientHeight;
 
@@ -407,21 +425,15 @@ function trans_hover_cam_horiz_local(camobj, dir, fact) {
         var dist = HOVER_STATIC_MOVE_FACTOR;
     }
 
-    var obj_quat = m_trans.get_rotation_quat(camobj, _quat4_tmp);
+    var obj_quat = m_trans.get_rotation(camobj, _quat4_tmp);
     var abs_dir = m_util.quat_to_dir(obj_quat, dir, _vec3_tmp);
     abs_dir[1] = 0;
     m_vec3.normalize(abs_dir, abs_dir);
     m_vec3.scale(abs_dir, dist * fact, abs_dir);
 
-    if (m_cam.has_distance_limits(camobj)) {
-        var hover_pivot = m_cam.get_hover_cam_pivot(camobj, _vec3_tmp2);
-        m_vec3.add(hover_pivot, abs_dir, hover_pivot);
-        m_cam.translate_hover_cam_v(camobj, hover_pivot);
-    } else {
-        var obj_trans = m_trans.get_translation(camobj, _vec3_tmp2);
-        m_vec3.add(obj_trans, abs_dir, obj_trans)
-        m_cam.translate_hover_cam_v(camobj, obj_trans);
-    }
+    var obj_trans = m_trans.get_translation(camobj, _vec3_tmp2);
+    m_vec3.add(obj_trans, abs_dir, obj_trans)
+    m_cam.hover_cam_set_translation(camobj, obj_trans);
 }
 
 function trans_hover_cam_updown(camobj, fact) {
@@ -429,17 +441,16 @@ function trans_hover_cam_updown(camobj, fact) {
         var obj_trans = m_trans.get_translation(camobj, _vec3_tmp);
         var trans_delta = m_vec3.scale(m_util.AXIS_Y, -fact, _vec3_tmp2);
         m_vec3.add(obj_trans, trans_delta, obj_trans);
-        m_cam.translate_hover_cam_v(camobj, obj_trans);
+        m_cam.hover_cam_set_translation(camobj, obj_trans);
     } else {
-        var angles = m_cam.get_hover_angle_limits(camobj, _vec2_tmp);
-        if (angles[0] - angles[1] > 0) {
-            var y_angle = m_cam.get_hover_cam_angle(camobj);
-            var angle_factor = (y_angle - angles[1]) / (angles[0]
-                    - angles[1]);
+        var limits = m_cam.get_hover_angle_limits(camobj, _vec2_tmp);
+        if (limits[1] - limits[0] &lt; 0) {
+            var y_angle = m_cam.get_camera_angles(camobj, _vec2_tmp2)[1];
+            var angle_factor = (limits[0] - y_angle) / (limits[0] - limits[1]);
             var dist_limits = m_cam.get_cam_dist_limits(camobj);
             angle_factor = Math.max(angle_factor, HOVER_ANGLE_MIN /
                     dist_limits[0]);
-            m_cam.set_hover_cam_angle(camobj, y_angle - angle_factor * fact);
+            m_cam.rotate_hover_camera(camobj, 0, angle_factor * fact);
         }
     }
 }
@@ -597,14 +608,12 @@ exports.enable_camera_controls = function(disable_default_pivot,
             case "FORWARD":
                 if (character)
                     char_dir[0] = 1;
-                else if (use_hover)
-                    if (Math.abs(m_cam.get_hover_cam_angle(obj)) >= Math.PI / 4)
-                        trans_hover_cam_horiz_local(obj, m_util.AXIS_MZ,
-                                velocity[0] * HOVER_KEY_TRANS_FACTOR * elapsed);
-                    else
-                        trans_hover_cam_horiz_local(obj, m_util.AXIS_MY,
-                                velocity[0] * HOVER_KEY_TRANS_FACTOR * elapsed);
-                else if (use_pivot)
+                else if (use_hover) {
+                    var hover_angle = m_cam.get_camera_angles(obj, _vec2_tmp2)[1];
+                    var axis = (Math.abs(hover_angle) >= Math.PI / 4) ? m_util.AXIS_MZ : m_util.AXIS_MY;
+                    trans_hover_cam_horiz_local(obj, axis,
+                            velocity[0] * HOVER_KEY_TRANS_FACTOR * elapsed);
+                } else if (use_pivot)
                     trans_targ_cam_local(obj, -velocity[2], elapsed);
                 else
                     trans_eye_cam_local(obj, 0, -velocity[0] * elapsed, 0);
@@ -612,14 +621,12 @@ exports.enable_camera_controls = function(disable_default_pivot,
             case "BACKWARD":
                 if (character)
                     char_dir[0] = -1;
-                else if (use_hover)
-                    if (Math.abs(m_cam.get_hover_cam_angle(obj)) >= Math.PI / 4)
-                        trans_hover_cam_horiz_local(obj, m_util.AXIS_Z,
-                                velocity[0] * HOVER_KEY_TRANS_FACTOR * elapsed);
-                    else
-                        trans_hover_cam_horiz_local(obj, m_util.AXIS_Y,
-                                velocity[0] * HOVER_KEY_TRANS_FACTOR * elapsed);
-                else if (use_pivot)
+                else if (use_hover) {
+                    var hover_angle = m_cam.get_camera_angles(obj, _vec2_tmp2)[1];
+                    var axis = (Math.abs(hover_angle) >= Math.PI / 4) ? m_util.AXIS_Z : m_util.AXIS_Y;
+                    trans_hover_cam_horiz_local(obj, axis,
+                            velocity[0] * HOVER_KEY_TRANS_FACTOR * elapsed);
+                } else if (use_pivot)
                     trans_targ_cam_local(obj, velocity[2], elapsed);
                 else
                     trans_eye_cam_local(obj, 0, velocity[0] * elapsed, 0);
@@ -658,34 +665,34 @@ exports.enable_camera_controls = function(disable_default_pivot,
                 break;
             case "ROT_LEFT":
                 if (use_pivot)
-                    m_cam.rotate_pivot(obj, -velocity[1]
+                    m_cam.rotate_target_camera(obj, -velocity[1]
                             * TARGET_EYE_KEY_ROT_FACTOR * elapsed, 0);
                 else
-                    m_cam.rotate(obj, velocity[1] * TARGET_EYE_KEY_ROT_FACTOR
+                    m_cam.rotate_eye_camera(obj, velocity[1] * TARGET_EYE_KEY_ROT_FACTOR
                             * elapsed, 0);
                 break;
             case "ROT_RIGHT":
                 if (use_pivot)
-                    m_cam.rotate_pivot(obj, velocity[1]
+                    m_cam.rotate_target_camera(obj, velocity[1]
                             * TARGET_EYE_KEY_ROT_FACTOR * elapsed, 0);
                 else
-                    m_cam.rotate(obj, -velocity[1] * TARGET_EYE_KEY_ROT_FACTOR
+                    m_cam.rotate_eye_camera(obj, -velocity[1] * TARGET_EYE_KEY_ROT_FACTOR
                             * elapsed, 0);
                 break;
             case "ROT_UP":
                 if (use_pivot)
-                    m_cam.rotate_pivot(obj, 0, -velocity[1]
+                    m_cam.rotate_target_camera(obj, 0, -velocity[1]
                             * TARGET_EYE_KEY_ROT_FACTOR * elapsed);
                 else
-                    m_cam.rotate(obj, 0, -velocity[1]
+                    m_cam.rotate_eye_camera(obj, 0, velocity[1]
                             * TARGET_EYE_KEY_ROT_FACTOR * elapsed);
                 break;
             case "ROT_DOWN":
                 if (use_pivot)
-                    m_cam.rotate_pivot(obj, 0, velocity[1]
+                    m_cam.rotate_target_camera(obj, 0, velocity[1]
                             * TARGET_EYE_KEY_ROT_FACTOR * elapsed);
                 else
-                    m_cam.rotate(obj, 0, velocity[1]
+                    m_cam.rotate_eye_camera(obj, 0, -velocity[1]
                             * TARGET_EYE_KEY_ROT_FACTOR * elapsed);
                 break;
             default:
@@ -709,10 +716,7 @@ exports.enable_camera_controls = function(disable_default_pivot,
 
         if (character) {
             m_phy.set_character_move_dir(character, char_dir[0], char_dir[1]);
-            var angles = _vec2_tmp;
-            m_cam.get_angles(obj, angles);
-            angles[0] += Math.PI;
-            angles[1] *= -1;
+            var angles = m_cam.get_camera_angles_char(obj, _vec2_tmp);
             m_phy.set_character_rotation(character, angles[0], angles[1]);
         }
     }
@@ -964,7 +968,6 @@ exports.enable_camera_controls = function(disable_default_pivot,
 
     // camera rotation and translation smoothing
     var rot_trans_interp_cb = function(obj, id, pulse) {
-
         if (pulse == 1 &amp;&amp; (Math.abs(dest_x_mouse) > 0.001 ||
                            Math.abs(dest_y_mouse) > 0.001 ||
                            Math.abs(dest_x_touch) > 0.001 ||
@@ -1009,7 +1012,8 @@ exports.enable_camera_controls = function(disable_default_pivot,
             dest_pan_y_touch -= trans_y_touch;
 
             if (use_pivot) {
-                m_cam.rotate_pivot(obj, x_mouse + x_touch, y_mouse + y_touch);
+                m_cam.rotate_target_camera(obj, x_mouse + x_touch, 
+                        y_mouse + y_touch);
                 m_cam.move_pivot(obj, trans_x_mouse + trans_x_touch, 
                         trans_y_mouse + trans_y_touch);
             } else if (use_hover) {
@@ -1019,26 +1023,20 @@ exports.enable_camera_controls = function(disable_default_pivot,
                             * HOVER_MOUSE_TOUCH_TRANS_FACTOR);
                 }
 
-                if (y_mouse + y_touch)
-                    if (Math.abs(m_cam.get_hover_cam_angle(obj)) > Math.PI / 4)
-                        trans_hover_cam_horiz_local(obj, m_util.AXIS_Z,
-                                (y_mouse + y_touch)
-                                * HOVER_MOUSE_TOUCH_TRANS_FACTOR);
-                    else
-                        trans_hover_cam_horiz_local(obj, m_util.AXIS_Y,
-                                (y_mouse + y_touch)
-                                * HOVER_MOUSE_TOUCH_TRANS_FACTOR);
+                if (y_mouse + y_touch) {
+                    var hover_angle = m_cam.get_camera_angles(obj, _vec2_tmp2)[1];
+                    var axis = (Math.abs(hover_angle) > Math.PI / 4) ? m_util.AXIS_Z : m_util.AXIS_Y;
+                    trans_hover_cam_horiz_local(obj, axis, (y_mouse + y_touch) 
+                            * HOVER_MOUSE_TOUCH_TRANS_FACTOR);
+                }
 
-                m_cam.rotate_hover_cam(obj, trans_x_mouse + trans_x_touch);
+                m_cam.rotate_hover_camera(obj, trans_x_mouse + trans_x_touch, 0);
             } else {
-                m_cam.rotate(obj, (x_mouse + x_touch) * EYE_ROTATION_DECREMENT,
-                        -(y_mouse + y_touch) * EYE_ROTATION_DECREMENT);
+                m_cam.rotate_eye_camera(obj, (x_mouse + x_touch) * EYE_ROTATION_DECREMENT,
+                        (y_mouse + y_touch) * EYE_ROTATION_DECREMENT);
 
                 if (character) {
-                    var angles = _vec2_tmp;
-                    m_cam.get_angles(obj, angles);
-                    angles[0] += Math.PI;
-                    angles[1] *= -1;
+                    var angles = m_cam.get_camera_angles_char(obj, _vec2_tmp);
                     m_phy.set_character_rotation(character, angles[0], angles[1]);
                 }
             }
@@ -1177,25 +1175,23 @@ exports.disable_object_controls = function(obj) {
 /**
  * Enable engine controls.
  * Execute before using any of the controls.*() functions
- * @param {HTMLCanvasElement} canvas_elem Canvas element
  */
-exports.enable_controls = function(canvas_elem) {
+exports.enable_controls = function() {
     m_ctl.register_keyboard_events(document, false);
-    m_ctl.register_mouse_events(canvas_elem, true);
-    m_ctl.register_wheel_events(canvas_elem, true);
-    m_ctl.register_touch_events(canvas_elem, true);
+    m_ctl.register_mouse_events(_canvas_elem, true);
+    m_ctl.register_wheel_events(_canvas_elem, true);
+    m_ctl.register_touch_events(_canvas_elem, true);
     m_ctl.register_device_orientation();
 }
 
 /**
  * Disable engine controls.
- * @param {HTMLCanvasElement} canvas_elem Canvas element
  */
-exports.disable_controls = function(canvas_elem) {
+exports.disable_controls = function() {
     m_ctl.unregister_keyboard_events(document);
-    m_ctl.unregister_mouse_events(canvas_elem);
-    m_ctl.unregister_wheel_events(canvas_elem);
-    m_ctl.unregister_touch_events(canvas_elem);
+    m_ctl.unregister_mouse_events(_canvas_elem);
+    m_ctl.unregister_wheel_events(_canvas_elem);
+    m_ctl.unregister_touch_events(_canvas_elem);
     m_ctl.unregister_device_orientation();
 }
 
@@ -1445,13 +1441,13 @@ function animate(from, to, timeout, anim_cb) {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Wed Feb 25 2015 10:34:05 GMT+0300 (MSK)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Thu Mar 26 2015 17:33:34 GMT+0300 (MSK)
 </footer>
 
 <script> prettyPrint(); </script>

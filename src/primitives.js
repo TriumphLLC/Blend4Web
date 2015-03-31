@@ -1,9 +1,7 @@
 "use strict";
 
 /**
- * Primitive construction module.
- * Primitive is a submesh with simple geometry used in special (mostly debug) 
- * cases.
+ * Generates submeshes with primitive geometry.
  * @name primitives
  * @namespace
  * @exports exports as primitives
@@ -40,7 +38,6 @@ exports.generate_plane = function(x_size, z_size) {
 }
 
 exports.generate_grid = generate_grid;
-
 /**
  * Subdivisions and size are from the blender
  * @methodOf primitives
@@ -455,9 +452,23 @@ exports.generate_frustum = function(corners) {
     return submesh;
 }
 
+exports.generate_fullscreen_tri = function() {
+
+    var submesh = util.create_empty_submesh("FULLSCREEN_TRI");
+
+    var va_frame = util.create_empty_va_frame();
+    va_frame["a_position"] = new Float32Array([0, 0, 1, 0, 0, 1]);
+
+    submesh.va_frames[0] = va_frame;
+    submesh.indices = new Uint32Array([0, 1, 2]);
+    submesh.base_length = 3;
+
+    return submesh;
+}
+
 exports.generate_fullscreen_quad = function() {
 
-    var submesh = util.create_empty_submesh("BILLBOARD");
+    var submesh = util.create_empty_submesh("FULLSCREEN_QUAD");
 
     var va_frame = util.create_empty_va_frame();
     va_frame["a_position"] = new Float32Array([-1,  1, 1,  1, -1, -1, 1, -1]);
@@ -635,6 +646,22 @@ function extract_vec3(array, position) {
 
 function add_vec3_to_array(vec, array) {
     array.push(vec[0], vec[1], vec[2]);
+}
+
+exports.generate_index = function(num) {
+
+    var submesh = util.create_empty_submesh("INDEX");
+
+    var va_frame = util.create_empty_va_frame();
+    va_frame["a_index"] = new Float32Array(num);
+    for (var i = 0; i < num; i++)
+        va_frame["a_index"][i] = i;
+
+    submesh.va_frames[0] = va_frame;
+    submesh.indices = new Uint16Array(0);
+    submesh.base_length = num;
+
+    return submesh;
 }
 
 

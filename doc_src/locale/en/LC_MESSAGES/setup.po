@@ -13,7 +13,7 @@ msgstr ""
 
 #: ../setup.rst:5
 msgid "Развёртывание среды разработки"
-msgstr "Development Environment Setup"
+msgstr "Installing the SDK"
 
 #: ../setup.rst:7
 msgid ""
@@ -35,7 +35,7 @@ msgstr ""
 
 #: ../setup.rst:14
 msgid "Установка дистрибутива"
-msgstr "Distribution Installation"
+msgstr "Unpacking the Distribution"
 
 #: ../setup.rst:16
 msgid ""
@@ -66,8 +66,8 @@ msgid ""
 "Если аддон ранее был установлен с помощью :ref:`экспресс-установки "
 "<quick_install>`, то рекомендуется прежде его удалить."
 msgstr ""
-"It is recommended to remove the addon first if it was originally installed "
-"using :ref:`quick install <quick_install>`."
+"We strongly recommend to remove the addon first if it was originally "
+"installed using :ref:`quick install <quick_install>`."
 
 #: ../setup.rst:32
 msgid ""
@@ -80,7 +80,7 @@ msgstr ""
 "Run Blender, load the default scene :file:`File > New` (hot keys "
 ":file:`Ctrl-N`). Open the user preferences window :file:`File > User "
 "Preferences...` (hot keys :file:`Ctrl-Alt-U`). Under the :file:`File` tab in"
-" the :file:`Scripts` field choose the path to the :file:`blender_scripts` "
+" the :file:`Scripts` field, choose the path to the :file:`blender_scripts` "
 "directory."
 
 #: ../setup.rst:39
@@ -154,7 +154,7 @@ msgstr ""
 "To start the server, go to the ``Render`` tab and press the ``Start`` button"
 " on the ``Blend4Web`` panel:"
 
-#: ../setup.rst:86
+#: ../setup.rst:87
 msgid ""
 "Если путь к Blend4Web SDK не был указан, запуск локального сервера "
 "невозможен. При этом вместо кнопки ``Start`` будет выведено соответствующее "
@@ -164,14 +164,14 @@ msgstr ""
 "server cannot be launched. In this case the corresponding message will be "
 "displayed instead of the ``Start`` button."
 
-#: ../setup.rst:88
+#: ../setup.rst:89
 msgid ""
 "В случае ошибки запуска сервера будет показано окно с описанием причины:"
 msgstr ""
 "If the server is failed to run, an error message will be shown describing "
 "the reason:"
 
-#: ../setup.rst:96
+#: ../setup.rst:97
 msgid ""
 "Нажмите кнопку ``Open SDK`` для запуска в браузере обзорной веб-страницы "
 "Blend4Web SDK, доступной по адресу http://localhost:6687."
@@ -179,14 +179,14 @@ msgstr ""
 "Press the ``Open SDK`` button to open the index web page of the Blend4Web "
 "SDK in the browser. This page is available at http://localhost:6687."
 
-#: ../setup.rst:103
+#: ../setup.rst:105
 msgid ""
 "При этом будет автоматически запущен браузер, используемой в операционной "
 "системе по умолчанию."
 msgstr ""
 "As a result, the default browser for your operating system will be launched."
 
-#: ../setup.rst:105
+#: ../setup.rst:107
 msgid ""
 "Сервер может быть остановлен по нажатию на кнопку ``Stop``. Сервер также "
 "прекращает работу при закрытии программы Blender."
@@ -194,19 +194,19 @@ msgstr ""
 "The server can be stopped by pressing the ``Stop`` button. It is also "
 "stopped when Blender is closed."
 
-#: ../setup.rst:108
+#: ../setup.rst:110
 msgid "просмотрщик"
 msgstr "viewer"
 
-#: ../setup.rst:108
+#: ../setup.rst:110
 msgid "запуск"
 msgstr "launch"
 
-#: ../setup.rst:113
+#: ../setup.rst:115
 msgid "Запуск просмотрщика сцен и демо-приложений"
 msgstr "Running Viewer and Demos"
 
-#: ../setup.rst:115
+#: ../setup.rst:117
 msgid ""
 "На обзорной странице имеются ссылки для запуска просмотрщика сцен и демо-"
 "приложений. Для их запуска необходим :ref:`браузер с поддержкой WebGL "
@@ -216,11 +216,11 @@ msgstr ""
 "applications. A :ref:`WebGL-capable browser <browser_webgl_support>` is "
 "required to run these apps."
 
-#: ../setup.rst:125
+#: ../setup.rst:127
 msgid ""
 "Если приложения SDK не отображаются корректно, или появляются сообщения об "
 "ошибках, необходимо предпринять действия, описанные в разделе "
 ":ref:`renderer_not_working`."
 msgstr ""
-"If the SDK apps aren't displayed correctly, or an error messages are shown, "
+"If the SDK apps are not displayed correctly, or error messages are shown, "
 "follow the instructions in the :ref:`renderer_not_working` section."

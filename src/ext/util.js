@@ -138,7 +138,6 @@ exports.quat_to_dir = util.quat_to_dir;
 /**
  * Project camera quaternion rotation on a horizontal plane.
  * @method module:util.ground_project_quat
- * @deprecated Bad implementation use quat_project instead
  */
 exports.ground_project_quat = function(quat, dest) {
     return util.quat_project(quat, util.AXIS_MY, util.AXIS_Y, util.AXIS_MZ, dest);
@@ -235,5 +234,23 @@ exports.line_plane_intersect = util.line_plane_intersect;
  * @returns {Boolean} Check result
  */
 exports.is_mesh = util.is_mesh;
+
+/**
+ * Convert radian angle into range [0, 2PI]
+ * @method module:util.angle_wrap_0_2pi
+ * @param {Number} angle Angle in radians
+ * @returns {Number} Converted angle
+ */
+exports.angle_wrap_0_2pi = util.angle_wrap_0_2pi;
+
+/**
+ * Convert radian angle into custom range [from, to]
+ * @method module:util.angle_wrap_periodic
+ * @param {Number} angle Angle in radians
+ * @param {Number} from Value from in radians
+ * @param {Number} to Value to in radians
+ * @returns {Number} Converted angle
+ */
+exports.angle_wrap_periodic = util.angle_wrap_periodic;
 
 }

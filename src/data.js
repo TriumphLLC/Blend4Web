@@ -8,6 +8,7 @@
  */
 b4w.module["__data"] = function(exports, require) {
 
+var m_anchors   = require("__anchors");
 var m_anim      = require("__animation");
 var m_batch     = require("__batch");
 var m_cfg       = require("__config");
@@ -110,7 +111,7 @@ function print_image_info(image_data, image_path, show_path_warning) {
     m_print.log("%cLOAD IMAGE " + w + "x" + h, "color: #" + color, image_path);
 
     if (image_path.indexOf(_debug_resources_root) == -1 && show_path_warning)
-        m_print.warn("B4W Warning: image", image_path, "is not from app root.");
+        m_print.warn("image", image_path, "is not from app root.");
 }
 
 function print_video_info(video, image_path, show_path_warning, type) {
@@ -133,7 +134,7 @@ function print_video_info(video, image_path, show_path_warning, type) {
     m_print.log("%cLOAD VIDEO " + w + "x" + h, "color: #" + color, image_path);
 
     if (image_path.indexOf(_debug_resources_root) == -1 && show_path_warning)
-        m_print.warn("B4W Warning: video", image_path, "is not from app root.");
+        m_print.warn("video", image_path, "is not from app root.");
 }
 
 
@@ -185,15 +186,13 @@ function load_main(bpy_data, thread, stage, cb_param, cb_finish,
 function show_export_warnings(bpy_data) {
     if (bpy_data["b4w_export_warnings"])
         for (var i = 0; i < bpy_data["b4w_export_warnings"].length; i++)
-            m_print.warn("EXPORT WARNING:",
-                    bpy_data["b4w_export_warnings"][i]);
+            m_print.export_warn(bpy_data["b4w_export_warnings"][i]);
 }
 
 function show_export_errors(bpy_data) {
     if (bpy_data["b4w_export_errors"])
         for (var i = 0; i < bpy_data["b4w_export_errors"].length; i++)
-            m_print.error("EXPORT ERROR:",
-                    bpy_data["b4w_export_errors"][i]);
+            m_print.export_error(bpy_data["b4w_export_errors"][i]);
 }
 
 /**
@@ -226,11 +225,21 @@ function load_binaries(bpy_data, thread, stage, cb_param, cb_finish,
 }
 
 function check_version(loaded_bpy_data) {
+    var ver_required = cfg_def.min_format_version.split(".").map(function(val){ return val | 0 });
+    var ver_loaded = loaded_bpy_data["b4w_format_version"].split(".").map(function(val){ return val | 0 });
 
-    var ver_str = loaded_bpy_data["b4w_format_version"]
-    if (Number(ver_str) < cfg_def.min_format_version)
-        throw "Incompatible file version: " + ver_str +
-                ". Required: " + cfg_def.min_format_version;
+    if (ver_loaded[0] < ver_required[0])
+        m_util.panic("Incompatible file version: " 
+                + loaded_bpy_data["b4w_format_version"]
+                + ", required: " + cfg_def.min_format_version + ". "
+                + "Reexport scene with the latest B4W addon to fix it.");
+
+    if (ver_loaded[1] < ver_required[1])
+        m_print.warn("Version mismatch. File version: " + 
+                + loaded_bpy_data["b4w_format_version"] +
+                ", required: " + cfg_def.min_format_version 
+                + ". Some compatibility issues can occur. "
+                + "Reexport scene with the latest B4W addon to fix it.");
 }
 
 /**
@@ -439,7 +448,7 @@ function report_empty_submeshes(bpy_data) {
                     !already_reported[mesh_name]) {
 
                 if (materials[j])
-                    m_print.warn("B4W Warning: material \"" + materials[j]["name"]
+                    m_print.warn("material \"" + materials[j]["name"]
                         + "\" is not assigned to any face (object \""
                         + obj["name"] + "\").");
                 already_reported[mesh_name] = true;
@@ -457,7 +466,7 @@ function report_odd_uvs(meshes) {
         if (!materials.length) {
             // Unnecessary uv maps
             if(mesh["uv_textures"].length)
-                m_print.warn("B4W Warning: mesh \"" + mesh["name"]
+                m_print.warn("mesh \"" + mesh["name"]
                              + "\" has a UV map but has no exported material.");
 
         }
@@ -574,7 +583,7 @@ function prepare_root_scenes(bpy_data, thread, stage, cb_param, cb_finish,
     // NOTE: save only first scene for secondary data
     if (!_data_is_primary && bpy_data["scenes"].length > 1) {
         bpy_data["scenes"] = [bpy_data["scenes"][0]];
-        m_print.warn("B4W Warning: loading data contains multiple scenes.",
+        m_print.warn("loading data contains multiple scenes.",
                 "Only the first one will be loaded.");
     }
 
@@ -633,8 +642,11 @@ function prepare_root_scenes(bpy_data, thread, stage, cb_param, cb_finish,
             var grid_size = _primary_scene["b4w_batch_grid_size"];
         }
 
-        var meta_objects = m_batch.generate_main_batches(scene_graph,
-                grid_size, scene_objects, scene["world"], _primary_scene._render.lamps_number);
+        var metabatches = [];
+        var meta_objects = [];
+        m_batch.generate_main_batches(scene_graph, grid_size, scene_objects,
+                                    scene["world"], metabatches, meta_objects,
+                                    _primary_scene._render.lamps_number);
 
         if (_data_is_primary) {
             m_scenes.add_meta_objects(scene, meta_objects);
@@ -677,7 +689,6 @@ function setup_dds_loading(bpy_data) {
 
             var image = texture["image"];
 
-
             if (image._is_dds) {
                 // it was already marked as dds on previous cycle - so do nothing
             } else if (image["filepath"].indexOf(".dds") > -1) {
@@ -708,24 +719,21 @@ function setup_dds_loading(bpy_data) {
                 if (node["type"] == "TEXTURE") {
 
                     var tex = node["texture"];
-                    if (!tex) {
-                        m_print.warn("B4W Warning: material ", material["name"], " has empty textures.");
-                        continue;
+                    if (tex) {
+                        var image = tex["image"];
+
+                        if (image)
+                            if (image._is_dds) {
+                                // it was already marked as dds on previous cycle - so do nothing
+                            } else {
+                                image._is_dds = tex._render.allow_node_dds &&
+                                                !tex["b4w_disable_compression"] &&
+                                                image["source"] != "MOVIE";
+
+                                if (image._is_dds)
+                                    image["filepath"] += ".dds";
+                            }
                     }
-
-                    var image = tex["image"];
-
-                    if (image)
-                        if (image._is_dds) {
-                            // it was already marked as dds on previous cycle - so do nothing
-                        } else {
-                            image._is_dds = tex._render.allow_node_dds &&
-                                            !tex["b4w_disable_compression"] &&
-                                            image["source"] != "MOVIE";
-
-                            if (image._is_dds)
-                                image["filepath"] += ".dds";
-                        }
                 }
             }
         }
@@ -899,7 +907,7 @@ function duplicate_objects_iter(obj_links, origin_name_prefix, obj_ids, grp_ids)
             if (obj["parent"] && obj["parent"]["uuid"] in obj_id_overrides)
                 obj["parent"]["uuid"] = obj_id_overrides[obj["parent"]["uuid"]];
             else if (obj["parent"]) {
-                m_print.warn("B4W Warning: Object's \"" + obj.name
+                m_print.warn("Object's \"" + obj.name
                      + "\" parent is not in dupli group. Disabling parenting.");
                 obj["parent"] = null;
             }
@@ -965,7 +973,7 @@ function make_links(bpy_data) {
 
     // NOTE: Temporary check. Can't do it in reformer.
     if (!node_groups) {
-        m_print.warn("B4W Warning: \"node_groups\" datablock undefined. reexport main scene.");
+        m_print.warn("\"node_groups\" datablock undefined. reexport main scene.");
         node_groups = bpy_data["node_groups"] = [];
     }
 
@@ -1379,7 +1387,7 @@ function load_textures(bpy_data, thread, stage, cb_param, cb_finish, cb_set_rate
             var tex_users = find_image_users(image, bpy_data["textures"]);
 
             if (!tex_users.length) {
-                m_print.warn("B4W Warning: image ", image["name"], " has no users.");
+                m_print.warn("image ", image["name"], " has no users.");
                 continue;
             }
 
@@ -1548,8 +1556,7 @@ function load_speakers(bpy_data, thread, stage, cb_param, cb_finish, cb_set_rate
                 m_print.log("%cLOAD SOUND", "color: #0aa", path);
 
                 if (path.indexOf(_debug_resources_root) == -1)
-                    m_print.warn("B4W Warning: sound", path,
-                        "is not from app root.");
+                    m_print.warn("sound", path, "is not from app root.");
 
                 var spk_objs = spks_by_uuid[uuid];
                 for (var i = 0; i < spk_objs.length; i++)
@@ -1791,7 +1798,7 @@ function prepare_hair_particles(bpy_data) {
                     for (var n = 0; n < dg["objects"].length; n++)
                         m_obj.update_object(dg["objects"][n], true);
                 } else
-                    m_print.warn("B4W Warning: render type", pset["render_type"],
+                    m_print.warn("render type", pset["render_type"], 
                             "not supported for particle systems (" + pset["name"] + ").");
             }
         }
@@ -1844,9 +1851,9 @@ function set_frames_blending(obj, num_bones) {
     var render = obj._render;
 
     if (num_bones > 2 * max_bones)
-        m_util.panic("B4W Error: too many bones for \"" + obj["name"] + "\"");
+        m_util.panic("too many bones for \"" + obj["name"] + "\"");
     else if (num_bones > max_bones) {
-        m_print.warn("B4W Warning: too many bones for \"" + obj["name"] + "\" / " +
+        m_print.warn("too many bones for \"" + obj["name"] + "\" / " +
             num_bones + " bones (max " + max_bones +
             "). Blending between frames will be disabled.");
 
@@ -1906,8 +1913,7 @@ function prepare_lod_objects(objects) {
 
         if (DEBUG_LOD_DIST_NOT_SET &&
             obj["lod_levels"][lods_num - 1]["distance"] === 10000)
-            m_print.warn("B4W Warning: object \"" + obj["name"]
-                + "\" has default LOD distance.");
+            m_print.warn("object \"" + obj["name"] + "\" has default LOD distance.");
     }
 }
 
@@ -2468,9 +2474,29 @@ function prepare_objects_adding(bpy_data, thread, stage, cb_param, cb_finish,
         if (!_data_is_primary)
             scene = _primary_scene;
 
+        // firstly, process lamps
+        var lamps = m_scenes.get_scene_objs(scene, "LAMP", m_scenes.DATA_ID_ALL);
+        for (var j = 0; j < lamps.length; j++) {
+            var obj = lamps[j];
+
+            // add only currently loaded objects
+            if (obj._render.data_id == thread.id) {
+                if (thread.load_hidden && m_util.is_mesh(obj))
+                    m_scenes.hide_object(obj);
+                cb_param.added_objects.push({
+                    scene: scene,
+                    obj: obj
+                });
+            }
+        }
+
+        // all other objects are processed after lamps
         var sobjs = m_scenes.get_scene_objs(scene, "ALL", m_scenes.DATA_ID_ALL);
         for (var j = 0; j < sobjs.length; j++) {
             var obj = sobjs[j];
+
+            if (obj.type == "LAMP")
+                continue;
 
             // add only currently loaded objects
             if (obj._render.data_id == thread.id) {
@@ -2495,12 +2521,18 @@ function add_objects(bpy_data, thread, stage, cb_param, cb_finish,
         var obj = obj_data[obj_counter].obj;
         var scene = obj_data[obj_counter].scene;
 
-        m_scenes.append_object(scene, obj);
+        m_scenes.append_object(scene, obj, false);
         if (ADD_SFX_TYPES.indexOf(obj["type"]) != -1
                 && scene["b4w_enable_audio"])
             m_sfx.append_object(obj, scene);
 
+        if (m_anchors.is_anchor(obj))
+            m_anchors.append(obj);
+
         var rate = ++cb_param.obj_counter / obj_data.length;
+
+        if (obj.type == "LAMP")
+            m_scenes.sort_lamps(scene);
     } else
         var rate = 1;
 
@@ -2513,12 +2545,10 @@ function end_objects_adding(bpy_data, thread, stage, cb_param, cb_finish,
     if (_data_is_primary) {
 
         var scenes = m_scenes.get_rendered_scenes();
-        var scene_main = scenes[scenes.length-1];
+        var scene_main = m_scenes.get_main();
 
         for (var i = 0; i < scenes.length; i++) {
             var scene = scenes[i];
-            m_scenes.sort_lamps(scene);
-            m_scenes.update_shadow_lamp_id(scene);
             m_scenes.prepare_rendering(scene, scene_main);
 
             if (scene["b4w_use_nla"])
@@ -2531,6 +2561,7 @@ function end_objects_adding(bpy_data, thread, stage, cb_param, cb_finish,
 
     var objects = get_all_objects_cached(bpy_data, thread.id);
     m_obj.update_objects_dynamics(objects);
+
     cb_finish(thread, stage);
 }
 
@@ -2904,6 +2935,7 @@ exports.unload = function(data_id) {
     if (data_id == 0) {
         m_print.log("%cUNLOAD ALL", "color: #00a");
 
+        m_anchors.cleanup();
         m_anim.cleanup();
         m_sfx.cleanup();
         m_nla.cleanup();
@@ -2942,7 +2974,7 @@ exports.unload = function(data_id) {
                 var obj = objs[j];
                 if (obj._render.data_id == data_id) {
 
-                    prepare_object_unloading(scene, obj);
+                    prepare_object_unloading(scene, obj, true);
 
                     // remove objects from scene
                     objs.splice(j, 1); // removing from scene._objects["ALL"]
@@ -2959,7 +2991,8 @@ exports.unload = function(data_id) {
     remove_media_controls();
 }
 
-function prepare_object_unloading(scene, obj) {
+exports.prepare_object_unloading = prepare_object_unloading;
+function prepare_object_unloading(scene, obj, clean_buffs) {
     // anim cleanup
     if (m_anim.is_animated(obj))
         m_anim.remove(obj);
@@ -2978,11 +3011,16 @@ function prepare_object_unloading(scene, obj) {
         m_ctl.remove_sensor_manifold(obj);
 
     // unload objects
-    m_scenes.remove_object_bundles(scene, obj);
+    m_scenes.remove_object_bundles(scene, obj, clean_buffs);
 
     // unload sounds / speaker cleanup
     if (m_sfx.is_speaker(obj))
         m_sfx.speaker_remove(obj);
+
+    if (m_anchors.is_anchor(obj))
+        m_anchors.remove(obj);
+
+
 }
 
 exports.set_debug_resources_root = function(debug_resources_root) {

@@ -29,7 +29,7 @@ exports.defaults = {
 
     alpha_sort_threshold       : 0.1,
 
-    min_format_version         : 5.0,
+    min_format_version         : "5.02",
 
     max_fps                    : 10000,
 
@@ -133,8 +133,6 @@ exports.defaults = {
 
     allow_vertex_textures      : true,
 
-    glsl_unroll_hack           : false,
-
     no_phy_interp_hack         : false,
 
     shader_constants_hack      : false,
@@ -184,20 +182,23 @@ exports.assets = {
 exports.assets_save = m_util.clone_object_r(exports.assets);
 
 exports.paths = {
-    shaders_dir         : "../../shaders/",
+    shaders_dir         : "",
     shaders_include_dir : "include/",
-    built_in_data_module : "built_in_data",
-    smaa_search_texture_path: "",
-    smaa_area_texture_path: "",
 
-    // for developer version
-    resources_dir: "../deploy/apps/common/",
-    resources_search_paths: [
+    built_in_data_module : "built_in_data",
+
+    js_src_search_paths: [
         "b4w.min.js",
         "b4w.full.min.js",
         "src/b4w.js",
-        "USER_DEFINED_MODULE"
-    ]
+        "USER_DEFINED_MODULE"   // replaced when something compiled with the engine
+    ],
+
+    // relative to engine sources (default value for developer version)
+    resources_dir: "../deploy/apps/common/",
+
+    smaa_search_texture_path: "",
+    smaa_area_texture_path: ""
 }
 
 // physics config
@@ -471,6 +472,9 @@ function set(prop, value) {
     case "assets_min50_available":
         exports.assets.min50_available = value;
         break;
+    case "audio":
+        exports.sfx.webaudio = value;
+        break;
     case "background_color":
         exports.defaults.background_color = value;
         break;
@@ -535,7 +539,7 @@ function set(prop, value) {
         exports.defaults.wireframe_debug = value;
         break;
     default:
-        m_print.error("B4W config set - property unknown: " + prop);
+        m_print.error("Unknown config property: " + prop);
         break;
     }
 }
@@ -564,6 +568,8 @@ exports.get = function(prop) {
         return exports.assets.dds_available;
     case "assets_min50_available":
         return exports.assets.min50_available;
+    case "audio":
+        return exports.sfx.webaudio;
     case "background_color":
         return exports.defaults.background_color;
     case "built_in_module_name":
@@ -607,7 +613,7 @@ exports.get = function(prop) {
     case "wireframe_debug":
         return exports.defaults.wireframe_debug;
     default:
-        m_print.error("B4W config get - property unknown: " + prop);
+        m_print.error("Unknown config property: " + prop);
         break;
     }
 }
@@ -628,54 +634,69 @@ function is_built_in_data() {
 }
 
 /**
- * Set configuration paths for uranium engine and smaa textures.
+ * Set configuration paths for shaders, uranium engine and smaa textures.
  */
-exports.set_resources_paths = function() {
+exports.set_paths = function() {
     var cfg_pth = exports.paths;
     var cfg_phy = exports.physics;
+
+    if (!is_built_in_data() && cfg_pth.shaders_dir == "")
+        cfg_pth.shaders_dir = js_src_dir() + "../shaders/";
+
     if (is_built_in_data()) {
         cfg_pth.smaa_search_texture_path = "smaa_search_texture.png";
         cfg_pth.smaa_area_texture_path = "smaa_area_texture.png";
     } else if (cfg_pth.smaa_search_texture_path == ""
-            || cfg_pth.smaa_area_texture_path == "" || cfg_phy.uranium_path == "") {
+            || cfg_pth.smaa_area_texture_path == "") {
+        var resources_dir = js_src_dir() + cfg_pth.resources_dir;
 
-        var src_path = null;
-
-        var scripts = document.getElementsByTagName('script');
-        for (var i = 0; i < scripts.length; i++) {
-            var src = scripts[i].src;
-
-            for (var j = 0; j < cfg_pth.resources_search_paths.length; j++) {
-                var script_path = cfg_pth.resources_search_paths[j];
-                if (src.indexOf(script_path) >= 0) {
-                    src_path = src;
-                    break;
-                }
-            }
-
-            if (src_path !== null)
-                break;
-        }
-
-        if (!src_path) {
-            m_print.warn("Couldn't determine path to ancillary resources, " + 
-                    "fallback to the current page directory");
-            src_path = document.location.href;
-        }
-
-        var index = src_path.indexOf("?");
-        if (index >= 0)
-            src_path = src_path.substring(0, index);
-
-        var js_src_dir = src_path.substring(0, src_path.lastIndexOf("/") + 1);
-        var resources_dir = js_src_dir + cfg_pth.resources_dir;
-
-        cfg_phy.uranium_path = cfg_phy.uranium_path || resources_dir + "uranium.js";
         cfg_pth.smaa_search_texture_path = cfg_pth.smaa_search_texture_path || 
                 resources_dir + "smaa_search_texture.png";
         cfg_pth.smaa_area_texture_path = cfg_pth.smaa_area_texture_path ||
                 resources_dir + "smaa_area_texture.png";
     }
+
+    if (cfg_phy.enabled && cfg_phy.uranium_path == "") {
+        var resources_dir = js_src_dir() + cfg_pth.resources_dir;
+        cfg_phy.uranium_path = resources_dir + "uranium.js";
+    }
+}
+
+/**
+ * Get path to the engine's source
+ */
+function js_src_dir() {
+    var cfg_pth = exports.paths;
+
+    var src_path = null;
+
+    var scripts = document.getElementsByTagName('script');
+    for (var i = 0; i < scripts.length; i++) {
+        var src = scripts[i].src;
+
+        for (var j = 0; j < cfg_pth.js_src_search_paths.length; j++) {
+            var script_path = cfg_pth.js_src_search_paths[j];
+            if (src.indexOf(script_path) >= 0) {
+                src_path = src;
+                break;
+            }
+        }
+
+        if (src_path !== null)
+            break;
+    }
+
+    if (!src_path) {
+        m_print.warn("Couldn't determine path to ancillary resources, " + 
+                "fallback to the current page directory");
+        src_path = document.location.href;
+    }
+
+    var index = src_path.indexOf("?");
+    if (index >= 0)
+        src_path = src_path.substring(0, index);
+
+    return src_path.substring(0, src_path.lastIndexOf("/") + 1);
 }
 
 exports.get_std_assets_path = function() {

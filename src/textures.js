@@ -289,7 +289,7 @@ exports.resize = function(texture, width, height) {
     }
 
     if (check_texture_size(width, height)) {
-        m_print.error("B4W warning: Slink texture \"" + texture.name + "\" has unsupported size");
+        m_print.error("Slink texture \"" + texture.name + "\" has unsupported size");
         return;
     }
 
@@ -376,7 +376,7 @@ function create_texture_bpy(bpy_texture, global_af, bpy_scenes) {
         return null;
 
     default:
-        m_print.error("B4W warning: texture \"" + bpy_texture["name"] +
+        m_print.error("texture \"" + bpy_texture["name"] +
             "\" has unsupported type \"" + tex_type + "\"");
         return null;
     }
@@ -547,7 +547,7 @@ exports.update_texture = function(texture, image_data, is_dds, filepath) {
         } else if (is_dds) {
             var dds_wh = m_dds.get_width_height(image_data);
             if(check_texture_size(dds_wh.width, dds_wh.height)) {
-                m_print.error("B4W warning: texture has unsupported size", filepath);
+                m_print.error("texture has unsupported size", filepath);
                 return;
             }
             m_dds.upload_dds_levels(_gl, extensions.get_s3tc(), image_data,
@@ -555,7 +555,7 @@ exports.update_texture = function(texture, image_data, is_dds, filepath) {
 
             if (is_non_power_of_two(dds_wh.width, dds_wh.height)) {
                 if (!texture.auxilary_texture)
-                    m_print.warn("B4W warning: using NPOT texture", filepath);
+                    m_print.warn("using NPOT texture", filepath);
                 prepare_npot_texture(w_target);
             }
 
@@ -567,7 +567,7 @@ exports.update_texture = function(texture, image_data, is_dds, filepath) {
             //_gl.pixelStorei(_gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);
 
             if(check_texture_size(image_data.width, image_data.height)) {
-                m_print.error("B4W warning: texture has unsupported size", filepath);
+                m_print.error("texture has unsupported size", filepath);
                 return;
             }
             if (texture.is_movie) {
@@ -616,9 +616,9 @@ exports.update_texture = function(texture, image_data, is_dds, filepath) {
             if (is_non_power_of_two(image_data.width, image_data.height)) {
                 if (!texture.auxilary_texture)
                     if (texture.is_movie)
-                        m_print.warn("B4W warning: using NPOT video texture", filepath);
+                        m_print.warn("using NPOT video texture", filepath);
                     else
-                        m_print.warn("B4W warning: using NPOT texture", filepath);
+                        m_print.warn("using NPOT texture", filepath);
                 prepare_npot_texture(w_target);
             } else
                 if (!texture.is_movie)
@@ -653,7 +653,7 @@ exports.update_texture = function(texture, image_data, is_dds, filepath) {
             var dim = image_data.width / 3;
 
             if (check_cube_map_size(dim,dim)) {
-                m_print.error("B4W warning: cubemap has unsupported size", filepath);
+                m_print.error("cubemap has unsupported size", filepath);
                 return;
             }
 
@@ -686,7 +686,7 @@ exports.update_texture = function(texture, image_data, is_dds, filepath) {
             texture.height = 2 * dim;
 
             if (is_non_power_of_two(image_data.width / 3, image_data.height / 2)) {
-                m_print.warn("B4W warning: using NPOT cube map texture", filepath);
+                m_print.warn("using NPOT cube map texture", filepath);
                 prepare_npot_texture(w_target);
             } else {
                 _gl.generateMipmap(w_target);

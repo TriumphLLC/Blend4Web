@@ -10,6 +10,7 @@ body {
     left: 0px;
     top: 0px;
     right: 0px;
+    overflow: hidden;
 }
 
 @media all and (min-width: 750px) {
@@ -111,6 +112,8 @@ span.info_corner_text {
 
 .text-wrapper {
     text-align: left;
+    display: inline-block;
+    width: 100%;
 }
 
 .text-wrapper * {

@@ -127,7 +127,7 @@ function prerender_bundle(bundle, subs) {
 
     obj_render.is_visible = true;
 
-    if (subs.type == "GLOW_MASK" && !Boolean(bundle.batch.glow_intensity)) {
+    if (subs.type == "GLOW_MASK" && !Boolean(obj_render.glow_intensity)) {
         bundle.do_render = false;
         return;
     }

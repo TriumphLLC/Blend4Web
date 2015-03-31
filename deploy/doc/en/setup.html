@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Development Environment Setup &mdash; User Manual: Blend4Web v15.02</title>
+    <title>Installing the SDK &mdash; User Manual: Blend4Web v15.03</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '15.02',
+        VERSION:     '15.03',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User Manual: Blend4Web v15.02" href="index.html" />
+    <link rel="top" title="User Manual: Blend4Web v15.03" href="index.html" />
     <link rel="next" title="Workflow" href="workflow.html" />
     <link rel="prev" title="Quick Install" href="first_steps.html" /> 
   </head>
@@ -36,7 +36,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">User Manual: Blend4Web v15.02</a></div>
+          href="index.html">User Manual: Blend4Web v15.03</a></div>
         <div class="rel">
           <a href="first_steps.html" title="Quick Install"
              accesskey="P">previous</a> |
@@ -57,20 +57,20 @@
           <div class="body">
             
   <div class="section" id="setup">
-<span id="id1"></span><h1>Development Environment Setup<a class="headerlink" href="#setup" title="Permalink to this headline">¶</a></h1>
+<span id="id1"></span><h1>Installing the SDK<a class="headerlink" href="#setup" title="Permalink to this headline">¶</a></h1>
 <p>Setting up the development environment suits 3D application developers. To familiarize yourself with the Blend4Web addon <a class="reference internal" href="first_steps.html#quick-install"><em>quick install</em></a> can be a better option.</p>
 <p>You will need the engine distribution, a WebGL-capable browser and Blender.</p>
 <div class="section" id="getting-started-distribution">
-<span id="id2"></span><h2>Distribution Installation<a class="headerlink" href="#getting-started-distribution" title="Permalink to this headline">¶</a></h2>
+<span id="id2"></span><h2>Unpacking the Distribution<a class="headerlink" href="#getting-started-distribution" title="Permalink to this headline">¶</a></h2>
 <p>Stable versions of the distribution are available as an archive (<tt class="docutils literal"><span class="pre">blend4web_sdk_free_YY_MM.zip</span></tt> &#8211; free SDK, <tt class="docutils literal"><span class="pre">blend4web_sdk_pro_YY_MM.zip</span></tt> &#8211; commercial SDK). Simply unpack this archive somewhere.</p>
 </div>
 <div class="section" id="getting-started-addon">
 <span id="index-0"></span><span id="id3"></span><h2>Setting up the Addon<a class="headerlink" href="#getting-started-addon" title="Permalink to this headline">¶</a></h2>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">It is recommended to remove the addon first if it was originally installed using <a class="reference internal" href="first_steps.html#quick-install"><em>quick install</em></a>.</p>
+<p class="last">We strongly recommend to remove the addon first if it was originally installed using <a class="reference internal" href="first_steps.html#quick-install"><em>quick install</em></a>.</p>
 </div>
-<p>Run Blender, load the default scene <tt class="file docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">New</span></tt> (hot keys <tt class="file docutils literal"><span class="pre">Ctrl-N</span></tt>). Open the user preferences window <tt class="file docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">User</span> <span class="pre">Preferences...</span></tt> (hot keys <tt class="file docutils literal"><span class="pre">Ctrl-Alt-U</span></tt>). Under the <tt class="file docutils literal"><span class="pre">File</span></tt> tab in the <tt class="file docutils literal"><span class="pre">Scripts</span></tt> field choose the path to the <tt class="file docutils literal"><span class="pre">blender_scripts</span></tt> directory.</p>
+<p>Run Blender, load the default scene <tt class="file docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">New</span></tt> (hot keys <tt class="file docutils literal"><span class="pre">Ctrl-N</span></tt>). Open the user preferences window <tt class="file docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">User</span> <span class="pre">Preferences...</span></tt> (hot keys <tt class="file docutils literal"><span class="pre">Ctrl-Alt-U</span></tt>). Under the <tt class="file docutils literal"><span class="pre">File</span></tt> tab in the <tt class="file docutils literal"><span class="pre">Scripts</span></tt> field, choose the path to the <tt class="file docutils literal"><span class="pre">blender_scripts</span></tt> directory.</p>
 <a class="reference internal image-reference" href="_images/user_preferences_scripts_path.jpg"><img alt="_images/user_preferences_scripts_path.jpg" class="align-center" src="_images/user_preferences_scripts_path.jpg" style="width: 100%;" /></a>
 <p>Click <tt class="file docutils literal"><span class="pre">Save</span> <span class="pre">User</span> <span class="pre">Settings</span></tt> and <strong>restart</strong> Blender.</p>
 <div class="admonition note">
@@ -95,7 +95,7 @@
 <div class="section" id="local-development-server">
 <span id="id4"></span><h2>Local Development Server<a class="headerlink" href="#local-development-server" title="Permalink to this headline">¶</a></h2>
 <p>To start the server, go to the <tt class="docutils literal"><span class="pre">Render</span></tt> tab and press the <tt class="docutils literal"><span class="pre">Start</span></tt> button on the <tt class="docutils literal"><span class="pre">Blend4Web</span></tt> panel:</p>
-<img alt="_images/start_serv.png" class="align-center" src="_images/start_serv.png" />
+<a class="reference internal image-reference" href="_images/start_serv.png"><img alt="_images/start_serv.png" class="align-center" src="_images/start_serv.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -109,7 +109,7 @@
 </div>
 </div>
 <p>Press the <tt class="docutils literal"><span class="pre">Open</span> <span class="pre">SDK</span></tt> button to open the index web page of the Blend4Web SDK in the browser. This page is available at <a class="reference external" href="http://localhost:6687">http://localhost:6687</a>.</p>
-<img alt="_images/stop_open.png" class="align-center" src="_images/stop_open.png" />
+<a class="reference internal image-reference" href="_images/stop_open.png"><img alt="_images/stop_open.png" class="align-center" src="_images/stop_open.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -125,7 +125,7 @@
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">If the SDK apps aren&#8217;t displayed correctly, or an error messages are shown, follow the instructions in the <a class="reference internal" href="problems_and_solutions.html#renderer-not-working"><em>Problems Upon Startup</em></a> section.</p>
+<p class="last">If the SDK apps are not displayed correctly, or error messages are shown, follow the instructions in the <a class="reference internal" href="problems_and_solutions.html#renderer-not-working"><em>Problems Upon Startup</em></a> section.</p>
 </div>
 </div>
 </div>
@@ -141,8 +141,8 @@
 <li class="toctree-l1"><a class="reference internal" href="about.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="features.html">Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="first_steps.html">Quick Install</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Development Environment Setup</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#getting-started-distribution">Distribution Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Installing the SDK</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#getting-started-distribution">Unpacking the Distribution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#getting-started-addon">Setting up the Addon</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#local-development-server">Local Development Server</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#getting-started-launching-viewer">Running Viewer and Demos</a></li>
@@ -204,7 +204,7 @@
           
     <div class="footer">
         &copy; Copyright 2015, Triumph LLC.
-      Last updated on 2015-02-25.
+      Last updated on 2015-03-26.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
         </div>

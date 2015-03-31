@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>For Engine Developers &mdash; User Manual: Blend4Web v15.02</title>
+    <title>For Engine Developers &mdash; User Manual: Blend4Web v15.03</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '15.02',
+        VERSION:     '15.03',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User Manual: Blend4Web v15.02" href="index.html" />
+    <link rel="top" title="User Manual: Blend4Web v15.03" href="index.html" />
     <link rel="next" title="Team Work. Using Git" href="git_short_manual.html" />
     <link rel="prev" title="For Application Developers" href="developers.html" /> 
   </head>
@@ -36,7 +36,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">User Manual: Blend4Web v15.02</a></div>
+          href="index.html">User Manual: Blend4Web v15.03</a></div>
         <div class="rel">
           <a href="developers.html" title="For Application Developers"
              accesskey="P">previous</a> |
@@ -200,73 +200,73 @@
 </td>
 </tr>
 <tr class="row-even"><td>Emscripten</td>
-<td><p class="first last">from the source code</p>
+<td><p class="first last"><a class="reference external" href="http://kripken.github.io/emscripten-site/docs/building_from_source/index.html">from EMSDK source code</a></p>
 </td>
 <td><p class="first last">building Uranium</p>
 </td>
 </tr>
-<tr class="row-odd"><td>LLVM, Clang</td>
-<td><p class="first last">from the source code</p>
-</td>
-<td><p class="first last">building Uranium</p>
-</td>
-</tr>
-<tr class="row-even"><td>ImageMagick, GraphicsMagick</td>
+<tr class="row-odd"><td>ImageMagick, GraphicsMagick</td>
 <td>imagemagick, graphicsmagick</td>
 <td><p class="first last">converting the resources</p>
 </td>
 </tr>
-<tr class="row-odd"><td>NVIDIA Texture Tools</td>
+<tr class="row-even"><td>NVIDIA Texture Tools</td>
 <td>libnvtt-bin</td>
 <td><p class="first last">converting the resources</p>
 </td>
 </tr>
-<tr class="row-even"><td>NVIDIA Cg Toolkit</td>
+<tr class="row-odd"><td>NVIDIA Cg Toolkit</td>
 <td>nvidia-cg-toolkit</td>
 <td><p class="first last">debugging shaders</p>
 </td>
 </tr>
-<tr class="row-odd"><td>Libav</td>
+<tr class="row-even"><td>Libav</td>
 <td>libav-tools</td>
 <td><p class="first last">converting the resources</p>
 </td>
 </tr>
-<tr class="row-even"><td>Gnuplot</td>
+<tr class="row-odd"><td>Gnuplot</td>
 <td>gnuplot</td>
 <td><p class="first last">debugging</p>
 </td>
 </tr>
-<tr class="row-odd"><td>Graphviz</td>
+<tr class="row-even"><td>Graphviz</td>
 <td>graphviz</td>
 <td><p class="first last">debugging</p>
 </td>
 </tr>
-<tr class="row-even"><td>xsel</td>
+<tr class="row-odd"><td>xsel</td>
 <td>xsel</td>
 <td><p class="first last">debugging</p>
 </td>
 </tr>
-<tr class="row-odd"><td>Sphinx</td>
+<tr class="row-even"><td>Sphinx</td>
 <td>sphinx-doc</td>
 <td><p class="first last">building the manual (HTML version)</p>
 </td>
 </tr>
-<tr class="row-even"><td>sphinx-intl</td>
+<tr class="row-odd"><td>sphinx-intl</td>
 <td><p class="first last">installed with PIP</p>
 </td>
 <td><p class="first last">building the manual (internationalization)</p>
 </td>
 </tr>
-<tr class="row-odd"><td>TeX Live</td>
+<tr class="row-even"><td>TeX Live</td>
 <td>texlive, texlive-latex-extra
 texlive-lang-cyrillic</td>
 <td><p class="first last">building the manual (PDF version)</p>
 </td>
 </tr>
-<tr class="row-even"><td>JSDoc 3</td>
-<td><p class="first last">from the source code</p>
+<tr class="row-odd"><td>JSDoc 3</td>
+<td><p class="first last"><a class="reference external" href="https://github.com/jsdoc3/jsdoc">from JSDoc source code</a></p>
 </td>
 <td><p class="first last">building the API documentation</p>
+</td>
+</tr>
+<tr class="row-even"><td>PEG.js</td>
+<td><p class="first last"><a class="reference external" href="http://pegjs.majda.cz/">from PEG.js source code</a></p>
+</td>
+<td><p class="first last">shader preprocessing</p>
 </td>
 </tr>
 </tbody>
@@ -367,7 +367,7 @@ texlive-lang-cyrillic</td>
 <p>Ids can be both variable names and function names. If there are no import/export directives it&#8217;s considered by default that the include file does not use external declarations and does not allow the using of internal ones.</p>
 </div>
 <div class="section" id="index-2">
-<span id="id11"></span><h3>Recommendations and limitations for obfuscation<a class="headerlink" href="#index-2" title="Permalink to this headline">¶</a></h3>
+<span id="id12"></span><h3>Recommendations and limitations for obfuscation<a class="headerlink" href="#index-2" title="Permalink to this headline">¶</a></h3>
 <p>Because of the following reasons: preprocessing, the need to process multiple shaders and include files and due to the obfuscator&#8217;s features - its possible to garantee the work of the output code only if a number of rules and limitations are respected relative to the shader source code.</p>
 <ol class="arabic simple">
 <li><p class="first">In order to describe constants which are defined by the engine at run, it&#8217;s neccessary to use the <tt class="docutils literal"><span class="pre">#var</span></tt> special directive. For example:</p>
@@ -431,7 +431,7 @@ texlive-lang-cyrillic</td>
 </div></blockquote>
 </div>
 <div class="section" id="index-4">
-<span id="id12"></span><h3>Obfuscation errors<a class="headerlink" href="#index-4" title="Permalink to this headline">¶</a></h3>
+<span id="id13"></span><h3>Obfuscation errors<a class="headerlink" href="#index-4" title="Permalink to this headline">¶</a></h3>
 <p>In case of an error the obfuscator will output the corresponding message into the console.</p>
 <p>Table of possible errors:</p>
 <table border="1" class="docutils">
@@ -565,7 +565,7 @@ FILE_NAME, but never used.</td>
 <li class="toctree-l1"><a class="reference internal" href="about.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="features.html">Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="first_steps.html">Quick Install</a></li>
-<li class="toctree-l1"><a class="reference internal" href="setup.html">Development Environment Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">Installing the SDK</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Workflow</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Scene Viewer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Web Player</a></li>
@@ -631,7 +631,7 @@ FILE_NAME, but never used.</td>
           
     <div class="footer">
         &copy; Copyright 2015, Triumph LLC.
-      Last updated on 2015-02-25.
+      Last updated on 2015-03-26.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
         </div>

@@ -18,6 +18,8 @@ var _timeline_epoch = 0;
 var _timeouts = [];
 var _timeout_counter = 0;
 
+var _animators = [];
+
 exports.set_timeline = function(timeline) {
     _timeline = timeline;                   // s
     _timeline_epoch = performance.now();    // ms
@@ -30,6 +32,21 @@ exports.set_timeline = function(timeline) {
             _timeouts.splice(i, 1);
             i--;
             timeout.callback();
+        }
+    }
+
+    for (var i = 0; i < _animators.length; i++) {
+        var animator = _animators[i];
+
+        var time_amount = 1 - (animator.expire_time - _timeline) / animator.duration;
+        time_amount = Math.min(time_amount, 1);
+
+        var value = animator.from + time_amount * (animator.to - animator.from);
+        animator.callback(value);
+
+        if (time_amount == 1) {
+            _animators.splice(i, 1);
+            i--;
         }
     }
 }
@@ -72,6 +89,24 @@ exports.clear_timeout = function(id) {
             break;
         }
     }
+}
+
+exports.animate = function(from, to, timeout, anim_cb) {
+
+    var duration = timeout / 1000;
+
+    var animator = {
+        //id: id,
+        callback: anim_cb,
+        from: from,
+        to: to,
+        expire_time: _timeline + duration,
+        duration: duration
+    }
+
+    _animators.push(animator);
+
+    anim_cb(from);
 }
 
 exports.reset = function(id) {

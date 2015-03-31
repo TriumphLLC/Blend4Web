@@ -513,7 +513,7 @@ function kill_character() {
     m_anim.play(_character_rig);
     m_anim.set_behavior(_character_rig, m_anim.AB_FINISH_STOP);
     m_phy.set_character_move_dir(_character, 0, 0);
-    m_ctl.remove_sensor_manifolds(_character);
+    m_ctl.remove_sensor_manifold(_character);
 }
 
 function detect_mobile() {

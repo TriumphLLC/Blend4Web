@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Animation &mdash; User Manual: Blend4Web v15.02</title>
+    <title>Animation &mdash; User Manual: Blend4Web v15.03</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '15.02',
+        VERSION:     '15.03',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User Manual: Blend4Web v15.02" href="index.html" />
+    <link rel="top" title="User Manual: Blend4Web v15.03" href="index.html" />
     <link rel="next" title="Outdoor Rendering" href="outdoor_rendering.html" />
     <link rel="prev" title="Particle System for Instancing Objects" href="particles_instancing.html" /> 
   </head>
@@ -36,7 +36,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">User Manual: Blend4Web v15.02</a></div>
+          href="index.html">User Manual: Blend4Web v15.03</a></div>
         <div class="rel">
           <a href="particles_instancing.html" title="Particle System for Instancing Objects"
              accesskey="P">previous</a> |
@@ -79,7 +79,7 @@
 <h2>Animation Control<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
 <p>There are two ways to control animation in the engine:</p>
 <ol class="arabic simple">
-<li><p class="first">Automatically, using the <tt class="docutils literal"><span class="pre">Animation:</span> <span class="pre">Use</span> <span class="pre">default</span></tt> and <tt class="docutils literal"><span class="pre">Animation:</span> <span class="pre">Cyclic</span></tt> checkboxes in the object&#8217;s properties. In this case an appropriate animation method will be chosen by the engine and the object&#8217;s animation playback will start just after a scene is loaded. In case of skeletal animation the action which is assigned to the object in the <tt class="docutils literal"><span class="pre">Action</span> <span class="pre">Editor</span></tt> window is played by default.</p>
+<li><p class="first">Automatically, using the <tt class="docutils literal"><span class="pre">Animation:</span> <span class="pre">Use</span> <span class="pre">default</span></tt> and <tt class="docutils literal"><span class="pre">Animation:</span> <span class="pre">Behaviour</span></tt> options in the object&#8217;s properties. In this case an appropriate animation method will be chosen by the engine and the object&#8217;s animation playback will start just after a scene is loaded. In case of skeletal animation the action which is assigned to the object in the <tt class="docutils literal"><span class="pre">Action</span> <span class="pre">Editor</span></tt> window is played by default.</p>
 </li>
 <li><p class="first">In an application via API using the <tt class="docutils literal"><span class="pre">animation</span></tt> module methods.</p>
 </li>
@@ -110,7 +110,7 @@
 <li><p class="first"><em>RotScale</em> &#8211; a combination of <em>Rotation</em> and <em>Scale</em>.</p>
 </li>
 </ul>
-<p>If an object-mesh is animated it is required to enable the <tt class="docutils literal"><span class="pre">Do</span> <span class="pre">not</span> <span class="pre">batch</span></tt> checkbox under the object properties tab.</p>
+<p>If an object-mesh is animated it is required to enable the <tt class="docutils literal"><span class="pre">Force</span> <span class="pre">Dynamic</span> <span class="pre">Object</span></tt> checkbox under the object properties tab.</p>
 </div>
 <div class="section" id="id4">
 <h2>Skinning and Skeletal Animation<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
@@ -199,7 +199,7 @@
 <li class="toctree-l1"><a class="reference internal" href="about.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="features.html">Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="first_steps.html">Quick Install</a></li>
-<li class="toctree-l1"><a class="reference internal" href="setup.html">Development Environment Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">Installing the SDK</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow.html">Workflow</a></li>
 <li class="toctree-l1"><a class="reference internal" href="viewer.html">Scene Viewer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="web_player.html">Web Player</a></li>
@@ -264,7 +264,7 @@
           
     <div class="footer">
         &copy; Copyright 2015, Triumph LLC.
-      Last updated on 2015-02-25.
+      Last updated on 2015-03-26.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
         </div>

@@ -17,7 +17,7 @@ function analyze_shaders(vshader, fshader) {
 
     var ext_ds = extensions.get_debug_shaders();
     if (!ext_ds) {
-        m_print.error("B4W Error: WEBGL_debug_shaders not found" +
+        m_print.error("WEBGL_debug_shaders not found" +
             " (run Chrome with --enable-privileged-webgl-extensions)");
         return;
     }

@@ -376,14 +376,6 @@ exports.get_sensor_value = m_ctl.get_sensor_value;
  */
 exports.get_sensor_payload = m_ctl.get_sensor_payload;
 
-
-exports.sensor_make_positive = function(sensor) {
-    throw "Deprecated method execution";
-}
-exports.sensor_make_negative = function(sensor) {
-    throw "Deprecated method execution";
-}
-
 /**
  * Create a sensor lock.
  * @method module:controls.create_sensor_lock
@@ -393,6 +385,7 @@ exports.sensor_make_negative = function(sensor) {
  * @deprecated Not necessary anymore
  */
 exports.create_sensor_lock = function(sensor, lock_sensors, lock_logic_fun) {
+    m_print.error("create_sensor_lock() deprecated");
     sensor.lock_sensors = lock_sensors.slice(0);
     // cache for logic function
     sensor.lock_sensor_values = new Array(lock_sensors.length);
@@ -405,6 +398,7 @@ exports.create_sensor_lock = function(sensor, lock_sensors, lock_logic_fun) {
  * @deprecated Not necessary anymore
  */
 exports.remove_sensor_lock = function(sensor) {
+    m_print.error("remove_sensor_lock() deprecated");
     sensor.lock_sensors = null;
     sensor.lock_sensor_values = null;
     sensor.lock_logic_fun = null;
@@ -494,9 +488,10 @@ exports.check_sensor_manifold = m_ctl.check_sensor_manifold;
  * Remove all sensor manifolds registered for the given object.
  * @method module:controls.remove_sensor_manifolds
  * @param {?Object} obj Object ID to delete manifolds from or null for global object
- * @deprecated Use remove_sensor_manifold with null manifold ID
+ * @deprecated Use remove_sensor_manifold with null manifold ID instead
  */
 exports.remove_sensor_manifolds = function(obj) {
+    m_print.error("remove_sensor_manifolds() deprecated, use remove_sensor_manifold() instead");
     m_ctl.remove_sensor_manifold(obj, null);
 }
 /**
@@ -510,7 +505,7 @@ exports.remove_sensor_manifold = m_ctl.remove_sensor_manifold;
 
 /**
  * Reset controls for all the objects.
- * Usage discouraged, use remove_sensor_manifold/remove_sensor_manifolds instead.
+ * Usage discouraged, use remove_sensor_manifold instead.
  * @method module:controls.reset
  */
 exports.reset = m_ctl.reset;
@@ -602,13 +597,13 @@ exports.unregister_touch_events = m_ctl.unregister_touch_events;
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Wed Feb 25 2015 10:34:05 GMT+0300 (MSK)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Thu Mar 26 2015 17:33:34 GMT+0300 (MSK)
 </footer>
 
 <script> prettyPrint(); </script>

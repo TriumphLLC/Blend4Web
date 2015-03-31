@@ -151,7 +151,7 @@ function init() {
     _filter_mag_arr = new Float32Array(_filter_freq_arr.length);
     _filter_phase_arr = new Float32Array(_filter_freq_arr.length);
 
-    var speakers = m_sfx.get_speakers();
+    var speakers = m_sfx.get_speaker_objects();
     if (!speakers.length)
         return;
 

@@ -177,7 +177,6 @@ function update_light_transform(obj) {
         return;
 
     m_util.quat_to_dir(obj._render.quat, m_util.AXIS_Y, light.direction);
-
 }
 
 }

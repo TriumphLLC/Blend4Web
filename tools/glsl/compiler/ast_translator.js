@@ -1,4 +1,5 @@
-var var_replacements = {}, directives = {}, node_directives = {}, data_to_remove = {}, last_offset = 0;
+var var_replacements = {}, directives = {}, node_directives = {}, 
+        lamp_directives = {}, data_to_remove = {}, last_offset = 0;
 
 var EMPTY_AST = -1;
 
@@ -8,6 +9,7 @@ exports.translate = function(ast) {
     text = remove_odd_data(text);
     text = return_vardef(text);
     text = return_nodes(text);
+    text = return_lamps(text);
     return text;
 }
 
@@ -22,7 +24,7 @@ function translation_unit(ast) {
 
         for (var i = 0; i < ast.length; i++) {
             var unit = ast[i];
-            text += external_declaration(unit.decl);
+            text += external_declaration(unit);
         }
     }
 
@@ -34,10 +36,22 @@ function translation_unit(ast) {
 function external_declaration(node) {
     var text = get_special_comments(node.offset);
 
-    switch(node.node) {
+    switch(node.decl.node) {
     case "function_definition":
-        text += function_definition(node);
+        text += function_definition(node.decl);
         break;
+    default:
+        text += declaration(node.decl);
+        break;
+    }
+   
+    return text;
+}
+
+function declaration(node) {
+    var text = get_special_comments(node.offset);
+
+    switch(node.node) {
     case "function_declaration":
         text += function_declarator(node.function);
         text += punctuation(node.punctuation.semicolon);
@@ -172,7 +186,7 @@ function statement_list(node) {
     var text = get_special_comments(node.offset);
 
     for (var i = 0; i < node.list.length; i++)
-        text += statement_no_new_scope(node.list[i].statement);
+        text += statement_no_new_scope(node.list[i]);
 
     return text;
 }
@@ -180,9 +194,9 @@ function statement_list(node) {
 function statement_with_scope(node) {
     var text = get_special_comments(node.offset);
 
-    switch(node.node) {
+    switch(node.statement.node) {
     case "compound_statement_no_new_scope":
-        text += compound_statement_no_new_scope(node);
+        text += compound_statement_no_new_scope(node.statement);
         break;
     case "simple_statement":
         text += simple_statement(node.statement);
@@ -194,9 +208,9 @@ function statement_with_scope(node) {
 function statement_no_new_scope(node) {
     var text = get_special_comments(node.offset);
 
-    switch(node.node) {
+    switch(node.statement.node) {
     case "compound_statement_with_scope":
-        text += compound_statement_with_scope(node);
+        text += compound_statement_with_scope(node.statement);
         break;
     case "simple_statement":
         text += simple_statement(node.statement);
@@ -208,31 +222,39 @@ function statement_no_new_scope(node) {
 function simple_statement(node) {
     var text = get_special_comments(node.offset);
 
-    switch(node.node) {
+    switch(node.statement.node) {
     case "declaration_statement":
         text += declaration_statement(node.statement);
         break;
     case "expression_statement":
-        if (node.statement)
-            text += expression(node.statement);
-        text += punctuation(node.punctuation.semicolon);
+        text += expression_statement(node.statement);
         break;
     case "selection_statement":
-        text += selection_statement(node);
+        text += selection_statement(node.statement);
         break;
     case "iteration_statement":
-        text += iteration_statement(node);
+        text += iteration_statement(node.statement);
         break;
     case "jump_statement":
-        text += jump_statement(node);
+        text += jump_statement(node.statement);
         break;
     }
 
     return text;
 }
 
+function expression_statement(node) {
+    var text = get_special_comments(node.offset);
+
+    if (node.statement)
+        text += expression(node.statement);
+    text += punctuation(node.punctuation.semicolon);
+
+    return text;
+}
+
 function declaration_statement(node) {
-    return external_declaration(node);
+    return declaration(node.statement);
 }
 
 function selection_statement(node) {
@@ -242,12 +264,12 @@ function selection_statement(node) {
     text += punctuation(node.punctuation.left_paren);
     text += expression(node.expression);
     text += punctuation(node.punctuation.right_paren);
-    text += statement_with_scope(node.if_actions.statement);
+    text += statement_with_scope(node.if_actions);
     if (node.else_actions) {
         text += keyword(node.keywords.key_else);
         if (node.else_actions.statement.node == "simple_statement")
             text += " ";
-        text += statement_with_scope(node.else_actions.statement);
+        text += statement_with_scope(node.else_actions);
     }
 
     return text;
@@ -268,7 +290,7 @@ function iteration_statement(node) {
             text += compound_statement_no_new_scope(node.body);
             break;
         case "simple_statement":
-            text += simple_statement(node.body.statement);
+            text += simple_statement(node.body);
             break;
         }
         break;
@@ -280,7 +302,7 @@ function iteration_statement(node) {
             text += compound_statement_no_new_scope(node.body);
             break;
         case "simple_statement":
-            text += " " + simple_statement(node.body.statement);
+            text += " " + simple_statement(node.body);
             break;
         }
         text += keyword(node.keywords.key_while);
@@ -301,7 +323,7 @@ function iteration_statement(node) {
             text += compound_statement_no_new_scope(node.body);
             break;
         case "simple_statement":
-            text += simple_statement(node.body.statement);
+            text += simple_statement(node.body);
             break;
         }
         break;
@@ -314,7 +336,6 @@ function jump_statement(node) {
     var text = get_special_comments(node.offset);
 
     text += keyword(node.type);
-
     if (node.returned_exp)
         text += " " + expression(node.returned_exp);
     text += punctuation(node.punctuation.semicolon);
@@ -324,26 +345,44 @@ function jump_statement(node) {
 function condition(node) {
     var text = get_special_comments(node.offset);
 
-    switch(node.node) {
-    case "condition":
-        text += fully_specified_type(node.id_type) + " " + identifier(node.identifier);
-        text += operation(node.operation);
-        text += initializer(node.initializer);
+    switch(node.condition.node) {
+    case "condition_initializer":
+        text += condition_initializer(node.condition);
         break;
-    default:
-        text += expression(node);
+    case "expression":
+        text += expression(node.condition);
+        break;
     }
 
     return text;
 }
 
+function condition_initializer(node) {
+    var text = get_special_comments(node.offset);
+
+    text += fully_specified_type(node.id_type) + " " + identifier(node.identifier);
+    text += operation(node.operation);
+    text += initializer(node.initializer);
+
+    return text;
+}
+
 function initializer(node) {
-    return expression(node);
+    return assignment_expression(node);
 }
 
 function for_init_statement(node) {
     var text = get_special_comments(node.offset);
-    text += simple_statement(node.statement);
+
+    switch (node.statement.node) {
+    case "declaration_statement":
+        text += declaration_statement(node.statement);
+        break;
+    case "expression_statement":
+        text += expression_statement(node.statement);
+        break;
+    }
+
     return text;
 }
 
@@ -376,14 +415,8 @@ function fully_specified_type(node) {
 function identifier(node) {
     var text = get_special_comments(node.offset);
 
-    switch(node.node) {
-    case "identifier":
-        text += node.name;
-        break;
-    case "keyword_node":
-        text += keyword(node);
-        break;
-    }
+    text += node.name;
+        
     return text;
 }
 
@@ -422,6 +455,7 @@ function parameter_type_specifier(node) {
 
 function type_qualifier(node) {
     var text = get_special_comments(node.offset);
+
     if (node.value instanceof Array)
         for (var i = 0; i < node.value.length; i++) {
             if (i > 0)
@@ -436,8 +470,7 @@ function type_qualifier(node) {
 
 function parameter_qualifier(node) {
     var text = get_special_comments(node.offset);
-    text += keyword(node.value);
-    return text;
+    return text + keyword(node.value);
 }
 
 function parameter_declarator(node) {
@@ -477,7 +510,7 @@ function type_specifier_no_prec(node) {
         text += keyword(node.name);
         break;
     case "struct_type":
-        text += identifier(node.name.identifier);
+        text += struct_type(node.name);
         break;
     case "struct_specifier":
         text += struct_specifier(node.name);
@@ -551,15 +584,24 @@ function constant_expression(node) {
 function conditional_expression(node) {
     var text = get_special_comments(node.offset);
 
+    text += exp_recursive_traverse(node.condition);
+
+    if (node.if_true !== null) {
+        text += punctuation(node.punctuation.question);
+        text += exp_recursive_traverse(node.if_true);
+        text += punctuation(node.punctuation.colon);
+        text += exp_recursive_traverse(node.if_false);
+    }
+
+    return text;
+
+}
+
+function exp_recursive_traverse(node) {
+    var text = "";
+
     switch (node.node) {
     // chainable expressions
-    case "conditional_expression":
-        text += conditional_expression(node.condition);
-        text += punctuation(node.punctuation.question);
-        text += expression(node.if_true);
-        text += punctuation(node.punctuation.colon);
-        text += expression(node.if_false);
-        break;
     case "logical_or_expression":
     case "logical_xor_expression":
     case "logical_and_expression":
@@ -571,28 +613,59 @@ function conditional_expression(node) {
     case "shift_expression":
     case "additive_expression":
     case "multiplicative_expression":
-        text += conditional_expression(node.left);
-        text += operation(node.operator);
-        text += conditional_expression(node.right);
+        text += exp_binary_common(node)
         break;
     // unary_expressions
     case "prefix_expression":
-        text += operation(node.operator);
-        text += conditional_expression(node.expression);
+        text += prefix_expression(node);
         break;
     case "postfix_expression":
-        text += conditional_expression(node.expression);
-        text += operation(node.operator);
+        text += postfix_expression(node);
         break;
     // primary_expression
     case "primary_expression":
-        text += primary_expression(node.expression);
+        text += primary_expression(node);
         break;
     // function_call
     case "function_call":
         text += function_call(node);
         break;
+    // other
+    case "expression":
+        text += expression(node);
+        break;
+    case "assignment_expression":
+        text += assignment_expression(node);
+        break;
     }
+
+    return text;
+}
+
+function exp_binary_common(node) {
+    var text = get_special_comments(node.offset);
+
+    text += exp_recursive_traverse(node.left);
+    text += operation(node.operator);
+    text += exp_recursive_traverse(node.right);
+
+    return text;
+}
+
+function prefix_expression(node) {
+    var text = get_special_comments(node.offset);
+
+    text += operation(node.operator);
+    text += exp_recursive_traverse(node.expression);
+
+    return text;
+}
+
+function postfix_expression(node) {
+    var text = get_special_comments(node.offset);
+
+    text += exp_recursive_traverse(node.expression);
+    text += operation(node.operator);
 
     return text;
 }
@@ -600,27 +673,43 @@ function conditional_expression(node) {
 function primary_expression(node) {
     var text = get_special_comments(node.offset);
     
-    switch(node.node) {
+    var exp = node.expression;
+    switch(exp.node) {
     case "float_constant":
     case "integer_constant":
     case "bool_constant":
-        text += node.value;
+        text += exp_constant(exp);
         break;
     case "identifier":
-        text += identifier(node);
+        text += identifier(exp);
         break;
     case "paren_expression":
-        text += punctuation(node.punctuation.left_paren);
-        text += expression(node.expression);
-        text += punctuation(node.punctuation.right_paren);
+        text += paren_expression(exp);
         break;
     }
 
     return text;
 }
 
+function exp_constant(node) {
+    var text = get_special_comments(node.offset);
+    return text + node.value;
+}
+
+function paren_expression(node) {
+    var text = get_special_comments(node.offset);
+
+    text += punctuation(node.punctuation.left_paren);
+    text += expression(node.expression);
+    text += punctuation(node.punctuation.right_paren);
+
+    return text;
+}
+
+
 function operation(node) {
     var text = get_special_comments(node.offset);
+
     switch(node.node) {
     case "operation_node":
         text += node.data;
@@ -640,23 +729,30 @@ function operation(node) {
 
 function expression(node) {
     var text = get_special_comments(node.offset);
+    for (var i = 0; i < node.list.length; i++) {
+        if (i > 0)
+            text += punctuation(node.list[i].punctuation.comma);
+        text += exp_recursive_traverse(node.list[i]);
+    }
 
-    switch(node.node) {
-    case "expression":
-        for (var i = 0; i < node.list.length; i++) {
-            if (i > 0)
-                text += punctuation(node.list[i].punctuation.comma);
-            text += expression(node.list[i]);
-        }
-        break;
-    case "assignment_expression":
+    return text;
+}
+
+function assignment_expression(node) {
+    var text = get_special_comments(node.offset);
+
+    switch (node.left.node) {
+    case "conditional_expression":
         text += conditional_expression(node.left);
-        text += operation(node.operator);
-        text += expression(node.right);
         break;
     default:
-        text += conditional_expression(node);
+        text += exp_recursive_traverse(node.left);
         break;
+    }
+
+    if (node.operator !== null) {
+        text += operation(node.operator);
+        text += assignment_expression(node.right);
     }
 
     return text;
@@ -665,28 +761,40 @@ function expression(node) {
 function function_call(node) {
     var text = get_special_comments(node.offset);
 
-    switch(node.identifier.name.node) {
-    case "struct_type":
-        text += identifier(node.identifier.name.identifier);
-        break;
-    case "keyword_node":
-        text += identifier(node.identifier.name);
-        break;
-    case "identifier":
-        text += identifier(node.identifier);
-        break;
-    }
+    text += function_identifier(node.identifier);
 
-    text += punctuation(node.identifier.punctuation.left_paren);
     for (var i = 0; i < node.parameters.length; i++) {
         if (i > 0)
             text += punctuation(node.parameters[i].punctuation.comma);
-        text += expression(node.parameters[i]);
+        text += assignment_expression(node.parameters[i]);
     }
 
     text += punctuation(node.punctuation.right_paren);
     
     return text;
+}
+
+function function_identifier(node) {
+    var text = get_special_comments(node.offset);
+
+    switch(node.name.node) {
+    // NOTE: every non-keyword function identifier (function call) was 
+    // harmlessly parsed as a struct_type (constructor call)
+    case "struct_type":
+        text += struct_type(node.name);
+        break;
+    case "keyword_node":
+        text += keyword(node.name);
+        break;
+    }
+    text += punctuation(node.punctuation.left_paren);
+
+    return text;
+}
+
+function struct_type(node) {
+    var text = get_special_comments(node.offset);
+    return text + identifier(node.identifier);
 }
 
 /*============================================================================
@@ -703,6 +811,7 @@ function get_special_comments(node_offset) {
 
         comments.push(get_comment(node_offset, directives, true, true));
         comments.push(get_comment(node_offset, node_directives, true, true));
+        comments.push(get_comment(node_offset, lamp_directives, true, true));
         comments.push(get_comment(node_offset, var_replacements, false, false));
         comments.push(get_comment(node_offset, data_to_remove, true, false));
 
@@ -745,6 +854,8 @@ function add_last_special_comments(text) {
         text += "\n" + directives[offset] + "\n";
     for (var offset in node_directives)
         text += "\n" + node_directives[offset] + "\n";
+    for (var offset in lamp_directives)
+        text += "\n" + lamp_directives[offset] + "\n";
 
     return text;
 }
@@ -774,6 +885,8 @@ function init_globals(ast) {
         directives = ast.dirs;
     if (ast.node_dirs)
         node_directives = ast.node_dirs;
+    if (ast.lamp_dirs)
+        lamp_directives = ast.lamp_dirs;
     if (ast.to_remove)
         data_to_remove = ast.to_remove;
 }
@@ -879,5 +992,57 @@ function return_nodes(text) {
     text = text.replace(expr, "#node $1");
     expr = /\/\*%endnode%\*\//gi;
     text = text.replace(expr, "#endnode");
+    return text;
+}
+
+function return_lamps(text) {
+    var lamp_tokens = {};
+
+    var expr_textlines = /\/\*%lamp_textline%(.*?)%\*\/((?:.|[\s\S])*?)\/\*%lamp_textline_end%(\d+)%\*\//g;
+
+    // get textline tokens
+    while ((res = expr_textlines.exec(text)) != null) {
+        var value = res[2];
+        var lamp_parent = res[1];
+        var offset = parseInt(res[3]);
+
+        if (!(lamp_parent in lamp_tokens))
+            lamp_tokens[lamp_parent] = [];
+        lamp_tokens[lamp_parent].push({
+            text: value.trim() + "\n",
+            offset: offset            
+        });
+    }
+
+    for (var i in lamp_tokens) 
+        lamp_tokens[i].sort( function(a, b) {
+            return a.offset - b.offset;
+        });
+
+    // remove textlines comments
+    text = text.replace(expr_textlines, "");
+
+    // return lamp textlines
+    for (var lamp_name in lamp_tokens) {
+        var expr_str = "(\\/\\*%lamp%" + lamp_name 
+                + "%\\*\\/)((?:.|[\\s\\S])*?)(\\/\\*%endlamp%\\*\\/)";
+        expr = new RegExp(expr_str, "im");
+
+        var lamps_str = "";
+        for (var i = 0; i < lamp_tokens[lamp_name].length; i++)
+            lamps_str += lamp_tokens[lamp_name][i].text;
+        var replacement = "$1$2" + lamps_str + "\n" + "$3";
+        text = text.replace(expr, replacement);
+    }
+
+    // return lamps_main directives after all lamp lines processed
+    expr = /\/\*%(lamps_main)%\*\/(?:.|[\s\S])*?\/\*%lamps_main_end%\*\//gi;
+    text = text.replace(expr, "#$1");
+    // return lamp, endlamp directives
+    expr = /\/\*%lamp%(.*?)%\*\//gi;
+    text = text.replace(expr, "#lamp $1");
+    expr = /\/\*%endlamp%\*\//gi;
+    text = text.replace(expr, "#endlamp");
+
     return text;
 }

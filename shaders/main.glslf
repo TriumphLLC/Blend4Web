@@ -42,9 +42,7 @@ uniform vec3  u_zenith_color;
 uniform vec3 u_light_positions[NUM_LIGHTS];
 uniform vec3 u_light_directions[NUM_LIGHTS];
 uniform vec3 u_light_color_intensities[NUM_LIGHTS];
-uniform vec4 u_light_factors1[NUM_LIGHTS];
-uniform vec4 u_light_factors2[NUM_LIGHTS];
-uniform int u_shadow_lamp_id;
+uniform vec4 u_light_factors[NUM_LFACTORS];
 # endif
 
 # if WATER_EFFECTS && CAUSTICS
@@ -451,8 +449,8 @@ void main(void) {
 # else
     lighting_result lresult = lighting(E, A, D, S, v_pos_world, normal, eye_dir,
         spec_params, u_diffuse_params, shadow_factor, u_light_positions,
-        u_light_directions, u_light_color_intensities, u_light_factors1,
-        u_light_factors2, 0.0, vec4(0.0), u_shadow_lamp_id);
+        u_light_directions, u_light_color_intensities, u_light_factors,
+        0.0, vec4(0.0));
 # endif
     vec3 color = lresult.color.rgb;
 #endif // SHADELESS

@@ -1,4 +1,5 @@
 # Blend4Web free SDK distribution list
+apps_dev/code_snippets
 apps_dev/flight
 apps_dev/gallery
 apps_dev/Makefile
@@ -10,7 +11,12 @@ apps_dev/webplayer
 csrc
 doc_src
 
+blender/code_snippets
 blender/dev/logo.blend
+blender/dev_misc/annotations.*
+blender/dev_misc/procedural_objects.*
+blender/dev_misc/surface_and_meta.*
+blender/dev_misc/text.*
 blender/dev_nla/camera_views.blend
 blender/dev_nla/nla_script*
 blender/dev_nla/nla_simple_cube.blend
@@ -24,12 +30,14 @@ blender/dev_physics/jumping.blend
 blender/dev_physics/rigid_body_joints.blend
 blender/dev_sound
 blender/flight_over_island
+blender/interactivity
 blender/new_year
 
 blender_scripts
 
 deploy/api_doc
 
+deploy/apps/code_snippets
 deploy/apps/common
 deploy/apps/flight
 deploy/apps/gallery
@@ -37,8 +45,15 @@ deploy/apps/new_year
 deploy/apps/viewer
 deploy/apps/webplayer
 
+deploy/assets/code_snippets
+deploy/assets/dev/fonts
 deploy/assets/dev/logo.*
 deploy/assets/dev/logo_norm.*
+deploy/assets/dev/matcaps
+deploy/assets/dev_misc/annotations.*
+deploy/assets/dev_misc/procedural_objects.*
+deploy/assets/dev_misc/surface_and_meta.*
+deploy/assets/dev_misc/text.*
 deploy/assets/dev_nla/camera_views.*
 deploy/assets/dev_nla/nla_script*
 deploy/assets/dev_nla/nla_simple_cube.*
@@ -58,7 +73,10 @@ deploy/assets/dev_physics/rigid_body_joints.bin
 deploy/assets/dev_physics/rigid_body_joints.json
 deploy/assets/dev_sound
 deploy/assets/flight_over_island
+deploy/assets/fridge/fruits/apple
+deploy/assets/fridge/fruits/pear
 deploy/assets/fridge/table_plane
+deploy/assets/interactivity
 deploy/assets/new_year
 deploy/assets/tutorials
 deploy/doc

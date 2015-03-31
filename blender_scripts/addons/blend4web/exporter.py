@@ -12,6 +12,7 @@ import time
 import cProfile
 import operator
 import webbrowser
+import re
 
 import blend4web
 
@@ -49,6 +50,9 @@ SUPPORTED_NODES = ["NodeFrame", "ShaderNodeMaterial", "ShaderNodeCameraData", \
         "ShaderNodeSqueeze", "ShaderNodeSeparateRGB", "ShaderNodeCombineRGB", \
         "ShaderNodeSeparateHSV", "ShaderNodeCombineHSV", \
         "NodeReroute", "ShaderNodeGroup", "NodeGroupInput", "NodeGroupOutput"]
+
+PARALLAX_HEIGHT_MAP_INPUT_NAME = "Height Map"
+PARALLAX_HEIGHT_MAP_INPUT_NODE = "ShaderNodeTexture"
 
 # globals
 
@@ -492,6 +496,9 @@ def get_obj_data(obj, scene):
                         data.vertex_colors[i].name = obj.data.vertex_colors[i].name
 
                 _overrided_meshes.append(data)
+
+                # parsing needed even if the original mesh is shareable
+                data["export_done"] = False
         else:
             data = obj.data
 
@@ -585,6 +592,9 @@ def process_components(tags):
             process_scene(scene)
             _additional_scene_objects = []
 
+    if not _export_data["scenes"]:
+        raise FileError("No exported scene found. Can't perform export.")
+
     check_shared_data(_export_data)
 
     for action in getattr(bpy.data, "actions"):
@@ -634,6 +644,21 @@ def process_action(action):
         is_location = data_path.find("location") > -1
         is_rotation_quat = data_path.find("rotation_quaternion") > -1
         is_rotation_euler = data_path.find("rotation_euler") > -1
+        is_node = data_path.find("nodes") == 0
+
+        num_channels = 1
+        if is_scale or is_location or is_rotation_quat or is_rotation_euler:
+            num_channels = 8
+        elif is_node:
+            num_channels_mat = get_mat_action_num_channels(action, data_path)
+
+            if num_channels_mat != None:
+                num_channels = num_channels_mat
+            else:
+                num_channels_ngroups = get_ngroups_action_num_channels(action,
+                                                                      data_path)
+                if num_channels_ngroups != None:
+                    num_channels = num_channels_ngroups
 
         for index in fc_indices[data_path]:
             if data_path not in act_data["fcurves"]:
@@ -647,6 +672,7 @@ def process_action(action):
             # rotate by 90 degrees around x-axis to match standard OpenGL for
             # location and rotation, see pose section for detailed math
             array_index = fcurve_array_index = fcurve.array_index
+
             if is_scale:
                 array_index = 0
             elif is_location or is_rotation_euler: # x y z
@@ -655,6 +681,9 @@ def process_action(action):
             elif is_rotation_quat: # w x y z
                 if fcurve_array_index == 2: array_index = 3
                 elif fcurve_array_index == 3: array_index = 2
+            elif is_node and array_index == num_channels:
+                # Do not export alpha channel for RGB nodes
+                break
 
             keyframes_data = []
             previous = None # init variable
@@ -723,6 +752,8 @@ def process_action(action):
             act_data["fcurves"][data_path][array_index]["last_frame_offset"] \
                     = last_frame_offset
 
+            act_data["fcurves"][data_path][array_index]["num_channels"] = num_channels
+
             _bpy_bindata_float.extend(keyframes_data_bin)
 
     if has_decimal_frames:
@@ -732,6 +763,48 @@ def process_action(action):
     _export_data["actions"].append(act_data)
     _export_uuid_cache[act_data["uuid"]] = act_data
     _bpy_uuid_cache[act_data["uuid"]] = action
+
+def get_mat_action_num_channels(action, data_path):
+    mats = bpy.data.materials
+    for mat in mats:
+        node_tree = mat.node_tree
+        if not node_tree:
+            continue
+        num_channels_mat = num_node_channels(action.name, node_tree,
+                                         data_path)
+        if num_channels_mat:
+            return num_channels_mat
+    return None
+
+def get_ngroups_action_num_channels(action, data_path):
+    ngroups = bpy.data.node_groups
+    for ntree in ngroups:
+        num_channels_ngroup = num_node_channels(action.name, ntree,
+                                                data_path)
+        if num_channels_ngroup:
+            return num_channels_ngroup
+    return None
+
+def num_node_channels(action_name, node_tree, data_path):
+    anim_data = node_tree.animation_data
+    if not anim_data:
+        return None
+
+    node_action = anim_data.action
+    if node_action:
+        if node_action.name == action_name:
+            pattern = r'"([^"]*)"'
+            matched = re.search(pattern, data_path)
+            if matched:
+                node_name = matched.groups()[0]
+                for node in node_tree.nodes:
+                    if node.name == node_name:
+                        if node.type == "RGB":
+                            return 3
+                        else:
+                            return 1
+
+    return None
 
 def process_scene(scene):
     if "export_done" in scene and scene["export_done"]:
@@ -1221,15 +1294,23 @@ def process_object(obj, is_curve=False):
 
     obj_data["scale"] = round_iterable([sca[0], sca[2], sca[1]], 5)
 
-    tags = obj.b4w_object_tags
-
     if obj.b4w_enable_object_tags:
+        tags = obj.b4w_object_tags
         odt = obj_data["b4w_object_tags"] = OrderedDict()
         odt["title"] = tags.title
         odt["description"] = tags.description
         odt["category"] = tags.category
     else:
         obj_data["b4w_object_tags"] = None
+
+    if obj.b4w_enable_anchor:
+        anchor = obj.b4w_anchor
+        odt = obj_data["b4w_anchor"] = OrderedDict()
+        odt["type"] = anchor.type
+        odt["detect_visibility"] = anchor.detect_visibility
+        odt["element_id"] = anchor.element_id
+    else:
+        obj_data["b4w_anchor"] = None
 
     _export_data["objects"].append(obj_data)
     _export_uuid_cache[obj_data["uuid"]] = obj_data
@@ -3246,12 +3327,24 @@ def process_node_tree(data, tree_source):
                 raise MaterialError("Wrong vertex color layer is used in node \"GEOMETRY\".")
 
         if node.type == "GROUP":
-            if node.node_tree.name == "REFRACTION":
+            if node.node_tree.name == "B4W_REFRACTION" or node.node_tree.name == "REFRACTION":
                 # NOTE: don't rely on "b4w_render_refractions" scene property here
                 # because it may lead to rendering errors
                 curr_alpha_blend = _curr_material_stack[-1].game_settings.alpha_blend
                 if curr_alpha_blend == "OPAQUE" or curr_alpha_blend == "CLIP":
-                    raise MaterialError("Using \"REFRACTION\" node with incorrect type of Alpha Blend.")
+                    raise MaterialError("Using B4W_REFRACTION node \"" + node.name 
+                            + "\" with incorrect type of Alpha Blend.")
+
+            if node.node_tree.name == "B4W_PARALLAX" or node.node_tree.name == "PARALLAX":
+                for inp in node.inputs:
+                    if inp.name == PARALLAX_HEIGHT_MAP_INPUT_NAME:
+                        if (not len(inp.links) or inp.links[0].from_node.bl_idname 
+                                != PARALLAX_HEIGHT_MAP_INPUT_NODE or inp.links[0].from_node.texture is None):
+                            raise MaterialError("Wrong \"Height Map\" input " + 
+                                    "for the \"" + node.name + "\" B4W_PARALLAX node. " +  
+                                    "Only link from the TEXTURE node with a non-empty texture is allowed.")
+                        break
+
 
             node_data["node_tree_name"] = node.node_tree.name
             node_data["node_group"] = gen_uuid_obj(node.node_tree)
@@ -3339,6 +3432,9 @@ def process_node_tree(data, tree_source):
     # node tree links
     dct["links"] = []
     for link in node_tree.links:
+        if not link.is_valid:
+            raise MaterialError("Invalid link found in node material.")
+
         link_data = OrderedDict()
 
         # name is unique identifier here

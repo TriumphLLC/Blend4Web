@@ -28,6 +28,7 @@ GroupPart
   / ControlLine
   / Nodes
   / TextLine
+  / Lamp
 
 IfSection
   = ifgroup:IfGroup __ elifgroups:ElIfGroup* __ elsegroup:ElseGroup? __ EndIfLine {
@@ -373,14 +374,42 @@ NodesMainLine
       }
     }
 
-
-
 TextLine
   = tokens:Tokens {
        return {
          type: "textline",
          tokens: tokens
        }
+    }
+
+Lamp = lampgroup:LampLine __ EndLampLine {
+      return lampgroup;
+    }
+    / LampsMainLine
+
+LampLine
+  = "#" _ "lamp" MSS name:Identifier _ LineTerminatorSequence __ stat:(NodeStatement __)* {
+
+      var statements = [];
+      for (var i = 0; i < stat.length; i++)
+        statements.push(stat[i][0]);
+
+      return {
+        type: "lamp",
+        name: name,
+        statements: statements
+      };
+    }
+
+EndLampLine
+  // conserning ? sign see EndIfLine
+  = "#" _ "endlamp" _ LineTerminatorSequenceEOF?
+
+LampsMainLine
+  = "#" _ "lamps_main" _ LineTerminatorSequenceEOF {
+      return {
+        type: "lamps_main"
+      }
     }
 
 Tokens

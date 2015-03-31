@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Текстуры &mdash; Руководство пользователя: Blend4Web v15.02</title>
+    <title>Текстуры &mdash; Руководство пользователя: Blend4Web v15.03</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '15.02',
+        VERSION:     '15.03',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v15.02" href="index.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v15.03" href="index.html" />
     <link rel="next" title="Нодовые материалы" href="node_materials.html" />
     <link rel="prev" title="Материалы" href="materials.html" /> 
   </head>
@@ -37,7 +37,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">Руководство пользователя: Blend4Web v15.02</a></div>
+          href="index.html">Руководство пользователя: Blend4Web v15.03</a></div>
         <div class="rel">
           <a href="materials.html" title="Материалы"
              accesskey="P">назад</a> |
@@ -131,19 +131,19 @@
 <dd>Не поддерживается.</dd>
 <dt><em>Mapping &gt; Size</em></dt>
 <dd>Масштабирование развертки по соответствующим осям. Значения по умолчанию 1.0.</dd>
-<dt><em>Blend4Web &gt; Do not export</em></dt>
-<dd>Не экспортировать текстуру. По умолчанию отключено.</dd>
+<dt><em>Blend4Web &gt; Do Not Export</em></dt>
+<dd>Не экспортировать текстуру.</dd>
 <dt><em>Blend4Web &gt; Anisotropic Filtering</em></dt>
 <dd>Фактор анизотропной фильтрации для индивидуальной текстуры. Имеет приоритет перед аналогичной настройкой для сцены. Значение по умолчанию <tt class="docutils literal"><span class="pre">DEFAULT</span></tt> (т.е. использовать настройки сцены).</dd>
-<dt><em>Blend4Web &gt; UV translation velocity</em></dt>
-<dd><p class="first">Скорость анимации текстурных координат по соответствующим осям. Значения по умолчанию 0.0.</p>
-<div class="last deprecated">
-<p><span class="versionmodified">Не рекомендуется, начиная с версии 14.10: </span>указанная функциональность может быть реализована в нодовых материалах с помощью ноды TIME.</p>
-</div>
-</dd>
 <dt><em>Blend4Web &gt; Water Foam</em></dt>
 <dd>Текстура пены. Используется материалом для рендеринга воды.</dd>
+<dt><em>Blend4Web &gt; Disable Compression</em></dt>
+<dd>Отключить использование текстурной компрессии для данной текстуры. Применяется в случае, когда компрессия приводит к ухудшению качества изображения. В частности, рекомендуется отключать для текстур-масок, использующихся для смешивания различных характеристик материалов.</dd>
 </dl>
+<div class="admonition note">
+<p class="first admonition-title">Примечание</p>
+<p class="last">Для карт нормалей текстурная компрессия не применяется.</p>
+</div>
 <span class="target" id="diffuse-map"></span></div>
 <div class="section" id="index-4">
 <span id="id4"></span><h2>Диффузная текстура (diffuse map)<a class="headerlink" href="#index-4" title="Ссылка на этот заголовок">¶</a></h2>
@@ -257,7 +257,21 @@
 <p class="last">Видеотекстура поддерживает только воспроизведение видеоряда. Звуковое сопровождение следует накладывать, используя объект типа <tt class="docutils literal"><span class="pre">SPEAKER</span></tt>.</p>
 </div>
 <div class="section" id="id21">
-<h3>Настройка текстуры<a class="headerlink" href="#id21" title="Ссылка на этот заголовок">¶</a></h3>
+<h3>Поддерживаемые форматы (контейнеры):<a class="headerlink" href="#id21" title="Ссылка на этот заголовок">¶</a></h3>
+<ul class="simple">
+<li>webm, кодек VP8 (Chrome, Firefox)</li>
+<li>m4v, кодек H.264 (Chrome, Safari, IE)</li>
+<li>ogv, кодек Theora (Chrome, Firefox)</li>
+</ul>
+<p>В качестве базового формата рекомендуется использовать <em>WebM</em>, который является открытым стандартом, поддерживается многими браузерами, обеспечивает хорошее качество изображения.</p>
+<div class="admonition note">
+<p class="first admonition-title">Примечание</p>
+<p class="last">Файлы в форматах mp4 и ogg имеют различное расширение для звуковой и видео-информации: расширения <em>.mp4</em> и <em>.ogg</em> используются для звуков, <em>.m4v</em> и <em>.ogv</em> - для видео.</p>
+</div>
+<p>Конвертация ресурсов в различные форматы описывается в <a class="reference internal" href="developers.html#converter"><em>соответствующем разделе</em></a>.</p>
+</div>
+<div class="section" id="id22">
+<h3>Настройка текстуры<a class="headerlink" href="#id22" title="Ссылка на этот заголовок">¶</a></h3>
 <p>При использовании видео-текстуры можно настроить следующие опции на панели <tt class="docutils literal"><span class="pre">Texture</span> <span class="pre">&gt;</span> <span class="pre">Image</span></tt>:</p>
 <dl class="docutils">
 <dt><em>Image &gt; Frames</em></dt>
@@ -266,7 +280,7 @@
 <dd>Задержка воспроизведения видеозаписи в кадрах при использовании нелинейной анимации (опция <tt class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Use</span> <span class="pre">NLA</span></tt>).</dd>
 <dt><em>Image &gt; Offset</em></dt>
 <dd>Номер кадра, с которого будет начинаться воспроизведение видеозаписи.</dd>
-<dt><em>Image &gt; Auto refresh</em></dt>
+<dt><em>Image &gt; Auto Refresh</em></dt>
 <dd>Воспроизводить видеозапись сразу после загрузки. Не актуальна при использовании нелинейной анимации: воспроизведение видео определяется остальными параметрами.</dd>
 <dt><em>Image &gt; Cyclic</em></dt>
 <dd>Начинать воспроизводить видеозапись заново каждый раз после ее завершения.</dd>
@@ -278,8 +292,8 @@
 <p>Существует возможность ускоренного воспроизведения видеозаписей. Для этого необходимо задать значение свойства <tt class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">Dimensions</span> <span class="pre">&gt;</span> <span class="pre">Frame</span> <span class="pre">rate</span></tt> отличным от значения fps (кадров в секунду) для видеозаписи. При этом скорость воспроизведения видеозаписи расчитывается как отношение Frame rate сцены к fps видеозаписи.</p>
 <img alt="_images/fps.jpg" class="align-center" src="_images/fps.jpg" />
 </div>
-<div class="section" id="id22">
-<h3>Особенности работы на мобильных устройствах<a class="headerlink" href="#id22" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id23">
+<h3>Особенности работы на мобильных устройствах<a class="headerlink" href="#id23" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Присутствуют следующие особенности реализации на мобильных устройствах:</p>
 <ol class="arabic simple">
 <li>на iPhone используется специально разработанный видеоформат <tt class="docutils literal"><span class="pre">.seq</span></tt>, потому что данное устройство открывает все стандартные видеозаписи через свой видеопроигрыватель. Видео надо сконвертировать заранее, используя <a class="reference internal" href="developers.html#converter"><em>наш конвертер</em></a>.</li>
@@ -291,13 +305,13 @@
 <span class="target" id="environment-map"></span></div>
 </div>
 <div class="section" id="index-9">
-<span id="id23"></span><h2>Карта окружения (environment map)<a class="headerlink" href="#index-9" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="id24"></span><h2>Карта окружения (environment map)<a class="headerlink" href="#index-9" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Применяется в качестве <a class="reference internal" href="#mirror-map"><em>карты зеркального отражения (mirror map)</em></a>, в качестве статической <a class="reference internal" href="#skydome-texture"><em>текстуры неба (skydome)</em></a>, а также для реализации одной из методик <a class="reference internal" href="lighting.html#environment-lighting"><em>освещения от окружающей среды</em></a>.</p>
 <p>В движке представлена кубической текстурой. Растры для карт окружения должны содержать 6 спроецированных изображений окружающей среды, упакованных в 2 ряда по 3 (формат, используемый в Blender&#8217;e). Размер растров для каждого из изображений должен подчиняться правилу 2<sup>N</sup> (512, 1024 и т.п.).</p>
 <p>Во избежание проявления швов рекомендуется использовать формат без потери качества (PNG).</p>
 <a class="reference internal image-reference" href="_images/environment_map.png"><img alt="_images/environment_map.png" class="align-center" src="_images/environment_map.png" style="width: 100%;" /></a>
-<div class="section" id="id24">
-<h3>Создание карты окружения<a class="headerlink" href="#id24" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id25">
+<h3>Создание карты окружения<a class="headerlink" href="#id25" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Blender позволяет запекать сцену в карту окружения. Для этого:</p>
 <ol class="arabic simple">
 <li>Создать сцену для запекания.</li>
@@ -315,14 +329,14 @@
 </div>
 </div>
 <div class="section" id="mirror-map">
-<span id="index-10"></span><span id="id25"></span><h2>Карта зеркального отражения (mirror map)<a class="headerlink" href="#mirror-map" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="index-10"></span><span id="id26"></span><h2>Карта зеркального отражения (mirror map)<a class="headerlink" href="#mirror-map" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Применяется для визуализации отражающей способности поверхности. Представляет собой <a class="reference internal" href="#environment-map"><em>карту окружения</em></a>.</p>
-<div class="section" id="id26">
-<h3>Активация<a class="headerlink" href="#id26" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id27">
+<h3>Активация<a class="headerlink" href="#id27" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Выбрать тип текстуры (<tt class="docutils literal"><span class="pre">Type</span></tt>) <tt class="docutils literal"><span class="pre">Environment</span> <span class="pre">Map</span></tt>. Выставить опцию <tt class="docutils literal"><span class="pre">Shading</span> <span class="pre">&gt;</span> <span class="pre">Mirror</span></tt> на панели <tt class="docutils literal"><span class="pre">Textures</span> <span class="pre">&gt;</span> <span class="pre">Influence</span></tt>.</p>
 </div>
-<div class="section" id="id27">
-<h3>Дополнительные настройки<a class="headerlink" href="#id27" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id28">
+<h3>Дополнительные настройки<a class="headerlink" href="#id28" title="Ссылка на этот заголовок">¶</a></h3>
 <dl class="docutils">
 <dt><em>Influence &gt; Shading &gt; Mirror</em></dt>
 <dd>Степень влияния карты зеркального отражения. Значение по умолчанию 1.0.</dd>
@@ -337,8 +351,8 @@
 <span id="skydome-texture"></span><span id="index-11"></span><h2>Текстура неба (skydome)<a class="headerlink" href="#skydome" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Применяется для визуализации бесконечно удаленного окружения (например, небесного свода). Представляет собой <a class="reference internal" href="#environment-map"><em>карту окружения</em></a>.</p>
 <p>Также может применяться для реализации одной из методик <a class="reference internal" href="lighting.html#environment-lighting"><em>освещения от окружающей среды</em></a>.</p>
-<div class="section" id="id28">
-<h3>Активация<a class="headerlink" href="#id28" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="id29">
+<h3>Активация<a class="headerlink" href="#id29" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Создать текстуру мира (world texture) с типом &#8220;Environment Map&#8221;. Выбрать опцию <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Sky</span> <span class="pre">texture</span> <span class="pre">usage</span> <span class="pre">&gt;</span> <span class="pre">SKYDOME</span></tt>.</p>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
@@ -352,7 +366,7 @@
 </div>
 </div>
 <div class="section" id="index-12">
-<span id="id29"></span><h2>Особые типы текстур<a class="headerlink" href="#index-12" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="id30"></span><h2>Особые типы текстур<a class="headerlink" href="#index-12" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Для использования особых типов текстур необходимо выставить тип текстуры <tt class="docutils literal"><span class="pre">None</span></tt> на панели <tt class="docutils literal"><span class="pre">Textures</span></tt>.</p>
 <img alt="_images/type_none.jpg" class="align-center" src="_images/type_none.jpg" />
 <div class="line-block">
@@ -360,15 +374,15 @@
 </div>
 <p>В меню <tt class="docutils literal"><span class="pre">Textures</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span></tt> имеется возможность задать основные свойства для данного типа текстуры:</p>
 <dl class="docutils">
-<dt><em>Blend4Web &gt; Source type</em></dt>
+<dt><em>Blend4Web &gt; Source Type</em></dt>
 <dd>Выбор особого типа текстуры: <tt class="docutils literal"><span class="pre">Scene</span></tt> - для рендеринга 3D сцены в текстуру, <tt class="docutils literal"><span class="pre">Canvas</span></tt> - использование HTML-элемента &lt;canvas&gt; и <tt class="docutils literal"><span class="pre">None</span></tt> - отсутствие текстуры.</dd>
-<dt><em>Blend4Web &gt; Source id</em></dt>
+<dt><em>Blend4Web &gt; Source ID</em></dt>
 <dd>Имя сцены, которая будет отображена в текстуре, в случае 3D сцены либо идентификатор HTML-элемента &lt;canvas&gt; в случае Canvas-текстуры.</dd>
-<dt><em>Blend4Web &gt; Source size</em></dt>
+<dt><em>Blend4Web &gt; Source Size</em></dt>
 <dd>Разрешение текстуры.</dd>
 <dt><em>Blend4Web &gt; Extension</em></dt>
 <dd><a class="reference internal" href="#texture-extension"><em>Режим интерпретации текстурных координат</em></a>. Значение по умолчанию <tt class="docutils literal"><span class="pre">Repeat</span></tt>.</dd>
-<dt><em>Blend4Web &gt; Enable mipmapping</em></dt>
+<dt><em>Blend4Web &gt; Enable Mipmapping</em></dt>
 <dd>Включение MIP-текстурирования для Canvas-текстуры. По умолчанию включено.</dd>
 </dl>
 <img alt="_images/canvas_tex.jpg" class="align-center" src="_images/canvas_tex.jpg" />
@@ -471,7 +485,7 @@
           
     <div class="footer">
         &copy; Copyright 2015, ООО &#34;Триумф&#34;.
-      Обновлено: 2015-02-25.
+      Обновлено: 2015-03-26.
       Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
         </div>

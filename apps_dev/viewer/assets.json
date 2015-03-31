@@ -77,6 +77,19 @@
         ]
     },
     {
+        "name": "Interactivity",
+        "items": [
+            {
+                "name": "Solar system Ru",
+                "load_file": "interactivity/solar_system/solar_system_ru.json"
+            },
+            {
+                "name": "Solar system En",
+                "load_file": "interactivity/solar_system/solar_system_en.json"
+            }
+        ]
+    },
+    {
         "name": "New Year",
         "items": [
             {
@@ -170,6 +183,27 @@
             {
                 "name": "Camera Views",
                 "load_file": "dev_nla/camera_views.json"
+            }
+        ]
+    },
+    {
+        "name": "Dev - Misc",
+        "items": [
+            {
+                "name": "Procedural Objects",
+                "load_file": "dev_misc/procedural_objects.json"
+            },
+            {
+                "name": "Text",
+                "load_file": "dev_misc/text.json"
+            },
+            {
+                "name": "Surface and Metaball",
+                "load_file": "dev_misc/surface_and_meta.json"
+            },
+            {
+                "name": "Annotations",
+                "load_file": "dev_misc/annotations.json"
             }
         ]
     },

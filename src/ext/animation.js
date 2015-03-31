@@ -29,7 +29,6 @@ exports.OBJ_ANIM_TYPE_VERTEX    = m_anim.OBJ_ANIM_TYPE_VERTEX;
 exports.OBJ_ANIM_TYPE_SOUND     = m_anim.OBJ_ANIM_TYPE_SOUND;
 exports.OBJ_ANIM_TYPE_PARTICLES = m_anim.OBJ_ANIM_TYPE_PARTICLES;
 exports.OBJ_ANIM_TYPE_MATERIAL  = m_anim.OBJ_ANIM_TYPE_MATERIAL;
-exports.OBJ_ANIM_TYPE_STATIC    = m_anim.OBJ_ANIM_TYPE_STATIC;
 
 /**
  * Animation behavior: cyclic.
@@ -62,9 +61,10 @@ exports.is_animated = function(obj) {
  * Return all available animation names
  * @method module:animation.get_actions
  * @returns {Array} Animation names.
- * @deprecated Use get_anim_names()
+ * @deprecated Use get_anim_names() instead
  */
 exports.get_actions = function() {
+    m_print.error("get_actions() deprecated, use get_anim_names() instead");
     var anames = [];
     var actions = m_anim.get_all_actions();
     for (var i = 0; i < actions.length; i++)
@@ -78,9 +78,10 @@ exports.get_actions = function() {
  * @method module:animation.get_current_action
  * @param {Object} obj Object ID
  * @param {Number} [slot_num = SLOT_0] Animation slot number
- * @deprecated Use get_current_anim_name()
+ * @deprecated Use get_current_anim_name() instead
  */
 exports.get_current_action = function(obj, slot_num) {
+    m_print.error("get_current_action() deprecated, use get_current_anim_name() instead");
     return exports.get_current_anim_name(obj, slot_num);
 }
 
@@ -136,6 +137,11 @@ exports.apply = function(obj, name, slot_num) {
                           "\" (slot \"" + applied_slot + "\").");
             return;
         }
+    }
+
+    if (!m_anim.validate_action_by_name(obj, name)) {
+        m_print.error("No fcurves in action \"" + name + "\"");
+        return;
     }
 
     m_anim.apply(obj, name, slot_num);
@@ -221,18 +227,20 @@ exports.is_play = function(obj, slot_num) {
  * @param {Object} obj Object ID
  * @param {Number} cff Current frame
  * @param {Number} [slot_num = SLOT_0] Animation slot number
- * @deprecated Replaced by set_frame
+ * @deprecated Use set_frame() instead
  */
 exports.set_current_frame_float = function(obj, cff, slot_num) {
+    m_print.error("set_current_frame_float() deprecated, use set_frame() instead");
     exports.set_frame(obj, cff, slot_num);
 }
 /**
  * @method module:animation.get_current_frame_float
  * @param {Object} obj Object ID
  * @param {Number} [slot_num = SLOT_0] Animation slot number
- * @deprecated Replaced by get_frame()
+ * @deprecated Use get_frame() instead
  */
 exports.get_current_frame_float = function(obj, slot_num) {
+    m_print.error("get_current_frame_float() deprecated, use get_frame() instead");
     return exports.get_frame(obj, slot_num);
 }
 
@@ -294,6 +302,10 @@ exports.get_speed = function(obj, slot_num) {
         return 0;
 
     slot_num = slot_num || m_anim.SLOT_0;
+
+    if (!obj._anim_slots[slot_num])
+        return 0;
+
     return m_anim.get_speed(obj, slot_num);
 }
 
@@ -303,9 +315,10 @@ exports.get_speed = function(obj, slot_num) {
  * @param {Object} obj Object ID
  * @param {Number} [slot_num = SLOT_0] Animation slot number
  * @returns {Array} Frame range pair or null for incorrect object
- * @deprecated Use get_anim_start_frame() and get_anim_length() functions
+ * @deprecated Use get_anim_start_frame() and get_anim_length() instead
  */
 exports.get_frame_range = function(obj, slot_num) {
+    m_print.error("get_frame_range() deprecated, use get_anim_start_frame() and get_anim_length() instead");
     if (m_anim.is_animated(obj)) {
         slot_num = slot_num || m_anim.SLOT_0;
         var anim_slot = obj._anim_slots[slot_num];
@@ -327,7 +340,11 @@ exports.get_frame_range = function(obj, slot_num) {
 exports.get_anim_start_frame = function(obj, slot_num) {
     if (m_anim.is_animated(obj)) {
         slot_num = slot_num || m_anim.SLOT_0;
-        return m_anim.get_anim_start_frame(obj, slot_num);
+
+        if (!obj._anim_slots[slot_num])
+            return -1;
+        else
+            return m_anim.get_anim_start_frame(obj, slot_num);
     }
 
     return -1;
@@ -343,8 +360,11 @@ exports.get_anim_start_frame = function(obj, slot_num) {
 exports.get_anim_length = function(obj, slot_num) {
     if (m_anim.is_animated(obj)) {
         slot_num = slot_num || m_anim.SLOT_0;
-        var anim_slot = obj._anim_slots[slot_num];
-        return m_anim.get_anim_length(obj, slot_num);
+
+        if (!obj._anim_slots[slot_num])
+            return -1;
+        else
+            return m_anim.get_anim_length(obj, slot_num);
     }
 
     return -1;
@@ -359,6 +379,7 @@ exports.get_anim_length = function(obj, slot_num) {
  * @deprecated Use set_behavior() instead.
  */
 exports.cyclic = function(obj, cyclic_flag, slot_num) {
+    m_print.error("cyclic() deprecated, use set_behavior() instead");
     var behavior = cyclic_flag ? m_anim.AB_CYCLIC : m_anim.AB_FINISH_RESET;
     exports.set_behavior(obj, behavior, slot_num);
 }
@@ -370,6 +391,7 @@ exports.cyclic = function(obj, cyclic_flag, slot_num) {
  * @deprecated Use get_behavior() instead.
  */
 exports.is_cyclic = function(obj, slot_num) {
+    m_print.error("is_cyclic() deprecated, use get_behavior() instead");
     if (!m_anim.is_animated(obj))
         return false;
 
@@ -531,7 +553,7 @@ exports.get_anim_type = function(obj, slot_num) {
  * @method module:animation.apply_to_first_empty_slot
  * @param {Object} obj Object ID
  * @param {String} name Animation name
- * @returns {Number} Slot number
+ * @returns {Number} Slot number or -1 if no empty slots found
  */
 exports.apply_to_first_empty_slot = function(obj, name) {
     return m_anim.apply_to_first_empty_slot(obj, name);

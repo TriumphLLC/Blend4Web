@@ -162,7 +162,7 @@ function init_cb(canvas_element, success) {
 
     anim_logo(file);
 
-    m_app.enable_controls(canvas_element);
+    m_app.enable_controls();
 
     window.addEventListener("resize", on_resize, false);
 
@@ -480,25 +480,25 @@ function enter_fullscreen(e) {
         return;
 
     m_app.request_fullscreen(document.body, fullscreen_cb, fullscreen_cb);
-
-    if (e)
-        update_button(e.target)
 }
 
-function exit_fullscreen(e) {
+function exit_fullscreen() {
     if (is_anim_in_process())
         return;
 
     m_app.exit_fullscreen();
-
-    if (e)
-        update_button(e.target)
 }
 
-function fullscreen_cb() {
+function fullscreen_cb(e) {
     if (!check_cursor_position("buttons_container")) {
         deffered_close();
     }
+
+    var fullscreen_button = document.querySelector("#fullscreen_on_button") ||
+                            document.querySelector("#fullscreen_off_button");
+
+    if (fullscreen_button)
+        update_button(fullscreen_button);
 }
 
 function update_button(elem) {
@@ -508,6 +508,9 @@ function update_button(elem) {
 
     elem.id = button.id =  button.replace_button_id;
     button.replace_button_id = old_elem_id;
+
+    if (!check_cursor_position(elem.id))
+        elem.className = elem.className.replace(" hover", "");
 
     button.callback = button.replace_button_cb;
     button.replace_button_cb = old_callback;

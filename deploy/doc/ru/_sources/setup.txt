@@ -78,6 +78,7 @@
 
 .. image:: src_images/setup/start_serv.png
    :align: center
+   :width: 100%
 
 |
 
@@ -97,6 +98,7 @@
 
 .. image:: src_images/setup/stop_open.png
    :align: center
+   :width: 100%
 
 |
 

@@ -105,7 +105,7 @@ mat4 billboard_matrix_global(in vec3 camera_eye, in vec3 wcen, in mat4 view_matr
     mat4 bill_matrix = billboard_matrix(camera_eye, wcen, view_matrix);
     // NOTE: translation is already in bill_matrix
     model_matrix[3] = vec4(0.0, 0.0, 0.0, 1.0);
-    bill_matrix *= model_matrix;
+    bill_matrix = bill_matrix * model_matrix;
 
     return bill_matrix;
 }

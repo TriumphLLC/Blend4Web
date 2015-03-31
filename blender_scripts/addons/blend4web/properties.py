@@ -912,6 +912,28 @@ class B4W_BoundingsSettings(bpy.types.PropertyGroup):
         precision = 3
     )
 
+class B4W_AnchorSettings(bpy.types.PropertyGroup):
+    type = bpy.props.EnumProperty(
+        name = "Anchor Type",
+        description = "Anchor type",
+        default = "ANNOTATION",
+        items = [
+            ("GENERIC", "Generic", "Do not assign any HTML element, controlled by API"),
+            ("ELEMENT", "Custom Element", "Assign existing HTML element by ID"),
+            ("ANNOTATION", "Annotation", "Create an HTML element with annotation from meta tags")
+        ]
+    )
+    detect_visibility = bpy.props.BoolProperty(
+        name = "Detect Visibility",
+        description = "Detect visibility of anchor object (slow)",
+        default = False
+    )
+    element_id = bpy.props.StringProperty(
+        name = "HTML element ID",
+        description = "ID of element for ELEMENT anchor type",
+        default = ""
+    )
+
 def add_b4w_props():
 
     b4w_do_not_export = bpy.props.BoolProperty(
@@ -1145,7 +1167,7 @@ def add_b4w_props():
            name = "B4W: Minimum distance to target",
            description = "Minimum distance to target",
            default = 1.0,
-           min = -1000000.0,
+           min = 0.0,
            soft_min = 0.0,
            max = 1000000.0,
            soft_max = 1000.0,
@@ -1157,7 +1179,7 @@ def add_b4w_props():
            name = "B4W: Maximum distance to target",
            description = "Maximum distance to target",
            default = 100.0,
-           min = -1000000.0,
+           min = 0.0,
            soft_min = 0.0,
            max = 1000000.0,
            soft_max = 1000.0,
@@ -1281,8 +1303,8 @@ def add_b4w_props():
         description = "Horizontal rotation clamping type",
         default = "LOCAL",
         items = [
-            ("LOCAL", "Camera space", "Clamp angles in camera space"),
-            ("WORLD", "World space", "Clamp angles in world space")
+            ("LOCAL", "Camera Space", "Clamp angles in camera space"),
+            ("WORLD", "World Space", "Clamp angles in world space")
         ]
     )
 
@@ -1310,74 +1332,39 @@ def add_b4w_props():
     bpy.types.Camera.b4w_use_panning \
             = b4w_use_panning
 
-    def get_rotation_down_limit(self):
-        value = self.b4w_rotation_down_limit_storage
-        if getattr(self, "b4w_use_horizontal_clamping"):
-            value = min(max(value, -math.pi / 2), math.pi / 2)
-        return value
-
-    def set_rotation_down_limit(self, value):
-        if getattr(self, "b4w_use_horizontal_clamping"):
-            value = min(max(value, -math.pi / 2), math.pi / 2)
-        self.b4w_rotation_down_limit_storage = value
-
     b4w_rotation_down_limit = bpy.props.FloatProperty(
-           name = "B4W: Rotation down limit",
-           description = "Rotation down limit angle",
-           default = -math.pi / 2,
-           min = -2 * math.pi,
-           soft_min = -2 * math.pi,
-           max = 2 * math.pi,
-           soft_max = 2 * math.pi,
-           precision = 1,
-           subtype = "ANGLE",
-           set = set_rotation_down_limit,
-           get = get_rotation_down_limit
-       )
+        name = "B4W: Rotation down limit",
+        description = "Rotation down limit angle",
+        default = -math.pi / 2,
+        min = -2 * math.pi,
+        soft_min = -2 * math.pi,
+        max = 2 * math.pi,
+        soft_max = 2 * math.pi,
+        precision = 1,
+        subtype = "ANGLE"
+    )
     bpy.types.Camera.b4w_rotation_down_limit = b4w_rotation_down_limit
 
-    # NOTE: fiction property for storing dynamically changing property
-    bpy.types.Camera.b4w_rotation_down_limit_storage = bpy.props.FloatProperty(
-            default = -math.pi / 2)
-
-
-    def get_rotation_up_limit(self):
-        value = self.b4w_rotation_up_limit_storage
-        if getattr(self, "b4w_use_horizontal_clamping"):
-            value = min(max(value, -math.pi / 2), math.pi / 2)
-        return value
-
-    def set_rotation_up_limit(self, value):
-        if getattr(self, "b4w_use_horizontal_clamping"):
-            value = min(max(value, -math.pi / 2), math.pi / 2)
-        self.b4w_rotation_up_limit_storage = value
-
     b4w_rotation_up_limit = bpy.props.FloatProperty(
-           name = "B4W: Rotation up limit",
-           description = "Rotation up limit angle",
-           default = math.pi / 2,
-           min = -2 * math.pi,
-           soft_min = -2 * math.pi,
-           max = 2 * math.pi,
-           soft_max = 2 * math.pi,
-           precision = 1,
-           subtype = "ANGLE",
-           set = set_rotation_up_limit,
-           get = get_rotation_up_limit
-       )
+        name = "B4W: Rotation up limit",
+        description = "Rotation up limit angle",
+        default = math.pi / 2,
+        min = -2 * math.pi,
+        soft_min = -2 * math.pi,
+        max = 2 * math.pi,
+        soft_max = 2 * math.pi,
+        precision = 1,
+        subtype = "ANGLE"
+    )
     bpy.types.Camera.b4w_rotation_up_limit = b4w_rotation_up_limit
-
-    # NOTE: fiction property for storing dynamically changing property
-    bpy.types.Camera.b4w_rotation_up_limit_storage = bpy.props.FloatProperty(
-            default = math.pi / 2)
 
     bpy.types.Camera.b4w_vertical_clamping_type = bpy.props.EnumProperty(
         name = "B4W: vertical rotation clamping type",
         description = "Vertical rotation clamping type",
         default = "LOCAL",
         items = [
-            ("LOCAL", "Camera space", "Clamp angles in camera space"),
-            ("WORLD", "World space", "Clamp angles in world space")
+            ("LOCAL", "Camera Space", "Clamp angles in camera space"),
+            ("WORLD", "World Space", "Clamp angles in world space")
         ]
     )
 
@@ -1623,7 +1610,7 @@ def add_object_properties():
 
     b4w_do_not_batch = bpy.props.BoolProperty(
         name = "B4W: do not batch",
-        description = "Do not join this object with others having the same material",
+        description = "Enable dynamics for this object",
         default = False
     )
     obj_type.b4w_do_not_batch = b4w_do_not_batch
@@ -1730,9 +1717,9 @@ def add_object_properties():
         description = "The behavior of finished animation: stop, repeat or reset",
         default = "FINISH_STOP",
         items = [
-            ("CYCLIC", "Cyclic", "Behavior: cyclically repeat the finished animation"),
-            ("FINISH_RESET", "Finish reset", "Behavior: reset the finished animation"),
-            ("FINISH_STOP", "Finish stop", "Behavior: stop the finished animation")
+            ("CYCLIC", "Loop", "Behavior: cyclically repeat the finished animation"),
+            ("FINISH_RESET", "Finish Reset", "Behavior: reset the finished animation"),
+            ("FINISH_STOP", "Finish Stop", "Behavior: stop the finished animation")
         ]
     )
     obj_type.b4w_animation_mixing = bpy.props.BoolProperty(
@@ -1955,6 +1942,16 @@ def add_object_properties():
     obj_type.b4w_object_tags = bpy.props.PointerProperty(
         name = "B4W: object_tags",
         type = B4W_Object_Tags
+    )
+
+    obj_type.b4w_enable_anchor = bpy.props.BoolProperty(
+        name = "B4W: enable anchor",
+        description = "Make an object anchor one",
+        default = False
+    )
+    obj_type.b4w_anchor = bpy.props.PointerProperty(
+        name = "B4W: anchor settings",
+        type = B4W_AnchorSettings
     )
 
 def add_speaker_properties():
@@ -2885,6 +2882,7 @@ def register():
     bpy.utils.register_class(B4W_BoundingsSettings)
     bpy.utils.register_class(B4W_Tags)
     bpy.utils.register_class(B4W_Object_Tags)
+    bpy.utils.register_class(B4W_AnchorSettings)
     add_b4w_props()
 
 def unregister():
@@ -2904,4 +2902,5 @@ def unregister():
     bpy.utils.unregister_class(B4W_BoundingsSettings)
     bpy.utils.unregister_class(B4W_Tags)
     bpy.utils.unregister_class(B4W_Object_Tags)
+    bpy.utils.unregister_class(B4W_AnchorSettings)
 

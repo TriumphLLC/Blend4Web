@@ -69,7 +69,7 @@ msgstr "addon"
 
 #: ../first_steps.rst:34
 msgid "Установка аддона движка"
-msgstr "The Engine Addon Install"
+msgstr "Installing the Addon"
 
 #: ../first_steps.rst:36
 msgid ""

@@ -36,8 +36,7 @@ uniform samplerCube u_sky_texture;
 uniform vec3 u_light_positions[NUM_LIGHTS];
 uniform vec3 u_light_directions[NUM_LIGHTS];
 uniform vec3 u_light_color_intensities[NUM_LIGHTS];
-uniform vec4 u_light_factors1[NUM_LIGHTS];
-uniform vec4 u_light_factors2[NUM_LIGHTS];
+uniform vec4 u_light_factors[NUM_LFACTORS];
 #endif
 uniform vec3 u_sun_intensity;
 uniform vec3 u_sun_direction;
@@ -467,7 +466,7 @@ void main(void) {
     lighting_result lresult = lighting(vec3(0.0), vec3(0.0), color, S, v_pos_world,
         normal, eye_dir, spec_params, u_diffuse_params, 1.0,
         u_light_positions, u_light_directions, u_light_color_intensities,
-        u_light_factors1, u_light_factors2, 0.0, vec4(0.0), 0);
+        u_light_factors, 0.0, vec4(0.0));
 #else
     lighting_result lresult = lighting_ambient(vec3(0.0), vec3(0.0), color);
 #endif

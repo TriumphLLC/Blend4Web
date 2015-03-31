@@ -50,7 +50,9 @@ body.lang_en #send_button {
 }
 
 #canvas3d {
-    position: relative;
+    position: absolute;
+    width: 100%;
+    height: 100%;
     left: 0;
     top: 0;
 }

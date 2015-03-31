@@ -1,0 +1,61 @@
+div#run_button {
+    background-image: url(img/button_ru.png);
+    width:235px;
+    height:60px;
+    display: inline-block;
+    cursor: pointer;
+    position: relative;
+    transition: all 1s;
+    -webkit-transition: all 1s;
+    -moz-transition: all 1s;
+}
+
+div#run_button:hover {
+    background-image: url(img/button_ru_hover.png);
+}
+
+div#canvas_cont canvas {
+    pointer-events: none;
+}
+
+div#canvas_cont {
+    display: block;
+    height: 1000px;
+    width:1200px;
+    margin-top: -1000px;
+    margin-left: -40px;
+    position:relative;
+    pointer-events: none;
+}
+
+@media (max-width: 1200px) and (min-width: 1000px) {
+    div#canvas_cont {
+        width: 1000px;
+        height: 800px;
+        margin-top: -800px;
+    }
+}
+
+@media (max-width: 1000px) and (min-width: 768px) {
+    div#canvas_cont {
+        width: 900px;
+        height: 800px;
+        margin: -800px auto 0 auto;
+    }
+}
+
+@media (max-width: 768px) and (min-width: 400px) {
+    div#canvas_cont {
+        width: 600px;
+        height: 450px;
+        margin: -450px auto 0 auto;
+    }
+}
+
+@media (max-width: 400px) and (min-width: 300px) {
+    div#canvas_cont {
+        width: 350px;
+        height: 250px;
+        margin: -250px auto 0 auto;
+    }
+}

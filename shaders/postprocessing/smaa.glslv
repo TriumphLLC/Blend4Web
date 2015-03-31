@@ -35,7 +35,7 @@
 #define AA_METHOD_SMAA_HIGH 3
 #define AA_METHOD_SMAA_ULTRA 4
 
-attribute vec2 a_bb_vertex;
+attribute vec2 a_position;
 
 uniform vec2 u_texel_size;
 
@@ -111,7 +111,7 @@ void smaa_neighborhood_blending(vec2 texcoord) {
 
 void main(void) {
 
-    v_texcoord = a_bb_vertex + 0.5;
+    v_texcoord = 2.0 * a_position;
 
 #if SMAA_PASS == SMAA_EDGE_DETECTION
     smaa_edge_detection(v_texcoord);
@@ -121,5 +121,5 @@ void main(void) {
     smaa_neighborhood_blending(v_texcoord);
 #endif
     
-    gl_Position = vec4(2.0 * a_bb_vertex.xy, 0.0, 1.0);
+    gl_Position = vec4(4.0 * (a_position.xy-0.25), 0.0, 1.0);
 }

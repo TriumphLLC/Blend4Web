@@ -35,6 +35,8 @@
  * them along non-compressed ones.
  * <dt>assets_min50_available
  * <dd>Boolean, allow engine to use low quality textures, you must provide
+ * <dt>audio
+ * <dd>Boolean, enable webaudio.
  * them along high quality ones.
  * <dt>background_color
  * <dd>Float32Array, RGBA vector with WebGL canvas background color.
@@ -53,6 +55,8 @@
  * objects on the main (zero) scene (used for dynamic scene loading).
  * <dt>glow
  * <dd>Boolean, enable glow effect (set CUSTOM profile to change).
+ * <dt>gyro_use
+ * <dd>Boolean, enable gyroscope.
  * <dt>physics_enabled
  * <dd>Boolean, enable uranium.js physics engine.
  * <dt>physics_uranium_path
@@ -70,7 +74,7 @@
  * <dt>sfx_mix_mode
  * <dd>Boolean, enable mixer mode in SFX subsystem
  * <dt>shaders_dir
- * <dd>String, path to shaders directory.
+ * <dd>String, path to shaders directory (developer version only).
  * <dt>show_hud_debug_info
  * <dd>Boolean, show HUD with debug information.
  * <dt>smaa
@@ -87,7 +91,7 @@
  * @module config
  * @cc_externs all_objs_selectable allow_cors allow_hidpi alpha alpha_sort
  * @cc_externs alpha_sort_threshold anaglyph_use animation_framerate antialiasing
- * @cc_externs assets_dds_available assets_min50_available background_color
+ * @cc_externs assets_dds_available assets_min50_available audio background_color
  * @cc_externs built_in_module_name canvas_resolution_factor console_verbose
  * @cc_externs context_antialias do_not_load_resources
  * @cc_externs force_selectable glow physics_enabled physics_uranium_path precision

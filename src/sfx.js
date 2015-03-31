@@ -152,11 +152,11 @@ function create_wa_context() {
         if (ctx.createGain) {
             return ctx;
         } else {
-            m_print.warn("B4W warning: deprecated WebAudio implementation");
+            m_print.warn("deprecated WebAudio implementation");
             return null;
         }
     } else {
-        m_print.warn("B4W warning: WebAudio is not supported");
+        m_print.warn("WebAudio is not supported");
         return null;
     }
 }
@@ -305,7 +305,7 @@ function check_media_element_node() {
     if (window.MediaElementAudioSourceNode) {
         return true;
     } else {
-        m_print.warn("B4W warning: MediaElementAudioSourceNode not found");
+        m_print.warn("MediaElementAudioSourceNode not found");
         return false;
     }
 }
@@ -1426,7 +1426,7 @@ exports.apply_playlist = function(objs, delay, random) {
         var duration = get_duration(obj);
 
         if (duration == 0) {
-            m_print.warn("B4W warning: Ignoring speaker with zero duration: " + obj["name"]);
+            m_print.warn("Ignoring speaker with zero duration: " + obj["name"]);
             continue;
         }
 

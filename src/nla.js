@@ -98,23 +98,11 @@ exports.update_scene_nla = function(scene, is_cyclic) {
                 var adata = node_tree["animation_data"];
                 if (node_tree && adata) {
                     var nla_tracks = adata["nla_tracks"];
-                    var nla_events = get_nla_events(nla_tracks, -1);
-
-                    var mat_anim_names = [];
-
-                    for (var k = 0; k < nla_events.length; k++) {
-                        var ev = nla_events[k];
-
-                        if (mat_anim_names.indexOf(ev.anim_name) == -1)
-                            mat_anim_names.push(ev.anim_name);
-
-                        ev.anim_slot = slot_num + 
-                                mat_anim_names.indexOf(ev.anim_name);
-
-                        obj_nla_events.push(ev);
+                    var nla_events = get_nla_events(nla_tracks, slot_num);
+                    if (nla_events.length) {
+                        obj_nla_events = obj_nla_events.concat(nla_events);
+                        slot_num++;
                     }
-
-                    slot_num += mat_anim_names.length;
                 }
             }
         }
@@ -759,9 +747,13 @@ function process_clip_event_start(obj, ev, frame, elapsed) {
 }
 
 function process_clip_event(obj, ev, frame, elapsed) {
-    var init_anim_frame = frame - ev.frame_start + ev.action_frame_start;
-    m_anim.set_current_frame_float(obj, init_anim_frame, ev.anim_slot);
-    m_anim.update_object_animation(obj, 0, ev.anim_slot);
+    var new_anim_frame = frame - ev.frame_start + ev.action_frame_start;
+    var curr_anim_frame = m_anim.get_current_frame_float(obj, ev.anim_slot);
+
+    // do not update animation if the frame is not changed
+    // to allow object movement in between
+    if (Math.abs(new_anim_frame - curr_anim_frame) > CF_FREEZE_EPSILON)
+        m_anim.set_current_frame_float(obj, new_anim_frame, ev.anim_slot);
 }
 
 function process_sound_event(obj, ev, frame) {

@@ -2,7 +2,7 @@
 
 /**
  * Scene API.
- * Almost every routine requires an active scene to be set,
+ * Most of the routines presented here require an active scene to be set,
  * use get_active() set_active() to do that.
  * @module scenes
  */
@@ -84,45 +84,47 @@ exports.get_active_camera = function() {
  * @param {Number} [data_id=0] ID of loaded data
  * @returns {Object} Object ID
  */
-exports.get_object_by_name = function(name, data_id) {
-    return m_scenes.get_object(m_scenes.GET_OBJECT_BY_NAME, name,
+exports.get_object_by_name = function(name, data_id) { 
+    var obj = m_scenes.get_object(m_scenes.GET_OBJECT_BY_NAME, name,
             data_id | 0);
+    if (obj)
+        return obj;
+    else
+        m_print.error("get object " + name + ": not found");
 }
 
 /**
- * Get object by empty name and dupli name.
+ * Get the duplicated object by empty name and dupli name.
  * @method module:scenes.get_object_by_dupli_name
- * @param {String} empty_name EMPTY object name
- * @param {String} dupli_name DUPLI object name
+ * @param {String} empty_name Name of the EMPTY object used to duplicate the object
+ * @param {String} dupli_name Name of the duplicated object
  * @param {Number} [data_id=0] ID of loaded data
  * @returns {Object} Object ID
  */
 exports.get_object_by_dupli_name = function(empty_name, dupli_name,
         data_id) {
-    return m_scenes.get_object(m_scenes.GET_OBJECT_BY_DUPLI_NAME, empty_name,
+    var obj = m_scenes.get_object(m_scenes.GET_OBJECT_BY_DUPLI_NAME, empty_name,
             dupli_name, data_id | 0);
+    if (obj)
+        return obj;
+    else
+        m_print.error("get object " + dupli_name + ": not found");
 }
 
 /**
- * Get object by empty name and dupli name list.
+ * Get the duplicated object by empty name and dupli name list.
  * @method module:scenes.get_object_by_dupli_name_list
- * @param {Array} name_list List of EMPTY and DUPLI object names
+ * @param {Array} name_list List of the EMPTY and DUPLI object names: [empty_name,empty_name,...,dupli_name]
  * @param {Number} [data_id=0] ID of loaded data
  * @returns {Object} Object ID
  */
 exports.get_object_by_dupli_name_list = function(name_list, data_id) {
-    return m_scenes.get_object(m_scenes.GET_OBJECT_BY_DUPLI_NAME_LIST,
+    var obj = m_scenes.get_object(m_scenes.GET_OBJECT_BY_DUPLI_NAME_LIST,
             name_list, data_id | 0);
-}
-
-/**
- * @method module:scenes.get_object_by_empty_name
- * @deprecated use scenes.get_object_by_dupli_name instead
- */
-exports.get_object_by_empty_name = function(empty_name, dupli_name,
-        data_id) {
-    m_print.warn("get_object_by_empty_name() deprecated, use get_object_by_dupli_name() instead");
-    return exports.get_object_by_dupli_name(empty_name, dupli_name, data_id);
+    if (obj)
+        return obj;
+    else
+        m_print.error("get object " + name_list + ": not found");
 }
 
 /**
@@ -144,18 +146,23 @@ exports.get_object_data_id = function(obj) {
 exports.pick_object = m_scenes.pick_object;
 
 /**
- * Set outline glow intensity for the object
+ * Set outline glow intensity for the object.
  * @method module:scenes.set_glow_intensity
  * @param {Object} obj Object ID
  * @param {Number} value Intensity value
  */
 exports.set_glow_intensity = function(obj, value) {
-    for (var i = 0; i < obj._batches.length; i++) {
-        var batch = obj._batches[i];
+    obj._render.glow_intensity = value;
+}
 
-        if (batch.type == "COLOR_ID")
-            batch.glow_intensity = value;
-    }
+/**
+ * Get outline glow intensity for the object.
+ * @method module:scenes.get_glow_intensity
+ * @param {Object} obj Object ID
+ * @returns {Number} Intensity value
+ */
+exports.get_glow_intensity = function(obj) {
+    return obj._render.glow_intensity;
 }
 
 /**
@@ -195,9 +202,9 @@ exports.clear_glow_anim = function(obj) {
 }
 
 /**
- * Set the color of glowing
+ * Set the color of outline glow effect for active scene.
  * @method module:scenes.set_glow_color
- * @param {Float32Array} color Color
+ * @param {Float32Array} color RGB color vector
  */
 exports.set_glow_color = function(color) {
     var scene = m_scenes.get_active();
@@ -208,6 +215,21 @@ exports.set_glow_color = function(color) {
     }
 }
 
+/**
+ * Get the color of outline glow effect for active scene.
+ * @method module:scenes.get_glow_color
+ * @param {?Float32Array} dest Destination RGB color vector
+ * @returns {Float32Array} Destination RGB color vector
+ */
+exports.get_glow_color = function(dest) {
+    var scene = m_scenes.get_active();
+    var subs = m_scenes.get_subs(scene, "GLOW");
+    if (subs) {
+        dest = dest || new Float32Array(3);
+        dest.set(subs.glow_color);
+        return dest;
+    }
+}
 
 /**
  * Get shadow params.
@@ -710,7 +732,7 @@ exports.hide_object = function(obj) {
     if (m_obj.is_dynamic_mesh(obj))
         m_scenes.hide_object(obj);
     else
-        m_print.error("B4W Error: show/hide is only supported for dynamic meshes");
+        m_print.error("show/hide is only supported for dynamic meshes");
 }
 
 /**
@@ -723,7 +745,7 @@ exports.show_object = function(obj) {
     if (m_obj.is_dynamic_mesh(obj))
         m_scenes.show_object(obj);
     else
-        m_print.error("B4W Error: show/hide is only supported for dynamic meshes");
+        m_print.error("show/hide is only supported for dynamic meshes");
 }
 
 /**
@@ -768,18 +790,6 @@ exports.get_all_objects = function(type, data_id) {
         data_id = m_scenes.DATA_ID_ALL;
 
     return m_scenes.get_scene_objs(scene, type, data_id);
-}
-
-/**
- * Get objects appended to the active scene.
- * @method module:scenes.get_appended_objs
- * @param {String} [type] Type
- * @param {Number} [data_id] Objects data id
- * @deprecated use scenes.get_all_objects instead
- */
-exports.get_appended_objs = function(type, data_id) {
-    m_print.warn("get_appended_objs() deprecated, use get_all_objects() instead");
-    return exports.get_all_objects(type, data_id);
 }
 
 /**
@@ -907,42 +917,46 @@ exports.get_meta_tags = function() {
 
     return m_scenes.get_meta_tags(active_scene);
 }
-
-
-// DEPRECATED
-
+/**
+ * Append copied object to the active scene.
+ * @method module:scenes.append_object
+ * @param {Object} obj Object ID
+ */
 exports.append_object = function(obj) {
-    m_util.panic("Method \"append_object\" is deprecated");
+
+    if (!obj._render.is_copied) {
+        m_print.error("object \"" + obj.name + "\" has been created not by coping.");
+        return false;
+    }
+
+    var new_name = obj["name"];
+    if (m_scenes.get_object(m_scenes.GET_OBJECT_BY_NAME, obj["name"], 0)) {
+        var i = 1; 
+        while (true) {
+            if (String(i).length < 3)
+                var num = "." + ("000" + String(i)).slice(-3);
+            else
+                var num = "." + String(i);
+            new_name = obj["name"] + num;
+            if(!m_scenes.get_object(m_scenes.GET_OBJECT_BY_NAME, new_name, 0)) {
+                obj["name"] = new_name;
+                m_print.error("object \"" + obj["name"] + "\" already exists. " 
+                        + "Name was replaced by \"" + new_name + "\".");
+                break;
+            }
+            i++;
+        }
+    }
+    m_scenes.append_object(m_scenes.get_active(), obj, true);
 }
-exports.add_object = function(obj) {
-    m_util.panic("Method \"add_object\" is deprecated");
-}
+/**
+ * Remove copied object from the active scene.
+ * @method module:scenes.remove_object
+ * @param {Object} obj Object ID
+ */
 exports.remove_object = function(obj) {
-    m_util.panic("Method \"remove_object\" is deprecated");
-}
-exports.get_screen_scenes = function() {
-    m_util.panic("get_screen_scenes() deprecated");
-}
-exports.set_light_pos = function() {
-    m_util.panic("set_light_pos() deprecated, use lights module instead");
-}
-exports.set_light_direction = function() {
-    m_util.panic("set_light_direction() deprecated, use lights module instead");
-}
-exports.set_dir_light_color = function(index, val) {
-    m_util.panic("set_dir_light_color() deprecated, use lights module instead");
-}
-exports.get_lights_names = function() {
-    m_util.panic("get_lights_names() deprecated, use lights module instead");
-}
-exports.remove_all = function() {
-    m_util.panic("remove_all() deprecated, use lights module instead");
-}
-exports.check_collision = function() {
-    m_util.panic("check_collision() deprecated, use lights module instead");
-}
-exports.check_ray_hit = function() {
-    m_util.panic("check_ray_hit() deprecated, use lights module instead");
+    if (!m_scenes.remove_object(obj))
+        m_print.error("object \"" + obj.name + "\" was not copied.");
 }
 
 

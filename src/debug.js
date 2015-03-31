@@ -69,9 +69,9 @@ exports.check_gl = function(msg) {
     if (error == _gl.NO_ERROR)
         return;
     if (error in ERRORS) 
-        throw "B4W Error: " + error + ", gl." + ERRORS[error] + " (" + msg + ")";
+        m_util.panic("GL Error: " + error + ", gl." + ERRORS[error] + " (" + msg + ")");
     else
-        throw "Unknown GL error: " + error + " (" + msg + ")";
+        m_util.panic("Unknown GL error: " + error + " (" + msg + ")");
 }
 
 /**
@@ -88,19 +88,19 @@ exports.check_bound_fb = function() {
     case _gl.FRAMEBUFFER_COMPLETE:
         return true;
     case _gl.FRAMEBUFFER_INCOMPLETE_ATTACHMENT:
-        m_print.error("B4W Error: Incomplete framebuffer: FRAMEBUFFER_INCOMPLETE_ATTACHMENT");
+        m_print.error("Incomplete framebuffer: FRAMEBUFFER_INCOMPLETE_ATTACHMENT");
         return false;
     case _gl.FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT:
-        m_print.error("B4W Error: Incomplete framebuffer: FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT");
+        m_print.error("Incomplete framebuffer: FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT");
         return false;
     case _gl.FRAMEBUFFER_INCOMPLETE_DIMENSIONS:
-        m_print.error("B4W Error: Incomplete framebuffer: FRAMEBUFFER_INCOMPLETE_DIMENSIONS");
+        m_print.error("Incomplete framebuffer: FRAMEBUFFER_INCOMPLETE_DIMENSIONS");
         return false;
     case _gl.FRAMEBUFFER_UNSUPPORTED:
-        m_print.error("B4W Error: Incomplete framebuffer: FRAMEBUFFER_UNSUPPORTED");
+        m_print.error("Incomplete framebuffer: FRAMEBUFFER_UNSUPPORTED");
         return false;
     default:
-        m_print.error("B4W Error: FRAMEBUFFER CHECK FAILED");
+        m_print.error("FRAMEBUFFER CHECK FAILED");
         return false;
     }
 }
@@ -128,7 +128,7 @@ exports.check_depth_only_issue = function() {
 
     if (_gl.checkFramebufferStatus(_gl.FRAMEBUFFER) != _gl.FRAMEBUFFER_COMPLETE) {
         _depth_only_issue = true;
-        m_print.warn("B4W warning: depth-only issue was found");
+        m_print.warn("depth-only issue was found");
     } else
         _depth_only_issue = false;
 
@@ -155,7 +155,7 @@ exports.check_shader_compiling = function(shader, shader_id, shader_text) {
 
         shader_text = supply_line_numbers(shader_text);
        
-        m_print.error("B4W Error: shader compilation failed:\n" + shader_text + "\n" + 
+        m_print.error("shader compilation failed:\n" + shader_text + "\n" + 
             _gl.getShaderInfoLog(shader) + " (" + shader_id + ")");
 
         throw "Engine failed: see above for error messages";
@@ -194,7 +194,7 @@ exports.check_shader_linking = function(program, shader_id, vshader, fshader,
         vshader_text = supply_line_numbers(vshader_text);
         fshader_text = supply_line_numbers(fshader_text);
     
-        m_print.error("B4W Error: shader linking failed:\n" + vshader_text + "\n\n\n" + 
+        m_print.error("shader linking failed:\n" + vshader_text + "\n\n\n" + 
             fshader_text + "\n" + 
             _gl.getProgramInfoLog(program) + " (" + shader_id + ")");
 
@@ -363,7 +363,7 @@ exports.check_browser = function(name) {
             return false;
     }
 
-    switch(name.toLowerCase()) {
+    switch (name.toLowerCase()) {
     case "chrome":
         return (check_ua("mozilla") && check_ua("applewebkit") && check_ua("chrome"));
     case "firefox":

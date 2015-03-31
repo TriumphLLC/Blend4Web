@@ -1,8 +1,7 @@
 "use strict";
 
 /**
- * Textures Blend4Web module.
- * This module works with textures.
+ * Textures API.
  * @module textures
  */
 b4w.module["textures"] = function(exports, require) {
@@ -44,14 +43,6 @@ exports.play_video = function(texture_name) {
         m_print.error("Texture with name \"" + texture_name + "\" not found!");
 }
 
-/**
- * @method module:textures.stop_video
- * @deprecated use textures.pause_video instead
- */
-exports.stop_video = function(texture_name) {
-    m_print.warn("stop_video() deprecated, use pause_video() instead");
-    return exports.pause_video(texture_name);
-}
 /**
  * Pause video.
  * @method module:textures.pause_video

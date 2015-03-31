@@ -5,13 +5,12 @@ body {
     overflow: hidden;
 }
 
-/* layout */
 div#status_bar {
     position:absolute;
     height: 30px;
     top: 0px;
     left: 0px;
-    z-index: 1;
+    z-index: 2;
 }
 
 div#control_panel {
@@ -51,16 +50,18 @@ div#control_panel_over {
     margin: 0;
     bottom: 0px;
     overflow: hidden;
+    z-index: 2;
 }
 
 div#main_canvas_container {
     position:absolute;
     left: 0px;
     top: 0px;
-    z-index: 0;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
 }
 
-/* status bar contents */
 div.status_bar_info {
     position: relative;
     color: #fff;

@@ -37,23 +37,16 @@ float size_from_ramp(float t, float lifetime, vec2 ramp[SIZE_RAMP_LENGTH]) {
 
     float where = t/lifetime;
     float size = ramp[0].y;
-
-# if UNROLL_LOOPS
-#  if SIZE_RAMP_LENGTH > 1
+    // avoid loops becaus of performance issues on some mobiles
+# if SIZE_RAMP_LENGTH > 1
         process_size_ramp(size, where, ramp[0], ramp[1]);
-#  endif
-#  if SIZE_RAMP_LENGTH > 2
-        process_size_ramp(size, where, ramp[1], ramp[2]);
-#  endif
-#  if SIZE_RAMP_LENGTH > 3
-        process_size_ramp(size, where, ramp[2], ramp[3]);
-#  endif
-
-# else // UNROLL LOOPS
-    for (int i = 1; i < SIZE_RAMP_LENGTH; i++)
-        process_size_ramp(size, where, ramp[i-1], ramp[i]);
 # endif
-
+# if SIZE_RAMP_LENGTH > 2
+        process_size_ramp(size, where, ramp[1], ramp[2]);
+# endif
+# if SIZE_RAMP_LENGTH > 3
+        process_size_ramp(size, where, ramp[2], ramp[3]);
+# endif
     return size;
 }
 #endif
@@ -63,23 +56,16 @@ vec3 color_from_ramp(float t, float lifetime, vec4 ramp[COLOR_RAMP_LENGTH]) {
 
     float where = t/lifetime;
     vec3 color = ramp[0].yzw;
-
-# if UNROLL_LOOPS
-#  if COLOR_RAMP_LENGTH > 1
-        process_color_ramp(color, where, ramp[0], ramp[1]);
-#  endif
-#  if COLOR_RAMP_LENGTH > 2
-        process_color_ramp(color, where, ramp[1], ramp[2]);
-#  endif
-#  if COLOR_RAMP_LENGTH > 3
-        process_color_ramp(color, where, ramp[2], ramp[3]);
-#  endif
-
-# else // UNROLL LOOPS
-    for (int i = 1; i < COLOR_RAMP_LENGTH; i++)
-        process_color_ramp(color, where, ramp[i-1], ramp[i]);
+    // avoid loops becaus of performance issues on some mobiles
+# if COLOR_RAMP_LENGTH > 1
+    process_color_ramp(color, where, ramp[0], ramp[1]);
 # endif
-
+# if COLOR_RAMP_LENGTH > 2
+    process_color_ramp(color, where, ramp[1], ramp[2]);
+# endif
+# if COLOR_RAMP_LENGTH > 3
+    process_color_ramp(color, where, ramp[2], ramp[3]);
+# endif
     return color;
 }
 #endif

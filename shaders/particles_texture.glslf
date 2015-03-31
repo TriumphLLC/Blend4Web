@@ -23,8 +23,7 @@ uniform float u_environment_energy;
 uniform vec3 u_light_positions[NUM_LIGHTS];
 uniform vec3 u_light_directions[NUM_LIGHTS];
 uniform vec3 u_light_color_intensities[NUM_LIGHTS];
-uniform vec4 u_light_factors1[NUM_LIGHTS];
-uniform vec4 u_light_factors2[NUM_LIGHTS];
+uniform vec4 u_light_factors[NUM_LFACTORS];
 #endif
 
 #if !DISABLE_FOG
@@ -102,8 +101,8 @@ void main(void) {
 # if NUM_LIGHTS>0
     lighting_result lresult = lighting(E, A, D, S, v_pos_world, normal, eye_dir,
         spec_params, u_diffuse_params, 1.0, u_light_positions,
-        u_light_directions, u_light_color_intensities, u_light_factors1,
-        u_light_factors2, 0.0, vec4(0.0), 0);
+        u_light_directions, u_light_color_intensities, u_light_factors,
+        0.0, vec4(0.0));
 # else
     lighting_result lresult = lighting_ambient(E, A, D);
 # endif

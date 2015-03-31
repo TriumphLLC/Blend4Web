@@ -2,14 +2,17 @@
 <head>
     <meta charset='utf-8' />
     <title>Blend4Web Scene Viewer</title>
-    <link type='text/css' rel='stylesheet' href='viewer.min.css?v=15.02'/>
-    <script type='text/javascript' src='../common/b4w.full.min.js?v=15.02'></script>
-    <script type='text/javascript' src='viewer.min.js?v=15.02'></script>
-</head><body>
+    <link type='text/css' rel='stylesheet' href='viewer.min.css?v=15.03'/>
+    <script type='text/javascript' src='../common/b4w.full.min.js?v=15.03'></script>
+    <script src='jquery-2.1.3.min.js' type='text/javascript'></script>
+    <script src='jquery.mobile-1.4.5.min.js' type='text/javascript'></script>
+    <script type='text/javascript' src='viewer.min.js?v=15.03'></script>
+</head>
+<body>
 
 <div id="main_canvas_container">
 
-    <div class="backgr_checker"></div>
+    <div class="backgr_checker" id="abc"></div>
 
     <div class="info_corner right_up">
         <div class="info_corner_backgr"></div>
@@ -50,14 +53,14 @@
 
     <div class="center-wrapper">
         <div data-role="controlgroup" data-type="horizontal">
-            <a href="" id="reset_memory" data-role="button" data-icon="home" data-mini="true">Reset</a>
+            <a href="" id="reset_memory" data-role="button" data-icon="refresh" data-mini="true">Reset</a>
             <select id="quality" data-native-menu="false" data-mini="true" >
               <option value="ULTRA">ULTRA Q</option>
               <option value="HIGH">HIGH Q</option>
               <option value="LOW">LOW Q</option>
               <option value="CUSTOM">CUSTOM Q</option>
             </select>
-            <a href="" id="auto_rotate_cam" data-role="button" data-icon="refresh" data-mini="true">Auto Rotate</a>
+            <a href="" id="auto_rotate_cam" data-role="button" data-icon="recycle" data-mini="true">Auto Rotate</a>
         </div>
         <div data-role="controlgroup" data-type="horizontal">
             <a href="" id="pause" data-role="button" data-icon="delete" data-mini="true">Pause</a>
@@ -116,11 +119,11 @@
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="anim_frame_current">Set frame:</label>
-                    <input id="anim_frame_current" data-highlight="true" value="0.0" min="0.0" max="1.0" type="range" step="1.0" data-mini="true /">
+                    <input id="anim_frame_current" data-highlight="true" value="0.0" min="0.0" max="1.0" type="range" step="1.0">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="anim_mix_factor">Skeletal mix factor:</label>
-                    <input id="anim_mix_factor" data-highlight="true" value="1.0" min="0.0" max="1.0" type="range" step="0.01" data-mini="true /">
+                    <input id="anim_mix_factor" data-highlight="true" value="1.0" min="0.0" max="1.0" type="range" step="0.01">
                 </div>
 
                 <h3>Max bones:</h3>
@@ -154,23 +157,23 @@
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c ui-disabled">
                     <label for="material_reflectivity">Reflectivity:</label>
-                    <input id="material_reflectivity" data-highlight="true" min="0" max="1.0" value="0" type="range" step="0.01" data-mini="true /">
+                    <input id="material_reflectivity" data-highlight="true" min="0" max="1.0" value="0" type="range" step="0.01">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c ui-disabled">
                     <label for="material_fresnel">Fresnel:</label>
-                    <input id="material_fresnel" data-highlight="true" min="0" max="5.0" value="0" type="range" step="0.01" data-mini="true /">
+                    <input id="material_fresnel" data-highlight="true" min="0" max="5.0" value="0" type="range" step="0.01">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c ui-disabled">
                     <label for="material_fresnel_factor">Fresnel factor:</label>
-                    <input id="material_fresnel_factor" data-highlight="true" min="0" max="5.0" value="0" type="range" step="0.01" data-mini="true /">
+                    <input id="material_fresnel_factor" data-highlight="true" min="0" max="5.0" value="0" type="range" step="0.01">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c ui-disabled">
                     <label for="material_parallax_scale">Parallax scale:</label>
-                    <input id="material_parallax_scale" data-highlight="true" min="0" max="0.1" value="0" type="range" step="0.001" data-mini="true /">
+                    <input id="material_parallax_scale" data-highlight="true" min="0" max="0.1" value="0" type="range" step="0.001">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c ui-disabled">
                     <label for="material_parallax_steps">Parallax steps:</label>
-                    <input id="material_parallax_steps" data-highlight="true" min="1" max="30" value="5" type="range" step="1" data-mini="true /">
+                    <input id="material_parallax_steps" data-highlight="true" min="1" max="30" value="5" type="range" step="1">
                 </div>
             </div>
         </div>
@@ -193,22 +196,22 @@
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="light_energy">Energy:</label>
-                    <input id="light_energy" data-highlight="true" min="0" max="10.0" value="0" type="range" step="0.01" data-mini="true /">
+                    <input id="light_energy" data-highlight="true" min="0" max="10.0" value="0" type="range" step="0.01">
                 </div>
 
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="light_spot_size">Spot size:</label>
-                    <input id="light_spot_size" data-highlight="true" min="1" max="180" value="1" type="range" step="1" data-mini="true /">
+                    <input id="light_spot_size" data-highlight="true" min="1" max="180" value="1" type="range" step="1">
                 </div>
 
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="light_spot_blend">Spot blend:</label>
-                    <input id="light_spot_blend" data-highlight="true" min="0" max="1.0" value="0" type="range" step="0.001" data-mini="true /">
+                    <input id="light_spot_blend" data-highlight="true" min="0" max="1.0" value="0" type="range" step="0.001">
                 </div>
 
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="light_distance">Distance:</label>
-                    <input id="light_distance" data-highlight="true" min="0" max="100.0" value="0" type="range" step="0.01" data-mini="true /">
+                    <input id="light_distance" data-highlight="true" min="0" max="10000.0" value="0" type="range" step="0.1">
                 </div>
 
                 <h3>For sun only:</h3>
@@ -216,33 +219,33 @@
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <legend>Real time sun movement:</legend>
                     <div class="ui-grid-b" id="sn-ui-grid-b">
-                        <input type="button" value="Play" id="run_sun" data-inline="true" data-icon="arrow-r" data-mini="true" />
-                        <input type="button" value="Stop" id="stop_sun" data-inline="true" data-icon="delete" data-mini="true" />
+                        <input type="button" value="Play" id="run_sun" data-inline="true" data-icon="arrow-r">
+                        <input type="button" value="Stop" id="stop_sun" data-inline="true" data-icon="delete">
                     </div>
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="date">Date:</label>
-                    <input type="date" id="date" value="2013-08-05" data-highlight="true" data-mini="true" />
+                    <input type="date" id="date" value="2013-08-05" data-highlight="true">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="day_time">Time:</label>
-                    <input type="range" id="day_time" value="12.00" min="0.0" max="24.0" step="0.001" data-highlight="true" data-mini="true" />
+                    <input type="range" id="day_time" value="12.00" min="0.0" max="24.0" step="0.001" data-highlight="true">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="max_sun_angle">Maximum sun vertical angle:</label>
-                    <input type="range" id="max_sun_angle" value="60.0" min="0.0" max="90.0" step="0.01" data-highlight="true" data-mini="true" />
+                    <input type="range" id="max_sun_angle" value="60.0" min="0.0" max="90.0" step="0.01" data-highlight="true">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="sun_time_multiplier">Time multiplier:</label>
-                    <input type="range" id="sun_time_multiplier" value="1.0" min="0.0" max="1000.0" step="0.1" data-highlight="true" data-mini="true" />
+                    <input type="range" id="sun_time_multiplier" value="1.0" min="0.0" max="1000.0" step="0.1" data-highlight="true">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="sun_horizontal_position">Horizontal position:</label>
-                    <input type="range" id="sun_horizontal_position" value="0.0" min="-180.0" max="180.0" step="0.01" data-highlight="true" data-mini="true" />
+                    <input type="range" id="sun_horizontal_position" value="0.0" min="-180.0" max="180.0" step="0.01" data-highlight="true">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="sun_vertical_position">Vertical position:</label>
-                    <input type="range" id="sun_vertical_position" value="0.0" min="-180.0" max="180.0" step="0.01" data-highlight="true" data-mini="true" />
+                    <input type="range" id="sun_vertical_position" value="0.0" min="-180.0" max="180.0" step="0.01" data-highlight="true">
                 </div>
             </div>
         </div>
@@ -253,7 +256,7 @@
             <div class="ui-grid-solo">
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="environment_energy">Environment Energy:</label>
-                    <input type="range" id="environment_energy" value="0.0" min="0.0" max="3.0" step="0.01" data-highlight="true" data-mini="true" />
+                    <input type="range" id="environment_energy" value="0.0" min="0.0" max="3.0" step="0.01" data-highlight="true">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="horizon_color">Horizon color:</label>
@@ -278,11 +281,11 @@
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="self_shadow_polygon_offset">Self-shadow polygon offset:</label>
-                    <input id="self_shadow_polygon_offset" data-highlight="true" value="0.0" min="0.0" max="50.0" type="range" step="0.01" data-mini="true /">
+                    <input id="self_shadow_polygon_offset" data-highlight="true" value="0.0" min="0.0" max="50.0" type="range" step="0.01">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="self_shadow_normal_offset">Self-shadow normal offset:</label>
-                    <input id="self_shadow_normal_offset" data-highlight="true" value="0.0" min="0.0" max="1.0" type="range" step="0.001" data-mini="true /">
+                    <input id="self_shadow_normal_offset" data-highlight="true" value="0.0" min="0.0" max="1.0" type="range" step="0.001">
                 </div>
                 <div id="cascades-info-block" class="ui-block-a colapsed_content ui-body ui-body-c">
                     <legend>Cascades:</legend>
@@ -297,11 +300,11 @@
                 </div>
                 <div id="csm_first_cascade_border-info-block" class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="csm_first_cascade_border">CSM first cascade border:</label>
-                    <input id="csm_first_cascade_border" data-highlight="true" value="0.0" min="0.01" max="1000.0" type="range" step="0.01" data-mini="true /">
+                    <input id="csm_first_cascade_border" data-highlight="true" value="0.0" min="0.01" max="1000.0" type="range" step="0.01">
                 </div>
                 <div id="csm_last_cascade_border-info-block"  class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="csm_last_cascade_border">CSM last cascade border:</label>
-                    <input id="csm_last_cascade_border" data-highlight="true" value="0.0" min="0.01" max="1000.0" type="range" step="0.01" data-mini="true /">
+                    <input id="csm_last_cascade_border" data-highlight="true" value="0.0" min="0.01" max="1000.0" type="range" step="0.01">
                 </div>
                 <div id="blur_radii-info-block" class="ui-block-a colapsed_content ui-body ui-body-c">
                     <div class="ui-grid-b">
@@ -311,12 +314,12 @@
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label id="first_cascade_blur_radius-label" for="first_cascade_blur_radius">First cascade blur radius:</label>
-                    <input id="first_cascade_blur_radius" data-highlight="true" value="0.0" min="0.0" max="50.0" type="range" step="0.01" data-mini="true /">
+                    <input id="first_cascade_blur_radius" data-highlight="true" value="0.0" min="0.0" max="50.0" type="range" step="0.01">
                 </div>
 
                 <div id="last_cascade_blur_radius-info-block" class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="last_cascade_blur_radius">Last cascade blur radius:</label>
-                    <input id="last_cascade_blur_radius" data-highlight="true" value="0.0" min="0.0" max="50.0" type="range" step="0.01" data-mini="true /">
+                    <input id="last_cascade_blur_radius" data-highlight="true" value="0.0" min="0.0" max="50.0" type="range" step="0.01">
                 </div>
             </div>
         </div>
@@ -332,39 +335,39 @@
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="rayleigh_brightness">Rayleigh brightness:</label>
-                    <input id="rayleigh_brightness" data-highlight="true" value="3.3" min="0.0" max="5.0" type="range" step="0.01" data-mini="true /">
+                    <input id="rayleigh_brightness" data-highlight="true" value="3.3" min="0.0" max="5.0" type="range" step="0.01">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="mie_brightness">Mie brightness:</label>
-                    <input id="mie_brightness" data-highlight="true" value="0.1" min="0.0" max="1.0" type="range" step="0.01" data-mini="true /">
+                    <input id="mie_brightness" data-highlight="true" value="0.1" min="0.0" max="1.0" type="range" step="0.01">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="spot_brightness">Spot brightness:</label>
-                    <input id="spot_brightness" data-highlight="true" value="20.0" min="0.0" max="1000.0" type="range" step="1.0" data-mini="true /">
+                    <input id="spot_brightness" data-highlight="true" value="20.0" min="0.0" max="1000.0" type="range" step="1.0">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="scatter_strength">Scatter_strength:</label>
-                    <input id="scatter_strength" data-highlight="true" value="0.2" min="0.0" max="1.0" type="range" step="0.01" data-mini="true /">
+                    <input id="scatter_strength" data-highlight="true" value="0.2" min="0.0" max="1.0" type="range" step="0.01">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="rayleigh_strength">Rayleigh strength:</label>
-                    <input id="rayleigh_strength" data-highlight="true" value="0.2" min="0.0" max="1.0" type="range" step="0.01" data-mini="true /">
+                    <input id="rayleigh_strength" data-highlight="true" value="0.2" min="0.0" max="1.0" type="range" step="0.01">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="mie_strength">Mie strength:</label>
-                    <input id="mie_strength" data-highlight="true" value="0.006" min="0.0" max="0.1" type="range" step="0.0001" data-mini="true /">
+                    <input id="mie_strength" data-highlight="true" value="0.006" min="0.0" max="0.1" type="range" step="0.0001">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="rayleigh_collection_power">Rayleigh collection power:</label>
-                    <input id="rayleigh_collection_power" data-highlight="true" value="0.5" min="0.0" max="2.0" type="range" step="0.01" data-mini="true /">
+                    <input id="rayleigh_collection_power" data-highlight="true" value="0.5" min="0.0" max="2.0" type="range" step="0.01">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="mie_collection_power">Mie collection power:</label>
-                    <input id="mie_collection_power" data-highlight="true" value="0.5" min="0.0" max="2.0" type="range" step="0.01" data-mini="true /">
+                    <input id="mie_collection_power" data-highlight="true" value="0.5" min="0.0" max="2.0" type="range" step="0.01">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="mie_distribution">Mie distribution:</label>
-                    <input id="mie_distribution" data-highlight="true" value="0.4" min="0.0" max="2.0" type="range" step="0.01" data-mini="true /">
+                    <input id="mie_distribution" data-highlight="true" value="0.4" min="0.0" max="2.0" type="range" step="0.01">
                 </div>
             </div>
         </div>
@@ -382,7 +385,7 @@
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c ui-disabled">
                     <label for="absorb_factor">Water absorbtion factor:</label>
-                    <input id="absorb_factor" data-highlight="true" value="6.0" min="0.0" max="100.0" type="range" step="1.0" data-mini="true /">
+                    <input id="absorb_factor" data-highlight="true" value="6.0" min="0.0" max="100.0" type="range" step="1.0">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c ui-disabled">
                     <label for="water_fog_color">Underwater fog color:</label>
@@ -390,7 +393,7 @@
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c ui-disabled">
                     <label for="water_fog_density">Underwater fog density:</label>
-                    <input id="water_fog_density" data-highlight="true" value="0.06" min="0.0" max="1.0" type="range" step="0.0001" data-mini="true /">
+                    <input id="water_fog_density" data-highlight="true" value="0.06" min="0.0" max="1.0" type="range" step="0.0001">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c ui-disabled">
                     <label for="shallow_water_col">Shallow water color:</label>
@@ -398,7 +401,7 @@
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c ui-disabled">
                     <label for="shallow_water_col_fac">Shallow water color factor:</label>
-                    <input id="shallow_water_col_fac" data-highlight="true" value="2.0" min="0.0" max="2.0" type="range" step="0.01" data-mini="true /">
+                    <input id="shallow_water_col_fac" data-highlight="true" value="2.0" min="0.0" max="2.0" type="range" step="0.01">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c ui-disabled">
                     <label for="shore_water_col">Shore water color:</label>
@@ -406,15 +409,15 @@
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c ui-disabled">
                     <label for="shore_water_col_fac">Shore water color factor:</label>
-                    <input id="shore_water_col_fac" data-highlight="true" value="1.0" min="0.0" max="2.0" type="range" step="0.01" data-mini="true /">
+                    <input id="shore_water_col_fac" data-highlight="true" value="1.0" min="0.0" max="2.0" type="range" step="0.01">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c ui-disabled">
                     <label for="foam_factor">Water foam factor:</label>
-                    <input id="foam_factor" data-highlight="true" value="0.5" min="0.0" max="1.0" type="range" step="0.001" data-mini="true /">
+                    <input id="foam_factor" data-highlight="true" value="0.5" min="0.0" max="1.0" type="range" step="0.001">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c ui-disabled">
                     <label for="norm_uv_velocity">Normal UV velocity:</label>
-                    <input id="norm_uv_velocity" data-highlight="true" value="0.05" min="0.0" max="1.0" type="range" step="0.001" data-mini="true /">
+                    <input id="norm_uv_velocity" data-highlight="true" value="0.05" min="0.0" max="1.0" type="range" step="0.001">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c ui-disabled">
                     <label for="water_dynamic">Water dynamic:</label>
@@ -425,63 +428,63 @@
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c ui-disabled">
                     <label for="sss_strength">SSS strength:</label>
-                    <input id="sss_strength" data-highlight="true" value="6.0" min="0.0" max="30.0" type="range" step="0.1" data-mini="true /">
+                    <input id="sss_strength" data-highlight="true" value="6.0" min="0.0" max="30.0" type="range" step="0.1">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c ui-disabled">
                     <label for="sss_width">SSS width:</label>
-                    <input id="sss_width" data-highlight="true" value="0.2" min="0.0" max="1.0" type="range" step="0.01" data-mini="true /">
+                    <input id="sss_width" data-highlight="true" value="0.2" min="0.0" max="1.0" type="range" step="0.01">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c ui-disabled">
                     <label for="waves_height">Waves height:</label>
-                    <input id="waves_height" data-highlight="true" value="1.0" min="0.0" max="10.0" type="range" step="0.001" data-mini="true /">
+                    <input id="waves_height" data-highlight="true" value="1.0" min="0.0" max="10.0" type="range" step="0.001">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c ui-disabled">
                     <label for="waves_length">Waves length:</label>
-                    <input id="waves_length" data-highlight="true" value="10.0" min="0.0" max="50.0" type="range" step="1.0" data-mini="true /">
+                    <input id="waves_length" data-highlight="true" value="10.0" min="0.0" max="50.0" type="range" step="1.0">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c ui-disabled">
                     <label for="dst_noise_scale0">Noise distant scale 0:</label>
-                    <input id="dst_noise_scale0" data-highlight="true" value="0.05" min="0.0" max="1.0" type="range" step="0.001" data-mini="true /">
+                    <input id="dst_noise_scale0" data-highlight="true" value="0.05" min="0.0" max="1.0" type="range" step="0.001">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c ui-disabled">
                     <label for="dst_noise_scale1">Noise distant scale 1:</label>
-                    <input id="dst_noise_scale1" data-highlight="true" value="0.03" min="0.0" max="1.0" type="range" step="0.001" data-mini="true /">
+                    <input id="dst_noise_scale1" data-highlight="true" value="0.03" min="0.0" max="1.0" type="range" step="0.001">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c ui-disabled">
                     <label for="dst_noise_freq0">Noise distant frequency 0:</label>
-                    <input id="dst_noise_freq0" data-highlight="true" value="1.3" min="0.0" max="10.0" type="range" step="0.01" data-mini="true /">
+                    <input id="dst_noise_freq0" data-highlight="true" value="1.3" min="0.0" max="10.0" type="range" step="0.01">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c ui-disabled">
                     <label for="dst_noise_freq1">Noise distant frequency 1:</label>
-                    <input id="dst_noise_freq1" data-highlight="true" value="1.0" min="0.0" max="10.0" type="range" step="0.01" data-mini="true /">
+                    <input id="dst_noise_freq1" data-highlight="true" value="1.0" min="0.0" max="10.0" type="range" step="0.01">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c ui-disabled">
                     <label for="dir_min_shore_fac">Directional min shore factor:</label>
-                    <input id="dir_min_shore_fac" data-highlight="true" value="0.4" min="0.0" max="1.0" type="range" step="0.001" data-mini="true /">
+                    <input id="dir_min_shore_fac" data-highlight="true" value="0.4" min="0.0" max="1.0" type="range" step="0.001">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c ui-disabled">
                     <label for="dir_freq">Directional waves frequency:</label>
-                    <input id="dir_freq" data-highlight="true" value="0.5" min="0.0" max="5.0" type="range" step="0.01" data-mini="true /">
+                    <input id="dir_freq" data-highlight="true" value="0.5" min="0.0" max="5.0" type="range" step="0.01">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c ui-disabled">
                     <label for="dir_noise_scale">Directional noise scale:</label>
-                    <input id="dir_noise_scale" data-highlight="true" value="0.05" min="0.0" max="1.0" type="range" step="0.001" data-mini="true /">
+                    <input id="dir_noise_scale" data-highlight="true" value="0.05" min="0.0" max="1.0" type="range" step="0.001">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c ui-disabled">
                     <label for="dir_noise_freq">Directional noise frequency:</label>
-                    <input id="dir_noise_freq" data-highlight="true" value="0.07" min="0.0" max="1.0" type="range" step="0.001" data-mini="true /">
+                    <input id="dir_noise_freq" data-highlight="true" value="0.07" min="0.0" max="1.0" type="range" step="0.001">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c ui-disabled">
                     <label for="dir_min_noise_fac">Directional min noise factor:</label>
-                    <input id="dir_min_noise_fac" data-highlight="true" value="0.5" min="0.0" max="1.0" type="range" step="0.01" data-mini="true /">
+                    <input id="dir_min_noise_fac" data-highlight="true" value="0.5" min="0.0" max="1.0" type="range" step="0.01">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c ui-disabled">
                     <label for="dst_min_fac">Distant waves min factor:</label>
-                    <input id="dst_min_fac" data-highlight="true" value="0.2" min="0.0" max="1.0" type="range" step="0.01" data-mini="true /">
+                    <input id="dst_min_fac" data-highlight="true" value="0.2" min="0.0" max="1.0" type="range" step="0.01">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c ui-disabled">
                     <label for="waves_hor_fac">Waves horizontal factor:</label>
-                    <input id="waves_hor_fac" data-highlight="true" value="20" min="0.0" max="10.0" type="range" step="0.1" data-mini="true /">
+                    <input id="waves_hor_fac" data-highlight="true" value="20" min="0.0" max="10.0" type="range" step="0.1">
                 </div>
             </div>
         </div>
@@ -493,11 +496,11 @@
             <div class="ui-grid-solo">
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="fog_density">Density:</label>
-                    <input id="fog_density" data-highlight="true" value="0.0" min="0.0" max="1.0" type="range" step="0.001" data-mini="true /">
+                    <input id="fog_density" data-highlight="true" value="0.0" min="0.0" max="1.0" type="range" step="0.001">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="fog_density1000">Density x 1000:</label>
-                    <input id="fog_density1000" data-highlight="true" value="0.0" min="0.0" max="200.0" type="range" step="0.002" data-mini="true /">
+                    <input id="fog_density1000" data-highlight="true" value="0.0" min="0.0" max="200.0" type="range" step="0.002">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="fog_color">Color:</label>
@@ -512,11 +515,11 @@
             <div class="ui-grid-solo">
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="wind_dir">Wind direction:</label>
-                    <input id="wind_dir" data-highlight="true" min="0" max="360" value="0" type="range" step="0.1" data-mini="true /">
+                    <input id="wind_dir" data-highlight="true" min="0" max="360" value="0" type="range" step="0.1">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="wind_strength">Wind strength:</label>
-                    <input id="wind_strength" data-highlight="true" min="0.01" max="10" value="0.0" type="range" step="0.01" data-mini="true /">
+                    <input id="wind_strength" data-highlight="true" min="0.01" max="10" value="0.0" type="range" step="0.01">
                 </div>
             </div>
         </div>
@@ -550,19 +553,19 @@
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="ssao_blur_discard_value">Blur depth discard:</label>
-                    <input id="ssao_blur_discard_value" data-highlight="true" value="0.0" min="0.0" max="2.0" type="range" step="0.01" data-mini="true /">
+                    <input id="ssao_blur_discard_value" data-highlight="true" value="0.0" min="0.0" max="2.0" type="range" step="0.01">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="ssao_radius_increase">Radius Increase:</label>
-                    <input id="ssao_radius_increase" data-highlight="true" value="0.0" min="0.0" max="15.0" type="range" step="0.01" data-mini="true /">
+                    <input id="ssao_radius_increase" data-highlight="true" value="0.0" min="0.0" max="15.0" type="range" step="0.01">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="ssao_influence">Influence:</label>
-                    <input id="ssao_influence" data-highlight="true" value="0.0" min="0.0" max="1.0" type="range" step="0.005" data-mini="true /">
+                    <input id="ssao_influence" data-highlight="true" value="0.0" min="0.0" max="1.0" type="range" step="0.005">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="ssao_dist_factor">Distance factor:</label>
-                    <input id="ssao_dist_factor" data-highlight="true" value="0.0" min="0.0" max="20.0" type="range" step="0.01" data-mini="true /">
+                    <input id="ssao_dist_factor" data-highlight="true" value="0.0" min="0.0" max="20.0" type="range" step="0.01">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="ssao_only">SSAO only:</label>
@@ -587,15 +590,15 @@
             <div class="ui-grid-solo">
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="god_rays_intensity">Intensity:</label>
-                    <input id="god_rays_intensity" data-highlight="true" value="0.0" min="0.0" max="5.0" type="range" step="0.01" data-mini="true /">
+                    <input id="god_rays_intensity" data-highlight="true" value="0.0" min="0.0" max="5.0" type="range" step="0.01">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="god_rays_max_ray_length">Max Ray Length:</label>
-                    <input id="god_rays_max_ray_length" data-highlight="true" value="0.0" min="0.0" max="5.0" type="range" step="0.01" data-mini="true /">
+                    <input id="god_rays_max_ray_length" data-highlight="true" value="0.0" min="0.0" max="5.0" type="range" step="0.01">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="god_rays_steps">Steps:</label>
-                    <input id="god_rays_steps" data-highlight="true" value="0.0" min="1.0" max="30.0" type="range" step="1.0" data-mini="true /">
+                    <input id="god_rays_steps" data-highlight="true" value="0.0" min="1.0" max="30.0" type="range" step="1.0">
                 </div>
             </div>
         </div>
@@ -606,15 +609,15 @@
             <div class="ui-grid-solo">
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="bloom_key">Bloom key:</label>
-                    <input id="bloom_key" data-highlight="true" value="0.0" min="0.0" max="5.0" type="range" step="0.01" data-mini="true /">
+                    <input id="bloom_key" data-highlight="true" value="0.0" min="0.0" max="5.0" type="range" step="0.01">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="bloom_blur">Bloom blur:</label>
-                    <input id="bloom_blur" data-highlight="true" value="0.0" min="0.0" max="20.0" type="range" step="0.01" data-mini="true /">
+                    <input id="bloom_blur" data-highlight="true" value="0.0" min="0.0" max="20.0" type="range" step="0.01">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="bloom_edge_lum">Bloom edge luminance:</label>
-                    <input id="bloom_edge_lum" data-highlight="true" value="0.0" min="0.0" max="3.0" type="range" step="0.01" data-mini="true /">
+                    <input id="bloom_edge_lum" data-highlight="true" value="0.0" min="0.0" max="3.0" type="range" step="0.01">
                 </div>
             </div>
         </div>
@@ -625,19 +628,19 @@
             <div class="ui-grid-solo">
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="dof_distance">Distance:</label>
-                    <input id="dof_distance" data-highlight="true" value="0.0" min="0.0" max="200.0" type="range" step="0.01" data-mini="true /">
+                    <input id="dof_distance" data-highlight="true" value="0.0" min="0.0" max="200.0" type="range" step="0.01">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="dof_front">Front:</label>
-                    <input id="dof_front" data-highlight="true" value="0.0" min="0.0" max="10.0" type="range" step="0.01" data-mini="true /">
+                    <input id="dof_front" data-highlight="true" value="0.0" min="0.0" max="10.0" type="range" step="0.01">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="dof_rear">Rear:</label>
-                    <input id="dof_rear" data-highlight="true" value="0.0" min="0.0" max="5000.0" type="range" step="0.01" data-mini="true /">
+                    <input id="dof_rear" data-highlight="true" value="0.0" min="0.0" max="5000.0" type="range" step="0.01">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="dof_power">Power:</label>
-                    <input id="dof_power" data-highlight="true" value="0.0" min="0.0" max="20.0" type="range" step="0.01" data-mini="true /">
+                    <input id="dof_power" data-highlight="true" value="0.0" min="0.0" max="20.0" type="range" step="0.01">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="dof_on">DOF_on:</label>
@@ -656,19 +659,19 @@
             <div class="ui-grid-solo">
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="brightness">Brightness:</label>
-                    <input id="brightness" data-highlight="true" value="0.0" min="-1.0" max="1.0" type="range" step="0.01" data-mini="true /">
+                    <input id="brightness" data-highlight="true" value="0.0" min="-1.0" max="1.0" type="range" step="0.01">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="contrast">Contrast:</label>
-                    <input id="contrast" data-highlight="true" value="0.0" min="-1.0" max="1.0" type="range" step="0.01" data-mini="true /">
+                    <input id="contrast" data-highlight="true" value="0.0" min="-1.0" max="1.0" type="range" step="0.01">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="exposure">Exposure:</label>
-                    <input id="exposure" data-highlight="true" value="0.0" min="0.0" max="2.0" type="range" step="0.01" data-mini="true /">
+                    <input id="exposure" data-highlight="true" value="0.0" min="0.0" max="2.0" type="range" step="0.01">
                 </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="saturation">Saturation:</label>
-                    <input id="saturation" data-highlight="true" value="0.0" min="0.0" max="2.0" type="range" step="0.01" data-mini="true /">
+                    <input id="saturation" data-highlight="true" value="0.0" min="0.0" max="2.0" type="range" step="0.01">
                 </div>
             </div>
         </div>
@@ -699,6 +702,8 @@
                     </select>
                 </div>
             </div>
+
+            Use "[" and "]" keys to control the distance to convergence plane.
         </div>
 
         <div data-role="collapsible" data-collapsed="true">
@@ -743,6 +748,13 @@
                     <select id="show_hud_debug_info" data-role="slider" data-mini="true">
                         <option value="0" selected>No</option>
                         <option value="1">Yes</option>
+                    </select>
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="all_objs_selectable">All objects selectable:</label>
+                    <select id="all_objs_selectable" data-role="slider" data-mini="true">
+                        <option value="0">No</option>
+                        <option value="1" selected>Yes</option>
                     </select>
                 </div>
 

@@ -59,9 +59,10 @@ exports.is_play = function(obj) {
  * @param {Boolean} cyclic
  * @param {Number} [duration=0] Duration in float seconds
  * @param {Number} [playrate=1] Playback rate
- * @deprecated Use play() or play_def()
+ * @deprecated Use play() or play_def() instead
  */
 exports.speaker_play = function(obj, cyclic, duration, playrate) {
+    m_print.error("speaker_play() deprecated, use play() or play_def() instead");
     m_sfx.cyclic(obj, cyclic);
     if (playrate)
         m_sfx.playrate(obj, playrate);
@@ -72,9 +73,10 @@ exports.speaker_play = function(obj, cyclic, duration, playrate) {
  * Stop the speaker.
  * @method module:sfx.speaker_stop
  * @param {Object} obj Object ID
- * @deprecated Use stop()
+ * @deprecated Use stop() instead
  */
 exports.speaker_stop = function(obj) {
+    m_print.error("speaker_stop() deprecated, use stop() instead");
     m_sfx.stop(obj);
 }
 
@@ -108,9 +110,10 @@ exports.resume = function(obj) {
 /**
  * Change the speaker playback rate value
  * @method module:sfx.speaker_playback_rate
- * @deprecated Use playrate()
+ * @deprecated Use playrate() instead
  */
 exports.speaker_playback_rate = function(obj, playrate) {
+    m_print.error("speaker_playback_rate() deprecated, use playrate() instead");
     m_sfx.playrate(obj, playrate);
 }
 /**
@@ -238,9 +241,10 @@ exports.get_speaker_objects = function() {
 
 /**
  * @method module:sfx.get_speakers
- * @deprecated Use get_speaker_objects()
+ * @deprecated Use get_speaker_objects() instead
  */
 exports.get_speakers = function() {
+    m_print.error("get_speakers() deprecated, use get_speaker_objects() instead");
     return exports.get_speaker_objects();
 }
 

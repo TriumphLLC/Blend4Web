@@ -167,7 +167,7 @@ function move_destination_if_too_close(ev_track, dest, cur_loc) {
     var speed = ev_track.speed;
     var rot_speed = ev_track.rot_speed;
 
-    m_trans.get_rotation_quat(ev_track.collider, cur_rot_q);
+    m_trans.get_rotation(ev_track.collider, cur_rot_q);
     m_vec3.transformQuat(m_util.AXIS_Z, cur_rot_q, cur_hor_dir);
     cur_hor_dir[1] = 0;
     m_vec3.normalize(cur_hor_dir, cur_hor_dir);
@@ -193,7 +193,7 @@ function anim_translation(elapsed, ev_track) {
     var speed      = ev_track.speed;
     var actions    = ev_track.actions;
 
-    var cur_anim   = m_anim.get_current_action(rig);
+    var cur_anim   = m_anim.get_current_anim_name(rig);
 
     // skip iteration if idle animation is playing
     if (m_anim.is_play(rig) && actions.idle
@@ -216,7 +216,7 @@ function anim_translation(elapsed, ev_track) {
         hor_rot (ev_track, cur_dir, elapsed, new_rot_q, new_hor_dir);
         vert_rot(ev_track, cur_dir, elapsed, new_rot_q);
 
-        m_trans.set_rotation_quat_v(collider, new_rot_q);
+        m_trans.set_rotation_v(collider, new_rot_q);
 
         // translation
         trans_obj(elapsed, new_rot_q, ev_track, cur_loc, dest);
@@ -245,7 +245,7 @@ function hor_rot(ev_track, cur_dir, elapsed, new_rot_q, new_hor_dir) {
     var cur_rot_q   = _quat4_tmp_2;
     var cur_hor_dir = _vec3_tmp_4;
 
-    m_trans.get_rotation_quat(ev_track.collider, cur_rot_q);
+    m_trans.get_rotation(ev_track.collider, cur_rot_q);
     m_vec3.transformQuat(m_util.AXIS_Z, cur_rot_q, cur_dir);
 
     cur_hor_dir[0]  = cur_dir[0];
@@ -348,7 +348,7 @@ exports.disable_animation = function() {
         var ev = _ev_tracks[i];
 
         if (m_ctl.check_sensor_manifolds(ev.collider))
-            m_ctl.remove_sensor_manifolds(ev.collider);
+            m_ctl.remove_sensor_manifold(ev.collider);
 
         if (m_anim.is_play(ev.rig))
             m_anim.stop(ev.rig);
@@ -486,7 +486,7 @@ function create_sensors() {
         create_track_ray_sensors(ev_track);
         create_track_collision_sensors(ev_track);
 
-        if (ev_track.rig && m_anim.get_current_action(ev_track.rig))
+        if (ev_track.rig && m_anim.get_current_anim_name(ev_track.rig))
             m_anim.play(ev_track.rig);
     }
 }
@@ -574,7 +574,7 @@ function need_proper_animation(ev_track) {
         return true;
     }
 
-    var cur_anim  = m_anim.get_current_action(obj);
+    var cur_anim  = m_anim.get_current_anim_name(obj);
     if (!cur_anim)
         return true;
 
@@ -628,8 +628,8 @@ function apply_animation(ev_track) {
 
     if (anim_to_play) {
         m_anim.apply(obj, anim_to_play);
-        m_anim.cyclic(obj, false);
-        m_anim.set_current_frame_float(obj, 0);
+        m_anim.set_behavior(obj, m_anim.AB_FINISH_RESET);
+        m_anim.set_frame(obj, 0);
         m_anim.play(obj);
     }
 }
@@ -645,7 +645,7 @@ function get_idle_animation(ev_track) {
 
 function get_move_animation(ev_track) {
 
-    var cur_anim = m_anim.get_current_action(ev_track.rig);
+    var cur_anim = m_anim.get_current_anim_name(ev_track.rig);
     var actions = ev_track.actions;
 
     if (need_move_blend_animation(ev_track, cur_anim)) {
@@ -754,7 +754,7 @@ function dest_anim_correction(ev_track, dest, l_to_p, new_dir) {
     var speed        = ev_track.speed;
     var left_to_pass = l_to_p;
 
-    var cur_frame         = m_anim.get_current_frame_float(obj);
+    var cur_frame         = m_anim.get_frame(obj);
     var anim_length       = m_anim.get_anim_length(obj);
     var path_per_cycle    = anim_length / 24 * speed;
     var left_to_pass_anim = (1 - cur_frame / anim_length) * path_per_cycle;

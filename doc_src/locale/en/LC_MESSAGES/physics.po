@@ -471,10 +471,9 @@ msgstr ""
 "The physics system is implemented in the **uranium.js** module and loaded "
 "separately from the engine's main code. The **uranium.js** module itself is "
 "a modification of the `Bullet <http://bulletphysics.org/>`_ physics engine, "
-"which is ported to work in browsers. To enable physics system just "
-"place the module **uranium.js** in the same directory "
-"as the source code of your application."
-
+"which is ported to work in browsers. To enable physics system just place the"
+" module **uranium.js** in the same directory as the source code of your "
+"application."
 
 #: ../physics.rst:227
 msgid ""
@@ -484,12 +483,23 @@ msgstr ""
 "Another method is to explicitly specify the **uranium.js** module's loading "
 "path, using the following API:"
 
-#: ../physics.rst:233
+#: ../physics.rst:235
+msgid ""
+"При разработке приложения :ref:`в составе SDK <sdk_dev>` путь к физическому "
+"движку определяется автоматически."
+msgstr ""
+"When applications are developed :ref:`within the SDK <sdk_dev>`, the path to "
+"the physics engine is detected automatically."
+
+#: ../physics.rst:238
 msgid ""
 "Если использование физики не требуется, рекомендуется отключить загрузку "
 "модуля **uranium.js** до начала инициализации движка с помощью метода "
 "**set** из модуля **config.js**:"
 msgstr ""
-"If physics is not required, it's adviced to disable the loading of "
-"**uranium.js** module before the engine's initialization by using "
-"the method **set** from **config.js** module:"
+"If physics is not required to use, we recommend to disable the loading of "
+"**uranium.js** module. This can be done by using the method"
+" **set** from **config.js** module before the engine's initialization:"
+
+
+

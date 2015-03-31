@@ -331,7 +331,7 @@ function dm_check_declaration(data_manager, node) {
         decl_id_type = get_type_name(node.type);
         decl_id_type_qualifier = get_type_qualifier(node.type);
         break;
-    case "condition":
+    case "condition_initializer":
         decl_type = DM_DECL_VAR;
         decl_id = node.identifier;
         decl_id_type = get_type_name(node.id_type);

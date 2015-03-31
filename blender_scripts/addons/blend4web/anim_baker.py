@@ -45,12 +45,15 @@ class B4W_Anim_Baker(bpy.types.Operator):
         buf_action = None
         armatures = []
         current_modes = []
+        current_hidden_states = []
         current_poselibs = []
 
         for obj in bpy.data.objects:
             if obj.type == "ARMATURE" and obj.library is None:
                 bpy.context.scene.objects.active = obj
                 current_modes.append(obj.mode)
+                current_hidden_states.append(bpy.context.object.hide)
+                bpy.context.object.hide = False
                 bpy.ops.object.mode_set(mode='POSE')
                 current_poselibs.append(obj.pose_library)
 
@@ -61,7 +64,6 @@ class B4W_Anim_Baker(bpy.types.Operator):
                 armatures.append(obj.name)
                 obj.pose_library = buf_action
                 bpy.ops.poselib.pose_add(frame=len(buf_action.pose_markers))
-
         # create baked actions
         for action in valid_actions:
             self.process_action(action, armobj)
@@ -78,6 +80,7 @@ class B4W_Anim_Baker(bpy.types.Operator):
             bpy.ops.poselib.unlink()
             bpy.ops.object.mode_set(mode=current_modes[armname[0]])
             obj.pose_library = current_poselibs[armname[0]]
+            bpy.context.object.hide = current_hidden_states[armname[0]]
         
         if buf_action is not None:
             bpy.data.actions.remove(buf_action)
@@ -86,6 +89,7 @@ class B4W_Anim_Baker(bpy.types.Operator):
         del armatures
         del current_modes
         del current_poselibs
+        del current_hidden_states
 
         # restore auto keyframes tool mode
         bpy.context.scene.tool_settings.use_keyframe_insert_auto = use_kia

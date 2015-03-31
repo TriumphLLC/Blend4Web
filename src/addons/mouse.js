@@ -239,16 +239,13 @@ function smooth_cb(obj, id, pulse) {
         var character = m_scs.get_first_character();
         var camera    = m_scs.get_active_camera();
 
-        m_cam.rotate(camera, -rot_x * FPS_MOUSE_MULT, rot_y * FPS_MOUSE_MULT);
+        m_cam.rotate_eye_camera(camera, -rot_x * FPS_MOUSE_MULT, -rot_y * FPS_MOUSE_MULT);
 
         _mouse_delta[0] -= rot_x;
         _mouse_delta[1] -= rot_y;
 
         if (character) {
-            var angles = _vec2_tmp;
-            m_cam.get_angles(camera, angles);
-            angles[0] += Math.PI;
-            angles[1] *= -1;
+            var angles = m_cam.get_camera_angles_char(camera, _vec2_tmp);
             m_phy.set_character_rotation(character, angles[0], angles[1]);
         }
     }

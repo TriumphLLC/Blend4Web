@@ -206,6 +206,7 @@ function apply_cons(obj, cons) {
     obj._constraint = cons;
 }
 
+exports.assign_parent_descendant = assign_parent_descendant;
 function assign_parent_descendant(obj_parent, obj) {
     if (obj_parent._descends.indexOf(obj) == -1)
         obj_parent._descends.push(obj);
@@ -213,6 +214,7 @@ function assign_parent_descendant(obj_parent, obj) {
         throw "Descendant object override is forbidden";
 }
 
+exports.remove_parent_descendant = remove_parent_descendant;
 function remove_parent_descendant(obj_parent, obj) {
     var ind = obj_parent._descends.indexOf(obj);
     if (ind != -1)

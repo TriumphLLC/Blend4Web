@@ -1330,6 +1330,10 @@ exports.check_bpy_data = function(bpy_data) {
                 obj["b4w_group_relative"] = false;
                 report("object", obj, "b4w_group_relative");
             }
+            if (!("b4w_anchor" in obj)) {
+                obj["b4w_anchor"] = null;
+                report("object", obj, "b4w_anchor");
+            }
             break;
         default:
             break;
@@ -1497,12 +1501,12 @@ exports.check_bpy_data = function(bpy_data) {
         if (obj["animation_data"]) {
             if (!("action" in obj["animation_data"])) {
                 obj["animation_data"]["action"] = null;
-                report_raw("B4W Warning: no action in animation data " + obj["name"]);
+                report_raw("no action in animation data " + obj["name"]);
             }
 
             if (!("nla_tracks" in obj["animation_data"])) {
                 obj["animation_data"]["nla_tracks"] = [];
-                report_raw("B4W Warning: no NLA in animation data " + obj["name"]);
+                report_raw("no NLA in animation data " + obj["name"]);
             }
 
             var nla_tracks = obj["animation_data"]["nla_tracks"];
@@ -1513,16 +1517,16 @@ exports.check_bpy_data = function(bpy_data) {
                     var strip = track["strips"][k];
                     if (!("action" in strip)) {
                         strip["action"] = null;
-                        report_raw("B4W Warning: no action in NLA strip " + obj["name"]);
+                        report_raw("no action in NLA strip " + obj["name"]);
                     }
                     if (!("action_frame_start" in strip)) {
                         strip["action_frame_start"] = 0;
-                        report_raw("B4W Warning: no action_frame_start in NLA strip " +
+                        report_raw("no action_frame_start in NLA strip " +
                                 obj["name"]);
                     }
                     if (!("action_frame_end" in strip)) {
                         strip["action_frame_end"] = strip["frame_end"] - strip["frame_start"];
-                        report_raw("B4W Warning: no action_frame_start in NLA strip " +
+                        report_raw("no action_frame_start in NLA strip " +
                                 obj["name"]);
                     }
                 }
@@ -1535,7 +1539,7 @@ exports.check_bpy_data = function(bpy_data) {
         }
 
         if (!check_uniform_scale(obj))
-            report_raw("B4W Warning: non-uniform scale for object " + obj["name"]);
+            report_raw("non-uniform scale for object " + obj["name"]);
     }
 
     if (_unreported_compat_issues)
@@ -1658,6 +1662,14 @@ function check_uniform_scale(obj) {
     return (delta1 < 0.001 && delta2 < 0.001);
 }
 
+exports.check_anim_fcurve_completeness = function(fcurve, action) {
+    if (!("num_channels" in fcurve)) {
+        fcurve["num_channels"] = 1;
+        report_raw("B4W Warning: no channels number in animation fcurve for \"" +
+                   action["name"] + "\" action, reexport " +
+                   (action["library"] ? "library" + libname(action) : "main scene"));
+    }
+}
 
 /**
  * Apply modifiers for mesh object and return new mesh.
@@ -2066,6 +2078,8 @@ function mesh_join(mesh, mesh2) {
                 submesh[prop] = m_util.uint32_concat(submesh[prop], submesh2[prop]);
                 for (var j = index_length; j < submesh["indices"].length; j++)
                     submesh["indices"][j] += base_length;
+            } else if (prop == "vertex_colors") {
+                // leave vertex colors from the first mesh
             } else
                 submesh[prop] = m_util.float32_concat(submesh[prop], submesh2[prop]);
         }

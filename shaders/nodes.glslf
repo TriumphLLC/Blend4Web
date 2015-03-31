@@ -1,7 +1,8 @@
 #var WATER_LEVEL 0.0
 #var WAVES_HEIGHT 0.0
 #var NUM_LAMP_LIGHTS 0
-#var NUM_ANIM_VALUES 0
+#var NUM_VALUES 0
+#var NUM_RGBS 0
 
 // node dirs
 #var MAPPING_TRS_MATRIX mat4(0.0)
@@ -10,6 +11,8 @@
 #var MAPPING_MIN_CLIP vec3(0.0)
 #var MAPPING_MAX_CLIP vec3(0.0)
 #var MAPPING_IS_NORMAL 0.0
+#var RGB_IND 0
+#var VALUE_IND 0
 
 /*============================================================================
                                   INCLUDES
@@ -48,9 +51,7 @@ uniform samplerCube u_sky_texture;
 uniform vec3 u_light_positions[NUM_LIGHTS];
 uniform vec3 u_light_directions[NUM_LIGHTS];
 uniform vec3 u_light_color_intensities[NUM_LIGHTS];
-uniform vec4 u_light_factors1[NUM_LIGHTS];
-uniform vec4 u_light_factors2[NUM_LIGHTS];
-uniform int u_shadow_lamp_id;
+uniform vec4 u_light_factors[NUM_LFACTORS];
 #endif
 
 #if WATER_EFFECTS && CAUSTICS
@@ -142,8 +143,12 @@ uniform vec3 u_lamp_light_color_intensities[NUM_LAMP_LIGHTS];
 uniform vec4 u_lamp_light_factors[NUM_LAMP_LIGHTS];
 #endif
 
-#if USE_NODE_ANIM_VALUE
-uniform float u_anim_values[NUM_ANIM_VALUES];
+#if USE_NODE_VALUE
+uniform float u_node_values[NUM_VALUES];
+#endif
+
+#if USE_NODE_RGB
+uniform vec3 u_node_rgbs[NUM_RGBS];
 #endif
 
 /*============================================================================
@@ -805,8 +810,7 @@ vec = vec_in;
     #node_out vec3 color
 {
     float clamped_factor = clamp(factor, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
-    float factorm = UNITY_VALUE_NODES - clamped_factor;
-    vec3 f_vec = vec3(factorm);
+    vec3 f_vec = vec3(UNITY_VALUE_NODES - clamped_factor);
     color = mix(color1 * (f_vec + 2.0*clamped_factor*color2),
                 UNITY_VECTOR - (f_vec + 2.0*clamped_factor*(UNITY_VECTOR - color2)) * (UNITY_VECTOR - color1),
                 step(0.5, color1));
@@ -823,11 +827,8 @@ vec = vec_in;
 {
     float clamped_factor = clamp(factor, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
     vec3 tmp = UNITY_VECTOR - clamped_factor * color2;
-    vec3 tmp1 = color1 / (tmp + step(tmp, ZERO_VECTOR));
-    color = (UNITY_VECTOR - step(color1, ZERO_VECTOR)) * mix(
-                  mix(UNITY_VECTOR, tmp1, step(tmp1, UNITY_VECTOR)),
-                  UNITY_VECTOR,
-                  step(tmp, ZERO_VECTOR));
+    vec3 tmp1 = clamp(color1 / tmp, 0.0, 1.0);
+    color = mix(mix(tmp1, UNITY_VECTOR, step(tmp, ZERO_VECTOR)), color1, step(color1, ZERO_VECTOR));
 # node_if MIX_RGB_USE_CLAMP
     color = clamp(color, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
 # node_endif
@@ -839,12 +840,11 @@ vec = vec_in;
     #node_in vec3 color2
     #node_out vec3 color
 {
-    float clamped_factor = clamp(factor, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
-    vec3 tmp = UNITY_VECTOR - clamped_factor * (UNITY_VECTOR - color2);
-    vec3 tmp1 = UNITY_VECTOR - (UNITY_VECTOR - color1)/(tmp + step(tmp, ZERO_VECTOR));
-    color = mix(mix(ZERO_VECTOR, mix(UNITY_VECTOR, tmp1, step(tmp1, UNITY_VECTOR)), step(ZERO_VALUE_NODES, tmp1)),
-                ZERO_VECTOR,
-                step(tmp, ZERO_VECTOR));
+    float clamped_factor = clamp(factor, 0.0, 1.0);
+    vec3 facm = vec3(1.0 - clamped_factor);
+    vec3 tmp = facm + clamped_factor*color2;
+    vec3 tmp1 = clamp(UNITY_VECTOR - (UNITY_VECTOR - color1) / tmp, 0.0, 1.0);
+    color = mix(tmp1, ZERO_VECTOR, step(tmp, ZERO_VECTOR));
 # node_if MIX_RGB_USE_CLAMP
     color = clamp(color, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
 # node_endif
@@ -969,7 +969,7 @@ vec = vec_in;
     #node_out vec3 color
 {
     float clamped_factor = clamp(factor, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
-    color = clamp(color1 + clamped_factor * (2.0 * color2 - UNITY_VECTOR), ZERO_VALUE_NODES, UNITY_VALUE_NODES);
+    color = color1 + clamped_factor * (2.0 * color2 - UNITY_VECTOR);
 # node_if MIX_RGB_USE_CLAMP
     color = clamp(color, ZERO_VALUE_NODES, UNITY_VALUE_NODES);
 # node_endif
@@ -1022,8 +1022,8 @@ vec = vec_in;
     vec2 sp_params = vec2(specular_params[1], specular_params[2]);
     lresult = lighting(E, A, D, S, nin_pos_world, normal, nin_eye_dir, sp_params,
         dif_params, shadow_factor, u_light_positions, u_light_directions, 
-        u_light_color_intensities, u_light_factors1, u_light_factors2, ZERO_VALUE_NODES,
-        vec4(ZERO_VALUE_NODES), u_shadow_lamp_id);
+        u_light_color_intensities, u_light_factors, ZERO_VALUE_NODES,
+        vec4(ZERO_VALUE_NODES));
 #  node_else
     lresult = lighting_ambient(E, A, D);
 #  node_endif
@@ -1110,8 +1110,8 @@ vec = vec_in;
     vec2 sp_params = vec2(specular_params[1], specular_params[2]);
     lresult = lighting(E, A, D, S, nin_pos_world, normal, nin_eye_dir, sp_params, 
         dif_params, shadow_factor, u_light_positions, u_light_directions, 
-        u_light_color_intensities, u_light_factors1, u_light_factors2, 
-        translucency_color, translucency_params, u_shadow_lamp_id);
+        u_light_color_intensities, u_light_factors,
+        translucency_color, translucency_params);
 #  node_else
     lresult = lighting_ambient(E, A, D);
 #  node_endif
@@ -1172,8 +1172,7 @@ vec = vec_in;
 
 #node RGB
     #node_out vec3 color_out
-    #node_param vec3 color
-    color_out = color;
+    color_out = u_node_rgbs[RGB_IND];
 #endnode
 
 #node RGBTOBW
@@ -1242,6 +1241,15 @@ vec = vec_in;
     #node_out vec3 color_out
     color_out = max(ZERO_VECTOR, color_in);
     color_out = pow(color_out, vec3(UNITY_VALUE_NODES/2.2));
+#endnode
+
+#node TEXTURE_EMPTY
+    #node_out vec3 color
+    #node_out vec3 normal
+    #node_out float value
+{
+    value = color[0] = color[1] = color[2] = normal[0] = normal[1] = normal[2] = 0.0;
+}
 #endnode
 
 #node TEXTURE_COLOR
@@ -1504,13 +1512,7 @@ vec = vec_in;
 
 #node VALUE
     #node_out float value_out
-    #node_param const float value
-    value_out = value;
-#endnode
-#node ANIM_VALUE
-    #node_out float value_out
-    #node_param const int ind
-    value_out = u_anim_values[ind];
+    value_out = u_node_values[VALUE_IND];
 #endnode
 
 #node VECT_MATH_ADD
@@ -1721,7 +1723,7 @@ void main(void) {
 
     // NOTE: array uniforms used in nodes can't be renamed:
     // u_light_positions, u_light_directions, u_light_color_intensities,
-    // u_light_factors1, u_light_factors2;
+    // u_light_factors;
 
     vec3 eye_dir = u_camera_eye_frag - v_pos_world;
     vec3 nin_eye_dir = normalize(eye_dir);

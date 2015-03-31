@@ -2,8 +2,8 @@
 
 /** 
  * Camera API. 
- * All functions require a valid camera object ID.
- * Constraints and standard translation/rotation functions also supported.
+ * All functions require a valid camera object ID. Use get_object_by_name() or
+ * get_active_camera() from {@link module:scenes} to retrieve it.
  * @module camera
  */
 b4w.module["camera"] = function(exports, require) {
@@ -27,8 +27,6 @@ var cfg_ctl = config.controls;
 var _vec2_tmp = new Float32Array(2);
 var _vec3_tmp = new Float32Array(3);
 var _vec3_tmp2 = new Float32Array(3);
-var _quat4_tmp = new Float32Array(4);
-var _quat4_tmp2 = new Float32Array(4);
 var _vec4_tmp = new Float32Array(4);
 var _mat3_tmp = new Float32Array(9);
 
@@ -42,12 +40,6 @@ exports.MS_STATIC = camera.MS_STATIC;
  * @const module:camera.MS_ANIMATION
  */
 exports.MS_ANIMATION = camera.MS_ANIMATION;
-/**
- * Camera movement style - controls.
- * @const module:camera.MS_CONTROLS
- * @deprecated Use MS_TARGET_CONROLS or MS_EYE_CONTROLS
- */
-exports.MS_CONTROLS = camera.MS_TARGET_CONTROLS;
 /**
  * Camera movement style - target.
  * @const module:camera.MS_TARGET_CONTROLS
@@ -68,15 +60,38 @@ exports.MS_HOVER_CONTROLS = camera.MS_HOVER_CONTROLS;
  * Check if the object is a camera.
  * @method module:camera.is_camera
  * @param {Object} obj Object ID
+ * @returns {Boolean} Checking result.
  */
-exports.is_camera = function(obj) {
-    return camera.is_camera(obj);
-}
+exports.is_camera = camera.is_camera;
+
+/**
+ * Check if the object is a camera and has MS_TARGET_CONTROLS move style
+ * @method module:camera.is_target_camera
+ * @param {Object} obj Object ID
+ * @returns {Boolean} Checking result.
+ */
+exports.is_target_camera = camera.is_target_camera;
+
+/**
+ * Check if the object is a camera and has MS_EYE_CONTROLS move style
+ * @method module:camera.is_eye_camera
+ * @param {Object} obj Object ID
+ * @returns {Boolean} Checking result.
+ */
+exports.is_eye_camera = camera.is_eye_camera;
+
+/**
+ * Check if the object is a camera and has MS_HOVER_CONTROLS move style
+ * @method module:camera.is_hover_camera
+ * @param {Object} obj Object ID
+ * @returns {Boolean} Checking result.
+ */
+exports.is_hover_camera = camera.is_hover_camera;
 
 /**
  * Set camera movement style (MS_*)
  * @method module:camera.set_move_style
- * @param {Object} camobj Camera Object ID
+ * @param {Object} camobj Camera object ID
  * @param {Number} move_style Camera movement style
  */
 exports.set_move_style = function(camobj, move_style) {
@@ -85,7 +100,7 @@ exports.set_move_style = function(camobj, move_style) {
 /**
  * Get camera movement style
  * @method module:camera.get_move_style
- * @param {Object} camobj Camera Object ID
+ * @param {Object} camobj Camera object ID
  * @returns {Number} Camera movement style
  */
 exports.get_move_style = function(camobj) {
@@ -100,7 +115,7 @@ exports.get_move_style = function(camobj) {
 /**
  * Set camera velocity params
  * @method module:camera.set_velocity_params
- * @param {Object} camobj Camera Object ID
+ * @param {Object} camobj Camera object ID
  * @param {Float32Array} velocity Camera velocity params (velocity_trans, velocity_rot, velocity_zoom)
  */
 exports.set_velocity_params = function(camobj, velocity) {
@@ -120,7 +135,7 @@ exports.set_velocity_params = function(camobj, velocity) {
 /**
  * Get camera velocity params
  * @method module:camera.get_velocity_params
- * @param {Object} camobj Camera Object ID
+ * @param {Object} camobj Camera object ID
  * @param {Float32Array} [dest] Velocity params
  * @returns {Float32Array} Velocity params (velocity_trans, velocity_rot, velocity_zoom)
  */
@@ -146,17 +161,9 @@ exports.get_velocity_params = function(camobj, dest) {
 }
 
 /**
- * @method module:camera.change_eye_target_dist
- * @deprecated eye-target distance is a constant now
- */
-exports.change_eye_target_dist = function() {
-    m_print.error("change_eye_target_dist() deprecated");
-}
-
-/**
  * Low-level function: set camera position based on input parameters
  * @method module:camera.set_look_at
- * @param {Object} camobj Camera Object ID
+ * @param {Object} camobj Camera object ID
  * @param {Float32Array} eye Eye vector
  * @param {Float32Array} target Target vector
  * @param {Float32Array} up Up vector
@@ -173,7 +180,7 @@ exports.set_look_at = function(camobj, eye, target, up) {
 /**
  * Get camera eye vector.
  * @method module:camera.get_eye
- * @param {Object} camobj Camera Object ID
+ * @param {Object} camobj Camera object ID
  * @param {Float32Array} [dest] Destination eye vector
  * @returns {Float32Array} Destination eye vector
  */
@@ -192,9 +199,9 @@ exports.get_eye = function(camobj, dest) {
 
 exports.set_pivot = set_pivot;
 /**
- * Set pivot point for TARGET camera.
+ * Set pivot point for the TARGET camera.
  * @method module:camera.set_pivot
- * @param {Object} camobj Camera Object ID
+ * @param {Object} camobj Camera object ID
  * @param {Float32Array} coords Pivot vector
  */
 function set_pivot(camobj, coords) {
@@ -210,7 +217,7 @@ function set_pivot(camobj, coords) {
 
 exports.set_trans_pivot = set_trans_pivot;
 /**
- * Set translation and pivot point for TARGET camera.
+ * Set translation and pivot point for the TARGET camera.
  * @method module:camera.set_trans_pivot
  * @param {Object} camobj Camera Object ID
  * @param {Float32Array} coords Pivot vector
@@ -230,7 +237,7 @@ function set_trans_pivot(camobj, trans, pivot) {
 /**
  * Get the camera pivot point.
  * @method module:camera.get_pivot
- * @param {Object} camobj Camera Object ID
+ * @param {Object} camobj Camera object ID
  * @param {Float32Array} [dest] Destination pivot vector
  * @returns {Float32Array} Destination pivot vector
  */
@@ -251,66 +258,23 @@ exports.get_pivot = function(camobj, dest) {
 
 /**
  * Rotate TARGET camera around the pivot point.
- * +h from left to right (CCW around Y)
- * +v down (CCW around DIR x Y)
  * @method module:camera.rotate_pivot
- * @param {Object} camobj Camera Object ID
- * @param {Number} angle_h_delta Horizontal angle in radians
- * @param {Number} angle_v_delta Vertical angle in radians
+ * @param {Object} camobj Camera object ID
+ * @param {Number} delta_phi Azimuth angle in radians
+ * @param {Number} delta_theta Elevation angle in radians
+ * @deprecated use rotate_camera() or rotate_target_camera() instead
  */
-exports.rotate_pivot = function(camobj, angle_h_delta, angle_v_delta) {
-    if (!camera.is_target_camera(camobj)) {
-        m_print.error("rotate_pivot(): wrong object");
-        return;
-    }
-    var render = camobj._render;
-    var angles = camera.get_angles(camobj, _vec2_tmp);
-
-    var z_world_cam = util.quat_to_dir(render.quat, util.AXIS_Z, _vec3_tmp);
-    if (z_world_cam[1] > 0)
-        angles[1] = util.sign(angles[1]) * Math.PI - angles[1];
-
-    var new_v_cam_angle = Math.abs(angles[1] + angle_v_delta) % (2 * Math.PI);
-    render.target_cam_upside_down = new_v_cam_angle > Math.PI / 2 && new_v_cam_angle < 3 * Math.PI / 2;
-
-    var axis = _vec3_tmp;
-    var rot = _quat4_tmp;
-    // NOTE: Rotation order to prevent rotation clamping: 1) around local X, 2) around world Y
-    // angle_v_delta around local X transformed to world space
-    axis[0] = 1;
-    axis[1] = 0;
-    axis[2] = 0;
-
-    m_vec3.transformQuat(axis, render.quat, axis);
-    m_quat.setAxisAngle(axis, angle_v_delta, rot);
-
-    // angle_h_delta around world Y
-    axis[0] = 0;
-    axis[1] = 1;
-    axis[2] = 0;
-
-    var view_vector = util.quat_to_dir(render.quat, util.AXIS_MY, 
-            _vec3_tmp2);
-
-    // handle extreme case (camera looks UP or DOWN)
-    if (Math.abs(m_vec3.dot(view_vector, axis)) < 0.999999) {
-        var rot_y_world_cam = _quat4_tmp2;
-        m_quat.setAxisAngle(axis, angle_h_delta, rot_y_world_cam);
-
-        m_quat.multiply(rot_y_world_cam, rot, rot);
-    }
-
-    util.rotate_point_pivot(render.trans, render.pivot, rot, render.trans);
-    transform.update_transform(camobj);
-    m_phy.sync_transform(camobj);
+exports.rotate_pivot = function(camobj, delta_phi, delta_theta) {
+    m_print.error("rotate_pivot() deprecated, use rotate_camera() or rotate_target_camera() instead");
+    exports.rotate_target_camera(camobj, delta_phi, delta_theta);
 }
 
 /**
- * Move the pivot point of TARGET camera.
+ * Move the pivot point of the TARGET camera.
  * +h from left to right
  * +v from down to up
  * @method module:camera.move_pivot
- * @param {Object} camobj Camera Object ID
+ * @param {Object} camobj Camera object ID
  * @param {Number} trans_h_delta Delta of the horizontal translation
  * @param {Number} trans_v_delta Delta of the vertical translation
  */
@@ -347,53 +311,41 @@ exports.move_pivot = function(camobj, trans_h_delta, trans_v_delta) {
 /**
  * Rotate HOVER camera around the hover pivot point.
  * @method module:camera.rotate_hover_cam
- * @param {Object} camobj Camera Object ID
+ * @param {Object} camobj Camera object ID
  * @param {Number} angle Horizontal angle in radians
+ * @deprecated Use rotate_camera() or rotate_hover_camera() instead
  */
-
 exports.rotate_hover_cam = function(camobj, angle) {
-    if (!camera.is_hover_camera(camobj)) {
-        m_print.error("rotate_hover_cam(): wrong object");
-        return;
-    }
-
-    var render = camobj._render;
-
-    if (render.use_distance_limits && render.enable_hover_hor_rotation 
-            && angle) {
-
-        var rotation_quat = m_quat.setAxisAngle(util.AXIS_Y, angle,
-                _quat4_tmp);
-        m_quat.normalize(rotation_quat, rotation_quat);
-
-        m_quat.multiply(rotation_quat, render.quat, render.quat);
-
-        transform.update_transform(camobj);
-        m_phy.sync_transform(camobj);
-    }
+    m_print.error("rotate_hover_cam() deprecated, use rotate_camera() or rotate_hover_camera() instead");
+    exports.rotate_hover_camera(camobj, angle, 0);
 }
 
 /**
  * Get an angle of the HOVER camera.
  * @method module:camera.get_hover_cam_angle
- * @param {Object} camobj Camera Object ID
+ * @param {Object} camobj Camera object ID
  * @returns {Number} An angle of the hover camera
  */
 exports.get_hover_cam_angle = function(camobj) {
+    m_print.error("get_hover_cam_angle() deprecated, use get_camera_angles() instead");
     if (!camera.is_hover_camera(camobj)) {
         m_print.error("get_hover_cam_angle(): wrong object or camera move style");
         return null;
     }
-    return camera.get_hover_angle(camobj);
+
+    return -camera.get_camera_angles(camobj, _vec2_tmp)[1];
 }
 
 /**
  * Set an angle of the HOVER camera.
  * @method module:camera.set_hover_cam_angle
- * @param {Object} camobj Camera Object ID
- * @param {Number} angle Angle between view and horizontal plane
+ * @param {Object} camobj Camera object ID
+ * @param {Number} angle Angle between the view and the horizontal plane
+ * @deprecated Use rotate_camera() or rotate_hover_camera() instead
  */
 exports.set_hover_cam_angle = function(camobj, angle) {
+    m_print.error("set_hover_cam_angle() deprecated, use rotate_camera() or rotate_hover_camera() instead");
+
     if (!camera.is_hover_camera(camobj)) {
         m_print.error("set_hover_cam_angle(): wrong object or camera move style");
         return;
@@ -401,31 +353,28 @@ exports.set_hover_cam_angle = function(camobj, angle) {
     var render = camobj._render;
 
     if (!render.use_distance_limits) {
-        m_print.warn("set_hover_cam_angle(): undefined without distance limits");
+        m_print.error("set_hover_cam_angle(): distance/hover_angle limits are not defined or disabled");
         return;
     }
-    var x_world_cam = util.quat_to_dir(render.quat, util.AXIS_X, _vec3_tmp);
 
-    var current_angle = camera.get_hover_angle(camobj);
+    var angles = camera.get_camera_angles(camobj, _vec2_tmp);
+    // NOTE: prepare hover angle (CCW style)
+    var angle_ccw = -angle;
+    var rot_angle = angle_ccw - angles[1];
 
-    var rotation_angle = current_angle - angle;
+    if (rot_angle)
+        camera.rotate_hover_camera(camobj, 0, rot_angle);
 
-    var rotation_x = m_quat.setAxisAngle(x_world_cam, rotation_angle, 
-            _quat4_tmp);
-
-    var rotation_quat = m_quat.multiply(rotation_x, render.quat, _quat4_tmp);
-    
-    transform.set_rotation(camobj, rotation_quat);
     transform.update_transform(camobj);
     m_phy.sync_transform(camobj);
 }
 
 /**
- * Get angle limits of the HOVER camera.
+ * Get hover angle limits for the HOVER camera converted into range [-PI, PI].
  * @method module:camera.get_hover_angle_limits
- * @param {Object} camobj Camera Object ID
- * @param {Float32Array} [angles] Returning angle limits
- * @returns {Float32Array} Array [hover_angle_limits.up, hover_angle_limits.down]
+ * @param {Object} camobj Camera object ID
+ * @param {Float32Array} [angles] Destination vector
+ * @returns {Float32Array} Array [hover_angle_limits.down, hover_angle_limits.up]
  */
 exports.get_hover_angle_limits = function(camobj, angles) {
     if (!camera.is_hover_camera(camobj)) {
@@ -437,18 +386,18 @@ exports.get_hover_angle_limits = function(camobj, angles) {
         if (!angles)
             angles = new Float32Array(2);
 
-        angles[0] = camobj._render.hover_angle_limits.up;
-        angles[1] = camobj._render.hover_angle_limits.down;
+        angles[0] = camobj._render.hover_angle_limits.down;
+        angles[1] = camobj._render.hover_angle_limits.up;
     } else 
-        m_print.warn("get_hover_angle_limits(): camera hasn't angle limits");
+        m_print.error("get_hover_angle_limits(): camera hasn't angle limits");
 
     return angles;
 }
 
 /**
- * Get distance limits of the HOVER or TARGET camera.
+ * Get distance limits of the TARGET/HOVER camera.
  * @method module:camera.get_cam_dist_limits
- * @param {Object} camobj Camera Object ID
+ * @param {Object} camobj Camera object ID
  * @param {Float32Array} [dist] Returning distance limits
  * @returns {Float32Array} Array [distance_max, distance_min]
  */
@@ -465,7 +414,7 @@ exports.get_cam_dist_limits = function(camobj, dist) {
         dist[0] = camobj._render.distance_max;
         dist[1] = camobj._render.distance_min;
     } else 
-        m_print.warn("get_cam_dist_limits(): camera hasn't distance limits");
+        m_print.error("get_cam_dist_limits(): camera hasn't distance limits");
         
     return dist;
 }
@@ -473,30 +422,42 @@ exports.get_cam_dist_limits = function(camobj, dist) {
 /**
  * Translate HOVER camera.
  * @method module:camera.translate_hover_cam_v
- * @param {Object} camobj Camera Object ID
+ * @param {Object} camobj Camera object ID
  * @param {Float32Array} Translation vector
+ * @deprecated Use hover_cam_set_translation() instead.
  */
 exports.translate_hover_cam_v = function(camobj, trans) {
+    m_print.error("translate_hover_cam_v() deprecated, use hover_cam_set_translation() instead");
+    exports.hover_cam_set_translation(camobj, trans);
+}
+
+/**
+ * Set translation of the HOVER camera.
+ * @method module:camera.hover_cam_set_translation
+ * @param {Object} camobj Camera object ID
+ * @param {Float32Array} Translation vector
+ */
+exports.hover_cam_set_translation = function(camobj, trans) {
     if (!camera.is_hover_camera(camobj)) {
-        m_print.error("translate_hover_cam_v(): wrong object");
+        m_print.error("hover_cam_set_translation(): wrong object");
         return;
     }
 
     var render = camobj._render;
-
-    if (render.use_distance_limits)
-        m_vec3.copy(trans, render.hover_pivot);
-    else
-        transform.set_translation(camobj, trans);
+    if (render.use_distance_limits) {
+        var trans_delta = m_vec3.subtract(trans, render.trans, _vec3_tmp);
+        m_vec3.add(trans_delta, render.hover_pivot, render.hover_pivot);
+    } 
+    transform.set_translation(camobj, trans);
     
     transform.update_transform(camobj);
-    m_phy.sync_transform(camobj);
+    m_phy.sync_transform(camobj);   
 }
 
 /**
- * Get translation of the pivot of Hover camera.
+ * Get pivot translation of the HOVER camera.
  * @method module:camera.get_hover_cam_pivot
- * @param {Object} camobj Camera Object ID
+ * @param {Object} camobj Camera object ID
  * @returns {Float32Array} Translation pivot
  */
 exports.get_hover_cam_pivot = function(camobj, dest) {
@@ -514,10 +475,10 @@ exports.get_hover_cam_pivot = function(camobj, dest) {
 }
 
 /**
- * Does camera use distance limits?
+ * Does camera have distance limits?
  * @method module:camera.has_distance_limits
- * @param {Object} camobj Camera Object ID
- * @returns {Boolean} In case of exist distance limits it is true, else false
+ * @param {Object} camobj Camera object ID
+ * @returns {Boolean} True if the camera has distance limits.
  */
 exports.has_distance_limits = function(camobj) {
     if (!camera.is_target_camera(camobj)
@@ -529,108 +490,98 @@ exports.has_distance_limits = function(camobj) {
 }
 
 /**
- * Set vertical clamping limits for TARGET, EYE or HOVER camera.
+ * Set vertical angle limits for the TARGET/EYE camera or vertical (Z axis)
+ * translation limits for the HOVER camera.
  * @method module:camera.apply_vertical_limits
- * @param {Object} camobj Camera Object ID
+ * @param {Object} camobj Camera object ID
  * @param {Number} down_value Vertical down limit
  * @param {Number} up_value Vertical up limit
- * @param {Number} space Space to make clamping relative to
+ * @param {Number} [space=transform.SPACE_WORLD] Space to make clamping relative to
  */
 exports.apply_vertical_limits = function(camobj, down_value, up_value, space) {
-    if (camera.is_target_camera(camobj) || camera.is_eye_camera(camobj)) {
-        var render = camobj._render;
-        render.vertical_limits = {
-            down: down_value,
-            up: up_value
-        };
 
-        
-        // transform to world space if needed
-        if (space == transform.SPACE_LOCAL)
-            camera.vertical_limits_local_to_world(camobj);
-        // correct according to horizontal rotation limits
-        camera.vertical_limits_correct(camobj);
-    } else if (camera.is_hover_camera(camobj)) {
+    var ms = camera.get_move_style(camobj);
+    switch (ms) {
+    case camera.MS_TARGET_CONTROLS:
+    case camera.MS_EYE_CONTROLS:
+        space = space | transform.SPACE_WORLD;
+        break;
+    case camera.MS_HOVER_CONTROLS:
         if (down_value > up_value) {
-            m_print.error("apply_vertical_limits(): wrong horizontal limits");
+            m_print.error("apply_vertical_limits(): wrong vertical limits");
             return;
         }
-
-        var render = camobj._render;
-        render.vertical_limits = {
-            down: -up_value,
-            up: -down_value
-        };
-    } else {
+        break;
+    default:
         m_print.error("apply_vertical_limits(): wrong object");
         return;
+        break;
     }
+
+    var render = camobj._render;
+    render.vertical_limits = {
+        down: down_value,
+        up: up_value
+    };
+    camera.prepare_vertical_limits(camobj, space == transform.SPACE_LOCAL);
 
     transform.update_transform(camobj);
     m_phy.sync_transform(camobj);
 }
 
 /**
- * Remove vertical rotation clamping limits from TARGET, EYE or HOVER camera.
+ * Remove vertical clamping limits from the TARGET/EYE/HOVER camera.
  * @method module:camera.clear_vertical_limits
- * @param {Object} camobj Camera Object ID
+ * @param {Object} camobj Camera object ID
  */
 exports.clear_vertical_limits = function(camobj) {
     var render = camobj._render;
     render.vertical_limits = null;
-
-    if (camera.is_target_camera(camobj) || camera.is_eye_camera(camobj))
-        // NOTE: set to [-PI, PI] if horizontal rotation limits are switched on
-        camera.vertical_limits_correct(camobj);
 }
 
 /**
- * Set horizontal clamping limits for TARGET, EYE or HOVER camera.
+ * Set horizontal angle limits for the TARGET/EYE camera or horizontal (X axis)
+ * translation limits for the HOVER camera.
  * @method module:camera.apply_horizontal_limits
- * @param {Object} camobj Camera Object ID
+ * @param {Object} camobj Camera object ID
  * @param {Number} left_value Horizontal left limit
  * @param {Number} right_value Horizontal right limit
  * @param {Number} space Space to make clamping relative to
  */
 exports.apply_horizontal_limits = function(camobj, left_value, right_value,
         space) {
-    if (camera.is_target_camera(camobj)
-            || camera.is_eye_camera(camobj)) {
-        var render = camobj._render;
-        render.horizontal_limits = {
-            left: left_value,
-            right: right_value
-        };
 
-        // transform to world space if needed
-        if (space == transform.SPACE_LOCAL)
-            camera.horizontal_limits_local_to_world(camobj);
-        // correct according to horizontal rotation limits
-        camera.vertical_limits_correct(camobj);
-    } else if (camera.is_hover_camera(camobj)) {
+    var ms = camera.get_move_style(camobj);
+    switch (ms) {
+    case camera.MS_TARGET_CONTROLS:
+    case camera.MS_EYE_CONTROLS:
+        break;
+    case camera.MS_HOVER_CONTROLS:
         if (left_value > right_value) {
             m_print.error("apply_horizontal_limits(): wrong horizontal limits");
             return;
         }
-
-        var render = camobj._render;
-        render.horizontal_limits = {
-            left: left_value,
-            right: right_value
-        };
-    } else {
+        break;
+    default:
         m_print.error("apply_horizontal_limits(): wrong object");
         return;
+        break;
     }
+
+    camobj._render.horizontal_limits = {
+        left: left_value,
+        right: right_value
+    };
+    camera.prepare_horizontal_limits(camobj, space == transform.SPACE_LOCAL);
 
     transform.update_transform(camobj);
     m_phy.sync_transform(camobj);
 }
 
 /**
- * Remove horizontal clamping limits from TARGET, EYE or HOVER camera.
+ * Remove horizontal clamping limits from the TARGET/EYE/HOVER camera.
  * @method module:camera.clear_horizontal_limits
- * @param {Object} camobj Camera Object ID
+ * @param {Object} camobj Camera object ID
  */
 exports.clear_horizontal_limits = function(camobj) {
     var render = camobj._render;
@@ -638,13 +589,13 @@ exports.clear_horizontal_limits = function(camobj) {
 }
 
 /**
- * Get horizontal limits of TARGET, EYE or HOVER camera. 
+ * Get the horizontal angle limits for the TARGET/EYE camera converted into range [0, 2PI] or
+ * horizontal translation limits for the HOVER camera.
  * @method module:camera.get_horizontal_limits
  * @param {Object} camobj Camera Object ID
- * @param {Float32Array} [dest] Destination vector for camera angle limits: (left, right)
- * @returns {Float32Array} Destination vector for camera angle limits: (left, right)
+ * @param {Float32Array} [dest] Destination vector for the camera angle limits: [left, right]
+ * @returns {Float32Array} Destination vector for the camera angle limits: [left, right]
  */
-
  exports.get_horizontal_limits = function(camobj, dest) {
     if (!camera.is_target_camera(camobj)
             && !camera.is_eye_camera(camobj)
@@ -664,13 +615,12 @@ exports.clear_horizontal_limits = function(camobj) {
  }
 
  /**
- * Does camera use horizontal limits?
+ * Does camera have horizontal limits?
  * @method module:camera.has_horizontal_limits
  * @param {Object} camobj Camera Object ID
- * @returns {Boolean}
+ * @returns {Boolean} True if the camera has horizontal limits.
  */
-
- exports.has_horizontal_limits = function(camobj) {
+exports.has_horizontal_limits = function(camobj) {
     if (!camera.is_target_camera(camobj)
             && !camera.is_eye_camera(camobj)
             && !camera.is_hover_camera(camobj)) {
@@ -683,24 +633,31 @@ exports.clear_horizontal_limits = function(camobj) {
 
 
 /**
- * Set vertical clamping limits for HOVER camera.
+ * Set hover angle limits for the HOVER camera.
  * @method module:camera.apply_hover_angle_limits
- * @param {Object} camobj Camera Object ID
- * @param {Number} down_angle
- * @param {Number} up_angle
+ * @param {Object} camobj Camera object ID
+ * @param {Number} down_angle Down hover angle limit
+ * @param {Number} up_angle Up hover angle limit
  */
 exports.apply_hover_angle_limits = function(camobj, down_angle, up_angle) {
     if (camera.is_hover_camera(camobj)) {
-        if (down_angle > up_angle) {
-            m_print.error("apply_hover_angle_limits(): wrong vertical limits");
+        if (down_angle < up_angle) {
+            m_print.error("apply_hover_angle_limits(): wrong hover angle limits");
             return;
         }
 
+        var down_limit = util.angle_wrap_periodic(down_angle, -Math.PI, Math.PI);
+        var up_limit = util.angle_wrap_periodic(up_angle, -Math.PI, Math.PI);
+
+        down_limit = util.clamp(down_limit, -Math.PI / 2, 0);
+        up_limit = util.clamp(up_limit, -Math.PI / 2, 0);
+
         var render = camobj._render;
         render.hover_angle_limits = {
-            down: down_angle,
-            up: up_angle
+            down: down_limit,
+            up: up_limit
         };
+        camera.hover_camera_update_distance(camobj);
     } else {
         m_print.error("apply_hover_angle_limits(): wrong object");
         return;
@@ -711,9 +668,9 @@ exports.apply_hover_angle_limits = function(camobj, down_angle, up_angle) {
 }
 
 /**
- * Remove vertical clamping limits from HOVER camera.
+ * Remove hover angle limits from the HOVER camera.
  * @method module:camera.clear_hover_angle_limits
- * @param {Object} camobj Camera Object ID
+ * @param {Object} camobj Camera object ID
  */
 exports.clear_hover_angle_limits = function(camobj) {
     if (!camera.is_hover_camera(camobj)) {
@@ -725,9 +682,9 @@ exports.clear_hover_angle_limits = function(camobj) {
 }
 
 /**
- * Set distance limits for TARGET camera.
+ * Set distance limits for the TARGET camera.
  * @method module:camera.apply_distance_limits
- * @param {Object} camobj Camera Object ID
+ * @param {Object} camobj Camera object ID
  * @param {Number} min Minimum distance to target
  * @param {Number} max Maximum distance to target
  */
@@ -753,9 +710,9 @@ exports.apply_distance_limits = function(camobj, min, max) {
 }
 
 /**
- * Remove distance clamping limits for TARGET camera
+ * Remove distance clamping limits for the TARGET camera
  * @method module:camera.clear_distance_limits
- * @param {Object} camobj Camera Object ID
+ * @param {Object} camobj Camera object ID
  */
 exports.clear_distance_limits = function(camobj) {
     if (!camera.is_target_camera(camobj)
@@ -768,30 +725,17 @@ exports.clear_distance_limits = function(camobj) {
 }
 
 /**
- * Set eye params needed to set the camera target
  * @method module:camera.set_eye_params
- * @param {Object} camobj Camera Object ID
- * @param {Number} h_angle Horizontal angle
- * @param {Number} v_angle Vertiacal angle
+ * @deprecated Use rotate_camera() or rotate_eye_camera() to change camera orientation
  */
 exports.set_eye_params = function(camobj, h_angle, v_angle) {
-
-    var render = camobj._render;
-
-    m_quat.identity(render.quat);
-
-    camera.rotate_v_local(camobj, Math.PI/2);
-
-    camera.rotate_h(camobj, h_angle);
-    camera.rotate_v_local(camobj, -v_angle);
-
-    transform.update_transform(camobj);
-    m_phy.sync_transform(camobj);
+    m_print.error("set_eye_params() deprecated, use rotate_camera() or rotate_eye_camera() instead");
+    exports.rotate_eye_camera(camobj, h_angle, Math.PI/2 - v_angle);
 }
 /**
  * Check if the camera is looking upwards
  * @method module:camera.is_look_up
- * @param {Object} camobj Camera Object ID
+ * @param {Object} camobj Camera object ID
  */
 exports.is_look_up = function(camobj) {
     var quat = camobj._render.quat;
@@ -804,42 +748,172 @@ exports.is_look_up = function(camobj) {
     else 
         return false;
 }
-/**
- * Rotate the camera.
- * Around a target for TARGET movement style, around the eye for EYE movement
- * style.
- * @method module:camera.rotate
- * @param {Object} camobj Camera Object ID
- * @param {Number} angle_h_delta Horizontal angle in radians
- * @param {Number} angle_v_delta Vertical angle in radians
- */
-exports.rotate = function(camobj, angle_h_delta, angle_v_delta) {
 
-    // NOTE: MS_EYE_CONTROLS only
-    camera.rotate_h(camobj, angle_h_delta);
-    camera.rotate_v_local(camobj, -angle_v_delta);
+/**
+ * Rotates a camera counterclockwise (CCW) by given angles depending on the camera move style.
+ * Performs delta rotation or sets camera absolute rotation depending on the "*_is_abs" parameters.
+ * @method module:camera.rotate_camera
+ * @param {Object} camobj Camera object ID
+ * @param {Number} phi Azimuth angle in radians
+ * @param {Number} theta Elevation angle in radians
+ * @param {Boolean} [phi_is_abs=false] For phi angle: if FALSE performs delta rotation, if TRUE sets camera absolute rotation
+ * @param {Boolean} [theta_is_abs=false] For theta angle: if FALSE performs delta rotation, if TRUE sets camera absolute rotation
+ */
+exports.rotate_camera = function(camobj, phi, theta, phi_is_abs, theta_is_abs) {
+    var move_style = exports.get_move_style(camobj);
+
+    switch (move_style) {
+    case camera.MS_STATIC:
+    case camera.MS_ANIMATION:
+        break; 
+    case camera.MS_TARGET_CONTROLS:
+        camera.rotate_target_camera(camobj, phi, theta, phi_is_abs, theta_is_abs);
+        break;
+    case camera.MS_EYE_CONTROLS:
+        camera.rotate_eye_camera(camobj, phi, theta, phi_is_abs, theta_is_abs);
+        break;
+    case camera.MS_HOVER_CONTROLS:
+        camera.rotate_hover_camera(camobj, phi, theta, phi_is_abs, theta_is_abs);
+        break;
+    default:
+        m_print.error("rotate_camera(): Wrong object");
+        break;
+    }
 
     transform.update_transform(camobj);
     m_phy.sync_transform(camobj);
 }
+
+/**
+ * Rotates the TARGET camera counterclockwise (CCW) around its pivot by given angles. 
+ * Performs delta rotation or sets camera absolute rotation depending on the "*_is_abs" parameters.
+ * @method module:camera.rotate_target_camera
+ * @param {Object} camobj Camera object ID
+ * @param {Number} phi Azimuth angle in radians
+ * @param {Number} theta Elevation angle in radians
+ * @param {Boolean} [phi_is_abs=false] For phi angle: if FALSE performs delta rotation, if TRUE sets camera absolute rotation
+ * @param {Boolean} [theta_is_abs=false] For theta angle: if FALSE performs delta rotation, if TRUE sets camera absolute rotation
+ */
+exports.rotate_target_camera = function(camobj, phi, theta, phi_is_abs, theta_is_abs) {
+    if (!camera.is_target_camera(camobj)) {
+        m_print.error("rotate_target_camera(): wrong object");
+        return;
+    }
+
+    camera.rotate_target_camera(camobj, phi, theta, phi_is_abs, theta_is_abs);
+    transform.update_transform(camobj);
+    m_phy.sync_transform(camobj);
+}
+
+/**
+ * Rotates the EYE camera counterclockwise (CCW) around its origin by given angles.
+ * Performs delta rotation or sets camera absolute rotation depending on the "*_is_abs" parameters.
+ * @method module:camera.rotate_eye_camera
+ * @param {Object} camobj Camera object ID
+ * @param {Number} phi Azimuth angle in radians
+ * @param {Number} theta Elevation angle in radians
+ * @param {Boolean} [phi_is_abs=false] For phi angle: if FALSE performs delta rotation, if TRUE sets camera absolute rotation
+ * @param {Boolean} [theta_is_abs=false] For theta angle: if FALSE performs delta rotation, if TRUE sets camera absolute rotation
+ */
+exports.rotate_eye_camera = function(camobj, phi, theta, phi_is_abs, theta_is_abs) {
+    if (!camera.is_eye_camera(camobj)) {
+        m_print.error("rotate_eye_camera(): wrong object");
+        return;
+    }
+
+    camera.rotate_eye_camera(camobj, phi, theta, phi_is_abs, theta_is_abs);
+    transform.update_transform(camobj);
+    m_phy.sync_transform(camobj);
+}
+
+/**
+ * Rotates the HOVER camera around its pivot by given angles
+ * Performs delta rotation or sets camera absolute rotation depending on the "*_is_abs" parameters.
+ * @method module:camera.rotate_hover_camera
+ * @param {Object} camobj Camera object ID
+ * @param {Number} phi Azimuth angle in radians
+ * @param {Number} theta Elevation angle in radians
+ * @param {Boolean} [phi_is_abs=false] For phi angle: if FALSE performs delta rotation, if TRUE sets camera absolute rotation
+ * @param {Boolean} [theta_is_abs=false] For theta angle: if FALSE performs delta rotation, if TRUE sets camera absolute rotation
+ */
+exports.rotate_hover_camera = function(camobj, phi, theta, phi_is_abs, theta_is_abs) {
+    if (!camera.is_hover_camera(camobj)) {
+        m_print.error("rotate_hover_camera(): wrong object");
+        return;
+    }
+
+    camera.rotate_hover_camera(camobj, phi, theta, phi_is_abs, theta_is_abs);
+    transform.update_transform(camobj);
+    m_phy.sync_transform(camobj);
+}
+
+/**
+ * Rotate the EYE camera around its origin by given delta angles
+ * @method module:camera.rotate
+ * @param {Object} camobj Camera Object ID
+ * @param {Number} delta_phi Azimuth angle delta in radians
+ * @param {Number} delta_theta Elevation angle delta in radians
+ * @deprecated Use rotate_camera() or rotate_eye_camera() instead
+ */
+exports.rotate = function(camobj, delta_phi, delta_theta) {
+    m_print.error("rotate() deprecated, use rotate_camera() or rotate_eye_camera() instead");
+    exports.rotate_eye_camera(camobj, delta_phi, -delta_theta);
+}
+
+/**
+ * Get camera azimuth and elevation angles (CCW as seen from the rotation axis) 
+ * for the TARGET/HOVER move style or camera orientation angles for the EYE move style.
+ * @method module:camera.get_camera_angles
+ * @param {Object} camobj Camera object ID
+ * @param {Float32Array} [dest] Destination vector for the camera angles: [phi, theta],
+ * phi ~ [0, 2PI], theta ~ [-PI, PI]
+ * @returns {Float32Array} Destination vector for the camera angles: [phi, theta]
+ */
+exports.get_camera_angles = function(camobj, dest) {
+    if (!dest)
+        var dest = new Float32Array(2);
+    camera.get_camera_angles(camobj, dest);
+    return dest;
+}
+
+/**
+ * Get camera azimuth and elevation angles (CCW as seen from the rotation axis)
+ * for the TARGET/HOVER move style or camera orientation angles for the EYE move style.
+ * Angles are converted for the character object.
+ * @method module:camera.get_camera_angles_char
+ * @param {Object} camobj Camera object ID
+ * @param {Float32Array} [dest] Destination vector for the camera angles: [phi, theta],
+ * phi ~ [0, 2PI], theta ~ [-PI, PI]
+ * @returns {Float32Array} Destination vector for the camera angles: [phi, theta]
+ */
+exports.get_camera_angles_char = function(camobj, dest) {
+    if (!dest)
+        var dest = new Float32Array(2);
+    camera.get_camera_angles_char(camobj, dest);
+    return dest;   
+}
+
 /**
  * Get angles.
  * Get the camera horizontal and vertical angles
  * @method module:camera.get_angles
  * @param {Object} camobj Camera Object ID
- * @param {Float32Array} [dest] Destination vector for camera angles: (h, v)
- * @returns {Float32Array} Destination vector for camera angles: (h, v)
+ * @param {Float32Array} [dest] Destination vector for the camera angles: [h, v]
+ * @returns {Float32Array} Destination vector for the camera angles: [h, v]
+ * @deprecated Use get_camera_angles() instead
  */
 exports.get_angles = function(camobj, dest) {
+    m_print.error("get_angles() deprecated, use get_camera_angles() instead");
     if (!dest)
         var dest = new Float32Array(2);
     camera.get_angles(camobj, dest);
     return dest;
 }
+
 /**
  * Set distance to the convergence plane for a stereo camera.
  * @method module:camera.set_stereo_distance
- * @param {Object} camobj Camera Object ID
+ * @param {Object} camobj Camera object ID
  * @param {Number} conv_dist Distance from the convergence plane
  */
 exports.set_stereo_distance = function(camobj, conv_dist) {
@@ -856,7 +930,7 @@ exports.set_stereo_distance = function(camobj, conv_dist) {
 /**
  * Get distance from the convergence plane for a stereo camera
  * @method module:camera.get_stereo_distance
- * @param {Object} camobj Camera Object ID
+ * @param {Object} camobj Camera object ID
  * @returns {Number} Distance from convergence plane
  */
 exports.get_stereo_distance = function(camobj, conv_dist) {
@@ -875,20 +949,21 @@ exports.get_stereo_distance = function(camobj, conv_dist) {
 /**
  * Returns true if the camera's eye is located under the water surface
  * @method module:camera.is_underwater
- * @param {Object} camobj Camera Object ID
+ * @param {Object} camobj Camera object ID
  * @returns {Boolean}
  * @deprecated Always returns false
  */
 exports.is_underwater = function(camobj) {
+    m_print.error("is_underwater() deprecated, always returns false");
     var render = camobj._render;
     return render.underwater;
 }
 /**
  * Translate the view plane.
  * @method module:camera.translate_view
- * @param {Object} camobj Camera Object ID
- * @param {Number} x X coord (positive left to right)
- * @param {Number} y Y coord (positive down to up)
+ * @param {Object} camobj Camera object ID
+ * @param {Number} x X coord (positive - left to right)
+ * @param {Number} y Y coord (positive - down to up)
  * @param {Number} angle Rotation angle (clockwise)
  */
 exports.translate_view = function(camobj, x, y, angle) {
@@ -916,7 +991,8 @@ exports.translate_view = function(camobj, x, y, angle) {
     }
 }
 /**
- * Up correction is required in some cases then camera releases from constrainted  mode.
+ * Up correction is required in some cases then camera releases from constrainted mode.
+ * @method module:camera.correct_up
  * @param {Object} camobj Camera object ID
  * @param {Float32Array} y_axis Axis vector
  */
@@ -931,7 +1007,7 @@ exports.correct_up = function(camobj, y_axis) {
 /**
  * Zoom the camera on the object.
  * @method module:camera.zoom_object
- * @param {Object} camobj Camera Object ID
+ * @param {Object} camobj Camera object ID
  * @param {Object} obj Object ID
  */
 exports.zoom_object = function(camobj, obj) {
@@ -964,12 +1040,12 @@ exports.zoom_object = function(camobj, obj) {
 /**
  * Set the orthogonal scale of the camera
  * @method module:camera.set_ortho_scale
- * @param {Object} camobj Camera Object ID
+ * @param {Object} camobj Camera object ID
  * @param {Number} ortho_scale Orthogonal scale
  */
 
 exports.set_ortho_scale = function(camobj, ortho_scale) {
-    if (!camera.is_camera(camobj)) {
+    if (!camera.is_camera(camobj) || !exports.is_ortho_camera(camobj)) {
         m_print.error("set_ortho_scale(): wrong object");
         return;
     }
@@ -981,13 +1057,11 @@ exports.set_ortho_scale = function(camobj, ortho_scale) {
         render.init_top = ortho_scale / 2 * render.init_dist / dir_dist;
     } else if (camera.is_hover_camera(camobj) 
             && exports.has_distance_limits(camobj)) {
-
-        var dir_trans = camera.get_hover_dir_pivot(camobj);
-        var dir_dist = m_vec3.len(dir_trans);
+        var dir_dist = m_vec3.distance(render.trans, render.hover_pivot);
         render.init_top = ortho_scale / 2 * render.init_dist / dir_dist;
     } else
         // hover camera without distance limits, eye or static camera
-        render.init_top = ortho_scale / 2;
+        camobj._render.cameras[0].top = ortho_scale / 2;
 
     camera.update_ortho_scale(camobj);
 }
@@ -995,20 +1069,17 @@ exports.set_ortho_scale = function(camobj, ortho_scale) {
 /**
  * Get the orthogonal scale of the camera
  * @method module:camera.get_ortho_scale
- * @param {Object} camobj Camera Object ID
+ * @param {Object} camobj Camera object ID
  * @returns {Number} Orthogonal scale
  */
 
 exports.get_ortho_scale = function(camobj) {
-    if (!camera.is_camera(camobj)) {
+    if (!camera.is_camera(camobj) || !exports.is_ortho_camera(camobj)) {
         m_print.error("get_ortho_scale(): wrong object");
         return;
     }
 
-    if (camobj._render.cameras[0].type == camera.TYPE_ORTHO)
-        return camobj._render.cameras[0].top * 2;
-
-    return 0;
+    return camobj._render.cameras[0].top * 2;
 }
 
 /**
@@ -1031,7 +1102,7 @@ exports.is_ortho_camera = function(camobj) {
  * Calculate the direction of the camera ray based on screen coords
  * Screen space origin is the top left corner
  * @method module:camera.calc_ray
- * @param {Object} camobj Camera Object ID
+ * @param {Object} camobj Camera object ID
  * @param {Number} xpix X screen coordinate
  * @param {Number} ypix Y screen coordinate
  * @param {Float32Array} [dest] Destination vector
@@ -1077,8 +1148,9 @@ exports.calc_ray = function(camobj, xpix, ypix, dest) {
 }
 
 /**
- * Project point on the viewport
- * Screen space origin is the top left corner
+ * Project point on the viewport.
+ * Screen space origin is the top left corner.
+ * Returnd coordinates are in device pixels (not CSS)
  * @method module:camera.project_point
  * @param {Float32Array} point Point in world space
  * @param {Float32Array} [dest] Destination vector
@@ -1088,41 +1160,7 @@ exports.project_point = function(camobj, point, dest) {
     if (!dest)
         var dest = new Float32Array(2);
 
-    var cam = camobj._render.cameras[0];
-
-    switch (cam.type) {
-    case camera.TYPE_PERSP:
-    case camera.TYPE_PERSP_ASPECT:
-    case camera.TYPE_STEREO_LEFT:
-    case camera.TYPE_STEREO_RIGHT:
-
-        // get direction from camera location to point
-        var cam_trans = _vec3_tmp;
-        transform.get_translation(camobj, cam_trans);
-        m_vec3.subtract(point, cam_trans, cam_trans);
-
-        var dir = _vec4_tmp;
-        dir.set(cam_trans);
-        dir[3] = 0;
-
-        var vp = cam.view_proj_matrix;
-        m_vec4.transformMat4(dir, vp, dir);
-
-
-        var x = dir[0] / dir[3];
-        // NOTE: flip y coordinate to match space origin (top left corner)
-        // view+proj transformation doesn't do it
-        var y = -dir[1] / dir[3];
-
-        // transform from [-1, 1] to [0, cam.width] or [0, cam.height] interval
-        dest[0] = (x + 1) / 2 * cam.width | 0;
-        dest[1] = (y + 1) / 2 * cam.height | 0;
-
-        return dest;
-    default:
-        m_print.error("Non-compatible camera");
-        return dest;
-    }
+    return camera.project_point(camobj, point, dest);
 }
 
 }

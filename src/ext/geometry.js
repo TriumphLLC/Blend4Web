@@ -11,6 +11,7 @@ var m_batch  = require("__batch");
 var m_geom   = require("__geometry");
 var m_print  = require("__print");
 var m_render = require("__renderer");
+var m_obj    = require("__objects");
 
 /**
  * Extract the vertex array from the object.
@@ -221,13 +222,10 @@ exports.override_geometry = function(obj, mat_name, ibo_array,
                 m_render.assign_attribute_setters(batch);
 
                 // NOTE: process child batches if bufs_data was copied not by link
-                if (batch.childs)
-                    for (var j = 0; j < batch.childs.length; j++) {
-                        var child_batch = batch.childs[j];
+                var child_batch = m_batch.find_batch_material_forked(obj, batch);
+                if (child_batch && child_batch.bufs_data)
+                    child_batch.bufs_data = bufs_data;
 
-                        if (child_batch && child_batch.bufs_data)
-                            child_batch.bufs_data = bufs_data;
-                    }
             }
         }
     }

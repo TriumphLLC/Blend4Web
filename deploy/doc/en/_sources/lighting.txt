@@ -331,6 +331,7 @@
 
 .. image:: src_images/lighting/b4w_shadow_settings.png
    :align: center
+   :width: 100%
 
 *Resolution*
     Разрешение используемой карты теней. Значение по умолчанию: 2048x2048px.
@@ -466,7 +467,8 @@
         var m_cfg = b4w.require("config");
         var m_main = b4w.require("main");
 
-        m_cfg.set("background_color", new Float32Array([0.224, 0.224, 0.224, 1.0])); // gray
+        // gray
+        m_cfg.set("background_color", new Float32Array([0.224, 0.224, 0.224, 1.0]));
         m_cfg.set("alpha", false);
 
         m_main.init(...);

@@ -2,8 +2,7 @@
 
 /**
  * Object transformations API.
- * With some exceptions specified below, make sure that the objects are not
- * batched.
+ * With some exceptions specified below, make sure that the objects are dynamic.
  * @module transform
  */
 b4w.module["transform"] = function(exports, require) {
@@ -12,6 +11,7 @@ var m_print   = require("__print");
 var physics   = require("__physics");
 var transform = require("__transform");
 var util      = require("__util");
+var m_obj   = require("__objects");
 
 var _vec3_tmp = new Float32Array(3);
 var _quat4_tmp = new Float32Array(4);
@@ -36,13 +36,16 @@ exports.SPACE_WORLD = transform.SPACE_WORLD;
  * @param {Number} z Z coord
  */
 exports.set_translation = function(obj, x, y, z) {
-    _vec3_tmp[0] = x;
-    _vec3_tmp[1] = y;
-    _vec3_tmp[2] = z;
+    if (m_obj.is_dynamic(obj)) {
+        _vec3_tmp[0] = x;
+        _vec3_tmp[1] = y;
+        _vec3_tmp[2] = z;
 
-    transform.set_translation(obj, _vec3_tmp);
-    transform.update_transform(obj);
-    physics.sync_transform(obj);
+        transform.set_translation(obj, _vec3_tmp);
+        transform.update_transform(obj);
+        physics.sync_transform(obj);
+    } else
+        m_print.error("Wrong object: \"" + obj["name"] + "\" is not dynamic.");
 }
 /**
  * Set the object translation (vector form).
@@ -51,9 +54,12 @@ exports.set_translation = function(obj, x, y, z) {
  * @param {Float32Array} trans Translation vector
  */
 exports.set_translation_v = function(obj, trans) {
-    transform.set_translation(obj, trans);
-    transform.update_transform(obj);
-    physics.sync_transform(obj);
+    if (m_obj.is_dynamic(obj)) {
+        transform.set_translation(obj, trans);
+        transform.update_transform(obj);
+        physics.sync_transform(obj);
+    } else
+        m_print.error("Wrong object: \"" + obj["name"] + "\" is not dynamic.");
 }
 
 /**
@@ -66,18 +72,21 @@ exports.set_translation_v = function(obj, trans) {
  * @param {Object} obj_parent Parent object ID
  */
 exports.set_translation_rel = function(obj, x, y, z, obj_parent) {
-    _vec3_tmp[0] = x;
-    _vec3_tmp[1] = y;
-    _vec3_tmp[2] = z;
+    if (m_obj.is_dynamic(obj)) {
+        _vec3_tmp[0] = x;
+        _vec3_tmp[1] = y;
+        _vec3_tmp[2] = z;
 
-    var trans = obj_parent._render.trans;
-    var quat = obj_parent._render.quat;
+        var trans = obj_parent._render.trans;
+        var quat = obj_parent._render.quat;
 
-    util.transform_vec3(_vec3_tmp, 1, quat, trans, _vec3_tmp);
+        util.transform_vec3(_vec3_tmp, 1, quat, trans, _vec3_tmp);
 
-    transform.set_translation(obj, _vec3_tmp);
-    transform.update_transform(obj);
-    physics.sync_transform(obj);
+        transform.set_translation(obj, _vec3_tmp);
+        transform.update_transform(obj);
+        physics.sync_transform(obj);
+    } else
+        m_print.error("Wrong object: \"" + obj["name"] + "\" is not dynamic.");
 }
 
 /**
@@ -105,20 +114,27 @@ exports.get_translation = function(obj, dest) {
  * @param {Number} w W part of quaternion
  */
 exports.set_rotation = function(obj, x, y, z, w) {
-    _quat4_tmp[0] = x;
-    _quat4_tmp[1] = y;
-    _quat4_tmp[2] = z;
-    _quat4_tmp[3] = w;
+    if (m_obj.is_dynamic(obj)) {
+        _quat4_tmp[0] = x;
+        _quat4_tmp[1] = y;
+        _quat4_tmp[2] = z;
+        _quat4_tmp[3] = w;
 
-    transform.set_rotation(obj, _quat4_tmp);
-    transform.update_transform(obj);
-    physics.sync_transform(obj);
+        transform.set_rotation(obj, _quat4_tmp);
+        transform.update_transform(obj);
+        physics.sync_transform(obj);
+    } else
+        m_print.error("Wrong object: \"" + obj["name"] + "\" is not dynamic.");
 }
+
 /**
  * @method module:transform.set_rotation_quat
- * @deprecated Use set_rotation() method
+ * @deprecated Use set_rotation() instead
  */
-exports.set_rotation_quat = exports.set_rotation;
+exports.set_rotation_quat = function() {
+    m_print.error("set_rotation_quat() deprecated, use set_rotation() instead");
+    return exports.set_rotation;
+}
 
 /**
  * Set object rotation (vector form)
@@ -127,15 +143,21 @@ exports.set_rotation_quat = exports.set_rotation;
  * @param {Float32Array} quat Quaternion vector
  */
 exports.set_rotation_v = function(obj, quat) {
-    transform.set_rotation(obj, quat);
-    transform.update_transform(obj);
-    physics.sync_transform(obj);
+    if (m_obj.is_dynamic(obj)) {
+        transform.set_rotation(obj, quat);
+        transform.update_transform(obj);
+        physics.sync_transform(obj);
+    } else
+        m_print.error("Wrong object: \"" + obj["name"] + "\" is not dynamic.");
 }
 /**
  * @method module:transform.set_rotation_quat_v
- * @deprecated Use set_rotation_v() method
+ * @deprecated Use set_rotation_v() instead
  */
-exports.set_rotation_quat_v = exports.set_rotation_v;
+exports.set_rotation_quat_v = function() {
+    m_print.error("set_rotation_quat_v() deprecated, use set_rotation_v() instead");
+    return exports.set_rotation_v;
+}
 
 /**
  * Get object rotation quaternion.
@@ -153,9 +175,12 @@ exports.get_rotation = function(obj, opt_dest) {
 }
 /**
  * @method module:transform.get_rotation_quat
- * @deprecated Use get_rotation() method
+ * @deprecated Use get_rotation() instead
  */
-exports.get_rotation_quat = exports.get_rotation;
+exports.get_rotation_quat = function() {
+    m_print.error("get_rotation_quat() deprecated, use get_rotation() instead");
+    return exports.get_rotation;
+}
 
 /**
  * Set euler rotation in the YZX intrinsic system.
@@ -167,13 +192,16 @@ exports.get_rotation_quat = exports.get_rotation;
  * @param {Number} z Angle Z
  */
 exports.set_rotation_euler = function(obj, x, y, z) {
-    _vec3_tmp[0] = x;
-    _vec3_tmp[1] = y;
-    _vec3_tmp[2] = z;
+    if (m_obj.is_dynamic(obj)) {
+        _vec3_tmp[0] = x;
+        _vec3_tmp[1] = y;
+        _vec3_tmp[2] = z;
 
-    transform.set_rotation_euler(obj, _vec3_tmp);
-    transform.update_transform(obj);
-    physics.sync_transform(obj);
+        transform.set_rotation_euler(obj, _vec3_tmp);
+        transform.update_transform(obj);
+        physics.sync_transform(obj);
+    } else
+        m_print.error("Wrong object: \"" + obj["name"] + "\" is not dynamic.");
 }
 /**
  * Set euler rotation in vector form.
@@ -183,9 +211,12 @@ exports.set_rotation_euler = function(obj, x, y, z) {
  * @param {Float32Array} euler Vector with euler angles
  */
 exports.set_rotation_euler_v = function(obj, euler) {
-    transform.set_rotation_euler(obj, euler);
-    transform.update_transform(obj);
-    physics.sync_transform(obj);
+    if (m_obj.is_dynamic(obj)) {
+        transform.set_rotation_euler(obj, euler);
+        transform.update_transform(obj);
+        physics.sync_transform(obj);
+    } else
+        m_print.error("Wrong object: \"" + obj["name"] + "\" is not dynamic.");
 }
 
 /**
@@ -195,8 +226,11 @@ exports.set_rotation_euler_v = function(obj, euler) {
  * @param {Number} scale Object scale
  */
 exports.set_scale = function(obj, scale) {
-    transform.set_scale(obj, scale);
-    transform.update_transform(obj);
+    if (m_obj.is_dynamic(obj)) {
+        transform.set_scale(obj, scale);
+        transform.update_transform(obj);
+    } else
+        m_print.error("Wrong object: \"" + obj["name"] + "\" is not dynamic.");
 }
 /**
  * Get the object scale.
@@ -219,6 +253,13 @@ exports.empty_reset_transform = function(obj) {
         m_print.error("Wrong object: " + obj["name"]);
         return false;
     }
+
+    for (var i = 0; i < obj._descends.length; i++)
+        if (!m_obj.is_dynamic(obj._descends[i])) {
+            m_print.error("Wrong object: \"" + obj._descends[i]["name"] + "\" is not dynamic.");
+            return;
+        }
+            
 
     transform.set_translation(obj, [0, 0, 0]);
     transform.set_rotation(obj, [0, 0, 0, 1]);
@@ -271,9 +312,12 @@ exports.get_object_center = function(obj, calc_bs_center, dest) {
  * @param {Number} z DeltaZ coord
  */
 exports.move_local = function(obj, dx, dy, dz) {
-    transform.move_local(obj, dx, dy, dz);
-    transform.update_transform(obj);
-    physics.sync_transform(obj);
+    if (m_obj.is_dynamic(obj)) {
+        transform.move_local(obj, dx, dy, dz);
+        transform.update_transform(obj);
+        physics.sync_transform(obj);
+    } else
+        m_print.error("Wrong object: \"" + obj["name"] + "\" is not dynamic.");
 }
 
 /**

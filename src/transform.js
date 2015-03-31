@@ -195,14 +195,14 @@ exports.update_transform = update_transform;
  * @param {Object} obj Object ID
  */
 function update_transform(obj) {
-
     var render = obj._render;
 
     m_cons.update_constraint(obj, _elapsed);
-    m_cam.update_camera(obj);
 
     if (obj["type"] == "CAMERA") {
+        m_cam.update_camera(obj);
         m_cam.clamp_limits(obj);
+        m_cam.update_ortho_scale(obj);
 
         if (render.move_style == m_cam.MS_TARGET_CONTROLS) {
             var z_world_cam = m_util.quat_to_dir(render.quat, m_util.AXIS_Z, _vec3_tmp);
@@ -232,7 +232,7 @@ function update_transform(obj) {
 
     m_mat4.invert(wm, render.inv_world_matrix);
 
-    if (obj._anim_slots && m_particles.has_anim_particles(obj))
+    if (obj._anim_slots.length && m_particles.has_anim_particles(obj))
         m_particles.update_emitter_transform(obj);
 
     // NOTE: available only after batch creation (really needed now?)

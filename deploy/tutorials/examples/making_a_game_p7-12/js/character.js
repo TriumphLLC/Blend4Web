@@ -231,6 +231,9 @@ function setup_movement(up_arrow, down_arrow, on_ground_sens) {
 
     // character material animation
     m_anim.apply(_char_wrapper.body, "HEAL_run");
+    m_anim.apply(_char_wrapper.body, "LAVA_grow", m_anim.SLOT_1);
+    m_anim.apply(_char_wrapper.body, "SHIELD_grow", m_anim.SLOT_2);
+    m_anim.apply(_char_wrapper.shield_sphere, "SHIELD_GLOW_grow");
 
     // sound
     m_sfx.stop(_char_run_spk);
@@ -367,7 +370,7 @@ function setup_atack(touch_atack, elapsed) {
                 var at_dst = m_conf.CHAR_ATACK_DIST;
 
                 m_trans.get_translation(_char_wrapper.phys_body, trans);
-                m_trans.get_rotation_quat(_char_wrapper.phys_body, cur_rot_q);
+                m_trans.get_rotation(_char_wrapper.phys_body, cur_rot_q);
                 m_vec3.transformQuat(m_util.AXIS_Z, cur_rot_q, cur_dir);
 
                 m_vec3.scaleAndAdd(trans, cur_dir, at_dst, at_pt);
@@ -387,7 +390,7 @@ function setup_atack(touch_atack, elapsed) {
 exports.disable_controls = disable_controls;
 function disable_controls() {
     if (m_ctl.check_sensor_manifolds(_char_wrapper.phys_body))
-        m_ctl.remove_sensor_manifolds(_char_wrapper.phys_body);
+        m_ctl.remove_sensor_manifold(_char_wrapper.phys_body);
     m_phy.set_character_move_dir(_char_wrapper.phys_body, 0, 0);
     m_sfx.stop(_char_run_spk);
 }
@@ -396,7 +399,7 @@ exports.reset = function() {
     _char_wrapper.state = m_conf.CH_STILL;
     _char_wrapper.hp = m_conf.MAX_CHAR_HP;
     _char_wrapper.island = -1;
-    m_trans.get_rotation_quat(_char_wrapper.phys_body, _quat4_tmp);
+    m_trans.get_rotation(_char_wrapper.phys_body, _quat4_tmp);
     m_phy.set_transform(_char_wrapper.phys_body, m_conf.CHAR_DEF_POS, _quat4_tmp);
     m_phy.set_character_move_dir(_char_wrapper.phys_body, 0, 0);
 }

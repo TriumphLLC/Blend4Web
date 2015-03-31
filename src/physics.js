@@ -8,7 +8,6 @@
  */
 b4w.module["__physics"] = function(exports, require) {
 
-var m_cam     = require("__camera");
 var m_cfg     = require("__config");
 var m_cons    = require("__constraints");
 var m_print   = require("__print");

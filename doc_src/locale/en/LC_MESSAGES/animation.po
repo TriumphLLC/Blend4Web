@@ -85,22 +85,6 @@ msgstr "Animation Control"
 msgid "Управление анимацией в движке осуществляется одним из двух способов:"
 msgstr "There are two ways to control animation in the engine:"
 
-#: ../animation.rst:37
-msgid ""
-"Автоматически, с помощью указания свойств ``Animation: Use default`` и "
-"``Animation: Cyclic`` в свойствах объекта. В данном случае будет осуществлён"
-" поиск доступного метода и в случае положительного результата, объект "
-"анимируется с момента загрузки сцены. В случае скелетной анимации, по "
-"умолчанию воспроизводится актор, назначенный на объекте в окне ``Action "
-"Editor``."
-msgstr ""
-"Automatically, using the ``Animation: Use default`` and ``Animation: "
-"Cyclic`` checkboxes in the object's properties. In this case an appropriate "
-"animation method will be chosen by the engine and the object's animation "
-"playback will start just after a scene is loaded. In case of skeletal "
-"animation the action which is assigned to the object in the ``Action "
-"Editor`` window is played by default."
-
 #: ../animation.rst:44
 msgid "Программно, используя функции модуля движка ``animation``."
 msgstr "In an application via API using the ``animation`` module methods."
@@ -172,14 +156,6 @@ msgstr "*LocRotScale* -- a combination of *Location*, *Rotation* and *Scale*."
 #: ../animation.rst:81
 msgid "*RotScale* -- комбинация *Rotation* и *Scale*."
 msgstr "*RotScale* -- a combination of *Rotation* and *Scale*."
-
-#: ../animation.rst:83
-msgid ""
-"В случае анимации объекта-меша, необходимо назначение свойства ``Do not "
-"batch`` на вкладке свойств объекта."
-msgstr ""
-"If an object-mesh is animated it is required to enable the ``Do not batch`` "
-"checkbox under the object properties tab."
 
 #: ../animation.rst:88
 msgid "Скиннинг и скелетная анимация"
@@ -370,4 +346,27 @@ msgstr ""
 msgid ":ref:`node_materials`"
 msgstr ""
 
+#: ../animation.rst:37
+msgid ""
+"Автоматически, с помощью указания свойств ``Animation: Use default`` и "
+"``Animation: Behavior`` в свойствах объекта. В данном случае будет "
+"осуществлён поиск доступного метода и в случае положительного результата, "
+"объект анимируется с момента загрузки сцены. В случае скелетной анимации, по"
+" умолчанию воспроизводится актор, назначенный на объекте в окне ``Action "
+"Editor``."
+msgstr ""
+"Automatically, using the ``Animation: Use default`` and ``Animation: "
+"Behaviour`` options in the object's properties. In this case an appropriate "
+"animation method will be chosen by the engine and the object's animation "
+"playback will start just after a scene is loaded. In case of skeletal "
+"animation the action which is assigned to the object in the ``Action "
+"Editor`` window is played by default."
+
+#: ../animation.rst:83
+msgid ""
+"В случае анимации объекта-меша, необходимо назначение свойства ``Force "
+"Dynamic Object`` на вкладке свойств объекта."
+msgstr ""
+"If an object-mesh is animated it is required to enable the ``Force Dynamic "
+"Object`` checkbox under the object properties tab."
 

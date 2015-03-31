@@ -262,7 +262,7 @@ exports.update_bufs_data_array = function(bufs_data, attrib_name, num_comp, arra
         // replace attribute data
 
         if (num_comp && pointer.num_comp != num_comp)
-            throw "Error: invalid num_comp for \"" + attrib_name + "\"";
+            m_util.panic("invalid num_comp for \"" + attrib_name + "\"");
 
         vbo_array.set(array, pointer.offset);
     } else {
@@ -993,7 +993,7 @@ function generate_orco_texcoords(bb, submesh) {
 }
 
 function generate_orco_tangents(nor_arr, tan_arr, base_length, mesh_name) {
-    m_print.warn("B4W Warning: Not precise tangents calculation for normalmap " +
+    m_print.warn("Not precise tangents calculation for normalmap " +
                  "using GENERATED texture coordinates in mesh: \"" + mesh_name +
                  "\". Please add a UV-map.");
     for (var i = 0; i < base_length; i++) {
@@ -1041,14 +1041,14 @@ function extract_vcols(va_common, vc_usage, submesh_vc, bsub_color, base_length,
                 var color_name_index = submesh_vc_names.indexOf(color_name);
 
                 if (color_name_index == -1)
-                    throw "B4W Error: vertex color \"" + color_name
-                            + "\" for mesh \"" + mesh_name+ "\" not found.";
+                    m_util.panic("vertex color \"" + color_name
+                            + "\" for mesh \"" + mesh_name+ "\" not found.");
 
                 var mask_exported = submesh_vc[color_name_index]["mask"];
                 var exported_channels_count = m_util.rgb_mask_get_channels_count(mask_exported);
 
                 if ((color_mask & mask_exported) !== color_mask)
-                    m_print.error("B4W Error: Wrong color extraction from "
+                    m_print.error("Wrong color extraction from "
                         + color_name + " to " + attr_name + ".");
 
                 var exported_colors_offset = submesh_vc_get_offset(submesh_vc,
@@ -1102,8 +1102,8 @@ function assign_node_uv_maps(mesh_uvs, bsub_texcoord, bsub_texcoord2,
 
         var uv_map_index = mesh_uvs.indexOf(uv_name);
         if (uv_map_index == -1)
-            throw "B4W Error: uv map \"" + uv_name +
-                  "\" for mesh \"" + mesh_name + "\" not found";
+            m_util.panic("uv map \"" + uv_name +
+                  "\" for mesh \"" + mesh_name + "\" not found");
 
         if (uv_map_index == 0)
             var uv_node_arr = new Float32Array(bsub_texcoord);

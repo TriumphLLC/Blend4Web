@@ -186,7 +186,7 @@ exports.disable_environment = function () {
             var mark_name  = m_conf.MARK_NAMES[j];
             var rock  = m_scs.get_object_by_dupli_name(dupli_name, rock_name);
             var mark  = m_scs.get_object_by_dupli_name(dupli_name, mark_name);
-            m_ctl.remove_sensor_manifolds(rock);
+            m_ctl.remove_sensor_manifold(rock);
             set_random_rock_position(rock);
             m_trans.set_translation_v(mark, m_conf.DEFAULT_POS);
         }

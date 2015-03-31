@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Разработчикам движка &mdash; Руководство пользователя: Blend4Web v15.02</title>
+    <title>Разработчикам движка &mdash; Руководство пользователя: Blend4Web v15.03</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '15.02',
+        VERSION:     '15.03',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v15.02" href="index.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v15.03" href="index.html" />
     <link rel="next" title="Работа в команде с использованием Git" href="git_short_manual.html" />
     <link rel="prev" title="Разработчикам приложений" href="developers.html" /> 
   </head>
@@ -37,7 +37,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">Руководство пользователя: Blend4Web v15.02</a></div>
+          href="index.html">Руководство пользователя: Blend4Web v15.03</a></div>
         <div class="rel">
           <a href="developers.html" title="Разработчикам приложений"
              accesskey="P">назад</a> |
@@ -202,61 +202,61 @@
 модулей движка</td>
 </tr>
 <tr class="row-even"><td>Emscripten</td>
-<td>из исходных текстов</td>
+<td><a class="reference external" href="http://kripken.github.io/emscripten-site/docs/building_from_source/index.html">из исходных текстов EMSDK</a></td>
 <td>сборка Uranium</td>
 </tr>
-<tr class="row-odd"><td>LLVM, Clang</td>
-<td>из исходных текстов</td>
-<td>сборка Uranium</td>
-</tr>
-<tr class="row-even"><td>ImageMagick, GraphicsMagick</td>
+<tr class="row-odd"><td>ImageMagick, GraphicsMagick</td>
 <td>imagemagick, graphicsmagick</td>
 <td>конвертация ресурсов</td>
 </tr>
-<tr class="row-odd"><td>NVIDIA Texture Tools</td>
+<tr class="row-even"><td>NVIDIA Texture Tools</td>
 <td>libnvtt-bin</td>
 <td>конвертация ресурсов</td>
 </tr>
-<tr class="row-even"><td>NVIDIA Cg Toolkit</td>
+<tr class="row-odd"><td>NVIDIA Cg Toolkit</td>
 <td>nvidia-cg-toolkit</td>
 <td>отладка шейдеров</td>
 </tr>
-<tr class="row-odd"><td>Libav</td>
+<tr class="row-even"><td>Libav</td>
 <td>libav-tools</td>
 <td>конвертация ресурсов</td>
 </tr>
-<tr class="row-even"><td>Gnuplot</td>
+<tr class="row-odd"><td>Gnuplot</td>
 <td>gnuplot</td>
 <td>отладка</td>
 </tr>
-<tr class="row-odd"><td>Graphviz</td>
+<tr class="row-even"><td>Graphviz</td>
 <td>graphviz</td>
 <td>отладка</td>
 </tr>
-<tr class="row-even"><td>xsel</td>
+<tr class="row-odd"><td>xsel</td>
 <td>xsel</td>
 <td>отладка</td>
 </tr>
-<tr class="row-odd"><td>Sphinx</td>
+<tr class="row-even"><td>Sphinx</td>
 <td>sphinx-doc</td>
 <td>сборка документации
 (HTML-версия)</td>
 </tr>
-<tr class="row-even"><td>sphinx-intl</td>
+<tr class="row-odd"><td>sphinx-intl</td>
 <td>устанавливается с помощью PIP</td>
 <td>сборка документации
 (перевод)</td>
 </tr>
-<tr class="row-odd"><td>TeX Live</td>
+<tr class="row-even"><td>TeX Live</td>
 <td>texlive, texlive-latex-extra
 texlive-lang-cyrillic</td>
 <td>сборка документации
 (PDF-версия)</td>
 </tr>
-<tr class="row-even"><td>JSDoc 3</td>
-<td>из исходных текстов</td>
+<tr class="row-odd"><td>JSDoc 3</td>
+<td><a class="reference external" href="https://github.com/jsdoc3/jsdoc">из исходных текстов JSDoc</a></td>
 <td>сборка документации
 (документация на API)</td>
+</tr>
+<tr class="row-even"><td>PEG.js</td>
+<td><a class="reference external" href="http://pegjs.majda.cz/">из исходных текстов PEG.js</a></td>
+<td>препроцессинг шейдеров</td>
 </tr>
 </tbody>
 </table>
@@ -344,7 +344,7 @@ GLSL-кода. На данный момент в нем реализованы �
 <p>Идентификаторами могут быть как имена переменных, так и имена функций. По умолчанию при отсутствии директив import/export считается, что include-файл не использует внешние объявления и не предоставляет пользование внутренними.</p>
 </div>
 <div class="section" id="index-2">
-<span id="id11"></span><h3>Рекомендации и ограничения по использованию обфускатора<a class="headerlink" href="#index-2" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="id12"></span><h3>Рекомендации и ограничения по использованию обфускатора<a class="headerlink" href="#index-2" title="Ссылка на этот заголовок">¶</a></h3>
 <p>В связи с наличием препроцессинга, необходимостью совместной обработки нескольких шейдеров и include-файлов, а также особенностями реализации обфускатора гарантировать работоспособность полученного на выходе кода можно только при соблюдении ряда правил или ограничений на текст исходных шейдеров:</p>
 <ol class="arabic simple">
 <li>Обязательное использование специальной директивы <tt class="docutils literal"><span class="pre">#var</span></tt> для описания констант, определяемых движком в момент запуска. Например:</li>
@@ -400,7 +400,7 @@ GLSL-кода. На данный момент в нем реализованы �
 </div></blockquote>
 </div>
 <div class="section" id="index-4">
-<span id="id12"></span><h3>Ошибки обфускатора<a class="headerlink" href="#index-4" title="Ссылка на этот заголовок">¶</a></h3>
+<span id="id13"></span><h3>Ошибки обфускатора<a class="headerlink" href="#index-4" title="Ссылка на этот заголовок">¶</a></h3>
 <p>В случае ошибки обфускатор выведет соответствующее сообщение в консоли.</p>
 <p>Перечень возможных ошибок:</p>
 <table border="1" class="docutils">
@@ -629,7 +629,7 @@ NAME, которая нигде не используется.</td>
           
     <div class="footer">
         &copy; Copyright 2015, ООО &#34;Триумф&#34;.
-      Обновлено: 2015-02-25.
+      Обновлено: 2015-03-26.
       Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
         </div>

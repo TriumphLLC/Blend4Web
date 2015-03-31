@@ -28,6 +28,8 @@ var DEPTH_BG_COLOR = [1, 1, 1, 1];
 var COLOR_PICKING_BG_COLOR = [0,0,0,1];
 var BLACK_BG_COLOR = [0,0,0,0];
 
+var SKY_HACK_COLOR = new Uint8Array([0.36*255, 0.56*255, 0.96*255, 255]);
+
 var FLOAT_BYTE_SIZE = 4;
 
 var CUBEMAP_UPPER_SIDE = 2;
@@ -184,6 +186,7 @@ function clear_binded_framebuffer(subscene) {
             break;
         case "COLOR_PICKING":
         case "COLOR_PICKING_XRAY":
+        case "ANCHOR_VISIBILITY":
             var bc = COLOR_PICKING_BG_COLOR;
             break;
         case "GLOW_MASK":
@@ -276,18 +279,15 @@ function draw_sky_buffers(subscene, bufs_data, shader, obj_render,
         var w_target = get_cube_target_by_id(i);
 
         if (cfg_def.clear_procedural_sky_hack) {
-            var image_data = new Uint8Array([0.36*255, 0.56*255,
-                                             0.96*255, 255]);
             var w_target_cube = _gl.TEXTURE_CUBE_MAP;
             _gl.bindTexture(w_target_cube, w_tex);
             _gl.texImage2D(w_target, 0, _gl.RGBA,
-                    1, 1, 0, _gl.RGBA, _gl.UNSIGNED_BYTE, image_data);
+                    1, 1, 0, _gl.RGBA, _gl.UNSIGNED_BYTE, SKY_HACK_COLOR);
         } else {
             _gl.uniformMatrix4fv(uniforms["u_cube_view_matrix"], false, v_matrs[i]);
 
             _gl.framebufferTexture2D(_gl.FRAMEBUFFER, _gl.COLOR_ATTACHMENT0,
                 w_target, w_tex, 0);
-
             draw_buffers(bufs_data, attribute_setters, obj_render.va_frame);
         }
         if (subscene.need_fog_update && i != CUBEMAP_BOTTOM_SIDE)
@@ -299,10 +299,15 @@ function update_subs_sky_fog(subscene, cubemap_side_ind) {
     // get pixel from every side of cubemap for procedural fog calculation
     var col = _ivec4_tmp;
 
-    _gl.readPixels(191, 191, 1, 1, _gl.RGBA, _gl.UNSIGNED_BYTE, col);
-    if (col[0] == 255 || col[1] == 255 || col[2] == 255) {
-        _gl.readPixels(191, 220, 1, 1, _gl.RGBA, _gl.UNSIGNED_BYTE, col);
+    if (cfg_def.clear_procedural_sky_hack)
+        col.set(SKY_HACK_COLOR);
+    else {
+        _gl.readPixels(191, 191, 1, 1, _gl.RGBA, _gl.UNSIGNED_BYTE, col);
+        if (col[0] == 255 || col[1] == 255 || col[2] == 255) {
+            _gl.readPixels(191, 220, 1, 1, _gl.RGBA, _gl.UNSIGNED_BYTE, col);
+        }
     }
+
     var res_r = col[0]; var res_g = col[1]; var res_b = col[2];
 
     res_r /= 255;
@@ -648,19 +653,9 @@ function assign_uniform_setters(shader) {
                 gl.uniform3fv(loc, subscene.light_color_intensities);
             }
             break;
-        case "u_light_factors1":
+        case "u_light_factors":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
-                gl.uniform4fv(loc, subscene.light_factors1);
-            }
-            break;
-        case "u_light_factors2":
-            var fun = function(gl, loc, subscene, obj_render, batch, camera) {
-                gl.uniform4fv(loc, subscene.light_factors2);
-            }
-            break;
-        case "u_shadow_lamp_id":
-            var fun = function(gl, loc, subscene, obj_render, batch, camera) {
-                gl.uniform1i(loc, subscene.shadow_lamp_id);
+                gl.uniform4fv(loc, subscene.light_factors);
             }
             break;
         case "u_sun_quaternion":
@@ -767,9 +762,15 @@ function assign_uniform_setters(shader) {
             }
             transient_uni = true;
             break;
-        case "u_anim_values":
+        case "u_node_values":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
-                gl.uniform1fv(loc, obj_render.mats_anim_values);
+                gl.uniform1fv(loc, obj_render.mats_values);
+            }
+            transient_uni = true;
+            break;
+        case "u_node_rgbs":
+            var fun = function(gl, loc, subscene, obj_render, batch, camera) {
+                gl.uniform3fv(loc, obj_render.mats_rgbs);
             }
             transient_uni = true;
             break;
@@ -978,7 +979,7 @@ function assign_uniform_setters(shader) {
             break;
         case "u_color_id":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
-                gl.uniform3fv(loc, batch.color_id);
+                gl.uniform3fv(loc, obj_render.color_id);
             }
             transient_uni = true;
             break;
@@ -1192,6 +1193,14 @@ function assign_uniform_setters(shader) {
             transient_uni = true;
             break;
 
+        // anchor visibility
+        case "u_position":
+            var fun = function(gl, loc, subscene, obj_render, batch, camera) {
+                gl.uniform3fv(loc, batch.positions);
+            }
+            transient_uni = true;
+            break;
+
         // for vertex anim
         case "u_va_frame_factor":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
@@ -1317,7 +1326,7 @@ function assign_uniform_setters(shader) {
         // for glow
         case "u_glow_intensity":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
-                gl.uniform1f(loc, batch.glow_intensity);
+                gl.uniform1f(loc, obj_render.glow_intensity);
             }
             transient_uni = true;
             break;

@@ -15,10 +15,10 @@ var m_cam       = require("__camera");
 var m_cfg       = require("__config");
 var m_cons      = require("__constraints");
 var m_curve     = require("__curve");
+var m_geom      = require("__geometry");
 var m_lights    = require("__lights");
 var m_nla       = require("__nla");
 var m_particles = require("__particles");
-var m_print     = require("__print");
 var m_scenes    = require("__scenes");
 var m_trans     = require("__transform");
 var m_tsr       = require("__tsr");
@@ -28,7 +28,6 @@ var m_quat = require("quat");
 var m_vec3 = require("vec3");
 var m_mat4 = require("mat4");
 
-var cfg_anim = m_cfg.animation;
 var cfg_def = m_cfg.defaults;
 
 var DEBUG_DISABLE_STATIC_OBJS = false;
@@ -59,7 +58,10 @@ function create_render(type) {
         hover_pivot: new Float32Array(3),
         init_dist: 0,
         init_top: 0,
+        is_copied: false,
 
+        color_id: null,
+        glow_intensity: 0,
         // correct only for TARGET camera
         target_cam_upside_down: false,
 
@@ -156,8 +158,13 @@ function create_render(type) {
         trans_after: null,
         bone_pointers: null,
         pose_data: null,
-        mats_anim_values: null,
+
+        mats_values: null,
+        mats_value_inds: null,
         mats_anim_inds: null,
+        mats_rgbs: null,
+        mats_rgb_inds: null,
+        mats_rgb_anim_inds: null,
 
         // bounding volumes properties
         bb_local: null,
@@ -189,7 +196,7 @@ function create_render(type) {
  */
 exports.update_object = update_object;
 function update_object(obj, non_recursive) {
-    var is_dynamic = obj_is_dynamic(obj);
+    var is_dynamic = calc_is_dynamic(obj);
     obj._is_dynamic = is_dynamic;
 
     if (obj["type"] === "MESH")
@@ -197,9 +204,13 @@ function update_object(obj, non_recursive) {
     else
         var render_type = obj["type"];
     obj._render = create_render(render_type);
-
+    obj._is_meta = false;
     obj._constraint = null;
     obj._descends = [];
+    obj._anim_slots = [];
+    obj._physics = null;
+    obj._sfx = null;
+    obj._light = null;
     if (!obj._dg_parent)
         obj._dg_parent = null;
 
@@ -284,7 +295,7 @@ function update_object(obj, non_recursive) {
 
         if (render.selectable) {
             // assign color id
-            obj._color_id = m_util.gen_color_id(_color_id_counter);
+            obj._render.color_id = m_util.gen_color_id(_color_id_counter);
             _color_id_counter++;
         }
 
@@ -312,8 +323,7 @@ function update_object(obj, non_recursive) {
             render.frame_factor = 0;
         }
 
-        if (m_anim.has_animated_nodemats(obj))
-            prepare_nodemats_anim_info(obj);
+        prepare_nodemats_containers(obj);
 
         obj._batches = [];
 
@@ -455,37 +465,42 @@ function update_objects_dynamics(objects) {
         // try to use default animation
         if (obj["b4w_use_default_animation"] && m_anim.is_animatable(obj)) {
             m_anim.apply_def(obj);
-            if (obj._anim_slots)
+            if (obj._anim_slots.length)
                 m_anim.play(obj, null, m_anim.SLOT_ALL);
         }
     }
 }
 
-function obj_is_dynamic(bpy_obj) {
+function calc_is_dynamic(bpy_obj) {
     var parent = bpy_obj["parent"];
 
     if (parent && parent._is_dynamic)
         return true;
 
-    if (bpy_obj["type"] === "ARMATURE" || bpy_obj["type"] === "CAMERA" ||
-            (bpy_obj["type"] === "MESH" && mesh_obj_is_dynamic(bpy_obj)) ||
-            (bpy_obj["type"] === "EMPTY" && empty_obj_is_dynamic(bpy_obj)))
+    switch (bpy_obj["type"]) {
+    case "MESH":
+        return calc_mesh_is_dynamic(bpy_obj);
+        break;
+    case "EMPTY":
+        return calc_empty_is_dynamic(bpy_obj);
+        break;
+    default:
         return true;
-
-    return false;
+        break;
+    }
 }
 
-function empty_obj_is_dynamic(bpy_obj) {
+function calc_empty_is_dynamic(bpy_obj) {
     var is_animated = m_anim.is_animatable(bpy_obj);
     var has_nla = m_nla.has_nla(bpy_obj);
+    var has_do_not_batch = bpy_obj["b4w_do_not_batch"];
 
-    return is_animated || has_nla;
+    return is_animated || has_nla || has_do_not_batch;
 }
 
-function mesh_obj_is_dynamic(bpy_obj) {
+function calc_mesh_is_dynamic(bpy_obj) {
     var is_animated = m_anim.is_animatable(bpy_obj);
     var has_do_not_batch = bpy_obj["b4w_do_not_batch"];
-    var dynamic_geom = bpy_obj["b4w_dynamic_geometry"];
     var is_collision = bpy_obj["b4w_collision"];
     var is_vehicle_part = bpy_obj["b4w_vehicle"];
     var is_floater_part = bpy_obj["b4w_floating"];
@@ -498,7 +513,7 @@ function mesh_obj_is_dynamic(bpy_obj) {
     // make them so to prevent possible bugs in the future
 
     return DEBUG_DISABLE_STATIC_OBJS || is_animated || has_do_not_batch
-            || dynamic_geom || is_collision || is_vehicle_part
+            || is_collision || is_vehicle_part
             || is_floater_part || has_lens_flares_mat(bpy_obj)
             || dyn_grass_emitter || is_character || is_billboard || has_nla;
 }
@@ -588,59 +603,140 @@ function first_mesh_material(obj) {
     return obj["data"]["materials"][0];
 }
 
-function prepare_nodemats_anim_info(obj) {
+function prepare_nodemats_containers(obj) {
 
     var render = obj._render;
     var materials = obj["data"]["materials"];
 
-    var mats_anim_values = [];
+    var mats_values = [];
+    var mats_value_inds = [];
     var mats_anim_inds = [];
+    var mats_rgbs = [];
+    var mats_rgb_inds = [];
+    var mats_rgb_anim_inds = [];
 
     for (var i = 0; i < materials.length; i++) {
         var mat = materials[i];
         var node_tree = mat["node_tree"];
 
-        if (node_tree && node_tree["animation_data"]) {
+        if (!node_tree)
+            continue;
 
-            var anim_data = node_tree["animation_data"];
+        var anim_data = node_tree["animation_data"];
 
-            var processed_params = {};
+        process_ntree_r(node_tree, mat["name"] + "%join%", anim_data,
+                           mats_values, mats_value_inds, mats_anim_inds,
+                           mats_rgbs, mats_rgb_inds, mats_rgb_anim_inds);
+    }
+    render.mats_values = mats_values;
+    render.mats_value_inds = mats_value_inds;
+    render.mats_anim_inds = mats_anim_inds;
+    render.mats_rgbs = mats_rgbs;
+    render.mats_rgb_inds = mats_rgb_inds;
+    render.mats_rgb_anim_inds = mats_rgb_anim_inds;
+}
 
-            var action = anim_data["action"];
-            if (action)
-                extract_nodemat_action_params(action, mats_anim_values,
-                                                      mats_anim_inds, processed_params);
+function process_ntree_r(node_tree, names_str, anim_data,
+                         mats_values, value_inds, val_anim_inds,
+                         mats_rgbs, rgb_inds, rgb_anim_inds) {
 
-            var nla_tracks = anim_data["nla_tracks"]
+    // collect all VALUE and RGB nodes
+    for (var i = 0; i < node_tree["nodes"].length; i++) {
+        var node = node_tree["nodes"][i];
+        if (node["type"] == "VALUE") {
+            var param_name = names_str + node["name"];
+            mats_values.push(node["outputs"][0]["default_value"]);
+            value_inds.push(param_name, value_inds.length / 2);
 
-            for (var j = 0; j < nla_tracks.length; j++) {
-                var nla_strips = nla_tracks[j]["strips"];
-                for (var k = 0; k <nla_tracks[j]["strips"].length; k++) {
-                    var strip = nla_strips[k];
-                    var action = strip["action"];
-                    extract_nodemat_action_params(action, mats_anim_values,
-                                                          mats_anim_inds, processed_params);
-                }
+        } else if (node["type"] == "RGB") {
+            var param_name = names_str + node["name"];
+            var def_value = node["outputs"][0]["default_value"].slice(0,3);
+            mats_rgbs.push(def_value[0], def_value[1], def_value[2]);
+            rgb_inds.push(param_name, rgb_inds.length / 2);
+
+        } else if (node["type"] == "GROUP") {
+            var gr_node_tree = node["node_group"]["node_tree"];
+            var ntree_anim_data = gr_node_tree["animation_data"];
+            var new_names_str = names_str + node["name"] + "%join%";
+            process_ntree_r(gr_node_tree, new_names_str, ntree_anim_data,
+                            mats_values, value_inds, val_anim_inds,
+                            mats_rgbs, rgb_inds, rgb_anim_inds);
+        }
+    }
+
+    // process their animation data
+    if (anim_data) {
+        process_ntree_anim_data(anim_data, names_str,
+                                val_anim_inds, value_inds,
+                                rgb_inds, rgb_anim_inds);
+    }
+}
+
+function process_ntree_anim_data(anim_data, names_str,
+                                 val_anim_inds, value_inds,
+                                 rgb_inds, rgb_anim_inds) {
+
+    var action = anim_data["action"];
+    if (action)
+        extract_nodemat_action_params(action, names_str,
+                                      val_anim_inds, value_inds,
+                                      rgb_anim_inds, rgb_inds);
+
+    var nla_tracks = anim_data["nla_tracks"];
+
+    for (var j = 0; j < nla_tracks.length; j++) {
+        var nla_strips = nla_tracks[j]["strips"];
+        for (var k = 0; k <nla_tracks[j]["strips"].length; k++) {
+            var strip = nla_strips[k];
+            var action = strip["action"];
+            extract_nodemat_action_params(action, names_str,
+                                          val_anim_inds, value_inds,
+                                          rgb_anim_inds, rgb_inds);
+        }
+    }
+}
+
+function extract_nodemat_action_params(action, names_str,
+                                       val_anim_inds, value_inds,
+                                       rgb_anim_inds, rgb_inds) {
+
+    var params = action._render.params;
+
+    for (var param in params) {
+        var full_node_path = names_str + node_name_from_param_name(param);
+        var ind = node_ind_by_full_path(value_inds, full_node_path);
+        if (ind != null) {
+            var param_name = action["name"] + "%join%" + param;
+            val_anim_inds.push(param_name, ind);
+        } else {
+            var ind = node_ind_by_full_path(rgb_inds, full_node_path);
+            if (ind != null) {
+                var param_name = action["name"] + "%join%" + param;
+                rgb_anim_inds.push(param_name, ind);
             }
         }
     }
-    render.mats_anim_values = mats_anim_values;
-    render.mats_anim_inds = mats_anim_inds;
 }
 
-function extract_nodemat_action_params(action, val_arr, inds_arr, processed) {
-    var params = action._render.params;
-    for (var param in params) {
+function node_name_from_param_name(param_name) {
+    // extract text between first "[" and "]" which is exactly a node name
+    return param_name.match(/"(.*?)"/ )[1];
+}
 
-        var param_name = action["name"] + "_" + param;
-
-        if (!(param in processed)) {
-            processed[param] = val_arr.length
-            val_arr.push(params[param][0]);
-        }
-
-        inds_arr.push(param_name, processed[param]);
+function node_ind_by_full_path(inds, path) {
+    for (var i = 0; i < inds.length; i+=2) {
+        var name = inds[i];
+        if (name == path)
+            return inds[i+1];
     }
+    return null;
+}
+
+exports.is_dynamic = function(obj) {
+    if (obj._is_dynamic)
+        return true;
+    else
+        return false;
 }
 
 exports.is_dynamic_mesh = function(obj) {
@@ -654,9 +750,9 @@ exports.get_meta_tags = function(obj) {
     var obj_tags = obj["b4w_object_tags"];
 
     var copy_tags = {
-        title: obj_tags["title"],
-        description: obj_tags["description"],
-        category: obj_tags["category"]
+        title: obj_tags ? obj_tags["title"] : "",
+        description: obj_tags ? obj_tags["description"] : "",
+        category: obj_tags ? obj_tags["category"] : ""
     };
 
     return copy_tags;
@@ -664,6 +760,198 @@ exports.get_meta_tags = function(obj) {
 
 exports.cleanup = function() {
     _color_id_counter = 0;
+}
+
+exports.obj_has_dynamic_geometry = function(obj) {
+    return obj._render.dynamic_geometry;
+}
+
+/**
+ * Create empty object
+ */
+exports.init_object = init_object;
+function init_object(name, type, is_meta) {
+    var obj = {
+        "name": name,
+        "type": type,
+        "modifiers": [],
+        "particle_systems": [],
+        "constraints": [],
+        "data": null,
+        "parent": null,
+        "b4w_vehicle_settings": null,
+        "b4w_floating_settings": null,
+        "b4w_character_settings": null,
+        "b4w_vehicle": false,
+        "b4w_character": false,
+        "b4w_floating": false,
+        _batches: [],
+        _is_meta: is_meta,
+        _descends: [],
+        _sensor_manifolds_arr : [],
+        _action_anim_cache: [],
+        _sensor_manifolds : null,
+        _constraint: null,
+        _floater: null,
+        _vehicle: null,
+        _anim_slots: [],
+        _physics: null,
+        _sfx: null,
+        _light: null
+
+    };
+    return obj;
+}
+
+exports.copy = function(obj, name, deep_copy) {
+    var new_obj = copy_bpy_object(obj, name, deep_copy);
+    new_obj["uuid"] = m_util.gen_uuid();
+    new_obj._render.is_copied = true;
+    new_obj._render.color_id = m_util.gen_color_id(_color_id_counter);
+    _color_id_counter++;
+
+    return new_obj;
+}
+
+function copy_bpy_object(bpy_obj, new_name, deep_copy) {
+    var new_obj = init_object(new_name, bpy_obj["type"], false);
+    var bpy_bufs_data = [];
+    if (deep_copy) {
+        for (var i = 0; i < bpy_obj._batches.length; i++)
+            if (!bpy_obj._batches[i].forked_batch) {
+                new_obj._batches.push(copy_object_props_by_value(bpy_obj._batches[i]));
+                bpy_bufs_data.push(bpy_obj._batches[i].bufs_data);
+            }
+
+        for (var i = 0; i < bpy_obj._batches.length; i++)
+            if (bpy_obj._batches[i].forked_batch) {
+                var new_forked_batch = copy_object_props_by_value(bpy_obj._batches[i]);
+                new_obj._batches.push(new_forked_batch);
+                for (var j = 0; j < bpy_bufs_data.length; j++)
+                    if (bpy_bufs_data[j] == bpy_obj._batches[i].bufs_data)
+                        new_forked_batch.bufs_data = new_obj._batches[j].bufs_data;
+            }
+    } else
+        new_obj._batches = copy_bpy_object_props_by_link(bpy_obj._batches);
+
+    new_obj._render = copy_object_props_by_value(bpy_obj._render);
+    if (bpy_obj._is_dynamic)
+        new_obj._is_dynamic = bpy_obj._is_dynamic;
+    if (bpy_obj._dg_parent)
+        new_obj._dg_parent = bpy_obj._dg_parent;
+    if (bpy_obj._action_anim_cache)
+        new_obj._action_anim_cache = copy_bpy_object_props_by_link(bpy_obj._action_anim_cache);
+    if (bpy_obj._physics && !(bpy_obj["b4w_vehicle"] || bpy_obj["b4w_character"] 
+            || bpy_obj["b4w_floating"]))
+        new_obj._physics = copy_object_props_by_value(bpy_obj._physics);
+
+    new_obj["game"] = copy_object_props_by_value(bpy_obj["game"]);
+    new_obj["b4w_collision_id"] = bpy_obj["b4w_collision_id"];
+    new_obj["b4w_correct_bounding_offset"] = bpy_obj["b4w_correct_bounding_offset"];
+
+    new_obj["b4w_collision"] = bpy_obj["b4w_collision"];
+    new_obj["data"] = bpy_obj["data"];
+
+    if (deep_copy)
+        new_obj["particle_systems"] = copy_object_props_by_value(bpy_obj["particle_systems"]);
+    else
+        new_obj["particle_systems"] = copy_bpy_object_props_by_link(bpy_obj["particle_systems"]);
+
+    if (deep_copy)
+        for (var i = 0; i < new_obj._batches.length; i++) {
+            if (new_obj._batches[i].bufs_data)
+                m_geom.update_gl_buffers(new_obj._batches[i].bufs_data);
+            // NOTE: copy particle system props from obj to batch
+            if (new_obj._batches[i].type == "PARTICLES" && new_obj._batches[i].psys_name)
+                for (var j = 0; j < new_obj.particle_systems.length; j++)
+                    if (new_obj["particle_systems"][j]["name"] == new_obj._batches[i].psys_name) {
+                        new_obj._batches[i].particle_system = new_obj["particle_systems"][j];
+                        break;
+                    }
+            //create unique batch ID
+            new_obj._batches[i].odd_id_prop = new_obj["uuid"];
+            m_batch.update_batch_id(new_obj._batches[i], m_util.calc_variable_id(new_obj._render, 0));
+        }
+
+    return new_obj;
+}
+
+function copy_bpy_object_props_by_link(obj) {
+    if (obj instanceof Array)
+        return obj.slice();
+    else
+        return obj;
+}
+exports.copy_object_props_by_value = copy_object_props_by_value;
+function copy_object_props_by_value(obj) {
+    if (typeof obj != "object" || obj === null)
+        return obj;
+
+    var new_obj = (obj instanceof Array) ? [] : {};
+
+    var textures = null;
+    var texture_names = null;
+
+    if (obj.textures) {
+        textures = obj.textures;
+        obj.textures = null;
+    }
+    if (obj.texture_names) {
+        texture_names = obj.texture_names;
+        obj.texture_names = null;
+    }
+
+    for (var i in obj) {
+        if (obj[i] && (typeof obj[i] == "object")) {
+            if (obj[i] instanceof Float32Array)
+                new_obj[i] = new Float32Array(obj[i]);
+            else if (obj[i] instanceof Uint32Array)
+                new_obj[i] = new Uint32Array(obj[i]);
+            else if (obj[i] instanceof Uint16Array)
+                new_obj[i] = new Uint16Array(obj[i]);
+            else if (obj[i] instanceof WebGLUniformLocation)
+                new_obj[i] = obj[i];
+            else if (obj[i] instanceof WebGLProgram)
+                new_obj[i] = obj[i];
+            else if (obj[i] instanceof WebGLShader)
+                new_obj[i] = obj[i];
+            else if (obj[i] instanceof WebGLBuffer)
+                // NOTE: update geometry will be later
+                new_obj[i] = null;
+            else
+                new_obj[i] = copy_object_props_by_value(obj[i]);
+        } else
+            new_obj[i] = obj[i];
+    }
+
+    if (textures) {
+        new_obj.textures = textures;
+        obj.textures = textures;
+    }
+    if (texture_names) {
+        new_obj.texture_names = texture_names;
+        obj.texture_names = texture_names;
+    }
+
+    return new_obj;
+}
+
+exports.get_value_node_ind_by_id = function(obj, id) {
+    var value_inds = obj._render.mats_value_inds;
+    for (var i = 0; i < value_inds.length; i+=2) {
+        if (value_inds[i] == id)
+            return value_inds[i+1]
+    }
+    return null;
+}
+
+exports.get_rgb_node_ind_by_id = function(obj, id) {
+    var rgb_inds = obj._render.mats_rgb_inds;
+    for (var i = 0; i < rgb_inds.length; i+=2) {
+        if (rgb_inds[i] == id)
+            return rgb_inds[i+1]
+    }
+    return null;
 }
 
 }

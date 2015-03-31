@@ -35,25 +35,26 @@
 b4w.module["debug"] = function(exports, require) {
 
 var m_batch    = require("__batch");
+var m_cfg      = require("__config");
+var m_ctl      = require("__controls");
+var m_debug    = require("__debug");
+var m_phy      = require("__physics");
 var m_print    = require("__print");
-var controls   = require("__controls");
-var debug      = require("__debug");
-var physics    = require("__physics");
-var scenegraph = require("__scenegraph");
+var m_scgraph  = require("__scenegraph");
 var m_scenes   = require("__scenes");
-var sfx        = require("__sfx");
+var m_shaders  = require("__shaders");
+var m_sfx      = require("__sfx");
 var m_textures = require("__textures");
 var m_util     = require("__util");
-var m_config     = require("__config");
 
 var m_vec3 = require("vec3");
-var cfg_def = m_config.defaults;
+var cfg_def = m_cfg.defaults;
 /**
  * Print info about the physics worker
  * @method module:debug.physics_worker
  */
 exports.physics_worker = function() {
-    physics.debug_worker();
+    m_phy.debug_worker();
 }
 /**
  * Print object info by physics ID.
@@ -61,9 +62,9 @@ exports.physics_worker = function() {
  * @param id Physics ID
  */
 exports.physics_id = function(id) {
-    m_print.log("O", physics.find_obj_by_body_id(id))
+    m_print.log("O", m_phy.find_obj_by_body_id(id))
 
-    var bundles = physics.get_active_scene()._physics.bundles;
+    var bundles = m_phy.get_active_scene()._physics.bundles;
 
     for (var i = 0; i &lt; bundles.length; i++) {
         var bundle = bundles[i];
@@ -246,6 +247,15 @@ exports.num_draw_calls = function() {
                  main_subscenes[1].bundles.length;
 
     return number;
+}
+
+/**
+ * Return the number of compiled shaders.
+ * @method module:debug.num_shaders
+ */
+exports.num_shaders = function() {
+    var compiled_shaders = m_shaders.get_compiled_shaders();
+    return m_util.get_dict_length(compiled_shaders);
 }
 
 /**
@@ -457,7 +467,7 @@ exports.scenegraph_to_dot = function() {
     for (var i = 0; i &lt; scenes.length; i++) {
         var scene = scenes[i];
         var graph = m_scenes.get_graph(scene);
-        m_print.log(scenegraph.debug_convert_to_dot(graph));
+        m_print.log("\n" + m_scgraph.debug_convert_to_dot(graph));
     }
 }
 
@@ -469,7 +479,7 @@ exports.scenes_to_dot = function() {
  * Print info about the controls module.
  * @method module:debug.controls_info
  */
-exports.controls_info = controls.debug;
+exports.controls_info = m_ctl.debug;
 
 /**
  * Get the distance between two objects.
@@ -484,25 +494,25 @@ exports.object_distance = function(obj, obj2) {
  * Store a simple telemetry message.
  * @method module:debug.msg
  */
-exports.msg = debug.msg;
+exports.msg = m_debug.msg;
 
 /**
  * Store a flashback telemetry message.
  * @method module:debug.fbmsg
  */
-exports.fbmsg = debug.fbmsg;
+exports.fbmsg = m_debug.fbmsg;
 
 /**
  * Print the list of flashback messages.
  * @method module:debug.print_telemetry
  */
-exports.print_telemetry = debug.print_telemetry;
+exports.print_telemetry = m_debug.print_telemetry;
 
 /**
  * Plot the list of flashback messages as a gnuplot datafile.
  * @method module:debug.plot_telemetry
  */
-exports.plot_telemetry = debug.plot_telemetry;
+exports.plot_telemetry = m_debug.plot_telemetry;
 
 /**
  * Store the callback function result as a flashback message.
@@ -513,7 +523,7 @@ exports.fbres = function(fun, timeout) {
         timeout = 16;
 
     var cb = function() {
-        debug.fbmsg("FBRES", fun());
+        m_debug.fbmsg("FBRES", fun());
         setTimeout(cb, timeout);
     }
 
@@ -559,13 +569,13 @@ exports.assert_constants = function() {
  * @method module:debug.mute_music
  */
 exports.mute_music = function() {
-    var spks = sfx.get_speaker_objects();
+    var spks = m_sfx.get_speaker_objects();
 
     for (var i = 0; i &lt; spks.length; i++) {
         var spk = spks[i];
 
-        if (sfx.get_spk_behavior(spk) == "BACKGROUND_MUSIC")
-            sfx.mute(spk, true);
+        if (m_sfx.get_spk_behavior(spk) == "BACKGROUND_MUSIC")
+            m_sfx.mute(spk, true);
     }
 }
 
@@ -574,7 +584,7 @@ exports.mute_music = function() {
  * @method module:debug.check_finite
  */
 exports.check_finite = function(o) {
-    debug.check_finite(o);
+    m_debug.check_finite(o);
 }
 
 /**
@@ -618,13 +628,13 @@ exports.clear_errors_warnings = function() {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Wed Feb 25 2015 10:34:05 GMT+0300 (MSK)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Thu Mar 26 2015 17:33:34 GMT+0300 (MSK)
 </footer>
 
 <script> prettyPrint(); </script>

@@ -2,7 +2,7 @@
 
 /**
  * Preloader add-on.
- * Provides API to create simple and advanced preloaders.
+ * Provides API to create various types of standard preloaders.
  * @module preloader
  */
 b4w.module["preloader"] = function(exports, require) {
@@ -59,56 +59,52 @@ exports.create_simple_preloader = function(options) {
 
     _canvas_container_elem = document.getElementById(canvas_container_id);
 
-    container.style.cssText = " \
-        z-index: 4;\
-        background-color: " + bg_color + ";\
-        width: 100%;\
-        height: 100%;\
-        position: absolute;\
-        margin: 0;\
-        padding: 0;\
-        top: 0;\
-        left: 0;\
-    ";
+    container.style.cssText =
+        "z-index: 4;" +
+        "background-color: " + bg_color + ";" +
+        "width: 100%;" +
+        "height: 100%;" +
+        "position: absolute;" +
+        "margin: 0;" +
+        "padding: 0;" +
+        "top: 0;" +
+        "left: 0;";
 
-    frame.style.cssText = " \
-        position: absolute;\
-        left: 50%;\
-        top: 82%;\
-        width: 300px;\
-        height: 20px;\
-        margin-left: -150px;\
-        margin-top: -10px;\
-        border-style:solid;\
-        border-width:4px;\
-        border-color: " + "#000" + ";\
-        border-radius: 0px;\
-    ";
+    frame.style.cssText =
+        "position: absolute;" +
+        "left: 50%;" +
+        "top: 82%;" +
+        "width: 300px;" +
+        "height: 20px;" +
+        "margin-left: -150px;" +
+        "margin-top: -10px;" +
+        "border-style:solid;" +
+        "border-width:4px;" +
+        "border-color: " + "#000" + ";" +
+        "border-radius: 0px;";
 
-    bar.style.cssText = " \
-        position: absolute;\
-        left: 0px;\
-        top: 1px;\
-        width: 0px;\
-        height: 18px;\
-        background-color: " + bar_color + ";\
-        border-radius: 0px;\
-    ";
+    bar.style.cssText =
+        "position: absolute;" +
+        "left: 0px;" +
+        "top: 1px;" +
+        "width: 0px;" +
+        "height: 18px;" +
+        "background-color: " + bar_color + ";" +
+        "border-radius: 0px;";
 
-    caption.style.cssText = " \
-        position: absolute;\
-        left: 50%;\
-        top: 50%;\
-        width: 100%;\
-        height: 100%;\
-        margin-left: -150px;\
-        margin-top: -10px;\
-        text-align: center;\
-        font-size: 17px;\
-        font-weight: bold;\
-        color: #000;\
-        font-family: Verdana;\
-    ";
+    caption.style.cssText =
+        "position: absolute;" +
+        "left: 50%;" +
+        "top: 50%;" +
+        "width: 100%;" +
+        "height: 100%;" +
+        "margin-left: -150px;" +
+        "margin-top: -10px;" +
+        "text-align: center;" +
+        "font-size: 17px;" +
+        "font-weight: bold;" +
+        "color: #000;" +
+        "font-family: Verdana;" +
 
     frame.appendChild(bar);
     frame.appendChild(caption);
@@ -173,50 +169,46 @@ exports.create_rotation_preloader = function(options) {
 
     _canvas_container_elem = document.getElementById(canvas_container_id);
 
-    container.style.cssText = " \
-        z-index: 4;\
-        background-color: " + bg_color + ";\
-        width: 100%;\
-        height: 100%;\
-        position: absolute;\
-        margin: 0;\
-        padding: 0;\
-        top: 0;\
-        left: 0;\
-    ";
+    container.style.cssText =
+        "z-index: 4;" +
+        "background-color: " + bg_color + ";" +
+        "width: 100%;" +
+        "height: 100%;" +
+        "position: absolute;" +
+        "margin: 0;" +
+        "padding: 0;" +
+        "top: 0;" +
+        "left: 0;";
 
-    frame.style.cssText = " \
-        position: absolute;\
-        left: 50%;\
-        top: 50%;\
-        width: 117px;\
-        height: 117px;\
-        margin-left: -58px;\
-        margin-top: -58px;\
-        background-color: " + frame_bg_color + ";\
-    ";
+    frame.style.cssText =
+        "position: absolute;" +
+        "left: 50%;" +
+        "top: 50%;" +
+        "width: 117px;" +
+        "height: 117px;" +
+        "margin-left: -58px;" +
+        "margin-top: -58px;" +
+        "background-color: " + frame_bg_color + ";";
 
-    anim_elem.style.cssText = " \
-        position: absolute;\
-        left: 0px;\
-        top: 0px;\
-        width: 100%;\
-        height: 100%;\
-        background-position: center;\
-        background-repeat: no-repeat;\
-    ";
+    anim_elem.style.cssText =
+        "position: absolute;" +
+        "left: 0px;" +
+        "top: 0px;" +
+        "width: 100%;" +
+        "height: 100%;" +
+        "background-position: center;" +
+        "background-repeat: no-repeat;";
 
-    caption.style.cssText = " \
-        position: absolute;\
-        width: 100%;\
-        height: 100%;\
-        text-align: center;\
-        margin-top: 38px;\
-        font-size: 36px;\
-        color: #ffffff;\
-        font-family: Arial;\
-        font-weight: bold;\
-    ";
+    caption.style.cssText =
+        "position: absolute;" +
+        "width: 100%;" +
+        "height: 100%;" +
+        "text-align: center;" +
+        "margin-top: 38px;" +
+        "font-size: 36px;" +
+        "color: #ffffff;" +
+        "font-family: Arial;" +
+        "font-weight: bold;";
 
     anim_elem.className = anim_elem_class;
     frame.appendChild(anim_elem);
@@ -296,20 +288,17 @@ exports.update_preloader = function(percentage) {
     if (percentage == 100)
         if (_preloader.fadeout) {
             m_app.css_animate(_preloader.background, "opacity", 1, 0, 1500, null, function(){
-                _preloader.background.style.display = "none";
+                _preloader.background.parentNode.removeChild(_preloader.background);
             });
             m_app.css_animate(_preloader.container, "opacity", 1, 0, 1000, null, function(){
-                _preloader.container.style.display = "none";
+                _preloader.container.parentNode.removeChild(_preloader.container);
             });
-        }
-        else {
-            _preloader.container.style.display = "none";
-            _canvas_container_elem.style.zIndex = 1;
+        } else {
+            _preloader.container.parentNode.removeChild(_preloader.container);
 
             if (_preloader.background)
-                _preloader.background.style.display = "none";
+                _preloader.background.parentNode.removeChild(_preloader.background);
         }
-
 }
 
 }

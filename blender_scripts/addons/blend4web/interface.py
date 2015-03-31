@@ -11,6 +11,17 @@ from . import nla_script
 
 _OBJECT_PT_constraints = None
 
+# should bee used for all Blend4Web panels
+# if no COMPAT_ENGINES in Panel class
+# then returns true, else looks for current engine in COMPAT_ENGINES
+def base_poll(cls, context):
+    if hasattr(cls,"COMPAT_ENGINES"):
+        engine = context.scene.render.engine
+        matching = [e for e in cls.COMPAT_ENGINES if engine in e]
+        return matching
+    else:
+        return True
+
 def check_vertex_color(mesh, vc_name):
     for color_layer in mesh.vertex_colors:
         if color_layer.name == vc_name:
@@ -25,13 +36,17 @@ class B4W_ScenePanel(bpy.types.Panel):
     bl_region_type = "WINDOW"
     bl_context = "scene"
 
+    @classmethod
+    def poll(cls, context):
+        return context.scene and base_poll(cls,context)
+
     def draw(self, context):
         layout = self.layout
 
         scene = context.scene
         if scene:
             row = layout.row()
-            row.prop(scene, "b4w_do_not_export", text="Do not Export")
+            row.prop(scene, "b4w_do_not_export", text="Do Not Export")
 
             row = layout.row()
             row.prop(scene, "b4w_use_nla", text="Use NLA")
@@ -133,13 +148,17 @@ class B4W_WorldPanel(bpy.types.Panel):
     bl_region_type = "WINDOW"
     bl_context = "world"
 
+    @classmethod
+    def poll(cls, context):
+        return  context.world and base_poll(cls,context)
+
     def draw(self, context):
         layout = self.layout
 
         world = context.world
         if world:
             row = layout.row()
-            row.prop(world, "b4w_do_not_export", text="Do not Export")
+            row.prop(world, "b4w_do_not_export", text="Do Not Export")
 
             col = layout.column()
             box = col.box()
@@ -311,6 +330,9 @@ class B4W_ObjectPanel(bpy.types.Panel):
     bl_region_type = "WINDOW"
     bl_context = "object"
 
+    @classmethod
+    def poll(cls, context):
+        return context.object and base_poll(cls,context)
 
     def draw(self, context):
         layout = self.layout
@@ -321,7 +343,7 @@ class B4W_ObjectPanel(bpy.types.Panel):
         row.label("Export options:")
 
         col = row.column()
-        col.prop(obj, "b4w_do_not_export", text="Do not Export")
+        col.prop(obj, "b4w_do_not_export", text="Do Not Export")
 
         if (obj.type == "MESH" or obj.type == "FONT" or obj.type == "META" 
                 or obj.type == "SURFACE"):
@@ -330,7 +352,7 @@ class B4W_ObjectPanel(bpy.types.Panel):
 
         if obj.type == "MESH":
             col.prop(obj, "b4w_loc_export_vertex_anim", text="Export Vertex " +
-                    "animation")
+                    "Animation")
             col.prop(obj, "b4w_export_edited_normals", text="Export Edited Normals")
 
 
@@ -361,13 +383,16 @@ class B4W_ObjectPanel(bpy.types.Panel):
             col = row.column()
             col.prop(obj, "b4w_proxy_inherit_anim", text="Inherit Animation")
 
+        if (obj.type == "MESH" or obj.type == "FONT" or obj.type == "META"
+                or obj.type == "SURFACE" or obj.type == "EMPTY"):
+            row = layout.row()
+            row.prop(obj, "b4w_do_not_batch", text="Force Dynamic Object")
+
         if (obj.type == "MESH" or obj.type == "FONT" or obj.type == "META" 
                 or obj.type == "SURFACE"):
 
             row = layout.row()
-            row.prop(obj, "b4w_do_not_batch", text="Do not Batch")
-
-            row = layout.row()
+            row.active = getattr(obj, "b4w_do_not_batch")
             row.prop(obj, "b4w_dynamic_geometry", text="Dynamic Geometry")
 
             row = layout.row()
@@ -377,7 +402,7 @@ class B4W_ObjectPanel(bpy.types.Panel):
             row.prop(obj, "b4w_disable_fogging", text="Disable Fogging")
 
             row = layout.row()
-            row.prop(obj, "b4w_do_not_render", text="Do not Render")
+            row.prop(obj, "b4w_do_not_render", text="Do Not Render")
 
             row = layout.row()
             row.label("Shadows:")
@@ -416,7 +441,7 @@ class B4W_ObjectPanel(bpy.types.Panel):
                 row = layout.row(align=True)
                 box = row.box()
                 col = box.column()
-                col.label("Main bending")
+                col.label("Main Bending:")
                 row = col.row()
                 row.prop(obj, "b4w_wind_bending_angle", slider=True, text="Angle")
                 row.prop(obj, "b4w_wind_bending_freq", text="Frequency")
@@ -486,13 +511,35 @@ class B4W_ObjectPanel(bpy.types.Panel):
             box.prop(obj, "b4w_billboard", text="Billboard")
             if obj.b4w_billboard:
                 box.prop(obj, "b4w_pres_glob_orientation", 
-                        text="Preserve global orientation and scale")
+                        text="Preserve Global Rotation and Scale")
                 row = box.row()
-                row.label("Billboarding geometry:")
+                row.label("Billboard Type")
                 row.prop(obj, "b4w_billboard_geometry", expand=True)
 
             row = layout.row()
             row.prop(obj, "b4w_lod_transition", text="Lod Transition Ratio")
+
+        if obj.type == "EMPTY":
+            row = layout.row()
+            box = row.box()
+
+            col = box.column()
+            col.label("Anchor:")
+
+            row = col.row()
+            row.prop(obj, "b4w_enable_anchor", text="Enable Anchor")
+
+            if obj.b4w_enable_anchor:
+                row = col.row()
+                row.prop(obj.b4w_anchor, "type", text="Type")
+
+                if obj.b4w_anchor.type == "ELEMENT":
+                    row = col.row()
+                    row.prop(obj.b4w_anchor, "element_id", text="HTML Element ID")
+
+                row = col.row()
+                row.prop(obj.b4w_anchor, "detect_visibility", text="Detect "
+                        "Visibility")
 
         row = layout.row()
         row.prop(obj, "b4w_enable_object_tags", text="Enable Meta Tags")
@@ -506,11 +553,10 @@ class B4W_ObjectPanel(bpy.types.Panel):
 
             row.prop(obj.b4w_object_tags, "title", text="Title")
             row = col.row()
-            row.prop(obj.b4w_object_tags, "description", text="Description")
-            row = col.row()
             row.prop(obj.b4w_object_tags, "category", text="Category")
             row = col.row()
-
+            row.prop(obj.b4w_object_tags, "description", text="Description")
+            row = col.row()
 
 def get_locked_track_constraint(obj, index):
     constraint_index = 0
@@ -526,6 +572,10 @@ class B4W_DataPanel(bpy.types.Panel):
     bl_space_type = "PROPERTIES"
     bl_region_type = "WINDOW"
     bl_context = "data"
+
+    @classmethod
+    def poll(cls, context):
+        return base_poll(cls,context)
 
     def draw(self, context):
         layout = self.layout
@@ -558,7 +608,7 @@ class B4W_DataPanel(bpy.types.Panel):
                     or cam.b4w_move_style == "HOVER":
                 box = layout.box()
                 col = box.column()
-                col.label("Camera limits:")
+                col.label("Camera Limits:")
 
             if cam.b4w_move_style == "HOVER":
                 row = col.row()
@@ -591,11 +641,11 @@ class B4W_DataPanel(bpy.types.Panel):
             if cam.b4w_move_style == "HOVER":
                 row = col.row()
                 row.active = getattr(cam, "b4w_use_distance_limits")
-                row.label("Camera angle limits:")
+                row.label("Hover Angle Limits:")
                 row = col.split(0.5, align=True)
                 row.active = getattr(cam, "b4w_use_distance_limits")
-                row.prop(cam, "b4w_hover_angle_min", text="Min")
-                row.prop(cam, "b4w_hover_angle_max", text="Max")
+                row.prop(cam, "b4w_hover_angle_min", text="Down Angle")
+                row.prop(cam, "b4w_hover_angle_max", text="Up Angle")
 
                 row = col.row()
                 row.active = getattr(cam, "b4w_use_distance_limits")
@@ -718,11 +768,16 @@ class B4W_RenderPanel(bpy.types.Panel):
     bl_region_type = "WINDOW"
     bl_context = "render"
 
+    @classmethod
+    def poll(cls, context):
+        return base_poll(cls,context)
+
     def draw(self, context):
         layout = self.layout
-        path_to_index = os.path.join(bpy.context.user_preferences.addons[__package__].preferences.b4w_src_path, "index.html")
+        b4w_src_path = bpy.context.user_preferences.addons[__package__].preferences.b4w_src_path
+        path_to_index = os.path.join(b4w_src_path, "index.html")
         os.path.normpath(path_to_index)
-        if os.path.exists(path_to_index):
+        if b4w_src_path != "" and os.path.exists(path_to_index):
             box = layout.box()
             if B4WStartServer.server_process is not None:
                     box.label(text = ("Development server is running."))
@@ -744,6 +799,10 @@ class B4W_MaterialPanel(bpy.types.Panel):
     bl_region_type = "WINDOW"
     bl_context = "material"
 
+    @classmethod
+    def poll(cls, context):
+        return context.material and base_poll(cls,context)
+
     def draw(self, context):
         layout = self.layout
 
@@ -752,10 +811,10 @@ class B4W_MaterialPanel(bpy.types.Panel):
         # prevent errors when panel is empty
         if mat:
             row = layout.row()
-            row.prop(mat, "b4w_do_not_export", text="Do not Export")
+            row.prop(mat, "b4w_do_not_export", text="Do Not Export")
 
             row = layout.row()
-            row.prop(mat, "b4w_do_not_render", text="Do not Render")
+            row.prop(mat, "b4w_do_not_render", text="Do Not Render")
 
             if mat.game_settings.alpha_blend not in ["OPAQUE", "CLIP"]:
                 row = layout.row()
@@ -906,11 +965,11 @@ class B4W_MaterialPanel(bpy.types.Panel):
 
                 row = layout.row()
                 row.active = getattr(mat, "b4w_terrain")
-                row.prop(mat, "b4w_dynamic_grass_size", text="Dynamic Grass Size (R)", icon=icon_size)
+                row.prop(mat, "b4w_dynamic_grass_size", text="Grass Size (R)", icon=icon_size)
 
                 row = layout.row()
                 row.active = getattr(mat, "b4w_terrain")
-                row.prop(mat, "b4w_dynamic_grass_color", text="Dynamic Grass Color (RGB)", icon=icon_color)
+                row.prop(mat, "b4w_dynamic_grass_color", text="Grass Color (RGB)", icon=icon_color)
 
                 row = layout.row()
                 row.prop(mat, "b4w_collision", text="Special: Collision")
@@ -931,7 +990,7 @@ class B4W_MaterialPanel(bpy.types.Panel):
                 row.prop(mat, "b4w_wettable", text="Wettable")
 
                 row = layout.row()
-                row.prop(mat, "b4w_double_sided_lighting", text = "Double-sided Lighting")
+                row.prop(mat, "b4w_double_sided_lighting", text = "Double-Sided Lighting")
                 row = layout.row()
 
                 if not mat.use_nodes:
@@ -951,6 +1010,10 @@ class B4W_TexturePanel(bpy.types.Panel):
     bl_space_type = "PROPERTIES"
     bl_region_type = "WINDOW"
     bl_context = "texture"
+
+    @classmethod
+    def poll(cls, context):
+        return context.texture and base_poll(cls,context)
 
     def draw(self, context):
         tex = context.texture
@@ -981,7 +1044,7 @@ class B4W_TexturePanel(bpy.types.Panel):
         if tex:
             if tex.type == "ENVIRONMENT_MAP" and len(tex.users_material) == 0:
                 row = layout.row()
-                row.prop(tex, "b4w_do_not_export", text="Do not Export")
+                row.prop(tex, "b4w_do_not_export", text="Do Not Export")
 
                 split = layout.split()
                 col = split.column()
@@ -1000,7 +1063,7 @@ class B4W_TexturePanel(bpy.types.Panel):
 
             else:
                 row = layout.row()
-                row.prop(tex, "b4w_do_not_export", text="Do not Export")
+                row.prop(tex, "b4w_do_not_export", text="Do Not Export")
 
                 split = layout.split()
                 col = split.column()
@@ -1018,13 +1081,9 @@ class B4W_TexturePanel(bpy.types.Panel):
 
                 split = layout.split()
                 col = split.column()
-                col.label(text="Anisotropic Filtering:")
+                col.label(text="Anisotropic Filtering")
                 col = split.column()
                 col.prop(tex, "b4w_anisotropic_filtering", text="")
-
-                split = layout.split()
-                col = split.column()
-                col.label(text="UV Translation Velocity:")
 
                 row = layout.row()
                 row.prop(tex, "b4w_water_foam", text="Water Foam")
@@ -1049,6 +1108,10 @@ class B4W_ParticlePanel(bpy.types.Panel):
     bl_region_type = "WINDOW"
     bl_context = "particle"
 
+    @classmethod
+    def poll(cls, context):
+        return context.particle_system and base_poll(cls,context)
+
     def draw(self, context):
 
         if not context.particle_system:
@@ -1067,7 +1130,7 @@ class B4W_ParticlePanel(bpy.types.Panel):
                 return
 
             row = layout.row()
-            row.prop(pset, "b4w_do_not_export", text="Do not Export")
+            row.prop(pset, "b4w_do_not_export", text="Do Not Export")
 
             row = layout.row()
             row.prop(pset, "b4w_cyclic", text="Cyclic Emission")
@@ -1082,7 +1145,7 @@ class B4W_ParticlePanel(bpy.types.Panel):
             row.prop(pset, "b4w_billboard_align", text="Billboard Align")
 
             row = layout.row()
-            row.label("Dissolve intervals:")
+            row.label("Dissolve Intervals:")
 
             row = layout.row(align=True)
             row.prop(pset, "b4w_fade_in", text="Fade-In")
@@ -1100,7 +1163,7 @@ class B4W_ParticlePanel(bpy.types.Panel):
                 return
 
             row = layout.row()
-            row.prop(pset, "b4w_do_not_export", text="Do not Export")
+            row.prop(pset, "b4w_do_not_export", text="Do Not Export")
 
             row = layout.row()
             row.prop(pset, "b4w_randomize_location", text="Random Location And Size")
@@ -1198,12 +1261,16 @@ class B4W_PhysicsPanel(bpy.types.Panel):
     bl_space_type = "PROPERTIES"
     bl_region_type = "WINDOW"
     bl_context = "physics"
+    COMPAT_ENGINES = ["BLENDER_GAME", "BLEND4WEB"]
+    @classmethod
+    def poll(cls, context):
+        return context.object and base_poll(cls,context)
 
     def draw(self, context):
         layout = self.layout
         obj = context.object
 
-        if bpy.context.scene.render.engine == "BLENDER_GAME":
+        if True:
 
             row = layout.row()
             row.prop(obj, "b4w_collision", text="Detect Collisions")
@@ -1361,6 +1428,10 @@ class B4W_PhysicsPanel(bpy.types.Panel):
 
 
 class CustomConstraintsPanel(bpy.types.OBJECT_PT_constraints):
+    @classmethod
+    def poll(cls, context):
+        return base_poll(cls,context)
+
     def draw_constraint(self, context, con):
 
         if con.type == "LOCKED_TRACK":

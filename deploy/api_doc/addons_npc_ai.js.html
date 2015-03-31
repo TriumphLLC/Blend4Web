@@ -195,7 +195,7 @@ function move_destination_if_too_close(ev_track, dest, cur_loc) {
     var speed = ev_track.speed;
     var rot_speed = ev_track.rot_speed;
 
-    m_trans.get_rotation_quat(ev_track.collider, cur_rot_q);
+    m_trans.get_rotation(ev_track.collider, cur_rot_q);
     m_vec3.transformQuat(m_util.AXIS_Z, cur_rot_q, cur_hor_dir);
     cur_hor_dir[1] = 0;
     m_vec3.normalize(cur_hor_dir, cur_hor_dir);
@@ -221,7 +221,7 @@ function anim_translation(elapsed, ev_track) {
     var speed      = ev_track.speed;
     var actions    = ev_track.actions;
 
-    var cur_anim   = m_anim.get_current_action(rig);
+    var cur_anim   = m_anim.get_current_anim_name(rig);
 
     // skip iteration if idle animation is playing
     if (m_anim.is_play(rig) &amp;&amp; actions.idle
@@ -244,7 +244,7 @@ function anim_translation(elapsed, ev_track) {
         hor_rot (ev_track, cur_dir, elapsed, new_rot_q, new_hor_dir);
         vert_rot(ev_track, cur_dir, elapsed, new_rot_q);
 
-        m_trans.set_rotation_quat_v(collider, new_rot_q);
+        m_trans.set_rotation_v(collider, new_rot_q);
 
         // translation
         trans_obj(elapsed, new_rot_q, ev_track, cur_loc, dest);
@@ -273,7 +273,7 @@ function hor_rot(ev_track, cur_dir, elapsed, new_rot_q, new_hor_dir) {
     var cur_rot_q   = _quat4_tmp_2;
     var cur_hor_dir = _vec3_tmp_4;
 
-    m_trans.get_rotation_quat(ev_track.collider, cur_rot_q);
+    m_trans.get_rotation(ev_track.collider, cur_rot_q);
     m_vec3.transformQuat(m_util.AXIS_Z, cur_rot_q, cur_dir);
 
     cur_hor_dir[0]  = cur_dir[0];
@@ -376,7 +376,7 @@ exports.disable_animation = function() {
         var ev = _ev_tracks[i];
 
         if (m_ctl.check_sensor_manifolds(ev.collider))
-            m_ctl.remove_sensor_manifolds(ev.collider);
+            m_ctl.remove_sensor_manifold(ev.collider);
 
         if (m_anim.is_play(ev.rig))
             m_anim.stop(ev.rig);
@@ -514,7 +514,7 @@ function create_sensors() {
         create_track_ray_sensors(ev_track);
         create_track_collision_sensors(ev_track);
 
-        if (ev_track.rig &amp;&amp; m_anim.get_current_action(ev_track.rig))
+        if (ev_track.rig &amp;&amp; m_anim.get_current_anim_name(ev_track.rig))
             m_anim.play(ev_track.rig);
     }
 }
@@ -602,7 +602,7 @@ function need_proper_animation(ev_track) {
         return true;
     }
 
-    var cur_anim  = m_anim.get_current_action(obj);
+    var cur_anim  = m_anim.get_current_anim_name(obj);
     if (!cur_anim)
         return true;
 
@@ -656,8 +656,8 @@ function apply_animation(ev_track) {
 
     if (anim_to_play) {
         m_anim.apply(obj, anim_to_play);
-        m_anim.cyclic(obj, false);
-        m_anim.set_current_frame_float(obj, 0);
+        m_anim.set_behavior(obj, m_anim.AB_FINISH_RESET);
+        m_anim.set_frame(obj, 0);
         m_anim.play(obj);
     }
 }
@@ -673,7 +673,7 @@ function get_idle_animation(ev_track) {
 
 function get_move_animation(ev_track) {
 
-    var cur_anim = m_anim.get_current_action(ev_track.rig);
+    var cur_anim = m_anim.get_current_anim_name(ev_track.rig);
     var actions = ev_track.actions;
 
     if (need_move_blend_animation(ev_track, cur_anim)) {
@@ -782,7 +782,7 @@ function dest_anim_correction(ev_track, dest, l_to_p, new_dir) {
     var speed        = ev_track.speed;
     var left_to_pass = l_to_p;
 
-    var cur_frame         = m_anim.get_current_frame_float(obj);
+    var cur_frame         = m_anim.get_frame(obj);
     var anim_length       = m_anim.get_anim_length(obj);
     var path_per_cycle    = anim_length / 24 * speed;
     var left_to_pass_anim = (1 - cur_frame / anim_length) * path_per_cycle;
@@ -805,13 +805,13 @@ function dest_anim_correction(ev_track, dest, l_to_p, new_dir) {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Wed Feb 25 2015 10:34:05 GMT+0300 (MSK)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Thu Mar 26 2015 17:33:34 GMT+0300 (MSK)
 </footer>
 
 <script> prettyPrint(); </script>

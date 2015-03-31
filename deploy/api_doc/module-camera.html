@@ -39,8 +39,8 @@
     
         
             <div class="description">Camera API. 
-All functions require a valid camera object ID.
-Constraints and standard translation/rotation functions also supported.</div>
+All functions require a valid camera object ID. Use get_object_by_name() or
+get_active_camera() from <a href="module-scenes.html">module:scenes</a> to retrieve it.</div>
         
 
         
@@ -178,71 +178,7 @@ Constraints and standard translation/rotation functions also supported.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line40">line 40</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
-            
-<h4 class="name" id=".MS_CONTROLS"><span class="type-signature">(static, constant) </span>MS_CONTROLS<span class="type-signature"></span></h4>
-
-
-
-
-<div class="description">
-    Camera movement style - controls.
-</div>
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Use MS_TARGET_CONROLS or MS_EYE_CONTROLS</li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line45">line 45</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line38">line 38</a>
     </li></ul></dd>
     
 
@@ -304,7 +240,7 @@ Constraints and standard translation/rotation functions also supported.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line56">line 56</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line48">line 48</a>
     </li></ul></dd>
     
 
@@ -366,7 +302,7 @@ Constraints and standard translation/rotation functions also supported.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line61">line 61</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line53">line 53</a>
     </li></ul></dd>
     
 
@@ -428,7 +364,7 @@ Constraints and standard translation/rotation functions also supported.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line35">line 35</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line33">line 33</a>
     </li></ul></dd>
     
 
@@ -490,7 +426,7 @@ Constraints and standard translation/rotation functions also supported.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line51">line 51</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line43">line 43</a>
     </li></ul></dd>
     
 
@@ -524,7 +460,7 @@ Constraints and standard translation/rotation functions also supported.</div>
 
 
 <div class="description">
-    Set distance limits for TARGET camera.
+    Set distance limits for the TARGET camera.
 </div>
 
 
@@ -576,7 +512,7 @@ Constraints and standard translation/rotation functions also supported.</div>
 
             
 
-            <td class="description last">Camera Object ID</td>
+            <td class="description last">Camera object ID</td>
         </tr>
 
     
@@ -663,7 +599,7 @@ Constraints and standard translation/rotation functions also supported.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line727">line 727</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line684">line 684</a>
     </li></ul></dd>
     
 
@@ -701,7 +637,8 @@ Constraints and standard translation/rotation functions also supported.</div>
 
 
 <div class="description">
-    Set horizontal clamping limits for TARGET, EYE or HOVER camera.
+    Set horizontal angle limits for the TARGET/EYE camera or horizontal (X axis)
+translation limits for the HOVER camera.
 </div>
 
 
@@ -753,7 +690,7 @@ Constraints and standard translation/rotation functions also supported.</div>
 
             
 
-            <td class="description last">Camera Object ID</td>
+            <td class="description last">Camera object ID</td>
         </tr>
 
     
@@ -863,7 +800,7 @@ Constraints and standard translation/rotation functions also supported.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line587">line 587</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line542">line 542</a>
     </li></ul></dd>
     
 
@@ -901,7 +838,7 @@ Constraints and standard translation/rotation functions also supported.</div>
 
 
 <div class="description">
-    Set vertical clamping limits for HOVER camera.
+    Set hover angle limits for the HOVER camera.
 </div>
 
 
@@ -953,7 +890,7 @@ Constraints and standard translation/rotation functions also supported.</div>
 
             
 
-            <td class="description last">Camera Object ID</td>
+            <td class="description last">Camera object ID</td>
         </tr>
 
     
@@ -976,7 +913,7 @@ Constraints and standard translation/rotation functions also supported.</div>
 
             
 
-            <td class="description last"></td>
+            <td class="description last">Down hover angle limit</td>
         </tr>
 
     
@@ -999,7 +936,7 @@ Constraints and standard translation/rotation functions also supported.</div>
 
             
 
-            <td class="description last"></td>
+            <td class="description last">Up hover angle limit</td>
         </tr>
 
     
@@ -1040,7 +977,7 @@ Constraints and standard translation/rotation functions also supported.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line685">line 685</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line635">line 635</a>
     </li></ul></dd>
     
 
@@ -1071,14 +1008,15 @@ Constraints and standard translation/rotation functions also supported.</div>
 
     
 
-    <h4 class="name" id=".apply_vertical_limits"><span class="type-signature">(static) </span>apply_vertical_limits<span class="signature">(camobj, down_value, up_value, space)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".apply_vertical_limits"><span class="type-signature">(static) </span>apply_vertical_limits<span class="signature">(camobj, down_value, up_value, space<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    Set vertical clamping limits for TARGET, EYE or HOVER camera.
+    Set vertical angle limits for the TARGET/EYE camera or vertical (Z axis)
+translation limits for the HOVER camera.
 </div>
 
 
@@ -1102,7 +1040,11 @@ Constraints and standard translation/rotation functions also supported.</div>
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
+        
+        <th>Default</th>
         
 
         <th class="last">Description</th>
@@ -1127,10 +1069,22 @@ Constraints and standard translation/rotation functions also supported.</div>
             </td>
 
             
+                <td class="attributes">
+                
 
+                
+
+                
+                </td>
             
 
-            <td class="description last">Camera Object ID</td>
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Camera object ID</td>
         </tr>
 
     
@@ -1150,7 +1104,19 @@ Constraints and standard translation/rotation functions also supported.</div>
             </td>
 
             
+                <td class="attributes">
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
             
 
             <td class="description last">Vertical down limit</td>
@@ -1173,7 +1139,19 @@ Constraints and standard translation/rotation functions also supported.</div>
             </td>
 
             
+                <td class="attributes">
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
             
 
             <td class="description last">Vertical up limit</td>
@@ -1196,7 +1174,23 @@ Constraints and standard translation/rotation functions also supported.</div>
             </td>
 
             
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    transform.SPACE_WORLD
+                
+                </td>
             
 
             <td class="description last">Space to make clamping relative to</td>
@@ -1240,7 +1234,7 @@ Constraints and standard translation/rotation functions also supported.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line531">line 531</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line492">line 492</a>
     </li></ul></dd>
     
 
@@ -1341,7 +1335,7 @@ Screen space origin is the top left corner
 
             
 
-            <td class="description last">Camera Object ID</td>
+            <td class="description last">Camera object ID</td>
         </tr>
 
     
@@ -1477,7 +1471,7 @@ Screen space origin is the top left corner
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1030">line 1030</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1101">line 1101</a>
     </li></ul></dd>
     
 
@@ -1530,86 +1524,6 @@ Screen space origin is the top left corner
 
     
 
-    <h4 class="name" id=".change_eye_target_dist"><span class="type-signature">(static) </span>change_eye_target_dist<span class="signature">()</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>eye-target distance is a constant now</li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line148">line 148</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
     <h4 class="name" id=".clear_distance_limits"><span class="type-signature">(static) </span>clear_distance_limits<span class="signature">(camobj)</span><span class="type-signature"></span></h4>
 
     
@@ -1617,7 +1531,7 @@ Screen space origin is the top left corner
 
 
 <div class="description">
-    Remove distance clamping limits for TARGET camera
+    Remove distance clamping limits for the TARGET camera
 </div>
 
 
@@ -1669,7 +1583,7 @@ Screen space origin is the top left corner
 
             
 
-            <td class="description last">Camera Object ID</td>
+            <td class="description last">Camera object ID</td>
         </tr>
 
     
@@ -1710,7 +1624,7 @@ Screen space origin is the top left corner
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line755">line 755</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line712">line 712</a>
     </li></ul></dd>
     
 
@@ -1748,7 +1662,7 @@ Screen space origin is the top left corner
 
 
 <div class="description">
-    Remove horizontal clamping limits from TARGET, EYE or HOVER camera.
+    Remove horizontal clamping limits from the TARGET/EYE/HOVER camera.
 </div>
 
 
@@ -1800,7 +1714,7 @@ Screen space origin is the top left corner
 
             
 
-            <td class="description last">Camera Object ID</td>
+            <td class="description last">Camera object ID</td>
         </tr>
 
     
@@ -1841,7 +1755,7 @@ Screen space origin is the top left corner
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line630">line 630</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line581">line 581</a>
     </li></ul></dd>
     
 
@@ -1879,7 +1793,7 @@ Screen space origin is the top left corner
 
 
 <div class="description">
-    Remove vertical clamping limits from HOVER camera.
+    Remove hover angle limits from the HOVER camera.
 </div>
 
 
@@ -1931,7 +1845,7 @@ Screen space origin is the top left corner
 
             
 
-            <td class="description last">Camera Object ID</td>
+            <td class="description last">Camera object ID</td>
         </tr>
 
     
@@ -1972,7 +1886,7 @@ Screen space origin is the top left corner
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line713">line 713</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line670">line 670</a>
     </li></ul></dd>
     
 
@@ -2010,7 +1924,7 @@ Screen space origin is the top left corner
 
 
 <div class="description">
-    Remove vertical rotation clamping limits from TARGET, EYE or HOVER camera.
+    Remove vertical clamping limits from the TARGET/EYE/HOVER camera.
 </div>
 
 
@@ -2062,7 +1976,7 @@ Screen space origin is the top left corner
 
             
 
-            <td class="description last">Camera Object ID</td>
+            <td class="description last">Camera object ID</td>
         </tr>
 
     
@@ -2103,7 +2017,7 @@ Screen space origin is the top left corner
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line573">line 573</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line532">line 532</a>
     </li></ul></dd>
     
 
@@ -2141,7 +2055,7 @@ Screen space origin is the top left corner
 
 
 <div class="description">
-    Up correction is required in some cases then camera releases from constrainted  mode.
+    Up correction is required in some cases then camera releases from constrainted mode.
 </div>
 
 
@@ -2257,7 +2171,7 @@ Screen space origin is the top left corner
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line923">line 923</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line993">line 993</a>
     </li></ul></dd>
     
 
@@ -2391,7 +2305,7 @@ Get the camera horizontal and vertical angles
 
             
 
-            <td class="description last">Destination vector for camera angles: (h, v)</td>
+            <td class="description last">Destination vector for the camera angles: [h, v]</td>
         </tr>
 
     
@@ -2420,6 +2334,8 @@ Get the camera horizontal and vertical angles
     
 
     
+        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Use get_camera_angles() instead</li></ul></dd>
+    
 
     
 
@@ -2432,7 +2348,7 @@ Get the camera horizontal and vertical angles
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line825">line 825</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line896">line 896</a>
     </li></ul></dd>
     
 
@@ -2459,7 +2375,7 @@ Get the camera horizontal and vertical angles
 
         
 <div class="param-desc">
-    Destination vector for camera angles: (h, v)
+    Destination vector for the camera angles: [h, v]
 </div>
 
 
@@ -2492,7 +2408,7 @@ Get the camera horizontal and vertical angles
 
 
 <div class="description">
-    Get distance limits of the HOVER or TARGET camera.
+    Get distance limits of the TARGET/HOVER camera.
 </div>
 
 
@@ -2554,7 +2470,7 @@ Get the camera horizontal and vertical angles
 
             
 
-            <td class="description last">Camera Object ID</td>
+            <td class="description last">Camera object ID</td>
         </tr>
 
     
@@ -2628,7 +2544,7 @@ Get the camera horizontal and vertical angles
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line448">line 448</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line397">line 397</a>
     </li></ul></dd>
     
 
@@ -2656,6 +2572,403 @@ Get the camera horizontal and vertical angles
         
 <div class="param-desc">
     Array [distance_max, distance_min]
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Float32Array</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".get_camera_angles"><span class="type-signature">(static) </span>get_camera_angles<span class="signature">(camobj, dest<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Float32Array}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Get camera azimuth and elevation angles (CCW as seen from the rotation axis) 
+for the TARGET/HOVER move style or camera orientation angles for the EYE move style.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>camobj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Camera object ID</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>dest</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Float32Array</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Destination vector for the camera angles: [phi, theta],
+phi ~ [0, 2PI], theta ~ [-PI, PI]</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line863">line 863</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Destination vector for the camera angles: [phi, theta]
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Float32Array</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".get_camera_angles_char"><span class="type-signature">(static) </span>get_camera_angles_char<span class="signature">(camobj, dest<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Float32Array}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Get camera azimuth and elevation angles (CCW as seen from the rotation axis)
+for the TARGET/HOVER move style or camera orientation angles for the EYE move style.
+Angles are converted for the character object.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>camobj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Camera object ID</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>dest</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Float32Array</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Destination vector for the camera angles: [phi, theta],
+phi ~ [0, 2PI], theta ~ [-PI, PI]</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line879">line 879</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Destination vector for the camera angles: [phi, theta]
 </div>
 
 
@@ -2750,7 +3063,7 @@ Get the camera horizontal and vertical angles
 
             
 
-            <td class="description last">Camera Object ID</td>
+            <td class="description last">Camera object ID</td>
         </tr>
 
     
@@ -2824,7 +3137,7 @@ Get the camera horizontal and vertical angles
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line173">line 173</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line180">line 180</a>
     </li></ul></dd>
     
 
@@ -2884,7 +3197,8 @@ Get the camera horizontal and vertical angles
 
 
 <div class="description">
-    Get horizontal limits of TARGET, EYE or HOVER camera.
+    Get the horizontal angle limits for the TARGET/EYE camera converted into range [0, 2PI] or
+horizontal translation limits for the HOVER camera.
 </div>
 
 
@@ -2979,7 +3293,7 @@ Get the camera horizontal and vertical angles
 
             
 
-            <td class="description last">Destination vector for camera angle limits: (left, right)</td>
+            <td class="description last">Destination vector for the camera angle limits: [left, right]</td>
         </tr>
 
     
@@ -3020,7 +3334,7 @@ Get the camera horizontal and vertical angles
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line640">line 640</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line591">line 591</a>
     </li></ul></dd>
     
 
@@ -3047,7 +3361,7 @@ Get the camera horizontal and vertical angles
 
         
 <div class="param-desc">
-    Destination vector for camera angle limits: (left, right)
+    Destination vector for the camera angle limits: [left, right]
 </div>
 
 
@@ -3080,7 +3394,7 @@ Get the camera horizontal and vertical angles
 
 
 <div class="description">
-    Get angle limits of the HOVER camera.
+    Get hover angle limits for the HOVER camera converted into range [-PI, PI].
 </div>
 
 
@@ -3142,7 +3456,7 @@ Get the camera horizontal and vertical angles
 
             
 
-            <td class="description last">Camera Object ID</td>
+            <td class="description last">Camera object ID</td>
         </tr>
 
     
@@ -3175,7 +3489,7 @@ Get the camera horizontal and vertical angles
 
             
 
-            <td class="description last">Returning angle limits</td>
+            <td class="description last">Destination vector</td>
         </tr>
 
     
@@ -3216,7 +3530,7 @@ Get the camera horizontal and vertical angles
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line423">line 423</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line372">line 372</a>
     </li></ul></dd>
     
 
@@ -3243,7 +3557,7 @@ Get the camera horizontal and vertical angles
 
         
 <div class="param-desc">
-    Array [hover_angle_limits.up, hover_angle_limits.down]
+    Array [hover_angle_limits.down, hover_angle_limits.up]
 </div>
 
 
@@ -3328,7 +3642,7 @@ Get the camera horizontal and vertical angles
 
             
 
-            <td class="description last">Camera Object ID</td>
+            <td class="description last">Camera object ID</td>
         </tr>
 
     
@@ -3369,7 +3683,7 @@ Get the camera horizontal and vertical angles
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line376">line 376</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line323">line 323</a>
     </li></ul></dd>
     
 
@@ -3429,7 +3743,7 @@ Get the camera horizontal and vertical angles
 
 
 <div class="description">
-    Get translation of the pivot of Hover camera.
+    Get pivot translation of the HOVER camera.
 </div>
 
 
@@ -3481,7 +3795,7 @@ Get the camera horizontal and vertical angles
 
             
 
-            <td class="description last">Camera Object ID</td>
+            <td class="description last">Camera object ID</td>
         </tr>
 
     
@@ -3522,7 +3836,7 @@ Get the camera horizontal and vertical angles
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line496">line 496</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line457">line 457</a>
     </li></ul></dd>
     
 
@@ -3634,7 +3948,7 @@ Get the camera horizontal and vertical angles
 
             
 
-            <td class="description last">Camera Object ID</td>
+            <td class="description last">Camera object ID</td>
         </tr>
 
     
@@ -3675,7 +3989,7 @@ Get the camera horizontal and vertical angles
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line85">line 85</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line100">line 100</a>
     </li></ul></dd>
     
 
@@ -3787,7 +4101,7 @@ Get the camera horizontal and vertical angles
 
             
 
-            <td class="description last">Camera Object ID</td>
+            <td class="description last">Camera object ID</td>
         </tr>
 
     
@@ -3828,7 +4142,7 @@ Get the camera horizontal and vertical angles
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line995">line 995</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1069">line 1069</a>
     </li></ul></dd>
     
 
@@ -3950,7 +4264,7 @@ Get the camera horizontal and vertical angles
 
             
 
-            <td class="description last">Camera Object ID</td>
+            <td class="description last">Camera object ID</td>
         </tr>
 
     
@@ -4024,7 +4338,7 @@ Get the camera horizontal and vertical angles
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line230">line 230</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line237">line 237</a>
     </li></ul></dd>
     
 
@@ -4136,7 +4450,7 @@ Get the camera horizontal and vertical angles
 
             
 
-            <td class="description last">Camera Object ID</td>
+            <td class="description last">Camera object ID</td>
         </tr>
 
     
@@ -4177,7 +4491,7 @@ Get the camera horizontal and vertical angles
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line856">line 856</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line930">line 930</a>
     </li></ul></dd>
     
 
@@ -4299,7 +4613,7 @@ Get the camera horizontal and vertical angles
 
             
 
-            <td class="description last">Camera Object ID</td>
+            <td class="description last">Camera object ID</td>
         </tr>
 
     
@@ -4373,7 +4687,7 @@ Get the camera horizontal and vertical angles
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line120">line 120</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line135">line 135</a>
     </li></ul></dd>
     
 
@@ -4433,7 +4747,7 @@ Get the camera horizontal and vertical angles
 
 
 <div class="description">
-    Does camera use distance limits?
+    Does camera have distance limits?
 </div>
 
 
@@ -4485,7 +4799,7 @@ Get the camera horizontal and vertical angles
 
             
 
-            <td class="description last">Camera Object ID</td>
+            <td class="description last">Camera object ID</td>
         </tr>
 
     
@@ -4526,7 +4840,7 @@ Get the camera horizontal and vertical angles
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line516">line 516</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line477">line 477</a>
     </li></ul></dd>
     
 
@@ -4553,7 +4867,7 @@ Get the camera horizontal and vertical angles
 
         
 <div class="param-desc">
-    In case of exist distance limits it is true, else false
+    True if the camera has distance limits.
 </div>
 
 
@@ -4586,7 +4900,7 @@ Get the camera horizontal and vertical angles
 
 
 <div class="description">
-    Does camera use horizontal limits?
+    Does camera have horizontal limits?
 </div>
 
 
@@ -4679,7 +4993,7 @@ Get the camera horizontal and vertical angles
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line666">line 666</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line617">line 617</a>
     </li></ul></dd>
     
 
@@ -4705,6 +5019,10 @@ Get the camera horizontal and vertical angles
 <h5>Returns:</h5>
 
         
+<div class="param-desc">
+    True if the camera has horizontal limits.
+</div>
+
 
 
 <dl>
@@ -4728,7 +5046,161 @@ Get the camera horizontal and vertical angles
 
     
 
-    <h4 class="name" id=".is_camera"><span class="type-signature">(static) </span>is_camera<span class="signature">(obj)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".hover_cam_set_translation"><span class="type-signature">(static) </span>hover_cam_set_translation<span class="signature">(camobj, Translation)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Set translation of the HOVER camera.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>camobj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Camera object ID</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>Translation</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Float32Array</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">vector</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line434">line 434</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".is_camera"><span class="type-signature">(static) </span>is_camera<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
 
     
 
@@ -4828,7 +5300,7 @@ Get the camera horizontal and vertical angles
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line67">line 67</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line59">line 59</a>
     </li></ul></dd>
     
 
@@ -4851,6 +5323,334 @@ Get the camera horizontal and vertical angles
 
 
 
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Checking result.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".is_eye_camera"><span class="type-signature">(static) </span>is_eye_camera<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Check if the object is a camera and has MS_EYE_CONTROLS move style
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Object ID</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line75">line 75</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Checking result.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".is_hover_camera"><span class="type-signature">(static) </span>is_hover_camera<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Check if the object is a camera and has MS_HOVER_CONTROLS move style
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Object ID</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line83">line 83</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Checking result.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Boolean</span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -4918,7 +5718,7 @@ Get the camera horizontal and vertical angles
 
             
 
-            <td class="description last">Camera Object ID</td>
+            <td class="description last">Camera object ID</td>
         </tr>
 
     
@@ -4959,7 +5759,7 @@ Get the camera horizontal and vertical angles
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line791">line 791</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line735">line 735</a>
     </li></ul></dd>
     
 
@@ -5090,7 +5890,7 @@ Get the camera horizontal and vertical angles
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1014">line 1014</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1085">line 1085</a>
     </li></ul></dd>
     
 
@@ -5118,6 +5918,159 @@ Get the camera horizontal and vertical angles
         
 <div class="param-desc">
     In case of the orthogonal type of the camera it is true, else false
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".is_target_camera"><span class="type-signature">(static) </span>is_target_camera<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Check if the object is a camera and has MS_TARGET_CONTROLS move style
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Object ID</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line67">line 67</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Checking result.
 </div>
 
 
@@ -5202,7 +6155,7 @@ Get the camera horizontal and vertical angles
 
             
 
-            <td class="description last">Camera Object ID</td>
+            <td class="description last">Camera object ID</td>
         </tr>
 
     
@@ -5245,7 +6198,7 @@ Get the camera horizontal and vertical angles
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line875">line 875</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line949">line 949</a>
     </li></ul></dd>
     
 
@@ -5301,7 +6254,7 @@ Get the camera horizontal and vertical angles
 
 
 <div class="description">
-    Move the pivot point of TARGET camera.
+    Move the pivot point of the TARGET camera.
 +h from left to right
 +v from down to up
 </div>
@@ -5355,7 +6308,7 @@ Get the camera horizontal and vertical angles
 
             
 
-            <td class="description last">Camera Object ID</td>
+            <td class="description last">Camera object ID</td>
         </tr>
 
     
@@ -5442,7 +6395,7 @@ Get the camera horizontal and vertical angles
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line308">line 308</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line272">line 272</a>
     </li></ul></dd>
     
 
@@ -5480,8 +6433,9 @@ Get the camera horizontal and vertical angles
 
 
 <div class="description">
-    Project point on the viewport
-Screen space origin is the top left corner
+    Project point on the viewport.
+Screen space origin is the top left corner.
+Returnd coordinates are in device pixels (not CSS)
 </div>
 
 
@@ -5617,7 +6571,7 @@ Screen space origin is the top left corner
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1079">line 1079</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1150">line 1150</a>
     </li></ul></dd>
     
 
@@ -5670,16 +6624,14 @@ Screen space origin is the top left corner
 
     
 
-    <h4 class="name" id=".rotate"><span class="type-signature">(static) </span>rotate<span class="signature">(camobj, angle_h_delta, angle_v_delta)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".rotate"><span class="type-signature">(static) </span>rotate<span class="signature">(camobj, delta_phi, delta_theta)</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    Rotate the camera.
-Around a target for TARGET movement style, around the eye for EYE movement
-style.
+    Rotate the EYE camera around its origin by given delta angles
 </div>
 
 
@@ -5738,7 +6690,7 @@ style.
 
         <tr>
             
-                <td class="name"><code>angle_h_delta</code></td>
+                <td class="name"><code>delta_phi</code></td>
             
 
             <td class="type">
@@ -5754,14 +6706,14 @@ style.
 
             
 
-            <td class="description last">Horizontal angle in radians</td>
+            <td class="description last">Azimuth angle delta in radians</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>angle_v_delta</code></td>
+                <td class="name"><code>delta_theta</code></td>
             
 
             <td class="type">
@@ -5777,7 +6729,305 @@ style.
 
             
 
-            <td class="description last">Vertical angle in radians</td>
+            <td class="description last">Elevation angle delta in radians</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Use rotate_camera() or rotate_eye_camera() instead</li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line850">line 850</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".rotate_camera"><span class="type-signature">(static) </span>rotate_camera<span class="signature">(camobj, phi, theta, phi_is_abs<span class="signature-attributes">opt</span>, theta_is_abs<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Rotates a camera counterclockwise (CCW) by given angles depending on the camera move style.
+Performs delta rotation or sets camera absolute rotation depending on the "*_is_abs" parameters.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>camobj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Camera object ID</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>phi</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Azimuth angle in radians</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>theta</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Elevation angle in radians</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>phi_is_abs</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    false
+                
+                </td>
+            
+
+            <td class="description last">For phi angle: if FALSE performs delta rotation, if TRUE sets camera absolute rotation</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>theta_is_abs</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    false
+                
+                </td>
+            
+
+            <td class="description last">For theta angle: if FALSE performs delta rotation, if TRUE sets camera absolute rotation</td>
         </tr>
 
     
@@ -5818,7 +7068,303 @@ style.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line807">line 807</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line752">line 752</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".rotate_eye_camera"><span class="type-signature">(static) </span>rotate_eye_camera<span class="signature">(camobj, phi, theta, phi_is_abs<span class="signature-attributes">opt</span>, theta_is_abs<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Rotates the EYE camera counterclockwise (CCW) around its origin by given angles.
+Performs delta rotation or sets camera absolute rotation depending on the "*_is_abs" parameters.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>camobj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Camera object ID</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>phi</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Azimuth angle in radians</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>theta</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Elevation angle in radians</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>phi_is_abs</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    false
+                
+                </td>
+            
+
+            <td class="description last">For phi angle: if FALSE performs delta rotation, if TRUE sets camera absolute rotation</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>theta_is_abs</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    false
+                
+                </td>
+            
+
+            <td class="description last">For theta angle: if FALSE performs delta rotation, if TRUE sets camera absolute rotation</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line808">line 808</a>
     </li></ul></dd>
     
 
@@ -5908,7 +7454,7 @@ style.
 
             
 
-            <td class="description last">Camera Object ID</td>
+            <td class="description last">Camera object ID</td>
         </tr>
 
     
@@ -5960,6 +7506,8 @@ style.
     
 
     
+        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Use rotate_camera() or rotate_hover_camera() instead</li></ul></dd>
+    
 
     
 
@@ -5972,7 +7520,7 @@ style.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line347">line 347</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line311">line 311</a>
     </li></ul></dd>
     
 
@@ -6003,7 +7551,303 @@ style.
 
     
 
-    <h4 class="name" id=".rotate_pivot"><span class="type-signature">(static) </span>rotate_pivot<span class="signature">(camobj, angle_h_delta, angle_v_delta)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".rotate_hover_camera"><span class="type-signature">(static) </span>rotate_hover_camera<span class="signature">(camobj, phi, theta, phi_is_abs<span class="signature-attributes">opt</span>, theta_is_abs<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Rotates the HOVER camera around its pivot by given angles
+Performs delta rotation or sets camera absolute rotation depending on the "*_is_abs" parameters.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>camobj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Camera object ID</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>phi</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Azimuth angle in radians</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>theta</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Elevation angle in radians</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>phi_is_abs</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    false
+                
+                </td>
+            
+
+            <td class="description last">For phi angle: if FALSE performs delta rotation, if TRUE sets camera absolute rotation</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>theta_is_abs</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    false
+                
+                </td>
+            
+
+            <td class="description last">For theta angle: if FALSE performs delta rotation, if TRUE sets camera absolute rotation</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line829">line 829</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".rotate_pivot"><span class="type-signature">(static) </span>rotate_pivot<span class="signature">(camobj, delta_phi, delta_theta)</span><span class="type-signature"></span></h4>
 
     
 
@@ -6011,8 +7855,6 @@ style.
 
 <div class="description">
     Rotate TARGET camera around the pivot point.
-+h from left to right (CCW around Y)
-+v down (CCW around DIR x Y)
 </div>
 
 
@@ -6064,14 +7906,14 @@ style.
 
             
 
-            <td class="description last">Camera Object ID</td>
+            <td class="description last">Camera object ID</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>angle_h_delta</code></td>
+                <td class="name"><code>delta_phi</code></td>
             
 
             <td class="type">
@@ -6087,14 +7929,14 @@ style.
 
             
 
-            <td class="description last">Horizontal angle in radians</td>
+            <td class="description last">Azimuth angle in radians</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>angle_v_delta</code></td>
+                <td class="name"><code>delta_theta</code></td>
             
 
             <td class="type">
@@ -6110,7 +7952,7 @@ style.
 
             
 
-            <td class="description last">Vertical angle in radians</td>
+            <td class="description last">Elevation angle in radians</td>
         </tr>
 
     
@@ -6139,6 +7981,8 @@ style.
     
 
     
+        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>use rotate_camera() or rotate_target_camera() instead</li></ul></dd>
+    
 
     
 
@@ -6151,7 +7995,7 @@ style.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line252">line 252</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line259">line 259</a>
     </li></ul></dd>
     
 
@@ -6182,14 +8026,15 @@ style.
 
     
 
-    <h4 class="name" id=".set_eye_params"><span class="type-signature">(static) </span>set_eye_params<span class="signature">(camobj, h_angle, v_angle)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".rotate_target_camera"><span class="type-signature">(static) </span>rotate_target_camera<span class="signature">(camobj, phi, theta, phi_is_abs<span class="signature-attributes">opt</span>, theta_is_abs<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    Set eye params needed to set the camera target
+    Rotates the TARGET camera counterclockwise (CCW) around its pivot by given angles. 
+Performs delta rotation or sets camera absolute rotation depending on the "*_is_abs" parameters.
 </div>
 
 
@@ -6213,7 +8058,11 @@ style.
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
+        
+        <th>Default</th>
         
 
         <th class="last">Description</th>
@@ -6238,17 +8087,29 @@ style.
             </td>
 
             
+                <td class="attributes">
+                
 
+                
+
+                
+                </td>
             
 
-            <td class="description last">Camera Object ID</td>
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Camera object ID</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>h_angle</code></td>
+                <td class="name"><code>phi</code></td>
             
 
             <td class="type">
@@ -6261,17 +8122,29 @@ style.
             </td>
 
             
+                <td class="attributes">
+                
 
+                
+
+                
+                </td>
             
 
-            <td class="description last">Horizontal angle</td>
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Azimuth angle in radians</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>v_angle</code></td>
+                <td class="name"><code>theta</code></td>
             
 
             <td class="type">
@@ -6284,10 +8157,100 @@ style.
             </td>
 
             
+                <td class="attributes">
+                
 
+                
+
+                
+                </td>
             
 
-            <td class="description last">Vertiacal angle</td>
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Elevation angle in radians</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>phi_is_abs</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    false
+                
+                </td>
+            
+
+            <td class="description last">For phi angle: if FALSE performs delta rotation, if TRUE sets camera absolute rotation</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>theta_is_abs</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    false
+                
+                </td>
+            
+
+            <td class="description last">For theta angle: if FALSE performs delta rotation, if TRUE sets camera absolute rotation</td>
         </tr>
 
     
@@ -6328,7 +8291,87 @@ style.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line770">line 770</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line787">line 787</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".set_eye_params"><span class="type-signature">(static) </span>set_eye_params<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Use rotate_camera() or rotate_eye_camera() to change camera orientation</li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line727">line 727</a>
     </li></ul></dd>
     
 
@@ -6418,7 +8461,7 @@ style.
 
             
 
-            <td class="description last">Camera Object ID</td>
+            <td class="description last">Camera object ID</td>
         </tr>
 
     
@@ -6441,7 +8484,7 @@ style.
 
             
 
-            <td class="description last">Angle between view and horizontal plane</td>
+            <td class="description last">Angle between the view and the horizontal plane</td>
         </tr>
 
     
@@ -6470,6 +8513,8 @@ style.
     
 
     
+        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Use rotate_camera() or rotate_hover_camera() instead</li></ul></dd>
+    
 
     
 
@@ -6482,7 +8527,7 @@ style.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line390">line 390</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line339">line 339</a>
     </li></ul></dd>
     
 
@@ -6572,7 +8617,7 @@ style.
 
             
 
-            <td class="description last">Camera Object ID</td>
+            <td class="description last">Camera object ID</td>
         </tr>
 
     
@@ -6682,7 +8727,7 @@ style.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line156">line 156</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line163">line 163</a>
     </li></ul></dd>
     
 
@@ -6772,7 +8817,7 @@ style.
 
             
 
-            <td class="description last">Camera Object ID</td>
+            <td class="description last">Camera object ID</td>
         </tr>
 
     
@@ -6836,7 +8881,7 @@ style.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line76">line 76</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line91">line 91</a>
     </li></ul></dd>
     
 
@@ -6926,7 +8971,7 @@ style.
 
             
 
-            <td class="description last">Camera Object ID</td>
+            <td class="description last">Camera object ID</td>
         </tr>
 
     
@@ -6990,7 +9035,7 @@ style.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line964">line 964</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1040">line 1040</a>
     </li></ul></dd>
     
 
@@ -7028,7 +9073,7 @@ style.
 
 
 <div class="description">
-    Set pivot point for TARGET camera.
+    Set pivot point for the TARGET camera.
 </div>
 
 
@@ -7080,7 +9125,7 @@ style.
 
             
 
-            <td class="description last">Camera Object ID</td>
+            <td class="description last">Camera object ID</td>
         </tr>
 
     
@@ -7144,7 +9189,7 @@ style.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line194">line 194</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line201">line 201</a>
     </li></ul></dd>
     
 
@@ -7234,7 +9279,7 @@ style.
 
             
 
-            <td class="description last">Camera Object ID</td>
+            <td class="description last">Camera object ID</td>
         </tr>
 
     
@@ -7298,7 +9343,7 @@ style.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line839">line 839</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line913">line 913</a>
     </li></ul></dd>
     
 
@@ -7336,7 +9381,7 @@ style.
 
 
 <div class="description">
-    Set translation and pivot point for TARGET camera.
+    Set translation and pivot point for the TARGET camera.
 </div>
 
 
@@ -7452,7 +9497,7 @@ style.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line212">line 212</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line219">line 219</a>
     </li></ul></dd>
     
 
@@ -7542,7 +9587,7 @@ style.
 
             
 
-            <td class="description last">Camera Object ID</td>
+            <td class="description last">Camera object ID</td>
         </tr>
 
     
@@ -7606,7 +9651,7 @@ style.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line100">line 100</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line115">line 115</a>
     </li></ul></dd>
     
 
@@ -7696,7 +9741,7 @@ style.
 
             
 
-            <td class="description last">Camera Object ID</td>
+            <td class="description last">Camera object ID</td>
         </tr>
 
     
@@ -7748,6 +9793,8 @@ style.
     
 
     
+        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Use hover_cam_set_translation() instead.</li></ul></dd>
+    
 
     
 
@@ -7760,7 +9807,7 @@ style.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line473">line 473</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line422">line 422</a>
     </li></ul></dd>
     
 
@@ -7850,7 +9897,7 @@ style.
 
             
 
-            <td class="description last">Camera Object ID</td>
+            <td class="description last">Camera object ID</td>
         </tr>
 
     
@@ -7873,7 +9920,7 @@ style.
 
             
 
-            <td class="description last">X coord (positive left to right)</td>
+            <td class="description last">X coord (positive - left to right)</td>
         </tr>
 
     
@@ -7896,7 +9943,7 @@ style.
 
             
 
-            <td class="description last">Y coord (positive down to up)</td>
+            <td class="description last">Y coord (positive - down to up)</td>
         </tr>
 
     
@@ -7960,7 +10007,7 @@ style.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line886">line 886</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line961">line 961</a>
     </li></ul></dd>
     
 
@@ -8050,7 +10097,7 @@ style.
 
             
 
-            <td class="description last">Camera Object ID</td>
+            <td class="description last">Camera object ID</td>
         </tr>
 
     
@@ -8114,7 +10161,7 @@ style.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line931">line 931</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1007">line 1007</a>
     </li></ul></dd>
     
 
@@ -8156,13 +10203,13 @@ style.
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Wed Feb 25 2015 10:34:06 GMT+0300 (MSK)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Thu Mar 26 2015 17:33:35 GMT+0300 (MSK)
 </footer>
 
 <script> prettyPrint(); </script>

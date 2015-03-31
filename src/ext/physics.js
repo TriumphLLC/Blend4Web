@@ -1,14 +1,31 @@
 "use strict";
 
 /**
- * Physics API.
+ * Physics module. Provides API to uranium.js physics engine. 
  * @module physics
+ * @local collision_callback
+ * @local ray_test_callback
  */
 b4w.module["physics"] = function(exports, require) {
 
 var m_print   = require("__print");
 var physics   = require("__physics");
 var util      = require("__util");
+
+/**
+ * Collision callback.
+ * @callback collision_callback
+ * @param {Boolean} is_collision Collision flag
+ * @param {Float32Array} collision_point XYZ vector with collision point
+ */
+
+/**
+ * Ray test callback.
+ * @callback ray_test_callback
+ * @param {Boolean} is_hit Ray hit flag
+ * @param {Number} hit_frac Fraction of ray length where hit has occured (0-1)
+ */
+
 
 /**
  * The character's type of movement is "walk".
@@ -135,8 +152,8 @@ exports.reset_damping = function(obj) {
  * Set the object's transform (for static/kinematic objects)
  * @method module:physics.set_transform
  * @param {Object} obj Object ID
- * @param {Flaot32Array} trans Translation vector
- * @param {Flaot32Array} quat Rotation quaternion
+ * @param {Float32Array} trans Translation vector
+ * @param {Float32Array} quat Rotation quaternion
  */
 exports.set_transform = function(obj, trans, quat) {
     if(!physics.has_physics(obj)) {
@@ -190,7 +207,8 @@ exports.apply_velocity_world = function(obj) {
     physics.apply_velocity_world.apply(this, arguments);
 }
 /**
- * Apply a force to the object (in the local space)
+ * Apply a constant force to the object (in the local space).
+ * Pass zero values to remove applied force.
  * @method module:physics.apply_force
  * @param {Object} obj Object ID
  * @param {Number} fx_local Fx force in the local space
@@ -206,7 +224,8 @@ exports.apply_force = function(obj, fx_local, fy_local, fz_local) {
 }
 
 /**
- * Apply torque to the object (in the local space)
+ * Apply constant torque to the object (in the local space).
+ * Pass zero values to remove applied torque.
  * @method module:physics.apply_torque
  * @param {Object} obj Object ID
  * @param {Number} tx_local Tx torque
@@ -499,14 +518,7 @@ exports.set_character_move_type = function(obj, type) {
     }
     physics.set_character_move_type(obj, type);
 }
-/**
- * Set the distance between the character and water surface in a vertical direction.
- * @method module:physics.set_character_dist_to_water
- * @deprecated
- */
-exports.set_character_dist_to_water = function(obj, dist) {
-    m_print.warn("Function set_character_dist_to_water() is deprecated");
-}
+
 /**
  * Set the character's walk speed.
  * @method module:physics.set_character_walk_velocity
@@ -630,7 +642,7 @@ exports.set_character_rotation_h = function(obj, angle) {
  * @method module:physics.append_collision_test
  * @param {Object} obj Object ID
  * @param {String} collision_id Collision ID
- * @param callback Collision callback
+ * @param {collision_callback} callback Collision callback
  * @param {Boolean} need_coolision_pt Pass collision point coords in callback
  */
 exports.append_collision_test = function(obj, collision_id, callback, need_collision_point) {
@@ -686,7 +698,7 @@ exports.clear_collision_impulse_test = function(obj) {
  * @param {Float32Array} from From vector
  * @param {Float32Array} to To vector
  * @param {Boolean} local_coords From/To specified in local/world space
- * @param callback Ray test callback
+ * @param {ray_test_callback} callback Ray test callback
  */
 exports.append_ray_test = function(obj, collision_id, from, to,
         local_coords, callback) {

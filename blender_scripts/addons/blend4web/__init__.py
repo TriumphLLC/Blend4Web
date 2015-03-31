@@ -1,9 +1,9 @@
 bl_info = {
     "name": "Blend4Web",
     "author": "Blend4Web Development Team",
-    "version": (15, 2, 0),
-    "blender": (2, 73, 0),
-    "b4w_format_version": "5.01",
+    "version": (15, 3, 0),
+    "blender": (2, 74, 0),
+    "b4w_format_version": "5.02",
     "location": "File > Import-Export",
     "description": "Blend4Web is a Blender-friendly 3D web framework",
     "warning": "",
@@ -72,7 +72,8 @@ else:
 
 import bpy
 from bpy.types import AddonPreferences
-from bpy.props import StringProperty, IntProperty
+from bpy.props import StringProperty, IntProperty, BoolProperty
+from . import render_engine
 
 import os
 
@@ -109,8 +110,19 @@ def add_node_tree(arg):
     if os.path.isfile(path_to_tree):
         with bpy.data.libraries.load(path_to_tree) as (data_from, data_to):
             for b4w_node in data_from.node_groups:
-                if not b4w_node in data_to.node_groups:
+                if not b4w_node in bpy.data.node_groups:
                     data_to.node_groups.append(b4w_node)
+
+@bpy.app.handlers.persistent
+def fix_cam_limits_storage(arg):
+    for cam in bpy.data.cameras:
+        if "b4w_rotation_down_limit_storage" in cam:
+            cam.b4w_rotation_down_limit = cam["b4w_rotation_down_limit_storage"]
+            del cam["b4w_rotation_down_limit_storage"]
+
+        if "b4w_rotation_up_limit_storage" in cam:
+            cam.b4w_rotation_up_limit = cam["b4w_rotation_up_limit_storage"]
+            del cam["b4w_rotation_up_limit_storage"]
 
 def update_b4w_src_path(addon_pref, context):
     if addon_pref.b4w_src_path != "":
@@ -126,11 +138,14 @@ class B4WPreferences(AddonPreferences):
             subtype='DIR_PATH', update=update_b4w_src_path)
     b4w_port_number = IntProperty(name="Server port", default=6687, min=0, 
             max=65535)
+    b4w_register_render = BoolProperty(name="Register B4W Render",
+                        default = False)
 
     def draw(self, context):
         layout = self.layout
         layout.prop(self, "b4w_src_path", text="Path to Blend4Web SDK")
         layout.prop(self, "b4w_port_number", text="Server port")
+        layout.prop(self, "b4w_register_render", text="Register Blend4Web render engine (Experimental)")
 
 def register():
     nla_script.register()
@@ -159,9 +174,13 @@ def register():
     bpy.app.handlers.scene_update_pre.append(init_validation.validate_version)
     bpy.app.handlers.load_post.append(add_asset_file)
     bpy.app.handlers.load_post.append(add_node_tree)
+    bpy.app.handlers.load_post.append(fix_cam_limits_storage)
 
+    render_engine.register()
 
 def unregister():
+    render_engine.unregister()
+
     nla_script.unregister()
 
     properties.unregister()

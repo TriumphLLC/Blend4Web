@@ -72,6 +72,8 @@ change).
 them along non-compressed ones.
 <dt>assets_min50_available
 <dd>Boolean, allow engine to use low quality textures, you must provide
+<dt>audio
+<dd>Boolean, enable webaudio.
 them along high quality ones.
 <dt>background_color
 <dd>Float32Array, RGBA vector with WebGL canvas background color.
@@ -90,6 +92,8 @@ them along high quality ones.
 objects on the main (zero) scene (used for dynamic scene loading).
 <dt>glow
 <dd>Boolean, enable glow effect (set CUSTOM profile to change).
+<dt>gyro_use
+<dd>Boolean, enable gyroscope.
 <dt>physics_enabled
 <dd>Boolean, enable uranium.js physics engine.
 <dt>physics_uranium_path
@@ -107,7 +111,7 @@ change).
 <dt>sfx_mix_mode
 <dd>Boolean, enable mixer mode in SFX subsystem
 <dt>shaders_dir
-<dd>String, path to shaders directory.
+<dd>String, path to shaders directory (developer version only).
 <dt>show_hud_debug_info
 <dd>Boolean, show HUD with debug information.
 <dt>smaa
@@ -268,7 +272,7 @@ directory with the engine's source.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line116">line 116</a>
+        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line120">line 120</a>
     </li></ul></dd>
     
 
@@ -340,7 +344,7 @@ directory with the engine's source.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line106">line 106</a>
+        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line110">line 110</a>
     </li></ul></dd>
     
 
@@ -412,7 +416,7 @@ directory with the engine's source.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line101">line 101</a>
+        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line105">line 105</a>
     </li></ul></dd>
     
 
@@ -484,7 +488,7 @@ directory with the engine's source.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line111">line 111</a>
+        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line115">line 115</a>
     </li></ul></dd>
     
 
@@ -611,7 +615,7 @@ directory with the engine's source.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line129">line 129</a>
+        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line133">line 133</a>
     </li></ul></dd>
     
 
@@ -716,7 +720,7 @@ inside SDK.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line141">line 141</a>
+        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line145">line 145</a>
     </li></ul></dd>
     
 
@@ -820,7 +824,7 @@ inside SDK.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line136">line 136</a>
+        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line140">line 140</a>
     </li></ul></dd>
     
 
@@ -974,7 +978,7 @@ inside SDK.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line122">line 122</a>
+        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line126">line 126</a>
     </li></ul></dd>
     
 
@@ -1016,13 +1020,13 @@ inside SDK.
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Wed Feb 25 2015 10:34:06 GMT+0300 (MSK)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Thu Mar 26 2015 17:33:35 GMT+0300 (MSK)
 </footer>
 
 <script> prettyPrint(); </script>

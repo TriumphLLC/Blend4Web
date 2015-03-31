@@ -1,7 +1,6 @@
 #include <precision_statement.glslf>
 #include <fog.glslf>
 #include <gamma.glslf>
-#include <lighting.glslf>
 
 uniform vec4 u_diffuse_color;
 
