@@ -1,21 +1,124 @@
-Blend4Web
-=========
+*****************************
+Blend4Web: a 3D Web Framework
+*****************************
 
-About
+Blend4Web (pronounced *blend-for-web*) is a next-gen engine created to meet the 3D graphics needs of the modern Internet. The major distinguishing features of Blend4Web are:
+
+* It works right in the web browser without installing any plug-ins;
+* Not only does it render 3D graphics but it also integrates realistic physics and spatial audio;
+* It is extremely simple to use because it is based on Blender in which 3D scenes can be made and then directly exported, even as a standalone web page;
+* It is available as a fully functional open source version or as under a paid commercial license.
+
+.. image:: https://www.blend4web.com/static/blend4web/images/about/blend4web_scheme.png
+    :alt: Blender + Web = Blend4Web
+    :align: center
+
+
+This repo mirrors the free SDK distribution which can be also `downloaded from the official site <https://www.blend4web.com/en/downloads/>`_.
+
 -----
 
-Blend4Web is an open source WebGL framework which uses Blender as the primary authoring tool. It features native support for Blender's node materials, NLA editor, particle system, Bullet physics, positional audio and other Blender functionality. 
+|latest_version| |compatible_blender_version| |license|
 
-This repo mirrors the free SDK distribution which can be also downloaded from the official site http://www.blend4web.com/en/downloads/
-
-
-Setup
 -----
 
-Described in the manual http://www.blend4web.com/doc/en/setup.html
+=====
+Demos
+=====
+
+|planetarium| |capri_begins| |mi-34_hermit| |azure_grotto| |the_farm| |pyatigors_tale|
 
 
-License
--------
-Blend4Web is GPLv3-licensed. We also provide a commercial license.
+
+============
+Installation
+============
+
+Setting up the development environment suits 3D application developers. 
+To familiarize yourself with the Blend4Web addon `Quick Installation <https://www.blend4web.com/doc/en/first_steps.html>`_ can be a better option.
+
+----------------------------------
+Step 1 - Adding to Blender Scripts
+----------------------------------
+
+* Run Blender, load the default scene **File > New**;
+* Open the user preferences window **File > User Preferences...**;
+* Go to the **File** tab, choose the path to the **blender_scripts** directory in the **Scripts** field;
+* Click **Save User Settings** and *restart Blender*.
+
+.. image:: https://www.blend4web.com/doc/en/_images/user_preferences_scripts_path.jpg
+    :alt: Adding to Blender Scripts
+    :align: center
+
+----------------------------
+Step 2 - Enabling the Add-on
+----------------------------
+
+* Again load the default scene;
+* Open the user preferences window;
+* Go to the **Addons** tab and choose the **Import-Export** category. Enable the **Import-Export: Blend4Web** checkbox;
+
+.. image:: https://www.blend4web.com/doc/en/_images/user_preferences_enable_addon.jpg
+    :alt: Enabling the Add-on
+    :align: center
+
+* Expand the addon panel and specify the **Path to Blend4Web SDK**;
+* Click **Save User Settings**. Restarting Blender is not required.
+
+.. image:: https://www.blend4web.com/doc/en/_images/user_preferences_addon_sdk_path.jpg
+    :alt: Enabling the Add-on
+    :align: center
+
+------------------------------------
+Step 3 - Starting Development Server
+------------------------------------
+
+* Go to the **Render** tab and press the **Start** button on the **Blend4Web** panel;
+* Press the **Open SDK** button to open the index web page of the Blend4Web SDK in the browser. This page is available at http://localhost:6687.
+
+.. image:: https://www.blend4web.com/media/img_article/107/rect4179-1-4.jpg
+    :alt: Starting Development Server
+    :align: center
+
+
+
+.. |latest_version| image:: https://img.shields.io/badge/latest%20version-15.03-blue.svg
+    :target: https://www.blend4web.com/en/downloads/
+    :alt: Latest Version of Blend4Web
+
+.. |compatible_blender_version| image:: https://img.shields.io/badge/compatible%20with%20Blender-2.74-orange.svg
+    :target: https://download.blender.org/release/Blender2.74/
+    :alt: Compatible Blender Version
+
+.. |license| image:: https://img.shields.io/badge/license-GPLv3,%20commercial-lightgrey.svg
+    :target: https://www.blend4web.com/en/services/
+    :alt: License
+
+
+.. |planetarium| image:: https://www.blend4web.com/static/blend4web/images/demos/planetarium.jpg
+    :target: https://www.blend4web.com/apps/webplayer/webplayer.html?load=../../assets/interactivity/solar_system/solar_system_en.json
+    :alt: Planetarium
+    :width: 100 px
+
+.. |capri_begins| image:: https://www.blend4web.com/static/blend4web/images/demos/capri_begins.png
+    :target: https://www.blend4web.com/apps/webplayer/webplayer.html?load=../../assets/capri/capri_intro.json&compressed_textures
+    :alt: Capri Begins
+
+.. |mi-34_hermit| image:: https://www.blend4web.com/static/blend4web/images/demos/helicopter.png
+    :target: https://www.blend4web.com/apps/webplayer/webplayer.html?load=../../assets/capri/vehicles/mi_34s1/mi_34s1_demo_scene.json&autorotate&compressed_textures
+    :alt: Mi-34 Hermit
+
+.. |azure_grotto| image:: https://www.blend4web.com/static/blend4web/images/demos/azure_grotto.png
+    :target: https://www.blend4web.com/apps/webplayer/webplayer.html?load=../../assets/capri/vehicles/boat_pf28/boat_pf28.json&autorotate&compressed_textures
+    :alt: Azure Grotto
+
+.. |the_farm| image:: https://www.blend4web.com/static/blend4web/images/demos/farm.png
+    :target: https://www.blend4web.com/en/demo/farm/
+    :alt: The Farm
+
+.. |pyatigors_tale| image:: https://www.blend4web.com/static/blend4web/images/demos/tut_pyatigors_tale.png
+    :target: https://www.blend4web.com/en/demo/tut_pyatigors_tale/
+    :alt: Pyatigor's Tale
+
+
 
