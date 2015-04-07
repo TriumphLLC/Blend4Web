@@ -2,17 +2,18 @@
 Blend4Web: a 3D Web Framework
 *****************************
 
-Blend4Web (pronounced *blend-for-web*) is a next-gen engine created to meet the 3D graphics needs of the modern Internet. The major distinguishing features of Blend4Web are:
-
-* It works right in the web browser without installing any plug-ins (WebGL technology);
-* Not only does it render 3D graphics but it also integrates realistic physics and spatial audio;
-* It is extremely simple to use because it is based on Blender in which 3D scenes can be made and then directly exported, even as a standalone web page;
-* It is available as a fully functional open source version or as under a paid commercial license.
+Blend4Web (pronounced *blend-for-web*) is a next-gen engine created to meet the 3D graphics needs of the modern Internet.
 
 .. image:: https://www.blend4web.com/static/blend4web/images/about/blend4web_scheme.png
     :alt: Blender + Web = Blend4Web
     :align: center
 
+The major distinguishing features of Blend4Web are:
+
+* It works right in the web browser without installing any plug-ins (WebGL technology);
+* Not only does it render 3D graphics but it also integrates realistic physics and spatial audio;
+* It is extremely simple to use because it is based on Blender in which 3D scenes can be made and then directly exported, even as a standalone web page;
+* It is available as a fully functional open source version or as under a paid commercial license.
 
 This repo mirrors the free SDK distribution which can be also `downloaded from the official site <https://www.blend4web.com/en/downloads/>`_.
 
@@ -26,7 +27,12 @@ This repo mirrors the free SDK distribution which can be also `downloaded from t
 Demos
 =====
 
-|planetarium| |capri_begins| |mi-34_hermit| |azure_grotto| |the_farm| |pyatigors_tale|
+|planetarium| |capri_begins| |mi-34_hermit|
+|azure_grotto| |the_fountain| |the_watch|
+|sports_car| |naturemorte| |the_farm|
+|fashion_show| |the_island|
+
+|pyatigors_tale|
 
 
 
@@ -112,12 +118,39 @@ Step 3 - Starting Development Server
     :target: https://www.blend4web.com/apps/webplayer/webplayer.html?load=../../assets/capri/vehicles/boat_pf28/boat_pf28.json&autorotate&compressed_textures
     :alt: Azure Grotto
 
+.. |the_fountain| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/fountain.png
+    :target: https://www.blend4web.com/apps/webplayer/webplayer.html?load=../../assets/capri/buildings/fountain_elephants/fountain_elephants.json&autorotate&compressed_textures
+    :alt: The Fountain
+
+.. |the_watch| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/watch.png
+    :target: https://www.blend4web.com/apps/webplayer/webplayer.html?load=../../assets/capri/props/watch_scene/watch_scene.json&autorotate&compressed_textures
+    :alt: The Watch
+
+.. |sports_car| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/car.png
+    :target: https://www.blend4web.com/apps/webplayer/webplayer.html?load=../../assets/capri/vehicles/car_bv_eb164/car_bv_eb164.json&autorotate&compressed_textures
+    :alt: Sports Car
+
+.. |naturemorte| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/naturemorte.png
+    :target: https://www.blend4web.com/en/demo/naturemorte/
+    :alt: Nature Morte
+
 .. |the_farm| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/farm.png
     :target: https://www.blend4web.com/en/demo/farm/
     :alt: The Farm
 
+.. |fashion_show| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/fashion.png
+    :target: https://www.blend4web.com/en/demo/fashion/
+    :alt: Fashion Show
+
+.. |the_island| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/island.png
+    :target: https://www.blend4web.com/apps/flight/flight.html
+    :alt: The Island
+
+
+
 .. |pyatigors_tale| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/tut_pyatigors_tale.png
     :target: https://www.blend4web.com/en/demo/tut_pyatigors_tale/
     :alt: Pyatigor's Tale
+
 
 
