@@ -107,108 +107,109 @@ Step 3 - Starting Development Server
     :alt: License
 
 
-.. |planetarium| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/planetarium.jpg
+.. |planetarium| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/planetarium.min50.jpg
     :target: https://www.blend4web.com/apps/webplayer/webplayer.html?load=../../assets/interactivity/solar_system/solar_system_en.json
     :alt: Planetarium
     :width: 100 px
 
-.. |capri_begins| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/capri_begins.png
+.. |capri_begins| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/capri_begins.min50.png
     :target: https://www.blend4web.com/apps/webplayer/webplayer.html?load=../../assets/capri/capri_intro.json&compressed_textures
     :alt: Capri Begins
 
-.. |mi-34_hermit| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/helicopter.png
+.. |mi-34_hermit| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/helicopter.min50.png
     :target: https://www.blend4web.com/apps/webplayer/webplayer.html?load=../../assets/capri/vehicles/mi_34s1/mi_34s1_demo_scene.json&autorotate&compressed_textures
     :alt: Mi-34 Hermit
 
-.. |azure_grotto| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/azure_grotto.png
+.. |azure_grotto| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/azure_grotto.min50.png
     :target: https://www.blend4web.com/apps/webplayer/webplayer.html?load=../../assets/capri/vehicles/boat_pf28/boat_pf28.json&autorotate&compressed_textures
     :alt: Azure Grotto
 
-.. |the_fountain| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/fountain.png
+.. |the_fountain| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/fountain.min50.png
     :target: https://www.blend4web.com/apps/webplayer/webplayer.html?load=../../assets/capri/buildings/fountain_elephants/fountain_elephants.json&autorotate&compressed_textures
     :alt: The Fountain
 
-.. |the_watch| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/watch.png
+.. |the_watch| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/watch.min50.png
     :target: https://www.blend4web.com/apps/webplayer/webplayer.html?load=../../assets/capri/props/watch_scene/watch_scene.json&autorotate&compressed_textures
     :alt: The Watch
 
-.. |sports_car| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/car.png
+.. |sports_car| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/car.min50.png
     :target: https://www.blend4web.com/apps/webplayer/webplayer.html?load=../../assets/capri/vehicles/car_bv_eb164/car_bv_eb164.json&autorotate&compressed_textures
     :alt: Sports Car
 
-.. |naturemorte| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/naturemorte.png
+.. |naturemorte| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/naturemorte.min50.png
     :target: https://www.blend4web.com/en/demo/naturemorte/
     :alt: Nature Morte
 
-.. |the_farm| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/farm.png
+.. |the_farm| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/farm.min50.png
     :target: https://www.blend4web.com/en/demo/farm/
     :alt: The Farm
 
-.. |fashion_show| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/fashion.png
+.. |fashion_show| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/fashion.min50.png
     :target: https://www.blend4web.com/en/demo/fashion/
     :alt: Fashion Show
 
-.. |the_island| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/island.png
+.. |the_island| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/island.min50.png
     :target: https://www.blend4web.com/apps/flight/flight.html
     :alt: The Island
 
-.. |new_year_2015| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/greetcard_happy_new_year_2015.png
+.. |new_year_2015| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/greetcard_happy_new_year_2015.min50.png
     :target: https://www.blend4web.com/en/demo/greetcard_happy_new_year_2015/
     :alt: Happy New Year 2015!
 
-.. |victory_day_2014| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/greetcard_victory_day_2014.png
+.. |victory_day_2014| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/greetcard_victory_day_2014.min50.png
     :target: https://www.blend4web.com/tutorials/victory_day/victory_day.html?autorotate
     :alt: Victory Day (2014)
 
-.. |jungle_outpost| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/tut_jungle_outpost.png
+.. |jungle_outpost| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/tut_jungle_outpost.min50.png
     :target: https://www.blend4web.com/en/demo/tut_jungle_outpost/
     :alt: Jungle Outpost
 
-.. |sunglasses| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/tut_sunglasses.png
+.. |sunglasses| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/tut_sunglasses.min50.png
     :target: https://www.blend4web.com/en/article/81
     :alt: Making Sunglasses
 
-.. |pyatigors_tale| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/tut_pyatigors_tale.png
+.. |pyatigors_tale| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/tut_pyatigors_tale.min50.png
     :target: https://www.blend4web.com/en/demo/tut_pyatigors_tale/
     :alt: Pyatigor's Tale
 
-.. |playroom| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/tut_playroom.png
+.. |playroom| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/tut_playroom.min50.png
     :target: https://www.blend4web.com/en/demo/tut_playroom/
     :alt: Furnishing a Room
 
-.. |webmasters| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/tut_balloons.png
+.. |webmasters| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/tut_balloons.min50.png
     :target: https://www.blend4web.com/en/demo/tut_balloons/
     :alt: Webmasters!
 
-.. |cloth_workflow| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/tut_cloth_workflow.png
+.. |cloth_workflow| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/tut_cloth_workflow.min50.png
     :target: https://www.blend4web.com/en/article/48
     :alt: Cloth Simulation Workflow
 
-.. |tortoise| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/tut_tortoise.png
+.. |tortoise| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/tut_tortoise.min50.png
     :target: https://www.blend4web.com/en/demo/tut_tortoise/
     :alt: Tortoise
 
-.. |visualizing_grass| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/tut_grass.png
+.. |visualizing_grass| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/tut_grass.min50.png
     :target: https://www.blend4web.com/en/article/28
     :alt: Visualizing Grass
 
-.. |simple_app| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/tut_simple_webapp.png
+.. |simple_app| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/tut_simple_webapp.min50.png
     :target: https://www.blend4web.com/en/article/23
     :alt: Simple App
 
-.. |machinima| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/tut_machinima.png
+.. |machinima| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/tut_machinima.min50.png
     :target: https://www.blend4web.com/en/demo/tut_machinima/
     :alt: Machinima
 
-.. |soffit| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/tut_soffit.png
+.. |soffit| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/tut_soffit.min50.png
     :target: https://www.blend4web.com/en/demo/tut_soffit/
     :alt: Soffit
 
-.. |beach_umbrella| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/tut_beach_umbrella.png
+.. |beach_umbrella| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/tut_beach_umbrella.min50.png
     :target: https://www.blend4web.com/en/demo/tut_beach_umbrella/
     :alt: Beach Umbrella
 
-.. |striped_shader| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/tut_striped_shader.png
+.. |striped_shader| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/tut_striped_shader.min50.png
     :target: https://www.blend4web.com/en/demo/tut_striped_shader/
     :alt: Striped Shader
+
 
