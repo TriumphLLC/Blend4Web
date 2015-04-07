@@ -32,9 +32,10 @@ Demos
 |sports_car| |naturemorte| |the_farm|
 |fashion_show| |the_island|
 
-|pyatigors_tale|
+|happy_new_year_2015| |victory_day_2014|
 
-
+|jungle_outpost| |sunglasses| |pyatigors_tale|
+|playroom| |webmasters| |cloth_workflow|
 
 ============
 Installation
@@ -146,11 +147,37 @@ Step 3 - Starting Development Server
     :target: https://www.blend4web.com/apps/flight/flight.html
     :alt: The Island
 
+.. |happy_new_year_2015| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/greetcard_happy_new_year_2015.png
+    :target: https://www.blend4web.com/en/demo/greetcard_happy_new_year_2015/
+    :alt: Happy New Year 2015!
 
+.. |victory_day_2014| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/greetcard_victory_day_2014.png
+    :target: https://www.blend4web.com/tutorials/victory_day/victory_day.html?autorotate
+    :alt: Victory Day (2014)
+
+.. |jungle_outpost| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/tut_jungle_outpost.png
+    :target: https://www.blend4web.com/en/demo/tut_jungle_outpost/
+    :alt: Jungle Outpost
+
+.. |sunglasses| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/tut_sunglasses.png
+    :target: https://www.blend4web.com/en/article/81
+    :alt: Making Sunglasses
 
 .. |pyatigors_tale| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/tut_pyatigors_tale.png
     :target: https://www.blend4web.com/en/demo/tut_pyatigors_tale/
     :alt: Pyatigor's Tale
+
+.. |playroom| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/tut_playroom.png
+    :target: https://www.blend4web.com/en/demo/tut_playroom/
+    :alt: Furnishing a Room
+
+.. |webmasters| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/tut_balloons.png
+    :target: https://www.blend4web.com/en/demo/tut_balloons/
+    :alt: Webmasters!
+
+.. |cloth_workflow| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/tut_cloth_workflow.png
+    :target: https://www.blend4web.com/en/article/48
+    :alt: Cloth Simulation Workflow
 
 
 
