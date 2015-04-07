@@ -30,12 +30,17 @@ Demos
 |planetarium| |capri_begins| |mi-34_hermit|
 |azure_grotto| |the_fountain| |the_watch|
 |sports_car| |naturemorte| |the_farm|
-|fashion_show| |the_island|
+|fashion_show| |the_island| |new_year_2015|
+|victory_day_2014|
 
-|happy_new_year_2015| |victory_day_2014|
+=========
+Tutorials
+=========
 
 |jungle_outpost| |sunglasses| |pyatigors_tale|
 |playroom| |webmasters| |cloth_workflow|
+|tortoise| |visualizing_grass| |simple_app|
+|striped_shader|
 
 ============
 Installation
@@ -147,7 +152,7 @@ Step 3 - Starting Development Server
     :target: https://www.blend4web.com/apps/flight/flight.html
     :alt: The Island
 
-.. |happy_new_year_2015| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/greetcard_happy_new_year_2015.png
+.. |new_year_2015| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/greetcard_happy_new_year_2015.png
     :target: https://www.blend4web.com/en/demo/greetcard_happy_new_year_2015/
     :alt: Happy New Year 2015!
 
@@ -179,5 +184,31 @@ Step 3 - Starting Development Server
     :target: https://www.blend4web.com/en/article/48
     :alt: Cloth Simulation Workflow
 
+.. |tortoise| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/tut_tortoise.png
+    :target: https://www.blend4web.com/en/demo/tut_tortoise/
+    :alt: Tortoise
 
+.. |visualizing_grass| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/tut_grass.png
+    :target: https://www.blend4web.com/en/article/28
+    :alt: Visualizing Grass
+
+.. |simple_app| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/tut_simple_webapp.png
+    :target: https://www.blend4web.com/en/article/23
+    :alt: Simple App
+
+.. |machinima| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/tut_machinima.png
+    :target: https://www.blend4web.com/en/demo/tut_machinima/
+    :alt: Machinima
+
+.. |soffit| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/tut_soffit.png
+    :target: https://www.blend4web.com/en/demo/tut_soffit/
+    :alt: Soffit
+
+.. |beach_umbrella| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/tut_beach_umbrella.png
+    :target: https://www.blend4web.com/en/demo/tut_beach_umbrella/
+    :alt: Beach Umbrella
+
+.. |striped_shader| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/tut_striped_shader.png
+    :target: https://www.blend4web.com/en/demo/tut_striped_shader/
+    :alt: Striped Shader
 
