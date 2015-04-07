@@ -40,6 +40,7 @@ Tutorials
 |jungle_outpost| |sunglasses| |pyatigors_tale|
 |playroom| |webmasters| |cloth_workflow|
 |tortoise| |visualizing_grass| |simple_app|
+|machinima| |soffit| |beach_umbrella|
 |striped_shader|
 
 ============
@@ -211,5 +212,6 @@ Step 3 - Starting Development Server
 .. |striped_shader| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/tut_striped_shader.min50.png
     :target: https://www.blend4web.com/en/demo/tut_striped_shader/
     :alt: Striped Shader
+
 
 
