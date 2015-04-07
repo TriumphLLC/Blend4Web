@@ -4,7 +4,7 @@ Blend4Web: a 3D Web Framework
 
 Blend4Web (pronounced *blend-for-web*) is a next-gen engine created to meet the 3D graphics needs of the modern Internet. The major distinguishing features of Blend4Web are:
 
-* It works right in the web browser without installing any plug-ins;
+* It works right in the web browser without installing any plug-ins (WebGL technology);
 * Not only does it render 3D graphics but it also integrates realistic physics and spatial audio;
 * It is extremely simple to use because it is based on Blender in which 3D scenes can be made and then directly exported, even as a standalone web page;
 * It is available as a fully functional open source version or as under a paid commercial license.
@@ -95,30 +95,29 @@ Step 3 - Starting Development Server
     :alt: License
 
 
-.. |planetarium| image:: https://www.blend4web.com/static/blend4web/images/demos/planetarium.jpg
+.. |planetarium| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/planetarium.jpg
     :target: https://www.blend4web.com/apps/webplayer/webplayer.html?load=../../assets/interactivity/solar_system/solar_system_en.json
     :alt: Planetarium
     :width: 100 px
 
-.. |capri_begins| image:: https://www.blend4web.com/static/blend4web/images/demos/capri_begins.png
+.. |capri_begins| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/capri_begins.png
     :target: https://www.blend4web.com/apps/webplayer/webplayer.html?load=../../assets/capri/capri_intro.json&compressed_textures
     :alt: Capri Begins
 
-.. |mi-34_hermit| image:: https://www.blend4web.com/static/blend4web/images/demos/helicopter.png
+.. |mi-34_hermit| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/helicopter.png
     :target: https://www.blend4web.com/apps/webplayer/webplayer.html?load=../../assets/capri/vehicles/mi_34s1/mi_34s1_demo_scene.json&autorotate&compressed_textures
     :alt: Mi-34 Hermit
 
-.. |azure_grotto| image:: https://www.blend4web.com/static/blend4web/images/demos/azure_grotto.png
+.. |azure_grotto| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/azure_grotto.png
     :target: https://www.blend4web.com/apps/webplayer/webplayer.html?load=../../assets/capri/vehicles/boat_pf28/boat_pf28.json&autorotate&compressed_textures
     :alt: Azure Grotto
 
-.. |the_farm| image:: https://www.blend4web.com/static/blend4web/images/demos/farm.png
+.. |the_farm| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/farm.png
     :target: https://www.blend4web.com/en/demo/farm/
     :alt: The Farm
 
-.. |pyatigors_tale| image:: https://www.blend4web.com/static/blend4web/images/demos/tut_pyatigors_tale.png
+.. |pyatigors_tale| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/tut_pyatigors_tale.png
     :target: https://www.blend4web.com/en/demo/tut_pyatigors_tale/
     :alt: Pyatigor's Tale
-
 
 
