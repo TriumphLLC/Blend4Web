@@ -5,6 +5,7 @@ apps_dev/gallery
 apps_dev/Makefile
 apps_dev/new_year
 apps_dev/project.py
+#apps_dev/victory_day_2015
 apps_dev/viewer
 apps_dev/webplayer
 
@@ -32,6 +33,8 @@ blender/dev_sound
 blender/flight_over_island
 blender/interactivity
 blender/new_year
+#blender/victory_day_2015
+blender/environment
 
 blender_scripts
 
@@ -42,6 +45,7 @@ deploy/apps/common
 deploy/apps/flight
 deploy/apps/gallery
 deploy/apps/new_year
+#deploy/apps/victory_day_2015
 deploy/apps/viewer
 deploy/apps/webplayer
 
@@ -79,6 +83,8 @@ deploy/assets/fridge/table_plane
 deploy/assets/interactivity
 deploy/assets/new_year
 deploy/assets/tutorials
+#deploy/assets/victory_day_2015
+deploy/assets/environment
 deploy/doc
 deploy/globals_detect
 deploy/pub/b4w_manual_*.pdf
@@ -124,6 +130,12 @@ VERSION
 !*/modeling/*
 !*.pyc
 !*/__pycache__/*
+!*.swp
+!*.js~
+!*.json~
+!*.html~
+
+!csrc/b4w_bin/build
 !uranium/build/src/.libs
 !deploy/doc/locale/
 !doc_src/doctrees
@@ -132,10 +144,6 @@ VERSION
 !doc_src/locale/*.pot
 !doc_src/locale/*.mo
 !deploy/*/.buildinfo
-!*.swp
-!*.js~
-!*.json~
-!*.html~
 
 # exclude incomplete tutorials
 !*/tutorials/examples/making_a_game_p8/*
@@ -151,3 +159,6 @@ VERSION
 
 !blender_scripts/addons/oscurart_tools/
 !blender_scripts/scripts/*
+
+# exclude big victory day 2015 design files
+!blender/victory_day_2015/design/

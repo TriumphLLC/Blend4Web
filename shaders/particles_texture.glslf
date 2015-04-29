@@ -15,8 +15,6 @@ uniform sampler2D u_sampler;
                                GLOBAL UNIFORMS
 ============================================================================*/
 
-uniform vec3  u_horizon_color;
-uniform vec3  u_zenith_color;
 uniform float u_environment_energy;
 
 #if NUM_LIGHTS > 0
@@ -30,12 +28,15 @@ uniform vec4 u_light_factors[NUM_LFACTORS];
 uniform vec4 u_fog_color_density;
 #endif
 
-#if SKY_TEXTURE
-uniform samplerCube u_sky_texture;
-#endif
-
 #if TEXTURE_COLOR
 uniform float u_diffuse_color_factor;
+#endif
+
+#if USE_ENVIRONMENT_LIGHT && SKY_TEXTURE
+uniform samplerCube u_sky_texture;
+#elif USE_ENVIRONMENT_LIGHT && SKY_COLOR
+uniform vec3 u_horizon_color;
+uniform vec3 u_zenith_color;
 #endif
 
 /*============================================================================
@@ -59,6 +60,16 @@ varying vec3 v_pos_world;
 #if !DISABLE_FOG
 varying vec4 v_pos_view;
 #endif
+
+/*============================================================================
+                                  FUNCTIONS
+============================================================================*/
+
+#include <environment.glslf>
+
+/*============================================================================
+                                    MAIN
+============================================================================*/
 
 void main(void) {
 
@@ -84,12 +95,8 @@ void main(void) {
 
     vec3 normal = vec3(0.0, 1.0, 0.0);
 
-# if SKY_TEXTURE
-    vec3 environment_color = u_environment_energy * textureCube(u_sky_texture, normal).rgb;
-# else
     float sky_factor = 0.5;
-    vec3 environment_color = u_environment_energy * mix(u_horizon_color, u_zenith_color, sky_factor);
-# endif //SKY_TEXTURE
+    vec3 environment_color = u_environment_energy * get_environment_color(sky_factor, normal);
 
     vec3 A = u_ambient * environment_color;
 

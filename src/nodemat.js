@@ -470,8 +470,6 @@ function merge_textures(graph) {
         var unode = unique_nodes[i];
 
         var mnodes_count = unode.merged_nodes.length;
-        var in_num = unode.attr.inputs.length;
-        var out_num = unode.attr.outputs.length;
 
         // NOTE: merge similar nodes and unique node
         for (var j = 0; j < mnodes_count; j++) {
@@ -480,41 +478,29 @@ function merge_textures(graph) {
             var edges_in = merged_data.edges_in;
             var edges_out = merged_data.edges_out;
 
-            unode.attr.inputs = unode.attr.inputs.concat(mnode.inputs);
-            unode.attr.outputs = unode.attr.outputs.concat(mnode.outputs);
-
-            for (var k = 0; k < unode.attr.inputs.length; k++)
-                unode.attr.inputs[k].identifier += m_util.trunc(k / in_num) + 1;
-            for (var k = 0; k < unode.attr.outputs.length; k++)
-                unode.attr.outputs[k].identifier += m_util.trunc(k / out_num) + 1;
+            unode.attr.inputs[j + 1].is_linked = mnode.inputs[0].is_linked;
+            unode.attr.inputs[j + 1].default_value = mnode.inputs[0].default_value;
+            unode.attr.outputs[2 * (j + 1)].is_linked = mnode.outputs[0].is_linked;
+            unode.attr.outputs[2 * (j + 1)].default_value = mnode.outputs[0].default_value;
+            unode.attr.outputs[2 * (j + 1) + 1].is_linked = mnode.outputs[1].is_linked;
+            unode.attr.outputs[2 * (j + 1) + 1].default_value = mnode.outputs[1].default_value;
 
             // NOTE: change edge attributes indices for similar links
             for (var k = 0; k < edges_in.length; k += 3) {
                 var in_id = edges_in[k];
                 var edge_attr = edges_in[k + 2];
-                edge_attr[1] += (j + 1) * in_num;
+                edge_attr[1] += (j + 1);
                 m_graph.append_edge(graph, in_id, unode.id, edge_attr);
             }
 
             for (var k = 0; k < edges_out.length; k += 3) {
                 var out_id = edges_out[k + 1];
                 var edge_attr = edges_out[k + 2];
-                edge_attr[0] += (j + 1) * out_num;
+                edge_attr[0] += (j + 1) * 2;
                 m_graph.append_edge(graph, unode.id, out_id, edge_attr);
             }
-        }
 
-        // NOTE: change node type by additional merged nodes
-        switch (mnodes_count) {
-        case 1:
-            unode.attr.type += "2";
-            break;
-        case 2:
-            unode.attr.type += "3";
-            break;
-        case 3:
-            unode.attr.type += "4";
-            break;
+            unode.attr.dirs.push(["USE_uv" + (j + 2), 1]);
         }
 
         m_graph.remove_node(graph, unode.id);
@@ -880,9 +866,9 @@ function append_nmat_node(graph, bpy_node, geometry_output_num, anim_data,
         outputs.push(node_output_by_ident(bpy_node, "Visibility Factor"));
         if (!(lamp["uuid"] in _lamp_indexes)) {
             _lamp_indexes[lamp["uuid"]] = _lamp_index;
-            params.push(node_param(shader_ident("param_LAMP_lamp_index"), _lamp_index++, 1));
+            dirs.push(["LAMP_INDEX", String(_lamp_index++)]);
         } else
-            params.push(node_param(shader_ident("param_LAMP_lamp_index"), _lamp_indexes[lamp["uuid"]], 1));
+            dirs.push(["LAMP_INDEX", String(_lamp_indexes[lamp["uuid"]])]);
         data = _lamp_indexes;
         break;
     case "NORMAL":
@@ -1295,31 +1281,56 @@ function append_nmat_node(graph, bpy_node, geometry_output_num, anim_data,
             outputs.push(node_output_by_ident(bpy_node, "Color"));
             outputs.push(node_output_by_ident(bpy_node, "Normal"));
             outputs.push(node_output_by_ident(bpy_node, "Value"));
-        } else {
+        } else if (type == "TEXTURE_ENVIRONMENT") {
             inputs.push(node_input_by_ident(bpy_node, "Vector"));
-
-            if (type == "TEXTURE_COLOR" || type == "TEXTURE_ENVIRONMENT") {
-                outputs.push(node_output_by_ident(bpy_node, "Color"));
-                outputs.push(node_output_by_ident(bpy_node, "Value"));    
-            }
-
+            outputs.push(node_output_by_ident(bpy_node, "Color"));
+            outputs.push(node_output_by_ident(bpy_node, "Value"));
+        } else {
             if (type == "TEXTURE_NORMAL") {
                 if (bpy_node["texture"]["type"] == "ENVIRONMENT_MAP") {
                     m_print.error("Wrong output for ENVIRONMENT_MAP texture: " + bpy_node["name"]);
                     return false;
                 }
-                outputs.push(node_output_by_ident(bpy_node, "Normal"));
-                outputs.push(node_output_by_ident(bpy_node, "Value"));    
             }
 
-            var tex_name = shader_ident("param_TEXTURE_texture");
-            params.push(node_param(tex_name));
+            for (var i = 0; i < 4; ++i) {
+                var input, output1, output2;
 
-            data = {
-                name: tex_name,
-                value: bpy_node["texture"]
+                if (i) {
+                    input = default_node_inout("Vector" + i, "Vector" + i, [0,0,0]);
+                    if (type == "TEXTURE_COLOR") {
+                        output1 = default_node_inout("Color" + i, "Color" + i, [0,0,0]);
+                        output2 = default_node_inout("Value" + i, "Value" + i, 0);
+                    }
+                    if (type == "TEXTURE_NORMAL") {
+                        output1 = default_node_inout("Normal" + i, "Normal" + i, [0,0,0]);
+                        output2 = default_node_inout("Value" + i, "Value" + i, 0); 
+                    }
+                } else {
+                    input = node_input_by_ident(bpy_node, "Vector");
+                    if (type == "TEXTURE_COLOR") {
+                        output1 = node_output_by_ident(bpy_node, "Color");
+                        output2 = node_output_by_ident(bpy_node, "Value");
+                    }    
+                    if (type == "TEXTURE_NORMAL") {
+                        output1 = node_output_by_ident(bpy_node, "Normal");
+                        output2 = node_output_by_ident(bpy_node, "Value");   
+                    }
+                }
+                inputs.push(input);
+                outputs.push(output1);
+                outputs.push(output2);
             }
         }
+
+        var tex_name = shader_ident("param_TEXTURE_texture");
+        params.push(node_param(tex_name));
+
+        data = {
+            name: tex_name,
+            value: bpy_node["texture"]
+        }
+        
         break;
     case "VALUE":
 

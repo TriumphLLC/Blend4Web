@@ -29,6 +29,7 @@ var m_vec3 = require("vec3");
 var m_mat4 = require("mat4");
 
 var cfg_def = m_cfg.defaults;
+var cfg_out = m_cfg.outlining;
 
 var DEBUG_DISABLE_STATIC_OBJS = false;
 
@@ -61,7 +62,7 @@ function create_render(type) {
         is_copied: false,
 
         color_id: null,
-        glow_intensity: 0,
+        outline_intensity: 0,
         // correct only for TARGET camera
         target_cam_upside_down: false,
 
@@ -87,7 +88,7 @@ function create_render(type) {
         hover_angle_limits: null,
         enable_hover_hor_rotation: true,
         cameras: null,
-        glow_anim_settings: null,
+        outline_anim_settings: null,
 
         // game/physics/lod properties
         friction: 0,
@@ -116,8 +117,12 @@ function create_render(type) {
         last_lod: false,
         selectable: false,
         origin_selectable: false,
+        outlining: false,
+        origin_outlining: false,
+        outline_on_select: false,
         is_hair_particles: false,
         is_visible: false,
+        force_zsort: false,
 
         // wind bending properties
         wind_bending_angle: 0,
@@ -143,6 +148,8 @@ function create_render(type) {
         max_bones: 0,
         frames_blending: false,
         vertex_anim: false,
+        use_shape_keys: false,
+        shape_keys_values: [],
         is_skinning: false,
         anim_mixing: false,
         anim_mix_factor: 1.0,
@@ -158,6 +165,8 @@ function create_render(type) {
         trans_after: null,
         bone_pointers: null,
         pose_data: null,
+        arm_rel_trans: null,
+        arm_rel_quat: null,
 
         mats_values: null,
         mats_value_inds: null,
@@ -278,8 +287,13 @@ function update_object(obj, non_recursive) {
 
         break;
     case "MESH":
-        render.selectable = cfg_def.all_objs_selectable || obj["b4w_selectable"];
+        render.selectable = cfg_out.outlining_overview_mode || obj["b4w_selectable"];
         render.origin_selectable = obj["b4w_selectable"];
+
+        render.outlining = cfg_out.outlining_overview_mode || obj["b4w_outlining"];
+        render.origin_outlining = obj["b4w_outlining"];
+
+        render.outline_on_select = cfg_out.outlining_overview_mode || obj["b4w_outline_on_select"];
 
         render.billboard = obj["b4w_billboard"];
         render.billboard_pres_glob_orientation = obj["b4w_pres_glob_orientation"];
@@ -287,10 +301,10 @@ function update_object(obj, non_recursive) {
         render.billboard_type = "BASIC";
         render.billboard_spherical = obj["b4w_billboard_geometry"] == "SPHERICAL";
 
-        render.glow_anim_settings = {
-            glow_duration: obj["b4w_glow_settings"]["glow_duration"],
-            glow_period: obj["b4w_glow_settings"]["glow_period"],
-            glow_relapses: obj["b4w_glow_settings"]["glow_relapses"]
+        render.outline_anim_settings = {
+            outline_duration: obj["b4w_outline_settings"]["outline_duration"],
+            outline_period: obj["b4w_outline_settings"]["outline_period"],
+            outline_relapses: obj["b4w_outline_settings"]["outline_relapses"]
         };
 
         if (render.selectable) {
@@ -300,6 +314,7 @@ function update_object(obj, non_recursive) {
         }
 
         prepare_vertex_anim(obj);
+        prepare_shape_keys(obj);
 
         // apply pose if any
         var armobj = m_anim.get_first_armature_object(obj);
@@ -319,6 +334,9 @@ function update_object(obj, non_recursive) {
                 render.trans_before = pose_data.trans;
                 render.trans_after  = pose_data.trans;
             }
+
+            render.arm_rel_trans = new Float32Array(4);
+            render.arm_rel_quat = m_quat.create();
             render.pose_data = pose_data;
             render.frame_factor = 0;
         }
@@ -417,17 +435,12 @@ function update_object(obj, non_recursive) {
             var offset = m_tsr.create_sep(render.trans, render.scale, render.quat);
             m_cons.append_child_of(obj, obj._dg_parent, offset);
         } else if (obj._dg_parent && !obj._dg_parent["b4w_group_relative"]) {
-            m_trans.update_transform(obj);    // to get world matrix
-            var wm = render.world_matrix;
-            m_mat4.multiply(obj._dg_parent._render.world_matrix, wm, wm);
+            m_trans.update_transform(obj);    // to get tsr
 
-            var trans = m_util.matrix_to_trans(wm);
-            var scale = m_util.matrix_to_scale(wm);
-            var quat = m_util.matrix_to_quat(wm);
-
-            m_trans.set_translation(obj, trans);
-            m_trans.set_rotation(obj, quat);
-            m_trans.set_scale(obj, scale);
+            m_tsr.multiply(obj._dg_parent._render.tsr, obj._render.tsr, obj._render.tsr);
+            m_trans.set_translation(obj, m_tsr.get_trans_view(obj._render.tsr));
+            m_trans.set_scale(obj, m_tsr.get_scale(obj._render.tsr));
+            m_trans.set_rotation(obj, m_tsr.get_quat_view(obj._render.tsr));
         }
         // make links from group objects to their parent
         var dupli_group = obj["dupli_group"];
@@ -508,14 +521,17 @@ function calc_mesh_is_dynamic(bpy_obj) {
     var is_billboard = bpy_obj["b4w_billboard"];
     var dyn_grass_emitter = m_particles.has_dynamic_grass_particles(bpy_obj);
     var has_nla = m_nla.has_nla(bpy_obj);
+    var has_shape_keys = bpy_obj["data"]["b4w_shape_keys"].length > 0;
+    var has_dynamic_geometry = bpy_obj["b4w_dynamic_geometry"];
 
     // lens flares are not strictly required to be dynamic
     // make them so to prevent possible bugs in the future
 
     return DEBUG_DISABLE_STATIC_OBJS || is_animated || has_do_not_batch
-            || is_collision || is_vehicle_part
+            || is_collision || is_vehicle_part || has_shape_keys
             || is_floater_part || has_lens_flares_mat(bpy_obj)
-            || dyn_grass_emitter || is_character || is_billboard || has_nla;
+            || dyn_grass_emitter || is_character || is_billboard || has_nla
+            || has_dynamic_geometry;
 }
 
 function has_lens_flares_mat(obj) {
@@ -594,6 +610,24 @@ function prepare_vertex_anim(obj) {
         render.vertex_anim = true;
     else
         render.vertex_anim = false;
+}
+
+function prepare_shape_keys(obj) {
+    if (obj["type"] != "MESH")
+        throw("Wrong object type: " + obj["name"]);
+
+    var render = obj._render;
+    if (obj["data"]["b4w_shape_keys"].length) {
+        render.use_shape_keys = true;
+        for (var i = 0; i < obj["data"]["b4w_shape_keys"].length; i++) {
+            var key = {};
+            key["value"] = obj["data"]["b4w_shape_keys"][i]["value"];
+            key["name"] = obj["data"]["b4w_shape_keys"][i]["name"];
+            render.shape_keys_values.push(key);
+        }
+
+    } else
+        render.use_shape_keys = false;
 }
 
 function first_mesh_material(obj) {
@@ -762,10 +796,6 @@ exports.cleanup = function() {
     _color_id_counter = 0;
 }
 
-exports.obj_has_dynamic_geometry = function(obj) {
-    return obj._render.dynamic_geometry;
-}
-
 /**
  * Create empty object
  */
@@ -891,6 +921,7 @@ function copy_object_props_by_value(obj) {
 
     var textures = null;
     var texture_names = null;
+    var shape_keys = null;
 
     if (obj.textures) {
         textures = obj.textures;
@@ -899,6 +930,10 @@ function copy_object_props_by_value(obj) {
     if (obj.texture_names) {
         texture_names = obj.texture_names;
         obj.texture_names = null;
+    }
+    if (obj.shape_keys) {
+        shape_keys = obj.shape_keys;
+        obj.shape_keys = null;
     }
 
     for (var i in obj) {
@@ -931,6 +966,10 @@ function copy_object_props_by_value(obj) {
     if (texture_names) {
         new_obj.texture_names = texture_names;
         obj.texture_names = texture_names;
+    }
+    if (shape_keys) {
+        new_obj.shape_keys = shape_keys;
+        obj.shape_keys = shape_keys;
     }
 
     return new_obj;

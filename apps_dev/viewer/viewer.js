@@ -12,6 +12,7 @@ var m_cons     = require("constraints");
 var m_ctl      = require("controls");
 var m_data     = require("data");
 var m_debug    = require("debug");
+var m_geom     = require("geometry");
 var m_gyro     = require("gyroscope");
 var m_lights   = require("lights");
 var m_main     = require("main");
@@ -36,6 +37,9 @@ var DEFAULT_NAME      = "Logo";
 var TO_RAD = Math.PI/180;
 var TO_DEG = 180/Math.PI;
 
+var DEC_SLIDER = 188;
+var INC_SLIDER = 190; 
+
 var ANIM_OBJ_DEFAULT_INDEX = 0;
 var ANIM_NAME_DEFAULT_INDEX = 0;
 
@@ -50,6 +54,8 @@ var _auto_view_timeout_handle;
 var _manifest = null;
 
 var _anim_obj = null;
+var _shape_key_obj = null;
+var _shape_key_name = "";
 
 var _settings = null;
 var _scene_settings = null;
@@ -67,7 +73,7 @@ exports.init = function() {
     set_quality_config();
     set_stereo_view_config();
     set_gyro_cam_rotate_config();
-    set_all_objs_selectable_config();
+    set_outlining_overview_mode_config();
 
     m_app.init({
         canvas_container_id: "main_canvas_container",
@@ -86,6 +92,7 @@ exports.init = function() {
         physics_enabled: true,
         wireframe_debug: true
     });
+
 }
 
 function init_cb(canvas_elem, success) {
@@ -132,6 +139,21 @@ function init_cb(canvas_elem, success) {
             asset_cb, null);
 }
 
+function assign_sliders_controls() {
+    $(document).ready(function() {
+        $(".ui-slider-handle").off("keydown");
+        $(".ui-slider-handle").on("keydown",function(e) {
+            var slider_id = this.parentElement.parentElement.children[0].getAttribute("id");
+            var slider_value = parseFloat(document.getElementById(slider_id).value);
+            var slider_step = parseFloat(document.getElementById(slider_id).getAttribute("step"));
+            if (e.keyCode == DEC_SLIDER)
+                set_slider(slider_id, slider_value - slider_step);
+            if (e.keyCode == INC_SLIDER)
+                set_slider(slider_id, slider_value + slider_step);
+        });
+    });
+}
+
 function get_selected_object() {
     return _selected_object;
 }
@@ -151,14 +173,13 @@ function main_canvas_clicked(event) {
     var prev_obj = get_selected_object();
 
     if (prev_obj)
-        m_scenes.clear_glow_anim(prev_obj);
+        m_scenes.clear_outline_anim(prev_obj);
 
     var obj = m_scenes.pick_object(x, y);
     _selected_object = obj;
 
     if (obj) {
         _object_selected_callback(obj);
-        m_scenes.apply_glow_anim(obj, 0.2, 3.8, 1);
     } else
         forbid_material_params();
 
@@ -295,6 +316,11 @@ function init_ui() {
     m_app.set_onclick("anim_stop", anim_stop_clicked);
     m_app.set_onclick("get_max_bones", get_max_bones);
 
+    //shape keys
+    bind_control(set_shape_keys_params, "shape_key_obj", "string");
+    bind_control(set_shape_keys_params, "shape_key_name", "string");
+    bind_control(set_shape_keys_params, "shape_key_value", "number");
+
     // materials
     bind_control(set_material_params, "material_name", "string");
     bind_colpick(set_material_params, "material_diffuse_color");
@@ -429,10 +455,12 @@ function init_ui() {
     bind_control(set_debug_params, "wireframe_mode", "string");
     bind_colpick(set_debug_params, "wireframe_edge_color", "object");
     bind_control(set_hud_debug_info_and_reload, "show_hud_debug_info", "bool"); //TODO
-    bind_control(set_all_objs_selectable, "all_objs_selectable", "bool");
-    refresh_all_objs_select_ui();
+    bind_control(set_outlining_overview_mode, "outlining_overview_mode", "bool");
+    refresh_outlining_overview_mode_ui();
     m_app.set_onclick("make_screenshot", make_screenshot_clicked);
     refresh_hud_debug_info_ui();
+
+    assign_sliders_controls();
 }
 
 function fill_select_options(elem_id, values) {
@@ -539,6 +567,7 @@ function reset_settings_to_default() {
         };
 
     _anim_obj = null;
+    _shape_key_obj = null;
     _scene_settings = null;
 }
 
@@ -604,8 +633,6 @@ function process_scene(names, call_reset_b4w, wait_textures, load_from_url) {
 function loaded_callback(data_id) {
     var canvas_elem = m_main.get_canvas_elem();
     canvas_elem.addEventListener("mousedown", main_canvas_clicked, false);
-
-    m_scenes.set_glow_color([1, 0.4, 0.05]);
 
     _selected_object = null;
     prepare_scenes(_settings);
@@ -872,16 +899,36 @@ function change_apply_scene_settings(scene_name, settings) {
                             "anim_stop",
                             "get_max_bones"];
 
-    if (_anim_obj)
+    if (_anim_obj) {
         forbid_params(anim_param_names, "enable");
-    else {
+        fill_select_options("anim_active_object", anim_obj_names);
+        set_animation_params({anim_active_object :
+                m_scenes.get_object_name(_anim_obj)});
+    } else
         forbid_params(anim_param_names, "disable");
-        return;
+
+    // init shape keys
+
+    var shape_keys_objs_names = [];
+    for (var i = 0; i < scene_objs.length; i++) {
+        var sobj = scene_objs[i];
+        if (m_geom.check_shape_keys(sobj)) {
+            if (!_shape_key_obj)
+                _shape_key_obj = sobj;
+            shape_keys_objs_names.push(m_scenes.get_object_name(sobj));
+        }
     }
 
-    fill_select_options("anim_active_object", anim_obj_names);
-    set_animation_params({anim_active_object :
-            m_scenes.get_object_name(_anim_obj)});
+    var shape_keys_params = ["shape_key_obj",
+                            "shape_key_name",
+                            "shape_key_value"];
+    if (_shape_key_obj) {
+        forbid_params(shape_keys_params, "enable");
+        fill_select_options("shape_key_obj", shape_keys_objs_names);
+        set_shape_keys_params({shape_key_obj :
+                m_scenes.get_object_name(_shape_key_obj)});
+    } else
+        forbid_params(shape_keys_params, "disable");
 }
 
 function render_callback(elapsed, current_time) {
@@ -1004,11 +1051,11 @@ function set_stereo_view_config() {
     m_cfg.set("anaglyph_use", m_storage.get("anaglyph_use") === "true");
 }
 
-function set_all_objs_selectable_config() {
-    if (m_storage.get("all_objs_selectable") == "")
-        m_cfg.set("all_objs_selectable", true)
+function set_outlining_overview_mode_config() {
+    if (m_storage.get("outlining_overview_mode") == "")
+        m_cfg.set("outlining_overview_mode", true)
     else
-        m_cfg.set("all_objs_selectable", m_storage.get("all_objs_selectable") === "true");
+        m_cfg.set("outlining_overview_mode", m_storage.get("outlining_overview_mode") === "true");
 }
 
 function set_gyro_cam_rotate_config() {
@@ -1043,15 +1090,15 @@ function refresh_stereo_view_ui() {
     $("#anaglyph_use").slider("refresh");
 }
 
-function refresh_all_objs_select_ui() {
-    if (m_storage.get("all_objs_selectable") == "")
+function refresh_outlining_overview_mode_ui() {
+    if (m_storage.get("outlining_overview_mode") == "")
         var opt_index = 1;
     else
-        var opt_index = Number(m_storage.get("all_objs_selectable") === "true");
+        var opt_index = Number(m_storage.get("outlining_overview_mode") === "true");
 
-    document.getElementById("all_objs_selectable").options[opt_index].selected = true;
+    document.getElementById("outlining_overview_mode").options[opt_index].selected = true;
 
-    $("#all_objs_selectable").slider("refresh");
+    $("#outlining_overview_mode").slider("refresh");
 }
 
 function refresh_gyro_use_ui() {
@@ -1070,8 +1117,8 @@ function set_gyro_cam_rotate_reload(value) {
     window.location.reload();
 }
 
-function set_all_objs_selectable(value) {
-    m_storage.set("all_objs_selectable", value.all_objs_selectable);
+function set_outlining_overview_mode(value) {
+    m_storage.set("outlining_overview_mode", value.outlining_overview_mode);
     window.location.reload();
 }
 
@@ -1092,6 +1139,7 @@ function on_resize(e) {
 
 function cleanup() {
     _anim_obj = null;
+    _shape_key_obj = null;
     _settings = null;
     _scene_settings = null;
 }
@@ -1124,6 +1172,32 @@ function get_max_bones() {
     document.getElementById("max_bones_no_blending").innerHTML = rslt.max_bones_no_blending;
 
     m_main.resume();
+}
+
+function set_shape_keys_params(value) {
+    if ("shape_key_obj" in value) {
+        _shape_key_obj = m_scenes.get_object_by_name(value["shape_key_obj"]);
+
+        var shape_keys_names = m_geom.get_shape_keys_names(_shape_key_obj);
+
+        if (shape_keys_names.length) {
+            fill_select_options("shape_key_name" ,shape_keys_names);
+            _shape_key_name = shape_keys_names[0];
+            var key_value = m_geom.get_shape_key_value(_shape_key_obj,_shape_key_name);
+            set_slider("shape_key_value", key_value);
+        } else
+            fill_select_options("shape_key_name", ["N/K"]);
+    }
+
+    if ("shape_key_name" in value) {
+        _shape_key_name = value["shape_key_name"];
+        var key_value = m_geom.get_shape_key_value(_shape_key_obj,_shape_key_name);
+        set_slider("shape_key_value", key_value);
+    }
+
+    if ("shape_key_value" in value)
+        m_geom.set_shape_key_value(_shape_key_obj, _shape_key_name, value["shape_key_value"]);
+
 }
 
 function set_animation_params(value) {
@@ -1250,7 +1324,7 @@ function get_anim_type_color(anim_type) {
 }
 
 function update_anim_ui_name(obj, slot_num) {
-    var anim_name = m_anim.get_anim_name(obj, slot_num);
+    var anim_name = m_anim.get_current_anim_name(obj, slot_num);
     anim_name = anim_name || "None";
 
     var anim_elem = $("#" + "animation");
@@ -2332,6 +2406,7 @@ function set_wind_params(value) {
 function set_slider(id, val) {
     $("#" + id).val(val);
     $("#" + id).slider("refresh");
+    $("#" + id).trigger("change");
 }
 
 function set_label(id, val) {

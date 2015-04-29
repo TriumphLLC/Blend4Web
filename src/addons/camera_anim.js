@@ -284,7 +284,6 @@ exports.auto_rotate = function(auto_rotate_ratio, callback) {
         return;
     }
 
-    
     var angle_limits = null;
     var rot_offset = 0;
     var cur_rotate_ratio = 0;
@@ -380,6 +379,21 @@ exports.is_auto_rotate = function() {
     var obj = m_scs.get_active_camera();
 
     return m_ctl.check_sensor_manifold(obj, "AUTO_ROTATE");
+}
+
+/**
+ * Check if the camera can autorotate
+ * @method module:camera_anim.check_auto_rotate
+ * @returns {Boolean} Can autorotate flag
+ */
+exports.check_auto_rotate = function() {
+    var obj = m_scs.get_active_camera();
+    var cam_type = m_cam.get_move_style(obj);
+
+    if (cam_type == m_cam.MS_STATIC)
+        return false;
+
+    return true;
 }
 
 }

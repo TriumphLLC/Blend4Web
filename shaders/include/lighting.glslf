@@ -196,7 +196,6 @@ void apply_lighting(vec3 eye_dir, vec3 ldir, vec3 normal, vec2 lfac,
 }
 
 #lamp POINT
-{
     vec2 lfac = light_factors[LAMP_LIGHT_FACT_IND].LAMP_FAC_CHANNELS;
     vec3 lpos = light_positions[LAMP_IND];
     vec3 lcolint = light_color_intensities[LAMP_IND];
@@ -218,11 +217,9 @@ void apply_lighting(vec3 eye_dir, vec3 ldir, vec3 normal, vec2 lfac,
     apply_lighting(eye_dir, ldir, normal, lfac, translucency_params,
                    D, S, lcolorint, lresult, translucency_color,
                    diffuse_params, specular_params, norm_fac);
-}
 #endlamp
 
 #lamp SPOT
-{
     vec2 lfac = light_factors[LAMP_LIGHT_FACT_IND].LAMP_FAC_CHANNELS;
     vec3 lpos = light_positions[LAMP_IND];
     vec3 lcolint = light_color_intensities[LAMP_IND];
@@ -252,11 +249,9 @@ void apply_lighting(vec3 eye_dir, vec3 ldir, vec3 normal, vec2 lfac,
     apply_lighting(eye_dir, ldir, normal, lfac, translucency_params,
                    D, S, lcolorint, lresult, translucency_color,
                    diffuse_params, specular_params, norm_fac);
-}
 #endlamp
 
 #lamp SUN
-{
     vec2 lfac = light_factors[LAMP_LIGHT_FACT_IND].LAMP_FAC_CHANNELS;
     vec3 lcolint = light_color_intensities[LAMP_IND];
     vec3 ldir = light_directions[LAMP_IND];
@@ -270,11 +265,9 @@ void apply_lighting(vec3 eye_dir, vec3 ldir, vec3 normal, vec2 lfac,
     apply_lighting(eye_dir, ldir, normal, lfac, translucency_params,
                    D, S, lcolorint, lresult, translucency_color,
                    diffuse_params, specular_params, norm_fac);
-}
 #endlamp
 
 #lamp HEMI
-{
     vec2 lfac = light_factors[LAMP_LIGHT_FACT_IND].LAMP_FAC_CHANNELS;
     vec3 lcolint = light_color_intensities[LAMP_IND];
     vec3 ldir = light_directions[LAMP_IND];
@@ -288,7 +281,6 @@ void apply_lighting(vec3 eye_dir, vec3 ldir, vec3 normal, vec2 lfac,
     apply_lighting(eye_dir, ldir, normal, lfac, translucency_params,
                    D, S, lcolorint, lresult, translucency_color,
                    diffuse_params, specular_params, norm_fac);
-}
 #endlamp
 
 #if NUM_LIGHTS > 0

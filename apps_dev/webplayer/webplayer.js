@@ -232,6 +232,13 @@ function check_fullscreen() {
         fullscreen_on_button.parentElement.removeChild(fullscreen_on_button);
 }
 
+function check_autorotate() {
+    var autorotate_on_button = document.querySelector("#auto_rotate_on_button");
+
+    if (!m_camera_anim.check_auto_rotate())
+        autorotate_on_button.parentElement.removeChild(autorotate_on_button);
+}
+
 function set_quality_button() {
     var quality = m_storage.get("quality");
 
@@ -337,9 +344,9 @@ function search_file() {
 }
 
 function anim_logo(file) {
-    anim_elem(_logo_container, "opacity", LOGO_SHOW_DELAY, 1, 0, "", "", function() {
+    m_app.css_animate(_logo_container, "opacity", 0, 1, LOGO_SHOW_DELAY, "", "", function() {
         _preloader_caption.style.display = "block";
-        anim_elem(_preloader_caption, "opacity", CAPTION_SHOW_DELAY, 1, 0, "", "", function() {
+        m_app.css_animate(_preloader_caption, "opacity", 0, 1, CAPTION_SHOW_DELAY, "", "", function() {
             m_main.resume();
             m_data.load(file, loaded_callback, preloader_callback, false);
         });
@@ -559,15 +566,15 @@ function close_menu() {
 
     close_qual_menu();
 
-    var hor_elem = document.querySelector("#help_button");
+    var hor_elem  = document.querySelector("#help_button");
     var vert_elem = document.querySelector("#tw_button");
 
     var drop_left = function(elem) {
         _is_anim_left = true;
 
-        anim_elem(elem, "marginRight", ANIM_ELEM_DELAY, -45, 0, "", "px");
+        m_app.css_animate(elem, "marginRight", 0, -45, ANIM_ELEM_DELAY, "", "px");
 
-        anim_elem(elem, "opacity", ANIM_ELEM_DELAY, 0, 1, "", "", function() {
+        m_app.css_animate(elem, "opacity", 1, 0, ANIM_ELEM_DELAY, "", "", function() {
             if (elem.nextElementSibling && elem.nextElementSibling.id != "opened_button")
                 drop_left(elem.nextElementSibling);
             else {
@@ -585,9 +592,9 @@ function close_menu() {
     var drop_top = function(elem) {
         _is_anim_top = true;
 
-        anim_elem(elem, "marginBottom", ANIM_ELEM_DELAY, -45, 0, "", "px");
+        m_app.css_animate(elem, "marginBottom", 0, -45, ANIM_ELEM_DELAY, "", "px");
 
-        anim_elem(elem, "opacity", ANIM_ELEM_DELAY, 0, 1, "", "", function() {
+        m_app.css_animate(elem, "opacity", 1, 0, ANIM_ELEM_DELAY, "", "", function() {
             if (elem.nextElementSibling && elem.nextElementSibling.id != "opened_button")
                 drop_top(elem.nextElementSibling);
             else {
@@ -642,7 +649,7 @@ function open_menu() {
 
         elem.style.display = "block";
 
-        anim_elem(elem, "marginRight", ANIM_ELEM_DELAY, 0, -45, "", "px", function() {
+        m_app.css_animate(elem, "marginRight", -45, 0, ANIM_ELEM_DELAY, "", "px", function() {
 
             if (!elem.previousElementSibling) {
                 setTimeout(function() {
@@ -657,7 +664,7 @@ function open_menu() {
             drop_left(elem.previousElementSibling)
         });
 
-        anim_elem(elem, "opacity", ANIM_ELEM_DELAY, 1, 0, "", "");
+        m_app.css_animate(elem, "opacity", 0, 1, ANIM_ELEM_DELAY, "", "");
     }
 
     var drop_top = function(elem) {
@@ -666,7 +673,7 @@ function open_menu() {
         elem.style.marginBottom = "-45px";
         elem.style.display = "block";
 
-        anim_elem(elem, "marginBottom", ANIM_ELEM_DELAY, 0, -45, "", "px", function() {
+        m_app.css_animate(elem, "marginBottom", -45, 0, ANIM_ELEM_DELAY, "", "px", function() {
 
             if (!elem.previousElementSibling) {
                 setTimeout(function() {
@@ -680,7 +687,7 @@ function open_menu() {
             drop_top(elem.previousElementSibling)
         });
 
-        anim_elem(elem, "opacity", ANIM_ELEM_DELAY, 1, 0, "", "");
+        m_app.css_animate(elem, "opacity", 0, 1, ANIM_ELEM_DELAY, "", "");
     }
 
     drop_left(hor_elem);
@@ -807,6 +814,8 @@ function loaded_callback(data_id, success) {
         return;
     }
 
+    check_autorotate();
+
     m_app.enable_camera_controls();
     m_main.set_render_callback(render_callback);
     on_resize();
@@ -865,16 +874,16 @@ function preloader_callback(percentage, load_time) {
         _circle_container.parentElement.removeChild(_circle_container)
         _load_container.style.backgroundColor = "#000";
 
-        anim_elem(_preloader_caption, "opacity", CAPTION_HIDE_DELAY, 0, 1, "", "", function() {
-            anim_elem(_load_container, "opacity", LOGO_CIRCLE_HIDE_DELAY, 0, 1, "", "", function() {
-                anim_elem(_logo_container, "opacity", LOGO_HIDE_DELAY, 0, 1, "", "", function() {
-                    anim_elem(_preloader_container, "opacity", PRELOADER_HIDE_DELAY, 0, 1, "", "", function() {
+        m_app.css_animate(_preloader_caption, "opacity", 1, 0, CAPTION_HIDE_DELAY, "", "", function() {
+            m_app.css_animate(_load_container, "opacity", 1, 0, LOGO_CIRCLE_HIDE_DELAY, "", "", function() {
+                m_app.css_animate(_logo_container, "opacity", 1, 0, LOGO_HIDE_DELAY, "", "", function() {
+                    m_app.css_animate(_preloader_container, "opacity", 1, 0, PRELOADER_HIDE_DELAY, "", "", function() {
                         _preloader_container.parentElement.removeChild(_preloader_container);
                         open_menu();
                     });
                 });
                 _opened_button.style.display = "block";
-                anim_elem(_opened_button, "transform", MENU_BUTTON_SHOW_DELAY, 1, 0, "scale(", ")");
+                m_app.css_animate(_opened_button, "transform", 0, 1, MENU_BUTTON_SHOW_DELAY, "scale(", ")");
             });
         });
     }
@@ -933,74 +942,6 @@ function set_quality_config() {
     }
 
     m_cfg.set("quality", qual);
-}
-
-function anim_elem(elem, prop, time, max_val, min_val, prefix, suffix, cb) {
-    elem = elem || null;
-    prop = prop || null;
-    time = time || 1000;
-    max_val = isFinite(max_val)? max_val : 1;
-    min_val = isFinite(min_val)? min_val : 0;
-    prefix = prefix || "";
-    suffix = suffix || "";
-    cb = cb || null;
-
-    if (!elem || !prop)
-        return;
-
-    if (elem instanceof Array)
-        var test_elem = elem[0]
-    else
-        var test_elem = elem;
-
-    if (test_elem.style[prop] != undefined) {
-
-    } else if (test_elem.style["webkit" + prop.charAt(0).toUpperCase() + prop.slice(1)] != undefined) {
-        prop = "webkit" + prop.charAt(0).toUpperCase() + prop.slice(1);
-    } else if (test_elem.style["ms" + prop.charAt(0).toUpperCase() + prop.slice(1)] != undefined) {
-        prop = "ms" + prop.charAt(0).toUpperCase() + prop.slice(1);
-    }
-
-    var requestAnimFrame =
-        window.requestAnimationFrame ||
-        window.webkitRequestAnimationFrame ||
-        window.mozRequestAnimationFrame ||
-        window.oRequestAnimationFrame ||
-        window.msRequestAnimationFrame ||
-        function(callback) { return window.setTimeout(callback, 1000/60) };
-
-    var start = new Date().getTime();
-
-    var delta = max_val - min_val
-
-    var frame = function() {
-        var elapsed_total = new Date().getTime() - start;
-
-        if (elapsed_total >= time) {
-            if (elem instanceof Array)
-                for (var i = 0; i < elem.length; i++)
-                    elem[i].style[prop] = prefix + max_val + suffix;
-            else
-                elem.style[prop] = prefix + max_val + suffix;
-
-            if (cb)
-                cb();
-
-            return;
-        }
-
-        var value = min_val + elapsed_total / time * delta;
-
-        if (elem instanceof Array)
-            for (var i = 0; i < elem.length; i++)
-                elem[i].style[prop] = prefix + value + suffix;
-        else
-            elem.style[prop] = prefix + value + suffix;
-
-        requestAnimFrame(frame);
-    }
-
-    requestAnimFrame(frame);
 }
 
 function report_app_error(text_message, link_message, link) {

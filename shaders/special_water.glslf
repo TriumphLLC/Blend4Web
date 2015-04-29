@@ -25,12 +25,14 @@
 
 uniform float u_time;
 
-uniform vec3  u_zenith_color;
-uniform float u_environment_energy;
-
-#if SKY_TEXTURE
+#if USE_ENVIRONMENT_LIGHT && SKY_TEXTURE
+uniform vec3 u_horizon_color;
 uniform samplerCube u_sky_texture;
+#else
+uniform vec3 u_zenith_color;
 #endif
+
+uniform float u_environment_energy;
 
 #if NUM_LIGHTS > 0
 uniform vec3 u_light_positions[NUM_LIGHTS];
@@ -151,7 +153,7 @@ uniform vec3 u_wireframe_edge_color;
 varying vec3 v_eye_dir;
 varying vec3 v_pos_world;
 
-#if !GENERATED_MESH
+#if (NUM_NORMALMAPS > 0 || FOAM) && !GENERATED_MESH
 varying vec2 v_texcoord;
 #endif
 
@@ -182,7 +184,15 @@ varying float v_view_depth;
 varying vec3 v_barycentric;
 #endif
 
-#if REFRACTIVE && SHORE_SMOOTHING
+/*============================================================================
+                                  FUNCTIONS
+============================================================================*/
+
+#if USE_ENVIRONMENT_LIGHT && SKY_TEXTURE
+#include <environment.glslf>
+#endif
+
+#if REFRACTIVE && SHORE_SMOOTHING && USE_REFRACTION_CORRECTION
 #include <refraction.glslf>
 #endif
 
@@ -256,14 +266,16 @@ void main(void) {
     float dist_to_water = v_pos_world.y - WATER_LEVEL;
 #endif
 
-#if GENERATED_MESH
-# if DYNAMIC
+#if NUM_NORMALMAPS > 0 || FOAM
+# if GENERATED_MESH
+#  if DYNAMIC
     vec2 texcoord = vec2(v_calm_pos_world.x, -v_calm_pos_world.z) + 0.5;
-# else
+#  else
     vec2 texcoord = vec2(v_pos_world.x, -v_pos_world.z) + 0.5;
-# endif // DYNAMIC
-#else
+#  endif // DYNAMIC
+# else
     vec2 texcoord = v_texcoord;
+# endif
 #endif
 
 #if NUM_NORMALMAPS > 0
@@ -349,7 +361,12 @@ void main(void) {
 # if REFRACTIVE
     vec2 refract_coord = screen_coord + normal.xz * u_refr_bump
                                                   / v_view_depth;
+# if USE_REFRACTION_CORRECTION
     float scene_depth_refr = refraction_correction(scene_depth, refract_coord, screen_coord);
+# else
+    refract_coord = screen_coord;
+    float scene_depth_refr = scene_depth;
+# endif
     float delta_refr = max(scene_depth_refr - v_view_depth, 0.0);
     float depth_diff_refr = u_view_max_depth / ABSORB * delta_refr;
 
@@ -438,8 +455,8 @@ void main(void) {
     vec3 S = specint * u_specular_color;
 
     // ambient
-#if SKY_TEXTURE
-    vec3 environment_color = u_environment_energy * textureCube(u_sky_texture, normal).rgb;
+#if USE_ENVIRONMENT_LIGHT && SKY_TEXTURE
+    vec3 environment_color = u_environment_energy * get_environment_color(0.0, normal);
 #else
     vec3 environment_color = u_environment_energy * u_zenith_color;
 #endif

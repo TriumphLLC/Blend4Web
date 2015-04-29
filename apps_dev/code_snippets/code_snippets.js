@@ -25,6 +25,16 @@ function open_example() {
                 break;
             }
     }
+    if (_scripts[_curr_index].dataset.styles) {
+        var head  = document.getElementsByTagName("head")[0];
+        var link  = document.createElement("link");
+        link.id   = _scripts[_curr_index].dataset.scene + ".css";
+        link.rel  = "stylesheet";
+        link.type = "text/css";
+        link.href = "css/" + link.id;
+        link.media = "all";
+        head.appendChild(link);
+    }
     b4w.require(_scripts[_curr_index].dataset.scene).init();
 }
 

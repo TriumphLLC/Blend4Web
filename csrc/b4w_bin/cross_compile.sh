@@ -3,12 +3,12 @@
 echo "Build Windows 32 bit module"
 
 CC=i686-w64-mingw32-gcc 
-CCOPTS="-DINIT_FUNC_NAME=PyInit_b4w_bin_Windows_32 -I/home/al/.wine/drive_c/Python33_32/include"
+CCOPTS="-DINIT_FUNC_NAME=PyInit_b4w_bin_Windows_32 -I/home/dal/.wine/drive_c/Python34/include"
 #LDOPTS=""
 LDOPTS="-Lwin_libs -lpython3_32"
 #PYTHONLIB="win_libs/libpython3_32.a"
 #PYTHONLIB="$HOME/.wine/drive_c/Python33_32/libs/libpython33.a"
-OUT="../../external/blender_scripts/addons/blend4web/b4w_bin_Windows_32.pyd"
+OUT="../../blender_scripts/addons/blend4web/b4w_bin_Windows_32.pyd"
 
 $CC $CCOPTS -c bindings.c
 $CC $CCOPTS -c mikktspace.c

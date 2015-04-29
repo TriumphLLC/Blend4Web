@@ -556,7 +556,7 @@ exports.create_rendering_graph = function(sc_render, cam_render, render_to_textu
     var bloom_params    = sc_render.bloom_params;
     var cc_params       = sc_render.cc_params;
     var gr_params       = sc_render.god_rays_params;
-    var glow_params     = sc_render.glow_params;
+    var outline_params  = sc_render.outline_params;
     var dof             = sc_render.dof;
     var depth_tex       = sc_render.depth_tex;
 
@@ -988,12 +988,6 @@ exports.create_rendering_graph = function(sc_render, cam_render, render_to_textu
             m_graph.append_node_attr(graph, subs_gr_blur2);
             m_graph.append_edge_attr(graph, subs_gr_blur1, subs_gr_blur2, slink_gr_c);
 
-            if (reflect_subscenes.length) {
-                subs_god_rays.reflection_plane = refl_planes[0];
-                subs_gr_blur1.reflection_plane = refl_planes[0];
-                subs_gr_blur2.reflection_plane = refl_planes[0];
-            }
-
             // combine with main scene
             var subs_god_rays_comb = create_subs_god_rays_comb(intensity,
                                                                num_lights);
@@ -1146,26 +1140,26 @@ exports.create_rendering_graph = function(sc_render, cam_render, render_to_textu
         curr_level = [];
     }
 
-    // glow_mask
-    if (!rtt && sc_render.glow) {
+    // outline_mask
+    if (!rtt && sc_render.outline) {
         for (var i = 0; i < main_cams.length; i++) {
             var subs_prev = prev_level[i];
 
-            var cam_glow = cam_copy(main_cams[i]);
-            cam_render.cameras.push(cam_glow);
+            var cam_outline = cam_copy(main_cams[i]);
+            cam_render.cameras.push(cam_outline);
 
-            var subs_glow_mask = create_subs_glow_mask(cam_glow);
-            m_graph.append_node_attr(graph, subs_glow_mask);
+            var subs_outline_mask = create_subs_outline_mask(cam_outline);
+            m_graph.append_node_attr(graph, subs_outline_mask);
 
             var pp_x_ext = create_subs_postprocessing("X_EXTEND");
 
             // almost the same
             var slink_mask_pp = create_slink("COLOR", "u_color", 1, 1, true);
-            var slink_mask_gl = create_slink("COLOR", "u_glow_mask", 1, 1, true);
+            var slink_mask_gl = create_slink("COLOR", "u_outline_mask", 1, 1, true);
 
-            pp_x_ext.is_for_glow = true;
+            pp_x_ext.is_for_outline = true;
             m_graph.append_node_attr(graph, pp_x_ext);
-            m_graph.append_edge_attr(graph, subs_glow_mask, pp_x_ext,
+            m_graph.append_edge_attr(graph, subs_outline_mask, pp_x_ext,
                     slink_mask_pp);
 
             var slink_ext = create_slink("COLOR", "u_color", 1, 0.5, true);
@@ -1173,12 +1167,12 @@ exports.create_rendering_graph = function(sc_render, cam_render, render_to_textu
             slink_ext.mag_filter = m_tex.TF_LINEAR;
 
             var pp_y_ext = create_subs_postprocessing("Y_EXTEND");
-            pp_y_ext.is_for_glow = true;
+            pp_y_ext.is_for_outline = true;
             m_graph.append_node_attr(graph, pp_y_ext);
             m_graph.append_edge_attr(graph, pp_x_ext, pp_y_ext, slink_ext);
 
             var pp_x = create_subs_postprocessing("X_BLUR");
-            pp_x.is_for_glow = true;
+            pp_x.is_for_outline = true;
             m_graph.append_node_attr(graph, pp_x);
             m_graph.append_edge_attr(graph, pp_y_ext, pp_x, slink_ext);
 
@@ -1186,26 +1180,26 @@ exports.create_rendering_graph = function(sc_render, cam_render, render_to_textu
             var slink_blur_blur = create_slink("COLOR", "u_color", 1, 0.25, true);
             slink_blur_blur.min_filter = m_tex.TF_LINEAR;
             slink_blur_blur.mag_filter = m_tex.TF_LINEAR;
-            var slink_blur_glow = create_slink("COLOR", "u_glow_mask_blurred", 1, 0.25, true);
-            slink_blur_glow.min_filter = m_tex.TF_LINEAR;
-            slink_blur_glow.mag_filter = m_tex.TF_LINEAR;
+            var slink_blur_outline = create_slink("COLOR", "u_outline_mask_blurred", 1, 0.25, true);
+            slink_blur_outline.min_filter = m_tex.TF_LINEAR;
+            slink_blur_outline.mag_filter = m_tex.TF_LINEAR;
 
             var pp_y = create_subs_postprocessing("Y_BLUR");
-            pp_y.is_for_glow = true;
+            pp_y.is_for_outline = true;
             m_graph.append_node_attr(graph, pp_y);
             m_graph.append_edge_attr(graph, pp_x, pp_y, slink_blur_blur);
 
-            var subs_glow = create_subs_glow(glow_params);
-            m_graph.append_node_attr(graph, subs_glow);
+            var subs_outline = create_subs_outline(outline_params);
+            m_graph.append_node_attr(graph, subs_outline);
 
-            m_graph.append_edge_attr(graph, subs_prev, subs_glow,
-                    create_slink("COLOR", "u_glow_src", 1, 1, true));
+            m_graph.append_edge_attr(graph, subs_prev, subs_outline,
+                    create_slink("COLOR", "u_outline_src", 1, 1, true));
 
-            m_graph.append_edge_attr(graph, subs_glow_mask, subs_glow,
+            m_graph.append_edge_attr(graph, subs_outline_mask, subs_outline,
                     slink_mask_gl);
-            m_graph.append_edge_attr(graph, pp_y, subs_glow, slink_blur_glow);
+            m_graph.append_edge_attr(graph, pp_y, subs_outline, slink_blur_outline);
 
-            curr_level.push(subs_glow);
+            curr_level.push(subs_outline);
         }
 
         prev_level = curr_level;
@@ -1616,13 +1610,12 @@ function init_subs(type) {
         sun_intensity: new Float32Array([0,0,0]), // affects fog color
         sun_direction: new Float32Array(3),
         sun_quaternion: new Float32Array(4),
-        sky_texture_slots: null,
 
-        // glow properties
-        glow_factor: 0,
-        draw_glow_flag: 0,
-        is_for_glow: false,
-        glow_color: new Float32Array(3),
+        // outline properties
+        outline_factor: 0,
+        draw_outline_flag: 0,
+        is_for_outline: false,
+        outline_color: new Float32Array(3),
 
         // water properties
         water: 0,
@@ -1841,7 +1834,6 @@ function create_subs_main(main_type, cam, opaque_do_clear_depth,
     subs.horizon_color.set(wls_params.horizon_color);
     subs.zenith_color.set(wls_params.zenith_color);
     subs.environment_energy = wls_params.environment_energy;
-    subs.sky_texture_slots = wls_params.sky_texture_slots;
 
     // by link
     subs.fog_color_density = fog;
@@ -2085,8 +2077,8 @@ function create_subs_dof(cam) {
 }
 
 
-function create_subs_glow_mask(cam) {
-    var subs = init_subs("GLOW_MASK");
+function create_subs_outline_mask(cam) {
+    var subs = init_subs("OUTLINE_MASK");
 
     subs.camera = cam;
     subs.depth_test = false;
@@ -2094,11 +2086,11 @@ function create_subs_glow_mask(cam) {
     return subs;
 }
 
-function create_subs_glow(glow_params) {
-    var subs = init_subs("GLOW");
+function create_subs_outline(outline_params) {
+    var subs = init_subs("OUTLINE");
 
-    subs.glow_color.set(glow_params.glow_color);
-    subs.glow_factor = glow_params.glow_factor;
+    subs.outline_color.set(outline_params.outline_color);
+    subs.outline_factor = outline_params.outline_factor;
     subs.ext_texel_size_mult = 5;
     subs.blur_texel_size_mult = 3;
     subs.depth_test = false;
@@ -2128,13 +2120,8 @@ function create_subs_god_rays(cam, water, ray_length, pack, step,
     subs.clear_depth = false;
     subs.depth_test = false;
 
-    subs.horizon_color[0] = 1;
-    subs.horizon_color[1] = 1;
-    subs.horizon_color[2] = 1;
-
-    subs.zenith_color[0] = 1;
-    subs.zenith_color[1] = 1;
-    subs.zenith_color[2] = 1;
+    subs.horizon_color = [1, 1, 1];
+    subs.zenith_color = [1, 1, 1];
 
     subs.environment_energy = 1;
 
@@ -2211,13 +2198,8 @@ function create_subs_sky(num_lights, sky_params) {
     var num_lfac = num_lights % 2 == 0 ? num_lights * 2: num_lights * 2 + 2;
     subs.light_factors           = new Float32Array(num_lfac);
 
-    subs.horizon_color[0] = 1;
-    subs.horizon_color[1] = 1;
-    subs.horizon_color[2] = 1;
-
-    subs.zenith_color[0] = 1;
-    subs.zenith_color[1] = 1;
-    subs.zenith_color[2] = 1;
+    subs.horizon_color = [1, 1, 1];
+    subs.zenith_color = [1, 1, 1];
 
     subs.environment_energy = 1;
 

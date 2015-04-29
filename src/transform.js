@@ -19,6 +19,7 @@ var m_tsr       = require("__tsr");
 var m_util      = require("__util");
 
 var m_vec3 = require("vec3");
+var m_vec4 = require("vec4");
 var m_quat = require("quat");
 var m_mat3 = require("mat3");
 var m_mat4 = require("mat4");
@@ -26,6 +27,7 @@ var m_mat4 = require("mat4");
 var _vec3_tmp = new Float32Array(3);
 var _quat4_tmp = new Float32Array(4);
 var _mat3_tmp = new Float32Array(9);
+var _tsr_tmp = new Float32Array(8);
 
 var _elapsed = 0;
 
@@ -121,17 +123,21 @@ exports.set_tsr = function(obj, tsr) {
     if (m_cons.get_type(obj) == m_cons.CONS_TYPE_CHILD_OF) {
         var offset = m_cons.get_child_of_offset(obj);
         m_tsr.copy(tsr, offset);
-    } else {
-        var render = obj._render;
-        render.trans[0] = tsr[0];
-        render.trans[1] = tsr[1];
-        render.trans[2] = tsr[2];
-        render.scale = tsr[3];
-        render.quat[0] = tsr[4];
-        render.quat[1] = tsr[5];
-        render.quat[2] = tsr[6];
-        render.quat[3] = tsr[7];
-    }
+    } else
+        set_tsr_raw(obj, tsr);
+}
+
+exports.set_tsr_raw = set_tsr_raw;
+function set_tsr_raw(obj, tsr) {
+    var render = obj._render;
+    render.trans[0] = tsr[0];
+    render.trans[1] = tsr[1];
+    render.trans[2] = tsr[2];
+    render.scale = tsr[3];
+    render.quat[0] = tsr[4];
+    render.quat[1] = tsr[5];
+    render.quat[2] = tsr[6];
+    render.quat[3] = tsr[7];
 }
 
 exports.get_object_size = function(obj) {
@@ -197,18 +203,14 @@ exports.update_transform = update_transform;
 function update_transform(obj) {
     var render = obj._render;
 
+    // NOTE: need to update before constraints, because they rely on to this flag
+    if (obj["type"] == "CAMERA")
+        m_cam.update_camera_upside_down(obj);
+
     m_cons.update_constraint(obj, _elapsed);
 
-    if (obj["type"] == "CAMERA") {
+    if (obj["type"] == "CAMERA")
         m_cam.update_camera(obj);
-        m_cam.clamp_limits(obj);
-        m_cam.update_ortho_scale(obj);
-
-        if (render.move_style == m_cam.MS_TARGET_CONTROLS) {
-            var z_world_cam = m_util.quat_to_dir(render.quat, m_util.AXIS_Z, _vec3_tmp);
-            render.target_cam_upside_down = z_world_cam[1] > 0;
-        }
-    }
 
     // should not change after constraint update
     var trans = render.trans;
@@ -274,10 +276,32 @@ function update_transform(obj) {
         }
     }
 
+    if (obj["type"] == "MESH") {
+        var modifiers = obj["modifiers"];
+        var armobj = null;
+        for (var i = 0; i < modifiers.length; i++) {
+            var modifier = modifiers[i];
+            if (modifier["type"] == "ARMATURE")
+                armobj = modifier["object"];
+        }
+
+        if (armobj) {
+            var armobj_tsr = armobj._render.tsr;
+            m_tsr.invert(armobj_tsr, _tsr_tmp);
+            m_tsr.multiply(_tsr_tmp, render.tsr, _tsr_tmp);
+            m_vec4.set(_tsr_tmp[0], _tsr_tmp[1], _tsr_tmp[2], _tsr_tmp[3],
+                     render.arm_rel_trans);
+            m_quat.set(_tsr_tmp[4], _tsr_tmp[5], _tsr_tmp[6], _tsr_tmp[7],
+                     render.arm_rel_quat);
+        }
+    }
+
     var descends = obj._descends;
 
     for (var i = 0; i < descends.length; i++)
         update_transform(descends[i]);
+
+    render.force_zsort = true;
 }
 
 exports.distance = function(obj1, obj2) {

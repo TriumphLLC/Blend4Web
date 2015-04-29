@@ -6,6 +6,7 @@
  */
 b4w.module["constraints"] = function(exports, require) {
 
+var m_cam  = require("__camera");
 var m_cons  = require("__constraints");
 var m_phy   = require("__physics");
 var m_trans = require("__transform");
@@ -49,6 +50,7 @@ exports.append_semi_stiff = function(obj, target, offset, rotation_offset) {
 }
 /**
  * Append a semi-stiff constraint with camera rotation clamping.
+ * @see https://www.blend4web.com/doc/en/camera.html#api
  * @method module:constraints.append_semi_stiff_cam
  * @param {Object} obj Object ID
  * @param {(Object|Array)} target Object ID or [Armature object ID, Bone Name]
@@ -62,6 +64,11 @@ exports.append_semi_stiff = function(obj, target, offset, rotation_offset) {
 exports.append_semi_stiff_cam = function(obj, target, offset, rotation_offset, 
                                             clamp_left, clamp_right, 
                                             clamp_up, clamp_down) {
+    if (!m_cam.is_eye_camera(obj)) {
+        m_print.error("append_semi_stiff_cam(): Wrong object");
+        return null;
+    }
+    
     m_cons.append_semi_stiff_cam_obj(obj, target, offset, rotation_offset, 
                                           clamp_left, clamp_right, 
                                           clamp_up, clamp_down);
@@ -156,6 +163,23 @@ exports.append_follow = function(obj, target, offset_min, offset_max) {
     m_trans.update_transform(obj);
     m_phy.sync_transform(obj);
 }
+
+/**
+ * Append a stiff viewport constraint.
+ * @method module:constraints.append_stiff_viewport
+ * @param {Object} obj Object ID
+ * @param {Object} camobj Camer object ID
+ * @param {Number} x_rel X offset as fraction to camera height.
+ * @param {Number} y_rel Y offset as fraction to camera height.
+ * @param {Number} dist Distance from the camera
+ */
+exports.append_stiff_viewport = function(obj, camobj, positioning) {
+    m_cons.append_stiff_viewport(obj, camobj, positioning);
+
+    m_trans.update_transform(obj);
+    m_phy.sync_transform(obj);
+}
+
 /**
  * Remove the object's constraint (if any).
  * @method module:constraints.remove
@@ -165,5 +189,12 @@ exports.remove = function(obj) {
     if (obj._constraint)
         m_cons.remove(obj);
 }
+
+/**
+ * Get object's parent object.
+ * @method module:constraints.get_parent
+ * @param {Object} obj Object ID
+ */
+exports.get_parent = m_cons.get_parent;
 
 }

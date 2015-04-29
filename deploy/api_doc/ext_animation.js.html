@@ -131,14 +131,14 @@ exports.get_anim_names = function(obj) {
  * @method module:animation.get_current_anim_name
  * @param {Object} obj Object ID
  * @param {Number} [slot_num = SLOT_0] Animation slot number
- * @returns Current animation name or null
+ * @returns {?String} Current animation name or null
  */
 exports.get_current_anim_name = function(obj, slot_num) {
     if (!m_anim.is_animated(obj))
         return null;
 
     slot_num = slot_num || m_anim.SLOT_0;
-    return m_anim.get_current_animation_name(obj, slot_num);
+    return m_anim.get_anim_by_slot_num(obj, slot_num);
 }
 
 /**
@@ -221,7 +221,7 @@ exports.play = function(obj, finish_callback, slot_num) {
 
     slot_num = slot_num || m_anim.SLOT_0;
     m_anim.play(obj, finish_callback, slot_num);
-    m_anim.update_object_animation(obj, 0, slot_num);
+    m_anim.update_object_animation(obj, 0, slot_num, true);
 }
 
 /**
@@ -285,7 +285,7 @@ exports.set_frame = function(obj, frame, slot_num) {
 
     slot_num = slot_num || m_anim.SLOT_0;
     m_anim.set_current_frame_float(obj, frame, slot_num);
-    m_anim.update_object_animation(obj, 0, slot_num);
+    m_anim.update_object_animation(obj, 0, slot_num, true);
 }
 
 /**
@@ -478,14 +478,16 @@ exports.apply_smoothing = function(obj, trans_period, quat_period, slot_num) {
  * @param {Object} obj Object ID
  * @param {Number} elapsed Animation delay
  * @param {Number} [slot_num = SLOT_0] Animation slot number
+ * @param {Boolean} [force_update = false] Update animation even stopped one.
  */
-exports.update_object_animation = function(obj, elapsed, slot_num) {
+exports.update_object_animation = function(obj, elapsed, slot_num, force_update) {
     if (!m_anim.is_animated(obj))
         return;
 
     slot_num = slot_num || m_anim.SLOT_0;
     elapsed = elapsed || 0;
-    m_anim.update_object_animation(obj, elapsed, slot_num);
+    force_update = force_update || false;
+    m_anim.update_object_animation(obj, elapsed, slot_num, force_update);
 }
 
 /**
@@ -547,22 +549,6 @@ exports.get_slot_num_by_anim = function(obj, anim_name) {
 }
 
 /**
- * Get objects animation name by slot number
- * @method module:animation.get_anim_name
- * @param {Object} obj Object ID
- * @param {Number} [slot_num = SLOT_0] Slot number
- * @returns {?String} Animation name
- */
-exports.get_anim_name = function(obj, slot_num) {
-    if (!m_anim.is_animated(obj))
-        return null;
-
-    slot_num = slot_num || m_anim.SLOT_0;
-
-    return m_anim.get_anim_by_slot_num(obj, slot_num);
-}
-
-/**
  * Get objects animation type
  * @method module:animation.get_anim_type
  * @param {Object} obj Object ID
@@ -577,7 +563,7 @@ exports.get_anim_type = function(obj, slot_num) {
 }
 
 /**
- * Apply animation to first animation slot
+ * Apply animation to the first animation slot
  * @method module:animation.apply_to_first_empty_slot
  * @param {Object} obj Object ID
  * @param {String} name Animation name
@@ -597,7 +583,7 @@ exports.get_skel_mix_factor = function(armobj) {
 }
 
 /**
- * Change mix factor used to mix the last two skeletal animations.
+ * Change mix factor used to mix two last skeletal animations.
  * The non-zero time allows to perform smooth animation transitions.
  * @method module:animation.set_skel_mix_factor
  * @param {Object} armobj Armature object ID
@@ -631,13 +617,13 @@ exports.set_skel_mix_factor = function(armobj, factor, time) {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Thu Mar 26 2015 17:33:34 GMT+0300 (MSK)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Wed Apr 29 2015 10:10:49 GMT+0300 (MSK)
 </footer>
 
 <script> prettyPrint(); </script>

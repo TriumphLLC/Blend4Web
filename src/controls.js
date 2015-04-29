@@ -253,7 +253,7 @@ exports.create_collision_sensor = function(obj, collision_id,
     var sensor = init_sensor(ST_COLLISION);
     sensor.collision_obj = obj;
     sensor.collision_id = collision_id || "ANY";
-    sensor.need_collision_pt = need_collision_pt;
+    sensor.need_collision_pt = need_collision_pt || false;
     sensor.collision_cb = function(is_collision, collision_point) {
         sensor_set_value(sensor, is_collision);
 

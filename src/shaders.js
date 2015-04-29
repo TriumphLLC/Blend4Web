@@ -149,8 +149,10 @@ exports.set_default_directives = function(sinfo) {
         "REFLECTIVE",
         "REFRACTIVE",
         "USE_REFRACTION",
+        "USE_REFRACTION_CORRECTION",
         "SHORE_SMOOTHING",
         "SKINNED",
+        "SKY_COLOR",
         "SKY_TEXTURE",
         "SSAO_HEMISPHERE",
         "SSAO_BLUR_DEPTH",
@@ -188,6 +190,11 @@ exports.set_default_directives = function(sinfo) {
         "BILLBOARD_RANDOM",
         "PRECISION",
         "EPSILON",
+        "USE_ENVIRONMENT_LIGHT",
+        "USE_SKY_BLEND",
+        "USE_SKY_PAPER",
+        "USE_SKY_REAL",
+        "USE_SKY_TEXTURE",
         "WIREFRAME_QUALITY",
         "SIZE_RAMP_LENGTH",
         "COLOR_RAMP_LENGTH",
@@ -233,8 +240,10 @@ exports.set_default_directives = function(sinfo) {
         case "REFLECTIVE":
         case "REFRACTIVE":
         case "USE_REFRACTION":
+        case "USE_REFRACTION_CORRECTION":
         case "SHORE_SMOOTHING":
         case "SKINNED":
+        case "SKY_COLOR":
         case "SKY_TEXTURE":
         case "SSAO_HEMISPHERE":
         case "SSAO_BLUR_DEPTH":
@@ -255,6 +264,11 @@ exports.set_default_directives = function(sinfo) {
         case "BILLBOARD":
         case "BILLBOARD_RANDOM":
         case "HAIR_BILLBOARD":
+        case "USE_ENVIRONMENT_LIGHT":
+        case "USE_SKY_BLEND":
+        case "USE_SKY_PAPER":
+        case "USE_SKY_REAL":
+        case "USE_SKY_TEXTURE":
         case "WIREFRAME_QUALITY":
         case "SIZE_RAMP_LENGTH":
         case "COLOR_RAMP_LENGTH":
@@ -676,7 +690,9 @@ function preprocess_shader(type, ast, shaders_info) {
             param_index = 0;
 
             process_node_declaration(nelem, node_parts.declarations, replaces, node_dirs);
+            lines.push("{");
             process_node_statements(nelem, node_parts.statements, replaces, node_dirs);
+            lines.push("}");
         }
     }
 
@@ -694,7 +710,8 @@ function preprocess_shader(type, ast, shaders_info) {
                     //       case of using is_optional flag
                     // input_index === 3 --- normal_in
                     if ((nelem.id == "MATERIAL" && input_index === 3 
-                            || nelem.id == "MATERIAL_EXT" && input_index === 3) 
+                            || nelem.id == "MATERIAL_EXT" && input_index === 3
+                            || nelem.id == "TEXTURE_COLOR" || nelem.id == "TEXTURE_NORMAL") 
                             && decl.is_optional) {
 
                         replaces[decl.name] = nelem.input_values[input_index];
@@ -815,12 +832,12 @@ function preprocess_shader(type, ast, shaders_info) {
 
     function process_lamps_main(lights_info, elem) {
         for (var i = 0; i < lights_info.length; i++) {
-
             var linfo = lights_info[i];
 
             if (!linfo.is_on)
                 continue;
 
+            lines.push("{");
             var lamp_node = shader_lamp_nodes[linfo.type];
             var statements = lamp_node.statements;
 
@@ -858,6 +875,7 @@ function preprocess_shader(type, ast, shaders_info) {
                 var line = tokens.join(" ");
                 lines.push(line);
             }
+            lines.push("}");
         }
     }
 }

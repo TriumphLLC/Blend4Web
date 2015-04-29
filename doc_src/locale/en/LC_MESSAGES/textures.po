@@ -253,6 +253,10 @@ msgstr "Scaling the UV map along respective axes. The default values are 1.0."
 msgid "*Blend4Web > Do Not Export*"
 msgstr ""
 
+#: ../textures.rst:66
+msgid "Не экспортировать текстуру."
+msgstr "Do not export the texture."
+
 #: ../textures.rst:69
 msgid "*Blend4Web > Anisotropic Filtering*"
 msgstr ""
@@ -274,6 +278,26 @@ msgstr ""
 #: ../textures.rst:72
 msgid "Текстура пены. Используется материалом для рендеринга воды."
 msgstr "The foam texture. Used by the water rendering material."
+
+#: ../textures.rst:75
+msgid "*Blend4Web > Disable Compression*"
+msgstr ""
+
+#: ../textures.rst:75
+msgid ""
+"Отключить использование текстурной компрессии для данной текстуры. "
+"Применяется в случае, когда компрессия приводит к ухудшению качества "
+"изображения. В частности, рекомендуется отключать для текстур-масок, "
+"использующихся для смешивания различных характеристик материалов."
+msgstr ""
+"Disable texture compression for this texture. Used in cases when texture "
+"compression deteriorates the image quality.For example it's recommended to "
+"disable compression for mask textures used to mix different parts of "
+"materials."
+
+#: ../textures.rst:79
+msgid "Для карт нормалей текстурная компрессия не применяется."
+msgstr "Texture compression is disabled for textures used as normal maps."
 
 #: ../textures.rst:84
 msgid "диффузная"
@@ -740,7 +764,7 @@ msgstr ""
 
 #: ../textures.rst:286
 msgid "Особенности работы на мобильных устройствах"
-msgstr "Peculiarities of mobile devices"
+msgstr "Specifics of Mobile Devices"
 
 #: ../textures.rst:288
 msgid ""
@@ -831,7 +855,7 @@ msgstr ""
 
 #: ../textures.rst:315
 msgid "Создание карты окружения"
-msgstr "Environment map creation"
+msgstr "Making Environment Maps"
 
 #: ../textures.rst:317
 msgid "Blender позволяет запекать сцену в карту окружения. Для этого:"
@@ -949,30 +973,32 @@ msgstr ""
 #: ../textures.rst:374
 msgid ""
 "Создать текстуру мира (world texture) с типом \"Environment Map\". Выбрать "
-"опцию ``Blend4Web > Sky texture usage > SKYDOME``."
+"опцию ``Blend4Web > Sky Texture Usage > SKYDOME``, предварительно выставив "
+"опцию ``Sky Settings > Render Sky`` на вкладке ``World``."
 msgstr ""
-"Create a world texture with the ``Environment Map`` type and select the "
-"``Blend4Web > Sky texture usage > SKYDOME`` option."
+"Create a world texture of ``Environment Map`` type. Enable ``Sky Settings > "
+"Render Sky`` under the ``World`` tab. Select the ``Blend4Web > Sky Texture "
+"Usage > SKYDOME`` option."
 
 #: ../textures.rst:378
 msgid ""
 "Для имитации :ref:`освещения от окружающей среды <environment_lighting>` "
-"можно воспользоваться опцией ``Blend4Web > Sky texture usage > "
+"можно воспользоваться опцией ``Blend4Web > Sky Texture Usage > "
 "ENVIRONMENT_LIGHTING``. При этом необходимо также выбрать соответствующую "
 "опцию в настройках мира: ``Environment Lighting > Sky Texture``."
 msgstr ""
 "To imitate :ref:`environment lighting <environment_lighting>` you can select"
-" the ``Blend4Web > Sky texture usage > ENVIRONMENT_LIGHTING`` option. Also "
+" the ``Blend4Web > Sky Texture Usage > ENVIRONMENT_LIGHTING`` option. Also "
 "you should select the corresponding option in the world settings: "
 "``Environment Lighting > Sky Texture``."
 
 #: ../textures.rst:380
 msgid ""
 "Для создания обоих эффектов от одной текстуры необходимо выставить опцию "
-"``Blend4Web > Sky texture usage > BOTH``."
+"``Blend4Web > Sky Texture Usage > BOTH``."
 msgstr ""
 "To use the world texture both for skydome and for environment lighting, "
-"select ``Blend4Web > Sky texture usage > BOTH``."
+"select ``Blend4Web > Sky Texture Usage > BOTH``."
 
 #: ../textures.rst:390
 msgid "рендеринг в"
@@ -1084,14 +1110,14 @@ msgstr ""
 #: ../textures.rst:431
 msgid ""
 "В главной сцене для текстуры целевого объекта выставить тип ``None``, в поле"
-" ``Blend4Web > Source type`` указать тип ``Scene``. В поле ``Blend4Web > "
-"Source id`` указать название сцены-источника. В поле ``Blend4Web > Source "
-"size`` указать размер текстуры в пикселях."
+" ``Blend4Web > Source Type`` указать тип ``Scene``. В поле ``Blend4Web > "
+"Source ID`` указать название сцены-источника. В поле ``Blend4Web > Source "
+"Size`` указать размер текстуры в пикселях."
 msgstr ""
 "Set the ``None`` type for a texture of the target object on the main scene, "
-"and select the ``Scene`` type in the ``Blend4Web > Source type`` menu. "
-"Specify the name of the source scene in the ``Blend4Web > Source id`` field."
-" Set the texture size in the ``Blend4Web > Source size`` field (in pixels)."
+"and select the ``Scene`` type in the ``Blend4Web > Source Type`` menu. "
+"Specify the name of the source scene in the ``Blend4Web > Source ID`` field."
+" Set the texture size in the ``Blend4Web > Source Size`` field (in pixels)."
 
 #: ../textures.rst:441
 msgid "Canvas"
@@ -1108,37 +1134,12 @@ msgstr ""
 #: ../textures.rst:445
 msgid ""
 "В главной сцене для текстуры целевого объекта выставить тип ``None``, в поле"
-" ``Blend4Web > Source type`` указать тип ``Canvas``. В поле ``Blend4Web > "
-"Source id`` указать идентификатор объекта типа ``Canvas``. В поле "
-"``Blend4Web > Source size`` указать размер текстуры в пикселях."
+" ``Blend4Web > Source Type`` указать тип ``Canvas``. В поле ``Blend4Web > "
+"Source ID`` указать идентификатор объекта типа ``Canvas``. В поле "
+"``Blend4Web > Source Size`` указать размер текстуры в пикселях."
 msgstr ""
 "Set the ``None`` type for the texture of the target object on the main "
-"scene, and select the ``Canvas`` type in the ``Blend4Web > Source type`` "
+"scene, and select the ``Canvas`` type in the ``Blend4Web > Source Type`` "
 "menu. Specify the id of the canvas HTML element in the ``Blend4Web > Source "
-"id`` field. Set the texture size in the ``Blend4Web > Source size`` field "
+"ID`` field. Set the texture size in the ``Blend4Web > Source Size`` field "
 "(in pixels)."
-
-#: ../textures.rst:66
-msgid "Не экспортировать текстуру."
-msgstr "Do not export the texture."
-
-#: ../textures.rst:75
-msgid "*Blend4Web > Disable Compression*"
-msgstr ""
-
-#: ../textures.rst:75
-msgid ""
-"Отключить использование текстурной компрессии для данной текстуры. "
-"Применяется в случае, когда компрессия приводит к ухудшению качества "
-"изображения. В частности, рекомендуется отключать для текстур-масок, "
-"использующихся для смешивания различных характеристик материалов."
-msgstr ""
-"Disable texture compression for this texture. "
-"Used in cases when texture compression deteriorates the image quality."
-"For example it's recommended to disable compression for mask textures "
-"used to mix different parts of materials."
-
-#: ../textures.rst:79
-msgid "Для карт нормалей текстурная компрессия не применяется."
-msgstr "Texture compression is disabled for textures used as normal maps."
-

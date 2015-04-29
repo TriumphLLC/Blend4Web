@@ -28,15 +28,17 @@
 ============================================================================*/
 
 uniform float u_time;
-#if SKY_TEXTURE
+
+#if USE_ENVIRONMENT_LIGHT && SKY_TEXTURE
 uniform samplerCube u_sky_texture;
+#elif USE_ENVIRONMENT_LIGHT && SKY_COLOR
+uniform vec3 u_horizon_color;
+uniform vec3 u_zenith_color;
 #endif
 
 uniform float u_environment_energy;
 
 #if !SHADELESS
-uniform vec3  u_horizon_color;
-uniform vec3  u_zenith_color;
 
 # if NUM_LIGHTS > 0
 uniform vec3 u_light_positions[NUM_LIGHTS];
@@ -224,6 +226,8 @@ varying float v_view_depth;
 #if REFRACTIVE
 #include <refraction.glslf>
 #endif
+
+#include <environment.glslf>
 
 /*============================================================================
                                     MAIN
@@ -413,11 +417,7 @@ void main(void) {
     // ambient
     float sky_factor = 0.5 * normal.y + 0.5; // dot of vertical vector and normal
 
-# if SKY_TEXTURE
-    vec3 environment_color = u_environment_energy * textureCube(u_sky_texture, normal).rgb;
-# else
-    vec3 environment_color = u_environment_energy * mix(u_horizon_color, u_zenith_color, sky_factor);
-# endif
+    vec3 environment_color = u_environment_energy * get_environment_color(sky_factor, normal);
 
     vec3 A = u_ambient * environment_color;
 

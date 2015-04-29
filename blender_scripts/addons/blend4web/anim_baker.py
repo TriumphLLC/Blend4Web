@@ -26,75 +26,66 @@ class B4W_Anim_Baker(bpy.types.Operator):
             self.report({'INFO'}, "No animation data")
             return {'CANCELLED'}
 
-        # save current state to restore after (just for convenience)
-        current_action = armobj.animation_data.action
+        if armobj.library is not None:
+            self.report({'INFO'}, "Armature object is linked")
+            return {'CANCELLED'}
 
-        # save auto keyframes tool mode
-        use_kia = bpy.context.scene.tool_settings.use_keyframe_insert_auto
-        bpy.context.scene.tool_settings.use_keyframe_insert_auto = False
-
-        nla_mute_states = self.set_nla_tracks_mute_state(armobj)
-
-        current_frame = bpy.context.scene.frame_current
-        current_active_obj = bpy.context.scene.objects.active
-
-        # save valid armature actions 
         valid_actions = self.get_valid_actions(armobj)
 
-        # save poses, modes, actions
-        buf_action = None
-        armatures = []
-        current_modes = []
-        current_hidden_states = []
-        current_poselibs = []
+        if armobj.b4w_use_bpy_anim_baker:
+            for action in valid_actions:
+                # grabs armobj from the context
+                self.process_action_bpy(action)
+        else:
+            # save current state to restore after (just for convenience)
+            current_action = armobj.animation_data.action
 
-        for obj in bpy.data.objects:
-            if obj.type == "ARMATURE" and obj.library is None:
-                bpy.context.scene.objects.active = obj
-                current_modes.append(obj.mode)
-                current_hidden_states.append(bpy.context.object.hide)
-                bpy.context.object.hide = False
-                bpy.ops.object.mode_set(mode='POSE')
-                current_poselibs.append(obj.pose_library)
+            # save auto keyframes tool mode
+            use_kia = bpy.context.scene.tool_settings.use_keyframe_insert_auto
+            bpy.context.scene.tool_settings.use_keyframe_insert_auto = False
 
-                if buf_action is None:
-                    bpy.ops.poselib.new()
-                    buf_action = obj.pose_library
+            nla_mute_states = self.set_nla_tracks_mute_state(armobj)
 
-                armatures.append(obj.name)
-                obj.pose_library = buf_action
-                bpy.ops.poselib.pose_add(frame=len(buf_action.pose_markers))
-        # create baked actions
-        for action in valid_actions:
-            self.process_action(action, armobj)
+            current_frame = bpy.context.scene.frame_current
+            current_active_obj = bpy.context.scene.objects.active
 
-        armobj.animation_data.action = current_action
-        bpy.context.scene.frame_set(current_frame)
+            # save pose, mode, actions
+            current_mode = armobj.mode
+            current_hidden_state = bpy.context.object.hide
+            current_poselib = armobj.pose_library
 
-        # restore poses, modes, actions
-        for armname in enumerate(armatures):
-            obj = bpy.data.objects[armname[1]]
-            bpy.context.scene.objects.active = obj
-            obj.pose_library = buf_action
-            bpy.ops.poselib.apply_pose(pose_index=armname[0])
+            bpy.context.object.hide = False
+            bpy.ops.object.mode_set(mode='POSE')
+
+            bpy.ops.poselib.new()
+            buf_action = armobj.pose_library
+            bpy.ops.poselib.pose_add(frame=len(buf_action.pose_markers))
+
+            # create baked actions
+            for action in valid_actions:
+                self.process_action(action, armobj)
+
+            # restore pose, mode, action
+            armobj.animation_data.action = current_action
+            bpy.context.scene.frame_set(current_frame)
+
+            armobj.pose_library = buf_action
+            bpy.ops.poselib.apply_pose(0)
             bpy.ops.poselib.unlink()
-            bpy.ops.object.mode_set(mode=current_modes[armname[0]])
-            obj.pose_library = current_poselibs[armname[0]]
-            bpy.context.object.hide = current_hidden_states[armname[0]]
-        
-        if buf_action is not None:
-            bpy.data.actions.remove(buf_action)
-            
-        bpy.context.scene.objects.active = current_active_obj
-        del armatures
-        del current_modes
-        del current_poselibs
-        del current_hidden_states
 
-        # restore auto keyframes tool mode
-        bpy.context.scene.tool_settings.use_keyframe_insert_auto = use_kia
+            bpy.ops.object.mode_set(mode=current_mode)
+            bpy.context.object.hide = current_hidden_state
+            armobj.pose_library = current_poselib
 
-        self.restore_nla_tracks_mute_state(armobj, nla_mute_states)
+            if buf_action is not None:
+                bpy.data.actions.remove(buf_action)
+
+            bpy.context.scene.objects.active = current_active_obj
+
+            # restore auto keyframes tool mode
+            bpy.context.scene.tool_settings.use_keyframe_insert_auto = use_kia
+
+            self.restore_nla_tracks_mute_state(armobj, nla_mute_states)
 
         return {"FINISHED"}
 
@@ -315,6 +306,44 @@ class B4W_Anim_Baker(bpy.types.Operator):
         '''
         bpy.context.area.type = old_area
 
+    def process_action_bpy(self, action):
+        print("processing action " + action.name)
+
+        new_name = action.name + BAKED_SUFFIX
+
+        actions = bpy.data.actions
+        new_action = actions.get(new_name)
+        if new_action:
+            # reuse old action (segfault when deleting actions)
+            fcurves = new_action.fcurves
+            groups = new_action.groups
+            for fcurve in fcurves:
+                fcurves.remove(fcurve)
+            for group in groups:
+                groups.remove(group)
+        else:
+            # create new action
+            new_action = actions.new(new_name)
+
+        # save it
+        new_action.use_fake_user = True
+        frame_range = action.frame_range
+
+        from bpy_extras import anim_utils
+
+        anim_utils.bake_action(round(frame_range[0]),
+                               round(frame_range[1]) + 1,
+                               frame_step=1,
+                               only_selected=False,
+                               do_pose=True,
+                               do_object=False,
+                               do_visual_keying=True,
+                               do_constraint_clear=False,
+                               do_parents_clear=False,
+                               do_clean=True,
+                               action = new_action
+                               )
+
     def near_zero(self, value):
         return abs(value) < 0.0001
 
@@ -494,6 +523,9 @@ class B4W_AnimBakerPanel(bpy.types.Panel):
         row = layout.row()
         row.operator("b4w.animation_bake", text="Bake", icon="REC")
 
+        row = layout.row()
+        row.prop(obj, "b4w_use_bpy_anim_baker", text="Use Blender Anim Baker")
+
         row = layout.row(align=True)
         row.operator("b4w.constraints_mute", text="Cons Mute")
         row.operator("b4w.constraints_unmute", text="Cons Unmute")
@@ -548,6 +580,8 @@ def register():
             bpy.props.CollectionProperty(type=B4W_Anim, name="B4W: animation")
     bpy.types.Object.b4w_anim_index =\
             bpy.props.IntProperty(name="B4W: animation index")
+    bpy.types.Object.b4w_use_bpy_anim_baker =\
+            bpy.props.BoolProperty(name="B4W: use bpy anim baker", default = False)
 
 def unregister():
     bpy.utils.unregister_class(B4W_Anim_Baker)

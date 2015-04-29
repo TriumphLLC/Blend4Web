@@ -11,6 +11,8 @@ ASSETS_DIR = "../deploy/assets"
 APPS_DIR = "../deploy/apps"
 TUTS_DIR = "../deploy/tutorials"
 
+NO_CONV_NAME = ".b4w_no_conv"
+
 WHITE  = "\033[97m"
 YELLOW = "\033[93m"
 RED    = "\033[91m"
@@ -197,16 +199,15 @@ def convert_media(args):
 
         path_to = os.path.join(root, head + ".altconv" + new_ext)
 
-        if is_older(path_from, path_to):
-            return
-
-        if sequential_video_file_conv(path_from, path_to):
-            print("Conversion error")
-            sys.exit(1)
+        if not is_older(path_from, path_to):
+            if sequential_video_file_conv(path_from, path_to):
+                print("Conversion error")
+                sys.exit(1)
 
     if (head.find(".altconv") == -1 and
             (ext == ".ogg" or ext == ".mp3" or ext == ".mp4" or 
              ext == ".ogv" or ext == ".webm" or ext == ".m4v")):
+
         path_from = os.path.join(root, filename)
 
         if ext == ".ogg":
@@ -418,7 +419,8 @@ if __name__ == "__main__":
         abs_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), path)
         for root, dirs, files in os.walk(abs_path):
             for f in files:
-                args.append([root, f])
+                if not os.path.isfile(os.path.join(root, NO_CONV_NAME)):
+                    args.append([root, f])
 
     cpu_count = multiprocessing.cpu_count()
     pool = multiprocessing.Pool(processes = cpu_count)

@@ -50,22 +50,149 @@
      
 
     
+    <h2>Summary</h2>
+    
+    
+        <h3 class="subsection-title">Methods</h3>
+        <ul>
+        
+            
+<li> <a href="#.add">add<span class="signature">(a, b, out)</span><span class="type-signature"> &rarr; {quat}</span></a></li>
 
+        
+            
+<li> <a href="#.calculateW">calculateW<span class="signature">(a, out)</span><span class="type-signature"> &rarr; {quat}</span></a></li>
+
+        
+            
+<li> <a href="#.clone">clone<span class="signature">(a)</span><span class="type-signature"> &rarr; {quat}</span></a></li>
+
+        
+            
+<li> <a href="#.conjugate">conjugate<span class="signature">(a, out)</span><span class="type-signature"> &rarr; {quat}</span></a></li>
+
+        
+            
+<li> <a href="#.copy">copy<span class="signature">(a, out)</span><span class="type-signature"> &rarr; {quat}</span></a></li>
+
+        
+            
+<li> <a href="#.create">create<span class="signature">()</span><span class="type-signature"> &rarr; {quat}</span></a></li>
+
+        
+            
+<li> <a href="#.dot">dot<span class="signature">(a, b)</span><span class="type-signature"> &rarr; {Number}</span></a></li>
+
+        
+            
+<li> <a href="#.fromMat3">fromMat3<span class="signature">(m, out)</span><span class="type-signature"> &rarr; {quat}</span></a></li>
+
+        
+            
+<li> <a href="#.fromValues">fromValues<span class="signature">(x, y, z, w)</span><span class="type-signature"> &rarr; {quat}</span></a></li>
+
+        
+            
+<li> <a href="#.identity">identity<span class="signature">(out)</span><span class="type-signature"> &rarr; {quat}</span></a></li>
+
+        
+            
+<li> <a href="#.invert">invert<span class="signature">(a, out)</span><span class="type-signature"> &rarr; {quat}</span></a></li>
+
+        
+            
+<li> <a href="#.len">len<span class="signature">()</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.length">length<span class="signature">(a)</span><span class="type-signature"> &rarr; {Number}</span></a></li>
+
+        
+            
+<li> <a href="#.lerp">lerp<span class="signature">(a, b, t, out)</span><span class="type-signature"> &rarr; {quat}</span></a></li>
+
+        
+            
+<li> <a href="#.mul">mul<span class="signature">()</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.multiply">multiply<span class="signature">(a, b, out)</span><span class="type-signature"> &rarr; {quat}</span></a></li>
+
+        
+            
+<li> <a href="#.normalize">normalize<span class="signature">(a, out)</span><span class="type-signature"> &rarr; {quat}</span></a></li>
+
+        
+            
+<li> <a href="#.rotateX">rotateX<span class="signature">(a, rad, out)</span><span class="type-signature"> &rarr; {quat}</span></a></li>
+
+        
+            
+<li> <a href="#.rotateY">rotateY<span class="signature">(a, rad, out)</span><span class="type-signature"> &rarr; {quat}</span></a></li>
+
+        
+            
+<li> <a href="#.rotateZ">rotateZ<span class="signature">(a, rad, out)</span><span class="type-signature"> &rarr; {quat}</span></a></li>
+
+        
+            
+<li> <a href="#.rotationTo">rotationTo<span class="signature">(a, b, out)</span><span class="type-signature"> &rarr; {quat}</span></a></li>
+
+        
+            
+<li> <a href="#.scale">scale<span class="signature">(a, b, out)</span><span class="type-signature"> &rarr; {quat}</span></a></li>
+
+        
+            
+<li> <a href="#.set">set<span class="signature">(x, y, z, w, out)</span><span class="type-signature"> &rarr; {quat}</span></a></li>
+
+        
+            
+<li> <a href="#.setAxes">setAxes<span class="signature">(view, right, up)</span><span class="type-signature"> &rarr; {quat}</span></a></li>
+
+        
+            
+<li> <a href="#.setAxisAngle">setAxisAngle<span class="signature">(axis, rad, out)</span><span class="type-signature"> &rarr; {quat}</span></a></li>
+
+        
+            
+<li> <a href="#.slerp">slerp<span class="signature">(a, b, t, out)</span><span class="type-signature"> &rarr; {quat}</span></a></li>
+
+        
+            
+<li> <a href="#.sqrLen">sqrLen<span class="signature">()</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.squaredLength">squaredLength<span class="signature">(a)</span><span class="type-signature"> &rarr; {Number}</span></a></li>
+
+        
+            
+<li> <a href="#.str">str<span class="signature">(vec)</span><span class="type-signature"> &rarr; {String}</span></a></li>
+
+        
+        </ul>
+    
+    
+    <h2>Detailed Description</h2>
     
 
     
         <h3 class="subsection-title">Methods</h3>
-
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".add"><span class="type-signature">(static) </span>add<span class="signature">(a, b, out)</span><span class="type-signature"> &rarr; {quat}</span></h4>
+    <h4 class="name" id=".add">add<span class="signature">(a, b, out)</span><span class="type-signature"> &rarr; {quat}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Adds two quat's
@@ -178,6 +305,40 @@
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    out
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">quat</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 <dl class="details">
 
     
@@ -220,51 +381,21 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    out
 </div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">quat</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".calculateW"><span class="type-signature">(static) </span>calculateW<span class="signature">(a, out)</span><span class="type-signature"> &rarr; {quat}</span></h4>
+    <h4 class="name" id=".calculateW">calculateW<span class="signature">(a, out)</span><span class="type-signature"> &rarr; {quat}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Calculates the W component of a quat from the X, Y, and Z components.
@@ -356,6 +487,40 @@ Any existing W component will be ignored.
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    out
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">quat</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 <dl class="details">
 
     
@@ -398,51 +563,21 @@ Any existing W component will be ignored.
 
 
 
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    out
 </div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">quat</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".clone"><span class="type-signature">(static) </span>clone<span class="signature">(a)</span><span class="type-signature"> &rarr; {quat}</span></h4>
+    <h4 class="name" id=".clone">clone<span class="signature">(a)</span><span class="type-signature"> &rarr; {quat}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Creates a new quat initialized with values from an existing quaternion
@@ -509,6 +644,40 @@ Any existing W component will be ignored.
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    a new quaternion
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">quat</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 <dl class="details">
 
     
@@ -551,51 +720,21 @@ Any existing W component will be ignored.
 
 
 
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    a new quaternion
 </div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">quat</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".conjugate"><span class="type-signature">(static) </span>conjugate<span class="signature">(a, out)</span><span class="type-signature"> &rarr; {quat}</span></h4>
+    <h4 class="name" id=".conjugate">conjugate<span class="signature">(a, out)</span><span class="type-signature"> &rarr; {quat}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Calculates the conjugate of a quat
@@ -686,6 +825,40 @@ If the quaternion is normalized, this function is faster than quat.inverse and p
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    out
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">quat</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 <dl class="details">
 
     
@@ -728,51 +901,21 @@ If the quaternion is normalized, this function is faster than quat.inverse and p
 
 
 
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    out
 </div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">quat</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".copy"><span class="type-signature">(static) </span>copy<span class="signature">(a, out)</span><span class="type-signature"> &rarr; {quat}</span></h4>
+    <h4 class="name" id=".copy">copy<span class="signature">(a, out)</span><span class="type-signature"> &rarr; {quat}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Copy the values from one quat to another
@@ -862,6 +1005,40 @@ If the quaternion is normalized, this function is faster than quat.inverse and p
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    out
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">quat</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 <dl class="details">
 
     
@@ -904,6 +1081,36 @@ If the quaternion is normalized, this function is faster than quat.inverse and p
 
 
 
+</div>
+</div>
+        
+            
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id=".create">create<span class="signature">()</span><span class="type-signature"> &rarr; {quat}</span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Creates a new identity quat
+</div>
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -918,7 +1125,7 @@ If the quaternion is normalized, this function is faster than quat.inverse and p
 
         
 <div class="param-desc">
-    out
+    a new quaternion
 </div>
 
 
@@ -936,32 +1143,6 @@ If the quaternion is normalized, this function is faster than quat.inverse and p
 </dl>
 
     
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id=".create"><span class="type-signature">(static) </span>create<span class="signature">()</span><span class="type-signature"> &rarr; {quat}</span></h4>
-
-    
-
-
-
-<div class="description">
-    Creates a new identity quat
-</div>
-
-
-
-
-
-
-
-
-
 
 
 
@@ -1008,51 +1189,21 @@ If the quaternion is normalized, this function is faster than quat.inverse and p
 
 
 
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    a new quaternion
 </div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">quat</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".dot"><span class="type-signature">(static) </span>dot<span class="signature">(a, b)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+    <h4 class="name" id=".dot">dot<span class="signature">(a, b)</span><span class="type-signature"> &rarr; {Number}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Calculates the dot product of two quat's
@@ -1142,6 +1293,40 @@ If the quaternion is normalized, this function is faster than quat.inverse and p
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    dot product of a and b
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Number</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 <dl class="details">
 
     
@@ -1184,51 +1369,21 @@ If the quaternion is normalized, this function is faster than quat.inverse and p
 
 
 
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    dot product of a and b
 </div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Number</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".fromMat3"><span class="type-signature">(static) </span>fromMat3<span class="signature">(m, out)</span><span class="type-signature"> &rarr; {quat}</span></h4>
+    <h4 class="name" id=".fromMat3">fromMat3<span class="signature">(m, out)</span><span class="type-signature"> &rarr; {quat}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Creates a quaternion from the given 3x3 rotation matrix.
@@ -1321,6 +1476,40 @@ to renormalize the quaternion yourself where necessary.
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    out
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">quat</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 <dl class="details">
 
     
@@ -1363,51 +1552,21 @@ to renormalize the quaternion yourself where necessary.
 
 
 
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    out
 </div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">quat</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".fromValues"><span class="type-signature">(static) </span>fromValues<span class="signature">(x, y, z, w)</span><span class="type-signature"> &rarr; {quat}</span></h4>
+    <h4 class="name" id=".fromValues">fromValues<span class="signature">(x, y, z, w)</span><span class="type-signature"> &rarr; {quat}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Creates a new quat initialized with the given values
@@ -1543,6 +1702,40 @@ to renormalize the quaternion yourself where necessary.
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    a new quaternion
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">quat</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 <dl class="details">
 
     
@@ -1585,51 +1778,21 @@ to renormalize the quaternion yourself where necessary.
 
 
 
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    a new quaternion
 </div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">quat</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".identity"><span class="type-signature">(static) </span>identity<span class="signature">(out)</span><span class="type-signature"> &rarr; {quat}</span></h4>
+    <h4 class="name" id=".identity">identity<span class="signature">(out)</span><span class="type-signature"> &rarr; {quat}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Set a quat to the identity quaternion
@@ -1696,6 +1859,40 @@ to renormalize the quaternion yourself where necessary.
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    out
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">quat</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 <dl class="details">
 
     
@@ -1738,51 +1935,21 @@ to renormalize the quaternion yourself where necessary.
 
 
 
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    out
 </div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">quat</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".invert"><span class="type-signature">(static) </span>invert<span class="signature">(a, out)</span><span class="type-signature"> &rarr; {quat}</span></h4>
+    <h4 class="name" id=".invert">invert<span class="signature">(a, out)</span><span class="type-signature"> &rarr; {quat}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Calculates the inverse of a quat
@@ -1872,6 +2039,40 @@ to renormalize the quaternion yourself where necessary.
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    out
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">quat</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 <dl class="details">
 
     
@@ -1914,55 +2115,37 @@ to renormalize the quaternion yourself where necessary.
 
 
 
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    out
 </div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">quat</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".len"><span class="type-signature">(static) </span>len<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".len">len<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Alias for quat.length
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2018,29 +2201,21 @@ to renormalize the quaternion yourself where necessary.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".length"><span class="type-signature">(static) </span>length<span class="signature">(a)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+    <h4 class="name" id=".length">length<span class="signature">(a)</span><span class="type-signature"> &rarr; {Number}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Calculates the length of a quat
@@ -2107,6 +2282,40 @@ to renormalize the quaternion yourself where necessary.
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    length of a
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Number</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 <dl class="details">
 
     
@@ -2149,51 +2358,21 @@ to renormalize the quaternion yourself where necessary.
 
 
 
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    length of a
 </div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Number</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".lerp"><span class="type-signature">(static) </span>lerp<span class="signature">(a, b, t, out)</span><span class="type-signature"> &rarr; {quat}</span></h4>
+    <h4 class="name" id=".lerp">lerp<span class="signature">(a, b, t, out)</span><span class="type-signature"> &rarr; {quat}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Performs a linear interpolation between two quat's
@@ -2329,6 +2508,40 @@ to renormalize the quaternion yourself where necessary.
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    out
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">quat</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 <dl class="details">
 
     
@@ -2371,55 +2584,37 @@ to renormalize the quaternion yourself where necessary.
 
 
 
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    out
 </div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">quat</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".mul"><span class="type-signature">(static) </span>mul<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".mul">mul<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Alias for quat.multiply
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2475,29 +2670,21 @@ to renormalize the quaternion yourself where necessary.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".multiply"><span class="type-signature">(static) </span>multiply<span class="signature">(a, b, out)</span><span class="type-signature"> &rarr; {quat}</span></h4>
+    <h4 class="name" id=".multiply">multiply<span class="signature">(a, b, out)</span><span class="type-signature"> &rarr; {quat}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Multiplies two quat's
@@ -2610,6 +2797,40 @@ to renormalize the quaternion yourself where necessary.
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    out
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">quat</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 <dl class="details">
 
     
@@ -2652,51 +2873,21 @@ to renormalize the quaternion yourself where necessary.
 
 
 
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    out
 </div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">quat</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".normalize"><span class="type-signature">(static) </span>normalize<span class="signature">(a, out)</span><span class="type-signature"> &rarr; {quat}</span></h4>
+    <h4 class="name" id=".normalize">normalize<span class="signature">(a, out)</span><span class="type-signature"> &rarr; {quat}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Normalize a quat
@@ -2786,6 +2977,40 @@ to renormalize the quaternion yourself where necessary.
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    out
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">quat</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 <dl class="details">
 
     
@@ -2828,51 +3053,21 @@ to renormalize the quaternion yourself where necessary.
 
 
 
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    out
 </div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">quat</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".rotateX"><span class="type-signature">(static) </span>rotateX<span class="signature">(a, rad, out)</span><span class="type-signature"> &rarr; {quat}</span></h4>
+    <h4 class="name" id=".rotateX">rotateX<span class="signature">(a, rad, out)</span><span class="type-signature"> &rarr; {quat}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Rotates a quaternion by the given angle about the X axis
@@ -2985,6 +3180,40 @@ to renormalize the quaternion yourself where necessary.
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    out
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">quat</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 <dl class="details">
 
     
@@ -3027,51 +3256,21 @@ to renormalize the quaternion yourself where necessary.
 
 
 
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    out
 </div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">quat</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".rotateY"><span class="type-signature">(static) </span>rotateY<span class="signature">(a, rad, out)</span><span class="type-signature"> &rarr; {quat}</span></h4>
+    <h4 class="name" id=".rotateY">rotateY<span class="signature">(a, rad, out)</span><span class="type-signature"> &rarr; {quat}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Rotates a quaternion by the given angle about the Y axis
@@ -3184,6 +3383,40 @@ to renormalize the quaternion yourself where necessary.
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    out
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">quat</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 <dl class="details">
 
     
@@ -3226,51 +3459,21 @@ to renormalize the quaternion yourself where necessary.
 
 
 
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    out
 </div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">quat</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".rotateZ"><span class="type-signature">(static) </span>rotateZ<span class="signature">(a, rad, out)</span><span class="type-signature"> &rarr; {quat}</span></h4>
+    <h4 class="name" id=".rotateZ">rotateZ<span class="signature">(a, rad, out)</span><span class="type-signature"> &rarr; {quat}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Rotates a quaternion by the given angle about the Z axis
@@ -3383,6 +3586,40 @@ to renormalize the quaternion yourself where necessary.
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    out
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">quat</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 <dl class="details">
 
     
@@ -3425,51 +3662,21 @@ to renormalize the quaternion yourself where necessary.
 
 
 
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    out
 </div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">quat</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".rotationTo"><span class="type-signature">(static) </span>rotationTo<span class="signature">(a, b, out)</span><span class="type-signature"> &rarr; {quat}</span></h4>
+    <h4 class="name" id=".rotationTo">rotationTo<span class="signature">(a, b, out)</span><span class="type-signature"> &rarr; {quat}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Sets a quaternion to represent the shortest rotation from one
@@ -3585,6 +3792,40 @@ Both vectors are assumed to be unit length.
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    out
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">quat</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 <dl class="details">
 
     
@@ -3627,51 +3868,21 @@ Both vectors are assumed to be unit length.
 
 
 
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    out
 </div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">quat</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".scale"><span class="type-signature">(static) </span>scale<span class="signature">(a, b, out)</span><span class="type-signature"> &rarr; {quat}</span></h4>
+    <h4 class="name" id=".scale">scale<span class="signature">(a, b, out)</span><span class="type-signature"> &rarr; {quat}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Scales a quat by a scalar number
@@ -3784,6 +3995,40 @@ Both vectors are assumed to be unit length.
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    out
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">quat</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 <dl class="details">
 
     
@@ -3826,51 +4071,21 @@ Both vectors are assumed to be unit length.
 
 
 
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    out
 </div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">quat</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".set"><span class="type-signature">(static) </span>set<span class="signature">(x, y, z, w, out)</span><span class="type-signature"> &rarr; {quat}</span></h4>
+    <h4 class="name" id=".set">set<span class="signature">(x, y, z, w, out)</span><span class="type-signature"> &rarr; {quat}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Set the components of a quat to the given values
@@ -4029,6 +4244,40 @@ Both vectors are assumed to be unit length.
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    out
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">quat</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 <dl class="details">
 
     
@@ -4071,51 +4320,21 @@ Both vectors are assumed to be unit length.
 
 
 
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    out
 </div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">quat</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".setAxes"><span class="type-signature">(static) </span>setAxes<span class="signature">(view, right, up)</span><span class="type-signature"> &rarr; {quat}</span></h4>
+    <h4 class="name" id=".setAxes">setAxes<span class="signature">(view, right, up)</span><span class="type-signature"> &rarr; {quat}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Sets the specified quaternion with values corresponding to the given
@@ -4230,6 +4449,40 @@ perpendicular to all other specified axes.
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    out
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">quat</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 <dl class="details">
 
     
@@ -4272,51 +4525,21 @@ perpendicular to all other specified axes.
 
 
 
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    out
 </div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">quat</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".setAxisAngle"><span class="type-signature">(static) </span>setAxisAngle<span class="signature">(axis, rad, out)</span><span class="type-signature"> &rarr; {quat}</span></h4>
+    <h4 class="name" id=".setAxisAngle">setAxisAngle<span class="signature">(axis, rad, out)</span><span class="type-signature"> &rarr; {quat}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Sets a quat from the given angle and rotation axis,
@@ -4430,6 +4653,40 @@ then returns it.
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    out
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">quat</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 <dl class="details">
 
     
@@ -4472,51 +4729,21 @@ then returns it.
 
 
 
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    out
 </div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">quat</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".slerp"><span class="type-signature">(static) </span>slerp<span class="signature">(a, b, t, out)</span><span class="type-signature"> &rarr; {quat}</span></h4>
+    <h4 class="name" id=".slerp">slerp<span class="signature">(a, b, t, out)</span><span class="type-signature"> &rarr; {quat}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Performs a spherical linear interpolation between two quat
@@ -4652,6 +4879,40 @@ then returns it.
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    out
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">quat</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 <dl class="details">
 
     
@@ -4694,55 +4955,37 @@ then returns it.
 
 
 
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    out
 </div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">quat</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".sqrLen"><span class="type-signature">(static) </span>sqrLen<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".sqrLen">sqrLen<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Alias for quat.squaredLength
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -4798,29 +5041,21 @@ then returns it.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".squaredLength"><span class="type-signature">(static) </span>squaredLength<span class="signature">(a)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+    <h4 class="name" id=".squaredLength">squaredLength<span class="signature">(a)</span><span class="type-signature"> &rarr; {Number}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Calculates the squared length of a quat
@@ -4887,6 +5122,40 @@ then returns it.
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    squared length of a
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Number</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 <dl class="details">
 
     
@@ -4929,51 +5198,21 @@ then returns it.
 
 
 
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    squared length of a
 </div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Number</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".str"><span class="type-signature">(static) </span>str<span class="signature">(vec)</span><span class="type-signature"> &rarr; {String}</span></h4>
+    <h4 class="name" id=".str">str<span class="signature">(vec)</span><span class="type-signature"> &rarr; {String}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Returns a string representation of a quatenion
@@ -5040,6 +5279,40 @@ then returns it.
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    string representation of the vector
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">String</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 <dl class="details">
 
     
@@ -5082,41 +5355,8 @@ then returns it.
 
 
 
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    string representation of the vector
 </div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">String</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
+</div>
         
     
 
@@ -5133,13 +5373,13 @@ then returns it.
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Thu Mar 26 2015 17:33:37 GMT+0300 (MSK)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Wed Apr 29 2015 10:10:52 GMT+0300 (MSK)
 </footer>
 
 <script> prettyPrint(); </script>

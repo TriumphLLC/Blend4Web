@@ -28,8 +28,7 @@ exports.init = function() {
         callback: init_cb,
         physics_enabled: true,
         show_fps: true,
-        alpha: false,
-        physics_uranium_path: "uranium.js"
+        alpha: false
     });
 }
 

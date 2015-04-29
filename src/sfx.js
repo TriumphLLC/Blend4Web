@@ -444,8 +444,9 @@ exports.update = function(timeline, elapsed) {
     }
 
     // handle playlist
-    if (_playlist && (_playlist.active == -1 || timeline >
-            _playlist.active_start_time + _playlist.durations[_playlist.active]))
+    if (_playlist && _playlist.speakers.length && (_playlist.active == -1 
+            || timeline > _playlist.active_start_time 
+            + _playlist.durations[_playlist.active]))
         playlist_switch_next(_playlist, timeline);
 }
 

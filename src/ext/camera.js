@@ -14,7 +14,7 @@ var m_phy       = require("__physics");
 var m_print     = require("__print");
 var constraints = require("__constraints");
 var transform   = require("__transform");
-var util        = require("__util");
+var m_util      = require("__util");
 
 var m_vec3 = require("vec3");
 var m_vec4 = require("vec4");
@@ -161,7 +161,8 @@ exports.get_velocity_params = function(camobj, dest) {
 }
 
 /**
- * Low-level function: set camera position based on input parameters
+ * Low-level function: set camera position based on input parameters. Perform 
+ * camera vertical alignment based on the "up" parameter.
  * @method module:camera.set_look_at
  * @param {Object} camobj Camera object ID
  * @param {Float32Array} eye Eye vector
@@ -220,7 +221,8 @@ exports.set_trans_pivot = set_trans_pivot;
  * Set translation and pivot point for the TARGET camera.
  * @method module:camera.set_trans_pivot
  * @param {Object} camobj Camera Object ID
- * @param {Float32Array} coords Pivot vector
+ * @param {Float32Array} trans Translation vector
+ * @param {Float32Array} pivot Pivot vector
  */
 function set_trans_pivot(camobj, trans, pivot) {
     if (!camera.is_target_camera(camobj)) {
@@ -371,6 +373,7 @@ exports.set_hover_cam_angle = function(camobj, angle) {
 
 /**
  * Get hover angle limits for the HOVER camera converted into range [-PI, PI].
+ * @see https://www.blend4web.com/doc/en/camera.html#api
  * @method module:camera.get_hover_angle_limits
  * @param {Object} camobj Camera object ID
  * @param {Float32Array} [angles] Destination vector
@@ -492,6 +495,7 @@ exports.has_distance_limits = function(camobj) {
 /**
  * Set vertical angle limits for the TARGET/EYE camera or vertical (Z axis)
  * translation limits for the HOVER camera.
+ * @see https://www.blend4web.com/doc/en/camera.html#api
  * @method module:camera.apply_vertical_limits
  * @param {Object} camobj Camera object ID
  * @param {Number} down_value Vertical down limit
@@ -542,6 +546,7 @@ exports.clear_vertical_limits = function(camobj) {
 /**
  * Set horizontal angle limits for the TARGET/EYE camera or horizontal (X axis)
  * translation limits for the HOVER camera.
+ * @see https://www.blend4web.com/doc/en/camera.html#api
  * @method module:camera.apply_horizontal_limits
  * @param {Object} camobj Camera object ID
  * @param {Number} left_value Horizontal left limit
@@ -591,6 +596,7 @@ exports.clear_horizontal_limits = function(camobj) {
 /**
  * Get the horizontal angle limits for the TARGET/EYE camera converted into range [0, 2PI] or
  * horizontal translation limits for the HOVER camera.
+ * @see https://www.blend4web.com/doc/en/camera.html#api
  * @method module:camera.get_horizontal_limits
  * @param {Object} camobj Camera Object ID
  * @param {Float32Array} [dest] Destination vector for the camera angle limits: [left, right]
@@ -634,6 +640,7 @@ exports.has_horizontal_limits = function(camobj) {
 
 /**
  * Set hover angle limits for the HOVER camera.
+ * @see https://www.blend4web.com/doc/en/camera.html#api
  * @method module:camera.apply_hover_angle_limits
  * @param {Object} camobj Camera object ID
  * @param {Number} down_angle Down hover angle limit
@@ -646,11 +653,11 @@ exports.apply_hover_angle_limits = function(camobj, down_angle, up_angle) {
             return;
         }
 
-        var down_limit = util.angle_wrap_periodic(down_angle, -Math.PI, Math.PI);
-        var up_limit = util.angle_wrap_periodic(up_angle, -Math.PI, Math.PI);
+        var down_limit = m_util.angle_wrap_periodic(down_angle, -Math.PI, Math.PI);
+        var up_limit = m_util.angle_wrap_periodic(up_angle, -Math.PI, Math.PI);
 
-        down_limit = util.clamp(down_limit, -Math.PI / 2, 0);
-        up_limit = util.clamp(up_limit, -Math.PI / 2, 0);
+        down_limit = m_util.clamp(down_limit, -Math.PI / 2, 0);
+        up_limit = m_util.clamp(up_limit, -Math.PI / 2, 0);
 
         var render = camobj._render;
         render.hover_angle_limits = {
@@ -741,7 +748,7 @@ exports.is_look_up = function(camobj) {
     var quat = camobj._render.quat;
 
     var dir = _vec3_tmp;
-    util.quat_to_dir(quat, util.AXIS_MY, dir);
+    m_util.quat_to_dir(quat, m_util.AXIS_MY, dir);
 
     if (dir[1] >= 0)
         return true;
@@ -752,6 +759,7 @@ exports.is_look_up = function(camobj) {
 /**
  * Rotates a camera counterclockwise (CCW) by given angles depending on the camera move style.
  * Performs delta rotation or sets camera absolute rotation depending on the "*_is_abs" parameters.
+ * @see https://www.blend4web.com/doc/en/camera.html#api
  * @method module:camera.rotate_camera
  * @param {Object} camobj Camera object ID
  * @param {Number} phi Azimuth angle in radians
@@ -787,6 +795,7 @@ exports.rotate_camera = function(camobj, phi, theta, phi_is_abs, theta_is_abs) {
 /**
  * Rotates the TARGET camera counterclockwise (CCW) around its pivot by given angles. 
  * Performs delta rotation or sets camera absolute rotation depending on the "*_is_abs" parameters.
+ * @see https://www.blend4web.com/doc/en/camera.html#api
  * @method module:camera.rotate_target_camera
  * @param {Object} camobj Camera object ID
  * @param {Number} phi Azimuth angle in radians
@@ -808,6 +817,7 @@ exports.rotate_target_camera = function(camobj, phi, theta, phi_is_abs, theta_is
 /**
  * Rotates the EYE camera counterclockwise (CCW) around its origin by given angles.
  * Performs delta rotation or sets camera absolute rotation depending on the "*_is_abs" parameters.
+ * @see https://www.blend4web.com/doc/en/camera.html#api
  * @method module:camera.rotate_eye_camera
  * @param {Object} camobj Camera object ID
  * @param {Number} phi Azimuth angle in radians
@@ -829,6 +839,7 @@ exports.rotate_eye_camera = function(camobj, phi, theta, phi_is_abs, theta_is_ab
 /**
  * Rotates the HOVER camera around its pivot by given angles
  * Performs delta rotation or sets camera absolute rotation depending on the "*_is_abs" parameters.
+ * @see https://www.blend4web.com/doc/en/camera.html#api
  * @method module:camera.rotate_hover_camera
  * @param {Object} camobj Camera object ID
  * @param {Number} phi Azimuth angle in radians
@@ -863,6 +874,7 @@ exports.rotate = function(camobj, delta_phi, delta_theta) {
 /**
  * Get camera azimuth and elevation angles (CCW as seen from the rotation axis) 
  * for the TARGET/HOVER move style or camera orientation angles for the EYE move style.
+ * @see https://www.blend4web.com/doc/en/camera.html#api
  * @method module:camera.get_camera_angles
  * @param {Object} camobj Camera object ID
  * @param {Float32Array} [dest] Destination vector for the camera angles: [phi, theta],
@@ -880,6 +892,7 @@ exports.get_camera_angles = function(camobj, dest) {
  * Get camera azimuth and elevation angles (CCW as seen from the rotation axis)
  * for the TARGET/HOVER move style or camera orientation angles for the EYE move style.
  * Angles are converted for the character object.
+ * @see https://www.blend4web.com/doc/en/camera.html#api
  * @method module:camera.get_camera_angles_char
  * @param {Object} camobj Camera object ID
  * @param {Float32Array} [dest] Destination vector for the camera angles: [phi, theta],
@@ -967,7 +980,6 @@ exports.is_underwater = function(camobj) {
  * @param {Number} angle Rotation angle (clockwise)
  */
 exports.translate_view = function(camobj, x, y, angle) {
-
     var cameras = camobj._render.cameras;
     for (var i = 0; i < cameras.length; i++) {
         var cam = cameras[i];
@@ -991,6 +1003,39 @@ exports.translate_view = function(camobj, x, y, angle) {
     }
 }
 /**
+ * Get camera vertical field of view angle.
+ * @method module:camera.get_fov
+ * @param {Object} camobj Camera object ID
+ * @returns {Number} Camera field of view (in radians)
+ */
+exports.get_fov = function(camobj) {
+    return m_util.rad(camobj._render.cameras[0].fov);
+}
+
+/**
+ * Set camera vertical field of view angle.
+ * @method module:camera.get_fov
+ * @param {Object} camobj Camera object ID
+ * @param {Number} fov New camera field of view (in radians)
+ */
+exports.set_fov = function(camobj, fov) {
+    var cameras = camobj._render.cameras;
+    for (var i = 0; i < cameras.length; i++) {
+        var cam = cameras[i];
+
+        cam.fov = m_util.deg(fov);
+
+        // see comments in translate_view()
+        if (!cam.reflection_plane)
+            camera.set_projection(cam, cam.aspect);
+
+        m_mat4.multiply(cam.proj_matrix, cam.view_matrix, cam.view_proj_matrix);
+        camera.calc_view_proj_inverse(cam);
+        camera.calc_sky_vp_inverse(cam);
+    }
+}
+
+/**
  * Up correction is required in some cases then camera releases from constrainted mode.
  * @method module:camera.correct_up
  * @param {Object} camobj Camera object ID
@@ -998,7 +1043,7 @@ exports.translate_view = function(camobj, x, y, angle) {
  */
 exports.correct_up = function(camobj, y_axis) {
     if (!y_axis) {
-        y_axis = util.AXIS_Y;
+        y_axis = m_util.AXIS_Y;
     }
 
     constraints.correct_up(camobj, y_axis);
@@ -1152,6 +1197,7 @@ exports.calc_ray = function(camobj, xpix, ypix, dest) {
  * Screen space origin is the top left corner.
  * Returnd coordinates are in device pixels (not CSS)
  * @method module:camera.project_point
+ * @param {Object} camobj Camera object ID
  * @param {Float32Array} point Point in world space
  * @param {Float32Array} [dest] Destination vector
  * @returns {Float32Array} Viewport coordinates

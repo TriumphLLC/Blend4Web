@@ -10,6 +10,7 @@
 #include "./includes/makesdna/DNA_mesh_types.h"
 #include "./includes/makesdna/DNA_object_types.h"
 #include "./includes/makesdna/DNA_packedFile_types.h"
+#include "./includes/makesdna/DNA_key_types.h"
 
 // to make Windows happy
 #define MAX(a, b) ((a) > (b) ? (a) : (b))
@@ -154,6 +155,8 @@ struct SubmeshData {
 
     int *indices;
     int inum;
+    short *relatives;
+    int *vg_indices;
 };
 
 struct MeshData {
@@ -176,6 +179,9 @@ struct MeshData {
     int col_layers_count;
     bool need_vcol_optimization;
     unsigned int *channels_presence;
+    //shape keys parents
+    short *relatives;
+    int *vg_indices;
 };
 
 struct BoundingData {
@@ -587,6 +593,9 @@ int get_groups_num(Object *obj)
     return countlist(group_list);
 }
 
+
+
+
 /**
  * Get vertex groups weights
  */
@@ -629,6 +638,25 @@ int get_colors_layers_count(Mesh *mesh)
 {
     CustomData *ldata = &mesh->ldata;
     return CustomData_number_of_layers(ldata, CD_MLOOPCOL);
+}
+
+
+int get_vertex_group_number(ListBase listbase, char *group_name)
+{
+    bDeformGroup *group = NULL;
+    const char *id_iter;
+    int i = 0;
+
+    group = listbase.first;
+    while (group) {
+        id_iter = group->name;
+
+        if (group_name[0] == id_iter[0] && strcmp(group_name, id_iter) == 0)
+            return i;
+        i++;
+        group = group->next;
+    }
+    return -1;
 }
 
 /**
@@ -686,13 +714,12 @@ void get_vertex_colors(struct MeshData *mesh_data, Mesh *mesh)
 /* **************** SUBMESH CALCULATION ********************* */
 
 void combine_positions_normals(struct MeshData *mesh_data, Mesh *mesh, 
-        Object *obj, int vertex_animation, int edited_normals)
+        Object *obj, int vertex_animation, int edited_normals, int shape_keys)
 {
     MVert *vertices = mesh->mvert;
 
-    int i;
+    int i, j, cr_cursor;
     int posnor_size;
-
 
     mesh_data->base_length = mesh->totvert;
 
@@ -710,6 +737,55 @@ void combine_positions_normals(struct MeshData *mesh_data, Mesh *mesh,
                 mesh_data->nor = NULL;
             }
         }
+    } else if (shape_keys) {
+        KeyBlock *block;
+        ID *obj_id = &obj->id;
+        IDProperty *prop_list = obj_id->properties;
+        IDProperty *normals_container;
+        IDProperty *normal_container;
+        IDProperty *normals;
+        float *normal, *pos_data;    
+        normals_container = get_property_by_name(prop_list, "b4w_shape_keys_normals");
+        if (normals_container && normals_container->len > 0) {
+            mesh_data->frames = countlist(&mesh->key->block);
+            mesh_data->relatives = malloc(sizeof(short) * mesh_data->frames);
+            mesh_data->vg_indices = malloc(sizeof(int) * mesh_data->frames);
+            posnor_size = NOR_NUM_COMP * normals_container->len;
+            mesh_data->pos = falloc(posnor_size);
+            mesh_data->nor = falloc(posnor_size);
+            for (i = 0; i < normals_container->len; i++) {
+                normals = GETPROP(normals_container, i);
+                normal_container = get_property_by_name(normals, "normal");
+                if (normal_container) {
+                    normal = (float *)normal_container->data.pointer;
+                    mesh_data->nor[NOR_NUM_COMP * i] = normal[0];
+                    mesh_data->nor[NOR_NUM_COMP * i + 1] = normal[2];
+                    mesh_data->nor[NOR_NUM_COMP * i + 2] = -normal[1];
+                }
+            }
+            for (block = mesh->key->block.first, j = 0; block; block = block->next, j++) {
+                mesh_data->vg_indices[j] = get_vertex_group_number(obj->defbase, block->vgroup);
+                mesh_data->relatives[j] = block->relative;
+                cr_cursor = j * mesh_data->base_length * POS_NUM_COMP;
+                pos_data = (float *)block->data;
+                for (i = 0; i < mesh_data->base_length; i++) {
+                    // NOTE: rotate by 90 degrees around X axis
+                    mesh_data->pos[cr_cursor + POS_NUM_COMP * i] = pos_data[i * POS_NUM_COMP];
+                    mesh_data->pos[cr_cursor + POS_NUM_COMP * i + 1] = pos_data[i * POS_NUM_COMP + 2];
+                    mesh_data->pos[cr_cursor + POS_NUM_COMP * i + 2] = -pos_data[i * POS_NUM_COMP + 1];
+                }
+            }
+        } else {
+            mesh_data->pos = NULL;
+            mesh_data->nor = NULL;
+        }
+    } else if (edited_normals) {
+        mesh_data->nor = falloc(mesh_data->base_length * 3);
+        if (get_vertex_normals_list(mesh_data->nor, obj) == 
+                EMPTY_VERT_NORM_LIST) {
+            free(mesh_data->nor);
+            mesh_data->nor = NULL;
+        }
     }
 
     if (mesh_data->pos == NULL) {
@@ -719,15 +795,6 @@ void combine_positions_normals(struct MeshData *mesh_data, Mesh *mesh,
             mesh_data->pos[3 * i] = vertices[i].co[0];
             mesh_data->pos[3 * i + 1] = vertices[i].co[2];
             mesh_data->pos[3 * i + 2] = -vertices[i].co[1];
-        }
-    }
-
-    if (mesh_data->nor == NULL && edited_normals) {
-        mesh_data->nor = falloc(mesh_data->base_length * 3);
-        if (get_vertex_normals_list(mesh_data->nor, obj) == 
-                EMPTY_VERT_NORM_LIST) {
-            free(mesh_data->nor);
-            mesh_data->nor = NULL;
         }
     }
 
@@ -741,6 +808,53 @@ void combine_positions_normals(struct MeshData *mesh_data, Mesh *mesh,
             mesh_data->nor[3 * i + 2] = -vertices[i].no[1] * (1.0f / 32767.0f);
         }
     }
+}
+
+void calculate_shape_keys_delta(struct SubmeshData *mesh_data) {
+    int i, j, frames_offset;
+    int vnum = mesh_data->vnum;
+    int tan_frame_size = TAN_NUM_COMP * vnum;
+    int pos_nor_frame_size = POS_NUM_COMP * vnum;
+    int relative_offset = 0;
+    float *pos_buf, *nor_buf, *tan_buf;
+    int vg_offset = 0;
+    pos_buf = falloc(mesh_data->frames * pos_nor_frame_size);
+    nor_buf = falloc(mesh_data->frames * pos_nor_frame_size);
+    tan_buf = falloc(mesh_data->frames * tan_frame_size);
+
+    memcpy(pos_buf, mesh_data->pos, sizeof(float) * mesh_data->frames * pos_nor_frame_size);
+    memcpy(nor_buf, mesh_data->nor, sizeof(float) * mesh_data->frames * pos_nor_frame_size);
+    if (mesh_data->tan)
+        memcpy(tan_buf, mesh_data->tan, sizeof(float) * mesh_data->frames * tan_frame_size);
+
+    for (i = 1; i < mesh_data->frames; i++) {
+        relative_offset = mesh_data->relatives[i] * pos_nor_frame_size;
+        frames_offset = i * pos_nor_frame_size;
+        vg_offset = mesh_data->vg_indices[i] * vnum;
+        for (j = 0; j < pos_nor_frame_size; j++) {
+            if (mesh_data->vg_indices[i] != -1 && mesh_data->grp[vg_offset + j / POS_NUM_COMP] == -1) {
+                mesh_data->pos[frames_offset + j] = 0;
+                mesh_data->nor[frames_offset + j] = 0;
+                continue;
+            }
+            mesh_data->pos[frames_offset + j] -= pos_buf[j + relative_offset];
+            mesh_data->nor[frames_offset + j] -= nor_buf[j + relative_offset];
+        }
+        if (mesh_data->tan) {
+            frames_offset = i * tan_frame_size;
+            relative_offset = mesh_data->relatives[i] * tan_frame_size;
+            for (j = 0; j < tan_frame_size; j++) {
+                if (mesh_data->vg_indices[i] != -1 && mesh_data->grp[vg_offset + j / TAN_NUM_COMP] == -1) {
+                    mesh_data->tan[frames_offset + j] = 0;
+                    continue;
+                }
+                mesh_data->tan[frames_offset + j] -= tan_buf[j + relative_offset];
+            }
+        }
+    }
+    free(pos_buf);
+    free(nor_buf);
+    free(tan_buf);
 }
 
 int combine_groups(struct MeshData *mesh_data, Mesh *mesh, Object *obj,
@@ -868,7 +982,6 @@ void triangulate_mesh(struct MeshData *mesh_data, Mesh *mesh, int mat_index,
         int disab_flat)
 {
     // TODO: divide
-
     MFace *mface = mesh->mface;
     MVert *mvert = mesh->mvert;
     MPoly *mpoly = mesh->mpoly;
@@ -917,6 +1030,7 @@ void triangulate_mesh(struct MeshData *mesh_data, Mesh *mesh, int mat_index,
         vcol_indices = malloc(6 * sizeof(int));
 
     // NOTE: get triangulated sizes
+
     for (i = 0; i < mesh->totface; i++) {
         if (mat_index != -1 && mface[i].mat_nr != mat_index)
             continue;
@@ -928,7 +1042,6 @@ void triangulate_mesh(struct MeshData *mesh_data, Mesh *mesh, int mat_index,
 
     frame_size = mesh_data->base_length * 3;
     tri_frame_size = vnum * 3;
-
     group_size = mesh_data->base_length;
     tri_group_size = vnum;
 
@@ -1439,7 +1552,7 @@ static PyObject *calc_submesh_empty(void)
  * [v0rgb_layer0, v1rgb_layer0, ... v0rgb_layer1, v1rgb_layer1, ...]
  */
 static PyObject *calc_submesh(struct MeshData *mesh_data, int arr_to_str, 
-        int grp_to_str)
+        int grp_to_str, int shape_keys)
 {
     struct TBNCalcData tbn_data;
     struct SubmeshData src;
@@ -1494,7 +1607,6 @@ static PyObject *calc_submesh(struct MeshData *mesh_data, int arr_to_str,
     } else
         tan_frames = NULL;
 
-
     src.vnum = mesh_data->base_length;
     src.frames = mesh_data->frames;
 
@@ -1513,6 +1625,12 @@ static PyObject *calc_submesh(struct MeshData *mesh_data, int arr_to_str,
 
     src.indices = NULL;
     src.inum = 0;
+
+    src.relatives = mesh_data->relatives;
+    src.vg_indices = mesh_data->vg_indices;
+
+    if (shape_keys)
+        calculate_shape_keys_delta(&src);
 
     weld_submesh(&src, &dst);
 
@@ -1583,7 +1701,6 @@ static PyObject *calc_submesh(struct MeshData *mesh_data, int arr_to_str,
                 length * sizeof(short));
         PyDict_SetItemString(result, "color", bytes_buff);
     }
-
     /* cleanup */
     free(tan_frames);
     free(mesh_data->pos);
@@ -1593,6 +1710,10 @@ static PyObject *calc_submesh(struct MeshData *mesh_data, int arr_to_str,
     free(mesh_data->grp);
     free(mesh_data->col);
     free(mesh_data->channels_presence);
+    if (shape_keys) {
+        free(mesh_data->relatives);
+        free(mesh_data->vg_indices);
+    }
 
     Py_XDECREF(bytes_buff);
 
@@ -1751,7 +1872,7 @@ void calc_bounding_data(struct BoundingData *bdata, Mesh *mesh) {
 static PyObject *b4w_bin_export_submesh(PyObject *self, PyObject *args) {
     unsigned long long mesh_ptr, obj_ptr;
     int mat_index, disab_flat;
-    int vertex_animation, edited_normals, vertex_groups, vertex_colors;
+    int vertex_animation, edited_normals, vertex_groups, vertex_colors, shape_keys;
     int is_degenerate_mesh;
     Py_buffer mask_buffer;
     PyObject *result;
@@ -1774,9 +1895,11 @@ static PyObject *b4w_bin_export_submesh(PyObject *self, PyObject *args) {
     mesh_data.col_layers_count = 0;
     mesh_data.need_vcol_optimization = false;
     mesh_data.channels_presence = NULL;
+    mesh_data.relatives = NULL;
 
-    if (!PyArg_ParseTuple(args, "KKiiiiiis*i", &mesh_ptr, &obj_ptr, &mat_index,
-            &disab_flat, &vertex_animation, &edited_normals, 
+
+    if (!PyArg_ParseTuple(args, "KKiiiiiiis*i", &mesh_ptr, &obj_ptr, &mat_index,
+            &disab_flat, &vertex_animation, &edited_normals, &shape_keys, 
             &vertex_groups, &vertex_colors, &mask_buffer, &is_degenerate_mesh))
         return NULL;
 
@@ -1789,7 +1912,7 @@ static PyObject *b4w_bin_export_submesh(PyObject *self, PyObject *args) {
         obj  = (Object *)obj_ptr;
 
         combine_positions_normals(&mesh_data, mesh, obj, vertex_animation,
-                edited_normals);
+                edited_normals, shape_keys);
         groups_error = combine_groups(&mesh_data, mesh, obj, vertex_groups);
         if (groups_error == ERR_WRONG_GROUP_INDICES) {
             PyErr_SetString(PyExc_ValueError, "Wrong group indices");
@@ -1799,9 +1922,9 @@ static PyObject *b4w_bin_export_submesh(PyObject *self, PyObject *args) {
         combine_tco(&mesh_data, mesh, mat_index);
         triangulate_mesh(&mesh_data, mesh, mat_index, disab_flat);
         
-        result = calc_submesh(&mesh_data, 1, 0);
+        result = calc_submesh(&mesh_data, 1, 0, shape_keys);
     }
-    
+
     return result;
 }
 

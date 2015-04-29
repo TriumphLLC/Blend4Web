@@ -10,8 +10,6 @@
  * such properties.
  * <h3>Allowed configuration properties</h3>
  * <dl>
- * <dt>all_objs_selectable
- * <dd>Boolean, make all objects selectable and "glowable".
  * <dt>allow_cors
  * <dd>Boolean, allow cross-origin resource sharing.
  * <dt>allow_hidpi
@@ -50,13 +48,14 @@
  * <dd>Boolean, enable hardware antialiasing (for forward rendering only).
  * <dt>do_not_load_resources
  * <dd>Boolean, disable resource loading (textures and sounds).
- * <dt>force_selectable
- * <dd>Boolean, initialize color picking and glow even there is no selectable
- * objects on the main (zero) scene (used for dynamic scene loading).
- * <dt>glow
- * <dd>Boolean, enable glow effect (set CUSTOM profile to change).
+ * <dt>enable_selectable
+ * <dd>Boolean, enable object selection.
+ * <dt>enable_outlining
+ * <dd>Boolean, enable object outlining.
  * <dt>gyro_use
  * <dd>Boolean, enable gyroscope.
+ * <dt>outlining_overview_mode
+ * <dd>Boolean, make all objects selectable, outlining and outlining on select.
  * <dt>physics_enabled
  * <dd>Boolean, enable uranium.js physics engine.
  * <dt>physics_uranium_path
@@ -89,12 +88,12 @@
  * <dd>Boolean, enable wireframe debug mode.
  * </dl>
  * @module config
- * @cc_externs all_objs_selectable allow_cors allow_hidpi alpha alpha_sort
+ * @cc_externs allow_cors allow_hidpi alpha alpha_sort
  * @cc_externs alpha_sort_threshold anaglyph_use animation_framerate antialiasing
  * @cc_externs assets_dds_available assets_min50_available audio background_color
- * @cc_externs built_in_module_name canvas_resolution_factor console_verbose
- * @cc_externs context_antialias do_not_load_resources
- * @cc_externs force_selectable glow physics_enabled physics_uranium_path precision
+ * @cc_externs built_in_module_name canvas_resolution_factor console_verbose context_antialias
+ * @cc_externs do_not_load_resources enable_selectable enable_outlining gyro_use
+ * @cc_externs outlining_overview_mode physics_enabled physics_uranium_path precision
  * @cc_externs quality resolution_factor sfx_mix_mode shaders_dir show_hud_debug_info
  * @cc_externs smaa smaa_search_texture_path smaa_area_texture_path wireframe_debug
  */

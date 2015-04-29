@@ -43,6 +43,21 @@
 
         
             
+<div class="item_container">
+<div class="item_name">
+
+</div>
+<div class="item_description">
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -100,19 +115,8 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
     
     </div>
@@ -126,16 +130,254 @@
      
 
     
-
+    <h2>Summary</h2>
     
         <h3 class="subsection-title">Members</h3>
+        <ul>
+        
+            
+<li> <a href="#.CM_CLIMB">CM_CLIMB</a></li>
 
         
             
-<h4 class="name" id=".CM_CLIMB"><span class="type-signature">(static, constant) </span>CM_CLIMB<span class="type-signature"></span></h4>
+<li> <a href="#.CM_FLY">CM_FLY</a></li>
 
+        
+            
+<li> <a href="#.CM_RUN">CM_RUN</a></li>
 
+        
+            
+<li> <a href="#.CM_WALK">CM_WALK</a></li>
 
+        
+        </ul>
+    
+    
+        <h3 class="subsection-title">Methods</h3>
+        <ul>
+        
+            
+<li> <a href="#.append_collision_test">append_collision_test<span class="signature">(obj, collision_id, callback, need_collision_point<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.append_ray_test">append_ray_test<span class="signature">(obj, collision_id, from, to, local_coords, callback)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.apply_collision_impulse_test">apply_collision_impulse_test<span class="signature">(obj, callback)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.apply_constraint">apply_constraint<span class="signature">(pivot_type, obj_a, trans_a, quat_a, obj_b, trans_b, quat_b, limits, stiffness<span class="signature-attributes">opt</span>, damping<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.apply_force">apply_force<span class="signature">(obj, fx_local, fy_local, fz_local)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.apply_torque">apply_torque<span class="signature">(obj, tx_local, ty_local, tz_local)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.apply_velocity">apply_velocity<span class="signature">(obj, vx_local, vy_local, vz_local)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.apply_velocity_world">apply_velocity_world<span class="signature">(obj, vx, vy, vz)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.character_jump">character_jump<span class="signature">(obj)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.character_rotation_inc">character_rotation_inc<span class="signature">(obj, h_angle, v_angle)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.clear_collision_impulse_test">clear_collision_impulse_test<span class="signature">(obj)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.disable_simulation">disable_simulation<span class="signature">(obj)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.enable_simulation">enable_simulation<span class="signature">(obj)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.get_vehicle_brake">get_vehicle_brake<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Number}</span></a></li>
+
+        
+            
+<li> <a href="#.get_vehicle_name">get_vehicle_name<span class="signature">(obj)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.get_vehicle_speed">get_vehicle_speed<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Number}</span></a></li>
+
+        
+            
+<li> <a href="#.get_vehicle_steering">get_vehicle_steering<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Number}</span></a></li>
+
+        
+            
+<li> <a href="#.get_vehicle_throttle">get_vehicle_throttle<span class="signature">(obj)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.has_dynamic_physics">has_dynamic_physics<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Boolean}</span></a></li>
+
+        
+            
+<li> <a href="#.has_physics">has_physics<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Boolean}</span></a></li>
+
+        
+            
+<li> <a href="#.has_simulated_physics">has_simulated_physics<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Boolean}</span></a></li>
+
+        
+            
+<li> <a href="#.is_character">is_character<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Boolean}</span></a></li>
+
+        
+            
+<li> <a href="#.is_vehicle_chassis">is_vehicle_chassis<span class="signature">(obj)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.is_vehicle_hull">is_vehicle_hull<span class="signature">(obj)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.pull_to_constraint_pivot">pull_to_constraint_pivot<span class="signature">(obj_a, trans_a, quat_a, obj_b, trans_b, quat_b)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.remove_collision_test">remove_collision_test<span class="signature">(obj, collision_id)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.remove_constraint">remove_constraint<span class="signature">(obj_a)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.remove_ray_test">remove_ray_test<span class="signature">(obj, collision_id, from, to, local_coords)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.reset_damping">reset_damping<span class="signature">(obj)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.set_character_fly_velocity">set_character_fly_velocity<span class="signature">(obj, velocity)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.set_character_move_dir">set_character_move_dir<span class="signature">(obj, forw, side)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.set_character_move_type">set_character_move_type<span class="signature">(obj, type)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.set_character_rotation">set_character_rotation<span class="signature">(obj, angle_h, angle_v)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.set_character_rotation_h">set_character_rotation_h<span class="signature">(obj, angle)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.set_character_rotation_quat">set_character_rotation_quat<span class="signature">(obj, quat)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.set_character_rotation_v">set_character_rotation_v<span class="signature">(obj, angle)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.set_character_run_velocity">set_character_run_velocity<span class="signature">(obj, velocity)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.set_character_walk_velocity">set_character_walk_velocity<span class="signature">(obj, velocity)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.set_damping">set_damping<span class="signature">(obj, damping, rotation_damping)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.set_gravity">set_gravity<span class="signature">(obj, gravity)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.set_transform">set_transform<span class="signature">(obj, trans, quat)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.sync_transform">sync_transform<span class="signature">(obj)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.vehicle_brake">vehicle_brake<span class="signature">(obj, brake_force)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.vehicle_brake_inc">vehicle_brake_inc<span class="signature">(obj, brake_force)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.vehicle_steer">vehicle_steer<span class="signature">(obj, steering_value)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.vehicle_steer_inc">vehicle_steer_inc<span class="signature">(obj, steering_value, dir)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.vehicle_throttle">vehicle_throttle<span class="signature">(obj, engine_force)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.vehicle_throttle_inc">vehicle_throttle_inc<span class="signature">(obj, engine_force, dir)</span><span class="type-signature"></span></a></li>
+
+        
+        </ul>
+    
+    
+        <h3 class="subsection-title">Type Definitions</h3>
+
+        <ul>
+        
+                
+<li> <a href="#~collision_callback">collision_callback<span class="signature">(is_collision, collision_point)</span><span class="type-signature"></span></a></li>
+
+            
+                
+<li> <a href="#~ray_test_callback">ray_test_callback<span class="signature">(is_hit, hit_frac)</span><span class="type-signature"></span></a></li>
+
+            
+        </ul>
+    
+    <h2>Detailed Description</h2>
+    
+        <h3 class="subsection-title">Members</h3>
+        
+            
+<div class="item_container">
+<div class="item_name">
+<h4 class="name" id=".CM_CLIMB">CM_CLIMB</h4>
+
+</div>
+
+<div class="item_description">
 
 <div class="description">
     The character's type of movement is "climb".
@@ -191,13 +433,18 @@
 
 
 
+</div>
+</div>
 
         
             
-<h4 class="name" id=".CM_FLY"><span class="type-signature">(static, constant) </span>CM_FLY<span class="type-signature"></span></h4>
+<div class="item_container">
+<div class="item_name">
+<h4 class="name" id=".CM_FLY">CM_FLY</h4>
 
+</div>
 
-
+<div class="item_description">
 
 <div class="description">
     The character's type of movement is "fly".
@@ -253,13 +500,18 @@
 
 
 
+</div>
+</div>
 
         
             
-<h4 class="name" id=".CM_RUN"><span class="type-signature">(static, constant) </span>CM_RUN<span class="type-signature"></span></h4>
+<div class="item_container">
+<div class="item_name">
+<h4 class="name" id=".CM_RUN">CM_RUN</h4>
 
+</div>
 
-
+<div class="item_description">
 
 <div class="description">
     The character's type of movement is "run".
@@ -315,13 +567,18 @@
 
 
 
+</div>
+</div>
 
         
             
-<h4 class="name" id=".CM_WALK"><span class="type-signature">(static, constant) </span>CM_WALK<span class="type-signature"></span></h4>
+<div class="item_container">
+<div class="item_name">
+<h4 class="name" id=".CM_WALK">CM_WALK</h4>
 
+</div>
 
-
+<div class="item_description">
 
 <div class="description">
     The character's type of movement is "walk".
@@ -377,23 +634,27 @@
 
 
 
+</div>
+</div>
 
         
     
 
     
         <h3 class="subsection-title">Methods</h3>
-
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".append_collision_test"><span class="type-signature">(static) </span>append_collision_test<span class="signature">(obj, collision_id, callback, need_coolision_pt)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".append_collision_test">append_collision_test<span class="signature">(obj, collision_id, callback, need_collision_point<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Append a new async collision test to the given object.
@@ -420,7 +681,11 @@
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
+        
+        <th>Default</th>
         
 
         <th class="last">Description</th>
@@ -445,7 +710,19 @@
             </td>
 
             
+                <td class="attributes">
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
             
 
             <td class="description last">Object ID</td>
@@ -468,7 +745,19 @@
             </td>
 
             
+                <td class="attributes">
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
             
 
             <td class="description last">Collision ID</td>
@@ -491,7 +780,19 @@
             </td>
 
             
+                <td class="attributes">
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
             
 
             <td class="description last">Collision callback</td>
@@ -501,7 +802,7 @@
 
         <tr>
             
-                <td class="name"><code>need_coolision_pt</code></td>
+                <td class="name"><code>need_collision_point</code></td>
             
 
             <td class="type">
@@ -514,7 +815,23 @@
             </td>
 
             
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    false
+                
+                </td>
             
 
             <td class="description last">Pass collision point coords in callback</td>
@@ -523,6 +840,18 @@
     
     </tbody>
 </table>
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -571,29 +900,21 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".append_ray_test"><span class="type-signature">(static) </span>append_ray_test<span class="signature">(obj, collision_id, from, to, local_coords, callback)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".append_ray_test">append_ray_test<span class="signature">(obj, collision_id, from, to, local_coords, callback)</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Append new async ray test to given object.
@@ -775,6 +1096,18 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -804,7 +1137,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line693">line 693</a>
+        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line695">line 695</a>
     </li></ul></dd>
     
 
@@ -817,29 +1150,21 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".apply_collision_impulse_test"><span class="type-signature">(static) </span>apply_collision_impulse_test<span class="signature">(obj, callback)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".apply_collision_impulse_test">apply_collision_impulse_test<span class="signature">(obj, callback)</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Apply a new async collision impulse test to the given object.
@@ -924,6 +1249,18 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -953,7 +1290,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line668">line 668</a>
+        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line670">line 670</a>
     </li></ul></dd>
     
 
@@ -966,29 +1303,21 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".apply_constraint"><span class="type-signature">(static) </span>apply_constraint<span class="signature">(pivot_type, obj_a, trans_a, quat_a, obj_b, trans_b, quat_b, limits, stiffness<span class="signature-attributes">opt</span>, damping<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".apply_constraint">apply_constraint<span class="signature">(pivot_type, obj_a, trans_a, quat_a, obj_b, trans_b, quat_b, limits, stiffness<span class="signature-attributes">opt</span>, damping<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Apply physics constraint.
@@ -1394,6 +1723,18 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -1423,7 +1764,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line728">line 728</a>
+        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line730">line 730</a>
     </li></ul></dd>
     
 
@@ -1436,29 +1777,21 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".apply_force"><span class="type-signature">(static) </span>apply_force<span class="signature">(obj, fx_local, fy_local, fz_local)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".apply_force">apply_force<span class="signature">(obj, fx_local, fy_local, fz_local)</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Apply a constant force to the object (in the local space).
@@ -1595,6 +1928,18 @@ Pass zero values to remove applied force.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -1637,29 +1982,21 @@ Pass zero values to remove applied force.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".apply_torque"><span class="type-signature">(static) </span>apply_torque<span class="signature">(obj, tx_local, ty_local, tz_local)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".apply_torque">apply_torque<span class="signature">(obj, tx_local, ty_local, tz_local)</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Apply constant torque to the object (in the local space).
@@ -1796,6 +2133,18 @@ Pass zero values to remove applied torque.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -1838,29 +2187,21 @@ Pass zero values to remove applied torque.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".apply_velocity"><span class="type-signature">(static) </span>apply_velocity<span class="signature">(obj, vx_local, vy_local, vz_local)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".apply_velocity">apply_velocity<span class="signature">(obj, vx_local, vy_local, vz_local)</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Apply velocity to the object (in the local space)
@@ -1996,6 +2337,18 @@ Pass zero values to remove applied torque.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -2038,29 +2391,21 @@ Pass zero values to remove applied torque.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".apply_velocity_world"><span class="type-signature">(static) </span>apply_velocity_world<span class="signature">(obj, vx, vy, vz)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".apply_velocity_world">apply_velocity_world<span class="signature">(obj, vx, vy, vz)</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Apply velocity to the object (in the world space)
@@ -2196,6 +2541,18 @@ Pass zero values to remove applied torque.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -2238,29 +2595,21 @@ Pass zero values to remove applied torque.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".character_jump"><span class="type-signature">(static) </span>character_jump<span class="signature">(obj)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".character_jump">character_jump<span class="signature">(obj)</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Make the character jump
@@ -2327,6 +2676,18 @@ Pass zero values to remove applied torque.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -2369,29 +2730,21 @@ Pass zero values to remove applied torque.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".character_rotation_inc"><span class="type-signature">(static) </span>character_rotation_inc<span class="signature">(obj, h_angle, v_angle)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".character_rotation_inc">character_rotation_inc<span class="signature">(obj, h_angle, v_angle)</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Increment the character rotation
@@ -2504,6 +2857,18 @@ Pass zero values to remove applied torque.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -2546,29 +2911,21 @@ Pass zero values to remove applied torque.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".clear_collision_impulse_test"><span class="type-signature">(static) </span>clear_collision_impulse_test<span class="signature">(obj)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".clear_collision_impulse_test">clear_collision_impulse_test<span class="signature">(obj)</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Remove the collision impulse test from the given object.
@@ -2635,6 +2992,18 @@ Pass zero values to remove applied torque.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -2664,7 +3033,7 @@ Pass zero values to remove applied torque.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line681">line 681</a>
+        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line683">line 683</a>
     </li></ul></dd>
     
 
@@ -2677,29 +3046,21 @@ Pass zero values to remove applied torque.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".disable_simulation"><span class="type-signature">(static) </span>disable_simulation<span class="signature">(obj)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".disable_simulation">disable_simulation<span class="signature">(obj)</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Disable physics simulation.
@@ -2766,6 +3127,18 @@ Pass zero values to remove applied torque.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -2808,29 +3181,21 @@ Pass zero values to remove applied torque.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".enable_simulation"><span class="type-signature">(static) </span>enable_simulation<span class="signature">(obj)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".enable_simulation">enable_simulation<span class="signature">(obj)</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Enable physics simulation.
@@ -2897,6 +3262,18 @@ Pass zero values to remove applied torque.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -2939,29 +3316,21 @@ Pass zero values to remove applied torque.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".get_vehicle_brake"><span class="type-signature">(static) </span>get_vehicle_brake<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+    <h4 class="name" id=".get_vehicle_brake">get_vehicle_brake<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Number}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Get the vehicle's brake force.
@@ -3028,6 +3397,40 @@ Pass zero values to remove applied torque.
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Brake value
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Number</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 <dl class="details">
 
     
@@ -3070,51 +3473,21 @@ Pass zero values to remove applied torque.
 
 
 
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Brake value
 </div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Number</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".get_vehicle_name"><span class="type-signature">(static) </span>get_vehicle_name<span class="signature">(obj)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".get_vehicle_name">get_vehicle_name<span class="signature">(obj)</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Get the vehicle name.
@@ -3181,6 +3554,18 @@ Pass zero values to remove applied torque.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -3223,29 +3608,21 @@ Pass zero values to remove applied torque.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".get_vehicle_speed"><span class="type-signature">(static) </span>get_vehicle_speed<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+    <h4 class="name" id=".get_vehicle_speed">get_vehicle_speed<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Number}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Get the vehicle speed in km/h.
@@ -3312,6 +3689,40 @@ Pass zero values to remove applied torque.
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Vehicle speed
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Number</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 <dl class="details">
 
     
@@ -3354,51 +3765,21 @@ Pass zero values to remove applied torque.
 
 
 
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Vehicle speed
 </div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Number</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".get_vehicle_steering"><span class="type-signature">(static) </span>get_vehicle_steering<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+    <h4 class="name" id=".get_vehicle_steering">get_vehicle_steering<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Number}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Get the vehicle's steering value.
@@ -3465,6 +3846,40 @@ Pass zero values to remove applied torque.
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Steering value
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Number</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 <dl class="details">
 
     
@@ -3507,51 +3922,21 @@ Pass zero values to remove applied torque.
 
 
 
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Steering value
 </div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Number</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".get_vehicle_throttle"><span class="type-signature">(static) </span>get_vehicle_throttle<span class="signature">(obj)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".get_vehicle_throttle">get_vehicle_throttle<span class="signature">(obj)</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Get the vehicle's throttle value.
@@ -3618,6 +4003,18 @@ Pass zero values to remove applied torque.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -3660,29 +4057,21 @@ Pass zero values to remove applied torque.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".has_dynamic_physics"><span class="type-signature">(static) </span>has_dynamic_physics<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
+    <h4 class="name" id=".has_dynamic_physics">has_dynamic_physics<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Check if the object has dynamic simulated physics
@@ -3749,6 +4138,40 @@ Pass zero values to remove applied torque.
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Check result
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 <dl class="details">
 
     
@@ -3791,51 +4214,21 @@ Pass zero values to remove applied torque.
 
 
 
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Check result
 </div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Boolean</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".has_physics"><span class="type-signature">(static) </span>has_physics<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
+    <h4 class="name" id=".has_physics">has_physics<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Check if the object has any physics
@@ -3902,6 +4295,40 @@ Pass zero values to remove applied torque.
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Check result
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 <dl class="details">
 
     
@@ -3944,51 +4371,21 @@ Pass zero values to remove applied torque.
 
 
 
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Check result
 </div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Boolean</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".has_simulated_physics"><span class="type-signature">(static) </span>has_simulated_physics<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
+    <h4 class="name" id=".has_simulated_physics">has_simulated_physics<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Check if the object has any simulated physics
@@ -4055,6 +4452,40 @@ Pass zero values to remove applied torque.
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Check result
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 <dl class="details">
 
     
@@ -4097,51 +4528,21 @@ Pass zero values to remove applied torque.
 
 
 
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Check result
 </div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Boolean</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".is_character"><span class="type-signature">(static) </span>is_character<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
+    <h4 class="name" id=".is_character">is_character<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Check if the given object is a character.
@@ -4208,6 +4609,40 @@ Pass zero values to remove applied torque.
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Check result
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 <dl class="details">
 
     
@@ -4250,51 +4685,21 @@ Pass zero values to remove applied torque.
 
 
 
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Check result
 </div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Boolean</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".is_vehicle_chassis"><span class="type-signature">(static) </span>is_vehicle_chassis<span class="signature">(obj)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".is_vehicle_chassis">is_vehicle_chassis<span class="signature">(obj)</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Check if the given object is a vehicle chassis.
@@ -4361,6 +4766,18 @@ Pass zero values to remove applied torque.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -4403,29 +4820,21 @@ Pass zero values to remove applied torque.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".is_vehicle_hull"><span class="type-signature">(static) </span>is_vehicle_hull<span class="signature">(obj)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".is_vehicle_hull">is_vehicle_hull<span class="signature">(obj)</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Check if the given object is a vehicle hull.
@@ -4492,6 +4901,18 @@ Pass zero values to remove applied torque.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -4534,29 +4955,21 @@ Pass zero values to remove applied torque.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".pull_to_constraint_pivot"><span class="type-signature">(static) </span>pull_to_constraint_pivot<span class="signature">(obj_a, trans_a, quat_a, obj_b, trans_b, quat_b)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".pull_to_constraint_pivot">pull_to_constraint_pivot<span class="signature">(obj_a, trans_a, quat_a, obj_b, trans_b, quat_b)</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Pull object A to constraint pivot with object B.
@@ -4738,6 +5151,18 @@ Pass zero values to remove applied torque.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -4767,7 +5192,7 @@ Pass zero values to remove applied torque.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line767">line 767</a>
+        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line769">line 769</a>
     </li></ul></dd>
     
 
@@ -4780,29 +5205,21 @@ Pass zero values to remove applied torque.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".remove_collision_test"><span class="type-signature">(static) </span>remove_collision_test<span class="signature">(obj, collision_id)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".remove_collision_test">remove_collision_test<span class="signature">(obj, collision_id)</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Remove the collision test from the given object.
@@ -4892,6 +5309,18 @@ Pass zero values to remove applied torque.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -4921,7 +5350,7 @@ Pass zero values to remove applied torque.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line655">line 655</a>
+        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line657">line 657</a>
     </li></ul></dd>
     
 
@@ -4934,29 +5363,21 @@ Pass zero values to remove applied torque.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".remove_constraint"><span class="type-signature">(static) </span>remove_constraint<span class="signature">(obj_a)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".remove_constraint">remove_constraint<span class="signature">(obj_a)</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Remove physics constraint.
@@ -5019,6 +5440,18 @@ constraint identified by object A from apply_constraint function
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -5048,7 +5481,7 @@ constraint identified by object A from apply_constraint function
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line753">line 753</a>
+        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line755">line 755</a>
     </li></ul></dd>
     
 
@@ -5061,29 +5494,21 @@ constraint identified by object A from apply_constraint function
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".remove_ray_test"><span class="type-signature">(static) </span>remove_ray_test<span class="signature">(obj, collision_id, from, to, local_coords)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".remove_ray_test">remove_ray_test<span class="signature">(obj, collision_id, from, to, local_coords)</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Remove ray test from given object.
@@ -5242,6 +5667,18 @@ constraint identified by object A from apply_constraint function
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -5271,7 +5708,7 @@ constraint identified by object A from apply_constraint function
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line711">line 711</a>
+        <a href="ext_physics.js.html">ext/physics.js</a>, <a href="ext_physics.js.html#line713">line 713</a>
     </li></ul></dd>
     
 
@@ -5284,29 +5721,21 @@ constraint identified by object A from apply_constraint function
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".reset_damping"><span class="type-signature">(static) </span>reset_damping<span class="signature">(obj)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".reset_damping">reset_damping<span class="signature">(obj)</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Reset the object's linear/angular damping to default values.
@@ -5373,6 +5802,18 @@ constraint identified by object A from apply_constraint function
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -5415,29 +5856,21 @@ constraint identified by object A from apply_constraint function
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".set_character_fly_velocity"><span class="type-signature">(static) </span>set_character_fly_velocity<span class="signature">(obj, velocity)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".set_character_fly_velocity">set_character_fly_velocity<span class="signature">(obj, velocity)</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Set the character's fly speed.
@@ -5527,6 +5960,18 @@ constraint identified by object A from apply_constraint function
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -5569,29 +6014,21 @@ constraint identified by object A from apply_constraint function
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".set_character_move_dir"><span class="type-signature">(static) </span>set_character_move_dir<span class="signature">(obj, forw, side)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".set_character_move_dir">set_character_move_dir<span class="signature">(obj, forw, side)</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Move the character in the corresponding direction.
@@ -5704,6 +6141,18 @@ constraint identified by object A from apply_constraint function
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -5746,29 +6195,21 @@ constraint identified by object A from apply_constraint function
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".set_character_move_type"><span class="type-signature">(static) </span>set_character_move_type<span class="signature">(obj, type)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".set_character_move_type">set_character_move_type<span class="signature">(obj, type)</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Set the character moving type.
@@ -5858,6 +6299,18 @@ constraint identified by object A from apply_constraint function
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -5900,29 +6353,21 @@ constraint identified by object A from apply_constraint function
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".set_character_rotation"><span class="type-signature">(static) </span>set_character_rotation<span class="signature">(obj, angle_h, angle_v)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".set_character_rotation">set_character_rotation<span class="signature">(obj, angle_h, angle_v)</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Set the character rotation in horizontal and vertical planes
@@ -6035,6 +6480,18 @@ constraint identified by object A from apply_constraint function
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -6077,29 +6534,21 @@ constraint identified by object A from apply_constraint function
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".set_character_rotation_h"><span class="type-signature">(static) </span>set_character_rotation_h<span class="signature">(obj, angle)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".set_character_rotation_h">set_character_rotation_h<span class="signature">(obj, angle)</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Set the character horizontal rotation
@@ -6189,6 +6638,18 @@ constraint identified by object A from apply_constraint function
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -6231,29 +6692,21 @@ constraint identified by object A from apply_constraint function
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".set_character_rotation_quat"><span class="type-signature">(static) </span>set_character_rotation_quat<span class="signature">(obj, quat)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".set_character_rotation_quat">set_character_rotation_quat<span class="signature">(obj, quat)</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Set the character rotation quaternion
@@ -6343,6 +6796,18 @@ constraint identified by object A from apply_constraint function
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -6385,29 +6850,21 @@ constraint identified by object A from apply_constraint function
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".set_character_rotation_v"><span class="type-signature">(static) </span>set_character_rotation_v<span class="signature">(obj, angle)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".set_character_rotation_v">set_character_rotation_v<span class="signature">(obj, angle)</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Set the character vertical rotation
@@ -6497,6 +6954,18 @@ constraint identified by object A from apply_constraint function
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -6539,29 +7008,21 @@ constraint identified by object A from apply_constraint function
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".set_character_run_velocity"><span class="type-signature">(static) </span>set_character_run_velocity<span class="signature">(obj, velocity)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".set_character_run_velocity">set_character_run_velocity<span class="signature">(obj, velocity)</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Set the character's run speed.
@@ -6651,6 +7112,18 @@ constraint identified by object A from apply_constraint function
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -6693,29 +7166,21 @@ constraint identified by object A from apply_constraint function
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".set_character_walk_velocity"><span class="type-signature">(static) </span>set_character_walk_velocity<span class="signature">(obj, velocity)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".set_character_walk_velocity">set_character_walk_velocity<span class="signature">(obj, velocity)</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Set the character's walk speed.
@@ -6805,6 +7270,18 @@ constraint identified by object A from apply_constraint function
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -6847,29 +7324,21 @@ constraint identified by object A from apply_constraint function
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".set_damping"><span class="type-signature">(static) </span>set_damping<span class="signature">(obj, damping, rotation_damping)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".set_damping">set_damping<span class="signature">(obj, damping, rotation_damping)</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Set the object's linear/angular damping.
@@ -6983,6 +7452,18 @@ settings</td>
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -7025,29 +7506,21 @@ settings</td>
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".set_gravity"><span class="type-signature">(static) </span>set_gravity<span class="signature">(obj, gravity)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".set_gravity">set_gravity<span class="signature">(obj, gravity)</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Set the object's gravity.
@@ -7137,6 +7610,18 @@ settings</td>
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -7179,29 +7664,21 @@ settings</td>
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".set_transform"><span class="type-signature">(static) </span>set_transform<span class="signature">(obj, trans, quat)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".set_transform">set_transform<span class="signature">(obj, trans, quat)</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Set the object's transform (for static/kinematic objects)
@@ -7314,6 +7791,18 @@ settings</td>
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -7356,29 +7845,21 @@ settings</td>
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".sync_transform"><span class="type-signature">(static) </span>sync_transform<span class="signature">(obj)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".sync_transform">sync_transform<span class="signature">(obj)</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Sync the object's transform (for static/kinematic objects)
@@ -7445,6 +7926,18 @@ settings</td>
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -7487,29 +7980,21 @@ settings</td>
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".vehicle_brake"><span class="type-signature">(static) </span>vehicle_brake<span class="signature">(obj, brake_force)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".vehicle_brake">vehicle_brake<span class="signature">(obj, brake_force)</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Stop the vehicle by applying the brake force.
@@ -7599,6 +8084,18 @@ settings</td>
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -7641,29 +8138,21 @@ settings</td>
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".vehicle_brake_inc"><span class="type-signature">(static) </span>vehicle_brake_inc<span class="signature">(obj, brake_force)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".vehicle_brake_inc">vehicle_brake_inc<span class="signature">(obj, brake_force)</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Increment the brake force
@@ -7753,6 +8242,18 @@ settings</td>
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -7795,29 +8296,21 @@ settings</td>
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".vehicle_steer"><span class="type-signature">(static) </span>vehicle_steer<span class="signature">(obj, steering_value)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".vehicle_steer">vehicle_steer<span class="signature">(obj, steering_value)</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Change vehicle steering.
@@ -7907,6 +8400,18 @@ settings</td>
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -7949,29 +8454,21 @@ settings</td>
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".vehicle_steer_inc"><span class="type-signature">(static) </span>vehicle_steer_inc<span class="signature">(obj, steering_value, dir)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".vehicle_steer_inc">vehicle_steer_inc<span class="signature">(obj, steering_value, dir)</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Increment vehicle steering.
@@ -8084,6 +8581,18 @@ settings</td>
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -8126,29 +8635,21 @@ settings</td>
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".vehicle_throttle"><span class="type-signature">(static) </span>vehicle_throttle<span class="signature">(obj, engine_force)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".vehicle_throttle">vehicle_throttle<span class="signature">(obj, engine_force)</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Apply throttle to vehicle.
@@ -8238,6 +8739,18 @@ settings</td>
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -8280,29 +8793,21 @@ settings</td>
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".vehicle_throttle_inc"><span class="type-signature">(static) </span>vehicle_throttle_inc<span class="signature">(obj, engine_force, dir)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".vehicle_throttle_inc">vehicle_throttle_inc<span class="signature">(obj, engine_force, dir)</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Increment vehicle throttle.
@@ -8415,6 +8920,18 @@ settings</td>
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -8457,19 +8974,8 @@ settings</td>
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
     
 
@@ -8478,14 +8984,17 @@ settings</td>
 
         
                 
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id="~collision_callback"><span class="type-signature"></span>collision_callback<span class="signature">(is_collision, collision_point)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="~collision_callback">collision_callback<span class="signature">(is_collision, collision_point)</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Collision callback.
@@ -8575,6 +9084,18 @@ settings</td>
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -8617,29 +9138,21 @@ settings</td>
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
             
                 
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id="~ray_test_callback"><span class="type-signature"></span>ray_test_callback<span class="signature">(is_hit, hit_frac)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="~ray_test_callback">ray_test_callback<span class="signature">(is_hit, hit_frac)</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Ray test callback.
@@ -8729,6 +9242,18 @@ settings</td>
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -8771,19 +9296,8 @@ settings</td>
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
             
     
 
@@ -8798,13 +9312,13 @@ settings</td>
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Thu Mar 26 2015 17:33:37 GMT+0300 (MSK)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Wed Apr 29 2015 10:10:52 GMT+0300 (MSK)
 </footer>
 
 <script> prettyPrint(); </script>

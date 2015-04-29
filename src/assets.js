@@ -448,19 +448,21 @@ function request_video(asset) {
     if (cfg_def.allow_cors || cfg_def.is_mobile_device)
         video.crossOrigin = "Anonymous";
     video.addEventListener("loadeddata", function() {
+        video.removeEventListener("error", video_error_event, false);
         if (asset.state != ASTATE_HALTED) {
             asset.asset_cb(video, asset.uri, asset.type, asset.filepath, asset.opt_param);
             asset.state = ASTATE_RECEIVED;
         }
     }, false);
 
-    video.addEventListener("error", function() {
+    function video_error_event(e) {
         if (asset.state != ASTATE_HALTED) {
             asset.asset_cb(null, asset.uri, asset.type, asset.filepath);
             m_print.error("could not load video: " + asset.filepath, asset.opt_param);
             asset.state = ASTATE_RECEIVED;
         }
-    }, false);
+    }
+    video.addEventListener("error", video_error_event, false);
 
     var bd = get_built_in_data();
     if (bd && asset.filepath in bd) {

@@ -383,7 +383,6 @@ exports.publish = function(taffyData, opts, tutorials) {
 
     var templatePath = path.normalize(opts.template);
     view = new template.Template( path.join(templatePath, 'tmpl') );
-
     // claim some special filenames in advance, so the All-Powerful Overseer of Filename Uniqueness
     // doesn't try to hand them out later
     var indexUrl = helper.getUniqueFilename('index');
@@ -518,7 +517,7 @@ exports.publish = function(taffyData, opts, tutorials) {
         if ( needsSignature(doclet) ) {
             addSignatureParams(doclet);
             addSignatureReturns(doclet);
-            addAttribs(doclet);
+            // addAttribs(doclet);
         }
     });
 
@@ -527,13 +526,13 @@ exports.publish = function(taffyData, opts, tutorials) {
         doclet.ancestors = getAncestorLinks(doclet);
 
         if (doclet.kind === 'member') {
-            addSignatureTypes(doclet);
-            addAttribs(doclet);
+            // addSignatureTypes(doclet);
+            // addAttribs(doclet);
         }
 
         if (doclet.kind === 'constant') {
-            addSignatureTypes(doclet);
-            addAttribs(doclet);
+            // addSignatureTypes(doclet);
+            // addAttribs(doclet);
             doclet.kind = 'member';
         }
     });
@@ -641,3 +640,7 @@ exports.publish = function(taffyData, opts, tutorials) {
     }
     saveChildren(tutorials);
 };
+
+function build_module_list() {
+
+}

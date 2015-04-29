@@ -16,7 +16,6 @@ exports.init = function() {
     m_app.init({
         canvas_container_id: "canvas3d", 
         callback: init_cb,
-        physics_uranium_path: "uranium.js",
         alpha: false
     });
 }

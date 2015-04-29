@@ -86,6 +86,10 @@
             {
                 "name": "Solar system En",
                 "load_file": "interactivity/solar_system/solar_system_en.json"
+            },
+            {
+                "name": "Annotations NLA",
+                "load_file": "interactivity/annotations_nla.json"
             }
         ]
     },
@@ -115,6 +119,19 @@
             {
                 "name": "TV",
                 "load_file": "new_year/TV.json"
+            }
+        ]
+    },
+    {
+        "name": "Environment",
+        "items": [
+            {
+                "name": "Sky Texture",
+                "load_file": "environment/sky_texture.json"
+            },
+            {
+                "name": "Sky Colors",
+                "load_file": "environment/sky_colors.json"
             }
         ]
     },
@@ -190,20 +207,20 @@
         "name": "Dev - Misc",
         "items": [
             {
-                "name": "Procedural Objects",
-                "load_file": "dev_misc/procedural_objects.json"
+                "name": "Annotations",
+                "load_file": "dev_misc/annotations.json"
             },
             {
-                "name": "Text",
-                "load_file": "dev_misc/text.json"
+                "name": "Procedural Objects",
+                "load_file": "dev_misc/procedural_objects.json"
             },
             {
                 "name": "Surface and Metaball",
                 "load_file": "dev_misc/surface_and_meta.json"
             },
             {
-                "name": "Annotations",
-                "load_file": "dev_misc/annotations.json"
+                "name": "Text",
+                "load_file": "dev_misc/text.json"
             }
         ]
     },

@@ -1,15 +1,20 @@
 bl_info = {
     "name": "Blend4Web",
     "author": "Blend4Web Development Team",
-    "version": (15, 3, 0),
+    "version": (15, 4, 0),
     "blender": (2, 74, 0),
-    "b4w_format_version": "5.02",
+    "b4w_format_version": "5.03",
     "location": "File > Import-Export",
     "description": "Blend4Web is a Blender-friendly 3D web framework",
     "warning": "",
     "wiki_url": "http://www.blend4web.com/doc",
     "category": "Import-Export"
 }
+
+import os
+import sys
+
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.realpath(__file__)), "lib"))
 
 if "bpy" in locals():
     import imp
@@ -75,8 +80,6 @@ from bpy.types import AddonPreferences
 from bpy.props import StringProperty, IntProperty, BoolProperty
 from . import render_engine
 
-import os
-
 PATH_TO_ASSETS = "apps_dev/viewer"
 ASSETS_NAME = "assets.json"
 NODE_TREE_BLEND = "b4w_nodes.blend"
@@ -123,6 +126,22 @@ def fix_cam_limits_storage(arg):
         if "b4w_rotation_up_limit_storage" in cam:
             cam.b4w_rotation_up_limit = cam["b4w_rotation_up_limit_storage"]
             del cam["b4w_rotation_up_limit_storage"]
+
+# NOTE: for compatibility with old versions
+@bpy.app.handlers.persistent
+def fix_obj_export_props(arg):
+    for obj in bpy.data.objects:
+        if obj.type == "MESH":
+            if obj.b4w_apply_scale:
+                obj.b4w_apply_scale = True
+            elif obj.b4w_apply_modifiers:
+                obj.b4w_apply_modifiers = True
+            elif obj.b4w_export_edited_normals:
+                obj.b4w_export_edited_normals = True
+            elif obj.b4w_loc_export_vertex_anim:
+                obj.b4w_loc_export_vertex_anim = True
+            elif obj.b4w_shape_keys:
+                obj.b4w_shape_keys = True
 
 def update_b4w_src_path(addon_pref, context):
     if addon_pref.b4w_src_path != "":
@@ -175,6 +194,7 @@ def register():
     bpy.app.handlers.load_post.append(add_asset_file)
     bpy.app.handlers.load_post.append(add_node_tree)
     bpy.app.handlers.load_post.append(fix_cam_limits_storage)
+    bpy.app.handlers.load_post.append(fix_obj_export_props)
 
     render_engine.register()
 

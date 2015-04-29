@@ -189,7 +189,7 @@ function clear_binded_framebuffer(subscene) {
         case "ANCHOR_VISIBILITY":
             var bc = COLOR_PICKING_BG_COLOR;
             break;
-        case "GLOW_MASK":
+        case "OUTLINE_MASK":
         case "SMAA_BLENDING_WEIGHT_CALCULATION":
         case "SMAA_EDGE_DETECTION":
             var bc = BLACK_BG_COLOR;
@@ -697,6 +697,18 @@ function assign_uniform_setters(shader) {
         case "u_transa":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform4fv(loc, obj_render.trans_after);
+            }
+            transient_uni = true;
+            break;
+        case "u_arm_rel_trans":
+            var fun = function(gl, loc, subscene, obj_render, batch, camera) {
+                gl.uniform4fv(loc, obj_render.arm_rel_trans);
+            }
+            transient_uni = true;
+            break;
+        case "u_arm_rel_quat":
+            var fun = function(gl, loc, subscene, obj_render, batch, camera) {
+                gl.uniform4fv(loc, obj_render.arm_rel_quat);
             }
             transient_uni = true;
             break;
@@ -1323,21 +1335,21 @@ function assign_uniform_setters(shader) {
             transient_uni = true;
             break;
 
-        // for glow
-        case "u_glow_intensity":
+        // for outline
+        case "u_outline_intensity":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
-                gl.uniform1f(loc, obj_render.glow_intensity);
+                gl.uniform1f(loc, obj_render.outline_intensity);
             }
             transient_uni = true;
             break;
-        case "u_glow_color":
+        case "u_outline_color":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
-                gl.uniform3fv(loc, subscene.glow_color);
+                gl.uniform3fv(loc, subscene.outline_color);
             }
             break;
-        case "u_draw_glow":
+        case "u_draw_outline":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
-                gl.uniform1f(loc, subscene.draw_glow_flag);
+                gl.uniform1f(loc, subscene.draw_outline_flag);
             }
             transient_uni = true;
             break;

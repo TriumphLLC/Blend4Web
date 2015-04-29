@@ -663,7 +663,7 @@ exports.set_water_material_params = function(obj, water_mat_name, water_mat_para
         return null;
     }
     var batches = [batch];
-    var reflect_batch = m_batch.find_batch_material_forked(obj, mat_name, "MAIN");
+    var reflect_batch = m_batch.find_batch_material_forked(obj, water_mat_name, "MAIN");
     if (reflect_batch)
         batches.push(reflect_batch);
 

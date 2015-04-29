@@ -124,7 +124,7 @@ def get_supported_native_panels():
         # "RENDER_PT_game_display",
         # "SCENE_PT_game_navmesh",
         "WORLD_PT_game_context_world",
-        "WORLD_PT_game_world",
+        # "WORLD_PT_game_world",
         "WORLD_PT_game_mist",
         "WORLD_PT_game_physics",
         "WORLD_PT_game_physics_obstacles",

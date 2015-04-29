@@ -36,6 +36,10 @@ exports.append = function(obj) {
     if (has_anchor_obj(obj))
         return;
 
+    // NOTE: depends on subscene here because not supported for dynamically loaded data
+    var det_vis = obj["b4w_anchor"]["detect_visibility"] &&
+            Boolean(m_scenes.get_subs(m_scenes.get_main(), "ANCHOR_VISIBILITY"));
+
     var anchor = {
         type: obj["b4w_anchor"]["type"],
         obj: obj,
@@ -43,16 +47,17 @@ exports.append = function(obj) {
         y: 0,
         depth: 0,
         appearance: "out",
-        detect_visibility: obj["b4w_anchor"]["detect_visibility"],
+        detect_visibility: det_vis,
         element: null,
         move_cb: null,
+        annotation_max_width: obj["b4w_anchor"]["max_width"],
         // DOM-access optimization (height won't change)
         annotation_height: 0
     }
 
     switch (anchor.type) {
     case "ANNOTATION":
-        anchor.element = create_annotation(obj);
+        anchor.element = create_annotation(obj, anchor.annotation_max_width);
         anchor.annotation_height = anchor.element.offsetHeight;
         break;
     case "ELEMENT":
@@ -79,7 +84,7 @@ function has_anchor_obj(obj) {
     return false;
 }
 
-function create_annotation(obj) {
+function create_annotation(obj, max_width) {
     var div = document.createElement("div");
     var div_style = div.style;
 
@@ -91,6 +96,7 @@ function create_annotation(obj) {
     div_style.padding = "8px 12px";
     div_style.lineHeight = "15px";
     div_style.visibility = "hidden";
+    div_style.fontSize = "12px";
 
     var canvas_container = _canvas.parentElement;
     canvas_container.appendChild(div);
@@ -98,8 +104,6 @@ function create_annotation(obj) {
     var meta_tags = m_obj.get_meta_tags(obj);
 
     var title = meta_tags.title || obj["name"];
-
-    var max_width = 250;
 
     var title_span = document.createElement("span");
     var title_span_style = title_span.style;
@@ -166,13 +170,14 @@ function create_annotation(obj) {
 
                 width_anim = height_anim = true;
 
-                var parent_width = div.offsetWidth;
-                var parent_height = div.offsetHeight;
+                var parent_width = div.offsetWidth - 24;
+                var parent_height = div.offsetHeight - 16;
 
                 var descr_width  = Math.min(max_width, str_width(desc, "12px"))
                 var descr_height = str_height(desc, "12px", descr_width);
 
-                if (descr_width > parent_width)
+
+                if (descr_width != parent_width)
                     m_time.animate(parent_width, descr_width, 200, function(e) {
                         if (e == descr_width) {
                             // NOTE: do not make visible then anchor is suddenly out
@@ -186,7 +191,7 @@ function create_annotation(obj) {
                 else
                     width_anim = false;
 
-                if (descr_height > parent_height)
+                if (descr_height != parent_height)
                     m_time.animate(parent_height, descr_height, 200, function(e) {
                         if (e == descr_height) {
                             // NOTE: do not make visible then anchor is suddenly out
@@ -199,6 +204,9 @@ function create_annotation(obj) {
                     });
                 else
                     height_anim = false;
+
+                if (!height_anim && !width_anim)
+                    desc_span_style.visibility = "visible";
 
             } else if (desc_div_style.visibility == "visible") {
                 div_style.visibility = "visible";
@@ -386,13 +394,14 @@ function anchor_project(anchor, dest) {
 exports.update_visibility = function() {
     for (var i = 0; i < _anchors.length; i++) {
         var anchor = _anchors[i];
+        var obj = anchor.obj;
 
         var x = anchor.x;
         var y = anchor.y;
         var depth = anchor.depth;
 
         // optimized order
-        if (x < 0 || y < 0 || depth < 0 || depth > 1 ||
+        if (x < 0 || y < 0 || depth < 0 || depth > 1 || m_scenes.is_hidden(obj) ||
                 x >= _canvas.clientWidth || y >= _canvas.clientHeight)
             var appearance = "out";
         else
@@ -462,7 +471,7 @@ exports.update_visibility = function() {
         anchor.appearance = appearance;
 
         if (anchor.move_cb)
-            anchor.move_cb(x, y, anchor.appearance, anchor.obj, element);
+            anchor.move_cb(x, y, anchor.appearance, obj, element);
     }
 }
 
@@ -470,8 +479,6 @@ function pick_anchor_visibility(anchor) {
 
     // NOTE: slow
     var subs_anchor = m_scenes.get_subs(m_scenes.get_main(), "ANCHOR_VISIBILITY");
-    if (!subs_anchor)
-        return;
 
     var viewport_scale = m_scenes.get_viewport_scale();
 

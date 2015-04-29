@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Аддон &mdash; Руководство пользователя: Blend4Web v15.03</title>
+    <title>Аддон &mdash; Руководство пользователя: Blend4Web v15.04</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '15.03',
+        VERSION:     '15.04',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v15.03" href="index.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v15.04" href="index.html" />
     <link rel="next" title="Объекты" href="objects.html" />
     <link rel="prev" title="Веб-плеер" href="web_player.html" /> 
   </head>
@@ -37,7 +37,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">Руководство пользователя: Blend4Web v15.03</a></div>
+          href="index.html">Руководство пользователя: Blend4Web v15.04</a></div>
         <div class="rel">
           <a href="web_player.html" title="Веб-плеер"
              accesskey="P">назад</a> |
@@ -142,7 +142,7 @@ VER_CURRENT.</td>
 </table>
 </div>
 <div class="section" id="version-errors">
-<span id="index-2"></span><span id="id4"></span><h2>Ошибки совместимости версий аддона и движка<a class="headerlink" href="#version-errors" title="Ссылка на этот заголовок">¶</a></h2>
+<span id="index-2"></span><span id="id4"></span><h2>Ошибки совместимости<a class="headerlink" href="#version-errors" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Ошибки совместимости версий могут проявиться при просмотре сцены в браузере, если друг другу не соответствуют версия аддона, которым был произведен экспорт сцены, и версия движка Blend4Web, который пытается эту сцену загрузить.</p>
 <table border="1" class="docutils">
 <colgroup>
@@ -499,11 +499,13 @@ Material: NAME.</td>
 <td>В текстурном слоте материала отсутствует
 текстура.</td>
 </tr>
-<tr class="row-odd"><td>Only 2 UV textures are allowed for
-a mesh; The mesh has N UVs.</td>
-<td>Движком поддерживаются только до 2 UV
-текстур на каждый меш. Меш содержит UV
-текстуры в количестве N.</td>
+<tr class="row-odd"><td>Object &#8220;NAME&#8221; has the mesh with
+shape keys. The property
+&#8220;Relative&#8221; of mesh has been
+enabled.</td>
+<td>Объект с именем &#8220;NAME&#8221; имеет меш с
+опорными фигурами. На меше было включено
+свойство &#8220;Relative&#8221;.</td>
 </tr>
 </tbody>
 </table>
@@ -513,7 +515,13 @@ a mesh; The mesh has N UVs.</td>
 <col width="54%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td>Particle system error for &#8220;NAME&#8221;;
+<tr class="row-odd"><td>Only 2 UV textures are allowed for
+a mesh; The mesh has N UVs.</td>
+<td>Движком поддерживаются только до 2 UV
+текстур на каждый меш. Меш содержит UV
+текстуры в количестве N.</td>
+</tr>
+<tr class="row-even"><td>Particle system error for &#8220;NAME&#8221;;
 The &#8220;NAME&#8221; vertex color specified
 in the <tt class="docutils literal"><span class="pre">from</span></tt> field is missing in
 the last of the &#8220;OBJECT_NAME&#8221;
@@ -522,7 +530,7 @@ object&#8217;s vertex colors</td>
 NAME указанный в поле <tt class="docutils literal"><span class="pre">from</span></tt>,
 отсутствует в эмиттере OBJECT_NAME.</td>
 </tr>
-<tr class="row-even"><td>Particle system error for &#8220;NAME&#8221;;
+<tr class="row-odd"><td>Particle system error for &#8220;NAME&#8221;;
 The &#8220;NAME&#8221; vertex color specified
 in the <tt class="docutils literal"><span class="pre">to</span></tt> field is missing in
 the list of the &#8220;OBJECT_NAME&#8221;
@@ -532,7 +540,7 @@ NAME указанный в поле <tt class="docutils literal"><span class="pr
 в объекте OBJECT_NAME, выбранном в
 качестве частицы.</td>
 </tr>
-<tr class="row-odd"><td>Particle system error for &#8220;NAME&#8221;;
+<tr class="row-even"><td>Particle system error for &#8220;NAME&#8221;;
 The &#8220;NAME&#8221; vertex color specified
 in the &#8220;<tt class="docutils literal"><span class="pre">to</span></tt> field is missing in
 the &#8220;OBJECT_NAME&#8221; object
@@ -542,41 +550,41 @@ NAME указанный в поле <tt class="docutils literal"><span class="pr
 присутствует в объекте OBJECT_NAME группы
 GROUP_NAME, выбранной в качестве частицы.</td>
 </tr>
-<tr class="row-even"><td>The NAME action has decimal frames.
+<tr class="row-odd"><td>The NAME action has decimal frames.
 Converted to integer.</td>
 <td>Анимация NAME содержит дробные значения
 кадров. Округлено до целых.</td>
 </tr>
-<tr class="row-odd"><td>The NAME armature modifier has a
+<tr class="row-even"><td>The NAME armature modifier has a
 proxy object as an armature.
 Modifier removed.</td>
 <td>Модификатор арматуры имеет прокси объект
 в качестве арматуры.</td>
 </tr>
-<tr class="row-even"><td>The NAME armature modifier has no
+<tr class="row-odd"><td>The NAME armature modifier has no
 armature object or it is not
 exported. Modifier removed.</td>
 <td>В модификаторе NAME типа <tt class="docutils literal"><span class="pre">Armature</span></tt> не
 указан объект, либо объект не
 экспортируется. Модификатор удален.</td>
 </tr>
-<tr class="row-odd"><td>The NAME curve modifier has no curve
+<tr class="row-even"><td>The NAME curve modifier has no curve
 object. Modifier removed.</td>
 <td>В модификаторе NAME типа <tt class="docutils literal"><span class="pre">Curve</span></tt> не
 указан объект. Модификатор удален.</td>
 </tr>
-<tr class="row-even"><td>The NAME curve modifier has
+<tr class="row-odd"><td>The NAME curve modifier has
 unsupported curve object. Modifier
 removed.</td>
 <td>В модификаторе NAME типа <tt class="docutils literal"><span class="pre">Curve</span></tt> указан
 неподходящий объект. Модификатор удален.</td>
 </tr>
-<tr class="row-odd"><td>The NAME LAMP node has no lamp
+<tr class="row-even"><td>The NAME LAMP node has no lamp
 object. Material: NAME.</td>
 <td>В ноде NAME типа <tt class="docutils literal"><span class="pre">LAMP</span></tt> не указан
 подходящий объект.</td>
 </tr>
-<tr class="row-even"><td>The NAME node is not supported.
+<tr class="row-odd"><td>The NAME node is not supported.
 The NAME material will be rendered
 without nodes. Material: NAME.</td>
 <td>Нода с данным именем не поддерживается
@@ -585,14 +593,14 @@ without nodes. Material: NAME.</td>
 рода возникают при использовании нод
 Cycles.</td>
 </tr>
-<tr class="row-odd"><td>The NAME object has NAME armature
+<tr class="row-even"><td>The NAME object has NAME armature
 modifier which references the wrong
 group. Modifier removed.</td>
 <td>Объект должен находиться в той же группе,
 что и арматура или оба объекта должны явно
 присутствовать на сцене.</td>
 </tr>
-<tr class="row-even"><td>Using B4W_REFRACTION node NODE_NAME
+<tr class="row-odd"><td>Using B4W_REFRACTION node NODE_NAME
 with incorrect type of Alpha Blend.
 Material: NAME.</td>
 <td>Используется нодовый материал
@@ -600,14 +608,6 @@ Material: NAME.</td>
 Blend. Допускается значение
 <tt class="docutils literal"><span class="pre">Alpha</span> <span class="pre">sort</span></tt>, <tt class="docutils literal"><span class="pre">Alpha</span> <span class="pre">blend</span></tt> и <tt class="docutils literal"><span class="pre">Add</span></tt>
 при использовании ноды &#8220;REFRACTION&#8221;.</td>
-</tr>
-<tr class="row-odd"><td>Wind bending: not all
-vertex colors exist for &#8220;NAME&#8221;.
-Properties were set to default
-values.</td>
-<td>Настройки процедурной анимации деревьев:
-должны существовать все указанные
-слои вертексных цветов.</td>
 </tr>
 </tbody>
 </table>
@@ -617,7 +617,15 @@ values.</td>
 <col width="54%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td>Wind bending: vertex colors weren&#8217;t
+<tr class="row-odd"><td>Wind bending: not all
+vertex colors exist for &#8220;NAME&#8221;.
+Properties were set to default
+values.</td>
+<td>Настройки процедурной анимации деревьев:
+должны существовать все указанные
+слои вертексных цветов.</td>
+</tr>
+<tr class="row-even"><td>Wind bending: vertex colors weren&#8217;t
 properly assigned for &#8220;NAME&#8221;.
 Properties were set to default
 values.</td>
@@ -632,7 +640,7 @@ values.</td>
 (<tt class="docutils literal"><span class="pre">Main</span> <span class="pre">stiffness</span> <span class="pre">(A)</span></tt>),
 либо ни одного из них.</td>
 </tr>
-<tr class="row-even"><td>Wrong &#8220;Height Map&#8221; input for the
+<tr class="row-odd"><td>Wrong &#8220;Height Map&#8221; input for the
 &#8220;NAME&#8221; B4W_PARALLAX node. Only link
 from the TEXTURE node with a
 non-empty texture is allowed.</td>
@@ -642,13 +650,13 @@ non-empty texture is allowed.</td>
 из ноды типа <tt class="docutils literal"><span class="pre">TEXTURE</span></tt> с заполненой
 текстурой.</td>
 </tr>
-<tr class="row-odd"><td>Wrong texture coordinates type
+<tr class="row-even"><td>Wrong texture coordinates type
 in texture NAME. [Material: NAME.]</td>
 <td>Для текстур с изображением (image)
 поддерживаются следующие типы координат:
 <tt class="docutils literal"><span class="pre">UV</span></tt>, <tt class="docutils literal"><span class="pre">Normal</span></tt> и <tt class="docutils literal"><span class="pre">Generated</span></tt>.</td>
 </tr>
-<tr class="row-even"><td>Wrong vertex color layer is used
+<tr class="row-odd"><td>Wrong vertex color layer is used
 in node &#8220;GEOMETRY&#8221;.
 [Material: NAME.]</td>
 <td>В ноде &#8220;GEOMETRY&#8221; используется неправильно
@@ -658,7 +666,7 @@ in node &#8220;GEOMETRY&#8221;.
 </table>
 </div>
 <div class="section" id="id7">
-<h2>Прочие сообщения, требующие внимания пользователя<a class="headerlink" href="#id7" title="Ссылка на этот заголовок">¶</a></h2>
+<h2>Прочие сообщения<a class="headerlink" href="#id7" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Сообщения выводятся в консоли браузера (горячая клавиша <tt class="docutils literal"><span class="pre">F12</span></tt>) при загрузке сцены. Сообщение имеет вид:</p>
 <blockquote>
 <div><tt class="docutils literal"><span class="pre">B4W</span> <span class="pre">EXPORT</span> <span class="pre">WARNING:</span> <span class="pre">Сообщение</span> <span class="pre">экспорта,</span> <span class="pre">требующее</span> <span class="pre">внимания</span> <span class="pre">пользователя</span></tt></div></blockquote>
@@ -716,10 +724,10 @@ PERSPECTIVE type.&#8221;</td>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Аддон</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#export-opts">Опции экспорта</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#index-1">Ошибки инициализации</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#version-errors">Ошибки совместимости версий аддона и движка</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#version-errors">Ошибки совместимости</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#export-errors">Критические ошибки экспорта</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#index-4">Некритические ошибки экспорта</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id7">Прочие сообщения, требующие внимания пользователя</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id7">Прочие сообщения</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Объекты</a></li>
@@ -729,8 +737,8 @@ PERSPECTIVE type.&#8221;</td>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Нодовые материалы</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lighting.html">Освещение, тени и фон</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Постпроцессинговые эффекты</a></li>
-<li class="toctree-l1"><a class="reference internal" href="particles.html">Система частиц</a></li>
-<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Система частиц для инстансинга объектов</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles.html">Система частиц. Флюиды</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Система частиц. Инстансинг</a></li>
 <li class="toctree-l1"><a class="reference internal" href="animation.html">Анимация</a></li>
 <li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Рендеринг наружных сцен</a></li>
 <li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Гамма-коррекция и альфа-композитинг</a></li>
@@ -774,7 +782,7 @@ PERSPECTIVE type.&#8221;</td>
           
     <div class="footer">
         &copy; Copyright 2015, ООО &#34;Триумф&#34;.
-      Обновлено: 2015-03-26.
+      Обновлено: 2015-04-29.
       Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
         </div>

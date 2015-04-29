@@ -1,10 +1,9 @@
 # Blend4Web plugin distribution list
-# create distribution archive with -i option
-blender_scripts/addons/blend4web
-deploy/apps/webplayer/webplayer*
-deploy/apps/webplayer/template/webplayer_template.html
-deploy/apps/webplayer/smaa_search_texture.png
-deploy/apps/webplayer/smaa_area_texture.png
+3^blender_scripts/addons/blend4web
+3^deploy/apps/webplayer/webplayer*
+4^deploy/apps/webplayer/template/webplayer_template.html
+3^deploy/apps/webplayer/smaa_search_texture.png
+3^deploy/apps/webplayer/smaa_area_texture.png
 !*.blend1
 !*.blend2
 !*.blend3

@@ -103,14 +103,14 @@ exports.get_anim_names = function(obj) {
  * @method module:animation.get_current_anim_name
  * @param {Object} obj Object ID
  * @param {Number} [slot_num = SLOT_0] Animation slot number
- * @returns Current animation name or null
+ * @returns {?String} Current animation name or null
  */
 exports.get_current_anim_name = function(obj, slot_num) {
     if (!m_anim.is_animated(obj))
         return null;
 
     slot_num = slot_num || m_anim.SLOT_0;
-    return m_anim.get_current_animation_name(obj, slot_num);
+    return m_anim.get_anim_by_slot_num(obj, slot_num);
 }
 
 /**
@@ -193,7 +193,7 @@ exports.play = function(obj, finish_callback, slot_num) {
 
     slot_num = slot_num || m_anim.SLOT_0;
     m_anim.play(obj, finish_callback, slot_num);
-    m_anim.update_object_animation(obj, 0, slot_num);
+    m_anim.update_object_animation(obj, 0, slot_num, true);
 }
 
 /**
@@ -257,7 +257,7 @@ exports.set_frame = function(obj, frame, slot_num) {
 
     slot_num = slot_num || m_anim.SLOT_0;
     m_anim.set_current_frame_float(obj, frame, slot_num);
-    m_anim.update_object_animation(obj, 0, slot_num);
+    m_anim.update_object_animation(obj, 0, slot_num, true);
 }
 
 /**
@@ -450,14 +450,16 @@ exports.apply_smoothing = function(obj, trans_period, quat_period, slot_num) {
  * @param {Object} obj Object ID
  * @param {Number} elapsed Animation delay
  * @param {Number} [slot_num = SLOT_0] Animation slot number
+ * @param {Boolean} [force_update = false] Update animation even stopped one.
  */
-exports.update_object_animation = function(obj, elapsed, slot_num) {
+exports.update_object_animation = function(obj, elapsed, slot_num, force_update) {
     if (!m_anim.is_animated(obj))
         return;
 
     slot_num = slot_num || m_anim.SLOT_0;
     elapsed = elapsed || 0;
-    m_anim.update_object_animation(obj, elapsed, slot_num);
+    force_update = force_update || false;
+    m_anim.update_object_animation(obj, elapsed, slot_num, force_update);
 }
 
 /**
@@ -519,22 +521,6 @@ exports.get_slot_num_by_anim = function(obj, anim_name) {
 }
 
 /**
- * Get objects animation name by slot number
- * @method module:animation.get_anim_name
- * @param {Object} obj Object ID
- * @param {Number} [slot_num = SLOT_0] Slot number
- * @returns {?String} Animation name
- */
-exports.get_anim_name = function(obj, slot_num) {
-    if (!m_anim.is_animated(obj))
-        return null;
-
-    slot_num = slot_num || m_anim.SLOT_0;
-
-    return m_anim.get_anim_by_slot_num(obj, slot_num);
-}
-
-/**
  * Get objects animation type
  * @method module:animation.get_anim_type
  * @param {Object} obj Object ID
@@ -549,7 +535,7 @@ exports.get_anim_type = function(obj, slot_num) {
 }
 
 /**
- * Apply animation to first animation slot
+ * Apply animation to the first animation slot
  * @method module:animation.apply_to_first_empty_slot
  * @param {Object} obj Object ID
  * @param {String} name Animation name
@@ -569,7 +555,7 @@ exports.get_skel_mix_factor = function(armobj) {
 }
 
 /**
- * Change mix factor used to mix the last two skeletal animations.
+ * Change mix factor used to mix two last skeletal animations.
  * The non-zero time allows to perform smooth animation transitions.
  * @method module:animation.set_skel_mix_factor
  * @param {Object} armobj Armature object ID

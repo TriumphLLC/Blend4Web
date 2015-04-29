@@ -44,6 +44,21 @@ Enable the "Dynamic geometry" checkbox for the objects to allow geometry modific
 
         
             
+<div class="item_container">
+<div class="item_name">
+
+</div>
+<div class="item_description">
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -101,19 +116,8 @@ Enable the "Dynamic geometry" checkbox for the objects to allow geometry modific
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
     
     </div>
@@ -127,22 +131,222 @@ Enable the "Dynamic geometry" checkbox for the objects to allow geometry modific
      
 
     
+    <h2>Summary</h2>
+    
+    
+        <h3 class="subsection-title">Methods</h3>
+        <ul>
+        
+            
+<li> <a href="#.check_shape_keys">check_shape_keys<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Boolean}</span></a></li>
 
+        
+            
+<li> <a href="#.extract_index_array">extract_index_array<span class="signature">(obj, mat_name)</span><span class="type-signature"> &rarr; {Uint16Array|Uint32Array}</span></a></li>
+
+        
+            
+<li> <a href="#.extract_vertex_array">extract_vertex_array<span class="signature">(obj, mat_name, attrib_name)</span><span class="type-signature"> &rarr; {Float32Array}</span></a></li>
+
+        
+            
+<li> <a href="#.get_shape_key_value">get_shape_key_value<span class="signature">(obj, key_name)</span><span class="type-signature"> &rarr; {Number}</span></a></li>
+
+        
+            
+<li> <a href="#.get_shape_keys_names">get_shape_keys_names<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Array}</span></a></li>
+
+        
+            
+<li> <a href="#.override_geometry">override_geometry<span class="signature">(obj, mat_name, ibo_array, positions_array, smooth_normals)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.set_shape_key_value">set_shape_key_value<span class="signature">(obj, key_name, value)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.update_vertex_array">update_vertex_array<span class="signature">(obj, mat_name, attrib_name, array)</span><span class="type-signature"></span></a></li>
+
+        
+        </ul>
+    
+    
+    <h2>Detailed Description</h2>
     
 
     
         <h3 class="subsection-title">Methods</h3>
-
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".extract_index_array"><span class="type-signature">(static) </span>extract_index_array<span class="signature">(obj, mat_name)</span><span class="type-signature"> &rarr; {Uint16Array|Uint32Array}</span></h4>
+    <h4 class="name" id=".check_shape_keys">check_shape_keys<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Check if object has got shape keys.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Object ID</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Checking result.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Boolean</span>
+
+
+    </dd>
+</dl>
 
     
 
 
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_geometry.js.html">ext/geometry.js</a>, <a href="ext_geometry.js.html#line247">line 247</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+</div>
+</div>
+        
+            
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id=".extract_index_array">extract_index_array<span class="signature">(obj, mat_name)</span><span class="type-signature"> &rarr; {Uint16Array|Uint32Array}</span></h4>
+
+    
+
+</div>
+<div class="item_description">
 
 <div class="description">
     Extract the array of triangulated face indices from the given object.
@@ -232,50 +436,6 @@ Enable the "Dynamic geometry" checkbox for the objects to allow geometry modific
 
 
 
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_geometry.js.html">ext/geometry.js</a>, <a href="ext_geometry.js.html#line55">line 55</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
 
 
 
@@ -312,16 +472,64 @@ Enable the "Dynamic geometry" checkbox for the objects to allow geometry modific
 
 
 
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_geometry.js.html">ext/geometry.js</a>, <a href="ext_geometry.js.html#line47">line 47</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".extract_vertex_array"><span class="type-signature">(static) </span>extract_vertex_array<span class="signature">(obj, mat_name, attrib_name)</span><span class="type-signature"> &rarr; {Float32Array}</span></h4>
+    <h4 class="name" id=".extract_vertex_array">extract_vertex_array<span class="signature">(obj, mat_name, attrib_name)</span><span class="type-signature"> &rarr; {Float32Array}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Extract the vertex array from the object.
@@ -434,50 +642,6 @@ Enable the "Dynamic geometry" checkbox for the objects to allow geometry modific
 
 
 
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_geometry.js.html">ext/geometry.js</a>, <a href="ext_geometry.js.html#line16">line 16</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
 
 
 
@@ -511,16 +675,401 @@ Enable the "Dynamic geometry" checkbox for the objects to allow geometry modific
 
 
 
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_geometry.js.html">ext/geometry.js</a>, <a href="ext_geometry.js.html#line15">line 15</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".override_geometry"><span class="type-signature">(static) </span>override_geometry<span class="signature">(obj, mat_name, ibo_array, positions_array, smooth_normals)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".get_shape_key_value">get_shape_key_value<span class="signature">(obj, key_name)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Return shape key current value.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Object ID</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>key_name</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Shape key name</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    value Shape key value
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Number</span>
+
+
+    </dd>
+</dl>
 
     
 
 
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_geometry.js.html">ext/geometry.js</a>, <a href="ext_geometry.js.html#line271">line 271</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+</div>
+</div>
+        
+            
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id=".get_shape_keys_names">get_shape_keys_names<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Array}</span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Return all available shape keys names.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Object ID</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Array of animation names
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_geometry.js.html">ext/geometry.js</a>, <a href="ext_geometry.js.html#line256">line 256</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+</div>
+</div>
+        
+            
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id=".override_geometry">override_geometry<span class="signature">(obj, mat_name, ibo_array, positions_array, smooth_normals)</span><span class="type-signature"></span></h4>
+
+    
+
+</div>
+<div class="item_description">
 
 <div class="description">
     Override geometry for the given object.
@@ -682,6 +1231,18 @@ Enable the "Dynamic geometry" checkbox for the objects to allow geometry modific
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -711,7 +1272,7 @@ Enable the "Dynamic geometry" checkbox for the objects to allow geometry modific
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_geometry.js.html">ext/geometry.js</a>, <a href="ext_geometry.js.html#line117">line 117</a>
+        <a href="ext_geometry.js.html">ext/geometry.js</a>, <a href="ext_geometry.js.html#line109">line 109</a>
     </li></ul></dd>
     
 
@@ -724,29 +1285,202 @@ Enable the "Dynamic geometry" checkbox for the objects to allow geometry modific
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".update_vertex_array"><span class="type-signature">(static) </span>update_vertex_array<span class="signature">(obj, mat_name, attrib_name, array)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".set_shape_key_value">set_shape_key_value<span class="signature">(obj, key_name, value)</span><span class="type-signature"></span></h4>
 
     
 
+</div>
+<div class="item_description">
 
+<div class="description">
+    Apply shape key to the object.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Object ID</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>key_name</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Shape key name</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>value</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Shape key value</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_geometry.js.html">ext/geometry.js</a>, <a href="ext_geometry.js.html#line225">line 225</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+</div>
+</div>
+        
+            
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id=".update_vertex_array">update_vertex_array<span class="signature">(obj, mat_name, attrib_name, array)</span><span class="type-signature"></span></h4>
+
+    
+
+</div>
+<div class="item_description">
 
 <div class="description">
     Update the vertex array for the given object.
@@ -882,6 +1616,18 @@ Enable the "Dynamic geometry" checkbox for the objects to allow geometry modific
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -911,7 +1657,7 @@ Enable the "Dynamic geometry" checkbox for the objects to allow geometry modific
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_geometry.js.html">ext/geometry.js</a>, <a href="ext_geometry.js.html#line86">line 86</a>
+        <a href="ext_geometry.js.html">ext/geometry.js</a>, <a href="ext_geometry.js.html#line78">line 78</a>
     </li></ul></dd>
     
 
@@ -924,19 +1670,8 @@ Enable the "Dynamic geometry" checkbox for the objects to allow geometry modific
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
     
 
@@ -953,13 +1688,13 @@ Enable the "Dynamic geometry" checkbox for the objects to allow geometry modific
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Thu Mar 26 2015 17:33:35 GMT+0300 (MSK)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Wed Apr 29 2015 10:10:51 GMT+0300 (MSK)
 </footer>
 
 <script> prettyPrint(); </script>

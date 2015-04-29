@@ -7,6 +7,7 @@ all:
 	@$(SH) ./project.py -a flight -o advanced -v `cat ../VERSION`
 	@$(SH) ./project.py -a gallery -o advanced -v `cat ../VERSION`
 	@$(SH) ./project.py -a new_year -o simple -v `cat ../VERSION`
+	@$(SH) ./project.py -a victory_day_2015 -o advanced -v `cat ../VERSION`
 	@$(SH) ./project.py -a viewer -v `cat ../VERSION` --js_ignore=jquery*.js
 	@$(SH) ./project.py -a webplayer -b compile -o advanced -v `cat ../VERSION`
 

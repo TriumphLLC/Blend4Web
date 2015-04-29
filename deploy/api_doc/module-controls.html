@@ -58,6 +58,21 @@ operation of input sensors, for more info see see *_cb() docs.</div>
 
         
             
+<div class="item_container">
+<div class="item_name">
+
+</div>
+<div class="item_description">
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -115,19 +130,8 @@ operation of input sensors, for more info see see *_cb() docs.</div>
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
     
     </div>
@@ -141,16 +145,230 @@ operation of input sensors, for more info see see *_cb() docs.</div>
      
 
     
-
+    <h2>Summary</h2>
     
         <h3 class="subsection-title">Members</h3>
+        <ul>
+        
+            
+<li> <a href="#.CT_CONTINUOUS">CT_CONTINUOUS</a></li>
 
         
             
-<h4 class="name" id=".CT_CONTINUOUS"><span class="type-signature">(static, constant) </span>CT_CONTINUOUS<span class="type-signature"></span></h4>
+<li> <a href="#.CT_LEVEL">CT_LEVEL</a></li>
 
+        
+            
+<li> <a href="#.CT_SHOT">CT_SHOT</a></li>
 
+        
+            
+<li> <a href="#.CT_TRIGGER">CT_TRIGGER</a></li>
 
+        
+        </ul>
+    
+    
+        <h3 class="subsection-title">Methods</h3>
+        <ul>
+        
+            
+<li> <a href="#.check_sensor_manifold">check_sensor_manifold<span class="signature">(obj<span class="signature-attributes">nullable</span>, id)</span><span class="type-signature"> &rarr; {Boolean}</span></a></li>
+
+        
+            
+<li> <a href="#.check_sensor_manifolds">check_sensor_manifolds<span class="signature">(obj<span class="signature-attributes">nullable</span>)</span><span class="type-signature"> &rarr; {Boolean}</span></a></li>
+
+        
+            
+<li> <a href="#.create_collision_impulse_sensor">create_collision_impulse_sensor<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Object}</span></a></li>
+
+        
+            
+<li> <a href="#.create_collision_sensor">create_collision_sensor<span class="signature">(obj, collision_id, need_payload)</span><span class="type-signature"> &rarr; {Object}</span></a></li>
+
+        
+            
+<li> <a href="#.create_custom_sensor">create_custom_sensor<span class="signature">(value)</span><span class="type-signature"> &rarr; {Object}</span></a></li>
+
+        
+            
+<li> <a href="#.create_elapsed_sensor">create_elapsed_sensor<span class="signature">()</span><span class="type-signature"> &rarr; {Object}</span></a></li>
+
+        
+            
+<li> <a href="#.create_gyroscope_angles_sensor">create_gyroscope_angles_sensor<span class="signature">()</span><span class="type-signature"> &rarr; {Object}</span></a></li>
+
+        
+            
+<li> <a href="#.create_gyroscope_angles_sensor">create_gyroscope_angles_sensor<span class="signature">()</span><span class="type-signature"> &rarr; {Object}</span></a></li>
+
+        
+            
+<li> <a href="#.create_kb_sensor_manifold">create_kb_sensor_manifold<span class="signature">(obj<span class="signature-attributes">nullable</span>, id, type, key, callback, callback_param<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.create_keyboard_sensor">create_keyboard_sensor<span class="signature">(key)</span><span class="type-signature"> &rarr; {Object}</span></a></li>
+
+        
+            
+<li> <a href="#.create_motion_sensor">create_motion_sensor<span class="signature">(obj, threshold, rotation_threshold)</span><span class="type-signature"> &rarr; {Object}</span></a></li>
+
+        
+            
+<li> <a href="#.create_mouse_click_sensor">create_mouse_click_sensor<span class="signature">()</span><span class="type-signature"> &rarr; {Object}</span></a></li>
+
+        
+            
+<li> <a href="#.create_mouse_move_sensor">create_mouse_move_sensor<span class="signature">(axis<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Object}</span></a></li>
+
+        
+            
+<li> <a href="#.create_mouse_wheel_sensor">create_mouse_wheel_sensor<span class="signature">()</span><span class="type-signature"> &rarr; {Object}</span></a></li>
+
+        
+            
+<li> <a href="#.create_ray_sensor">create_ray_sensor<span class="signature">(obj, start_offset, end_offset, local_coords, collision_id)</span><span class="type-signature"> &rarr; {Object}</span></a></li>
+
+        
+            
+<li> <a href="#.create_selection_sensor">create_selection_sensor<span class="signature">(obj, auto_release<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Object}</span></a></li>
+
+        
+            
+<li> <a href="#.create_sensor_lock">create_sensor_lock<span class="signature">(sensor, lock_sensors, lock_logic_fun)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.create_sensor_manifold">create_sensor_manifold<span class="signature">(obj<span class="signature-attributes">nullable</span>, id, type, sensors, logic_fun, callback, callback_param<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.create_timeline_sensor">create_timeline_sensor<span class="signature">()</span><span class="type-signature"> &rarr; {Object}</span></a></li>
+
+        
+            
+<li> <a href="#.create_timer_sensor">create_timer_sensor<span class="signature">(period, do_repeat<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Object}</span></a></li>
+
+        
+            
+<li> <a href="#.create_touch_move_sensor">create_touch_move_sensor<span class="signature">(axis<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Object}</span></a></li>
+
+        
+            
+<li> <a href="#.create_touch_zoom_sensor">create_touch_zoom_sensor<span class="signature">()</span><span class="type-signature"> &rarr; {Object}</span></a></li>
+
+        
+            
+<li> <a href="#.create_vertical_velocity_sensor">create_vertical_velocity_sensor<span class="signature">(obj, threshold)</span><span class="type-signature"> &rarr; {Object}</span></a></li>
+
+        
+            
+<li> <a href="#.get_custom_sensor">get_custom_sensor<span class="signature">(sensor)</span><span class="type-signature"> &rarr; {Number}</span></a></li>
+
+        
+            
+<li> <a href="#.get_sensor_payload">get_sensor_payload<span class="signature">(obj<span class="signature-attributes">nullable</span>, manifold_id, num)</span><span class="type-signature"> &rarr; {*}</span></a></li>
+
+        
+            
+<li> <a href="#.get_sensor_value">get_sensor_value<span class="signature">(obj<span class="signature-attributes">nullable</span>, manifold_id, num)</span><span class="type-signature"> &rarr; {Number}</span></a></li>
+
+        
+            
+<li> <a href="#.register_device_orientation">register_device_orientation<span class="signature">()</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.register_device_orientation">register_device_orientation<span class="signature">()</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.register_keyboard_events">register_keyboard_events<span class="signature">(element, prevent_default)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.register_mouse_events">register_mouse_events<span class="signature">(element, prevent_default, allow_element_exit<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.register_touch_events">register_touch_events<span class="signature">(element, prevent_default)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.register_wheel_events">register_wheel_events<span class="signature">(element, prevent_default)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.remove_sensor_lock">remove_sensor_lock<span class="signature">(sensor)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.remove_sensor_manifold">remove_sensor_manifold<span class="signature">(obj<span class="signature-attributes">nullable</span>, id<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.remove_sensor_manifolds">remove_sensor_manifolds<span class="signature">(obj<span class="signature-attributes">nullable</span>)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.reset">reset<span class="signature">()</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.reset_timer_sensor">reset_timer_sensor<span class="signature">(obj, manifold_id, num, period)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.set_custom_sensor">set_custom_sensor<span class="signature">(sensor, value)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.unregister_keyboard_events">unregister_keyboard_events<span class="signature">(element)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.unregister_mouse_events">unregister_mouse_events<span class="signature">(element)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.unregister_touch_events">unregister_touch_events<span class="signature">(element)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.unregister_wheel_events">unregister_wheel_events<span class="signature">(element)</span><span class="type-signature"></span></a></li>
+
+        
+        </ul>
+    
+    
+        <h3 class="subsection-title">Type Definitions</h3>
+
+        <ul>
+        
+                
+<li> <a href="#~manifold_callback">manifold_callback<span class="signature">(obj<span class="signature-attributes">nullable</span>, id, pulse, param<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></a></li>
+
+            
+                
+<li> <a href="#~manifold_logic_function">manifold_logic_function<span class="signature">(s)</span><span class="type-signature"> &rarr; {Number}</span></a></li>
+
+            
+        </ul>
+    
+    <h2>Detailed Description</h2>
+    
+        <h3 class="subsection-title">Members</h3>
+        
+            
+<div class="item_container">
+<div class="item_name">
+<h4 class="name" id=".CT_CONTINUOUS">CT_CONTINUOUS</h4>
+
+</div>
+
+<div class="item_description">
 
 <div class="description">
     Continuous control type.
@@ -208,13 +426,18 @@ Generates a single negative pulse for the negative logic function.
 
 
 
+</div>
+</div>
 
         
             
-<h4 class="name" id=".CT_LEVEL"><span class="type-signature">(static, constant) </span>CT_LEVEL<span class="type-signature"></span></h4>
+<div class="item_container">
+<div class="item_name">
+<h4 class="name" id=".CT_LEVEL">CT_LEVEL</h4>
 
+</div>
 
-
+<div class="item_description">
 
 <div class="description">
     Level control type.
@@ -272,13 +495,18 @@ result. Produces no negative pulses.
 
 
 
+</div>
+</div>
 
         
             
-<h4 class="name" id=".CT_SHOT"><span class="type-signature">(static, constant) </span>CT_SHOT<span class="type-signature"></span></h4>
+<div class="item_container">
+<div class="item_name">
+<h4 class="name" id=".CT_SHOT">CT_SHOT</h4>
 
+</div>
 
-
+<div class="item_description">
 
 <div class="description">
     Shot control type.
@@ -336,13 +564,18 @@ Produces no negative pulses.
 
 
 
+</div>
+</div>
 
         
             
-<h4 class="name" id=".CT_TRIGGER"><span class="type-signature">(static, constant) </span>CT_TRIGGER<span class="type-signature"></span></h4>
+<div class="item_container">
+<div class="item_name">
+<h4 class="name" id=".CT_TRIGGER">CT_TRIGGER</h4>
 
+</div>
 
-
+<div class="item_description">
 
 <div class="description">
     Trigger control type.
@@ -400,23 +633,27 @@ Generate a single negative pulse for the negative logic function.
 
 
 
+</div>
+</div>
 
         
     
 
     
         <h3 class="subsection-title">Methods</h3>
-
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".check_sensor_manifold"><span class="type-signature">(static) </span>check_sensor_manifold<span class="signature">(obj<span class="signature-attributes">nullable</span>, id)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
+    <h4 class="name" id=".check_sensor_manifold">check_sensor_manifold<span class="signature">(obj<span class="signature-attributes">nullable</span>, id)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Check whether an object has manifold attached or not.
@@ -526,6 +763,40 @@ Generate a single negative pulse for the negative logic function.
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Check result
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 <dl class="details">
 
     
@@ -568,51 +839,21 @@ Generate a single negative pulse for the negative logic function.
 
 
 
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Check result
 </div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Boolean</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".check_sensor_manifolds"><span class="type-signature">(static) </span>check_sensor_manifolds<span class="signature">(obj<span class="signature-attributes">nullable</span>)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
+    <h4 class="name" id=".check_sensor_manifolds">check_sensor_manifolds<span class="signature">(obj<span class="signature-attributes">nullable</span>)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Check whether an object has some manifold attached or not.
@@ -691,6 +932,40 @@ Generate a single negative pulse for the negative logic function.
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Check result
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 <dl class="details">
 
     
@@ -733,51 +1008,21 @@ Generate a single negative pulse for the negative logic function.
 
 
 
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Check result
 </div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Boolean</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".create_collision_impulse_sensor"><span class="type-signature">(static) </span>create_collision_impulse_sensor<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+    <h4 class="name" id=".create_collision_impulse_sensor">create_collision_impulse_sensor<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Object}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Create a collision impulse sensor.
@@ -845,6 +1090,40 @@ Its value is the impulse applied at the collision point
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Sensor object
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Object</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 <dl class="details">
 
     
@@ -887,51 +1166,21 @@ Its value is the impulse applied at the collision point
 
 
 
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Sensor object
 </div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Object</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".create_collision_sensor"><span class="type-signature">(static) </span>create_collision_sensor<span class="signature">(obj, collision_id, need_payload)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+    <h4 class="name" id=".create_collision_sensor">create_collision_sensor<span class="signature">(obj, collision_id, need_payload)</span><span class="type-signature"> &rarr; {Object}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Create a collision sensor.
@@ -1045,6 +1294,40 @@ Performs detection of collisions between an object and an entity with a collisio
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Sensor object
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Object</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 <dl class="details">
 
     
@@ -1087,51 +1370,21 @@ Performs detection of collisions between an object and an entity with a collisio
 
 
 
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Sensor object
 </div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Object</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".create_custom_sensor"><span class="type-signature">(static) </span>create_custom_sensor<span class="signature">(value)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+    <h4 class="name" id=".create_custom_sensor">create_custom_sensor<span class="signature">(value)</span><span class="type-signature"> &rarr; {Object}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Create a custom sensor.
@@ -1199,6 +1452,40 @@ Custom sensor controlled by set_custom_sensor()
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Sensor object
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Object</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 <dl class="details">
 
     
@@ -1241,6 +1528,37 @@ Custom sensor controlled by set_custom_sensor()
 
 
 
+</div>
+</div>
+        
+            
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id=".create_elapsed_sensor">create_elapsed_sensor<span class="signature">()</span><span class="type-signature"> &rarr; {Object}</span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Create an elapsed sensor.
+The sensor's value is the time elapsed from the previous frame
+</div>
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1273,33 +1591,6 @@ Custom sensor controlled by set_custom_sensor()
 </dl>
 
     
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id=".create_elapsed_sensor"><span class="type-signature">(static) </span>create_elapsed_sensor<span class="signature">()</span><span class="type-signature"> &rarr; {Object}</span></h4>
-
-    
-
-
-
-<div class="description">
-    Create an elapsed sensor.
-The sensor's value is the time elapsed from the previous frame
-</div>
-
-
-
-
-
-
-
-
-
 
 
 
@@ -1346,6 +1637,37 @@ The sensor's value is the time elapsed from the previous frame
 
 
 
+</div>
+</div>
+        
+            
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id=".create_gyroscope_angles_sensor">create_gyroscope_angles_sensor<span class="signature">()</span><span class="type-signature"> &rarr; {Object}</span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Create a gyroscope sensor.
+The sensor's payload stores the euler angles of rotation mobile device.
+</div>
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1378,33 +1700,6 @@ The sensor's value is the time elapsed from the previous frame
 </dl>
 
     
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id=".create_gyroscope_angles_sensor"><span class="type-signature">(static) </span>create_gyroscope_angles_sensor<span class="signature">()</span><span class="type-signature"> &rarr; {Object}</span></h4>
-
-    
-
-
-
-<div class="description">
-    Create a gyroscope sensor.
-The sensor's payload stores the euler angles of rotation mobile device.
-</div>
-
-
-
-
-
-
-
-
-
 
 
 
@@ -1451,6 +1746,37 @@ The sensor's payload stores the euler angles of rotation mobile device.
 
 
 
+</div>
+</div>
+        
+            
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id=".create_gyroscope_angles_sensor">create_gyroscope_angles_sensor<span class="signature">()</span><span class="type-signature"> &rarr; {Object}</span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Create a gyroscope sensor.
+The sensor's payload stores the euler angles differences between current and previous states of mobile device.
+</div>
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1483,33 +1809,6 @@ The sensor's payload stores the euler angles of rotation mobile device.
 </dl>
 
     
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id=".create_gyroscope_angles_sensor"><span class="type-signature">(static) </span>create_gyroscope_angles_sensor<span class="signature">()</span><span class="type-signature"> &rarr; {Object}</span></h4>
-
-    
-
-
-
-<div class="description">
-    Create a gyroscope sensor.
-The sensor's payload stores the euler angles differences between current and previous states of mobile device.
-</div>
-
-
-
-
-
-
-
-
-
 
 
 
@@ -1556,51 +1855,21 @@ The sensor's payload stores the euler angles differences between current and pre
 
 
 
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Sensor object
 </div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Object</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".create_kb_sensor_manifold"><span class="type-signature">(static) </span>create_kb_sensor_manifold<span class="signature">(obj<span class="signature-attributes">nullable</span>, id, type, key, callback, callback_param<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".create_kb_sensor_manifold">create_kb_sensor_manifold<span class="signature">(obj<span class="signature-attributes">nullable</span>, id, type, key, callback, callback_param<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Convenience function.
@@ -1837,6 +2106,18 @@ Create one keyboard sensor, create and attach a manifold.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -1879,29 +2160,21 @@ Create one keyboard sensor, create and attach a manifold.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".create_keyboard_sensor"><span class="type-signature">(static) </span>create_keyboard_sensor<span class="signature">(key)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+    <h4 class="name" id=".create_keyboard_sensor">create_keyboard_sensor<span class="signature">(key)</span><span class="type-signature"> &rarr; {Object}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Create a keyboard sensor.
@@ -1968,6 +2241,40 @@ Create one keyboard sensor, create and attach a manifold.
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Sensor object
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Object</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 <dl class="details">
 
     
@@ -2010,51 +2317,21 @@ Create one keyboard sensor, create and attach a manifold.
 
 
 
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Sensor object
 </div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Object</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".create_motion_sensor"><span class="type-signature">(static) </span>create_motion_sensor<span class="signature">(obj, threshold, rotation_threshold)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+    <h4 class="name" id=".create_motion_sensor">create_motion_sensor<span class="signature">(obj, threshold, rotation_threshold)</span><span class="type-signature"> &rarr; {Object}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Create a motion sensor.
@@ -2168,6 +2445,40 @@ The sensor's value is 1 if the object is in motion
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Sensor object
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Object</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 <dl class="details">
 
     
@@ -2210,6 +2521,36 @@ The sensor's value is 1 if the object is in motion
 
 
 
+</div>
+</div>
+        
+            
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id=".create_mouse_click_sensor">create_mouse_click_sensor<span class="signature">()</span><span class="type-signature"> &rarr; {Object}</span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Create a mouse click sensor.
+</div>
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2242,32 +2583,6 @@ The sensor's value is 1 if the object is in motion
 </dl>
 
     
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id=".create_mouse_click_sensor"><span class="type-signature">(static) </span>create_mouse_click_sensor<span class="signature">()</span><span class="type-signature"> &rarr; {Object}</span></h4>
-
-    
-
-
-
-<div class="description">
-    Create a mouse click sensor.
-</div>
-
-
-
-
-
-
-
-
-
 
 
 
@@ -2314,51 +2629,21 @@ The sensor's value is 1 if the object is in motion
 
 
 
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Sensor object
 </div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Object</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".create_mouse_move_sensor"><span class="type-signature">(static) </span>create_mouse_move_sensor<span class="signature">(axis<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+    <h4 class="name" id=".create_mouse_move_sensor">create_mouse_move_sensor<span class="signature">(axis<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Object}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Create a mouse movement sensor.
@@ -2446,6 +2731,40 @@ The sensor's value is a number of pixels, the sensor's payload is (are) coordita
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Sensor object
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Object</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 <dl class="details">
 
     
@@ -2488,6 +2807,37 @@ The sensor's value is a number of pixels, the sensor's payload is (are) coordita
 
 
 
+</div>
+</div>
+        
+            
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id=".create_mouse_wheel_sensor">create_mouse_wheel_sensor<span class="signature">()</span><span class="type-signature"> &rarr; {Object}</span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Create a mouse wheel sensor.
+The sensor's value is 1 for a single wheel notch scrolled away from the user
+</div>
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2520,33 +2870,6 @@ The sensor's value is a number of pixels, the sensor's payload is (are) coordita
 </dl>
 
     
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id=".create_mouse_wheel_sensor"><span class="type-signature">(static) </span>create_mouse_wheel_sensor<span class="signature">()</span><span class="type-signature"> &rarr; {Object}</span></h4>
-
-    
-
-
-
-<div class="description">
-    Create a mouse wheel sensor.
-The sensor's value is 1 for a single wheel notch scrolled away from the user
-</div>
-
-
-
-
-
-
-
-
-
 
 
 
@@ -2593,51 +2916,21 @@ The sensor's value is 1 for a single wheel notch scrolled away from the user
 
 
 
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Sensor object
 </div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Object</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".create_ray_sensor"><span class="type-signature">(static) </span>create_ray_sensor<span class="signature">(obj, start_offset, end_offset, local_coords, collision_id)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+    <h4 class="name" id=".create_ray_sensor">create_ray_sensor<span class="signature">(obj, start_offset, end_offset, local_coords, collision_id)</span><span class="type-signature"> &rarr; {Object}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Create a ray sensor.
@@ -2798,6 +3091,40 @@ with an entity posessing a collision ID
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Sensor object
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Object</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 <dl class="details">
 
     
@@ -2840,51 +3167,21 @@ with an entity posessing a collision ID
 
 
 
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Sensor object
 </div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Object</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".create_selection_sensor"><span class="type-signature">(static) </span>create_selection_sensor<span class="signature">(obj, auto_release<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+    <h4 class="name" id=".create_selection_sensor">create_selection_sensor<span class="signature">(obj, auto_release<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Object}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Create an object selection sensor.
@@ -3009,6 +3306,40 @@ if another object has been selected.</td>
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Sensor object
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Object</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 <dl class="details">
 
     
@@ -3051,51 +3382,21 @@ if another object has been selected.</td>
 
 
 
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Sensor object
 </div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Object</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".create_sensor_lock"><span class="type-signature">(static) </span>create_sensor_lock<span class="signature">(sensor, lock_sensors, lock_logic_fun)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".create_sensor_lock">create_sensor_lock<span class="signature">(sensor, lock_sensors, lock_logic_fun)</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Create a sensor lock.
@@ -3203,6 +3504,18 @@ if another object has been selected.</td>
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -3247,29 +3560,21 @@ if another object has been selected.</td>
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".create_sensor_manifold"><span class="type-signature">(static) </span>create_sensor_manifold<span class="signature">(obj<span class="signature-attributes">nullable</span>, id, type, sensors, logic_fun, callback, callback_param<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".create_sensor_manifold">create_sensor_manifold<span class="signature">(obj<span class="signature-attributes">nullable</span>, id, type, sensors, logic_fun, callback, callback_param<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Create a sensor manifold.
@@ -3537,6 +3842,18 @@ object</td>
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -3579,29 +3896,21 @@ object</td>
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".create_timeline_sensor"><span class="type-signature">(static) </span>create_timeline_sensor<span class="signature">()</span><span class="type-signature"> &rarr; {Object}</span></h4>
+    <h4 class="name" id=".create_timeline_sensor">create_timeline_sensor<span class="signature">()</span><span class="type-signature"> &rarr; {Object}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Create a timeline sensor.
@@ -3616,6 +3925,40 @@ The sensor's value is the global engine timeline
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Sensor object
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Object</span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -3662,51 +4005,21 @@ The sensor's value is the global engine timeline
 
 
 
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Sensor object
 </div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Object</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".create_timer_sensor"><span class="type-signature">(static) </span>create_timer_sensor<span class="signature">(period, do_repeat<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+    <h4 class="name" id=".create_timer_sensor">create_timer_sensor<span class="signature">(period, do_repeat<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Object}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Create a timer sensor.
@@ -3831,6 +4144,40 @@ on current FPS value, so don't try to measure short intervals.
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Sensor object
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Object</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 <dl class="details">
 
     
@@ -3873,51 +4220,21 @@ on current FPS value, so don't try to measure short intervals.
 
 
 
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Sensor object
 </div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Object</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".create_touch_move_sensor"><span class="type-signature">(static) </span>create_touch_move_sensor<span class="signature">(axis<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+    <h4 class="name" id=".create_touch_move_sensor">create_touch_move_sensor<span class="signature">(axis<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Object}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Create a touch movement sensor.
@@ -4005,6 +4322,40 @@ The sensor's value is a number of pixels
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Sensor object
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Object</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 <dl class="details">
 
     
@@ -4047,6 +4398,37 @@ The sensor's value is a number of pixels
 
 
 
+</div>
+</div>
+        
+            
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id=".create_touch_zoom_sensor">create_touch_zoom_sensor<span class="signature">()</span><span class="type-signature"> &rarr; {Object}</span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Create a touch zoom sensor.
+The sensor's value is the distance delta in pixels
+</div>
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -4079,33 +4461,6 @@ The sensor's value is a number of pixels
 </dl>
 
     
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id=".create_touch_zoom_sensor"><span class="type-signature">(static) </span>create_touch_zoom_sensor<span class="signature">()</span><span class="type-signature"> &rarr; {Object}</span></h4>
-
-    
-
-
-
-<div class="description">
-    Create a touch zoom sensor.
-The sensor's value is the distance delta in pixels
-</div>
-
-
-
-
-
-
-
-
-
 
 
 
@@ -4152,51 +4507,21 @@ The sensor's value is the distance delta in pixels
 
 
 
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Sensor object
 </div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Object</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".create_vertical_velocity_sensor"><span class="type-signature">(static) </span>create_vertical_velocity_sensor<span class="signature">(obj, threshold)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+    <h4 class="name" id=".create_vertical_velocity_sensor">create_vertical_velocity_sensor<span class="signature">(obj, threshold)</span><span class="type-signature"> &rarr; {Object}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Create a velocity sensor.
@@ -4287,6 +4612,40 @@ The sensor's value is 1 if abs() of the object's vertical velocity exceeds the t
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Sensor object
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Object</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 <dl class="details">
 
     
@@ -4329,51 +4688,21 @@ The sensor's value is 1 if abs() of the object's vertical velocity exceeds the t
 
 
 
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Sensor object
 </div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Object</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".get_custom_sensor"><span class="type-signature">(static) </span>get_custom_sensor<span class="signature">(sensor)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+    <h4 class="name" id=".get_custom_sensor">get_custom_sensor<span class="signature">(sensor)</span><span class="type-signature"> &rarr; {Number}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Get the value of the custom sensor.
@@ -4440,6 +4769,40 @@ The sensor's value is 1 if abs() of the object's vertical velocity exceeds the t
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Sensor value
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Number</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 <dl class="details">
 
     
@@ -4482,51 +4845,21 @@ The sensor's value is 1 if abs() of the object's vertical velocity exceeds the t
 
 
 
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Sensor value
 </div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Number</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".get_sensor_payload"><span class="type-signature">(static) </span>get_sensor_payload<span class="signature">(obj<span class="signature-attributes">nullable</span>, manifold_id, num)</span><span class="type-signature"> &rarr; {*}</span></h4>
+    <h4 class="name" id=".get_sensor_payload">get_sensor_payload<span class="signature">(obj<span class="signature-attributes">nullable</span>, manifold_id, num)</span><span class="type-signature"> &rarr; {*}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Return the sensor payload data
@@ -4667,6 +5000,40 @@ The sensor's value is 1 if abs() of the object's vertical velocity exceeds the t
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Sensor payload
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">*</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 <dl class="details">
 
     
@@ -4709,51 +5076,21 @@ The sensor's value is 1 if abs() of the object's vertical velocity exceeds the t
 
 
 
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Sensor payload
 </div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">*</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".get_sensor_value"><span class="type-signature">(static) </span>get_sensor_value<span class="signature">(obj<span class="signature-attributes">nullable</span>, manifold_id, num)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+    <h4 class="name" id=".get_sensor_value">get_sensor_value<span class="signature">(obj<span class="signature-attributes">nullable</span>, manifold_id, num)</span><span class="type-signature"> &rarr; {Number}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Return the sensor value.
@@ -4894,6 +5231,40 @@ The sensor's value is 1 if abs() of the object's vertical velocity exceeds the t
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Sensor value
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Number</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 <dl class="details">
 
     
@@ -4936,55 +5307,37 @@ The sensor's value is 1 if abs() of the object's vertical velocity exceeds the t
 
 
 
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Sensor value
 </div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Number</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".register_device_orientation"><span class="type-signature">(static) </span>register_device_orientation<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".register_device_orientation">register_device_orientation<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Register events for device orientation sensors.
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -5040,33 +5393,37 @@ The sensor's value is 1 if abs() of the object's vertical velocity exceeds the t
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".register_device_orientation"><span class="type-signature">(static) </span>register_device_orientation<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".register_device_orientation">register_device_orientation<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Unregister events for device orientation sensors.
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -5122,29 +5479,21 @@ The sensor's value is 1 if abs() of the object's vertical velocity exceeds the t
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".register_keyboard_events"><span class="type-signature">(static) </span>register_keyboard_events<span class="signature">(element, prevent_default)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".register_keyboard_events">register_keyboard_events<span class="signature">(element, prevent_default)</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Register events for keyboard sensors (onkeydown, onkeyup).
@@ -5235,6 +5584,18 @@ registered events.</td>
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -5277,29 +5638,21 @@ registered events.</td>
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".register_mouse_events"><span class="type-signature">(static) </span>register_mouse_events<span class="signature">(element, prevent_default, allow_element_exit<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".register_mouse_events">register_mouse_events<span class="signature">(element, prevent_default, allow_element_exit<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Register events for mouse sensors (onmousedown, onmouseup, onmousemove).
@@ -5458,6 +5811,18 @@ canvas element.</td>
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -5500,29 +5865,21 @@ canvas element.</td>
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".register_touch_events"><span class="type-signature">(static) </span>register_touch_events<span class="signature">(element, prevent_default)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".register_touch_events">register_touch_events<span class="signature">(element, prevent_default)</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Register events for touchscreen sensors (touchstart, touchmove).
@@ -5613,6 +5970,18 @@ registered events.</td>
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -5655,29 +6024,21 @@ registered events.</td>
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".register_wheel_events"><span class="type-signature">(static) </span>register_wheel_events<span class="signature">(element, prevent_default)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".register_wheel_events">register_wheel_events<span class="signature">(element, prevent_default)</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Register events for mouse wheel sensors (onmousewheel, DOMMouseScroll).
@@ -5768,6 +6129,18 @@ registered events.</td>
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -5810,29 +6183,21 @@ registered events.</td>
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".remove_sensor_lock"><span class="type-signature">(static) </span>remove_sensor_lock<span class="signature">(sensor)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".remove_sensor_lock">remove_sensor_lock<span class="signature">(sensor)</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Remove the sensor lock.
@@ -5899,6 +6264,18 @@ registered events.</td>
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -5943,29 +6320,21 @@ registered events.</td>
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".remove_sensor_manifold"><span class="type-signature">(static) </span>remove_sensor_manifold<span class="signature">(obj<span class="signature-attributes">nullable</span>, id<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".remove_sensor_manifold">remove_sensor_manifold<span class="signature">(obj<span class="signature-attributes">nullable</span>, id<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Remove the sensor manifold registered for the given object.
@@ -6090,6 +6459,18 @@ them</td>
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -6132,29 +6513,21 @@ them</td>
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".remove_sensor_manifolds"><span class="type-signature">(static) </span>remove_sensor_manifolds<span class="signature">(obj<span class="signature-attributes">nullable</span>)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".remove_sensor_manifolds">remove_sensor_manifolds<span class="signature">(obj<span class="signature-attributes">nullable</span>)</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Remove all sensor manifolds registered for the given object.
@@ -6233,6 +6606,18 @@ them</td>
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -6277,34 +6662,38 @@ them</td>
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".reset"><span class="type-signature">(static) </span>reset<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".reset">reset<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Reset controls for all the objects.
 Usage discouraged, use remove_sensor_manifold instead.
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -6360,29 +6749,21 @@ Usage discouraged, use remove_sensor_manifold instead.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".reset_timer_sensor"><span class="type-signature">(static) </span>reset_timer_sensor<span class="signature">(obj, manifold_id, num, period)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".reset_timer_sensor">reset_timer_sensor<span class="signature">(obj, manifold_id, num, period)</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Reset the timer sensor and set the new period value.
@@ -6518,6 +6899,18 @@ Usage discouraged, use remove_sensor_manifold instead.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -6560,29 +6953,21 @@ Usage discouraged, use remove_sensor_manifold instead.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".set_custom_sensor"><span class="type-signature">(static) </span>set_custom_sensor<span class="signature">(sensor, value)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".set_custom_sensor">set_custom_sensor<span class="signature">(sensor, value)</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Set the value of the custom sensor.
@@ -6672,6 +7057,18 @@ Usage discouraged, use remove_sensor_manifold instead.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -6714,29 +7111,21 @@ Usage discouraged, use remove_sensor_manifold instead.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".unregister_keyboard_events"><span class="type-signature">(static) </span>unregister_keyboard_events<span class="signature">(element)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".unregister_keyboard_events">unregister_keyboard_events<span class="signature">(element)</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Unregister events for keyboard sensors.
@@ -6803,6 +7192,18 @@ Usage discouraged, use remove_sensor_manifold instead.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -6845,29 +7246,21 @@ Usage discouraged, use remove_sensor_manifold instead.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".unregister_mouse_events"><span class="type-signature">(static) </span>unregister_mouse_events<span class="signature">(element)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".unregister_mouse_events">unregister_mouse_events<span class="signature">(element)</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Unregister events for mouse sensors.
@@ -6934,6 +7327,18 @@ Usage discouraged, use remove_sensor_manifold instead.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -6976,29 +7381,21 @@ Usage discouraged, use remove_sensor_manifold instead.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".unregister_touch_events"><span class="type-signature">(static) </span>unregister_touch_events<span class="signature">(element)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".unregister_touch_events">unregister_touch_events<span class="signature">(element)</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Unregister events for touchscreen sensors.
@@ -7065,6 +7462,18 @@ Usage discouraged, use remove_sensor_manifold instead.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -7107,29 +7516,21 @@ Usage discouraged, use remove_sensor_manifold instead.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".unregister_wheel_events"><span class="type-signature">(static) </span>unregister_wheel_events<span class="signature">(element)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".unregister_wheel_events">unregister_wheel_events<span class="signature">(element)</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Unregister events for mouse wheel sensors.
@@ -7196,6 +7597,18 @@ Usage discouraged, use remove_sensor_manifold instead.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -7238,19 +7651,8 @@ Usage discouraged, use remove_sensor_manifold instead.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
     
 
@@ -7259,14 +7661,17 @@ Usage discouraged, use remove_sensor_manifold instead.
 
         
                 
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id="~manifold_callback"><span class="type-signature"></span>manifold_callback<span class="signature">(obj<span class="signature-attributes">nullable</span>, id, pulse, param<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="~manifold_callback">manifold_callback<span class="signature">(obj<span class="signature-attributes">nullable</span>, id, pulse, param<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Manifold callback.
@@ -7440,6 +7845,18 @@ Usage discouraged, use remove_sensor_manifold instead.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -7482,29 +7899,21 @@ Usage discouraged, use remove_sensor_manifold instead.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
             
                 
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id="~manifold_logic_function"><span class="type-signature"></span>manifold_logic_function<span class="signature">(s)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+    <h4 class="name" id="~manifold_logic_function">manifold_logic_function<span class="signature">(s)</span><span class="type-signature"> &rarr; {Number}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Function to handle a manifold's logic.
@@ -7571,6 +7980,40 @@ Usage discouraged, use remove_sensor_manifold instead.
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    The result of a logic function
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Number</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 <dl class="details">
 
     
@@ -7613,41 +8056,8 @@ Usage discouraged, use remove_sensor_manifold instead.
 
 
 
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    The result of a logic function
 </div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Number</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
+</div>
             
     
 
@@ -7662,13 +8072,13 @@ Usage discouraged, use remove_sensor_manifold instead.
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Thu Mar 26 2015 17:33:35 GMT+0300 (MSK)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Wed Apr 29 2015 10:10:51 GMT+0300 (MSK)
 </footer>
 
 <script> prettyPrint(); </script>

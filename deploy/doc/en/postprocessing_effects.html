@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Postprocessing Effects &mdash; User Manual: Blend4Web v15.03</title>
+    <title>Postprocessing Effects &mdash; User Manual: Blend4Web v15.04</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '15.03',
+        VERSION:     '15.04',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,8 +25,8 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User Manual: Blend4Web v15.03" href="index.html" />
-    <link rel="next" title="Particle System" href="particles.html" />
+    <link rel="top" title="User Manual: Blend4Web v15.04" href="index.html" />
+    <link rel="next" title="Particle System. Fluids" href="particles.html" />
     <link rel="prev" title="Lighting, Shadows and Background" href="lighting.html" /> 
   </head>
   <body>
@@ -36,11 +36,11 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">User Manual: Blend4Web v15.03</a></div>
+          href="index.html">User Manual: Blend4Web v15.04</a></div>
         <div class="rel">
           <a href="lighting.html" title="Lighting, Shadows and Background"
              accesskey="P">previous</a> |
-          <a href="particles.html" title="Particle System"
+          <a href="particles.html" title="Particle System. Fluids"
              accesskey="N">next</a> |
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a>
@@ -61,6 +61,7 @@
 <div class="section" id="motion-blur">
 <span id="index-0"></span><span id="id2"></span><h2>Motion Blur<a class="headerlink" href="#motion-blur" title="Permalink to this headline">¶</a></h2>
 <p>The motion blur effect can be used to improve the realism of an interactive scene. It is displayed as picture blurring when the camera or objects move.</p>
+<a class="reference internal image-reference" href="_images/motion_blur.jpg"><img alt="_images/motion_blur.jpg" class="align-center" src="_images/motion_blur.jpg" style="width: 100%;" /></a>
 <div class="section" id="id3">
 <h3>Activation<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
 <p>Enable the <tt class="docutils literal"><span class="pre">Enable</span> <span class="pre">Motion</span> <span class="pre">Blur</span></tt> checkbox on the <tt class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span></tt> panel.</p>
@@ -76,15 +77,12 @@
 <dd><p class="first last">Blur fade-out ratio. The higher this value is the more distinct is the effect. The default value is 0.01.</p>
 </dd>
 </dl>
-<a class="reference internal image-reference" href="_images/motion_blur.jpg"><img alt="_images/motion_blur.jpg" class="align-center" src="_images/motion_blur.jpg" style="width: 100%;" /></a>
-<div class="line-block">
-<div class="line"><br /></div>
-</div>
 </div>
 </div>
 <div class="section" id="dof">
 <span id="index-1"></span><span id="id5"></span><h2>Depth of Field<a class="headerlink" href="#dof" title="Permalink to this headline">¶</a></h2>
 <p>The depth of field effect (DOF) can be used to accentuate a part of a scene. It is displayed as picture blurring nearer and further from the camera focus.</p>
+<a class="reference internal image-reference" href="_images/dof.jpg"><img alt="_images/dof.jpg" class="align-center" src="_images/dof.jpg" style="width: 100%;" /></a>
 <div class="section" id="id6">
 <h3>Activation<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
 <ol class="arabic">
@@ -116,15 +114,12 @@
 <dd><p class="first last">Blurring ratio. The default value is 3.0.</p>
 </dd>
 </dl>
-<a class="reference internal image-reference" href="_images/dof.jpg"><img alt="_images/dof.jpg" class="align-center" src="_images/dof.jpg" style="width: 100%;" /></a>
-<div class="line-block">
-<div class="line"><br /></div>
-</div>
 </div>
 </div>
 <div class="section" id="ssao">
 <span id="index-2"></span><span id="id8"></span><h2>Screen-Space Ambient Occlusion<a class="headerlink" href="#ssao" title="Permalink to this headline">¶</a></h2>
 <p>The screen-space ambient occlusion (SSAO) effect can be used to fake complex light reflections from objects. The basis of this effect is that the space between close objects is less accessible for diffused light and hence is darker.</p>
+<a class="reference internal image-reference" href="_images/ssao.jpg"><img alt="_images/ssao.jpg" class="align-center" src="_images/ssao.jpg" style="width: 50%;" /></a>
 <div class="section" id="id9">
 <h3>Activation<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
 <p>Enable the <tt class="docutils literal"><span class="pre">Enable</span> <span class="pre">SSAO</span></tt> and <tt class="docutils literal"><span class="pre">Render</span> <span class="pre">Shadows</span></tt> checkboxes on the <tt class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span></tt> panel.</p>
@@ -155,15 +150,12 @@
 <dd><p class="first last">Number of samples (the more samples there are the better is the quality but the poorer is the performance). The default value is 16.</p>
 </dd>
 </dl>
-<a class="reference internal image-reference" href="_images/ssao.jpg"><img alt="_images/ssao.jpg" class="align-center" src="_images/ssao.jpg" style="width: 50%;" /></a>
-<div class="line-block">
-<div class="line"><br /></div>
-</div>
 </div>
 </div>
 <div class="section" id="god-rays">
 <span id="index-3"></span><span id="id11"></span><h2>God Rays<a class="headerlink" href="#god-rays" title="Permalink to this headline">¶</a></h2>
 <p>The god rays effect (aka crepuscular rays) simulates well-known natural phenomenon - the shining of illuminated air parts.</p>
+<a class="reference internal image-reference" href="_images/god_rays.jpg"><img alt="_images/god_rays.jpg" class="align-center" src="_images/god_rays.jpg" style="width: 100%;" /></a>
 <div class="section" id="id12">
 <h3>Activation<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
 <p>Enable the <tt class="docutils literal"><span class="pre">Enable</span> <span class="pre">God</span> <span class="pre">Rays</span></tt> checkbox on the <tt class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span></tt> panel.</p>
@@ -182,15 +174,12 @@
 <dd><p class="first last">Number of steps per single sample. The default value is 10.0.</p>
 </dd>
 </dl>
-<a class="reference internal image-reference" href="_images/god_rays.jpg"><img alt="_images/god_rays.jpg" class="align-center" src="_images/god_rays.jpg" style="width: 100%;" /></a>
-<div class="line-block">
-<div class="line"><br /></div>
-</div>
 </div>
 </div>
 <div class="section" id="id14">
 <h2>Bloom<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h2>
 <p>Bloom appears when a picture has elements with a very different brightness. A glowing halo is created around the bright details.</p>
+<a class="reference internal image-reference" href="_images/bloom.jpg"><img alt="_images/bloom.jpg" class="align-center" src="_images/bloom.jpg" style="width: 100%;" /></a>
 <div class="section" id="id15">
 <h3>Activation<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
 <p>Enable the <tt class="docutils literal"><span class="pre">Enable</span> <span class="pre">Bloom</span></tt> checkbox on the <tt class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span></tt> panel.</p>
@@ -209,69 +198,69 @@
 <dd><p class="first last">The boundary value of an element&#8217;s relative brightness above which the bloom effect appears.</p>
 </dd>
 </dl>
-<a class="reference internal image-reference" href="_images/bloom.jpg"><img alt="_images/bloom.jpg" class="align-center" src="_images/bloom.jpg" style="width: 100%;" /></a>
-<div class="line-block">
-<div class="line"><br /></div>
 </div>
 </div>
+<div class="section" id="outline-glow">
+<span id="outline"></span><span id="index-4"></span><h2>Outline Glow<a class="headerlink" href="#outline-glow" title="Permalink to this headline">¶</a></h2>
+<p>As a result of the outline glow effect, a luminous colored halo will be displayed around the object.</p>
+<a class="reference internal image-reference" href="_images/outline.jpg"><img alt="_images/outline.jpg" class="align-center" src="_images/outline.jpg" style="width: 100%;" /></a>
+<div class="section" id="id17">
+<h3>Activation<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
+<p>The outline glow is activated programmatically via API. Different animation models can be applied such as constant glow, fading out glow, pulsatory glow and any other. In order to enable the glow effect on a certain object, make sure that <tt class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span></tt> panel&#8217;s <tt class="docutils literal"><span class="pre">Enable</span> <span class="pre">Object</span> <span class="pre">Outlining</span></tt> property is set <tt class="docutils literal"><span class="pre">YES</span></tt> or <tt class="docutils literal"><span class="pre">AUTO</span></tt>.</p>
 </div>
-<div class="section" id="glow">
-<span id="index-4"></span><span id="id17"></span><h2>Glow<a class="headerlink" href="#glow" title="Permalink to this headline">¶</a></h2>
-<p>The glow effect consists of illuminating the outline of the certain objects with some color. As a result a glowing halo is created around the object.</p>
 <div class="section" id="id18">
-<h3>Activation<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h3>
-<p>The glow effect can be activated by an application via API. The different models can be applied such as constant glow, fading out glow, pulsatory glow and any other. In order to enable the glow effect on a certain object it&#8217;s required to enable the <tt class="docutils literal"><span class="pre">Selectable</span></tt> checkbox on the <tt class="docutils literal"><span class="pre">Object</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span></tt> panel.</p>
-</div>
-<div class="section" id="id19">
-<h3>Additional settings<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h3>
+<h3>Additional settings<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h3>
 <p>On the <tt class="docutils literal"><span class="pre">Object</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span></tt> panel:</p>
 <dl class="docutils">
-<dt><em>Glow duration</em></dt>
-<dd><p class="first last">Duration of the glow animation in seconds. The default value is 1.</p>
+<dt><em>Enable Outlining</em></dt>
+<dd><p class="first last">Permit using the outline glow effect on this object.</p>
 </dd>
-<dt><em>Glow period</em></dt>
-<dd><p class="first last">Repeat period of the glow animation in seconds. The default value is 1.</p>
+<dt><em>Outline Duration</em></dt>
+<dd><p class="first last">Duration of glow animation, seconds. The default value is 1.</p>
 </dd>
-<dt><em>Glow relapses</em></dt>
-<dd><p class="first last">The amount of the glow animation iterations. If the amount equals to 0 the animation is repeated forever. The default value is 0.</p>
+<dt><em>Outline Period</em></dt>
+<dd><p class="first last">Repeat period of glow animation, seconds. The default value is 1.</p>
+</dd>
+<dt><em>Outline Relapses</em></dt>
+<dd><p class="first last">The number of iterations of glow animation. If zero, animation is repeated forever. The default value is 0.</p>
+</dd>
+<dt><em>Outline on Select</em></dt>
+<dd><p class="first last">Activate glow animation upon selecting the object. In this case the <tt class="docutils literal"><span class="pre">Selectable</span></tt> option must be enabled. In case of a user-defined glow animation model, this option must be disabled in order to avoid conflict.</p>
 </dd>
 </dl>
 <p>On the <tt class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span></tt> panel:</p>
 <dl class="docutils">
-<dt><em>Objects glow color</em></dt>
-<dd><p class="first last">Default effect color for all objects. The defaut value is (1,1,1).</p>
+<dt><em>Objects Outline Сolor</em></dt>
+<dd><p class="first last">Global glow color used for all objects. The default value is (1,1,1), i.e. white.</p>
 </dd>
-<dt><em>Glow factor</em></dt>
+<dt><em>Outline Factor</em></dt>
 <dd><p class="first last">When this parameter decreases so does the thickness and the brightness of the halo around the object. The default value is 1.</p>
 </dd>
 </dl>
-<p>These settings are taken as default when the glow effect is initiated via API.</p>
-<a class="reference internal image-reference" href="_images/glow.jpg"><img alt="_images/glow.jpg" class="align-center" src="_images/glow.jpg" style="width: 100%;" /></a>
+<p>The <tt class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span></tt> settings are taken as default when the glow effect is initiated via API.</p>
 </div>
 </div>
 <div class="section" id="anaglyph">
-<span id="index-5"></span><span id="id20"></span><h2>Stereoscopic Rendering (Anaglyph)<a class="headerlink" href="#anaglyph" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id21">
-<h3>Activation<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h3>
+<span id="index-5"></span><span id="id19"></span><h2>Stereoscopic Rendering (Anaglyph)<a class="headerlink" href="#anaglyph" title="Permalink to this headline">¶</a></h2>
+<a class="reference internal image-reference" href="_images/anaglyph.jpg"><img alt="_images/anaglyph.jpg" class="align-center" src="_images/anaglyph.jpg" style="width: 100%;" /></a>
+<div class="section" id="id20">
+<h3>Activation<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h3>
 <p>The stereoscopic rendering mode is intended for viewing the content using special glasses. It is activated by an application via API.</p>
 </div>
-<div class="section" id="id22">
-<h3>Additional settings<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id21">
+<h3>Additional settings<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h3>
 <p>No.</p>
-<a class="reference internal image-reference" href="_images/anaglyph.jpg"><img alt="_images/anaglyph.jpg" class="align-center" src="_images/anaglyph.jpg" style="width: 100%;" /></a>
-<div class="line-block">
-<div class="line"><br /></div>
-</div>
 </div>
 </div>
 <div class="section" id="color-correction">
-<span id="index-6"></span><span id="id23"></span><h2>Color Correction<a class="headerlink" href="#color-correction" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id24">
-<h3>Activation<a class="headerlink" href="#id24" title="Permalink to this headline">¶</a></h3>
+<span id="index-6"></span><span id="id22"></span><h2>Color Correction<a class="headerlink" href="#color-correction" title="Permalink to this headline">¶</a></h2>
+<a class="reference internal image-reference" href="_images/color_correction.jpg"><img alt="_images/color_correction.jpg" class="align-center" src="_images/color_correction.jpg" style="width: 100%;" /></a>
+<div class="section" id="id23">
+<h3>Activation<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h3>
 <p>Enable the <tt class="docutils literal"><span class="pre">Enable</span> <span class="pre">Color</span> <span class="pre">Correction</span></tt> checkbox on the <tt class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span></tt> panel.</p>
 </div>
-<div class="section" id="id25">
-<h3>Additional settings<a class="headerlink" href="#id25" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id24">
+<h3>Additional settings<a class="headerlink" href="#id24" title="Permalink to this headline">¶</a></h3>
 <p>On the <tt class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Color</span> <span class="pre">Correction</span> <span class="pre">Settings</span></tt> panel:</p>
 <dl class="docutils">
 <dt><em>Brightness</em></dt>
@@ -287,21 +276,18 @@
 <dd><p class="first last">The default value is 1.0.</p>
 </dd>
 </dl>
-<a class="reference internal image-reference" href="_images/color_correction.jpg"><img alt="_images/color_correction.jpg" class="align-center" src="_images/color_correction.jpg" style="width: 100%;" /></a>
-<div class="line-block">
-<div class="line"><br /></div>
-</div>
 </div>
 </div>
 <div class="section" id="antialiasing">
-<span id="index-7"></span><span id="id26"></span><h2>Anti-Aliasing<a class="headerlink" href="#antialiasing" title="Permalink to this headline">¶</a></h2>
+<span id="index-7"></span><span id="id25"></span><h2>Anti-Aliasing<a class="headerlink" href="#antialiasing" title="Permalink to this headline">¶</a></h2>
 <p>Anti-aliasing is used to reduce undesirable rendering artefacts (poor pixelization).</p>
-<div class="section" id="id27">
-<h3>Activation<a class="headerlink" href="#id27" title="Permalink to this headline">¶</a></h3>
+<a class="reference internal image-reference" href="_images/antialiasing.jpg"><img alt="_images/antialiasing.jpg" class="align-center" src="_images/antialiasing.jpg" style="width: 100%;" /></a>
+<div class="section" id="id26">
+<h3>Activation<a class="headerlink" href="#id26" title="Permalink to this headline">¶</a></h3>
 <p>Enable the <tt class="docutils literal"><span class="pre">Enable</span> <span class="pre">Antialiasing</span></tt> on the <tt class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span></tt> panel.</p>
 </div>
-<div class="section" id="id28">
-<h3>Additional settings<a class="headerlink" href="#id28" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id27">
+<h3>Additional settings<a class="headerlink" href="#id27" title="Permalink to this headline">¶</a></h3>
 <p>The anti-aliasing method is assigned simultaneously with the selection of the engine performance profile.</p>
 <blockquote>
 <div><ul class="simple">
@@ -313,10 +299,6 @@
 </li>
 </ul>
 </div></blockquote>
-<a class="reference internal image-reference" href="_images/antialiasing.jpg"><img alt="_images/antialiasing.jpg" class="align-center" src="_images/antialiasing.jpg" style="width: 100%;" /></a>
-<div class="line-block">
-<div class="line"><br /></div>
-</div>
 </div>
 </div>
 </div>
@@ -349,17 +331,17 @@
 <li class="toctree-l2"><a class="reference internal" href="#ssao">Screen-Space Ambient Occlusion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#god-rays">God Rays</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id14">Bloom</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#glow">Glow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#outline-glow">Outline Glow</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#anaglyph">Stereoscopic Rendering (Anaglyph)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#color-correction">Color Correction</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#antialiasing">Anti-Aliasing</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System</a></li>
-<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System for Instancing Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System. Fluids</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System. Instancing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="animation.html">Animation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Rendering</a></li>
-<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Gamma Correction and Alpha Compositing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Gamma and Alpha</a></li>
 <li class="toctree-l1"><a class="reference internal" href="audio.html">Audio System</a></li>
 <li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nla.html">Non-Linear Animation</a></li>
@@ -390,7 +372,7 @@
         <div class="left">
           <a href="lighting.html" title="Lighting, Shadows and Background"
              >previous</a> |
-          <a href="particles.html" title="Particle System"
+          <a href="particles.html" title="Particle System. Fluids"
              >next</a> |
           <a href="genindex.html" title="General Index"
              >index</a>
@@ -400,7 +382,7 @@
           
     <div class="footer">
         &copy; Copyright 2015, Triumph LLC.
-      Last updated on 2015-03-26.
+      Last updated on 2015-04-29.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
         </div>

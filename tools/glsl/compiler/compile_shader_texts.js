@@ -2,10 +2,11 @@
 
 var fs = require("fs");
 
-var glsl_parser = require("./glsl_parser.js");
-var gpp_parser = require("./gpp_parser.js");
-var obfuscator = require("./obfuscator.js");
-var ast_translator = require("./ast_translator.js");
+var m_proc  = require("./ast_processor.js");
+var m_trans = require("./ast_translator.js");
+var m_glsl  = require("./glsl_parser.js");
+var m_gpp   = require("./gpp_parser.js");
+var m_valid = require("./validator.js");
 
 process.chdir(__dirname);
 
@@ -26,8 +27,12 @@ var CODE_DISPLAY_RANGE = 6;
 var CATCH_ERRORS = true;
 
 var config = {
-    export_shaders: true
+    export_shaders: true,
+    obfuscate: false,
+    optimize_decl: false,
+    remove_braces: false
 };
+m_proc.config = config;
     
 function compile(argv) {
     process_arguments(argv);
@@ -49,60 +54,33 @@ function compile(argv) {
         var text = process_directives(incl_data.text, files.main_files[i].name);
         files.main_files[i].text_with_includes = text;
     }
-
-    
+    check_used_includes(used_includes, files.include_files);
 
     // Ast building
     var vardef_ids = [];
     var ast_arrays = [];
     for (var i = 0; i < files.main_files.length; i++) {
-        var ast_data = source_to_ast(files.main_files[i].text_with_includes, 
+        var ast_parsing_result = source_to_ast(files.main_files[i].text_with_includes, 
                 files.main_files[i].name);
-        vardef_ids = vardef_ids.concat(ast_data.vardef_ids);
-        ast_arrays.push(ast_data);
+        vardef_ids = vardef_ids.concat(ast_parsing_result.vardef_ids);
+        ast_arrays.push(ast_parsing_result);
     }
 
-    // Ast obfuscation
-    var shared_ids_data = []
-    var varyings_aliases = {}
-    var dead_functions = {
-        dead: {
-            main_shaders: {},
-            includes: {}
-        },
-        alive: {
-            main_shaders: {},
-            includes: {}
-        }
-    }
-    var dead_variables = {
-        dead: {
-            main_shaders: {},
-            includes: {}
-        },
-        alive: {
-            main_shaders: {},
-            includes: {}
-        }
-    }
-    var import_export = {}
-
-    for (var i = 0; i < files.main_files.length; i++) {
-        var ast_data = obfuscare_ast(ast_arrays[i], vardef_ids, 
-                shared_ids_data, varyings_aliases, dead_functions, dead_variables, 
+    // Ast processing
+    for (var i = 0; i < files.main_files.length; i++)
+        ast_arrays[i] = process_ast(ast_arrays[i], vardef_ids, 
                 files.main_files[i].name);
-        shared_ids_data = ast_data.shared_ids_data;
-        varyings_aliases = ast_data.varyings_aliases;
-        ast_arrays[i] = ast_data;
-        for (var incl_name in ast_data.import_export)
-            if (!(incl_name in import_export))
-                import_export[incl_name] = ast_data.import_export[incl_name];
-    }
 
+    // perform shaders validation after processing
+    m_valid.check_dead_functions();
+    m_valid.check_dead_variables();
+    m_valid.check_import_export_tokens();
+
+    // get shaders texts
     var include_texts = {}
     for (var i = 0; i < files.main_files.length; i++) {
         // Listing manipulations
-        var text = ast_to_source(ast_arrays[i].ast);
+        var text = ast_to_source(ast_arrays[i]);
         var data = separate_include_code(text);
 
         files.main_files[i].text = data.text;
@@ -121,18 +99,13 @@ function compile(argv) {
                     text: block.text
                 }
         }
-        
     }
 
-    check_import_export_tokens(import_export);
-    check_dead_functions(dead_functions);
-    check_dead_variables(dead_variables);
-    check_used_includes(used_includes, files.include_files);
-
-    // Get preprocessed ast
+    // Get preprocessed ast from shaders texts
     for (var i = 0; i < files.main_files.length; i++)
         files.main_files[i].ast_pp = source_to_ast_pp(files.main_files[i].text, 
                 files.main_files[i].name);
+
     for (var name in include_texts)
         include_texts[name].ast_pp = source_to_ast_pp(include_texts[name].text, 
                 name);
@@ -145,8 +118,14 @@ function compile(argv) {
 
 function process_arguments(argv) {
     for (var i = 0; i < argv.length; i++) {
-        if (argv[i] == "--dry-run")
+        if (argv[i] == "--dry")
             config.export_shaders = false;
+        if (argv[i] == "--obf")
+            config.obfuscate = true;
+        if (argv[i] == "--opt_decl")
+            config.optimize_decl = true;
+        if (argv[i] == "--rem_braces")
+            config.remove_braces = true;
     }
 }
 
@@ -228,26 +207,26 @@ function insert_includes(text, include_array) {
 function process_directives(text, file_name) {
     if (CATCH_ERRORS)
         try {
-            var result = glsl_parser.parse(text, {startRule: "pp_start"});
+            var result = m_glsl.parse(text, {startRule: "pp_start"});
         } catch(err) {
             var message = pegjs_error_message(err, file_name, text);
             fail(message);
         }
     else
-        var result = glsl_parser.parse(text, {startRule: "pp_start"});
+        var result = m_glsl.parse(text, {startRule: "pp_start"});
     return result;
 }
 
 function source_to_ast(text, file_name) {
     if (CATCH_ERRORS)
         try {
-            var result = glsl_parser.parse(text);
+            var result = m_glsl.parse(text);
         } catch(err) {
             var message = pegjs_error_message(err, file_name, text);
             fail(message);
         }
     else
-        var result = glsl_parser.parse(text);
+        var result = m_glsl.parse(text);
     return result;
 }
 
@@ -256,7 +235,7 @@ function source_to_ast_pp(text, file_name) {
         try {
             // NOTE: fix parser issue when some directive is ended by EOF
             text += "\n";
-            var result = gpp_parser.parse(text);
+            var result = m_gpp.parse(text);
         } catch(err) {
             var message = pegjs_error_message(err, file_name, text);
             fail(message);
@@ -264,19 +243,17 @@ function source_to_ast_pp(text, file_name) {
     else {
         // NOTE: fix parser issue when some directive is ended by EOF
         text += "\n";
-        var result = gpp_parser.parse(text);
+        var result = m_gpp.parse(text);
     }
     return result;
 }
 
-function obfuscare_ast(ast, reserved_ids, shared_ids_data, varyings_aliases, 
-        dead_functions, dead_variables, filename) {
-    return obfuscator.run(ast, reserved_ids, shared_ids_data, varyings_aliases, 
-            dead_functions, dead_variables, filename);
+function process_ast(ast_data, reserved_ids, filename) {
+    return m_proc.run(ast_data, reserved_ids, filename);
 }
 
-function ast_to_source(ast) {
-    return ast_translator.translate(ast);
+function ast_to_source(ast_data) {
+    return m_trans.translate(ast_data);
 }
 
 function separate_include_code(text) {
@@ -312,45 +289,6 @@ function clean_source(text) {
     return text.replace(lb_first, "").replace(lb_double, "\n").replace(sp_double, " ")
             .replace(sp_right, "$1$2").replace(sp_left, "$1$3")
             .replace(semic_repeat, ";");
-}
-
-function check_import_export_tokens(import_export) {
-    for (var incl_name in import_export)
-        for (token_type in import_export[incl_name])
-            for (var token_name in import_export[incl_name][token_type])
-                if (import_export[incl_name][token_type][token_name] == 0) {
-                    var message = "Unused " + token_type + " token '"
-                            + token_name + "' in include file '" + incl_name + "'.";
-                    if (token_type == "export")
-                        fail("Error! " + message);
-                    else
-                        console.warn("Warning! " + message);
-                }
-}
-
-function check_dead_functions(dead_functions) {
-    for (var file_type in dead_functions.dead)
-        for (var file_name in dead_functions.dead[file_type]) {
-            var func_decls = dead_functions.dead[file_type][file_name];
-            for (var i = 0; i < func_decls.length; i++) {
-                var message = "Warning! Function '" + func_decls[i] + "' is declared in ";
-                message += (file_type == "includes") ? "include file '" : "file '";
-                message += file_name + "', but never used.";
-                console.warn(message);
-            }
-        }
-}
-
-function check_dead_variables(dead_variables) {
-    for (var file_type in dead_variables.dead)
-        for (var file_name in dead_variables.dead[file_type])
-            for (var var_name in dead_variables.dead[file_type][file_name])
-                for (var scope_id in dead_variables.dead[file_type][file_name][var_name]) {
-                    var message = "Warning! Variable '" + var_name + "' is declared in ";
-                    message += (file_type == "includes") ? "include file '" : "file '";
-                    message += file_name + "', but never used.";
-                    console.warn(message);
-                }
 }
 
 function check_used_includes(used_includes, existed_includes) {

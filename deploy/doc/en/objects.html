@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Objects &mdash; User Manual: Blend4Web v15.03</title>
+    <title>Objects &mdash; User Manual: Blend4Web v15.04</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '15.03',
+        VERSION:     '15.04',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User Manual: Blend4Web v15.03" href="index.html" />
+    <link rel="top" title="User Manual: Blend4Web v15.04" href="index.html" />
     <link rel="next" title="Camera" href="camera.html" />
     <link rel="prev" title="The Add-on" href="addon.html" /> 
   </head>
@@ -36,7 +36,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">User Manual: Blend4Web v15.03</a></div>
+          href="index.html">User Manual: Blend4Web v15.04</a></div>
         <div class="rel">
           <a href="addon.html" title="The Add-on"
              accesskey="P">previous</a> |
@@ -101,7 +101,7 @@
 <h2>Settings<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
 <p>The following is supported for all types of objects: transform, data reference, parent object, group membership and a set of the Blend4Web&#8217;s special properties.</p>
 <div class="section" id="object">
-<h3>Object tab<a class="headerlink" href="#object" title="Permalink to this headline">¶</a></h3>
+<h3>Object Tab<a class="headerlink" href="#object" title="Permalink to this headline">¶</a></h3>
 <a class="reference internal image-reference" href="_images/object_setup.png"><img alt="_images/object_setup.png" class="align-center" src="_images/object_setup.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
@@ -142,9 +142,18 @@
 <dt><em>Blend4Web &gt; Export Vertex Animation</em></dt>
 <dd><p class="first last">Export previously created and saved vertex animation. Applicable for <tt class="docutils literal"><span class="pre">MESH</span></tt> objects only.</p>
 </dd>
-<dt><em>Blend4Web &gt; Export Edited Normals</em></dt>
-<dd><p class="first last">Export previously edited and saved normals. Applicable for <tt class="docutils literal"><span class="pre">MESH</span></tt> objects only.</p>
+<dt><em>Blend4Web &gt; Export Shape Keys</em></dt>
+<dd><p class="first last">Export shape keys. Applicable to <tt class="docutils literal"><span class="pre">MESH</span></tt> objects only.</p>
 </dd>
+<dt><em>Blend4Web &gt; Export Edited Normals</em></dt>
+<dd><p class="first last">Export previously edited and saved normals. Applicable to <tt class="docutils literal"><span class="pre">MESH</span></tt> objects only.</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The following properties are mutually exclusive: <em>Apply Scale</em>, <em>Apply Modifiers</em>, <em>Export Vertex Animation</em>, <em>Export Edited Normals</em> and <em>Export Shape Keys</em>.</p>
+</div>
+<dl class="docutils">
 <dt><em>Blend4Web &gt; Animation &gt; Use Default</em></dt>
 <dd><p class="first last">Upon loading into the engine start playback of the animation assigned to the object.</p>
 </dd>
@@ -199,7 +208,10 @@
 <dd><p class="first last">Enable procedural animation under the influence of wind.</p>
 </dd>
 <dt><em>Blend4Web &gt; Selectable</em></dt>
-<dd><p class="first last">Allow selection of the object with the mouse or with another input device, and also allow its <a class="reference internal" href="postprocessing_effects.html#glow"><em>glowing</em></a>.</p>
+<dd><p class="first last">Enable <a class="reference internal" href="#selection"><em>object selection</em></a> with the mouse or another input device.</p>
+</dd>
+<dt><em>Blend4Web &gt; Enable Outlining</em></dt>
+<dd><p class="first last">Enable <a class="reference internal" href="postprocessing_effects.html#outline"><em>outline glow</em></a> for the object.</p>
 </dd>
 </dl>
 <dl class="docutils" id="objects-billboarding-properties">
@@ -227,7 +239,10 @@
 <dd><p class="first last">Object&#8217;s category.</p>
 </dd>
 <dt><em>Blend4Web &gt; Tags &gt; Description</em></dt>
-<dd><p class="first last">Object&#8217;s description.</p>
+<dd><p class="first last">Description for the object. Depending on <tt class="docutils literal"><span class="pre">Description</span> <span class="pre">Source</span></tt>, this field accepts either description text itself, or the name of a file where this description is contained.</p>
+</dd>
+<dt><em>Blend4Web &gt; Tags &gt; Description Source</em></dt>
+<dd><p class="first last">Source type for the description: text or text file.</p>
 </dd>
 </dl>
 </dd>
@@ -240,18 +255,21 @@
 <dt><em>Blend4Web &gt; Anchor &gt; Detect Visibility</em></dt>
 <dd><p class="first last">Detect whether the anchor object is overlapped by other objects. Turning this option on decreases performance and should be used only when necessary.</p>
 </dd>
+<dt><em>Blend4Web &gt; Anchor &gt; Max Width</em></dt>
+<dd><p class="first last">Applicable to annotation anchors. This limits the expanding info window by a predefined value (measured in CSS pixels).</p>
+</dd>
 </dl>
 </dd>
 </dl>
 </div>
 <div class="section" id="physics-blender-game">
-<h3>Physics tab (in the Blender Game mode)<a class="headerlink" href="#physics-blender-game" title="Permalink to this headline">¶</a></h3>
+<h3>Physics Tab (Blender Game Mode)<a class="headerlink" href="#physics-blender-game" title="Permalink to this headline">¶</a></h3>
 <a class="reference internal image-reference" href="_images/object_setup_phys.png"><img alt="_images/object_setup_phys.png" class="align-center" src="_images/object_setup_phys.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <dl class="docutils">
-<dt><em>Blend4Web &gt; Detect collisions</em></dt>
+<dt><em>Blend4Web &gt; Detect Collisions</em></dt>
 <dd><p class="first last">Activate the object&#8217;s physics.</p>
 </dd>
 <dt><em>Blend4Web &gt; Floating</em></dt>
@@ -340,7 +358,7 @@
 </dd>
 </dl>
 <div class="section" id="id7">
-<h3>Example of working with quaternions<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<h3>Quaternion Example<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
 <p>We need to rotate the object by 60 degrees in a horizontal plane to the right. We have a model named &#8220;Cessna&#8221; in Blender.</p>
 <a class="reference internal image-reference" href="_images/aircraft.jpg"><img alt="_images/aircraft.jpg" class="align-center" src="_images/aircraft.jpg" style="width: 100%;" /></a>
 <div class="line-block">
@@ -390,8 +408,16 @@
 </div>
 </div>
 </div>
-<div class="section" id="copy-obj">
-<span id="id8"></span><h2>Copying Objects (Instancing)<a class="headerlink" href="#copy-obj" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="tsr">
+<span id="copy-obj"></span><h2>Moving via TSR Vectors<a class="headerlink" href="#tsr" title="Permalink to this headline">¶</a></h2>
+<p>It is sometimes convenient to move objects using vectors of the following format:</p>
+<blockquote>
+<div><span class="math">\([T_x, T_y, T_z, S, R_x, R_y, R_z, R_w]\)</span></div></blockquote>
+<p>Here <span class="math">\(T_x, T_y, T_z\)</span> - the components of the translation vector, <span class="math">\(S\)</span> - scale factor, <span class="math">\(R_x, R_y, R_z, R_w\)</span> - the components of the quaternion vector. Hence the name of this vector: TSR or TSR-8.</p>
+<p>This vector can be operated via <cite>tsr</cite> module, as well as via <cite>set_tsr()</cite>/<cite>get_tsr()</cite> methods of the <cite>transform</cite> module.</p>
+</div>
+<div class="section" id="id8">
+<h2>Copying Objects (Instancing)<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
 <p>It is often required to copy (to make instances of) objects during application work.</p>
 <dl class="docutils">
 <dt>Copying objects has its limitations:</dt>
@@ -435,6 +461,45 @@
 </div>
 </div>
 </div>
+<div class="section" id="selection">
+<span id="id12"></span><h2>Object Selection<a class="headerlink" href="#selection" title="Permalink to this headline">¶</a></h2>
+<p>In order to enable selection of a certain object, it is required to enable the <tt class="docutils literal"><span class="pre">Selectable</span></tt> flag under the <tt class="docutils literal"><span class="pre">Object</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span></tt> panel.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Make sure that the <tt class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span></tt> panel&#8217;s <tt class="docutils literal"><span class="pre">Enable</span> <span class="pre">Object</span> <span class="pre">Select</span></tt> property is set to <tt class="docutils literal"><span class="pre">YES</span></tt> or <tt class="docutils literal"><span class="pre">AUTO</span></tt>.</p>
+</div>
+<p>Object selection is possible programmatically via API, for example, in the <tt class="docutils literal"><span class="pre">scenes.js</span></tt> module there is the <tt class="docutils literal"><span class="pre">pick_object</span></tt> function which selects an object based on canvas 2D coordinates,</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
+<span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">clientX</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">y</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">clientY</span><span class="p">;</span>
+
+<span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">pick_object</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">);</span>
+<span class="c1">// ...</span>
+</pre></div>
+</div>
+<p>or using the <a class="reference internal" href="nla.html#nla-select-play"><em>NLA Script</em></a>.</p>
+<p>If the selectable object has active <tt class="docutils literal"><span class="pre">Enable</span> <span class="pre">Outlining</span></tt> and <tt class="docutils literal"><span class="pre">Outline</span> <span class="pre">on</span> <span class="pre">Select</span></tt> flags under the <tt class="docutils literal"><span class="pre">Object</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span></tt> panel, then the <tt class="docutils literal"><span class="pre">pick_object</span></tt> function call will activate <a class="reference internal" href="postprocessing_effects.html#outline"><em>outline glow animation</em></a>.</p>
+</div>
+<div class="section" id="morphing">
+<span id="id13"></span><h2>Morphing<a class="headerlink" href="#morphing" title="Permalink to this headline">¶</a></h2>
+<p>Morph targets can be added using Blender&#8217;s standard <tt class="docutils literal"><span class="pre">Mesh</span> <span class="pre">&gt;</span> <span class="pre">Shape</span> <span class="pre">keys</span></tt> interface.</p>
+<img alt="_images/morphing.png" class="align-center" src="_images/morphing.png" />
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>The engine supports all shape key options under the &#8220;Relative&#8221; type.</p>
+<p>To set a shape key value, use the <tt class="docutils literal"><span class="pre">apply_shape_key</span></tt> method of the <tt class="docutils literal"><span class="pre">geometry.js</span></tt> module.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The object must have <em>Export Shape Keys</em> enabled.</p>
+</div>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
+<span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_object_by_name</span><span class="p">(</span><span class="s2">&quot;Object&quot;</span><span class="p">);</span>
+<span class="nx">m_geometry</span><span class="p">.</span><span class="nx">apply_shape_key</span><span class="p">(</span><span class="nx">obj</span><span class="p">,</span> <span class="s2">&quot;Key 1&quot;</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">);</span>
+<span class="c1">// ...</span>
+</pre></div>
+</div>
+</div>
 </div>
 
 
@@ -459,7 +524,10 @@
 <li class="toctree-l2"><a class="reference internal" href="#id4">Settings</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#index-0">Object Transform API</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#index-1">Quaternions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#copy-obj">Copying Objects (Instancing)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tsr">Moving via TSR Vectors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id8">Copying Objects (Instancing)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#selection">Object Selection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#morphing">Morphing</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Camera</a></li>
@@ -468,11 +536,11 @@
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing Effects</a></li>
-<li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System</a></li>
-<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System for Instancing Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System. Fluids</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System. Instancing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="animation.html">Animation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Rendering</a></li>
-<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Gamma Correction and Alpha Compositing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Gamma and Alpha</a></li>
 <li class="toctree-l1"><a class="reference internal" href="audio.html">Audio System</a></li>
 <li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nla.html">Non-Linear Animation</a></li>
@@ -513,7 +581,7 @@
           
     <div class="footer">
         &copy; Copyright 2015, Triumph LLC.
-      Last updated on 2015-03-26.
+      Last updated on 2015-04-29.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
         </div>

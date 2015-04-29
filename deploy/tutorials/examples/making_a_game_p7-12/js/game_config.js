@@ -16,14 +16,14 @@ exports.CAM_OFFSET = new Float32Array([0, 1.5, -4]);
 exports.CHAR_DEF_POS = new Float32Array([0, 0.5, 0]);
 
 exports.MAX_CHAR_HP = 100;
-exports.CHAR_ATACK_DIST = 0.5;
-exports.CHAR_ATACK_STR = 35;
-exports.CHAR_ATACK_ANIM_FRAME = 12;
+exports.CHAR_ATTACK_DIST = 0.5;
+exports.CHAR_ATTACK_STR = 35;
+exports.CHAR_ATTACK_ANIM_FRAME = 12;
 
 // character state
 exports.CH_STILL = 0;
 exports.CH_RUN = 1;
-exports.CH_ATACK = 2;
+exports.CH_ATTACK = 2;
 
 // rocks
 exports.ROCK_SPEED = 2;
@@ -45,11 +45,6 @@ exports.BONUS_LAVA_PROT_TIME = 15;
 exports.BONUS_LIFETIME = 10;
 exports.BONUS_FLASH_SPEED = 3;
 
-// glow colors
-exports.HP_POTION_GLOW_COLOR = [0.1, 0.8, 0.1];
-exports.LAVA_POTION_GLOW_COLOR = [0.8, 0.8, 0.0];
-exports.SHIELD_POTION_GLOW_COLOR = [0.2, 0.2, 0.7];
-
 // animations
 exports.SHIELD_FLASH_LENGTH = 0.9;
 exports.LAVA_FALL_LENGTH = 1.0;
@@ -57,16 +52,17 @@ exports.LAVA_FALL_LENGTH = 1.0;
 // golem behaviour
 exports.GOLEM_SPEED = 0.2;
 exports.GOLEM_ROT_SPEED = 1.0;
-exports.GOLEM_ATACK_DIST = 0.5;
-exports.GOLEM_ATACK_STRENGTH = 20;
-exports.GOLEM_ATACK_ANIM_FRAME = 30;
+exports.GOLEM_ATTACK_DIST = 0.5;
+exports.GOLEM_ATTACK_STRENGTH = 20;
+exports.GOLEM_ATTACK_ANIM_FRAME = 30;
 exports.GOLEMS_SPAWN_INTERVAL = 3;
 exports.GOLEM_HP = 100;
 
 // golem state
 exports.GS_WALKING = 0;
-exports.GS_ATACKING = 1;
+exports.GS_ATTACKING = 1;
 exports.GS_GETTING_OUT = 2;
+exports.GS_NONE = 3;
 
 // golem target
 exports.GT_POINT = 0;
@@ -127,8 +123,8 @@ exports.SHUTTER_EMITTER_NAME = "glass_shutter_emitter";
 
 // sounds
 exports.CHAR_RUN_SPEAKER = "character_run";
-exports.CHAR_ATACK_SPEAKER = "sword_miss";
-exports.CHAR_ATACK_VOICE_SPKS = ["character_voice_atack_01",
+exports.CHAR_ATTACK_SPEAKER = "sword_miss";
+exports.CHAR_ATTACK_VOICE_SPKS = ["character_voice_atack_01",
                                  "character_voice_atack_02",
                                  "character_voice_atack_03"];
 exports.CHAR_HURT_SPKS = ["character_voice_hurt_01",
@@ -148,7 +144,7 @@ exports.CHAR_SHIELD_SPEAKER = "bonus_shield";
 exports.ISLAND_SPEAKER = "island_shield_grow";
 
 exports.GOLEM_WALK_SPEAKER = "golem_walk";
-exports.GOLEM_ATACK_SPEAKER = "golem_atack_miss";
+exports.GOLEM_ATTACK_SPEAKER = "golem_atack_miss";
 exports.GOLEM_HIT_SPEAKER = "golem_atack_hit";
 exports.GOLEM_GETOUT_SPEAKER = "golem_getout";
 

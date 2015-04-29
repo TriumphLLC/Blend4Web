@@ -258,8 +258,8 @@ msgid "эффект засветки ярких объектов (bloom)"
 msgstr "bloom - bright light effect"
 
 #: ../features.rst:80
-msgid "огибание объектов светом (glow)"
-msgstr "glow"
+msgid "подсветка контуров объектов (outlining)"
+msgstr "object outlining"
 
 #: ../features.rst:84
 msgid "Анимация"
@@ -483,4 +483,3 @@ msgstr "user manual and API documentation"
 msgid ""
 "взаимодействие с пользователем — управление камерой, персонажем, действиями"
 msgstr "user interaction - camera, character, actions control"
-

@@ -20,7 +20,7 @@ var cfg_def = m_cfg.defaults;
 
 var USE_FRUSTUM_CULLING = true;
 var SUBS_UPDATE_DO_RENDER = ["MAIN_OPAQUE", "MAIN_BLEND", "MAIN_REFLECT", 
-        "SHADOW_CAST", "DEPTH", "GLOW_MASK", "WIREFRAME", "COLOR_PICKING", 
+        "SHADOW_CAST", "DEPTH", "OUTLINE_MASK", "WIREFRAME", "COLOR_PICKING", 
         "MAIN_XRAY", "COLOR_PICKING_XRAY"];
 
 /**
@@ -67,35 +67,43 @@ exports.prerender_subs = function(subs) {
  * @methodOf camera
  */
 function zsort(subs) {
+
+    if (!cfg_def.alpha_sort || !subs.bundles)
+        return;
+
     var eye = subs.camera.eye;
 
     // update if coords changed more than for 1 unit
-    if (m_vec3.dist(eye, subs.zsort_eye_last) > cfg_def.alpha_sort_threshold) {
+    var cam_updated =
+        m_vec3.dist(eye, subs.zsort_eye_last) > cfg_def.alpha_sort_threshold;
 
-        if (!cfg_def.alpha_sort || !subs.bundles)
-            return;
+    for (var i = 0; i < subs.bundles.length; i++) {
+        var bundle = subs.bundles[i];
+        var obj_render = bundle.obj_render;
 
-        for (var i = 0; i < subs.bundles.length; i++) {
-            var bundle = subs.bundles[i];
-            var batch = bundle.batch;
-            var world_matrix = bundle.obj_render.world_matrix;
+        if (!obj_render.force_zsort && !cam_updated)
+            continue;
 
-            if (batch && batch.blend 
-                    && batch.zsort_type != m_geom.ZSORT_DISABLED) {
-                var bufs_data = batch.bufs_data;
+        var batch = bundle.batch;
 
-                if (!bufs_data || !bundle.do_render)
-                    continue;
+        if (batch && batch.blend && batch.zsort_type != m_geom.ZSORT_DISABLED) {
+            var bufs_data = batch.bufs_data;
 
-                var info = bufs_data.info_for_z_sort_updates;
-                if (info && info.type == m_geom.ZSORT_BACK_TO_FRONT)
-                    m_geom.update_buffers_movable(bufs_data, world_matrix, eye);
+            if (!bufs_data || !bundle.do_render)
+                continue;
+
+            var info = bufs_data.info_for_z_sort_updates;
+            if (info && info.type == m_geom.ZSORT_BACK_TO_FRONT) {
+                var world_matrix = obj_render.world_matrix;
+                m_geom.update_buffers_movable(bufs_data, world_matrix, eye);
             }
         }
-
-        // remember new coords
-        subs.zsort_eye_last.set(eye);
+        obj_render.force_zsort = false;
     }
+
+    // remember new coords
+    if (cam_updated)
+        subs.zsort_eye_last.set(eye);
 }
 
 /**
@@ -127,7 +135,7 @@ function prerender_bundle(bundle, subs) {
 
     obj_render.is_visible = true;
 
-    if (subs.type == "GLOW_MASK" && !Boolean(obj_render.glow_intensity)) {
+    if (subs.type == "OUTLINE_MASK" && !Boolean(obj_render.outline_intensity)) {
         bundle.do_render = false;
         return;
     }

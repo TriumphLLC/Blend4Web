@@ -50,22 +50,121 @@
      
 
     
+    <h2>Summary</h2>
+    
+    
+        <h3 class="subsection-title">Methods</h3>
+        <ul>
+        
+            
+<li> <a href="#.adjoint">adjoint<span class="signature">(a, out)</span><span class="type-signature"> &rarr; {mat3}</span></a></li>
 
+        
+            
+<li> <a href="#.clone">clone<span class="signature">(a)</span><span class="type-signature"> &rarr; {mat3}</span></a></li>
+
+        
+            
+<li> <a href="#.copy">copy<span class="signature">(a, out)</span><span class="type-signature"> &rarr; {mat3}</span></a></li>
+
+        
+            
+<li> <a href="#.create">create<span class="signature">()</span><span class="type-signature"> &rarr; {mat3}</span></a></li>
+
+        
+            
+<li> <a href="#.determinant">determinant<span class="signature">(a)</span><span class="type-signature"> &rarr; {Number}</span></a></li>
+
+        
+            
+<li> <a href="#.frob">frob<span class="signature">(a)</span><span class="type-signature"> &rarr; {Number}</span></a></li>
+
+        
+            
+<li> <a href="#.fromMat2d">fromMat2d<span class="signature">(a, out)</span><span class="type-signature"> &rarr; {mat3}</span></a></li>
+
+        
+            
+<li> <a href="#.fromMat4">fromMat4<span class="signature">(a, out)</span><span class="type-signature"> &rarr; {mat3}</span></a></li>
+
+        
+            
+<li> <a href="#.fromQuat">fromQuat<span class="signature">(q, out)</span><span class="type-signature"> &rarr; {mat3}</span></a></li>
+
+        
+            
+<li> <a href="#.fromRotation">fromRotation<span class="signature">(rad, out)</span><span class="type-signature"> &rarr; {mat3}</span></a></li>
+
+        
+            
+<li> <a href="#.fromScaling">fromScaling<span class="signature">(v, out)</span><span class="type-signature"> &rarr; {mat3}</span></a></li>
+
+        
+            
+<li> <a href="#.fromTranslation">fromTranslation<span class="signature">(v, out)</span><span class="type-signature"> &rarr; {mat3}</span></a></li>
+
+        
+            
+<li> <a href="#.identity">identity<span class="signature">(out)</span><span class="type-signature"> &rarr; {mat3}</span></a></li>
+
+        
+            
+<li> <a href="#.invert">invert<span class="signature">(a, out)</span><span class="type-signature"> &rarr; {mat3}</span></a></li>
+
+        
+            
+<li> <a href="#.mul">mul<span class="signature">()</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.multiply">multiply<span class="signature">(a, b, out)</span><span class="type-signature"> &rarr; {mat3}</span></a></li>
+
+        
+            
+<li> <a href="#.normalFromMat4">normalFromMat4<span class="signature">(a, out)</span><span class="type-signature"> &rarr; {mat3}</span></a></li>
+
+        
+            
+<li> <a href="#.rotate">rotate<span class="signature">(a, rad, out)</span><span class="type-signature"> &rarr; {mat3}</span></a></li>
+
+        
+            
+<li> <a href="#.scale">scale<span class="signature">(a, v, out)</span><span class="type-signature"> &rarr; {mat3}</span></a></li>
+
+        
+            
+<li> <a href="#.str">str<span class="signature">(mat)</span><span class="type-signature"> &rarr; {String}</span></a></li>
+
+        
+            
+<li> <a href="#.translate">translate<span class="signature">(a, v, out)</span><span class="type-signature"> &rarr; {mat3}</span></a></li>
+
+        
+            
+<li> <a href="#.transpose">transpose<span class="signature">(a, out)</span><span class="type-signature"> &rarr; {mat3}</span></a></li>
+
+        
+        </ul>
+    
+    
+    <h2>Detailed Description</h2>
     
 
     
         <h3 class="subsection-title">Methods</h3>
-
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".adjoint"><span class="type-signature">(static) </span>adjoint<span class="signature">(a, out)</span><span class="type-signature"> &rarr; {mat3}</span></h4>
+    <h4 class="name" id=".adjoint">adjoint<span class="signature">(a, out)</span><span class="type-signature"> &rarr; {mat3}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Calculates the adjugate of a mat3
@@ -155,6 +254,40 @@
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    out
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">mat3</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 <dl class="details">
 
     
@@ -197,51 +330,21 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    out
 </div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">mat3</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".clone"><span class="type-signature">(static) </span>clone<span class="signature">(a)</span><span class="type-signature"> &rarr; {mat3}</span></h4>
+    <h4 class="name" id=".clone">clone<span class="signature">(a)</span><span class="type-signature"> &rarr; {mat3}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Creates a new mat3 initialized with values from an existing matrix
@@ -308,6 +411,40 @@
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    a new 3x3 matrix
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">mat3</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 <dl class="details">
 
     
@@ -350,51 +487,21 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    a new 3x3 matrix
 </div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">mat3</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".copy"><span class="type-signature">(static) </span>copy<span class="signature">(a, out)</span><span class="type-signature"> &rarr; {mat3}</span></h4>
+    <h4 class="name" id=".copy">copy<span class="signature">(a, out)</span><span class="type-signature"> &rarr; {mat3}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Copy the values from one mat3 to another
@@ -484,6 +591,40 @@
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    out
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">mat3</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 <dl class="details">
 
     
@@ -526,6 +667,36 @@
 
 
 
+</div>
+</div>
+        
+            
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id=".create">create<span class="signature">()</span><span class="type-signature"> &rarr; {mat3}</span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Creates a new identity mat3
+</div>
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -540,7 +711,7 @@
 
         
 <div class="param-desc">
-    out
+    a new 3x3 matrix
 </div>
 
 
@@ -558,32 +729,6 @@
 </dl>
 
     
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id=".create"><span class="type-signature">(static) </span>create<span class="signature">()</span><span class="type-signature"> &rarr; {mat3}</span></h4>
-
-    
-
-
-
-<div class="description">
-    Creates a new identity mat3
-</div>
-
-
-
-
-
-
-
-
-
 
 
 
@@ -630,51 +775,21 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    a new 3x3 matrix
 </div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">mat3</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".determinant"><span class="type-signature">(static) </span>determinant<span class="signature">(a)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+    <h4 class="name" id=".determinant">determinant<span class="signature">(a)</span><span class="type-signature"> &rarr; {Number}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Calculates the determinant of a mat3
@@ -741,6 +856,40 @@
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    determinant of a
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Number</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 <dl class="details">
 
     
@@ -783,51 +932,21 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    determinant of a
 </div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Number</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".frob"><span class="type-signature">(static) </span>frob<span class="signature">(a)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+    <h4 class="name" id=".frob">frob<span class="signature">(a)</span><span class="type-signature"> &rarr; {Number}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Returns Frobenius norm of a mat3
@@ -894,6 +1013,40 @@
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Frobenius norm
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Number</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 <dl class="details">
 
     
@@ -936,51 +1089,21 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Frobenius norm
 </div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Number</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".fromMat2d"><span class="type-signature">(static) </span>fromMat2d<span class="signature">(a, out)</span><span class="type-signature"> &rarr; {mat3}</span></h4>
+    <h4 class="name" id=".fromMat2d">fromMat2d<span class="signature">(a, out)</span><span class="type-signature"> &rarr; {mat3}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Copies the values from a mat2d into a mat3
@@ -1070,6 +1193,40 @@
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    out
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">mat3</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 <dl class="details">
 
     
@@ -1112,51 +1269,21 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    out
 </div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">mat3</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".fromMat4"><span class="type-signature">(static) </span>fromMat4<span class="signature">(a, out)</span><span class="type-signature"> &rarr; {mat3}</span></h4>
+    <h4 class="name" id=".fromMat4">fromMat4<span class="signature">(a, out)</span><span class="type-signature"> &rarr; {mat3}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Copies the upper-left 3x3 values into the given mat3.
@@ -1246,6 +1373,40 @@
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    out
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">mat3</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 <dl class="details">
 
     
@@ -1288,51 +1449,21 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    out
 </div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">mat3</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".fromQuat"><span class="type-signature">(static) </span>fromQuat<span class="signature">(q, out)</span><span class="type-signature"> &rarr; {mat3}</span></h4>
+    <h4 class="name" id=".fromQuat">fromQuat<span class="signature">(q, out)</span><span class="type-signature"> &rarr; {mat3}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Calculates a 3x3 matrix from the given quaternion
@@ -1422,6 +1553,40 @@
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    out
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">mat3</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 <dl class="details">
 
     
@@ -1464,51 +1629,21 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    out
 </div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">mat3</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".fromRotation"><span class="type-signature">(static) </span>fromRotation<span class="signature">(rad, out)</span><span class="type-signature"> &rarr; {mat3}</span></h4>
+    <h4 class="name" id=".fromRotation">fromRotation<span class="signature">(rad, out)</span><span class="type-signature"> &rarr; {mat3}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Creates a matrix from a given angle
@@ -1602,6 +1737,40 @@ This is equivalent to (but much faster than):
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    out
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">mat3</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 <dl class="details">
 
     
@@ -1644,51 +1813,21 @@ This is equivalent to (but much faster than):
 
 
 
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    out
 </div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">mat3</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".fromScaling"><span class="type-signature">(static) </span>fromScaling<span class="signature">(v, out)</span><span class="type-signature"> &rarr; {mat3}</span></h4>
+    <h4 class="name" id=".fromScaling">fromScaling<span class="signature">(v, out)</span><span class="type-signature"> &rarr; {mat3}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Creates a matrix from a vector scaling
@@ -1782,6 +1921,40 @@ This is equivalent to (but much faster than):
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    out
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">mat3</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 <dl class="details">
 
     
@@ -1824,51 +1997,21 @@ This is equivalent to (but much faster than):
 
 
 
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    out
 </div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">mat3</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".fromTranslation"><span class="type-signature">(static) </span>fromTranslation<span class="signature">(v, out)</span><span class="type-signature"> &rarr; {mat3}</span></h4>
+    <h4 class="name" id=".fromTranslation">fromTranslation<span class="signature">(v, out)</span><span class="type-signature"> &rarr; {mat3}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Creates a matrix from a vector translation
@@ -1962,6 +2105,40 @@ This is equivalent to (but much faster than):
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    out
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">mat3</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 <dl class="details">
 
     
@@ -2004,51 +2181,21 @@ This is equivalent to (but much faster than):
 
 
 
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    out
 </div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">mat3</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".identity"><span class="type-signature">(static) </span>identity<span class="signature">(out)</span><span class="type-signature"> &rarr; {mat3}</span></h4>
+    <h4 class="name" id=".identity">identity<span class="signature">(out)</span><span class="type-signature"> &rarr; {mat3}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Set a mat3 to the identity matrix
@@ -2115,6 +2262,40 @@ This is equivalent to (but much faster than):
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    out
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">mat3</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 <dl class="details">
 
     
@@ -2157,51 +2338,21 @@ This is equivalent to (but much faster than):
 
 
 
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    out
 </div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">mat3</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".invert"><span class="type-signature">(static) </span>invert<span class="signature">(a, out)</span><span class="type-signature"> &rarr; {mat3}</span></h4>
+    <h4 class="name" id=".invert">invert<span class="signature">(a, out)</span><span class="type-signature"> &rarr; {mat3}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Inverts a mat3
@@ -2291,6 +2442,40 @@ This is equivalent to (but much faster than):
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    out
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">mat3</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 <dl class="details">
 
     
@@ -2333,55 +2518,37 @@ This is equivalent to (but much faster than):
 
 
 
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    out
 </div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">mat3</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".mul"><span class="type-signature">(static) </span>mul<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".mul">mul<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Alias for mat3.multiply
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2437,29 +2604,21 @@ This is equivalent to (but much faster than):
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".multiply"><span class="type-signature">(static) </span>multiply<span class="signature">(a, b, out)</span><span class="type-signature"> &rarr; {mat3}</span></h4>
+    <h4 class="name" id=".multiply">multiply<span class="signature">(a, b, out)</span><span class="type-signature"> &rarr; {mat3}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Multiplies two mat3's
@@ -2572,6 +2731,40 @@ This is equivalent to (but much faster than):
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    out
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">mat3</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 <dl class="details">
 
     
@@ -2614,51 +2807,21 @@ This is equivalent to (but much faster than):
 
 
 
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    out
 </div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">mat3</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".normalFromMat4"><span class="type-signature">(static) </span>normalFromMat4<span class="signature">(a, out)</span><span class="type-signature"> &rarr; {mat3}</span></h4>
+    <h4 class="name" id=".normalFromMat4">normalFromMat4<span class="signature">(a, out)</span><span class="type-signature"> &rarr; {mat3}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Calculates a 3x3 normal matrix (transpose inverse) from the 4x4 matrix
@@ -2748,6 +2911,40 @@ This is equivalent to (but much faster than):
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    out
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">mat3</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 <dl class="details">
 
     
@@ -2790,51 +2987,21 @@ This is equivalent to (but much faster than):
 
 
 
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    out
 </div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">mat3</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".rotate"><span class="type-signature">(static) </span>rotate<span class="signature">(a, rad, out)</span><span class="type-signature"> &rarr; {mat3}</span></h4>
+    <h4 class="name" id=".rotate">rotate<span class="signature">(a, rad, out)</span><span class="type-signature"> &rarr; {mat3}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Rotates a mat3 by the given angle
@@ -2947,6 +3114,40 @@ This is equivalent to (but much faster than):
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    out
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">mat3</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 <dl class="details">
 
     
@@ -2989,51 +3190,21 @@ This is equivalent to (but much faster than):
 
 
 
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    out
 </div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">mat3</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".scale"><span class="type-signature">(static) </span>scale<span class="signature">(a, v, out)</span><span class="type-signature"> &rarr; {mat3}</span></h4>
+    <h4 class="name" id=".scale">scale<span class="signature">(a, v, out)</span><span class="type-signature"> &rarr; {mat3}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Scales the mat3 by the dimensions in the given vec2
@@ -3146,6 +3317,40 @@ This is equivalent to (but much faster than):
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    out
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">mat3</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 <dl class="details">
 
     
@@ -3188,51 +3393,21 @@ This is equivalent to (but much faster than):
 
 
 
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    out
 </div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">mat3</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".str"><span class="type-signature">(static) </span>str<span class="signature">(mat)</span><span class="type-signature"> &rarr; {String}</span></h4>
+    <h4 class="name" id=".str">str<span class="signature">(mat)</span><span class="type-signature"> &rarr; {String}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Returns a string representation of a mat3
@@ -3299,6 +3474,40 @@ This is equivalent to (but much faster than):
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    string representation of the matrix
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">String</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 <dl class="details">
 
     
@@ -3341,51 +3550,21 @@ This is equivalent to (but much faster than):
 
 
 
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    string representation of the matrix
 </div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">String</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".translate"><span class="type-signature">(static) </span>translate<span class="signature">(a, v, out)</span><span class="type-signature"> &rarr; {mat3}</span></h4>
+    <h4 class="name" id=".translate">translate<span class="signature">(a, v, out)</span><span class="type-signature"> &rarr; {mat3}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Translate a mat3 by the given vector
@@ -3498,6 +3677,40 @@ This is equivalent to (but much faster than):
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    out
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">mat3</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 <dl class="details">
 
     
@@ -3540,51 +3753,21 @@ This is equivalent to (but much faster than):
 
 
 
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    out
 </div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">mat3</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".transpose"><span class="type-signature">(static) </span>transpose<span class="signature">(a, out)</span><span class="type-signature"> &rarr; {mat3}</span></h4>
+    <h4 class="name" id=".transpose">transpose<span class="signature">(a, out)</span><span class="type-signature"> &rarr; {mat3}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Transpose the values of a mat3
@@ -3674,6 +3857,40 @@ This is equivalent to (but much faster than):
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    out
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">mat3</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 <dl class="details">
 
     
@@ -3716,41 +3933,8 @@ This is equivalent to (but much faster than):
 
 
 
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    out
 </div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">mat3</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
+</div>
         
     
 
@@ -3767,13 +3951,13 @@ This is equivalent to (but much faster than):
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Thu Mar 26 2015 17:33:36 GMT+0300 (MSK)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Wed Apr 29 2015 10:10:51 GMT+0300 (MSK)
 </footer>
 
 <script> prettyPrint(); </script>

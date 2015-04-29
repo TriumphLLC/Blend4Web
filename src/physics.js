@@ -29,15 +29,13 @@ var cfg_def = m_cfg.defaults;
 
 var RAY_CMP_PRECISION = 0.0000001;
 
-var _worker = null;
 var _phy_fps = 0;
-
-var _active_scene_phy = null;
+var _worker = null;
+var _active_scene = null;
 var _bounding_objects = [];
-var _bounding_objects_cache = [];
+var _bounding_objects_cache = {};
 
 var _unique_counter = {
-    world: 0,
     body: 0,
     constraint: 0,
     shape: 0
@@ -57,43 +55,45 @@ var VT_HULL        = 20;
 /**
  * Initialize physics engine
  */
-exports.init_engine = function(init_time) {
-    if (cfg_phy.enabled) {
-        var path = cfg_phy.uranium_path + m_version.timestamp();
-        m_print.log("%cLOAD PHYSICS", "color: #0a0", path, "Max FPS: " + cfg_phy.max_fps);
-        _worker = new Worker(path);
-        m_ipc.init(_worker, process_message);
-        m_ipc.post_msg(m_ipc.OUT_INIT, init_time, cfg_phy.max_fps);
-        //setInterval(function() {m_ipc.post_msg(m_ipc.OUT_PING, performance.now())}, 1000);
+exports.init_scene_physics = function(scene) {
+
+    if (_active_scene) {
+        m_print.warn("Multiple physics scenes are currently not supported");
+        return;
     }
+
+    scene._physics = {
+        worker_loaded: false,
+        bundles: []
+    };
+
+    var path = cfg_phy.uranium_path + m_version.timestamp();
+    m_print.log("%cLOAD PHYSICS", "color: #0a0", path, "Max FPS: " + cfg_phy.max_fps);
+    _worker = new Worker(path);
+    m_ipc.init(_worker, process_message);
+
+    _active_scene = scene;
+
+    //setInterval(function() {m_ipc.post_msg(m_ipc.OUT_PING, performance.now())}, 1000);
 }
 
-/**
- * Init physics on given scene
- */
-exports.attach_scene_physics = function(scene) {
-    var world_id = get_unique_world_id();
-    m_ipc.post_msg(m_ipc.OUT_APPEND_WORLD, world_id);
-
-    scene._physics = {};
-    scene._physics.world_id = world_id;
-    scene._physics.bundles = [];
-}
-
-function get_unique_world_id() {
-    _unique_counter.world++;
-    return _unique_counter.world;
+exports.check_worker_loaded = function(scene) {
+    if (scene._physics)
+        return scene._physics.worker_loaded;
+    else
+        return true;
 }
 
 exports.cleanup = function() {
-    if (!cfg_phy.enabled)
+    if (!_active_scene)
         return;
 
-    m_ipc.post_msg(m_ipc.OUT_CLEANUP);
+    _worker.terminate();
 
-    _active_scene_phy = null;
+    _worker = null;
+    _active_scene = null;
     _bounding_objects.length = 0;
-    _bounding_objects_cache.length = 0;
+    _bounding_objects_cache = {};
 
     for (var cnt in _unique_counter)
         _unique_counter[cnt] = 0;
@@ -113,9 +113,6 @@ function add_compound_children(parent, container) {
 }
 
 exports.append_object = function(obj, bpy_scene) {
-
-    // NOTE: temporary, multiple worlds not working!!!
-    set_active_scene(bpy_scene);
 
     var render = obj._render;
     if (!render)
@@ -221,10 +218,18 @@ function has_batch(scene, batch) {
 function process_message(msg_id, msg) {
 
     // NOTE: silently ignore if something arrives after worker cleanup
-    if (!_active_scene_phy)
+    if (!_active_scene)
         return;
 
     switch (msg_id) {
+    case m_ipc.IN_LOADED:
+        _active_scene._physics.worker_loaded = true;
+
+        // initialize world
+        var fallback_init_time = Date.now() - performance.now();
+        m_ipc.post_msg(m_ipc.OUT_INIT, fallback_init_time, cfg_phy.max_fps,
+                cfg_phy.calc_fps ? cfg_def.fps_measurement_interval : 0);
+        break;
     case m_ipc.IN_LOG:
         m_print.log(msg);
         break;
@@ -257,7 +262,7 @@ function process_message(msg_id, msg) {
             obj._vehicle.speed = msg[2];
         break;
     case m_ipc.IN_COLLISION:
-        traverse_collision_tests(_active_scene_phy, msg["body_id_a"],
+        traverse_collision_tests(_active_scene, msg["body_id_a"],
                                  msg["body_id_b"], msg["result"],
                                  msg["coll_point"]);
         break;
@@ -297,7 +302,7 @@ function process_message(msg_id, msg) {
                         test.results[body_id_b] = result;
 
                     // traverse only if something changed
-                    traverse_ray_test(test, _active_scene_phy);
+                    traverse_ray_test(test, _active_scene);
                 }
             }
 
@@ -305,6 +310,12 @@ function process_message(msg_id, msg) {
         break;
     case m_ipc.IN_PING:
         console.log("Physics message ping: ", performance.now() - msg[1]);
+        break;
+    case m_ipc.IN_FPS:
+        _phy_fps = msg[1];
+        break;
+    case m_ipc.IN_DEBUG_STATS:
+        console.log(msg[1]);
         break;
     default:
         m_print.error("Wrong message: " + msg_id);
@@ -420,7 +431,11 @@ exports.update = function(timeline, delta) {
             var d = performance.now() / 1000 - phy.curr_time;
 
             // clamp to maximum 10 frames to prevent jitter of sleeping objects
-            d = Math.min(d, 10 * 1/60);
+            d = Math.min(d, 10 * 1/cfg_phy.max_fps);
+
+            // interpolate to previous frame to fix collision issues
+            // NOTE: needs more testing
+            d -= 1/cfg_phy.max_fps;
 
             if (cfg_def.no_phy_interp_hack)
                 d = 0;
@@ -429,9 +444,7 @@ exports.update = function(timeline, delta) {
             m_tsr.integrate(phy.curr_tsr, d, phy.linvel, phy.angvel,
                     _tsr8_tmp);
 
-            m_trans.set_translation(obj, m_tsr.get_trans_view(tsr));
-            m_trans.set_rotation(obj, m_tsr.get_quat_view(tsr));
-
+            m_trans.set_tsr_raw(obj, tsr);
             m_trans.update_transform(obj);
             sync_transform(obj);
 
@@ -450,7 +463,7 @@ exports.update = function(timeline, delta) {
     }
 
     // update physics water time
-    var scene = get_active_scene();
+    var scene = _active_scene;
     if (scene) {
         var subs = m_scs.get_subs(scene, "MAIN_OPAQUE");
         if (subs.water_params && subs.water_params.waves_height > 0.0) {
@@ -479,30 +492,17 @@ function update_prop_transforms(obj_chassis_hull) {
     }
 }
 
-
-/**
- * NOTE: temporary
- */
-function set_active_scene(scene) {
-    _active_scene_phy = scene;
-    m_ipc.post_msg(m_ipc.OUT_SET_ACTIVE_WORLD, scene._physics.world_id);
-}
-
-exports.get_active_scene = get_active_scene;
-/**
- * NOTE: temporary
- */
-function get_active_scene() {
-    return _active_scene_phy;
+exports.get_active_scene = function() {
+    return _active_scene;
 }
 
 exports.pause = function() {
-    if (cfg_phy.enabled)
+    if (_active_scene)
         m_ipc.post_msg(m_ipc.OUT_PAUSE);
 }
 
 exports.resume = function() {
-    if (cfg_phy.enabled)
+    if (_active_scene)
         m_ipc.post_msg(m_ipc.OUT_RESUME);
 }
 
@@ -513,7 +513,7 @@ function get_unique_body_id() {
 
 function init_water_physics(batch) {
 
-    var scene = get_active_scene();
+    var scene = _active_scene;
 
     // NOTE: taking some params from subscene to match water rendering
     var subs = m_scs.get_subs(scene, "MAIN_OPAQUE");
@@ -957,11 +957,11 @@ exports.disable_simulation = function(obj) {
 
 exports.has_physics = has_physics;
 /**
- * Check if object has physics
+ * Check if object or scene has physics
  * @methodOf physics
  */
-function has_physics(obj) {
-    if (obj._physics)
+function has_physics(obj_or_scene) {
+    if (obj_or_scene._physics)
         return true;
     else
         return false
@@ -1140,12 +1140,10 @@ exports.set_transform = function(obj, trans, quat) {
     m_tsr.set_sep(obj._render.trans, 1, obj._render.quat, phy.curr_tsr);
 
     var msg_cache = m_ipc.get_msg_cache(m_ipc.OUT_SET_TRANSFORM);
-    msg_cache["msg_id"] = m_ipc.OUT_SET_TRANSFORM;
     msg_cache["body_id"] = obj._physics.body_id;
     msg_cache["trans"] = trans;
     msg_cache["quat"] = quat;
 
-    m_ipc.post_msg(m_ipc.OUT_ACTIVATE, obj._physics.body_id);
     m_ipc.post_msg(m_ipc.OUT_SET_TRANSFORM, msg_cache);
 }
 
@@ -1161,7 +1159,6 @@ function sync_transform(obj) {
         var phy = obj._physics;
 
         var msg_cache = m_ipc.get_msg_cache(m_ipc.OUT_SET_TRANSFORM);
-        msg_cache["msg_id"] = m_ipc.OUT_SET_TRANSFORM;
         msg_cache["body_id"] = obj._physics.body_id;
         msg_cache["trans"] = obj._render.trans;
         if (phy.type === "DYNAMIC") {
@@ -1477,7 +1474,7 @@ function extract_collision_pairs(obj, collision_id) {
     var body_id_a = obj._physics.body_id;
     var body_id_b_arr = [];
 
-    collision_id_to_body_ids(collision_id, get_active_scene(),
+    collision_id_to_body_ids(collision_id, _active_scene,
             body_id_b_arr, null);
 
     for (var i = 0; i < body_id_b_arr.length; i++) {
@@ -1537,7 +1534,7 @@ exports.remove_collision_test = function(obj, collision_id, callback) {
             phy.collision_tests.splice(i, 1);
             i--;
 
-            remove_unused_collision_pairs(get_active_scene(), test.pairs);
+            remove_unused_collision_pairs(_active_scene, test.pairs);
         }
     }
 }
@@ -1625,7 +1622,7 @@ exports.append_ray_test = function(obj, collision_id, from, to, local_coords,
         // result for each target body_id
         results: {}
     }
-    collision_id_to_body_ids(collision_id, _active_scene_phy, null, test.results);
+    collision_id_to_body_ids(collision_id, _active_scene, null, test.results);
     // not needed to ray test body_id itself
     delete test.results[body_id];
 
@@ -2004,15 +2001,10 @@ exports.remove_bounding_object = function(obj) {
     var ind = _bounding_objects.indexOf(obj);
     if (ind != -1) {
         _bounding_objects.splice(ind, 1);
-        var cache_ind = _bounding_objects_cache.indexOf(obj);
-        if (cache_ind != -1)
-            _bounding_objects_cache.splice(cache_ind, 1);
+        if (obj._physics)
+            delete _bounding_objects_cache[obj._physics.body_id];            
     } else
         m_print.error("Object ", obj.name, " doesn't have bounding physics");
-}
-
-exports.reset = function() {
-    _worker.terminate();
 }
 
 }

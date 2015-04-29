@@ -287,10 +287,10 @@ exports.update_preloader = function(percentage) {
 
     if (percentage == 100)
         if (_preloader.fadeout) {
-            m_app.css_animate(_preloader.background, "opacity", 1, 0, 1500, null, function(){
+            m_app.css_animate(_preloader.background, "opacity", 1, 0, 1500, null, null, function(){
                 _preloader.background.parentNode.removeChild(_preloader.background);
             });
-            m_app.css_animate(_preloader.container, "opacity", 1, 0, 1000, null, function(){
+            m_app.css_animate(_preloader.container, "opacity", 1, 0, 1000, null, null, function(){
                 _preloader.container.parentNode.removeChild(_preloader.container);
             });
         } else {

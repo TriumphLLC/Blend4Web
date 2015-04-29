@@ -52,8 +52,7 @@ var _bpy_data_array = null;
 var _all_objects_cache = null;
 var _debug_resources_root = "";
 
-var _data_is_primary = false;
-var _primary_scene = null;
+var _primary_data = false;
 var _dupli_obj_id_overrides = {};
 
 var PLAY_MEDIA_IMAGE_MOBILE = "data:image/png;base64,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"
@@ -477,18 +476,18 @@ function report_odd_uvs(meshes) {
  */
 function prepare_root_datablocks(bpy_data, thread, stage, cb_param, cb_finish,
         cb_set_rate) {
+    assign_primary_data(bpy_data, thread);
 
     make_links(bpy_data);
 
     m_reformer.check_bpy_data(bpy_data);
-    check_primary_data(bpy_data, thread);
 
     // create textures
     var textures = bpy_data["textures"];
     var global_af = get_global_anisotropic_filtering(bpy_data);
     for (var i = 0; i < textures.length; i++) {
         // NOTE: disable offscreen rendering for secondary loaded data
-        if ((!_data_is_primary) && (textures[i]["b4w_source_type"] == "SCENE"))
+        if ((!data_is_primary(bpy_data)) && (textures[i]["b4w_source_type"] == "SCENE"))
             textures[i]["b4w_source_id"] = "";  
         m_tex.create_texture_bpy(textures[i], global_af, bpy_data["scenes"]);
     }
@@ -513,7 +512,7 @@ function prepare_root_datablocks(bpy_data, thread, stage, cb_param, cb_finish,
     for (var i = 0; i < objects.length; i++) {
         var obj = objects[i];
         // NOTE: disable parenting to LAMP or CAMERA objects
-        if (!_data_is_primary && obj["parent"] &&
+        if (!data_is_primary(bpy_data) && obj["parent"] &&
                 SECONDARY_LOAD_TYPES_DISABLED.indexOf(obj["parent"]["type"]) > -1)
             obj["parent"] = "";
         m_obj.update_object(obj, false);
@@ -530,6 +529,16 @@ function prepare_root_datablocks(bpy_data, thread, stage, cb_param, cb_finish,
     prepare_lod_objects(objects);
     prepare_vehicles(objects);
     prepare_floaters(objects);
+
+    for (var i = 0; i < bpy_data["scenes"].length; i++) {
+        var scene = bpy_data["scenes"][i];
+
+        if (cfg_phy.enabled && scene["b4w_enable_physics"] &&
+                (data_is_primary(bpy_data) || 
+                 (!m_phy.has_physics(get_primary_main_scene()) &&
+                  scene == m_scenes.find_main_scene(bpy_data))))
+            m_phy.init_scene_physics(scene);
+    }
 
     cb_finish(thread, stage);
 }
@@ -568,33 +577,44 @@ function link_skinned_objs(objects) {
 }
 
 /**
- * Check primary/secondary loading data
+ * Assign primary/secondary for currently loading data
  */
-function check_primary_data(bpy_data, thread) {
+function assign_primary_data(bpy_data, thread) {
+    if (thread.id === 0)
+        _primary_data = bpy_data;
+}
 
-    _data_is_primary = (thread.id === 0);
-    if (!_primary_scene)
-        _primary_scene = bpy_data["scenes"][0];
+function data_is_primary(bpy_data) {
+    if (bpy_data == _primary_data)
+        return true;
+    else
+        return false;
+}
+
+function get_primary_main_scene() {
+    return m_scenes.find_main_scene(_primary_data["scenes"]);
 }
 
 function prepare_root_scenes(bpy_data, thread, stage, cb_param, cb_finish,
         cb_set_rate) {
 
     // NOTE: save only first scene for secondary data
-    if (!_data_is_primary && bpy_data["scenes"].length > 1) {
-        bpy_data["scenes"] = [bpy_data["scenes"][0]];
+    if (!data_is_primary(bpy_data) && bpy_data["scenes"].length > 1) {
+        bpy_data["scenes"] = [m_scenes.find_main_scene(bpy_data["scenes"])];
         m_print.warn("loading data contains multiple scenes.",
                 "Only the first one will be loaded.");
     }
 
-    if (cfg_anim.framerate == -1 && _data_is_primary)
-        cfg_anim.framerate = bpy_data["scenes"][0]["fps"];
+    var primary_scene = get_primary_main_scene();
+
+    if (cfg_anim.framerate == -1)
+        cfg_anim.framerate = primary_scene["fps"];
 
     for (var i = 0; i < bpy_data["scenes"].length; i++) {
 
         var scene = bpy_data["scenes"][i];
 
-        if (_data_is_primary)
+        if (data_is_primary(bpy_data))
             check_scene(scene);
 
         var scene_objects = m_scenes.combine_scene_objects(scene, "MESH");
@@ -613,14 +633,11 @@ function prepare_root_scenes(bpy_data, thread, stage, cb_param, cb_finish,
         remove_orphan_meshes(get_all_objects_cached(bpy_data, thread.id),
                 bpy_data["meshes"]);
 
-        if (_data_is_primary) {
+        if (data_is_primary(bpy_data)) {
             m_scenes.append_scene(scene, bpy_data["textures"]);
 
             if (scene._render.video_textures.length)
                 thread.has_video_textures = true;
-
-            if (cfg_phy.enabled && scene["b4w_enable_physics"])
-                m_phy.attach_scene_physics(scene);
 
             if (scene["b4w_enable_audio"])
                 m_sfx.attach_scene_sfx(scene);
@@ -629,30 +646,27 @@ function prepare_root_scenes(bpy_data, thread, stage, cb_param, cb_finish,
             var grid_size = scene["b4w_batch_grid_size"];
 
         } else {
-            m_scenes.append_to_existed_scene(scene, _primary_scene, bpy_data["textures"]);
+            m_scenes.append_to_existed_scene(scene, primary_scene, bpy_data["textures"]);
 
-            if (cfg_phy.enabled && scene["b4w_enable_physics"]
-                    && !_primary_scene._physics)
-                m_phy.attach_scene_physics(_primary_scene);
+            if (scene["b4w_enable_audio"] && !primary_scene._sfx)
+                m_sfx.attach_scene_sfx(primary_scene);
 
-            if (scene["b4w_enable_audio"] && !_primary_scene._sfx)
-                m_sfx.attach_scene_sfx(_primary_scene);
-
-            var scene_graph = m_scenes.get_graph(_primary_scene);
-            var grid_size = _primary_scene["b4w_batch_grid_size"];
+            var scene_graph = m_scenes.get_graph(primary_scene);
+            var grid_size = primary_scene["b4w_batch_grid_size"];
         }
 
         var metabatches = [];
         var meta_objects = [];
-        m_batch.generate_main_batches(scene_graph, grid_size, scene_objects,
-                                    scene["world"], metabatches, meta_objects,
-                                    _primary_scene._render.lamps_number);
 
-        if (_data_is_primary) {
+        m_batch.generate_main_batches(scene_graph, grid_size, scene_objects, primary_scene._render.world_light_set,
+                                    primary_scene._render.sky_params, metabatches, meta_objects,
+                                    primary_scene._render.lamps_number);
+
+        if (data_is_primary(bpy_data)) {
             m_scenes.add_meta_objects(scene, meta_objects);
             m_scenes.generate_auxiliary_batches(scene_graph);
         } else
-            m_scenes.add_meta_objects(_primary_scene, meta_objects);
+            m_scenes.add_meta_objects(primary_scene, meta_objects);
     }
 
     setup_dds_loading(bpy_data);
@@ -756,10 +770,10 @@ function unset_images_dds(images) {
  * or impossible to assign textures to scenes
  */
 function get_global_anisotropic_filtering(bpy_data) {
-    if (_data_is_primary)
+    if (data_is_primary(bpy_data))
         return bpy_data["scenes"][0]["b4w_anisotropic_filtering"];
     else
-        return _primary_scene["b4w_anisotropic_filtering"];
+        return get_primary_main_scene()["b4w_anisotropic_filtering"];
 }
 
 /**
@@ -2241,21 +2255,43 @@ function remove_orphan_meshes(root_objects, meshes) {
     }
 }
 
-function add_physics_objects(bpy_data, thread, stage, cb_param, cb_finish,
+function wait_physics_workers(bpy_data, thread, stage, cb_param, cb_finish,
         cb_set_rate) {
+
+    var loaded = true;
 
     for (var i = 0; i < bpy_data["scenes"].length; i++) {
         var scene = bpy_data["scenes"][i];
 
-        if (_data_is_primary)
-            var enable_physics = scene["b4w_enable_physics"];
+        if (!m_phy.check_worker_loaded(scene)) {
+            loaded = false;
+            break;
+        }
+    }
+
+    if (loaded) {
+        cb_finish(thread, stage);
+        m_print.log("%cPHYSICS READY", "color: #0a0");
+    }
+}
+
+function add_physics_objects(bpy_data, thread, stage, cb_param, cb_finish,
+        cb_set_rate) {
+
+    var primary_scene = get_primary_main_scene();
+
+    for (var i = 0; i < bpy_data["scenes"].length; i++) {
+        var scene = bpy_data["scenes"][i];
+
+        if (data_is_primary(bpy_data))
+            var enable_physics = m_phy.has_physics(scene);
         else
-            var enable_physics = _primary_scene["b4w_enable_physics"]
-                || scene["b4w_enable_physics"];
+            var enable_physics = m_phy.has_physics(primary_scene) ||
+                    m_phy.has_physics(scene);
 
         // secondary data objects are on primary scene already
-        if (!_data_is_primary)
-            scene = _primary_scene;
+        if (!data_is_primary(bpy_data))
+            scene = primary_scene;
 
         for (var j = 0; j < ADD_PHY_TYPES.length; j++) {
             var type = ADD_PHY_TYPES[j];
@@ -2471,8 +2507,8 @@ function prepare_objects_adding(bpy_data, thread, stage, cb_param, cb_finish,
         var scene = bpy_data["scenes"][i];
 
         // secondary data objects are on primary scene already
-        if (!_data_is_primary)
-            scene = _primary_scene;
+        if (!data_is_primary(bpy_data))
+            scene = get_primary_main_scene();
 
         // firstly, process lamps
         var lamps = m_scenes.get_scene_objs(scene, "LAMP", m_scenes.DATA_ID_ALL);
@@ -2542,7 +2578,7 @@ function add_objects(bpy_data, thread, stage, cb_param, cb_finish,
 function end_objects_adding(bpy_data, thread, stage, cb_param, cb_finish,
         cb_set_rate) {
 
-    if (_data_is_primary) {
+    if (data_is_primary(bpy_data)) {
 
         var scenes = m_scenes.get_rendered_scenes();
         var scene_main = m_scenes.get_main();
@@ -2557,7 +2593,7 @@ function end_objects_adding(bpy_data, thread, stage, cb_param, cb_finish,
 
         m_scenes.set_active(scene_main);
     } else
-        m_scenes.update_scene_permanent_uniforms(_primary_scene);
+        m_scenes.update_scene_permanent_uniforms(get_primary_main_scene());
 
     var objects = get_all_objects_cached(bpy_data, thread.id);
     m_obj.update_objects_dynamics(objects);
@@ -2568,7 +2604,7 @@ function end_objects_adding(bpy_data, thread, stage, cb_param, cb_finish,
 function synchronize_media(bpy_data, thread, stage, cb_param, cb_finish,
         cb_set_rate) {
 
-    if (_data_is_primary)
+    if (data_is_primary(bpy_data))
         for (var i = 0; i < bpy_data["scenes"].length; i++) {
             if (!bpy_data["scenes"][i]["b4w_use_nla"])
                 video_play(bpy_data["scenes"][i]);
@@ -2577,8 +2613,8 @@ function synchronize_media(bpy_data, thread, stage, cb_param, cb_finish,
     else { 
         // NOTE: play video-textures from dynamically loaded non-NLA scenes
         if (!bpy_data["scenes"][0]["b4w_use_nla"])
-            video_play(_primary_scene);
-        speakers_play(_primary_scene); 
+            video_play(get_primary_main_scene());
+        speakers_play(get_primary_main_scene()); 
     }
 
 
@@ -2637,11 +2673,11 @@ function create_media_controls(bpy_data, cb_finish, thread, stage) {
         }
 
         if (thread.has_background_music) {
-            if (_data_is_primary)
+            if (data_is_primary(bpy_data))
                 for (var i = 0; i < bpy_data["scenes"].length; i++)
                     speakers_play(bpy_data["scenes"][i], true);
             else
-                speakers_play(_primary_scene, true);
+                speakers_play(get_primary_main_scene(), true);
             m_sfx.pause();
         }
 
@@ -2840,10 +2876,19 @@ exports.load = function(path, loaded_cb, stageload_cb, wait_complete_loading,
                 image_counter: 0
             }
         },
+        "wait_physics_workers": {
+            priority: m_loader.ASYNC_PRIORITY,
+            background_loading: true,
+            inputs: ["load_shoremap"],
+            is_resource: false,
+            relative_size: 20,
+            primary_only: false,
+            cb_loop: wait_physics_workers
+        },
         "add_physics_objects": {
             priority: m_loader.SYNC_PRIORITY,
             background_loading: false,
-            inputs: ["load_shoremap"],
+            inputs: ["wait_physics_workers"],
             is_resource: false,
             relative_size: 20,
             primary_only: false,
@@ -2954,8 +2999,7 @@ exports.unload = function(data_id) {
 
         _all_objects_cache = null;
         _dupli_obj_id_overrides = {};
-        _data_is_primary = false;
-        _primary_scene = null;
+        _primary_data = false;
         _bpy_data_array = null;
     } else {
         m_print.log("%cUNLOAD DATA " + data_id, "color: #00a");
@@ -2998,7 +3042,7 @@ function prepare_object_unloading(scene, obj, clean_buffs) {
         m_anim.remove(obj);
 
     // scenes cleanup
-    m_scenes.clear_glow_anim(obj);
+    m_scenes.clear_outline_anim(obj);
 
     // physics cleanup
     if (m_phy.has_physics(obj)) {
@@ -3051,7 +3095,7 @@ function update_all_objects(bpy_data, data_id) {
 
     for (var i = 0; i < scenes.length; i++) {
         var scene_objs = scenes[i]["objects"];
-        update_all_objects_iter(scene_objs, 0, object_levels);
+        update_all_objects_iter(scene_objs, 0, data_is_primary(bpy_data), object_levels);
     }
 
     _all_objects_cache[data_id] = [];
@@ -3068,7 +3112,7 @@ function update_all_objects(bpy_data, data_id) {
     }
 }
 
-function update_all_objects_iter(objects, grp_num, object_levels) {
+function update_all_objects_iter(objects, grp_num, is_primary, object_levels) {
 
     // initialize new group level
     object_levels[grp_num] = object_levels[grp_num] || [];
@@ -3083,8 +3127,7 @@ function update_all_objects_iter(objects, grp_num, object_levels) {
         group_level[pnum] = group_level[pnum] || [];
 
         // don't process LAMP and CAMERA objects on secondary load
-        if (_data_is_primary
-                || SECONDARY_LOAD_TYPES_DISABLED.indexOf(obj["type"]) == -1)
+        if (is_primary || SECONDARY_LOAD_TYPES_DISABLED.indexOf(obj["type"]) == -1)
             // push unique (other scenes may link to same object)
             if (group_level[pnum].indexOf(obj) == -1)
                 group_level[pnum].push(obj);
@@ -3092,7 +3135,7 @@ function update_all_objects_iter(objects, grp_num, object_levels) {
         var dupli_group = obj["dupli_group"];
         if (dupli_group) {
             var dg_objects = dupli_group["objects"];
-            update_all_objects_iter(dg_objects, grp_num + 1, object_levels);
+            update_all_objects_iter(dg_objects, grp_num + 1, is_primary, object_levels);
         }
     }
 }

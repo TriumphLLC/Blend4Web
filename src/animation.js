@@ -186,6 +186,11 @@ function init_anim(obj, slot_num) {
         type: null,
         animation_name: null,
 
+        action_frame_range: null,
+        action_step: 0,
+        action_bflags: null,
+        channels_mask: null,
+
         quats: null,
         trans: null,
 
@@ -229,14 +234,6 @@ function init_anim(obj, slot_num) {
 function update_anim_cache(obj) {
     if (_anim_objs_cache.indexOf(obj) == -1)
         _anim_objs_cache.push(obj);
-}
-
-exports.get_current_animation_name = function(obj, slot_num) {
-    var anim_slot = obj._anim_slots[slot_num]
-    if (anim_slot && anim_slot.animation_name)
-        return strip_baked_suffix(anim_slot.animation_name);
-
-    return null;
 }
 
 exports.get_anim_names = function(obj) {
@@ -353,7 +350,8 @@ function get_actions(obj) {
         } else if (act_render.params["volume"] || act_render.params["pitch"]) {
             if (m_sfx.is_speaker(obj))
                 act_list.push(action);
-        } else if (!is_material_action(action) && action["fcurves"].length) {
+        } else if (!is_material_action(action) &&
+                   m_util.get_dict_length(action["fcurves"])) {
             act_list.push(action);
         }
     }
@@ -503,14 +501,14 @@ exports.set_current_frame_float = function(obj, cff, slot_num) {
             var anim_slot = anim_slots[i]
             if (anim_slot) {
                 anim_slot.current_frame_float = cff;
-                update_object_animation(obj, 0, i)
+                update_object_animation(obj, 0, i, true)
             }
         }
     } else {
         var anim_slot = anim_slots[slot_num]
         if (anim_slot) {
             anim_slot.current_frame_float = cff;
-            update_object_animation(obj, 0, slot_num)
+            update_object_animation(obj, 0, slot_num, true)
         }
     }
 }
@@ -578,8 +576,8 @@ function process_anim_slots(anim_slots, slot_num, procedure) {
  * Update object animation (set object pose)
  */
 exports.update_object_animation = update_object_animation;
-function update_object_animation(obj, elapsed, slot_num) {
-    animate(obj, elapsed, slot_num);
+function update_object_animation(obj, elapsed, slot_num, force_update) {
+    animate(obj, elapsed, slot_num, force_update);
     handle_finish_callback(obj, slot_num);
 
     if (obj._render.anim_mixing) {
@@ -652,6 +650,7 @@ function apply_action(obj, action, slot_num) {
     anim_slot.action_frame_range = frame_range;
     anim_slot.action_step = act_render.pierce_step;
     anim_slot.action_bflags = act_render.bflags;
+    anim_slot.channels_mask = act_render.channels_mask;
 
     anim_slot.start = frame_range[0];
     anim_slot.length = frame_range[1] - frame_range[0];
@@ -980,7 +979,7 @@ function is_material_action(action) {
     return false;
 }
 
-function animate(obj, elapsed, slot_num) {
+function animate(obj, elapsed, slot_num, force_update) {
 
     var anim_slot = obj._anim_slots[slot_num];
 
@@ -988,7 +987,7 @@ function animate(obj, elapsed, slot_num) {
         return;
 
     // update paused animation only if elapsed == 0
-    if (!(anim_slot.play || elapsed == 0))
+    if (!anim_slot.play && !force_update)
         return
 
     var render = obj._render;
@@ -1075,9 +1074,14 @@ function animate(obj, elapsed, slot_num) {
                     anim_slot.quat_smooth_period, quat);
         }
 
-        m_trans.set_translation(obj, trans);
-        m_trans.set_rotation(obj, quat);
-        m_trans.set_scale(obj, scale);
+        var mask = anim_slot.channels_mask;
+
+        if (mask[0])
+            m_trans.set_translation(obj, trans);
+        if (mask[1])
+            m_trans.set_rotation(obj, quat);
+        if (mask[2])
+            m_trans.set_scale(obj, scale);
 
         m_trans.update_transform(obj);
         m_phy.sync_transform(obj);
@@ -1630,8 +1634,10 @@ exports.append_action = function(action) {
     var bones = {};
 
     var num_pierced = 0;
+
     for (var data_path in fcurves) {
         var channels = fcurves[data_path];
+
         for (var array_index in channels) {
             var fcurve = channels[array_index];
             var pp = fcurve._pierced_points;
@@ -1672,63 +1678,26 @@ exports.append_action = function(action) {
     act_render.bflags = action._bflags;
     act_render.num_pierced = num_pierced;
 
+    if ("tsr" in params)
+        act_render.channels_mask = set_act_channels_mask(fcurves);
+    else
+        act_render.channels_mask = null;
+
     _actions.push(action);
 }
 
-/**
- * @deprecated Unused
- */
-function get_transform_from_group(channels, pierced_index, animation_name) {
-
-    var tran = [0, 0, 0];
-    var quat = [1, 0, 0, 0];
-    var scal = [1, 1, 1];
-
-    var storage;
-
-    var bflag = 0;
-
-    // for every fcurve of the group
-    for (var i = 0; i < channels.length; i++) {
-        var fcurve = channels[i];
-
-        var data_path = fcurve[0];
-        var array_index = fcurve[1];
-        var pp = fcurve._pierced_points;
-
-        // if some channel is blended all transform will be blended
-        var pp_bflag = pp[2*pierced_index];
-        if (pp_bflag)
-            bflag = 1;
-
-        var pp_value = pp[2*pierced_index + 1];
-
-        if (data_path.indexOf("location") > -1)
-            storage = tran;
-        else if (data_path.indexOf("rotation_quaternion") > -1)
-            storage = quat;
-        else if (data_path.indexOf("scale") > -1)
-            storage = scal;
-        else {
-            m_print.error("unsupported fcurve data path: " + data_path +
-                    " (Animation: " + animation_name + ")");
-            break;
-        }
-
-        storage[array_index] = pp_value;
+function set_act_channels_mask(fcurves) {
+    var mask = [0,0,0];
+    for (var data_path in fcurves) {
+        var channels = fcurves[data_path];
+        if (data_path == "location")
+            mask[0] = 1;
+        else if (data_path == "rotation_quaternion")
+            mask[1] = 1;
+        else if (data_path == "scale")
+            mask[2] = 1;
     }
-
-    // uniform scale supported
-    scal = (scal[0] + scal[1] + scal[2]) / 3;
-
-    // pack scale to translation
-    tran = [tran[0], tran[1], tran[2], scal];
-
-    // convert quaternion: (w, x, y, z) -> (x, y, z, w) to use in shader
-    quat = [quat[1], quat[2], quat[3], quat[0]];
-    m_quat.normalize(quat, quat);
-
-    return {tran: tran, quat: quat, bflag: bflag};
+    return mask;
 }
 
 exports.get_approx_curve_length = function(start, end) {
@@ -2067,7 +2036,7 @@ function do_after_apply(obj, slot_num) {
     // to update e.g bounding boxes
     m_trans.update_transform(obj);
     m_phy.sync_transform(obj);
-    update_object_animation(obj, 0, slot_num);
+    update_object_animation(obj, 0, slot_num, true);
 }
 
 exports.apply = apply;
@@ -2107,8 +2076,25 @@ function apply(obj, name, slot_num) {
             obj._anim_slots[slot_num] = null;
     }
 
-    m_print.error("Unsupported object: \"", obj.name,
-                  "\" or animation name: \"", name, "\"");
+    m_print.error("Unsupported object: \"" + obj.name +
+                  "\" or animation name: \"" + name + "\"");
+    return false;
+}
+
+exports.apply_by_uuid = function(obj, uuid, slot_num) {
+    slot_num = slot_num || SLOT_0;
+    var action = m_util.keysearch("uuid", uuid, _actions);
+    if (action) {
+        do_before_apply(obj, slot_num);
+        if (apply_action(obj, action, slot_num)) {
+            do_after_apply(obj, slot_num);
+            return true;
+        } else
+            obj._anim_slots[slot_num] = null;
+    }
+
+    m_print.error("Unsupported object: \"" + obj.name +
+                  "\" or animation uuid: \"" + uuid + "\"");
     return false;
 }
 
@@ -2144,10 +2130,9 @@ function get_slot_num_by_anim(obj, anim_name) {
 
 exports.get_anim_by_slot_num = function(obj, slot_num) {
     var anim_slot = obj._anim_slots[slot_num];
-    if (anim_slot && anim_slot.animation_name) {
-        var anim_name = strip_baked_suffix(anim_slot.animation_name);
-        return anim_name;
-    }
+    if (anim_slot && anim_slot.animation_name)
+        return strip_baked_suffix(anim_slot.animation_name);
+
     return null;
 }
 

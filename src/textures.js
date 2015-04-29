@@ -367,8 +367,12 @@ function create_texture_bpy(bpy_texture, global_af, bpy_scenes) {
             "POSITIVE_Z", "NEGATIVE_Z"
         ];
         for (var i = 0; i < 6; i++)
-            _gl.texImage2D(_gl["TEXTURE_CUBE_MAP_" + targets[i]], 0, _gl.RGBA,
-                1, 1, 0, _gl.RGBA, _gl.UNSIGNED_BYTE, image_data);
+            if (cfg_def.intel_cubemap_hack)
+                _gl.texImage2D(_gl["TEXTURE_CUBE_MAP_" + targets[i]], 0, _gl.RGB,
+                    1, 1, 0, _gl.RGB, _gl.UNSIGNED_BYTE, image_data);
+            else
+                _gl.texImage2D(_gl["TEXTURE_CUBE_MAP_" + targets[i]], 0, _gl.RGBA,
+                    1, 1, 0, _gl.RGBA, _gl.UNSIGNED_BYTE, image_data);
         break;
 
     case "VORONOI":
@@ -384,8 +388,12 @@ function create_texture_bpy(bpy_texture, global_af, bpy_scenes) {
     if (tex_type == "NONE" && !(bpy_texture["b4w_enable_canvas_mipmapping"] && 
             bpy_texture["b4w_source_type"] == "CANVAS") || tex_type == "DATA_TEX2D")
         _gl.texParameteri(w_target, _gl.TEXTURE_MIN_FILTER, _gl.LINEAR);
-    else
-        _gl.texParameteri(w_target, _gl.TEXTURE_MIN_FILTER, LEVELS[cfg_def.texture_min_filter]);
+    else {
+        if (cfg_def.intel_cubemap_hack)
+            _gl.texParameteri(w_target, _gl.TEXTURE_MIN_FILTER, _gl.LINEAR);
+        else
+            _gl.texParameteri(w_target, _gl.TEXTURE_MIN_FILTER, LEVELS[cfg_def.texture_min_filter]);
+    }
 
     _gl.texParameteri(w_target, _gl.TEXTURE_MAG_FILTER, _gl.LINEAR);
 
@@ -862,6 +870,12 @@ exports.generate_texture = function(type, subs) {
 }
 
 exports.cleanup = function() {
+    if (!cfg_def.seq_video_fallback)
+        for (var tex in _video_textures_cache) {
+            _video_textures_cache[tex].video_file.pause();
+            _video_textures_cache[tex].video_file.src = "";
+            _video_textures_cache[tex].video_file.load();
+        }
     _canvas_textures_cache = {};
     _video_textures_cache = {};
 }

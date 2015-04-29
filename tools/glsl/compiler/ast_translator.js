@@ -1,15 +1,14 @@
-var var_replacements = {}, directives = {}, node_directives = {}, 
-        lamp_directives = {}, data_to_remove = {}, last_offset = 0;
+/**
+ * Converts AST to text.
+ * @name ast_translator
+ */
 
-var EMPTY_AST = -1;
-
-exports.translate = function(ast) {
-    init_globals(ast);
-    var text = translation_unit(ast['result']);
-    text = remove_odd_data(text);
+exports.translate = function(ast_data) {
+    var text = translation_unit(ast_data.ast);
     text = return_vardef(text);
     text = return_nodes(text);
     text = return_lamps(text);
+    text = return_directive(text);
     return text;
 }
 
@@ -17,24 +16,18 @@ exports.translate = function(ast) {
                                   RULES
 ============================================================================*/
 function translation_unit(ast) {
-    if (ast.length == 0)
-        var text = get_special_comments(EMPTY_AST);
-    else {
-        var text = get_special_comments(0);
-
-        for (var i = 0; i < ast.length; i++) {
-            var unit = ast[i];
-            text += external_declaration(unit);
-        }
+    var text = "";
+    for (var i = 0; i < ast.parts.length; i++) {
+        var unit = ast.parts[i];
+        text += external_declaration(unit);
     }
-
-    text = add_last_special_comments(text);
+    text += get_last_special_comments(ast);
 
     return text;
 }
 
 function external_declaration(node) {
-    var text = get_special_comments(node.offset);
+    var text = get_before_special_comments(node);
 
     switch(node.decl.node) {
     case "function_definition":
@@ -49,7 +42,7 @@ function external_declaration(node) {
 }
 
 function declaration(node) {
-    var text = get_special_comments(node.offset);
+    var text = get_before_special_comments(node);
 
     switch(node.node) {
     case "function_declaration":
@@ -72,7 +65,7 @@ function declaration(node) {
 }
 
 function init_declarator_list(node) {
-    var text = get_special_comments(node.offset);
+    var text = get_before_special_comments(node);
 
     for (var i = 0; i < node.vars.length; i++) {
         if (i == 0)
@@ -96,7 +89,7 @@ function init_declarator_list(node) {
 }
 
 function single_declaration(node) {
-    var text = get_special_comments(node.offset);
+    var text = get_before_special_comments(node);
 
     switch (node.subtype) {
     case "simple":
@@ -124,7 +117,7 @@ function single_declaration(node) {
 }
 
 function function_definition(node) {
-    var text = get_special_comments(node.offset);
+    var text = get_before_special_comments(node);
 
     text += function_head(node.head);
     text += function_scope(node.scope);
@@ -133,7 +126,7 @@ function function_definition(node) {
 }
 
 function function_head(node) {
-    var text = get_special_comments(node.offset);
+    var text = get_before_special_comments(node);
 
     text += fully_specified_type(node.type);
     text += " " + identifier(node.identifier);
@@ -142,7 +135,7 @@ function function_head(node) {
 }
 
 function function_scope(node) {
-    var text = get_special_comments(node.offset);
+    var text = get_before_special_comments(node);
 
     text += function_parameters(node.parameters);
     text += compound_statement_no_new_scope(node.body);
@@ -151,13 +144,14 @@ function function_scope(node) {
 }
 
 function function_parameters(node) {
-    var text = get_special_comments(node.offset);
+    var text = get_before_special_comments(node);
 
     text += punctuation(node.punctuation.left_paren);
     for (var i = 0; i < node.parameters.length; i++) {
         var parm = node.parameters[i];
         if (i > 0)
-            text += punctuation(node.parameters[i].punctuation.comma);
+            text += punctuation(parm.punctuation.comma);
+
         text += parameter_declaration(parm);
     }
     text += punctuation(node.punctuation.right_paren);
@@ -166,7 +160,7 @@ function function_parameters(node) {
 }
 
 function function_declarator(node) {
-    var text = get_special_comments(node.offset);
+    var text = get_before_special_comments(node);
 
     text += function_head(node.head);
     text += function_parameters(node.parameters);
@@ -179,11 +173,11 @@ function compound_statement_no_new_scope(node) {
 }
 
 function compound_statement_with_scope(node) {
-    return compound_statement_scope(node);
+    return compound_statement_scope(node); 
 }
 
 function statement_list(node) {
-    var text = get_special_comments(node.offset);
+    var text = get_before_special_comments(node);
 
     for (var i = 0; i < node.list.length; i++)
         text += statement_no_new_scope(node.list[i]);
@@ -192,7 +186,7 @@ function statement_list(node) {
 }
 
 function statement_with_scope(node) {
-    var text = get_special_comments(node.offset);
+    var text = get_before_special_comments(node);
 
     switch(node.statement.node) {
     case "compound_statement_no_new_scope":
@@ -206,7 +200,7 @@ function statement_with_scope(node) {
 }
 
 function statement_no_new_scope(node) {
-    var text = get_special_comments(node.offset);
+    var text = get_before_special_comments(node);
 
     switch(node.statement.node) {
     case "compound_statement_with_scope":
@@ -220,7 +214,7 @@ function statement_no_new_scope(node) {
 }
 
 function simple_statement(node) {
-    var text = get_special_comments(node.offset);
+    var text = get_before_special_comments(node);
 
     switch(node.statement.node) {
     case "declaration_statement":
@@ -244,7 +238,7 @@ function simple_statement(node) {
 }
 
 function expression_statement(node) {
-    var text = get_special_comments(node.offset);
+    var text = get_before_special_comments(node);
 
     if (node.statement)
         text += expression(node.statement);
@@ -258,7 +252,7 @@ function declaration_statement(node) {
 }
 
 function selection_statement(node) {
-    var text = get_special_comments(node.offset);
+    var text = get_before_special_comments(node);
 
     text += keyword(node.keywords.key_if);
     text += punctuation(node.punctuation.left_paren);
@@ -276,7 +270,7 @@ function selection_statement(node) {
 }
 
 function iteration_statement(node) {
-    var text = get_special_comments(node.offset);
+    var text = get_before_special_comments(node);
 
     switch (node.type) {
     case "while":
@@ -333,7 +327,7 @@ function iteration_statement(node) {
 }
 
 function jump_statement(node) {
-    var text = get_special_comments(node.offset);
+    var text = get_before_special_comments(node);
 
     text += keyword(node.type);
     if (node.returned_exp)
@@ -343,7 +337,7 @@ function jump_statement(node) {
 }
 
 function condition(node) {
-    var text = get_special_comments(node.offset);
+    var text = get_before_special_comments(node);
 
     switch(node.condition.node) {
     case "condition_initializer":
@@ -358,7 +352,7 @@ function condition(node) {
 }
 
 function condition_initializer(node) {
-    var text = get_special_comments(node.offset);
+    var text = get_before_special_comments(node);
 
     text += fully_specified_type(node.id_type) + " " + identifier(node.identifier);
     text += operation(node.operation);
@@ -372,7 +366,7 @@ function initializer(node) {
 }
 
 function for_init_statement(node) {
-    var text = get_special_comments(node.offset);
+    var text = get_before_special_comments(node);
 
     switch (node.statement.node) {
     case "declaration_statement":
@@ -387,7 +381,7 @@ function for_init_statement(node) {
 }
 
 function for_rest_statement(node) {
-    var text = get_special_comments(node.offset);
+    var text = get_before_special_comments(node);
 
     if (node.condition)
         text += condition(node.condition);
@@ -400,7 +394,7 @@ function for_rest_statement(node) {
 
 
 function fully_specified_type(node) {
-    var text = get_special_comments(node.offset);
+    var text = get_before_special_comments(node);
 
     if (node.type_qualifier)
         text += type_qualifier(node.type_qualifier) + " " ;
@@ -413,7 +407,7 @@ function fully_specified_type(node) {
 }
 
 function identifier(node) {
-    var text = get_special_comments(node.offset);
+    var text = get_before_special_comments(node);
 
     text += node.name;
         
@@ -421,7 +415,7 @@ function identifier(node) {
 }
 
 function parameter_declaration(node) {
-    var text = get_special_comments(node.offset);
+    var text = get_before_special_comments(node);
 
     if (node.type_qualifier)
         text += type_qualifier(node.type_qualifier) + " ";
@@ -441,7 +435,7 @@ function parameter_declaration(node) {
 }
 
 function parameter_type_specifier(node) {
-    var text = get_special_comments(node.offset);
+    var text = get_before_special_comments(node);
 
     text += type_specifier(node.type);
     if (node.array_size) {
@@ -454,7 +448,7 @@ function parameter_type_specifier(node) {
 }
 
 function type_qualifier(node) {
-    var text = get_special_comments(node.offset);
+    var text = get_before_special_comments(node);
 
     if (node.value instanceof Array)
         for (var i = 0; i < node.value.length; i++) {
@@ -469,12 +463,12 @@ function type_qualifier(node) {
 }
 
 function parameter_qualifier(node) {
-    var text = get_special_comments(node.offset);
+    var text = get_before_special_comments(node);
     return text + keyword(node.value);
 }
 
 function parameter_declarator(node) {
-    var text = get_special_comments(node.offset);
+    var text = get_before_special_comments(node);
 
     text += type_specifier(node.type) + " " + identifier(node.identifier);
     if (node.identifier.type == "array") {
@@ -487,7 +481,7 @@ function parameter_declarator(node) {
 }
 
 function type_specifier(node) {
-    var text = get_special_comments(node.offset);
+    var text = get_before_special_comments(node);
 
     if (node.precision)
         text += precision_qualifier(node.precision) + " ";
@@ -497,13 +491,13 @@ function type_specifier(node) {
 }
 
 function precision_qualifier(node) {
-    var text = get_special_comments(node.offset);
+    var text = get_before_special_comments(node);
     text += keyword(node.value);
     return text;
 }
 
 function type_specifier_no_prec(node) {
-    var text = get_special_comments(node.offset);
+    var text = get_before_special_comments(node);
 
     switch(node.name.node) {
     case "keyword_node":
@@ -521,7 +515,7 @@ function type_specifier_no_prec(node) {
 }
 
 function struct_specifier(node) {
-    var text = get_special_comments(node.offset);
+    var text = get_before_special_comments(node);
 
     text += keyword(node.keywords.key_struct);
     if (node.struct_type)
@@ -534,7 +528,7 @@ function struct_specifier(node) {
 }
 
 function struct_declaration_list(node) {
-    var text = get_special_comments(node.offset);
+    var text = get_before_special_comments(node);
 
     for (var i = 0; i < node.list.length; i++)
         text += struct_declaration(node.list[i]);
@@ -543,7 +537,7 @@ function struct_declaration_list(node) {
 }
 
 function struct_declaration(node) {
-    var text = get_special_comments(node.offset);
+    var text = get_before_special_comments(node);
 
     text += type_specifier(node.type) + " ";
     text += struct_declarator_list(node.declarator_list);
@@ -553,7 +547,7 @@ function struct_declaration(node) {
 }
 
 function struct_declarator_list(node) {
-    var text = get_special_comments(node.offset);
+    var text = get_before_special_comments(node);
 
     for (var i = 0; i < node.list.length; i++) {
         if (i > 0)
@@ -565,7 +559,7 @@ function struct_declarator_list(node) {
 }
 
 function struct_declarator(node) {
-    var text = get_special_comments(node.offset);
+    var text = get_before_special_comments(node);
 
     text += identifier(node.identifier);
     if (node.identifier.array_size) {
@@ -582,7 +576,7 @@ function constant_expression(node) {
 }
 
 function conditional_expression(node) {
-    var text = get_special_comments(node.offset);
+    var text = get_before_special_comments(node);
 
     text += exp_recursive_traverse(node.condition);
 
@@ -643,7 +637,7 @@ function exp_recursive_traverse(node) {
 }
 
 function exp_binary_common(node) {
-    var text = get_special_comments(node.offset);
+    var text = get_before_special_comments(node);
 
     text += exp_recursive_traverse(node.left);
     text += operation(node.operator);
@@ -653,7 +647,7 @@ function exp_binary_common(node) {
 }
 
 function prefix_expression(node) {
-    var text = get_special_comments(node.offset);
+    var text = get_before_special_comments(node);
 
     text += operation(node.operator);
     text += exp_recursive_traverse(node.expression);
@@ -662,7 +656,7 @@ function prefix_expression(node) {
 }
 
 function postfix_expression(node) {
-    var text = get_special_comments(node.offset);
+    var text = get_before_special_comments(node);
 
     text += exp_recursive_traverse(node.expression);
     text += operation(node.operator);
@@ -671,7 +665,7 @@ function postfix_expression(node) {
 }
 
 function primary_expression(node) {
-    var text = get_special_comments(node.offset);
+    var text = get_before_special_comments(node);
     
     var exp = node.expression;
     switch(exp.node) {
@@ -692,12 +686,12 @@ function primary_expression(node) {
 }
 
 function exp_constant(node) {
-    var text = get_special_comments(node.offset);
+    var text = get_before_special_comments(node);
     return text + node.value;
 }
 
 function paren_expression(node) {
-    var text = get_special_comments(node.offset);
+    var text = get_before_special_comments(node);
 
     text += punctuation(node.punctuation.left_paren);
     text += expression(node.expression);
@@ -708,7 +702,7 @@ function paren_expression(node) {
 
 
 function operation(node) {
-    var text = get_special_comments(node.offset);
+    var text = get_before_special_comments(node);
 
     switch(node.node) {
     case "operation_node":
@@ -728,7 +722,7 @@ function operation(node) {
 }
 
 function expression(node) {
-    var text = get_special_comments(node.offset);
+    var text = get_before_special_comments(node);
     for (var i = 0; i < node.list.length; i++) {
         if (i > 0)
             text += punctuation(node.list[i].punctuation.comma);
@@ -739,7 +733,7 @@ function expression(node) {
 }
 
 function assignment_expression(node) {
-    var text = get_special_comments(node.offset);
+    var text = get_before_special_comments(node);
 
     switch (node.left.node) {
     case "conditional_expression":
@@ -759,7 +753,7 @@ function assignment_expression(node) {
 }
 
 function function_call(node) {
-    var text = get_special_comments(node.offset);
+    var text = get_before_special_comments(node);
 
     text += function_identifier(node.identifier);
 
@@ -775,7 +769,7 @@ function function_call(node) {
 }
 
 function function_identifier(node) {
-    var text = get_special_comments(node.offset);
+    var text = get_before_special_comments(node);
 
     switch(node.name.node) {
     // NOTE: every non-keyword function identifier (function call) was 
@@ -793,7 +787,7 @@ function function_identifier(node) {
 }
 
 function struct_type(node) {
-    var text = get_special_comments(node.offset);
+    var text = get_before_special_comments(node);
     return text + identifier(node.identifier);
 }
 
@@ -802,103 +796,44 @@ function struct_type(node) {
 ============================================================================*/
 // NOTE: import/export data doesn't convert into comments and doesn't return to source 
 
-function get_special_comments(node_offset) {
+function get_before_special_comments(node) {
     var text = "";
 
-    if (node_offset || node_offset === 0) {
-        var comments = [];
-        var merged_comments = {};
-
-        comments.push(get_comment(node_offset, directives, true, true));
-        comments.push(get_comment(node_offset, node_directives, true, true));
-        comments.push(get_comment(node_offset, lamp_directives, true, true));
-        comments.push(get_comment(node_offset, var_replacements, false, false));
-        comments.push(get_comment(node_offset, data_to_remove, true, false));
-
-        for (var i = 0; i < comments.length; i++)
-            for (var offset in comments[i])
-                merged_comments[offset] = comments[i][offset];
-
-        for (var offset in merged_comments)
-            text += merged_comments[offset];
-
-        last_offset = node_offset;
-    } else
-        console.warn('Node offset undefined');
+    if (node)
+        text += node.before_comments.join("");
 
     return text;
 }
 
-function get_comment(node_offset, comments_array, new_line, process_empty_ast) {
-    var comments_data = {};
-    
-    for (var offset in comments_array) {
-        if ((offset >= last_offset) && (offset <= node_offset)
-                || (node_offset === EMPTY_AST && process_empty_ast)) {
-            var text = comments_array[offset];
-            if (new_line) {
-                text = "\n" + text + "\n";
-            }
-            delete comments_array[offset];
-            comments_data[offset] = text;
-        }
-    }
-    
-    return comments_data;
-}
+function get_last_special_comments(node) {
+    var text = "";
 
-function add_last_special_comments(text) {
-    for (var offset in var_replacements)
-        text += var_replacements[offset];
-    for (var offset in directives)
-        text += "\n" + directives[offset] + "\n";
-    for (var offset in node_directives)
-        text += "\n" + node_directives[offset] + "\n";
-    for (var offset in lamp_directives)
-        text += "\n" + lamp_directives[offset] + "\n";
+    if (node && node.after_comments)
+        text += node.after_comments.join("");
 
     return text;
 }
 
 function compound_statement_scope(node) {
-    var text = get_special_comments(node.offset);
-    text += punctuation(node.punctuation.left_brace);
+    var text = get_before_special_comments(node);
+
+    text += punctuation(node.punctuation.left_brace, node.without_braces);
     text += statement_list(node.list);
-    text += punctuation(node.punctuation.right_brace);
+    text += punctuation(node.punctuation.right_brace, node.without_braces);
+
     return text;
 }
 
-function punctuation(node) {
-    var text = get_special_comments(node.offset);
+function punctuation(node, only_special_comments) {
+    var text = get_before_special_comments(node);
+    if (only_special_comments)
+        return text;
     return text + node.data;
 }
 
 function keyword(node) {
-    var text = get_special_comments(node.offset);
+    var text = get_before_special_comments(node);
     return text + node.name;
-}
-
-function init_globals(ast) {
-    if (ast.vars_repl)
-        var_replacements = ast.vars_repl;
-    if (ast.dirs)
-        directives = ast.dirs;
-    if (ast.node_dirs)
-        node_directives = ast.node_dirs;
-    if (ast.lamp_dirs)
-        lamp_directives = ast.lamp_dirs;
-    if (ast.to_remove)
-        data_to_remove = ast.to_remove;
-}
-
-function remove_odd_data(text) {
-    var expr = /\/\*%remove%nodes_main_duplicate%\*\/((?:.|[\s\S])*?)\/\*%remove_end%nodes_main_duplicate%\*\//gi;
-    text = text.replace(expr, "#nodes_main");
-
-    var expr = /\/\*%remove%(.*?)%\*\/((?:.|[\s\S])*?)\/\*%remove_end%(.*?)%\*\//gi;
-    text = text.replace(expr, "");
-
-    return text;
 }
 
 function return_vardef(text) {
@@ -907,6 +842,14 @@ function return_vardef(text) {
 
     expr = /  +/i
     text = text.replace(expr, " ");
+
+    return text;
+}
+
+function return_directive(text) {
+    var expr = /\/\*%directive%(.*?)%directive_end%\*\//gi;
+
+    text = text.replace(expr, "$1");
 
     return text;
 }
@@ -939,7 +882,6 @@ function return_nodes(text) {
         var value = res[2];
         var node_parent = res[1];
         var offset = parseInt(res[3]);
-
         if (!(node_parent in node_tokens))
             node_tokens[node_parent] = [];
         node_tokens[node_parent].push({
@@ -1043,6 +985,33 @@ function return_lamps(text) {
     text = text.replace(expr, "#lamp $1");
     expr = /\/\*%endlamp%\*\//gi;
     text = text.replace(expr, "#endlamp");
+    return text;
+}
 
+exports.decl_to_exp = function(node) {
+    var text = get_before_special_comments(node);
+    var list = node.list;
+    for (var i = 0; i < list.vars.length; i++) {
+        var curr_node = list.vars[i];
+        
+        if (i > 0) {
+            text += get_before_special_comments(curr_node.punctuation.comma);    
+            if (curr_node.identifier.array_size || curr_node.initializer)
+                text += curr_node.punctuation.comma.data;
+        }
+        if (curr_node.identifier.array_size || curr_node.initializer) {
+            text += identifier(curr_node.identifier);
+            if (curr_node.identifier.array_size) {
+                text += get_before_special_comments(curr_node.identifier.punctuation); 
+                text += punctuation(curr_node.identifier.punctuation.left_bracket);
+                text += constant_expression(curr_node.identifier.array_size);
+                text += punctuation(curr_node.identifier.punctuation.right_bracket);
+            } else if (curr_node.initializer) {
+                text += operation(curr_node.operation);
+                text += initializer(curr_node.initializer);
+            }
+        }
+    }
+    text += punctuation(node.punctuation.semicolon);
     return text;
 }

@@ -104,6 +104,11 @@ exports.set_hardware_defaults = function(gl) {
             m_print.warn("OS X / Intel HD 3000 detected, applying depth hack");
             depth_tex_available = false;
         }
+        if (check_user_agent("Windows") && check_user_agent("Chrome")
+                && gl.getParameter(rinfo.UNMASKED_RENDERER_WEBGL).indexOf("Intel") > -1) {
+            m_print.warn("Chrome / Windows / Intel GPU detected, applying cubemap mipamp/rgb hack");
+            cfg_def.intel_cubemap_hack = true;
+        }
         if (gl.getParameter(rinfo.UNMASKED_VENDOR_WEBGL).indexOf("ARM") > -1
                 && gl.getParameter(rinfo.UNMASKED_RENDERER_WEBGL).indexOf("Mali-400") > -1) {
             m_print.warn("ARM Mali-400 detected, applying depth and frames blending hacks");
@@ -161,7 +166,6 @@ exports.set_hardware_defaults = function(gl) {
         cfg_def.water_dynamic =   false;
         cfg_def.shore_smoothing = false;
         cfg_def.shore_distance =  false;
-        cfg_def.refractions =     false;
         cfg_def.smaa =            false;
     }
 

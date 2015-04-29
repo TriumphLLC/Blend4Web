@@ -236,6 +236,14 @@ exports.line_plane_intersect = util.line_plane_intersect;
 exports.is_mesh = util.is_mesh;
 
 /**
+ * Check if object is of type ARMATURE
+ * @method module:util.is_armature
+ * @param {Object} obj Object ID
+ * @returns {Boolean} Check result
+ */
+exports.is_armature = util.is_armature;
+
+/**
  * Convert radian angle into range [0, 2PI]
  * @method module:util.angle_wrap_0_2pi
  * @param {Number} angle Angle in radians
@@ -252,5 +260,7 @@ exports.angle_wrap_0_2pi = util.angle_wrap_0_2pi;
  * @returns {Number} Converted angle
  */
 exports.angle_wrap_periodic = util.angle_wrap_periodic;
+
+exports.smooth_step = util.smooth_step;
 
 }

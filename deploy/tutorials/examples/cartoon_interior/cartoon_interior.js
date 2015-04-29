@@ -4,6 +4,7 @@ b4w.register("cartoon_interior", function(exports, require) {
 
 var m_app    = require("app");
 var m_cam    = require("camera");
+var m_cons   = require("constraints");
 var m_ctl    = require("controls");
 var m_data   = require("data");
 var m_main   = require("main");
@@ -43,7 +44,6 @@ exports.init = function() {
         canvas_container_id: "canvas3d",
         callback: init_cb,
         physics_enabled: true,
-        force_selectable: true,
         alpha: false,
         background_color: [1.0, 1.0, 1.0, 0.0]
     });
@@ -168,7 +168,11 @@ function loaded_cb(data_id) {
         if (m_scenes.get_object_data_id(obj) == data_id) {
             if (m_phy.has_physics(obj)) {
                 m_phy.enable_simulation(obj);
-                m_trans.set_translation_v(obj, spawner_pos);
+                var obj_parent = m_cons.get_parent(obj);
+                if (obj_parent && m_util.is_armature(obj_parent))
+                    m_trans.set_translation_v(obj_parent, spawner_pos);
+                else
+                    m_trans.set_translation_v(obj, spawner_pos);
             }
             if (m_util.is_mesh(obj))
                 m_scenes.show_object(obj);
@@ -199,21 +203,28 @@ function loaded_cb(data_id) {
     }
 
     m_ctl.create_sensor_manifold(cam, "COLLISION", m_ctl.CT_TRIGGER, sensors,
-            logic_func, trigger_glow);
+            logic_func, trigger_outline);
 }
 
-function trigger_glow(obj, id, pulse) {
-    // change glow color according to collision status
+function trigger_outline(obj, id, pulse) {
+    // change outline color according to collision status
     if (pulse == 1)
-        m_scenes.set_glow_color(GLOW_COLOR_ERROR);
+        m_scenes.set_outline_color(GLOW_COLOR_ERROR);
     else if (pulse == -1)
-        m_scenes.set_glow_color(GLOW_COLOR_VALID);
+        m_scenes.set_outline_color(GLOW_COLOR_VALID);
 }
 
 function rotate_object(obj, angle) {
-    var obj_quat = m_trans.get_rotation(obj, _vec4_tmp);
-    m_quat.rotateY(obj_quat, angle, obj_quat);
-    m_trans.set_rotation_v(obj, obj_quat);
+    var obj_parent = m_cons.get_parent(obj);
+    if (obj_parent && m_util.is_armature(obj_parent)) {
+        var obj_quat = m_trans.get_rotation(obj_parent, _vec4_tmp);
+        m_quat.rotateY(obj_quat, angle, obj_quat);
+        m_trans.set_rotation_v(obj_parent, obj_quat);
+    } else {
+        var obj_quat = m_trans.get_rotation(obj, _vec4_tmp);
+        m_quat.rotateY(obj_quat, angle, obj_quat);
+        m_trans.set_rotation_v(obj, obj_quat);
+    }
     limit_object_position(obj);
 }
 
@@ -228,12 +239,12 @@ function main_canvas_down(e) {
 
     var obj = m_scenes.pick_object(x, y);
 
-    // handling glow effect
+    // handling outline effect
     if (_selected_obj != obj) {
         if (_selected_obj)
-            m_scenes.clear_glow_anim(_selected_obj);
+            m_scenes.clear_outline_anim(_selected_obj);
         if (obj)
-            m_scenes.apply_glow_anim(obj, 1, 1, 0);
+            m_scenes.apply_outline_anim(obj, 1, 1, 0);
 
         _selected_obj = obj;
     }
@@ -242,7 +253,11 @@ function main_canvas_down(e) {
     if (_selected_obj) {
         var cam = m_scenes.get_active_camera();
 
-        m_trans.get_translation(_selected_obj, _vec3_tmp);
+        var obj_parent = m_cons.get_parent(_selected_obj);
+        if (obj_parent && m_util.is_armature(obj_parent))
+            m_trans.get_translation(obj_parent, _vec3_tmp);
+        else
+            m_trans.get_translation(_selected_obj, _vec3_tmp);
         m_cam.project_point(cam, _vec3_tmp, _obj_delta_xy);
 
         _obj_delta_xy[0] = x - _obj_delta_xy[0];
@@ -288,8 +303,11 @@ function main_canvas_move(e) {
 
                 // do not process parallel case and intersections behind the camera
                 if (point && camera_ray[1] < 0) {
-                    // move object to new position
-                    m_trans.set_translation_v(_selected_obj, point);
+                    var obj_parent = m_cons.get_parent(_selected_obj);
+                    if (obj_parent && m_util.is_armature(obj_parent))
+                        m_trans.set_translation_v(obj_parent, point);
+                    else
+                        m_trans.set_translation_v(_selected_obj, point);
                     limit_object_position(_selected_obj);
                 }
             }
@@ -298,7 +316,12 @@ function main_canvas_move(e) {
 
 function limit_object_position(obj) {
     var bb = m_trans.get_object_bounding_box(obj);
-    var obj_pos = m_trans.get_translation(obj, _vec3_tmp);
+
+    var obj_parent = m_cons.get_parent(obj);
+    if (obj_parent && m_util.is_armature(obj_parent))
+        var obj_pos = m_trans.get_translation(obj_parent, _vec3_tmp);
+    else
+        var obj_pos = m_trans.get_translation(obj, _vec3_tmp);
 
     if (bb.max_x > WALL_X_MAX)
         obj_pos[0] -= bb.max_x - WALL_X_MAX;
@@ -310,7 +333,10 @@ function limit_object_position(obj) {
     else if (bb.min_z < WALL_Z_MIN)
         obj_pos[2] += WALL_Z_MIN - bb.min_z;
 
-    m_trans.set_translation_v(_selected_obj, obj_pos);
+    if (obj_parent && m_util.is_armature(obj_parent))
+        m_trans.set_translation_v(obj_parent, obj_pos);
+    else
+        m_trans.set_translation_v(obj, obj_pos);
 }
 
 });

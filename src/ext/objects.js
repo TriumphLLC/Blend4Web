@@ -10,6 +10,7 @@ var m_obj    = require("__objects");
 var m_print  = require("__print");
 var m_util   = require("__util");
 var m_scenes = require("__scenes");
+var m_geom   = require("__geometry");
 /**
  * @typedef ObjectMetaTags
  * @type {Object}
@@ -50,7 +51,7 @@ exports.copy = function(obj, name, deep_copy) {
         m_print.error("object \"" + obj["name"] + "\" is not dynamic.");
         return false;
     }
-    if (!m_obj.obj_has_dynamic_geometry(obj) && deep_copy) {
+    if (!(m_geom.has_dyn_geom(obj) || m_geom.check_shape_keys(obj)) && deep_copy) {
         m_print.error("object \"" + obj["name"] + "\" has not dynamic " 
                 + "geometry for deep copying.");
         return false;

@@ -29,7 +29,7 @@ exports.defaults = {
 
     alpha_sort_threshold       : 0.1,
 
-    min_format_version         : "5.02",
+    min_format_version         : "5.03",
 
     max_fps                    : 10000,
 
@@ -44,10 +44,6 @@ exports.defaults = {
     fps_callback_interval      : 10,
 
     background_color           : [0.0, 0.0, 0.0, 0.0],
-
-    force_selectable           : false,
-
-    all_objs_selectable        : false,
 
     lod_transition_ratio       : 0.01,
 
@@ -79,8 +75,6 @@ exports.defaults = {
     reflect_multiplier         : 0.5,
 
     refractions                : true,
-
-    glow                       : true,
 
     ssao                       : true,
 
@@ -157,7 +151,13 @@ exports.defaults = {
 
     gyro_use                   : false,
 
-    firefox_shadows_slink_hack : false
+    firefox_shadows_slink_hack : false,
+
+    intel_cubemap_hack         : false,
+
+    enable_selectable          : true,
+
+    enable_outlining           : true
 }
 
 exports.defaults_save = m_util.clone_object_r(exports.defaults);
@@ -205,7 +205,8 @@ exports.paths = {
 exports.physics = {
     enabled: true,
     max_fps: 60,
-    uranium_path: ""
+    uranium_path: "",
+    calc_fps: false
 }
 exports.physics_save = m_util.clone_object_r(exports.physics);
 
@@ -225,6 +226,16 @@ exports.sfx = {
 
 }
 exports.sfx_save = m_util.clone_object_r(exports.sfx);
+
+exports.outlining = {
+    outlining_overview_mode : false,
+    outline_color           : [1, 0.4, 0.05],
+    outline_intensity       : 1.0,
+    outline_duration        : 0.2,
+    outline_period          : 3.8,
+    outline_relapses        : 1.0
+}
+
 
 exports.debug_subs = {
     enabled     : false,
@@ -250,8 +261,6 @@ exports.apply_quality = function() {
         cfg_def.shadows = "DEPTH",
 
         cfg_def.shore_smoothing = true,
-
-        cfg_def.glow = true;
 
         cfg_def.ssao = true;
 
@@ -303,6 +312,8 @@ exports.apply_quality = function() {
 
         cfg_def.allow_hidpi = true;
 
+        cfg_def.enable_outlining = true;
+
         cfg_phy.max_fps = 120;
 
         break;
@@ -312,8 +323,6 @@ exports.apply_quality = function() {
         cfg_def.shadows = "DEPTH";
 
         cfg_def.shore_smoothing = true;
-
-        cfg_def.glow = true;
 
         cfg_def.ssao = true;
 
@@ -365,6 +374,8 @@ exports.apply_quality = function() {
 
         cfg_def.allow_hidpi = false;
 
+        cfg_def.enable_outlining = true;
+
         cfg_phy.max_fps = 60;
 
         break;
@@ -374,8 +385,6 @@ exports.apply_quality = function() {
         cfg_def.shadows = "NONE";
 
         cfg_def.shore_smoothing = false;
-
-        cfg_def.glow = false;
 
         cfg_def.ssao = false;
 
@@ -427,6 +436,8 @@ exports.apply_quality = function() {
 
         cfg_def.allow_hidpi = false;
 
+        cfg_def.enable_outlining = false;
+
         cfg_phy.max_fps = 60;
 
         break;
@@ -439,9 +450,6 @@ exports.set = set;
  */
 function set(prop, value) {
     switch (prop) {
-    case "all_objs_selectable":
-        exports.defaults.all_objs_selectable = value;
-        break;
     case "allow_cors":
         exports.defaults.allow_cors = value;
         break;
@@ -493,14 +501,8 @@ function set(prop, value) {
     case "do_not_load_resources":
         exports.defaults.do_not_load_resources = value;
         break;
-    case "force_selectable":
-        exports.defaults.force_selectable = value;
-        break;
     case "gyro_use":
         exports.defaults.gyro_use = value;
-        break;
-    case "glow":
-        exports.defaults.glow = value;
         break;
     case "physics_enabled":
         exports.physics.enabled = value;
@@ -538,6 +540,15 @@ function set(prop, value) {
     case "wireframe_debug":
         exports.defaults.wireframe_debug = value;
         break;
+    case "enable_selectable":
+        exports.defaults.enable_selectable = value;
+        break;
+    case "enable_outlining":
+        exports.defaults.enable_outlining = value;
+        break;
+    case "outlining_overview_mode":
+        exports.outlining.outlining_overview_mode = value;
+        break;
     default:
         m_print.error("Unknown config property: " + prop);
         break;
@@ -546,8 +557,6 @@ function set(prop, value) {
 
 exports.get = function(prop) {
     switch (prop) {
-    case "all_objs_selectable":
-        return exports.defaults.all_objs_selectable;
     case "allow_cors":
         return exports.defaults.allow_cors;
     case "allow_hidpi":
@@ -582,12 +591,8 @@ exports.get = function(prop) {
         return exports.context.antialias;
     case "do_not_load_resources":
         return exports.defaults.do_not_load_resources;
-    case "force_selectable":
-        return exports.defaults.force_selectable;
     case "gyro_use":
         return exports.defaults.gyro_use;
-    case "glow":
-        return exports.defaults.glow;
     case "physics_enabled":
         return exports.physics.enabled;
     case "physics_uranium_path":
@@ -612,6 +617,12 @@ exports.get = function(prop) {
         return exports.paths.smaa_area_texture_path;
     case "wireframe_debug":
         return exports.defaults.wireframe_debug;
+    case "enable_selectable":
+        return exports.defaults.enable_selectable;
+    case "enable_outlining":
+        return exports.defaults.enable_outlining;
+    case "outlining_overview_mode":
+        return exports.outlining.outlining_overview_mode;
     default:
         m_print.error("Unknown config property: " + prop);
         break;

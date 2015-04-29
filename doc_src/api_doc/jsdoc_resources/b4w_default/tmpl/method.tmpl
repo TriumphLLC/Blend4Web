@@ -2,6 +2,8 @@
 var data = obj;
 var self = this;
 ?>
+<div class="item_container">
+<div class="item_name">
 <?js if (data.kind !== 'module') { ?>
     <?js if (data.kind === 'class' && data.classdesc) { ?>
     <h2>Constructor</h2>
@@ -14,7 +16,8 @@ var self = this;
     <p class="summary"><?js= summary ?></p>
     <?js } ?>
 <?js } ?>
-
+</div>
+<div class="item_description">
 <?js if (data.kind !== 'module' && data.description) { ?>
 <div class="description">
     <?js= data.description ?>
@@ -44,8 +47,6 @@ var self = this;
     <h5>Parameters:</h5>
     <?js= this.partial('params.tmpl', params) ?>
 <?js } ?>
-
-<?js= this.partial('details.tmpl', data) ?>
 
 <?js if (data.kind !== 'module' && data.requires && data.requires.length) { ?>
 <h5>Requires:</h5>
@@ -99,7 +100,11 @@ var self = this;
     <?js });
 } } ?>
 
+<?js= this.partial('details.tmpl', data) ?>
+
 <?js if (data.examples && examples.length) { ?>
     <h5>Example<?js= examples.length > 1? 's':'' ?></h5>
     <?js= this.partial('examples.tmpl', examples) ?>
 <?js } ?>
+</div>
+</div>

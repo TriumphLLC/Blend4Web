@@ -15,9 +15,13 @@ msgstr ""
 msgid "система частиц"
 msgstr "particle system"
 
+#: ../particles.rst:3
+msgid "флюиды"
+msgstr "fluids"
+
 #: ../particles.rst:7
-msgid "Система частиц"
-msgstr "Particle System"
+msgid "Система частиц. Флюиды"
+msgstr "Particle System. Fluids"
 
 #: ../particles.rst:9
 msgid ""
@@ -603,3 +607,5 @@ msgid "`Ссылка на модель <http://www.blendswap.com/blends/view/139
 msgstr ""
 "`The original model was taken from here "
 "<http://www.blendswap.com/blends/view/13977>`_"
+
+

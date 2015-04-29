@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Non-Linear Animation &mdash; User Manual: Blend4Web v15.03</title>
+    <title>Non-Linear Animation &mdash; User Manual: Blend4Web v15.04</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '15.03',
+        VERSION:     '15.04',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User Manual: Blend4Web v15.03" href="index.html" />
+    <link rel="top" title="User Manual: Blend4Web v15.04" href="index.html" />
     <link rel="next" title="For Application Developers" href="developers.html" />
     <link rel="prev" title="Physics" href="physics.html" /> 
   </head>
@@ -36,7 +36,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">User Manual: Blend4Web v15.03</a></div>
+          href="index.html">User Manual: Blend4Web v15.04</a></div>
         <div class="rel">
           <a href="physics.html" title="Physics"
              accesskey="P">previous</a> |
@@ -127,12 +127,12 @@
 <a class="reference internal image-reference" href="_images/interactive_nla_anim.png"><img alt="_images/interactive_nla_anim.png" class="align-center" src="_images/interactive_nla_anim.png" style="width: 100%;" /></a>
 </div>
 <div class="section" id="select-play">
-<h3>Select &amp; Play<a class="headerlink" href="#select-play" title="Permalink to this headline">¶</a></h3>
+<span id="nla-select-play"></span><h3>Select &amp; Play<a class="headerlink" href="#select-play" title="Permalink to this headline">¶</a></h3>
 <p>Wait until the user selects an object (on desktops - with a mouse click, on mobile devices - with a touch). If an object that is specified in this slot is selected - start animation similar to <tt class="docutils literal"><span class="pre">Play</span></tt> slot. If any other object is selected - immediately transfer the control to the next slot.</p>
 <p>The latter functionality can be used for selecting one of the multiple objects. In this case it is convenient to place <tt class="docutils literal"><span class="pre">Select</span> <span class="pre">&amp;</span> <span class="pre">Play</span></tt> slots in the stack one by one. The result of the user selection is catched up by one of this sequence slots because the transition without animation is performed instantly.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">In order to allow the user to select an object, enable the <tt class="docutils literal"><span class="pre">Selectable</span></tt> checkbox in its settings, similar to implementation of the <a class="reference internal" href="postprocessing_effects.html#glow"><em>glow effect</em></a>.</p>
+<p class="last">In order to allow the user to select an object, enable the <tt class="docutils literal"><span class="pre">Selectable</span></tt> checkbox in its settings, similar to implementation of <a class="reference internal" href="postprocessing_effects.html#outline"><em>object outlining</em></a>.</p>
 </div>
 </div>
 <div class="section" id="jump">
@@ -162,11 +162,11 @@
 </div>
 <div class="section" id="page-redirect">
 <h3>Page Redirect<a class="headerlink" href="#page-redirect" title="Permalink to this headline">¶</a></h3>
-<p>This serves as page redirect to other web-pages</p>
+<p>This serves as a page redirect to other web pages.</p>
 </div>
 <div class="section" id="page-param">
 <h3>Page Param<a class="headerlink" href="#page-param" title="Permalink to this headline">¶</a></h3>
-<p>Allows to store any webpage parameter to the given numerical register.</p>
+<p>Allows to store any web page parameter in a given numerical register.</p>
 </div>
 <div class="section" id="noop">
 <h3>Noop<a class="headerlink" href="#noop" title="Permalink to this headline">¶</a></h3>
@@ -198,11 +198,11 @@
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing Effects</a></li>
-<li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System</a></li>
-<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System for Instancing Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System. Fluids</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System. Instancing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="animation.html">Animation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Rendering</a></li>
-<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Gamma Correction and Alpha Compositing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Gamma and Alpha</a></li>
 <li class="toctree-l1"><a class="reference internal" href="audio.html">Audio System</a></li>
 <li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Non-Linear Animation</a><ul>
@@ -247,7 +247,7 @@
           
     <div class="footer">
         &copy; Copyright 2015, Triumph LLC.
-      Last updated on 2015-03-26.
+      Last updated on 2015-04-29.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
         </div>

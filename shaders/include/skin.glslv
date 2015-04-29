@@ -1,5 +1,6 @@
-#import u_frame_factor u_quatsb u_quatsa u_transb u_transa a_influence 
-#import qrot
+#import u_frame_factor u_quatsb u_quatsa u_transb u_transa a_influence
+#import u_arm_rel_trans u_arm_rel_quat
+#import qrot tsr_translate tsr_translate_inv
 
 #export skin
 
@@ -104,11 +105,11 @@ vec4 quat4_slerp(in vec4 quat, in vec4 quat2, in float slerp) {
 # if FRAMES_BLENDING
 
 vec3 skin_point(in vec3 position,
-                    in vec4 quatb,
-                    in vec4 quata,
-                    in vec4 tranb,
-                    in vec4 trana,
-                    in float frame_factor)
+                in vec4 quatb,
+                in vec4 quata,
+                in vec4 tranb,
+                in vec4 trana,
+                in float frame_factor)
 {
 #  if SKIN_SLERP
     vec4 quat = quat4_slerp(quatb, quata, frame_factor);
@@ -118,52 +119,63 @@ vec3 skin_point(in vec3 position,
     vec3 pos_tran_rot = pos_rot * tran.w + tran.xyz;
     return pos_tran_rot;
 #  else
-    vec3 pos_rot_before = qrot(quatb, position);
-    vec3 pos_rot_after  = qrot(quata, position);
+
+    vec3 pos_armobj_space = tsr_translate(u_arm_rel_trans, u_arm_rel_quat,
+                                          vec4(position, 1.0));
+
+    vec3 pos_rot_before = qrot(quatb, pos_armobj_space);
+    vec3 pos_rot_after  = qrot(quata, pos_armobj_space);
     // uniform scale in w, translation in xyz
     vec3 pos_tran_rot_before = pos_rot_before * tranb.w + tranb.xyz;
     vec3 pos_tran_rot_after  = pos_rot_after  * trana.w + trana.xyz;
     // blending performed AFTER quat transforms 
     // to avoid distortions on sharp angles (knees, elbows etc)
-    return mix(pos_tran_rot_before, pos_tran_rot_after, frame_factor);
+    vec3 pos_tran_rot = mix(pos_tran_rot_before, pos_tran_rot_after, frame_factor);
+    return tsr_translate_inv(u_arm_rel_trans, u_arm_rel_quat, vec4(pos_tran_rot, 1.0));
 #  endif
 }
 
 vec3 skin_vector(in vec3 vector, 
-                    in vec4 quatb,
-                    in vec4 quata,
-                    in float frame_factor)
+                 in vec4 quatb,
+                 in vec4 quata,
+                 in float frame_factor)
 {
+    vec3 vec_armobj_space = tsr_translate(u_arm_rel_trans, u_arm_rel_quat,
+                                          vec4(vector, 0.0));
 #  if SKIN_SLERP
     vec4 quat = quat4_slerp(quatb, quata, frame_factor);
-    vec3 vector_rot = qrot(quat, vector);
+    vec3 vector_rot = qrot(quat, vec_armobj_space);
 
-    return vector_rot;
+    return tsr_translate_inv(u_arm_rel_trans, u_arm_rel_quat, vec4(vector_rot, 0.0));
 #  else
-    vec3 vector_rot_before = qrot(quatb, vector);
-    vec3 vector_rot_after  = qrot(quata, vector);
-    return mix(vector_rot_before, vector_rot_after, frame_factor);
+    vec3 vector_rot_before = qrot(quatb, vec_armobj_space);
+    vec3 vector_rot_after  = qrot(quata, vec_armobj_space);
+    vec3 vector_rot = mix(vector_rot_before, vector_rot_after, frame_factor);
+    return tsr_translate(u_arm_rel_trans, u_arm_rel_quat,
+                         vec4(vector_rot, 0.0));
 #  endif
 }
 
 # else //  FRAMES_BLENDING
 
-vec3 skin_point(in vec3 position, 
-                in vec4 quatb,
-                in vec4 tranb) 
+vec3 skin_point(in vec3 position, in vec4 quatb, in vec4 tranb)
 {
-    vec3 pos_rot_before = qrot(quatb, position);
-    // uniform scale in w, translation in xyz
-    vec3 pos_tran_rot_before = pos_rot_before * tranb.w + tranb.xyz;
+    vec3 pos_armobj_space = tsr_translate(u_arm_rel_trans, u_arm_rel_quat,
+                                          vec4(position, 1.0));
 
-    return pos_tran_rot_before;
+    vec3 pos_rot = qrot(quatb, pos_armobj_space);
+    // uniform scale in w, translation in xyz
+    vec3 pos_tran_rot = pos_rot * tranb.w + tranb.xyz;
+
+    return tsr_translate_inv(u_arm_rel_trans, u_arm_rel_quat, vec4(pos_tran_rot, 1.0));
 }
 
-vec3 skin_vector(in vec3 vector, 
-                     in vec4 quatb)
+vec3 skin_vector(in vec3 vector, in vec4 quatb)
 {
-    vec3 vector_rot_before = qrot(quatb, vector);
-    return vector_rot_before;
+    vec3 vec_armobj_space = tsr_translate(u_arm_rel_trans, u_arm_rel_quat,
+                                          vec4(vector, 0.0));
+    vec3 vector_rot = qrot(quatb, vec_armobj_space);
+    return tsr_translate_inv(u_arm_rel_trans, u_arm_rel_quat, vec4(vector_rot, 0.0));
 }
 # endif // FRAMES_BLENDING
 

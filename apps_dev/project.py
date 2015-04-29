@@ -454,6 +454,11 @@ def compile_html(app_path_name, css_paths, js_paths, body_lines,
         shutil.copyfile(phys_path, _os_norm(_os_join(
                                     new_app_path, "uranium.js")))
 
+        phys_mem_path = phys_path + ".mem"
+        if os.path.isfile(phys_mem_path):
+            shutil.copyfile(phys_mem_path, _os_norm(_os_join(
+                                            new_app_path, "uranium.js.mem")))
+
         if engine_type == "COPY":
             engine_src = "b4w.full.min.js"
             new_engine_path = _os_norm(_os_join(new_app_path, "b4w.full.min.js"))

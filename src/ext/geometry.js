@@ -11,7 +11,6 @@ var m_batch  = require("__batch");
 var m_geom   = require("__geometry");
 var m_print  = require("__print");
 var m_render = require("__renderer");
-var m_obj    = require("__objects");
 
 /**
  * Extract the vertex array from the object.
@@ -23,7 +22,7 @@ var m_obj    = require("__objects");
  */
 exports.extract_vertex_array = function(obj, mat_name, attrib_name) {
 
-    if (!has_dyn_geom(obj)) {
+    if (!m_geom.has_dyn_geom(obj)) {
         m_print.error("Wrong object:", obj["name"]);
         return null;
     }
@@ -45,13 +44,6 @@ exports.extract_vertex_array = function(obj, mat_name, attrib_name) {
     }
 }
 
-function has_dyn_geom(obj) {
-    if (obj && obj._render && obj._render.dynamic_geometry)
-        return true;
-    else
-        return false;
-}
-
 /**
  * Extract the array of triangulated face indices from the given object.
  * @method module:geometry.extract_index_array
@@ -61,7 +53,7 @@ function has_dyn_geom(obj) {
  */
 exports.extract_index_array = function(obj, mat_name) {
 
-    if (!has_dyn_geom(obj)) {
+    if (!m_geom.has_dyn_geom(obj)) {
         m_print.error("Wrong object:", obj["name"]);
         return null;
     }
@@ -94,7 +86,7 @@ exports.extract_index_array = function(obj, mat_name) {
 exports.update_vertex_array = function(obj, mat_name, attrib_name, array) {
     var types = ["MAIN", "NODES", "DEPTH", "COLOR_ID"];
 
-    if (!has_dyn_geom(obj)) {
+    if (!m_geom.has_dyn_geom(obj)) {
         m_print.error("Wrong object:", obj["name"]);
         return;
     }
@@ -128,7 +120,7 @@ exports.override_geometry = function(obj, mat_name, ibo_array,
 
     var types = ["MAIN", "NODES", "DEPTH", "COLOR_ID"];
 
-    if (!has_dyn_geom(obj)) {
+    if (!m_geom.has_dyn_geom(obj)) {
         m_print.error("Wrong object:", obj["name"]);
         return;
     }
@@ -229,6 +221,73 @@ exports.override_geometry = function(obj, mat_name, ibo_array,
             }
         }
     }
+}
+/**
+ * Apply shape key to the object.
+ * @method module:geometry.set_shape_key_value
+ * @param {Object} obj Object ID
+ * @param {String} key_name Shape key name
+ * @param {Number} value Shape key value
+ */
+exports.set_shape_key_value = function(obj, key_name, value) {
+    if (!m_geom.check_shape_keys(obj)) {
+        m_print.error("Wrong object:", obj["name"]);
+        return null;
+    }
+
+    if (!m_geom.has_shape_key(obj, key_name)) {
+        m_print.error("Wrong key name:", key_name);
+        return null;
+    }
+
+    var float_value = parseFloat(value);
+
+    m_geom.apply_shape_key(obj, key_name, float_value);
+}
+/**
+ * Check if object has got shape keys.
+ * @method module:geometry.check_shape_keys
+ * @param {Object} obj Object ID
+ * @returns {Boolean} Checking result.
+ */
+exports.check_shape_keys = function(obj) {
+    return m_geom.check_shape_keys(obj);
+}
+/**
+ * Return all available shape keys names.
+ * @method module:geometry.get_shape_keys_names
+ * @param {Object} obj Object ID
+ * @returns {Array} Array of animation names
+ */
+exports.get_shape_keys_names = function(obj) {
+
+    if (!m_geom.check_shape_keys(obj)) {
+        m_print.error("Wrong object:", obj["name"]);
+        return null;
+    }
+
+    return m_geom.get_shape_keys_names(obj);
+}
+/**
+ * Return shape key current value.
+ * @method module:geometry.get_shape_key_value
+ * @param {Object} obj Object ID
+ * @param {String} key_name Shape key name
+ * @returns {Number} value Shape key value
+ */
+exports.get_shape_key_value = function(obj, key_name) {
+
+    if (!m_geom.check_shape_keys(obj)) {
+        m_print.error("Wrong object:", obj["name"]);
+        return null;
+    }
+
+    if (!m_geom.has_shape_key(obj, key_name)) {
+        m_print.error("Wrong key name:", key_name);
+        return null;
+    }
+
+    return m_geom.get_shape_key_value(obj, key_name);
 }
 
 }

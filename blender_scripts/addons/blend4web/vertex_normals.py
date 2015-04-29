@@ -12,6 +12,11 @@ def redraw():
     if bpy.ops.object.shade_smooth.poll():
         bpy.ops.object.shade_smooth()
 
+
+class B4W_ShapeKeysNormal(bpy.types.PropertyGroup):
+    normal = bpy.props.FloatVectorProperty(name="Normal", subtype="NONE",
+            unit="NONE", size=3)
+
 class B4W_VertexNormalsUI(bpy.types.Panel):
     # draw UI buttons
     bl_idname = "Recalc Vertex Normals"
@@ -692,6 +697,10 @@ class B4W_DrawNormals(bpy.types.Operator):
             return {'CANCELLED'}
 
 def init_properties():
+
+    bpy.types.Object.b4w_shape_keys_normals = bpy.props.CollectionProperty(
+        name="B4W: shape keys normal list",
+        type=B4W_ShapeKeysNormal)
     
     bpy.types.Object.b4w_vertex_normal_list = bpy.props.CollectionProperty(
         name="B4W: vertex normal list",
@@ -755,6 +764,7 @@ def register():
     bpy.utils.register_class(B4W_InvertSelection)
     bpy.utils.register_class(B4W_CopyNormal)
     bpy.utils.register_class(B4W_PasteNormal)
+    bpy.utils.register_class(B4W_ShapeKeysNormal)
     
     init_properties()
 
@@ -774,6 +784,7 @@ def unregister():
     bpy.utils.unregister_class(B4W_InvertSelection)
     bpy.utils.unregister_class(B4W_CopyNormal)
     bpy.utils.unregister_class(B4W_PasteNormal)
+    bpy.utils.unregister_class(B4W_ShapeKeysNormal)
     
     clear_properties()
     

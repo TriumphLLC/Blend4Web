@@ -34,6 +34,7 @@
  */
 b4w.module["constraints"] = function(exports, require) {
 
+var m_cam  = require("__camera");
 var m_cons  = require("__constraints");
 var m_phy   = require("__physics");
 var m_trans = require("__transform");
@@ -77,6 +78,7 @@ exports.append_semi_stiff = function(obj, target, offset, rotation_offset) {
 }
 /**
  * Append a semi-stiff constraint with camera rotation clamping.
+ * @see https://www.blend4web.com/doc/en/camera.html#api
  * @method module:constraints.append_semi_stiff_cam
  * @param {Object} obj Object ID
  * @param {(Object|Array)} target Object ID or [Armature object ID, Bone Name]
@@ -90,6 +92,11 @@ exports.append_semi_stiff = function(obj, target, offset, rotation_offset) {
 exports.append_semi_stiff_cam = function(obj, target, offset, rotation_offset, 
                                             clamp_left, clamp_right, 
                                             clamp_up, clamp_down) {
+    if (!m_cam.is_eye_camera(obj)) {
+        m_print.error("append_semi_stiff_cam(): Wrong object");
+        return null;
+    }
+    
     m_cons.append_semi_stiff_cam_obj(obj, target, offset, rotation_offset, 
                                           clamp_left, clamp_right, 
                                           clamp_up, clamp_down);
@@ -184,6 +191,23 @@ exports.append_follow = function(obj, target, offset_min, offset_max) {
     m_trans.update_transform(obj);
     m_phy.sync_transform(obj);
 }
+
+/**
+ * Append a stiff viewport constraint.
+ * @method module:constraints.append_stiff_viewport
+ * @param {Object} obj Object ID
+ * @param {Object} camobj Camer object ID
+ * @param {Number} x_rel X offset as fraction to camera height.
+ * @param {Number} y_rel Y offset as fraction to camera height.
+ * @param {Number} dist Distance from the camera
+ */
+exports.append_stiff_viewport = function(obj, camobj, positioning) {
+    m_cons.append_stiff_viewport(obj, camobj, positioning);
+
+    m_trans.update_transform(obj);
+    m_phy.sync_transform(obj);
+}
+
 /**
  * Remove the object's constraint (if any).
  * @method module:constraints.remove
@@ -193,6 +217,13 @@ exports.remove = function(obj) {
     if (obj._constraint)
         m_cons.remove(obj);
 }
+
+/**
+ * Get object's parent object.
+ * @method module:constraints.get_parent
+ * @param {Object} obj Object ID
+ */
+exports.get_parent = m_cons.get_parent;
 
 }
 </code></pre>
@@ -205,13 +236,13 @@ exports.remove = function(obj) {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Thu Mar 26 2015 17:33:34 GMT+0300 (MSK)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Wed Apr 29 2015 10:10:49 GMT+0300 (MSK)
 </footer>
 
 <script> prettyPrint(); </script>

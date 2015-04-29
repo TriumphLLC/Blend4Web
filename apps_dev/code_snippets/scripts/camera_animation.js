@@ -15,9 +15,12 @@ var m_vec3      = require("vec3");
 
 var ANIM_TIME = 2;
 var APP_ASSETS_PATH = m_cfg.get_std_assets_path() + "code_snippets/camera_animation/";
+var _anim_stop = false;
+
+var _delta_target = ANIM_TIME;
 
 var _cam_anim = {
-    timeline: -2,
+    timeline: -ANIM_TIME,
     starting_eye: new Float32Array(3),
     starting_target: new Float32Array(3),
     final_eye: new Float32Array(3),
@@ -59,10 +62,11 @@ function load_cb(data_id) {
     init_camera_animation(camobj);
 
     var main_canvas = m_main.get_canvas_elem();
+    main_canvas.addEventListener("mouseup", main_canvas_up);
     main_canvas.addEventListener("mousedown", main_canvas_down);
 }
 
-function main_canvas_down(e) {
+function main_canvas_up(e) {
 
     if (e.button != 0)
         return;
@@ -74,6 +78,7 @@ function main_canvas_down(e) {
     var y = m_mouse.get_coords_y(e);
 
     var obj = m_scenes.pick_object(x, y);
+
     if (obj)
         switch(m_scenes.get_object_name(obj)) {
         case "Cube": 
@@ -87,12 +92,26 @@ function main_canvas_down(e) {
         default:
             return;
         }
+
     if (eye && target) {
+        var camobj = m_scenes.get_active_camera();
         var pos_view = m_transform.get_translation(eye);
         var pos_target = m_transform.get_translation(target);
-        var camobj = m_scenes.get_active_camera();
         start_camera_animation(camobj, pos_view, pos_target);
     } 
+
+}
+
+function main_canvas_down(e) {
+
+    if (e.button != 0)
+        return;
+
+    var camobj = m_scenes.get_active_camera();
+
+    if (m_ctl.get_sensor_value(camobj, "CAMERA_MOVE", 0) - _cam_anim.timeline 
+            < ANIM_TIME)
+        _anim_stop = true;
 
 }
 
@@ -111,6 +130,7 @@ function start_camera_animation(camobj, pos_view, pos_target) {
         m_vec3.copy(pos_target, _cam_anim.final_target);
 
         // start animation
+        _delta_target = ANIM_TIME;
         _cam_anim.timeline = m_main.global_timeline();
 }
 
@@ -128,6 +148,11 @@ function init_camera_animation(camobj) {
 
         if (pulse == 1) {
 
+            if (_anim_stop) {
+                _cam_anim.timeline = -ANIM_TIME;
+                return;
+            }
+
             m_app.disable_camera_controls();
 
             // elapsed = frame time (e_sensor value)
@@ -137,16 +162,20 @@ function init_camera_animation(camobj) {
             m_vec3.subtract(_cam_anim.final_eye, _cam_anim.starting_eye, _vec3_tmp);
             m_vec3.scaleAndAdd(_cam_anim.current_eye, _vec3_tmp, delta, _cam_anim.current_eye);
 
+            _delta_target -= elapsed;
+            delta = 1 - _delta_target * _delta_target / (ANIM_TIME * ANIM_TIME);
             m_vec3.subtract(_cam_anim.final_target, _cam_anim.starting_target, _vec3_tmp);
-            m_vec3.scaleAndAdd(_cam_anim.current_target, _vec3_tmp, delta, _cam_anim.current_target);
+            m_vec3.scaleAndAdd(_cam_anim.starting_target, _vec3_tmp, delta, _cam_anim.current_target);
 
             m_cam.set_trans_pivot(camobj, _cam_anim.current_eye, _cam_anim.current_target);
 
         } else {
             m_app.enable_camera_controls(false);
-
-            m_cam.set_trans_pivot(camobj, _cam_anim.final_eye, 
-                _cam_anim.final_target);
+            if (!_anim_stop)
+                m_cam.set_trans_pivot(camobj, _cam_anim.final_eye, 
+                        _cam_anim.final_target);
+            else
+                _anim_stop = false;
         }
     }
 

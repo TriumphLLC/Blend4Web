@@ -48,6 +48,8 @@ var RAND_M = 2147483647;
 var RAND_R = RAND_M % RAND_A;
 var RAND_Q = Math.floor(RAND_M / RAND_A);
 
+var MIN_CLAMPING_INTERVAL = 0.001;
+
 exports.VEC3_IDENT = VEC3_IDENT;
 exports.QUAT4_IDENT = QUAT4_IDENT;
 exports.TSR8_IDENT = TSR8_IDENT;
@@ -626,7 +628,8 @@ exports.create_empty_submesh = function(name) {
         base_length: 0,
         indices: null,
         va_frames: [],
-        va_common: va_common
+        va_common: va_common,
+        shape_keys: []
     };
 }
 
@@ -1973,7 +1976,8 @@ function angle_wrap_periodic(angle, from, to) {
     return from + (rel_angle - Math.floor(rel_angle / period) * period);
 }
 
-exports.angle_wrap_0_2pi = function(angle) {
+exports.angle_wrap_0_2pi = angle_wrap_0_2pi;
+function angle_wrap_0_2pi(angle) {
     return angle_wrap_periodic(angle, 0, 2 * Math.PI);
 }
 
@@ -2200,5 +2204,47 @@ exports.rotation_to_stable = function(a, b, out) {
 
     return out;
 };
+
+/**
+ * Get the angle which returns current angle into range [min_angle, max_angle]
+ */
+exports.calc_returning_angle = function(angle, min_angle, max_angle) {
+    if (min_angle == max_angle)
+        return max_angle - angle;
+
+    // convert all type of angles (phi, theta) regardless of their domain of definition
+    // for simplicity
+    angle = angle_wrap_0_2pi(angle);
+    min_angle = angle_wrap_0_2pi(min_angle);
+    max_angle = angle_wrap_0_2pi(max_angle);
+
+    // disable err clamping
+    var delta = Math.abs(min_angle - max_angle);
+    if (delta < MIN_CLAMPING_INTERVAL 
+            || Math.abs(delta - 2 * Math.PI) < MIN_CLAMPING_INTERVAL)
+        return 0;
+
+    // rotate unit circle to ease calculation
+    var rotation = 2 * Math.PI - min_angle;
+    min_angle = 0;
+    max_angle += rotation;
+    max_angle = angle_wrap_0_2pi(max_angle);
+    angle += rotation;
+    angle = angle_wrap_0_2pi(angle);
+
+    if (angle > max_angle) {
+        // clamp to the proximal edge
+        var delta_to_max = max_angle - angle;
+        var delta_to_min = 2 * Math.PI - angle;
+        return (- delta_to_max > delta_to_min) ? delta_to_min : delta_to_max;
+    }
+
+    // clamping not needed
+    return 0;
+}
+
+exports.smooth_step = function(t) {
+    return t * t * (3.0 - 2.0 * t);
+}
 
 }

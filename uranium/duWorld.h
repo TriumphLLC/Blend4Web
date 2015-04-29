@@ -20,7 +20,7 @@ public:
 	virtual int	preSimulation(btScalar timeStep, int maxSubSteps=1,
             btScalar fixedTimeStep=btScalar(1.)/btScalar(60.));
     virtual btScalar calcSimTime(btScalar timeline, int step, int clampedSimulationSteps);
-	virtual void singleStepSimulation(btScalar simTime);
+	virtual void singleStepSimulation(btScalar fixedTimeStep);
 	virtual void postSimulation();
 
 	virtual ~duWorld();

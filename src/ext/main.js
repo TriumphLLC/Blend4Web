@@ -29,7 +29,7 @@ var sfx        = require("__sfx");
 var shaders    = require("__shaders");
 var textures   = require("__textures");
 var m_time     = require("__time");
-var transform  = require("__transform");
+var m_trans    = require("__transform");
 var util       = require("__util");
 var version    = require("__version");
 
@@ -101,7 +101,7 @@ exports.init = function(elem_canvas_webgl, elem_canvas_hud) {
     if (!window["WebGLRenderingContext"])
         return null;
 
-    var init_time = setup_clock();
+    setup_clock();
 
     _elem_canvas_webgl = elem_canvas_webgl;
     m_compat.apply_context_alpha_hack(gl);
@@ -127,7 +127,6 @@ exports.init = function(elem_canvas_webgl, elem_canvas_hud) {
         m_cfg.sfx.mix_mode = false;
     }
 
-    m_phy.init_engine(init_time);
     m_anchors.init(elem_canvas_webgl);
 
     return gl;
@@ -149,12 +148,9 @@ function setup_clock() {
         window.performance.now = function() {
             return Date.now() - curr_time;
         }
-        var init_time = curr_time;
-    } else
-        var init_time = curr_time - performance.now();
+    }
 
     m_time.set_timeline(0);
-    return init_time;
 }
 
 
@@ -313,6 +309,10 @@ exports.resize = function(width, height, update_canvas_css) {
 
     scenes.setup_dim(cw, ch, cw/width, calc_canvas_offset("x"),
                                        calc_canvas_offset("y"));
+
+    // needed for frustum culling/constraints
+    if (scenes.check_active())
+        m_trans.update_transform(scenes.get_active()["camera"]);
 
     frame(m_time.get_timeline(), 0);
 
@@ -492,7 +492,7 @@ function frame(timeline, delta) {
 
     hud.reset();
 
-    transform.update(delta);
+    m_trans.update(delta);
 
     nla.update(timeline, delta);
 
@@ -500,7 +500,8 @@ function frame(timeline, delta) {
     sfx.update(timeline, delta);
 
     // animation
-    animation.update(delta);
+    if (delta)
+        animation.update(delta);
 
     // possible unload in animation callbacks
     if (!m_data.is_primary_loaded())
@@ -543,7 +544,6 @@ function frame(timeline, delta) {
 
 function init_fps_counter() {
     var fps_avg = 60;       // decent default value
-    var phy_fps_avg = 0;    // stays zero for disabled physics
 
     var fps_frame_counter = 0;
     var interval = cfg_def.fps_measurement_interval;
@@ -551,11 +551,13 @@ function init_fps_counter() {
 
     var fps_counter = function(delta) {
         fps_avg = util.smooth(1/delta, fps_avg, delta, interval);
-        phy_fps_avg = util.smooth(m_phy.get_fps(), phy_fps_avg, delta, interval);
+
+        // stays zero for disabled physics/FPS calculation
+        var phy_fps_avg = m_phy.get_fps();
 
         fps_frame_counter = (fps_frame_counter + 1) % interval_cb;
         if (fps_frame_counter == 0) {
-            _fps_callback(Math.round(fps_avg), Math.round(phy_fps_avg));
+            _fps_callback(Math.round(fps_avg), phy_fps_avg);
         }
     }
 
@@ -569,7 +571,6 @@ function init_fps_counter() {
  */
 exports.reset = function() {
     m_data.unload(0);
-    m_phy.reset();
 
     _elem_canvas_webgl = null;
     _elem_canvas_hud = null;

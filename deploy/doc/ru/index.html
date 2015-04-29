@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Содержание &mdash; Руководство пользователя: Blend4Web v15.03</title>
+    <title>Содержание &mdash; Руководство пользователя: Blend4Web v15.04</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '15.03',
+        VERSION:     '15.04',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v15.03" href="#" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v15.04" href="#" />
     <link rel="next" title="Общие сведения" href="about.html" /> 
   </head>
   <body>
@@ -36,7 +36,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="#">Руководство пользователя: Blend4Web v15.03</a></div>
+          href="#">Руководство пользователя: Blend4Web v15.04</a></div>
         <div class="rel">
           <a href="about.html" title="Общие сведения"
              accesskey="N">вперёд</a> |
@@ -129,10 +129,10 @@
 <li class="toctree-l1"><a class="reference internal" href="addon.html">Аддон</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="addon.html#export-opts">Опции экспорта</a></li>
 <li class="toctree-l2"><a class="reference internal" href="addon.html#index-1">Ошибки инициализации</a></li>
-<li class="toctree-l2"><a class="reference internal" href="addon.html#version-errors">Ошибки совместимости версий аддона и движка</a></li>
+<li class="toctree-l2"><a class="reference internal" href="addon.html#version-errors">Ошибки совместимости</a></li>
 <li class="toctree-l2"><a class="reference internal" href="addon.html#export-errors">Критические ошибки экспорта</a></li>
 <li class="toctree-l2"><a class="reference internal" href="addon.html#index-4">Некритические ошибки экспорта</a></li>
-<li class="toctree-l2"><a class="reference internal" href="addon.html#id7">Прочие сообщения, требующие внимания пользователя</a></li>
+<li class="toctree-l2"><a class="reference internal" href="addon.html#id7">Прочие сообщения</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="objects.html">Объекты</a><ul>
@@ -141,7 +141,10 @@
 <li class="toctree-l2"><a class="reference internal" href="objects.html#id4">Настройка</a></li>
 <li class="toctree-l2"><a class="reference internal" href="objects.html#index-0">Управление перемещением объектов</a></li>
 <li class="toctree-l2"><a class="reference internal" href="objects.html#index-1">Кватернионы</a></li>
-<li class="toctree-l2"><a class="reference internal" href="objects.html#copy-obj">Копирование объектов (инстансинг)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="objects.html#tsr">Перемещение с помощью векторов TSR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="objects.html#id8">Копирование объектов (инстансинг)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="objects.html#selection">Выделение объектов</a></li>
+<li class="toctree-l2"><a class="reference internal" href="objects.html#morphing">Морфинг</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Камера</a><ul>
@@ -194,19 +197,19 @@
 <li class="toctree-l2"><a class="reference internal" href="postprocessing_effects.html#ssao">Взаимное затенение</a></li>
 <li class="toctree-l2"><a class="reference internal" href="postprocessing_effects.html#god-rays">Сумеречные лучи</a></li>
 <li class="toctree-l2"><a class="reference internal" href="postprocessing_effects.html#id14">Эффект засветки ярких деталей</a></li>
-<li class="toctree-l2"><a class="reference internal" href="postprocessing_effects.html#glow">Свечение вокруг объекта (Glow)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="postprocessing_effects.html#outline-glow">Подсветка контура (outline glow)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="postprocessing_effects.html#anaglyph">Анаглиф стереоизображение</a></li>
 <li class="toctree-l2"><a class="reference internal" href="postprocessing_effects.html#color-correction">Коррекция цвета</a></li>
 <li class="toctree-l2"><a class="reference internal" href="postprocessing_effects.html#antialiasing">Сглаживание</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="particles.html">Система частиц</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="particles.html">Система частиц. Флюиды</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="particles.html#id2">Использование</a></li>
 <li class="toctree-l2"><a class="reference internal" href="particles.html#id5">Настройка</a></li>
 <li class="toctree-l2"><a class="reference internal" href="particles.html#particles-textures">Текстуры в системах частиц</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Система частиц для инстансинга объектов</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Система частиц. Инстансинг</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="particles_instancing.html#id2">Настройки системы частиц</a></li>
 <li class="toctree-l2"><a class="reference internal" href="particles_instancing.html#particles-grass">Травяной покров</a></li>
 <li class="toctree-l2"><a class="reference internal" href="particles_instancing.html#particles-leaves">Листва деревьев</a></li>
@@ -229,7 +232,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Гамма-коррекция и альфа-композитинг</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="gamma_alpha.html#id2">Общее описание</a></li>
-<li class="toctree-l2"><a class="reference internal" href="gamma_alpha.html#id3">Человеческое зрение, мониторы и гамма-коррекция</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gamma_alpha.html#id3">Человеческое зрение и мониторы</a></li>
 <li class="toctree-l2"><a class="reference internal" href="gamma_alpha.html#id4">Гамма</a></li>
 <li class="toctree-l2"><a class="reference internal" href="gamma_alpha.html#gamma-nodes">Коррекция в нодовых материалах</a></li>
 <li class="toctree-l2"><a class="reference internal" href="gamma_alpha.html#alpha-compositing">Альфа-композитинг</a></li>
@@ -261,8 +264,9 @@
 <li class="toctree-l2"><a class="reference internal" href="developers.html#id2">Загрузка сцены в приложение</a></li>
 <li class="toctree-l2"><a class="reference internal" href="developers.html#id3">Быстрое создание приложений</a></li>
 <li class="toctree-l2"><a class="reference internal" href="developers.html#sdk">Разработка приложений в составе SDK</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developers.html#code-snippets">Примеры кода</a></li>
 <li class="toctree-l2"><a class="reference internal" href="developers.html#converter">Конвертация ресурсов</a></li>
-<li class="toctree-l2"><a class="reference internal" href="developers.html#id5">Система модулей</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developers.html#id6">Система модулей</a></li>
 <li class="toctree-l2"><a class="reference internal" href="developers.html#event-model">Событийная модель</a></li>
 <li class="toctree-l2"><a class="reference internal" href="developers.html#quality-settings">Профили качества изображения</a></li>
 <li class="toctree-l2"><a class="reference internal" href="developers.html#repo-file-structure">Файловая структура SDK</a></li>
@@ -278,7 +282,7 @@
 <li class="toctree-l2"><a class="reference internal" href="developers_advanced.html#dependencies">Зависимости</a></li>
 <li class="toctree-l2"><a class="reference internal" href="developers_advanced.html#id7">Названия функций и переменных</a></li>
 <li class="toctree-l2"><a class="reference internal" href="developers_advanced.html#debugging">Отладка</a></li>
-<li class="toctree-l2"><a class="reference internal" href="developers_advanced.html#shaders">Шейдеры</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developers_advanced.html#index-0">Компиляция шейдеров</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Работа в команде с использованием Git</a><ul>
@@ -301,6 +305,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="release_notes.html">Замечания к релизам</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#v15-04">v15.04</a></li>
 <li class="toctree-l2"><a class="reference internal" href="release_notes.html#v15-03">v15.03</a></li>
 <li class="toctree-l2"><a class="reference internal" href="release_notes.html#v15-02">v15.02</a></li>
 <li class="toctree-l2"><a class="reference internal" href="release_notes.html#v15-01">v15.01</a></li>
@@ -341,8 +346,8 @@
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Нодовые материалы</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lighting.html">Освещение, тени и фон</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Постпроцессинговые эффекты</a></li>
-<li class="toctree-l1"><a class="reference internal" href="particles.html">Система частиц</a></li>
-<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Система частиц для инстансинга объектов</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles.html">Система частиц. Флюиды</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Система частиц. Инстансинг</a></li>
 <li class="toctree-l1"><a class="reference internal" href="animation.html">Анимация</a></li>
 <li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Рендеринг наружных сцен</a></li>
 <li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Гамма-коррекция и альфа-композитинг</a></li>
@@ -384,7 +389,7 @@
           
     <div class="footer">
         &copy; Copyright 2015, ООО &#34;Триумф&#34;.
-      Обновлено: 2015-03-26.
+      Обновлено: 2015-04-29.
       Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
         </div>

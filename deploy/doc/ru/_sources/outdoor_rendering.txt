@@ -30,7 +30,7 @@
 Динамика волн
 -------------
 
-Симуляция волн осуществляется картами нормалей с анимированными развертками (в количестве от 0 до 4). Для текстур - карт нормалей используется только одно общее изображение, текстуры различаются параметрами ``Mapping > Size`` и ``Blend4Web > UV translation velocity``. Меш для воды должен иметь текстурную развертку.
+Симуляция волн осуществляется картами нормалей с анимированными развертками (в количестве от 0 до 4). Для текстур - карт нормалей используется только одно общее изображение, текстуры различаются параметрами ``Mapping > Size``. Меш для воды должен иметь текстурную развертку.
 
 .. image:: src_images/outdoor_rendering/water_texture_setup_normal.png
    :align: center
@@ -55,33 +55,33 @@
 Сглаживание береговой линии
 ---------------------------
 
-*Blend4Web > Water Settings > Shore smoothing*
+*Blend4Web > Water Settings > Shore Smoothing*
     Включить сглаживание.
 
-*Blend4Web > Water Settings > Water absorb factor*
+*Blend4Web > Water Settings > Water Absorb Factor*
     Коэффициент поглощения света водой. Чем он выше, тем прозрачнее вода.
 
 
 Градиент цвета
 --------------
-Для создания цветого градиента на материале воды должна быть наложена текстура с включенной опцией ``Blend4Web > Shore distance map``, генерируемая с помощью скрипта для :ref:`запекания параметров береговой линии <shore_distance_bake>`.
+Для создания цветого градиента на материале воды должна быть наложена текстура с включенной опцией ``Blend4Web > Shore Distance Map``, генерируемая с помощью скрипта для :ref:`запекания параметров береговой линии <shore_distance_bake>`.
 
-*Blend4Web > Water Settings > Shallow water color*
+*Blend4Web > Water Settings > Shallow Water Color*
     Цвет воды на мелководье.
 
-*Blend4Web > Water Settings > Shallow water color factor*
+*Blend4Web > Water Settings > Shallow Water Color Factor*
     Коэффициент примешивания цвета воды на мелководье.
 
-*Blend4Web > Water Settings > Shore water color*
+*Blend4Web > Water Settings > Shore Water Color*
     Цвет воды непосредственно у береговой линии.
 
-*Blend4Web > Water Settings > Shore water color factor*
+*Blend4Web > Water Settings > Shore Water Color Factor*
     Коэффициент примешивания цвета воды на береговой линии.
 
 Преломление
 -----------
 
-Во вкладке ``Scene`` включить опцию ``Blend4Web > Render refractions``.
+Во вкладке ``Scene`` включить опцию ``Blend4Web > Render Refractions``.
 
 .. image:: src_images/outdoor_rendering/water_refraction.jpg
    :align: center
@@ -137,15 +137,14 @@
 .. image:: src_images/outdoor_rendering/water_texture_setup_caustics.png
    :align: center
    :width: 100%
+
+|
    
 *Voronoi > Coloring: Intensity*
     Фактор влияния каустики. Значение по умолчанию 1.0.
 
 *Voronoi > Noise: Size*
     Размер ячеек процедурной текстуры. Значение по умолчанию 0.25.
-
-*Blend4Web > UV translation velocity*
-    Скорость анимации текстурных координат. Значение по умолчанию (0.0, 0.0).
 
 
 Подводная среда
@@ -158,10 +157,10 @@
 Настройки видимости ("туман")
 .............................
 
-*Blend4Web > Water Settings > Underwater fog density*
+*Blend4Web > Water Settings > Underwater Fog Density*
     Экспоненциальный фактор, влияющий на плотность и расстояние. Значение по умолчанию 0.06.
 
-*Blend4Web > Water Settings > Underwater fog color*
+*Blend4Web > Water Settings > Underwater Fog Color*
     Цвет тумана. Значение по умолчанию (0.5, 0.5, 0.5) (серый).
 
 
@@ -196,56 +195,57 @@
 Настройка
 .........
 
-*Blend4Web > Water Settings > Wave height*
+*Blend4Web > Water Settings > Wave Height*
     Высота волн. Значение по умолчанию 0.0.
 
-*Blend4Web > Water Settings > Wave length*
+*Blend4Web > Water Settings > Wave Length*
     Длина волн. Значение по умолчанию 10.0.
 
-*Blend4Web > Water Settings > Dist noise scale 0*
-    Размер первого компонента волн, удаленных от берега
+*Blend4Web > Water Settings > Dist Noise Scale 0*
+    Размер первого компонента волн, удаленных от берега.
 
-*Blend4Web > Water Settings > Dist noise scale 1*
-    Размер второго компонента волн, удаленных от берега
+*Blend4Web > Water Settings > Dist Noise Scale 1*
+    Размер второго компонента волн, удаленных от берега.
 
-*Blend4Web > Water Settings > Dist noise freq 0*
-    Частота первого компонента волн, удаленных от берега
+*Blend4Web > Water Settings > Dist Noise Freq 0*
+    Частота первого компонента волн, удаленных от берега.
 
-*Blend4Web > Water Settings > Dist noise freq 1*
-    Частота второго компонента волн, удаленных от берега
+*Blend4Web > Water Settings > Dist Noise Freq 1*
+    Частота второго компонента волн, удаленных от берега.
 
-*Blend4Web > Water Settings > Dir min shore fac*
-    Минимальный коэффициент уменьшения высоты прибрежных волн
+*Blend4Web > Water Settings > Dir Min Shore Fac*
+    Минимальный коэффициент уменьшения высоты прибрежных волн.
 
-*Blend4Web > Water Settings > Dir frequency*
-    Частота накатывания прибрежных волн
+*Blend4Web > Water Settings > Dir Frequency*
+    Частота накатывания прибрежных волн.
 
-*Blend4Web > Water Settings > Dir noise scale*
-    Размер шума на прибрежных волнах
+*Blend4Web > Water Settings > Dir Noise Scale*
+    Размер шума на прибрежных волнах.
 
-*Blend4Web > Water Settings > Dir noise freq*
-    Частота шума на прибрежных волнах
+*Blend4Web > Water Settings > Dir Noise Freq*
+    Частота шума на прибрежных волнах.
 
-*Blend4Web > Water Settings > Dir min noise fac*
-    Минимальное значение шума на прибрежных волнах
+*Blend4Web > Water Settings > Dir Min Noise Fac*
+    Минимальное значение шума на прибрежных волнах.
     
-*Blend4Web > Water Settings > Dist min fac*
-    Минимальный коэффициент примешивания волн, удаленных от берега
+*Blend4Web > Water Settings > Dist Min Fac*
+    Минимальный коэффициент примешивания волн, удаленных от берега.
 
-*Blend4Web > Water Settings > Waves horizontal factor*
-    Коэффициент смещения прибрежных волн в направлении к берегу
+*Blend4Web > Water Settings > Waves Horizontal Factor*
+    Коэффициент смещения прибрежных волн в направлении к берегу.
 
 Настройки генерируемой поверхности
 ----------------------------------
 
-*Blend4Web > Water Settings > Generate mesh*
-    Включить генерируемую поверхность
+*Blend4Web > Water Settings > Generate Mesh*
+    Включить генерируемую поверхность.
 
-*Blend4Web > Water Settings > Number of cascades*
-    Количество каскадов в генерируемой поверхности
+*Blend4Web > Water Settings > Number of Cascades*
+    Количество каскадов в генерируемой поверхности.
 
-*Blend4Web > Water Settings > Detailed distance*
-    Максимальное расстояние от камеры до края последнего каскада
+*Blend4Web > Water Settings > Detailed Distance*
+    Максимальное расстояние от камеры до края последнего каскада.
+
 
 .. index:: параметры берега, береговая линия
 
@@ -269,11 +269,11 @@
 Рассеивание
 -----------
 
-Во вкладке ``World`` выставить опцию ``Sky Settings > Procedural skydome``. Если одновременно с этим используется статическая :ref:`текстура неба <skydome_texture>`, она будет заменена.
+Во вкладке ``World`` выставить опцию ``Sky Settings > Procedural Skydome``, предварительно выставив опцию ``Sky Settings > Render Sky``. Если одновременно с этим используется статическая :ref:`текстура неба <skydome_texture>`, она будет заменена.
 
 .. note::
 
-    Кроме того, процедурная текстура неба может быть использована для имитации рассеянного :ref:`освещения от окружающей среды <environment_lighting>`, по аналогии со статической :ref:`текстурой неба <skydome_texture>`. Для этого необходимо выставить опции ``Sky Settings > Use as environment lighting`` и ``Environment Lighting > Sky Texture``. Если текстура мира для рассеянного освещения уже существует, она будет заменена.
+    Кроме того, процедурная текстура неба может быть использована для имитации рассеянного :ref:`освещения от окружающей среды <environment_lighting>`, по аналогии со статической :ref:`текстурой неба <skydome_texture>`. Для этого необходимо выставить опции ``Sky Settings > Use as Environment Lighting`` и ``Environment Lighting > Sky Texture``. Если текстура мира для рассеянного освещения уже существует, она будет заменена.
 
 
 .. image:: src_images/outdoor_rendering/skydome_procedural.jpg
@@ -284,34 +284,34 @@
 
 Движком поддерживаются следующие настройки:
 
-*Sky Settings > Sky color*
+*Sky Settings > Sky Color*
      Базовый цвет неба. Значение по умолчанию (0.087, 0.255, 0.6) (голубой).
 
-*Sky Settings > Rayleigh brightness*
+*Sky Settings > Rayleigh Brightness*
      Яркость рэлеевского рассеяния (на малых частицах). Значение по умолчанию 3.3.
 
-*Sky Settings > Mie brightness*
+*Sky Settings > Mie Brightness*
      Яркость рассеяния Ми (на крупных частицах). Значение по умолчанию 0.1.
 
-*Sky Settings > Spot brightness*
+*Sky Settings > Spot Brightness*
      Яркость пятна солнца. Значение по умолчанию 20.0.
 
-*Sky Settings > Scatter strength*
+*Sky Settings > Scatter Strength*
      Фактор рассеяния света. Значение по умолчанию 0.2.
 
-*Sky Settings > Rayleigh strength*
+*Sky Settings > Rayleigh Strength*
      Фактор рэлеевского рассеяния. Значение по умолчанию 0.2.
 
-*Sky Settings > Mie strength*
+*Sky Settings > Mie Strength*
      Фактор рассеяния Ми. Значение по умолчанию 0.006.
 
-*Sky Settings > Rayleigh collection power*
+*Sky Settings > Rayleigh Collection Power*
      Степенной коэффицент рэлеевского рассеяния. Значение по умолчанию 0.35.
 
-*Sky Settings > Mie collection power*
+*Sky Settings > Mie Collection Power*
      Степенной коэффицент рассеяния Ми. Значение по умолчанию 0.5.
 
-*Sky Settings > Mie distribution*
+*Sky Settings > Mie Distribution*
      Распределение рассеяния Ми. Значение по умолчанию 0.4.
 
 
@@ -321,10 +321,10 @@
 
 Настраивается во вкладке ``World``.
 
-*Blend4Web > Fog Settings > Fog density*
+*Blend4Web > Fog Settings > Fog Density*
     Экспоненциальный фактор, влияющий на плотность и расстояние. Значение по умолчанию 0.0.
 
-*Blend4Web > Fog Settings > Fog color*
+*Blend4Web > Fog Settings > Fog Color*
     Цвет тумана. Значение по умолчанию (0.5, 0.5, 0.5) (серый).
     
 При использовании динамического неба цвет тумана определяется цветом неба.
@@ -333,7 +333,7 @@
 Время суток
 -----------
 
-Для лампы необходимо выставить опцию ``Blend4Web > Dynamic intensity``.
+Для лампы необходимо выставить опцию ``Blend4Web > Dynamic Intensity``.
 
 Время суток устанавливается приложениями с использованием соответствующего API. В частности, время суток может устанавливаться в интерфейсе ``Lighting``
 :ref:`просмотрщика сцен <viewer>`. 
@@ -390,13 +390,13 @@
 Активация
 .........
 
-На объекте травы или дерева включить опцию ``Blend4Web > Wind bending``.
+На объекте травы или дерева включить опцию ``Blend4Web > Wind Bending``.
 
 
 Настройка
 .........
 
-Интерфейс для настроек появляется после активации опции ``Blend4Web > Wind bending``.
+Интерфейс для настроек появляется после активации опции ``Blend4Web > Wind Bending``.
 
 .. image:: src_images/outdoor_rendering/wind_bending_setup.jpg
    :align: center
@@ -410,22 +410,22 @@
 *Main bending > Frequency*
     Частота "основного" отклонения под действием ветра. Значение по умолчанию 0.25.
 
-*Main bending > Main stiffness (A)*
+*Main bending > Main Stiffness (A)*
     Текстовое поле для названия слоя вертексного цвета, содержащего информацию о жесткости "основного" отклонения. Может быть оставлено пустым. 
 
-*Detail bending > Detail amplitude*
+*Detail bending > Detail Amplitude*
     Амплитуда угла "детализованного" отклонения под действием ветра (в градусах). Значение по умолчанию 0.1.
 
-*Detail bending > Branch amplitude*
+*Detail bending > Branch Amplitude*
     Амплитуда угла отклонения ветвей под действием ветра (в градусах). Значение по умолчанию 0.3.
 
-*Detail bending > Leaves stiffness (R)*
+*Detail bending > Leaves Stiffness (R)*
     Текстовое поле для названия слоя вертексного цвета, содержащего информацию о жесткости листвы. Может быть оставлено пустым. 
 
-*Detail bending > Leaves phase (G)*
+*Detail bending > Leaves Phase (G)*
     Текстовое поле для названия слоя вертексного цвета, содержащего информацию о фазе отклонения листвы. Может быть оставлено пустым. 
 
-*Detail bending > Overall stiffness (B)*
+*Detail bending > Overall Stiffness (B)*
     Текстовое поле для названия слоя вертексного цвета, содержащего информацию об общей жесткости листвы. Может быть оставлено пустым. 
 
 Слои вертексных цветов с указанными в настройках названиями должны существовать в меше.

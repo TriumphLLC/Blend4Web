@@ -1066,13 +1066,22 @@ msgstr "You can change the background in the following ways:"
 
 #: ../lighting.rst:451
 msgid ""
+"Установить параметры ``Horizon Color`` и ``Zenith Color`` на вкладке "
+"``World`` в Blender, предварительно выставив опцию ``Sky Settings > Render "
+"Sky``."
+msgstr ""
+"Enable ``Sky Settings > Render Sky``, then set the ``Horizon Color`` and the"
+" ``Zenith Color`` under Blender's ``World`` tab."
+
+#: ../lighting.rst:453
+msgid ""
 "Поместить сцену внутрь модели (например, куба или сферы) с направленными "
 "внутрь нормалями, с материалом и опциональной текстурой."
 msgstr ""
 "Place the whole scene inside a model (e.g. a cube or a sphere) with its "
 "normals directed inside, with a material and an optional texture."
 
-#: ../lighting.rst:453
+#: ../lighting.rst:455
 msgid ""
 "Разместить перед камерой поверхность с материалом и опциональной текстурой, "
 "присоединить ее к камере связью родитель-потомок. При необходимости "
@@ -1083,45 +1092,50 @@ msgstr ""
 "camera. Parent it to the camera. If required, tweak the distance to this "
 "surface, starting and ending clipping planes for the camera."
 
-#: ../lighting.rst:459
+#: ../lighting.rst:461
 msgid "Использовать :ref:`текстуру неба <skydome_texture>`."
 msgstr "Use a :ref:`skydome <skydome_texture>`."
 
-#: ../lighting.rst:461
+#: ../lighting.rst:463
 msgid "Настроить динамически генерируемую :ref:`атмосферу <atmosphere>`."
 msgstr "Set up the procedurally generated :ref:`atmosphere <atmosphere>`."
 
-#: ../lighting.rst:463
+#: ../lighting.rst:465
 msgid ""
 "Установить параметр движка ``background_color``, используя программный метод"
-" ``config.set()``. Установленное значение используется в качестве аргумента "
-"метода WebGL ``clearColor()``. Для получения корректных результатов "
-"рекомендуется отключить прозрачность контекста WebGL (параметр ``alpha``). "
-"Такая конфигурация используется по умолчанию в стандартном веб-плеере "
-"движка."
+" ``config.set()``, предварительно отключив опцию ``Sky Settings > Render "
+"Sky`` на вкладке ``World`` в Blender. Установленное значение используется в "
+"качестве аргумента метода WebGL ``clearColor()``. Для получения корректных "
+"результатов рекомендуется отключить прозрачность контекста WebGL (параметр "
+"``alpha``). Такая конфигурация используется по умолчанию в стандартном веб-"
+"плеере движка."
 msgstr ""
 "Set the engine's ``background_color`` parameter with the ``config.set()`` "
-"method. This value is used as argument for the WebGL ``clearColor()`` "
-"method. For correct results, it's recommended to turn the WebGL context "
-"transparency off (the ``alpha`` parameter). Such the configuration is used "
-"by default in the engine's standard web player."
+"method. Please note, that ``Sky Settings > Render Sky`` under Blender's "
+"``World`` tab must be disabled. This value is used as argument for the WebGL"
+" ``clearColor()`` method. For correct results, it's recommended to turn the "
+"WebGL context transparency off (the ``alpha`` parameter). Such the "
+"configuration is used by default in the engine's standard web player."
 
-#: ../lighting.rst:476
+#: ../lighting.rst:478
 msgid ""
 "В качестве фона можно использовать любой HTML контент, находящийся позади "
 "элемента ``canvas``, который используется для рендеринга. Для это необходимо"
-" активировать прозрачность контекста WebGL (параметр ``alpha``). Для "
-"получения корректных результатов рекомендуется выставить полностью "
-"прозрачный черный цвет фона. Такая конфигурация используется по умолчанию в "
-"стандартном :ref:`просмотрщике сцен <viewer>` SDK движка."
+" активировать прозрачность контекста WebGL (параметр ``alpha``), "
+"предварительно отключив опцию ``Sky Settings > Render Sky`` на вкладке "
+"``World`` в Blender. Для получения корректных результатов рекомендуется "
+"выставить полностью прозрачный черный цвет фона. Такая конфигурация "
+"используется по умолчанию в стандартном :ref:`просмотрщике сцен <viewer>` "
+"SDK движка."
 msgstr ""
 "You can use any HTML content behind the ``canvas`` element, to which the "
 "rendering is performed, as a background. To do this, activate the WebGL "
-"context transparency (the ``alpha`` parameter). For correct results, it's "
-"recommended to set absolutely transparent black background color. Such the "
-"configuration is used by default in the :ref:`scene viewer<viewer>` of "
-"Blend4Web SDK."
+"context transparency (the ``alpha`` parameter). Please note, that ``Sky "
+"Settings > Render Sky`` under Blender's ``World`` tab must be disabled. For "
+"correct results, it's recommended to set absolutely transparent black "
+"background color. Such the configuration is used by default in the "
+":ref:`scene viewer <viewer>` of Blend4Web SDK."
 
-#: ../lighting.rst:489
+#: ../lighting.rst:491
 msgid ":ref:`alpha_compositing`"
 msgstr ""

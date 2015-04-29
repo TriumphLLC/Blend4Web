@@ -151,10 +151,11 @@ exports.generate_emitter_particles_submesh = function(batch, emitter_mesh,
     va_frame["a_normal"] = normals;
     submesh.va_frames[0] = va_frame;
 
-    if (is_billboard)
+    if (is_billboard) {
+        batch.draw_mode = m_geom.DM_DYNAMIC_TRIANGLES;
         submesh.indices = bb_indices;
-    else {
-        batch.draw_mode = m_geom.DM_POINTS;
+    } else {
+        batch.draw_mode = m_geom.DM_DYNAMIC_POINTS;
         submesh.indices = new Uint16Array(0);
     }
 

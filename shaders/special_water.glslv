@@ -74,7 +74,7 @@ uniform sampler2D u_shore_dist_map;
 varying vec3 v_eye_dir;
 varying vec3 v_pos_world;
 
-#if !GENERATED_MESH
+#if !GENERATED_MESH && (NUM_NORMALMAPS > 0 || FOAM)
 varying vec2 v_texcoord;
 #endif
 
@@ -199,7 +199,7 @@ void main(void) {
     vec2 step_xz = u_camera_eye.xz - mod(u_camera_eye.xz, casc_step);
     position.y = WATER_LEVEL;
     position.xz += step_xz;// + vec2(15.0, -15.0);
-#else
+#elif NUM_NORMALMAPS > 0 || FOAM
     v_texcoord = a_texcoord;
 #endif
 

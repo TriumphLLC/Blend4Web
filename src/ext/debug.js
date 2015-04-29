@@ -21,11 +21,12 @@ var m_util     = require("__util");
 
 var m_vec3 = require("vec3");
 var cfg_def = m_cfg.defaults;
+
 /**
- * Print info about the physics worker
- * @method module:debug.physics_worker
+ * Print info about the physics worker.
+ * @method module:debug.physics_stats
  */
-exports.physics_worker = function() {
+exports.physics_stats = function() {
     m_phy.debug_worker();
 }
 /**
@@ -253,8 +254,8 @@ exports.geometry_stats = function() {
             var render = bundles[j].obj_render;
             // NOTE: some objects (particles) do not have any submesh
             if (batch)
-                if (subs.type != "COLOR_PICKING" && subs.type != "GLOW_MASK"
-                        || render.origin_selectable)
+                if (subs.type != "COLOR_PICKING" && subs.type != "OUTLINE_MASK"
+                        || render.origin_selectable || render.origin_outlining)
                     unique_batches[batch.id] = batch;
         }
     }

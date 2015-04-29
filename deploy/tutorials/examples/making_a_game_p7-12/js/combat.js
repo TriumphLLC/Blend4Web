@@ -13,18 +13,13 @@ var m_conf  = require("game_config");
 
 var _vec3_tmp = new Float32Array(3);
 
-var _char = null;
 var _enemies = null;
 
 exports.set_enemies = function(enemies) {
     _enemies = enemies;
 }
 
-exports.set_player_char = function(char) {
-    _char = char;
-}
-
-exports.process_atack_on_enemies = function(at_pt, at_dst) {
+exports.process_attack_on_enemies = function(at_pt, at_dst) {
     for (var i = 0; i < _enemies.length; i++) {
 
         var en = _enemies[i];
@@ -32,16 +27,16 @@ exports.process_atack_on_enemies = function(at_pt, at_dst) {
             continue;
 
         var golem = en.empty;
-        if(check_atack(at_pt, golem, at_dst)) {
-            en.hp -= m_conf.CHAR_ATACK_STR;
+        if(check_attack(at_pt, golem, at_dst)) {
+            en.hp -= m_conf.CHAR_ATTACK_STR;
             return true;
         }
     }
     return false;
 }
 
-exports.check_atack = check_atack;
-function check_atack(at_pt, targ, dist) {
+exports.check_attack = check_attack;
+function check_attack(at_pt, targ, dist) {
     var targ_trans = _vec3_tmp;
     m_trans.get_translation(targ, targ_trans);
     var targ_dist_to_at_pt = m_vec3.distance(targ_trans, at_pt);
@@ -53,4 +48,3 @@ function check_atack(at_pt, targ, dist) {
 }
 
 })
-

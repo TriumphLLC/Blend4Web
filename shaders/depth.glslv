@@ -91,6 +91,8 @@ uniform float u_scale_threshold;
 #if SKINNED
     uniform vec4 u_quatsb[MAX_BONES];
     uniform vec4 u_transb[MAX_BONES];
+    uniform vec4 u_arm_rel_trans;
+    uniform vec4 u_arm_rel_quat;
 
     #if FRAMES_BLENDING
         uniform vec4 u_quatsa[MAX_BONES];

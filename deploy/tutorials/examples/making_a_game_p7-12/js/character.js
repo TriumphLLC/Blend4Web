@@ -23,12 +23,12 @@ var m_bonuses = require("bonuses");
 var m_env = require("environment");
 
 var _char_run_spk = null;
-var _char_atack_spk = null;
+var _char_attack_spk = null;
 var _char_hit_spk = null;
 var _char_land_spk = null;
 var _gem_pickup_spk = null;
 var _char_jump_spks = [];
-var _char_voice_atack_spks = [];
+var _char_voice_attack_spks = [];
 var _char_hurt_spks = [];
 
 
@@ -66,7 +66,7 @@ exports.setup_controls = function (elapsed_sensor) {
     var up_arrow    = m_ctl.create_custom_sensor(0);
     var down_arrow  = m_ctl.create_custom_sensor(0);
     var touch_jump  = m_ctl.create_custom_sensor(0);
-    var touch_atack = m_ctl.create_custom_sensor(0);
+    var touch_attack = m_ctl.create_custom_sensor(0);
 
     var on_ground_sens = m_ctl.create_custom_sensor(0);
 
@@ -74,20 +74,20 @@ exports.setup_controls = function (elapsed_sensor) {
 
     if(detect_mobile()) {
         m_interface.setup_touch_controls(right_arrow, up_arrow, left_arrow,
-                                         down_arrow, touch_jump, touch_atack);
+                                         down_arrow, touch_jump, touch_attack);
     }
 
     setup_movement(up_arrow, down_arrow, on_ground_sens);
     setup_rotation(right_arrow, left_arrow, elapsed_sensor);
     setup_jumping(touch_jump, on_ground_sens);
-    setup_atack(touch_atack, elapsed_sensor);
+    setup_attack(touch_attack, elapsed_sensor);
 }
 
 function precache_speakers() {
     _char_run_spk = m_scs.get_object_by_dupli_name("character",
                                                    m_conf.CHAR_RUN_SPEAKER);
-    _char_atack_spk = m_scs.get_object_by_dupli_name("character",
-                                                     m_conf.CHAR_ATACK_SPEAKER);
+    _char_attack_spk = m_scs.get_object_by_dupli_name("character",
+                                                     m_conf.CHAR_ATTACK_SPEAKER);
     _char_hit_spk = m_scs.get_object_by_dupli_name("character",
                                                    m_conf.CHAR_SWORD_SPEAKER);
     _char_land_spk = m_scs.get_object_by_dupli_name("character",
@@ -99,10 +99,10 @@ function precache_speakers() {
         var jump_spk = m_scs.get_object_by_dupli_name("character", jump_spk_name);
         _char_jump_spks.push(jump_spk);
     }
-    for (var i = 0; i < m_conf.CHAR_ATACK_VOICE_SPKS.length; i++) {
-        var atack_spk_name = m_conf.CHAR_ATACK_VOICE_SPKS[i];
-        var atack_spk = m_scs.get_object_by_dupli_name("character", atack_spk_name);
-        _char_voice_atack_spks.push(atack_spk);
+    for (var i = 0; i < m_conf.CHAR_ATTACK_VOICE_SPKS.length; i++) {
+        var attack_spk_name = m_conf.CHAR_ATTACK_VOICE_SPKS[i];
+        var attack_spk = m_scs.get_object_by_dupli_name("character", attack_spk_name);
+        _char_voice_attack_spks.push(attack_spk);
     }
     for (var i = 0; i < m_conf.CHAR_HURT_SPKS.length; i++) {
         var hurt_spk_name = m_conf.CHAR_HURT_SPKS[i];
@@ -177,7 +177,7 @@ function setup_movement(up_arrow, down_arrow, on_ground_sens) {
 
     function move_cb(obj, id, pulse) {
 
-        if (_char_wrapper.state == m_conf.CH_ATACK) {
+        if (_char_wrapper.state == m_conf.CH_ATTACK) {
             m_phy.set_character_move_dir(obj, 0, 0);
             return;
         }
@@ -256,7 +256,7 @@ function setup_rotation(right_arrow, left_arrow, elapsed_sensor) {
 
     function rotate_cb(obj, id, pulse) {
 
-        if (_char_wrapper.state == m_conf.CH_ATACK)
+        if (_char_wrapper.state == m_conf.CH_ATTACK)
             return;
 
         var elapsed = m_ctl.get_sensor_value(obj, "LEFT", 6);
@@ -283,7 +283,7 @@ function setup_jumping(touch_jump, on_ground_sens) {
     var key_space = m_ctl.create_keyboard_sensor(m_ctl.KEY_SPACE);
 
     var jump_cb = function(obj, id, pulse) {
-        if (pulse == 1 && _char_wrapper.state != m_conf.CH_ATACK) {
+        if (pulse == 1 && _char_wrapper.state != m_conf.CH_ATTACK) {
             m_phy.character_jump(obj);
             var island = m_ctl.get_sensor_value(obj, id, 2);
             if (island) {
@@ -318,11 +318,11 @@ function setup_jumping(touch_jump, on_ground_sens) {
         m_ctl.CT_TRIGGER, [on_ground_sens], null, landing_cb);
 }
 
-function setup_atack(touch_atack, elapsed) {
+function setup_attack(touch_attack, elapsed) {
     var key_enter = m_ctl.create_keyboard_sensor(m_ctl.KEY_ENTER);
-    var char_atack_done = false;
+    var char_attack_done = false;
 
-    function finish_atack_cb(obj) {
+    function finish_attack_cb(obj) {
         m_anim.apply(_char_wrapper.rig, "character_idle_01");
         m_anim.set_behavior(_char_wrapper.rig, m_anim.AB_CYCLIC);
         m_anim.play(_char_wrapper.rig);
@@ -330,59 +330,59 @@ function setup_atack(touch_atack, elapsed) {
         _char_wrapper.state = m_conf.CH_STILL;
     }
 
-    function process_atack_speakers() {
+    function process_attack_speakers() {
         if (m_sfx.is_play(_char_run_spk))
             m_sfx.stop(_char_run_spk);
 
-        m_sfx.play_def(_char_atack_spk);
+        m_sfx.play_def(_char_attack_spk);
 
         var id = Math.floor(3 * Math.random());
-        m_sfx.play_def(_char_voice_atack_spks[id]);
+        m_sfx.play_def(_char_voice_attack_spks[id]);
     }
 
-    var atack_cb = function(obj, id, pulse) {
-        if (pulse == 1 && _char_wrapper.state != m_conf.CH_ATACK) {
-            _char_wrapper.state = m_conf.CH_ATACK;
+    var attack_cb = function(obj, id, pulse) {
+        if (pulse == 1 && _char_wrapper.state != m_conf.CH_ATTACK) {
+            _char_wrapper.state = m_conf.CH_ATTACK;
             var rand = Math.floor(3 * Math.random()) + 1;
             m_anim.apply(_char_wrapper.rig, "character_atack_0" + rand);
             m_anim.set_behavior(_char_wrapper.rig, m_anim.AB_FINISH_STOP);
-            m_anim.play(_char_wrapper.rig, finish_atack_cb);
+            m_anim.play(_char_wrapper.rig, finish_attack_cb);
 
             m_phy.set_character_move_dir(_char_wrapper.phys_body, 0, 0);
-            char_atack_done = false;
+            char_attack_done = false;
 
-            process_atack_speakers();
+            process_attack_speakers();
         }
     }
 
     var damage_enemies_cb = function(obj, id, pulse) {
 
-        if (!_char_wrapper.state == m_conf.CH_ATACK)
+        if (!_char_wrapper.state == m_conf.CH_ATTACK)
             return;
 
-        if (!char_atack_done) {
+        if (!char_attack_done) {
             var frame = m_anim.get_frame(_char_wrapper.rig);
-            if (frame >= m_conf.CHAR_ATACK_ANIM_FRAME) {
+            if (frame >= m_conf.CHAR_ATTACK_ANIM_FRAME) {
                 var trans     = _vec3_tmp;
                 var cur_dir   = _vec3_tmp_2;
                 var at_pt     = _vec3_tmp_3;
                 var cur_rot_q = _quat4_tmp;
-                var at_dst = m_conf.CHAR_ATACK_DIST;
+                var at_dst = m_conf.CHAR_ATTACK_DIST;
 
                 m_trans.get_translation(_char_wrapper.phys_body, trans);
                 m_trans.get_rotation(_char_wrapper.phys_body, cur_rot_q);
                 m_vec3.transformQuat(m_util.AXIS_Z, cur_rot_q, cur_dir);
 
                 m_vec3.scaleAndAdd(trans, cur_dir, at_dst, at_pt);
-                if (m_combat.process_atack_on_enemies(at_pt, at_dst))
+                if (m_combat.process_attack_on_enemies(at_pt, at_dst))
                     m_sfx.play_def(_char_hit_spk);
-                char_atack_done = true;
+                char_attack_done = true;
             }
         }
     }
 
-    m_ctl.create_sensor_manifold(_char_wrapper.phys_body, "ATACK", m_ctl.CT_TRIGGER,
-        [key_enter, touch_atack], function(s){return s[0] || s[1]}, atack_cb);
+    m_ctl.create_sensor_manifold(_char_wrapper.phys_body, "ATTACK", m_ctl.CT_TRIGGER,
+        [key_enter, touch_attack], function(s){return s[0] || s[1]}, attack_cb);
     m_ctl.create_sensor_manifold(_char_wrapper.phys_body, "DAMAGE_GOLEMS", m_ctl.CT_CONTINUOUS,
         [elapsed], null, damage_enemies_cb);
 }
@@ -407,7 +407,6 @@ exports.reset = function() {
 
 exports.apply_hp_potion = function() {
     change_hp(m_conf.BONUS_HP_INCR);
-    m_scs.set_glow_color(m_conf.HP_POTION_GLOW_COLOR);
     m_anim.play(_char_wrapper.body);
 }
 
@@ -415,9 +414,6 @@ exports.apply_lava_protect = function() {
     m_anim.apply(_char_wrapper.body, "LAVA_grow", m_anim.SLOT_1);
     m_anim.set_behavior(_char_wrapper.body, m_anim.AB_FINISH_STOP, m_anim.SLOT_1);
     m_anim.play(_char_wrapper.body, null, m_anim.SLOT_1);
-
-    m_scs.set_glow_color(m_conf.LAVA_POTION_GLOW_COLOR);
-    m_scs.apply_glow_anim(_char_wrapper.body, 0.5, 0.5, 1);
 }
 
 exports.remove_lava_protect = remove_lava_protect;
@@ -438,9 +434,6 @@ function apply_shield() {
     m_anim.apply(_char_wrapper.shield_sphere, "SHIELD_GLOW_grow");
     m_anim.set_behavior(_char_wrapper.shield_sphere, m_anim.AB_FINISH_STOP);
     m_anim.play(_char_wrapper.shield_sphere);
-
-    m_scs.set_glow_color(m_conf.SHIELD_POTION_GLOW_COLOR);
-    m_scs.apply_glow_anim(_char_wrapper.body, 0.5, 0.5, 1);
 }
 
 exports.remove_shield = remove_shield;
@@ -473,15 +466,8 @@ function change_hp(amount) {
     _char_wrapper.hp += amount;
     _char_wrapper.hp = Math.min(_char_wrapper.hp, m_conf.MAX_CHAR_HP);
 
-    if (_char_wrapper.hp <= 0) {
+    if (_char_wrapper.hp <= 0)
         kill();
-
-        if (m_bonuses.shield_time_left > 0)
-            remove_shield();
-
-        if (m_bonuses.lava_protect_time_left > 0)
-            remove_lava_protect();
-    }
 
     m_interface.update_hp_bar();
 }
@@ -510,6 +496,12 @@ function kill() {
 
     if (_char_wrapper.gem_slot)
         remove_gem();
+
+    if (m_bonuses.shield_time_left > 0)
+        remove_shield();
+
+    if (m_bonuses.lava_protect_time_left > 0)
+        remove_lava_protect();
 }
 
 exports.add_gem = function(gem_wrapper) {

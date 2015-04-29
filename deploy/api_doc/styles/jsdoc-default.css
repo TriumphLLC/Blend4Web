@@ -76,8 +76,8 @@ dl dt {
 .class-description {
     font-size: 130%;
     line-height: 140%;
-    margin-bottom: 1em;
-    margin-top: 1em;
+    /*margin-bottom: 1em;*/
+    /*margin-top: 1em;*/
 }
 
 .class-description:empty {
@@ -91,7 +91,7 @@ dl dt {
 }
 
 article dl {
-    margin-bottom: 40px;
+    /*margin-bottom: 40px;*/
 }
 
 section {
@@ -121,13 +121,13 @@ nav
     padding-left: 16px;
 }
 
-nav ul {
+ul {
     padding: 0;
     margin: 0;
     list-style-type: none;
 }
 
-nav ul li {
+ul li {
     margin-bottom: 5px;
 }
 
@@ -157,8 +157,8 @@ article h1 {
 }
 
 h2 {
-    font-family: 'Open Sans', sans-serif;
-    font-size: 18px;
+    font-family: 'Open Sans Semibold', sans-serif;
+    font-size: 20px;
     font-weight: normal;
     color: rgba(0, 100, 200, 1.0);
     margin-top: 0;
@@ -167,6 +167,12 @@ h2 {
 h2 a {
     font-size: inherit;
     font-family: inherit;
+}
+
+article h2 {
+    color: rgba(0 ,35, 80, 1.0);
+    margin-bottom: 0;
+    margin-top: 40px;
 }
 
 h3 {
@@ -180,15 +186,21 @@ h3 {
 
 h4
 {
-    font-size: 18px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
     letter-spacing: -0.33px;
     margin-bottom: 12px;
-    color: #4d4e53;
+    color: rgba(0 ,35, 80, 1.0);
+}
+
+.subsection-title {
+    padding-bottom: 5px;
+    border-bottom: 1px solid rgba(0, 142, 204, 0.2);
 }
 
 h5, .container-overview .subsection-title
 {
-    font-size: 18px;
+    font-size: 14px;
     font-family: Open Sans;
     margin-top: 20px;
     margin-bottom: 2.5px;
@@ -196,6 +208,10 @@ h5, .container-overview .subsection-title
     color: rgba(0 ,35, 80, 1.0);
     display: block;
     margin-bottom: 10px;
+}
+
+.container-overview {
+    margin-top: 20px;
 }
 
 h6
@@ -246,11 +262,15 @@ h6
 .details .object-value { padding-top: 0; }
 
 .description {
-    margin-bottom: 1em;
-    margin-top: 1em;
+    /*margin-bottom: 1em;*/
+    /*margin-top: 1em;*/
     font-family: 'Open Sans Light', sans-serif;
     color: #002350;
     font-size: 16px;
+}
+
+.container-overview .description {
+    margin-bottom: 10px;
 }
 
 .code-caption
@@ -390,4 +410,25 @@ h6
 
 .disabled {
     color: #454545;
+}
+
+article > div.item_container {
+    border: 1px solid rgba(0, 142, 204, 0.2);
+    border-radius: 5px;
+    -webkit-box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.15);
+    margin-bottom: 10px;
+}
+
+article > div.item_container > div.item_name {
+    padding: 10px;
+    background-color: rgba(0, 72, 165, 0.03);
+  -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+
+div.item_name h4 {
+    margin: 0;
+}
+
+div.item_description {
+    padding: 10px;
 }

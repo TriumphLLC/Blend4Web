@@ -32,13 +32,13 @@ exports.update_hp_bar = function(hp) {
 }
 
 exports.setup_touch_controls = function (right_arrow, up_arrow, left_arrow,
-                                         down_arrow, jump, atack) {
+                                         down_arrow, jump, attack) {
 
     var touch_start_pos = new Float32Array(2);
 
     var move_touch_idx;
     var jump_touch_idx;
-    var atack_touch_idx;
+    var attack_touch_idx;
 
     var tap_elem = document.getElementById("control_tap");
     var control_elem = document.getElementById("control_circle");
@@ -87,15 +87,15 @@ exports.setup_touch_controls = function (right_arrow, up_arrow, left_arrow,
         }
     }
 
-    function touch_atack_cb (event) {
+    function touch_attack_cb (event) {
         event.preventDefault();
 
         var touches = event.changedTouches;
 
         for (var i = 0; i < touches.length; i++) {
             var touch = touches[i];
-            m_ctl.set_custom_sensor(atack, 1);
-            atack_touch_idx = touch.identifier;
+            m_ctl.set_custom_sensor(attack, 1);
+            attack_touch_idx = touch.identifier;
         }
     }
 
@@ -165,16 +165,16 @@ exports.setup_touch_controls = function (right_arrow, up_arrow, left_arrow,
             } else if (touches[i].identifier == jump_touch_idx) {
                 m_ctl.set_custom_sensor(jump, 0);
                 jump_touch_idx = null;
-            } else if (touches[i].identifier == atack_touch_idx) {
-                m_ctl.set_custom_sensor(atack, 0);
-                atack_touch_idx = null;
+            } else if (touches[i].identifier == attack_touch_idx) {
+                m_ctl.set_custom_sensor(attack, 0);
+                attack_touch_idx = null;
             }
         }
     }
 
     document.getElementById("canvas3d").addEventListener("touchstart", touch_start_cb, false);
     document.getElementById("control_jump").addEventListener("touchstart", touch_jump_cb, false);
-    document.getElementById("control_atack").addEventListener("touchstart", touch_atack_cb, false);
+    document.getElementById("control_attack").addEventListener("touchstart", touch_attack_cb, false);
 
     document.getElementById("canvas3d").addEventListener("touchmove", touch_move_cb, false);
 
@@ -182,7 +182,7 @@ exports.setup_touch_controls = function (right_arrow, up_arrow, left_arrow,
     document.getElementById("controls").addEventListener("touchend", touch_end_cb, false);
 
     document.getElementById("control_jump").style.visibility = "visible";
-    document.getElementById("control_atack").style.visibility = "visible";
+    document.getElementById("control_attack").style.visibility = "visible";
 }
 
 exports.register_replay_cb = function(replay_cb) {

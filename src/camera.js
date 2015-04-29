@@ -66,8 +66,6 @@ var DEF_PERSP_FOV   = 40;
 var DEF_PERSP_NEAR  = 0.1;
 var DEF_PERSP_FAR   = 1000;
 
-var MIN_CLAMPING_INTERVAL = 0.001;
-
 var MAX_HOVER_INIT_CORRECT_DIST = 100;
 
 // for internal usage
@@ -159,7 +157,7 @@ function init_hover_camera(camobj) {
         init_hover_pivot(camobj);
 
         var angles = get_camera_angles(camobj, _vec2_tmp);
-        var ret_angle = calc_returning_angle(angles[1], 
+        var ret_angle = m_util.calc_returning_angle(angles[1], 
                 render.hover_angle_limits.up, 
                 render.hover_angle_limits.down);
 
@@ -438,13 +436,18 @@ function set_stereo_params(cam, conv_dist, eye_dist) {
 }
 
 exports.get_camera_angles = get_camera_angles;
+function get_camera_angles(cam, dest) {
+    return get_camera_angles_from_quat(cam._render.quat, dest);
+}
+
 /**
+ * Camera-specific spherical coordinates from a quaternion
  * uses _vec3_tmp, _vec3_tmp2, _vec3_tmp3
  */
-function get_camera_angles(cam, dest) {
-    var render = cam._render;
-    var y_world_cam = m_util.quat_to_dir(render.quat, m_util.AXIS_Y, _vec3_tmp);
-    var z_world_cam = m_util.quat_to_dir(render.quat, m_util.AXIS_Z, _vec3_tmp2);
+exports.get_camera_angles_from_quat = get_camera_angles_from_quat;
+function get_camera_angles_from_quat(quat, dest) {
+    var y_world_cam = m_util.quat_to_dir(quat, m_util.AXIS_Y, _vec3_tmp);
+    var z_world_cam = m_util.quat_to_dir(quat, m_util.AXIS_Z, _vec3_tmp2);
 
     // base angles
     var base_theta = -Math.asin(y_world_cam[1] / m_vec3.length(y_world_cam));
@@ -560,7 +563,7 @@ function set_frustum(cam, v_fov_or_top, near, far, h_fov_or_right) {
     case exports.TYPE_ORTHO_ASPECT:
         cam.top = v_fov_or_top;
         cam.aspect = h_fov_or_right / v_fov_or_top;
-    break;
+        break;
     default:
         m_print.error("set_frustum(): Unsupported camera type: " + cam.type);
         break;
@@ -816,28 +819,39 @@ function update_camera_transform (obj) {
     }
 }
 
-/**
- * uses _vec3_tmp
- */
 exports.update_camera = function(obj) {
     var render = obj._render;
+
+    clamp_limits(obj);
+    update_ortho_scale(obj);
 
     switch (render.move_style) {
 
     case exports.MS_TARGET_CONTROLS:
-        // equal to append_track_point, append_follow_point (with distance limits)
-        if (render.use_distance_limits) {
-            m_cons.rotate_to_limits(render.trans, render.quat, render.pivot, 
-                    render.distance_min, m_cons.CONS_ROTATE_LIMIT);
-        } else
-            m_cons.rotate_to(render.trans, render.quat, render.pivot);
-
+        m_cons.rotate_to(render.trans, render.quat, render.pivot);
         m_cons.correct_up(obj, m_util.AXIS_Y);
         break;
 
     case exports.MS_EYE_CONTROLS:
-        m_cons.correct_up(obj, m_util.AXIS_Y);
+        // NOTE: correction was made previously in m_cons.update_constraint() 
+        // for constrained cameras
+        if (!obj._constraint)
+            m_cons.correct_up(obj, m_util.AXIS_Y);
         break;      
+    }
+
+    update_camera_upside_down(obj);
+}
+
+/**
+ * uses _vec3_tmp
+ */
+exports.update_camera_upside_down = update_camera_upside_down;
+function update_camera_upside_down(obj) {
+    var render = obj._render;
+    if (render.move_style == exports.MS_TARGET_CONTROLS) {
+        var z_world_cam = m_util.quat_to_dir(render.quat, m_util.AXIS_Z, _vec3_tmp);
+        render.target_cam_upside_down = z_world_cam[1] > 0;
     }
 }
 
@@ -1006,11 +1020,7 @@ function hover_angle_limits_bpy_to_b4w(limits, move_style) {
     }
 }
 
-/**
- * uses _vec3_tmp
- */
 exports.update_ortho_scale = update_ortho_scale;
-
 function update_ortho_scale(obj) {
     var render = obj._render;
 
@@ -1043,7 +1053,7 @@ function update_ortho_scale(obj) {
 /**
  * uses _vec2_tmp
  */
-exports.clamp_limits = function(obj) {
+function clamp_limits(obj) {
 
     var render = obj._render;
     if (render.move_style === exports.MS_TARGET_CONTROLS
@@ -1057,9 +1067,9 @@ exports.clamp_limits = function(obj) {
 
             // CCW: left->right for TARGET camera; right->left for EYE camera
             if (render.move_style == exports.MS_TARGET_CONTROLS)
-                var ret_angle = calc_returning_angle(angles[0], left, right);
+                var ret_angle = m_util.calc_returning_angle(angles[0], left, right);
             else
-                var ret_angle = calc_returning_angle(angles[0], right, left);
+                var ret_angle = m_util.calc_returning_angle(angles[0], right, left);
 
             if (ret_angle) {
                 if (render.move_style == exports.MS_TARGET_CONTROLS)
@@ -1077,9 +1087,9 @@ exports.clamp_limits = function(obj) {
 
             // CCW: up->down for TARGET camera; down->up for EYE camera
             if (render.move_style == exports.MS_TARGET_CONTROLS)
-                var ret_angle = calc_returning_angle(angles[1], up, down);
+                var ret_angle = m_util.calc_returning_angle(angles[1], up, down);
             else
-                var ret_angle = calc_returning_angle(angles[1], down, up);
+                var ret_angle = m_util.calc_returning_angle(angles[1], down, up);
 
             if (ret_angle) {
                 if (render.move_style == exports.MS_TARGET_CONTROLS)
@@ -1101,44 +1111,6 @@ exports.clamp_limits = function(obj) {
         hover_cam_clamp_axis_limits(obj); 
         hover_cam_clamp_rotation(obj)
     }
-}
-
-/**
- * Get the angle which returns current angle into range [min_angle, max_angle]
- */
-function calc_returning_angle(angle, min_angle, max_angle) {
-    if (min_angle == max_angle)
-        return max_angle - angle;
-
-    // convert all type of angles (phi, theta) regardless of their domain of definition
-    // for simplicity
-    angle = m_util.angle_wrap_0_2pi(angle);
-    min_angle = m_util.angle_wrap_0_2pi(min_angle);
-    max_angle = m_util.angle_wrap_0_2pi(max_angle);
-
-    // disable err clamping
-    var delta = Math.abs(min_angle - max_angle);
-    if (delta < MIN_CLAMPING_INTERVAL 
-            || Math.abs(delta - 2 * Math.PI) < MIN_CLAMPING_INTERVAL)
-        return 0;
-
-    // rotate unit circle to ease calculation
-    var rotation = 2 * Math.PI - min_angle;
-    min_angle = 0;
-    max_angle += rotation;
-    max_angle = m_util.angle_wrap_0_2pi(max_angle);
-    angle += rotation;
-    angle = m_util.angle_wrap_0_2pi(angle);
-
-    if (angle > max_angle) {
-        // clamp to the proximal edge
-        var delta_to_max = max_angle - angle;
-        var delta_to_min = 2 * Math.PI - angle;
-        return (- delta_to_max > delta_to_min) ? delta_to_min : delta_to_max;
-    }
-
-    // clamping not needed
-    return 0;
 }
 
 /**
@@ -1367,7 +1339,7 @@ function hover_cam_clamp_rotation(obj) {
     if (render.use_distance_limits) {
         var curr_angle = get_camera_angles(obj, _vec2_tmp)[1];
 
-        var ret_angle = calc_returning_angle(curr_angle, 
+        var ret_angle = m_util.calc_returning_angle(curr_angle, 
                 render.hover_angle_limits.up, render.hover_angle_limits.down);
         var view_vector = m_util.quat_to_dir(render.quat, m_util.AXIS_MY, _vec3_tmp);
 
@@ -1831,4 +1803,85 @@ exports.get_first_cam = function(camobj) {
     return camobj._render.cameras[0];
 }
 
+
+/**
+ * Get camera frustum/box edge in view space
+ */
+exports.get_edge = function(cam, edge_type) {
+    switch (cam.type) {
+    case exports.TYPE_PERSP:
+    case exports.TYPE_PERSP_ASPECT:
+    case exports.TYPE_STEREO_LEFT:
+    case exports.TYPE_STEREO_RIGHT:
+        var top_1m = Math.tan(m_util.rad(cam.fov) / 2);
+        switch (edge_type) {
+        case "LEFT":
+            return -top_1m * cam.aspect;
+        case "RIGHT":
+            return top_1m * cam.aspect;
+        case "TOP":
+            return top_1m;
+        case "BOTTOM":
+            return -top_1m;
+        }
+        break;
+    case exports.TYPE_ORTHO:
+    case exports.TYPE_ORTHO_ASPECT:
+        switch (edge_type) {
+        case "LEFT":
+            return -cam.top * cam.aspect;
+        case "RIGHT":
+            return cam.top * cam.aspect;
+        case "TOP":
+            return cam.top;
+        case "BOTTOM":
+            return -cam.top;
+        }
+        break;
+    case exports.TYPE_ORTHO_ASYMMETRIC:
+        switch (edge_type) {
+        case "LEFT":
+            return cam.left;
+        case "RIGHT":
+            return cam.right;
+        case "TOP":
+            return cam.top;
+        case "BOTTOM":
+            return cam.bottom;
+        }
+        break;
+    default:
+        m_util.panic("Unknown camera type");
+        break;
+    }
+} 
+
+exports.is_ortho = function(cam) {
+    switch (cam.type) {
+    case exports.TYPE_ORTHO:
+    case exports.TYPE_ORTHO_ASPECT:
+    case exports.TYPE_ORTHO_ASYMMETRIC:
+        return true;
+    default:
+        return false;
+    }
 }
+
+exports.get_fov = function(cam, is_horizontal) {
+    switch (cam.type) {
+    case exports.TYPE_PERSP:
+    case exports.TYPE_PERSP_ASPECT:
+    case exports.TYPE_STEREO_LEFT:
+    case exports.TYPE_STEREO_RIGHT:
+        var vfov = m_util.rad(cam.fov);
+        if (is_horizontal)
+            return vfov * cam.aspect;
+        else
+            return vfov;
+    default:
+        return 0;
+    }
+}
+
+}
+

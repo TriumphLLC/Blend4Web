@@ -7,65 +7,32 @@
 
 var m_ipc = b4w.require("__ipc");
 
+var MAX_SIM_STEPS = 3;
+var WARM_UP_FRAMES = 100;
 var NULL = 0;
 
 var _update_interval = 1/60;
+
 var _do_simulation = true;
 var _last_abs_time = 0;
 
-// need cleanup
-var _worlds = {};
-var _active_world_id = null;
+// 0 - do not calculate FPS
+var _fps_measurement_interval = 0;
+
+var _world = null;
+var _phy_fps_avg = 0;
 
 var _vec3_tmp  = new Float32Array(3);
 var _vec3_tmp2 = new Float32Array(3);
-var _du_vec3_tmp = _du_vec3(0, 0, 0);
-
-function append_world(id) {
-    if (!check_world(id)) {
-        var du_id = _du_create_world(); 
-
-        var world = {
-            du_id: du_id,
-            bodies: {},
-            constraints: {},
-            cars: {},
-            boats: {},
-            collision_tests: [],
-            collision_results: {array: null,
-                                size:  0},
-            ray_tests: {},
-            characters: {},
-            floaters: {},
-            water: null
-        };
-
-        _worlds[id] = world;
-        set_active_world(id);
-    }
-}
-
-
-function check_world(id) {
-    if (id in _worlds)
-        return true;
-    else
-        return false;
-}
-
-function set_active_world(id) {
-    if (check_world(id)) {
-        _du_set_active_world(_worlds[id].du_id);
-        _active_world_id = id;
-    }
-}
+// should be initialized before first use
+var _du_vec3_tmp = null;
 
 /**
  * For internal purposes
  */
 function active_world() {
-    if (_active_world_id)
-        return _worlds[_active_world_id];
+    if (_world)
+        return _world;
     else
         throw "No active world";
 }
@@ -84,11 +51,20 @@ function append_static_mesh_body(id, positions, indices, trans, friction,
             arrays.indices, arrays.positions_len, arrays.positions, trans_arr,
             friction, restitution);
 
-    append_body(id, du_body, false, collision_group, collision_mask);
+    var body = append_body(id, du_body, false, collision_group, collision_mask);
+    body.num_triangles = calc_num_triangles(positions, indices);
+}
+
+function calc_num_triangles(positions, indices) {
+    if (indices)
+        return indices.length / 3;
+    else
+        return positions.length / 9;
 }
 
 function append_body(id, du_body_id, dynamic, collision_group, collision_mask) {
     var body = {
+        id: id,
         du_id: du_body_id,
 
         simulated: true,
@@ -110,11 +86,20 @@ function append_body(id, du_body_id, dynamic, collision_group, collision_mask) {
         applied_central_force: null,
 
         col_imp_test: false,
-        col_imp_test_last_result: -1
+        col_imp_test_last_result: -1,
+
+        // for debug purposes
+        num_triangles: 0
     }
 
-    active_world().bodies[id] = body;
+    var world = active_world();
+
+    world.bodies[id] = body;
+    world.bodies_arr.push(body);
+
     _du_add_body(du_body_id, collision_group, collision_mask);
+
+    return body;
 }
 
 function create_mesh_arrays(positions, indices) {
@@ -156,7 +141,8 @@ function append_ghost_mesh_body(id, positions, indices, trans,
     var du_body = _du_create_ghost_mesh_body(arrays.indices_len,
             arrays.indices, arrays.positions_len, arrays.positions, trans_arr);
 
-    append_body(id, du_body, false, collision_group, collision_mask);
+    var body = append_body(id, du_body, false, collision_group, collision_mask);
+    body.num_triangles = calc_num_triangles(positions, indices);
 }
 
 function append_bounding_body(id, trans, quat, physics_type, is_ghost,
@@ -480,26 +466,14 @@ function get_du_body_id(body_id) {
 function get_body_id(du_body_id) {
     var world = active_world();
 
-    for (var body_id in world.bodies) {
-        var body = world.bodies[body_id];
-        if (body.du_id === du_body_id)
-            return body_id;
+    for (var i = 0; i < world.bodies_arr.length; i++) {
+        var body = world.bodies_arr[i];
+        if (body.du_id == du_body_id)
+            return body.id;
     }
 
     return null;
 }
-
-function get_world_id(du_world_id) {
-    for (var world_id in _worlds) {
-        var world = _worlds[world_id];
-
-        if (world.du_id === du_world_id)
-            return world_id;
-    }
-
-    return null;
-}
-
 
 function set_constraint_limits(du_cons, pivot_type, limits) {
 
@@ -1162,11 +1136,9 @@ function activate(body_id) {
  * @param [quat=null] Rotation quaternion
  */
 function set_transform(body_id, trans, quat) {
-    var world = active_world();
-
-    var body = world.bodies[body_id];
-    if (!body)
-        throw "Wrong body ID";
+    // optimization: no checks
+    var body = _world.bodies[body_id];
+    var du_id = body.du_id;
 
     var tx = trans[0];
     var ty = trans[1];
@@ -1176,7 +1148,8 @@ function set_transform(body_id, trans, quat) {
     body.trans[1] = ty;
     body.trans[2] = tz;
 
-    _du_set_trans(body.du_id, tx, ty, tz);
+    _du_activate(du_id);
+    _du_set_trans(du_id, tx, ty, tz);
 
     var qx = quat[0];
     var qy = quat[1];
@@ -1188,10 +1161,10 @@ function set_transform(body_id, trans, quat) {
     body.quat[2] = qz;
     body.quat[3] = qw;
 
-    if (world.characters[body_id])
+    if (_world.characters[body_id])
         set_character_rotation_quat(body_id, quat);
     else 
-        _du_set_quat(body.du_id, qx, qy, qz, qw);
+        _du_set_quat(du_id, qx, qy, qz, qw);
 }
 
 function set_character_rotation_quat(body_id, quat) {
@@ -1211,7 +1184,7 @@ function set_character_rotation_quat(body_id, quat) {
 
     // vertical plane
     var cos_v = proj[0]*z_dir[0] + proj[2]*z_dir[2];
-    var sign_v = z_dir[1] < 0? 1: -1;
+    var sign_v = z_dir[1] < 0 ? 1: -1;
 
     // Z axis is positive direction
     var defdir = _vec3_tmp;
@@ -1323,6 +1296,8 @@ function set_damping(body_id, damping, rotation_damping) {
 function init_worker_environment() {
     if (typeof importScripts === "function") {
 
+        var console_old = self.console;
+
         self.console = {};
         console.log = function() {
             var msg = [m_ipc.IN_LOG];
@@ -1340,6 +1315,12 @@ function init_worker_environment() {
             // pass message cache
             self.postMessage(msg);
         }
+        console.profile = function() {
+            console_old.profile.apply(console_old, arguments);
+        };
+        console.profileEnd = function() {
+            console_old.profileEnd.apply(console_old, arguments);
+        };
         fbmsg = function() {
             var msg = [m_ipc.IN_FBMSG];
             for (var i = 0; i < arguments.length; i++)
@@ -1352,23 +1333,100 @@ function init_worker_environment() {
     } else
         throw "Worker environment not found";
 
+    _du_vec3_tmp = _du_vec3(0, 0, 0);
+
+    // NOTE: need to be optional
+    warm_up();
+
     m_ipc.init(self, process_message);
+    m_ipc.post_msg(m_ipc.IN_LOADED);
 }
 
-function init_engine(init_time, max_fps) {
-    if (!self["performance"])
-        self["performance"] = {};
+function warm_up() {
+    init_world(60, 0);
 
-    if (!self["performance"]["now"]) {
-        self["performance"]["now"] = function() {
-            return Date.now() - init_time;
-        }
+    var mass = 3;
+    var damp = 0.04;
+    var rdamp = 0.1;
+    var size = 2;
+    var frict = 0.5;
+    var rest = 1.0;
+    var quat = new Float32Array([0,0,0,1]);
+
+    // cube
+    var bb = {
+        "min_x": -1,
+        "min_y": -1,
+        "min_z": -1,
+        "max_x": 1,
+        "max_y": 1,
+        "max_z": 1
     }
 
-    _update_interval = 1/max_fps;
+    append_bounding_body(0, new Float32Array([1,1,0]), quat, "RIGID_BODY",
+            false, true, mass, 0, 0, damp, rdamp, 1, 255, "BOX", bb, size,
+            frict, rest, [], false);
 
-    frame();
+    // sphere
+    var bs = {
+        "center": new Float32Array([0,0,0]),
+        "radius": 2
+    }
+    append_bounding_body(1, new Float32Array([-1,1,0]), quat, "RIGID_BODY",
+            false, true, mass, 0, 0, damp, rdamp, 1, 255, "SPHERE", bs, size,
+            frict, rest, [], false);
+
+    // large triangle
+    var positions = new Float32Array([-5,0,-5, 5,0,-5, 0,0,5]);
+    var indices = null;
+
+    append_static_mesh_body(10, positions, indices, new Float32Array([0,0,0]), 0,
+            0, 1, 255);
+
+
+    var time = 0;
+    for (var i = 0; i < WARM_UP_FRAMES; i++) {
+        update_world(_world, time, _update_interval);
+        time+=_update_interval;
+    }
+
+    cleanup_world();
 }
+
+
+function init_world(max_fps, fps_measurement_interval) {
+    _update_interval = 1/max_fps;
+    _fps_measurement_interval = fps_measurement_interval;
+
+    _du_create_world(); 
+
+    var world = {
+        bodies: {},
+        bodies_arr: [],
+        constraints: {},
+        cars: {},
+        boats: {},
+        collision_tests: [],
+        collision_results: {array: null,
+                            size:  0},
+        ray_tests: {},
+        characters: {},
+        floaters: {},
+        water: null
+    };
+
+    _world = world;
+
+}
+
+
+function cleanup_world() {
+    _du_cleanup_world();
+    _world = null;
+    _phy_fps_avg = 0;
+}
+
+
 
 function frame() {
     self.setTimeout(frame, 300 * _update_interval);
@@ -1381,34 +1439,45 @@ function frame() {
 
     var delta = abstime - _last_abs_time;
     
-    if (_do_simulation)
-        update_worlds(_worlds, abstime, delta);
+    if (_do_simulation && _world) {
+        if (delta && _fps_measurement_interval) {
+            _phy_fps_avg = smooth(1/delta, _phy_fps_avg, delta,
+                    _fps_measurement_interval);
+            m_ipc.post_msg(m_ipc.IN_FPS, Math.round(_phy_fps_avg));
+        }
+
+        update_world(_world, abstime, delta);
+    }
 
     _last_abs_time = abstime;
 }
 
+/**
+ * NOTE: copied from util module
+ */
+function smooth(curr, last, delta, period) {
+    var e = Math.exp(-delta/period);
 
-function update_worlds(worlds, time, delta) {
-    for (var world_id in worlds) {
+    return (1 - e) * curr + e * last;
+}
 
-        var world = worlds[world_id];
 
-        var steps = _du_pre_simulation(world.du_id, delta, 3, _update_interval);
+function update_world(world, time, delta) {
+    var steps = _du_pre_simulation(delta, MAX_SIM_STEPS, _update_interval);
+    if (steps) {
+        for (var i = 0; i < steps; i++) {
+            var sim_time = _du_calc_sim_time(time, i, steps);
 
-        if (steps) {
-            for (var i = 0; i < steps; i++) {
-                var sim_time = _du_calc_sim_time(world.du_id, time, i, steps);
+            pre_tick_callback(world, sim_time);
 
-                pre_tick_callback(world, sim_time);
+            _du_single_step_simulation(_update_interval);
 
-                _du_single_step_simulation(world.du_id, 0);
-
+            if (i == steps-1)
                 tick_callback(world, sim_time);
-            }
         }
-
-        _du_post_simulation(world.du_id);
     }
+
+    _du_post_simulation();
 }
 
 /**
@@ -1416,8 +1485,8 @@ function update_worlds(worlds, time, delta) {
  */
 function pre_tick_callback(world, time) {
     // apply central force before simulation if needed
-    for (var body_id in world.bodies) {
-        var body = world.bodies[body_id];
+    for (var i = 0; i < world.bodies_arr.length; i++) {
+        var body = world.bodies_arr[i];
 
         if (body.applied_central_force) {
             var fx = body.applied_central_force[0];
@@ -1442,8 +1511,9 @@ function pre_tick_callback(world, time) {
  */
 function tick_callback(world, time) {
 
-    for (var body_id in world.bodies) {
-        var body = world.bodies[body_id];
+    for (var i = 0; i < world.bodies_arr.length; i++) {
+        var body = world.bodies_arr[i];
+        var body_id = body.id;
 
         if (body.dynamic && body.simulated) {
             if (world.characters[body_id]) {
@@ -1462,7 +1532,6 @@ function tick_callback(world, time) {
 
                 var msg_cache = m_ipc.get_msg_cache(m_ipc.IN_TRANSFORM);
 
-                msg_cache["msg_id"]  = m_ipc.IN_TRANSFORM;
                 msg_cache["body_id"] = body_id;
                 msg_cache["time"]    = time;
                 msg_cache["trans"]   = body.trans;
@@ -1494,7 +1563,6 @@ function tick_callback(world, time) {
 
                 var msg_cache = m_ipc.get_msg_cache(m_ipc.IN_PROP_OFFSET);
 
-                msg_cache["msg_id"]               = m_ipc.IN_PROP_OFFSET;
                 msg_cache["chassis_hull_body_id"] = chassis_body_id;
                 msg_cache["prop_ind"]             = i;
                 msg_cache["trans"]                = cache.trans;
@@ -1520,7 +1588,6 @@ function tick_callback(world, time) {
 
                 var msg_cache = m_ipc.get_msg_cache(m_ipc.IN_PROP_OFFSET);
 
-                msg_cache["msg_id"]               = m_ipc.IN_PROP_OFFSET;
                 msg_cache["chassis_hull_body_id"] = hull_body_id;
                 msg_cache["prop_ind"]             = i;
                 msg_cache["trans"]                = cache.trans;
@@ -1577,7 +1644,6 @@ function tick_callback(world, time) {
         if (need_collision_result_update(test, result, cpoint)) {
             var msg_cache = m_ipc.get_msg_cache(m_ipc.IN_COLLISION);
 
-            msg_cache["msg_id"]     = m_ipc.IN_COLLISION;
             msg_cache["body_id_a"]  = body_id_a;
             msg_cache["body_id_b"]  = body_id_b;
             msg_cache["result"]     = result;
@@ -1623,7 +1689,6 @@ function tick_callback(world, time) {
 
             var msg_cache = m_ipc.get_msg_cache(m_ipc.IN_RAY_HIT);
 
-            msg_cache["msg_id"]        = m_ipc.IN_RAY_HIT;
             msg_cache["body_id"]       = test.body_id;
             msg_cache["from"]          = test.from;
             msg_cache["to"]            = test.to;
@@ -1709,58 +1774,53 @@ function body_check_prepare_interp_data(body) {
     return true;
 }
 
-function cleanup() {
-    for (var world_id in _worlds) {
-        var world = _worlds[world_id];
-
-        _du_cleanup_world(world.du_id);
-    }
-
-    _worlds = {};
-    _active_world_id = null;
-}
-
 /**
  * Print world and physics stat
  */
 function debug() {
-    console.log("active_world", _active_world_id);
+    var world = active_world();
 
-    var worlds_num = 0;
-    var bodies_num = 0;
-    var cons_num = 0;
-    var cars_num = 0;
-    var boats_num = 0;
-    var characters_num = 0;
-    var collision_tests_num = 0;
-    var ray_tests_num = 0;
-    var floaters_num = 0;
+    var cons_num = obj_len(world.constraints);
+    var cars_num = obj_len(world.cars);
+    var boats_num = obj_len(world.boats);
+    var characters_num = obj_len(world.characters);
+    var collision_tests_num = world.collision_tests.length;
+    var ray_tests_num = obj_len(world.ray_tests);
+    var floaters_num = obj_len(world.floaters);
 
-    for (var w in _worlds) {
-        var world = _worlds[w];
+    var bodies_num = world.bodies_arr.length;
+    var tri_num = 0;
+    var bodies_stat = {};
 
-        worlds_num++;
-        bodies_num += obj_len(world.bodies);
-        cons_num += obj_len(world.constraints);
-        cars_num += obj_len(world.cars);
-        boats_num += obj_len(world.boats);
-        characters_num += obj_len(world.characters);
-        collision_tests_num += world.collision_tests.length;
-        ray_tests_num += obj_len(world.ray_tests);
-        floaters_num += obj_len(world.floaters);
+    for (var i = 0; i < bodies_num; i++) {
+        var body = world.bodies_arr[i];
 
-        console.log("world " + w, world);
+        var shape = Pointer_stringify(_du_get_shape_name(body.du_id));
+        bodies_stat[shape] = bodies_stat[shape] || 0; 
+        bodies_stat[shape]++;
+
+        tri_num += body.num_triangles;
     }
 
-    console.log("worlds: " + String(worlds_num));
-    console.log("bodies: " + String(bodies_num));
-    console.log("constraints: " + String(cons_num));
-    console.log("cars: " + String(cars_num));
-    console.log("boats: " + String(boats_num));
-    console.log("characters: " + String(characters_num));
-    console.log("collision tests: " + String(collision_tests_num));
-    console.log("ray tests: " + String(ray_tests_num));
-    console.log("floaters: " + String(floaters_num));
+    var stats = "";
+
+    var collect = function(str) {
+        stats = stats + str + "\n";
+    }
+
+    collect("Bodies: " + bodies_num + " " + JSON.stringify(bodies_stat).replace("{", "(").replace("}",")").replace(/\"/g,"").toLowerCase());
+
+    collect("Triangles: " + tri_num);
+
+    collect("Characters: " + characters_num);
+    collect("Cars: " + cars_num);
+    collect("Boats: " + boats_num);
+    collect("Floaters: " + floaters_num);
+    collect("Constraints: " + cons_num);
+    collect("Collision Tests: " + collision_tests_num);
+    collect("Ray Tests: " + ray_tests_num);
+
+    m_ipc.post_msg(m_ipc.IN_DEBUG_STATS, stats);
 }
 
 function obj_len(obj) {
@@ -1773,13 +1833,23 @@ function obj_len(obj) {
 function process_message(msg_id, msg) {
     switch (msg_id) {
     case m_ipc.OUT_INIT:
-        init_engine(msg[1], msg[2]);
+
+        if (!self["performance"])
+            self["performance"] = {};
+
+        if (!self["performance"]["now"]) {
+            var fallback_init_time = msg[1];
+            self["performance"]["now"] = function() {
+                return Date.now() - fallback_init_time;
+            }
+        }
+
+        init_world(msg[2], msg[3]);
+
+        frame();
         break;
     case m_ipc.OUT_PING:
         m_ipc.post_msg(m_ipc.IN_PING, msg[1]);
-        break;
-    case m_ipc.OUT_APPEND_WORLD:
-        append_world(msg[1]);
         break;
     case m_ipc.OUT_SET_ACTIVE_WORLD:
         set_active_world(msg[1]);
@@ -1913,9 +1983,6 @@ function process_message(msg_id, msg) {
     case m_ipc.OUT_SET_WATER_TIME:
         set_water_time(msg[1]);
         break;
-    case m_ipc.OUT_CLEANUP:
-        cleanup();
-        break;
     case m_ipc.OUT_DEBUG:
         debug();
         break;
@@ -1925,4 +1992,6 @@ function process_message(msg_id, msg) {
     }
 }
 
-init_worker_environment();
+Module['onRuntimeInitialized'] = function() {
+    init_worker_environment();
+}

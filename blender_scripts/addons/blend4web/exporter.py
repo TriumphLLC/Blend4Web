@@ -48,7 +48,7 @@ SUPPORTED_NODES = ["NodeFrame", "ShaderNodeMaterial", "ShaderNodeCameraData", \
         "ShaderNodeMapping", "ShaderNodeVectorCurve", "ShaderNodeValToRGB", \
         "ShaderNodeRGBToBW", "ShaderNodeMath", "ShaderNodeVectorMath", \
         "ShaderNodeSqueeze", "ShaderNodeSeparateRGB", "ShaderNodeCombineRGB", \
-        "ShaderNodeSeparateHSV", "ShaderNodeCombineHSV", \
+        "ShaderNodeSeparateHSV", "ShaderNodeCombineHSV", "ShaderNodeGamma", \
         "NodeReroute", "ShaderNodeGroup", "NodeGroupInput", "NodeGroupOutput"]
 
 PARALLAX_HEIGHT_MAP_INPUT_NAME = "Height Map"
@@ -427,7 +427,8 @@ def object_is_valid(obj):
     return obj.type in SUPPORTED_OBJ_TYPES
 
 def particle_object_is_valid(obj):
-    return obj.type == "MESH"
+    data = obj.data
+    return obj.type == "MESH" and not (data is None or not len(data.polygons))
 
 def get_component_export_path(component):
     # deprecated but may be stored in older files
@@ -441,8 +442,9 @@ def get_component_export_path(component):
 def obj_to_mesh_needed(obj):
     """Check if object require copy of obj.data during export"""
     if (obj.type == "CURVE" or obj.type == "SURFACE" or obj.type == "META" 
-            or obj.type == "FONT" or obj.type == "MESH" and (obj.b4w_apply_modifiers 
-            or obj.b4w_loc_export_vertex_anim or obj.b4w_export_edited_normals 
+            or obj.type == "FONT" or obj.type == "MESH" 
+            and (obj.b4w_apply_modifiers or obj.b4w_loc_export_vertex_anim 
+            or obj.b4w_export_edited_normals or obj.b4w_shape_keys
             or obj.b4w_apply_scale)):
         return True
     else:
@@ -453,7 +455,7 @@ def get_obj_data(obj, scene):
 
     if obj.data:
         if obj_to_mesh_needed(obj):            
-            data = obj.to_mesh(scene, obj.b4w_apply_modifiers, "PREVIEW")
+            data = obj.to_mesh(scene, obj.b4w_apply_modifiers or obj.b4w_apply_scale, "PREVIEW")
 
             if data:
                 if obj.type == "META":
@@ -470,6 +472,8 @@ def get_obj_data(obj, scene):
                     new_name = obj.name + "_VERTEX_NORMALS"
                 elif obj.b4w_apply_scale:
                     new_name = obj.name + "_NONUNIFORM_SCALE_APPLIED"
+                elif obj.b4w_shape_keys:
+                    new_name = obj.name + "_SHAPE_KEYS"
 
                 if new_name is not None:
                     # prevent bugs when linked and local meshes have the same name
@@ -613,7 +617,8 @@ def process_action(action):
 
     act_data["name"] = action.name
     act_data["uuid"] = gen_uuid(action)
-    act_data["frame_range"] = round_iterable(action.frame_range, 2)
+    # just round here, non-decimal frames will be reported below
+    act_data["frame_range"] = round_iterable(action.frame_range, 0)
 
     has_decimal_frames = False
 
@@ -689,8 +694,16 @@ def process_action(action):
             previous = None # init variable
             last_frame_offset = 0 # init variable
 
+            keyframes_processed = []
+
             for i in range(len(fcurve.keyframe_points)):
                 keyframe_point = fcurve.keyframe_points[i]
+
+                # avoid identical points
+                if keyframe_point.co[0] in keyframes_processed:
+                    continue
+                else:
+                    keyframes_processed.append(keyframe_point.co[0])
 
                 interpolation = keyframe_point.interpolation
                 if interpolation == "BEZIER":
@@ -708,9 +721,10 @@ def process_action(action):
                 hr = list(keyframe_point.handle_right)
 
                 # NOTE: decimal frames aren't supported, convert to integer
-                if co[0] % 1 != 0:
-                    co[0] = round(co[0])
+                if abs(round(co[0]) - co[0]) > 0.001:
                     has_decimal_frames = True
+
+                co[0] = round(co[0])
 
                 # rotate by 90 degrees around x-axis to match standard OpenGL
                 if (is_location or is_rotation_euler) and fcurve_array_index == 1 \
@@ -740,6 +754,8 @@ def process_action(action):
 
                 # save THIS keyframe point as PREVIOS one for the next iteration
                 previous = keyframe_point
+
+            del keyframes_processed
 
             keyframes_data_bin = struct.pack("f" * len(keyframes_data),
                     *keyframes_data)
@@ -843,13 +859,15 @@ def process_scene(scene):
     scene_data["b4w_enable_color_correction"] \
             = scene.b4w_enable_color_correction
     scene_data["b4w_enable_antialiasing"] = scene.b4w_enable_antialiasing
-
+    scene_data["b4w_enable_object_selection"] = scene.b4w_enable_object_selection
+    scene_data["b4w_enable_outlining"] = scene.b4w_enable_outlining
+    
     tags = scene.b4w_tags
 
     if scene.b4w_enable_tags:
         sdt = scene_data["b4w_tags"] = OrderedDict()
         sdt["title"] = tags.title
-        sdt["description"] = tags.description
+        sdt["description"] = get_tags_description(tags)
     else:
         scene_data["b4w_tags"] = None
 
@@ -892,6 +910,19 @@ def process_scene(scene):
     _export_uuid_cache[scene_data["uuid"]] = scene_data
     _bpy_uuid_cache[scene_data["uuid"]] = scene
     check_scene_data(scene_data, scene)
+
+
+def get_tags_description(tags):
+    if tags.desc_source == "TEXT":
+        return tags.description
+    else:
+        for text in bpy.data.texts:
+            if text.name == tags.description:
+                description = ""
+                for line in text.lines:
+                    description += line.body + "\n"
+                return description
+        return ""
 
 def process_scene_nla(scene, scene_data):
     scene_data["b4w_use_nla"] = scene.b4w_use_nla
@@ -1139,7 +1170,7 @@ def process_object(obj, is_curve=False):
     arm_mod = find_modifier(obj, "ARMATURE")
     # NOTE: give more freedom to objs with edited normals
     obj_data["modifiers"] = []
-    if not obj.b4w_apply_modifiers:
+    if not (obj.b4w_apply_modifiers or obj.b4w_apply_scale):
         process_object_modifiers(obj_data["modifiers"], obj.modifiers, obj)
 
     obj_data["constraints"] = process_object_constraints(obj.constraints)
@@ -1188,16 +1219,18 @@ def process_object(obj, is_curve=False):
     obj_data["b4w_group_relative"] = obj.b4w_group_relative
 
     obj_data["b4w_selectable"] = obj.b4w_selectable
+    obj_data["b4w_outlining"] = obj.b4w_outlining
     obj_data["b4w_billboard"] = obj.b4w_billboard
     obj_data["b4w_pres_glob_orientation"] = obj.b4w_pres_glob_orientation
     obj_data["b4w_billboard_geometry"] = obj.b4w_billboard_geometry
 
-    gw_set = obj.b4w_glow_settings
-    dct = obj_data["b4w_glow_settings"] = OrderedDict()
-    dct["glow_duration"] = round_num(gw_set.glow_duration, 2)
-    dct["glow_period"] = round_num(gw_set.glow_period, 2)
-    dct["glow_relapses"] = gw_set.glow_relapses
+    gw_set = obj.b4w_outline_settings
+    dct = obj_data["b4w_outline_settings"] = OrderedDict()
+    dct["outline_duration"] = round_num(gw_set.outline_duration, 2)
+    dct["outline_period"] = round_num(gw_set.outline_period, 2)
+    dct["outline_relapses"] = gw_set.outline_relapses
 
+    obj_data["b4w_outline_on_select"] = obj.b4w_outline_on_select
     obj_data["b4w_use_default_animation"] = obj.b4w_use_default_animation
     obj_data["b4w_anim_behavior"] = obj.b4w_anim_behavior
     obj_data["b4w_animation_mixing"] = obj.b4w_animation_mixing
@@ -1298,7 +1331,7 @@ def process_object(obj, is_curve=False):
         tags = obj.b4w_object_tags
         odt = obj_data["b4w_object_tags"] = OrderedDict()
         odt["title"] = tags.title
-        odt["description"] = tags.description
+        odt["description"] = get_tags_description(tags)
         odt["category"] = tags.category
     else:
         obj_data["b4w_object_tags"] = None
@@ -1309,6 +1342,7 @@ def process_object(obj, is_curve=False):
         odt["type"] = anchor.type
         odt["detect_visibility"] = anchor.detect_visibility
         odt["element_id"] = anchor.element_id
+        odt["max_width"] = anchor.max_width
     else:
         obj_data["b4w_anchor"] = None
 
@@ -2139,6 +2173,7 @@ def process_mesh(mesh, obj_user):
     edited_normals = bool(obj_user.b4w_export_edited_normals)
     vertex_groups = bool(obj_user.vertex_groups)
     vertex_colors = bool(mesh.vertex_colors)
+    shape_keys = bool(obj_user.b4w_shape_keys) and "key_blocks" in dir(mesh.shape_keys)
 
     if obj_user.b4w_apply_scale:
         sca_obj = obj_user.scale
@@ -2152,6 +2187,33 @@ def process_mesh(mesh, obj_user):
     bounding_data = b4w_bin.calc_bounding_data(mesh_ptr);
 
     process_mesh_boundings(mesh_data, mesh, bounding_data)
+    process_mesh_shape_keys(mesh_data, obj_user, mesh)
+    if shape_keys:
+        if not mesh.shape_keys.use_relative:
+            err("Object \"" + obj_user.name + "\" has the mesh with shape keys."
+                    + " The property \"Relative\" of mesh has been enabled.")
+        obj_copy = obj_user.copy()
+        obj_copy.name = obj_user.name + "_SHAPE_KEYS"
+        bpy.context.scene.objects.link(obj_copy)
+        cur_mesh = obj_copy.data
+        obj_copy.data = mesh
+        current_active_obj = bpy.context.scene.objects.active
+        bpy.context.scene.objects.active = obj_copy
+        obj_user["b4w_shape_keys_normals"] = []
+        bpy.ops.object.mode_set(mode="EDIT")
+        for i in range(0, len(mesh.shape_keys.key_blocks)):
+            # update normals coords
+            obj_copy.active_shape_key_index = i
+            obj_copy.active_shape_key_index = i
+            for vert in mesh.vertices:
+                new_item = obj_user.b4w_shape_keys_normals.add()
+                new_item.normal = vert.normal
+        bpy.ops.object.mode_set(mode="OBJECT")
+        bpy.context.scene.objects.active = current_active_obj
+        mesh.update(calc_tessface=True)
+        obj_copy.data = cur_mesh
+        bpy.context.scene.objects.unlink(obj_copy)
+        bpy.data.objects.remove(obj_copy)
 
     # NOTE: using original mesh.materials data for c-export instead of
     # derived mesh_data["materials"]
@@ -2165,12 +2227,12 @@ def process_mesh(mesh, obj_user):
                     disab_flat = False
                 submesh_data = export_submesh(mesh, mesh_ptr, obj_user, \
                         obj_ptr, mat_index, disab_flat, vertex_animation, \
-                        edited_normals, vertex_groups, vertex_colors, \
+                        edited_normals, shape_keys, vertex_groups, vertex_colors, \
                         bounding_data)
                 mesh_data["submeshes"].append(submesh_data)
     else:
         submesh_data = export_submesh(mesh, mesh_ptr, obj_user, obj_ptr, -1, \
-                False, vertex_animation, edited_normals, vertex_groups, \
+                False, vertex_animation, edited_normals, shape_keys, vertex_groups, \
                 vertex_colors, bounding_data)
         mesh_data["submeshes"].append(submesh_data)
 
@@ -2412,7 +2474,7 @@ def rgb_channels_to_mask(channel_name):
     return mask
 
 def export_submesh(mesh, mesh_ptr, obj_user, obj_ptr, mat_index, disab_flat, \
-        vertex_animation, edited_normals, vertex_groups, vertex_colors, \
+        vertex_animation, edited_normals, shape_keys, vertex_groups, vertex_colors, \
         bounding_data):
 
     if edited_normals and len(mesh.vertices) \
@@ -2450,7 +2512,7 @@ def export_submesh(mesh, mesh_ptr, obj_user, obj_ptr, mat_index, disab_flat, \
 
     try:
         submesh = b4w_bin.export_submesh(mesh_ptr, obj_ptr, mat_index, \
-                disab_flat, vertex_animation, edited_normals, vertex_groups, \
+                disab_flat, vertex_animation, edited_normals, shape_keys, vertex_groups, \
                 vertex_colors, vc_mask_buffer, is_degenerate_mesh)
     except Exception as ex:
         raise ExportError("Incorrect mesh", mesh, str(ex))
@@ -2549,6 +2611,16 @@ def process_mesh_vertex_anim(mesh_data, obj_user):
             va_item_data["allow_nla"] = va_item.allow_nla
 
             mesh_data["b4w_vertex_anim"].append(va_item_data)
+
+def process_mesh_shape_keys(mesh_data, obj_user, mesh):
+    mesh_data["b4w_shape_keys"] = []
+
+    if obj_user and obj_user.b4w_shape_keys and "key_blocks" in dir(mesh.shape_keys):
+        for key in mesh.shape_keys.key_blocks:
+            sk_item_data = OrderedDict()
+            sk_item_data["name"] = key.name
+            sk_item_data["value"] = key.value
+            mesh_data["b4w_shape_keys"].append(sk_item_data)
 
 def process_mesh_vertex_groups(mesh_data, obj_user):
     """Only groups metadata exported here"""
@@ -2872,6 +2944,10 @@ def process_world(world):
     world_data["horizon_color"] = round_iterable(world.horizon_color, 4)
     world_data["zenith_color"] = round_iterable(world.zenith_color, 4)
 
+    world_data["use_sky_paper"] = world.use_sky_paper
+    world_data["use_sky_blend"] = world.use_sky_blend
+    world_data["use_sky_real"] = world.use_sky_real
+
     process_world_light_settings(world_data, world)
     process_world_shadow_settings(world_data, world)
     process_world_god_rays_settings(world_data, world)
@@ -2881,8 +2957,8 @@ def process_world(world):
     process_world_bloom_settings(world_data, world)
     process_world_motion_blur_settings(world_data, world)
 
-    world_data["b4w_glow_color"] = round_iterable(world.b4w_glow_color, 4)
-    world_data["b4w_glow_factor"] = round_num(world.b4w_glow_factor, 2)
+    world_data["b4w_outline_color"] = round_iterable(world.b4w_outline_color, 4)
+    world_data["b4w_outline_factor"] = round_num(world.b4w_outline_factor, 2)
     world_data["b4w_fog_color"] = round_iterable(world.b4w_fog_color, 4)
     world_data["b4w_fog_density"] = round_num(world.b4w_fog_density, 4)
 
@@ -2950,6 +3026,7 @@ def process_world_sky_settings(world_data, world):
     sky = world.b4w_sky_settings
 
     dct = world_data["b4w_sky_settings"] = OrderedDict()
+    dct["render_sky"] = sky.render_sky
     dct["reflexible"] = sky.reflexible
     dct["reflexible_only"] = sky.reflexible_only
     dct["procedural_skydome"] = sky.procedural_skydome
@@ -3296,9 +3373,6 @@ def process_node_tree(data, tree_source):
     dct = data["node_tree"] = OrderedDict()
     dct["nodes"] = []
 
-    has_normalmap_node = False
-    has_material_node  = False
-
     # node tree nodes
     for node in node_tree.nodes:
         if not validate_node(node):
@@ -3395,8 +3469,6 @@ def process_node_tree(data, tree_source):
             node_data["use_specular"] = node.use_specular
             node_data["invert_normal"] = node.invert_normal
 
-            has_material_node = True
-
         elif node.type == "MATH":
             node_data["operation"] = node.operation
             node_data["use_clamp"] = node.use_clamp
@@ -3406,11 +3478,6 @@ def process_node_tree(data, tree_source):
             node_data["use_clamp"] = node.use_clamp
 
         elif node.type == "TEXTURE":
-
-            for output in node.outputs:
-                if output.identifier == "Normal" and output.is_linked:
-                    has_normalmap_node = True
-                    break
 
             if node.texture and do_export(node.texture):
                 node_data["texture"] = gen_uuid_obj(node.texture)

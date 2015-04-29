@@ -24,10 +24,10 @@ div#control_jump {
     visibility:hidden;
 }
 
-div#control_atack {
+div#control_attack {
     position: absolute;
     right: 0px; bottom: 0px;
-    background-image: url(interface/atack.png);
+    background-image: url(interface/attack.png);
     margin:0px 10px 106px 0px;
     width: 100px;
     height: 96px;

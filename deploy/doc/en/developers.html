@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>For Application Developers &mdash; User Manual: Blend4Web v15.03</title>
+    <title>For Application Developers &mdash; User Manual: Blend4Web v15.04</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '15.03',
+        VERSION:     '15.04',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User Manual: Blend4Web v15.03" href="index.html" />
+    <link rel="top" title="User Manual: Blend4Web v15.04" href="index.html" />
     <link rel="next" title="For Engine Developers" href="developers_advanced.html" />
     <link rel="prev" title="Non-Linear Animation" href="nla.html" /> 
   </head>
@@ -36,7 +36,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">User Manual: Blend4Web v15.03</a></div>
+          href="index.html">User Manual: Blend4Web v15.04</a></div>
         <div class="rel">
           <a href="nla.html" title="Non-Linear Animation"
              accesskey="P">previous</a> |
@@ -199,8 +199,35 @@
 </li>
 </ul>
 </div>
+<div class="section" id="code-snippets">
+<span id="id4"></span><h2>Code Examples<a class="headerlink" href="#code-snippets" title="Permalink to this headline">¶</a></h2>
+<p>The SDK includes the Code Snippets application which demonstrates how to use the engine&#8217;s functionality.</p>
+<dl class="docutils">
+<dt>Currently, this application contains the following examples:</dt>
+<dd><ul class="first last simple">
+<li><p class="first">Canvas Texture - working with canvas textures</p>
+</li>
+<li><p class="first">Camera Animation - procedural camera animation</p>
+</li>
+<li><p class="first">Custom Anchors - creating custom annotations</p>
+</li>
+<li><p class="first">Dynamic Geometry - procedural geometry modification</p>
+</li>
+<li><p class="first">Gyro (Mobile Only) - working with mobile devices&#8217; gyroscopes</p>
+</li>
+<li><p class="first">Instancing - copying scene objects in runtime</p>
+</li>
+<li><p class="first">Material API - tweaking material properties and replacing objects&#8217; materials</p>
+</li>
+<li><p class="first">Morphing - using shape keys</p>
+</li>
+</ul>
+</dd>
+</dl>
+<p>The Code Snippets application is available at <tt class="docutils literal"><span class="pre">SDK/apps_dev/code_snippets/code_snippets_dev.html</span></tt>. It can be also run by using a link in the <tt class="docutils literal"><span class="pre">index.html</span></tt> file located in the SDK root.</p>
+</div>
 <div class="section" id="converter">
-<span id="id4"></span><h2>Resource Conversion<a class="headerlink" href="#converter" title="Permalink to this headline">¶</a></h2>
+<span id="id5"></span><h2>Resource Conversion<a class="headerlink" href="#converter" title="Permalink to this headline">¶</a></h2>
 <p>Existing browsers do not fully support all possible media formats, so in order to create cross-browser applications and for optimization purposes we need to use a resource converter. The conversion is performed according as follows:</p>
 <dl class="docutils">
 <dt>for audio (convert_media):</dt>
@@ -252,12 +279,13 @@
 </pre></div>
 </div>
 <p>With the -d parameter you can specify the path to a directory in which converting will take place.</p>
+<p>To exclude some directory from resource conversion, it is enough to put a file named <tt class="docutils literal"><span class="pre">.b4w_no_conv</span></tt> in it. This will not affect conversion in nested directories.</p>
 <p>The <strong>resize_textures</strong> argument is used for decreasing texture resolution for the <strong>LOW</strong> mode.</p>
 <p>The engine can use files which are manually created by a user if they have the following names: <tt class="docutils literal"><span class="pre">file_name.altconv.m4v</span></tt>, <tt class="docutils literal"><span class="pre">file_name.altconv.mp3</span></tt> and so on. Such files should be placed in the same directory as the mediafiles used in Blender.</p>
 <p>You can also use the free and cross-platform application <a class="reference external" href="http://www.mirovideoconverter.com/">Miro Video Converter</a> to convert mediafiles.</p>
 </div>
-<div class="section" id="id5">
-<h2>Module System<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id6">
+<h2>Module System<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
 <p>While the engine gives an app programmer an API in the scale of dozens of modules, it occupies a single <tt class="docutils literal"><span class="pre">b4w</span></tt> namespace. To call a module&#8217;s method import it first with the <tt class="docutils literal"><span class="pre">b4w.require</span></tt> function.</p>
 <p>It is possible to register external modules if their names do not collide with already existing modules. A module can be registered with a <tt class="docutils literal"><span class="pre">b4w.register</span></tt> call. Check if a module with some name already exists with a <tt class="docutils literal"><span class="pre">b4w.module_check</span></tt> call.</p>
 <p>Example:</p>
@@ -287,10 +315,10 @@
 </div>
 </div>
 <div class="section" id="event-model">
-<span id="id6"></span><h2>Event-Driven Model<a class="headerlink" href="#event-model" title="Permalink to this headline">¶</a></h2>
+<span id="id7"></span><h2>Event-Driven Model<a class="headerlink" href="#event-model" title="Permalink to this headline">¶</a></h2>
 <p>The event-driven model provides a universal interface for describing the 3D scene&#8217;s change of state. It simpifies the processing of physics events and user actions.</p>
 <div class="section" id="index-0">
-<span id="id7"></span><h3>Sensors<a class="headerlink" href="#index-0" title="Permalink to this headline">¶</a></h3>
+<span id="id8"></span><h3>Sensors<a class="headerlink" href="#index-0" title="Permalink to this headline">¶</a></h3>
 <p>The basic unit of the event-driven model is a sensor. A sensor is a programming entity and can only be active (1, one) or inactive (0, zero). Some sensors may carry a payload. For example the ray-tracing sensor (Ray Sensor) provides the relative length of the intersection ray.</p>
 <p id="index-1">Users cannot directly control sensors via the external API. Instead all sensors must be present in one or multiple collections - so called sensor manifolds. A manifold is a logic container associated with a scene object. It generates a response to a defined set of sensor events by executing a callback function. To define the manifold it is required to have the following information (see also the API documenation for decription of the <tt class="docutils literal"><span class="pre">controls.create_sensor_manifold()</span></tt> function):</p>
 <ul>
@@ -313,8 +341,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id8">
-<h3>Example<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id9">
+<h3>Example<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
 <p>Lets consider the task to insonify the impact of a thrown stone. A distinctive sound should be produced for impacting different media (for example terrain and wall). There are collision meshes with physical materials in the Blender scene, material ids are &#8220;TERRAIN&#8221; and &#8220;WALL&#8221;. There is also a physical object being thrown in the scene, the object is named &#8220;Stone&#8221;.</p>
 <p>Lets define a collision sensor for each medium, by the type of the sound produced.</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span class="c1">// import the modules</span>
@@ -361,7 +389,7 @@
 </div>
 </div>
 <div class="section" id="quality-settings">
-<span id="id9"></span><h2>Quality Profiles<a class="headerlink" href="#quality-settings" title="Permalink to this headline">¶</a></h2>
+<span id="id10"></span><h2>Quality Profiles<a class="headerlink" href="#quality-settings" title="Permalink to this headline">¶</a></h2>
 <p>Several quality profiles are implemented in order to support platforms with different functionality.</p>
 <blockquote>
 <div><ul class="simple">
@@ -397,7 +425,7 @@
 </div>
 </div>
 <div class="section" id="repo-file-structure">
-<span id="id10"></span><h2>SDK File Structure<a class="headerlink" href="#repo-file-structure" title="Permalink to this headline">¶</a></h2>
+<span id="id11"></span><h2>SDK File Structure<a class="headerlink" href="#repo-file-structure" title="Permalink to this headline">¶</a></h2>
 <dl class="docutils">
 <dt><strong>apps_dev</strong></dt>
 <dd><p class="first">source code of the applications (not all applications are available as a free version)</p>
@@ -575,7 +603,7 @@
 <p>The context can be obtained with the <tt class="docutils literal"><span class="pre">get_canvas_texture_context()</span></tt> function, to which a &#8220;canvas_id&#8221; identifier specified by the user in Blender is passed. After any <a class="reference external" href="http://www.w3.org/TR/2014/CR-2dcontext-20140821/">operations with the context</a> the <tt class="docutils literal"><span class="pre">update_canvas_texture_context()</span></tt> function should be executed, which performs visualization of the changes of the &#8220;canvas_id&#8221; element.</p>
 </div>
 <div class="section" id="browser-for-local-loading">
-<span id="id12"></span><h2>Setting up the Browser for Loading Local Resources<a class="headerlink" href="#browser-for-local-loading" title="Permalink to this headline">¶</a></h2>
+<span id="id13"></span><h2>Setting up the Browser for Loading Local Resources<a class="headerlink" href="#browser-for-local-loading" title="Permalink to this headline">¶</a></h2>
 <p>Since version 15.02 the Blend4Web SDK includes the <a class="reference internal" href="setup.html#local-development-server"><em>development server</em></a> to solve the problem of loading local resources. Nevertheless the following instructions can still be useful for developers.</p>
 <p>The engine&#8217;s renderer is a web application and it works when you view an HTML file in a browser. After initialization the resources (scenes, textures) are loaded. This process is subject to the <a class="reference external" href="http://en.wikipedia.org/wiki/Same-origin_policy">same-origin policy</a> rule. In particular this rule forbids loading from a local directory. A simple way to bypass this limitation is to set up the browser for loading local resources (recommended). Another way is to use a <a class="reference internal" href="#local-web-server"><em>local web server</em></a>.</p>
 <p>Setting up the browser for loading local resources can be a simple and versatile method to bypass security limitation. It is recommended to use such browsers only for viewing local content.</p>
@@ -621,7 +649,7 @@
 <a class="reference internal image-reference" href="_images/safari_setup.png"><img alt="_images/safari_setup.png" class="align-center" src="_images/safari_setup.png" style="width: 100%;" /></a>
 </div>
 <div class="section" id="local-web-server">
-<span id="id14"></span><h2>Running a Local Server<a class="headerlink" href="#local-web-server" title="Permalink to this headline">¶</a></h2>
+<span id="id15"></span><h2>Running a Local Server<a class="headerlink" href="#local-web-server" title="Permalink to this headline">¶</a></h2>
 <p>You may prefer running your own web server instead of the <a class="reference internal" href="setup.html#local-development-server"><em>development server</em></a> included in the SDK. An easy way to do this is running the web server from the standard <a class="reference external" href="http://en.wikipedia.org/wiki/Python_(programming_language)">Python</a> library.</p>
 <div class="line-block">
 <div class="line"><br /></div>
@@ -684,11 +712,11 @@
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing Effects</a></li>
-<li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System</a></li>
-<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System for Instancing Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System. Fluids</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System. Instancing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="animation.html">Animation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Rendering</a></li>
-<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Gamma Correction and Alpha Compositing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Gamma and Alpha</a></li>
 <li class="toctree-l1"><a class="reference internal" href="audio.html">Audio System</a></li>
 <li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nla.html">Non-Linear Animation</a></li>
@@ -697,8 +725,9 @@
 <li class="toctree-l2"><a class="reference internal" href="#id2">Loading a Scene into an App</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id3">Creating Apps Quickly</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#sdk">Developing Apps Within the SDK</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#code-snippets">Code Examples</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#converter">Resource Conversion</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id5">Module System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">Module System</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#event-model">Event-Driven Model</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#quality-settings">Quality Profiles</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#repo-file-structure">SDK File Structure</a></li>
@@ -743,7 +772,7 @@
           
     <div class="footer">
         &copy; Copyright 2015, Triumph LLC.
-      Last updated on 2015-03-26.
+      Last updated on 2015-04-29.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
         </div>

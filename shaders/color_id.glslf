@@ -10,8 +10,8 @@ uniform sampler2D u_sampler;
 varying vec2 v_texcoord;
 #endif
 
-#if USE_GLOW
-uniform float u_glow_intensity;
+#if USE_OUTLINE
+uniform float u_outline_intensity;
 #endif
 
 
@@ -27,8 +27,8 @@ void main(void) {
         discard;
 #endif
 
-#if USE_GLOW
-	gl_FragColor = vec4(1.0, 1.0, 1.0, u_glow_intensity);
+#if USE_OUTLINE
+	gl_FragColor = vec4(1.0, 1.0, 1.0, u_outline_intensity);
 #else
 	gl_FragColor = vec4(u_color_id, 1.0);
 #endif

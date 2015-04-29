@@ -27,7 +27,6 @@
 
 #define DU_ID(name) typedef struct name##__ { int unused; } *name
 
-DU_ID(du_world_id);
 DU_ID(du_body_id);
 DU_ID(du_shape_id);
 DU_ID(du_vehicle_tuning_id);
@@ -53,12 +52,8 @@ extern "C" {
 
 void delete_shape(btCollisionShape *shape);
 
-static void terminate(const char *msg) __attribute__((noreturn));
-
 float *du_alloc_float_array(int num);
 du_collision_result **du_realloc_collision_result_array(du_collision_result **results, int num);
-
-duWorld* get_active_world();
 
 btCollisionShape *create_mesh_shape(int indices_len, int *indices, 
         int positions_len, float *positions);
@@ -88,7 +83,7 @@ int du_search_around_body_a(du_collision_result **arr, du_body_id searched,
 int du_get_collision_result_ind(du_collision_result **results, int size,
                                 du_body_id du_body_a, du_body_id du_body_b);
 
-du_world_id _active_world = NULL;
+duWorld *_world = NULL;
 
 // NOTE: for debug purposes. Doesn't work with asm.js
 //void print(int i, void *p) {
@@ -98,39 +93,33 @@ du_world_id _active_world = NULL;
 /**
  * Initialize the new dynamics world
  */
-du_world_id du_create_world()
+void du_create_world()
 {
     btBroadphaseInterface *broadphase;
     btConstraintSolver *csolver;
     btDefaultCollisionConfiguration *cconf;
     btCollisionDispatcher *dispatcher;
 
-    duWorld *world;
-
     broadphase = new btDbvtBroadphase();
     csolver = new btSequentialImpulseConstraintSolver();
     cconf = new btDefaultCollisionConfiguration();
     dispatcher = new btCollisionDispatcher(cconf);
 
-    world = new duWorld(dispatcher, broadphase, csolver, cconf);
-
-    return reinterpret_cast <du_world_id>(world);
+    _world = new duWorld(dispatcher, broadphase, csolver, cconf);
 }
 
-void du_cleanup_world(du_world_id world)
+void du_cleanup_world()
 {
     int i;
 
-    duWorld *bt_world = reinterpret_cast <duWorld*>(world);
-
-    for (i = bt_world->getNumConstraints() - 1; i >= 0; i--) {
-        btTypedConstraint* cons = bt_world->getConstraint(i);
-        bt_world->removeConstraint(cons);
+    for (i = _world->getNumConstraints() - 1; i >= 0; i--) {
+        btTypedConstraint* cons = _world->getConstraint(i);
+        _world->removeConstraint(cons);
         delete cons;
     }
 
-    for (i = bt_world->getNumCollisionObjects() - 1; i >= 0; i--) {
-        btCollisionObject* obj = bt_world->getCollisionObjectArray()[i];
+    for (i = _world->getNumCollisionObjects() - 1; i >= 0; i--) {
+        btCollisionObject* obj = _world->getCollisionObjectArray()[i];
         btRigidBody* body = btRigidBody::upcast(obj);
 
         if (body && body->getMotionState())
@@ -139,24 +128,26 @@ void du_cleanup_world(du_world_id world)
         delete_shape(obj->getCollisionShape());
 
         // works for btRigidBody too
-        bt_world->removeCollisionObject(obj);
+        _world->removeCollisionObject(obj);
         delete obj;
     }
 
     // TODO: remove ActionInterfaces (Vehicles)
 
-    btBroadphaseInterface *broadphase = bt_world->getBroadphase();
-    btConstraintSolver *csolver = bt_world->getConstraintSolver();
-    btCollisionDispatcher *dispatcher = static_cast <btCollisionDispatcher*>(bt_world->getDispatcher());
+    btBroadphaseInterface *broadphase = _world->getBroadphase();
+    btConstraintSolver *csolver = _world->getConstraintSolver();
+    btCollisionDispatcher *dispatcher = static_cast <btCollisionDispatcher*>(_world->getDispatcher());
     btCollisionConfiguration *cconf = dispatcher->getCollisionConfiguration();
 
     // delete in reverse order
-    delete bt_world;
+    delete _world;
 
     delete dispatcher;
     delete cconf;
     delete csolver;
     delete broadphase;
+
+    _world = NULL;
 }
 
 /*
@@ -176,17 +167,6 @@ void delete_shape(btCollisionShape *shape)
     }
     
     delete shape;
-}
-
-void du_set_active_world(du_world_id id)
-{
-    _active_world = id;
-}
-
-void terminate(const char *msg) 
-{
-    printf("%s\n", msg);
-    exit(1);
 }
 
 int *du_alloc_int_array(int num) 
@@ -271,16 +251,6 @@ float *du_array6(float el0, float el1, float el2, float el3, float el4, float el
     arr[5] = el5;
 
     return arr;
-}
-
-du_world_id du_get_active_world()
-{
-    return _active_world;
-}
-
-duWorld* get_active_world()
-{
-    return reinterpret_cast <duWorld*>(_active_world);
 }
 
 du_body_id du_create_static_mesh_body(int indices_len, int *indices, 
@@ -433,6 +403,33 @@ du_shape_id du_create_empty_shape()
     return reinterpret_cast <du_shape_id>(empty);
 }
 
+const char *du_get_shape_name(du_body_id body)
+{
+    btCollisionObject *obj = reinterpret_cast <btCollisionObject*>(body);
+    btCollisionShape *shape = obj->getCollisionShape();
+
+    switch (shape->getShapeType()) {
+    case BOX_SHAPE_PROXYTYPE:
+        return "BOX";
+    case SPHERE_SHAPE_PROXYTYPE:
+        return "SPHERE";
+    case CAPSULE_SHAPE_PROXYTYPE:
+        return "CAPSULE";
+    case CONE_SHAPE_PROXYTYPE:
+        return "CONE";
+    case CYLINDER_SHAPE_PROXYTYPE:
+        return "CYLINDER";
+    case TRIANGLE_MESH_SHAPE_PROXYTYPE:
+        return "TRIANGLE_MESH";
+    case EMPTY_SHAPE_PROXYTYPE:
+        return "EMPTY";
+    case COMPOUND_SHAPE_PROXYTYPE:
+        return "COMPOUND";
+    default:
+        return "UNKNOWN";
+    }
+}
+
 void du_set_trans(du_body_id body, float tx, float ty, float tz)
 {
     btCollisionObject *bt_obj = reinterpret_cast <btCollisionObject*>(body);
@@ -577,6 +574,12 @@ void du_get_interp_data(du_body_id body, float *dest_trans, float* dest_quat,
     dest_angvel[2] = ang_vel.z();
 }
 
+float du_get_hit_fraction(du_body_id body)
+{
+    btCollisionObject *bt_obj = reinterpret_cast <btCollisionObject*>(body);
+    return bt_obj->getHitFraction();
+}
+
 du_body_id du_create_dynamic_bounding_body(du_shape_id shape, float mass, 
         float *trans, float *quat, float damping, float rotation_damping, 
         float size, float ang_fact_x, float ang_fact_y, float ang_fact_z, 
@@ -637,30 +640,26 @@ du_body_id du_create_ghost_bounding_body(du_shape_id shape, float *trans,
 }
 
 
-int du_pre_simulation(du_world_id world, float time_step, float max_sub_steps,
+int du_pre_simulation(float time_step, float max_sub_steps,
         float fixed_time_step)
 {
-    duWorld *bt_world = reinterpret_cast <duWorld*>(world);
-    return bt_world->preSimulation(time_step, max_sub_steps, fixed_time_step);
+    return _world->preSimulation(time_step, max_sub_steps, fixed_time_step);
 }
 
-float du_calc_sim_time(du_world_id world, float timeline, int step,
+float du_calc_sim_time(float timeline, int step,
         int clamped_simulation_steps)
 {
-    duWorld *bt_world = reinterpret_cast <duWorld*>(world);
-    return bt_world->calcSimTime(timeline, step, clamped_simulation_steps);
+    return _world->calcSimTime(timeline, step, clamped_simulation_steps);
 }
 
-void du_single_step_simulation(du_world_id world, float sim_time)
+void du_single_step_simulation(float fixed_time_step)
 {
-    duWorld *bt_world = reinterpret_cast <duWorld*>(world);
-    bt_world->singleStepSimulation(sim_time);
+    _world->singleStepSimulation(fixed_time_step);
 }
 
-void du_post_simulation(du_world_id world)
+void du_post_simulation()
 {
-    duWorld *bt_world = reinterpret_cast <duWorld*>(world);
-    bt_world->postSimulation();
+    _world->postSimulation();
 }
 
 du_cons_id du_create_generic_6dof_constraint(du_body_id body_a, 
@@ -823,16 +822,14 @@ int du_cons_param_stop_erp() {
 
 void du_add_constraint(du_cons_id cons, bool disable_linked_collisions)
 {
-    duWorld *world = get_active_world();
     btTypedConstraint *bt_cons = reinterpret_cast <btTypedConstraint*>(cons);
-    world->addConstraint(bt_cons, disable_linked_collisions);
+    _world->addConstraint(bt_cons, disable_linked_collisions);
 }
 
 void du_remove_constraint(du_cons_id cons)
 {
-    duWorld *world = get_active_world();
     btTypedConstraint *bt_cons = reinterpret_cast <btTypedConstraint*>(cons);
-    world->removeConstraint(bt_cons);
+    _world->removeConstraint(bt_cons);
 }
 
 du_vehicle_tuning_id du_create_vehicle_tuning(float suspensionCompression, 
@@ -860,8 +857,7 @@ du_vehicle_id du_create_vehicle(du_body_id chassis, du_vehicle_tuning_id tuning)
 
     btRigidBody *bt_chassis = reinterpret_cast <btRigidBody*>(chassis);
 
-    duWorld *world = get_active_world();
-    btVehicleRaycaster *raycaster = new btDefaultVehicleRaycaster(world);
+    btVehicleRaycaster *raycaster = new btDefaultVehicleRaycaster(_world);
 
     btRaycastVehicle *vehicle = new btRaycastVehicle(*bt_tuning, bt_chassis,
             raycaster);
@@ -1037,8 +1033,7 @@ void du_check_collisions(du_collision_result **results, int size)
 
     du_reset_collision_results(results, size);
 
-    duWorld *world = get_active_world();
-    btDispatcher *dispatcher = world->getDispatcher();
+    btDispatcher *dispatcher = _world->getDispatcher();
 
     int num_manifolds = dispatcher->getNumManifolds();
 
@@ -1093,8 +1088,7 @@ float du_check_collision_impulse(du_body_id du_body)
 {
     btCollisionObject *bt_body = reinterpret_cast <btCollisionObject*>(du_body);
 
-    duWorld *world = get_active_world();
-    btDispatcher *dispatcher = world->getDispatcher();
+    btDispatcher *dispatcher = _world->getDispatcher();
 
     int num_manifolds = dispatcher->getNumManifolds();
 
@@ -1158,8 +1152,6 @@ protected:
 float du_check_ray_hit(du_body_id du_body_a, float *from, float *to, bool local,
         du_body_id du_body_b_arr[], int du_body_b_num, du_body_id *du_body_b_hit_ptr)
 {
-    duWorld *world = get_active_world();
-
     btCollisionObject *bt_body_a = reinterpret_cast <btCollisionObject*>(du_body_a);
     btCollisionObject **bt_body_b_arr = reinterpret_cast <btCollisionObject**>(du_body_b_arr);
 
@@ -1182,7 +1174,7 @@ float du_check_ray_hit(du_body_id du_body_a, float *from, float *to, bool local,
     }
 
     ClosestArrayRayResultCallback ray_cb(bt_body_b_arr, du_body_b_num);
-    world->rayTest(bt_from_w, bt_to_w, ray_cb);
+    _world->rayTest(bt_from_w, bt_to_w, ray_cb);
 
     if (ray_cb.hasHit()) {
         *du_body_b_hit_ptr = (du_body_id)ray_cb.m_collisionObject;
@@ -1195,8 +1187,6 @@ float du_check_ray_hit(du_body_id du_body_a, float *from, float *to, bool local,
 
 void du_add_body(du_body_id body, int collision_group, int collision_mask)
 {
-    duWorld *world = get_active_world();
-
     btCollisionObject *bt_colobj = reinterpret_cast <btCollisionObject*>(body);
     btRigidBody *bt_body = btRigidBody::upcast(bt_colobj);
 
@@ -1206,30 +1196,26 @@ void du_add_body(du_body_id body, int collision_group, int collision_mask)
         collision_mask = btBroadphaseProxy::AllFilter;
 
     if (bt_body)
-        world->addRigidBody(bt_body, collision_group, collision_mask);
+        _world->addRigidBody(bt_body, collision_group, collision_mask);
     else
-        world->addCollisionObject(bt_colobj, collision_group, collision_mask);
+        _world->addCollisionObject(bt_colobj, collision_group, collision_mask);
 }
 
 void du_remove_body(du_body_id body)
 {
-    duWorld *world = get_active_world();
-
     btCollisionObject *obj = reinterpret_cast <btCollisionObject*>(body);
     // works for btRigidBody too
-    world->removeCollisionObject(obj);
+    _world->removeCollisionObject(obj);
 }
 
 void du_add_action(du_action_id action)
 {
-    duWorld *world = get_active_world();
-    world->addAction(reinterpret_cast <btActionInterface*>(action));
+    _world->addAction(reinterpret_cast <btActionInterface*>(action));
 }
 
 void du_remove_action(du_action_id action)
 {
-    duWorld *world = get_active_world();
-    world->removeAction(reinterpret_cast <btActionInterface*>(action));
+    _world->removeAction(reinterpret_cast <btActionInterface*>(action));
 }
 
 void du_activate(du_body_id body)

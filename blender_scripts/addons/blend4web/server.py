@@ -1,10 +1,14 @@
 import bpy
-import os
-import webbrowser
 from bpy.props import StringProperty
-from http.server import HTTPServer, SimpleHTTPRequestHandler
-import threading, sys
+
+import datetime
+import sys
+import threading
 import time
+import webbrowser
+
+import tornado.httpserver
+import tornado.web
 
 WAIT_RESPONSE               = -1
 SUB_THREAD_START_SERV_OK    = 0
@@ -14,7 +18,9 @@ SUB_THREAD_OTHER_EXC        = 3
 MAIN_THREAD_START_EXC       = 4
 MAIN_THREAD_STOP_EXC        = 5
 
-WAITING_TIME = 15000
+ADDRESS = "localhost"
+DEFAULT_FILENAME = "index.html"
+WAITING_TIME = 10
 
 class B4WServerMessage(bpy.types.Operator):
     bl_idname = "b4w.server_message"
@@ -47,7 +53,7 @@ class B4WOpenSDK(bpy.types.Operator):
    
     def execute(self, context):
         port = bpy.context.user_preferences.addons[__package__].preferences.b4w_port_number
-        open_browser("http://localhost:" + str(port))
+        open_browser("http://" + ADDRESS + ":" + str(port))
         return {"FINISHED"}
 
 class StopThread(StopIteration): pass
@@ -81,6 +87,7 @@ class B4WStartServer(bpy.types.Operator):
     server = None
     def execute(self, context):
         B4WStartServer.server_status = WAIT_RESPONSE
+
         if not B4WStartServer.server_process:
             B4WStartServer.server_process = B4WServerThread(target=create_server)
             B4WStartServer.server_process.daemon = True
@@ -96,7 +103,8 @@ class B4WStartServer(bpy.types.Operator):
             B4WStartServer.waiting_for_serv = True
             try:
                 if B4WStartServer.server is not None:
-                    B4WStartServer.server.shutdown()
+                    B4WStartServer.server.stop()
+                    tornado.ioloop.IOLoop.instance().stop()
                 B4WStartServer.server_process.stop()
                 B4WStartServer.server_process = None
                 B4WStartServer.server = None
@@ -105,9 +113,12 @@ class B4WStartServer(bpy.types.Operator):
                 B4WStartServer.waiting_for_serv = False
                 bpy.ops.b4w.server_message("INVOKE_DEFAULT", 
                         message="Server stopping error: " + str(ex))
+
         begin_time = time.time()
         while B4WStartServer.server_status == WAIT_RESPONSE:
             if time.time() - begin_time > WAITING_TIME:
+                B4WStartServer.waiting_for_serv = False
+                B4WStartServer.server_status = SUB_THREAD_STOP_SERV_OK
                 break
 
         if B4WStartServer.server_status == SUB_THREAD_SERVER_EXC:
@@ -127,17 +138,30 @@ class B4WStartServer(bpy.types.Operator):
 
         return {"FINISHED"}
 
+class StaticFileHandlerNoCache(tornado.web.StaticFileHandler):
+    def set_extra_headers(self, path):
+        # Disable cache
+        self.set_header("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0")
+        self.set_header("Expires", "0")
+        now = datetime.datetime.now()
+        exp = datetime.datetime(now.year - 1, now.month, now.day)
+        self.set_header("Last-Modified", exp)
+
 def create_server():
     port = bpy.context.user_preferences.addons[__package__].preferences.b4w_port_number
-    src_path = bpy.context.user_preferences.addons[__package__].preferences.b4w_src_path
-    cur_dir = os.curdir
-    os.chdir(src_path)
+    root = bpy.context.user_preferences.addons[__package__].preferences.b4w_src_path
+
+    application = tornado.web.Application([
+        (r"/(.*)$", StaticFileHandlerNoCache, 
+                { "path": root, "default_filename": DEFAULT_FILENAME}),
+    ])
 
     try:
-        B4WStartServer.server = HTTPServer(('', port), SimpleHTTPRequestHandler)
+        B4WStartServer.server = tornado.httpserver.HTTPServer(application)
+        B4WStartServer.server.listen(port, address=ADDRESS)
         B4WStartServer.server_status = SUB_THREAD_START_SERV_OK
         print("serving at port", port)
-        B4WStartServer.server.serve_forever()
+        tornado.ioloop.IOLoop.instance().start()
 
         print("stop serving at port", port)
         B4WStartServer.waiting_for_serv = False
@@ -151,9 +175,9 @@ def create_server():
         B4WStartServer.waiting_for_serv = False
         B4WStartServer.server_status = SUB_THREAD_STOP_SERV_OK
     except BaseException as ex:
+        B4WStartServer.server_process = None
         B4WStartServer.server_status = SUB_THREAD_OTHER_EXC
         B4WStartServer.error_message = str(ex)
-    os.chdir(cur_dir)
 
 def register(): 
     bpy.utils.register_class(B4WStartServer)
@@ -164,4 +188,3 @@ def unregister():
     bpy.utils.unregister_class(B4WStartServer)
     bpy.utils.unregister_class(B4WOpenSDK)
     bpy.utils.unregister_class(B4WServerMessage)
-

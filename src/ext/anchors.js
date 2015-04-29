@@ -2,9 +2,7 @@
 
 /**
  * Anchors API.
- * @name anchors
- * @namespace
- * @exports exports as scenes
+ * @module anchors
  * @local anchor_move_callback
  */
 b4w.module["anchors"] = function(exports, require) {

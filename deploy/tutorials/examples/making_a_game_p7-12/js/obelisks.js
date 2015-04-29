@@ -86,8 +86,11 @@ function change_gems_num(id, num) {
         emitt_shutters(gem_trans, gem_quat);
     }
     _obelisk_stones_num[id] += num;
+    check_capture(id);
+}
 
-
+exports.check_capture = check_capture;
+function check_capture(id) {
     if (is_filled(id) && !m_golems.island_has_golems(id)) {
         var isl_dupli_names = m_conf.ISLES_SHIELD_DUPLI_NAME_LIST;
         isl_dupli_names[2] = "island_shield_" + id;

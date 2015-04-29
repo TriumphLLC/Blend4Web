@@ -18,13 +18,17 @@ var m_phy   = require("physics");
 var m_print = require("print");
 var m_scs   = require("scenes");
 var m_util  = require("util");
-var m_main   = require("main");
+var m_main  = require("main");
 
 var FPS_MOUSE_MULT = 0.0004;
 var DRAG_MOUSE_DELTA_MULT = 2;
 
 var CAM_SMOOTH_CHARACTER_MOUSE = 0.1;
 var CAM_SMOOTH_CHARACTER_TOUCH = 0.2; // unused
+
+var PLS_NONE = 0;
+var PLS_POINTERLOCK = 1;
+var PLS_DRAG = 2;
 
 // mouse drag control
 var _mouse_x = 0;
@@ -37,6 +41,8 @@ var _vec2_tmp = new Float32Array(2);
 var _use_mouse_control_cb = null;
 
 var _chosen_object = null;
+
+var _plock_state = PLS_NONE;
 
 /**
  * Callback which allows user to specify whether the camera/character movement
@@ -73,6 +79,10 @@ var _chosen_object = null;
  */
 exports.request_pointerlock = function(elem, enabled_cb, disabled_cb,
         mouse_move_cb, use_mouse_control_cb) {
+
+    if (_plock_state == PLS_POINTERLOCK)
+        return;
+    _plock_state = PLS_POINTERLOCK;
 
     enabled_cb  = enabled_cb  || function() {};
     disabled_cb = disabled_cb || function() {};
@@ -114,6 +124,7 @@ exports.request_pointerlock = function(elem, enabled_cb, disabled_cb,
             
             elem.removeEventListener("mousemove", mouse_move_cb, false);
 
+            _plock_state = PLS_NONE;
             document.removeEventListener("pointerlockchange", on_pointerlock_change, false);
             document.removeEventListener("webkitpointerlockchange", on_pointerlock_change, false);
             document.removeEventListener("mozpointerlockchange", on_pointerlock_change, false);
@@ -141,6 +152,9 @@ exports.request_pointerlock = function(elem, enabled_cb, disabled_cb,
  */
 exports.exit_pointerlock = exit_pointerlock;
 function exit_pointerlock() {
+
+    if (_plock_state == PLS_POINTERLOCK)
+        _plock_state = PLS_NONE;
 
     var exit_plock = document.exitPointerLock || document.webkitExitPointerLock ||
         document.mozExitPointerLock;
@@ -174,6 +188,10 @@ exports.check_pointerlock = function(elem) {
 exports.request_mouse_drag = request_mouse_drag;
 function request_mouse_drag(elem, use_mouse_control_cb) {
 
+    if (_plock_state == PLS_DRAG)
+        return;
+    _plock_state = PLS_DRAG;
+
     exit_pointerlock();
 
     _use_mouse_control_cb = use_mouse_control_cb || function() {return true};
@@ -198,6 +216,8 @@ function request_mouse_drag(elem, use_mouse_control_cb) {
  */
 exports.exit_mouse_drag = exit_mouse_drag;
 function exit_mouse_drag(elem) {
+    if (_plock_state == PLS_DRAG)
+        _plock_state = PLS_NONE;
     elem.removeEventListener("mousedown", drag_mouse_down_cb, false);
     elem.removeEventListener("mouseup",   drag_mouse_up_cb,   false);
     elem.removeEventListener("mousemove", drag_mouse_move_cb, false);
@@ -251,42 +271,69 @@ function smooth_cb(obj, id, pulse) {
     }
 }
 /**
- * Enable objects glow by mouse hover.
+ * Enable objects outlining by mouse hover.
+ * @method module:mouse.enable_mouse_hover_outline
+ */
+exports.enable_mouse_hover_outline = enable_mouse_hover_outline;
+function enable_mouse_hover_outline() {
+    if (!m_main.detect_mobile()) {
+        var main_canvas = m_main.get_canvas_elem();
+        main_canvas.addEventListener("mousemove", objects_outline);
+    }
+}
+
+/**
+ * Enable objects outlining by mouse hover.
  * @method module:mouse.enable_mouse_hover_glow
+ * @deprecated use enable_mouse_hover_outline() instead
  */
 exports.enable_mouse_hover_glow = enable_mouse_hover_glow;
 function enable_mouse_hover_glow() {
+    m_print.error("enable_mouse_hover_glow() deprecated, use enable_mouse_hover_outline() instead");
+    enable_mouse_hover_outline();
+}
+
+/**
+ * Disable objects outlining by mouse hover.
+ * @method module:mouse.disable_mouse_hover_outline
+ */
+exports.disable_mouse_hover_outline = disable_mouse_hover_outline;
+function disable_mouse_hover_outline() {
     if (!m_main.detect_mobile()) {
         var main_canvas = m_main.get_canvas_elem();
-        main_canvas.addEventListener("mousemove", objects_glow);
+        main_canvas.removeEventListener("mousemove", objects_outline);
+        if (_chosen_object)
+            m_scs.set_outline_intensity(_chosen_object, 0);
     }
 }
+
 /**
- * Disable objects glow by mouse hover.
+ * Disable objects outlining by mouse hover.
  * @method module:mouse.disable_mouse_hover_glow
+ * @deprecated use disable_mouse_hover_outline() instead
  */
 exports.disable_mouse_hover_glow = disable_mouse_hover_glow;
 function disable_mouse_hover_glow() {
-    if (!m_main.detect_mobile()) {
-        var main_canvas = m_main.get_canvas_elem();
-        main_canvas.removeEventListener("mousemove", objects_glow);
-        if (_chosen_object)
-            m_scs.set_glow_intensity(_chosen_object, 0);
-    }
+    m_print.error("disable_mouse_hover_glow() deprecated, use disable_mouse_hover_outline() instead");
+    disable_mouse_hover_outline();
 }
 
-function objects_glow(event) {
+function objects_outline(event) {
     var x = get_coords_x(event);
     var y = get_coords_y(event);
+    
+
     var obj = m_scs.pick_object(x, y);
 
+    
     if (obj) {
-        m_scs.set_glow_intensity(obj, 1);
-        if (_chosen_object && obj != _chosen_object)
-            m_scs.set_glow_intensity(_chosen_object, 0);
+        if (m_scs.outlining_is_enabled(obj))
+            m_scs.set_outline_intensity(obj, 1);
+        if (m_scs.outlining_is_enabled(_chosen_object) && obj != _chosen_object)
+            m_scs.set_outline_intensity(_chosen_object, 0);
     } else
-        if (_chosen_object)
-            m_scs.set_glow_intensity(_chosen_object, 0);
+        if (m_scs.outlining_is_enabled(_chosen_object))
+            m_scs.set_outline_intensity(_chosen_object, 0);
     _chosen_object = obj;
 }
 /**

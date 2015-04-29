@@ -115,7 +115,7 @@
             <dd><?js if (n.summary) { ?><?js= n.summary ?><?js } ?></dd>
         <?js }); ?></dl>
     <?js } ?>
-
+    <h2>Summary</h2>
     <?js
         var members = self.find({kind: 'member', memberof: isGlobalPage ? {isUndefined: true} : doc.longname});
 
@@ -128,7 +128,57 @@
         if (members && members.length && members.forEach) {
     ?>
         <h3 class="subsection-title">Members</h3>
+        <ul>
+        <?js members.forEach(function(p) { ?>
+            <?js= self.partial('list.tmpl', p) ?>
+        <?js }); ?>
+        </ul>
+    <?js } ?>
+    <?js
+        var methods = self.find({kind: 'function', memberof: isGlobalPage ? {isUndefined: true} : doc.longname});
+        if (methods && methods.length && methods.forEach) {
+    ?>
+        <h3 class="subsection-title">Methods</h3>
+        <ul>
+        <?js methods.forEach(function(m) { ?>
+            <?js= self.partial('list.tmpl', m) ?>
+        <?js }); ?>
+        </ul>
+    <?js } ?>
+    <?js
+        var typedefs = self.find({kind: 'typedef', memberof: isGlobalPage ? {isUndefined: true} : doc.longname});
+        if (typedefs && typedefs.length && typedefs.forEach) {
+    ?>
+        <h3 class="subsection-title">Type Definitions</h3>
 
+        <ul>
+        <?js typedefs.forEach(function(e) {
+                if (e.signature) {
+            ?>
+                <?js= self.partial('list.tmpl', e) ?>
+            <?js
+                }
+                else {
+            ?>
+                <?js= self.partial('list.tmpl', e) ?>
+            <?js
+                }
+            }); ?>
+        </ul>
+    <?js } ?>
+    <h2>Detailed Description</h2>
+    <?js
+        var members = self.find({kind: 'member', memberof: isGlobalPage ? {isUndefined: true} : doc.longname});
+
+        // symbols that are assigned to module.exports are not globals, even though they're not a memberof anything
+        if (isGlobalPage && members && members.length && members.forEach) {
+            members = members.filter(function(m) {
+                return m.longname && m.longname.indexOf('module:') !== 0;
+            });
+        }
+        if (members && members.length && members.forEach) {
+    ?>
+        <h3 class="subsection-title">Members</h3>
         <?js members.forEach(function(p) { ?>
             <?js= self.partial('members.tmpl', p) ?>
         <?js }); ?>
@@ -139,7 +189,6 @@
         if (methods && methods.length && methods.forEach) {
     ?>
         <h3 class="subsection-title">Methods</h3>
-
         <?js methods.forEach(function(m) { ?>
             <?js= self.partial('method.tmpl', m) ?>
         <?js }); ?>

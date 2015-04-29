@@ -13,6 +13,7 @@ var m_util = require("__util");
 var m_cam  = require("__camera");
 
 var m_vec3 = require("vec3");
+var m_vec4 = require("vec4");
 var m_quat = require("quat");
 var m_mat3 = require("mat3");
 var m_mat4 = require("mat4");
@@ -30,6 +31,7 @@ var CONS_TYPE_SEMI_STIFF_CAM_OBJ  = 10;
 var CONS_TYPE_CHILD_OF            = 11;
 var CONS_TYPE_SEMI_SOFT_CAM_OBJ   = 12;
 var CONS_TYPE_STIFF_TRANS_ROT_OBJ = 13;
+var CONS_TYPE_STIFF_VIEWPORT      = 14;
 
 exports.CONS_TYPE_STIFF_OBJ = CONS_TYPE_STIFF_OBJ;
 exports.CONS_TYPE_STIFF_BONE = CONS_TYPE_STIFF_BONE;
@@ -44,7 +46,10 @@ exports.CONS_TYPE_SEMI_STIFF_CAM_OBJ = CONS_TYPE_SEMI_STIFF_CAM_OBJ;
 exports.CONS_TYPE_CHILD_OF = CONS_TYPE_CHILD_OF;
 exports.CONS_TYPE_SEMI_SOFT_CAM_OBJ = CONS_TYPE_SEMI_SOFT_CAM_OBJ;
 exports.CONS_TYPE_STIFF_TRANS_ROT_OBJ = CONS_TYPE_STIFF_TRANS_ROT_OBJ;
+exports.CONS_TYPE_STIFF_VIEWPORT = CONS_TYPE_STIFF_VIEWPORT;
 
+var _vec2_tmp   = new Float32Array(2);
+var _vec2_tmp_2 = new Float32Array(2);
 var _vec3_tmp   = new Float32Array(3);
 var _vec3_tmp_2 = new Float32Array(3);
 var _vec3_tmp_3 = new Float32Array(3);
@@ -57,10 +62,7 @@ var _mat3_tmp   = new Float32Array(9);
 var _mat3_tmp2  = new Float32Array(9);
 var _tsr8_tmp   = new Float32Array(8);
 
-var CONS_ROTATE_LIMIT = 9 * Math.PI / 10;
-exports.CONS_ROTATE_LIMIT = CONS_ROTATE_LIMIT;
-
-var CAMERA_DIST_CLAMPING_ERROR = 1E-3;
+var _parent_y_axis = new Float32Array(3);
 
 /**
  * Apply stiff-to-object constraint.
@@ -142,16 +144,19 @@ exports.append_semi_stiff_cam_obj = function(obj, obj_parent, offset,
 
     cons.parent_prev_rotation = new Float32Array(p_quat);
 
-    cons.clamp_left = clamp_left;
-    cons.clamp_right = clamp_right;
-    cons.clamp_up = clamp_up;
-    cons.clamp_down = clamp_down;
+    cons.clamp_left = m_util.angle_wrap_0_2pi(clamp_left);
+    cons.clamp_right = m_util.angle_wrap_0_2pi(clamp_right);
+    cons.clamp_up = m_util.angle_wrap_periodic(clamp_up, -Math.PI, Math.PI);
+    cons.clamp_down = m_util.angle_wrap_periodic(clamp_down, -Math.PI, Math.PI);
 
-    // override initial rotation for object
     if (rotation_offset) {
+        cons.rotation_offset = new Float32Array(rotation_offset);
+
+        // override initial rotation for object
         m_quat.copy(rotation_offset, quat);
         m_quat.multiply(p_quat, quat, quat);
-    }
+    } else
+        cons.rotation_offset = m_quat.create();
 
     apply_cons(obj, cons);
     update_cons(obj, cons, 0);
@@ -311,6 +316,49 @@ exports.append_child_of = function(obj, obj_parent, tsr_offset) {
     update_cons(obj, cons, 0);
 }
 
+exports.append_stiff_viewport = function(obj, camobj, positioning) {
+    var cons = init_cons(CONS_TYPE_STIFF_VIEWPORT);
+
+    cons.obj_parent = camobj;
+
+    if ("left" in positioning) {
+        cons.left_edge = true;
+        cons.left_right_dist = positioning["left"];
+    } else if ("right" in positioning) {
+        cons.left_edge = false;
+        cons.left_right_dist = positioning["right"];
+    } else {
+        m_print.error("append_stiff_viewport: Wrong positioning params");
+        return;
+    }
+
+    if ("top" in positioning) {
+        cons.top_edge = true;
+        cons.top_bottom_dist = positioning["top"];
+    } else if ("bottom" in positioning) {
+        cons.top_edge = false;
+        cons.top_bottom_dist = positioning["bottom"];
+    } else {
+        m_print.error("append_stiff_viewport: Wrong positioning params");
+        return;
+    }
+
+    if ("distance" in positioning) {
+        cons.distance = positioning["distance"];
+    } else {
+        m_print.error("append_stiff_viewport: Wrong positioning params");
+        return;
+    }
+
+    if ("rotation" in positioning) {
+        cons.rotation_offset = new Float32Array(positioning["rotation"]);
+    } else
+        cons.rotation_offset = null;
+
+    apply_cons(obj, cons);
+    update_cons(obj, cons, 0);
+}
+
 /**
  * Executed frequently.
  */
@@ -376,11 +424,7 @@ function update_cons(obj, cons, elapsed) {
         m_vec3.transformMat4(cons.offset, p_world_matrix, trans);
         m_quat.copy(p_quat, cons.parent_prev_rotation)
 
-        clamp_angles(obj, cons);
-        if (obj._render.type == "CAMERA") {
-            var p_y_axis = m_vec3.transformQuat(m_util.AXIS_Y, p_quat, _vec3_tmp_2);
-            correct_up(obj, p_y_axis);
-        }
+        clamp_orientation(obj, cons);
 
         break;
     case CONS_TYPE_SEMI_SOFT_CAM_OBJ:
@@ -432,8 +476,6 @@ function update_cons(obj, cons, elapsed) {
         var t_trans = cons.obj_parent._render.trans;
 
         rotate_to(trans, quat, t_trans);
-        if (obj._render.type == "CAMERA")
-            correct_up(obj, m_util.AXIS_Y);
         break;
     case CONS_TYPE_TRACK_POINT:
         var trans = obj._render.trans;
@@ -441,8 +483,6 @@ function update_cons(obj, cons, elapsed) {
         var t_trans = cons.target;
 
         rotate_to(trans, quat, t_trans);
-        if (obj._render.type == "CAMERA")
-            correct_up(obj, m_util.AXIS_Y);
         break;
 
     case CONS_TYPE_FOLLOW_OBJ:
@@ -450,8 +490,7 @@ function update_cons(obj, cons, elapsed) {
         var quat = obj._render.quat;
         var t_trans = cons.obj_parent._render.trans;
 
-        rotate_to_limits(trans, quat, t_trans, cons.offset_min, 
-                CONS_ROTATE_LIMIT);
+        rotate_to(trans, quat, t_trans);
 
         // shrink distance
         var dist = m_vec3.dist(trans, t_trans);
@@ -471,9 +510,6 @@ function update_cons(obj, cons, elapsed) {
             m_vec3.scale(_vec3_tmp, delta, _vec3_tmp);
             m_vec3.add(trans, _vec3_tmp, trans);
         }
-
-        if (obj._render.type == "CAMERA")
-            correct_up(obj, m_util.AXIS_Y);
 
         break;
     case CONS_TYPE_FOLLOW_POINT:
@@ -481,8 +517,7 @@ function update_cons(obj, cons, elapsed) {
         var quat = obj._render.quat;
         var t_trans = cons.target;
 
-        rotate_to_limits(trans, quat, t_trans, cons.offset_min, 
-                CONS_ROTATE_LIMIT);
+        rotate_to(trans, quat, t_trans);
 
         // shrink distance
         var dist = m_vec3.dist(trans, t_trans);
@@ -503,8 +538,6 @@ function update_cons(obj, cons, elapsed) {
             m_vec3.add(trans, _vec3_tmp, trans);
         }
 
-        if (obj._render.type == "CAMERA")
-            correct_up(obj, m_util.AXIS_Y);
         break;
     case CONS_TYPE_STIFF_TRANS_OBJ:
         var p_world_matrix = cons.obj_parent._render.world_matrix;
@@ -552,73 +585,84 @@ function update_cons(obj, cons, elapsed) {
         quat[3] = ptsr[7];
 
         break;
+    case CONS_TYPE_STIFF_VIEWPORT:
+        var camobj = cons.obj_parent;
+        var cam = m_cam.get_first_cam(camobj);
+
+        var trans = obj._render.trans;
+
+        var top = m_cam.get_edge(cam, "TOP");
+        var bottom = m_cam.get_edge(cam, "BOTTOM");
+        var height = top - bottom;
+
+        if (cons.left_edge) {
+            var left = m_cam.get_edge(cam, "LEFT");
+            trans[0] = left + height * cons.left_right_dist;
+        } else {
+            var right = m_cam.get_edge(cam, "RIGHT");
+            trans[0] = right - height * cons.left_right_dist;
+        }
+
+        // in the camera's local space (not view space)
+        if (cons.top_edge)
+            trans[2] = -(top - height * cons.top_bottom_dist);
+        else
+            trans[2] = -(bottom + height * cons.top_bottom_dist);
+
+        // NOTE: ortho cameras have scaling problems
+        if (m_cam.is_ortho(cam)) {
+            trans[1] = -cons.distance;
+        } else {
+            trans[1] = -1;
+            m_vec3.normalize(trans, trans);
+            var scale = cons.distance/Math.abs(trans[1]);
+            m_vec3.scale(trans, scale, trans);
+        }
+
+        m_tsr.transform_dir_vec3(trans, camobj._render.tsr, trans);
+        m_vec3.add(camobj._render.trans, trans, trans);
+
+        var quat = obj._render.quat;
+
+        if (cons.rotation_offset) {
+            m_quat.copy(cons.rotation_offset, quat);
+            m_quat.multiply(camobj._render.quat, quat, quat);
+        } else
+            m_quat.copy(camobj._render.quat, quat);
+
+        break;
     default:
         break;
     }
+
+    if (obj._render.type == "CAMERA") {
+        var corr_axis = m_util.AXIS_Y;
+        if (cons.type == CONS_TYPE_SEMI_STIFF_CAM_OBJ) {
+            var p_quat = cons.obj_parent._render.quat;
+            corr_axis = m_vec3.transformQuat(corr_axis, p_quat, _parent_y_axis);
+        }
+
+        m_cam.update_camera_upside_down(obj);
+        correct_up(obj, corr_axis);
+    }
 }
 
-function clamp_angles(obj, cons) {
-
+/**
+ * uses _vec2_tmp, _vec2_tmp_2, _quat4_tmp
+ */
+function clamp_orientation(obj, cons) {
     var quat = obj._render.quat;
     var p_quat = cons.obj_parent._render.quat;
 
-    var y_world_cam = m_vec3.transformQuat(m_util.AXIS_Y, quat, _vec3_tmp);
-    var p_quat_inv = m_quat.invert(p_quat, _quat4_tmp);
+    var quat_base = m_quat.multiply(p_quat, cons.rotation_offset, _quat4_tmp);
+    var base_angles = m_cam.get_camera_angles_from_quat(quat_base, _vec2_tmp);
+    var curr_angles = m_cam.get_camera_angles_from_quat(quat, _vec2_tmp_2);
 
-    var y_cam_parent = m_vec3.transformQuat(y_world_cam, p_quat_inv,
-            _vec3_tmp_2);
-
-    var y_world_cam_proj = _vec3_tmp_3;
-    y_world_cam_proj[0] = y_cam_parent[0];
-    y_world_cam_proj[1] = 0;
-    y_world_cam_proj[2] = y_cam_parent[2];
-
-    var y_world_cam_proj_length = m_vec3.length(y_world_cam_proj);
-
-    // inverse direction of z component
-    var cos_phi = -y_world_cam_proj[2] / y_world_cam_proj_length;
-    var phi = Math.acos(cos_phi) * m_util.sign(y_world_cam_proj[0]);
-
-    var cos_theta = y_world_cam_proj_length / m_vec3.length(y_cam_parent);
-    var theta = Math.acos(cos_theta) * m_util.sign(y_cam_parent[1]);
-
-    var is_clamped = false;
-    // clamping current angles
-    if (phi < -cons.clamp_left) {
-        phi = -cons.clamp_left;
-        is_clamped = true;
-    }
-    if (phi > cons.clamp_right) {
-        phi = cons.clamp_right;
-        is_clamped = true;
-    }
-    if (theta < -cons.clamp_up) {
-        theta = -cons.clamp_up;
-        is_clamped = true;
-    }
-    if (theta > cons.clamp_down) {
-        theta = cons.clamp_down;
-        is_clamped = true;
-    }
-
-    if (is_clamped) {
-        var sin_theta = Math.sin(theta);
-        var cos_theta = Math.cos(theta);
-        var sin_phi = Math.sin(phi);
-        var cos_phi = Math.cos(phi);
-
-        var y_world_cam_new = _vec3_tmp_2;
-        y_world_cam_new[0] = cos_theta * sin_phi;
-        y_world_cam_new[1] = sin_theta;
-        y_world_cam_new[2] = -cos_theta * cos_phi;
-
-        m_vec3.transformQuat(y_world_cam_new, p_quat, y_world_cam_new);
-        var clamp_rotation = m_quat.rotationTo(y_world_cam, y_world_cam_new,
-                _quat4_tmp);
-
-        m_quat.multiply(clamp_rotation, quat, quat);
-        m_quat.normalize(quat, quat);
-    }
+    var d_phi = m_util.calc_returning_angle(curr_angles[0], 
+            base_angles[0] + cons.clamp_right, base_angles[0] + cons.clamp_left);
+    var d_theta = m_util.calc_returning_angle(curr_angles[1], 
+            base_angles[1] + cons.clamp_down, base_angles[1] + cons.clamp_up);
+    m_cam.rotate_eye_camera(obj, d_phi, d_theta);
 }
 
 /**
@@ -634,36 +678,10 @@ function rotate_to(trans, quat, target) {
     m_vec3.subtract(target, trans, dir_to);
     m_vec3.normalize(dir_to, dir_to);
 
-    var rotation = _vec4_tmp;
-    m_util.rotation_to_stable(dir_from, dir_to, rotation);
+    var rotation = m_util.rotation_to_stable(dir_from, dir_to, _vec4_tmp);
 
     m_quat.multiply(rotation, quat, quat);
-}
-
-/**
- * Apply rotation to quat only for limited angles considering overshooting
- * case (minimum distance clamping)
- * uses _vec3_tmp, _vec3_tmp_2
- */
-exports.rotate_to_limits = rotate_to_limits;
-function rotate_to_limits(trans, quat, target, min_distance, limit_angle) {
-    var dir_from = _vec3_tmp;
-    m_util.quat_to_dir(quat, m_util.AXIS_MY, dir_from);
-    m_vec3.normalize(dir_from, dir_from);
-
-    var dir_to = _vec3_tmp_2;
-    m_vec3.subtract(target, trans, dir_to);
-    var dist = m_vec3.length(dir_to);
-
-    m_vec3.normalize(dir_to, dir_to);
-
-    // do not rotate camera closer than minimum distance
-    // considering standard calculation errors
-    if (dist > min_distance - CAMERA_DIST_CLAMPING_ERROR) {
-        var rotation = m_util.rotation_to_stable(dir_from, dir_to, _vec4_tmp);
-        m_quat.multiply(rotation, quat, quat);
-        m_quat.normalize(quat, quat);
-    }
+    m_quat.normalize(quat, quat);
 }
 
 /**
@@ -723,19 +741,13 @@ function correct_up(camobj, y_axis) {
         m_vec3.normalize(x_cam_world_new, x_cam_world_new);
 
         if (render.move_style == m_cam.MS_TARGET_CONTROLS) {
-            if (render.target_cam_upside_down) {
-                x_cam_world_new[0] *= -1;
-                x_cam_world_new[1] *= -1;
-                x_cam_world_new[2] *= -1;
-            }
+            if (render.target_cam_upside_down)
+                m_vec3.negate(x_cam_world_new, x_cam_world_new);
         } else {
-            // Y coord of local camera Z axis in world space
+            // Y coord of local camera Z axis in parent(!) space
             var z_cam_world = m_util.quat_to_dir(render.quat, m_util.AXIS_Z, _vec3_tmp_3);
-            if (z_cam_world[1] > 0) {
-                x_cam_world_new[0] *= -1;
-                x_cam_world_new[1] *= -1;
-                x_cam_world_new[2] *= -1;
-            }
+            if (m_vec3.dot(z_cam_world, y_axis) > 0)
+                m_vec3.negate(x_cam_world_new, x_cam_world_new);
         }
 
         var x_cam_world = m_util.quat_to_dir(render.quat, m_util.AXIS_X, _vec3_tmp_3);
@@ -753,8 +765,15 @@ function correct_up(camobj, y_axis) {
     }
 
     m_quat.multiply(rotation, quat, quat);
+    m_cam.update_camera_upside_down(camobj);
 }
 
+exports.check_constraint = function(obj) {
+    if (obj._constraint)
+        return true;
+    else
+        return false;
+}
 /**
  * Remove object constraint
  */
@@ -775,9 +794,6 @@ exports.get_type = function(obj) {
         return null;
 }
 
-/**
- * NOTE: unused
- */
 exports.get_parent = function(obj) {
     if (obj._constraint && obj._constraint.obj_parent)
         return obj._constraint.obj_parent;

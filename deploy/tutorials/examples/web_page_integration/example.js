@@ -15,7 +15,6 @@ exports.init = function() {
         callback: init_cb,
         physics_enabled: false,
         alpha: true,
-        context_antialias: true,
         report_init_failure: false
     });
 }

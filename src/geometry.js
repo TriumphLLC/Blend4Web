@@ -21,6 +21,7 @@ var _vec3_tmp2 = new Float32Array(3);
 var _vec3_tmp3 = new Float32Array(3);
 
 var MAX_SUBMESH_LENGTH = 256*256;
+var BINARY_FLOAT_SIZE = 4;
 
 var COMB_SORT_JUMP_COEFF = 1.247330950103979;
 
@@ -44,6 +45,9 @@ exports.DM_POINTS            = 20;
 exports.DM_DYNAMIC_TRIANGLES = 30;
 exports.DM_DYNAMIC_POINTS    = 40;
 exports.DM_LINES             = 50;
+
+exports.SORT_NUMERIC = 0;
+exports.SORT_STRING = 1;
 
 exports.DM_DEFAULT = exports.DM_TRIANGLES;
 
@@ -83,8 +87,9 @@ exports.submesh_to_bufs_data = function(submesh, zsort_type, draw_mode, vc_usage
     for (var attr_name in submesh.va_common)
         if (!(attr_name in vc_usage) || vc_usage[attr_name].generate_buffer)
             va_common[attr_name] = submesh.va_common[attr_name];
-
     var bufs_data = init_bufs_data();
+    if (submesh.shape_keys.length > 0)
+        submesh_init_shape_keys(submesh, va_frames[0]);
     generate_bufs_data_arrays(bufs_data, indices, va_frames, va_common, base_length);
     update_draw_mode(bufs_data, draw_mode);
     update_gl_buffers(bufs_data);
@@ -107,7 +112,36 @@ exports.submesh_to_bufs_data = function(submesh, zsort_type, draw_mode, vc_usage
         };
     }
 
+    bufs_data.shape_keys = submesh.shape_keys;
+
     return bufs_data;
+}
+
+function submesh_init_shape_keys(submesh, frame) {
+
+    for (var i = 1; i < submesh.shape_keys.length; i++) {
+
+        var geometry = submesh.shape_keys[i].geometry;
+
+        var a_pos = geometry["a_position"];
+        var a_nor = geometry["a_normal"];
+
+        var f_a_pos = frame["a_position"];
+        var f_a_nor = frame["a_normal"];
+
+        var pos_nor_length = a_pos.length;
+        var value = submesh.shape_keys[i].init_value;
+
+        for (var j = 0; j < pos_nor_length; j++) {
+            f_a_pos[j] += value * a_pos[j];
+            f_a_nor[j] += value * a_nor[j];
+        }
+        var a_tan = geometry["a_tangent"];
+        var f_a_tan = frame["a_tangent"];
+        var tan_length = a_tan.length;
+        for (var j = 0; j < tan_length; j++)
+            f_a_tan[j] += value * a_tan[j];
+    }
 }
 
 exports.is_long_submesh = is_long_submesh;
@@ -166,7 +200,6 @@ function submesh_drop_indices(submesh, count, is_manually_dropped) {
     for (var name in va_common) {
         var arr = va_common[name];
         var nc = num_comp(arr, base_length);
-
         va_common[name] = expand_vertex_array_i(indices, arr, nc);
     }
 
@@ -177,8 +210,20 @@ function submesh_drop_indices(submesh, count, is_manually_dropped) {
 
             var arr = va_frame[name];
             var nc = num_comp(arr, base_length);
-
             va_frame[name] = expand_vertex_array_i(indices, arr, nc);
+        }
+    }
+
+    for (var i = 0; i < submesh.shape_keys.length; i++) {
+
+        var geometry = submesh.shape_keys[i].geometry;
+
+        for (var att_name in geometry) {
+
+            var arr = geometry[att_name];
+
+            var nc = num_comp(arr, base_length);
+            geometry[att_name] = expand_vertex_array_i(indices, arr, nc);
         }
     }
 
@@ -243,7 +288,8 @@ function init_bufs_data() {
         debug_vbo_bytes: 0,
         vbo: null,
         ibo: null,
-        info_for_z_sort_updates: null
+        info_for_z_sort_updates: null,
+        shape_keys: null
     }
 }
 
@@ -622,9 +668,9 @@ function submesh_list_join(submeshes) {
     // indices
     var i_offset = 0;
     var v_ind_offset = 0;
+    var keys = {};
     for (var i = 0; i < submeshes.length; i++) {
         var submesh = submeshes[i];
-
         var indices = submesh.indices;
         var base_length = submesh.base_length;
         var va_common = submesh.va_common;
@@ -660,6 +706,24 @@ function submesh_list_join(submeshes) {
         v_ind_offset += base_length;
     }
 
+    if (new_submesh.shape_keys.length > 0)
+        for (var i = 0; i < new_submesh.shape_keys.length; i++) {
+            var geometry = new_submesh.shape_keys[i].geometry;
+            var a_pos_offset = 0;
+            var a_nor_offset = 0;
+            var a_tan_offset = 0;
+
+            for (var j = 0; j < submeshes.length; j++) {
+                var cur_key_geom = submeshes[j].shape_keys[i].geometry;
+                geometry["a_position"].set(cur_key_geom["a_position"], a_pos_offset);
+                geometry["a_normal"].set(cur_key_geom["a_normal"], a_nor_offset);
+                geometry["a_tangent"].set(cur_key_geom["a_tangent"], a_tan_offset);
+                a_pos_offset += cur_key_geom["a_position"].length;
+                a_nor_offset += cur_key_geom["a_normal"].length;
+                a_tan_offset += cur_key_geom["a_tangent"].length;
+            }
+        }
+
     return new_submesh;
 }
 
@@ -673,6 +737,32 @@ function submesh_list_join_prepare_dest(submeshes) {
     for (var i = 0; i < submeshes.length; i++)
         len += submeshes[i].indices.length;
     new_submesh.indices = new Uint32Array(len);
+
+    var pos_len = 0;
+    var nor_len = 0;
+    var tan_len = 0;
+
+    if (submeshes[0].shape_keys.length > 0) {
+        for (var j = 0; j < submeshes[0].shape_keys.length; j++) {
+            for (var i = 0; i < submeshes.length; i++) {
+                pos_len += submeshes[i].shape_keys[j].geometry["a_position"].length;
+                nor_len += submeshes[i].shape_keys[j].geometry["a_normal"].length;
+                tan_len += submeshes[i].shape_keys[j].geometry["a_tangent"].length;
+            }
+
+            var geometry = {
+                "a_position" : new Float32Array(pos_len),
+                "a_normal" : new Float32Array(nor_len),
+                "a_tangent" : new Float32Array(tan_len)
+            };
+
+            var key = {
+                init_value : submeshes[0].shape_keys[j].init_value,
+                geometry : geometry
+            };
+            new_submesh.shape_keys.push(key);
+        }
+    }
 
     len = 0;
     for (var i = 0; i < submeshes.length; i++)
@@ -701,7 +791,6 @@ function submesh_list_join_prepare_dest(submeshes) {
             new_submesh.va_frames[i][param_name] = new Float32Array(len);
         }
     }
-
     return new_submesh;
 }
 
@@ -826,6 +915,7 @@ function extract_submesh(mesh, material_index, attr_names, bone_pointers,
 
     submesh.base_length = base_length;
 
+    var use_shape_keys = false;
     // TEXTURE COORDS
     if (has_attr(attr_names, "a_texcoord"))
         var texcoords = extract_texcoords(mesh, material_index);
@@ -868,7 +958,6 @@ function extract_submesh(mesh, material_index, attr_names, bone_pointers,
     submesh.indices = new Uint32Array(bsub["indices"]);
 
     // POSITION/NORMAL/TANGENT
-
     var frames = bsub["position"].length / base_length / POS_NUM_COMP;
 
     // position always needed?
@@ -889,44 +978,32 @@ function extract_submesh(mesh, material_index, attr_names, bone_pointers,
     else
         var use_orco_coords = false;
 
+    if (mesh["b4w_shape_keys"].length > 0)
+        use_shape_keys = true;
+
     for (var i = 0; i < frames; i++) {
-        var va_frame = {};
-
-        var pos_arr = new Float32Array(base_length * POS_NUM_COMP);
-        var nor_arr = new Float32Array(use_normal ? base_length * NOR_NUM_COMP : 0);
-        var tan_arr = new Float32Array((use_tangent || use_orco_coords) ? base_length * TAN_NUM_COMP : 0);
-
-        var from_index = i * base_length * POS_NUM_COMP;
-        var to_index = from_index + base_length * POS_NUM_COMP;
-        pos_arr.set(bsub["position"].subarray(from_index, to_index), 0);
-
-        if (use_normal) {
-            var from_index = i * base_length * NOR_NUM_COMP;
-            var to_index = from_index + base_length * NOR_NUM_COMP;
-            nor_arr.set(bsub["normal"].subarray(from_index, to_index), 0);
+        var va_frame = create_frame(submesh, bsub, attr_names, base_length, use_normal,
+                use_tangent, use_orco_coords, i);
+        if (use_shape_keys) {
+            var sk_frame = {};
+            sk_frame.name = mesh["b4w_shape_keys"][i]["name"];
+            submesh.shape_keys.push(sk_frame);
+            if (i != 0) {
+                sk_frame.geometry = va_frame;
+                sk_frame.init_value = mesh["b4w_shape_keys"][i]["value"];
+                continue;
+            } else {
+                // NOTE: create new object for base shape key geometry
+                sk_frame.geometry = create_frame(submesh, bsub, attr_names, base_length, use_normal,
+                        use_tangent, use_orco_coords, i);
+                sk_frame.init_value = 1;
+            }
         }
-
-        if (use_tangent) {
-            var from_index = i * base_length * TAN_NUM_COMP;
-            var to_index = from_index + base_length * TAN_NUM_COMP;
-            tan_arr.set(bsub["tangent"].subarray(from_index, to_index), 0);
-        } else if (use_orco_coords) {
-            generate_orco_tangents(nor_arr, tan_arr, base_length, mesh["name"]);
-        } else if (use_normal && has_attr(attr_names, "a_tangent")) {
-            var tan_arr = new Float32Array(base_length * TAN_NUM_COMP);
-            for (var i = 0; i < tan_arr.length; i++)
-                tan_arr[i] = 1.0;
-        }
-
-        va_frame["a_position"] = pos_arr;
-        va_frame["a_normal"] = nor_arr;
-        va_frame["a_tangent"] = tan_arr;
-
         submesh.va_frames.push(va_frame);
     }
 
     // store first frame copy for possible cyclic vertex anim
-    if (frames > 1) {
+    if (frames > 1 && !use_shape_keys) {
         var va_frame0 = submesh.va_frames[0];
         var va_frame = {};
 
@@ -942,6 +1019,44 @@ function extract_submesh(mesh, material_index, attr_names, bone_pointers,
     }
 
     return submesh;
+}
+
+function create_frame(submesh, bsub, attr_names, base_length, use_normal,
+        use_tangent, use_orco_coords, frame_index) {
+
+    var va_frame = {};
+
+    var pos_arr = new Float32Array(base_length * POS_NUM_COMP);
+    var nor_arr = new Float32Array(use_normal ? base_length * NOR_NUM_COMP : 0);
+    var tan_arr = new Float32Array((use_tangent || use_orco_coords) ? base_length * TAN_NUM_COMP : 0);
+
+    var from_index = frame_index * base_length * POS_NUM_COMP;
+    var to_index = from_index + base_length * POS_NUM_COMP;
+    pos_arr.set(bsub["position"].subarray(from_index, to_index), 0);
+
+    if (use_normal) {
+        var from_index = frame_index * base_length * NOR_NUM_COMP;
+        var to_index = from_index + base_length * NOR_NUM_COMP;
+        nor_arr.set(bsub["normal"].subarray(from_index, to_index), 0);
+    }
+
+    if (use_tangent) {
+        var from_index = frame_index * base_length * TAN_NUM_COMP;
+        var to_index = from_index + base_length * TAN_NUM_COMP;
+        tan_arr.set(bsub["tangent"].subarray(from_index, to_index), 0);
+    } else if (use_orco_coords) {
+        generate_orco_tangents(nor_arr, tan_arr, base_length, mesh["name"]);
+    } else if (use_normal && has_attr(attr_names, "a_tangent")) {
+        var tan_arr = new Float32Array(base_length * TAN_NUM_COMP);
+        for (var i = 0; i < tan_arr.length; i++)
+            tan_arr[i] = 1.0;
+    }
+
+    va_frame["a_position"] = pos_arr;
+    va_frame["a_normal"] = nor_arr;
+    va_frame["a_tangent"] = tan_arr;
+
+    return va_frame;
 }
 
 function extract_texcoords(mesh, material_index) {
@@ -1284,7 +1399,7 @@ function get_vertex_influences(vertex_groups, groups_num, vert_index, base_lengt
         return res_buf;
 
     // sort in descending order by weights
-    sort_two_arrays(weights_buf, bones_buf, false);
+    sort_two_arrays(weights_buf, bones_buf, exports.SORT_NUMERIC, false);
 
     // normalize weights (in case they were not normalized by author)
     var sum_weights = 0;
@@ -1348,7 +1463,7 @@ exports.update_buffers_movable = function(bufs_data, world_matrix, eye) {
     compute_triangle_medians(indices, positions, median_cache);
     m_util.positions_multiply_matrix(median_cache, world_matrix, median_world_cache);
 
-    compute_triangle_dists(median_cache, eye, dist_cache);
+    compute_triangle_dists(median_world_cache, eye, dist_cache);
     var indices = sort_triangles(dist_cache, indices);
 
     // bind and update IBO
@@ -1447,7 +1562,7 @@ function sort_triangles(dists, indices) {
 }
 
 exports.sort_two_arrays = sort_two_arrays;
-function sort_two_arrays(main_arr, extra_arr, ascending) {
+function sort_two_arrays(main_arr, extra_arr, type, ascending) {
     var arr_length = main_arr.length;
     var gap = arr_length;
     var swapped = false;
@@ -1462,7 +1577,11 @@ function sort_two_arrays(main_arr, extra_arr, ascending) {
         swapped = false;
 
         for (var i = 0; gap + i < arr_length; i++) {
-            if (order_factor * (main_arr[i] - main_arr[i + gap]) < 0) {
+            if (type == exports.SORT_NUMERIC)
+                var condition = order_factor * (main_arr[i] - main_arr[i + gap]) < 0;
+            else
+                var condition = main_arr[i] < main_arr[i + gap] && ascending;
+            if (condition) {
 
                 tmp = main_arr[i];
                 main_arr[i] = main_arr[i + gap];
@@ -1896,6 +2015,125 @@ exports.scale_submesh_xyz = function(submesh, scale, center) {
         positions[i + 1] = (positions[i + 1] - center[1]) * scale[1] + center[1];
         positions[i + 2] = (positions[i + 2] - center[2]) * scale[2] + center[2];
     }
+}
+
+exports.apply_shape_key = function(obj, key_name, new_value) {
+
+    var batches = obj._batches;
+    var data = obj._render.shape_keys_values;
+
+    for (var i = 1; i < data.length; i++)
+        if (data[i]["name"] == key_name)
+            data[i]["value"] = new_value;
+
+    for (var i = 0; i < batches.length; i++) {
+
+        if (batches[i].forked_batch || !batches[i].use_shape_keys || batches[i].debug_sphere)
+            continue;
+
+        var pointers = batches[i].bufs_data.pointers;
+        var vbo_array = batches[i].bufs_data.vbo_array;
+        var vbo = batches[i].bufs_data.vbo;
+        _gl.bindBuffer(_gl.ARRAY_BUFFER, vbo);
+
+        if (pointers["a_position"]) {
+            var pos_offset = pointers["a_position"].offset;
+            var pos_length = pointers["a_position"].length + pos_offset;
+            var pos = batches[i].bufs_data.shape_keys[0].geometry["a_position"];
+            for (var j = pos_offset; j < pos_length; j++)
+                vbo_array[j] = pos[j - pos_offset];
+            for (var k = 1; k < batches[i].bufs_data.shape_keys.length; k++) {
+                var positions = batches[i].bufs_data.shape_keys[k].geometry["a_position"];
+                var value = data[k]["value"];
+                if (!value)
+                    continue;
+                for (var j = pos_offset; j < pos_length; j++)
+                    vbo_array[j] +=  value * positions[j - pos_offset];
+            }
+            _gl.bufferSubData(_gl.ARRAY_BUFFER, BINARY_FLOAT_SIZE * pos_offset, vbo_array.subarray(pos_offset));
+        }
+        if (pointers["a_normal"]) {
+            var nor_offset = pointers["a_normal"].offset;
+            var nor_length = pointers["a_normal"].length + nor_offset;
+            var nor = batches[i].bufs_data.shape_keys[0].geometry["a_normal"];
+            for (var j = nor_offset; j < nor_length; j++)
+                vbo_array[j] = nor[j - nor_offset];
+            for (var k = 1; k < batches[i].bufs_data.shape_keys.length; k++) {
+                var normals = batches[i].bufs_data.shape_keys[k].geometry["a_normal"];
+                var value = data[k]["value"];
+                if (!value)
+                    continue;
+                for (var j = nor_offset; j < nor_length; j++)
+                    vbo_array[j] += value * normals[j - nor_offset];
+            }
+            normalize_buffer(vbo_array, nor_offset, nor_length, 3, 2);
+            _gl.bufferSubData(_gl.ARRAY_BUFFER, BINARY_FLOAT_SIZE * nor_offset, vbo_array.subarray(nor_offset));
+        }
+        if (pointers["a_tangent"]) {
+            var tan_offset = pointers["a_tangent"].offset;
+            var tan_length = pointers["a_tangent"].length + tan_offset;
+            var tan = batches[i].bufs_data.shape_keys[0].geometry["a_tangent"];
+            for (var j = tan_offset; j < tan_length; j++)
+                vbo_array[j] = tan[j - tan_offset];
+            for (var k = 1; k < batches[i].bufs_data.shape_keys.length; k++) {
+                var tangents = batches[i].bufs_data.shape_keys[k].geometry["a_tangent"];
+                var value = data[k]["value"];
+                if (!value)
+                    continue;
+                for (var j = tan_offset; j < tan_length; j++)
+                    vbo_array[j] += value * tangents[j - tan_offset];
+            }
+            normalize_buffer(vbo_array, tan_offset, tan_length, 4, 3);
+            _gl.bufferSubData(_gl.ARRAY_BUFFER, BINARY_FLOAT_SIZE * tan_offset, vbo_array.subarray(tan_offset));
+        }
+    }
+}
+
+
+function normalize_buffer(buffer, offset, buf_len, vec_len, rest) {
+    var len = buf_len - offset;
+    for (var i = 0; i < len; i = i + vec_len) {
+        if (i % vec_len == rest)
+            vec3.normalize(buffer.subarray(i + offset - rest, i + offset + 1), 
+                    buffer.subarray(i + offset - rest, i + offset + 1));
+    }
+}
+
+exports.check_shape_keys = function(obj) {
+    return obj._render.use_shape_keys;
+}
+
+exports.get_shape_keys_names = function(obj) {
+    var shape_keys_names = [];
+    if (obj._render)
+        for (var i = 1; i < obj._render.shape_keys_values.length; i++) {
+            shape_keys_names.push(obj._render.shape_keys_values[i]["name"]);
+        }
+    return shape_keys_names;
+}
+
+exports.get_shape_key_value = function(obj, key_name) {
+    if (obj._render)
+        for (var i = 1; i < obj._render.shape_keys_values.length; i++)
+            if (key_name == obj._render.shape_keys_values[i]["name"])
+                return obj._render.shape_keys_values[i]["value"];
+    return 0;
+}
+
+exports.has_shape_key = function(obj, key_name) {
+    var shape_keys = obj._render.shape_keys_values;
+    if (shape_keys)
+        for (var i = 1; i < shape_keys.length; i++)
+            if (shape_keys[i]["name"] == key_name)
+                return true;
+    return false;
+}
+
+exports.has_dyn_geom = function(obj) {
+    if (obj && obj._render && obj._render.dynamic_geometry)
+        return true;
+    else
+        return false;
 }
 
 }

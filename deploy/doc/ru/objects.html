@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Объекты &mdash; Руководство пользователя: Blend4Web v15.03</title>
+    <title>Объекты &mdash; Руководство пользователя: Blend4Web v15.04</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '15.03',
+        VERSION:     '15.04',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v15.03" href="index.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v15.04" href="index.html" />
     <link rel="next" title="Камера" href="camera.html" />
     <link rel="prev" title="Аддон" href="addon.html" /> 
   </head>
@@ -37,7 +37,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">Руководство пользователя: Blend4Web v15.03</a></div>
+          href="index.html">Руководство пользователя: Blend4Web v15.04</a></div>
         <div class="rel">
           <a href="addon.html" title="Аддон"
              accesskey="P">назад</a> |
@@ -124,8 +124,16 @@
 <dd>Применить модификаторы объекта при экспорте. При наличии модификатора <tt class="docutils literal"><span class="pre">SKIN</span></tt> рекомендуется применить его перед экспортом, т.к. он сбрасывает слои вертексных цветов и UV-текстур, что может привести к ошибкам экспорта.</dd>
 <dt><em>Blend4Web &gt; Export Vertex Animation</em></dt>
 <dd>Экспортировать предварительно созданную и сохраненную вертексную анимацию. Актуально только для объектов типа <tt class="docutils literal"><span class="pre">MESH</span></tt>.</dd>
+<dt><em>Blend4Web &gt; Export Shape Keys</em></dt>
+<dd>Экспортировать ключи деформации. Актуально только для объектов типа <tt class="docutils literal"><span class="pre">MESH</span></tt>.</dd>
 <dt><em>Blend4Web &gt; Export Edited Normals</em></dt>
 <dd>Экспортировать предварительно отредактированные и сохраненные нормали. Актуально только для объектов типа <tt class="docutils literal"><span class="pre">MESH</span></tt>.</dd>
+</dl>
+<div class="admonition note">
+<p class="first admonition-title">Примечание</p>
+<p class="last">Свойства <em>Apply Scale</em>, <em>Apply Modifiers</em>, <em>Export Vertex Animation</em>, <em>Export Edited Normals</em> и <em>Export Shape Keys</em> взаимоисключают друг друга.</p>
+</div>
+<dl class="docutils">
 <dt><em>Blend4Web &gt; Animation &gt; Use Default</em></dt>
 <dd>Начать воспроизведение в движке связанной с объектом анимации.</dd>
 <dt><em>Blend4Web &gt; Animation &gt; Animation blending</em></dt>
@@ -166,8 +174,9 @@
 <dt><em>Blend4Web &gt; Wind Bending</em></dt>
 <dd>Включить процедурную анимацию под действием ветра.</dd>
 <dt><em>Blend4Web &gt; Selectable</em></dt>
-<dd>Разрешить выделение объекта с помощью мыши или другого устройства ввода, а
-также его подсвечивание (<a class="reference internal" href="postprocessing_effects.html#glow"><em>эффект Glow</em></a>).</dd>
+<dd>Разрешить <a class="reference internal" href="#selection"><em>выделение объекта</em></a> с помощью мыши или другого устройства ввода.</dd>
+<dt><em>Blend4Web &gt; Enable Outlining</em></dt>
+<dd>Разрешить подсвечивание объекта (<a class="reference internal" href="postprocessing_effects.html#outline"><em>эффект Outline</em></a>).</dd>
 </dl>
 <dl class="docutils" id="objects-billboarding-properties">
 <dt><em>Blend4Web &gt; Billboard</em></dt>
@@ -191,7 +200,9 @@
 <dt><em>Blend4Web &gt; Tags &gt; Category</em></dt>
 <dd>Категория объекта.</dd>
 <dt><em>Blend4Web &gt; Tags &gt; Description</em></dt>
-<dd>Описание объекта.</dd>
+<dd>Описание объекта. В зависимости от значения  опции <tt class="docutils literal"><span class="pre">Description</span> <span class="pre">Source</span></tt> в это поле заносится либо текст описания непосредственно, либо имя файла, в котором содержится описание.</dd>
+<dt><em>Blend4Web &gt; Tags &gt; Description Source</em></dt>
+<dd>Тип (источник) описания объекта: текст либо файл с текстом.</dd>
 </dl>
 </dd>
 <dt><em>Blend4Web &gt; Anchor &gt; Enable Anchor</em></dt>
@@ -201,6 +212,8 @@
 <dd>Тип якоря. Аннотация (<tt class="docutils literal"><span class="pre">Annotation</span></tt>) - информация из мета-тегов объектов отображается в раскрывающихся информационных окнах стандартного дизайна. Элемент (<tt class="docutils literal"><span class="pre">Custom</span> <span class="pre">Element</span></tt>) - в качестве якоря можно назначить произвольный HTML-элемент с текущей веб-страницы. Общий (<tt class="docutils literal"><span class="pre">Generic</span></tt>) - якорь, положение которого можно определить с помощью API модуля <em>anchors</em>.</dd>
 <dt><em>Blend4Web &gt; Anchor &gt; Detect Visibility</em></dt>
 <dd>Определять видимость якоря, т.е. реагировать на перекрытие объекта-якоря другими объектами. Активация опции приводит к падению производельности рендеринга и должна рассматриваться только в случае реальной необходимости.</dd>
+<dt><em>Blend4Web &gt; Anchor &gt; Max Width</em></dt>
+<dd>Используется для якорей-аннотаций. Ограничить всплывающее информационное окно аннотации выбранным значением (в CSS пикселях).</dd>
 </dl>
 </dd>
 </dl>
@@ -212,7 +225,7 @@
 <div class="line"><br /></div>
 </div>
 <dl class="docutils">
-<dt><em>Blend4Web &gt; Detect collisions</em></dt>
+<dt><em>Blend4Web &gt; Detect Collisions</em></dt>
 <dd>Активировать связанную с объектом физику.</dd>
 <dt><em>Blend4Web &gt; Floating</em></dt>
 <dd>Сделать объект плавучим. Подробное описание настроек плавучих объектов можно
@@ -336,8 +349,16 @@
 </div>
 </div>
 </div>
-<div class="section" id="copy-obj">
-<span id="id8"></span><h2>Копирование объектов (инстансинг)<a class="headerlink" href="#copy-obj" title="Ссылка на этот заголовок">¶</a></h2>
+<div class="section" id="tsr">
+<span id="copy-obj"></span><h2>Перемещение с помощью векторов TSR<a class="headerlink" href="#tsr" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Удобным способом управления перемещением объектов является использование специальных векторов, имеющих следующий формат:</p>
+<blockquote>
+<div><span class="math">\([T_x, T_y, T_z, S, R_x, R_y, R_z, R_w]\)</span></div></blockquote>
+<p>Здесь <span class="math">\(T_x, T_y, T_z\)</span> - компоненты вектора перемещения, <span class="math">\(S\)</span> - масштаб, <span class="math">\(R_x, R_y, R_z, R_w\)</span> - компоненты кватерниона поворота. Отсюда следует название вектора: TSR или TSR-8.</p>
+<p>Для работы с данными векторами существует специальный модуль <cite>tsr</cite>, а также методы <cite>set_tsr()</cite>/<cite>get_tsr()</cite> модуля <cite>transform</cite>.</p>
+</div>
+<div class="section" id="id8">
+<h2>Копирование объектов (инстансинг)<a class="headerlink" href="#id8" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Часто возникает необходимость копирования объектов (инстансинг) во время работы приложения.</p>
 <dl class="docutils">
 <dt>Существует ряд ограничений на копируемые объекты:</dt>
@@ -378,6 +399,45 @@
 </div>
 </div>
 </div>
+<div class="section" id="selection">
+<span id="id12"></span><h2>Выделение объектов<a class="headerlink" href="#selection" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Чтобы разрешить выделение конкретного объекта, необходимо установить флаг <tt class="docutils literal"><span class="pre">Selectable</span></tt> в панели <tt class="docutils literal"><span class="pre">Object</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span></tt>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Примечание</p>
+<p class="last">Следует убедится в том, что в панели <tt class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span></tt> поле <tt class="docutils literal"><span class="pre">Enable</span> <span class="pre">Object</span> <span class="pre">Select</span></tt> установлено в состояние <tt class="docutils literal"><span class="pre">YES</span></tt> или <tt class="docutils literal"><span class="pre">AUTO</span></tt>.</p>
+</div>
+<p>Выделение объекта возможно программно через API, например, в модуле <tt class="docutils literal"><span class="pre">scenes.js</span></tt> имеется функция <tt class="docutils literal"><span class="pre">pick_object</span></tt>, которая по координатам в canvas&#8217;е выделяет объект,</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
+<span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">clientX</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">y</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">clientY</span><span class="p">;</span>
+
+<span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">pick_object</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">);</span>
+<span class="c1">// ...</span>
+</pre></div>
+</div>
+<p>или с использованием <a class="reference internal" href="nla.html#nla-select-play"><em>NLA-скрипта</em></a>.</p>
+<p>Если для выделяемого объекта в панели <tt class="docutils literal"><span class="pre">Object</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span></tt> установлены флаги <tt class="docutils literal"><span class="pre">Enable</span> <span class="pre">Outlining</span></tt> и <tt class="docutils literal"><span class="pre">Outline</span> <span class="pre">on</span> <span class="pre">Select</span></tt>, то вызов функции <tt class="docutils literal"><span class="pre">pick_object</span></tt> приведет к активации <a class="reference internal" href="postprocessing_effects.html#outline"><em>Outline-анимации</em></a>.</p>
+</div>
+<div class="section" id="morphing">
+<span id="id13"></span><h2>Морфинг<a class="headerlink" href="#morphing" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Для создания ключей деформации (опорных фигур) перейдите во вкладку <tt class="docutils literal"><span class="pre">Mesh</span> <span class="pre">&gt;</span> <span class="pre">Shape</span> <span class="pre">keys</span></tt>.</p>
+<img alt="_images/morphing.png" class="align-center" src="_images/morphing.png" />
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>Движком поддерживаются все опции типа &#8220;Relative&#8221; для ключей деформации.</p>
+<p>Для изменения значения ключа деформации, существует функция <tt class="docutils literal"><span class="pre">apply_shape_key</span></tt> в модуле <tt class="docutils literal"><span class="pre">geometry.js</span></tt>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Примечание</p>
+<p class="last">На объекте должно стоять свойство <em>Export Shape Keys</em>.</p>
+</div>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
+<span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="nx">m_scenes</span><span class="p">.</span><span class="nx">get_object_by_name</span><span class="p">(</span><span class="s2">&quot;Object&quot;</span><span class="p">);</span>
+<span class="nx">m_geometry</span><span class="p">.</span><span class="nx">apply_shape_key</span><span class="p">(</span><span class="nx">obj</span><span class="p">,</span> <span class="s2">&quot;Key 1&quot;</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">);</span>
+<span class="c1">// ...</span>
+</pre></div>
+</div>
+</div>
 </div>
 
 
@@ -402,7 +462,10 @@
 <li class="toctree-l2"><a class="reference internal" href="#id4">Настройка</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#index-0">Управление перемещением объектов</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#index-1">Кватернионы</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#copy-obj">Копирование объектов (инстансинг)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tsr">Перемещение с помощью векторов TSR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id8">Копирование объектов (инстансинг)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#selection">Выделение объектов</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#morphing">Морфинг</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="camera.html">Камера</a></li>
@@ -411,8 +474,8 @@
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Нодовые материалы</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lighting.html">Освещение, тени и фон</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Постпроцессинговые эффекты</a></li>
-<li class="toctree-l1"><a class="reference internal" href="particles.html">Система частиц</a></li>
-<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Система частиц для инстансинга объектов</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles.html">Система частиц. Флюиды</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Система частиц. Инстансинг</a></li>
 <li class="toctree-l1"><a class="reference internal" href="animation.html">Анимация</a></li>
 <li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Рендеринг наружных сцен</a></li>
 <li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Гамма-коррекция и альфа-композитинг</a></li>
@@ -456,7 +519,7 @@
           
     <div class="footer">
         &copy; Copyright 2015, ООО &#34;Триумф&#34;.
-      Обновлено: 2015-03-26.
+      Обновлено: 2015-04-29.
       Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
         </div>

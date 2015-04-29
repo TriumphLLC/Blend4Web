@@ -44,6 +44,21 @@ With some exceptions specified below, make sure that the objects are dynamic.</d
 
         
             
+<div class="item_container">
+<div class="item_name">
+
+</div>
+<div class="item_description">
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -101,19 +116,8 @@ With some exceptions specified below, make sure that the objects are dynamic.</d
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
     
     </div>
@@ -127,16 +131,128 @@ With some exceptions specified below, make sure that the objects are dynamic.</d
      
 
     
-
+    <h2>Summary</h2>
     
         <h3 class="subsection-title">Members</h3>
+        <ul>
+        
+            
+<li> <a href="#.SPACE_LOCAL">SPACE_LOCAL</a></li>
 
         
             
-<h4 class="name" id=".SPACE_LOCAL"><span class="type-signature">(static, constant) </span>SPACE_LOCAL<span class="type-signature"></span></h4>
+<li> <a href="#.SPACE_WORLD">SPACE_WORLD</a></li>
 
+        
+        </ul>
+    
+    
+        <h3 class="subsection-title">Methods</h3>
+        <ul>
+        
+            
+<li> <a href="#.distance">distance<span class="signature">(obj1, obj2)</span><span class="type-signature"> &rarr; {Number}</span></a></li>
 
+        
+            
+<li> <a href="#.empty_reset_transform">empty_reset_transform<span class="signature">(obj)</span><span class="type-signature"></span></a></li>
 
+        
+            
+<li> <a href="#.get_object_bounding_box">get_object_bounding_box<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Object}</span></a></li>
+
+        
+            
+<li> <a href="#.get_object_center">get_object_center<span class="signature">(obj, calc_bs_center, dest<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Float32Array}</span></a></li>
+
+        
+            
+<li> <a href="#.get_object_size">get_object_size<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Number}</span></a></li>
+
+        
+            
+<li> <a href="#.get_rotation">get_rotation<span class="signature">(obj, opt_dest<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Float32Array}</span></a></li>
+
+        
+            
+<li> <a href="#.get_rotation_quat">get_rotation_quat<span class="signature">()</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.get_scale">get_scale<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Number}</span></a></li>
+
+        
+            
+<li> <a href="#.get_translation">get_translation<span class="signature">(obj, dest<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Float32Array}</span></a></li>
+
+        
+            
+<li> <a href="#.get_tsr">get_tsr<span class="signature">(obj, dest<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Float32Array}</span></a></li>
+
+        
+            
+<li> <a href="#.move_local">move_local<span class="signature">(obj, x, y, z)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.set_rotation">set_rotation<span class="signature">(obj, x, y, z, w)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.set_rotation_euler">set_rotation_euler<span class="signature">(obj, x, y, z)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.set_rotation_euler_v">set_rotation_euler_v<span class="signature">(obj, euler)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.set_rotation_quat">set_rotation_quat<span class="signature">()</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.set_rotation_quat_v">set_rotation_quat_v<span class="signature">()</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.set_rotation_v">set_rotation_v<span class="signature">(obj, quat)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.set_scale">set_scale<span class="signature">(obj, scale)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.set_translation">set_translation<span class="signature">(obj, x, y, z)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.set_translation_rel">set_translation_rel<span class="signature">(obj, x, y, z, obj_parent)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.set_translation_v">set_translation_v<span class="signature">(obj, trans)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.set_tsr">set_tsr<span class="signature">(obj, tsr)</span><span class="type-signature"></span></a></li>
+
+        
+        </ul>
+    
+    
+    <h2>Detailed Description</h2>
+    
+        <h3 class="subsection-title">Members</h3>
+        
+            
+<div class="item_container">
+<div class="item_name">
+<h4 class="name" id=".SPACE_LOCAL">SPACE_LOCAL</h4>
+
+</div>
+
+<div class="item_description">
 
 <div class="description">
     Transform in the local space
@@ -192,13 +308,18 @@ With some exceptions specified below, make sure that the objects are dynamic.</d
 
 
 
+</div>
+</div>
 
         
             
-<h4 class="name" id=".SPACE_WORLD"><span class="type-signature">(static, constant) </span>SPACE_WORLD<span class="type-signature"></span></h4>
+<div class="item_container">
+<div class="item_name">
+<h4 class="name" id=".SPACE_WORLD">SPACE_WORLD</h4>
 
+</div>
 
-
+<div class="item_description">
 
 <div class="description">
     Transform in the world space
@@ -254,23 +375,207 @@ With some exceptions specified below, make sure that the objects are dynamic.</d
 
 
 
+</div>
+</div>
 
         
     
 
     
         <h3 class="subsection-title">Methods</h3>
-
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".empty_reset_transform"><span class="type-signature">(static) </span>empty_reset_transform<span class="signature">(obj)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".distance">distance<span class="signature">(obj1, obj2)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Get distance between the two objects.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj1</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Object ID 1</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>obj2</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Object ID 2</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Distance
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Number</span>
+
+
+    </dd>
+</dl>
 
     
 
 
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line374">line 374</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+</div>
+</div>
+        
+            
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id=".empty_reset_transform">empty_reset_transform<span class="signature">(obj)</span><span class="type-signature"></span></h4>
+
+    
+
+</div>
+<div class="item_description">
 
 <div class="description">
     Reset EMPTY's transform to allow child objects behave in the absolute (world) space.
@@ -338,6 +643,18 @@ Works only for EMPTYes with "relative group coords" option enabled.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -380,29 +697,21 @@ Works only for EMPTYes with "relative group coords" option enabled.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".get_object_bounding_box"><span class="type-signature">(static) </span>get_object_bounding_box<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+    <h4 class="name" id=".get_object_bounding_box">get_object_bounding_box<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Object}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Get object bounding box.
@@ -469,6 +778,40 @@ Works only for EMPTYes with "relative group coords" option enabled.
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Bounding box
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Object</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 <dl class="details">
 
     
@@ -511,51 +854,21 @@ Works only for EMPTYes with "relative group coords" option enabled.
 
 
 
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Bounding box
 </div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Object</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".get_object_center"><span class="type-signature">(static) </span>get_object_center<span class="signature">(obj, calc_bs_center, dest<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Float32Array}</span></h4>
+    <h4 class="name" id=".get_object_center">get_object_center<span class="signature">(obj, calc_bs_center, dest<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Float32Array}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Get the object center in the world space.
@@ -698,6 +1011,40 @@ calculate center, otherwise the use bounding box.</td>
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Destination vector
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Float32Array</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 <dl class="details">
 
     
@@ -740,51 +1087,21 @@ calculate center, otherwise the use bounding box.</td>
 
 
 
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Destination vector
 </div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Float32Array</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".get_object_size"><span class="type-signature">(static) </span>get_object_size<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+    <h4 class="name" id=".get_object_size">get_object_size<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Number}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Get object size (maximum radius, calculated from bounding box).
@@ -851,6 +1168,40 @@ calculate center, otherwise the use bounding box.</td>
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Object size
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Number</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 <dl class="details">
 
     
@@ -893,51 +1244,21 @@ calculate center, otherwise the use bounding box.</td>
 
 
 
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Object size
 </div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Number</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".get_rotation"><span class="type-signature">(static) </span>get_rotation<span class="signature">(obj, opt_dest<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Float32Array}</span></h4>
+    <h4 class="name" id=".get_rotation">get_rotation<span class="signature">(obj, opt_dest<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Float32Array}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Get object rotation quaternion.
@@ -1047,6 +1368,40 @@ calculate center, otherwise the use bounding box.</td>
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Destination vector
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Float32Array</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 <dl class="details">
 
     
@@ -1089,49 +1444,31 @@ calculate center, otherwise the use bounding box.</td>
 
 
 
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Destination vector
 </div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Float32Array</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".get_rotation_quat"><span class="type-signature">(static) </span>get_rotation_quat<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".get_rotation_quat">get_rotation_quat<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
+
+</div>
+<div class="item_description">
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1191,29 +1528,21 @@ calculate center, otherwise the use bounding box.</td>
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".get_scale"><span class="type-signature">(static) </span>get_scale<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+    <h4 class="name" id=".get_scale">get_scale<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Number}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Get the object scale.
@@ -1280,6 +1609,40 @@ calculate center, otherwise the use bounding box.</td>
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    scale
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Number</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 <dl class="details">
 
     
@@ -1322,51 +1685,21 @@ calculate center, otherwise the use bounding box.</td>
 
 
 
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    scale
 </div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Number</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".get_translation"><span class="type-signature">(static) </span>get_translation<span class="signature">(obj, dest<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Float32Array}</span></h4>
+    <h4 class="name" id=".get_translation">get_translation<span class="signature">(obj, dest<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Float32Array}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Get vector with object translation.
@@ -1476,6 +1809,40 @@ calculate center, otherwise the use bounding box.</td>
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Destination vector
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Float32Array</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 <dl class="details">
 
     
@@ -1518,6 +1885,128 @@ calculate center, otherwise the use bounding box.</td>
 
 
 
+</div>
+</div>
+        
+            
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id=".get_tsr">get_tsr<span class="signature">(obj, dest<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Float32Array}</span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Get object tsr.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Object ID</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>dest</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Float32Array</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Destination vector</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
 
 
 
@@ -1553,16 +2042,64 @@ calculate center, otherwise the use bounding box.</td>
 
 
 
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line334">line 334</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".move_local"><span class="type-signature">(static) </span>move_local<span class="signature">(obj, x, y, z)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".move_local">move_local<span class="signature">(obj, x, y, z)</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Perform incremental object movement in the local space.
@@ -1698,6 +2235,18 @@ calculate center, otherwise the use bounding box.</td>
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -1740,29 +2289,21 @@ calculate center, otherwise the use bounding box.</td>
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".set_rotation"><span class="type-signature">(static) </span>set_rotation<span class="signature">(obj, x, y, z, w)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".set_rotation">set_rotation<span class="signature">(obj, x, y, z, w)</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Set object rotation
@@ -1921,6 +2462,18 @@ calculate center, otherwise the use bounding box.</td>
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -1963,29 +2516,21 @@ calculate center, otherwise the use bounding box.</td>
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".set_rotation_euler"><span class="type-signature">(static) </span>set_rotation_euler<span class="signature">(obj, x, y, z)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".set_rotation_euler">set_rotation_euler<span class="signature">(obj, x, y, z)</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Set euler rotation in the YZX intrinsic system.
@@ -2122,6 +2667,18 @@ Using euler angles is discouraged, use quaternion instead.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -2164,29 +2721,21 @@ Using euler angles is discouraged, use quaternion instead.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".set_rotation_euler_v"><span class="type-signature">(static) </span>set_rotation_euler_v<span class="signature">(obj, euler)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".set_rotation_euler_v">set_rotation_euler_v<span class="signature">(obj, euler)</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Set euler rotation in vector form.
@@ -2277,6 +2826,18 @@ Using euler angles is discouraged, use quaternion instead.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -2319,27 +2880,31 @@ Using euler angles is discouraged, use quaternion instead.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".set_rotation_quat"><span class="type-signature">(static) </span>set_rotation_quat<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".set_rotation_quat">set_rotation_quat<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
+
+</div>
+<div class="item_description">
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2399,27 +2964,31 @@ Using euler angles is discouraged, use quaternion instead.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".set_rotation_quat_v"><span class="type-signature">(static) </span>set_rotation_quat_v<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".set_rotation_quat_v">set_rotation_quat_v<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
+
+</div>
+<div class="item_description">
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2479,29 +3048,21 @@ Using euler angles is discouraged, use quaternion instead.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".set_rotation_v"><span class="type-signature">(static) </span>set_rotation_v<span class="signature">(obj, quat)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".set_rotation_v">set_rotation_v<span class="signature">(obj, quat)</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Set object rotation (vector form)
@@ -2591,6 +3152,18 @@ Using euler angles is discouraged, use quaternion instead.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -2633,29 +3206,21 @@ Using euler angles is discouraged, use quaternion instead.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".set_scale"><span class="type-signature">(static) </span>set_scale<span class="signature">(obj, scale)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".set_scale">set_scale<span class="signature">(obj, scale)</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Set the object scale.
@@ -2745,6 +3310,18 @@ Using euler angles is discouraged, use quaternion instead.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -2787,29 +3364,21 @@ Using euler angles is discouraged, use quaternion instead.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".set_translation"><span class="type-signature">(static) </span>set_translation<span class="signature">(obj, x, y, z)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".set_translation">set_translation<span class="signature">(obj, x, y, z)</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Set the object translation.
@@ -2945,6 +3514,18 @@ Using euler angles is discouraged, use quaternion instead.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -2987,29 +3568,21 @@ Using euler angles is discouraged, use quaternion instead.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".set_translation_rel"><span class="type-signature">(static) </span>set_translation_rel<span class="signature">(obj, x, y, z, obj_parent)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".set_translation_rel">set_translation_rel<span class="signature">(obj, x, y, z, obj_parent)</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Set the object translation relative to another object.
@@ -3168,6 +3741,18 @@ Using euler angles is discouraged, use quaternion instead.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -3210,29 +3795,21 @@ Using euler angles is discouraged, use quaternion instead.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".set_translation_v"><span class="type-signature">(static) </span>set_translation_v<span class="signature">(obj, trans)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".set_translation_v">set_translation_v<span class="signature">(obj, trans)</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Set the object translation (vector form).
@@ -3322,6 +3899,18 @@ Using euler angles is discouraged, use quaternion instead.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -3364,6 +3953,104 @@ Using euler angles is discouraged, use quaternion instead.
 
 
 
+</div>
+</div>
+        
+            
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id=".set_tsr">set_tsr<span class="signature">(obj, tsr)</span><span class="type-signature"></span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Set the object tsr.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Object ID</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>tsr</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Float32Array</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">vector</td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -3377,6 +4064,55 @@ Using euler angles is discouraged, use quaternion instead.
 
 
 
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_transform.js.html">ext/transform.js</a>, <a href="ext_transform.js.html#line353">line 353</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+</div>
+</div>
         
     
 
@@ -3393,13 +4129,13 @@ Using euler angles is discouraged, use quaternion instead.
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Thu Mar 26 2015 17:33:37 GMT+0300 (MSK)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Wed Apr 29 2015 10:10:53 GMT+0300 (MSK)
 </footer>
 
 <script> prettyPrint(); </script>

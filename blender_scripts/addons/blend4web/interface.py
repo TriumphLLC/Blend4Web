@@ -120,16 +120,29 @@ class B4W_ScenePanel(bpy.types.Panel):
             row.prop(scene, "b4w_enable_tags", text="Enable Meta Tags")
 
             if context.scene.b4w_enable_tags:
+                b4w_tags = context.scene.b4w_tags
+
                 row = layout.row()
                 box = row.box()
                 col = box.column()
                 col.label("Tags:")
                 row = col.row()
+                row.prop(b4w_tags, "title", text="Title")
 
-                row.prop(context.scene.b4w_tags, "title", text="Title")
                 row = col.row()
-                row.prop(context.scene.b4w_tags, "description", text="Description")
+                if b4w_tags.desc_source == "TEXT":
+                    icon = "NONE"
+                else:
+                    icon = "ERROR"
+                    for text in bpy.data.texts:
+                        if text.name == b4w_tags.description:
+                            icon = "TEXT"
+                            break
+                row.prop(b4w_tags, "description", icon=icon)
+
                 row = col.row()
+                row.label("Description Source:")
+                row.prop(b4w_tags, "desc_source", expand=True, text="Source")
 
             row = layout.row()
             row.prop(scene, "b4w_batch_grid_size", text="Batch Grid Size")
@@ -140,6 +153,17 @@ class B4W_ScenePanel(bpy.types.Panel):
             col = split.column()
             col.prop(scene, "b4w_anisotropic_filtering", text="")
 
+            split = layout.split()
+            col = split.column()
+            col.label(text="Enable Object Selection:")
+            col = split.column()
+            col.prop(scene, "b4w_enable_object_selection", text="")
+
+            split = layout.split()
+            col = split.column()
+            col.label(text="Enable Object Outlining:")
+            col = split.column()
+            col.prop(scene, "b4w_enable_outlining", text="")
 
 class B4W_WorldPanel(bpy.types.Panel):
     bl_label = "Blend4Web"
@@ -163,10 +187,10 @@ class B4W_WorldPanel(bpy.types.Panel):
             col = layout.column()
             box = col.box()
             col = box.column()
-            col.label("Glow Settings:")
+            col.label("Outline Settings:")
             row = col.row()
-            row.prop(world, "b4w_glow_color", text="Objects Glow Color")
-            col.prop(world, "b4w_glow_factor", text="Glow Factor")
+            row.prop(world, "b4w_outline_color", text="Objects Outline Color")
+            col.prop(world, "b4w_outline_factor", text="Outline Factor")
 
             col = layout.column()
             box = col.box()
@@ -244,34 +268,51 @@ class B4W_WorldPanel(bpy.types.Panel):
             col = box.column()
             col.label("Sky Settings:")
             row = col.row()
+            row.prop(sky, "render_sky", text="Render Sky")
+            row = col.row()
+            render_sky = getattr(sky, "render_sky")
+            row.active = render_sky
             row.prop(sky, "reflexible", text="Reflexible")
             if sky.reflexible:
                 row = col.row()
+                row.active = render_sky
                 row.prop(sky, "reflexible_only", text="Reflexible Only")
             row = col.row()
+            row.active = render_sky
             row.prop(sky, "procedural_skydome", text="Procedural Skydome")
             if sky.procedural_skydome:
                 row = col.row()
+                row.active = render_sky
                 row.prop(sky, "use_as_environment_lighting", text="Use as Environment Lighting")
                 row = col.row()
+                row.active = render_sky
                 row.prop(sky, "color", text="Sky Color")
                 row = col.row()
+                row.active = render_sky
                 row.prop(sky, "rayleigh_brightness", text="Rayleigh Brightness")
                 row = col.row()
+                row.active = render_sky
                 row.prop(sky, "mie_brightness", text="Mie Brightness")
                 row = col.row()
+                row.active = render_sky
                 row.prop(sky, "spot_brightness", text="Spot Brightness")
                 row = col.row()
+                row.active = render_sky
                 row.prop(sky, "scatter_strength", text="Scatter Strength")
                 row = col.row()
+                row.active = render_sky
                 row.prop(sky, "rayleigh_strength", text="Rayleigh Strength")
                 row = col.row()
+                row.active = render_sky
                 row.prop(sky, "mie_strength", text="Mie Strength")
                 row = col.row()
+                row.active = render_sky
                 row.prop(sky, "rayleigh_collection_power", text="Rayleigh Collection Power")
                 row = col.row()
+                row.active = render_sky
                 row.prop(sky, "mie_collection_power", text="Mie Collection Power")
                 row = col.row()
+                row.active = render_sky
                 row.prop(sky, "mie_distribution", text="Mie Distribution")
 
             god_rays = world.b4w_god_rays_settings
@@ -342,19 +383,25 @@ class B4W_ObjectPanel(bpy.types.Panel):
         row = layout.row(align=True)
         row.label("Export options:")
 
+        row = layout.row(align=True)
         col = row.column()
         col.prop(obj, "b4w_do_not_export", text="Do Not Export")
 
         if (obj.type == "MESH" or obj.type == "FONT" or obj.type == "META" 
                 or obj.type == "SURFACE"):
-            col.prop(obj, "b4w_apply_scale", text="Apply Scale")
+            row = layout.row(align=True)
+            box = row.box()
+            col = box.column()
+        if (obj.type == "MESH" or obj.type == "FONT" or obj.type == "META" 
+                or obj.type == "SURFACE"):
+            col.prop(obj, "b4w_apply_scale", text="Apply Scale And Modifiers")
             col.prop(obj, "b4w_apply_modifiers", text="Apply Modifiers")
 
         if obj.type == "MESH":
+            col.prop(obj, "b4w_shape_keys", text="Export Shape Keys")
+            col.prop(obj, "b4w_export_edited_normals", text="Export Edited Normals")
             col.prop(obj, "b4w_loc_export_vertex_anim", text="Export Vertex " +
                     "Animation")
-            col.prop(obj, "b4w_export_edited_normals", text="Export Edited Normals")
-
 
         row = layout.row(align=True)
         box = row.box()
@@ -392,7 +439,6 @@ class B4W_ObjectPanel(bpy.types.Panel):
                 or obj.type == "SURFACE"):
 
             row = layout.row()
-            row.active = getattr(obj, "b4w_do_not_batch")
             row.prop(obj, "b4w_dynamic_geometry", text="Dynamic Geometry")
 
             row = layout.row()
@@ -493,19 +539,19 @@ class B4W_ObjectPanel(bpy.types.Panel):
                     row.prop(detail_bend, "overall_stiffness_col", text="Overall Stiffness (B)", icon=icon_overall)
             row = layout.row()
             row.prop(obj, "b4w_selectable", text="Selectable")
-
-            if obj.b4w_selectable:
-                row = layout.row()
-                box = row.box()
-                col = box.column()
-                col.label("Glow Settings:")
-
-                row = col.row()
-                row.prop(obj.b4w_glow_settings, "glow_duration", text="Glow Duration")
-                row = col.row()
-                row.prop(obj.b4w_glow_settings, "glow_period", text="Glow Period")
-                row = col.row()
-                row.prop(obj.b4w_glow_settings, "glow_relapses", text="Glow Relapses")
+            
+            box = layout.box()
+            box.prop(obj, "b4w_outlining", text="Enable Outlining")
+            if obj.b4w_outlining:
+                row = box.row()
+                row.prop(obj.b4w_outline_settings, "outline_duration", text="Outline Duration")
+                row = box.row()
+                row.prop(obj.b4w_outline_settings, "outline_period", text="Outline Period")
+                row = box.row()
+                row.prop(obj.b4w_outline_settings, "outline_relapses", text="Outline Relapses")
+                row = box.row()
+                row.enabled = getattr(obj, "b4w_selectable")
+                row.prop(obj, "b4w_outline_on_select", text="Outline on Select")
 
             box = layout.box()
             box.prop(obj, "b4w_billboard", text="Billboard")
@@ -541,22 +587,40 @@ class B4W_ObjectPanel(bpy.types.Panel):
                 row.prop(obj.b4w_anchor, "detect_visibility", text="Detect "
                         "Visibility")
 
+                if obj.b4w_anchor.type == "ANNOTATION":
+                    row = col.row()
+                    row.prop(obj.b4w_anchor, "max_width")
+
         row = layout.row()
         row.prop(obj, "b4w_enable_object_tags", text="Enable Meta Tags")
 
         if obj.b4w_enable_object_tags:
+            b4w_obj_tags = obj.b4w_object_tags
+
             row = layout.row()
             box = row.box()
             col = box.column()
             col.label("Tags:")
             row = col.row()
+            row.prop(b4w_obj_tags, "title", text="Title")
 
-            row.prop(obj.b4w_object_tags, "title", text="Title")
             row = col.row()
-            row.prop(obj.b4w_object_tags, "category", text="Category")
+            row.prop(b4w_obj_tags, "category", text="Category")
+
             row = col.row()
-            row.prop(obj.b4w_object_tags, "description", text="Description")
+            if b4w_obj_tags.desc_source == "TEXT":
+                icon = "NONE"
+            else:
+                icon = "ERROR"
+                for text in bpy.data.texts:
+                    if text.name == b4w_obj_tags.description:
+                        icon = "TEXT"
+                        break
+            row.prop(b4w_obj_tags, "description", icon=icon)
+
             row = col.row()
+            row.label("Description Source:")
+            row.prop(b4w_obj_tags, "desc_source", expand=True, text="Source")
 
 def get_locked_track_constraint(obj, index):
     constraint_index = 0

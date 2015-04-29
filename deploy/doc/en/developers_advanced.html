@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>For Engine Developers &mdash; User Manual: Blend4Web v15.03</title>
+    <title>For Engine Developers &mdash; User Manual: Blend4Web v15.04</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '15.03',
+        VERSION:     '15.04',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User Manual: Blend4Web v15.03" href="index.html" />
+    <link rel="top" title="User Manual: Blend4Web v15.04" href="index.html" />
     <link rel="next" title="Team Work. Using Git" href="git_short_manual.html" />
     <link rel="prev" title="For Application Developers" href="developers.html" /> 
   </head>
@@ -36,7 +36,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">User Manual: Blend4Web v15.03</a></div>
+          href="index.html">User Manual: Blend4Web v15.04</a></div>
         <div class="rel">
           <a href="developers.html" title="For Application Developers"
              accesskey="P">previous</a> |
@@ -191,7 +191,7 @@
 </tr>
 <tr class="row-even"><td>NodeJS</td>
 <td>nodejs</td>
-<td><p class="first last">compiling shaders</p>
+<td><p class="first last">shader compilation</p>
 </td>
 </tr>
 <tr class="row-odd"><td>Java</td>
@@ -316,32 +316,30 @@ texlive-lang-cyrillic</td>
 </pre></div>
 </div>
 <p>where <tt class="docutils literal"><span class="pre">graph.gv</span></tt> is the name of the file with the saved graph.</p>
-</div>
-<div class="section" id="shaders">
-<span id="id9"></span><h2>Shaders<a class="headerlink" href="#shaders" title="Permalink to this headline">¶</a></h2>
+<span class="target" id="shaders"></span></div>
 <div class="section" id="index-0">
-<span id="id10"></span><h3>Obfuscator<a class="headerlink" href="#index-0" title="Permalink to this headline">¶</a></h3>
-<p>The shaders used in the engine are converted with an obfuscator. In order to perform the obfuscation it is required to run one of the following commnads in the repository root:</p>
+<span id="id9"></span><h2>Shader Compilation<a class="headerlink" href="#index-0" title="Permalink to this headline">¶</a></h2>
+<p>All shaders used in the engine are processed by a compilator. The compilator performs the following three main procedures:</p>
 <ul class="simple">
-<li><p class="first"><strong>make</strong> <em>compile_shaders</em> - check, obfuscate and export the shaders</p>
+<li><p class="first">validation of the shader code,</p>
 </li>
-<li><p class="first"><strong>make</strong> <em>verify_shaders</em> - only check and obfuscate the shaders</p>
+<li><p class="first">its obfuscation and</p>
+</li>
+<li><p class="first">optimization.</p>
 </li>
 </ul>
-<p>The obfuscator minifies the GLSL code, optimizes it and makes it diffucult to understand it. So far the following procedures are implemented:</p>
+<p>In order to run the compilator, execute one of the following commands in the SDK root:</p>
+<div class="highlight-bash"><div class="highlight"><pre>&gt; make compile_shaders
+&gt; make verify_shaders
+</pre></div>
+</div>
 <ul class="simple">
-<li><p class="first">removing excessive space symbols, line brakes and repetitive &#8221;;&#8221; symbols</p>
+<li><p class="first"><strong>make</strong> <em>compile_shaders</em> - performs validation, obfuscation, optimization and finally, export of the compiled shaders,</p>
 </li>
-<li><p class="first">replacing the user ids with shorter single-symboled, two-symboled etc names</p>
-</li>
-<li><p class="first">outputting warnings about unused variables and functions (dead code)</p>
-</li>
-<li><p class="first">checking the shader syntax</p>
-</li>
-<li><p class="first">supporting the import/export mechanism and checking the shaders for the conformance with it</p>
+<li><p class="first"><strong>make</strong> <em>verify_shaders</em> - performs only validation, obfuscation and optimization.</p>
 </li>
 </ul>
-<p>Syntax analysis (parsing) of the shader text is first performed during obfuscation. The corresponding parser is created automatically based on the grammar with the <a class="reference external" href="http://pegjs.majda.cz/">PEG.js</a> generator. Then the shaders are optimized and validated according to the parser data, and after that the shaders are exported in the form of an abstract syntax tree (AST) for direct loading into the engine.</p>
+<p>Syntax analysis (parsing) of the shader text is first performed during compilation. The corresponding parser is created automatically based on the grammar, using the <a class="reference external" href="http://pegjs.majda.cz/">PEG.js</a> generator. Then the shaders are validated, obfuscated and optimized according to the parser data, and after that the shaders are exported in the form of an abstract syntax tree (AST) for direct loading in the engine.</p>
 <p>The location of the main files in the repository:</p>
 <ul class="simple">
 <li><p class="first">initial grammar - glsl_utils/pegjs/glsl_parser.pegjs</p>
@@ -351,9 +349,76 @@ texlive-lang-cyrillic</td>
 <li><p class="first">parser - glsl_utils/compiler/glsl_parser.js</p>
 </li>
 </ul>
+<div class="section" id="index-1">
+<span id="id11"></span><h3>Validation<a class="headerlink" href="#index-1" title="Permalink to this headline">¶</a></h3>
+<p>The compilator performs the following procedures related to shader code validation:</p>
+<ul class="simple">
+<li><p class="first">reporting about unused variables and functions (dead code),</p>
+</li>
+<li><p class="first">checking the syntax of shaders,</p>
+</li>
+<li><p class="first">checking the conformance of shaders to the import/export mechanism,</p>
+</li>
+<li><p class="first">removing odd or repeatitive tokens: spaces, endlines and semicolons.</p>
+</li>
+</ul>
+</div>
+<div class="section" id="index-2">
+<span id="id12"></span><h3>Obfuscation<a class="headerlink" href="#index-2" title="Permalink to this headline">¶</a></h3>
+<p>Obfuscation minifies the GLSL code and makes it diffucult to understand it. So far the following procedure is implemented:</p>
+<ul class="simple">
+<li><p class="first">replacing the user-defined identifiers with shorter single-symboled, two-symboled etc names (with support of the import/export mechanism).</p>
+</li>
+</ul>
+</div>
+<div class="section" id="index-3">
+<span id="id13"></span><h3>Optimization<a class="headerlink" href="#index-3" title="Permalink to this headline">¶</a></h3>
+<p>Optimization constitutes the following procedures:</p>
+<ul class="simple">
+<li><p class="first">removing curly brackets which are not useful in any ways except creating local scopes (this functionality is used for processing node/lamp directives),</p>
+</li>
+<li><p class="first">optimization inside functions - creating shared local variables to replace ones originally created by the programmer.</p>
+</li>
+</ul>
+<p>An example of removing unused curly brackets: replacing the following code</p>
+<div class="highlight-glsl"><div class="highlight"><pre><span class="k">void</span> <span class="n">function</span><span class="p">(){</span>
+    <span class="k">int</span> <span class="n">a</span><span class="p">;</span>
+    <span class="p">{</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>with this code</p>
+<div class="highlight-glsl"><div class="highlight"><pre><span class="k">void</span> <span class="n">function</span><span class="p">(){</span>
+    <span class="k">int</span> <span class="n">a</span><span class="p">;</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Low number of temporary local variables is achieved by repetitively using them in different contexts. For example, the following code</p>
+<div class="highlight-glsl"><div class="highlight"><pre><span class="k">int</span> <span class="n">function</span><span class="p">(){</span>
+    <span class="k">int</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="k">int</span> <span class="n">b</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="mi">3</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">b</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>will be replaced with</p>
+<div class="highlight-glsl"><div class="highlight"><pre><span class="k">int</span> <span class="n">function</span><span class="p">(){</span>
+    <span class="k">int</span> <span class="n">_int_tmp0</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="n">_int_tmp0</span> <span class="o">=</span> <span class="n">_int_tmp0</span> <span class="o">+</span> <span class="mi">3</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">_int_tmp0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Local variables for structures and arrays are not optimized this way.</p>
+</div>
 </div>
 <div class="section" id="import-export">
-<span id="index-1"></span><h3>import/export directives<a class="headerlink" href="#import-export" title="Permalink to this headline">¶</a></h3>
+<span id="index-4"></span><h3>Import/Export Directives<a class="headerlink" href="#import-export" title="Permalink to this headline">¶</a></h3>
 <p>import/export directives are used to organize, structure and increase the readability of the shader code in the include file. They are specified in the beginning of the file and should look approximately like this:</p>
 <div class="highlight-glsl"><div class="highlight"><pre><span class="cp">#import u_frame_factor u_quatsb u_quatsa u_transb u_transa a_influence</span>
 <span class="cp">#import qrot</span>
@@ -366,9 +431,9 @@ texlive-lang-cyrillic</td>
 <p>Therefore the shader which uses the include file must have all the declarations necessary for import before the place of linking, and can use the exported ids after it.</p>
 <p>Ids can be both variable names and function names. If there are no import/export directives it&#8217;s considered by default that the include file does not use external declarations and does not allow the using of internal ones.</p>
 </div>
-<div class="section" id="index-2">
-<span id="id12"></span><h3>Recommendations and limitations for obfuscation<a class="headerlink" href="#index-2" title="Permalink to this headline">¶</a></h3>
-<p>Because of the following reasons: preprocessing, the need to process multiple shaders and include files and due to the obfuscator&#8217;s features - its possible to garantee the work of the output code only if a number of rules and limitations are respected relative to the shader source code.</p>
+<div class="section" id="index-5">
+<span id="id14"></span><h3>Recommendations and Limitations<a class="headerlink" href="#index-5" title="Permalink to this headline">¶</a></h3>
+<p>Because of the following reasons: preprocessing, the need to process multiple shaders and include files and due to the compilator&#8217;s features - its possible to garantee the work of the output code only if a number of rules and limitations are respected with regard to the shader source code:</p>
 <ol class="arabic simple">
 <li><p class="first">In order to describe constants which are defined by the engine at run, it&#8217;s neccessary to use the <tt class="docutils literal"><span class="pre">#var</span></tt> special directive. For example:</p>
 </li>
@@ -419,20 +484,22 @@ texlive-lang-cyrillic</td>
 <ol class="arabic simple" start="9">
 <li><p class="first">Do not declare variables with such names as <tt class="docutils literal"><span class="pre">node_[NODE_NAME]_var_[IN_OUT_NODE]</span></tt>, where <tt class="docutils literal"><span class="pre">NODE_NAME</span></tt> &#8212; name of some node, <tt class="docutils literal"><span class="pre">IN_OUT_NODE</span></tt> &#8212; name of an input or an output of the node.</p>
 </li>
+<li><p class="first">Repetitive use of <tt class="docutils literal"><span class="pre">#nodes_main</span></tt>, <tt class="docutils literal"><span class="pre">#nodes_global</span></tt> or <tt class="docutils literal"><span class="pre">#lamps_main</span></tt> directives is not permitted inside a single shader.</p>
+</li>
 </ol>
 </div>
 <div class="section" id="webgl">
-<span id="index-3"></span><h3>WebGL extensions support<a class="headerlink" href="#webgl" title="Permalink to this headline">¶</a></h3>
-<p>The obfuscator&#8217;s functioning may depend on the WebGL extensions being used, if they somehow influence the shading language. At the moment the following extensions are supported:</p>
+<span id="index-6"></span><h3>WebGL Extensions<a class="headerlink" href="#webgl" title="Permalink to this headline">¶</a></h3>
+<p>Compilation may depend on WebGL extensions being used if they somehow influence the shading language. At the moment the following extensions are supported by the compilator:</p>
 <blockquote>
 <div><ul class="simple">
 <li>OES_standard_derivatives</li>
 </ul>
 </div></blockquote>
 </div>
-<div class="section" id="index-4">
-<span id="id13"></span><h3>Obfuscation errors<a class="headerlink" href="#index-4" title="Permalink to this headline">¶</a></h3>
-<p>In case of an error the obfuscator will output the corresponding message into the console.</p>
+<div class="section" id="index-7">
+<span id="id15"></span><h3>Compilation Errors<a class="headerlink" href="#index-7" title="Permalink to this headline">¶</a></h3>
+<p>In case of an error the compilator will output the corresponding message in the console.</p>
 <p>Table of possible errors:</p>
 <table border="1" class="docutils">
 <colgroup>
@@ -577,11 +644,11 @@ FILE_NAME, but never used.</td>
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing Effects</a></li>
-<li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System</a></li>
-<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System for Instancing Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System. Fluids</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System. Instancing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="animation.html">Animation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Rendering</a></li>
-<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Gamma Correction and Alpha Compositing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Gamma and Alpha</a></li>
 <li class="toctree-l1"><a class="reference internal" href="audio.html">Audio System</a></li>
 <li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nla.html">Non-Linear Animation</a></li>
@@ -593,7 +660,7 @@ FILE_NAME, but never used.</td>
 <li class="toctree-l2"><a class="reference internal" href="#dependencies">Dependencies</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id7">Naming Functions and Variables</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#debugging">Debugging</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#shaders">Shaders</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#index-0">Shader Compilation</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Team Work. Using Git</a></li>
@@ -631,7 +698,7 @@ FILE_NAME, but never used.</td>
           
     <div class="footer">
         &copy; Copyright 2015, Triumph LLC.
-      Last updated on 2015-03-26.
+      Last updated on 2015-04-29.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
         </div>

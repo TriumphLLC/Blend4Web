@@ -1370,36 +1370,58 @@ exports.get_url_params = function(allow_param_array) {
  * @param {Number} from Value from.
  * @param {Number} to Value to.
  * @param {Number} timeout Time for animation.
+ * @param {String} opt_prefix Prefix of css-property (" scale(", "%" and etc).
  * @param {String} opt_suffix Suffix of css-property (" px", "%" and etc).
  * @param {Function} opt_callback Callback function.
  */
-exports.css_animate = function(elem, prop, from, to, timeout, opt_suffix, opt_callback) {
+exports.css_animate = function(elem, prop, from, to, timeout, opt_prefix, opt_suffix, opt_callback) {
+    if (!elem || !prop || !isFinite(from) || !isFinite(to) || !isFinite(timeout))
+        return;
+
+    opt_prefix   = opt_prefix || "";
+    opt_suffix   = opt_suffix || "";
+    opt_callback = opt_callback || function() {};
+
+    var vendor_prop = prop.charAt(0).toUpperCase() + prop.slice(1);
+
+    if (elem.style[prop] != undefined) {
+
+    } else if (elem.style["webkit" + vendor_prop] != undefined) {
+        prop = "webkit" + vendor_prop;
+    } else if (elem.style["ms" + vendor_prop] != undefined) {
+        prop = "ms" + vendor_prop;
+    } else if (elem.style["moz" + vendor_prop] != undefined) {
+        prop = "moz" + vendor_prop;
+    } else
+        return;
 
     function css_anim_cb(val) {
-        var prop_value = val;
-        if (opt_suffix)
-            prop_value += opt_suffix;
-        elem.style[prop] = prop_value;
-        if (from > to && val <= to || from < to && val >= to)
+        elem.style[prop] = opt_prefix + val + opt_suffix;
+
+        if (from > to && val <= to || from < to && val >= to) {
+            elem.style[prop] = opt_prefix + to + opt_suffix;
             opt_callback();
+        }
     }
+
     animate(from, to, timeout, css_anim_cb);
 }
 
 // Animate value from "from" to "to" for "timeout" mseconds.
 function animate(from, to, timeout, anim_cb) {
+    var start = performance.now();
 
-    var start = m_main.global_timeline() * 1000;
-
-    function cb(timeline, delta) {
-        var elapsed_total = timeline * 1000 - start;
+    function cb() {
+        var elapsed_total = performance.now() - start;
         var value = from + elapsed_total * (to - from) / timeout;
+
         anim_cb(value);
+
         if (elapsed_total >= timeout)
             m_main.remove_loop_cb(cb);
     }
+
     m_main.append_loop_cb(cb);
 }
 
 }
-

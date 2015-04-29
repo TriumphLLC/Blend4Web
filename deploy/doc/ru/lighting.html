@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Освещение, тени и фон &mdash; Руководство пользователя: Blend4Web v15.03</title>
+    <title>Освещение, тени и фон &mdash; Руководство пользователя: Blend4Web v15.04</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '15.03',
+        VERSION:     '15.04',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v15.03" href="index.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v15.04" href="index.html" />
     <link rel="next" title="Постпроцессинговые эффекты" href="postprocessing_effects.html" />
     <link rel="prev" title="Нодовые материалы" href="node_materials.html" /> 
   </head>
@@ -37,7 +37,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">Руководство пользователя: Blend4Web v15.03</a></div>
+          href="index.html">Руководство пользователя: Blend4Web v15.04</a></div>
         <div class="rel">
           <a href="node_materials.html" title="Нодовые материалы"
              accesskey="P">назад</a> |
@@ -353,16 +353,17 @@
 <span id="id16"></span><h2>Цвет фона<a class="headerlink" href="#index-4" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Цвет фона можно задать несколькими способами:</p>
 <ol class="arabic simple">
+<li>Установить параметры <tt class="docutils literal"><span class="pre">Horizon</span> <span class="pre">Color</span></tt> и <tt class="docutils literal"><span class="pre">Zenith</span> <span class="pre">Color</span></tt> на вкладке <tt class="docutils literal"><span class="pre">World</span></tt> в Blender, предварительно выставив опцию <tt class="docutils literal"><span class="pre">Sky</span> <span class="pre">Settings</span> <span class="pre">&gt;</span> <span class="pre">Render</span> <span class="pre">Sky</span></tt>.</li>
 <li>Поместить сцену внутрь модели (например, куба или сферы) с направленными внутрь нормалями, с материалом и опциональной текстурой.</li>
 <li>Разместить перед камерой поверхность с материалом и опциональной текстурой, присоединить ее к камере связью родитель-потомок. При необходимости настроить расстояние до поверхности, переднюю и заднюю плоскости отсечения камеры.</li>
 </ol>
 <a class="reference internal image-reference" href="_images/parented_background.jpg"><img alt="_images/parented_background.jpg" class="align-center" src="_images/parented_background.jpg" style="width: 100%;" /></a>
-<ol class="arabic" start="3">
+<ol class="arabic" start="4">
 <li><p class="first">Использовать <a class="reference internal" href="textures.html#skydome-texture"><em>текстуру неба</em></a>.</p>
 </li>
 <li><p class="first">Настроить динамически генерируемую <a class="reference internal" href="outdoor_rendering.html#atmosphere"><em>атмосферу</em></a>.</p>
 </li>
-<li><p class="first">Установить параметр движка <tt class="docutils literal"><span class="pre">background_color</span></tt>, используя программный метод <tt class="docutils literal"><span class="pre">config.set()</span></tt>. Установленное значение используется в качестве аргумента метода WebGL <tt class="docutils literal"><span class="pre">clearColor()</span></tt>. Для получения корректных результатов рекомендуется отключить прозрачность контекста WebGL (параметр <tt class="docutils literal"><span class="pre">alpha</span></tt>). Такая конфигурация используется по умолчанию в стандартном веб-плеере движка.</p>
+<li><p class="first">Установить параметр движка <tt class="docutils literal"><span class="pre">background_color</span></tt>, используя программный метод <tt class="docutils literal"><span class="pre">config.set()</span></tt>, предварительно отключив опцию <tt class="docutils literal"><span class="pre">Sky</span> <span class="pre">Settings</span> <span class="pre">&gt;</span> <span class="pre">Render</span> <span class="pre">Sky</span></tt> на вкладке <tt class="docutils literal"><span class="pre">World</span></tt> в Blender. Установленное значение используется в качестве аргумента метода WebGL <tt class="docutils literal"><span class="pre">clearColor()</span></tt>. Для получения корректных результатов рекомендуется отключить прозрачность контекста WebGL (параметр <tt class="docutils literal"><span class="pre">alpha</span></tt>). Такая конфигурация используется по умолчанию в стандартном веб-плеере движка.</p>
 <blockquote>
 <div><div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_cfg</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">m_main</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;main&quot;</span><span class="p">);</span>
@@ -376,7 +377,7 @@
 </div>
 </div></blockquote>
 </li>
-<li><p class="first">В качестве фона можно использовать любой HTML контент, находящийся позади элемента <tt class="docutils literal"><span class="pre">canvas</span></tt>, который используется для рендеринга. Для это необходимо активировать прозрачность контекста WebGL (параметр <tt class="docutils literal"><span class="pre">alpha</span></tt>). Для получения корректных результатов рекомендуется выставить полностью прозрачный черный цвет фона. Такая конфигурация используется по умолчанию в стандартном <a class="reference internal" href="viewer.html#viewer"><em>просмотрщике сцен</em></a> SDK движка.</p>
+<li><p class="first">В качестве фона можно использовать любой HTML контент, находящийся позади элемента <tt class="docutils literal"><span class="pre">canvas</span></tt>, который используется для рендеринга. Для это необходимо активировать прозрачность контекста WebGL (параметр <tt class="docutils literal"><span class="pre">alpha</span></tt>), предварительно отключив опцию <tt class="docutils literal"><span class="pre">Sky</span> <span class="pre">Settings</span> <span class="pre">&gt;</span> <span class="pre">Render</span> <span class="pre">Sky</span></tt> на вкладке <tt class="docutils literal"><span class="pre">World</span></tt> в Blender. Для получения корректных результатов рекомендуется выставить полностью прозрачный черный цвет фона. Такая конфигурация используется по умолчанию в стандартном <a class="reference internal" href="viewer.html#viewer"><em>просмотрщике сцен</em></a> SDK движка.</p>
 <blockquote>
 <div><div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_cfg</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">m_main</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;main&quot;</span><span class="p">);</span>
@@ -428,8 +429,8 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Постпроцессинговые эффекты</a></li>
-<li class="toctree-l1"><a class="reference internal" href="particles.html">Система частиц</a></li>
-<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Система частиц для инстансинга объектов</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles.html">Система частиц. Флюиды</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Система частиц. Инстансинг</a></li>
 <li class="toctree-l1"><a class="reference internal" href="animation.html">Анимация</a></li>
 <li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Рендеринг наружных сцен</a></li>
 <li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Гамма-коррекция и альфа-композитинг</a></li>
@@ -473,7 +474,7 @@
           
     <div class="footer">
         &copy; Copyright 2015, ООО &#34;Триумф&#34;.
-      Обновлено: 2015-03-26.
+      Обновлено: 2015-04-29.
       Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
         </div>

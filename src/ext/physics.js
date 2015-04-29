@@ -643,13 +643,15 @@ exports.set_character_rotation_h = function(obj, angle) {
  * @param {Object} obj Object ID
  * @param {String} collision_id Collision ID
  * @param {collision_callback} callback Collision callback
- * @param {Boolean} need_coolision_pt Pass collision point coords in callback
+ * @param {Boolean} [need_collision_point=false] Pass collision point coords in callback
  */
-exports.append_collision_test = function(obj, collision_id, callback, need_collision_point) {
+exports.append_collision_test = function(obj, collision_id, callback,
+        need_collision_point) {
     if(!physics.has_physics(obj)) {
         m_print.error("No physics for object " + obj["name"]);
         return;
     }
+    need_collision_point = need_collision_point || false;
     physics.append_collision_test(obj, collision_id, callback, need_collision_point);
 }
 /**

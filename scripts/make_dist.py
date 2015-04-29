@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import getopt, json, os, sys, zipfile
+import getopt, json, os, sys, zipfile, re
 
 # for UNIX-like OSes only
 import fnmatch
@@ -11,15 +11,11 @@ SRC=os.path.join(os.path.abspath(os.path.dirname(__file__)), "..")
 DEST=os.path.join(SRC, "deploy", "pub")
 
 def help():
-    print("Usage: make_dist.py [-i] [-v version] [-f] DIST_FILE")
+    print("Usage: make_dist.py [-v version] [-f] DIST_FILE")
 
-def process_dist_list(dist_path, ignore_path, version, force):
+def process_dist_list(dist_path, version, force):
 
-    startup_string = "Creating a distribution archive from " + str(dist_path)
-    if ignore_path:
-        startup_string += " (ignoring the source directory hierarchy)"
-
-    print(startup_string)
+    print("Creating a distribution archive from " + str(dist_path))
 
     try:
         dist_file = open(dist_path, "r")
@@ -69,13 +65,14 @@ def process_dist_list(dist_path, ignore_path, version, force):
         for file in files:
             path_curr_rel = os.path.join(root, file)
             path_root_rel = os.path.relpath(path_curr_rel, SRC)
-            if ignore_path:
-                path_arc = os.path.join(basename_dest,
-                        os.path.basename(path_root_rel))
-            else:
-                path_arc = os.path.join(basename_dest, path_root_rel)
-
             if check_path(path_root_rel, pos_patterns, neg_patterns):
+                try:
+                    path_arc = os.path.join(basename_dest, 
+                            find_file_path(path_root_rel, pos_patterns))
+                except ValueError as err:
+                    print("Failed to create file: " + str(err))
+                    exit(0)
+
                 print("Writing:", path_root_rel)
 
                 if (path_root_rel == "apps_dev/viewer/assets.json" or 
@@ -105,15 +102,22 @@ def check_path(path, pos_patterns, neg_patterns):
 
     for pat in pos_patterns:
         # assign * to the end of the pattern to allow matching of dirs
-        if not "*" in pat:
+        if pat[-1] != "*":
             pat = pat + "*"
 
-        if fnmatch.fnmatch(path, pat):
+        match = re.compile(r"^\d+\^").search(pat)
+
+        if match:
+            abs_path = pat.split(match.group())[1]
+        else:
+            abs_path = pat
+
+        if fnmatch.fnmatch(path, abs_path):
             result = True
 
     # negative patterns have priority
     for pat in neg_patterns:
-        if not "*" in pat:
+        if pat[-1] != "*":
             pat = pat + "*"
 
         if fnmatch.fnmatch(path, pat):
@@ -121,6 +125,30 @@ def check_path(path, pos_patterns, neg_patterns):
 
     return result
 
+def find_file_path(path, pos_patterns):
+
+    path_arc = ""
+    for pat in pos_patterns:
+        match = re.compile(r"^\d+\^").search(pat)
+        if match:
+            abs_path = pat.split(match.group())[1]
+            if abs_path[-1] != "*":
+                abs_path += "*"
+            if fnmatch.fnmatch(path, abs_path):
+                abs_path = abs_path[0:-1]
+                offset = int(match.group().split("^")[0])
+                num = len(abs_path.split("/")) - offset
+                if num < 0:
+                    raise ValueError("Wrong num %i" % offset)
+                for i in range(0, num):
+                    abs_path = os.path.split(abs_path)[0]
+                path_arc = os.path.relpath(path, abs_path)
+                return path_arc
+        else:
+            if fnmatch.fnmatch(path, pat):
+                return path
+    return path
+            
 
 def assets_cleanup(path, pos_patterns, neg_patterns):
     """Returns bytes with cleaned assets.json file"""
@@ -212,7 +240,7 @@ def index_cleanup(index_path, basename_dist, version):
 if __name__ == "__main__":
 
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "ifv:", ["ignore-path", "version="])
+        opts, args = getopt.getopt(sys.argv[1:], "fv:", ["version="])
     except getopt.GetoptError as err:
         help()
         exit(1)
@@ -222,14 +250,11 @@ if __name__ == "__main__":
         exit(1)
 
     dist = args[0]
-    ignore_path = False
     version = ""
     force = False
 
     for opt, val in opts:
-        if opt in ("-i", "--ignore-path"):
-            ignore_path = True
-        elif opt in ("-v", "--version"):
+        if opt in ("-v", "--version"):
             version = val
         elif opt == "-f":
             force = True
@@ -237,4 +262,4 @@ if __name__ == "__main__":
             help()
             exit(0)
 
-    process_dist_list(dist, ignore_path, version, force)
+    process_dist_list(dist, version, force)

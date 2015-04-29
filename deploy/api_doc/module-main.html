@@ -44,6 +44,21 @@ Implements methods to initialize and change the global params of the engine.</di
 
         
             
+<div class="item_container">
+<div class="item_name">
+
+</div>
+<div class="item_description">
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -101,19 +116,8 @@ Implements methods to initialize and change the global params of the engine.</di
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
     
     </div>
@@ -127,22 +131,119 @@ Implements methods to initialize and change the global params of the engine.</di
      
 
     
+    <h2>Summary</h2>
+    
+    
+        <h3 class="subsection-title">Methods</h3>
+        <ul>
+        
+            
+<li> <a href="#.append_loop_cb">append_loop_cb<span class="signature">(callback)</span><span class="type-signature"></span></a></li>
 
+        
+            
+<li> <a href="#.clear_fps_callback">clear_fps_callback<span class="signature">()</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.clear_on_before_render_callback">clear_on_before_render_callback<span class="signature">()</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.clear_render_callback">clear_render_callback<span class="signature">()</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.get_canvas_elem">get_canvas_elem<span class="signature">()</span><span class="type-signature"> &rarr; {HTMLCanvasElement}</span></a></li>
+
+        
+            
+<li> <a href="#.global_timeline">global_timeline<span class="signature">()</span><span class="type-signature"> &rarr; {Number}</span></a></li>
+
+        
+            
+<li> <a href="#.init">init<span class="signature">(elem_canvas_webgl, elem_canvas_hud<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Object|Null}</span></a></li>
+
+        
+            
+<li> <a href="#.is_paused">is_paused<span class="signature">()</span><span class="type-signature"> &rarr; {Boolean}</span></a></li>
+
+        
+            
+<li> <a href="#.pause">pause<span class="signature">()</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.redraw">redraw<span class="signature">()</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.remove_loop_cb">remove_loop_cb<span class="signature">(callback)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.reset">reset<span class="signature">()</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.resize">resize<span class="signature">(width, height, update_canvas_css<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.resume">resume<span class="signature">()</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.set_check_gl_errors">set_check_gl_errors<span class="signature">(val)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.set_fps_callback">set_fps_callback<span class="signature">(fps_cb)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.set_on_before_render_callback">set_on_before_render_callback<span class="signature">()</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.set_render_callback">set_render_callback<span class="signature">(callback)</span><span class="type-signature"></span></a></li>
+
+        
+        </ul>
+    
+    
+        <h3 class="subsection-title">Type Definitions</h3>
+
+        <ul>
+        
+                
+<li> <a href="#~fps_callback">fps_callback<span class="signature">(fps_avg, phy_fps_avg)</span><span class="type-signature"></span></a></li>
+
+            
+                
+<li> <a href="#~render_callback">render_callback<span class="signature">(delta, timeline)</span><span class="type-signature"></span></a></li>
+
+            
+        </ul>
+    
+    <h2>Detailed Description</h2>
     
 
     
         <h3 class="subsection-title">Methods</h3>
-
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".append_loop_cb"><span class="type-signature">(static) </span>append_loop_cb<span class="signature">(callback)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".append_loop_cb">append_loop_cb<span class="signature">(callback)</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Append callback to be executed every frame.
@@ -204,6 +305,18 @@ Implements methods to initialize and change the global params of the engine.</di
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -233,7 +346,7 @@ Implements methods to initialize and change the global params of the engine.</di
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_main.js.html">ext/main.js</a>, <a href="ext_main.js.html#line610">line 610</a>
+        <a href="ext_main.js.html">ext/main.js</a>, <a href="ext_main.js.html#line611">line 611</a>
     </li></ul></dd>
     
 
@@ -246,33 +359,37 @@ Implements methods to initialize and change the global params of the engine.</di
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".clear_fps_callback"><span class="type-signature">(static) </span>clear_fps_callback<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".clear_fps_callback">clear_fps_callback<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Remove the callback for the FPS counter
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -328,27 +445,31 @@ Implements methods to initialize and change the global params of the engine.</di
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".clear_on_before_render_callback"><span class="type-signature">(static) </span>clear_on_before_render_callback<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".clear_on_before_render_callback">clear_on_before_render_callback<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
+
+</div>
+<div class="item_description">
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -408,33 +529,37 @@ Implements methods to initialize and change the global params of the engine.</di
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".clear_render_callback"><span class="type-signature">(static) </span>clear_render_callback<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".clear_render_callback">clear_render_callback<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Remove the rendering callback
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -490,29 +615,21 @@ Implements methods to initialize and change the global params of the engine.</di
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".get_canvas_elem"><span class="type-signature">(static) </span>get_canvas_elem<span class="signature">()</span><span class="type-signature"> &rarr; {HTMLCanvasElement}</span></h4>
+    <h4 class="name" id=".get_canvas_elem">get_canvas_elem<span class="signature">()</span><span class="type-signature"> &rarr; {HTMLCanvasElement}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Return the main canvas element.
@@ -525,50 +642,6 @@ Implements methods to initialize and change the global params of the engine.</di
 
 
 
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_main.js.html">ext/main.js</a>, <a href="ext_main.js.html#line598">line 598</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
 
 
 
@@ -607,16 +680,64 @@ Implements methods to initialize and change the global params of the engine.</di
 
 
 
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_main.js.html">ext/main.js</a>, <a href="ext_main.js.html#line599">line 599</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".global_timeline"><span class="type-signature">(static) </span>global_timeline<span class="signature">()</span><span class="type-signature"> &rarr; {Number}</span></h4>
+    <h4 class="name" id=".global_timeline">global_timeline<span class="signature">()</span><span class="type-signature"> &rarr; {Number}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Return the engine's global timeline value
@@ -630,6 +751,40 @@ Implements methods to initialize and change the global params of the engine.</di
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Floating-point number of seconds elapsed since the engine start-up
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Number</span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -676,51 +831,21 @@ Implements methods to initialize and change the global params of the engine.</di
 
 
 
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Floating-point number of seconds elapsed since the engine start-up
 </div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Number</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".init"><span class="type-signature">(static) </span>init<span class="signature">(elem_canvas_webgl, elem_canvas_hud<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Object|Null}</span></h4>
+    <h4 class="name" id=".init">init<span class="signature">(elem_canvas_webgl, elem_canvas_hud<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Object|Null}</span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Create the WebGL context and initialize the engine.
@@ -830,6 +955,43 @@ Implements methods to initialize and change the global params of the engine.</di
 
 
 
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    WebGL context or null
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Object</span>
+|
+
+<span class="param-type">Null</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
 <dl class="details">
 
     
@@ -872,6 +1034,36 @@ Implements methods to initialize and change the global params of the engine.</di
 
 
 
+</div>
+</div>
+        
+            
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id=".is_paused">is_paused<span class="signature">()</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Check if the engine is paused
+</div>
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -886,7 +1078,7 @@ Implements methods to initialize and change the global params of the engine.</di
 
         
 <div class="param-desc">
-    WebGL context or null
+    Paused flag
 </div>
 
 
@@ -897,42 +1089,13 @@ Implements methods to initialize and change the global params of the engine.</di
     </dt>
     <dd>
         
-<span class="param-type">Object</span>
-|
-
-<span class="param-type">Null</span>
+<span class="param-type">Boolean</span>
 
 
     </dd>
 </dl>
 
     
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id=".is_paused"><span class="type-signature">(static) </span>is_paused<span class="signature">()</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
-
-    
-
-
-
-<div class="description">
-    Check if the engine is paused
-</div>
-
-
-
-
-
-
-
-
-
 
 
 
@@ -979,55 +1142,37 @@ Implements methods to initialize and change the global params of the engine.</di
 
 
 
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Paused flag
 </div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Boolean</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".pause"><span class="type-signature">(static) </span>pause<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".pause">pause<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Pause the engine
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1083,33 +1228,37 @@ Implements methods to initialize and change the global params of the engine.</di
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".redraw"><span class="type-signature">(static) </span>redraw<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".redraw">redraw<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Force redraw.
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1167,29 +1316,21 @@ Implements methods to initialize and change the global params of the engine.</di
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".remove_loop_cb"><span class="type-signature">(static) </span>remove_loop_cb<span class="signature">(callback)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".remove_loop_cb">remove_loop_cb<span class="signature">(callback)</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Remove loop callback.
@@ -1251,6 +1392,18 @@ Implements methods to initialize and change the global params of the engine.</di
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -1280,7 +1433,7 @@ Implements methods to initialize and change the global params of the engine.</di
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_main.js.html">ext/main.js</a>, <a href="ext_main.js.html#line621">line 621</a>
+        <a href="ext_main.js.html">ext/main.js</a>, <a href="ext_main.js.html#line622">line 622</a>
     </li></ul></dd>
     
 
@@ -1293,29 +1446,21 @@ Implements methods to initialize and change the global params of the engine.</di
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".reset"><span class="type-signature">(static) </span>reset<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".reset">reset<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Reset the engine.
@@ -1334,6 +1479,18 @@ Unloads the scene and releases the engine's resources.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -1363,7 +1520,7 @@ Unloads the scene and releases the engine's resources.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_main.js.html">ext/main.js</a>, <a href="ext_main.js.html#line565">line 565</a>
+        <a href="ext_main.js.html">ext/main.js</a>, <a href="ext_main.js.html#line567">line 567</a>
     </li></ul></dd>
     
 
@@ -1376,29 +1533,21 @@ Unloads the scene and releases the engine's resources.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".resize"><span class="type-signature">(static) </span>resize<span class="signature">(width, height, update_canvas_css<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".resize">resize<span class="signature">(width, height, update_canvas_css<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Resize the rendering canvas.
@@ -1555,6 +1704,18 @@ Unloads the scene and releases the engine's resources.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -1584,7 +1745,7 @@ Unloads the scene and releases the engine's resources.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_main.js.html">ext/main.js</a>, <a href="ext_main.js.html#line258">line 258</a>
+        <a href="ext_main.js.html">ext/main.js</a>, <a href="ext_main.js.html#line254">line 254</a>
     </li></ul></dd>
     
 
@@ -1597,33 +1758,37 @@ Unloads the scene and releases the engine's resources.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".resume"><span class="type-signature">(static) </span>resume<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".resume">resume<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Resume the engine (after pausing)
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1679,29 +1844,21 @@ Unloads the scene and releases the engine's resources.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".set_check_gl_errors"><span class="type-signature">(static) </span>set_check_gl_errors<span class="signature">(val)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".set_check_gl_errors">set_check_gl_errors<span class="signature">(val)</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Whether to perform the checks of WebGL errors during rendering or not.
@@ -1769,6 +1926,18 @@ Note: additional checks can slow down the engine.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -1798,7 +1967,7 @@ Note: additional checks can slow down the engine.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_main.js.html">ext/main.js</a>, <a href="ext_main.js.html#line248">line 248</a>
+        <a href="ext_main.js.html">ext/main.js</a>, <a href="ext_main.js.html#line244">line 244</a>
     </li></ul></dd>
     
 
@@ -1811,29 +1980,21 @@ Note: additional checks can slow down the engine.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".set_fps_callback"><span class="type-signature">(static) </span>set_fps_callback<span class="signature">(fps_cb)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".set_fps_callback">set_fps_callback<span class="signature">(fps_cb)</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Set the callback for the FPS counter
@@ -1900,6 +2061,18 @@ Note: additional checks can slow down the engine.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -1942,27 +2115,31 @@ Note: additional checks can slow down the engine.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".set_on_before_render_callback"><span class="type-signature">(static) </span>set_on_before_render_callback<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".set_on_before_render_callback">set_on_before_render_callback<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
+
+</div>
+<div class="item_description">
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2022,29 +2199,21 @@ Note: additional checks can slow down the engine.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
             
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id=".set_render_callback"><span class="type-signature">(static) </span>set_render_callback<span class="signature">(callback)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".set_render_callback">set_render_callback<span class="signature">(callback)</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Set the rendering callback which is executed for every frame
@@ -2111,6 +2280,18 @@ Note: additional checks can slow down the engine.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -2153,19 +2334,8 @@ Note: additional checks can slow down the engine.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
         
     
 
@@ -2174,14 +2344,17 @@ Note: additional checks can slow down the engine.
 
         
                 
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id="~fps_callback"><span class="type-signature"></span>fps_callback<span class="signature">(fps_avg, phy_fps_avg)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="~fps_callback">fps_callback<span class="signature">(fps_avg, phy_fps_avg)</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     FPS callback
@@ -2271,6 +2444,18 @@ Note: additional checks can slow down the engine.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -2313,29 +2498,21 @@ Note: additional checks can slow down the engine.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
             
                 
+<div class="item_container">
+<div class="item_name">
 
     
 
-    <h4 class="name" id="~render_callback"><span class="type-signature"></span>render_callback<span class="signature">(delta, timeline)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="~render_callback">render_callback<span class="signature">(delta, timeline)</span><span class="type-signature"></span></h4>
 
     
 
-
+</div>
+<div class="item_description">
 
 <div class="description">
     Rendering callback.
@@ -2425,6 +2602,18 @@ Note: additional checks can slow down the engine.
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -2467,19 +2656,8 @@ Note: additional checks can slow down the engine.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</div>
+</div>
             
     
 
@@ -2494,13 +2672,13 @@ Note: additional checks can slow down the engine.
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Thu Mar 26 2015 17:33:36 GMT+0300 (MSK)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Wed Apr 29 2015 10:10:51 GMT+0300 (MSK)
 </footer>
 
 <script> prettyPrint(); </script>

@@ -27,7 +27,6 @@ var INIT_PARAMS = {
     console_verbose: DEBUG,
     assets_dds_available: !DEBUG,
     assets_min50_available: !DEBUG,
-    all_objs_selectable: false,
     error_purge_elements: ["control_panel_over", "status_bar"]
 };
 
@@ -186,9 +185,6 @@ function init_cb(canvas_elem, success) {
         button_up("ultra_mode_button");
         change_quality(m_cfg.P_ULTRA);
     });
-    
-    // disable glow (some scenes may have selectable objects)
-    m_cfg.set("glow", false);
 
     // load last scene
     var last_scene_id = m_storage.get("last_scene_id");

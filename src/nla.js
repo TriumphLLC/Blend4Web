@@ -194,6 +194,7 @@ function init_event() {
         scheduled: false,
         paused: false,
         anim_name: "",
+        anim_uuid: "",
         anim_slot: 0,
         action_frame_start: 0,
         action_frame_end: 0,
@@ -741,7 +742,10 @@ function calc_curr_frame(nla, timeline, start_time, allow_repeat) {
 }
 
 function process_clip_event_start(obj, ev, frame, elapsed) {
-    m_anim.apply(obj, ev.anim_name, ev.anim_slot);
+    if (ev.anim_uuid != "")
+        m_anim.apply_by_uuid(obj, ev.anim_uuid, ev.anim_slot);
+    else
+        m_anim.apply(obj, ev.anim_name, ev.anim_slot);
     // NOTE: should not be required
     m_anim.set_behavior(obj, m_anim.AB_FINISH_STOP, ev.anim_slot);
 }
@@ -798,10 +802,14 @@ function get_nla_events(nla_tracks, anim_slot_num) {
             ev.type = strip["type"];
             ev.frame_start = strip["frame_start"];
             ev.frame_end = strip["frame_end"];
-            ev.anim_name = strip["action"] ? strip["action"]["name"] : "";
             ev.anim_slot = anim_slot_num;
             ev.action_frame_start = strip["action_frame_start"];
             ev.action_frame_end = strip["action_frame_end"];
+
+            if (strip["action"]){
+                ev.anim_name = strip["action"]["name"];
+                ev.anim_uuid = strip["action"]["uuid"];
+            }
 
             nla_events.push(ev);
         }

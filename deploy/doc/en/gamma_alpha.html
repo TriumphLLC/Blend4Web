@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Gamma Correction and Alpha Compositing &mdash; User Manual: Blend4Web v15.03</title>
+    <title>Gamma and Alpha &mdash; User Manual: Blend4Web v15.04</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '15.03',
+        VERSION:     '15.04',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User Manual: Blend4Web v15.03" href="index.html" />
+    <link rel="top" title="User Manual: Blend4Web v15.04" href="index.html" />
     <link rel="next" title="Audio System" href="audio.html" />
     <link rel="prev" title="Outdoor Rendering" href="outdoor_rendering.html" /> 
   </head>
@@ -36,7 +36,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">User Manual: Blend4Web v15.03</a></div>
+          href="index.html">User Manual: Blend4Web v15.04</a></div>
         <div class="rel">
           <a href="outdoor_rendering.html" title="Outdoor Rendering"
              accesskey="P">previous</a> |
@@ -57,9 +57,9 @@
           <div class="body">
             
   <div class="section" id="gamma">
-<span id="id1"></span><h1>Gamma Correction and Alpha Compositing<a class="headerlink" href="#gamma" title="Permalink to this headline">¶</a></h1>
+<span id="id1"></span><h1>Gamma and Alpha<a class="headerlink" href="#gamma" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="id2">
-<h2>Overview<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<h2>Gamma Overview<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
 <p>The essence of gamma correction is packing the image brightness channel into 8 bits of information.</p>
 <p>Graphics editors normally work in a non-linear color space where the darker components are encoded using more bits than the brighter ones. That means that a bigger RGB value corresponds to 0.5 of the real light intensity (a physical quantity called illuminance) - in a simplest case this value equals to 0.5 ^ (1/2.2) = 0.73.</p>
 <a class="reference internal image-reference" href="_images/gamma.jpg"><img alt="_images/gamma.jpg" class="align-center" src="_images/gamma.jpg" style="width: 100%;" /></a>
@@ -112,36 +112,36 @@
 </table>
 </div>
 <div class="section" id="id3">
-<h2>Human Vision, Monitors and Gamma Correction<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<h2>Human Vision and Monitors<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
 <p>While the human vision is non-linear (a human recognizes the darker light tints better than the brighter ones), the light coming into the eye still obeys the physical laws (see the lamps example).</p>
 <p>In CRT monitors the brightness is dependent non-linearly upon the electric voltage applied to the monitor&#8217;s input (the voltage itself is determined by the color channel value in the video memory). LCD monitors mimic the same characteristics. Nevertheless the light emitted by such monitors obeys the physical laws. For example the addition of a second light source to a virtual scene should cause the brightness to double (in the perfect case).</p>
 <p>Therefore the perception characteristics of the human eye and the technical characteristics of monitors have a secondary significance for gamma correction.</p>
 </div>
 <div class="section" id="id4">
-<h2>Gamma<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<h2>Gamma Formula<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
 <p>Used in the following simplified formula:</p>
 <blockquote>
 <div>V<sub>out</sub> = V<sub>in</sub><sup>γ</sup></div></blockquote>
 <p>γ &lt; 1 - packing gamma, γ &gt; 1 - unpacking gamma. In the simplest case 1/2.2 and 2.2 values are used respectively. Hereinafter the &#8220;packing&#8221; (Linear -&gt; sRGB) and &#8220;unpacking&#8221; (sRGB -&gt; Linear) terms are used instead of &#8220;gamma correction&#8221;.</p>
 </div>
 <div class="section" id="gamma-nodes">
-<span id="id5"></span><h2>Gamma Correction in Node Materials<a class="headerlink" href="#gamma-nodes" title="Permalink to this headline">¶</a></h2>
+<span id="id5"></span><h2>Gamma in Node Materials<a class="headerlink" href="#gamma-nodes" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id6">
-<h3>Nodes for colouring<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<h3>Nodes for Colouring<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
 <p>Unpacking (sRGB -&gt; Linear) is required when textures and vertex colors are used for colouring (not for masking). The texture node implements unpacking automatically. For vertex colors the unpacking should be performed explicitely with the <cite>SRGB_TO_LINEAR</cite> special node.</p>
 <p>Note that the alpha channel of a texture node is not corrected. Its values are in the linear space.</p>
 </div>
 <div class="section" id="id7">
-<h3>Nodes for masking<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<h3>Nodes for Masking<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
 <p>Textures and vertex colors can be used as masks i.e. for mixing colors and for other mathematical operations. In such a case no transformations are required.</p>
 <p>In case of a texture however there is a nuance: a texture node implements unpacking automatically. This results in necessity of the additional transformation back to the non-linear space, for which the <cite>LINEAR_TO_SRGB</cite> node is used.</p>
 </div>
 <div class="section" id="id8">
-<h3>Normal maps<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<h3>Normal Maps<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
 <p>No transformations are performed for normal maps.</p>
 </div>
 <div class="section" id="id9">
-<h3>Resulting table of correction in node materials<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<h3>Summary Table<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
 <table border="1" class="docutils">
 <colgroup>
 <col width="50%" />
@@ -232,15 +232,15 @@
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing Effects</a></li>
-<li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System</a></li>
-<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System for Instancing Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System. Fluids</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System. Instancing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="animation.html">Animation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Rendering</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Gamma Correction and Alpha Compositing</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#id2">Overview</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id3">Human Vision, Monitors and Gamma Correction</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id4">Gamma</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#gamma-nodes">Gamma Correction in Node Materials</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Gamma and Alpha</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">Gamma Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">Human Vision and Monitors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">Gamma Formula</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#gamma-nodes">Gamma in Node Materials</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#alpha-compositing">Alpha Compositing</a></li>
 </ul>
 </li>
@@ -284,7 +284,7 @@
           
     <div class="footer">
         &copy; Copyright 2015, Triumph LLC.
-      Last updated on 2015-03-26.
+      Last updated on 2015-04-29.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
         </div>

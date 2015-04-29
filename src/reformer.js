@@ -134,7 +134,8 @@ exports.check_bpy_data = function(bpy_data) {
         switch (mod["type"]) {
         case "ARRAY":
             if (!("fit_type" in mod)) {
-                report_modifier(mod["type"], obj);
+                report_modifier(mod["type"], obj,
+                                bpy_data["b4w_filepath_blend"]);
                 return false;
             }
             break;
@@ -149,7 +150,7 @@ exports.check_bpy_data = function(bpy_data) {
     var worlds = bpy_data["worlds"];
 
     if (worlds.length == 0) {
-        report_missing_datablock("world");
+        report_missing_datablock("world", bpy_data["b4w_filepath_blend"]);
         var world = {
             "name": "DEFAULT",
             "horizon_color": [0,0,0],
@@ -159,6 +160,9 @@ exports.check_bpy_data = function(bpy_data) {
                 "environment_energy": 1,
                 "environment_color": "PLAIN"
             },
+            "use_sky_paper": false,
+            "use_sky_blend": false,
+            "use_sky_real": false,
             "b4w_fog_color": [0.5, 0.5, 0.5],
             "b4w_fog_density": 0.0
         }
@@ -237,14 +241,35 @@ exports.check_bpy_data = function(bpy_data) {
             ssao["blur_discard_value"] = 1.0;
         }
 
-        if (!("b4w_glow_color" in world)) {
-            world["b4w_glow_color"] = [1.0,1.0,1.0];
-            report("object", world, "b4w_glow_color");
+        if (!("use_sky_blend" in world)) {
+            report("world", world, "use_sky_blend");
+            world["use_sky_blend"] = false;
         }
 
-        if (!("b4w_glow_factor" in world)) {
-            world["b4w_glow_factor"] = 1.0;
-            report("object", world, "b4w_glow_factor");
+        if (!("use_sky_paper" in world)) {
+            report("world", world, "use_sky_paper");
+            world["use_sky_paper"] = false;
+        }
+
+        if (!("use_sky_real" in world)) {
+            report("world", world, "use_sky_real");
+            world["use_sky_real"] = false;
+        }
+
+        if (!("b4w_outline_color" in world)) {
+            if ("b4w_glow_color" in world)
+                world["b4w_outline_color"] = world["b4w_glow_color"]
+            else 
+                world["b4w_outline_color"] = [1.0,1.0,1.0];
+            report("world", world, "b4w_outline_color");
+        }
+
+        if (!("b4w_outline_factor" in world)) {
+            if ("b4w_glow_factor" in world)
+                world["b4w_outline_factor"] = world["b4w_glow_factor"];    
+            else
+                world["b4w_outline_factor"] = 1.0;
+            report("world", world, "b4w_outline_factor");
         }
 
         if(!("b4w_fog_density" in world)) {
@@ -255,6 +280,7 @@ exports.check_bpy_data = function(bpy_data) {
         if(!("b4w_sky_settings" in world) || !("rayleigh_brightness" in world["b4w_sky_settings"])) {
             report("world", world, "rayleigh_brightness");
             world["b4w_sky_settings"] = {
+                "render_sky": false,
                 "procedural_skydome": false,
                 "use_as_enviroment_map": false,
                 "color": [0.24, 0.43, 0.75],
@@ -268,6 +294,11 @@ exports.check_bpy_data = function(bpy_data) {
                 "mie_collection_power": 0.5,
                 "mie_distribution": 0.4
             };
+        }
+
+        if (!("render_sky" in world["b4w_sky_settings"])) {
+            report("world", world, "render_sky");
+            world["b4w_sky_settings"]["render_sky"] = false;
         }
 
         if(!("b4w_bloom_settings" in world)) {
@@ -405,6 +436,14 @@ exports.check_bpy_data = function(bpy_data) {
             };
             report("scene", scene, "b4w_tags");
         }
+        if (!("b4w_enable_object_selection" in scene)) {
+            scene["b4w_enable_object_selection"] = "AUTO";
+            report("scene", scene, "b4w_enable_object_selection");
+        }
+        if (!("b4w_enable_outlining" in scene)) {
+            scene["b4w_enable_outlining"] = "AUTO";
+            report("scene", scene, "b4w_enable_outlining");
+        }
     }
 
     /* object data - meshes */
@@ -446,6 +485,13 @@ exports.check_bpy_data = function(bpy_data) {
                                                    (bb["max_y"] - bb["min_y"])/2,
                                                    (bb["max_z"] - bb["min_z"])/2];
         }
+
+        if (!("b4w_shape_keys" in mesh)) {
+            mesh["b4w_shape_keys"] = [];
+            report("mesh", mesh, "b4w_shape_keys");
+        }
+
+        check_export_props(mesh);
 
         for (var j = 0; j < mesh["b4w_vertex_anim"].length; j++) {
             var va = mesh["b4w_vertex_anim"][j];
@@ -1293,6 +1339,14 @@ exports.check_bpy_data = function(bpy_data) {
                 obj["b4w_selectable"] = false;
                 report("object", obj, "b4w_selectable");
             }
+            if (!("b4w_outlining" in obj)) {
+                obj["b4w_outlining"] = false;
+                report("object", obj, "b4w_outlining");
+            }
+            if (!("b4w_outline_on_select" in obj)) {
+                obj["b4w_outline_on_select"] = false;
+                report("object", obj, "b4w_outline_on_select");
+            }
             if (!("b4w_billboard" in obj)) {
                 obj["b4w_billboard"] = false;
                 report("object", obj, "b4w_billboard");
@@ -1305,12 +1359,16 @@ exports.check_bpy_data = function(bpy_data) {
                 obj["b4w_pres_glob_orientation"] = false;
                 report("object", obj, "b4w_pres_glob_orientation");
             }
-            if (!("b4w_glow_settings" in obj)) {
-                obj["b4w_glow_settings"] = {};
-                obj["b4w_glow_settings"]["glow_duration"] = 1.0;
-                obj["b4w_glow_settings"]["glow_period"] = 1.0;
-                obj["b4w_glow_settings"]["glow_relapses"] = 0;
-                report("object", obj, "b4w_glow_settings");
+            if (!("b4w_outline_settings" in obj)) {
+                if ("b4w_glow_settings" in obj)
+                    obj["b4w_outline_settings"] = obj["b4w_glow_settings"];
+                else {
+                    obj["b4w_outline_settings"] = {};
+                    obj["b4w_outline_settings"]["outline_duration"] = 1.0;
+                    obj["b4w_outline_settings"]["outline_period"] = 1.0;
+                    obj["b4w_outline_settings"]["outline_relapses"] = 0;
+                }
+                report("object", obj, "b4w_outline_settings");
             }
             if (!("b4w_lod_transition" in obj)) {
                 obj["b4w_lod_transition"] = 0.01;
@@ -1334,6 +1392,10 @@ exports.check_bpy_data = function(bpy_data) {
                 obj["b4w_anchor"] = null;
                 report("object", obj, "b4w_anchor");
             }
+            if (obj["b4w_anchor"] && !("max_width" in obj["b4w_anchor"])) {
+                obj["b4w_anchor"]["max_width"] = 250;
+            }
+
             break;
         default:
             break;
@@ -1554,6 +1616,24 @@ exports.check_bpy_data = function(bpy_data) {
     }
 }
 
+function check_export_props(obj) {
+    var export_props = ["b4w_apply_scale", "b4w_apply_modifiers", 
+            "b4w_export_edited_normals", "b4w_loc_export_vertex_anim", 
+            "b4w_shape_keys"];
+    var prop_found = null;
+    for (var i = 0; i < export_props.length; i++) {
+        if (obj[export_props[i]])
+            if(!prop_found)
+                prop_found = export_props[i];
+            else {
+                obj[export_props[i]] = false;
+                m_print.warn("WARNING property \"" + export_props[i] + "\" of object \"" 
+                    + obj["name"] + "\" has been set to \"false\". Foreground property \""
+                    + prop_found + "\" already exists.");
+            }
+    }
+}
+
 function quat_b4w_bpy(quat, dest) {
     var x = quat[0];
     var y = quat[1];
@@ -1593,13 +1673,14 @@ function report(type, obj, missing_param) {
 /**
  * Report about missing datablock.
  */
-function report_missing_datablock(type) {
+function report_missing_datablock(type, file_path_blend) {
     if (!REPORT_COMPATIBILITY_ISSUES) {
         _unreported_compat_issues = true;
         return;
     }
 
-    m_print.warn("WARNING " + "Datablock " + type + " is missing, reexport scene");
+    m_print.warn("WARNING " + "Datablock " + type + " is missing, reexport \"" +
+                file_path_blend + "\" scene");
 }
 /**
  * Report about deprecated datablock
@@ -1620,15 +1701,16 @@ function report_deprecated(type, obj, deprecated_param) {
 
     _params_reported[param_id].storage.push(obj.name);
 }
-function report_modifier(type, obj) {
+function report_modifier(type, obj, file_path_blend) {
     if (!REPORT_COMPATIBILITY_ISSUES) {
         _unreported_compat_issues = true;
         return;
     }
 
     m_print.error("WARNING " + "Incomplete modifier " + String(type) + " for " +
-            "\"" + obj["name"] + "\"" + ", reexport " +
-            (obj["library"] ? "library" + libname(obj) : "main scene"));
+            "\"" + obj["name"] + "\"" + ", reexport \"" +
+            file_path_blend + "\" scene");
+
 }
 /**
  * Report raw message
@@ -1666,8 +1748,7 @@ exports.check_anim_fcurve_completeness = function(fcurve, action) {
     if (!("num_channels" in fcurve)) {
         fcurve["num_channels"] = 1;
         report_raw("B4W Warning: no channels number in animation fcurve for \"" +
-                   action["name"] + "\" action, reexport " +
-                   (action["library"] ? "library" + libname(action) : "main scene"));
+                   action["name"] + "\" action, reexport scene");
     }
 }
 

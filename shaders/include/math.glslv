@@ -1,8 +1,10 @@
 #var EPSILON 0.0001
 #export is_equal3f
-#export identity qrot rotation_x rotation_y rotation_z
+#export identity qrot rotation_x rotation_y rotation_z qinv
 #export vertex
 #export tbn_norm
+#export tsr_translate
+#export tsr_translate_inv
 
 float ZERO_VALUE_MATH = 0.0;
 float UNITY_VALUE_MATH = 1.0;
@@ -30,6 +32,36 @@ bool is_equal3f(vec3 a, vec3 b) {
 vec3 qrot(in vec4 q, in vec3 v)
 {
     return v + 2.0 * cross(q.xyz, cross(q.xyz, v) + q.w * v);
+}
+
+vec4 qinv(in vec4 quat) {
+    return vec4(-quat.xyz, quat.w) / dot(quat, quat);
+}
+
+vec3 tsr_translate(vec4 trans, vec4 quat, vec4 vec)
+{
+    // scale
+    vec3 dest = vec.xyz * trans.w;
+    // quat * vec
+    dest = qrot(quat, dest);
+    // translate
+    dest += trans.xyz * vec.w;
+
+    return dest;
+}
+
+// translate vec4 with tsr in inverse direction
+vec3 tsr_translate_inv(vec4 trans, vec4 quat, vec4 vec)
+{
+    // translate
+    vec3 dest = vec.xyz - trans.xyz * vec.w;
+    // inverse quat * vec
+    vec4 quat_inv = qinv(quat);
+    dest = qrot(quat_inv, dest);
+    // scale
+    dest /= trans.w;
+
+    return dest;
 }
 
 /*

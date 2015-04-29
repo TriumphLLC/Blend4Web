@@ -36,8 +36,7 @@ exports.init = function() {
         physics_enabled: true,
         quality: quality,
         show_fps: true,
-        alpha: false,
-        physics_uranium_path: "uranium.js"
+        alpha: false
     });
 }
 

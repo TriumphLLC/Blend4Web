@@ -132,7 +132,7 @@ function load_cb(data_id) {
     m_app.enable_camera_controls();
     load_data();
     create_sensors();
-    m_mouse.enable_mouse_hover_glow();
+    m_mouse.enable_mouse_hover_outline();
 }
 
 function load_data() {
@@ -321,7 +321,7 @@ function start() {
 
     close_button.addEventListener("click", function() {
         _disable_interaction = false;
-        m_mouse.enable_mouse_hover_glow()
+        m_mouse.enable_mouse_hover_outline()
         container.style.visibility = "hidden";
         text_container.style.visibility = "hidden";
         icons.style.visibility = "hidden";
@@ -542,7 +542,7 @@ function play_letter_box_anim() {
     m_sfx.play_def(speaker);
 
     _disable_interaction = true;
-    m_mouse.disable_mouse_hover_glow();
+    m_mouse.disable_mouse_hover_outline();
 
     calc_camera_sensor_data();
 

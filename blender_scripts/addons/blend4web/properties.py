@@ -78,6 +78,15 @@ class B4W_Tags(bpy.types.PropertyGroup):
         description = "Description",
         default = ""
     )
+    desc_source = bpy.props.EnumProperty(
+        name = "Description source",
+        description = "",
+        default = "TEXT",
+        items = [
+            ("TEXT", "Text", "Get description from text field"),
+            ("FILE", "File", "Get description from file")
+        ]
+    )
 
 class B4W_Object_Tags(bpy.types.PropertyGroup):
     title = bpy.props.StringProperty(
@@ -88,7 +97,17 @@ class B4W_Object_Tags(bpy.types.PropertyGroup):
     description = bpy.props.StringProperty(
         name = "Description",
         description = "Description",
-        default = ""
+        default = "",
+        maxlen = 1000
+    )
+    desc_source = bpy.props.EnumProperty(
+        name = "Description source",
+        description = "",
+        default = "TEXT",
+        items = [
+            ("TEXT", "Text", "Get description from text field"),
+            ("FILE", "File", "Get description from file")
+        ]
     )
     category = bpy.props.StringProperty(
         name = "Class",
@@ -281,10 +300,10 @@ class B4W_VehicleSettings(bpy.types.PropertyGroup):
         default = False,
     )
 
-class B4W_GlowSettings(bpy.types.PropertyGroup):
-    glow_duration = bpy.props.FloatProperty(
-        name = "Glow duration",
-        description = "Glow duration",
+class B4W_OutlineSettings(bpy.types.PropertyGroup):
+    outline_duration = bpy.props.FloatProperty(
+        name = "Outline duration",
+        description = "Outline duration",
         default = 1.0,
         min = 0.01,
         soft_max = 10.0,
@@ -292,9 +311,9 @@ class B4W_GlowSettings(bpy.types.PropertyGroup):
         step = 1,
         precision = 2
     )
-    glow_period = bpy.props.FloatProperty(
-        name = "Glow peroid",
-        description = "Glow period",
+    outline_period = bpy.props.FloatProperty(
+        name = "Outline peroid",
+        description = "Outline period",
         default = 1.0,
         min = 0.01,
         soft_max = 10.0,
@@ -302,9 +321,9 @@ class B4W_GlowSettings(bpy.types.PropertyGroup):
         step = 1,
         precision = 2
     )
-    glow_relapses = bpy.props.IntProperty(
-        name = "Glow relapses",
-        description = "Glow relapses",
+    outline_relapses = bpy.props.IntProperty(
+        name = "Outline relapses",
+        description = "Outline relapses",
         default = 0,
         min = 0,
         soft_max = 10,
@@ -670,6 +689,12 @@ class B4W_MotionBlurSettings(bpy.types.PropertyGroup):
 
 class B4W_SkySettings(bpy.types.PropertyGroup):
 
+    render_sky = bpy.props.BoolProperty(
+        name = "B4W: render sky",
+        description = "Sky will be rendered instead of default background",
+        default = False
+    )
+
     reflexible = bpy.props.BoolProperty(
         name = "B4W: reflexible",
         description = "Sky will be rendered during the reflection pass",
@@ -933,6 +958,14 @@ class B4W_AnchorSettings(bpy.types.PropertyGroup):
         description = "ID of element for ELEMENT anchor type",
         default = ""
     )
+    max_width = bpy.props.IntProperty(
+        name = "Max Width",
+        description = "Maximum width of annotation description element (in pixels)",
+        default = 250,
+        min = 0,
+        soft_max = 1000,
+        max = 10000
+    )
 
 def add_b4w_props():
 
@@ -1004,9 +1037,9 @@ def add_b4w_props():
     add_scene_properties()
 
     # for world panel
-    b4w_glow_color = bpy.props.FloatVectorProperty(
-        name = "B4W: glow color of the selection",
-        description = "Default glow color of the selection",
+    b4w_outline_color = bpy.props.FloatVectorProperty(
+        name = "B4W: outline color of the selection",
+        description = "Default outline color of the selection",
         default = (1.0, 1.0, 1.0),
         min = 0.0,
         soft_min = 0.0,
@@ -1016,18 +1049,18 @@ def add_b4w_props():
         subtype = 'COLOR',
         size = 3
     )
-    bpy.types.World.b4w_glow_color = b4w_glow_color
+    bpy.types.World.b4w_outline_color = b4w_outline_color
 
-    b4w_glow_factor = bpy.props.FloatProperty(
-        name = "B4W: glow factor",
-        description = "Glow strength factor",
+    b4w_outline_factor = bpy.props.FloatProperty(
+        name = "B4W: outline factor",
+        description = "Outline strength factor",
         default = 1.0,
         min = 0.1,
         max = 1.0,
         step = 1,
         precision = 2
     )
-    bpy.types.World.b4w_glow_factor = b4w_glow_factor
+    bpy.types.World.b4w_outline_factor = b4w_outline_factor
 
     b4w_fog_color = bpy.props.FloatVectorProperty(
         name = "B4W: fog color",
@@ -1588,6 +1621,30 @@ def add_scene_properties():
     )
     scene_type.b4w_tags = b4w_tags
 
+    b4w_enable_object_selection = bpy.props.EnumProperty(
+        name = "B4W: enable object selection",
+        description = "Enable object selection",
+        items = [
+            ("OFF", "OFF", "0", 0),
+            ("ON",  "ON",  "1", 1),
+            ("AUTO",  "AUTO",  "2", 2),
+        ],
+        default = "AUTO"
+    )
+    scene_type.b4w_enable_object_selection = b4w_enable_object_selection
+
+    b4w_enable_outlining = bpy.props.EnumProperty(
+        name = "B4W: enable outlining",
+        description = "Enable outlining",
+        items = [
+            ("OFF", "OFF", "0", 0),
+            ("ON",  "ON",  "1", 1),
+            ("AUTO",  "AUTO",  "2", 2),
+        ],
+        default = "AUTO"
+    )
+    scene_type.b4w_enable_outlining = b4w_enable_outlining
+
     scene_type.b4w_nla_script= bpy.props.CollectionProperty(
             type=nla_script.B4W_ScriptSlot,
             name="B4W: NLA Script")
@@ -1621,22 +1678,60 @@ def add_object_properties():
         default = False
     )
 
+    def export_edited_normals_update(self, context):
+        if self.b4w_export_edited_normals:
+            self.b4w_shape_keys = False
+            self.b4w_loc_export_vertex_anim = False
+            self.b4w_apply_modifiers = False
+            self.b4w_apply_scale = False
+
     obj_type.b4w_export_edited_normals = bpy.props.BoolProperty(
         name = "B4W: export edited normals",
         description = "Export baked vertex normals",
-        default = False
+        default = False,
+        update = export_edited_normals_update
     )
+
+    def shape_keys_update(self, context):
+        if self.b4w_shape_keys:
+            self.b4w_export_edited_normals = False
+            self.b4w_loc_export_vertex_anim = False
+            self.b4w_apply_modifiers = False
+            self.b4w_apply_scale = False
+
+    obj_type.b4w_shape_keys = bpy.props.BoolProperty(
+        name = "B4W: export shape keys",
+        description = "Export shape keys",
+        default = False,
+        update = shape_keys_update
+    )
+
+    def apply_scale_update(self, context):
+        if self.b4w_apply_scale:
+            self.b4w_export_edited_normals = False
+            self.b4w_loc_export_vertex_anim = False
+            self.b4w_apply_modifiers = False
+            self.b4w_shape_keys = False
 
     obj_type.b4w_apply_scale = bpy.props.BoolProperty(
         name = "B4W: apply scale",
-        description = "Apply scale before export",
-        default = False
+        description = "Apply scale and modifiers before export",
+        default = False,
+        update = apply_scale_update
     )
+
+    def apply_modifiers_update(self, context):
+        if self.b4w_apply_modifiers:
+            self.b4w_export_edited_normals = False
+            self.b4w_loc_export_vertex_anim = False
+            self.b4w_shape_keys = False
+            self.b4w_apply_scale = False
 
     obj_type.b4w_apply_modifiers = bpy.props.BoolProperty(
         name = "B4W: apply modifiers",
         description = "Apply object modifiers before export",
-        default = False
+        default = False,
+        update = apply_modifiers_update
     )
 
     b4w_do_not_cull = bpy.props.BoolProperty(
@@ -1806,10 +1901,24 @@ def add_object_properties():
 
     b4w_selectable = bpy.props.BoolProperty(
         name = "B4W: selectable",
-        description = "Object can be selected (color picking) and glowed",
+        description = "Object can be selected",
         default = False
     )
     obj_type.b4w_selectable = b4w_selectable
+
+    b4w_outlining = bpy.props.BoolProperty(
+        name = "B4W: outlining",
+        description = "Object can be outlined",
+        default = False
+    )
+    obj_type.b4w_outlining = b4w_outlining
+
+    b4w_outline_on_select = bpy.props.BoolProperty(
+        name = "B4W: outline on select",
+        description = "Automatic outlining on select",
+        default = False
+    )
+    obj_type.b4w_outline_on_select = b4w_outline_on_select
 
     b4w_billboard = bpy.props.BoolProperty(
         name = "B4W: billboard",
@@ -1836,9 +1945,9 @@ def add_object_properties():
     )
     obj_type.b4w_billboard_geometry = b4w_billboard_geometry
 
-    obj_type.b4w_glow_settings = bpy.props.PointerProperty(
-        name = "B4W: glow settings",
-        type = B4W_GlowSettings
+    obj_type.b4w_outline_settings = bpy.props.PointerProperty(
+        name = "B4W: outline settings",
+        type = B4W_OutlineSettings
     )
 
     obj_type.b4w_collision = bpy.props.BoolProperty(
@@ -1893,10 +2002,18 @@ def add_object_properties():
     )
 
     # not exported
+    def loc_export_vertex_anim_update(self, context):
+        if self.b4w_loc_export_vertex_anim:
+            self.b4w_shape_keys = False
+            self.b4w_export_edited_normals = False
+            self.b4w_apply_modifiers = False
+            self.b4w_apply_scale = False
+
     obj_type.b4w_loc_export_vertex_anim = bpy.props.BoolProperty(
         name = "B4W: export vertex animation",
         description = "Export baked vertex animation",
-        default = False
+        default = False,
+        update = loc_export_vertex_anim_update
     )
 
     obj_type.b4w_lod_transition = bpy.props.FloatProperty(
@@ -2867,7 +2984,7 @@ def add_particle_settings_properties():
 
 def register():
     bpy.utils.register_class(B4W_VehicleSettings)
-    bpy.utils.register_class(B4W_GlowSettings)
+    bpy.utils.register_class(B4W_OutlineSettings)
     bpy.utils.register_class(B4W_FloatingSettings)
     bpy.utils.register_class(B4W_CharacterSettings)
     bpy.utils.register_class(B4W_SSAOSettings)
@@ -2887,7 +3004,7 @@ def register():
 
 def unregister():
     bpy.utils.unregister_class(B4W_VehicleSettings)
-    bpy.utils.unregister_class(B4W_GlowSettings)
+    bpy.utils.unregister_class(B4W_OutlineSettings)
     bpy.utils.unregister_class(B4W_FloatingSettings)
     bpy.utils.unregister_class(B4W_CharacterSettings)
     bpy.utils.unregister_class(B4W_SSAOSettings)

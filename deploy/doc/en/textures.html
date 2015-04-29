@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Textures &mdash; User Manual: Blend4Web v15.03</title>
+    <title>Textures &mdash; User Manual: Blend4Web v15.04</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '15.03',
+        VERSION:     '15.04',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User Manual: Blend4Web v15.03" href="index.html" />
+    <link rel="top" title="User Manual: Blend4Web v15.04" href="index.html" />
     <link rel="next" title="Node Materials" href="node_materials.html" />
     <link rel="prev" title="Materials" href="materials.html" /> 
   </head>
@@ -36,7 +36,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">User Manual: Blend4Web v15.03</a></div>
+          href="index.html">User Manual: Blend4Web v15.04</a></div>
         <div class="rel">
           <a href="materials.html" title="Materials"
              accesskey="P">previous</a> |
@@ -331,7 +331,7 @@
 <img alt="_images/fps.jpg" class="align-center" src="_images/fps.jpg" />
 </div>
 <div class="section" id="id23">
-<h3>Peculiarities of mobile devices<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h3>
+<h3>Specifics of Mobile Devices<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h3>
 <p>The peculiarities for mobile devices are as follows:</p>
 <ol class="arabic simple">
 <li><p class="first">Normal operation of video textures on iPhones is not possible because these devices play back videos via the standard iOS video player. For these devices you need to convert your videos to special <tt class="docutils literal"><span class="pre">.seq</span></tt> format by using our <a class="reference internal" href="developers.html#converter"><em>converter</em></a>.</p>
@@ -354,7 +354,7 @@
 <p>It is recommended to use the lossless format (PNG) in order to avoid seams.</p>
 <a class="reference internal image-reference" href="_images/environment_map.png"><img alt="_images/environment_map.png" class="align-center" src="_images/environment_map.png" style="width: 100%;" /></a>
 <div class="section" id="id25">
-<h3>Environment map creation<a class="headerlink" href="#id25" title="Permalink to this headline">¶</a></h3>
+<h3>Making Environment Maps<a class="headerlink" href="#id25" title="Permalink to this headline">¶</a></h3>
 <p>Blender has an option for baking a scene into an environment map. To do this:</p>
 <ol class="arabic simple">
 <li><p class="first">Create a scene for baking.</p>
@@ -403,11 +403,11 @@
 <p>Can be also used to implement one of the <a class="reference internal" href="lighting.html#environment-lighting"><em>environment lighting</em></a> methods.</p>
 <div class="section" id="id29">
 <h3>Activation<a class="headerlink" href="#id29" title="Permalink to this headline">¶</a></h3>
-<p>Create a world texture with the <tt class="docutils literal"><span class="pre">Environment</span> <span class="pre">Map</span></tt> type and select the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Sky</span> <span class="pre">texture</span> <span class="pre">usage</span> <span class="pre">&gt;</span> <span class="pre">SKYDOME</span></tt> option.</p>
+<p>Create a world texture of <tt class="docutils literal"><span class="pre">Environment</span> <span class="pre">Map</span></tt> type. Enable <tt class="docutils literal"><span class="pre">Sky</span> <span class="pre">Settings</span> <span class="pre">&gt;</span> <span class="pre">Render</span> <span class="pre">Sky</span></tt> under the <tt class="docutils literal"><span class="pre">World</span></tt> tab. Select the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Sky</span> <span class="pre">Texture</span> <span class="pre">Usage</span> <span class="pre">&gt;</span> <span class="pre">SKYDOME</span></tt> option.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p>To imitate <a class="reference internal" href="lighting.html#environment-lighting"><em>environment lighting</em></a> you can select the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Sky</span> <span class="pre">texture</span> <span class="pre">usage</span> <span class="pre">&gt;</span> <span class="pre">ENVIRONMENT_LIGHTING</span></tt> option. Also you should select the corresponding option in the world settings: <tt class="docutils literal"><span class="pre">Environment</span> <span class="pre">Lighting</span> <span class="pre">&gt;</span> <span class="pre">Sky</span> <span class="pre">Texture</span></tt>.</p>
-<p class="last">To use the world texture both for skydome and for environment lighting, select <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Sky</span> <span class="pre">texture</span> <span class="pre">usage</span> <span class="pre">&gt;</span> <span class="pre">BOTH</span></tt>.</p>
+<p>To imitate <a class="reference internal" href="lighting.html#environment-lighting"><em>environment lighting</em></a> you can select the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Sky</span> <span class="pre">Texture</span> <span class="pre">Usage</span> <span class="pre">&gt;</span> <span class="pre">ENVIRONMENT_LIGHTING</span></tt> option. Also you should select the corresponding option in the world settings: <tt class="docutils literal"><span class="pre">Environment</span> <span class="pre">Lighting</span> <span class="pre">&gt;</span> <span class="pre">Sky</span> <span class="pre">Texture</span></tt>.</p>
+<p class="last">To use the world texture both for skydome and for environment lighting, select <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Sky</span> <span class="pre">Texture</span> <span class="pre">Usage</span> <span class="pre">&gt;</span> <span class="pre">BOTH</span></tt>.</p>
 </div>
 <a class="reference internal image-reference" href="_images/skydome.png"><img alt="_images/skydome.png" class="align-center" src="_images/skydome.png" style="width: 100%;" /></a>
 <div class="line-block">
@@ -447,7 +447,7 @@
 <ol class="arabic simple">
 <li><p class="first">Create an additional source scene, rename it for convenience, create a <tt class="docutils literal"><span class="pre">World</span></tt>, add the objects wanted, setup the camera view.</p>
 </li>
-<li><p class="first">Set the <tt class="docutils literal"><span class="pre">None</span></tt> type for a texture of the target object on the main scene, and select the <tt class="docutils literal"><span class="pre">Scene</span></tt> type in the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Source</span> <span class="pre">type</span></tt> menu. Specify the name of the source scene in the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Source</span> <span class="pre">id</span></tt> field. Set the texture size in the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Source</span> <span class="pre">size</span></tt> field (in pixels).</p>
+<li><p class="first">Set the <tt class="docutils literal"><span class="pre">None</span></tt> type for a texture of the target object on the main scene, and select the <tt class="docutils literal"><span class="pre">Scene</span></tt> type in the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Source</span> <span class="pre">Type</span></tt> menu. Specify the name of the source scene in the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Source</span> <span class="pre">ID</span></tt> field. Set the texture size in the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Source</span> <span class="pre">Size</span></tt> field (in pixels).</p>
 </li>
 </ol>
 <a class="reference internal image-reference" href="_images/render_to_texture.jpg"><img alt="_images/render_to_texture.jpg" class="align-center" src="_images/render_to_texture.jpg" style="width: 100%;" /></a>
@@ -455,7 +455,7 @@
 <div class="section" id="canvas">
 <span id="render-to-texture-canvas"></span><h3>Canvas<a class="headerlink" href="#canvas" title="Permalink to this headline">¶</a></h3>
 <p>A &lt;canvas&gt; HTML element can be used as a texture. It can be modified via <a class="reference internal" href="developers.html#canvas-texture"><em>API</em></a>.</p>
-<p>Set the <tt class="docutils literal"><span class="pre">None</span></tt> type for the texture of the target object on the main scene, and select the <tt class="docutils literal"><span class="pre">Canvas</span></tt> type in the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Source</span> <span class="pre">type</span></tt> menu. Specify the id of the canvas HTML element in the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Source</span> <span class="pre">id</span></tt> field. Set the texture size in the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Source</span> <span class="pre">size</span></tt> field (in pixels).</p>
+<p>Set the <tt class="docutils literal"><span class="pre">None</span></tt> type for the texture of the target object on the main scene, and select the <tt class="docutils literal"><span class="pre">Canvas</span></tt> type in the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Source</span> <span class="pre">Type</span></tt> menu. Specify the id of the canvas HTML element in the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Source</span> <span class="pre">ID</span></tt> field. Set the texture size in the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Source</span> <span class="pre">Size</span></tt> field (in pixels).</p>
 </div>
 </div>
 </div>
@@ -497,11 +497,11 @@
 <li class="toctree-l1"><a class="reference internal" href="node_materials.html">Node Materials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_effects.html">Postprocessing Effects</a></li>
-<li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System</a></li>
-<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System for Instancing Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles.html">Particle System. Fluids</a></li>
+<li class="toctree-l1"><a class="reference internal" href="particles_instancing.html">Particle System. Instancing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="animation.html">Animation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Rendering</a></li>
-<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Gamma Correction and Alpha Compositing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gamma_alpha.html">Gamma and Alpha</a></li>
 <li class="toctree-l1"><a class="reference internal" href="audio.html">Audio System</a></li>
 <li class="toctree-l1"><a class="reference internal" href="physics.html">Physics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nla.html">Non-Linear Animation</a></li>
@@ -542,7 +542,7 @@
           
     <div class="footer">
         &copy; Copyright 2015, Triumph LLC.
-      Last updated on 2015-03-26.
+      Last updated on 2015-04-29.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
     </div>
         </div>
