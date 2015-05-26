@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Разработчикам движка &mdash; Руководство пользователя: Blend4Web v15.04</title>
+    <title>Разработчикам движка &mdash; Руководство пользователя: Blend4Web v15.05</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '15.04',
+        VERSION:     '15.05',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,19 +26,19 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v15.04" href="index.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v15.05" href="index.html" />
     <link rel="next" title="Работа в команде с использованием Git" href="git_short_manual.html" />
     <link rel="prev" title="Разработчикам приложений" href="developers.html" /> 
   </head>
-  <body>
-    <div class="header-wrapper">
+  <body role="document">
+    <div class="header-wrapper" role="banner">
       <div class="header">
           <p class="logo"><a href="index.html">
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">Руководство пользователя: Blend4Web v15.04</a></div>
-        <div class="rel">
+          href="index.html">Руководство пользователя: Blend4Web v15.05</a></div>
+        <div class="rel" role="navigation" aria-label="related navigation">
           <a href="developers.html" title="Разработчикам приложений"
              accesskey="P">назад</a> |
           <a href="git_short_manual.html" title="Работа в команде с использованием Git"
@@ -55,7 +55,7 @@
             
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="developers-advanced">
 <span id="id1"></span><h1>Разработчикам движка<a class="headerlink" href="#developers-advanced" title="Ссылка на этот заголовок">¶</a></h1>
@@ -89,7 +89,7 @@
 </pre></div>
 </div>
 <p>Для внешних API названия методов и свойств задаются через точку.
-Поля, требующие защиту от обфускации, помещаются в специальный тэг <tt class="docutils literal"><span class="pre">&#64;cc_externs</span></tt>:</p>
+Поля, требующие защиту от обфускации, помещаются в специальный тэг <code class="docutils literal"><span class="pre">&#64;cc_externs</span></code>:</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span class="nx">exports</span><span class="p">.</span><span class="nx">FOO_BAR</span> <span class="o">=</span> <span class="mi">123</span><span class="p">;</span>
 
 <span class="nx">exports</span><span class="p">.</span><span class="nx">foo_bar</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
@@ -120,7 +120,7 @@
 <div class="section" id="id4">
 <h2>Сборка движка<a class="headerlink" href="#id4" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Перед сборкой необходимо убедиться, что в системе присутствуют все необходимые
-зависимости, для чего следует свериться с <a class="reference internal" href="#dependencies"><em>таблицей</em></a>.</p>
+зависимости, для чего следует свериться с <a class="reference internal" href="#dependencies"><span>таблицей</span></a>.</p>
 <p>Для компиляции движка и входящих в SDK приложений достаточно выполнить команду
 из корневой директории SDK:</p>
 <div class="highlight-bash"><div class="highlight"><pre>make compile
@@ -148,8 +148,8 @@
 <dl class="docutils">
 <dt>Пути относительно корневой директории SDK:</dt>
 <dd><ul class="first last simple">
-<li>скрипт сборки: <tt class="docutils literal"><span class="pre">csrc/b4w_bin/build.py</span></tt></li>
-<li>аддон Blend4Web: <tt class="docutils literal"><span class="pre">blender_scripts/addons/blend4web/</span></tt></li>
+<li>скрипт сборки: <code class="docutils literal"><span class="pre">csrc/b4w_bin/build.py</span></code></li>
+<li>аддон Blend4Web: <code class="docutils literal"><span class="pre">blender_scripts/addons/blend4web/</span></code></li>
 </ul>
 </dd>
 </dl>
@@ -158,8 +158,8 @@
 </pre></div>
 </div>
 <p>Результатом сборки будет бинарный файл с именем:</p>
-<p><tt class="docutils literal"><span class="pre">b4w_bin_[ПЛАТФОРМА]_[АРХИТЕКТУРА].[СТАНДАРТНОЕ_РАСШИРЕНИЕ]</span></tt>,</p>
-<p>размещенный в каталоге с аддоном. Пример: <tt class="docutils literal"><span class="pre">b4w_bin_Linux_64.so</span></tt>. После этого аддон станет готовым к использованию на данной платформе.</p>
+<p><code class="docutils literal"><span class="pre">b4w_bin_[ПЛАТФОРМА]_[АРХИТЕКТУРА].[СТАНДАРТНОЕ_РАСШИРЕНИЕ]</span></code>,</p>
+<p>размещенный в каталоге с аддоном. Пример: <code class="docutils literal"><span class="pre">b4w_bin_Linux_64.so</span></code>. После этого аддон станет готовым к использованию на данной платформе.</p>
 </div>
 <div class="section" id="dependencies">
 <span id="id6"></span><h2>Зависимости<a class="headerlink" href="#dependencies" title="Ссылка на этот заголовок">¶</a></h2>
@@ -289,16 +289,16 @@ texlive-lang-cyrillic</td>
 </div>
 <div class="section" id="debugging">
 <span id="id8"></span><h2>Отладка<a class="headerlink" href="#debugging" title="Ссылка на этот заголовок">¶</a></h2>
-<p>Отладка движка производится с помощью методов модуля <tt class="docutils literal"><span class="pre">debug.js</span></tt>.</p>
+<p>Отладка движка производится с помощью методов модуля <code class="docutils literal"><span class="pre">debug.js</span></code>.</p>
 <p>Структура текущего рендер-графа может быть сохранена в формате DOT с помощью
-вызова <tt class="docutils literal"><span class="pre">b4w.debug.scenegraph_to_dot()</span></tt>, например, в консоли браузера. После
+вызова <code class="docutils literal"><span class="pre">b4w.debug.scenegraph_to_dot()</span></code>, например, в консоли браузера. После
 вызова данного метода содержимое консоли сохранить в файл с расширением .gv. Чтобы получить граф
 в графическом виде, необходим набор утилит <a class="reference external" href="http://www.graphviz.org/">graphviz</a>.
 Преобразование в формат SVG выполняется с помощью вызова:</p>
 <div class="highlight-bash"><div class="highlight"><pre>&gt; dot -Tsvg graph.gv -o graph.svg
 </pre></div>
 </div>
-<p>где <tt class="docutils literal"><span class="pre">graph.gv</span></tt> имя файла с сохранённым графом.</p>
+<p>где <code class="docutils literal"><span class="pre">graph.gv</span></code> имя файла с сохранённым графом.</p>
 <span class="target" id="shaders"></span></div>
 <div class="section" id="index-0">
 <span id="id9"></span><h2>Компиляция шейдеров<a class="headerlink" href="#index-0" title="Ссылка на этот заголовок">¶</a></h2>
@@ -398,8 +398,8 @@ GLSL-кода. На данный момент в нем реализована �
 <span class="cp">#export skin</span>
 </pre></div>
 </div>
-<p>Директива <tt class="docutils literal"><span class="pre">#import</span></tt> определяет набор идентификаторов, которые объявлены вне этого include-файла, но доступны для использования в нем. Имеется ограничение: такие идентификаторы должны быть обязательно объявлены где-либо выше места подключения include-файла.</p>
-<p>Директива <tt class="docutils literal"><span class="pre">#export</span></tt> определяет набор идентификаторов, доступных для использования вне данного файла. Такие идентификаторы должны быть обязательно объявлены в этом файле.</p>
+<p>Директива <code class="docutils literal"><span class="pre">#import</span></code> определяет набор идентификаторов, которые объявлены вне этого include-файла, но доступны для использования в нем. Имеется ограничение: такие идентификаторы должны быть обязательно объявлены где-либо выше места подключения include-файла.</p>
+<p>Директива <code class="docutils literal"><span class="pre">#export</span></code> определяет набор идентификаторов, доступных для использования вне данного файла. Такие идентификаторы должны быть обязательно объявлены в этом файле.</p>
 <p>Таким образом, шейдер, использующий include-файл, обязан до места подключения содержать объявления, необходимые для импорта, а после него может использовать экспортируемые идентификаторы.</p>
 <p>Идентификаторами могут быть как имена переменных, так и имена функций. По умолчанию при отсутствии директив import/export считается, что include-файл не использует внешние объявления и не предоставляет пользование внутренними.</p>
 </div>
@@ -407,7 +407,7 @@ GLSL-кода. На данный момент в нем реализована �
 <span id="id14"></span><h3>Рекомендации и ограничения<a class="headerlink" href="#index-5" title="Ссылка на этот заголовок">¶</a></h3>
 <p>В связи с наличием препроцессинга, необходимостью совместной обработки нескольких шейдеров и include-файлов, а также особенностями реализации компилятора гарантировать работоспособность полученного на выходе кода можно только при соблюдении ряда правил или ограничений на текст исходных шейдеров:</p>
 <ol class="arabic simple">
-<li>Обязательное использование специальной директивы <tt class="docutils literal"><span class="pre">#var</span></tt> для описания констант, определяемых движком в момент запуска. Например:</li>
+<li>Обязательное использование специальной директивы <code class="docutils literal"><span class="pre">#var</span></code> для описания констант, определяемых движком в момент запуска. Например:</li>
 </ol>
 <div class="highlight-glsl"><div class="highlight"><pre><span class="cp">#var AU_QUALIFIER uniform</span>
 <span class="n">AU_QUALIFIER</span> <span class="k">float</span> <span class="n">a</span><span class="p">;</span>
@@ -416,7 +416,7 @@ GLSL-кода. На данный момент в нем реализована �
 <p>Синтаксис здесь схож с директивой #define. Смысл директивы #var в том, чтобы определяемое ею значение позволило распарсить исходный шейдер. Что это будет конкретно (например, &#8216;uniform&#8217; или &#8216;attribute&#8217; в примере выше), не важно, т.к. на этом этапе оно все равно неизвестно. Однако, желательно указывать более-менее подходящее описание, а не что-то совершенно произвольное.</p>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
-<p class="last">Для констант, используемых не в коде шейдера, а в выражениях препроцессинга, директива <tt class="docutils literal"><span class="pre">#var</span></tt> не обязательна.</p>
+<p class="last">Для констант, используемых не в коде шейдера, а в выражениях препроцессинга, директива <code class="docutils literal"><span class="pre">#var</span></code> не обязательна.</p>
 </div>
 <ol class="arabic simple" start="2">
 <li>Использование при необходимости директив import/export.</li>
@@ -446,8 +446,8 @@ GLSL-кода. На данный момент в нем реализована �
 </pre></div>
 </div>
 <ol class="arabic simple" start="9">
-<li>Не следует объявлять переменные с именами вида <tt class="docutils literal"><span class="pre">node_[NODE_NAME]_var_[IN_OUT_NODE]</span></tt>, где <tt class="docutils literal"><span class="pre">NODE_NAME</span></tt> &#8212; название некоторой ноды, <tt class="docutils literal"><span class="pre">IN_OUT_NODE</span></tt> &#8212; название одного из входов или выходов ноды.</li>
-<li>Не разрешается множественное использование одной и той же директивы <tt class="docutils literal"><span class="pre">#nodes_main</span></tt>, <tt class="docutils literal"><span class="pre">#nodes_global</span></tt> или <tt class="docutils literal"><span class="pre">#lamps_main</span></tt> в одном шейдере.</li>
+<li>Не следует объявлять переменные с именами вида <code class="docutils literal"><span class="pre">node_[NODE_NAME]_var_[IN_OUT_NODE]</span></code>, где <code class="docutils literal"><span class="pre">NODE_NAME</span></code> &#8212; название некоторой ноды, <code class="docutils literal"><span class="pre">IN_OUT_NODE</span></code> &#8212; название одного из входов или выходов ноды.</li>
+<li>Не разрешается множественное использование одной и той же директивы <code class="docutils literal"><span class="pre">#nodes_main</span></code>, <code class="docutils literal"><span class="pre">#nodes_global</span></code> или <code class="docutils literal"><span class="pre">#lamps_main</span></code> в одном шейдере.</li>
 </ol>
 </div>
 <div class="section" id="webgl">
@@ -519,7 +519,7 @@ TYPE (переменная, функция, структура, ...
 ) с именем NAME. Отсутствует объявление
 идентификатора, требуемого в
 include-файле FILE_NAME согласно
-директиве <tt class="docutils literal"><span class="pre">#import</span></tt>.</td>
+директиве <code class="docutils literal"><span class="pre">#import</span></code>.</td>
 </tr>
 <tr class="row-even"><td>Error! Undeclared TYPE: &#8216;NAME&#8217;.
 Possibly exporting needed in
@@ -564,8 +564,8 @@ in include file &#8216;FILE_NAME&#8217;.</td>
 <tr class="row-even"><td>Error! &#8216;all&#8217; extension cannot have
 BEHAVIOR_TYPE behavior. File:
 &#8216;FILE_NAME&#8217;.</td>
-<td>Ошибка! Директива <tt class="docutils literal"><span class="pre">#extension</span></tt>,
-указанная для всех (<tt class="docutils literal"><span class="pre">all</span></tt>)
+<td>Ошибка! Директива <code class="docutils literal"><span class="pre">#extension</span></code>,
+указанная для всех (<code class="docutils literal"><span class="pre">all</span></code>)
 WebGL-расширений в файле FILE_NAME, не
 поддерживает поведение BEHAVIOR_TYPE.</td>
 </tr>
@@ -660,16 +660,18 @@ NAME, которая нигде не используется.</td>
 <li class="toctree-l1"><a class="reference internal" href="release_notes.html">Замечания к релизам</a></li>
 </ul>
 
-          <h3 style="margin-top: 1.5em;">Поиск</h3>
-          <form class="search" action="search.html" method="get">
-            <input type="text" name="q" />
-            <input type="submit" value="Искать" />
-            <input type="hidden" name="check_keywords" value="yes" />
-            <input type="hidden" name="area" value="default" />
-          </form>
-          <p class="searchtip" style="font-size: 90%">
-            Введите слова для поиска или имя модуля, класса или функции.
-          </p>
+          <div role="search">
+            <h3 style="margin-top: 1.5em;">Поиск</h3>
+            <form class="search" action="search.html" method="get">
+                <input type="text" name="q" />
+                <input type="submit" value="Искать" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+            </form>
+            <p class="searchtip" style="font-size: 90%">
+                Введите слова для поиска или имя модуля, класса или функции.
+            </p>
+          </div>
         </div>
         <div class="clearer"></div>
       </div>
@@ -678,20 +680,24 @@ NAME, которая нигде не используется.</td>
     <div class="footer-wrapper">
       <div class="footer">
         <div class="left">
-          <a href="developers.html" title="Разработчикам приложений"
-             >назад</a> |
-          <a href="git_short_manual.html" title="Работа в команде с использованием Git"
-             >вперёд</a> |
-          <a href="genindex.html" title="Алфавитный указатель"
-             >указатель</a>
+          <div role="navigation" aria-label="related navigaton">
+            <a href="developers.html" title="Разработчикам приложений"
+              >назад</a> |
+            <a href="git_short_manual.html" title="Работа в команде с использованием Git"
+              >вперёд</a> |
+            <a href="genindex.html" title="Алфавитный указатель"
+              >указатель</a>
+          </div>
+          <div role="note" aria-label="source link">
+          </div>
         </div>
 
         <div class="right">
           
-    <div class="footer">
+    <div class="footer" role="contentinfo">
         &copy; Copyright 2015, ООО &#34;Триумф&#34;.
-      Обновлено: 2015-04-29.
-      Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+      Обновлено: 2015-05-26.
+      Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
         </div>
         <div class="clearer"></div>

@@ -38,7 +38,7 @@
     <div class="container-overview">
     
         
-            <div class="description">Low-level resource loader. To load exported json files use module <a href="module-data.html">data</a>.</div>
+            <div class="description">Low-level resource loader. In order to load exported scenes, use the <a href="module-data.html">data</a> module instead.</div>
         
 
         
@@ -309,7 +309,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_assets.js.html">ext/assets.js</a>, <a href="ext_assets.js.html#line39">line 39</a>
+        <a href="ext_assets.js.html">ext/assets.js</a>, <a href="ext_assets.js.html#line44">line 44</a>
     </li></ul></dd>
     
 
@@ -376,7 +376,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_assets.js.html">ext/assets.js</a>, <a href="ext_assets.js.html#line29">line 29</a>
+        <a href="ext_assets.js.html">ext/assets.js</a>, <a href="ext_assets.js.html#line32">line 32</a>
     </li></ul></dd>
     
 
@@ -443,7 +443,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_assets.js.html">ext/assets.js</a>, <a href="ext_assets.js.html#line34">line 34</a>
+        <a href="ext_assets.js.html">ext/assets.js</a>, <a href="ext_assets.js.html#line38">line 38</a>
     </li></ul></dd>
     
 
@@ -510,7 +510,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_assets.js.html">ext/assets.js</a>, <a href="ext_assets.js.html#line19">line 19</a>
+        <a href="ext_assets.js.html">ext/assets.js</a>, <a href="ext_assets.js.html#line20">line 20</a>
     </li></ul></dd>
     
 
@@ -577,7 +577,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_assets.js.html">ext/assets.js</a>, <a href="ext_assets.js.html#line24">line 24</a>
+        <a href="ext_assets.js.html">ext/assets.js</a>, <a href="ext_assets.js.html#line26">line 26</a>
     </li></ul></dd>
     
 
@@ -615,7 +615,7 @@
 <div class="item_description">
 
 <div class="description">
-    Enqueue the assets pack.
+    Add the assets to the loading queue.
 </div>
 
 
@@ -677,7 +677,7 @@
 
             
 
-            <td class="description last">Assets pack: [[uri, type, filepath, optional_param], ...]</td>
+            <td class="description last">Array of the assets in the following format: [[uri, type, filepath, optional_param], ...]</td>
         </tr>
 
     
@@ -710,7 +710,7 @@
 
             
 
-            <td class="description last">A single asset loaded callback</td>
+            <td class="description last">Callback executed after a single asset is loaded</td>
         </tr>
 
     
@@ -743,7 +743,7 @@
 
             
 
-            <td class="description last">Assets pack loaded callback</td>
+            <td class="description last">Callback executed after the whole pack of assets is loaded</td>
         </tr>
 
     
@@ -776,7 +776,7 @@
 
             
 
-            <td class="description last">Loading progress callback</td>
+            <td class="description last">Callback for the progress of loading</td>
         </tr>
 
     
@@ -829,7 +829,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_assets.js.html">ext/assets.js</a>, <a href="ext_assets.js.html#line44">line 44</a>
+        <a href="ext_assets.js.html">ext/assets.js</a>, <a href="ext_assets.js.html#line50">line 50</a>
     </li></ul></dd>
     
 
@@ -865,7 +865,7 @@
 <div class="item_description">
 
 <div class="description">
-    Data loaded callback.
+    Callback executed after a single asset is loaded.
 </div>
 
 
@@ -958,7 +958,7 @@
 
             
 
-            <td class="description last">Data uri</td>
+            <td class="description last">Data URI</td>
         </tr>
 
     
@@ -1106,7 +1106,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_assets.js.html">ext/assets.js</a>, <a href="ext_assets.js.html#line52">line 52</a>
+        <a href="ext_assets.js.html">ext/assets.js</a>, <a href="ext_assets.js.html#line58">line 58</a>
     </li></ul></dd>
     
 
@@ -1136,7 +1136,7 @@
 <div class="item_description">
 
 <div class="description">
-    All data loaded callback.
+    Callback executed after the whole pack of assets is loaded.
 </div>
 
 
@@ -1192,7 +1192,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_assets.js.html">ext/assets.js</a>, <a href="ext_assets.js.html#line66">line 66</a>
+        <a href="ext_assets.js.html">ext/assets.js</a>, <a href="ext_assets.js.html#line67">line 67</a>
     </li></ul></dd>
     
 
@@ -1222,7 +1222,7 @@
 <div class="item_description">
 
 <div class="description">
-    Data loading callback.
+    Callback for the progress of loading.
 </div>
 
 
@@ -1274,7 +1274,7 @@
 
             
 
-            <td class="description last">Percentages of load</td>
+            <td class="description last">Loading percentage</td>
         </tr>
 
     
@@ -1327,7 +1327,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_assets.js.html">ext/assets.js</a>, <a href="ext_assets.js.html#line61">line 61</a>
+        <a href="ext_assets.js.html">ext/assets.js</a>, <a href="ext_assets.js.html#line71">line 71</a>
     </li></ul></dd>
     
 
@@ -1356,13 +1356,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Wed Apr 29 2015 10:10:50 GMT+0300 (MSK)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Tue May 26 2015 12:05:03 GMT+0300 (MSK)
 </footer>
 
 <script> prettyPrint(); </script>

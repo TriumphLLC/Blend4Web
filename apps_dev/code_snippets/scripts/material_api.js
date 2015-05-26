@@ -13,7 +13,7 @@ var APP_ASSETS_PATH = m_cfg.get_std_assets_path() + "code_snippets/material_api/
 
 exports.init = function() {
     m_app.init({
-        canvas_container_id: "canvas3d",
+        canvas_container_id: "canvas_cont",
         callback: init_cb,
         physics_enabled: false,
         alpha: true,
@@ -53,12 +53,12 @@ function set_stack_material_params() {
     var sphere_1 = m_scenes.get_object_by_name("Sphere_1");
     var sphere_2 = m_scenes.get_object_by_name("Sphere_2");
 
-    m_mat.set_diffuse_color(cube_diffuse_color, "mat_diffuse_color", [50,0,0]);
+    m_mat.set_diffuse_color(cube_diffuse_color, "mat_diffuse_color", [0.5,0,0]);
     m_mat.set_specular_intensity(cube_specular_intensity, "mat_specular_intensity", 1);
-    m_mat.set_specular_hardness(cube_specular_hardness, "mat_specular_hardness", 5);
+    m_mat.set_specular_hardness(cube_specular_hardness, "mat_specular_hardness", 0.8);
     m_mat.set_emit_factor(cube_emit_factor, "mat_emit_factor", 1);
     m_mat.set_ambient_factor(cube_ambient_factor, "mat_ambient_factor", 0.1);
-    m_mat.set_specular_color(cube_specular_color, "mat_specular_color", [0, 255, 0]);
+    m_mat.set_specular_color(cube_specular_color, "mat_specular_color", [0, 0.8, 0]);
     m_mat.set_alpha_factor(cube_alpha_factor, "mat_alpha_factor", 0);
     m_mat.inherit_material(sphere_1, "Sphere_mat_1", sphere_2, "Sphere_mat_2");
 }

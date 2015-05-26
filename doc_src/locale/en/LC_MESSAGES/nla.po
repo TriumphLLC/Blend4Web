@@ -79,20 +79,18 @@ msgstr ""
 "animation mode."
 
 #: ../nla.rst:51
+msgid ""
+"Для использования вертексной анимации необходимо выставить опцию \"Allow "
+"NLA\" на :ref:`панели запекания вертексной анимации <ver_anim>`."
+msgstr ""
+"In order to use vertex animation, enable  \"Allow NLA\" option on the "
+":ref:`vertex animation panel <ver_anim>`."
+
+#: ../nla.rst:55
 msgid "Ограничения"
 msgstr "Limitations"
 
-#: ../nla.rst:53
-msgid "Вертексная анимация не поддерживается."
-msgstr "Vertex animation is not supported."
-
-#: ../nla.rst:54
-msgid ""
-"Масштабирование и зацикливание отдельных полос анимации (Strip) не "
-"поддерживается."
-msgstr "Scaling and looping of separate animation strips is not supported."
-
-#: ../nla.rst:55
+#: ../nla.rst:57
 msgid ""
 "Одновременное проигрывание различных видов анимации для одного объекта не "
 "поддерживается."
@@ -100,11 +98,11 @@ msgstr ""
 "A simultanious playback of differnet types of animation for the same object "
 "is not supported. "
 
-#: ../nla.rst:61
+#: ../nla.rst:63
 msgid "Визуальное программирование (NLA Script)"
 msgstr "Visual Programming (NLA Script)"
 
-#: ../nla.rst:63
+#: ../nla.rst:65
 msgid ""
 "Осуществляется с помощью добавления слотов логики (NLA Script Slot) на "
 "вкладке настроек сцены Blender. С их помощью можно существенно расширить "
@@ -114,7 +112,7 @@ msgstr ""
 "Blender. These slots can extend the scene functionality significantly "
 "without any coding."
 
-#: ../nla.rst:73
+#: ../nla.rst:75
 msgid ""
 "Слоты являются логическими блоками, которые выполняются с первого по "
 "последний последовательно, за исключением случаев, когда в слоте явно "
@@ -128,7 +126,7 @@ msgstr ""
 " logic stops to execute, or - if *Blend4Web > Cyclic NLA* checkbox is "
 "enabled - starts again."
 
-#: ../nla.rst:80
+#: ../nla.rst:82
 msgid ""
 "Использование настройки *Blend4Web > Cyclic NLA* совместно с NLA Script не "
 "приводит к автоматическому зацикливанию анимации."
@@ -136,32 +134,32 @@ msgstr ""
 "Using *Blend4Web > Cyclic NLA* together with NLA Script does not result in "
 "automatic looping of the animation."
 
-#: ../nla.rst:83
+#: ../nla.rst:85
 msgid ""
 "Для реализации сложной логики предусмотрены числовые переменные, называемые "
 "регистрами. Каждый из 8 регистров может хранить в себе одно числовое "
 "значение. Регистры могут быть использованы для хранения какого-либо "
 "состояния сцены (например, это может быть счётчик проигрываемых анимаций, "
-"количество жизней, оставшихся у персонажа итд.)."
+"количество жизней, оставшихся у персонажа и т.д.)."
 msgstr ""
 "For implementing complicated logic there are numeric variables called "
 "registers. Each of 8 registers can store a single numeric value. The "
 "registers can be used for storing some scene state (e.g. this can be a "
 "counter of animation playbacks, character's health points etc)."
 
-#: ../nla.rst:89
+#: ../nla.rst:91
 msgid "Пример использования NLA Script:"
 msgstr "NLA Script usage example:"
 
-#: ../nla.rst:97
+#: ../nla.rst:99
 msgid "Ниже рассмотрены все возможные варианты слотов."
 msgstr "All possible slots are described below."
 
-#: ../nla.rst:100
+#: ../nla.rst:102
 msgid "Play"
 msgstr ""
 
-#: ../nla.rst:102
+#: ../nla.rst:104
 msgid ""
 "Проигрывать участок NLA, начиная с кадра, на который указывает маркер. "
 "Анимация воспроизводится до следующего маркера, либо до конца шкалы времени "
@@ -171,11 +169,11 @@ msgstr ""
 "points. Animation is played back until the next marker is met, or to the end"
 " of the timeline. Finally the next slot receives the control."
 
-#: ../nla.rst:114
+#: ../nla.rst:116
 msgid "Select & Play"
 msgstr ""
 
-#: ../nla.rst:116
+#: ../nla.rst:118
 msgid ""
 "Ожидать, когда пользователь выберет объект (с помощью клика мышью в версии "
 "движка для десктопа, либо нажатия на экране в мобильной версии). Если выбран"
@@ -188,7 +186,7 @@ msgstr ""
 "is selected - start animation similar to ``Play`` slot. If any other object "
 "is selected - immediately transfer the control to the next slot."
 
-#: ../nla.rst:122
+#: ../nla.rst:124
 msgid ""
 "Последняя функциональность используется для выбора одного из нескольких "
 "объектов, причём ``Select & Play`` удобно размещать в стеке один за другим. "
@@ -202,7 +200,7 @@ msgstr ""
 "of this sequence slots because the transition without animation is performed"
 " instantly."
 
-#: ../nla.rst:129
+#: ../nla.rst:131
 msgid ""
 "Чтобы пользователь имел возможность выбрать объект, в его настройках "
 "необходимо активировать опцию ``Selectable``, как в случае реализации "
@@ -212,19 +210,19 @@ msgstr ""
 "checkbox in its settings, similar to implementation of :ref:`object "
 "outlining <outline>`."
 
-#: ../nla.rst:132
+#: ../nla.rst:134
 msgid "Jump"
 msgstr ""
 
-#: ../nla.rst:134
+#: ../nla.rst:136
 msgid "Перейти к указанному слоту."
 msgstr "Go to the specified slot."
 
-#: ../nla.rst:142
+#: ../nla.rst:144
 msgid "Select & Jump"
 msgstr ""
 
-#: ../nla.rst:144
+#: ../nla.rst:146
 msgid ""
 "Аналогично слоту ``Select & Play``, за исключением того, что вместо анимации"
 " осуществляется переход. Указанная функция позволяет реализовать более "
@@ -238,11 +236,11 @@ msgstr ""
 "results (selecting an object leads to the transition to the named slot which"
 " is needn't to be the next in the list)."
 
-#: ../nla.rst:151
+#: ../nla.rst:153
 msgid "Conditional Jump"
 msgstr ""
 
-#: ../nla.rst:153
+#: ../nla.rst:155
 msgid ""
 "Перейти к указанному слоту в случае выполнения выбранного условия. В "
 "качестве параметров условия (операндов) могут выступать также регистры, "
@@ -252,19 +250,19 @@ msgstr ""
 "(operands) can also be registers that are activated using the corresponding "
 "switches."
 
-#: ../nla.rst:158
+#: ../nla.rst:160
 msgid "Register Store"
 msgstr ""
 
-#: ../nla.rst:160
+#: ../nla.rst:162
 msgid "Записать числовое значение в регистр."
 msgstr "Save a numeric value in the register."
 
-#: ../nla.rst:163
+#: ../nla.rst:165
 msgid "Math Operation"
 msgstr ""
 
-#: ../nla.rst:165
+#: ../nla.rst:167
 msgid ""
 "Выполнить математическую операцию и сохранить результат в регистр. Любой из "
 "параметров (операндов) может быть либо числовым значением, либо регистром."
@@ -272,11 +270,37 @@ msgstr ""
 "Perform a math operation and save the result in the register. Any of "
 "parameters (operands) can be either a numeric value or a register."
 
-#: ../nla.rst:184
+#: ../nla.rst:171
+msgid "Show Object и Hide Object"
+msgstr "Show Object and Hide Object"
+
+#: ../nla.rst:173
+msgid "Используются для скрытия и отображения объектов."
+msgstr "This is used to hide and show 3D objects."
+
+#: ../nla.rst:176
+msgid "Page Redirect"
+msgstr ""
+
+#: ../nla.rst:178
+msgid "Служит для перенаправления на другие веб-страницы."
+msgstr "This serves as a page redirect to other web pages."
+
+#: ../nla.rst:181
+msgid "Page Param"
+msgstr ""
+
+#: ../nla.rst:183
+msgid ""
+"Позволяет сохранить произвольный параметр веб-страницы в выбранном числовом "
+"регистре."
+msgstr "Allows to store any web page parameter in a given numerical register."
+
+#: ../nla.rst:186
 msgid "Noop"
 msgstr ""
 
-#: ../nla.rst:186
+#: ../nla.rst:188
 msgid ""
 "Сокращение от \"No Operation\". Означает, что при обработке слота данного "
 "типа, никаких действий произведено не будет. Слот удобно использовать "
@@ -286,28 +310,21 @@ msgstr ""
 " performed. This slot is convenient to place together with a ``Jump`` or "
 "``Conditional Jump`` slot."
 
-#: ../nla.rst:169
-msgid "Show Object и Hide Object"
-msgstr "Show Object and Hide Object"
+#: ../nla.rst:193
+msgid "Управление через API"
+msgstr "Controlling via API"
 
-#: ../nla.rst:171
-msgid "Используются для скрытия и отображения объектов."
-msgstr "This is used to hide and show 3D objects."
-
-#: ../nla.rst:174
-msgid "Page Redirect"
-msgstr ""
-
-#: ../nla.rst:176
-msgid "Служит для перенаправления на другие веб-страницы."
-msgstr "This serves as a page redirect to other web pages."
-
-#: ../nla.rst:179
-msgid "Page Param"
-msgstr ""
-
-#: ../nla.rst:181
+#: ../nla.rst:195
 msgid ""
-"Позволяет сохранить произвольный параметр веб-страницы в выбранном числовом "
-"регистре."
-msgstr "Allows to store any web page parameter in a given numerical register."
+"Для управления нелинейной анимацией через API существует модуль ``nla.js``."
+msgstr ""
+"Non-linear animation playback can be controlled via API methods of the "
+"``nla.js`` module."
+
+#: ../nla.rst:212
+msgid ""
+"При использовании :ref:`NLA-скрипта <nla_script>` функции ``set_frame``, "
+"``play``, ``stop`` недоступны."
+msgstr ""
+"Please note, that if the :ref:`NLA Script <nla_script>` is used, the "
+"``set_frame``, ``play``, ``stop`` methods are not available."

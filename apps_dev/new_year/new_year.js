@@ -98,6 +98,12 @@ function load() {
     m_data.load( _assets_dir + "christmas_tree.json", load_cb, p_cb, true);
 }
 
+function fix_yandex_share_href() {
+    var links = document.getElementsByTagName("a");
+    for (var i =0; i < links.length; i++)
+        links[i].href = links[i].href.replace("&amp;", "&");
+}
+
 function load_cb(data_id) {
     if (window.Ya) {
         var ya_share = new Ya.share({
@@ -113,8 +119,10 @@ function load_cb(data_id) {
                     send_button.onclick = function(){
                         send_button_click_cb();
                         instance.updateShareLink(window.location.href + " via Blend4Web", mc_lang.get_translation("title"));
+                        fix_yandex_share_href();
                     }
-                    instance.updateShareLink(window.location.href + " via Blend4Web", mc_lang.get_translation("title"));                    
+                    instance.updateShareLink(window.location.href + " via Blend4Web", mc_lang.get_translation("title"));
+                    fix_yandex_share_href();                  
                 }
             });
     } else {

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Release Notes &mdash; User Manual: Blend4Web v15.04</title>
+    <title>Release Notes &mdash; User Manual: Blend4Web v15.05</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '15.04',
+        VERSION:     '15.05',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,18 +25,18 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User Manual: Blend4Web v15.04" href="index.html" />
+    <link rel="top" title="User Manual: Blend4Web v15.05" href="index.html" />
     <link rel="prev" title="Problems and Solutions" href="problems_and_solutions.html" /> 
   </head>
-  <body>
-    <div class="header-wrapper">
+  <body role="document">
+    <div class="header-wrapper" role="banner">
       <div class="header">
           <p class="logo"><a href="index.html">
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">User Manual: Blend4Web v15.04</a></div>
-        <div class="rel">
+          href="index.html">User Manual: Blend4Web v15.05</a></div>
+        <div class="rel" role="navigation" aria-label="related navigation">
           <a href="problems_and_solutions.html" title="Problems and Solutions"
              accesskey="P">previous</a> |
           <a href="genindex.html" title="General Index"
@@ -51,23 +51,171 @@
             
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="release-notes">
 <span id="id1"></span><h1>Release Notes<a class="headerlink" href="#release-notes" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="v15-04">
-<span id="index-0"></span><h2>v15.04<a class="headerlink" href="#v15-04" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="v15-05">
+<span id="index-0"></span><h2>v15.05<a class="headerlink" href="#v15-05" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id2">
 <h3>New Features<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
 <ul>
+<li><p class="first"><em>Glow effect</em>.</p>
+<blockquote>
+<div><p>Supported <a class="reference internal" href="postprocessing_effects.html#glow"><span>an effect</span></a> which occurs when the light scatters in the atmosphere and inside of the human eye and looks like a halo around glowing objects.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>The local development server runs automatically.</em></p>
+<blockquote>
+<div><p>A new option has been added to the addon settings. This option turns on automatic start of <a class="reference internal" href="setup.html#local-development-server"><span>local development server</span></a> upon opening Blender. With the help of this functional web applications in development can be run without any preparations.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Cube reflections.</em></p>
+<blockquote>
+<div><p>Apart from plane reflections, there are now cube reflections available. There is a new <code class="docutils literal"><span class="pre">Reflection</span> <span class="pre">Type</span></code> option available when <code class="docutils literal"><span class="pre">Reflective</span></code> flag is set on the object. Setting it to <code class="docutils literal"><span class="pre">Cube</span></code> turns this feature on.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>More NLA options supported.</em></p>
+<blockquote>
+<div><p>Added support of Blender&#8217;s NLA tools: <code class="docutils literal"><span class="pre">Scale</span></code>, <code class="docutils literal"><span class="pre">Muted</span></code>, <code class="docutils literal"><span class="pre">Reversed</span></code> and <code class="docutils literal"><span class="pre">Repeat</span></code>. The support of these tools broadens capabilities of interactive scene developers.</p>
+<p>Furthermore, to control NLA through API a new <code class="docutils literal"><span class="pre">nla.js</span></code> module was added. This module contains methods like <code class="docutils literal"><span class="pre">play()</span></code>, <code class="docutils literal"><span class="pre">stop()</span></code>, <code class="docutils literal"><span class="pre">get_frame()</span></code>, <code class="docutils literal"><span class="pre">set_frame()</span></code> that can play/stop NLA and get/set the current frame. New methods have been involved in implementing control panel interface in the Viewer app.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Increased rendering possibilities for sky textures.</em></p>
+<blockquote>
+<div><p><code class="docutils literal"><span class="pre">Influence</span></code> parameters for sky texture rendering are now supported. Those parameters are: <code class="docutils literal"><span class="pre">Blend</span></code>, <code class="docutils literal"><span class="pre">Horizon</span></code>, <code class="docutils literal"><span class="pre">Zenith</span> <span class="pre">Up</span></code>, <code class="docutils literal"><span class="pre">Zenith</span> <span class="pre">Down</span></code>,``Blend``, <code class="docutils literal"><span class="pre">Negative</span></code>, <code class="docutils literal"><span class="pre">RGB</span> <span class="pre">to</span> <span class="pre">Intensity</span></code>, <code class="docutils literal"><span class="pre">DVar</span></code>.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>In node materials, the engine now correctly processes connections between inputs and outputs of different types.</em></p>
+<blockquote>
+<div><p>It is now possible to connect outputs of one type with inputs of another type (<a class="reference internal" href="addon.html#export-errors-warnings"><span>Non-critical error</span></a>). Now Blender&#8217;s native behaviour is supported by the engine.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>For Hair particles the options on the Rotation panel are now supported.</em></p>
+<blockquote>
+<div><p>Now the engine fully supports the state of particles set in Blender. In particular not only location and scale are supported now, but rotation as well.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Some demos for postprocessing effects demostration were added.</em></p>
+<blockquote>
+<div><p>Examples were prepared for the following effects: Bloom, Depth of Field, God Rays, Motion Blur and SSAO.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Added a new module container.js.</em></p>
+<blockquote>
+<div><p>DOM tree elements can be added with a specific depth relative to the  depth of the <code class="docutils literal"><span class="pre">canvas</span></code> element with the help of <code class="docutils literal"><span class="pre">container.js</span></code>&#8216;s <code class="docutils literal"><span class="pre">insert_to_container()</span></code> method. This method replaces CSS property <code class="docutils literal"><span class="pre">z-index</span></code> because location depth of elements is now determined by their position in the container element.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Improvements in the physical engine.</em></p>
+<blockquote>
+<div><p><code class="docutils literal"><span class="pre">Margin</span></code> property of physical elements and materials is now supported. This option allows for improved stability of object collision simulation. Bullet engine was updated to version 2.83.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>API for changing camera controls mode.</em></p>
+<blockquote>
+<div><p>Added methods of <a class="reference internal" href="camera.html#camera-switch-move-style"><span>changing movement style of the camera</span></a>. The example can be found in <a class="reference internal" href="developers.html#code-snippets"><span>Code Snippets</span></a> app in the &#8220;Camera Move Styles&#8221; section. Also has been added <code class="docutils literal"><span class="pre">set_hover_pivot()</span></code> method. This method allows to shift the control point of <code class="docutils literal"><span class="pre">HOVER</span></code> camera.</p>
+</div></blockquote>
+</li>
+</ul>
+</div>
+<div class="section" id="id3">
+<h3>Changes<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first"><em>Reorganized SDK&#8217;s scene list.</em></p>
+<blockquote>
+<div><p>All the scenes in the Viewer app has been sorted by groups: <em>App</em> contains finished apps, <em>Demos</em> contains demo-scenes and examples, <em>Tutorial Exports</em> contains tutorials source files.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Added syntax highlight in Code Snippets app.</em></p>
+<blockquote>
+<div><p>Code Snippets app now has a new design. Also it was optimized for low-resolution screens.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>API controls of video and canvas textures have been changed.</em></p>
+<blockquote>
+<div><p>A new parameter <code class="docutils literal"><span class="pre">data_id</span></code> has been added to these textures&#8217; control methods. This parameter contains an ID of dynamically loaded scene.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Handling of animated bone excess has been changed.</em></p>
+<blockquote>
+<div><p>The skeletal animation now just turns off when exceeding the maximum number of bones. It resulted in shader compilation error and unstable application behaviour before.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Some particle system properties has been renamed and now they are turned off by default.</em></p>
+<blockquote>
+<div><p>In particular, Hair particle system&#8217;s properties <code class="docutils literal"><span class="pre">Randomize</span> <span class="pre">Location</span> <span class="pre">And</span> <span class="pre">Size</span></code> and <code class="docutils literal"><span class="pre">Randomize</span> <span class="pre">Initial</span> <span class="pre">Rotation</span></code> are turned off by default now.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Doppler effect for speakers is now turned off in some browsers.</em></p>
+<blockquote>
+<div><p>Doppler effect support in Web Audio has been pronounced as deprecated and will be removed in Chrome starting from version 45. Other browsers still support this functionality.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Changed objects&#8217; behavior when both skeletal and vertex animation are applied.</em></p>
+<blockquote>
+<div><p>If an object has both armature modifier and vertex animation applied on it, the armature modifier won&#8217;t be exported.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Rendering of particle system procedural animation (Wind Bending effect) has been optimized.</em></p>
+</li>
+<li><p class="first"><em>The main .json and .bin scene files loading error handling has been improved.</em></p>
+</li>
+<li><p class="first"><em>Windows 32 version of Blend4Web addon is now compiled natively.</em></p>
+<blockquote>
+<div><p>This feature improves addons compatibility on such systems.</p>
+</div></blockquote>
+</li>
+</ul>
+</div>
+<div class="section" id="id4">
+<h3>Fixes<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first"><em>The error that led to the wrong height of the description element in module &#8220;anchors.js&#8221; has been fixed.</em></p>
+</li>
+<li><p class="first"><em>Support for Epiphany and other WebKit-based browsers.</em></p>
+<blockquote>
+<div><p>Achieved by fixing the code which works differently in the different JavaScript engines.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Gestures on Internet Explorer 11 were disabled for Microsoft Windows touch devices.</em></p>
+<blockquote>
+<div><p>Previously, gestures usage (Windows Touch Gestures) was leading to unnecessary HTML-elements scaling and movement on such configurations. It is expected that correct gestures behaviour will be supported in further browser releases.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><em>Vertex animation with animated armature bake error was fixed.</em></p>
+</li>
+<li><p class="first"><em>The error with rendering billboard objects on the iPad has been fixed.</em></p>
+</li>
+<li><p class="first"><em>Node material&#8217;s NLA animation applied to several objects was fixed.</em></p>
+</li>
+<li><p class="first"><em>Fixed a bug related to the Motion Blur effect.</em></p>
+</li>
+</ul>
+</div>
+<div class="section" id="id5">
+<h3>Known Issues<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first"><em>Blender add-on upgrading problems.</em></p>
+<blockquote>
+<div><p>We strongly recommend not installing a new version of an addon without deleting the old one, especially on Windows. After deleting the old version, Blender must be restarted.</p>
+</div></blockquote>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="v15-04">
+<h2>v15.04<a class="headerlink" href="#v15-04" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id6">
+<h3>New Features<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<ul>
 <li><p class="first"><em>Deformations by using Shape Keys (Morphing).</em></p>
 <blockquote>
-<div><p>Added support for object&#8217;s <a class="reference internal" href="objects.html#morphing"><em>Morph targets</em></a> (known as <a class="reference external" href="http://wiki.blender.org/index.php/Doc:2.6/Manual/Animation/Techs/Shape/Shape_Keys">Shape Keys</a> in Blender). To apply such keys, use the <tt class="docutils literal"><span class="pre">set_shape_key_value</span></tt> method of the <tt class="docutils literal"><span class="pre">geometry.js</span></tt> module. Simple example of how to use such functionality is given in the <a class="reference internal" href="developers.html#code-snippets"><em>Code Snippets</em></a> app.</p>
+<div><p>Added support for object&#8217;s <a class="reference internal" href="objects.html#morphing"><span>Morph targets</span></a> (known as <a class="reference external" href="http://wiki.blender.org/index.php/Doc:2.6/Manual/Animation/Techs/Shape/Shape_Keys">Shape Keys</a> in Blender). To apply such keys, use the <code class="docutils literal"><span class="pre">set_shape_key_value</span></code> method of the <code class="docutils literal"><span class="pre">geometry.js</span></code> module. Simple example of how to use such functionality is given in the <a class="reference internal" href="developers.html#code-snippets"><span>Code Snippets</span></a> app.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>Support for Horizon Color and Zenith Color background settings.</em></p>
 <blockquote>
-<div><p>It&#8217;s now possible to tweak scene background by using the <tt class="docutils literal"><span class="pre">Horizon</span> <span class="pre">Color</span></tt> and <tt class="docutils literal"><span class="pre">Zenith</span> <span class="pre">Color</span></tt> properties as well as the <tt class="docutils literal"><span class="pre">Paper</span> <span class="pre">Sky</span></tt>, <tt class="docutils literal"><span class="pre">Blend</span> <span class="pre">Sky</span></tt> and <tt class="docutils literal"><span class="pre">Real</span> <span class="pre">Sky</span></tt> options directly from Blender.</p>
+<div><p>It&#8217;s now possible to tweak scene background by using the <code class="docutils literal"><span class="pre">Horizon</span> <span class="pre">Color</span></code> and <code class="docutils literal"><span class="pre">Zenith</span> <span class="pre">Color</span></code> properties as well as the <code class="docutils literal"><span class="pre">Paper</span> <span class="pre">Sky</span></code>, <code class="docutils literal"><span class="pre">Blend</span> <span class="pre">Sky</span></code> and <code class="docutils literal"><span class="pre">Real</span> <span class="pre">Sky</span></code> options directly from Blender.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>Support for the Gamma node.</em></p>
@@ -107,13 +255,13 @@
 </li>
 <li><p class="first"><em>The possibility to exclude any directories from being converted by the resource converter.</em></p>
 <blockquote>
-<div><p>To exclude some directory from being converted by the <a class="reference internal" href="developers.html#converter"><em>resource converter</em></a>, it is enough to place a file named <tt class="docutils literal"><span class="pre">.b4w_no_conv</span></tt> to this directory.</p>
+<div><p>To exclude some directory from being converted by the <a class="reference internal" href="developers.html#converter"><span>resource converter</span></a>, it is enough to place a file named <code class="docutils literal"><span class="pre">.b4w_no_conv</span></code> to this directory.</p>
 </div></blockquote>
 </li>
 </ul>
 </div>
-<div class="section" id="id3">
-<h3>Changes<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id7">
+<h3>Changes<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>The API documentation has changed its appearance. Links for quick access to methods and properties were added.</em></p>
 </li>
@@ -129,7 +277,7 @@
 </li>
 <li><p class="first"><em>World background support.</em></p>
 <blockquote>
-<div><p>Background and sky can be enabled with the <tt class="docutils literal"><span class="pre">Sky</span> <span class="pre">Settings</span> <span class="pre">&gt;</span> <span class="pre">Render</span> <span class="pre">Sky</span></tt> option under the <tt class="docutils literal"><span class="pre">World</span></tt> tab. It is turned off by default.</p>
+<div><p>Background and sky can be enabled with the <code class="docutils literal"><span class="pre">Sky</span> <span class="pre">Settings</span> <span class="pre">&gt;</span> <span class="pre">Render</span> <span class="pre">Sky</span></code> option under the <code class="docutils literal"><span class="pre">World</span></code> tab. It is turned off by default.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>The Uranium physics engine now consists of two modules.</em></p>
@@ -146,12 +294,12 @@
 </li>
 <li><p class="first"><em>Local development server for Blender was replaced by a new one.</em></p>
 <blockquote>
-<div><p>Now, instead of the standard Python SimpleHTTPServer, the Tornado web server is used as the <a class="reference internal" href="setup.html#local-development-server"><em>local development server</em></a>. The new server has greater performance and it also offers more options to disable browser cache.</p>
+<div><p>Now, instead of the standard Python SimpleHTTPServer, the Tornado web server is used as the <a class="reference internal" href="setup.html#local-development-server"><span>local development server</span></a>. The new server has greater performance and it also offers more options to disable browser cache.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>Keyboard controls for sliders in the Viewer application were added.</em></p>
 <blockquote>
-<div><p>You can now control sliders with <tt class="docutils literal"><span class="pre">&lt;</span></tt> and <tt class="docutils literal"><span class="pre">&gt;</span></tt>  keys.</p>
+<div><p>You can now control sliders with <code class="docutils literal"><span class="pre">&lt;</span></code> and <code class="docutils literal"><span class="pre">&gt;</span></code>  keys.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>Changes in the &#8220;update_object_animation&#8221; method of the &#8220;animation.js&#8221; module.</em></p>
@@ -173,7 +321,7 @@
 </li>
 <li><p class="first"><em>Some settings were changed in the Object &gt; Blend4Web panel.</em></p>
 <blockquote>
-<div><p>The <em>Enable Outline</em> option was added to enable using the <a class="reference internal" href="postprocessing_effects.html#outline"><em>outline effect</em></a> on the given object. Also, the <em>Outline on Select</em> option was added to activate glow animation when the object is selected (previously this behavior was defined by the <em>Selectable</em> flag).</p>
+<div><p>The <em>Enable Outline</em> option was added to enable using the <a class="reference internal" href="postprocessing_effects.html#outline"><span>outline effect</span></a> on the given object. Also, the <em>Outline on Select</em> option was added to activate glow animation when the object is selected (previously this behavior was defined by the <em>Selectable</em> flag).</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>New settings were added to the Scene &gt; Blend4Web panel.</em></p>
@@ -185,14 +333,14 @@
 </li>
 <li><p class="first"><em>API changes in modules.</em></p>
 <blockquote>
-<div><p>The new <em>is_armature</em> method was added to the API of the <a class="reference external" href="https://www.blend4web.com/api_doc/module-util.html">util.js</a> module. It checks if the given object is of the <tt class="docutils literal"><span class="pre">ARMATURE</span></tt> type.</p>
+<div><p>The new <em>is_armature</em> method was added to the API of the <a class="reference external" href="https://www.blend4web.com/api_doc/module-util.html">util.js</a> module. It checks if the given object is of the <code class="docutils literal"><span class="pre">ARMATURE</span></code> type.</p>
 <p>The new <em>get_parent</em> method was added to the API of the <a class="reference external" href="https://www.blend4web.com/api_doc/module-constraints.html">constraints.js</a>  module. It returns the parent object of the given object.</p>
 </div></blockquote>
 </li>
 </ul>
 </div>
-<div class="section" id="id4">
-<h3>Fixes<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id8">
+<h3>Fixes<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>Fixed a bug in the &#8220;anchors.js&#8221; module which caused objects&#8217; descriptions to disappear.</em></p>
 </li>
@@ -228,22 +376,22 @@
 </div>
 <div class="section" id="v15-03">
 <h2>v15.03<a class="headerlink" href="#v15-03" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id5">
-<h3>New Features<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id9">
+<h3>New Features<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>New tool for adding annotations to 3D objects.</em></p>
 <blockquote>
-<div><p>Now it is possible to assign anchors to empty objects. These anchors can be of three different types: &#8220;Annotations&#8221; - information from object&#8217;s meta-tags is used, &#8220;Custom Element&#8221; - a custom HTML-element from the current web-page can be used as annotation, &#8220;Generic&#8221; - an invisible anchor with coordinates calculated using <tt class="docutils literal"><span class="pre">anchors.js</span></tt> module API.</p>
+<div><p>Now it is possible to assign anchors to empty objects. These anchors can be of three different types: &#8220;Annotations&#8221; - information from object&#8217;s meta-tags is used, &#8220;Custom Element&#8221; - a custom HTML-element from the current web-page can be used as annotation, &#8220;Generic&#8221; - an invisible anchor with coordinates calculated using <code class="docutils literal"><span class="pre">anchors.js</span></code> module API.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>Animation and API methods for Value and RGB nodes in node materials.</em></p>
 <blockquote>
-<div><p>Now it is possible to animate not only <tt class="docutils literal"><span class="pre">Value</span></tt> nodes but also <tt class="docutils literal"><span class="pre">RGB</span></tt> nodes. Also, the corresponding API methods for changing such nodes were added in the <tt class="docutils literal"><span class="pre">objects.js</span></tt> module.</p>
+<div><p>Now it is possible to animate not only <code class="docutils literal"><span class="pre">Value</span></code> nodes but also <code class="docutils literal"><span class="pre">RGB</span></code> nodes. Also, the corresponding API methods for changing such nodes were added in the <code class="docutils literal"><span class="pre">objects.js</span></code> module.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>New &#8220;Code Snippets&#8221; application.</em></p>
 <blockquote>
-<div><p>This <a class="reference internal" href="developers.html#code-snippets"><em>application</em></a> was created to simplify access to the examples of engine&#8217;s functionality. It is also possible to look at the examples&#8217; scripts. This application can be launched from the index.html file located in the Blend4Web SDK&#8217;s root directory.</p>
+<div><p>This <a class="reference internal" href="developers.html#code-snippets"><span>application</span></a> was created to simplify access to the examples of engine&#8217;s functionality. It is also possible to look at the examples&#8217; scripts. This application can be launched from the index.html file located in the Blend4Web SDK&#8217;s root directory.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>New control functions for the Glow effect.</em></p>
@@ -258,17 +406,17 @@
 </li>
 <li><p class="first"><em>Dynamic copying of scene objects (instancing).</em></p>
 <blockquote>
-<div><p>Now it is possible to dynamically <a class="reference internal" href="objects.html#copy-obj"><em>copy and remove</em></a> scene objects (to create and remove instances).</p>
+<div><p>Now it is possible to dynamically <a class="reference internal" href="objects.html#copy-obj"><span>copy and remove</span></a> scene objects (to create and remove instances).</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>Handling errors related to the B4W_PARALLAX Blend4Web-specific node.</em></p>
 <blockquote>
-<div><p>In case of incorrect usage of the B4W_PARALLAX node, an <a class="reference internal" href="addon.html#export-errors-warnings"><em>export error warning</em></a> is generated.</p>
+<div><p>In case of incorrect usage of the B4W_PARALLAX node, an <a class="reference internal" href="addon.html#export-errors-warnings"><span>export error warning</span></a> is generated.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>New options in the applications builder.</em></p>
 <blockquote>
-<div><p>There are now new options in the application builder: <tt class="docutils literal"><span class="pre">-j</span></tt> and <tt class="docutils literal"><span class="pre">-c</span></tt>. They add scripts and styles correspondingly to the exceptions in order to be not compiled.</p>
+<div><p>There are now new options in the application builder: <code class="docutils literal"><span class="pre">-j</span></code> and <code class="docutils literal"><span class="pre">-c</span></code>. They add scripts and styles correspondingly to the exceptions in order to be not compiled.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>Experimental Blend4Web render engine.</em></p>
@@ -278,12 +426,12 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id6">
-<h3>Changes<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id10">
+<h3>Changes<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>Origin for counting off the camera limits has been changed.</em></p>
 <blockquote>
-<div><p>Setting camera movement limits via API now perfectly corresponds to <a class="reference internal" href="camera.html#camera-api-notes"><em>values</em></a> measured in the engine&#8217;s coordinate system. Setting horizontal limits for the <tt class="docutils literal"><span class="pre">TARGET</span></tt> camera in the Blender&#8217;s world space has been changed. Thus, it may require changeovers for old scenes.</p>
+<div><p>Setting camera movement limits via API now perfectly corresponds to <a class="reference internal" href="camera.html#camera-api-notes"><span>values</span></a> measured in the engine&#8217;s coordinate system. Setting horizontal limits for the <code class="docutils literal"><span class="pre">TARGET</span></code> camera in the Blender&#8217;s world space has been changed. Thus, it may require changeovers for old scenes.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>Documentation update for the camera settings.</em></p>
@@ -292,10 +440,10 @@
 </li>
 <li><p class="first"><em>Some APIs in the camera.js module were changed.</em></p>
 <blockquote>
-<div><p><a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html">APIs</a> of the <tt class="docutils literal"><span class="pre">camera.js</span></tt> module have undergone a number of changes.</p>
+<div><p><a class="reference external" href="https://www.blend4web.com/api_doc/module-camera.html">APIs</a> of the <code class="docutils literal"><span class="pre">camera.js</span></code> module have undergone a number of changes.</p>
 <p>New methods were added: <em>is_target_camera</em>, <em>is_eye_camera</em>, <em>is_hover_camera</em>, <em>rotate_camera</em>, <em>rotate_target_camera</em>, <em>rotate_eye_camera</em>, <em>rotate_hover_camera</em>, <em>get_camera_angles</em>, <em>hover_cam_set_translation</em>.</p>
 <p>The following methods were declared as deprecated and will be removed in the next releases: <em>rotate_pivot</em>, <em>rotate_hover_cam</em>, <em>rotate</em>, <em>set_eye_params</em>, <em>get_angles</em>, <em>translate_hover_cam_v</em>, <em>set_hover_cam_angle</em>.</p>
-<p>The <em>set_ortho_scale</em> and <em>get_ortho_scale</em> methods now print error message when they are applied to the <tt class="docutils literal"><span class="pre">Orthographic</span></tt> camera. The behavior of the <em>get_hover_angle_limits</em> method was also changed. This method now returns angle limits for the <tt class="docutils literal"><span class="pre">HOVER</span></tt> camera in the [down, up] format instead of [up, down] as it was before.</p>
+<p>The <em>set_ortho_scale</em> and <em>get_ortho_scale</em> methods now print error message when they are applied to the <code class="docutils literal"><span class="pre">Orthographic</span></code> camera. The behavior of the <em>get_hover_angle_limits</em> method was also changed. This method now returns angle limits for the <code class="docutils literal"><span class="pre">HOVER</span></code> camera in the [down, up] format instead of [up, down] as it was before.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>The lighting system was significantly optimized.</em></p>
@@ -305,7 +453,7 @@
 </li>
 <li><p class="first"><em>The HTML layout method was changed for apps using the app module.</em></p>
 <blockquote>
-<div><p>Now, upon initializing an application using the <tt class="docutils literal"><span class="pre">app.js</span></tt> module, the dimensions of the created <tt class="docutils literal"><span class="pre">&lt;canvas&gt;</span></tt> element are completely determined by the size of the container element. Thus, if a <tt class="docutils literal"><span class="pre">&lt;div&gt;</span></tt> element is used as a container, the size of <tt class="docutils literal"><span class="pre">&lt;canvas&gt;</span></tt> will be zero by default since div&#8217;s default size is zero. You can set correct params for the container with CSS and inline-style. Also, you have to use <em>resize_to_container()</em> method from the <em>app</em> module when the container is changed. The same effect may be achieved if the <em>autoresize</em> option is set upon initializing the application (in the <em>app.init()</em> function). The low level method for changing the element&#8217;s dimensions with <em>main.resize()</em> function is still supported.</p>
+<div><p>Now, upon initializing an application using the <code class="docutils literal"><span class="pre">app.js</span></code> module, the dimensions of the created <code class="docutils literal"><span class="pre">&lt;canvas&gt;</span></code> element are completely determined by the size of the container element. Thus, if a <code class="docutils literal"><span class="pre">&lt;div&gt;</span></code> element is used as a container, the size of <code class="docutils literal"><span class="pre">&lt;canvas&gt;</span></code> will be zero by default since div&#8217;s default size is zero. You can set correct params for the container with CSS and inline-style. Also, you have to use <em>resize_to_container()</em> method from the <em>app</em> module when the container is changed. The same effect may be achieved if the <em>autoresize</em> option is set upon initializing the application (in the <em>app.init()</em> function). The low level method for changing the element&#8217;s dimensions with <em>main.resize()</em> function is still supported.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>Now, the enable_controls() function from the app module should be called without any params.</em></p>
@@ -324,7 +472,7 @@
 </li>
 <li><p class="first"><em>There are now new conditions to allow changing object&#8217;s position via API.</em></p>
 <blockquote>
-<div><p>The functions from the <tt class="docutils literal"><span class="pre">transform.js</span></tt> module related to changing object position can be now applied to <a class="reference internal" href="objects.html#static-dynamic-objects"><em>dynamic objects</em></a> only.</p>
+<div><p>The functions from the <code class="docutils literal"><span class="pre">transform.js</span></code> module related to changing object position can be now applied to <a class="reference internal" href="objects.html#static-dynamic-objects"><span>dynamic objects</span></a> only.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>You can now use TEXTURE nodes without textures.</em></p>
@@ -334,7 +482,7 @@
 </li>
 <li><p class="first"><em>Updated the procedure of compatibility checks for versions of exported files and the engine itself.</em></p>
 <blockquote>
-<div><p>The engine will report about the scene&#8217;s incompatibility by printing <a class="reference internal" href="addon.html#version-errors"><em>messages in the browser console</em></a>.</p>
+<div><p>The engine will report about the scene&#8217;s incompatibility by printing <a class="reference internal" href="addon.html#version-errors"><span>messages in the browser console</span></a>.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>The  &#8220;Do Not Batch&#8221; property was renamed to &#8220;Force Dynamic Object&#8221;</em></p>
@@ -344,8 +492,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id7">
-<h3>Fixes<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id11">
+<h3>Fixes<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p class="first"><em>Fixed camera autorotate feature of the web player.</em></p>
 </li>
@@ -375,8 +523,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id8">
-<h3>Known Issues<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id12">
+<h3>Known Issues<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>Blender add-on upgrading problems.</em></p>
 <blockquote>
@@ -390,12 +538,12 @@
 </div>
 <div class="section" id="v15-02">
 <h2>v15.02<a class="headerlink" href="#v15-02" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id9">
-<h3>New Features<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id13">
+<h3>New Features<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>The local development server can be run from Blender.</em></p>
 <blockquote>
-<div><p>It&#8217;s possible now to run <a class="reference internal" href="setup.html#local-development-server"><em>local development server</em></a> when using Blend4Web SDK. This server allows fast access to the Blend4Web SDK content and also make it possible to <a class="reference internal" href="addon.html#run-in-viewer"><em>automatically open exported scenes</em></a> in the Viewer application.</p>
+<div><p>It&#8217;s possible now to run <a class="reference internal" href="setup.html#local-development-server"><span>local development server</span></a> when using Blend4Web SDK. This server allows fast access to the Blend4Web SDK content and also make it possible to <a class="reference internal" href="addon.html#run-in-viewer"><span>automatically open exported scenes</span></a> in the Viewer application.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>Support for Spot lights shadows.</em></p>
@@ -405,7 +553,7 @@
 </li>
 <li><p class="first"><em>Added/improved support for &#8220;Metaball&#8221;, &#8220;Surface&#8221; and &#8220;Curve&#8221; objects.</em></p>
 <blockquote>
-<div><p>Support for <tt class="docutils literal"><span class="pre">Metaball</span></tt>, <tt class="docutils literal"><span class="pre">Surface</span></tt> and <tt class="docutils literal"><span class="pre">Curve</span></tt> objects was added. Objects of these types are automatically converted into meshes during export. Support for <tt class="docutils literal"><span class="pre">Curve</span></tt> objects in modifiers was preserved.</p>
+<div><p>Support for <code class="docutils literal"><span class="pre">Metaball</span></code>, <code class="docutils literal"><span class="pre">Surface</span></code> and <code class="docutils literal"><span class="pre">Curve</span></code> objects was added. Objects of these types are automatically converted into meshes during export. Support for <code class="docutils literal"><span class="pre">Curve</span></code> objects in modifiers was preserved.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>Social networks buttons are added to the Web Player.</em></p>
@@ -415,14 +563,14 @@
 </li>
 <li><p class="first"><em>Added support for editing the list of Viewer scenes directly in Blender.</em></p>
 <blockquote>
-<div><p>It is now possible to <a class="reference internal" href="workflow.html#assets-json"><em>edit assets.json file</em></a> with a list of Viewer scenes inside Blender. This works only when using Blend4Web SDK.</p>
+<div><p>It is now possible to <a class="reference internal" href="workflow.html#assets-json"><span>edit assets.json file</span></a> with a list of Viewer scenes inside Blender. This works only when using Blend4Web SDK.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>Screenshots can now be taken in the Viewer application.</em></p>
 </li>
 <li><p class="first"><em>New fallback_video option is added to the Web Player.</em></p>
 <blockquote>
-<div><p>Now the user can choose a video file to play instead of 3D content on systems without WebGL support. It is possible with the help of the new <tt class="docutils literal"><span class="pre">fallback_video=/path/to/video/</span></tt> option.</p>
+<div><p>Now the user can choose a video file to play instead of 3D content on systems without WebGL support. It is possible with the help of the new <code class="docutils literal"><span class="pre">fallback_video=/path/to/video/</span></code> option.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>Improved rendering to texture functionality.</em></p>
@@ -432,7 +580,7 @@
 </li>
 <li><p class="first"><em>Billboards now can save orientation and scale in world coordinates.</em></p>
 <blockquote>
-<div><p>To use the feature you need to set <a class="reference internal" href="objects.html#billboarding-preserve"><em>Blend4Web &gt; Preserve global orientation and scale</em></a> flag in the object&#8217;s settings panel.</p>
+<div><p>To use the feature you need to set <a class="reference internal" href="objects.html#billboarding-preserve"><span>Blend4Web &gt; Preserve global orientation and scale</span></a> flag in the object&#8217;s settings panel.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>Improvements on the main SDK web page.</em></p>
@@ -452,7 +600,7 @@
 </li>
 <li><p class="first"><em>New documentation is added.</em></p>
 <blockquote>
-<div><p>Added documentation for the <tt class="docutils literal"><span class="pre">vec3</span></tt>, <tt class="docutils literal"><span class="pre">vec4</span></tt>, <tt class="docutils literal"><span class="pre">quat</span></tt>, <tt class="docutils literal"><span class="pre">mat3</span></tt>, <tt class="docutils literal"><span class="pre">mat4</span></tt> modules and for the global namespace <tt class="docutils literal"><span class="pre">b4w</span></tt>. Documentation web pages design was improved.</p>
+<div><p>Added documentation for the <code class="docutils literal"><span class="pre">vec3</span></code>, <code class="docutils literal"><span class="pre">vec4</span></code>, <code class="docutils literal"><span class="pre">quat</span></code>, <code class="docutils literal"><span class="pre">mat3</span></code>, <code class="docutils literal"><span class="pre">mat4</span></code> modules and for the global namespace <code class="docutils literal"><span class="pre">b4w</span></code>. Documentation web pages design was improved.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>Support for several engine instances on the same web page.</em></p>
@@ -467,7 +615,7 @@
 </li>
 <li><p class="first"><em>The new set_trans_pivot() method is added to the camera module.</em></p>
 <blockquote>
-<div><p>This function allows setting an arbitrary position of the pivot point and the position of the camera of the <tt class="docutils literal"><span class="pre">Target</span></tt> type.</p>
+<div><p>This function allows setting an arbitrary position of the pivot point and the position of the camera of the <code class="docutils literal"><span class="pre">Target</span></code> type.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>A new ``version`` property is added to the ``project.py`` utility.</em></p>
@@ -477,12 +625,12 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id10">
-<h3>Changes<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id14">
+<h3>Changes<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>Now it is possible to add options with the same names via browser address bar.</em></p>
 <blockquote>
-<div><p>A new optional parameter <tt class="docutils literal"><span class="pre">allow_param_array</span></tt> is added to <tt class="docutils literal"><span class="pre">get_url_params()</span></tt> function of <tt class="docutils literal"><span class="pre">app</span></tt> module. It is set to <tt class="docutils literal"><span class="pre">false</span></tt> by default. Setting this parameter to <tt class="docutils literal"><span class="pre">true</span></tt> leads to a merge of identical functions into a massive, other way the last one will be used.</p>
+<div><p>A new optional parameter <code class="docutils literal"><span class="pre">allow_param_array</span></code> is added to <code class="docutils literal"><span class="pre">get_url_params()</span></code> function of <code class="docutils literal"><span class="pre">app</span></code> module. It is set to <code class="docutils literal"><span class="pre">false</span></code> by default. Setting this parameter to <code class="docutils literal"><span class="pre">true</span></code> leads to a merge of identical functions into a massive, other way the last one will be used.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>Improved ``Background Music`` speaker.</em></p>
@@ -492,22 +640,22 @@
 </li>
 <li><p class="first"><em>Blend-file now includes special Blend4Web nodes by default.</em></p>
 <blockquote>
-<div><p>Now there&#8217;s no need to add <a class="reference internal" href="node_materials.html#custom-node-materials"><em>Blend4Web special nodes</em></a> into a file. It is available in both SDK and addon versions of Blend4Web.</p>
+<div><p>Now there&#8217;s no need to add <a class="reference internal" href="node_materials.html#custom-node-materials"><span>Blend4Web special nodes</span></a> into a file. It is available in both SDK and addon versions of Blend4Web.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>Changed export of empty &#8220;Mesh&#8221; objects.</em></p>
 <blockquote>
-<div><p>Now <tt class="docutils literal"><span class="pre">Mesh</span></tt> objects without polygons are exported as <tt class="docutils literal"><span class="pre">Empty</span></tt>.</p>
+<div><p>Now <code class="docutils literal"><span class="pre">Mesh</span></code> objects without polygons are exported as <code class="docutils literal"><span class="pre">Empty</span></code>.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>Changed &#8220;light.js&#8221; module.</em></p>
 <blockquote>
-<div><p>Added function <tt class="docutils literal"><span class="pre">get_light_type</span></tt>; functions <tt class="docutils literal"><span class="pre">get_light_params</span></tt> and <tt class="docutils literal"><span class="pre">set_light_params</span></tt> now get object <tt class="docutils literal"><span class="pre">LAMP</span></tt> instead of objects name. Also the user now can change <tt class="docutils literal"><span class="pre">spot_blend</span></tt>, <tt class="docutils literal"><span class="pre">spot_size</span></tt> and <tt class="docutils literal"><span class="pre">distance</span></tt> properties of the <tt class="docutils literal"><span class="pre">SPOT</span></tt> light source through those functions.</p>
+<div><p>Added function <code class="docutils literal"><span class="pre">get_light_type</span></code>; functions <code class="docutils literal"><span class="pre">get_light_params</span></code> and <code class="docutils literal"><span class="pre">set_light_params</span></code> now get object <code class="docutils literal"><span class="pre">LAMP</span></code> instead of objects name. Also the user now can change <code class="docutils literal"><span class="pre">spot_blend</span></code>, <code class="docutils literal"><span class="pre">spot_size</span></code> and <code class="docutils literal"><span class="pre">distance</span></code> properties of the <code class="docutils literal"><span class="pre">SPOT</span></code> light source through those functions.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>Improved refractions on LOW quality settings.</em></p>
 <blockquote>
-<div><p>New simplified (without distortion) refraction model is now used when <tt class="docutils literal"><span class="pre">LOW</span></tt> quality is chosen.</p>
+<div><p>New simplified (without distortion) refraction model is now used when <code class="docutils literal"><span class="pre">LOW</span></code> quality is chosen.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>Shader nodes optimization.</em></p>
@@ -516,12 +664,12 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id11">
-<h3>Fixes<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id15">
+<h3>Fixes<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>Corrected behavior of the preloader for the Web Player.</em></p>
 <blockquote>
-<div><p>Some artifacts could be visible on <tt class="docutils literal"><span class="pre">B4W</span></tt> logo while opening Web Player.</p>
+<div><p>Some artifacts could be visible on <code class="docutils literal"><span class="pre">B4W</span></code> logo while opening Web Player.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>Fixed an error in rendering of one-cascaded shadows. The error was related to appearing of a hard non-lighted line on the cascade border.</em></p>
@@ -540,8 +688,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id12">
-<h3>Known Issues<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id16">
+<h3>Known Issues<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>Blender add-on upgrading problems.</em></p>
 <blockquote>
@@ -555,8 +703,8 @@
 </div>
 <div class="section" id="v15-01">
 <h2>v15.01<a class="headerlink" href="#v15-01" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id13">
-<h3>New Features<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id17">
+<h3>New Features<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>Support for panning on touchscreen devices.</em></p>
 <blockquote>
@@ -570,7 +718,7 @@
 </li>
 <li><p class="first"><em>Extended support for the NLA Script tool.</em></p>
 <blockquote>
-<div><p>Added new logic slots: <tt class="docutils literal"><span class="pre">Show</span> <span class="pre">Object</span></tt> and <tt class="docutils literal"><span class="pre">Hide</span> <span class="pre">Object</span></tt> used for hiding and showing the obects, <tt class="docutils literal"><span class="pre">Page</span> <span class="pre">Redirect</span></tt> - for redirecting to other webpages , <tt class="docutils literal"><span class="pre">Page</span> <span class="pre">Param</span></tt> - for storing any webpage parameter in given numerical register. Simplified usage of <tt class="docutils literal"><span class="pre">Select</span> <span class="pre">&amp;</span> <span class="pre">Jump</span></tt> and <tt class="docutils literal"><span class="pre">Select</span> <span class="pre">&amp;</span> <span class="pre">Play</span></tt> slots. Now it&#8217;s not required to specify <tt class="docutils literal"><span class="pre">Selectable</span></tt> property on selectable objects.</p>
+<div><p>Added new logic slots: <code class="docutils literal"><span class="pre">Show</span> <span class="pre">Object</span></code> and <code class="docutils literal"><span class="pre">Hide</span> <span class="pre">Object</span></code> used for hiding and showing the obects, <code class="docutils literal"><span class="pre">Page</span> <span class="pre">Redirect</span></code> - for redirecting to other webpages , <code class="docutils literal"><span class="pre">Page</span> <span class="pre">Param</span></code> - for storing any webpage parameter in given numerical register. Simplified usage of <code class="docutils literal"><span class="pre">Select</span> <span class="pre">&amp;</span> <span class="pre">Jump</span></code> and <code class="docutils literal"><span class="pre">Select</span> <span class="pre">&amp;</span> <span class="pre">Play</span></code> slots. Now it&#8217;s not required to specify <code class="docutils literal"><span class="pre">Selectable</span></code> property on selectable objects.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>Support for high definition displays (HIDPI, Retina).</em></p>
@@ -580,22 +728,22 @@
 </li>
 <li><p class="first"><em>Support orthographic camera scaling.</em></p>
 <blockquote>
-<div><p>An API to change the <tt class="docutils literal"><span class="pre">Orthographic</span></tt> camera scale has been added (<tt class="docutils literal"><span class="pre">Orthographic</span> <span class="pre">scale</span></tt> in Blender).</p>
+<div><p>An API to change the <code class="docutils literal"><span class="pre">Orthographic</span></code> camera scale has been added (<code class="docutils literal"><span class="pre">Orthographic</span> <span class="pre">scale</span></code> in Blender).</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>&#8220;autorotate&#8221; option has been added to the webplayer.</em></p>
 <blockquote>
-<div><p><a class="reference internal" href="web_player.html#webplayer-attributes"><em>The option</em></a> autorotate is used to turn on the automatic camera rotation as soon as the scene loads.</p>
+<div><p><a class="reference internal" href="web_player.html#webplayer-attributes"><span>The option</span></a> autorotate is used to turn on the automatic camera rotation as soon as the scene loads.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>Simplied keyboard control mode has been added to function &#8220;enable_camera_controls.</em></p>
 <blockquote>
-<div><p>The mode is enabled by passing the optional parameter <tt class="docutils literal"><span class="pre">disable_letter_controls</span></tt> Thus, the keyboard controls with letter keys (WASD and so on) will be turned off.This feature can be used in cases when you need to use the letter keys for purposes other than moving the camera.</p>
+<div><p>The mode is enabled by passing the optional parameter <code class="docutils literal"><span class="pre">disable_letter_controls</span></code> Thus, the keyboard controls with letter keys (WASD and so on) will be turned off.This feature can be used in cases when you need to use the letter keys for purposes other than moving the camera.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>Support for gyroscope on mobile devices.</em></p>
 <blockquote>
-<div><p>To work with gyroscope on mobile devices the two sensors was implemented. The first sensor allows to operate with current device position compared with the previous one (position delta). It&#8217;s created by using the function <tt class="docutils literal"><span class="pre">create_gyro_delta_sensor</span></tt> from &#8220;controls.js&#8221; module. The second sensor returns current device angle and created by <tt class="docutils literal"><span class="pre">create_gyro_angles_sensor</span></tt> from &#8220;controls.js&#8221; module. It&#8217;s worth to mention that all angles are given in radians. Also the special addon &#8220;gyroscope.js&#8221; was created. This addon implements simple camera movements due to device rotation. You can find an example of using such feature in our Viewer application by selecting the &#8220;Gyroscope&#8221; menu option.</p>
+<div><p>To work with gyroscope on mobile devices the two sensors was implemented. The first sensor allows to operate with current device position compared with the previous one (position delta). It&#8217;s created by using the function <code class="docutils literal"><span class="pre">create_gyro_delta_sensor</span></code> from &#8220;controls.js&#8221; module. The second sensor returns current device angle and created by <code class="docutils literal"><span class="pre">create_gyro_angles_sensor</span></code> from &#8220;controls.js&#8221; module. It&#8217;s worth to mention that all angles are given in radians. Also the special addon &#8220;gyroscope.js&#8221; was created. This addon implements simple camera movements due to device rotation. You can find an example of using such feature in our Viewer application by selecting the &#8220;Gyroscope&#8221; menu option.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>New ``Do not Render`` property has been added to material settings.</em></p>
@@ -605,12 +753,12 @@
 </li>
 <li><p class="first"><em>Support for video-textures on IE 11 and iPhone.</em></p>
 <blockquote>
-<div><p>The support is achieved by creating a new video-sequence format, <tt class="docutils literal"><span class="pre">*.seq</span></tt>. For more info check the following <a class="reference internal" href="developers.html#seq"><em>topic in documentation</em></a>.</p>
+<div><p>The support is achieved by creating a new video-sequence format, <code class="docutils literal"><span class="pre">*.seq</span></code>. For more info check the following <a class="reference internal" href="developers.html#seq"><span>topic in documentation</span></a>.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>Support for &#8220;title&#8221; tag in Web Player.</em></p>
 <blockquote>
-<div><p>The Web Player&#8217;s title (shown as web browser header) is now extracted from JSON file of the loaded scene. For more info about this feature check the following <a class="reference internal" href="web_player.html#wp-title"><em>topic in documentation</em></a>.</p>
+<div><p>The Web Player&#8217;s title (shown as web browser header) is now extracted from JSON file of the loaded scene. For more info about this feature check the following <a class="reference internal" href="web_player.html#wp-title"><span>topic in documentation</span></a>.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>Support for meta tags in Blender.</em></p>
@@ -620,32 +768,32 @@
 </li>
 <li><p class="first"><em>Added support for execution of user-defined functions every frame.</em></p>
 <blockquote>
-<div><p>To help users to create sophisticated application the new function <tt class="docutils literal"><span class="pre">append_loop_cb</span></tt> has been added to &#8220;main.js&#8221; module. This function allows to execute given callback every frame. This callback has two parameters: time since the application start and time delta between current and previous frame. Both parameters are in seconds. To cancel the callback execution every frame you should remove it by using the <tt class="docutils literal"><span class="pre">remove_loop_cb</span></tt> function from the module &#8220;main.js&#8221;.</p>
+<div><p>To help users to create sophisticated application the new function <code class="docutils literal"><span class="pre">append_loop_cb</span></code> has been added to &#8220;main.js&#8221; module. This function allows to execute given callback every frame. This callback has two parameters: time since the application start and time delta between current and previous frame. Both parameters are in seconds. To cancel the callback execution every frame you should remove it by using the <code class="docutils literal"><span class="pre">remove_loop_cb</span></code> function from the module &#8220;main.js&#8221;.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>Added support for simple preloader screen animation.</em></p>
 <blockquote>
-<div><p>To create an application with animated preloader pass an option &#8220;preloader_fadeout&#8221; with the value &#8220;true&#8221; to the function <tt class="docutils literal"><span class="pre">create_simple_preloader</span></tt> from &#8220;preloader.js&#8221; module.</p>
+<div><p>To create an application with animated preloader pass an option &#8220;preloader_fadeout&#8221; with the value &#8220;true&#8221; to the function <code class="docutils literal"><span class="pre">create_simple_preloader</span></code> from &#8220;preloader.js&#8221; module.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>Added support to export converted media files to HTML file.</em></p>
 <blockquote>
-<div><p>Now then you export HTML files it&#8217;s possible to store converted files in them. To do so you need to enable &#8220;Export Converted Media&#8221; option in the <a class="reference internal" href="addon.html#export-opts"><em>export options</em></a>.</p>
+<div><p>Now then you export HTML files it&#8217;s possible to store converted files in them. To do so you need to enable &#8220;Export Converted Media&#8221; option in the <a class="reference internal" href="addon.html#export-opts"><span>export options</span></a>.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>Added support for using min50 and dds textures in Web Player.</em></p>
 <blockquote>
-<div><p>To enable this feature pass &#8220;compressed_textures&#8221; <a class="reference internal" href="web_player.html#webplayer-attributes"><em>parameter</em></a> to Web Player.</p>
+<div><p>To enable this feature pass &#8220;compressed_textures&#8221; <a class="reference internal" href="web_player.html#webplayer-attributes"><span>parameter</span></a> to Web Player.</p>
 </div></blockquote>
 </li>
 </ul>
 </div>
-<div class="section" id="id14">
-<h3>Changes<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id18">
+<h3>Changes<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>SDK file hierarchy was simplified.</em></p>
 <blockquote>
-<div><p>The <tt class="docutils literal"><span class="pre">external</span></tt> directory was removed, all its content was moved to the upper level - in the root directory of the SDK. The file with the list of the scenes used by the Viewer application is now located in <tt class="docutils literal"><span class="pre">apps_dev/viewer</span></tt> directory.</p>
+<div><p>The <code class="docutils literal"><span class="pre">external</span></code> directory was removed, all its content was moved to the upper level - in the root directory of the SDK. The file with the list of the scenes used by the Viewer application is now located in <code class="docutils literal"><span class="pre">apps_dev/viewer</span></code> directory.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>Changed camera autorotation behavior (experimental).</em></p>
@@ -655,12 +803,12 @@
 </li>
 <li><p class="first"><em>The usage of ``Special: Collision`` property was changed.</em></p>
 <blockquote>
-<div><p>Earlier, enabling the option automatically resulted in objects&#8217; hiding. Now, to do the same thing, you have to specify <tt class="docutils literal"><span class="pre">Do</span> <span class="pre">not</span> <span class="pre">Render</span></tt> property in the material settings.</p>
+<div><p>Earlier, enabling the option automatically resulted in objects&#8217; hiding. Now, to do the same thing, you have to specify <code class="docutils literal"><span class="pre">Do</span> <span class="pre">not</span> <span class="pre">Render</span></code> property in the material settings.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>Changed suffix for converted media files.</em></p>
 <blockquote>
-<div><p>Old <tt class="docutils literal"><span class="pre">*.lossconv.*</span></tt> suffix was replaced by <tt class="docutils literal"><span class="pre">*.altconv.*</span></tt>.</p>
+<div><p>Old <code class="docutils literal"><span class="pre">*.lossconv.*</span></code> suffix was replaced by <code class="docutils literal"><span class="pre">*.altconv.*</span></code>.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>Behavior of &#8220;Do not render&#8221; object property was changed.</em></p>
@@ -675,8 +823,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id15">
-<h3>Fixes<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id19">
+<h3>Fixes<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p class="first"><em>When using &#8220;Panoramic&#8221; camera type in Blender the camera automatically obtains &#8220;Perspective&#8221; type when exported.</em></p>
 </li>
@@ -696,8 +844,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id16">
-<h3>Known Issues<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id20">
+<h3>Known Issues<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>Blender add-on upgrading problems.</em></p>
 <blockquote>
@@ -716,38 +864,38 @@
 </div>
 <div class="section" id="v14-12">
 <h2>v14.12<a class="headerlink" href="#v14-12" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id18">
-<h3>New Features<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id22">
+<h3>New Features<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>Camera velocity settings are now available.</em></p>
 <blockquote>
-<div><p>Now <a class="reference internal" href="camera.html#camera-velocity"><em>camera movement velocity</em></a> can be set up, including translation, rotation and zooming. Velocity for all camera types (<tt class="docutils literal"><span class="pre">Target</span></tt>, <tt class="docutils literal"><span class="pre">Hover</span></tt>, <tt class="docutils literal"><span class="pre">Eye</span></tt>) can be tweaked both using Blender UI and through Blend4Web API.</p>
+<div><p>Now <a class="reference internal" href="camera.html#camera-velocity"><span>camera movement velocity</span></a> can be set up, including translation, rotation and zooming. Velocity for all camera types (<code class="docutils literal"><span class="pre">Target</span></code>, <code class="docutils literal"><span class="pre">Hover</span></code>, <code class="docutils literal"><span class="pre">Eye</span></code>) can be tweaked both using Blender UI and through Blend4Web API.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>Mipmapping is now supported for Canvas textures.</em></p>
 <blockquote>
-<div><p>We have added mipmapping support for <a class="reference internal" href="textures.html#render-to-texture-canvas"><em>Canvas textures</em></a>.</p>
+<div><p>We have added mipmapping support for <a class="reference internal" href="textures.html#render-to-texture-canvas"><span>Canvas textures</span></a>.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>Full support for the &#8220;MAPPING&#8221; node.</em></p>
 <blockquote>
-<div><p>Now all <tt class="docutils literal"><span class="pre">Vector</span> <span class="pre">type</span></tt> options available for the <tt class="docutils literal"><span class="pre">MAPPING</span></tt> node are supported, including <tt class="docutils literal"><span class="pre">Texture</span></tt>, <tt class="docutils literal"><span class="pre">Point</span></tt>, <tt class="docutils literal"><span class="pre">Vector</span></tt> and <tt class="docutils literal"><span class="pre">Normal</span></tt>.</p>
+<div><p>Now all <code class="docutils literal"><span class="pre">Vector</span> <span class="pre">type</span></code> options available for the <code class="docutils literal"><span class="pre">MAPPING</span></code> node are supported, including <code class="docutils literal"><span class="pre">Texture</span></code>, <code class="docutils literal"><span class="pre">Point</span></code>, <code class="docutils literal"><span class="pre">Vector</span></code> and <code class="docutils literal"><span class="pre">Normal</span></code>.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>Glow on mouse over.</em></p>
 <blockquote>
-<div><p>API in the <tt class="docutils literal"><span class="pre">mouse.js</span></tt> module were created for the effect of outlining the objects under the mouse pointer. Also, for purposes of controlling this effect, <tt class="docutils literal"><span class="pre">enable_mouse_hover_glow()</span></tt> and <tt class="docutils literal"><span class="pre">disable_mouse_hover_glow()</span></tt> methods were added. The objects should have <tt class="docutils literal"><span class="pre">Object</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Selectable</span></tt> checkbox enabled.</p>
+<div><p>API in the <code class="docutils literal"><span class="pre">mouse.js</span></code> module were created for the effect of outlining the objects under the mouse pointer. Also, for purposes of controlling this effect, <code class="docutils literal"><span class="pre">enable_mouse_hover_glow()</span></code> and <code class="docutils literal"><span class="pre">disable_mouse_hover_glow()</span></code> methods were added. The objects should have <code class="docutils literal"><span class="pre">Object</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Selectable</span></code> checkbox enabled.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>A brand new app building system.</em></p>
 <blockquote>
-<div><p>Now, the users can develop their apps right in the SDK thanks to the new <tt class="docutils literal"><span class="pre">project.py</span></tt> utility. <a class="reference internal" href="developers.html#app-building"><em>This script</em></a> makes it possible to build the apps together with the engine, to minify JavaScript and CSS files and to export the final apps to be deployed on a server.</p>
+<div><p>Now, the users can develop their apps right in the SDK thanks to the new <code class="docutils literal"><span class="pre">project.py</span></code> utility. <a class="reference internal" href="developers.html#app-building"><span>This script</span></a> makes it possible to build the apps together with the engine, to minify JavaScript and CSS files and to export the final apps to be deployed on a server.</p>
 </div></blockquote>
 </li>
 </ul>
 </div>
-<div class="section" id="id19">
-<h3>Changes<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id23">
+<h3>Changes<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>Removed support for deprecated &#8220;UV translation velocity&#8221; texture settings.</em></p>
 <blockquote>
@@ -768,12 +916,12 @@
 </li>
 <li><p class="first"><em>Error message about &#8220;Clear parent inverse&#8221; is no more shown.</em></p>
 <blockquote>
-<div><p>Before, when using parenting, it was required to reset translation, rotation and scale of child objects (<tt class="docutils literal"><span class="pre">Object</span> <span class="pre">&gt;</span> <span class="pre">Parent</span> <span class="pre">&gt;</span> <span class="pre">Clear</span> <span class="pre">Parent</span> <span class="pre">Inverse</span></tt>). Now such transformation is natively supported by the engine.</p>
+<div><p>Before, when using parenting, it was required to reset translation, rotation and scale of child objects (<code class="docutils literal"><span class="pre">Object</span> <span class="pre">&gt;</span> <span class="pre">Parent</span> <span class="pre">&gt;</span> <span class="pre">Clear</span> <span class="pre">Parent</span> <span class="pre">Inverse</span></code>). Now such transformation is natively supported by the engine.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>&#8220;Apply scale&#8221; option no longer applies modifiers.</em></p>
 <blockquote>
-<div><p>As before, <a class="reference internal" href="objects.html#apply-modifiers"><em>Apply modifiers</em></a> should be used in order to apply modifiers.</p>
+<div><p>As before, <a class="reference internal" href="objects.html#apply-modifiers"><span>Apply modifiers</span></a> should be used in order to apply modifiers.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>Use of normal maps in node materials no longer requires a Material or Extended Material node.</em></p>
@@ -783,8 +931,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id20">
-<h3>Fixes<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id24">
+<h3>Fixes<a class="headerlink" href="#id24" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>Fixed audio playback error occured when using NLA.</em></p>
 <blockquote>
@@ -800,12 +948,12 @@
 </li>
 <li><p class="first"><em>Node material rendering error has been fixed.</em></p>
 <blockquote>
-<div><p>The error occured when a <tt class="docutils literal"><span class="pre">MATERIAL</span></tt> node (or <tt class="docutils literal"><span class="pre">MATERIAL_EXT</span></tt>) with a linked (from another .blend file) material was used.</p>
+<div><p>The error occured when a <code class="docutils literal"><span class="pre">MATERIAL</span></code> node (or <code class="docutils literal"><span class="pre">MATERIAL_EXT</span></code>) with a linked (from another .blend file) material was used.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>Animation baker (&#8220;B4W Animation Bake&#8221; operator) no longer resets an armature pose.</em></p>
 <blockquote>
-<div><p>Now, when using the <a class="reference internal" href="animation.html#animation-bake"><em>animation baking tool</em></a>, the armature pose is being left intact.</p>
+<div><p>Now, when using the <a class="reference internal" href="animation.html#animation-bake"><span>animation baking tool</span></a>, the armature pose is being left intact.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>Fixed jerky camera movement upon application startup.</em></p>
@@ -816,8 +964,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id21">
-<h3>Known Issues<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id25">
+<h3>Known Issues<a class="headerlink" href="#id25" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>Blender add-on upgrading problems.</em></p>
 <blockquote>
@@ -831,32 +979,32 @@
 </div>
 <div class="section" id="v14-11">
 <h2>v14.11<a class="headerlink" href="#v14-11" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id22">
-<h3>New Features<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id26">
+<h3>New Features<a class="headerlink" href="#id26" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>Video textures support.</em></p>
 <blockquote>
-<div><p><a class="reference internal" href="textures.html#video-texture"><em>Video textures</em></a> are now supported for <tt class="docutils literal"><span class="pre">Image</span> <span class="pre">or</span> <span class="pre">Movie</span></tt> textures.</p>
+<div><p><a class="reference internal" href="textures.html#video-texture"><span>Video textures</span></a> are now supported for <code class="docutils literal"><span class="pre">Image</span> <span class="pre">or</span> <span class="pre">Movie</span></code> textures.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>Frame rate.</em></p>
 <blockquote>
-<div><p>Frame rate for animation and video textures can now be changed through the <tt class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">Dimensions</span> <span class="pre">&gt;</span> <span class="pre">Frame</span> <span class="pre">rate</span></tt> option.</p>
+<div><p>Frame rate for animation and video textures can now be changed through the <code class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">Dimensions</span> <span class="pre">&gt;</span> <span class="pre">Frame</span> <span class="pre">rate</span></code> option.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>Canvas textures support.</em></p>
 <blockquote>
-<div><p>A canvas HTML element can be now used as a <a class="reference internal" href="textures.html#render-to-texture-canvas"><em>texture</em></a>. The workflow is described in the <a class="reference internal" href="developers.html#canvas-texture"><em>manual</em></a>.</p>
+<div><p>A canvas HTML element can be now used as a <a class="reference internal" href="textures.html#render-to-texture-canvas"><span>texture</span></a>. The workflow is described in the <a class="reference internal" href="developers.html#canvas-texture"><span>manual</span></a>.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>Сamera panning.</em></p>
 <blockquote>
-<div><p>In the mode when the camera is rotating around a single point (<tt class="docutils literal"><span class="pre">Target</span></tt>) the users now have the ability to move the pivot point within the view plane (so called camera panning) while the right or middle mouse buttons are pressed. This function is turned on by default and can be turned off in Blender settings at need.</p>
+<div><p>In the mode when the camera is rotating around a single point (<code class="docutils literal"><span class="pre">Target</span></code>) the users now have the ability to move the pivot point within the view plane (so called camera panning) while the right or middle mouse buttons are pressed. This function is turned on by default and can be turned off in Blender settings at need.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>New camera control mode - Hover.</em></p>
 <blockquote>
-<div><p>The <tt class="docutils literal"><span class="pre">Hover</span></tt> mode is now available when the camera is gliding over the horizontal plane (including zooming in and out). This camera mode makes it possible to realize scenarios for a convenient viewing of scenes which are spread in two dimensions (rooms, game levels).</p>
+<div><p>The <code class="docutils literal"><span class="pre">Hover</span></code> mode is now available when the camera is gliding over the horizontal plane (including zooming in and out). This camera mode makes it possible to realize scenarios for a convenient viewing of scenes which are spread in two dimensions (rooms, game levels).</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>The SDK now contains a root index.html webpage for simplifying navigation within the distribution.</em></p>
@@ -867,19 +1015,19 @@
 </li>
 <li><p class="first"><em>The export Strict mode is implemented in the add-on.</em></p>
 <blockquote>
-<div><p>Activating <tt class="docutils literal"><span class="pre">Strict</span> <span class="pre">mode</span></tt> gives the possibility to display all possible errors and warnings connected with incorrect scene settings. The option is useful for final scene debugging for getting the most correct and optimized resource files.</p>
+<div><p>Activating <code class="docutils literal"><span class="pre">Strict</span> <span class="pre">mode</span></code> gives the possibility to display all possible errors and warnings connected with incorrect scene settings. The option is useful for final scene debugging for getting the most correct and optimized resource files.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>Audio playback support for iOS devices.</em></p>
 </li>
 </ul>
 </div>
-<div class="section" id="id23">
-<h3>Changes<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id27">
+<h3>Changes<a class="headerlink" href="#id27" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>The webplayer&#8217;s &#8220;bg&#8221; parameter is renamed to &#8220;fallback_image&#8221;.</em></p>
 <blockquote>
-<div><p>This option also has changed its behavior. If the <tt class="docutils literal"><span class="pre">fallback_image</span></tt> is defined the error message that WebGL is unavailable is not shown any more, instead the user sees just the image.</p>
+<div><p>This option also has changed its behavior. If the <code class="docutils literal"><span class="pre">fallback_image</span></code> is defined the error message that WebGL is unavailable is not shown any more, instead the user sees just the image.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>If there are no sound sources in the scene the sound mute button is no longer shown in the webplayer.</em></p>
@@ -892,8 +1040,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id24">
-<h3>Fixes<a class="headerlink" href="#id24" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id28">
+<h3>Fixes<a class="headerlink" href="#id28" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>Normal maps now work with Generated and Normal texture coordinates.</em></p>
 <blockquote>
@@ -909,8 +1057,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id25">
-<h3>Known Issues<a class="headerlink" href="#id25" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id29">
+<h3>Known Issues<a class="headerlink" href="#id29" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>Blender add-on upgrading problems.</em></p>
 <blockquote>
@@ -922,8 +1070,8 @@
 </div>
 <div class="section" id="v14-10">
 <h2>v14.10<a class="headerlink" href="#v14-10" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id26">
-<h3>New Features<a class="headerlink" href="#id26" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id30">
+<h3>New Features<a class="headerlink" href="#id30" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>A new Web Player.</em></p>
 <blockquote>
@@ -932,23 +1080,23 @@
 </li>
 <li><p class="first"><em>Improved shadows.</em></p>
 <blockquote>
-<div><p>It&#8217;s now possible to choose a non-cascaded shadow model, based on a single optimized shadow map. Such model is easier to configure and suits well for relatively small scenes. For more info see the <a class="reference internal" href="lighting.html#shadows"><em>docs</em></a>.</p>
+<div><p>It&#8217;s now possible to choose a non-cascaded shadow model, based on a single optimized shadow map. Such model is easier to configure and suits well for relatively small scenes. For more info see the <a class="reference internal" href="lighting.html#shadows"><span>docs</span></a>.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>Many NLA system improvements.</em></p>
 <blockquote>
-<div><p>It&#8217;s now possible to create a complex logic using the <tt class="docutils literal"><span class="pre">Conditional</span> <span class="pre">Jump</span></tt>, <tt class="docutils literal"><span class="pre">Register</span> <span class="pre">Store</span></tt>, <tt class="docutils literal"><span class="pre">Math</span> <span class="pre">Operation</span></tt> NLA Script logic blocks and register-stored variables.</p>
+<div><p>It&#8217;s now possible to create a complex logic using the <code class="docutils literal"><span class="pre">Conditional</span> <span class="pre">Jump</span></code>, <code class="docutils literal"><span class="pre">Register</span> <span class="pre">Store</span></code>, <code class="docutils literal"><span class="pre">Math</span> <span class="pre">Operation</span></code> NLA Script logic blocks and register-stored variables.</p>
 <p>It&#8217;s now possible to use all types of supported animations in the NLA, including sound playback, vertex animation and particle emission. It&#8217;s now possible to play different animation types simultaneously.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>Supported objects billboarding.</em></p>
 <blockquote>
-<div><p>The objects received the new set of <a class="reference internal" href="objects.html#objects-billboarding-properties"><em>options</em></a>, allowing to configure billboarding.</p>
+<div><p>The objects received the new set of <a class="reference internal" href="objects.html#objects-billboarding-properties"><span>options</span></a>, allowing to configure billboarding.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>The &#8220;XYZ Euler&#8221; mode is supported for animating rotations.</em></p>
 <blockquote>
-<div><p>Object and skeletal animations now support the <tt class="docutils literal"><span class="pre">XYZ</span> <span class="pre">Euler</span></tt> mode for rotations.</p>
+<div><p>Object and skeletal animations now support the <code class="docutils literal"><span class="pre">XYZ</span> <span class="pre">Euler</span></code> mode for rotations.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>Support for the GENERATED texture coordinates.</em></p>
@@ -957,7 +1105,7 @@
 </li>
 <li><p class="first"><em>Scene export process simplified.</em></p>
 <blockquote>
-<div><p>The range of material export errors are now not blocking the export. Instead this material will be highlighted pink at scene loading. Detailed error descriptions can be found in the <a class="reference internal" href="addon.html#export-errors-warnings"><em>manual</em></a>.</p>
+<div><p>The range of material export errors are now not blocking the export. Instead this material will be highlighted pink at scene loading. Detailed error descriptions can be found in the <a class="reference internal" href="addon.html#export-errors-warnings"><span>manual</span></a>.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>Added support for the &#8220;Do not export&#8221; option for particle systems.</em></p>
@@ -966,8 +1114,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id27">
-<h3>Changes<a class="headerlink" href="#id27" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id31">
+<h3>Changes<a class="headerlink" href="#id31" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>Changed SDK path setting for HTML export.</em></p>
 <blockquote>
@@ -983,18 +1131,18 @@
 </li>
 <li><p class="first"><em>Removed &#8220;Blend4Web &gt; Animation &gt; Cyclic&#8221; option from the object properties panel</em>.</p>
 <blockquote>
-<div><p>Instead one should use <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Animation</span> <span class="pre">&gt;</span> <span class="pre">Behavior</span></tt> option located in the same place. Scenes with default animations may work incorrectly, so they need behavior property to be set to <tt class="docutils literal"><span class="pre">Cyclic</span></tt>.</p>
+<div><p>Instead one should use <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Animation</span> <span class="pre">&gt;</span> <span class="pre">Behavior</span></code> option located in the same place. Scenes with default animations may work incorrectly, so they need behavior property to be set to <code class="docutils literal"><span class="pre">Cyclic</span></code>.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>Modified SSAO algorythm realisation.</em></p>
 <blockquote>
-<div><p>The new implementation is much faster and shows better quality. The settings of the algorithm are changed too. For more info see the <a class="reference internal" href="postprocessing_effects.html#ssao"><em>manual section</em></a>.</p>
+<div><p>The new implementation is much faster and shows better quality. The settings of the algorithm are changed too. For more info see the <a class="reference internal" href="postprocessing_effects.html#ssao"><span>manual section</span></a>.</p>
 </div></blockquote>
 </li>
 </ul>
 </div>
-<div class="section" id="id28">
-<h3>Fixes<a class="headerlink" href="#id28" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id32">
+<h3>Fixes<a class="headerlink" href="#id32" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>Fixed rendering error for HALO materials.</em></p>
 </li>
@@ -1002,7 +1150,7 @@
 </li>
 <li><p class="first"><em>Fixed error with keyboard shortcuts in Blender.</em></p>
 <blockquote>
-<div><p>Fixed error with inability to assign keyboard shortcuts in Blender for export menu items:<tt class="docutils literal"><span class="pre">File-&gt;Export-&gt;Blend4Web(.json)</span></tt> and <tt class="docutils literal"><span class="pre">File-&gt;Export-&gt;Blend4Web(.html)</span></tt>.</p>
+<div><p>Fixed error with inability to assign keyboard shortcuts in Blender for export menu items:<code class="docutils literal"><span class="pre">File-&gt;Export-&gt;Blend4Web(.json)</span></code> and <code class="docutils literal"><span class="pre">File-&gt;Export-&gt;Blend4Web(.html)</span></code>.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>Fixed crash when loading textures with size exceeding device limits.</em></p>
@@ -1019,8 +1167,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id29">
-<h3>Known Issues<a class="headerlink" href="#id29" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id33">
+<h3>Known Issues<a class="headerlink" href="#id33" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>Blender add-on upgrading problems.</em></p>
 <blockquote>
@@ -1037,8 +1185,8 @@
 </div>
 <div class="section" id="v14-09">
 <h2>v14.09<a class="headerlink" href="#v14-09" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id30">
-<h3>New Features<a class="headerlink" href="#id30" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id34">
+<h3>New Features<a class="headerlink" href="#id34" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>ABSOLUTE type support for the MATH node.</em></p>
 </li>
@@ -1059,7 +1207,7 @@
 </li>
 <li><p class="first"><em>The ability to output intermediate rendering results for debugging.</em></p>
 <blockquote>
-<div><p>The rendering result for a certain stage can be now output above the main picture. This can be set up in the <tt class="docutils literal"><span class="pre">config.js</span></tt> module through the <tt class="docutils literal"><span class="pre">debug_subs</span></tt> options.</p>
+<div><p>The rendering result for a certain stage can be now output above the main picture. This can be set up in the <code class="docutils literal"><span class="pre">config.js</span></code> module through the <code class="docutils literal"><span class="pre">debug_subs</span></code> options.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>The logic for controling Blender&#8217;s NLA animation using a visual editor has been implemented.</em></p>
@@ -1069,7 +1217,7 @@
 </li>
 <li><p class="first"><em>Multiple sensor system improvements.</em></p>
 <blockquote>
-<div><p>It is now permitted to register <em>sensor manifolds</em> globally using a <tt class="docutils literal"><span class="pre">controls</span></tt> module method with no connection to any object. To do this <tt class="docutils literal"><span class="pre">null</span></tt> should be passed into the corresponding API. The sensor logic is processed in a more predictable and robust way according to the sequence in which their <em>manifolds</em> are created. Callbacks of the user action events are now assigned using the <tt class="docutils literal"><span class="pre">register_&lt;inputtype&gt;_events()</span></tt> functions. To these functions it is now possible to pass the <tt class="docutils literal"><span class="pre">prevent_default</span></tt> flag which allows to unblock the standard browser behavior for the corresponding events.</p>
+<div><p>It is now permitted to register <em>sensor manifolds</em> globally using a <code class="docutils literal"><span class="pre">controls</span></code> module method with no connection to any object. To do this <code class="docutils literal"><span class="pre">null</span></code> should be passed into the corresponding API. The sensor logic is processed in a more predictable and robust way according to the sequence in which their <em>manifolds</em> are created. Callbacks of the user action events are now assigned using the <code class="docutils literal"><span class="pre">register_&lt;inputtype&gt;_events()</span></code> functions. To these functions it is now possible to pass the <code class="docutils literal"><span class="pre">prevent_default</span></code> flag which allows to unblock the standard browser behavior for the corresponding events.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>The Web Player now supports physics.</em></p>
@@ -1079,7 +1227,7 @@
 </li>
 <li><p class="first"><em>Skeletal animation mixing is now supported.</em></p>
 <blockquote>
-<div><p>The <tt class="docutils literal"><span class="pre">animation.js</span></tt> module now contains API for smooth transitions betweeen skeletal animations: get_skel_mix_factor() - for getting the current mixing factor value and set_skel_mix_factor() - for setting it.</p>
+<div><p>The <code class="docutils literal"><span class="pre">animation.js</span></code> module now contains API for smooth transitions betweeen skeletal animations: get_skel_mix_factor() - for getting the current mixing factor value and set_skel_mix_factor() - for setting it.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>The Value node can now be animated in node materials.</em></p>
@@ -1091,24 +1239,24 @@
 </li>
 <li><p class="first"><em>The possibility to render a transparent object above other objects on the scene.</em></p>
 <blockquote>
-<div><p>Activated with the <tt class="docutils literal"><span class="pre">Render</span> <span class="pre">above</span> <span class="pre">all</span></tt> checkbox for transparent materials (i.e. not <tt class="docutils literal"><span class="pre">Opaque</span></tt>).</p>
+<div><p>Activated with the <code class="docutils literal"><span class="pre">Render</span> <span class="pre">above</span> <span class="pre">all</span></code> checkbox for transparent materials (i.e. not <code class="docutils literal"><span class="pre">Opaque</span></code>).</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>Scale is applied automatically to the object mesh.</em></p>
 <blockquote>
-<div><p>Activated by enabling the <tt class="docutils literal"><span class="pre">Apply</span> <span class="pre">scale</span></tt> checkbox in the object settings.</p>
+<div><p>Activated by enabling the <code class="docutils literal"><span class="pre">Apply</span> <span class="pre">scale</span></code> checkbox in the object settings.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>High quality profile (including shadows, dynamic reflections and anti-aliasing) has been implemented for iOS.</em></p>
 </li>
 </ul>
 </div>
-<div class="section" id="id32">
-<h3>Changes<a class="headerlink" href="#id32" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id36">
+<h3>Changes<a class="headerlink" href="#id36" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>Shadow rendering improved.</em></p>
 <blockquote>
-<div><p>Shadow rendering system is significantly changed: it is now based on the <tt class="docutils literal"><span class="pre">Stable</span> <span class="pre">Cascaded</span> <span class="pre">Shadow</span> <span class="pre">Maps</span></tt> technique. This technique allows to greatly diminish the flickering of shadow edges when the camera moves. Smoothing is implemented between cascades. Also shadows of the last cascade fade out at distancing. Softened shadows are rendered using the <tt class="docutils literal"><span class="pre">Percentage</span> <span class="pre">Closer</span> <span class="pre">Shadows</span></tt> technique. The shadows&#8217; user settings are reworked and simplified. Now its possible to tweak the size of shadow maps, blur ratio and the setting for removing self-shadowing artefacts. The new settings are <a class="reference internal" href="lighting.html#shadows"><em>documented</em></a> in detail.</p>
+<div><p>Shadow rendering system is significantly changed: it is now based on the <code class="docutils literal"><span class="pre">Stable</span> <span class="pre">Cascaded</span> <span class="pre">Shadow</span> <span class="pre">Maps</span></code> technique. This technique allows to greatly diminish the flickering of shadow edges when the camera moves. Smoothing is implemented between cascades. Also shadows of the last cascade fade out at distancing. Softened shadows are rendered using the <code class="docutils literal"><span class="pre">Percentage</span> <span class="pre">Closer</span> <span class="pre">Shadows</span></code> technique. The shadows&#8217; user settings are reworked and simplified. Now its possible to tweak the size of shadow maps, blur ratio and the setting for removing self-shadowing artefacts. The new settings are <a class="reference internal" href="lighting.html#shadows"><span>documented</span></a> in detail.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>In the Web Player graphics quality settings are now saved independently for each scene.</em></p>
@@ -1120,22 +1268,22 @@
 </li>
 <li><p class="first"><em>Transition is completed to the system of modules which are linked via b4w.require() call.</em></p>
 <blockquote>
-<div><p>This also means that starting form the current version its impossible to call modules in the engine&#8217;s release version using the old <tt class="docutils literal"><span class="pre">b4w.&lt;module&gt;</span></tt> namespaces. For compatibility purposes the <tt class="docutils literal"><span class="pre">ns_compat.js</span></tt> add-on has been implemeted, the linking of which allows to restore the old behavior.</p>
+<div><p>This also means that starting form the current version its impossible to call modules in the engine&#8217;s release version using the old <code class="docutils literal"><span class="pre">b4w.&lt;module&gt;</span></code> namespaces. For compatibility purposes the <code class="docutils literal"><span class="pre">ns_compat.js</span></code> add-on has been implemeted, the linking of which allows to restore the old behavior.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>The Web Player&#8217;s control panel can now be hidden.</em></p>
 </li>
 <li><p class="first"><em>Skeletal animation is now applied to armature objects only.</em></p>
 <blockquote>
-<div><p>There is no need to apply skeletal animation to <tt class="docutils literal"><span class="pre">MESH</span></tt> objects. If they are linked to some animated armature, their skinning will be automatic.</p>
+<div><p>There is no need to apply skeletal animation to <code class="docutils literal"><span class="pre">MESH</span></code> objects. If they are linked to some animated armature, their skinning will be automatic.</p>
 </div></blockquote>
 </li>
 <li><p class="first"><em>Demos and tutorials are updated according to the newly implemented features.</em></p>
 </li>
 </ul>
 </div>
-<div class="section" id="id33">
-<h3>Fixes<a class="headerlink" href="#id33" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id37">
+<h3>Fixes<a class="headerlink" href="#id37" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p class="first"><em>The preloader didn&#8217;t diappear in case of a loading error (texture or sound file).</em></p>
 </li>
@@ -1157,8 +1305,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id34">
-<h3>Known Issues<a class="headerlink" href="#id34" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id38">
+<h3>Known Issues<a class="headerlink" href="#id38" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>Blender add-on upgrading problems.</em></p>
 <blockquote>
@@ -1215,6 +1363,7 @@
 <li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Team Work. Using Git</a></li>
 <li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Problems and Solutions</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Release Notes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#v15-05">v15.05</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#v15-04">v15.04</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#v15-03">v15.03</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#v15-02">v15.02</a></li>
@@ -1227,16 +1376,18 @@
 </li>
 </ul>
 
-          <h3 style="margin-top: 1.5em;">Search</h3>
-          <form class="search" action="search.html" method="get">
-            <input type="text" name="q" />
-            <input type="submit" value="Go" />
-            <input type="hidden" name="check_keywords" value="yes" />
-            <input type="hidden" name="area" value="default" />
-          </form>
-          <p class="searchtip" style="font-size: 90%">
-            Enter search terms or a module, class or function name.
-          </p>
+          <div role="search">
+            <h3 style="margin-top: 1.5em;">Search</h3>
+            <form class="search" action="search.html" method="get">
+                <input type="text" name="q" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+            </form>
+            <p class="searchtip" style="font-size: 90%">
+                Enter search terms or a module, class or function name.
+            </p>
+          </div>
         </div>
         <div class="clearer"></div>
       </div>
@@ -1245,18 +1396,22 @@
     <div class="footer-wrapper">
       <div class="footer">
         <div class="left">
-          <a href="problems_and_solutions.html" title="Problems and Solutions"
-             >previous</a> |
-          <a href="genindex.html" title="General Index"
-             >index</a>
+          <div role="navigation" aria-label="related navigaton">
+            <a href="problems_and_solutions.html" title="Problems and Solutions"
+              >previous</a> |
+            <a href="genindex.html" title="General Index"
+              >index</a>
+          </div>
+          <div role="note" aria-label="source link">
+          </div>
         </div>
 
         <div class="right">
           
-    <div class="footer">
+    <div class="footer" role="contentinfo">
         &copy; Copyright 2015, Triumph LLC.
-      Last updated on 2015-04-29.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+      Last updated on 2015-05-26.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
         </div>
         <div class="clearer"></div>

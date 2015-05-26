@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Экспресс-установка &mdash; Руководство пользователя: Blend4Web v15.04</title>
+    <title>Экспресс-установка &mdash; Руководство пользователя: Blend4Web v15.05</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '15.04',
+        VERSION:     '15.05',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,19 +26,19 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v15.04" href="index.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v15.05" href="index.html" />
     <link rel="next" title="Развёртывание среды разработки" href="setup.html" />
     <link rel="prev" title="Функционал движка" href="features.html" /> 
   </head>
-  <body>
-    <div class="header-wrapper">
+  <body role="document">
+    <div class="header-wrapper" role="banner">
       <div class="header">
           <p class="logo"><a href="index.html">
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">Руководство пользователя: Blend4Web v15.04</a></div>
-        <div class="rel">
+          href="index.html">Руководство пользователя: Blend4Web v15.05</a></div>
+        <div class="rel" role="navigation" aria-label="related navigation">
           <a href="features.html" title="Функционал движка"
              accesskey="P">назад</a> |
           <a href="setup.html" title="Развёртывание среды разработки"
@@ -55,13 +55,13 @@
             
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="quick-install">
 <span id="id1"></span><h1>Экспресс-установка<a class="headerlink" href="#quick-install" title="Ссылка на этот заголовок">¶</a></h1>
 <p>Экспресс-установка аддона Blend4Web подойдет обычным пользователям, которым не требуется разработка полноценных 3D приложений.
 Основной возможностью в этом случае является экспорт сцены в один HTML-файл с последующим просмотром в браузере, поддерживающем WebGL.</p>
-<p>Для более серьезных задач необходима установка <a class="reference internal" href="setup.html#setup"><em>комплекта средств разработки</em></a>.</p>
+<p>Для более серьезных задач необходима установка <a class="reference internal" href="setup.html#setup"><span>комплекта средств разработки</span></a>.</p>
 <span class="target" id="quick-install-blender"></span><div class="section" id="blender">
 <span id="index-0"></span><h2>Установка программы Blender<a class="headerlink" href="#blender" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Создание 3D сцен осуществляется в графическом пакете <a class="reference external" href="http://ru.wikipedia.org/wiki/Blender">Blender</a>, который является программным продуктом с открытым исходным кодом и распространяется бесплатно.</p>
@@ -70,27 +70,27 @@
 <span class="target" id="quick-install-addon"></span></div>
 <div class="section" id="index-1">
 <span id="id4"></span><h2>Установка аддона движка<a class="headerlink" href="#index-1" title="Ссылка на этот заголовок">¶</a></h2>
-<p>Запустить Blender, загрузить сцену по умолчанию <tt class="file docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">New</span></tt>.
-Вызвать окно пользовательских настроек <tt class="file docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">User</span> <span class="pre">Preferences...</span></tt>. Во вкладке <tt class="file docutils literal"><span class="pre">Addons</span></tt> нажать <tt class="file docutils literal"><span class="pre">Install</span> <span class="pre">from</span> <span class="pre">File...</span></tt> и затем выбрать zip-архив с файлами аддона. После этого необходимо отметить галочку напротив <tt class="file docutils literal"><span class="pre">Import-Export:</span> <span class="pre">Blend4Web</span></tt>.</p>
+<p>Запустить Blender, загрузить сцену по умолчанию <code class="file docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">New</span></code>.
+Вызвать окно пользовательских настроек <code class="file docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">User</span> <span class="pre">Preferences...</span></code>. Во вкладке <code class="file docutils literal"><span class="pre">Addons</span></code> нажать <code class="file docutils literal"><span class="pre">Install</span> <span class="pre">from</span> <span class="pre">File...</span></code> и затем выбрать zip-архив с файлами аддона. После этого необходимо отметить галочку напротив <code class="file docutils literal"><span class="pre">Import-Export:</span> <span class="pre">Blend4Web</span></code>.</p>
 <a class="reference internal image-reference" href="_images/user_preferences_install_b4w.jpg"><img alt="_images/user_preferences_install_b4w.jpg" class="align-center" src="_images/user_preferences_install_b4w.jpg" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p>Далее нажать <tt class="file docutils literal"><span class="pre">Save</span> <span class="pre">User</span> <span class="pre">Settings</span></tt> и закрыть окно пользовательских настроек.</p>
+<p>Далее нажать <code class="file docutils literal"><span class="pre">Save</span> <span class="pre">User</span> <span class="pre">Settings</span></code> и закрыть окно пользовательских настроек.</p>
 </div>
 <div class="section" id="quick-install-export-viewer">
 <span id="index-2"></span><span id="id5"></span><h2>Экспорт и просмотр сцены<a class="headerlink" href="#quick-install-export-viewer" title="Ссылка на этот заголовок">¶</a></h2>
-<p>Созданную сцену можно экспортировать в формате HTML. Для этого нужно выбрать опцию <tt class="file docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">Export</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span> <span class="pre">(.html)</span></tt> и указать путь экспорта. Полученный HTML файл можно открыть любым браузером, поддерживающим технологию WebGL.</p>
+<p>Созданную сцену можно экспортировать в формате HTML. Для этого нужно выбрать опцию <code class="file docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">Export</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span> <span class="pre">(.html)</span></code> и указать путь экспорта. Полученный HTML файл можно открыть любым браузером, поддерживающим технологию WebGL.</p>
 <div class="admonition seealso">
 <p class="first admonition-title">См.также</p>
-<p class="last"><a class="reference internal" href="about.html#browser-webgl-support"><em>Поддержка WebGL в браузерах</em></a></p>
+<p class="last"><a class="reference internal" href="about.html#browser-webgl-support"><span>Поддержка WebGL в браузерах</span></a></p>
 </div>
 </div>
 <div class="section" id="quick-install-addon-upgrade">
 <span id="index-3"></span><span id="id6"></span><h2>Установка новой версии аддона<a class="headerlink" href="#quick-install-addon-upgrade" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Чтобы установить новую версию аддона, необходимо <strong>сначала отключить, а затем удалить</strong> старую версию.</p>
-<p>Для отключения аддона запустить Blender, загрузить сцену по умолчанию <tt class="file docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">New</span></tt>. Вызвать окно пользовательских настроек <tt class="file docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">User</span> <span class="pre">Preferences...</span></tt>. Перейти на вкладку <tt class="file docutils literal"><span class="pre">Addons</span></tt> и выбрать категорию <tt class="file docutils literal"><span class="pre">Import-Export</span></tt>. Снять галочку напротив <tt class="file docutils literal"><span class="pre">Import-Export:</span> <span class="pre">Blend4Web</span></tt>. Далее нажать <tt class="file docutils literal"><span class="pre">Save</span> <span class="pre">User</span> <span class="pre">Settings</span></tt> и <strong>перезапустить Blender</strong>.</p>
-<p>Затем для удаления аддона снова вызвать окно пользовательских настроек, раскрыть панель информации об аддоне Blend4Web и нажать кнопку <tt class="file docutils literal"><span class="pre">Remove</span></tt>.</p>
+<p>Для отключения аддона запустить Blender, загрузить сцену по умолчанию <code class="file docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">New</span></code>. Вызвать окно пользовательских настроек <code class="file docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">User</span> <span class="pre">Preferences...</span></code>. Перейти на вкладку <code class="file docutils literal"><span class="pre">Addons</span></code> и выбрать категорию <code class="file docutils literal"><span class="pre">Import-Export</span></code>. Снять галочку напротив <code class="file docutils literal"><span class="pre">Import-Export:</span> <span class="pre">Blend4Web</span></code>. Далее нажать <code class="file docutils literal"><span class="pre">Save</span> <span class="pre">User</span> <span class="pre">Settings</span></code> и <strong>перезапустить Blender</strong>.</p>
+<p>Затем для удаления аддона снова вызвать окно пользовательских настроек, раскрыть панель информации об аддоне Blend4Web и нажать кнопку <code class="file docutils literal"><span class="pre">Remove</span></code>.</p>
 <a class="reference internal image-reference" href="_images/user_preferences_disable_addon.jpg"><img alt="_images/user_preferences_disable_addon.jpg" class="align-center" src="_images/user_preferences_disable_addon.jpg" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
@@ -142,16 +142,18 @@
 <li class="toctree-l1"><a class="reference internal" href="release_notes.html">Замечания к релизам</a></li>
 </ul>
 
-          <h3 style="margin-top: 1.5em;">Поиск</h3>
-          <form class="search" action="search.html" method="get">
-            <input type="text" name="q" />
-            <input type="submit" value="Искать" />
-            <input type="hidden" name="check_keywords" value="yes" />
-            <input type="hidden" name="area" value="default" />
-          </form>
-          <p class="searchtip" style="font-size: 90%">
-            Введите слова для поиска или имя модуля, класса или функции.
-          </p>
+          <div role="search">
+            <h3 style="margin-top: 1.5em;">Поиск</h3>
+            <form class="search" action="search.html" method="get">
+                <input type="text" name="q" />
+                <input type="submit" value="Искать" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+            </form>
+            <p class="searchtip" style="font-size: 90%">
+                Введите слова для поиска или имя модуля, класса или функции.
+            </p>
+          </div>
         </div>
         <div class="clearer"></div>
       </div>
@@ -160,20 +162,24 @@
     <div class="footer-wrapper">
       <div class="footer">
         <div class="left">
-          <a href="features.html" title="Функционал движка"
-             >назад</a> |
-          <a href="setup.html" title="Развёртывание среды разработки"
-             >вперёд</a> |
-          <a href="genindex.html" title="Алфавитный указатель"
-             >указатель</a>
+          <div role="navigation" aria-label="related navigaton">
+            <a href="features.html" title="Функционал движка"
+              >назад</a> |
+            <a href="setup.html" title="Развёртывание среды разработки"
+              >вперёд</a> |
+            <a href="genindex.html" title="Алфавитный указатель"
+              >указатель</a>
+          </div>
+          <div role="note" aria-label="source link">
+          </div>
         </div>
 
         <div class="right">
           
-    <div class="footer">
+    <div class="footer" role="contentinfo">
         &copy; Copyright 2015, ООО &#34;Триумф&#34;.
-      Обновлено: 2015-04-29.
-      Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+      Обновлено: 2015-05-26.
+      Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
         </div>
         <div class="clearer"></div>

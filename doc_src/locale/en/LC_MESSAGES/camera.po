@@ -27,15 +27,15 @@ msgstr ""
 "The camera settings are specified in the ``Properties`` panel under the "
 "``Object Data`` tab."
 
-#: ../camera.rst:19
+#: ../camera.rst:21
 msgid "Режим управления камерой:"
 msgstr "Camera control mode:"
 
-#: ../camera.rst:21
+#: ../camera.rst:23
 msgid "*Target*"
 msgstr ""
 
-#: ../camera.rst:22
+#: ../camera.rst:24
 msgid ""
 "По умолчанию камера находится в режиме вращения вокруг некоторой точки "
 "(target). Положение точки вращения может быть изменено (см. "
@@ -44,35 +44,35 @@ msgstr ""
 "By default the camera is rotating around a fixed point (target). The pivot's"
 " position can be changed (see :ref:`camera panning <panning_mode>`)."
 
-#: ../camera.rst:23
+#: ../camera.rst:25
 msgid "*Eye*"
 msgstr ""
 
-#: ../camera.rst:24
+#: ../camera.rst:26
 msgid ""
 "Режим взгляда позволяет осуществлять вращение и перемещение от первого лица."
 msgstr ""
 "The ``Eye`` mode allows rotation and translation as in first person view."
 
-#: ../camera.rst:25
+#: ../camera.rst:27
 msgid "*Hover*"
 msgstr ""
 
-#: ../camera.rst:26
+#: ../camera.rst:28
 msgid ""
 "В режиме нависания камера движется параллельно горизонтальной плоскости."
 msgstr ""
 "In the ``Hover`` mode the camera is gliding over the horizontal plane."
 
-#: ../camera.rst:28
+#: ../camera.rst:30
 msgid "*Blend4Web > Move Style*"
 msgstr ""
 
-#: ../camera.rst:28
+#: ../camera.rst:30
 msgid "*Static*"
 msgstr ""
 
-#: ../camera.rst:28
+#: ../camera.rst:30
 msgid ""
 "В статическом режиме изменение положения камеры осуществляется посредством "
 "анимации или через API."
@@ -80,11 +80,11 @@ msgstr ""
 "In the ``Static`` mode the camera can be moved via animation or through API "
 "calls."
 
-#: ../camera.rst:31
+#: ../camera.rst:33
 msgid "*Blend4Web > Target Location*"
 msgstr ""
 
-#: ../camera.rst:31
+#: ../camera.rst:33
 msgid ""
 "Доступно в режиме ``Target``. Позиция точки, относительно которой будет "
 "вращаться камера. Кнопка ``Copy Cursor Location`` позволяет скопировать "
@@ -94,68 +94,68 @@ msgstr ""
 "point. The ``Copy Cursor Location`` button copies the current 3D cursor "
 "position into this value."
 
-#: ../camera.rst:34
+#: ../camera.rst:36
 msgid "*Blend4Web > Dof Front Distance*"
 msgstr ""
 
-#: ../camera.rst:34 ../camera.rst:37 ../camera.rst:40
+#: ../camera.rst:36 ../camera.rst:39 ../camera.rst:42
 msgid "Описано в разделе :ref:`dof`."
 msgstr "Described in the :ref:`dof` section."
 
-#: ../camera.rst:37
+#: ../camera.rst:39
 msgid "*Blend4Web > Dof Rear Distance*"
 msgstr ""
 
-#: ../camera.rst:41
+#: ../camera.rst:43
 msgid "*Blend4Web > DOF Power*"
 msgstr ""
 
-#: ../camera.rst:46
+#: ../camera.rst:48
 msgid "Скорость движения камеры"
 msgstr "Camera Movement Velocity"
 
-#: ../camera.rst:48
+#: ../camera.rst:50
 msgid "Для камеры доступно несколько настроек скорости движения."
 msgstr ""
 "Velocity settings of different type are available for camera movement."
 
-#: ../camera.rst:51
+#: ../camera.rst:53
 msgid "*Blend4Web > Translation Velocity*"
 msgstr ""
 
-#: ../camera.rst:51
+#: ../camera.rst:53
 msgid ""
-"Доступно в режимах ``Target``, ``Eye``, ``Hover``. Задаёт скорость "
+"Актуально для режимов ``Target``, ``Eye``, ``Hover``. Задаёт скорость "
 "перемещения камеры."
 msgstr ""
 "Available for the ``Target``, ``Eye`` and ``Hover`` modes. Defines camera "
 "translation velocity."
 
-#: ../camera.rst:54
+#: ../camera.rst:56
 msgid "*Blend4Web > Rotation Velocity*"
 msgstr ""
 
-#: ../camera.rst:54
+#: ../camera.rst:56
 msgid ""
-"Доступно в режимах ``Target``, ``Eye``, ``Hover``. Задаёт скорость вращения "
-"камеры."
+"Актуально для режимов ``Target``, ``Eye``, ``Hover``. Задаёт скорость "
+"вращения камеры."
 msgstr ""
 "Available for the ``Target``, ``Eye`` and ``Hover`` modes. Defines camera "
 "rotation velocity."
 
-#: ../camera.rst:57
+#: ../camera.rst:59
 msgid "*Blend4Web > Zoom Velocity*"
 msgstr ""
 
-#: ../camera.rst:57
-msgid ""
-"Доступно в режимах ``Target``, ``Hover``. Задаёт скорость приближения камеры"
-" к опорной точке."
-msgstr ""
-"Available for the ``Target`` and ``Hover`` modes. Defines velocity for "
-"approaching the camera to the pivot point."
-
 #: ../camera.rst:59
+msgid ""
+"Актуально для режимов ``Target``, ``Hover``. Задаёт скорость приближения "
+"камеры к опорной точке."
+msgstr ""
+"Available for the ``Target`` and ``Hover`` modes. Defines velocity of "
+"approaching of the camera to the pivot point."
+
+#: ../camera.rst:61
 msgid ""
 "Значение параметров по умолчанию: ``Translation Velocity``, ``Rotation "
 "Velocity``: 1; ``Zoom Velocity``: 0.1."
@@ -163,7 +163,13 @@ msgstr ""
 "Default values for the parameters: ``Translation Velocity``, ``Rotation "
 "Velocity``: 1; ``Zoom Velocity``: 0.1."
 
-#: ../camera.rst:63
+#: ../camera.rst:64
+msgid ""
+":math:`\\left[0,\\ \\infty \\right)`; ``Zoom Velocity``: :math:`\\left[0,\\ "
+"1\\right)`."
+msgstr ""
+
+#: ../camera.rst:65
 msgid ""
 "Допустимые значения параметров: ``Translation Velocity``, ``Rotation "
 "Velocity``:"
@@ -171,17 +177,11 @@ msgstr ""
 "Allowable values for the parameters: ``Translation Velocity``, ``Rotation "
 "Velocity``:"
 
-#: ../camera.rst:62
-msgid ""
-":math:`\\left[0,\\ \\infty \\right)`; ``Zoom Velocity``: :math:`\\left[0,\\ "
-"1\\right)`."
-msgstr ""
-
-#: ../camera.rst:66
+#: ../camera.rst:68
 msgid "Ограничения движения камеры"
 msgstr "Limiting the Camera Movement"
 
-#: ../camera.rst:68
+#: ../camera.rst:70
 msgid ""
 "Для камеры доступно несколько настроек, ограничивающих/изменяющих её "
 "движение тем или иным образом. Они объединены в группу ``Camera Limits``."
@@ -189,15 +189,15 @@ msgstr ""
 "There are several settings for the camera which limit/change its movement "
 "one way or another. They are grouped as ``Camera limits``."
 
-#: ../camera.rst:76
+#: ../camera.rst:78
 msgid "**Камера типа Target**"
 msgstr "**Target camera**"
 
-#: ../camera.rst:79 ../camera.rst:186
+#: ../camera.rst:81 ../camera.rst:188
 msgid "*Blend4Web > Use Distance Limits*"
 msgstr ""
 
-#: ../camera.rst:79
+#: ../camera.rst:81
 msgid ""
 "Задание минимального и максимального расстояний от камеры до точки вращения."
 " Допустимые значения: *Min* :math:`\\le` *Max*. По умолчанию отключено."
@@ -205,11 +205,11 @@ msgstr ""
 "Set minimum and maximum distances from the camera to the pivot point. "
 "Allowable values: *Min* :math:`\\le` *Max*. Disabled by default."
 
-#: ../camera.rst:94 ../camera.rst:133
+#: ../camera.rst:96 ../camera.rst:135
 msgid "*Blend4Web > Use Horizontal Rotation Clamping*"
 msgstr ""
 
-#: ../camera.rst:94
+#: ../camera.rst:96
 msgid ""
 "Ограничение горизонтального (вокруг мировой оси Z в Blender'е) вращения "
 "камеры относительно соответствующей точки. Вращение происходит по дуге "
@@ -223,11 +223,11 @@ msgstr ""
 "corresponds to movement from ``Left Angle`` to ``Right Angle`` "
 "anticlockwise. Disabled by default."
 
-#: ../camera.rst:109 ../camera.rst:148
+#: ../camera.rst:111 ../camera.rst:150
 msgid "*Blend4Web > Use Vertical Rotation Clamping*"
 msgstr ""
 
-#: ../camera.rst:109
+#: ../camera.rst:111
 msgid ""
 "Ограничение вертикального (вокруг локальной оси X камеры в Blender'е) "
 "вращения камеры относительно соответствующей точки. Вращение происходит по "
@@ -241,19 +241,19 @@ msgstr ""
 "arc corresponds to movement from ``Down Angle`` to ``Up Angle`` clockwise. "
 "Disabled by default."
 
-#: ../camera.rst:126
+#: ../camera.rst:128
 msgid "*Blend4Web > Use panning mode*"
 msgstr ""
 
-#: ../camera.rst:126
+#: ../camera.rst:128
 msgid "Разрешить панорамное перемещение камеры."
 msgstr "Allow camera panning."
 
-#: ../camera.rst:130
+#: ../camera.rst:132
 msgid "**Камера типа Eye**"
 msgstr "**Eye Camera**"
 
-#: ../camera.rst:133
+#: ../camera.rst:135
 msgid ""
 "Ограничение горизонтального (вокруг мировой оси Z в Blender'е) вращения "
 "камеры относительно своего местоположения. Вращение происходит по дуге "
@@ -267,7 +267,7 @@ msgstr ""
 "movement from ``Left Angle`` to ``Right Angle`` clockwise. Disabled by "
 "default."
 
-#: ../camera.rst:148
+#: ../camera.rst:150
 msgid ""
 "Ограничение вертикального (вокруг локальной оси X камеры в Blender'е) "
 "вращения камеры относительно своего местоположения. Вращение происходит по "
@@ -281,15 +281,15 @@ msgstr ""
 "corresponds to movement from ``Down Angle`` to ``Up Angle`` anticlockwise. "
 "Disabled by default."
 
-#: ../camera.rst:164
+#: ../camera.rst:166
 msgid "**Камера типа Hover**"
 msgstr "**Hover Сamera**"
 
-#: ../camera.rst:167
+#: ../camera.rst:169
 msgid "*Blend4Web > Use Horizontal Translation Limits*"
 msgstr ""
 
-#: ../camera.rst:167
+#: ../camera.rst:169
 msgid ""
 "Ограничение перемещения опорной точки вдоль оси X в мировых координатах в "
 "Blender'е. Допустимые значения: *Min* :math:`\\le` *Max*. По умолчанию "
@@ -298,11 +298,11 @@ msgstr ""
 "Limit movement of the pivot point along the Blender's world X axis. "
 "Allowable values: *Min* :math:`\\le` *Max*. Disabled by default."
 
-#: ../camera.rst:170
+#: ../camera.rst:172
 msgid "*Blend4Web > Use Vertical Translation Limits*"
 msgstr ""
 
-#: ../camera.rst:170
+#: ../camera.rst:172
 msgid ""
 "Ограничение перемещения опорной точки вдоль оси Y в мировых координатах в "
 "Blender'е. Допустимые значения: *Min* :math:`\\le` *Max*. По умолчанию "
@@ -311,7 +311,7 @@ msgstr ""
 "Limit movement of the pivot point along the Blender's world Y axis. "
 "Allowable values: *Min* :math:`\\le` *Max*. Disabled by default."
 
-#: ../camera.rst:185
+#: ../camera.rst:187
 msgid ""
 "Задание минимального и максимального расстояний от камеры до точки "
 "пересечения (опорная точка) направления взгляда камеры с горизонтальной "
@@ -331,11 +331,11 @@ msgstr ""
 "Limits`` settings will limit the position of the camera itself. Disabled by "
 "default."
 
-#: ../camera.rst:189
+#: ../camera.rst:191
 msgid "*Blend4Web > Camera Angle Limits*"
 msgstr ""
 
-#: ../camera.rst:189
+#: ../camera.rst:191
 msgid ""
 "Ограничения угла подъема камеры (угла между направлением взгляда камеры и "
 "горизонтальной плоскостью). Становятся доступными при включении опции "
@@ -349,7 +349,7 @@ msgstr ""
 ":math:`\\le` Up Angle :math:`\\le` 90. Default values: *Down Angle = 0, Up "
 "Angle = 90*."
 
-#: ../camera.rst:191
+#: ../camera.rst:193
 msgid ""
 "При включении настройки ``Blend4Web > Use Distance Limits`` лимиты по "
 "расстоянию и углу подъема будут действовать одновременно, задавая траекторию"
@@ -359,7 +359,7 @@ msgstr ""
 "for distance and inclination angle will be applied simultaneously, to define"
 " the camera movement path in the vertical plane."
 
-#: ../camera.rst:205
+#: ../camera.rst:207
 msgid ""
 "Некорректное задание лимитов по расстоянию либо углу подъема приведет к "
 "отключению опции ``Blend4Web > Use Distance Limits``."
@@ -367,11 +367,11 @@ msgstr ""
 "Setting incorrect limits for distance or inclination angle will disable the "
 "``Blend4Web > Use Distance Limits`` option."
 
-#: ../camera.rst:208
+#: ../camera.rst:210
 msgid "*Blend4Web > Use Horizontal Rotation*"
 msgstr ""
 
-#: ../camera.rst:208
+#: ../camera.rst:210
 msgid ""
 "Разрешить вращение камеры в плоскости XOY Blender'а относительно опорной "
 "точки. Становятся доступными при включении опции ``Blend4Web > Use Distance "
@@ -381,11 +381,11 @@ msgstr ""
 "Becomes available upon turning ``Blend4Web > Use Distance Limits`` setting "
 "on. Enabled by default."
 
-#: ../camera.rst:224
+#: ../camera.rst:226
 msgid "**Особенности задания ограничений**"
 msgstr "**Peculiarities of Limiting Settings**"
 
-#: ../camera.rst:226
+#: ../camera.rst:228
 msgid ""
 "Для EYE/TARGET камеры перемена мест значений *Left/Right* или *Down/Up* "
 "приводит к движению по противоположной дуге окружности вращения."
@@ -393,7 +393,7 @@ msgstr ""
 "For EYE/TARGET cameras, interchanging *Left/Right* or *Down/Up* values "
 "results in movement along the opposite arc of a circle."
 
-#: ../camera.rst:240
+#: ../camera.rst:242
 msgid ""
 "При ограничении горизонтального и вертикального вращения камеры можно "
 "выбрать пространство координат:"
@@ -401,11 +401,11 @@ msgstr ""
 "When limiting the camera's horizontal and vertical rotation, it is possible "
 "to choose between the following coordinate spaces:"
 
-#: ../camera.rst:243
+#: ../camera.rst:245
 msgid "*Camera Space*"
 msgstr ""
 
-#: ../camera.rst:243
+#: ../camera.rst:245
 msgid ""
 "Все углы отсчитываются относительно начального положения и ориентации "
 "камеры."
@@ -413,11 +413,11 @@ msgstr ""
 "All angles are measured relative to the initial camera position and "
 "orientation."
 
-#: ../camera.rst:246
+#: ../camera.rst:248
 msgid "*World Space*"
 msgstr ""
 
-#: ../camera.rst:246
+#: ../camera.rst:248
 msgid ""
 "Горизонтальные углы отсчитываются относительно направления оси Y в "
 "пространстве мировых координат, вертикальные - относительно плоскости XOY в "
@@ -427,27 +427,28 @@ msgstr ""
 "vertical angles are measured relative to the Blender's XOY plane in world "
 "space."
 
-#: ../camera.rst:248
+#: ../camera.rst:250
 msgid "Значение по умолчанию: ``Camera Space``."
 msgstr "Default value: ``Camera Space``."
 
-#: ../camera.rst:250
+#: ../camera.rst:252
 msgid "Ограничения по горизонтали на примере TARGET камеры:"
 msgstr "Horizontal limits by the example of the TARGET camera:"
 
-#: ../camera.rst:264
+#: ../camera.rst:266
 msgid "Ограничения по вертикали на примере TARGET камеры:"
 msgstr "Vertical limits by the example of the TARGET camera:"
 
-#: ../camera.rst:281
+#: ../camera.rst:283
 msgid "Управление камерой через API"
 msgstr "Camera Controls API"
 
-#: ../camera.rst:283
-msgid "Основные функции управления камерой находятся в модуле ``camera.js``."
-msgstr "Basic camera controls method are contained in the ``camera.js`` module."
-
 #: ../camera.rst:285
+msgid "Основные функции управления камерой находятся в модуле ``camera.js``."
+msgstr ""
+"Basic camera controls method are contained in the ``camera.js`` module."
+
+#: ../camera.rst:287
 msgid ""
 "При работе с камерой через API (вращение, выставление ограничений) отсчет "
 "угловых координат ведется в системе координат движка следующим образом:"
@@ -455,15 +456,15 @@ msgstr ""
 "When working with camera API (rotation, setting limits), all angles are "
 "defined in the engine's coordinate system as follows:"
 
-#: ../camera.rst:287
+#: ../camera.rst:289
 msgid "Для типов ``TARGET/HOVER``:"
 msgstr "For the ``TARGET/HOVER`` camera:"
 
-#: ../camera.rst:301
+#: ../camera.rst:303
 msgid "Для типа ``EYE``:"
 msgstr "For the ``EYE`` camera:"
 
-#: ../camera.rst:317
+#: ../camera.rst:319
 msgid ""
 "При выставлении лимитов перемещения для камеры типа ``HOVER`` значения "
 "лимитов будут соответствовать осям системы координат движка:"
@@ -471,12 +472,43 @@ msgstr ""
 "When setting translation limits for the ``HOVER`` camera, the limits' values"
 " will correspond to the engine's coordinate axis as follows:"
 
-#: ../camera.rst:319
+#: ../camera.rst:321
 msgid "``Horizontal Translation Limits`` - ось X"
 msgstr "``Horizontal Translation Limits`` - X axis"
 
-#: ../camera.rst:321
+#: ../camera.rst:323
 msgid "``Vertical Translation Limits`` - ось Z"
 msgstr "``Vertical Translation Limits`` - Z axis"
 
+#: ../camera.rst:341
+msgid "**Изменение режима управления**"
+msgstr "**Changing Movement Style of the Camera**"
 
+#: ../camera.rst:343
+msgid ""
+"Для изменения режима управления камерой (опция в Blender - :ref:`Blend4Web >"
+" Move Style <camera_move_style>`) достаточно использовать метод "
+"``set_camera_move_style()`` модуля ``app.js``:"
+msgstr ""
+"Movement style of the camera (:ref:`Blend4Web > Move Style "
+"<camera_move_style>` option in Blender) can be changed by using the "
+"``set_camera_move_style()`` method of the ``app.js`` module:"
+
+#: ../camera.rst:354
+msgid ""
+"Если приложение не использует функционал модуля ``app.js``, для этих же "
+"целей можно использовать метод ``set_move_style()`` модуля ``camera.js``:"
+msgstr ""
+"If an application does not use the ``app.js`` module, this can be achieved "
+"by using the ``set_move_style()`` method of the ``camera.js`` module:"
+
+#: ../camera.rst:366
+msgid ""
+"При изменении режима происходит сброс лимитов перемещения и позиции опорной "
+"точки (для камер типа ``TARGET`` и ``HOVER``), поэтому их необходимо "
+"установить заново с помощью соответствующих методов модуля ``camera.js``."
+msgstr ""
+"Please note that changing movement style of the camera also resets the "
+"camera movement limits and the pivot position (for ``TARGET`` and ``HOVER`` "
+"cameras). These parameters should be set again by using the corresponding "
+"methods of the ``camera.js`` module."

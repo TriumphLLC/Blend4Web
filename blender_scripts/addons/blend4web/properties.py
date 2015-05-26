@@ -1001,8 +1001,7 @@ def add_b4w_props():
         'World'
     ]
 
-    class_names_for_export = [
-        'Action',
+    class_names_do_not_export = [
         'Image',
         'Material',
         'Object',
@@ -1012,7 +1011,7 @@ def add_b4w_props():
         'World'
     ]
 
-    for class_name in class_names_for_export:
+    for class_name in class_names_do_not_export:
         cl = getattr(bpy.types, class_name)
         cl.b4w_do_not_export = b4w_do_not_export
 
@@ -1061,6 +1060,61 @@ def add_b4w_props():
         precision = 2
     )
     bpy.types.World.b4w_outline_factor = b4w_outline_factor
+
+    b4w_small_glow_mask_coeff = bpy.props.FloatProperty(
+        name = "B4W: objects small glow mask coefficient",
+        description = "Objects small glow mask coefficient",
+        default = 2.0,
+        min = 0.0,
+        soft_min = 0.0,
+        max = 10.0,
+        soft_max = 10.0,
+        precision = 3
+    )
+    bpy.types.World.b4w_small_glow_mask_coeff = b4w_small_glow_mask_coeff
+
+    b4w_large_glow_mask_coeff = bpy.props.FloatProperty(
+        name = "B4W: objects large glow mask coefficient",
+        description = "Objects large glow mask coefficient",
+        default = 2.0,
+        min = 0.0,
+        soft_min = 0.0,
+        max = 10.0,
+        soft_max = 10.0,
+        precision = 3
+    )
+    bpy.types.World.b4w_large_glow_mask_coeff = b4w_large_glow_mask_coeff
+
+    b4w_small_glow_mask_width = bpy.props.FloatProperty(
+        name = "B4W: objects small glow mask width",
+        description = "Objects small glow mask width",
+        default = 2.0,
+        min = 1.0,
+        soft_min = 1.0,
+        max = 20.0,
+        soft_max = 20.0,
+        precision = 2
+    )
+    bpy.types.World.b4w_small_glow_mask_width = b4w_small_glow_mask_width
+
+    b4w_large_glow_mask_width = bpy.props.FloatProperty(
+        name = "B4W: objects large glow mask width",
+        description = "Objects large glow mask width",
+        default = 6.0,
+        min = 1.0,
+        soft_min = 1.0,
+        max = 20.0,
+        soft_max = 20.0,
+        precision = 2
+    )
+    bpy.types.World.b4w_large_glow_mask_width = b4w_large_glow_mask_width
+
+    b4w_render_glow_over_blend = bpy.props.BoolProperty(
+        name = "B4W: render glow materials over blend",
+        description = "Render glow materials over blend",
+        default = False
+    )
+    bpy.types.World.b4w_render_glow_over_blend = b4w_render_glow_over_blend
 
     b4w_fog_color = bpy.props.FloatVectorProperty(
         name = "B4W: fog color",
@@ -1547,6 +1601,18 @@ def add_scene_properties():
     )
     scene_type.b4w_enable_god_rays = b4w_enable_god_rays
 
+    b4w_enable_glow_materials = bpy.props.EnumProperty(
+        name = "B4W: enable glow materials",
+        description = "Enable glow materials",
+        items = [
+            ("OFF", "OFF", "0", 0),
+            ("ON",  "ON",  "1", 1),
+            ("AUTO",  "AUTO",  "2", 2),
+        ],
+        default = "AUTO"
+    )
+    scene_type.b4w_enable_glow_materials = b4w_enable_glow_materials
+
     b4w_enable_ssao = bpy.props.BoolProperty(
         name = "B4W: enable SSAO",
         description = "Enable screen space ambient occlusion",
@@ -1644,6 +1710,18 @@ def add_scene_properties():
         default = "AUTO"
     )
     scene_type.b4w_enable_outlining = b4w_enable_outlining
+
+    b4w_enable_anchors_visibility = bpy.props.EnumProperty(
+        name = "B4W: enable anchors visibility",
+        description = "Enable anchors visibility detection",
+        items = [
+            ("OFF", "OFF", "0", 0),
+            ("ON",  "ON",  "1", 1),
+            ("AUTO",  "AUTO",  "2", 2),
+        ],
+        default = "AUTO"
+    )
+    scene_type.b4w_enable_anchors_visibility = b4w_enable_anchors_visibility
 
     scene_type.b4w_nla_script= bpy.props.CollectionProperty(
             type=nla_script.B4W_ScriptSlot,
@@ -1791,9 +1869,19 @@ def add_object_properties():
         name = "B4W: reflective",
         description = "The object will receive reflections",
         default = False,
-        update = lambda self,context: add_remove_refl_plane(self)
     )
     obj_type.b4w_reflective = b4w_reflective
+
+    obj_type.b4w_reflection_type = bpy.props.EnumProperty(
+        name = "B4W: reflection type",
+        description = "Type of generated reflections",
+        default = "PLANE",
+        items = [
+            ("CUBE", "Cube", "Object will reflect other objects in all directions"),
+            ("PLANE", "Plane", "Object will reflect other objects in the dericteion specified by reflection plane")
+        ],
+        update = lambda self,context: add_remove_refl_plane(self)
+    )
 
     b4w_caustics = bpy.props.BoolProperty(
         name = "B4W: caustics",
@@ -2570,6 +2658,13 @@ def add_material_properties():
         default = 0.0
     )
 
+    mat_type.b4w_collision_margin = bpy.props.FloatProperty(
+        name = "B4W: margin",
+        description = "Extra margin around material for collision detection, " +
+                "extra amount required for stability",
+        default = 0.040
+    )
+
     mat_type.b4w_collision_group = bpy.props.BoolVectorProperty(
         name = "B4W: collision group",
         subtype = "LAYER",
@@ -2709,6 +2804,7 @@ def add_texture_properties():
     b4w_use_sky = bpy.props.EnumProperty(
         name = "B4W: environment lighting",
         description = "Use texture as skydome or environment lighting",
+        default = "SKYDOME",
         items = [
             ("OFF",                  "OFF",                 "0", 0),
             ("SKYDOME",              "SKYDOME",             "1", 1),
@@ -2872,12 +2968,12 @@ def add_particle_settings_properties():
     pset_type.b4w_randomize_location = bpy.props.BoolProperty(
         name = "B4W: randomize location and size",
         description = "Randomize location and size (±25%) of hair particle objects",
-        default = True
+        default = False
     )
     pset_type.b4w_initial_rand_rotation = bpy.props.BoolProperty(
         name = "B4W: initial random rotation",
         description = "Initial random rotation of hair particle objects",
-        default = True
+        default = False
     )
     pset_type.b4w_rand_rotation_strength = bpy.props.FloatProperty(
         name = "B4W: random rotation strength",

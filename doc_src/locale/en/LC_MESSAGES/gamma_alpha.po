@@ -268,22 +268,14 @@ msgstr ""
 msgid "Карты нормалей"
 msgstr "Normal Maps"
 
-#: ../gamma_alpha.rst:123
-msgid "Сводная таблица коррекции в нодовых материалах"
-msgstr "Summary Table"
-
-#: ../gamma_alpha.rst:129
-msgid ""
-"реализуется автоматически в ноде текстуры (альфа-канал коррекции не "
-"подвергается)"
-msgstr ""
-"implemented automatically in the texture node (the alpha channel is not "
-"corrected)"
-
 #: ../gamma_alpha.rst:119
 msgid ""
 "При использовании карт нормалей никакие преобразования не производятся."
 msgstr "No transformations are performed for normal maps. "
+
+#: ../gamma_alpha.rst:123
+msgid "Сводная таблица коррекции в нодовых материалах"
+msgstr "Summary Table"
 
 #: ../gamma_alpha.rst:127
 msgid "Случай использования"
@@ -294,24 +286,16 @@ msgid "Коррекция"
 msgstr "Correction"
 
 #: ../gamma_alpha.rst:129
+msgid ""
+"реализуется автоматически в ноде текстуры (альфа-канал коррекции не "
+"подвергается)"
+msgstr ""
+"implemented automatically in the texture node (the alpha channel is not "
+"corrected)"
+
+#: ../gamma_alpha.rst:129
 msgid "Текстура для окраски"
 msgstr "Texture for colouring"
-
-#: ../gamma_alpha.rst:136
-msgid "Вертексный цвет для окраски"
-msgstr "Vertex color for colouring"
-
-#: ../gamma_alpha.rst:136
-msgid "SRGB_TO_LINEAR"
-msgstr ""
-
-#: ../gamma_alpha.rst:140
-msgid "Карта нормалей"
-msgstr "Normal map"
-
-#: ../gamma_alpha.rst:138 ../gamma_alpha.rst:140
-msgid "не требуется"
-msgstr "not required"
 
 #: ../gamma_alpha.rst:134
 msgid "Текстура для маски"
@@ -321,9 +305,25 @@ msgstr "Texture for masking"
 msgid "LINEAR_TO_SRGB"
 msgstr ""
 
+#: ../gamma_alpha.rst:136
+msgid "Вертексный цвет для окраски"
+msgstr "Vertex color for colouring"
+
+#: ../gamma_alpha.rst:136
+msgid "SRGB_TO_LINEAR"
+msgstr ""
+
+#: ../gamma_alpha.rst:138 ../gamma_alpha.rst:140
+msgid "не требуется"
+msgstr "not required"
+
 #: ../gamma_alpha.rst:138
 msgid "Вертексный цвет для маски"
 msgstr "Vertex color for masking"
+
+#: ../gamma_alpha.rst:140
+msgid "Карта нормалей"
+msgstr "Normal map"
 
 #: ../gamma_alpha.rst:147
 msgid "Альфа-композитинг"

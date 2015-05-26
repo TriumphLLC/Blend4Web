@@ -85,16 +85,16 @@ msgstr ""
 " addon files. After that turn on the :file:`Import-Export: Blend4Web`  "
 "checkbox."
 
-#: ../first_steps.rst:49
-msgid "экспорт"
-msgstr "export"
-
 #: ../first_steps.rst:45
 msgid ""
 "Далее нажать :file:`Save User Settings` и закрыть окно пользовательских "
 "настроек."
 msgstr ""
 "Then click :file:`Save User Settings` and close the user preferences window."
+
+#: ../first_steps.rst:49
+msgid "экспорт"
+msgstr "export"
 
 #: ../first_steps.rst:55
 msgid "Экспорт и просмотр сцены"
@@ -154,6 +154,3 @@ msgid ""
 msgstr ""
 "Then to remove the addon open the user preferences window again, expand the "
 "Blend4Web info panel and click the :file:`Remove` button. "
-
-
-

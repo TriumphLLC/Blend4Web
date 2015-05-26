@@ -162,28 +162,16 @@ class B4W_VertexAnimBakeOperator(bpy.types.Operator):
         start = va_item.frame_start
         end = va_item.frame_end
 
-        deform_object = self.find_deform_object(obj)
-        if deform_object:
-            deform_object_mesh_save = deform_object.data
-
         for frame in range(start, end + 1):
-            bpy.context.scene.frame_current = frame
-
-            if deform_object:
-                deform_mesh_tmp = deform_object.to_mesh(bpy.context.scene, True, 'PREVIEW')
-                deform_object.data = deform_mesh_tmp
+            bpy.context.scene.frame_set(frame)
 
             mesh_tmp = obj.to_mesh(bpy.context.scene, True, 'PREVIEW')
             frames.add()
             # save frame number as string (for user convenience)
             frames[-1].name = str(frame)
             self.bake_frame(mesh_tmp, frames[-1])
-
             # cleanup
             bpy.data.meshes.remove(mesh_tmp)
-            if deform_object:
-                deform_object.data = deform_object_mesh_save
-                bpy.data.meshes.remove(deform_mesh_tmp)
         bpy.context.scene.frame_set(current_frame)
         return True
 

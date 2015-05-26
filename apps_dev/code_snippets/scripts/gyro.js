@@ -16,7 +16,7 @@ var DOWN_THRESHOLD = 0.002;
 
 exports.init = function() {
     m_app.init({
-        canvas_container_id: "canvas3d",
+        canvas_container_id: "canvas_cont",
         callback: init_cb,
         physics_enabled: true,
         alpha: true,

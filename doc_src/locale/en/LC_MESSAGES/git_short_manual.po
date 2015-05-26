@@ -771,5 +771,3 @@ msgid ""
 "слияния:"
 msgstr ""
 "Check the log for January, 2012, show file names without merging commits:"
-
-

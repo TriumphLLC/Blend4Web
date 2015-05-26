@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Web Player &mdash; User Manual: Blend4Web v15.04</title>
+    <title>Web Player &mdash; User Manual: Blend4Web v15.05</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '15.04',
+        VERSION:     '15.05',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,19 +25,19 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User Manual: Blend4Web v15.04" href="index.html" />
+    <link rel="top" title="User Manual: Blend4Web v15.05" href="index.html" />
     <link rel="next" title="The Add-on" href="addon.html" />
     <link rel="prev" title="Scene Viewer" href="viewer.html" /> 
   </head>
-  <body>
-    <div class="header-wrapper">
+  <body role="document">
+    <div class="header-wrapper" role="banner">
       <div class="header">
           <p class="logo"><a href="index.html">
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">User Manual: Blend4Web v15.04</a></div>
-        <div class="rel">
+          href="index.html">User Manual: Blend4Web v15.05</a></div>
+        <div class="rel" role="navigation" aria-label="related navigation">
           <a href="viewer.html" title="Scene Viewer"
              accesskey="P">previous</a> |
           <a href="addon.html" title="The Add-on"
@@ -54,7 +54,7 @@
             
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="web-player">
 <span id="index-0"></span><span id="id1"></span><h1>Web Player<a class="headerlink" href="#web-player" title="Permalink to this headline">¶</a></h1>
@@ -71,12 +71,12 @@
 </div>
 <div class="section" id="id2">
 <h2>Use<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
-<p>You can copy the directory containing the web player files, namely <tt class="docutils literal"><span class="pre">deploy/apps/webplayer</span></tt>, from the Blend4Web SDK distribution and deploy it on your web site. You can place the exported scene files on your web site and specify the path to them (absolute or relative) with the <tt class="docutils literal"><span class="pre">load</span></tt> web player parameter.</p>
+<p>You can copy the directory containing the web player files, namely <code class="docutils literal"><span class="pre">deploy/apps/webplayer</span></code>, from the Blend4Web SDK distribution and deploy it on your web site. You can place the exported scene files on your web site and specify the path to them (absolute or relative) with the <code class="docutils literal"><span class="pre">load</span></code> web player parameter.</p>
 <p>When you export into a single HTML file the web player interface is integrated automatically into it.</p>
 </div>
 <div class="section" id="id3">
 <h2>Navigation<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
-<p>The camera (in the <tt class="docutils literal"><span class="pre">Target</span></tt> and <tt class="docutils literal"><span class="pre">Eye</span></tt> modes) is controlled by the mouse with it&#8217;s button pressed or with the keys: <tt class="docutils literal"><span class="pre">W</span></tt>, <tt class="docutils literal"><span class="pre">A</span></tt>, <tt class="docutils literal"><span class="pre">S</span></tt>, <tt class="docutils literal"><span class="pre">D</span></tt>, <tt class="docutils literal"><span class="pre">R</span></tt>, <tt class="docutils literal"><span class="pre">F</span></tt> (forward, left, back, right, up, down). The <tt class="docutils literal"><span class="pre">numpad</span></tt> keys are also supported.</p>
+<p>The camera (in the <code class="docutils literal"><span class="pre">Target</span></code> and <code class="docutils literal"><span class="pre">Eye</span></code> modes) is controlled by the mouse with it&#8217;s button pressed or with the keys: <code class="docutils literal"><span class="pre">W</span></code>, <code class="docutils literal"><span class="pre">A</span></code>, <code class="docutils literal"><span class="pre">S</span></code>, <code class="docutils literal"><span class="pre">D</span></code>, <code class="docutils literal"><span class="pre">R</span></code>, <code class="docutils literal"><span class="pre">F</span></code> (forward, left, back, right, up, down). The <code class="docutils literal"><span class="pre">numpad</span></code> keys are also supported.</p>
 </div>
 <div class="section" id="id4">
 <h2>Control Panel<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
@@ -115,34 +115,34 @@
 <div class="line"><br /></div>
 </div>
 <ol class="arabic simple">
-<li><p class="first">the special attribute <tt class="docutils literal"><span class="pre">load</span></tt> is used to load the scene, this attribute contains relative path to a JSON file.</p>
+<li><p class="first">the special attribute <code class="docutils literal"><span class="pre">load</span></code> is used to load the scene, this attribute contains relative path to a JSON file.</p>
 </li>
-<li><p class="first">in case of a WebGL error the optional <tt class="docutils literal"><span class="pre">fallback_image</span></tt> attribute is used to setup the background image instead of 3D content.</p>
+<li><p class="first">in case of a WebGL error the optional <code class="docutils literal"><span class="pre">fallback_image</span></code> attribute is used to setup the background image instead of 3D content.</p>
 </li>
-<li><p class="first">in case of a WebGL error the optional <tt class="docutils literal"><span class="pre">fallback_video</span></tt> attribute is used to setup the background video instead of 3D content. Can be used many times to add more video formats.</p>
+<li><p class="first">in case of a WebGL error the optional <code class="docutils literal"><span class="pre">fallback_video</span></code> attribute is used to setup the background video instead of 3D content. Can be used many times to add more video formats.</p>
 </li>
-<li><p class="first">the optional <tt class="docutils literal"><span class="pre">show_fps</span></tt> attribute is used to display the FPS counter in the player&#8217;s top right corner.</p>
+<li><p class="first">the optional <code class="docutils literal"><span class="pre">show_fps</span></code> attribute is used to display the FPS counter in the player&#8217;s top right corner.</p>
 </li>
-<li><p class="first">optional parameter <tt class="docutils literal"><span class="pre">autorotate</span></tt> is used to enable automatic camera rotation just after the scene loads.</p>
+<li><p class="first">optional parameter <code class="docutils literal"><span class="pre">autorotate</span></code> is used to enable automatic camera rotation just after the scene loads.</p>
 </li>
-<li><p class="first">the <tt class="docutils literal"><span class="pre">compressed_textures</span></tt> optional parameter is used to enable loading of minified and compressed textures (in DDS format).</p>
+<li><p class="first">the <code class="docutils literal"><span class="pre">compressed_textures</span></code> optional parameter is used to enable loading of minified and compressed textures (in DDS format).</p>
 </li>
 </ol>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">If both <tt class="docutils literal"><span class="pre">fallback_image</span></tt> and <tt class="docutils literal"><span class="pre">fallback_video</span></tt> parameters are specified, the <tt class="docutils literal"><span class="pre">fallback_image</span></tt> parameter is used.</p>
+<p class="last">If both <code class="docutils literal"><span class="pre">fallback_image</span></code> and <code class="docutils literal"><span class="pre">fallback_video</span></code> parameters are specified, the <code class="docutils literal"><span class="pre">fallback_image</span></code> parameter is used.</p>
 </div>
 </div>
 <div class="section" id="wp-title">
 <span id="id6"></span><h2>Scene Name as Title<a class="headerlink" href="#wp-title" title="Permalink to this headline">¶</a></h2>
-<p>By default the Web Player has the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">Web</span> <span class="pre">Player</span></tt> title. Assigning the meta tag <tt class="docutils literal"><span class="pre">title</span></tt> on the scene in Blender you can change that value to something else.</p>
+<p>By default the Web Player has the <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">Web</span> <span class="pre">Player</span></code> title. Assigning the meta tag <code class="docutils literal"><span class="pre">title</span></code> on the scene in Blender you can change that value to something else.</p>
 <img alt="_images/title.jpg" src="_images/title.jpg" />
 </div>
 <div class="section" id="id7">
 <h2>Scene Errors<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
 <p>If the player is used incorrectly it displays the corresponding errors.</p>
 <ol class="arabic simple">
-<li><p class="first">the <tt class="docutils literal"><span class="pre">load</span></tt> attribute specifies a wrong path to the JSON file or the file is corrupt;</p>
+<li><p class="first">the <code class="docutils literal"><span class="pre">load</span></code> attribute specifies a wrong path to the JSON file or the file is corrupt;</p>
 </li>
 </ol>
 <a class="reference internal image-reference" href="_images/error_wrong_json_path.jpg"><img alt="_images/error_wrong_json_path.jpg" class="align-center" src="_images/error_wrong_json_path.jpg" style="width: 100%;" /></a>
@@ -150,7 +150,7 @@
 <div class="line"><br /></div>
 </div>
 <ol class="arabic simple" start="2">
-<li><p class="first">the <tt class="docutils literal"><span class="pre">load</span></tt> attribute is not found or is void;</p>
+<li><p class="first">the <code class="docutils literal"><span class="pre">load</span></code> attribute is not found or is void;</p>
 </li>
 </ol>
 <a class="reference internal image-reference" href="_images/error_not_load_attr.jpg"><img alt="_images/error_not_load_attr.jpg" class="align-center" src="_images/error_not_load_attr.jpg" style="width: 100%;" /></a>
@@ -214,16 +214,18 @@
 <li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
 </ul>
 
-          <h3 style="margin-top: 1.5em;">Search</h3>
-          <form class="search" action="search.html" method="get">
-            <input type="text" name="q" />
-            <input type="submit" value="Go" />
-            <input type="hidden" name="check_keywords" value="yes" />
-            <input type="hidden" name="area" value="default" />
-          </form>
-          <p class="searchtip" style="font-size: 90%">
-            Enter search terms or a module, class or function name.
-          </p>
+          <div role="search">
+            <h3 style="margin-top: 1.5em;">Search</h3>
+            <form class="search" action="search.html" method="get">
+                <input type="text" name="q" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+            </form>
+            <p class="searchtip" style="font-size: 90%">
+                Enter search terms or a module, class or function name.
+            </p>
+          </div>
         </div>
         <div class="clearer"></div>
       </div>
@@ -232,20 +234,24 @@
     <div class="footer-wrapper">
       <div class="footer">
         <div class="left">
-          <a href="viewer.html" title="Scene Viewer"
-             >previous</a> |
-          <a href="addon.html" title="The Add-on"
-             >next</a> |
-          <a href="genindex.html" title="General Index"
-             >index</a>
+          <div role="navigation" aria-label="related navigaton">
+            <a href="viewer.html" title="Scene Viewer"
+              >previous</a> |
+            <a href="addon.html" title="The Add-on"
+              >next</a> |
+            <a href="genindex.html" title="General Index"
+              >index</a>
+          </div>
+          <div role="note" aria-label="source link">
+          </div>
         </div>
 
         <div class="right">
           
-    <div class="footer">
+    <div class="footer" role="contentinfo">
         &copy; Copyright 2015, Triumph LLC.
-      Last updated on 2015-04-29.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+      Last updated on 2015-05-26.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
         </div>
         <div class="clearer"></div>

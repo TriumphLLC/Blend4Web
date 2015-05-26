@@ -13,8 +13,6 @@ var m_ext   = require("__extensions");
 var m_print = require("__print");
 var m_util  = require("__util");
 
-var VECTORS_RESERVED = 50;
-var MIN_VERTEX_UNIFORMS_SUPPORTED = 128;
 var MIN_VARYINGS_REQUIRED = 10;
 var MIN_FRAGMENT_UNIFORMS_SUPPORTED = 128;
 
@@ -24,6 +22,8 @@ exports.set_hardware_defaults = function(gl) {
     var cfg_ctx = m_cfg.context;
     var cfg_scs = m_cfg.scenes;
     var cfg_sfx = m_cfg.sfx;
+
+    cfg_def.max_vertex_uniform_vectors = gl.MAX_VERTEX_UNIFORM_VECTORS;
 
     cfg_def.max_texture_size = gl.getParameter(gl.MAX_TEXTURE_SIZE);
     cfg_def.max_cube_map_size = gl.getParameter(gl.MAX_CUBE_MAP_TEXTURE_SIZE);
@@ -106,7 +106,7 @@ exports.set_hardware_defaults = function(gl) {
         }
         if (check_user_agent("Windows") && check_user_agent("Chrome")
                 && gl.getParameter(rinfo.UNMASKED_RENDERER_WEBGL).indexOf("Intel") > -1) {
-            m_print.warn("Chrome / Windows / Intel GPU detected, applying cubemap mipamp/rgb hack");
+            m_print.warn("Chrome / Windows / Intel GPU detected, applying cubemap mipmap/rgb hack");
             cfg_def.intel_cubemap_hack = true;
         }
         if (gl.getParameter(rinfo.UNMASKED_VENDOR_WEBGL).indexOf("ARM") > -1
@@ -123,7 +123,8 @@ exports.set_hardware_defaults = function(gl) {
         }
         if (gl.getParameter(rinfo.UNMASKED_VENDOR_WEBGL).indexOf("ARM") > -1
                 && gl.getParameter(rinfo.UNMASKED_RENDERER_WEBGL).indexOf("Mali-T760") > -1) {
-            m_print.warn("ARM Mali-T760 detected, disable SSAO.");
+            m_print.warn("ARM Mali-T760 detected, set \"highp\" precision and disable SSAO.");
+            cfg_def.precision = "highp";
             cfg_def.ssao = false;
         }
         if (gl.getParameter(rinfo.UNMASKED_VENDOR_WEBGL).indexOf("Qualcomm") > -1
@@ -172,16 +173,6 @@ exports.set_hardware_defaults = function(gl) {
     cfg_def.use_dds = Boolean(m_ext.get_s3tc());
     cfg_def.depth_tex_available = depth_tex_available;
 
-    var max_vert_uniforms = gl.getParameter(gl.MAX_VERTEX_UNIFORM_VECTORS);
-    var num_supported = m_util.clamp(max_vert_uniforms,
-            MIN_VERTEX_UNIFORMS_SUPPORTED, Infinity);
-
-    // NOTE: need proper uniform counting (lights, wind bending, etc)
-    cfg_def.max_bones =
-            m_util.trunc((num_supported - VECTORS_RESERVED) / 4);
-    cfg_def.max_bones_no_blending =
-            m_util.trunc((num_supported - VECTORS_RESERVED) / 2);
-
     // webglreport.com
     var high = gl.getShaderPrecisionFormat(gl.FRAGMENT_SHADER, gl.HIGH_FLOAT);
     var medium = gl.getShaderPrecisionFormat(gl.FRAGMENT_SHADER,
@@ -195,10 +186,20 @@ exports.set_hardware_defaults = function(gl) {
         cfg_scs.cubemap_tex_size = 512;
     }
 
+    if (is_ie11() && check_user_agent("Touch")) {
+        m_print.warn("IE11 and touchscreen detected. Behaviour of the mouse move sensor will be changed.");
+        cfg_def.ie11_touchscreen_hack = true;
+    }
+
     if (gl.getParameter(gl.MAX_FRAGMENT_UNIFORM_VECTORS) <= MIN_FRAGMENT_UNIFORMS_SUPPORTED) {
         m_print.warn("Not enough fragment uniforms, force low quality for " 
                     + "B4W_LEVELS_OF_QUALITY nodes.");
         cfg_def.force_low_quality_nodes = true;
+    }
+
+    if (check_user_agent("Chrome")) {
+        m_print.warn("Chrome detected. Some of deprecated functions related to the Doppler effect won't be called.");
+        cfg_def.chrome_disable_doppler_effect_hack = true;
     }
 }
 

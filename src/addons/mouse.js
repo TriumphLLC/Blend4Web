@@ -161,6 +161,8 @@ function exit_pointerlock() {
 
     if (typeof exit_plock === "function")
         exit_plock.apply(document);
+
+    m_ctl.remove_sensor_manifold(m_scs.get_active_camera(), "SMOOTH_PL");
 }
 
 /**
@@ -221,6 +223,8 @@ function exit_mouse_drag(elem) {
     elem.removeEventListener("mousedown", drag_mouse_down_cb, false);
     elem.removeEventListener("mouseup",   drag_mouse_up_cb,   false);
     elem.removeEventListener("mousemove", drag_mouse_move_cb, false);
+
+    m_ctl.remove_sensor_manifold(m_scs.get_active_camera(), "SMOOTH_DRAG");
 }
 
 function drag_mouse_move_cb(e) {

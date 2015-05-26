@@ -74,7 +74,7 @@ uniform vec3 u_sun_direction;
 uniform mat4 u_cube_fog;
 #endif
 
-#if USE_NODE_B4W_VECTOR_VIEW || REFLECTIVE
+#if USE_NODE_B4W_VECTOR_VIEW || REFLECTION_TYPE == REFL_PLANE
 uniform mat4 u_view_matrix_frag;
 #endif
 
@@ -89,10 +89,11 @@ uniform vec3 u_zenith_color;
                                SAMPLER UNIFORMS
 ============================================================================*/
 
-#if REFLECTIVE
-uniform sampler2D u_reflectmap;
-uniform vec4 u_refl_plane;
-#elif TEXTURE_MIRROR
+#if REFLECTION_TYPE == REFL_PLANE
+uniform sampler2D u_plane_reflection;
+#elif REFLECTION_TYPE == REFL_CUBE
+uniform samplerCube u_cube_reflection;
+#elif REFLECTION_TYPE == REFL_MIRRORMAP
 uniform samplerCube u_mirrormap;
 #endif
 
@@ -129,12 +130,13 @@ uniform sampler2D u_scene_depth;
 
 uniform float u_emit;
 uniform float u_ambient;
-//uniform float u_normal_factor;
 uniform vec4  u_fresnel_params;
 uniform float u_specular_alpha;
 
-#if TEXTURE_MIRROR
+#if REFLECTION_TYPE == REFL_MIRRORMAP
 uniform float u_mirror_factor;
+#elif REFLECTION_TYPE == REFL_PLANE
+uniform vec4 u_refl_plane;
 #endif
 
 #if USE_NODE_LAMP
@@ -180,7 +182,7 @@ varying vec4 v_shadow_coord3;
 # endif
 #endif
 
-#if REFLECTIVE || SHADOW_SRC == SHADOW_SRC_MASK || USE_NODE_B4W_REFRACTION
+#if REFLECTION_TYPE == REFL_PLANE || SHADOW_SRC == SHADOW_SRC_MASK || USE_NODE_B4W_REFRACTION
 varying vec3 v_tex_pos_clip;
 #endif
 
@@ -1016,12 +1018,11 @@ vec2 vec_to_uv(vec3 vec)
     vec3 normal = nin_normal;
 # node_endif
 
-# node_if !SHADELESS_MAT
+# node_if !SHADELESS_MAT && !NODES_GLOW
     // emission
     vec3 E = nin_emit * D;
     // ambient
-    float sky_factor = 0.5 * normal.y + 0.5; // dot of vertical vector and normalz
-    vec3 A = nin_ambient * u_environment_energy * get_environment_color(sky_factor, normal);
+    vec3 A = nin_ambient * u_environment_energy * get_environment_color(normal);
     float shadow_factor = calc_shadow_factor(D);
 #  node_if NUM_LIGHTS > 0
     // diffuse
@@ -1104,13 +1105,12 @@ vec2 vec_to_uv(vec3 vec)
     vec3 normal = nin_normal;
 # node_endif
 
-# node_if !SHADELESS_MAT
+# node_if !SHADELESS_MAT && !NODES_GLOW
     float shadow_factor = calc_shadow_factor(D);
     // emission
     vec3 E = emit_intensity * D;
     // ambient
-    float sky_factor = 0.5 * normal.y + 0.5; // dot of vertical vector and normalz
-    vec3 A = nin_ambient * u_environment_energy * get_environment_color(sky_factor, normal);
+    vec3 A = nin_ambient * u_environment_energy * get_environment_color(normal);
 #  node_if NUM_LIGHTS > 0
     vec2 dif_params = vec2(diffuse_params[0], diffuse_params[1]);
     vec2 sp_params = vec2(specular_params[1], specular_params[2]);
@@ -1134,9 +1134,8 @@ vec2 vec_to_uv(vec3 vec)
 #  node_else
     color_out = ZERO_VECTOR;
 #  node_endif
-#  node_if REFLECTIVE || TEXTURE_MIRROR
-    apply_mirror(color_out, nin_eye_dir, normal, u_fresnel_params[2],
-                 u_fresnel_params[3], reflect_factor);
+#  node_if REFLECTION_TYPE != REFL_NONE
+    apply_mirror(color_out, nin_eye_dir, normal, reflect_factor);
 #  node_endif
 #  node_if USE_MATERIAL_SPECULAR
     color_out += nloc_lresult.specular;
@@ -1586,6 +1585,30 @@ vec2 vec_to_uv(vec3 vec)
     val = smoothstep(edge0, edge1, value);
 #endnode
 
+#node B4W_GLOW_OUTPUT
+    #node_in vec3 color_in
+    #node_in float factor_in
+
+    nout_color = color_in;
+    nout_alpha = factor_in;
+#endnode
+
+#node B4W_VECTOSCAL
+    #node_in vec3 vector
+    #node_out float scalar
+
+    scalar = (vector.r + vector.g + vector.b) / 3.0;
+#endnode
+
+#node B4W_SCALTOVEC
+    #node_in float scalar
+    #node_out vec3 vector
+
+    vector[0] = scalar;
+    vector[1] = scalar;
+    vector[2] = scalar;
+#endnode
+
 #nodes_global
 
 /*============================================================================
@@ -1692,7 +1715,7 @@ void main(void) {
 
     lin_to_srgb(color);
 
-#if ALPHA && !ALPHA_CLIP
+#if ALPHA && !ALPHA_CLIP || NODES_GLOW
     premultiply_alpha(color, alpha);
 #endif
 

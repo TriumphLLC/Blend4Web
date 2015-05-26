@@ -154,7 +154,7 @@ exports.optimize_declarations = function(max_uid) {
         case "scope":
             if (ast_node.scope_type == "function_scope") {
                 if (ast_node.scope_status == m_consts.SCOPE_START)
-                    is_in_function = main_sequence[index - 1];
+                    is_in_function = true;
                 else if (ast_node.scope_status == m_consts.SCOPE_END) {
                     // declaration of "global" variables
                     for (var type in next_num_ident) {

@@ -1,39 +1,55 @@
 Blend4Web API Reference
 =======================
 
-**Introduction**
+**Adding Modules**
 
-Use `b4w.require(module_name, module_function)` to import module.
+Use `b4w.register(module_name, module_body)` to create your own modules.
 
-**Basic usage example**
+Example - Registering a Module:
 
-    // check if module exists
+    // check if the module already exists
     if (b4w.module_check("my_module"))
-        throw "Failed to register module: my_module";
+        throw "Failed to register my_module";
     
     // register my_module
     b4w.register("my_module", function(exports, require) {
         
-        // import module "version"
+        // import a Blend4Web module
         var m_version = require("version");
         
-        // export print_build_date() from module "my_module"
+        // create and export your own method
         exports.print_build_date = function() {
-            // exec function date() from module "version"
+
+            // use a Blend4Web method
             console.log("Engine build date: " + m_version.date());
         }
     });
     
-    // import module "my_module"
+
+Example - Using the Registered Module:
+
+    // import the module
     var m_my_module = b4w.require("my_module");
     
-    // exec function print_build_date() from module "my_module"
+    // use a module's method
     m_my_module.print_build_date();
 
-**Type system**
+
+**3D Object vs JavaScript Object**
+
+In order to prevent confusion between a 3D object and a JavaScript object,
+the former is always referenced as "Object ID" in this documentation. 
+Although "Object ID" is internally implemented as a JavaScript object, it is strongly
+discouraged to directly access its properties. Instead, you should always rely on the
+engine API in order to manipulate your 3D objects.
+
+
+<!---
+
+**Type System**
 
 The engine API accepts only the types explicitly specified in the reference.
-Cases with multiple allowed types are documented explicitly. A variable type
+Cases with multiple allowed types are documented explicitly. A type of a variable
 can be checked with the following code:
 
     VAR instanceof TYPE
@@ -42,7 +58,7 @@ e.g:
 
     obj instanceof Object -> true
 
-Keep in mind, that any object may have several ancestors. In such cases the more
+Keep in mind, that an object may have several ancestors. In such cases the more
 specific type takes precedence.
 
 e.g:
@@ -50,12 +66,7 @@ e.g:
     var vector = new Float32Array(3);
 
     vector instanceof Object;       // true
-    vector instanceof Float32Array; // true, so type of the vector is Float32Array
+    vector instanceof Float32Array; // true, so the type of the vector is Float32Array
 
-**Object**
 
-To prevent confusion between a 3D object rendered on the scene and
-some other JavaScript Object the former is always referenced as "Object ID" in
-the documentation. Currently, "Object ID" is a JavaScript Object, but it's strongly
-discouraged to access it by its properties. Instead, you should always rely on the
-engine's API to manipulate your 3D objects.
+-->

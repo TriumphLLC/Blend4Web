@@ -1,0 +1,12 @@
+#controls_container {
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+}
+    #controls_container .button_container {
+        height: auto;
+        margin-bottom: 15px;
+    }
+    #controls_container label {
+        cursor: pointer;
+    }

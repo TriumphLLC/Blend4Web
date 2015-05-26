@@ -85,6 +85,22 @@ msgstr "Animation Control"
 msgid "Управление анимацией в движке осуществляется одним из двух способов:"
 msgstr "There are two ways to control animation in the engine:"
 
+#: ../animation.rst:37
+msgid ""
+"Автоматически, с помощью указания свойств ``Animation: Use default`` и "
+"``Animation: Behavior`` в свойствах объекта. В данном случае будет "
+"осуществлён поиск доступного метода и в случае положительного результата, "
+"объект анимируется с момента загрузки сцены. В случае скелетной анимации, по"
+" умолчанию воспроизводится актор, назначенный на объекте в окне ``Action "
+"Editor``."
+msgstr ""
+"Automatically, using the ``Animation: Use default`` and ``Animation: "
+"Behaviour`` options in the object's properties. In this case an appropriate "
+"animation method will be chosen by the engine and the object's animation "
+"playback will start just after a scene is loaded. In case of skeletal "
+"animation the action which is assigned to the object in the ``Action "
+"Editor`` window is played by default."
+
 #: ../animation.rst:44
 msgid "Программно, используя функции модуля движка ``animation``."
 msgstr "In an application via API using the ``animation`` module methods."
@@ -156,6 +172,14 @@ msgstr "*LocRotScale* -- a combination of *Location*, *Rotation* and *Scale*."
 #: ../animation.rst:81
 msgid "*RotScale* -- комбинация *Rotation* и *Scale*."
 msgstr "*RotScale* -- a combination of *Rotation* and *Scale*."
+
+#: ../animation.rst:83
+msgid ""
+"В случае анимации объекта-меша, необходимо назначение свойства ``Force "
+"Dynamic Object`` на вкладке свойств объекта."
+msgstr ""
+"If an object-mesh is animated it is required to enable the ``Force Dynamic "
+"Object`` checkbox under the object properties tab."
 
 #: ../animation.rst:88
 msgid "Скиннинг и скелетная анимация"
@@ -293,7 +317,7 @@ msgstr ""
 "and exported files significantly and can also slow down the work of the "
 "engine."
 
-#: ../animation.rst:164
+#: ../animation.rst:166
 msgid ""
 "Для запекания вертексной анимации предусмотрен инструмент ``B4W Vertex Anim "
 "Baker``, расположенный на панели инструментов ``Blend4Web``."
@@ -301,11 +325,11 @@ msgstr ""
 "A special tool is used for baking vertex animation - ``B4W Vertex Anim "
 "Baker`` - located on the ``Blend4Web`` tools panel."
 
-#: ../animation.rst:173
+#: ../animation.rst:175
 msgid "Параметризация источников звука"
 msgstr "Audio Source Parametrization"
 
-#: ../animation.rst:175
+#: ../animation.rst:177
 msgid ""
 "На объектах-спикерах дополнительно поддерживаются следующие типы "
 "анимационных ключей:"
@@ -313,24 +337,24 @@ msgstr ""
 "In addition the following animation key types are supported for the speaker "
 "objects: "
 
-#: ../animation.rst:178
+#: ../animation.rst:180
 msgid "*Volume* -- громкость звука источника."
 msgstr "*Volume*"
 
-#: ../animation.rst:180
+#: ../animation.rst:182
 msgid "*Pitch* -- высота звука источника."
 msgstr "*Pitch*"
 
-#: ../animation.rst:182
+#: ../animation.rst:184
 msgid ""
 "Параметризация источников звука по своей сути повторяет объектную анимацию."
 msgstr "Audio sources parametering in essence follows object animation."
 
-#: ../animation.rst:188
+#: ../animation.rst:190
 msgid "Анимация ноды Value"
 msgstr "Value Node Animation"
 
-#: ../animation.rst:198
+#: ../animation.rst:200
 msgid ""
 "Работает аналогично :ref:`объектной анимации <whole_object_anim>`. Может "
 "быть также использована для создания треков в :ref:`редакторе нелинейной "
@@ -342,31 +366,6 @@ msgstr ""
 "<nla_editor>`. Multiple animated ``Value`` nodes are supported per single "
 "material."
 
-#: ../animation.rst:200
+#: ../animation.rst:202
 msgid ":ref:`node_materials`"
 msgstr ""
-
-#: ../animation.rst:37
-msgid ""
-"Автоматически, с помощью указания свойств ``Animation: Use default`` и "
-"``Animation: Behavior`` в свойствах объекта. В данном случае будет "
-"осуществлён поиск доступного метода и в случае положительного результата, "
-"объект анимируется с момента загрузки сцены. В случае скелетной анимации, по"
-" умолчанию воспроизводится актор, назначенный на объекте в окне ``Action "
-"Editor``."
-msgstr ""
-"Automatically, using the ``Animation: Use default`` and ``Animation: "
-"Behaviour`` options in the object's properties. In this case an appropriate "
-"animation method will be chosen by the engine and the object's animation "
-"playback will start just after a scene is loaded. In case of skeletal "
-"animation the action which is assigned to the object in the ``Action "
-"Editor`` window is played by default."
-
-#: ../animation.rst:83
-msgid ""
-"В случае анимации объекта-меша, необходимо назначение свойства ``Force "
-"Dynamic Object`` на вкладке свойств объекта."
-msgstr ""
-"If an object-mesh is animated it is required to enable the ``Force Dynamic "
-"Object`` checkbox under the object properties tab."
-

@@ -5,6 +5,7 @@ import os
 import cProfile
 import bgl
 from .server import B4WStartServer
+from .server import SUB_THREAD_START_SERV_OK
 from . import nla_script
 
 # serialize data to json
@@ -104,6 +105,12 @@ class B4W_ScenePanel(bpy.types.Panel):
             row = layout.row()
             row.prop(scene, "b4w_enable_god_rays", text="Enable God Rays")
 
+            split = layout.split()
+            col = split.column()
+            col.label(text="Enable Glow Materials:")
+            col = split.column()
+            col.prop(scene, "b4w_enable_glow_materials", text="")
+
             row = layout.row()
             row.prop(scene, "b4w_enable_bloom", text="Enable Bloom")
 
@@ -165,6 +172,12 @@ class B4W_ScenePanel(bpy.types.Panel):
             col = split.column()
             col.prop(scene, "b4w_enable_outlining", text="")
 
+            split = layout.split()
+            col = split.column()
+            col.label(text="Enable Anchors Visibility:")
+            col = split.column()
+            col.prop(scene, "b4w_enable_anchors_visibility", text="")
+
 class B4W_WorldPanel(bpy.types.Panel):
     bl_label = "Blend4Web"
     bl_idname = "WORLD_PT_b4w"
@@ -191,6 +204,17 @@ class B4W_WorldPanel(bpy.types.Panel):
             row = col.row()
             row.prop(world, "b4w_outline_color", text="Objects Outline Color")
             col.prop(world, "b4w_outline_factor", text="Outline Factor")
+
+            col = layout.column()
+            box = col.box()
+            col = box.column()
+            col.label("Glow Settings:")
+            row = col.row()
+            col.prop(world, "b4w_render_glow_over_blend", text="Render Glow Materials Over Blend")
+            col.prop(world, "b4w_small_glow_mask_coeff", text="Small Glow Mask Intensity")
+            col.prop(world, "b4w_large_glow_mask_coeff", text="Large Glow Mask Intensity")
+            col.prop(world, "b4w_small_glow_mask_width", text="Small Glow Mask Width")
+            col.prop(world, "b4w_large_glow_mask_width", text="Large Glow Mask Width")
 
             col = layout.column()
             box = col.box()
@@ -388,14 +412,14 @@ class B4W_ObjectPanel(bpy.types.Panel):
         col.prop(obj, "b4w_do_not_export", text="Do Not Export")
 
         if (obj.type == "MESH" or obj.type == "FONT" or obj.type == "META" 
-                or obj.type == "SURFACE"):
+                or obj.type == "SURFACE" or obj.type == "CURVE"):
             row = layout.row(align=True)
             box = row.box()
             col = box.column()
         if (obj.type == "MESH" or obj.type == "FONT" or obj.type == "META" 
-                or obj.type == "SURFACE"):
-            col.prop(obj, "b4w_apply_scale", text="Apply Scale And Modifiers")
+                or obj.type == "SURFACE" or obj.type == "CURVE"):
             col.prop(obj, "b4w_apply_modifiers", text="Apply Modifiers")
+            col.prop(obj, "b4w_apply_scale", text="Apply Scale And Modifiers")
 
         if obj.type == "MESH":
             col.prop(obj, "b4w_shape_keys", text="Export Shape Keys")
@@ -470,11 +494,14 @@ class B4W_ObjectPanel(bpy.types.Panel):
             col.prop(obj, "b4w_reflective", text="Reflective")
 
             if obj.b4w_reflective:
-                index = obj.b4w_refl_plane_index
-                locked_cons = get_locked_track_constraint(obj, index)
-                if locked_cons:
-                    row = layout.row()
-                    row.prop(locked_cons, "target", text="Reflection Plane")
+                row = layout.row()
+                row.prop(obj, "b4w_reflection_type", text="Reflection Type")
+                if obj.b4w_reflection_type == "PLANE":
+                    index = obj.b4w_refl_plane_index
+                    locked_cons = get_locked_track_constraint(obj, index)
+                    if locked_cons:
+                        row = layout.row()
+                        row.prop(locked_cons, "target", text="Reflection Plane")
 
             row = layout.row()
             row.prop(obj, "b4w_caustics", text="Caustics")
@@ -654,18 +681,18 @@ class B4W_DataPanel(bpy.types.Panel):
                 row.prop(cam, "b4w_target", text="Target Location")
                 row.operator("b4w.camera_target_copy", text="Copy Cursor Location")
 
-            if cam.b4w_move_style == "TARGET" \
-                    or cam.b4w_move_style == "EYE" \
-                    or cam.b4w_move_style == "HOVER":
-                row = layout.row()
-                row.prop(cam, "b4w_trans_velocity", text="Translation Velocity")
-                row = layout.row()
-                row.prop(cam, "b4w_rot_velocity", text="Rotation Velocity")
-
-            if cam.b4w_move_style == "TARGET" \
-                    or cam.b4w_move_style == "HOVER":
-                row = layout.row()
-                row.prop(cam, "b4w_zoom_velocity", text="Zoom Velocity")
+            box = layout.box()
+            col = box.column()
+            col.label("Camera Velocities:")
+            row = col.row()
+            row.prop(cam, "b4w_trans_velocity", text="Translation Velocity")
+            row.active = cam.b4w_move_style in ["TARGET", "EYE", "HOVER"]
+            row = col.row()
+            row.prop(cam, "b4w_rot_velocity", text="Rotation Velocity")
+            row.active = cam.b4w_move_style in ["TARGET", "EYE", "HOVER"]
+            row = col.row()
+            row.prop(cam, "b4w_zoom_velocity", text="Zoom Velocity")
+            row.active = cam.b4w_move_style in ["TARGET", "HOVER"]
 
             if cam.b4w_move_style == "TARGET" \
                     or cam.b4w_move_style == "EYE" \
@@ -843,10 +870,11 @@ class B4W_RenderPanel(bpy.types.Panel):
         os.path.normpath(path_to_index)
         if b4w_src_path != "" and os.path.exists(path_to_index):
             box = layout.box()
-            if B4WStartServer.server_process is not None:
-                    box.label(text = ("Development server is running."))
+            if B4WStartServer.server_status == SUB_THREAD_START_SERV_OK:
+                box.label(text = ("Development server is running."))
+                if not bpy.context.user_preferences.addons[__package__].preferences.b4w_server_auto_start:
                     box.operator("b4w.start_server", text="Stop", icon="PAUSE")
-                    box.operator("b4w.open_sdk", text="Open SDK", icon="URL")
+                box.operator("b4w.open_sdk", text="Open SDK", icon="URL")
             else:
                 if B4WStartServer.waiting_for_serv:
                     box.label(text = ("Stopping server..."))
@@ -1046,6 +1074,9 @@ class B4W_MaterialPanel(bpy.types.Panel):
                     row.prop(mat, "b4w_collision_id", text="Collision ID")
 
                     col = layout.column()
+                    col.prop(mat, "b4w_collision_margin", text="Margin")
+
+                    col = layout.column()
                     col.prop(mat, "b4w_collision_group", text="Collision Group")
                     col = layout.column()
                     col.prop(mat, "b4w_collision_mask", text="Collision Mask")
@@ -1230,10 +1261,10 @@ class B4W_ParticlePanel(bpy.types.Panel):
             row.prop(pset, "b4w_do_not_export", text="Do Not Export")
 
             row = layout.row()
-            row.prop(pset, "b4w_randomize_location", text="Random Location And Size")
+            row.prop(pset, "b4w_randomize_location", text="Randomize Location And Size")
 
             row = layout.row()
-            row.prop(pset, "b4w_initial_rand_rotation", text="Initial Random Rotation")
+            row.prop(pset, "b4w_initial_rand_rotation", text="Randomize Initial Rotation")
 
             if getattr(pset, "b4w_initial_rand_rotation"):
                 row = layout.row()
@@ -1269,7 +1300,7 @@ class B4W_ParticlePanel(bpy.types.Panel):
             row = layout.row(align=True)
             box = row.box()
             col = box.column()
-            col.label("Properties Inheritance")
+            col.label("Inherit Properties From:")
 
             row = col.row()
             row.label("Wind Bending:")
@@ -1512,7 +1543,7 @@ class CustomConstraintsPanel(bpy.types.OBJECT_PT_constraints):
 
 def add_remove_refl_plane(obj):
 
-    if obj.b4w_reflective:
+    if obj.b4w_reflection_type == "PLANE":
         #add reflection plane
         bpy.ops.object.constraint_add(type="LOCKED_TRACK")
 
@@ -1527,7 +1558,6 @@ def add_remove_refl_plane(obj):
 
     else:
         #remove reflection plane
-
         index = obj.b4w_refl_plane_index
 
         if index >= 0:

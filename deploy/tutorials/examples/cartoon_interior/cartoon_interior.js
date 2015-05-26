@@ -7,7 +7,6 @@ var m_cam    = require("camera");
 var m_cons   = require("constraints");
 var m_ctl    = require("controls");
 var m_data   = require("data");
-var m_main   = require("main");
 var m_mouse  = require("mouse");
 var m_phy    = require("physics");
 var m_scenes = require("scenes");
@@ -16,8 +15,8 @@ var m_util   = require("util");
 
 var m_quat = require("quat");
 
-var GLOW_COLOR_VALID = [0, 1, 0];
-var GLOW_COLOR_ERROR = [1, 0, 0];
+var OUTLINE_COLOR_VALID = [0, 1, 0];
+var OUTLINE_COLOR_ERROR = [1, 0, 0];
 var FLOOR_PLANE_NORMAL = [0, 1, 0];
 
 var ROT_ANGLE = Math.PI/4;
@@ -67,8 +66,8 @@ function init_cb(canvas_elem, success) {
     canvas_elem.addEventListener("mousemove", main_canvas_move);
     canvas_elem.addEventListener("touchmove", main_canvas_move);
 
-    window.onresize = on_resize;
-    on_resize();
+    window.onresize = m_app.resize_to_container;
+    m_app.resize_to_container();
     load();
 }
 
@@ -82,12 +81,6 @@ function load_cb(data_id) {
 
     var spawner = m_scenes.get_object_by_name("spawner");
     m_trans.get_translation(spawner, spawner_pos);
-}
-
-function on_resize() {
-    var w = window.innerWidth;
-    var h = window.innerHeight;
-    m_main.resize(w, h);
 }
 
 function init_controls() {
@@ -157,19 +150,22 @@ function init_buttons() {
 function loaded_cb(data_id) {
     var cam = m_scenes.get_active_camera();
 
+    // NOTE: need to reinitialize collision sensors because of new objects have been added
     if (m_ctl.check_sensor_manifold(cam, "COLLISION"))
         m_ctl.remove_sensor_manifold(cam, "COLLISION");
 
     var objs = m_scenes.get_all_objects();
 
-    // spawn appended object in a certain position
+    // spawn appended object at a certain position
     for (var i = 0; i < objs.length; i++) {
         var obj = objs[i];
         if (m_scenes.get_object_data_id(obj) == data_id) {
             if (m_phy.has_physics(obj)) {
                 m_phy.enable_simulation(obj);
+                
                 var obj_parent = m_cons.get_parent(obj);
                 if (obj_parent && m_util.is_armature(obj_parent))
+                    // translate the parent (armature) of the animated object
                     m_trans.set_translation_v(obj_parent, spawner_pos);
                 else
                     m_trans.set_translation_v(obj, spawner_pos);
@@ -188,7 +184,7 @@ function loaded_cb(data_id) {
             var sensor_sel = m_ctl.create_selection_sensor(obj);
 
             if (obj == _selected_obj)
-                sensor_sel.value = true;
+                m_ctl.set_custom_sensor(sensor_sel, 1);
 
             sensors.push(sensor_col);
             sensors.push(sensor_sel);
@@ -209,14 +205,16 @@ function loaded_cb(data_id) {
 function trigger_outline(obj, id, pulse) {
     // change outline color according to collision status
     if (pulse == 1)
-        m_scenes.set_outline_color(GLOW_COLOR_ERROR);
+        m_scenes.set_outline_color(OUTLINE_COLOR_ERROR);
     else if (pulse == -1)
-        m_scenes.set_outline_color(GLOW_COLOR_VALID);
+        m_scenes.set_outline_color(OUTLINE_COLOR_VALID);
 }
 
 function rotate_object(obj, angle) {
     var obj_parent = m_cons.get_parent(obj);
+    
     if (obj_parent && m_util.is_armature(obj_parent)) {
+        // rotate the parent (armature) of the animated object
         var obj_quat = m_trans.get_rotation(obj_parent, _vec4_tmp);
         m_quat.rotateY(obj_quat, angle, obj_quat);
         m_trans.set_rotation_v(obj_parent, obj_quat);
@@ -255,6 +253,7 @@ function main_canvas_down(e) {
 
         var obj_parent = m_cons.get_parent(_selected_obj);
         if (obj_parent && m_util.is_armature(obj_parent))
+            // get translation from the parent (armature) of the animated object
             m_trans.get_translation(obj_parent, _vec3_tmp);
         else
             m_trans.get_translation(_selected_obj, _vec3_tmp);
@@ -267,7 +266,7 @@ function main_canvas_down(e) {
 
 function main_canvas_up(e) {
     _drag_mode = false;
-    // enable camera controls after releasing an object
+    // enable camera controls after releasing the object
     if (!_enable_camera_controls) {
         m_app.enable_camera_controls();
         _enable_camera_controls = true;
@@ -277,7 +276,7 @@ function main_canvas_up(e) {
 function main_canvas_move(e) {
     if (_drag_mode)
         if (_selected_obj) {
-            // disable camera controls while moving an object
+            // disable camera controls while moving the object
             if (_enable_camera_controls) {
                 m_app.disable_camera_controls();
                 _enable_camera_controls = false;
@@ -293,7 +292,7 @@ function main_canvas_move(e) {
                 x -= _obj_delta_xy[0];
                 y -= _obj_delta_xy[1];
 
-                // emit ray from camera
+                // emit ray from the camera
                 var camera_ray = m_cam.calc_ray(cam, x, y, _vec3_tmp);
 
                 // calculate ray/floor_plane intersection point
@@ -301,10 +300,11 @@ function main_canvas_move(e) {
                 var point = m_util.line_plane_intersect(FLOOR_PLANE_NORMAL, 0,
                         cam_trans, camera_ray, _vec3_tmp3);
 
-                // do not process parallel case and intersections behind the camera
+                // do not process the parallel case and intersections behind the camera
                 if (point && camera_ray[1] < 0) {
                     var obj_parent = m_cons.get_parent(_selected_obj);
                     if (obj_parent && m_util.is_armature(obj_parent))
+                        // translate the parent (armature) of the animated object
                         m_trans.set_translation_v(obj_parent, point);
                     else
                         m_trans.set_translation_v(_selected_obj, point);
@@ -319,6 +319,7 @@ function limit_object_position(obj) {
 
     var obj_parent = m_cons.get_parent(obj);
     if (obj_parent && m_util.is_armature(obj_parent))
+        // get translation from the parent (armature) of the animated object
         var obj_pos = m_trans.get_translation(obj_parent, _vec3_tmp);
     else
         var obj_pos = m_trans.get_translation(obj, _vec3_tmp);
@@ -334,6 +335,7 @@ function limit_object_position(obj) {
         obj_pos[2] += WALL_Z_MIN - bb.min_z;
 
     if (obj_parent && m_util.is_armature(obj_parent))
+        // translate the parent (armature) of the animated object
         m_trans.set_translation_v(obj_parent, obj_pos);
     else
         m_trans.set_translation_v(obj, obj_pos);

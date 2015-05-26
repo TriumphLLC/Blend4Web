@@ -160,7 +160,7 @@ varying vec4 v_shadow_coord3;
 # endif
 #endif
 
-#if REFLECTIVE || SHADOW_SRC == SHADOW_SRC_MASK || USE_NODE_B4W_REFRACTION
+#if REFLECTION_TYPE == REFL_PLANE || SHADOW_SRC == SHADOW_SRC_MASK || USE_NODE_B4W_REFRACTION
 varying vec3 v_tex_pos_clip;
 #endif
 
@@ -307,7 +307,7 @@ void main(void) {
     get_shadow_coords(world.position);
 #endif
 
-#if REFLECTIVE || SHADOW_SRC == SHADOW_SRC_MASK || (USE_NODE_B4W_REFRACTION && REFRACTIVE)
+#if REFLECTION_TYPE == REFL_PLANE || SHADOW_SRC == SHADOW_SRC_MASK || USE_NODE_B4W_REFRACTION
     float xc = pos_clip.x;
     float yc = pos_clip.y;
     float wc = pos_clip.w;

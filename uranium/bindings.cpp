@@ -55,9 +55,6 @@ void delete_shape(btCollisionShape *shape);
 float *du_alloc_float_array(int num);
 du_collision_result **du_realloc_collision_result_array(du_collision_result **results, int num);
 
-btCollisionShape *create_mesh_shape(int indices_len, int *indices, 
-        int positions_len, float *positions);
-
 btCollisionShape *consider_compound(btCollisionShape *shape, 
         float cm_x, float cm_y, float cm_z);
 
@@ -83,7 +80,7 @@ int du_search_around_body_a(du_collision_result **arr, du_body_id searched,
 int du_get_collision_result_ind(du_collision_result **results, int size,
                                 du_body_id du_body_a, du_body_id du_body_b);
 
-duWorld *_world = NULL;
+static duWorld *_world = NULL;
 
 // NOTE: for debug purposes. Doesn't work with asm.js
 //void print(int i, void *p) {
@@ -253,12 +250,10 @@ float *du_array6(float el0, float el1, float el2, float el3, float el4, float el
     return arr;
 }
 
-du_body_id du_create_static_mesh_body(int indices_len, int *indices, 
-        int positions_len, float *positions, float *trans, float friction, 
-        float restitution) 
+du_body_id du_create_static_mesh_body(du_shape_id shape, float *trans,
+        float friction, float restitution) 
 {
-    btCollisionShape *shape = create_mesh_shape(indices_len, indices, 
-            positions_len, positions);
+    btCollisionShape *bt_shape = reinterpret_cast <btCollisionShape*>(shape);
 
     btTransform gtrans;
     gtrans.setIdentity();
@@ -268,7 +263,7 @@ du_body_id du_create_static_mesh_body(int indices_len, int *indices,
     float mass = 0;
     btVector3 loc_iner(0, 0, 0);
 
-    btRigidBody::btRigidBodyConstructionInfo cinfo(mass, NULL, shape, loc_iner);
+    btRigidBody::btRigidBodyConstructionInfo cinfo(mass, NULL, bt_shape, loc_iner);
     btRigidBody* body = new btRigidBody(cinfo);
 
     body->setFriction(friction);
@@ -278,7 +273,7 @@ du_body_id du_create_static_mesh_body(int indices_len, int *indices,
     return reinterpret_cast <du_body_id>(body);
 }
 
-btCollisionShape *create_mesh_shape(int indices_len, int *indices, 
+du_shape_id du_create_mesh_shape(int indices_len, int *indices, 
         int positions_len, float *positions)
 {
 
@@ -291,15 +286,12 @@ btCollisionShape *create_mesh_shape(int indices_len, int *indices,
     // seems useQuantizedAabbCompression=false performs better
     btCollisionShape *shape = new btBvhTriangleMeshShape(tmesh, false, true);
 
-    return shape;
+    return reinterpret_cast <du_shape_id>(shape);
 }
 
-du_body_id du_create_ghost_mesh_body(int indices_len, int *indices,
-        int positions_len, float *positions, float *trans) 
+du_body_id du_create_ghost_mesh_body(du_shape_id shape, float *trans) 
 {
-
-    btCollisionShape *shape = create_mesh_shape(indices_len, indices,
-            positions_len, positions);
+    btCollisionShape *bt_shape = reinterpret_cast <btCollisionShape*>(shape);
 
     btTransform gtrans;
     gtrans.setIdentity();
@@ -307,7 +299,7 @@ du_body_id du_create_ghost_mesh_body(int indices_len, int *indices,
 
     btCollisionObject *body = new btGhostObject();
     body->setWorldTransform(gtrans);
-    body->setCollisionShape(shape);
+    body->setCollisionShape(bt_shape);
     body->setCollisionFlags(btCollisionObject::CF_NO_CONTACT_RESPONSE);
 
     return reinterpret_cast <du_body_id>(body);
@@ -578,6 +570,18 @@ float du_get_hit_fraction(du_body_id body)
 {
     btCollisionObject *bt_obj = reinterpret_cast <btCollisionObject*>(body);
     return bt_obj->getHitFraction();
+}
+
+void du_set_margin(du_shape_id shape, float margin)
+{
+    btCollisionShape *bt_shape = reinterpret_cast <btCollisionShape*>(shape);
+    bt_shape->setMargin(margin);
+}
+
+float du_get_margin(du_shape_id shape)
+{
+    btCollisionShape *bt_shape = reinterpret_cast <btCollisionShape*>(shape);
+    return bt_shape->getMargin();
 }
 
 du_body_id du_create_dynamic_bounding_body(du_shape_id shape, float mass, 

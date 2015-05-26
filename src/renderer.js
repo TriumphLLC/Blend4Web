@@ -14,7 +14,9 @@ var config     = require("__config");
 var debug      = require("__debug");
 var m_textures = require("__textures");
 var m_util     = require("__util");
+var m_cam      = require("__camera");
 
+var m_mat4 = require("mat4");
 
 var cfg_def = config.defaults;
 
@@ -86,9 +88,44 @@ exports.draw = function(subscene) {
 
     prepare_subscene(subscene);
 
+    if (subscene.type == "MAIN_CUBE_REFLECT")
+        draw_cube_reflection_subs(subscene);
+    else
+        draw_subs(subscene);
+
+    debug.check_gl("draw subscene: " + subscene.type);
+    // NOTE: fix for strange issue with skydome rendering
+    _gl.bindFramebuffer(_gl.FRAMEBUFFER, null);
+}
+
+function draw_cube_reflection_subs(subscene) {
+    var camera           = subscene.camera;
+    var color_attachment = camera.color_attachment;
+    var w_tex            = color_attachment.w_texture;
+    var v_matrs          = subscene.cube_view_matrices;
+
+    // cube reflections are rendered in 6 directions
+    for (var i = 0; i < 6; i++) {
+        var w_target = get_cube_target_by_id(i);
+        camera.view_matrix = subscene.cube_view_matrices[i];
+        m_cam.calc_sky_vp_inverse(camera);
+
+        _gl.framebufferTexture2D(_gl.FRAMEBUFFER, _gl.COLOR_ATTACHMENT0,
+            w_target, w_tex, 0);
+
+        clear_binded_framebuffer(subscene);
+
+        var bundles = subscene.bundles;
+        for (var j = 0; j < bundles.length; j++)
+            bundles[j].do_render = bundles[j].do_render_cube[i];
+
+        draw_subs(subscene);
+    }
+}
+
+function draw_subs(subscene) {
     var camera = subscene.camera;
     var bundles = subscene.bundles;
-
     for (var i = 0; i < bundles.length; i++) {
         var bundle = bundles[i];
         if (bundle.do_render) {
@@ -97,9 +134,6 @@ exports.draw = function(subscene) {
             draw_bundle(subscene, camera, obj_render, batch);
         }
     }
-    debug.check_gl("draw subscene: " + subscene.type);
-    // NOTE: fix for strange issue with skydome rendering
-    _gl.bindFramebuffer(_gl.FRAMEBUFFER, null);
 }
 
 exports.clear = function(subscene) {
@@ -123,7 +157,8 @@ function prepare_subscene(subscene) {
 
     _gl.viewport(0, 0, camera.width, camera.height);
 
-    clear_binded_framebuffer(subscene);
+    if (subscene.type != "MAIN_CUBE_REFLECT")
+        clear_binded_framebuffer(subscene);
 
     if (subscene.blend)
         _gl.enable(_gl.BLEND);
@@ -153,7 +188,7 @@ function prepare_subscene(subscene) {
          */
         _gl.cullFace(_gl.BACK);
         break;
-    case "MAIN_REFLECT":
+    case "MAIN_PLANE_REFLECT":
         _gl.disable(_gl.POLYGON_OFFSET_FILL);
         _gl.cullFace(_gl.FRONT);
         break;
@@ -178,6 +213,9 @@ function clear_binded_framebuffer(subscene) {
 
         // NOTE: place in graph module?
         switch (subscene.type) {
+        case "MAIN_GLOW":
+            var bc = BLACK_BG_COLOR;
+            break;
         case "SHADOW_CAST":
             var bc = SHADOW_BG_COLOR;
             break;
@@ -257,7 +295,7 @@ function draw_bundle(subscene, camera, obj_render, batch) {
 
     if (subscene.type == "SKY") {
         draw_sky_buffers(subscene, bufs_data, shader, obj_render,
-                attribute_setters);
+                         attribute_setters);
         subscene.debug_render_calls+=6;
     } else {
         draw_buffers(bufs_data, attribute_setters, obj_render.va_frame);
@@ -361,7 +399,7 @@ function setup_vec4_attribute(attributes, name, value) {
 /**
  * frame used for vertex animation
  */
-function draw_buffers(bufs_data, attribute_setters, frame) {
+function draw_buffers(bufs_data, attribute_setters, frame, aaa) {
 
     _gl.bindBuffer(_gl.ARRAY_BUFFER, bufs_data.vbo);
 
@@ -419,7 +457,6 @@ exports.assign_attribute_setters = function(batch) {
 
     var pointers = bufs_data.pointers;
     var attributes = shader.attributes;
-
     for (var name in attributes) {
         var p = pointers[name];
 
@@ -569,6 +606,21 @@ function assign_uniform_setters(shader) {
             }
             break;
 
+        case "u_sky_tex_dvar":
+            var fun = function(gl, loc, subscene, obj_render, batch, camera) {
+                gl.uniform1f(loc, subscene.sky_tex_default_value);
+            }
+            break;
+        case "u_sky_tex_fac":
+            var fun = function(gl, loc, subscene, obj_render, batch, camera) {
+                gl.uniform4fv(loc, subscene.sky_tex_fac);
+            }
+            break;
+        case "u_sky_tex_color":
+            var fun = function(gl, loc, subscene, obj_render, batch, camera) {
+                gl.uniform3fv(loc, subscene.sky_tex_color);
+            }
+            break;
         case "u_horizon_color":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform3fv(loc, subscene.horizon_color);
@@ -586,6 +638,13 @@ function assign_uniform_setters(shader) {
             break;
 
         // sky
+        case "u_world_vec":
+            var fun = function(gl, loc, subscene, obj_render, batch, camera) {
+                var cvm = camera.view_matrix;
+                gl.uniform3fv(loc, [cvm[4], cvm[5], cvm[6]]);
+            }
+            transient_uni = true;
+            break;
         case "u_sky_color":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform3fv(loc, subscene.sky_color);
@@ -1193,7 +1252,7 @@ function assign_uniform_setters(shader) {
             break;
         case "u_texel_size":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
-                gl.uniform2fv(loc, batch.texel_size);
+                gl.uniform2fv(loc, subscene.texel_size);
             }
             transient_uni = true;
             break;
@@ -1276,7 +1335,7 @@ function assign_uniform_setters(shader) {
             break;
         case "u_refl_plane":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
-                gl.uniform4fv(loc, subscene.reflection_plane);
+                gl.uniform4fv(loc, obj_render.reflection_plane);
             }
             break;
 
@@ -1354,6 +1413,20 @@ function assign_uniform_setters(shader) {
             transient_uni = true;
             break;
 
+        // for glow
+        case "u_glow_mask_small_coeff":
+            var fun = function(gl, loc, subscene, obj_render, batch, camera) {
+                gl.uniform1f(loc, subscene.small_glow_mask_coeff);
+            }
+            transient_uni = true;
+            break;
+        case "u_glow_mask_large_coeff":
+            var fun = function(gl, loc, subscene, obj_render, batch, camera) {
+                gl.uniform1f(loc, subscene.large_glow_mask_coeff);
+            }
+            transient_uni = true;
+            break;
+
         // color correction
         case "u_brightness":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
@@ -1421,7 +1494,6 @@ exports.assign_texture_uniforms = function(batch) {
 function setup_textures(textures) {
     for (var i = 0; i < textures.length; i++) {
         var tex = textures[i];
-
         _gl.activeTexture(_gl.TEXTURE0 + i);
         _gl.bindTexture(tex.w_target, tex.w_texture);
     }

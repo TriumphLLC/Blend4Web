@@ -70,6 +70,8 @@ var AB_CYCLIC = 10;
 var AB_FINISH_RESET = 20;
 var AB_FINISH_STOP = 30;
 
+var VECTORS_RESERVED = 50;
+
 exports.AB_CYCLIC = AB_CYCLIC;
 exports.AB_FINISH_RESET = AB_FINISH_RESET;
 exports.AB_FINISH_STOP = AB_FINISH_STOP;
@@ -85,6 +87,10 @@ var _mat4_tmp = new Float32Array(16);
 // populated after init_anim()
 var _anim_objs_cache = [];
 var _actions = [];
+
+exports.get_max_bones = function() {
+    return m_util.trunc((m_config.defaults.max_vertex_uniform_vectors - VECTORS_RESERVED) / 4);
+}
 
 exports.frame_to_sec = function(frame) {
     return frame/cfg_ani.framerate;
@@ -922,7 +928,6 @@ function calc_node_act(node_name, act_node_name, act_render, values, inds,
             var ind = val_ind_pairs[i+1];
             inds.push(ind);
             values.push(new Float32Array(act_render.params[node_name]));
-            break;
         }
     }
 }
@@ -2207,8 +2212,27 @@ function has_animated_nodemats(obj) {
     for (var j = 0; j < materials.length; j++) {
         var mat = materials[j];
         var node_tree = mat["node_tree"];
-        if (mat["use_nodes"] && node_tree && node_tree["animation_data"])
-            return true;
+        if (mat["use_nodes"] && node_tree) {
+            if (check_node_tree_anim_data_r(node_tree))
+                return true;
+        }
+    }
+
+    return false;
+}
+
+function check_node_tree_anim_data_r(node_tree) {
+    if (node_tree["animation_data"])
+        return true;
+
+    var nodes = node_tree["nodes"];
+    for (var i = 0; i < nodes.length; i++) {
+        var node = nodes[i];
+        if (node["node_group"]) {
+            var g_node_tree = node["node_group"]["node_tree"];
+            if (g_node_tree && check_node_tree_anim_data_r(g_node_tree))
+                return true;
+        }
     }
 
     return false;
@@ -2222,46 +2246,40 @@ exports.cleanup = function() {
 /**
  * uses _vec3_tmp, _quat4_tmp
  */
-exports.fcurves_replace_euler_by_quat = function(fcurves, data_path) {
-    var channels = fcurves[data_path];
-
-    var ch = channels[0] || channels[1] || channels[2];
+exports.fcurve_replace_euler_by_quat = function(fcurve) {
+    var ch = fcurve[0] || fcurve[1] || fcurve[2];
     var pcount = ch._pierced_points.length;
 
     var quat = _quat4_tmp;
     var euler_angles = _vec3_tmp;
 
-    var is_x_rot = Boolean(channels[0]);
+    var is_x_rot = Boolean(fcurve[0]);
     if (!is_x_rot)
-        channels[0] = { _pierced_points: new Float32Array(pcount),
+        fcurve[0] = { _pierced_points: new Float32Array(pcount),
                         "num_channels": 8};
-    var is_y_rot = Boolean(channels[1]);
+    var is_y_rot = Boolean(fcurve[1]);
     if (!is_y_rot)
-        channels[1] = { _pierced_points: new Float32Array(pcount),
+        fcurve[1] = { _pierced_points: new Float32Array(pcount),
                         "num_channels": 8};
-    var is_z_rot = Boolean(channels[2]);
+    var is_z_rot = Boolean(fcurve[2]);
     if (!is_z_rot)
-        channels[2] = { _pierced_points: new Float32Array(pcount),
+        fcurve[2] = { _pierced_points: new Float32Array(pcount),
                         "num_channels": 8};
-    channels[3] = { _pierced_points: new Float32Array(pcount),
+    fcurve[3] = { _pierced_points: new Float32Array(pcount),
                     "num_channels": 8};
 
     for (var i = 0; i < pcount; i++) {
-        euler_angles[0] = (is_x_rot) ? channels[0]._pierced_points[i]: 0;
-        euler_angles[1] = (is_y_rot) ? channels[1]._pierced_points[i]: 0;
-        euler_angles[2] = (is_z_rot) ? channels[2]._pierced_points[i]: 0;
+        euler_angles[0] = (is_x_rot) ? fcurve[0]._pierced_points[i]: 0;
+        euler_angles[1] = (is_y_rot) ? fcurve[1]._pierced_points[i]: 0;
+        euler_angles[2] = (is_z_rot) ? fcurve[2]._pierced_points[i]: 0;
         m_util.euler_to_quat(euler_angles, quat);
 
         // (x, y, z, w) to (w, x, y, z) fcurve format
-        channels[0]._pierced_points[i] = quat[3];
-        channels[1]._pierced_points[i] = quat[0];
-        channels[2]._pierced_points[i] = quat[1];
-        channels[3]._pierced_points[i] = quat[2];
+        fcurve[0]._pierced_points[i] = quat[3];
+        fcurve[1]._pierced_points[i] = quat[0];
+        fcurve[2]._pierced_points[i] = quat[1];
+        fcurve[3]._pierced_points[i] = quat[2];
     }
-
-    var new_path = data_path.replace("euler", "quaternion")
-    fcurves[new_path] = channels;
-    delete fcurves[data_path];
 }
 
 }

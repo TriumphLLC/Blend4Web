@@ -43,47 +43,62 @@
 
 
     <section>
-        <article><h1>Blend4Web API Reference</h1><p><strong>Introduction</strong></p>
-<p>Use <code>b4w.require(module_name, module_function)</code> to import module.</p>
-<p><strong>Basic usage example</strong></p>
-<pre class="prettyprint source"><code>// check if module exists
+        <article><h1>Blend4Web API Reference</h1><p><strong>Adding Modules</strong></p>
+<p>Use <code>b4w.register(module_name, module_body)</code> to create your own modules.</p>
+<p>Example - Registering a Module:</p>
+<pre class="prettyprint source"><code>// check if the module already exists
 if (b4w.module_check(&quot;my_module&quot;))
-    throw &quot;Failed to register module: my_module&quot;;
+    throw &quot;Failed to register my_module&quot;;
 
 // register my_module
 b4w.register(&quot;my_module&quot;, function(exports, require) {
 
-    // import module &quot;version&quot;
+    // import a Blend4Web module
     var m_version = require(&quot;version&quot;);
 
-    // export print_build_date() from module &quot;my_module&quot;
+    // create and export your own method
     exports.print_build_date = function() {
-        // exec function date() from module &quot;version&quot;
+
+        // use a Blend4Web method
         console.log(&quot;Engine build date: &quot; + m_version.date());
     }
-});
-
-// import module &quot;my_module&quot;
+});</code></pre><p>Example - Using the Registered Module:</p>
+<pre class="prettyprint source"><code>// import the module
 var m_my_module = b4w.require(&quot;my_module&quot;);
 
-// exec function print_build_date() from module &quot;my_module&quot;
-m_my_module.print_build_date();</code></pre><p><strong>Type system</strong></p>
-<p>The engine API accepts only the types explicitly specified in the reference.
-Cases with multiple allowed types are documented explicitly. A variable type
-can be checked with the following code:</p>
-<pre class="prettyprint source"><code>VAR instanceof TYPE</code></pre><p>e.g:</p>
-<pre class="prettyprint source"><code>obj instanceof Object -> true</code></pre><p>Keep in mind, that any object may have several ancestors. In such cases the more
-specific type takes precedence.</p>
-<p>e.g:</p>
-<pre class="prettyprint source"><code>var vector = new Float32Array(3);
+// use a module's method
+m_my_module.print_build_date();</code></pre><p><strong>3D Object vs JavaScript Object</strong></p>
+<p>In order to prevent confusion between a 3D object and a JavaScript object,
+the former is always referenced as &quot;Object ID&quot; in this documentation. 
+Although &quot;Object ID&quot; is internally implemented as a JavaScript object, it is strongly
+discouraged to directly access its properties. Instead, you should always rely on the
+engine API in order to manipulate your 3D objects.</p>
+<!---
 
-vector instanceof Object;       // true
-vector instanceof Float32Array; // true, so type of the vector is Float32Array</code></pre><p><strong>Object</strong></p>
-<p>To prevent confusion between a 3D object rendered on the scene and
-some other JavaScript Object the former is always referenced as &quot;Object ID&quot; in
-the documentation. Currently, &quot;Object ID&quot; is a JavaScript Object, but it's strongly
-discouraged to access it by its properties. Instead, you should always rely on the
-engine's API to manipulate your 3D objects.</p></article>
+**Type System**
+
+The engine API accepts only the types explicitly specified in the reference.
+Cases with multiple allowed types are documented explicitly. A type of a variable
+can be checked with the following code:
+
+    VAR instanceof TYPE
+
+e.g:
+
+    obj instanceof Object -> true
+
+Keep in mind, that an object may have several ancestors. In such cases the more
+specific type takes precedence.
+
+e.g:
+
+    var vector = new Float32Array(3);
+
+    vector instanceof Object;       // true
+    vector instanceof Float32Array; // true, so the type of the vector is Float32Array
+
+
+--></article>
     </section>
 
 
@@ -94,13 +109,13 @@ engine's API to manipulate your 3D objects.</p></article>
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Wed Apr 29 2015 10:10:49 GMT+0300 (MSK)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Tue May 26 2015 12:05:03 GMT+0300 (MSK)
 </footer>
 
 <script> prettyPrint(); </script>

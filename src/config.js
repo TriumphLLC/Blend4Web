@@ -29,9 +29,9 @@ exports.defaults = {
 
     alpha_sort_threshold       : 0.1,
 
-    min_format_version         : "5.03",
+    min_format_version         : "5.04",
 
-    max_fps                    : 10000,
+    max_fps                    : 10000, // not accurate
 
     console_verbose            : false,
 
@@ -113,10 +113,7 @@ exports.defaults = {
 
     max_texture_size           : 1024,
 
-    max_cube_map_size          : 512,       //NEW
-
-    // Windows ANGLE limits, returned by determine_max_bones()
-    max_bones                  : 53,
+    max_cube_map_size          : 512,
 
     use_dds                    : true,
 
@@ -136,6 +133,8 @@ exports.defaults = {
     vert_anim_mix_normals_hack : false,
 
     is_mobile_device           : false,
+
+    chrome_disable_doppler_effect_hack: false,
 
     init_wa_context_hack       : false,
 
@@ -157,7 +156,15 @@ exports.defaults = {
 
     enable_selectable          : true,
 
-    enable_outlining           : true
+    enable_outlining           : true,
+
+    glow_materials             : true,
+
+    max_vertex_uniform_vectors : 128,
+
+    ie11_touchscreen_hack      : false,
+
+    loaded_data_version        : 0
 }
 
 exports.defaults_save = m_util.clone_object_r(exports.defaults);
@@ -294,8 +301,6 @@ exports.apply_quality = function() {
 
         cfg_def.use_min50 = false;
 
-        cfg_def.max_bones = 53;
-
         cfg_def.precision = "highp";
 
         cfg_def.water_dynamic = true;
@@ -313,6 +318,8 @@ exports.apply_quality = function() {
         cfg_def.allow_hidpi = true;
 
         cfg_def.enable_outlining = true;
+
+        cfg_def.glow_materials = true;
 
         cfg_phy.max_fps = 120;
 
@@ -346,7 +353,7 @@ exports.apply_quality = function() {
 
         cfg_def.procedural_fog = true;
 
-        cfg_def.resolution_factor = 1;
+        cfg_def.resolution_factor = 1.0;
 
         cfg_scs.grass_tex_size = 2*512;
 
@@ -355,8 +362,6 @@ exports.apply_quality = function() {
         cfg_def.anisotropic_filtering = true;
 
         cfg_def.use_min50 = false;
-
-        cfg_def.max_bones = 53;
 
         cfg_def.precision = "highp";
 
@@ -375,6 +380,8 @@ exports.apply_quality = function() {
         cfg_def.allow_hidpi = false;
 
         cfg_def.enable_outlining = true;
+
+        cfg_def.glow_materials = true;
 
         cfg_phy.max_fps = 60;
 
@@ -418,8 +425,6 @@ exports.apply_quality = function() {
 
         cfg_def.use_min50 = true;
 
-        cfg_def.max_bones = 53;
-
         cfg_def.precision = "mediump";
 
         cfg_def.water_dynamic = false;
@@ -437,6 +442,8 @@ exports.apply_quality = function() {
         cfg_def.allow_hidpi = false;
 
         cfg_def.enable_outlining = false;
+
+        cfg_def.glow_materials = false;
 
         cfg_phy.max_fps = 60;
 
@@ -495,9 +502,6 @@ function set(prop, value) {
     case "console_verbose":
         exports.defaults.console_verbose = value;
         break;
-    case "context_antialias":
-        exports.context.antialias = value;
-        break;
     case "do_not_load_resources":
         exports.defaults.do_not_load_resources = value;
         break;
@@ -549,6 +553,9 @@ function set(prop, value) {
     case "outlining_overview_mode":
         exports.outlining.outlining_overview_mode = value;
         break;
+    case "glow_materials":
+        exports.defaults.glow_materials = value;
+        break;
     default:
         m_print.error("Unknown config property: " + prop);
         break;
@@ -587,8 +594,6 @@ exports.get = function(prop) {
         return exports.defaults.canvas_resolution_factor;
     case "console_verbose":
         return exports.defaults.console_verbose;
-    case "context_antialias":
-        return exports.context.antialias;
     case "do_not_load_resources":
         return exports.defaults.do_not_load_resources;
     case "gyro_use":
@@ -623,6 +628,8 @@ exports.get = function(prop) {
         return exports.defaults.enable_outlining;
     case "outlining_overview_mode":
         return exports.outlining.outlining_overview_mode;
+    case "glow_materials":
+        return exports.defaults.glow_materials;
     default:
         m_print.error("Unknown config property: " + prop);
         break;

@@ -141,7 +141,7 @@
 
         
             
-<li> <a href="#.append_follow">append_follow<span class="signature">(obj, target, offset_min, offset_max)</span><span class="type-signature"></span></a></li>
+<li> <a href="#.append_follow">append_follow<span class="signature">(obj, target, dist_min, dist_max)</span><span class="type-signature"></span></a></li>
 
         
             
@@ -165,7 +165,7 @@
 
         
             
-<li> <a href="#.append_stiff_trans_rot">append_stiff_trans_rot<span class="signature">(obj, target, offset, rotation_offset)</span><span class="type-signature"></span></a></li>
+<li> <a href="#.append_stiff_trans_rot">append_stiff_trans_rot<span class="signature">(obj, target, offset, rotation_offset<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></a></li>
 
         
             
@@ -207,7 +207,10 @@
 <div class="item_description">
 
 <div class="description">
-    Append a copy translation constraint.
+    Attach the object to the other object using a copy translation constraint.
+The child object will move together with its parent, but will not rotate.
+Note that the offset is specified in the world space.
+Example: a light source attached to the character.
 </div>
 
 
@@ -305,7 +308,7 @@
 
             
 
-            <td class="description last">Offset in world space</td>
+            <td class="description last">Offset, in the parent's world space</td>
         </tr>
 
     
@@ -358,7 +361,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_constraints.js.html">ext/constraints.js</a>, <a href="ext_constraints.js.html#line107">line 107</a>
+        <a href="ext_constraints.js.html">ext/constraints.js</a>, <a href="ext_constraints.js.html#line152">line 152</a>
     </li></ul></dd>
     
 
@@ -380,7 +383,7 @@
 
     
 
-    <h4 class="name" id=".append_follow">append_follow<span class="signature">(obj, target, offset_min, offset_max)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".append_follow">append_follow<span class="signature">(obj, target, dist_min, dist_max)</span><span class="type-signature"></span></h4>
 
     
 
@@ -388,7 +391,10 @@
 <div class="item_description">
 
 <div class="description">
-    Append a follow constraint.
+    Attach the object to the other object using a follow constraint. The child
+object will track and follow its parent position.
+
+Example: a follow-style camera view for the character.
 </div>
 
 
@@ -466,14 +472,14 @@
 
             
 
-            <td class="description last">Target object ID or vector</td>
+            <td class="description last">Target object ID or position vector</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>offset_min</code></td>
+                <td class="name"><code>dist_min</code></td>
             
 
             <td class="type">
@@ -489,14 +495,14 @@
 
             
 
-            <td class="description last">Minimum offset</td>
+            <td class="description last">Minimum distance</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>offset_max</code></td>
+                <td class="name"><code>dist_max</code></td>
             
 
             <td class="type">
@@ -512,7 +518,7 @@
 
             
 
-            <td class="description last">Maximum offset</td>
+            <td class="description last">Maximum distance</td>
         </tr>
 
     
@@ -565,7 +571,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_constraints.js.html">ext/constraints.js</a>, <a href="ext_constraints.js.html#line149">line 149</a>
+        <a href="ext_constraints.js.html">ext/constraints.js</a>, <a href="ext_constraints.js.html#line215">line 215</a>
     </li></ul></dd>
     
 
@@ -595,7 +601,9 @@
 <div class="item_description">
 
 <div class="description">
-    Append a semi-soft constraint.
+    Attach the EYE camera to the object using a
+semi-soft constraint. The camera will smoothly follow the object's rear.
+Example: third-person character or vehicle views.
 </div>
 
 
@@ -677,9 +685,6 @@
             
                 
 <span class="param-type">Object</span>
-|
-
-<span class="param-type">Array</span>
 
 
             
@@ -701,7 +706,7 @@
                 </td>
             
 
-            <td class="description last">Object ID or [Armature object ID, Bone Name]</td>
+            <td class="description last">Object ID</td>
         </tr>
 
     
@@ -736,7 +741,7 @@
                 </td>
             
 
-            <td class="description last">Offset in parent local space</td>
+            <td class="description last">Offset, in the parent's local space</td>
         </tr>
 
     
@@ -775,7 +780,7 @@
                 </td>
             
 
-            <td class="description last">value of camera's smooth</td>
+            <td class="description last">Camera smoothness ratio</td>
         </tr>
 
     
@@ -828,7 +833,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_constraints.js.html">ext/constraints.js</a>, <a href="ext_constraints.js.html#line78">line 78</a>
+        <a href="ext_constraints.js.html">ext/constraints.js</a>, <a href="ext_constraints.js.html#line100">line 100</a>
     </li></ul></dd>
     
 
@@ -858,7 +863,10 @@
 <div class="item_description">
 
 <div class="description">
-    Append a semi-stiff constraint.
+    Attach the object to the other object using a
+semi-stiff constraint. The child object will move and rotate together with
+its parent, but it will be still possible to rotate it independently
+in the parent's local space. Example: a tank turret.
 </div>
 
 
@@ -951,7 +959,7 @@
 
             
 
-            <td class="description last">Object ID or [Armature object ID, Bone Name]</td>
+            <td class="description last">Object ID</td>
         </tr>
 
     
@@ -982,7 +990,7 @@
 
             
 
-            <td class="description last">Offset in parent local space</td>
+            <td class="description last">Offset, in the parent's local space</td>
         </tr>
 
     
@@ -1015,7 +1023,8 @@
 
             
 
-            <td class="description last">Rotation offset in parent local space</td>
+            <td class="description last">Initial rotation offset, in the
+parent's local space</td>
         </tr>
 
     
@@ -1068,7 +1077,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_constraints.js.html">ext/constraints.js</a>, <a href="ext_constraints.js.html#line37">line 37</a>
+        <a href="ext_constraints.js.html">ext/constraints.js</a>, <a href="ext_constraints.js.html#line44">line 44</a>
     </li></ul></dd>
     
 
@@ -1098,7 +1107,12 @@
 <div class="item_description">
 
 <div class="description">
-    Append a semi-stiff constraint with camera rotation clamping.
+    Attach the EYE camera to the object using a
+semi-stiff constraint. Also apply rotation limits to the camera.
+The camera will move and rotate together with
+its parent, but it will be still possible to rotate it independently
+in the parent's local space. The camera's UP vector will be preserved.
+Example: first-person vehicle view.
 </div>
 
 
@@ -1174,9 +1188,6 @@
             
                 
 <span class="param-type">Object</span>
-|
-
-<span class="param-type">Array</span>
 
 
             
@@ -1194,7 +1205,7 @@
 
             
 
-            <td class="description last">Object ID or [Armature object ID, Bone Name]</td>
+            <td class="description last">Object ID</td>
         </tr>
 
     
@@ -1225,7 +1236,7 @@
 
             
 
-            <td class="description last">Offset in parent local space</td>
+            <td class="description last">Offset, in the parent's local space</td>
         </tr>
 
     
@@ -1258,7 +1269,8 @@
 
             
 
-            <td class="description last">Rotation offset in parent local space</td>
+            <td class="description last">Initial rotation offset, in the
+parent's local space</td>
         </tr>
 
     
@@ -1289,7 +1301,7 @@
 
             
 
-            <td class="description last">Clamp camera rotation left for the azimuth angle</td>
+            <td class="description last">Left camera rotation limit, in radians</td>
         </tr>
 
     
@@ -1320,7 +1332,7 @@
 
             
 
-            <td class="description last">Clamp camera rotation right for the azimuth angle</td>
+            <td class="description last">Right camera rotation limit, in radians</td>
         </tr>
 
     
@@ -1351,7 +1363,7 @@
 
             
 
-            <td class="description last">Clamp camera rotation up for the elevation angle</td>
+            <td class="description last">Upward camera rotation limit, in radians</td>
         </tr>
 
     
@@ -1382,7 +1394,7 @@
 
             
 
-            <td class="description last">Clamp camera rotation down for the elevation angle</td>
+            <td class="description last">Downward camera rotation limit, in radians</td>
         </tr>
 
     
@@ -1435,7 +1447,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_constraints.js.html">ext/constraints.js</a>, <a href="ext_constraints.js.html#line51">line 51</a>
+        <a href="ext_constraints.js.html">ext/constraints.js</a>, <a href="ext_constraints.js.html#line64">line 64</a>
     </li></ul></dd>
     
 
@@ -1472,7 +1484,10 @@
 <div class="item_description">
 
 <div class="description">
-    Append a stiff constraint.
+    Attach the object to the other object or to the armature bone using a
+stiff constraint. The child object will move, rotate and scale
+together with its parent. Examples: a sword is parented to the
+character's hand; the character is sitting in a vehicle.
 </div>
 
 
@@ -1599,7 +1614,7 @@
 
             
 
-            <td class="description last">Offset in parent local space</td>
+            <td class="description last">Offset, in the parent's local space</td>
         </tr>
 
     
@@ -1632,7 +1647,8 @@
 
             
 
-            <td class="description last">Rotation offset in parent local space</td>
+            <td class="description last">Rotation offset, in the
+parent's local space</td>
         </tr>
 
     
@@ -1665,7 +1681,7 @@
 
             
 
-            <td class="description last">Scale offset in parent local space</td>
+            <td class="description last">Scale offset, in the parent's local space</td>
         </tr>
 
     
@@ -1718,7 +1734,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_constraints.js.html">ext/constraints.js</a>, <a href="ext_constraints.js.html#line14">line 14</a>
+        <a href="ext_constraints.js.html">ext/constraints.js</a>, <a href="ext_constraints.js.html#line15">line 15</a>
     </li></ul></dd>
     
 
@@ -1748,7 +1764,16 @@
 <div class="item_description">
 
 <div class="description">
-    Append a stiff translation constraint.
+    Attach the object to the other object using a
+stiff translation constraint. The child object will move together with
+its parent, but will not rotate. It will be still possible to rotate it
+independently from the parent.
+
+Example: attaching the camera to the physics character in order to
+implement the first-person character view. Another example: the character
+jumps in water and splashes' particle emitter is attached to the
+first-person camera using this constraint - the bubbles will follow the
+character but will not be rotated with the camera.
 </div>
 
 
@@ -1846,7 +1871,7 @@
 
             
 
-            <td class="description last">Offset in target local space</td>
+            <td class="description last">Offset, in the parent's local space</td>
         </tr>
 
     
@@ -1899,7 +1924,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_constraints.js.html">ext/constraints.js</a>, <a href="ext_constraints.js.html#line94">line 94</a>
+        <a href="ext_constraints.js.html">ext/constraints.js</a>, <a href="ext_constraints.js.html#line128">line 128</a>
     </li></ul></dd>
     
 
@@ -1921,7 +1946,7 @@
 
     
 
-    <h4 class="name" id=".append_stiff_trans_rot">append_stiff_trans_rot<span class="signature">(obj, target, offset, rotation_offset)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".append_stiff_trans_rot">append_stiff_trans_rot<span class="signature">(obj, target, offset, rotation_offset<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
     
 
@@ -1929,7 +1954,13 @@
 <div class="item_description">
 
 <div class="description">
-    Append a stiff translation/rotation constraint.
+    Attach the object to the other object using a
+stiff translation/rotation constraint. The child object will move and rotate
+together with its parent, but will not scale. It will be still possible to
+scale it independently from the parent.
+
+Example: smoke emitter attached to the tractor pipe; exhaustion effects
+are achieved by scaling the emitter.
 </div>
 
 
@@ -1952,6 +1983,8 @@
 
         <th>Type</th>
 
+        
+        <th>Attributes</th>
         
 
         
@@ -1978,6 +2011,14 @@
             </td>
 
             
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
 
             
 
@@ -2000,6 +2041,14 @@
             
             </td>
 
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
             
 
             
@@ -2024,10 +2073,18 @@
             </td>
 
             
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
 
             
 
-            <td class="description last">Offset in world space</td>
+            <td class="description last">Offset, in the parent's local space</td>
         </tr>
 
     
@@ -2047,10 +2104,21 @@
             </td>
 
             
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
 
             
 
-            <td class="description last">Rotation offset in world space</td>
+            <td class="description last">Rotation offset, in
+the parent's local space</td>
         </tr>
 
     
@@ -2103,7 +2171,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_constraints.js.html">ext/constraints.js</a>, <a href="ext_constraints.js.html#line120">line 120</a>
+        <a href="ext_constraints.js.html">ext/constraints.js</a>, <a href="ext_constraints.js.html#line170">line 170</a>
     </li></ul></dd>
     
 
@@ -2330,7 +2398,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_constraints.js.html">ext/constraints.js</a>, <a href="ext_constraints.js.html#line167">line 167</a>
+        <a href="ext_constraints.js.html">ext/constraints.js</a>, <a href="ext_constraints.js.html#line238">line 238</a>
     </li></ul></dd>
     
 
@@ -2360,7 +2428,12 @@
 <div class="item_description">
 
 <div class="description">
-    Append a track constraint.
+    Make the object "looking" at the target object or the position. The object's
+facing direction is considered to be the -Y axis (-Z in Blender coordinates),
+that is vertically downwards.
+
+Example: a spot light which is tracking the character; both objects can be
+moved via API or animated.
 </div>
 
 
@@ -2438,7 +2511,7 @@
 
             
 
-            <td class="description last">Target object ID or vector</td>
+            <td class="description last">Target object ID or position vector</td>
         </tr>
 
     
@@ -2491,7 +2564,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_constraints.js.html">ext/constraints.js</a>, <a href="ext_constraints.js.html#line134">line 134</a>
+        <a href="ext_constraints.js.html">ext/constraints.js</a>, <a href="ext_constraints.js.html#line193">line 193</a>
     </li></ul></dd>
     
 
@@ -2626,7 +2699,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_constraints.js.html">ext/constraints.js</a>, <a href="ext_constraints.js.html#line193">line 193</a>
+        <a href="ext_constraints.js.html">ext/constraints.js</a>, <a href="ext_constraints.js.html#line264">line 264</a>
     </li></ul></dd>
     
 
@@ -2761,7 +2834,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_constraints.js.html">ext/constraints.js</a>, <a href="ext_constraints.js.html#line183">line 183</a>
+        <a href="ext_constraints.js.html">ext/constraints.js</a>, <a href="ext_constraints.js.html#line254">line 254</a>
     </li></ul></dd>
     
 
@@ -2792,13 +2865,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Wed Apr 29 2015 10:10:51 GMT+0300 (MSK)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Tue May 26 2015 12:05:04 GMT+0300 (MSK)
 </footer>
 
 <script> prettyPrint(); </script>

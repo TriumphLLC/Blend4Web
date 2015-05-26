@@ -202,6 +202,7 @@ exports.update_transform = update_transform;
  */
 function update_transform(obj) {
     var render = obj._render;
+    var main_scene = m_scs.get_main();
 
     // NOTE: need to update before constraints, because they rely on to this flag
     if (obj["type"] == "CAMERA")
@@ -244,7 +245,20 @@ function update_transform(obj) {
         m_bounds.bounding_ellipsoid_transform(render.be_local, render.tsr,
                                              render.be_world)
         if (render.shadow_cast)
-            m_scs.schedule_shadow_update(m_scs.get_active());
+            m_scs.schedule_shadow_update(main_scene);
+
+        if (render.cube_reflection_id != null && main_scene)
+            m_scs.update_cube_reflect_subs(main_scene, obj);
+    }
+
+    if (main_scene && main_scene._render.reflection_params) {
+        var refl_objs = main_scene._render.reflection_params.refl_plane_objs;
+        for (var i = 0; i < refl_objs.length; i++) {
+            if (refl_objs[i] == obj) {
+                m_scs.update_plane_reflection_by_id(i, main_scene);
+                break;
+            }
+        }
     }
 
     switch (obj["type"]) {
@@ -254,29 +268,19 @@ function update_transform(obj) {
     case "CAMERA":
         m_cam.update_camera_transform(obj);
         // listener only for active scene camera
-        if (m_scs.check_active() && m_scs.get_camera(m_scs.get_active()) == obj)
-            m_sfx.listener_update_transform(m_scs.get_active(), trans, quat, _elapsed);
+        if (main_scene && m_scs.get_camera(main_scene) == obj)
+            m_sfx.listener_update_transform(main_scene, trans, quat, _elapsed);
         break;
     case "LAMP":
         m_lights.update_light_transform(obj);
-        if (m_scs.check_active())
-            m_scs.update_lamp_scene(obj, m_scs.get_active());
+        if (main_scene)
+            m_scs.update_lamp_scene(obj, main_scene);
         break;
     case "EMPTY":
         if (obj["field"])
             m_scs.update_force(obj);
         break;
-    }
-
-    if (obj["type"] == "LAMP" || obj["type"] == "CAMERA") {
-        if (m_scs.check_active()) {
-            var active_scene = m_scs.get_active();
-            m_scs.schedule_shadow_update(active_scene);
-            m_scs.schedule_grass_map_update(active_scene);
-        }
-    }
-
-    if (obj["type"] == "MESH") {
+    case "MESH":
         var modifiers = obj["modifiers"];
         var armobj = null;
         for (var i = 0; i < modifiers.length; i++) {
@@ -293,6 +297,16 @@ function update_transform(obj) {
                      render.arm_rel_trans);
             m_quat.set(_tsr_tmp[4], _tsr_tmp[5], _tsr_tmp[6], _tsr_tmp[7],
                      render.arm_rel_quat);
+        }
+
+        break;
+    }
+
+    if (obj["type"] == "LAMP" || obj["type"] == "CAMERA") {
+        if (main_scene) {
+            var active_scene = main_scene;
+            m_scs.schedule_shadow_update(active_scene);
+            m_scs.schedule_grass_map_update(active_scene);
         }
     }
 

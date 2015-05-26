@@ -113,15 +113,15 @@ msgstr ""
 msgid "Включить сглаживание."
 msgstr "Enable smoothing."
 
-#: ../outdoor_rendering.rst:63
-msgid "*Blend4Web > Water Settings > Water Absorb Factor*"
-msgstr ""
-
 #: ../outdoor_rendering.rst:62
 msgid "Коэффициент поглощения света водой. Чем он выше, тем прозрачнее вода."
 msgstr ""
 "Light absorption coefficient for the water. The higher it is the more "
 "transparent isthe water. "
+
+#: ../outdoor_rendering.rst:63
+msgid "*Blend4Web > Water Settings > Water Absorb Factor*"
+msgstr ""
 
 #: ../outdoor_rendering.rst:66
 msgid "Градиент цвета"
@@ -218,10 +218,6 @@ msgstr ""
 "Oscillation frequency of the animated UV coordinates. The default value is "
 "(1.0, 1.0)."
 
-#: ../outdoor_rendering.rst:115
-msgid "*Blend4Web > UV Magnitude*"
-msgstr ""
-
 #: ../outdoor_rendering.rst:114
 msgid ""
 "Амплитуда колебаний анимированной развертки. Значение по умолчанию (1.0, "
@@ -230,17 +226,21 @@ msgstr ""
 "Oscillation amplitude of the animated UV coordinates. The default value is "
 "(1.0, 1.0)."
 
+#: ../outdoor_rendering.rst:115
+msgid "*Blend4Web > UV Magnitude*"
+msgstr ""
+
 #: ../outdoor_rendering.rst:118
 msgid "Настройка материала"
 msgstr "Setting up the Material"
 
-#: ../outdoor_rendering.rst:122
-msgid "*Blend4Web > Water Settings > Water foam factor*"
-msgstr ""
-
 #: ../outdoor_rendering.rst:121
 msgid "Фактор общего влияния пены. Значение по умолчанию 0.5."
 msgstr "General influence factor for the foam. The default value is 0.5."
+
+#: ../outdoor_rendering.rst:122
+msgid "*Blend4Web > Water Settings > Water foam factor*"
+msgstr ""
 
 #: ../outdoor_rendering.rst:125
 msgid "Каустика и хроматическая аберрация"
@@ -267,13 +267,13 @@ msgstr ""
 msgid "Фактор влияния каустики. Значение по умолчанию 1.0."
 msgstr "Caustics influence factor. The default value is 1.0."
 
-#: ../outdoor_rendering.rst:148
-msgid "*Voronoi > Noise: Size*"
-msgstr ""
-
 #: ../outdoor_rendering.rst:147
 msgid "Размер ячеек процедурной текстуры. Значение по умолчанию 0.25."
 msgstr "Cell size for the procedural texture. The default value is 0.25."
+
+#: ../outdoor_rendering.rst:148
+msgid "*Voronoi > Noise: Size*"
+msgstr ""
 
 #: ../outdoor_rendering.rst:151
 msgid "Подводная среда"
@@ -295,13 +295,13 @@ msgstr ""
 "Exponential factor which affects the density and visibility distance. The "
 "default value is 0.06."
 
-#: ../outdoor_rendering.rst:165
-msgid "*Blend4Web > Water Settings > Underwater Fog Color*"
-msgstr ""
-
 #: ../outdoor_rendering.rst:164 ../outdoor_rendering.rst:328
 msgid "Цвет тумана. Значение по умолчанию (0.5, 0.5, 0.5) (серый)."
 msgstr "Fog color. The default value is (0.5, 0.5, 0.5) (gray)."
+
+#: ../outdoor_rendering.rst:165
+msgid "*Blend4Web > Water Settings > Underwater Fog Color*"
+msgstr ""
 
 #: ../outdoor_rendering.rst:167
 msgid "Применяются также настройки :ref:`сумеречных лучей <god_rays>`."
@@ -453,13 +453,13 @@ msgstr ""
 msgid "Количество каскадов в генерируемой поверхности."
 msgstr "Number of cascades in the generated surface."
 
-#: ../outdoor_rendering.rst:248
-msgid "*Blend4Web > Water Settings > Detailed Distance*"
-msgstr ""
-
 #: ../outdoor_rendering.rst:247
 msgid "Максимальное расстояние от камеры до края последнего каскада."
 msgstr "Maximum distance from camera to the last cascades edge."
+
+#: ../outdoor_rendering.rst:248
+msgid "*Blend4Web > Water Settings > Detailed Distance*"
+msgstr ""
 
 #: ../outdoor_rendering.rst:250
 msgid "параметры берега"
@@ -627,13 +627,13 @@ msgstr ""
 msgid "Степенной коэффицент рассеяния Ми. Значение по умолчанию 0.5."
 msgstr "Mie scattering exponent. The default value is 0.5."
 
-#: ../outdoor_rendering.rst:317
-msgid "*Sky Settings > Mie Distribution*"
-msgstr ""
-
 #: ../outdoor_rendering.rst:315
 msgid "Распределение рассеяния Ми. Значение по умолчанию 0.4."
 msgstr "Mie scattering distribution. The default value is 0.4."
+
+#: ../outdoor_rendering.rst:317
+msgid "*Sky Settings > Mie Distribution*"
+msgstr ""
 
 #: ../outdoor_rendering.rst:320
 msgid "Туман"
@@ -696,10 +696,6 @@ msgstr "Stars setup is described in the :ref:`material_halo` section."
 msgid "Ветер"
 msgstr "Wind"
 
-#: ../outdoor_rendering.rst:364
-msgid "Сила и направление ветра оказывает воздействие на"
-msgstr "Wind strength and direction affect"
-
 #: ../outdoor_rendering.rst:361
 msgid ":ref:`анимацию травы и крон деревьев <wind_bending>`"
 msgstr ":ref:`grass and tree leaves animation <wind_bending>`"
@@ -716,6 +712,10 @@ msgstr ""
 ":ref:`water waves rolling frequency <water_volumetric_waves>` (at the moment"
 " only strength is taken into account)"
 
+#: ../outdoor_rendering.rst:364
+msgid "Сила и направление ветра оказывает воздействие на"
+msgstr "Wind strength and direction affect"
+
 #: ../outdoor_rendering.rst:369
 msgid "Добавить на сцену объект - силовое поле типа ``Wind``."
 msgstr "Add a force field object of the ``Wind`` type."
@@ -728,15 +728,15 @@ msgstr "*Direction*"
 msgid "Направление задается посредством вращения объекта - силового поля."
 msgstr "Direction can be set by rotating the force field object."
 
-#: ../outdoor_rendering.rst:380
-msgid "*Force Fields > Strength*"
-msgstr ""
-
 #: ../outdoor_rendering.rst:379
 msgid ""
 "Сила ветра. Располагается во вкладке ``Physics``. Значение по умолчанию 1.0."
 msgstr ""
 "Wind strength. Located under the ``Physics`` tab. The default value is 1.0."
+
+#: ../outdoor_rendering.rst:380
+msgid "*Force Fields > Strength*"
+msgstr ""
 
 #: ../outdoor_rendering.rst:385
 msgid "Анимация травы и крон деревьев"

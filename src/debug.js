@@ -107,7 +107,7 @@ exports.check_bound_fb = function() {
 
 /**
  * Check for issue with incomplete depth-only framebuffer.
- * found on some Intel and AMD cards
+ * found on some old GPUs. (Found on Intel, AMD and NVIDIA)
  */
 exports.check_depth_only_issue = function() {
     // use cache result

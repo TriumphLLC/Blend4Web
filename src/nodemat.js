@@ -28,7 +28,7 @@ var _vec4_tmp = new Float32Array(4);
 var cfg_def = m_config.defaults;
 
 exports.compose_nmat_graph = compose_nmat_graph;
-function compose_nmat_graph(node_tree, graph_id, is_node_group, mat_name) {
+function compose_nmat_graph(node_tree, graph_id, is_node_group, mat_name, is_glow_output) {
 
     if (graph_id in _composed_node_graphs)
         return _composed_node_graphs[graph_id];
@@ -46,7 +46,7 @@ function compose_nmat_graph(node_tree, graph_id, is_node_group, mat_name) {
             return null;
         }
     }
-
+    
     if (is_node_group)
         if (find_node_id(node_tree, graph, "GROUP_OUTPUT", "group") == -1)
             return null;
@@ -85,7 +85,11 @@ function compose_nmat_graph(node_tree, graph_id, is_node_group, mat_name) {
 
     complete_edges(graph);
 
-    var output_id = find_node_id(node_tree, graph, "OUTPUT", "material");
+    if (is_glow_output) {
+        var output_id = find_node_id(node_tree, graph, "B4W_GLOW_OUTPUT", "material", true);
+    } else {
+        var output_id = find_node_id(node_tree, graph, "OUTPUT", "material");
+    }
     if (output_id == -1) {
         _composed_node_graphs[graph_id] = null;
         return null;
@@ -98,6 +102,8 @@ function compose_nmat_graph(node_tree, graph_id, is_node_group, mat_name) {
 
     merge_nodes(graph_out);
     optimize_geometry_vcol(graph_out);
+
+    fix_socket_types(graph_out, anim_data, mat_name);
 
     _composed_node_graphs[graph_id] = graph_out;
     return graph_out;
@@ -131,6 +137,50 @@ function fix_socket_property(graph, connection, id, num, check_in_edge) {
 
         if (clear_linked)
             connection.is_linked = false;
+    }
+}
+
+function fix_socket_types(graph, anim_data, mat_name) {
+    var edge_data = [];
+    m_graph.traverse_edges(graph, function(in_edge, out_edge, sockets) {
+        var in_node = m_graph.get_node_attr(graph, in_edge);
+        var out_node = m_graph.get_node_attr(graph, out_edge);
+
+        var is_output_vec = m_util.is_vector(in_node.outputs[sockets[0]].default_value);
+        var is_input_vec = m_util.is_vector(out_node.inputs[sockets[1]].default_value);
+        if (is_output_vec != is_input_vec) {    
+            var trans_node;
+
+            var vector = {
+                "default_value": [0, 0, 0],
+                "identifier": "Vector",
+                "is_linked": true,
+                "name": "Vector"
+            };
+
+            var value = {
+                "default_value": 0,
+                "identifier": "Value",
+                "is_linked": true,
+                "name": "Value"
+            }
+
+            if (is_output_vec && !is_input_vec)
+                trans_node = init_bpy_node("vector_to_scalar", "B4W_VECTOSCAL", 
+                        [vector], [value]);
+            else if (!is_output_vec && is_input_vec)
+                trans_node = init_bpy_node("scalar_to_vector", "B4W_SCALTOVEC", 
+                        [value], [vector]);
+            
+            append_nmat_node(graph, trans_node, 0, anim_data, mat_name);
+            edge_data.push([in_edge, out_edge, graph.nodes[graph.nodes.length - 2], sockets])
+        }
+    });
+
+    for (var i = 0; i < edge_data.length; ++i) {
+        m_graph.remove_edge(graph, edge_data[i][0], edge_data[i][1], -1);
+        m_graph.append_edge(graph, edge_data[i][0], edge_data[i][2], [edge_data[i][3][0], 0]);
+        m_graph.append_edge(graph, edge_data[i][2], edge_data[i][1], [0, edge_data[i][3][1]]);
     }
 }
 
@@ -627,7 +677,7 @@ function optimize_geometry_vcol(graph) {
     }
 }
 
-function find_node_id(node_tree, graph, type, source_type) {
+function find_node_id(node_tree, graph, type, source_type, is_group_node) {
     var bpy_nodes = node_tree["nodes"];
 
     // find last OUTPUT
@@ -637,8 +687,13 @@ function find_node_id(node_tree, graph, type, source_type) {
     for (var i = 0; i < bpy_nodes.length; i++) {
         var bpy_node = bpy_nodes[i];
 
-        if (bpy_node["type"] == type)
-            last_output_node = bpy_node;
+        if (is_group_node) {
+            if (bpy_node["type"] == "GROUP" && bpy_node["node_tree_name"] == type)
+                last_output_node = bpy_node;
+        } else {
+            if (bpy_node["type"] == type)
+                last_output_node = bpy_node;
+        }
     }
 
     if (!last_output_node) {
@@ -674,8 +729,6 @@ function append_nmat_node(graph, bpy_node, geometry_output_num, anim_data,
                           mat_name) {
     var name = bpy_node["name"];
     var type = bpy_node["type"];
-    var bpy_inputs = bpy_node["inputs"];
-    var bpy_outputs = bpy_node["outputs"];
 
     var vparams = [];
     var inputs = [];
@@ -841,6 +894,9 @@ function append_nmat_node(graph, bpy_node, geometry_output_num, anim_data,
                 break;
             }
             type = "B4W_SMOOTHSTEP";
+            break;
+        case "B4W_GLOW_OUTPUT":
+            type = "B4W_GLOW_OUTPUT";
             break;
         default:
             data = process_node_group(bpy_node, mat_name);
@@ -2043,6 +2099,16 @@ function change_node_groups_links(node, links, graph) {
         });
         change_default_values(links, graph, output_node, unused_output_links);
     }
+}
+
+exports.check_material_glow_output = function(mat) {
+    if (mat["node_tree"])
+        for (var i = 0; i < mat["node_tree"]["nodes"].length; i++) {
+            var node = mat["node_tree"]["nodes"][i]
+            if (node.type == "GROUP" && node["node_tree_name"] == "B4W_GLOW_OUTPUT")
+                return true;
+        }
+    return false;
 }
 
 exports.cleanup = cleanup;

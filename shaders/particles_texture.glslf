@@ -95,8 +95,11 @@ void main(void) {
 
     vec3 normal = vec3(0.0, 1.0, 0.0);
 
-    float sky_factor = 0.5;
-    vec3 environment_color = u_environment_energy * get_environment_color(sky_factor, normal);
+#if USE_ENVIRONMENT_LIGHT && !SKY_TEXTURE && SKY_COLOR
+    vec3 environment_color = u_environment_energy * get_environment_color(vec3(0.0));
+#else
+    vec3 environment_color = u_environment_energy * get_environment_color(normal);
+#endif
 
     vec3 A = u_ambient * environment_color;
 

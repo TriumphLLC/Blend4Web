@@ -14,6 +14,7 @@ var animation  = require("__animation");
 var m_compat   = require("__compat");
 var m_cfg      = require("__config");
 var m_print    = require("__print");
+var m_cont     = require("__container");
 var controls   = require("__controls");
 var m_data     = require("__data");
 var m_debug    = require("__debug");
@@ -84,7 +85,6 @@ var _requestAnimFrame = (function() {
  * @returns {Object|Null} WebGL context or null
  */
 exports.init = function(elem_canvas_webgl, elem_canvas_hud) {
-
     m_cfg.set_paths();
 
     // NOTE: for debug purposes
@@ -115,6 +115,9 @@ exports.init = function(elem_canvas_webgl, elem_canvas_hud) {
     init_context(_elem_canvas_webgl, gl);
     m_cfg.apply_quality();
     m_compat.set_hardware_defaults(gl);
+    
+    if (cfg_def.ie11_touchscreen_hack)
+        elem_canvas_webgl.style["touch-action"] = "none";
 
     m_print.log("%cSET PRECISION:", "color: #00a", cfg_def.precision);
 
@@ -127,7 +130,7 @@ exports.init = function(elem_canvas_webgl, elem_canvas_hud) {
         m_cfg.sfx.mix_mode = false;
     }
 
-    m_anchors.init(elem_canvas_webgl);
+    m_cont.init(elem_canvas_webgl);
 
     return gl;
 }
@@ -199,7 +202,7 @@ function init_context(canvas, gl) {
     textures.setup_context(gl);
     shaders.setup_context(gl);
     m_debug.setup_context(gl);
-    m_data.setup_context(gl);
+    m_data.setup_canvas(gl.canvas);
 
     scenes.setup_dim(canvas.width, canvas.height, 1,
                      calc_canvas_offset("x"), calc_canvas_offset("y"));
@@ -297,7 +300,7 @@ exports.resize = function(width, height, update_canvas_css) {
     if (cw > _gl.drawingBufferWidth || ch > _gl.drawingBufferHeight) {
         m_print.warn("Canvas size exceeds platform limits, downscaling");
 
-        var downscale = Math.min(_gl.drawingBufferWidth/cw, 
+        var downscale = Math.min(_gl.drawingBufferWidth/cw,
                 _gl.drawingBufferHeight/ch);
 
         cw *= downscale;
@@ -389,6 +392,7 @@ function clear_render_callback() {
  * Return the engine's global timeline value
  * @method module:main.global_timeline
  * @returns {Number} Floating-point number of seconds elapsed since the engine start-up
+ * @deprecated Use time.get_timeline() instead
  */
 exports.global_timeline = function() {
     return m_time.get_timeline();
@@ -600,6 +604,7 @@ exports.canvas_data_url = function(callback) {
  * Return the main canvas element.
  * @method module:main.get_canvas_elem
  * @returns {HTMLCanvasElement} Canvas element
+ * @deprecated Use container.get_canvas() instead
  */
 exports.get_canvas_elem = function() {
     return _elem_canvas_webgl;
@@ -633,5 +638,3 @@ exports.remove_loop_cb = function(callback) {
 }
 
 }
-
-

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Team Work. Using Git &mdash; User Manual: Blend4Web v15.04</title>
+    <title>Team Work. Using Git &mdash; User Manual: Blend4Web v15.05</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '15.04',
+        VERSION:     '15.05',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,19 +25,19 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User Manual: Blend4Web v15.04" href="index.html" />
+    <link rel="top" title="User Manual: Blend4Web v15.05" href="index.html" />
     <link rel="next" title="Problems and Solutions" href="problems_and_solutions.html" />
     <link rel="prev" title="For Engine Developers" href="developers_advanced.html" /> 
   </head>
-  <body>
-    <div class="header-wrapper">
+  <body role="document">
+    <div class="header-wrapper" role="banner">
       <div class="header">
           <p class="logo"><a href="index.html">
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">User Manual: Blend4Web v15.04</a></div>
-        <div class="rel">
+          href="index.html">User Manual: Blend4Web v15.05</a></div>
+        <div class="rel" role="navigation" aria-label="related navigation">
           <a href="developers_advanced.html" title="For Engine Developers"
              accesskey="P">previous</a> |
           <a href="problems_and_solutions.html" title="Problems and Solutions"
@@ -54,7 +54,7 @@
             
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="git">
 <span id="git-short-manual"></span><span id="index-0"></span><h1>Team Work. Using Git<a class="headerlink" href="#git" title="Permalink to this headline">¶</a></h1>
@@ -70,7 +70,7 @@
 </li>
 </ul>
 <p>Git is a distributed system and every developer or designer has his own local repository (storage). Syncing between the local repositories can be performed via the central (&#8220;shared&#8221;) storage, which can be located on a dedicated machine (server). Access to the server can be organized through SSH protocol.</p>
-<p>Although there are many GUIs for Git beginners, here the work with the <tt class="docutils literal"><span class="pre">git</span></tt> standard console utility is explained.</p>
+<p>Although there are many GUIs for Git beginners, here the work with the <code class="docutils literal"><span class="pre">git</span></code> standard console utility is explained.</p>
 </div>
 <div class="section" id="git-pipeline">
 <span id="id2"></span><h2>Typical Workflow<a class="headerlink" href="#git-pipeline" title="Permalink to this headline">¶</a></h2>
@@ -108,14 +108,14 @@
 <div class="highlight-none"><div class="highlight"><pre>&gt; git status
 </pre></div>
 </div>
-<p>The result of the <tt class="docutils literal"><span class="pre">git</span> <span class="pre">status</span></tt> command if all the commits were performed and there are no new files:</p>
+<p>The result of the <code class="docutils literal"><span class="pre">git</span> <span class="pre">status</span></code> command if all the commits were performed and there are no new files:</p>
 <div class="highlight-none"><div class="highlight"><pre># On branch master
 # Your branch is ahead of &#39;origin/master&#39; by 2 commits.
 #
 nothing to commit (working directory clean)
 </pre></div>
 </div>
-<p>Possible result of <tt class="docutils literal"><span class="pre">git</span> <span class="pre">status</span></tt> if there are changes. For example the <tt class="file docutils literal"><span class="pre">apps_dev/firstperson/firstperson.js</span></tt> and <tt class="file docutils literal"><span class="pre">doc_src/git_short_manual.rst</span></tt> files are changed and a new file <tt class="file docutils literal"><span class="pre">123.txt</span></tt> is created:</p>
+<p>Possible result of <code class="docutils literal"><span class="pre">git</span> <span class="pre">status</span></code> if there are changes. For example the <code class="file docutils literal"><span class="pre">apps_dev/firstperson/firstperson.js</span></code> and <code class="file docutils literal"><span class="pre">doc_src/git_short_manual.rst</span></code> files are changed and a new file <code class="file docutils literal"><span class="pre">123.txt</span></code> is created:</p>
 <div class="highlight-none"><div class="highlight"><pre># On branch master
 # Changes not staged for commit:
 #   (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)
@@ -145,7 +145,7 @@ no changes added to commit (use &quot;git add&quot; and/or &quot;git commit -a&q
 <div class="highlight-none"><div class="highlight"><pre>&gt; git diff apps_dev/firstperson/firstperson.js
 </pre></div>
 </div>
-<p>A possible result of the <tt class="docutils literal"><span class="pre">git</span> <span class="pre">diff</span></tt> command for a text file:</p>
+<p>A possible result of the <code class="docutils literal"><span class="pre">git</span> <span class="pre">diff</span></code> command for a text file:</p>
 <div class="highlight-none"><div class="highlight"><pre>diff --git a/apps_dev/firstperson/firstperson.js b/apps_dev/firstperson/firstperson.js
 index 4381c99..44b3b15 100644
 --- a/apps_dev/firstperson/firstperson.js
@@ -173,7 +173,7 @@ index 4381c99..44b3b15 100644
 </div>
 <div class="section" id="id8">
 <h3>Unwanted files<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
-<p>If a file is listed in the <tt class="docutils literal"><span class="pre">Untracked</span> <span class="pre">files</span></tt> (<tt class="docutils literal"><span class="pre">git</span> <span class="pre">status</span></tt>), but version control is not needed for it, it should be deleted or moved beyond the working directory.</p>
+<p>If a file is listed in the <code class="docutils literal"><span class="pre">Untracked</span> <span class="pre">files</span></code> (<code class="docutils literal"><span class="pre">git</span> <span class="pre">status</span></code>), but version control is not needed for it, it should be deleted or moved beyond the working directory.</p>
 </div>
 </div>
 <div class="section" id="git-example-add-rm-commit">
@@ -189,7 +189,7 @@ index 4381c99..44b3b15 100644
 <div class="highlight-none"><div class="highlight"><pre>&gt; git status
 </pre></div>
 </div>
-<p>Possible result of the <tt class="docutils literal"><span class="pre">git</span> <span class="pre">status</span></tt> command after adding some files with the <tt class="docutils literal"><span class="pre">git</span> <span class="pre">add</span></tt> command:</p>
+<p>Possible result of the <code class="docutils literal"><span class="pre">git</span> <span class="pre">status</span></code> command after adding some files with the <code class="docutils literal"><span class="pre">git</span> <span class="pre">add</span></code> command:</p>
 <div class="highlight-none"><div class="highlight"><pre># On branch master
 # Changes to be committed:
 #   (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
@@ -205,11 +205,11 @@ index 4381c99..44b3b15 100644
 #
 </pre></div>
 </div>
-<p>You can see that the <tt class="file docutils literal"><span class="pre">apps_dev/firstperson/firstperson.js</span></tt> and <tt class="file docutils literal"><span class="pre">123.txt</span></tt> files were added for commit and the <tt class="file docutils literal"><span class="pre">doc_src/git_short_manual.rst</span></tt> file was not added. To make things easier it is recommended to either add such files for commit or cancel their changes with the <tt class="docutils literal"><span class="pre">git</span> <span class="pre">checkout</span></tt> command.</p>
+<p>You can see that the <code class="file docutils literal"><span class="pre">apps_dev/firstperson/firstperson.js</span></code> and <code class="file docutils literal"><span class="pre">123.txt</span></code> files were added for commit and the <code class="file docutils literal"><span class="pre">doc_src/git_short_manual.rst</span></code> file was not added. To make things easier it is recommended to either add such files for commit or cancel their changes with the <code class="docutils literal"><span class="pre">git</span> <span class="pre">checkout</span></code> command.</p>
 </div>
 <div class="section" id="id11">
 <h3>Removing files<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
-<p>Some files can be marked as deleted from Git after performing the <tt class="docutils literal"><span class="pre">git</span> <span class="pre">status</span></tt> command, for example:</p>
+<p>Some files can be marked as deleted from Git after performing the <code class="docutils literal"><span class="pre">git</span> <span class="pre">status</span></code> command, for example:</p>
 <div class="highlight-none"><div class="highlight"><pre># On branch master
 # Your branch is ahead of &#39;origin/master&#39; by 2 commits.
 #
@@ -222,11 +222,11 @@ index 4381c99..44b3b15 100644
 no changes added to commit (use &quot;git add&quot; and/or &quot;git commit -a&quot;)
 </pre></div>
 </div>
-<p>In this case if deleting the file should be recorded (i.e. enter the commit), perform the <tt class="docutils literal"><span class="pre">git</span> <span class="pre">rm</span></tt> command, for example:</p>
+<p>In this case if deleting the file should be recorded (i.e. enter the commit), perform the <code class="docutils literal"><span class="pre">git</span> <span class="pre">rm</span></code> command, for example:</p>
 <div class="highlight-none"><div class="highlight"><pre>&gt; git rm 123.txt
 </pre></div>
 </div>
-<p>If the file was deleted by accident and its necessary to recover it, use the <tt class="docutils literal"><span class="pre">git</span> <span class="pre">checkout</span></tt> command.</p>
+<p>If the file was deleted by accident and its necessary to recover it, use the <code class="docutils literal"><span class="pre">git</span> <span class="pre">checkout</span></code> command.</p>
 </div>
 </div>
 <div class="section" id="git-commit">
@@ -260,7 +260,7 @@ My commit message
 </pre></div>
 </div>
 <p>Save the changes and quit the editor (in <strong>nano</strong> Ctrl+O, then Ctrl+X; in <strong>vim</strong> ZZ, or ESC :wq).</p>
-<p>After commit it&#8217;s recommended to recheck the status. Commit is performed correctly if the <tt class="docutils literal"><span class="pre">git</span> <span class="pre">status</span></tt> command returns <tt class="docutils literal"><span class="pre">nothing</span> <span class="pre">to</span> <span class="pre">commit,</span> <span class="pre">working</span> <span class="pre">directory</span> <span class="pre">clean</span></tt>.</p>
+<p>After commit it&#8217;s recommended to recheck the status. Commit is performed correctly if the <code class="docutils literal"><span class="pre">git</span> <span class="pre">status</span></code> command returns <code class="docutils literal"><span class="pre">nothing</span> <span class="pre">to</span> <span class="pre">commit,</span> <span class="pre">working</span> <span class="pre">directory</span> <span class="pre">clean</span></code>.</p>
 </div>
 <div class="section" id="git-example-repo-sync">
 <span id="index-6"></span><span id="id13"></span><h2>Syncing Between Repositories<a class="headerlink" href="#git-example-repo-sync" title="Permalink to this headline">¶</a></h2>
@@ -270,11 +270,11 @@ My commit message
 <div class="highlight-none"><div class="highlight"><pre>&gt; git pull
 </pre></div>
 </div>
-<p>Result of the <tt class="docutils literal"><span class="pre">git</span> <span class="pre">pull</span></tt> command if there are no changes in the remote repository:</p>
+<p>Result of the <code class="docutils literal"><span class="pre">git</span> <span class="pre">pull</span></code> command if there are no changes in the remote repository:</p>
 <div class="highlight-none"><div class="highlight"><pre>Already up-to-date.
 </pre></div>
 </div>
-<p>Result of the <tt class="docutils literal"><span class="pre">git</span> <span class="pre">pull</span></tt> command if the remote repository contains changes and syncing was successful:</p>
+<p>Result of the <code class="docutils literal"><span class="pre">git</span> <span class="pre">pull</span></code> command if the remote repository contains changes and syncing was successful:</p>
 <div class="highlight-none"><div class="highlight"><pre>remote: Counting objects: 151, done.
 remote: Compressing objects: 100% (101/101), done.
 remote: Total 102 (delta 74), reused 0 (delta 0)
@@ -298,12 +298,12 @@ Fast-forward
 <div class="highlight-none"><div class="highlight"><pre>&gt; git diff dbf3877..9f9700c
 </pre></div>
 </div>
-<p>The parameter of this command - in this case dbf3877..9f9700c - shows between which commits exactly the changes were made. This parameter can be conveniently selected in the console in the <tt class="docutils literal"><span class="pre">git</span> <span class="pre">pull</span></tt> results and pasted with a mouse click (middle button) where you need.</p>
+<p>The parameter of this command - in this case dbf3877..9f9700c - shows between which commits exactly the changes were made. This parameter can be conveniently selected in the console in the <code class="docutils literal"><span class="pre">git</span> <span class="pre">pull</span></code> results and pasted with a mouse click (middle button) where you need.</p>
 <p>You can also view the changelog:</p>
 <div class="highlight-none"><div class="highlight"><pre>&gt; git log
 </pre></div>
 </div>
-<p>The <tt class="docutils literal"><span class="pre">git</span> <span class="pre">pull</span></tt> command does not always lead to a successful synchronization. The result of <tt class="docutils literal"><span class="pre">git</span> <span class="pre">pull</span></tt> when there are conflicts:</p>
+<p>The <code class="docutils literal"><span class="pre">git</span> <span class="pre">pull</span></code> command does not always lead to a successful synchronization. The result of <code class="docutils literal"><span class="pre">git</span> <span class="pre">pull</span></code> when there are conflicts:</p>
 <div class="highlight-none"><div class="highlight"><pre>remote: Counting objects: 11, done.
 remote: Compressing objects: 100% (6/6), done.
 remote: Total 6 (delta 5), reused 0 (delta 0)
@@ -325,11 +325,11 @@ Automatic merge failed; fix conflicts and then commit the result.
 <div class="highlight-none"><div class="highlight"><pre>&gt; git push
 </pre></div>
 </div>
-<p>The result of the <tt class="docutils literal"><span class="pre">git</span> <span class="pre">push</span></tt> command if the remote repository already contains all the local changes:</p>
+<p>The result of the <code class="docutils literal"><span class="pre">git</span> <span class="pre">push</span></code> command if the remote repository already contains all the local changes:</p>
 <div class="highlight-none"><div class="highlight"><pre>Everything up-to-date
 </pre></div>
 </div>
-<p>The result of the <tt class="docutils literal"><span class="pre">git</span> <span class="pre">push</span></tt> command if synchronization was successful:</p>
+<p>The result of the <code class="docutils literal"><span class="pre">git</span> <span class="pre">push</span></code> command if synchronization was successful:</p>
 <div class="highlight-none"><div class="highlight"><pre>Counting objects: 25, done.
 Delta compression using up to 8 threads.
 Compressing objects: 100% (14/14), done.
@@ -339,7 +339,7 @@ To gfxteam@lixer:blend4web.git
    9f9700c..fa1d6ac  master -&gt; master
 </pre></div>
 </div>
-<p>The result of the <tt class="docutils literal"><span class="pre">git</span> <span class="pre">push</span></tt> command if synchronization was not successful because the <tt class="docutils literal"><span class="pre">git</span> <span class="pre">pull</span></tt> command was not executed first:</p>
+<p>The result of the <code class="docutils literal"><span class="pre">git</span> <span class="pre">push</span></code> command if synchronization was not successful because the <code class="docutils literal"><span class="pre">git</span> <span class="pre">pull</span></code> command was not executed first:</p>
 <div class="highlight-none"><div class="highlight"><pre>To gfxteam@lixer:blend4web.git
  ! [rejected]        master -&gt; master (non-fast-forward)
 error: failed to push some refs to &#39;gfxteam@lixer:blend4web.git&#39;
@@ -348,8 +348,8 @@ Merge the remote changes (e.g. &#39;git pull&#39;) before pushing again.  See th
 &#39;Note about fast-forwards&#39; section of &#39;git push --help&#39; for details.
 </pre></div>
 </div>
-<p>You should execute the <tt class="docutils literal"><span class="pre">git</span> <span class="pre">pull</span></tt> command.</p>
-<p>The changes uploaded into the central repository can be received by other developers with the <tt class="docutils literal"><span class="pre">git</span> <span class="pre">pull</span></tt> command.</p>
+<p>You should execute the <code class="docutils literal"><span class="pre">git</span> <span class="pre">pull</span></code> command.</p>
+<p>The changes uploaded into the central repository can be received by other developers with the <code class="docutils literal"><span class="pre">git</span> <span class="pre">pull</span></code> command.</p>
 </div>
 </div>
 <div class="section" id="index-7">
@@ -377,7 +377,7 @@ Merge the remote changes (e.g. &#39;git pull&#39;) before pushing again.  See th
 <div class="section" id="id18">
 <h3>The steps to be taken<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h3>
 <p>It&#8217;s not recommended to perform any files operations (modifying, deleting) while the repository is in a conflict state.</p>
-<p>The first thing to do is to perform the <tt class="docutils literal"><span class="pre">git</span> <span class="pre">status</span></tt> command.</p>
+<p>The first thing to do is to perform the <code class="docutils literal"><span class="pre">git</span> <span class="pre">status</span></code> command.</p>
 <div class="highlight-none"><div class="highlight"><pre># On branch master
 # Your branch and &#39;origin/master&#39; have diverged,
 # and have 7 and 1 different commit each, respectively.
@@ -390,13 +390,13 @@ Merge the remote changes (e.g. &#39;git pull&#39;) before pushing again.  See th
 no changes added to commit (use &quot;git add&quot; and/or &quot;git commit -a&quot;)
 </pre></div>
 </div>
-<p>A list of conflicting files can be found in the <tt class="docutils literal"><span class="pre">Unmerged</span> <span class="pre">paths</span></tt> section.</p>
+<p>A list of conflicting files can be found in the <code class="docutils literal"><span class="pre">Unmerged</span> <span class="pre">paths</span></code> section.</p>
 <p>The order of the following steps is different for binary and text files.</p>
 </div>
 <div class="section" id="id19">
 <h3>Binary files<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h3>
 <p>At this stage the conflicting binary files are in the same state as they were in the local repository before the synchronization attempt. The files are fully functional (for example they can be opened by graphics editors).</p>
-<p>In case of conflicting binary files it&#8217;s necessary to sort out (with the team mates or by yourself) which of the files should be left and which should be discarded. Selecting can be performed with the <tt class="docutils literal"><span class="pre">git</span> <span class="pre">checkout</span></tt> command.</p>
+<p>In case of conflicting binary files it&#8217;s necessary to sort out (with the team mates or by yourself) which of the files should be left and which should be discarded. Selecting can be performed with the <code class="docutils literal"><span class="pre">git</span> <span class="pre">checkout</span></code> command.</p>
 <p>Select the local version of the file (<strong>- -ours</strong>). To make sure that it&#8217;s local you can open it.</p>
 <div class="highlight-none"><div class="highlight"><pre>&gt; git checkout --ours blender/landscape_objects/Fallen_tree.blend
 </pre></div>
@@ -414,7 +414,7 @@ no changes added to commit (use &quot;git add&quot; and/or &quot;git commit -a&q
 <div class="section" id="id20">
 <h3>Text files<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h3>
 <p>At this stage Git introduces both local and remote changes to the conflicting text files, in a special format. Such text files are not workable as a rule.</p>
-<p>Example. One developer changed the scene name from &#8220;Blue Lizard&#8221; to &#8220;Green Lizard&#8221; in the application file and uploaded the changes into the central repository. Another developer changed &#8220;Blue Lizard&#8221; to &#8220;Red Lizard&#8221; in the same line, performed commit and executed the <tt class="docutils literal"><span class="pre">git</span> <span class="pre">pull</span></tt> command. As a result this very developer will be responsible for resolving the conflict. The following lines will be present in his version of the application file:</p>
+<p>Example. One developer changed the scene name from &#8220;Blue Lizard&#8221; to &#8220;Green Lizard&#8221; in the application file and uploaded the changes into the central repository. Another developer changed &#8220;Blue Lizard&#8221; to &#8220;Red Lizard&#8221; in the same line, performed commit and executed the <code class="docutils literal"><span class="pre">git</span> <span class="pre">pull</span></code> command. As a result this very developer will be responsible for resolving the conflict. The following lines will be present in his version of the application file:</p>
 <div class="highlight-none"><div class="highlight"><pre>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
                 &quot;name&quot;: &quot;Red Lizard&quot;,
 =======
@@ -431,7 +431,7 @@ no changes added to commit (use &quot;git add&quot; and/or &quot;git commit -a&q
 &gt; git status
 </pre></div>
 </div>
-<p>Possible result of <tt class="docutils literal"><span class="pre">git</span> <span class="pre">status</span></tt> command after adding the conflicting files for commit:</p>
+<p>Possible result of <code class="docutils literal"><span class="pre">git</span> <span class="pre">status</span></code> command after adding the conflicting files for commit:</p>
 <div class="highlight-none"><div class="highlight"><pre># On branch master
 # Your branch and &#39;origin/master&#39; have diverged,
 # and have 7 and 1 different commit each, respectively.
@@ -450,7 +450,7 @@ nothing to commit (working directory clean)
 nothing to commit (working directory clean)
 </pre></div>
 </div>
-<p>Conflicts are resolved, the changes from the remote repository are successfully applied in the local repository. Now the changes in the local repository - including the just resolved conflict - can be uploaded to the remote repository with the <tt class="docutils literal"><span class="pre">git</span> <span class="pre">push</span></tt> command.</p>
+<p>Conflicts are resolved, the changes from the remote repository are successfully applied in the local repository. Now the changes in the local repository - including the just resolved conflict - can be uploaded to the remote repository with the <code class="docutils literal"><span class="pre">git</span> <span class="pre">push</span></code> command.</p>
 </div>
 </div>
 <div class="section" id="git-tags">
@@ -545,16 +545,18 @@ nothing to commit (working directory clean)
 <li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
 </ul>
 
-          <h3 style="margin-top: 1.5em;">Search</h3>
-          <form class="search" action="search.html" method="get">
-            <input type="text" name="q" />
-            <input type="submit" value="Go" />
-            <input type="hidden" name="check_keywords" value="yes" />
-            <input type="hidden" name="area" value="default" />
-          </form>
-          <p class="searchtip" style="font-size: 90%">
-            Enter search terms or a module, class or function name.
-          </p>
+          <div role="search">
+            <h3 style="margin-top: 1.5em;">Search</h3>
+            <form class="search" action="search.html" method="get">
+                <input type="text" name="q" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+            </form>
+            <p class="searchtip" style="font-size: 90%">
+                Enter search terms or a module, class or function name.
+            </p>
+          </div>
         </div>
         <div class="clearer"></div>
       </div>
@@ -563,20 +565,24 @@ nothing to commit (working directory clean)
     <div class="footer-wrapper">
       <div class="footer">
         <div class="left">
-          <a href="developers_advanced.html" title="For Engine Developers"
-             >previous</a> |
-          <a href="problems_and_solutions.html" title="Problems and Solutions"
-             >next</a> |
-          <a href="genindex.html" title="General Index"
-             >index</a>
+          <div role="navigation" aria-label="related navigaton">
+            <a href="developers_advanced.html" title="For Engine Developers"
+              >previous</a> |
+            <a href="problems_and_solutions.html" title="Problems and Solutions"
+              >next</a> |
+            <a href="genindex.html" title="General Index"
+              >index</a>
+          </div>
+          <div role="note" aria-label="source link">
+          </div>
         </div>
 
         <div class="right">
           
-    <div class="footer">
+    <div class="footer" role="contentinfo">
         &copy; Copyright 2015, Triumph LLC.
-      Last updated on 2015-04-29.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+      Last updated on 2015-05-26.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
         </div>
         <div class="clearer"></div>

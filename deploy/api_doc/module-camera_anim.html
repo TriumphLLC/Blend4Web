@@ -39,7 +39,7 @@
     
         
             <div class="description">Camera animation add-on.
-Provides support for camera procedural animation.</div>
+Implements procedural animation for the camera.</div>
         
 
         
@@ -138,7 +138,7 @@ Provides support for camera procedural animation.</div>
         <ul>
         
             
-<li> <a href="#.auto_rotate">auto_rotate<span class="signature">(auto_rotate_ratio, Optional)</span><span class="type-signature"></span></a></li>
+<li> <a href="#.auto_rotate">auto_rotate<span class="signature">(auto_rotate_ratio, callback<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></a></li>
 
         
             
@@ -150,7 +150,7 @@ Provides support for camera procedural animation.</div>
 
         
             
-<li> <a href="#.track_to_target">track_to_target<span class="signature">(camobj, target, rot_speed, zoom_mult, zoom_time, zoom_delay, zoom_cb<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></a></li>
+<li> <a href="#.track_to_target">track_to_target<span class="signature">(cam_obj, target, rot_speed, zoom_mult, zoom_time, zoom_delay, callback<span class="signature-attributes">opt</span>, zoom_cb<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></a></li>
 
         
         </ul>
@@ -161,11 +161,15 @@ Provides support for camera procedural animation.</div>
         <ul>
         
                 
-<li> <a href="#~mouse_event_callback">mouse_event_callback<span class="signature">()</span><span class="type-signature"></span></a></li>
+<li> <a href="#~auto_rotate_disabled_cb">auto_rotate_disabled_cb<span class="signature">()</span><span class="type-signature"></span></a></li>
 
             
                 
-<li> <a href="#~zoom_callback">zoom_callback<span class="signature">()</span><span class="type-signature"></span></a></li>
+<li> <a href="#~track_to_target_cb">track_to_target_cb<span class="signature">()</span><span class="type-signature"></span></a></li>
+
+            
+                
+<li> <a href="#~track_to_target_zoom_cb">track_to_target_zoom_cb<span class="signature">()</span><span class="type-signature"></span></a></li>
 
             
         </ul>
@@ -182,7 +186,7 @@ Provides support for camera procedural animation.</div>
 
     
 
-    <h4 class="name" id=".auto_rotate">auto_rotate<span class="signature">(auto_rotate_ratio, Optional)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".auto_rotate">auto_rotate<span class="signature">(auto_rotate_ratio, callback<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
     
 
@@ -190,8 +194,10 @@ Provides support for camera procedural animation.</div>
 <div class="item_description">
 
 <div class="description">
-    Auto-rotate the MS_TARGET and MS_HOVER camera around the pivot point and
-auto-rotate the MS_EYE camera about itself.
+    Switch auto-rotating of the TARGET or HOVER camera around its pivot, or
+auto-rotating of the EYE camera around itself.
+When it is called for the first time, auto-rotating is enabled
+while the next call will disable auto-rotating.
 </div>
 
 
@@ -214,6 +220,8 @@ auto-rotate the MS_EYE camera about itself.
 
         <th>Type</th>
 
+        
+        <th>Attributes</th>
         
 
         
@@ -240,33 +248,51 @@ auto-rotate the MS_EYE camera about itself.
             </td>
 
             
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
 
             
 
-            <td class="description last">Speed ratio of the camera</td>
+            <td class="description last">Multiplier for the rotation speed</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>Optional</code></td>
+                <td class="name"><code>callback</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type"><a href="module-camera_anim.html#~mouse_event_callback">mouse_event_callback</a></span>
+<span class="param-type"><a href="module-camera_anim.html#~auto_rotate_disabled_cb">auto_rotate_disabled_cb</a></span>
 
 
             
             </td>
 
             
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
 
             
 
-            <td class="description last">callback</td>
+            <td class="description last">Callback to be executed when auto-rotating is disabled</td>
         </tr>
 
     
@@ -319,7 +345,7 @@ auto-rotate the MS_EYE camera about itself.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_camera_anim.js.html">addons/camera_anim.js</a>, <a href="addons_camera_anim.js.html#line275">line 275</a>
+        <a href="addons_camera_anim.js.html">addons/camera_anim.js</a>, <a href="addons_camera_anim.js.html#line296">line 296</a>
     </li></ul></dd>
     
 
@@ -349,7 +375,8 @@ auto-rotate the MS_EYE camera about itself.
 <div class="item_description">
 
 <div class="description">
-    Check if the camera can autorotate
+    Check if auto-rotation is possible for the camera.
+For example, the STATIC camera cannot be rotated.
 </div>
 
 
@@ -376,7 +403,8 @@ auto-rotate the MS_EYE camera about itself.
 
         
 <div class="param-desc">
-    Can autorotate flag
+    Result of the check: true - when auto-rotation is
+possible, false - otherwise.
 </div>
 
 
@@ -427,7 +455,7 @@ auto-rotate the MS_EYE camera about itself.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_camera_anim.js.html">addons/camera_anim.js</a>, <a href="addons_camera_anim.js.html#line384">line 384</a>
+        <a href="addons_camera_anim.js.html">addons/camera_anim.js</a>, <a href="addons_camera_anim.js.html#line410">line 410</a>
     </li></ul></dd>
     
 
@@ -457,7 +485,7 @@ auto-rotate the MS_EYE camera about itself.
 <div class="item_description">
 
 <div class="description">
-    Check if the camera is autorotate
+    Check if the camera is auto-rotating.
 </div>
 
 
@@ -484,7 +512,8 @@ auto-rotate the MS_EYE camera about itself.
 
         
 <div class="param-desc">
-    Autorotated flag
+    Result of the check: true - when the camera is
+auto-rotating, false - otherwise.
 </div>
 
 
@@ -535,7 +564,7 @@ auto-rotate the MS_EYE camera about itself.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_camera_anim.js.html">addons/camera_anim.js</a>, <a href="addons_camera_anim.js.html#line373">line 373</a>
+        <a href="addons_camera_anim.js.html">addons/camera_anim.js</a>, <a href="addons_camera_anim.js.html#line398">line 398</a>
     </li></ul></dd>
     
 
@@ -557,7 +586,7 @@ auto-rotate the MS_EYE camera about itself.
 
     
 
-    <h4 class="name" id=".track_to_target">track_to_target<span class="signature">(camobj, target, rot_speed, zoom_mult, zoom_time, zoom_delay, zoom_cb<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".track_to_target">track_to_target<span class="signature">(cam_obj, target, rot_speed, zoom_mult, zoom_time, zoom_delay, callback<span class="signature-attributes">opt</span>, zoom_cb<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
     
 
@@ -565,7 +594,9 @@ auto-rotate the MS_EYE camera about itself.
 <div class="item_description">
 
 <div class="description">
-    Make the EYE camera object track the target (object or point).
+    Smoothly rotate the EYE camera to make it pointing at the specified
+target (an object or some position). Then smoothly zoom on this target,
+pause and zoom back.
 </div>
 
 
@@ -603,7 +634,7 @@ auto-rotate the MS_EYE camera about itself.
 
         <tr>
             
-                <td class="name"><code>camobj</code></td>
+                <td class="name"><code>cam_obj</code></td>
             
 
             <td class="type">
@@ -627,7 +658,7 @@ auto-rotate the MS_EYE camera about itself.
 
             
 
-            <td class="description last">Camera Object ID</td>
+            <td class="description last">Camera object ID</td>
         </tr>
 
     
@@ -692,7 +723,7 @@ auto-rotate the MS_EYE camera about itself.
 
             
 
-            <td class="description last">Rotation speed in radians per second</td>
+            <td class="description last">Rotation speed, radians per second</td>
         </tr>
 
     
@@ -754,7 +785,7 @@ auto-rotate the MS_EYE camera about itself.
 
             
 
-            <td class="description last">The time it takes to zoom on the target</td>
+            <td class="description last">Time it takes to zoom on the target, seconds</td>
         </tr>
 
     
@@ -785,20 +816,20 @@ auto-rotate the MS_EYE camera about itself.
 
             
 
-            <td class="description last">Delay before the camera zooms back</td>
+            <td class="description last">Delay before the camera zooms back, seconds</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>zoom_cb</code></td>
+                <td class="name"><code>callback</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type"><a href="module-camera_anim.html#~zoom_callback">zoom_callback</a></span>
+<span class="param-type"><a href="module-camera_anim.html#~track_to_target_cb">track_to_target_cb</a></span>
 
 
             
@@ -818,7 +849,40 @@ auto-rotate the MS_EYE camera about itself.
 
             
 
-            <td class="description last">Optional zoom callback</td>
+            <td class="description last">Finishing callback</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>zoom_cb</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="module-camera_anim.html#~track_to_target_zoom_cb">track_to_target_zoom_cb</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Zoom callback</td>
         </tr>
 
     
@@ -871,7 +935,7 @@ auto-rotate the MS_EYE camera about itself.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_camera_anim.js.html">addons/camera_anim.js</a>, <a href="addons_camera_anim.js.html#line53">line 53</a>
+        <a href="addons_camera_anim.js.html">addons/camera_anim.js</a>, <a href="addons_camera_anim.js.html#line61">line 61</a>
     </li></ul></dd>
     
 
@@ -899,7 +963,7 @@ auto-rotate the MS_EYE camera about itself.
 
     
 
-    <h4 class="name" id="~mouse_event_callback">mouse_event_callback<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="~auto_rotate_disabled_cb">auto_rotate_disabled_cb<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 
@@ -907,7 +971,9 @@ auto-rotate the MS_EYE camera about itself.
 <div class="item_description">
 
 <div class="description">
-    Callback to be executed when mouse button is clicked.
+    Callback to be executed when auto-rotating is disabled.
+It is fired when either the user manually rotates the camera,
+or the auto_rotate() method is executed again.
 </div>
 
 
@@ -963,7 +1029,7 @@ auto-rotate the MS_EYE camera about itself.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_camera_anim.js.html">addons/camera_anim.js</a>, <a href="addons_camera_anim.js.html#line264">line 264</a>
+        <a href="addons_camera_anim.js.html">addons/camera_anim.js</a>, <a href="addons_camera_anim.js.html#line281">line 281</a>
     </li></ul></dd>
     
 
@@ -985,7 +1051,7 @@ auto-rotate the MS_EYE camera about itself.
 
     
 
-    <h4 class="name" id="~zoom_callback">zoom_callback<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="~track_to_target_cb">track_to_target_cb<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 
@@ -993,7 +1059,8 @@ auto-rotate the MS_EYE camera about itself.
 <div class="item_description">
 
 <div class="description">
-    Callback to be executed when the camera performs the zoom.
+    Callback to be executed when the camera finishes its track animation.
+See track_to_target() method.
 </div>
 
 
@@ -1049,7 +1116,94 @@ auto-rotate the MS_EYE camera about itself.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_camera_anim.js.html">addons/camera_anim.js</a>, <a href="addons_camera_anim.js.html#line38">line 38</a>
+        <a href="addons_camera_anim.js.html">addons/camera_anim.js</a>, <a href="addons_camera_anim.js.html#line36">line 36</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+</div>
+</div>
+            
+                
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id="~track_to_target_zoom_cb">track_to_target_zoom_cb<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Callback to be executed when the camera finishes its zoom animation.
+See track_to_target() method.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="addons_camera_anim.js.html">addons/camera_anim.js</a>, <a href="addons_camera_anim.js.html#line42">line 42</a>
     </li></ul></dd>
     
 
@@ -1078,13 +1232,13 @@ auto-rotate the MS_EYE camera about itself.
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Wed Apr 29 2015 10:10:50 GMT+0300 (MSK)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Tue May 26 2015 12:05:04 GMT+0300 (MSK)
 </footer>
 
 <script> prettyPrint(); </script>

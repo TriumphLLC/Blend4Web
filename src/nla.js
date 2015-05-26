@@ -13,7 +13,6 @@ var m_cam       = require("__camera");
 var m_ctl       = require("__controls");
 var m_cfg       = require("__config");
 var m_loader    = require("__loader");
-var m_particles = require("__particles");
 var m_print     = require("__print");
 var m_scs       = require("__scenes");
 var m_sfx       = require("__sfx");
@@ -28,16 +27,20 @@ var _start_time = -1;
 // to fix precision issues with freezing current frame
 var CF_FREEZE_EPSILON = 0.000001;
 
-exports.update_scene_nla = function(scene, is_cyclic) {
+exports.update_scene_nla = function(scene, is_cyclic, thread_id) {
     var nla = {
         frame_start: scene["frame_start"],
         frame_end: scene["frame_end"],
         frame_offset: 0,
         last_frame: -1,
+        data_id : thread_id,
         cyclic: is_cyclic,
         objects: [],
         textures: [],
         script: [],
+        is_stopped: false,
+        force_update: false,
+        scene_name: scene["name"],
         curr_script_slot: 0,
         registers: {
             "R1" : 0,
@@ -50,7 +53,7 @@ exports.update_scene_nla = function(scene, is_cyclic) {
             "R8" : 0
         }
     }
-    
+    scene._nla = nla;
     prepare_nla_script(scene, nla);
 
     var sobjs = m_scs.get_scene_objs(scene, "ALL", m_scs.DATA_ID_ALL);
@@ -95,13 +98,13 @@ exports.update_scene_nla = function(scene, is_cyclic) {
             for (var j = 0; j < materials.length; j++) {
                 var mat = materials[j];
                 var node_tree = mat["node_tree"];
-                var adata = node_tree["animation_data"];
-                if (node_tree && adata) {
-                    var nla_tracks = adata["nla_tracks"];
+                if (node_tree) {
+                    var nla_tracks = [];
+                    get_nodtree_nla_tracks_r(node_tree, nla_tracks);
                     var nla_events = get_nla_events(nla_tracks, slot_num);
                     if (nla_events.length) {
+                        slot_num += assign_anim_slots(nla_events, slot_num);
                         obj_nla_events = obj_nla_events.concat(nla_events);
-                        slot_num++;
                     }
                 }
             }
@@ -119,7 +122,8 @@ exports.update_scene_nla = function(scene, is_cyclic) {
                 ev.frame_end = nla.frame_end+1;
                 ev.anim_name = psys["name"];
                 ev.anim_slot = slot_num;
-
+                ev.action_frame_start = ev.frame_start;
+                ev.action_frame_end = ev.frame_end;
                 obj_nla_events.push(ev);
                 slot_num++;
             }
@@ -142,6 +146,8 @@ exports.update_scene_nla = function(scene, is_cyclic) {
                     ev.frame_end = nla.frame_end+1;
                     ev.anim_name = va["name"];
                     ev.anim_slot = slot_num;
+                    ev.action_frame_start = ev.frame_start;
+                    ev.action_frame_end = ev.frame_end;
                     obj_nla_events.push(ev);
                 }
             }
@@ -186,6 +192,45 @@ exports.update_scene_nla = function(scene, is_cyclic) {
     _nla_arr.push(nla);
 }
 
+function assign_anim_slots(nla_events, start_slot) {
+    // TODO: apply this method for any supported animation types
+    // Currently it supports only nodemat animations
+    var actions = m_anim.get_all_actions();
+    var fc_usage = [];
+    var num_assigned_slots = 0;
+
+    for (var i = 0; i < nla_events.length; i++) {
+        var ev = nla_events[i];
+        if (ev.anim_uuid != "") {
+            var action = m_util.keysearch("uuid", ev.anim_uuid, actions);
+        } else {
+            var name = ev.anim_name;
+            var action = m_util.keysearch("name", name, actions) ||
+                         m_util.keysearch("name", name + "_B4W_BAKED", actions);
+        }
+
+        var fcurves = action["fcurves"];
+        var cur_fcurves_names = [];
+        for (var fcurve in fcurves)
+            cur_fcurves_names.push(fcurve);
+        fc_usage.push(cur_fcurves_names);
+    }
+
+    for (var i = 0; i < fc_usage.length; i++) {
+        var have_common_fc = false;
+        for (var k = 0; k < i; k++) {
+            if (m_util.arrays_have_common(fc_usage[i], fc_usage[k])) {
+                nla_events[i].anim_slot = nla_events[k].anim_slot;
+                have_common_fc = true;
+                break;
+            }
+        }
+        if (!have_common_fc)
+            nla_events[i].anim_slot = start_slot + num_assigned_slots++;
+    }
+    return num_assigned_slots;
+}
+
 function init_event() {
     var ev = {
         type: "CLIP",
@@ -200,10 +245,31 @@ function init_event() {
         action_frame_end: 0,
         ext_frame_start: 0,
         ext_frame_end: 0,
-        stop_video: false
+        stop_video: false,
+        use_reverse: false,
+        scale: 1,
+        repeat: 1
     }
-
     return ev;
+}
+
+function get_nodtree_nla_tracks_r(node_tree, container) {
+    if (node_tree["animation_data"]) {
+        var anim_data = node_tree["animation_data"];
+        var nla_tracks = anim_data["nla_tracks"];
+        if (nla_tracks)
+            for (var i = 0; i < nla_tracks.length; i++)
+                container.push(nla_tracks[i]);
+    }
+    var nodes = node_tree["nodes"];
+    for (var i = 0; i < nodes.length; i++) {
+        var node = nodes[i];
+        if (node["node_group"]) {
+            var g_node_tree = node["node_group"]["node_tree"];
+            if (g_node_tree)
+                get_nodtree_nla_tracks_r(g_node_tree, container);
+        }
+    }
 }
 
 function prepare_nla_script(scene, nla) {
@@ -370,6 +436,14 @@ function enforce_nla_consistency(nla) {
                 m_print.warn("NLA: out of scene range: " + strip_str);
                 nla_events.splice(j, 1);
                 j--;
+                continue;
+            }
+
+            if (!ev.anim_name && ev.type == "CLIP") {
+                m_print.warn("NLA: no action in strip for object \"" 
+                        + obj["name"] + "\".");
+                nla_events.splice(j, 1);
+                j--;
             }
         }
     }
@@ -425,9 +499,14 @@ exports.update = function(timeline, elapsed) {
     for (var i = 0; i < _nla_arr.length; i++) {
         var nla = _nla_arr[i];
 
+        if (nla.is_stopped && !nla.force_update) {
+            nla.frame_offset -= cfg_ani.framerate * elapsed;
+            continue;
+        }
+
         process_nla_script(nla, timeline, elapsed, _start_time);
 
-        var cf = calc_curr_frame(nla, timeline, _start_time, true);
+        var cf = calc_curr_frame_scene(nla, timeline, true, _start_time);
 
         for (var j = 0; j < nla.objects.length; j++) {
             var obj = nla.objects[j];
@@ -444,6 +523,7 @@ exports.update = function(timeline, elapsed) {
 
             for (var k = 0; k < nla_events.length; k++) {
                 var ev = nla_events[k];
+
 
                 switch (ev.type) {
                 case "CLIP":
@@ -489,16 +569,17 @@ exports.update = function(timeline, elapsed) {
             ev = nla.textures[j]._nla_tex_event;
             if (ev.frame_start <= Math.round(cf) && Math.round(cf) < ev.frame_end) 
                 if (!ev.stop_video) {
-                    process_video_event(nla.textures[j], ev.stop_video);
+                    process_video_event(nla.textures[j], ev.stop_video, nla.data_id);
                     ev.stop_video = true;
                 }
             if (ev.frame_end <= Math.round(cf))
                 if (ev.stop_video) {
-                    process_video_event(nla.textures[j], ev.stop_video);
+                    process_video_event(nla.textures[j], ev.stop_video, nla.data_id);
                     ev.stop_video = false;
                 }
         }
         nla.last_frame = cf;
+        nla.force_update = false;
     }
 }
 
@@ -517,7 +598,7 @@ function process_nla_script(nla, timeline, elapsed, start_time) {
         }
     }
 
-    var cf = calc_curr_frame(nla, timeline, start_time, false);
+    var cf = calc_curr_frame_scene(nla, timeline, false, start_time);
 
     var slot = nla.script[nla.curr_script_slot];
 
@@ -727,11 +808,10 @@ function resume_scheduled_objects(objects) {
     }
 }
 
-function calc_curr_frame(nla, timeline, start_time, allow_repeat) {
+function calc_curr_frame_scene(nla, timeline, allow_repeat, start_time) {
 
     var cf = (timeline - start_time) * cfg_ani.framerate + nla.frame_offset -
             nla.frame_start;
-
     if (nla.cyclic && allow_repeat) {
         var stride = nla.frame_end - nla.frame_start + 1;
         cf %= stride;
@@ -748,16 +828,33 @@ function process_clip_event_start(obj, ev, frame, elapsed) {
         m_anim.apply(obj, ev.anim_name, ev.anim_slot);
     // NOTE: should not be required
     m_anim.set_behavior(obj, m_anim.AB_FINISH_STOP, ev.anim_slot);
+    var action_frame = get_curr_frame_strip(ev.frame_start, ev);
+    m_anim.set_current_frame_float(obj, action_frame, ev.anim_slot);
 }
 
 function process_clip_event(obj, ev, frame, elapsed) {
-    var new_anim_frame = frame - ev.frame_start + ev.action_frame_start;
+    var new_anim_frame = get_curr_frame_strip(frame, ev);
     var curr_anim_frame = m_anim.get_current_frame_float(obj, ev.anim_slot);
-
     // do not update animation if the frame is not changed
     // to allow object movement in between
     if (Math.abs(new_anim_frame - curr_anim_frame) > CF_FREEZE_EPSILON)
         m_anim.set_current_frame_float(obj, new_anim_frame, ev.anim_slot);
+
+}
+
+function get_curr_frame_strip(frame, ev) {
+    frame = m_util.clamp(frame, ev.frame_start, ev.frame_end);
+    var track_frame = frame - ev.frame_start;
+    var track_len = (ev.frame_end - ev.frame_start) / ev.repeat;
+    var action_cur_frame = track_frame % track_len;
+
+    if (track_frame / track_len && track_frame % track_len == 0)
+        var action_frame = ev.action_frame_end;
+    else
+        var action_frame = ev.action_frame_start + action_cur_frame / ev.scale;
+    if (ev.use_reverse)
+        action_frame = ev.action_frame_end - action_frame + ev.action_frame_start;
+    return action_frame;
 }
 
 function process_sound_event(obj, ev, frame) {
@@ -766,12 +863,12 @@ function process_sound_event(obj, ev, frame) {
     m_sfx.play(obj, when, duration);
 }
 
-function process_video_event(texture, stop) {
+function process_video_event(texture, stop, data_id) {
     if (stop)
-        m_tex.pause_video(texture.name);
+        m_tex.pause_video(texture.name, data_id);
     else {
-        m_tex.reset_video(texture.name);
-        m_tex.play_video(texture.name);
+        m_tex.reset_video(texture.name, data_id);
+        m_tex.play_video(texture.name, data_id);
     }
 }
 
@@ -795,6 +892,7 @@ function get_nla_events(nla_tracks, anim_slot_num) {
             continue;
 
         for (var j = 0; j < strips.length; j++) {
+
             var strip = strips[j];
 
             var ev = init_event();
@@ -805,6 +903,9 @@ function get_nla_events(nla_tracks, anim_slot_num) {
             ev.anim_slot = anim_slot_num;
             ev.action_frame_start = strip["action_frame_start"];
             ev.action_frame_end = strip["action_frame_end"];
+            ev.use_reverse = strip["use_reverse"];
+            ev.scale = strip["scale"];
+            ev.repeat = strip["repeat"];
 
             if (strip["action"]){
                 ev.anim_name = strip["action"]["name"];
@@ -833,6 +934,76 @@ function has_spk_param_nla(obj) {
     if (m_sfx.is_speaker(obj) && obj["data"]["animation_data"] &&
             obj["data"]["animation_data"]["nla_tracks"].length)
         return true;
+    else
+        return false;
+}
+
+exports.set_frame = function(frame, timeline) {
+    var active_scene = m_scs.get_active();
+    if (active_scene._nla) {
+        var cf = calc_curr_frame_scene(active_scene._nla, timeline, true, _start_time);
+        active_scene._nla.frame_offset -= cf - frame;
+        active_scene._nla.force_update = true;
+    }
+}
+
+exports.get_frame = function(timeline) {
+    var active_scene = m_scs.get_active();
+    if (active_scene._nla)
+        return calc_curr_frame_scene(active_scene._nla, timeline, true, _start_time);
+    else
+        return -1;
+}
+
+exports.stop_nla = function() {
+    var active_scene = m_scs.get_active();
+    if (active_scene._nla)
+        active_scene._nla.is_stopped = true;
+}
+
+exports.play_nla = function() {
+    var active_scene = m_scs.get_active();
+    if (active_scene._nla)
+        active_scene._nla.is_stopped = false;
+
+}
+
+exports.get_frame_start = function() {
+    var active_scene = m_scs.get_active();
+    if (active_scene._nla)
+        return active_scene._nla.frame_start;
+    else
+        return -1;
+}
+
+exports.get_frame_end = function() {
+    var active_scene = m_scs.get_active();
+    if (active_scene._nla)
+        return active_scene._nla.frame_end;
+    else
+        return -1;
+}
+
+exports.is_play = function() {
+    var active_scene = m_scs.get_active();
+    if (active_scene._nla)
+        return !active_scene._nla.is_stopped;
+    else
+        return false;
+}
+
+exports.check_nla = function() {
+    var active_scene = m_scs.get_active();
+    if (active_scene._nla)
+        return active_scene["b4w_use_nla"];
+    else
+        return false;
+}
+
+exports.check_nla_scripts = function() {
+    var active_scene = m_scs.get_active();
+    if (active_scene._nla)
+        return active_scene["b4w_nla_script"].length > 0;
     else
         return false;
 }

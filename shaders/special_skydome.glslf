@@ -4,65 +4,241 @@
 #include <precision_statement.glslf>
 #include <gamma.glslf>
 
-#if USE_SKY_TEXTURE
+#if WO_SKYTEX || PROCEDURAL_SKYDOME
 uniform samplerCube u_sky;
-#elif USE_SKY_BLEND
+#endif
+
+#if !PROCEDURAL_SKYDOME && WO_SKYTEX
+
+#include <std_enums.glsl>
+#include <blending.glslf>
+
+uniform vec4 u_sky_tex_fac; // blendfac, horizonfac, zenupfac, zendownfac
+uniform vec3 u_sky_tex_color;
+uniform float u_sky_tex_dvar;
+
+#if WO_SKYREAL
+uniform vec3 u_world_vec;
+#endif
+
+vec3 col_blending(vec3 col1, vec3 col2, float factor, float facg)
+{
+    float fact = factor * facg;
+#if BLENDTYPE == MTEX_BLEND
+    return col_blend(col2, col1, fact);
+#elif BLENDTYPE == MTEX_ADD
+    return col_add(col1, col2, fact);
+#elif BLENDTYPE == MTEX_SUB
+    return col_sub(col1, col2, fact);
+#elif BLENDTYPE == MTEX_MUL
+    return col_mul(col1, col2, fact);
+#elif BLENDTYPE == MTEX_SCREEN
+    return col_screen(col1, col2, fact);
+#elif BLENDTYPE == MTEX_OVERLAY
+    return col_overlay(col1, col2, fact);
+#elif BLENDTYPE == MTEX_DIFF
+    return col_diff(col1, col2, fact);
+#elif BLENDTYPE == MTEX_DIV
+    return col_div(col1, col2, fact);
+#elif BLENDTYPE == MTEX_DARK
+    return col_dark(col1, col2, fact);
+#elif BLENDTYPE == MTEX_LIGHT
+    return col_light(col1, col2, fact);
+#elif BLENDTYPE == MTEX_BLEND_HUE
+    return col_hue(col2, col1, fact);
+#elif BLENDTYPE == MTEX_BLEND_SAT
+    return col_sat(col2, col1, fact);
+#elif BLENDTYPE == MTEX_BLEND_VAL
+    return col_val(col2, col1, fact);
+#elif BLENDTYPE == MTEX_BLEND_COLOR
+    return col_color(col2, col1, fact);
+#elif BLENDTYPE == MTEX_SOFT_LIGHT
+    return col_soft_light(col2, col1, fact);
+#elif BLENDTYPE == MTEX_LIN_LIGHT
+    return col_lin_light(col2, col1, fact);
+#endif
+    return vec3(1.0, 0.0, 1.0);
+}
+
+float val_blending(float val1, float val2, float factor, float facg)
+{
+    vec3 col1 = vec3(val1), col2 = vec3(val2);
+    float fact = factor * facg;
+#if BLENDTYPE == MTEX_BLEND
+    return col_blend(col2, col1, fact).x;
+#elif BLENDTYPE == MTEX_ADD
+    return col_add(col1, col2, fact).x;
+#elif BLENDTYPE == MTEX_SUB
+    return col_sub(col1, col2, fact).x;
+#elif BLENDTYPE == MTEX_MUL
+    return val_mul(val1, val2, fact, facg);
+#elif BLENDTYPE == MTEX_SCREEN
+    return val_screen(val1, val2, fact, facg);
+#elif BLENDTYPE == MTEX_OVERLAY
+    return val_overlay(val1, val2, fact, facg);
+#elif BLENDTYPE == MTEX_DIFF
+    return col_diff(col1, col2, fact).x;
+#elif BLENDTYPE == MTEX_DIV
+    return col_div(col1, col2, fact).x;
+#elif BLENDTYPE == MTEX_DARK
+    return col_dark(col1, col2, fact).x;
+#elif BLENDTYPE == MTEX_LIGHT
+    return col_light(col1, col2, fact).x;
+#elif BLENDTYPE == MTEX_SOFT_LIGHT
+    return col_soft_light(col2, col1, fact).x;
+#elif BLENDTYPE == MTEX_LIN_LIGHT
+    return col_lin_light(col2, col1, fact).x;
+#endif
+    return 0.0;
+}
+#endif
+
+#if !PROCEDURAL_SKYDOME
+uniform vec3 u_horizon_color;
 uniform vec3 u_zenith_color;
 #endif
 
-uniform vec3 u_horizon_color;
-
 #if WATER_EFFECTS && !DISABLE_FOG
-    uniform vec3 u_camera_eye_frag;
-    uniform vec3 u_sun_intensity;
-    uniform float u_environment_energy;
-    uniform vec4 u_underwater_fog_color_density;
+uniform vec3 u_camera_eye_frag;
+uniform vec3 u_sun_intensity;
+uniform float u_environment_energy;
+uniform vec4 u_underwater_fog_color_density;
 #endif
 
 varying vec3 v_ray;
 
-#if USE_SKY_BLEND && USE_SKY_PAPER
+#if !PROCEDURAL_SKYDOME && (WO_SKYTEX || WO_SKYBLEND)
 varying vec2 v_texcoord;
 #endif
 
-
 void main(void) {
     vec3 sky_color;
-
-#if WATER_EFFECTS && !DISABLE_FOG && !REFLECTION_PASS || !USE_SKY_PAPER && USE_SKY_BLEND
     vec3 ray = normalize(v_ray);
-#endif
 
-#if USE_SKY_TEXTURE
-    sky_color = textureCube(u_sky, v_ray).rgb;
-#elif USE_SKY_BLEND
-    float col_fac;
-# if USE_SKY_PAPER
-#  if USE_SKY_REAL
-    col_fac = abs(v_texcoord.y);
-#  else
-    col_fac = (v_texcoord.y + 1.0) * 0.5;
-#  endif
-# else
-    float alpha = acos(ray.y);
-#  if USE_SKY_REAL
-    col_fac = abs(alpha * INV_PI - 0.5) * 2.0;
-#  else
-    col_fac = 1.0 - alpha * INV_PI;
-#  endif
-# endif  // USE_SKY_PAPER
-    vec3 hor = u_horizon_color;
-    vec3 zen = u_zenith_color;
-    lin_to_srgb(hor);
-    lin_to_srgb(zen);
-    sky_color = mix(hor, zen, col_fac);
-#else
+#if PROCEDURAL_SKYDOME
+    sky_color = textureCube(u_sky, ray).rgb;
+#elif !(WO_SKYTEX || WO_SKYBLEND)
+    // 1. solid color
     sky_color = u_horizon_color;
     lin_to_srgb(sky_color);
-#endif  // USE_SKY_TEXTURE
+#else
+    // 2. blend color
+    vec3 view;
+# if WO_SKYPAPER
+    view = vec3(v_texcoord, 0.0);
+# else
+    view = normalize(vec3(v_texcoord, 1.0));
+# endif
+
+    // shadeSkyView
+    // skip skyflag
+    float blend;
+# if WO_SKYBLEND
+#  if WO_SKYPAPER
+#   if WO_SKYREAL
+    blend = abs(v_texcoord.y);
+#   else
+    blend = (v_texcoord.y + 1.0) * 0.5;
+#   endif
+#  else
+    float alpha = acos(ray.y);
+#   if WO_SKYREAL
+    blend = abs(alpha * INV_PI - 0.5) * 2.0;
+#   else
+    blend = 1.0 - alpha * INV_PI;
+#   endif
+#  endif
+# endif
+
+    vec3 hor = u_horizon_color;
+    vec3 zen = u_zenith_color;
+
+# if WO_SKYTEX
+    // skip magic with view matrix
+
+    float tin = 1.0; // texture.tin does matter later
+    // tin can cause problems - see blender code
+    vec4 tcol = textureCube(u_sky, ray);
+    srgb_to_lin(tcol.rgb);
+    tin = tcol.a;
+
+#  if MTEX_RGBTOINT   // MTEX_RGBTOINT means RGB flag too
+    tin = dot(tcol.rgb, vec3(0.2126, 0.7152, 0.0722)); // luma_coefficients
+#  endif
+#  if MTEX_NEGATIVE
+#   if !MTEX_RGBTOINT
+    tcol = vec4(vec3(1.0)-tcol.rgb, tcol.a);
+#   else
+    tin = 1.0 - tin;
+#   endif
+#  endif
+// MTEX_STENCIL - does matter if only more than one texture mixes
+
+#  if WOMAP_HORIZ || WOMAP_ZENUP || WOMAP_ZENDOWN
+#   if MTEX_RGBTOINT
+    tcol = vec4(u_sky_tex_color, 1.0);
+#   else
+    tin = tcol.a;
+#   endif
+// skip inverse gamma correction
+
+#   if WOMAP_HORIZ
+    hor = col_blending(tcol.rgb, hor, tin, u_sky_tex_fac[1]);
+#   endif
+
+#   if WOMAP_ZENUP || WOMAP_ZENDOWN
+    float zenfac = 0.0;
+#    if WO_SKYREAL
+    if (dot(view, u_world_vec) >= 0.0) { // instead of skyflag
+#     if WOMAP_ZENUP
+        zenfac = u_sky_tex_fac[2];
+#     else
+        ;
+#     endif
+    }
+#     if WOMAP_ZENDOWN
+    else
+        zenfac = u_sky_tex_fac[3];
+#     endif
+#    else
+#     if WOMAP_ZENUP
+    zenfac = u_sky_tex_fac[2];
+#     elif WOMAP_ZENDOWN
+    zenfac = u_sky_tex_fac[3];
+#     endif
+#    endif
+
+    if (zenfac != 0.0)
+        zen = col_blending(tcol.rgb, zen, tin, zenfac);
+#   endif
+#  endif // WOMAP_HORIZ || WOMAP_ZENUP || WOMAP_ZENDOWN
+
+#  if WOMAP_BLEND
+#   if !MTEX_RGBTOINT
+    tin = dot(tcol.rgb, vec3(0.2126, 0.7152, 0.0722));
+#   endif
+    blend = val_blending(u_sky_tex_dvar, blend, tin, u_sky_tex_fac[0]);
+#  endif
+
+#  if WO_SKYBLEND
+    sky_color = mix(hor, zen, blend);
+#  else
+    sky_color = hor;
+#  endif
+    lin_to_srgb(sky_color);
+# else
+    lin_to_srgb(hor);
+    lin_to_srgb(zen);
+#  if WO_SKYBLEND
+    sky_color = mix(hor, zen, blend);
+#  else
+    sky_color = hor;
+#  endif
+# endif
+#endif // PROCEDURAL_SKYDOME
 
 #if WATER_EFFECTS && !DISABLE_FOG && !REFLECTION_PASS
-    srgb_to_lin(sky_color.rgb);
+    srgb_to_lin(sky_color);
 
     // apply underwater fog to the skyplane
     float cam_depth = u_camera_eye_frag.y - WATER_LEVEL;
@@ -80,9 +256,8 @@ void main(void) {
     float factor = clamp(sign(ray.y - 0.05 * cam_depth), 0.0, 1.0);
 
     sky_color = mix(fog_color.rgb, sky_color, factor);
-
-    lin_to_srgb(sky_color.rgb);
+    lin_to_srgb(sky_color);
 #endif
 
-    gl_FragColor = vec4(sky_color, 1.0);
+   gl_FragColor = vec4(sky_color, 1.0);
 }

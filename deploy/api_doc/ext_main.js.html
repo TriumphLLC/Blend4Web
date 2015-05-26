@@ -42,6 +42,7 @@ var animation  = require("__animation");
 var m_compat   = require("__compat");
 var m_cfg      = require("__config");
 var m_print    = require("__print");
+var m_cont     = require("__container");
 var controls   = require("__controls");
 var m_data     = require("__data");
 var m_debug    = require("__debug");
@@ -112,7 +113,6 @@ var _requestAnimFrame = (function() {
  * @returns {Object|Null} WebGL context or null
  */
 exports.init = function(elem_canvas_webgl, elem_canvas_hud) {
-
     m_cfg.set_paths();
 
     // NOTE: for debug purposes
@@ -143,6 +143,9 @@ exports.init = function(elem_canvas_webgl, elem_canvas_hud) {
     init_context(_elem_canvas_webgl, gl);
     m_cfg.apply_quality();
     m_compat.set_hardware_defaults(gl);
+    
+    if (cfg_def.ie11_touchscreen_hack)
+        elem_canvas_webgl.style["touch-action"] = "none";
 
     m_print.log("%cSET PRECISION:", "color: #00a", cfg_def.precision);
 
@@ -155,7 +158,7 @@ exports.init = function(elem_canvas_webgl, elem_canvas_hud) {
         m_cfg.sfx.mix_mode = false;
     }
 
-    m_anchors.init(elem_canvas_webgl);
+    m_cont.init(elem_canvas_webgl);
 
     return gl;
 }
@@ -227,7 +230,7 @@ function init_context(canvas, gl) {
     textures.setup_context(gl);
     shaders.setup_context(gl);
     m_debug.setup_context(gl);
-    m_data.setup_context(gl);
+    m_data.setup_canvas(gl.canvas);
 
     scenes.setup_dim(canvas.width, canvas.height, 1,
                      calc_canvas_offset("x"), calc_canvas_offset("y"));
@@ -325,7 +328,7 @@ exports.resize = function(width, height, update_canvas_css) {
     if (cw > _gl.drawingBufferWidth || ch > _gl.drawingBufferHeight) {
         m_print.warn("Canvas size exceeds platform limits, downscaling");
 
-        var downscale = Math.min(_gl.drawingBufferWidth/cw, 
+        var downscale = Math.min(_gl.drawingBufferWidth/cw,
                 _gl.drawingBufferHeight/ch);
 
         cw *= downscale;
@@ -417,6 +420,7 @@ function clear_render_callback() {
  * Return the engine's global timeline value
  * @method module:main.global_timeline
  * @returns {Number} Floating-point number of seconds elapsed since the engine start-up
+ * @deprecated Use time.get_timeline() instead
  */
 exports.global_timeline = function() {
     return m_time.get_timeline();
@@ -628,6 +632,7 @@ exports.canvas_data_url = function(callback) {
  * Return the main canvas element.
  * @method module:main.get_canvas_elem
  * @returns {HTMLCanvasElement} Canvas element
+ * @deprecated Use container.get_canvas() instead
  */
 exports.get_canvas_elem = function() {
     return _elem_canvas_webgl;
@@ -661,8 +666,6 @@ exports.remove_loop_cb = function(callback) {
 }
 
 }
-
-
 </code></pre>
         </article>
     </section>
@@ -673,13 +676,13 @@ exports.remove_loop_cb = function(callback) {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Wed Apr 29 2015 10:10:49 GMT+0300 (MSK)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Tue May 26 2015 12:05:03 GMT+0300 (MSK)
 </footer>
 
 <script> prettyPrint(); </script>

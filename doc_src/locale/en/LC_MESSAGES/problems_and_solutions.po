@@ -177,5 +177,3 @@ msgstr ""
 "Enter **about:config** into the browser's address bar, search for the "
 "``webgl.force-enabled`` parameter and double-click on it to switch from "
 "``false`` to ``true``."
-
-

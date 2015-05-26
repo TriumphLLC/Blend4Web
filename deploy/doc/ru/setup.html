@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Развёртывание среды разработки &mdash; Руководство пользователя: Blend4Web v15.04</title>
+    <title>Развёртывание среды разработки &mdash; Руководство пользователя: Blend4Web v15.05</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '15.04',
+        VERSION:     '15.05',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,19 +26,19 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v15.04" href="index.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v15.05" href="index.html" />
     <link rel="next" title="Рабочий процесс" href="workflow.html" />
     <link rel="prev" title="Экспресс-установка" href="first_steps.html" /> 
   </head>
-  <body>
-    <div class="header-wrapper">
+  <body role="document">
+    <div class="header-wrapper" role="banner">
       <div class="header">
           <p class="logo"><a href="index.html">
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">Руководство пользователя: Blend4Web v15.04</a></div>
-        <div class="rel">
+          href="index.html">Руководство пользователя: Blend4Web v15.05</a></div>
+        <div class="rel" role="navigation" aria-label="related navigation">
           <a href="first_steps.html" title="Экспресс-установка"
              accesskey="P">назад</a> |
           <a href="workflow.html" title="Рабочий процесс"
@@ -55,16 +55,16 @@
             
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="setup">
 <span id="id1"></span><h1>Развёртывание среды разработки<a class="headerlink" href="#setup" title="Ссылка на этот заголовок">¶</a></h1>
-<p>Вариант установки с развёртыванием дистрибутива SDK рекомендуется для разработчиков 3D-приложений. Если же нужно быстрое ознакомление с возможностями Blend4Web, то, возможно, будет удобнее <a class="reference internal" href="first_steps.html#quick-install"><em>экспресс-установка</em></a>.</p>
+<p>Вариант установки с развёртыванием дистрибутива SDK рекомендуется для разработчиков 3D-приложений. Если же нужно быстрое ознакомление с возможностями Blend4Web, то, возможно, будет удобнее <a class="reference internal" href="first_steps.html#quick-install"><span>экспресс-установка</span></a>.</p>
 <p>Для работы необходим дистрибутив движка, браузер с поддержкой WebGL и Blender.</p>
 <div class="section" id="getting-started-distribution">
 <span id="id2"></span><h2>Установка дистрибутива<a class="headerlink" href="#getting-started-distribution" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Стабильные версии дистрибутива поставляются в виде архива
-(<tt class="docutils literal"><span class="pre">blend4web_sdk_free_YY_MM.zip</span></tt> &#8211; бесплатный SDK, <tt class="docutils literal"><span class="pre">blend4web_sdk_pro_YY_MM.zip</span></tt> &#8211;
+(<code class="docutils literal"><span class="pre">blend4web_sdk_free_YY_MM.zip</span></code> &#8211; бесплатный SDK, <code class="docutils literal"><span class="pre">blend4web_sdk_pro_YY_MM.zip</span></code> &#8211;
 коммерческий SDK). Для установки достаточно распаковать данный архив в любое
 место на диске.</p>
 </div>
@@ -72,65 +72,67 @@
 <span id="index-0"></span><span id="id3"></span><h2>Подключение аддона<a class="headerlink" href="#getting-started-addon" title="Ссылка на этот заголовок">¶</a></h2>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
-<p class="last">Если аддон ранее был установлен с помощью <a class="reference internal" href="first_steps.html#quick-install"><em>экспресс-установки</em></a>, то рекомендуется прежде его удалить.</p>
+<p class="last">Если аддон ранее был установлен с помощью <a class="reference internal" href="first_steps.html#quick-install"><span>экспресс-установки</span></a>, то рекомендуется прежде его удалить.</p>
 </div>
-<p>Запустить Blender, загрузить сцену по умолчанию <tt class="file docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">New</span></tt> (горячие клавиши <tt class="file docutils literal"><span class="pre">Ctrl-N</span></tt>).
-Вызвать окно пользовательских настроек <tt class="file docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">User</span> <span class="pre">Preferences...</span></tt> (горячие клавиши <tt class="file docutils literal"><span class="pre">Ctrl-Alt-U</span></tt>). Во вкладке  <tt class="file docutils literal"><span class="pre">File</span></tt> в поле  <tt class="file docutils literal"><span class="pre">Scripts</span></tt> выбрать путь к директории <tt class="file docutils literal"><span class="pre">blender_scripts</span></tt>.</p>
+<p>Запустить Blender, загрузить сцену по умолчанию <code class="file docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">New</span></code> (горячие клавиши <code class="file docutils literal"><span class="pre">Ctrl-N</span></code>).
+Вызвать окно пользовательских настроек <code class="file docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">User</span> <span class="pre">Preferences...</span></code> (горячие клавиши <code class="file docutils literal"><span class="pre">Ctrl-Alt-U</span></code>). Во вкладке  <code class="file docutils literal"><span class="pre">File</span></code> в поле  <code class="file docutils literal"><span class="pre">Scripts</span></code> выбрать путь к директории <code class="file docutils literal"><span class="pre">blender_scripts</span></code>.</p>
 <a class="reference internal image-reference" href="_images/user_preferences_scripts_path.jpg"><img alt="_images/user_preferences_scripts_path.jpg" class="align-center" src="_images/user_preferences_scripts_path.jpg" style="width: 100%;" /></a>
-<p>Нажать <tt class="file docutils literal"><span class="pre">Save</span> <span class="pre">User</span> <span class="pre">Settings</span></tt> и <strong>перезапустить</strong> Blender.</p>
+<p>Нажать <code class="file docutils literal"><span class="pre">Save</span> <span class="pre">User</span> <span class="pre">Settings</span></code> и <strong>перезапустить</strong> Blender.</p>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
-<p>Вместо этого можно скопировать директорию со скриптами <tt class="file docutils literal"><span class="pre">blender_scripts/addons/blend4web</span></tt> в уже используемую пользовательскую директорию для скриптов или даже в установочную директорию, например:</p>
-<p class="last"><tt class="file docutils literal"><span class="pre">C:\Program</span> <span class="pre">Files\Blender</span> <span class="pre">Foundation\Blender\2.70\scripts\addons\blend4web</span></tt>.</p>
+<p>Вместо этого можно скопировать директорию со скриптами <code class="file docutils literal"><span class="pre">blender_scripts/addons/blend4web</span></code> в уже используемую пользовательскую директорию для скриптов или даже в установочную директорию, например:</p>
+<p class="last"><code class="file docutils literal"><span class="pre">C:\Program</span> <span class="pre">Files\Blender</span> <span class="pre">Foundation\Blender\2.70\scripts\addons\blend4web</span></code>.</p>
 </div>
-<p>Повторно загрузить сцену по умолчанию, вызвать окно пользовательских настроек, перейти на вкладку <tt class="file docutils literal"><span class="pre">Addons</span></tt> и выбрать категорию <tt class="file docutils literal"><span class="pre">Import-Export</span></tt>. Отметить галочку напротив <tt class="file docutils literal"><span class="pre">Import-Export:</span> <span class="pre">Blend4Web</span></tt>.</p>
+<p>Повторно загрузить сцену по умолчанию, вызвать окно пользовательских настроек, перейти на вкладку <code class="file docutils literal"><span class="pre">Addons</span></code> и выбрать категорию <code class="file docutils literal"><span class="pre">Import-Export</span></code>. Отметить галочку напротив <code class="file docutils literal"><span class="pre">Import-Export:</span> <span class="pre">Blend4Web</span></code>.</p>
 <a class="reference internal image-reference" href="_images/user_preferences_enable_addon.jpg"><img alt="_images/user_preferences_enable_addon.jpg" class="align-center" src="_images/user_preferences_enable_addon.jpg" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p>Раскрыть вкладку аддона и указать путь к директории с SDK в поле &#8220;Path to Blend4Web SDK&#8221;. Здесь также можно изменить номер порта, используемый при создании локального сервера разработки (6687 по умолчанию).</p>
+<p>Раскрыть вкладку аддона и указать путь к директории с SDK в поле &#8220;Path to Blend4Web SDK&#8221;.</p>
 <a class="reference internal image-reference" href="_images/user_preferences_addon_sdk_path.jpg"><img alt="_images/user_preferences_addon_sdk_path.jpg" class="align-center" src="_images/user_preferences_addon_sdk_path.jpg" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p>Нажать <tt class="file docutils literal"><span class="pre">Save</span> <span class="pre">User</span> <span class="pre">Settings</span></tt>. Перезапуск Blender не требуется.</p>
+<p>Нажать <code class="file docutils literal"><span class="pre">Save</span> <span class="pre">User</span> <span class="pre">Settings</span></code>. Перезапуск Blender не требуется.</p>
 <p><em>Для проверки:</em></p>
-<p>В меню <tt class="file docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">Export</span></tt> должны появиться опции <tt class="file docutils literal"><span class="pre">Blend4Web</span> <span class="pre">(.json)</span></tt> и <tt class="file docutils literal"><span class="pre">Blend4Web</span> <span class="pre">(.html)</span></tt>. Кроме того должны появиться операторы при выполнении поиска по &#8220;B4W&#8221; (горячая клавиша <tt class="file docutils literal"><span class="pre">ПРОБЕЛ</span></tt>).</p>
+<p>В меню <code class="file docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">Export</span></code> должны появиться опции <code class="file docutils literal"><span class="pre">Blend4Web</span> <span class="pre">(.json)</span></code> и <code class="file docutils literal"><span class="pre">Blend4Web</span> <span class="pre">(.html)</span></code>. Кроме того должны появиться операторы при выполнении поиска по &#8220;B4W&#8221; (горячая клавиша <code class="file docutils literal"><span class="pre">ПРОБЕЛ</span></code>).</p>
 </div>
 <div class="section" id="local-development-server">
 <span id="id4"></span><h2>Локальный сервер разработки<a class="headerlink" href="#local-development-server" title="Ссылка на этот заголовок">¶</a></h2>
-<p>Для запуска сервера перейдите во вкладку <tt class="docutils literal"><span class="pre">Render</span></tt> и нажмите кнопку <tt class="docutils literal"><span class="pre">Start</span></tt> на панели <tt class="docutils literal"><span class="pre">Blend4Web</span></tt>:</p>
+<p>Настройки локального сервера разработки находятся в меню <code class="file docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">User</span> <span class="pre">Preferences...</span></code> (горячие клавиши <code class="file docutils literal"><span class="pre">Ctrl-Alt-U</span></code>).
+Здесь можно изменить номер порта, используемый при создании локального сервера разработки (6687 по умолчанию), или включить автоматический запуск сервера при запуске Blender&#8217;a: для этого достаточно включить опцию <code class="docutils literal"><span class="pre">Run</span> <span class="pre">development</span> <span class="pre">server</span> <span class="pre">automatically</span></code> в настройках аддона.</p>
+<a class="reference internal image-reference" href="_images/server_setup.png"><img alt="_images/server_setup.png" class="align-center" src="_images/server_setup.png" style="width: 100%;" /></a>
+<p>После изменения настроек локального сервера разработчика требуется перезапуск Blender&#8217;a.</p>
+<p>Если не был настроен автоматический запуск сервера, то его можно стартовать вручную по кнопке <code class="docutils literal"><span class="pre">Start</span></code> во вкладке <code class="docutils literal"><span class="pre">Render-&gt;Blend4Web</span></code>:</p>
 <a class="reference internal image-reference" href="_images/start_serv.png"><img alt="_images/start_serv.png" class="align-center" src="_images/start_serv.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
-<p>Если путь к Blend4Web SDK не был указан, запуск локального сервера невозможен. При этом вместо кнопки <tt class="docutils literal"><span class="pre">Start</span></tt> будет выведено соответствующее сообщение.</p>
+<p>Если путь к Blend4Web SDK не был указан, запуск локального сервера невозможен. При этом вместо кнопки <code class="docutils literal"><span class="pre">Start</span></code> будет выведено соответствующее сообщение.</p>
 <p>В случае ошибки запуска сервера будет показано окно с описанием причины:</p>
 <img alt="_images/error.png" class="align-center" src="_images/error.png" />
-<div class="last line-block">
-<div class="line"><br /></div>
+<p class="last">Чаще всего ошибка возникает из-за того, что указанный серверу адрес уже используется другим приложением.</p>
 </div>
-</div>
-<p>Нажмите кнопку <tt class="docutils literal"><span class="pre">Open</span> <span class="pre">SDK</span></tt> для запуска в браузере обзорной веб-страницы Blend4Web SDK, доступной по адресу <a class="reference external" href="http://localhost:6687">http://localhost:6687</a>.</p>
+<p>Нажмите кнопку <code class="docutils literal"><span class="pre">Open</span> <span class="pre">SDK</span></code> для запуска в браузере обзорной веб-страницы Blend4Web SDK, доступной по адресу <a class="reference external" href="http://localhost:6687">http://localhost:6687</a>.</p>
 <a class="reference internal image-reference" href="_images/stop_open.png"><img alt="_images/stop_open.png" class="align-center" src="_images/stop_open.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <p>При этом будет автоматически запущен браузер, используемой в операционной системе по умолчанию.</p>
-<p>Сервер может быть остановлен по нажатию на кнопку <tt class="docutils literal"><span class="pre">Stop</span></tt>. Сервер также прекращает работу при закрытии программы Blender.</p>
+<p>Сервер может быть остановлен по нажатию на кнопку <code class="docutils literal"><span class="pre">Stop</span></code>. Сервер также прекращает работу при закрытии программы Blender.</p>
 </div>
 <div class="section" id="getting-started-launching-viewer">
 <span id="index-1"></span><span id="id5"></span><h2>Запуск просмотрщика сцен и демо-приложений<a class="headerlink" href="#getting-started-launching-viewer" title="Ссылка на этот заголовок">¶</a></h2>
-<p>На обзорной странице имеются ссылки для запуска просмотрщика сцен и демо-приложений. Для их запуска необходим <a class="reference internal" href="about.html#browser-webgl-support"><em>браузер с поддержкой WebGL</em></a>.</p>
+<p>На обзорной странице имеются ссылки для запуска просмотрщика сцен и демо-приложений. Для их запуска необходим <a class="reference internal" href="about.html#browser-webgl-support"><span>браузер с поддержкой WebGL</span></a>.</p>
 <a class="reference internal image-reference" href="_images/sdk_index.jpg"><img alt="_images/sdk_index.jpg" class="align-center" src="_images/sdk_index.jpg" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
-<p class="last">Если приложения SDK не отображаются корректно, или появляются сообщения об ошибках, необходимо предпринять действия, описанные в разделе <a class="reference internal" href="problems_and_solutions.html#renderer-not-working"><em>Проблемы при запуске движка</em></a>.</p>
+<p class="last">Если приложения SDK не отображаются корректно, или появляются сообщения об ошибках, необходимо предпринять действия, описанные в разделе <a class="reference internal" href="problems_and_solutions.html#renderer-not-working"><span>Проблемы при запуске движка</span></a>.</p>
 </div>
 </div>
 </div>
@@ -179,16 +181,18 @@
 <li class="toctree-l1"><a class="reference internal" href="release_notes.html">Замечания к релизам</a></li>
 </ul>
 
-          <h3 style="margin-top: 1.5em;">Поиск</h3>
-          <form class="search" action="search.html" method="get">
-            <input type="text" name="q" />
-            <input type="submit" value="Искать" />
-            <input type="hidden" name="check_keywords" value="yes" />
-            <input type="hidden" name="area" value="default" />
-          </form>
-          <p class="searchtip" style="font-size: 90%">
-            Введите слова для поиска или имя модуля, класса или функции.
-          </p>
+          <div role="search">
+            <h3 style="margin-top: 1.5em;">Поиск</h3>
+            <form class="search" action="search.html" method="get">
+                <input type="text" name="q" />
+                <input type="submit" value="Искать" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+            </form>
+            <p class="searchtip" style="font-size: 90%">
+                Введите слова для поиска или имя модуля, класса или функции.
+            </p>
+          </div>
         </div>
         <div class="clearer"></div>
       </div>
@@ -197,20 +201,24 @@
     <div class="footer-wrapper">
       <div class="footer">
         <div class="left">
-          <a href="first_steps.html" title="Экспресс-установка"
-             >назад</a> |
-          <a href="workflow.html" title="Рабочий процесс"
-             >вперёд</a> |
-          <a href="genindex.html" title="Алфавитный указатель"
-             >указатель</a>
+          <div role="navigation" aria-label="related navigaton">
+            <a href="first_steps.html" title="Экспресс-установка"
+              >назад</a> |
+            <a href="workflow.html" title="Рабочий процесс"
+              >вперёд</a> |
+            <a href="genindex.html" title="Алфавитный указатель"
+              >указатель</a>
+          </div>
+          <div role="note" aria-label="source link">
+          </div>
         </div>
 
         <div class="right">
           
-    <div class="footer">
+    <div class="footer" role="contentinfo">
         &copy; Copyright 2015, ООО &#34;Триумф&#34;.
-      Обновлено: 2015-04-29.
-      Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+      Обновлено: 2015-05-26.
+      Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
         </div>
         <div class="clearer"></div>

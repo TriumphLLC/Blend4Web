@@ -19,6 +19,7 @@ var m_geom      = require("__geometry");
 var m_lights    = require("__lights");
 var m_nla       = require("__nla");
 var m_particles = require("__particles");
+var m_print     = require("__print");
 var m_scenes    = require("__scenes");
 var m_trans     = require("__transform");
 var m_tsr       = require("__tsr");
@@ -34,6 +35,8 @@ var cfg_out = m_cfg.outlining;
 var DEBUG_DISABLE_STATIC_OBJS = false;
 
 var _color_id_counter = 0;
+var _cube_refl_counter = 0;
+var _refl_plane_objs = [];
 
 var _quat4_tmp = new Float32Array(4);
 
@@ -68,7 +71,7 @@ function create_render(type) {
 
         use_panning: false,
 
-        move_style: 0,
+        move_style: m_cam.MS_STATIC,
         velocity_trans: 1,
         velocity_rot: 1,
         velocity_zoom: 1,
@@ -89,6 +92,9 @@ function create_render(type) {
         enable_hover_hor_rotation: true,
         cameras: null,
         outline_anim_settings: null,
+        cube_reflection_id: null,
+        plane_reflection_id: null,
+        reflection_plane: null,
 
         // game/physics/lod properties
         friction: 0,
@@ -107,6 +113,7 @@ function create_render(type) {
         reflexible: false,
         reflexible_only: false,
         reflective: false,
+        reflection_type: false,
         caustics: false,
         wind_bending: false,
         disable_fogging: false,
@@ -352,9 +359,15 @@ function update_object(obj, non_recursive) {
 
         render.reflexible = obj["b4w_reflexible"];
         render.reflexible_only = obj["b4w_reflexible_only"]
-                && render.reflexible;
+                                 && render.reflexible;
         render.reflective = obj["b4w_reflective"];
-        render.caustics   = obj["b4w_caustics"];
+        render.reflection_type = obj["b4w_reflection_type"];
+
+        obj._reflection_plane_obj = null;
+        if (obj["b4w_reflective"])
+            process_reflections(obj);
+
+        render.caustics = obj["b4w_caustics"];
 
         render.wind_bending = obj["b4w_wind_bending"];
         render.wind_bending_angle = obj["b4w_wind_bending_angle"];
@@ -463,6 +476,45 @@ function update_object(obj, non_recursive) {
     render.physics_type = obj["game"]["physics_type"];
 
     m_trans.update_transform(obj);
+}
+
+function process_reflections(obj) {
+    var render = obj._render;
+    if (obj["b4w_reflection_type"] == "CUBE")
+        render.cube_reflection_id = _cube_refl_counter++;
+    else {
+        var refl_plane_obj = get_reflection_plane_obj(obj);
+
+        if (refl_plane_obj) {
+            var refl_plane_id = null;
+            for (var j = 0; j < _refl_plane_objs.length; j++) {
+                var rp = _refl_plane_objs[j];
+                if (rp == refl_plane_obj) {
+                     refl_plane_id = j;
+                     break;
+                }
+            }
+
+            if (refl_plane_id == null) {
+                // we need only unique reflection planes
+                _refl_plane_objs.push(refl_plane_obj);
+                render.plane_reflection_id = _refl_plane_objs.length - 1;
+            } else {
+                render.plane_reflection_id = refl_plane_id;
+            }
+            obj._reflection_plane_obj = refl_plane_obj;
+        }
+    }
+}
+
+function get_reflection_plane_obj(obj) {
+    var constraints = obj["constraints"];
+    for (var i = 0; i < constraints.length; i++) {
+        var cons = constraints[i];
+        if (cons["type"] == "LOCKED_TRACK" && cons.name == "REFLECTION PLANE")
+                return cons["target"];
+    }
+    return null;
 }
 
 exports.update_objects_dynamics = update_objects_dynamics;
@@ -593,10 +645,22 @@ function prepare_skinning_info(obj, armobj) {
 
     var num_bones = deform_bone_index;
 
+    
+
     render.bone_pointers = bone_pointers;
     // will be extended beyond this limit later
+
+    var max_bones = m_anim.get_max_bones();
     render.max_bones = num_bones;
-    render.is_skinning = true;
+
+    if (num_bones > 2 * max_bones) {
+        render.is_skinning = false;
+        m_print.error("too many bones for \"" + obj["name"] + "\" / " +
+                render.max_bones + " bones (max " + max_bones +
+                " with blending, " + 2 * max_bones + " without blending)." 
+                + " Skinning will be disabled.");
+    } else
+        render.is_skinning = true;
 }
 
 function prepare_vertex_anim(obj) {
@@ -794,6 +858,8 @@ exports.get_meta_tags = function(obj) {
 
 exports.cleanup = function() {
     _color_id_counter = 0;
+    _cube_refl_counter = 0;
+    _refl_plane_objs = [];
 }
 
 /**

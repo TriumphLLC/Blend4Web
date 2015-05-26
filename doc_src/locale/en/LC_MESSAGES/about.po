@@ -201,10 +201,6 @@ msgstr ""
 msgid "`Safari <http://www.apple.com/safari/>`_ 8+"
 msgstr ""
 
-#: ../about.rst:90
-msgid "Android (на современных устройствах)"
-msgstr "Android (on modern devices)"
-
 #: ../about.rst:82
 msgid "Экспериментальная поддержка"
 msgstr "Experimental Support"
@@ -218,6 +214,10 @@ msgstr ""
 #: ../about.rst:88
 msgid "Мобильные платформы"
 msgstr "Mobile Platforms"
+
+#: ../about.rst:90
+msgid "Android (на современных устройствах)"
+msgstr "Android (on modern devices)"
 
 #: ../about.rst:91
 msgid "BlackBerry"
@@ -681,8 +681,3 @@ msgstr ""
 "the system. Drivers can be installed (or upgraded) from corresponding "
 "websites of graphics processors vendors. See detailed info in the section "
 ":ref:`webgl_not_working`."
-
-
-
-
-

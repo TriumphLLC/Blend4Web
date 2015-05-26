@@ -175,10 +175,6 @@ msgstr ""
 " be used to create numerous copies of an object (so called instancing). The "
 "default is ``Emitter``."
 
-#: ../particles.rst:67
-msgid "*Seed*"
-msgstr ""
-
 #: ../particles.rst:66
 msgid ""
 "Индекс в таблице случайных чисел, используемых для генерации системы частиц."
@@ -186,6 +182,10 @@ msgid ""
 msgstr ""
 "Index in the table of random numbers which are used for particle system "
 "generation. The default value is 0."
+
+#: ../particles.rst:67
+msgid "*Seed*"
+msgstr ""
 
 #: ../particles.rst:70
 msgid "Настройки испускания"
@@ -287,15 +287,15 @@ msgstr ""
 "Factor influencing the emission along the emitter's mesh normals. The "
 "default value is 1.0."
 
-#: ../particles.rst:107
-msgid "*Velocity > Other > Random*"
-msgstr ""
-
 #: ../particles.rst:106
 msgid ""
 "Фактор случайности для направления испускания. Значение по умолчанию 0.0."
 msgstr ""
 "Factor of randomization for emission direction. The default value is 0.0."
+
+#: ../particles.rst:107
+msgid "*Velocity > Other > Random*"
+msgstr ""
 
 #: ../particles.rst:110
 msgid "Настройки вращения"
@@ -315,10 +315,6 @@ msgstr ""
 "supported: ``Velocity`` (constant rotation speed), ``Random`` (random "
 "rotation), ``None`` (no rotation). The default is ``Velocity``."
 
-#: ../particles.rst:119
-msgid "*Rotation > Angular Velocity > Factor*"
-msgstr ""
-
 #: ../particles.rst:118
 msgid ""
 "Фактор скорости собственного вращения биллбордов частиц. Значение по "
@@ -326,6 +322,10 @@ msgid ""
 msgstr ""
 "Factor of rotation velocity for particle billboards. The default value is "
 "0.0."
+
+#: ../particles.rst:119
+msgid "*Rotation > Angular Velocity > Factor*"
+msgstr ""
 
 #: ../particles.rst:122
 msgid "Настройки физики"
@@ -398,10 +398,6 @@ msgstr ""
 msgid "Опция включения отображения эмиттера на сцене. По умолчанию включено."
 msgstr "Enables emitter rendering on the scene. Enabled by default."
 
-#: ../particles.rst:155
-msgid "*Render > Type*"
-msgstr ""
-
 #: ../particles.rst:154
 msgid ""
 "Режим отображения частиц: ``None``, ``Halo``, ``Line``, ``Path``, "
@@ -418,6 +414,10 @@ msgstr ""
 "``Billboard`` mode for convenient display of billboards. The default is "
 "``Halo``."
 
+#: ../particles.rst:155
+msgid "*Render > Type*"
+msgstr ""
+
 #: ../particles.rst:160
 msgid "Настройки влияния силовых полей"
 msgstr "Supported settings for force fields influence"
@@ -433,10 +433,6 @@ msgid ""
 msgstr ""
 "Gravity influence factor (Earth's attraction). The default value is 1.0."
 
-#: ../particles.rst:169
-msgid "*Field Weights > Wind*"
-msgstr ""
-
 #: ../particles.rst:168
 msgid ""
 "Фактор влияния ветра. Необходимо присутствие объекта силового поля "
@@ -447,6 +443,10 @@ msgstr ""
 "Wind influence factor. A ``Wind`` force field source should be present (can "
 "be added using ``Add > Force Field``). A particle system is also influenced "
 "by the wind direction and strength. The default value is 1.0."
+
+#: ../particles.rst:169
+msgid "*Field Weights > Wind*"
+msgstr ""
 
 #: ../particles.rst:172
 msgid "Специальные настройки движка"
@@ -513,10 +513,6 @@ msgstr ""
 "Starting and ending intervals (measured in frames) for gradually increasing "
 "and decreasing the particles' transparency."
 
-#: ../particles.rst:191
-msgid "*Blend4Web > Coordinate system*"
-msgstr ""
-
 #: ../particles.rst:190
 msgid ""
 "Система координат испускаемых частиц: ``Local`` - использовать локальную "
@@ -525,6 +521,10 @@ msgid ""
 msgstr ""
 "Coordinate system of emitting particles: ``Local`` - use local coordinate "
 "system of the emitter object, ``World`` - use world coordinate system."
+
+#: ../particles.rst:191
+msgid "*Blend4Web > Coordinate system*"
+msgstr ""
 
 #: ../particles.rst:196
 msgid "Текстуры в системах частиц"
@@ -607,5 +607,3 @@ msgid "`Ссылка на модель <http://www.blendswap.com/blends/view/139
 msgstr ""
 "`The original model was taken from here "
 "<http://www.blendswap.com/blends/view/13977>`_"
-
-

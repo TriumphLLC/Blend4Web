@@ -3,54 +3,54 @@
     <meta charset='UTF-8' />
     <meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1' />
     <title>Code Snippets</title>
-    <link type='text/css' rel='stylesheet' href='code_snippets.min.css?v=15.04'/>
-    <script type='text/javascript' src='../common/b4w.full.min.js?v=15.04'></script>
-    <script src='scripts/canvas_texture.js' data-name='Canvas Texture' type='text/javascript' data-scene='canvas_texture'></script>
-    <script src='scripts/camera_animation.js' data-name='Camera Animation' type='text/javascript' data-scene='camera_animation'></script>
-    <script src='scripts/custom_anchors.js' data-name='Custom Anchors' type='text/javascript' data-scene='custom_anchors_main'></script>
-    <script src='scripts/dynamic_geometry.js' data-name='Dynamic Geometry' type='text/javascript' data-scene='dynamic_geometry'></script>
-    <script src='scripts/gyro.js' data-name='Gyro' type='text/javascript' data-scene='gyro'></script>
-    <script src='scripts/instancing.js' data-name='Instancing' type='text/javascript' data-scene='instancing'></script>
-    <script src='scripts/material_api.js' data-name='Material API' type='text/javascript' data-scene='material_api'></script>
-    <script data-name='Morphing' data-scene='morphing' data-styles='true' src='scripts/morphing.js' type='text/javascript'></script>
-    <script type='text/javascript' src='code_snippets.min.js?v=15.04'></script>
+    <link type='text/css' rel='stylesheet' href='code_snippets.min.css?v=15.05'/>
+    <script type='text/javascript' src='../common/b4w.full.min.js?v=15.05'></script>
+    <script type='text/javascript' data-scene='canvas_texture' src='scripts/canvas_texture.js' data-name='Canvas Texture'></script>
+    <script type='text/javascript' data-scene='camera_animation' src='scripts/camera_animation.js' data-name='Camera Animation'></script>
+    <script type='text/javascript' data-styles='true' src='scripts/camera_move_styles.js' data-scene='camera_move_styles' data-name='Camera Move Styles'></script>
+    <script type='text/javascript' data-scene='custom_anchors_main' src='scripts/custom_anchors.js' data-name='Custom Anchors'></script>
+    <script type='text/javascript' data-scene='dynamic_geometry' src='scripts/dynamic_geometry.js' data-name='Dynamic Geometry'></script>
+    <script type='text/javascript' data-scene='gyro' src='scripts/gyro.js' data-name='Gyro'></script>
+    <script type='text/javascript' data-scene='instancing' src='scripts/instancing.js' data-name='Instancing'></script>
+    <script type='text/javascript' data-scene='material_api' src='scripts/material_api.js' data-name='Material API'></script>
+    <script type='text/javascript' data-styles='true' src='scripts/morphing.js' data-scene='morphing' data-name='Morphing'></script>
+    <script type='text/javascript' src='code_snippets.min.js?v=15.05'></script>
 </head>
 <body>
-    
-    <div id="canvas3d" oncontextmenu="return false"></div>
+    <div id="canvas_cont" oncontextmenu="return false"></div>
     <div id="schedule"></div>
     <div id="interface">
-        <div class="contaner">
+        <div class="container">
             <a class="text" id="open_script" target="_blank" style="cursor: pointer;">View Code</a>
         </div>
-        <div class="contaner">
+        <div class="container">
             <a class="text" id="auto_view" target="_self" style="cursor: pointer;">Auto view</a>
         </div>
     </div>
 
     <div id="code_panel">
-        <table style="width: 100%; height: 100%;">
+        <table>
             <tr>
-                <th style="width: 40%;">
+                <th>
                     <h3>HTML</h3>
                 </th>
                 <th>
                     <h3>JavaScript</h3>
+                    <div id="code_close"></div>
                 </th>
             </tr>
-            <tr style="height: 90%;">
+            <tr>
                 <td>
-                    <textarea id="code_text_html" readonly class="code_text"></textarea>
+                    <div>
+                        <pre><code id="code_text_html" data-language="html"></code></pre>
+                    </div>
                 </td>
                 <td>
-                    <textarea id="code_text_js" readonly class="code_text"></textarea>
+                    <div>
+                        <pre><code id="code_text_js" data-language="javascript"></code></pre>
+                    </div>
                 </td>
             </tr>
-            <tr>
-                <td colspan="2">
-                    <a href="javascript: void(0)" id="code_close" class="code_close">close</a>
-                </td>
-            <tr>
         </table>
     </div>
 

@@ -252,13 +252,13 @@ exports.append_track_point = function(obj, target) {
 /**
  * Append follow object constraint.
  */
-exports.append_follow_obj = function(obj, obj_parent, offset_min, offset_max) {
+exports.append_follow_obj = function(obj, obj_parent, dist_min, dist_max) {
     var cons = init_cons(CONS_TYPE_FOLLOW_OBJ);
 
     // link to parent object
     cons.obj_parent = obj_parent;
-    cons.offset_min = offset_min;
-    cons.offset_max = offset_max;
+    cons.dist_min = dist_min;
+    cons.dist_max = dist_max;
 
     apply_cons(obj, cons);
     update_cons(obj, cons, 0);
@@ -266,12 +266,12 @@ exports.append_follow_obj = function(obj, obj_parent, offset_min, offset_max) {
 /**
  * Append follow point constraint.
  */
-exports.append_follow_point = function(obj, target, offset_min, offset_max) {
+exports.append_follow_point = function(obj, target, dist_min, dist_max) {
     var cons = init_cons(CONS_TYPE_FOLLOW_POINT);
 
     cons.target = new Float32Array(target);
-    cons.offset_min = offset_min;
-    cons.offset_max = offset_max;
+    cons.dist_min = dist_min;
+    cons.dist_max = dist_max;
 
     apply_cons(obj, cons);
     update_cons(obj, cons, 0);
@@ -496,10 +496,10 @@ function update_cons(obj, cons, elapsed) {
         var dist = m_vec3.dist(trans, t_trans);
 
         // passing target location
-        if (dist > cons.offset_max)
-            var delta = dist - cons.offset_max;
-        else if (dist < cons.offset_min)
-            var delta = dist - cons.offset_min;
+        if (dist > cons.dist_max)
+            var delta = dist - cons.dist_max;
+        else if (dist < cons.dist_min)
+            var delta = dist - cons.dist_min;
         else
             var delta = 0.0;
 
@@ -523,10 +523,10 @@ function update_cons(obj, cons, elapsed) {
         var dist = m_vec3.dist(trans, t_trans);
 
         // passing target location
-        if (dist > cons.offset_max)
-            var delta = dist - cons.offset_max;
-        else if (dist < cons.offset_min)
-            var delta = dist - cons.offset_min;
+        if (dist > cons.dist_max)
+            var delta = dist - cons.dist_max;
+        else if (dist < cons.dist_min)
+            var delta = dist - cons.dist_min;
         else
             var delta = 0.0;
 

@@ -2,10 +2,11 @@
 
 /**
  * Camera animation add-on.
- * Provides support for camera procedural animation.
+ * Implements procedural animation for the camera.
  * @module camera_anim
- * @local zoom_callback
- * @local mouse_event_callback
+ * @local track_to_target_zoom_cb
+ * @local track_to_target_cb
+ * @local auto_rotate_disabled_cb
  */
 b4w.module["camera_anim"] = function(exports, require) {
 
@@ -15,40 +16,47 @@ var m_print = require("print");
 var m_scs   = require("scenes");
 var m_trans = require("transform");
 var m_util  = require("util");
-
-// Global temporary vars
-var _vec2_tmp   = new Float32Array(2);
-var _vec2_tmp2   = new Float32Array(2);
-var _vec3_tmp   = new Float32Array(3);
-var _vec3_tmp2  = new Float32Array(3);
-var _vec3_tmp3  = new Float32Array(3);
-var _quat4_tmp  = new Float32Array(4);
-
-var _angle_limits_tmp = new Float32Array(2);
-var _angle_limits_tmp2 = new Float32Array(2);
+var m_vec3  = require("vec3");
+var m_quat  = require("quat");
 
 var PI = Math.PI;
-
 var ROTATION_OFFSET = 0.2;
 var ROTATION_LIMITS_EPS = 1E-6;
 
-var m_vec3 = require("vec3");
-var m_quat = require("quat");
+// cache vars
+var _vec2_tmp           = new Float32Array(2);
+var _vec2_tmp2          = new Float32Array(2);
+var _vec3_tmp           = new Float32Array(3);
+var _vec3_tmp2          = new Float32Array(3);
+var _vec3_tmp3          = new Float32Array(3);
+var _quat4_tmp          = new Float32Array(4);
+var _angle_limits_tmp   = new Float32Array(2);
+var _angle_limits_tmp2  = new Float32Array(2);
 
 /**
- * Callback to be executed when the camera performs the zoom.
- * @callback zoom_callback
+ * Callback to be executed when the camera finishes its track animation.
+ * See track_to_target() method.
+ * @callback track_to_target_cb
  */
 
 /**
- * Make the EYE camera object track the target (object or point).
- * @param {Object} camobj Camera Object ID
+ * Callback to be executed when the camera finishes its zoom animation.
+ * See track_to_target() method.
+ * @callback track_to_target_zoom_cb
+ */
+
+/**
+ * Smoothly rotate the EYE camera to make it pointing at the specified
+ * target (an object or some position). Then smoothly zoom on this target,
+ * pause and zoom back.
+ * @param {Object} cam_obj Camera object ID
  * @param {(Object|Float32Array)} target Target object or target position
- * @param {Number} rot_speed Rotation speed in radians per second
- * @param {Number} zoom_mult Zoom level value 
- * @param {Number} zoom_time The time it takes to zoom on the target
- * @param {Number} zoom_delay Delay before the camera zooms back
- * @param {zoom_callback} [zoom_cb] Optional zoom callback
+ * @param {Number} rot_speed Rotation speed, radians per second
+ * @param {Number} zoom_mult Zoom level value
+ * @param {Number} zoom_time Time it takes to zoom on the target, seconds
+ * @param {Number} zoom_delay Delay before the camera zooms back, seconds
+ * @param {track_to_target_cb} [callback] Finishing callback
+ * @param {track_to_target_zoom_cb} [zoom_cb] Zoom callback
  */
 exports.track_to_target = function(cam_obj, target, rot_speed, zoom_mult,
                                     zoom_time, zoom_delay, callback, zoom_cb) {
@@ -164,8 +172,14 @@ exports.track_to_target = function(cam_obj, target, rot_speed, zoom_mult,
     }
 
     var track_cb = function(obj, id, pulse) {
-
         if (pulse) {
+
+            // NOTE: if move_style was changed during the tracking
+            if (!m_cam.is_eye_camera(obj)) {
+                disable_cb();
+                return;
+            }
+
             var value = m_ctl.get_sensor_value(obj, id, 0);
             cur_time += value;
 
@@ -219,12 +233,15 @@ exports.track_to_target = function(cam_obj, target, rot_speed, zoom_mult,
 
             } else {
                 m_trans.set_translation_v(obj, cam_pos);
-                m_ctl.remove_sensor_manifold(obj, id);
-
-                if (callback)
-                    callback();
+                disable_cb();
             }
         }
+    }
+
+    var disable_cb = function() {
+        m_ctl.remove_sensor_manifold(cam_obj, "TRACK_TO_TARGET");
+        if (callback)
+            callback();
     }
 
     m_ctl.create_sensor_manifold(cam_obj,
@@ -262,24 +279,27 @@ function get_delta_to_limits(angle, limit_from, limit_to, dest) {
 }
 
 /**
- * Callback to be executed when mouse button is clicked.
- * @callback mouse_event_callback
+ * Callback to be executed when auto-rotating is disabled.
+ * It is fired when either the user manually rotates the camera,
+ * or the auto_rotate() method is executed again.
+ * @callback auto_rotate_disabled_cb
  */
 
 /**
- * Auto-rotate the MS_TARGET and MS_HOVER camera around the pivot point and
- * auto-rotate the MS_EYE camera about itself.
- * @param {Number} auto_rotate_ratio Speed ratio of the camera
- * @param {mouse_event_callback} Optional callback
+ * Switch auto-rotating of the TARGET or HOVER camera around its pivot, or
+ * auto-rotating of the EYE camera around itself.
+ * When it is called for the first time, auto-rotating is enabled
+ * while the next call will disable auto-rotating.
+ * @param {Number} auto_rotate_ratio Multiplier for the rotation speed
+ * @param {auto_rotate_disabled_cb} [callback] Callback to be executed when auto-rotating is disabled
  */
 exports.auto_rotate = function(auto_rotate_ratio, callback) {
 
     callback = callback || function(){};
 
     var obj = m_scs.get_active_camera();
-    var cam_type = m_cam.get_move_style(obj);
 
-    if (cam_type == m_cam.MS_STATIC) {
+    if (m_cam.get_move_style(obj) == m_cam.MS_STATIC) {
         m_print.error("auto_rotate(): wrong camera type");
         return;
     }
@@ -298,8 +318,12 @@ exports.auto_rotate = function(auto_rotate_ratio, callback) {
     }
 
     function elapsed_cb(obj, id, pulse) {
-        if (pulse == 1)
-            if (cam_type != m_cam.MS_HOVER_CONTROLS
+        if (pulse == 1) {
+            var move_style = m_cam.get_move_style(obj);
+            // NOTE: if move_style was changed to STATIC during the autorotation
+            if (move_style == m_cam.MS_STATIC)
+                disable_cb();
+            else if (move_style != m_cam.MS_HOVER_CONTROLS
                     && m_cam.has_horizontal_limits(obj)) {
                 var curr_limits = m_cam.get_horizontal_limits(obj, 
                         _angle_limits_tmp2);
@@ -312,6 +336,7 @@ exports.auto_rotate = function(auto_rotate_ratio, callback) {
                 angle_limits = null;
                 unlimited_auto_rotate(obj, id); 
             }
+        }
     }
 
     function limited_auto_rotate(obj, id) {
@@ -371,9 +396,10 @@ exports.auto_rotate = function(auto_rotate_ratio, callback) {
 }
 
 /**
- * Check if the camera is autorotate
+ * Check if the camera is auto-rotating.
  * @method module:camera_anim.is_auto_rotate
- * @returns {Boolean} Autorotated flag
+ * @returns {Boolean} Result of the check: true - when the camera is
+ * auto-rotating, false - otherwise.
  */
 exports.is_auto_rotate = function() {
     var obj = m_scs.get_active_camera();
@@ -382,9 +408,11 @@ exports.is_auto_rotate = function() {
 }
 
 /**
- * Check if the camera can autorotate
+ * Check if auto-rotation is possible for the camera.
+ * For example, the STATIC camera cannot be rotated.
  * @method module:camera_anim.check_auto_rotate
- * @returns {Boolean} Can autorotate flag
+ * @returns {Boolean} Result of the check: true - when auto-rotation is
+ * possible, false - otherwise.
  */
 exports.check_auto_rotate = function() {
     var obj = m_scs.get_active_camera();

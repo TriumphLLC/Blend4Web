@@ -219,3 +219,14 @@ html .ui-panel-page-container-c {
     margin-left: 4px;
     background: url(images/lights.png) right;
 }
+
+div#fps_container {
+    position: absolute;
+    top: 23px;
+    right: 20px;
+    font-size: 45px;
+    line-height: 50px;
+    font-weight: bold;
+    color: #000;
+    z-index: 1;
+}

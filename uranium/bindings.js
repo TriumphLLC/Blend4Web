@@ -14,6 +14,8 @@ var NULL = 0;
 var _update_interval = 1/60;
 
 var _do_simulation = true;
+var _steps = 0;
+var _step = 0;
 var _last_abs_time = 0;
 
 // 0 - do not calculate FPS
@@ -42,13 +44,18 @@ function get_plus_one(num) {
 }
 
 function append_static_mesh_body(id, positions, indices, trans, friction,
-        restitution, collision_group, collision_mask) {
+        restitution, collision_margin, collision_group, collision_mask) {
 
     var arrays = create_mesh_arrays(positions, indices);
 
     var trans_arr = _du_vec3(trans[0], trans[1], trans[2]);
-    var du_body = _du_create_static_mesh_body(arrays.indices_len,
-            arrays.indices, arrays.positions_len, arrays.positions, trans_arr,
+
+    var du_shape = _du_create_mesh_shape(arrays.indices_len,
+            arrays.indices, arrays.positions_len, arrays.positions);
+
+    _du_set_margin(du_shape, collision_margin);
+
+    var du_body = _du_create_static_mesh_body(du_shape, trans_arr,
             friction, restitution);
 
     var body = append_body(id, du_body, false, collision_group, collision_mask);
@@ -133,13 +140,19 @@ function create_mesh_arrays(positions, indices) {
     }
 }
 
-function append_ghost_mesh_body(id, positions, indices, trans,
+function append_ghost_mesh_body(id, positions, indices, trans, collision_margin,
                                 collision_group, collision_mask) {
+
     var arrays = create_mesh_arrays(positions, indices);
 
     var trans_arr = _du_vec3(trans[0], trans[1], trans[2]);
-    var du_body = _du_create_ghost_mesh_body(arrays.indices_len,
-            arrays.indices, arrays.positions_len, arrays.positions, trans_arr);
+
+    var du_shape = _du_create_mesh_shape(arrays.indices_len,
+            arrays.indices, arrays.positions_len, arrays.positions);
+
+    _du_set_margin(du_shape, collision_margin);
+
+    var du_body = _du_create_ghost_mesh_body(du_shape, trans_arr);
 
     var body = append_body(id, du_body, false, collision_group, collision_mask);
     body.num_triangles = calc_num_triangles(positions, indices);
@@ -147,7 +160,7 @@ function append_ghost_mesh_body(id, positions, indices, trans,
 
 function append_bounding_body(id, trans, quat, physics_type, is_ghost,
         disable_sleeping, mass, velocity_min, velocity_max, damping,
-        rotation_damping, collision_group, collision_mask,
+        rotation_damping, collision_margin, collision_group, collision_mask,
         bounding_type, bounding_object, size,
         friction, restitution, comp_children_params, correct_bound_offset) {
 
@@ -171,13 +184,19 @@ function append_bounding_body(id, trans, quat, physics_type, is_ghost,
             else
                 var du_child_quat = NULL;
 
-            var du_child_shape = create_shape(child_bt, child_wb, false);
+            var du_child_shape = create_bounding_shape(child_bt, child_wb, false);
+
+            // NOTE: strange behavior
+            _du_set_margin(du_child_shape, collision_margin);
 
             _du_compound_add_child(du_shape, du_child_trans, du_child_quat,
                                    du_child_shape);
         }
-    } else
-        var du_shape = create_shape(bounding_type, bounding_object, correct_bound_offset);
+    } else {
+        var du_shape = create_bounding_shape(bounding_type, bounding_object,
+                correct_bound_offset);
+        _du_set_margin(du_shape, collision_margin);
+    }
 
     switch (physics_type) {
     case "STATIC":
@@ -229,7 +248,7 @@ function append_bounding_body(id, trans, quat, physics_type, is_ghost,
         append_body(id, du_body, false, collision_group, collision_mask);
 }
 
-function create_shape(bounding_type, bounding_object, consider_compound) {
+function create_bounding_shape(bounding_type, bounding_object, consider_compound) {
 
     if (bounding_type == "BOX") {
         var bb = bounding_object;
@@ -1335,8 +1354,8 @@ function init_worker_environment() {
 
     _du_vec3_tmp = _du_vec3(0, 0, 0);
 
-    // NOTE: need to be optional
-    warm_up();
+    // NOTE: for non-asmjs browsers only
+    //warm_up();
 
     m_ipc.init(self, process_message);
     m_ipc.post_msg(m_ipc.IN_LOADED);
@@ -1364,7 +1383,7 @@ function warm_up() {
     }
 
     append_bounding_body(0, new Float32Array([1,1,0]), quat, "RIGID_BODY",
-            false, true, mass, 0, 0, damp, rdamp, 1, 255, "BOX", bb, size,
+            false, true, mass, 0, 0, damp, rdamp, 0.0, 1, 255, "BOX", bb, size,
             frict, rest, [], false);
 
     // sphere
@@ -1373,7 +1392,7 @@ function warm_up() {
         "radius": 2
     }
     append_bounding_body(1, new Float32Array([-1,1,0]), quat, "RIGID_BODY",
-            false, true, mass, 0, 0, damp, rdamp, 1, 255, "SPHERE", bs, size,
+            false, true, mass, 0, 0, damp, rdamp, 0.0, 1, 255, "SPHERE", bs, size,
             frict, rest, [], false);
 
     // large triangle
@@ -1381,7 +1400,7 @@ function warm_up() {
     var indices = null;
 
     append_static_mesh_body(10, positions, indices, new Float32Array([0,0,0]), 0,
-            0, 1, 255);
+            0, 0, 1, 255);
 
 
     var time = 0;
@@ -1393,6 +1412,24 @@ function warm_up() {
     cleanup_world();
 }
 
+/**
+ * Now only for warm up
+ */
+function update_world(world, time, delta) {
+    var steps = _du_pre_simulation(delta, MAX_SIM_STEPS, _update_interval);
+    if (steps) {
+        for (var i = 0; i < steps; i++) {
+            var sim_time = _du_calc_sim_time(time, i, steps);
+
+            pre_tick_callback(world, sim_time);
+
+            _du_single_step_simulation(_update_interval);
+
+            if (i == steps-1)
+                tick_callback(world, sim_time);
+        }
+    }
+}
 
 function init_world(max_fps, fps_measurement_interval) {
     _update_interval = 1/max_fps;
@@ -1429,27 +1466,48 @@ function cleanup_world() {
 
 
 function frame() {
-    self.setTimeout(frame, 300 * _update_interval);
+    self.setTimeout(frame, 1);
 
-    // float sec
-    var abstime = performance.now() / 1000;
+    // preparatory stage
+    if (_steps == 0) {
+        // float sec
+        var abstime = performance.now() / 1000;
 
-    if (!_last_abs_time)
-        _last_abs_time = abstime;
+        if (!_last_abs_time)
+            _last_abs_time = abstime;
 
-    var delta = abstime - _last_abs_time;
-    
-    if (_do_simulation && _world) {
-        if (delta && _fps_measurement_interval) {
-            _phy_fps_avg = smooth(1/delta, _phy_fps_avg, delta,
-                    _fps_measurement_interval);
-            m_ipc.post_msg(m_ipc.IN_FPS, Math.round(_phy_fps_avg));
+        var delta = abstime - _last_abs_time;
+        
+        if (_do_simulation && _world) {
+            if (delta && _fps_measurement_interval) {
+                _phy_fps_avg = smooth(1/delta, _phy_fps_avg, delta,
+                        _fps_measurement_interval);
+                m_ipc.post_msg(m_ipc.IN_FPS, Math.round(_phy_fps_avg));
+            }
+
+            _steps = _du_pre_simulation(delta, MAX_SIM_STEPS, _update_interval);
+            _step = 0;
         }
 
-        update_world(_world, abstime, delta);
-    }
+        _last_abs_time = abstime;
 
-    _last_abs_time = abstime;
+    // simulation stage
+    } else {
+        var sim_time = _du_calc_sim_time(_last_abs_time, _step, _steps);
+
+        pre_tick_callback(_world, sim_time);
+
+        _du_single_step_simulation(_update_interval);
+
+        tick_callback(_world, sim_time);
+
+        if (_step == _steps-1) {
+            _du_post_simulation();
+            _steps = 0;
+        } else {
+            _step++;
+        }
+    }
 }
 
 /**
@@ -1461,28 +1519,6 @@ function smooth(curr, last, delta, period) {
     return (1 - e) * curr + e * last;
 }
 
-
-function update_world(world, time, delta) {
-    var steps = _du_pre_simulation(delta, MAX_SIM_STEPS, _update_interval);
-    if (steps) {
-        for (var i = 0; i < steps; i++) {
-            var sim_time = _du_calc_sim_time(time, i, steps);
-
-            pre_tick_callback(world, sim_time);
-
-            _du_single_step_simulation(_update_interval);
-
-            if (i == steps-1)
-                tick_callback(world, sim_time);
-        }
-    }
-
-    _du_post_simulation();
-}
-
-/**
- * Executed from bindings.cpp
- */
 function pre_tick_callback(world, time) {
     // apply central force before simulation if needed
     for (var i = 0; i < world.bodies_arr.length; i++) {
@@ -1506,10 +1542,16 @@ function pre_tick_callback(world, time) {
     }
 }
 
-/**
- * Executed from bindings.cpp
- */
 function tick_callback(world, time) {
+    send_body_movements(world, time);
+    send_chassis_movements(world);
+    send_hull_movements(world);
+    send_floater_movements(world);
+    send_collision_results(world);
+    send_ray_test_results(world);
+}
+
+function send_body_movements(world, time) {
 
     for (var i = 0; i < world.bodies_arr.length; i++) {
         var body = world.bodies_arr[i];
@@ -1552,9 +1594,14 @@ function tick_callback(world, time) {
             }
         }
     }
+}
+
+function send_chassis_movements(world) {
+
     for (var chassis_body_id in world.cars) {
         var car = world.cars[chassis_body_id];
         var wheels_cache = car.wheels_cache;
+
         for (var i = 0; i < wheels_cache.length; i++) {
             var cache = wheels_cache[i];
             _du_get_vehicle_wheel_trans_quat(car.du_id, i, cache.du_trans, cache.du_quat);
@@ -1576,11 +1623,14 @@ function tick_callback(world, time) {
         var speed = _du_get_vehicle_speed(car.du_id);
         m_ipc.post_msg(m_ipc.IN_VEHICLE_SPEED, chassis_body_id, speed);
     }
+}
+
+function send_hull_movements(world) {
+
     for (var hull_body_id in world.boats) {
-
         var boat = world.boats[hull_body_id];
-
         var bobs_cache = boat.bobs_cache;
+
         for (var i = 0; i < bobs_cache.length; i++) {
             var cache = bobs_cache[i];
             _du_get_boat_bob_trans_quat(boat.du_id, i, cache.du_trans, cache.du_quat);
@@ -1599,10 +1649,14 @@ function tick_callback(world, time) {
         var speed = _du_get_boat_speed(boat.du_id);
         m_ipc.post_msg(m_ipc.IN_VEHICLE_SPEED, hull_body_id, speed);
     }
-    for (var floater_body_id in world.floaters) {
+}
 
+function send_floater_movements(world) {
+
+    for (var floater_body_id in world.floaters) {
         var floater = world.floaters[floater_body_id];
         var bobs_cache = floater.bobs_cache;
+
         for (var i = 0; i < bobs_cache.length; i++) {
             var cache = bobs_cache[i];
             _du_get_floater_bob_trans_quat(floater.du_id, i, cache.du_trans,
@@ -1612,6 +1666,9 @@ function tick_callback(world, time) {
                         cache.trans, cache.quat);
         }
     }
+}
+
+function send_collision_results(world) {
 
     var results = world.collision_results.array;
     var arr_size = world.collision_results.size;
@@ -1659,9 +1716,17 @@ function tick_callback(world, time) {
         //test.last_cpoint[1] = cpoint[1];
         //test.last_cpoint[2] = cpoint[2];
     }
+}
+
+function need_collision_result_update(test, result, cpoint) {
+    return result != test.last_result; //|| cpoint[0] != test.last_cpoint[0] ||
+                                      //   cpoint[1] != test.last_cpoint[1] ||
+                                      //   cpoint[2] != test.last_cpoint[2];
+}
+
+function send_ray_test_results(world) {
 
     for (var id in world.ray_tests) {
-
         var test = world.ray_tests[id];
 
         var body_id_a = test.body_id;
@@ -1701,12 +1766,6 @@ function tick_callback(world, time) {
             test.last_result = cur_result;
         }
     }
-}
-
-function need_collision_result_update(test, result, cpoint) {
-    return result != test.last_result; //|| cpoint[0] != test.last_cpoint[0] ||
-                                      //   cpoint[1] != test.last_cpoint[1] ||
-                                      //   cpoint[2] != test.last_cpoint[2];
 }
 
 function body_check_prepare_output(body) {

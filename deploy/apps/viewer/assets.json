@@ -1,30 +1,312 @@
 [
     {
-        "name": "Tutorials",
+        "name": "App - Flight over Island",
         "items": [
             {
-                "name": "CGEvent",
-                "load_file": "tutorials/cg_event_2014/pepper/pepper.json"
+                "name": "Flight over Island Main",
+                "load_file": "flight_over_island/flight_over_island.json"
             },
             {
-                "name": "Sunglasses",
-                "load_file": "tutorials/sunglasses/sunglasses.json"
+                "name": "Animated Camera",
+                "load_file": "flight_over_island/animated_camera.json"
             },
             {
-                "name": "Flying Letters",
-                "load_file": "../tutorials/examples/web_page_integration/flying_letters.json"
+                "name": "Cessna Skylane 182T",
+                "load_file": "flight_over_island/cessna_skylane_182t.json"
             },
+            {
+                "name": "Island",
+                "load_file": "flight_over_island/island.json"
+            }
+        ]
+    },
+    {
+        "name": "App - New Year",
+        "items": [
+            {
+                "name": "New Year Main",
+                "load_file": "new_year/christmas_tree.json"
+            },
+            {
+                "name": "Bear",
+                "load_file": "new_year/bear.json"
+            },
+            {
+                "name": "Christmas Tree",
+                "load_file": "new_year/christmas_tree_standalone.json"
+            },
+            {
+                "name": "Letter Test",
+                "load_file": "new_year/letter.json"
+            },
+            {
+                "name": "Monkey",
+                "load_file": "new_year/monkey.json"
+            },
+            {
+                "name": "TV",
+                "load_file": "new_year/TV.json"
+            }
+        ]
+    },
+    {
+        "name": "App - Victory Day 2015",
+        "items": [
+            {
+                "name": "Main Scene",
+                "load_file": "victory_day_2015/main_scene.json"
+            },
+            {
+                "name": "BM-13",
+                "load_file": "victory_day_2015/bm_13.json"
+            },
+            {
+                "name": "Firework",
+                "load_file": "victory_day_2015/firework.json"
+            },
+            {
+                "name": "Red Square",
+                "load_file": "victory_day_2015/red_square.json"
+            },
+            {
+                "name": "Rocket Smoke",
+                "load_file": "victory_day_2015/rocket_smoke.json"
+            }
+        ]
+    },
+    {
+        "name": "App - Website",
+        "items": [
+            {
+                "name": "Logo Horizontal",
+                "load_file": "website/logo_3d/logo_3d_horizontal.json"
+            }
+        ]
+    },
+    {
+        "name": "Demos - Animation",
+        "items": [
+            {
+                "name": "NLA Strips",
+                "load_file": "animation/nla_strips.json"
+            },
+            {
+                "name": "Vertex Anim Monkey",
+                "load_file": "animation/vertex_anim_monkey.json"
+            }
+        ]
+    },
+    {
+        "name": "Demos - Environment",
+        "items": [
+            {
+                "name": "Cube Reflections",
+                "load_file": "environment/cube_reflections.json"
+            },
+            {
+                "name": "Forest on Fire",
+                "load_file": "environment/forest_on_fire.json"
+            },
+            {
+                "name": "Sky Colors",
+                "load_file": "environment/sky_colors.json"
+            },
+            {
+                "name": "Sky Texture",
+                "load_file": "environment/sky_texture.json"
+            }
+        ]
+    },
+    {
+        "name": "Demos - Interactivity",
+        "items": [
+            {
+                "name": "Annotations",
+                "load_file": "interactivity/annotations.json"
+            },
+            {
+                "name": "Annotations+NLA",
+                "load_file": "interactivity/annotations_nla.json"
+            },
+            {
+                "name": "Camera Views",
+                "load_file": "interactivity/camera_views.json"
+            },
+            {
+                "name": "Solar System (En)",
+                "load_file": "interactivity/solar_system/solar_system_en.json"
+            },
+            {
+                "name": "Solar System (Ru)",
+                "load_file": "interactivity/solar_system/solar_system_ru.json"
+            }
+        ]
+    },
+    {
+        "name": "Demos - Geometry",
+        "items": [
+            {
+                "name": "Procedural Objects",
+                "load_file": "geometry/procedural_objects.json"
+            },
+            {
+                "name": "Shape Keys",
+                "load_file": "geometry/shape_keys.json"
+            },
+            {
+                "name": "Text",
+                "load_file": "geometry/text.json"
+            }
+        ]
+    },
+    {
+        "name": "Demos - Materials",
+        "items": [
+            {
+                "name": "Alpha",
+                "load_file": "materials/alpha.json"
+            },
+            {
+                "name": "Checker",
+                "load_file": "materials/checker.json"
+            },
+            {
+                "name": "Matcap",
+                "load_file": "materials/material_matcap.json"
+            },
+            {
+                "name": "Node Front Back",
+                "load_file": "materials/node_front_back_mask.json"
+            },
+            {
+                "name": "Node Parallax",
+                "load_file": "materials/node_parallax.json"
+            },
+            {
+                "name": "Node Refraction",
+                "load_file": "materials/node_refraction.json"
+            },
+            {
+                "name": "Procedural Lines",
+                "load_file": "materials/procedural_lines.json"
+            },
+            {
+                "name": "Simple Parallax",
+                "load_file": "materials/simple_parallax.json"
+            },
+            {
+                "name": "Standard materials",
+                "load_file": "materials/standard_materials.json"
+            }
+        ]
+    },
+    {
+        "name": "Demos - Media",
+        "items": [
+            {
+                "name": "Crossfading",
+                "load_file": "media/cross_fade.json"
+            },
+            {
+                "name": "Music Test",
+                "load_file": "media/music_test.json"
+            },
+            {
+                "name": "Speaker Anim",
+                "load_file": "media/speaker_anim.json"
+            },
+            {
+                "name": "Speaker Cone",
+                "load_file": "media/speaker_cone.json"
+            }
+        ]
+    },
+    {
+        "name": "Demos - Misc",
+        "items": [
+            {
+                "name": "Logo",
+                "load_file": "misc/logo.json"
+            }
+        ]
+    },
+    {
+        "name": "Demos - Particles",
+        "items": [
+            {
+                "name": "Particles Rotation",
+                "load_file": "particles/particles_rotation.json"
+            }
+        ]
+    },
+    {
+        "name": "Demos - Physics",
+        "items": [
+            {
+                "name": "Compound",
+                "load_file": "physics/compound.json"
+            },
+            {
+                "name": "Rigid Body Joints",
+                "load_file": "physics/rigid_body_joints.json"
+            }
+        ]
+    },
+    {
+        "name": "Demos - Postprocessing",
+        "items": [
+            {
+                "name": "Bloom",
+                "load_file": "postprocessing/bloom.json"
+            },
+            {
+                "name": "Depth of Field",
+                "load_file": "postprocessing/dof.json"
+            },
+            {
+                "name": "God Rays",
+                "load_file": "postprocessing/god_rays.json"
+            },
+            {
+                "name": "Motion Blur",
+                "load_file": "postprocessing/motion_blur.json"
+            },
+            {
+                "name": "SSAO",
+                "load_file": "postprocessing/ssao.json"
+            }
+        ]
+    },
+    {
+        "name": "Tutorial Exports",
+        "items": [
             {
                 "name": "Apple Web Page",
                 "load_file": "../tutorials/examples/web_page_integration/apple.json"
+            },
+            {
+                "name": "Beach Umbrella Demo",
+                "load_file": "tutorials/beach_umbrella_demo/beach_umbrella_demo.json"
+            },
+            {
+                "name": "Cat Animation",
+                "load_file": "tutorials/cat/cat_example.json"
             },
             {
                 "name": "Cartoon Interior",
                 "load_file": "tutorials/cartoon_room/cartoon_interior_all.json"
             },
             {
+                "name": "CGEvent's Pepper",
+                "load_file": "tutorials/cg_event_2014/pepper/pepper.json"
+            },
+            {
                 "name": "Flag Blend4Web",
                 "load_file": "tutorials/flag/flag_caches_mix.json"
+            },
+            {
+                "name": "Flying Letters",
+                "load_file": "../tutorials/examples/web_page_integration/flying_letters.json"
             },
             {
                 "name": "Game - Main Scene - Level 01 - p7",
@@ -39,32 +321,28 @@
                 "load_file": "../tutorials/examples/interactive_web_application/example.json"
             },
             {
-                "name": "Victory Day",
-                "load_file": "tutorials/victory_day/victory_day.json"
+                "name": "Pirate vs Alien",
+                "load_file": "tutorials/pirate_vs_alien/pirate_vs_alien.json"
+            },
+            {
+                "name": "Simple Firstperson",
+                "load_file": "../tutorials/examples/firstperson/first-person.json"
             },
             {
                 "name": "Soffit",
                 "load_file": "tutorials/soffit/soffit.json"
             },
             {
-                "name": "Pirate vs Alien",
-                "load_file": "tutorials/pirate_vs_alien/pirate_vs_alien.json"
-            },
-            {
                 "name": "Striped Shader 2",
                 "load_file": "tutorials/striped_shader_2/striped_shader_2.json"
             },
             {
-                "name": "Beach Umbrella Demo",
-                "load_file": "tutorials/beach_umbrella_demo/beach_umbrella_demo.json"
+                "name": "Sunglasses",
+                "load_file": "tutorials/sunglasses/sunglasses.json"
             },
             {
                 "name": "Striped Shader 1",
                 "load_file": "tutorials/striped_shader_1/striped_shader_1.json"
-            },
-            {
-                "name": "Cat Example",
-                "load_file": "tutorials/cat/cat_example.json"
             },
             {
                 "name": "Tortoise Part 1",
@@ -73,204 +351,10 @@
             {
                 "name": "Tortoise Part 2",
                 "load_file": "tutorials/mediterranean_tortoise_2/mediterranean_tortoise.json"
-            }
-        ]
-    },
-    {
-        "name": "Interactivity",
-        "items": [
-            {
-                "name": "Solar system Ru",
-                "load_file": "interactivity/solar_system/solar_system_ru.json"
             },
             {
-                "name": "Solar system En",
-                "load_file": "interactivity/solar_system/solar_system_en.json"
-            },
-            {
-                "name": "Annotations NLA",
-                "load_file": "interactivity/annotations_nla.json"
-            }
-        ]
-    },
-    {
-        "name": "New Year",
-        "items": [
-            {
-                "name": "Letter Test",
-                "load_file": "new_year/letter.json"
-            },
-            {
-                "name": "New Year",
-                "load_file": "new_year/christmas_tree.json"
-            },
-            {
-                "name": "Christmas Tree",
-                "load_file": "new_year/christmas_tree_standalone.json"
-            },
-            {
-                "name": "Bear",
-                "load_file": "new_year/bear.json"
-            },
-            {
-                "name": "Monkey",
-                "load_file": "new_year/monkey.json"
-            },
-            {
-                "name": "TV",
-                "load_file": "new_year/TV.json"
-            }
-        ]
-    },
-    {
-        "name": "Environment",
-        "items": [
-            {
-                "name": "Sky Texture",
-                "load_file": "environment/sky_texture.json"
-            },
-            {
-                "name": "Sky Colors",
-                "load_file": "environment/sky_colors.json"
-            }
-        ]
-    },
-    {
-        "name": "Dev - Render",
-        "items": [
-            {
-                "name": "B4W Logo",
-                "load_file": "dev/logo.json"
-            }
-        ]
-    },
-    {
-        "name": "Dev - Performance",
-        "items": [
-            {
-                "name": "Empty scene",
-                "load_file": "dev_performance/empty.json"
-            },
-            {
-                "name": "Many Pixels",
-                "load_file": "dev_performance/many_pixels.json"
-            },
-            {
-                "name": "Many Lights",
-                "load_file": "dev_performance/many_lights.json"
-            },
-            {
-                "name": "Many Draw Calls",
-                "load_file": "dev_performance/many_draw_calls.json"
-            }
-        ]
-    },
-    {
-        "name": "Dev - Physics",
-        "items": [
-            {
-                "name": "Compound",
-                "load_file": "dev_physics/compound.json"
-            },
-            {
-                "name": "Rigid Body Joints",
-                "load_file": "dev_physics/rigid_body_joints.json"
-            },
-            {
-                "name": "Jumping (elasticity)",
-                "load_file": "dev_physics/jumping.json"
-            }
-        ]
-    },
-    {
-        "name": "Dev - NLA",
-        "items": [
-            {
-                "name": "NLA Script",
-                "load_file": "dev_nla/nla_script.json"
-            },
-            {
-                "name": "NLA Script 2",
-                "load_file": "dev_nla/nla_script2.json"
-            },
-            {
-                "name": "Interactive Cube",
-                "load_file": "dev_nla/nla_simple_cube.json"
-            },
-            {
-                "name": "Camera Views",
-                "load_file": "dev_nla/camera_views.json"
-            }
-        ]
-    },
-    {
-        "name": "Dev - Misc",
-        "items": [
-            {
-                "name": "Annotations",
-                "load_file": "dev_misc/annotations.json"
-            },
-            {
-                "name": "Procedural Objects",
-                "load_file": "dev_misc/procedural_objects.json"
-            },
-            {
-                "name": "Surface and Metaball",
-                "load_file": "dev_misc/surface_and_meta.json"
-            },
-            {
-                "name": "Text",
-                "load_file": "dev_misc/text.json"
-            }
-        ]
-    },
-    {
-        "name": "Dev - Sound",
-        "items": [
-            {
-                "name": "Speaker",
-                "load_file": "dev_sound/speaker.json"
-            },
-            {
-                "name": "Loop",
-                "load_file": "dev_sound/loop.json"
-            },
-            {
-                "name": "Crossfading",
-                "load_file": "dev_sound/cross_fade.json"
-            },
-            {
-                "name": "Speaker Anim",
-                "load_file": "dev_sound/speaker_anim.json"
-            },
-            {
-                "name": "Speaker Cone",
-                "load_file": "dev_sound/speaker_cone.json"
-            },
-            {
-                "name": "Music Test",
-                "load_file": "dev_sound/music_test.json"
-            }
-        ]
-    },
-    {
-        "name": "Flight over Island",
-        "items": [
-            {
-                "name": "Island",
-                "load_file": "flight_over_island/island.json"
-            },
-            {
-                "name": "Animated Camera",
-                "load_file": "flight_over_island/animated_camera.json"
-            },
-            {
-                "name": "Flight over Island",
-                "load_file": "flight_over_island/flight_over_island.json"
-            },
-            {
-                "name": "Cessna Skylane 182T",
-                "load_file": "flight_over_island/cessna_skylane_182t.json"
+                "name": "Victory Day 2014",
+                "load_file": "tutorials/victory_day/victory_day.json"
             }
         ]
     }

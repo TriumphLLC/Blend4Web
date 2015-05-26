@@ -134,12 +134,16 @@ exports.attach_scene_sfx = function(scene) {
         }
 
         var listener = _wa.listener;
-        listener.dopplerFactor = scene["audio_doppler_factor"];
-        listener.speedOfSound = scene["audio_doppler_speed"];
+        scene_sfx.disable_doppler = m_cfg.defaults.chrome_disable_doppler_effect_hack;
+        if (!scene_sfx.disable_doppler) {
+            listener.dopplerFactor = scene["audio_doppler_factor"];
+            listener.speedOfSound = scene["audio_doppler_speed"];
+        }
 
         scene_sfx.muted = false;
         scene_sfx.volume = 1;
         scene_sfx.duck_time = 0;
+
     }
 }
 
@@ -252,7 +256,8 @@ exports.append_object = function(obj, scene) {
     if (!speaker["sound"])
         obj._sfx.behavior = "NONE";
 
-    obj._sfx.disable_doppler = speaker["b4w_disable_doppler"];
+    obj._sfx.disable_doppler = speaker["b4w_disable_doppler"] 
+            && m_cfg.defaults.chrome_disable_doppler_effect_hack;
 
     obj._sfx.muted = speaker["muted"];
     obj._sfx.volume = speaker["volume"];
@@ -1077,7 +1082,7 @@ exports.listener_update_transform = function(scene, trans, quat, elapsed) {
     listener.setOrientation(front[0], front[1], front[2], up[0], up[1], up[2]);
     scene._sfx.listener_direction.set(front);
 
-    if (elapsed) {
+    if (!scene._sfx.disable_doppler && elapsed) {
         var speed = _vec3_tmp3;
 
         speed[0] = (trans[0] - scene._sfx.listener_last_eye[0])/elapsed;
@@ -1099,7 +1104,7 @@ exports.listener_reset_speed = function(speed, dir) {
     if (!_wa)
         return;
 
-    if (!_active_scene._sfx)
+    if (!_active_scene._sfx || _active_scene._sfx.disable_doppler)
         return;
 
     var velocity = _vec3_tmp;
@@ -1156,7 +1161,7 @@ exports.speaker_update_transform = function(obj, elapsed) {
 exports.speaker_reset_speed = function(obj, speed, dir) {
     var sfx = obj._sfx;
 
-    if (!(spk_is_active(obj) && sfx.behavior == "POSITIONAL"))
+    if (!(spk_is_active(obj) && sfx.behavior == "POSITIONAL") || sfx.disable_doppler)
         return;
 
     var velocity = _vec3_tmp;

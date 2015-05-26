@@ -30,100 +30,108 @@
 
 /**
  * API for the engine's global configuration.
- * &lt;p>Use the set()/get() function to change/get the value of a property.
- * Use the reset() function to reset all properties to their default state.
+ *
+ * &lt;p>Use the set()/get() method to change/get the value of a property.
+ * Use the reset() method to reset all properties to their default state.
  * Any change in configuration must occur before engine initialization. Keep in
- * mind that some of the properties are affected by a quality profile and client's
- * hardware/browser. In the former case set CUSTOM profile to allow changing of
- * such properties.
- * &lt;h3>Allowed configuration properties&lt;/h3>
+ * mind that some of the properties are affected by the quality profile and
+ * the user's hardware/browser. In the former case use the CUSTOM profile
+ * in order to change such properties.&lt;/p>
+ *
+ * &lt;p>Normally, the users should not alter these parameters.&lt;/p>
+ *
+ * &lt;h3>Configuration Parameters Available&lt;/h3>
  * &lt;dl>
  * &lt;dt>allow_cors
  * &lt;dd>Boolean, allow cross-origin resource sharing.
  * &lt;dt>allow_hidpi
- * &lt;dd>Boolean, allow HIDPI mode on supported devices (set CUSTOM profile to
- * change).
+ * &lt;dd>Boolean, allow HIDPI mode on supported devices (use the CUSTOM profile
+ * in order to change this parameter).
  * &lt;dt>alpha
  * &lt;dd>Boolean, enable WebGL canvas transparency.
  * &lt;dt>alpha_sort
- * &lt;dd>Boolean, enable transparency sorting for "blend" materials.
+ * &lt;dd>Boolean, enable z-sorting for transparent materials.
  * &lt;dt>alpha_sort_threshold
- * &lt;dd>Number, camera distance threshold for transparency sorting.
+ * &lt;dd>Number, camera distance threshold for transparency z-sorting.
  * &lt;dt>anaglyph_use
  * &lt;dd>Boolean, enable anaglyph stereo rendering.
  * &lt;dt>animation_framerate
- * &lt;dd>Number, animation framerate
+ * &lt;dd>Number, animation framerate.
  * &lt;dt>antialiasing
- * &lt;dd>Boolean, enable postprocessing-based antialiasing (set CUSTOM profile to
- * change).
+ * &lt;dd>Boolean, enable postprocess-based anti-aliasing (use the CUSTOM profile
+ * in order to change this parameter).
  * &lt;dt>assets_dds_available
- * &lt;dd>Boolean, allow engine to use compressed DDS textures, you must provide
- * them along non-compressed ones.
+ * &lt;dd>Boolean, allow the engine to use compressed DDS textures. The compressed
+ * textures should be present near the source textures in order to be picked up.
  * &lt;dt>assets_min50_available
- * &lt;dd>Boolean, allow engine to use low quality textures, you must provide
+ * &lt;dd>Boolean, allow the engine to use halved textures. The halved
+ * textures should be present near the source textures in order to be picked up.
  * &lt;dt>audio
- * &lt;dd>Boolean, enable webaudio.
- * them along high quality ones.
+ * &lt;dd>Boolean, enable Web Audio.
  * &lt;dt>background_color
- * &lt;dd>Float32Array, RGBA vector with WebGL canvas background color.
+ * &lt;dd>Float32Array, RGBA values to use as a background color for the WebGL
+ * canvas.
  * &lt;dt>built_in_module_name
- * &lt;dd>String, name of build-in module (for HTML export only).
+ * &lt;dd>String, name of the module which stores exported data (HTML export only).
  * &lt;dt>canvas_resolution_factor
- * &lt;dd>Boolean, set canvas resolution factor.
+ * &lt;dd>Boolean, set the resolution factor for the canvas.
  * &lt;dt>console_verbose
- * &lt;dd>Boolean, print more debug info.
- * &lt;dt>context_antialias
- * &lt;dd>Boolean, enable hardware antialiasing (for forward rendering only).
+ * &lt;dd>Boolean, print more debug info in the browser console.
  * &lt;dt>do_not_load_resources
- * &lt;dd>Boolean, disable resource loading (textures and sounds).
+ * &lt;dd>Boolean, disable loading of assets (textures and sounds).
  * &lt;dt>enable_selectable
- * &lt;dd>Boolean, enable object selection.
+ * &lt;dd>Boolean, enable selecting of objects.
  * &lt;dt>enable_outlining
- * &lt;dd>Boolean, enable object outlining.
+ * &lt;dd>Boolean, enable outlining of object.
  * &lt;dt>gyro_use
  * &lt;dd>Boolean, enable gyroscope.
  * &lt;dt>outlining_overview_mode
- * &lt;dd>Boolean, make all objects selectable, outlining and outlining on select.
+ * &lt;dd>Boolean, make all objects selectable, enable outlining and
+ * outlining on select.
  * &lt;dt>physics_enabled
- * &lt;dd>Boolean, enable uranium.js physics engine.
+ * &lt;dd>Boolean, use the uranium.js physics engine.
  * &lt;dt>physics_uranium_path
- * &lt;dd>String, path to uranium.js module, if not specified search in the
- * directory with the engine's source.
+ * &lt;dd>String, path to the uranium.js file. If not specified, search in the
+ * directory with the engine's sources.
  * &lt;dt>precision
- * &lt;dd>String, preferred GLSL floating point precision (set CUSTOM profile to
- * change).
+ * &lt;dd>String, preferred GLSL floating point precision (use the CUSTOM profile
+ * in order to change this parameter).
  * &lt;dt>quality
  * &lt;dd>Number, preferred rendering quality profile (one of P_LOW, P_HIGH,
- * P_ULTRA, P_CUSTOM constants).
+ * P_ULTRA, P_CUSTOM enums).
  * &lt;dt>resolution_factor
- * &lt;dd>Number, internal rendering resolution factor (set CUSTOM profile to
- * change).
+ * &lt;dd>Number, internal rendering resolution factor (use the CUSTOM profile
+ * in order to change this parameter).
  * &lt;dt>sfx_mix_mode
- * &lt;dd>Boolean, enable mixer mode in SFX subsystem
+ * &lt;dd>Boolean, enable the mixer mode in the SFX subsystem.
  * &lt;dt>shaders_dir
- * &lt;dd>String, path to shaders directory (developer version only).
+ * &lt;dd>String, path to the shaders directory (developer version only).
  * &lt;dt>show_hud_debug_info
  * &lt;dd>Boolean, show HUD with debug information.
  * &lt;dt>smaa
- * &lt;dd>Boolean, enable SMAA antialiasing (set CUSTOM profile to change).
+ * &lt;dd>Boolean, enable SMAA anti-aliasing (use the CUSTOM profile
+ * in order to change this parameter).
  * &lt;dt>smaa_search_texture_path
- * &lt;dd>String, path to SMAA search texture, if not specified search in the
- * directory with the engine's source.
+ * &lt;dd>String, path to the SMAA "search" texture. If not specified, search in
+ * the directory with the engine's sources.
  * &lt;dt>smaa_area_texture_path
- * &lt;dd>String, path to SMAA area texture, if not specified search in the
- * directory with the engine's source.
+ * &lt;dd>String, path to the SMAA "area" texture. If not specified, search in the
+ * directory with the engine's sources.
  * &lt;dt>wireframe_debug
  * &lt;dd>Boolean, enable wireframe debug mode.
  * &lt;/dl>
  * @module config
  * @cc_externs allow_cors allow_hidpi alpha alpha_sort
- * @cc_externs alpha_sort_threshold anaglyph_use animation_framerate antialiasing
- * @cc_externs assets_dds_available assets_min50_available audio background_color
- * @cc_externs built_in_module_name canvas_resolution_factor console_verbose context_antialias
- * @cc_externs do_not_load_resources enable_selectable enable_outlining gyro_use
- * @cc_externs outlining_overview_mode physics_enabled physics_uranium_path precision
- * @cc_externs quality resolution_factor sfx_mix_mode shaders_dir show_hud_debug_info
- * @cc_externs smaa smaa_search_texture_path smaa_area_texture_path wireframe_debug
+ * @cc_externs alpha_sort_threshold anaglyph_use animation_framerate
+ * @cc_externs antialiasing assets_dds_available assets_min50_available audio
+ * @cc_externs background_color built_in_module_name canvas_resolution_factor
+ * @cc_externs console_verbose
+ * @cc_externs do_not_load_resources enable_selectable
+ * @cc_externs enable_outlining gyro_use outlining_overview_mode
+ * @cc_externs physics_enabled physics_uranium_path precision quality
+ * @cc_externs resolution_factor sfx_mix_mode shaders_dir show_hud_debug_info
+ * @cc_externs smaa smaa_search_texture_path smaa_area_texture_path
+ * @cc_externs wireframe_debug
  */
 b4w.module["config"] = function(exports, require) {
 
@@ -134,44 +142,50 @@ var m_cfg = require("__config");
  * @const {Number} module:config.P_LOW
  */
 exports.P_LOW = m_cfg.P_LOW;
+
 /**
  * High quality profile: use all requested features.
  * @const {Number} module:config.P_HIGH
  */
 exports.P_HIGH = m_cfg.P_HIGH;
+
 /**
  * Ultra quality profile: use all requested features and maximize quality.
  * @const {Number} module:config.P_ULTRA
  */
 exports.P_ULTRA = m_cfg.P_ULTRA;
+
 /**
- * Custom quality profile: use engine defaults value, allow customizaiton.
+ * Custom quality profile: use engine defaults, allow customization.
  * @const {Number} module:config.P_CUSTOM
  */
 exports.P_CUSTOM = m_cfg.P_CUSTOM;
 
 /**
- * Set the engine's global property.
+ * Set the value of the config property of the engine.
  * @method module:config.set
  * @param {String} prop Property name
  * @param {*} value New property value
  */
 exports.set = m_cfg.set;
+
 /**
- * Get the engine's global property.
+ * Get the value of the config property of the engine.
  * @method module:config.get
  * @param {String} prop Property name
  * @returns {*} Value of property
  */
 exports.get = m_cfg.get;
+
 /**
- * Reset all the engine's global properties.
+ * Reset all the engine's config properties to defaults.
  * @method module:config.reset
  */
 exports.reset = m_cfg.reset;
+
 /**
- * Get path to assets directory. Used when application development happens
- * inside SDK.
+ * Get the path to the assets directory. Can be used when an application
+ * is developed inside the SDK.
  * @method module:config.get_std_assets_path
  * @returns {String} Path to assets
  */
@@ -188,13 +202,13 @@ exports.get_std_assets_path = m_cfg.get_std_assets_path;
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Wed Apr 29 2015 10:10:49 GMT+0300 (MSK)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Tue May 26 2015 12:05:03 GMT+0300 (MSK)
 </footer>
 
 <script> prettyPrint(); </script>

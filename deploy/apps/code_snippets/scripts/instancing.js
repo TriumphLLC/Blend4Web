@@ -9,7 +9,7 @@ var m_obj   = require("objects");
 var m_trans = require("transform");
 var m_cfg    = require("config");
 
-var APP_ASSETS_PATH = m_cfg.get_std_assets_path();
+var APP_ASSETS_PATH = m_cfg.get_std_assets_path() + "code_snippets/instancing";
 var NUM_OF_POINTS = 10;
 var POS = 10;
 
@@ -17,7 +17,7 @@ var _monkeys_num = 0;
 
 exports.init = function() {
     m_app.init({
-        canvas_container_id: "canvas3d",
+        canvas_container_id: "canvas_cont",
         callback: init_cb,
         physics_enabled: false,
         show_fps: true,
@@ -38,7 +38,7 @@ function init_cb(canvas_elem, success) {
 }
 
 function load() {
-    m_data.load(APP_ASSETS_PATH + "code_snippets/instancing/instancing.json", load_cb);
+    m_data.load(APP_ASSETS_PATH + "/instancing.json", load_cb);
 }
 
 function load_cb(data_id) {

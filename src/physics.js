@@ -570,11 +570,12 @@ function init_static_mesh_physics(obj, batch) {
 
     var friction = batch.friction;
     var restitution = batch.elasticity;
+    var collision_margin = batch.collision_margin;
     var collision_group = batch.collision_group;
     var collision_mask = batch.collision_mask;
 
     m_ipc.post_msg(m_ipc.OUT_APPEND_STATIC_MESH_BODY, body_id, positions, indices,
-            trans, friction, restitution, collision_group, collision_mask);
+            trans, friction, restitution, collision_margin, collision_group, collision_mask);
 
     var phy = init_physics(body_id);
     return phy;
@@ -619,6 +620,7 @@ function init_ghost_mesh_physics(obj, batch) {
     var submesh = batch.submesh;
     var positions = submesh.va_frames[0]["a_position"];
     var indices = submesh.indices || null;
+    var collision_margin = batch.collision_margin;
     var collision_group = batch.collision_group;
     var collision_mask = batch.collision_mask;
 
@@ -626,7 +628,7 @@ function init_ghost_mesh_physics(obj, batch) {
     var trans = obj._render.trans;
 
     m_ipc.post_msg(m_ipc.OUT_APPEND_GHOST_MESH_BODY, body_id, positions, indices, trans,
-             collision_group, collision_mask);
+             collision_margin, collision_group, collision_mask);
 
     var phy = init_physics(body_id);
     phy.is_ghost = true;
@@ -678,6 +680,7 @@ function init_bounding_physics(obj, physics_type, compound_children) {
     var velocity_max = game["velocity_max"];
     var damping = game["damping"];
     var rotation_damping = game["rotation_damping"];
+    var collision_margin = game["collision_margin"];
     var collision_group = game["collision_group"];
     var collision_mask = game["collision_mask"];
     var size = render.bs_local.radius;
@@ -690,7 +693,7 @@ function init_bounding_physics(obj, physics_type, compound_children) {
     m_ipc.post_msg(m_ipc.OUT_APPEND_BOUNDING_BODY, body_id, trans, quat,
             physics_type, is_ghost, disable_sleeping, mass,
             velocity_min, velocity_max, damping, rotation_damping,
-            collision_group, collision_mask,
+            collision_margin, collision_group, collision_mask,
             bounding_type, worker_bounding, size, friction,
             restitution, comp_children_params, correct_bound_offset);
 

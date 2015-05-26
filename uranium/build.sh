@@ -13,6 +13,8 @@ PROJECT=uranium
 
 DU_MODULES=(duCharacter duBoat duFloatingBody duWater duWorld bindings)
 
+CMAKE_TOOLCHAIN=~/src/emsdk_portable/emscripten/master/cmake/Modules/Platform/Emscripten.cmake 
+
 if [ ! -d "$BUILDDIR" ]; then
 	mkdir $BUILDDIR
 else
@@ -22,10 +24,10 @@ fi
 cd $BUILDDIR
 
 #COPTS="-O1"
-#COPTS="-Oz"
-COPTS="-O2 --llvm-lto 1"
-#COPTS="-O3 -s INLINING_LIMIT=100"
-#COPTS="-O3 --llvm-lto 1"
+#COPTS="-Oz -DNDEBUG"
+COPTS="-O2 --llvm-lto 1 -DNDEBUG"
+#COPTS="-O3 -s INLINING_LIMIT=100 -DNDEBUG"
+#COPTS="-O3 --llvm-lto 1 -DNDEBUG"
 
 #LOPTS="-O1"
 #LOPTS="-Oz -s DOUBLE_MODE=0 -s CORRECT_OVERFLOWS=0 -s CORRECT_ROUNDINGS=0 -s CORRECT_SIGNS=0 -s PRECISE_I64_MATH=0 --closure 1"
@@ -45,10 +47,8 @@ done
 
 echo "Compile bullet" 
 
-
-$EMCONFIGURE ../bullet/configure CXXFLAGS="$COPTS" --disable-demos --disable-dependency-tracking
-$EMMAKE make -j8
-
+cmake -D CMAKE_CXX_FLAGS_RELEASE="$COPTS -Wno-warn-absolute-paths" -D BUILD_BULLET2_DEMOS:BOOL=OFF -D BUILD_BULLET3:BOOL=OFF -D BUILD_EXTRAS:BOOL=OFF -D BUILD_UNIT_TESTS:BOOL=OFF -D CMAKE_TOOLCHAIN_FILE=$CMAKE_TOOLCHAIN -G Unix\ Makefiles ../bullet/
+VERBOSE=1 $EMMAKE make -j8
 
 EXPFUN="\
 _du_create_world \
@@ -63,6 +63,7 @@ _du_get_body_id_by_pointer \
 _du_vec3 \
 _du_quat4 \
 _du_array6 \
+_du_create_mesh_shape \
 _du_create_static_mesh_body \
 _du_create_ghost_mesh_body \
 _du_create_box_shape \
@@ -76,6 +77,8 @@ _du_set_quat \
 _du_set_trans_quat \
 _du_get_trans \
 _du_get_trans_quat \
+_du_set_margin \
+_du_get_margin \
 _du_create_dynamic_bounding_body \
 _du_create_ghost_bounding_body \
 _du_pre_simulation \
@@ -167,5 +170,5 @@ LOPTS3="-s EXPORTED_FUNCTIONS=[${LOPTS3:1}]"
 
 echo "Generate JS ($LOPTS)"
 
-EMCC_DEBUG=1 $EMCC $LOPTS $LOPTS2 $LOPTS3 bindings.bc duCharacter.bc duBoat.bc duFloatingBody.bc duWater.bc duWorld.bc src/.libs/libBulletDynamics.a src/.libs/libBulletCollision.a src/.libs/libLinearMath.a -o $PROJECT.js
+EMCC_DEBUG=1 $EMCC $LOPTS $LOPTS2 $LOPTS3 bindings.bc duCharacter.bc duBoat.bc duFloatingBody.bc duWater.bc duWorld.bc src/BulletDynamics/libBulletDynamics.a src/BulletCollision/libBulletCollision.a src/LinearMath/libLinearMath.a -o $PROJECT.js
 

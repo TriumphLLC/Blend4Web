@@ -475,7 +475,7 @@ function setup_lava(elapsed_sensor) {
         }
     }
 
-    var lava_ray = m_ctl.create_ray_sensor(_character, [0, 0, 0], [0, -0.25, 0],
+    var lava_ray = m_ctl.create_ray_sensor(_character, [0, 0, 0], [0, -0.30, 0],
                                            false, "LAVA");
 
     m_ctl.create_sensor_manifold(_character, "LAVA_COLLISION",

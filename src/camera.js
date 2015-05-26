@@ -39,9 +39,6 @@ exports.TYPE_STEREO_RIGHT = 80;
 // contolled by low-level set_look_at()
 exports.MS_STATIC = 0;
 
-// deprecated
-exports.MS_ANIMATION = 1;
-
 // controlled by keyboard key directions:
 exports.MS_TARGET_CONTROLS = 2;
 
@@ -123,19 +120,13 @@ exports.camera_object_to_camera = function(camobj) {
     render.enable_hover_hor_rotation = camobj["data"]["b4w_enable_hover_hor_rotation"];
 
     render.cameras  = [cam];
-
-    if (render.move_style == exports.MS_TARGET_CONTROLS
-            || render.move_style == exports.MS_EYE_CONTROLS
-            || render.move_style == exports.MS_HOVER_CONTROLS) {
-        render.velocity_trans = camobj["data"]["b4w_trans_velocity"];
-        render.velocity_rot   = camobj["data"]["b4w_rot_velocity"];
-        render.velocity_zoom  = camobj["data"]["b4w_zoom_velocity"];
-    }
+    render.velocity_trans = camobj["data"]["b4w_trans_velocity"];
+    render.velocity_rot   = camobj["data"]["b4w_rot_velocity"];
+    render.velocity_zoom  = camobj["data"]["b4w_zoom_velocity"];
 
     if (render.move_style == exports.MS_TARGET_CONTROLS) {
         render.pivot.set(camobj_data["b4w_target"]);
-        var z_world_cam = m_util.quat_to_dir(render.quat, m_util.AXIS_Z, _vec3_tmp);
-        render.target_cam_upside_down = z_world_cam[1] > 0;
+        update_camera_upside_down(camobj);
     }
 
     prepare_clamping_limits(camobj);
@@ -195,6 +186,7 @@ function init_hover_pivot(camobj) {
     }
 }
 
+exports.init_ortho_props = init_ortho_props;
 function init_ortho_props(camobj) {
     var render = camobj._render;
     switch (render.move_style) {
@@ -263,15 +255,7 @@ function init_camera(type) {
         dof_object : null,
         dof_on : 0,
 
-        frustum_planes : {
-            left:   new Float32Array([0, 0, 0, 0]),
-            right:  new Float32Array([0, 0, 0, 0]),
-            top:    new Float32Array([0, 0, 0, 0]),
-            bottom: new Float32Array([0, 0, 0, 0]),
-            near:   new Float32Array([0, 0, 0, 0]),
-            far:    new Float32Array([0, 0, 0, 0])
-        },
-
+        frustum_planes : create_frustum_planes(),
         stereo_conv_dist : 0,
         stereo_eye_dist : 0,
 
@@ -285,6 +269,19 @@ function init_camera(type) {
     };
 
     return cam;
+}
+
+exports.create_frustum_planes = create_frustum_planes;
+function create_frustum_planes() {
+    var frustum_planes = {
+        left:   new Float32Array([0, 0, 0, 0]),
+        right:  new Float32Array([0, 0, 0, 0]),
+        top:    new Float32Array([0, 0, 0, 0]),
+        bottom: new Float32Array([0, 0, 0, 0]),
+        near:   new Float32Array([0, 0, 0, 0]),
+        far:    new Float32Array([0, 0, 0, 0])
+    };
+    return frustum_planes;
 }
 
 function move_style_bpy_to_b4w(bpy_move_style) {
@@ -1336,7 +1333,7 @@ function hover_cam_clamp_axis_limits(obj) {
 function hover_cam_clamp_rotation(obj) {
     var render = obj._render;
 
-    if (render.use_distance_limits) {
+    if (render.use_distance_limits && render.hover_angle_limits) {
         var curr_angle = get_camera_angles(obj, _vec2_tmp)[1];
 
         var ret_angle = m_util.calc_returning_angle(curr_angle, 

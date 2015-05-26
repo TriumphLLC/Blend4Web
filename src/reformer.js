@@ -22,6 +22,8 @@ var m_mat4 = require("mat4");
 
 var REPORT_COMPATIBILITY_ISSUES = true;
 
+var REQUIRED_FOR_PART_SYS_BIN_FORMAT = 5.04;
+
 var _unreported_compat_issues = false;
 
 var _params_reported = {};
@@ -123,6 +125,10 @@ function reform_node (node) {
     }
 }
 
+exports.check_particles_bin_format = function(loaded_data_version) {
+    return loaded_data_version >= REQUIRED_FOR_PART_SYS_BIN_FORMAT;
+}
+
 /**
  * Check bpy_data, perform necessary compatibility hacks.
  */
@@ -164,7 +170,8 @@ exports.check_bpy_data = function(bpy_data) {
             "use_sky_blend": false,
             "use_sky_real": false,
             "b4w_fog_color": [0.5, 0.5, 0.5],
-            "b4w_fog_density": 0.0
+            "b4w_fog_density": 0.0,
+            "texture_slots": []
         }
         worlds.push(world);
     }
@@ -272,6 +279,26 @@ exports.check_bpy_data = function(bpy_data) {
             report("world", world, "b4w_outline_factor");
         }
 
+        if (!("b4w_small_glow_mask_coeff" in world)) {
+            report("world", world, "b4w_small_glow_mask_coeff");
+            world["b4w_small_glow_mask_coeff"] = 2.0;
+        }
+
+        if (!("b4w_large_glow_mask_coeff" in world)) {
+            report("world", world, "b4w_large_glow_mask_coeff");
+            world["b4w_large_glow_mask_coeff"] = 2.0;
+        }
+
+        if (!("b4w_small_glow_mask_width" in world)) {
+            report("world", world, "b4w_small_glow_mask_width");
+            world["b4w_small_glow_mask_width"] = 2.0;
+        }
+
+        if (!("b4w_large_glow_mask_width" in world)) {
+            report("world", world, "b4w_large_glow_mask_width");
+            world["b4w_large_glow_mask_width"] = 6.0;
+        }
+
         if(!("b4w_fog_density" in world)) {
             report("world", world, "b4w_fog_density");
             world["b4w_fog_density"] = 0.0;
@@ -352,6 +379,64 @@ exports.check_bpy_data = function(bpy_data) {
         if(!("steps_per_pass" in world["b4w_god_rays_settings"])) {
             report("world", world, "b4w_god_rays_settings.steps_per_pass");
             world["b4w_god_rays_settings"]["steps_per_pass"] = 10.0;
+        }
+
+        if (!("b4w_render_glow_over_blend" in world)) {
+            world["b4w_render_glow_over_blend"] = false;
+            report("world", world, "b4w_render_glow_over_blend");
+        }
+
+        var texture_slots = world["texture_slots"];
+        for (var j = 0; j < texture_slots.length; j++) {
+            var slot = texture_slots[j];
+            if (!("blend_type" in slot)) {
+                slot["blend_type"] = "MIX";
+                report("world_texture_slot", slot, "blend_type");
+            }
+            if (!("use_map_blend" in slot)) {
+                slot["use_map_blend"] = false;
+                report("world_texture_slot", slot, "use_map_blend");
+            }
+            if (!("use_map_horizon" in slot)) {
+                slot["use_map_horizon"] = true;
+                report("world_texture_slot", slot, "use_map_horizon");
+            }
+            if (!("use_map_zenith_up" in slot)) {
+                slot["use_map_zenith_up"] = false;
+                report("world_texture_slot", slot, "use_map_zenith_up");
+            }
+            if (!("use_rgb_to_intensity" in slot)) {
+                slot["use_rgb_to_intensity"] = false;
+                report("world_texture_slot", slot, "use_rgb_to_intensity");
+            }
+            if (!("invert" in slot)) {
+                slot["invert"] = false;
+                report("world_texture_slot", slot, "invert");
+            }
+            if (!("color" in slot)) {
+                slot["color"] = [1.0, 0.0, 1.0];
+                report("world_texture_slot", slot, "color");
+            }
+            if (!("blend_factor" in slot)) {
+                slot["blend_factor"] = 0.0;
+                report("world_texture_slot", slot, "blend_factor");
+            }
+            if (!("horizon_factor" in slot)) {
+                slot["horizon_factor"] = 1.0;
+                report("world_texture_slot", slot, "horizon_factor");
+            }
+            if (!("zenith_up_factor" in slot)) {
+                slot["zenith_up_factor"] = 0.0;
+                report("world_texture_slot", slot, "zenith_up_factor");
+            }
+            if (!("zenith_down_factor" in slot)) {
+                slot["zenith_down_factor"] = 0.0;
+                report("world_texture_slot", slot, "zenith_down_factor");
+            }
+            if (!("default_value" in slot)) {
+                slot["default_value"] = 1.0;
+                report("world_texture_slot", slot, "default_value");
+            }
         }
     }
 
@@ -443,6 +528,14 @@ exports.check_bpy_data = function(bpy_data) {
         if (!("b4w_enable_outlining" in scene)) {
             scene["b4w_enable_outlining"] = "AUTO";
             report("scene", scene, "b4w_enable_outlining");
+        }
+        if (!("b4w_enable_glow_materials" in scene)) {
+            scene["b4w_enable_glow_materials"] = "AUTO";
+            report("scene", scene, "b4w_enable_glow_materials");
+        }
+        if (!("b4w_enable_anchors_visibility" in scene)) {
+            scene["b4w_enable_anchors_visibility"] = "AUTO";
+            report("scene", scene, "b4w_enable_anchors_visibility");
         }
     }
 
@@ -711,6 +804,8 @@ exports.check_bpy_data = function(bpy_data) {
             speaker["b4w_playlist_id"] = "";
             //report("speaker", speaker, "b4w_playlist_id");
         }
+        if (speaker["animation_data"])
+            check_strip_props(speaker["animation_data"]);
     }
 
     /* textures */
@@ -941,6 +1036,11 @@ exports.check_bpy_data = function(bpy_data) {
             //report("material", mat, "b4w_use_ghost");
         }
 
+        if (!("b4w_collision_margin" in mat)) {
+            mat["b4w_collision_margin"] = 0.040;
+            report("material", mat, "b4w_collision_margin");
+        }
+
         if (!("b4w_collision_group" in mat)) {
             mat["b4w_collision_group"] = 128;
             report("material", mat, "b4w_collision_group");
@@ -1083,6 +1183,8 @@ exports.check_bpy_data = function(bpy_data) {
             var nodes = mat["node_tree"]["nodes"];
             for (var j = 0; j < nodes.length; j++)
                 reform_node(nodes[j]);
+            if (mat["node_tree"]["animation_data"])
+                check_strip_props(mat["node_tree"]["animation_data"]);
         }
     }
 
@@ -1119,6 +1221,10 @@ exports.check_bpy_data = function(bpy_data) {
             if (!("b4w_reflective" in obj)) {
                 obj["b4w_reflective"] = false;
                 //report("object", obj, "b4w_reflective");
+            }
+            if (!("b4w_reflection_type" in obj)) {
+                obj["b4w_reflection_type"] = "PLANE";
+                report("object", obj, "b4w_reflection_type");
             }
 
             if (!("b4w_wind_bending" in obj)) {
@@ -1401,6 +1507,11 @@ exports.check_bpy_data = function(bpy_data) {
             break;
         }
 
+        if (!("collision_margin" in obj["game"])) {
+            obj["game"]["collision_margin"] = 0.040;
+            report("object", obj, "collision_margin");
+        }
+
         if (!("b4w_anim_behavior" in obj)) {
             obj["b4w_anim_behavior"] = obj["b4w_cyclic_animation"] ?
                     "CYCLIC" : "FINISH_STOP";
@@ -1436,6 +1547,11 @@ exports.check_bpy_data = function(bpy_data) {
         for (var j = 0; j < psystems.length; j++) {
             var psys = psystems[j];
             var pset = psys["settings"];
+
+            if (!("use_rotation_dupli" in pset)) {
+                pset["use_rotation_dupli"] = false;
+                report("object", pset, "use_rotation_dupli");
+            }
 
             if (!("use_whole_group" in pset)) {
                 pset["use_whole_group"] = false;
@@ -1571,28 +1687,7 @@ exports.check_bpy_data = function(bpy_data) {
                 report_raw("no NLA in animation data " + obj["name"]);
             }
 
-            var nla_tracks = obj["animation_data"]["nla_tracks"];
-            for (var j = 0; j < nla_tracks.length; j++) {
-                var track = nla_tracks[j];
-
-                for (var k = 0; k < track["strips"].length; k++) {
-                    var strip = track["strips"][k];
-                    if (!("action" in strip)) {
-                        strip["action"] = null;
-                        report_raw("no action in NLA strip " + obj["name"]);
-                    }
-                    if (!("action_frame_start" in strip)) {
-                        strip["action_frame_start"] = 0;
-                        report_raw("no action_frame_start in NLA strip " +
-                                obj["name"]);
-                    }
-                    if (!("action_frame_end" in strip)) {
-                        strip["action_frame_end"] = strip["frame_end"] - strip["frame_start"];
-                        report_raw("no action_frame_start in NLA strip " +
-                                obj["name"]);
-                    }
-                }
-            }
+            check_strip_props(obj["animation_data"]);
         }
 
         if (!("b4w_collision_id" in obj)) {
@@ -1614,6 +1709,43 @@ exports.check_bpy_data = function(bpy_data) {
             " is " + param_data.report_type + " for " + param_data.type +
              ", reexport " + bpy_data["b4w_filepath_blend"]);
     }
+}
+
+function check_strip_props(animation_data) {
+
+    var nla_tracks = animation_data["nla_tracks"];
+    if (nla_tracks)
+        for (var j = 0; j < nla_tracks.length; j++) {
+            var track = nla_tracks[j];
+            for (var k = 0; k < track["strips"].length; k++) {
+                var strip = track["strips"][k];
+                if (!("action" in strip)) {
+                    strip["action"] = null;
+                    report("strip", strip, "action");
+                }
+                if (!("action_frame_start" in strip)) {
+                    strip["action_frame_start"] = 0;
+                    report("strip", strip, "action_frame_start");
+                }
+                if (!("action_frame_end" in strip)) {
+                    strip["action_frame_end"] = strip["frame_end"] - strip["frame_start"];
+                    report("strip", strip, "action_frame_end");
+                }
+
+                if (!("repeat" in strip)) {
+                    strip["repeat"] = 1;
+                    report("strip", strip, "repeat");
+                }
+                if (!("use_reverse" in strip)) {
+                    strip["use_reverse"] = false;
+                    report("strip", strip, "use_reverse");
+                }
+                if (!("scale" in strip)) {
+                    strip["scale"] = 1;
+                    report("strip", strip, "scale");
+                }
+            }
+        }
 }
 
 function check_export_props(obj) {

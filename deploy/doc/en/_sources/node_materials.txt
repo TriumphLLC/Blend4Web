@@ -158,6 +158,10 @@ B4W_TRANSLUCENCY
 *Translucency*
 	Выход должен быть подключен ко входу ``Translucency`` ноды ``Extended Material``.
 
+.. note::
+
+  Возможно некорректное поведение ноды, если используются :ref:`отредактированные нормали <normals_editor>`.
+
 B4W_REFRACTION
 --------------
 
@@ -233,5 +237,28 @@ B4W_SMOOTHSTEP
 .. note::
     Для корректной интерполяции входное значение ''Value'' должно лежать в диапазоне между ''Edge0'' и ''Edge1''.
     
+
+.. _glow_output:
+
+B4W_GLOW_OUTPUT
+---------------
+
+Применяет :ref:`эффект свечения (Glow) <glow>` к нодовому материалу. Помимо ноды *B4W_GLOW_OUTPUT* в нодовом материале должна присутствовать нода *Output*.
+
+.. image:: src_images/node_materials/glow_output.png
+   :align: center
+   :width: 100%
+
+Входные параметры
+.................
+
+*Glow Color*
+    Цвет свечения.
+*Factor*
+    Степень свечения. *Factor* :math:`\in [0, 1]`.
+
+    * *Factor = 0* - свечение отсутствует. 
+    * *Factor* :math:`\in (0, 1]` - свечение цветом *Glow Color*.
+
 
 

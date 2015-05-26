@@ -10,7 +10,7 @@ var m_scs   = require("scenes");
 
 exports.init = function() {
     m_app.init({
-        canvas_container_id: "canvas3d",
+        canvas_container_id: "canvas_cont",
         callback: init_cb,
         physics_enabled: false,
         show_fps: true,

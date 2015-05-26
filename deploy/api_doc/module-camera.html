@@ -38,9 +38,9 @@
     <div class="container-overview">
     
         
-            <div class="description">Camera API. 
-All functions require a valid camera object ID. Use get_object_by_name() or
-get_active_camera() from <a href="module-scenes.html">module:scenes</a> to retrieve it.</div>
+            <div class="description">Camera API.
+All functions require a valid camera object reference. Use get_object_by_name() or
+get_active_camera() from <a href="module-scenes.html">module:scenes</a> to obtain it.</div>
         
 
         
@@ -168,7 +168,7 @@ get_active_camera() from <a href="module-scenes.html">module:scenes</a> to retri
 
         
             
-<li> <a href="#.apply_horizontal_limits">apply_horizontal_limits<span class="signature">(camobj, left_value, right_value, space)</span><span class="type-signature"></span></a></li>
+<li> <a href="#.apply_horizontal_limits">apply_horizontal_limits<span class="signature">(camobj, left_value, right_value, space<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></a></li>
 
         
             
@@ -352,11 +352,15 @@ get_active_camera() from <a href="module-scenes.html">module:scenes</a> to retri
 
         
             
+<li> <a href="#.set_hover_pivot">set_hover_pivot<span class="signature">(camobj, coords)</span><span class="type-signature"></span></a></li>
+
+        
+            
 <li> <a href="#.set_look_at">set_look_at<span class="signature">(camobj, eye, target, up)</span><span class="type-signature"></span></a></li>
 
         
             
-<li> <a href="#.set_move_style">set_move_style<span class="signature">(camobj, move_style)</span><span class="type-signature"></span></a></li>
+<li> <a href="#.set_move_style">set_move_style<span class="signature">(camobj, move_style)</span><span class="type-signature"> &rarr; {Boolean}</span></a></li>
 
         
             
@@ -408,7 +412,7 @@ get_active_camera() from <a href="module-scenes.html">module:scenes</a> to retri
 <div class="item_description">
 
 <div class="description">
-    Camera movement style - animated.
+    The camera's movement style: animated.
 </div>
 
 
@@ -434,6 +438,8 @@ get_active_camera() from <a href="module-scenes.html">module:scenes</a> to retri
     
 
     
+        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>use MS_STATIC instead.</li></ul></dd>
+    
 
     
 
@@ -446,7 +452,7 @@ get_active_camera() from <a href="module-scenes.html">module:scenes</a> to retri
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line38">line 38</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line40">line 40</a>
     </li></ul></dd>
     
 
@@ -475,7 +481,7 @@ get_active_camera() from <a href="module-scenes.html">module:scenes</a> to retri
 <div class="item_description">
 
 <div class="description">
-    Camera movement style - eye.
+    The camera's movement style: eye.
 </div>
 
 
@@ -513,7 +519,7 @@ get_active_camera() from <a href="module-scenes.html">module:scenes</a> to retri
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line48">line 48</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line51">line 51</a>
     </li></ul></dd>
     
 
@@ -542,7 +548,7 @@ get_active_camera() from <a href="module-scenes.html">module:scenes</a> to retri
 <div class="item_description">
 
 <div class="description">
-    Camera movement style - hover.
+    The camera's movement style: hover.
 </div>
 
 
@@ -580,7 +586,7 @@ get_active_camera() from <a href="module-scenes.html">module:scenes</a> to retri
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line53">line 53</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line56">line 56</a>
     </li></ul></dd>
     
 
@@ -609,7 +615,7 @@ get_active_camera() from <a href="module-scenes.html">module:scenes</a> to retri
 <div class="item_description">
 
 <div class="description">
-    Camera movement style - static.
+    The camera's movement style: static (non-interactive).
 </div>
 
 
@@ -647,7 +653,7 @@ get_active_camera() from <a href="module-scenes.html">module:scenes</a> to retri
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line33">line 33</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line35">line 35</a>
     </li></ul></dd>
     
 
@@ -676,7 +682,7 @@ get_active_camera() from <a href="module-scenes.html">module:scenes</a> to retri
 <div class="item_description">
 
 <div class="description">
-    Camera movement style - target.
+    The camera's movement style: target.
 </div>
 
 
@@ -714,7 +720,7 @@ get_active_camera() from <a href="module-scenes.html">module:scenes</a> to retri
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line43">line 43</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line46">line 46</a>
     </li></ul></dd>
     
 
@@ -752,7 +758,7 @@ get_active_camera() from <a href="module-scenes.html">module:scenes</a> to retri
 <div class="item_description">
 
 <div class="description">
-    Set distance limits for the TARGET camera.
+    Set the distance limits for the TARGET/HOVER camera.
 </div>
 
 
@@ -903,7 +909,7 @@ get_active_camera() from <a href="module-scenes.html">module:scenes</a> to retri
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line691">line 691</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line762">line 762</a>
     </li></ul></dd>
     
 
@@ -925,7 +931,7 @@ get_active_camera() from <a href="module-scenes.html">module:scenes</a> to retri
 
     
 
-    <h4 class="name" id=".apply_horizontal_limits">apply_horizontal_limits<span class="signature">(camobj, left_value, right_value, space)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".apply_horizontal_limits">apply_horizontal_limits<span class="signature">(camobj, left_value, right_value, space<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
     
 
@@ -933,7 +939,7 @@ get_active_camera() from <a href="module-scenes.html">module:scenes</a> to retri
 <div class="item_description">
 
 <div class="description">
-    Set horizontal angle limits for the TARGET/EYE camera or horizontal (X axis)
+    Set the horizontal angle limits for the TARGET/EYE camera, or the horizontal (X axis)
 translation limits for the HOVER camera.
 </div>
 
@@ -958,7 +964,11 @@ translation limits for the HOVER camera.
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
+        
+        <th>Default</th>
         
 
         <th class="last">Description</th>
@@ -983,7 +993,19 @@ translation limits for the HOVER camera.
             </td>
 
             
+                <td class="attributes">
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
             
 
             <td class="description last">Camera object ID</td>
@@ -1006,7 +1028,19 @@ translation limits for the HOVER camera.
             </td>
 
             
+                <td class="attributes">
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
             
 
             <td class="description last">Horizontal left limit</td>
@@ -1029,7 +1063,19 @@ translation limits for the HOVER camera.
             </td>
 
             
+                <td class="attributes">
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
             
 
             <td class="description last">Horizontal right limit</td>
@@ -1052,10 +1098,26 @@ translation limits for the HOVER camera.
             </td>
 
             
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
 
+                
+
+                
+                </td>
             
 
-            <td class="description last">Space to make clamping relative to</td>
+            
+                <td class="default">
+                
+                    transform.SPACE_WORLD
+                
+                </td>
+            
+
+            <td class="description last">Space to make clamping relative to (actual for the TARGET/EYE camera)</td>
         </tr>
 
     
@@ -1108,7 +1170,7 @@ translation limits for the HOVER camera.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line546">line 546</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line616">line 616</a>
     </li></ul></dd>
     
 
@@ -1145,7 +1207,7 @@ translation limits for the HOVER camera.
 <div class="item_description">
 
 <div class="description">
-    Set hover angle limits for the HOVER camera.
+    Set the hover angle limits for the HOVER camera.
 </div>
 
 
@@ -1296,7 +1358,7 @@ translation limits for the HOVER camera.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line641">line 641</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line712">line 712</a>
     </li></ul></dd>
     
 
@@ -1333,7 +1395,7 @@ translation limits for the HOVER camera.
 <div class="item_description">
 
 <div class="description">
-    Set vertical angle limits for the TARGET/EYE camera or vertical (Z axis)
+    Set the vertical angle limits for the TARGET/EYE camera, or the vertical (Z axis)
 translation limits for the HOVER camera.
 </div>
 
@@ -1511,7 +1573,7 @@ translation limits for the HOVER camera.
                 </td>
             
 
-            <td class="description last">Space to make clamping relative to</td>
+            <td class="description last">Space to make clamping relative to (actual for the TARGET/EYE camera)</td>
         </tr>
 
     
@@ -1564,7 +1626,7 @@ translation limits for the HOVER camera.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line495">line 495</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line565">line 565</a>
     </li></ul></dd>
     
 
@@ -1601,8 +1663,8 @@ translation limits for the HOVER camera.
 <div class="item_description">
 
 <div class="description">
-    Calculate the direction of the camera ray based on screen coords
-Screen space origin is the top left corner
+    Calculate the direction of the camera ray based on the screen coordinates.
+The origin of the screen space is located in the top left corner.
 </div>
 
 
@@ -1834,7 +1896,7 @@ Screen space origin is the top left corner
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1146">line 1146</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1215">line 1215</a>
     </li></ul></dd>
     
 
@@ -1864,7 +1926,7 @@ Screen space origin is the top left corner
 <div class="item_description">
 
 <div class="description">
-    Remove distance clamping limits for the TARGET camera
+    Remove the distance clamping limits from the TARGET camera.
 </div>
 
 
@@ -1969,7 +2031,7 @@ Screen space origin is the top left corner
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line719">line 719</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line790">line 790</a>
     </li></ul></dd>
     
 
@@ -1999,7 +2061,7 @@ Screen space origin is the top left corner
 <div class="item_description">
 
 <div class="description">
-    Remove horizontal clamping limits from the TARGET/EYE/HOVER camera.
+    Remove the horizontal clamping limits from the TARGET/EYE/HOVER camera.
 </div>
 
 
@@ -2104,7 +2166,7 @@ Screen space origin is the top left corner
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line586">line 586</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line657">line 657</a>
     </li></ul></dd>
     
 
@@ -2134,7 +2196,7 @@ Screen space origin is the top left corner
 <div class="item_description">
 
 <div class="description">
-    Remove hover angle limits from the HOVER camera.
+    Remove the hover angle limits from the HOVER camera.
 </div>
 
 
@@ -2239,7 +2301,7 @@ Screen space origin is the top left corner
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line677">line 677</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line748">line 748</a>
     </li></ul></dd>
     
 
@@ -2269,7 +2331,7 @@ Screen space origin is the top left corner
 <div class="item_description">
 
 <div class="description">
-    Remove vertical clamping limits from the TARGET/EYE/HOVER camera.
+    Remove the vertical clamping limits from the TARGET/EYE/HOVER camera.
 </div>
 
 
@@ -2374,7 +2436,7 @@ Screen space origin is the top left corner
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line536">line 536</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line606">line 606</a>
     </li></ul></dd>
     
 
@@ -2404,7 +2466,7 @@ Screen space origin is the top left corner
 <div class="item_description">
 
 <div class="description">
-    Up correction is required in some cases then camera releases from constrainted mode.
+    Correct the UP vector of the camera. This is sometimes required when the camera exits constrained mode.
 </div>
 
 
@@ -2532,7 +2594,7 @@ Screen space origin is the top left corner
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1038">line 1038</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1107">line 1107</a>
     </li></ul></dd>
     
 
@@ -2562,8 +2624,7 @@ Screen space origin is the top left corner
 <div class="item_description">
 
 <div class="description">
-    Get angles.
-Get the camera horizontal and vertical angles
+    Get the horizontal and vertical angles of the camera.
 </div>
 
 
@@ -2721,7 +2782,7 @@ Get the camera horizontal and vertical angles
     
 
     
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Use get_camera_angles() instead</li></ul></dd>
+        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Use get_camera_angles() instead.</li></ul></dd>
     
 
     
@@ -2735,7 +2796,7 @@ Get the camera horizontal and vertical angles
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line909">line 909</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line979">line 979</a>
     </li></ul></dd>
     
 
@@ -2765,7 +2826,7 @@ Get the camera horizontal and vertical angles
 <div class="item_description">
 
 <div class="description">
-    Get distance limits of the TARGET/HOVER camera.
+    Get the distance limits of the TARGET/HOVER camera.
 </div>
 
 
@@ -2935,7 +2996,7 @@ Get the camera horizontal and vertical angles
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line400">line 400</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line444">line 444</a>
     </li></ul></dd>
     
 
@@ -2965,8 +3026,8 @@ Get the camera horizontal and vertical angles
 <div class="item_description">
 
 <div class="description">
-    Get camera azimuth and elevation angles (CCW as seen from the rotation axis) 
-for the TARGET/HOVER move style or camera orientation angles for the EYE move style.
+    Get the azimuth and elevation angles (CCW as seen from the rotation axis)
+of the TARGET/HOVER camera, or the orientation angles of the EYE camera.
 </div>
 
 
@@ -3137,7 +3198,7 @@ phi ~ [0, 2PI], theta ~ [-PI, PI]</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line874">line 874</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line944">line 944</a>
     </li></ul></dd>
     
 
@@ -3174,9 +3235,9 @@ phi ~ [0, 2PI], theta ~ [-PI, PI]</td>
 <div class="item_description">
 
 <div class="description">
-    Get camera azimuth and elevation angles (CCW as seen from the rotation axis)
-for the TARGET/HOVER move style or camera orientation angles for the EYE move style.
-Angles are converted for the character object.
+    Get the azimuth and elevation angles (CCW as seen from the rotation axis)
+of the TARGET/HOVER camera, or the orientation angles of the EYE camera.
+The angles are converted for the character object.
 </div>
 
 
@@ -3347,7 +3408,7 @@ phi ~ [0, 2PI], theta ~ [-PI, PI]</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line891">line 891</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line961">line 961</a>
     </li></ul></dd>
     
 
@@ -3384,7 +3445,7 @@ phi ~ [0, 2PI], theta ~ [-PI, PI]</td>
 <div class="item_description">
 
 <div class="description">
-    Get camera eye vector.
+    Get the eye vector of the camera.
 </div>
 
 
@@ -3554,7 +3615,7 @@ phi ~ [0, 2PI], theta ~ [-PI, PI]</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line181">line 181</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line223">line 223</a>
     </li></ul></dd>
     
 
@@ -3584,7 +3645,7 @@ phi ~ [0, 2PI], theta ~ [-PI, PI]</td>
 <div class="item_description">
 
 <div class="description">
-    Get camera vertical field of view angle.
+    Get the vertical angle of the camera's field of view.
 </div>
 
 
@@ -3711,7 +3772,7 @@ phi ~ [0, 2PI], theta ~ [-PI, PI]</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1005">line 1005</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1074">line 1074</a>
     </li></ul></dd>
     
 
@@ -3741,7 +3802,7 @@ phi ~ [0, 2PI], theta ~ [-PI, PI]</td>
 <div class="item_description">
 
 <div class="description">
-    Set camera vertical field of view angle.
+    Set the vertical angle of the camera's field of view.
 </div>
 
 
@@ -3869,7 +3930,7 @@ phi ~ [0, 2PI], theta ~ [-PI, PI]</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1015">line 1015</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1084">line 1084</a>
     </li></ul></dd>
     
 
@@ -3899,8 +3960,8 @@ phi ~ [0, 2PI], theta ~ [-PI, PI]</td>
 <div class="item_description">
 
 <div class="description">
-    Get the horizontal angle limits for the TARGET/EYE camera converted into range [0, 2PI] or
-horizontal translation limits for the HOVER camera.
+    Get the horizontal angle limits of the TARGET/EYE camera (converted to the [0, 2PI] range), or
+the horizontal translation limits of the HOVER camera.
 </div>
 
 
@@ -4070,7 +4131,7 @@ horizontal translation limits for the HOVER camera.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line596">line 596</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line667">line 667</a>
     </li></ul></dd>
     
 
@@ -4107,7 +4168,7 @@ horizontal translation limits for the HOVER camera.
 <div class="item_description">
 
 <div class="description">
-    Get hover angle limits for the HOVER camera converted into range [-PI, PI].
+    Get the hover angle limits for the HOVER camera, converted to the [-PI, PI] range.
 </div>
 
 
@@ -4277,7 +4338,7 @@ horizontal translation limits for the HOVER camera.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line374">line 374</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line418">line 418</a>
     </li></ul></dd>
     
 
@@ -4314,7 +4375,7 @@ horizontal translation limits for the HOVER camera.
 <div class="item_description">
 
 <div class="description">
-    Get an angle of the HOVER camera.
+    Get the angle of the HOVER camera.
 </div>
 
 
@@ -4429,6 +4490,8 @@ horizontal translation limits for the HOVER camera.
     
 
     
+        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Use get_camera_angles() instead.</li></ul></dd>
+    
 
     
 
@@ -4441,7 +4504,7 @@ horizontal translation limits for the HOVER camera.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line325">line 325</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line368">line 368</a>
     </li></ul></dd>
     
 
@@ -4471,7 +4534,7 @@ horizontal translation limits for the HOVER camera.
 <div class="item_description">
 
 <div class="description">
-    Get pivot translation of the HOVER camera.
+    Get the pivot translation of the HOVER camera.
 </div>
 
 
@@ -4598,7 +4661,7 @@ horizontal translation limits for the HOVER camera.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line460">line 460</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line530">line 530</a>
     </li></ul></dd>
     
 
@@ -4628,7 +4691,7 @@ horizontal translation limits for the HOVER camera.
 <div class="item_description">
 
 <div class="description">
-    Get camera movement style
+    Get the movement style of the camera.
 </div>
 
 
@@ -4755,7 +4818,7 @@ horizontal translation limits for the HOVER camera.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line100">line 100</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line142">line 142</a>
     </li></ul></dd>
     
 
@@ -4785,7 +4848,7 @@ horizontal translation limits for the HOVER camera.
 <div class="item_description">
 
 <div class="description">
-    Get the orthogonal scale of the camera
+    Get the orthogonal scale of the camera.
 </div>
 
 
@@ -4912,7 +4975,7 @@ horizontal translation limits for the HOVER camera.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1114">line 1114</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1183">line 1183</a>
     </li></ul></dd>
     
 
@@ -4942,7 +5005,7 @@ horizontal translation limits for the HOVER camera.
 <div class="item_description">
 
 <div class="description">
-    Get the camera pivot point.
+    Get the pivot point of the camera.
 </div>
 
 
@@ -5112,7 +5175,7 @@ horizontal translation limits for the HOVER camera.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line239">line 239</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line282">line 282</a>
     </li></ul></dd>
     
 
@@ -5142,7 +5205,7 @@ horizontal translation limits for the HOVER camera.
 <div class="item_description">
 
 <div class="description">
-    Get distance from the convergence plane for a stereo camera
+    Get the distance from the convergence plane of the stereoscopic camera.
 </div>
 
 
@@ -5269,7 +5332,7 @@ horizontal translation limits for the HOVER camera.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line943">line 943</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1012">line 1012</a>
     </li></ul></dd>
     
 
@@ -5299,7 +5362,7 @@ horizontal translation limits for the HOVER camera.
 <div class="item_description">
 
 <div class="description">
-    Get camera velocity params
+    Get the velocity parameters of the camera.
 </div>
 
 
@@ -5469,7 +5532,7 @@ horizontal translation limits for the HOVER camera.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line135">line 135</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line177">line 177</a>
     </li></ul></dd>
     
 
@@ -5499,7 +5562,7 @@ horizontal translation limits for the HOVER camera.
 <div class="item_description">
 
 <div class="description">
-    Does camera have distance limits?
+    Check whether the camera has its distance limited.
 </div>
 
 
@@ -5626,7 +5689,7 @@ horizontal translation limits for the HOVER camera.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line480">line 480</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line550">line 550</a>
     </li></ul></dd>
     
 
@@ -5656,7 +5719,7 @@ horizontal translation limits for the HOVER camera.
 <div class="item_description">
 
 <div class="description">
-    Does camera have horizontal limits?
+    Check whether the camera has any horizontal limits.
 </div>
 
 
@@ -5783,7 +5846,7 @@ horizontal translation limits for the HOVER camera.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line623">line 623</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line694">line 694</a>
     </li></ul></dd>
     
 
@@ -5813,7 +5876,7 @@ horizontal translation limits for the HOVER camera.
 <div class="item_description">
 
 <div class="description">
-    Set translation of the HOVER camera.
+    Set translation for the HOVER camera.
 </div>
 
 
@@ -5941,7 +6004,7 @@ horizontal translation limits for the HOVER camera.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line437">line 437</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line481">line 481</a>
     </li></ul></dd>
     
 
@@ -6098,7 +6161,7 @@ horizontal translation limits for the HOVER camera.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line59">line 59</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line62">line 62</a>
     </li></ul></dd>
     
 
@@ -6128,7 +6191,7 @@ horizontal translation limits for the HOVER camera.
 <div class="item_description">
 
 <div class="description">
-    Check if the object is a camera and has MS_EYE_CONTROLS move style
+    Check if the object is a camera and has the MS_EYE_CONTROLS movement style.
 </div>
 
 
@@ -6255,7 +6318,7 @@ horizontal translation limits for the HOVER camera.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line75">line 75</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line78">line 78</a>
     </li></ul></dd>
     
 
@@ -6285,7 +6348,7 @@ horizontal translation limits for the HOVER camera.
 <div class="item_description">
 
 <div class="description">
-    Check if the object is a camera and has MS_HOVER_CONTROLS move style
+    Check if the object is a camera and has the MS_HOVER_CONTROLS movement style.
 </div>
 
 
@@ -6412,7 +6475,7 @@ horizontal translation limits for the HOVER camera.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line83">line 83</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line86">line 86</a>
     </li></ul></dd>
     
 
@@ -6442,7 +6505,7 @@ horizontal translation limits for the HOVER camera.
 <div class="item_description">
 
 <div class="description">
-    Check if the camera is looking upwards
+    Check whether the camera is looking upwards.
 </div>
 
 
@@ -6547,7 +6610,7 @@ horizontal translation limits for the HOVER camera.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line742">line 742</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line813">line 813</a>
     </li></ul></dd>
     
 
@@ -6577,7 +6640,7 @@ horizontal translation limits for the HOVER camera.
 <div class="item_description">
 
 <div class="description">
-    Is the camera ORTHO?
+    Check whether the camera is an ORTHO camera.
 </div>
 
 
@@ -6704,7 +6767,7 @@ horizontal translation limits for the HOVER camera.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1130">line 1130</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1199">line 1199</a>
     </li></ul></dd>
     
 
@@ -6734,7 +6797,7 @@ horizontal translation limits for the HOVER camera.
 <div class="item_description">
 
 <div class="description">
-    Check if the object is a camera and has MS_TARGET_CONTROLS move style
+    Check if the object is a camera and has the MS_TARGET_CONTROLS movement style.
 </div>
 
 
@@ -6861,7 +6924,7 @@ horizontal translation limits for the HOVER camera.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line67">line 67</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line70">line 70</a>
     </li></ul></dd>
     
 
@@ -6891,7 +6954,7 @@ horizontal translation limits for the HOVER camera.
 <div class="item_description">
 
 <div class="description">
-    Returns true if the camera's eye is located under the water surface
+    Check whether the camera eye is located under the water surface.
 </div>
 
 
@@ -7002,7 +7065,7 @@ horizontal translation limits for the HOVER camera.
     
 
     
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Always returns false</li></ul></dd>
+        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Always returns false.</li></ul></dd>
     
 
     
@@ -7016,7 +7079,7 @@ horizontal translation limits for the HOVER camera.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line962">line 962</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1031">line 1031</a>
     </li></ul></dd>
     
 
@@ -7046,7 +7109,7 @@ horizontal translation limits for the HOVER camera.
 <div class="item_description">
 
 <div class="description">
-    Move the pivot point of the TARGET camera.
+    Translate the pivot point of the TARGET camera.
 +h from left to right
 +v from down to up
 </div>
@@ -7199,7 +7262,7 @@ horizontal translation limits for the HOVER camera.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line274">line 274</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line317">line 317</a>
     </li></ul></dd>
     
 
@@ -7229,9 +7292,9 @@ horizontal translation limits for the HOVER camera.
 <div class="item_description">
 
 <div class="description">
-    Project point on the viewport.
-Screen space origin is the top left corner.
-Returnd coordinates are in device pixels (not CSS)
+    Project the 3D point to the screen.
+The origin of the screen space is located in the top left corner.
+Returned coordinates are measured in device pixels (not CSS pixels).
 </div>
 
 
@@ -7432,7 +7495,7 @@ Returnd coordinates are in device pixels (not CSS)
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1195">line 1195</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1264">line 1264</a>
     </li></ul></dd>
     
 
@@ -7462,7 +7525,7 @@ Returnd coordinates are in device pixels (not CSS)
 <div class="item_description">
 
 <div class="description">
-    Rotate the EYE camera around its origin by given delta angles
+    Rotate the EYE camera around its origin by the given delta angles.
 </div>
 
 
@@ -7601,7 +7664,7 @@ Returnd coordinates are in device pixels (not CSS)
     
 
     
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Use rotate_camera() or rotate_eye_camera() instead</li></ul></dd>
+        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Use rotate_camera() or rotate_eye_camera() instead.</li></ul></dd>
     
 
     
@@ -7615,7 +7678,7 @@ Returnd coordinates are in device pixels (not CSS)
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line861">line 861</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line931">line 931</a>
     </li></ul></dd>
     
 
@@ -7645,8 +7708,8 @@ Returnd coordinates are in device pixels (not CSS)
 <div class="item_description">
 
 <div class="description">
-    Rotates a camera counterclockwise (CCW) by given angles depending on the camera move style.
-Performs delta rotation or sets camera absolute rotation depending on the "*_is_abs" parameters.
+    Rotate the camera counterclockwise (CCW) by the given angles depending on the camera's movement style.
+Performs the delta rotation or sets the camera's absolute rotation depending on the "*_is_abs" parameters.
 </div>
 
 
@@ -7915,7 +7978,7 @@ Performs delta rotation or sets camera absolute rotation depending on the "*_is_
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line759">line 759</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line830">line 830</a>
     </li></ul></dd>
     
 
@@ -7952,8 +8015,8 @@ Performs delta rotation or sets camera absolute rotation depending on the "*_is_
 <div class="item_description">
 
 <div class="description">
-    Rotates the EYE camera counterclockwise (CCW) around its origin by given angles.
-Performs delta rotation or sets camera absolute rotation depending on the "*_is_abs" parameters.
+    Rotate the EYE camera counterclockwise (CCW) around its origin by the given angles.
+Performs the delta rotation or sets the camera's absolute rotation depending on the "*_is_abs" parameters.
 </div>
 
 
@@ -8222,7 +8285,7 @@ Performs delta rotation or sets camera absolute rotation depending on the "*_is_
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line817">line 817</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line887">line 887</a>
     </li></ul></dd>
     
 
@@ -8259,7 +8322,7 @@ Performs delta rotation or sets camera absolute rotation depending on the "*_is_
 <div class="item_description">
 
 <div class="description">
-    Rotate HOVER camera around the hover pivot point.
+    Rotate the HOVER camera around the hover pivot point.
 </div>
 
 
@@ -8375,7 +8438,7 @@ Performs delta rotation or sets camera absolute rotation depending on the "*_is_
     
 
     
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Use rotate_camera() or rotate_hover_camera() instead</li></ul></dd>
+        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Use rotate_camera() or rotate_hover_camera() instead.</li></ul></dd>
     
 
     
@@ -8389,7 +8452,7 @@ Performs delta rotation or sets camera absolute rotation depending on the "*_is_
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line313">line 313</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line356">line 356</a>
     </li></ul></dd>
     
 
@@ -8419,8 +8482,8 @@ Performs delta rotation or sets camera absolute rotation depending on the "*_is_
 <div class="item_description">
 
 <div class="description">
-    Rotates the HOVER camera around its pivot by given angles
-Performs delta rotation or sets camera absolute rotation depending on the "*_is_abs" parameters.
+    Rotate the HOVER camera around its pivot by the given angles.
+Performs the delta rotation or sets the camera's absolute rotation depending on the "*_is_abs" parameters.
 </div>
 
 
@@ -8689,7 +8752,7 @@ Performs delta rotation or sets camera absolute rotation depending on the "*_is_
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line839">line 839</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line909">line 909</a>
     </li></ul></dd>
     
 
@@ -8726,7 +8789,7 @@ Performs delta rotation or sets camera absolute rotation depending on the "*_is_
 <div class="item_description">
 
 <div class="description">
-    Rotate TARGET camera around the pivot point.
+    Rotate the TARGET camera around the pivot point.
 </div>
 
 
@@ -8865,7 +8928,7 @@ Performs delta rotation or sets camera absolute rotation depending on the "*_is_
     
 
     
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>use rotate_camera() or rotate_target_camera() instead</li></ul></dd>
+        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>use rotate_camera() or rotate_target_camera() instead.</li></ul></dd>
     
 
     
@@ -8879,7 +8942,7 @@ Performs delta rotation or sets camera absolute rotation depending on the "*_is_
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line261">line 261</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line304">line 304</a>
     </li></ul></dd>
     
 
@@ -8909,8 +8972,8 @@ Performs delta rotation or sets camera absolute rotation depending on the "*_is_
 <div class="item_description">
 
 <div class="description">
-    Rotates the TARGET camera counterclockwise (CCW) around its pivot by given angles. 
-Performs delta rotation or sets camera absolute rotation depending on the "*_is_abs" parameters.
+    Rotate the TARGET camera counterclockwise (CCW) around its pivot by the given angles. 
+Performs the delta rotation or sets the camera's absolute rotation depending on the "*_is_abs" parameters.
 </div>
 
 
@@ -9179,7 +9242,7 @@ Performs delta rotation or sets camera absolute rotation depending on the "*_is_
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line795">line 795</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line865">line 865</a>
     </li></ul></dd>
     
 
@@ -9256,7 +9319,7 @@ Performs delta rotation or sets camera absolute rotation depending on the "*_is_
     
 
     
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Use rotate_camera() or rotate_eye_camera() to change camera orientation</li></ul></dd>
+        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Use rotate_camera() or rotate_eye_camera() to change the camera orientation.</li></ul></dd>
     
 
     
@@ -9270,7 +9333,7 @@ Performs delta rotation or sets camera absolute rotation depending on the "*_is_
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line734">line 734</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line805">line 805</a>
     </li></ul></dd>
     
 
@@ -9300,7 +9363,7 @@ Performs delta rotation or sets camera absolute rotation depending on the "*_is_
 <div class="item_description">
 
 <div class="description">
-    Set an angle of the HOVER camera.
+    Set the angle for the HOVER camera.
 </div>
 
 
@@ -9416,7 +9479,7 @@ Performs delta rotation or sets camera absolute rotation depending on the "*_is_
     
 
     
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Use rotate_camera() or rotate_hover_camera() instead</li></ul></dd>
+        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Use rotate_camera() or rotate_hover_camera() instead.</li></ul></dd>
     
 
     
@@ -9430,7 +9493,165 @@ Performs delta rotation or sets camera absolute rotation depending on the "*_is_
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line341">line 341</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line385">line 385</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+</div>
+</div>
+        
+            
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id=".set_hover_pivot">set_hover_pivot<span class="signature">(camobj, coords)</span><span class="type-signature"></span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Set the pivot point for the HOVER camera.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>camobj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Camera object ID</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>coords</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Float32Array</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Pivot vector</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line505">line 505</a>
     </li></ul></dd>
     
 
@@ -9460,8 +9681,8 @@ Performs delta rotation or sets camera absolute rotation depending on the "*_is_
 <div class="item_description">
 
 <div class="description">
-    Low-level function: set camera position based on input parameters. Perform 
-camera vertical alignment based on the "up" parameter.
+    Set the camera position based on the input parameters. Performs 
+vertical alignment of the camera based on the "up" parameter. This is a low-level function.
 </div>
 
 
@@ -9635,7 +9856,7 @@ camera vertical alignment based on the "up" parameter.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line163">line 163</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line205">line 205</a>
     </li></ul></dd>
     
 
@@ -9657,7 +9878,7 @@ camera vertical alignment based on the "up" parameter.
 
     
 
-    <h4 class="name" id=".set_move_style">set_move_style<span class="signature">(camobj, move_style)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".set_move_style">set_move_style<span class="signature">(camobj, move_style)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
 
     
 
@@ -9665,7 +9886,7 @@ camera vertical alignment based on the "up" parameter.
 <div class="item_description">
 
 <div class="description">
-    Set camera movement style (MS_*)
+    Set the movement style (MS_*) for the camera.
 </div>
 
 
@@ -9760,6 +9981,28 @@ camera vertical alignment based on the "up" parameter.
 
 
 
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    success Operation success flag.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Boolean</span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -9793,7 +10036,7 @@ camera vertical alignment based on the "up" parameter.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line91">line 91</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line94">line 94</a>
     </li></ul></dd>
     
 
@@ -9823,7 +10066,7 @@ camera vertical alignment based on the "up" parameter.
 <div class="item_description">
 
 <div class="description">
-    Set the orthogonal scale of the camera
+    Set the orthogonal scale of the camera.
 </div>
 
 
@@ -9951,7 +10194,7 @@ camera vertical alignment based on the "up" parameter.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1085">line 1085</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1154">line 1154</a>
     </li></ul></dd>
     
 
@@ -9981,7 +10224,7 @@ camera vertical alignment based on the "up" parameter.
 <div class="item_description">
 
 <div class="description">
-    Set pivot point for the TARGET camera.
+    Set the pivot point for the TARGET camera.
 </div>
 
 
@@ -10109,7 +10352,7 @@ camera vertical alignment based on the "up" parameter.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line202">line 202</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line245">line 245</a>
     </li></ul></dd>
     
 
@@ -10139,7 +10382,7 @@ camera vertical alignment based on the "up" parameter.
 <div class="item_description">
 
 <div class="description">
-    Set distance to the convergence plane for a stereo camera.
+    Set the distance to the convergence plane of the stereoscopic camera.
 </div>
 
 
@@ -10267,7 +10510,7 @@ camera vertical alignment based on the "up" parameter.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line926">line 926</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line995">line 995</a>
     </li></ul></dd>
     
 
@@ -10297,7 +10540,7 @@ camera vertical alignment based on the "up" parameter.
 <div class="item_description">
 
 <div class="description">
-    Set translation and pivot point for the TARGET camera.
+    Set the translation and the pivot point for the TARGET camera.
 </div>
 
 
@@ -10448,7 +10691,7 @@ camera vertical alignment based on the "up" parameter.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line220">line 220</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line263">line 263</a>
     </li></ul></dd>
     
 
@@ -10478,7 +10721,7 @@ camera vertical alignment based on the "up" parameter.
 <div class="item_description">
 
 <div class="description">
-    Set camera velocity params
+    Set the velocity parameters for the camera.
 </div>
 
 
@@ -10606,7 +10849,7 @@ camera vertical alignment based on the "up" parameter.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line115">line 115</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line157">line 157</a>
     </li></ul></dd>
     
 
@@ -10636,7 +10879,7 @@ camera vertical alignment based on the "up" parameter.
 <div class="item_description">
 
 <div class="description">
-    Translate HOVER camera.
+    Translate the HOVER camera.
 </div>
 
 
@@ -10766,7 +11009,7 @@ camera vertical alignment based on the "up" parameter.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line425">line 425</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line469">line 469</a>
     </li></ul></dd>
     
 
@@ -10970,7 +11213,7 @@ camera vertical alignment based on the "up" parameter.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line974">line 974</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1043">line 1043</a>
     </li></ul></dd>
     
 
@@ -11000,7 +11243,7 @@ camera vertical alignment based on the "up" parameter.
 <div class="item_description">
 
 <div class="description">
-    Zoom the camera on the object.
+    Zoom the camera to the object.
 </div>
 
 
@@ -11128,7 +11371,7 @@ camera vertical alignment based on the "up" parameter.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1052">line 1052</a>
+        <a href="ext_camera.js.html">ext/camera.js</a>, <a href="ext_camera.js.html#line1121">line 1121</a>
     </li></ul></dd>
     
 
@@ -11159,13 +11402,13 @@ camera vertical alignment based on the "up" parameter.
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Wed Apr 29 2015 10:10:50 GMT+0300 (MSK)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Tue May 26 2015 12:05:03 GMT+0300 (MSK)
 </footer>
 
 <script> prettyPrint(); </script>

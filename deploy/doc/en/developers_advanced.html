@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>For Engine Developers &mdash; User Manual: Blend4Web v15.04</title>
+    <title>For Engine Developers &mdash; User Manual: Blend4Web v15.05</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '15.04',
+        VERSION:     '15.05',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,19 +25,19 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User Manual: Blend4Web v15.04" href="index.html" />
+    <link rel="top" title="User Manual: Blend4Web v15.05" href="index.html" />
     <link rel="next" title="Team Work. Using Git" href="git_short_manual.html" />
     <link rel="prev" title="For Application Developers" href="developers.html" /> 
   </head>
-  <body>
-    <div class="header-wrapper">
+  <body role="document">
+    <div class="header-wrapper" role="banner">
       <div class="header">
           <p class="logo"><a href="index.html">
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">User Manual: Blend4Web v15.04</a></div>
-        <div class="rel">
+          href="index.html">User Manual: Blend4Web v15.05</a></div>
+        <div class="rel" role="navigation" aria-label="related navigation">
           <a href="developers.html" title="For Application Developers"
              accesskey="P">previous</a> |
           <a href="git_short_manual.html" title="Team Work. Using Git"
@@ -54,7 +54,7 @@
             
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="developers-advanced">
 <span id="id1"></span><h1>For Engine Developers<a class="headerlink" href="#developers-advanced" title="Permalink to this headline">¶</a></h1>
@@ -87,7 +87,7 @@
 <div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">FOO_BAR</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>
 </pre></div>
 </div>
-<p>The names of external API methods and properties are written after a point. To avoid obfuscation of fields they must be listed with the <tt class="docutils literal"><span class="pre">&#64;cc_externs</span></tt> tag:</p>
+<p>The names of external API methods and properties are written after a point. To avoid obfuscation of fields they must be listed with the <code class="docutils literal"><span class="pre">&#64;cc_externs</span></code> tag:</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span class="nx">exports</span><span class="p">.</span><span class="nx">FOO_BAR</span> <span class="o">=</span> <span class="mi">123</span><span class="p">;</span>
 
 <span class="nx">exports</span><span class="p">.</span><span class="nx">foo_bar</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
@@ -117,7 +117,7 @@
 </div>
 <div class="section" id="id4">
 <h2>Building the Engine<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
-<p>Before building please make sure that your system has all required dependencies installed (see the <a class="reference internal" href="#dependencies"><em>table</em></a>).</p>
+<p>Before building please make sure that your system has all required dependencies installed (see the <a class="reference internal" href="#dependencies"><span>table</span></a>).</p>
 <p>To compile the engine and the applications included into the SDK please execute the following command (in the SDK root):</p>
 <div class="highlight-bash"><div class="highlight"><pre>make compile
 </pre></div>
@@ -142,9 +142,9 @@
 <dl class="docutils">
 <dt>Paths relative to the repository root:</dt>
 <dd><ul class="first last simple">
-<li><p class="first">build script: <tt class="docutils literal"><span class="pre">csrc/b4w_bin/build.py</span></tt></p>
+<li><p class="first">build script: <code class="docutils literal"><span class="pre">csrc/b4w_bin/build.py</span></code></p>
 </li>
-<li><p class="first">Blend4Web addon: <tt class="docutils literal"><span class="pre">blender_scripts/addons/blend4web/</span></tt></p>
+<li><p class="first">Blend4Web addon: <code class="docutils literal"><span class="pre">blender_scripts/addons/blend4web/</span></code></p>
 </li>
 </ul>
 </dd>
@@ -154,8 +154,8 @@
 </pre></div>
 </div>
 <p>As a result of the building you&#8217;ll get a binary file called:</p>
-<p><tt class="docutils literal"><span class="pre">b4w_bin_[PLATFORM]_[ARCHITECTURE].[STANDARD_EXTENSION]</span></tt>,</p>
-<p>located in the same directory as the addon. Example: <tt class="docutils literal"><span class="pre">b4w_bin_Linux_64.so</span></tt>. After this the addon is ready to use under this platform.</p>
+<p><code class="docutils literal"><span class="pre">b4w_bin_[PLATFORM]_[ARCHITECTURE].[STANDARD_EXTENSION]</span></code>,</p>
+<p>located in the same directory as the addon. Example: <code class="docutils literal"><span class="pre">b4w_bin_Linux_64.so</span></code>. After this the addon is ready to use under this platform.</p>
 </div>
 <div class="section" id="dependencies">
 <span id="id6"></span><h2>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this headline">¶</a></h2>
@@ -310,12 +310,12 @@ texlive-lang-cyrillic</td>
 </div>
 <div class="section" id="debugging">
 <span id="id8"></span><h2>Debugging<a class="headerlink" href="#debugging" title="Permalink to this headline">¶</a></h2>
-<p>Engine debugging is performed with the <tt class="docutils literal"><span class="pre">debug.js</span></tt> module methods.</p>
-<p>The structure of the current render graph can be saved in the DOT format using the <tt class="docutils literal"><span class="pre">b4w.debug.scenegraph_to_dot()</span></tt> call, for example, in the browser console. After calling this method save the console&#8217;s output into the file with the .gv extension. To get the graph in a visual form the <a class="reference external" href="http://www.graphviz.org/">graphviz</a> utilities are required. Converting to the SVG format is performed using the command:</p>
+<p>Engine debugging is performed with the <code class="docutils literal"><span class="pre">debug.js</span></code> module methods.</p>
+<p>The structure of the current render graph can be saved in the DOT format using the <code class="docutils literal"><span class="pre">b4w.debug.scenegraph_to_dot()</span></code> call, for example, in the browser console. After calling this method save the console&#8217;s output into the file with the .gv extension. To get the graph in a visual form the <a class="reference external" href="http://www.graphviz.org/">graphviz</a> utilities are required. Converting to the SVG format is performed using the command:</p>
 <div class="highlight-bash"><div class="highlight"><pre>&gt; dot -Tsvg graph.gv -o graph.svg
 </pre></div>
 </div>
-<p>where <tt class="docutils literal"><span class="pre">graph.gv</span></tt> is the name of the file with the saved graph.</p>
+<p>where <code class="docutils literal"><span class="pre">graph.gv</span></code> is the name of the file with the saved graph.</p>
 <span class="target" id="shaders"></span></div>
 <div class="section" id="index-0">
 <span id="id9"></span><h2>Shader Compilation<a class="headerlink" href="#index-0" title="Permalink to this headline">¶</a></h2>
@@ -426,8 +426,8 @@ texlive-lang-cyrillic</td>
 <span class="cp">#export skin</span>
 </pre></div>
 </div>
-<p>The <tt class="docutils literal"><span class="pre">#import</span></tt> directive defines a set of ids which are declared outside the include file but can be accessed from inside it. There is a limitation though: such ids must necessarily be declared somewhere above the place where the include file is linked.</p>
-<p>The <tt class="docutils literal"><span class="pre">#export</span></tt> directive defines a set of ids which can be accessed from outside this file. Such ids must necessarily be declared in this file.</p>
+<p>The <code class="docutils literal"><span class="pre">#import</span></code> directive defines a set of ids which are declared outside the include file but can be accessed from inside it. There is a limitation though: such ids must necessarily be declared somewhere above the place where the include file is linked.</p>
+<p>The <code class="docutils literal"><span class="pre">#export</span></code> directive defines a set of ids which can be accessed from outside this file. Such ids must necessarily be declared in this file.</p>
 <p>Therefore the shader which uses the include file must have all the declarations necessary for import before the place of linking, and can use the exported ids after it.</p>
 <p>Ids can be both variable names and function names. If there are no import/export directives it&#8217;s considered by default that the include file does not use external declarations and does not allow the using of internal ones.</p>
 </div>
@@ -435,7 +435,7 @@ texlive-lang-cyrillic</td>
 <span id="id14"></span><h3>Recommendations and Limitations<a class="headerlink" href="#index-5" title="Permalink to this headline">¶</a></h3>
 <p>Because of the following reasons: preprocessing, the need to process multiple shaders and include files and due to the compilator&#8217;s features - its possible to garantee the work of the output code only if a number of rules and limitations are respected with regard to the shader source code:</p>
 <ol class="arabic simple">
-<li><p class="first">In order to describe constants which are defined by the engine at run, it&#8217;s neccessary to use the <tt class="docutils literal"><span class="pre">#var</span></tt> special directive. For example:</p>
+<li><p class="first">In order to describe constants which are defined by the engine at run, it&#8217;s neccessary to use the <code class="docutils literal"><span class="pre">#var</span></code> special directive. For example:</p>
 </li>
 </ol>
 <div class="highlight-glsl"><div class="highlight"><pre><span class="cp">#var AU_QUALIFIER uniform</span>
@@ -482,9 +482,9 @@ texlive-lang-cyrillic</td>
 </pre></div>
 </div>
 <ol class="arabic simple" start="9">
-<li><p class="first">Do not declare variables with such names as <tt class="docutils literal"><span class="pre">node_[NODE_NAME]_var_[IN_OUT_NODE]</span></tt>, where <tt class="docutils literal"><span class="pre">NODE_NAME</span></tt> &#8212; name of some node, <tt class="docutils literal"><span class="pre">IN_OUT_NODE</span></tt> &#8212; name of an input or an output of the node.</p>
+<li><p class="first">Do not declare variables with such names as <code class="docutils literal"><span class="pre">node_[NODE_NAME]_var_[IN_OUT_NODE]</span></code>, where <code class="docutils literal"><span class="pre">NODE_NAME</span></code> &#8212; name of some node, <code class="docutils literal"><span class="pre">IN_OUT_NODE</span></code> &#8212; name of an input or an output of the node.</p>
 </li>
-<li><p class="first">Repetitive use of <tt class="docutils literal"><span class="pre">#nodes_main</span></tt>, <tt class="docutils literal"><span class="pre">#nodes_global</span></tt> or <tt class="docutils literal"><span class="pre">#lamps_main</span></tt> directives is not permitted inside a single shader.</p>
+<li><p class="first">Repetitive use of <code class="docutils literal"><span class="pre">#nodes_main</span></code>, <code class="docutils literal"><span class="pre">#nodes_global</span></code> or <code class="docutils literal"><span class="pre">#lamps_main</span></code> directives is not permitted inside a single shader.</p>
 </li>
 </ol>
 </div>
@@ -546,7 +546,7 @@ File: &#8216;FILE_NAME&#8217;.</td>
 <tr class="row-odd"><td>Error! Undeclared TYPE: &#8216;NAME&#8217;.
 Importing data missed. File:
 &#8216;FILE_NAME&#8217;.</td>
-<td><p class="first last">Undeclared identifier NAME of type TYPE (variable, function, structure etc). Declaration missing for the identifier required in the FILE_NAME include file according to the <tt class="docutils literal"><span class="pre">#import</span></tt> directive.</p>
+<td><p class="first last">Undeclared identifier NAME of type TYPE (variable, function, structure etc). Declaration missing for the identifier required in the FILE_NAME include file according to the <code class="docutils literal"><span class="pre">#import</span></code> directive.</p>
 </td>
 </tr>
 <tr class="row-even"><td>Error! Undeclared TYPE: &#8216;NAME&#8217;.
@@ -583,7 +583,7 @@ in include file &#8216;FILE_NAME&#8217;.</td>
 <tr class="row-even"><td>Error! &#8216;all&#8217; extension cannot have
 BEHAVIOR_TYPE behavior. File:
 &#8216;FILE_NAME&#8217;.</td>
-<td><p class="first last">The <tt class="docutils literal"><span class="pre">#extension</span></tt> directive specified for <tt class="docutils literal"><span class="pre">all</span></tt> WebGL extensions in the FILE_NAME file does not support the behavior BEHAVIOR_TYPE.</p>
+<td><p class="first last">The <code class="docutils literal"><span class="pre">#extension</span></code> directive specified for <code class="docutils literal"><span class="pre">all</span></code> WebGL extensions in the FILE_NAME file does not support the behavior BEHAVIOR_TYPE.</p>
 </td>
 </tr>
 <tr class="row-odd"><td>Syntax Error. ERROR_MESSAGE. File:
@@ -668,16 +668,18 @@ FILE_NAME, but never used.</td>
 <li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
 </ul>
 
-          <h3 style="margin-top: 1.5em;">Search</h3>
-          <form class="search" action="search.html" method="get">
-            <input type="text" name="q" />
-            <input type="submit" value="Go" />
-            <input type="hidden" name="check_keywords" value="yes" />
-            <input type="hidden" name="area" value="default" />
-          </form>
-          <p class="searchtip" style="font-size: 90%">
-            Enter search terms or a module, class or function name.
-          </p>
+          <div role="search">
+            <h3 style="margin-top: 1.5em;">Search</h3>
+            <form class="search" action="search.html" method="get">
+                <input type="text" name="q" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+            </form>
+            <p class="searchtip" style="font-size: 90%">
+                Enter search terms or a module, class or function name.
+            </p>
+          </div>
         </div>
         <div class="clearer"></div>
       </div>
@@ -686,20 +688,24 @@ FILE_NAME, but never used.</td>
     <div class="footer-wrapper">
       <div class="footer">
         <div class="left">
-          <a href="developers.html" title="For Application Developers"
-             >previous</a> |
-          <a href="git_short_manual.html" title="Team Work. Using Git"
-             >next</a> |
-          <a href="genindex.html" title="General Index"
-             >index</a>
+          <div role="navigation" aria-label="related navigaton">
+            <a href="developers.html" title="For Application Developers"
+              >previous</a> |
+            <a href="git_short_manual.html" title="Team Work. Using Git"
+              >next</a> |
+            <a href="genindex.html" title="General Index"
+              >index</a>
+          </div>
+          <div role="note" aria-label="source link">
+          </div>
         </div>
 
         <div class="right">
           
-    <div class="footer">
+    <div class="footer" role="contentinfo">
         &copy; Copyright 2015, Triumph LLC.
-      Last updated on 2015-04-29.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+      Last updated on 2015-05-26.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
         </div>
         <div class="clearer"></div>

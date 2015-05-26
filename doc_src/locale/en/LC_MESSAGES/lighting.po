@@ -429,16 +429,16 @@ msgstr ""
 "Light propagates from one point within the angular limit, with gradual "
 "attenuation."
 
-#: ../lighting.rst:195
-msgid "*Hemi*"
-msgstr ""
-
 #: ../lighting.rst:194
 msgid ""
 "Полусфера. Свет распространяется из бесконечной полусферы, без затухания."
 msgstr ""
 "Hemispherical. Light propagates from an infinite hemisphere without "
 "attenuation."
+
+#: ../lighting.rst:195
+msgid "*Hemi*"
+msgstr ""
 
 #: ../lighting.rst:198
 msgid "Настройка источников света"
@@ -552,10 +552,6 @@ msgstr ""
 "Use this light source for shadow calculation. Should be used when multiple "
 "light sources are present. Disabled by default."
 
-#: ../lighting.rst:240
-msgid "*Blend4Web > Dynamic intesity*"
-msgstr ""
-
 #: ../lighting.rst:239
 msgid ""
 "Источник света используется для расчета изменения времени суток. Применяется"
@@ -563,6 +559,10 @@ msgid ""
 msgstr ""
 "Use this light source for calculating the time of day. Applicable only to "
 "the ``Sun`` light source type. Disabled by default."
+
+#: ../lighting.rst:240
+msgid "*Blend4Web > Dynamic intesity*"
+msgstr ""
 
 #: ../lighting.rst:245
 msgid "Освещение от окружающей среды"

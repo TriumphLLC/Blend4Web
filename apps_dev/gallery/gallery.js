@@ -42,7 +42,7 @@ var SCENES = [
     {
         icon: "icons/logo.png",
         name: "Logo",
-        load_file: "dev/logo.json",
+        load_file: "misc/logo.json",
         tags: ["all", "nothing", "car", "naturemorte"]
     },
     // {

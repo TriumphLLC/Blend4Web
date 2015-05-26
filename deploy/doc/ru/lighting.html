@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Освещение, тени и фон &mdash; Руководство пользователя: Blend4Web v15.04</title>
+    <title>Освещение, тени и фон &mdash; Руководство пользователя: Blend4Web v15.05</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '15.04',
+        VERSION:     '15.05',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,19 +26,19 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v15.04" href="index.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v15.05" href="index.html" />
     <link rel="next" title="Постпроцессинговые эффекты" href="postprocessing_effects.html" />
     <link rel="prev" title="Нодовые материалы" href="node_materials.html" /> 
   </head>
-  <body>
-    <div class="header-wrapper">
+  <body role="document">
+    <div class="header-wrapper" role="banner">
       <div class="header">
           <p class="logo"><a href="index.html">
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">Руководство пользователя: Blend4Web v15.04</a></div>
-        <div class="rel">
+          href="index.html">Руководство пользователя: Blend4Web v15.05</a></div>
+        <div class="rel" role="navigation" aria-label="related navigation">
           <a href="node_materials.html" title="Нодовые материалы"
              accesskey="P">назад</a> |
           <a href="postprocessing_effects.html" title="Постпроцессинговые эффекты"
@@ -55,18 +55,18 @@
             
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <span class="target" id="lighting"></span><div class="section" id="index-0">
 <span id="id1"></span><h1>Освещение, тени и фон<a class="headerlink" href="#index-0" title="Ссылка на этот заголовок">¶</a></h1>
 <div class="section" id="index-1">
 <span id="id2"></span><h2>Типы затенения<a class="headerlink" href="#index-1" title="Ссылка на этот заголовок">¶</a></h2>
-<p>Результат расчета освещения (затенения) зависит от направления векторов нормалей. Поддерживаются стандартные типы затенения, использующиеся в Blender, <tt class="docutils literal"><span class="pre">Shading:</span> <span class="pre">Flat</span></tt> (используются нормали граней) и <tt class="docutils literal"><span class="pre">Shading:</span> <span class="pre">Smooth</span></tt> (используются интерполированные нормали вершин), а также их комбинации.</p>
+<p>Результат расчета освещения (затенения) зависит от направления векторов нормалей. Поддерживаются стандартные типы затенения, использующиеся в Blender, <code class="docutils literal"><span class="pre">Shading:</span> <span class="pre">Flat</span></code> (используются нормали граней) и <code class="docutils literal"><span class="pre">Shading:</span> <span class="pre">Smooth</span></code> (используются интерполированные нормали вершин), а также их комбинации.</p>
 <a class="reference internal image-reference" href="_images/flat_smooth_shading.png"><img alt="_images/flat_smooth_shading.png" class="align-center" src="_images/flat_smooth_shading.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p>Если желаемый результат недостижим стандартными средствами, можно воспользоваться <a class="reference internal" href="#normals-editor"><em>редактором нормалей</em></a>.</p>
+<p>Если желаемый результат недостижим стандартными средствами, можно воспользоваться <a class="reference internal" href="#normals-editor"><span>редактором нормалей</span></a>.</p>
 <p>Результат применения различных типов затенения и использования редактора нормалей:</p>
 <a class="reference internal image-reference" href="_images/different_shadings_comparison.jpg"><img alt="_images/different_shadings_comparison.jpg" class="align-center" src="_images/different_shadings_comparison.jpg" style="width: 100%;" /></a>
 <ol class="arabic simple">
@@ -78,8 +78,8 @@
 <span class="target" id="normals-editor"></span></div>
 <div class="section" id="index-2">
 <span id="id3"></span><h2>Редактор нормалей<a class="headerlink" href="#index-2" title="Ссылка на этот заголовок">¶</a></h2>
-<p>С помощью редактора нормалей можно достичь результат, схожий в результатом применения <a class="reference internal" href="textures.html#normal-map"><em>карт нормалей</em></a>. При этом метод редактирования нормалей является более предпочтительным с точки зрения потребления вычислительных ресурсов и видео-памяти.</p>
-<p>Интерфейс редактора нормалей располагается на панели инструментов <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">B4W</span> <span class="pre">Vertex</span> <span class="pre">Normals</span> <span class="pre">Editor</span></tt>. Перед началом работы редактора для объекта необходимо включить режим затенения <tt class="docutils literal"><span class="pre">Shading:</span> <span class="pre">Smooth</span></tt>.</p>
+<p>С помощью редактора нормалей можно достичь результат, схожий в результатом применения <a class="reference internal" href="textures.html#normal-map"><span>карт нормалей</span></a>. При этом метод редактирования нормалей является более предпочтительным с точки зрения потребления вычислительных ресурсов и видео-памяти.</p>
+<p>Интерфейс редактора нормалей располагается на панели инструментов <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">B4W</span> <span class="pre">Vertex</span> <span class="pre">Normals</span> <span class="pre">Editor</span></code>. Перед началом работы редактора для объекта необходимо включить режим затенения <code class="docutils literal"><span class="pre">Shading:</span> <span class="pre">Smooth</span></code>.</p>
 <p>Пример работы редактора нормалей:</p>
 <a class="reference internal image-reference" href="_images/functional_example.gif"><img alt="_images/functional_example.gif" class="align-center" src="_images/functional_example.gif" style="width: 100%;" /></a>
 <ol class="arabic simple">
@@ -92,7 +92,7 @@
 <p>После того, как вектор отредактирован, его направление необходимо сохранить, т.к. при переходе в режим редактирования и обратно нормали возвращаются в стандартное положение. Вектор можно задать несколькими способами: вручную, копированием с существующего объекта с отредактированными нормалями и используя несколько имеющихся опций.</p>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
-<p class="last">Если вы отредактировали группу нормалей и сохранили их, после выделения следующей группы необходимо нажать <tt class="docutils literal"><span class="pre">Reload</span> <span class="pre">Normals</span></tt>, чтобы уже отредактированные нормали вернулись в нужное положение, а потом уже переходить к следующей группе. В противном случае при повторном нажатии кнопки <tt class="docutils literal"><span class="pre">Save</span></tt> вы потеряете результаты предыдущего редактирования.</p>
+<p class="last">Если вы отредактировали группу нормалей и сохранили их, после выделения следующей группы необходимо нажать <code class="docutils literal"><span class="pre">Reload</span> <span class="pre">Normals</span></code>, чтобы уже отредактированные нормали вернулись в нужное положение, а потом уже переходить к следующей группе. В противном случае при повторном нажатии кнопки <code class="docutils literal"><span class="pre">Save</span></code> вы потеряете результаты предыдущего редактирования.</p>
 </div>
 <dl class="docutils">
 <dt><em>Reload normals</em></dt>
@@ -100,7 +100,7 @@
 <dt><em>Clean Up</em></dt>
 <dd>Отменяет все произведенные инструментом действия, &#8220;сбрасывая&#8221; нормали в первоначальное состояние.</dd>
 <dt><em>Save</em> и <em>Autosave</em></dt>
-<dd>Сохранение результатов редактирования нормалей. При активации <tt class="docutils literal"><span class="pre">Autosave</span></tt> результат каждого изменения сохраняется автоматически.</dd>
+<dd>Сохранение результатов редактирования нормалей. При активации <code class="docutils literal"><span class="pre">Autosave</span></code> результат каждого изменения сохраняется автоматически.</dd>
 <dt><em>Size</em></dt>
 <dd>Длина отрезка, визуализирующего направление нормали.</dd>
 <dt><em>Show/Hide</em></dt>
@@ -114,11 +114,11 @@
 <dt><em>Шкала XYZ и сфера направления</em></dt>
 <dd>Инструменты для изменения направления векторов вручную.</dd>
 <dt><em>Tree</em>, <em>Foliage</em> и <em>Face</em></dt>
-<dd>Кнопка <tt class="docutils literal"><span class="pre">Tree</span></tt> задает всем выделенным нормалям направление от 3D-курсора, <tt class="docutils literal"><span class="pre">Foliage</span></tt> направляет нормали строго вверх (чаще всего используется для настройки частиц <a class="reference internal" href="particles_instancing.html#particles-grass"><em>травяного покрова</em></a> и <a class="reference internal" href="particles_instancing.html#particles-leaves"><em>листвы деревьев</em></a>), <tt class="docutils literal"><span class="pre">Face</span></tt> присваивает векторам направление нормали выделенного полигона.</dd>
+<dd>Кнопка <code class="docutils literal"><span class="pre">Tree</span></code> задает всем выделенным нормалям направление от 3D-курсора, <code class="docutils literal"><span class="pre">Foliage</span></code> направляет нормали строго вверх (чаще всего используется для настройки частиц <a class="reference internal" href="particles_instancing.html#particles-grass"><span>травяного покрова</span></a> и <a class="reference internal" href="particles_instancing.html#particles-leaves"><span>листвы деревьев</span></a>), <code class="docutils literal"><span class="pre">Face</span></code> присваивает векторам направление нормали выделенного полигона.</dd>
 <dt><em>Copy from source mesh</em> и <em>Approximate from source mesh</em></dt>
 <dd>Кнопки копируют вектора нормалей с одного объекта на другой, при этом следует последовательно выделить исходный и целевой объекты. Разница между ними заключается в следующем. Первый способ требует точного соответствия этих объектов и копирует направление нормалей идеально точно. Вершины, не совпадающие с оригиналом, не затрагиваются. Второй способ работает с произвольной геометрией и приводит к приближенному результату. На практике второй способ часто бывает удобнее первого и работает с приемлемой точностью.</dd>
 </dl>
-<p>Пример использования функции <tt class="docutils literal"><span class="pre">Approximate</span> <span class="pre">from</span> <span class="pre">source</span> <span class="pre">mesh</span></tt>:</p>
+<p>Пример использования функции <code class="docutils literal"><span class="pre">Approximate</span> <span class="pre">from</span> <span class="pre">source</span> <span class="pre">mesh</span></code>:</p>
 <a class="reference internal image-reference" href="_images/approximate_example.gif"><img alt="_images/approximate_example.gif" class="align-center" src="_images/approximate_example.gif" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
@@ -132,10 +132,10 @@
 <li>Редактирование выделенных нормалей</li>
 <li><em>Save</em> (если <em>Autosave</em> не активна)</li>
 </ol>
-<p>Необходимо учитывать, что привязка отредактированных нормалей к вершинам меша осуществляется по их номерам, которые могут измениться при редактировании геометрии меша. Это может привести к необходимости редактирования нормалей заново. Кроме того, результаты редактирования нормалей перекрываются некоторыми модификаторами, т.к. они меняют число или порядок вершин меша, поэтому желательно редактировать нормали после применения модификаторов. Модификатор <tt class="docutils literal"><span class="pre">Armature</span></tt> не влияет на работу инструмента.</p>
+<p>Необходимо учитывать, что привязка отредактированных нормалей к вершинам меша осуществляется по их номерам, которые могут измениться при редактировании геометрии меша. Это может привести к необходимости редактирования нормалей заново. Кроме того, результаты редактирования нормалей перекрываются некоторыми модификаторами, т.к. они меняют число или порядок вершин меша, поэтому желательно редактировать нормали после применения модификаторов. Модификатор <code class="docutils literal"><span class="pre">Armature</span></code> не влияет на работу инструмента.</p>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
-<p class="last">Eсли необходимо изменить меш с отредактированными нормалями, и при этом сохранить результаты редактирования, можно поступить следующим образом. Временно скопируйте этот объект, отредактируйте меш оригинала, сбросьте на нем нормали кнопкой <tt class="docutils literal"><span class="pre">Clean</span> <span class="pre">Up</span></tt> и затем с копии объекта перенесите направления нормалей с помощью кнопок <tt class="docutils literal"><span class="pre">Copy</span> <span class="pre">from</span> <span class="pre">source</span> <span class="pre">mesh</span></tt> или <tt class="docutils literal"><span class="pre">Approximate</span> <span class="pre">from</span> <span class="pre">source</span> <span class="pre">mesh</span></tt>. Сохраните результаты копирования или аппроксимации.</p>
+<p class="last">Eсли необходимо изменить меш с отредактированными нормалями, и при этом сохранить результаты редактирования, можно поступить следующим образом. Временно скопируйте этот объект, отредактируйте меш оригинала, сбросьте на нем нормали кнопкой <code class="docutils literal"><span class="pre">Clean</span> <span class="pre">Up</span></code> и затем с копии объекта перенесите направления нормалей с помощью кнопок <code class="docutils literal"><span class="pre">Copy</span> <span class="pre">from</span> <span class="pre">source</span> <span class="pre">mesh</span></code> или <code class="docutils literal"><span class="pre">Approximate</span> <span class="pre">from</span> <span class="pre">source</span> <span class="pre">mesh</span></code>. Сохраните результаты копирования или аппроксимации.</p>
 </div>
 </div>
 <div class="section" id="index-3">
@@ -157,7 +157,7 @@
 </div>
 <div class="section" id="id6">
 <h3>Настройка источников света<a class="headerlink" href="#id6" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Производится во вкладке <tt class="docutils literal"><span class="pre">Object</span> <span class="pre">Data</span></tt> при выборе объекта-лампы.</p>
+<p>Производится во вкладке <code class="docutils literal"><span class="pre">Object</span> <span class="pre">Data</span></code> при выборе объекта-лампы.</p>
 <a class="reference internal image-reference" href="_images/lighting_setup.jpg"><img alt="_images/lighting_setup.jpg" class="align-center" src="_images/lighting_setup.jpg" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
@@ -168,17 +168,17 @@
 <dt><em>Energy</em></dt>
 <dd>Интенсивность излучения. Значение по умолчанию 1.0.</dd>
 <dt><em>Falloff</em></dt>
-<dd>Тип затухания. Значение экспортируется, но в движке всегда используется <tt class="docutils literal"><span class="pre">Inverse</span> <span class="pre">Square</span></tt> (обратный квадратичный). Применяется для источников света типа <tt class="docutils literal"><span class="pre">Point</span></tt> и <tt class="docutils literal"><span class="pre">Spot</span></tt>. Значение по умолчанию <tt class="docutils literal"><span class="pre">Inverse</span> <span class="pre">Square</span></tt>.</dd>
+<dd>Тип затухания. Значение экспортируется, но в движке всегда используется <code class="docutils literal"><span class="pre">Inverse</span> <span class="pre">Square</span></code> (обратный квадратичный). Применяется для источников света типа <code class="docutils literal"><span class="pre">Point</span></code> и <code class="docutils literal"><span class="pre">Spot</span></code>. Значение по умолчанию <code class="docutils literal"><span class="pre">Inverse</span> <span class="pre">Square</span></code>.</dd>
 <dt><em>Distance</em></dt>
-<dd>Параметр затухания. Применяется для источников света типа <tt class="docutils literal"><span class="pre">Point</span></tt> и <tt class="docutils literal"><span class="pre">Spot</span></tt>. Значение по умолчанию 25.0.</dd>
+<dd>Параметр затухания. Применяется для источников света типа <code class="docutils literal"><span class="pre">Point</span></code> и <code class="docutils literal"><span class="pre">Spot</span></code>. Значение по умолчанию 25.0.</dd>
 <dt><em>Specular</em></dt>
 <dd>Создание отблеска на объектах. По умолчанию включено.</dd>
 <dt><em>Diffuse</em></dt>
 <dd>Применение рассеянного освещения к объектам. По умолчанию включено.</dd>
 <dt><em>Spot Shape &gt; Size</em></dt>
-<dd>Угол конуса в градусах. Применяется для источников света типа <tt class="docutils literal"><span class="pre">Spot</span></tt>. Значение по умолчанию 45º.</dd>
+<dd>Угол конуса в градусах. Применяется для источников света типа <code class="docutils literal"><span class="pre">Spot</span></code>. Значение по умолчанию 45º.</dd>
 <dt><em>Spot Shape &gt; Blend</em></dt>
-<dd>Параметр смягчения края светового пятна. Применяется для источников света типа <tt class="docutils literal"><span class="pre">Spot</span></tt>. Значение по умолчанию 0.15.</dd>
+<dd>Параметр смягчения края светового пятна. Применяется для источников света типа <code class="docutils literal"><span class="pre">Spot</span></code>. Значение по умолчанию 0.15.</dd>
 <dt><em>Blend4Web &gt; Do not export</em></dt>
 <dd>Не экспортировать. По умолчанию отключено.</dd>
 <dt><em>Blend4Web &gt; Generate shadows</em></dt>
@@ -194,11 +194,11 @@
 <ol class="arabic simple">
 <li>&#8220;Плоское&#8221; освещение белым цветом.</li>
 <li>Полусферическая модель освещения, в которой задается цвет горизонта и цвет зенита, в результате чего объекты заливаются градиентом между этими цветами в зависимости от направления нормалей.</li>
-<li>Освещение с помощью <a class="reference internal" href="textures.html#environment-map"><em>карты окружения</em></a> - т.н. методика image-based lighting.</li>
+<li>Освещение с помощью <a class="reference internal" href="textures.html#environment-map"><span>карты окружения</span></a> - т.н. методика image-based lighting.</li>
 </ol>
 <div class="section" id="id8">
 <h3>Активация<a class="headerlink" href="#id8" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Включить опцию <tt class="docutils literal"><span class="pre">Environment</span> <span class="pre">Lighting</span></tt> во вкладке <tt class="docutils literal"><span class="pre">World</span></tt>.</p>
+<p>Включить опцию <code class="docutils literal"><span class="pre">Environment</span> <span class="pre">Lighting</span></code> во вкладке <code class="docutils literal"><span class="pre">World</span></code>.</p>
 <a class="reference internal image-reference" href="_images/lighting_environment.jpg"><img alt="_images/lighting_environment.jpg" class="align-center" src="_images/lighting_environment.jpg" style="width: 100%;" /></a>
 </div>
 <div class="section" id="id9">
@@ -207,20 +207,20 @@
 <dt><em>World &gt; Environment Lighting &gt; Energy</em></dt>
 <dd>Интенсивность освещения от окружающей среды. Значение по умолчанию 1.0.</dd>
 <dt><em>World &gt; Environment Lighting &gt; Environment Color</em></dt>
-<dd>Выбор метода симуляции рассеянного освещения: <tt class="docutils literal"><span class="pre">White</span></tt> - &#8220;плоское&#8221; освещение белым цветом, <tt class="docutils literal"><span class="pre">Sky</span> <span class="pre">Color</span></tt> - полусферическая модель , <tt class="docutils literal"><span class="pre">Sky</span> <span class="pre">Texture</span></tt> - освещение с помощью <a class="reference internal" href="textures.html#environment-map"><em>карты окружения</em></a>. Значение по умолчанию <tt class="docutils literal"><span class="pre">White</span></tt>.</dd>
+<dd>Выбор метода симуляции рассеянного освещения: <code class="docutils literal"><span class="pre">White</span></code> - &#8220;плоское&#8221; освещение белым цветом, <code class="docutils literal"><span class="pre">Sky</span> <span class="pre">Color</span></code> - полусферическая модель , <code class="docutils literal"><span class="pre">Sky</span> <span class="pre">Texture</span></code> - освещение с помощью <a class="reference internal" href="textures.html#environment-map"><span>карты окружения</span></a>. Значение по умолчанию <code class="docutils literal"><span class="pre">White</span></code>.</dd>
 <dt><em>World &gt; Horizon Color</em> и <em>World &gt; Zenith Color</em></dt>
-<dd>Если выбрана полусферическая модель рассеянного освещения <tt class="docutils literal"><span class="pre">Sky</span> <span class="pre">Color</span></tt>, цвет горизонта и цвет зенита задаются цветоподборщиками <tt class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Horizon</span> <span class="pre">Color</span></tt> (цвет горизонта) и <tt class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Zenith</span> <span class="pre">Color</span></tt> (цвет зенита). При выборе цвета рекомендуется активировать опцию <tt class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Blend</span> <span class="pre">Sky</span></tt>.</dd>
+<dd>Если выбрана полусферическая модель рассеянного освещения <code class="docutils literal"><span class="pre">Sky</span> <span class="pre">Color</span></code>, цвет горизонта и цвет зенита задаются цветоподборщиками <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Horizon</span> <span class="pre">Color</span></code> (цвет горизонта) и <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Zenith</span> <span class="pre">Color</span></code> (цвет зенита). При выборе цвета рекомендуется активировать опцию <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Blend</span> <span class="pre">Sky</span></code>.</dd>
 </dl>
 </div>
 <div class="section" id="id10">
 <h3>Использование карты окружения<a class="headerlink" href="#id10" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Для того, чтобы использовать карту окружения в целях реализации освещения от окружающей среды, необходимо:</p>
 <ol class="arabic simple">
-<li>Включить опцию <tt class="docutils literal"><span class="pre">Environment</span> <span class="pre">Lighting</span></tt> во вкладке <tt class="docutils literal"><span class="pre">World</span></tt>.</li>
-<li>Выбрать метод <tt class="docutils literal"><span class="pre">Environment</span> <span class="pre">Lighting</span> <span class="pre">&gt;</span> <span class="pre">Environment</span> <span class="pre">Color</span> <span class="pre">&gt;</span> <span class="pre">Sky</span> <span class="pre">Texture</span></tt>.</li>
-<li>Перейти из вкладки <tt class="docutils literal"><span class="pre">World</span></tt> во вкладку <tt class="docutils literal"><span class="pre">Texture</span></tt>.</li>
-<li>Создать <a class="reference internal" href="textures.html#environment-map"><em>карту окружения</em></a>, загрузить в нее соответствующее изображение.</li>
-<li>Для карты окружения на панели <tt class="docutils literal"><span class="pre">Blend4Web</span></tt> для значения <tt class="docutils literal"><span class="pre">Sky</span> <span class="pre">texture</span> <span class="pre">usage</span></tt> выбрать <tt class="docutils literal"><span class="pre">ENVIRONMENT_LIGHTING</span></tt> или <tt class="docutils literal"><span class="pre">BOTH</span></tt> (опция <tt class="docutils literal"><span class="pre">BOTH</span></tt> активирует также использование этой текстуры в качестве <a class="reference internal" href="textures.html#skydome-texture"><em>текстуры неба</em></a>).</li>
+<li>Включить опцию <code class="docutils literal"><span class="pre">Environment</span> <span class="pre">Lighting</span></code> во вкладке <code class="docutils literal"><span class="pre">World</span></code>.</li>
+<li>Выбрать метод <code class="docutils literal"><span class="pre">Environment</span> <span class="pre">Lighting</span> <span class="pre">&gt;</span> <span class="pre">Environment</span> <span class="pre">Color</span> <span class="pre">&gt;</span> <span class="pre">Sky</span> <span class="pre">Texture</span></code>.</li>
+<li>Перейти из вкладки <code class="docutils literal"><span class="pre">World</span></code> во вкладку <code class="docutils literal"><span class="pre">Texture</span></code>.</li>
+<li>Создать <a class="reference internal" href="textures.html#environment-map"><span>карту окружения</span></a>, загрузить в нее соответствующее изображение.</li>
+<li>Для карты окружения на панели <code class="docutils literal"><span class="pre">Blend4Web</span></code> для значения <code class="docutils literal"><span class="pre">Sky</span> <span class="pre">texture</span> <span class="pre">usage</span></code> выбрать <code class="docutils literal"><span class="pre">ENVIRONMENT_LIGHTING</span></code> или <code class="docutils literal"><span class="pre">BOTH</span></code> (опция <code class="docutils literal"><span class="pre">BOTH</span></code> активирует также использование этой текстуры в качестве <a class="reference internal" href="textures.html#skydome-texture"><span>текстуры неба</span></a>).</li>
 </ol>
 <a class="reference internal image-reference" href="_images/lighting_environment_texture.jpg"><img alt="_images/lighting_environment_texture.jpg" class="align-center" src="_images/lighting_environment_texture.jpg" style="width: 100%;" /></a>
 <div class="line-block">
@@ -235,13 +235,13 @@
 <div class="section" id="id12">
 <h3>Активация<a class="headerlink" href="#id12" title="Ссылка на этот заголовок">¶</a></h3>
 <ol class="arabic simple">
-<li>На объектах, <strong>отбрасывающих</strong> тени, включить опцию <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Shadows:</span> <span class="pre">Cast</span></tt> во вкладке <tt class="docutils literal"><span class="pre">Object</span></tt>.</li>
-<li>На объектах, <strong>получающих</strong> тени, включить опцию <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Shadows:</span> <span class="pre">Receive</span></tt> во вкладке <tt class="docutils literal"><span class="pre">Object</span></tt>.</li>
-<li>Убедиться, что включена опция <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Render</span> <span class="pre">shadows</span></tt> во вкладке <tt class="docutils literal"><span class="pre">Scene</span></tt>.</li>
+<li>На объектах, <strong>отбрасывающих</strong> тени, включить опцию <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Shadows:</span> <span class="pre">Cast</span></code> во вкладке <code class="docutils literal"><span class="pre">Object</span></code>.</li>
+<li>На объектах, <strong>получающих</strong> тени, включить опцию <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Shadows:</span> <span class="pre">Receive</span></code> во вкладке <code class="docutils literal"><span class="pre">Object</span></code>.</li>
+<li>Убедиться, что включена опция <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Render</span> <span class="pre">shadows</span></code> во вкладке <code class="docutils literal"><span class="pre">Scene</span></code>.</li>
 </ol>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
-<p>Объекты, имеющие <a class="reference internal" href="materials.html#alpha-blend"><em>прозрачные материалы с градиентом</em></a>, не отбрасывают теней.</p>
+<p>Объекты, имеющие <a class="reference internal" href="materials.html#alpha-blend"><span>прозрачные материалы с градиентом</span></a>, не отбрасывают теней.</p>
 <a class="last reference internal image-reference" href="_images/alpha_shadows.jpg"><img alt="_images/alpha_shadows.jpg" class="align-center" src="_images/alpha_shadows.jpg" style="width: 100%;" /></a>
 </div>
 <div class="line-block">
@@ -252,11 +252,11 @@
 <h3>Настройка<a class="headerlink" href="#id13" title="Ссылка на этот заголовок">¶</a></h3>
 <dl class="docutils">
 <dt><em>Направление</em></dt>
-<dd>В случае наличия нескольких источников света рекомендуется указать, какой именно источник света будет использоваться для расчета падающих теней, включив опцию <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Generate</span> <span class="pre">shadows</span></tt> во вкладке <tt class="docutils literal"><span class="pre">Object</span> <span class="pre">Data</span></tt> при выборе объекта-лампы.</dd>
+<dd>В случае наличия нескольких источников света рекомендуется указать, какой именно источник света будет использоваться для расчета падающих теней, включив опцию <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Generate</span> <span class="pre">shadows</span></code> во вкладке <code class="docutils literal"><span class="pre">Object</span> <span class="pre">Data</span></code> при выборе объекта-лампы.</dd>
 <dt><em>Цвет</em></dt>
-<dd>Цвет тени определяется настройками <a class="reference internal" href="#environment-lighting"><em>освещения от окружающей среды</em></a>.</dd>
+<dd>Цвет тени определяется настройками <a class="reference internal" href="#environment-lighting"><span>освещения от окружающей среды</span></a>.</dd>
 </dl>
-<p>Во вкладке <tt class="docutils literal"><span class="pre">World</span></tt> на панели <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Shadow</span> <span class="pre">Settings</span></tt> находятся дополнительные настройки:</p>
+<p>Во вкладке <code class="docutils literal"><span class="pre">World</span></code> на панели <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Shadow</span> <span class="pre">Settings</span></code> находятся дополнительные настройки:</p>
 <a class="reference internal image-reference" href="_images/b4w_shadow_settings.png"><img alt="_images/b4w_shadow_settings.png" class="align-center" src="_images/b4w_shadow_settings.png" style="width: 100%;" /></a>
 <dl class="docutils">
 <dt><em>Resolution</em></dt>
@@ -267,7 +267,7 @@
 <dd>Коэффициент смещения полигона по нормали. Значение по умолчанию: 0.01.</dd>
 </dl>
 <p>Последние две настройки служат для борьбы с артефактами самозатенения. Они проявляются на объектах, одновременно отбрасывающих и принимающих тени.
-Параметр <tt class="docutils literal"><span class="pre">Self-shadow</span> <span class="pre">polygon</span> <span class="pre">offset</span></tt> лучше справляется с артефактами во внутренних областях полигонов, а <tt class="docutils literal"><span class="pre">Self-shadow</span> <span class="pre">normal</span> <span class="pre">offset</span></tt> - в приграничных.
+Параметр <code class="docutils literal"><span class="pre">Self-shadow</span> <span class="pre">polygon</span> <span class="pre">offset</span></code> лучше справляется с артефактами во внутренних областях полигонов, а <code class="docutils literal"><span class="pre">Self-shadow</span> <span class="pre">normal</span> <span class="pre">offset</span></code> - в приграничных.
 Оба параметра приводят к искажению теней, поэтому рекомендуется держать их как можно меньшими.</p>
 <a class="reference internal image-reference" href="_images/self_shadow_artifacts.png"><img alt="_images/self_shadow_artifacts.png" class="align-center" src="_images/self_shadow_artifacts.png" style="width: 100%;" /></a>
 <div class="line-block">
@@ -279,8 +279,8 @@
 </dl>
 <p>Эта опция позволяет выбрать один из следующих вариантов наложения теней:</p>
 <ul class="simple">
-<li>Стандартная модель, использующая одну оптимизированную карту теней, охватывающую всю сцену (<tt class="docutils literal"><span class="pre">Enable</span> <span class="pre">CSM</span></tt> отключена).</li>
-<li>Каскады теней (<tt class="docutils literal"><span class="pre">Enable</span> <span class="pre">CSM</span></tt> включена).</li>
+<li>Стандартная модель, использующая одну оптимизированную карту теней, охватывающую всю сцену (<code class="docutils literal"><span class="pre">Enable</span> <span class="pre">CSM</span></code> отключена).</li>
+<li>Каскады теней (<code class="docutils literal"><span class="pre">Enable</span> <span class="pre">CSM</span></code> включена).</li>
 </ul>
 <dl class="docutils">
 <dt><em>Blur radius</em></dt>
@@ -299,7 +299,7 @@
 <h4>Каскады теней<a class="headerlink" href="#id15" title="Ссылка на этот заголовок">¶</a></h4>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
-<p class="last">Данные настройки поддерживаются только для источников освещения типа <tt class="docutils literal"><span class="pre">Sun</span></tt>. Для других источников каскады автоматически отключаются.</p>
+<p class="last">Данные настройки поддерживаются только для источников освещения типа <code class="docutils literal"><span class="pre">Sun</span></code>. Для других источников каскады автоматически отключаются.</p>
 </div>
 <p>Для обеспечения приемлемого качества теней и одновременно покрытия значительных пространств необходимо использовать несколько стадий генерации теней (каскадов). При этом вблизи наблюдателя располагается каскад с наилучшим качеством, вдали от наблюдателя — с наихудшим.
 Этот вариант больше подходит для сцен среднего и большого размера, например, игровых уровней.</p>
@@ -319,7 +319,7 @@
 <p>Размеры промежуточных каскадов интерполируются на основе последних двух параметров.</p>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
-<p class="last">При настройке следует помнить, что, увеличивая размер каскада, мы получаем на нем менее качественные тени. С другой стороны, уменьшение параметра <tt class="docutils literal"><span class="pre">CSM</span> <span class="pre">first</span> <span class="pre">cascade</span> <span class="pre">border</span></tt> приблизит к камере и сделает более заметными последующие менее детальные каскады. Уменьшение параметра <tt class="docutils literal"><span class="pre">CSM</span> <span class="pre">last</span> <span class="pre">cascade</span> <span class="pre">border</span></tt> приведет к исчезновению теней на более близком расстоянии от камеры. Однако, при использовании мягких теней качество в целом улучшится благодаря размытию на границах.</p>
+<p class="last">При настройке следует помнить, что, увеличивая размер каскада, мы получаем на нем менее качественные тени. С другой стороны, уменьшение параметра <code class="docutils literal"><span class="pre">CSM</span> <span class="pre">first</span> <span class="pre">cascade</span> <span class="pre">border</span></code> приблизит к камере и сделает более заметными последующие менее детальные каскады. Уменьшение параметра <code class="docutils literal"><span class="pre">CSM</span> <span class="pre">last</span> <span class="pre">cascade</span> <span class="pre">border</span></code> приведет к исчезновению теней на более близком расстоянии от камеры. Однако, при использовании мягких теней качество в целом улучшится благодаря размытию на границах.</p>
 </div>
 <a class="reference internal image-reference" href="_images/csm_cascade_distance.png"><img alt="_images/csm_cascade_distance.png" class="align-center" src="_images/csm_cascade_distance.png" style="width: 100%;" /></a>
 <div class="line-block">
@@ -334,7 +334,7 @@
 <p>Радиус размытия каждого промежуточного каскада интерполируется на основе этих параметров.</p>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
-<p class="last">Смягченные тени рекомендуется настраивать сначала на первом каскаде опцией <tt class="docutils literal"><span class="pre">CSM</span> <span class="pre">first</span> <span class="pre">cascade</span> <span class="pre">blur</span> <span class="pre">radius</span></tt>, а далее на всех остальных с помощью <tt class="docutils literal"><span class="pre">CSM</span> <span class="pre">last</span> <span class="pre">cascade</span> <span class="pre">blur</span> <span class="pre">radius</span></tt>. Часто на последнем каскаде может потребоваться размытие меньшее, нежели на первом. Это нужно для того, чтобы тени на последнем каскаде не стали слишком блеклыми из-за низкой детализации, к тому же это уменьшит нежелательные артефакты самозатенения.</p>
+<p class="last">Смягченные тени рекомендуется настраивать сначала на первом каскаде опцией <code class="docutils literal"><span class="pre">CSM</span> <span class="pre">first</span> <span class="pre">cascade</span> <span class="pre">blur</span> <span class="pre">radius</span></code>, а далее на всех остальных с помощью <code class="docutils literal"><span class="pre">CSM</span> <span class="pre">last</span> <span class="pre">cascade</span> <span class="pre">blur</span> <span class="pre">radius</span></code>. Часто на последнем каскаде может потребоваться размытие меньшее, нежели на первом. Это нужно для того, чтобы тени на последнем каскаде не стали слишком блеклыми из-за низкой детализации, к тому же это уменьшит нежелательные артефакты самозатенения.</p>
 </div>
 <dl class="docutils">
 <dt><em>Fade-out last cascade</em></dt>
@@ -353,17 +353,17 @@
 <span id="id16"></span><h2>Цвет фона<a class="headerlink" href="#index-4" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Цвет фона можно задать несколькими способами:</p>
 <ol class="arabic simple">
-<li>Установить параметры <tt class="docutils literal"><span class="pre">Horizon</span> <span class="pre">Color</span></tt> и <tt class="docutils literal"><span class="pre">Zenith</span> <span class="pre">Color</span></tt> на вкладке <tt class="docutils literal"><span class="pre">World</span></tt> в Blender, предварительно выставив опцию <tt class="docutils literal"><span class="pre">Sky</span> <span class="pre">Settings</span> <span class="pre">&gt;</span> <span class="pre">Render</span> <span class="pre">Sky</span></tt>.</li>
+<li>Установить параметры <code class="docutils literal"><span class="pre">Horizon</span> <span class="pre">Color</span></code> и <code class="docutils literal"><span class="pre">Zenith</span> <span class="pre">Color</span></code> на вкладке <code class="docutils literal"><span class="pre">World</span></code> в Blender, предварительно выставив опцию <code class="docutils literal"><span class="pre">Sky</span> <span class="pre">Settings</span> <span class="pre">&gt;</span> <span class="pre">Render</span> <span class="pre">Sky</span></code>.</li>
 <li>Поместить сцену внутрь модели (например, куба или сферы) с направленными внутрь нормалями, с материалом и опциональной текстурой.</li>
 <li>Разместить перед камерой поверхность с материалом и опциональной текстурой, присоединить ее к камере связью родитель-потомок. При необходимости настроить расстояние до поверхности, переднюю и заднюю плоскости отсечения камеры.</li>
 </ol>
 <a class="reference internal image-reference" href="_images/parented_background.jpg"><img alt="_images/parented_background.jpg" class="align-center" src="_images/parented_background.jpg" style="width: 100%;" /></a>
 <ol class="arabic" start="4">
-<li><p class="first">Использовать <a class="reference internal" href="textures.html#skydome-texture"><em>текстуру неба</em></a>.</p>
+<li><p class="first">Использовать <a class="reference internal" href="textures.html#skydome-texture"><span>текстуру неба</span></a>.</p>
 </li>
-<li><p class="first">Настроить динамически генерируемую <a class="reference internal" href="outdoor_rendering.html#atmosphere"><em>атмосферу</em></a>.</p>
+<li><p class="first">Настроить динамически генерируемую <a class="reference internal" href="outdoor_rendering.html#atmosphere"><span>атмосферу</span></a>.</p>
 </li>
-<li><p class="first">Установить параметр движка <tt class="docutils literal"><span class="pre">background_color</span></tt>, используя программный метод <tt class="docutils literal"><span class="pre">config.set()</span></tt>, предварительно отключив опцию <tt class="docutils literal"><span class="pre">Sky</span> <span class="pre">Settings</span> <span class="pre">&gt;</span> <span class="pre">Render</span> <span class="pre">Sky</span></tt> на вкладке <tt class="docutils literal"><span class="pre">World</span></tt> в Blender. Установленное значение используется в качестве аргумента метода WebGL <tt class="docutils literal"><span class="pre">clearColor()</span></tt>. Для получения корректных результатов рекомендуется отключить прозрачность контекста WebGL (параметр <tt class="docutils literal"><span class="pre">alpha</span></tt>). Такая конфигурация используется по умолчанию в стандартном веб-плеере движка.</p>
+<li><p class="first">Установить параметр движка <code class="docutils literal"><span class="pre">background_color</span></code>, используя программный метод <code class="docutils literal"><span class="pre">config.set()</span></code>, предварительно отключив опцию <code class="docutils literal"><span class="pre">Sky</span> <span class="pre">Settings</span> <span class="pre">&gt;</span> <span class="pre">Render</span> <span class="pre">Sky</span></code> на вкладке <code class="docutils literal"><span class="pre">World</span></code> в Blender. Установленное значение используется в качестве аргумента метода WebGL <code class="docutils literal"><span class="pre">clearColor()</span></code>. Для получения корректных результатов рекомендуется отключить прозрачность контекста WebGL (параметр <code class="docutils literal"><span class="pre">alpha</span></code>). Такая конфигурация используется по умолчанию в стандартном веб-плеере движка.</p>
 <blockquote>
 <div><div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_cfg</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">m_main</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;main&quot;</span><span class="p">);</span>
@@ -377,7 +377,7 @@
 </div>
 </div></blockquote>
 </li>
-<li><p class="first">В качестве фона можно использовать любой HTML контент, находящийся позади элемента <tt class="docutils literal"><span class="pre">canvas</span></tt>, который используется для рендеринга. Для это необходимо активировать прозрачность контекста WebGL (параметр <tt class="docutils literal"><span class="pre">alpha</span></tt>), предварительно отключив опцию <tt class="docutils literal"><span class="pre">Sky</span> <span class="pre">Settings</span> <span class="pre">&gt;</span> <span class="pre">Render</span> <span class="pre">Sky</span></tt> на вкладке <tt class="docutils literal"><span class="pre">World</span></tt> в Blender. Для получения корректных результатов рекомендуется выставить полностью прозрачный черный цвет фона. Такая конфигурация используется по умолчанию в стандартном <a class="reference internal" href="viewer.html#viewer"><em>просмотрщике сцен</em></a> SDK движка.</p>
+<li><p class="first">В качестве фона можно использовать любой HTML контент, находящийся позади элемента <code class="docutils literal"><span class="pre">canvas</span></code>, который используется для рендеринга. Для это необходимо активировать прозрачность контекста WebGL (параметр <code class="docutils literal"><span class="pre">alpha</span></code>), предварительно отключив опцию <code class="docutils literal"><span class="pre">Sky</span> <span class="pre">Settings</span> <span class="pre">&gt;</span> <span class="pre">Render</span> <span class="pre">Sky</span></code> на вкладке <code class="docutils literal"><span class="pre">World</span></code> в Blender. Для получения корректных результатов рекомендуется выставить полностью прозрачный черный цвет фона. Такая конфигурация используется по умолчанию в стандартном <a class="reference internal" href="viewer.html#viewer"><span>просмотрщике сцен</span></a> SDK движка.</p>
 <blockquote>
 <div><div class="highlight-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">m_cfg</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">m_main</span> <span class="o">=</span> <span class="nx">b4w</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;main&quot;</span><span class="p">);</span>
@@ -390,7 +390,7 @@
 </div>
 <div class="admonition seealso">
 <p class="first admonition-title">См.также</p>
-<p class="last"><a class="reference internal" href="gamma_alpha.html#alpha-compositing"><em>Альфа-композитинг</em></a></p>
+<p class="last"><a class="reference internal" href="gamma_alpha.html#alpha-compositing"><span>Альфа-композитинг</span></a></p>
 </div>
 </div></blockquote>
 </li>
@@ -444,16 +444,18 @@
 <li class="toctree-l1"><a class="reference internal" href="release_notes.html">Замечания к релизам</a></li>
 </ul>
 
-          <h3 style="margin-top: 1.5em;">Поиск</h3>
-          <form class="search" action="search.html" method="get">
-            <input type="text" name="q" />
-            <input type="submit" value="Искать" />
-            <input type="hidden" name="check_keywords" value="yes" />
-            <input type="hidden" name="area" value="default" />
-          </form>
-          <p class="searchtip" style="font-size: 90%">
-            Введите слова для поиска или имя модуля, класса или функции.
-          </p>
+          <div role="search">
+            <h3 style="margin-top: 1.5em;">Поиск</h3>
+            <form class="search" action="search.html" method="get">
+                <input type="text" name="q" />
+                <input type="submit" value="Искать" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+            </form>
+            <p class="searchtip" style="font-size: 90%">
+                Введите слова для поиска или имя модуля, класса или функции.
+            </p>
+          </div>
         </div>
         <div class="clearer"></div>
       </div>
@@ -462,20 +464,24 @@
     <div class="footer-wrapper">
       <div class="footer">
         <div class="left">
-          <a href="node_materials.html" title="Нодовые материалы"
-             >назад</a> |
-          <a href="postprocessing_effects.html" title="Постпроцессинговые эффекты"
-             >вперёд</a> |
-          <a href="genindex.html" title="Алфавитный указатель"
-             >указатель</a>
+          <div role="navigation" aria-label="related navigaton">
+            <a href="node_materials.html" title="Нодовые материалы"
+              >назад</a> |
+            <a href="postprocessing_effects.html" title="Постпроцессинговые эффекты"
+              >вперёд</a> |
+            <a href="genindex.html" title="Алфавитный указатель"
+              >указатель</a>
+          </div>
+          <div role="note" aria-label="source link">
+          </div>
         </div>
 
         <div class="right">
           
-    <div class="footer">
+    <div class="footer" role="contentinfo">
         &copy; Copyright 2015, ООО &#34;Триумф&#34;.
-      Обновлено: 2015-04-29.
-      Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+      Обновлено: 2015-05-26.
+      Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
         </div>
         <div class="clearer"></div>

@@ -1,61 +1,48 @@
-div#run_button {
-    background-image: url(img/button_ru.png);
-    width:235px;
-    height:60px;
-    display: inline-block;
-    cursor: pointer;
+#canvas_cont {
+    position: absolute;
+    width: 1200px;
+    height: 1200px;
+    bottom: -350px;
+    pointer-events: none;
+}
+
+div#wrapper_container {
     position: relative;
-    transition: all 1s;
-    -webkit-transition: all 1s;
-    -moz-transition: all 1s;
 }
 
-div#run_button:hover {
-    background-image: url(img/button_ru_hover.png);
-}
-
-div#canvas_cont canvas {
-    pointer-events: none;
-}
-
-div#canvas_cont {
-    display: block;
-    height: 1000px;
-    width:1200px;
-    margin-top: -1000px;
-    margin-left: -40px;
-    position:relative;
-    pointer-events: none;
-}
-
-@media (max-width: 1200px) and (min-width: 1000px) {
-    div#canvas_cont {
+@media screen and (min-width: 1000px) and (max-width: 1200px) {
+    #canvas_cont {
+        height: 1000px;
         width: 1000px;
-        height: 800px;
-        margin-top: -800px;
     }
 }
 
-@media (max-width: 1000px) and (min-width: 768px) {
-    div#canvas_cont {
-        width: 900px;
-        height: 800px;
-        margin: -800px auto 0 auto;
+@media screen and (max-width: 1000px) {
+    #canvas_cont {
+        width: 100vw;
+        height: 100vw;
+        bottom: 0;
     }
 }
 
-@media (max-width: 768px) and (min-width: 400px) {
-    div#canvas_cont {
-        width: 600px;
-        height: 450px;
-        margin: -450px auto 0 auto;
-    }
+div#run_button.ru,
+div#run_button.en {
+    width: 236px;
+    height: 60px;
+    margin: 0 auto;
+    cursor: pointer;
+    background-image: url(interface/button.png);
+    background-size: 472px 120px;
 }
 
-@media (max-width: 400px) and (min-width: 300px) {
-    div#canvas_cont {
-        width: 350px;
-        height: 250px;
-        margin: -250px auto 0 auto;
-    }
+div#run_button.en {
+    background-position: -236px 0;
+}
+
+div#run_button.ru:hover {
+    background-position: 0 -60px;
+}
+
+div#run_button.en:hover {
+    background-position: -236px -60px;
 }

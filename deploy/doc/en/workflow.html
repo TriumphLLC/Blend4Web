@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Workflow &mdash; User Manual: Blend4Web v15.04</title>
+    <title>Workflow &mdash; User Manual: Blend4Web v15.05</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '15.04',
+        VERSION:     '15.05',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,19 +25,19 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User Manual: Blend4Web v15.04" href="index.html" />
+    <link rel="top" title="User Manual: Blend4Web v15.05" href="index.html" />
     <link rel="next" title="Scene Viewer" href="viewer.html" />
     <link rel="prev" title="Installing the SDK" href="setup.html" /> 
   </head>
-  <body>
-    <div class="header-wrapper">
+  <body role="document">
+    <div class="header-wrapper" role="banner">
       <div class="header">
           <p class="logo"><a href="index.html">
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">User Manual: Blend4Web v15.04</a></div>
-        <div class="rel">
+          href="index.html">User Manual: Blend4Web v15.05</a></div>
+        <div class="rel" role="navigation" aria-label="related navigation">
           <a href="setup.html" title="Installing the SDK"
              accesskey="P">previous</a> |
           <a href="viewer.html" title="Scene Viewer"
@@ -54,7 +54,7 @@
             
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="working-process-stages">
 <span id="id1"></span><h1>Workflow<a class="headerlink" href="#working-process-stages" title="Permalink to this headline">¶</a></h1>
@@ -75,11 +75,11 @@
 <p>Besides the usual stages such as modeling, texturing, animation etc a scene should be prepared for working in the engine.</p>
 <p>General recommendations:</p>
 <ol class="arabic simple">
-<li><p class="first">Blend files should be located in the <tt class="docutils literal"><span class="pre">blender/project_name</span></tt> directory.</p>
+<li><p class="first">Blend files should be located in the <code class="docutils literal"><span class="pre">blender/project_name</span></code> directory.</p>
 </li>
-<li><p class="first">Texture and sound files should be external and located in the <tt class="docutils literal"><span class="pre">deploy/assets/project_name</span></tt> directory.</p>
+<li><p class="first">Texture and sound files should be external and located in the <code class="docutils literal"><span class="pre">deploy/assets/project_name</span></code> directory.</p>
 </li>
-<li><p class="first">Auxiliary files which are not intended for loading into the engine (for example, references), should be located in the <tt class="docutils literal"><span class="pre">blender/project_name</span></tt> directory.</p>
+<li><p class="first">Auxiliary files which are not intended for loading into the engine (for example, references), should be located in the <code class="docutils literal"><span class="pre">blender/project_name</span></code> directory.</p>
 </li>
 <li><p class="first">The file from which export will occur should only contain models required for the application being developed.</p>
 </li>
@@ -91,24 +91,24 @@
 </div>
 <div class="section" id="index-0">
 <span id="id3"></span><h2>Exporting Scenes<a class="headerlink" href="#index-0" title="Permalink to this headline">¶</a></h2>
-<p>In order to load scenes authored in Blender into the engine you have to transform them into the format suitable for reading by a browser. At the moment text files with <tt class="file docutils literal"><span class="pre">.json</span></tt> extension are used in which exported data structures are saved in the JSON (JavaScript Object Notation) format. This file, in turn, refers to one binary file with a <tt class="file docutils literal"><span class="pre">.bin</span></tt> extension containing data arrays of models and to external resources - textures and sound samples.</p>
-<p>While the <tt class="file docutils literal"><span class="pre">.json</span></tt> and <tt class="file docutils literal"><span class="pre">.bin</span></tt> files are created upon export, texture and sound files are normally placed by hand (there is an exception though: resources embeded into a <tt class="file docutils literal"><span class="pre">.blend</span></tt>-file are placed automatically).</p>
-<p>Export can be performed by choosing the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">(.json)</span></tt> option from the <tt class="docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">Export</span></tt> menu. For quick access search for <tt class="docutils literal"><span class="pre">b4w</span> <span class="pre">export</span></tt> (hot key <tt class="docutils literal"><span class="pre">SPACE</span></tt>).</p>
-<p>It is recommended to place files intended for export into the directory intended for application deployment, for example <tt class="docutils literal"><span class="pre">deploy/assets/project_name</span></tt>.</p>
-<p>It&#8217;s necessary to use relative filepaths for images (normally this is by default). If this is not the case, execute the <tt class="docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">External</span> <span class="pre">Data</span> <span class="pre">&gt;</span> <span class="pre">Make</span> <span class="pre">All</span> <span class="pre">Paths</span> <span class="pre">Relative</span></tt> operator. Using absolute filepaths instead of relative ones may lead to errors when loading <tt class="docutils literal"><span class="pre">.blend</span></tt> and <tt class="docutils literal"><span class="pre">.json</span></tt> files on other computers.</p>
-<p>Upon export the scene is checked for Blender features not supported by the engine. In such cases an error message is generated.The list of possible export errors is specified in the <a class="reference internal" href="addon.html#export-errors"><em>corresponding section</em></a>.</p>
-<p>Export options are described in detail in the <a class="reference internal" href="addon.html#export-opts"><em>corresponding section</em></a>.</p>
+<p>In order to load scenes authored in Blender into the engine you have to transform them into the format suitable for reading by a browser. At the moment text files with <code class="file docutils literal"><span class="pre">.json</span></code> extension are used in which exported data structures are saved in the JSON (JavaScript Object Notation) format. This file, in turn, refers to one binary file with a <code class="file docutils literal"><span class="pre">.bin</span></code> extension containing data arrays of models and to external resources - textures and sound samples.</p>
+<p>While the <code class="file docutils literal"><span class="pre">.json</span></code> and <code class="file docutils literal"><span class="pre">.bin</span></code> files are created upon export, texture and sound files are normally placed by hand (there is an exception though: resources embeded into a <code class="file docutils literal"><span class="pre">.blend</span></code>-file are placed automatically).</p>
+<p>Export can be performed by choosing the <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">(.json)</span></code> option from the <code class="docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">Export</span></code> menu. For quick access search for <code class="docutils literal"><span class="pre">b4w</span> <span class="pre">export</span></code> (hot key <code class="docutils literal"><span class="pre">SPACE</span></code>).</p>
+<p>It is recommended to place files intended for export into the directory intended for application deployment, for example <code class="docutils literal"><span class="pre">deploy/assets/project_name</span></code>.</p>
+<p>It&#8217;s necessary to use relative filepaths for images (normally this is by default). If this is not the case, execute the <code class="docutils literal"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">External</span> <span class="pre">Data</span> <span class="pre">&gt;</span> <span class="pre">Make</span> <span class="pre">All</span> <span class="pre">Paths</span> <span class="pre">Relative</span></code> operator. Using absolute filepaths instead of relative ones may lead to errors when loading <code class="docutils literal"><span class="pre">.blend</span></code> and <code class="docutils literal"><span class="pre">.json</span></code> files on other computers.</p>
+<p>Upon export the scene is checked for Blender features not supported by the engine. In such cases an error message is generated.The list of possible export errors is specified in the <a class="reference internal" href="addon.html#export-errors"><span>corresponding section</span></a>.</p>
+<p>Export options are described in detail in the <a class="reference internal" href="addon.html#export-opts"><span>corresponding section</span></a>.</p>
 </div>
 <div class="section" id="assets-json">
 <span id="index-1"></span><span id="id4"></span><h2>Displaying Scenes in the Viewer<a class="headerlink" href="#assets-json" title="Permalink to this headline">¶</a></h2>
-<p>When using the <a class="reference internal" href="setup.html#local-development-server"><em>local development server</em></a> and the <a class="reference internal" href="addon.html#run-in-viewer"><em>Run in Viewer</em></a> export option, scenes are displayed in the Scene Viewer immediately after the export.</p>
-<p>For the long-term storage of the scene in the scene list of the viewer, it&#8217;s required to manually add the entry to the <tt class="docutils literal"><span class="pre">apps_dev/viewer/assets.json</span></tt> text file. This file is opened automatically in Blender if you are using Blend4Web SDK.</p>
+<p>When using the <a class="reference internal" href="setup.html#local-development-server"><span>local development server</span></a> and the <a class="reference internal" href="addon.html#run-in-viewer"><span>Run in Viewer</span></a> export option, scenes are displayed in the Scene Viewer immediately after the export.</p>
+<p>For the long-term storage of the scene in the scene list of the viewer, it&#8217;s required to manually add the entry to the <code class="docutils literal"><span class="pre">apps_dev/viewer/assets.json</span></code> text file. This file is opened automatically in Blender if you are using Blend4Web SDK.</p>
 <p>Use the &#8220;Text Editor&#8221; to modify it:</p>
 <img alt="_images/text_editor.png" class="align-center" src="_images/text_editor.png" />
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p>Then select the <tt class="docutils literal"><span class="pre">assets.json</span></tt> file in the window to edit it:</p>
+<p>Then select the <code class="docutils literal"><span class="pre">assets.json</span></code> file in the window to edit it:</p>
 <img alt="_images/assets_json.png" class="align-center" src="_images/assets_json.png" />
 <div class="line-block">
 <div class="line"><br /></div>
@@ -116,7 +116,7 @@
 <p>To add a new scene you need to know the category in which it should be displayed. The category normally corresponds to the project name and to the name of the directory where the corresponding files are stored.</p>
 <div class="section" id="id5">
 <h3>Example<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
-<p>For example below you can see a part of <tt class="docutils literal"><span class="pre">assets.json</span></tt>. In this file there are two projects - &#8220;Capri&#8221; and &#8220;Fridge&#8221; each with corresponding scenes:</p>
+<p>For example below you can see a part of <code class="docutils literal"><span class="pre">assets.json</span></code>. In this file there are two projects - &#8220;Capri&#8221; and &#8220;Fridge&#8221; each with corresponding scenes:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="p">{</span>
     <span class="n">name</span><span class="p">:</span> <span class="s">&quot;Capri&quot;</span><span class="p">,</span>
     <span class="n">items</span><span class="p">:</span> <span class="p">[</span>
@@ -152,7 +152,7 @@
 </div>
 <div class="section" id="id6">
 <h2>Application Development<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
-<p>At this stage an application is created. Logic for scene loading and user interaction is written using JavaScript. The application developer notes are given in the <a class="reference internal" href="developers.html#developers"><em>corresponding section</em></a>.</p>
+<p>At this stage an application is created. Logic for scene loading and user interaction is written using JavaScript. The application developer notes are given in the <a class="reference internal" href="developers.html#developers"><span>corresponding section</span></a>.</p>
 </div>
 </div>
 
@@ -200,16 +200,18 @@
 <li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
 </ul>
 
-          <h3 style="margin-top: 1.5em;">Search</h3>
-          <form class="search" action="search.html" method="get">
-            <input type="text" name="q" />
-            <input type="submit" value="Go" />
-            <input type="hidden" name="check_keywords" value="yes" />
-            <input type="hidden" name="area" value="default" />
-          </form>
-          <p class="searchtip" style="font-size: 90%">
-            Enter search terms or a module, class or function name.
-          </p>
+          <div role="search">
+            <h3 style="margin-top: 1.5em;">Search</h3>
+            <form class="search" action="search.html" method="get">
+                <input type="text" name="q" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+            </form>
+            <p class="searchtip" style="font-size: 90%">
+                Enter search terms or a module, class or function name.
+            </p>
+          </div>
         </div>
         <div class="clearer"></div>
       </div>
@@ -218,20 +220,24 @@
     <div class="footer-wrapper">
       <div class="footer">
         <div class="left">
-          <a href="setup.html" title="Installing the SDK"
-             >previous</a> |
-          <a href="viewer.html" title="Scene Viewer"
-             >next</a> |
-          <a href="genindex.html" title="General Index"
-             >index</a>
+          <div role="navigation" aria-label="related navigaton">
+            <a href="setup.html" title="Installing the SDK"
+              >previous</a> |
+            <a href="viewer.html" title="Scene Viewer"
+              >next</a> |
+            <a href="genindex.html" title="General Index"
+              >index</a>
+          </div>
+          <div role="note" aria-label="source link">
+          </div>
         </div>
 
         <div class="right">
           
-    <div class="footer">
+    <div class="footer" role="contentinfo">
         &copy; Copyright 2015, Triumph LLC.
-      Last updated on 2015-04-29.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+      Last updated on 2015-05-26.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
         </div>
         <div class="clearer"></div>

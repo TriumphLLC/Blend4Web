@@ -5,36 +5,31 @@ apps_dev/gallery
 apps_dev/Makefile
 apps_dev/new_year
 apps_dev/project.py
-#apps_dev/victory_day_2015
+apps_dev/victory_day_2015
 apps_dev/viewer
+apps_dev/website
 apps_dev/webplayer
 
 csrc
 doc_src
 
+blender/animation
 blender/code_snippets
 blender/dev/logo.blend
-blender/dev_misc/annotations.*
-blender/dev_misc/procedural_objects.*
-blender/dev_misc/surface_and_meta.*
-blender/dev_misc/text.*
-blender/dev_nla/camera_views.blend
-blender/dev_nla/nla_script*
-blender/dev_nla/nla_simple_cube.blend
 blender/dev_nodes/special_nodes.blend
-blender/dev_performance/empty.blend
-blender/dev_performance/many_draw_calls.blend
-blender/dev_performance/many_lights.blend
-blender/dev_performance/many_pixels.blend
-blender/dev_physics/compound.blend
-blender/dev_physics/jumping.blend
-blender/dev_physics/rigid_body_joints.blend
-blender/dev_sound
-blender/flight_over_island
-blender/interactivity
-blender/new_year
-#blender/victory_day_2015
 blender/environment
+blender/flight_over_island
+blender/geometry
+blender/interactivity
+blender/materials
+blender/media
+blender/misc/logo*
+blender/new_year
+blender/particles
+blender/physics
+blender/postprocessing
+blender/victory_day_2015
+blender/website
 
 blender_scripts
 
@@ -45,46 +40,35 @@ deploy/apps/common
 deploy/apps/flight
 deploy/apps/gallery
 deploy/apps/new_year
-#deploy/apps/victory_day_2015
+deploy/apps/victory_day_2015
 deploy/apps/viewer
 deploy/apps/webplayer
 
+deploy/assets/animation
 deploy/assets/code_snippets
+deploy/assets/dev/4_digit*
+deploy/assets/dev/captions.*
 deploy/assets/dev/fonts
-deploy/assets/dev/logo.*
-deploy/assets/dev/logo_norm.*
+deploy/assets/dev/logo*
 deploy/assets/dev/matcaps
-deploy/assets/dev_misc/annotations.*
-deploy/assets/dev_misc/procedural_objects.*
-deploy/assets/dev_misc/surface_and_meta.*
-deploy/assets/dev_misc/text.*
-deploy/assets/dev_nla/camera_views.*
-deploy/assets/dev_nla/nla_script*
-deploy/assets/dev_nla/nla_simple_cube.*
-deploy/assets/dev_performance/empty.bin
-deploy/assets/dev_performance/empty.json
-deploy/assets/dev_performance/many_draw_calls.bin
-deploy/assets/dev_performance/many_draw_calls.json
-deploy/assets/dev_performance/many_lights.bin
-deploy/assets/dev_performance/many_lights.json
-deploy/assets/dev_performance/many_pixels.bin
-deploy/assets/dev_performance/many_pixels.json
-deploy/assets/dev_physics/compound.bin
-deploy/assets/dev_physics/compound.json
-deploy/assets/dev_physics/jumping.bin
-deploy/assets/dev_physics/jumping.json
-deploy/assets/dev_physics/rigid_body_joints.bin
-deploy/assets/dev_physics/rigid_body_joints.json
-deploy/assets/dev_sound
+deploy/assets/environment
 deploy/assets/flight_over_island
 deploy/assets/fridge/fruits/apple
 deploy/assets/fridge/fruits/pear
 deploy/assets/fridge/table_plane
+deploy/assets/geometry
 deploy/assets/interactivity
+deploy/assets/location_agriculture/textures/buildings/house_walls_*
+deploy/assets/materials
+deploy/assets/media
+deploy/assets/misc/logo*
 deploy/assets/new_year
+deploy/assets/particles
+deploy/assets/physics
+deploy/assets/postprocessing
 deploy/assets/tutorials
-#deploy/assets/victory_day_2015
-deploy/assets/environment
+deploy/assets/victory_day_2015
+deploy/assets/website
 deploy/doc
 deploy/globals_detect
 deploy/pub/b4w_manual_*.pdf
@@ -135,7 +119,7 @@ VERSION
 !*.json~
 !*.html~
 
-!csrc/b4w_bin/build
+!csrc/b4w_bin/build/
 !uranium/build/src/.libs
 !deploy/doc/locale/
 !doc_src/doctrees
@@ -152,13 +136,12 @@ VERSION
 # exclude cg event stuff
 !deploy/tutorials/cg_event_2014/interactive_scenes/*
 
-# mix demo is for internal usage only
-!blender/dev_sound/mix.blend
-!deploy/assets/dev_sound/mix.*
-!deploy/assets/dev_sound/text_drive_*
-
 !blender_scripts/addons/oscurart_tools/
 !blender_scripts/scripts/*
 
 # exclude big victory day 2015 design files
 !blender/victory_day_2015/design/
+
+# not ready
+!blender/website/slider/
+!deploy/assets/website/slider/

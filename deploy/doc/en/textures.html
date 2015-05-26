@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Textures &mdash; User Manual: Blend4Web v15.04</title>
+    <title>Textures &mdash; User Manual: Blend4Web v15.05</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '15.04',
+        VERSION:     '15.05',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,19 +25,19 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User Manual: Blend4Web v15.04" href="index.html" />
+    <link rel="top" title="User Manual: Blend4Web v15.05" href="index.html" />
     <link rel="next" title="Node Materials" href="node_materials.html" />
     <link rel="prev" title="Materials" href="materials.html" /> 
   </head>
-  <body>
-    <div class="header-wrapper">
+  <body role="document">
+    <div class="header-wrapper" role="banner">
       <div class="header">
           <p class="logo"><a href="index.html">
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">User Manual: Blend4Web v15.04</a></div>
-        <div class="rel">
+          href="index.html">User Manual: Blend4Web v15.05</a></div>
+        <div class="rel" role="navigation" aria-label="related navigation">
           <a href="materials.html" title="Materials"
              accesskey="P">previous</a> |
           <a href="node_materials.html" title="Node Materials"
@@ -54,70 +54,70 @@
             
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <span class="target" id="textures"></span><div class="section" id="index-0">
 <span id="id1"></span><h1>Textures<a class="headerlink" href="#index-0" title="Permalink to this headline">¶</a></h1>
 <p>Textures are hand-made or procedurally generated images that can be applied to the model surfaces to add more detail. As a rule, the image pixels are assigned to the 3D surface points using texture mapping. For this reason they sometimes are referred to as maps.</p>
-<p>Usually the textures are placed into <a class="reference internal" href="materials.html#materials"><em>material</em></a> texture slots. They can be also used for <a class="reference internal" href="particles.html#particles-textures"><em>particle systems</em></a> parametrization and for creating the <a class="reference internal" href="#skydome-texture"><em>skydome</em></a>.</p>
+<p>Usually the textures are placed into <a class="reference internal" href="materials.html#materials"><span>material</span></a> texture slots. They can be also used for <a class="reference internal" href="particles.html#particles-textures"><span>particle systems</span></a> parametrization and for creating the <a class="reference internal" href="#skydome-texture"><span>skydome</span></a>.</p>
 <div class="section" id="index-1">
 <span id="id2"></span><h2>Texture Types<a class="headerlink" href="#index-1" title="Permalink to this headline">¶</a></h2>
-<p>The <tt class="docutils literal"><span class="pre">Type</span></tt> drop-down menu (for selecting texture type) is located under the <tt class="docutils literal"><span class="pre">Textures</span></tt> tab. The engine supports the following texture types:</p>
+<p>The <code class="docutils literal"><span class="pre">Type</span></code> drop-down menu (for selecting texture type) is located under the <code class="docutils literal"><span class="pre">Textures</span></code> tab. The engine supports the following texture types:</p>
 <ol class="arabic">
 <li><dl class="first docutils">
-<dt><tt class="docutils literal"><span class="pre">Image</span> <span class="pre">or</span> <span class="pre">Movie</span></tt></dt>
+<dt><code class="docutils literal"><span class="pre">Image</span> <span class="pre">or</span> <span class="pre">Movie</span></code></dt>
 <dd><ul class="first last simple">
-<li><p class="first"><a class="reference internal" href="#diffuse-map"><em>diffuse map</em></a></p>
+<li><p class="first"><a class="reference internal" href="#diffuse-map"><span>diffuse map</span></a></p>
 </li>
-<li><p class="first"><a class="reference internal" href="#specular-map"><em>specular map</em></a>, this can also be packed into the alpha channel of a diffuse texture</p>
+<li><p class="first"><a class="reference internal" href="#specular-map"><span>specular map</span></a>, this can also be packed into the alpha channel of a diffuse texture</p>
 </li>
-<li><p class="first"><a class="reference internal" href="#normal-map"><em>normal map</em></a></p>
+<li><p class="first"><a class="reference internal" href="#normal-map"><span>normal map</span></a></p>
 </li>
-<li><p class="first">height map; this must be packed into the alpha channel of a normal map; it is used for visualization of relief surfaces (<a class="reference internal" href="#parallax-mapping"><em>parallax mapping</em></a>).</p>
+<li><p class="first">height map; this must be packed into the alpha channel of a normal map; it is used for visualization of relief surfaces (<a class="reference internal" href="#parallax-mapping"><span>parallax mapping</span></a>).</p>
 </li>
-<li><p class="first"><a class="reference internal" href="#stencil-map"><em>stencil map</em></a></p>
+<li><p class="first"><a class="reference internal" href="#stencil-map"><span>stencil map</span></a></p>
 </li>
-<li><p class="first"><a class="reference internal" href="#video-texture"><em>video texture</em></a></p>
+<li><p class="first"><a class="reference internal" href="#video-texture"><span>video texture</span></a></p>
 </li>
 </ul>
 </dd>
 </dl>
 </li>
 <li><dl class="first docutils">
-<dt><tt class="docutils literal"><span class="pre">Environment</span> <span class="pre">Map</span></tt></dt>
+<dt><code class="docutils literal"><span class="pre">Environment</span> <span class="pre">Map</span></code></dt>
 <dd><ul class="first last simple">
-<li><p class="first"><a class="reference internal" href="#mirror-map"><em>mirror map</em></a></p>
+<li><p class="first"><a class="reference internal" href="#mirror-map"><span>mirror map</span></a></p>
 </li>
-<li><p class="first"><a class="reference internal" href="#skydome-texture"><em>skydome texture</em></a></p>
+<li><p class="first"><a class="reference internal" href="#skydome-texture"><span>skydome texture</span></a></p>
 </li>
-<li><p class="first">used for implementation of an <a class="reference internal" href="lighting.html#environment-lighting"><em>environment lighting</em></a> method</p>
+<li><p class="first">used for implementation of an <a class="reference internal" href="lighting.html#environment-lighting"><span>environment lighting</span></a> method</p>
 </li>
 </ul>
 </dd>
 </dl>
 </li>
 <li><dl class="first docutils">
-<dt><tt class="docutils literal"><span class="pre">None</span></tt></dt>
+<dt><code class="docutils literal"><span class="pre">None</span></code></dt>
 <dd><ul class="first last simple">
-<li><p class="first">applied to the Blender&#8217;s default scene cube. It is also used for <a class="reference internal" href="#render-to-texture-scene"><em>rendering a scene to texture</em></a> and for <a class="reference internal" href="#render-to-texture-canvas"><em>rendering canvas textures</em></a>.</p>
+<li><p class="first">applied to the Blender&#8217;s default scene cube. It is also used for <a class="reference internal" href="#render-to-texture-scene"><span>rendering a scene to texture</span></a> and for <a class="reference internal" href="#render-to-texture-canvas"><span>rendering canvas textures</span></a>.</p>
 </li>
 </ul>
 </dd>
 </dl>
 </li>
 <li><dl class="first docutils">
-<dt><tt class="docutils literal"><span class="pre">Blend</span></tt>, gradient</dt>
+<dt><code class="docutils literal"><span class="pre">Blend</span></code>, gradient</dt>
 <dd><ul class="first last simple">
-<li><p class="first">is used in <a class="reference internal" href="particles.html#particles-textures"><em>particle systems</em></a></p>
+<li><p class="first">is used in <a class="reference internal" href="particles.html#particles-textures"><span>particle systems</span></a></p>
 </li>
 </ul>
 </dd>
 </dl>
 </li>
 <li><dl class="first docutils">
-<dt><tt class="docutils literal"><span class="pre">Voronoi</span></tt> procedural texture type</dt>
+<dt><code class="docutils literal"><span class="pre">Voronoi</span></code> procedural texture type</dt>
 <dd><ul class="first last simple">
-<li><p class="first">is used for <a class="reference internal" href="outdoor_rendering.html#water"><em>water rendering</em></a> to setup the caustics effect</p>
+<li><p class="first">is used for <a class="reference internal" href="outdoor_rendering.html#water"><span>water rendering</span></a> to setup the caustics effect</p>
 </li>
 </ul>
 </dd>
@@ -134,12 +134,12 @@
 </dl>
 <dl class="docutils" id="texture-extension">
 <dt><em>Image Mapping &gt; Extension</em></dt>
-<dd><p class="first last">Texture coordinates interpretation mode (Wrap Mode in WebGL). This is available for <tt class="docutils literal"><span class="pre">Image</span> <span class="pre">or</span> <span class="pre">Movie</span></tt> texture type. In case of <tt class="docutils literal"><span class="pre">Repeat</span></tt> value the engine sets the <tt class="docutils literal"><span class="pre">REPEAT</span></tt> mode for the texture. In this case the integer part of the texture coordinates is ignored and the fractional part is used. In all other cases (for example <tt class="docutils literal"><span class="pre">Extend</span></tt>) the engine sets the <tt class="docutils literal"><span class="pre">CLAMP_TO_EDGE</span></tt> mode. In this case the texture coordinates are limited by the [0, 1] segment. The default value is <tt class="docutils literal"><span class="pre">Repeat</span></tt>.</p>
+<dd><p class="first last">Texture coordinates interpretation mode (Wrap Mode in WebGL). This is available for <code class="docutils literal"><span class="pre">Image</span> <span class="pre">or</span> <span class="pre">Movie</span></code> texture type. In case of <code class="docutils literal"><span class="pre">Repeat</span></code> value the engine sets the <code class="docutils literal"><span class="pre">REPEAT</span></code> mode for the texture. In this case the integer part of the texture coordinates is ignored and the fractional part is used. In all other cases (for example <code class="docutils literal"><span class="pre">Extend</span></code>) the engine sets the <code class="docutils literal"><span class="pre">CLAMP_TO_EDGE</span></code> mode. In this case the texture coordinates are limited by the [0, 1] segment. The default value is <code class="docutils literal"><span class="pre">Repeat</span></code>.</p>
 </dd>
 </dl>
 <dl class="docutils" id="index-3">
 <dt><em>Mapping &gt; Coordinates</em></dt>
-<dd><p class="first last">Texture coordinates type. Supported types are <tt class="docutils literal"><span class="pre">UV</span></tt> (use UV map), <tt class="docutils literal"><span class="pre">Normal</span></tt> (use direction at the camera; available only for diffuse maps; used for the creation of <strong>material capture</strong>, <strong>matcap</strong>) and <tt class="docutils literal"><span class="pre">Generated</span></tt>. The default value is <tt class="docutils literal"><span class="pre">Generated</span></tt>.</p>
+<dd><p class="first last">Texture coordinates type. Supported types are <code class="docutils literal"><span class="pre">UV</span></code> (use UV map), <code class="docutils literal"><span class="pre">Normal</span></code> (use direction at the camera; available only for diffuse maps; used for the creation of <strong>material capture</strong>, <strong>matcap</strong>) and <code class="docutils literal"><span class="pre">Generated</span></code>. The default value is <code class="docutils literal"><span class="pre">Generated</span></code>.</p>
 </dd>
 <dt><em>Mapping &gt; Offset</em></dt>
 <dd><p class="first last">Unsupported.</p>
@@ -151,7 +151,7 @@
 <dd><p class="first last">Do not export the texture.</p>
 </dd>
 <dt><em>Blend4Web &gt; Anisotropic Filtering</em></dt>
-<dd><p class="first last">Anisotropic filtering factor for the individual texture. It has priority over the similar parameter for the scene. The default value is <tt class="docutils literal"><span class="pre">DEFAULT</span></tt> (i.e. use the scene settings).</p>
+<dd><p class="first last">Anisotropic filtering factor for the individual texture. It has priority over the similar parameter for the scene. The default value is <code class="docutils literal"><span class="pre">DEFAULT</span></code> (i.e. use the scene settings).</p>
 </dd>
 <dt><em>Blend4Web &gt; Water Foam</em></dt>
 <dd><p class="first last">The foam texture. Used by the water rendering material.</p>
@@ -170,16 +170,16 @@
 <p>A diffuse map is used for specifying scattered light distribution (the Lambert model).</p>
 <div class="section" id="id5">
 <h3>Activation<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
-<p>Enable the <tt class="docutils literal"><span class="pre">Diffuse</span> <span class="pre">&gt;</span> <span class="pre">Color</span></tt> checkbox on the <tt class="docutils literal"><span class="pre">Textures</span> <span class="pre">&gt;</span> <span class="pre">Influence</span></tt> panel.</p>
+<p>Enable the <code class="docutils literal"><span class="pre">Diffuse</span> <span class="pre">&gt;</span> <span class="pre">Color</span></code> checkbox on the <code class="docutils literal"><span class="pre">Textures</span> <span class="pre">&gt;</span> <span class="pre">Influence</span></code> panel.</p>
 </div>
 <div class="section" id="id6">
-<h3>Additional settings<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<h3>Additional Settings<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
 <dl class="docutils">
 <dt><em>Influence &gt; Diffuse &gt; Color</em></dt>
 <dd><p class="first last">Influence of the texture on the diffuse color. The default value is 1.0.</p>
 </dd>
 <dt><em>Influence &gt; Blend</em></dt>
-<dd><p class="first last">The type of the interaction with the material color (<tt class="docutils literal"><span class="pre">Material</span> <span class="pre">&gt;</span> <span class="pre">Diffuse</span> <span class="pre">&gt;</span> <span class="pre">Color</span></tt>), or with the vertex color if the <tt class="docutils literal"><span class="pre">Vertex</span> <span class="pre">Color</span> <span class="pre">Paint</span></tt> checkbox is enabled. The following types are supported: <tt class="docutils literal"><span class="pre">Mix</span></tt> (mixes with the color), <tt class="docutils literal"><span class="pre">Multiply</span></tt> (multiplies by the color). The default value is <tt class="docutils literal"><span class="pre">Mix</span></tt>.</p>
+<dd><p class="first last">The type of the interaction with the material color (<code class="docutils literal"><span class="pre">Material</span> <span class="pre">&gt;</span> <span class="pre">Diffuse</span> <span class="pre">&gt;</span> <span class="pre">Color</span></code>), or with the vertex color if the <code class="docutils literal"><span class="pre">Vertex</span> <span class="pre">Color</span> <span class="pre">Paint</span></code> checkbox is enabled. The following types are supported: <code class="docutils literal"><span class="pre">Mix</span></code> (mixes with the color), <code class="docutils literal"><span class="pre">Multiply</span></code> (multiplies by the color). The default value is <code class="docutils literal"><span class="pre">Mix</span></code>.</p>
 </dd>
 </dl>
 <span class="target" id="specular-map"></span></div>
@@ -189,19 +189,19 @@
 <p>The specular map is used for specifying the reflected light color distribution (the Phong model).</p>
 <div class="section" id="id8">
 <h3>Activation<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
-<p>Enable the <tt class="docutils literal"><span class="pre">Specular</span> <span class="pre">&gt;</span> <span class="pre">Color</span></tt> checkbox on the <tt class="docutils literal"><span class="pre">Textures</span> <span class="pre">&gt;</span> <span class="pre">Influence</span></tt> panel (the <tt class="docutils literal"><span class="pre">Specular</span> <span class="pre">&gt;</span> <span class="pre">Intensity</span></tt> checkbox is not supported).</p>
+<p>Enable the <code class="docutils literal"><span class="pre">Specular</span> <span class="pre">&gt;</span> <span class="pre">Color</span></code> checkbox on the <code class="docutils literal"><span class="pre">Textures</span> <span class="pre">&gt;</span> <span class="pre">Influence</span></code> panel (the <code class="docutils literal"><span class="pre">Specular</span> <span class="pre">&gt;</span> <span class="pre">Intensity</span></code> checkbox is not supported).</p>
 </div>
 <div class="section" id="id9">
-<h3>Additional settings<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<h3>Additional Settings<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
 <dl class="docutils">
 <dt><em>Influence &gt; Specular &gt; Color</em></dt>
 <dd><p class="first last">The influence of the texture on the reflected light color. The default value is 1.0.</p>
 </dd>
 <dt><em>Influence &gt; Blend</em></dt>
-<dd><p class="first last">The type of interaction with the reflected light color of the material (<tt class="docutils literal"><span class="pre">Material</span> <span class="pre">&gt;</span> <span class="pre">Specular</span> <span class="pre">&gt;</span> <span class="pre">Color</span></tt>). <tt class="docutils literal"><span class="pre">Mix</span></tt> (mixes with the color) is the only supported type. The default value is <tt class="docutils literal"><span class="pre">Mix</span></tt>.</p>
+<dd><p class="first last">The type of interaction with the reflected light color of the material (<code class="docutils literal"><span class="pre">Material</span> <span class="pre">&gt;</span> <span class="pre">Specular</span> <span class="pre">&gt;</span> <span class="pre">Color</span></code>). <code class="docutils literal"><span class="pre">Mix</span></code> (mixes with the color) is the only supported type. The default value is <code class="docutils literal"><span class="pre">Mix</span></code>.</p>
 </dd>
 </dl>
-<p>The specular map can be packed to the alpha channel of a diffuse texture for optimization purposes. In such case it is required for the texture to enable the <tt class="docutils literal"><span class="pre">Diffuse</span> <span class="pre">&gt;</span> <span class="pre">Color</span></tt> and <tt class="docutils literal"><span class="pre">Specular</span> <span class="pre">&gt;</span> <span class="pre">Color</span></tt> checkboxes simultaneously. The color range is limited by gray tints.</p>
+<p>The specular map can be packed to the alpha channel of a diffuse texture for optimization purposes. In such case it is required for the texture to enable the <code class="docutils literal"><span class="pre">Diffuse</span> <span class="pre">&gt;</span> <span class="pre">Color</span></code> and <code class="docutils literal"><span class="pre">Specular</span> <span class="pre">&gt;</span> <span class="pre">Color</span></code> checkboxes simultaneously. The color range is limited by gray tints.</p>
 <span class="target" id="normal-map"></span></div>
 </div>
 <div class="section" id="index-6">
@@ -209,10 +209,10 @@
 <p>A normal map is used for specifying the distribution of surface normals (perpendiculars) with the purpose of the relief detalization. The information about the normals should be stored in the texture space of coordinates. Normal maps baked in the object space of coordinates are not supported.</p>
 <div class="section" id="id11">
 <h3>Activation<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
-<p>Enable the <tt class="docutils literal"><span class="pre">Geometry</span> <span class="pre">&gt;</span> <span class="pre">Normal</span></tt> checkbox on the <tt class="docutils literal"><span class="pre">Textures</span> <span class="pre">&gt;</span> <span class="pre">Influence</span></tt> panel.</p>
+<p>Enable the <code class="docutils literal"><span class="pre">Geometry</span> <span class="pre">&gt;</span> <span class="pre">Normal</span></code> checkbox on the <code class="docutils literal"><span class="pre">Textures</span> <span class="pre">&gt;</span> <span class="pre">Influence</span></code> panel.</p>
 </div>
 <div class="section" id="id12">
-<h3>Additional settings<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<h3>Additional Settings<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
 <dl class="docutils">
 <dt><em>Influence &gt; Geometry &gt; Normal</em></dt>
 <dd><p class="first last">Normal map influence on the resulting normals calculation. The default value is 1.0.</p>
@@ -225,10 +225,10 @@
 <p>A height map contains information about the distribution of relative relief heights. The higher the surface level is, the brighter is its color. A height map combined with a normal map is required for the implementation of relief surface effect (parallax mapping). A height map should be present in the alpha channel of a normal map.</p>
 <div class="section" id="id13">
 <h3>Activation<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
-<p>For the normal map enable the <tt class="docutils literal"><span class="pre">Parallax</span></tt> checkbox on the <tt class="docutils literal"><span class="pre">Textures</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span></tt> panel in addition to the <tt class="docutils literal"><span class="pre">Geometry</span> <span class="pre">&gt;</span> <span class="pre">Normal</span></tt> checkbox on the <tt class="docutils literal"><span class="pre">Textures</span> <span class="pre">&gt;</span> <span class="pre">Influence</span></tt> panel.</p>
+<p>For the normal map enable the <code class="docutils literal"><span class="pre">Parallax</span></code> checkbox on the <code class="docutils literal"><span class="pre">Textures</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span></code> panel in addition to the <code class="docutils literal"><span class="pre">Geometry</span> <span class="pre">&gt;</span> <span class="pre">Normal</span></code> checkbox on the <code class="docutils literal"><span class="pre">Textures</span> <span class="pre">&gt;</span> <span class="pre">Influence</span></code> panel.</p>
 </div>
 <div class="section" id="id14">
-<h3>Additional settings<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
+<h3>Additional Settings<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
 <dl class="docutils">
 <dt><em>Blend4Web &gt; Parallax Scale</em></dt>
 <dd><p class="first last">Influence factor for the relief surface effect. The default value is 0.03.</p>
@@ -254,17 +254,17 @@
 <ol class="arabic simple">
 <li><p class="first">In case of node materials a stencil map should be used in the corresponding node structure.</p>
 </li>
-<li><p class="first">In case of generic materials a stencil map should be located in a texture slot between two mixed diffuse textures. A stencil map requires to set both the <tt class="docutils literal"><span class="pre">RGB</span> <span class="pre">to</span> <span class="pre">Intensity</span></tt> and the <tt class="docutils literal"><span class="pre">Stencil</span></tt> checkboxes on the <tt class="docutils literal"><span class="pre">Textures</span> <span class="pre">&gt;</span> <span class="pre">Influence</span></tt> panel.</p>
+<li><p class="first">In case of generic materials a stencil map should be located in a texture slot between two mixed diffuse textures. A stencil map requires to set both the <code class="docutils literal"><span class="pre">RGB</span> <span class="pre">to</span> <span class="pre">Intensity</span></code> and the <code class="docutils literal"><span class="pre">Stencil</span></code> checkboxes on the <code class="docutils literal"><span class="pre">Textures</span> <span class="pre">&gt;</span> <span class="pre">Influence</span></code> panel.</p>
 </li>
 </ol>
 </div>
 <div class="section" id="id17">
-<h3>Additional settings<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
-<p>In the case of generic materials one of the mixed diffuse textures can have the <tt class="docutils literal"><span class="pre">Normal</span></tt> (&#8220;matcap&#8221;) texture coordinates type.</p>
+<h3>Additional Settings<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
+<p>In the case of generic materials one of the mixed diffuse textures can have the <code class="docutils literal"><span class="pre">Normal</span></code> (&#8220;matcap&#8221;) texture coordinates type.</p>
 </div>
 <div class="section" id="id18">
 <h3>Limitations<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h3>
-<p>In case of generic materials the engine only interprets the red channel of a stencil map. Specular maps or normal maps (if any) are not being mixed. The <tt class="docutils literal"><span class="pre">Mapping</span> <span class="pre">&gt;</span> <span class="pre">Size</span></tt> setting is extracted from the first texture and is applied to all remaining textures.</p>
+<p>In case of generic materials the engine only interprets the red channel of a stencil map. Specular maps or normal maps (if any) are not being mixed. The <code class="docutils literal"><span class="pre">Mapping</span> <span class="pre">&gt;</span> <span class="pre">Size</span></code> setting is extracted from the first texture and is applied to all remaining textures.</p>
 </div>
 <div class="section" id="id19">
 <h3>Example<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h3>
@@ -281,10 +281,10 @@
 </div>
 <div class="section" id="video-texture">
 <span id="id20"></span><h2>Video Textures<a class="headerlink" href="#video-texture" title="Permalink to this headline">¶</a></h2>
-<p>A video can be used as a texture if <tt class="docutils literal"><span class="pre">Image</span> <span class="pre">or</span> <span class="pre">Movie</span></tt> texture type is selected. Also, if the <tt class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Use</span> <span class="pre">NLA</span></tt> is enabled the video textures playback is possible.</p>
+<p>A video can be used as a texture if <code class="docutils literal"><span class="pre">Image</span> <span class="pre">or</span> <span class="pre">Movie</span></code> texture type is selected. Also, if the <code class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Use</span> <span class="pre">NLA</span></code> is enabled the video textures playback is possible.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">Video textures support playing back just video tracks. Audio tracks should be played back by using a <tt class="docutils literal"><span class="pre">SPEAKER</span></tt> object.</p>
+<p class="last">Video textures support playing back just video tracks. Audio tracks should be played back by using a <code class="docutils literal"><span class="pre">SPEAKER</span></code> object.</p>
 </div>
 <div class="section" id="id21">
 <h3>Supported formats (containers):<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h3>
@@ -301,17 +301,17 @@
 <p class="first admonition-title">Note</p>
 <p class="last">Files saved in mp4 and ogg formats have different extensions for audio and video data: <em>.mp4</em> and <em>.ogg</em> extensions are used for sounds, <em>.m4v</em> and <em>.ogv</em> - for video.</p>
 </div>
-<p>Converting resources between different formats is described in the <a class="reference internal" href="developers.html#converter"><em>corresponding section</em></a>.</p>
+<p>Converting resources between different formats is described in the <a class="reference internal" href="developers.html#converter"><span>corresponding section</span></a>.</p>
 </div>
 <div class="section" id="id22">
 <h3>Setting up the Texture<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h3>
-<p>The following settings are available for video textures on the <tt class="docutils literal"><span class="pre">Texture</span> <span class="pre">&gt;</span> <span class="pre">Image</span></tt> panel:</p>
+<p>The following settings are available for video textures on the <code class="docutils literal"><span class="pre">Texture</span> <span class="pre">&gt;</span> <span class="pre">Image</span></code> panel:</p>
 <dl class="docutils">
 <dt><em>Image &gt; Frames</em></dt>
 <dd><p class="first last">Length of the played fragment in frames.</p>
 </dd>
 <dt><em>Image &gt; Start</em></dt>
-<dd><p class="first last">Video playback delay (in frames), applicable for non-linear animation (<tt class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Use</span> <span class="pre">NLA</span></tt> option).</p>
+<dd><p class="first last">Video playback delay (in frames), applicable for non-linear animation (<code class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Use</span> <span class="pre">NLA</span></code> option).</p>
 </dd>
 <dt><em>Image &gt; Offset</em></dt>
 <dd><p class="first last">The number of the frame from which the video playback starts.</p>
@@ -327,18 +327,18 @@
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p>The video playback rate can be increased. To do this set <tt class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">Dimensions</span> <span class="pre">&gt;</span> <span class="pre">Frame</span> <span class="pre">rate</span></tt> to a value which is different from the FPS value for the videos. Video playback rate is increased proportionally to the ratio of the scene&#8217;s FPS and the video&#8217;s FPS.</p>
+<p>The video playback rate can be increased. To do this set <code class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">Dimensions</span> <span class="pre">&gt;</span> <span class="pre">Frame</span> <span class="pre">rate</span></code> to a value which is different from the FPS value for the videos. Video playback rate is increased proportionally to the ratio of the scene&#8217;s FPS and the video&#8217;s FPS.</p>
 <img alt="_images/fps.jpg" class="align-center" src="_images/fps.jpg" />
 </div>
 <div class="section" id="id23">
 <h3>Specifics of Mobile Devices<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h3>
 <p>The peculiarities for mobile devices are as follows:</p>
 <ol class="arabic simple">
-<li><p class="first">Normal operation of video textures on iPhones is not possible because these devices play back videos via the standard iOS video player. For these devices you need to convert your videos to special <tt class="docutils literal"><span class="pre">.seq</span></tt> format by using our <a class="reference internal" href="developers.html#converter"><em>converter</em></a>.</p>
+<li><p class="first">Normal operation of video textures on iPhones is not possible because these devices play back videos via the standard iOS video player. For these devices you need to convert your videos to special <code class="docutils literal"><span class="pre">.seq</span></code> format by using our <a class="reference internal" href="developers.html#converter"><span>converter</span></a>.</p>
 </li>
 <li><p class="first">some devices only support playing back only one video file.</p>
 </li>
-<li><p class="first">stable operation is not garanteed if the <tt class="docutils literal"><span class="pre">Offset</span></tt> value is not zero.</p>
+<li><p class="first">stable operation is not garanteed if the <code class="docutils literal"><span class="pre">Offset</span></code> value is not zero.</p>
 </li>
 <li><p class="first">not all devices support changing the video playback rate.</p>
 </li>
@@ -349,7 +349,7 @@
 </div>
 <div class="section" id="index-9">
 <span id="id24"></span><h2>Environment Map<a class="headerlink" href="#index-9" title="Permalink to this headline">¶</a></h2>
-<p>An environment map can be used as a <a class="reference internal" href="#mirror-map"><em>mirror map</em></a>, as a static <a class="reference internal" href="#skydome-texture"><em>sky texture (skydome)</em></a> and also for implementation of an <a class="reference internal" href="lighting.html#environment-lighting"><em>environment lighting</em></a> method.</p>
+<p>An environment map can be used as a <a class="reference internal" href="#mirror-map"><span>mirror map</span></a>, as a static <a class="reference internal" href="#skydome-texture"><span>sky texture (skydome)</span></a> and also for implementation of an <a class="reference internal" href="lighting.html#environment-lighting"><span>environment lighting</span></a> method.</p>
 <p>The engine considers it as a cube texture. Environment map bitmaps should contain 6 projected environment images, packed in 2 rows 3 pieces in each (a Blender format). Bitmap dimensions for each image should follow the 2<sup>N</sup> rule (512, 1024 etc).</p>
 <p>It is recommended to use the lossless format (PNG) in order to avoid seams.</p>
 <a class="reference internal image-reference" href="_images/environment_map.png"><img alt="_images/environment_map.png" class="align-center" src="_images/environment_map.png" style="width: 100%;" /></a>
@@ -359,13 +359,13 @@
 <ol class="arabic simple">
 <li><p class="first">Create a scene for baking.</p>
 </li>
-<li><p class="first">Add an empty object in the supposed point of view (<tt class="docutils literal"><span class="pre">Add</span> <span class="pre">&gt;</span> <span class="pre">Empty</span></tt>).</p>
+<li><p class="first">Add an empty object in the supposed point of view (<code class="docutils literal"><span class="pre">Add</span> <span class="pre">&gt;</span> <span class="pre">Empty</span></code>).</p>
 </li>
-<li><p class="first">Go to the <tt class="docutils literal"><span class="pre">World</span></tt> tab then to the <tt class="docutils literal"><span class="pre">Textures</span></tt> tab and create a new texture with the <tt class="docutils literal"><span class="pre">Environment</span> <span class="pre">Map</span></tt> type.</p>
+<li><p class="first">Go to the <code class="docutils literal"><span class="pre">World</span></code> tab then to the <code class="docutils literal"><span class="pre">Textures</span></code> tab and create a new texture with the <code class="docutils literal"><span class="pre">Environment</span> <span class="pre">Map</span></code> type.</p>
 </li>
-<li><p class="first">On the <tt class="docutils literal"><span class="pre">Environment</span> <span class="pre">Map</span></tt> panel select the <tt class="docutils literal"><span class="pre">Static</span></tt> source, then select the empty object in the <tt class="docutils literal"><span class="pre">Viewport</span> <span class="pre">Object</span></tt> field, then set the 2<sup>N</sup> dimension (512, 1024 etc).</p>
+<li><p class="first">On the <code class="docutils literal"><span class="pre">Environment</span> <span class="pre">Map</span></code> panel select the <code class="docutils literal"><span class="pre">Static</span></code> source, then select the empty object in the <code class="docutils literal"><span class="pre">Viewport</span> <span class="pre">Object</span></code> field, then set the 2<sup>N</sup> dimension (512, 1024 etc).</p>
 </li>
-<li><p class="first">Render the scene by pressing <tt class="docutils literal"><span class="pre">F12</span></tt> (a camera is required).</p>
+<li><p class="first">Render the scene by pressing <code class="docutils literal"><span class="pre">F12</span></code> (a camera is required).</p>
 </li>
 <li><p class="first">Save the environment map into a file.</p>
 </li>
@@ -379,13 +379,13 @@
 </div>
 <div class="section" id="mirror-map">
 <span id="index-10"></span><span id="id26"></span><h2>Mirror Map<a class="headerlink" href="#mirror-map" title="Permalink to this headline">¶</a></h2>
-<p>A mirror map is used to visualize the surface reflection. This is an <a class="reference internal" href="#environment-map"><em>environment map</em></a>.</p>
+<p>A mirror map is used to visualize the surface reflection. This is an <a class="reference internal" href="#environment-map"><span>environment map</span></a>.</p>
 <div class="section" id="id27">
 <h3>Activation<a class="headerlink" href="#id27" title="Permalink to this headline">¶</a></h3>
-<p>Select the <tt class="docutils literal"><span class="pre">Environment</span> <span class="pre">Map</span></tt> texture type (<tt class="docutils literal"><span class="pre">Type</span></tt>). Enable the <tt class="docutils literal"><span class="pre">Shading</span> <span class="pre">&gt;</span> <span class="pre">Mirror</span></tt> checkbox on the <tt class="docutils literal"><span class="pre">Textures</span> <span class="pre">&gt;</span> <span class="pre">Influence</span></tt> panel.</p>
+<p>Select the <code class="docutils literal"><span class="pre">Environment</span> <span class="pre">Map</span></code> texture type (<code class="docutils literal"><span class="pre">Type</span></code>). Enable the <code class="docutils literal"><span class="pre">Shading</span> <span class="pre">&gt;</span> <span class="pre">Mirror</span></code> checkbox on the <code class="docutils literal"><span class="pre">Textures</span> <span class="pre">&gt;</span> <span class="pre">Influence</span></code> panel.</p>
 </div>
 <div class="section" id="id28">
-<h3>Additional settings<a class="headerlink" href="#id28" title="Permalink to this headline">¶</a></h3>
+<h3>Additional Settings<a class="headerlink" href="#id28" title="Permalink to this headline">¶</a></h3>
 <dl class="docutils">
 <dt><em>Influence &gt; Shading &gt; Mirror</em></dt>
 <dd><p class="first last">The degree to which the mirror map affects the reflection. The default value is 1.0.</p>
@@ -393,48 +393,59 @@
 </dl>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><a class="reference internal" href="materials.html#reflection-static"><em>Static reflection</em></a>.</p>
+<p class="last"><a class="reference internal" href="materials.html#reflection-static"><span>Static reflection</span></a>.</p>
 </div>
 </div>
 </div>
 <div class="section" id="skydome">
 <span id="skydome-texture"></span><span id="index-11"></span><h2>Skydome<a class="headerlink" href="#skydome" title="Permalink to this headline">¶</a></h2>
-<p>A skydome is used to visualize an infinitely far environment (for example the sky). This is an <a class="reference internal" href="#environment-map"><em>environment map</em></a>.</p>
-<p>Can be also used to implement one of the <a class="reference internal" href="lighting.html#environment-lighting"><em>environment lighting</em></a> methods.</p>
+<p>A skydome is used to visualize an infinitely far environment (for example the sky). This is an <a class="reference internal" href="#environment-map"><span>environment map</span></a>.</p>
+<p>Can be also used to implement one of the <a class="reference internal" href="lighting.html#environment-lighting"><span>environment lighting</span></a> methods.</p>
 <div class="section" id="id29">
 <h3>Activation<a class="headerlink" href="#id29" title="Permalink to this headline">¶</a></h3>
-<p>Create a world texture of <tt class="docutils literal"><span class="pre">Environment</span> <span class="pre">Map</span></tt> type. Enable <tt class="docutils literal"><span class="pre">Sky</span> <span class="pre">Settings</span> <span class="pre">&gt;</span> <span class="pre">Render</span> <span class="pre">Sky</span></tt> under the <tt class="docutils literal"><span class="pre">World</span></tt> tab. Select the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Sky</span> <span class="pre">Texture</span> <span class="pre">Usage</span> <span class="pre">&gt;</span> <span class="pre">SKYDOME</span></tt> option.</p>
+<p>Create a world texture of <code class="docutils literal"><span class="pre">Environment</span> <span class="pre">Map</span></code> type. Enable <code class="docutils literal"><span class="pre">Sky</span> <span class="pre">Settings</span> <span class="pre">&gt;</span> <span class="pre">Render</span> <span class="pre">Sky</span></code> under the <code class="docutils literal"><span class="pre">World</span></code> tab. Select the <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Sky</span> <span class="pre">Texture</span> <span class="pre">Usage</span> <span class="pre">&gt;</span> <span class="pre">SKYDOME</span></code> option.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p>To imitate <a class="reference internal" href="lighting.html#environment-lighting"><em>environment lighting</em></a> you can select the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Sky</span> <span class="pre">Texture</span> <span class="pre">Usage</span> <span class="pre">&gt;</span> <span class="pre">ENVIRONMENT_LIGHTING</span></tt> option. Also you should select the corresponding option in the world settings: <tt class="docutils literal"><span class="pre">Environment</span> <span class="pre">Lighting</span> <span class="pre">&gt;</span> <span class="pre">Sky</span> <span class="pre">Texture</span></tt>.</p>
-<p class="last">To use the world texture both for skydome and for environment lighting, select <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Sky</span> <span class="pre">Texture</span> <span class="pre">Usage</span> <span class="pre">&gt;</span> <span class="pre">BOTH</span></tt>.</p>
+<p>To imitate <a class="reference internal" href="lighting.html#environment-lighting"><span>environment lighting</span></a> you can select the <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Sky</span> <span class="pre">Texture</span> <span class="pre">Usage</span> <span class="pre">&gt;</span> <span class="pre">ENVIRONMENT_LIGHTING</span></code> option. Also you should select the corresponding option in the world settings: <code class="docutils literal"><span class="pre">Environment</span> <span class="pre">Lighting</span> <span class="pre">&gt;</span> <span class="pre">Sky</span> <span class="pre">Texture</span></code>.</p>
+<p class="last">To use the world texture both for skydome and for environment lighting, select <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Sky</span> <span class="pre">Texture</span> <span class="pre">Usage</span> <span class="pre">&gt;</span> <span class="pre">BOTH</span></code>.</p>
 </div>
 <a class="reference internal image-reference" href="_images/skydome.png"><img alt="_images/skydome.png" class="align-center" src="_images/skydome.png" style="width: 100%;" /></a>
+</div>
+<div class="section" id="id30">
+<h3>Additional Settings<a class="headerlink" href="#id30" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p>The engine also supports parameters from the world texture&#8217;s <code class="docutils literal"><span class="pre">Influence</span></code> panel which are used for sky rendering. Mixing of the world texture with color depends on the <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Horizon</span> <span class="pre">Color</span></code> and <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Zenith</span> <span class="pre">Color</span></code> parameters, as well as on the <code class="docutils literal"><span class="pre">Paper</span> <span class="pre">Sky</span></code>, <code class="docutils literal"><span class="pre">Blend</span> <span class="pre">Sky</span></code> and <code class="docutils literal"><span class="pre">Real</span> <span class="pre">Sky</span></code> options. All mixing options are supported (<code class="docutils literal"><span class="pre">Mix</span></code>, <code class="docutils literal"><span class="pre">Add</span></code>, <code class="docutils literal"><span class="pre">Multiply</span></code> etc).</p>
+</div></blockquote>
+<a class="reference internal image-reference" href="_images/skydome.jpg"><img alt="_images/skydome.jpg" class="align-center" src="_images/skydome.jpg" style="width: 100%;" /></a>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The <code class="docutils literal"><span class="pre">Influence</span></code> panel parameters only affect the sky rendering. They do not affect <a class="reference internal" href="lighting.html#environment-lighting"><span>environment lighting</span></a> by any means.</p>
+</div>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 </div>
 </div>
 <div class="section" id="index-12">
-<span id="id30"></span><h2>Special Texture Types<a class="headerlink" href="#index-12" title="Permalink to this headline">¶</a></h2>
-<p>In order to use such textures, select <tt class="docutils literal"><span class="pre">None</span></tt> type under the <tt class="docutils literal"><span class="pre">Textures</span></tt> tab.</p>
+<span id="id31"></span><h2>Special Texture Types<a class="headerlink" href="#index-12" title="Permalink to this headline">¶</a></h2>
+<p>In order to use such textures, select <code class="docutils literal"><span class="pre">None</span></code> type under the <code class="docutils literal"><span class="pre">Textures</span></code> tab.</p>
 <img alt="_images/type_none.jpg" class="align-center" src="_images/type_none.jpg" />
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p>On the <tt class="docutils literal"><span class="pre">Textures</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span></tt> panel, you can set up properties for these textures:</p>
+<p>On the <code class="docutils literal"><span class="pre">Textures</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span></code> panel, you can set up properties for these textures:</p>
 <dl class="docutils">
 <dt><em>Blend4Web &gt; Source Type</em></dt>
-<dd><p class="first last">Select texture type: <tt class="docutils literal"><span class="pre">Scene</span></tt> - for rendering a 3D scene into the texture, <tt class="docutils literal"><span class="pre">Canvas</span></tt> - for using &lt;canvas&gt; HTML element and <tt class="docutils literal"><span class="pre">None</span></tt> - for indicating of its absence.</p>
+<dd><p class="first last">Select texture type: <code class="docutils literal"><span class="pre">Scene</span></code> - for rendering a 3D scene into the texture, <code class="docutils literal"><span class="pre">Canvas</span></code> - for using &lt;canvas&gt; HTML element and <code class="docutils literal"><span class="pre">None</span></code> - for indicating of its absence.</p>
 </dd>
 <dt><em>Blend4Web &gt; Source ID</em></dt>
-<dd><p class="first last">The name of the scene which will be rendered into the texture (for <tt class="docutils literal"><span class="pre">Scene</span></tt>), or ID of the &lt;canvas&gt; HTML element (for <tt class="docutils literal"><span class="pre">Canvas</span></tt>).</p>
+<dd><p class="first last">The name of the scene which will be rendered into the texture (for <code class="docutils literal"><span class="pre">Scene</span></code>), or ID of the &lt;canvas&gt; HTML element (for <code class="docutils literal"><span class="pre">Canvas</span></code>).</p>
 </dd>
 <dt><em>Blend4Web &gt; Source Size</em></dt>
 <dd><p class="first last">Texture resolution.</p>
 </dd>
 <dt><em>Blend4Web &gt; Extension</em></dt>
-<dd><p class="first last"><a class="reference internal" href="#texture-extension"><em>Texture coordinates interpretation mode</em></a>. Default is <tt class="docutils literal"><span class="pre">Repeat</span></tt>.</p>
+<dd><p class="first last"><a class="reference internal" href="#texture-extension"><span>Texture coordinates interpretation mode</span></a>. Default is <code class="docutils literal"><span class="pre">Repeat</span></code>.</p>
 </dd>
 <dt><em>Blend4Web &gt; Enable Mipmapping</em></dt>
 <dd><p class="first last">Enable mipmapping for the Canvas texture. Enabled by default.</p>
@@ -445,17 +456,17 @@
 <span id="render-to-texture-scene"></span><h3>3D scene<a class="headerlink" href="#d-a" title="Permalink to this headline">¶</a></h3>
 <p>A 3D scene&#8217;s real-time rendered image can be used as a texture by an object from another scene (&#8220;main&#8221; scene).</p>
 <ol class="arabic simple">
-<li><p class="first">Create an additional source scene, rename it for convenience, create a <tt class="docutils literal"><span class="pre">World</span></tt>, add the objects wanted, setup the camera view.</p>
+<li><p class="first">Create an additional source scene, rename it for convenience, create a <code class="docutils literal"><span class="pre">World</span></code>, add the objects wanted, setup the camera view.</p>
 </li>
-<li><p class="first">Set the <tt class="docutils literal"><span class="pre">None</span></tt> type for a texture of the target object on the main scene, and select the <tt class="docutils literal"><span class="pre">Scene</span></tt> type in the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Source</span> <span class="pre">Type</span></tt> menu. Specify the name of the source scene in the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Source</span> <span class="pre">ID</span></tt> field. Set the texture size in the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Source</span> <span class="pre">Size</span></tt> field (in pixels).</p>
+<li><p class="first">Set the <code class="docutils literal"><span class="pre">None</span></code> type for a texture of the target object on the main scene, and select the <code class="docutils literal"><span class="pre">Scene</span></code> type in the <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Source</span> <span class="pre">Type</span></code> menu. Specify the name of the source scene in the <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Source</span> <span class="pre">ID</span></code> field. Set the texture size in the <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Source</span> <span class="pre">Size</span></code> field (in pixels).</p>
 </li>
 </ol>
 <a class="reference internal image-reference" href="_images/render_to_texture.jpg"><img alt="_images/render_to_texture.jpg" class="align-center" src="_images/render_to_texture.jpg" style="width: 100%;" /></a>
 </div>
 <div class="section" id="canvas">
 <span id="render-to-texture-canvas"></span><h3>Canvas<a class="headerlink" href="#canvas" title="Permalink to this headline">¶</a></h3>
-<p>A &lt;canvas&gt; HTML element can be used as a texture. It can be modified via <a class="reference internal" href="developers.html#canvas-texture"><em>API</em></a>.</p>
-<p>Set the <tt class="docutils literal"><span class="pre">None</span></tt> type for the texture of the target object on the main scene, and select the <tt class="docutils literal"><span class="pre">Canvas</span></tt> type in the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Source</span> <span class="pre">Type</span></tt> menu. Specify the id of the canvas HTML element in the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Source</span> <span class="pre">ID</span></tt> field. Set the texture size in the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Source</span> <span class="pre">Size</span></tt> field (in pixels).</p>
+<p>A &lt;canvas&gt; HTML element can be used as a texture. It can be modified via <a class="reference internal" href="developers.html#canvas-texture"><span>API</span></a>.</p>
+<p>Set the <code class="docutils literal"><span class="pre">None</span></code> type for the texture of the target object on the main scene, and select the <code class="docutils literal"><span class="pre">Canvas</span></code> type in the <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Source</span> <span class="pre">Type</span></code> menu. Specify the id of the canvas HTML element in the <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Source</span> <span class="pre">ID</span></code> field. Set the texture size in the <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Source</span> <span class="pre">Size</span></code> field (in pixels).</p>
 </div>
 </div>
 </div>
@@ -512,16 +523,18 @@
 <li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
 </ul>
 
-          <h3 style="margin-top: 1.5em;">Search</h3>
-          <form class="search" action="search.html" method="get">
-            <input type="text" name="q" />
-            <input type="submit" value="Go" />
-            <input type="hidden" name="check_keywords" value="yes" />
-            <input type="hidden" name="area" value="default" />
-          </form>
-          <p class="searchtip" style="font-size: 90%">
-            Enter search terms or a module, class or function name.
-          </p>
+          <div role="search">
+            <h3 style="margin-top: 1.5em;">Search</h3>
+            <form class="search" action="search.html" method="get">
+                <input type="text" name="q" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+            </form>
+            <p class="searchtip" style="font-size: 90%">
+                Enter search terms or a module, class or function name.
+            </p>
+          </div>
         </div>
         <div class="clearer"></div>
       </div>
@@ -530,20 +543,24 @@
     <div class="footer-wrapper">
       <div class="footer">
         <div class="left">
-          <a href="materials.html" title="Materials"
-             >previous</a> |
-          <a href="node_materials.html" title="Node Materials"
-             >next</a> |
-          <a href="genindex.html" title="General Index"
-             >index</a>
+          <div role="navigation" aria-label="related navigaton">
+            <a href="materials.html" title="Materials"
+              >previous</a> |
+            <a href="node_materials.html" title="Node Materials"
+              >next</a> |
+            <a href="genindex.html" title="General Index"
+              >index</a>
+          </div>
+          <div role="note" aria-label="source link">
+          </div>
         </div>
 
         <div class="right">
           
-    <div class="footer">
+    <div class="footer" role="contentinfo">
         &copy; Copyright 2015, Triumph LLC.
-      Last updated on 2015-04-29.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+      Last updated on 2015-05-26.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
         </div>
         <div class="clearer"></div>

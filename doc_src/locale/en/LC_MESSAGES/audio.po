@@ -43,10 +43,6 @@ msgstr ""
 "The engine supports all the standard parameters. The engine-specific "
 "settings are located on the ``Blend4Web`` panel."
 
-#: ../audio.rst:35
-msgid "*Speaker behavior*"
-msgstr ""
-
 #: ../audio.rst:23
 msgid "Поведение звукового источника."
 msgstr "The behavior of the audio source."
@@ -83,6 +79,10 @@ msgstr ""
 "``Background music`` --- used for music playback. It has maximum performance"
 " due to the use of the Audio HTML tag, but has minimum flexibility."
 
+#: ../audio.rst:35
+msgid "*Speaker behavior*"
+msgstr ""
+
 #: ../audio.rst:38
 msgid "*Disable doppler*"
 msgstr ""
@@ -107,10 +107,6 @@ msgstr ""
 msgid "Задержка в секундах перед началом проигрывания звука."
 msgstr "Delay before sound playback starts."
 
-#: ../audio.rst:48
-msgid "*Random delay*"
-msgstr ""
-
 #: ../audio.rst:47
 msgid ""
 "Дополнительная рандомизация задержки, результирующее значение определяется "
@@ -120,8 +116,8 @@ msgstr ""
 "to the formula :math:`Delay_{result} = Delay + Delay_{random} * "
 "Random_{[0-1]}`."
 
-#: ../audio.rst:52
-msgid "*Random volume*"
+#: ../audio.rst:48
+msgid "*Random delay*"
 msgstr ""
 
 #: ../audio.rst:51
@@ -132,8 +128,8 @@ msgstr ""
 "Additional volume randomization. The resulting value is calculated as for "
 "the delay."
 
-#: ../audio.rst:56
-msgid "*Random pitch*"
+#: ../audio.rst:52
+msgid "*Random volume*"
 msgstr ""
 
 #: ../audio.rst:55
@@ -143,6 +139,10 @@ msgid ""
 msgstr ""
 "Additional randomization of the sound playback speed. The resulting value is"
 " calculated as for the delay."
+
+#: ../audio.rst:56
+msgid "*Random pitch*"
+msgstr ""
 
 #: ../audio.rst:59
 msgid "*Fade-in*"
@@ -160,10 +160,6 @@ msgstr ""
 msgid "Интервал плавного выключения звука."
 msgstr "Fade-out time interval."
 
-#: ../audio.rst:68
-msgid "*Loop*"
-msgstr ""
-
 #: ../audio.rst:65
 msgid ""
 "Зацикливать воспроизведение звука. Отличается от ``Cyclic play``, тем, что "
@@ -174,6 +170,10 @@ msgstr ""
 "Loop the sound playback. Contrary to the ``Cyclic play`` option it "
 "guarantees a zero delay upon repeat. The option is available only for sound "
 "sources with ``Positional`` or ``Background sound`` behavior."
+
+#: ../audio.rst:68
+msgid "*Loop*"
+msgstr ""
 
 #: ../audio.rst:71
 msgid "*Loop count*"
@@ -232,5 +232,3 @@ msgid ""
 msgstr ""
 "Converting resources between different formats is described in the "
 ":ref:`corresponding section <converter>`."
-
-

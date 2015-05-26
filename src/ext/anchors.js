@@ -1,7 +1,7 @@
 "use strict";
 
 /**
- * Anchors API.
+ * Anchors are Empty objects placed in Blender. They are used to project 3D points to the 2D screen.
  * @module anchors
  * @local anchor_move_callback
  */
@@ -9,10 +9,9 @@ b4w.module["anchors"] = function(exports, require) {
 
 var m_anchors = require("__anchors");
 var m_print   = require("__print");
-var m_util    = require("__util");
 
 /**
- * Anchor move callback.
+ * The callback for the movement of the anchor.
  * @callback anchor_move_callback
  * @param {Number} x X (left) position
  * @param {Number} y Y (top) position
@@ -23,7 +22,7 @@ var m_util    = require("__util");
  */
 
 /**
- * Attach movement callback to anchor object.
+ * Attach the movement callback to the anchor object.
  * @method module:anchors.attach_move_cb
  * @param {Object} obj Anchor object ID
  * @param {anchor_move_callback} anchor_move_cb Anchor movement callback
@@ -31,7 +30,7 @@ var m_util    = require("__util");
 exports.attach_move_cb = m_anchors.attach_move_cb;
 
 /**
- * Detach movement callback from anchor object.
+ * Detach the movement callback from the anchor object.
  * @method module:anchors.detach_move_cb
  * @param {Object} obj Anchor object ID
  */

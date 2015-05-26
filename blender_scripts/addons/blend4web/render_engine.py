@@ -28,10 +28,8 @@ class B4WRenderEngine(bpy.types.RenderEngine):
     # use old shading nodes, game and internal
     # capabilities
     bl_use_shading_nodes = False
-    # bl_use_game_engine = True
-    # bl_use_internal_engine = True
     bl_use_native_node_tree = True
-    # use_game_engine = True
+    bl_use_shading_nodes_custom = False
 
 # Supported panels
 # Please keep unsupported panels as commented lines,

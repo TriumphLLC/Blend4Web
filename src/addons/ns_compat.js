@@ -8,9 +8,9 @@ if (!window["b4w"])
  * <code>b4w.MODULE</code>. Provides no external methods.
  * @module ns_compat
  *
- * @cc_externs animation assets camera config controls constraints
+ * @cc_externs animation assets camera config controls constraints container
  * @cc_externs data debug geometry hud lights main material particles physics
- * @cc_externs scenes sfx shaders textures transform util version 
+ * @cc_externs scenes sfx shaders textures transform util version nla
  *
  * @cc_externs vec3 vec4 quat mat3 mat4
  *

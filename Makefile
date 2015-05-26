@@ -4,8 +4,8 @@ APPDIR = apps_dev
 APIDOCRESDIR = doc_src/api_doc/jsdoc_resources
 SCRIPTSDIR = scripts
 TUTORIALS_DIR = deploy/tutorials
-VERSION=`sed -e "s/.\+/\0\_pre/" VERSION`
-#VERSION=`sed -e "s/.\+/\0\_rc/" VERSION`
+#VERSION=`sed -e "s/.\+/\0\_pre/" VERSION`
+VERSION=`sed -e "s/.\+/\0/" VERSION`
 
 .PHONY: all
 all: build

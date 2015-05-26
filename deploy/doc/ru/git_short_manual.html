@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Работа в команде с использованием Git &mdash; Руководство пользователя: Blend4Web v15.04</title>
+    <title>Работа в команде с использованием Git &mdash; Руководство пользователя: Blend4Web v15.05</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '15.04',
+        VERSION:     '15.05',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,19 +26,19 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v15.04" href="index.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v15.05" href="index.html" />
     <link rel="next" title="Проблемы и решения" href="problems_and_solutions.html" />
     <link rel="prev" title="Разработчикам движка" href="developers_advanced.html" /> 
   </head>
-  <body>
-    <div class="header-wrapper">
+  <body role="document">
+    <div class="header-wrapper" role="banner">
       <div class="header">
           <p class="logo"><a href="index.html">
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">Руководство пользователя: Blend4Web v15.04</a></div>
-        <div class="rel">
+          href="index.html">Руководство пользователя: Blend4Web v15.05</a></div>
+        <div class="rel" role="navigation" aria-label="related navigation">
           <a href="developers_advanced.html" title="Разработчикам движка"
              accesskey="P">назад</a> |
           <a href="problems_and_solutions.html" title="Проблемы и решения"
@@ -55,7 +55,7 @@
             
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="git">
 <span id="git-short-manual"></span><span id="index-0"></span><h1>Работа в команде с использованием Git<a class="headerlink" href="#git" title="Ссылка на этот заголовок">¶</a></h1>
@@ -68,7 +68,7 @@
 <li>возможность работы с бинарными файлами большого объёма</li>
 </ul>
 <p>Git - распределенная система, и каждый разработчик или дизайнер имеет собственный локальный репозиторий (хранилище). Синхронизация между локальными репозиториями может осуществляться через центральное &#8220;общее&#8221; хранилище, которое можно разместить на специально выделенной для этой цели машине (сервере). К серверу может быть организован доступ по протоколу SSH.</p>
-<p>Хотя для Git существует множество графических утилит, упрощающих работу начинающих пользователей, здесь мы рассмотрим работу со штатной консольной утилитой, вызываемой командой <tt class="docutils literal"><span class="pre">git</span></tt>.</p>
+<p>Хотя для Git существует множество графических утилит, упрощающих работу начинающих пользователей, здесь мы рассмотрим работу со штатной консольной утилитой, вызываемой командой <code class="docutils literal"><span class="pre">git</span></code>.</p>
 </div>
 <div class="section" id="git-pipeline">
 <span id="id2"></span><h2>Типичный рабочий процесс<a class="headerlink" href="#git-pipeline" title="Ссылка на этот заголовок">¶</a></h2>
@@ -101,14 +101,14 @@
 <div class="highlight-none"><div class="highlight"><pre>&gt; git status
 </pre></div>
 </div>
-<p>Результат команды <tt class="docutils literal"><span class="pre">git</span> <span class="pre">status</span></tt>, если все коммиты проведены и нет новых файлов:</p>
+<p>Результат команды <code class="docutils literal"><span class="pre">git</span> <span class="pre">status</span></code>, если все коммиты проведены и нет новых файлов:</p>
 <div class="highlight-none"><div class="highlight"><pre># On branch master
 # Your branch is ahead of &#39;origin/master&#39; by 2 commits.
 #
 nothing to commit (working directory clean)
 </pre></div>
 </div>
-<p>Возможный результат команды <tt class="docutils literal"><span class="pre">git</span> <span class="pre">status</span></tt>, если имеются изменения. Например, файлы <tt class="file docutils literal"><span class="pre">apps_dev/firstperson/firstperson.js</span></tt> и <tt class="file docutils literal"><span class="pre">doc_src/git_short_manual.rst</span></tt> изменены, и создан новый файл <tt class="file docutils literal"><span class="pre">123.txt</span></tt>:</p>
+<p>Возможный результат команды <code class="docutils literal"><span class="pre">git</span> <span class="pre">status</span></code>, если имеются изменения. Например, файлы <code class="file docutils literal"><span class="pre">apps_dev/firstperson/firstperson.js</span></code> и <code class="file docutils literal"><span class="pre">doc_src/git_short_manual.rst</span></code> изменены, и создан новый файл <code class="file docutils literal"><span class="pre">123.txt</span></code>:</p>
 <div class="highlight-none"><div class="highlight"><pre># On branch master
 # Changes not staged for commit:
 #   (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)
@@ -138,7 +138,7 @@ no changes added to commit (use &quot;git add&quot; and/or &quot;git commit -a&q
 <div class="highlight-none"><div class="highlight"><pre>&gt; git diff apps_dev/firstperson/firstperson.js
 </pre></div>
 </div>
-<p>Возможный результат команды <tt class="docutils literal"><span class="pre">git</span> <span class="pre">diff</span></tt> для текстового файла:</p>
+<p>Возможный результат команды <code class="docutils literal"><span class="pre">git</span> <span class="pre">diff</span></code> для текстового файла:</p>
 <div class="highlight-none"><div class="highlight"><pre>diff --git a/apps_dev/firstperson/firstperson.js b/apps_dev/firstperson/firstperson.js
 index 4381c99..44b3b15 100644
 --- a/apps_dev/firstperson/firstperson.js
@@ -166,7 +166,7 @@ index 4381c99..44b3b15 100644
 </div>
 <div class="section" id="id8">
 <h3>Посторонние файлы<a class="headerlink" href="#id8" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Если файл значится в списке <tt class="docutils literal"><span class="pre">Untracked</span> <span class="pre">files</span></tt> (команда <tt class="docutils literal"><span class="pre">git</span> <span class="pre">status</span></tt>), но контроль версий для него не нужен, его следует удалить или переместить за пределы рабочей директории.</p>
+<p>Если файл значится в списке <code class="docutils literal"><span class="pre">Untracked</span> <span class="pre">files</span></code> (команда <code class="docutils literal"><span class="pre">git</span> <span class="pre">status</span></code>), но контроль версий для него не нужен, его следует удалить или переместить за пределы рабочей директории.</p>
 </div>
 </div>
 <div class="section" id="git-example-add-rm-commit">
@@ -182,7 +182,7 @@ index 4381c99..44b3b15 100644
 <div class="highlight-none"><div class="highlight"><pre>&gt; git status
 </pre></div>
 </div>
-<p>Возможный результат команды <tt class="docutils literal"><span class="pre">git</span> <span class="pre">status</span></tt> после добавления некоторых файлов командой <tt class="docutils literal"><span class="pre">git</span> <span class="pre">add</span></tt>:</p>
+<p>Возможный результат команды <code class="docutils literal"><span class="pre">git</span> <span class="pre">status</span></code> после добавления некоторых файлов командой <code class="docutils literal"><span class="pre">git</span> <span class="pre">add</span></code>:</p>
 <div class="highlight-none"><div class="highlight"><pre># On branch master
 # Changes to be committed:
 #   (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
@@ -198,11 +198,11 @@ index 4381c99..44b3b15 100644
 #
 </pre></div>
 </div>
-<p>Видно, что для коммита добавлены файлы <tt class="file docutils literal"><span class="pre">apps_dev/firstperson/firstperson.js</span></tt> и <tt class="file docutils literal"><span class="pre">123.txt</span></tt>, а файл <tt class="file docutils literal"><span class="pre">doc_src/git_short_manual.rst</span></tt> остался недобавленным. Для упрощения работы рекомендуется либо добавлять такие файлы для коммита, либо отбрасывать их изменения командой <tt class="docutils literal"><span class="pre">git</span> <span class="pre">checkout</span></tt>.</p>
+<p>Видно, что для коммита добавлены файлы <code class="file docutils literal"><span class="pre">apps_dev/firstperson/firstperson.js</span></code> и <code class="file docutils literal"><span class="pre">123.txt</span></code>, а файл <code class="file docutils literal"><span class="pre">doc_src/git_short_manual.rst</span></code> остался недобавленным. Для упрощения работы рекомендуется либо добавлять такие файлы для коммита, либо отбрасывать их изменения командой <code class="docutils literal"><span class="pre">git</span> <span class="pre">checkout</span></code>.</p>
 </div>
 <div class="section" id="id11">
 <h3>Удаление файлов<a class="headerlink" href="#id11" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Некоторые файлы могут быть отмечены как удаленные из Git после выполнения команды <tt class="docutils literal"><span class="pre">git</span> <span class="pre">status</span></tt>, например:</p>
+<p>Некоторые файлы могут быть отмечены как удаленные из Git после выполнения команды <code class="docutils literal"><span class="pre">git</span> <span class="pre">status</span></code>, например:</p>
 <div class="highlight-none"><div class="highlight"><pre># On branch master
 # Your branch is ahead of &#39;origin/master&#39; by 2 commits.
 #
@@ -215,11 +215,11 @@ index 4381c99..44b3b15 100644
 no changes added to commit (use &quot;git add&quot; and/or &quot;git commit -a&quot;)
 </pre></div>
 </div>
-<p>В таком случае, если удаление файла должно быть зафиксировано (т.е. войти в коммит), выполнить команду <tt class="docutils literal"><span class="pre">git</span> <span class="pre">rm</span></tt>, например:</p>
+<p>В таком случае, если удаление файла должно быть зафиксировано (т.е. войти в коммит), выполнить команду <code class="docutils literal"><span class="pre">git</span> <span class="pre">rm</span></code>, например:</p>
 <div class="highlight-none"><div class="highlight"><pre>&gt; git rm 123.txt
 </pre></div>
 </div>
-<p>Если же файл был удален по ошибке, и его необходимо вернуть, нужно использовать команду <tt class="docutils literal"><span class="pre">git</span> <span class="pre">checkout</span></tt>.</p>
+<p>Если же файл был удален по ошибке, и его необходимо вернуть, нужно использовать команду <code class="docutils literal"><span class="pre">git</span> <span class="pre">checkout</span></code>.</p>
 </div>
 </div>
 <div class="section" id="git-commit">
@@ -253,7 +253,7 @@ My commit message
 </pre></div>
 </div>
 <p>Сохранить изменения и выйти из редактора (в <strong>nano</strong> Ctrl+O, затем Ctrl+X; в <strong>vim</strong> ZZ, или ESC :wq).</p>
-<p>После совершения коммита рекомендуется снова проверить статус. Коммит совершен правильно, если команда <tt class="docutils literal"><span class="pre">git</span> <span class="pre">status</span></tt> отображает <tt class="docutils literal"><span class="pre">nothing</span> <span class="pre">to</span> <span class="pre">commit,</span> <span class="pre">working</span> <span class="pre">directory</span> <span class="pre">clean</span></tt>.</p>
+<p>После совершения коммита рекомендуется снова проверить статус. Коммит совершен правильно, если команда <code class="docutils literal"><span class="pre">git</span> <span class="pre">status</span></code> отображает <code class="docutils literal"><span class="pre">nothing</span> <span class="pre">to</span> <span class="pre">commit,</span> <span class="pre">working</span> <span class="pre">directory</span> <span class="pre">clean</span></code>.</p>
 </div>
 <div class="section" id="git-example-repo-sync">
 <span id="index-6"></span><span id="id13"></span><h2>Синхронизация между репозиториями<a class="headerlink" href="#git-example-repo-sync" title="Ссылка на этот заголовок">¶</a></h2>
@@ -263,11 +263,11 @@ My commit message
 <div class="highlight-none"><div class="highlight"><pre>&gt; git pull
 </pre></div>
 </div>
-<p>Результат команды <tt class="docutils literal"><span class="pre">git</span> <span class="pre">pull</span></tt>, если в удаленном репозитории нет изменений:</p>
+<p>Результат команды <code class="docutils literal"><span class="pre">git</span> <span class="pre">pull</span></code>, если в удаленном репозитории нет изменений:</p>
 <div class="highlight-none"><div class="highlight"><pre>Already up-to-date.
 </pre></div>
 </div>
-<p>Результат команды <tt class="docutils literal"><span class="pre">git</span> <span class="pre">pull</span></tt>, если в удаленном репозитории были изменения, и синхронизация прошла успешно:</p>
+<p>Результат команды <code class="docutils literal"><span class="pre">git</span> <span class="pre">pull</span></code>, если в удаленном репозитории были изменения, и синхронизация прошла успешно:</p>
 <div class="highlight-none"><div class="highlight"><pre>remote: Counting objects: 151, done.
 remote: Compressing objects: 100% (101/101), done.
 remote: Total 102 (delta 74), reused 0 (delta 0)
@@ -291,12 +291,12 @@ Fast-forward
 <div class="highlight-none"><div class="highlight"><pre>&gt; git diff dbf3877..9f9700c
 </pre></div>
 </div>
-<p>Параметр этой команды - в данном случае dbf3877..9f9700c - указывает, между какими именно коммитами просматриваются изменения. Этот параметр удобно выделить в результатах команды <tt class="docutils literal"><span class="pre">git</span> <span class="pre">pull</span></tt> и вставить щелчком мыши (средняя кнопка) в консоли в нужном месте.</p>
+<p>Параметр этой команды - в данном случае dbf3877..9f9700c - указывает, между какими именно коммитами просматриваются изменения. Этот параметр удобно выделить в результатах команды <code class="docutils literal"><span class="pre">git</span> <span class="pre">pull</span></code> и вставить щелчком мыши (средняя кнопка) в консоли в нужном месте.</p>
 <p>Также можно просмотреть лог изменений:</p>
 <div class="highlight-none"><div class="highlight"><pre>&gt; git log
 </pre></div>
 </div>
-<p>Команда <tt class="docutils literal"><span class="pre">git</span> <span class="pre">pull</span></tt> не всегда приводит в успешной синхронизации. Результат команды <tt class="docutils literal"><span class="pre">git</span> <span class="pre">pull</span></tt> в случае наличия конфликтов:</p>
+<p>Команда <code class="docutils literal"><span class="pre">git</span> <span class="pre">pull</span></code> не всегда приводит в успешной синхронизации. Результат команды <code class="docutils literal"><span class="pre">git</span> <span class="pre">pull</span></code> в случае наличия конфликтов:</p>
 <div class="highlight-none"><div class="highlight"><pre>remote: Counting objects: 11, done.
 remote: Compressing objects: 100% (6/6), done.
 remote: Total 6 (delta 5), reused 0 (delta 0)
@@ -318,11 +318,11 @@ Automatic merge failed; fix conflicts and then commit the result.
 <div class="highlight-none"><div class="highlight"><pre>&gt; git push
 </pre></div>
 </div>
-<p>Результат команды <tt class="docutils literal"><span class="pre">git</span> <span class="pre">push</span></tt>, если в удаленном репозитории уже есть все локальные изменения:</p>
+<p>Результат команды <code class="docutils literal"><span class="pre">git</span> <span class="pre">push</span></code>, если в удаленном репозитории уже есть все локальные изменения:</p>
 <div class="highlight-none"><div class="highlight"><pre>Everything up-to-date
 </pre></div>
 </div>
-<p>Результат команды <tt class="docutils literal"><span class="pre">git</span> <span class="pre">push</span></tt>, если синхронизация прошла успешно:</p>
+<p>Результат команды <code class="docutils literal"><span class="pre">git</span> <span class="pre">push</span></code>, если синхронизация прошла успешно:</p>
 <div class="highlight-none"><div class="highlight"><pre>Counting objects: 25, done.
 Delta compression using up to 8 threads.
 Compressing objects: 100% (14/14), done.
@@ -332,7 +332,7 @@ To gfxteam@lixer:blend4web.git
    9f9700c..fa1d6ac  master -&gt; master
 </pre></div>
 </div>
-<p>Результат команды <tt class="docutils literal"><span class="pre">git</span> <span class="pre">push</span></tt>, если синхронизация не прошла, потому что сначала не была выполнена команда <tt class="docutils literal"><span class="pre">git</span> <span class="pre">pull</span></tt>:</p>
+<p>Результат команды <code class="docutils literal"><span class="pre">git</span> <span class="pre">push</span></code>, если синхронизация не прошла, потому что сначала не была выполнена команда <code class="docutils literal"><span class="pre">git</span> <span class="pre">pull</span></code>:</p>
 <div class="highlight-none"><div class="highlight"><pre>To gfxteam@lixer:blend4web.git
  ! [rejected]        master -&gt; master (non-fast-forward)
 error: failed to push some refs to &#39;gfxteam@lixer:blend4web.git&#39;
@@ -341,8 +341,8 @@ Merge the remote changes (e.g. &#39;git pull&#39;) before pushing again.  See th
 &#39;Note about fast-forwards&#39; section of &#39;git push --help&#39; for details.
 </pre></div>
 </div>
-<p>Необходимо выполнить команду <tt class="docutils literal"><span class="pre">git</span> <span class="pre">pull</span></tt>.</p>
-<p>Изменения, загруженные в центральный репозиторий, могут быть получены другими участниками разработки с помощью команды <tt class="docutils literal"><span class="pre">git</span> <span class="pre">pull</span></tt>.</p>
+<p>Необходимо выполнить команду <code class="docutils literal"><span class="pre">git</span> <span class="pre">pull</span></code>.</p>
+<p>Изменения, загруженные в центральный репозиторий, могут быть получены другими участниками разработки с помощью команды <code class="docutils literal"><span class="pre">git</span> <span class="pre">pull</span></code>.</p>
 </div>
 </div>
 <div class="section" id="index-7">
@@ -365,7 +365,7 @@ Merge the remote changes (e.g. &#39;git pull&#39;) before pushing again.  See th
 <div class="section" id="id18">
 <h3>Порядок действий<a class="headerlink" href="#id18" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Не рекомендуется производить какие-либо действия с файлами (изменять, удалять), пока репозиторий находится в конфликтном состоянии.</p>
-<p>Первое что необходимо сделать - выполнить команду <tt class="docutils literal"><span class="pre">git</span> <span class="pre">status</span></tt>.</p>
+<p>Первое что необходимо сделать - выполнить команду <code class="docutils literal"><span class="pre">git</span> <span class="pre">status</span></code>.</p>
 <div class="highlight-none"><div class="highlight"><pre># On branch master
 # Your branch and &#39;origin/master&#39; have diverged,
 # and have 7 and 1 different commit each, respectively.
@@ -378,13 +378,13 @@ Merge the remote changes (e.g. &#39;git pull&#39;) before pushing again.  See th
 no changes added to commit (use &quot;git add&quot; and/or &quot;git commit -a&quot;)
 </pre></div>
 </div>
-<p>Список конфликтующих файлов отображен в разделе <tt class="docutils literal"><span class="pre">Unmerged</span> <span class="pre">paths</span></tt>.</p>
+<p>Список конфликтующих файлов отображен в разделе <code class="docutils literal"><span class="pre">Unmerged</span> <span class="pre">paths</span></code>.</p>
 <p>Дальнейший порядок действий различен для бинарных и текстовых файлов.</p>
 </div>
 <div class="section" id="id19">
 <h3>Бинарные файлы<a class="headerlink" href="#id19" title="Ссылка на этот заголовок">¶</a></h3>
 <p>На данном этапе конфликтующие бинарные файлы находятся в том состоянии, в котором они находились в локальном репозитории до попытки синхронизации. Файлы полностью функциональны (например, открываются графическими редакторами).</p>
-<p>В случае конфликта бинарных файлов необходимо выяснить с коллегами или самостоятельно, какую из версий оставить, а какую отбросить. Выбор осуществляется командой <tt class="docutils literal"><span class="pre">git</span> <span class="pre">checkout</span></tt>.</p>
+<p>В случае конфликта бинарных файлов необходимо выяснить с коллегами или самостоятельно, какую из версий оставить, а какую отбросить. Выбор осуществляется командой <code class="docutils literal"><span class="pre">git</span> <span class="pre">checkout</span></code>.</p>
 <p>Выбрать локальную версию файла (<strong>- -ours</strong>). Его можно открыть и убедиться в этом.</p>
 <div class="highlight-none"><div class="highlight"><pre>&gt; git checkout --ours blender/landscape_objects/Fallen_tree.blend
 </pre></div>
@@ -402,7 +402,7 @@ no changes added to commit (use &quot;git add&quot; and/or &quot;git commit -a&q
 <div class="section" id="id20">
 <h3>Текстовые файлы<a class="headerlink" href="#id20" title="Ссылка на этот заголовок">¶</a></h3>
 <p>На данном этапе в конфликтующие текстовые файлы Git&#8217;ом вносятся как локальные, так и удаленные изменения одновременно, в особом формате. Такие текстовые файлы как правило, не работоспособны.</p>
-<p>Пример. Один участник разработки изменил имя сцены с &#8220;Blue Lizard&#8221; на &#8220;Green Lizard&#8221; в файле приложения и загрузил изменения в центральный репозиторий. Другой участник разработки изменил в той же строке &#8220;Blue Lizard&#8221; на &#8220;Red Lizard&#8221;, совершил коммит и выполнил команду <tt class="docutils literal"><span class="pre">git</span> <span class="pre">pull</span></tt>. В результате именно на этого участника ложится ответственность по разрешению конфликта. В его файле приложения будут находиться строки:</p>
+<p>Пример. Один участник разработки изменил имя сцены с &#8220;Blue Lizard&#8221; на &#8220;Green Lizard&#8221; в файле приложения и загрузил изменения в центральный репозиторий. Другой участник разработки изменил в той же строке &#8220;Blue Lizard&#8221; на &#8220;Red Lizard&#8221;, совершил коммит и выполнил команду <code class="docutils literal"><span class="pre">git</span> <span class="pre">pull</span></code>. В результате именно на этого участника ложится ответственность по разрешению конфликта. В его файле приложения будут находиться строки:</p>
 <div class="highlight-none"><div class="highlight"><pre>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
                 &quot;name&quot;: &quot;Red Lizard&quot;,
 =======
@@ -419,7 +419,7 @@ no changes added to commit (use &quot;git add&quot; and/or &quot;git commit -a&q
 &gt; git status
 </pre></div>
 </div>
-<p>Возможный результат выполнения <tt class="docutils literal"><span class="pre">git</span> <span class="pre">status</span></tt> после добавления конфликтующих файлов для коммита:</p>
+<p>Возможный результат выполнения <code class="docutils literal"><span class="pre">git</span> <span class="pre">status</span></code> после добавления конфликтующих файлов для коммита:</p>
 <div class="highlight-none"><div class="highlight"><pre># On branch master
 # Your branch and &#39;origin/master&#39; have diverged,
 # and have 7 and 1 different commit each, respectively.
@@ -438,7 +438,7 @@ nothing to commit (working directory clean)
 nothing to commit (working directory clean)
 </pre></div>
 </div>
-<p>Конфликты разрешены, изменения из удаленного репозитория успешно применены в локальном репозитории. Теперь изменения в локальном репозитории, - включающие только что разрешенный конфликт, - можно загрузить в удаленный репозиторий командой <tt class="docutils literal"><span class="pre">git</span> <span class="pre">push</span></tt>.</p>
+<p>Конфликты разрешены, изменения из удаленного репозитория успешно применены в локальном репозитории. Теперь изменения в локальном репозитории, - включающие только что разрешенный конфликт, - можно загрузить в удаленный репозиторий командой <code class="docutils literal"><span class="pre">git</span> <span class="pre">push</span></code>.</p>
 </div>
 </div>
 <div class="section" id="git-tags">
@@ -533,16 +533,18 @@ nothing to commit (working directory clean)
 <li class="toctree-l1"><a class="reference internal" href="release_notes.html">Замечания к релизам</a></li>
 </ul>
 
-          <h3 style="margin-top: 1.5em;">Поиск</h3>
-          <form class="search" action="search.html" method="get">
-            <input type="text" name="q" />
-            <input type="submit" value="Искать" />
-            <input type="hidden" name="check_keywords" value="yes" />
-            <input type="hidden" name="area" value="default" />
-          </form>
-          <p class="searchtip" style="font-size: 90%">
-            Введите слова для поиска или имя модуля, класса или функции.
-          </p>
+          <div role="search">
+            <h3 style="margin-top: 1.5em;">Поиск</h3>
+            <form class="search" action="search.html" method="get">
+                <input type="text" name="q" />
+                <input type="submit" value="Искать" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+            </form>
+            <p class="searchtip" style="font-size: 90%">
+                Введите слова для поиска или имя модуля, класса или функции.
+            </p>
+          </div>
         </div>
         <div class="clearer"></div>
       </div>
@@ -551,20 +553,24 @@ nothing to commit (working directory clean)
     <div class="footer-wrapper">
       <div class="footer">
         <div class="left">
-          <a href="developers_advanced.html" title="Разработчикам движка"
-             >назад</a> |
-          <a href="problems_and_solutions.html" title="Проблемы и решения"
-             >вперёд</a> |
-          <a href="genindex.html" title="Алфавитный указатель"
-             >указатель</a>
+          <div role="navigation" aria-label="related navigaton">
+            <a href="developers_advanced.html" title="Разработчикам движка"
+              >назад</a> |
+            <a href="problems_and_solutions.html" title="Проблемы и решения"
+              >вперёд</a> |
+            <a href="genindex.html" title="Алфавитный указатель"
+              >указатель</a>
+          </div>
+          <div role="note" aria-label="source link">
+          </div>
         </div>
 
         <div class="right">
           
-    <div class="footer">
+    <div class="footer" role="contentinfo">
         &copy; Copyright 2015, ООО &#34;Триумф&#34;.
-      Обновлено: 2015-04-29.
-      Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+      Обновлено: 2015-05-26.
+      Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
         </div>
         <div class="clearer"></div>

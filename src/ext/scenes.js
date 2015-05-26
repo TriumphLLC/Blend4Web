@@ -23,12 +23,6 @@ var m_util      = require("__util");
  */
 exports.DATA_ID_ALL   = m_scenes.DATA_ID_ALL;
 
-/* subscene types for different aspects of processing */
-
-// need light update
-var LIGHT_SUBSCENE_TYPES = ["MAIN_OPAQUE", "MAIN_BLEND", "MAIN_REFLECT",
-        "GOD_RAYS", "SKY"];
-
 /**
  * Set the active scene
  * @method module:scenes.set_active
@@ -743,6 +737,41 @@ exports.set_bloom_params = function(bloom_params) {
 }
 
 /**
+ * Get glow material parameters
+ * @method module:scenes.get_glow_material_params
+ * @returns {Object} glow material parameters
+ */
+exports.get_glow_material_params = function() {
+    if (!m_scenes.check_active()) {
+        m_print.error("No active scene");
+        return false;
+    }
+
+    var active_scene = m_scenes.get_active();
+    var subs = m_scenes.get_subs(active_scene,"GLOW_COMBINE");
+    if (subs)
+        return m_scenes.get_glow_material_params(active_scene);
+    else
+        return null;
+}
+
+/**
+ * Set glow material parameters
+ * @method module:scenes.set_glow_material_params
+ * @param {Object} glow material params
+ * @cc_externs small_glow_mask_coeff large_glow_mask_coeff small_glow_mask_width large_glow_mask_width
+ */
+exports.set_glow_material_params = function(glow_material_params) {
+    if (!m_scenes.check_active()) {
+        m_print.error("No active scene");
+        return false;
+    }
+
+    var active_scene = m_scenes.get_active();
+    m_scenes.set_glow_material_params(active_scene, glow_material_params);
+}
+
+/**
  * Get wind parameters
  * @method module:scenes.get_wind_params
  * @returns {Object} Wind params
@@ -848,7 +877,7 @@ exports.show_object = function(obj) {
 /**
  * Check if object is hidden.
  * Supported only for dynamic meshes/empties.
- * @method module:scenes.show_object
+ * @method module:scenes.is_hidden
  * @param {Object} obj Object ID
  * @returns {Boolean} Check result
  */

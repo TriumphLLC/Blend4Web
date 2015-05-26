@@ -50,6 +50,15 @@ var RAND_Q = Math.floor(RAND_M / RAND_A);
 
 var MIN_CLAMPING_INTERVAL = 0.001;
 
+// view matrixes representing 6 cube sides
+var INV_CUBE_VIEW_MATRS =
+    [new Float32Array([ 0, 0, -1, 0, 0, -1,  0, 0, -1,  0,  0, 0, 0, 0, 0, 1]),
+     new Float32Array([ 0, 0,  1, 0, 0, -1,  0, 0,  1,  0,  0, 0, 0, 0, 0, 1]),
+     new Float32Array([ 1, 0,  0, 0, 0,  0, -1, 0,  0,  1,  0, 0, 0, 0, 0, 1]),
+     new Float32Array([ 1, 0,  0, 0, 0,  0,  1, 0,  0, -1,  0, 0, 0, 0, 0, 1]),
+     new Float32Array([ 1, 0,  0, 0, 0, -1,  0, 0,  0,  0, -1, 0, 0, 0, 0, 1]),
+     new Float32Array([-1, 0,  0, 0, 0, -1,  0, 0,  0,  0,  1, 0, 0, 0, 0, 1])];
+
 exports.VEC3_IDENT = VEC3_IDENT;
 exports.QUAT4_IDENT = QUAT4_IDENT;
 exports.TSR8_IDENT = TSR8_IDENT;
@@ -60,6 +69,8 @@ exports.AXIS_Z = AXIS_Z;
 exports.AXIS_MX = AXIS_MX;
 exports.AXIS_MY = AXIS_MY;
 exports.AXIS_MZ = AXIS_MZ;
+
+exports.INV_CUBE_VIEW_MATRS = INV_CUBE_VIEW_MATRS;
 
 exports.keyfind = keyfind;
 /**
@@ -353,6 +364,10 @@ exports.init_rand_r_seed = function(seed_number, dest) {
  * <p>Translate GL euler to GL quat
  */
 exports.euler_to_quat = function(euler, quat) {
+
+    if (!quat)
+        quat = new Float32Array(4);
+
     var c1 = Math.cos(euler[1]/2);
     var c2 = Math.cos(euler[2]/2);
     var c3 = Math.cos(euler[0]/2);
@@ -1294,7 +1309,8 @@ exports.rotate_point_pivot = function(point, pivot, quat, dest) {
  */
 exports.generate_cubemap_matrices = function() {
 
-    var eye_pos = new Float32Array([0, 0, 0]);
+    var eye_pos = _vec3_tmp;
+    eye_pos[0] = 0; eye_pos[1] = 0; eye_pos[2] = 0;
     var x_pos   = new Float32Array(16);
     var x_neg   = new Float32Array(16);
     var y_pos   = new Float32Array(16);
@@ -1312,6 +1328,32 @@ exports.generate_cubemap_matrices = function() {
 
     m_mat4.lookAt(eye_pos, [0, 0, -1], [0, -1, 0], z_pos);
     m_mat4.scale(z_pos, [-1, 1, 1], z_pos);
+    m_mat4.scale(z_pos, [-1, 1,-1], z_neg);
+
+    return [x_pos, x_neg, y_pos, y_neg, z_pos, z_neg];
+}
+/**
+ * Construct 6 view matrices for 6 cubemap sides
+ */
+exports.generate_inv_cubemap_matrices = function() {
+
+    var eye_pos = _vec3_tmp;
+    eye_pos[0] = 0; eye_pos[1] = 0; eye_pos[2] = 0;
+
+    var x_pos   = new Float32Array(16);
+    var x_neg   = new Float32Array(16);
+    var y_pos   = new Float32Array(16);
+    var y_neg   = new Float32Array(16);
+    var z_pos   = new Float32Array(16);
+    var z_neg   = new Float32Array(16);
+
+    m_mat4.lookAt(eye_pos, [1, 0, 0], [0, -1, 0], x_pos);
+    m_mat4.scale(x_pos, [-1, 1,-1], x_neg);
+
+    m_mat4.lookAt(eye_pos, [0, 1, 0], [0, 0, 1], y_pos);
+    m_mat4.scale(y_pos, [1,-1, -1], y_neg);
+
+    m_mat4.lookAt(eye_pos, [0, 0, 1], [0, -1, 0], z_pos);
     m_mat4.scale(z_pos, [-1, 1,-1], z_neg);
 
     return [x_pos, x_neg, y_pos, y_neg, z_pos, z_neg];
@@ -2245,6 +2287,17 @@ exports.calc_returning_angle = function(angle, min_angle, max_angle) {
 
 exports.smooth_step = function(t) {
     return t * t * (3.0 - 2.0 * t);
+}
+
+exports.arrays_have_common = function(arr_1, arr_2) {
+    for (var i = 0; i < arr_1.length; i++) {
+        for (var k = 0; k < arr_2.length; k++) {
+            if (arr_2[k] == arr_1[i]) {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 }

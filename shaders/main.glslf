@@ -52,7 +52,7 @@ uniform vec4 u_sun_quaternion;
 # endif
 #endif
 
-#if NORMAL_TEXCOORD || REFLECTIVE
+#if NORMAL_TEXCOORD || REFLECTION_TYPE == REFL_PLANE
 uniform mat4 u_view_matrix_frag;
 #endif
 
@@ -97,9 +97,11 @@ uniform sampler2D u_colormap1;
 uniform sampler2D u_stencil0;
 #endif
 
-#if REFLECTIVE
-uniform sampler2D u_reflectmap;
-#elif TEXTURE_MIRROR
+#if REFLECTION_TYPE == REFL_PLANE
+uniform sampler2D u_plane_reflection;
+#elif REFLECTION_TYPE == REFL_CUBE
+uniform samplerCube u_cube_reflection;
+#elif REFLECTION_TYPE == REFL_MIRRORMAP
 uniform samplerCube u_mirrormap;
 #endif
 
@@ -158,11 +160,14 @@ uniform float u_specular_alpha;
 uniform float u_parallax_scale;
 #endif
 
-#if REFLECTIVE
+#if REFLECTION_TYPE == REFL_PLANE || REFLECTION_TYPE == REFL_CUBE
 uniform float u_reflect_factor;
-uniform vec4 u_refl_plane;
-#elif TEXTURE_MIRROR
+#elif REFLECTION_TYPE == REFL_MIRRORMAP
 uniform float u_mirror_factor;
+#endif
+
+#if REFLECTION_TYPE == REFL_PLANE
+uniform vec4 u_refl_plane;
 #endif
 
 #if REFRACTIVE
@@ -206,7 +211,7 @@ varying vec4 v_shadow_coord3;
 # endif
 #endif
 
-#if REFLECTIVE || SHADOW_SRC == SHADOW_SRC_MASK || REFRACTIVE
+#if REFLECTION_TYPE == REFL_PLANE || SHADOW_SRC == SHADOW_SRC_MASK || REFRACTIVE
 varying vec3 v_tex_pos_clip;
 #endif
 
@@ -415,9 +420,7 @@ void main(void) {
 #else // SHADELESS
 
     // ambient
-    float sky_factor = 0.5 * normal.y + 0.5; // dot of vertical vector and normal
-
-    vec3 environment_color = u_environment_energy * get_environment_color(sky_factor, normal);
+    vec3 environment_color = u_environment_energy * get_environment_color(normal);
 
     vec3 A = u_ambient * environment_color;
 
@@ -455,14 +458,10 @@ void main(void) {
     vec3 color = lresult.color.rgb;
 #endif // SHADELESS
 
-#if REFLECTIVE || TEXTURE_MIRROR
-# if REFLECTIVE
-    float reflect_factor = u_reflect_factor;
-# else
-    float reflect_factor = 0.0;
-# endif
-    apply_mirror(color, eye_dir, normal, u_fresnel_params[2],
-        u_fresnel_params[3], reflect_factor);
+#if REFLECTION_TYPE == REFL_PLANE || REFLECTION_TYPE == REFL_CUBE
+    apply_mirror(color, eye_dir, normal, u_reflect_factor);
+#elif REFLECTION_TYPE == REFL_MIRRORMAP
+    apply_mirror(color, eye_dir, normal, 0.0);
 #endif
 
 #if !SHADELESS

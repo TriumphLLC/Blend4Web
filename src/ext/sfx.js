@@ -250,6 +250,7 @@ exports.get_speakers = function() {
 
 /**
  * Check if there are some active speakers in use or not.
+ * @method module:sfx.check_active_speakers
  * @returns {Boolean} Check result
  */
 exports.check_active_speakers = m_sfx.check_active_speakers;

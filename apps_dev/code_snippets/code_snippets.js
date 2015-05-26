@@ -40,22 +40,29 @@ function open_example() {
 
 function init_it() {
     var schedule = document.getElementById("schedule");
+
     for (var i = 0; i < _scripts.length; i++) {
-        var contaner = document.createElement("div");
-        contaner.className = "contaner";
+        var container = document.createElement("div");
+
+        container.className = "container";
+
         var scenes_name = document.createElement("a");
+
         if (i == _curr_index)
             scenes_name.className = "inv_text";
         else
             scenes_name.className = "text";
+
         scenes_name.textContent = _scripts[i].dataset.name;
         scenes_name.id = _scripts[i].dataset.scene;
 
-        contaner.appendChild(scenes_name);
-        schedule.appendChild(contaner);
+        container.appendChild(scenes_name);
+        schedule.appendChild(container);
         scenes_name.href = window.location.href.split("?")[0] + "?scene="+ scenes_name.id;
     }
+
     var open_script = document.getElementById("open_script");
+
     open_script.onclick = function() {
         //window.open(_scripts[_curr_index].src, "_blank", "toolbar=0,location=0,menubar=0");
         var code_panel = document.getElementById("code_panel");
@@ -67,18 +74,36 @@ function init_it() {
         var script = _scripts[_curr_index];
 
         var req = new XMLHttpRequest();
+
         req.overrideMimeType("text/plain");
         req.open("GET", script.src, true);
         req.onreadystatechange = function() {
             if (req.readyState == 4) {
                 if (req.status == 200 || req.status == 0) {
                     var response = req.response;
+
                     if (response) {
                         var text_html = document.getElementById("code_text_html");
-                        var text_js = document.getElementById("code_text_js");
-                        text_html.value = gen_html_code(script.src);
-                        text_js.value = req.response;
-                        text_js.value += 'b4w.require("' + script.dataset.scene + '").init();';
+                        var text_js   = document.getElementById("code_text_js");
+
+                        var raw_html = gen_html_code(script.src);
+                        var raw_js   = response + 'b4w.require("' + script.dataset.scene + '").init();';
+
+                        Rainbow.color(raw_html, 'html', function(highlighted_html) {
+                            text_html.innerHTML = highlighted_html;
+                            text_html.parentNode.addEventListener("mousedown", function(e) {
+                                this.className = "active";
+                                text_js.parentNode.className = "";
+                            });
+                        });
+
+                        Rainbow.color(raw_js, 'javascript', function(highlighted_js) {
+                            text_js.innerHTML = highlighted_js;
+                            text_js.parentNode.addEventListener("mousedown", function(e) {
+                                this.className = "active";
+                                text_html.parentNode.className = "";
+                            });
+                        });
                     }
                 }
             }
@@ -87,8 +112,10 @@ function init_it() {
     };
 
     var auto_view = document.getElementById("auto_view");
+
     auto_view.onclick = function() {
         var param = m_app.get_url_params();
+
         if (param && param["autoview"])
             window.history.pushState("", "", window.location.href.split("&")[0]);
         else
@@ -105,12 +132,22 @@ function gen_html_code(js) {
     '<!DOCTYPE html>\n' +
     '<html>\n' +
     '<head>\n' +
+    '<style type="text/css">\n' +
+    '    #canvas_cont {\n' +
+    '        position: absolute;\n' +
+    '        width: 100%;\n' +
+    '        height: 100%;\n' +
+    '        top: 0;\n' +
+    '        left: 0;\n' +
+    '    }\n' +
+    '</style>\n' +
+    '\n' +
     '<script src="b4w.full.min.js"></script>\n' +
     '<script src="' + file + '"></script>\n' +
     '</head>\n' +
     '\n' +
     '<body>\n' +
-    '    <div id="canvas3d" style="width: 350px; height: 200px;"></div>\n' +
+    '    <div id="canvas_cont"></div>\n' +
     '</body>\n' +
     '\n' +
     '</html>\n' +
@@ -136,5 +173,6 @@ function open_next_scene() {
 });
 
 var module = b4w.require("code_snippets");
+
 document.addEventListener("DOMContentLoaded", function(){
     module.init();}, false);

@@ -6,6 +6,7 @@ import sys
 import threading
 import time
 import webbrowser
+import requests
 
 import tornado.httpserver
 import tornado.web
@@ -21,6 +22,7 @@ MAIN_THREAD_STOP_EXC        = 5
 ADDRESS = "localhost"
 DEFAULT_FILENAME = "index.html"
 WAITING_TIME = 10
+STATUS_OK = 200
 
 class B4WServerMessage(bpy.types.Operator):
     bl_idname = "b4w.server_message"
@@ -87,7 +89,21 @@ class B4WStartServer(bpy.types.Operator):
     server = None
     def execute(self, context):
         B4WStartServer.server_status = WAIT_RESPONSE
-
+        try:
+            port = bpy.context.user_preferences.addons[__package__].preferences.b4w_port_number
+            session = requests.Session()
+            session.trust_env = False
+            req = session.head("http://localhost:" + str(port)) 
+        except:
+            pass
+        else:
+            if req.status_code == STATUS_OK:
+                if ("B4W.LocalServer" in req.headers and req.headers["B4W.LocalServer"] == "1"
+                        and bpy.context.user_preferences.addons[__package__].preferences.b4w_server_auto_start):
+                    B4WStartServer.server_status = SUB_THREAD_START_SERV_OK
+                    return {"FINISHED"}
+            else:
+                return {"FINISHED"}
         if not B4WStartServer.server_process:
             B4WStartServer.server_process = B4WServerThread(target=create_server)
             B4WStartServer.server_process.daemon = True
@@ -146,6 +162,7 @@ class StaticFileHandlerNoCache(tornado.web.StaticFileHandler):
         now = datetime.datetime.now()
         exp = datetime.datetime(now.year - 1, now.month, now.day)
         self.set_header("Last-Modified", exp)
+        self.add_header("B4W.LocalServer", "1")
 
 def create_server():
     port = bpy.context.user_preferences.addons[__package__].preferences.b4w_port_number
@@ -178,6 +195,13 @@ def create_server():
         B4WStartServer.server_process = None
         B4WStartServer.server_status = SUB_THREAD_OTHER_EXC
         B4WStartServer.error_message = str(ex)
+
+@bpy.app.handlers.persistent
+def check_server(arg):
+    if check_server in bpy.app.handlers.scene_update_pre:
+        bpy.app.handlers.scene_update_pre.remove(check_server)
+    if bpy.context.user_preferences.addons[__package__].preferences.b4w_server_auto_start:
+        bpy.ops.b4w.start_server()
 
 def register(): 
     bpy.utils.register_class(B4WStartServer)

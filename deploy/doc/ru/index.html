@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Содержание &mdash; Руководство пользователя: Blend4Web v15.04</title>
+    <title>Содержание &mdash; Руководство пользователя: Blend4Web v15.05</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '15.04',
+        VERSION:     '15.05',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,18 +26,18 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v15.04" href="#" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v15.05" href="#" />
     <link rel="next" title="Общие сведения" href="about.html" /> 
   </head>
-  <body>
-    <div class="header-wrapper">
+  <body role="document">
+    <div class="header-wrapper" role="banner">
       <div class="header">
           <p class="logo"><a href="#">
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="#">Руководство пользователя: Blend4Web v15.04</a></div>
-        <div class="rel">
+          href="#">Руководство пользователя: Blend4Web v15.05</a></div>
+        <div class="rel" role="navigation" aria-label="related navigation">
           <a href="about.html" title="Общие сведения"
              accesskey="N">вперёд</a> |
           <a href="genindex.html" title="Алфавитный указатель"
@@ -52,7 +52,7 @@
             
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="id1">
 <h1>Содержание<a class="headerlink" href="#id1" title="Ссылка на этот заголовок">¶</a></h1>
@@ -197,10 +197,11 @@
 <li class="toctree-l2"><a class="reference internal" href="postprocessing_effects.html#ssao">Взаимное затенение</a></li>
 <li class="toctree-l2"><a class="reference internal" href="postprocessing_effects.html#god-rays">Сумеречные лучи</a></li>
 <li class="toctree-l2"><a class="reference internal" href="postprocessing_effects.html#id14">Эффект засветки ярких деталей</a></li>
-<li class="toctree-l2"><a class="reference internal" href="postprocessing_effects.html#outline-glow">Подсветка контура (outline glow)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="postprocessing_effects.html#outlining">Подсветка контура (outlining)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="postprocessing_effects.html#anaglyph">Анаглиф стереоизображение</a></li>
 <li class="toctree-l2"><a class="reference internal" href="postprocessing_effects.html#color-correction">Коррекция цвета</a></li>
 <li class="toctree-l2"><a class="reference internal" href="postprocessing_effects.html#antialiasing">Сглаживание</a></li>
+<li class="toctree-l2"><a class="reference internal" href="postprocessing_effects.html#glow">Свечение (glow)</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="particles.html">Система частиц. Флюиды</a><ul>
@@ -257,6 +258,7 @@
 <li class="toctree-l1"><a class="reference internal" href="nla.html">Нелинейная анимация</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="nla.html#nla-editor">Редактор NLA</a></li>
 <li class="toctree-l2"><a class="reference internal" href="nla.html#nla-script">Визуальное программирование (NLA Script)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nla.html#api">Управление через API</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="developers.html">Разработчикам приложений</a><ul>
@@ -305,6 +307,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="release_notes.html">Замечания к релизам</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#v15-05">v15.05</a></li>
 <li class="toctree-l2"><a class="reference internal" href="release_notes.html#v15-04">v15.04</a></li>
 <li class="toctree-l2"><a class="reference internal" href="release_notes.html#v15-03">v15.03</a></li>
 <li class="toctree-l2"><a class="reference internal" href="release_notes.html#v15-02">v15.02</a></li>
@@ -318,8 +321,8 @@
 </ul>
 </div>
 <ul class="simple">
-<li><a class="reference internal" href="genindex.html"><em>Алфавитный указатель</em></a></li>
-<li><a class="reference internal" href="search.html"><em>Поиск</em></a></li>
+<li><a class="reference internal" href="genindex.html"><span>Алфавитный указатель</span></a></li>
+<li><a class="reference internal" href="search.html"><span>Поиск</span></a></li>
 </ul>
 </div>
 
@@ -361,16 +364,18 @@
 <li class="toctree-l1"><a class="reference internal" href="release_notes.html">Замечания к релизам</a></li>
 </ul>
 
-          <h3 style="margin-top: 1.5em;">Поиск</h3>
-          <form class="search" action="search.html" method="get">
-            <input type="text" name="q" />
-            <input type="submit" value="Искать" />
-            <input type="hidden" name="check_keywords" value="yes" />
-            <input type="hidden" name="area" value="default" />
-          </form>
-          <p class="searchtip" style="font-size: 90%">
-            Введите слова для поиска или имя модуля, класса или функции.
-          </p>
+          <div role="search">
+            <h3 style="margin-top: 1.5em;">Поиск</h3>
+            <form class="search" action="search.html" method="get">
+                <input type="text" name="q" />
+                <input type="submit" value="Искать" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+            </form>
+            <p class="searchtip" style="font-size: 90%">
+                Введите слова для поиска или имя модуля, класса или функции.
+            </p>
+          </div>
         </div>
         <div class="clearer"></div>
       </div>
@@ -379,18 +384,22 @@
     <div class="footer-wrapper">
       <div class="footer">
         <div class="left">
-          <a href="about.html" title="Общие сведения"
-             >вперёд</a> |
-          <a href="genindex.html" title="Алфавитный указатель"
-             >указатель</a>
+          <div role="navigation" aria-label="related navigaton">
+            <a href="about.html" title="Общие сведения"
+              >вперёд</a> |
+            <a href="genindex.html" title="Алфавитный указатель"
+              >указатель</a>
+          </div>
+          <div role="note" aria-label="source link">
+          </div>
         </div>
 
         <div class="right">
           
-    <div class="footer">
+    <div class="footer" role="contentinfo">
         &copy; Copyright 2015, ООО &#34;Триумф&#34;.
-      Обновлено: 2015-04-29.
-      Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+      Обновлено: 2015-05-26.
+      Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
         </div>
         <div class="clearer"></div>

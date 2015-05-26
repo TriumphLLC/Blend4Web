@@ -18,6 +18,7 @@ var m_lights   = require("lights");
 var m_main     = require("main");
 var m_mixer    = require("mixer");
 var m_mat      = require("material");
+var m_nla      = require("nla");
 var m_sshot    = require("screenshooter");
 var m_scenes   = require("scenes");
 var m_shaders  = require("shaders");
@@ -31,7 +32,7 @@ var m_vec3 = require("vec3");
 var DEBUG = (m_version.type() === "DEBUG");
 var AUTO_VIEW_INTERVAL = 1000;
 var AUTO_ROTATE_RATIO  = 0.3;
-var DEFAULT_SCENE     = "dev/logo.json";
+var DEFAULT_SCENE     = "misc/logo.json";
 var DEFAULT_NAME      = "Logo";
 
 var TO_RAD = Math.PI/180;
@@ -83,6 +84,8 @@ exports.init = function() {
         show_hud_debug_info: get_show_hud_debug_info_config(),
         sfx_mix_mode: get_mix_mode_config(),
         show_fps: true,
+        fps_elem_id: "fps_logger",
+        fps_wrapper_id: "fps_container",
 
         // engine config
         alpha : true,
@@ -144,6 +147,8 @@ function assign_sliders_controls() {
         $(".ui-slider-handle").off("keydown");
         $(".ui-slider-handle").on("keydown",function(e) {
             var slider_id = this.parentElement.parentElement.children[0].getAttribute("id");
+            if (!slider_id)
+                return;
             var slider_value = parseFloat(document.getElementById(slider_id).value);
             var slider_step = parseFloat(document.getElementById(slider_id).getAttribute("step"));
             if (e.keyCode == DEC_SLIDER)
@@ -314,7 +319,11 @@ function init_ui() {
     bind_control(set_animation_params, "anim_frame_current", "number");
     m_app.set_onclick("anim_play", anim_play_clicked);
     m_app.set_onclick("anim_stop", anim_stop_clicked);
-    m_app.set_onclick("get_max_bones", get_max_bones);
+
+    // nla
+    bind_control(set_nla_params, "nla_frame_current", "number");
+    m_app.set_onclick("nla_play", nla_play_clicked);
+    m_app.set_onclick("nla_stop", nla_stop_clicked);
 
     //shape keys
     bind_control(set_shape_keys_params, "shape_key_obj", "string");
@@ -443,13 +452,21 @@ function init_ui() {
     // gyroscope use
     bind_control(set_gyro_cam_rotate_reload, "gyro_use", "bool");
     refresh_gyro_use_ui();
+    
     // wind
     bind_control(set_wind_params, "wind_dir", "number");
     bind_control(set_wind_params, "wind_strength", "number");
 
+    // bloom
     bind_control(set_bloom_params, "bloom_key", "number");
     bind_control(set_bloom_params, "bloom_blur", "number");
     bind_control(set_bloom_params, "bloom_edge_lum", "number");
+
+    // glow material
+    bind_control(set_glow_material_params, "small_glow_mask_coeff", "number");
+    bind_control(set_glow_material_params, "large_glow_mask_coeff", "number");
+    bind_control(set_glow_material_params, "small_glow_mask_width", "number");
+    bind_control(set_glow_material_params, "large_glow_mask_width", "number");
 
     // debug
     bind_control(set_debug_params, "wireframe_mode", "string");
@@ -536,7 +553,7 @@ function init_scenes_list_category(category) {
     for (var i = 0; i < items.length; i++) {
         var item_name = items[i].name;
         var item_id = "MANIFEST_ITEM_" + item_name + "__SEPARATOR__" + name;
-        s += "<li data-mini='true'><a href='#' class='min_font' id='" + item_id + "'>" + item_name + "</a></li>"
+        s += "<li data-mini='true'><a href='#' class='min_font' id=\"" + item_id + "\">" + item_name + "</a></li>"
     }
     s += "</ul>"
     s += "</div>"
@@ -832,6 +849,7 @@ function prepare_scenes(global_settings) {
     get_sun_params();
     get_sky_params();
     get_bloom_params();
+    get_glow_material_params();
     check_lighting_params();
     forbid_material_params();
     forbid_debug_params();
@@ -869,14 +887,7 @@ function change_apply_scene_settings(scene_name, settings) {
     m_scenes.set_active(scene_name);
     var camera = m_scenes.get_active_camera();
 
-    // camera settings
-    if (settings.camera_target) {
-        var targ = settings.camera_target;
-        m_cons.append_follow(camera, targ);
-    }
-
     // init anim active objects list
-
     var anim_obj_names = [];
     var scene_objs = m_scenes.get_all_objects();
     for (var i = 0; i < scene_objs.length; i++) {
@@ -896,8 +907,7 @@ function change_apply_scene_settings(scene_name, settings) {
                             "anim_mix_factor",
                             "anim_frame_current",
                             "anim_play",
-                            "anim_stop",
-                            "get_max_bones"];
+                            "anim_stop"];
 
     if (_anim_obj) {
         forbid_params(anim_param_names, "enable");
@@ -906,6 +916,27 @@ function change_apply_scene_settings(scene_name, settings) {
                 m_scenes.get_object_name(_anim_obj)});
     } else
         forbid_params(anim_param_names, "disable");
+
+    var nla_params = ["nla_play",
+                     "nla_stop",
+                     "nla_status",
+                     "nla_frame_current",
+                     "nla_playing"];
+    var nla_all_params = ["nla_frame_range"];
+    if (m_nla.check_nla()) {
+        if (!m_nla.check_nla_scripts())
+            forbid_params(nla_params, "enable");
+        else {
+            forbid_params(nla_params, "disable");
+            var elem_status = document.getElementById("nla_status");
+            elem_status.innerHTML = "CONTROLLED BY NLA SCRIPT";
+        }
+        forbid_params(nla_all_params, "enable");
+        update_nla_info();
+    } else {
+        forbid_params(nla_params, "disable");
+        forbid_params(nla_all_params, "disable");
+    }
 
     // init shape keys
 
@@ -921,7 +952,7 @@ function change_apply_scene_settings(scene_name, settings) {
 
     var shape_keys_params = ["shape_key_obj",
                             "shape_key_name",
-                            "shape_key_value"];
+                            "shape_key_value",];
     if (_shape_key_obj) {
         forbid_params(shape_keys_params, "enable");
         fill_select_options("shape_key_obj", shape_keys_objs_names);
@@ -948,6 +979,19 @@ function render_callback(elapsed, current_time) {
             elem_status.innerHTML = "PLAYING";
         else
             elem_status.innerHTML = "STOPPED";
+    }
+    if (m_nla.check_nla()) {
+        
+        if (!m_nla.check_nla_scripts()) {
+            var elem_status = document.getElementById("nla_status");
+            if (m_nla.is_play())
+                elem_status.innerHTML = "PLAYING";
+            else
+                elem_status.innerHTML = "STOPPED";
+        }
+        var frame = parseInt(m_nla.get_frame());
+        if (parseInt($("#nla_frame_current").val()) !== frame)
+            set_slider("nla_frame_current", frame);
     }
 }
 
@@ -1163,15 +1207,12 @@ function anim_stop_clicked() {
     m_anim.stop(_anim_obj, slot_num);
 }
 
-function get_max_bones() {
-    m_main.pause();
+function nla_play_clicked() {
+    m_nla.play();
+}
 
-    var rslt = m_shaders.determine_max_bones();
-
-    document.getElementById("max_bones").innerHTML = rslt.max_bones;
-    document.getElementById("max_bones_no_blending").innerHTML = rslt.max_bones_no_blending;
-
-    m_main.resume();
+function nla_stop_clicked() {
+    m_nla.stop();
 }
 
 function set_shape_keys_params(value) {
@@ -1198,6 +1239,15 @@ function set_shape_keys_params(value) {
     if ("shape_key_value" in value)
         m_geom.set_shape_key_value(_shape_key_obj, _shape_key_name, value["shape_key_value"]);
 
+}
+
+function set_nla_params(value) {
+
+    if ("nla_frame_current" in value)
+        if (!m_nla.is_play()) {
+            var current = parseInt(value.nla_frame_current);
+            m_nla.set_frame(current);
+        }
 }
 
 function set_animation_params(value) {
@@ -1339,6 +1389,20 @@ function update_anim_ui_name(obj, slot_num) {
             return;
         }
     }
+}
+
+function update_nla_info() {
+    var slider = document.getElementById("nla_frame_current");
+    var fr_elem = document.getElementById("nla_frame_range");
+    var start_fr = m_nla.get_frame_start();
+    var end_fr = m_nla.get_frame_end();
+
+    if (start_fr != -1 && end_fr != -1) {
+        fr_elem.innerHTML = start_fr + " - " + end_fr;
+        slider.min = "" + start_fr;
+        slider.max = "" + end_fr;
+    } else
+        fr_elem.innerHTML = "N/A";
 }
 
 function update_anim_info(obj, slot_num) {
@@ -1593,7 +1657,7 @@ function get_shadow_params() {
 
     set_slider("first_cascade_blur_radius", shadow_params["first_cascade_blur_radius"]);
 
-    if (shadow_params["b4w_enable_csm"]) {
+    if (shadow_params["enable_csm"]) {
         set_slider("csm_first_cascade_border", shadow_params["csm_first_cascade_border"]);
 
         if (shadow_params["csm_num"] > 1) {
@@ -1628,11 +1692,10 @@ function set_shadow_params(value) {
 }
 
 function display_shadows_info(shadow_params) {
-
     document.getElementById("csm_resolution").innerHTML = "&nbsp;&nbsp;"
             + shadow_params["csm_resolution"];
 
-    if (shadow_params["b4w_enable_csm"]) {
+    if (shadow_params["enable_csm"]) {
         document.getElementById("csm_num").innerHTML = " " + shadow_params["csm_num"];
 
         var data_blocks = ["csm_borders", "blur_radii"];
@@ -2215,20 +2278,32 @@ function get_dof_params() {
     var dof_params  = m_scenes.get_dof_params();
 
     var dof_param_names = ["dof_distance",
-                       "dof_front",
-                       "dof_rear",
-                       "dof_power",
-                       "dof_on"];
+                           "dof_object",
+                           "dof_front",
+                           "dof_rear",
+                           "dof_power",
+                           "dof_on"];
 
     if (dof_params) {
-        set_slider("dof_distance", dof_params["dof_distance"]);
         set_slider("dof_front", dof_params["dof_front"]);
         set_slider("dof_rear", dof_params["dof_rear"]);
         set_slider("dof_power", dof_params["dof_power"]);
-
+        
+        $("#" + "dof_distance").parent().parent().parent().removeClass('ui-disabled');
+        if (dof_params["dof_object"]) {
+            set_label("dof_object", dof_params["dof_object"].name);
+            dof_param_names.splice(0, 1);
+            $("#" + "dof_distance").parent().addClass('ui-disabled');
+            $("#" + "dof_object").parent().removeClass('ui-disabled');
+        } else {
+            set_slider("dof_distance", dof_params["dof_distance"]);
+            dof_param_names.splice(1, 1);
+            $("#" + "dof_distance").parent().removeClass('ui-disabled'); 
+            $("#" + "dof_object").parent().addClass('ui-disabled');
+        }
         forbid_params(dof_param_names, "enable");
 
-        var opt_index = (dof_params["dof_distance"] > 0) ? 0 : 1;
+        var opt_index = (dof_params["dof_distance"] > 0) ? 1 : 0;
         document.getElementById("dof_on").options[opt_index].selected = true;
 
         $("#dof_on").slider("refresh");
@@ -2336,6 +2411,45 @@ function set_bloom_params(value) {
     }
 
     m_scenes.set_bloom_params(bloom_params);
+}
+
+function get_glow_material_params() {
+    var glow_material_params = m_scenes.get_glow_material_params();
+    var glow_material_param_names = ["small_glow_mask_coeff",
+                                     "large_glow_mask_coeff",
+                                     "small_glow_mask_width",
+                                     "large_glow_mask_width"];
+
+    if (!glow_material_params) {
+        forbid_params(glow_material_param_names, "disable");
+        return;
+    }
+
+    forbid_params(glow_material_param_names, "enable");
+
+    set_slider("small_glow_mask_coeff", glow_material_params["small_glow_mask_coeff"]);
+    set_slider("large_glow_mask_coeff", glow_material_params["large_glow_mask_coeff"]);
+    set_slider("small_glow_mask_width", glow_material_params["small_glow_mask_width"]);
+    set_slider("large_glow_mask_width", glow_material_params["large_glow_mask_width"]);
+}
+
+function set_glow_material_params(value) {
+    var glow_material_params = {};
+
+    if ("small_glow_mask_coeff" in value) {
+        glow_material_params["small_glow_mask_coeff"] = value.small_glow_mask_coeff;
+    }
+    if ("large_glow_mask_coeff" in value) {
+        glow_material_params["large_glow_mask_coeff"] = value.large_glow_mask_coeff;
+    }
+    if ("small_glow_mask_width" in value) {
+        glow_material_params["small_glow_mask_width"] = value.small_glow_mask_width;
+    }
+    if ("large_glow_mask_width" in value) {
+        glow_material_params["large_glow_mask_width"] = value.large_glow_mask_width;
+    }
+
+    m_scenes.set_glow_material_params(glow_material_params);
 }
 
 function set_color_picker(id, color) {

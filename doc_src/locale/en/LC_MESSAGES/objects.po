@@ -47,10 +47,6 @@ msgstr "lamp"
 msgid "пустой (empty)"
 msgstr "empty"
 
-#: ../objects.rst:21
-msgid "кривая (curve)"
-msgstr "curve"
-
 #: ../objects.rst:19
 msgid "скелет (armature)"
 msgstr "armature"
@@ -58,6 +54,10 @@ msgstr "armature"
 #: ../objects.rst:20
 msgid "источник звука (speaker)"
 msgstr "speaker"
+
+#: ../objects.rst:21
+msgid "кривая (curve)"
+msgstr "curve"
 
 #: ../objects.rst:22
 msgid "текст (text)"
@@ -197,13 +197,13 @@ msgstr ""
 msgid "Указатель на родительский объект."
 msgstr "Reference to the parent object."
 
-#: ../objects.rst:75
-msgid "*Groups*"
-msgstr ""
-
 #: ../objects.rst:74
 msgid "Группы объектов, которым принадлежит данный объект."
 msgstr "Objects' groups to which this object belongs."
+
+#: ../objects.rst:75
+msgid "*Groups*"
+msgstr ""
 
 #: ../objects.rst:83
 msgid "*Blend4Web > Do Not Export*"
@@ -608,14 +608,6 @@ msgstr ""
 "Detect whether the anchor object is overlapped by other objects. Turning "
 "this option on decreases performance and should be used only when necessary."
 
-#: ../objects.rst:213
-msgid "*Blend4Web > Anchor > Enable Anchor*"
-msgstr ""
-
-#: ../objects.rst:213
-msgid "*Blend4Web > Anchor > Max Width*"
-msgstr ""
-
 #: ../objects.rst:212
 msgid ""
 "Используется для якорей-аннотаций. Ограничить всплывающее информационное "
@@ -623,6 +615,14 @@ msgid ""
 msgstr ""
 "Applicable to annotation anchors. This limits the expanding info window by a"
 " predefined value (measured in CSS pixels)."
+
+#: ../objects.rst:213
+msgid "*Blend4Web > Anchor > Enable Anchor*"
+msgstr ""
+
+#: ../objects.rst:213
+msgid "*Blend4Web > Anchor > Max Width*"
+msgstr ""
 
 #: ../objects.rst:216
 msgid "Вкладка Physics (в режиме Blender Game)"
@@ -694,10 +694,6 @@ msgstr ""
 "Use the following methods of the `transform` module to move objects in the "
 "engine: "
 
-#: ../objects.rst:256
-msgid "*get_translation*"
-msgstr ""
-
 #: ../objects.rst:254
 msgid ""
 "Получить координаты центра объекта. Вариант с одним параметром возвращает "
@@ -707,6 +703,10 @@ msgstr ""
 "Get the coordinates of the object's center. The option with a single "
 "argument returns a new vector (non-optimized option) while the option with "
 "two arguments requires an additional vector to write the result down."
+
+#: ../objects.rst:256
+msgid "*get_translation*"
+msgstr ""
 
 #: ../objects.rst:259
 msgid "*get_rotation*"
@@ -772,10 +772,6 @@ msgstr ""
 "that not all objects can be scaled. Particularly scaling is not allowed for "
 "physics objects."
 
-#: ../objects.rst:279
-msgid "*set_rotation_euler, set_rotation_euler_v*"
-msgstr ""
-
 #: ../objects.rst:274
 msgid ""
 "Установить поворот объекта с помощью углов Эйлера. Используется "
@@ -786,6 +782,10 @@ msgstr ""
 "Set the object's rotation using Euler angles. An **intrinsic** YZX rotation "
 "system is used (that means the angles follow in the YZX order and the origin"
 " of coordinates rotates and takes up a new position for every angle)."
+
+#: ../objects.rst:279
+msgid "*set_rotation_euler, set_rotation_euler_v*"
+msgstr ""
 
 #: ../objects.rst:281
 msgid "кватернион"
@@ -840,10 +840,6 @@ msgstr ""
 msgid "Удобный метод интерполяции."
 msgstr "Convenient interpolation method."
 
-#: ../objects.rst:296
-msgid "Кватернионы имеют ряд недостатков:"
-msgstr "Quaternions have some drawbacks:"
-
 #: ../objects.rst:295
 msgid ""
 "Поворот вектора с помощью кватерниона более сложная в вычислительном плане "
@@ -851,6 +847,10 @@ msgid ""
 msgstr ""
 "Rotating a vector with a quaternion is more computationally expensive than "
 "rotating with a matrix."
+
+#: ../objects.rst:296
+msgid "Кватернионы имеют ряд недостатков:"
+msgstr "Quaternions have some drawbacks:"
 
 #: ../objects.rst:296
 msgid ""
@@ -913,13 +913,13 @@ msgstr ""
 "Spherical interpolation of quaternions. Used for smoothing the object's "
 "rotation and animation."
 
-#: ../objects.rst:311
-msgid "*util.euler_to_quat, util.quat_to_euler*."
-msgstr ""
-
 #: ../objects.rst:310
 msgid "Преобразование из углов Эйлера и наоборот."
 msgstr "Сonversion from Euler angles and back."
+
+#: ../objects.rst:311
+msgid "*util.euler_to_quat, util.quat_to_euler*."
+msgstr ""
 
 #: ../objects.rst:314
 msgid "Пример работы с кватернионами"
@@ -1022,15 +1022,15 @@ msgstr ""
 msgid "тип объекта должен быть ``MESH``"
 msgstr "only ``MESH`` objects can be copied"
 
-#: ../objects.rst:392
-msgid "Существует ряд ограничений на копируемые объекты:"
-msgstr "Copying objects has its limitations:"
-
 #: ../objects.rst:391
 msgid ""
 "объект должен быть :ref:`динамическим <static_dynamic_objects>` (включить "
 "настройку ``Blend4Web > Force Dynamic Object``)"
 msgstr "the object should be :ref:`dynamic <static_dynamic_objects>`"
+
+#: ../objects.rst:392
+msgid "Существует ряд ограничений на копируемые объекты:"
+msgstr "Copying objects has its limitations:"
 
 #: ../objects.rst:392
 msgid "объект должен принадлежать активной сцене"

@@ -77,16 +77,16 @@ exports.setup_context = function(gl) {
     _gl = gl;
 }
 
-exports.get_canvas_context = function(id) {
-    if (id in _canvas_textures_cache)
-        return _canvas_textures_cache[id].canvas_context;
+exports.get_canvas_context = function(id, data_id) {
+    if (data_id in _canvas_textures_cache && id in _canvas_textures_cache[data_id])
+        return _canvas_textures_cache[data_id][id].canvas_context;
     else
         return null;
 }
 
-exports.update_canvas_context = function(id) {
-    if (id in _canvas_textures_cache) {
-        update_texture_canvas(_canvas_textures_cache[id]);
+exports.update_canvas_context = function(id, data_id) {
+    if (data_id in _canvas_textures_cache && id in _canvas_textures_cache[data_id]) {
+        update_texture_canvas(_canvas_textures_cache[data_id][id]);
         return true;
     } else
         return false;
@@ -302,7 +302,7 @@ exports.resize = function(texture, width, height) {
  * @param bpy_texture b4w texture object
  */
 exports.create_texture_bpy = create_texture_bpy;
-function create_texture_bpy(bpy_texture, global_af, bpy_scenes) {
+function create_texture_bpy(bpy_texture, global_af, bpy_scenes, thread_id) {
     var tex_type = bpy_texture["type"];
     var image_data = new Uint8Array([0.8*255, 0.8*255, 0.8*255, 1*255]);
     var texture = init_texture();
@@ -355,7 +355,6 @@ function create_texture_bpy(bpy_texture, global_af, bpy_scenes) {
             } else
                 return null;
         }
-        
         break;
     case "ENVIRONMENT_MAP":
         var w_texture = _gl.createTexture();
@@ -389,7 +388,7 @@ function create_texture_bpy(bpy_texture, global_af, bpy_scenes) {
             bpy_texture["b4w_source_type"] == "CANVAS") || tex_type == "DATA_TEX2D")
         _gl.texParameteri(w_target, _gl.TEXTURE_MIN_FILTER, _gl.LINEAR);
     else {
-        if (cfg_def.intel_cubemap_hack)
+        if (cfg_def.intel_cubemap_hack && tex_type == "ENVIRONMENT_MAP")
             _gl.texParameteri(w_target, _gl.TEXTURE_MIN_FILTER, _gl.LINEAR);
         else
             _gl.texParameteri(w_target, _gl.TEXTURE_MIN_FILTER, LEVELS[cfg_def.texture_min_filter]);
@@ -418,13 +417,16 @@ function create_texture_bpy(bpy_texture, global_af, bpy_scenes) {
     if (bpy_texture["b4w_source_type"] == "CANVAS" && tex_type == "NONE") {
         var id = bpy_texture["b4w_source_id"];
         var size = bpy_texture["b4w_source_size"];
-        
+
         texture.enable_canvas_mipmapping = bpy_texture["b4w_enable_canvas_mipmapping"];
         texture.name = id;
         texture.source = "CANVAS";
-        
+
         update_canvas_props(id, size, texture);
-        _canvas_textures_cache[id] = texture;
+
+        if (!(thread_id in _canvas_textures_cache))
+            _canvas_textures_cache[thread_id] = {};
+        _canvas_textures_cache[thread_id][id] = texture;
         update_texture_canvas(texture);
     } else if (bpy_texture["b4w_source_type"] == "SCENE" && tex_type == "NONE") {
         texture.name = bpy_texture["b4w_source_id"];
@@ -460,7 +462,6 @@ function setup_anisotropic_filtering(bpy_texture, global_af, w_target) {
 
 function update_canvas_props(name, size, texture) {
     var canvas = document.createElement("canvas");
-    canvas.setAttribute("id", name);
     canvas.width  = size;
     canvas.height = size;
     texture.canvas_context = canvas.getContext("2d");
@@ -529,7 +530,7 @@ function update_seq_video_texture(texture) {
  * @param {vec4|HTMLImageElement} image_data Color or image element to load into
  * texture object
  */
-exports.update_texture = function(texture, image_data, is_dds, filepath) {
+exports.update_texture = function(texture, image_data, is_dds, filepath, thread_id) {
     var tex_type = texture.source;
     var w_texture = texture.w_texture;
     var w_target = texture.w_target;
@@ -583,13 +584,16 @@ exports.update_texture = function(texture, image_data, is_dds, filepath) {
                     texture.video_file = image_data;
 
                     texture.video_file.loop = texture.use_cyclic;
-                    if (image_data)
-                        _video_textures_cache[texture.name] = texture;
+                    if (image_data) {
+                        if (!(thread_id in _video_textures_cache))
+                            _video_textures_cache[thread_id] = {};
+                        _video_textures_cache[thread_id][texture.name] = texture;
+                    }
                     texture.fps = cfg_ani.framerate;
 
                     if (image_data.duration)
                         texture.fps = texture.movie_length / image_data.duration;
-                    
+
                     if (!cfg_sfx.disable_playback_rate_hack) {
                         image_data.playbackRate = cfg_ani.framerate / texture.fps;
                         if (cfg_sfx.clamp_playback_rate_hack && image_data.playbackRate > 
@@ -600,7 +604,9 @@ exports.update_texture = function(texture, image_data, is_dds, filepath) {
                             _gl.UNSIGNED_BYTE, texture.video_file);
                 } else {
                     if (image_data) {
-                        _video_textures_cache[texture.name] = texture;
+                        if (!(thread_id in _video_textures_cache))
+                            _video_textures_cache[thread_id] = {};
+                        _video_textures_cache[thread_id][texture.name] = texture;
                         texture.seq_video = image_data;
                         texture.fps = texture.movie_length / image_data.length;
                         texture.frame_duration = Math.round(texture.frame_duration / texture.fps);
@@ -860,7 +866,7 @@ exports.generate_texture = function(type, subs) {
                 "extension": "REPEAT",
                 "b4w_anisotropic_filtering": "OFF"
             };
-            create_texture_bpy(texture, null, subs);
+            create_texture_bpy(texture, null, subs, 0);
             texture["image"] = { "filepath": null };
             break;
         default:
@@ -871,31 +877,33 @@ exports.generate_texture = function(type, subs) {
 
 exports.cleanup = function() {
     if (!cfg_def.seq_video_fallback)
-        for (var tex in _video_textures_cache) {
-            _video_textures_cache[tex].video_file.pause();
-            _video_textures_cache[tex].video_file.src = "";
-            _video_textures_cache[tex].video_file.load();
-        }
+        for (var data_id in _video_textures_cache)
+            for (var tex in _video_textures_cache[data_id]) {
+                _video_textures_cache[data_id][tex].video_file.pause();
+                _video_textures_cache[data_id][tex].video_file.src = "";
+                _video_textures_cache[data_id][tex].video_file.load();
+            }
+
     _canvas_textures_cache = {};
     _video_textures_cache = {};
 }
 
 exports.play_video = play_video;
-function play_video(texture_name) {
-    if (texture_name in _video_textures_cache) {
+function play_video(texture_name, data_id) {
+    if (data_id in _video_textures_cache && texture_name in _video_textures_cache[data_id]) {
         if (cfg_def.seq_video_fallback)
-            _video_textures_cache[texture_name].seq_video_played = true;
+            _video_textures_cache[data_id][texture_name].seq_video_played = true;
         else
-            _video_textures_cache[texture_name].video_file.play();
+            _video_textures_cache[data_id][texture_name].video_file.play();
         return true;
     } else
         return null;
 }
 
 exports.reset_video = reset_video;
-function reset_video(texture_name) {
-    if (texture_name in _video_textures_cache) {
-        var tex = _video_textures_cache[texture_name]
+function reset_video(texture_name, data_id) {
+    if (data_id in _video_textures_cache && texture_name in _video_textures_cache[data_id]) {
+        var tex = _video_textures_cache[data_id][texture_name];
         if (cfg_def.seq_video_fallback) {
             tex.seq_cur_frame = tex.frame_offset;
             update_seq_video_texture(tex);
@@ -909,41 +917,44 @@ function reset_video(texture_name) {
 }
 
 exports.pause_video = pause_video;
-function pause_video(texture_name) {
-    if (texture_name in _video_textures_cache) {
+function pause_video(texture_name, data_id) {
+    if (data_id in _video_textures_cache && texture_name in _video_textures_cache[data_id]) {
         if (cfg_def.seq_video_fallback)
-            _video_textures_cache[texture_name].seq_video_played = false;
+            _video_textures_cache[data_id][texture_name].seq_video_played = false;
         else
-            _video_textures_cache[texture_name].video_file.pause();
+            _video_textures_cache[data_id][texture_name].video_file.pause();
         return true;
     } else
         return null;
 }
 
 exports.pause = function() {
-    for (var texture_name in _video_textures_cache) {
-        if (cfg_def.seq_video_fallback && !_video_textures_cache[texture_name].seq_video_played ||
-                !cfg_def.seq_video_fallback && _video_textures_cache[texture_name].video_file.paused)
-            continue;
-        pause_video(texture_name);
-        _video_textures_cache[texture_name].video_was_stopped = true;
-    }
+    for (var data_id in _video_textures_cache)
+        for (var texture_name in _video_textures_cache[data_id]) {
+            if (cfg_def.seq_video_fallback && !_video_textures_cache[data_id][texture_name].seq_video_played ||
+                    !cfg_def.seq_video_fallback && _video_textures_cache[data_id][texture_name].video_file.paused)
+                continue;
+            pause_video(texture_name, data_id);
+            _video_textures_cache[data_id][texture_name].video_was_stopped = true;
+        }
 }
 
 exports.reset = function() {
-    for (var texture_name in _video_textures_cache) {
-        reset_video(texture_name);
-        _video_textures_cache[texture_name].video_was_stopped = false;
-    } 
+    for (var data_id in _video_textures_cache)
+        for (var texture_name in _video_textures_cache[data_id]) {
+            reset_video(texture_name, data_id);
+            _video_textures_cache[data_id][texture_name].video_was_stopped = false;
+        } 
 }
 
 exports.play = function(resume_stopped_only) {
-    for (var texture_name in _video_textures_cache) {
-        if (resume_stopped_only && !_video_textures_cache[texture_name].video_was_stopped)
-            continue;
-        play_video(texture_name)
-        _video_textures_cache[texture_name].video_was_stopped = false;
-    }
+    for (var data_id in _video_textures_cache)
+        for (var texture_name in _video_textures_cache[data_id]) {
+            if (resume_stopped_only && !_video_textures_cache[data_id][texture_name].video_was_stopped)
+                continue;
+            play_video(texture_name, data_id)
+            _video_textures_cache[data_id][texture_name].video_was_stopped = false;
+        }
 }
 
 }

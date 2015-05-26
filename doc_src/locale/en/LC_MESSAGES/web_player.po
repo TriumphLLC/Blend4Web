@@ -92,10 +92,6 @@ msgstr "show / hide control panel;"
 msgid "включение / выключение полноэкранного режима;"
 msgstr "fullscreen mode on / off;"
 
-#: ../web_player.rst:54
-msgid "включение / выключение автоматического поворота камеры вокруг сцены;"
-msgstr "camera auto rotation mode on / off;"
-
 #: ../web_player.rst:52
 msgid "установка качества сцены;"
 msgstr "set the scene quality;"
@@ -103,6 +99,10 @@ msgstr "set the scene quality;"
 #: ../web_player.rst:53
 msgid "включение / выключение звука;"
 msgstr "sound on / off;"
+
+#: ../web_player.rst:54
+msgid "включение / выключение автоматического поворота камеры вокруг сцены;"
+msgstr "camera auto rotation mode on / off;"
 
 #: ../web_player.rst:55
 msgid "запуск / остановка движка;"

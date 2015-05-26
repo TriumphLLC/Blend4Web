@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Node Materials &mdash; User Manual: Blend4Web v15.04</title>
+    <title>Node Materials &mdash; User Manual: Blend4Web v15.05</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '15.04',
+        VERSION:     '15.05',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,19 +25,19 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User Manual: Blend4Web v15.04" href="index.html" />
+    <link rel="top" title="User Manual: Blend4Web v15.05" href="index.html" />
     <link rel="next" title="Lighting, Shadows and Background" href="lighting.html" />
     <link rel="prev" title="Textures" href="textures.html" /> 
   </head>
-  <body>
-    <div class="header-wrapper">
+  <body role="document">
+    <div class="header-wrapper" role="banner">
       <div class="header">
           <p class="logo"><a href="index.html">
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">User Manual: Blend4Web v15.04</a></div>
-        <div class="rel">
+          href="index.html">User Manual: Blend4Web v15.05</a></div>
+        <div class="rel" role="navigation" aria-label="related navigation">
           <a href="textures.html" title="Textures"
              accesskey="P">previous</a> |
           <a href="lighting.html" title="Lighting, Shadows and Background"
@@ -54,7 +54,7 @@
             
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="node-materials">
 <span id="index-0"></span><span id="id1"></span><h1>Node Materials<a class="headerlink" href="#node-materials" title="Permalink to this headline">¶</a></h1>
@@ -64,30 +64,30 @@
 <span id="id2"></span><h2>Standard Nodes<a class="headerlink" href="#generic-node-materials" title="Permalink to this headline">¶</a></h2>
 <p id="index-1">All Blender functions are supported except the following cases:</p>
 <ul class="simple">
-<li><p class="first"><tt class="docutils literal"><span class="pre">Geometry</span></tt> - the <tt class="docutils literal"><span class="pre">Local</span></tt>, <tt class="docutils literal"><span class="pre">Orco</span></tt> and <tt class="docutils literal"><span class="pre">Vertex</span> <span class="pre">Alpha</span></tt> outputs are not supported.</p>
+<li><p class="first"><code class="docutils literal"><span class="pre">Geometry</span></code> - the <code class="docutils literal"><span class="pre">Local</span></code>, <code class="docutils literal"><span class="pre">Orco</span></code> and <code class="docutils literal"><span class="pre">Vertex</span> <span class="pre">Alpha</span></code> outputs are not supported.</p>
 </li>
-<li><p class="first"><tt class="docutils literal"><span class="pre">Material</span></tt>, <tt class="docutils literal"><span class="pre">Extended</span> <span class="pre">Material</span></tt> - no more than one node per material is allowed; the <tt class="docutils literal"><span class="pre">Refl</span></tt>, <tt class="docutils literal"><span class="pre">Ambient</span></tt>, <tt class="docutils literal"><span class="pre">SpecTra</span></tt> inputs are not supported; the <tt class="docutils literal"><span class="pre">AO</span></tt> output is not supported.</p>
+<li><p class="first"><code class="docutils literal"><span class="pre">Material</span></code>, <code class="docutils literal"><span class="pre">Extended</span> <span class="pre">Material</span></code> - no more than one node per material is allowed; the <code class="docutils literal"><span class="pre">Refl</span></code>, <code class="docutils literal"><span class="pre">Ambient</span></code>, <code class="docutils literal"><span class="pre">SpecTra</span></code> inputs are not supported; the <code class="docutils literal"><span class="pre">AO</span></code> output is not supported.</p>
 </li>
-<li><p class="first"><tt class="docutils literal"><span class="pre">RGB</span> <span class="pre">Curves</span></tt> is not supported.</p>
+<li><p class="first"><code class="docutils literal"><span class="pre">RGB</span> <span class="pre">Curves</span></code> is not supported.</p>
 </li>
-<li><p class="first"><tt class="docutils literal"><span class="pre">Vector</span> <span class="pre">Curves</span></tt> is not supported.</p>
+<li><p class="first"><code class="docutils literal"><span class="pre">Vector</span> <span class="pre">Curves</span></code> is not supported.</p>
 </li>
 </ul>
 <p>In addition a poor performance of some nodes in real-time context should be taken into account. It is not recommended to use the following nodes:</p>
 <ul class="simple">
-<li><tt class="docutils literal"><span class="pre">Hue/Saturation</span></tt></li>
-<li><p class="first"><tt class="docutils literal"><span class="pre">MixRGB</span></tt> - the <tt class="docutils literal"><span class="pre">Burn</span></tt>, <tt class="docutils literal"><span class="pre">Dodge</span></tt>, <tt class="docutils literal"><span class="pre">Value</span></tt>, <tt class="docutils literal"><span class="pre">Saturation</span></tt>, <tt class="docutils literal"><span class="pre">Hue</span></tt>, <tt class="docutils literal"><span class="pre">Color</span></tt> types.</p>
+<li><code class="docutils literal"><span class="pre">Hue/Saturation</span></code></li>
+<li><p class="first"><code class="docutils literal"><span class="pre">MixRGB</span></code> - the <code class="docutils literal"><span class="pre">Burn</span></code>, <code class="docutils literal"><span class="pre">Dodge</span></code>, <code class="docutils literal"><span class="pre">Value</span></code>, <code class="docutils literal"><span class="pre">Saturation</span></code>, <code class="docutils literal"><span class="pre">Hue</span></code>, <code class="docutils literal"><span class="pre">Color</span></code> types.</p>
 </li>
 </ul>
-<p>It is not recommended to create very complex materials especially if they use many <tt class="docutils literal"><span class="pre">Geometry</span></tt> or <tt class="docutils literal"><span class="pre">Texture</span></tt> nodes.</p>
+<p>It is not recommended to create very complex materials especially if they use many <code class="docutils literal"><span class="pre">Geometry</span></code> or <code class="docutils literal"><span class="pre">Texture</span></code> nodes.</p>
 </div>
 <div class="section" id="custom-node-materials">
 <span id="id3"></span><h2>Engine Specific Nodes<a class="headerlink" href="#custom-node-materials" title="Permalink to this headline">¶</a></h2>
-<p id="index-2">Engine-specific nodes extend functionality of the standard nodes to support extra features. These nodes are created as node groups (<tt class="docutils literal"><span class="pre">Node</span> <span class="pre">groups</span></tt> or <tt class="docutils literal"><span class="pre">Node</span> <span class="pre">tree</span></tt>) with specially determined names and input formats. For convenience, all special nodes are added to a blend file when it is opened.</p>
+<p id="index-2">Engine-specific nodes extend functionality of the standard nodes to support extra features. These nodes are created as node groups (<code class="docutils literal"><span class="pre">Node</span> <span class="pre">groups</span></code> or <code class="docutils literal"><span class="pre">Node</span> <span class="pre">tree</span></code>) with specially determined names and input formats. For convenience, all special nodes are added to a blend file when it is opened.</p>
 <img alt="_images/b4w_nodes.png" class="align-center" src="_images/b4w_nodes.png" />
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><a class="reference internal" href="animation.html#node-anim"><em>Value Node Animation</em></a></p>
+<p class="last"><a class="reference internal" href="animation.html#node-anim"><span>Value Node Animation</span></a></p>
 </div>
 <div class="section" id="b4w-linear-to-srgb-b4w-srgb-to-linear">
 <h3>B4W_LINEAR_TO_SRGB and B4W_SRGB_TO_LINEAR<a class="headerlink" href="#b4w-linear-to-srgb-b4w-srgb-to-linear" title="Permalink to this headline">¶</a></h3>
@@ -95,12 +95,12 @@
 <a class="reference internal image-reference" href="_images/srgb_to_linear.jpg"><img alt="_images/srgb_to_linear.jpg" class="align-center" src="_images/srgb_to_linear.jpg" style="width: 100%;" /></a>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><a class="reference internal" href="gamma_alpha.html#gamma-nodes"><em>Gamma in Node Materials</em></a></p>
+<p class="last"><a class="reference internal" href="gamma_alpha.html#gamma-nodes"><span>Gamma in Node Materials</span></a></p>
 </div>
 </div>
 <div class="section" id="b4w-replace">
 <h3>B4W_REPLACE<a class="headerlink" href="#b4w-replace" title="Permalink to this headline">¶</a></h3>
-<p>The node replaces the inputs depending on the working environment (i.e. Blender viewport or Blend4Web). When working in Blender the <tt class="docutils literal"><span class="pre">Color1</span></tt> input is connected to the <tt class="docutils literal"><span class="pre">Color</span></tt> output and the <tt class="docutils literal"><span class="pre">Color2</span></tt> input is ignored. On the contrary when working in the engine the inputs are interchanged (the <tt class="docutils literal"><span class="pre">Color1</span></tt> one is ignored and the <tt class="docutils literal"><span class="pre">Color2</span></tt> one is connected to the output). The node is intended to display one node structure in the viewport and another - in the engine.</p>
+<p>The node replaces the inputs depending on the working environment (i.e. Blender viewport or Blend4Web). When working in Blender the <code class="docutils literal"><span class="pre">Color1</span></code> input is connected to the <code class="docutils literal"><span class="pre">Color</span></code> output and the <code class="docutils literal"><span class="pre">Color2</span></code> input is ignored. On the contrary when working in the engine the inputs are interchanged (the <code class="docutils literal"><span class="pre">Color1</span></code> one is ignored and the <code class="docutils literal"><span class="pre">Color2</span></code> one is connected to the output). The node is intended to display one node structure in the viewport and another - in the engine.</p>
 <a class="reference internal image-reference" href="_images/replace.jpg"><img alt="_images/replace.jpg" class="align-center" src="_images/replace.jpg" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
@@ -117,7 +117,7 @@
 </div>
 <div class="section" id="b4w-vector-view">
 <h3>B4W_VECTOR_VIEW<a class="headerlink" href="#b4w-vector-view" title="Permalink to this headline">¶</a></h3>
-<p>The node transforms a vector into the camera&#8217;s space of coordinates. Transformation is necessary because the engine defines most of vectors in the world space of coordinates. If normal vector is being transformed by this node it should be used only for effects and not for connecting to the output of the <tt class="docutils literal"><span class="pre">Material</span></tt> or <tt class="docutils literal"><span class="pre">Extended</span> <span class="pre">Material</span></tt> nodes.</p>
+<p>The node transforms a vector into the camera&#8217;s space of coordinates. Transformation is necessary because the engine defines most of vectors in the world space of coordinates. If normal vector is being transformed by this node it should be used only for effects and not for connecting to the output of the <code class="docutils literal"><span class="pre">Material</span></code> or <code class="docutils literal"><span class="pre">Extended</span> <span class="pre">Material</span></code> nodes.</p>
 </div>
 <div class="section" id="b4w-parallax">
 <h3>B4W_PARALLAX<a class="headerlink" href="#b4w-parallax" title="Permalink to this headline">¶</a></h3>
@@ -194,9 +194,13 @@
 <h4>Output parameters<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
 <dt><em>Translucency</em></dt>
-<dd><p class="first last">The output should be connected to the <tt class="docutils literal"><span class="pre">Translucency</span></tt> input of the <tt class="docutils literal"><span class="pre">Extended</span> <span class="pre">Material</span></tt> node.</p>
+<dd><p class="first last">The output should be connected to the <code class="docutils literal"><span class="pre">Translucency</span></code> input of the <code class="docutils literal"><span class="pre">Extended</span> <span class="pre">Material</span></code> node.</p>
 </dd>
 </dl>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This node can work incorrectly, if the mesh <a class="reference internal" href="lighting.html#normals-editor"><span>normals were edited</span></a>.</p>
+</div>
 </div>
 </div>
 <div class="section" id="b4w-refraction">
@@ -223,11 +227,11 @@
 </dl>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">It&#8217;s neccessary to enable the <tt class="docutils literal"><span class="pre">Render</span> <span class="pre">refraction</span></tt>  option from the <tt class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span></tt> panel. The object&#8217;s transparency type must be set to <tt class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Blend</span></tt>.</p>
+<p class="last">It&#8217;s neccessary to enable the <code class="docutils literal"><span class="pre">Render</span> <span class="pre">refraction</span></code>  option from the <code class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span></code> panel. The object&#8217;s transparency type must be set to <code class="docutils literal"><span class="pre">Alpha</span> <span class="pre">Blend</span></code>.</p>
 </div>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><a class="reference internal" href="materials.html#alpha-blend"><em>Transparency</em></a></p>
+<p class="last"><a class="reference internal" href="materials.html#alpha-blend"><span>Transparency</span></a></p>
 </div>
 </div>
 </div>
@@ -236,16 +240,16 @@
 <p>This node sets output color value depending on the quality profile.</p>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><a class="reference internal" href="developers.html#quality-settings"><em>Quality Profiles</em></a></p>
+<p class="last"><a class="reference internal" href="developers.html#quality-settings"><span>Quality Profiles</span></a></p>
 </div>
 <div class="section" id="id10">
 <h4>Input parameters<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
 <dt><em>HIGH</em></dt>
-<dd><p class="first last">Node links this parameter to <tt class="docutils literal"><span class="pre">Color</span></tt> parameter in case of high and maximum quality usage.</p>
+<dd><p class="first last">Node links this parameter to <code class="docutils literal"><span class="pre">Color</span></code> parameter in case of high and maximum quality usage.</p>
 </dd>
 <dt><em>LOW</em></dt>
-<dd><p class="first last">Node links this parameter to <tt class="docutils literal"><span class="pre">Color</span></tt> parameter in case of low quality usage.</p>
+<dd><p class="first last">Node links this parameter to <code class="docutils literal"><span class="pre">Color</span></code> parameter in case of low quality usage.</p>
 </dd>
 </dl>
 </div>
@@ -258,7 +262,7 @@
 </dl>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last"><tt class="docutils literal"><span class="pre">HIGH</span></tt> input parameter is used for rendering in the Blender viewport.</p>
+<p class="last"><code class="docutils literal"><span class="pre">HIGH</span></code> input parameter is used for rendering in the Blender viewport.</p>
 </div>
 </div>
 </div>
@@ -290,6 +294,28 @@
 <p class="first admonition-title">Note</p>
 <p class="last">For the correct interpolation input &#8216;&#8217;Value&#8217;&#8217; had to be between &#8216;&#8217;Edge0&#8217;&#8217; and &#8216;&#8217;Edge1&#8217;&#8216;.</p>
 </div>
+</div>
+</div>
+<div class="section" id="b4w-glow-output">
+<span id="glow-output"></span><h3>B4W_GLOW_OUTPUT<a class="headerlink" href="#b4w-glow-output" title="Permalink to this headline">¶</a></h3>
+<p>Applies the <a class="reference internal" href="postprocessing_effects.html#glow"><span>Glow effect</span></a> to the node material. Besides the <em>B4W_GLOW_OUTPUT</em> node, the node material should have the <em>Output</em>.</p>
+<a class="reference internal image-reference" href="_images/glow_output.png"><img alt="_images/glow_output.png" class="align-center" src="_images/glow_output.png" style="width: 100%;" /></a>
+<div class="section" id="id14">
+<h4>Input parameters<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h4>
+<dl class="docutils">
+<dt><em>Glow Color</em></dt>
+<dd><p class="first last">Glow color.</p>
+</dd>
+<dt><em>Factor</em></dt>
+<dd><p class="first">Glow ratio. <em>Factor</em> <span class="math">\(\in [0, 1]\)</span>.</p>
+<ul class="last simple">
+<li><p class="first"><em>Factor = 0</em> - no glow.</p>
+</li>
+<li><p class="first"><em>Factor</em> <span class="math">\(\in (0, 1]\)</span> - there is a glow, colored with <em>Glow Color</em>.</p>
+</li>
+</ul>
+</dd>
+</dl>
 </div>
 </div>
 </div>
@@ -337,16 +363,18 @@
 <li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
 </ul>
 
-          <h3 style="margin-top: 1.5em;">Search</h3>
-          <form class="search" action="search.html" method="get">
-            <input type="text" name="q" />
-            <input type="submit" value="Go" />
-            <input type="hidden" name="check_keywords" value="yes" />
-            <input type="hidden" name="area" value="default" />
-          </form>
-          <p class="searchtip" style="font-size: 90%">
-            Enter search terms or a module, class or function name.
-          </p>
+          <div role="search">
+            <h3 style="margin-top: 1.5em;">Search</h3>
+            <form class="search" action="search.html" method="get">
+                <input type="text" name="q" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+            </form>
+            <p class="searchtip" style="font-size: 90%">
+                Enter search terms or a module, class or function name.
+            </p>
+          </div>
         </div>
         <div class="clearer"></div>
       </div>
@@ -355,20 +383,24 @@
     <div class="footer-wrapper">
       <div class="footer">
         <div class="left">
-          <a href="textures.html" title="Textures"
-             >previous</a> |
-          <a href="lighting.html" title="Lighting, Shadows and Background"
-             >next</a> |
-          <a href="genindex.html" title="General Index"
-             >index</a>
+          <div role="navigation" aria-label="related navigaton">
+            <a href="textures.html" title="Textures"
+              >previous</a> |
+            <a href="lighting.html" title="Lighting, Shadows and Background"
+              >next</a> |
+            <a href="genindex.html" title="General Index"
+              >index</a>
+          </div>
+          <div role="note" aria-label="source link">
+          </div>
         </div>
 
         <div class="right">
           
-    <div class="footer">
+    <div class="footer" role="contentinfo">
         &copy; Copyright 2015, Triumph LLC.
-      Last updated on 2015-04-29.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+      Last updated on 2015-05-26.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
         </div>
         <div class="clearer"></div>

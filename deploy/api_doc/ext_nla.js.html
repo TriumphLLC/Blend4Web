@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: ext/nla.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: ext/nla.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>"use strict";
+
+/**
+ * NLA API.
+ * @module nla
+ */
+b4w.module["nla"] = function(exports, require) {
+
+var m_nla    = require("__nla");
+var m_time   = require("__time");
+var m_print  = require("__print");
+/**
+ * Set NLA animation frame for the active scene
+ * @method module:nla.set_nla_frame
+ * @param {Number} frame NLA animation frame
+ */
+exports.set_frame = function(frame) {
+    if (frame &lt; 0) {
+        m_print.error("Value must be non-negative.");
+        return;
+    }
+    if (m_nla.check_nla_scripts()) {
+        m_print.error("The active scene is using NLA script.");
+        return;
+    }
+    m_nla.set_frame(frame, m_time.get_timeline())
+}
+/**
+ * Get NLA animation frame from the active scene
+ * @method module:nla.get_nla_frame
+ * @returns {Number} NLA animation current frame
+ */
+exports.get_frame = function() {
+    return m_nla.get_frame(m_time.get_timeline());
+}
+/**
+ * Stop NLA animation for the active scene
+ * @method module:nla.stop_nla
+ */
+exports.stop = function() {
+    if (m_nla.check_nla_scripts()) {
+        m_print.error("The active scene is using NLA script.");
+        return;
+    }
+    m_nla.stop_nla();
+}
+/**
+ * Play NLA animation for the active scene
+ * @method module:nla.play_nla
+ */
+exports.play = function() {
+    if (m_nla.check_nla_scripts()) {
+        m_print.error("The active scene is using NLA script.");
+        return;
+    }
+    m_nla.play_nla();
+}
+/**
+ * Check if NLA animation is being run for the active scene
+ * @method module:nla.play_nla
+ */
+exports.is_play = function() {
+    return m_nla.is_play();
+}
+/**
+ * Get NLA animation starting frame for the active scene
+ * @method module:nla.get_frame_end
+ */
+exports.get_frame_start = function() {
+    return m_nla.get_frame_start();
+}
+/**
+ * Get NLA animation ending frame for the active scene
+ * @method module:nla.get_frame_end
+ */
+exports.get_frame_end = function() {
+    return m_nla.get_frame_end();
+}
+/**
+ * Check if the current scene is currently NLA animated
+ * @method module:nla.check_nla
+ */
+exports.check_nla = function() {
+    return m_nla.check_nla();
+}
+/**
+ * Check if the current scene has NLA-scripts
+ * @method module:nla.check_nla
+ */
+exports.check_nla_scripts = function() {
+    return m_nla.check_nla_scripts();
+}
+
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Tue May 26 2015 12:05:03 GMT+0300 (MSK)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

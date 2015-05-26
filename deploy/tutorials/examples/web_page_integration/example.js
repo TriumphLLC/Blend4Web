@@ -25,19 +25,18 @@ function init_cb(canvas_elem, success) {
         return;
     }
 
-    var window_width = window.innerWidth / window.devicePixelRatio;
-
-    if (window_width < 480) {
-        m_main.resize(window.innerWidth, window.innerWidth * 0.8);
-        canvas_cont.style.height = window.innerWidth * 0.8 + 'px';
-        canvas_cont.style.marginTop = -window.innerWidth * 0.8 + 'px';
-        canvas_cont.style.marginLeft = '-10px';
-    } else if (window_width < 1200)
-        m_main.resize(1000, 1000);
+    if (window.web_page_integration_dry_run)
+        m_data.load("flying_letters.json", load_cb);
     else
-        m_main.resize(1200, 1200);
+        m_data.load("/tutorials/examples/web_page_integration/flying_letters.json", load_cb);
 
-    m_data.load("/tutorials/examples/web_page_integration/flying_letters.json", load_cb);
+    resize();
+
+    window.addEventListener("resize", resize);
+}
+
+function resize() {
+    m_app.resize_to_container();
 }
 
 function load_cb(root) {

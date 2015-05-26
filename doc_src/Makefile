@@ -27,6 +27,7 @@ help:
 	@echo "  html       to make standalone HTML files"
 	@echo "  latexpdf   to make LaTeX files and run them through pdflatex"
 	@echo "  gettext    to make PO message catalogs"
+	@echo "  sorttext   to sort lines in PO messages"
 
 clean:
 	-rm -rf $(BUILDDIR)/*
@@ -72,3 +73,6 @@ gettext_build:
 	sphinx-intl -d locale -c conf_ru/conf.py build
 	mkdir -p $(BUILDDIR)
 	cp -rv locale $(BUILDDIR)
+
+sorttext:
+	python3 ../scripts/sort_doc_texts.py

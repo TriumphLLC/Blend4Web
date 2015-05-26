@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Particle System. Fluids &mdash; User Manual: Blend4Web v15.04</title>
+    <title>Particle System. Fluids &mdash; User Manual: Blend4Web v15.05</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '15.04',
+        VERSION:     '15.05',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,19 +25,19 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User Manual: Blend4Web v15.04" href="index.html" />
+    <link rel="top" title="User Manual: Blend4Web v15.05" href="index.html" />
     <link rel="next" title="Particle System. Instancing" href="particles_instancing.html" />
     <link rel="prev" title="Postprocessing Effects" href="postprocessing_effects.html" /> 
   </head>
-  <body>
-    <div class="header-wrapper">
+  <body role="document">
+    <div class="header-wrapper" role="banner">
       <div class="header">
           <p class="logo"><a href="index.html">
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">User Manual: Blend4Web v15.04</a></div>
-        <div class="rel">
+          href="index.html">User Manual: Blend4Web v15.05</a></div>
+        <div class="rel" role="navigation" aria-label="related navigation">
           <a href="postprocessing_effects.html" title="Postprocessing Effects"
              accesskey="P">previous</a> |
           <a href="particles_instancing.html" title="Particle System. Instancing"
@@ -54,7 +54,7 @@
             
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <span class="target" id="particles"></span><div class="section" id="index-0">
 <span id="id1"></span><h1>Particle System. Fluids<a class="headerlink" href="#index-0" title="Permalink to this headline">¶</a></h1>
@@ -71,16 +71,16 @@
 <ol class="arabic">
 <li><p class="first">Add a mesh emitter to the scene.</p>
 </li>
-<li><p class="first">Create a material for particles on the emitter, for example of the <tt class="docutils literal"><span class="pre">Halo</span></tt> type. The <tt class="docutils literal"><span class="pre">Surface</span></tt> material type with a mandatory diffuse texture is also supported.</p>
+<li><p class="first">Create a material for particles on the emitter, for example of the <code class="docutils literal"><span class="pre">Halo</span></code> type. The <code class="docutils literal"><span class="pre">Surface</span></code> material type with a mandatory diffuse texture is also supported.</p>
 </li>
 <li><p class="first">Add a particle system on the emitter.</p>
 </li>
 <li><p class="first">Initiate the engine playback. Two options are available:</p>
 <blockquote>
 <div><ul class="simple">
-<li><p class="first">&#8220;cyclic emission&#8221; - enable the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Cyclic</span> <span class="pre">emission</span></tt> checkbox for the particle system.</p>
+<li><p class="first">&#8220;cyclic emission&#8221; - enable the <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Cyclic</span> <span class="pre">emission</span></code> checkbox for the particle system.</p>
 </li>
-<li><p class="first">&#8220;non-cyclic animation&#8221; - enable the <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Animation</span> <span class="pre">&gt;</span> <span class="pre">Use</span> <span class="pre">default</span></tt> checkbox for the emitter.</p>
+<li><p class="first">&#8220;non-cyclic animation&#8221; - enable the <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Animation</span> <span class="pre">&gt;</span> <span class="pre">Use</span> <span class="pre">default</span></code> checkbox for the emitter.</p>
 </li>
 </ul>
 </div></blockquote>
@@ -90,13 +90,13 @@
 <div class="section" id="id4">
 <h3>Recommended additional settings<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
 <ol class="arabic simple">
-<li><p class="first">Set the <tt class="docutils literal"><span class="pre">Add</span></tt> transparency type for the particles&#8217; material.</p>
+<li><p class="first">Set the <code class="docutils literal"><span class="pre">Add</span></code> transparency type for the particles&#8217; material.</p>
 </li>
-<li><p class="first">Disable emitter rendering if needed using the <tt class="docutils literal"><span class="pre">Particles</span> <span class="pre">&gt;</span> <span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Emitter</span></tt> checkbox.</p>
+<li><p class="first">Disable emitter rendering if needed using the <code class="docutils literal"><span class="pre">Particles</span> <span class="pre">&gt;</span> <span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Emitter</span></code> checkbox.</p>
 </li>
-<li><p class="first">If an emitter is required on a scene use additional materials for it. In this case select the particles&#8217; material in the <tt class="docutils literal"><span class="pre">Particles</span> <span class="pre">&gt;</span> <span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Material</span></tt> menu on the particles settings panel.</p>
+<li><p class="first">If an emitter is required on a scene use additional materials for it. In this case select the particles&#8217; material in the <code class="docutils literal"><span class="pre">Particles</span> <span class="pre">&gt;</span> <span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Material</span></code> menu on the particles settings panel.</p>
 </li>
-<li><p class="first">If the <tt class="docutils literal"><span class="pre">Surface</span></tt> material type is used it is required to add a diffuse texture (normally with the alpha channel) to this material. Select  <tt class="docutils literal"><span class="pre">UV</span></tt> in the <tt class="docutils literal"><span class="pre">Mapping</span> <span class="pre">&gt;</span> <span class="pre">Coordinates</span></tt> menu.  Make sure that the emitter&#8217;s mesh has a UV layer.</p>
+<li><p class="first">If the <code class="docutils literal"><span class="pre">Surface</span></code> material type is used it is required to add a diffuse texture (normally with the alpha channel) to this material. Select  <code class="docutils literal"><span class="pre">UV</span></code> in the <code class="docutils literal"><span class="pre">Mapping</span> <span class="pre">&gt;</span> <span class="pre">Coordinates</span></code> menu.  Make sure that the emitter&#8217;s mesh has a UV layer.</p>
 </li>
 </ol>
 <a class="reference internal image-reference" href="_images/particles_first_steps.jpg"><img alt="_images/particles_first_steps.jpg" class="align-center" src="_images/particles_first_steps.jpg" style="width: 100%;" /></a>
@@ -104,7 +104,7 @@
 </div>
 <div class="section" id="id5">
 <h2>Setup<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
-<p>The particle system parameters can be set up under the <tt class="docutils literal"><span class="pre">Particles</span></tt> tab. Multiple particle systems per emitter are supported.</p>
+<p>The particle system parameters can be set up under the <code class="docutils literal"><span class="pre">Particles</span></code> tab. Multiple particle systems per emitter are supported.</p>
 <div class="section" id="id6">
 <h3>Basic settings<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
 <dl class="docutils">
@@ -115,7 +115,7 @@
 <dd><p class="first last">Reference to the settings datablock of the particle system. The datablock settings can be shared between different particle systems.</p>
 </dd>
 <dt><em>Type</em></dt>
-<dd><p class="first last">Particle system type: <tt class="docutils literal"><span class="pre">Emitter</span></tt> or <tt class="docutils literal"><span class="pre">Hair</span></tt>. <tt class="docutils literal"><span class="pre">Hair</span></tt> particle systems can be used to create numerous copies of an object (so called instancing). The default is <tt class="docutils literal"><span class="pre">Emitter</span></tt>.</p>
+<dd><p class="first last">Particle system type: <code class="docutils literal"><span class="pre">Emitter</span></code> or <code class="docutils literal"><span class="pre">Hair</span></code>. <code class="docutils literal"><span class="pre">Hair</span></code> particle systems can be used to create numerous copies of an object (so called instancing). The default is <code class="docutils literal"><span class="pre">Emitter</span></code>.</p>
 </dd>
 <dt><em>Seed</em></dt>
 <dd><p class="first last">Index in the table of random numbers which are used for particle system generation. The default value is 0.</p>
@@ -141,10 +141,10 @@
 <dd><p class="first last">The random factor for the life time. The default value is 0.0.</p>
 </dd>
 <dt><em>Emission &gt; Emit From</em></dt>
-<dd><p class="first last">Emission source type. The following types are supported: <tt class="docutils literal"><span class="pre">Verts</span></tt> (emit from vertices), <tt class="docutils literal"><span class="pre">Faces</span></tt> (emit from polygons). The default is <tt class="docutils literal"><span class="pre">Faces</span></tt>.</p>
+<dd><p class="first last">Emission source type. The following types are supported: <code class="docutils literal"><span class="pre">Verts</span></code> (emit from vertices), <code class="docutils literal"><span class="pre">Faces</span></code> (emit from polygons). The default is <code class="docutils literal"><span class="pre">Faces</span></code>.</p>
 </dd>
 <dt><em>Emission &gt; Emit From &gt; Distribution</em></dt>
-<dd><p class="first last">Emission distribution settings: <tt class="docutils literal"><span class="pre">Jittered</span></tt>, <tt class="docutils literal"><span class="pre">Random</span></tt>, <tt class="docutils literal"><span class="pre">Grid</span></tt>. Ignored by the engine. Internally the engine always uses <tt class="docutils literal"><span class="pre">Random</span></tt> distribution. The default is <tt class="docutils literal"><span class="pre">Jittered</span></tt>.</p>
+<dd><p class="first last">Emission distribution settings: <code class="docutils literal"><span class="pre">Jittered</span></code>, <code class="docutils literal"><span class="pre">Random</span></code>, <code class="docutils literal"><span class="pre">Grid</span></code>. Ignored by the engine. Internally the engine always uses <code class="docutils literal"><span class="pre">Random</span></code> distribution. The default is <code class="docutils literal"><span class="pre">Jittered</span></code>.</p>
 </dd>
 </dl>
 <a class="reference internal image-reference" href="_images/particles_settings.jpg"><img alt="_images/particles_settings.jpg" class="align-center" src="_images/particles_settings.jpg" style="width: 100%;" /></a>
@@ -166,7 +166,7 @@
 <p>Only the following settings are supported:</p>
 <dl class="docutils">
 <dt><em>Rotation &gt; Angular Velocity &gt; Mode</em></dt>
-<dd><p class="first last">Mode for particle billboards self-rotating. The following modes are supported: <tt class="docutils literal"><span class="pre">Velocity</span></tt> (constant rotation speed), <tt class="docutils literal"><span class="pre">Random</span></tt> (random rotation), <tt class="docutils literal"><span class="pre">None</span></tt> (no rotation). The default is <tt class="docutils literal"><span class="pre">Velocity</span></tt>.</p>
+<dd><p class="first last">Mode for particle billboards self-rotating. The following modes are supported: <code class="docutils literal"><span class="pre">Velocity</span></code> (constant rotation speed), <code class="docutils literal"><span class="pre">Random</span></code> (random rotation), <code class="docutils literal"><span class="pre">None</span></code> (no rotation). The default is <code class="docutils literal"><span class="pre">Velocity</span></code>.</p>
 </dd>
 <dt><em>Rotation &gt; Angular Velocity &gt; Factor</em></dt>
 <dd><p class="first last">Factor of rotation velocity for particle billboards. The default value is 0.0.</p>
@@ -178,7 +178,7 @@
 <p>Only the following settings are supported:</p>
 <dl class="docutils">
 <dt><em>Physics &gt; Type</em></dt>
-<dd><p class="first last">Physics calculation type: <tt class="docutils literal"><span class="pre">No</span></tt>, <tt class="docutils literal"><span class="pre">Newtonian</span></tt>, <tt class="docutils literal"><span class="pre">Keyed</span></tt>, <tt class="docutils literal"><span class="pre">Boids</span></tt>, <tt class="docutils literal"><span class="pre">Fluid</span></tt>. Ignored by the engine. <tt class="docutils literal"><span class="pre">Newtonian</span></tt> physics is always used. The default is <tt class="docutils literal"><span class="pre">Newtonian</span></tt>.</p>
+<dd><p class="first last">Physics calculation type: <code class="docutils literal"><span class="pre">No</span></code>, <code class="docutils literal"><span class="pre">Newtonian</span></code>, <code class="docutils literal"><span class="pre">Keyed</span></code>, <code class="docutils literal"><span class="pre">Boids</span></code>, <code class="docutils literal"><span class="pre">Fluid</span></code>. Ignored by the engine. <code class="docutils literal"><span class="pre">Newtonian</span></code> physics is always used. The default is <code class="docutils literal"><span class="pre">Newtonian</span></code>.</p>
 </dd>
 <dt><em>Physics &gt; Size</em></dt>
 <dd><p class="first last">Particle size. The default value is 0.05.</p>
@@ -197,13 +197,13 @@
 <p>Only the following settings are supported:</p>
 <dl class="docutils">
 <dt><em>Render &gt; Material</em></dt>
-<dd><p class="first last">Menu for selecting the particle&#8217;s material. Used for referencing to the particle&#8217; material in case multiple materials are used by the emitter. The default value is <tt class="docutils literal"><span class="pre">Default</span> <span class="pre">Material</span></tt>.</p>
+<dd><p class="first last">Menu for selecting the particle&#8217;s material. Used for referencing to the particle&#8217; material in case multiple materials are used by the emitter. The default value is <code class="docutils literal"><span class="pre">Default</span> <span class="pre">Material</span></code>.</p>
 </dd>
 <dt><em>Render &gt; Emitter</em></dt>
 <dd><p class="first last">Enables emitter rendering on the scene. Enabled by default.</p>
 </dd>
 <dt><em>Render &gt; Type</em></dt>
-<dd><p class="first last">Particle rendering mode: <tt class="docutils literal"><span class="pre">None</span></tt>, <tt class="docutils literal"><span class="pre">Halo</span></tt>, <tt class="docutils literal"><span class="pre">Line</span></tt>, <tt class="docutils literal"><span class="pre">Path</span></tt>, <tt class="docutils literal"><span class="pre">Object</span></tt>, <tt class="docutils literal"><span class="pre">Group</span></tt>, <tt class="docutils literal"><span class="pre">Billboard</span></tt>. The engine supports the <tt class="docutils literal"><span class="pre">Object</span></tt> and the <tt class="docutils literal"><span class="pre">Group</span></tt> modes which are used for objects and groups instancing respectively. Other modes are ignored. It is recommended to use the <tt class="docutils literal"><span class="pre">Billboard</span></tt> mode for convenient display of billboards. The default is <tt class="docutils literal"><span class="pre">Halo</span></tt>.</p>
+<dd><p class="first last">Particle rendering mode: <code class="docutils literal"><span class="pre">None</span></code>, <code class="docutils literal"><span class="pre">Halo</span></code>, <code class="docutils literal"><span class="pre">Line</span></code>, <code class="docutils literal"><span class="pre">Path</span></code>, <code class="docutils literal"><span class="pre">Object</span></code>, <code class="docutils literal"><span class="pre">Group</span></code>, <code class="docutils literal"><span class="pre">Billboard</span></code>. The engine supports the <code class="docutils literal"><span class="pre">Object</span></code> and the <code class="docutils literal"><span class="pre">Group</span></code> modes which are used for objects and groups instancing respectively. Other modes are ignored. It is recommended to use the <code class="docutils literal"><span class="pre">Billboard</span></code> mode for convenient display of billboards. The default is <code class="docutils literal"><span class="pre">Halo</span></code>.</p>
 </dd>
 </dl>
 </div>
@@ -215,7 +215,7 @@
 <dd><p class="first last">Gravity influence factor (Earth&#8217;s attraction). The default value is 1.0.</p>
 </dd>
 <dt><em>Field Weights &gt; Wind</em></dt>
-<dd><p class="first last">Wind influence factor. A <tt class="docutils literal"><span class="pre">Wind</span></tt> force field source should be present (can be added using <tt class="docutils literal"><span class="pre">Add</span> <span class="pre">&gt;</span> <span class="pre">Force</span> <span class="pre">Field</span></tt>). A particle system is also influenced by the wind direction and strength. The default value is 1.0.</p>
+<dd><p class="first last">Wind influence factor. A <code class="docutils literal"><span class="pre">Wind</span></code> force field source should be present (can be added using <code class="docutils literal"><span class="pre">Add</span> <span class="pre">&gt;</span> <span class="pre">Force</span> <span class="pre">Field</span></code>). A particle system is also influenced by the wind direction and strength. The default value is 1.0.</p>
 </dd>
 </dl>
 </div>
@@ -226,19 +226,19 @@
 <dd><p class="first last">Unsupported.</p>
 </dd>
 <dt><em>Blend4Web &gt; Cyclic emission</em></dt>
-<dd><p class="first last">The option enables the cyclic emission mode. It can be used for permanent effects (such as smoke, burning, water splashes). It is recommended to set the <tt class="docutils literal"><span class="pre">Emission</span> <span class="pre">&gt;</span> <span class="pre">Start</span></tt> value to zero. Disabled by default.</p>
+<dd><p class="first last">The option enables the cyclic emission mode. It can be used for permanent effects (such as smoke, burning, water splashes). It is recommended to set the <code class="docutils literal"><span class="pre">Emission</span> <span class="pre">&gt;</span> <span class="pre">Start</span></code> value to zero. Disabled by default.</p>
 </dd>
 <dt><em>Blend4Web &gt; Random emission</em></dt>
 <dd><p class="first last">The option enables a random emission time for particles. Disabled by default.</p>
 </dd>
 <dt><em>Blend4Web &gt; Billboard align</em></dt>
-<dd><p class="first last">The way billboards are oriented: <tt class="docutils literal"><span class="pre">View</span></tt> - follow the camera, <tt class="docutils literal"><span class="pre">XY</span> <span class="pre">plane</span></tt>, <tt class="docutils literal"><span class="pre">YZ</span> <span class="pre">plane</span></tt>, <tt class="docutils literal"><span class="pre">ZX</span> <span class="pre">plane</span></tt> - align to the corresponding plane (in the world coordinate system of Blender). The default is <tt class="docutils literal"><span class="pre">View</span></tt>.</p>
+<dd><p class="first last">The way billboards are oriented: <code class="docutils literal"><span class="pre">View</span></code> - follow the camera, <code class="docutils literal"><span class="pre">XY</span> <span class="pre">plane</span></code>, <code class="docutils literal"><span class="pre">YZ</span> <span class="pre">plane</span></code>, <code class="docutils literal"><span class="pre">ZX</span> <span class="pre">plane</span></code> - align to the corresponding plane (in the world coordinate system of Blender). The default is <code class="docutils literal"><span class="pre">View</span></code>.</p>
 </dd>
 <dt><em>Blend4Web &gt; Dissolve intervals &gt; Fade-in</em> and <em>Fade-out</em></dt>
 <dd><p class="first last">Starting and ending intervals (measured in frames) for gradually increasing and decreasing the particles&#8217; transparency.</p>
 </dd>
 <dt><em>Blend4Web &gt; Coordinate system</em></dt>
-<dd><p class="first last">Coordinate system of emitting particles: <tt class="docutils literal"><span class="pre">Local</span></tt> - use local coordinate system of the emitter object, <tt class="docutils literal"><span class="pre">World</span></tt> - use world coordinate system.</p>
+<dd><p class="first last">Coordinate system of emitting particles: <code class="docutils literal"><span class="pre">Local</span></code> - use local coordinate system of the emitter object, <code class="docutils literal"><span class="pre">World</span></code> - use world coordinate system.</p>
 </dd>
 </dl>
 </div>
@@ -247,15 +247,15 @@
 <span id="id14"></span><h2>Textures in Particle Systems<a class="headerlink" href="#particles-textures" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id15">
 <h3>Textures of the particle&#8217;s material<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
-<p>For the <tt class="docutils literal"><span class="pre">Surface</span></tt> particle&#8217;s materials it is <strong>required</strong> to have a diffuse texture (normally with an alpha-channel). In the <tt class="docutils literal"><span class="pre">Mapping</span> <span class="pre">&gt;</span> <span class="pre">Coordinates</span></tt> menu choose the <tt class="docutils literal"><span class="pre">UV</span></tt> option.  Make sure that the emitter&#8217;s mesh has a UV layer.</p>
-<p>For the <tt class="docutils literal"><span class="pre">Halo</span></tt> particle&#8217;s materials it is <strong>possible</strong> to use a <tt class="docutils literal"><span class="pre">Blend</span></tt> texture with a <tt class="docutils literal"><span class="pre">Linear</span></tt> gradient. In the <tt class="docutils literal"><span class="pre">Mapping</span> <span class="pre">&gt;</span> <span class="pre">Coordinates</span></tt> menu choose the <tt class="docutils literal"><span class="pre">Strand</span> <span class="pre">/</span> <span class="pre">Particle</span></tt> option. It is required to enable <tt class="docutils literal"><span class="pre">Ramp</span></tt> on a texture. Up to 4 gradient control points are supported.</p>
+<p>For the <code class="docutils literal"><span class="pre">Surface</span></code> particle&#8217;s materials it is <strong>required</strong> to have a diffuse texture (normally with an alpha-channel). In the <code class="docutils literal"><span class="pre">Mapping</span> <span class="pre">&gt;</span> <span class="pre">Coordinates</span></code> menu choose the <code class="docutils literal"><span class="pre">UV</span></code> option.  Make sure that the emitter&#8217;s mesh has a UV layer.</p>
+<p>For the <code class="docutils literal"><span class="pre">Halo</span></code> particle&#8217;s materials it is <strong>possible</strong> to use a <code class="docutils literal"><span class="pre">Blend</span></code> texture with a <code class="docutils literal"><span class="pre">Linear</span></code> gradient. In the <code class="docutils literal"><span class="pre">Mapping</span> <span class="pre">&gt;</span> <span class="pre">Coordinates</span></code> menu choose the <code class="docutils literal"><span class="pre">Strand</span> <span class="pre">/</span> <span class="pre">Particle</span></code> option. It is required to enable <code class="docutils literal"><span class="pre">Ramp</span></code> on a texture. Up to 4 gradient control points are supported.</p>
 <a class="reference internal image-reference" href="_images/particles_settings_ramp_color.jpg"><img alt="_images/particles_settings_ramp_color.jpg" class="align-center" src="_images/particles_settings_ramp_color.jpg" style="width: 100%;" /></a>
 </div>
 <div class="section" id="id16">
 <h3>Textures of particle systems<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
-<p>Textures can also be used for setting up the behaviour of particle systems. Unlike textures for particle materials such textures belong to the particle system datablock, not to the material datablock. To create a texture for the particle system it is required to go <strong>from</strong> the <tt class="docutils literal"><span class="pre">Particles</span></tt> tab to the <tt class="docutils literal"><span class="pre">Textures</span></tt> tab and then to click the <tt class="docutils literal"><span class="pre">New</span></tt> button.</p>
-<p>The only supported type of textures is <tt class="docutils literal"><span class="pre">Blend</span></tt> with a <tt class="docutils literal"><span class="pre">Linear</span></tt> gradient. <tt class="docutils literal"><span class="pre">Ramp</span></tt> should be enabled on the texture. Up to 4 gradient control points are supported.</p>
-<p>On the <tt class="docutils literal"><span class="pre">Influence</span></tt> panel choose the parameter which is influenced by the texture. At the moment the only supported parameter is <tt class="docutils literal"><span class="pre">Size</span></tt>.</p>
+<p>Textures can also be used for setting up the behaviour of particle systems. Unlike textures for particle materials such textures belong to the particle system datablock, not to the material datablock. To create a texture for the particle system it is required to go <strong>from</strong> the <code class="docutils literal"><span class="pre">Particles</span></code> tab to the <code class="docutils literal"><span class="pre">Textures</span></code> tab and then to click the <code class="docutils literal"><span class="pre">New</span></code> button.</p>
+<p>The only supported type of textures is <code class="docutils literal"><span class="pre">Blend</span></code> with a <code class="docutils literal"><span class="pre">Linear</span></code> gradient. <code class="docutils literal"><span class="pre">Ramp</span></code> should be enabled on the texture. Up to 4 gradient control points are supported.</p>
+<p>On the <code class="docutils literal"><span class="pre">Influence</span></code> panel choose the parameter which is influenced by the texture. At the moment the only supported parameter is <code class="docutils literal"><span class="pre">Size</span></code>.</p>
 <a class="reference internal image-reference" href="_images/particles_settings_ramp_size.jpg"><img alt="_images/particles_settings_ramp_size.jpg" class="align-center" src="_images/particles_settings_ramp_size.jpg" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
@@ -310,16 +310,18 @@
 <li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
 </ul>
 
-          <h3 style="margin-top: 1.5em;">Search</h3>
-          <form class="search" action="search.html" method="get">
-            <input type="text" name="q" />
-            <input type="submit" value="Go" />
-            <input type="hidden" name="check_keywords" value="yes" />
-            <input type="hidden" name="area" value="default" />
-          </form>
-          <p class="searchtip" style="font-size: 90%">
-            Enter search terms or a module, class or function name.
-          </p>
+          <div role="search">
+            <h3 style="margin-top: 1.5em;">Search</h3>
+            <form class="search" action="search.html" method="get">
+                <input type="text" name="q" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+            </form>
+            <p class="searchtip" style="font-size: 90%">
+                Enter search terms or a module, class or function name.
+            </p>
+          </div>
         </div>
         <div class="clearer"></div>
       </div>
@@ -328,20 +330,24 @@
     <div class="footer-wrapper">
       <div class="footer">
         <div class="left">
-          <a href="postprocessing_effects.html" title="Postprocessing Effects"
-             >previous</a> |
-          <a href="particles_instancing.html" title="Particle System. Instancing"
-             >next</a> |
-          <a href="genindex.html" title="General Index"
-             >index</a>
+          <div role="navigation" aria-label="related navigaton">
+            <a href="postprocessing_effects.html" title="Postprocessing Effects"
+              >previous</a> |
+            <a href="particles_instancing.html" title="Particle System. Instancing"
+              >next</a> |
+            <a href="genindex.html" title="General Index"
+              >index</a>
+          </div>
+          <div role="note" aria-label="source link">
+          </div>
         </div>
 
         <div class="right">
           
-    <div class="footer">
+    <div class="footer" role="contentinfo">
         &copy; Copyright 2015, Triumph LLC.
-      Last updated on 2015-04-29.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+      Last updated on 2015-05-26.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
         </div>
         <div class="clearer"></div>

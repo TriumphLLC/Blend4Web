@@ -537,6 +537,7 @@ function parse_seq_video_file(response, callback) {
     var number = buffer[3];
     var data = {
         images: [],
+        blobs: [],
         fps: buffer[4]
     };
     var offset = 20;
@@ -547,10 +548,15 @@ function parse_seq_video_file(response, callback) {
         var image = document.createElement("img");
         image.src = window.URL.createObjectURL(blob);
         data.images.push(image);
+        // NOTE: IE HTML7007 message hack
+        data.blobs.push(blob);
         offset +=size + 8 - size % 4;
     }
     // NOTE: wait for loading last image
     image.onload = function() {
+        for (var i = 0; i < data.images.length; i++)
+            window.URL.revokeObjectURL(data.images[i].src);
+        delete data.blobs;
         callback(data);
     }
 }

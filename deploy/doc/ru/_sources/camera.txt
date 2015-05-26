@@ -15,6 +15,8 @@
 
 |
 
+.. _camera_move_style:
+
 *Blend4Web > Move Style*
     Режим управления камерой:
     
@@ -48,13 +50,13 @@
 Для камеры доступно несколько настроек скорости движения.
 
 *Blend4Web > Translation Velocity*
-    Доступно в режимах ``Target``, ``Eye``, ``Hover``. Задаёт скорость перемещения камеры. 
+    Актуально для режимов ``Target``, ``Eye``, ``Hover``. Задаёт скорость перемещения камеры. 
 
 *Blend4Web > Rotation Velocity*
-    Доступно в режимах ``Target``, ``Eye``, ``Hover``. Задаёт скорость вращения камеры.
+    Актуально для режимов ``Target``, ``Eye``, ``Hover``. Задаёт скорость вращения камеры.
 
 *Blend4Web > Zoom Velocity*
-    Доступно в режимах ``Target``, ``Hover``. Задаёт скорость приближения камеры к опорной точке.
+    Актуально для режимов ``Target``, ``Hover``. Задаёт скорость приближения камеры к опорной точке.
 
 Значение параметров по умолчанию: ``Translation Velocity``, ``Rotation Velocity``: 1; ``Zoom Velocity``: 0.1.
 
@@ -331,3 +333,35 @@
     .. image:: src_images/objects/b4w_hover_trans_limits.png
       :align: center
       :width: 100%
+
+|
+
+.. _camera_switch_move_style:
+
+**Изменение режима управления**
+
+Для изменения режима управления камерой (опция в Blender - :ref:`Blend4Web > Move Style <camera_move_style>`) достаточно использовать метод ``set_camera_move_style()`` модуля ``app.js``:
+
+.. code-block:: javascript
+
+    // ...
+    var m_app = require("app");
+    var m_cam = require("camera");
+    // ...
+    m_app.set_camera_move_style(m_cam.MS_TARGET_CONTROLS);
+    // ...
+
+Если приложение не использует функционал модуля ``app.js``, для этих же целей можно использовать метод ``set_move_style()`` модуля ``camera.js``:
+
+.. code-block:: javascript
+
+    // ...
+    var m_cam    = require("camera");
+    var m_scenes = require("scenes");
+    // ...
+    var camera = m_scenes.get_active_camera();
+    m_cam.set_move_style(camera, m_cam.MS_TARGET_CONTROLS);
+    // ...
+
+При изменении режима происходит сброс лимитов перемещения и позиции опорной точки (для камер типа ``TARGET`` и ``HOVER``), поэтому их необходимо установить заново с помощью соответствующих методов модуля ``camera.js``.
+

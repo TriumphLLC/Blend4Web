@@ -34,6 +34,9 @@ var _mouse_curr_y = 0;
 var _mouse_last_x = 0;
 var _mouse_last_y = 0;
 
+// HACK: for touchscreen devices using IE11
+var _is_mouse_downed = false;
+
 // for ST_TOUCH_MOVE sensor; 2 points touch is supported
 var _touches_curr_x = new Float32Array(2);
 var _touches_curr_y = new Float32Array(2);
@@ -88,9 +91,9 @@ exports.CT_TRIGGER    = 20;
 exports.CT_SHOT       = 30;
 exports.CT_LEVEL      = 40;
 
-exports.PL_SINGLE_TOUCH_MOVE = 0;
+exports.PL_SINGLE_TOUCH_MOVE    = 0;
 exports.PL_MULTITOUCH_MOVE_ZOOM = 1;
-exports.PL_MULTITOUCH_MOVE_PAN = 2;
+exports.PL_MULTITOUCH_MOVE_PAN  = 2;
 
 var SENSOR_SMOOTH_PERIOD = 0.3;
 
@@ -195,7 +198,7 @@ function init_sensor(type) {
         // for ST_RAY
         start_offset: new Float32Array(3),
         end_offset: new Float32Array(3),
-        local_coords: false,
+        use_local_coords: false,
         ray_cb: function() {},
 
         // for ST_MOUSE_MOVE and ST_TOUCH_MOVE
@@ -286,7 +289,7 @@ exports.create_collision_impulse_sensor = function(obj) {
 }
 
 exports.create_ray_sensor = function(obj, start_offset,
-        end_offset, local_coords, collision_id) {
+        end_offset, use_local_coords, collision_id) {
 
     if (!obj) {
         m_print.error("Wrong collision object");
@@ -297,7 +300,7 @@ exports.create_ray_sensor = function(obj, start_offset,
     sensor.source_object = obj;
     sensor.start_offset = start_offset;
     sensor.end_offset = end_offset;
-    sensor.local_coords = local_coords;
+    sensor.use_local_coords = use_local_coords || false;
     sensor.collision_id = collision_id || "ANY";
     sensor.ray_cb = function(is_hit, hit_frac) {
         sensor_set_value(sensor, is_hit);
@@ -361,8 +364,8 @@ exports.create_motion_sensor = function(obj, threshold, rotation_threshold) {
     sensor.avg_linear_vel = 0;
     sensor.avg_angular_vel = 0;
 
-    sensor.threshold = threshold;
-    sensor.rotation_threshold = rotation_threshold;
+    sensor.threshold = threshold || 0.1;
+    sensor.rotation_threshold = rotation_threshold || 0.1;
 
     sensor.time_last = 0.0;
 
@@ -390,7 +393,7 @@ exports.create_vertical_velocity_sensor = function(obj, threshold) {
 
     sensor.avg_vertical_vel = 0;
 
-    sensor.threshold = threshold;
+    sensor.threshold = threshold || 1.0;
     sensor.time_last = 0.0;
 
     sensor.payload = 0;
@@ -886,7 +889,7 @@ function remove_sensor(sensor, sensors) {
         break;
     case ST_RAY:
         m_phy.remove_ray_test(sensor.source_object, sensor.collision_id,
-                sensor.start_offset, sensor.end_offset, sensor.local_coords);
+                sensor.start_offset, sensor.end_offset, sensor.use_local_coords);
         sensor.do_activation = true;
         break;
     case ST_TIMER:
@@ -998,7 +1001,7 @@ function append_sensors(sensors) {
             case ST_RAY:
                 m_phy.append_ray_test(sensor.source_object, sensor.collision_id,
                         sensor.start_offset, sensor.end_offset,
-                        sensor.local_coords, sensor.ray_cb);
+                        sensor.use_local_coords, sensor.ray_cb);
                 break;
             case ST_TIMER:
                 sensor.time_last = m_time.get_timeline();
@@ -1090,10 +1093,12 @@ function keyup_cb(e) {
 }
 
 function mouse_down_cb(e) {
-
     var pick = false;
     var selected_obj = null;
 
+    _is_mouse_downed = true;
+    _mouse_last_x = e.clientX;
+    _mouse_last_y = e.clientY;
     _mouse_curr_x = e.clientX;
     _mouse_curr_y = e.clientY;
 
@@ -1127,7 +1132,6 @@ function mouse_down_cb(e) {
 }
 
 function mouse_up_cb(e) {
-
     for (var i = 0; i < _sensors.length; i++) {
         var sensor = _sensors[i];
 
@@ -1139,6 +1143,8 @@ function mouse_up_cb(e) {
             sensor.value = 0;
     }
 
+    _is_mouse_downed = false;
+
     if (_prev_def_mouse_events && !_allow_element_mouse_event)
         e.preventDefault();
 
@@ -1147,35 +1153,38 @@ function mouse_up_cb(e) {
 }
 
 function mouse_move_cb(e) {
+
     var x = e.clientX;
     var y = e.clientY;
 
     _mouse_curr_x = x;
     _mouse_curr_y = y;
 
-    var delta_x = (x - _mouse_last_x);
-    var delta_y = (y - _mouse_last_y);
+    if (!cfg_dft.ie11_touchscreen_hack || _is_mouse_downed) {
+        var delta_x = (x - _mouse_last_x);
+        var delta_y = (y - _mouse_last_y);
 
-    var delta = Math.sqrt(delta_x*delta_x + delta_y*delta_y);
+        var delta = Math.sqrt(delta_x*delta_x + delta_y*delta_y);
 
-    for (var i = 0; i < _sensors.length; i++) {
-        var sensor = _sensors[i];
+        for (var i = 0; i < _sensors.length; i++) {
+            var sensor = _sensors[i];
 
-        if (sensor.type === ST_MOUSE_MOVE) {
-            switch (sensor.axis) {
-            case "X":
-                sensor_set_value(sensor, delta_x);
-                sensor.payload = x;
-                break;
-            case "Y":
-                sensor_set_value(sensor, delta_y);
-                sensor.payload = y;
-                break;
-            case "XY":
-                sensor_set_value(sensor, delta);
-                sensor.payload[0] = x;
-                sensor.payload[1] = y;
-                break;
+            if (sensor.type === ST_MOUSE_MOVE) {
+                switch (sensor.axis) {
+                case "X":
+                    sensor_set_value(sensor, delta_x);
+                    sensor.payload = x;
+                    break;
+                case "Y":
+                    sensor_set_value(sensor, delta_y);
+                    sensor.payload = y;
+                    break;
+                case "XY":
+                    sensor_set_value(sensor, delta);
+                    sensor.payload[0] = x;
+                    sensor.payload[1] = y;
+                    break;
+                }
             }
         }
     }

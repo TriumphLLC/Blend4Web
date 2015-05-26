@@ -151,7 +151,7 @@ vec3 skin_vector(in vec3 vector,
     vec3 vector_rot_before = qrot(quatb, vec_armobj_space);
     vec3 vector_rot_after  = qrot(quata, vec_armobj_space);
     vec3 vector_rot = mix(vector_rot_before, vector_rot_after, frame_factor);
-    return tsr_translate(u_arm_rel_trans, u_arm_rel_quat,
+    return tsr_translate_inv(u_arm_rel_trans, u_arm_rel_quat,
                          vec4(vector_rot, 0.0));
 #  endif
 }

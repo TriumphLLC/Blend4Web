@@ -11,6 +11,14 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+#: ../node_materials.rst:1 ../node_materials.rst:21 ../node_materials.rst:45
+msgid "материалы"
+msgstr "materials"
+
+#: ../node_materials.rst:1 ../node_materials.rst:21 ../node_materials.rst:45
+msgid "ноды"
+msgstr "nodes"
+
 #: ../node_materials.rst:7
 msgid "Нодовые материалы"
 msgstr "Node Materials"
@@ -24,14 +32,6 @@ msgstr ""
 "Shader nodes extend significantly the potential of Blender's standard "
 "materials by means of presenting shading as a batch of basic "
 "transformations."
-
-#: ../node_materials.rst:1 ../node_materials.rst:21 ../node_materials.rst:45
-msgid "материалы"
-msgstr "materials"
-
-#: ../node_materials.rst:1 ../node_materials.rst:21 ../node_materials.rst:45
-msgid "ноды"
-msgstr "nodes"
 
 #: ../node_materials.rst:19
 msgid "Стандартные ноды"
@@ -217,8 +217,8 @@ msgstr ""
 "The node implements the texture coordinates offset using a height map."
 
 #: ../node_materials.rst:100 ../node_materials.rst:129
-#: ../node_materials.rst:167 ../node_materials.rst:195
-#: ../node_materials.rst:218
+#: ../node_materials.rst:171 ../node_materials.rst:199
+#: ../node_materials.rst:222 ../node_materials.rst:253
 msgid "Входные параметры"
 msgstr "Input parameters"
 
@@ -258,6 +258,14 @@ msgstr ""
 "The number of steps for iterative generation of texture coordinates offset. "
 "The bigger this value is the better is the final quality."
 
+#: ../node_materials.rst:112
+msgid "*Color*"
+msgstr ""
+
+#: ../node_materials.rst:112 ../node_materials.rst:161
+msgid "*Color*"
+msgstr ""
+
 #: ../node_materials.rst:115
 msgid "*Lod Distance*"
 msgstr ""
@@ -267,8 +275,8 @@ msgid "Максимальное расстояние от камеры, на к�
 msgstr "Maximum distance from camera at which the effect is observed."
 
 #: ../node_materials.rst:118 ../node_materials.rst:156
-#: ../node_materials.rst:177 ../node_materials.rst:203
-#: ../node_materials.rst:228
+#: ../node_materials.rst:181 ../node_materials.rst:207
+#: ../node_materials.rst:232
 msgid "Выходные параметры"
 msgstr "Output parameters"
 
@@ -297,7 +305,8 @@ msgstr ""
 "light source and 2) appearance of a light spot right in the light source "
 "place."
 
-#: ../node_materials.rst:112
+#: ../node_materials.rst:131 ../node_materials.rst:184
+#: ../node_materials.rst:210
 msgid "*Color*"
 msgstr ""
 
@@ -310,10 +319,6 @@ msgstr ""
 "One-channel texture which defines material heterogeneity - the white color "
 "denotes maximum translucency effect while the black color denotes its "
 "absence. White color is used by default."
-
-#: ../node_materials.rst:139
-msgid "*Backside Factor*"
-msgstr ""
 
 #: ../node_materials.rst:134
 msgid ""
@@ -335,6 +340,10 @@ msgstr "*Backside Factor = 1* - no correction"
 #: ../node_materials.rst:138
 msgid "*Backside Factor > 1* - коррекция в сторону затемнения"
 msgstr "*Backside Factor > 1* - darkening"
+
+#: ../node_materials.rst:139
+msgid "*Backside Factor*"
+msgstr ""
 
 #: ../node_materials.rst:140 ../node_materials.rst:153
 msgid "Значение по умолчанию: 1."
@@ -364,10 +373,6 @@ msgstr ""
 "Light spot intesity. The bigger this value is the brighter is the light "
 "spot. The default value is 1."
 
-#: ../node_materials.rst:153
-msgid "*Spot Diffuse Factor*"
-msgstr ""
-
 #: ../node_materials.rst:148
 msgid ""
 "Коэффициент влияния диффузного цвета материала на цвет светового пятна."
@@ -381,6 +386,10 @@ msgstr "*Spot Diffuse Factor = 0* - the light spot has the diffuse color"
 msgid "*Spot Diffuse Factor = 1* - световое пятно имеет белый цвет"
 msgstr "*Spot Diffuse Factor = 1* - the light spot color is white"
 
+#: ../node_materials.rst:153
+msgid "*Spot Diffuse Factor*"
+msgstr ""
+
 #: ../node_materials.rst:159
 msgid "*Translucency*"
 msgstr ""
@@ -393,43 +402,47 @@ msgstr ""
 "The output should be connected to the ``Translucency`` input of the "
 "``Extended Material`` node."
 
-#: ../node_materials.rst:162
+#: ../node_materials.rst:163
+msgid ""
+"Возможно некорректное поведение ноды, если используются "
+":ref:`отредактированные нормали <normals_editor>`."
+msgstr ""
+"This node can work incorrectly, if the mesh :ref:`normals were edited "
+"<normals_editor>`."
+
+#: ../node_materials.rst:166
 msgid "B4W_REFRACTION"
 msgstr ""
 
-#: ../node_materials.rst:164
+#: ../node_materials.rst:168
 msgid "Реализует эффект преломления."
 msgstr "Get the refracted image behind object."
 
-#: ../node_materials.rst:169
+#: ../node_materials.rst:173
 msgid "*Normal*"
 msgstr ""
 
-#: ../node_materials.rst:170
+#: ../node_materials.rst:174
 msgid "Карта нормалей, по которой происходит возмущение (сдвиг)."
 msgstr "Normal map for adding perturbations."
 
-#: ../node_materials.rst:174
-msgid "*Refraction bump*"
-msgstr ""
-
-#: ../node_materials.rst:172
+#: ../node_materials.rst:176
 msgid "Коэффицент возмущения (сдвига) текстуры сцены позади объекта."
 msgstr "Value of perturbation strength."
 
-#: ../node_materials.rst:174
+#: ../node_materials.rst:178
+msgid "*Refraction bump*"
+msgstr ""
+
+#: ../node_materials.rst:178
 msgid "Значение по умолчанию: 0.001."
 msgstr "The default value is 0.001."
 
-#: ../node_materials.rst:112 ../node_materials.rst:161
-msgid "*Color*"
-msgstr ""
-
-#: ../node_materials.rst:180
+#: ../node_materials.rst:184
 msgid "Текстура сцены позади объекта с внесённым возмущением."
 msgstr "Rendered texture behind object with perturbations."
 
-#: ../node_materials.rst:184
+#: ../node_materials.rst:188
 msgid ""
 "Для отображения эффекта необходимо включить опцию ``Render refraction`` на "
 "панели ``Scene > Blend4Web``. Объект должен быть с типом прозрачности Alpha "
@@ -439,29 +452,29 @@ msgstr ""
 " > Blend4Web`` panel. The object's transparency type must be set to ``Alpha "
 "Blend``."
 
-#: ../node_materials.rst:185
+#: ../node_materials.rst:189
 msgid ":ref:`alpha_blend`"
 msgstr ""
 
-#: ../node_materials.rst:188
+#: ../node_materials.rst:192
 msgid "B4W_LEVELS_OF_QUALITY"
 msgstr ""
 
-#: ../node_materials.rst:190
+#: ../node_materials.rst:194
 msgid ""
 "Устанавливает значение выходного цвета в зависимости от установленного "
 "профиля качества изображения."
 msgstr "This node sets output color value depending on the quality profile."
 
-#: ../node_materials.rst:192
+#: ../node_materials.rst:196
 msgid ":ref:`quality_settings`"
 msgstr ""
 
-#: ../node_materials.rst:197
+#: ../node_materials.rst:201
 msgid "*HIGH*"
 msgstr ""
 
-#: ../node_materials.rst:198
+#: ../node_materials.rst:202
 msgid ""
 "Значение, которое будет подано в выходной параметр ``Color`` при высоком и "
 "максимальном качестве изображения."
@@ -469,11 +482,11 @@ msgstr ""
 "Node links this parameter to ``Color`` parameter in case of high and maximum"
 " quality usage."
 
-#: ../node_materials.rst:200
+#: ../node_materials.rst:204
 msgid "*LOW*"
 msgstr ""
 
-#: ../node_materials.rst:200
+#: ../node_materials.rst:204
 msgid ""
 "Значение, которое будет подано в выходной параметр ``Color`` при низком "
 "качестве изображения."
@@ -481,64 +494,96 @@ msgstr ""
 "Node links this parameter to ``Color`` parameter in case of low quality "
 "usage."
 
-#: ../node_materials.rst:131 ../node_materials.rst:180
-#: ../node_materials.rst:206
-msgid "*Color*"
-msgstr ""
-
-#: ../node_materials.rst:206
+#: ../node_materials.rst:210
 msgid "Значение выходного цвета."
 msgstr "Output color."
 
-#: ../node_materials.rst:210
+#: ../node_materials.rst:214
 msgid ""
 "Для отображения во вьюпорте Blender'а используется входной параметр "
 "``HIGH``."
 msgstr ""
 "``HIGH`` input parameter is used for rendering in the Blender viewport."
 
-#: ../node_materials.rst:213
+#: ../node_materials.rst:217
 msgid "B4W_SMOOTHSTEP"
 msgstr ""
 
-#: ../node_materials.rst:215
+#: ../node_materials.rst:219
 msgid ""
 "Осуществить мягкую интерполяцию двух значений, исходя из первого значения."
 msgstr ""
 "Perform smooth interpolation between two input values based on first value."
 
-#: ../node_materials.rst:220 ../node_materials.rst:231
+#: ../node_materials.rst:224 ../node_materials.rst:235
 msgid "*Value*"
 msgstr ""
 
-#: ../node_materials.rst:223
-msgid "Первое значениe для интерполяции."
-msgstr "First interpolation value."
-
-#: ../node_materials.rst:221
+#: ../node_materials.rst:225
 msgid "Значение, на основе которого осуществляется интерполяция."
 msgstr "Value which determines interpolation smoothness."
 
-#: ../node_materials.rst:222
+#: ../node_materials.rst:226
 msgid "*Edge0*"
 msgstr ""
 
-#: ../node_materials.rst:225
+#: ../node_materials.rst:227
+msgid "Первое значениe для интерполяции."
+msgstr "First interpolation value."
+
+#: ../node_materials.rst:229
 msgid "*Edge1*"
 msgstr ""
 
-#: ../node_materials.rst:225
+#: ../node_materials.rst:229
 msgid "Второе значениe для интерполяции."
 msgstr "Second interpolation value."
 
-#: ../node_materials.rst:231
+#: ../node_materials.rst:235
 msgid "Сглаженное значение."
 msgstr "Interpolated value."
 
-#: ../node_materials.rst:234
+#: ../node_materials.rst:238
 msgid ""
 "Для корректной интерполяции входное значение ''Value'' должно лежать в "
 "диапазоне между ''Edge0'' и ''Edge1''."
 msgstr ""
 "For the correct interpolation input ''Value'' had to be between ''Edge0'' "
 "and ''Edge1''."
+
+#: ../node_materials.rst:244
+msgid "B4W_GLOW_OUTPUT"
+msgstr ""
+
+#: ../node_materials.rst:246
+msgid ""
+"Применяет :ref:`эффект свечения (Glow) <glow>` к нодовому материалу. Помимо "
+"ноды *B4W_GLOW_OUTPUT* в нодовом материале должна присутствовать нода "
+"*Output*."
+msgstr ""
+"Applies the :ref:`Glow effect <glow>` to the node material. Besides the "
+"*B4W_GLOW_OUTPUT* node, the node material should have the *Output*."
+
+#: ../node_materials.rst:255
+msgid "*Glow Color*"
+msgstr ""
+
+#: ../node_materials.rst:256
+msgid "Цвет свечения."
+msgstr "Glow color."
+
+#: ../node_materials.rst:258
+msgid "Степень свечения. *Factor* :math:`\\in [0, 1]`."
+msgstr "Glow ratio. *Factor* :math:`\\in [0, 1]`."
+
+#: ../node_materials.rst:260
+msgid "*Factor = 0* - свечение отсутствует."
+msgstr "*Factor = 0* - no glow."
+
+#: ../node_materials.rst:261
+msgid "*Factor* :math:`\\in (0, 1]` - свечение цветом *Glow Color*."
+msgstr "*Factor* :math:`\\in (0, 1]` - there is a glow, colored with *Glow Color*."
+
+#: ../node_materials.rst:263
+msgid "*Factor*"
+msgstr ""

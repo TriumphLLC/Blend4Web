@@ -1857,9 +1857,9 @@ void calc_bounding_data(struct BoundingData *bdata, Mesh *mesh) {
         }
 
         //scale sphere boundings to fit original size and get ellipsoid shape
-        bdata->ecen_x = tmp_scen[0] * x_width;
-        bdata->ecen_y = tmp_scen[1] * y_width;
-        bdata->ecen_z = tmp_scen[2] * z_width;
+        bdata->ecen_x = x_width ? tmp_scen[0] * x_width: bdata->max_x;
+        bdata->ecen_y = y_width ? tmp_scen[1] * y_width: bdata->max_y;
+        bdata->ecen_z = z_width ? tmp_scen[2] * z_width: bdata->max_z;
 
         bdata->eaxis_x = tmp_rad * x_width;
         bdata->eaxis_y = tmp_rad * y_width;

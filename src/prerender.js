@@ -19,9 +19,9 @@ var m_vec3  = require("vec3");
 var cfg_def = m_cfg.defaults;
 
 var USE_FRUSTUM_CULLING = true;
-var SUBS_UPDATE_DO_RENDER = ["MAIN_OPAQUE", "MAIN_BLEND", "MAIN_REFLECT", 
-        "SHADOW_CAST", "DEPTH", "OUTLINE_MASK", "WIREFRAME", "COLOR_PICKING", 
-        "MAIN_XRAY", "COLOR_PICKING_XRAY"];
+var SUBS_UPDATE_DO_RENDER = ["MAIN_OPAQUE", "MAIN_BLEND", "MAIN_PLANE_REFLECT",
+        "MAIN_CUBE_REFLECT", "MAIN_GLOW", "SHADOW_CAST", "DEPTH", "OUTLINE_MASK",
+        "WIREFRAME", "COLOR_PICKING", "MAIN_XRAY", "COLOR_PICKING_XRAY"];
 
 /**
  * Set do_render flag for subscenes/bundles
@@ -33,9 +33,18 @@ exports.prerender_subs = function(subs) {
 
         for (var i = 0; i < bundles.length; i++) {
             var bundle = bundles[i];
-            prerender_bundle(bundle, subs);
-            if (bundle.do_render)
-                has_render_bundles = true;
+            if (subs.type == "MAIN_CUBE_REFLECT") {
+                for (var j = 0; j < 6; j++) {
+                    subs.camera.frustum_planes = subs.cube_cam_frustums[j];
+                    bundle.do_render_cube[j] = prerender_bundle(bundle, subs);
+                    if (bundle.do_render_cube[j])
+                        has_render_bundles = true;
+                }
+            } else {
+                bundle.do_render = prerender_bundle(bundle, subs);
+                if (bundle.do_render)
+                    has_render_bundles = true;
+            }
         }
 
         var cam = subs.camera;
@@ -108,48 +117,39 @@ function zsort(subs) {
 
 /**
  * Set do_render flag for render object based on it's current state
+ * Returns do_render flag for bundle
  */
 function prerender_bundle(bundle, subs) {
 
     var obj_render = bundle.obj_render;
     var cam = subs.camera;
 
-    bundle.do_render = true;
-
     obj_render.is_visible = false;
 
-    if (!obj_render) {
-        bundle.do_render = false;
-        return;
-    }
+    if (!obj_render)
+        return false;
 
-    if (obj_render.hide) {
-        bundle.do_render = false;
-        return;
-    }
+    if (obj_render.hide)
+        return false;
 
-    if (!is_lod_visible(obj_render, cam)) {
-        bundle.do_render = false;
-        return;
-    }
+    if (!is_lod_visible(obj_render, cam))
+        return false;
 
     obj_render.is_visible = true;
 
-    if (subs.type == "OUTLINE_MASK" && !Boolean(obj_render.outline_intensity)) {
-        bundle.do_render = false;
-        return;
-    }
+    if (subs.type == "OUTLINE_MASK" && !Boolean(obj_render.outline_intensity))
+        return false;
 
-    if (USE_FRUSTUM_CULLING && is_out_of_frustum(obj_render, cam.frustum_planes)) {
-        bundle.do_render = false;
-        return;
-    }
+    if (USE_FRUSTUM_CULLING && is_out_of_frustum(obj_render, cam.frustum_planes))
+        return false;
 
     if (subs.type == "WIREFRAME")
         if (bundle.batch.wireframe_mode == m_debug.WIREFRAME_MODES["WM_DEBUG_SPHERES"])
-            bundle.do_render = bundle.batch.debug_sphere;
+            return bundle.batch.debug_sphere;
         else
-            bundle.do_render = !bundle.batch.debug_sphere;
+            return !bundle.batch.debug_sphere;
+
+    return true;
 }
 
 function is_out_of_frustum(obj_render, planes) {

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Нелинейная анимация &mdash; Руководство пользователя: Blend4Web v15.04</title>
+    <title>Нелинейная анимация &mdash; Руководство пользователя: Blend4Web v15.05</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '15.04',
+        VERSION:     '15.05',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,19 +26,19 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v15.04" href="index.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v15.05" href="index.html" />
     <link rel="next" title="Разработчикам приложений" href="developers.html" />
     <link rel="prev" title="Физика" href="physics.html" /> 
   </head>
-  <body>
-    <div class="header-wrapper">
+  <body role="document">
+    <div class="header-wrapper" role="banner">
       <div class="header">
           <p class="logo"><a href="index.html">
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">Руководство пользователя: Blend4Web v15.04</a></div>
-        <div class="rel">
+          href="index.html">Руководство пользователя: Blend4Web v15.05</a></div>
+        <div class="rel" role="navigation" aria-label="related navigation">
           <a href="physics.html" title="Физика"
              accesskey="P">назад</a> |
           <a href="developers.html" title="Разработчикам приложений"
@@ -55,7 +55,7 @@
             
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="nla">
 <span id="id1"></span><h1>Нелинейная анимация<a class="headerlink" href="#nla" title="Ссылка на этот заголовок">¶</a></h1>
@@ -79,21 +79,24 @@
 <div class="section" id="id3">
 <h3>Использование<a class="headerlink" href="#id3" title="Ссылка на этот заголовок">¶</a></h3>
 <ol class="arabic simple">
-<li>Во вкладке <tt class="docutils literal"><span class="pre">Scene</span></tt> выбрать опцию <tt class="docutils literal"><span class="pre">Use</span> <span class="pre">NLA</span></tt>.</li>
-<li>В редакторе <tt class="docutils literal"><span class="pre">NLA</span> <span class="pre">Editor</span></tt> задать необходимую конфигурацию поведения сцены.</li>
-<li>На панели <tt class="docutils literal"><span class="pre">Timeline</span></tt> выбрать интервал времени анимации.</li>
+<li>Во вкладке <code class="docutils literal"><span class="pre">Scene</span></code> выбрать опцию <code class="docutils literal"><span class="pre">Use</span> <span class="pre">NLA</span></code>.</li>
+<li>В редакторе <code class="docutils literal"><span class="pre">NLA</span> <span class="pre">Editor</span></code> задать необходимую конфигурацию поведения сцены.</li>
+<li>На панели <code class="docutils literal"><span class="pre">Timeline</span></code> выбрать интервал времени анимации.</li>
 </ol>
 </div>
 <div class="section" id="id4">
 <h3>Дополнительные настройки<a class="headerlink" href="#id4" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Настройка сцены <em>Blend4Web &gt; Cyclic NLA</em> позволяет активировать режим
 циклической NLA-анимации.</p>
+<div class="admonition note">
+<p class="first admonition-title">Примечание</p>
+<p class="last">Для использования вертексной анимации необходимо выставить опцию
+&#8220;Allow NLA&#8221; на <a class="reference internal" href="animation.html#ver-anim"><span>панели запекания вертексной анимации</span></a>.</p>
+</div>
 </div>
 <div class="section" id="id5">
 <h3>Ограничения<a class="headerlink" href="#id5" title="Ссылка на этот заголовок">¶</a></h3>
 <ul class="simple">
-<li>Вертексная анимация не поддерживается.</li>
-<li>Масштабирование и зацикливание отдельных полос анимации (Strip) не поддерживается.</li>
 <li>Одновременное проигрывание различных видов анимации для одного объекта не поддерживается.</li>
 </ul>
 </div>
@@ -109,7 +112,7 @@
 </div>
 <p>Слоты являются логическими блоками, которые выполняются с первого по последний
 последовательно, за исключением случаев, когда в слоте явно обозначен переход
-(<tt class="docutils literal"><span class="pre">Jump</span></tt> или <tt class="docutils literal"><span class="pre">Conditional</span> <span class="pre">Jump</span></tt>). При достижении конца списка, выполнение
+(<code class="docutils literal"><span class="pre">Jump</span></code> или <code class="docutils literal"><span class="pre">Conditional</span> <span class="pre">Jump</span></code>). При достижении конца списка, выполнение
 логики останавливается, либо, если на сцене активирована настройка <em>Blend4Web &gt;
 Cyclic NLA</em>, начинается сначала.</p>
 <div class="admonition note">
@@ -121,7 +124,7 @@ Cyclic NLA</em>, начинается сначала.</p>
 регистрами. Каждый из 8 регистров может хранить в себе одно числовое значение.
 Регистры могут быть использованы для хранения какого-либо состояния сцены
 (например, это может быть счётчик проигрываемых анимаций, количество жизней,
-оставшихся у персонажа итд.).</p>
+оставшихся у персонажа и т.д.).</p>
 <p>Пример использования NLA Script:</p>
 <a class="reference internal image-reference" href="_images/interactive_nla_brick.png"><img alt="_images/interactive_nla_brick.png" class="align-center" src="_images/interactive_nla_brick.png" style="width: 100%;" /></a>
 <div class="line-block">
@@ -140,16 +143,16 @@ Cyclic NLA</em>, начинается сначала.</p>
 <p>Ожидать, когда пользователь выберет объект (с помощью клика мышью в версии
 движка для десктопа, либо нажатия на экране в мобильной версии). Если выбран
 объект, указанный в параметрах слота, начать играть анимацию аналогично слоту
-<tt class="docutils literal"><span class="pre">Play</span></tt>, если же был выбран любой другой объект - немедленно передать управление
+<code class="docutils literal"><span class="pre">Play</span></code>, если же был выбран любой другой объект - немедленно передать управление
 следующему слоту.</p>
 <p>Последняя функциональность используется для выбора одного из нескольких
-объектов, причём <tt class="docutils literal"><span class="pre">Select</span> <span class="pre">&amp;</span> <span class="pre">Play</span></tt> удобно размещать в стеке один за
+объектов, причём <code class="docutils literal"><span class="pre">Select</span> <span class="pre">&amp;</span> <span class="pre">Play</span></code> удобно размещать в стеке один за
 другим. В данном случае результат выбора пользователя может быть подхвачен одним
 из слотов из данной последовательности, поскольку переход без анимации
 производится мгновенно.</p>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
-<p class="last">Чтобы пользователь имел возможность выбрать объект, в его настройках необходимо активировать опцию <tt class="docutils literal"><span class="pre">Selectable</span></tt>, как в случае реализации <a class="reference internal" href="postprocessing_effects.html#outline"><em>эффекта свечения силуэта</em></a>.</p>
+<p class="last">Чтобы пользователь имел возможность выбрать объект, в его настройках необходимо активировать опцию <code class="docutils literal"><span class="pre">Selectable</span></code>, как в случае реализации <a class="reference internal" href="postprocessing_effects.html#outline"><span>эффекта свечения силуэта</span></a>.</p>
 </div>
 </div>
 <div class="section" id="jump">
@@ -159,7 +162,7 @@ Cyclic NLA</em>, начинается сначала.</p>
 </div>
 <div class="section" id="select-jump">
 <h3>Select &amp; Jump<a class="headerlink" href="#select-jump" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Аналогично слоту <tt class="docutils literal"><span class="pre">Select</span> <span class="pre">&amp;</span> <span class="pre">Play</span></tt>, за исключением того, что вместо анимации
+<p>Аналогично слоту <code class="docutils literal"><span class="pre">Select</span> <span class="pre">&amp;</span> <span class="pre">Play</span></code>, за исключением того, что вместо анимации
 осуществляется переход. Указанная функция позволяет реализовать более сложную
 логику, поскольку появляется возможность распознавания результата выбора
 пользователя (выделение текущего объекта приводит к переходу по имени слота,
@@ -196,8 +199,27 @@ Cyclic NLA</em>, начинается сначала.</p>
 <h3>Noop<a class="headerlink" href="#noop" title="Ссылка на этот заголовок">¶</a></h3>
 <p>Сокращение от &#8220;No Operation&#8221;. Означает, что при обработке слота данного типа,
 никаких действий произведено не будет. Слот удобно использовать совместно с
-типом <tt class="docutils literal"><span class="pre">Jump</span></tt> или <tt class="docutils literal"><span class="pre">Conditional</span> <span class="pre">Jump</span></tt>.</p>
+типом <code class="docutils literal"><span class="pre">Jump</span></code> или <code class="docutils literal"><span class="pre">Conditional</span> <span class="pre">Jump</span></code>.</p>
 </div>
+</div>
+<div class="section" id="api">
+<h2>Управление через API<a class="headerlink" href="#api" title="Ссылка на этот заголовок">¶</a></h2>
+<p>Для управления нелинейной анимацией через API существует модуль <code class="docutils literal"><span class="pre">nla.js</span></code>.</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
+<span class="kd">var</span> <span class="nx">m_nla</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;nla&quot;</span><span class="p">);</span>
+<span class="c1">// ...</span>
+<span class="nx">m_nla</span><span class="p">.</span><span class="nx">set_frame</span><span class="p">(</span><span class="mi">150</span><span class="p">);</span>
+<span class="c1">// ...</span>
+<span class="kd">var</span> <span class="nx">frame</span> <span class="o">=</span> <span class="nx">m_nla</span><span class="p">.</span><span class="nx">get_frame</span><span class="p">();</span>
+<span class="c1">// ...</span>
+<span class="nx">m_nla</span><span class="p">.</span><span class="nx">play</span><span class="p">();</span>
+<span class="c1">// ...</span>
+<span class="nx">m_nla</span><span class="p">.</span><span class="nx">stop</span><span class="p">();</span>
+<span class="c1">// ...</span>
+</pre></div>
+</div>
+<p>При использовании <a class="reference internal" href="#nla-script"><span>NLA-скрипта</span></a> функции <code class="docutils literal"><span class="pre">set_frame</span></code>, <code class="docutils literal"><span class="pre">play</span></code>,
+<code class="docutils literal"><span class="pre">stop</span></code> недоступны.</p>
 </div>
 </div>
 
@@ -234,6 +256,7 @@ Cyclic NLA</em>, начинается сначала.</p>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Нелинейная анимация</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#nla-editor">Редактор NLA</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#nla-script">Визуальное программирование (NLA Script)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#api">Управление через API</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="developers.html">Разработчикам приложений</a></li>
@@ -243,16 +266,18 @@ Cyclic NLA</em>, начинается сначала.</p>
 <li class="toctree-l1"><a class="reference internal" href="release_notes.html">Замечания к релизам</a></li>
 </ul>
 
-          <h3 style="margin-top: 1.5em;">Поиск</h3>
-          <form class="search" action="search.html" method="get">
-            <input type="text" name="q" />
-            <input type="submit" value="Искать" />
-            <input type="hidden" name="check_keywords" value="yes" />
-            <input type="hidden" name="area" value="default" />
-          </form>
-          <p class="searchtip" style="font-size: 90%">
-            Введите слова для поиска или имя модуля, класса или функции.
-          </p>
+          <div role="search">
+            <h3 style="margin-top: 1.5em;">Поиск</h3>
+            <form class="search" action="search.html" method="get">
+                <input type="text" name="q" />
+                <input type="submit" value="Искать" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+            </form>
+            <p class="searchtip" style="font-size: 90%">
+                Введите слова для поиска или имя модуля, класса или функции.
+            </p>
+          </div>
         </div>
         <div class="clearer"></div>
       </div>
@@ -261,20 +286,24 @@ Cyclic NLA</em>, начинается сначала.</p>
     <div class="footer-wrapper">
       <div class="footer">
         <div class="left">
-          <a href="physics.html" title="Физика"
-             >назад</a> |
-          <a href="developers.html" title="Разработчикам приложений"
-             >вперёд</a> |
-          <a href="genindex.html" title="Алфавитный указатель"
-             >указатель</a>
+          <div role="navigation" aria-label="related navigaton">
+            <a href="physics.html" title="Физика"
+              >назад</a> |
+            <a href="developers.html" title="Разработчикам приложений"
+              >вперёд</a> |
+            <a href="genindex.html" title="Алфавитный указатель"
+              >указатель</a>
+          </div>
+          <div role="note" aria-label="source link">
+          </div>
         </div>
 
         <div class="right">
           
-    <div class="footer">
+    <div class="footer" role="contentinfo">
         &copy; Copyright 2015, ООО &#34;Триумф&#34;.
-      Обновлено: 2015-04-29.
-      Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+      Обновлено: 2015-05-26.
+      Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
         </div>
         <div class="clearer"></div>

@@ -39,88 +39,93 @@
     
         
             <div class="description">API for the engine's global configuration.
-<p>Use the set()/get() function to change/get the value of a property.
-Use the reset() function to reset all properties to their default state.
+
+<p>Use the set()/get() method to change/get the value of a property.
+Use the reset() method to reset all properties to their default state.
 Any change in configuration must occur before engine initialization. Keep in
-mind that some of the properties are affected by a quality profile and client's
-hardware/browser. In the former case set CUSTOM profile to allow changing of
-such properties.
-<h3>Allowed configuration properties</h3>
+mind that some of the properties are affected by the quality profile and
+the user's hardware/browser. In the former case use the CUSTOM profile
+in order to change such properties.</p>
+
+<p>Normally, the users should not alter these parameters.</p>
+
+<h3>Configuration Parameters Available</h3>
 <dl>
 <dt>allow_cors
 <dd>Boolean, allow cross-origin resource sharing.
 <dt>allow_hidpi
-<dd>Boolean, allow HIDPI mode on supported devices (set CUSTOM profile to
-change).
+<dd>Boolean, allow HIDPI mode on supported devices (use the CUSTOM profile
+in order to change this parameter).
 <dt>alpha
 <dd>Boolean, enable WebGL canvas transparency.
 <dt>alpha_sort
-<dd>Boolean, enable transparency sorting for "blend" materials.
+<dd>Boolean, enable z-sorting for transparent materials.
 <dt>alpha_sort_threshold
-<dd>Number, camera distance threshold for transparency sorting.
+<dd>Number, camera distance threshold for transparency z-sorting.
 <dt>anaglyph_use
 <dd>Boolean, enable anaglyph stereo rendering.
 <dt>animation_framerate
-<dd>Number, animation framerate
+<dd>Number, animation framerate.
 <dt>antialiasing
-<dd>Boolean, enable postprocessing-based antialiasing (set CUSTOM profile to
-change).
+<dd>Boolean, enable postprocess-based anti-aliasing (use the CUSTOM profile
+in order to change this parameter).
 <dt>assets_dds_available
-<dd>Boolean, allow engine to use compressed DDS textures, you must provide
-them along non-compressed ones.
+<dd>Boolean, allow the engine to use compressed DDS textures. The compressed
+textures should be present near the source textures in order to be picked up.
 <dt>assets_min50_available
-<dd>Boolean, allow engine to use low quality textures, you must provide
+<dd>Boolean, allow the engine to use halved textures. The halved
+textures should be present near the source textures in order to be picked up.
 <dt>audio
-<dd>Boolean, enable webaudio.
-them along high quality ones.
+<dd>Boolean, enable Web Audio.
 <dt>background_color
-<dd>Float32Array, RGBA vector with WebGL canvas background color.
+<dd>Float32Array, RGBA values to use as a background color for the WebGL
+canvas.
 <dt>built_in_module_name
-<dd>String, name of build-in module (for HTML export only).
+<dd>String, name of the module which stores exported data (HTML export only).
 <dt>canvas_resolution_factor
-<dd>Boolean, set canvas resolution factor.
+<dd>Boolean, set the resolution factor for the canvas.
 <dt>console_verbose
-<dd>Boolean, print more debug info.
-<dt>context_antialias
-<dd>Boolean, enable hardware antialiasing (for forward rendering only).
+<dd>Boolean, print more debug info in the browser console.
 <dt>do_not_load_resources
-<dd>Boolean, disable resource loading (textures and sounds).
+<dd>Boolean, disable loading of assets (textures and sounds).
 <dt>enable_selectable
-<dd>Boolean, enable object selection.
+<dd>Boolean, enable selecting of objects.
 <dt>enable_outlining
-<dd>Boolean, enable object outlining.
+<dd>Boolean, enable outlining of object.
 <dt>gyro_use
 <dd>Boolean, enable gyroscope.
 <dt>outlining_overview_mode
-<dd>Boolean, make all objects selectable, outlining and outlining on select.
+<dd>Boolean, make all objects selectable, enable outlining and
+outlining on select.
 <dt>physics_enabled
-<dd>Boolean, enable uranium.js physics engine.
+<dd>Boolean, use the uranium.js physics engine.
 <dt>physics_uranium_path
-<dd>String, path to uranium.js module, if not specified search in the
-directory with the engine's source.
+<dd>String, path to the uranium.js file. If not specified, search in the
+directory with the engine's sources.
 <dt>precision
-<dd>String, preferred GLSL floating point precision (set CUSTOM profile to
-change).
+<dd>String, preferred GLSL floating point precision (use the CUSTOM profile
+in order to change this parameter).
 <dt>quality
 <dd>Number, preferred rendering quality profile (one of P_LOW, P_HIGH,
-P_ULTRA, P_CUSTOM constants).
+P_ULTRA, P_CUSTOM enums).
 <dt>resolution_factor
-<dd>Number, internal rendering resolution factor (set CUSTOM profile to
-change).
+<dd>Number, internal rendering resolution factor (use the CUSTOM profile
+in order to change this parameter).
 <dt>sfx_mix_mode
-<dd>Boolean, enable mixer mode in SFX subsystem
+<dd>Boolean, enable the mixer mode in the SFX subsystem.
 <dt>shaders_dir
-<dd>String, path to shaders directory (developer version only).
+<dd>String, path to the shaders directory (developer version only).
 <dt>show_hud_debug_info
 <dd>Boolean, show HUD with debug information.
 <dt>smaa
-<dd>Boolean, enable SMAA antialiasing (set CUSTOM profile to change).
+<dd>Boolean, enable SMAA anti-aliasing (use the CUSTOM profile
+in order to change this parameter).
 <dt>smaa_search_texture_path
-<dd>String, path to SMAA search texture, if not specified search in the
-directory with the engine's source.
+<dd>String, path to the SMAA "search" texture. If not specified, search in
+the directory with the engine's sources.
 <dt>smaa_area_texture_path
-<dd>String, path to SMAA area texture, if not specified search in the
-directory with the engine's source.
+<dd>String, path to the SMAA "area" texture. If not specified, search in the
+directory with the engine's sources.
 <dt>wireframe_debug
 <dd>Boolean, enable wireframe debug mode.
 </dl></div>
@@ -275,7 +280,7 @@ directory with the engine's source.
 <div class="item_description">
 
 <div class="description">
-    Custom quality profile: use engine defaults value, allow customizaiton.
+    Custom quality profile: use engine defaults, allow customization.
 </div>
 
 
@@ -323,7 +328,7 @@ directory with the engine's source.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line119">line 119</a>
+        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line130">line 130</a>
     </li></ul></dd>
     
 
@@ -400,7 +405,7 @@ directory with the engine's source.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line109">line 109</a>
+        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line118">line 118</a>
     </li></ul></dd>
     
 
@@ -477,7 +482,7 @@ directory with the engine's source.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line104">line 104</a>
+        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line112">line 112</a>
     </li></ul></dd>
     
 
@@ -554,7 +559,7 @@ directory with the engine's source.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line114">line 114</a>
+        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line124">line 124</a>
     </li></ul></dd>
     
 
@@ -592,7 +597,7 @@ directory with the engine's source.
 <div class="item_description">
 
 <div class="description">
-    Get the engine's global property.
+    Get the value of the config property of the engine.
 </div>
 
 
@@ -719,7 +724,7 @@ directory with the engine's source.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line132">line 132</a>
+        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line144">line 144</a>
     </li></ul></dd>
     
 
@@ -749,8 +754,8 @@ directory with the engine's source.
 <div class="item_description">
 
 <div class="description">
-    Get path to assets directory. Used when application development happens
-inside SDK.
+    Get the path to the assets directory. Can be used when an application
+is developed inside the SDK.
 </div>
 
 
@@ -828,7 +833,7 @@ inside SDK.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line144">line 144</a>
+        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line158">line 158</a>
     </li></ul></dd>
     
 
@@ -858,7 +863,7 @@ inside SDK.
 <div class="item_description">
 
 <div class="description">
-    Reset all the engine's global properties.
+    Reset all the engine's config properties to defaults.
 </div>
 
 
@@ -914,7 +919,7 @@ inside SDK.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line139">line 139</a>
+        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line152">line 152</a>
     </li></ul></dd>
     
 
@@ -944,7 +949,7 @@ inside SDK.
 <div class="item_description">
 
 <div class="description">
-    Set the engine's global property.
+    Set the value of the config property of the engine.
 </div>
 
 
@@ -1072,7 +1077,7 @@ inside SDK.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line125">line 125</a>
+        <a href="ext_config.js.html">ext/config.js</a>, <a href="ext_config.js.html#line136">line 136</a>
     </li></ul></dd>
     
 
@@ -1103,13 +1108,13 @@ inside SDK.
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Wed Apr 29 2015 10:10:50 GMT+0300 (MSK)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Tue May 26 2015 12:05:04 GMT+0300 (MSK)
 </footer>
 
 <script> prettyPrint(); </script>

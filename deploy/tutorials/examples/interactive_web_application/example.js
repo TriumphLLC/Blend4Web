@@ -5,7 +5,6 @@ b4w.register("example_main", function(exports, require) {
 var m_anim   = require("animation");
 var m_app    = require("app");
 var m_data   = require("data");
-var m_main   = require("main");
 var m_scenes = require("scenes");
 
 var _previous_selected_obj = null;
@@ -16,7 +15,8 @@ exports.init = function() {
         canvas_container_id: "canvas3d", 
         callback: init_cb,
         physics_enabled: false,
-        alpha: false
+        alpha: false,
+        autoresize: true
     });
 }
 
@@ -27,11 +27,8 @@ function init_cb(canvas_elem, success) {
         return;
     }
 
-    m_app.enable_controls(canvas_elem);
+    m_app.enable_controls();
     canvas_elem.addEventListener("mousedown", main_canvas_click, false);
-
-    window.onresize = on_resize;
-    on_resize();
     load();
 }
 
@@ -42,12 +39,6 @@ function load() {
 function load_cb(data_id) {
     m_app.enable_camera_controls();
 }
-
-function on_resize() {
-    var w = window.innerWidth;
-    var h = window.innerHeight;
-    m_main.resize(w, h);
-};
 
 function main_canvas_click(e) {
     if (e.preventDefault)

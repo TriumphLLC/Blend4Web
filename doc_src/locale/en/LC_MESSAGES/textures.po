@@ -14,7 +14,7 @@ msgstr ""
 #: ../textures.rst:3 ../textures.rst:13 ../textures.rst:39 ../textures.rst:84
 #: ../textures.rst:108 ../textures.rst:134 ../textures.rst:155
 #: ../textures.rst:188 ../textures.rst:298 ../textures.rst:336
-#: ../textures.rst:360 ../textures.rst:390
+#: ../textures.rst:360 ../textures.rst:404
 msgid "текстуры"
 msgstr "textures"
 
@@ -63,10 +63,6 @@ msgstr ""
 "The ``Type`` drop-down menu (for selecting texture type) is located under "
 "the ``Textures`` tab. The engine supports the following texture types:"
 
-#: ../textures.rst:25
-msgid "``Image or Movie``, изображение или фильм"
-msgstr "``Image or Movie``"
-
 #: ../textures.rst:21
 msgid ":ref:`диффузная (diffuse map) <diffuse_map>`"
 msgstr ":ref:`diffuse map <diffuse_map>`"
@@ -92,6 +88,10 @@ msgstr ""
 "height map; this must be packed into the alpha channel of a normal map; it "
 "is used for visualization of relief surfaces (:ref:`parallax mapping "
 "<parallax_mapping>`)."
+
+#: ../textures.rst:25
+msgid "``Image or Movie``, изображение или фильм"
+msgstr "``Image or Movie``"
 
 #: ../textures.rst:25
 msgid ":ref:`карта смешивания (stencil map) <stencil_map>`"
@@ -295,6 +295,12 @@ msgstr ""
 "disable compression for mask textures used to mix different parts of "
 "materials."
 
+#: ../textures.rst:77 ../textures.rst:99 ../textures.rst:123
+#: ../textures.rst:142 ../textures.rst:173 ../textures.rst:202
+#: ../textures.rst:288 ../textures.rst:312 ../textures.rst:338
+msgid "Активация"
+msgstr "Activation"
+
 #: ../textures.rst:79
 msgid "Для карт нормалей текстурная компрессия не применяется."
 msgstr "Texture compression is disabled for textures used as normal maps."
@@ -319,12 +325,6 @@ msgstr ""
 "A diffuse map is used for specifying scattered light distribution (the "
 "Lambert model)."
 
-#: ../textures.rst:77 ../textures.rst:99 ../textures.rst:123
-#: ../textures.rst:142 ../textures.rst:173 ../textures.rst:202
-#: ../textures.rst:288 ../textures.rst:312 ../textures.rst:338
-msgid "Активация"
-msgstr "Activation"
-
 #: ../textures.rst:92 ../textures.rst:116 ../textures.rst:142
 #: ../textures.rst:163 ../textures.rst:196 ../textures.rst:346
 #: ../textures.rst:372
@@ -340,8 +340,9 @@ msgstr ""
 
 #: ../textures.rst:97 ../textures.rst:121 ../textures.rst:147
 #: ../textures.rst:168 ../textures.rst:202 ../textures.rst:351
+#: ../textures.rst:388
 msgid "Дополнительные настройки"
-msgstr "Additional settings"
+msgstr "Additional Settings"
 
 #: ../textures.rst:100
 msgid "*Influence > Diffuse > Color*"
@@ -351,10 +352,6 @@ msgstr ""
 msgid "Степень влияния текстуры на диффузный цвет. Значение по умолчанию 1.0."
 msgstr ""
 "Influence of the texture on the diffuse color. The default value is 1.0."
-
-#: ../textures.rst:104 ../textures.rst:127
-msgid "*Influence > Blend*"
-msgstr ""
 
 #: ../textures.rst:103
 msgid ""
@@ -367,6 +364,10 @@ msgstr ""
 "Color``), or with the vertex color if the ``Vertex Color Paint`` checkbox is"
 " enabled. The following types are supported: ``Mix`` (mixes with the color),"
 " ``Multiply`` (multiplies by the color). The default value is ``Mix``."
+
+#: ../textures.rst:104 ../textures.rst:127
+msgid "*Influence > Blend*"
+msgstr ""
 
 #: ../textures.rst:108
 msgid "карта бликов"
@@ -462,15 +463,15 @@ msgstr ""
 "Enable the ``Geometry > Normal`` checkbox on the ``Textures > Influence`` "
 "panel."
 
-#: ../textures.rst:151
-msgid "*Influence > Geometry > Normal*"
-msgstr ""
-
 #: ../textures.rst:150
 msgid "Степень участия карты в расчетах нормалей. Значение по умолчанию 1.0."
 msgstr ""
 "Normal map influence on the resulting normals calculation. The default value"
 " is 1.0."
+
+#: ../textures.rst:151
+msgid "*Influence > Geometry > Normal*"
+msgstr ""
 
 #: ../textures.rst:155
 msgid "карта высот"
@@ -1001,22 +1002,47 @@ msgstr ""
 "select ``Blend4Web > Sky Texture Usage > BOTH``."
 
 #: ../textures.rst:390
+msgid ""
+"Движком поддерживаются параметры вкладки ``Influence`` для настройки "
+"отображения неба. Смешивание текстуры с цветом производится в зависимости от"
+" параметров ``World > Horizon Color`` (цвет горизонта) и ``World > Zenith "
+"Color`` (цвет зенита), а также флагов ``Paper Sky``, ``Blend Sky`` и ``Real "
+"Sky``. Поддерживаются все типы смешивания (``Mix``, ``Add``, ``Multiply`` и "
+"т.д.)."
+msgstr ""
+"The engine also supports parameters from the world texture's ``Influence`` "
+"panel which are used for sky rendering. Mixing of the world texture with "
+"color depends on the ``World > Horizon Color`` and ``World > Zenith Color`` "
+"parameters, as well as on the ``Paper Sky``, ``Blend Sky`` and ``Real Sky`` "
+"options. All mixing options are supported (``Mix``, ``Add``, ``Multiply`` "
+"etc)."
+
+#: ../textures.rst:399
+msgid ""
+"Параметры вкладки ``Influence`` влияют только на отображение неба. Они не "
+"влияют на отображение :ref:`освещения от окружающей среды "
+"<environment_lighting>`."
+msgstr ""
+"The ``Influence`` panel parameters only affect the sky rendering. They do "
+"not affect :ref:`environment lighting <environment_lighting>` by any means."
+
+#: ../textures.rst:404
 msgid "рендеринг в"
 msgstr "render to"
 
-#: ../textures.rst:390
+#: ../textures.rst:404
 msgid "render-to-texture"
 msgstr ""
 
-#: ../textures.rst:390
+#: ../textures.rst:404
 msgid "RTT"
 msgstr ""
 
-#: ../textures.rst:394
+#: ../textures.rst:408
 msgid "Особые типы текстур"
 msgstr "Special Texture Types"
 
-#: ../textures.rst:396
+#: ../textures.rst:410
 msgid ""
 "Для использования особых типов текстур необходимо выставить тип текстуры "
 "``None`` на панели ``Textures``."
@@ -1024,7 +1050,7 @@ msgstr ""
 "In order to use such textures, select ``None`` type under the ``Textures`` "
 "tab."
 
-#: ../textures.rst:403
+#: ../textures.rst:417
 msgid ""
 "В меню ``Textures > Blend4Web`` имеется возможность задать основные свойства"
 " для данного типа текстуры:"
@@ -1032,11 +1058,11 @@ msgstr ""
 "On the ``Textures > Blend4Web`` panel, you can set up properties for these "
 "textures:"
 
-#: ../textures.rst:406
+#: ../textures.rst:420
 msgid "*Blend4Web > Source Type*"
 msgstr ""
 
-#: ../textures.rst:406
+#: ../textures.rst:420
 msgid ""
 "Выбор особого типа текстуры: ``Scene`` - для рендеринга 3D сцены в текстуру,"
 " ``Canvas`` - использование HTML-элемента <canvas> и ``None`` - отсутствие "
@@ -1046,11 +1072,11 @@ msgstr ""
 "``Canvas`` - for using <canvas> HTML element and ``None`` - for indicating "
 "of its absence."
 
-#: ../textures.rst:409
+#: ../textures.rst:423
 msgid "*Blend4Web > Source ID*"
 msgstr ""
 
-#: ../textures.rst:409
+#: ../textures.rst:423
 msgid ""
 "Имя сцены, которая будет отображена в текстуре, в случае 3D сцены либо "
 "идентификатор HTML-элемента <canvas> в случае Canvas-текстуры."
@@ -1058,19 +1084,19 @@ msgstr ""
 "The name of the scene which will be rendered into the texture (for "
 "``Scene``), or ID of the <canvas> HTML element (for ``Canvas``)."
 
-#: ../textures.rst:412
+#: ../textures.rst:426
 msgid "*Blend4Web > Source Size*"
 msgstr ""
 
-#: ../textures.rst:412
+#: ../textures.rst:426
 msgid "Разрешение текстуры."
 msgstr "Texture resolution."
 
-#: ../textures.rst:415
+#: ../textures.rst:429
 msgid "*Blend4Web > Extension*"
 msgstr ""
 
-#: ../textures.rst:415
+#: ../textures.rst:429
 msgid ""
 ":ref:`Режим интерпретации текстурных координат <texture_extension>`. "
 "Значение по умолчанию ``Repeat``."
@@ -1078,20 +1104,20 @@ msgstr ""
 ":ref:`Texture coordinates interpretation mode <texture_extension>`. Default "
 "is ``Repeat``."
 
-#: ../textures.rst:418
+#: ../textures.rst:432
 msgid "*Blend4Web > Enable Mipmapping*"
 msgstr ""
 
-#: ../textures.rst:418
+#: ../textures.rst:432
 msgid ""
 "Включение MIP-текстурирования для Canvas-текстуры. По умолчанию включено."
 msgstr "Enable mipmapping for the Canvas texture. Enabled by default."
 
-#: ../textures.rst:426
+#: ../textures.rst:440
 msgid "3D сценa"
 msgstr "3D scene"
 
-#: ../textures.rst:428
+#: ../textures.rst:442
 msgid ""
 "Изображение 3D сцены может быть использовано в качестве текстуры на объекте "
 "другой (\"главной\") сцены."
@@ -1099,7 +1125,7 @@ msgstr ""
 "A 3D scene's real-time rendered image can be used as a texture by an object "
 "from another scene (\"main\" scene)."
 
-#: ../textures.rst:430
+#: ../textures.rst:444
 msgid ""
 "Создать дополнительную сцену-источник, переименовать для удобства, создать "
 "``World``, добавить нужные объекты, настроить вид из камеры."
@@ -1107,7 +1133,7 @@ msgstr ""
 "Create an additional source scene, rename it for convenience, create a "
 "``World``, add the objects wanted, setup the camera view."
 
-#: ../textures.rst:431
+#: ../textures.rst:445
 msgid ""
 "В главной сцене для текстуры целевого объекта выставить тип ``None``, в поле"
 " ``Blend4Web > Source Type`` указать тип ``Scene``. В поле ``Blend4Web > "
@@ -1119,11 +1145,11 @@ msgstr ""
 "Specify the name of the source scene in the ``Blend4Web > Source ID`` field."
 " Set the texture size in the ``Blend4Web > Source Size`` field (in pixels)."
 
-#: ../textures.rst:441
+#: ../textures.rst:455
 msgid "Canvas"
 msgstr "Canvas"
 
-#: ../textures.rst:443
+#: ../textures.rst:457
 msgid ""
 "В качестве текстуры используется HTML-элемент <canvas>. Его редактирование "
 "осуществляется при помощи :ref:`API <canvas_texture>`."
@@ -1131,7 +1157,7 @@ msgstr ""
 "A <canvas> HTML element can be used as a texture. It can be modified via "
 ":ref:`API <canvas_texture>`."
 
-#: ../textures.rst:445
+#: ../textures.rst:459
 msgid ""
 "В главной сцене для текстуры целевого объекта выставить тип ``None``, в поле"
 " ``Blend4Web > Source Type`` указать тип ``Canvas``. В поле ``Blend4Web > "

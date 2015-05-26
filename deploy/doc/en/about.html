@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Overview &mdash; User Manual: Blend4Web v15.04</title>
+    <title>Overview &mdash; User Manual: Blend4Web v15.05</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '15.04',
+        VERSION:     '15.05',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,19 +25,19 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="#" />
-    <link rel="top" title="User Manual: Blend4Web v15.04" href="index.html" />
+    <link rel="top" title="User Manual: Blend4Web v15.05" href="index.html" />
     <link rel="next" title="Features" href="features.html" />
     <link rel="prev" title="Table of contents" href="index.html" /> 
   </head>
-  <body>
-    <div class="header-wrapper">
+  <body role="document">
+    <div class="header-wrapper" role="banner">
       <div class="header">
           <p class="logo"><a href="index.html">
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">User Manual: Blend4Web v15.04</a></div>
-        <div class="rel">
+          href="index.html">User Manual: Blend4Web v15.05</a></div>
+        <div class="rel" role="navigation" aria-label="related navigation">
           <a href="index.html" title="Table of contents"
              accesskey="P">previous</a> |
           <a href="features.html" title="Features"
@@ -54,7 +54,7 @@
             
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="about">
 <span id="id1"></span><h1>Overview<a class="headerlink" href="#about" title="Permalink to this headline">¶</a></h1>
@@ -78,7 +78,7 @@
 <div><ul class="simple">
 <li><p class="first">high-level application part (game logic, business logic) and</p>
 </li>
-<li><p class="first">low-level system part (for example, the graphics library <a class="reference internal" href="#about-webgl"><em>WebGL</em></a> and underlying <a class="reference internal" href="#about-drivers-video-cards"><em>drivers</em></a>).</p>
+<li><p class="first">low-level system part (for example, the graphics library <a class="reference internal" href="#about-webgl"><span>WebGL</span></a> and underlying <a class="reference internal" href="#about-drivers-video-cards"><span>drivers</span></a>).</p>
 </li>
 </ul>
 </div></blockquote>
@@ -134,13 +134,13 @@
 </li>
 <li><p class="first">based on OpenGL which is familiar to developers</p>
 </li>
-<li><p class="first">can be integrated with other <a class="reference internal" href="#about-browser-tech"><em>browser technologies</em></a></p>
+<li><p class="first">can be integrated with other <a class="reference internal" href="#about-browser-tech"><span>browser technologies</span></a></p>
 </li>
 </ul>
 </div>
 <div class="section" id="blender">
 <span id="about-blender"></span><span id="index-6"></span><h2>What&#8217;s Blender<a class="headerlink" href="#blender" title="Permalink to this headline">¶</a></h2>
-<p>Blender is a popular piece of software for 3D modeling and animation and is free and open source. Models and scenes which are created in this software can be displayed, for example, by means of a <a class="reference internal" href="#about-graphics-engine"><em>three-dimensional engine</em></a> on a web page.</p>
+<p>Blender is a popular piece of software for 3D modeling and animation and is free and open source. Models and scenes which are created in this software can be displayed, for example, by means of a <a class="reference internal" href="#about-graphics-engine"><span>three-dimensional engine</span></a> on a web page.</p>
 </div>
 <div class="section" id="d">
 <span id="about-modelling"></span><span id="index-7"></span><h2>3D Modeling<a class="headerlink" href="#d" title="Permalink to this headline">¶</a></h2>
@@ -184,7 +184,7 @@
 <div class="section" id="about-browser-tech">
 <span id="index-8"></span><span id="id10"></span><h2>Browser Technologies<a class="headerlink" href="#about-browser-tech" title="Permalink to this headline">¶</a></h2>
 <p>Browser is a program for viewing Internet content. At the dawn of Internet technologies the browser&#8217;s role was to view text pages with the inclusion of static images (&#8220;hyper-text&#8221;). Modern browsers are full-scale platforms for multimedia web applications.</p>
-<p>Among the already implemented and promising browser features which are used in <a class="reference internal" href="#about-product"><em>Blend4Web</em></a> the following technologies can be noted:</p>
+<p>Among the already implemented and promising browser features which are used in <a class="reference internal" href="#about-product"><span>Blend4Web</span></a> the following technologies can be noted:</p>
 <ul class="simple">
 <li><p class="first">three-dimensional graphics, <a class="reference external" href="https://www.khronos.org/registry/webgl/specs/latest/">WebGL</a></p>
 </li>
@@ -231,7 +231,7 @@
 <span id="index-10"></span><span id="id13"></span><h2>Video Cards and Drivers<a class="headerlink" href="#about-drivers-video-cards" title="Permalink to this headline">¶</a></h2>
 <p>Interactive graphics is provided by a special-purpose hardware part of modern computers so called graphics processor which can be implemeted as a discrete device (video card) or as a part of the central processing unit.</p>
 <p>Main graphics processors vendors for desktop computers are:  - NVidia (GeForce, Quadro), AMD (Radeon), Intel (HD), for embedded devices - ARM (Mali), PowerVR (SGX), Nvidia (Tegra), Qualcomm (Adreno) (trade marks are specified in brackets).</p>
-<p>Program access to graphics processor resources is carried out via an intermediate program called driver. It&#8217;s important for the correct working of interactive graphics programs to have drivers of the latest version in the system. Drivers can be installed (or upgraded) from corresponding websites of graphics processors vendors. See detailed info in the section <a class="reference internal" href="problems_and_solutions.html#webgl-not-working"><em>WebGL Failed to Init</em></a>.</p>
+<p>Program access to graphics processor resources is carried out via an intermediate program called driver. It&#8217;s important for the correct working of interactive graphics programs to have drivers of the latest version in the system. Drivers can be installed (or upgraded) from corresponding websites of graphics processors vendors. See detailed info in the section <a class="reference internal" href="problems_and_solutions.html#webgl-not-working"><span>WebGL Failed to Init</span></a>.</p>
 </div>
 </div>
 
@@ -286,16 +286,18 @@
 <li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a></li>
 </ul>
 
-          <h3 style="margin-top: 1.5em;">Search</h3>
-          <form class="search" action="search.html" method="get">
-            <input type="text" name="q" />
-            <input type="submit" value="Go" />
-            <input type="hidden" name="check_keywords" value="yes" />
-            <input type="hidden" name="area" value="default" />
-          </form>
-          <p class="searchtip" style="font-size: 90%">
-            Enter search terms or a module, class or function name.
-          </p>
+          <div role="search">
+            <h3 style="margin-top: 1.5em;">Search</h3>
+            <form class="search" action="search.html" method="get">
+                <input type="text" name="q" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+            </form>
+            <p class="searchtip" style="font-size: 90%">
+                Enter search terms or a module, class or function name.
+            </p>
+          </div>
         </div>
         <div class="clearer"></div>
       </div>
@@ -304,20 +306,24 @@
     <div class="footer-wrapper">
       <div class="footer">
         <div class="left">
-          <a href="index.html" title="Table of contents"
-             >previous</a> |
-          <a href="features.html" title="Features"
-             >next</a> |
-          <a href="genindex.html" title="General Index"
-             >index</a>
+          <div role="navigation" aria-label="related navigaton">
+            <a href="index.html" title="Table of contents"
+              >previous</a> |
+            <a href="features.html" title="Features"
+              >next</a> |
+            <a href="genindex.html" title="General Index"
+              >index</a>
+          </div>
+          <div role="note" aria-label="source link">
+          </div>
         </div>
 
         <div class="right">
           
-    <div class="footer">
+    <div class="footer" role="contentinfo">
         &copy; Copyright 2015, Triumph LLC.
-      Last updated on 2015-04-29.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+      Last updated on 2015-05-26.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
         </div>
         <div class="clearer"></div>

@@ -10,6 +10,7 @@ b4w.module["__anchors"] = function(exports, require) {
 
 var m_batch  = require("__batch");
 var m_cam    = require("__camera");
+var m_cont   = require("__container");
 var m_obj    = require("__objects");
 var m_print  = require("__print");
 var m_render = require("__renderer");
@@ -19,8 +20,6 @@ var m_util   = require("__util");
 
 var cfg_def = require("__config").defaults;
 
-var _canvas = null;
-
 var _is_paused = false;
 var _anchors = [];
 var _anchor_batch_pos = new Float32Array(0);
@@ -28,9 +27,6 @@ var _pixels = new Uint8Array(16);
 
 var _vec3_tmp = new Float32Array(3);
 
-exports.init = function(canvas) {
-    _canvas = canvas;
-}
 
 exports.append = function(obj) {
     if (has_anchor_obj(obj))
@@ -98,8 +94,9 @@ function create_annotation(obj, max_width) {
     div_style.visibility = "hidden";
     div_style.fontSize = "12px";
 
-    var canvas_container = _canvas.parentElement;
-    canvas_container.appendChild(div);
+    var canvas_cont = m_cont.get_container();
+
+    canvas_cont.appendChild(div);
 
     var meta_tags = m_obj.get_meta_tags(obj);
 
@@ -156,7 +153,7 @@ function create_annotation(obj, max_width) {
         var width_anim = false;
         var height_anim = false;
 
-        canvas_container.addEventListener("click", function(e) {
+        canvas_cont.addEventListener("click", function(e) {
             if (width_anim || height_anim || _is_paused)
                 return;
 
@@ -176,6 +173,8 @@ function create_annotation(obj, max_width) {
                 var descr_width  = Math.min(max_width, str_width(desc, "12px"))
                 var descr_height = str_height(desc, "12px", descr_width);
 
+                if (descr_height == parent_height)
+                    desc_div_style.height = descr_height + "px";
 
                 if (descr_width != parent_width)
                     m_time.animate(parent_width, descr_width, 200, function(e) {
@@ -392,6 +391,8 @@ function anchor_project(anchor, dest) {
 }
 
 exports.update_visibility = function() {
+    var canvas_cont = m_cont.get_container();
+
     for (var i = 0; i < _anchors.length; i++) {
         var anchor = _anchors[i];
         var obj = anchor.obj;
@@ -402,7 +403,7 @@ exports.update_visibility = function() {
 
         // optimized order
         if (x < 0 || y < 0 || depth < 0 || depth > 1 || m_scenes.is_hidden(obj) ||
-                x >= _canvas.clientWidth || y >= _canvas.clientHeight)
+                x >= canvas_cont.clientWidth || y >= canvas_cont.clientHeight)
             var appearance = "out";
         else
             var appearance = "visible";
@@ -516,8 +517,9 @@ exports.detach_move_cb = function(obj, callback) {
 }
 
 function remove_annotation(anchor) {
-    var canvas_container = _canvas.parentElement;
-    canvas_container.removeChild(anchor.element);
+    var canvas_cont = m_cont.get_container();
+
+    canvas_cont.removeChild(anchor.element);
 }
 
 exports.cleanup = function() {

@@ -11,7 +11,7 @@
 
 <script type="text/javascript" src="../../deploy/globals_detect/begin.js"></script>
 
-<script type="text/javascript" src="jquery-2.1.3.min.js"></script>
+<script type="text/javascript" src="jquery-2.1.4.min.js"></script>
 <script type="text/javascript" src="jquery.mobile-1.4.5.min.js"></script>
 <script type="text/javascript" src="colorpicker.js"></script>
 
@@ -25,6 +25,7 @@
 <script type="text/javascript" src="../../src/compat.js"></script>
 <script type="text/javascript" src="../../src/config.js"></script>
 <script type="text/javascript" src="../../src/constraints.js"></script>
+<script type="text/javascript" src="../../src/container.js"></script>
 <script type="text/javascript" src="../../src/controls.js"></script>
 <script type="text/javascript" src="../../src/curve.js"></script>
 <script type="text/javascript" src="../../src/data.js"></script>
@@ -69,6 +70,7 @@
 <script type="text/javascript" src="../../src/ext/camera.js"></script>
 <script type="text/javascript" src="../../src/ext/config.js"></script>
 <script type="text/javascript" src="../../src/ext/constraints.js"></script>
+<script type="text/javascript" src="../../src/ext/container.js"></script>
 <script type="text/javascript" src="../../src/ext/controls.js"></script>
 <script type="text/javascript" src="../../src/ext/data.js"></script>
 <script type="text/javascript" src="../../src/ext/debug.js"></script>
@@ -89,6 +91,7 @@
 <script type="text/javascript" src="../../src/ext/transform.js"></script>
 <script type="text/javascript" src="../../src/ext/util.js"></script>
 <script type="text/javascript" src="../../src/ext/version.js"></script>
+<script type="text/javascript" src="../../src/ext/nla.js"></script>
 
 <script type="text/javascript" src="../../src/addons/camera_anim.js"></script>
 <script type="text/javascript" src="../../src/addons/mixer.js"></script>
@@ -130,6 +133,10 @@
         <span id="info_right_down" class="info_corner_text"></span>
     </div>
 
+</div>
+
+<div id="fps_container">
+    <div id="fps_logger"></div>
 </div>
 
 <div id="controls_container">
@@ -221,25 +228,38 @@
                     <label for="anim_mix_factor">Skeletal mix factor:</label>
                     <input id="anim_mix_factor" data-highlight="true" value="1.0" min="0.0" max="1.0" type="range" step="0.01">
                 </div>
+            </div>
+        </div>
 
-                <h3>Max bones:</h3>
+        <div data-role="collapsible" data-collapsed="true">
+            <h1>NLA</h1>
 
+            <div class="ui-grid-solo">
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="nla_frame_range">Range:</label>
+                    <span id="nla_frame_range"></span>
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label id="nla_status_caption" for="nla_status">Status:</label>
+                    <span id="nla_status"></span>
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <legend>Playing NLA:</legend>
                     <div class="ui-grid-b">
-                        <label>Max bones:</label>
-                        <span id="max_bones">?</span>
+                        <div id="nla_playing"></div>
+                        <input type="button" value="Play" id="nla_play" data-inline="true" data-icon="arrow-r" data-mini="true" />
+                        <input type="button" value="Stop" id="nla_stop" data-inline="true" data-icon="delete" data-mini="true" />
                     </div>
-                    <div class="ui-grid-b">
-                        <label>with blending:</label>
-                        <span id="max_bones_no_blending">?</span>
-                    </div>
-                    <input type="button" value="Get Max Bones (SLOW)" id="get_max_bones" data-inline="true" data-icon="arrow-r" data-mini="true" />
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="nla_frame_current">Set frame:</label>
+                    <input id="nla_frame_current" data-highlight="true" value="0.0" min="0.0" max="1.0" type="range" step="1.0">
                 </div>
             </div>
         </div>
 
         <div data-role="collapsible" data-collapsed="true">
-            <h1>Shape keys</h1>
+            <h1>Shape Keys</h1>
 
             <div class="ui-grid-solo">
                <div class="ui-block-a colapsed_content ui-body ui-body-c">
@@ -737,10 +757,36 @@
             </div>
         </div>
 
+         <div data-role="collapsible" data-collapsed="true">
+            <h1>Glow Materials</h1>
+            <div class="ui-grid-solo">
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="small_glow_mask_coeff">Small glow mask intensity:</label>
+                    <input id="small_glow_mask_coeff" data-highlight="true" value="2.0" min="0.0" max="10.0" type="range" step="0.01">
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="large_glow_mask_coeff">Large glow mask intensity:</label> 
+                    <input id="large_glow_mask_coeff" data-highlight="true" value="2.0" min="0.0" max="10.0" type="range" step="0.01">
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="small_glow_mask_width">Small glow mask width:</label>
+                    <input id="small_glow_mask_width" data-highlight="true" value="2.0" min="1.0" max="20.0" type="range" step="0.1">
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="large_glow_mask_width">Large glow mask width:</label>
+                    <input id="large_glow_mask_width" data-highlight="true" value="6.0" min="1.0" max="20.0" type="range" step="0.1">
+                </div>
+            </div>
+        </div>
+
         <div data-role="collapsible" data-collapsed="true">
             <h1>Depth of Field</h1>
 
             <div class="ui-grid-solo">
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="dof_object">Focus object:</label>
+                    <label id="dof_object"></label>
+                </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <label for="dof_distance">Distance:</label>
                     <input id="dof_distance" data-highlight="true" value="0.0" min="0.0" max="200.0" type="range" step="0.01">

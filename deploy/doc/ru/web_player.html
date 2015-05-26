@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Веб-плеер &mdash; Руководство пользователя: Blend4Web v15.04</title>
+    <title>Веб-плеер &mdash; Руководство пользователя: Blend4Web v15.05</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '15.04',
+        VERSION:     '15.05',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,19 +26,19 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v15.04" href="index.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v15.05" href="index.html" />
     <link rel="next" title="Аддон" href="addon.html" />
     <link rel="prev" title="Просмотрщик сцен" href="viewer.html" /> 
   </head>
-  <body>
-    <div class="header-wrapper">
+  <body role="document">
+    <div class="header-wrapper" role="banner">
       <div class="header">
           <p class="logo"><a href="index.html">
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">Руководство пользователя: Blend4Web v15.04</a></div>
-        <div class="rel">
+          href="index.html">Руководство пользователя: Blend4Web v15.05</a></div>
+        <div class="rel" role="navigation" aria-label="related navigation">
           <a href="viewer.html" title="Просмотрщик сцен"
              accesskey="P">назад</a> |
           <a href="addon.html" title="Аддон"
@@ -55,7 +55,7 @@
             
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="web-player">
 <span id="index-0"></span><span id="id1"></span><h1>Веб-плеер<a class="headerlink" href="#web-player" title="Ссылка на этот заголовок">¶</a></h1>
@@ -72,12 +72,12 @@
 </div>
 <div class="section" id="id2">
 <h2>Использование<a class="headerlink" href="#id2" title="Ссылка на этот заголовок">¶</a></h2>
-<p>Директорию с файлами веб-плеера <tt class="docutils literal"><span class="pre">deploy/apps/webplayer</span></tt> можно скопировать из дистрибутива Blend4Web SDK и разместить на сайте. Полученные в результате экспорта файлы сцен можно разместить на сайте и указать путь к ним (абсолютный или относительный) с помощью параметра веб-плеера <tt class="docutils literal"><span class="pre">load</span></tt>.</p>
+<p>Директорию с файлами веб-плеера <code class="docutils literal"><span class="pre">deploy/apps/webplayer</span></code> можно скопировать из дистрибутива Blend4Web SDK и разместить на сайте. Полученные в результате экспорта файлы сцен можно разместить на сайте и указать путь к ним (абсолютный или относительный) с помощью параметра веб-плеера <code class="docutils literal"><span class="pre">load</span></code>.</p>
 <p>При экспорте в единый HTML файл интерфейс веб-плеера интегрируется автоматически.</p>
 </div>
 <div class="section" id="id3">
 <h2>Навигация<a class="headerlink" href="#id3" title="Ссылка на этот заголовок">¶</a></h2>
-<p>Управление камерой (в режимах <tt class="docutils literal"><span class="pre">Target</span></tt> и <tt class="docutils literal"><span class="pre">Eye</span></tt>) осуществляется мышью с нажатой кнопкой, а также клавишами <tt class="docutils literal"><span class="pre">W</span></tt>, <tt class="docutils literal"><span class="pre">A</span></tt>, <tt class="docutils literal"><span class="pre">S</span></tt>, <tt class="docutils literal"><span class="pre">D</span></tt>, <tt class="docutils literal"><span class="pre">R</span></tt>, <tt class="docutils literal"><span class="pre">F</span></tt>: вперед, влево, назад, вправо, вверх, вниз. Также поддерживаются стрелки и клавиши <tt class="docutils literal"><span class="pre">numpad</span></tt>.</p>
+<p>Управление камерой (в режимах <code class="docutils literal"><span class="pre">Target</span></code> и <code class="docutils literal"><span class="pre">Eye</span></code>) осуществляется мышью с нажатой кнопкой, а также клавишами <code class="docutils literal"><span class="pre">W</span></code>, <code class="docutils literal"><span class="pre">A</span></code>, <code class="docutils literal"><span class="pre">S</span></code>, <code class="docutils literal"><span class="pre">D</span></code>, <code class="docutils literal"><span class="pre">R</span></code>, <code class="docutils literal"><span class="pre">F</span></code>: вперед, влево, назад, вправо, вверх, вниз. Также поддерживаются стрелки и клавиши <code class="docutils literal"><span class="pre">numpad</span></code>.</p>
 </div>
 <div class="section" id="id4">
 <h2>Панель управления<a class="headerlink" href="#id4" title="Ссылка на этот заголовок">¶</a></h2>
@@ -105,22 +105,22 @@
 <div class="line"><br /></div>
 </div>
 <ol class="arabic simple">
-<li>для загрузки сцены используется обязательный атрибут <tt class="docutils literal"><span class="pre">load</span></tt>, в который помещается относительный путь к JSON файлу.</li>
-<li>необязательный атрибут <tt class="docutils literal"><span class="pre">fallback_image</span></tt> используется для установки фона, заменяющего сцену при возникновении ошибки WebGL.</li>
-<li>необязательный атрибут <tt class="docutils literal"><span class="pre">fallback_video</span></tt> используется для установки видео, заменяющего сцену при возникновении ошибки WebGL.
+<li>для загрузки сцены используется обязательный атрибут <code class="docutils literal"><span class="pre">load</span></code>, в который помещается относительный путь к JSON файлу.</li>
+<li>необязательный атрибут <code class="docutils literal"><span class="pre">fallback_image</span></code> используется для установки фона, заменяющего сцену при возникновении ошибки WebGL.</li>
+<li>необязательный атрибут <code class="docutils literal"><span class="pre">fallback_video</span></code> используется для установки видео, заменяющего сцену при возникновении ошибки WebGL.
 Может использоваться неоднократно с целью добавления видео файлов различных форматов.</li>
-<li>необязательный атрибут <tt class="docutils literal"><span class="pre">show_fps</span></tt> применяется для отображения счетчика кадров в секунду в правом верхнем углу плеера.</li>
-<li>необязательный атрибут <tt class="docutils literal"><span class="pre">autorotate</span></tt> используется для включения автоматического вращения камеры сразу после загрузки сцены.</li>
-<li>необязательный атрибут <tt class="docutils literal"><span class="pre">compressed_textures</span></tt> используется для включения загрузки уменьшенных текстур и текстур в формате с компрессией (DDS).</li>
+<li>необязательный атрибут <code class="docutils literal"><span class="pre">show_fps</span></code> применяется для отображения счетчика кадров в секунду в правом верхнем углу плеера.</li>
+<li>необязательный атрибут <code class="docutils literal"><span class="pre">autorotate</span></code> используется для включения автоматического вращения камеры сразу после загрузки сцены.</li>
+<li>необязательный атрибут <code class="docutils literal"><span class="pre">compressed_textures</span></code> используется для включения загрузки уменьшенных текстур и текстур в формате с компрессией (DDS).</li>
 </ol>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
-<p class="last">Если указаны параметры <tt class="docutils literal"><span class="pre">fallback_image</span></tt> и <tt class="docutils literal"><span class="pre">fallback_video</span></tt>, приоритет имеет <tt class="docutils literal"><span class="pre">fallback_image</span></tt>.</p>
+<p class="last">Если указаны параметры <code class="docutils literal"><span class="pre">fallback_image</span></code> и <code class="docutils literal"><span class="pre">fallback_video</span></code>, приоритет имеет <code class="docutils literal"><span class="pre">fallback_image</span></code>.</p>
 </div>
 </div>
 <div class="section" id="wp-title">
 <span id="id6"></span><h2>Название сцены в заголовке<a class="headerlink" href="#wp-title" title="Ссылка на этот заголовок">¶</a></h2>
-<p>По умолчанию веб-плеер устанавливает тег <tt class="docutils literal"><span class="pre">title</span></tt> равным <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">Web</span> <span class="pre">Player</span></tt>. С помощью мета-тега <tt class="docutils literal"><span class="pre">title</span></tt>
+<p>По умолчанию веб-плеер устанавливает тег <code class="docutils literal"><span class="pre">title</span></code> равным <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">Web</span> <span class="pre">Player</span></code>. С помощью мета-тега <code class="docutils literal"><span class="pre">title</span></code>
 в настройках сцены можно изменить значение по умолчанию.</p>
 <img alt="_images/title.jpg" src="_images/title.jpg" />
 </div>
@@ -128,14 +128,14 @@
 <h2>Ошибки сцены<a class="headerlink" href="#id7" title="Ссылка на этот заголовок">¶</a></h2>
 <p>В случае некорректного использования веб-плеера выводятся сообщения об ошибках.</p>
 <ol class="arabic simple">
-<li>атрибутом <tt class="docutils literal"><span class="pre">load</span></tt> указан неверный путь к JSON файлу или данный файл неисправен;</li>
+<li>атрибутом <code class="docutils literal"><span class="pre">load</span></code> указан неверный путь к JSON файлу или данный файл неисправен;</li>
 </ol>
 <a class="reference internal image-reference" href="_images/error_wrong_json_path.jpg"><img alt="_images/error_wrong_json_path.jpg" class="align-center" src="_images/error_wrong_json_path.jpg" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <ol class="arabic simple" start="2">
-<li>атрибут <tt class="docutils literal"><span class="pre">load</span></tt> не найден или его значение пустое;</li>
+<li>атрибут <code class="docutils literal"><span class="pre">load</span></code> не найден или его значение пустое;</li>
 </ol>
 <a class="reference internal image-reference" href="_images/error_not_load_attr.jpg"><img alt="_images/error_not_load_attr.jpg" class="align-center" src="_images/error_not_load_attr.jpg" style="width: 100%;" /></a>
 <div class="line-block">
@@ -197,16 +197,18 @@
 <li class="toctree-l1"><a class="reference internal" href="release_notes.html">Замечания к релизам</a></li>
 </ul>
 
-          <h3 style="margin-top: 1.5em;">Поиск</h3>
-          <form class="search" action="search.html" method="get">
-            <input type="text" name="q" />
-            <input type="submit" value="Искать" />
-            <input type="hidden" name="check_keywords" value="yes" />
-            <input type="hidden" name="area" value="default" />
-          </form>
-          <p class="searchtip" style="font-size: 90%">
-            Введите слова для поиска или имя модуля, класса или функции.
-          </p>
+          <div role="search">
+            <h3 style="margin-top: 1.5em;">Поиск</h3>
+            <form class="search" action="search.html" method="get">
+                <input type="text" name="q" />
+                <input type="submit" value="Искать" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+            </form>
+            <p class="searchtip" style="font-size: 90%">
+                Введите слова для поиска или имя модуля, класса или функции.
+            </p>
+          </div>
         </div>
         <div class="clearer"></div>
       </div>
@@ -215,20 +217,24 @@
     <div class="footer-wrapper">
       <div class="footer">
         <div class="left">
-          <a href="viewer.html" title="Просмотрщик сцен"
-             >назад</a> |
-          <a href="addon.html" title="Аддон"
-             >вперёд</a> |
-          <a href="genindex.html" title="Алфавитный указатель"
-             >указатель</a>
+          <div role="navigation" aria-label="related navigaton">
+            <a href="viewer.html" title="Просмотрщик сцен"
+              >назад</a> |
+            <a href="addon.html" title="Аддон"
+              >вперёд</a> |
+            <a href="genindex.html" title="Алфавитный указатель"
+              >указатель</a>
+          </div>
+          <div role="note" aria-label="source link">
+          </div>
         </div>
 
         <div class="right">
           
-    <div class="footer">
+    <div class="footer" role="contentinfo">
         &copy; Copyright 2015, ООО &#34;Триумф&#34;.
-      Обновлено: 2015-04-29.
-      Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+      Обновлено: 2015-05-26.
+      Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
         </div>
         <div class="clearer"></div>

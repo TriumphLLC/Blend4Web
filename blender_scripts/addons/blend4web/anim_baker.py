@@ -216,17 +216,17 @@ class B4W_Anim_Baker(bpy.types.Operator):
                     ml = pbone.bone.matrix_local
 
                     # retrieve current matrix and calc "pseudo" matrix channel
-                    mch = pbone.matrix * ml.inverted()
+                    mch = pbone.matrix * ml.inverted_safe()
             
                     # we need "own" matrix_channel component so remove parent if any
                     parent = pbone.parent
                     if parent:
                         rest_par = parent.bone.matrix_local
-                        mch_par = parent.matrix * rest_par.inverted()
-                        mch = mch_par.inverted() * mch
+                        mch_par = parent.matrix * rest_par.inverted_safe()
+                        mch = mch_par.inverted_safe() * mch
                 
                     # finally get "pseudo" (i.e. baked) matrix basis by reverse operation
-                    mb = ml.inverted() * mch * ml
+                    mb = ml.inverted_safe() * mch * ml
 
                     # retrieve components
                     tran = mb.to_translation()

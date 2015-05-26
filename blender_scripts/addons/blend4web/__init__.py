@@ -1,9 +1,9 @@
 bl_info = {
     "name": "Blend4Web",
     "author": "Blend4Web Development Team",
-    "version": (15, 4, 0),
+    "version": (15, 5, 0),
     "blender": (2, 74, 0),
-    "b4w_format_version": "5.03",
+    "b4w_format_version": "5.04",
     "location": "File > Import-Export",
     "description": "Blend4Web is a Blender-friendly 3D web framework",
     "warning": "",
@@ -157,13 +157,16 @@ class B4WPreferences(AddonPreferences):
             subtype='DIR_PATH', update=update_b4w_src_path)
     b4w_port_number = IntProperty(name="Server port", default=6687, min=0, 
             max=65535)
+    b4w_server_auto_start = BoolProperty(name="Run development server "
+            "automatically", default = False)
     b4w_register_render = BoolProperty(name="Register B4W Render",
                         default = False)
 
     def draw(self, context):
         layout = self.layout
-        layout.prop(self, "b4w_src_path", text="Path to Blend4Web SDK")
-        layout.prop(self, "b4w_port_number", text="Server port")
+        layout.prop(self, "b4w_src_path")
+        layout.prop(self, "b4w_port_number")
+        layout.prop(self, "b4w_server_auto_start")
         layout.prop(self, "b4w_register_render", text="Register Blend4Web render engine (Experimental)")
 
 def register():
@@ -195,6 +198,7 @@ def register():
     bpy.app.handlers.load_post.append(add_node_tree)
     bpy.app.handlers.load_post.append(fix_cam_limits_storage)
     bpy.app.handlers.load_post.append(fix_obj_export_props)
+    bpy.app.handlers.scene_update_pre.append(server.check_server)
 
     render_engine.register()
 

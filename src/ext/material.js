@@ -23,10 +23,10 @@ var BATCH_INHERITED_TEXTURES = ["u_colormap0", "u_colormap1", "u_stencil0",
 /**
  * Inherit the batch material from another object.
  * @method module:material.inherit_material
- * @param {Object} obj_to Destination Object ID 
- * @param {String} mat_to_name Destination material name
- * @param {Object} obj_from Source Object ID 
+ * @param {Object} obj_from Source Object ID
  * @param {String} mat_from_name Source material name
+ * @param {Object} obj_to Destination Object ID
+ * @param {String} mat_to_name Destination material name
  */
 exports.inherit_material = function(obj_from, mat_from_name, obj_to, 
         mat_to_name) {

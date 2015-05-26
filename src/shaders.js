@@ -140,13 +140,15 @@ exports.set_default_directives = function(sinfo) {
         "SHADOW_TEX_RES",
         "MAIN_BEND_COL",
         "MAX_BONES",
+        "NODES_GLOW",
         "NUM_NORMALMAPS",
         "PARALLAX",
         "PARALLAX_STEPS",
         "PROCEDURAL_FOG",
+        "PROCEDURAL_SKYDOME",
         "REFLECTION",
         "REFLECTION_PASS",
-        "REFLECTIVE",
+        "REFLECTION_TYPE",
         "REFRACTIVE",
         "USE_REFRACTION",
         "USE_REFRACTION_CORRECTION",
@@ -160,7 +162,6 @@ exports.set_default_directives = function(sinfo) {
         "SSAO_WHITE",
         "STATIC_BATCH",
         "TEXTURE_COLOR",
-        "TEXTURE_MIRROR",
         "TEXTURE_NORM",
         "TEXTURE_SPEC",
         "TEXTURE_STENCIL_ALPHA_MASK",
@@ -173,6 +174,8 @@ exports.set_default_directives = function(sinfo) {
         "SHORE_PARAMS",
         "ALPHA_AS_SPEC",
         "DEPTH_RGBA",
+        "MTEX_NEGATIVE",
+        "MTEX_RGBTOINT",
         "NUM_LIGHTS",
         "NUM_LFACTORS",
         "NUM_LAMP_LIGHTS",
@@ -191,10 +194,14 @@ exports.set_default_directives = function(sinfo) {
         "PRECISION",
         "EPSILON",
         "USE_ENVIRONMENT_LIGHT",
-        "USE_SKY_BLEND",
-        "USE_SKY_PAPER",
-        "USE_SKY_REAL",
-        "USE_SKY_TEXTURE",
+        "WO_SKYBLEND",
+        "WO_SKYPAPER",
+        "WO_SKYREAL",
+        "WO_SKYTEX",
+        "WOMAP_BLEND",
+        "WOMAP_HORIZ",
+        "WOMAP_ZENUP",
+        "WOMAP_ZENDOWN",
         "WIREFRAME_QUALITY",
         "SIZE_RAMP_LENGTH",
         "COLOR_RAMP_LENGTH",
@@ -229,15 +236,19 @@ exports.set_default_directives = function(sinfo) {
         case "BILLBOARD_JITTERED":
         case "MAIN_BEND_COL":
         case "MAX_BONES":
+        case "MTEX_NEGATIVE":
+        case "MTEX_RGBTOINT":
+        case "NODES_GLOW":
         case "NUM_LIGHTS":
         case "NUM_LFACTORS":
         case "NUM_NORMALMAPS":
         case "PARALLAX":
         case "PARALLAX_STEPS":
         case "PROCEDURAL_FOG":
+        case "PROCEDURAL_SKYDOME":
         case "REFLECTION":
         case "REFLECTION_PASS":
-        case "REFLECTIVE":
+        case "REFLECTION_TYPE":
         case "REFRACTIVE":
         case "USE_REFRACTION":
         case "USE_REFRACTION_CORRECTION":
@@ -251,7 +262,6 @@ exports.set_default_directives = function(sinfo) {
         case "SSAO_WHITE":
         case "STATIC_BATCH":
         case "TEXTURE_COLOR":
-        case "TEXTURE_MIRROR":
         case "TEXTURE_NORM":
         case "TEXTURE_SPEC":
         case "TEXTURE_STENCIL_ALPHA_MASK":
@@ -265,10 +275,14 @@ exports.set_default_directives = function(sinfo) {
         case "BILLBOARD_RANDOM":
         case "HAIR_BILLBOARD":
         case "USE_ENVIRONMENT_LIGHT":
-        case "USE_SKY_BLEND":
-        case "USE_SKY_PAPER":
-        case "USE_SKY_REAL":
-        case "USE_SKY_TEXTURE":
+        case "WO_SKYBLEND":
+        case "WO_SKYPAPER":
+        case "WO_SKYREAL":
+        case "WO_SKYTEX":
+        case "WOMAP_BLEND":
+        case "WOMAP_HORIZ":
+        case "WOMAP_ZENUP":
+        case "WOMAP_ZENDOWN":
         case "WIREFRAME_QUALITY":
         case "SIZE_RAMP_LENGTH":
         case "COLOR_RAMP_LENGTH":
@@ -526,7 +540,7 @@ function preprocess_shader(type, ast, shaders_info) {
                 process_nodes_global(node_elements);
                 break;
             case "nodes_main":
-                process_nodes_main(node_elements, lights_info);
+                process_nodes_main(node_elements);
                 break;
 
             case "lamp":

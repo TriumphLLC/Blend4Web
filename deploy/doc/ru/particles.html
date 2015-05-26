@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Система частиц. Флюиды &mdash; Руководство пользователя: Blend4Web v15.04</title>
+    <title>Система частиц. Флюиды &mdash; Руководство пользователя: Blend4Web v15.05</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '15.04',
+        VERSION:     '15.05',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,19 +26,19 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v15.04" href="index.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v15.05" href="index.html" />
     <link rel="next" title="Система частиц. Инстансинг" href="particles_instancing.html" />
     <link rel="prev" title="Постпроцессинговые эффекты" href="postprocessing_effects.html" /> 
   </head>
-  <body>
-    <div class="header-wrapper">
+  <body role="document">
+    <div class="header-wrapper" role="banner">
       <div class="header">
           <p class="logo"><a href="index.html">
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">Руководство пользователя: Blend4Web v15.04</a></div>
-        <div class="rel">
+          href="index.html">Руководство пользователя: Blend4Web v15.05</a></div>
+        <div class="rel" role="navigation" aria-label="related navigation">
           <a href="postprocessing_effects.html" title="Постпроцессинговые эффекты"
              accesskey="P">назад</a> |
           <a href="particles_instancing.html" title="Система частиц. Инстансинг"
@@ -55,7 +55,7 @@
             
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <span class="target" id="particles"></span><div class="section" id="index-0">
 <span id="id1"></span><h1>Система частиц. Флюиды<a class="headerlink" href="#index-0" title="Ссылка на этот заголовок">¶</a></h1>
@@ -72,15 +72,15 @@
 <ol class="arabic">
 <li><p class="first">Добавить на сцену меш - эмиттер.</p>
 </li>
-<li><p class="first">Создать на эмиттере материал для частиц, например типа <tt class="docutils literal"><span class="pre">Halo</span></tt>. Поддерживается также материал типа <tt class="docutils literal"><span class="pre">Surface</span></tt> с обязательной диффузной текстурой.</p>
+<li><p class="first">Создать на эмиттере материал для частиц, например типа <code class="docutils literal"><span class="pre">Halo</span></code>. Поддерживается также материал типа <code class="docutils literal"><span class="pre">Surface</span></code> с обязательной диффузной текстурой.</p>
 </li>
 <li><p class="first">Добавить на эмиттере систему частиц.</p>
 </li>
 <li><p class="first">Инициализировать воспроизведение в движке. Возможны два варианта:</p>
 <blockquote>
 <div><ul class="simple">
-<li>&#8220;циклическое испускание&#8221; - для системы частиц выставить опцию <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Cyclic</span> <span class="pre">emission</span></tt>.</li>
-<li>&#8220;нециклическая анимация&#8221; - для эмиттера выставить опцию <tt class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Animation</span> <span class="pre">&gt;</span> <span class="pre">Use</span> <span class="pre">default</span></tt>.</li>
+<li>&#8220;циклическое испускание&#8221; - для системы частиц выставить опцию <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Cyclic</span> <span class="pre">emission</span></code>.</li>
+<li>&#8220;нециклическая анимация&#8221; - для эмиттера выставить опцию <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Animation</span> <span class="pre">&gt;</span> <span class="pre">Use</span> <span class="pre">default</span></code>.</li>
 </ul>
 </div></blockquote>
 </li>
@@ -89,17 +89,17 @@
 <div class="section" id="id4">
 <h3>Рекомендуемые дополнительные настройки<a class="headerlink" href="#id4" title="Ссылка на этот заголовок">¶</a></h3>
 <ol class="arabic simple">
-<li>Для материала частиц выставить тип прозрачности <tt class="docutils literal"><span class="pre">Add</span></tt>.</li>
-<li>Если отображение эмиттера на сцене не требуется, отключить опцию <tt class="docutils literal"><span class="pre">Particles</span> <span class="pre">&gt;</span> <span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Emitter</span></tt>.</li>
-<li>Если отображение эмиттера на сцене необходимо, для него можно использовать дополнительные материалы. В этом случае в настройках системы частиц нужно выбрать  материал частиц <tt class="docutils literal"><span class="pre">Particles</span> <span class="pre">&gt;</span> <span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Material</span></tt>.</li>
-<li>В случае использования для частиц материала типа <tt class="docutils literal"><span class="pre">Surface</span></tt>, к материалу необходимо подключить диффузную текстуру (обычно с альфа-каналом). В меню <tt class="docutils literal"><span class="pre">Mapping</span> <span class="pre">&gt;</span> <span class="pre">Coordinates</span></tt> выбрать <tt class="docutils literal"><span class="pre">UV</span></tt>.  Убедиться, что меш эмиттера имеет развертку.</li>
+<li>Для материала частиц выставить тип прозрачности <code class="docutils literal"><span class="pre">Add</span></code>.</li>
+<li>Если отображение эмиттера на сцене не требуется, отключить опцию <code class="docutils literal"><span class="pre">Particles</span> <span class="pre">&gt;</span> <span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Emitter</span></code>.</li>
+<li>Если отображение эмиттера на сцене необходимо, для него можно использовать дополнительные материалы. В этом случае в настройках системы частиц нужно выбрать  материал частиц <code class="docutils literal"><span class="pre">Particles</span> <span class="pre">&gt;</span> <span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Material</span></code>.</li>
+<li>В случае использования для частиц материала типа <code class="docutils literal"><span class="pre">Surface</span></code>, к материалу необходимо подключить диффузную текстуру (обычно с альфа-каналом). В меню <code class="docutils literal"><span class="pre">Mapping</span> <span class="pre">&gt;</span> <span class="pre">Coordinates</span></code> выбрать <code class="docutils literal"><span class="pre">UV</span></code>.  Убедиться, что меш эмиттера имеет развертку.</li>
 </ol>
 <a class="reference internal image-reference" href="_images/particles_first_steps.jpg"><img alt="_images/particles_first_steps.jpg" class="align-center" src="_images/particles_first_steps.jpg" style="width: 100%;" /></a>
 </div>
 </div>
 <div class="section" id="id5">
 <h2>Настройка<a class="headerlink" href="#id5" title="Ссылка на этот заголовок">¶</a></h2>
-<p>Параметры системы частиц настраиваются во вкладке <tt class="docutils literal"><span class="pre">Particles</span></tt>. Поддерживается несколько систем частиц на одном эмиттере.</p>
+<p>Параметры системы частиц настраиваются во вкладке <code class="docutils literal"><span class="pre">Particles</span></code>. Поддерживается несколько систем частиц на одном эмиттере.</p>
 <div class="section" id="id6">
 <h3>Общие настройки<a class="headerlink" href="#id6" title="Ссылка на этот заголовок">¶</a></h3>
 <dl class="docutils">
@@ -108,7 +108,7 @@
 <dt><em>Settings</em></dt>
 <dd>Ссылка на блок данных с настройками системы частиц. Блоки данных с настройками могут быть общими для разных систем частиц.</dd>
 <dt><em>Type</em></dt>
-<dd>Тип системы частиц: <tt class="docutils literal"><span class="pre">Emitter</span></tt> или <tt class="docutils literal"><span class="pre">Hair</span></tt>. Системы частиц типа <tt class="docutils literal"><span class="pre">Hair</span></tt> используются для создания множественных копий (инстансинга) объектов. Значение по умолчанию <tt class="docutils literal"><span class="pre">Emitter</span></tt>.</dd>
+<dd>Тип системы частиц: <code class="docutils literal"><span class="pre">Emitter</span></code> или <code class="docutils literal"><span class="pre">Hair</span></code>. Системы частиц типа <code class="docutils literal"><span class="pre">Hair</span></code> используются для создания множественных копий (инстансинга) объектов. Значение по умолчанию <code class="docutils literal"><span class="pre">Emitter</span></code>.</dd>
 <dt><em>Seed</em></dt>
 <dd>Индекс в таблице случайных чисел, используемых для генерации системы частиц. Значение по умолчанию 0.</dd>
 </dl>
@@ -127,9 +127,9 @@
 <dt><em>Emission &gt; Lifetime &gt; Random</em></dt>
 <dd>Фактор случайности для времени жизни. Значение по умолчанию 0.0.</dd>
 <dt><em>Emission &gt; Emit From</em></dt>
-<dd>Источник испускания. Поддерживаются вершины <tt class="docutils literal"><span class="pre">Verts</span></tt>, грани <tt class="docutils literal"><span class="pre">Faces</span></tt>. Значение по умолчанию <tt class="docutils literal"><span class="pre">Faces</span></tt>.</dd>
+<dd>Источник испускания. Поддерживаются вершины <code class="docutils literal"><span class="pre">Verts</span></code>, грани <code class="docutils literal"><span class="pre">Faces</span></code>. Значение по умолчанию <code class="docutils literal"><span class="pre">Faces</span></code>.</dd>
 <dt><em>Emission &gt; Emit From &gt; Distribution</em></dt>
-<dd>Настройки распределения испускания: <tt class="docutils literal"><span class="pre">Jittered</span></tt>, <tt class="docutils literal"><span class="pre">Random</span></tt>, <tt class="docutils literal"><span class="pre">Grid</span></tt>. Игнорируются движком. Всегда используется случайное распределение (<tt class="docutils literal"><span class="pre">Random</span></tt>). Значение по умолчанию <tt class="docutils literal"><span class="pre">Jittered</span></tt>.</dd>
+<dd>Настройки распределения испускания: <code class="docutils literal"><span class="pre">Jittered</span></code>, <code class="docutils literal"><span class="pre">Random</span></code>, <code class="docutils literal"><span class="pre">Grid</span></code>. Игнорируются движком. Всегда используется случайное распределение (<code class="docutils literal"><span class="pre">Random</span></code>). Значение по умолчанию <code class="docutils literal"><span class="pre">Jittered</span></code>.</dd>
 </dl>
 <a class="reference internal image-reference" href="_images/particles_settings.jpg"><img alt="_images/particles_settings.jpg" class="align-center" src="_images/particles_settings.jpg" style="width: 100%;" /></a>
 </div>
@@ -148,7 +148,7 @@
 <p>Поддерживаются только:</p>
 <dl class="docutils">
 <dt><em>Rotation &gt; Angular Velocity &gt; Mode</em></dt>
-<dd>Режим собственного вращения биллбордов частиц. Поддерживаются <tt class="docutils literal"><span class="pre">Velocity</span></tt> (постоянная скорость вращения), <tt class="docutils literal"><span class="pre">Random</span></tt> (случайное вращение), <tt class="docutils literal"><span class="pre">None</span></tt> (нет вращения). Значение по умолчанию <tt class="docutils literal"><span class="pre">Velocity</span></tt>.</dd>
+<dd>Режим собственного вращения биллбордов частиц. Поддерживаются <code class="docutils literal"><span class="pre">Velocity</span></code> (постоянная скорость вращения), <code class="docutils literal"><span class="pre">Random</span></code> (случайное вращение), <code class="docutils literal"><span class="pre">None</span></code> (нет вращения). Значение по умолчанию <code class="docutils literal"><span class="pre">Velocity</span></code>.</dd>
 <dt><em>Rotation &gt; Angular Velocity &gt; Factor</em></dt>
 <dd>Фактор скорости собственного вращения биллбордов частиц. Значение по умолчанию 0.0.</dd>
 </dl>
@@ -158,7 +158,7 @@
 <p>Поддерживаются только:</p>
 <dl class="docutils">
 <dt><em>Physics &gt; Type</em></dt>
-<dd>Тип расчетов физики: <tt class="docutils literal"><span class="pre">No</span></tt>, <tt class="docutils literal"><span class="pre">Newtonian</span></tt>, <tt class="docutils literal"><span class="pre">Keyed</span></tt>, <tt class="docutils literal"><span class="pre">Boids</span></tt>, <tt class="docutils literal"><span class="pre">Fluid</span></tt>. Игнорируется движком. Всегда используется физика Ньютона (<tt class="docutils literal"><span class="pre">Newtonian</span></tt>). Значение по умолчанию <tt class="docutils literal"><span class="pre">Newtonian</span></tt>.</dd>
+<dd>Тип расчетов физики: <code class="docutils literal"><span class="pre">No</span></code>, <code class="docutils literal"><span class="pre">Newtonian</span></code>, <code class="docutils literal"><span class="pre">Keyed</span></code>, <code class="docutils literal"><span class="pre">Boids</span></code>, <code class="docutils literal"><span class="pre">Fluid</span></code>. Игнорируется движком. Всегда используется физика Ньютона (<code class="docutils literal"><span class="pre">Newtonian</span></code>). Значение по умолчанию <code class="docutils literal"><span class="pre">Newtonian</span></code>.</dd>
 <dt><em>Physics &gt; Size</em></dt>
 <dd>Размер частиц. Значение по умолчанию 0.05.</dd>
 <dt><em>Physics &gt; Mass</em></dt>
@@ -173,11 +173,11 @@
 <p>Поддерживаются только:</p>
 <dl class="docutils">
 <dt><em>Render &gt; Material</em></dt>
-<dd>Меню выбора материала частиц. Используется в случае использования эмиттером нескольких материалов. Значение по умолчанию <tt class="docutils literal"><span class="pre">Default</span> <span class="pre">Material</span></tt>.</dd>
+<dd>Меню выбора материала частиц. Используется в случае использования эмиттером нескольких материалов. Значение по умолчанию <code class="docutils literal"><span class="pre">Default</span> <span class="pre">Material</span></code>.</dd>
 <dt><em>Render &gt; Emitter</em></dt>
 <dd>Опция включения отображения эмиттера на сцене. По умолчанию включено.</dd>
 <dt><em>Render &gt; Type</em></dt>
-<dd>Режим отображения частиц: <tt class="docutils literal"><span class="pre">None</span></tt>, <tt class="docutils literal"><span class="pre">Halo</span></tt>, <tt class="docutils literal"><span class="pre">Line</span></tt>, <tt class="docutils literal"><span class="pre">Path</span></tt>, <tt class="docutils literal"><span class="pre">Object</span></tt>, <tt class="docutils literal"><span class="pre">Group</span></tt>, <tt class="docutils literal"><span class="pre">Billboard</span></tt>. Движком различаются режимы <tt class="docutils literal"><span class="pre">Object</span></tt> и <tt class="docutils literal"><span class="pre">Group</span></tt>, использующиеся для инстансинга объектов и групп объектов, соответственно. Другие режимы игнорируются. Для удобства отображения биллбордов рекомендуется включать режим <tt class="docutils literal"><span class="pre">Billboard</span></tt>. Значение по умолчанию <tt class="docutils literal"><span class="pre">Halo</span></tt>.</dd>
+<dd>Режим отображения частиц: <code class="docutils literal"><span class="pre">None</span></code>, <code class="docutils literal"><span class="pre">Halo</span></code>, <code class="docutils literal"><span class="pre">Line</span></code>, <code class="docutils literal"><span class="pre">Path</span></code>, <code class="docutils literal"><span class="pre">Object</span></code>, <code class="docutils literal"><span class="pre">Group</span></code>, <code class="docutils literal"><span class="pre">Billboard</span></code>. Движком различаются режимы <code class="docutils literal"><span class="pre">Object</span></code> и <code class="docutils literal"><span class="pre">Group</span></code>, использующиеся для инстансинга объектов и групп объектов, соответственно. Другие режимы игнорируются. Для удобства отображения биллбордов рекомендуется включать режим <code class="docutils literal"><span class="pre">Billboard</span></code>. Значение по умолчанию <code class="docutils literal"><span class="pre">Halo</span></code>.</dd>
 </dl>
 </div>
 <div class="section" id="particles-force-fields">
@@ -187,7 +187,7 @@
 <dt><em>Field Weights &gt; Gravity</em></dt>
 <dd>Фактор влияния гравитационного поля (земное притяжение). Значение по умолчанию 1.0.</dd>
 <dt><em>Field Weights &gt; Wind</em></dt>
-<dd>Фактор влияния ветра. Необходимо присутствие объекта силового поля (добавляется <tt class="docutils literal"><span class="pre">Add</span> <span class="pre">&gt;</span> <span class="pre">Force</span> <span class="pre">Field</span></tt>) типа <tt class="docutils literal"><span class="pre">Wind</span></tt> (ветер). На систему частиц оказывают также настройки направления и силы ветра. Значение по умолчанию 1.0.</dd>
+<dd>Фактор влияния ветра. Необходимо присутствие объекта силового поля (добавляется <code class="docutils literal"><span class="pre">Add</span> <span class="pre">&gt;</span> <span class="pre">Force</span> <span class="pre">Field</span></code>) типа <code class="docutils literal"><span class="pre">Wind</span></code> (ветер). На систему частиц оказывают также настройки направления и силы ветра. Значение по умолчанию 1.0.</dd>
 </dl>
 </div>
 <div class="section" id="id13">
@@ -196,15 +196,15 @@
 <dt><em>Blend4Web &gt; Do not export</em></dt>
 <dd>Не поддерживается.</dd>
 <dt><em>Blend4Web &gt; Cyclic emission</em></dt>
-<dd>Опция включает циклический режим испускания. Применяется для постоянных эффектов (дым, горение, брызги). Рекомендуется выставить нулевое значение <tt class="docutils literal"><span class="pre">Emission</span> <span class="pre">&gt;</span> <span class="pre">Start</span></tt>. По умолчанию выключено.</dd>
+<dd>Опция включает циклический режим испускания. Применяется для постоянных эффектов (дым, горение, брызги). Рекомендуется выставить нулевое значение <code class="docutils literal"><span class="pre">Emission</span> <span class="pre">&gt;</span> <span class="pre">Start</span></code>. По умолчанию выключено.</dd>
 <dt><em>Blend4Web &gt; Random emission</em></dt>
 <dd>Опция устанавливает случайный характер времени испускания частиц. По умолчанию выключено.</dd>
 <dt><em>Blend4Web &gt; Billboard align</em></dt>
-<dd>Способ ориентирования биллбордов: <tt class="docutils literal"><span class="pre">View</span></tt> - поворачивать к камере, <tt class="docutils literal"><span class="pre">XY</span> <span class="pre">plane</span></tt>, <tt class="docutils literal"><span class="pre">YZ</span> <span class="pre">plane</span></tt>, <tt class="docutils literal"><span class="pre">ZX</span> <span class="pre">plane</span></tt> - ориентировать в соответствующей плоскости (в мировой системе координат Blender&#8217;a). Значение по умолчанию <tt class="docutils literal"><span class="pre">View</span></tt>.</dd>
+<dd>Способ ориентирования биллбордов: <code class="docutils literal"><span class="pre">View</span></code> - поворачивать к камере, <code class="docutils literal"><span class="pre">XY</span> <span class="pre">plane</span></code>, <code class="docutils literal"><span class="pre">YZ</span> <span class="pre">plane</span></code>, <code class="docutils literal"><span class="pre">ZX</span> <span class="pre">plane</span></code> - ориентировать в соответствующей плоскости (в мировой системе координат Blender&#8217;a). Значение по умолчанию <code class="docutils literal"><span class="pre">View</span></code>.</dd>
 <dt><em>Blend4Web &gt; Dissolve intervals &gt; Fade-in</em> и <em>Fade-out</em></dt>
 <dd>Начальный и конечный интервалы (в кадрах) для постепенного увеличения и уменьшения прозрачности частиц.</dd>
 <dt><em>Blend4Web &gt; Coordinate system</em></dt>
-<dd>Система координат испускаемых частиц: <tt class="docutils literal"><span class="pre">Local</span></tt> - использовать локальную систему координат эмиттера, <tt class="docutils literal"><span class="pre">World</span></tt> - использовать мировую систему координат.</dd>
+<dd>Система координат испускаемых частиц: <code class="docutils literal"><span class="pre">Local</span></code> - использовать локальную систему координат эмиттера, <code class="docutils literal"><span class="pre">World</span></code> - использовать мировую систему координат.</dd>
 </dl>
 </div>
 </div>
@@ -212,15 +212,15 @@
 <span id="id14"></span><h2>Текстуры в системах частиц<a class="headerlink" href="#particles-textures" title="Ссылка на этот заголовок">¶</a></h2>
 <div class="section" id="id15">
 <h3>Текстуры материала частиц<a class="headerlink" href="#id15" title="Ссылка на этот заголовок">¶</a></h3>
-<p>В материалах частиц типа <tt class="docutils literal"><span class="pre">Surface</span></tt> <strong>необходимо</strong> наличие диффузной текстуры (обычно с альфа-каналом). В меню <tt class="docutils literal"><span class="pre">Mapping</span> <span class="pre">&gt;</span> <span class="pre">Coordinates</span></tt> выбрать <tt class="docutils literal"><span class="pre">UV</span></tt>.  Убедиться, что меш эмиттера имеет развертку.</p>
-<p>В материалах частиц типа <tt class="docutils literal"><span class="pre">Halo</span></tt> <strong>возможно</strong> использование текстуры типа <tt class="docutils literal"><span class="pre">Blend</span></tt> с линейным (<tt class="docutils literal"><span class="pre">Linear</span></tt>) градиентом. В меню <tt class="docutils literal"><span class="pre">Mapping</span> <span class="pre">&gt;</span> <span class="pre">Coordinates</span></tt> выбрать <tt class="docutils literal"><span class="pre">Strand</span> <span class="pre">/</span> <span class="pre">Particle</span></tt>. На текстуре необходимо включить использование рампы (<tt class="docutils literal"><span class="pre">Ramp</span></tt>). Допускается использование до 4 контрольных точек градиента.</p>
+<p>В материалах частиц типа <code class="docutils literal"><span class="pre">Surface</span></code> <strong>необходимо</strong> наличие диффузной текстуры (обычно с альфа-каналом). В меню <code class="docutils literal"><span class="pre">Mapping</span> <span class="pre">&gt;</span> <span class="pre">Coordinates</span></code> выбрать <code class="docutils literal"><span class="pre">UV</span></code>.  Убедиться, что меш эмиттера имеет развертку.</p>
+<p>В материалах частиц типа <code class="docutils literal"><span class="pre">Halo</span></code> <strong>возможно</strong> использование текстуры типа <code class="docutils literal"><span class="pre">Blend</span></code> с линейным (<code class="docutils literal"><span class="pre">Linear</span></code>) градиентом. В меню <code class="docutils literal"><span class="pre">Mapping</span> <span class="pre">&gt;</span> <span class="pre">Coordinates</span></code> выбрать <code class="docutils literal"><span class="pre">Strand</span> <span class="pre">/</span> <span class="pre">Particle</span></code>. На текстуре необходимо включить использование рампы (<code class="docutils literal"><span class="pre">Ramp</span></code>). Допускается использование до 4 контрольных точек градиента.</p>
 <a class="reference internal image-reference" href="_images/particles_settings_ramp_color.jpg"><img alt="_images/particles_settings_ramp_color.jpg" class="align-center" src="_images/particles_settings_ramp_color.jpg" style="width: 100%;" /></a>
 </div>
 <div class="section" id="id16">
 <h3>Текстуры системы частиц<a class="headerlink" href="#id16" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Для настройки поведения системы частиц могут быть использованы текстуры. В отличие от текстур, используемых материалами частиц, такие текстуры относятся к блоку данных (datablock) системы частиц, а не к блоку данных материала. Чтобы создать текстуру системы частиц, необходимо <strong>из вкладки</strong> <tt class="docutils literal"><span class="pre">Particles</span></tt> перейти во вкладку <tt class="docutils literal"><span class="pre">Textures</span></tt>, после чего нажать <tt class="docutils literal"><span class="pre">New</span></tt>.</p>
-<p>Поддерживаются только текстуры типа <tt class="docutils literal"><span class="pre">Blend</span></tt> с линейным (<tt class="docutils literal"><span class="pre">Linear</span></tt>) градиентом. На текстуре необходимо включить использование рампы (<tt class="docutils literal"><span class="pre">Ramp</span></tt>). Допускается использование до 4 контрольных точек градиента.</p>
-<p>На панели <tt class="docutils literal"><span class="pre">Influence</span></tt> необходимо выбрать параметр, на который воздействует текстура. В настоящий момент поддерживается только <tt class="docutils literal"><span class="pre">Size</span></tt> (размер).</p>
+<p>Для настройки поведения системы частиц могут быть использованы текстуры. В отличие от текстур, используемых материалами частиц, такие текстуры относятся к блоку данных (datablock) системы частиц, а не к блоку данных материала. Чтобы создать текстуру системы частиц, необходимо <strong>из вкладки</strong> <code class="docutils literal"><span class="pre">Particles</span></code> перейти во вкладку <code class="docutils literal"><span class="pre">Textures</span></code>, после чего нажать <code class="docutils literal"><span class="pre">New</span></code>.</p>
+<p>Поддерживаются только текстуры типа <code class="docutils literal"><span class="pre">Blend</span></code> с линейным (<code class="docutils literal"><span class="pre">Linear</span></code>) градиентом. На текстуре необходимо включить использование рампы (<code class="docutils literal"><span class="pre">Ramp</span></code>). Допускается использование до 4 контрольных точек градиента.</p>
+<p>На панели <code class="docutils literal"><span class="pre">Influence</span></code> необходимо выбрать параметр, на который воздействует текстура. В настоящий момент поддерживается только <code class="docutils literal"><span class="pre">Size</span></code> (размер).</p>
 <a class="reference internal image-reference" href="_images/particles_settings_ramp_size.jpg"><img alt="_images/particles_settings_ramp_size.jpg" class="align-center" src="_images/particles_settings_ramp_size.jpg" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
@@ -275,16 +275,18 @@
 <li class="toctree-l1"><a class="reference internal" href="release_notes.html">Замечания к релизам</a></li>
 </ul>
 
-          <h3 style="margin-top: 1.5em;">Поиск</h3>
-          <form class="search" action="search.html" method="get">
-            <input type="text" name="q" />
-            <input type="submit" value="Искать" />
-            <input type="hidden" name="check_keywords" value="yes" />
-            <input type="hidden" name="area" value="default" />
-          </form>
-          <p class="searchtip" style="font-size: 90%">
-            Введите слова для поиска или имя модуля, класса или функции.
-          </p>
+          <div role="search">
+            <h3 style="margin-top: 1.5em;">Поиск</h3>
+            <form class="search" action="search.html" method="get">
+                <input type="text" name="q" />
+                <input type="submit" value="Искать" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+            </form>
+            <p class="searchtip" style="font-size: 90%">
+                Введите слова для поиска или имя модуля, класса или функции.
+            </p>
+          </div>
         </div>
         <div class="clearer"></div>
       </div>
@@ -293,20 +295,24 @@
     <div class="footer-wrapper">
       <div class="footer">
         <div class="left">
-          <a href="postprocessing_effects.html" title="Постпроцессинговые эффекты"
-             >назад</a> |
-          <a href="particles_instancing.html" title="Система частиц. Инстансинг"
-             >вперёд</a> |
-          <a href="genindex.html" title="Алфавитный указатель"
-             >указатель</a>
+          <div role="navigation" aria-label="related navigaton">
+            <a href="postprocessing_effects.html" title="Постпроцессинговые эффекты"
+              >назад</a> |
+            <a href="particles_instancing.html" title="Система частиц. Инстансинг"
+              >вперёд</a> |
+            <a href="genindex.html" title="Алфавитный указатель"
+              >указатель</a>
+          </div>
+          <div role="note" aria-label="source link">
+          </div>
         </div>
 
         <div class="right">
           
-    <div class="footer">
+    <div class="footer" role="contentinfo">
         &copy; Copyright 2015, ООО &#34;Триумф&#34;.
-      Обновлено: 2015-04-29.
-      Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+      Обновлено: 2015-05-26.
+      Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
         </div>
         <div class="clearer"></div>

@@ -415,17 +415,33 @@ msgstr ""
 msgid "создание абстрактного объекта"
 msgstr "create an abstract object"
 
+#: ../developers_advanced.rst:208
+msgid "*init_*"
+msgstr ""
+
 #: ../developers_advanced.rst:211
 msgid "создание конкретного объекта"
 msgstr "create a certain object"
+
+#: ../developers_advanced.rst:211
+msgid "*create_*"
+msgstr ""
 
 #: ../developers_advanced.rst:214
 msgid "обновить состояние имеющегося объекта"
 msgstr "update the state of an existing object"
 
+#: ../developers_advanced.rst:214
+msgid "*update_*"
+msgstr ""
+
 #: ../developers_advanced.rst:217
 msgid "добавить/удалить временное свойство к объекту"
 msgstr "add/remove a temporary object property"
+
+#: ../developers_advanced.rst:217
+msgid "*attach_/detach_*"
+msgstr ""
 
 #: ../developers_advanced.rst:220
 msgid "добавить/удалить временное свойство к уже существующим подобного рода"
@@ -433,62 +449,46 @@ msgstr ""
 "add/remove a temporary property to the already existing properies of the "
 "same kind"
 
-#: ../developers_advanced.rst:223
-msgid "добавить/удалить элемент массива (доступ по индексу места)"
-msgstr "add/remove an array element (accessed by index)"
-
-#: ../developers_advanced.rst:226
-msgid "операция с флагом, бинарной величиной или произвольным параметром"
-msgstr "operation with flags, binary values or arbitrary parameters"
-
-#: ../developers_advanced.rst:229
-msgid "установить/получить значение свойства/переменной"
-msgstr "set/get the property/variable value"
-
-#: ../developers_advanced.rst:232
-msgid "глобальная переменная - кеш в виде простого объекта (массив, вектор)"
-msgstr ""
-"global variable - cache in the form of a simple object (array, vector)"
-
-#: ../developers_advanced.rst:235
-msgid "глобальная переменная - кеш в виде сложного объекта"
-msgstr "global variable - cache in the form of a complex object"
-
-#: ../developers_advanced.rst:208
-msgid "*init_*"
-msgstr ""
-
-#: ../developers_advanced.rst:211
-msgid "*create_*"
-msgstr ""
-
-#: ../developers_advanced.rst:214
-msgid "*update_*"
-msgstr ""
-
-#: ../developers_advanced.rst:217
-msgid "*attach_/detach_*"
-msgstr ""
-
 #: ../developers_advanced.rst:220
 msgid "*append_/remove_*"
 msgstr ""
+
+#: ../developers_advanced.rst:223
+msgid "добавить/удалить элемент массива (доступ по индексу места)"
+msgstr "add/remove an array element (accessed by index)"
 
 #: ../developers_advanced.rst:223
 msgid "*insert_/pop_*"
 msgstr ""
 
 #: ../developers_advanced.rst:226
+msgid "операция с флагом, бинарной величиной или произвольным параметром"
+msgstr "operation with flags, binary values or arbitrary parameters"
+
+#: ../developers_advanced.rst:226
 msgid "*apply_/clear_*"
 msgstr ""
+
+#: ../developers_advanced.rst:229
+msgid "установить/получить значение свойства/переменной"
+msgstr "set/get the property/variable value"
 
 #: ../developers_advanced.rst:229
 msgid "*set_/get_*"
 msgstr ""
 
 #: ../developers_advanced.rst:232
+msgid "глобальная переменная - кеш в виде простого объекта (массив, вектор)"
+msgstr ""
+"global variable - cache in the form of a simple object (array, vector)"
+
+#: ../developers_advanced.rst:232
 msgid "*_tmp*"
 msgstr ""
+
+#: ../developers_advanced.rst:235
+msgid "глобальная переменная - кеш в виде сложного объекта"
+msgstr "global variable - cache in the form of a complex object"
 
 #: ../developers_advanced.rst:237
 msgid "*_cache*"
