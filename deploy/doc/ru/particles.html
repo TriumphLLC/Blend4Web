@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Система частиц. Флюиды &mdash; Руководство пользователя: Blend4Web v15.05</title>
+    <title>Система частиц. Флюиды &mdash; Руководство пользователя: Blend4Web v15.06</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '15.05',
+        VERSION:     '15.06',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v15.05" href="index.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v15.06" href="index.html" />
     <link rel="next" title="Система частиц. Инстансинг" href="particles_instancing.html" />
     <link rel="prev" title="Постпроцессинговые эффекты" href="postprocessing_effects.html" /> 
   </head>
@@ -37,7 +37,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">Руководство пользователя: Blend4Web v15.05</a></div>
+          href="index.html">Руководство пользователя: Blend4Web v15.06</a></div>
         <div class="rel" role="navigation" aria-label="related navigation">
           <a href="postprocessing_effects.html" title="Постпроцессинговые эффекты"
              accesskey="P">назад</a> |
@@ -79,8 +79,8 @@
 <li><p class="first">Инициализировать воспроизведение в движке. Возможны два варианта:</p>
 <blockquote>
 <div><ul class="simple">
-<li>&#8220;циклическое испускание&#8221; - для системы частиц выставить опцию <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Cyclic</span> <span class="pre">emission</span></code>.</li>
-<li>&#8220;нециклическая анимация&#8221; - для эмиттера выставить опцию <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Animation</span> <span class="pre">&gt;</span> <span class="pre">Use</span> <span class="pre">default</span></code>.</li>
+<li>&#8220;циклическое испускание&#8221; - для системы частиц выставить опцию <code class="docutils literal"><span class="pre">Emission</span> <span class="pre">&gt;</span> <span class="pre">Cyclic</span> <span class="pre">emission</span></code>.</li>
+<li>&#8220;нециклическая анимация&#8221; - для эмиттера выставить опцию <code class="docutils literal"><span class="pre">Animation</span> <span class="pre">&gt;</span> <span class="pre">Apply</span> <span class="pre">Default</span> <span class="pre">Animation</span></code>.</li>
 </ul>
 </div></blockquote>
 </li>
@@ -100,6 +100,7 @@
 <div class="section" id="id5">
 <h2>Настройка<a class="headerlink" href="#id5" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Параметры системы частиц настраиваются во вкладке <code class="docutils literal"><span class="pre">Particles</span></code>. Поддерживается несколько систем частиц на одном эмиттере.</p>
+<a class="reference internal image-reference" href="_images/particles_settings_panel.jpg"><img alt="_images/particles_settings_panel.jpg" class="align-center" src="_images/particles_settings_panel.jpg" style="width: 100%;" /></a>
 <div class="section" id="id6">
 <h3>Общие настройки<a class="headerlink" href="#id6" title="Ссылка на этот заголовок">¶</a></h3>
 <dl class="docutils">
@@ -128,6 +129,10 @@
 <dd>Фактор случайности для времени жизни. Значение по умолчанию 0.0.</dd>
 <dt><em>Emission &gt; Emit From</em></dt>
 <dd>Источник испускания. Поддерживаются вершины <code class="docutils literal"><span class="pre">Verts</span></code>, грани <code class="docutils literal"><span class="pre">Faces</span></code>. Значение по умолчанию <code class="docutils literal"><span class="pre">Faces</span></code>.</dd>
+<dt><em>Emission &gt; Cyclic emission</em></dt>
+<dd>Опция включает циклический режим испускания. Применяется для постоянных эффектов (дым, горение, брызги). Рекомендуется выставить нулевое значение <code class="docutils literal"><span class="pre">Emission</span> <span class="pre">&gt;</span> <span class="pre">Start</span></code>. По умолчанию выключено.</dd>
+<dt><em>Emission &gt; Random emission</em></dt>
+<dd>Опция устанавливает случайный характер времени испускания частиц. По умолчанию выключено.</dd>
 <dt><em>Emission &gt; Emit From &gt; Distribution</em></dt>
 <dd>Настройки распределения испускания: <code class="docutils literal"><span class="pre">Jittered</span></code>, <code class="docutils literal"><span class="pre">Random</span></code>, <code class="docutils literal"><span class="pre">Grid</span></code>. Игнорируются движком. Всегда используется случайное распределение (<code class="docutils literal"><span class="pre">Random</span></code>). Значение по умолчанию <code class="docutils literal"><span class="pre">Jittered</span></code>.</dd>
 </dl>
@@ -135,7 +140,6 @@
 </div>
 <div class="section" id="id8">
 <h3>Настройки направления<a class="headerlink" href="#id8" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Поддерживаются только:</p>
 <dl class="docutils">
 <dt><em>Velocity &gt; Emitter Geometry &gt; Normal</em></dt>
 <dd>Фактор влияния на испускание вдоль нормалей меша эмиттера. Значение по умолчанию 1.0.</dd>
@@ -145,17 +149,15 @@
 </div>
 <div class="section" id="id9">
 <h3>Настройки вращения<a class="headerlink" href="#id9" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Поддерживаются только:</p>
 <dl class="docutils">
 <dt><em>Rotation &gt; Angular Velocity &gt; Mode</em></dt>
-<dd>Режим собственного вращения биллбордов частиц. Поддерживаются <code class="docutils literal"><span class="pre">Velocity</span></code> (постоянная скорость вращения), <code class="docutils literal"><span class="pre">Random</span></code> (случайное вращение), <code class="docutils literal"><span class="pre">None</span></code> (нет вращения). Значение по умолчанию <code class="docutils literal"><span class="pre">Velocity</span></code>.</dd>
+<dd>Режим собственного вращения биллбордов частиц. Система частиц типа <code class="docutils literal"><span class="pre">Hair</span></code> поддерживает все типы вращения, а система частиц типа <code class="docutils literal"><span class="pre">Emitter</span></code> только <code class="docutils literal"><span class="pre">Velocity</span></code></dd>
 <dt><em>Rotation &gt; Angular Velocity &gt; Factor</em></dt>
 <dd>Фактор скорости собственного вращения биллбордов частиц. Значение по умолчанию 0.0.</dd>
 </dl>
 </div>
 <div class="section" id="id10">
 <h3>Настройки физики<a class="headerlink" href="#id10" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Поддерживаются только:</p>
 <dl class="docutils">
 <dt><em>Physics &gt; Type</em></dt>
 <dd>Тип расчетов физики: <code class="docutils literal"><span class="pre">No</span></code>, <code class="docutils literal"><span class="pre">Newtonian</span></code>, <code class="docutils literal"><span class="pre">Keyed</span></code>, <code class="docutils literal"><span class="pre">Boids</span></code>, <code class="docutils literal"><span class="pre">Fluid</span></code>. Игнорируется движком. Всегда используется физика Ньютона (<code class="docutils literal"><span class="pre">Newtonian</span></code>). Значение по умолчанию <code class="docutils literal"><span class="pre">Newtonian</span></code>.</dd>
@@ -170,7 +172,6 @@
 </div>
 <div class="section" id="id11">
 <h3>Настройки отображения<a class="headerlink" href="#id11" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Поддерживаются только:</p>
 <dl class="docutils">
 <dt><em>Render &gt; Material</em></dt>
 <dd>Меню выбора материала частиц. Используется в случае использования эмиттером нескольких материалов. Значение по умолчанию <code class="docutils literal"><span class="pre">Default</span> <span class="pre">Material</span></code>.</dd>
@@ -178,11 +179,16 @@
 <dd>Опция включения отображения эмиттера на сцене. По умолчанию включено.</dd>
 <dt><em>Render &gt; Type</em></dt>
 <dd>Режим отображения частиц: <code class="docutils literal"><span class="pre">None</span></code>, <code class="docutils literal"><span class="pre">Halo</span></code>, <code class="docutils literal"><span class="pre">Line</span></code>, <code class="docutils literal"><span class="pre">Path</span></code>, <code class="docutils literal"><span class="pre">Object</span></code>, <code class="docutils literal"><span class="pre">Group</span></code>, <code class="docutils literal"><span class="pre">Billboard</span></code>. Движком различаются режимы <code class="docutils literal"><span class="pre">Object</span></code> и <code class="docutils literal"><span class="pre">Group</span></code>, использующиеся для инстансинга объектов и групп объектов, соответственно. Другие режимы игнорируются. Для удобства отображения биллбордов рекомендуется включать режим <code class="docutils literal"><span class="pre">Billboard</span></code>. Значение по умолчанию <code class="docutils literal"><span class="pre">Halo</span></code>.</dd>
+<dt><em>Render &gt; Billboard align</em></dt>
+<dd>Способ ориентирования биллбордов: <code class="docutils literal"><span class="pre">View</span></code> - поворачивать к камере, <code class="docutils literal"><span class="pre">XY</span> <span class="pre">plane</span></code>, <code class="docutils literal"><span class="pre">YZ</span> <span class="pre">plane</span></code>, <code class="docutils literal"><span class="pre">ZX</span> <span class="pre">plane</span></code> - ориентировать в соответствующей плоскости (в мировой системе координат Blender&#8217;a). Значение по умолчанию <code class="docutils literal"><span class="pre">View</span></code>.</dd>
+<dt><em>Render &gt; Dissolve intervals &gt; Fade-in</em> и <em>Fade-out</em></dt>
+<dd>Начальный и конечный интервалы (в кадрах) для постепенного увеличения и уменьшения прозрачности частиц.</dd>
+<dt><em>Render &gt; Coordinate system</em></dt>
+<dd>Система координат испускаемых частиц: <code class="docutils literal"><span class="pre">Local</span></code> - использовать локальную систему координат эмиттера, <code class="docutils literal"><span class="pre">World</span></code> - использовать мировую систему координат.</dd>
 </dl>
 </div>
 <div class="section" id="particles-force-fields">
 <span id="id12"></span><h3>Настройки влияния силовых полей<a class="headerlink" href="#particles-force-fields" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Поддерживаются только:</p>
 <dl class="docutils">
 <dt><em>Field Weights &gt; Gravity</em></dt>
 <dd>Фактор влияния гравитационного поля (земное притяжение). Значение по умолчанию 1.0.</dd>
@@ -193,18 +199,8 @@
 <div class="section" id="id13">
 <h3>Специальные настройки движка<a class="headerlink" href="#id13" title="Ссылка на этот заголовок">¶</a></h3>
 <dl class="docutils">
-<dt><em>Blend4Web &gt; Do not export</em></dt>
-<dd>Не поддерживается.</dd>
-<dt><em>Blend4Web &gt; Cyclic emission</em></dt>
-<dd>Опция включает циклический режим испускания. Применяется для постоянных эффектов (дым, горение, брызги). Рекомендуется выставить нулевое значение <code class="docutils literal"><span class="pre">Emission</span> <span class="pre">&gt;</span> <span class="pre">Start</span></code>. По умолчанию выключено.</dd>
-<dt><em>Blend4Web &gt; Random emission</em></dt>
-<dd>Опция устанавливает случайный характер времени испускания частиц. По умолчанию выключено.</dd>
-<dt><em>Blend4Web &gt; Billboard align</em></dt>
-<dd>Способ ориентирования биллбордов: <code class="docutils literal"><span class="pre">View</span></code> - поворачивать к камере, <code class="docutils literal"><span class="pre">XY</span> <span class="pre">plane</span></code>, <code class="docutils literal"><span class="pre">YZ</span> <span class="pre">plane</span></code>, <code class="docutils literal"><span class="pre">ZX</span> <span class="pre">plane</span></code> - ориентировать в соответствующей плоскости (в мировой системе координат Blender&#8217;a). Значение по умолчанию <code class="docutils literal"><span class="pre">View</span></code>.</dd>
-<dt><em>Blend4Web &gt; Dissolve intervals &gt; Fade-in</em> и <em>Fade-out</em></dt>
-<dd>Начальный и конечный интервалы (в кадрах) для постепенного увеличения и уменьшения прозрачности частиц.</dd>
-<dt><em>Blend4Web &gt; Coordinate system</em></dt>
-<dd>Система координат испускаемых частиц: <code class="docutils literal"><span class="pre">Local</span></code> - использовать локальную систему координат эмиттера, <code class="docutils literal"><span class="pre">World</span></code> - использовать мировую систему координат.</dd>
+<dt><em>Export Options &gt; Do not export</em></dt>
+<dd>Не экспортировать.</dd>
 </dl>
 </div>
 </div>
@@ -311,7 +307,7 @@
           
     <div class="footer" role="contentinfo">
         &copy; Copyright 2015, ООО &#34;Триумф&#34;.
-      Обновлено: 2015-05-26.
+      Обновлено: 2015-06-30.
       Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
         </div>

@@ -31,9 +31,16 @@
         vec3 pos_bend = pos_world;
         pos_bend.xz += wind_world.xz * bf * sign(bend_scale);
 
-        // normalize by non-bended length to keep overall form
-        float len = length(pos_world - center_world);
-        pos_world = center_world + normalize(pos_bend - center_world) * len;
+        vec3 bend_diff = pos_bend - center_world;
+        // NOTE: avoid normalizing issues
+        if (all(equal(bend_diff, vec3(0.0))))
+            pos_world = center_world;
+        else {
+            // normalize by non-bended length to keep overall form
+            float len = length(pos_world - center_world);
+            pos_world = center_world + normalize(bend_diff) * len;
+        }
+
     }
 
 # if DETAIL_BEND 

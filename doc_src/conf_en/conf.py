@@ -56,7 +56,7 @@ copyright = u'2015, Triumph LLC'
 #
 # read version
 f = open("../../VERSION", "r+")
-version = f.read()[:-1]
+version = f.read()[:-1].split()[1]
 f.close()
 
 # The short X.Y version.

@@ -1,88 +1,123 @@
-/**
- * GitHub theme
- *
- * @author Craig Campbell
- * @version 1.0.4
- */
-pre {
-    border: 1px solid #ccc;
-    word-wrap: break-word;
-    padding: 6px 10px;
-    line-height: 19px;
-    margin-bottom: 20px;
+/*
+
+github.com style (c) Vasily Polovnyov <vast@whiteants.net>
+
+*/
+
+.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 0.5em;
+  color: #333;
+  background: #f8f8f8;
+  -webkit-text-size-adjust: none;
 }
 
-code {
-    border: 1px solid #eaeaea;
-    margin: 0px 2px;
-    padding: 0px 5px;
-    font-size: 12px;
+.hljs-comment,
+.diff .hljs-header {
+  color: #998;
+  font-style: italic;
 }
 
-pre code {
-    border: 0px;
-    padding: 0px;
-    margin: 0px;
-    -moz-border-radius: 0px;
-    -webkit-border-radius: 0px;
-    border-radius: 0px;
+.hljs-keyword,
+.css .rule .hljs-keyword,
+.hljs-winutils,
+.nginx .hljs-title,
+.hljs-subst,
+.hljs-request,
+.hljs-status {
+  color: #333;
+  font-weight: bold;
 }
 
-pre, code {
-    font-family: Consolas, 'Liberation Mono', Courier, monospace;
-    color: #333;
-    background: #f8f8f8;
-    -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
-    border-radius: 3px;
+.hljs-number,
+.hljs-hexcolor,
+.ruby .hljs-constant {
+  color: #008080;
 }
 
-pre, pre code {
-    font-size: 13px;
+.hljs-string,
+.hljs-tag .hljs-value,
+.hljs-doctag,
+.tex .hljs-formula {
+  color: #d14;
 }
 
-pre .comment {
-    color: #998;
+.hljs-title,
+.hljs-id,
+.scss .hljs-preprocessor {
+  color: #900;
+  font-weight: bold;
 }
 
-pre .support {
-    color: #0086B3;
+.hljs-list .hljs-keyword,
+.hljs-subst {
+  font-weight: normal;
 }
 
-pre .tag, pre .tag-name {
-    color: navy;
+.hljs-class .hljs-title,
+.hljs-type,
+.vhdl .hljs-literal,
+.tex .hljs-command {
+  color: #458;
+  font-weight: bold;
 }
 
-pre .keyword, pre .css-property, pre .vendor-prefix, pre .sass, pre .class, pre .id, pre .css-value, pre .entity.function, pre .storage.function {
-    font-weight: bold;
+.hljs-tag,
+.hljs-tag .hljs-title,
+.hljs-rule .hljs-property,
+.django .hljs-tag .hljs-keyword {
+  color: #000080;
+  font-weight: normal;
 }
 
-pre .css-property, pre .css-value, pre .vendor-prefix, pre .support.namespace {
-    color: #333;
+.hljs-attribute,
+.hljs-variable,
+.lisp .hljs-body,
+.hljs-name {
+  color: #008080;
 }
 
-pre .constant.numeric, pre .keyword.unit, pre .hex-color {
-    font-weight: normal;
-    color: #099;
+.hljs-regexp {
+  color: #009926;
 }
 
-pre .entity.class {
-    color: #458;
+.hljs-symbol,
+.ruby .hljs-symbol .hljs-string,
+.lisp .hljs-keyword,
+.clojure .hljs-keyword,
+.scheme .hljs-keyword,
+.tex .hljs-special,
+.hljs-prompt {
+  color: #990073;
 }
 
-pre .entity.id, pre .entity.function {
-    color: #900;
+.hljs-built_in {
+  color: #0086b3;
 }
 
-pre .attribute, pre .variable {
-    color: teal;
+.hljs-preprocessor,
+.hljs-pragma,
+.hljs-pi,
+.hljs-doctype,
+.hljs-shebang,
+.hljs-cdata {
+  color: #999;
+  font-weight: bold;
 }
 
-pre .string, pre .support.value  {
-    font-weight: normal;
-    color: #d14;
+.hljs-deletion {
+  background: #fdd;
 }
 
-pre .regexp {
-    color: #009926;
+.hljs-addition {
+  background: #dfd;
+}
+
+.diff .hljs-change {
+  background: #0086b3;
+}
+
+.hljs-chunk {
+  color: #aaa;
 }

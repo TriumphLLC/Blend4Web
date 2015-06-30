@@ -2,7 +2,7 @@
 Blend4Web: a 3D Web Framework
 *****************************
 
-Blend4Web (pronounced *blend-for-web*) is a next-gen engine created to meet the 3D graphics needs of the modern Internet.
+Blend4Web is a tool for interactive 3D visualization on the Internet. Our framework is well suited for showcasing products, e-learning, game development, advertising and webdesign.
 
 .. image:: https://www.blend4web.com/static/blend4web/images/about/blend4web_scheme.png
     :alt: Blender + Web = Blend4Web
@@ -14,6 +14,7 @@ The major distinguishing features of Blend4Web are:
 * Not only does it render 3D graphics but it also integrates realistic physics and spatial audio;
 * It is extremely simple to use because it is based on Blender in which 3D scenes can be made and then directly exported, even as a standalone web page;
 * It is available as a fully functional open source version or as under a paid commercial license.
+* It does not depend on any non-free components or cloud services.
 
 This repo mirrors the free SDK distribution which can be also `downloaded from the official site <https://www.blend4web.com/en/downloads/>`_.
 
@@ -30,8 +31,8 @@ Demos
 |planetarium| |capri_begins| |mi-34_hermit|
 |azure_grotto| |the_fountain| |the_watch|
 |sports_car| |naturemorte| |the_farm|
-|fashion_show| |the_island| |new_year_2015|
-|victory_day_2014|
+|fashion_show| |the_island| |victory_day_2015|
+|new_year_2015| |victory_day_2014|
 
 =========
 Tutorials
@@ -75,19 +76,14 @@ Step 2 - Enabling the Add-on
     :alt: Enabling the Add-on
     :align: center
 
-* Expand the addon panel and specify the **Path to Blend4Web SDK**;
 * Click **Save User Settings**. Restarting Blender is not required.
-
-.. image:: https://www.blend4web.com/doc/en/_images/user_preferences_addon_sdk_path.jpg
-    :alt: Enabling the Add-on
-    :align: center
 
 ------------------------------------
 Step 3 - Starting Development Server
 ------------------------------------
 
-* Go to the **Render** tab and press the **Start** button on the **Blend4Web** panel;
-* Press the **Open SDK** button to open the index web page of the Blend4Web SDK in the browser. This page is available at http://localhost:6687.
+* Go to the **Render** tab and press the **Start** button on the **Development Server** panel;
+* Press the **Open SDK** button to open the index web page of the Blend4Web SDK in your default browser. Try running demos!
 
 .. image:: https://www.blend4web.com/media/img_article/107/rect4179-1-4.jpg
     :alt: Starting Development Server
@@ -95,12 +91,12 @@ Step 3 - Starting Development Server
 
 
 
-.. |latest_version| image:: https://img.shields.io/badge/latest%20version-15.05-blue.svg
+.. |latest_version| image:: https://img.shields.io/badge/latest%20version-15.06-blue.svg
     :target: https://www.blend4web.com/en/downloads/
     :alt: Latest Version of Blend4Web
 
-.. |compatible_blender_version| image:: https://img.shields.io/badge/compatible%20with%20Blender-2.74-orange.svg
-    :target: https://download.blender.org/release/Blender2.74/
+.. |compatible_blender_version| image:: https://img.shields.io/badge/compatible%20with%20Blender-2.75-orange.svg
+    :target: https://download.blender.org/release/Blender2.75/
     :alt: Compatible Blender Version
 
 .. |license| image:: https://img.shields.io/badge/license-GPLv3,%20commercial-lightgrey.svg
@@ -152,6 +148,10 @@ Step 3 - Starting Development Server
 .. |the_island| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/island.min50.png
     :target: https://www.blend4web.com/apps/flight/flight.html
     :alt: The Island
+
+.. |victory_day_2015| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/greetcard_victory_day_2015.min50.png
+    :target: https://www.blend4web.com/apps/victory_day_2015/victory_day_2015.html?lang=en
+    :alt: V-Day 70th Anniversary
 
 .. |new_year_2015| image:: https://www.blend4web.com/static/blend4web/images/demos/github_icons/greetcard_happy_new_year_2015.min50.png
     :target: https://www.blend4web.com/en/demo/greetcard_happy_new_year_2015/

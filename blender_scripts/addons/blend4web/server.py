@@ -52,6 +52,7 @@ def open_browser(url):
 class B4WOpenSDK(bpy.types.Operator):
     bl_idname = "b4w.open_sdk"
     bl_label = "B4W Open SDK"
+    bl_options = {"INTERNAL"}
    
     def execute(self, context):
         port = bpy.context.user_preferences.addons[__package__].preferences.b4w_port_number
@@ -80,7 +81,8 @@ class B4WServerThread(threading.Thread):
 
 class B4WStartServer(bpy.types.Operator):
     bl_idname = "b4w.start_server"
-    bl_label = "B4W Start server"
+    bl_label = "B4W Start Server"
+    bl_options = {"INTERNAL"}
 
     server_process = None
     waiting_for_serv = False

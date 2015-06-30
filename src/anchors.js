@@ -25,6 +25,7 @@ var _anchors = [];
 var _anchor_batch_pos = new Float32Array(0);
 var _pixels = new Uint8Array(16);
 
+var _vec2_tmp = new Float32Array(2);
 var _vec3_tmp = new Float32Array(3);
 
 
@@ -322,7 +323,7 @@ exports.update = function() {
 
     var det_vis_cnt = 0;
 
-    for (var i = 0; i < _anchors.length; i++) {
+    for (var i = 0, len = _anchors.length; i < len; i++) {
         var anchor = _anchors[i];
 
         // update always because the anchor may change it's depth
@@ -350,6 +351,7 @@ exports.update = function() {
         case "ELEMENT":
             // position by center, no width/height optimization here, may change
             var element = anchor.element;
+
             element.style.left = Math.floor(x - element.offsetWidth / 2) + "px";
             element.style.top = Math.floor(y - element.offsetHeight / 2) + "px";
             break;
@@ -373,20 +375,8 @@ exports.update = function() {
 }
 
 function anchor_project(anchor, dest) {
-
-    var camera = m_scenes.get_camera(m_scenes.get_main());
-    var dest = m_cam.project_point(camera, anchor.obj._render.trans, dest);
-
-    // HACK
-    dest[0] /= cfg_def.resolution_factor;
-    dest[1] /= cfg_def.resolution_factor;
-
-    // viewport coords to CSS corrds
-    var viewport_scale = m_scenes.get_viewport_scale();
-
-    dest[0] = dest[0] / viewport_scale;
-    dest[1] = dest[1] / viewport_scale;
-
+    var camobj = m_scenes.get_camera(m_scenes.get_main());
+    var dest = m_cam.project_point(camobj, anchor.obj._render.trans, dest);
     return dest;
 }
 
@@ -480,20 +470,14 @@ function pick_anchor_visibility(anchor) {
 
     // NOTE: slow
     var subs_anchor = m_scenes.get_subs(m_scenes.get_main(), "ANCHOR_VISIBILITY");
-
-    var viewport_scale = m_scenes.get_viewport_scale();
-
-    var x = anchor.x * viewport_scale;
-    var y = anchor.y * viewport_scale;
-
-    // HACK
-    x *= cfg_def.resolution_factor;
-    y *= cfg_def.resolution_factor;
-
     var anchor_cam = subs_anchor.camera;
 
+    var viewport_xy = m_cont.canvas_to_viewport_coords(anchor.x, anchor.y, 
+            _vec2_tmp, anchor_cam);
+
     // NOTE: very slow
-    m_render.read_pixels(anchor_cam.framebuffer, x, anchor_cam.height - y, 2, 2, _pixels); 
+    m_render.read_pixels(anchor_cam.framebuffer, viewport_xy[0], 
+            anchor_cam.height - viewport_xy[1], 2, 2, _pixels); 
 
     if (_pixels[0] + _pixels[4] + _pixels[8] + _pixels[12] == 4 * 255)
         return "visible";
@@ -535,6 +519,13 @@ exports.cleanup = function() {
 exports.is_anchor = function(obj) {
     if (obj["b4w_anchor"])
         return true;
+    else
+        return false;
+}
+
+exports.get_element_id = function(obj) {
+    if (obj["b4w_anchor"] && obj["b4w_anchor"]["element_id"])
+        return obj["b4w_anchor"]["element_id"];
     else
         return false;
 }

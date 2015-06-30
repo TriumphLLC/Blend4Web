@@ -46,7 +46,7 @@ exports.setup_falling_rocks = function(elapsed_sensor) {
 
         var sensor_id = m_ctl.get_sensor_value(obj, id, 0)? 0: 1;
 
-        var collision_pt = m_ctl.get_sensor_payload(obj, id, sensor_id);
+        var collision_pt = m_ctl.get_sensor_payload(obj, id, sensor_id).coll_pos;
         var dist_to_rock = m_vec3.distance(char_pos, collision_pt);
 
         m_trans.set_translation_v(burst_emitter, collision_pt);
@@ -78,7 +78,7 @@ exports.setup_falling_rocks = function(elapsed_sensor) {
     function mark_pos_cb(obj, id, pulse, mark) {
 
         var sensor_id = m_ctl.get_sensor_value(obj, id, 0)? 0: 1;
-        var ray_dist = m_ctl.get_sensor_payload(obj, id, sensor_id);
+        var ray_dist = m_ctl.get_sensor_payload(obj, id, sensor_id).hit_fract;
 
         var mark_pos = _vec3_tmp;
         var obj_name = m_scs.get_object_name(obj);
@@ -112,9 +112,9 @@ exports.setup_falling_rocks = function(elapsed_sensor) {
             var coll_sens_island = m_ctl.create_collision_sensor(rock, "ISLAND", true);
 
             var ray_sens_island = m_ctl.create_ray_sensor(rock, [0, 0, 0],
-                                        [0, -m_conf.ROCK_RAY_LENGTH, 0], false, "ISLAND");
+                                        [0, -m_conf.ROCK_RAY_LENGTH, 0], "ISLAND", true);
             var ray_sens_lava = m_ctl.create_ray_sensor(rock, [0, 0, 0],
-                                        [0, -m_conf.ROCK_RAY_LENGTH, 0], false, "LAVA");
+                                        [0, -m_conf.ROCK_RAY_LENGTH, 0], "LAVA", true);
 
             m_ctl.create_sensor_manifold(rock, "ROCK_FALL", m_ctl.CT_CONTINUOUS,
                                          [elapsed_sensor], null, rock_fall_cb);
@@ -170,7 +170,7 @@ exports.setup_lava = function (elapsed_sensor) {
 
     var char_wrapper = m_char.get_wrapper();
     var lava_ray = m_ctl.create_ray_sensor(char_wrapper.phys_body, [0, 0, 0], [0, -0.30, 0],
-                                           false, "LAVA");
+                                           "LAVA", true);
 
     m_ctl.create_sensor_manifold(char_wrapper.phys_body, "LAVA_COLLISION",
         m_ctl.CT_CONTINUOUS, [lava_ray, elapsed_sensor],

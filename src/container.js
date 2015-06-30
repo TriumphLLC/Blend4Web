@@ -7,13 +7,22 @@
  */
 b4w.module["__container"] = function(exports, require) {
 
-var m_anchors    = require("__anchors");
 var m_print      = require("__print");
 var m_util       = require("__util");
 
 var _canvas      = null;
 var _canvas_cont = null;
 
+// NOTE: for optimization, to request canvas bounds only once a frame
+var _offsets_updating_needed = false;
+
+var _viewport_layout = {
+    width: 0,   // device pixels
+    height: 0,  // device pixels
+    scale: 1,   // divece pixels/css pixels
+    offset_top: 0,  // css pixels
+    offset_left: 0  // css pixels
+}
 
 exports.get_canvas = function() {
     return _canvas;
@@ -31,11 +40,11 @@ exports.init = function(canvas) {
         m_util.panic("canvas container is not available");
 }
 
-exports.insert_to_container = function(elem, behavior) {
+exports.insert_to_container = function(elem, stack_order) {
 
-    behavior = behavior || "LAST";
+    stack_order = stack_order || "LAST";
 
-    switch (behavior) {
+    switch (stack_order) {
     case "FIRST":
         var cont_first_child = _canvas_cont.firstElementChild;
 
@@ -58,10 +67,100 @@ exports.insert_to_container = function(elem, behavior) {
 
         break;
     default:
-        m_print.error(behavior + " behavior unknown");
+        m_print.error(stack_order + " invalid stack order");
 
         break;
     }
+}
+
+exports.get_viewport_width = function() {
+    return _viewport_layout.width;
+}
+
+exports.get_viewport_height = function() {
+    return _viewport_layout.height;
+}
+
+exports.set_canvas_offsets = set_canvas_offsets;
+function set_canvas_offsets(left, top) {
+    _viewport_layout.offset_left = left;
+    _viewport_layout.offset_top = top;   
+}
+
+exports.update_canvas_offsets = update_canvas_offsets;
+function update_canvas_offsets() {
+    var boundaries = _canvas.getBoundingClientRect();
+    set_canvas_offsets(boundaries.left, boundaries.top);
+}
+
+exports.setup_viewport_dim = function(width, height, scale) {
+    _viewport_layout.width = width;
+    _viewport_layout.height = height;
+    _viewport_layout.scale = scale;
+    update_canvas_offsets();
+}
+
+exports.force_offsets_updating = function() {
+    _offsets_updating_needed = true;
+}
+
+function get_offset_top() {
+    if (_offsets_updating_needed) {
+        update_canvas_offsets();
+        _offsets_updating_needed = false;
+    }
+
+    return _viewport_layout.offset_top;
+}
+
+function get_offset_left() {
+    if (_offsets_updating_needed) {
+        update_canvas_offsets();
+        _offsets_updating_needed = false;
+    }
+    
+    return _viewport_layout.offset_left;
+}
+
+exports.client_to_canvas_coords = function(client_x, client_y, dest) {
+    if (!dest)
+        dest = new Float32Array(2);
+
+    dest[0] = client_x - get_offset_left();
+    dest[1] = client_y - get_offset_top();
+    return dest;
+}
+
+exports.canvas_to_viewport_coords = function(canvas_x, canvas_y, dest, camera) {
+    if (!dest)
+        dest = new Float32Array(2);
+
+    dest[0] = canvas_x * _viewport_layout.scale;
+    dest[1] = canvas_y * _viewport_layout.scale;
+
+    if (camera) {
+        var camera_resolution_scale = camera.width / _viewport_layout.width;
+        dest[0] *= camera_resolution_scale;
+        dest[1] *= camera_resolution_scale;
+    }
+
+    return dest;
+}
+
+exports.viewport_to_canvas_coords = function(viewport_x, viewport_y, dest, camera) {
+    if (!dest)
+        dest = new Float32Array(2);
+    
+    dest[0] = viewport_x / _viewport_layout.scale;
+    dest[1] = viewport_y / _viewport_layout.scale;
+
+    if (camera) {
+        var camera_resolution_scale = camera.width / _viewport_layout.width;
+        dest[0] /= camera_resolution_scale;
+        dest[1] /= camera_resolution_scale;
+    }
+
+    return dest;
 }
 
 }

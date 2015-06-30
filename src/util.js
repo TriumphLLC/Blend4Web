@@ -59,6 +59,8 @@ var INV_CUBE_VIEW_MATRS =
      new Float32Array([ 1, 0,  0, 0, 0, -1,  0, 0,  0,  0, -1, 0, 0, 0, 0, 1]),
      new Float32Array([-1, 0,  0, 0, 0, -1,  0, 0,  0,  0,  1, 0, 0, 0, 0, 1])];
 
+var GAMMA = 2.2;
+
 exports.VEC3_IDENT = VEC3_IDENT;
 exports.QUAT4_IDENT = QUAT4_IDENT;
 exports.TSR8_IDENT = TSR8_IDENT;
@@ -73,11 +75,6 @@ exports.AXIS_MZ = AXIS_MZ;
 exports.INV_CUBE_VIEW_MATRS = INV_CUBE_VIEW_MATRS;
 
 exports.keyfind = keyfind;
-/**
- * Helper search function.
- * returns an array of results
- * @methodOf util
- */
 function keyfind(key, value, array) {
     var results = [];
 
@@ -149,7 +146,8 @@ exports.array_intersect = function(arr1, arr2) {
  * Taken from http://stackoverflow.com/questions/7624920/number-sign-in-javascript
  * @returns {Number} Signum function from argument
  */
-exports.sign = function(value) {
+exports.sign = sign;
+function sign(value) {
     return (value > 0) ? 1 : (value < 0 ? -1 : 0);
 }
 
@@ -167,10 +165,6 @@ exports.keycheck = function(key, value, array) {
     return false;
 }
 
-/**
- * Helper search function.
- * Returns single element or null
- */
 exports.keysearch = function(key, value, array) {
     for (var i = 0; i < array.length; i++) {
         var obj = array[i];
@@ -431,20 +425,7 @@ exports.euler_to_rotation_matrix = function(euler) {
     return matrix;
 }
 /**
- * <p>Translate GL quat to GL euler
- *
- * <p>Euler angles have following meaning:
- * <ol>
- * <li>heading, y
- * <li>attitude, z
- * <li>bank, x
- * </ol>
- * <p>Usage discouraged
- *
- * @methodOf util
  * @see http://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToEuler/index.htm
- * @param {vec4} quat Quaternion
- * @param {vec3} euler Destination euler vector
  */
 exports.quat_to_euler = function(quat, euler) {
     //var quat = new Float32Array([quat[0], quat[2], quat[1], quat[3]])
@@ -1432,10 +1413,10 @@ function hash_code_string(str, init_val) {
 /**
  * Translates a matrix by the given vector (from glMatrix 1)
  *
- * @param {mat4} mat mat4 to translate
- * @param {vec3} vec vec3 specifying the translation
- * @param {mat4} [dest] mat4 receiving operation result. If not specified result is written to mat
- * @returns {mat4} dest if specified, mat otherwise
+ * @param {Mat4} mat mat4 to translate
+ * @param {Vec3} vec vec3 specifying the translation
+ * @param {Mat4} [dest] mat4 receiving operation result. If not specified result is written to mat
+ * @returns {Mat4} dest if specified, mat otherwise
  * @deprecated Use function from mat4 module
  */
 exports.mat4_translate = function(mat, vec, dest) {
@@ -1964,10 +1945,10 @@ exports.xz_direction = function(a, b, dest) {
 /**
  * Transforms the vec3 with a quat (alternative implementation)
  *
- * @param {vec3} out the receiving vector
- * @param {vec3} a the vector to transform
- * @param {quat} q quaternion to transform with
- * @returns {vec3} out
+ * @param {Vec3} out the receiving vector
+ * @param {Vec3} a the vector to transform
+ * @param {Quat} q quaternion to transform with
+ * @returns {Vec3} out
  */
 exports.transformQuatFast = function(a, q, out) {
     // nVidia SDK implementation
@@ -2001,6 +1982,11 @@ exports.transformQuatFast = function(a, q, out) {
     out[2] = az + uvz + uuvz;
     return out;
 };
+
+exports.assert = function(cond) {
+    if (!cond)
+        throw new Error("Assertion failed");
+}
 
 exports.panic = function(s) {
     if (s)
@@ -2158,16 +2144,16 @@ exports.gen_color_id = function(counter) {
 }
 
 /**
- * Calculate intersection point of a line and a plane
+ * Calculate intersection point of a line and a plane.
  * @methodOf util
  * @see Lengyel E. - Mathematics for 3D Game Programming and Computer Graphics,
  * Third Edition. Chapter 5.2.1 Intersection of a Line and a Plane
- * @param {Float32Array} pn Plane normal
- * @param {Number} p_dist Plane signed distance from the origin
- * @param {Float32Array} lp Point belonging to the line
- * @param {Float32Array} l_dir Line direction
- * @param {Float32Array} dest Destination vector
- * @returns {?Float32Array} Intersection point or null if the line is parallel to the plane
+ * @param {Vec3} pn Plane normal.
+ * @param {Number} p_dist Plane signed distance from the origin.
+ * @param {Vec3} lp Point belonging to the line.
+ * @param {Vec3} l_dir Line direction.
+ * @param {Vec3} dest Destination vector.
+ * @returns {?Vec3} Intersection point or null if the line is parallel to the plane.
  */
 exports.line_plane_intersect = function(pn, p_dist, lp, l_dir, dest) {
     // four-dimensional representation of a plane
@@ -2199,6 +2185,27 @@ exports.line_plane_intersect = function(pn, p_dist, lp, l_dir, dest) {
     dest[0] = lp[0] + t * l_dir[0];
     dest[1] = lp[1] + t * l_dir[1];
     dest[2] = lp[2] + t * l_dir[2];
+
+    return dest;
+}
+
+/**
+ * Calculate plane normal by 3 points through the point-normal form of the
+ * plane equation
+ */
+exports.get_plane_normal = function(a, b, c, dest) {
+    var a12 = b[0] - a[0];
+    var a13 = c[0] - a[0];
+
+    var a22 = b[1] - a[1];
+    var a23 = c[1] - a[1];
+
+    var a32 = b[2] - a[2];
+    var a33 = c[2] - a[2];
+
+    dest[0] = a22 * a33 - a32 * a23;
+    dest[1] = a13 * a32 - a12 * a33;
+    dest[2] = a12 * a23 - a22 * a13;
 
     return dest;
 }
@@ -2299,5 +2306,56 @@ exports.arrays_have_common = function(arr_1, arr_2) {
     }
     return false;
 }
+
+exports.create_zero_array = function(length) {
+    var array = new Array(length);
+
+    for (var i = 0; i < length; i++)
+        array[i] = 0;
+
+    return array;
+}
+
+exports.version_cmp = function(ver1, ver2) {
+    var max_len = Math.max(ver1.length, ver2.length);
+
+    for (var i = 0; i < max_len; i++) {
+        var n1 = (i >= ver1.length) ? 0 : ver1[i];
+        var n2 = (i >= ver2.length) ? 0 : ver2[i];
+
+        var s = sign(n1 - n2);
+        if (s)
+            return s;
+    }
+
+    return 0;
+}
+
+/**
+ * It doesn't worry about leading zeros; unappropriate for date 
+ * (month, hour, minute, ...) values.
+ */
+exports.version_to_str = function(ver) {
+    return ver.join(".");
+}
+
+exports.str_to_version = function(str) {
+    return str.split(".").map(function(val){ return val | 0 });
+}
+
+exports.srgb_to_lin = function(color, dest) {
+    dest[0] = Math.pow(color[0], GAMMA);
+    dest[1] = Math.pow(color[1], GAMMA);
+    dest[2] = Math.pow(color[2], GAMMA);
+    return dest;
+}
+
+exports.lin_to_srgb = function(color, dest) {
+    dest[0] = Math.pow(color[0], 1/GAMMA);
+    dest[1] = Math.pow(color[1], 1/GAMMA);
+    dest[2] = Math.pow(color[2], 1/GAMMA);
+    return dest;
+}
+
 
 }

@@ -290,7 +290,7 @@ function upload_dds_levels(gl, ext, arrayBuffer, loadMipmaps) {
 /**
  * Extract DDS width and height from the given arrayBuffer
  * @param {TypedArray} arrayBuffer Array Buffer containing the DDS files data
- * @returns {Object} Width and height of DDS image
+ * @returns {Object3D} Width and height of DDS image
  */
 exports.get_width_height = function(arrayBuffer) {
     var header = new Int32Array(arrayBuffer, 0, HEADER_LENGTH_INT);    

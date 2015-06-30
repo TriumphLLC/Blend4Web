@@ -115,7 +115,7 @@ exports.object_info = function(name) {
 
 /**
  * Print debug info for the object with the given name
- * @method module:debug.object_info
+ * @method module:debug.objects_stat
  * @param name Object name
  */
 exports.objects_stat = function() {

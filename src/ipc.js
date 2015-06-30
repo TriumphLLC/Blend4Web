@@ -14,20 +14,23 @@ b4w.module["__ipc"] = function(exports, require) {
  */
 
 // MAIN <- PHYSICS
-var IN_LOADED                        = exports.IN_LOADED                = 0;
-var IN_COLLISION                     = exports.IN_COLLISION             = 1;
-var IN_COLLISION_IMPULSE             = exports.IN_COLLISION_IMPULSE     = 2;
-var IN_ERROR                         = exports.IN_ERROR                 = 3;
-var IN_FBMSG                         = exports.IN_FBMSG                 = 4;
-var IN_FLOATER_BOB_TRANSFORM         = exports.IN_FLOATER_BOB_TRANSFORM = 5;
-var IN_LOG                           = exports.IN_LOG                   = 6;
-var IN_PROP_OFFSET                   = exports.IN_PROP_OFFSET           = 7;
-var IN_RAY_HIT                       = exports.IN_RAY_HIT               = 8;
-var IN_TRANSFORM                     = exports.IN_TRANSFORM             = 9;
-var IN_VEHICLE_SPEED                 = exports.IN_VEHICLE_SPEED         = 10;
-var IN_PING                          = exports.IN_PING                  = 11;
-var IN_FPS                           = exports.IN_FPS                   = 12;
-var IN_DEBUG_STATS                   = exports.IN_DEBUG_STATS           = 13;
+var IN_LOADED                        = exports.IN_LOADED                = 0 ;
+var IN_COLLISION                     = exports.IN_COLLISION             = 1 ;
+var IN_COLLISION_POS_NORM            = exports.IN_COLLISION_POS_NORM    = 2 ;
+var IN_COLLISION_IMPULSE             = exports.IN_COLLISION_IMPULSE     = 3 ;
+var IN_ERROR                         = exports.IN_ERROR                 = 4 ;
+var IN_FBMSG                         = exports.IN_FBMSG                 = 5 ;
+var IN_FLOATER_BOB_TRANSFORM         = exports.IN_FLOATER_BOB_TRANSFORM = 6 ;
+var IN_LOG                           = exports.IN_LOG                   = 7 ;
+var IN_PROP_OFFSET                   = exports.IN_PROP_OFFSET           = 8 ;
+var IN_RAY_HIT                       = exports.IN_RAY_HIT               = 9 ;
+var IN_RAY_HIT_POS_NORM              = exports.IN_RAY_HIT_POS_NORM      = 10;
+var IN_REMOVE_RAY_TEST               = exports.IN_REMOVE_RAY_TEST       = 11;
+var IN_TRANSFORM                     = exports.IN_TRANSFORM             = 12;
+var IN_VEHICLE_SPEED                 = exports.IN_VEHICLE_SPEED         = 13;
+var IN_PING                          = exports.IN_PING                  = 14;
+var IN_FPS                           = exports.IN_FPS                   = 15;
+var IN_DEBUG_STATS                   = exports.IN_DEBUG_STATS           = 16;
 
 // MAIN -> PHYSICS
 var OUT_INIT                         = exports.OUT_INIT                         = 100;
@@ -45,36 +48,39 @@ var OUT_APPEND_FLOATER               = exports.OUT_APPEND_FLOATER               
 var OUT_APPEND_GHOST_MESH_BODY       = exports.OUT_APPEND_GHOST_MESH_BODY       = 112;
 var OUT_APPEND_STATIC_MESH_BODY      = exports.OUT_APPEND_STATIC_MESH_BODY      = 113;
 var OUT_APPEND_WATER                 = exports.OUT_APPEND_WATER                 = 114;
-var OUT_APPLY_CENTRAL_FORCE          = exports.OUT_APPLY_CENTRAL_FORCE          = 115;
-var OUT_APPLY_COLLISION_IMPULSE_TEST = exports.OUT_APPLY_COLLISION_IMPULSE_TEST = 116;
-var OUT_APPLY_TORQUE                 = exports.OUT_APPLY_TORQUE                 = 117;
-var OUT_CHARACTER_JUMP               = exports.OUT_CHARACTER_JUMP               = 118;
-var OUT_CHARACTER_ROTATION_INCREMENT = exports.OUT_CHARACTER_ROTATION_INCREMENT = 119;
-var OUT_CLEAR_COLLISION_IMPULSE_TEST = exports.OUT_CLEAR_COLLISION_IMPULSE_TEST = 120;
-var OUT_DISABLE_SIMULATION           = exports.OUT_DISABLE_SIMULATION           = 121;
-var OUT_ENABLE_SIMULATION            = exports.OUT_ENABLE_SIMULATION            = 122;
-var OUT_PAUSE                        = exports.OUT_PAUSE                        = 123;
-var OUT_RAY_TEST                     = exports.OUT_RAY_TEST                     = 124;
-var OUT_REMOVE_COLLISION_TEST        = exports.OUT_REMOVE_COLLISION_TEST        = 125;
-var OUT_REMOVE_CONSTRAINT            = exports.OUT_REMOVE_CONSTRAINT            = 126;
-var OUT_RESUME                       = exports.OUT_RESUME                       = 127;
-var OUT_SET_CHARACTER_FLY_VELOCITY   = exports.OUT_SET_CHARACTER_FLY_VELOCITY   = 128;
-var OUT_SET_CHARACTER_HOR_ROTATION   = exports.OUT_SET_CHARACTER_HOR_ROTATION   = 129;
-var OUT_SET_CHARACTER_MOVE_DIR       = exports.OUT_SET_CHARACTER_MOVE_DIR       = 130;
-var OUT_SET_CHARACTER_MOVE_TYPE      = exports.OUT_SET_CHARACTER_MOVE_TYPE      = 131;
-var OUT_SET_CHARACTER_ROTATION       = exports.OUT_SET_CHARACTER_ROTATION       = 132;
-var OUT_SET_CHARACTER_RUN_VELOCITY   = exports.OUT_SET_CHARACTER_RUN_VELOCITY   = 133;
-var OUT_SET_CHARACTER_VERT_ROTATION  = exports.OUT_SET_CHARACTER_VERT_ROTATION  = 134;
-var OUT_SET_CHARACTER_WALK_VELOCITY  = exports.OUT_SET_CHARACTER_WALK_VELOCITY  = 135;
-var OUT_SET_GRAVITY                  = exports.OUT_SET_GRAVITY                  = 136;
-var OUT_SET_LINEAR_VELOCITY          = exports.OUT_SET_LINEAR_VELOCITY          = 137;
-var OUT_SET_TRANSFORM                = exports.OUT_SET_TRANSFORM                = 138;
-var OUT_SET_WATER_TIME               = exports.OUT_SET_WATER_TIME               = 139;
-var OUT_ADD_WATER_WRAPPER            = exports.OUT_ADD_WATER_WRAPPER            = 140;
-var OUT_UPDATE_BOAT_CONTROLS         = exports.OUT_UPDATE_BOAT_CONTROLS         = 141;
-var OUT_UPDATE_CAR_CONTROLS          = exports.OUT_UPDATE_CAR_CONTROLS          = 142;
-var OUT_PING                         = exports.OUT_PING                         = 143;
-var OUT_DEBUG                        = exports.OUT_DEBUG                        = 144;
+var OUT_REMOVE_BODY                  = exports.OUT_REMOVE_BODY                  = 115;
+var OUT_APPLY_CENTRAL_FORCE          = exports.OUT_APPLY_CENTRAL_FORCE          = 116;
+var OUT_APPLY_COLLISION_IMPULSE_TEST = exports.OUT_APPLY_COLLISION_IMPULSE_TEST = 117;
+var OUT_APPLY_TORQUE                 = exports.OUT_APPLY_TORQUE                 = 118;
+var OUT_CHARACTER_JUMP               = exports.OUT_CHARACTER_JUMP               = 119;
+var OUT_CHARACTER_ROTATION_INCREMENT = exports.OUT_CHARACTER_ROTATION_INCREMENT = 120;
+var OUT_CLEAR_COLLISION_IMPULSE_TEST = exports.OUT_CLEAR_COLLISION_IMPULSE_TEST = 121;
+var OUT_DISABLE_SIMULATION           = exports.OUT_DISABLE_SIMULATION           = 122;
+var OUT_ENABLE_SIMULATION            = exports.OUT_ENABLE_SIMULATION            = 123;
+var OUT_PAUSE                        = exports.OUT_PAUSE                        = 124;
+var OUT_APPEND_RAY_TEST              = exports.OUT_APPEND_RAY_TEST              = 125;
+var OUT_REMOVE_RAY_TEST              = exports.OUT_REMOVE_RAY_TEST              = 126;
+var OUT_CHANGE_RAY_TEST_FROM_TO      = exports.OUT_CHANGE_RAY_TEST_FROM_TO      = 127;
+var OUT_REMOVE_COLLISION_TEST        = exports.OUT_REMOVE_COLLISION_TEST        = 128;
+var OUT_REMOVE_CONSTRAINT            = exports.OUT_REMOVE_CONSTRAINT            = 129;
+var OUT_RESUME                       = exports.OUT_RESUME                       = 130;
+var OUT_SET_CHARACTER_FLY_VELOCITY   = exports.OUT_SET_CHARACTER_FLY_VELOCITY   = 131;
+var OUT_SET_CHARACTER_HOR_ROTATION   = exports.OUT_SET_CHARACTER_HOR_ROTATION   = 132;
+var OUT_SET_CHARACTER_MOVE_DIR       = exports.OUT_SET_CHARACTER_MOVE_DIR       = 133;
+var OUT_SET_CHARACTER_MOVE_TYPE      = exports.OUT_SET_CHARACTER_MOVE_TYPE      = 134;
+var OUT_SET_CHARACTER_ROTATION       = exports.OUT_SET_CHARACTER_ROTATION       = 135;
+var OUT_SET_CHARACTER_RUN_VELOCITY   = exports.OUT_SET_CHARACTER_RUN_VELOCITY   = 136;
+var OUT_SET_CHARACTER_VERT_ROTATION  = exports.OUT_SET_CHARACTER_VERT_ROTATION  = 137;
+var OUT_SET_CHARACTER_WALK_VELOCITY  = exports.OUT_SET_CHARACTER_WALK_VELOCITY  = 138;
+var OUT_SET_GRAVITY                  = exports.OUT_SET_GRAVITY                  = 139;
+var OUT_SET_LINEAR_VELOCITY          = exports.OUT_SET_LINEAR_VELOCITY          = 140;
+var OUT_SET_TRANSFORM                = exports.OUT_SET_TRANSFORM                = 141;
+var OUT_SET_WATER_TIME               = exports.OUT_SET_WATER_TIME               = 142;
+var OUT_ADD_WATER_WRAPPER            = exports.OUT_ADD_WATER_WRAPPER            = 143;
+var OUT_UPDATE_BOAT_CONTROLS         = exports.OUT_UPDATE_BOAT_CONTROLS         = 144;
+var OUT_UPDATE_CAR_CONTROLS          = exports.OUT_UPDATE_CAR_CONTROLS          = 145;
+var OUT_PING                         = exports.OUT_PING                         = 146;
+var OUT_DEBUG                        = exports.OUT_DEBUG                        = 147;
 
 var _worker = null;
 
@@ -105,18 +111,30 @@ var _msg_cache_IN_PROP_OFFSET = {
 _msg_cache_IN_PROP_OFFSET.raw_data[0] = IN_PROP_OFFSET;
 
 var _msg_cache_IN_RAY_HIT = {
-    "msg_id":        IN_RAY_HIT,
+    "msg_id":      IN_RAY_HIT,
 
-    "body_id":       0,
-    "from":          new Float32Array(3),
-    "to":            new Float32Array(3),
-    "local":         0,
-    "body_id_b_hit": 0,
-    "cur_result":    0,
+    "id":          0,
+    "body_id_hit": 0,
+    "hit_fract":   0,
+    "hit_time":    0,
 
-    raw_data:        new Float32Array(1+1+3+3+1+1+1)
+    raw_data:      new Float32Array(1+1+1+1+1)
 };
 _msg_cache_IN_RAY_HIT.raw_data[0] = IN_RAY_HIT;
+
+var _msg_cache_IN_RAY_HIT_POS_NORM = {
+    "msg_id":      IN_RAY_HIT_POS_NORM,
+
+    "id":          0,
+    "body_id_hit": 0,
+    "hit_fract":   0,
+    "hit_time":    0,
+    "hit_pos":     new Float32Array(3),
+    "hit_norm":    new Float32Array(3),
+
+    raw_data:      new Float32Array(1+1+1+1+1+3+3)
+};
+_msg_cache_IN_RAY_HIT_POS_NORM.raw_data[0] = IN_RAY_HIT_POS_NORM;
 
 var _msg_cache_IN_COLLISION = {
     "msg_id":     IN_COLLISION,
@@ -124,11 +142,24 @@ var _msg_cache_IN_COLLISION = {
     "body_id_a":  0,
     "body_id_b":  0,
     "result":     0,
-    "coll_point": new Float32Array(3),
 
-    raw_data:     new Float32Array(1+1+1+1+3)
+    raw_data:     new Float32Array(1+1+1+1)
 };
 _msg_cache_IN_COLLISION.raw_data[0] = IN_COLLISION;
+
+var _msg_cache_IN_COLLISION_POS_NORM = {
+    "msg_id":     IN_COLLISION_POS_NORM,
+
+    "body_id_a":  0,
+    "body_id_b":  0,
+    "result":     0,
+    "coll_point": new Float32Array(3),
+    "coll_norm":  new Float32Array(3),
+    "coll_dist":  0,
+
+    raw_data:     new Float32Array(1+1+1+1+3+3+1)
+};
+_msg_cache_IN_COLLISION_POS_NORM.raw_data[0] = IN_COLLISION_POS_NORM;
 
 var _msg_cache_OUT_SET_TRANSFORM = {
     "msg_id":  OUT_SET_TRANSFORM,
@@ -185,32 +216,52 @@ exports.init = function(worker, process_message_cb) {
         case IN_RAY_HIT:
             var data = _msg_cache_IN_RAY_HIT;
 
-            data["body_id"]       = event_data[1 ];
-            data["from"][0]       = event_data[2 ];
-            data["from"][1]       = event_data[3 ];
-            data["from"][2]       = event_data[4 ];
-            data["to"][0]         = event_data[5 ];
-            data["to"][1]         = event_data[6 ];
-            data["to"][2]         = event_data[7 ];
-            data["local"]         = event_data[8 ];
-            data["body_id_b_hit"] = event_data[9 ];
-            data["cur_result"]    = event_data[10];
+            data["id"]          = event_data[1] | 0;
+            data["body_id_hit"] = event_data[2] | 0;
+            data["hit_fract"]   = event_data[3];
+            data["hit_time"]    = event_data[4];
+
+            break;
+        case IN_RAY_HIT_POS_NORM:
+            var data = _msg_cache_IN_RAY_HIT_POS_NORM;
+
+            data["id"]          = event_data[ 1] | 0;
+            data["body_id_hit"] = event_data[ 2] | 0;
+            data["hit_fract"]   = event_data[ 3];
+            data["hit_time"]    = event_data[ 4];
+            data["hit_pos"][0]  = event_data[ 5];
+            data["hit_pos"][1]  = event_data[ 6];
+            data["hit_pos"][2]  = event_data[ 7];
+            data["hit_norm"][0] = event_data[ 8];
+            data["hit_norm"][1] = event_data[ 9];
+            data["hit_norm"][2] = event_data[10];
 
             break;
         case IN_COLLISION:
             var data = _msg_cache_IN_COLLISION;
 
-            data["body_id_a"]     = event_data[1];
-            data["body_id_b"]     = event_data[2];
+            data["body_id_a"]     = event_data[1] | 0;
+            data["body_id_b"]     = event_data[2] | 0;
             data["result"]        = event_data[3];
-            data["coll_point"][0] = event_data[4];
-            data["coll_point"][1] = event_data[5];
-            data["coll_point"][2] = event_data[6];
+            break;
+        case IN_COLLISION_POS_NORM:
+            var data = _msg_cache_IN_COLLISION_POS_NORM;
+
+            data["body_id_a"]     = event_data[ 1] | 0;
+            data["body_id_b"]     = event_data[ 2] | 0;
+            data["result"]        = event_data[ 3];
+            data["coll_point"][0] = event_data[ 4];
+            data["coll_point"][1] = event_data[ 5];
+            data["coll_point"][2] = event_data[ 6];
+            data["coll_norm"][0]  = event_data[ 7];
+            data["coll_norm"][1]  = event_data[ 8];
+            data["coll_norm"][2]  = event_data[ 9];
+            data["coll_dist"]     = event_data[10];
             break;
         case OUT_SET_TRANSFORM:
             var data = _msg_cache_OUT_SET_TRANSFORM;
 
-            data["body_id"]  = event_data[1];
+            data["body_id"]  = event_data[1] | 0;
             data["trans"][0] = event_data[2];
             data["trans"][1] = event_data[3];
             data["trans"][2] = event_data[4];
@@ -286,16 +337,26 @@ exports.post_msg = function() {
         var data = _msg_cache_IN_RAY_HIT;
         var msg = data.raw_data;
 
-        msg[1 ] = data["body_id"];
-        msg[2 ] = data["from"][0];
-        msg[3 ] = data["from"][1];
-        msg[4 ] = data["from"][2];
-        msg[5 ] = data["to"][0];
-        msg[6 ] = data["to"][1];
-        msg[7 ] = data["to"][2];
-        msg[8 ] = data["local"];
-        msg[9 ] = data["body_id_b_hit"];
-        msg[10] = data["cur_result"];
+        msg[1] = data["id"];
+        msg[2] = data["body_id_hit"];
+        msg[3] = data["hit_fract"];
+        msg[4] = data["hit_time"];
+
+        break;
+    case IN_RAY_HIT_POS_NORM:
+        var data = _msg_cache_IN_RAY_HIT_POS_NORM;
+        var msg = data.raw_data;
+
+        msg[ 1] = data["id"];
+        msg[ 2] = data["body_id_hit"];
+        msg[ 3] = data["hit_fract"];
+        msg[ 4] = data["hit_time"];
+        msg[ 5] = data["hit_pos"][0];
+        msg[ 6] = data["hit_pos"][1];
+        msg[ 7] = data["hit_pos"][2];
+        msg[ 8] = data["hit_norm"][0];
+        msg[ 9] = data["hit_norm"][1];
+        msg[10] = data["hit_norm"][2];
 
         break;
     case IN_COLLISION:
@@ -305,9 +366,21 @@ exports.post_msg = function() {
         msg[1] = data["body_id_a"];
         msg[2] = data["body_id_b"];
         msg[3] = data["result"];
-        msg[4] = data["coll_point"][0];
-        msg[5] = data["coll_point"][1];
-        msg[6] = data["coll_point"][2];
+        break;
+    case IN_COLLISION_POS_NORM:
+        var data = _msg_cache_IN_COLLISION_POS_NORM;
+        var msg = data.raw_data;
+
+        msg[ 1] = data["body_id_a"];
+        msg[ 2] = data["body_id_b"];
+        msg[ 3] = data["result"];
+        msg[ 4] = data["coll_point"][0];
+        msg[ 5] = data["coll_point"][1];
+        msg[ 6] = data["coll_point"][2];
+        msg[ 7] = data["coll_norm"][0];
+        msg[ 8] = data["coll_norm"][1];
+        msg[ 9] = data["coll_norm"][2];
+        msg[10] = data["coll_dist"];
         break;
     case OUT_SET_TRANSFORM:
         var data = _msg_cache_OUT_SET_TRANSFORM;
@@ -340,8 +413,12 @@ exports.get_msg_cache = function(msg_id) {
         return _msg_cache_IN_PROP_OFFSET;
     case IN_RAY_HIT:
         return _msg_cache_IN_RAY_HIT;
+    case IN_RAY_HIT_POS_NORM:
+        return _msg_cache_IN_RAY_HIT_POS_NORM;
     case IN_COLLISION:
         return _msg_cache_IN_COLLISION;
+    case IN_COLLISION_POS_NORM:
+        return _msg_cache_IN_COLLISION_POS_NORM;
     case OUT_SET_TRANSFORM:
         return _msg_cache_OUT_SET_TRANSFORM;
     default:

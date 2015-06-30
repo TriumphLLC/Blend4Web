@@ -30,7 +30,7 @@ class B4W_FloatingSettings(bpy.types.PropertyGroup):
         description = "Floating object part",
         default = "MAIN_BODY",
         items = [
-            ("MAIN_BODY", "Main body", "Floating object main body"),
+            ("MAIN_BODY", "Main Body", "Floating object main body"),
             ("BOB", "Bob", "Floating object's bob")
         ]
     )
@@ -123,11 +123,11 @@ class B4W_VehicleSettings(bpy.types.PropertyGroup):
         items = [
             ("HULL", "Hull", "Vehicle hull"),
             ("CHASSIS", "Chassis", "Vehicle chassis"),
-            ("STEERING_WHEEL", "Steering wheel", "Optional vehicle steering wheel"),
-            ("WHEEL_FRONT_LEFT", "Front left wheel", "Vehicle front left wheel"),
-            ("WHEEL_FRONT_RIGHT", "Front right wheel", "Vehicle front right wheel"),
-            ("WHEEL_BACK_LEFT", "Back left wheel", "Vehicle rear left wheel"),
-            ("WHEEL_BACK_RIGHT", "Back right wheel", "Vehicle rear right wheel"),
+            ("STEERING_WHEEL", "Steering Wheel", "Optional vehicle steering wheel"),
+            ("WHEEL_FRONT_LEFT", "Front Left Wheel", "Vehicle front left wheel"),
+            ("WHEEL_FRONT_RIGHT", "Front Right Wheel", "Vehicle front right wheel"),
+            ("WHEEL_BACK_LEFT", "Back Left Wheel", "Vehicle rear left wheel"),
+            ("WHEEL_BACK_RIGHT", "Back Right Wheel", "Vehicle rear right wheel"),
             ("TACHOMETER", "Tachometer", "Vehicle tachometer"),
             ("SPEEDOMETER", "Speedometer", "Vehicle speedometer"),
             ("BOB", "Bob", "Boat's bob")
@@ -629,6 +629,58 @@ class B4W_GodRaysSettings(bpy.types.PropertyGroup):
         precision = 1
     )
 
+class B4W_GlowSettings(bpy.types.PropertyGroup):
+
+    small_glow_mask_coeff = bpy.props.FloatProperty(
+        name = "B4W: objects small glow mask coefficient",
+        description = "Objects small glow mask coefficient",
+        default = 2.0,
+        min = 0.0,
+        soft_min = 0.0,
+        max = 10.0,
+        soft_max = 10.0,
+        precision = 3
+    )
+
+    large_glow_mask_coeff = bpy.props.FloatProperty(
+        name = "B4W: objects large glow mask coefficient",
+        description = "Objects large glow mask coefficient",
+        default = 2.0,
+        min = 0.0,
+        soft_min = 0.0,
+        max = 10.0,
+        soft_max = 10.0,
+        precision = 3
+    )
+
+    small_glow_mask_width = bpy.props.FloatProperty(
+        name = "B4W: objects small glow mask width",
+        description = "Objects small glow mask width",
+        default = 2.0,
+        min = 1.0,
+        soft_min = 1.0,
+        max = 20.0,
+        soft_max = 20.0,
+        precision = 2
+    )
+
+    large_glow_mask_width = bpy.props.FloatProperty(
+        name = "B4W: objects large glow mask width",
+        description = "Objects large glow mask width",
+        default = 6.0,
+        min = 1.0,
+        soft_min = 1.0,
+        max = 20.0,
+        soft_max = 20.0,
+        precision = 2
+    )
+
+    render_glow_over_blend = bpy.props.BoolProperty(
+        name = "B4W: render glow materials over blend",
+        description = "Render glow materials over blend",
+        default = False
+    )
+
 class B4W_BloomSettings(bpy.types.PropertyGroup):
 
     key = bpy.props.FloatProperty(
@@ -1035,87 +1087,6 @@ def add_b4w_props():
 
     add_scene_properties()
 
-    # for world panel
-    b4w_outline_color = bpy.props.FloatVectorProperty(
-        name = "B4W: outline color of the selection",
-        description = "Default outline color of the selection",
-        default = (1.0, 1.0, 1.0),
-        min = 0.0,
-        soft_min = 0.0,
-        max = 1.0,
-        soft_max = 1.0,
-        precision = 3,
-        subtype = 'COLOR',
-        size = 3
-    )
-    bpy.types.World.b4w_outline_color = b4w_outline_color
-
-    b4w_outline_factor = bpy.props.FloatProperty(
-        name = "B4W: outline factor",
-        description = "Outline strength factor",
-        default = 1.0,
-        min = 0.1,
-        max = 1.0,
-        step = 1,
-        precision = 2
-    )
-    bpy.types.World.b4w_outline_factor = b4w_outline_factor
-
-    b4w_small_glow_mask_coeff = bpy.props.FloatProperty(
-        name = "B4W: objects small glow mask coefficient",
-        description = "Objects small glow mask coefficient",
-        default = 2.0,
-        min = 0.0,
-        soft_min = 0.0,
-        max = 10.0,
-        soft_max = 10.0,
-        precision = 3
-    )
-    bpy.types.World.b4w_small_glow_mask_coeff = b4w_small_glow_mask_coeff
-
-    b4w_large_glow_mask_coeff = bpy.props.FloatProperty(
-        name = "B4W: objects large glow mask coefficient",
-        description = "Objects large glow mask coefficient",
-        default = 2.0,
-        min = 0.0,
-        soft_min = 0.0,
-        max = 10.0,
-        soft_max = 10.0,
-        precision = 3
-    )
-    bpy.types.World.b4w_large_glow_mask_coeff = b4w_large_glow_mask_coeff
-
-    b4w_small_glow_mask_width = bpy.props.FloatProperty(
-        name = "B4W: objects small glow mask width",
-        description = "Objects small glow mask width",
-        default = 2.0,
-        min = 1.0,
-        soft_min = 1.0,
-        max = 20.0,
-        soft_max = 20.0,
-        precision = 2
-    )
-    bpy.types.World.b4w_small_glow_mask_width = b4w_small_glow_mask_width
-
-    b4w_large_glow_mask_width = bpy.props.FloatProperty(
-        name = "B4W: objects large glow mask width",
-        description = "Objects large glow mask width",
-        default = 6.0,
-        min = 1.0,
-        soft_min = 1.0,
-        max = 20.0,
-        soft_max = 20.0,
-        precision = 2
-    )
-    bpy.types.World.b4w_large_glow_mask_width = b4w_large_glow_mask_width
-
-    b4w_render_glow_over_blend = bpy.props.BoolProperty(
-        name = "B4W: render glow materials over blend",
-        description = "Render glow materials over blend",
-        default = False
-    )
-    bpy.types.World.b4w_render_glow_over_blend = b4w_render_glow_over_blend
-
     b4w_fog_color = bpy.props.FloatVectorProperty(
         name = "B4W: fog color",
         description = "Fog color",
@@ -1143,39 +1114,9 @@ def add_b4w_props():
     )
     bpy.types.World.b4w_fog_density = b4w_fog_density
 
-    bpy.types.World.b4w_god_rays_settings = bpy.props.PointerProperty(
-        name = "B4W: god rays settings",
-        type = B4W_GodRaysSettings
-    )
-
-    bpy.types.World.b4w_shadow_settings = bpy.props.PointerProperty(
-        name = "B4W: shadow settings",
-        type = B4W_ShadowSettings
-    )
-
-    bpy.types.World.b4w_color_correction_settings = bpy.props.PointerProperty(
-        name = "B4W: color correction settings",
-        type = B4W_ColorCorrectionSettings
-    )
-
-    bpy.types.World.b4w_ssao_settings = bpy.props.PointerProperty(
-        name = "B4W: SSAO settings",
-        type = B4W_SSAOSettings
-    )
-
     bpy.types.World.b4w_sky_settings = bpy.props.PointerProperty(
         name = "B4W: sky settings",
         type = B4W_SkySettings
-    )
-
-    bpy.types.World.b4w_bloom_settings = bpy.props.PointerProperty(
-        name = "B4W: bloom settings",
-        type = B4W_BloomSettings
-    )
-
-    bpy.types.World.b4w_motion_blur_settings = bpy.props.PointerProperty(
-        name = "B4W: motion blur settings",
-        type = B4W_MotionBlurSettings
     )
 
     add_object_properties()
@@ -1558,12 +1499,6 @@ def add_scene_properties():
         type = B4W_DynamicCompressorSettings
     )
 
-    scene_type.b4w_enable_convolution_engine = bpy.props.BoolProperty(
-        name = "B4W: enable convolution engine",
-        description = "Enable the convolution engine to allow linear (spacial) effects on this scene",
-        default = False
-    )
-
     b4w_enable_physics = bpy.props.BoolProperty(
         name = "B4W: enable physics",
         description = "Enable physics simulation on this scene",
@@ -1571,26 +1506,45 @@ def add_scene_properties():
     )
     scene_type.b4w_enable_physics = b4w_enable_physics
 
-    b4w_render_shadows = bpy.props.BoolProperty(
+    b4w_render_shadows = bpy.props.EnumProperty(
         name = "B4W: render shadows",
         description = "Render shadows for the scene objects with the " +
                 "\"B4W shadow cast\" and \"B4W shadow receive\" properties",
-        default = True
+        items = [
+            ("OFF", "OFF", "0", 0),
+            ("ON",  "ON",  "1", 1),
+            ("AUTO",  "AUTO",  "2", 2),
+        ],
+        default = "AUTO"
     )
     scene_type.b4w_render_shadows = b4w_render_shadows
 
-    b4w_render_reflections = bpy.props.BoolProperty(
+    scene_type.b4w_shadow_settings = bpy.props.PointerProperty(
+        name = "B4W: shadow settings",
+        type = B4W_ShadowSettings
+    )
+
+    b4w_render_reflections = bpy.props.EnumProperty(
         name = "B4W: render reflections",
         description = "Render reflections for the scene objects with the " +
                 "\"B4W reflection cast\" and \"B4W reflection receive\" properties",
-        default = False
+        items = [
+            ("OFF", "OFF", "0", 0),
+            ("ON",  "ON",  "1", 1),
+        ],
+        default = "ON"
     )
     scene_type.b4w_render_reflections = b4w_render_reflections
 
-    b4w_render_refractions = bpy.props.BoolProperty(
+    b4w_render_refractions = bpy.props.EnumProperty(
         name = "B4W: render refractions",
         description = "Render refractions for the scene objects",
-        default = False
+        items = [
+            ("OFF", "OFF", "0", 0),
+            ("ON",  "ON",  "1", 1),
+            ("AUTO",  "AUTO",  "2", 2),
+        ],
+        default = "AUTO"
     )
     scene_type.b4w_render_refractions = b4w_render_refractions
 
@@ -1600,6 +1554,11 @@ def add_scene_properties():
         default = False
     )
     scene_type.b4w_enable_god_rays = b4w_enable_god_rays
+
+    scene_type.b4w_god_rays_settings = bpy.props.PointerProperty(
+        name = "B4W: god rays settings",
+        type = B4W_GodRaysSettings
+    )
 
     b4w_enable_glow_materials = bpy.props.EnumProperty(
         name = "B4W: enable glow materials",
@@ -1613,12 +1572,22 @@ def add_scene_properties():
     )
     scene_type.b4w_enable_glow_materials = b4w_enable_glow_materials
 
+    scene_type.b4w_glow_settings = bpy.props.PointerProperty(
+        name = "B4W: glow settings",
+        type = B4W_GlowSettings
+    )
+
     b4w_enable_ssao = bpy.props.BoolProperty(
         name = "B4W: enable SSAO",
         description = "Enable screen space ambient occlusion",
         default = False
     )
     scene_type.b4w_enable_ssao = b4w_enable_ssao
+
+    scene_type.b4w_ssao_settings = bpy.props.PointerProperty(
+        name = "B4W: SSAO settings",
+        type = B4W_SSAOSettings
+    )
 
     b4w_batch_grid_size = bpy.props.FloatProperty(
         name = "B4W: batch grid size",
@@ -1653,6 +1622,11 @@ def add_scene_properties():
     )
     scene_type.b4w_enable_bloom = b4w_enable_bloom
 
+    scene_type.b4w_bloom_settings = bpy.props.PointerProperty(
+        name = "B4W: bloom settings",
+        type = B4W_BloomSettings
+    )
+
     b4w_enable_motion_blur = bpy.props.BoolProperty(
         name = "B4W: enable motion blur",
         description = "Enable motion blur",
@@ -1660,12 +1634,22 @@ def add_scene_properties():
     )
     scene_type.b4w_enable_motion_blur = b4w_enable_motion_blur
 
+    scene_type.b4w_motion_blur_settings = bpy.props.PointerProperty(
+        name = "B4W: motion blur settings",
+        type = B4W_MotionBlurSettings
+    )
+
     b4w_enable_color_correction = bpy.props.BoolProperty(
         name = "B4W: enable color correction",
         description = "Enable color correction",
         default = False
     )
     scene_type.b4w_enable_color_correction = b4w_enable_color_correction
+
+    scene_type.b4w_color_correction_settings = bpy.props.PointerProperty(
+        name = "B4W: color correction settings",
+        type = B4W_ColorCorrectionSettings
+    )
 
     b4w_enable_antialiasing = bpy.props.BoolProperty(
         name = "B4W: enable antialiasing",
@@ -1710,6 +1694,31 @@ def add_scene_properties():
         default = "AUTO"
     )
     scene_type.b4w_enable_outlining = b4w_enable_outlining
+
+    b4w_outline_color = bpy.props.FloatVectorProperty(
+        name = "B4W: outline color of the selection",
+        description = "Default outline color of the selection",
+        default = (1.0, 1.0, 1.0),
+        min = 0.0,
+        soft_min = 0.0,
+        max = 1.0,
+        soft_max = 1.0,
+        precision = 3,
+        subtype = 'COLOR',
+        size = 3
+    )
+    scene_type.b4w_outline_color = b4w_outline_color
+
+    b4w_outline_factor = bpy.props.FloatProperty(
+        name = "B4W: outline factor",
+        description = "Outline strength factor",
+        default = 1.0,
+        min = 0.1,
+        max = 1.0,
+        step = 1,
+        precision = 2
+    )
+    scene_type.b4w_outline_factor = b4w_outline_factor
 
     b4w_enable_anchors_visibility = bpy.props.EnumProperty(
         name = "B4W: enable anchors visibility",
@@ -1756,23 +1765,8 @@ def add_object_properties():
         default = False
     )
 
-    def export_edited_normals_update(self, context):
-        if self.b4w_export_edited_normals:
-            self.b4w_shape_keys = False
-            self.b4w_loc_export_vertex_anim = False
-            self.b4w_apply_modifiers = False
-            self.b4w_apply_scale = False
-
-    obj_type.b4w_export_edited_normals = bpy.props.BoolProperty(
-        name = "B4W: export edited normals",
-        description = "Export baked vertex normals",
-        default = False,
-        update = export_edited_normals_update
-    )
-
     def shape_keys_update(self, context):
         if self.b4w_shape_keys:
-            self.b4w_export_edited_normals = False
             self.b4w_loc_export_vertex_anim = False
             self.b4w_apply_modifiers = False
             self.b4w_apply_scale = False
@@ -1786,7 +1780,6 @@ def add_object_properties():
 
     def apply_scale_update(self, context):
         if self.b4w_apply_scale:
-            self.b4w_export_edited_normals = False
             self.b4w_loc_export_vertex_anim = False
             self.b4w_apply_modifiers = False
             self.b4w_shape_keys = False
@@ -1800,7 +1793,6 @@ def add_object_properties():
 
     def apply_modifiers_update(self, context):
         if self.b4w_apply_modifiers:
-            self.b4w_export_edited_normals = False
             self.b4w_loc_export_vertex_anim = False
             self.b4w_shape_keys = False
             self.b4w_apply_scale = False
@@ -1869,6 +1861,7 @@ def add_object_properties():
         name = "B4W: reflective",
         description = "The object will receive reflections",
         default = False,
+        update = lambda self,context: add_remove_refl_plane(self)
     )
     obj_type.b4w_reflective = b4w_reflective
 
@@ -1898,7 +1891,7 @@ def add_object_properties():
     obj_type.b4w_anim_behavior = bpy.props.EnumProperty(
         name = "B4W: animation behavior",
         description = "The behavior of finished animation: stop, repeat or reset",
-        default = "FINISH_STOP",
+        default = "CYCLIC",
         items = [
             ("CYCLIC", "Loop", "Behavior: cyclically repeat the finished animation"),
             ("FINISH_RESET", "Finish Reset", "Behavior: reset the finished animation"),
@@ -2093,7 +2086,6 @@ def add_object_properties():
     def loc_export_vertex_anim_update(self, context):
         if self.b4w_loc_export_vertex_anim:
             self.b4w_shape_keys = False
-            self.b4w_export_edited_normals = False
             self.b4w_apply_modifiers = False
             self.b4w_apply_scale = False
 
@@ -2280,7 +2272,7 @@ def add_material_properties():
     mat_type.b4w_water_shore_smoothing = bpy.props.BoolProperty(
         name = "B4W: shore smoothing",
         description = "Perform the smoothing between the water and the shore objects",
-        default = False
+        default = True
     )
     mat_type.b4w_water_dynamic = bpy.props.BoolProperty(
         name = "B4W: water dynamic",
@@ -2432,7 +2424,7 @@ def add_material_properties():
     )
     mat_type.b4w_water_waves_hor_fac = bpy.props.FloatProperty(
         name = "B4W: waves horizontal factor",
-        description = "Waves horizontal factor",
+        description = "Strength of horizontal waves inclination",
         default = 5.0,
         min = 0.0,
         soft_min = 0.0,
@@ -2487,7 +2479,7 @@ def add_material_properties():
     mat_type.b4w_water_fog_color = bpy.props.FloatVectorProperty(
         name = "B4W: water fog color",
         description = "Color of fog applied to the underwater objects",
-        default = (0.5, 0.5, 0.5),
+        default = (0.4, 0.6, 0.7),
         min = 0.0,
         soft_min = 0.0,
         max = 1.0,
@@ -2576,7 +2568,7 @@ def add_material_properties():
     )
     mat_type.b4w_water_norm_uv_velocity = bpy.props.FloatProperty(
         name = "B4W: water norm uv velocity",
-        description = "Water normal uv velocity",
+        description = "Water normalmap UV velocity",
         default = 0.05,
         min = 0.0,
         max = 1.0,
@@ -2637,7 +2629,7 @@ def add_material_properties():
         description = "Perturbation power of refraction",
         default = 0.001,
         min = 0.0,
-        max = 0.2
+        max = 0.1
     )
 
     mat_type.b4w_halo_sky_stars = bpy.props.BoolProperty(
@@ -3078,6 +3070,61 @@ def add_particle_settings_properties():
         default = ""
     )
 
+def replace_prop(prop, src, dest):
+    if hasattr(src[prop], 'items'):
+        for sub_prop in src[prop].items():
+            name = sub_prop[0]
+            val = sub_prop[1]
+            dest[prop][name] = val
+    else:
+        dest[prop] = src[prop]
+
+    del src[prop]
+
+@bpy.app.handlers.persistent
+def replace_deprecated_props(arg):
+    world_to_scene_props = [
+        "b4w_god_rays_settings",
+        "b4w_shadow_settings",
+        "b4w_color_correction_settings",
+        "b4w_ssao_settings",
+        "b4w_bloom_settings",
+        "b4w_motion_blur_settings",
+        "b4w_outline_color",
+        "b4w_outline_factor"
+    ]
+    glow_settings_props = [
+        "b4w_small_glow_mask_coeff",
+        "b4w_large_glow_mask_coeff",
+        "b4w_small_glow_mask_width",
+        "b4w_large_glow_mask_width",
+        "b4w_render_glow_over_blend"
+    ]
+    for scene in bpy.data.scenes:
+
+        world = scene.world
+
+        if "b4w_glow_color" in world.keys() and hasattr(scene, "b4w_outline_color"):
+            scene["b4w_outline_color"] = world["b4w_glow_color"]
+            del world["b4w_glow_color"]
+
+        if "b4w_glow_factor" in world.keys() and hasattr(scene, "b4w_outline_factor"):
+            scene["b4w_outline_factor"] = world["b4w_glow_factor"]
+            del world["b4w_glow_factor"]
+
+        for prop in world_to_scene_props:
+            if prop in world.keys() and hasattr(scene, prop):
+                replace_prop(prop, world, scene)
+
+        if hasattr(scene, "b4w_glow_settings"):
+            glow_set = scene.b4w_glow_settings
+            for prop in glow_settings_props:
+                if prop in world.keys():
+                    new_name = prop[4:] # drop b4w_ prefix
+                    glow_set[new_name] = world[prop]
+
+                    del world[prop]
+
 def register():
     bpy.utils.register_class(B4W_VehicleSettings)
     bpy.utils.register_class(B4W_OutlineSettings)
@@ -3085,6 +3132,7 @@ def register():
     bpy.utils.register_class(B4W_CharacterSettings)
     bpy.utils.register_class(B4W_SSAOSettings)
     bpy.utils.register_class(B4W_GodRaysSettings)
+    bpy.utils.register_class(B4W_GlowSettings)
     bpy.utils.register_class(B4W_ColorCorrectionSettings)
     bpy.utils.register_class(B4W_ShadowSettings)
     bpy.utils.register_class(B4W_DetailBendingColors)
@@ -3097,6 +3145,7 @@ def register():
     bpy.utils.register_class(B4W_Object_Tags)
     bpy.utils.register_class(B4W_AnchorSettings)
     add_b4w_props()
+    bpy.app.handlers.load_post.append(replace_deprecated_props)
 
 def unregister():
     bpy.utils.unregister_class(B4W_VehicleSettings)
@@ -3105,6 +3154,7 @@ def unregister():
     bpy.utils.unregister_class(B4W_CharacterSettings)
     bpy.utils.unregister_class(B4W_SSAOSettings)
     bpy.utils.unregister_class(B4W_GodRaysSettings)
+    bpy.utils.unregister_class(B4W_GlowSettings)
     bpy.utils.unregister_class(B4W_ColorCorrectionSettings)
     bpy.utils.unregister_class(B4W_ShadowSettings)
     bpy.utils.unregister_class(B4W_DetailBendingColors)

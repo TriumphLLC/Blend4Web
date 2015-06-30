@@ -23,9 +23,9 @@ var BATCH_INHERITED_TEXTURES = ["u_colormap0", "u_colormap1", "u_stencil0",
 /**
  * Inherit the batch material from another object.
  * @method module:material.inherit_material
- * @param {Object} obj_from Source Object ID
+ * @param {Object3D} obj_from Source Object 3D
  * @param {String} mat_from_name Source material name
- * @param {Object} obj_to Destination Object ID
+ * @param {Object3D} obj_to Destination Object 3D
  * @param {String} mat_to_name Destination material name
  */
 exports.inherit_material = function(obj_from, mat_from_name, obj_to, 
@@ -98,8 +98,8 @@ function check_batch_material(obj, mat_name) {
 /**
  * Get materials' names for the given object
  * @method module:material.get_materials_names
- * @param {Object} obj Object ID
- * @returns {Array} Array of materials' names
+ * @param {Object3D} obj Object 3D
+ * @returns {String[]} Array of materials' names
  */
 exports.get_materials_names = function(obj) {
 
@@ -117,9 +117,9 @@ exports.get_materials_names = function(obj) {
 /**
  * Set the diffuse color and alpha for the object material.
  * @method module:material.set_diffuse_color
- * @param {Object} obj Object ID 
+ * @param {Object3D} obj Object 3D 
  * @param {String} mat_name Material name
- * @param {Float32Array} color Color+alpha vector
+ * @param {RGBA} color Color+alpha vector
  */
 exports.set_diffuse_color = function(obj, mat_name, color) {
     var batch = m_batch.find_batch_material(obj, mat_name, "MAIN");
@@ -135,19 +135,15 @@ exports.set_diffuse_color = function(obj, mat_name, color) {
 /**
  * Get the diffuse color and alpha for the object material.
  * @method module:material.get_diffuse_color
- * @param {Object} obj Object ID 
+ * @param {Object3D} obj Object 3D 
  * @param {String} mat_name Material name
- * @returns {Float32Array} Material diffuse color+alpha
+ * @returns {RGBA} Material diffuse color+alpha
  */
 exports.get_diffuse_color = function(obj, mat_name) {
     var batch = m_batch.find_batch_material(obj, mat_name, "MAIN");
     if (batch) {
-        var color = new Array(4);
-        color[0] = batch.diffuse_color[0];
-        color[1] = batch.diffuse_color[1];
-        color[2] = batch.diffuse_color[2];
-        color[3] = batch.diffuse_color[3];
-
+        var color = new Float32Array(4);
+        color.set(batch.diffuse_color);
         return color;
     } else
         m_print.error("Couldn't get property \"diffuse_color\"!");
@@ -156,7 +152,7 @@ exports.get_diffuse_color = function(obj, mat_name) {
 /**
  * Set the diffuse color intensity for the object material.
  * @method module:material.set_diffuse_intensity
- * @param {Object} obj Object ID 
+ * @param {Object3D} obj Object 3D 
  * @param {String} mat_name Material name
  * @param {Number} intensity Diffuse intencity value
  */
@@ -174,7 +170,7 @@ exports.set_diffuse_intensity = function(obj, mat_name, intensity) {
 /**
  * Get the diffuse color intensity for the object material.
  * @method module:material.get_diffuse_intensity
- * @param {Object} obj Object ID 
+ * @param {Object3D} obj Object 3D 
  * @param {String} mat_name Material name
  * @returns {Number} Diffuse intencity value
  */
@@ -189,9 +185,9 @@ exports.get_diffuse_intensity = function(obj, mat_name) {
 /**
  * Set the specular color for the object material.
  * @method module:material.set_specular_color
- * @param {Object} obj Object ID 
+ * @param {Object3D} obj Object 3D 
  * @param {String} mat_name Material name
- * @param {Float32Array} color Color vector
+ * @param {RGB} color Color vector
  */
 exports.set_specular_color = function(obj, mat_name, color) {
     var batch = m_batch.find_batch_material(obj, mat_name, "MAIN");
@@ -207,9 +203,9 @@ exports.set_specular_color = function(obj, mat_name, color) {
 /**
  * Get the specular color for the object material.
  * @method module:material.get_specular_color
- * @param {Object} obj Object ID 
+ * @param {Object3D} obj Object 3D 
  * @param {String} mat_name Material name
- * @returns {Float32Array} Specular color
+ * @returns {RGB} Specular color
  */
 exports.get_specular_color = function(obj, mat_name) {
     var batch = m_batch.find_batch_material(obj, mat_name, "MAIN");
@@ -226,7 +222,7 @@ exports.get_specular_color = function(obj, mat_name) {
 /**
  * Set the specular color intensity for the object material.
  * @method module:material.set_specular_intensity
- * @param {Object} obj Object ID 
+ * @param {Object3D} obj Object 3D 
  * @param {String} mat_name Material name
  * @param {Number} intensity Specular intensity value
  */
@@ -244,7 +240,7 @@ exports.set_specular_intensity = function(obj, mat_name, intensity) {
 /**
  * Get the specular color intensity for the object material.
  * @method module:material.get_specular_intensity
- * @param {Object} obj Object ID 
+ * @param {Object3D} obj Object 3D 
  * @param {String} mat_name Material name
  * @returns {Number} Specular color intensity
  */
@@ -260,7 +256,7 @@ exports.check_specular_intensity = check_specular_intensity;
 /**
  * Check the specular intensity for the object material.
  * @method module:material.check_specular_intensity
- * @param {Object} obj Object ID 
+ * @param {Object3D} obj Object 3D 
  * @param {String} mat_name Material name
  * @returns {Boolean} Specular intensity presence
  */
@@ -272,7 +268,7 @@ function check_specular_intensity(obj, mat_name) {
 /**
  * Set the specular color hardness for the object material.
  * @method module:material.set_specular_hardness
- * @param {Object} obj Object ID 
+ * @param {Object3D} obj Object 3D 
  * @param {String} mat_name Material name
  * @param {Number} hardness Specular hardness value
  */
@@ -290,7 +286,7 @@ exports.set_specular_hardness = function(obj, mat_name, hardness) {
 /**
  * Get the specular color hardness for the object material.
  * @method module:material.get_specular_hardness
- * @param {Object} obj Object ID 
+ * @param {Object3D} obj Object 3D 
  * @param {String} mat_name Material name
  * @returns {Number} Specular color hardness
  */
@@ -306,7 +302,7 @@ exports.check_specular_hardness = check_specular_hardness;
 /**
  * Check the specular hardness for the object material.
  * @method module:material.check_specular_hardness
- * @param {Object} obj Object ID 
+ * @param {Object3D} obj Object 3D 
  * @param {String} mat_name Material name
  * @returns {Boolean} Specular hardness presence
  */
@@ -318,7 +314,7 @@ function check_specular_hardness(obj, mat_name) {
 /**
  * Set the emit factor for the object material.
  * @method module:material.set_emit_factor
- * @param {Object} obj Object ID 
+ * @param {Object3D} obj Object 3D 
  * @param {String} mat_name Material name
  * @param {Number} emit_factor Emit factor value
  */
@@ -336,7 +332,7 @@ exports.set_emit_factor = function(obj, mat_name, emit_factor) {
 /**
  * Get the emit factor for the object material.
  * @method module:material.get_emit_factor
- * @param {Object} obj Object ID 
+ * @param {Object3D} obj Object 3D 
  * @param {String} mat_name Material name
  * @returns {Number} Emit factor value
  */
@@ -352,7 +348,7 @@ exports.get_emit_factor = function(obj, mat_name) {
 /**
  * Set the ambient factor for the object material.
  * @method module:material.set_ambient_factor
- * @param {Object} obj Object ID 
+ * @param {Object3D} obj Object 3D 
  * @param {String} mat_name Material name
  * @param {Number} ambient_factor Ambient factor value
  */
@@ -370,7 +366,7 @@ exports.set_ambient_factor = function(obj, mat_name, ambient_factor) {
 /**
  * Get the ambient factor for the object material.
  * @method module:material.get_ambient_factor
- * @param {Object} obj Object ID 
+ * @param {Object3D} obj Object 3D 
  * @param {String} mat_name Material name
  * @returns {Number} Ambient factor value
  */
@@ -386,7 +382,7 @@ exports.get_ambient_factor = function(obj, mat_name) {
 /**
  * Set the diffuse color factor for the object material.
  * @method module:material.set_diffuse_color_factor
- * @param {Object} obj Object ID 
+ * @param {Object3D} obj Object 3D 
  * @param {String} mat_name Material name
  * @param {Number} diffuse_color_factor Diffuse color factor value
  */
@@ -405,7 +401,7 @@ exports.set_diffuse_color_factor = function(obj, mat_name,
 /**
  * Get the diffuse color factor for the object material.
  * @method module:material.get_diffuse_color_factor
- * @param {Object} obj Object ID 
+ * @param {Object3D} obj Object 3D 
  * @param {String} mat_name Material name
  * @returns {Number} Diffuse color factor value
  */
@@ -420,7 +416,7 @@ exports.get_diffuse_color_factor = function(obj, mat_name) {
 /**
  * Set the alpha factor for the object material.
  * @method module:material.set_alpha_factor
- * @param {Object} obj Object ID
+ * @param {Object3D} obj Object 3D
  * @param {String} mat_name Material name
  * @param {Number} alpha_factor Alpha factor value
  */
@@ -439,7 +435,7 @@ exports.set_alpha_factor = function(obj, mat_name,
 /**
  * Get the diffuse alpha factor for the object material.
  * @method module:material.get_alpha_factor
- * @param {Object} obj Object ID
+ * @param {Object3D} obj Object 3D
  * @param {String} mat_name Material name
  * @returns {Number} Diffuse alpha factor value
  */
@@ -454,9 +450,9 @@ exports.get_alpha_factor = function(obj, mat_name) {
 /**
  * Get the material extended params
  * @method module:material.get_material_extended_params
- * @param {Object} obj Object
+ * @param {Object3D} obj Object
  * @param {String} mat_name Material name
- * @returns {(Object|null)} Material extended params or null
+ * @returns {(MaterialExtParams|null)} Material extended params or null
  */
 exports.get_material_extended_params = function(obj, mat_name) {
 
@@ -490,9 +486,9 @@ exports.get_material_extended_params = function(obj, mat_name) {
 /**
  * Get params for the water material 
  * @method module:material.get_water_material_params
- * @param {Object} obj Object
+ * @param {Object3D} obj Object
  * @param {String} water_mat_name Water material name
- * @returns {(Object|null)} Water material params or null
+ * @returns {(WaterMaterialParams|null)} Water material params or null
  */
 exports.get_water_material_params = function(obj, water_mat_name) {
 
@@ -573,9 +569,9 @@ exports.get_water_material_params = function(obj, water_mat_name) {
 /**
  * Set the material params
  * @method module:material.set_material_params
- * @param {Object} obj Object
+ * @param {Object3D} obj Object
  * @param {String} mat_name Material name
- * @param {Object} mat_params Material params
+ * @param {MaterialExtParams} mat_params Material params
  * @cc_externs material_reflectivity material_fresnel
  * @cc_externs material_fresnel_factor material_parallax_scale
  * @cc_externs material_parallax_steps
@@ -636,9 +632,9 @@ exports.set_material_extended_params = function(obj, mat_name, mat_params) {
 /**
  * Set params for the water material
  * @method module:material.set_water_material_params
- * @param {Object} obj Object
+ * @param {Object3D} obj Object
  * @param {String} water_mat_name  Water material name
- * @param {Object} water_mat_params Water material params
+ * @param {WaterMaterialParams} water_mat_params Water material params
  * @cc_externs shallow_water_col shore_water_col shallow_water_col_fac
  * @cc_externs shore_water_col_fac foam_factor absorb_factor sss_strength
  * @cc_externs sss_width shore_smoothing norm_uv_velocity

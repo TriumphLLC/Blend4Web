@@ -4,9 +4,9 @@
  * Camera animation add-on.
  * Implements procedural animation for the camera.
  * @module camera_anim
- * @local track_to_target_zoom_cb
- * @local track_to_target_cb
- * @local auto_rotate_disabled_cb
+ * @local TrackToTargetZoomCallback
+ * @local TrackToTargetCallback
+ * @local AutoRotateDisabledCallback
  */
 b4w.module["camera_anim"] = function(exports, require) {
 
@@ -36,27 +36,27 @@ var _angle_limits_tmp2  = new Float32Array(2);
 /**
  * Callback to be executed when the camera finishes its track animation.
  * See track_to_target() method.
- * @callback track_to_target_cb
+ * @callback TrackToTargetCallback
  */
 
 /**
  * Callback to be executed when the camera finishes its zoom animation.
  * See track_to_target() method.
- * @callback track_to_target_zoom_cb
+ * @callback TrackToTargetZoomCallback
  */
 
 /**
  * Smoothly rotate the EYE camera to make it pointing at the specified
  * target (an object or some position). Then smoothly zoom on this target,
  * pause and zoom back.
- * @param {Object} cam_obj Camera object ID
- * @param {(Object|Float32Array)} target Target object or target position
+ * @param {Object3D} cam_obj Camera object 3D
+ * @param {(Object3D|Vec3)} target Target object or target position
  * @param {Number} rot_speed Rotation speed, radians per second
  * @param {Number} zoom_mult Zoom level value
  * @param {Number} zoom_time Time it takes to zoom on the target, seconds
  * @param {Number} zoom_delay Delay before the camera zooms back, seconds
- * @param {track_to_target_cb} [callback] Finishing callback
- * @param {track_to_target_zoom_cb} [zoom_cb] Zoom callback
+ * @param {TrackToTargetCallback} [callback] Finishing callback
+ * @param {TrackToTargetZoomCallback} [zoom_cb] Zoom callback
  */
 exports.track_to_target = function(cam_obj, target, rot_speed, zoom_mult,
                                     zoom_time, zoom_delay, callback, zoom_cb) {
@@ -282,7 +282,7 @@ function get_delta_to_limits(angle, limit_from, limit_to, dest) {
  * Callback to be executed when auto-rotating is disabled.
  * It is fired when either the user manually rotates the camera,
  * or the auto_rotate() method is executed again.
- * @callback auto_rotate_disabled_cb
+ * @callback AutoRotateDisabledCallback
  */
 
 /**
@@ -291,7 +291,7 @@ function get_delta_to_limits(angle, limit_from, limit_to, dest) {
  * When it is called for the first time, auto-rotating is enabled
  * while the next call will disable auto-rotating.
  * @param {Number} auto_rotate_ratio Multiplier for the rotation speed
- * @param {auto_rotate_disabled_cb} [callback] Callback to be executed when auto-rotating is disabled
+ * @param {AutoRotateDisabledCallback} [callback] Callback to be executed when auto-rotating is disabled
  */
 exports.auto_rotate = function(auto_rotate_ratio, callback) {
 

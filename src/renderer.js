@@ -177,6 +177,14 @@ function prepare_subscene(subscene) {
 
     // prevent self-shadow issues
     switch (subscene.type) {
+    case "DEPTH":
+        if (cfg_def.ios_depth_hack) {
+            _gl.enable(_gl.POLYGON_OFFSET_FILL);
+            _gl.polygonOffset(5, 5);
+        } else
+            _gl.disable(_gl.POLYGON_OFFSET_FILL);
+        _gl.cullFace(_gl.BACK);
+        break;
     case "SHADOW_CAST":
         _gl.enable(_gl.POLYGON_OFFSET_FILL);
         _gl.polygonOffset(subscene.self_shadow_polygon_offset,
@@ -638,13 +646,6 @@ function assign_uniform_setters(shader) {
             break;
 
         // sky
-        case "u_world_vec":
-            var fun = function(gl, loc, subscene, obj_render, batch, camera) {
-                var cvm = camera.view_matrix;
-                gl.uniform3fv(loc, [cvm[4], cvm[5], cvm[6]]);
-            }
-            transient_uni = true;
-            break;
         case "u_sky_color":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform3fv(loc, subscene.sky_color);
@@ -1281,6 +1282,11 @@ function assign_uniform_setters(shader) {
             break;
 
         // shadow receive subscene
+        case "u_perspective_cast_far_bound":
+            var fun = function(gl, loc, subscene, obj_render, batch, camera) {
+                gl.uniform1f(loc, subscene.perspective_cast_far_bound);
+            }
+            break;
         case "u_normal_offset":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform1f(loc, subscene.self_shadow_normal_offset);
@@ -1330,6 +1336,12 @@ function assign_uniform_setters(shader) {
         case "u_motion_blur_exp":
             var fun = function(gl, loc, subscene, obj_render, batch, camera) {
                 gl.uniform1f(loc, subscene.motion_blur_exp);
+            }
+            transient_uni = true;
+            break;
+        case "u_motion_blur_decay_threshold":
+            var fun = function(gl, loc, subscene, obj_render, batch, camera) {
+                gl.uniform1f(loc, subscene.mb_decay_threshold);
             }
             transient_uni = true;
             break;

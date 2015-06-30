@@ -1,6 +1,7 @@
 #var AU_QUALIFIER uniform
 #var MAX_BONES 0
 #var SHADOW_TEX_RES 0.0
+#var PRECISION lowp
 
 /*============================================================================
                                   INCLUDES
@@ -17,8 +18,7 @@
 
 attribute vec3 a_position;
 
-#if WIND_BEND && MAIN_BEND_COL && DETAIL_BEND || SHADOW_SRC != SHADOW_SRC_MASK \
-        && SHADOW_SRC != SHADOW_SRC_NONE
+#if WIND_BEND && MAIN_BEND_COL && DETAIL_BEND || SHADOW_USAGE == SHADOW_MASK_GENERATION
 attribute vec3 a_normal;
 #endif
 
@@ -75,12 +75,12 @@ uniform mat4 u_proj_matrix;
 uniform vec3 u_camera_eye;
 # endif
 
-#if BILLBOARD && SHADOW_SRC == SHADOW_SRC_NONE && SHADOW_DST == SHADOW_DST_DEPTH
+#if BILLBOARD && SHADOW_USAGE == SHADOW_CASTING
 uniform mat4 u_shadow_cast_billboard_view_matrix;
 #endif
 
 #if DYNAMIC_GRASS
-uniform sampler2D u_grass_map_depth;
+uniform PRECISION sampler2D u_grass_map_depth;
 uniform sampler2D u_grass_map_color;
 uniform vec4 u_camera_quat;
 uniform vec3 u_grass_map_dim;
@@ -120,11 +120,7 @@ uniform float u_va_frame_factor;
 uniform vec3 u_texture_scale;
 #endif
 
-#if SHADOW_DST == SHADOW_DST_NONE
-uniform float u_view_max_depth;
-#endif
-
-#if SHADOW_SRC != SHADOW_SRC_MASK && SHADOW_SRC != SHADOW_SRC_NONE
+#if SHADOW_USAGE == SHADOW_MASK_GENERATION
 uniform float u_normal_offset;
 uniform mat4 u_v_light_matrix;
 
@@ -155,11 +151,8 @@ uniform mat4 u_p_light_matrix3;
 varying vec2 v_texcoord;
 #endif
 
-#if SHADOW_DST == SHADOW_DST_NONE
-varying float v_vertex_z;
-#endif
-
-#if SHADOW_SRC != SHADOW_SRC_NONE
+#if SHADOW_USAGE == SHADOW_MASK_GENERATION
+varying vec4 v_pos_view;
 varying vec4 v_shadow_coord0;
 
 # if CSM_SECTION1
@@ -173,15 +166,11 @@ varying vec4 v_shadow_coord2;
 # if CSM_SECTION3
 varying vec4 v_shadow_coord3;
 # endif
-
 #endif
 
-#if SHADOW_SRC == SHADOW_SRC_MASK
+// NOTE: impossible case, needed for shader validator
+#if SHADOW_USAGE == SHADOW_MAPPING_OPAQUE
 varying vec3 v_tex_pos_clip;
-#endif
-
-#if SHADOW_SRC != SHADOW_SRC_MASK && SHADOW_SRC != SHADOW_SRC_NONE
-varying vec4 v_pos_view;
 #endif
 
 /*============================================================================
@@ -205,10 +194,16 @@ void main(void) {
 #endif
 
 #if SKINNED
-    vec3 tangent = vec3(0.0);
-    vec3 binormal = vec3(0.0);
+    vec3 t = vec3(0.0); 
+    vec3 b = vec3(0.0);
+    vec3 n = vec3(0.0);
+    skin(position, t, b, n);
+#endif
+
+#if SHADOW_USAGE == SHADOW_MASK_GENERATION
+    vec3 normal = a_normal;
+#else
     vec3 normal = vec3(0.0);
-    skin(position, tangent, binormal, normal);
 #endif
 
 #if WIND_BEND || DYNAMIC_GRASS || BILLBOARD
@@ -218,7 +213,7 @@ void main(void) {
 #endif
 
 #if DYNAMIC_GRASS
-    vertex world = grass_vertex(position, vec3(0.0), vec3(0.0), vec3(0.0), center,
+    vertex world = grass_vertex(position, vec3(0.0), vec3(0.0), normal, center,
             u_grass_map_depth, u_grass_map_color, u_grass_map_dim, u_grass_size,
             u_camera_eye, u_camera_quat, u_view_matrix);
 #else
@@ -226,13 +221,13 @@ void main(void) {
     vec3 wcen = (u_model_matrix * vec4(center, 1.0)).xyz;
 
 // NOTE: only for non-particles geometry on SHADOW_CAST subscene
-# if !HAIR_BILLBOARD && SHADOW_SRC == SHADOW_SRC_NONE && SHADOW_DST == SHADOW_DST_DEPTH
+# if !HAIR_BILLBOARD && SHADOW_USAGE == SHADOW_CASTING
     mat4 bill_view_matrix = u_shadow_cast_billboard_view_matrix;
 # else
     mat4 bill_view_matrix = u_view_matrix;
 # endif
 
-# if BILLBOARD_PRES_GLOB_ORIENTATION
+# if BILLBOARD_PRES_GLOB_ORIENTATION && !STATIC_BATCH
     mat4 model_matrix = billboard_matrix_global(u_camera_eye, wcen, 
             bill_view_matrix, u_model_matrix);
 # else
@@ -244,11 +239,11 @@ void main(void) {
     model_matrix = model_matrix * bend_jitter_matrix(u_wind, u_time,
             u_jitter_amp, u_jitter_freq, vec_seed);
 #  endif
-    vertex world = to_world(position - center, center, vec3(0.0), vec3(0.0), vec3(0.0),
+    vertex world = to_world(position - center, center, vec3(0.0), vec3(0.0), normal,
             model_matrix);
     world.center = wcen;
 # else
-    vertex world = to_world(position, center, vec3(0.0), vec3(0.0), vec3(0.0),
+    vertex world = to_world(position, center, vec3(0.0), vec3(0.0), normal,
             u_model_matrix);
 # endif
 #endif
@@ -273,17 +268,12 @@ void main(void) {
     v_texcoord = scale_texcoord(a_texcoord, u_texture_scale);
 #endif
 
-#if SHADOW_SRC != SHADOW_SRC_NONE
-    get_shadow_coords(world.position);
+#if SHADOW_USAGE == SHADOW_MASK_GENERATION
+    get_shadow_coords(world.position, world.normal);
     v_pos_view = pos_view;
 #endif
 
-#if SHADOW_DST == SHADOW_DST_NONE
-    v_vertex_z = -pos_view.z / u_view_max_depth;
-    //v_vertex_z = pos_clip.z / pos_clip.w * 0.5 + 0.5;
-#endif
-
-#if SHADOW_SRC == SHADOW_SRC_NONE && SHADOW_DST == SHADOW_DST_DEPTH
+#if SHADOW_USAGE == SHADOW_CASTING
     // NOTE: shift coords to remove shadow map panning
 
     // NOTE: u_view_matrix[3] is world space origin translated into light space

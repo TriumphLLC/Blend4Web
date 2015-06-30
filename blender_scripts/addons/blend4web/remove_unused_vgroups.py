@@ -2,7 +2,7 @@ import bpy
 
 class B4W_RemoveUnusedVertexGroupsUI(bpy.types.Panel):
     bl_idname = "Vertex groups"
-    bl_label = 'B4W VGroups Cleaner'
+    bl_label = 'Clean Unused Vertex Groups'
     bl_space_type = 'VIEW_3D'
     bl_region_type = 'TOOLS'
     bl_category = "Blend4Web"
@@ -13,16 +13,17 @@ class B4W_RemoveUnusedVertexGroupsUI(bpy.types.Panel):
             ob = context.active_object
             return (ob.type == 'MESH')
         except AttributeError:
-            return 0
+            return False
 
     def draw(self, context):
         layout = self.layout
-        layout.operator('b4w.remove_unused_vgroups', text = 'Remove Unused VGroups')
+        layout.operator('b4w.remove_unused_vgroups', text = 'Clean', icon='CANCEL')
 
 class B4W_Remove_Unused_Vertex_Groups(bpy.types.Operator):
-    '''Remove VGroups which are not used by armatures'''
+    '''Remove vertex groups which are not being used by any armature'''
     bl_idname = "b4w.remove_unused_vgroups"
     bl_label = "B4W Remove Unused VGroups"
+    bl_options = {"INTERNAL"}
 
     def execute(self, context):
         run(self)

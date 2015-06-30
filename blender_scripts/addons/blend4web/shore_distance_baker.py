@@ -3,6 +3,7 @@ import math
 import time 
 import mathutils 
 import multiprocessing
+import platform
 
 # NOTE: have a great influence on calc time
 NUM_PROC = multiprocessing.cpu_count() * 4
@@ -10,25 +11,35 @@ NUM_PROC = multiprocessing.cpu_count() * 4
 ##########################################################
 # draw UI ButtonS
 class B4W_ShoreDistanceBakerUI(bpy.types.Panel):
-    bl_idname = "Bake Shore Distance"
-    bl_label = 'B4W Shore Distance Baker'
+    bl_idname = 'Bake Shore Distance Map'
+    bl_label = 'Bake Shore Distance Map'
     bl_space_type = 'VIEW_3D'
     bl_region_type = 'TOOLS'
     bl_category = "Blend4Web"
 
+    @classmethod
+    def poll(self, context):
+        try:
+            ob = context.active_object
+            return (ob.type == 'MESH')
+        except AttributeError:
+            return False
+
     def draw(self, context):
 
         layout = self.layout
-        box = self.layout.box()
 
-        row = box.row()
-        row.operator('b4w.shore_distance_baker', text = 'Bake Shore Distance')
+        row = layout.row()
+        row.prop(context.window_manager, 'b4w_shoremap_texure_size',
+            text = 'Texture Size')
 
-        row = box.row()
-        row.prop(context.window_manager, 'b4w_max_shore_distance', text = 'Maximum Distance')
+        row = layout.row()
+        row.prop(context.window_manager, 'b4w_max_shore_distance',
+            text = 'Maximum Distance')
 
-        row = box.row()
-        row.prop(context.window_manager, 'b4w_shoremap_texure_size', text = 'Texture Size')
+        row = layout.row()
+        row.operator('b4w.shore_distance_baker', text = 'Bake', icon='REC')
+
 
 def init_properties():
     bpy.types.WindowManager.b4w_max_shore_distance = bpy.props.IntProperty(
@@ -54,6 +65,7 @@ class B4W_ShoreDistanceBaker(bpy.types.Operator):
     '''Generate distance field to the nearest shore vertex'''
     bl_idname = "b4w.shore_distance_baker"
     bl_label = "B4W Shore Distance Baker"
+    bl_options = {"INTERNAL"}
 
     def execute(self, context):
         try:
@@ -81,6 +93,7 @@ class BakeError(Exception):
 class BakeErrorDialog(bpy.types.Operator):
     bl_idname = "b4w.bake_error_dialog"
     bl_label = "Bake Error Dialog"
+    bl_options = {"INTERNAL"}
 
     def execute(self, context):
         return {'FINISHED'}
@@ -178,7 +191,10 @@ def process_pixels(queue, minx, maxx, miny, maxy, max_shore_dist, texture_size,
             data_list[px * 4 + 3] = 1.0
             data_list[px * 4 + 2] = 0.0
 
-    queue.put([p_ind, data_list])
+    if check_win():
+        return data_list
+    else:
+        queue.put([p_ind, data_list])
 
 
 def nearest_vertices(tiles, num_x_tiles, tile_x_length, tile_y_length,
@@ -233,6 +249,12 @@ def nearest_vertices(tiles, num_x_tiles, tile_x_length, tile_y_length,
         vert_list.extend(tiles[i])
 
     return vert_list
+
+def check_win():
+    if platform.system() == "Windows":
+        return True
+    else:
+        return False
 
 def run():
 
@@ -318,23 +340,34 @@ def run():
                 miny = min(vert_src.co[1], miny)
                 maxy = max(vert_src.co[1], maxy)
 
-    x_size = (maxx - minx)
-    y_size = (maxy - miny)
-    xy_ratio = x_size / y_size
-
     # generate tiled structure for the source mesh
     # num_tiles had to be around 0.4 of src_ver_selected (experimental number)
     xy_appr_product = 0.4 * len(src_ver_selected)
-    arr_width = round(math.sqrt(xy_appr_product * xy_ratio))
 
-    num_x_tiles = arr_width
-    num_y_tiles = round(num_x_tiles / xy_ratio)
-    num_x_tiles = max(num_x_tiles, 1)
-    num_y_tiles = max(num_y_tiles, 1)
-    num_tiles = num_x_tiles * num_y_tiles
+    x_size = (maxx - minx)
+    y_size = (maxy - miny)
+
+    if y_size != 0 and x_size != 0:
+        xy_ratio = x_size / y_size
+    else:
+        xy_ratio = 1
+
+    if x_size == 0:
+        num_x_tiles = 1
+    else:
+        num_x_tiles = round(math.sqrt(xy_appr_product * xy_ratio))
+        num_x_tiles = max(num_x_tiles, 1)
+
+    if y_size == 0:
+        num_y_tiles = 1
+    else:
+        num_y_tiles = round(num_x_tiles / xy_ratio)
+        num_y_tiles = max(num_y_tiles, 1)
 
     tile_x_length = x_size / num_x_tiles
     tile_y_length = y_size / num_y_tiles
+
+    num_tiles = num_x_tiles * num_y_tiles
 
     # initialize array of tiles
     tiles = [ [] for i in range(num_tiles) ]
@@ -342,8 +375,15 @@ def run():
     for vert_src in src_ver_selected:
         v_src_x = vert_src.co[0]
         v_src_y = vert_src.co[1]
-        x_coord = math.floor( (v_src_x - minx) / tile_x_length )
-        y_coord = math.floor( (v_src_y - miny) / tile_y_length )
+        if x_size != 0:
+            x_coord = math.floor( (v_src_x - minx) / tile_x_length )
+        else:
+            x_coord = 0
+
+        if y_size != 0:
+            y_coord = math.floor( (v_src_y - miny) / tile_y_length )
+        else:
+            y_coord = 0
 
         if x_coord == num_x_tiles:
             x_coord = num_x_tiles - 1
@@ -357,34 +397,41 @@ def run():
     y_max = maxy + max_shore_dist
     y_min = miny - max_shore_dist
 
+    data_length = 4 * texture_size * texture_size
+
     # list of distance values
-    dist_list = [] * 4 * texture_size * texture_size
-
-    # break calculations into several processes
-    q = multiprocessing.Queue();
-    part_length = 4 * texture_size * texture_size // NUM_PROC;
-    proc_list = []
-    for i in range(NUM_PROC):
-        p = multiprocessing.Process(target = process_pixels, 
-                     args=(q, minx, maxx, miny, maxy, max_shore_dist,
+    if check_win():
+        dist_list = process_pixels(None, minx, maxx, miny, maxy, max_shore_dist,
                            texture_size, tiles, num_x_tiles, tile_x_length,
-                           tile_y_length, part_length, i, level)
-                    )
-        proc_list.append(p)
-        p.start()
+                           tile_y_length, data_length, 0, level)
+    else:
+        # break calculations into several processes
+        dist_list = [] * data_length
 
-    requests = []
-    for i in range(NUM_PROC):
-        r = q.get()
-        requests.append(r)
+        q = multiprocessing.Queue();
+        part_length = data_length // NUM_PROC;
+        proc_list = []
+        for i in range(NUM_PROC):
+            p = multiprocessing.Process(target = process_pixels,
+                         args=(q, minx, maxx, miny, maxy, max_shore_dist,
+                               texture_size, tiles, num_x_tiles, tile_x_length,
+                               tile_y_length, part_length, i, level)
+                        )
+            proc_list.append(p)
+            p.start()
 
-    for p in proc_list:
-        p.join()
+        requests = []
+        for i in range(NUM_PROC):
+            r = q.get()
+            requests.append(r)
 
-    for i in range(NUM_PROC):
-        for r in requests:
-            if r[0] == i:
-                dist_list.extend(r[1])
+        for p in proc_list:
+            p.join()
+
+        for i in range(NUM_PROC):
+            for r in requests:
+                if r[0] == i:
+                    dist_list.extend(r[1])
 
     store_to_texture(dist_list, x_max, x_min, y_max, y_min, max_shore_dist,
                      texture_size, obj_dst)

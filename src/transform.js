@@ -198,7 +198,7 @@ exports.update_transform = update_transform;
  * Set object render world_matrix.
  * NOTE: do not try to update batched objects (buggy _dg_parent influence)
  * @methodOf transform
- * @param {Object} obj Object ID
+ * @param {Object3D} obj Object 3D
  */
 function update_transform(obj) {
     var render = obj._render;

@@ -11,11 +11,11 @@ var m_particles = require("__particles");
 var m_print     = require("__print");
 
 /**
- * Set particles size
+ * Set particles size.
  * @method module:particles.set_size
- * @param {Object} obj Object ID
- * @param {String} psys_name Particles system name
- * @param {Number} size Particles size
+ * @param {Object3D} obj Emitter object.
+ * @param {String} psys_name Particles system name.
+ * @param {Number} size Particles size.
  */
 exports.set_size = function(obj, psys_name, size) {
     if (!m_particles.has_particles(obj)) {
@@ -27,11 +27,11 @@ exports.set_size = function(obj, psys_name, size) {
 
 
 /**
- * Set particles normal factor
+ * Set particles normal factor.
  * @method module:particles.set_normal_factor
- * @param {Object} obj Object ID
- * @param {String} psys_name Particles system name
- * @param {Number} nfactor Particles normal factor
+ * @param {Object3D} obj Emitter object.
+ * @param {String} psys_name Particles system name.
+ * @param {Number} nfactor Particles normal factor.
  */
 exports.set_normal_factor = function(obj, psys_name, nfactor) {
     if (!m_particles.has_particles(obj)) {
@@ -42,11 +42,11 @@ exports.set_normal_factor = function(obj, psys_name, nfactor) {
 }
 
 /**
- * Set particles number factor
+ * Set particles number factor.
  * @method module:particles.set_factor
- * @param {Object} obj Object ID
- * @param {String} psys_name Particles system name
- * @param {Number} factor Particles num factor 
+ * @param {Object3D} obj Emitter object.
+ * @param {String} psys_name Particles system name.
+ * @param {Number} factor Particles num factor.
  */
 exports.set_factor = function(obj, psys_name, factor) {
     if (!m_particles.has_particles(obj)) {

@@ -182,11 +182,11 @@ msgid "Полная поддержка"
 msgstr "Full Support"
 
 #: ../about.rst:75
-msgid "`Yandex Browser <http://browser.yandex.ru/>`_"
+msgid "`Chrome <http://www.google.com/chrome>`_"
 msgstr ""
 
 #: ../about.rst:76
-msgid "`Chrome <http://www.google.com/chrome>`_"
+msgid "`Yandex Browser <http://browser.yandex.ru/>`_"
 msgstr ""
 
 #: ../about.rst:77
@@ -542,9 +542,9 @@ msgstr "multithreading, `Web Workers <http://www.w3.org/TR/workers/>`_"
 
 #: ../about.rst:175
 msgid ""
-"ориентация и перемещение мобильных устройств, `Device Orientation <http://www.w3.org/TR/orientation-event/>`_"
-msgstr ""
-"`Device Orientation <http://www.w3.org/TR/orientation-event/>`_"
+"ориентация и перемещение мобильных устройств, `Device Orientation "
+"<http://www.w3.org/TR/orientation-event/>`_"
+msgstr "`Device Orientation <http://www.w3.org/TR/orientation-event/>`_"
 
 #: ../about.rst:177
 msgid "Другие перспективные технологии:"

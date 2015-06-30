@@ -257,7 +257,7 @@ function expand_vertex_array_i(indices, vertex_array, num_comp) {
 
 /**
  * Update index array for buffers data
- * @param {Object} bufs_data Buffers data
+ * @param {Object3D} bufs_data Buffers data
  * @param {Number} draw_mode Buffers draw mode
  * @param {Uint16Array|Uint32Array} indices Indices specified for TRIANGLES rendering
  */
@@ -922,6 +922,11 @@ function extract_submesh(mesh, material_index, attr_names, bone_pointers,
     else
         var texcoords = new Float32Array(0);
 
+    if (has_attr(attr_names, "a_orco_tex_coord"))
+        var local_coord = extract_orco_texcoords_nodes(mesh, bsub);
+    else
+        var local_coord = new Float32Array(0);
+
     // INFLUENCES (SKINNING)
     var influences = extract_influences(attr_names, base_length, bone_pointers,
             bsub["group"]);
@@ -944,15 +949,16 @@ function extract_submesh(mesh, material_index, attr_names, bone_pointers,
 
     var va_common = {
         "a_texcoord": texcoords,
-        "a_influence": influences
+        "a_influence": influences,
+        "a_orco_tex_coord": local_coord
     }
 
     extract_vcols(va_common, submesh_vc_usage, bsub["vertex_colors"],
-            bsub["color"], base_length, mesh.name);
+            bsub["color"], base_length, mesh["name"]);
 
     assign_node_uv_maps(mesh["uv_textures"], bsub["texcoord"],
             bsub["texcoord2"], uv_maps_usage, base_length, va_common,
-            mesh.name);
+            mesh["name"]);
 
     submesh.va_common = va_common;
     submesh.indices = new Uint32Array(bsub["indices"]);
@@ -1071,13 +1077,14 @@ function extract_texcoords(mesh, material_index) {
         switch (slot["texture_coords"]) {
         case "UV":
             var index = mesh["uv_textures"].indexOf(slot["uv_layer"]);
-            if (index == -1 || index == 0)
+            // NOTE: check UV layer index for compatibility
+            if (index == 0 || index == -1)
                 texcoords = new Float32Array(submesh["texcoord"]);
             else if (index == 1)
                 texcoords = new Float32Array(submesh["texcoord2"]);
             break;
         case "ORCO":
-            texcoords = generate_orco_texcoords(mesh["b4w_bounding_box"], submesh);
+            texcoords = generate_orco_texcoords(mesh["b4w_bounding_box_source"], submesh);
             break;
         }
     }
@@ -1086,6 +1093,39 @@ function extract_texcoords(mesh, material_index) {
         texcoords = new Float32Array(submesh["texcoord"]);
 
     return texcoords;
+}
+
+// NOTE: this function is used when node outputs "Orco" & "Generated" is been using
+function extract_orco_texcoords_nodes(mesh, submesh) {
+    var bb = mesh["b4w_bounding_box_source"];
+    var local_coords = new Float32Array(submesh["base_length"] * 3);
+    var pos = submesh["position"];
+
+    var size_x = bb["max_x"] - bb["min_x"];
+    var size_z = bb["max_z"] - bb["min_z"];
+    var size_y = bb["max_y"] - bb["min_y"];
+
+    var localco_index = 0;
+    for (var i = 0; i < submesh["position"].length; i+=3) {
+        // -1 values will be updated in fragment shader
+        if (size_x == 0)
+            local_coords[localco_index++] = -1;
+        else
+            local_coords[localco_index++] = parseFloat(((submesh["position"][i] 
+                    - bb.min_x) / size_x).toFixed(3));
+        // y -> -z
+        if (size_z == 0)
+            local_coords[localco_index++] = -1;
+        else
+            local_coords[localco_index++] =  parseFloat(((-bb.min_z 
+                    - submesh["position"][i + 2]) / size_z).toFixed(3));
+        if (size_y == 0)
+            local_coords[localco_index++] = -1;
+        else
+            local_coords[localco_index++] =  parseFloat(((submesh["position"][i + 1] 
+                    - bb.min_y) / size_y).toFixed(3));
+    }
+    return local_coords;
 }
 
 function generate_orco_texcoords(bb, submesh) {
@@ -1303,14 +1343,14 @@ function has_attr(attr_names, name) {
 
 /**
  * Extract all materials.
- * Called from particles.js
+ * common_vc_usage - vertex colors which exist for every submesh
  */
-exports.extract_submesh_all_mats = function(mesh, attr_names) {
+exports.extract_submesh_all_mats = function(mesh, attr_names, common_vc_usage) {
 
     var submeshes = [];
 
     for (var i = 0; i < mesh["submeshes"].length; i++) {
-        var submesh = extract_submesh(mesh, i, attr_names, null, null, null);
+        var submesh = extract_submesh(mesh, i, attr_names, null, common_vc_usage, null);
         if (submesh.base_length)
             submeshes.push(submesh);
     }
@@ -1941,28 +1981,6 @@ function triangle_area_squared(A, B, C) {
     var p = (a + b + c) / 2;
 
     return p * (p - a) * (p - b) * (p - c);
-}
-
-/**
- * Calculate plane normal by 3 points through the point-normal form of the
- * plane equation
- * @methodOf geometry
- */
-exports.get_plane_normal = function(a, b, c, dest) {
-    var a12 = b[0] - a[0];
-    var a13 = c[0] - a[0];
-
-    var a22 = b[1] - a[1];
-    var a23 = c[1] - a[1];
-
-    var a32 = b[2] - a[2];
-    var a33 = c[2] - a[2];
-
-    dest[0] = a22 * a33 - a32 * a23;
-    dest[1] = a13 * a32 - a12 * a33;
-    dest[2] = a12 * a23 - a22 * a13;
-
-    return dest;
 }
 
 /**

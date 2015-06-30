@@ -14,7 +14,7 @@ msgstr ""
 #: ../textures.rst:3 ../textures.rst:13 ../textures.rst:39 ../textures.rst:84
 #: ../textures.rst:108 ../textures.rst:134 ../textures.rst:155
 #: ../textures.rst:188 ../textures.rst:298 ../textures.rst:336
-#: ../textures.rst:360 ../textures.rst:404
+#: ../textures.rst:360 ../textures.rst:408
 msgid "текстуры"
 msgstr "textures"
 
@@ -232,58 +232,24 @@ msgstr ""
 "``Generated``. The default value is ``Generated``."
 
 #: ../textures.rst:60
-msgid "*Mapping > Offset*"
-msgstr ""
-
-#: ../textures.rst:60
-msgid "Не поддерживается."
-msgstr "Unsupported."
-
-#: ../textures.rst:63
 msgid "*Mapping > Size*"
 msgstr ""
 
-#: ../textures.rst:63
+#: ../textures.rst:60
 msgid ""
 "Масштабирование развертки по соответствующим осям. Значения по умолчанию "
 "1.0."
 msgstr "Scaling the UV map along respective axes. The default values are 1.0."
 
-#: ../textures.rst:66
-msgid "*Blend4Web > Do Not Export*"
-msgstr ""
-
-#: ../textures.rst:66
+#: ../textures.rst:63
 msgid "Не экспортировать текстуру."
 msgstr "Do not export the texture."
 
-#: ../textures.rst:69
-msgid "*Blend4Web > Anisotropic Filtering*"
+#: ../textures.rst:63
+msgid "*Export Options > Do Not Export*"
 msgstr ""
 
-#: ../textures.rst:69
-msgid ""
-"Фактор анизотропной фильтрации для индивидуальной текстуры. Имеет приоритет "
-"перед аналогичной настройкой для сцены. Значение по умолчанию ``DEFAULT`` "
-"(т.е. использовать настройки сцены)."
-msgstr ""
-"Anisotropic filtering factor for the individual texture. It has priority "
-"over the similar parameter for the scene. The default value is ``DEFAULT`` "
-"(i.e. use the scene settings)."
-
-#: ../textures.rst:72
-msgid "*Blend4Web > Water Foam*"
-msgstr ""
-
-#: ../textures.rst:72
-msgid "Текстура пены. Используется материалом для рендеринга воды."
-msgstr "The foam texture. Used by the water rendering material."
-
-#: ../textures.rst:75
-msgid "*Blend4Web > Disable Compression*"
-msgstr ""
-
-#: ../textures.rst:75
+#: ../textures.rst:66
 msgid ""
 "Отключить использование текстурной компрессии для данной текстуры. "
 "Применяется в случае, когда компрессия приводит к ухудшению качества "
@@ -294,6 +260,40 @@ msgstr ""
 "compression deteriorates the image quality.For example it's recommended to "
 "disable compression for mask textures used to mix different parts of "
 "materials."
+
+#: ../textures.rst:66
+msgid "*Export Options > Disable Compression*"
+msgstr ""
+
+#: ../textures.rst:68
+msgid ""
+"*Export Options > Shore Distance Map* Используется в :ref:`рендеринге "
+"наружных сцен <outdoor_rendering>`"
+msgstr ""
+"*Export Options > Shore Distance Map* is used in :ref:`outdoor "
+"rendering <outdoor_rendering>`"
+
+#: ../textures.rst:72
+msgid ""
+"Фактор анизотропной фильтрации для индивидуальной текстуры. Имеет приоритет "
+"перед аналогичной настройкой для сцены. Значение по умолчанию ``DEFAULT`` "
+"(т.е. использовать настройки сцены)."
+msgstr ""
+"Anisotropic filtering factor for the individual texture. It has priority "
+"over the similar parameter for the scene. The default value is ``DEFAULT`` "
+"(i.e. use the scene settings)."
+
+#: ../textures.rst:72
+msgid "*Export Options > Anisotropic Filtering*"
+msgstr ""
+
+#: ../textures.rst:75
+msgid "Текстура пены. Используется материалом для рендеринга воды."
+msgstr "The foam texture. Used by the water rendering material."
+
+#: ../textures.rst:75
+msgid "*Water Foam*"
+msgstr ""
 
 #: ../textures.rst:77 ../textures.rst:99 ../textures.rst:123
 #: ../textures.rst:142 ../textures.rst:173 ../textures.rst:202
@@ -340,7 +340,7 @@ msgstr ""
 
 #: ../textures.rst:97 ../textures.rst:121 ../textures.rst:147
 #: ../textures.rst:168 ../textures.rst:202 ../textures.rst:351
-#: ../textures.rst:388
+#: ../textures.rst:392
 msgid "Дополнительные настройки"
 msgstr "Additional Settings"
 
@@ -391,11 +391,10 @@ msgstr ""
 
 #: ../textures.rst:118
 msgid ""
-"Выставить опцию ``Specular > Color`` на панели ``Textures > Influence`` "
-"(опция ``Specular > Intensity`` не поддерживается)."
+"Выставить опцию ``Specular > Color`` на панели ``Textures > Influence``."
 msgstr ""
 "Enable the ``Specular > Color`` checkbox on the ``Textures > Influence`` "
-"panel (the ``Specular > Intensity`` checkbox is not supported)."
+"panel."
 
 #: ../textures.rst:124
 msgid "*Influence > Specular > Color*"
@@ -505,17 +504,11 @@ msgstr ""
 
 #: ../textures.rst:165
 msgid ""
-"Для карты нормалей дополнительно к опции ``Geometry > Normal`` на панели "
-"``Textures > Influence`` выставить опцию ``Parallax`` на панели ``Textures >"
-" Blend4Web``."
+"Для карты нормалей дополнительно к опции ``Geometry > Normal`` активировать "
+"панель ``Parallax``."
 msgstr ""
-"For the normal map enable the ``Parallax`` checkbox on the ``Textures > "
-"Blend4Web`` panel in addition to the ``Geometry > Normal`` checkbox on the "
-"``Textures > Influence`` panel."
-
-#: ../textures.rst:171
-msgid "*Blend4Web > Parallax Scale*"
-msgstr ""
+"For the normal map enable the ``Parallax`` panel in addition to the "
+"``Geometry > Normal`` checkbox."
 
 #: ../textures.rst:171
 msgid ""
@@ -523,8 +516,8 @@ msgid ""
 msgstr ""
 "Influence factor for the relief surface effect. The default value is 0.03."
 
-#: ../textures.rst:174
-msgid "*Blend4Web > Parallax Steps*"
+#: ../textures.rst:171
+msgid "*Parallax > Parallax Scale*"
 msgstr ""
 
 #: ../textures.rst:174
@@ -536,13 +529,17 @@ msgstr ""
 "The number of iterations for the relief surface calculations. Bigger value "
 "leads to better quality but is more computationaly expensive."
 
-#: ../textures.rst:177
-msgid "*Blend4Web > Parallax LOD distance*"
+#: ../textures.rst:174
+msgid "*Parallax > Parallax Steps*"
 msgstr ""
 
 #: ../textures.rst:177
 msgid "Расстояние на котором виден эффект параллакса."
 msgstr "Distance at which the parallax effect is observed."
+
+#: ../textures.rst:177
+msgid "*Parallax > Parallax LOD distance*"
+msgstr ""
 
 #: ../textures.rst:188
 msgid "карта смешивания"
@@ -629,13 +626,13 @@ msgstr "Video Textures"
 #: ../textures.rst:234
 msgid ""
 "В качестве текстуры может применяться видеозапись. Для этого должен быть "
-"выбран тип текстуры ``Image or Movie``. Также, если была включена опция "
-"``Scene > Blend4Web > Use NLA``, то воспроизведение видеотекстур будет "
-"происходить и в рамках NLA-сценария."
+"выбран тип текстуры ``Image or Movie``. Также, если была активированна "
+"панель ``Scene > NLA``, то воспроизведение видеотекстур будет происходить в "
+"рамках NLA-сценария."
 msgstr ""
 "A video can be used as a texture if ``Image or Movie`` texture type is "
-"selected. Also, if the ``Scene > Blend4Web > Use NLA`` is enabled the video "
-"textures playback is possible."
+"selected. Also, if the ``Scene > NLA`` is enabled the video textures "
+"playback is possible."
 
 #: ../textures.rst:238
 msgid ""
@@ -715,10 +712,10 @@ msgstr ""
 #: ../textures.rst:264
 msgid ""
 "Задержка воспроизведения видеозаписи в кадрах при использовании нелинейной "
-"анимации (опция ``Scene > Blend4Web > Use NLA``)."
+"анимации (опция ``Scene >  NLA``)."
 msgstr ""
 "Video playback delay (in frames), applicable for non-linear animation "
-"(``Scene > Blend4Web > Use NLA`` option)."
+"(``Scene > NLA`` option)."
 
 #: ../textures.rst:267
 msgid "*Image > Offset*"
@@ -974,34 +971,47 @@ msgstr ""
 #: ../textures.rst:374
 msgid ""
 "Создать текстуру мира (world texture) с типом \"Environment Map\". Выбрать "
-"опцию ``Blend4Web > Sky Texture Usage > SKYDOME``, предварительно выставив "
-"опцию ``Sky Settings > Render Sky`` на вкладке ``World``."
+"опцию ``Export Options > Sky Texture Usage > SKYDOME``, предварительно "
+"выставив опцию ``World > Render Sky`` на вкладке ``World``."
 msgstr ""
-"Create a world texture of ``Environment Map`` type. Enable ``Sky Settings > "
-"Render Sky`` under the ``World`` tab. Select the ``Blend4Web > Sky Texture "
-"Usage > SKYDOME`` option."
+"Create a world texture of ``Environment Map`` type. Select the ``Export "
+"Options > Sky Texture Usage > SKYDOME`` option. Enable ``World > "
+"Render Sky`` under the ``World`` tab."
 
 #: ../textures.rst:378
 msgid ""
+"Поведение текстуры приближено к поведению рендера в Blender Internal. "
+"Поэтому, при стандартных настройках текстуры, она может не отображаться. Для"
+" отображения текстуры активируйте флаг в панели текстуры ``Influence > "
+"Horizon`` и установите значение ``Horizon`` равное 1.0."
+msgstr ""
+"The behavior of the texture is intentionally made as close as possible to "
+"the Blender internal render. That's why the texture may not be displayed "
+"upon its default settings. In order to make the texture visible, enable the "
+"``Influence > Horizon`` checkbox on its panel and set the ``Horizon`` value "
+"to 1.0."
+
+#: ../textures.rst:382
+msgid ""
 "Для имитации :ref:`освещения от окружающей среды <environment_lighting>` "
-"можно воспользоваться опцией ``Blend4Web > Sky Texture Usage > "
+"можно воспользоваться опцией ``Export Options > Sky Texture Usage > "
 "ENVIRONMENT_LIGHTING``. При этом необходимо также выбрать соответствующую "
 "опцию в настройках мира: ``Environment Lighting > Sky Texture``."
 msgstr ""
 "To imitate :ref:`environment lighting <environment_lighting>` you can select"
-" the ``Blend4Web > Sky Texture Usage > ENVIRONMENT_LIGHTING`` option. Also "
-"you should select the corresponding option in the world settings: "
+" the ``Export Options > Sky Texture Usage > ENVIRONMENT_LIGHTING`` option. "
+"Also, you should select the corresponding option in the world settings: "
 "``Environment Lighting > Sky Texture``."
 
-#: ../textures.rst:380
+#: ../textures.rst:384
 msgid ""
 "Для создания обоих эффектов от одной текстуры необходимо выставить опцию "
-"``Blend4Web > Sky Texture Usage > BOTH``."
+"``Export Options > Sky Texture Usage > BOTH``."
 msgstr ""
 "To use the world texture both for skydome and for environment lighting, "
-"select ``Blend4Web > Sky Texture Usage > BOTH``."
+"select ``Export Options > Sky Texture Usage > BOTH``."
 
-#: ../textures.rst:390
+#: ../textures.rst:394
 msgid ""
 "Движком поддерживаются параметры вкладки ``Influence`` для настройки "
 "отображения неба. Смешивание текстуры с цветом производится в зависимости от"
@@ -1017,7 +1027,7 @@ msgstr ""
 "options. All mixing options are supported (``Mix``, ``Add``, ``Multiply`` "
 "etc)."
 
-#: ../textures.rst:399
+#: ../textures.rst:403
 msgid ""
 "Параметры вкладки ``Influence`` влияют только на отображение неба. Они не "
 "влияют на отображение :ref:`освещения от окружающей среды "
@@ -1026,23 +1036,23 @@ msgstr ""
 "The ``Influence`` panel parameters only affect the sky rendering. They do "
 "not affect :ref:`environment lighting <environment_lighting>` by any means."
 
-#: ../textures.rst:404
+#: ../textures.rst:408
 msgid "рендеринг в"
 msgstr "render to"
 
-#: ../textures.rst:404
+#: ../textures.rst:408
 msgid "render-to-texture"
 msgstr ""
 
-#: ../textures.rst:404
+#: ../textures.rst:408
 msgid "RTT"
 msgstr ""
 
-#: ../textures.rst:408
+#: ../textures.rst:412
 msgid "Особые типы текстур"
 msgstr "Special Texture Types"
 
-#: ../textures.rst:410
+#: ../textures.rst:414
 msgid ""
 "Для использования особых типов текстур необходимо выставить тип текстуры "
 "``None`` на панели ``Textures``."
@@ -1050,19 +1060,15 @@ msgstr ""
 "In order to use such textures, select ``None`` type under the ``Textures`` "
 "tab."
 
-#: ../textures.rst:417
+#: ../textures.rst:421
 msgid ""
-"В меню ``Textures > Blend4Web`` имеется возможность задать основные свойства"
-" для данного типа текстуры:"
+"В меню ``Textures > Export Options`` имеется возможность задать основные "
+"свойства для данного типа текстуры:"
 msgstr ""
-"On the ``Textures > Blend4Web`` panel, you can set up properties for these "
-"textures:"
+"On the ``Textures > Export Options`` panel, you can set up properties for "
+"these textures:"
 
-#: ../textures.rst:420
-msgid "*Blend4Web > Source Type*"
-msgstr ""
-
-#: ../textures.rst:420
+#: ../textures.rst:424
 msgid ""
 "Выбор особого типа текстуры: ``Scene`` - для рендеринга 3D сцены в текстуру,"
 " ``Canvas`` - использование HTML-элемента <canvas> и ``None`` - отсутствие "
@@ -1072,11 +1078,11 @@ msgstr ""
 "``Canvas`` - for using <canvas> HTML element and ``None`` - for indicating "
 "of its absence."
 
-#: ../textures.rst:423
-msgid "*Blend4Web > Source ID*"
+#: ../textures.rst:424
+msgid "*Export Options > Source Type*"
 msgstr ""
 
-#: ../textures.rst:423
+#: ../textures.rst:427
 msgid ""
 "Имя сцены, которая будет отображена в текстуре, в случае 3D сцены либо "
 "идентификатор HTML-элемента <canvas> в случае Canvas-текстуры."
@@ -1084,19 +1090,19 @@ msgstr ""
 "The name of the scene which will be rendered into the texture (for "
 "``Scene``), or ID of the <canvas> HTML element (for ``Canvas``)."
 
-#: ../textures.rst:426
-msgid "*Blend4Web > Source Size*"
+#: ../textures.rst:427
+msgid "*Export Options > Source ID*"
 msgstr ""
 
-#: ../textures.rst:426
+#: ../textures.rst:430
 msgid "Разрешение текстуры."
 msgstr "Texture resolution."
 
-#: ../textures.rst:429
-msgid "*Blend4Web > Extension*"
+#: ../textures.rst:430
+msgid "*Export Options > Source Size*"
 msgstr ""
 
-#: ../textures.rst:429
+#: ../textures.rst:433
 msgid ""
 ":ref:`Режим интерпретации текстурных координат <texture_extension>`. "
 "Значение по умолчанию ``Repeat``."
@@ -1104,20 +1110,24 @@ msgstr ""
 ":ref:`Texture coordinates interpretation mode <texture_extension>`. Default "
 "is ``Repeat``."
 
-#: ../textures.rst:432
-msgid "*Blend4Web > Enable Mipmapping*"
+#: ../textures.rst:433
+msgid "*Export Options > Extension*"
 msgstr ""
 
-#: ../textures.rst:432
+#: ../textures.rst:436
 msgid ""
 "Включение MIP-текстурирования для Canvas-текстуры. По умолчанию включено."
 msgstr "Enable mipmapping for the Canvas texture. Enabled by default."
 
-#: ../textures.rst:440
+#: ../textures.rst:436
+msgid "*Export Options > Enable Mipmapping*"
+msgstr ""
+
+#: ../textures.rst:444
 msgid "3D сценa"
 msgstr "3D scene"
 
-#: ../textures.rst:442
+#: ../textures.rst:446
 msgid ""
 "Изображение 3D сцены может быть использовано в качестве текстуры на объекте "
 "другой (\"главной\") сцены."
@@ -1125,7 +1135,7 @@ msgstr ""
 "A 3D scene's real-time rendered image can be used as a texture by an object "
 "from another scene (\"main\" scene)."
 
-#: ../textures.rst:444
+#: ../textures.rst:448
 msgid ""
 "Создать дополнительную сцену-источник, переименовать для удобства, создать "
 "``World``, добавить нужные объекты, настроить вид из камеры."
@@ -1133,23 +1143,36 @@ msgstr ""
 "Create an additional source scene, rename it for convenience, create a "
 "``World``, add the objects wanted, setup the camera view."
 
-#: ../textures.rst:445
+#: ../textures.rst:449
 msgid ""
 "В главной сцене для текстуры целевого объекта выставить тип ``None``, в поле"
-" ``Blend4Web > Source Type`` указать тип ``Scene``. В поле ``Blend4Web > "
-"Source ID`` указать название сцены-источника. В поле ``Blend4Web > Source "
-"Size`` указать размер текстуры в пикселях."
+" ``Export Options > Source Type`` указать тип ``Scene``. В поле ``Export "
+"Options > Source ID`` указать название сцены-источника. В поле ``Export "
+"Options > Source Size`` указать размер текстуры в пикселях."
 msgstr ""
 "Set the ``None`` type for a texture of the target object on the main scene, "
-"and select the ``Scene`` type in the ``Blend4Web > Source Type`` menu. "
-"Specify the name of the source scene in the ``Blend4Web > Source ID`` field."
-" Set the texture size in the ``Blend4Web > Source Size`` field (in pixels)."
+"and select the ``Scene`` type in the ``Export Options > Source Type`` menu. "
+"Specify the name of the source scene in the ``Export Options > Source ID`` field."
+" Set the texture size in the ``Export Options > Source Size`` field (in pixels)."
 
-#: ../textures.rst:455
+#: ../textures.rst:457
+msgid "Также поддерживается циклическое отображение сцен друг в друга."
+msgstr ""
+"The engine also supports the cyclic rendering of scenes to each other."
+
+#: ../textures.rst:461
+msgid ""
+"В проекте должна присутствовать хотя бы одна сцена, которую не отображают "
+"другие."
+msgstr ""
+"A project should contain at least one scene which is not rendered by any "
+"other scenes."
+
+#: ../textures.rst:467
 msgid "Canvas"
 msgstr "Canvas"
 
-#: ../textures.rst:457
+#: ../textures.rst:469
 msgid ""
 "В качестве текстуры используется HTML-элемент <canvas>. Его редактирование "
 "осуществляется при помощи :ref:`API <canvas_texture>`."
@@ -1157,15 +1180,15 @@ msgstr ""
 "A <canvas> HTML element can be used as a texture. It can be modified via "
 ":ref:`API <canvas_texture>`."
 
-#: ../textures.rst:459
+#: ../textures.rst:471
 msgid ""
 "В главной сцене для текстуры целевого объекта выставить тип ``None``, в поле"
-" ``Blend4Web > Source Type`` указать тип ``Canvas``. В поле ``Blend4Web > "
-"Source ID`` указать идентификатор объекта типа ``Canvas``. В поле "
-"``Blend4Web > Source Size`` указать размер текстуры в пикселях."
+" ``Export Options > Source Type`` указать тип ``Canvas``. В поле ``Export "
+"Options > Source ID`` указать идентификатор объекта типа ``Canvas``. В поле "
+"``Export Options > Source Size`` указать размер текстуры в пикселях."
 msgstr ""
 "Set the ``None`` type for the texture of the target object on the main "
-"scene, and select the ``Canvas`` type in the ``Blend4Web > Source Type`` "
-"menu. Specify the id of the canvas HTML element in the ``Blend4Web > Source "
-"ID`` field. Set the texture size in the ``Blend4Web > Source Size`` field "
+"scene, and select the ``Canvas`` type in the ``Export Options > Source Type`` "
+"menu. Specify the id of the canvas HTML element in the ``Export Options > Source "
+"ID`` field. Set the texture size in the ``Export Options > Source Size`` field "
 "(in pixels)."

@@ -22,6 +22,10 @@ exports.set_verbose = function(v) {
     _verbose = v;
 }
 
+exports.log_raw = function() {
+    console.log.apply(console, arguments);
+}
+
 exports.log = function() {
     if (_verbose) {
         var args = compose_args_prefix(arguments, "B4W LOG");

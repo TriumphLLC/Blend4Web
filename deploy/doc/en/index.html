@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Table of contents &mdash; User Manual: Blend4Web v15.05</title>
+    <title>Table of contents &mdash; User Manual: Blend4Web v15.06</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '15.05',
+        VERSION:     '15.06',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User Manual: Blend4Web v15.05" href="#" />
+    <link rel="top" title="User Manual: Blend4Web v15.06" href="#" />
     <link rel="next" title="Overview" href="about.html" /> 
   </head>
   <body role="document">
@@ -35,7 +35,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="#">User Manual: Blend4Web v15.05</a></div>
+          href="#">User Manual: Blend4Web v15.06</a></div>
         <div class="rel" role="navigation" aria-label="related navigation">
           <a href="about.html" title="Overview"
              accesskey="N">next</a> |
@@ -97,8 +97,8 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="setup.html">Installing the SDK</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="setup.html#getting-started-distribution">Unpacking the Distribution</a></li>
-<li class="toctree-l2"><a class="reference internal" href="setup.html#getting-started-addon">Setting up the Addon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="setup.html#id3">Unpacking the Archive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="setup.html#id4">Setting up the Add-on</a></li>
 <li class="toctree-l2"><a class="reference internal" href="setup.html#local-development-server">Local Development Server</a></li>
 <li class="toctree-l2"><a class="reference internal" href="setup.html#getting-started-launching-viewer">Running Viewer and Demos</a></li>
 </ul>
@@ -157,7 +157,8 @@
 <li class="toctree-l2"><a class="reference internal" href="materials.html#material-lighting-params">Lighting Parameters</a></li>
 <li class="toctree-l2"><a class="reference internal" href="materials.html#alpha-blend">Transparency</a></li>
 <li class="toctree-l2"><a class="reference internal" href="materials.html#material-mirror">Reflection</a></li>
-<li class="toctree-l2"><a class="reference internal" href="materials.html#index-9">Engine Specific Parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="materials.html#index-9">Rendering Properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="materials.html#index-10">Engine Specific Parameters</a></li>
 <li class="toctree-l2"><a class="reference internal" href="materials.html#halo">Halo Materials</a></li>
 </ul>
 </li>
@@ -183,7 +184,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="lighting.html">Lighting, Shadows and Background</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="lighting.html#index-1">Shading Types</a></li>
-<li class="toctree-l2"><a class="reference internal" href="lighting.html#index-2">Normals Editor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lighting.html#index-2">Normal Editor</a></li>
 <li class="toctree-l2"><a class="reference internal" href="lighting.html#index-3">Lighting with Light Sources</a></li>
 <li class="toctree-l2"><a class="reference internal" href="lighting.html#environment-lighting">Environment Lighting (Ambient)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="lighting.html#shadows">Shadows</a></li>
@@ -221,7 +222,7 @@
 <li class="toctree-l2"><a class="reference internal" href="animation.html#id4">Skinning and Skeletal Animation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="animation.html#id5">Vertex Animation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="animation.html#id6">Audio Source Parametrization</a></li>
-<li class="toctree-l2"><a class="reference internal" href="animation.html#value">Value Node Animation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="animation.html#value-rgb">Animation of Value and RGB Nodes</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Rendering</a><ul>
@@ -234,7 +235,7 @@
 <li class="toctree-l2"><a class="reference internal" href="gamma_alpha.html#id2">Gamma Overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="gamma_alpha.html#id3">Human Vision and Monitors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="gamma_alpha.html#id4">Gamma Formula</a></li>
-<li class="toctree-l2"><a class="reference internal" href="gamma_alpha.html#gamma-nodes">Gamma in Node Materials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gamma_alpha.html#gamma-node-materials">Gamma in Node Materials</a></li>
 <li class="toctree-l2"><a class="reference internal" href="gamma_alpha.html#alpha-compositing">Alpha Compositing</a></li>
 </ul>
 </li>
@@ -265,9 +266,10 @@
 <li class="toctree-l2"><a class="reference internal" href="developers.html#id2">Loading a Scene into an App</a></li>
 <li class="toctree-l2"><a class="reference internal" href="developers.html#id3">Creating Apps Quickly</a></li>
 <li class="toctree-l2"><a class="reference internal" href="developers.html#sdk">Developing Apps Within the SDK</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developers.html#canvas-nonfullscreen-coords">Non-FullScreen Web Apps</a></li>
 <li class="toctree-l2"><a class="reference internal" href="developers.html#code-snippets">Code Examples</a></li>
 <li class="toctree-l2"><a class="reference internal" href="developers.html#converter">Resource Conversion</a></li>
-<li class="toctree-l2"><a class="reference internal" href="developers.html#id6">Module System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developers.html#id7">Module System</a></li>
 <li class="toctree-l2"><a class="reference internal" href="developers.html#event-model">Event-Driven Model</a></li>
 <li class="toctree-l2"><a class="reference internal" href="developers.html#quality-settings">Quality Profiles</a></li>
 <li class="toctree-l2"><a class="reference internal" href="developers.html#repo-file-structure">SDK File Structure</a></li>
@@ -306,6 +308,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="release_notes.html">Release Notes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="release_notes.html#v15-06">v15.06</a></li>
 <li class="toctree-l2"><a class="reference internal" href="release_notes.html#v15-05">v15.05</a></li>
 <li class="toctree-l2"><a class="reference internal" href="release_notes.html#v15-04">v15.04</a></li>
 <li class="toctree-l2"><a class="reference internal" href="release_notes.html#v15-03">v15.03</a></li>
@@ -397,7 +400,7 @@
           
     <div class="footer" role="contentinfo">
         &copy; Copyright 2015, Triumph LLC.
-      Last updated on 2015-05-26.
+      Last updated on 2015-06-30.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
         </div>

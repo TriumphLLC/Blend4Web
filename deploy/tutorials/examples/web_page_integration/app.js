@@ -4,6 +4,7 @@
  * Application add-on.
  * Provides generic routines for the engine's initialization, UI and I/O.
  * @module app
+ * @local AppInitCallback
  */
 b4w.module["app"] = function(exports, require) {
 
@@ -53,6 +54,8 @@ var HOVER_ANGLE_MIN                = 2.0;
 var HOVER_SPEED_MIN                = 1.0;
 var HOVER_STATIC_MOVE_FACTOR       = 10;
 
+
+var _smooth_factor = 1;
 // Constants used for camera smoothing
 var CAM_SMOOTH_ZOOM_MOUSE      = 0.1;
 var CAM_SMOOTH_ZOOM_TOUCH      = 0.15;
@@ -86,13 +89,21 @@ var _quat4_tmp = new Float32Array(4);
 var _vec3_tmp4 = new Float32Array(3);
 
 /**
+ * Application initialization callback.
+ * @callback AppInitCallback
+ * @param {HTMLElement} canvas Initialized canvas element.
+ * @param {Boolean} success Success flag.
+ */
+
+
+/**
  * Initialize the engine.
  * The "options" object may be extended by adding properties from the engine's
  * configuration.
  * In that case they will be applied before engine initialization.
  * @param {Object}   [options={}] Initialization options.
  * @param {String}   [options.canvas_container_id=null] Canvas container ID.
- * @param {Function} [options.callback=function(){}] Initialization callback.
+ * @param {AppInitCallback} [options.callback=function(){}] Initialization callback.
  * @param {Boolean}  [options.error_purge_elements=null] Remove interface
  * elements after error.
  * @param {Boolean}  [options.gl_debug=false] Enable WebGL debugging.
@@ -114,7 +125,7 @@ var _vec3_tmp4 = new Float32Array(3);
  * @cc_externs report_init_failure pause_invisible key_pause_enabled
  * @cc_externs alpha alpha_sort_threshold assets_dds_available
  * @cc_externs assets_min50_available quality fps_wrapper_id
- * @cc_externs console_verbose physics_enabled autoresize
+ * @cc_externs console_verbose physics_enabled autoresize track_container_position
  */
 
 exports.init = function(options) {
@@ -133,6 +144,7 @@ exports.init = function(options) {
     var report_init_failure = true;
     var show_fps = false;
     var show_hud_debug_info = false;
+    var track_container_position = false;
 
     for (var opt in options) {
         switch (opt) {
@@ -159,6 +171,9 @@ exports.init = function(options) {
             break;
         case "show_fps":
             show_fps = options.show_fps;
+            break;
+        case "track_container_position":
+            track_container_position = options.track_container_position;
             break;
         case "fps_wrapper_id":
             fps_wrapper_id = options.fps_wrapper_id;
@@ -235,6 +250,12 @@ exports.init = function(options) {
                 if (ccw != canvas_elem.clientWidth ||
                         cch != canvas_elem.clientHeight)
                     m_main.resize(ccw, cch, true);
+            });
+        }
+
+        if (track_container_position) {
+            m_main.append_loop_cb(function() {
+                m_cont.force_offsets_updating();
             });
         }
 
@@ -531,22 +552,24 @@ function enable_camera_controls(disable_default_pivot, disable_letter_controls) 
     var elapsed = m_ctl.create_elapsed_sensor();
 
     if (m_phy.has_simulated_physics(obj)) {
+
         var collision = m_ctl.create_collision_sensor(obj, null, true);
 
         var collision_cb = function(obj, id, pulse) {
             if (pulse == 1) {
-                var col_pt = m_ctl.get_sensor_payload(obj, id, 1);
-                var trans = m_trans.get_translation(obj, _vec3_tmp);
-                var delta = _vec3_tmp2;
-                m_vec3.sub(trans, col_pt, delta);
-                m_vec3.normalize(delta, delta);
-                m_vec3.scale(delta, COLL_RESPONSE_NORMAL_FACTOR, delta);
-                m_vec3.add(trans, delta, trans);
-                m_trans.set_translation_v(obj, trans);
+                var coll_dist = m_ctl.get_sensor_payload(obj, id, 0).coll_dist;
+                if (coll_dist < 0) {
+                    var coll_norm = m_ctl.get_sensor_payload(obj, id, 0).coll_norm;
+                    var recover_offset = _vec3_tmp;
+                    m_vec3.scale(coll_norm, -0.25 * coll_dist, recover_offset);
+                    var trans = m_trans.get_translation(obj, _vec3_tmp2);
+                    m_vec3.add(trans, recover_offset, trans);
+                    m_trans.set_translation_v(obj, trans);
+                }
             }
         }
         m_ctl.create_sensor_manifold(obj, "CAMERA_COLLISION", m_ctl.CT_CONTINUOUS,
-                [elapsed, collision], null, collision_cb);
+                [collision], null, collision_cb);
     }
 
     if (character) {
@@ -575,10 +598,6 @@ function enable_camera_controls(disable_default_pivot, disable_letter_controls) 
     }
 
     var key_cb = function(obj, id, pulse) {
-        // block movement when in collision with some other object
-        if (collision && m_ctl.get_sensor_value(obj, "CAMERA_COLLISION", 1))
-            return;
-
         if (pulse == 1) {
 
             var elapsed = m_ctl.get_sensor_value(obj, id, 0);
@@ -822,16 +841,12 @@ function enable_camera_controls(disable_default_pivot, disable_letter_controls) 
                     || Math.abs(dest_zoom_touch) > EPSILON_DELTA) {
                 var value = m_ctl.get_sensor_value(obj, id, 0);
                 var zoom_mouse = m_util.smooth(dest_zoom_mouse, 0, value,
-                        CAM_SMOOTH_ZOOM_MOUSE);
+                        smooth_coeff_zoom_mouse());
                 dest_zoom_mouse -= zoom_mouse;
 
                 var zoom_touch = m_util.smooth(dest_zoom_touch, 0, value,
-                        CAM_SMOOTH_ZOOM_TOUCH);
+                        smooth_coeff_zoom_touch());
                 dest_zoom_touch -= zoom_touch;
-
-                //block movement when in collision with some other object
-                if (collision && m_ctl.get_sensor_value(obj, "CAMERA_COLLISION", 1))
-                    return;
 
                 if (use_hover) {
                     trans_hover_cam_updown(obj, - (zoom_mouse + zoom_touch));
@@ -960,33 +975,33 @@ function enable_camera_controls(disable_default_pivot, disable_letter_controls) 
             var value = m_ctl.get_sensor_value(obj, id, 0);
 
             var x_mouse = m_util.smooth(dest_x_mouse, 0, value,
-                    CAM_SMOOTH_ROT_TRANS_MOUSE);
+                    smooth_coeff_rot_trans_mouse());
             var y_mouse = m_util.smooth(dest_y_mouse, 0, value,
-                    CAM_SMOOTH_ROT_TRANS_MOUSE);
+                    smooth_coeff_rot_trans_mouse());
 
             dest_x_mouse -= x_mouse;
             dest_y_mouse -= y_mouse;
 
             var x_touch = m_util.smooth(dest_x_touch, 0, value,
-                    CAM_SMOOTH_ROT_TRANS_TOUCH);
+                    smooth_coeff_rot_trans_touch());
             var y_touch = m_util.smooth(dest_y_touch, 0, value,
-                    CAM_SMOOTH_ROT_TRANS_TOUCH);
+                    smooth_coeff_rot_trans_touch());
 
             dest_x_touch -= x_touch;
             dest_y_touch -= y_touch;
 
             var trans_x_mouse = m_util.smooth(dest_pan_x_mouse, 0,
-                    value, CAM_SMOOTH_ROT_TRANS_MOUSE);
+                    value, smooth_coeff_rot_trans_mouse());
             var trans_y_mouse = m_util.smooth(dest_pan_y_mouse, 0,
-                    value, CAM_SMOOTH_ROT_TRANS_MOUSE);
+                    value, smooth_coeff_rot_trans_mouse());
 
             dest_pan_x_mouse -= trans_x_mouse;
             dest_pan_y_mouse -= trans_y_mouse;
 
             var trans_x_touch = m_util.smooth(dest_pan_x_touch, 0,
-                    value, CAM_SMOOTH_ROT_TRANS_TOUCH);
+                    value, smooth_coeff_rot_trans_touch());
             var trans_y_touch = m_util.smooth(dest_pan_y_touch, 0,
-                    value, CAM_SMOOTH_ROT_TRANS_TOUCH);
+                    value, smooth_coeff_rot_trans_touch());
 
             dest_pan_x_touch -= trans_x_touch;
             dest_pan_y_touch -= trans_y_touch;
@@ -1063,7 +1078,7 @@ function disable_camera_controls() {
 /**
  * Set the movement style for the active camera.
  * @method module:app.set_camera_move_style
- * @param {Number} move_style Camera movement style
+ * @param {CameraMoveStyle} move_style Camera movement style
  */
 exports.set_camera_move_style = function(move_style) {
     if (_camera_controls_is_used)
@@ -1078,7 +1093,7 @@ exports.set_camera_move_style = function(move_style) {
 
 /**
  * Assign some controls to the non-camera object.
- * @param {Object} obj Object ID
+ * @param {Object3D} obj Object 3D
  */
 exports.enable_object_controls = function(obj) {
     var trans_speed = 1;
@@ -1163,8 +1178,8 @@ exports.enable_object_controls = function(obj) {
 }
 
 /**
- * Disable controls for the non-camera object.
- * @param {Object} obj Object ID or Camera object ID
+ * Remove controls from the non-camera object.
+ * @param {Object3D} obj Object.
  */
 exports.disable_object_controls = function(obj) {
     var obj_std_manifolds = ["FORWARD", "BACKWARD", "LEFT", "RIGHT"];
@@ -1225,8 +1240,8 @@ exports.request_fullscreen = request_fullscreen;
  * Security issues: execute by user event.
  * @method module:app.request_fullscreen
  * @param {HTMLElement} elem Element
- * @param {fullscreen_enabled_callback} enabled_cb Enabled callback
- * @param {fullscreen_disabled_callback} disabled_cb Disabled callback
+ * @param {FullscreenEnabledCallback} enabled_cb Enabled callback
+ * @param {FullscreenDisabledCallback} disabled_cb Disabled callback
  */
 function request_fullscreen(elem, enabled_cb, disabled_cb) {
 
@@ -1323,7 +1338,7 @@ exports.report_app_error = report_app_error;
  * @param {String} text_message Message to place on upper element.
  * @param {String} link_message Message to place on bottom element.
  * @param {String} link Link to place on bottom element.
- * @param {Array} purge_elements Array of elements to destroy just before the error
+ * @param {HTMLElement[]} purge_elements Array of elements to destroy just before the error
  * elements are inserted.
  */
 function report_app_error(text_message, link_message, link, purge_elements) {
@@ -1398,7 +1413,7 @@ exports.get_url_params = function(allow_param_array) {
 /**
  * Animate css-property value.
  * @method module:app.css_animate
- * @param {Object} elem HTML-element.
+ * @param {Object3D} elem HTML-element.
  * @param {String} prop Animated css-property.
  * @param {Number} from Value from.
  * @param {Number} to Value to.
@@ -1443,7 +1458,7 @@ exports.css_animate = function(elem, prop, from, to, timeout, opt_prefix, opt_su
 /**
  * Animate html tag attribute.
  * @method module:app.attr_animate
- * @param {Object} elem HTML-element.
+ * @param {HTMLElement} elem HTML-element.
  * @param {String} attr_name Animated attribute name.
  * @param {Number} from Value from.
  * @param {Number} to Value to.
@@ -1484,6 +1499,40 @@ function animate(from, to, timeout, anim_cb) {
     }
 
     m_main.append_loop_cb(cb);
+}
+
+function smooth_coeff_zoom_mouse() {
+    return CAM_SMOOTH_ZOOM_MOUSE * _smooth_factor;
+}
+
+function smooth_coeff_zoom_touch() {
+    return CAM_SMOOTH_ZOOM_TOUCH * _smooth_factor;
+}
+
+function smooth_coeff_rot_trans_mouse() {
+    return CAM_SMOOTH_ROT_TRANS_MOUSE * _smooth_factor;
+}
+
+function smooth_coeff_rot_trans_touch() {
+    return CAM_SMOOTH_ROT_TRANS_TOUCH * _smooth_factor;
+}
+
+/**
+ * Set smooth factor for camera rotation.
+ * @method module:app.set_camera_smooth_factor
+ * @param {Number} value New smooth factor
+ */
+exports.set_camera_smooth_factor = function(value) {
+    _smooth_factor = value;
+}
+
+/**
+ * Get smooth factor for camera rotation.
+ * @method module:app.get_camera_smooth_factor
+ * @returns {Number} Smooth factor
+ */
+exports.get_camera_smooth_factor = function() {
+    return _smooth_factor;
 }
 
 }

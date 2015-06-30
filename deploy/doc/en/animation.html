@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Animation &mdash; User Manual: Blend4Web v15.05</title>
+    <title>Animation &mdash; User Manual: Blend4Web v15.06</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '15.05',
+        VERSION:     '15.06',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User Manual: Blend4Web v15.05" href="index.html" />
+    <link rel="top" title="User Manual: Blend4Web v15.06" href="index.html" />
     <link rel="next" title="Outdoor Rendering" href="outdoor_rendering.html" />
     <link rel="prev" title="Particle System. Instancing" href="particles_instancing.html" /> 
   </head>
@@ -36,7 +36,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">User Manual: Blend4Web v15.05</a></div>
+          href="index.html">User Manual: Blend4Web v15.06</a></div>
         <div class="rel" role="navigation" aria-label="related navigation">
           <a href="particles_instancing.html" title="Particle System. Instancing"
              accesskey="P">previous</a> |
@@ -60,7 +60,7 @@
 <span id="id1"></span><h1>Animation<a class="headerlink" href="#index-0" title="Permalink to this headline">¶</a></h1>
 <p>In general animation is changing the object&#8217;s parameters in time. The engine supports the following types of animation:</p>
 <ul class="simple">
-<li><p class="first">Object animation means the moving an object as a whole.</p>
+<li><p class="first">Object animation means the transformation of an object as a whole.</p>
 </li>
 <li><p class="first">Skeletal animation, i.e. object deformation using bones. Animation of a standalone armature object is also supported (for parenting to bones).</p>
 </li>
@@ -79,7 +79,7 @@
 <h2>Animation Control<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
 <p>There are two ways to control animation in the engine:</p>
 <ol class="arabic simple">
-<li><p class="first">Automatically, using the <code class="docutils literal"><span class="pre">Animation:</span> <span class="pre">Use</span> <span class="pre">default</span></code> and <code class="docutils literal"><span class="pre">Animation:</span> <span class="pre">Behaviour</span></code> options in the object&#8217;s properties. In this case an appropriate animation method will be chosen by the engine and the object&#8217;s animation playback will start just after a scene is loaded. In case of skeletal animation the action which is assigned to the object in the <code class="docutils literal"><span class="pre">Action</span> <span class="pre">Editor</span></code> window is played by default.</p>
+<li><p class="first">Automatically, activating the <code class="docutils literal"><span class="pre">Animation</span></code> panel and choosing the <code class="docutils literal"><span class="pre">Behaviour</span></code> parameter in the object&#8217;s properties. In this case an appropriate animation method will be chosen by the engine and the object&#8217;s animation playback will start just after a scene is loaded. In case of skeletal animation the action which is assigned to the object in the <code class="docutils literal"><span class="pre">Action</span> <span class="pre">Editor</span></code> window is played by default.</p>
 </li>
 <li><p class="first">In an application via API using the <code class="docutils literal"><span class="pre">animation</span></code> module methods.</p>
 </li>
@@ -110,7 +110,7 @@
 <li><p class="first"><em>RotScale</em> &#8211; a combination of <em>Rotation</em> and <em>Scale</em>.</p>
 </li>
 </ul>
-<p>If an object-mesh is animated it is required to enable the <code class="docutils literal"><span class="pre">Force</span> <span class="pre">Dynamic</span> <span class="pre">Object</span></code> checkbox under the object properties tab.</p>
+<p>If a mesh object is animated it is required to activate the <code class="docutils literal"><span class="pre">Force</span> <span class="pre">Dynamic</span> <span class="pre">Object</span></code> option on the <code class="docutils literal"><span class="pre">Rendering</span> <span class="pre">Propetries</span></code> panel under the object properties tab.</p>
 </div>
 <div class="section" id="id4">
 <h2>Skinning and Skeletal Animation<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
@@ -126,30 +126,28 @@
 </li>
 <li><p class="first">Animate the bones in the pose mode of the armature object. The same keyframe types can be used as for the object animation.</p>
 </li>
-<li><p class="first">When inverse kinematics (IK) or other nontrivial structures are used, an additional step is required to bake the animations (<code class="docutils literal"><span class="pre">Action</span></code> datablocks in Blender). Baking can be performed using the <code class="docutils literal"><span class="pre">B4W</span> <span class="pre">Animation</span> <span class="pre">Bake</span></code> interface located on the <code class="docutils literal"><span class="pre">Blend4Web</span></code> panel.</p>
+<li><p class="first">When inverse kinematics (IK) or other nontrivial structures are used, an additional step is required to bake the animations (<code class="docutils literal"><span class="pre">Action</span></code> datablocks in Blender). Baking can be performed using the <code class="docutils literal"><span class="pre">Bake</span> <span class="pre">Skeletal</span> <span class="pre">Animation</span></code> interface located on the <code class="docutils literal"><span class="pre">Blend4Web</span></code> panel.</p>
 </li>
 </ol>
 <a class="reference internal image-reference" href="_images/skeletal_anim_baker.png"><img alt="_images/skeletal_anim_baker.png" class="align-center" src="_images/skeletal_anim_baker.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p id="animation-bake">Baking is performed with the armature object selected. Elements of the <code class="docutils literal"><span class="pre">B4W</span> <span class="pre">Animation</span> <span class="pre">Bake</span></code> interface:</p>
+<p id="animation-bake">Baking is performed with the armature object selected. Elements of the <code class="docutils literal"><span class="pre">Bake</span> <span class="pre">Skeletal</span> <span class="pre">Animation</span></code> interface:</p>
 <ul class="simple">
-<li><p class="first"><em>Clean keyframes</em> &#8211; optimize the animation keyframes after baking. In case of incorrect results it&#8217;s recommended to turn this option off.</p>
-</li>
-<li><p class="first">window with the list of actions being baked &#8211; bake only the actions which are listed, else - bake all the actions possible.</p>
+<li><p class="first">A window with the list of actions being baked &#8211; bake only the actions which are listed, else - bake all the actions possible.</p>
 </li>
 <li><p class="first"><em>Name</em> &#8211; the current action name from the list of actions being baked.</p>
 </li>
-<li><p class="first"><em>Bake</em> &#8211; perform baking. If the process is completed successfully, actions with names of <em>NAME_B4W_BAKED</em> type appear in the scene. These actions can be assigned to the armature object and played back in the engine. It&#8217;s worth noting that appropriate functioning of such actions in Blender is not garanteed, although the <em>Cons Mute</em>/<em>Cons Unmute</em> interface can help in some cases.</p>
+<li><p class="first"><em>Optimize keyframes</em> &#8211; optimize the animation keyframes after baking. In case of incorrect results it&#8217;s recommended to turn this option off.</p>
 </li>
-<li><p class="first"><em>Cons Mute</em>/<em>Cons Unmute</em> &#8211; switch bone constraints off/on. The tool can be used for testing the baked actions.</p>
+<li><p class="first"><em>Bake</em> &#8211; perform baking. If the process is completed successfully, actions with names of <em>NAME_B4W_BAKED</em> type appear in the scene. These actions can be assigned to the armature object and played back in the engine. It&#8217;s worth noting that appropriate functioning of such actions in Blender is not garanteed.</p>
 </li>
 </ul>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p>The engine supports up to 4 vertex groups per vertex. If the number of vertex groups exceeds 4 the vertex groups with the most influence are selected. When the scene is loaded the vertex weights are normalized i.e. their sum is reduced to 1.</p>
-<p>To remove vertex groups which are not used by armature, use button <code class="docutils literal"><span class="pre">Remove</span> <span class="pre">Unused</span> <span class="pre">VGroups</span></code> from <code class="docutils literal"><span class="pre">B4W</span> <span class="pre">Vertex</span> <span class="pre">Group</span></code> interface.</p>
+<p>To remove vertex groups which are not used by armature, use button <code class="docutils literal"><span class="pre">Remove</span> <span class="pre">Clean</span> <span class="pre">Unused</span> <span class="pre">Vertex</span> <span class="pre">Groups</span></code>.</p>
 <a class="last reference internal image-reference" href="_images/vgroups_cleaner.png"><img alt="_images/vgroups_cleaner.png" class="align-center" src="_images/vgroups_cleaner.png" style="width: 100%;" /></a>
 </div>
 </div>
@@ -160,7 +158,7 @@
 <div class="line"><br /></div>
 </div>
 <p>Allows to record any geometry changes of a mesh object. Note that every vertex animation frame counts as a mesh. It&#8217;s not recommended to make a long animation for a high-poly mesh, as it can increase the size of the source and exported files significantly and can also slow down the work of the engine.</p>
-<p id="ver-anim">A special tool is used for baking vertex animation - <code class="docutils literal"><span class="pre">B4W</span> <span class="pre">Vertex</span> <span class="pre">Anim</span> <span class="pre">Baker</span></code> - located on the <code class="docutils literal"><span class="pre">Blend4Web</span></code> tools panel.</p>
+<p id="ver-anim">A special tool is used for baking vertex animation - <code class="docutils literal"><span class="pre">Bake</span> <span class="pre">Vertex</span> <span class="pre">Animation</span></code> - located on the <code class="docutils literal"><span class="pre">Blend4Web</span></code> tools panel.</p>
 <a class="reference internal image-reference" href="_images/vertex_anim_baker.jpg"><img alt="_images/vertex_anim_baker.jpg" class="align-center" src="_images/vertex_anim_baker.jpg" style="width: 100%;" /></a>
 </div>
 <div class="section" id="id6">
@@ -174,16 +172,25 @@
 </ul>
 <p>Audio sources parametering in essence follows object animation.</p>
 </div>
-<div class="section" id="value">
-<span id="node-anim"></span><h2>Value Node Animation<a class="headerlink" href="#value" title="Permalink to this headline">¶</a></h2>
-<a class="reference internal image-reference" href="_images/node_value_anim.jpg"><img alt="_images/node_value_anim.jpg" class="align-center" src="_images/node_value_anim.jpg" style="width: 100%;" /></a>
+<div class="section" id="value-rgb">
+<span id="node-anim"></span><h2>Animation of Value and RGB Nodes<a class="headerlink" href="#value-rgb" title="Permalink to this headline">¶</a></h2>
+<p>Playback of keyframes inserted on <code class="docutils literal"><span class="pre">Value</span></code> and <code class="docutils literal"><span class="pre">RGB</span></code> nodes is supported in node materials.</p>
+<img alt="_images/node_value_anim.jpg" class="align-center" src="_images/node_value_anim.jpg" />
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p>Works similar to the <a class="reference internal" href="#whole-object-anim"><span>object animation</span></a>. Can be also used to create tracks in the <a class="reference internal" href="nla.html#nla-editor"><span>non-linear animation editor</span></a>. Multiple animated <code class="docutils literal"><span class="pre">Value</span></code> nodes are supported per single material.</p>
+<img alt="_images/node_RGB_anim.png" class="align-center" src="_images/node_RGB_anim.png" />
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Animation of numerical and color values on other nodes is not supported.</p>
+</div>
+<p>Can be also used to create tracks in the <a class="reference internal" href="nla.html#nla-editor"><span>non-linear animation editor</span></a>. Multiple animated <code class="docutils literal"><span class="pre">Value</span></code> or <code class="docutils literal"><span class="pre">RGB</span></code> nodes are supported per single material. Values of these nodes can be also modified via API, by using the <code class="docutils literal"><span class="pre">set_nodemat_value</span></code> and <code class="docutils literal"><span class="pre">set_nodemat_rgb</span></code> methods of the <code class="docutils literal"><span class="pre">objects</span></code> module.</p>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><a class="reference internal" href="node_materials.html#node-materials"><span>Node Materials</span></a></p>
+<p class="last"><a class="reference internal" href="node_materials.html#node-time"><span>B4W_TIME</span></a></p>
 </div>
 </div>
 </div>
@@ -219,7 +226,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#id4">Skinning and Skeletal Animation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id5">Vertex Animation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id6">Audio Source Parametrization</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#value">Value Node Animation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#value-rgb">Animation of Value and RGB Nodes</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="outdoor_rendering.html">Outdoor Rendering</a></li>
@@ -270,7 +277,7 @@
           
     <div class="footer" role="contentinfo">
         &copy; Copyright 2015, Triumph LLC.
-      Last updated on 2015-05-26.
+      Last updated on 2015-06-30.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
         </div>

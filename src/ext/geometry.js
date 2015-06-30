@@ -15,7 +15,7 @@ var m_render = require("__renderer");
 /**
  * Extract the vertex array from the object.
  * @method module:geometry.extract_vertex_array
- * @param {Object} obj Object ID
+ * @param {Object3D} obj Object 3D
  * @param {String} mat_name Material name
  * @param {String} attrib_name Attribute name (a_position, a_normal, a_tangent)
  * @returns {Float32Array} Vertex array
@@ -47,7 +47,7 @@ exports.extract_vertex_array = function(obj, mat_name, attrib_name) {
 /**
  * Extract the array of triangulated face indices from the given object.
  * @method module:geometry.extract_index_array
- * @param {Object} obj Object ID
+ * @param {Object3D} obj Object 3D
  * @param {String} mat_name Material name
  * @returns {Uint16Array|Uint32Array} Array of triangle indices
  */
@@ -78,7 +78,7 @@ exports.extract_index_array = function(obj, mat_name) {
 /**
  * Update the vertex array for the given object.
  * @method module:geometry.update_vertex_array
- * @param {Object} obj Object ID
+ * @param {Object3D} obj Object 3D
  * @param {String} mat_name Material name
  * @param {String} attrib_name Attribute name (a_position, a_normal, a_tangent)
  * @param {Float32Array} array The new array
@@ -109,7 +109,7 @@ exports.update_vertex_array = function(obj, mat_name, attrib_name, array) {
 /**
  * Override geometry for the given object.
  * @method module:geometry.override_geometry
- * @param {Object} obj Object ID
+ * @param {Object3D} obj Object 3D
  * @param {String} mat_name Material name
  * @param {Uint16Array|Uint32Array} ibo_array Array of triangle indices
  * @param {Float32Array} positions_array New vertex positions array
@@ -225,7 +225,7 @@ exports.override_geometry = function(obj, mat_name, ibo_array,
 /**
  * Apply shape key to the object.
  * @method module:geometry.set_shape_key_value
- * @param {Object} obj Object ID
+ * @param {Object3D} obj Object 3D
  * @param {String} key_name Shape key name
  * @param {Number} value Shape key value
  */
@@ -247,7 +247,7 @@ exports.set_shape_key_value = function(obj, key_name, value) {
 /**
  * Check if object has got shape keys.
  * @method module:geometry.check_shape_keys
- * @param {Object} obj Object ID
+ * @param {Object3D} obj Object 3D
  * @returns {Boolean} Checking result.
  */
 exports.check_shape_keys = function(obj) {
@@ -256,8 +256,8 @@ exports.check_shape_keys = function(obj) {
 /**
  * Return all available shape keys names.
  * @method module:geometry.get_shape_keys_names
- * @param {Object} obj Object ID
- * @returns {Array} Array of animation names
+ * @param {Object3D} obj Object 3D
+ * @returns {String[]} Array of animation names
  */
 exports.get_shape_keys_names = function(obj) {
 
@@ -271,7 +271,7 @@ exports.get_shape_keys_names = function(obj) {
 /**
  * Return shape key current value.
  * @method module:geometry.get_shape_key_value
- * @param {Object} obj Object ID
+ * @param {Object3D} obj Object 3D
  * @param {String} key_name Shape key name
  * @returns {Number} value Shape key value
  */

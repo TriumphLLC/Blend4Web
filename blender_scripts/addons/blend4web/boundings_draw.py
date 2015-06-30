@@ -5,15 +5,16 @@ import bgl
 from bpy.types import Panel
 from rna_prop_ui import PropertyPanel
 
+_draw_handler = None
 
 ##########################################################
 # draw UI Buttons
 class B4W_BoundingsDrawUI(bpy.types.Panel):
-    bl_idname = "Draw Overrided bounding boxes"
-    bl_label = 'B4W Bounding Box Draw'
+    bl_idname = 'Override Bounding Volumes'
+    bl_label = 'Override Bounding Volumes'
     bl_space_type = 'VIEW_3D'
     bl_region_type = 'TOOLS'
-    bl_category = "Blend4Web"
+    bl_category = 'Blend4Web'
 
     def __init__(self):
         pass
@@ -29,154 +30,152 @@ class B4W_BoundingsDrawUI(bpy.types.Panel):
     def draw(self, context):
 
         layout = self.layout
-        row = layout.row()
 
+        ob = context.active_object
         wm = context.window_manager
-
-        if wm.b4w_draw_boundings:
-            if wm.b4w_draw_boundings == True:
-                row.operator('mesh.draw_boundings', text = 'Hide Bounding Box').processed_att = "b4w_draw_boundings"
-            elif wm.b4w_draw_boundings == False:
-                row.operator('mesh.draw_boundings', text = 'Show Bounding Box').processed_att = "b4w_draw_boundings"
-        else:
-            row.operator('mesh.draw_boundings', text = 'Show Bounding Box').processed_att = "b4w_draw_boundings"
+        msh = ob.data
 
         row = layout.row()
-        if wm.b4w_draw_bound_sphere:
-            if wm.b4w_draw_bound_sphere == True:
-                row.operator('mesh.draw_boundings', text = 'Hide Bounding Sphere').processed_att = "b4w_draw_bound_sphere"
-            elif wm.b4w_draw_bound_sphere == False:
-                row.operator('mesh.draw_boundings', text = 'Show Bounding Sphere').processed_att = "b4w_draw_bound_sphere"
-        else:
-            row.operator('mesh.draw_boundings', text = 'Show Bounding Sphere').processed_att = "b4w_draw_bound_sphere"
+        row.label(text="Show Boundings:")
 
-        row = layout.row()
-        if wm.b4w_draw_bound_ellipsoid:
-            if wm.b4w_draw_bound_ellipsoid == True:
-                row.operator('mesh.draw_boundings', text = 'Hide Bounding Ellipsoid').processed_att = "b4w_draw_bound_ellipsoid"
-            elif wm.b4w_draw_bound_ellipsoid == False:
-                row.operator('mesh.draw_boundings', text = 'Show Bounding Ellipsoid').processed_att = "b4w_draw_bound_ellipsoid"
-        else:
-            row.operator('mesh.draw_boundings', text = 'Show Bounding Ellipsoid').processed_att = "b4w_draw_bound_ellipsoid"
+        row = layout.row(align=True)
+        row.prop(wm, 'b4w_draw_bound_box', text='Boxes', toggle=True)
+        row.prop(wm, 'b4w_draw_bound_sphere', text='Spheres', toggle=True)
+        row.prop(wm, 'b4w_draw_bound_ellipsoid', text='Ellipsoids', toggle=True)
 
-def InitGLOverlay(self, context):
+        sep = layout.separator()
 
-    obj = context.active_object
+        self.layout.prop(msh, "b4w_override_boundings", text="Override Mesh Boundings", toggle=True)
+        boundings = msh.b4w_boundings
 
-    if obj != None and obj.type == 'MESH' and obj.data.b4w_override_boundings:
+        row = layout.row(align=True)
+        row.active = msh.b4w_override_boundings
+        row.prop(boundings, "min_x", text="Min X")
+        row.prop(boundings, "max_x", text="Max X")
+        row = layout.row(align=True)
+        row.active = msh.b4w_override_boundings
+        row.prop(boundings, "min_y", text="Min Y")
+        row.prop(boundings, "max_y", text="Max Y")
+        row = layout.row(align=True)
+        row.active = msh.b4w_override_boundings
+        row.prop(boundings, "min_z", text="Min Z")
+        row.prop(boundings, "max_z", text="Max Z")
 
-        bounding_box = obj.data.b4w_boundings
+def draw_boundings(self, context):
+    for obj in bpy.data.objects:
+        if obj.type == 'MESH' and obj.data.b4w_override_boundings:
 
-        min_x = bounding_box.min_x
-        max_x = bounding_box.max_x
-        min_y = bounding_box.min_y
-        max_y = bounding_box.max_y
-        min_z = bounding_box.min_z
-        max_z = bounding_box.max_z
+            bounding_box = obj.data.b4w_boundings
 
-        x_width = max_x - min_x
-        y_width = max_y - min_y
-        z_width = max_z - min_z
+            min_x = bounding_box.min_x
+            max_x = bounding_box.max_x
+            min_y = bounding_box.min_y
+            max_y = bounding_box.max_y
+            min_z = bounding_box.min_z
+            max_z = bounding_box.max_z
 
-        cen = [0]*3
-        cen[0] = (max_x + min_x) / 2
-        cen[1] = (max_y + min_y) / 2
-        cen[2] = (max_z + min_z) / 2
+            x_width = max_x - min_x
+            y_width = max_y - min_y
+            z_width = max_z - min_z
 
-        wm = obj.matrix_world
+            cen = [0]*3
+            cen[0] = (max_x + min_x) / 2
+            cen[1] = (max_y + min_y) / 2
+            cen[2] = (max_z + min_z) / 2
 
-        if context.window_manager.b4w_draw_boundings:
-            bgl.glEnable(bgl.GL_BLEND)
-            bgl.glLineWidth(2)
-            # set colour
-            bgl.glColor4f(0.5,1.0,1.0,1.0) 
+            wm = obj.matrix_world
 
-            # draw boundings
-            bgl.glBegin(bgl.GL_LINE_STRIP)
-            co = mathutils.Vector((min_x,min_y,min_z))
-            co = wm * co
-            bgl.glVertex3f(co[0], co[1], co[2])
-            co = mathutils.Vector((max_x,min_y,min_z))
-            co = wm * co
-            bgl.glVertex3f(co[0], co[1], co[2])
-            co = mathutils.Vector((max_x,max_y,min_z))
-            co = wm * co
-            bgl.glVertex3f(co[0], co[1], co[2])
-            co = mathutils.Vector((min_x,max_y,min_z))
-            co = wm * co
-            bgl.glVertex3f(co[0], co[1], co[2])
-            bgl.glEnd()
+            if context.window_manager.b4w_draw_bound_box:
+                bgl.glEnable(bgl.GL_BLEND)
+                bgl.glLineWidth(2)
+                # set colour
+                bgl.glColor4f(0.5,1.0,1.0,1.0) 
 
-            bgl.glBegin(bgl.GL_LINE_STRIP)
-            co = mathutils.Vector((min_x,min_y,max_z))
-            co = wm * co
-            bgl.glVertex3f(co[0], co[1], co[2])
-            co = mathutils.Vector((min_x,min_y,min_z))
-            co = wm * co
-            bgl.glVertex3f(co[0], co[1], co[2])
-            co = mathutils.Vector((min_x,max_y,min_z))
-            co = wm * co
-            bgl.glVertex3f(co[0], co[1], co[2])
-            co = mathutils.Vector((min_x,max_y,max_z))
-            co = wm * co
-            bgl.glVertex3f(co[0], co[1], co[2])
-            bgl.glEnd()
+                # draw boundings
+                bgl.glBegin(bgl.GL_LINE_STRIP)
+                co = mathutils.Vector((min_x,min_y,min_z))
+                co = wm * co
+                bgl.glVertex3f(co[0], co[1], co[2])
+                co = mathutils.Vector((max_x,min_y,min_z))
+                co = wm * co
+                bgl.glVertex3f(co[0], co[1], co[2])
+                co = mathutils.Vector((max_x,max_y,min_z))
+                co = wm * co
+                bgl.glVertex3f(co[0], co[1], co[2])
+                co = mathutils.Vector((min_x,max_y,min_z))
+                co = wm * co
+                bgl.glVertex3f(co[0], co[1], co[2])
+                bgl.glEnd()
 
-            bgl.glBegin(bgl.GL_LINE_STRIP)
-            co = mathutils.Vector((max_x,min_y,max_z))
-            co = wm * co
-            bgl.glVertex3f(co[0], co[1], co[2])
-            co = mathutils.Vector((min_x,min_y,max_z))
-            co = wm * co
-            bgl.glVertex3f(co[0], co[1], co[2])
-            co = mathutils.Vector((min_x,max_y,max_z))
-            co = wm * co
-            bgl.glVertex3f(co[0], co[1], co[2])
-            co = mathutils.Vector((max_x,max_y,max_z))
-            co = wm * co
-            bgl.glVertex3f(co[0], co[1], co[2])
-            bgl.glEnd()
+                bgl.glBegin(bgl.GL_LINE_STRIP)
+                co = mathutils.Vector((min_x,min_y,max_z))
+                co = wm * co
+                bgl.glVertex3f(co[0], co[1], co[2])
+                co = mathutils.Vector((min_x,min_y,min_z))
+                co = wm * co
+                bgl.glVertex3f(co[0], co[1], co[2])
+                co = mathutils.Vector((min_x,max_y,min_z))
+                co = wm * co
+                bgl.glVertex3f(co[0], co[1], co[2])
+                co = mathutils.Vector((min_x,max_y,max_z))
+                co = wm * co
+                bgl.glVertex3f(co[0], co[1], co[2])
+                bgl.glEnd()
 
-            bgl.glBegin(bgl.GL_LINE_STRIP)
-            co = mathutils.Vector((max_x,max_y,min_z))
-            co = wm * co
-            bgl.glVertex3f(co[0], co[1], co[2])
-            co = mathutils.Vector((max_x,max_y,max_z))
-            co = wm * co
-            bgl.glVertex3f(co[0], co[1], co[2])
-            co = mathutils.Vector((max_x,min_y,max_z))
-            co = wm * co
-            bgl.glVertex3f(co[0], co[1], co[2])
-            co = mathutils.Vector((max_x,min_y,min_z))
-            co = wm * co
-            bgl.glVertex3f(co[0], co[1], co[2])
-            bgl.glEnd()
+                bgl.glBegin(bgl.GL_LINE_STRIP)
+                co = mathutils.Vector((max_x,min_y,max_z))
+                co = wm * co
+                bgl.glVertex3f(co[0], co[1], co[2])
+                co = mathutils.Vector((min_x,min_y,max_z))
+                co = wm * co
+                bgl.glVertex3f(co[0], co[1], co[2])
+                co = mathutils.Vector((min_x,max_y,max_z))
+                co = wm * co
+                bgl.glVertex3f(co[0], co[1], co[2])
+                co = mathutils.Vector((max_x,max_y,max_z))
+                co = wm * co
+                bgl.glVertex3f(co[0], co[1], co[2])
+                bgl.glEnd()
 
-        if context.window_manager.b4w_draw_bound_sphere:
-            #draw spehere
-            bgl.glLineWidth(1)
-            bgl.glColor4f(1.0,0.5,1.0,1.0) 
+                bgl.glBegin(bgl.GL_LINE_STRIP)
+                co = mathutils.Vector((max_x,max_y,min_z))
+                co = wm * co
+                bgl.glVertex3f(co[0], co[1], co[2])
+                co = mathutils.Vector((max_x,max_y,max_z))
+                co = wm * co
+                bgl.glVertex3f(co[0], co[1], co[2])
+                co = mathutils.Vector((max_x,min_y,max_z))
+                co = wm * co
+                bgl.glVertex3f(co[0], co[1], co[2])
+                co = mathutils.Vector((max_x,min_y,min_z))
+                co = wm * co
+                bgl.glVertex3f(co[0], co[1], co[2])
+                bgl.glEnd()
+                bgl.glLineWidth(1)
 
-            r = math.sqrt(x_width*x_width + y_width*y_width + z_width*z_width) / 2
-            draw_elipse(cen, r, (1, 0, 0), 1, wm)
-            draw_elipse(cen, r, (0, 1, 0), 1, wm)
-            draw_elipse(cen, r, (0, 0, 1), 1, wm)
+            if context.window_manager.b4w_draw_bound_sphere:
+                #draw spehere
+                bgl.glColor4f(1.0,0.5,1.0,1.0)
 
-            bgl.glDisable(bgl.GL_BLEND)
+                r = math.sqrt(x_width*x_width + y_width*y_width + z_width*z_width) / 2
+                draw_elipse(cen, r, (1, 0, 0), 1, wm)
+                draw_elipse(cen, r, (0, 1, 0), 1, wm)
+                draw_elipse(cen, r, (0, 0, 1), 1, wm)
 
-        if context.window_manager.b4w_draw_bound_ellipsoid:
+                bgl.glDisable(bgl.GL_BLEND)
 
-            #draw ellipsoid
-            bgl.glLineWidth(1)
-            bgl.glColor4f(1.0,1.0,0.5,1.0) 
+            if context.window_manager.b4w_draw_bound_ellipsoid:
 
-            sq3 = math.sqrt(3) / 2
+                #draw ellipsoid
+                bgl.glColor4f(1.0,1.0,0.5,1.0)
 
-            draw_elipse(cen, sq3*z_width, (1, 0, 0), y_width/z_width, wm)
-            draw_elipse(cen, sq3*x_width, (0, 1, 0), z_width/x_width, wm)
-            draw_elipse(cen, sq3*x_width, (0, 0, 1), y_width/x_width, wm)
+                sq3 = math.sqrt(3) / 2
 
-            bgl.glDisable(bgl.GL_BLEND)
+                draw_elipse(cen, sq3*z_width, (1, 0, 0), y_width/z_width, wm)
+                draw_elipse(cen, sq3*x_width, (0, 1, 0), z_width/x_width, wm)
+                draw_elipse(cen, sq3*x_width, (0, 0, 1), y_width/x_width, wm)
+
+                bgl.glDisable(bgl.GL_BLEND)
 
 def draw_elipse(cen, r, axis, xy_ratio, mat):
 
@@ -208,74 +207,43 @@ def draw_elipse(cen, r, axis, xy_ratio, mat):
 
     bgl.glEnd()
 
-class B4W_DrawBoundings(bpy.types.Operator):
-    bl_idname = 'mesh.draw_boundings'
-    bl_label = 'draw_boundings'
-    bl_description = 'Draw boundings in object mode'
-    _handle = None
-    processed_att = bpy.props.StringProperty()
-
-    def modal(self, context, event):
-        if not (context.window_manager.b4w_draw_boundings or
-                context.window_manager.b4w_draw_bound_sphere or
-                context.window_manager.b4w_draw_bound_ellipsoid):
-            update_view3d_area()
-            bpy.types.SpaceView3D.draw_handler_remove(self._handle, 'WINDOW')
-            return {'CANCELLED'}
-        return {'PASS_THROUGH'}
-
-    def cancel(self, context):
-        if (    context.window_manager.b4w_draw_boundings or
-                context.window_manager.b4w_draw_bound_sphere or
-                context.window_manager.b4w_draw_bound_ellipsoid):
-            context.window_manager.b4w_draw_boundings = False
-            context.window_manager.b4w_draw_bound_sphere = False
-            context.window_manager.b4w_draw_bound_ellipsoid = False
-            bpy.types.SpaceView3D.draw_handler_remove(self._handle, 'WINDOW')
-
-        return {'CANCELLED'}
-
-    def invoke(self, context, event):
-
-        at = getattr(context.window_manager, self.processed_att)
-        if (    context.window_manager.b4w_draw_boundings == False and
-                context.window_manager.b4w_draw_bound_sphere == False and
-                context.window_manager.b4w_draw_bound_ellipsoid == False):
-
-
-            setattr(context.window_manager, self.processed_att, not at)
-            self._handle = bpy.types.SpaceView3D.draw_handler_add(InitGLOverlay, (self, context), 'WINDOW', 'POST_VIEW')
-            context.window_manager.modal_handler_add(self)
-            update_view3d_area()
-            return {'RUNNING_MODAL'}
-        else:
-            setattr(context.window_manager, self.processed_att, not at)
-            update_view3d_area()
-            return {'CANCELLED'}
-
 def update_view3d_area():
     for area in bpy.context.window.screen.areas:
         if area.type == 'VIEW_3D':
             area.tag_redraw()
 
+def switch_boundings_draw(self, context):
+    global _draw_handler
+    wm = context.window_manager
+    if wm.b4w_draw_bound_box or wm.b4w_draw_bound_sphere or \
+                                wm.b4w_draw_bound_ellipsoid:
+        _draw_handler = bpy.types.SpaceView3D.draw_handler_add(draw_boundings,
+                                    (self, context), 'WINDOW', 'POST_VIEW')
+    else:
+        bpy.types.SpaceView3D.draw_handler_remove(_draw_handler, 'WINDOW')
+
+
 def init_properties():
-    bpy.types.WindowManager.b4w_draw_boundings = bpy.props.BoolProperty(
-        name = "B4W: draw boundings",
+    bpy.types.WindowManager.b4w_draw_bound_box = bpy.props.BoolProperty(
+        name = "B4W: draw bounding box",
         default = False,
+        update = switch_boundings_draw
         )
 
     bpy.types.WindowManager.b4w_draw_bound_sphere = bpy.props.BoolProperty(
-        name = "B4W: draw bound sphere",
+        name = "B4W: draw bounding sphere",
         default = False,
+        update = switch_boundings_draw
         )
 
     bpy.types.WindowManager.b4w_draw_bound_ellipsoid = bpy.props.BoolProperty(
-        name = "B4W: draw bound ellipsoid",
+        name = "B4W: draw bounding ellipsoid",
         default = False,
+        update = switch_boundings_draw
         )
 
 def clear_properties():
-    props = ['b4w_draw_boundings', 'b4w_draw_bound_sphere', 'b4w_draw_bound_ellipsoid']
+    props = ['b4w_draw_bound_box', 'b4w_draw_bound_sphere', 'b4w_draw_bound_ellipsoid']
     for p in props:
         if bpy.context.window_manager.get(p) != None:
             del bpy.context.window_manager[p]
@@ -288,14 +256,12 @@ def clear_properties():
 def register():
 
     bpy.utils.register_class(B4W_BoundingsDrawUI)
-    bpy.utils.register_class(B4W_DrawBoundings)
 
     init_properties()
 
 def unregister():
 
     bpy.utils.unregister_class(B4W_BoundingsDrawUI)
-    bpy.utils.unregister_class(B4W_DrawBoundings)
 
     clear_properties()
 

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Node Materials &mdash; User Manual: Blend4Web v15.05</title>
+    <title>Node Materials &mdash; User Manual: Blend4Web v15.06</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '15.05',
+        VERSION:     '15.06',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User Manual: Blend4Web v15.05" href="index.html" />
+    <link rel="top" title="User Manual: Blend4Web v15.06" href="index.html" />
     <link rel="next" title="Lighting, Shadows and Background" href="lighting.html" />
     <link rel="prev" title="Textures" href="textures.html" /> 
   </head>
@@ -36,7 +36,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">User Manual: Blend4Web v15.05</a></div>
+          href="index.html">User Manual: Blend4Web v15.06</a></div>
         <div class="rel" role="navigation" aria-label="related navigation">
           <a href="textures.html" title="Textures"
              accesskey="P">previous</a> |
@@ -64,13 +64,13 @@
 <span id="id2"></span><h2>Standard Nodes<a class="headerlink" href="#generic-node-materials" title="Permalink to this headline">¶</a></h2>
 <p id="index-1">All Blender functions are supported except the following cases:</p>
 <ul class="simple">
-<li><p class="first"><code class="docutils literal"><span class="pre">Geometry</span></code> - the <code class="docutils literal"><span class="pre">Local</span></code>, <code class="docutils literal"><span class="pre">Orco</span></code> and <code class="docutils literal"><span class="pre">Vertex</span> <span class="pre">Alpha</span></code> outputs are not supported.</p>
+<li><p class="first"><code class="docutils literal"><span class="pre">Geometry</span></code> - The <code class="docutils literal"><span class="pre">Vertex</span> <span class="pre">Alpha</span></code> output is not supported</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">Lamp</span> <span class="pre">data</span></code> - The <code class="docutils literal"><span class="pre">Shadow</span></code> output is not supported.</p>
 </li>
 <li><p class="first"><code class="docutils literal"><span class="pre">Material</span></code>, <code class="docutils literal"><span class="pre">Extended</span> <span class="pre">Material</span></code> - no more than one node per material is allowed; the <code class="docutils literal"><span class="pre">Refl</span></code>, <code class="docutils literal"><span class="pre">Ambient</span></code>, <code class="docutils literal"><span class="pre">SpecTra</span></code> inputs are not supported; the <code class="docutils literal"><span class="pre">AO</span></code> output is not supported.</p>
 </li>
-<li><p class="first"><code class="docutils literal"><span class="pre">RGB</span> <span class="pre">Curves</span></code> is not supported.</p>
-</li>
-<li><p class="first"><code class="docutils literal"><span class="pre">Vector</span> <span class="pre">Curves</span></code> is not supported.</p>
+<li><p class="first"><code class="docutils literal"><span class="pre">RGB</span> <span class="pre">Curves</span></code>, <code class="docutils literal"><span class="pre">Vector</span> <span class="pre">Curves</span></code>, <code class="docutils literal"><span class="pre">ColorRamp</span></code> and Cycles-nodes have limited support.</p>
 </li>
 </ul>
 <p>In addition a poor performance of some nodes in real-time context should be taken into account. It is not recommended to use the following nodes:</p>
@@ -85,17 +85,13 @@
 <span id="id3"></span><h2>Engine Specific Nodes<a class="headerlink" href="#custom-node-materials" title="Permalink to this headline">¶</a></h2>
 <p id="index-2">Engine-specific nodes extend functionality of the standard nodes to support extra features. These nodes are created as node groups (<code class="docutils literal"><span class="pre">Node</span> <span class="pre">groups</span></code> or <code class="docutils literal"><span class="pre">Node</span> <span class="pre">tree</span></code>) with specially determined names and input formats. For convenience, all special nodes are added to a blend file when it is opened.</p>
 <img alt="_images/b4w_nodes.png" class="align-center" src="_images/b4w_nodes.png" />
-<div class="admonition seealso">
-<p class="first admonition-title">See also</p>
-<p class="last"><a class="reference internal" href="animation.html#node-anim"><span>Value Node Animation</span></a></p>
-</div>
 <div class="section" id="b4w-linear-to-srgb-b4w-srgb-to-linear">
-<h3>B4W_LINEAR_TO_SRGB and B4W_SRGB_TO_LINEAR<a class="headerlink" href="#b4w-linear-to-srgb-b4w-srgb-to-linear" title="Permalink to this headline">¶</a></h3>
-<p>Color correction from linear color space to sRGB space and back.</p>
-<a class="reference internal image-reference" href="_images/srgb_to_linear.jpg"><img alt="_images/srgb_to_linear.jpg" class="align-center" src="_images/srgb_to_linear.jpg" style="width: 100%;" /></a>
+<span id="node-gamma"></span><h3>B4W_LINEAR_TO_SRGB and B4W_SRGB_TO_LINEAR<a class="headerlink" href="#b4w-linear-to-srgb-b4w-srgb-to-linear" title="Permalink to this headline">¶</a></h3>
+<p>Color correction from linear color space to sRGB space and back. This functionality is declared deprecated since version 15.04 - use Blender&#8217;s native Gamma node instead.</p>
+<img alt="_images/node_srgb_to_linear.png" class="align-center" src="_images/node_srgb_to_linear.png" />
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><a class="reference internal" href="gamma_alpha.html#gamma-nodes"><span>Gamma in Node Materials</span></a></p>
+<p class="last"><a class="reference internal" href="gamma_alpha.html#gamma-node-materials"><span>Gamma in Node Materials</span></a></p>
 </div>
 </div>
 <div class="section" id="b4w-replace">
@@ -112,8 +108,16 @@
 <p>The node limits the output value. As a result all the output vector components take values from 0 to 1 inclusive.</p>
 </div>
 <div class="section" id="b4w-time">
-<h3>B4W_TIME<a class="headerlink" href="#b4w-time" title="Permalink to this headline">¶</a></h3>
-<p>Provides the timeline counting from the engine start (in seconds). May be used for animating any parameters in the node materials.</p>
+<span id="node-time"></span><h3>B4W_TIME<a class="headerlink" href="#b4w-time" title="Permalink to this headline">¶</a></h3>
+<p>Provides the timeline counting from the engine start (in seconds). Can be used for animating any parameters in node materials, such as UV coordinates, mixing factors, transparency etc.</p>
+<img alt="_images/node_time.png" class="align-center" src="_images/node_time.png" />
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="animation.html#node-anim"><span>Animation of Value and RGB Nodes</span></a></p>
+</div>
 </div>
 <div class="section" id="b4w-vector-view">
 <h3>B4W_VECTOR_VIEW<a class="headerlink" href="#b4w-vector-view" title="Permalink to this headline">¶</a></h3>
@@ -399,7 +403,7 @@
           
     <div class="footer" role="contentinfo">
         &copy; Copyright 2015, Triumph LLC.
-      Last updated on 2015-05-26.
+      Last updated on 2015-06-30.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
         </div>

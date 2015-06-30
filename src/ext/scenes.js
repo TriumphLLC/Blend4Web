@@ -5,6 +5,8 @@
  * Most of the routines presented here require an active scene to be set,
  * use get_active() set_active() to do that.
  * @module scenes
+ * @local ColorCorrectionParams
+ * @local SceneMetaTags
  */
 b4w.module["scenes"] = function(exports, require) {
 
@@ -16,6 +18,23 @@ var m_print     = require("__print");
 var physics     = require("__physics");
 var m_scenes    = require("__scenes");
 var m_util      = require("__util");
+
+/**
+ * Color correction params.
+ * @typedef {Object} ColorCorrectionParams
+ * @property {Number} brightness Brightness
+ * @property {Number} contrast Constrast
+ * @property {Number} exposure Exposure
+ * @property {Number} saturation Saturation
+ */
+
+/**
+ * Scene meta tags.
+ * @typedef SceneMetaTags
+ * @type {Object}
+ * @property {String} title The title meta tag.
+ * @property {String} description The description meta tag.
+ */
 
 /**
  * All possible data IDs.
@@ -48,7 +67,7 @@ exports.get_active = function() {
 /**
  * Get all scene names.
  * @method module:scenes.get_scenes
- * @returns {Array} Array of scene names
+ * @returns {String[]} Array of scene names.
  */
 exports.get_scenes = function() {
     var scenes = m_scenes.get_all_scenes();
@@ -59,9 +78,9 @@ exports.get_scenes = function() {
     return scene_names;
 }
 /**
- * Return the active camera object from the active scene
+ * Return the active camera object from the active scene.
  * @method module:scenes.get_active_camera
- * @returns {Object} Camera object ID
+ * @returns {Object3D} Camera object.
  */
 exports.get_active_camera = function() {
     if (!m_scenes.check_active()) {
@@ -76,7 +95,7 @@ exports.get_active_camera = function() {
  * @method module:scenes.get_object_by_name
  * @param {String} name Object name
  * @param {Number} [data_id=0] ID of loaded data
- * @returns {Object} Object ID
+ * @returns {Object3D} Object 3D
  */
 exports.get_object_by_name = function(name, data_id) { 
     var obj = m_scenes.get_object(m_scenes.GET_OBJECT_BY_NAME, name,
@@ -93,7 +112,7 @@ exports.get_object_by_name = function(name, data_id) {
  * @param {String} empty_name Name of the EMPTY object used to duplicate the object
  * @param {String} dupli_name Name of the duplicated object
  * @param {Number} [data_id=0] ID of loaded data
- * @returns {Object} Object ID
+ * @returns {Object3D} Object 3D
  */
 exports.get_object_by_dupli_name = function(empty_name, dupli_name,
         data_id) {
@@ -108,9 +127,9 @@ exports.get_object_by_dupli_name = function(empty_name, dupli_name,
 /**
  * Get the duplicated object by empty name and dupli name list.
  * @method module:scenes.get_object_by_dupli_name_list
- * @param {Array} name_list List of the EMPTY and DUPLI object names: [empty_name,empty_name,...,dupli_name]
- * @param {Number} [data_id=0] ID of loaded data
- * @returns {Object} Object ID
+ * @param {String[]} name_list List of the EMPTY and DUPLI object names: [empty_name,empty_name,...,dupli_name].
+ * @param {Number} [data_id=0] ID of loaded data.
+ * @returns {Object3D} Object 3D.
  */
 exports.get_object_by_dupli_name_list = function(name_list, data_id) {
     var obj = m_scenes.get_object(m_scenes.GET_OBJECT_BY_DUPLI_NAME_LIST,
@@ -124,7 +143,7 @@ exports.get_object_by_dupli_name_list = function(name_list, data_id) {
 /**
  * Returns object data_id property
  * @method module:scenes.get_object_data_id
- * @param {Object} obj Object ID
+ * @param {Object3D} obj Object 3D
  * @returns {Number} data_id Data ID property
  */
 exports.get_object_data_id = function(obj) {
@@ -132,17 +151,17 @@ exports.get_object_data_id = function(obj) {
 }
 
 /**
- * For given mouse coords, render the color scene and return an object
+ * For given mouse coords, render the color scene and return an object.
  * @method module:scenes.pick_object
- * @param x X screen coordinate
- * @param y Y screen coordinate
+ * @param {Number} x X Canvas coordinate.
+ * @param {Number} y Y Canvas coordinate.
  */
 exports.pick_object = m_scenes.pick_object;
 
 /**
  * Outlining is enabled
  * @method module:scenes.outlining_is_enabled
- * @param {Object} obj Object ID
+ * @param {Object3D} obj Object 3D
  * @param {Boolean} value Is enabled?
  */
 exports.outlining_is_enabled = function(obj) {
@@ -152,7 +171,7 @@ exports.outlining_is_enabled = function(obj) {
 /**
  * Set outline intensity for the object.
  * @method module:scenes.set_outline_intensity
- * @param {Object} obj Object ID
+ * @param {Object3D} obj Object 3D
  * @param {Number} value Intensity value
  */
 exports.set_outline_intensity = function(obj, value) {
@@ -165,7 +184,7 @@ exports.set_outline_intensity = function(obj, value) {
 /**
  * Get outline intensity for the object.
  * @method module:scenes.get_outline_intensity
- * @param {Object} obj Object ID
+ * @param {Object3D} obj Object 3D
  * @returns {Number} Intensity value
  */
 exports.get_outline_intensity = function(obj) {
@@ -178,7 +197,7 @@ exports.get_outline_intensity = function(obj) {
 /**
  * Apply outlining animation to the object
  * @method module:scenes.apply_outline_anim
- * @param {Object} obj Object ID
+ * @param {Object3D} obj Object 3D
  * @param {Number} tau Outlining duration
  * @param {Number} T Period of outlining
  * @param {Number} N Number of relapses (0 - infinity)
@@ -193,7 +212,7 @@ exports.apply_outline_anim = function(obj, tau, T, N) {
 /**
  * Apply outlining animation to the object and use the object's default settings
  * @method module:scenes.apply_outline_anim_def
- * @param {Object} obj Object ID
+ * @param {Object3D} obj Object 3D
  */
 exports.apply_outline_anim_def = function(obj) {
     if (obj && obj._render && obj._render.outlining) {
@@ -207,7 +226,7 @@ exports.apply_outline_anim_def = function(obj) {
 /**
  * Stop outlining animation for the object.
  * @method module:scenes.clear_outline_anim
- * @param {Object} obj Object ID
+ * @param {Object3D} obj Object 3D
  */
 exports.clear_outline_anim = function(obj) {
     if (obj && obj._render && obj._render.outlining)
@@ -219,15 +238,15 @@ exports.clear_outline_anim = function(obj) {
 /**
  * Set the color of outline outline effect for active scene.
  * @method module:scenes.set_outline_color
- * @param {Float32Array} color RGB color vector
+ * @param {RGB} color RGB color vector
  */
 exports.set_outline_color = m_scenes.set_outline_color;
 
 /**
  * Get the color of outline outline effect for active scene.
  * @method module:scenes.get_outline_color
- * @param {?Float32Array} dest Destination RGB color vector
- * @returns {Float32Array} Destination RGB color vector
+ * @param {?RGB} dest Destination RGB color vector
+ * @returns {RGB} Destination RGB color vector
  */
 exports.get_outline_color = function(dest) {
     var scene = m_scenes.get_active();
@@ -242,7 +261,7 @@ exports.get_outline_color = function(dest) {
 /**
  * Set outline glow intensity for the object.
  * @method module:scenes.set_glow_intensity
- * @param {Object} obj Object ID
+ * @param {Object3D} obj Object 3D
  * @param {Number} value Intensity value
  * @deprecated use set_outline_intensity() instead
  */
@@ -254,7 +273,7 @@ exports.set_glow_intensity = function(obj, value) {
 /**
  * Get outline glow intensity for the object.
  * @method module:scenes.get_glow_intensity
- * @param {Object} obj Object ID
+ * @param {Object3D} obj Object 3D
  * @returns {Number} Intensity value
  * @deprecated use get_outline_intensity() instead
  */
@@ -266,7 +285,7 @@ exports.get_glow_intensity = function(obj) {
 /**
  * Apply glowing animation to the object
  * @method module:scenes.apply_glow_anim
- * @param {Object} obj Object ID
+ * @param {Object3D} obj Object 3D
  * @param {Number} tau Glowing duration
  * @param {Number} T Period of glowing
  * @param {Number} N Number of relapses (0 - infinity)
@@ -280,7 +299,7 @@ exports.apply_glow_anim = function(obj, tau, T, N) {
 /**
  * Apply glowing animation to the object and use the object's default settings
  * @method module:scenes.apply_glow_anim_def
- * @param {Object} obj Object ID
+ * @param {Object3D} obj Object 3D
  * @deprecated use apply_outline_anim_def() instead
  */
 exports.apply_glow_anim_def = function(obj) {
@@ -291,7 +310,7 @@ exports.apply_glow_anim_def = function(obj) {
 /**
  * Stop glowing animation for the object.
  * @method module:scenes.clear_glow_anim
- * @param {Object} obj Object ID
+ * @param {Object3D} obj Object 3D
  * @deprecated use clear_outline_anim() instead
  */
 exports.clear_glow_anim = function(obj) {
@@ -302,7 +321,7 @@ exports.clear_glow_anim = function(obj) {
 /**
  * Set the color of outline glow effect for active scene.
  * @method module:scenes.set_glow_color
- * @param {Float32Array} color RGB color vector
+ * @param {RGB} color RGB color vector
  * @deprecated use set_outline_color() instead
  */
 exports.set_glow_color = function(color) {
@@ -313,8 +332,8 @@ exports.set_glow_color = function(color) {
 /**
  * Get the color of outline glow effect for active scene.
  * @method module:scenes.get_glow_color
- * @param {?Float32Array} dest Destination RGB color vector
- * @returns {Float32Array} Destination RGB color vector
+ * @param {?RGB} dest Destination RGB color vector.
+ * @returns {RGB} Destination RGB color vector.
  * @deprecated use get_outline_color() instead
  */
 exports.get_glow_color = function(dest) {
@@ -325,7 +344,7 @@ exports.get_glow_color = function(dest) {
 /**
  * Get shadow params.
  * @method module:scenes.get_shadow_params
- * @returns {Object} Shadow params
+ * @returns {ShadowParams} Shadow params
  * @cc_externs enable_csm csm_num csm_first_cascade_border first_cascade_blur_radius
  * @cc_externs csm_last_cascade_border last_cascade_blur_radius csm_resolution
  * @cc_externs self_shadow_normal_offset self_shadow_polygon_offset
@@ -383,7 +402,7 @@ exports.get_shadow_params = function() {
 /**
  * Set shadow params
  * @method module:scenes.set_shadow_params
- * @param {Object} shadow_params Shadow params
+ * @param {ShadowParams} shadow_params Shadow params
  */
 exports.set_shadow_params = function(shadow_params) {
     if (!m_scenes.check_active()) {
@@ -471,8 +490,8 @@ exports.get_environment_colors = function() {
  * Set horizon and/or zenith color(s) of the environment.
  * @method module:scenes.set_environment_colors
  * @param {Number} [opt_environment_energy] Environment Energy
- * @param {Float32Array} [opt_horizon_color] Horizon color
- * @param {Float32Array} [opt_zenith_color] Zenith color
+ * @param {RGB} [opt_horizon_color] Horizon color
+ * @param {RGB} [opt_zenith_color] Zenith color
  */
 exports.set_environment_colors = function(opt_environment_energy,
         opt_horizon_color, opt_zenith_color) {
@@ -489,8 +508,8 @@ exports.set_environment_colors = function(opt_environment_energy,
 /**
  * Get fog color and density.
  * @method module:scenes.get_fog_color_density
- * @param {Float32Array} dest Destnation vector [C,C,C,D]
- * @returns {Float32Array} Destnation vector
+ * @param {Vec4} dest Destnation vector [C,C,C,D]
+ * @returns {Vec4} Destnation vector
  */
 exports.get_fog_color_density = function(dest) {
     if (!m_scenes.check_active()) {
@@ -504,7 +523,7 @@ exports.get_fog_color_density = function(dest) {
 /**
  * Set fog color and density
  * @method module:scenes.set_fog_color_density
- * @param {Float32Array} val Color-density vector [C,C,C,D]
+ * @param {Vec4} val Color-density vector [C,C,C,D]
  */
 exports.set_fog_color_density = function(val) {
     if (!m_scenes.check_active()) {
@@ -518,7 +537,7 @@ exports.set_fog_color_density = function(val) {
 /**
  * Get SSAO params
  * @method module:scenes.get_ssao_params
- * @returns {Object} SSAO params
+ * @returns {SSAOParams} SSAO params
  */
 exports.get_ssao_params = function() {
     if (!m_scenes.check_active()) {
@@ -532,7 +551,7 @@ exports.get_ssao_params = function() {
 /**
  * Set SSAO params
  * @method module:scenes.set_ssao_params
- * @param {Object} ssao_params SSAO params
+ * @param {SSAOParams} ssao_params SSAO params
  * @cc_externs ssao_quality radius_increase ssao_hemisphere
  * @cc_externs ssao_blur_depth ssao_blur_discard_value
  * @cc_externs influence dist_factor ssao_white ssao_only
@@ -549,7 +568,7 @@ exports.set_ssao_params = function(ssao_params) {
 /**
  * Get color correction params
  * @method module:scenes.get_color_correction_params
- * @returns {Object} Color correction params
+ * @returns {ColorCorrectionParams} Color correction params
  * @cc_externs brightness contrast exposure saturation
  */
 exports.get_color_correction_params = function() {
@@ -574,11 +593,11 @@ exports.get_color_correction_params = function() {
 }
 
 /**
- * Set color correction params
+ * Set color correction params.
  * @method module:scenes.set_color_correction_params
- * @param {Object} Color correction params
+ * @param {ColorCorrectionParams} color_corr_params Color correction params.
  */
-exports.set_color_correction_params = function(compos_params) {
+exports.set_color_correction_params = function(color_corr_params) {
     if (!m_scenes.check_active()) {
         m_print.error("No active scene");
         return null;
@@ -589,17 +608,17 @@ exports.set_color_correction_params = function(compos_params) {
     if (!subs)
         return null;
 
-    if (typeof compos_params.brightness == "number")
-        subs.brightness = compos_params.brightness;
+    if (typeof color_corr_params.brightness == "number")
+        subs.brightness = color_corr_params.brightness;
 
-    if (typeof compos_params.contrast == "number")
-        subs.contrast = compos_params.contrast;
+    if (typeof color_corr_params.contrast == "number")
+        subs.contrast = color_corr_params.contrast;
 
-    if (typeof compos_params.exposure == "number")
-        subs.exposure = compos_params.exposure;
+    if (typeof color_corr_params.exposure == "number")
+        subs.exposure = color_corr_params.exposure;
 
-    if (typeof compos_params.saturation == "number")
-        subs.saturation = compos_params.saturation;
+    if (typeof color_corr_params.saturation == "number")
+        subs.saturation = color_corr_params.saturation;
 
     subs.need_perm_uniforms_update = true;
 }
@@ -607,7 +626,7 @@ exports.set_color_correction_params = function(compos_params) {
 /**
  * Get sky params
  * @method module:scenes.get_sky_params
- * @returns {Object} Sky params
+ * @returns {SkyParams} Sky params
  */
 exports.get_sky_params = function() {
     if (!m_scenes.check_active()) {
@@ -621,7 +640,7 @@ exports.get_sky_params = function() {
 /**
  * Set sky params
  * @method module:scenes.set_sky_params
- * @param {Object} sky_params Sky params
+ * @param {SkyParams} sky_params Sky params
  * @cc_externs procedural_skydome use_as_environment_lighting
  * @cc_externs rayleigh_brightness mie_brightness spot_brightness
  * @cc_externs scatter_strength rayleigh_strength mie_strength
@@ -640,7 +659,7 @@ exports.set_sky_params = function(sky_params) {
 /**
  * Get depth-of-field (DOF) params.
  * @method module:scenes.get_dof_params
- * @returns {Object} DOF params
+ * @returns {DOFParams} DOF params
  */
 exports.get_dof_params = function() {
     if (!m_scenes.check_active()) {
@@ -658,7 +677,7 @@ exports.get_dof_params = function() {
 /**
  * Set depth-of-field (DOF) params
  * @method module:scenes.set_dof_params
- * @param {Object} DOF params
+ * @param {DOFParams} DOF params
  * @cc_externs dof_on dof_distance dof_front dof_rear dof_power
  */
 exports.set_dof_params = function(dof_params) {
@@ -673,7 +692,7 @@ exports.set_dof_params = function(dof_params) {
 /**
  * Get god rays parameters
  * @method module:scenes.get_god_rays_params
- * @returns {Object} god rays parameters
+ * @returns {GodRaysParams} god rays parameters
  */
 exports.get_god_rays_params = function() {
     if (!m_scenes.check_active()) {
@@ -691,7 +710,7 @@ exports.get_god_rays_params = function() {
 /**
  * Set god rays parameters
  * @method module:scenes.set_god_rays_params
- * @param {Object} god rays params
+ * @param {GodRaysParams} god rays params
  * @cc_externs god_rays_max_ray_length god_rays_intensity god_rays_steps
  */
 exports.set_god_rays_params = function(god_rays_params) {
@@ -706,7 +725,7 @@ exports.set_god_rays_params = function(god_rays_params) {
 /**
  * Get bloom parameters
  * @method module:scenes.get_bloom_params
- * @returns {Object} bloom parameters
+ * @returns {BloomParams} bloom parameters
  */
 exports.get_bloom_params = function() {
     if (!m_scenes.check_active()) {
@@ -724,7 +743,7 @@ exports.get_bloom_params = function() {
 /**
  * Set bloom parameters
  * @method module:scenes.set_bloom_params
- * @param {Object} bloom params
+ * @param {BloomParams} bloom params
  * @cc_externs bloom_key bloom_edge_lum bloom_blur
  */
 exports.set_bloom_params = function(bloom_params) {
@@ -739,7 +758,7 @@ exports.set_bloom_params = function(bloom_params) {
 /**
  * Get glow material parameters
  * @method module:scenes.get_glow_material_params
- * @returns {Object} glow material parameters
+ * @returns {GlowMaterialParams} glow material parameters
  */
 exports.get_glow_material_params = function() {
     if (!m_scenes.check_active()) {
@@ -758,7 +777,7 @@ exports.get_glow_material_params = function() {
 /**
  * Set glow material parameters
  * @method module:scenes.set_glow_material_params
- * @param {Object} glow material params
+ * @param {GlowMaterialParams} glow material params
  * @cc_externs small_glow_mask_coeff large_glow_mask_coeff small_glow_mask_width large_glow_mask_width
  */
 exports.set_glow_material_params = function(glow_material_params) {
@@ -774,7 +793,7 @@ exports.set_glow_material_params = function(glow_material_params) {
 /**
  * Get wind parameters
  * @method module:scenes.get_wind_params
- * @returns {Object} Wind params
+ * @returns {WindParams} Wind params
  */
 exports.get_wind_params = function() {
     return m_scenes.get_wind_params();
@@ -783,7 +802,7 @@ exports.get_wind_params = function() {
 /**
  * Set wind parameters
  * @method module:scenes.set_wind_params
- * @param {Object} wind params
+ * @param {WindParams} wind params
  * @cc_externs wind_dir wind_strength
  */
 exports.set_wind_params = function(wind_params) {
@@ -798,14 +817,14 @@ exports.set_wind_params = function(wind_params) {
 /**
  * Get water surface level.
  * @method module:scenes.get_water_surface_level
- * @returns {Number} surface level
+ * @returns {Number} Surface level
  */
 exports.get_water_surface_level = m_scenes.get_water_surface_level;
 
 /**
  * Set water params
  * @method module:scenes.set_water_params
- * @param {Object} water params
+ * @param {WaterParams} water params
  * @cc_externs waves_height waves_length water_fog_density water_fog_color
  * @cc_externs dst_noise_scale0 dst_noise_scale1 dst_noise_freq0 dst_noise_freq1
  * @cc_externs dir_min_shore_fac dir_freq dir_noise_scale dir_noise_freq
@@ -821,9 +840,9 @@ exports.set_water_params = function(water_params) {
 }
 
 /**
- * Get water material parameters
+ * Get water material parameters.
  * @method module:scenes.get_water_mat_params
- * @param {Object} water params
+ * @param {WaterParams} water params
  */
 exports.get_water_mat_params = function(water_params) {
     if (!m_scenes.check_active()) {
@@ -835,7 +854,7 @@ exports.get_water_mat_params = function(water_params) {
 }
 
 /**
- * Update scene materials parameters
+ * Update scene materials parameters.
  * @method module:scenes.update_scene_materials_params
  */
 exports.update_scene_materials_params = function() {
@@ -852,7 +871,7 @@ exports.update_scene_materials_params = function() {
  * Hide object.
  * Supported only for dynamic meshes/empties.
  * @method module:scenes.hide_object
- * @param {Object} obj Object ID
+ * @param {Object3D} obj Object 3D
  */
 exports.hide_object = function(obj) {
     if (m_obj.is_dynamic_mesh(obj) || m_util.is_empty(obj))
@@ -865,7 +884,7 @@ exports.hide_object = function(obj) {
  * Show object.
  * Supported only for dynamic meshes/empties.
  * @method module:scenes.show_object
- * @param {Object} obj Object ID
+ * @param {Object3D} obj Object 3D
  */
 exports.show_object = function(obj) {
     if (m_obj.is_dynamic_mesh(obj) || m_util.is_empty(obj))
@@ -878,7 +897,7 @@ exports.show_object = function(obj) {
  * Check if object is hidden.
  * Supported only for dynamic meshes/empties.
  * @method module:scenes.is_hidden
- * @param {Object} obj Object ID
+ * @param {Object3D} obj Object 3D
  * @returns {Boolean} Check result
  */
 exports.is_hidden = function(obj) {
@@ -893,7 +912,7 @@ exports.is_hidden = function(obj) {
 /**
  * Check if object is visible.
  * @method module:scenes.is_visible
- * @param {Object} obj Object ID
+ * @param {Object3D} obj Object 3D
  * @returns {Boolean} Check result
  */
 exports.is_visible = function(obj) {
@@ -903,7 +922,7 @@ exports.is_visible = function(obj) {
 /**
  * Check the object's availability in the active scene.
  * @method module:scenes.check_object
- * @param {Object} obj Object ID
+ * @param {Object3D} obj Object 3D
  * @returns {Boolean} Check result
  * @deprecated use check_object_by_name() instead
  */
@@ -918,7 +937,7 @@ exports.check_object = function(obj) {
 
 /**
  * Check if object with given name is present on scene.
- * @method module:scenes.get_object_by_name
+ * @method module:scenes.check_object_by_name
  * @param {String} name Object name
  * @param {Number} [data_id=0] ID of loaded data
  * @returns {Boolean} Check result
@@ -953,7 +972,7 @@ exports.check_object_by_dupli_name = function(empty_name, dupli_name,
 /**
  * Check if duplicated object is present on scene by empty name and dupli name list.
  * @method module:scenes.check_object_by_dupli_name_list
- * @param {Array} name_list List of the EMPTY and DUPLI object names: [empty_name,empty_name,...,dupli_name]
+ * @param {String[]} name_list List of the EMPTY and DUPLI object names: [empty_name,empty_name,...,dupli_name]
  * @param {Number} [data_id=0] ID of loaded data
  * @returns {Boolean} Check result
  */
@@ -971,7 +990,7 @@ exports.check_object_by_dupli_name_list = function(name_list, data_id) {
  * @method module:scenes.get_all_objects
  * @param {String} [type="ALL"] Type
  * @param {Number} [data_id=DATA_ID_ALL] Objects data id
- * @returns {Array} Array with object IDs
+ * @returns {Object3D[]} Array with objects.
  */
 exports.get_all_objects = function(type, data_id) {
     var scene = m_scenes.get_active();
@@ -988,7 +1007,7 @@ exports.get_all_objects = function(type, data_id) {
 /**
  * Get the object's name.
  * @method module:scenes.get_object_name
- * @param {Object} obj Object ID
+ * @param {Object3D} obj Object 3D
  * @returns {String} Object name
  */
 exports.get_object_name = function(obj) {
@@ -1003,12 +1022,12 @@ exports.get_object_name = function(obj) {
 /**
  * Get the object's type.
  * @method module:scenes.get_object_type
- * @param {Object} obj Object ID
+ * @param {Object3D} obj Object 3D
  * @return {String} Object type
  */
 exports.get_object_type = function(obj) {
     if (!(obj && obj["type"])) {
-        m_print.error("Wrong object ID");
+        m_print.error("Wrong object");
         return "UNDEFINED";
     }
 
@@ -1018,8 +1037,8 @@ exports.get_object_type = function(obj) {
 /**
  * Return the object's parent.
  * @method module:scenes.get_object_dg_parent
- * @param {Object} obj Object ID
- * @returns {Object} Object ID of parent object
+ * @param {Object3D} obj Object 3D
+ * @returns {Object3D} Object 3D of parent object
  */
 exports.get_object_dg_parent = function(obj) {
     return obj._dg_parent;
@@ -1028,8 +1047,8 @@ exports.get_object_dg_parent = function(obj) {
 /**
  * Return the object's children.
  * @method module:scenes.get_object_children
- * @param {Object} obj Object ID
- * @returns {Array} Array of children object IDs
+ * @param {Object3D} obj Object 3D
+ * @returns {Object3D[]} Array of children objects.
  */
 exports.get_object_children = function(obj) {
     return obj._descends.slice(0);
@@ -1038,7 +1057,7 @@ exports.get_object_children = function(obj) {
 /**
  * Find the first character on the active scene.
  * @method module:scenes.get_first_character
- * @returns {Object} Character object ID
+ * @returns {Object3D} Character object.
  */
 exports.get_first_character = function() {
     var sobjs = m_scenes.get_scene_objs(m_scenes.get_active(), "MESH",
@@ -1055,9 +1074,9 @@ exports.get_first_character = function() {
 /**
  * Return the distance to the shore line.
  * @method module:scenes.get_shore_dist
- * @param {Float32Array} trans Current translation
- * @param {Number} [v_dist_mult=1] Vertical distance multiplier
- * @returns {Number} Distance
+ * @param {Vec3} trans Current translation.
+ * @param {Number} [v_dist_mult=1] Vertical distance multiplier.
+ * @returns {Number} Distance.
  */
 exports.get_shore_dist = function(trans, v_dist_mult) {
     if (!v_dist_mult && v_dist_mult !== 0)
@@ -1078,21 +1097,14 @@ exports.get_cam_water_depth = function() {
 /**
  * Return type of mesh object or null.
  * @method module:scenes.get_type_mesh_object
- * @param {Object} obj Object ID
- * @returns {String} Render type: "DYNAMIC" or "STATIC"
+ * @param {Object3D} obj Object 3D.
+ * @returns {String} Render type: "DYNAMIC" or "STATIC".
  */
 exports.get_type_mesh_object = function(obj) {
     if (obj["type"] == "MESH")
         return obj._render.type;
     return null;
 }
-
-/**
- * @typedef SceneMetaTags
- * @type {Object}
- * @property {String} title The title meta tag.
- * @property {String} description The description meta tag.
- */
 
 /**
  * Get the Blender-assigned meta tags from the active scene.
@@ -1113,7 +1125,7 @@ exports.get_meta_tags = function() {
 /**
  * Append copied object to the active scene.
  * @method module:scenes.append_object
- * @param {Object} obj Object ID
+ * @param {Object3D} obj Object 3D
  */
 exports.append_object = function(obj) {
 
@@ -1145,12 +1157,59 @@ exports.append_object = function(obj) {
 /**
  * Remove copied object from the active scene.
  * @method module:scenes.remove_object
- * @param {Object} obj Object ID
+ * @param {Object3D} obj Object 3D
  */
 exports.remove_object = function(obj) {
     if (!m_scenes.remove_object(obj))
         m_print.error("object \"" + obj.name + "\" was not copied.");
 }
-
+/**
+ * Get timeline marker frame by name.
+ * @method module:scenes.marker_frame
+ * @param {String} name Timeline marker name
+ * @returns {Number} Timeline marker frame
+ */
+exports.marker_frame = function(name) {
+    var active_scene = m_scenes.get_active();
+    if (active_scene["timeline_markers"] 
+            && name in active_scene["timeline_markers"])
+        return m_scenes.marker_frame(active_scene, name);
+    else {
+        m_print.error("\"" + name + "\" marker not found.");
+        return 0;
+    }
+}
+/**
+ * Get motion blur params.
+ * @method module:scenes.get_mb_params
+ * @returns {MotionBlurParams} Motion blur params
+ */
+exports.get_mb_params = function() {
+    var scene = m_scenes.get_active();
+    var mb_subs = m_scenes.get_subs(scene, "MOTION_BLUR");
+    if (mb_subs) {
+        var mb_params = {mb_factor : mb_subs.mb_factor,
+                mb_decay_threshold : mb_subs.mb_decay_threshold};
+        return mb_params;
+    } else
+        return null;
+}
+/**
+ * Set motion blur params.
+ * @method module:scenes.set_mb_params
+ * @param {MotionBlurParams} mb_params Motion blur params
+ * @cc_externs mb_factor mb_decay_threshold
+ */
+exports.set_mb_params = function(mb_params) {
+    var scene = m_scenes.get_active();
+    var mb_subs = m_scenes.get_subs(scene, "MOTION_BLUR");
+    if (mb_subs) {
+        if (typeof mb_params.mb_decay_threshold == "number")
+            mb_subs.mb_decay_threshold = mb_params.mb_decay_threshold;
+        if (typeof mb_params.mb_factor == "number")
+            mb_subs.mb_factor = mb_params.mb_factor;
+    } else
+        m_print.error("The motion blur subscene doesn't exist.")
+}
 
 }

@@ -5,6 +5,8 @@ import os, subprocess, shutil, getopt, sys, re
 from pathlib import Path
 from html.parser import HTMLParser
 
+import mimetypes
+
 
 _os_norm = os.path.normpath
 _os_join = os.path.join
@@ -60,6 +62,7 @@ class HTMLProcessor(HTMLParser):
 
         self.js = []
         self.css = []
+        self.favicon = []
         self.meta = []
         self.start_body = 0
         self.end_body = 0
@@ -104,10 +107,16 @@ class HTMLProcessor(HTMLParser):
                 link[attr[0]] = attr[1]
 
                 if attr[0] == "href":
-                    if os.path.basename(attr[1]) in self.css_ignore:
-                        link["no_compile"] = True
+                    mime_type = mimetypes.guess_type(attr[1])[0]
 
-                    self.css.append(link)
+                    if mime_type == "text/css":
+
+                        if os.path.basename(attr[1]) in self.css_ignore:
+                            link["no_compile"] = True
+
+                        self.css.append(link)
+                    elif mime_type == "image/png":
+                        self.favicon.append(link)
 
         if tag == "meta":
             self.meta_list.append(attrs)
@@ -384,6 +393,7 @@ def compile_html(app_path_name, css_paths, js_paths, body_lines,
                  parser, engine_type, new_app_path, ext_path, assets_path):
     meta = parser.meta_list
     title = parser.title
+    favicons = parser.favicon
 
     suffix = ""
 
@@ -497,6 +507,11 @@ def compile_html(app_path_name, css_paths, js_paths, body_lines,
 
     inner_text.append(
         "\n    <title>" + title_text + "</title>")
+
+
+    for favicon in favicons:
+        inner_text.append(
+            "\n    <link rel='shortcut icon' href='" + favicon["href"] + "' />")
 
     for parent in css_paths:
         rel = os.path.relpath(parent, start=new_app_path)

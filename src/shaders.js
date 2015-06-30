@@ -144,6 +144,7 @@ exports.set_default_directives = function(sinfo) {
         "NUM_NORMALMAPS",
         "PARALLAX",
         "PARALLAX_STEPS",
+        "PERSPECTIVE_SHADOW_CAST",
         "PROCEDURAL_FOG",
         "PROCEDURAL_SKYDOME",
         "REFLECTION",
@@ -181,8 +182,7 @@ exports.set_default_directives = function(sinfo) {
         "NUM_LAMP_LIGHTS",
         "MAX_STEPS",
         "BILLBOARD_ALIGN",
-        "SHADOW_SRC",
-        "SHADOW_DST",
+        "SHADOW_USAGE",
         "POST_EFFECT",
         "SSAO_QUALITY",
         "TEXTURE_BLEND_TYPE",
@@ -244,6 +244,7 @@ exports.set_default_directives = function(sinfo) {
         case "NUM_NORMALMAPS":
         case "PARALLAX":
         case "PARALLAX_STEPS":
+        case "PERSPECTIVE_SHADOW_CAST":
         case "PROCEDURAL_FOG":
         case "PROCEDURAL_SKYDOME":
         case "REFLECTION":
@@ -325,11 +326,8 @@ exports.set_default_directives = function(sinfo) {
         case "POST_EFFECT":
             val = "POST_EFFECT_NONE";
             break;
-        case "SHADOW_SRC":
-            val = "SHADOW_SRC_NONE";
-            break;
-        case "SHADOW_DST":
-            val = "SHADOW_DST_NONE";
+        case "SHADOW_USAGE":
+            val = "NO_SHADOWS";
             break;
         case "SSAO_QUALITY":
             val = "SSAO_QUALITY_32";

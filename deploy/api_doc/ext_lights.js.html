@@ -55,7 +55,7 @@ var _max_sun_angle  = 60;
  * If lamps_type is defined, creates a new array
  * @method module:lights.get_lamps
  * @param {String} [lamps_type] Lamps type ("POINT", "SPOT", "SUN", "HEMI")
- * @returns {Array} Array with lamp object IDs
+ * @returns {Object3D[]} Array with lamp objects.
  */
 exports.get_lamps = function(lamps_type) {
 
@@ -78,7 +78,7 @@ exports.get_sun_params = get_sun_params;
 /**
  * Get the sun parameters.
  * @method module:lights.get_sun_params
- * @returns {Object} Sun params object
+ * @returns {SunParams} Sun params object
  * @cc_externs hor_position vert_position
  */
 function get_sun_params() {
@@ -121,7 +121,7 @@ exports.set_sun_params = set_sun_params;
 /**
  * Set the sun parameters.
  * @method module:lights.set_sun_params
- * @param {Object} sun_params sun parameters
+ * @param {SunParams} sun_params sun parameters
  */
 function set_sun_params (sun_params) {
 
@@ -245,8 +245,8 @@ exports.set_max_sun_angle = function(angle) {
 /**
  * Get the light params.
  * @method module:lights.get_light_params
- * @param {Object} lamp_obj Lamp object ID
- * @returns {Object} Light params
+ * @param {Object3D} lamp_obj Lamp object
+ * @returns {LightParams} Light params
  */
 exports.get_light_params = function(lamp_obj) {
 
@@ -297,7 +297,7 @@ exports.get_light_type = get_light_type
 /**
  * Get the light type.
  * @method module:lights.get_light_type
- * @param {Object} lamp_obj Lamp object ID
+ * @param {Object3D} lamp_obj Lamp object.
  * @returns {String} Light type
  */
 function get_light_type(lamp_obj) {
@@ -310,8 +310,8 @@ function get_light_type(lamp_obj) {
 /**
  * Set the light params.
  * @method module:lights.set_light_params
- * @param {Object} lamp_obj Lamp object ID                  
- * @param {Object} light_params Light params
+ * @param {Object3D} lamp_obj Lamp object.
+ * @param {LightParams} light_params Light params
  * @cc_externs light_distance light_spot_size light_spot_blend light_energy light_color
  */
 exports.set_light_params = function(lamp_obj, light_params) {
@@ -466,13 +466,13 @@ function calendar_to_julian(date) {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-rgb.html">rgb</a></li><li><a href="module-rgba.html">rgba</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul><h3><a href="global.html">Global</a></h3>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Tue May 26 2015 12:05:03 GMT+0300 (MSK)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Tue Jun 30 2015 17:18:01 GMT+0300 (MSK)
 </footer>
 
 <script> prettyPrint(); </script>

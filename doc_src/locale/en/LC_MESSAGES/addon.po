@@ -134,13 +134,13 @@ msgstr ""
 "scene is opened in Blender. In this case a dialog window with the error "
 "description is showed."
 
-#: ../addon.rst:82 ../addon.rst:106 ../addon.rst:148 ../addon.rst:289
-#: ../addon.rst:469
+#: ../addon.rst:82 ../addon.rst:106 ../addon.rst:162 ../addon.rst:303
+#: ../addon.rst:491
 msgid "Сообщение об ошибке"
 msgstr "Error message"
 
-#: ../addon.rst:82 ../addon.rst:106 ../addon.rst:148 ../addon.rst:289
-#: ../addon.rst:469
+#: ../addon.rst:82 ../addon.rst:106 ../addon.rst:162 ../addon.rst:303
+#: ../addon.rst:491
 msgid "Причина"
 msgstr "Cause"
 
@@ -174,7 +174,7 @@ msgstr ""
 msgid "версия"
 msgstr "version"
 
-#: ../addon.rst:96 ../addon.rst:126
+#: ../addon.rst:96 ../addon.rst:140
 msgid "ошибки"
 msgstr "errors"
 
@@ -195,50 +195,84 @@ msgstr ""
 
 #: ../addon.rst:108
 msgid ""
-"Version mismatch. File version: VER_OLD, required: VER_NEW. Some "
-"compatibility issues can occur. Reexport scene with the latest B4W addon to "
-"fix it."
+"JSON version is too old relative to B4W engine: VER_OLD, required: VER_NEW. "
+"Reexport scene with the latest B4W addon to fix it."
 msgstr ""
 
 #: ../addon.rst:108
 msgid ""
-"Частичная несовместимость версий. Версия экспортированной сцены - VER_OLD, "
-"движком требуется - VER_NEW. Сцена будет загружена, однако, возможны "
-"различные ошибки. Рекомендуется переэкспортировать сцену аддоном последней "
-"версии, а также использовать последнюю версию движка."
-msgstr ""
-"Partial version incompatibility. The version of the exported scene is "
-"VER_OLD but the engine requires VER_NEW. The scene will be loaded as usual, "
-"however some errors may occur. It's adviced to reexport the scene by using "
-"recent version of addon, and also upgrade Blend4Web engine."
-
-#: ../addon.rst:116
-msgid ""
-"Incompatible file version: VER_OLD, required: VER_NEW. Reexport scene with "
-"the latest B4W addon to fix it."
-msgstr ""
-
-#: ../addon.rst:116
-msgid ""
-"Полная несовместимость версий. Версия экспортированной сцены - VER_OLD, "
+"Версия аддона, которым была экспортирована сцена, сильно устарела: VER_OLD, "
 "движком требуется - VER_NEW. Сцена не будет загружена. Рекомендуется "
 "переэкспортировать сцену аддоном последней версии, а также использовать "
 "последнюю версию движка."
 msgstr ""
-"Total version incompatibility. The version of the exported scene is VER_OLD "
-"but the engine requires VER_NEW. The scene will not be loaded. It's required"
-" to reexport the scene by using recent version of addon, and also upgrade "
-"Blend4Web engine."
+"Version of the add-on, with which the scene was exported, is too old: "
+"VER_OLD. The engine requires: VER_NEW. The scene will not be loaded. We "
+"recommend you to reexport the scene using the latest version of the add-on. "
+"We also recommend to use the latest version of the engine."
 
-#: ../addon.rst:126 ../addon.rst:272
+#: ../addon.rst:116
+msgid ""
+"JSON version is a bit old relative to B4W engine: VER_OLD, required: "
+"VER_NEW. Some compatibility issues can occur. Reexport scene with the latest"
+" B4W addon to fix it."
+msgstr ""
+
+#: ../addon.rst:116
+msgid ""
+"Версия аддона, которым была экспортирована сцена, немного устарела: VER_OLD,"
+" движком требуется - VER_NEW. Сцена будет загружена, однако возможны "
+"различные ошибки. Рекомендуется переэкспортировать сцену аддоном последней "
+"версии, а также использовать последнюю версию движка."
+msgstr ""
+"Version of the add-on, with which the scene was exported, is a bit old: "
+"VER_OLD. The engine requires: VER_NEW. The scene will be loaded as usual, "
+"however some errors may occur. We recommend you to reexport the scene using "
+"the latest version of the add-on. We also recommend to use the latest "
+"version of the engine."
+
+#: ../addon.rst:125
+msgid ""
+"B4W engine version is too old relative to JSON. Can't load the scene. Update"
+" your engine version to fix it."
+msgstr ""
+
+#: ../addon.rst:125
+msgid ""
+"Версия движка сильно устарела по сравнению с версией аддона, которым был "
+"произведен экспорт сцены. Сцена не будет загружена. Рекомендуется "
+"использовать последнюю версию движка и аддона."
+msgstr ""
+"Engine version is too old as compared to version of the add-on with which "
+"the scene was exported. The scene will not be loaded. We recommend you to "
+"use the latest versions of the engine and the add-on."
+
+#: ../addon.rst:131
+msgid ""
+"B4W engine version is a bit old relative to JSON. Some compatibility issues "
+"can occur. Update your engine version to fix it."
+msgstr ""
+
+#: ../addon.rst:131
+msgid ""
+"Версия движка немного устарела по сравнению с версией аддона, которым был "
+"произведен экспорт сцены. Сцена будет загружена, однако возможны различные "
+"ошибки. Рекомендуется использовать последнюю версию движка и аддона."
+msgstr ""
+"Engine version is a bit old as compared to version of the add-on with which "
+"the scene was exported. The scene will be loaded as usual, however some "
+"errors may occur. We recommend you to use the latest versions of the engine "
+"and the add-on."
+
+#: ../addon.rst:140 ../addon.rst:286
 msgid "экспорт"
 msgstr "export"
 
-#: ../addon.rst:131
+#: ../addon.rst:145
 msgid "Критические ошибки экспорта"
 msgstr "Critical Export Errors"
 
-#: ../addon.rst:133
+#: ../addon.rst:147
 msgid ""
 "При возникновении ошибок во время экспорта появляется диалоговое окно "
 "``BLEND4WEB EXPORT ERROR`` с описанием проблемы:"
@@ -246,7 +280,7 @@ msgstr ""
 "In case of export errors a ``BLEND4WEB EXPORT ERROR`` dialog box describing "
 "of the problem appears:"
 
-#: ../addon.rst:135
+#: ../addon.rst:149
 msgid ""
 "``COMPONENT`` - тип компонента (объект, меш, материал, текстура и т.д.), при"
 " экспорте которого произошла ошибка."
@@ -254,21 +288,21 @@ msgstr ""
 "``COMPONENT`` - type of component (object, mesh, material, texture etc) that"
 " has caused the export error."
 
-#: ../addon.rst:137
+#: ../addon.rst:151
 msgid "``NAME`` - имя компонента."
 msgstr "``NAME`` - component name."
 
-#: ../addon.rst:139
+#: ../addon.rst:153
 msgid "``ERROR`` - краткое описание возникшей проблемы на англ. языке."
 msgstr "``ERROR`` - short description of the occured problem."
 
-#: ../addon.rst:150
+#: ../addon.rst:164
 msgid ""
 "Dupli group error; Objects from the GROUP_NAME dupli group on the "
 "OBJECT_NAME object cannot be exported"
 msgstr ""
 
-#: ../addon.rst:150
+#: ../addon.rst:164
 msgid ""
 "Ни один из объектов группы GROUP_NAME, выбранной для дублирования на объекте"
 " OBJECT_NAME, не экспортируется. Требуется разрешить экспорт хотя бы одного "
@@ -279,21 +313,21 @@ msgstr ""
 "at least one object of the group, or to remove the duplication of the group "
 "is required."
 
-#: ../addon.rst:157
+#: ../addon.rst:171
 msgid "Export to different disk is forbidden"
 msgstr ""
 
-#: ../addon.rst:157
+#: ../addon.rst:171
 msgid "Не разрешен экспорт в директорию, находящуюся на другом диске"
 msgstr "Export to a directory located on a different disk is forbidden"
 
-#: ../addon.rst:160
+#: ../addon.rst:174
 msgid ""
 "Incompatible objects with a shared mesh; The OBJECT_NAME object has both "
 "vertex groups and a shared mesh"
 msgstr ""
 
-#: ../addon.rst:160
+#: ../addon.rst:174
 msgid ""
 "Несовместимые объекты с общим мешем. Не допускается экспорт объекта с общим "
 "мешем и вертексными группами. Исключения: экспорт возможен, если на объекте "
@@ -307,19 +341,19 @@ msgstr ""
 "``Export edited normals``, ``Apply scale`` options turned on (because in "
 "these cases a full copying of meshes occurs)."
 
-#: ../addon.rst:172
+#: ../addon.rst:186
 msgid "Incomplete mesh; Material slot is empty"
 msgstr ""
 
-#: ../addon.rst:172
+#: ../addon.rst:186
 msgid "Неполный меш: пустой слот материала."
 msgstr "Material slot is empty."
 
-#: ../addon.rst:175
+#: ../addon.rst:189
 msgid "Incomplete vehicle. The NAME vehicle doesn't have any chassis or hull"
 msgstr ""
 
-#: ../addon.rst:175
+#: ../addon.rst:189
 msgid ""
 "Моделируемое средство передвижения NAME является незавершенным: оно должно "
 "содержать один элемент ``Chassis`` или ``Hull``."
@@ -327,11 +361,11 @@ msgstr ""
 "The modelled NAME vehicle is not complete as it should contain a ``Chassis``"
 " or a ``Hull`` element. "
 
-#: ../addon.rst:180
+#: ../addon.rst:194
 msgid "Incomplete vehicle. The NAME vehicle requires at least one bob"
 msgstr ""
 
-#: ../addon.rst:180
+#: ../addon.rst:194
 msgid ""
 "Моделируемое средство передвижения NAME является незавершенным: оно должно "
 "содержать хотя бы один элемент ``Bob``."
@@ -339,11 +373,11 @@ msgstr ""
 "The modelled NAME vehicle is not complete as it should contain at least one "
 "``Bob`` element. "
 
-#: ../addon.rst:184
+#: ../addon.rst:198
 msgid "Incomplete vehicle. The NAME vehicle requires at least one wheel"
 msgstr ""
 
-#: ../addon.rst:184
+#: ../addon.rst:198
 msgid ""
 "Моделируемое средство передвижения NAME является незавершенным: оно должно "
 "содержать хотя бы один элемент ``wheel``."
@@ -351,19 +385,19 @@ msgstr ""
 "The modelled NAME vehicle is not complete as it should contain at least one "
 "``Wheel`` element. "
 
-#: ../addon.rst:188
+#: ../addon.rst:202
 msgid "Incorrect mesh; Wrong group indices"
 msgstr ""
 
-#: ../addon.rst:188
+#: ../addon.rst:202
 msgid "Меш содержит вершины, привязанные к несуществующей группе."
 msgstr "The mesh has vertices assigned to the non-existing vertex group. "
 
-#: ../addon.rst:191
+#: ../addon.rst:205
 msgid "Incorrect vertex animation; Object has no vertex animation"
 msgstr ""
 
-#: ../addon.rst:191
+#: ../addon.rst:205
 msgid ""
 "Включен экспорт вертексной анимации для объекта, но ни одной анимации не "
 "имеется."
@@ -371,11 +405,11 @@ msgstr ""
 "The object's vertex animation export option is on, but there is no vertex "
 "animation."
 
-#: ../addon.rst:194
+#: ../addon.rst:208
 msgid "Incorrect vertex animation; Unbaked \"ANIM_NAME\" vertex animation"
 msgstr ""
 
-#: ../addon.rst:194
+#: ../addon.rst:208
 msgid ""
 "Включен экспорт вертексной анимации для меша, но анимация ANIM_NAME не "
 "содержит ни одного кадра."
@@ -383,67 +417,67 @@ msgstr ""
 "Vertex animation export is turned on for the mesh, but the ANIM_NAME "
 "animation doesn't have any frames."
 
-#: ../addon.rst:198
+#: ../addon.rst:212
 msgid "Loading of resources from different disk is forbidden"
 msgstr ""
 
-#: ../addon.rst:198
+#: ../addon.rst:212
 msgid ""
 "Не разрешен экспорт ресурсов из директории, находящейся на другом диске."
 msgstr "Loading of resources from different disk is forbidden."
 
-#: ../addon.rst:201
+#: ../addon.rst:215
 msgid "The material has a normal map but doesn't have any material nodes"
 msgstr ""
 
-#: ../addon.rst:201
+#: ../addon.rst:215
 msgid ""
 "Нодовый материал использует ``Normal Mapping``, но не имеет ноды "
 "``Material``."
 msgstr ""
 "The node material uses ``Normal Mapping``, but has no ``Material`` node."
 
-#: ../addon.rst:205
+#: ../addon.rst:219
 msgid "The mesh has a UV map but has no exported material"
 msgstr ""
 
-#: ../addon.rst:205
+#: ../addon.rst:219
 msgid ""
 "Меш имеет текстурную развертку, но не имеет материала, который бы "
 "экспортировался."
 msgstr "The mesh has a UV map layer but has no material for export."
 
-#: ../addon.rst:212
+#: ../addon.rst:226
 msgid "The mesh has a vertex color layer but has no exported material"
 msgstr ""
 
-#: ../addon.rst:212
+#: ../addon.rst:226
 msgid ""
 "Меш имеет слой вертексного цвета, но не имеет материала, который бы "
 "экспортировался."
 msgstr "The mesh has a vertex color layer but has no material for export."
 
-#: ../addon.rst:216
+#: ../addon.rst:230
 msgid "Missing lamp"
 msgstr ""
 
-#: ../addon.rst:216
+#: ../addon.rst:230
 msgid "На сцене должен быть хотя бы один источник света."
 msgstr "There should be at least one light source in the scene."
 
-#: ../addon.rst:219
+#: ../addon.rst:233
 msgid "No such file or directory"
 msgstr ""
 
-#: ../addon.rst:219
+#: ../addon.rst:233
 msgid "Данная директория не существует."
 msgstr "The file or directory does not exist."
 
-#: ../addon.rst:221
+#: ../addon.rst:235
 msgid "Object constraint has no target"
 msgstr ""
 
-#: ../addon.rst:221
+#: ../addon.rst:235
 msgid ""
 "Для ограничителя объекта (вкладка ``Object Constraints``) не установлено "
 "свойство ``Target Object``."
@@ -451,29 +485,29 @@ msgstr ""
 "The ``Target Object`` property for the object constraint (on the ``Object "
 "Constraints`` tab) was not set."
 
-#: ../addon.rst:226
+#: ../addon.rst:240
 msgid "Particle system error; Dupli group isn't specified"
 msgstr ""
 
-#: ../addon.rst:226
+#: ../addon.rst:240
 msgid ""
 "Ошибка системы частиц. Не выбрана группа, используемая в качестве частицы."
 msgstr "Particle system error: no group is selected as a particle."
 
-#: ../addon.rst:229
+#: ../addon.rst:243
 msgid "Particle system error; Dupli object isn't specified"
 msgstr ""
 
-#: ../addon.rst:229
+#: ../addon.rst:243
 msgid ""
 "Ошибка системы частиц. Не выбран объект, используемый в качестве частицы."
 msgstr "Particle system error: no object is selected as a particle."
 
-#: ../addon.rst:232
+#: ../addon.rst:246
 msgid "Particle system error; Dupli object OBJECT_NAME doesn't export"
 msgstr ""
 
-#: ../addon.rst:232
+#: ../addon.rst:246
 msgid ""
 "Ошибка системы частиц. Объект OBJECT_NAME, выбранный в качестве частицы, не "
 "экспортируется (на нем выбрана опция ``Do not export``)."
@@ -481,13 +515,13 @@ msgstr ""
 "The OBJECT_NAME object which is selected as a particle can not be exported "
 "(the ``Do not export`` checkbox is set)."
 
-#: ../addon.rst:237
+#: ../addon.rst:251
 msgid ""
 "Particle system error; The GROUP_NAME dupli group contains no valid object "
 "for export"
 msgstr ""
 
-#: ../addon.rst:237
+#: ../addon.rst:251
 msgid ""
 "Ошибка системы частиц. Ни один подходящий объект из группы GROUP_NAME, "
 "выбранной в качестве частицы, не экспортируется. Либо на таких объектах "
@@ -499,11 +533,11 @@ msgstr ""
 "enabled or the types of the objects are unsuitable. Supported object types: "
 "``MESH``."
 
-#: ../addon.rst:245
+#: ../addon.rst:259
 msgid "Particle system error; Wrong dupli object type TYPE_NAME"
 msgstr ""
 
-#: ../addon.rst:245
+#: ../addon.rst:259
 msgid ""
 "Ошибка системы частиц. В качестве частицы выбран объект неподходящего типа. "
 "Поддерживаемые типы: ``MESH``."
@@ -511,20 +545,20 @@ msgstr ""
 "An object of unsuitable type is selected for the particle. Supported types: "
 "``MESH``."
 
-#: ../addon.rst:249
+#: ../addon.rst:263
 msgid "Permission denied"
 msgstr ""
 
-#: ../addon.rst:249
+#: ../addon.rst:263
 msgid "Нет прав доступа к текущей директории."
 msgstr "No access rights to the current directory."
 
-#: ../addon.rst:251
+#: ../addon.rst:265
 msgid ""
 "Wrong edited normals count; It doesn't match with the mesh vertices count"
 msgstr ""
 
-#: ../addon.rst:251
+#: ../addon.rst:265
 msgid ""
 "Число редактируемых нормалей не совпадает с числом вершин меша. Требуется "
 "сделать ``Clean Up`` либо ``Save`` в панели ``B4W Vertex Normals Editor``."
@@ -533,11 +567,11 @@ msgstr ""
 " Execute ``Clean Up`` or ``Save`` in the ``B4W Vertex Normals Editor`` "
 "panel."
 
-#: ../addon.rst:257
+#: ../addon.rst:271
 msgid "Wrong overridden bounding box; Check the mesh's bounding box values"
 msgstr ""
 
-#: ../addon.rst:257
+#: ../addon.rst:271
 msgid ""
 "Указаны неверные размеры при переопределении ``BoundingBox`` для меша: "
 "минимальное значение больше максимального для хотя бы одного из измерений."
@@ -546,13 +580,13 @@ msgstr ""
 "minimum value is greater than maximum value for at least one of the "
 "dimensions."
 
-#: ../addon.rst:262
+#: ../addon.rst:276
 msgid ""
 "Wrong vertex animation vertices count; It doesn't match with the mesh "
 "vertices count for \"ANIM_NAME\""
 msgstr ""
 
-#: ../addon.rst:262
+#: ../addon.rst:276
 msgid ""
 "Включен экспорт вертексной анимации, но число вершин покадрово в анимации "
 "ANIM_NAME не совпадает с числом вершин меша. Возможное решение - "
@@ -562,15 +596,15 @@ msgstr ""
 "ANIM_NAME animation frames does not match the mesh vertices number. Possible"
 " solution is to \"re-bake\" the animation."
 
-#: ../addon.rst:272
+#: ../addon.rst:286
 msgid "предупреждения об ошибках экспорта"
 msgstr "warnings about export errors"
 
-#: ../addon.rst:275
+#: ../addon.rst:289
 msgid "Некритические ошибки экспорта"
 msgstr "Non-Critical Export Errors"
 
-#: ../addon.rst:277
+#: ../addon.rst:291
 msgid ""
 "В отличие от критических ошибок экспорта, рассмотренных ранее, данные ошибки"
 " не препятствуют экспорту, однако могут приводить к некорректному "
@@ -582,39 +616,39 @@ msgstr ""
 "messages can be viewed in the browser console (opens with ``F12``) when a "
 "scene is loaded. The message looks like this:"
 
-#: ../addon.rst:280
+#: ../addon.rst:294
 msgid "``B4W EXPORT ERROR: Сообщение об ошибке``"
 msgstr "``B4W EXPORT ERROR: Error message``"
 
-#: ../addon.rst:291
+#: ../addon.rst:305
 msgid "Canvas texture ID NAME already exists. Texture NAME."
 msgstr ""
 
-#: ../addon.rst:291
+#: ../addon.rst:305
 msgid "Данный идентификатор для объекта типа ``Canvas`` уже существует."
 msgstr "This ``Canvas`` ID already exists."
 
-#: ../addon.rst:294
+#: ../addon.rst:308
 msgid "Empty canvas texture ID for texture NAME."
 msgstr ""
 
-#: ../addon.rst:294
+#: ../addon.rst:308
 msgid "Пустое поле идентификатора для объекта типа ``Canvas``."
 msgstr "``Canvas`` ID is empty."
 
-#: ../addon.rst:297
+#: ../addon.rst:311
 msgid "Empty material slot in node \\\"NAME\\\". Material: \\\"NAME\\\"."
 msgstr ""
 
-#: ../addon.rst:297
+#: ../addon.rst:311
 msgid "Не задан материал в ноде: \\\"NAME\\\""
 msgstr "Empty material slot in \\\"NAME\\\" node."
 
-#: ../addon.rst:300
+#: ../addon.rst:314
 msgid "Exported UV-layer is missing in node \"GEOMETRY\". Material: NAME."
 msgstr ""
 
-#: ../addon.rst:300
+#: ../addon.rst:314
 msgid ""
 "В ноде типа ``GEOMETRY`` указан не экспортируемый UV-слой для текстурных "
 "координат типа UV."
@@ -622,22 +656,22 @@ msgstr ""
 "The UV layer specified in the ``GEOMETRY`` node is not exported (for UV "
 "texture coordinates)."
 
-#: ../addon.rst:304
+#: ../addon.rst:318
 msgid "Exported UV-layer is missing in texture NAME. [Material: NAME.]"
 msgstr ""
 
-#: ../addon.rst:304
+#: ../addon.rst:318
 msgid ""
 "В текстуре указан не экспортируемый UV-слой для текстурных координат типа "
 "UV."
 msgstr ""
 "Exported UV-layer is missing in the texture (for UV texture coordinates)."
 
-#: ../addon.rst:307
+#: ../addon.rst:321
 msgid "Ignoring LODs after empty LOD for the NAME object."
 msgstr ""
 
-#: ../addon.rst:307
+#: ../addon.rst:321
 msgid ""
 "В списке LOD объектов, настроенных для объекта NAME, были проигнорированы "
 "все LOD объекты, следующие за пустым."
@@ -645,13 +679,13 @@ msgstr ""
 "All LOD objects that follow the empty slot were ignored (in the LOD objects "
 "list for the NAME object)."
 
-#: ../addon.rst:311
+#: ../addon.rst:325
 msgid ""
 "Incomplete mesh NAME; Dynamic grass vertex colors required by material "
 "settings"
 msgstr ""
 
-#: ../addon.rst:311
+#: ../addon.rst:325
 msgid ""
 "Неполный меш: специальный материал для ландшафта использует опции ``Dynamic "
 "grass size`` и/или ``Dynamic grass color``, но у меша нет слоев вертексного "
@@ -661,11 +695,11 @@ msgstr ""
 "by the special terrain material but the mesh has no vertex colors with such "
 "names."
 
-#: ../addon.rst:317
+#: ../addon.rst:331
 msgid "Incomplete mesh; No UV in mesh with UV-textured material"
 msgstr ""
 
-#: ../addon.rst:317
+#: ../addon.rst:331
 msgid ""
 "Неполный меш: в материале меша используются текстуры с типом координат "
 "``UV``, но у меша нет текстурной развертки."
@@ -673,11 +707,11 @@ msgstr ""
 "In the material of the mesh there are textures with texture coordinates type"
 " ``UV``, but the mesh lacks UV map layers."
 
-#: ../addon.rst:322
+#: ../addon.rst:336
 msgid "Incomplete mesh; Material settings require vertex colors"
 msgstr ""
 
-#: ../addon.rst:322
+#: ../addon.rst:336
 msgid ""
 "Неполный меш: материал меша имеет включенную опцию вертексного цвета "
 "(``Vertex Color Paint``), но у меша нет слоя вертексного цвета."
@@ -685,59 +719,59 @@ msgstr ""
 "The ``Vertex Color Paint`` option is enabled for the mesh material, but the "
 "mesh has no vertex color layers."
 
-#: ../addon.rst:327
+#: ../addon.rst:341
 msgid "Incorrect NLA script, falling back to simple sequential NLA."
 msgstr ""
 
-#: ../addon.rst:327
+#: ../addon.rst:341
 msgid ""
 "Некорректный NLA-скрипт. Вместо него будет использоваться стандартная NLA-"
 "анимация."
 msgstr "Incorrect NLA script, falling back to simple sequential NLA."
 
-#: ../addon.rst:331
+#: ../addon.rst:345
 msgid "Invalid link found in node material. Material: \\\"NAME\"\\."
 msgstr ""
 
-#: ../addon.rst:331
+#: ../addon.rst:345
 msgid ""
 "Нодовый материал с именем \\\"NAME\\\" содержит некорректные связи между "
 "нодами."
 msgstr "The \\\"NAME\\\" node material contains an incorrect link between nodes."
 
-#: ../addon.rst:334
+#: ../addon.rst:348
 msgid "No image in the NAME texture. [Material: NAME.]"
 msgstr ""
 
-#: ../addon.rst:334
+#: ../addon.rst:348
 msgid "У текстуры отсутствует изображение."
 msgstr "The texture has no image."
 
-#: ../addon.rst:337
+#: ../addon.rst:351
 msgid "No texture for the NAME particle settings texture slot."
 msgstr ""
 
-#: ../addon.rst:337
+#: ../addon.rst:351
 msgid "В текстурном слоте системы частиц отсутствует текстура."
 msgstr "No texture in the particle settings' texture slot."
 
-#: ../addon.rst:340
+#: ../addon.rst:354
 msgid "No texture in the NAME world texture slot."
 msgstr ""
 
-#: ../addon.rst:340
+#: ../addon.rst:354
 msgid "В текстурном слоте объекта ``World`` отсутствует текстура."
 msgstr "No texture in the NAME world's texture slot"
 
-#: ../addon.rst:343
+#: ../addon.rst:357
 msgid "No texture in the texture slot. Material: NAME."
 msgstr ""
 
-#: ../addon.rst:343
+#: ../addon.rst:357
 msgid "В текстурном слоте материала отсутствует текстура."
 msgstr "There is no texture in the material texture slot."
 
-#: ../addon.rst:346
+#: ../addon.rst:360
 msgid ""
 "Ошибка нодового материала. Типы входа и выхода связи между нодами "
 "``FROM_NODE`` и ``TO_NODE`` не соответствуют друг другу."
@@ -745,19 +779,19 @@ msgstr ""
 "Node material error: the input and output types of the link between the "
 "``FROM_NODE`` and ``TO_NODE`` nodes should match."
 
-#: ../addon.rst:346
+#: ../addon.rst:360
 msgid ""
 "Node material invalid: \\\"NAME\\\". Check sockets compatibility: "
 "\\\"FROM_NODE\\\" with \\\"TO_NODE\\\"."
 msgstr ""
 
-#: ../addon.rst:350
+#: ../addon.rst:364
 msgid ""
 "Object \\\"NAME\\\" has the mesh with shape keys. The property "
 "\\\"Relative\\\" of mesh has been enabled."
 msgstr ""
 
-#: ../addon.rst:350
+#: ../addon.rst:364
 msgid ""
 "Объект с именем \\\"NAME\\\" имеет меш с опорными фигурами. На меше было "
 "включено свойство \\\"Relative\\\"."
@@ -765,11 +799,11 @@ msgstr ""
 "An object named \\\"NAME\\\" has a mesh with shape keys. This mesh has the "
 "\\\"Relative\\\" property enabled which is forbidden."
 
-#: ../addon.rst:357
+#: ../addon.rst:371
 msgid "Only 2 UV textures are allowed for a mesh; The mesh has N UVs."
 msgstr ""
 
-#: ../addon.rst:357
+#: ../addon.rst:371
 msgid ""
 "Движком поддерживаются только до 2 UV текстур на каждый меш. Меш содержит UV"
 " текстуры в количестве N."
@@ -777,14 +811,14 @@ msgstr ""
 "The engine supports up to 2 UV texture layers for each mesh. The number of "
 "UV layers for this mesh is N. "
 
-#: ../addon.rst:361
+#: ../addon.rst:375
 msgid ""
 "Particle system error for \\\"NAME\\\"; The \\\"NAME\\\" vertex color "
 "specified in the ``from`` field is missing in the last of the "
 "\\\"OBJECT_NAME\\\" object's vertex colors"
 msgstr ""
 
-#: ../addon.rst:361
+#: ../addon.rst:375
 msgid ""
 "Ошибка системы частиц. Вертексный цвет NAME указанный в поле ``from``, "
 "отсутствует в эмиттере OBJECT_NAME."
@@ -792,14 +826,14 @@ msgstr ""
 "The NAME vertex color is specified in the ``from`` field but it not present "
 "in the OBJECT_NAME emitter."
 
-#: ../addon.rst:367
+#: ../addon.rst:381
 msgid ""
 "Particle system error for \\\"NAME\\\"; The \\\"NAME\\\" vertex color "
 "specified in the ``to`` field is missing in the list of the "
 "\\\"OBJECT_NAME\\\" object's vertex colors"
 msgstr ""
 
-#: ../addon.rst:367
+#: ../addon.rst:381
 msgid ""
 "Ошибка системы частиц. Вертексный цвет NAME указанный в поле ``to``, "
 "отсутствует в объекте OBJECT_NAME, выбранном в качестве частицы."
@@ -807,14 +841,14 @@ msgstr ""
 "The NAME vertex color is specified in the ``to`` field but it is not present"
 " in the OBJECT_NAME object which is selected as a particle."
 
-#: ../addon.rst:373
+#: ../addon.rst:387
 msgid ""
 "Particle system error for \\\"NAME\\\"; The \\\"NAME\\\" vertex color "
 "specified in the \"``to`` field is missing in the \\\"OBJECT_NAME\\\" object"
 " (\\\"GROUP_NAME\\\" dupli group)"
 msgstr ""
 
-#: ../addon.rst:373
+#: ../addon.rst:387
 msgid ""
 "Ошибка системы частиц. Вертексный цвет NAME указанный в поле ``to``, не "
 "присутствует в объекте OBJECT_NAME группы GROUP_NAME, выбранной в качестве "
@@ -824,31 +858,59 @@ msgstr ""
 " in the OBJECT_NAME object of the GROUP_NAME group which is selected as a "
 "particle. "
 
-#: ../addon.rst:379
+#: ../addon.rst:393
+msgid ""
+"The main scene NAME can not be rendered by another scene. Material NAME has "
+"been removed."
+msgstr ""
+
+#: ../addon.rst:393
+msgid ""
+"Основная сцена NAME не может отображаться другой сценой. Материал NAME был "
+"удален."
+msgstr ""
+"The main scene NAME can not be rendered by another scene. The material NAME "
+"has been deleted."
+
+#: ../addon.rst:397
+msgid ""
+"The main scene NAME can not be rendered by another scene. Texture NAME has "
+"been removed."
+msgstr ""
+
+#: ../addon.rst:397
+msgid ""
+"Основная сцена NAME не может отображаться другой сценой. Текстура NAME был "
+"удалена."
+msgstr ""
+"The main scene NAME can not be rendered by another scene. The texture NAME "
+"has been deleted."
+
+#: ../addon.rst:401
 msgid "The NAME action has decimal frames. Converted to integer."
 msgstr ""
 
-#: ../addon.rst:379
+#: ../addon.rst:401
 msgid "Анимация NAME содержит дробные значения кадров. Округлено до целых."
 msgstr "The NAME action has decimal frames. Converted to integer."
 
-#: ../addon.rst:382
+#: ../addon.rst:404
 msgid ""
 "The NAME armature modifier has a proxy object as an armature. Modifier "
 "removed."
 msgstr ""
 
-#: ../addon.rst:382
+#: ../addon.rst:404
 msgid "Модификатор арматуры имеет прокси объект в качестве арматуры."
 msgstr "An armature modifier has a proxy object as an armature."
 
-#: ../addon.rst:386
+#: ../addon.rst:408
 msgid ""
 "The NAME armature modifier has no armature object or it is not exported. "
 "Modifier removed."
 msgstr ""
 
-#: ../addon.rst:386
+#: ../addon.rst:408
 msgid ""
 "В модификаторе NAME типа ``Armature`` не указан объект, либо объект не "
 "экспортируется. Модификатор удален."
@@ -856,55 +918,55 @@ msgstr ""
 "The NAME ``Armature`` modifier has no armature object or it is not exported."
 " Modifier removed."
 
-#: ../addon.rst:390
+#: ../addon.rst:412
 msgid "The NAME curve modifier has no curve object. Modifier removed."
 msgstr ""
 
-#: ../addon.rst:390
+#: ../addon.rst:412
 msgid ""
 "В модификаторе NAME типа ``Curve`` не указан объект. Модификатор удален."
 msgstr "The NAME curve modifier has no object. Modifier removed."
 
-#: ../addon.rst:393
+#: ../addon.rst:415
 msgid ""
 "The NAME curve modifier has unsupported curve object. Modifier removed."
 msgstr ""
 
-#: ../addon.rst:393
+#: ../addon.rst:415
 msgid ""
 "В модификаторе NAME типа ``Curve`` указан неподходящий объект. Модификатор "
 "удален."
 msgstr "The NAME curve modifier has unsupported object. Modifier removed."
 
-#: ../addon.rst:397
+#: ../addon.rst:419
 msgid ""
 "The NAME object has the NAME armature modifier and a vertex animation. "
 "Modifier removed."
 msgstr ""
 
-#: ../addon.rst:397
+#: ../addon.rst:419
 msgid ""
 "Объект NAME имеет вертексную анимацию и арматурный модификатор. Модификатор "
 "удален."
 msgstr ""
-"The NAME object has both vertex animation and an armature modifier "
-"which is not supported. As a result, the modifier has been removed."
+"The NAME object has both vertex animation and an armature modifier which is "
+"not supported. As a result, the modifier has been removed."
 
-#: ../addon.rst:401
+#: ../addon.rst:423
 msgid "The NAME LAMP node has no lamp object. Material: NAME."
 msgstr ""
 
-#: ../addon.rst:401
+#: ../addon.rst:423
 msgid "В ноде NAME типа ``LAMP`` не указан подходящий объект."
 msgstr "Wrong object specified in the NAME ``LAMP`` node."
 
-#: ../addon.rst:404
+#: ../addon.rst:426
 msgid ""
 "The NAME node is not supported. The NAME material will be rendered without "
 "nodes. Material: NAME."
 msgstr ""
 
-#: ../addon.rst:404
+#: ../addon.rst:426
 msgid ""
 "Нода с данным именем не поддерживается движком, поэтому нодовый материал "
 "будет отключён. Чаще всего проблемы подобного рода возникают при "
@@ -913,13 +975,13 @@ msgstr ""
 "The engine does not support the node with the this name, and so the node "
 "material will be turned off. Often this happens when Cycles nodes are used."
 
-#: ../addon.rst:410
+#: ../addon.rst:432
 msgid ""
 "The NAME object has NAME armature modifier which references the wrong group."
 " Modifier removed."
 msgstr ""
 
-#: ../addon.rst:410
+#: ../addon.rst:432
 msgid ""
 "Объект должен находиться в той же группе, что и арматура или оба объекта "
 "должны явно присутствовать на сцене."
@@ -927,13 +989,13 @@ msgstr ""
 "An object should be in the same group as an armature, or both these objects "
 "should be explicitly present in the scene."
 
-#: ../addon.rst:416
+#: ../addon.rst:438
 msgid ""
 "Using B4W_REFRACTION node NODE_NAME with incorrect type of Alpha Blend. "
 "Material: NAME."
 msgstr ""
 
-#: ../addon.rst:416
+#: ../addon.rst:438
 msgid ""
 "Используется нодовый материал с неправильно заданным свойством Alpha Blend. "
 "Допускается значение ``Alpha sort``, ``Alpha blend`` и ``Add`` при "
@@ -942,13 +1004,13 @@ msgstr ""
 "A node material with incorrect Alpha Blend property is used. ``Alpha sort``,"
 " ``Alpha blend`` and ``Add`` are allowed when using a \"REFRACTION\" node."
 
-#: ../addon.rst:422
+#: ../addon.rst:444
 msgid ""
 "Wind bending: not all vertex colors exist for \\\"NAME\\\". Properties were "
 "set to default values."
 msgstr ""
 
-#: ../addon.rst:422
+#: ../addon.rst:444
 msgid ""
 "Настройки процедурной анимации деревьев: должны существовать все указанные "
 "слои вертексных цветов."
@@ -956,13 +1018,13 @@ msgstr ""
 "Wind bending parameters setup: all specified vertex color layers should "
 "exist."
 
-#: ../addon.rst:427
+#: ../addon.rst:449
 msgid ""
 "Wind bending: vertex colors weren't properly assigned for \\\"NAME\\\". "
 "Properties were set to default values."
 msgstr ""
 
-#: ../addon.rst:427
+#: ../addon.rst:449
 msgid ""
 "Настройки процедурной анимации деревьев; должны быть указаны названия всех "
 "слоев вертексных цветов (``Main stiffness (A)``, ``Leaves stiffness (R)``, "
@@ -974,13 +1036,13 @@ msgstr ""
 "``Leaves phase (G)``, ``Overall stiffness (B)``), or of the main one only "
 "(``Main stiffness (A)``), or of none of them."
 
-#: ../addon.rst:438
+#: ../addon.rst:460
 msgid ""
 "Wrong \"Height Map\" input for the \"NAME\" B4W_PARALLAX node. Only link "
 "from the TEXTURE node with a non-empty texture is allowed."
 msgstr ""
 
-#: ../addon.rst:438
+#: ../addon.rst:460
 msgid ""
 "На вход \"Height Map\" ноды NAME типа ``B4W_PARALLAX`` подаются некорректные"
 " данные. Разрешено подавать только выход из ноды типа ``TEXTURE`` с "
@@ -990,11 +1052,11 @@ msgstr ""
 "``B4W_PARALLAX`` node. Only the output from a non-empty ``TEXTURE`` node is "
 "allowed."
 
-#: ../addon.rst:444
+#: ../addon.rst:466
 msgid "Wrong texture coordinates type in texture NAME. [Material: NAME.]"
 msgstr ""
 
-#: ../addon.rst:444
+#: ../addon.rst:466
 msgid ""
 "Для текстур с изображением (image) поддерживаются следующие типы координат: "
 "``UV``, ``Normal`` и ``Generated``."
@@ -1002,19 +1064,19 @@ msgstr ""
 "The following coordinate types are supported for image textures: ``UV``, "
 "``Normal`` and ``Generated``."
 
-#: ../addon.rst:448
+#: ../addon.rst:470
 msgid "Wrong vertex color layer is used in node \"GEOMETRY\". [Material: NAME.]"
 msgstr ""
 
-#: ../addon.rst:448
+#: ../addon.rst:470
 msgid "В ноде \"GEOMETRY\" используется неправильно заданный вертексный слой."
 msgstr "Wrong vertex color layer is used in a \"GEOMETRY\" node."
 
-#: ../addon.rst:456
+#: ../addon.rst:478
 msgid "Прочие сообщения"
 msgstr "Other Messages"
 
-#: ../addon.rst:458
+#: ../addon.rst:480
 msgid ""
 "Сообщения выводятся в консоли браузера (горячая клавиша ``F12``) при "
 "загрузке сцены. Сообщение имеет вид:"
@@ -1022,17 +1084,17 @@ msgstr ""
 "These messages can be viewed in the browser console (opens with ``F12``) "
 "when a scene is loaded. The message looks like this:"
 
-#: ../addon.rst:460
+#: ../addon.rst:482
 msgid ""
 "``B4W EXPORT WARNING: Сообщение экспорта, требующее внимания пользователя``"
 msgstr ""
 "``B4W EXPORT WARNING: Export message which requires the user's attention``"
 
-#: ../addon.rst:471
+#: ../addon.rst:493
 msgid "Missing active camera or wrong active camera object"
 msgstr ""
 
-#: ../addon.rst:471
+#: ../addon.rst:493
 msgid ""
 "На сцене отсутствует активная камера (свойство ``Camera`` на вкладке "
 "``Scene``)."
@@ -1040,21 +1102,36 @@ msgstr ""
 "There is no active camera on the scene (``Camera`` property on the ``Scene``"
 " tab)."
 
-#: ../addon.rst:475
+#: ../addon.rst:497
 msgid "Missing world or wrong active world object"
 msgstr ""
 
-#: ../addon.rst:475
+#: ../addon.rst:497
 msgid "На сцене должен быть хотя бы один мир."
 msgstr "There should be at least one world datablock in the scene."
 
-#: ../addon.rst:478
+#: ../addon.rst:500
+msgid ""
+"NAME particle settings has the NAME texture rendering a scene. It has been "
+"replaced by the default texture."
+msgstr ""
+
+#: ../addon.rst:500
+msgid ""
+"NAME система частиц имеет NAME текстуру, которая отображает сцену. Эта "
+"текстура была заменена на стандартную."
+msgstr ""
+"The particle settings datablock NAME contains the texture NAME being used "
+"for rendering a scene into. This texture has been replaced by a default "
+"texture."
+
+#: ../addon.rst:505
 msgid ""
 "The \\\"NAME\\\" camera has unsupported PANORAMIC type. Changed to "
 "PERSPECTIVE type.\""
 msgstr ""
 
-#: ../addon.rst:478
+#: ../addon.rst:505
 msgid ""
 "Панорамная камера не поддерживается. Будет использована перспективная "
 "камера."

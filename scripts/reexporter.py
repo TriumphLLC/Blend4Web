@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import os,sys,subprocess,json, multiprocessing, time
+import os,sys,subprocess,json, multiprocessing, platform, queue, time
 from html.parser import HTMLParser
 
 ROOT_DIR = os.path.normpath(os.path.join(os.path.abspath(os.path.dirname(__file__)), ".."))
@@ -26,14 +26,19 @@ CYAN = "\033[96m"
 WHITE = "\033[97m"
 ENDCOL = "\033[0m"
 
-_report_only = None
-_json_only = None
-_html_only = None
-_manifest = None
+_blender_exec = ""
+_blender_report_op = None
 
+_report_only = False
+_json_only = False
+_html_only = False
+
+_manifest = None
 _assets_file = open(MANIFEST)
 _assets_data = json.load(_assets_file)
 _assets_file.close()
+
+_queue = multiprocessing.Queue()
 
 class FindMeta(HTMLParser):
     def __init__(self):
@@ -63,6 +68,48 @@ def help():
     print("Available options:", "report_only,", "json_only,", "html_only")
 
 
+def report(*args):
+    if check_win():
+        print_report(*args)
+    else:
+        _queue.put(args)
+
+def print_report(type, preamble, *messages):
+
+    message = " ".join(messages)
+
+    if platform.system() == "Windows":
+        is_win = True
+    else:
+        is_win = False
+
+    if type == "ERROR":
+        if _blender_report_op:
+            _blender_report_op({"ERROR"}, preamble + " " + message)
+        elif is_win:
+            print(preamble, message)
+        else:
+            print(RED + " " + preamble + ENDCOL, message)
+    elif type == "WARN":
+        if _blender_report_op:
+            _blender_report_op({"WARNING"}, preamble + " " + message)
+        elif is_win:
+            print(preamble, message)
+        else:
+            print(YELLOW + " " + preamble + ENDCOL, message)
+    elif type == "GOOD":
+        if _blender_report_op:
+            _blender_report_op({"INFO"}, preamble + " " + message)
+        elif is_win:
+            print(preamble, message)
+        else:
+            print(GREEN + " " + preamble + ENDCOL, message)
+    else:
+        if _blender_report_op:
+            _blender_report_op({"INFO"}, preamble + " " + message)
+        else:
+            print(preamble, message)
+
 def reexport_json(path):
     json_data = open(path)
 
@@ -70,7 +117,7 @@ def reexport_json(path):
         data = json.load(json_data)
         json_data.close()
     except:
-        print(RED + " [BAD JSON]" + ENDCOL, path)
+        report("ERROR", "[BAD JSON]", path)
         json_data.close()
         return
 
@@ -82,27 +129,27 @@ def reexport_json(path):
     blend_path = b4w_blend_path or b2w_blend_path
 
     if blend_path == "":
-        print(RED + " [UNSAVED BLEND]" + ENDCOL, path)
+        report("ERROR", "[UNSAVED BLEND]", path)
         return
 
     if not blend_path:
-        print(RED + " [OLD]" + ENDCOL, path)
+        report("ERROR", "[OLD]", path)
         return
 
     # use absolute paths to get blender happy
     blend = os.path.abspath(os.path.normpath(os.path.join(os.path.dirname(path), blend_path)))
 
     if not os.path.isfile(blend):
-        print (RED + " [NO BLEND]" + ENDCOL, path)
+        report("ERROR", "[NO BLEND]", path)
         return
 
-    ret = subprocess.check_output(["blender", "-b", blend, "-P", GET_EXPORT_PATH], stderr=subprocess.STDOUT)
-    ret = ret.decode("utf-8").split("B4W Export Path = ")[1].split("\n")[0]
+    ret = subprocess.check_output([_blender_exec, "-b", blend, "-P", GET_EXPORT_PATH], stderr=subprocess.STDOUT)
+    ret = ret.decode("utf-8").split("B4W Export Path = ")[1].splitlines()[0]
 
     saved_path = os.path.normpath(ret)
 
     if not saved_path == os.path.abspath(path):
-        print(RED + " [WRONG PATH]" + ENDCOL, path, blend)
+        report("ERROR", "[WRONG PATH]", path, blend)
         return
 
     if _manifest:
@@ -122,19 +169,18 @@ def reexport_json(path):
                     break
 
         if not coincidence:
-            print(YELLOW + " [NOT IN MANIFEST]" + ENDCOL, path, blend)
+            report("WARN", "[NOT IN MANIFEST]", path, blend)
 
     if not _report_only:
         try:
-            ret = subprocess.check_output(["blender", "-b", blend, "-P",
+            ret = subprocess.check_output([_blender_exec, "-b", blend, "-P",
                     REEXPORTER, "--", saved_path], stderr=subprocess.STDOUT)
             if ret.decode("utf-8").find("EXPORT OK") == -1:
-                print(RED + " [EXPORT FAILURE]" + ENDCOL, path, blend)
+                report("ERROR", "[EXPORT FAILURE]", path, blend)
             else:
-                print(GREEN + " [OK]" + ENDCOL, path)
+                report("GOOD", "[OK]", path)
         except:
-            print(RED + " [BLENDER CRASH]" + ENDCOL, path, blend)
-
+            report("ERROR", "[BLENDER CRASH]", path, blend)
 
 def reexport_html(path):
     html_file = open(path)
@@ -151,35 +197,94 @@ def reexport_html(path):
         return
 
     if blend_path == "" and b4w_meta:
-        print(RED + " [EMPTY META CONTENT]" + ENDCOL, path)
+        report("ERROR", "[EMPTY META CONTENT]", path)
         return
 
     blend = os.path.abspath(os.path.normpath(os.path.join(os.path.dirname(path), blend_path)))
 
     if not os.path.isfile(blend):
-        print (RED + " [NO BLEND]" + ENDCOL, path)
+        report("ERROR", " [NO BLEND]", path)
         return
 
-    ret = subprocess.check_output(["blender", "-b", blend, "-P", GET_EXPORT_HTML_PATH], stderr=subprocess.STDOUT)
+    ret = subprocess.check_output([_blender_exec, "-b", blend, "-P", GET_EXPORT_HTML_PATH], stderr=subprocess.STDOUT)
     ret = ret.decode("utf-8").split("B4W Export HTML Path = ")[1].split("\n")[0]
     saved_path = os.path.normpath(ret)
 
     if not saved_path == os.path.abspath(path):
-        print(RED + " [WRONG PATH]" + ENDCOL, path, blend)
+        report("ERROR", "[WRONG PATH]", path, blend)
         return
 
     if not _report_only:
         if b4w_meta:
             try:
-                ret = subprocess.check_output(["blender", "-b", blend, "-P",
+                ret = subprocess.check_output([_blender_exec, "-b", blend, "-P",
                         HTML_REEXPORTER, "--", saved_path], stderr=subprocess.STDOUT)
                 if ret.decode("utf-8").find("EXPORT OK") == -1:
-                    print(RED + " [EXPORT FAILURE]" + ENDCOL, saved_path, blend)
+                    report("ERROR", "[EXPORT FAILURE]", saved_path, blend)
                 else:
-                    print(GREEN + " [OK]" + ENDCOL, path)
+                    report("GOOD", "[OK]", path)
             except:
-                print(RED + " [BLENDER CRASH]" + ENDCOL, path, blend)
+                report("ERROR", "[BLENDER CRASH]", path, blend)
 
+def check_win():
+    if platform.system() == "Windows":
+        return True
+    else:
+        return False
+
+def reexport(blender_exec, json_dir, html_dir, blender_report_op=None):
+    global _queue, _blender_exec, _blender_report_op, _html_only, _json_only
+
+    _blender_exec = blender_exec
+    _blender_report_op = blender_report_op
+
+    filepathes = []
+    html_filepathes = []
+
+    if (not _html_only and _json_only) or (not _html_only and not _json_only):
+        for root, dirs, files in os.walk(json_dir):
+            for f in files:
+                ext = os.path.splitext(f)[1]
+                if ext == ".json":
+                    path = os.path.join(root, f)
+                    filepathes.append(path)
+
+    if (_html_only and not _json_only) or (not _html_only and not _json_only):
+        for root, dirs, files in os.walk(html_dir):
+            for f in files:
+                ext = os.path.splitext(f)[1]
+                if ext == ".html":
+                    path = os.path.join(root, f)
+                    html_filepathes.append(path)
+
+    # no multiprocessing on window
+    if check_win():
+        for f in filepathes:
+            reexport_json(f)
+
+        for f in html_filepathes:
+            reexport_html(f)
+    else:
+        count = multiprocessing.cpu_count()
+        pool = multiprocessing.Pool(processes = count)
+
+        result = pool.map_async(reexport_json, filepathes)
+
+        while not result.ready():
+            try:
+                msg = _queue.get(timeout=1)
+                print_report(*msg)
+            except queue.Empty:
+                pass
+
+        result = pool.map_async(reexport_html, html_filepathes)
+
+        while not result.ready():
+            try:
+                msg = _queue.get(timeout=1)
+                print_report(*msg)
+            except queue.Empty:
+                pass
 
 if __name__ == "__main__":
 
@@ -203,32 +308,11 @@ if __name__ == "__main__":
             manifest_file = open(MANIFEST, "r")
             _manifest = manifest_file.read()
             manifest_file.close()
-            print(GREEN + " [MANIFEST FOUND]" + ENDCOL, MANIFEST)
+            report("GOOD", "[MANIFEST FOUND]", MANIFEST)
         except:
-            print(RED + " [MANIFEST NOT FOUND]" + ENDCOL, MANIFEST)
+            report("ERROR", "[MANIFEST NOT FOUND]", MANIFEST)
 
-    filepathes = []
-    html_filepathes = []
-
-    if (not _html_only and _json_only) or (not _html_only and not _json_only):
-        for root, dirs, files in os.walk(DEPLOY_DIR):
-            for f in files:
-                ext = os.path.splitext(f)[1]
-                if ext == ".json":
-                    path = os.path.join(root, f)
-                    filepathes.append(path)
-
-    if (_html_only and not _json_only) or (not _html_only and not _json_only):
-        for root, dirs, files in os.walk(ROOT_DIR):
-            for f in files:
-                ext = os.path.splitext(f)[1]
-                if ext == ".html":
-                    path = os.path.join(root, f)
-                    html_filepathes.append(path)
-
-    count = multiprocessing.cpu_count()
-    pool = multiprocessing.Pool(processes = count)
-    pool.map(reexport_json, filepathes)
-    pool.map(reexport_html, html_filepathes)
+    reexport("blender", DEPLOY_DIR, ROOT_DIR)
 
     print("Finished after:", round(time.time() - start), "seconds")
+

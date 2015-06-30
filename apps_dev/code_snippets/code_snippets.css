@@ -28,6 +28,10 @@ table td pre {
     width: 47%;
     word-wrap: normal;
     margin-right: 10px;
+    background-color: #f8f8f8;
+    border: 1px solid #ccc;
+    padding: 6px 10px;
+    border-radius: 3px;
 }
 
 table td:first-child pre {
@@ -56,7 +60,7 @@ div#schedule {
     left: 30px;
 }
 
-@media screen and (max-height: 570px) {
+@media screen and (max-height: 670px) {
     div#schedule {
         width: 400px;
     }
@@ -67,7 +71,7 @@ div#schedule {
     }
 }
 
-@media screen and (max-height: 370px) {
+@media screen and (max-height: 420px) {
     div#schedule {
         width: 600px;
     }
@@ -91,8 +95,8 @@ div#code_panel {
     right: 20%;
     background-color: white;
     overflow: hidden;
-    border: 2px solid black;
-    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 1);
+    border: 2px solid rgba(150, 150, 150, 0.7);
+    box-shadow: 0px 0px 10px 0px rgba(150, 150, 150, 0.7);
 }
 
 a.text,

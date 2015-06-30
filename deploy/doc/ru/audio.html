@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Звуковая подсистема &mdash; Руководство пользователя: Blend4Web v15.05</title>
+    <title>Звуковая подсистема &mdash; Руководство пользователя: Blend4Web v15.06</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '15.05',
+        VERSION:     '15.06',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v15.05" href="index.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v15.06" href="index.html" />
     <link rel="next" title="Физика" href="physics.html" />
     <link rel="prev" title="Гамма-коррекция и альфа-композитинг" href="gamma_alpha.html" /> 
   </head>
@@ -37,7 +37,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">Руководство пользователя: Blend4Web v15.05</a></div>
+          href="index.html">Руководство пользователя: Blend4Web v15.06</a></div>
         <div class="rel" role="navigation" aria-label="related navigation">
           <a href="gamma_alpha.html" title="Гамма-коррекция и альфа-композитинг"
              accesskey="P">назад</a> |
@@ -67,52 +67,61 @@
 <div class="section" id="id2">
 <h2>Настройка звуковых источников<a class="headerlink" href="#id2" title="Ссылка на этот заголовок">¶</a></h2>
 <p>Настройки спикера выставляются в панели <code class="docutils literal"><span class="pre">Properties</span></code> на вкладке <code class="docutils literal"><span class="pre">Object</span> <span class="pre">Data</span></code>.</p>
-<p>Движком поддерживаются все стандартные параметры. Специфичные для движка настройки располагаются на панели <code class="docutils literal"><span class="pre">Blend4Web</span></code>.</p>
-<dl class="docutils">
-<dt><em>Speaker behavior</em></dt>
-<dd><p class="first">Поведение звукового источника.</p>
+<p>Движком поддерживаются все стандартные для Blender параметры звука и некоторые специфические для движка опции.</p>
+<p><em>Speaker behavior</em>:</p>
+<blockquote>
+<div><p>Поведение звукового источника.</p>
 <p><code class="docutils literal"><span class="pre">Positional</span></code> &#8212; высококачественный звук, допускающий позиционирование и
 имеющий направленность (конусность). Для рендеринга используется Web Audio
 API. Воспроизведение подобных звуков обладает наименьшей производительностью,
 поэтому их использовать целесообразно только для коротких сэмплов.</p>
-<p><code class="docutils literal"><span class="pre">Background</span> <span class="pre">sound</span></code> &#8212; высококачественный всенаправленный звук без возможности
+<p><code class="docutils literal"><span class="pre">Background</span> <span class="pre">Sound</span></code> &#8212; высококачественный всенаправленный звук без возможности
 позиционирования в пространстве. Для рендеринга используется Web Audio API.
 Более производителен, однако нецелесообразен для музыки.</p>
-<p class="last"><code class="docutils literal"><span class="pre">Background</span> <span class="pre">music</span></code> &#8212; используется для воспроизведения музыки. Максимальная
+<p><code class="docutils literal"><span class="pre">Background</span> <span class="pre">Music</span></code> &#8212; используется для воспроизведения музыки. Максимальная
 производительность вследствие использования тега Audio, минимальная гибкость.</p>
-</dd>
-<dt><em>Disable doppler</em></dt>
-<dd>Игнорировать смещение частоты источника при его перемещении.</dd>
-<dt><em>Cyclic play</em></dt>
-<dd>Зацикливать воспроизведение звука.</dd>
-<dt><em>Delay</em></dt>
-<dd>Задержка в секундах перед началом проигрывания звука.</dd>
-<dt><em>Random delay</em></dt>
-<dd>Дополнительная рандомизация задержки, результирующее значение определяется
-по формуле <span class="math">\(Delay_{result} = Delay + Delay_{random} * Random_{[0-1]}\)</span>.</dd>
-<dt><em>Random volume</em></dt>
-<dd>Дополнительная рандомизация громкости. Результирующее значение определяется
-аналогично задержке.</dd>
-<dt><em>Random pitch</em></dt>
-<dd>Дополнительная рандомизация скорости проигрывания звука. Результирующее значение определяется
-аналогично задержке.</dd>
-<dt><em>Fade-in</em></dt>
-<dd>Интервал плавного включения звука.</dd>
-<dt><em>Fade-out</em></dt>
-<dd>Интервал плавного выключения звука.</dd>
-<dt><em>Loop</em></dt>
-<dd>Зацикливать воспроизведение звука. Отличается от <code class="docutils literal"><span class="pre">Cyclic</span> <span class="pre">play</span></code>,
+</div></blockquote>
+<p>На панели <code class="docutils literal"><span class="pre">Sound</span></code> доступны следующие настройки:</p>
+<p><em>Volume</em></p>
+<blockquote>
+<div>Громкость источника.</div></blockquote>
+<p><em>Random Volume</em></p>
+<blockquote>
+<div>Дополнительная рандомизация громкости. Результирующее значение определяется
+аналогично задержке.</div></blockquote>
+<p><em>Pitch</em></p>
+<blockquote>
+<div>Скорость проигрывания (высота) звука.</div></blockquote>
+<p><em>Random Pitch</em></p>
+<blockquote>
+<div>Дополнительная рандомизация скорости проигрывания звука. Результирующее значение определяется
+аналогично задержке.</div></blockquote>
+<p><em>Fade-In</em></p>
+<blockquote>
+<div>Интервал плавного включения звука.</div></blockquote>
+<p><em>Fade-Out</em></p>
+<blockquote>
+<div>Интервал плавного выключения звука.</div></blockquote>
+<p><em>Disable doppler</em></p>
+<blockquote>
+<div>Игнорировать смещение частоты источника при его перемещении.</div></blockquote>
+<p><em>Cyclic play</em></p>
+<blockquote>
+<div>Зацикливать воспроизведение звука.</div></blockquote>
+<p><em>Delay</em></p>
+<blockquote>
+<div>Задержка в секундах перед началом проигрывания звука.</div></blockquote>
+<p><em>Random Delay</em></p>
+<blockquote>
+<div>Дополнительная рандомизация задержки, результирующее значение определяется
+по формуле <span class="math">\(Delay_{result} = Delay + Delay_{random} * Random_{[0-1]}\)</span>.</div></blockquote>
+<p><em>Loop</em></p>
+<blockquote>
+<div>Зацикливать воспроизведение звука. Отличается от <code class="docutils literal"><span class="pre">Cyclic</span> <span class="pre">Play</span></code>,
 тем, что способен обеспечить нулевую задержку при повторении. Опция доступна
 только для звуковых источников с поведением <code class="docutils literal"><span class="pre">Positional</span></code> или <code class="docutils literal"><span class="pre">Background</span>
-<span class="pre">sound</span></code>.</dd>
-<dt><em>Loop count</em></dt>
-<dd>Не реализовано</dd>
-<dt><em>Random loop count</em></dt>
-<dd>Не реализовано</dd>
-<dt><em>Playlist ID</em></dt>
-<dd>Не реализовано</dd>
-</dl>
-<a class="reference internal image-reference" href="_images/speaker_settings.jpg"><img alt="_images/speaker_settings.jpg" class="align-center" src="_images/speaker_settings.jpg" style="width: 100%;" /></a>
+<span class="pre">Sound</span></code>.</div></blockquote>
+<a class="reference internal image-reference" href="_images/speaker_settings.png"><img alt="_images/speaker_settings.png" class="align-center" src="_images/speaker_settings.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -213,7 +222,7 @@ API. Воспроизведение подобных звуков обладае
           
     <div class="footer" role="contentinfo">
         &copy; Copyright 2015, ООО &#34;Триумф&#34;.
-      Обновлено: 2015-05-26.
+      Обновлено: 2015-06-30.
       Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
         </div>

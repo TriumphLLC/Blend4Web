@@ -316,7 +316,7 @@ function apply_resolution_factor(graph) {
                 && subs1.type != "SMAA_NEIGHBORHOOD_BLENDING") || 
                 has_lower_subs(graph, subs1, "ANTIALIASING") ||
                 subs1.type == "ANCHOR_VISIBILITY"))
-            slink.size_mult *= cfg_def.resolution_factor;
+            slink.size_mult *= cfg_def.render_resolution_factor;
     });
 }
 
@@ -388,7 +388,7 @@ function tex_aquire(storage, slink, slink_id) {
         }
     }
 
-    if (storage_item_free && !DEBUG_DISABLE_TEX_REUSE) {
+    if (storage_item_free && !(DEBUG_DISABLE_TEX_REUSE || cfg_def.macos_tex_reuse_hack)) {
         storage_item_free.ref++;
         return storage_item_free.tex;
     } else {
@@ -507,8 +507,8 @@ function assign_render_targets(graph) {
 
 /**
  * Prepare full-featured rendering graph for given scene render.
- * @param {Object} sc_render Scene render object
- * @param {Object} cam_render Camera render object
+ * @param {Object3D} sc_render Scene render object
+ * @param {Object3D} cam_render Camera render object
  * @param {Boolean} render_to_textures Textures for offscreen rendering
  * @returns Rendering graph
  */
@@ -522,7 +522,6 @@ exports.create_rendering_graph = function(sc_render, cam_render, render_to_textu
     var curr_level = [];
 
     // per eye
-    var depth_pack_subscenes  = [];
     var glow_combine_subscenes = [];
 
     var slinks_main_color_o   = [];
@@ -564,6 +563,7 @@ exports.create_rendering_graph = function(sc_render, cam_render, render_to_textu
     var outline_params  = sc_render.outline_params;
     var dof             = sc_render.dof;
     var depth_tex       = sc_render.depth_tex;
+    var refractions      = sc_render.refractions;
 
     var rtt = Boolean(render_to_textures.length);
 
@@ -738,11 +738,15 @@ exports.create_rendering_graph = function(sc_render, cam_render, render_to_textu
 
             subs_depth = create_subs_depth_shadow(graph, cam_depth,
                                                   shadow_params);
+            depth_subscenes.push(subs_depth);
+
             m_graph.append_node_attr(graph, subs_depth);
 
-            if (render_shadows) {
+            if (m_debug.check_depth_only_issue())
+                subs_depth.slinks_internal.push(create_slink("COLOR",
+                        "COLOR", 1, 1, true));
 
-                depth_subscenes.push(subs_depth);
+            if (render_shadows) {
 
                 for (var j = 0; j < shadow_subscenes.length; j++) {
                     var subs_shadow = shadow_subscenes[j];
@@ -780,18 +784,7 @@ exports.create_rendering_graph = function(sc_render, cam_render, render_to_textu
                     m_graph.append_edge_attr(graph, subs_ssao, subs_ssao_blur, slink_ssao);
                     m_graph.append_edge_attr(graph, subs_depth, subs_ssao_blur, slink_depth_d);
                 }
-
-                var cam_depth_pack = cam_copy(cam_depth);
-                cam_render.cameras.push(cam_depth_pack);
-
-                var subs_depth_pack = create_subs_depth_pack(cam_depth_pack);
-                m_graph.append_node_attr(graph, subs_depth_pack);
-                m_graph.append_edge_attr(graph, subs_depth, subs_depth_pack,
-                        create_slink("DEPTH", "u_depth", 1, 1, true));
-
-                depth_pack_subscenes.push(subs_depth_pack);
-            } else
-                depth_pack_subscenes.push(subs_depth);
+            }
 
             if (subs_grass_map) {
                 m_graph.append_edge_attr(graph, subs_grass_map, subs_depth,
@@ -925,12 +918,24 @@ exports.create_rendering_graph = function(sc_render, cam_render, render_to_textu
                 m_graph.append_edge_attr(graph, subs_shadow, subs_main, slink_shadow);
             }
 
-            var subs_depth = depth_pack_subscenes[i];
-            var slink_depth_in = create_slink("COLOR", "u_scene_depth", 1, 1, true);
-            // disable filtering for packed depth
-            slink_depth_in.min_filter = m_tex.TF_NEAREST;
-            slink_depth_in.mag_filter = m_tex.TF_NEAREST;
-            m_graph.append_edge_attr(graph, subs_depth, subs_main, slink_depth_in);
+            if (mat_params.refractions && refractions || shore_smoothing) {
+                var subs_depth = depth_subscenes[i];
+
+                var cam_depth_pack = cam_copy(subs_depth.camera);
+                cam_render.cameras.push(cam_depth_pack);
+                var subs_depth_pack = create_subs_depth_pack(cam_depth_pack);
+
+                m_graph.append_node_attr(graph, subs_depth_pack);
+                
+                var slink_depth_pack_in = create_slink("DEPTH", "u_depth", 1, 1, true);
+                var slink_depth_pack_out = create_slink("COLOR", "u_scene_depth", 1, 1, true);
+                // disable filtering for packed depth
+                slink_depth_pack_out.min_filter = m_tex.TF_NEAREST;
+                slink_depth_pack_out.mag_filter = m_tex.TF_NEAREST;
+
+                m_graph.append_edge_attr(graph, subs_depth, subs_depth_pack, slink_depth_pack_in);
+                m_graph.append_edge_attr(graph, subs_depth_pack, subs_main, slink_depth_pack_out);
+            }
         }
 
         if (reflect_subscenes.length) {
@@ -1501,7 +1506,7 @@ exports.create_rendering_graph = function(sc_render, cam_render, render_to_textu
                 slink_aa_in.mag_filter = m_tex.TF_LINEAR;
                 m_graph.append_edge_attr(graph, subs_prev, subs_aa, slink_aa_in);
 
-                if (cfg_def.resolution_factor > 1) {
+                if (cfg_def.render_resolution_factor > 1) {
                     var subs_rescale = create_subs_postprocessing("NONE");
                     m_graph.append_node_attr(graph, subs_rescale);
                     m_graph.append_edge_attr(graph, subs_aa, subs_rescale, slink_aa_in);
@@ -1641,18 +1646,20 @@ exports.create_rendering_graph = function(sc_render, cam_render, render_to_textu
 
     enforce_graph_consistency(graph, depth_tex);
 
-    if (cfg_def.resolution_factor > 1)
+    if (cfg_def.render_resolution_factor > 1)
         apply_resolution_factor(graph);
 
     process_subscene_links(graph);
     assign_render_targets(graph);
 
-    for (var i = 0; i < depth_subscenes.length; i++)
-        prepare_shadow_receive_subs(graph, depth_subscenes[i]);
-    for (var i = 0; i < blend_subscenes.length; i++)
-        prepare_shadow_receive_subs(graph, blend_subscenes[i]);
-    for (var i = 0; i < xray_subscenes.length; i++)
-        prepare_shadow_receive_subs(graph, xray_subscenes[i]);
+    if (render_shadows) {
+        for (var i = 0; i < depth_subscenes.length; i++)
+            prepare_shadow_receive_subs(graph, depth_subscenes[i]);
+        for (var i = 0; i < blend_subscenes.length; i++)
+            prepare_shadow_receive_subs(graph, blend_subscenes[i]);
+        for (var i = 0; i < xray_subscenes.length; i++)
+            prepare_shadow_receive_subs(graph, xray_subscenes[i]);
+    }
 
     return graph;
 }
@@ -1935,7 +1942,9 @@ function prepare_shadow_receive_subs(graph, subs) {
         // shadow map with optional blurring
         if (input.type == "SHADOW_CAST") {
             // assign uniforms from cast camera
-            var cam_cast = find_upper_subs(graph, input, "SHADOW_CAST").camera;
+            var cam_cast = input.camera;
+
+            subs.perspective_cast_far_bound = cam_cast.far / (cam_cast.far - cam_cast.near);
 
             // by link
             subs.v_light_matrix = cam_cast.view_matrix;
@@ -2293,7 +2302,7 @@ function create_subs_aa() {
     subs.clear_depth = false;
     subs.depth_test = false;
 
-    subs.texel_size_multiplier = 1 / cfg_def.resolution_factor;
+    subs.texel_size_multiplier = 1 / cfg_def.render_resolution_factor;
     subs.texel_mask[0] = 1;
     subs.texel_mask[1] = 1;
 
@@ -2313,7 +2322,7 @@ function create_subs_smaa(pass) {
 
     subs.clear_depth = false;
     subs.depth_test = false;
-    subs.texel_size_multiplier = 1 / cfg_def.resolution_factor;
+    subs.texel_size_multiplier = 1 / cfg_def.render_resolution_factor;
     subs.texel_mask[0] = 1;
     subs.texel_mask[1] = 1;
 
@@ -2421,8 +2430,8 @@ function create_subs_god_rays(cam, water, ray_length, pack, step,
     subs.clear_depth = false;
     subs.depth_test = false;
 
-    subs.horizon_color = [1, 1, 1];
-    subs.zenith_color = [1, 1, 1];
+    subs.horizon_color = new Float32Array([1, 1, 1]);
+    subs.zenith_color = new Float32Array([1, 1, 1]);
 
     subs.environment_energy = 1;
 
@@ -2505,8 +2514,8 @@ function create_subs_sky(num_lights, sky_params) {
     var num_lfac = num_lights % 2 == 0 ? num_lights * 2: num_lights * 2 + 2;
     subs.light_factors           = new Float32Array(num_lfac);
 
-    subs.horizon_color = [1, 1, 1];
-    subs.zenith_color = [1, 1, 1];
+    subs.horizon_color = new Float32Array([1, 1, 1]);
+    subs.zenith_color = new Float32Array([1, 1, 1]);
 
     subs.environment_energy = 1;
 

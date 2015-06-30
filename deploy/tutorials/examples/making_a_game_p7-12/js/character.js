@@ -131,9 +131,9 @@ function init_island_detection() {
 
 function setup_ground_sensor(ground_sens) {
     var island_sens = m_ctl.create_ray_sensor(_char_wrapper.phys_body, [0, 0, 0],
-                                          [0, -0.30, 0], false, "ISLAND");
+                                          [0, -0.30, 0], "ISLAND", true);
     var lava_sens = m_ctl.create_ray_sensor(_char_wrapper.phys_body, [0, 0, 0],
-                                          [0, -0.30, 0], false, "LAVA");
+                                          [0, -0.30, 0], "LAVA", true);
     function ground_cb(obj, id, pulse) {
         var val = pulse == 1? 1: 0;
         m_ctl.set_custom_sensor(ground_sens, val)

@@ -33,6 +33,9 @@ exports.update_scene_nla = function(scene, is_cyclic, thread_id) {
         frame_end: scene["frame_end"],
         frame_offset: 0,
         last_frame: -1,
+        range_end: scene["frame_end"],
+        range_start: scene["frame_start"],
+        user_callback: null,
         data_id : thread_id,
         cyclic: is_cyclic,
         objects: [],
@@ -100,7 +103,7 @@ exports.update_scene_nla = function(scene, is_cyclic, thread_id) {
                 var node_tree = mat["node_tree"];
                 if (node_tree) {
                     var nla_tracks = [];
-                    get_nodtree_nla_tracks_r(node_tree, nla_tracks);
+                    get_nodetree_nla_tracks_r(node_tree, nla_tracks);
                     var nla_events = get_nla_events(nla_tracks, slot_num);
                     if (nla_events.length) {
                         slot_num += assign_anim_slots(nla_events, slot_num);
@@ -253,7 +256,7 @@ function init_event() {
     return ev;
 }
 
-function get_nodtree_nla_tracks_r(node_tree, container) {
+function get_nodetree_nla_tracks_r(node_tree, container) {
     if (node_tree["animation_data"]) {
         var anim_data = node_tree["animation_data"];
         var nla_tracks = anim_data["nla_tracks"];
@@ -267,7 +270,7 @@ function get_nodtree_nla_tracks_r(node_tree, container) {
         if (node["node_group"]) {
             var g_node_tree = node["node_group"]["node_tree"];
             if (g_node_tree)
-                get_nodtree_nla_tracks_r(g_node_tree, container);
+                get_nodetree_nla_tracks_r(g_node_tree, container);
         }
     }
 }
@@ -499,14 +502,34 @@ exports.update = function(timeline, elapsed) {
     for (var i = 0; i < _nla_arr.length; i++) {
         var nla = _nla_arr[i];
 
-        if (nla.is_stopped && !nla.force_update) {
+        if (nla.is_stopped) {
             nla.frame_offset -= cfg_ani.framerate * elapsed;
-            continue;
+            if (!nla.force_update)
+                continue;
         }
+
+        nla.force_update = false;
 
         process_nla_script(nla, timeline, elapsed, _start_time);
 
         var cf = calc_curr_frame_scene(nla, timeline, true, _start_time);
+
+        if (cf >= nla.range_end + 1) {
+            if (nla.cyclic) {
+                if (nla.user_callback)
+                    nla.user_callback();
+
+                set_frame(nla.range_start, timeline);
+                cf = calc_curr_frame_scene(nla, timeline, true, _start_time);
+            } else {
+                nla.is_stopped = true;
+
+                if (nla.user_callback)
+                    nla.user_callback();
+
+                continue;
+            }
+        }
 
         for (var j = 0; j < nla.objects.length; j++) {
             var obj = nla.objects[j];
@@ -578,8 +601,8 @@ exports.update = function(timeline, elapsed) {
                     ev.stop_video = false;
                 }
         }
+        
         nla.last_frame = cf;
-        nla.force_update = false;
     }
 }
 
@@ -924,7 +947,7 @@ exports.has_nla = function(obj) {
     var adata = obj["animation_data"];
 
     if ((adata && adata["nla_tracks"].length) || has_spk_param_nla(obj) ||
-            m_anim.has_animated_nodemats(obj))
+            has_nodemats_nla(obj))
         return true;
     else
         return false;
@@ -938,7 +961,46 @@ function has_spk_param_nla(obj) {
         return false;
 }
 
-exports.set_frame = function(frame, timeline) {
+function has_nodemats_nla(obj) {
+    if (obj["type"] != "MESH" || !obj["data"])
+        return false;
+
+    var materials = obj["data"]["materials"];
+    if (!materials)
+        return false;
+
+    for (var j = 0; j < materials.length; j++) {
+        var mat = materials[j];
+        var node_tree = mat["node_tree"];
+        if (mat["use_nodes"] && node_tree) {
+            if (check_nodetree_nla_tracks_r(node_tree))
+                return true;
+        }
+    }
+    return false;
+}
+
+function check_nodetree_nla_tracks_r(node_tree, container) {
+    if (node_tree["animation_data"]) {
+        var anim_data = node_tree["animation_data"];
+        var nla_tracks = anim_data["nla_tracks"];
+        if (nla_tracks && nla_tracks.length)
+            return true;
+    }
+    var nodes = node_tree["nodes"];
+    for (var i = 0; i < nodes.length; i++) {
+        var node = nodes[i];
+        if (node["node_group"]) {
+            var g_node_tree = node["node_group"]["node_tree"];
+            if (g_node_tree)
+                check_nodetree_nla_tracks_r(g_node_tree, container);
+        }
+    }
+    return false;
+}
+
+exports.set_frame = set_frame;
+function set_frame(frame, timeline) {
     var active_scene = m_scs.get_active();
     if (active_scene._nla) {
         var cf = calc_curr_frame_scene(active_scene._nla, timeline, true, _start_time);
@@ -947,7 +1009,8 @@ exports.set_frame = function(frame, timeline) {
     }
 }
 
-exports.get_frame = function(timeline) {
+exports.get_frame = get_frame;
+function get_frame(timeline) {
     var active_scene = m_scs.get_active();
     if (active_scene._nla)
         return calc_curr_frame_scene(active_scene._nla, timeline, true, _start_time);
@@ -955,16 +1018,23 @@ exports.get_frame = function(timeline) {
         return -1;
 }
 
-exports.stop_nla = function() {
+exports.stop_nla = stop_nla;
+function stop_nla() {
     var active_scene = m_scs.get_active();
     if (active_scene._nla)
         active_scene._nla.is_stopped = true;
 }
 
-exports.play_nla = function() {
+exports.play_nla = play_nla;
+function play_nla(callback) {
     var active_scene = m_scs.get_active();
-    if (active_scene._nla)
+    if (active_scene._nla) {
         active_scene._nla.is_stopped = false;
+        if (callback)
+            active_scene._nla.user_callback = callback;
+        else
+            active_scene._nla.user_callback = null;
+    }
 
 }
 
@@ -1006,6 +1076,40 @@ exports.check_nla_scripts = function() {
         return active_scene["b4w_nla_script"].length > 0;
     else
         return false;
+}
+
+exports.set_range = function(start_frame, end_frame) {
+    var active_scene = m_scs.get_active();
+    if (active_scene._nla) {
+        active_scene._nla.range_start = start_frame;
+        active_scene._nla.range_end = end_frame;
+    } else
+        return false;
+}
+
+exports.reset_range = reset_range;
+function reset_range() {
+    var active_scene = m_scs.get_active();
+    if (active_scene._nla) {
+        var nla = active_scene._nla;
+        nla.range_start = nla.frame_start;
+        nla.range_end = nla.frame_end;
+    } else
+        return false;
+}
+
+exports.set_cyclic = function(is_cyclic) {
+    var active_scene = m_scs.get_active();
+    if (active_scene._nla)
+        active_scene._nla.cyclic = is_cyclic;
+    else
+        return false;
+}
+
+exports.clear_callback = function() {
+    var active_scene = m_scs.get_active();
+    if (active_scene._nla)
+        active_scene._nla.user_callback = null;
 }
 
 }

@@ -26,6 +26,7 @@ var m_vec3 = require("vec3");
 
 var cfg_ani = m_config.animation;
 
+var OBJ_ANIM_TYPE_NONE       =  0;
 var OBJ_ANIM_TYPE_ARMATURE   = 10;
 var OBJ_ANIM_TYPE_OBJECT     = 20;
 var OBJ_ANIM_TYPE_VERTEX     = 30;
@@ -33,6 +34,7 @@ var OBJ_ANIM_TYPE_SOUND      = 40;
 var OBJ_ANIM_TYPE_PARTICLES  = 50;
 var OBJ_ANIM_TYPE_MATERIAL   = 60;
 
+exports.OBJ_ANIM_TYPE_NONE      = OBJ_ANIM_TYPE_NONE;
 exports.OBJ_ANIM_TYPE_ARMATURE  = OBJ_ANIM_TYPE_ARMATURE;
 exports.OBJ_ANIM_TYPE_OBJECT    = OBJ_ANIM_TYPE_OBJECT;
 exports.OBJ_ANIM_TYPE_VERTEX    = OBJ_ANIM_TYPE_VERTEX;
@@ -103,6 +105,7 @@ exports.update = function(elapsed) {
     for (var i = 0; i < _anim_objs_cache.length; i++) {
         var obj = _anim_objs_cache[i];
 
+        //TODO: need to sort slots properly (psys "set_time" issue)
         for (var j = 0; j < 8; j++)
             animate(obj, elapsed, j);
 
@@ -273,7 +276,7 @@ exports.get_anim_type = function(obj, slot_num) {
     if (anim_slot)
         return anim_slot.type;
 
-    return null;
+    return OBJ_ANIM_TYPE_NONE;
 }
 
 /**
@@ -284,19 +287,8 @@ exports.apply_def = function(obj) {
     var slot_num = SLOT_0;
 
     var actions = get_default_actions(obj);
-    for (var i = 0; i < actions.length; i++) {
-        var action = actions[i]
 
-        do_before_apply(obj, slot_num);
-        if (apply_action(obj, action, slot_num)) {
-            do_after_apply(obj, slot_num);
-            obj._anim_slots[slot_num].behavior =
-                    anim_behavior_bpy_b4w(obj["b4w_anim_behavior"]);
-            slot_num++
-        } else
-            obj._anim_slots[slot_num] = null;
-    }
-
+    // NOTE: particle system actions are more foreground
     var psystems = obj["particle_systems"];
     for (var i = 0; i < psystems.length; i++) {
         var psys = psystems[i];
@@ -311,6 +303,19 @@ exports.apply_def = function(obj) {
                 obj._anim_slots[slot_num].behavior = AB_CYCLIC;
             slot_num++
         }
+    }
+
+    for (var i = 0; i < actions.length; i++) {
+        var action = actions[i]
+
+        do_before_apply(obj, slot_num);
+        if (apply_action(obj, action, slot_num)) {
+            do_after_apply(obj, slot_num);
+            obj._anim_slots[slot_num].behavior =
+                    anim_behavior_bpy_b4w(obj["b4w_anim_behavior"]);
+            slot_num++
+        } else
+            obj._anim_slots[slot_num] = null;
     }
 
     if (has_vertex_anim(obj)) {
@@ -373,7 +378,7 @@ function get_actions(obj) {
  *  obj.animation_data.action
  *  spkobj.data.animation_data
  *  obj.data.materials.node_tree.animation_data
- * @param {Object} obj Object ID
+ * @param {Object3D} obj Object 3D
  * @returns Default action or null
  */
 function get_default_actions(obj) {
@@ -709,7 +714,6 @@ function apply_action(obj, action, slot_num) {
             anim_slot.type = OBJ_ANIM_TYPE_OBJECT;
 
             var obj_anim_data = get_cached_anim_data(obj, action);
-
             if (!obj_anim_data) {
                 obj_anim_data = calc_obj_anim_data(obj, action, tsr);
                 cache_anim_data(obj, action, obj_anim_data);
@@ -720,8 +724,8 @@ function apply_action(obj, action, slot_num) {
 
             // move particles with world coordinate system to objects position
             if (m_particles.has_particles(obj)) {
-                var trans = anim_slot.trans;
-                var quats = anim_slot.quats;
+                var trans = anim_slot.trans[0];
+                var quats = anim_slot.quats[0];
                 m_particles.update_start_pos(obj, trans, quats);
             }
         } else {
@@ -985,7 +989,6 @@ function is_material_action(action) {
 }
 
 function animate(obj, elapsed, slot_num, force_update) {
-
     var anim_slot = obj._anim_slots[slot_num];
 
     if (!anim_slot || anim_slot.type == null)

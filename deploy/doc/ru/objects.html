@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Объекты &mdash; Руководство пользователя: Blend4Web v15.05</title>
+    <title>Объекты &mdash; Руководство пользователя: Blend4Web v15.06</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '15.05',
+        VERSION:     '15.06',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v15.05" href="index.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v15.06" href="index.html" />
     <link rel="next" title="Камера" href="camera.html" />
     <link rel="prev" title="Аддон" href="addon.html" /> 
   </head>
@@ -37,7 +37,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">Руководство пользователя: Blend4Web v15.05</a></div>
+          href="index.html">Руководство пользователя: Blend4Web v15.06</a></div>
         <div class="rel" role="navigation" aria-label="related navigation">
           <a href="addon.html" title="Аддон"
              accesskey="P">назад</a> |
@@ -86,7 +86,7 @@
 <p>Объединение статических объектов - т.н. батчинг (batching) - осуществляется автоматически при загрузке сцены в целях оптимизации количества вызовов отрисовки. Конвертация происходит, даже если на сцене присутствует всего один объект. Центр получившегося в результате конвертации меша находится в начале координат.</p>
 <p>Среди объектов другого типа динамическими являются <code class="docutils literal"><span class="pre">CAMERA</span></code> и <code class="docutils literal"><span class="pre">ARMATURE</span></code>. Остальные - статические.</p>
 <p>Объекты, имеющие анимацию, физику или родителя, являющегося динамическим объектом, рассматриваются как динамические.</p>
-<p>Перемещение посредством API возможно только в случае динамических объектов. Чтобы обеспечить движение объекта, не имеющего настроек динамического объекта, в его настройках следует активировать опцию <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Force</span> <span class="pre">Dynamic</span> <span class="pre">Object</span></code>.</p>
+<p>Перемещение посредством API возможно только в случае динамических объектов. Чтобы обеспечить движение объекта, не имеющего настроек динамического объекта, в его настройках следует активировать опцию <code class="docutils literal"><span class="pre">Force</span> <span class="pre">Dynamic</span> <span class="pre">Object</span></code>.</p>
 </div>
 <div class="section" id="id4">
 <h2>Настройка<a class="headerlink" href="#id4" title="Ссылка на этот заголовок">¶</a></h2>
@@ -103,138 +103,136 @@
 <dt><em>Transform &gt; Rotation</em></dt>
 <dd>Углы вращения. При повороте объекта доступны все режимы <code class="docutils literal"><span class="pre">Rotation</span> <span class="pre">Mode</span></code>, но при создании <a class="reference internal" href="animation.html#whole-object-anim"><span>объектной анимации</span></a> поддерживаются только <code class="docutils literal"><span class="pre">Quaternion</span> <span class="pre">(WXYZ)</span></code> и <code class="docutils literal"><span class="pre">XYZ</span> <span class="pre">Euler</span></code>.</dd>
 <dt><em>Transform &gt; Scale</em></dt>
-<dd>Масштабирование. Все 3 компоненты (x, y, z) должны быть одинаковы. Для физических объектов масштабирование не поддерживается.</dd>
+<dd>Масштабирование. Все 3 компонента (x, y, z) должны быть одинаковы. Для физических объектов масштабирование не поддерживается.</dd>
 <dt><em>Relations &gt; Parent</em></dt>
 <dd>Указатель на родительский объект.</dd>
 <dt><em>Groups</em></dt>
 <dd>Группы объектов, которым принадлежит данный объект.</dd>
 </dl>
-<img alt="_images/object_setup_b4w.png" class="align-center" src="_images/object_setup_b4w.png" />
+<img alt="_images/object_setup_end.png" class="align-center" src="_images/object_setup_end.png" />
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <dl class="docutils">
-<dt><em>Blend4Web &gt; Do Not Export</em></dt>
-<dd>Не экспортировать.</dd>
-<dt><em>Blend4Web &gt; Apply Scale</em></dt>
-<dd>Применить масштабирование объекта при экспорте.</dd>
-</dl>
-<dl class="docutils" id="apply-modifiers">
-<dt><em>Blend4Web &gt; Apply Modifiers</em></dt>
-<dd>Применить модификаторы объекта при экспорте. При наличии модификатора <code class="docutils literal"><span class="pre">SKIN</span></code> рекомендуется применить его перед экспортом, т.к. он сбрасывает слои вертексных цветов и UV-текстур, что может привести к ошибкам экспорта.</dd>
-<dt><em>Blend4Web &gt; Export Vertex Animation</em></dt>
-<dd>Экспортировать предварительно созданную и сохраненную вертексную анимацию. Актуально только для объектов типа <code class="docutils literal"><span class="pre">MESH</span></code>.</dd>
-<dt><em>Blend4Web &gt; Export Shape Keys</em></dt>
-<dd>Экспортировать ключи деформации. Актуально только для объектов типа <code class="docutils literal"><span class="pre">MESH</span></code>.</dd>
-<dt><em>Blend4Web &gt; Export Edited Normals</em></dt>
-<dd>Экспортировать предварительно отредактированные и сохраненные нормали. Актуально только для объектов типа <code class="docutils literal"><span class="pre">MESH</span></code>.</dd>
-</dl>
-<div class="admonition note">
-<p class="first admonition-title">Примечание</p>
-<p class="last">Свойства <em>Apply Scale</em>, <em>Apply Modifiers</em>, <em>Export Vertex Animation</em>, <em>Export Edited Normals</em> и <em>Export Shape Keys</em> взаимоисключают друг друга.</p>
-</div>
-<dl class="docutils">
-<dt><em>Blend4Web &gt; Animation &gt; Use Default</em></dt>
-<dd>Начать воспроизведение в движке связанной с объектом анимации.</dd>
-<dt><em>Blend4Web &gt; Animation &gt; Animation blending</em></dt>
-<dd>Только для арматурных объектов. Разрешить плавный переход от одной скелетной
-анимации к другой.</dd>
-<dt><em>Blend4Web &gt; Animation &gt; Behavior</em></dt>
-<dd>Поведение анимации при достижении последнего кадра: <code class="docutils literal"><span class="pre">Finish</span> <span class="pre">Stop</span></code> -
-остановить, <code class="docutils literal"><span class="pre">Finish</span> <span class="pre">Reset</span></code> - остановить и сбросить в нулевой кадр,
-<code class="docutils literal"><span class="pre">Loop</span></code> - циклически повторять.</dd>
-<dt><em>Blend4Web &gt; Do Not Batch</em></dt>
-<dd>Принудительно сделать объект <a class="reference internal" href="#static-dynamic-objects"><span>динамическим</span></a>.</dd>
-</dl>
-<dl class="docutils" id="dynamic-geom">
-<dt><em>Blend4Web &gt; Force Dynamic Geometry</em></dt>
-<dd>Разрешить изменение геометрии объекта через API Blend4Web.</dd>
-<dt><em>Blend4Web &gt; Disable Frustum Culling</em></dt>
-<dd>Отключить оптимизацию отсечением по зоне видимости.</dd>
-<dt><em>Blend4Web &gt; Disable Fogging</em></dt>
-<dd>Отключить туман для объекта.</dd>
-<dt><em>Blend4Web &gt; Do Not Render</em></dt>
-<dd>Отключить рендеринг объекта (например, вспомогательный объект физики).</dd>
-<dt><em>Blend4Web &gt; Shadows: Cast</em></dt>
-<dd>Объект будет отбрасывать тени.</dd>
-<dt><em>Blend4Web &gt; Shadows: Cast Only</em></dt>
-<dd>Объект будет отбрасывать тени, при этом сам будет оставаться невидимым. Становится доступным после включения <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Shadows:</span> <span class="pre">Cast</span></code>.</dd>
-<dt><em>Blend4Web &gt; Shadows: Receive</em></dt>
-<dd>Разрешить затенение от прилегающих объектов (получение теней) на объекте.</dd>
-<dt><em>Blend4Web &gt; Reflections: Reflexible</em></dt>
-<dd>При включении объект будет отражаться от зеркальных поверхностей.</dd>
-<dt><em>Blend4Web &gt; Reflections: Reflexible only</em></dt>
-<dd>При включении объект будет отражаться, при этом сам будет оставаться невидимым. Становится доступным после включения <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Reflections:</span> <span class="pre">Reflexible</span></code>.</dd>
-<dt><em>Blend4Web &gt; Reflections: Reflective</em></dt>
-<dd>При включении объект будет отражать своей поверхностью другие объекты.</dd>
-<dt><em>Blend4Web &gt; Reflections: Reflection Plane</em></dt>
-<dd>Текстовое поле для названия пустого объекта, задающего плоскость отражения. Становится доступным после включения <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Reflections:</span> <span class="pre">Reflective</span></code>.</dd>
-<dt><em>Blend4Web &gt; Caustics</em></dt>
-<dd>На объекте будут видны эффекты от прилегающей к нему воды (каустика).</dd>
-<dt><em>Blend4Web &gt; Wind Bending</em></dt>
-<dd>Включить процедурную анимацию под действием ветра.</dd>
-<dt><em>Blend4Web &gt; Selectable</em></dt>
-<dd>Разрешить <a class="reference internal" href="#selection"><span>выделение объекта</span></a> с помощью мыши или другого устройства ввода.</dd>
-<dt><em>Blend4Web &gt; Enable Outlining</em></dt>
-<dd>Разрешить подсвечивание объекта (<a class="reference internal" href="postprocessing_effects.html#outline"><span>эффект Outline</span></a>).</dd>
-</dl>
-<dl class="docutils" id="objects-billboarding-properties">
-<dt><em>Blend4Web &gt; Billboard</em></dt>
-<dd>Использовать объект в качестве билборда (т.е. автоматически ориентировать его относительно камеры).</dd>
-</dl>
-<dl class="docutils" id="billboarding-preserve">
-<dt><em>Blend4Web &gt; Preserve Global Orientation and Scale</em></dt>
-<dd>Билбординг объекта с учетом его ориентации и масштабирования в мировом пространстве. Объект всегда будет обращен к камере той стороной, которая видна при взгляде на него вдоль направления оси Y в системе координат Blender&#8217;а. Становится доступным после включения <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Billboard</span></code>.</dd>
-<dt><em>Blend4Web &gt; Billboard Type</em></dt>
-<dd>Способ ориентирования билборда. <code class="docutils literal"><span class="pre">Spherical</span></code> (по умолчанию) - объект всегда ориентирован к камере одной стороной независимо от угла обзора, <code class="docutils literal"><span class="pre">Cylindrical</span></code> - аналогично <code class="docutils literal"><span class="pre">Spherical</span></code>, только вращение ограничено осью Z мирового пространства в Blender. Становится доступным после включения <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Billboard</span></code>.</dd>
-<dt><em>Blend4Web &gt; LOD Transition Ratio</em></dt>
+<dt><em>Levels of Detail &gt; LOD Transition Ratio</em></dt>
 <dd>Параметр для сглаживания переключения между LOD объектами. Определяет, на
 каком дополнительном расстоянии LOD объекты будут видны до замены
 последующими LOD объектами. Назначается для главного объекта. Измеряется в
 долях от радиуса охватывающей сферы объекта.</dd>
-<dt><em>Blend4Web &gt; Enable Meta Tags</em></dt>
+<dt><em>Special Effects &gt; Disable Fogging</em></dt>
+<dd>Отключить туман для объекта.</dd>
+<dt><em>Special Effects &gt; Caustics</em></dt>
+<dd>На объекте будут видны эффекты от прилегающей к нему воды (каустика).</dd>
+<dt><em>Export Options &gt; Do Not Export</em></dt>
+<dd>Не экспортировать.</dd>
+</dl>
+<dl class="docutils" id="apply-modifiers">
+<dt><em>Export Options &gt; Apply Modifiers</em></dt>
+<dd>Применить модификаторы объекта при экспорте. При наличии модификатора <code class="docutils literal"><span class="pre">SKIN</span></code> рекомендуется применить его перед экспортом, т.к. он сбрасывает слои вертексных цветов и UV-текстур, что может привести к ошибкам экспорта.</dd>
+<dt><em>Export Options &gt; Apply Scale and Modifiers</em></dt>
+<dd>Применить масштабирование и модификаторы объекта при экспорте.</dd>
+<dt><em>Export Options &gt; Export Vertex Animation</em></dt>
+<dd>Экспортировать предварительно созданную и сохраненную вертексную анимацию. Актуально только для объектов типа <code class="docutils literal"><span class="pre">MESH</span></code>.</dd>
+<dt><em>Export Options &gt; Export Shape Keys</em></dt>
+<dd>Экспортировать ключи деформации. Актуально только для объектов типа <code class="docutils literal"><span class="pre">MESH</span></code>.</dd>
+</dl>
+<div class="admonition note">
+<p class="first admonition-title">Примечание</p>
+<p class="last">Свойства <em>Apply Modifiers</em>, <em>Apply Scale and Modifiers</em>, <em>Export Vertex Animation</em>, и <em>Export Shape Keys</em> взаимоисключают друг друга.</p>
+</div>
+<dl class="docutils">
+<dt><em>Animation &gt; Apply default animation</em></dt>
+<dd>Начать воспроизведение в движке связанной с объектом анимации.</dd>
+<dt><em>Animation &gt; Animation blending</em></dt>
+<dd>Только для арматурных объектов. Разрешить плавный переход от одной скелетной
+анимации к другой.</dd>
+<dt><em>Animation &gt; Behavior</em></dt>
+<dd>Поведение анимации при достижении последнего кадра: <code class="docutils literal"><span class="pre">Finish</span> <span class="pre">Stop</span></code> -
+остановить, <code class="docutils literal"><span class="pre">Finish</span> <span class="pre">Reset</span></code> - остановить и сбросить в нулевой кадр,
+<code class="docutils literal"><span class="pre">Loop</span></code> - циклически повторять.</dd>
+<dt><em>Rendering Properties &gt; Do Not Render</em></dt>
+<dd>Отключить рендеринг объекта (например, вспомогательный объект физики).</dd>
+<dt><em>Rendering Properties &gt; Disable Frustum Culling</em></dt>
+<dd>Отключить оптимизацию отсечением по зоне видимости.</dd>
+<dt><em>Rendering Properties &gt; Force Dynamic Object</em></dt>
+<dd>Принудительно сделать объект <a class="reference internal" href="#static-dynamic-objects"><span>динамическим</span></a>.</dd>
+</dl>
+<dl class="docutils" id="dynamic-geom">
+<dt><em>Rendering Properties &gt; Dynamic Geometry</em></dt>
+<dd>Разрешить изменение геометрии объекта через API Blend4Web.</dd>
+<dt><em>Shadows &gt; Cast</em></dt>
+<dd>Объект будет отбрасывать тени.</dd>
+<dt><em>Shadows&gt; Cast Only</em></dt>
+<dd>Объект будет отбрасывать тени, при этом сам будет оставаться невидимым. Становится доступным после включения <code class="docutils literal"><span class="pre">Shadows</span> <span class="pre">&gt;</span> <span class="pre">Cast</span></code>.</dd>
+<dt><em>Shadows &gt; Receive</em></dt>
+<dd>Разрешить затенение от прилегающих объектов (получение теней) на объекте.</dd>
+<dt><em>Reflections &gt; Reflexible</em></dt>
+<dd>При включении объект будет отражаться от зеркальных поверхностей.</dd>
+<dt><em>Reflections &gt; Reflexible only</em></dt>
+<dd>При включении объект будет отражаться, при этом сам будет оставаться невидимым. Становится доступным после включения <code class="docutils literal"><span class="pre">Reflections</span> <span class="pre">&gt;</span> <span class="pre">Reflexible</span></code>.</dd>
+<dt><em>Reflections &gt; Reflective</em></dt>
+<dd>При включении объект будет отражать своей поверхностью другие объекты.</dd>
+<dt><em>Reflections &gt; Reflection Plane</em></dt>
+<dd>Текстовое поле для названия пустого объекта, задающего плоскость отражения. Становится доступным после включения <code class="docutils literal"><span class="pre">Reflections</span> <span class="pre">&gt;</span> <span class="pre">Reflective</span></code>.</dd>
+<dt><em>Selection and Outlining &gt; Selectable</em></dt>
+<dd>Разрешить <a class="reference internal" href="#selection"><span>выделение объекта</span></a> с помощью мыши или другого устройства ввода.</dd>
+<dt><em>Selection and Outlining &gt; Enable Outlining</em></dt>
+<dd>Разрешить подсвечивание объекта (<a class="reference internal" href="postprocessing_effects.html#outline"><span>эффект Outline</span></a>).</dd>
+<dt><em>Meta Tags</em></dt>
 <dd><p class="first">Интерфейс добавления мета-тегов на объект:</p>
 <dl class="last docutils">
-<dt><em>Blend4Web &gt; Tags &gt; Title</em></dt>
+<dt><em>Meta Tags &gt; Title</em></dt>
 <dd>Заголовок объекта.</dd>
-<dt><em>Blend4Web &gt; Tags &gt; Category</em></dt>
+<dt><em>Meta Tags &gt; Category</em></dt>
 <dd>Категория объекта.</dd>
-<dt><em>Blend4Web &gt; Tags &gt; Description</em></dt>
+<dt><em>Meta Tags &gt; Description</em></dt>
 <dd>Описание объекта. В зависимости от значения  опции <code class="docutils literal"><span class="pre">Description</span> <span class="pre">Source</span></code> в это поле заносится либо текст описания непосредственно, либо имя файла, в котором содержится описание.</dd>
-<dt><em>Blend4Web &gt; Tags &gt; Description Source</em></dt>
+<dt><em>Meta Tags &gt; Description Source</em></dt>
 <dd>Тип (источник) описания объекта: текст либо файл с текстом.</dd>
 </dl>
 </dd>
-<dt><em>Blend4Web &gt; Anchor &gt; Enable Anchor</em></dt>
+<dt><em>Anchors &gt; Enable Anchor</em></dt>
 <dd><p class="first">Опция доступна только для объектов типа <code class="docutils literal"><span class="pre">EMPTY</span></code>. Интерфейс добавления графических меток (якорей) к объектам:</p>
 <dl class="last docutils">
-<dt><em>Blend4Web &gt; Anchor &gt; Type</em></dt>
+<dt><em>Anchors &gt; Type</em></dt>
 <dd>Тип якоря. Аннотация (<code class="docutils literal"><span class="pre">Annotation</span></code>) - информация из мета-тегов объектов отображается в раскрывающихся информационных окнах стандартного дизайна. Элемент (<code class="docutils literal"><span class="pre">Custom</span> <span class="pre">Element</span></code>) - в качестве якоря можно назначить произвольный HTML-элемент с текущей веб-страницы. Общий (<code class="docutils literal"><span class="pre">Generic</span></code>) - якорь, положение которого можно определить с помощью API модуля <em>anchors</em>.</dd>
-<dt><em>Blend4Web &gt; Anchor &gt; Detect Visibility</em></dt>
+<dt><em>Anchors &gt; Detect Visibility</em></dt>
 <dd>Определять видимость якоря, т.е. реагировать на перекрытие объекта-якоря другими объектами. Активация опции приводит к падению производельности рендеринга и должна рассматриваться только в случае реальной необходимости.</dd>
-<dt><em>Blend4Web &gt; Anchor &gt; Max Width</em></dt>
+<dt><em>Anchors &gt; Max Width</em></dt>
 <dd>Используется для якорей-аннотаций. Ограничить всплывающее информационное окно аннотации выбранным значением (в CSS пикселях).</dd>
 </dl>
 </dd>
+<dt><em>Wind Bending</em></dt>
+<dd>Включить процедурную анимацию под действием ветра.</dd>
+</dl>
+<dl class="docutils" id="objects-billboarding-properties">
+<dt><em>Billboard</em></dt>
+<dd>Использовать объект в качестве билборда (т.е. автоматически ориентировать его относительно камеры).</dd>
+</dl>
+<dl class="docutils" id="billboarding-preserve">
+<dt><em>Billboard &gt; Preserve Global Orientation and Scale</em></dt>
+<dd>Билбординг объекта с учетом его ориентации и масштабирования в мировом пространстве. Объект всегда будет обращен к камере той стороной, которая видна при взгляде на него вдоль направления оси Y в системе координат Blender&#8217;а. Становится доступным после включения <code class="docutils literal"><span class="pre">Billboard</span></code>.</dd>
+<dt><em>Billboard &gt; Billboard Type</em></dt>
+<dd>Способ ориентирования билборда. <code class="docutils literal"><span class="pre">Spherical</span></code> (по умолчанию) - объект всегда ориентирован к камере одной стороной независимо от угла обзора, <code class="docutils literal"><span class="pre">Cylindrical</span></code> - аналогично <code class="docutils literal"><span class="pre">Spherical</span></code>, только вращение ограничено осью Z мирового пространства в Blender. Становится доступным после включения <code class="docutils literal"><span class="pre">Billboard</span></code>.</dd>
 </dl>
 </div>
-<div class="section" id="physics-blender-game">
-<h3>Вкладка Physics (в режиме Blender Game)<a class="headerlink" href="#physics-blender-game" title="Ссылка на этот заголовок">¶</a></h3>
+<div class="section" id="physics">
+<h3>Вкладка Physics<a class="headerlink" href="#physics" title="Ссылка на этот заголовок">¶</a></h3>
 <a class="reference internal image-reference" href="_images/object_setup_phys.png"><img alt="_images/object_setup_phys.png" class="align-center" src="_images/object_setup_phys.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <dl class="docutils">
-<dt><em>Blend4Web &gt; Detect Collisions</em></dt>
+<dt><em>Detect Collisions</em></dt>
 <dd>Активировать связанную с объектом физику.</dd>
-<dt><em>Blend4Web &gt; Floating</em></dt>
+<dt><em>Floating</em></dt>
 <dd>Сделать объект плавучим. Подробное описание настроек плавучих объектов можно
 найти в разделе <a class="reference internal" href="physics.html#physics"><span>физика</span></a>.</dd>
-<dt><em>Blend4Web &gt; Vehicle</em></dt>
+<dt><em>Vehicle</em></dt>
 <dd>Активировать использование объекта в качестве составной части транспортного
 средства. Подробное описание настроек транспортных средств можно найти в
 разделе <a class="reference internal" href="physics.html#physics"><span>физика</span></a>.</dd>
-<dt><em>Blend4Web &gt; Character</em></dt>
+<dt><em>Character</em></dt>
 <dd>Активировать использование объекта в качестве физического каркаса игрового
 персонажа. Подробное описание настроек персонажа можно найти в разделе
 <a class="reference internal" href="physics.html#physics"><span>физика</span></a>.</dd>
@@ -364,7 +362,7 @@
 <dt>Существует ряд ограничений на копируемые объекты:</dt>
 <dd><ul class="first last simple">
 <li>тип объекта должен быть <code class="docutils literal"><span class="pre">MESH</span></code></li>
-<li>объект должен быть <a class="reference internal" href="#static-dynamic-objects"><span>динамическим</span></a> (включить настройку <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Force</span> <span class="pre">Dynamic</span> <span class="pre">Object</span></code>)</li>
+<li>объект должен быть <a class="reference internal" href="#static-dynamic-objects"><span>динамическим</span></a> (включить настройку <code class="docutils literal"><span class="pre">Rendering</span> <span class="pre">Properties</span> <span class="pre">&gt;</span> <span class="pre">Force</span> <span class="pre">Dynamic</span> <span class="pre">Object</span></code>)</li>
 <li>объект должен принадлежать активной сцене</li>
 </ul>
 </dd>
@@ -375,7 +373,7 @@
 </div>
 <div class="section" id="id10">
 <h3>Глубокое копирование<a class="headerlink" href="#id10" title="Ссылка на этот заголовок">¶</a></h3>
-<p>При глубоком копировании новый объект будет обладать уникальными для него свойствами, а именно, он будет иметь свою собственную геометрию. То есть при изменении геометрии на объекте-оригинале у объекта-копии геометрия изменяться не будет. Для такого типа копирования на исходном объекте нужно дополнительно выставить опцию <a class="reference internal" href="#dynamic-geom"><span>Blend4Web &gt; Force Dynamic Geometry</span></a>.</p>
+<p>При глубоком копировании новый объект будет обладать уникальными для него свойствами, а именно, он будет иметь свою собственную геометрию. То есть при изменении геометрии на объекте-оригинале у объекта-копии геометрия изменяться не будет. Для такого типа копирования на исходном объекте нужно дополнительно выставить опцию <a class="reference internal" href="#dynamic-geom"><span>Rendering Properties &gt; Force Dynamic Geometry</span></a>.</p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -401,10 +399,10 @@
 </div>
 <div class="section" id="selection">
 <span id="id12"></span><h2>Выделение объектов<a class="headerlink" href="#selection" title="Ссылка на этот заголовок">¶</a></h2>
-<p>Чтобы разрешить выделение конкретного объекта, необходимо установить флаг <code class="docutils literal"><span class="pre">Selectable</span></code> в панели <code class="docutils literal"><span class="pre">Object</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span></code>.</p>
+<p>Чтобы разрешить выделение конкретного объекта, необходимо установить флаг <code class="docutils literal"><span class="pre">Selectable</span></code> в панели <code class="docutils literal"><span class="pre">Selection</span> <span class="pre">and</span> <span class="pre">Outlining</span></code>.</p>
 <div class="admonition note">
 <p class="first admonition-title">Примечание</p>
-<p class="last">Следует убедится в том, что в панели <code class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span></code> поле <code class="docutils literal"><span class="pre">Enable</span> <span class="pre">Object</span> <span class="pre">Select</span></code> установлено в состояние <code class="docutils literal"><span class="pre">YES</span></code> или <code class="docutils literal"><span class="pre">AUTO</span></code>.</p>
+<p class="last">Следует убедится в том, что в панели <code class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">Object</span> <span class="pre">Outlining</span></code> установлено состояние <code class="docutils literal"><span class="pre">ON</span></code> или <code class="docutils literal"><span class="pre">AUTO</span></code>.</p>
 </div>
 <p>Выделение объекта возможно программно через API, например, в модуле <code class="docutils literal"><span class="pre">scenes.js</span></code> имеется функция <code class="docutils literal"><span class="pre">pick_object</span></code>, которая по координатам в canvas&#8217;е выделяет объект,</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
@@ -416,7 +414,7 @@
 </pre></div>
 </div>
 <p>или с использованием <a class="reference internal" href="nla.html#nla-select-play"><span>NLA-скрипта</span></a>.</p>
-<p>Если для выделяемого объекта в панели <code class="docutils literal"><span class="pre">Object</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span></code> установлены флаги <code class="docutils literal"><span class="pre">Enable</span> <span class="pre">Outlining</span></code> и <code class="docutils literal"><span class="pre">Outline</span> <span class="pre">on</span> <span class="pre">Select</span></code>, то вызов функции <code class="docutils literal"><span class="pre">pick_object</span></code> приведет к активации <a class="reference internal" href="postprocessing_effects.html#outline"><span>Outline-анимации</span></a>.</p>
+<p>Если для выделяемого объекта в панели <code class="docutils literal"><span class="pre">Object</span> <span class="pre">&gt;</span> <span class="pre">Selection</span> <span class="pre">and</span> <span class="pre">Outlining</span></code> установлены флаги <code class="docutils literal"><span class="pre">Enable</span> <span class="pre">Outlining</span></code> и <code class="docutils literal"><span class="pre">Outline</span> <span class="pre">on</span> <span class="pre">Select</span></code>, то вызов функции <code class="docutils literal"><span class="pre">pick_object</span></code> приведет к активации <a class="reference internal" href="postprocessing_effects.html#outline"><span>Outline-анимации</span></a>.</p>
 </div>
 <div class="section" id="morphing">
 <span id="id13"></span><h2>Морфинг<a class="headerlink" href="#morphing" title="Ссылка на этот заголовок">¶</a></h2>
@@ -525,7 +523,7 @@
           
     <div class="footer" role="contentinfo">
         &copy; Copyright 2015, ООО &#34;Триумф&#34;.
-      Обновлено: 2015-05-26.
+      Обновлено: 2015-06-30.
       Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
         </div>

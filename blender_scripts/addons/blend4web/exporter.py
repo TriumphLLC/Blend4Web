@@ -1,4 +1,5 @@
 import array
+
 import bpy
 from collections import OrderedDict
 import hashlib
@@ -13,16 +14,11 @@ import cProfile
 import operator
 import webbrowser
 import re
+import imp
 
 import blend4web
 
-from .b4w_bin_suffix import get_platform_suffix
-libname = "b4w_bin" + get_platform_suffix()
-try:
-    exec("from . import " + libname + " as b4w_bin")
-except:
-    # NOTE: check later in register() function
-    pass
+from . import binary_module_hook
 
 from . import anim_baker
 from . import nla_script
@@ -49,7 +45,24 @@ SUPPORTED_NODES = ["NodeFrame", "ShaderNodeMaterial", "ShaderNodeCameraData", \
         "ShaderNodeRGBToBW", "ShaderNodeMath", "ShaderNodeVectorMath", \
         "ShaderNodeSqueeze", "ShaderNodeSeparateRGB", "ShaderNodeCombineRGB", \
         "ShaderNodeSeparateHSV", "ShaderNodeCombineHSV", "ShaderNodeGamma", \
-        "NodeReroute", "ShaderNodeGroup", "NodeGroupInput", "NodeGroupOutput"]
+        "NodeReroute", "ShaderNodeGroup", "NodeGroupInput", "NodeGroupOutput", \
+        "ShaderNodeOutputMaterial", "ShaderNodeBsdfDiffuse", "ShaderNodeBsdfGlossy", \
+        "ShaderNodeBsdfTransparent", "ShaderNodeBsdfRefraction", "ShaderNodeBsdfGlass", \
+        "ShaderNodeBsdfTranslucent", "ShaderNodeBsdfAnisotropic", "ShaderNodeBsdfVelvet", \
+        "ShaderNodeBsdfToon", "ShaderNodeSubsurfaceScattering", "ShaderNodeEmission", \
+        "ShaderNodeBsdfHair", "ShaderNodeAmbientOcclusion", "ShaderNodeHoldout", \
+        "ShaderNodeVolumeAbsorption", "ShaderNodeVolumeScatter", "ShaderNodeBump", \
+        "ShaderNodeNormalMap", "ShaderNodeVectorTransform", "ShaderNodeBlackbody", \
+        "ShaderNodeSeparateXYZ", "ShaderNodeCombineXYZ", "ShaderNodeBrightContrast", \
+        "ShaderNodeLightFalloff", "ShaderNodeTexImage", "ShaderNodeTexEnvironment", \
+        "ShaderNodeTexSky", "ShaderNodeTexNoise", "ShaderNodeTexWave", \
+        "ShaderNodeTexVoronoi", "ShaderNodeTexMusgrave", "ShaderNodeTexGradient", \
+        "ShaderNodeTexMagic", "ShaderNodeTexChecker", "ShaderNodeTexBrick", \
+        "ShaderNodeTexCoord", "ShaderNodeUVMap", "ShaderNodeParticleInfo", \
+        "ShaderNodeHairInfo", "ShaderNodeObjectInfo", "ShaderNodeWireframe", \
+        "ShaderNodeTangent", "ShaderNodeLayerWeight", "ShaderNodeLightPath", \
+        "ShaderNodeAttribute", "ShaderNodeOutputLamp", "ShaderNodeScript", \
+        "ShaderNodeMixShader", "ShaderNodeAddShader"]
 
 PARALLAX_HEIGHT_MAP_INPUT_NAME = "Height Map"
 PARALLAX_HEIGHT_MAP_INPUT_NODE = "ShaderNodeTexture"
@@ -87,6 +100,8 @@ _vehicle_integrity = {}
 
 _packed_files_data = {}
 
+_rendered_scenes = []
+
 _canvases_identifiers = []
 
 _additional_scene_objects = []
@@ -95,23 +110,26 @@ _additional_scene_objects = []
 _curr_scene = None
 _curr_mesh = None
 _curr_material_stack = []
+_curr_mat_data_stack = []
 
 _fallback_camera = None
 _fallback_world = None
 _fallback_material = None
+_fallback_texture = None
+
+_performed_cleanup = False
 
 _dg_counter = 0
-
-# temp property will exist to the end of session
-# and will not be saved to blend file
-PATH_RESOLVED = "path_resolved"
 
 # speaker distance maximum
 SPKDISTMAX = 10000
 
-NCOMP = 3
+def use_split_normals(obj):
+    r = False
+    if obj.data and hasattr(obj.data, "use_auto_smooth "):
+        r = obj.data.use_auto_smooth
+    return r
 
-COL_NUM_COMP = 3
 
 class MaterialError(Exception):
     def __init__(self, message):
@@ -444,7 +462,7 @@ def obj_to_mesh_needed(obj):
     if (obj.type == "CURVE" or obj.type == "SURFACE" or obj.type == "META" 
             or obj.type == "FONT" or obj.type == "MESH" 
             and (obj.b4w_apply_modifiers or obj.b4w_loc_export_vertex_anim 
-            or obj.b4w_export_edited_normals or obj.b4w_shape_keys
+            or use_split_normals(obj) or obj.b4w_shape_keys
             or obj.b4w_apply_scale)):
         return True
     else:
@@ -466,7 +484,7 @@ def get_obj_data(obj, scene):
                     new_name = obj.name + "_MODIFIERS_APPLIED"
                 elif obj.b4w_loc_export_vertex_anim:
                     new_name = obj.name + "_VERTEX_ANIM"
-                elif obj.b4w_export_edited_normals:
+                elif use_split_normals(obj):
                     new_name = obj.name + "_VERTEX_NORMALS"
                 elif obj.b4w_apply_scale:
                     new_name = obj.name + "_NONUNIFORM_SCALE_APPLIED"
@@ -522,34 +540,6 @@ def mesh_get_active_vc(mesh):
 
     return None
 
-def scenes_store_select_all_layers():
-    global _scene_active_layers
-    _scene_active_layers = {}
-
-    for scene in bpy.data.scenes:
-
-        if scene.name not in _scene_active_layers:
-            _scene_active_layers[scene.name] = {}
-
-        scene_lib_path = get_scene_lib_path(scene)
-        layers = _scene_active_layers[scene.name][scene_lib_path] = []
-
-        for i in range(len(scene.layers)):
-            layers.append(scene.layers[i])
-            scene.layers[i] = True
-
-def scenes_restore_selected_layers():
-    global _scene_active_layers
-
-    for scene in bpy.data.scenes:
-        if scene.name in _scene_active_layers:
-            scene_lib_path = get_scene_lib_path(scene)
-            if scene_lib_path in _scene_active_layers[scene.name]:
-                layers_data = _scene_active_layers[scene.name][scene_lib_path]
-
-                for i in range(len(layers_data)):
-                    scene.layers[i] = layers_data[i]
-
 def get_scene_lib_path(scene):
     if scene.library:
         return scene.library.filepath
@@ -597,12 +587,80 @@ def process_components(tags):
     if not _export_data["scenes"]:
         raise FileError("No exported scene found. Can't perform export.")
 
+    check_main_scene(_export_data["scenes"])
     check_shared_data(_export_data)
 
     for action in getattr(bpy.data, "actions"):
         if not (action.name + "_B4W_BAKED" in bpy.data.actions):
             process_action(action)
 
+def check_main_scene(scenes):
+    main_scene = None
+    for scene in scenes:
+        for texture in _rendered_scenes:
+            if scene["name"] == texture.b4w_source_id:
+                main_scene = None
+                break
+            else:
+                main_scene = scene["name"]
+        if main_scene:
+            break
+
+    if not main_scene:
+        main_scene = scenes[0]
+        for texture in _rendered_scenes:
+            if (texture.b4w_source_id == main_scene["name"]):
+                # replace material
+                users_material = texture.users_material
+                for material in users_material:
+                    mat_uuid = gen_uuid(material)
+                    update_material_fallback(mat_uuid, main_scene["name"])
+                # replace texture
+                tex_uuid = gen_uuid(texture)
+                update_texture_fallback(tex_uuid, main_scene["name"])
+
+def update_material_fallback(uuid, main_scene_name):
+
+    for mat_data in _export_data["materials"]:
+        if mat_data["uuid"] == uuid:
+            err("The main scene \"" + main_scene_name +"\" can not be rendered " + 
+                    "by another scene. Material \"" + mat_data["name"] 
+                    + "\" has been removed.")
+            original_name = mat_data["name"]
+            _export_data["materials"].remove(mat_data)
+            break
+    fallback_material = get_fallback_material()
+    process_material(fallback_material, uuid)
+
+    for mat_data in _export_data["materials"]:
+        if mat_data["uuid"] == uuid:
+            mat_data["name"] = original_name
+
+def update_texture_fallback(uuid, main_scene_name):
+    
+    for tex_data in _export_data["textures"]:
+        if tex_data["uuid"] == uuid:
+            err("The main scene \"" + main_scene_name +"\" can not be rendered " + 
+                    "by another scene. Texture \"" + tex_data["name"] 
+                    + "\" has been removed.")
+            _export_data["textures"].remove(tex_data)
+            break
+    fallback_texture = get_fallback_texture()
+    process_texture(fallback_texture, uuid)
+
+def get_fallback_material():
+    global _fallback_material
+    if not _fallback_material:
+        _fallback_material = bpy.data.materials.new("FALLBACK_MATERIAL")
+        _fallback_material.diffuse_color = (1,0,1)
+        _fallback_material.use_shadeless = True
+    return _fallback_material
+
+def get_fallback_texture():
+    global _fallback_texture
+    if not _fallback_texture:
+        _fallback_texture = bpy.data.textures.new("FALLBACK_TEXTURE", "NONE")
+    return _fallback_texture
 
 def process_action(action):
     if "export_done" in action and action["export_done"]:
@@ -717,7 +775,9 @@ def process_action(action):
                 hr = list(keyframe_point.handle_right)
 
                 # NOTE: decimal frames aren't supported, convert to integer
-                if abs(round(co[0]) - co[0]) > 0.001:
+                # Delta is given because frames do not have exact values
+                # on huge timeline
+                if abs(round(co[0]) - co[0]) > 0.003:
                     has_decimal_frames = True
 
                 co[0] = round(co[0])
@@ -839,8 +899,16 @@ def process_scene(scene):
 
     process_scene_dyn_compr_settings(scene_data, scene)
 
-    scene_data["b4w_enable_convolution_engine"] \
-            = scene.b4w_enable_convolution_engine
+    process_scene_shadow_settings(scene_data, scene)
+    process_scene_god_rays_settings(scene_data, scene)
+    process_scene_ssao_settings(scene_data, scene)
+    process_scene_color_correction_settings(scene_data, scene)
+    process_scene_bloom_settings(scene_data, scene)
+    process_scene_motion_blur_settings(scene_data, scene)
+    process_scene_glow_settings(scene_data, scene)
+
+    scene_data["b4w_outline_color"] = round_iterable(scene.b4w_outline_color, 4)
+    scene_data["b4w_outline_factor"] = round_num(scene.b4w_outline_factor, 2)
 
     scene_data["b4w_enable_physics"] = scene.b4w_enable_physics
     scene_data["b4w_render_shadows"] = scene.b4w_render_shadows
@@ -853,8 +921,7 @@ def process_scene(scene):
     scene_data["b4w_anisotropic_filtering"] = scene.b4w_anisotropic_filtering
     scene_data["b4w_enable_bloom"] = scene.b4w_enable_bloom
     scene_data["b4w_enable_motion_blur"] = scene.b4w_enable_motion_blur
-    scene_data["b4w_enable_color_correction"] \
-            = scene.b4w_enable_color_correction
+    scene_data["b4w_enable_color_correction"] = scene.b4w_enable_color_correction
     scene_data["b4w_enable_antialiasing"] = scene.b4w_enable_antialiasing
     scene_data["b4w_enable_object_selection"] = scene.b4w_enable_object_selection
     scene_data["b4w_enable_outlining"] = scene.b4w_enable_outlining
@@ -893,6 +960,13 @@ def process_scene(scene):
 
     scene_data["frame_start"] = scene.frame_start
     scene_data["frame_end"] = scene.frame_end
+
+    if len(scene.timeline_markers):
+        scene_data["timeline_markers"] = OrderedDict()
+        for marker in scene.timeline_markers:
+            scene_data["timeline_markers"][marker.name] = marker.frame
+    else:
+        scene_data["timeline_markers"] = None
 
     scene_data["fps"] = scene.render.fps
 
@@ -1078,6 +1152,81 @@ def process_scene_dyn_compr_settings(scene_data, scene):
     dct["ratio"] = round_num(dcompr.ratio, 1)
     dct["attack"] = round_num(dcompr.attack, 3)
     dct["release"] = round_num(dcompr.release, 3)
+
+def process_scene_shadow_settings(scene_data, scene):
+    shadow = scene.b4w_shadow_settings
+
+    dct = scene_data["b4w_shadow_settings"] = OrderedDict()
+
+    dct["csm_resolution"] = int(shadow.csm_resolution)
+    dct["self_shadow_polygon_offset"] = round_num(shadow.self_shadow_polygon_offset, 2)
+    dct["self_shadow_normal_offset"] = round_num(shadow.self_shadow_normal_offset, 3)
+
+    dct["b4w_enable_csm"] = shadow.b4w_enable_csm
+    dct["csm_num"] = shadow.csm_num
+    dct["csm_first_cascade_border"] = round_num(shadow.csm_first_cascade_border, 2)
+    dct["first_cascade_blur_radius"] = round_num(shadow.first_cascade_blur_radius, 2)
+    dct["csm_last_cascade_border"] = round_num(shadow.csm_last_cascade_border, 2)
+    dct["last_cascade_blur_radius"] = round_num(shadow.last_cascade_blur_radius, 2)
+    dct["fade_last_cascade"] = shadow.fade_last_cascade
+    dct["blend_between_cascades"] = shadow.blend_between_cascades
+
+def process_scene_god_rays_settings(scene_data, scene):
+    god_rays = scene.b4w_god_rays_settings
+
+    dct = scene_data["b4w_god_rays_settings"] = OrderedDict()
+    dct["intensity"] = round_num(god_rays.intensity, 2)
+    dct["max_ray_length"] = round_num(god_rays.max_ray_length, 2)
+    dct["steps_per_pass"] = round_num(god_rays.steps_per_pass, 1)
+
+
+def process_scene_ssao_settings(scene_data, scene):
+    ssao = scene.b4w_ssao_settings
+
+    dct = scene_data["b4w_ssao_settings"] = OrderedDict()
+    dct["radius_increase"] = round_num(ssao.radius_increase, 2)
+    dct["hemisphere"] = ssao.hemisphere
+    dct["blur_depth"] = ssao.blur_depth
+    dct["blur_discard_value"] = round_num(ssao.blur_discard_value, 2)
+    dct["influence"] = round_num(ssao.influence, 3)
+    dct["dist_factor"] = round_num(ssao.dist_factor, 2)
+    dct["samples"] = int(ssao.samples)
+
+def process_scene_color_correction_settings(scene_data, scene):
+    ccs = scene.b4w_color_correction_settings
+
+    dct = scene_data["b4w_color_correction_settings"] = OrderedDict()
+    dct["brightness"] = round_num(ccs.brightness, 2)
+    dct["contrast"] = round_num(ccs.contrast, 2)
+    dct["exposure"] = round_num(ccs.exposure, 2)
+    dct["saturation"] = round_num(ccs.saturation, 2)
+
+def process_scene_bloom_settings(scene_data, scene):
+    bloom = scene.b4w_bloom_settings
+
+    dct = scene_data["b4w_bloom_settings"] = OrderedDict()
+    dct["key"] = round_num(bloom.key, 2)
+    dct["blur"] = round_num(bloom.blur, 2)
+    dct["edge_lum"] = round_num(bloom.edge_lum, 2)
+
+def process_scene_motion_blur_settings(scene_data, scene):
+    motion_blur = scene.b4w_motion_blur_settings
+
+    dct = scene_data["b4w_motion_blur_settings"] = OrderedDict()
+    dct["motion_blur_factor"] = round_num(motion_blur.motion_blur_factor, 3)
+    dct["motion_blur_decay_threshold"] \
+            = round_num(motion_blur.motion_blur_decay_threshold, 3)
+
+def process_scene_glow_settings(scene_data, scene):
+    glow = scene.b4w_glow_settings
+
+    dct = scene_data["b4w_glow_settings"] = OrderedDict()
+    dct["render_glow_over_blend"] = glow.render_glow_over_blend
+    dct["small_glow_mask_coeff"]  = round_num(glow.small_glow_mask_coeff, 3)
+    dct["large_glow_mask_coeff"]  = round_num(glow.large_glow_mask_coeff, 3)
+    dct["small_glow_mask_width"]  = round_num(glow.small_glow_mask_width, 2)
+    dct["large_glow_mask_width"]  = round_num(glow.large_glow_mask_width, 2)
+
 
 # 2
 def process_object(obj, is_curve=False):
@@ -1754,13 +1903,18 @@ def process_lamp(lamp):
     _export_uuid_cache[lamp_data["uuid"]] = lamp_data
     _bpy_uuid_cache[lamp_data["uuid"]] = lamp
 
-def process_material(material):
+def process_material(material, uuid = None):
     global _curr_mesh
     _curr_material_stack.append(material)
     mat_data = OrderedDict()
+    _curr_mat_data_stack.append(mat_data)
 
+    mat_data["use_orco_tex_coord"] = False
     mat_data["name"] = material.name
-    mat_data["uuid"] = gen_uuid(material)
+    if uuid is not None:
+        mat_data["uuid"] = uuid
+    else:
+        mat_data["uuid"] = gen_uuid(material)
 
     mat_data["use_nodes"] = material.use_nodes
 
@@ -1770,6 +1924,9 @@ def process_material(material):
     mat_data["diffuse_fresnel"] = round_num(material.diffuse_fresnel, 3)
     mat_data["diffuse_fresnel_factor"] \
             = round_num(material.diffuse_fresnel_factor, 3)
+    mat_data["darkness"] = round_num(material.darkness, 3)
+    mat_data["diffuse_toon_size"] = round_num(material.diffuse_toon_size, 3)
+    mat_data["diffuse_toon_smooth"] = round_num(material.diffuse_toon_smooth, 3)
     mat_data["diffuse_intensity"] = round_num(material.diffuse_intensity, 3)
     mat_data["alpha"] = round_num(material.alpha, 4)
     mat_data["specular_alpha"] = round_num(material.specular_alpha, 4)
@@ -1789,6 +1946,7 @@ def process_material(material):
     mat_data["specular_intensity"] = round_num(material.specular_intensity, 4)
     mat_data["specular_shader"] = material.specular_shader
     mat_data["specular_hardness"] = round_num(material.specular_hardness, 4)
+    mat_data["specular_ior"] = round_num(material.specular_ior, 4)
     mat_data["specular_slope"] = round_num(material.specular_slope, 4)
     mat_data["specular_toon_size"] = round_num(material.specular_toon_size, 4)
     mat_data["specular_toon_smooth"] = round_num(material.specular_toon_smooth, 4)
@@ -1920,17 +2078,16 @@ def process_material(material):
         mat_data["node_tree"] = None
     process_material_texture_slots(mat_data, material)
 
-    need_append = not ("export_done" in material and material["export_done"])
+    need_append = (not (mat_data["uuid"] in _export_uuid_cache) 
+        or uuid is not None)
 
     if need_append:
         material["export_done"] = True
-        mat_data["uuid"] = gen_uuid(material)
-
         _export_data["materials"].append(mat_data)
         _export_uuid_cache[mat_data["uuid"]] = mat_data
         _bpy_uuid_cache[mat_data["uuid"]] = material
     _curr_material_stack.pop()
-
+    _curr_mat_data_stack.pop()
 
 def process_material_physics(mat_data, material):
     phy = material.physics
@@ -1939,15 +2096,18 @@ def process_material_physics(mat_data, material):
     dct["friction"] = round_num(phy.friction, 3)
     dct["elasticity"] = round_num(phy.elasticity, 3)
 
-def process_texture(texture):
-    if "export_done" in texture and texture["export_done"]:
+def process_texture(texture, uuid = None):
+    if "export_done" in texture and texture["export_done"] and uuid is None:
         return
     texture["export_done"] = True
 
     tex_data = OrderedDict()
 
     tex_data["name"] = texture.name
-    tex_data["uuid"] = gen_uuid(texture)
+    if uuid:
+        tex_data["uuid"] = uuid
+    else:
+        tex_data["uuid"] = gen_uuid(texture)
     tex_data["type"] = texture.type
 
     tex_data["b4w_source_type"] = texture.b4w_source_type
@@ -1961,6 +2121,8 @@ def process_texture(texture):
         tex_data["extension"] = None
 
     if texture.type == "NONE":
+        if texture.b4w_source_type == "SCENE":
+            _rendered_scenes.append(texture)
         tex_data["extension"] = texture.b4w_extension
         if texture.b4w_source_type == "CANVAS":
             if not texture.b4w_source_id:
@@ -2044,6 +2206,7 @@ def process_texture(texture):
         tex_data["color_ramp"] = None
 
     _export_data["textures"].append(tex_data)
+
     _export_uuid_cache[tex_data["uuid"]] = tex_data
     _bpy_uuid_cache[tex_data["uuid"]] = texture
 
@@ -2120,14 +2283,14 @@ def process_mesh(mesh, obj_user):
         return
 
     global _curr_mesh
-    global _fallback_material
     _curr_mesh = mesh
 
     mesh["export_done"] = True
 
     # update needed from bmesh introduction (blender >= 2.63)
     # also note change faces -> tessfaces, uv_textures -> tessface_uv_textures
-    mesh.update(calc_tessface=True)
+    mesh.calc_tessface()
+    mesh.update()
 
     mesh_data = OrderedDict()
     mesh_data["name"] = mesh.name
@@ -2149,13 +2312,10 @@ def process_mesh(mesh, obj_user):
                 process_material(material)
                 mesh_data["materials"].append(gen_uuid_obj(material))
             except MaterialError as ex:
-                if not _fallback_material:
-                    _fallback_material = bpy.data.materials.new("FALLBACK_MATERIAL")
-                    _fallback_material.diffuse_color = (1,0,1)
-                    _fallback_material.use_shadeless = True
-                    process_material(_fallback_material)
+                fallback_material = get_fallback_material()
+                process_material(fallback_material)
 
-                mesh_data["materials"].append(gen_uuid_obj(_fallback_material))
+                mesh_data["materials"].append(gen_uuid_obj(fallback_material))
                 err(str(ex) + " Material: " + "\"" + _curr_material_stack[-1].name + "\".")
 
     # process object's props
@@ -2185,7 +2345,7 @@ def process_mesh(mesh, obj_user):
 
     obj_ptr = obj_user.as_pointer()
     vertex_animation = bool(obj_user.b4w_loc_export_vertex_anim)
-    edited_normals = bool(obj_user.b4w_export_edited_normals)
+    edited_normals = bool(mesh.use_auto_smooth)
     vertex_groups = bool(obj_user.vertex_groups)
     vertex_colors = bool(mesh.vertex_colors)
     shape_keys = bool(obj_user.b4w_shape_keys) and "key_blocks" in dir(mesh.shape_keys)
@@ -2225,7 +2385,8 @@ def process_mesh(mesh, obj_user):
                 new_item.normal = vert.normal
         bpy.ops.object.mode_set(mode="OBJECT")
         bpy.context.scene.objects.active = current_active_obj
-        mesh.update(calc_tessface=True)
+        mesh.calc_tessface()
+        mesh.update()
         obj_copy.data = cur_mesh
         bpy.context.scene.objects.unlink(obj_copy)
         bpy.data.objects.remove(obj_copy)
@@ -2268,11 +2429,13 @@ def process_mesh_boundings(mesh_data, mesh, bounding_data):
 
         dct = mesh_data["b4w_bounding_box"] = OrderedDict()
         dct["max_x"] = round_num(bounding_box.max_x, 3)
-        dct["max_y"] = round_num(bounding_box.max_z, 3)
-        dct["max_z"] = round_num(-bounding_box.max_y, 3)
         dct["min_x"] = round_num(bounding_box.min_x, 3)
+
+        dct["max_y"] = round_num(bounding_box.max_z, 3)
         dct["min_y"] = round_num(bounding_box.min_z, 3)
-        dct["min_z"] = round_num(-bounding_box.min_y, 3)
+
+        dct["max_z"] = round_num(-bounding_box.min_y, 3)
+        dct["min_z"] = round_num(-bounding_box.max_y, 3)
 
         x_width = (bounding_box.max_x - bounding_box.min_x) / 2
         y_width = (bounding_box.max_y - bounding_box.min_y) / 2
@@ -2329,6 +2492,13 @@ def process_mesh_boundings(mesh_data, mesh, bounding_data):
             bounding_data["ecen_y"],
             bounding_data["ecen_z"]
         ], 3)
+    mesh_data["b4w_bounding_box_source"] = OrderedDict()
+    mesh_data["b4w_bounding_box_source"]["max_x"] = round_num(bounding_data["max_x"], 3)
+    mesh_data["b4w_bounding_box_source"]["max_y"] = round_num(bounding_data["max_y"], 3)
+    mesh_data["b4w_bounding_box_source"]["max_z"] = round_num(bounding_data["max_z"], 3)
+    mesh_data["b4w_bounding_box_source"]["min_x"] = round_num(bounding_data["min_x"], 3)
+    mesh_data["b4w_bounding_box_source"]["min_y"] = round_num(bounding_data["min_y"], 3)
+    mesh_data["b4w_bounding_box_source"]["min_z"] = round_num(bounding_data["min_z"], 3)
 
 def get_mat_vc_channel_usage(mesh, mat_index, obj_user):
     vc_channel_usage = {}
@@ -2375,6 +2545,9 @@ def vc_node_usage_iter(node_tree, vc_nodes_usage):
         if link.from_node.bl_idname == "ShaderNodeGeometry" \
                 and link.from_socket.identifier == "Vertex Color":
             vcol_name = link.from_node.color_layer
+
+            if not vcol_name and len(_curr_mesh.vertex_colors):
+                vcol_name = _curr_mesh.vertex_colors[0].name
             if vcol_name:
                 to_name = link.to_node.name
                 if vcol_name not in geometry_vcols:
@@ -2492,11 +2665,6 @@ def export_submesh(mesh, mesh_ptr, obj_user, obj_ptr, mat_index, disab_flat, \
         vertex_animation, edited_normals, shape_keys, vertex_groups, vertex_colors, \
         bounding_data):
 
-    if edited_normals and len(mesh.vertices) \
-            != len(obj_user.b4w_vertex_normal_list):
-        raise ExportError("Wrong edited normals count", mesh, \
-                "It doesn't match with mesh vertices count")
-
     if vertex_animation:
         if len(obj_user.b4w_vertex_anim) == 0:
             raise ExportError("Incorrect vertex animation", mesh, \
@@ -2526,6 +2694,8 @@ def export_submesh(mesh, mesh_ptr, obj_user, obj_ptr, mat_index, disab_flat, \
             vc_mask_buffer.append(0b000)
 
     try:
+        mesh.calc_normals_split()
+        mesh.calc_tessface()
         submesh = b4w_bin.export_submesh(mesh_ptr, obj_ptr, mat_index, \
                 disab_flat, vertex_animation, edited_normals, shape_keys, vertex_groups, \
                 vertex_colors, vc_mask_buffer, is_degenerate_mesh)
@@ -2884,16 +3054,24 @@ def process_particle(particle):
     part_data["texture_slots"] = []
     for slot in particle.texture_slots:
         if slot and do_export(slot.texture):
-            try:
-                if not slot.texture:
-                    raise MaterialError("No texture for the \"" + particle.name + "\" particle settings texture slot.")
-                slot_data = OrderedDict()
-                slot_data["use_map_size"] = slot.use_map_size
-                slot_data["texture"] = gen_uuid_obj(slot.texture)
-                process_texture(slot.texture)
-                part_data["texture_slots"].append(slot_data)
-            except MaterialError as ex:
-                err(str(ex))
+            slot_data = OrderedDict()
+            if slot.texture.type == "NONE" and slot.texture.b4w_source_type == "SCENE":
+                fallback_texture = get_fallback_texture()
+                slot_data["texture"] = gen_uuid_obj(fallback_texture)
+                process_texture(fallback_texture)
+                warn("\"" + particle.name + "\" particle settings has the \""
+                        + slot.texture.name + "\" texture rendering a scene. "
+                        + "It has been replaced by the default texture.")
+            else:
+                try:
+                    if not slot.texture:
+                        raise MaterialError("No texture for the \"" + particle.name + "\" particle settings texture slot.")
+                    slot_data["use_map_size"] = slot.use_map_size
+                    slot_data["texture"] = gen_uuid_obj(slot.texture)
+                    process_texture(slot.texture)
+                    part_data["texture_slots"].append(slot_data)
+                except MaterialError as ex:
+                    err(str(ex))
 
     if particle.render_type == "OBJECT":
         if particle.dupli_object is None:
@@ -2965,23 +3143,7 @@ def process_world(world):
     world_data["use_sky_real"] = world.use_sky_real
 
     process_world_light_settings(world_data, world)
-    process_world_shadow_settings(world_data, world)
-    process_world_god_rays_settings(world_data, world)
-    process_world_ssao_settings(world_data, world)
-    process_world_color_correction_settings(world_data, world)
     process_world_sky_settings(world_data, world)
-    process_world_bloom_settings(world_data, world)
-    process_world_motion_blur_settings(world_data, world)
-
-    world_data["b4w_outline_color"] = round_iterable(world.b4w_outline_color, 4)
-    world_data["b4w_outline_factor"] = round_num(world.b4w_outline_factor, 2)
-
-
-    world_data["b4w_render_glow_over_blend"] = world.b4w_render_glow_over_blend
-    world_data["b4w_small_glow_mask_coeff"]  = round_num(world.b4w_small_glow_mask_coeff, 3)
-    world_data["b4w_large_glow_mask_coeff"]  = round_num(world.b4w_large_glow_mask_coeff, 3)
-    world_data["b4w_small_glow_mask_width"]  = round_num(world.b4w_small_glow_mask_width, 2)
-    world_data["b4w_large_glow_mask_width"]  = round_num(world.b4w_large_glow_mask_width, 2)
 
     world_data["b4w_fog_color"] = round_iterable(world.b4w_fog_color, 4)
     world_data["b4w_fog_density"] = round_num(world.b4w_fog_density, 4)
@@ -2997,54 +3159,6 @@ def process_world_light_settings(world_data, world):
     dct["use_environment_light"] = light_settings.use_environment_light
     dct["environment_energy"] = round_num(light_settings.environment_energy, 3)
     dct["environment_color"] = light_settings.environment_color
-
-def process_world_shadow_settings(world_data, world):
-    shadow = world.b4w_shadow_settings
-
-    dct = world_data["b4w_shadow_settings"] = OrderedDict()
-
-    dct["csm_resolution"] = int(shadow.csm_resolution)
-    dct["self_shadow_polygon_offset"] = round_num(shadow.self_shadow_polygon_offset, 2)
-    dct["self_shadow_normal_offset"] = round_num(shadow.self_shadow_normal_offset, 3)
-
-    dct["b4w_enable_csm"] = shadow.b4w_enable_csm
-    dct["csm_num"] = shadow.csm_num
-    dct["csm_first_cascade_border"] = round_num(shadow.csm_first_cascade_border, 2)
-    dct["first_cascade_blur_radius"] = round_num(shadow.first_cascade_blur_radius, 2)
-    dct["csm_last_cascade_border"] = round_num(shadow.csm_last_cascade_border, 2)
-    dct["last_cascade_blur_radius"] = round_num(shadow.last_cascade_blur_radius, 2)
-    dct["fade_last_cascade"] = shadow.fade_last_cascade
-    dct["blend_between_cascades"] = shadow.blend_between_cascades
-
-def process_world_god_rays_settings(world_data, world):
-    god_rays = world.b4w_god_rays_settings
-
-    dct = world_data["b4w_god_rays_settings"] = OrderedDict()
-    dct["intensity"] = round_num(god_rays.intensity, 2)
-    dct["max_ray_length"] = round_num(god_rays.max_ray_length, 2)
-    dct["steps_per_pass"] = round_num(god_rays.steps_per_pass, 1)
-
-
-def process_world_ssao_settings(world_data, world):
-    ssao = world.b4w_ssao_settings
-
-    dct = world_data["b4w_ssao_settings"] = OrderedDict()
-    dct["radius_increase"] = round_num(ssao.radius_increase, 2)
-    dct["hemisphere"] = ssao.hemisphere
-    dct["blur_depth"] = ssao.blur_depth
-    dct["blur_discard_value"] = round_num(ssao.blur_discard_value, 2)
-    dct["influence"] = round_num(ssao.influence, 3)
-    dct["dist_factor"] = round_num(ssao.dist_factor, 2)
-    dct["samples"] = int(ssao.samples)
-
-def process_world_color_correction_settings(world_data, world):
-    ccs = world.b4w_color_correction_settings
-
-    dct = world_data["b4w_color_correction_settings"] = OrderedDict()
-    dct["brightness"] = round_num(ccs.brightness, 2)
-    dct["contrast"] = round_num(ccs.contrast, 2)
-    dct["exposure"] = round_num(ccs.exposure, 2)
-    dct["saturation"] = round_num(ccs.saturation, 2)
 
 def process_world_sky_settings(world_data, world):
     sky = world.b4w_sky_settings
@@ -3065,22 +3179,6 @@ def process_world_sky_settings(world_data, world):
     dct["rayleigh_collection_power"] = round_num(sky.rayleigh_collection_power, 2)
     dct["mie_collection_power"] = round_num(sky.mie_collection_power, 2)
     dct["mie_distribution"] = round_num(sky.mie_distribution, 2)
-
-def process_world_bloom_settings(world_data, world):
-    bloom = world.b4w_bloom_settings
-
-    dct = world_data["b4w_bloom_settings"] = OrderedDict()
-    dct["key"] = round_num(bloom.key, 2)
-    dct["blur"] = round_num(bloom.blur, 2)
-    dct["edge_lum"] = round_num(bloom.edge_lum, 2)
-
-def process_world_motion_blur_settings(world_data, world):
-    motion_blur = world.b4w_motion_blur_settings
-
-    dct = world_data["b4w_motion_blur_settings"] = OrderedDict()
-    dct["motion_blur_factor"] = round_num(motion_blur.motion_blur_factor, 3)
-    dct["motion_blur_decay_threshold"] \
-            = round_num(motion_blur.motion_blur_decay_threshold, 3)
 
 def matrix4x4_to_list(m):
     m = m.transposed()
@@ -3355,6 +3453,40 @@ def obj_cons_target(cons):
 
     return target_uuid
 
+def get_particle_system_scale(obj, psys, vert_group_name):
+    indices = []
+    vertex_influence = []
+    scales_data_bytearray = b4w_bin.calc_particle_scale(psys.as_pointer())
+
+    ver_inf_len = len(scales_data_bytearray["face_uv"]) // BINARY_FLOAT_SIZE
+    f_v_num_len = len(scales_data_bytearray["face_ver_num"]) // BINARY_INT_SIZE
+
+    vertex_influence = struct.unpack('f' * ver_inf_len, 
+            scales_data_bytearray["face_uv"])
+
+    indices = struct.unpack('i' * f_v_num_len, 
+            scales_data_bytearray["face_ver_num"])
+
+    vg_index = obj.vertex_groups[vert_group_name].index
+    scales = []
+    for i in range(len(psys.particles)):
+        if psys.settings.emit_from != "VERT":
+            vert = obj.data.polygons[indices[i]].vertices
+            scale = 0
+            for j in range(0, len(vert)):
+                vert_num = vert[j].numerator
+                weight = 0
+                for v_group in obj.data.vertices[vert_num].groups:
+                    if v_group.group == vg_index:
+                        weight = obj.vertex_groups[vert_group_name].weight(vert_num)
+                scale += weight * vertex_influence[i * 4 + j]
+        else:
+            scale = obj.vertex_groups[vert_group_name].weight(indices[i])
+
+        scale = max(min(scale, 1), 0)
+        scales.append(scale)
+    return scales
+
 def process_object_particle_systems(obj):
     psystems_data = []
     for m in obj.modifiers:
@@ -3379,6 +3511,10 @@ def process_object_particle_systems(obj):
                     transforms_length = len(psys.particles) * data_len
                     ptrans_ptr = b4w_bin.create_buffer_float(transforms_length)
 
+                    vert_group_name = psys.vertex_group_length
+                    if vert_group_name:
+                        scales = get_particle_system_scale(obj, psys, vert_group_name)
+
                     for i in range(len(psys.particles)):
                         particle = psys.particles[i]
                         x,y,z = particle.hair_keys[0].co_object(obj, m, particle).xyz
@@ -3389,6 +3525,8 @@ def process_object_particle_systems(obj):
                         length = (particle.hair_keys[-1:][0].co_local.xyz -
                                     particle.hair_keys[0].co_local.xyz).length
                         scale = particle.size * length
+                        if vert_group_name:
+                            scale *= scales[i]
 
                         # translate coords: x,z,-y
                         ptrans_ptr = b4w_bin.buffer_insert_float(ptrans_ptr, i * data_len, x)
@@ -3402,6 +3540,7 @@ def process_object_particle_systems(obj):
                             quat_x = particle.rotation[1]
                             quat_y = particle.rotation[2]
                             quat_z = particle.rotation[3]
+
                             ptrans_ptr = b4w_bin.buffer_insert_float(ptrans_ptr, i * data_len + 4, quat_w)
                             ptrans_ptr = b4w_bin.buffer_insert_float(ptrans_ptr, i * data_len + 5, quat_x)
                             ptrans_ptr = b4w_bin.buffer_insert_float(ptrans_ptr, i * data_len + 6, quat_z)
@@ -3445,21 +3584,48 @@ def process_node_tree(data, tree_source):
         node_data["name"] = node.name
         node_data["type"] = node.type
 
+        if (node.type == "OUTPUT_MATERIAL" or node.type == "OUTPUT_LAMP"):
+            continue
+
         process_node_sockets(node_data, "inputs", node.inputs)
         process_node_sockets(node_data, "outputs", node.outputs)
 
         if node.type == "GEOMETRY":
-            if check_uv_layers_limited(_curr_mesh, node.uv_layer):
+            if node.outputs["UV"].is_linked:
+                node_data["uv_layer"] = get_uv_layer(_curr_mesh, node.uv_layer)
+                if not node_data["uv_layer"]:
+                    raise MaterialError("Exported UV-layer is missing in node \"GEOMETRY\".")
+            else:
                 node_data["uv_layer"] = node.uv_layer
+
+            if node.outputs["Orco"].is_linked:
+                _curr_mat_data_stack[-1]["use_orco_tex_coord"] = True
+
+            if node.outputs["Vertex Color"].is_linked:
+                node_data["color_layer"] = get_vertex_color(_curr_mesh, node.color_layer)
+                if not node_data["color_layer"]:
+                    raise MaterialError("Wrong vertex color layer is used in node \"GEOMETRY\".")
+            else:
+                node_data["color_layer"] = node.color_layer
+                
+        if node.type == "UVMAP":
+            if node.outputs["UV"].is_linked:
+                node_data["uv_layer"] = get_uv_layer(_curr_mesh,  node.uv_map)
+                if not node_data["uv_layer"]:
+                    raise MaterialError("Exported UV-layer is missing in node \"UV_MAP\".")
+            else:
+                node_data["uv_layer"] =  node.uv_map
+
+        if node.type == "TEX_COORD":
+            if node.outputs["UV"].is_linked:
+                node_data["uv_layer"] = get_uv_layer(_curr_mesh, "")
+                if not node_data["uv_layer"]:
+                    raise MaterialError("Exported UV-layer is missing in mesh \"" 
+                            + _curr_mesh.name + "\".")
             else:
                 node_data["uv_layer"] = ""
-                raise MaterialError("Exported UV-layer is missing in node \"GEOMETRY\".")
-
-            if check_vertex_color_empty(_curr_mesh, node.color_layer):
-                node_data["color_layer"] = node.color_layer
-            else:
-                node_data["color_layer"] = ""
-                raise MaterialError("Wrong vertex color layer is used in node \"GEOMETRY\".")
+            if node.outputs["Generated"].is_linked:
+                _curr_mat_data_stack[-1]["use_orco_tex_coord"] = True
 
         if node.type == "GROUP":
             if node.node_tree.name == "B4W_REFRACTION" or node.node_tree.name == "REFRACTION":
@@ -3563,6 +3729,9 @@ def process_node_tree(data, tree_source):
         if not link.is_valid:
             raise MaterialError("Invalid link found in node material.")
 
+        if link.to_node.type == "OUTPUT_MATERIAL" or link.to_node.type == "OUTPUT_LAMP":
+            continue
+
         link_data = OrderedDict()
 
         # name is unique identifier here
@@ -3607,12 +3776,15 @@ def process_node_sockets(node_data, type_str, sockets):
             sock_data["identifier"] = sock.identifier
             sock_data["is_linked"] = sock.is_linked
 
-            rna_ident = sock.rna_type.identifier
-            if (rna_ident == "NodeSocketVector" or rna_ident == "NodeSocketColor" or
-                    rna_ident == "NodeSocketVectorDirection"):
-                sock_data["default_value"] = round_iterable(sock.default_value, 3)
+            if sock.type != "SHADER":
+                rna_ident = sock.rna_type.identifier
+                if (rna_ident == "NodeSocketVector" or rna_ident == "NodeSocketColor" or
+                        rna_ident == "NodeSocketVectorDirection"):
+                    sock_data["default_value"] = round_iterable(sock.default_value, 3)
+                else:
+                    sock_data["default_value"] = round_num(sock.default_value, 3)
             else:
-                sock_data["default_value"] = round_num(sock.default_value, 3)
+                sock_data["default_value"] = [0, 0, 0]
 
             node_data[type_str].append(sock_data)
 
@@ -3699,10 +3871,8 @@ def process_material_texture_slots(mat_data, material):
                     if len(_curr_mesh.uv_textures) == 0:
                         raise MaterialError("Incomplete mesh \"" + _curr_mesh.name +
                                 "\" No UV in mesh with UV-textured material.")
-                    if check_uv_layers_limited(_curr_mesh, slot.uv_layer):
-                        slot_data["uv_layer"] = slot.uv_layer
-                    else:
-                        slot_data["uv_layer"] = ""
+                    slot_data["uv_layer"] = get_uv_layer(_curr_mesh, slot.uv_layer)
+                    if not slot_data["uv_layer"]:
                         raise MaterialError("Exported UV-layer is missing in texture \"" + slot.texture.name + "\".")
                 else:
                     slot_data["uv_layer"] = ""
@@ -3791,7 +3961,7 @@ def set_default_path(path):
 class B4W_ExportProcessor(bpy.types.Operator):
     """Export for Blend4Web (.json)"""
     bl_idname = "export_scene.b4w_json"
-    bl_label = "B4W Export"
+    bl_label = "B4W Export JSON"
 
     filepath = bpy.props.StringProperty(subtype='FILE_PATH', default = "")
 
@@ -3862,16 +4032,7 @@ class B4W_ExportProcessor(bpy.types.Operator):
         wm = context.window_manager
         wm.fileselect_add(self)
 
-        # NOTE: select all layers on all scenes to avoid issue with particle systems
-        # NOTE: do it before execution!!!
-        if bpy.data.particles:
-            scenes_store_select_all_layers()
         return {"RUNNING_MODAL"}
-
-    def cancel(self, context):
-        # NOTE: restore selected layers
-        if bpy.data.particles:
-            scenes_restore_selected_layers()
 
     def draw(self, context):
         layout = self.layout
@@ -3880,12 +4041,16 @@ class B4W_ExportProcessor(bpy.types.Operator):
 
         file_path = context.space_data.params.directory
         path_to_sdk = bpy.context.user_preferences.addons[__package__].preferences.b4w_src_path
-        os.path.abspath(path_to_sdk)
-        rel_filepath = os.path.relpath(file_path, path_to_sdk)
-        if (rel_filepath.find(os.pardir) == -1 and 
-                server.B4WStartServer.server_status == server.SUB_THREAD_START_SERV_OK):
-            layout.prop(self, "run_in_viewer")
-        else:
+        path_to_sdk = os.path.abspath(path_to_sdk)
+        try:
+            rel_filepath = os.path.relpath(file_path, path_to_sdk)
+
+            if (rel_filepath.find(os.pardir) == -1 and
+                    server.B4WStartServer.server_status == server.SUB_THREAD_START_SERV_OK):
+                layout.prop(self, "run_in_viewer")
+            else:
+                self.run_in_viewer = False
+        except:
             self.run_in_viewer = False
 
     def run(self, export_filepath):
@@ -3916,6 +4081,9 @@ class B4W_ExportProcessor(bpy.types.Operator):
         global _curr_material_stack
         _curr_material_stack = []
 
+        global _curr_mat_data_stack
+        _curr_mat_data_stack = []
+
         global _fallback_camera
         _fallback_camera = None
 
@@ -3924,6 +4092,12 @@ class B4W_ExportProcessor(bpy.types.Operator):
 
         global _fallback_material
         _fallback_material = None
+
+        global _fallback_texture
+        _fallback_texture = None
+
+        global _rendered_scenes
+        _rendered_scenes = []
 
         global _curr_mesh
         _curr_mesh = None
@@ -3996,8 +4170,12 @@ class B4W_ExportProcessor(bpy.types.Operator):
         _export_data["b4w_format_version"] = blend4web.bl_info["b4w_format_version"]
         _export_data["b4w_filepath_blend"] = get_filepath_blend(export_filepath)
 
+
+
         attach_export_properties(tags)
         for scene in bpy.data.scenes:
+            # NOTE: update all scenes to avoid issue with particle systems
+            scene.update()
             check_dupli_groups(scene.objects, _dg_counter)
             _dg_counter += 1
         process_components(tags)
@@ -4143,10 +4321,6 @@ def check_shared_data(export_data):
                     mesh_users.append(obj_data)
         check_objs_shared_mesh_compat(mesh_users)
 
-    # check compatibility of meshes with shared material
-    for mat_data in materials:
-        check_material_nodes_links(mat_data);
-
 def check_objs_shared_mesh_compat(mesh_users):
     if len(mesh_users) <= 1:
         return
@@ -4161,21 +4335,6 @@ def check_objs_shared_mesh_compat(mesh_users):
             raise ExportError("Incompatible objects with a shared mesh", obj,
                     "The object " + obj_data["name"] +
                     " has both vertex groups and shared mesh")
-
-def check_material_nodes_links(mat_data):
-    if mat_data["node_tree"] is not None:
-        vector_types = ["VECTOR", "RGBA"]
-
-        material = _bpy_uuid_cache[mat_data["uuid"]]
-        links = material.node_tree.links
-        for link in links:
-            sock_from_type = link.from_socket.type
-            sock_to_type = link.to_socket.type
-            
-            if (sock_from_type in vector_types) != (sock_to_type in vector_types):
-                warn("Node material invalid: \"" + material.name + "\"."
-                        + " Check sockets compatibility: \"" + link.from_node.name
-                        + "\" to \"" + link.to_node.name)
 
 def create_fallback_camera(scene_data):
     global _fallback_camera
@@ -4289,8 +4448,9 @@ def check_obj_particle_systems(obj_data, obj):
         pset_uuid = psys_data["settings"]["uuid"]
         pset_data = _export_uuid_cache[pset_uuid]
 
+        pset = _bpy_uuid_cache[pset_data["uuid"]]
+
         if not check_vertex_color_empty(obj.data, pset_data["b4w_vcol_from_name"]):
-            pset = _bpy_uuid_cache[pset_data["uuid"]]
             err("Particle system error for \"" + pset.name +
                     "\" The \"" + pset_data["b4w_vcol_from_name"] +
                     "\" vertex color specified in the \"from\" field is " +
@@ -4337,12 +4497,24 @@ def check_vertex_color_empty(mesh, vc_name):
     # no found
     return False
 
-def check_uv_layers_limited(mesh, uv_layer_name):
+def get_uv_layer(mesh, uv_layer_name):
     # Allow special case for empty UV-layer name
-    if uv_layer_name == "":
-        return True
-    index = mesh.uv_textures.find(uv_layer_name)
-    return index == 0 or index == 1
+    if uv_layer_name != "":
+        index = mesh.uv_textures.find(uv_layer_name)
+        if index == 0 or index == 1:
+            return mesh.uv_textures[index].name
+    if len(mesh.uv_textures) != 0:
+        return mesh.uv_textures[0].name
+    return ""
+
+def get_vertex_color(mesh, vc_name):
+    if vc_name != "":
+        index = mesh.vertex_colors.find(vc_name)
+        if index != -1:
+            return mesh.vertex_colors[index].name
+    if len(mesh.vertex_colors) != 0:
+        return mesh.vertex_colors[0].name
+    return ""
 
 def check_tex_slot(tex_slot):
     tex = tex_slot.texture
@@ -4357,12 +4529,12 @@ def clean_exported_data():
     global _fallback_camera
     global _fallback_world
     global _fallback_material
-    global _canvases_identifiers
-    global _dupli_group_ids
-    global _dg_counter
-    if bpy.data.particles:
-        scenes_restore_selected_layers()
-    remove_overrided_meshes()
+    global _fallback_texture
+    global _performed_cleanup
+
+    if _performed_cleanup:
+        return
+
     if _fallback_camera:
         cam_data = _fallback_camera.data
         bpy.data.objects.remove(_fallback_camera)
@@ -4374,10 +4546,12 @@ def clean_exported_data():
     if _fallback_material:
         bpy.data.materials.remove(_fallback_material)
         _fallback_material = None
-    if _canvases_identifiers:
-        _canvases_identifiers = []
-    _dupli_group_ids = {}
-    _dg_counter = 0
+    if _fallback_texture:
+        bpy.data.textures.remove(_fallback_texture)
+        _fallback_texture = None
+
+    remove_overrided_meshes()
+    _performed_cleanup = True
 
 class B4W_ExportPathGetter(bpy.types.Operator):
     """Get Export Path for blend file"""
@@ -4398,9 +4572,17 @@ def b4w_export_menu_func(self, context):
 
 def check_binaries():
     # NOTE: check if binaries is available
+    libname, path = binary_module_hook.get_binary_module_desc()
     if "b4w_bin" not in globals():
-        from .init_validation import bin_invalid_message
-        bpy.app.handlers.scene_update_pre.append(bin_invalid_message)
+        try:
+            m = imp.load_dynamic(libname, path)
+        except:
+            m = None
+        if not m:
+            from .init_validation import bin_invalid_message
+            bpy.app.handlers.scene_update_pre.append(bin_invalid_message)
+        else:
+            globals()["b4w_bin"] = m
 
 def register():
     check_binaries()

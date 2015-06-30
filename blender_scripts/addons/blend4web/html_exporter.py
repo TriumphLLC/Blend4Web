@@ -15,7 +15,7 @@ class B4W_HTMLExportProcessor(bpy.types.Operator):
 
     """Export for Blend4Web (.html)"""
     bl_idname = "export_scene.b4w_html"
-    bl_label = "B4W HTMLExport"
+    bl_label = "B4W Export HTML"
 
     filepath = bpy.props.StringProperty(subtype='FILE_PATH', default = "")
 
@@ -51,7 +51,7 @@ class B4W_HTMLExportProcessor(bpy.types.Operator):
 
     @classmethod
     def poll(cls, context):
-        path = cls.get_b4w_src_path()
+        path = cls.get_b4w_webplayer_path()
         if path is not None:
             tpl_path = os.path.join(path, "template", "webplayer_template.html")
             # for standalone addon template located in the same dir
@@ -67,12 +67,6 @@ class B4W_HTMLExportProcessor(bpy.types.Operator):
         self.filepath = get_default_path()
         wm = context.window_manager
         wm.fileselect_add(self)
-
-        # NOTE: select all layers on all scenes to avoid issue with particle systems
-        # NOTE: do it before execution!!!
-        # NOTE: layers restored automatically in exporter
-        if bpy.data.particles:
-            exporter.scenes_store_select_all_layers()
         return {"RUNNING_MODAL"}
 
     def execute(self, context):
@@ -95,11 +89,6 @@ class B4W_HTMLExportProcessor(bpy.types.Operator):
 
         return {"FINISHED"}
 
-    def cancel(self, context):
-        # NOTE: restore selected layers
-        if bpy.data.particles:
-            exporter.scenes_restore_selected_layers()
-
     def draw(self, context):
         layout = self.layout
         layout.prop(self, "do_autosave")
@@ -107,7 +96,7 @@ class B4W_HTMLExportProcessor(bpy.types.Operator):
         layout.prop(self, "export_converted_media")
 
     @classmethod
-    def get_b4w_src_path(cls):
+    def get_b4w_webplayer_path(cls):
         addon_prefs = bpy.context.user_preferences.addons[__package__].preferences
         if not addon_prefs.is_property_set("b4w_src_path"):
             addon_prefs.b4w_src_path = ""
@@ -127,13 +116,13 @@ class B4W_HTMLExportProcessor(bpy.types.Operator):
         json_name = "main.json"
         json_path = os.path.join(export_dir, json_name)
 
-        b4w_src_path = self.get_b4w_src_path()
-        html_tpl_path = os.path.join(b4w_src_path, "template", "webplayer_template.html")
+        b4w_webplayer_path = self.get_b4w_webplayer_path()
+        html_tpl_path = os.path.join(b4w_webplayer_path, "template", "webplayer_template.html")
         # for standalone addon template located in the same dir
         if not os.path.isfile(html_tpl_path):
-            html_tpl_path = os.path.join(b4w_src_path, "webplayer_template.html")
-        b4w_minjs_path = os.path.join(b4w_src_path, "webplayer.min.js")
-        b4w_css_path = os.path.join(b4w_src_path, "webplayer.min.css")
+            html_tpl_path = os.path.join(b4w_webplayer_path, "webplayer_template.html")
+        b4w_minjs_path = os.path.join(b4w_webplayer_path, "webplayer.min.js")
+        b4w_css_path = os.path.join(b4w_webplayer_path, "webplayer.min.css")
 
         
         if "CANCELLED" in bpy.ops.export_scene.b4w_json("EXEC_DEFAULT", \
@@ -273,9 +262,9 @@ def extract_data(json_path, json_filename, export_converted_media):
     return data
 
 def get_smaa_textures(data, json_path):
-    b4w_src_path = B4W_HTMLExportProcessor.get_b4w_src_path()
-    smaa_area_tex_path = os.path.join(b4w_src_path, "smaa_area_texture.png")
-    smaa_search_tex_path = os.path.join(b4w_src_path, "smaa_search_texture.png")
+    b4w_webplayer_path = B4W_HTMLExportProcessor.get_b4w_webplayer_path()
+    smaa_area_tex_path = os.path.join(b4w_webplayer_path, "smaa_area_texture.png")
+    smaa_search_tex_path = os.path.join(b4w_webplayer_path, "smaa_search_texture.png")
 
     data["smaa_area_texture.png"] = \
             get_encoded_resource_data(smaa_area_tex_path, json_path)

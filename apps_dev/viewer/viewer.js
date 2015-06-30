@@ -19,6 +19,7 @@ var m_main     = require("main");
 var m_mixer    = require("mixer");
 var m_mat      = require("material");
 var m_nla      = require("nla");
+var m_rgb      = require("rgb");
 var m_sshot    = require("screenshooter");
 var m_scenes   = require("scenes");
 var m_shaders  = require("shaders");
@@ -294,7 +295,7 @@ function init_ui() {
     _lights_elem = document.getElementById("lights_cont");
 
     // build date
-    document.getElementById("build_date").innerHTML = m_version.date();
+    document.getElementById("build_date").innerHTML = m_version.date_str();
 
     // general buttons
     bind_control(save_quality_and_reload, "quality", "string");
@@ -457,6 +458,10 @@ function init_ui() {
     bind_control(set_wind_params, "wind_dir", "number");
     bind_control(set_wind_params, "wind_strength", "number");
 
+    //motion blur
+    bind_control(set_mb_params, "mb_factor", "number");
+    bind_control(set_mb_params, "mb_decay_threshold", "number");
+
     // bloom
     bind_control(set_bloom_params, "bloom_key", "number");
     bind_control(set_bloom_params, "bloom_blur", "number");
@@ -469,6 +474,7 @@ function init_ui() {
     bind_control(set_glow_material_params, "large_glow_mask_width", "number");
 
     // debug
+    bind_control(set_canvas_resolution_factor, "canvas_rf", "number");
     bind_control(set_debug_params, "wireframe_mode", "string");
     bind_colpick(set_debug_params, "wireframe_edge_color", "object");
     bind_control(set_hud_debug_info_and_reload, "show_hud_debug_info", "bool"); //TODO
@@ -848,6 +854,7 @@ function prepare_scenes(global_settings) {
     get_wind_params();
     get_sun_params();
     get_sky_params();
+    get_mb_params();
     get_bloom_params();
     get_glow_material_params();
     check_lighting_params();
@@ -1852,8 +1859,7 @@ function get_material_params(obj, mat_name) {
     }
 
     var diffuse_color = m_mat.get_diffuse_color(obj, mat_name);
-    diffuse_color.pop();
-    mparams["diffuse_color"] = diffuse_color;
+    mparams["diffuse_color"] = diffuse_color.subarray(0, 3);
 
     forbid_params(mat_param_names, "enable");
 
@@ -2377,6 +2383,45 @@ function set_god_rays_params(value) {
     m_scenes.set_god_rays_params(god_rays_params);
 }
 
+function set_canvas_resolution_factor(value) {
+
+    if ("canvas_rf" in value) {
+        m_cfg.set("canvas_resolution_factor", value.canvas_rf);
+        on_resize();
+    }
+}
+
+function get_mb_params() {
+    var mb_params = m_scenes.get_mb_params();
+    var mb_param_names = ["mb_factor",
+                            "mb_decay_threshold"];
+
+    if (!mb_params) {
+        forbid_params(mb_param_names, "disable");
+        return;
+    }
+
+    forbid_params(mb_param_names, "enable");
+
+    if (mb_params) {
+        set_slider("mb_factor", mb_params["mb_factor"]);
+        set_slider("mb_decay_threshold", mb_params["mb_decay_threshold"]);
+    }
+}
+
+function set_mb_params(value) {
+    var mb_params = {};
+
+    if ("mb_factor" in value) {
+        mb_params["mb_factor"] = value.mb_factor;
+    }
+    if ("mb_decay_threshold" in value) {
+        mb_params["mb_decay_threshold"] = value.mb_decay_threshold;
+    }
+
+    m_scenes.set_mb_params(mb_params);
+}
+
 function get_bloom_params() {
     var bloom_params = m_scenes.get_bloom_params();
     var bloom_param_names = ["bloom_key",
@@ -2453,42 +2498,16 @@ function set_glow_material_params(value) {
 }
 
 function set_color_picker(id, color) {
-    // copied from colorpicker
-    function RGBToHex(rgb) {
-        var hex = [rgb.r.toString(16), rgb.g.toString(16), rgb.b.toString(16)];
-        $.each(hex, function(nr, val) {
-            if (val.length == 1) {
-                hex[nr] = '0' + val;
-            }
-        });
-        return hex.join('');
-    };
-
-    color = lin_to_srgb(color);
+    var css_rgb = m_rgb.rgb_to_css(color);
+    var css_hex = m_rgb.rgb_to_css_hex(color);
 
     var rgb = {
-        r: Math.round(color[0] * 255),
-        g: Math.round(color[1] * 255),
-        b: Math.round(color[2] * 255)
+        r: css_rgb[0],
+        g: css_rgb[1],
+        b: css_rgb[2]
     };
     $("#" + id).ColorPickerSetColor(rgb);
-    $("#" + id + " div").css('backgroundColor', '#' + RGBToHex(rgb));
-}
-
-function srgb_to_lin(color) {
-    return [
-        Math.pow(color[0], 2.2),
-        Math.pow(color[1], 2.2),
-        Math.pow(color[2], 2.2)
-    ];
-}
-
-function lin_to_srgb(color) {
-    return [
-        Math.pow(color[0], 1/2.2),
-        Math.pow(color[1], 1/2.2),
-        Math.pow(color[2], 1/2.2)
-    ];
+    $("#" + id + " div").css('backgroundColor', css_hex);
 }
 
 function get_wind_params() {
@@ -2551,22 +2570,14 @@ function bind_control(fun, id, type) {
 }
 
 function bind_colpick(fun, id) {
-    $("#" + id).ColorPicker({onChange: function (hsb, hex, rgb) {
-        $("#" + id + " div").css('backgroundColor', '#' + hex);
+    $("#" + id).ColorPicker({onChange: function (hsb, css_hex, css_rgb) {
+        $("#" + id + " div").css('backgroundColor', '#' + css_hex);
         var arg = {};
-        arg[id] = srgb_to_lin(rgb_to_float(rgb));
+        var color = m_rgb.css_to_rgb(css_rgb.r, css_rgb.g, css_rgb.b);
+        // need untyped array here
+        arg[id] = [color[0], color[1], color[2]];
         fun(arg);
     }});
-}
-
-function rgb_to_float(rgb, opt_dest) {
-    opt_dest = opt_dest || [];
-
-    opt_dest[0] = rgb.r / 255;
-    opt_dest[1] = rgb.g / 255;
-    opt_dest[2] = rgb.b / 255;
-
-    return opt_dest;
 }
 
 function init_jQM_select(id) {

@@ -35,15 +35,6 @@ Example - Using the Registered Module:
     m_my_module.print_build_date();
 
 
-**3D Object vs JavaScript Object**
-
-In order to prevent confusion between a 3D object and a JavaScript object,
-the former is always referenced as "Object ID" in this documentation. 
-Although "Object ID" is internally implemented as a JavaScript object, it is strongly
-discouraged to directly access its properties. Instead, you should always rely on the
-engine API in order to manipulate your 3D objects.
-
-
 <!---
 
 **Type System**

@@ -31,6 +31,7 @@
 /**
  * Objects API.
  * @module objects
+ * @local ObjectMetaTags
  */
 b4w.module["objects"] = function(exports, require) {
 
@@ -39,9 +40,10 @@ var m_print  = require("__print");
 var m_util   = require("__util");
 var m_scenes = require("__scenes");
 var m_geom   = require("__geometry");
+
 /**
  * @typedef ObjectMetaTags
- * @type {Object}
+ * @type {Object3D}
  * @property {String} title The title meta tag.
  * @property {String} description The description meta tag.
  * @property {String} category The category meta tag.
@@ -50,6 +52,7 @@ var m_geom   = require("__geometry");
 /**
  * Get the Blender-assigned meta tags from the object.
  * @method module:objects.get_meta_tags
+ * @param {Object3D} obj Object 3D
  * @returns {ObjectMetaTags} Object meta tags
  * @cc_externs title description category
  */
@@ -60,10 +63,10 @@ exports.get_meta_tags = function(obj) {
 /**
  * Copy MESH object.
  * @method module:objects.copy
- * @param {Object} obj Object ID
+ * @param {Object3D} obj Object 3D
  * @param {String} new_name New unique object name
  * @param {Boolean} [deep_copy=false] Copy WebGL buffers
- * @returns {Object} New object ID
+ * @returns {Object3D} New object.
  */
 exports.copy = function(obj, name, deep_copy) {
 
@@ -94,47 +97,62 @@ exports.copy = function(obj, name, deep_copy) {
     name = name || "";
     return m_obj.copy(obj, name, deep_copy);
 }
+
 /**
- * Set object's material node value.
+ * Set value of the Value node in the object's material.
  * @method module:objects.set_nodemat_value
- * @param {Object} obj Object ID
- * @param {Array} name_list List of material, nested node groups, and value node
+ * @param {Object3D} obj Object 3D
+ * @param {String[]} name_list List consisting of the material name, the names of
+ * nested node groups (if any) and the name of the Value node itself
+ * @param {Number} value The value to set the Value node to
  */
 exports.set_nodemat_value = function(obj, name_list, value) {
+
     if (!m_util.is_mesh(obj)) {
-        m_print.error("object \"" + obj["name"] + "\" is not of type \"MESH\".");
+        m_print.error("The type of the object \"" + obj["name"] +
+            "\" is not \"MESH\".");
         return null;
     }
+
     var node_id = name_list.join("%join%");
     var ind = m_obj.get_value_node_ind_by_id(obj, node_id);
     if (ind != null)
         obj._render.mats_values[ind] = value;
     else
-        m_print.error("value \"" + node_id + "\" was not found in \"" + obj["name"] + "\" object.");
+        m_print.error("The Value node \"" + node_id +
+            "\" was not found in the object \"" + obj["name"] + "\".");
 }
+
 /**
- * Set object's material node rgb.
+ * Set color of the RGB node in the object's material.
  * @method module:objects.set_nodemat_rgb
- * @param {Object} obj Object ID
- * @param {Array} name_list List of material, nested node groups, and rgb node
- * @param {Number} r R channel value
- * @param {Number} g G channel value
- * @param {Number} b B channel value
+ * @param {Object3D} obj Object 3D
+ * @param {String[]} name_list List consisting of the material name, the names of
+ * nested node groups (if any) and the name of the RGB node itself
+ * @param {Number} r The value to set the red channel of the RGB node to
+ * @param {Number} g The value to set the green channel of the RGB node to
+ * @param {Number} b The value to set the blue channel of the RGB node to
  */
 exports.set_nodemat_rgb = function(obj, name_list, r, g, b) {
+
     if (!m_util.is_mesh(obj)) {
-        m_print.error("object \"" + obj["name"] + "\" is not of type \"MESH\".");
+        m_print.error("The type of the object \"" + obj["name"] +
+            "\" is not \"MESH\".");
         return null;
     }
+
     var node_id = name_list.join("%join%");
     var ind = m_obj.get_rgb_node_ind_by_id(obj, node_id);
     if (ind != null) {
-        obj._render.mats_rgbs[ind] = r;
+        obj._render.mats_rgbs[ind]     = r;
         obj._render.mats_rgbs[ind + 1] = g;
         obj._render.mats_rgbs[ind + 2] = b;
-    } else
-        m_print.error("rgb \"" + node_id + "\" was not found in \"" + obj["name"] + "\" object.");
+    } else {
+        m_print.error("The RGB node \"" + node_id +
+            "\" was not found in the object \"" + obj["name"] + "\".");
+    }
 }
+
 }
 </code></pre>
         </article>
@@ -146,13 +164,13 @@ exports.set_nodemat_rgb = function(obj, name_list, r, g, b) {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-rgb.html">rgb</a></li><li><a href="module-rgba.html">rgba</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul><h3><a href="global.html">Global</a></h3>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Tue May 26 2015 12:05:03 GMT+0300 (MSK)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Tue Jun 30 2015 17:18:01 GMT+0300 (MSK)
 </footer>
 
 <script> prettyPrint(); </script>

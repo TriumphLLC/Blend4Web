@@ -1,5 +1,6 @@
 "use strict";
 
+
 b4w.register("code_snippets", function(exports, require) {
 
 var m_app       = require("app");
@@ -18,23 +19,27 @@ exports.init = function() {
 
 function open_example() {
     var param = m_app.get_url_params();
-    if (param && param["scene"]) {
+
+    if (param && param["scene"])
         for (var i = 0; i < _scripts.length; i++)
             if (_scripts[i].dataset.scene == param["scene"]) {
                 _curr_index = i;
                 break;
             }
-    }
+
     if (_scripts[_curr_index].dataset.styles) {
-        var head  = document.getElementsByTagName("head")[0];
-        var link  = document.createElement("link");
-        link.id   = _scripts[_curr_index].dataset.scene + ".css";
-        link.rel  = "stylesheet";
-        link.type = "text/css";
-        link.href = "css/" + link.id;
+        var head = document.head;
+        var link = document.createElement("link");
+
+        link.id    = _scripts[_curr_index].dataset.scene + ".css";
+        link.rel   = "stylesheet";
+        link.type  = "text/css";
+        link.href  = "css/" + link.id;
         link.media = "all";
+
         head.appendChild(link);
     }
+
     b4w.require(_scripts[_curr_index].dataset.scene).init();
 }
 
@@ -65,14 +70,22 @@ function init_it() {
 
     open_script.onclick = function() {
         //window.open(_scripts[_curr_index].src, "_blank", "toolbar=0,location=0,menubar=0");
+
         var code_panel = document.getElementById("code_panel");
-        code_panel.style.visibility = "visible"; 
+
+        if (code_panel.style.visibility == "visible")
+            return;
+
+        code_panel.style.visibility = "visible";
+
         document.getElementById("code_close").onclick = function(e) {
+            var text_html = document.getElementById("code_text_html");
+            var text_js   = document.getElementById("code_text_js");
+
             code_panel.style.visibility = "hidden";
         }
 
         var script = _scripts[_curr_index];
-
         var req = new XMLHttpRequest();
 
         req.overrideMimeType("text/plain");
@@ -86,24 +99,29 @@ function init_it() {
                         var text_html = document.getElementById("code_text_html");
                         var text_js   = document.getElementById("code_text_js");
 
+                        var text_html_parent = text_html.parentNode;
+                        var text_js_parent   = text_js.parentNode;
+
                         var raw_html = gen_html_code(script.src);
                         var raw_js   = response + 'b4w.require("' + script.dataset.scene + '").init();';
 
-                        Rainbow.color(raw_html, 'html', function(highlighted_html) {
-                            text_html.innerHTML = highlighted_html;
-                            text_html.parentNode.addEventListener("mousedown", function(e) {
-                                this.className = "active";
-                                text_js.parentNode.className = "";
-                            });
-                        });
+                        var highlighted_html = hljs.highlight('html', raw_html).value;
+                        var highlighted_js   = hljs.highlight('javascript', raw_js).value;
 
-                        Rainbow.color(raw_js, 'javascript', function(highlighted_js) {
-                            text_js.innerHTML = highlighted_js;
-                            text_js.parentNode.addEventListener("mousedown", function(e) {
-                                this.className = "active";
-                                text_html.parentNode.className = "";
-                            });
-                        });
+                        text_html.innerHTML = highlighted_html;
+                        text_js.innerHTML   = highlighted_js;
+
+                        text_html_parent.onmousedown = function() {
+                            text_html_parent.className = "active";
+
+                            text_js_parent.className = "";
+                        };
+
+                        text_js_parent.onmousedown = function() {
+                            text_js_parent.className = "active";
+
+                            text_html_parent.className = "";
+                        };
                     }
                 }
             }
@@ -124,31 +142,29 @@ function init_it() {
 }
 
 function gen_html_code(js) {
-
     var file = js.split("/").slice(-1);
 
     return '' +
-
-    '<!DOCTYPE html>\n' +
+    '<!DOCTYPE html>\n\n' +
     '<html>\n' +
-    '<head>\n' +
-    '<style type="text/css">\n' +
-    '    #canvas_cont {\n' +
-    '        position: absolute;\n' +
-    '        width: 100%;\n' +
-    '        height: 100%;\n' +
-    '        top: 0;\n' +
-    '        left: 0;\n' +
-    '    }\n' +
-    '</style>\n' +
+    '    <head>\n' +
+    '        <style type="text/css">\n' +
+    '            #canvas_cont {\n' +
+    '                position: absolute;\n' +
+    '                width: 100%;\n' +
+    '                height: 100%;\n' +
+    '                top: 0;\n' +
+    '                left: 0;\n' +
+    '            }\n' +
+    '        </style>\n' +
     '\n' +
-    '<script src="b4w.full.min.js"></script>\n' +
-    '<script src="' + file + '"></script>\n' +
-    '</head>\n' +
+    '        <script src="b4w.full.min.js"></script>\n' +
+    '        <script src="' + file + '"></script>\n' +
+    '    </head>\n' +
     '\n' +
-    '<body>\n' +
-    '    <div id="canvas_cont"></div>\n' +
-    '</body>\n' +
+    '    <body>\n' +
+    '        <div id="canvas_cont"></div>\n' +
+    '    </body>\n' +
     '\n' +
     '</html>\n' +
     '\n';
@@ -156,17 +172,21 @@ function gen_html_code(js) {
 
 function check_autoview() {
     var param = m_app.get_url_params();
+
     if (param && param["autoview"])
-        if (m_data.is_primary_loaded()) {
+        if (m_data.is_primary_loaded())
             open_next_scene();
-        } else
-            setTimeout(function(){check_autoview(param)}, WAITING_TIME);
+        else
+            setTimeout(function() {
+                check_autoview(param)
+            }, WAITING_TIME);
 }
 
 function open_next_scene() {
     if (_curr_index >= _scripts.length - 1)
         return;
-    window.location.href = window.location.href.split("?")[0] 
+
+    window.location.href = window.location.href.split("?")[0]
                     + "?scene="+ _scripts[_curr_index + 1].dataset.scene + "&autoview=true";
 }
 

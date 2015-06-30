@@ -3,9 +3,9 @@
 /** 
  * Low-level resource loader. In order to load exported scenes, use the {@link module:data|data} module instead.
  * @module assets
- * @local asset_callback
- * @local progress_callback
- * @local pack_callback
+ * @local AssetCallback
+ * @local ProgressCallback
+ * @local PackCallback
  */
 b4w.module["assets"] = function(exports, require) {
 
@@ -51,13 +51,13 @@ exports.AT_AUDIO_ELEMENT = m_assets.AT_AUDIO_ELEMENT;
  * Add the assets to the loading queue.
  * @method module:assets.enqueue
  * @param {Array} assets_pack Array of the assets in the following format: [[uri, type, filepath, optional_param], ...]
- * @param {asset_callback} [asset_cb] Callback executed after a single asset is loaded
- * @param {pack_callback} [pack_cb] Callback executed after the whole pack of assets is loaded
- * @param {progress_callback} [progress_cb] Callback for the progress of loading
+ * @param {AssetCallback} [asset_cb] Callback executed after a single asset is loaded
+ * @param {PackCallback} [pack_cb] Callback executed after the whole pack of assets is loaded
+ * @param {ProgressCallback} [progress_cb] Callback for the progress of loading
  */
 /**
  * Callback executed after a single asset is loaded.
- * @callback asset_callback
+ * @callback AssetCallback
  * @param {Data} data Loaded data
  * @param {String} uri Data URI
  * @param {Number} type Data type
@@ -66,11 +66,11 @@ exports.AT_AUDIO_ELEMENT = m_assets.AT_AUDIO_ELEMENT;
  */
 /**
  * Callback executed after the whole pack of assets is loaded.
- * @callback pack_callback
+ * @callback PackCallback
  */
 /**
  * Callback for the progress of loading.
- * @callback progress_callback
+ * @callback ProgressCallback
  * @param {Number} value Loading percentage
  */
 exports.enqueue = function(asset_pack, asset_cb, pack_cb) {

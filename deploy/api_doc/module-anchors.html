@@ -144,6 +144,14 @@
 <li> <a href="#.detach_move_cb">detach_move_cb<span class="signature">(obj)</span><span class="type-signature"></span></a></li>
 
         
+            
+<li> <a href="#.get_element_id">get_element_id<span class="signature">(obj)</span><span class="type-signature"> &rarr; {String}</span></a></li>
+
+        
+            
+<li> <a href="#.is_anchor">is_anchor<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Boolean}</span></a></li>
+
+        
         </ul>
     
     
@@ -152,7 +160,7 @@
         <ul>
         
                 
-<li> <a href="#~anchor_move_callback">anchor_move_callback<span class="signature">(x, y, appearance, obj, anchor<span class="signature-attributes">nullable</span>)</span><span class="type-signature"></span></a></li>
+<li> <a href="#~AnchorMoveCallback">AnchorMoveCallback<span class="signature">(x, y, appearance, obj, anchor<span class="signature-attributes">nullable</span>)</span><span class="type-signature"></span></a></li>
 
             
         </ul>
@@ -219,7 +227,7 @@
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
 
 
             
@@ -229,7 +237,7 @@
 
             
 
-            <td class="description last">Anchor object ID</td>
+            <td class="description last">Anchor object.</td>
         </tr>
 
     
@@ -242,7 +250,7 @@
             <td class="type">
             
                 
-<span class="param-type"><a href="module-anchors.html#~anchor_move_callback">anchor_move_callback</a></span>
+<span class="param-type"><a href="module-anchors.html#~AnchorMoveCallback">AnchorMoveCallback</a></span>
 
 
             
@@ -377,7 +385,7 @@
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
 
 
             
@@ -387,7 +395,7 @@
 
             
 
-            <td class="description last">Anchor object ID</td>
+            <td class="description last">Anchor object.</td>
         </tr>
 
     
@@ -456,6 +464,320 @@
 </div>
 </div>
         
+            
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id=".get_element_id">get_element_id<span class="signature">(obj)</span><span class="type-signature"> &rarr; {String}</span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Get anchor element ID.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Anchor object.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Element ID.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">String</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_anchors.js.html">ext/anchors.js</a>, <a href="ext_anchors.js.html#line47">line 47</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+</div>
+</div>
+        
+            
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id=".is_anchor">is_anchor<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Check if the given object is an anchor.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Anchor object.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Check result.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_anchors.js.html">ext/anchors.js</a>, <a href="ext_anchors.js.html#line39">line 39</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+</div>
+</div>
+        
     
 
     
@@ -468,7 +790,7 @@
 
     
 
-    <h4 class="name" id="~anchor_move_callback">anchor_move_callback<span class="signature">(x, y, appearance, obj, anchor<span class="signature-attributes">nullable</span>)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="~AnchorMoveCallback">AnchorMoveCallback<span class="signature">(x, y, appearance, obj, anchor<span class="signature-attributes">nullable</span>)</span><span class="type-signature"></span></h4>
 
     
 
@@ -538,7 +860,7 @@
 
             
 
-            <td class="description last">X (left) position</td>
+            <td class="description last">X (left) canvas coordinate.</td>
         </tr>
 
     
@@ -569,7 +891,7 @@
 
             
 
-            <td class="description last">Y (top) position</td>
+            <td class="description last">Y (top) canvas coordinate.</td>
         </tr>
 
     
@@ -614,7 +936,7 @@
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
 
 
             
@@ -632,7 +954,7 @@
 
             
 
-            <td class="description last">Anchor object ID</td>
+            <td class="description last">Anchor object.</td>
         </tr>
 
     
@@ -747,13 +1069,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-rgb.html">rgb</a></li><li><a href="module-rgba.html">rgba</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul><h3><a href="global.html">Global</a></h3>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Tue May 26 2015 12:05:03 GMT+0300 (MSK)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Tue Jun 30 2015 17:18:01 GMT+0300 (MSK)
 </footer>
 
 <script> prettyPrint(); </script>

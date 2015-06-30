@@ -54,8 +54,8 @@ msgid "Использование"
 msgstr "Usage"
 
 #: ../nla.rst:39
-msgid "Во вкладке ``Scene`` выбрать опцию ``Use NLA``."
-msgstr "Enable the ``Use NLA`` checkbox under the ``Scene`` tab."
+msgid "Во вкладке ``Scene`` активировать панель ``NLA``."
+msgstr "Activate the ``NLA`` panel under the ``Scene`` tab."
 
 #: ../nla.rst:40
 msgid ""
@@ -72,10 +72,9 @@ msgstr "Additional settings"
 
 #: ../nla.rst:47
 msgid ""
-"Настройка сцены *Blend4Web > Cyclic NLA* позволяет активировать режим "
-"циклической NLA-анимации."
-msgstr ""
-"The *Blend4Web > Cyclic NLA* scene setting activates the cyclic NLA "
+"Настройка сцены *NLA > Cyclic NLA* позволяет активировать режим циклической "
+"NLA-анимации."
+msgstr "The *NLA > Cyclic NLA* scene setting activates the cyclic NLA "
 "animation mode."
 
 #: ../nla.rst:51
@@ -118,20 +117,18 @@ msgid ""
 "последний последовательно, за исключением случаев, когда в слоте явно "
 "обозначен переход (``Jump`` или ``Conditional Jump``). При достижении конца "
 "списка, выполнение логики останавливается, либо, если на сцене активирована "
-"настройка *Blend4Web > Cyclic NLA*, начинается сначала."
-msgstr ""
-"The slots themselves are logic blocks that are executed from the first to "
+"настройка *NLA > Cyclic NLA*, начинается сначала."
+msgstr "The slots themselves are logic blocks that are executed from the first to "
 "the last sequentially except that this slot explicitly contains a transition"
 " (``Jump`` or ``Conditional Jump``). When the end of the list is reached the"
-" logic stops to execute, or - if *Blend4Web > Cyclic NLA* checkbox is "
+" logic stops to execute, or - if *NLA > Cyclic NLA* checkbox is "
 "enabled - starts again."
 
 #: ../nla.rst:82
 msgid ""
-"Использование настройки *Blend4Web > Cyclic NLA* совместно с NLA Script не "
+"Использование настройки *NLA > Cyclic NLA* совместно с NLA Script не "
 "приводит к автоматическому зацикливанию анимации."
-msgstr ""
-"Using *Blend4Web > Cyclic NLA* together with NLA Script does not result in "
+msgstr "Using *NLA > Cyclic NLA* together with NLA Script does not result in "
 "automatic looping of the animation."
 
 #: ../nla.rst:85

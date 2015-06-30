@@ -1,7 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
+
     <title>Blend4Web SDK</title>
+
+    <link rel="shortcut icon" sizes="128x128" href="index_assets/favicon_128.png?v={% get_version %}" />
+    <link rel="shortcut icon" sizes="196x196" href="index_assets/favicon_196.png?v={% get_version %}" />
+    <link rel="shortcut icon" href="index_assets/favicon.ico?v={% get_version %}" />
+    <link rel="apple-touch-icon" sizes="128x128" href="index_assets/favicon_128.png?v={% get_version %}" />
+    <link rel="apple-touch-icon-precomposed" sizes="128x128" href="index_assets/favicon_128.png?v={% get_version %}" />
     <link rel="stylesheet" type="text/css" href="index_assets/css/style.css">
 
 <script type="text/javascript"> 
@@ -33,7 +41,7 @@ window.addEventListener("load", function() {
         }
 
         if (ctx) {
-            msg.innerHTML = "supported";
+            msg.innerHTML = "available";
             msg.className = "green";
         } else {
             msg.innerHTML = "unable to initialize";
@@ -50,7 +58,7 @@ window.addEventListener("load", function() {
         <h2>Blend4Web SDK
             
             <!--blend4web_sdk_pro-->Free<!--blend4web_sdk_pro-->
-            15.05
+            15.06
         </h2>
     </header>
 
@@ -59,7 +67,7 @@ window.addEventListener("load", function() {
 
         <p>Please ensure that you are accessing this web page by using a <a href="deploy/doc/en/setup.html#local-development-server">web server</a>. Alternatively, your browser must be <a href="deploy/doc/en/developers.html#browser-for-local-loading">set up for loading local resources</a>.</p>
 
-        <p>For more information about your browser's WebGL implementation see <a href="deploy/webglreport/index.html">WebGL Report</a>.</p>
+        <p>For more information about 3D graphics capabilities of your browser see the <a href="deploy/webglreport/index.html">WebGL Report</a>.</p>
 
         <table>
             <thead>
@@ -69,31 +77,32 @@ window.addEventListener("load", function() {
                     </th>
                 </tr>
                 <tr class="doc">
-                    <th colspan="2">Type</th>
-                    <th>ru</th>
+                    <th colspan="2"></th>
                     <th>en</th>
+                    <th>ru</th>
                 </tr>
             </thead>
             <tbody  class="doc">
                 <tr>
-                    <td colspan="2">User Manual HTML</td>
-                    <td><a href="deploy/doc/ru/index.html">read</a></td>
+                    <td colspan="2">User Manual, HTML</td>
                     <td><a href="deploy/doc/en/index.html">read</a></td>
+                    <td><a href="deploy/doc/ru/index.html">read</a></td>
                 </tr>
                 <tr>
-                    <td colspan="2">User Manual PDF</td>
-                    <td><a href="deploy/pub/b4w_manual_ru.pdf">read</a></td>
+                    <td colspan="2">User Manual, PDF</td>
                     <td><a href="deploy/pub/b4w_manual_en.pdf">read</a></td>
+                    <td><a href="deploy/pub/b4w_manual_ru.pdf">read</a></td>
                 </tr>
                 <tr>
                     <td colspan="2">API Reference</td>
                     <td colspan="2"><a href="deploy/api_doc/index.html">read</a></td>
                 </tr>
                 <tr>
-                    <td colspan="2">Forum</td>
-                    <td><a target="_blank" href="https://www.blend4web.com/ru/forums/">go</a></td>
+                    <td colspan="2">Community Support Forums</td>
                     <td><a target="_blank" href="https://www.blend4web.com/en/forums/">go</a></td>
+                    <td><a target="_blank" href="https://www.blend4web.com/ru/forums/">go</a></td>
                 </tr>
+                
             </tbody>
             <thead>
                 <tr><th colspan="4">
@@ -554,6 +563,17 @@ window.addEventListener("load", function() {
                     </td>
                     <td colspan="2">
                         blender/code_snippets/morphing/morphing.blend
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <img src="index_assets/img/raytest.jpg">
+                    </td>
+                    <td>
+                        <a href="apps_dev/code_snippets/code_snippets_dev.html?scene=raytest">Ray Test</a>
+                    </td>
+                    <td colspan="2">
+                        blender/code_snippets/raytest/raytest.blend
                     </td>
                 </tr>
             </tbody>

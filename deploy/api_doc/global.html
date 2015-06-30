@@ -92,7 +92,77 @@
      
 
     
+    <h2>Summary</h2>
+    
+    
+    
+        <h3 class="subsection-title">Type Definitions</h3>
 
+        <ul>
+        
+                
+<li> <a href="#CameraMoveStyle">CameraMoveStyle</a></li>
+
+            
+                
+<li> <a href="#Date">Date</a></li>
+
+            
+                
+<li> <a href="#Euler">Euler</a></li>
+
+            
+                
+<li> <a href="#Mat3">Mat3</a></li>
+
+            
+                
+<li> <a href="#Mat4">Mat4</a></li>
+
+            
+                
+<li> <a href="#Object3D">Object3D</a></li>
+
+            
+                
+<li> <a href="#Quat">Quat</a></li>
+
+            
+                
+<li> <a href="#RGB">RGB</a></li>
+
+            
+                
+<li> <a href="#RGBA">RGBA</a></li>
+
+            
+                
+<li> <a href="#Sensor">Sensor</a></li>
+
+            
+                
+<li> <a href="#Space">Space</a></li>
+
+            
+                
+<li> <a href="#TSR">TSR</a></li>
+
+            
+                
+<li> <a href="#Vec2">Vec2</a></li>
+
+            
+                
+<li> <a href="#Vec3">Vec3</a></li>
+
+            
+                
+<li> <a href="#Vec4">Vec4</a></li>
+
+            
+        </ul>
+    
+    <h2>Detailed Description</h2>
     
 
     
@@ -102,94 +172,29 @@
 
         
                 
+<div class="item_container">
+<div class="item_name">
+<h4 class="name" id="CameraMoveStyle">CameraMoveStyle</h4>
 
-    
+</div>
 
-    <h4 class="name" id="module_function"><span class="type-signature"></span>module_function<span class="signature">(exports, require)</span><span class="type-signature"></span></h4>
+<div class="item_description">
 
-    
-
-
-
-
-
-
-
+<div class="description">
+    Camera movement style enum. One of MS_*.
+</div>
 
 
 
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
+    <h5>Type:</h5>
+    <ul>
+        <li>
             
-                <td class="name"><code>exports</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
+<span class="param-type">Number</span>
 
 
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Object with exported symbols</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>require</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">function</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Local require method</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
+        </li>
+    </ul>
 
 
 
@@ -224,7 +229,91 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules.js.html">modules.js</a>, <a href="modules.js.html#line15">line 15</a>
+        <a href="b4w.js.html">b4w.js</a>, <a href="b4w.js.html#line91">line 91</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="module-camera.html">module:camera</a></li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+</div>
+</div>
+
+            
+                
+<div class="item_container">
+<div class="item_name">
+<h4 class="name" id="Date">Date</h4>
+
+</div>
+
+<div class="item_description">
+
+<div class="description">
+    The JavaScript Date object.
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="b4w.js.html">b4w.js</a>, <a href="b4w.js.html#line86">line 86</a>
     </li></ul></dd>
     
 
@@ -239,16 +328,1046 @@
 
 
 
+</div>
+</div>
+
+            
+                
+<div class="item_container">
+<div class="item_name">
+<h4 class="name" id="Euler">Euler</h4>
+
+</div>
+
+<div class="item_description">
+
+<div class="description">
+    Euler vector representing rotation.
+<p>The euler angles specified in intrinsic form (rotating space) and have the following meaning:
+<ul>
+<li>euler[0]: heading, around Y
+<li>euler[1]: attitude, around new Z
+<li>euler[2]: bank, around new X
+<p>Using euler angles is discouraged, use quaternions instead.
+</ul>
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Float32Array</span>
+
+
+        </li>
+    </ul>
 
 
 
 
 
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="b4w.js.html">b4w.js</a>, <a href="b4w.js.html#line38">line 38</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
 
 
 
 
 
+</div>
+</div>
+
+            
+                
+<div class="item_container">
+<div class="item_name">
+<h4 class="name" id="Mat3">Mat3</h4>
+
+</div>
+
+<div class="item_description">
+
+<div class="description">
+    3x3 matrix.
+The elements of matrix are placed in typed array in column-major order.
+Can be created with <a href="module-mat3.html#.create">module:mat3.create</a>.
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Float32Array</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="b4w.js.html">b4w.js</a>, <a href="b4w.js.html#line58">line 58</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+</div>
+</div>
+
+            
+                
+<div class="item_container">
+<div class="item_name">
+<h4 class="name" id="Mat4">Mat4</h4>
+
+</div>
+
+<div class="item_description">
+
+<div class="description">
+    4x4 matrix.
+The elements of matrix are placed in typed array in column-major order.
+Can be created with <a href="module-mat4.html#.create">module:mat4.create</a>.
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Float32Array</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="b4w.js.html">b4w.js</a>, <a href="b4w.js.html#line65">line 65</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+</div>
+</div>
+
+            
+                
+<div class="item_container">
+<div class="item_name">
+<h4 class="name" id="Object3D">Object3D</h4>
+
+</div>
+
+<div class="item_description">
+
+<div class="description">
+    Object in 3D space.
+You should always use the engine's API in order to manipulate your 3D object.
+Never access it directly by it's properties.
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="b4w.js.html">b4w.js</a>, <a href="b4w.js.html#line3">line 3</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+</div>
+</div>
+
+            
+                
+<div class="item_container">
+<div class="item_name">
+<h4 class="name" id="Quat">Quat</h4>
+
+</div>
+
+<div class="item_description">
+
+<div class="description">
+    Quaternion vector representing rotation.
+Quaternion is a four-dimensional vector which has the following format:
+[X, Y, Z, W]. Can be created with <a href="module-quat.html#.create">module:quat.create</a>.
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Float32Array</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="b4w.js.html">b4w.js</a>, <a href="b4w.js.html#line31">line 31</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+</div>
+</div>
+
+            
+                
+<div class="item_container">
+<div class="item_name">
+<h4 class="name" id="RGB">RGB</h4>
+
+</div>
+
+<div class="item_description">
+
+<div class="description">
+    Typed three-dimensional vector representing color.
+Each component must be in range 0-1.
+Can be created with <a href="module-rgb.html#.create">module:rgb.create</a>.
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Float32Array</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="b4w.js.html">b4w.js</a>, <a href="b4w.js.html#line72">line 72</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+</div>
+</div>
+
+            
+                
+<div class="item_container">
+<div class="item_name">
+<h4 class="name" id="RGBA">RGBA</h4>
+
+</div>
+
+<div class="item_description">
+
+<div class="description">
+    Typed four-dimensional vector representing color and alpha.
+Each component must be in range 0-1.
+Can be created with <a href="module-rgba.html#.create">module:rgba.create</a>.
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Float32Array</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="b4w.js.html">b4w.js</a>, <a href="b4w.js.html#line79">line 79</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+</div>
+</div>
+
+            
+                
+<div class="item_container">
+<div class="item_name">
+<h4 class="name" id="Sensor">Sensor</h4>
+
+</div>
+
+<div class="item_description">
+
+<div class="description">
+    Sensor object.
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="b4w.js.html">b4w.js</a>, <a href="b4w.js.html#line10">line 10</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="module-controls.html">module:controls</a></li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+</div>
+</div>
+
+            
+                
+<div class="item_container">
+<div class="item_name">
+<h4 class="name" id="Space">Space</h4>
+
+</div>
+
+<div class="item_description">
+
+<div class="description">
+    Coordinate space enum. Designates in which space perform coordinate transformations.
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Number</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="b4w.js.html">b4w.js</a>, <a href="b4w.js.html#line98">line 98</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="module-transform.html#.SPACE_LOCAL">module:transform.SPACE_LOCAL</a>,
+<a href="module-transform.html#.SPACE_WORLD">module:transform.SPACE_WORLD</a></li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+</div>
+</div>
+
+            
+                
+<div class="item_container">
+<div class="item_name">
+<h4 class="name" id="TSR">TSR</h4>
+
+</div>
+
+<div class="item_description">
+
+<div class="description">
+    TSR vector representing 3D object's transformations (Translation, Scale, Rotation).
+TSR is an eight-dimensional vector which has the following format:
+[X, Y, Z, SCALE, QUAT_X, QUAT_Y, QUAT_Z, QUAT_W].
+Can be created with <a href="module-tsr.html#.create">module:tsr.create</a>.
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Float32Array</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="b4w.js.html">b4w.js</a>, <a href="b4w.js.html#line50">line 50</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+</div>
+</div>
+
+            
+                
+<div class="item_container">
+<div class="item_name">
+<h4 class="name" id="Vec2">Vec2</h4>
+
+</div>
+
+<div class="item_description">
+
+<div class="description">
+    Typed two-dimensional vector.
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Float32Array</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="b4w.js.html">b4w.js</a>, <a href="b4w.js.html#line16">line 16</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+</div>
+</div>
+
+            
+                
+<div class="item_container">
+<div class="item_name">
+<h4 class="name" id="Vec3">Vec3</h4>
+
+</div>
+
+<div class="item_description">
+
+<div class="description">
+    Typed three-dimensional vector. Can be created with <a href="module-vec3.html#.create">module:vec3.create</a>.
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Float32Array</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="b4w.js.html">b4w.js</a>, <a href="b4w.js.html#line21">line 21</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+</div>
+</div>
+
+            
+                
+<div class="item_container">
+<div class="item_name">
+<h4 class="name" id="Vec4">Vec4</h4>
+
+</div>
+
+<div class="item_description">
+
+<div class="description">
+    Typed four-dimensional vector. Can be created with <a href="module-vec4.html#.create">module:vec4.create</a>.
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Float32Array</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="b4w.js.html">b4w.js</a>, <a href="b4w.js.html#line26">line 26</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+</div>
+</div>
 
             
     
@@ -264,13 +1383,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul><h3><a href="global.html">Global</a></h3>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-rgb.html">rgb</a></li><li><a href="module-rgba.html">rgba</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul><h3><a href="global.html">Global</a></h3>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Tue Feb 10 2015 11:52:16 GMT+0300 (MSK)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Tue Jun 30 2015 17:18:01 GMT+0300 (MSK)
 </footer>
 
 <script> prettyPrint(); </script>

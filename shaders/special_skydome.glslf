@@ -17,10 +17,6 @@ uniform vec4 u_sky_tex_fac; // blendfac, horizonfac, zenupfac, zendownfac
 uniform vec3 u_sky_tex_color;
 uniform float u_sky_tex_dvar;
 
-#if WO_SKYREAL
-uniform vec3 u_world_vec;
-#endif
-
 vec3 col_blending(vec3 col1, vec3 col2, float factor, float facg)
 {
     float fact = factor * facg;
@@ -127,7 +123,7 @@ void main(void) {
 # if WO_SKYPAPER
     view = vec3(v_texcoord, 0.0);
 # else
-    view = normalize(vec3(v_texcoord, 1.0));
+    view = vec3(v_ray.xy, 0.0);
 # endif
 
     // shadeSkyView
@@ -189,7 +185,7 @@ void main(void) {
 #   if WOMAP_ZENUP || WOMAP_ZENDOWN
     float zenfac = 0.0;
 #    if WO_SKYREAL
-    if (dot(view, u_world_vec) >= 0.0) { // instead of skyflag
+    if (dot(view, vec3(0.0, 1.0, 0.0)) >= 0.0) { // instead of skyflag
 #     if WOMAP_ZENUP
         zenfac = u_sky_tex_fac[2];
 #     else
@@ -200,7 +196,7 @@ void main(void) {
     else
         zenfac = u_sky_tex_fac[3];
 #     endif
-#    else
+#    else // WO_SKYREAL
 #     if WOMAP_ZENUP
     zenfac = u_sky_tex_fac[2];
 #     elif WOMAP_ZENDOWN

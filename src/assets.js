@@ -469,10 +469,11 @@ function request_video(asset) {
         if (bd[asset.filepath]) {
             var vid_mime_type = get_video_mime_type(asset.filepath);
             video.src = "data:" + vid_mime_type + ";base64," + bd[asset.filepath];
-            if (asset.state != ASTATE_HALTED) {
-                asset.asset_cb(video, asset.uri, asset.type, asset.filepath, asset.opt_param);
-                asset.state = ASTATE_RECEIVED;
-            }
+            if (asset.state != ASTATE_HALTED)
+                video.addEventListener("loadeddata", function() {
+                    asset.asset_cb(video, asset.uri, asset.type, asset.filepath, asset.opt_param);
+                    asset.state = ASTATE_RECEIVED;
+                }, false);
         } else {
             if (m_compat.is_ie11()) {
                 var e = document.createEvent("CustomEvent");

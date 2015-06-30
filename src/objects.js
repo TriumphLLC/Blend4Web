@@ -528,6 +528,7 @@ function update_objects_dynamics(objects) {
             m_trans.update_transform(obj);
 
         // try to use default animation
+        // TODO: remove default animation during nla setup
         if (obj["b4w_use_default_animation"] && m_anim.is_animatable(obj)) {
             m_anim.apply_def(obj);
             if (obj._anim_slots.length)
@@ -570,7 +571,6 @@ function calc_mesh_is_dynamic(bpy_obj) {
     var is_vehicle_part = bpy_obj["b4w_vehicle"];
     var is_floater_part = bpy_obj["b4w_floating"];
     var is_character = bpy_obj["b4w_character"];
-    var is_billboard = bpy_obj["b4w_billboard"];
     var dyn_grass_emitter = m_particles.has_dynamic_grass_particles(bpy_obj);
     var has_nla = m_nla.has_nla(bpy_obj);
     var has_shape_keys = bpy_obj["data"]["b4w_shape_keys"].length > 0;
@@ -582,7 +582,7 @@ function calc_mesh_is_dynamic(bpy_obj) {
     return DEBUG_DISABLE_STATIC_OBJS || is_animated || has_do_not_batch
             || is_collision || is_vehicle_part || has_shape_keys
             || is_floater_part || has_lens_flares_mat(bpy_obj)
-            || dyn_grass_emitter || is_character || is_billboard || has_nla
+            || dyn_grass_emitter || is_character || has_nla
             || has_dynamic_geometry;
 }
 

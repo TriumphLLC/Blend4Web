@@ -17,9 +17,14 @@
 ============================================================================*/
 
 attribute vec3 a_position;
-attribute vec3 a_normal;
 
-#if TEXTURE_NORM_CO
+#if !NODES || USE_NODE_MATERIAL || USE_NODE_MATERIAL_EXT || USE_NODE_GEOMETRY_NO \
+        || CAUSTICS || CALC_TBN_SPACE || WIND_BEND && MAIN_BEND_COL && DETAIL_BEND \
+        || USE_NODE_TEX_COORD_NO
+attribute vec3 a_normal;
+#endif
+
+#if TEXTURE_NORM_CO || CALC_TBN_SPACE
     attribute vec4 a_tangent;
 #endif
 
@@ -50,20 +55,24 @@ attribute vec3 a_normal;
 
 #if VERTEX_ANIM
     attribute vec3 a_position_next;
+# if !NODES || USE_NODE_MATERIAL || USE_NODE_MATERIAL_EXT || USE_NODE_GEOMETRY_NO \
+        || CAUSTICS || CALC_TBN_SPACE || USE_NODE_TEX_COORD_NO
     attribute vec3 a_normal_next;
-# if TEXTURE_NORM_CO
+#  if TEXTURE_NORM_CO || CALC_TBN_SPACE
     attribute vec4 a_tangent_next;
+#  endif
 # endif
 #endif
 
-#if TEXCOORD
+#if !NODES
+# if TEXCOORD
     attribute vec2 a_texcoord;
-#endif
+# endif
 
-#if VERTEX_COLOR
+# if VERTEX_COLOR
     attribute vec3 a_color;
-#endif
-
+# endif
+#endif // !NODES
 /*============================================================================
                                    UNIFORMS
 ============================================================================*/
@@ -76,14 +85,16 @@ uniform mat4 u_model_matrix;
 
 uniform mat4 u_view_matrix;
 uniform mat4 u_proj_matrix;
+#if !NODES || BILLBOARD
 uniform vec3 u_camera_eye;
+#endif
 
 #if SMAA_JITTER
 uniform vec2 u_subpixel_jitter;
 #endif
 
 #if DYNAMIC_GRASS
-uniform sampler2D u_grass_map_depth;
+uniform PRECISION sampler2D u_grass_map_depth;
 uniform sampler2D u_grass_map_color;
 uniform vec4 u_camera_quat;
 uniform vec3 u_grass_map_dim;
@@ -92,59 +103,58 @@ uniform float u_scale_threshold;
 #endif
 
 #if SKINNED
-    uniform vec4 u_quatsb[MAX_BONES];
-    uniform vec4 u_transb[MAX_BONES];
-    uniform vec4 u_arm_rel_trans;
-    uniform vec4 u_arm_rel_quat;
-
-    #if FRAMES_BLENDING
-        uniform vec4 u_quatsa[MAX_BONES];
-        uniform vec4 u_transa[MAX_BONES];
-
-        // near 0 if before, near 1 if after
-        uniform float u_frame_factor;
-    #endif
-#endif
+uniform vec4 u_quatsb[MAX_BONES];
+uniform vec4 u_transb[MAX_BONES];
+uniform vec4 u_arm_rel_trans;
+uniform vec4 u_arm_rel_quat;
+# if FRAMES_BLENDING
+uniform vec4 u_quatsa[MAX_BONES];
+uniform vec4 u_transa[MAX_BONES];
+// near 0 if before, near 1 if after
+uniform float u_frame_factor;
+# endif
+#endif // SKINNED
 
 #if WIND_BEND
-#if BILLBOARD_JITTERED
+# if BILLBOARD_JITTERED
 uniform float u_jitter_amp;
 uniform float u_jitter_freq;
-#endif
+# endif
 uniform vec3 u_wind;
 uniform PRECISION float u_time;
-#endif
+#endif // WIND_BEND
 
 #if VERTEX_ANIM
     uniform float u_va_frame_factor;
 #endif
 
+#if !NODES
 uniform vec3 u_texture_scale;
-
-#if SHADOW_SRC != SHADOW_SRC_MASK && SHADOW_SRC != SHADOW_SRC_NONE
-    uniform float u_normal_offset;
-
-    uniform mat4 u_v_light_matrix;
-
-    // bias light matrix
-    uniform mat4 u_b_light_matrix;
-
-    uniform mat4 u_p_light_matrix0;
-
-    #if CSM_SECTION1
-        uniform mat4 u_p_light_matrix1;
-    #endif
-
-    #if CSM_SECTION2
-        uniform mat4 u_p_light_matrix2;
-    #endif
-
-    #if CSM_SECTION3
-        uniform mat4 u_p_light_matrix3;
-    #endif
 #endif
 
-#if REFRACTIVE
+#if SHADOW_USAGE == SHADOW_MAPPING_BLEND
+uniform float u_normal_offset;
+uniform mat4 u_v_light_matrix;
+
+// bias light matrix
+uniform mat4 u_b_light_matrix;
+
+uniform mat4 u_p_light_matrix0;
+
+# if CSM_SECTION1
+uniform mat4 u_p_light_matrix1;
+# endif
+
+# if CSM_SECTION2
+uniform mat4 u_p_light_matrix2;
+# endif
+
+# if CSM_SECTION3
+uniform mat4 u_p_light_matrix3;
+# endif
+#endif
+
+#if REFRACTIVE || USE_NODE_B4W_REFRACTION
 uniform PRECISION float u_view_max_depth;
 #endif
 
@@ -152,27 +162,33 @@ uniform PRECISION float u_view_max_depth;
                                    VARYINGS
 ============================================================================*/
 
-varying vec3 v_eye_dir;
 varying vec3 v_pos_world;
+#if !NODES || USE_NODE_MATERIAL || USE_NODE_MATERIAL_EXT \
+        || USE_NODE_GEOMETRY_NO || CAUSTICS || CALC_TBN_SPACE || USE_NODE_TEX_COORD_NO
 varying vec3 v_normal;
+#endif
 
-#if !DISABLE_FOG || (TEXTURE_NORM_CO && PARALLAX) || (WATER_EFFECTS && CAUSTICS)
+#if NODES || !DISABLE_FOG || (TEXTURE_NORM_CO && PARALLAX) || (WATER_EFFECTS && CAUSTICS)
 varying vec4 v_pos_view;
 #endif
 
-#if TEXTURE_NORM_CO
+#if TEXTURE_NORM_CO || CALC_TBN_SPACE
 varying vec4 v_tangent;
 #endif
 
-#if TEXCOORD
+#if !NODES 
+varying vec3 v_eye_dir;
+# if TEXCOORD
 varying vec2 v_texcoord;
-#endif
+# endif
 
-#if VERTEX_COLOR || DYNAMIC_GRASS
+# if VERTEX_COLOR || DYNAMIC_GRASS
 varying vec3 v_color;
+# endif
 #endif
 
-#if SHADOW_SRC != SHADOW_SRC_MASK && SHADOW_SRC != SHADOW_SRC_NONE
+
+#if SHADOW_USAGE == SHADOW_MAPPING_BLEND
 varying vec4 v_shadow_coord0;
 # if CSM_SECTION1
 varying vec4 v_shadow_coord1;
@@ -185,12 +201,13 @@ varying vec4 v_shadow_coord3;
 # endif
 #endif
 
-#if REFLECTION_TYPE == REFL_PLANE || SHADOW_SRC == SHADOW_SRC_MASK || REFRACTIVE
+#if REFLECTION_TYPE == REFL_PLANE || SHADOW_USAGE == SHADOW_MAPPING_OPAQUE \
+        || REFRACTIVE || USE_NODE_B4W_REFRACTION
 varying vec3 v_tex_pos_clip;
 #endif
 
-#if REFRACTIVE
-    varying float v_view_depth;
+#if REFRACTIVE && (!NODES || USE_NODE_B4W_REFRACTION)
+varying float v_view_depth;
 #endif
 /*============================================================================
                                   INCLUDES
@@ -201,6 +218,10 @@ varying vec3 v_tex_pos_clip;
 #include <skin.glslv>
 #include <wind_bending.glslv>
 
+#if NODES
+#include <nodes.glslv>
+#endif // NODES
+
 /*============================================================================
                                     MAIN
 ============================================================================*/
@@ -208,27 +229,35 @@ varying vec3 v_tex_pos_clip;
 void main(void) {
 
     vec3 position = a_position;
-    vec3 normal = a_normal;
 
-#if TEXTURE_NORM_CO == TEXTURE_COORDS_UV_ORCO
+# if CALC_TBN_SPACE || USE_NODE_MATERIAL || USE_NODE_MATERIAL_EXT || USE_NODE_GEOMETRY_NO || \
+        CAUSTICS || WIND_BEND && MAIN_BEND_COL && DETAIL_BEND || !NODES
+    vec3 normal = a_normal;
+# else
+    vec3 normal = vec3(0.0);
+# endif
+
+# if CALC_TBN_SPACE || !NODES && TEXTURE_NORM_CO == TEXTURE_COORDS_UV_ORCO
     vec3 tangent = vec3(a_tangent);
     vec3 binormal = a_tangent[3] * cross(normal, tangent);
-#elif TEXTURE_NORM_CO == TEXTURE_COORDS_NORMAL
+# elif !NODES && TEXTURE_NORM_CO == TEXTURE_COORDS_NORMAL
     // NOTE: absolutely not precise. Better too avoid using such a setup
     vec3 world_pos = (u_model_matrix * vec4(a_position, 1.0)).xyz;
     vec3 norm_world = normalize((u_model_matrix * vec4(a_normal, 0.0)).xyz);
     vec3 eye_dir = world_pos - u_camera_eye;
     vec3 binormal = cross(eye_dir, norm_world);
     vec3 tangent = cross(norm_world, binormal);
-#else
+# else
     vec3 tangent = vec3(0.0);
     vec3 binormal = vec3(0.0);
-#endif
+# endif
 
 #if VERTEX_ANIM
     position = mix(position, a_position_next, u_va_frame_factor);
+# if !NODES || USE_NODE_MATERIAL || USE_NODE_MATERIAL_EXT \
+        || USE_NODE_GEOMETRY_NO || CAUSTICS || CALC_TBN_SPACE
     normal = mix(normal, a_normal_next, VERTEX_ANIM_MIX_NORMALS_FACTOR);
-
+# endif
 # if TEXTURE_NORM_CO
     vec3 tangent_next = vec3(a_tangent);
     vec3 binormal_next = a_tangent_next[3] * cross(a_normal_next, tangent_next);
@@ -256,11 +285,10 @@ void main(void) {
             u_grass_map_dim, u_grass_size, u_camera_eye, u_camera_quat,
             u_view_matrix);
 #else
-
 # if BILLBOARD
     vec3 wcen = (u_model_matrix * vec4(center, 1.0)).xyz;
 
-#  if BILLBOARD_PRES_GLOB_ORIENTATION
+#  if BILLBOARD_PRES_GLOB_ORIENTATION && !STATIC_BATCH
     mat4 model_matrix = billboard_matrix_global(u_camera_eye, wcen, 
             u_view_matrix, u_model_matrix);
 #  else
@@ -281,7 +309,7 @@ void main(void) {
 # endif  // BILLBOARD
 #endif  // DYNAMIC_GRASS
 
-#if TEXTURE_NORM_CO
+#if TEXTURE_NORM_CO || CALC_TBN_SPACE
     // calculate handedness as described in Math for 3D GP and CG, page 185
     float m = (dot(cross(world.normal, world.tangent),
         world.binormal) < 0.0) ? -1.0 : 1.0;
@@ -294,22 +322,29 @@ void main(void) {
 #endif
 
     v_pos_world = world.position;
+
+#if !NODES || USE_NODE_MATERIAL || USE_NODE_MATERIAL_EXT || USE_NODE_GEOMETRY_NO \
+        || CAUSTICS || CALC_TBN_SPACE || WIND_BEND && MAIN_BEND_COL && DETAIL_BEND
     v_normal = world.normal;
+#endif
+
+#if !NODES
     v_eye_dir = u_camera_eye - world.position;
 
-#if TEXCOORD
+# if TEXCOORD
     v_texcoord = scale_texcoord(a_texcoord, u_texture_scale);
-#endif
+# endif
 
-#if DYNAMIC_GRASS
+# if DYNAMIC_GRASS
     v_color = world.color;
-#elif VERTEX_COLOR
+# elif VERTEX_COLOR
     v_color = a_color;
-#endif
+# endif
+#endif // !NODES
 
     vec4 pos_view = u_view_matrix * vec4(world.position, 1.0);
 
-#if !DISABLE_FOG || (TEXTURE_NORM_CO && PARALLAX) || (WATER_EFFECTS && CAUSTICS)
+#if NODES || !DISABLE_FOG || (TEXTURE_NORM_CO && PARALLAX) || (WATER_EFFECTS && CAUSTICS)
     v_pos_view = pos_view;
 #endif
 
@@ -319,13 +354,14 @@ void main(void) {
     pos_clip.xy += u_subpixel_jitter * pos_clip.w;
 #endif
 
-#if SHADOW_SRC == SHADOW_SRC_MASK
+#if SHADOW_USAGE == SHADOW_MAPPING_OPAQUE
     get_shadow_coords(pos_clip);
-#elif SHADOW_SRC != SHADOW_SRC_NONE
-    get_shadow_coords(world.position);
+#elif SHADOW_USAGE == SHADOW_MAPPING_BLEND
+    get_shadow_coords(world.position, world.normal);
 #endif
 
-#if REFLECTION_TYPE == REFL_PLANE || SHADOW_SRC == SHADOW_SRC_MASK || REFRACTIVE
+#if REFLECTION_TYPE == REFL_PLANE || SHADOW_USAGE == SHADOW_MAPPING_OPAQUE \
+        || REFRACTIVE || USE_NODE_B4W_REFRACTION
     float xc = pos_clip.x;
     float yc = pos_clip.y;
     float wc = pos_clip.w;
@@ -334,8 +370,12 @@ void main(void) {
     v_tex_pos_clip.z = wc;
 #endif
 
-#if REFRACTIVE
+#if REFRACTIVE && (!NODES || USE_NODE_B4W_REFRACTION)
     v_view_depth = -pos_view.z / u_view_max_depth;
+#endif
+
+#if NODES
+    nodes_main();
 #endif
     gl_Position = pos_clip;
 }

@@ -300,6 +300,8 @@ def draw(layout, context):
     if not scene:
         return
 
+    layout.active = getattr(scene, "b4w_use_nla")
+
     row = layout.row()
     row.operator("b4w.nla_script_add", icon='ZOOMIN', text="Append NLA script slot")
 

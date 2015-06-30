@@ -173,11 +173,15 @@ Provides support for mouse pointer lock and low-level movement.</div>
 
         
             
-<li> <a href="#.get_coords_x">get_coords_x<span class="signature">(event)</span><span class="type-signature"></span></a></li>
+<li> <a href="#.get_coords_x">get_coords_x<span class="signature">(event)</span><span class="type-signature"> &rarr; {Number}</span></a></li>
 
         
             
-<li> <a href="#.get_coords_y">get_coords_y<span class="signature">(event)</span><span class="type-signature"></span></a></li>
+<li> <a href="#.get_coords_y">get_coords_y<span class="signature">(event)</span><span class="type-signature"> &rarr; {Number}</span></a></li>
+
+        
+            
+<li> <a href="#.get_plock_smooth_factor">get_plock_smooth_factor<span class="signature">()</span><span class="type-signature"> &rarr; {Number}</span></a></li>
 
         
             
@@ -188,6 +192,10 @@ Provides support for mouse pointer lock and low-level movement.</div>
 <li> <a href="#.request_pointerlock">request_pointerlock<span class="signature">(elem, enabled_cb<span class="signature-attributes">opt</span>, disabled_cb<span class="signature-attributes">opt</span>, mouse_move_cb<span class="signature-attributes">opt</span>, use_mouse_control_cb<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></a></li>
 
         
+            
+<li> <a href="#.set_plock_smooth_factor">set_plock_smooth_factor<span class="signature">(value)</span><span class="type-signature"></span></a></li>
+
+        
         </ul>
     
     
@@ -196,19 +204,19 @@ Provides support for mouse pointer lock and low-level movement.</div>
         <ul>
         
                 
-<li> <a href="#~pointerlock_disabled_callback">pointerlock_disabled_callback<span class="signature">()</span><span class="type-signature"></span></a></li>
+<li> <a href="#~PointerlockDisabledCallback">PointerlockDisabledCallback<span class="signature">()</span><span class="type-signature"></span></a></li>
 
             
                 
-<li> <a href="#~pointerlock_enabled_callback">pointerlock_enabled_callback<span class="signature">()</span><span class="type-signature"></span></a></li>
+<li> <a href="#~PointerlockEnabledCallback">PointerlockEnabledCallback<span class="signature">()</span><span class="type-signature"></span></a></li>
 
             
                 
-<li> <a href="#~pointerlock_mouse_move_callback">pointerlock_mouse_move_callback<span class="signature">(e)</span><span class="type-signature"></span></a></li>
+<li> <a href="#~PointerlockMouseMoveCallback">PointerlockMouseMoveCallback<span class="signature">(e)</span><span class="type-signature"></span></a></li>
 
             
                 
-<li> <a href="#~use_mouse_control_callback">use_mouse_control_callback<span class="signature">()</span><span class="type-signature"> &rarr; {Boolean}</span></a></li>
+<li> <a href="#~UseMouseControlCallback">UseMouseControlCallback<span class="signature">()</span><span class="type-signature"> &rarr; {Boolean}</span></a></li>
 
             
         </ul>
@@ -360,7 +368,7 @@ Provides support for mouse pointer lock and low-level movement.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_mouse.js.html">addons/mouse.js</a>, <a href="addons_mouse.js.html#line168">line 168</a>
+        <a href="addons_mouse.js.html">addons/mouse.js</a>, <a href="addons_mouse.js.html#line171">line 171</a>
     </li></ul></dd>
     
 
@@ -448,7 +456,7 @@ Provides support for mouse pointer lock and low-level movement.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_mouse.js.html">addons/mouse.js</a>, <a href="addons_mouse.js.html#line314">line 314</a>
+        <a href="addons_mouse.js.html">addons/mouse.js</a>, <a href="addons_mouse.js.html#line317">line 317</a>
     </li></ul></dd>
     
 
@@ -534,7 +542,7 @@ Provides support for mouse pointer lock and low-level movement.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_mouse.js.html">addons/mouse.js</a>, <a href="addons_mouse.js.html#line300">line 300</a>
+        <a href="addons_mouse.js.html">addons/mouse.js</a>, <a href="addons_mouse.js.html#line303">line 303</a>
     </li></ul></dd>
     
 
@@ -622,7 +630,7 @@ Provides support for mouse pointer lock and low-level movement.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_mouse.js.html">addons/mouse.js</a>, <a href="addons_mouse.js.html#line289">line 289</a>
+        <a href="addons_mouse.js.html">addons/mouse.js</a>, <a href="addons_mouse.js.html#line292">line 292</a>
     </li></ul></dd>
     
 
@@ -708,7 +716,7 @@ Provides support for mouse pointer lock and low-level movement.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_mouse.js.html">addons/mouse.js</a>, <a href="addons_mouse.js.html#line277">line 277</a>
+        <a href="addons_mouse.js.html">addons/mouse.js</a>, <a href="addons_mouse.js.html#line280">line 280</a>
     </li></ul></dd>
     
 
@@ -843,7 +851,7 @@ Provides support for mouse pointer lock and low-level movement.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_mouse.js.html">addons/mouse.js</a>, <a href="addons_mouse.js.html#line214">line 214</a>
+        <a href="addons_mouse.js.html">addons/mouse.js</a>, <a href="addons_mouse.js.html#line217">line 217</a>
     </li></ul></dd>
     
 
@@ -929,7 +937,7 @@ Provides support for mouse pointer lock and low-level movement.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_mouse.js.html">addons/mouse.js</a>, <a href="addons_mouse.js.html#line149">line 149</a>
+        <a href="addons_mouse.js.html">addons/mouse.js</a>, <a href="addons_mouse.js.html#line152">line 152</a>
     </li></ul></dd>
     
 
@@ -951,7 +959,7 @@ Provides support for mouse pointer lock and low-level movement.</div>
 
     
 
-    <h4 class="name" id=".get_coords_x">get_coords_x<span class="signature">(event)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".get_coords_x">get_coords_x<span class="signature">(event)</span><span class="type-signature"> &rarr; {Number}</span></h4>
 
     
 
@@ -959,7 +967,7 @@ Provides support for mouse pointer lock and low-level movement.</div>
 <div class="item_description">
 
 <div class="description">
-    Get mouse X coordinate.
+    Get mouse/touch X coordinate.
 </div>
 
 
@@ -1002,6 +1010,9 @@ Provides support for mouse pointer lock and low-level movement.</div>
             
                 
 <span class="param-type">MouseEvent</span>
+|
+
+<span class="param-type">TouchEvent</span>
 
 
             
@@ -1011,7 +1022,7 @@ Provides support for mouse pointer lock and low-level movement.</div>
 
             
 
-            <td class="description last">Mouse event</td>
+            <td class="description last">Mouse/touch event</td>
         </tr>
 
     
@@ -1031,6 +1042,28 @@ Provides support for mouse pointer lock and low-level movement.</div>
 
 
 
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Client area horizontal coordinate or -1 if not defined
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Number</span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -1064,7 +1097,7 @@ Provides support for mouse pointer lock and low-level movement.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_mouse.js.html">addons/mouse.js</a>, <a href="addons_mouse.js.html#line343">line 343</a>
+        <a href="addons_mouse.js.html">addons/mouse.js</a>, <a href="addons_mouse.js.html#line342">line 342</a>
     </li></ul></dd>
     
 
@@ -1086,7 +1119,7 @@ Provides support for mouse pointer lock and low-level movement.</div>
 
     
 
-    <h4 class="name" id=".get_coords_y">get_coords_y<span class="signature">(event)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".get_coords_y">get_coords_y<span class="signature">(event)</span><span class="type-signature"> &rarr; {Number}</span></h4>
 
     
 
@@ -1094,7 +1127,7 @@ Provides support for mouse pointer lock and low-level movement.</div>
 <div class="item_description">
 
 <div class="description">
-    Get mouse Y coordinate.
+    Get mouse/touch Y coordinate.
 </div>
 
 
@@ -1137,6 +1170,9 @@ Provides support for mouse pointer lock and low-level movement.</div>
             
                 
 <span class="param-type">MouseEvent</span>
+|
+
+<span class="param-type">TouchEvent</span>
 
 
             
@@ -1146,7 +1182,7 @@ Provides support for mouse pointer lock and low-level movement.</div>
 
             
 
-            <td class="description last">Mouse event</td>
+            <td class="description last">Mouse/touch event</td>
         </tr>
 
     
@@ -1166,6 +1202,28 @@ Provides support for mouse pointer lock and low-level movement.</div>
 
 
 
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Client area vertical coordinate or -1 if not defined
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Number</span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -1199,7 +1257,115 @@ Provides support for mouse pointer lock and low-level movement.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_mouse.js.html">addons/mouse.js</a>, <a href="addons_mouse.js.html#line352">line 352</a>
+        <a href="addons_mouse.js.html">addons/mouse.js</a>, <a href="addons_mouse.js.html#line357">line 357</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+</div>
+</div>
+        
+            
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id=".get_plock_smooth_factor">get_plock_smooth_factor<span class="signature">()</span><span class="type-signature"> &rarr; {Number}</span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Get smooth factor for camera rotation while in pointerlock mode.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Smooth factor
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Number</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="addons_mouse.js.html">addons/mouse.js</a>, <a href="addons_mouse.js.html#line390">line 390</a>
     </li></ul></dd>
     
 
@@ -1304,7 +1470,7 @@ Provides support for mouse pointer lock and low-level movement.</div>
             <td class="type">
             
                 
-<span class="param-type"><a href="module-mouse.html#~use_mouse_control_callback">use_mouse_control_callback</a></span>
+<span class="param-type"><a href="module-mouse.html#~UseMouseControlCallback">UseMouseControlCallback</a></span>
 
 
             
@@ -1377,7 +1543,7 @@ Provides support for mouse pointer lock and low-level movement.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_mouse.js.html">addons/mouse.js</a>, <a href="addons_mouse.js.html#line184">line 184</a>
+        <a href="addons_mouse.js.html">addons/mouse.js</a>, <a href="addons_mouse.js.html#line187">line 187</a>
     </li></ul></dd>
     
 
@@ -1483,7 +1649,7 @@ Security issues: execute by user event.
             <td class="type">
             
                 
-<span class="param-type"><a href="module-mouse.html#~pointerlock_enabled_callback">pointerlock_enabled_callback</a></span>
+<span class="param-type"><a href="module-mouse.html#~PointerlockEnabledCallback">PointerlockEnabledCallback</a></span>
 
 
             
@@ -1516,7 +1682,7 @@ Security issues: execute by user event.
             <td class="type">
             
                 
-<span class="param-type"><a href="module-mouse.html#~pointerlock_disabled_callback">pointerlock_disabled_callback</a></span>
+<span class="param-type"><a href="module-mouse.html#~PointerlockDisabledCallback">PointerlockDisabledCallback</a></span>
 
 
             
@@ -1549,7 +1715,7 @@ Security issues: execute by user event.
             <td class="type">
             
                 
-<span class="param-type"><a href="module-mouse.html#~pointerlock_mouse_move_callback">pointerlock_mouse_move_callback</a></span>
+<span class="param-type"><a href="module-mouse.html#~PointerlockMouseMoveCallback">PointerlockMouseMoveCallback</a></span>
 
 
             
@@ -1582,7 +1748,7 @@ Security issues: execute by user event.
             <td class="type">
             
                 
-<span class="param-type"><a href="module-mouse.html#~use_mouse_control_callback">use_mouse_control_callback</a></span>
+<span class="param-type"><a href="module-mouse.html#~UseMouseControlCallback">UseMouseControlCallback</a></span>
 
 
             
@@ -1655,7 +1821,142 @@ Security issues: execute by user event.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_mouse.js.html">addons/mouse.js</a>, <a href="addons_mouse.js.html#line70">line 70</a>
+        <a href="addons_mouse.js.html">addons/mouse.js</a>, <a href="addons_mouse.js.html#line73">line 73</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+</div>
+</div>
+        
+            
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id=".set_plock_smooth_factor">set_plock_smooth_factor<span class="signature">(value)</span><span class="type-signature"></span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Set smooth factor for camera rotation while in pointerlock mode.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>value</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">New smooth factor</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="addons_mouse.js.html">addons/mouse.js</a>, <a href="addons_mouse.js.html#line381">line 381</a>
     </li></ul></dd>
     
 
@@ -1683,7 +1984,7 @@ Security issues: execute by user event.
 
     
 
-    <h4 class="name" id="~pointerlock_disabled_callback">pointerlock_disabled_callback<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="~PointerlockDisabledCallback">PointerlockDisabledCallback<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 
@@ -1747,7 +2048,7 @@ Security issues: execute by user event.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_mouse.js.html">addons/mouse.js</a>, <a href="addons_mouse.js.html#line59">line 59</a>
+        <a href="addons_mouse.js.html">addons/mouse.js</a>, <a href="addons_mouse.js.html#line62">line 62</a>
     </li></ul></dd>
     
 
@@ -1769,7 +2070,7 @@ Security issues: execute by user event.
 
     
 
-    <h4 class="name" id="~pointerlock_enabled_callback">pointerlock_enabled_callback<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="~PointerlockEnabledCallback">PointerlockEnabledCallback<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 
@@ -1833,7 +2134,7 @@ Security issues: execute by user event.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_mouse.js.html">addons/mouse.js</a>, <a href="addons_mouse.js.html#line54">line 54</a>
+        <a href="addons_mouse.js.html">addons/mouse.js</a>, <a href="addons_mouse.js.html#line57">line 57</a>
     </li></ul></dd>
     
 
@@ -1855,7 +2156,7 @@ Security issues: execute by user event.
 
     
 
-    <h4 class="name" id="~pointerlock_mouse_move_callback">pointerlock_mouse_move_callback<span class="signature">(e)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="~PointerlockMouseMoveCallback">PointerlockMouseMoveCallback<span class="signature">(e)</span><span class="type-signature"></span></h4>
 
     
 
@@ -1968,7 +2269,7 @@ Security issues: execute by user event.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_mouse.js.html">addons/mouse.js</a>, <a href="addons_mouse.js.html#line64">line 64</a>
+        <a href="addons_mouse.js.html">addons/mouse.js</a>, <a href="addons_mouse.js.html#line67">line 67</a>
     </li></ul></dd>
     
 
@@ -1990,7 +2291,7 @@ Security issues: execute by user event.
 
     
 
-    <h4 class="name" id="~use_mouse_control_callback">use_mouse_control_callback<span class="signature">()</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
+    <h4 class="name" id="~UseMouseControlCallback">UseMouseControlCallback<span class="signature">()</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
 
     
 
@@ -2077,7 +2378,7 @@ is controlled by mouse module or not.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="addons_mouse.js.html">addons/mouse.js</a>, <a href="addons_mouse.js.html#line47">line 47</a>
+        <a href="addons_mouse.js.html">addons/mouse.js</a>, <a href="addons_mouse.js.html#line50">line 50</a>
     </li></ul></dd>
     
 
@@ -2106,13 +2407,13 @@ is controlled by mouse module or not.
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-rgb.html">rgb</a></li><li><a href="module-rgba.html">rgba</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul><h3><a href="global.html">Global</a></h3>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Tue May 26 2015 12:05:05 GMT+0300 (MSK)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Tue Jun 30 2015 17:18:03 GMT+0300 (MSK)
 </footer>
 
 <script> prettyPrint(); </script>

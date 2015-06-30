@@ -53,12 +53,36 @@
  * @see https://www.blend4web.com/doc/en/developers.html#event-model
  *
  * @module controls
- * @local manifold_callback
+ * @local ManifoldCallback
+ * @local ManifoldLogicFunction
  */
 b4w.module["controls"] = function(exports, require) {
 
 var m_ctl   = require("__controls");
 var m_print = require("__print");
+
+/**
+ * Manifold's callback. It is executed when the manifold generates a pulse.
+ * @callback ManifoldCallback
+ * @param {?Object3D} obj Object 3D, or null to denote the global object
+ * @param {String} id Manifold ID
+ * @param {Number} pulse Manifold pulse value: +1 (all manifold types) or
+ * -1 (CT_TRIGGER or CT_CONTINUOUS only).
+ * @param {*} [param] Callback parameter. The user-defined parameter which is
+ * passed to create_sensor_manifold(). Can be used, for example, as a storage
+ * object to communicate between different manifolds.
+ */
+
+
+/**
+ * Manifold's logic function. Specifies a logic expression which consists of
+ * sensor values. This logic expression will be evaluated every frame. As a
+ * result, the manifold can generate a pulse according to its type (CT_SHOT,
+ * CT_TRIGGER etc) and internal state, and fire the callback.
+ * @callback ManifoldLogicFunction
+ * @param {Array} s Numeric array with sensor values.
+ * @returns {Number} Result of evaluation of the logic expression
+ */
 
 /**
  * Manifold control type: continuous.
@@ -552,7 +576,7 @@ exports.PL_MULTITOUCH_MOVE_PAN  = m_ctl.PL_MULTITOUCH_MOVE_PAN;
  * and set_custom_sensor() methods.
  * @method module:controls.create_custom_sensor
  * @param {Number} value Initial custom sensor value
- * @returns {Object} Sensor object
+ * @returns {Sensor} Sensor object
  */
 exports.create_custom_sensor = m_ctl.create_custom_sensor;
 
@@ -560,7 +584,7 @@ exports.create_custom_sensor = m_ctl.create_custom_sensor;
  * Create a keyboard sensor.
  * @method module:controls.create_keyboard_sensor
  * @param {Number} key Sensor key KEY_*
- * @returns {Object} Sensor object
+ * @returns {Sensor} Sensor object
  */
 exports.create_keyboard_sensor = m_ctl.create_keyboard_sensor;
 
@@ -570,48 +594,70 @@ exports.create_keyboard_sensor = m_ctl.create_keyboard_sensor;
  * materials) with the specified collision ID. If the collision ID is not
  * specified, the sensor will detect collisions with any entities.
  * @method module:controls.create_collision_sensor
- * @param {Object} obj Collision object ID
+ * @param {Object3D} obj Collision object.
  * @param {String} [collision_id="ANY"] Collision ID
- * @param {Boolean} [need_collision_pt=false] Should the sensor return the
- * collision point
- * @returns {Object} Sensor object
+ * @param {Boolean} [calc_pos_norm=false] Should the sensor return the
+ * collision position/normal/distance or not.
+ * @returns {Sensor} Sensor object
+ * @cc_externs coll_obj coll_pos coll_norm coll_dist
  */
-exports.create_collision_sensor = m_ctl.create_collision_sensor;
+exports.create_collision_sensor = function(obj_src, collision_id, calc_pos_norm) {
+    collision_id = collision_id || "ANY";
+    calc_pos_norm = calc_pos_norm || false;
+
+    return m_ctl.create_collision_sensor(obj_src, collision_id, calc_pos_norm);
+}
 
 /**
  * Create a collision impulse sensor.
  * It is intended to obtain the value of the impulse (that is, mass multiplied
  * by velocity) applied to the object at the collision point.
  * @method module:controls.create_collision_impulse_sensor
- * @param {Object} obj Collision object ID
- * @returns {Object} Sensor object
+ * @param {Object3D} obj Collision object.
+ * @returns {Sensor} Sensor object
  */
 exports.create_collision_impulse_sensor = m_ctl.create_collision_impulse_sensor;
 
 /**
  * Create a ray sensor.
- * The sensor casts a ray between the start_offset and end_offset positions.
- * These positions are specified relatively to the object's origin, in the
- * world space (use_local_coords = false) or in the local space
- * (use_local_coords = true).
+ * The sensor casts a ray between the from and to positions.
+ * These positions are specified relatively to the object's origin
+ * (ign_src_rot = true), in the world space (obj_src = null) or in the local
+ * space (ign_src_rot = false).
  * Checks intersection of this ray with the specified collision ID. If the
  * collision ID is not specified, the sensor will detect collisions with any
  * entities.
  * @method module:controls.create_ray_sensor
- * @param {Object} obj Object ID
- * @param {Float32Array} start_offset Start point offset for the ray
- * @param {Float32Array} end_offset End point offset for the ray
- * @param {Boolean} [use_local_coords=false] Whether the offsets are specified
- * in the local space of the object
+ * @param {Object3D} obj_src Source object, pass a non-null value to perform ray casting
+ * in object space, e.g. from/to vectors specified in object space.
+ * @param {Vec3} from From vector.
+ * @param {Vec3} to To vector.
  * @param {String} [collision_id="ANY"] Collision ID to detect intersection with
- * @returns {Object} Sensor object
+ * @param {Boolean} [is_binary_value=false] Calculate the value of the sensor as
+ * a binary (hit/non-hit) instead of hit fraction.
+ * @param {Boolean} [calc_pos_norm=false] Calculate hit position/normal
+ * (accessed from payload object).
+ * @param {Boolean} [ign_src_rot=false] Ignore any rotation of the source object
+ * during ray casting.
+ * @returns {Sensor} Sensor object.
+ * @cc_externs hit_fract obj_hit hit_time hit_pos hit_norm
  */
-exports.create_ray_sensor = m_ctl.create_ray_sensor;
+exports.create_ray_sensor = function(obj_src, from, to, collision_id,
+        is_binary_value, calc_pos_norm, ign_src_rot) {
+
+    collision_id = collision_id || "ANY";
+    is_binary_value = is_binary_value || false;
+    calc_pos_norm = calc_pos_norm || false;
+    ign_src_rot = ign_src_rot || false;
+
+    return m_ctl.create_ray_sensor(obj_src, from, to, collision_id, is_binary_value,
+            calc_pos_norm, ign_src_rot);
+}
 
 /**
  * Create a mouse click sensor.
  * @method module:controls.create_mouse_click_sensor
- * @returns {Object} Sensor object
+ * @returns {Sensor} Sensor object
  */
 exports.create_mouse_click_sensor = m_ctl.create_mouse_click_sensor;
 
@@ -619,7 +665,7 @@ exports.create_mouse_click_sensor = m_ctl.create_mouse_click_sensor;
  * Create a mouse wheel sensor.
  * The sensor's value is 1 for a single wheel notch scrolled away from the user.
  * @method module:controls.create_mouse_wheel_sensor
- * @returns {Object} Sensor object
+ * @returns {Sensor} Sensor object
  */
 exports.create_mouse_wheel_sensor = m_ctl.create_mouse_wheel_sensor;
 
@@ -629,7 +675,7 @@ exports.create_mouse_wheel_sensor = m_ctl.create_mouse_wheel_sensor;
  * coordinate(s).
  * @method module:controls.create_mouse_move_sensor
  * @param {String} [axis="XY"] Coordinate(s) to track: "X", "Y", "XY"
- * @returns {Object} Sensor object
+ * @returns {Sensor} Sensor object
  */
 exports.create_mouse_move_sensor = m_ctl.create_mouse_move_sensor;
 
@@ -638,7 +684,7 @@ exports.create_mouse_move_sensor = m_ctl.create_mouse_move_sensor;
  * The sensor's value is a number of pixels.
  * @method module:controls.create_touch_move_sensor
  * @param {String} [axis="XY"] Coordinate(s) to track: "X", "Y" or "XY"
- * @returns {Object} Sensor object
+ * @returns {Sensor} Sensor object
  */
 exports.create_touch_move_sensor = m_ctl.create_touch_move_sensor;
 
@@ -646,7 +692,7 @@ exports.create_touch_move_sensor = m_ctl.create_touch_move_sensor;
  * Create a touch zoom sensor.
  * The sensor's value is the distance difference in pixels.
  * @method module:controls.create_touch_zoom_sensor
- * @returns {Object} Sensor object
+ * @returns {Sensor} Sensor object
  */
 exports.create_touch_zoom_sensor = m_ctl.create_touch_zoom_sensor;
 
@@ -654,12 +700,12 @@ exports.create_touch_zoom_sensor = m_ctl.create_touch_zoom_sensor;
  * Create a motion sensor.
  * The sensor's value is 1 if the object is in motion.
  * @method module:controls.create_motion_sensor
- * @param {Object} obj Object ID
+ * @param {Object3D} obj Object 3D
  * @param {Number} [threshold=0.1] Translation velocity threshold,
  * units (meters) per second
  * @param {Number} [rotation_threshold=0.1] Rotation velocity threshold,
  * radians per second
- * @returns {Object} Sensor object
+ * @returns {Sensor} Sensor object
  */
 exports.create_motion_sensor = m_ctl.create_motion_sensor;
 
@@ -668,10 +714,10 @@ exports.create_motion_sensor = m_ctl.create_motion_sensor;
  * The sensor's value is 1 if abs() of the object's vertical velocity exceeds
  * the threshold.
  * @method module:controls.create_vertical_velocity_sensor
- * @param {Object} obj Object ID
+ * @param {Object3D} obj Object 3D
  * @param {Number} [threshold=1.0] Vertical velocity threshold,
  * units (meters) per second
- * @returns {Object} Sensor object
+ * @returns {Sensor} Sensor object
  */
 exports.create_vertical_velocity_sensor = m_ctl.create_vertical_velocity_sensor;
 
@@ -680,7 +726,7 @@ exports.create_vertical_velocity_sensor = m_ctl.create_vertical_velocity_sensor;
  * The sensor's payload stores the Euler angles of orientation
  * of a mobile device.
  * @method module:controls.create_gyroscope_angles_sensor
- * @returns {Object} Sensor object
+ * @returns {Sensor} Sensor object
  */
 exports.create_gyro_angles_sensor = m_ctl.create_gyro_angles_sensor;
 
@@ -689,7 +735,7 @@ exports.create_gyro_angles_sensor = m_ctl.create_gyro_angles_sensor;
  * The sensor's payload stores the differences between Euler angles of the
  * current orientation and the previous orientation of a mobile device.
  * @method module:controls.create_gyroscope_angles_sensor
- * @returns {Object} Sensor object
+ * @returns {Sensor} Sensor object
  */
 exports.create_gyro_delta_sensor = m_ctl.create_gyro_delta_sensor;
 
@@ -702,7 +748,7 @@ exports.create_gyro_delta_sensor = m_ctl.create_gyro_delta_sensor;
  * @method module:controls.create_timer_sensor
  * @param {Number} period Timer period, in seconds
  * @param {Boolean} [do_repeat=false] Re-start the timer upon expiration
- * @returns {Object} Sensor object
+ * @returns {Sensor} Sensor object
  */
 exports.create_timer_sensor = function(period, do_repeat) {
     return m_ctl.create_timer_sensor(period, do_repeat || false);
@@ -711,7 +757,7 @@ exports.create_timer_sensor = function(period, do_repeat) {
 /**
  * Reset the timer sensor and set a new period value.
  * @method module:controls.reset_timer_sensor
- * @param {Object} obj Object ID
+ * @param {Object3D} obj Object 3D
  * @param {String} manifold_id Object's manifold ID
  * @param {Number} num Sensor's number in the manifold
  * @param {Number} period A new period value for the sensor
@@ -722,7 +768,7 @@ exports.reset_timer_sensor = m_ctl.reset_timer_sensor;
  * Create an elapsed sensor.
  * The sensor's value is the time elapsed from the previous frame.
  * @method module:controls.create_elapsed_sensor
- * @returns {Object} Sensor object
+ * @returns {Sensor} Sensor object
  */
 exports.create_elapsed_sensor = m_ctl.create_elapsed_sensor;
 
@@ -730,19 +776,19 @@ exports.create_elapsed_sensor = m_ctl.create_elapsed_sensor;
  * Create a timeline sensor.
  * The sensor's value is the value of the global engine timeline.
  * @method module:controls.create_timeline_sensor
- * @returns {Object} Sensor object
+ * @returns {Sensor} Sensor object
  */
 exports.create_timeline_sensor = m_ctl.create_timeline_sensor;
 
 /**
  * Create a selection sensor for the object.
  * The sensor's value becomes 1 when the object is selected by the user.
- * @param {Object} obj Object ID
+ * @param {Object3D} obj Object 3D
  * @param {Boolean} [auto_release=false] If true, reset the sensor (set it to 0)
  * when the mouse button/touch is released. If false, reset the sensor only when
  * another object is selected.
  * @method module:controls.create_selection_sensor
- * @returns {Object} Sensor object
+ * @returns {Sensor} Sensor object
  */
 exports.create_selection_sensor = function(obj, auto_release) {
     return m_ctl.create_selection_sensor(obj, auto_release || false);
@@ -751,7 +797,7 @@ exports.create_selection_sensor = function(obj, auto_release) {
 /**
  * Set the value of the custom sensor.
  * @method module:controls.set_custom_sensor
- * @param {Object} sensor Sensor object
+ * @param {Sensor} sensor Sensor object
  * @param {Number} value New sensor value
  */
 exports.set_custom_sensor = function(sensor, value) {
@@ -761,7 +807,7 @@ exports.set_custom_sensor = function(sensor, value) {
 /**
  * Get the value of the custom sensor.
  * @method module:controls.get_custom_sensor
- * @param {Object} sensor Sensor object
+ * @param {Sensor} sensor Sensor object
  * @returns {Number} Sensor value
  */
 exports.get_custom_sensor = function(sensor, value) {
@@ -772,7 +818,7 @@ exports.get_custom_sensor = function(sensor, value) {
  * Return the value of the sensor from the object's manifold. The sensor is
  * identified by its index in the manifold's array of sensors.
  * @method module:controls.get_sensor_value
- * @param {?Object} obj Object ID, or null to denote the global object
+ * @param {?Object3D} obj Object 3D, or null to denote the global object
  * @param {String} manifold_id Object's manifold ID
  * @param {Number} num Sensor index in manifold's array
  * @returns {Number} Sensor value
@@ -783,7 +829,7 @@ exports.get_sensor_value = m_ctl.get_sensor_value;
  * Return the payload data of the sensor from the object's manifold. The sensor
  * is identified by its index in the manifold's array of sensors.
  * @method module:controls.get_sensor_payload
- * @param {?Object} obj Object ID, or null to denote the global object
+ * @param {?Object3D} obj Object 3D, or null to denote the global object
  * @param {String} manifold_id Object's manifold ID
  * @param {Number} num Sensor index in manifold's array
  * @returns {*} Sensor payload
@@ -791,69 +837,17 @@ exports.get_sensor_value = m_ctl.get_sensor_value;
 exports.get_sensor_payload = m_ctl.get_sensor_payload;
 
 /**
- * Create a sensor lock.
- * @method module:controls.create_sensor_lock
- * @param {Object} sensor Sensor object
- * @param {Array} lock_sensors The array of the sensors which lock
- * the current sensor
- * @param lock_logic_fun Logic function
- * @deprecated Not necessary anymore
- */
-exports.create_sensor_lock = function(sensor, lock_sensors, lock_logic_fun) {
-    m_print.error("create_sensor_lock() deprecated");
-    sensor.lock_sensors = lock_sensors.slice(0);
-    // cache for logic function
-    sensor.lock_sensor_values = new Array(lock_sensors.length);
-    sensor.lock_logic_fun = lock_logic_fun || m_ctl.default_AND_logic_fun;
-}
-
-/**
- * Remove the sensor lock.
- * @method module:controls.remove_sensor_lock
- * @param {Object} sensor Sensor object
- * @deprecated Not necessary anymore
- */
-exports.remove_sensor_lock = function(sensor) {
-    m_print.error("remove_sensor_lock() deprecated");
-    sensor.lock_sensors = null;
-    sensor.lock_sensor_values = null;
-    sensor.lock_logic_fun = null;
-}
-
-/**
- * Manifold's logic function. Specifies a logic expression which consists of
- * sensor values. This logic expression will be evaluated every frame. As a
- * result, the manifold can generate a pulse according to its type (CT_SHOT,
- * CT_TRIGGER etc) and internal state, and fire the callback.
- * @callback manifold_logic_function
- * @param {Array} s Array with sensor values
- * @returns {Number} Result of evaluation of the logic expression
- */
-
-/**
- * Manifold's callback. It is executed when the manifold generates a pulse.
- * @callback manifold_callback
- * @param {?Object} obj Object ID, or null to denote the global object
- * @param {String} id Manifold ID
- * @param {Number} pulse Manifold pulse value: +1 (all manifold types) or
- * -1 (CT_TRIGGER or CT_CONTINUOUS only).
- * @param {*} [param] Callback parameter. The user-defined parameter which is
- * passed to create_sensor_manifold(). Can be used, for example, as a storage
- * object to communicate between different manifolds.
- */
-
-/**
  * Create a sensor manifold.
  * @method module:controls.create_sensor_manifold
- * @param {?Object} obj Object ID to attach the manifold to, or null to denote
- * the global object
- * @param {String} id New manifold ID
- * @param {Number} type Manifold control type (CT_SHOT, CT_TRIGGER etc)
- * @param {Array} sensors Array of sensors
- * @param {manifold_logic_function} logic_fun Manifold's logic function
- * @param {manifold_callback} callback Manifold's callback
+ * @param {?Object3D} obj Object 3D to attach the manifold to, or null to denote
+ * the global object.
+ * @param {String} id New manifold ID.
+ * @param {Number} type Manifold control type (CT_SHOT, CT_TRIGGER etc).
+ * @param {Sensor[]} sensors Array of sensors.
+ * @param {ManifoldLogicFunction} logic_fun Manifold's logic function.
+ * @param {ManifoldCallback} callback Manifold's callback.
  * @param {*} [callback_param] Parameter to pass to the manifold's callback
- * (e.g. some state)
+ * (e.g. some state).
  */
 exports.create_sensor_manifold = function(obj, id, type, sensors,
                                           logic_fun, callback, callback_param) {
@@ -869,12 +863,12 @@ exports.create_sensor_manifold = function(obj, id, type, sensors,
  * Convenience function: creates a manifold coupled with a single keyboard
  * sensor. Can be used to quickly create a single-key functionality.
  * @method module:controls.create_kb_sensor_manifold
- * @param {?Object} obj Object ID to attach the manifold to, or null to denote
+ * @param {?Object3D} obj Object 3D to attach the manifold to, or null to denote
  * the global object
  * @param {String} id New manifold ID
  * @param {Number} type Manifold control type (CT_SHOT, CT_TRIGGER etc)
  * @param {Number} key Sensor key KEY_*
- * @param {manifold_callback} callback Manifold's callback
+ * @param {ManifoldCallback} callback Manifold's callback
  * @param {*} [callback_param] Parameter to pass to the manifold's callback
  * (e.g. some state)
  */
@@ -892,7 +886,7 @@ exports.create_kb_sensor_manifold = function(obj, id, type, key,
 /**
  * Check whether the object has any manifolds attached.
  * @method module:controls.check_sensor_manifolds
- * @param {?Object} obj Object ID, or null to denote the global object
+ * @param {?Object3D} obj Object 3D, or null to denote the global object
  * @returns {Boolean} Result of the check
  */
 exports.check_sensor_manifolds = function(obj) {
@@ -902,7 +896,7 @@ exports.check_sensor_manifolds = function(obj) {
 /**
  * Check whether the object has the manifold attached.
  * @method module:controls.check_sensor_manifold
- * @param {?Object} obj Object ID, or null to denote the global object
+ * @param {?Object3D} obj Object 3D, or null to denote the global object
  * @param {String} id Manifold ID
  * @returns {Boolean} Result of the check
  */
@@ -911,7 +905,7 @@ exports.check_sensor_manifold = m_ctl.check_sensor_manifold;
 /**
  * Remove all sensor manifolds registered for the object.
  * @method module:controls.remove_sensor_manifolds
- * @param {?Object} obj Object ID to delete manifolds from, or null to denote
+ * @param {?Object3D} obj Object 3D to delete manifolds from, or null to denote
  * the global object
  * @deprecated Use remove_sensor_manifold with null manifold ID instead
  */
@@ -924,7 +918,7 @@ exports.remove_sensor_manifolds = function(obj) {
 /**
  * Remove the sensor manifold registered for the object.
  * @method module:controls.remove_sensor_manifold
- * @param {?Object} obj Object ID to delete the manifold from, or null to denote
+ * @param {?Object3D} obj Object 3D to delete the manifold from, or null to denote
  * the global object
  * @param {String} [id=null] ID of the sensor manifold, or null to delete all
  * manifolds
@@ -1040,13 +1034,13 @@ exports.unregister_device_orientation = m_ctl.unregister_device_orientation;
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-rgb.html">rgb</a></li><li><a href="module-rgba.html">rgba</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul><h3><a href="global.html">Global</a></h3>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Tue May 26 2015 12:05:03 GMT+0300 (MSK)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Tue Jun 30 2015 17:18:01 GMT+0300 (MSK)
 </footer>
 
 <script> prettyPrint(); </script>

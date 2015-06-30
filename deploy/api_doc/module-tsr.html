@@ -38,9 +38,7 @@
     <div class="container-overview">
     
         
-            <div class="description">TSR-8 utility functions.
-TSR is a Float32Array vector which has the following format:
-[X, Y, Z, SCALE, QUAT_X, QUAT_Y, QUAT_Z, QUAT_W]</div>
+            <div class="description"><a href="global.html#TSR">TSR</a> utility routines.</div>
         
 
         
@@ -143,19 +141,23 @@ TSR is a Float32Array vector which has the following format:
 
         
             
-<li> <a href="#.create">create<span class="signature">()</span><span class="type-signature"> &rarr; {tsr8}</span></a></li>
+<li> <a href="#.create">create<span class="signature">()</span><span class="type-signature"> &rarr; {TSR}</span></a></li>
 
         
             
-<li> <a href="#.create_sep">create_sep<span class="signature">(trans, scale, quat, dest<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {tsr8}</span></a></li>
+<li> <a href="#.create_sep">create_sep<span class="signature">(trans, scale, quat, dest<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {TSR}</span></a></li>
 
         
             
-<li> <a href="#.from_mat4">from_mat4<span class="signature">(mat)</span><span class="type-signature"> &rarr; {tsr8}</span></a></li>
+<li> <a href="#.from_mat4">from_mat4<span class="signature">(mat, dest)</span><span class="type-signature"> &rarr; {TSR}</span></a></li>
 
         
             
-<li> <a href="#.get_quat_view">get_quat_view<span class="signature">()</span><span class="type-signature"> &rarr; {quat}</span></a></li>
+<li> <a href="#.from_values">from_values<span class="signature">(x, y, z, s, qx, qy, qz, qw)</span><span class="type-signature"> &rarr; {TSR}</span></a></li>
+
+        
+            
+<li> <a href="#.get_quat_view">get_quat_view<span class="signature">()</span><span class="type-signature"> &rarr; {Quat}</span></a></li>
 
         
             
@@ -163,7 +165,7 @@ TSR is a Float32Array vector which has the following format:
 
         
             
-<li> <a href="#.get_trans_view">get_trans_view<span class="signature">(tsr)</span><span class="type-signature"> &rarr; {vec3}</span></a></li>
+<li> <a href="#.get_trans_view">get_trans_view<span class="signature">(tsr)</span><span class="type-signature"> &rarr; {Vec3}</span></a></li>
 
         
             
@@ -171,15 +173,15 @@ TSR is a Float32Array vector which has the following format:
 
         
             
-<li> <a href="#.interpolate">interpolate<span class="signature">(tsr, tsr2, factor, dest)</span><span class="type-signature"> &rarr; {tsr8}</span></a></li>
+<li> <a href="#.interpolate">interpolate<span class="signature">(tsr, tsr2, factor, dest)</span><span class="type-signature"> &rarr; {TSR}</span></a></li>
 
         
             
-<li> <a href="#.invert">invert<span class="signature">(tsr, dest)</span><span class="type-signature"> &rarr; {tsr8}</span></a></li>
+<li> <a href="#.invert">invert<span class="signature">(tsr, dest)</span><span class="type-signature"> &rarr; {TSR}</span></a></li>
 
         
             
-<li> <a href="#.multiply">multiply<span class="signature">(tsr, tsr2, dest)</span><span class="type-signature"> &rarr; {tsr8}</span></a></li>
+<li> <a href="#.multiply">multiply<span class="signature">(tsr, tsr2, dest)</span><span class="type-signature"> &rarr; {TSR}</span></a></li>
 
         
             
@@ -200,6 +202,10 @@ TSR is a Float32Array vector which has the following format:
         
             
 <li> <a href="#.set_transcale">set_transcale<span class="signature">(transcale, dest)</span><span class="type-signature"></span></a></li>
+
+        
+            
+<li> <a href="#.to_mat4">to_mat4<span class="signature">(tsr, dest<span class="signature-attributes">opt, nullable</span>)</span><span class="type-signature"> &rarr; {Mat4}</span></a></li>
 
         
             
@@ -227,7 +233,7 @@ TSR is a Float32Array vector which has the following format:
 
         
             
-<li> <a href="#.translate">translate<span class="signature">(tsr, trans, dest)</span><span class="type-signature"> &rarr; {tsr8}</span></a></li>
+<li> <a href="#.translate">translate<span class="signature">(tsr, trans, dest)</span><span class="type-signature"> &rarr; {TSR}</span></a></li>
 
         
         </ul>
@@ -295,7 +301,7 @@ TSR is a Float32Array vector which has the following format:
             <td class="type">
             
                 
-<span class="param-type">tsr8</span>
+<span class="param-type"><a href="global.html#TSR">TSR</a></span>
 
 
             
@@ -318,7 +324,7 @@ TSR is a Float32Array vector which has the following format:
             <td class="type">
             
                 
-<span class="param-type">tsr8</span>
+<span class="param-type"><a href="global.html#TSR">TSR</a></span>
 
 
             
@@ -381,7 +387,7 @@ TSR is a Float32Array vector which has the following format:
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_tsr.js.html">ext/tsr.js</a>, <a href="ext_tsr.js.html#line21">line 21</a>
+        <a href="ext_tsr.js.html">ext/tsr.js</a>, <a href="ext_tsr.js.html#line34">line 34</a>
     </li></ul></dd>
     
 
@@ -403,7 +409,7 @@ TSR is a Float32Array vector which has the following format:
 
     
 
-    <h4 class="name" id=".create">create<span class="signature">()</span><span class="type-signature"> &rarr; {tsr8}</span></h4>
+    <h4 class="name" id=".create">create<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="global.html#TSR">TSR</a>}</span></h4>
 
     
 
@@ -449,7 +455,7 @@ TSR is a Float32Array vector which has the following format:
     </dt>
     <dd>
         
-<span class="param-type">tsr8</span>
+<span class="param-type"><a href="global.html#TSR">TSR</a></span>
 
 
     </dd>
@@ -489,7 +495,7 @@ TSR is a Float32Array vector which has the following format:
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_tsr.js.html">ext/tsr.js</a>, <a href="ext_tsr.js.html#line14">line 14</a>
+        <a href="ext_tsr.js.html">ext/tsr.js</a>, <a href="ext_tsr.js.html#line12">line 12</a>
     </li></ul></dd>
     
 
@@ -511,7 +517,7 @@ TSR is a Float32Array vector which has the following format:
 
     
 
-    <h4 class="name" id=".create_sep">create_sep<span class="signature">(trans, scale, quat, dest<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {tsr8}</span></h4>
+    <h4 class="name" id=".create_sep">create_sep<span class="signature">(trans, scale, quat, dest<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {<a href="global.html#TSR">TSR</a>}</span></h4>
 
     
 
@@ -563,7 +569,7 @@ TSR is a Float32Array vector which has the following format:
             <td class="type">
             
                 
-<span class="param-type">vec3</span>
+<span class="param-type"><a href="global.html#Vec3">Vec3</a></span>
 
 
             
@@ -625,7 +631,7 @@ TSR is a Float32Array vector which has the following format:
             <td class="type">
             
                 
-<span class="param-type">quat</span>
+<span class="param-type"><a href="global.html#Quat">Quat</a></span>
 
 
             
@@ -656,7 +662,7 @@ TSR is a Float32Array vector which has the following format:
             <td class="type">
             
                 
-<span class="param-type">tsr8</span>
+<span class="param-type"><a href="global.html#TSR">TSR</a></span>
 
 
             
@@ -711,7 +717,7 @@ TSR is a Float32Array vector which has the following format:
     </dt>
     <dd>
         
-<span class="param-type">tsr8</span>
+<span class="param-type"><a href="global.html#TSR">TSR</a></span>
 
 
     </dd>
@@ -751,7 +757,7 @@ TSR is a Float32Array vector which has the following format:
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_tsr.js.html">ext/tsr.js</a>, <a href="ext_tsr.js.html#line36">line 36</a>
+        <a href="ext_tsr.js.html">ext/tsr.js</a>, <a href="ext_tsr.js.html#line49">line 49</a>
     </li></ul></dd>
     
 
@@ -773,7 +779,7 @@ TSR is a Float32Array vector which has the following format:
 
     
 
-    <h4 class="name" id=".from_mat4">from_mat4<span class="signature">(mat)</span><span class="type-signature"> &rarr; {tsr8}</span></h4>
+    <h4 class="name" id=".from_mat4">from_mat4<span class="signature">(mat, dest)</span><span class="type-signature"> &rarr; {<a href="global.html#TSR">TSR</a>}</span></h4>
 
     
 
@@ -782,7 +788,7 @@ TSR is a Float32Array vector which has the following format:
 
 <div class="description">
     Set TSR from mat4.
-NOTE: not optimized
+Not optimized.
 </div>
 
 
@@ -824,7 +830,7 @@ NOTE: not optimized
             <td class="type">
             
                 
-<span class="param-type">mat4</span>
+<span class="param-type"><a href="global.html#Mat4">Mat4</a></span>
 
 
             
@@ -834,7 +840,30 @@ NOTE: not optimized
 
             
 
-            <td class="description last">Matrix</td>
+            <td class="description last">Matrix.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>dest</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#TSR">TSR</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Destination TSR vector.</td>
         </tr>
 
     
@@ -858,7 +887,7 @@ NOTE: not optimized
 
         
 <div class="param-desc">
-    Destination TSR vector
+    Destination TSR vector.
 </div>
 
 
@@ -869,7 +898,7 @@ NOTE: not optimized
     </dt>
     <dd>
         
-<span class="param-type">tsr8</span>
+<span class="param-type"><a href="global.html#TSR">TSR</a></span>
 
 
     </dd>
@@ -909,7 +938,7 @@ NOTE: not optimized
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_tsr.js.html">ext/tsr.js</a>, <a href="ext_tsr.js.html#line115">line 115</a>
+        <a href="ext_tsr.js.html">ext/tsr.js</a>, <a href="ext_tsr.js.html#line145">line 145</a>
     </li></ul></dd>
     
 
@@ -931,7 +960,325 @@ NOTE: not optimized
 
     
 
-    <h4 class="name" id=".get_quat_view">get_quat_view<span class="signature">()</span><span class="type-signature"> &rarr; {quat}</span></h4>
+    <h4 class="name" id=".from_values">from_values<span class="signature">(x, y, z, s, qx, qy, qz, qw)</span><span class="type-signature"> &rarr; {<a href="global.html#TSR">TSR</a>}</span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Create a new TSR vector from given values.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>x</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">X translation.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>y</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Y translation.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>z</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Z translation.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>s</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Scale.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>qx</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">X quaternion rotation.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>qy</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Y quaternion rotation.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>qz</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Z quaternion rotation.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>qw</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">W quaternion rotation.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    New TSR vector
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="global.html#TSR">TSR</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_tsr.js.html">ext/tsr.js</a>, <a href="ext_tsr.js.html#line19">line 19</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+</div>
+</div>
+        
+            
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id=".get_quat_view">get_quat_view<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="global.html#Quat">Quat</a>}</span></h4>
 
     
 
@@ -977,7 +1324,7 @@ NOTE: not optimized
     </dt>
     <dd>
         
-<span class="param-type">quat</span>
+<span class="param-type"><a href="global.html#Quat">Quat</a></span>
 
 
     </dd>
@@ -1017,7 +1364,7 @@ NOTE: not optimized
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_tsr.js.html">ext/tsr.js</a>, <a href="ext_tsr.js.html#line99">line 99</a>
+        <a href="ext_tsr.js.html">ext/tsr.js</a>, <a href="ext_tsr.js.html#line112">line 112</a>
     </li></ul></dd>
     
 
@@ -1125,7 +1472,7 @@ NOTE: not optimized
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_tsr.js.html">ext/tsr.js</a>, <a href="ext_tsr.js.html#line93">line 93</a>
+        <a href="ext_tsr.js.html">ext/tsr.js</a>, <a href="ext_tsr.js.html#line106">line 106</a>
     </li></ul></dd>
     
 
@@ -1147,7 +1494,7 @@ NOTE: not optimized
 
     
 
-    <h4 class="name" id=".get_trans_view">get_trans_view<span class="signature">(tsr)</span><span class="type-signature"> &rarr; {vec3}</span></h4>
+    <h4 class="name" id=".get_trans_view">get_trans_view<span class="signature">(tsr)</span><span class="type-signature"> &rarr; {<a href="global.html#Vec3">Vec3</a>}</span></h4>
 
     
 
@@ -1197,7 +1544,7 @@ NOTE: not optimized
             <td class="type">
             
                 
-<span class="param-type">tsr8</span>
+<span class="param-type"><a href="global.html#TSR">TSR</a></span>
 
 
             
@@ -1242,7 +1589,7 @@ NOTE: not optimized
     </dt>
     <dd>
         
-<span class="param-type">vec3</span>
+<span class="param-type"><a href="global.html#Vec3">Vec3</a></span>
 
 
     </dd>
@@ -1282,7 +1629,7 @@ NOTE: not optimized
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_tsr.js.html">ext/tsr.js</a>, <a href="ext_tsr.js.html#line86">line 86</a>
+        <a href="ext_tsr.js.html">ext/tsr.js</a>, <a href="ext_tsr.js.html#line99">line 99</a>
     </li></ul></dd>
     
 
@@ -1354,7 +1701,7 @@ NOTE: not optimized
             <td class="type">
             
                 
-<span class="param-type">tsr8</span>
+<span class="param-type"><a href="global.html#TSR">TSR</a></span>
 
 
             
@@ -1417,7 +1764,7 @@ NOTE: not optimized
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_tsr.js.html">ext/tsr.js</a>, <a href="ext_tsr.js.html#line29">line 29</a>
+        <a href="ext_tsr.js.html">ext/tsr.js</a>, <a href="ext_tsr.js.html#line42">line 42</a>
     </li></ul></dd>
     
 
@@ -1439,7 +1786,7 @@ NOTE: not optimized
 
     
 
-    <h4 class="name" id=".interpolate">interpolate<span class="signature">(tsr, tsr2, factor, dest)</span><span class="type-signature"> &rarr; {tsr8}</span></h4>
+    <h4 class="name" id=".interpolate">interpolate<span class="signature">(tsr, tsr2, factor, dest)</span><span class="type-signature"> &rarr; {<a href="global.html#TSR">TSR</a>}</span></h4>
 
     
 
@@ -1489,7 +1836,7 @@ NOTE: not optimized
             <td class="type">
             
                 
-<span class="param-type">tsr8</span>
+<span class="param-type"><a href="global.html#TSR">TSR</a></span>
 
 
             
@@ -1512,7 +1859,7 @@ NOTE: not optimized
             <td class="type">
             
                 
-<span class="param-type">tsr8</span>
+<span class="param-type"><a href="global.html#TSR">TSR</a></span>
 
 
             
@@ -1558,7 +1905,7 @@ NOTE: not optimized
             <td class="type">
             
                 
-<span class="param-type">tsr8</span>
+<span class="param-type"><a href="global.html#TSR">TSR</a></span>
 
 
             
@@ -1603,7 +1950,7 @@ NOTE: not optimized
     </dt>
     <dd>
         
-<span class="param-type">tsr8</span>
+<span class="param-type"><a href="global.html#TSR">TSR</a></span>
 
 
     </dd>
@@ -1643,7 +1990,7 @@ NOTE: not optimized
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_tsr.js.html">ext/tsr.js</a>, <a href="ext_tsr.js.html#line205">line 205</a>
+        <a href="ext_tsr.js.html">ext/tsr.js</a>, <a href="ext_tsr.js.html#line236">line 236</a>
     </li></ul></dd>
     
 
@@ -1665,7 +2012,7 @@ NOTE: not optimized
 
     
 
-    <h4 class="name" id=".invert">invert<span class="signature">(tsr, dest)</span><span class="type-signature"> &rarr; {tsr8}</span></h4>
+    <h4 class="name" id=".invert">invert<span class="signature">(tsr, dest)</span><span class="type-signature"> &rarr; {<a href="global.html#TSR">TSR</a>}</span></h4>
 
     
 
@@ -1715,7 +2062,7 @@ NOTE: not optimized
             <td class="type">
             
                 
-<span class="param-type">tsr8</span>
+<span class="param-type"><a href="global.html#TSR">TSR</a></span>
 
 
             
@@ -1738,7 +2085,7 @@ NOTE: not optimized
             <td class="type">
             
                 
-<span class="param-type">tsr8</span>
+<span class="param-type"><a href="global.html#TSR">TSR</a></span>
 
 
             
@@ -1783,7 +2130,7 @@ NOTE: not optimized
     </dt>
     <dd>
         
-<span class="param-type">tsr8</span>
+<span class="param-type"><a href="global.html#TSR">TSR</a></span>
 
 
     </dd>
@@ -1823,7 +2170,7 @@ NOTE: not optimized
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_tsr.js.html">ext/tsr.js</a>, <a href="ext_tsr.js.html#line106">line 106</a>
+        <a href="ext_tsr.js.html">ext/tsr.js</a>, <a href="ext_tsr.js.html#line119">line 119</a>
     </li></ul></dd>
     
 
@@ -1845,7 +2192,7 @@ NOTE: not optimized
 
     
 
-    <h4 class="name" id=".multiply">multiply<span class="signature">(tsr, tsr2, dest)</span><span class="type-signature"> &rarr; {tsr8}</span></h4>
+    <h4 class="name" id=".multiply">multiply<span class="signature">(tsr, tsr2, dest)</span><span class="type-signature"> &rarr; {<a href="global.html#TSR">TSR</a>}</span></h4>
 
     
 
@@ -1895,7 +2242,7 @@ NOTE: not optimized
             <td class="type">
             
                 
-<span class="param-type">tsr8</span>
+<span class="param-type"><a href="global.html#TSR">TSR</a></span>
 
 
             
@@ -1918,7 +2265,7 @@ NOTE: not optimized
             <td class="type">
             
                 
-<span class="param-type">tsr8</span>
+<span class="param-type"><a href="global.html#TSR">TSR</a></span>
 
 
             
@@ -1941,7 +2288,7 @@ NOTE: not optimized
             <td class="type">
             
                 
-<span class="param-type">tsr8</span>
+<span class="param-type"><a href="global.html#TSR">TSR</a></span>
 
 
             
@@ -1986,7 +2333,7 @@ NOTE: not optimized
     </dt>
     <dd>
         
-<span class="param-type">tsr8</span>
+<span class="param-type"><a href="global.html#TSR">TSR</a></span>
 
 
     </dd>
@@ -2026,7 +2373,7 @@ NOTE: not optimized
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_tsr.js.html">ext/tsr.js</a>, <a href="ext_tsr.js.html#line124">line 124</a>
+        <a href="ext_tsr.js.html">ext/tsr.js</a>, <a href="ext_tsr.js.html#line155">line 155</a>
     </li></ul></dd>
     
 
@@ -2098,7 +2445,7 @@ NOTE: not optimized
             <td class="type">
             
                 
-<span class="param-type">quat</span>
+<span class="param-type"><a href="global.html#Quat">Quat</a></span>
 
 
             
@@ -2121,7 +2468,7 @@ NOTE: not optimized
             <td class="type">
             
                 
-<span class="param-type">tsr8</span>
+<span class="param-type"><a href="global.html#TSR">TSR</a></span>
 
 
             
@@ -2184,7 +2531,7 @@ NOTE: not optimized
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_tsr.js.html">ext/tsr.js</a>, <a href="ext_tsr.js.html#line78">line 78</a>
+        <a href="ext_tsr.js.html">ext/tsr.js</a>, <a href="ext_tsr.js.html#line91">line 91</a>
     </li></ul></dd>
     
 
@@ -2279,7 +2626,7 @@ NOTE: not optimized
             <td class="type">
             
                 
-<span class="param-type">tsr8</span>
+<span class="param-type"><a href="global.html#TSR">TSR</a></span>
 
 
             
@@ -2342,7 +2689,7 @@ NOTE: not optimized
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_tsr.js.html">ext/tsr.js</a>, <a href="ext_tsr.js.html#line64">line 64</a>
+        <a href="ext_tsr.js.html">ext/tsr.js</a>, <a href="ext_tsr.js.html#line77">line 77</a>
     </li></ul></dd>
     
 
@@ -2414,7 +2761,7 @@ NOTE: not optimized
             <td class="type">
             
                 
-<span class="param-type">vec3</span>
+<span class="param-type"><a href="global.html#Vec3">Vec3</a></span>
 
 
             
@@ -2460,7 +2807,7 @@ NOTE: not optimized
             <td class="type">
             
                 
-<span class="param-type">quat</span>
+<span class="param-type"><a href="global.html#Quat">Quat</a></span>
 
 
             
@@ -2483,7 +2830,7 @@ NOTE: not optimized
             <td class="type">
             
                 
-<span class="param-type">tsr8</span>
+<span class="param-type"><a href="global.html#TSR">TSR</a></span>
 
 
             
@@ -2546,7 +2893,7 @@ NOTE: not optimized
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_tsr.js.html">ext/tsr.js</a>, <a href="ext_tsr.js.html#line47">line 47</a>
+        <a href="ext_tsr.js.html">ext/tsr.js</a>, <a href="ext_tsr.js.html#line60">line 60</a>
     </li></ul></dd>
     
 
@@ -2618,7 +2965,7 @@ NOTE: not optimized
             <td class="type">
             
                 
-<span class="param-type">vec3</span>
+<span class="param-type"><a href="global.html#Vec3">Vec3</a></span>
 
 
             
@@ -2641,7 +2988,7 @@ NOTE: not optimized
             <td class="type">
             
                 
-<span class="param-type">tsr8</span>
+<span class="param-type"><a href="global.html#TSR">TSR</a></span>
 
 
             
@@ -2704,7 +3051,7 @@ NOTE: not optimized
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_tsr.js.html">ext/tsr.js</a>, <a href="ext_tsr.js.html#line57">line 57</a>
+        <a href="ext_tsr.js.html">ext/tsr.js</a>, <a href="ext_tsr.js.html#line70">line 70</a>
     </li></ul></dd>
     
 
@@ -2799,7 +3146,7 @@ NOTE: not optimized
             <td class="type">
             
                 
-<span class="param-type">tsr8</span>
+<span class="param-type"><a href="global.html#TSR">TSR</a></span>
 
 
             
@@ -2862,7 +3209,222 @@ NOTE: not optimized
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_tsr.js.html">ext/tsr.js</a>, <a href="ext_tsr.js.html#line71">line 71</a>
+        <a href="ext_tsr.js.html">ext/tsr.js</a>, <a href="ext_tsr.js.html#line84">line 84</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+</div>
+</div>
+        
+            
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id=".to_mat4">to_mat4<span class="signature">(tsr, dest<span class="signature-attributes">opt, nullable</span>)</span><span class="type-signature"> &rarr; {<a href="global.html#Mat4">Mat4</a>}</span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Create mat4 from TSR.
+Not optimized.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>tsr</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#TSR">TSR</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">TSR vector.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>dest</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#Mat4">Mat4</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                    &lt;nullable><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    mat4.create()
+                
+                </td>
+            
+
+            <td class="description last">Destination matrix.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Destination matrix.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="global.html#Mat4">Mat4</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_tsr.js.html">ext/tsr.js</a>, <a href="ext_tsr.js.html#line129">line 129</a>
     </li></ul></dd>
     
 
@@ -2934,7 +3496,7 @@ NOTE: not optimized
             <td class="type">
             
                 
-<span class="param-type">vec3</span>
+<span class="param-type"><a href="global.html#Vec3">Vec3</a></span>
 
 
             
@@ -2957,7 +3519,7 @@ NOTE: not optimized
             <td class="type">
             
                 
-<span class="param-type">tsr8</span>
+<span class="param-type"><a href="global.html#TSR">TSR</a></span>
 
 
             
@@ -2980,7 +3542,7 @@ NOTE: not optimized
             <td class="type">
             
                 
-<span class="param-type">vec3</span>
+<span class="param-type"><a href="global.html#Vec3">Vec3</a></span>
 
 
             
@@ -3043,7 +3605,7 @@ NOTE: not optimized
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_tsr.js.html">ext/tsr.js</a>, <a href="ext_tsr.js.html#line174">line 174</a>
+        <a href="ext_tsr.js.html">ext/tsr.js</a>, <a href="ext_tsr.js.html#line205">line 205</a>
     </li></ul></dd>
     
 
@@ -3155,7 +3717,7 @@ optional destination offset in values (not vectors, not bytes)
             <td class="type">
             
                 
-<span class="param-type">tsr8</span>
+<span class="param-type"><a href="global.html#TSR">TSR</a></span>
 
 
             
@@ -3326,7 +3888,7 @@ optional destination offset in values (not vectors, not bytes)
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_tsr.js.html">ext/tsr.js</a>, <a href="ext_tsr.js.html#line163">line 163</a>
+        <a href="ext_tsr.js.html">ext/tsr.js</a>, <a href="ext_tsr.js.html#line194">line 194</a>
     </li></ul></dd>
     
 
@@ -3438,7 +4000,652 @@ optional destination offset in values (not vectors, not bytes)
             <td class="type">
             
                 
-<span class="param-type">tsr8</span>
+<span class="param-type"><a href="global.html#TSR">TSR</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">TSR vector</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>new_vectors</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Float32Array</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Destination array of vectors</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>dest_offset</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    0
+                
+                </td>
+            
+
+            <td class="description last">Offset in new_vectors array</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Destination array of vectors
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Float32Array</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_tsr.js.html">ext/tsr.js</a>, <a href="ext_tsr.js.html#line214">line 214</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+</div>
+</div>
+        
+            
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id=".transform_vec3">transform_vec3<span class="signature">(trans, tsr, dest)</span><span class="type-signature"></span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Transform vec3 by TSR.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>trans</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#Vec3">Vec3</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Vector to transform</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>tsr</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#TSR">TSR</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">TSR vector</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>dest</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#Vec3">Vec3</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Destination vector</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_tsr.js.html">ext/tsr.js</a>, <a href="ext_tsr.js.html#line165">line 165</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+</div>
+</div>
+        
+            
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id=".transform_vec3_inv">transform_vec3_inv<span class="signature">(trans, tsr, dest)</span><span class="type-signature"></span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Transform vec3 by inverse TSR.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>trans</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#Vec3">Vec3</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Vector to transform</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>tsr</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#TSR">TSR</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">TSR vector</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>dest</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#Vec3">Vec3</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Destination vector</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="ext_tsr.js.html">ext/tsr.js</a>, <a href="ext_tsr.js.html#line174">line 174</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+</div>
+</div>
+        
+            
+<div class="item_container">
+<div class="item_name">
+
+    
+
+    <h4 class="name" id=".transform_vectors">transform_vectors<span class="signature">(vectors, tsr, new_vectors, dest_offset<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Float32Array}</span></h4>
+
+    
+
+</div>
+<div class="item_description">
+
+<div class="description">
+    Tranform vec3 vectors by TSR.
+optional destination offset in values (not vectors, not bytes)
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>vectors</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Float32Array</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Array of vectors to transform</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>tsr</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#TSR">TSR</a></span>
 
 
             
@@ -3631,652 +4838,7 @@ optional destination offset in values (not vectors, not bytes)
 
     
 
-    <h4 class="name" id=".transform_vec3">transform_vec3<span class="signature">(trans, tsr, dest)</span><span class="type-signature"></span></h4>
-
-    
-
-</div>
-<div class="item_description">
-
-<div class="description">
-    Transform vec3 by TSR.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>trans</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">vec3</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Vector to transform</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>tsr</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">tsr8</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">TSR vector</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>dest</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">vec3</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Destination vector</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_tsr.js.html">ext/tsr.js</a>, <a href="ext_tsr.js.html#line134">line 134</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-</div>
-</div>
-        
-            
-<div class="item_container">
-<div class="item_name">
-
-    
-
-    <h4 class="name" id=".transform_vec3_inv">transform_vec3_inv<span class="signature">(trans, tsr, dest)</span><span class="type-signature"></span></h4>
-
-    
-
-</div>
-<div class="item_description">
-
-<div class="description">
-    Transform vec3 by inverse TSR.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>trans</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">vec3</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Vector to transform</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>tsr</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">tsr8</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">TSR vector</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>dest</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">vec3</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Destination vector</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_tsr.js.html">ext/tsr.js</a>, <a href="ext_tsr.js.html#line143">line 143</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-</div>
-</div>
-        
-            
-<div class="item_container">
-<div class="item_name">
-
-    
-
-    <h4 class="name" id=".transform_vectors">transform_vectors<span class="signature">(vectors, tsr, new_vectors, dest_offset<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Float32Array}</span></h4>
-
-    
-
-</div>
-<div class="item_description">
-
-<div class="description">
-    Tranform vec3 vectors by TSR.
-optional destination offset in values (not vectors, not bytes)
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-        <th>Default</th>
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>vectors</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Float32Array</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last">Array of vectors to transform</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>tsr</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">tsr8</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last">TSR vector</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>new_vectors</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Float32Array</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last">Destination array of vectors</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>dest_offset</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Number</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    0
-                
-                </td>
-            
-
-            <td class="description last">Offset in new_vectors array</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Destination array of vectors
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Float32Array</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_tsr.js.html">ext/tsr.js</a>, <a href="ext_tsr.js.html#line152">line 152</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-</div>
-</div>
-        
-            
-<div class="item_container">
-<div class="item_name">
-
-    
-
-    <h4 class="name" id=".translate">translate<span class="signature">(tsr, trans, dest)</span><span class="type-signature"> &rarr; {tsr8}</span></h4>
+    <h4 class="name" id=".translate">translate<span class="signature">(tsr, trans, dest)</span><span class="type-signature"> &rarr; {<a href="global.html#TSR">TSR</a>}</span></h4>
 
     
 
@@ -4326,7 +4888,7 @@ optional destination offset in values (not vectors, not bytes)
             <td class="type">
             
                 
-<span class="param-type">tsr8</span>
+<span class="param-type"><a href="global.html#TSR">TSR</a></span>
 
 
             
@@ -4349,7 +4911,7 @@ optional destination offset in values (not vectors, not bytes)
             <td class="type">
             
                 
-<span class="param-type">vec3</span>
+<span class="param-type"><a href="global.html#Vec3">Vec3</a></span>
 
 
             
@@ -4372,7 +4934,7 @@ optional destination offset in values (not vectors, not bytes)
             <td class="type">
             
                 
-<span class="param-type">tsr8</span>
+<span class="param-type"><a href="global.html#TSR">TSR</a></span>
 
 
             
@@ -4417,7 +4979,7 @@ optional destination offset in values (not vectors, not bytes)
     </dt>
     <dd>
         
-<span class="param-type">tsr8</span>
+<span class="param-type"><a href="global.html#TSR">TSR</a></span>
 
 
     </dd>
@@ -4457,7 +5019,7 @@ optional destination offset in values (not vectors, not bytes)
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ext_tsr.js.html">ext/tsr.js</a>, <a href="ext_tsr.js.html#line195">line 195</a>
+        <a href="ext_tsr.js.html">ext/tsr.js</a>, <a href="ext_tsr.js.html#line226">line 226</a>
     </li></ul></dd>
     
 
@@ -4488,13 +5050,13 @@ optional destination offset in values (not vectors, not bytes)
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-rgb.html">rgb</a></li><li><a href="module-rgba.html">rgba</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul><h3><a href="global.html">Global</a></h3>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Tue May 26 2015 12:05:06 GMT+0300 (MSK)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Tue Jun 30 2015 17:18:05 GMT+0300 (MSK)
 </footer>
 
 <script> prettyPrint(); </script>

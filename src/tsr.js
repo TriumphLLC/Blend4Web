@@ -25,6 +25,19 @@ exports.create = function() {
     return tsr;
 }
 
+exports.from_values = function(x, y, z, s, qx, qy, qz, qw) {
+    var tsr = new Float32Array(8);
+    tsr[0] = x;
+    tsr[1] = y;
+    tsr[2] = z;
+    tsr[3] = s;
+    tsr[4] = qx;
+    tsr[5] = qy;
+    tsr[6] = qz;
+    tsr[7] = qw;
+    return tsr;
+}
+
 exports.copy = function(tsr, tsr2) {
     tsr2.set(tsr);
 }
@@ -143,10 +156,7 @@ exports.invert = function(tsr, dest) {
     return dest;
 }
 
-function to_mat4(tsr, dest) {
-    if (!dest)
-        var dest = new Float32Array(16);
-
+exports.to_mat4 = function(tsr, dest) {
     var trans = tsr.subarray(0, 3);
     var scale = tsr[3];
     var quat = tsr.subarray(4);

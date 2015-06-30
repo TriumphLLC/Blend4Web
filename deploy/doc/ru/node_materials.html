@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Нодовые материалы &mdash; Руководство пользователя: Blend4Web v15.05</title>
+    <title>Нодовые материалы &mdash; Руководство пользователя: Blend4Web v15.06</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '15.05',
+        VERSION:     '15.06',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v15.05" href="index.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v15.06" href="index.html" />
     <link rel="next" title="Освещение, тени и фон" href="lighting.html" />
     <link rel="prev" title="Текстуры" href="textures.html" /> 
   </head>
@@ -37,7 +37,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">Руководство пользователя: Blend4Web v15.05</a></div>
+          href="index.html">Руководство пользователя: Blend4Web v15.06</a></div>
         <div class="rel" role="navigation" aria-label="related navigation">
           <a href="textures.html" title="Текстуры"
              accesskey="P">назад</a> |
@@ -65,11 +65,11 @@
 <span id="id2"></span><h2>Стандартные ноды<a class="headerlink" href="#generic-node-materials" title="Ссылка на этот заголовок">¶</a></h2>
 <p id="index-1">Полностью поддерживаются все возможности Blender, за исключением следующих случаев:</p>
 <ul class="simple">
-<li><code class="docutils literal"><span class="pre">Geometry</span></code> - не поддерживаются выходы <code class="docutils literal"><span class="pre">Local</span></code>, <code class="docutils literal"><span class="pre">Orco</span></code> и <code class="docutils literal"><span class="pre">Vertex</span> <span class="pre">Alpha</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">Geometry</span></code> - не поддерживается выход <code class="docutils literal"><span class="pre">Vertex</span> <span class="pre">Alpha</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">Lamp</span> <span class="pre">data</span></code> - не поддерживается выход <code class="docutils literal"><span class="pre">Shadow</span></code>.</li>
 <li><code class="docutils literal"><span class="pre">Material</span></code>, <code class="docutils literal"><span class="pre">Extended</span> <span class="pre">Material</span></code> - допускается не больше одной ноды на материал,
 не поддерживаются входы <code class="docutils literal"><span class="pre">Refl</span></code>, <code class="docutils literal"><span class="pre">Ambient</span></code>, <code class="docutils literal"><span class="pre">SpecTra</span></code> и выход <code class="docutils literal"><span class="pre">AO</span></code>.</li>
-<li><code class="docutils literal"><span class="pre">RGB</span> <span class="pre">Curves</span></code> - не поддерживается.</li>
-<li><code class="docutils literal"><span class="pre">Vector</span> <span class="pre">Curves</span></code> - не поддерживается.</li>
+<li><code class="docutils literal"><span class="pre">RGB</span> <span class="pre">Curves</span></code>, <code class="docutils literal"><span class="pre">Vector</span> <span class="pre">Curves</span></code>, <code class="docutils literal"><span class="pre">ColorRamp</span></code> и Cycles-ноды поддерживаются ограниченно.</li>
 </ul>
 <p>Кроме того, в контексте рендеринга в реальном времени, следует учитывать низкую производительность некоторых нод. Не рекомендуется к использованию:</p>
 <ul class="simple">
@@ -83,17 +83,13 @@
 <span id="id3"></span><h2>Дополнительные ноды<a class="headerlink" href="#custom-node-materials" title="Ссылка на этот заголовок">¶</a></h2>
 <p id="index-2">Дополнительные ноды расширяют функционал стандартных с учётом специфики работы движка. Ноды оформляются в виде нодовых групп (<code class="docutils literal"><span class="pre">Node</span> <span class="pre">groups</span></code> или <code class="docutils literal"><span class="pre">Node</span> <span class="pre">tree</span></code>) со специально выбранным именем и форматом входов. Для удобства, все дополнительные ноды добавляются в blend-файл при его открытии.</p>
 <img alt="_images/b4w_nodes.png" class="align-center" src="_images/b4w_nodes.png" />
-<div class="admonition seealso">
-<p class="first admonition-title">См.также</p>
-<p class="last"><a class="reference internal" href="animation.html#node-anim"><span>Анимация ноды Value</span></a></p>
-</div>
 <div class="section" id="b4w-linear-to-srgb-b4w-srgb-to-linear">
-<h3>B4W_LINEAR_TO_SRGB и B4W_SRGB_TO_LINEAR<a class="headerlink" href="#b4w-linear-to-srgb-b4w-srgb-to-linear" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Преобразование цвета из линейного цветового пространства в пространство sRGB и наоборот.</p>
-<a class="reference internal image-reference" href="_images/srgb_to_linear.jpg"><img alt="_images/srgb_to_linear.jpg" class="align-center" src="_images/srgb_to_linear.jpg" style="width: 100%;" /></a>
+<span id="node-gamma"></span><h3>B4W_LINEAR_TO_SRGB и B4W_SRGB_TO_LINEAR<a class="headerlink" href="#b4w-linear-to-srgb-b4w-srgb-to-linear" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Преобразование цвета из линейного цветового пространства в пространство sRGB и наоборот. Функционал объявлен устаревшим с версии 15.04 - вместо этих нод должна использоваться нативная нода Gamma.</p>
+<img alt="_images/node_srgb_to_linear.png" class="align-center" src="_images/node_srgb_to_linear.png" />
 <div class="admonition seealso">
 <p class="first admonition-title">См.также</p>
-<p class="last"><a class="reference internal" href="gamma_alpha.html#gamma-nodes"><span>Коррекция в нодовых материалах</span></a></p>
+<p class="last"><a class="reference internal" href="gamma_alpha.html#gamma-node-materials"><span>Коррекция в нодовых материалах</span></a></p>
 </div>
 </div>
 <div class="section" id="b4w-replace">
@@ -111,8 +107,16 @@
 получают значения от 0 до 1 включительно.</p>
 </div>
 <div class="section" id="b4w-time">
-<h3>B4W_TIME<a class="headerlink" href="#b4w-time" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Осуществляет отсчет времени с момента старта движка в секундах. Может использоваться для анимации любых параметров в нодовых материалах.</p>
+<span id="node-time"></span><h3>B4W_TIME<a class="headerlink" href="#b4w-time" title="Ссылка на этот заголовок">¶</a></h3>
+<p>Осуществляет отсчет времени с момента старта движка в секундах. Может использоваться для анимации любых параметров в нодовых материалах - UV координат, факторов смешивания, прозрачности и т.п.</p>
+<img alt="_images/node_time.png" class="align-center" src="_images/node_time.png" />
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="admonition seealso">
+<p class="first admonition-title">См.также</p>
+<p class="last"><a class="reference internal" href="animation.html#node-anim"><span>Анимация нод Value и RGB</span></a></p>
+</div>
 </div>
 <div class="section" id="b4w-vector-view">
 <h3>B4W_VECTOR_VIEW<a class="headerlink" href="#b4w-vector-view" title="Ссылка на этот заголовок">¶</a></h3>
@@ -373,7 +377,7 @@
           
     <div class="footer" role="contentinfo">
         &copy; Copyright 2015, ООО &#34;Триумф&#34;.
-      Обновлено: 2015-05-26.
+      Обновлено: 2015-06-30.
       Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
         </div>

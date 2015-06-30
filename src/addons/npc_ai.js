@@ -53,11 +53,11 @@ var NPC_MAX_ACTIVITY_DISTANCE = 100;
  * @param {Object} graph Animation graph with a number of movement params.
  * @param {Array} graph.path A list of [x,y,z] points NPC will be moving around.
  * @param {Number} graph.delay Time delay before each path step.
- * @param {Object} graph.actions Actions for every movement type (move, idle, etc).
- * @param {Object} graph.obj Animated object ID.
- * @param {Object} graph.rig Armature object ID.
- * @param {Object} graph.collider Collider object ID which will be used for collision detection.
- * @param {Object} graph.empty The corresponding empty object.
+ * @param {Object3D} graph.actions Actions for every movement type (move, idle, etc).
+ * @param {Object3D} graph.obj Animated object ID.
+ * @param {Object3D} graph.rig Armature object ID.
+ * @param {Object3D} graph.collider Collider object ID which will be used for collision detection.
+ * @param {Object3D} graph.empty The corresponding empty object.
  * @param {Number} graph.speed Movement speed.
  * @param {Number} graph.rot_speed Rotation speed.
  * @param {Boolean} graph.random Determines whether the object will perform random moves or not.
@@ -434,7 +434,7 @@ function ground_cb(obj, id, pulse, ev) {
                     ev.y_correction = 0;
             break;
             case NT_WALKING:
-                hit_pos = m_ctl.get_sensor_payload(obj, id, 0);
+                hit_pos = m_ctl.get_sensor_payload(obj, id, 0).hit_fract;
 
                 if (ev.prev_hit_pos == hit_pos)
                     ev.y_correction = 0;
@@ -444,7 +444,7 @@ function ground_cb(obj, id, pulse, ev) {
                 ev.prev_hit_pos = hit_pos;
             break;
             case NT_SWIMMING:
-                hit_pos = m_ctl.get_sensor_payload(obj, id, 0);
+                hit_pos = m_ctl.get_sensor_payload(obj, id, 0).hit_fract;
                 if (id == "CLOSE_GROUND") {
                     ev.y_correction = hit_pos * 100 - 1;
 
@@ -472,7 +472,7 @@ function ground_cb(obj, id, pulse, ev) {
 
 function flying_npc_hit_position(obj, id) {
     for (var i = 0; i < 3; i++) {
-        var hit_pos = m_ctl.get_sensor_payload(obj, id, i);
+        var hit_pos = m_ctl.get_sensor_payload(obj, id, i).hit_fract;
         if (hit_pos)
             return hit_pos;
     }
@@ -493,18 +493,18 @@ function create_sensors() {
 
 function create_track_ray_sensors(ev_track) {
 
-    var ZERO_POINT = [0, 0, 0];
+    var ZERO_POINT = m_vec3.create();
 
     var collider = ev_track.collider;
 
     switch (ev_track.type) {
     case NT_FLYING:
         var near_ground_sens = m_ctl.create_ray_sensor(collider,
-                ZERO_POINT, [0, -100, 0], false, "TERRAIN");
+                ZERO_POINT, [0, -100, 0], "TERRAIN", true);
         var near_stone_sens = m_ctl.create_ray_sensor(collider,
-                ZERO_POINT, [0, -100 , 0], false, "STONE");
+                ZERO_POINT, [0, -100 , 0], "STONE", true);
         var near_water_sens = m_ctl.create_ray_sensor(collider,
-                ZERO_POINT, [0, -100 , 0], false, "WATER");
+                ZERO_POINT, [0, -100 , 0], "WATER", true);
 
         var ground_sens_arr = [near_ground_sens, near_stone_sens, near_water_sens];
 
@@ -515,7 +515,7 @@ function create_track_ray_sensors(ev_track) {
         break;
     case NT_WALKING:
         var near_ground_sens = m_ctl.create_ray_sensor(collider,
-                [0, 1, 0], [0, -99, 0], false, "TERRAIN");
+                [0, 1, 0], [0, -99, 0], "TERRAIN", true);
 
         var ground_sens_arr = [near_ground_sens];
         m_ctl.create_sensor_manifold(collider,
@@ -525,9 +525,9 @@ function create_track_ray_sensors(ev_track) {
         break;
     case NT_SWIMMING:
         var near_ground_sens = m_ctl.create_ray_sensor(collider,
-                [0, 1, 0], [0, -99, 0], false, "TERRAIN");
+                [0, 1, 0], [0, -99, 0], "TERRAIN", true);
         var near_water_sens = m_ctl.create_ray_sensor(collider,
-                [0, 0, 0], [0, 100, 0], false, "WATER");
+                ZERO_POINT, [0, 100, 0], "WATER", true);
 
         var ground_sens_arr = [near_ground_sens];
         var water_sens_arr  = [near_water_sens];
@@ -553,7 +553,7 @@ function create_track_collision_sensors(ev_track) {
     var collision_sensor = m_ctl.create_collision_sensor(collider, "CONSTRUCTION",
                                                          need_payload);
 
-    function collision_cb (obj, id, pulse) {
+    function collision_cb(obj, id, pulse) {
         if (pulse == 1) {
             m_trans.get_translation(ev_track.empty, ev_track.destination);
             ev_track.rotation_mult = 4.0;

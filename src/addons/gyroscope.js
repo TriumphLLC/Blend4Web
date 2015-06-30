@@ -2,7 +2,7 @@
 
 /**
  * Gyroscope actions add-on.
- * Provides support for gyroscope for mobile devices.
+ * Provides support for gyroscope on mobile devices.
  * @see http://www.w3.org/TR/orientation-event/
  * @module gyroscope
  */
@@ -22,7 +22,7 @@ var VERTICAL_GAMMA_ANGLE_THRESHOLD_UP = Math.PI * 70 / 180;
 var VERTICAL_GAMMA_ANGLE_THRESHOLD_DOWN = - Math.PI * 70 / 180;
 
 /**
- * Enable camera rotation for mobile devices.
+ * Enable camera rotation according to orientation of mobile device.
  * @method module:gyroscope.enable_camera_rotation
  */
 exports.enable_camera_rotation = function() {

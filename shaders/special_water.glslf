@@ -2,6 +2,7 @@
 #var WATER_LEVEL 0.0
 #var SSS_STRENGTH 6.0
 #var SSS_WIDTH 0.0
+#var PRECISION lowp
 
 /*============================================================================
                                   INCLUDES
@@ -77,7 +78,7 @@ uniform samplerCube u_mirrormap;
 #endif
 
 #if SHORE_SMOOTHING
-uniform sampler2D u_scene_depth;
+uniform PRECISION sampler2D u_scene_depth;
 #endif
 
 #if FOAM
@@ -196,6 +197,9 @@ varying vec3 v_barycentric;
 
 vec3 reflection (in vec2 screen_coord, in vec3 normal, in vec3 eye_dir,
                  in vec3 light_energies, out float mirror_factor) {
+
+    // NOTE: set up out variables to prevent IE 11 linking crash
+    mirror_factor = 0.0;
 
     vec3 eye_reflected = reflect(-eye_dir, normal);
 
@@ -359,12 +363,8 @@ void main(void) {
 # if REFRACTIVE
     vec2 refract_coord = screen_coord + normal.xz * u_refr_bump
                                                   / v_view_depth;
-# if USE_REFRACTION_CORRECTION
     float scene_depth_refr = refraction_correction(scene_depth, refract_coord, screen_coord);
-# else
-    refract_coord = screen_coord;
-    float scene_depth_refr = scene_depth;
-# endif
+
     float delta_refr = max(scene_depth_refr - v_view_depth, 0.0);
     float depth_diff_refr = u_view_max_depth / ABSORB * delta_refr;
 
@@ -395,7 +395,8 @@ void main(void) {
 
 # if REFRACTIVE
     float refract_factor = 1.0 - alpha;
-    vec2 refract_coord = screen_coord + normal.xz * REFR_BUMP / v_view_depth;
+    vec2 refract_coord = screen_coord + normal.xz * u_refr_bump
+                                                  / v_view_depth;
 # endif
 #endif // SHORE_SMOOTHING
 

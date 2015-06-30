@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Постпроцессинговые эффекты &mdash; Руководство пользователя: Blend4Web v15.05</title>
+    <title>Постпроцессинговые эффекты &mdash; Руководство пользователя: Blend4Web v15.06</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '15.05',
+        VERSION:     '15.06',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="Об этих документах" href="about.html" />
-    <link rel="top" title="Руководство пользователя: Blend4Web v15.05" href="index.html" />
+    <link rel="top" title="Руководство пользователя: Blend4Web v15.06" href="index.html" />
     <link rel="next" title="Система частиц. Флюиды" href="particles.html" />
     <link rel="prev" title="Освещение, тени и фон" href="lighting.html" /> 
   </head>
@@ -37,7 +37,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">Руководство пользователя: Blend4Web v15.05</a></div>
+          href="index.html">Руководство пользователя: Blend4Web v15.06</a></div>
         <div class="rel" role="navigation" aria-label="related navigation">
           <a href="lighting.html" title="Освещение, тени и фон"
              accesskey="P">назад</a> |
@@ -65,15 +65,14 @@
 <a class="reference internal image-reference" href="_images/motion_blur.jpg"><img alt="_images/motion_blur.jpg" class="align-center" src="_images/motion_blur.jpg" style="width: 100%;" /></a>
 <div class="section" id="id3">
 <h3>Активация<a class="headerlink" href="#id3" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Выставить опцию <code class="docutils literal"><span class="pre">Enable</span> <span class="pre">Motion</span> <span class="pre">Blur</span></code> на панели <code class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span></code>.</p>
+<p>Активировать панель <code class="docutils literal"><span class="pre">Motion</span> <span class="pre">Blur</span></code> во вклдадке <code class="docutils literal"><span class="pre">Render</span></code>.</p>
 </div>
 <div class="section" id="id4">
 <h3>Дополнительные настройки<a class="headerlink" href="#id4" title="Ссылка на этот заголовок">¶</a></h3>
-<p>На панели <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Motion</span> <span class="pre">blur</span> <span class="pre">settings</span></code>:</p>
 <dl class="docutils">
-<dt><em>Motion blur factor</em></dt>
+<dt><em>Factor</em></dt>
 <dd>Степень проявления эффекта. Чем выше значение, тем сильнее эффект размытия. Значение по умолчанию 0.01.</dd>
-<dt><em>Motion blur decay threshold</em></dt>
+<dt><em>Decay threshold</em></dt>
 <dd>Степень плавности размытия. Чем выше значение, тем более резким будет эффект. Значение по умолчанию 0.01.</dd>
 </dl>
 </div>
@@ -85,13 +84,13 @@
 <div class="section" id="id6">
 <h3>Активация<a class="headerlink" href="#id6" title="Ссылка на этот заголовок">¶</a></h3>
 <ol class="arabic">
-<li><p class="first">Выбрать активную камеру, перейти на панель ее настроек (<code class="docutils literal"><span class="pre">Object</span> <span class="pre">Data</span></code>).</p>
+<li><p class="first">Выбрать активную камеру, перейти на панель ее настроек во вкладке <code class="docutils literal"><span class="pre">Camera</span></code> (<code class="docutils literal"><span class="pre">Object</span> <span class="pre">Data</span></code>).</p>
 </li>
 <li><p class="first">Далее возможны два варианта:</p>
 <blockquote>
 <div><ul class="simple">
-<li>На панели <code class="docutils literal"><span class="pre">Depth</span> <span class="pre">of</span> <span class="pre">Field</span></code> в меню <code class="docutils literal"><span class="pre">Focus</span></code> выбрать объект, на котором будет сфокусирована камера. В этом случае при удалении или приближении к этому объекту будет происходит соответствующая коррекция фокуса камеры.</li>
-<li>На панели <code class="docutils literal"><span class="pre">Depth</span> <span class="pre">of</span> <span class="pre">Field</span></code> установить ненулевое значение <code class="docutils literal"><span class="pre">Distance</span></code> (в метрах). В этом случае фокус камеры будет располагаться на заданном расстоянии от камеры и перемещаться вместе с ней.</li>
+<li>На панели <code class="docutils literal"><span class="pre">Depth</span> <span class="pre">of</span> <span class="pre">Field</span></code> в опции <code class="docutils literal"><span class="pre">Focus</span></code> выбрать объект, на котором будет сфокусирована камера. В этом случае при удалении или приближении к этому объекту будет происходит соответствующая коррекция фокуса камеры.</li>
+<li>На той же панели установить ненулевое значение <code class="docutils literal"><span class="pre">Distance</span></code> (в метрах). В этом случае фокус камеры будет располагаться на заданном расстоянии от камеры и перемещаться вместе с ней.</li>
 </ul>
 </div></blockquote>
 </li>
@@ -99,13 +98,12 @@
 </div>
 <div class="section" id="id7">
 <h3>Дополнительные настройки<a class="headerlink" href="#id7" title="Ссылка на этот заголовок">¶</a></h3>
-<p>На панели настроек активной камеры <code class="docutils literal"><span class="pre">Object</span> <span class="pre">Data</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span></code>:</p>
 <dl class="docutils">
-<dt><em>DOF front distance</em></dt>
+<dt><em>Front</em></dt>
 <dd>Расстояние от фокуса до ближней к камере плоскости, за которой происходит полное размытие (в метрах). Значение по умолчанию 1.0.</dd>
-<dt><em>DOF rear distance</em></dt>
+<dt><em>Rear</em></dt>
 <dd>Расстояние от фокуса до дальней от камеры плоскости, за которой происходит полное размытие (в метрах). Значение по умолчанию 1.0.</dd>
-<dt><em>DOF power</em></dt>
+<dt><em>Power</em></dt>
 <dd>Степень размытия. Значение по умолчанию 3.0.</dd>
 </dl>
 </div>
@@ -116,11 +114,10 @@
 <a class="reference internal image-reference" href="_images/ssao.jpg"><img alt="_images/ssao.jpg" class="align-center" src="_images/ssao.jpg" style="width: 50%;" /></a>
 <div class="section" id="id9">
 <h3>Активация<a class="headerlink" href="#id9" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Выставить опции <code class="docutils literal"><span class="pre">Enable</span> <span class="pre">SSAO</span></code> и <code class="docutils literal"><span class="pre">Render</span> <span class="pre">Shadows</span></code> на панели <code class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span></code>.</p>
+<p>Активировать панель <code class="docutils literal"><span class="pre">Ambient</span> <span class="pre">Occlusion</span> <span class="pre">(SSAO)</span></code> во вкладке <code class="docutils literal"><span class="pre">Render</span></code> и выставить параметр опции <code class="docutils literal"><span class="pre">Render</span> <span class="pre">Shadows</span></code> в положение <code class="docutils literal"><span class="pre">AUTO</span></code> или <code class="docutils literal"><span class="pre">ON</span></code>  на панели <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Shadows</span></code>.</p>
 </div>
 <div class="section" id="id10">
 <h3>Дополнительные настройки<a class="headerlink" href="#id10" title="Ссылка на этот заголовок">¶</a></h3>
-<p>На панели &#8220;мира&#8221; <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">SSAO</span> <span class="pre">Settings</span></code>:</p>
 <dl class="docutils">
 <dt><em>Radius Increase</em></dt>
 <dd>Фактор умножения радиуса сферического сэмплинга при переходе от внутреннего кольца к внешнему. Значение по умолчанию 3.0.</dd>
@@ -145,13 +142,12 @@
 <a class="reference internal image-reference" href="_images/god_rays.jpg"><img alt="_images/god_rays.jpg" class="align-center" src="_images/god_rays.jpg" style="width: 100%;" /></a>
 <div class="section" id="id12">
 <h3>Активация<a class="headerlink" href="#id12" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Выставить опцию <code class="docutils literal"><span class="pre">Enable</span> <span class="pre">God</span> <span class="pre">Rays</span></code> на панели <code class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span></code>.</p>
+<p>Активировать панель <code class="docutils literal"><span class="pre">God</span> <span class="pre">Rays</span></code> во вкладке <code class="docutils literal"><span class="pre">Render</span></code>.</p>
 </div>
 <div class="section" id="id13">
 <h3>Дополнительные настройки<a class="headerlink" href="#id13" title="Ссылка на этот заголовок">¶</a></h3>
-<p>На панели &#8220;мира&#8221; <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">God</span> <span class="pre">Rays</span> <span class="pre">Settings</span></code>:</p>
 <dl class="docutils">
-<dt><em>God Rays Intensity</em></dt>
+<dt><em>Intensity</em></dt>
 <dd>Степень проявленности эффекта. Значение по умолчанию 0.7.</dd>
 <dt><em>Maximum Ray Length</em></dt>
 <dd>Фактор длины лучей. Определяет шаг сэмплов радиального размытия. Значение по умолчанию 1.0.</dd>
@@ -166,11 +162,10 @@
 <a class="reference internal image-reference" href="_images/bloom.jpg"><img alt="_images/bloom.jpg" class="align-center" src="_images/bloom.jpg" style="width: 100%;" /></a>
 <div class="section" id="id15">
 <h3>Активация<a class="headerlink" href="#id15" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Выставить опцию <code class="docutils literal"><span class="pre">Enable</span> <span class="pre">Bloom</span></code> на панели <code class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span></code>.</p>
+<p>Активировать панель <code class="docutils literal"><span class="pre">Bloom</span></code> во вкладке <code class="docutils literal"><span class="pre">Render</span></code>.</p>
 </div>
 <div class="section" id="id16">
 <h3>Дополнительные настройки<a class="headerlink" href="#id16" title="Ссылка на этот заголовок">¶</a></h3>
-<p>На панели &#8220;мира&#8221; <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Bloom</span> <span class="pre">Settings</span></code>:</p>
 <dl class="docutils">
 <dt><em>Key</em></dt>
 <dd>Интенсивность эффекта свечения.</dd>
@@ -187,31 +182,29 @@
 <a class="reference internal image-reference" href="_images/outline.jpg"><img alt="_images/outline.jpg" class="align-center" src="_images/outline.jpg" style="width: 100%;" /></a>
 <div class="section" id="id17">
 <h3>Активация<a class="headerlink" href="#id17" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Эффект подсветки контура активируется программно через API. Может быть реализован как эффект постоянного свечения, так и затухающего, пульсирующего и любой другой модели. Для включения возможности подсветки объектов необходимо убедиться, что в панели <code class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span></code> поле <code class="docutils literal"><span class="pre">Enable</span> <span class="pre">Object</span> <span class="pre">Outlining</span></code> установлено в состояние <code class="docutils literal"><span class="pre">ON</span></code> или <code class="docutils literal"><span class="pre">AUTO</span></code>.</p>
+<p>Эффект подсветки контура активируется программно через API. Может быть реализован как эффект постоянного свечения, так и затухающего, пульсирующего и любой другой модели. Для включения возможности подсветки объектов необходимо убедиться, что в панели <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Object</span> <span class="pre">Outlining</span></code> поле <code class="docutils literal"><span class="pre">Enable</span></code> установлено в состояние <code class="docutils literal"><span class="pre">ON</span></code> или <code class="docutils literal"><span class="pre">AUTO</span></code>.</p>
 </div>
 <div class="section" id="id18">
 <h3>Дополнительные настройки<a class="headerlink" href="#id18" title="Ссылка на этот заголовок">¶</a></h3>
-<p>На панели <code class="docutils literal"><span class="pre">Object</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span></code>:</p>
+<p>На панели <code class="docutils literal"><span class="pre">Object</span> <span class="pre">&gt;</span> <span class="pre">Selection</span> <span class="pre">and</span> <span class="pre">Outlining</span></code>:</p>
 <dl class="docutils">
 <dt><em>Enable Outlining</em></dt>
 <dd>Разрешить использование эффекта подсветки контура на конкретном объекте.</dd>
-<dt><em>Outline Duration</em></dt>
+<dt><em>Duration</em></dt>
 <dd>Длительность анимации подсветки, сек. Значение по умолчанию 1.</dd>
-<dt><em>Outline Period</em></dt>
+<dt><em>Period</em></dt>
 <dd>Период повторения анимации подсветки, сек. Значение по умолчанию 1.</dd>
-<dt><em>Outline Relapses</em></dt>
+<dt><em>Relapses</em></dt>
 <dd>Количество итераций анимации подсветки. В случае 0 анимация будет повторяться бесконечно. Значение по умолчанию 0.</dd>
 <dt><em>Outline on Select</em></dt>
-<dd>Активация анимации подсветки при выделении объекта. Для данного случая необходимо выставить опцию <code class="docutils literal"><span class="pre">Selectable</span></code>. При необходимости реализации собственной модели подсветки объекта следует отключить эту опцию во избежание конфликта.</dd>
+<dd>Активация анимации подсветки при выделении объекта. Для данного случая необходимо включить опцию <code class="docutils literal"><span class="pre">Selectable</span></code>. При необходимости реализации собственной модели подсветки объекта следует отключить эту опцию во избежание конфликта.</dd>
 </dl>
-<p>На панели <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span></code>:</p>
+<p>На панели <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Object</span> <span class="pre">Outlining</span></code>:</p>
 <dl class="docutils">
-<dt><em>Objects Outline Сolor</em></dt>
-<dd>Общий цвет эффекта для всех объектов. Значение по умолчанию (1,1,1), т.е. белый.</dd>
-<dt><em>Outline Factor</em></dt>
+<dt><em>Factor</em></dt>
 <dd>Толщина и яркость ореола, окружающего объект. Падает с уменьшением параметра. Значение по умолчанию 1.</dd>
 </dl>
-<p>При управлении через API настройки на панели <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span></code> воспринимаются как настройки по умолчанию.</p>
+<p>При управлении через API настройки на панели <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Object</span> <span class="pre">Outlining</span></code> воспринимаются как настройки по умолчанию.</p>
 </div>
 </div>
 <div class="section" id="anaglyph">
@@ -231,11 +224,10 @@
 <a class="reference internal image-reference" href="_images/color_correction.jpg"><img alt="_images/color_correction.jpg" class="align-center" src="_images/color_correction.jpg" style="width: 100%;" /></a>
 <div class="section" id="id23">
 <h3>Активация<a class="headerlink" href="#id23" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Выставить опцию <code class="docutils literal"><span class="pre">Enable</span> <span class="pre">Color</span> <span class="pre">Correction</span></code> на панели <code class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span></code>.</p>
+<p>Активировать панель <code class="docutils literal"><span class="pre">Color</span> <span class="pre">Correction</span></code> во вкладке <code class="docutils literal"><span class="pre">Render</span></code>.</p>
 </div>
 <div class="section" id="id24">
 <h3>Дополнительные настройки<a class="headerlink" href="#id24" title="Ссылка на этот заголовок">¶</a></h3>
-<p>На панели &#8220;мира&#8221; <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Color</span> <span class="pre">Correction</span> <span class="pre">Settings</span></code>:</p>
 <dl class="docutils">
 <dt><em>Brightness</em></dt>
 <dd>Яркость. Значение по умолчанию 0.0.</dd>
@@ -254,7 +246,7 @@
 <a class="reference internal image-reference" href="_images/antialiasing.jpg"><img alt="_images/antialiasing.jpg" class="align-center" src="_images/antialiasing.jpg" style="width: 100%;" /></a>
 <div class="section" id="id26">
 <h3>Активация<a class="headerlink" href="#id26" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Выставить опцию <code class="docutils literal"><span class="pre">Enable</span> <span class="pre">Antialiasing</span></code> на панели <code class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span></code>.</p>
+<p>Включить опцию <code class="docutils literal"><span class="pre">Enable</span> <span class="pre">Antialiasing</span></code> на панели <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Antialiasing</span></code>.</p>
 </div>
 <div class="section" id="id27">
 <h3>Дополнительные настройки<a class="headerlink" href="#id27" title="Ссылка на этот заголовок">¶</a></h3>
@@ -274,22 +266,21 @@
 <a class="reference internal image-reference" href="_images/glow.jpg"><img alt="_images/glow.jpg" class="align-center" src="_images/glow.jpg" style="width: 100%;" /></a>
 <div class="section" id="id29">
 <h3>Активация<a class="headerlink" href="#id29" title="Ссылка на этот заголовок">¶</a></h3>
-<p>Добавить в нодовый материал ноду <a class="reference internal" href="node_materials.html#glow-output"><span>B4W_GLOW_OUTPUT</span></a>. Для включения возможности свечения в панели <code class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span></code> поле <code class="docutils literal"><span class="pre">Enable</span> <span class="pre">Glow</span> <span class="pre">Materials</span></code> должно быть установлено в состояние <code class="docutils literal"><span class="pre">ON</span></code> или <code class="docutils literal"><span class="pre">AUTO</span></code>.</p>
+<p>Добавить в нодовый материал ноду <a class="reference internal" href="node_materials.html#glow-output"><span>B4W_GLOW_OUTPUT</span></a>. Для включения возможности свечения в панели <code class="docutils literal"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Glow</span> <span class="pre">Materials</span></code> опция <code class="docutils literal"><span class="pre">Enable</span></code> должна быть установлена в состояние <code class="docutils literal"><span class="pre">ON</span></code> или <code class="docutils literal"><span class="pre">AUTO</span></code>.</p>
 </div>
 <div class="section" id="id30">
 <h3>Дополнительные настройки<a class="headerlink" href="#id30" title="Ссылка на этот заголовок">¶</a></h3>
-<p>На панели <code class="docutils literal"><span class="pre">World</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span></code> в секции <code class="docutils literal"><span class="pre">Glow</span> <span class="pre">Settings</span></code>:</p>
 <dl class="docutils">
-<dt><em>Render Glow Materials Over Blend</em></dt>
-<dd>Отрисовывание эффекта свечения поверх прозрачных объектов. По умолчанию выключено.</dd>
-<dt><em>Small Glow Mask Intensity</em></dt>
+<dt><em>Small Mask: Intensity</em></dt>
 <dd>Интенсивность свечения по малой маске. Значение по умолчанию 2.0.</dd>
-<dt><em>Large Glow Mask Intensity</em></dt>
-<dd>Интенсивность свечения по большой маске. Значение по умолчанию 2.0.</dd>
-<dt><em>Small Glow Mask Width</em></dt>
+<dt><em>Small Mask: Width</em></dt>
 <dd>Ширина свечения по малой маске. Значение по умолчанию 2.0.</dd>
-<dt><em>Large Glow Mask Width</em></dt>
+<dt><em>Large Mask: Intensity</em></dt>
+<dd>Интенсивность свечения по большой маске. Значение по умолчанию 2.0.</dd>
+<dt><em>Large Mask: Width</em></dt>
 <dd>Ширина свечения по большой маске. Значение по умолчанию 6.0.</dd>
+<dt><em>Render Glow Over Transparent Object</em></dt>
+<dd>Отрисовывание эффекта свечения поверх прозрачных объектов. По умолчанию выключено.</dd>
 </dl>
 </div>
 </div>
@@ -381,7 +372,7 @@
           
     <div class="footer" role="contentinfo">
         &copy; Copyright 2015, ООО &#34;Триумф&#34;.
-      Обновлено: 2015-05-26.
+      Обновлено: 2015-06-30.
       Создано с помощью <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
         </div>

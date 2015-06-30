@@ -82,6 +82,7 @@
 <script type="text/javascript" src="../../src/ext/objects.js"></script>
 <script type="text/javascript" src="../../src/ext/particles.js"></script>
 <script type="text/javascript" src="../../src/ext/physics.js"></script>
+<script type="text/javascript" src="../../src/ext/rgb.js"></script>
 <script type="text/javascript" src="../../src/ext/scenes.js"></script>
 <script type="text/javascript" src="../../src/ext/sfx.js"></script>
 <script type="text/javascript" src="../../src/ext/shaders.js"></script>
@@ -757,6 +758,21 @@
             </div>
         </div>
 
+        <div data-role="collapsible" data-collapsed="true">
+            <h1>Motion Blur</h1>
+
+            <div class="ui-grid-solo">
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="mb_factor">Motion blur factor:</label>
+                    <input id="mb_factor" data-highlight="true" value="0.0" min="0.001" max="1.0" type="range" step="0.001">
+                </div>
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="mb_decay_threshold">Motion blur decay threshold:</label>
+                    <input id="mb_decay_threshold" data-highlight="true" value="0.0" min="0.0" max="1.0" type="range" step="0.001">
+                </div>
+            </div>
+        </div>
+
          <div data-role="collapsible" data-collapsed="true">
             <h1>Glow Materials</h1>
             <div class="ui-grid-solo">
@@ -885,6 +901,10 @@
             <h1>Debug</h1>
 
             <div class="ui-grid-solo">
+                <div class="ui-block-a colapsed_content ui-body ui-body-c">
+                    <label for="canvas_rf">Canvas Resolution Factor:</label>
+                    <input id="canvas_rf" data-highlight="true" value="1" min="1" max="10" type="range" step="1">
+                </div>
                 <div class="ui-block-a colapsed_content ui-body ui-body-c">
                     <input type="button" value="Make Screenshot" 
                         id="make_screenshot" data-inline="true"

@@ -97,7 +97,7 @@ function check_capture(id) {
         var isl_shield = m_scs.get_object_by_dupli_name_list(isl_dupli_names);
         m_anim.play(isl_shield);
 
-        var isl_spk = m_scs.get_object_by_dupli_name(obelisk_name,
+        var isl_spk = m_scs.get_object_by_dupli_name("obelisk_" + id,
                                                      m_conf.ISLAND_SPEAKER);
         m_sfx.play_def(isl_spk);
 

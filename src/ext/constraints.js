@@ -19,17 +19,18 @@ var m_trans = require("__transform");
  * character's hand; the character is sitting in a vehicle.
  *
  * @method module:constraints.append_stiff
- * @param {Object} obj Object ID
- * @param {(Object|Array)} target Object ID or [Armature object ID, Bone Name]
- * @param {Float32Array} offset Offset, in the parent's local space
- * @param {Float32Array} [rotation_offset] Rotation offset, in the
- * parent's local space
- * @param {Number} [scale_offset] Scale offset, in the parent's local space
+ * @param {Object3D} obj Object 3D
+ * @param {(Object3D|Array)} target Object 3D or [Armature object, Bone Name]
+ * @param {Vec3} offset Offset, in the parent's local space.
+ * @param {Quat} [rotation_offset=null] Rotation offset, in the
+ * parent's local space.
+ * @param {Number} [scale_offset=1] Scale offset, in the parent's local space.
  */
 exports.append_stiff = function(obj, target, offset, rotation_offset,
         scale_offset) {
 
     scale_offset = scale_offset || 1;
+
     if (target instanceof Array && target.length == 2)
         m_cons.append_stiff_bone(obj, target[0], target[1], offset,
                 rotation_offset, scale_offset);
@@ -48,10 +49,10 @@ exports.append_stiff = function(obj, target, offset, rotation_offset,
  * in the parent's local space. Example: a tank turret.
  *
  * @method module:constraints.append_semi_stiff
- * @param {Object} obj Object ID
- * @param {Object} target Object ID
- * @param {Float32Array} offset Offset, in the parent's local space
- * @param {Float32Array} [rotation_offset] Initial rotation offset, in the
+ * @param {Object3D} obj Object 3D
+ * @param {Object3D} target Object 3D
+ * @param {Vec3} offset Offset, in the parent's local space
+ * @param {Quat} [rotation_offset] Initial rotation offset, in the
  * parent's local space
  */
 exports.append_semi_stiff = function(obj, target, offset, rotation_offset) {
@@ -71,10 +72,10 @@ exports.append_semi_stiff = function(obj, target, offset, rotation_offset) {
  *
  * @see https://www.blend4web.com/doc/en/camera.html#api
  * @method module:constraints.append_semi_stiff_cam
- * @param {Object} obj Object ID
- * @param {Object} target Object ID
- * @param {Float32Array} offset Offset, in the parent's local space
- * @param {Float32Array} [rotation_offset] Initial rotation offset, in the
+ * @param {Object3D} obj Object 3D
+ * @param {Object3D} target Object 3D
+ * @param {Vec3} offset Offset, in the parent's local space
+ * @param {Quat} [rotation_offset] Initial rotation offset, in the
  * parent's local space
  * @param {Number} clamp_left Left camera rotation limit, in radians
  * @param {Number} clamp_right Right camera rotation limit, in radians
@@ -103,9 +104,9 @@ exports.append_semi_stiff_cam = function(obj, target, offset, rotation_offset,
  * Example: third-person character or vehicle views.
  *
  * @method module:constraints.append_semi_soft_cam
- * @param {Object} obj Object ID
- * @param {Object} target Object ID
- * @param {Float32Array} offset Offset, in the parent's local space
+ * @param {Object3D} obj Object 3D
+ * @param {Object3D} target Object 3D
+ * @param {Vec3} offset Offset, in the parent's local space
  * @param {Number} [softness=0.25] Camera smoothness ratio
  */
 exports.append_semi_soft_cam = function(obj, target, offset, softness) {
@@ -138,9 +139,9 @@ exports.append_semi_soft_cam = function(obj, target, offset, softness) {
  * character but will not be rotated with the camera.
  *
  * @method module:constraints.append_stiff_trans
- * @param {Object} obj Object ID
- * @param {Object} target Object ID
- * @param {Float32Array} offset Offset, in the parent's local space
+ * @param {Object3D} obj Object 3D
+ * @param {Object3D} target Object 3D
+ * @param {Vec3} offset Offset, in the parent's local space
  */
 exports.append_stiff_trans = function(obj, target, offset) {
     m_cons.append_stiff_trans_obj(obj, target, offset);
@@ -156,9 +157,9 @@ exports.append_stiff_trans = function(obj, target, offset) {
  * Example: a light source attached to the character.
  *
  * @method module:constraints.append_copy_trans
- * @param {Object} obj Object ID
- * @param {Object} target Object ID
- * @param {Float32Array} offset Offset, in the parent's world space
+ * @param {Object3D} obj Object 3D
+ * @param {Object3D} target Object 3D
+ * @param {Vec3} offset Offset, in the parent's world space
  */
 exports.append_copy_trans = function(obj, target, offset) {
     m_cons.append_copy_trans_obj(obj, target, offset);
@@ -177,10 +178,10 @@ exports.append_copy_trans = function(obj, target, offset) {
  * are achieved by scaling the emitter.
  *
  * @method module:constraints.append_stiff_trans_rot
- * @param {Object} obj Object ID
- * @param {Object} target Object ID
- * @param {Float32Array} offset Offset, in the parent's local space
- * @param {Float32Array} [rotation_offset] Rotation offset, in
+ * @param {Object3D} obj Object 3D
+ * @param {Object3D} target Object 3D
+ * @param {Vec3} offset Offset, in the parent's local space
+ * @param {Quat} [rotation_offset] Rotation offset, in
  * the parent's local space
  */
 exports.append_stiff_trans_rot = function(obj, target, offset, rotation_offset) {
@@ -199,8 +200,8 @@ exports.append_stiff_trans_rot = function(obj, target, offset, rotation_offset) 
  * moved via API or animated.
  *
  * @method module:constraints.append_track
- * @param {Object} obj Object ID
- * @param {(Object|Float32Array)} target Target object ID or position vector
+ * @param {Object3D} obj Object 3D
+ * @param {(Object3D|Vec3)} target Target object or position vector
  */
 exports.append_track = function(obj, target) {
     if (target.length == 3)
@@ -219,8 +220,8 @@ exports.append_track = function(obj, target) {
  * Example: a follow-style camera view for the character.
  *
  * @method module:constraints.append_follow
- * @param {Object} obj Object ID
- * @param {(Object|Float32Array)} target Target object ID or position vector
+ * @param {Object3D} obj Object 3D
+ * @param {(Object3D|Vec3)} target Target object or position vector
  * @param {Number} dist_min Minimum distance
  * @param {Number} dist_max Maximum distance
  */
@@ -238,8 +239,8 @@ exports.append_follow = function(obj, target, dist_min, dist_max) {
 /**
  * Append a stiff viewport constraint.
  * @method module:constraints.append_stiff_viewport
- * @param {Object} obj Object ID
- * @param {Object} camobj Camer object ID
+ * @param {Object3D} obj Object 3D
+ * @param {Object3D} camobj Camera object.
  * @param {Number} x_rel X offset as fraction to camera height.
  * @param {Number} y_rel Y offset as fraction to camera height.
  * @param {Number} dist Distance from the camera
@@ -254,7 +255,7 @@ exports.append_stiff_viewport = function(obj, camobj, positioning) {
 /**
  * Remove the object's constraint (if any).
  * @method module:constraints.remove
- * @param {Object} obj Object ID
+ * @param {Object3D} obj Object 3D
  */
 exports.remove = function(obj) {
     if (obj._constraint)
@@ -264,7 +265,7 @@ exports.remove = function(obj) {
 /**
  * Get object's parent object.
  * @method module:constraints.get_parent
- * @param {Object} obj Object ID
+ * @param {Object3D} obj Object 3D
  */
 exports.get_parent = m_cons.get_parent;
 

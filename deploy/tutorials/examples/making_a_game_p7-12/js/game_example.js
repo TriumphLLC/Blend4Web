@@ -96,7 +96,7 @@ function load_cb(data_id) {
     m_env.setup_lava(elapsed_sensor);
 
     setup_camera();
-    //setup_music();
+    setup_music();
 
     function replay_cb() {
         document.getElementById("replay").style.visibility = "hidden";
@@ -122,7 +122,7 @@ function cleanup_game(elapsed_sensor) {
 
     m_interface.update_hp_bar();
 
-    //setup_music();
+    setup_music();
 }
 
 function detect_mobile() {

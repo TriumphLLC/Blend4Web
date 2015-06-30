@@ -32,9 +32,9 @@
  * Camera animation add-on.
  * Implements procedural animation for the camera.
  * @module camera_anim
- * @local track_to_target_zoom_cb
- * @local track_to_target_cb
- * @local auto_rotate_disabled_cb
+ * @local TrackToTargetZoomCallback
+ * @local TrackToTargetCallback
+ * @local AutoRotateDisabledCallback
  */
 b4w.module["camera_anim"] = function(exports, require) {
 
@@ -64,27 +64,27 @@ var _angle_limits_tmp2  = new Float32Array(2);
 /**
  * Callback to be executed when the camera finishes its track animation.
  * See track_to_target() method.
- * @callback track_to_target_cb
+ * @callback TrackToTargetCallback
  */
 
 /**
  * Callback to be executed when the camera finishes its zoom animation.
  * See track_to_target() method.
- * @callback track_to_target_zoom_cb
+ * @callback TrackToTargetZoomCallback
  */
 
 /**
  * Smoothly rotate the EYE camera to make it pointing at the specified
  * target (an object or some position). Then smoothly zoom on this target,
  * pause and zoom back.
- * @param {Object} cam_obj Camera object ID
- * @param {(Object|Float32Array)} target Target object or target position
+ * @param {Object3D} cam_obj Camera object 3D
+ * @param {(Object3D|Vec3)} target Target object or target position
  * @param {Number} rot_speed Rotation speed, radians per second
  * @param {Number} zoom_mult Zoom level value
  * @param {Number} zoom_time Time it takes to zoom on the target, seconds
  * @param {Number} zoom_delay Delay before the camera zooms back, seconds
- * @param {track_to_target_cb} [callback] Finishing callback
- * @param {track_to_target_zoom_cb} [zoom_cb] Zoom callback
+ * @param {TrackToTargetCallback} [callback] Finishing callback
+ * @param {TrackToTargetZoomCallback} [zoom_cb] Zoom callback
  */
 exports.track_to_target = function(cam_obj, target, rot_speed, zoom_mult,
                                     zoom_time, zoom_delay, callback, zoom_cb) {
@@ -310,7 +310,7 @@ function get_delta_to_limits(angle, limit_from, limit_to, dest) {
  * Callback to be executed when auto-rotating is disabled.
  * It is fired when either the user manually rotates the camera,
  * or the auto_rotate() method is executed again.
- * @callback auto_rotate_disabled_cb
+ * @callback AutoRotateDisabledCallback
  */
 
 /**
@@ -319,7 +319,7 @@ function get_delta_to_limits(angle, limit_from, limit_to, dest) {
  * When it is called for the first time, auto-rotating is enabled
  * while the next call will disable auto-rotating.
  * @param {Number} auto_rotate_ratio Multiplier for the rotation speed
- * @param {auto_rotate_disabled_cb} [callback] Callback to be executed when auto-rotating is disabled
+ * @param {AutoRotateDisabledCallback} [callback] Callback to be executed when auto-rotating is disabled
  */
 exports.auto_rotate = function(auto_rotate_ratio, callback) {
 
@@ -463,13 +463,13 @@ exports.check_auto_rotate = function() {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-rgb.html">rgb</a></li><li><a href="module-rgba.html">rgba</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul><h3><a href="global.html">Global</a></h3>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Tue May 26 2015 12:05:03 GMT+0300 (MSK)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Tue Jun 30 2015 17:18:01 GMT+0300 (MSK)
 </footer>
 
 <script> prettyPrint(); </script>

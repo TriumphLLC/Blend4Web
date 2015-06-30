@@ -9,7 +9,6 @@ var m_cfg       = require("config");
 var m_ctl       = require("controls");
 var m_scenes    = require("scenes");
 var m_main      = require("main");
-var m_mouse     = require("mouse");
 var m_transform = require("transform");
 var m_vec3      = require("vec3");
 
@@ -74,10 +73,7 @@ function main_canvas_up(e) {
     if (e.preventDefault)
         e.preventDefault();
 
-    var x = m_mouse.get_coords_x(e);
-    var y = m_mouse.get_coords_y(e);
-
-    var obj = m_scenes.pick_object(x, y);
+    var obj = m_scenes.pick_object(e.clientX, e.clientY);
 
     if (obj)
         switch(m_scenes.get_object_name(obj)) {

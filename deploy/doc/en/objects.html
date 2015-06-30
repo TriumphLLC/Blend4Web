@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Objects &mdash; User Manual: Blend4Web v15.05</title>
+    <title>Objects &mdash; User Manual: Blend4Web v15.06</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '15.05',
+        VERSION:     '15.06',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User Manual: Blend4Web v15.05" href="index.html" />
+    <link rel="top" title="User Manual: Blend4Web v15.06" href="index.html" />
     <link rel="next" title="Camera" href="camera.html" />
     <link rel="prev" title="The Add-on" href="addon.html" /> 
   </head>
@@ -36,7 +36,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">User Manual: Blend4Web v15.05</a></div>
+          href="index.html">User Manual: Blend4Web v15.06</a></div>
         <div class="rel" role="navigation" aria-label="related navigation">
           <a href="addon.html" title="The Add-on"
              accesskey="P">previous</a> |
@@ -95,7 +95,7 @@
 <p>Merging of static objects - so called batching - is performed automatically when the scene is loaded in order to optimize the number of draw calls. The conversion is performed even if there is just one object in the scene. The center of the resulting mesh is located in the origin.</p>
 <p>Among objects of the other type the dynamic ones are <code class="docutils literal"><span class="pre">CAMERA</span></code> and <code class="docutils literal"><span class="pre">ARMATURE</span></code>. All other objects are static.</p>
 <p>The objects which have animation, physics or a parent, which is a dynamic object, are considered dynamic.</p>
-<p>Object movement via API is possible only for dynamic objects. In order to make the movement of the object without dynamic settings possible, it is necessary to activate <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Force</span> <span class="pre">Dynamic</span> <span class="pre">Object</span></code> option in its settings.</p>
+<p>Object movement via API is possible only for dynamic objects. In order to make the movement of the object without dynamic settings possible, it is necessary to activate <code class="docutils literal"><span class="pre">Force</span> <span class="pre">Dynamic</span> <span class="pre">Object</span></code> option in its settings.</p>
 </div>
 <div class="section" id="id4">
 <h2>Settings<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
@@ -114,7 +114,7 @@
 <dd><p class="first last">Rotation angles. For the object rotation all available modes can be used (<code class="docutils literal"><span class="pre">Rotation</span> <span class="pre">Mode</span></code>). However only <code class="docutils literal"><span class="pre">Quaternion</span> <span class="pre">(WXYZ)</span></code> and <code class="docutils literal"><span class="pre">XYZ</span> <span class="pre">Euler</span></code> are supported for <a class="reference internal" href="animation.html#whole-object-anim"><span>object animation</span></a>.</p>
 </dd>
 <dt><em>Transform &gt; Scale</em></dt>
-<dd><p class="first last">Scaling. All 3 components (x, y, z) should be the same. Scaling for the physics objects is not supported.</p>
+<dd><p class="first last">Scaling. All 3 components (x, y, z) should be the same. Scaling for physics objects is not supported.</p>
 </dd>
 <dt><em>Relations &gt; Parent</em></dt>
 <dd><p class="first last">Reference to the parent object.</p>
@@ -123,162 +123,159 @@
 <dd><p class="first last">Objects&#8217; groups to which this object belongs.</p>
 </dd>
 </dl>
-<img alt="_images/object_setup_b4w.png" class="align-center" src="_images/object_setup_b4w.png" />
+<img alt="_images/object_setup_end.png" class="align-center" src="_images/object_setup_end.png" />
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <dl class="docutils">
-<dt><em>Blend4Web &gt; Do Not Export</em></dt>
-<dd><p class="first last">Do not export this object.</p>
+<dt><em>Levels of Detail &gt; LOD Transition Ratio</em></dt>
+<dd><p class="first last">Parameter for smoothing the switching between the LOD objects. It defines the additional distance at which the LOD objects are still rendered before getting replaced by the next LOD objects. Assigned for the main object. Measured in fractions of the object&#8217;s bounding sphere radius.</p>
 </dd>
-<dt><em>Blend4Web &gt; Apply Scale</em></dt>
-<dd><p class="first last">Apply the object&#8217;s scale upon export.</p>
+<dt><em>Special Effects &gt; Disable Fogging</em></dt>
+<dd><p class="first last">Disable fog for the object.</p>
+</dd>
+<dt><em>Special Effects &gt; Caustics</em></dt>
+<dd><p class="first last">The object will render caustics effects from the adjacent water.</p>
+</dd>
+<dt><em>Export Options &gt; Do Not Export</em></dt>
+<dd><p class="first last">Do not export this object.</p>
 </dd>
 </dl>
 <dl class="docutils" id="apply-modifiers">
-<dt><em>Blend4Web &gt; Apply Modifiers</em></dt>
+<dt><em>Export Options &gt; Apply Modifiers</em></dt>
 <dd><p class="first last">Apply the object&#8217;s modifiers upon export. If the <code class="docutils literal"><span class="pre">SKIN</span></code> modifier is used we recommend to apply it before the export because it resets vertex color and UV layers which may result in errors.</p>
 </dd>
-<dt><em>Blend4Web &gt; Export Vertex Animation</em></dt>
+<dt><em>Export Options &gt; Apply Scale and Modifiers</em></dt>
+<dd><p class="first last">Upon export, apply scale and modifiers for the object.</p>
+</dd>
+<dt><em>Export Options &gt; Export Vertex Animation</em></dt>
 <dd><p class="first last">Export previously created and saved vertex animation. Applicable for <code class="docutils literal"><span class="pre">MESH</span></code> objects only.</p>
 </dd>
-<dt><em>Blend4Web &gt; Export Shape Keys</em></dt>
+<dt><em>Export Options &gt; Export Shape Keys</em></dt>
 <dd><p class="first last">Export shape keys. Applicable to <code class="docutils literal"><span class="pre">MESH</span></code> objects only.</p>
-</dd>
-<dt><em>Blend4Web &gt; Export Edited Normals</em></dt>
-<dd><p class="first last">Export previously edited and saved normals. Applicable to <code class="docutils literal"><span class="pre">MESH</span></code> objects only.</p>
 </dd>
 </dl>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">The following properties are mutually exclusive: <em>Apply Scale</em>, <em>Apply Modifiers</em>, <em>Export Vertex Animation</em>, <em>Export Edited Normals</em> and <em>Export Shape Keys</em>.</p>
+<p class="last">The following properties are mutually exclusive: <em>Apply Modifiers</em>, <em>Apply Scale and Modifiers</em>, <em>Export Vertex Animation</em> and <em>Export Shape Keys</em>.</p>
 </div>
 <dl class="docutils">
-<dt><em>Blend4Web &gt; Animation &gt; Use Default</em></dt>
+<dt><em>Animation &gt; Apply default animation</em></dt>
 <dd><p class="first last">Upon loading into the engine start playback of the animation assigned to the object.</p>
 </dd>
-<dt><em>Blend4Web &gt; Animation &gt; Animation blending</em></dt>
+<dt><em>Animation &gt; Animation blending</em></dt>
 <dd><p class="first last">Only for armature objects. Allows blending between skeletal animations.</p>
 </dd>
-<dt><em>Blend4Web &gt; Animation &gt; Behavior</em></dt>
+<dt><em>Animation &gt; Behavior</em></dt>
 <dd><p class="first last">Animation behavior when the last frame is reached: <code class="docutils literal"><span class="pre">Finish</span> <span class="pre">Stop</span></code> - stop, <code class="docutils literal"><span class="pre">Finish</span> <span class="pre">Reset</span></code> - stop and go to the zero frame, <code class="docutils literal"><span class="pre">Loop</span></code> - repeat forever.</p>
 </dd>
-<dt><em>Blend4Web &gt; Do Not Batch</em></dt>
+<dt><em>Rendering Properties &gt; Do Not Render</em></dt>
+<dd><p class="first last">Disable object rendering (for example useful for a physics object).</p>
+</dd>
+<dt><em>Rendering Properties &gt; Disable Frustum Culling</em></dt>
+<dd><p class="first last">Disable frustum culling optimization.</p>
+</dd>
+<dt><em>Rendering Properties &gt; Force Dynamic Object</em></dt>
 <dd><p class="first last">Force the object to become a <a class="reference internal" href="#static-dynamic-objects"><span>dynamic object</span></a>.</p>
 </dd>
 </dl>
 <dl class="docutils" id="dynamic-geom">
-<dt><em>Blend4Web &gt; Force Dynamic Geometry</em></dt>
+<dt><em>Rendering Properties &gt; Dynamic Geometry</em></dt>
 <dd><p class="first last">Allow overriding of the object&#8217;s geometry through Blend4Web API.</p>
 </dd>
-<dt><em>Blend4Web &gt; Disable Frustum Culling</em></dt>
-<dd><p class="first last">Disable frustum culling optimization.</p>
-</dd>
-<dt><em>Blend4Web &gt; Disable Fogging</em></dt>
-<dd><p class="first last">Disable fog for the object.</p>
-</dd>
-<dt><em>Blend4Web &gt; Do Not Render</em></dt>
-<dd><p class="first last">Disable object rendering (for example useful for a physics object).</p>
-</dd>
-<dt><em>Blend4Web &gt; Shadows: Cast</em></dt>
+<dt><em>Shadows &gt; Cast</em></dt>
 <dd><p class="first last">The object will cast shadows.</p>
 </dd>
-<dt><em>Blend4Web &gt; Shadows: Cast Only</em></dt>
-<dd><p class="first last">The object will cast shadows but will remain invisible itself. Becomes available after enabling <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Shadows:</span> <span class="pre">Cast</span></code>.</p>
+<dt><em>Shadows&gt; Cast Only</em></dt>
+<dd><p class="first last">The object will cast shadows but will remain invisible itself. Becomes available after enabling <code class="docutils literal"><span class="pre">Shadows</span> <span class="pre">&gt;</span> <span class="pre">Cast</span></code>.</p>
 </dd>
-<dt><em>Blend4Web &gt; Shadows: Receive</em></dt>
+<dt><em>Shadows &gt; Receive</em></dt>
 <dd><p class="first last">The object will receive shadows from other adjacent objects.</p>
 </dd>
-<dt><em>Blend4Web &gt; Reflections: Reflexible</em></dt>
+<dt><em>Reflections &gt; Reflexible</em></dt>
 <dd><p class="first last">When enabled the object is reflected in the dynamic mirror surfaces.</p>
 </dd>
-<dt><em>Blend4Web &gt; Reflections: Reflexible only</em></dt>
-<dd><p class="first last">The object will be reflected but will remain invisible itself. Becomes available after enabling <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Reflections:</span> <span class="pre">Reflexible</span></code>.</p>
+<dt><em>Reflections &gt; Reflexible only</em></dt>
+<dd><p class="first last">The object will be reflected but will remain invisible itself. Becomes available after enabling <code class="docutils literal"><span class="pre">Reflections</span> <span class="pre">&gt;</span> <span class="pre">Reflexible</span></code>.</p>
 </dd>
-<dt><em>Blend4Web &gt; Reflections: Reflective</em></dt>
+<dt><em>Reflections &gt; Reflective</em></dt>
 <dd><p class="first last">When enabled the object surface reflects other objects.</p>
 </dd>
-<dt><em>Blend4Web &gt; Reflections: Reflection Plane</em></dt>
-<dd><p class="first last">Text field for the name of the empty object defining the reflection plane. Becomes available after enabling <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Reflections:</span> <span class="pre">Reflective</span></code>.</p>
+<dt><em>Reflections &gt; Reflection Plane</em></dt>
+<dd><p class="first last">Text field for name of an empty object which defines the reflection plane. Becomes available after enabling <code class="docutils literal"><span class="pre">Reflections</span> <span class="pre">&gt;</span> <span class="pre">Reflective</span></code>.</p>
 </dd>
-<dt><em>Blend4Web &gt; Caustics</em></dt>
-<dd><p class="first last">The object will render caustics effects from the adjacent water.</p>
-</dd>
-<dt><em>Blend4Web &gt; Wind Bending</em></dt>
-<dd><p class="first last">Enable procedural animation under the influence of wind.</p>
-</dd>
-<dt><em>Blend4Web &gt; Selectable</em></dt>
+<dt><em>Selection and Outlining &gt; Selectable</em></dt>
 <dd><p class="first last">Enable <a class="reference internal" href="#selection"><span>object selection</span></a> with the mouse or another input device.</p>
 </dd>
-<dt><em>Blend4Web &gt; Enable Outlining</em></dt>
+<dt><em>Selection and Outlining &gt; Enable Outlining</em></dt>
 <dd><p class="first last">Enable <a class="reference internal" href="postprocessing_effects.html#outline"><span>outline glow</span></a> for the object.</p>
 </dd>
-</dl>
-<dl class="docutils" id="objects-billboarding-properties">
-<dt><em>Blend4Web &gt; Billboard</em></dt>
-<dd><p class="first last">Use the object as a billboard (i.e. automatically orient relative to the camera).</p>
-</dd>
-</dl>
-<dl class="docutils" id="billboarding-preserve">
-<dt><em>Blend4Web &gt; Preserve Global Orientation and Scale</em></dt>
-<dd><p class="first last">Take into account the rotation and scale of the billboard object. The object will be directed toward the camera with its side that is visible along Y axis in Blender. Becomes available after enabling the <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Billboard</span></code> checkbox.</p>
-</dd>
-<dt><em>Blend4Web &gt; Billboard Type</em></dt>
-<dd><p class="first last">Billboard orientation mode. <code class="docutils literal"><span class="pre">Spherical</span></code> (by default) - the object is always oriented with one side to the camera, regardless of the view angle, <code class="docutils literal"><span class="pre">Cylindrical</span></code> - similar to <code class="docutils literal"><span class="pre">Spherical</span></code>, but the rotation is limited by the Blender&#8217;s world Z axis. Becomes available after enabling <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Billboard</span></code>.</p>
-</dd>
-<dt><em>Blend4Web &gt; LOD Transition Ratio</em></dt>
-<dd><p class="first last">Parameter for smoothing the switching between the LOD objects. It defines the additional distance at which the LOD objects are still rendered before getting replaced by the next LOD objects. Assigned for the main object. Measured in fractions of the object&#8217;s bounding sphere radius.</p>
-</dd>
-<dt><em>Blend4Web &gt; Enable Meta Tags</em></dt>
+<dt><em>Meta Tags</em></dt>
 <dd><p class="first">Interface for adding meta tags to the object:</p>
 <dl class="last docutils">
-<dt><em>Blend4Web &gt; Tags &gt; Title</em></dt>
+<dt><em>Meta Tags &gt; Title</em></dt>
 <dd><p class="first last">Object&#8217;s title.</p>
 </dd>
-<dt><em>Blend4Web &gt; Tags &gt; Category</em></dt>
+<dt><em>Meta Tags &gt; Category</em></dt>
 <dd><p class="first last">Object&#8217;s category.</p>
 </dd>
-<dt><em>Blend4Web &gt; Tags &gt; Description</em></dt>
+<dt><em>Meta Tags &gt; Description</em></dt>
 <dd><p class="first last">Description for the object. Depending on <code class="docutils literal"><span class="pre">Description</span> <span class="pre">Source</span></code>, this field accepts either description text itself, or the name of a file where this description is contained.</p>
 </dd>
-<dt><em>Blend4Web &gt; Tags &gt; Description Source</em></dt>
+<dt><em>Meta Tags &gt; Description Source</em></dt>
 <dd><p class="first last">Source type for the description: text or text file.</p>
 </dd>
 </dl>
 </dd>
-<dt><em>Blend4Web &gt; Anchor &gt; Enable Anchor</em></dt>
+<dt><em>Anchors &gt; Enable Anchor</em></dt>
 <dd><p class="first">Available for <code class="docutils literal"><span class="pre">EMPTY</span></code> objects only. Interface for adding anchors (2D tags) to objects:</p>
 <dl class="last docutils">
-<dt><em>Blend4Web &gt; Anchor &gt; Type</em></dt>
+<dt><em>Anchors &gt; Type</em></dt>
 <dd><p class="first last">Anchor type. <code class="docutils literal"><span class="pre">Annotation</span></code> - the content is obtained from the meta tags assigned to the object and displayed in a collapsible window of standard design. <code class="docutils literal"><span class="pre">Custom</span> <span class="pre">Element</span></code> - arbitrary HTML element from the current web page is used as anchor. <code class="docutils literal"><span class="pre">Generic</span></code> - anchor&#8217;s position can be detected using <em>anchors</em> module API.</p>
 </dd>
-<dt><em>Blend4Web &gt; Anchor &gt; Detect Visibility</em></dt>
+<dt><em>Anchors &gt; Detect Visibility</em></dt>
 <dd><p class="first last">Detect whether the anchor object is overlapped by other objects. Turning this option on decreases performance and should be used only when necessary.</p>
 </dd>
-<dt><em>Blend4Web &gt; Anchor &gt; Max Width</em></dt>
+<dt><em>Anchors &gt; Max Width</em></dt>
 <dd><p class="first last">Applicable to annotation anchors. This limits the expanding info window by a predefined value (measured in CSS pixels).</p>
 </dd>
 </dl>
 </dd>
+<dt><em>Wind Bending</em></dt>
+<dd><p class="first last">Enable procedural animation under the influence of wind.</p>
+</dd>
+</dl>
+<dl class="docutils" id="objects-billboarding-properties">
+<dt><em>Billboard</em></dt>
+<dd><p class="first last">Use the object as a billboard (i.e. automatically orient relative to the camera).</p>
+</dd>
+</dl>
+<dl class="docutils" id="billboarding-preserve">
+<dt><em>Billboard &gt; Preserve Global Orientation and Scale</em></dt>
+<dd><p class="first last">Take into account rotation and scale of the billboard object (in the world space). The object will be directed toward the camera with its side which is visible when viewing along the Y axis in Blender. Becomes available after enabling the <code class="docutils literal"><span class="pre">Billboard</span></code> checkbox.</p>
+</dd>
+<dt><em>Billboard &gt; Billboard Type</em></dt>
+<dd><p class="first last">Billboard orientation mode. <code class="docutils literal"><span class="pre">Spherical</span></code> (by default) - the object is always oriented with one side toward the camera, regardless of view angle, <code class="docutils literal"><span class="pre">Cylindrical</span></code> - similar to <code class="docutils literal"><span class="pre">Spherical</span></code>, but rotation is limited to Blender&#8217;s world Z axis. Becomes available after enabling <code class="docutils literal"><span class="pre">Billboard</span></code>.</p>
+</dd>
 </dl>
 </div>
-<div class="section" id="physics-blender-game">
-<h3>Physics Tab (Blender Game Mode)<a class="headerlink" href="#physics-blender-game" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="physics">
+<h3>Physics Tab<a class="headerlink" href="#physics" title="Permalink to this headline">¶</a></h3>
 <a class="reference internal image-reference" href="_images/object_setup_phys.png"><img alt="_images/object_setup_phys.png" class="align-center" src="_images/object_setup_phys.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
 <dl class="docutils">
-<dt><em>Blend4Web &gt; Detect Collisions</em></dt>
+<dt><em>Detect Collisions</em></dt>
 <dd><p class="first last">Activate the object&#8217;s physics.</p>
 </dd>
-<dt><em>Blend4Web &gt; Floating</em></dt>
+<dt><em>Floating</em></dt>
 <dd><p class="first last">Make the object floating. The settings for floating objects are described in detail in the <a class="reference internal" href="physics.html#physics"><span>physics</span></a> section.</p>
 </dd>
-<dt><em>Blend4Web &gt; Vehicle</em></dt>
+<dt><em>Vehicle</em></dt>
 <dd><p class="first last">Use the object as part of a vehicle. The vehicle settings are described in detail in the <a class="reference internal" href="physics.html#physics"><span>physics</span></a> section.</p>
 </dd>
-<dt><em>Blend4Web &gt; Character</em></dt>
+<dt><em>Character</em></dt>
 <dd><p class="first last">Use the object for character physics. The character settings are described in detail in the <a class="reference internal" href="physics.html#physics"><span>physics</span></a> section.</p>
 </dd>
 </dl>
@@ -424,7 +421,7 @@
 <dd><ul class="first last simple">
 <li><p class="first">only <code class="docutils literal"><span class="pre">MESH</span></code> objects can be copied</p>
 </li>
-<li><p class="first">the object should be <a class="reference internal" href="#static-dynamic-objects"><span>dynamic</span></a></p>
+<li><p class="first">the object should be <a class="reference internal" href="#static-dynamic-objects"><span>dynamic</span></a> (enable <code class="docutils literal"><span class="pre">Rendering</span> <span class="pre">Properties</span> <span class="pre">&gt;</span> <span class="pre">Force</span> <span class="pre">Dynamic</span> <span class="pre">Object</span></code>)</p>
 </li>
 <li><p class="first">the source object should belong to the active scene</p>
 </li>
@@ -437,7 +434,7 @@
 </div>
 <div class="section" id="id10">
 <h3>Making a Deep Copy<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
-<p>In case of deep copying the new object will have unique properties, namely it will have its own mesh. Thus, if the the original object&#8217;s mesh is changed, the copied object&#8217;s mesh will not be changed. To make deep copying possible, it&#8217;s enough to turn on the <a class="reference internal" href="#dynamic-geom"><span>Blend4Web &gt; Force Dynamic Geometry</span></a> setting in the source object&#8217;s properties.</p>
+<p>In case of deep copying, the new object will have unique properties, namely it will have its own mesh. Thus, if the original object&#8217;s mesh is changed, the copied object&#8217;s mesh will not be changed. To make deep copying possible, it is required to enable the <a class="reference internal" href="#dynamic-geom"><span>Rendering Properties &gt; Force Dynamic Geometry</span></a> checkbox for the source object.</p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -463,10 +460,10 @@
 </div>
 <div class="section" id="selection">
 <span id="id12"></span><h2>Object Selection<a class="headerlink" href="#selection" title="Permalink to this headline">¶</a></h2>
-<p>In order to enable selection of a certain object, it is required to enable the <code class="docutils literal"><span class="pre">Selectable</span></code> flag under the <code class="docutils literal"><span class="pre">Object</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span></code> panel.</p>
+<p>In order to enable selection of a certain object, it is required to enable the <code class="docutils literal"><span class="pre">Selectable</span></code> checkbox on the <code class="docutils literal"><span class="pre">Selection</span> <span class="pre">and</span> <span class="pre">Outlining</span></code> panel.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">Make sure that the <code class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span></code> panel&#8217;s <code class="docutils literal"><span class="pre">Enable</span> <span class="pre">Object</span> <span class="pre">Select</span></code> property is set to <code class="docutils literal"><span class="pre">YES</span></code> or <code class="docutils literal"><span class="pre">AUTO</span></code>.</p>
+<p class="last">Make sure that the status on the <code class="docutils literal"><span class="pre">Scene</span> <span class="pre">&gt;</span> <span class="pre">Object</span> <span class="pre">Outlining</span></code> panel is set to <code class="docutils literal"><span class="pre">ON</span></code> or <code class="docutils literal"><span class="pre">AUTO</span></code>.</p>
 </div>
 <p>Object selection is possible programmatically via API, for example, in the <code class="docutils literal"><span class="pre">scenes.js</span></code> module there is the <code class="docutils literal"><span class="pre">pick_object</span></code> function which selects an object based on canvas 2D coordinates,</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span class="c1">// ...</span>
@@ -478,7 +475,7 @@
 </pre></div>
 </div>
 <p>or using the <a class="reference internal" href="nla.html#nla-select-play"><span>NLA Script</span></a>.</p>
-<p>If the selectable object has active <code class="docutils literal"><span class="pre">Enable</span> <span class="pre">Outlining</span></code> and <code class="docutils literal"><span class="pre">Outline</span> <span class="pre">on</span> <span class="pre">Select</span></code> flags under the <code class="docutils literal"><span class="pre">Object</span> <span class="pre">&gt;</span> <span class="pre">Blend4Web</span></code> panel, then the <code class="docutils literal"><span class="pre">pick_object</span></code> function call will activate <a class="reference internal" href="postprocessing_effects.html#outline"><span>outline glow animation</span></a>.</p>
+<p>If the selectable object has enabled <code class="docutils literal"><span class="pre">Enable</span> <span class="pre">Outlining</span></code> and <code class="docutils literal"><span class="pre">Outline</span> <span class="pre">on</span> <span class="pre">Select</span></code> checkboxes on the <code class="docutils literal"><span class="pre">Object</span> <span class="pre">&gt;</span> <span class="pre">Selection</span> <span class="pre">and</span> <span class="pre">Outlining</span></code> panel, then the <code class="docutils literal"><span class="pre">pick_object</span></code> function call will activate <a class="reference internal" href="postprocessing_effects.html#outline"><span>outline glow animation</span></a>.</p>
 </div>
 <div class="section" id="morphing">
 <span id="id13"></span><h2>Morphing<a class="headerlink" href="#morphing" title="Permalink to this headline">¶</a></h2>
@@ -587,7 +584,7 @@
           
     <div class="footer" role="contentinfo">
         &copy; Copyright 2015, Triumph LLC.
-      Last updated on 2015-05-26.
+      Last updated on 2015-06-30.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
         </div>

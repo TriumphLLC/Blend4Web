@@ -1,8 +1,10 @@
 import bpy
 from bpy.props import StringProperty
+import addon_utils
 
 import blend4web
 from .b4w_bin_suffix import get_platform_data
+import os
 
 class B4WInitErrorMessage(bpy.types.Operator):
     bl_idname = "b4w.init_error_message"
@@ -77,3 +79,47 @@ def bin_invalid_message(arg):
 # NOTE: register class permanently to held it even after disabling an addon
 bpy.utils.register_class(B4WInitErrorMessage)
 bpy.utils.register_class(B4WVersionMismatchMessage)
+
+def detect_sdk():
+    init_script_path = None
+    for mod in addon_utils.modules(refresh=False):
+        if mod.bl_info['name'] == 'Blend4Web':
+            init_script_path = mod.__file__
+            break
+
+    if not init_script_path:
+        return None
+
+    signaure_file_path = os.path.join(
+        os.path.dirname(os.path.abspath(init_script_path)), "..", "..", "..", "VERSION")
+    result = None
+    try:
+        with open(signaure_file_path) as f:
+            lines = f.readlines()
+        params = lines[0].split()
+        if not params[0] == "Blend4Web":
+            return None
+        # parse version
+        v_split = params[1].split(".")
+        version = []
+
+        try:
+            for v in v_split:
+                version.append(int(v))
+        except ValueError:
+            return None
+        vl_info_ver = mod.bl_info['version']
+
+        # extend if lengths not equals
+        for i in range(len(vl_info_ver) - len(version)):
+            version.append(0)
+
+        for i in range(len(vl_info_ver)):
+            if not vl_info_ver[i] == version[i]:
+                return None
+
+        result = os.path.dirname(os.path.realpath(os.path.normpath(signaure_file_path)))
+    except:
+        return None
+
+    return result

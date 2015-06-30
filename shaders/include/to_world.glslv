@@ -109,7 +109,7 @@ mat4 billboard_matrix(in vec3 camera_eye, in vec3 wcen, in mat4 view_matrix) {
     return bill_matrix;
 }
 
-#if BILLBOARD_PRES_GLOB_ORIENTATION
+#if BILLBOARD_PRES_GLOB_ORIENTATION && !STATIC_BATCH
 mat4 billboard_matrix_global(in vec3 camera_eye, in vec3 wcen, in mat4 view_matrix, 
         mat4 model_matrix) {
 

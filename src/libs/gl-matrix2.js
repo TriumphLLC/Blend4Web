@@ -43,7 +43,7 @@ var vec3 = exports;
 /**
  * Creates a new, empty vec3
  *
- * @returns {vec3} a new 3D vector
+ * @returns {Vec3} a new 3D vector
  * @method module:vec3.create
  */
 vec3.create = function() {
@@ -57,8 +57,8 @@ vec3.create = function() {
 /**
  * Creates a new vec3 initialized with values from an existing vector
  *
- * @param {vec3} a vector to clone
- * @returns {vec3} a new 3D vector
+ * @param {Vec3} a vector to clone
+ * @returns {Vec3} a new 3D vector
  * @method module:vec3.clone
  */
 vec3.clone = function(a) {
@@ -75,7 +75,7 @@ vec3.clone = function(a) {
  * @param {Number} x X component
  * @param {Number} y Y component
  * @param {Number} z Z component
- * @returns {vec3} a new 3D vector
+ * @returns {Vec3} a new 3D vector
  * @method module:vec3.fromValues
  */
 vec3.fromValues = function(x, y, z) {
@@ -89,9 +89,9 @@ vec3.fromValues = function(x, y, z) {
 /**
  * Copy the values from one vec3 to another
  *
- * @param {vec3} a the source vector
- * @returns {vec3} out
- * @param {vec3} out the receiving vector
+ * @param {Vec3} a the source vector
+ * @returns {Vec3} out
+ * @param {Vec3} out the receiving vector
  * @method module:vec3.copy
  */
 vec3.copy = function(a, out) {
@@ -107,8 +107,8 @@ vec3.copy = function(a, out) {
  * @param {Number} x X component
  * @param {Number} y Y component
  * @param {Number} z Z component
- * @returns {vec3} out
- * @param {vec3} out the receiving vector
+ * @returns {Vec3} out
+ * @param {Vec3} out the receiving vector
  * @method module:vec3.set
  */
 vec3.set = function(x, y, z, out) {
@@ -121,10 +121,10 @@ vec3.set = function(x, y, z, out) {
 /**
  * Adds two vec3's
  *
- * @param {vec3} a the first operand
- * @param {vec3} b the second operand
- * @returns {vec3} out
- * @param {vec3} out the receiving vector
+ * @param {Vec3} a the first operand
+ * @param {Vec3} b the second operand
+ * @returns {Vec3} out
+ * @param {Vec3} out the receiving vector
  * @method module:vec3.add
  */
 vec3.add = function(a, b, out) {
@@ -137,10 +137,10 @@ vec3.add = function(a, b, out) {
 /**
  * Subtracts vector b from vector a
  *
- * @param {vec3} a the first operand
- * @param {vec3} b the second operand
- * @returns {vec3} out
- * @param {vec3} out the receiving vector
+ * @param {Vec3} a the first operand
+ * @param {Vec3} b the second operand
+ * @returns {Vec3} out
+ * @param {Vec3} out the receiving vector
  * @method module:vec3.subtract
  */
 vec3.subtract = function(a, b, out) {
@@ -160,10 +160,10 @@ vec3.sub = vec3.subtract;
 /**
  * Multiplies two vec3's
  *
- * @param {vec3} a the first operand
- * @param {vec3} b the second operand
- * @returns {vec3} out
- * @param {vec3} out the receiving vector
+ * @param {Vec3} a the first operand
+ * @param {Vec3} b the second operand
+ * @returns {Vec3} out
+ * @param {Vec3} out the receiving vector
  * @method module:vec3.multiply
  */
 vec3.multiply = function(a, b, out) {
@@ -183,10 +183,10 @@ vec3.mul = vec3.multiply;
 /**
  * Divides two vec3's
  *
- * @param {vec3} a the first operand
- * @param {vec3} b the second operand
- * @returns {vec3} out
- * @param {vec3} out the receiving vector
+ * @param {Vec3} a the first operand
+ * @param {Vec3} b the second operand
+ * @returns {Vec3} out
+ * @param {Vec3} out the receiving vector
  * @method module:vec3.divide
  */
 vec3.divide = function(a, b, out) {
@@ -206,10 +206,10 @@ vec3.div = vec3.divide;
 /**
  * Returns the minimum of two vec3's
  *
- * @param {vec3} a the first operand
- * @param {vec3} b the second operand
- * @returns {vec3} out
- * @param {vec3} out the receiving vector
+ * @param {Vec3} a the first operand
+ * @param {Vec3} b the second operand
+ * @returns {Vec3} out
+ * @param {Vec3} out the receiving vector
  * @method module:vec3.min
  */
 vec3.min = function(a, b, out) {
@@ -222,10 +222,10 @@ vec3.min = function(a, b, out) {
 /**
  * Returns the maximum of two vec3's
  *
- * @param {vec3} a the first operand
- * @param {vec3} b the second operand
- * @returns {vec3} out
- * @param {vec3} out the receiving vector
+ * @param {Vec3} a the first operand
+ * @param {Vec3} b the second operand
+ * @returns {Vec3} out
+ * @param {Vec3} out the receiving vector
  * @method module:vec3.max
  */
 vec3.max = function(a, b, out) {
@@ -238,10 +238,10 @@ vec3.max = function(a, b, out) {
 /**
  * Scales a vec3 by a scalar number
  *
- * @param {vec3} a the vector to scale
+ * @param {Vec3} a the vector to scale
  * @param {Number} b amount to scale the vector by
- * @returns {vec3} out
- * @param {vec3} out the receiving vector
+ * @returns {Vec3} out
+ * @param {Vec3} out the receiving vector
  * @method module:vec3.scale
  */
 vec3.scale = function(a, b, out) {
@@ -254,11 +254,11 @@ vec3.scale = function(a, b, out) {
 /**
  * Adds two vec3's after scaling the second operand by a scalar value
  *
- * @param {vec3} a the first operand
- * @param {vec3} b the second operand
+ * @param {Vec3} a the first operand
+ * @param {Vec3} b the second operand
  * @param {Number} scale the amount to scale b by before adding
- * @returns {vec3} out
- * @param {vec3} out the receiving vector
+ * @returns {Vec3} out
+ * @param {Vec3} out the receiving vector
  * @method module:vec3.scaleAndAdd
  */
 vec3.scaleAndAdd = function(a, b, scale, out) {
@@ -271,8 +271,8 @@ vec3.scaleAndAdd = function(a, b, scale, out) {
 /**
  * Calculates the euclidian distance between two vec3's
  *
- * @param {vec3} a the first operand
- * @param {vec3} b the second operand
+ * @param {Vec3} a the first operand
+ * @param {Vec3} b the second operand
  * @returns {Number} distance between a and b
  * @method module:vec3.distance
  */
@@ -293,8 +293,8 @@ vec3.dist = vec3.distance;
 /**
  * Calculates the squared euclidian distance between two vec3's
  *
- * @param {vec3} a the first operand
- * @param {vec3} b the second operand
+ * @param {Vec3} a the first operand
+ * @param {Vec3} b the second operand
  * @returns {Number} squared distance between a and b
  * @method module:vec3.squaredDistance
  */
@@ -315,7 +315,7 @@ vec3.sqrDist = vec3.squaredDistance;
 /**
  * Calculates the length of a vec3
  *
- * @param {vec3} a vector to calculate length of
+ * @param {Vec3} a vector to calculate length of
  * @returns {Number} length of a
  * @method module:vec3.length
  */
@@ -336,7 +336,7 @@ vec3.len = vec3.length;
 /**
  * Calculates the squared length of a vec3
  *
- * @param {vec3} a vector to calculate squared length of
+ * @param {Vec3} a vector to calculate squared length of
  * @returns {Number} squared length of a
  * @method module:vec3.squaredLength
  */
@@ -357,9 +357,9 @@ vec3.sqrLen = vec3.squaredLength;
 /**
  * Negates the components of a vec3
  *
- * @param {vec3} a vector to negate
- * @returns {vec3} out
- * @param {vec3} out the receiving vector
+ * @param {Vec3} a vector to negate
+ * @returns {Vec3} out
+ * @param {Vec3} out the receiving vector
  * @method module:vec3.negate
  */
 vec3.negate = function(a, out) {
@@ -372,9 +372,9 @@ vec3.negate = function(a, out) {
 /**
  * Returns the inverse of the components of a vec3
  *
- * @param {vec3} a vector to invert
- * @returns {vec3} out
- * @param {vec3} out the receiving vector
+ * @param {Vec3} a vector to invert
+ * @returns {Vec3} out
+ * @param {Vec3} out the receiving vector
  * @method module:vec3.inverse
  */
 vec3.inverse = function(a, out) {
@@ -387,9 +387,9 @@ vec3.inverse = function(a, out) {
 /**
  * Normalize a vec3
  *
- * @param {vec3} a vector to normalize
- * @returns {vec3} out
- * @param {vec3} out the receiving vector
+ * @param {Vec3} a vector to normalize
+ * @returns {Vec3} out
+ * @param {Vec3} out the receiving vector
  * @method module:vec3.normalize
  */
 vec3.normalize = function(a, out) {
@@ -410,8 +410,8 @@ vec3.normalize = function(a, out) {
 /**
  * Calculates the dot product of two vec3's
  *
- * @param {vec3} a the first operand
- * @param {vec3} b the second operand
+ * @param {Vec3} a the first operand
+ * @param {Vec3} b the second operand
  * @returns {Number} dot product of a and b
  * @method module:vec3.dot
  */
@@ -422,10 +422,10 @@ vec3.dot = function (a, b) {
 /**
  * Computes the cross product of two vec3's
  *
- * @param {vec3} a the first operand
- * @param {vec3} b the second operand
- * @returns {vec3} out
- * @param {vec3} out the receiving vector
+ * @param {Vec3} a the first operand
+ * @param {Vec3} b the second operand
+ * @returns {Vec3} out
+ * @param {Vec3} out the receiving vector
  * @method module:vec3.cross
  */
 vec3.cross = function(a, b, out) {
@@ -441,11 +441,11 @@ vec3.cross = function(a, b, out) {
 /**
  * Performs a linear interpolation between two vec3's
  *
- * @param {vec3} a the first operand
- * @param {vec3} b the second operand
+ * @param {Vec3} a the first operand
+ * @param {Vec3} b the second operand
  * @param {Number} t interpolation amount between the two inputs
- * @returns {vec3} out
- * @param {vec3} out the receiving vector
+ * @returns {Vec3} out
+ * @param {Vec3} out the receiving vector
  * @method module:vec3.lerp
  */
 vec3.lerp = function (a, b, t, out) {
@@ -462,8 +462,8 @@ vec3.lerp = function (a, b, t, out) {
  * Generates a random vector with the given scale
  *
  * @param {Number} [scale] Length of the resulting vector. If ommitted, a unit vector will be returned
- * @returns {vec3} out
- * @param {vec3} out the receiving vector
+ * @returns {Vec3} out
+ * @param {Vec3} out the receiving vector
  * @method module:vec3.random
  */
 vec3.random = function (scale, out) {
@@ -483,10 +483,10 @@ vec3.random = function (scale, out) {
  * Transforms the vec3 with a mat4.
  * 4th vector component is implicitly '1'
  *
- * @param {vec3} a the vector to transform
- * @param {mat4} m matrix to transform with
- * @returns {vec3} out
- * @param {vec3} out the receiving vector
+ * @param {Vec3} a the vector to transform
+ * @param {Mat4} m matrix to transform with
+ * @returns {Vec3} out
+ * @param {Vec3} out the receiving vector
  * @method module:vec3.transformMat4
  */
 vec3.transformMat4 = function(a, m, out) {
@@ -502,10 +502,10 @@ vec3.transformMat4 = function(a, m, out) {
 /**
  * Transforms the vec3 with a mat3.
  *
- * @param {vec3} a the vector to transform
- * @param {mat4} m the 3x3 matrix to transform with
- * @returns {vec3} out
- * @param {vec3} out the receiving vector
+ * @param {Vec3} a the vector to transform
+ * @param {Mat4} m the 3x3 matrix to transform with
+ * @returns {Vec3} out
+ * @param {Vec3} out the receiving vector
  * @method module:vec3.transformMat3
  */
 vec3.transformMat3 = function(a, m, out) {
@@ -519,10 +519,10 @@ vec3.transformMat3 = function(a, m, out) {
 /**
  * Transforms the vec3 with a quat
  *
- * @param {vec3} a the vector to transform
- * @param {quat} q quaternion to transform with
- * @returns {vec3} out
- * @param {vec3} out the receiving vector
+ * @param {Vec3} a the vector to transform
+ * @param {Quat} q quaternion to transform with
+ * @returns {Vec3} out
+ * @param {Vec3} out the receiving vector
  * @method module:vec3.transformQuat
  */
 vec3.transformQuat = function(a, q, out) {
@@ -546,11 +546,11 @@ vec3.transformQuat = function(a, q, out) {
 
 /**
  * Rotate a 3D vector around the x-axis
- * @param {vec3} a The vec3 point to rotate
- * @param {vec3} b The origin of the rotation
+ * @param {Vec3} a The vec3 point to rotate
+ * @param {Vec3} b The origin of the rotation
  * @param {Number} c The angle of rotation
- * @returns {vec3} out
- * @param {vec3} out The receiving vec3
+ * @returns {Vec3} out
+ * @param {Vec3} out The receiving vec3
  * @method module:vec3.rotateX
  */
 vec3.rotateX = function(a, b, c, out){
@@ -575,11 +575,11 @@ vec3.rotateX = function(a, b, c, out){
 
 /**
  * Rotate a 3D vector around the y-axis
- * @param {vec3} a The vec3 point to rotate
- * @param {vec3} b The origin of the rotation
+ * @param {Vec3} a The vec3 point to rotate
+ * @param {Vec3} b The origin of the rotation
  * @param {Number} c The angle of rotation
- * @returns {vec3} out
- * @param {vec3} out The receiving vec3
+ * @returns {Vec3} out
+ * @param {Vec3} out The receiving vec3
  * @method module:vec3.rotateY
  */
 vec3.rotateY = function(a, b, c, out){
@@ -604,11 +604,11 @@ vec3.rotateY = function(a, b, c, out){
 
 /**
  * Rotate a 3D vector around the z-axis
- * @param {vec3} a The vec3 point to rotate
- * @param {vec3} b The origin of the rotation
+ * @param {Vec3} a The vec3 point to rotate
+ * @param {Vec3} b The origin of the rotation
  * @param {Number} c The angle of rotation
- * @returns {vec3} out
- * @param {vec3} out The receiving vec3
+ * @returns {Vec3} out
+ * @param {Vec3} out The receiving vec3
  * @method module:vec3.rotateZ
  */
 vec3.rotateZ = function(a, b, c, out){
@@ -675,8 +675,8 @@ vec3.forEach = (function() {
 
 /**
  * Get the angle between two 3D vectors
- * @param {vec3} a The first operand
- * @param {vec3} b The second operand
+ * @param {Vec3} a The first operand
+ * @param {Vec3} b The second operand
  * @returns {Number} The angle in radians
  * @method module:vec3.angle
  */
@@ -700,7 +700,7 @@ vec3.angle = function(a, b) {
 /**
  * Returns a string representation of a vector
  *
- * @param {vec3} vec vector to represent as a string
+ * @param {Vec3} vec vector to represent as a string
  * @returns {String} string representation of the vector
  * @method module:vec3.str
  */
@@ -751,7 +751,7 @@ var vec4 = exports;
 /**
  * Creates a new, empty vec4
  *
- * @returns {vec4} a new 4D vector
+ * @returns {Vec4} a new 4D vector
  * @method module:vec4.create
  */
 vec4.create = function() {
@@ -766,8 +766,8 @@ vec4.create = function() {
 /**
  * Creates a new vec4 initialized with values from an existing vector
  *
- * @param {vec4} a vector to clone
- * @returns {vec4} a new 4D vector
+ * @param {Vec4} a vector to clone
+ * @returns {Vec4} a new 4D vector
  * @method module:vec4.clone
  */
 vec4.clone = function(a) {
@@ -786,7 +786,7 @@ vec4.clone = function(a) {
  * @param {Number} y Y component
  * @param {Number} z Z component
  * @param {Number} w W component
- * @returns {vec4} a new 4D vector
+ * @returns {Vec4} a new 4D vector
  * @method module:vec4.fromValues
  */
 vec4.fromValues = function(x, y, z, w) {
@@ -801,9 +801,9 @@ vec4.fromValues = function(x, y, z, w) {
 /**
  * Copy the values from one vec4 to another
  *
- * @param {vec4} a the source vector
- * @returns {vec4} out
- * @param {vec4} out the receiving vector
+ * @param {Vec4} a the source vector
+ * @returns {Vec4} out
+ * @param {Vec4} out the receiving vector
  * @method module:vec4.copy
  */
 vec4.copy = function(a, out) {
@@ -821,8 +821,8 @@ vec4.copy = function(a, out) {
  * @param {Number} y Y component
  * @param {Number} z Z component
  * @param {Number} w W component
- * @returns {vec4} out
- * @param {vec4} out the receiving vector
+ * @returns {Vec4} out
+ * @param {Vec4} out the receiving vector
  * @method module:vec4.set
  */
 vec4.set = function(x, y, z, w, out) {
@@ -836,10 +836,10 @@ vec4.set = function(x, y, z, w, out) {
 /**
  * Adds two vec4's
  *
- * @param {vec4} a the first operand
- * @param {vec4} b the second operand
- * @returns {vec4} out
- * @param {vec4} out the receiving vector
+ * @param {Vec4} a the first operand
+ * @param {Vec4} b the second operand
+ * @returns {Vec4} out
+ * @param {Vec4} out the receiving vector
  * @method module:vec4.add
  */
 vec4.add = function(a, b, out) {
@@ -853,10 +853,10 @@ vec4.add = function(a, b, out) {
 /**
  * Subtracts vector b from vector a
  *
- * @param {vec4} a the first operand
- * @param {vec4} b the second operand
- * @returns {vec4} out
- * @param {vec4} out the receiving vector
+ * @param {Vec4} a the first operand
+ * @param {Vec4} b the second operand
+ * @returns {Vec4} out
+ * @param {Vec4} out the receiving vector
  * @method module:vec4.subtract
  */
 vec4.subtract = function(a, b, out) {
@@ -877,10 +877,10 @@ vec4.sub = vec4.subtract;
 /**
  * Multiplies two vec4's
  *
- * @param {vec4} a the first operand
- * @param {vec4} b the second operand
- * @returns {vec4} out
- * @param {vec4} out the receiving vector
+ * @param {Vec4} a the first operand
+ * @param {Vec4} b the second operand
+ * @returns {Vec4} out
+ * @param {Vec4} out the receiving vector
  * @method module:vec4.multiply
  */
 vec4.multiply = function(a, b, out) {
@@ -901,10 +901,10 @@ vec4.mul = vec4.multiply;
 /**
  * Divides two vec4's
  *
- * @param {vec4} a the first operand
- * @param {vec4} b the second operand
- * @returns {vec4} out
- * @param {vec4} out the receiving vector
+ * @param {Vec4} a the first operand
+ * @param {Vec4} b the second operand
+ * @returns {Vec4} out
+ * @param {Vec4} out the receiving vector
  * @method module:vec4.divide
  */
 vec4.divide = function(a, b, out) {
@@ -925,10 +925,10 @@ vec4.div = vec4.divide;
 /**
  * Returns the minimum of two vec4's
  *
- * @param {vec4} a the first operand
- * @param {vec4} b the second operand
- * @returns {vec4} out
- * @param {vec4} out the receiving vector
+ * @param {Vec4} a the first operand
+ * @param {Vec4} b the second operand
+ * @returns {Vec4} out
+ * @param {Vec4} out the receiving vector
  * @method module:vec4.min
  */
 vec4.min = function(a, b, out) {
@@ -942,10 +942,10 @@ vec4.min = function(a, b, out) {
 /**
  * Returns the maximum of two vec4's
  *
- * @param {vec4} a the first operand
- * @param {vec4} b the second operand
- * @returns {vec4} out
- * @param {vec4} out the receiving vector
+ * @param {Vec4} a the first operand
+ * @param {Vec4} b the second operand
+ * @returns {Vec4} out
+ * @param {Vec4} out the receiving vector
  * @method module:vec4.max
  */
 vec4.max = function(a, b, out) {
@@ -959,10 +959,10 @@ vec4.max = function(a, b, out) {
 /**
  * Scales a vec4 by a scalar number
  *
- * @param {vec4} a the vector to scale
+ * @param {Vec4} a the vector to scale
  * @param {Number} b amount to scale the vector by
- * @returns {vec4} out
- * @param {vec4} out the receiving vector
+ * @returns {Vec4} out
+ * @param {Vec4} out the receiving vector
  * @method module:vec4.scale
  */
 vec4.scale = function(a, b, out) {
@@ -976,11 +976,11 @@ vec4.scale = function(a, b, out) {
 /**
  * Adds two vec4's after scaling the second operand by a scalar value
  *
- * @param {vec4} a the first operand
- * @param {vec4} b the second operand
+ * @param {Vec4} a the first operand
+ * @param {Vec4} b the second operand
  * @param {Number} scale the amount to scale b by before adding
- * @returns {vec4} out
- * @param {vec4} out the receiving vector
+ * @returns {Vec4} out
+ * @param {Vec4} out the receiving vector
  * @method module:vec4.scaleAndAdd
  */
 vec4.scaleAndAdd = function(a, b, scale, out) {
@@ -994,8 +994,8 @@ vec4.scaleAndAdd = function(a, b, scale, out) {
 /**
  * Calculates the euclidian distance between two vec4's
  *
- * @param {vec4} a the first operand
- * @param {vec4} b the second operand
+ * @param {Vec4} a the first operand
+ * @param {Vec4} b the second operand
  * @returns {Number} distance between a and b
  * @method module:vec4.distance
  */
@@ -1017,8 +1017,8 @@ vec4.dist = vec4.distance;
 /**
  * Calculates the squared euclidian distance between two vec4's
  *
- * @param {vec4} a the first operand
- * @param {vec4} b the second operand
+ * @param {Vec4} a the first operand
+ * @param {Vec4} b the second operand
  * @returns {Number} squared distance between a and b
  * @method module:vec4.squaredDistance
  */
@@ -1040,7 +1040,7 @@ vec4.sqrDist = vec4.squaredDistance;
 /**
  * Calculates the length of a vec4
  *
- * @param {vec4} a vector to calculate length of
+ * @param {Vec4} a vector to calculate length of
  * @returns {Number} length of a
  * @method module:vec4.length
  */
@@ -1062,7 +1062,7 @@ vec4.len = vec4.length;
 /**
  * Calculates the squared length of a vec4
  *
- * @param {vec4} a vector to calculate squared length of
+ * @param {Vec4} a vector to calculate squared length of
  * @returns {Number} squared length of a
  * @method module:vec4.squaredLength
  */
@@ -1084,9 +1084,9 @@ vec4.sqrLen = vec4.squaredLength;
 /**
  * Negates the components of a vec4
  *
- * @param {vec4} a vector to negate
- * @returns {vec4} out
- * @param {vec4} out the receiving vector
+ * @param {Vec4} a vector to negate
+ * @returns {Vec4} out
+ * @param {Vec4} out the receiving vector
  * @method module:vec4.negate
  */
 vec4.negate = function(a, out) {
@@ -1100,9 +1100,9 @@ vec4.negate = function(a, out) {
 /**
  * Returns the inverse of the components of a vec4
  *
- * @param {vec4} a vector to invert
- * @returns {vec4} out
- * @param {vec4} out the receiving vector
+ * @param {Vec4} a vector to invert
+ * @returns {Vec4} out
+ * @param {Vec4} out the receiving vector
  * @method module:vec4.inverse
  */
 vec4.inverse = function(a, out) {
@@ -1116,9 +1116,9 @@ vec4.inverse = function(a, out) {
 /**
  * Normalize a vec4
  *
- * @param {vec4} a vector to normalize
- * @returns {vec4} out
- * @param {vec4} out the receiving vector
+ * @param {Vec4} a vector to normalize
+ * @returns {Vec4} out
+ * @param {Vec4} out the receiving vector
  * @method module:vec4.normalize
  */
 vec4.normalize = function(a, out) {
@@ -1140,8 +1140,8 @@ vec4.normalize = function(a, out) {
 /**
  * Calculates the dot product of two vec4's
  *
- * @param {vec4} a the first operand
- * @param {vec4} b the second operand
+ * @param {Vec4} a the first operand
+ * @param {Vec4} b the second operand
  * @returns {Number} dot product of a and b
  * @method module:vec4.dot
  */
@@ -1152,11 +1152,11 @@ vec4.dot = function (a, b) {
 /**
  * Performs a linear interpolation between two vec4's
  *
- * @param {vec4} a the first operand
- * @param {vec4} b the second operand
+ * @param {Vec4} a the first operand
+ * @param {Vec4} b the second operand
  * @param {Number} t interpolation amount between the two inputs
- * @returns {vec4} out
- * @param {vec4} out the receiving vector
+ * @returns {Vec4} out
+ * @param {Vec4} out the receiving vector
  * @method module:vec4.lerp
  */
 vec4.lerp = function (a, b, t, out) {
@@ -1175,8 +1175,8 @@ vec4.lerp = function (a, b, t, out) {
  * Generates a random vector with the given scale
  *
  * @param {Number} [scale] Length of the resulting vector. If ommitted, a unit vector will be returned
- * @returns {vec4} out
- * @param {vec4} out the receiving vector
+ * @returns {Vec4} out
+ * @param {Vec4} out the receiving vector
  * @method module:vec4.random
  */
 vec4.random = function (scale, out) {
@@ -1195,10 +1195,10 @@ vec4.random = function (scale, out) {
 /**
  * Transforms the vec4 with a mat4.
  *
- * @param {vec4} a the vector to transform
- * @param {mat4} m matrix to transform with
- * @returns {vec4} out
- * @param {vec4} out the receiving vector
+ * @param {Vec4} a the vector to transform
+ * @param {Mat4} m matrix to transform with
+ * @returns {Vec4} out
+ * @param {Vec4} out the receiving vector
  * @method module:vec4.transformMat4
  */
 vec4.transformMat4 = function(a, m, out) {
@@ -1213,10 +1213,10 @@ vec4.transformMat4 = function(a, m, out) {
 /**
  * Transforms the vec4 with a quat
  *
- * @param {vec4} a the vector to transform
- * @param {quat} q quaternion to transform with
- * @returns {vec4} out
- * @param {vec4} out the receiving vector
+ * @param {Vec4} a the vector to transform
+ * @param {Quat} q quaternion to transform with
+ * @returns {Vec4} out
+ * @param {Vec4} out the receiving vector
  * @method module:vec4.transformQuat
  */
 vec4.transformQuat = function(a, q, out) {
@@ -1282,7 +1282,7 @@ vec4.forEach = (function() {
 /**
  * Returns a string representation of a vector
  *
- * @param {vec4} vec vector to represent as a string
+ * @param {Vec4} vec vector to represent as a string
  * @returns {String} string representation of the vector
  * @method module:vec4.str
  */
@@ -1336,7 +1336,7 @@ var quat = exports;
 /**
  * Creates a new identity quat
  *
- * @returns {quat} a new quaternion
+ * @returns {Quat} a new quaternion
  * @method module:quat.create
  */
 quat.create = function() {
@@ -1354,10 +1354,10 @@ quat.create = function() {
  *
  * Both vectors are assumed to be unit length.
  *
- * @param {vec3} a the initial vector
- * @param {vec3} b the destination vector
- * @returns {quat} out
- * @param {quat} out the receiving quaternion.
+ * @param {Vec3} a the initial vector
+ * @param {Vec3} b the destination vector
+ * @returns {Quat} out
+ * @param {Quat} out the receiving quaternion.
  * @method module:quat.rotationTo
  */
 quat.rotationTo = (function() {
@@ -1396,10 +1396,10 @@ quat.rotationTo = (function() {
  * axes. Each axis is a vec3 and is expected to be unit length and
  * perpendicular to all other specified axes.
  *
- * @param {vec3} view  the vector representing the viewing direction
- * @param {vec3} right the vector representing the local "right" direction
- * @param {vec3} up    the vector representing the local "up" direction
- * @returns {quat} out
+ * @param {Vec3} view  the vector representing the viewing direction
+ * @param {Vec3} right the vector representing the local "right" direction
+ * @param {Vec3} up    the vector representing the local "up" direction
+ * @returns {Quat} out
  * @method module:quat.setAxes
  */
 quat.setAxes = (function() {
@@ -1425,8 +1425,8 @@ quat.setAxes = (function() {
 /**
  * Creates a new quat initialized with values from an existing quaternion
  *
- * @param {quat} a quaternion to clone
- * @returns {quat} a new quaternion
+ * @param {Quat} a quaternion to clone
+ * @returns {Quat} a new quaternion
  * @function
  * @method module:quat.clone
  */
@@ -1439,7 +1439,7 @@ quat.clone = vec4.clone;
  * @param {Number} y Y component
  * @param {Number} z Z component
  * @param {Number} w W component
- * @returns {quat} a new quaternion
+ * @returns {Quat} a new quaternion
  * @function
  * @method module:quat.fromValues
  */
@@ -1448,10 +1448,10 @@ quat.fromValues = vec4.fromValues;
 /**
  * Copy the values from one quat to another
  *
- * @param {quat} a the source quaternion
- * @returns {quat} out
+ * @param {Quat} a the source quaternion
+ * @returns {Quat} out
  * @function
- * @param {quat} out the receiving quaternion
+ * @param {Quat} out the receiving quaternion
  * @method module:quat.copy
  */
 quat.copy = vec4.copy;
@@ -1463,9 +1463,9 @@ quat.copy = vec4.copy;
  * @param {Number} y Y component
  * @param {Number} z Z component
  * @param {Number} w W component
- * @returns {quat} out
+ * @returns {Quat} out
  * @function
- * @param {quat} out the receiving quaternion
+ * @param {Quat} out the receiving quaternion
  * @method module:quat.set
  */
 quat.set = vec4.set;
@@ -1473,8 +1473,8 @@ quat.set = vec4.set;
 /**
  * Set a quat to the identity quaternion
  *
- * @returns {quat} out
- * @param {quat} out the receiving quaternion
+ * @returns {Quat} out
+ * @param {Quat} out the receiving quaternion
  * @method module:quat.identity
  */
 quat.identity = function(out) {
@@ -1489,10 +1489,10 @@ quat.identity = function(out) {
  * Sets a quat from the given angle and rotation axis,
  * then returns it.
  *
- * @param {vec3} axis the axis around which to rotate
+ * @param {Vec3} axis the axis around which to rotate
  * @param {Number} rad the angle in radians
- * @returns {quat} out
- * @param {quat} out the receiving quaternion
+ * @returns {Quat} out
+ * @param {Quat} out the receiving quaternion
  * @method module:quat.setAxisAngle
  */
 quat.setAxisAngle = function(axis, rad, out) {
@@ -1508,11 +1508,11 @@ quat.setAxisAngle = function(axis, rad, out) {
 /**
  * Adds two quat's
  *
- * @param {quat} a the first operand
- * @param {quat} b the second operand
- * @returns {quat} out
+ * @param {Quat} a the first operand
+ * @param {Quat} b the second operand
+ * @returns {Quat} out
  * @function
- * @param {quat} out the receiving quaternion
+ * @param {Quat} out the receiving quaternion
  * @method module:quat.add
  */
 quat.add = vec4.add;
@@ -1520,10 +1520,10 @@ quat.add = vec4.add;
 /**
  * Multiplies two quat's
  *
- * @param {quat} a the first operand
- * @param {quat} b the second operand
- * @returns {quat} out
- * @param {quat} out the receiving quaternion
+ * @param {Quat} a the first operand
+ * @param {Quat} b the second operand
+ * @returns {Quat} out
+ * @param {Quat} out the receiving quaternion
  * @method module:quat.multiply
  */
 quat.multiply = function(a, b, out) {
@@ -1547,11 +1547,11 @@ quat.mul = quat.multiply;
 /**
  * Scales a quat by a scalar number
  *
- * @param {quat} a the vector to scale
+ * @param {Quat} a the vector to scale
  * @param {Number} b amount to scale the vector by
- * @returns {quat} out
+ * @returns {Quat} out
  * @function
- * @param {quat} out the receiving vector
+ * @param {Quat} out the receiving vector
  * @method module:quat.scale
  */
 quat.scale = vec4.scale;
@@ -1559,10 +1559,10 @@ quat.scale = vec4.scale;
 /**
  * Rotates a quaternion by the given angle about the X axis
  *
- * @param {quat} a quat to rotate
+ * @param {Quat} a quat to rotate
  * @param {number} rad angle (in radians) to rotate
- * @returns {quat} out
- * @param {quat} out quat receiving operation result
+ * @returns {Quat} out
+ * @param {Quat} out quat receiving operation result
  * @method module:quat.rotateX
  */
 quat.rotateX = function (a, rad, out) {
@@ -1581,10 +1581,10 @@ quat.rotateX = function (a, rad, out) {
 /**
  * Rotates a quaternion by the given angle about the Y axis
  *
- * @param {quat} a quat to rotate
+ * @param {Quat} a quat to rotate
  * @param {number} rad angle (in radians) to rotate
- * @returns {quat} out
- * @param {quat} out quat receiving operation result
+ * @returns {Quat} out
+ * @param {Quat} out quat receiving operation result
  * @method module:quat.rotateY
  */
 quat.rotateY = function (a, rad, out) {
@@ -1603,10 +1603,10 @@ quat.rotateY = function (a, rad, out) {
 /**
  * Rotates a quaternion by the given angle about the Z axis
  *
- * @param {quat} a quat to rotate
+ * @param {Quat} a quat to rotate
  * @param {number} rad angle (in radians) to rotate
- * @returns {quat} out
- * @param {quat} out quat receiving operation result
+ * @returns {Quat} out
+ * @param {Quat} out quat receiving operation result
  * @method module:quat.rotateZ
  */
 quat.rotateZ = function (a, rad, out) {
@@ -1627,9 +1627,9 @@ quat.rotateZ = function (a, rad, out) {
  * Assumes that quaternion is 1 unit in length.
  * Any existing W component will be ignored.
  *
- * @param {quat} a quat to calculate W component of
- * @returns {quat} out
- * @param {quat} out the receiving quaternion
+ * @param {Quat} a quat to calculate W component of
+ * @returns {Quat} out
+ * @param {Quat} out the receiving quaternion
  * @method module:quat.calculateW
  */
 quat.calculateW = function (a, out) {
@@ -1645,8 +1645,8 @@ quat.calculateW = function (a, out) {
 /**
  * Calculates the dot product of two quat's
  *
- * @param {quat} a the first operand
- * @param {quat} b the second operand
+ * @param {Quat} a the first operand
+ * @param {Quat} b the second operand
  * @returns {Number} dot product of a and b
  * @function
  * @method module:quat.dot
@@ -1656,12 +1656,12 @@ quat.dot = vec4.dot;
 /**
  * Performs a linear interpolation between two quat's
  *
- * @param {quat} a the first operand
- * @param {quat} b the second operand
+ * @param {Quat} a the first operand
+ * @param {Quat} b the second operand
  * @param {Number} t interpolation amount between the two inputs
- * @returns {quat} out
+ * @returns {Quat} out
  * @function
- * @param {quat} out the receiving quaternion
+ * @param {Quat} out the receiving quaternion
  * @method module:quat.lerp
  */
 quat.lerp = vec4.lerp;
@@ -1669,11 +1669,11 @@ quat.lerp = vec4.lerp;
 /**
  * Performs a spherical linear interpolation between two quat
  *
- * @param {quat} a the first operand
- * @param {quat} b the second operand
+ * @param {Quat} a the first operand
+ * @param {Quat} b the second operand
  * @param {Number} t interpolation amount between the two inputs
- * @returns {quat} out
- * @param {quat} out the receiving quaternion
+ * @returns {Quat} out
+ * @param {Quat} out the receiving quaternion
  * @method module:quat.slerp
  */
 quat.slerp = function (a, b, t, out) {
@@ -1720,9 +1720,9 @@ quat.slerp = function (a, b, t, out) {
 /**
  * Calculates the inverse of a quat
  *
- * @param {quat} a quat to calculate inverse of
- * @returns {quat} out
- * @param {quat} out the receiving quaternion
+ * @param {Quat} a quat to calculate inverse of
+ * @returns {Quat} out
+ * @param {Quat} out the receiving quaternion
  * @method module:quat.invert
  */
 quat.invert = function(a, out) {
@@ -1743,9 +1743,9 @@ quat.invert = function(a, out) {
  * Calculates the conjugate of a quat
  * If the quaternion is normalized, this function is faster than quat.inverse and produces the same result.
  *
- * @param {quat} a quat to calculate conjugate of
- * @returns {quat} out
- * @param {quat} out the receiving quaternion
+ * @param {Quat} a quat to calculate conjugate of
+ * @returns {Quat} out
+ * @param {Quat} out the receiving quaternion
  * @method module:quat.conjugate
  */
 quat.conjugate = function (a, out) {
@@ -1759,7 +1759,7 @@ quat.conjugate = function (a, out) {
 /**
  * Calculates the length of a quat
  *
- * @param {quat} a vector to calculate length of
+ * @param {Quat} a vector to calculate length of
  * @returns {Number} length of a
  * @function
  * @method module:quat.length
@@ -1776,7 +1776,7 @@ quat.len = quat.length;
 /**
  * Calculates the squared length of a quat
  *
- * @param {quat} a vector to calculate squared length of
+ * @param {Quat} a vector to calculate squared length of
  * @returns {Number} squared length of a
  * @function
  * @method module:quat.squaredLength
@@ -1793,10 +1793,10 @@ quat.sqrLen = quat.squaredLength;
 /**
  * Normalize a quat
  *
- * @param {quat} a quaternion to normalize
- * @returns {quat} out
+ * @param {Quat} a quaternion to normalize
+ * @returns {Quat} out
  * @function
- * @param {quat} out the receiving quaternion
+ * @param {Quat} out the receiving quaternion
  * @method module:quat.normalize
  */
 quat.normalize = vec4.normalize;
@@ -1807,10 +1807,10 @@ quat.normalize = vec4.normalize;
  * NOTE: The resultant quaternion is not normalized, so you should be sure
  * to renormalize the quaternion yourself where necessary.
  *
- * @param {mat3} m rotation matrix
- * @returns {quat} out
+ * @param {Mat3} m rotation matrix
+ * @returns {Quat} out
  * @function
- * @param {quat} out the receiving quaternion
+ * @param {Quat} out the receiving quaternion
  * @method module:quat.fromMat3
  */
 quat.fromMat3 = function(m, out) {
@@ -1851,7 +1851,7 @@ quat.fromMat3 = function(m, out) {
 /**
  * Returns a string representation of a quatenion
  *
- * @param {quat} vec vector to represent as a string
+ * @param {Quat} vec vector to represent as a string
  * @returns {String} string representation of the vector
  * @method module:quat.str
  */
@@ -1902,7 +1902,7 @@ var mat3 = exports;
 /**
  * Creates a new identity mat3
  *
- * @returns {mat3} a new 3x3 matrix
+ * @returns {Mat3} a new 3x3 matrix
  * @method module:mat3.create
  */
 mat3.create = function() {
@@ -1922,9 +1922,9 @@ mat3.create = function() {
 /**
  * Copies the upper-left 3x3 values into the given mat3.
  *
- * @param {mat4} a   the source 4x4 matrix
- * @returns {mat3} out
- * @param {mat3} out the receiving 3x3 matrix
+ * @param {Mat4} a   the source 4x4 matrix
+ * @returns {Mat3} out
+ * @param {Mat3} out the receiving 3x3 matrix
  * @method module:mat3.fromMat4
  */
 mat3.fromMat4 = function(a, out) {
@@ -1943,8 +1943,8 @@ mat3.fromMat4 = function(a, out) {
 /**
  * Creates a new mat3 initialized with values from an existing matrix
  *
- * @param {mat3} a matrix to clone
- * @returns {mat3} a new 3x3 matrix
+ * @param {Mat3} a matrix to clone
+ * @returns {Mat3} a new 3x3 matrix
  * @method module:mat3.clone
  */
 mat3.clone = function(a) {
@@ -1964,9 +1964,9 @@ mat3.clone = function(a) {
 /**
  * Copy the values from one mat3 to another
  *
- * @param {mat3} a the source matrix
- * @returns {mat3} out
- * @param {mat3} out the receiving matrix
+ * @param {Mat3} a the source matrix
+ * @returns {Mat3} out
+ * @param {Mat3} out the receiving matrix
  * @method module:mat3.copy
  */
 mat3.copy = function(a, out) {
@@ -1985,8 +1985,8 @@ mat3.copy = function(a, out) {
 /**
  * Set a mat3 to the identity matrix
  *
- * @returns {mat3} out
- * @param {mat3} out the receiving matrix
+ * @returns {Mat3} out
+ * @param {Mat3} out the receiving matrix
  * @method module:mat3.identity
  */
 mat3.identity = function(out) {
@@ -2005,9 +2005,9 @@ mat3.identity = function(out) {
 /**
  * Transpose the values of a mat3
  *
- * @param {mat3} a the source matrix
- * @returns {mat3} out
- * @param {mat3} out the receiving matrix
+ * @param {Mat3} a the source matrix
+ * @returns {Mat3} out
+ * @param {Mat3} out the receiving matrix
  * @method module:mat3.transpose
  */
 mat3.transpose = function(a, out) {
@@ -2038,9 +2038,9 @@ mat3.transpose = function(a, out) {
 /**
  * Inverts a mat3
  *
- * @param {mat3} a the source matrix
- * @returns {mat3} out
- * @param {mat3} out the receiving matrix
+ * @param {Mat3} a the source matrix
+ * @returns {Mat3} out
+ * @param {Mat3} out the receiving matrix
  * @method module:mat3.invert
  */
 mat3.invert = function(a, out) {
@@ -2075,9 +2075,9 @@ mat3.invert = function(a, out) {
 /**
  * Calculates the adjugate of a mat3
  *
- * @param {mat3} a the source matrix
- * @returns {mat3} out
- * @param {mat3} out the receiving matrix
+ * @param {Mat3} a the source matrix
+ * @returns {Mat3} out
+ * @param {Mat3} out the receiving matrix
  * @method module:mat3.adjoint
  */
 mat3.adjoint = function(a, out) {
@@ -2100,7 +2100,7 @@ mat3.adjoint = function(a, out) {
 /**
  * Calculates the determinant of a mat3
  *
- * @param {mat3} a the source matrix
+ * @param {Mat3} a the source matrix
  * @returns {Number} determinant of a
  * @method module:mat3.determinant
  */
@@ -2115,10 +2115,10 @@ mat3.determinant = function (a) {
 /**
  * Multiplies two mat3's
  *
- * @param {mat3} a the first operand
- * @param {mat3} b the second operand
- * @returns {mat3} out
- * @param {mat3} out the receiving matrix
+ * @param {Mat3} a the first operand
+ * @param {Mat3} b the second operand
+ * @returns {Mat3} out
+ * @param {Mat3} out the receiving matrix
  * @method module:mat3.multiply
  */
 mat3.multiply = function (a, b, out) {
@@ -2154,10 +2154,10 @@ mat3.mul = mat3.multiply;
 /**
  * Translate a mat3 by the given vector
  *
- * @param {mat3} a the matrix to translate
+ * @param {Mat3} a the matrix to translate
  * @param {vec2} v vector to translate by
- * @returns {mat3} out
- * @param {mat3} out the receiving matrix
+ * @returns {Mat3} out
+ * @param {Mat3} out the receiving matrix
  * @method module:mat3.translate
  */
 mat3.translate = function(a, v, out) {
@@ -2183,10 +2183,10 @@ mat3.translate = function(a, v, out) {
 /**
  * Rotates a mat3 by the given angle
  *
- * @param {mat3} a the matrix to rotate
+ * @param {Mat3} a the matrix to rotate
  * @param {Number} rad the angle to rotate the matrix by
- * @returns {mat3} out
- * @param {mat3} out the receiving matrix
+ * @returns {Mat3} out
+ * @param {Mat3} out the receiving matrix
  * @method module:mat3.rotate
  */
 mat3.rotate = function (a, rad, out) {
@@ -2214,10 +2214,10 @@ mat3.rotate = function (a, rad, out) {
 /**
  * Scales the mat3 by the dimensions in the given vec2
  *
- * @param {mat3} a the matrix to rotate
+ * @param {Mat3} a the matrix to rotate
  * @param {vec2} v the vec2 to scale the matrix by
- * @returns {mat3} out
- * @param {mat3} out the receiving matrix
+ * @returns {Mat3} out
+ * @param {Mat3} out the receiving matrix
  * @method module:mat3.scale
  */
 mat3.scale = function(a, v, out) {
@@ -2245,8 +2245,8 @@ mat3.scale = function(a, v, out) {
  *     mat3.translate(dest, dest, vec);
  *
  * @param {vec2} v Translation vector
- * @returns {mat3} out
- * @param {mat3} out mat3 receiving operation result
+ * @returns {Mat3} out
+ * @param {Mat3} out mat3 receiving operation result
  * @method module:mat3.fromTranslation
  */
 mat3.fromTranslation = function(v, out) {
@@ -2270,8 +2270,8 @@ mat3.fromTranslation = function(v, out) {
  *     mat3.rotate(dest, dest, rad);
  *
  * @param {Number} rad the angle to rotate the matrix by
- * @returns {mat3} out
- * @param {mat3} out mat3 receiving operation result
+ * @returns {Mat3} out
+ * @param {Mat3} out mat3 receiving operation result
  * @method module:mat3.fromRotation
  */
 mat3.fromRotation = function(rad, out) {
@@ -2299,8 +2299,8 @@ mat3.fromRotation = function(rad, out) {
  *     mat3.scale(dest, dest, vec);
  *
  * @param {vec2} v Scaling vector
- * @returns {mat3} out
- * @param {mat3} out mat3 receiving operation result
+ * @returns {Mat3} out
+ * @param {Mat3} out mat3 receiving operation result
  * @method module:mat3.fromScaling
  */
 mat3.fromScaling = function(v, out) {
@@ -2322,8 +2322,8 @@ mat3.fromScaling = function(v, out) {
  * Copies the values from a mat2d into a mat3
  *
  * @param {mat2d} a the matrix to copy
- * @returns {mat3} out
- * @param {mat3} out the receiving matrix
+ * @returns {Mat3} out
+ * @param {Mat3} out the receiving matrix
  * @method module:mat3.fromMat2d
  */
 mat3.fromMat2d = function(a, out) {
@@ -2344,10 +2344,10 @@ mat3.fromMat2d = function(a, out) {
 /**
 * Calculates a 3x3 matrix from the given quaternion
 *
-* @param {quat} q Quaternion to create matrix from
+* @param {Quat} q Quaternion to create matrix from
 *
-* @returns {mat3} out
-* @param {mat3} out mat3 receiving operation result
+* @returns {Mat3} out
+* @param {Mat3} out mat3 receiving operation result
  * @method module:mat3.fromQuat
  */
 mat3.fromQuat = function (q, out) {
@@ -2384,10 +2384,10 @@ mat3.fromQuat = function (q, out) {
 /**
 * Calculates a 3x3 normal matrix (transpose inverse) from the 4x4 matrix
 *
-* @param {mat4} a Mat4 to derive the normal matrix from
+* @param {Mat4} a Mat4 to derive the normal matrix from
 *
-* @returns {mat3} out
-* @param {mat3} out mat3 receiving operation result
+* @returns {Mat3} out
+* @param {Mat3} out mat3 receiving operation result
  * @method module:mat3.normalFromMat4
  */
 mat3.normalFromMat4 = function (a, out) {
@@ -2435,7 +2435,7 @@ mat3.normalFromMat4 = function (a, out) {
 /**
  * Returns a string representation of a mat3
  *
- * @param {mat3} mat matrix to represent as a string
+ * @param {Mat3} mat matrix to represent as a string
  * @returns {String} string representation of the matrix
  * @method module:mat3.str
  */
@@ -2448,7 +2448,7 @@ mat3.str = function (a) {
 /**
  * Returns Frobenius norm of a mat3
  *
- * @param {mat3} a the matrix to calculate Frobenius norm of
+ * @param {Mat3} a the matrix to calculate Frobenius norm of
  * @returns {Number} Frobenius norm
  * @method module:mat3.frob
  */
@@ -2500,7 +2500,7 @@ var mat4 = exports;
 /**
  * Creates a new identity mat4
  *
- * @returns {mat4} a new 4x4 matrix
+ * @returns {Mat4} a new 4x4 matrix
  * @method module:mat4.create
  */
 mat4.create = function() {
@@ -2527,8 +2527,8 @@ mat4.create = function() {
 /**
  * Creates a new mat4 initialized with values from an existing matrix
  *
- * @param {mat4} a matrix to clone
- * @returns {mat4} a new 4x4 matrix
+ * @param {Mat4} a matrix to clone
+ * @returns {Mat4} a new 4x4 matrix
  * @method module:mat4.clone
  */
 mat4.clone = function(a) {
@@ -2555,9 +2555,9 @@ mat4.clone = function(a) {
 /**
  * Copy the values from one mat4 to another
  *
- * @param {mat4} a the source matrix
- * @returns {mat4} out
- * @param {mat4} out the receiving matrix
+ * @param {Mat4} a the source matrix
+ * @returns {Mat4} out
+ * @param {Mat4} out the receiving matrix
  * @method module:mat4.copy
  */
 mat4.copy = function(a, out) {
@@ -2583,8 +2583,8 @@ mat4.copy = function(a, out) {
 /**
  * Set a mat4 to the identity matrix
  *
- * @returns {mat4} out
- * @param {mat4} out the receiving matrix
+ * @returns {Mat4} out
+ * @param {Mat4} out the receiving matrix
  * @method module:mat4.identity
  */
 mat4.identity = function(out) {
@@ -2610,9 +2610,9 @@ mat4.identity = function(out) {
 /**
  * Transpose the values of a mat4
  *
- * @param {mat4} a the source matrix
- * @returns {mat4} out
- * @param {mat4} out the receiving matrix
+ * @param {Mat4} a the source matrix
+ * @returns {Mat4} out
+ * @param {Mat4} out the receiving matrix
  * @method module:mat4.transpose
  */
 mat4.transpose = function(a, out) {
@@ -2659,9 +2659,9 @@ mat4.transpose = function(a, out) {
 /**
  * Inverts a mat4
  *
- * @param {mat4} a the source matrix
- * @returns {mat4} out
- * @param {mat4} out the receiving matrix
+ * @param {Mat4} a the source matrix
+ * @returns {Mat4} out
+ * @param {Mat4} out the receiving matrix
  * @method module:mat4.invert
  */
 mat4.invert = function(a, out) {
@@ -2714,9 +2714,9 @@ mat4.invert = function(a, out) {
 /**
  * Calculates the adjugate of a mat4
  *
- * @param {mat4} a the source matrix
- * @returns {mat4} out
- * @param {mat4} out the receiving matrix
+ * @param {Mat4} a the source matrix
+ * @returns {Mat4} out
+ * @param {Mat4} out the receiving matrix
  * @method module:mat4.adjoint
  */
 mat4.adjoint = function(a, out) {
@@ -2747,7 +2747,7 @@ mat4.adjoint = function(a, out) {
 /**
  * Calculates the determinant of a mat4
  *
- * @param {mat4} a the source matrix
+ * @param {Mat4} a the source matrix
  * @returns {Number} determinant of a
  * @method module:mat4.determinant
  */
@@ -2777,10 +2777,10 @@ mat4.determinant = function (a) {
 /**
  * Multiplies two mat4's
  *
- * @param {mat4} a the first operand
- * @param {mat4} b the second operand
- * @returns {mat4} out
- * @param {mat4} out the receiving matrix
+ * @param {Mat4} a the first operand
+ * @param {Mat4} b the second operand
+ * @returns {Mat4} out
+ * @param {Mat4} out the receiving matrix
  * @method module:mat4.multiply
  */
 mat4.multiply = function (a, b, out) {
@@ -2826,10 +2826,10 @@ mat4.mul = mat4.multiply;
 /**
  * Translate a mat4 by the given vector
  *
- * @param {mat4} a the matrix to translate
- * @param {vec3} v vector to translate by
- * @returns {mat4} out
- * @param {mat4} out the receiving matrix
+ * @param {Mat4} a the matrix to translate
+ * @param {Vec3} v vector to translate by
+ * @returns {Mat4} out
+ * @param {Mat4} out the receiving matrix
  * @method module:mat4.translate
  */
 mat4.translate = function (a, v, out) {
@@ -2864,10 +2864,10 @@ mat4.translate = function (a, v, out) {
 /**
  * Scales the mat4 by the dimensions in the given vec3
  *
- * @param {mat4} a the matrix to scale
- * @param {vec3} v the vec3 to scale the matrix by
- * @returns {mat4} out
- * @param {mat4} out the receiving matrix
+ * @param {Mat4} a the matrix to scale
+ * @param {Vec3} v the vec3 to scale the matrix by
+ * @returns {Mat4} out
+ * @param {Mat4} out the receiving matrix
  * @method module:mat4.scale
  */
 mat4.scale = function(a, v, out) {
@@ -2895,11 +2895,11 @@ mat4.scale = function(a, v, out) {
 /**
  * Rotates a mat4 by the given angle around the given axis
  *
- * @param {mat4} a the matrix to rotate
+ * @param {Mat4} a the matrix to rotate
  * @param {Number} rad the angle to rotate the matrix by
- * @param {vec3} axis the axis to rotate around
- * @returns {mat4} out
- * @param {mat4} out the receiving matrix
+ * @param {Vec3} axis the axis to rotate around
+ * @returns {Mat4} out
+ * @param {Mat4} out the receiving matrix
  * @method module:mat4.rotate
  */
 mat4.rotate = function (a, rad, axis, out) {
@@ -2959,10 +2959,10 @@ mat4.rotate = function (a, rad, axis, out) {
 /**
  * Rotates a matrix by the given angle around the X axis
  *
- * @param {mat4} a the matrix to rotate
+ * @param {Mat4} a the matrix to rotate
  * @param {Number} rad the angle to rotate the matrix by
- * @returns {mat4} out
- * @param {mat4} out the receiving matrix
+ * @returns {Mat4} out
+ * @param {Mat4} out the receiving matrix
  * @method module:mat4.rotateX
  */
 mat4.rotateX = function (a, rad, out) {
@@ -3003,10 +3003,10 @@ mat4.rotateX = function (a, rad, out) {
 /**
  * Rotates a matrix by the given angle around the Y axis
  *
- * @param {mat4} a the matrix to rotate
+ * @param {Mat4} a the matrix to rotate
  * @param {Number} rad the angle to rotate the matrix by
- * @returns {mat4} out
- * @param {mat4} out the receiving matrix
+ * @returns {Mat4} out
+ * @param {Mat4} out the receiving matrix
  * @method module:mat4.rotateY
  */
 mat4.rotateY = function (a, rad, out) {
@@ -3047,10 +3047,10 @@ mat4.rotateY = function (a, rad, out) {
 /**
  * Rotates a matrix by the given angle around the Z axis
  *
- * @param {mat4} a the matrix to rotate
+ * @param {Mat4} a the matrix to rotate
  * @param {Number} rad the angle to rotate the matrix by
- * @returns {mat4} out
- * @param {mat4} out the receiving matrix
+ * @returns {Mat4} out
+ * @param {Mat4} out the receiving matrix
  * @method module:mat4.rotateZ
  */
 mat4.rotateZ = function (a, rad, out) {
@@ -3095,9 +3095,9 @@ mat4.rotateZ = function (a, rad, out) {
  *     mat4.identity(dest);
  *     mat4.translate(dest, dest, vec);
  *
- * @param {vec3} v Translation vector
- * @returns {mat4} out
- * @param {mat4} out mat4 receiving operation result
+ * @param {Vec3} v Translation vector
+ * @returns {Mat4} out
+ * @param {Mat4} out mat4 receiving operation result
  * @method module:mat4.fromTranslation
  */
 mat4.fromTranslation = function(v, out) {
@@ -3127,9 +3127,9 @@ mat4.fromTranslation = function(v, out) {
  *     mat4.identity(dest);
  *     mat4.scale(dest, dest, vec);
  *
- * @param {vec3} v Scaling vector
- * @returns {mat4} out
- * @param {mat4} out mat4 receiving operation result
+ * @param {Vec3} v Scaling vector
+ * @returns {Mat4} out
+ * @param {Mat4} out mat4 receiving operation result
  * @method module:mat4.fromScaling
  */
 mat4.fromScaling = function(v, out) {
@@ -3160,9 +3160,9 @@ mat4.fromScaling = function(v, out) {
  *     mat4.rotate(dest, dest, rad, axis);
  *
  * @param {Number} rad the angle to rotate the matrix by
- * @param {vec3} axis the axis to rotate around
- * @returns {mat4} out
- * @param {mat4} out mat4 receiving operation result
+ * @param {Vec3} axis the axis to rotate around
+ * @returns {Mat4} out
+ * @param {Mat4} out mat4 receiving operation result
  * @method module:mat4.fromRotation
  */
 mat4.fromRotation = function(rad, axis, out) {
@@ -3209,8 +3209,8 @@ mat4.fromRotation = function(rad, axis, out) {
  *     mat4.rotateX(dest, dest, rad);
  *
  * @param {Number} rad the angle to rotate the matrix by
- * @returns {mat4} out
- * @param {mat4} out mat4 receiving operation result
+ * @returns {Mat4} out
+ * @param {Mat4} out mat4 receiving operation result
  * @method module:mat4.fromXRotation
  */
 mat4.fromXRotation = function(rad, out) {
@@ -3245,8 +3245,8 @@ mat4.fromXRotation = function(rad, out) {
  *     mat4.rotateY(dest, dest, rad);
  *
  * @param {Number} rad the angle to rotate the matrix by
- * @returns {mat4} out
- * @param {mat4} out mat4 receiving operation result
+ * @returns {Mat4} out
+ * @param {Mat4} out mat4 receiving operation result
  * @method module:mat4.fromYRotation
  */
 mat4.fromYRotation = function(rad, out) {
@@ -3281,8 +3281,8 @@ mat4.fromYRotation = function(rad, out) {
  *     mat4.rotateZ(dest, dest, rad);
  *
  * @param {Number} rad the angle to rotate the matrix by
- * @returns {mat4} out
- * @param {mat4} out mat4 receiving operation result
+ * @returns {Mat4} out
+ * @param {Mat4} out mat4 receiving operation result
  * @method module:mat4.fromZRotation
  */
 mat4.fromZRotation = function(rad, out) {
@@ -3320,9 +3320,9 @@ mat4.fromZRotation = function(rad, out) {
  *     mat4.multiply(dest, quatMat);
  *
  * @param {quat4} q Rotation quaternion
- * @param {vec3} v Translation vector
- * @returns {mat4} out
- * @param {mat4} out mat4 receiving operation result
+ * @param {Vec3} v Translation vector
+ * @returns {Mat4} out
+ * @param {Mat4} out mat4 receiving operation result
  * @method module:mat4.fromRotationTranslation
  */
 mat4.fromRotationTranslation = function (q, v, out) {
@@ -3410,8 +3410,8 @@ mat4.fromQuat = function (q, out) {
  * @param {Number} top Top bound of the frustum
  * @param {Number} near Near bound of the frustum
  * @param {Number} far Far bound of the frustum
- * @returns {mat4} out
- * @param {mat4} out mat4 frustum matrix will be written into
+ * @returns {Mat4} out
+ * @param {Mat4} out mat4 frustum matrix will be written into
  * @method module:mat4.frustum
  */
 mat4.frustum = function (left, right, bottom, top, near, far, out) {
@@ -3444,8 +3444,8 @@ mat4.frustum = function (left, right, bottom, top, near, far, out) {
  * @param {number} aspect Aspect ratio. typically viewport width/height
  * @param {number} near Near bound of the frustum
  * @param {number} far Far bound of the frustum
- * @returns {mat4} out
- * @param {mat4} out mat4 frustum matrix will be written into
+ * @returns {Mat4} out
+ * @param {Mat4} out mat4 frustum matrix will be written into
  * @method module:mat4.perspective
  */
 mat4.perspective = function (fovy, aspect, near, far, out) {
@@ -3478,8 +3478,8 @@ mat4.perspective = function (fovy, aspect, near, far, out) {
  * @param {number} fov Object containing the following values: upDegrees, downDegrees, leftDegrees, rightDegrees
  * @param {number} near Near bound of the frustum
  * @param {number} far Far bound of the frustum
- * @returns {mat4} out
- * @param {mat4} out mat4 frustum matrix will be written into
+ * @returns {Mat4} out
+ * @param {Mat4} out mat4 frustum matrix will be written into
  * @method module:mat4.perspectiveFromFieldOfView
  */
 mat4.perspectiveFromFieldOfView = function (fov, near, far, out) {
@@ -3518,8 +3518,8 @@ mat4.perspectiveFromFieldOfView = function (fov, near, far, out) {
  * @param {number} top Top bound of the frustum
  * @param {number} near Near bound of the frustum
  * @param {number} far Far bound of the frustum
- * @returns {mat4} out
- * @param {mat4} out mat4 frustum matrix will be written into
+ * @returns {Mat4} out
+ * @param {Mat4} out mat4 frustum matrix will be written into
  * @method module:mat4.ortho
  */
 mat4.ortho = function (left, right, bottom, top, near, far, out) {
@@ -3548,11 +3548,11 @@ mat4.ortho = function (left, right, bottom, top, near, far, out) {
 /**
  * Generates a look-at matrix with the given eye position, focal point, and up axis
  *
- * @param {vec3} eye Position of the viewer
- * @param {vec3} center Point the viewer is looking at
- * @param {vec3} up vec3 pointing up
- * @returns {mat4} out
- * @param {mat4} out mat4 frustum matrix will be written into
+ * @param {Vec3} eye Position of the viewer
+ * @param {Vec3} center Point the viewer is looking at
+ * @param {Vec3} up vec3 pointing up
+ * @returns {Mat4} out
+ * @param {Mat4} out mat4 frustum matrix will be written into
  * @method module:mat4.lookAt
  */
 mat4.lookAt = function (eye, center, up, out) {
@@ -3636,7 +3636,7 @@ mat4.lookAt = function (eye, center, up, out) {
 /**
  * Returns a string representation of a mat4
  *
- * @param {mat4} mat matrix to represent as a string
+ * @param {Mat4} mat matrix to represent as a string
  * @returns {String} string representation of the matrix
  * @method module:mat4.str
  */
@@ -3650,7 +3650,7 @@ mat4.str = function (a) {
 /**
  * Returns Frobenius norm of a mat4
  *
- * @param {mat4} a the matrix to calculate Frobenius norm of
+ * @param {Mat4} a the matrix to calculate Frobenius norm of
  * @returns {Number} Frobenius norm
  * @method module:mat4.frob
  */

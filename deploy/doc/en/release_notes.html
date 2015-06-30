@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Release Notes &mdash; User Manual: Blend4Web v15.05</title>
+    <title>Release Notes &mdash; User Manual: Blend4Web v15.06</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '15.05',
+        VERSION:     '15.06',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User Manual: Blend4Web v15.05" href="index.html" />
+    <link rel="top" title="User Manual: Blend4Web v15.06" href="index.html" />
     <link rel="prev" title="Problems and Solutions" href="problems_and_solutions.html" /> 
   </head>
   <body role="document">
@@ -35,7 +35,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">User Manual: Blend4Web v15.05</a></div>
+          href="index.html">User Manual: Blend4Web v15.06</a></div>
         <div class="rel" role="navigation" aria-label="related navigation">
           <a href="problems_and_solutions.html" title="Problems and Solutions"
              accesskey="P">previous</a> |
@@ -55,10 +55,234 @@
             
   <div class="section" id="release-notes">
 <span id="id1"></span><h1>Release Notes<a class="headerlink" href="#release-notes" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="v15-05">
-<span id="index-0"></span><h2>v15.05<a class="headerlink" href="#v15-05" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="v15-06">
+<span id="index-0"></span><h2>v15.06<a class="headerlink" href="#v15-06" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id2">
 <h3>New Features<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first">New add-on user interface.</p>
+<blockquote>
+<div><p>Add-on interface has been redesigned. It is now activated by the new rendering profile, <em>Blend4Web</em>, which only contains panels and options explicitly supported by the engine. To simplify navigation, the old multi-line Blend4Web panels have been re-grouped into the smaller ones, based on functionality.</p>
+<p>Also, there is a new feature to automatically assign graphic effects required for a scene. In particular, shadows, refraction, <em>Glow</em> and <em>Outline</em> effects acquired the new <em>AUTO</em> property which automatically activates them if some objects or materials located on the scene require such effects.</p>
+</div></blockquote>
+</li>
+<li><p class="first">New normal editor.</p>
+<blockquote>
+<div><p>The normal editor has been substantially upgraded. Now it is fully compatible with the native Blender datablock used to store normals. This new editor has more efficient UI and also allows to edit split normals.</p>
+</div></blockquote>
+</li>
+<li><p class="first">Support for new material nodes.</p>
+<blockquote>
+<div><p><code class="docutils literal"><span class="pre">Orco</span></code> and <code class="docutils literal"><span class="pre">Local</span></code> outputs of <cite>Geometry</cite> node are now supported. There are also some preliminary steps to support <cite>RGB Curves</cite>, <cite>Vector Curves</cite>, <cite>ColorRamp</cite> and Cycles nodes.</p>
+</div></blockquote>
+</li>
+<li><p class="first">New shading models.</p>
+<blockquote>
+<div><p><cite>Minnaert</cite>/<cite>Toon</cite> diffuse shaders and <cite>Blinn</cite> specular shader have been implemented. Thus, starting from this release the engine supports all shading models of Blender.</p>
+</div></blockquote>
+</li>
+<li><p class="first">Support for Blender 2.75</p>
+</li>
+<li><p class="first">Multiple physics improvements.</p>
+<blockquote>
+<div><p>Code for collision detection has been rewritten. Now it is possible to determine colliding objects, and also the coordinates and the normal at the collision point.</p>
+<p>Improved ray casting API. In particular, one can specify an option to perform an automatic cleanup of the ray test object and also another option to cast a ray through multiple objects. As in the case of collision detection, this new API allows to determine the target object and the position/normal of the hit point. There is also a new possibility to cast rays from point to point in global space, without requirement to specify a source object.</p>
+<p>Extended possibilites of <cite>Collision</cite> and <cite>Ray</cite> sensors.</p>
+<p>Support for deleting physics objects and automatic recalculation of collision/ray tests after physics objects have been added/removed.</p>
+</div></blockquote>
+</li>
+<li><p class="first">A new tool for reexporting multiple scenes.</p>
+<blockquote>
+<div><p>A new <cite>Mass Reexporter</cite> tool has been added to addon. This tool allows to automatically reexport all scenes from the specified list of directories.</p>
+</div></blockquote>
+</li>
+<li><p class="first">Possibility to check for updates.</p>
+<blockquote>
+<div><p>You can now enable a <code class="docutils literal"><span class="pre">Check</span> <span class="pre">for</span> <span class="pre">Updates</span> <span class="pre">on</span> <span class="pre">Startup</span></code> option in addon settings to perform automatic checks for the new versions of Blend4Web.</p>
+</div></blockquote>
+</li>
+<li><p class="first">API to control <em>Motion Blur</em> postprocessing effect.</p>
+<blockquote>
+<div><p>New methods to control Motion Blur effect <code class="docutils literal"><span class="pre">get_mb_params()</span></code> and <code class="docutils literal"><span class="pre">set_mb_params()</span></code> has been added to <code class="docutils literal"><span class="pre">scenes.js</span></code> module.</p>
+</div></blockquote>
+</li>
+<li><p class="first">Support for Timeline markers.</p>
+<blockquote>
+<div><p>To extract frame numbers from timeline markers a new method <code class="docutils literal"><span class="pre">marker_frame()</span></code> has been implemented in <code class="docutils literal"><span class="pre">scenes.js</span></code> module.</p>
+</div></blockquote>
+</li>
+<li><p class="first">New NLA APIs.</p>
+<blockquote>
+<div><p>A new set of methods: <code class="docutils literal"><span class="pre">set_range()</span></code>, <code class="docutils literal"><span class="pre">reset_range()</span></code>, <code class="docutils literal"><span class="pre">set_cyclic()</span></code> and <code class="docutils literal"><span class="pre">clear_callback()</span></code> has been added to <code class="docutils literal"><span class="pre">nla.js</span></code> module. Also, it&#8217;s now possible to specify callback in <code class="docutils literal"><span class="pre">play()</span></code> method.</p>
+</div></blockquote>
+</li>
+<li><p class="first">New API to change Canvas resolution.</p>
+<blockquote>
+<div><p>To change Canvas resolution it&#8217;s sufficient to execute method <code class="docutils literal"><span class="pre">set()</span></code> from <code class="docutils literal"><span class="pre">config.js</span></code> module with the following parameters: <code class="docutils literal"><span class="pre">canvas_resolution_factor</span></code> and <code class="docutils literal"><span class="pre">value</span></code>, where <code class="docutils literal"><span class="pre">value</span></code> is the new resolution of Canvas. This feature is particulary useful for creating high-definition screenshots.</p>
+</div></blockquote>
+</li>
+<li><p class="first">Support for <code class="docutils literal"><span class="pre">Vertex</span> <span class="pre">Groups</span> <span class="pre">-&gt;</span> <span class="pre">Length</span></code> option in <em>Hair</em> particle system.</p>
+</li>
+<li><p class="first">New API documentation.</p>
+<blockquote>
+<div><p>To document types used by Blend4Web applications we developed a new formal type system. For example, in our old API docs 3D vectors had <code class="docutils literal"><span class="pre">Float32Array</span></code> type. Now they have formal <code class="docutils literal"><span class="pre">Vec3</span></code> type. This solution allows us to formulate more clear and intelligible descriptions for API and, more importantly, helps our users to develop more readable and reliable applications.</p>
+</div></blockquote>
+</li>
+<li><p class="first">New colors API.</p>
+<blockquote>
+<div><p>To work with colors in efficient way two new modules: <a class="reference external" href="https://www.blend4web.com/api_doc/module-rgb.html">rgb</a> and <a class="reference external" href="https://www.blend4web.com/api_doc/module-rgba.html">rgba</a> have been created. They include APIs to create new color vectors and convert  them between different profiles.</p>
+</div></blockquote>
+</li>
+<li><p class="first">Automatic determination of path to SDK.</p>
+<blockquote>
+<div><p>Addon option <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">SDK</span> <span class="pre">Directory</span></code> is filled up automatically, if the addon is located in default <code class="docutils literal"><span class="pre">blender_scripts</span></code> directory inside SDK.</p>
+</div></blockquote>
+</li>
+<li><p class="first">API for correct calculation of Canvas 2D coordinates.</p>
+<blockquote>
+<div><p>For proper manipulations with mouse cursor and touchscreen devices the engine requires correct 2D Canvas coordinates.</p>
+<p>Details about calculation and use cases of such coordinates are described in the separate <a class="reference internal" href="developers.html#canvas-nonfullscreen-coords"><span>topic</span></a>.</p>
+<p>To support this feature the following methods have been added to engine&#8217;s APIs: <code class="docutils literal"><span class="pre">client_to_canvas_coords()</span></code>, <code class="docutils literal"><span class="pre">set_canvas_offsets()</span></code>, <code class="docutils literal"><span class="pre">update_canvas_offsets()</span></code> and <code class="docutils literal"><span class="pre">force_offsets_updating()</span></code>. Also, there is a new configuration option: <code class="docutils literal"><span class="pre">track_container_position</span></code>.</p>
+</div></blockquote>
+</li>
+<li><p class="first">API to change smooth factors of the camera&#8217;s movement.</p>
+<blockquote>
+<div><p>To change smooth factors of the camera&#8217;s movement the following APIs have been implemented: <code class="docutils literal"><span class="pre">set_plock_smooth_factor()</span></code> and <code class="docutils literal"><span class="pre">get_plock_smooth_factor()</span></code> in <code class="docutils literal"><span class="pre">mouse.js</span></code> module (for Pointer Lock mode)  and also <code class="docutils literal"><span class="pre">set_camera_smooth_factor()</span></code> and <code class="docutils literal"><span class="pre">get_camera_smooth_factor()</span></code> in <code class="docutils literal"><span class="pre">app.js</span></code> addon (for general use cases).</p>
+</div></blockquote>
+</li>
+<li><p class="first">New favicon picture has been added to Webplayer.</p>
+</li>
+</ul>
+</div>
+<div class="section" id="id3">
+<h3>Changes<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first">New API spec for collision detection and ray casting.</p>
+<blockquote>
+<div><p>Methods <code class="docutils literal"><span class="pre">append_collision_test()</span></code> and <code class="docutils literal"><span class="pre">append_ray_test()</span></code>, as well as <code class="docutils literal"><span class="pre">create_collision_sensor()</span></code> and <code class="docutils literal"><span class="pre">create_ray_sensor()</span></code> are now have new spec, which is incompatible with the previous versions of Blend4Web engine. All developers should consider upgrading their applications to match this new behavior.</p>
+</div></blockquote>
+</li>
+<li><p class="first">Rendering to texture changes.</p>
+<blockquote>
+<div><p>It&#8217;s now possible to render scene into texture cyclically, e.g. when two scenes render one into another. The main constraint here is the requirement to have at least one scene, into which is nothing is being rendered.</p>
+</div></blockquote>
+</li>
+<li><p class="first">The option <code class="docutils literal"><span class="pre">Apply</span> <span class="pre">Default</span> <span class="pre">Animation</span></code> is now disabled if an object already have an NLA animation attached.</p>
+<blockquote>
+<div><p>In cases when the object already have an NLA animation attached, the option <code class="docutils literal"><span class="pre">Apply</span> <span class="pre">Default</span> <span class="pre">Animation</span></code> is disabled to eliminate possible animation conflicts.</p>
+</div></blockquote>
+</li>
+<li><p class="first">Changed <em>Hemi</em> lamp behavior.</p>
+<blockquote>
+<div><p>If the object is being illuminated by the <em>Hemi</em> lamp, the <em>Lambert</em> shading model will allways be applied to it&#8217;s materials. This is done to match the Blender&#8217;s behavior.</p>
+</div></blockquote>
+</li>
+<li><p class="first">Support for exported-to-HTML video textures in Firefox browser.</p>
+<blockquote>
+<div><p>Since Firefox 38 an error with video textures exported to base64 was fixed, so it&#8217;s now possible to use them in such browsers.</p>
+</div></blockquote>
+</li>
+<li><p class="first">Changed assignment of UV layers to match Blender&#8217;s behavior.</p>
+<blockquote>
+<div><p>Missing from node materials UV layers are determined automatically as it&#8217;s done in Blender.</p>
+</div></blockquote>
+</li>
+<li><p class="first">Improved stability of exported to HTML video textures.</p>
+</li>
+<li><p class="first">Optimizations of CSM shadows.</p>
+</li>
+<li><p class="first">Depth shader optimizations.</p>
+</li>
+<li><p class="first">Billboard objects optimizations.</p>
+</li>
+<li><p class="first">Configuration option <code class="docutils literal"><span class="pre">resolution_factor</span></code> was renamed to <code class="docutils literal"><span class="pre">render_resolution_factor</span></code>.</p>
+</li>
+<li><p class="first">Improved support for particle emitters which have several materials.</p>
+<blockquote>
+<div><p>Distribution of the particles to emitters as well as <a class="reference internal" href="particles_instancing.html#particles-inheritance"><span>vertex colors inheritance</span></a> is being done taking into account each material i.e mesh part.</p>
+</div></blockquote>
+</li>
+<li><p class="first">Changed <code class="docutils literal"><span class="pre">Wind</span> <span class="pre">Bending</span></code> inheritance on particle systems.</p>
+<blockquote>
+<div><p>If <em>Wind Bending Inheritance</em> property is set to <code class="docutils literal"><span class="pre">Instance</span></code> then <code class="docutils literal"><span class="pre">Wind</span> <span class="pre">beinding</span></code> property for emitter object is not switched of anymore.</p>
+</div></blockquote>
+</li>
+<li><p class="first">Updated messages about addon/engine version incompatibilities.</p>
+<blockquote>
+<div><p>For more info see <a class="reference internal" href="addon.html#version-errors"><span>version errors</span></a>.</p>
+</div></blockquote>
+</li>
+<li><p class="first">Remove sensor locks API.</p>
+<blockquote>
+<div><p>Unused sensor locks API was removed from <code class="docutils literal"><span class="pre">controls.js</span></code> module.</p>
+</div></blockquote>
+</li>
+<li><p class="first">Fixed behavior of node materials with missing <em>Output</em> node.</p>
+</li>
+</ul>
+</div>
+<div class="section" id="id4">
+<h3>Fixes<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first">Fixes in <code class="docutils literal"><span class="pre">screenshooter.js</span></code> addon.</p>
+<blockquote>
+<div><p>Fixed an error with impossibilty to take a screenshot.</p>
+</div></blockquote>
+</li>
+<li><p class="first">Fixed a bug in <code class="docutils literal"><span class="pre">set_frame()</span></code> method from <code class="docutils literal"><span class="pre">nla.js</span></code> module.</p>
+<blockquote>
+<div><p>Fixed <code class="docutils literal"><span class="pre">set_frame()</span></code> inaccurancy.</p>
+</div></blockquote>
+</li>
+<li><p class="first">Improved exported stability.</p>
+</li>
+<li><p class="first">Fixed a bug with addon removal/update on Windows.</p>
+<blockquote>
+<div><p>Refined binary loader in addon.</p>
+</div></blockquote>
+</li>
+<li><p class="first">Fixed a bug with shading from <em>SPOT</em>/<em>POINT</em> lamps.</p>
+</li>
+<li><p class="first">Fixed incorrect behavior of coordinate calculations in methods <code class="docutils literal"><span class="pre">get_coords_x()</span></code> and <code class="docutils literal"><span class="pre">get_coords_y()</span></code> from <code class="docutils literal"><span class="pre">mouse.js</span></code> addon.</p>
+</li>
+<li><p class="first">Fixed calculations of alpha channel in <em>Outline</em> effect.</p>
+</li>
+<li><p class="first">Fixed <em>Wind Bending</em> effect error.</p>
+</li>
+<li><p class="first">Fixed an error when particle&#8217;s <em>Scale</em> was not taken into account on particle systems.</p>
+</li>
+<li><p class="first">Fixed synchronization error on animated <em>EMITTER</em> particle systems.</p>
+</li>
+<li><p class="first">Fixed a bug with shadows on billboard objects.</p>
+</li>
+<li><p class="first">Fixed incorrect exporting of <em>Override Mesh Boundings</em> settings.</p>
+</li>
+<li><p class="first">Fixed a bug with billboard rendering on iPad.</p>
+</li>
+</ul>
+</div>
+<div class="section" id="id5">
+<h3>Known Issues<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first">Problems with updating of the add-on.</p>
+<blockquote>
+<div><p>The addons which have version 15.05 or earlier should be deleted before a newer version of addon can be installed. This is especially important on Windows. After deleting the old version, Blender must be restarted.</p>
+</div></blockquote>
+</li>
+<li><p class="first">NVIDIA 331 driver in Linux can cause WebGL errors.</p>
+</li>
+<li><p class="first">There is a <a class="reference external" href="https://code.google.com/p/chromium/issues/detail?id=485482">bug</a> with video textures on Chrome 43 for Android.</p>
+<blockquote>
+<div><p>Please update your Chrome browser to Beta or wait until the next Chrome update.</p>
+</div></blockquote>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="v15-05">
+<h2>v15.05<a class="headerlink" href="#v15-05" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id7">
+<h3>New Features<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>Glow effect</em>.</p>
 <blockquote>
@@ -118,8 +342,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id3">
-<h3>Changes<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id8">
+<h3>Changes<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>Reorganized SDK&#8217;s scene list.</em></p>
 <blockquote>
@@ -167,8 +391,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id4">
-<h3>Fixes<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id9">
+<h3>Fixes<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>The error that led to the wrong height of the description element in module &#8220;anchors.js&#8221; has been fixed.</em></p>
 </li>
@@ -192,8 +416,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id5">
-<h3>Known Issues<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id10">
+<h3>Known Issues<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>Blender add-on upgrading problems.</em></p>
 <blockquote>
@@ -205,8 +429,8 @@
 </div>
 <div class="section" id="v15-04">
 <h2>v15.04<a class="headerlink" href="#v15-04" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id6">
-<h3>New Features<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id11">
+<h3>New Features<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>Deformations by using Shape Keys (Morphing).</em></p>
 <blockquote>
@@ -260,8 +484,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id7">
-<h3>Changes<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id12">
+<h3>Changes<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>The API documentation has changed its appearance. Links for quick access to methods and properties were added.</em></p>
 </li>
@@ -339,8 +563,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id8">
-<h3>Fixes<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id13">
+<h3>Fixes<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>Fixed a bug in the &#8220;anchors.js&#8221; module which caused objects&#8217; descriptions to disappear.</em></p>
 </li>
@@ -376,8 +600,8 @@
 </div>
 <div class="section" id="v15-03">
 <h2>v15.03<a class="headerlink" href="#v15-03" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id9">
-<h3>New Features<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id14">
+<h3>New Features<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>New tool for adding annotations to 3D objects.</em></p>
 <blockquote>
@@ -426,8 +650,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id10">
-<h3>Changes<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id15">
+<h3>Changes<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>Origin for counting off the camera limits has been changed.</em></p>
 <blockquote>
@@ -492,8 +716,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id11">
-<h3>Fixes<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id16">
+<h3>Fixes<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p class="first"><em>Fixed camera autorotate feature of the web player.</em></p>
 </li>
@@ -523,8 +747,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id12">
-<h3>Known Issues<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id17">
+<h3>Known Issues<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>Blender add-on upgrading problems.</em></p>
 <blockquote>
@@ -538,8 +762,8 @@
 </div>
 <div class="section" id="v15-02">
 <h2>v15.02<a class="headerlink" href="#v15-02" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id13">
-<h3>New Features<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id18">
+<h3>New Features<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>The local development server can be run from Blender.</em></p>
 <blockquote>
@@ -625,8 +849,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id14">
-<h3>Changes<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id19">
+<h3>Changes<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>Now it is possible to add options with the same names via browser address bar.</em></p>
 <blockquote>
@@ -664,8 +888,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id15">
-<h3>Fixes<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id20">
+<h3>Fixes<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>Corrected behavior of the preloader for the Web Player.</em></p>
 <blockquote>
@@ -688,8 +912,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id16">
-<h3>Known Issues<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id21">
+<h3>Known Issues<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>Blender add-on upgrading problems.</em></p>
 <blockquote>
@@ -703,8 +927,8 @@
 </div>
 <div class="section" id="v15-01">
 <h2>v15.01<a class="headerlink" href="#v15-01" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id17">
-<h3>New Features<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id22">
+<h3>New Features<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>Support for panning on touchscreen devices.</em></p>
 <blockquote>
@@ -788,8 +1012,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id18">
-<h3>Changes<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id23">
+<h3>Changes<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>SDK file hierarchy was simplified.</em></p>
 <blockquote>
@@ -823,8 +1047,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id19">
-<h3>Fixes<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id24">
+<h3>Fixes<a class="headerlink" href="#id24" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p class="first"><em>When using &#8220;Panoramic&#8221; camera type in Blender the camera automatically obtains &#8220;Perspective&#8221; type when exported.</em></p>
 </li>
@@ -844,8 +1068,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id20">
-<h3>Known Issues<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id25">
+<h3>Known Issues<a class="headerlink" href="#id25" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>Blender add-on upgrading problems.</em></p>
 <blockquote>
@@ -864,8 +1088,8 @@
 </div>
 <div class="section" id="v14-12">
 <h2>v14.12<a class="headerlink" href="#v14-12" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id22">
-<h3>New Features<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id27">
+<h3>New Features<a class="headerlink" href="#id27" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>Camera velocity settings are now available.</em></p>
 <blockquote>
@@ -894,8 +1118,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id23">
-<h3>Changes<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id28">
+<h3>Changes<a class="headerlink" href="#id28" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>Removed support for deprecated &#8220;UV translation velocity&#8221; texture settings.</em></p>
 <blockquote>
@@ -931,8 +1155,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id24">
-<h3>Fixes<a class="headerlink" href="#id24" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id29">
+<h3>Fixes<a class="headerlink" href="#id29" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>Fixed audio playback error occured when using NLA.</em></p>
 <blockquote>
@@ -964,8 +1188,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id25">
-<h3>Known Issues<a class="headerlink" href="#id25" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id30">
+<h3>Known Issues<a class="headerlink" href="#id30" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>Blender add-on upgrading problems.</em></p>
 <blockquote>
@@ -979,8 +1203,8 @@
 </div>
 <div class="section" id="v14-11">
 <h2>v14.11<a class="headerlink" href="#v14-11" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id26">
-<h3>New Features<a class="headerlink" href="#id26" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id31">
+<h3>New Features<a class="headerlink" href="#id31" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>Video textures support.</em></p>
 <blockquote>
@@ -1022,8 +1246,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id27">
-<h3>Changes<a class="headerlink" href="#id27" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id32">
+<h3>Changes<a class="headerlink" href="#id32" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>The webplayer&#8217;s &#8220;bg&#8221; parameter is renamed to &#8220;fallback_image&#8221;.</em></p>
 <blockquote>
@@ -1040,8 +1264,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id28">
-<h3>Fixes<a class="headerlink" href="#id28" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id33">
+<h3>Fixes<a class="headerlink" href="#id33" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>Normal maps now work with Generated and Normal texture coordinates.</em></p>
 <blockquote>
@@ -1057,8 +1281,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id29">
-<h3>Known Issues<a class="headerlink" href="#id29" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id34">
+<h3>Known Issues<a class="headerlink" href="#id34" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>Blender add-on upgrading problems.</em></p>
 <blockquote>
@@ -1070,8 +1294,8 @@
 </div>
 <div class="section" id="v14-10">
 <h2>v14.10<a class="headerlink" href="#v14-10" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id30">
-<h3>New Features<a class="headerlink" href="#id30" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id35">
+<h3>New Features<a class="headerlink" href="#id35" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>A new Web Player.</em></p>
 <blockquote>
@@ -1114,8 +1338,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id31">
-<h3>Changes<a class="headerlink" href="#id31" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id36">
+<h3>Changes<a class="headerlink" href="#id36" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>Changed SDK path setting for HTML export.</em></p>
 <blockquote>
@@ -1141,8 +1365,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id32">
-<h3>Fixes<a class="headerlink" href="#id32" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id37">
+<h3>Fixes<a class="headerlink" href="#id37" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>Fixed rendering error for HALO materials.</em></p>
 </li>
@@ -1167,8 +1391,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id33">
-<h3>Known Issues<a class="headerlink" href="#id33" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id38">
+<h3>Known Issues<a class="headerlink" href="#id38" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>Blender add-on upgrading problems.</em></p>
 <blockquote>
@@ -1185,8 +1409,8 @@
 </div>
 <div class="section" id="v14-09">
 <h2>v14.09<a class="headerlink" href="#v14-09" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id34">
-<h3>New Features<a class="headerlink" href="#id34" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id39">
+<h3>New Features<a class="headerlink" href="#id39" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>ABSOLUTE type support for the MATH node.</em></p>
 </li>
@@ -1251,8 +1475,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id36">
-<h3>Changes<a class="headerlink" href="#id36" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id41">
+<h3>Changes<a class="headerlink" href="#id41" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>Shadow rendering improved.</em></p>
 <blockquote>
@@ -1282,8 +1506,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id37">
-<h3>Fixes<a class="headerlink" href="#id37" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id42">
+<h3>Fixes<a class="headerlink" href="#id42" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p class="first"><em>The preloader didn&#8217;t diappear in case of a loading error (texture or sound file).</em></p>
 </li>
@@ -1305,8 +1529,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id38">
-<h3>Known Issues<a class="headerlink" href="#id38" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id43">
+<h3>Known Issues<a class="headerlink" href="#id43" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><em>Blender add-on upgrading problems.</em></p>
 <blockquote>
@@ -1363,6 +1587,7 @@
 <li class="toctree-l1"><a class="reference internal" href="git_short_manual.html">Team Work. Using Git</a></li>
 <li class="toctree-l1"><a class="reference internal" href="problems_and_solutions.html">Problems and Solutions</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Release Notes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#v15-06">v15.06</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#v15-05">v15.05</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#v15-04">v15.04</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#v15-03">v15.03</a></li>
@@ -1410,7 +1635,7 @@
           
     <div class="footer" role="contentinfo">
         &copy; Copyright 2015, Triumph LLC.
-      Last updated on 2015-05-26.
+      Last updated on 2015-06-30.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
         </div>

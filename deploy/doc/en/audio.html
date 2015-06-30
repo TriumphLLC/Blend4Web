@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Audio System &mdash; User Manual: Blend4Web v15.05</title>
+    <title>Audio System &mdash; User Manual: Blend4Web v15.06</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '15.05',
+        VERSION:     '15.06',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User Manual: Blend4Web v15.05" href="index.html" />
+    <link rel="top" title="User Manual: Blend4Web v15.06" href="index.html" />
     <link rel="next" title="Physics" href="physics.html" />
     <link rel="prev" title="Gamma and Alpha" href="gamma_alpha.html" /> 
   </head>
@@ -36,7 +36,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">User Manual: Blend4Web v15.05</a></div>
+          href="index.html">User Manual: Blend4Web v15.06</a></div>
         <div class="rel" role="navigation" aria-label="related navigation">
           <a href="gamma_alpha.html" title="Gamma and Alpha"
              accesskey="P">previous</a> |
@@ -66,52 +66,60 @@
 <div class="section" id="id2">
 <h2>Audio Source Settings<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
 <p>Speaker parameters can be set up on the <code class="docutils literal"><span class="pre">Properties</span></code> panel under the <code class="docutils literal"><span class="pre">Object</span> <span class="pre">Data</span></code> tab.</p>
-<p>The engine supports all the standard parameters. The engine-specific settings are located on the <code class="docutils literal"><span class="pre">Blend4Web</span></code> panel.</p>
-<dl class="docutils">
-<dt><em>Speaker behavior</em></dt>
-<dd><p class="first">The behavior of the audio source.</p>
+<p>The engine supports all the standard Blender sound parameters and some engine-specific settings.</p>
+<p><em>Speaker behavior</em>:</p>
+<blockquote>
+<div><p>The behavior of the audio source.</p>
 <p><code class="docutils literal"><span class="pre">Positional</span></code> &#8212; high-quality sound with spatial positioning and directivity (conicity). The Web Audio API is used for sound rendering. Playback performance of such sounds is the least and so use them only for short samples.</p>
-<p><code class="docutils literal"><span class="pre">Background</span> <span class="pre">sound</span></code> &#8212; high-quality omnidirectional sound without spatial positioning. The Web Audio API is used for sound rendering. It is more performant but is not effective for music.</p>
-<p class="last"><code class="docutils literal"><span class="pre">Background</span> <span class="pre">music</span></code> &#8212; used for music playback. It has maximum performance due to the use of the Audio HTML tag, but has minimum flexibility.</p>
-</dd>
-<dt><em>Disable doppler</em></dt>
-<dd><p class="first last">Ignore source&#8217;s frequency shift upon its moving.</p>
-</dd>
-<dt><em>Cyclic play</em></dt>
-<dd><p class="first last">Loop the sound playback.</p>
-</dd>
-<dt><em>Delay</em></dt>
-<dd><p class="first last">Delay before sound playback starts.</p>
-</dd>
-<dt><em>Random delay</em></dt>
-<dd><p class="first last">Additional delay randomization. The resulting value is calculated according to the formula <span class="math">\(Delay_{result} = Delay + Delay_{random} * Random_{[0-1]}\)</span>.</p>
-</dd>
-<dt><em>Random volume</em></dt>
-<dd><p class="first last">Additional volume randomization. The resulting value is calculated as for the delay.</p>
-</dd>
-<dt><em>Random pitch</em></dt>
-<dd><p class="first last">Additional randomization of the sound playback speed. The resulting value is calculated as for the delay.</p>
-</dd>
-<dt><em>Fade-in</em></dt>
-<dd><p class="first last">Fade-in time interval.</p>
-</dd>
-<dt><em>Fade-out</em></dt>
-<dd><p class="first last">Fade-out time interval.</p>
-</dd>
-<dt><em>Loop</em></dt>
-<dd><p class="first last">Loop the sound playback. Contrary to the <code class="docutils literal"><span class="pre">Cyclic</span> <span class="pre">play</span></code> option it guarantees a zero delay upon repeat. The option is available only for sound sources with <code class="docutils literal"><span class="pre">Positional</span></code> or <code class="docutils literal"><span class="pre">Background</span> <span class="pre">sound</span></code> behavior.</p>
-</dd>
-<dt><em>Loop count</em></dt>
-<dd><p class="first last">Not implemented.</p>
-</dd>
-<dt><em>Random loop count</em></dt>
-<dd><p class="first last">Not implemented.</p>
-</dd>
-<dt><em>Playlist ID</em></dt>
-<dd><p class="first last">Not implemented.</p>
-</dd>
-</dl>
-<a class="reference internal image-reference" href="_images/speaker_settings.jpg"><img alt="_images/speaker_settings.jpg" class="align-center" src="_images/speaker_settings.jpg" style="width: 100%;" /></a>
+<p><code class="docutils literal"><span class="pre">Background</span> <span class="pre">Sound</span></code> &#8212; high-quality omnidirectional sound without spatial positioning. The Web Audio API is used for sound rendering. It is more performant but is not effective for music.</p>
+<p><code class="docutils literal"><span class="pre">Background</span> <span class="pre">Music</span></code> &#8212; used for music playback. It has maximum performance due to the use of the Audio HTML tag, but has minimum flexibility.</p>
+</div></blockquote>
+<p>The following options are available on the <code class="docutils literal"><span class="pre">Sound</span></code> panel:</p>
+<p><em>Volume</em></p>
+<blockquote>
+<div><p>Speaker volume</p>
+</div></blockquote>
+<p><em>Random Volume</em></p>
+<blockquote>
+<div><p>Additional volume randomization. The resulting value is calculated as for the delay.</p>
+</div></blockquote>
+<p><em>Pitch</em></p>
+<blockquote>
+<div><p>Sound playback velocity.</p>
+</div></blockquote>
+<p><em>Random Pitch</em></p>
+<blockquote>
+<div><p>Additional randomization of the sound playback speed. The resulting value is calculated as for the delay.</p>
+</div></blockquote>
+<p><em>Fade-In</em></p>
+<blockquote>
+<div><p>Fade-in time interval.</p>
+</div></blockquote>
+<p><em>Fade-Out</em></p>
+<blockquote>
+<div><p>Fade-out time interval.</p>
+</div></blockquote>
+<p><em>Disable doppler</em></p>
+<blockquote>
+<div><p>Ignore source&#8217;s frequency shift upon its moving.</p>
+</div></blockquote>
+<p><em>Cyclic play</em></p>
+<blockquote>
+<div><p>Loop the sound playback.</p>
+</div></blockquote>
+<p><em>Delay</em></p>
+<blockquote>
+<div><p>Delay before sound playback starts.</p>
+</div></blockquote>
+<p><em>Random Delay</em></p>
+<blockquote>
+<div><p>Additional delay randomization. The resulting value is calculated according to the formula <span class="math">\(Delay_{result} = Delay + Delay_{random} * Random_{[0-1]}\)</span>.</p>
+</div></blockquote>
+<p><em>Loop</em></p>
+<blockquote>
+<div><p>Loop the sound playback. Contrary to the <code class="docutils literal"><span class="pre">Cyclic</span> <span class="pre">play</span></code> option it guarantees a zero delay upon repeat. The option is available only for sound sources with <code class="docutils literal"><span class="pre">Positional</span></code> or <code class="docutils literal"><span class="pre">Background</span> <span class="pre">Sound</span></code> behavior.</p>
+</div></blockquote>
+<a class="reference internal image-reference" href="_images/speaker_settings.png"><img alt="_images/speaker_settings.png" class="align-center" src="_images/speaker_settings.png" style="width: 100%;" /></a>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -211,7 +219,7 @@
           
     <div class="footer" role="contentinfo">
         &copy; Copyright 2015, Triumph LLC.
-      Last updated on 2015-05-26.
+      Last updated on 2015-06-30.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
         </div>

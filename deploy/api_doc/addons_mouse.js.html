@@ -33,14 +33,15 @@
  * Provides support for mouse pointer lock and low-level movement.
  * @see http://www.w3.org/TR/pointerlock/
  * @module mouse
- * @local use_mouse_control_callback
- * @local pointerlock_enabled_callback
- * @local pointerlock_disabled_callback
- * @local pointerlock_mouse_move_callback
+ * @local UseMouseControlCallback
+ * @local PointerlockEnabledCallback
+ * @local PointerlockDisabledCallback
+ * @local PointerlockMouseMoveCallback
  */
 b4w.module["mouse"] = function(exports, require) {
 
 var m_cam   = require("camera");
+var m_cont  = require("container");
 var m_ctl   = require("controls");
 var m_phy   = require("physics");
 var m_print = require("print");
@@ -51,6 +52,7 @@ var m_main  = require("main");
 var FPS_MOUSE_MULT = 0.0004;
 var DRAG_MOUSE_DELTA_MULT = 2;
 
+var _smooth_factor = 1;
 var CAM_SMOOTH_CHARACTER_MOUSE = 0.1;
 var CAM_SMOOTH_CHARACTER_TOUCH = 0.2; // unused
 
@@ -72,26 +74,27 @@ var _chosen_object = null;
 
 var _plock_state = PLS_NONE;
 
+
 /**
  * Callback which allows user to specify whether the camera/character movement
  * is controlled by mouse module or not.
- * @callback use_mouse_control_callback
+ * @callback UseMouseControlCallback
  * @returns {Boolean} False to disable mouse control of active camera/character
  */
 
 /**
  * Callback which will be executed when pointer lock is enable.
- * @callback pointerlock_enabled_callback
+ * @callback PointerlockEnabledCallback
  */
 
 /**
  * Callback which will be executed when pointer lock is disabled.
- * @callback pointerlock_disabled_callback
+ * @callback PointerlockDisabledCallback
  */
 
 /**
  * Mouse movement event callback
- * @callback pointerlock_mouse_move_callback
+ * @callback PointerlockMouseMoveCallback
  * @param {MouseEvent} e mousemove event
  */
 
@@ -100,10 +103,10 @@ var _plock_state = PLS_NONE;
  * Security issues: execute by user event.
  * @method module:mouse.request_pointerlock
  * @param {HTMLElement} elem Element
- * @param {pointerlock_enabled_callback} [enabled_cb] Enabled callback
- * @param {pointerlock_disabled_callback} [disabled_cb] Disabled callback
- * @param {pointerlock_mouse_move_callback} [mouse_move_cb] Mouse movement event callback
- * @param {use_mouse_control_callback} [use_mouse_control_cb] Callback to check the camera/character control
+ * @param {PointerlockEnabledCallback} [enabled_cb] Enabled callback
+ * @param {PointerlockDisabledCallback} [disabled_cb] Disabled callback
+ * @param {PointerlockMouseMoveCallback} [mouse_move_cb] Mouse movement event callback
+ * @param {UseMouseControlCallback} [use_mouse_control_cb] Callback to check the camera/character control
  */
 exports.request_pointerlock = function(elem, enabled_cb, disabled_cb,
         mouse_move_cb, use_mouse_control_cb) {
@@ -212,7 +215,7 @@ exports.check_pointerlock = function(elem) {
 /**
  * Request drag mode.
  * @param {HTMLElement} elem Element
- * @param {use_mouse_control_callback} [use_mouse_control_cb] Callback to check the mouse control
+ * @param {UseMouseControlCallback} [use_mouse_control_cb] Callback to check the mouse control
  * @method module:mouse.request_mouse_drag
  */
 exports.request_mouse_drag = request_mouse_drag;
@@ -284,8 +287,8 @@ function smooth_cb(obj, id, pulse) {
 
     if (Math.abs(_mouse_delta[0]) > 0.01 || Math.abs(_mouse_delta[1]) > 0.01) {
         var elapsed = m_ctl.get_sensor_value(obj, id, 0);
-        var rot_x = m_util.smooth(_mouse_delta[0], 0, elapsed, CAM_SMOOTH_CHARACTER_MOUSE);
-        var rot_y = m_util.smooth(_mouse_delta[1], 0, elapsed, CAM_SMOOTH_CHARACTER_MOUSE);
+        var rot_x = m_util.smooth(_mouse_delta[0], 0, elapsed, smooth_coeff_mouse());
+        var rot_y = m_util.smooth(_mouse_delta[1], 0, elapsed, smooth_coeff_mouse());
 
         // TODO: need more control with this objects
         var character = m_scs.get_first_character();
@@ -350,14 +353,10 @@ function disable_mouse_hover_glow() {
     disable_mouse_hover_outline();
 }
 
-function objects_outline(event) {
-    var x = get_coords_x(event);
-    var y = get_coords_y(event);
-    
+function objects_outline(e) {
+    var canvas_xy = m_cont.client_to_canvas_coords(e.clientX, e.clientY, _vec2_tmp);
 
-    var obj = m_scs.pick_object(x, y);
-
-    
+    var obj = m_scs.pick_object(canvas_xy[0], canvas_xy[1]);
     if (obj) {
         if (m_scs.outlining_is_enabled(obj))
             m_scs.set_outline_intensity(obj, 1);
@@ -369,22 +368,60 @@ function objects_outline(event) {
     _chosen_object = obj;
 }
 /**
- * Get mouse X coordinate.
- * @param {MouseEvent} event Mouse event
+ * Get mouse/touch X coordinate.
+ * @param {MouseEvent|TouchEvent} event Mouse/touch event
  * @method module:mouse.get_coords_x
+ * @returns {Number} Client area horizontal coordinate or -1 if not defined
  */
 exports.get_coords_x = get_coords_x;
 function get_coords_x(event) {
-    return event.clientX || (event.touches &amp;&amp; event.touches[0].pageX) || -1;
+    if ("clientX" in event)
+        return event.clientX;
+    else if (event.touches &amp;&amp; "clientX" in event.touches[0])
+        return event.touches[0].clientX;
+    else
+        return -1;
 }
 /**
- * Get mouse Y coordinate.
- * @param {MouseEvent} event Mouse event
+ * Get mouse/touch Y coordinate.
+ * @param {MouseEvent|TouchEvent} event Mouse/touch event
  * @method module:mouse.get_coords_y
+ * @returns {Number} Client area vertical coordinate or -1 if not defined
  */
 exports.get_coords_y = get_coords_y;
 function get_coords_y(event) {
-    return event.clientY || (event.touches &amp;&amp; event.touches[0].pageY) || -1;
+    if ("clientY" in event)
+        return event.clientY;
+    else if (event.touches &amp;&amp; "clientY" in event.touches[0])
+        return event.touches[0].clientY;
+    else
+        return -1;
+}
+
+function smooth_coeff_mouse() {
+    return CAM_SMOOTH_CHARACTER_MOUSE * _smooth_factor;
+}
+
+function smooth_coeff_touch() {
+    return CAM_SMOOTH_CHARACTER_TOUCH * _smooth_factor;
+}
+
+/**
+ * Set smooth factor for camera rotation while in pointerlock mode.
+ * @method module:mouse.set_plock_smooth_factor
+ * @param {Number} value New smooth factor
+ */
+exports.set_plock_smooth_factor = function(value) {
+    _smooth_factor = value;
+}
+
+/**
+ * Get smooth factor for camera rotation while in pointerlock mode.
+ * @method module:mouse.get_plock_smooth_factor
+ * @returns {Number} Smooth factor
+ */
+exports.get_plock_smooth_factor = function() {
+    return _smooth_factor;
 }
 
 };
@@ -398,13 +435,13 @@ function get_coords_y(event) {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-rgb.html">rgb</a></li><li><a href="module-rgba.html">rgba</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul><h3><a href="global.html">Global</a></h3>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Tue May 26 2015 12:05:03 GMT+0300 (MSK)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Tue Jun 30 2015 17:18:01 GMT+0300 (MSK)
 </footer>
 
 <script> prettyPrint(); </script>

@@ -1,3 +1,5 @@
+#var PRECISION lowp
+
 #import u_scale_threshold
 #import vertex qrot
 #import to_world billboard_matrix tbn_norm
@@ -28,7 +30,7 @@ vertex infinity_vertex()
 
 // Translate grass vertex from local to world space using grass maps
 vertex grass_vertex(vec3 position, vec3 tangent, vec3 binormal, vec3 normal,
-        vec3 center, sampler2D grass_map_depth, sampler2D grass_map_color,
+        vec3 center, PRECISION sampler2D grass_map_depth, sampler2D grass_map_color,
         vec3 grass_map_dim, float grass_size, vec3 camera_eye, vec4 camera_quat,
         mat4 view_matrix)
 {

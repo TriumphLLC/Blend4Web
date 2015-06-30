@@ -27,7 +27,7 @@ var _max_sun_angle  = 60;
  * If lamps_type is defined, creates a new array
  * @method module:lights.get_lamps
  * @param {String} [lamps_type] Lamps type ("POINT", "SPOT", "SUN", "HEMI")
- * @returns {Array} Array with lamp object IDs
+ * @returns {Object3D[]} Array with lamp objects.
  */
 exports.get_lamps = function(lamps_type) {
 
@@ -50,7 +50,7 @@ exports.get_sun_params = get_sun_params;
 /**
  * Get the sun parameters.
  * @method module:lights.get_sun_params
- * @returns {Object} Sun params object
+ * @returns {SunParams} Sun params object
  * @cc_externs hor_position vert_position
  */
 function get_sun_params() {
@@ -93,7 +93,7 @@ exports.set_sun_params = set_sun_params;
 /**
  * Set the sun parameters.
  * @method module:lights.set_sun_params
- * @param {Object} sun_params sun parameters
+ * @param {SunParams} sun_params sun parameters
  */
 function set_sun_params (sun_params) {
 
@@ -217,8 +217,8 @@ exports.set_max_sun_angle = function(angle) {
 /**
  * Get the light params.
  * @method module:lights.get_light_params
- * @param {Object} lamp_obj Lamp object ID
- * @returns {Object} Light params
+ * @param {Object3D} lamp_obj Lamp object
+ * @returns {LightParams} Light params
  */
 exports.get_light_params = function(lamp_obj) {
 
@@ -269,7 +269,7 @@ exports.get_light_type = get_light_type
 /**
  * Get the light type.
  * @method module:lights.get_light_type
- * @param {Object} lamp_obj Lamp object ID
+ * @param {Object3D} lamp_obj Lamp object.
  * @returns {String} Light type
  */
 function get_light_type(lamp_obj) {
@@ -282,8 +282,8 @@ function get_light_type(lamp_obj) {
 /**
  * Set the light params.
  * @method module:lights.set_light_params
- * @param {Object} lamp_obj Lamp object ID                  
- * @param {Object} light_params Light params
+ * @param {Object3D} lamp_obj Lamp object.
+ * @param {LightParams} light_params Light params
  * @cc_externs light_distance light_spot_size light_spot_blend light_energy light_color
  */
 exports.set_light_params = function(lamp_obj, light_params) {

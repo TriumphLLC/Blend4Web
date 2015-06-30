@@ -4,6 +4,7 @@ class B4W_Vertex_Groups_To_Materials(bpy.types.Operator):
     '''Convert vertex groups to materials'''
     bl_idname = "b4w.vertex_groups_to_materials"
     bl_label = "B4W Vertex Groups To Materials"
+    bl_options = {"INTERNAL"}
    
     def execute(self, context):
         run()

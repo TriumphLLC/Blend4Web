@@ -148,66 +148,54 @@ function init_buttons() {
 }
 
 function loaded_cb(data_id) {
-    var cam = m_scenes.get_active_camera();
 
-    // NOTE: need to reinitialize collision sensors because of new objects have been added
-    if (m_ctl.check_sensor_manifold(cam, "COLLISION"))
-        m_ctl.remove_sensor_manifold(cam, "COLLISION");
-
-    var objs = m_scenes.get_all_objects();
-
-    // spawn appended object at a certain position
+    var objs = m_scenes.get_all_objects("ALL", data_id);
     for (var i = 0; i < objs.length; i++) {
         var obj = objs[i];
-        if (m_scenes.get_object_data_id(obj) == data_id) {
-            if (m_phy.has_physics(obj)) {
-                m_phy.enable_simulation(obj);
-                
-                var obj_parent = m_cons.get_parent(obj);
-                if (obj_parent && m_util.is_armature(obj_parent))
-                    // translate the parent (armature) of the animated object
-                    m_trans.set_translation_v(obj_parent, spawner_pos);
-                else
-                    m_trans.set_translation_v(obj, spawner_pos);
-            }
-            if (m_util.is_mesh(obj))
-                m_scenes.show_object(obj);
-        }
-    }
 
-    // create sensors to detect collisions
-    var sensors = [];
-    for (var i = 0; i < objs.length; i++) {
-        var obj = objs[i];
-        if (m_phy.has_simulated_physics(obj)) {
+        if (m_phy.has_physics(obj)) {
+            m_phy.enable_simulation(obj);
+
+            // create sensors to detect collisions
             var sensor_col = m_ctl.create_collision_sensor(obj, "FURNITURE");
             var sensor_sel = m_ctl.create_selection_sensor(obj);
 
             if (obj == _selected_obj)
                 m_ctl.set_custom_sensor(sensor_sel, 1);
 
-            sensors.push(sensor_col);
-            sensors.push(sensor_sel);
+            m_ctl.create_sensor_manifold(obj, "COLLISION", m_ctl.CT_CONTINUOUS, 
+                    [sensor_col, sensor_sel], logic_func, trigger_outline);
+
+
+            // spawn appended object at a certain position
+            var obj_parent = m_cons.get_parent(obj);
+            if (obj_parent && m_util.is_armature(obj_parent))
+                // translate the parent (armature) of the animated object
+                m_trans.set_translation_v(obj_parent, spawner_pos);
+            else
+                m_trans.set_translation_v(obj, spawner_pos);
         }
-    }
 
-    var logic_func = function(s) {
-        for (var i = 0; i < s.length; i+=2)
-            if (s[i+1])
-                return s[i];
-        return 0;
+        // show appended object
+        if (m_util.is_mesh(obj))
+            m_scenes.show_object(obj);
     }
+}
 
-    m_ctl.create_sensor_manifold(cam, "COLLISION", m_ctl.CT_TRIGGER, sensors,
-            logic_func, trigger_outline);
+function logic_func(s) {
+    return s[1];
 }
 
 function trigger_outline(obj, id, pulse) {
-    // change outline color according to collision status
-    if (pulse == 1)
-        m_scenes.set_outline_color(OUTLINE_COLOR_ERROR);
-    else if (pulse == -1)
-        m_scenes.set_outline_color(OUTLINE_COLOR_VALID);
+    if (pulse == 1) {
+        // change outline color according to the  
+        // first manifold sensor (collision sensor) status
+        var has_collision = m_ctl.get_sensor_value(obj, id, 0);
+        if (has_collision)
+            m_scenes.set_outline_color(OUTLINE_COLOR_ERROR);
+        else
+            m_scenes.set_outline_color(OUTLINE_COLOR_VALID);
+    }
 }
 
 function rotate_object(obj, angle) {

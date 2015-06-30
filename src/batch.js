@@ -9,6 +9,7 @@
 b4w.module["__batch"] = function(exports, require) {
 
 var boundings  = require("__boundings");
+var m_cam      = require("__camera");
 var m_cfg      = require("__config");
 var m_print    = require("__print");
 var extensions = require("__extensions");
@@ -290,7 +291,7 @@ exports.generate_main_batches = function(graph, grid_size, scene_objects, wls, s
         }
     }
 
-    if (sky.render_sky) {
+    if (sky.render_sky || sky.procedural_skydome) {
         var batch = init_batch("MAIN");
         apply_shader(batch, "special_skydome.glslv", "special_skydome.glslf");
 
@@ -598,10 +599,19 @@ function make_static_metabatches(static_objects, graph, grid_size, lamps_number)
             var obj = objs[j];
             var obj_metabatches = make_object_metabatches(obj, render, graph, lamps_number);
 
-            var tsr = tsr_from_render(obj._render);
+            
+            if (obj._render.billboard && !obj._render.billboard_pres_glob_orientation) {
+                var tsr = m_tsr.create();
+                m_tsr.set_trans(obj._render.trans, tsr);
+            } else
+                var tsr = tsr_from_render(obj._render);
+
             var params = {};
-            if (render.wind_bending) {
+            
+            if (render.wind_bending || render.billboard)
                 params["au_center_pos"] = [tsr[0], tsr[1], tsr[2]];
+
+            if (render.wind_bending) {
                 params["au_wind_bending_amp"] = [obj._render.wind_bending_amp];
 
                 params["au_wind_bending_freq"]
@@ -708,34 +718,84 @@ function make_object_metabatches(obj, render, graph, lamps_number) {
     // process particle system batches
     var psystems = obj["particle_systems"];
     if (psystems.length > 0 && metabatches.length) {
-        // check if emitter rendering needed
-        var not_render_emitter = true;
+        
+        // NOTE: check if emitter rendering is needed,
+        // also check if we need emitter submesh
+        var render_emitter = false;
+        var need_emitter_submesh = false;
         for (var i = 0; i < psystems.length; i++) {
             var psys = psystems[i];
-            if (psys["settings"]["use_render_emitter"]) {
-                not_render_emitter = false;
+            var pset = psys["settings"];
+
+            if (pset["use_render_emitter"])
+                render_emitter = true;
+            if (pset["type"] == "HAIR" && (pset["render_type"] == "OBJECT" 
+                    || pset["render_type"] == "GROUP" 
+                    || !psys["transforms"].length))
+                need_emitter_submesh = true;
+
+            if (render_emitter && need_emitter_submesh)
                 break;
-            }
         }
 
-        // NOTE: assume single-material emitter
-        var em_batch = metabatches[0].batch;
-        var em_submesh = metabatches[0].submesh;
-        var particles_metabatches = make_particles_metabatches(obj, render,
-                graph, render_id, em_batch, em_submesh);
+        // NOTE: need only inherited vcols and bending vcols which are the same 
+        // on every batch
+        var emitter_vc = metabatches[0].batch.vertex_colors_usage;
 
-        if (not_render_emitter)
-            metabatches = particles_metabatches;
+        if (need_emitter_submesh)
+            if (materials.length > 1)
+                // NOTE: build common submesh with combined vertex colors 
+                // for inheritance
+                var em_submesh = build_emitter_submesh(mesh, psystems, emitter_vc);
+            else
+                var em_submesh = metabatches[0].submesh;    
         else
+            var em_submesh = null;
+
+        var particles_metabatches = make_particles_metabatches(obj, render,
+                graph, render_id, emitter_vc, em_submesh);
+
+        if (render_emitter)
             metabatches = metabatches.concat(particles_metabatches);
+        else
+            metabatches = particles_metabatches;
     }
     return metabatches;
+}
+
+function build_emitter_submesh(mesh, psystems, emitter_vc) {
+    var emitter_inherit_vc_usage = {}
+
+    for (var i = 0; i < psystems.length; i++) {
+        var pset = psystems[i]["settings"];
+        if (pset["type"] == "HAIR" && (pset["render_type"] == "OBJECT" 
+                || pset["render_type"] == "GROUP")) {
+
+            var vcol_from = pset["b4w_vcol_from_name"];
+            var vcol_to = pset["b4w_vcol_to_name"];
+
+            if (vcol_from !== "" && vcol_to !== "")
+                // NOTE: every emitter batch has all inherited vertex colors
+                // and they are fully exported
+                emitter_inherit_vc_usage[vcol_from] =
+                        util.clone_object_r(emitter_vc[vcol_from]);
+        }
+    }
+
+    if ("a_bending_col_main" in emitter_vc)
+        emitter_inherit_vc_usage["a_bending_col_main"] =
+                        util.clone_object_r(emitter_vc["a_bending_col_main"]);
+    if ("a_bending_col_detail" in emitter_vc)
+        emitter_inherit_vc_usage["a_bending_col_detail"] =
+                        util.clone_object_r(emitter_vc["a_bending_col_detail"]);
+
+    return geometry.extract_submesh_all_mats(mesh, [], emitter_inherit_vc_usage);
 }
 
 /**
  * Create batches and metadata for object particle systems
  */
-function make_particles_metabatches(obj, render, graph, render_id, em_batch,
+function make_particles_metabatches(obj, render, graph, render_id, emitter_vc,
         em_submesh) {
     var metabatches = [];
 
@@ -833,7 +893,7 @@ function make_particles_metabatches(obj, render, graph, render_id, em_batch,
                         pset["dupli_object"]._render, true)];
 
                 var hair_metabatches = make_hair_particles_metabatches(
-                        obj, render, em_batch, em_submesh,
+                        obj, render, emitter_vc, em_submesh,
                         [pset["dupli_object"]], particles_batch_types,
                         [ptrans], pset, psys, use_grass_map, seed, false);
 
@@ -864,16 +924,18 @@ function make_particles_metabatches(obj, render, graph, render_id, em_batch,
                 }
 
                 var hair_metabatches = make_hair_particles_metabatches(
-                        obj, render, em_batch, em_submesh, dg_objs,
+                        obj, render, emitter_vc, em_submesh, dg_objs,
                         particles_batch_types, ptrans_dist, pset, psys,
                         use_grass_map, seed, reset_seed);
 
                 metabatches = metabatches.concat(hair_metabatches);
             }
 
-            // NOTE: prevent wind bending for emitter by checking option
-            if (pset["b4w_wind_bend_inheritance"] == "INSTANCE")
-                obj._render.wind_bending_amp = 0;
+            if (pset["b4w_wind_bend_inheritance"] == "INSTANCE" && obj._render.wind_bending)
+                m_print.warn("Emitter object \"" + obj["name"] + "\" has a particle" 
+                        + " system with wind bending inheritance from the " 
+                        + "particle instance. Wind bending on the emitter isn't "
+                        + "disabled. Expect unforeseen behavior.");
         } else
             throw "Unknown particle settings type";
     }
@@ -1690,6 +1752,11 @@ function update_batch_specular_params(batch, material) {
         spec_param_0 = material["specular_toon_size"];
         spec_param_1 = material["specular_toon_smooth"];
         break;
+    case "BLINN":
+        set_batch_directive(batch, "SPECULAR_SHADER", "SPECULAR_BLINN");
+        spec_param_0 = material["specular_ior"];
+        spec_param_1 = material["specular_hardness"];
+        break;
     default:
         m_print.error("unsupported specular shader: " +
             material["specular_shader"] + " (material \"" +
@@ -1719,6 +1786,16 @@ function update_batch_diffuse_params(batch, material) {
         batch.diffuse_params[0] = material["diffuse_fresnel"];
         batch.diffuse_params[1] = material["diffuse_fresnel_factor"];
         break;
+    case "MINNAERT":
+        set_batch_directive(batch, "DIFFUSE_SHADER", "DIFFUSE_MINNAERT");
+        batch.diffuse_params[0] = material["darkness"];
+        batch.diffuse_params[1] = 0.0;
+        break;
+    case "TOON":
+        set_batch_directive(batch, "DIFFUSE_SHADER", "DIFFUSE_TOON");
+        batch.diffuse_params[0] = material["diffuse_toon_size"];
+        batch.diffuse_params[1] = material["diffuse_toon_smooth"];
+        break;
     default:
         m_print.error("unsupported diffuse shader: " +
             material["diffuse_shader"] + " (material \"" +
@@ -1746,8 +1823,8 @@ function update_batch_material_nodes(batch, material, is_glow_output) {
         return true;
     }
 
-    apply_shader(batch, "nodes.glslv", "nodes.glslf");
-
+    apply_shader(batch, "main.glslv", "main.glslf");
+    set_batch_directive(batch, "NODES", 1);
     set_batch_directive(batch, "NODES_GLOW", is_glow_output ? 1 : 0);
 
     // some common stuff
@@ -1758,6 +1835,9 @@ function update_batch_material_nodes(batch, material, is_glow_output) {
             (material["b4w_double_sided_lighting"]) ? 1 : 0);
 
     set_batch_c_attr(batch, "a_position");
+
+    if (material["use_orco_tex_coord"])
+        set_batch_c_attr(batch, "a_orco_tex_coord");
 
     update_batch_game_settings(batch, material);
     batch.offset_z = material["offset_z"];
@@ -1786,7 +1866,10 @@ function update_batch_material_nodes(batch, material, is_glow_output) {
     var has_material_nodes = false;
     m_graph.traverse(nmat_graph, function(node, attr) {
         switch (attr.type) {
+        case "UVMAP":
+        case "TEX_COORD_UV":
         case "GEOMETRY_UV":
+        case "UV_MERGED":
             var name = attr.data.name;
             var uv_layer = attr.data.value;
             // NOTE: will fail in case of multiple names for single uv layer
@@ -1819,6 +1902,7 @@ function update_batch_material_nodes(batch, material, is_glow_output) {
             }
             batch.vertex_colors_usage[name].src[0].mask = mask;
             break;
+        case "TEX_COORD_NO":
         case "GEOMETRY_NO":
             set_batch_c_attr(batch, "a_normal");
             break;
@@ -1876,25 +1960,28 @@ function update_batch_material_nodes(batch, material, is_glow_output) {
     return true;
 }
 
+exports.update_batch_material_debug = update_batch_material_debug;
 function update_batch_material_debug(batch, material) {
 
     apply_shader(batch, "main.glslv", "main.glslf");
 
-    var alpha_blend = material["game_settings"]["alpha_blend"];
-    set_batch_directive(batch, "ALPHA", (alpha_blend === "OPAQUE") ? 0 : 1);
-    set_batch_directive(batch, "ALPHA_CLIP", (alpha_blend === "CLIP") ? 1 : 0);
     set_batch_directive(batch, "SHADELESS", 1);
-
     set_batch_c_attr(batch, "a_position");
     set_batch_c_attr(batch, "a_normal");
-
     m_vec4.set(1, 0, 1, 1, batch.diffuse_color);
 
-    set_batch_directive(batch, "VERTEX_COLOR", 0);
+    if (material) {
 
-    batch.offset_z = material["offset_z"];
+        var alpha_blend = material["game_settings"]["alpha_blend"];
+        set_batch_directive(batch, "ALPHA", (alpha_blend === "OPAQUE") ? 0 : 1);
+        set_batch_directive(batch, "ALPHA_CLIP", (alpha_blend === "CLIP") ? 1 : 0);
 
-    update_batch_game_settings(batch, material);
+        set_batch_directive(batch, "VERTEX_COLOR", 0);
+
+        batch.offset_z = material["offset_z"];
+
+        update_batch_game_settings(batch, material);
+    }
 
     return true;
 }
@@ -2400,12 +2487,9 @@ function update_batch_particle_systems(batch, psystems) {
     }
 }
 
-/**
- * Assign directives for shadow receive batch.
- * @param {Object} batch Target batch
- * @param {Object} shadow_params Shadow parameters for batch
- */
-exports.assign_shadow_receive_dirs = function(batch, shadow_params) {
+exports.assign_shadow_receive_dirs = function(batch, shadow_params, subs_cast) {
+    if (subs_cast && subs_cast.camera.type == m_cam.TYPE_PERSP)
+        set_batch_directive(batch, "PERSPECTIVE_SHADOW_CAST", 1);
     set_batch_directive(batch, "CSM_SECTION0", 0);
     set_batch_directive(batch, "CSM_SECTION1", 0);
     set_batch_directive(batch, "CSM_SECTION2", 0);
@@ -2594,7 +2678,7 @@ function update_batch_particles_emitter(batch, psystem) {
 /**
  * Create all possible batch slots for object and clone it by ptrans array
  */
-function make_hair_particles_metabatches(em_obj, render, em_batch, em_submesh, objs,
+function make_hair_particles_metabatches(em_obj, render, emitter_vc, em_submesh, objs,
         batch_types_arr, objs_ptrans, pset, psys, use_grass_map, seed,
         reset_seed) {
 
@@ -2711,7 +2795,9 @@ function make_hair_particles_metabatches(em_obj, render, em_batch, em_submesh, o
             trans[0] = ptrans[j];
             trans[1] = ptrans[j+1];
             trans[2] = ptrans[j+2];
-            var scale = ptrans[j+3];
+
+            // NOTE: apply particle scale
+            var scale = ptrans[j+3] * obj._render.scale;
 
             if (pset["b4w_initial_rand_rotation"]) {
                 switch (pset["b4w_rotation_type"]) {
@@ -2828,7 +2914,7 @@ function make_hair_particles_metabatches(em_obj, render, em_batch, em_submesh, o
 
                 var particle_inherited_attrs = get_particle_inherited_attrs(
                         pset["b4w_vcol_from_name"], pset["b4w_vcol_to_name"],
-                        batch, em_batch, !inst_inherit_bend, mesh);
+                        batch, emitter_vc, !inst_inherit_bend, mesh);
                 submesh = make_particle_inherited_vcols(submesh, tsr_array,
                         em_obj._render.bb_local, em_submesh, particle_inherited_attrs,
                         batch.vertex_colors_usage, spatial_tree);
@@ -2906,7 +2992,7 @@ function make_spatial_tree(spatial_tree, obj_bb_local, positions) {
 }
 
 
-function get_particle_inherited_attrs(vc_name_from, vc_name_to, batch, em_batch,
+function get_particle_inherited_attrs(vc_name_from, vc_name_to, batch, emitter_vc,
         bend_inheritance, particle_mesh) {
     var inherited_attrs = [];
 
@@ -2939,7 +3025,7 @@ function get_particle_inherited_attrs(vc_name_from, vc_name_to, batch, em_batch,
 
     // bending inheritance
     if (bend_inheritance) {
-        if ("a_bending_col_main" in em_batch.vertex_colors_usage)
+        if ("a_bending_col_main" in emitter_vc)
             inherited_attrs.push({
                 emitter_attr: "a_bending_col_main",
                 emitter_mask: 4,
@@ -2947,7 +3033,7 @@ function get_particle_inherited_attrs(vc_name_from, vc_name_to, batch, em_batch,
                 particle_mask: 4,
                 dst_channel_offset: 0
             });
-        if ("a_bending_col_detail" in em_batch.vertex_colors_usage)
+        if ("a_bending_col_detail" in emitter_vc)
             inherited_attrs.push({
                 emitter_attr: "a_bending_col_detail",
                 emitter_mask: 7,
@@ -3033,7 +3119,6 @@ function make_particle_inherited_vcols(submesh, transforms, em_bb_local,
             var p_mask = inherited_attrs[i].particle_mask;
             var em_attr = inherited_attrs[i].emitter_attr;
             var em_mask = inherited_attrs[i].emitter_mask;
-
 
             var cols = em_submesh.va_common[em_attr];
             switch (p_attr) {
@@ -3365,6 +3450,9 @@ function create_object_clusters(batch_objects, grid_size) {
 
         render_props.billboard = bobj_render.billboard;
         render_props.billboard_type = bobj_render.billboard_type;
+        render_props.billboard_spherical = bobj_render.billboard_spherical;
+        // NOTE: billboard_pres_glob_orientation doesn't have influence on batching,
+        // because it directly modifies batch submesh
 
         render_props.dynamic_grass = bobj_render.dynamic_grass;
         render_props.do_not_cull = bobj_render.do_not_cull;
@@ -3941,8 +4029,6 @@ exports.create_motion_blur_batch = function(decay_threshold) {
 
     apply_shader(batch, "postprocessing/postprocessing.glslv",
             "postprocessing/motion_blur.glslf");
-    set_batch_directive(batch, "BLUR_DECAY_THRESHOLD",
-            m_shaders.glsl_value(decay_threshold));
     update_shader(batch);
 
     return batch;

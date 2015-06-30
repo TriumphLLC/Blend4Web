@@ -11,6 +11,8 @@
 #include "./includes/makesdna/DNA_object_types.h"
 #include "./includes/makesdna/DNA_packedFile_types.h"
 #include "./includes/makesdna/DNA_key_types.h"
+#include "./includes/makesdna/DNA_particle_types.h"
+#include "./includes/blenkernel/BKE_particle.h"
 
 // to make Windows happy
 #define MAX(a, b) ((a) > (b) ? (a) : (b))
@@ -40,6 +42,7 @@ static PyObject *b4w_bin_create_buffer_float(PyObject *self, PyObject *args);
 static PyObject *b4w_bin_get_buffer_float(PyObject *self, PyObject *args);
 static PyObject *b4w_bin_buffer_insert_float(PyObject *self, PyObject *args);
 static PyObject *b4w_bin_get_packed_data(PyObject *self, PyObject *args);
+static PyObject *b4w_bin_calc_particle_scale(PyObject *self, PyObject *args);
 
 static PyMethodDef b4w_bin_methods[] = {
     {"export_submesh", b4w_bin_export_submesh, METH_VARARGS,
@@ -54,6 +57,8 @@ static PyMethodDef b4w_bin_methods[] = {
             "Insert float value into buffer"},
     {"get_packed_data", b4w_bin_get_packed_data, METH_VARARGS,
             "Get data for files (images, sounds) packed into .blend file"},
+    {"calc_particle_scale", b4w_bin_calc_particle_scale, METH_VARARGS,
+            "Calculate scale"},
     {NULL, NULL, 0, NULL}
 };
 
@@ -979,7 +984,7 @@ void combine_tco(struct MeshData *mesh_data, Mesh *mesh, int mat_index)
 }
 
 void triangulate_mesh(struct MeshData *mesh_data, Mesh *mesh, int mat_index, 
-        int disab_flat)
+        int disab_flat, int edited_normals)
 {
     // TODO: divide
     MFace *mface = mesh->mface;
@@ -1020,6 +1025,7 @@ void triangulate_mesh(struct MeshData *mesh_data, Mesh *mesh, int mat_index,
     int layer_offset, tri_layer_offset;
     int color_vert_offset, tri_color_vert_offset;
     int color_face_offset = 0;
+    short (*split_normals)[4][3] = NULL;
 
     int i,j,k,l;
 
@@ -1028,6 +1034,9 @@ void triangulate_mesh(struct MeshData *mesh_data, Mesh *mesh, int mat_index,
     // NOTE: use origindex (if exist) for better color extraction
     if (mesh_data->origindex != NULL)
         vcol_indices = malloc(6 * sizeof(int));
+
+    if (edited_normals)
+        split_normals = custom_data_get_layer(&mesh->fdata, CD_TESSLOOPNORMAL);
 
     // NOTE: get triangulated sizes
 
@@ -1102,19 +1111,42 @@ void triangulate_mesh(struct MeshData *mesh_data, Mesh *mesh, int mat_index,
                 tri_pos[tri_frame_offset + face_offset + k * 3 + 2] 
                         = mesh_data->pos[frame_offset + vert_offset + 2];
 
-                if (!is_flat) {
-                    tri_norm[tri_frame_offset + face_offset + k * 3] 
-                            = mesh_data->nor[frame_offset + vert_offset];
-                    tri_norm[tri_frame_offset + face_offset + k * 3 + 1] 
-                            = mesh_data->nor[frame_offset + vert_offset + 1];
-                    tri_norm[tri_frame_offset + face_offset + k * 3 + 2] 
-                            = mesh_data->nor[frame_offset + vert_offset + 2];
-                } else {
+                if (edited_normals && split_normals) {
+                    int l = k;
+                    if (k > 2) {
+                        switch (k) {
+                        case 3:
+                            l = 0;
+                            break;
+                            case 4:
+                            l = 2;
+                            break;
+                            case 5:
+                            l = 3;
+                        }
+                    }
+
+                    tri_norm[tri_frame_offset + face_offset + k * 3] = split_normals[i][l][0]* (1.0f / 32767.0f);
+                    tri_norm[tri_frame_offset + face_offset + k * 3 + 1] = split_normals[i][l][2]* (1.0f / 32767.0f);
+                    tri_norm[tri_frame_offset + face_offset + k * 3 + 2] = -split_normals[i][l][1]* (1.0f / 32767.0f);
+
+                }
+                else {
+                    if (!is_flat) {
+                        tri_norm[tri_frame_offset + face_offset + k * 3]
+                                = mesh_data->nor[frame_offset + vert_offset];
+                        tri_norm[tri_frame_offset + face_offset + k * 3 + 1]
+                                = mesh_data->nor[frame_offset + vert_offset + 1];
+                        tri_norm[tri_frame_offset + face_offset + k * 3 + 2]
+                                = mesh_data->nor[frame_offset + vert_offset + 2];
+                }
+                else {
                     calc_face_normal(mface[i], mvert, no);
                     // rotate by 90 degrees around X axis
                     tri_norm[tri_frame_offset + face_offset + k * 3] = no[0];
                     tri_norm[tri_frame_offset + face_offset + k * 3 + 1] = no[2];
                     tri_norm[tri_frame_offset + face_offset + k * 3 + 2] = -no[1];
+                    }
                 }
             }
         }
@@ -1218,7 +1250,6 @@ void triangulate_mesh(struct MeshData *mesh_data, Mesh *mesh, int mat_index,
 
 float *optimize_vertex_colors(struct SubmeshData *data, unsigned int *channels_presence) {
     float *optimized_colors = NULL;
-
     int i, j, k, counter = 0;
     int optimized_colors_size;
 
@@ -1920,7 +1951,7 @@ static PyObject *b4w_bin_export_submesh(PyObject *self, PyObject *args) {
         }
         combine_colors(&mesh_data, mesh, vertex_colors, &mask_buffer);
         combine_tco(&mesh_data, mesh, mat_index);
-        triangulate_mesh(&mesh_data, mesh, mat_index, disab_flat);
+        triangulate_mesh(&mesh_data, mesh, mat_index, disab_flat, edited_normals);
         
         result = calc_submesh(&mesh_data, 1, 0, shape_keys);
     }
@@ -2006,6 +2037,47 @@ static PyObject *b4w_bin_buffer_insert_float(PyObject *self, PyObject *args) {
 
     buffer[index] = val;
     return PyLong_FromUnsignedLongLong((unsigned long long)buffer);
+}
+
+static PyObject *b4w_bin_calc_particle_scale(PyObject *self, PyObject *args) {
+    unsigned long long psys_ptr;
+    float *fuv_buffer;
+    int *f_v_num_buffer;
+    ParticleSystem *psys;
+
+    ParticleData * pa; int p;
+    PyObject *result;
+    PyObject *bytes_buff;
+    result = PyDict_New();
+
+    if (!PyArg_ParseTuple(args, "K", &psys_ptr))
+        return NULL;
+
+    psys  = (ParticleSystem *)psys_ptr;
+
+    int length = 4;
+    fuv_buffer = falloc(psys->totpart * length);
+    f_v_num_buffer = malloc(psys->totpart * sizeof(int));
+
+    for (p = 0, pa = psys->particles; p < psys->totpart; p++, pa++) {
+        fuv_buffer[p * length] = pa->fuv[0];
+        fuv_buffer[p * length + 1] = pa->fuv[1];
+        fuv_buffer[p * length + 2] = pa->fuv[2];
+        fuv_buffer[p * length + 3] = pa->fuv[3];
+        f_v_num_buffer[p] = pa->num;
+    }
+    
+    bytes_buff = PyByteArray_FromStringAndSize((char *)fuv_buffer, 
+                psys->totpart * length * sizeof(float));
+    PyDict_SetItemString(result, "face_uv", bytes_buff);
+
+    bytes_buff = PyByteArray_FromStringAndSize((char *)f_v_num_buffer, 
+                psys->totpart * sizeof(int));
+    PyDict_SetItemString(result, "face_ver_num", bytes_buff);
+
+    free(fuv_buffer);
+    free(f_v_num_buffer);
+    return result;
 }
 
 static PyObject *b4w_bin_get_buffer_float(PyObject *self, PyObject *args) {

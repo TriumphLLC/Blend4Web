@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Particle System. Fluids &mdash; User Manual: Blend4Web v15.05</title>
+    <title>Particle System. Fluids &mdash; User Manual: Blend4Web v15.06</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '15.05',
+        VERSION:     '15.06',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User Manual: Blend4Web v15.05" href="index.html" />
+    <link rel="top" title="User Manual: Blend4Web v15.06" href="index.html" />
     <link rel="next" title="Particle System. Instancing" href="particles_instancing.html" />
     <link rel="prev" title="Postprocessing Effects" href="postprocessing_effects.html" /> 
   </head>
@@ -36,7 +36,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">User Manual: Blend4Web v15.05</a></div>
+          href="index.html">User Manual: Blend4Web v15.06</a></div>
         <div class="rel" role="navigation" aria-label="related navigation">
           <a href="postprocessing_effects.html" title="Postprocessing Effects"
              accesskey="P">previous</a> |
@@ -78,9 +78,9 @@
 <li><p class="first">Initiate the engine playback. Two options are available:</p>
 <blockquote>
 <div><ul class="simple">
-<li><p class="first">&#8220;cyclic emission&#8221; - enable the <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Cyclic</span> <span class="pre">emission</span></code> checkbox for the particle system.</p>
+<li><p class="first">&#8220;cyclic emission&#8221; - enable the <code class="docutils literal"><span class="pre">Emission</span> <span class="pre">&gt;</span> <span class="pre">Cyclic</span> <span class="pre">emission</span></code> option for the particle system.</p>
 </li>
-<li><p class="first">&#8220;non-cyclic animation&#8221; - enable the <code class="docutils literal"><span class="pre">Blend4Web</span> <span class="pre">&gt;</span> <span class="pre">Animation</span> <span class="pre">&gt;</span> <span class="pre">Use</span> <span class="pre">default</span></code> checkbox for the emitter.</p>
+<li><p class="first">&#8220;non-cyclic animation&#8221; - enable the <code class="docutils literal"><span class="pre">Animation</span> <span class="pre">&gt;</span> <span class="pre">Apply</span> <span class="pre">Default</span> <span class="pre">Animation</span></code> option for the emitter.</p>
 </li>
 </ul>
 </div></blockquote>
@@ -105,6 +105,7 @@
 <div class="section" id="id5">
 <h2>Setup<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
 <p>The particle system parameters can be set up under the <code class="docutils literal"><span class="pre">Particles</span></code> tab. Multiple particle systems per emitter are supported.</p>
+<a class="reference internal image-reference" href="_images/particles_settings_panel.jpg"><img alt="_images/particles_settings_panel.jpg" class="align-center" src="_images/particles_settings_panel.jpg" style="width: 100%;" /></a>
 <div class="section" id="id6">
 <h3>Basic settings<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
 <dl class="docutils">
@@ -143,6 +144,12 @@
 <dt><em>Emission &gt; Emit From</em></dt>
 <dd><p class="first last">Emission source type. The following types are supported: <code class="docutils literal"><span class="pre">Verts</span></code> (emit from vertices), <code class="docutils literal"><span class="pre">Faces</span></code> (emit from polygons). The default is <code class="docutils literal"><span class="pre">Faces</span></code>.</p>
 </dd>
+<dt><em>Emission &gt; Cyclic emission</em></dt>
+<dd><p class="first last">The option enables the cyclic emission mode. It can be used for permanent effects (such as smoke, burning, water splashes). It is recommended to set the <code class="docutils literal"><span class="pre">Emission</span> <span class="pre">&gt;</span> <span class="pre">Start</span></code> value to zero. Disabled by default.</p>
+</dd>
+<dt><em>Emission &gt; Random emission</em></dt>
+<dd><p class="first last">The option enables a random emission time for particles. Disabled by default.</p>
+</dd>
 <dt><em>Emission &gt; Emit From &gt; Distribution</em></dt>
 <dd><p class="first last">Emission distribution settings: <code class="docutils literal"><span class="pre">Jittered</span></code>, <code class="docutils literal"><span class="pre">Random</span></code>, <code class="docutils literal"><span class="pre">Grid</span></code>. Ignored by the engine. Internally the engine always uses <code class="docutils literal"><span class="pre">Random</span></code> distribution. The default is <code class="docutils literal"><span class="pre">Jittered</span></code>.</p>
 </dd>
@@ -151,7 +158,6 @@
 </div>
 <div class="section" id="id8">
 <h3>Direction settings<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
-<p>Only the following settings are supported:</p>
 <dl class="docutils">
 <dt><em>Velocity &gt; Emitter Geometry &gt; Normal</em></dt>
 <dd><p class="first last">Factor influencing the emission along the emitter&#8217;s mesh normals. The default value is 1.0.</p>
@@ -163,10 +169,9 @@
 </div>
 <div class="section" id="id9">
 <h3>Rotation settings<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
-<p>Only the following settings are supported:</p>
 <dl class="docutils">
 <dt><em>Rotation &gt; Angular Velocity &gt; Mode</em></dt>
-<dd><p class="first last">Mode for particle billboards self-rotating. The following modes are supported: <code class="docutils literal"><span class="pre">Velocity</span></code> (constant rotation speed), <code class="docutils literal"><span class="pre">Random</span></code> (random rotation), <code class="docutils literal"><span class="pre">None</span></code> (no rotation). The default is <code class="docutils literal"><span class="pre">Velocity</span></code>.</p>
+<dd><p class="first last">Mode for particle billboards self-rotating. <code class="docutils literal"><span class="pre">Hair</span></code> particle system supports all the types of rotation and <code class="docutils literal"><span class="pre">Emitter</span></code> supports only <code class="docutils literal"><span class="pre">Velocity</span></code>.</p>
 </dd>
 <dt><em>Rotation &gt; Angular Velocity &gt; Factor</em></dt>
 <dd><p class="first last">Factor of rotation velocity for particle billboards. The default value is 0.0.</p>
@@ -175,7 +180,6 @@
 </div>
 <div class="section" id="id10">
 <h3>Physics settings<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
-<p>Only the following settings are supported:</p>
 <dl class="docutils">
 <dt><em>Physics &gt; Type</em></dt>
 <dd><p class="first last">Physics calculation type: <code class="docutils literal"><span class="pre">No</span></code>, <code class="docutils literal"><span class="pre">Newtonian</span></code>, <code class="docutils literal"><span class="pre">Keyed</span></code>, <code class="docutils literal"><span class="pre">Boids</span></code>, <code class="docutils literal"><span class="pre">Fluid</span></code>. Ignored by the engine. <code class="docutils literal"><span class="pre">Newtonian</span></code> physics is always used. The default is <code class="docutils literal"><span class="pre">Newtonian</span></code>.</p>
@@ -194,7 +198,6 @@
 </div>
 <div class="section" id="id11">
 <h3>Rendering settings<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
-<p>Only the following settings are supported:</p>
 <dl class="docutils">
 <dt><em>Render &gt; Material</em></dt>
 <dd><p class="first last">Menu for selecting the particle&#8217;s material. Used for referencing to the particle&#8217; material in case multiple materials are used by the emitter. The default value is <code class="docutils literal"><span class="pre">Default</span> <span class="pre">Material</span></code>.</p>
@@ -205,11 +208,19 @@
 <dt><em>Render &gt; Type</em></dt>
 <dd><p class="first last">Particle rendering mode: <code class="docutils literal"><span class="pre">None</span></code>, <code class="docutils literal"><span class="pre">Halo</span></code>, <code class="docutils literal"><span class="pre">Line</span></code>, <code class="docutils literal"><span class="pre">Path</span></code>, <code class="docutils literal"><span class="pre">Object</span></code>, <code class="docutils literal"><span class="pre">Group</span></code>, <code class="docutils literal"><span class="pre">Billboard</span></code>. The engine supports the <code class="docutils literal"><span class="pre">Object</span></code> and the <code class="docutils literal"><span class="pre">Group</span></code> modes which are used for objects and groups instancing respectively. Other modes are ignored. It is recommended to use the <code class="docutils literal"><span class="pre">Billboard</span></code> mode for convenient display of billboards. The default is <code class="docutils literal"><span class="pre">Halo</span></code>.</p>
 </dd>
+<dt><em>Render &gt; Billboard align</em></dt>
+<dd><p class="first last">The way billboards are oriented: <code class="docutils literal"><span class="pre">View</span></code> - follow the camera, <code class="docutils literal"><span class="pre">XY</span> <span class="pre">plane</span></code>, <code class="docutils literal"><span class="pre">YZ</span> <span class="pre">plane</span></code>, <code class="docutils literal"><span class="pre">ZX</span> <span class="pre">plane</span></code> - align to the corresponding plane (in the world coordinate system of Blender). The default is <code class="docutils literal"><span class="pre">View</span></code>.</p>
+</dd>
+<dt>Render &gt; Dissolve intervals &gt; Fade-in* and <em>Fade-out</em></dt>
+<dd><p class="first last">Starting and ending intervals (measured in frames) for gradually increasing and decreasing the particles&#8217; transparency.</p>
+</dd>
+<dt><em>Render &gt; Coordinate system</em></dt>
+<dd><p class="first last">Coordinate system of emitting particles: <code class="docutils literal"><span class="pre">Local</span></code> - use local coordinate system of the emitter object, <code class="docutils literal"><span class="pre">World</span></code> - use world coordinate system.</p>
+</dd>
 </dl>
 </div>
 <div class="section" id="particles-force-fields">
 <span id="id12"></span><h3>Supported settings for force fields influence<a class="headerlink" href="#particles-force-fields" title="Permalink to this headline">¶</a></h3>
-<p>Only the following settings are supported:</p>
 <dl class="docutils">
 <dt><em>Field Weights &gt; Gravity</em></dt>
 <dd><p class="first last">Gravity influence factor (Earth&#8217;s attraction). The default value is 1.0.</p>
@@ -222,23 +233,8 @@
 <div class="section" id="id13">
 <h3>Engine specific settings<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
 <dl class="docutils">
-<dt><em>Blend4Web &gt; Do not export</em></dt>
-<dd><p class="first last">Unsupported.</p>
-</dd>
-<dt><em>Blend4Web &gt; Cyclic emission</em></dt>
-<dd><p class="first last">The option enables the cyclic emission mode. It can be used for permanent effects (such as smoke, burning, water splashes). It is recommended to set the <code class="docutils literal"><span class="pre">Emission</span> <span class="pre">&gt;</span> <span class="pre">Start</span></code> value to zero. Disabled by default.</p>
-</dd>
-<dt><em>Blend4Web &gt; Random emission</em></dt>
-<dd><p class="first last">The option enables a random emission time for particles. Disabled by default.</p>
-</dd>
-<dt><em>Blend4Web &gt; Billboard align</em></dt>
-<dd><p class="first last">The way billboards are oriented: <code class="docutils literal"><span class="pre">View</span></code> - follow the camera, <code class="docutils literal"><span class="pre">XY</span> <span class="pre">plane</span></code>, <code class="docutils literal"><span class="pre">YZ</span> <span class="pre">plane</span></code>, <code class="docutils literal"><span class="pre">ZX</span> <span class="pre">plane</span></code> - align to the corresponding plane (in the world coordinate system of Blender). The default is <code class="docutils literal"><span class="pre">View</span></code>.</p>
-</dd>
-<dt><em>Blend4Web &gt; Dissolve intervals &gt; Fade-in</em> and <em>Fade-out</em></dt>
-<dd><p class="first last">Starting and ending intervals (measured in frames) for gradually increasing and decreasing the particles&#8217; transparency.</p>
-</dd>
-<dt><em>Blend4Web &gt; Coordinate system</em></dt>
-<dd><p class="first last">Coordinate system of emitting particles: <code class="docutils literal"><span class="pre">Local</span></code> - use local coordinate system of the emitter object, <code class="docutils literal"><span class="pre">World</span></code> - use world coordinate system.</p>
+<dt><em>Export Options &gt; Do not export</em></dt>
+<dd><p class="first last">Don&#8217;t export.</p>
 </dd>
 </dl>
 </div>
@@ -346,7 +342,7 @@
           
     <div class="footer" role="contentinfo">
         &copy; Copyright 2015, Triumph LLC.
-      Last updated on 2015-05-26.
+      Last updated on 2015-06-30.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
         </div>

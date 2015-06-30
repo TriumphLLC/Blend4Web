@@ -25,7 +25,8 @@ exports.init = function() {
         quality: m_cfg.P_HIGH,
         report_init_failure: false,
         canvas_resolution_factor: 2,
-        alpha: true
+        alpha: true,
+        track_container_position: true
     });
 }
 
@@ -50,7 +51,7 @@ function init_cb(canvas_elem, success) {
 
 function load_stuff() {
     m_data.load(m_cfg.get_std_assets_path() +
-                "logo_3d/logo_3d_horizontal.json",
+                "website/logo_3d/logo_3d_horizontal.json",
                 loaded_callback, false, true);
 }
 

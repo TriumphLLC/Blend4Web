@@ -5,6 +5,7 @@ class B4W_Camera_Target_Copier(bpy.types.Operator):
     '''Use cursor location as camera target'''
     bl_idname = "b4w.camera_target_copy"
     bl_label = "B4W Camera Target Copy"
+    bl_options = {"INTERNAL"}
    
     def execute(self, context):
         run()

@@ -12,6 +12,7 @@ b4w.module["__camera"] = function(exports, require) {
 var m_bounds = require("__boundings");
 var m_cfg    = require("__config");
 var m_cons   = require("__constraints");
+var m_cont   = require("__container");
 var m_print  = require("__print");
 var m_scenes = require("__scenes");
 var m_util   = require("__util");
@@ -1366,7 +1367,7 @@ exports.is_float_aspect = function(cam) {
  * Return camera angular diameter, calculated from FOV
  */
 exports.get_angular_diameter  = function(camobj) {
-    // NOTE: is it really ok?
+    // NOTE: is it really ok? 
     var cam = camobj._render.cameras[0];
 
     switch (cam.type) {
@@ -1756,9 +1757,6 @@ function get_cascade_interpolation(val_first, val_last, casc_count, casc_index) 
     return val;
 }
 
-/**
- * @param {Float32Array} dest Destination vector (vec2 - X/Y, vec3 - X/Y/DEPTH)
- */
 exports.project_point = function(camobj, point, dest) {
     var cam = camobj._render.cameras[0];
 
@@ -1784,6 +1782,9 @@ exports.project_point = function(camobj, point, dest) {
         // transform from [-1, 1] to [0, cam.width] or [0, cam.height] interval
         dest[0] = (x + 1) / 2 * cam.width;
         dest[1] = (y + 1) / 2 * cam.height;
+
+        // convert to CSS canvas cordinates
+        m_cont.viewport_to_canvas_coords(dest[0], dest[1], dest, cam);
 
         // NOTE: depth factor (0-1)
         if (dest.length > 2)

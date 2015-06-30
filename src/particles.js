@@ -80,7 +80,7 @@ exports.generate_emitter_particles_submesh = function(batch, emitter_mesh,
     psystem._internal = psystem._internal || {};
 
     var emitter_submesh = m_geom.extract_submesh_all_mats(emitter_mesh,
-            ["a_position", "a_normal"], false);
+            ["a_position", "a_normal"], null);
 
     var pcount = psystem["settings"]["count"]; 
     var time_start = psystem["settings"]["frame_start"] / cfg_ani.framerate;
@@ -186,7 +186,11 @@ function pose_emitter_world(psys, is_billboard, positions, normals, tsr,
     for (var j = 0; j < delay_attrs.length; j+=step) {
         var delay = delay_attrs[j];
 
-        if (delay > prev_time && delay <= time)
+        // looped timing 
+        var need_emitter_pos = (time > prev_time && time >= delay && delay > prev_time)
+                || (time < prev_time && (delay > prev_time || time >= delay));
+
+        if (need_emitter_pos)
             for (var k = 0; k < 8; k++)
                 em_snapshots[8 * j + k]  = tsr[k];
 
@@ -534,7 +538,6 @@ function gen_normals(indices, encoords) {
 
 function gen_delay_attrs(pcount, mindelay, maxdelay, random, is_billboard,
                          cyclic) {
-
     var darr = [];
 
     var delayint = (maxdelay - mindelay)/pcount;

@@ -97,6 +97,7 @@ function init_texture() {
         name: "",
         type: 0,
         source: "",
+        source_id: "",
         width: 0,
         height: 0,
         compress_ratio: 1,
@@ -289,7 +290,10 @@ exports.resize = function(texture, width, height) {
     }
 
     if (check_texture_size(width, height)) {
-        m_print.error("Slink texture \"" + texture.name + "\" has unsupported size");
+        m_print.error("Slink texture \"" + texture.name
+                + "\" has unsupported size: " + width + "x" + height
+                + ". Max available: " + cfg_def.max_texture_size + "x"
+                + cfg_def.max_texture_size + ".");
         return;
     }
 
@@ -419,7 +423,7 @@ function create_texture_bpy(bpy_texture, global_af, bpy_scenes, thread_id) {
         var size = bpy_texture["b4w_source_size"];
 
         texture.enable_canvas_mipmapping = bpy_texture["b4w_enable_canvas_mipmapping"];
-        texture.name = id;
+        texture.source_id = id;
         texture.source = "CANVAS";
 
         update_canvas_props(id, size, texture);
@@ -429,15 +433,14 @@ function create_texture_bpy(bpy_texture, global_af, bpy_scenes, thread_id) {
         _canvas_textures_cache[thread_id][id] = texture;
         update_texture_canvas(texture);
     } else if (bpy_texture["b4w_source_type"] == "SCENE" && tex_type == "NONE") {
-        texture.name = bpy_texture["b4w_source_id"];
+        texture.source_id = bpy_texture["b4w_source_id"];
         texture.source = "SCENE";
     } else {
-        texture.name = bpy_texture["name"];
         texture.source = tex_type;
         _gl.generateMipmap(w_target);
         _gl.bindTexture(w_target, null);
     }
-
+    texture.name = bpy_texture["name"];
     bpy_texture._render = texture;
     return texture;
 }
@@ -556,7 +559,11 @@ exports.update_texture = function(texture, image_data, is_dds, filepath, thread_
         } else if (is_dds) {
             var dds_wh = m_dds.get_width_height(image_data);
             if(check_texture_size(dds_wh.width, dds_wh.height)) {
-                m_print.error("texture has unsupported size", filepath);
+                m_print.error("Texture \"" + filepath 
+                        + "\" has unsupported size: " + dds_wh.width + "x" 
+                        + dds_wh.height + ". Max available: " 
+                        + cfg_def.max_texture_size + "x"
+                        + cfg_def.max_texture_size + ".");
                 return;
             }
             m_dds.upload_dds_levels(_gl, extensions.get_s3tc(), image_data,
@@ -576,7 +583,11 @@ exports.update_texture = function(texture, image_data, is_dds, filepath, thread_
             //_gl.pixelStorei(_gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);
 
             if(check_texture_size(image_data.width, image_data.height)) {
-                m_print.error("texture has unsupported size", filepath);
+                m_print.error("Texture \"" + filepath 
+                        + "\" has unsupported size: " + image_data.width + "x" 
+                        + image_data.height + ". Max available: " 
+                        + cfg_def.max_texture_size + "x"
+                        + cfg_def.max_texture_size + ".");
                 return;
             }
             if (texture.is_movie) {
@@ -619,15 +630,21 @@ exports.update_texture = function(texture, image_data, is_dds, filepath, thread_
                 }
             } else
                 _gl.texImage2D(w_target, 0, _gl.RGBA, _gl.RGBA, _gl.UNSIGNED_BYTE, image_data);
-            if (cfg_def.seq_video_fallback && texture.is_movie) {
-                texture.width = image_data[0].width;
-                texture.height = image_data[0].height;
+
+            if (texture.is_movie) {
+                if (cfg_def.seq_video_fallback) {
+                    texture.width = image_data[0].width;
+                    texture.height = image_data[0].height;
+                } else {
+                    texture.width = image_data.videoWidth;
+                    texture.height = image_data.videoHeight;
+                }
             } else {
                 texture.width = image_data.width;
                 texture.height = image_data.height;
             }
 
-            if (is_non_power_of_two(image_data.width, image_data.height)) {
+            if (is_non_power_of_two(texture.width, texture.height)) {
                 if (!texture.auxilary_texture)
                     if (texture.is_movie)
                         m_print.warn("using NPOT video texture", filepath);
@@ -667,7 +684,11 @@ exports.update_texture = function(texture, image_data, is_dds, filepath, thread_
             var dim = image_data.width / 3;
 
             if (check_cube_map_size(dim,dim)) {
-                m_print.error("cubemap has unsupported size", filepath);
+                m_print.error("Cubemap texture \"" + filepath 
+                        + "\" has unsupported size: " + image_data.width + "x" 
+                        + image_data.height + ". Max available: " 
+                        + cfg_def.max_cube_map_size * 3 + "x"
+                        + cfg_def.max_cube_map_size * 2 + ".");
                 return;
             }
 

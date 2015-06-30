@@ -140,7 +140,7 @@ void main(void) {
 #if BILLBOARD
     vec3 wcen = (u_model_matrix * vec4(center, 1.0)).xyz;
 
-# if BILLBOARD_PRES_GLOB_ORIENTATION
+# if BILLBOARD_PRES_GLOB_ORIENTATION && !STATIC_BATCH
     mat4 model_matrix = billboard_matrix_global(u_camera_eye, wcen, 
             u_view_matrix, u_model_matrix);
 # else

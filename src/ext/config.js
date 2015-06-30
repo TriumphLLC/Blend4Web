@@ -65,13 +65,16 @@
  * <dt>physics_uranium_path
  * <dd>String, path to the uranium.js file. If not specified, search in the
  * directory with the engine's sources.
+ * <dt>physics_calc_fps
+ * <dd>Boolean, return physics FPS in {@link module:main~FPSCallback|FPS
+ * callback}.
  * <dt>precision
  * <dd>String, preferred GLSL floating point precision (use the CUSTOM profile
  * in order to change this parameter).
  * <dt>quality
  * <dd>Number, preferred rendering quality profile (one of P_LOW, P_HIGH,
  * P_ULTRA, P_CUSTOM enums).
- * <dt>resolution_factor
+ * <dt>render_resolution_factor
  * <dd>Number, internal rendering resolution factor (use the CUSTOM profile
  * in order to change this parameter).
  * <dt>sfx_mix_mode
@@ -93,6 +96,7 @@
  * <dd>Boolean, enable wireframe debug mode.
  * </dl>
  * @module config
+ * @local QualityProfile
  * @cc_externs allow_cors allow_hidpi alpha alpha_sort
  * @cc_externs alpha_sort_threshold anaglyph_use animation_framerate
  * @cc_externs antialiasing assets_dds_available assets_min50_available audio
@@ -100,8 +104,8 @@
  * @cc_externs console_verbose
  * @cc_externs do_not_load_resources enable_selectable
  * @cc_externs enable_outlining gyro_use outlining_overview_mode
- * @cc_externs physics_enabled physics_uranium_path precision quality
- * @cc_externs resolution_factor sfx_mix_mode shaders_dir show_hud_debug_info
+ * @cc_externs physics_enabled physics_uranium_path physics_calc_fps precision quality
+ * @cc_externs render_resolution_factor sfx_mix_mode shaders_dir show_hud_debug_info
  * @cc_externs smaa smaa_search_texture_path smaa_area_texture_path
  * @cc_externs wireframe_debug
  */
@@ -109,27 +113,34 @@ b4w.module["config"] = function(exports, require) {
 
 var m_cfg = require("__config");
 
+
+/**
+ * Quality profile enum. One of P_*.
+ * @typedef QualityProfile
+ * @type {Number}
+ */
+
 /**
  * Low quality profile: maximize engine performance.
- * @const {Number} module:config.P_LOW
+ * @const {QualityProfile} module:config.P_LOW
  */
 exports.P_LOW = m_cfg.P_LOW;
 
 /**
  * High quality profile: use all requested features.
- * @const {Number} module:config.P_HIGH
+ * @const {QualityProfile} module:config.P_HIGH
  */
 exports.P_HIGH = m_cfg.P_HIGH;
 
 /**
  * Ultra quality profile: use all requested features and maximize quality.
- * @const {Number} module:config.P_ULTRA
+ * @const {QualityProfile} module:config.P_ULTRA
  */
 exports.P_ULTRA = m_cfg.P_ULTRA;
 
 /**
  * Custom quality profile: use engine defaults, allow customization.
- * @const {Number} module:config.P_CUSTOM
+ * @const {QualityProfile} module:config.P_CUSTOM
  */
 exports.P_CUSTOM = m_cfg.P_CUSTOM;
 

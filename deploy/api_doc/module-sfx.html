@@ -166,7 +166,7 @@ Uses Web Audio API for sound effects and HTML5 audio for background music.</div>
 
         
             
-<li> <a href="#.get_compressor_params">get_compressor_params<span class="signature">()</span><span class="type-signature"> &rarr; {Object}</span></a></li>
+<li> <a href="#.get_compressor_params">get_compressor_params<span class="signature">()</span><span class="type-signature"> &rarr; {CompressorParams}</span></a></li>
 
         
             
@@ -174,11 +174,11 @@ Uses Web Audio API for sound effects and HTML5 audio for background music.</div>
 
         
             
-<li> <a href="#.get_filter_params">get_filter_params<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Object}</span></a></li>
+<li> <a href="#.get_filter_params">get_filter_params<span class="signature">(obj)</span><span class="type-signature"> &rarr; {FilterParams}</span></a></li>
 
         
             
-<li> <a href="#.get_positional_params">get_positional_params<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Object}</span></a></li>
+<li> <a href="#.get_positional_params">get_positional_params<span class="signature">(obj)</span><span class="type-signature"> &rarr; {PositionalParams}</span></a></li>
 
         
             
@@ -347,7 +347,7 @@ The new playlist starts playing immediately.
             <td class="type">
             
                 
-<span class="param-type">Array</span>
+<span class="param-type">Array.&lt;<a href="global.html#Object3D">Object3D</a>></span>
 
 
             
@@ -357,7 +357,7 @@ The new playlist starts playing immediately.
 
             
 
-            <td class="description last">Array of object IDs</td>
+            <td class="description last">Array of objects.</td>
         </tr>
 
     
@@ -722,7 +722,7 @@ The new playlist starts playing immediately.
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
 
 
             
@@ -732,7 +732,7 @@ The new playlist starts playing immediately.
 
             
 
-            <td class="description last">Speaker object ID</td>
+            <td class="description last">Speaker object.</td>
         </tr>
 
     
@@ -1251,7 +1251,7 @@ works independently from the volume API and the volume randomization
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
 
 
             
@@ -1271,7 +1271,7 @@ works independently from the volume API and the volume randomization
 
             
 
-            <td class="description last">Object ID or null for MASTER</td>
+            <td class="description last">Object 3D or null for MASTER</td>
         </tr>
 
     
@@ -1408,7 +1408,7 @@ works independently from the volume API and the volume randomization
 
     
 
-    <h4 class="name" id=".get_compressor_params">get_compressor_params<span class="signature">()</span><span class="type-signature"> &rarr; {Object}</span></h4>
+    <h4 class="name" id=".get_compressor_params">get_compressor_params<span class="signature">()</span><span class="type-signature"> &rarr; {CompressorParams}</span></h4>
 
     
 
@@ -1454,7 +1454,7 @@ works independently from the volume API and the volume randomization
     </dt>
     <dd>
         
-<span class="param-type">Object</span>
+<span class="param-type">CompressorParams</span>
 
 
     </dd>
@@ -1566,7 +1566,7 @@ works independently from the volume API and the volume randomization
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
 
 
             
@@ -1576,7 +1576,7 @@ works independently from the volume API and the volume randomization
 
             
 
-            <td class="description last">Object ID</td>
+            <td class="description last">Object 3D</td>
         </tr>
 
     
@@ -1720,7 +1720,7 @@ works independently from the volume API and the volume randomization
 
     
 
-    <h4 class="name" id=".get_filter_params">get_filter_params<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+    <h4 class="name" id=".get_filter_params">get_filter_params<span class="signature">(obj)</span><span class="type-signature"> &rarr; {FilterParams}</span></h4>
 
     
 
@@ -1770,7 +1770,7 @@ works independently from the volume API and the volume randomization
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
 
 
             
@@ -1780,7 +1780,7 @@ works independently from the volume API and the volume randomization
 
             
 
-            <td class="description last">Object ID</td>
+            <td class="description last">Object 3D</td>
         </tr>
 
     
@@ -1815,7 +1815,7 @@ works independently from the volume API and the volume randomization
     </dt>
     <dd>
         
-<span class="param-type">Object</span>
+<span class="param-type">FilterParams</span>
 
 
     </dd>
@@ -1877,7 +1877,7 @@ works independently from the volume API and the volume randomization
 
     
 
-    <h4 class="name" id=".get_positional_params">get_positional_params<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+    <h4 class="name" id=".get_positional_params">get_positional_params<span class="signature">(obj)</span><span class="type-signature"> &rarr; {PositionalParams}</span></h4>
 
     
 
@@ -1927,7 +1927,7 @@ works independently from the volume API and the volume randomization
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
 
 
             
@@ -1937,7 +1937,7 @@ works independently from the volume API and the volume randomization
 
             
 
-            <td class="description last">Object ID</td>
+            <td class="description last">Object 3D</td>
         </tr>
 
     
@@ -1972,7 +1972,7 @@ works independently from the volume API and the volume randomization
     </dt>
     <dd>
         
-<span class="param-type">Object</span>
+<span class="param-type">PositionalParams</span>
 
 
     </dd>
@@ -2278,7 +2278,7 @@ works independently from the volume API and the volume randomization
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
 
 
             
@@ -2298,7 +2298,7 @@ works independently from the volume API and the volume randomization
 
             
 
-            <td class="description last">Object ID or null for MASTER volume</td>
+            <td class="description last">Object 3D or null for MASTER volume</td>
         </tr>
 
     
@@ -2448,7 +2448,7 @@ Zero duration means looped or non-ready speaker
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
 
 
             
@@ -2468,7 +2468,7 @@ Zero duration means looped or non-ready speaker
 
             
 
-            <td class="description last">Speaker object ID</td>
+            <td class="description last">Speaker object.</td>
         </tr>
 
     
@@ -2615,7 +2615,7 @@ Zero duration means looped or non-ready speaker
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
 
 
             
@@ -2625,7 +2625,7 @@ Zero duration means looped or non-ready speaker
 
             
 
-            <td class="description last">Speaker object ID</td>
+            <td class="description last">Speaker object.</td>
         </tr>
 
     
@@ -2774,7 +2774,7 @@ Zero duration means looped or non-ready speaker
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
 
 
             
@@ -2794,7 +2794,7 @@ Zero duration means looped or non-ready speaker
 
             
 
-            <td class="description last">Speaker object ID or null for all of them.</td>
+            <td class="description last">Speaker object or null for all of them.</td>
         </tr>
 
     
@@ -2941,7 +2941,7 @@ Zero duration means looped or non-ready speaker
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
 
 
             
@@ -2951,7 +2951,7 @@ Zero duration means looped or non-ready speaker
 
             
 
-            <td class="description last">Object ID</td>
+            <td class="description last">Object 3D</td>
         </tr>
 
     
@@ -3271,7 +3271,7 @@ Use after quick listener movements to neutralize undesirable doppler effect.
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
 
 
             
@@ -3291,7 +3291,7 @@ Use after quick listener movements to neutralize undesirable doppler effect.
 
             
 
-            <td class="description last">Speaker object ID or null for all of them</td>
+            <td class="description last">Speaker object or null for all of them</td>
         </tr>
 
     
@@ -3447,7 +3447,7 @@ Use after quick listener movements to neutralize undesirable doppler effect.
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
 
 
             
@@ -3457,7 +3457,7 @@ Use after quick listener movements to neutralize undesirable doppler effect.
 
             
 
-            <td class="description last">Object ID</td>
+            <td class="description last">Object 3D</td>
         </tr>
 
     
@@ -3586,7 +3586,7 @@ Use after quick listener movements to neutralize undesirable doppler effect.
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
 
 
             
@@ -3608,7 +3608,7 @@ Use after quick listener movements to neutralize undesirable doppler effect.
                 </td>
             
 
-            <td class="description last">Object ID</td>
+            <td class="description last">Object 3D</td>
         </tr>
 
     
@@ -3812,7 +3812,7 @@ seconds). duration=0 - assign default value according to sound playback length.<
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
 
 
             
@@ -3822,7 +3822,7 @@ seconds). duration=0 - assign default value according to sound playback length.<
 
             
 
-            <td class="description last">Object ID</td>
+            <td class="description last">Object 3D</td>
         </tr>
 
     
@@ -3947,7 +3947,7 @@ seconds). duration=0 - assign default value according to sound playback length.<
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
 
 
             
@@ -3957,7 +3957,7 @@ seconds). duration=0 - assign default value according to sound playback length.<
 
             
 
-            <td class="description last">Object ID</td>
+            <td class="description last">Object 3D</td>
         </tr>
 
     
@@ -4105,7 +4105,7 @@ seconds). duration=0 - assign default value according to sound playback length.<
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
 
 
             
@@ -4115,7 +4115,7 @@ seconds). duration=0 - assign default value according to sound playback length.<
 
             
 
-            <td class="description last">Object ID</td>
+            <td class="description last">Object 3D</td>
         </tr>
 
     
@@ -4262,7 +4262,7 @@ seconds). duration=0 - assign default value according to sound playback length.<
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
 
 
             
@@ -4272,7 +4272,7 @@ seconds). duration=0 - assign default value according to sound playback length.<
 
             
 
-            <td class="description last">Object ID</td>
+            <td class="description last">Object 3D</td>
         </tr>
 
     
@@ -4397,7 +4397,7 @@ seconds). duration=0 - assign default value according to sound playback length.<
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type">CompressorParams</span>
 
 
             
@@ -4532,7 +4532,7 @@ seconds). duration=0 - assign default value according to sound playback length.<
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
 
 
             
@@ -4542,7 +4542,7 @@ seconds). duration=0 - assign default value according to sound playback length.<
 
             
 
-            <td class="description last">Object ID</td>
+            <td class="description last">Object 3D</td>
         </tr>
 
     
@@ -4555,7 +4555,7 @@ seconds). duration=0 - assign default value according to sound playback length.<
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type">FilterParams</span>
 
 
             
@@ -4690,7 +4690,7 @@ seconds). duration=0 - assign default value according to sound playback length.<
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
 
 
             
@@ -4700,7 +4700,7 @@ seconds). duration=0 - assign default value according to sound playback length.<
 
             
 
-            <td class="description last">Object ID</td>
+            <td class="description last">Object 3D</td>
         </tr>
 
     
@@ -4713,7 +4713,7 @@ seconds). duration=0 - assign default value according to sound playback length.<
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type">PositionalParams</span>
 
 
             
@@ -4850,7 +4850,7 @@ seconds). duration=0 - assign default value according to sound playback length.<
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
 
 
             
@@ -4870,7 +4870,7 @@ seconds). duration=0 - assign default value according to sound playback length.<
 
             
 
-            <td class="description last">Object ID or null for MASTER volume</td>
+            <td class="description last">Object 3D or null for MASTER volume</td>
         </tr>
 
     
@@ -5040,7 +5040,7 @@ seconds). duration=0 - assign default value according to sound playback length.<
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
 
 
             
@@ -5062,7 +5062,7 @@ seconds). duration=0 - assign default value according to sound playback length.<
                 </td>
             
 
-            <td class="description last">Object ID</td>
+            <td class="description last">Object 3D</td>
         </tr>
 
     
@@ -5396,7 +5396,7 @@ to neutralize the undesirable doppler effect.
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
 
 
             
@@ -5418,7 +5418,7 @@ to neutralize the undesirable doppler effect.
                 </td>
             
 
-            <td class="description last">Speaker object ID</td>
+            <td class="description last">Speaker object.</td>
         </tr>
 
     
@@ -5619,7 +5619,7 @@ to neutralize the undesirable doppler effect.
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
 
 
             
@@ -5629,7 +5629,7 @@ to neutralize the undesirable doppler effect.
 
             
 
-            <td class="description last">Object ID</td>
+            <td class="description last">Object 3D</td>
         </tr>
 
     
@@ -5756,7 +5756,7 @@ to neutralize the undesirable doppler effect.
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
 
 
             
@@ -5766,7 +5766,7 @@ to neutralize the undesirable doppler effect.
 
             
 
-            <td class="description last">Object ID</td>
+            <td class="description last">Object 3D</td>
         </tr>
 
     
@@ -5893,7 +5893,7 @@ to neutralize the undesirable doppler effect.
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
 
 
             
@@ -5913,7 +5913,7 @@ to neutralize the undesirable doppler effect.
 
             
 
-            <td class="description last">Object ID or null for MASTER</td>
+            <td class="description last">Object 3D or null for MASTER</td>
         </tr>
 
     
@@ -5997,13 +5997,13 @@ to neutralize the undesirable doppler effect.
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-rgb.html">rgb</a></li><li><a href="module-rgba.html">rgba</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul><h3><a href="global.html">Global</a></h3>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Tue May 26 2015 12:05:06 GMT+0300 (MSK)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Tue Jun 30 2015 17:18:04 GMT+0300 (MSK)
 </footer>
 
 <script> prettyPrint(); </script>

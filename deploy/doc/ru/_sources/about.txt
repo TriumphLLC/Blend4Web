@@ -72,8 +72,8 @@ WebGL (Web Graphics Library, т.е. графическая библиотека 
 Полная поддержка
 ----------------
 
-* `Yandex Browser <http://browser.yandex.ru/>`_ 
 * `Chrome <http://www.google.com/chrome>`_
+* `Yandex Browser <http://browser.yandex.ru/>`_ 
 * `Firefox <http://www.mozilla.org/firefox>`_
 * `Opera <http://www.opera.com/browser>`_
 * `Safari <http://www.apple.com/safari/>`_ 8+

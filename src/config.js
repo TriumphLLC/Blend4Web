@@ -29,7 +29,7 @@ exports.defaults = {
 
     alpha_sort_threshold       : 0.1,
 
-    min_format_version         : "5.04",
+    min_format_version         : [5, 4],
 
     max_fps                    : 10000, // not accurate
 
@@ -47,7 +47,7 @@ exports.defaults = {
 
     lod_transition_ratio       : 0.01,
 
-    resolution_factor          : 1.0,
+    render_resolution_factor   : 1.0,
 
     canvas_resolution_factor   : 1.0,
 
@@ -62,11 +62,10 @@ exports.defaults = {
     // init and show HUD on canvas provided by app
     show_hud_debug_info        : false,
 
-    // required for DEPTH shadows
+    // required for shadows
     depth_textures             : true,
 
-    // "NONE", "DEPTH"
-    shadows                    : "DEPTH",
+    shadows                    : true,
 
     anaglyph_use               : false,
 
@@ -140,8 +139,6 @@ exports.defaults = {
 
     clear_procedural_sky_hack  : false,
 
-    firefox_disable_html_video_tex_hack: false,
-
     sky_update_hack            : false,
 
     seq_video_fallback         : false,
@@ -164,7 +161,11 @@ exports.defaults = {
 
     ie11_touchscreen_hack      : false,
 
-    loaded_data_version        : 0
+    ios_depth_hack             : false,
+
+    macos_tex_reuse_hack       : false,
+
+    loaded_data_version        : [0, 0]
 }
 
 exports.defaults_save = m_util.clone_object_r(exports.defaults);
@@ -265,7 +266,7 @@ exports.apply_quality = function() {
 
     case exports.P_ULTRA:
 
-        cfg_def.shadows = "DEPTH",
+        cfg_def.shadows = true,
 
         cfg_def.shore_smoothing = true,
 
@@ -291,7 +292,7 @@ exports.apply_quality = function() {
 
         cfg_def.procedural_fog = true;
 
-        cfg_def.resolution_factor = 1.75;
+        cfg_def.render_resolution_factor = 1.75;
 
         cfg_scs.grass_tex_size = 4.0*512;
 
@@ -327,7 +328,7 @@ exports.apply_quality = function() {
 
     case exports.P_HIGH:
 
-        cfg_def.shadows = "DEPTH";
+        cfg_def.shadows = true;
 
         cfg_def.shore_smoothing = true;
 
@@ -353,7 +354,7 @@ exports.apply_quality = function() {
 
         cfg_def.procedural_fog = true;
 
-        cfg_def.resolution_factor = 1.0;
+        cfg_def.render_resolution_factor = 1.0;
 
         cfg_scs.grass_tex_size = 2*512;
 
@@ -389,7 +390,7 @@ exports.apply_quality = function() {
 
     case exports.P_LOW:
 
-        cfg_def.shadows = "NONE";
+        cfg_def.shadows = false;
 
         cfg_def.shore_smoothing = false;
 
@@ -415,7 +416,7 @@ exports.apply_quality = function() {
 
         cfg_def.procedural_fog = false;
 
-        cfg_def.resolution_factor = 1; // can be 0.5
+        cfg_def.render_resolution_factor = 1; // can be 0.5
 
         cfg_scs.grass_tex_size = 1*512;
 
@@ -514,14 +515,17 @@ function set(prop, value) {
     case "physics_uranium_path":
         exports.physics.uranium_path = value;
         break;
+    case "physics_calc_fps":
+        exports.physics.calc_fps = value;
+        break;
     case "precision":
         exports.defaults.precision = value;
         break;
     case "quality":
         exports.defaults.quality = value;
         break;
-    case "resolution_factor":
-        exports.defaults.resolution_factor = value;
+    case "render_resolution_factor":
+        exports.defaults.render_resolution_factor = value;
         break;
     case "sfx_mix_mode":
         exports.sfx.mix_mode = value;
@@ -602,12 +606,14 @@ exports.get = function(prop) {
         return exports.physics.enabled;
     case "physics_uranium_path":
         return exports.physics.uranium_path;
+    case "physics_calc_fps":
+        return exports.physics.calc_fps;
     case "precision":
         return exports.defaults.precision;
     case "quality":
         return exports.defaults.quality;
-    case "resolution_factor":
-        return exports.defaults.resolution_factor;
+    case "render_resolution_factor":
+        return exports.defaults.render_resolution_factor;
     case "sfx_mix_mode":
         return exports.sfx.mix_mode;
     case "shaders_dir":

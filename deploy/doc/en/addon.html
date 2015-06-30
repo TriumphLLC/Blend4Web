@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>The Add-on &mdash; User Manual: Blend4Web v15.05</title>
+    <title>The Add-on &mdash; User Manual: Blend4Web v15.06</title>
     
     <link rel="stylesheet" href="_static/agogo.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '15.05',
+        VERSION:     '15.06',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="User Manual: Blend4Web v15.05" href="index.html" />
+    <link rel="top" title="User Manual: Blend4Web v15.06" href="index.html" />
     <link rel="next" title="Objects" href="objects.html" />
     <link rel="prev" title="Web Player" href="web_player.html" /> 
   </head>
@@ -36,7 +36,7 @@
             <img class="logo" src="_static/b4w_logo.png" alt="Logo"/>
           </a></p>
         <div class="headertitle"><a
-          href="index.html">User Manual: Blend4Web v15.05</a></div>
+          href="index.html">User Manual: Blend4Web v15.06</a></div>
         <div class="rel" role="navigation" aria-label="related navigation">
           <a href="web_player.html" title="Web Player"
              accesskey="P">previous</a> |
@@ -158,19 +158,34 @@ Current version is VER_CURRENT.</td>
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td>Version mismatch. File version:
-VER_OLD, required: VER_NEW. Some
-compatibility issues can occur.
-Reexport scene with the latest B4W
-addon to fix it.</td>
-<td><p class="first last">Partial version incompatibility. The version of the exported scene is VER_OLD but the engine requires VER_NEW. The scene will be loaded as usual, however some errors may occur. It&#8217;s adviced to reexport the scene by using recent version of addon, and also upgrade Blend4Web engine.</p>
+<tr class="row-even"><td>JSON version is too old relative to
+B4W engine: VER_OLD, required:
+VER_NEW. Reexport scene with the
+latest B4W addon to fix it.</td>
+<td><p class="first last">Version of the add-on, with which the scene was exported, is too old: VER_OLD. The engine requires: VER_NEW. The scene will not be loaded. We recommend you to reexport the scene using the latest version of the add-on. We also recommend to use the latest version of the engine.</p>
 </td>
 </tr>
-<tr class="row-odd"><td>Incompatible file version: VER_OLD,
-required: VER_NEW. Reexport scene
-with the latest B4W addon to fix
+<tr class="row-odd"><td>JSON version is a bit old relative
+to B4W engine: VER_OLD, required:
+VER_NEW. Some compatibility issues
+can occur. Reexport scene with the
+latest B4W addon to fix it.</td>
+<td><p class="first last">Version of the add-on, with which the scene was exported, is a bit old: VER_OLD. The engine requires: VER_NEW. The scene will be loaded as usual, however some errors may occur. We recommend you to reexport the scene using the latest version of the add-on. We also recommend to use the latest version of the engine.</p>
+</td>
+</tr>
+<tr class="row-even"><td>B4W engine version is too old
+relative to JSON. Can&#8217;t load the
+scene. Update your engine version
+to fix it.</td>
+<td><p class="first last">Engine version is too old as compared to version of the add-on with which the scene was exported. The scene will not be loaded. We recommend you to use the latest versions of the engine and the add-on.</p>
+</td>
+</tr>
+<tr class="row-odd"><td>B4W engine version is a bit old
+relative to JSON. Some
+compatibility issues can occur.
+Update your engine version to fix
 it.</td>
-<td><p class="first last">Total version incompatibility. The version of the exported scene is VER_OLD but the engine requires VER_NEW. The scene will not be loaded. It&#8217;s required to reexport the scene by using recent version of addon, and also upgrade Blend4Web engine.</p>
+<td><p class="first last">Engine version is a bit old as compared to version of the add-on with which the scene was exported. The scene will be loaded as usual, however some errors may occur. We recommend you to use the latest versions of the engine and the add-on.</p>
 </td>
 </tr>
 </tbody>
@@ -495,6 +510,18 @@ the &#8220;OBJECT_NAME&#8221; object
 <td><p class="first last">The NAME vertex color is specified in the <code class="docutils literal"><span class="pre">to</span></code> field but it is not present in the OBJECT_NAME object of the GROUP_NAME group which is selected as a particle.</p>
 </td>
 </tr>
+<tr class="row-odd"><td>The main scene NAME can not be
+rendered by another scene. Material
+NAME has been removed.</td>
+<td><p class="first last">The main scene NAME can not be rendered by another scene. The material NAME has been deleted.</p>
+</td>
+</tr>
+<tr class="row-even"><td>The main scene NAME can not be
+rendered by another scene. Texture
+NAME has been removed.</td>
+<td><p class="first last">The main scene NAME can not be rendered by another scene. The texture NAME has been deleted.</p>
+</td>
+</tr>
 <tr class="row-odd"><td>The NAME action has decimal frames.
 Converted to integer.</td>
 <td><p class="first last">The NAME action has decimal frames. Converted to integer.</p>
@@ -628,7 +655,14 @@ object</td>
 <td><p class="first last">There should be at least one world datablock in the scene.</p>
 </td>
 </tr>
-<tr class="row-even"><td>The &#8220;NAME&#8221; camera has unsupported
+<tr class="row-even"><td>NAME particle settings has the NAME
+texture rendering a scene. It has
+been replaced by the default
+texture.</td>
+<td><p class="first last">The particle settings datablock NAME contains the texture NAME being used for rendering a scene into. This texture has been replaced by a default texture.</p>
+</td>
+</tr>
+<tr class="row-odd"><td>The &#8220;NAME&#8221; camera has unsupported
 PANORAMIC type. Changed to
 PERSPECTIVE type.&#8221;</td>
 <td><p class="first last">Panoramic cameras are not supported. Perspective mode is used instead.</p>
@@ -721,7 +755,7 @@ PERSPECTIVE type.&#8221;</td>
           
     <div class="footer" role="contentinfo">
         &copy; Copyright 2015, Triumph LLC.
-      Last updated on 2015-05-26.
+      Last updated on 2015-06-30.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
         </div>

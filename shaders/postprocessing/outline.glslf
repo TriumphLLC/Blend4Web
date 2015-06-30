@@ -22,11 +22,11 @@ void main(void) {
         if (alpha_diff != 0.0) {
             float outline_strength = smoothstep(0.0, 1.0, outline_mask_blurred.a);
 
-            // NOTE: outlineing outside object
+            // NOTE: outlining outside object
             if (outline_mask.a == 0.0) {
                 vec3 outline_color_srgb = u_outline_color;
                 lin_to_srgb(outline_color_srgb);
-                vec4 outline_color = vec4(clamp(outline_color_srgb, 0.0, 1.0), outline_strength);
+                vec4 outline_color = vec4(clamp(outline_color_srgb, 0.0, 1.0), 1.0);
 
                 gl_FragColor = mix(outline_src, outline_color, outline_strength);
             }

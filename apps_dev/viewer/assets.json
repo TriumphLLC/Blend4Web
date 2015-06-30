@@ -195,6 +195,10 @@
                 "load_file": "materials/simple_parallax.json"
             },
             {
+                "name": "Shading models",
+                "load_file": "materials/shading_models.json"
+            },
+            {
                 "name": "Standard materials",
                 "load_file": "materials/standard_materials.json"
             }

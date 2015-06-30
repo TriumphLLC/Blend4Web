@@ -81,11 +81,11 @@ var NPC_MAX_ACTIVITY_DISTANCE = 100;
  * @param {Object} graph Animation graph with a number of movement params.
  * @param {Array} graph.path A list of [x,y,z] points NPC will be moving around.
  * @param {Number} graph.delay Time delay before each path step.
- * @param {Object} graph.actions Actions for every movement type (move, idle, etc).
- * @param {Object} graph.obj Animated object ID.
- * @param {Object} graph.rig Armature object ID.
- * @param {Object} graph.collider Collider object ID which will be used for collision detection.
- * @param {Object} graph.empty The corresponding empty object.
+ * @param {Object3D} graph.actions Actions for every movement type (move, idle, etc).
+ * @param {Object3D} graph.obj Animated object ID.
+ * @param {Object3D} graph.rig Armature object ID.
+ * @param {Object3D} graph.collider Collider object ID which will be used for collision detection.
+ * @param {Object3D} graph.empty The corresponding empty object.
  * @param {Number} graph.speed Movement speed.
  * @param {Number} graph.rot_speed Rotation speed.
  * @param {Boolean} graph.random Determines whether the object will perform random moves or not.
@@ -462,7 +462,7 @@ function ground_cb(obj, id, pulse, ev) {
                     ev.y_correction = 0;
             break;
             case NT_WALKING:
-                hit_pos = m_ctl.get_sensor_payload(obj, id, 0);
+                hit_pos = m_ctl.get_sensor_payload(obj, id, 0).hit_fract;
 
                 if (ev.prev_hit_pos == hit_pos)
                     ev.y_correction = 0;
@@ -472,7 +472,7 @@ function ground_cb(obj, id, pulse, ev) {
                 ev.prev_hit_pos = hit_pos;
             break;
             case NT_SWIMMING:
-                hit_pos = m_ctl.get_sensor_payload(obj, id, 0);
+                hit_pos = m_ctl.get_sensor_payload(obj, id, 0).hit_fract;
                 if (id == "CLOSE_GROUND") {
                     ev.y_correction = hit_pos * 100 - 1;
 
@@ -500,7 +500,7 @@ function ground_cb(obj, id, pulse, ev) {
 
 function flying_npc_hit_position(obj, id) {
     for (var i = 0; i &lt; 3; i++) {
-        var hit_pos = m_ctl.get_sensor_payload(obj, id, i);
+        var hit_pos = m_ctl.get_sensor_payload(obj, id, i).hit_fract;
         if (hit_pos)
             return hit_pos;
     }
@@ -521,18 +521,18 @@ function create_sensors() {
 
 function create_track_ray_sensors(ev_track) {
 
-    var ZERO_POINT = [0, 0, 0];
+    var ZERO_POINT = m_vec3.create();
 
     var collider = ev_track.collider;
 
     switch (ev_track.type) {
     case NT_FLYING:
         var near_ground_sens = m_ctl.create_ray_sensor(collider,
-                ZERO_POINT, [0, -100, 0], false, "TERRAIN");
+                ZERO_POINT, [0, -100, 0], "TERRAIN", true);
         var near_stone_sens = m_ctl.create_ray_sensor(collider,
-                ZERO_POINT, [0, -100 , 0], false, "STONE");
+                ZERO_POINT, [0, -100 , 0], "STONE", true);
         var near_water_sens = m_ctl.create_ray_sensor(collider,
-                ZERO_POINT, [0, -100 , 0], false, "WATER");
+                ZERO_POINT, [0, -100 , 0], "WATER", true);
 
         var ground_sens_arr = [near_ground_sens, near_stone_sens, near_water_sens];
 
@@ -543,7 +543,7 @@ function create_track_ray_sensors(ev_track) {
         break;
     case NT_WALKING:
         var near_ground_sens = m_ctl.create_ray_sensor(collider,
-                [0, 1, 0], [0, -99, 0], false, "TERRAIN");
+                [0, 1, 0], [0, -99, 0], "TERRAIN", true);
 
         var ground_sens_arr = [near_ground_sens];
         m_ctl.create_sensor_manifold(collider,
@@ -553,9 +553,9 @@ function create_track_ray_sensors(ev_track) {
         break;
     case NT_SWIMMING:
         var near_ground_sens = m_ctl.create_ray_sensor(collider,
-                [0, 1, 0], [0, -99, 0], false, "TERRAIN");
+                [0, 1, 0], [0, -99, 0], "TERRAIN", true);
         var near_water_sens = m_ctl.create_ray_sensor(collider,
-                [0, 0, 0], [0, 100, 0], false, "WATER");
+                ZERO_POINT, [0, 100, 0], "WATER", true);
 
         var ground_sens_arr = [near_ground_sens];
         var water_sens_arr  = [near_water_sens];
@@ -581,7 +581,7 @@ function create_track_collision_sensors(ev_track) {
     var collision_sensor = m_ctl.create_collision_sensor(collider, "CONSTRUCTION",
                                                          need_payload);
 
-    function collision_cb (obj, id, pulse) {
+    function collision_cb(obj, id, pulse) {
         if (pulse == 1) {
             m_trans.get_translation(ev_track.empty, ev_track.destination);
             ev_track.rotation_mult = 4.0;
@@ -805,13 +805,13 @@ function dest_anim_correction(ev_track, dest, l_to_p, new_dir) {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-rgb.html">rgb</a></li><li><a href="module-rgba.html">rgba</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul><h3><a href="global.html">Global</a></h3>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Tue May 26 2015 12:05:03 GMT+0300 (MSK)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Tue Jun 30 2015 17:18:01 GMT+0300 (MSK)
 </footer>
 
 <script> prettyPrint(); </script>

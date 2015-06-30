@@ -4,10 +4,25 @@
  * Main Blend4Web module.
  * Implements methods to initialize and change the global params of the engine.
  * @module main
- * @local fps_callback
- * @local render_callback
+ * @local LoopCallback
+ * @local RenderCallback
+ * @local FPSCallback
  */
 b4w.module["main"] = function(exports, require) {
+
+/**
+ * Loop callback.
+ * @callback LoopCallback
+ * @param {Number} timeline Timeline
+ * @param {Number} delta Delta
+ */
+
+/**
+ * Rendering callback.
+ * @callback RenderCallback
+ * @param {Number} delta Delta
+ * @param {Number} timeline Timeline
+ */
 
 var m_anchors  = require("__anchors");
 var animation  = require("__animation");
@@ -47,9 +62,9 @@ var _loop_cb = [];
 
 /**
  * FPS callback
- * @callback fps_callback
- * @param {Number} fps_avg Averaged rendering FPS
- * @param {Number} phy_fps_avg Averaged physics FPS (not implemented, always 0)
+ * @callback FPSCallback
+ * @param {Number} fps_avg Averaged rendering FPS.
+ * @param {Number} phy_fps_avg Averaged physics FPS.
  */
 var _fps_callback = function() {};
 
@@ -82,7 +97,7 @@ var _requestAnimFrame = (function() {
  * @method module:main.init
  * @param {HTMLCanvasElement} elem_canvas_webgl Canvas element for WebGL
  * @param {HTMLCanvasElement} [elem_canvas_hud] Canvas element for HUD
- * @returns {Object|Null} WebGL context or null
+ * @returns {WebGLRenderingContext|Null} WebGL context or null
  */
 exports.init = function(elem_canvas_webgl, elem_canvas_hud) {
     m_cfg.set_paths();
@@ -93,8 +108,8 @@ exports.init = function(elem_canvas_webgl, elem_canvas_hud) {
 
     m_print.set_verbose(cfg_def.console_verbose);
 
-    var ver_str = version.version() + " " + version.type() +
-            " (" + version.date() + ")";
+    var ver_str = version.version_str() + " " + version.type() +
+            " (" + version.date_str() + ")";
     m_print.log("%cINIT ENGINE", "color: #00a", ver_str);
 
     // check gl context and performance.now()
@@ -129,8 +144,6 @@ exports.init = function(elem_canvas_webgl, elem_canvas_hud) {
         m_cfg.defaults.show_hud_debug_info = false;
         m_cfg.sfx.mix_mode = false;
     }
-
-    m_cont.init(elem_canvas_webgl);
 
     return gl;
 }
@@ -174,6 +187,8 @@ function get_context(canvas) {
             break;
     }
 
+    m_compat.detect_tegra_invalid_enum_issue(ctx);
+
     return ctx;
 }
 
@@ -202,46 +217,16 @@ function init_context(canvas, gl) {
     textures.setup_context(gl);
     shaders.setup_context(gl);
     m_debug.setup_context(gl);
-    m_data.setup_canvas(gl.canvas);
+    m_data.setup_canvas(canvas);
+    m_cont.init(canvas);
 
-    scenes.setup_dim(canvas.width, canvas.height, 1,
-                     calc_canvas_offset("x"), calc_canvas_offset("y"));
+    scenes.setup_dim(canvas.width, canvas.height, 1);
 
     sfx.init();
 
     _fps_counter = init_fps_counter();
 
     loop();
-}
-
-function calc_canvas_offset(axis) {
-    if (axis == "x")
-        var offset = _elem_canvas_webgl.offsetLeft;
-    else if (axis == "y")
-        var offset = _elem_canvas_webgl.offsetTop;
-    else
-        return 0
-
-    return get_parent_offset(offset, _elem_canvas_webgl, axis);
-}
-
-function get_parent_offset(offset, elem, axis) {
-    offset = offset || 0;
-
-    var parent_elem_offset = elem.offsetParent;
-
-    if (parent_elem_offset) {
-        if (axis == "x")
-            var parent_offset = parent_elem_offset.offsetLeft;
-        else if (axis == "y")
-            var parent_offset = parent_elem_offset.offsetTop;
-
-        offset += parent_offset;
-
-        offset = get_parent_offset(offset, parent_elem_offset, axis);
-    }
-
-    return offset;
 }
 
 /**
@@ -286,8 +271,8 @@ exports.resize = function(width, height, update_canvas_css) {
         navigator.userAgent.match(/iPod/i))
             cfg_def.canvas_resolution_factor = 1;
 
-    var cw = width * cfg_def.canvas_resolution_factor;
-    var ch = height * cfg_def.canvas_resolution_factor;
+    var cw = Math.floor(width * cfg_def.canvas_resolution_factor);
+    var ch = Math.floor(height * cfg_def.canvas_resolution_factor);
 
     if (cfg_def.allow_hidpi && window.devicePixelRatio > 1) {
         cw *= window.devicePixelRatio;
@@ -310,8 +295,7 @@ exports.resize = function(width, height, update_canvas_css) {
         _elem_canvas_webgl.height = ch;
     }
 
-    scenes.setup_dim(cw, ch, cw/width, calc_canvas_offset("x"),
-                                       calc_canvas_offset("y"));
+    scenes.setup_dim(cw, ch, cw/width);
 
     // needed for frustum culling/constraints
     if (scenes.check_active())
@@ -325,7 +309,7 @@ exports.resize = function(width, height, update_canvas_css) {
 /**
  * Set the callback for the FPS counter
  * @method module:main.set_fps_callback
- * @param {fps_callback} fps_cb FPS callback
+ * @param {FPSCallback} fps_cb FPS callback
  */
 exports.set_fps_callback = function(fps_cb) {
     _fps_callback = fps_cb;
@@ -338,26 +322,12 @@ exports.clear_fps_callback = function() {
     _fps_callback = function() {};
 }
 
-/**
- * @method module:main.set_on_before_render_callback
- * @deprecated Use set_render_callback() instead
- */
-exports.set_on_before_render_callback = function(callback) {
-    m_print.error("set_on_before_render_callback() deprecated, use set_render_callback() instead");
-    set_render_callback(callback);
-}
 
 /**
- * Rendering callback.
- * @callback render_callback
- * @param {Number} delta Delta
- * @param {Number} timeline Timeline
- */
-
-/**
- * Set the rendering callback which is executed for every frame
+ * Set the rendering callback which is executed for every frame just before the
+ * rendering. Only one callback is allowed.
  * @method module:main.set_render_callback
- * @param {render_callback} callback Render callback
+ * @param {RenderCallback} callback Render callback
  */
 exports.set_render_callback = function(callback) {
     set_render_callback(callback);
@@ -367,15 +337,7 @@ function set_render_callback(callback) {
 }
 
 /**
- * @method module:main.clear_on_before_render_callback
- * @deprecated Use clear_render_callback() instead
- */
-exports.clear_on_before_render_callback = function() {
-    m_print.error("clear_on_before_render_callback() deprecated, use clear_render_callback() instead");
-    clear_render_callback();
-}
-/**
- * Remove the rendering callback
+ * Remove the rendering callback.
  * @method module:main.clear_render_callback
  */
 exports.clear_render_callback = function() {
@@ -554,6 +516,10 @@ function init_fps_counter() {
     var interval_cb = cfg_def.fps_callback_interval;
 
     var fps_counter = function(delta) {
+        // NOTE: fixes issues when delta=0
+        if (delta < 1/cfg_def.max_fps)
+            return;
+
         fps_avg = util.smooth(1/delta, fps_avg, delta, interval);
 
         // stays zero for disabled physics/FPS calculation
@@ -596,6 +562,10 @@ exports.reset = function() {
     m_time.reset();
 }
 
+/**
+ * Register one-time callback to return DataURL of rendered canvas element.
+ * @param callback DataURL callback
+ */
 exports.canvas_data_url = function(callback) {
     _canvas_data_url_callback = callback;
 }
@@ -614,9 +584,11 @@ exports.detect_mobile = function() {
     return m_compat.detect_mobile();
 }
 /**
- * Append callback to be executed every frame.
+ * Append callback to be executed every frame
+ * (even if the rendering is paused).
+ * This method allows registration of multiple callbacks.
  * @method module:main.append_loop_cb
- * @param callback Callback
+ * @param {LoopCallback} callback Callback
  */
 exports.append_loop_cb = function(callback) {
     for (var i = 0; i < _loop_cb.length; i++)
@@ -627,7 +599,7 @@ exports.append_loop_cb = function(callback) {
 /**
  * Remove loop callback.
  * @method module:main.remove_loop_cb
- * @param callback Callback
+ * @param {LoopCallback} callback Callback
  */
 exports.remove_loop_cb = function(callback) {
     for (var i = 0; i < _loop_cb.length; i++)

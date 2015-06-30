@@ -338,6 +338,9 @@ typedef struct ThemeSpace {
 
 	char paint_curve_pivot[4];
 	char paint_curve_handle[4];
+
+	char metadatabg[4];
+	char metadatatext[4];
 } ThemeSpace;
 
 
@@ -487,8 +490,10 @@ typedef struct UserDef {
 	short dragthreshold;
 	int memcachelimit;
 	int prefetchframes;
+	float pad_rot_angle; /* control the rotation step of the view when PAD2, PAD4, PAD6&PAD8 is use */
+	float pad3;
 	short frameserverport;
-	short pad_rot_angle;	/* control the rotation step of the view when PAD2, PAD4, PAD6&PAD8 is use */
+	short pad4;
 	short obcenter_dia;
 	short rvisize;			/* rotating view icon size */
 	short rvibright;		/* rotating view icon brightness */
@@ -500,7 +505,10 @@ typedef struct UserDef {
 	char  ipo_new;			/* interpolation mode for newly added F-Curves */
 	char  keyhandles_new;	/* handle types for newly added keyframes */
 	char  gpu_select_method;
-	char  pad1;
+	char  view_frame_type;
+
+	int view_frame_keyframes; /* number of keyframes to zoom around current frame */
+	float view_frame_seconds; /* seconds to zoom around current frame */
 
 	short scrcastfps;		/* frame rate for screencast to be played back */
 	short scrcastwait;		/* milliseconds between screencast snapshots */
@@ -682,6 +690,13 @@ typedef enum eAutokey_Mode {
 	AUTOKEY_MODE_NORMAL    = 3,
 	AUTOKEY_MODE_EDITKEYS  = 5
 } eAutokey_Mode;
+
+/* Zoom to frame mode */
+typedef enum eZoomFrame_Mode {
+	ZOOM_FRAME_MODE_KEEP_RANGE = 0,
+	ZOOM_FRAME_MODE_SECONDS = 1,
+	ZOOM_FRAME_MODE_KEYFRAMES = 2
+} eZoomFrame_Mode;
 
 /* Auto-Keying flag
  * U.autokey_flag (not strictly used when autokeying only - is also used when keyframing these days)

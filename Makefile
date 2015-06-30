@@ -4,8 +4,8 @@ APPDIR = apps_dev
 APIDOCRESDIR = doc_src/api_doc/jsdoc_resources
 SCRIPTSDIR = scripts
 TUTORIALS_DIR = deploy/tutorials
-#VERSION=`sed -e "s/.\+/\0\_pre/" VERSION`
-VERSION=`sed -e "s/.\+/\0/" VERSION`
+#VERSION=`sed -e 's/ *[^ ]\+ *//' -e 's/ \+.*/_pre/' VERSION`
+VERSION=`sed -e 's/ *[^ ]\+ *//' -e 's/ \+.*/_rc/' VERSION`
 
 .PHONY: all
 all: build
@@ -99,6 +99,9 @@ dist_force:
 	@$(SH) ./$(SCRIPTSDIR)/make_dist.py -f -v $(VERSION) $(SCRIPTSDIR)/blend4web.lst
 	@$(SH) ./$(SCRIPTSDIR)/make_dist.py -f -v $(VERSION) $(SCRIPTSDIR)/blend4web_sdk_free.lst
 	@$(SH) ./$(SCRIPTSDIR)/make_dist.py -f -v $(VERSION) $(SCRIPTSDIR)/blend4web_sdk_pro.lst
+
+dist_addon_force:
+	@$(SH) ./$(SCRIPTSDIR)/make_dist.py -f -v $(VERSION) $(SCRIPTSDIR)/blend4web.lst
 
 resave:
 	@$(SH) ./$(SCRIPTSDIR)/resaver.py

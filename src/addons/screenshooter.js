@@ -17,7 +17,7 @@ exports.shot = function() {
         var a = window.document.createElement("a");
         document.body.appendChild(a);
 
-        a.style = "display: none";
+        a.style.display = "none";
         a.href = data;
         a.download = "screenshot.png";
         a.click();

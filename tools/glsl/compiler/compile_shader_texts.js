@@ -122,8 +122,9 @@ function process_arguments(argv) {
             config.export_shaders = false;
         if (argv[i] == "--obf")
             config.obfuscate = true;
-        if (argv[i] == "--opt_decl")
-            config.optimize_decl = true;
+        // TODO: check on IPad
+        // if (argv[i] == "--opt_decl")
+        //     config.optimize_decl = true;
         if (argv[i] == "--rem_braces")
             config.remove_braces = true;
     }

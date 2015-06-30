@@ -36,13 +36,16 @@ def build():
     MODULE_NAME = "b4w_bin" + PL_SUFFIX
 
     set_command_line_arguments(DEBUG_MODE)
-
+    include_dir=[os.path.join(os.getcwd(),'includes/blenlib/'),
+                 os.path.join(os.getcwd(),'includes/blenkernel/'),
+                 os.path.join(os.getcwd(),'includes/makesdna/')]
     module1 = Extension(EXTENSION_NAME,
             sources = ['bindings.c', 'mikktspace.c', 'weldmesh.c'],
             undef_macros=['NDEBUG'],
             define_macros=[("MODULE_NAME", MODULE_NAME),
                     ("INIT_FUNC_NAME", INIT_FUNC_NAME)],
-            export_symbols=[INIT_FUNC_NAME])
+            export_symbols=[INIT_FUNC_NAME],
+            include_dirs=include_dir)
 
     setup(name = 'B4W Export Utils',
             version = '1.0',

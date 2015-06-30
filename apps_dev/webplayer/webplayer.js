@@ -219,10 +219,10 @@ function define_dom_elems() {
 
 function add_engine_version() {
     var version_cont = document.querySelector("#rel_version");
-    var version = m_version.version();
+    var version = m_version.version_str();
 
     if (version)
-        version_cont.innerHTML = m_version.version();
+        version_cont.innerHTML = m_version.version_str();
 }
 
 function check_fullscreen() {
@@ -391,11 +391,11 @@ function add_hover_class_to_button(elem) {
     if (is_touch()) {
         elem.addEventListener("touchstart", function() {
             elem.className += " hover";
-            clear_deffered_close();
+            clear_deferred_close();
         }, false);
         elem.addEventListener("touchend", function() {
             elem.className = elem.className.replace(" hover", "");
-            deffered_close();
+            deferred_close();
         }, false);
     } else {
         elem.addEventListener("mouseenter", function() {
@@ -497,9 +497,8 @@ function exit_fullscreen() {
 }
 
 function fullscreen_cb(e) {
-    if (!check_cursor_position("buttons_container")) {
-        deffered_close();
-    }
+    if (!check_cursor_position("buttons_container") && _is_anim_left)
+        deferred_close();
 
     var fullscreen_button = document.querySelector("#fullscreen_on_button") ||
                             document.querySelector("#fullscreen_off_button");
@@ -560,9 +559,9 @@ function close_menu() {
     if (is_anim_in_process())
         return;
 
-    _buttons_container.removeEventListener("mouseleave", deffered_close);
-    _buttons_container.removeEventListener("mouseenter", clear_deffered_close);
-    document.body.removeEventListener("touchmove", deffered_close);
+    _buttons_container.removeEventListener("mouseleave", deferred_close);
+    _buttons_container.removeEventListener("mouseenter", clear_deferred_close);
+    document.body.removeEventListener("touchmove", deferred_close);
 
     close_qual_menu();
 
@@ -614,7 +613,7 @@ function close_menu() {
 }
 
 function open_menu() {
-    clear_deffered_close();
+    clear_deferred_close();
 
     if (is_anim_in_process())
         return;
@@ -693,9 +692,9 @@ function open_menu() {
     drop_left(hor_elem);
     drop_top(vert_elem);
 
-    _buttons_container.addEventListener("mouseleave", deffered_close, false);
-    _buttons_container.addEventListener("mouseenter", clear_deffered_close, false);
-    document.body.addEventListener("touchmove", deffered_close, false);
+    _buttons_container.addEventListener("mouseleave", deferred_close, false);
+    _buttons_container.addEventListener("mouseenter", clear_deferred_close, false);
+    document.body.addEventListener("touchmove", deferred_close, false);
 }
 
 function check_anim_end() {
@@ -705,7 +704,7 @@ function check_anim_end() {
         if ((!check_cursor_position("buttons_container") &&
                 is_control_panel_opened()) ||
                 (is_touch() && is_control_panel_opened()))
-            deffered_close();
+            deferred_close();
     }
 }
 
@@ -730,16 +729,16 @@ function enable_opened_button() {
     _opened_button.addEventListener("mouseup", open_menu, false);
 }
 
-function deffered_close(e) {
+function deferred_close(e) {
     if (is_anim_in_process())
         return;
 
-    clear_deffered_close();
+    clear_deferred_close();
 
     _menu_close_func = setTimeout(close_menu, HIDE_MENU_DELAY);
 }
 
-function clear_deffered_close() {
+function clear_deferred_close() {
     clearTimeout(_menu_close_func);
 }
 

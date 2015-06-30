@@ -159,11 +159,11 @@ With some exceptions specified below, make sure that the objects are dynamic.</d
 
         
             
-<li> <a href="#.get_object_bounding_box">get_object_bounding_box<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Object}</span></a></li>
+<li> <a href="#.get_object_bounding_box">get_object_bounding_box<span class="signature">(obj)</span><span class="type-signature"> &rarr; {BoundingBox}</span></a></li>
 
         
             
-<li> <a href="#.get_object_center">get_object_center<span class="signature">(obj, calc_bs_center, dest<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Float32Array}</span></a></li>
+<li> <a href="#.get_object_center">get_object_center<span class="signature">(obj, calc_bs_center, dest<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Vec3}</span></a></li>
 
         
             
@@ -171,7 +171,7 @@ With some exceptions specified below, make sure that the objects are dynamic.</d
 
         
             
-<li> <a href="#.get_rotation">get_rotation<span class="signature">(obj, opt_dest<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Float32Array}</span></a></li>
+<li> <a href="#.get_rotation">get_rotation<span class="signature">(obj, opt_dest<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Quat}</span></a></li>
 
         
             
@@ -183,11 +183,11 @@ With some exceptions specified below, make sure that the objects are dynamic.</d
 
         
             
-<li> <a href="#.get_translation">get_translation<span class="signature">(obj, dest<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Float32Array}</span></a></li>
+<li> <a href="#.get_translation">get_translation<span class="signature">(obj, dest<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Vec3}</span></a></li>
 
         
             
-<li> <a href="#.get_tsr">get_tsr<span class="signature">(obj, dest<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Float32Array}</span></a></li>
+<li> <a href="#.get_tsr">get_tsr<span class="signature">(obj, dest<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {TSR}</span></a></li>
 
         
             
@@ -260,6 +260,16 @@ With some exceptions specified below, make sure that the objects are dynamic.</d
 
 
 
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><a href="global.html#Space">Space</a></span>
+
+
+        </li>
+    </ul>
+
 
 
 
@@ -326,6 +336,16 @@ With some exceptions specified below, make sure that the objects are dynamic.</d
 </div>
 
 
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><a href="global.html#Space">Space</a></span>
+
+
+        </li>
+    </ul>
 
 
 
@@ -440,7 +460,7 @@ With some exceptions specified below, make sure that the objects are dynamic.</d
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
 
 
             
@@ -450,7 +470,7 @@ With some exceptions specified below, make sure that the objects are dynamic.</d
 
             
 
-            <td class="description last">Object ID 1</td>
+            <td class="description last">Object 3D 1</td>
         </tr>
 
     
@@ -463,7 +483,7 @@ With some exceptions specified below, make sure that the objects are dynamic.</d
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
 
 
             
@@ -473,7 +493,7 @@ With some exceptions specified below, make sure that the objects are dynamic.</d
 
             
 
-            <td class="description last">Object ID 2</td>
+            <td class="description last">Object 3D 2</td>
         </tr>
 
     
@@ -621,7 +641,7 @@ Works only for EMPTYes with "relative group coords" option enabled.
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
 
 
             
@@ -631,7 +651,7 @@ Works only for EMPTYes with "relative group coords" option enabled.
 
             
 
-            <td class="description last">Object ID</td>
+            <td class="description last">Object 3D</td>
         </tr>
 
     
@@ -706,7 +726,7 @@ Works only for EMPTYes with "relative group coords" option enabled.
 
     
 
-    <h4 class="name" id=".get_object_bounding_box">get_object_bounding_box<span class="signature">(obj)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+    <h4 class="name" id=".get_object_bounding_box">get_object_bounding_box<span class="signature">(obj)</span><span class="type-signature"> &rarr; {BoundingBox}</span></h4>
 
     
 
@@ -756,7 +776,7 @@ Works only for EMPTYes with "relative group coords" option enabled.
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
 
 
             
@@ -766,7 +786,7 @@ Works only for EMPTYes with "relative group coords" option enabled.
 
             
 
-            <td class="description last">Object ID</td>
+            <td class="description last">Object 3D</td>
         </tr>
 
     
@@ -801,7 +821,7 @@ Works only for EMPTYes with "relative group coords" option enabled.
     </dt>
     <dd>
         
-<span class="param-type">Object</span>
+<span class="param-type">BoundingBox</span>
 
 
     </dd>
@@ -863,7 +883,7 @@ Works only for EMPTYes with "relative group coords" option enabled.
 
     
 
-    <h4 class="name" id=".get_object_center">get_object_center<span class="signature">(obj, calc_bs_center, dest<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Float32Array}</span></h4>
+    <h4 class="name" id=".get_object_center">get_object_center<span class="signature">(obj, calc_bs_center, dest<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {<a href="global.html#Vec3">Vec3</a>}</span></h4>
 
     
 
@@ -916,7 +936,7 @@ Works for dynamic and static objects.
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
 
 
             
@@ -934,7 +954,7 @@ Works for dynamic and static objects.
 
             
 
-            <td class="description last">Object ID</td>
+            <td class="description last">Object 3D</td>
         </tr>
 
     
@@ -979,7 +999,7 @@ calculate center, otherwise the use bounding box.</td>
             <td class="type">
             
                 
-<span class="param-type">Float32Array</span>
+<span class="param-type"><a href="global.html#Vec3">Vec3</a></span>
 
 
             
@@ -1034,7 +1054,7 @@ calculate center, otherwise the use bounding box.</td>
     </dt>
     <dd>
         
-<span class="param-type">Float32Array</span>
+<span class="param-type"><a href="global.html#Vec3">Vec3</a></span>
 
 
     </dd>
@@ -1146,7 +1166,7 @@ calculate center, otherwise the use bounding box.</td>
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
 
 
             
@@ -1156,7 +1176,7 @@ calculate center, otherwise the use bounding box.</td>
 
             
 
-            <td class="description last">Object ID</td>
+            <td class="description last">Object 3D</td>
         </tr>
 
     
@@ -1253,7 +1273,7 @@ calculate center, otherwise the use bounding box.</td>
 
     
 
-    <h4 class="name" id=".get_rotation">get_rotation<span class="signature">(obj, opt_dest<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Float32Array}</span></h4>
+    <h4 class="name" id=".get_rotation">get_rotation<span class="signature">(obj, opt_dest<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {<a href="global.html#Quat">Quat</a>}</span></h4>
 
     
 
@@ -1305,7 +1325,7 @@ calculate center, otherwise the use bounding box.</td>
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
 
 
             
@@ -1323,7 +1343,7 @@ calculate center, otherwise the use bounding box.</td>
 
             
 
-            <td class="description last">Object ID</td>
+            <td class="description last">Object 3D</td>
         </tr>
 
     
@@ -1336,7 +1356,7 @@ calculate center, otherwise the use bounding box.</td>
             <td class="type">
             
                 
-<span class="param-type">Float32Array</span>
+<span class="param-type"><a href="global.html#Quat">Quat</a></span>
 
 
             
@@ -1391,7 +1411,7 @@ calculate center, otherwise the use bounding box.</td>
     </dt>
     <dd>
         
-<span class="param-type">Float32Array</span>
+<span class="param-type"><a href="global.html#Quat">Quat</a></span>
 
 
     </dd>
@@ -1587,7 +1607,7 @@ calculate center, otherwise the use bounding box.</td>
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
 
 
             
@@ -1597,7 +1617,7 @@ calculate center, otherwise the use bounding box.</td>
 
             
 
-            <td class="description last">Object ID</td>
+            <td class="description last">Object 3D</td>
         </tr>
 
     
@@ -1694,7 +1714,7 @@ calculate center, otherwise the use bounding box.</td>
 
     
 
-    <h4 class="name" id=".get_translation">get_translation<span class="signature">(obj, dest<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Float32Array}</span></h4>
+    <h4 class="name" id=".get_translation">get_translation<span class="signature">(obj, dest<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {<a href="global.html#Vec3">Vec3</a>}</span></h4>
 
     
 
@@ -1746,7 +1766,7 @@ calculate center, otherwise the use bounding box.</td>
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
 
 
             
@@ -1764,7 +1784,7 @@ calculate center, otherwise the use bounding box.</td>
 
             
 
-            <td class="description last">Object ID</td>
+            <td class="description last">Object 3D</td>
         </tr>
 
     
@@ -1777,7 +1797,7 @@ calculate center, otherwise the use bounding box.</td>
             <td class="type">
             
                 
-<span class="param-type">Float32Array</span>
+<span class="param-type"><a href="global.html#Vec3">Vec3</a></span>
 
 
             
@@ -1832,7 +1852,7 @@ calculate center, otherwise the use bounding box.</td>
     </dt>
     <dd>
         
-<span class="param-type">Float32Array</span>
+<span class="param-type"><a href="global.html#Vec3">Vec3</a></span>
 
 
     </dd>
@@ -1894,7 +1914,7 @@ calculate center, otherwise the use bounding box.</td>
 
     
 
-    <h4 class="name" id=".get_tsr">get_tsr<span class="signature">(obj, dest<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Float32Array}</span></h4>
+    <h4 class="name" id=".get_tsr">get_tsr<span class="signature">(obj, dest<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {<a href="global.html#TSR">TSR</a>}</span></h4>
 
     
 
@@ -1902,7 +1922,7 @@ calculate center, otherwise the use bounding box.</td>
 <div class="item_description">
 
 <div class="description">
-    Get object tsr.
+    Return an object's transformtion in TSR form.
 </div>
 
 
@@ -1946,7 +1966,7 @@ calculate center, otherwise the use bounding box.</td>
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
 
 
             
@@ -1964,7 +1984,7 @@ calculate center, otherwise the use bounding box.</td>
 
             
 
-            <td class="description last">Object ID</td>
+            <td class="description last">Object 3D</td>
         </tr>
 
     
@@ -1977,7 +1997,7 @@ calculate center, otherwise the use bounding box.</td>
             <td class="type">
             
                 
-<span class="param-type">Float32Array</span>
+<span class="param-type"><a href="global.html#TSR">TSR</a></span>
 
 
             
@@ -1997,7 +2017,7 @@ calculate center, otherwise the use bounding box.</td>
 
             
 
-            <td class="description last">Destination vector</td>
+            <td class="description last">Destination vector.</td>
         </tr>
 
     
@@ -2021,7 +2041,7 @@ calculate center, otherwise the use bounding box.</td>
 
         
 <div class="param-desc">
-    Destination vector
+    Destination vector.
 </div>
 
 
@@ -2032,7 +2052,7 @@ calculate center, otherwise the use bounding box.</td>
     </dt>
     <dd>
         
-<span class="param-type">Float32Array</span>
+<span class="param-type"><a href="global.html#TSR">TSR</a></span>
 
 
     </dd>
@@ -2144,7 +2164,7 @@ calculate center, otherwise the use bounding box.</td>
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
 
 
             
@@ -2154,7 +2174,7 @@ calculate center, otherwise the use bounding box.</td>
 
             
 
-            <td class="description last">Object ID</td>
+            <td class="description last">Object 3D</td>
         </tr>
 
     
@@ -2348,7 +2368,7 @@ calculate center, otherwise the use bounding box.</td>
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
 
 
             
@@ -2358,7 +2378,7 @@ calculate center, otherwise the use bounding box.</td>
 
             
 
-            <td class="description last">Object ID</td>
+            <td class="description last">Object 3D</td>
         </tr>
 
     
@@ -2576,7 +2596,7 @@ Using euler angles is discouraged, use quaternion instead.
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
 
 
             
@@ -2586,7 +2606,7 @@ Using euler angles is discouraged, use quaternion instead.
 
             
 
-            <td class="description last">Object ID</td>
+            <td class="description last">Object 3D</td>
         </tr>
 
     
@@ -2781,7 +2801,7 @@ Using euler angles is discouraged, use quaternion instead.
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
 
 
             
@@ -2791,7 +2811,7 @@ Using euler angles is discouraged, use quaternion instead.
 
             
 
-            <td class="description last">Object ID</td>
+            <td class="description last">Object 3D</td>
         </tr>
 
     
@@ -2804,7 +2824,7 @@ Using euler angles is discouraged, use quaternion instead.
             <td class="type">
             
                 
-<span class="param-type">Float32Array</span>
+<span class="param-type"><a href="global.html#Vec3">Vec3</a></span>
 
 
             
@@ -3107,7 +3127,7 @@ Using euler angles is discouraged, use quaternion instead.
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
 
 
             
@@ -3117,7 +3137,7 @@ Using euler angles is discouraged, use quaternion instead.
 
             
 
-            <td class="description last">Object ID</td>
+            <td class="description last">Object 3D</td>
         </tr>
 
     
@@ -3130,7 +3150,7 @@ Using euler angles is discouraged, use quaternion instead.
             <td class="type">
             
                 
-<span class="param-type">Float32Array</span>
+<span class="param-type"><a href="global.html#Quat">Quat</a></span>
 
 
             
@@ -3265,7 +3285,7 @@ Using euler angles is discouraged, use quaternion instead.
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
 
 
             
@@ -3275,7 +3295,7 @@ Using euler angles is discouraged, use quaternion instead.
 
             
 
-            <td class="description last">Object ID</td>
+            <td class="description last">Object 3D</td>
         </tr>
 
     
@@ -3423,7 +3443,7 @@ Using euler angles is discouraged, use quaternion instead.
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
 
 
             
@@ -3433,7 +3453,7 @@ Using euler angles is discouraged, use quaternion instead.
 
             
 
-            <td class="description last">Object ID</td>
+            <td class="description last">Object 3D</td>
         </tr>
 
     
@@ -3627,7 +3647,7 @@ Using euler angles is discouraged, use quaternion instead.
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
 
 
             
@@ -3637,7 +3657,7 @@ Using euler angles is discouraged, use quaternion instead.
 
             
 
-            <td class="description last">Object ID</td>
+            <td class="description last">Object 3D</td>
         </tr>
 
     
@@ -3719,7 +3739,7 @@ Using euler angles is discouraged, use quaternion instead.
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
 
 
             
@@ -3729,7 +3749,7 @@ Using euler angles is discouraged, use quaternion instead.
 
             
 
-            <td class="description last">Parent object ID</td>
+            <td class="description last">Parent object.</td>
         </tr>
 
     
@@ -3854,7 +3874,7 @@ Using euler angles is discouraged, use quaternion instead.
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
 
 
             
@@ -3864,7 +3884,7 @@ Using euler angles is discouraged, use quaternion instead.
 
             
 
-            <td class="description last">Object ID</td>
+            <td class="description last">Object 3D</td>
         </tr>
 
     
@@ -3877,7 +3897,7 @@ Using euler angles is discouraged, use quaternion instead.
             <td class="type">
             
                 
-<span class="param-type">Float32Array</span>
+<span class="param-type"><a href="global.html#Vec3">Vec3</a></span>
 
 
             
@@ -4012,7 +4032,7 @@ Using euler angles is discouraged, use quaternion instead.
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type"><a href="global.html#Object3D">Object3D</a></span>
 
 
             
@@ -4022,7 +4042,7 @@ Using euler angles is discouraged, use quaternion instead.
 
             
 
-            <td class="description last">Object ID</td>
+            <td class="description last">Object 3D</td>
         </tr>
 
     
@@ -4035,7 +4055,7 @@ Using euler angles is discouraged, use quaternion instead.
             <td class="type">
             
                 
-<span class="param-type">Float32Array</span>
+<span class="param-type"><a href="global.html#TSR">TSR</a></span>
 
 
             
@@ -4129,13 +4149,13 @@ Using euler angles is discouraged, use quaternion instead.
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-anchors.html">anchors</a></li><li><a href="module-animation.html">animation</a></li><li><a href="module-app.html">app</a></li><li><a href="module-assets.html">assets</a></li><li><a href="module-camera.html">camera</a></li><li><a href="module-camera_anim.html">camera_anim</a></li><li><a href="module-config.html">config</a></li><li><a href="module-constraints.html">constraints</a></li><li><a href="module-container.html">container</a></li><li><a href="module-controls.html">controls</a></li><li><a href="module-data.html">data</a></li><li><a href="module-debug.html">debug</a></li><li><a href="module-geometry.html">geometry</a></li><li><a href="module-gyroscope.html">gyroscope</a></li><li><a href="module-hud.html">hud</a></li><li><a href="module-lights.html">lights</a></li><li><a href="module-main.html">main</a></li><li><a href="module-mat3.html">mat3</a></li><li><a href="module-mat4.html">mat4</a></li><li><a href="module-material.html">material</a></li><li><a href="module-mixer.html">mixer</a></li><li><a href="module-mouse.html">mouse</a></li><li><a href="module-nla.html">nla</a></li><li><a href="module-npc_ai.html">npc_ai</a></li><li><a href="module-ns_compat.html">ns_compat</a></li><li><a href="module-objects.html">objects</a></li><li><a href="module-particles.html">particles</a></li><li><a href="module-physics.html">physics</a></li><li><a href="module-preloader.html">preloader</a></li><li><a href="module-quat.html">quat</a></li><li><a href="module-rgb.html">rgb</a></li><li><a href="module-rgba.html">rgba</a></li><li><a href="module-scenes.html">scenes</a></li><li><a href="module-screenshooter.html">screenshooter</a></li><li><a href="module-sfx.html">sfx</a></li><li><a href="module-shaders.html">shaders</a></li><li><a href="module-storage.html">storage</a></li><li><a href="module-textures.html">textures</a></li><li><a href="module-time.html">time</a></li><li><a href="module-transform.html">transform</a></li><li><a href="module-tsr.html">tsr</a></li><li><a href="module-util.html">util</a></li><li><a href="module-vec3.html">vec3</a></li><li><a href="module-vec4.html">vec4</a></li><li><a href="module-version.html">version</a></li></ul><h3>Namespaces</h3><ul><li><a href="b4w.html">b4w</a></li></ul><h3><a href="global.html">Global</a></h3>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Tue May 26 2015 12:05:06 GMT+0300 (MSK)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Tue Jun 30 2015 17:18:05 GMT+0300 (MSK)
 </footer>
 
 <script> prettyPrint(); </script>

@@ -93,7 +93,7 @@ uniform float u_frame_factor;
 # endif
 
 # if DYNAMIC_GRASS
-uniform sampler2D u_grass_map_depth;
+uniform PRECISION sampler2D u_grass_map_depth;
 uniform sampler2D u_grass_map_color;
 uniform vec4 u_camera_quat;
 uniform vec3 u_grass_map_dim;
@@ -162,7 +162,7 @@ void main() {
 #  if BILLBOARD
     vec3 wcen = (u_model_matrix * vec4(center, 1.0)).xyz;
 
-#   if BILLBOARD_PRES_GLOB_ORIENTATION
+#   if BILLBOARD_PRES_GLOB_ORIENTATION && !STATIC_BATCH
     mat4 model_matrix = billboard_matrix_global(u_camera_eye, wcen, 
             u_view_matrix, u_model_matrix);
 #   else

@@ -14,7 +14,7 @@ var m_print   = require("__print");
  * @method module:textures.get_canvas_texture_context
  * @param {String} id Canvas texture name
  * @param {Number} [data_id=0] ID of loaded data
- * @returns {Object} Canvas texture context
+ * @returns {CanvasRenderingContext2D} Canvas texture context
  */
 exports.get_canvas_texture_context = function(id, data_id) {
     if (!data_id)

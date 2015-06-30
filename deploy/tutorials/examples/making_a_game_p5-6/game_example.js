@@ -376,7 +376,7 @@ function setup_falling_rocks(elapsed_sensor) {
 
         var sensor_id = m_ctl.get_sensor_value(obj, id, 0)? 0: 1;
 
-        var collision_pt = m_ctl.get_sensor_payload(obj, id, sensor_id);
+        var collision_pt = m_ctl.get_sensor_payload(obj, id, sensor_id).coll_pos;
         var dist_to_rock = m_vec3.distance(char_pos, collision_pt);
 
         m_trans.set_translation_v(burst_emitter, collision_pt);
@@ -394,7 +394,7 @@ function setup_falling_rocks(elapsed_sensor) {
 
     function mark_pos_cb(obj, id, pulse, mark) {
         var mark_pos = _vec3_tmp;
-        var ray_dist = m_ctl.get_sensor_payload(obj, id, 0);
+        var ray_dist = m_ctl.get_sensor_payload(obj, id, 0).hit_fract;
         var obj_name = m_scs.get_object_name(obj);
 
         if (falling_time[obj_name] <= ROCK_FALL_DELAY) {
@@ -432,7 +432,7 @@ function setup_falling_rocks(elapsed_sensor) {
             var coll_sens_island = m_ctl.create_collision_sensor(rock, "ISLAND", true);
 
             var ray_sens = m_ctl.create_ray_sensor(rock, [0, 0, 0],
-                                        [0, -ROCK_RAY_LENGTH, 0], false, null);
+                                        [0, -ROCK_RAY_LENGTH, 0], "ANY", true);
 
             m_ctl.create_sensor_manifold(rock, "ROCK_FALL", m_ctl.CT_CONTINUOUS,
                                          [elapsed_sensor], null, rock_fall_cb);
@@ -476,7 +476,7 @@ function setup_lava(elapsed_sensor) {
     }
 
     var lava_ray = m_ctl.create_ray_sensor(_character, [0, 0, 0], [0, -0.30, 0],
-                                           false, "LAVA");
+                                           "LAVA", true);
 
     m_ctl.create_sensor_manifold(_character, "LAVA_COLLISION",
         m_ctl.CT_CONTINUOUS, [lava_ray, elapsed_sensor],

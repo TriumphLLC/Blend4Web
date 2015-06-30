@@ -9,6 +9,7 @@
 b4w.module["__controls"] = function(exports, require) {
 
 var m_cfg   = require("__config");
+var m_cont  = require("__container");
 var m_print = require("__print");
 var m_phy   = require("__physics");
 var m_scs   = require("__scenes");
@@ -170,11 +171,6 @@ function init_sensor(type) {
         value: 0,
         payload: null,
 
-        // for (deprecated) sensor locking
-        lock_sensors: null,
-        lock_sensor_values: null,
-        lock_logic_fun: null,
-
         do_activation: false,
 
         // for ST_KEYBOARD
@@ -182,10 +178,10 @@ function init_sensor(type) {
 
         // for ST_COLLISION and ST_RAY
         collision_id: "",
+        calc_pos_norm: false,
 
         // for ST_COLLISION
         collision_obj: null,
-        need_collision_pt: false,
         collision_cb: function() {},
 
         // for ST_COLLISION_IMPULSE
@@ -196,10 +192,12 @@ function init_sensor(type) {
         source_object: null,
 
         // for ST_RAY
-        start_offset: new Float32Array(3),
-        end_offset: new Float32Array(3),
-        use_local_coords: false,
-        ray_cb: function() {},
+        from: new Float32Array(3),
+        to: new Float32Array(3),
+        is_binary_value: false,
+        ign_src_rot: false,
+        ray_test_id: 0,
+        ray_test_cb: function() {},
 
         // for ST_MOUSE_MOVE and ST_TOUCH_MOVE
         axis: "",
@@ -247,24 +245,35 @@ exports.create_keyboard_sensor = function(key) {
 }
 
 exports.create_collision_sensor = function(obj, collision_id,
-                                           need_collision_pt) {
-    if (!(obj && obj._physics)) {
+                                           calc_pos_norm) {
+    if (!(obj && m_phy.has_physics(obj))) {
         m_print.error("Wrong collision object");
         return null;
     }
 
     var sensor = init_sensor(ST_COLLISION);
     sensor.collision_obj = obj;
-    sensor.collision_id = collision_id || "ANY";
-    sensor.need_collision_pt = need_collision_pt || false;
-    sensor.collision_cb = function(is_collision, collision_point) {
+    sensor.collision_id = collision_id;
+    sensor.calc_pos_norm = calc_pos_norm;
+
+    sensor.payload = {
+        coll_obj: null,
+        coll_pos: calc_pos_norm ? new Float32Array(3) : null,
+        coll_norm: calc_pos_norm ? new Float32Array(3) : null,
+        coll_dist: 0
+    }
+
+    sensor.collision_cb = function(is_collision, coll_obj, coll_pos, coll_norm, coll_dist) {
         sensor_set_value(sensor, is_collision);
 
-        if (is_collision && collision_point && need_collision_pt) {
-            sensor.payload = sensor.payload || new Float32Array(3);
-            sensor.payload[0] = collision_point[0];
-            sensor.payload[1] = collision_point[1];
-            sensor.payload[2] = collision_point[2];
+        var payload = sensor.payload;
+
+        payload.coll_obj = coll_obj;
+        
+        if (sensor.calc_pos_norm) {
+            payload.coll_pos.set(coll_pos);
+            payload.coll_norm.set(coll_norm);
+            payload.coll_dist = coll_dist;
         }
     }
     sensor.do_activation = true;
@@ -288,25 +297,41 @@ exports.create_collision_impulse_sensor = function(obj) {
     return sensor;
 }
 
-exports.create_ray_sensor = function(obj, start_offset,
-        end_offset, use_local_coords, collision_id) {
-
-    if (!obj) {
-        m_print.error("Wrong collision object");
-        return null;
-    }
+exports.create_ray_sensor = function(obj_src, from, to, collision_id, 
+        is_binary_value, calc_pos_norm, ign_src_rot) {
 
     var sensor = init_sensor(ST_RAY);
-    sensor.source_object = obj;
-    sensor.start_offset = start_offset;
-    sensor.end_offset = end_offset;
-    sensor.use_local_coords = use_local_coords || false;
-    sensor.collision_id = collision_id || "ANY";
-    sensor.ray_cb = function(is_hit, hit_frac) {
-        sensor_set_value(sensor, is_hit);
+    sensor.source_object = obj_src;
+    sensor.from = from;
+    sensor.to = to;
+    sensor.collision_id = collision_id;
+    sensor.is_binary_value = is_binary_value;
+    sensor.calc_pos_norm = calc_pos_norm;
+    sensor.ign_src_rot = ign_src_rot;
 
-        if (is_hit)
-            sensor.payload = hit_frac;
+    sensor.payload = {
+        hit_fract: 0,
+        obj_hit: null,
+        hit_time: 0,
+        hit_pos: new Float32Array(3),
+        hit_norm: new Float32Array(3),
+    }
+
+    sensor.ray_test_cb = function(id, hit_fract, obj_hit, hit_time,
+            hit_pos, hit_norm) {
+        if (sensor.is_binary_value)
+            sensor_set_value(sensor, hit_fract == -1 ? 0 : 1);
+        else
+            sensor_set_value(sensor, hit_fract);
+
+        sensor.payload.hit_fract = hit_fract;
+        sensor.payload.obj_hit = obj_hit;
+        sensor.payload.hit_time = hit_time;
+
+        if (sensor.calc_pos_norm) {
+            sensor.payload.hit_pos.set(hit_pos);
+            sensor.payload.hit_norm.set(hit_norm);
+        }
     }
     sensor.do_activation = true;
 
@@ -462,32 +487,8 @@ exports.create_selection_sensor = function(obj, auto_release) {
 
 exports.sensor_set_value = sensor_set_value;
 function sensor_set_value(sensor, value) {
-
-    if (lock_logic_result(sensor))
-        return;
-
     sensor.value = Number(value);
 }
-
-/**
- * @returns true for locked sensor
- */
-function lock_logic_result(sensor) {
-    if (!sensor.lock_logic_fun)
-        return false;
-
-    // update sensor values before passing them to logic function
-    // NOTE: maybe it's happening too often
-    var sensors = sensor.lock_sensors;
-    var values = sensor.lock_sensor_values;
-
-    for (var i = 0; i < sensors.length; i++)
-        values[i] = sensors[i].value;
-
-    var logic_result = sensor.lock_logic_fun(values);
-    return logic_result;
-}
-
 
 function manifold_logic_result(manifold) {
     // update sensor values before passing them to logic function
@@ -888,8 +889,7 @@ function remove_sensor(sensor, sensors) {
         sensor.do_activation = true;
         break;
     case ST_RAY:
-        m_phy.remove_ray_test(sensor.source_object, sensor.collision_id,
-                sensor.start_offset, sensor.end_offset, sensor.use_local_coords);
+        m_phy.remove_ray_test(sensor.ray_test_id);
         sensor.do_activation = true;
         break;
     case ST_TIMER:
@@ -992,16 +992,17 @@ function append_sensors(sensors) {
             case ST_COLLISION:
                 m_phy.append_collision_test(sensor.collision_obj,
                         sensor.collision_id, sensor.collision_cb,
-                        sensor.need_collision_pt);
+                        sensor.calc_pos_norm);
                 break;
             case ST_COLLISION_IMPULSE:
                 m_phy.apply_collision_impulse_test(sensor.col_imp_obj,
                         sensor.col_imp_cb);
                 break;
             case ST_RAY:
-                m_phy.append_ray_test(sensor.source_object, sensor.collision_id,
-                        sensor.start_offset, sensor.end_offset,
-                        sensor.use_local_coords, sensor.ray_cb);
+                sensor.ray_test_id = m_phy.append_ray_test(sensor.source_object,
+                        sensor.from, sensor.to, sensor.collision_id,
+                        sensor.ray_test_cb, false, false, sensor.calc_pos_norm,
+                        sensor.ign_src_rot);
                 break;
             case ST_TIMER:
                 sensor.time_last = m_time.get_timeline();
@@ -1113,7 +1114,9 @@ function mouse_down_cb(e) {
         // update selection sensors
         if (sensor.type == ST_SELECTION) {
             if (!pick) {
-                selected_obj = m_scs.pick_object(e.clientX, e.clientY);
+                var canvas_xy = m_cont.client_to_canvas_coords(e.clientX, e.clientY, 
+                        _vec2_tmp);
+                selected_obj = m_scs.pick_object(canvas_xy[0], canvas_xy[1]);
                 pick = true;
             }
 
@@ -1226,8 +1229,8 @@ function touch_start_cb(e) {
     if (touches.length == 1) {
         var touch = touches[0];
 
-        var x = touch.pageX;
-        var y = touch.pageY;
+        var x = touch.clientX;
+        var y = touch.clientY;
 
         // update selection sensors
         var pick = false;
@@ -1237,7 +1240,8 @@ function touch_start_cb(e) {
             var sensor = _sensors[i];
             if (sensor.type == ST_SELECTION) {
                 if (!pick) {
-                    selected_obj = m_scs.pick_object(x, y);
+                    var canvas_xy = m_cont.client_to_canvas_coords(x, y, _vec2_tmp);
+                    selected_obj = m_scs.pick_object(canvas_xy[0], canvas_xy[1]);
                     pick = true;
                 }
                 sensor.value = (selected_obj == sensor.source_object);
@@ -1254,10 +1258,10 @@ function touch_start_cb(e) {
         _touch_zoom_curr_dist = _touch_zoom_last_dist = zoom_dist;
 
         // reset coords from last touch session
-        _touches_last_x[0] = touches[0].pageX;
-        _touches_last_x[1] = touches[1].pageX;
-        _touches_last_y[0] = touches[0].pageY;
-        _touches_last_y[1] = touches[1].pageY;
+        _touches_last_x[0] = touches[0].clientX;
+        _touches_last_x[1] = touches[1].clientX;
+        _touches_last_y[0] = touches[0].clientY;
+        _touches_last_y[1] = touches[1].clientY;
     }
 
     // reset coords from last touch session
@@ -1280,9 +1284,9 @@ function touch_move_cb(e) {
         return;
 
     if (touches.length === 1) { // panning
-        _touches_curr_x[0] = touches[0].pageX;
+        _touches_curr_x[0] = touches[0].clientX;
         _touches_curr_x[1] = -1;
-        _touches_curr_y[0] = touches[0].pageY;
+        _touches_curr_y[0] = touches[0].clientY;
         _touches_curr_y[1] = -1;
 
         var delta_x = (_touches_curr_x[0] - _touches_last_x[0]);
@@ -1325,10 +1329,10 @@ function touch_move_cb(e) {
         }
 
     } else if (touches.length > 1) { // zooming
-        _touches_curr_x[0] = touches[0].pageX;
-        _touches_curr_x[1] = touches[1].pageX;
-        _touches_curr_y[0] = touches[0].pageY;
-        _touches_curr_y[1] = touches[1].pageY;
+        _touches_curr_x[0] = touches[0].clientX;
+        _touches_curr_x[1] = touches[1].clientX;
+        _touches_curr_y[0] = touches[0].clientY;
+        _touches_curr_y[1] = touches[1].clientY;
 
         var zoom_dist = touch_zoom_dist(touches);
 
@@ -1441,11 +1445,11 @@ function touch_zoom_dist(touches) {
     var touch1 = touches[0];
     var touch2 = touches[1];
 
-    var x1 = touch1.pageX;
-    var y1 = touch1.pageY;
+    var x1 = touch1.clientX;
+    var y1 = touch1.clientY;
 
-    var x2 = touch2.pageX;
-    var y2 = touch2.pageY;
+    var x2 = touch2.clientX;
+    var y2 = touch2.clientY;
 
     var zoom_dist = Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
 

@@ -132,8 +132,8 @@ function remove_node(graph, id) {
         }
     }
 }
-
-exports.remove_edge = function(graph, id1, id2, edge_num) {
+exports.remove_edge = remove_edge;
+function remove_edge(graph, id1, id2, edge_num) {
     if (!has_edge(graph, id1, id2))
         throw "Edge not found";
 
@@ -436,7 +436,8 @@ exports.get_source_nodes = function(graph) {
 /**
  * Find array of nodes with 0 out-degree.
  */
-exports.get_sink_nodes = function(graph) {
+exports.get_sink_nodes = get_sink_nodes;
+function get_sink_nodes(graph) {
     var result = [];
 
     var nodes = graph.nodes;
@@ -1196,6 +1197,54 @@ exports.reconnect_edges = function(graph, id1, id2, new_id1, new_id2) {
             edges[i] = new_id1;
             edges[i+1] = new_id2;
         }
+}
+/**
+ * Remove redundant edges and create acyclic graph
+ */
+exports.enforce_acyclic = function(graph, main_node) {
+
+    if (!main_node)
+        var main_node = get_sink_nodes(graph)[0];
+    var edges = graph.edges;
+    var graph_data = {};
+    var count = 0;
+    for (var i = 0; i < edges.length; i=i+3) {
+        if (edges[i + 1] in graph_data)
+            graph_data[edges[i + 1]].push(edges[i]);
+        else
+            graph_data[edges[i + 1]] = [edges[i]];
+        count++;
+    }
+
+    var tracking = [];
+    var wrong_edges = [];
+    function find_redundant_edges(node, top_edges) {
+        var index = tracking.indexOf(node);
+        if (index != -1) {
+            var cycle = tracking.slice(tracking.indexOf(node));
+            if (graph_data[cycle[cycle.length - 1]].indexOf(cycle[0]) != -1) {
+                wrong_edges.push([node, cycle[cycle.length - 1]]);
+                return;
+            }
+        }
+        tracking.push(node);
+        for (var i = 0; i < top_edges.length; i++) {
+            if (top_edges[i] in graph_data)
+                find_redundant_edges(top_edges[i], graph_data[top_edges[i]]);
+        }
+    }
+
+    find_redundant_edges(main_node, graph_data[main_node]);
+
+    for (var i = 0; i < wrong_edges.length; i++) {
+            var count = 0;
+            for (var k = 0; k < edges.length; k=k+3) {
+                if (wrong_edges[i][1] == edges[k + 1] && wrong_edges[i][0] == edges[k])
+                    remove_edge(graph, edges[k], edges[k+1], count);
+                count++;
+            }
+    }
+    return graph;
 }
 
 exports.debug_dot = function(graph, label_cb) {

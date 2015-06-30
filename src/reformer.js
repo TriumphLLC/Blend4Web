@@ -22,7 +22,7 @@ var m_mat4 = require("mat4");
 
 var REPORT_COMPATIBILITY_ISSUES = true;
 
-var REQUIRED_FOR_PART_SYS_BIN_FORMAT = 5.04;
+var REQUIRED_FOR_PART_SYS_BIN_FORMAT = [5, 4];
 
 var _unreported_compat_issues = false;
 
@@ -126,7 +126,7 @@ function reform_node (node) {
 }
 
 exports.check_particles_bin_format = function(loaded_data_version) {
-    return loaded_data_version >= REQUIRED_FOR_PART_SYS_BIN_FORMAT;
+    return m_util.version_cmp(loaded_data_version, REQUIRED_FOR_PART_SYS_BIN_FORMAT) != -1;
 }
 
 /**
@@ -159,8 +159,8 @@ exports.check_bpy_data = function(bpy_data) {
         report_missing_datablock("world", bpy_data["b4w_filepath_blend"]);
         var world = {
             "name": "DEFAULT",
-            "horizon_color": [0,0,0],
-            "zenith_color": [0,0,0],
+            "horizon_color": new Float32Array([0,0,0]),
+            "zenith_color": new Float32Array([0,0,0]),
             "light_settings": {
                 "use_environment_light": false,
                 "environment_energy": 1,
@@ -180,74 +180,6 @@ exports.check_bpy_data = function(bpy_data) {
     for (var i = 0; i < worlds.length; i++) {
         var world = worlds[i];
 
-        var shadows = world["b4w_shadow_settings"];
-        if(!("csm_resolution" in shadows)) {
-            report("world", world, "b4w_shadow_settings.csm_resolution");
-            shadows["csm_resolution"] = 2048;
-        }
-        if(!("self_shadow_polygon_offset" in shadows)) {
-            report("world", world, "b4w_shadow_settings.self_shadow_polygon_offset");
-            shadows["self_shadow_polygon_offset"] = 1;
-        }
-        if(!("self_shadow_normal_offset" in shadows)) {
-            report("world", world, "b4w_shadow_settings.self_shadow_normal_offset");
-            shadows["self_shadow_normal_offset"] = 0.01;
-        }
-        if(!("b4w_enable_csm" in shadows)) {
-            report("world", world, "b4w_shadow_settings.b4w_enable_csm");
-            shadows["b4w_enable_csm"] = false;
-        }
-        if(!("csm_num" in shadows)) {
-            report("world", world, "b4w_shadow_settings.csm_num");
-            shadows["csm_num"] = 1;
-        }
-        if(!("csm_first_cascade_border" in shadows)) {
-            report("world", world, "b4w_shadow_settings.csm_first_cascade_border");
-            shadows["csm_first_cascade_border"] = 10;
-        }
-        if(!("first_cascade_blur_radius" in shadows)) {
-            report("world", world, "b4w_shadow_settings.first_cascade_blur_radius");
-            shadows["first_cascade_blur_radius"] = 3;
-        }
-        if(!("csm_last_cascade_border" in shadows)) {
-            report("world", world, "b4w_shadow_settings.csm_last_cascade_border");
-            shadows["csm_last_cascade_border"] = 100;
-        }
-        if(!("last_cascade_blur_radius" in shadows)) {
-            report("world", world, "b4w_shadow_settings.last_cascade_blur_radius");
-            shadows["last_cascade_blur_radius"] = 1.5;
-        }
-        if(!("fade_last_cascade" in shadows)) {
-            report("world", world, "b4w_shadow_settings.fade_last_cascade");
-            shadows["fade_last_cascade"] = true;
-        }
-        if(!("blend_between_cascades" in shadows)) {
-            report("world", world, "b4w_shadow_settings.blend_between_cascades");
-            shadows["blend_between_cascades"] = true;
-        }
-
-        var ssao = world["b4w_ssao_settings"];
-        if(!("dist_factor" in ssao)) {
-            report("world", world, "b4w_ssao_settings.dist_factor");
-            ssao["dist_factor"] = 0.0;
-            ssao["samples"] = 16;
-        }
-
-        if(!("hemisphere" in ssao)) {
-            report("world", world, "b4w_ssao_settings.hemisphere");
-            ssao["hemisphere"] = false;
-        }
-
-        if(!("blur_depth" in ssao)) {
-            report("world", world, "b4w_ssao_settings.blur_depth");
-            ssao["blur_depth"] = false;
-        }
-
-        if(!("blur_discard_value" in ssao)) {
-            report("world", world, "b4w_ssao_settings.blur_discard_value");
-            ssao["blur_discard_value"] = 1.0;
-        }
-
         if (!("use_sky_blend" in world)) {
             report("world", world, "use_sky_blend");
             world["use_sky_blend"] = false;
@@ -261,47 +193,6 @@ exports.check_bpy_data = function(bpy_data) {
         if (!("use_sky_real" in world)) {
             report("world", world, "use_sky_real");
             world["use_sky_real"] = false;
-        }
-
-        if (!("b4w_outline_color" in world)) {
-            if ("b4w_glow_color" in world)
-                world["b4w_outline_color"] = world["b4w_glow_color"]
-            else 
-                world["b4w_outline_color"] = [1.0,1.0,1.0];
-            report("world", world, "b4w_outline_color");
-        }
-
-        if (!("b4w_outline_factor" in world)) {
-            if ("b4w_glow_factor" in world)
-                world["b4w_outline_factor"] = world["b4w_glow_factor"];    
-            else
-                world["b4w_outline_factor"] = 1.0;
-            report("world", world, "b4w_outline_factor");
-        }
-
-        if (!("b4w_small_glow_mask_coeff" in world)) {
-            report("world", world, "b4w_small_glow_mask_coeff");
-            world["b4w_small_glow_mask_coeff"] = 2.0;
-        }
-
-        if (!("b4w_large_glow_mask_coeff" in world)) {
-            report("world", world, "b4w_large_glow_mask_coeff");
-            world["b4w_large_glow_mask_coeff"] = 2.0;
-        }
-
-        if (!("b4w_small_glow_mask_width" in world)) {
-            report("world", world, "b4w_small_glow_mask_width");
-            world["b4w_small_glow_mask_width"] = 2.0;
-        }
-
-        if (!("b4w_large_glow_mask_width" in world)) {
-            report("world", world, "b4w_large_glow_mask_width");
-            world["b4w_large_glow_mask_width"] = 6.0;
-        }
-
-        if(!("b4w_fog_density" in world)) {
-            report("world", world, "b4w_fog_density");
-            world["b4w_fog_density"] = 0.0;
         }
 
         if(!("b4w_sky_settings" in world) || !("rayleigh_brightness" in world["b4w_sky_settings"])) {
@@ -328,62 +219,9 @@ exports.check_bpy_data = function(bpy_data) {
             world["b4w_sky_settings"]["render_sky"] = false;
         }
 
-        if(!("b4w_bloom_settings" in world)) {
-            report("world", world, "b4w_bloom_settings");
-            world["b4w_bloom_settings"] = {
-                "key": 0.2,
-                "blur": 4.0
-            }
-        } else {
-
-            if(!("blur" in world["b4w_bloom_settings"])) {
-                report("world", world, "b4w_bloom_settings.blur");
-                world["b4w_bloom_settings"]["blur"] = 4.0;
-            }
-
-            if(!("edge_lum" in world["b4w_bloom_settings"])) {
-                report("world", world, "b4w_bloom_settings.edge_lum");
-                world["b4w_bloom_settings"]["edge_lum"] = 1.0;
-            }
-        }
-
-        if(!("b4w_motion_blur_settings" in world)) {
-            report("world", world, "b4w_motion_blur_settings");
-            world["b4w_motion_blur_settings"] = {
-                "motion_blur_factor": 0.01,
-                "motion_blur_decay_threshold": 0.01
-            }
-        } else {
-
-            if(!("motion_blur_factor" in world["b4w_motion_blur_settings"])) {
-                report("world", world, "b4w_motion_blur_settings.motion_blur_factor");
-                world["b4w_motion_blur_settings"]["motion_blur_factor"] = 0.01;
-            }
-
-            if(!("motion_blur_decay_threshold" in world["b4w_motion_blur_settings"])) {
-                report("world", world, "b4w_motion_blur_settings.motion_blur_decay_threshold");
-                world["b4w_motion_blur_settings"]["motion_blur_decay_threshold"] = 0.01;
-            }
-        }
-
-        if(!("b4w_color_correction_settings" in world)) {
-            report("world", world, "b4w_color_correction_settings");
-            world["b4w_color_correction_settings"] = {
-                "brightness" : 0.0,
-                "contrast" : 0.0,
-                "exposure": 1.0,
-                "saturation": 1.0
-            };
-        }
-
-        if(!("steps_per_pass" in world["b4w_god_rays_settings"])) {
-            report("world", world, "b4w_god_rays_settings.steps_per_pass");
-            world["b4w_god_rays_settings"]["steps_per_pass"] = 10.0;
-        }
-
-        if (!("b4w_render_glow_over_blend" in world)) {
-            world["b4w_render_glow_over_blend"] = false;
-            report("world", world, "b4w_render_glow_over_blend");
+        if(!("b4w_fog_density" in world)) {
+            report("world", world, "b4w_fog_density");
+            world["b4w_fog_density"] = 0.0;
         }
 
         var texture_slots = world["texture_slots"];
@@ -444,6 +282,12 @@ exports.check_bpy_data = function(bpy_data) {
     var scenes = bpy_data["scenes"];
     for (var i = 0; i < scenes.length; i++) {
         var scene = scenes[i];
+        var sc_world = scene["world"]
+
+        if (!("timeline_markers" in scene)) {
+            scene["timeline_markers"] = null;
+            report("scene", scene, "timeline_markers");
+        }
 
         if (!("b4w_use_nla" in scene)) {
             scene["b4w_use_nla"] = false;
@@ -537,6 +381,239 @@ exports.check_bpy_data = function(bpy_data) {
             scene["b4w_enable_anchors_visibility"] = "AUTO";
             report("scene", scene, "b4w_enable_anchors_visibility");
         }
+
+        if (!("b4w_outline_color" in scene)) {
+            scene["b4w_outline_color"] = [1.0,1.0,1.0];
+            report("scene", scene, "b4w_outline_color");
+        }
+
+        if (!("b4w_outline_factor" in scene)) {
+            if ("b4w_glow_factor" in scene)
+                scene["b4w_outline_factor"] = scene["b4w_glow_factor"];
+            else
+                scene["b4w_outline_factor"] = 1.0;
+            report("scene", scene, "b4w_outline_factor");
+        }
+
+        if (!("b4w_shadow_settings" in scene)) {
+            report("scene", scene, "b4w_shadow_settings");
+            var w_shadows = sc_world["b4w_shadow_settings"];
+            if (w_shadows)
+                scene["b4w_shadow_settings"] = w_shadows;
+            else
+                scene["b4w_shadow_settings"] = {
+                        "csm_resolution": 2048,
+                        "self_shadow_polygon_offset": 1,
+                        "b4w_enable_csm": false,
+                        "csm_num": 1,
+                        "csm_first_cascade_border": 10,
+                        "first_cascade_blur_radius": 3,
+                        "csm_last_cascade_border": 100,
+                        "last_cascade_blur_radius": 1.5,
+                        "fade_last_cascade": true,
+                        "blend_between_cascades": true
+                    };
+        }
+        var shadows = scene["b4w_shadow_settings"];
+        if(!("csm_resolution" in shadows)) {
+            report("scene", scene, "b4w_shadow_settings.csm_resolution");
+            shadows["csm_resolution"] = 2048;
+        }
+        if(!("self_shadow_polygon_offset" in shadows)) {
+            report("scene", scene, "b4w_shadow_settings.self_shadow_polygon_offset");
+            shadows["self_shadow_polygon_offset"] = 1;
+        }
+        if(!("self_shadow_normal_offset" in shadows)) {
+            report("scene", scene, "b4w_shadow_settings.self_shadow_normal_offset");
+            shadows["self_shadow_normal_offset"] = 0.01;
+        }
+        if(!("b4w_enable_csm" in shadows)) {
+            report("scene", scene, "b4w_shadow_settings.b4w_enable_csm");
+            shadows["b4w_enable_csm"] = false;
+        }
+        if(!("csm_num" in shadows)) {
+            report("scene", scene, "b4w_shadow_settings.csm_num");
+            shadows["csm_num"] = 1;
+        }
+        if(!("csm_first_cascade_border" in shadows)) {
+            report("scene", scene, "b4w_shadow_settings.csm_first_cascade_border");
+            shadows["csm_first_cascade_border"] = 10;
+        }
+        if(!("first_cascade_blur_radius" in shadows)) {
+            report("scene", scene, "b4w_shadow_settings.first_cascade_blur_radius");
+            shadows["first_cascade_blur_radius"] = 3;
+        }
+        if(!("csm_last_cascade_border" in shadows)) {
+            report("scene", scene, "b4w_shadow_settings.csm_last_cascade_border");
+            shadows["csm_last_cascade_border"] = 100;
+        }
+        if(!("last_cascade_blur_radius" in shadows)) {
+            report("scene", scene, "b4w_shadow_settings.last_cascade_blur_radius");
+            shadows["last_cascade_blur_radius"] = 1.5;
+        }
+        if(!("fade_last_cascade" in shadows)) {
+            report("scene", scene, "b4w_shadow_settings.fade_last_cascade");
+            shadows["fade_last_cascade"] = true;
+        }
+        if(!("blend_between_cascades" in shadows)) {
+            report("scene", scene, "b4w_shadow_settings.blend_between_cascades");
+            shadows["blend_between_cascades"] = true;
+        }
+
+        if (!("b4w_ssao_settings" in scene)) {
+            report("scene", scene, "b4w_ssao_settings");
+            var w_ssao = sc_world["b4w_ssao_settings"];
+            if (w_ssao)
+                scene["b4w_ssao_settings"] = w_ssao;
+            else
+                scene["b4w_ssao_settings"] = {
+                    "dist_factor": 0.0,
+                    "samples": 16,
+                    "hemisphere": false,
+                    "blur_depth": false,
+                    "blur_discard_value": 1.0
+                };
+        }
+        var ssao = scene["b4w_ssao_settings"];
+        if(!("dist_factor" in ssao)) {
+            report("scene", scene, "b4w_ssao_settings.dist_factor");
+            ssao["dist_factor"] = 0.0;
+        }
+        if(!("samples" in ssao)) {
+            report("scene", scene, "b4w_ssao_settings.samples");
+            ssao["samples"] = 16;
+        }
+        if(!("hemisphere" in ssao)) {
+            report("scene", scene, "b4w_ssao_settings.hemisphere");
+            ssao["hemisphere"] = false;
+        }
+        if(!("blur_depth" in ssao)) {
+            report("scene", scene, "b4w_ssao_settings.blur_depth");
+            ssao["blur_depth"] = false;
+        }
+        if(!("blur_discard_value" in ssao)) {
+            report("scene", scene, "b4w_ssao_settings.blur_discard_value");
+            ssao["blur_discard_value"] = 1.0;
+        }
+
+        if (!("b4w_bloom_settings" in scene)) {
+            report("scene", scene, "b4w_bloom_settings");
+            var w_bloom = sc_world["b4w_bloom_settings"];
+            if (w_bloom)
+                scene["b4w_bloom_settings"] = w_bloom;
+            else
+                scene["b4w_bloom_settings"] = {
+                    "key": 0.2,
+                    "blur": 4.0,
+                    "edge_lum": 1.0
+                };
+        }
+        if(!("key" in scene["b4w_bloom_settings"])) {
+            report("scene", scene, "b4w_bloom_settings.key");
+            scene["b4w_bloom_settings"]["key"] = 0.2;
+        }
+        if(!("blur" in scene["b4w_bloom_settings"])) {
+            report("scene", scene, "b4w_bloom_settings.blur");
+            scene["b4w_bloom_settings"]["blur"] = 4.0;
+        }
+        if(!("edge_lum" in scene["b4w_bloom_settings"])) {
+            report("scene", scene, "b4w_bloom_settings.edge_lum");
+            scene["b4w_bloom_settings"]["edge_lum"] = 1.0;
+        }
+
+        if (!("b4w_motion_blur_settings" in scene)) {
+            report("scene", scene, "b4w_motion_blur_settings");
+            var w_motion_blur = sc_world["b4w_motion_blur_settings"];
+            if (w_motion_blur)
+                scene["b4w_motion_blur_settings"] = w_motion_blur;
+            else
+                scene["b4w_motion_blur_settings"] = {
+                    "motion_blur_factor": 0.01,
+                    "motion_blur_decay_threshold": 0.01
+                }
+        }
+        if(!("motion_blur_factor" in scene["b4w_motion_blur_settings"])) {
+            report("scene", scene, "b4w_motion_blur_settings.motion_blur_factor");
+            scene["b4w_motion_blur_settings"]["motion_blur_factor"] = 0.01;
+        }
+        if(!("motion_blur_decay_threshold" in scene["b4w_motion_blur_settings"])) {
+            report("scene", scene, "b4w_motion_blur_settings.motion_blur_decay_threshold");
+            scene["b4w_motion_blur_settings"]["motion_blur_decay_threshold"] = 0.01;
+        }
+
+        if (!("b4w_color_correction_settings" in scene)) {
+            report("scene", scene, "b4w_color_correction_settings");
+            var w_color_correction = sc_world["b4w_color_correction_settings"];
+            if (w_color_correction)
+                scene["b4w_color_correction_settings"] = w_color_correction;
+            else
+                scene["b4w_color_correction_settings"] = {
+                    "brightness" : 0.0,
+                    "contrast" : 0.0,
+                    "exposure": 1.0,
+                    "saturation": 1.0
+                }
+        }
+
+        if (!("b4w_god_rays_settings" in scene)) {
+            report("scene", scene, "b4w_god_rays_settings");
+            var w_god_rays = sc_world["b4w_god_rays_settings"];
+            if (w_god_rays)
+                scene["b4w_god_rays_settings"] = w_god_rays;
+            else
+                scene["b4w_god_rays_settings"] = {
+                    "intensity" : 0.7,
+                    "max_ray_length" : 1.0,
+                    "steps_per_pass": 10
+                }
+        }
+        if(!("steps_per_pass" in scene["b4w_god_rays_settings"])) {
+            report("scene", scene, "b4w_god_rays_settings.steps_per_pass");
+            scene["b4w_god_rays_settings"]["steps_per_pass"] = 10.0;
+        }
+
+        if (!("b4w_glow_settings" in scene)) {
+            report("scene", scene, "b4w_glow_settings");
+            scene["b4w_glow_settings"] = {
+                "render_glow_over_blend": false,
+                "small_glow_mask_coeff": 2.0,
+                "large_glow_mask_coeff": 2.0,
+                "small_glow_mask_width": 2.0,
+                "large_glow_mask_width": 6.0
+            }
+            var glow_set = scene["b4w_glow_settings"];
+            if ("b4w_render_glow_over_blend" in sc_world)
+                glow_set["render_glow_over_blend"] = sc_world["b4w_render_glow_over_blend"];
+            if ("b4w_small_glow_mask_coeff" in sc_world)
+                glow_set["small_glow_mask_coeff"] = sc_world["b4w_small_glow_mask_coeff"];
+            if ("b4w_large_glow_mask_coeff" in sc_world)
+                glow_set["large_glow_mask_coeff"] = sc_world["b4w_large_glow_mask_coeff"];
+            if ("b4w_small_glow_mask_width" in sc_world)
+                glow_set["small_glow_mask_width"] = sc_world["b4w_small_glow_mask_width"];
+            if ("b4w_large_glow_mask_width" in sc_world)
+                glow_set["large_glow_mask_width"] = sc_world["b4w_large_glow_mask_width"];
+        }
+
+        var r_shadows = scene["b4w_render_shadows"];
+        if (r_shadows != "AUTO" && r_shadows != "OFF" && r_shadows != "ON")
+            if (r_shadows)
+                scene["b4w_render_shadows"] = "ON";
+            else
+                scene["b4w_render_shadows"] = "OFF";
+
+        var r_refl = scene["b4w_render_reflections"];
+        if (r_refl != "OFF" && r_refl != "ON")
+            if (r_refl)
+                scene["b4w_render_reflections"] = "ON";
+            else
+                scene["b4w_render_reflections"] = "OFF";
+
+        var r_refr = scene["b4w_render_refractions"];
+        if (r_refr != "AUTO" && r_refr != "OFF" && r_refr != "ON")
+            if (r_refr)
+                scene["b4w_render_refractions"] = "ON";
+            else
+                scene["b4w_render_refractions"] = "OFF";
     }
 
     /* object data - meshes */
@@ -549,6 +626,11 @@ exports.check_bpy_data = function(bpy_data) {
             report("mesh", mesh, "b4w_bounding_box");
             mesh["b4w_bounding_box"] = {"max_x" : 0, "max_y" : 0, "max_z" : 0,
                 "min_x" : 0, "min_y" : 0, "min_z" : 0};
+        }
+
+        if (!mesh["b4w_bounding_box_source"]) {
+            report("mesh", mesh, "b4w_bounding_box_source");
+            mesh["b4w_bounding_box_source"] = mesh["b4w_bounding_box"];
         }
 
         if (!mesh["uv_textures"]) {
@@ -1168,6 +1250,22 @@ exports.check_bpy_data = function(bpy_data) {
         if (!("b4w_water_norm_uv_velocity" in mat)) {
             mat["b4w_water_norm_uv_velocity"] = 0.05;
             report("material", mat, "b4w_water_norm_uv_velocity");
+        }
+        if (!("specular_ior" in mat)) {
+            mat["specular_ior"] = 1.0;
+            report("material", mat, "specular_ior");
+        }
+        if (!("darkness" in mat)) {
+            mat["darkness"] = 0.0;
+            report("material", mat, "darkness");
+        }
+        if (!("diffuse_toon_size" in mat)) {
+            mat["diffuse_toon_size"] = 0.0;
+            report("material", mat, "diffuse_toon_size");
+        }
+        if (!("diffuse_toon_smooth" in mat)) {
+            mat["diffuse_toon_smooth"] = 0.0;
+            report("material", mat, "diffuse_toon_smooth");
         }
 
         var texture_slots = mat["texture_slots"];
@@ -1866,6 +1964,7 @@ function libname(obj) {
 
 function check_uniform_scale(obj) {
     var scale = obj["scale"];
+    var eps = 0.005
 
     if (scale[0] == 0 && scale[1] == 0 && scale[2] == 0)
         return true;
@@ -1873,7 +1972,7 @@ function check_uniform_scale(obj) {
     var delta1 = Math.abs((scale[0] - scale[1]) / scale[0]);
     var delta2 = Math.abs((scale[1] - scale[2]) / scale[1]);
 
-    return (delta1 < 0.001 && delta2 < 0.001);
+    return (delta1 < eps && delta2 < eps);
 }
 
 exports.check_anim_fcurve_completeness = function(fcurve, action) {
@@ -1886,7 +1985,7 @@ exports.check_anim_fcurve_completeness = function(fcurve, action) {
 
 /**
  * Apply modifiers for mesh object and return new mesh.
- * @param {Object} obj Object ID
+ * @param {Object3D} obj Object 3D
  * @returns Mesh object or null
  */
 exports.apply_mesh_modifiers = function(obj) {

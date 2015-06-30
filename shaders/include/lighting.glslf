@@ -62,8 +62,52 @@ float spec_toon_shading(vec3 ldir, vec3 eye_dir, vec3 normal, float size,
 }
 #endif
 
+#if SPECULAR_SHADER == SPECULAR_BLINN
+float spec_blinn_shading(vec3 ldir, vec3 eye_dir, vec3 normal, float refrac, 
+        float hardness, float norm_fac)
+{   
+    if (refrac < 1.0 || hardness == ZERO_VALUE_LIGHT)
+        return ZERO_VALUE_LIGHT;
+    else {
+        if (hardness < 100.0)
+            hardness= sqrt(1.0 / hardness);
+        else
+            hardness= 10.0 / hardness;
+
+        vec3 halfway = normalize(eye_dir + ldir);
+        float nh = (UNITY_VALUE_LIGHT - norm_fac) * max(dot(normal, halfway),
+                     ZERO_VALUE_LIGHT) + norm_fac;
+        if (nh < ZERO_VALUE_LIGHT)
+            return ZERO_VALUE_LIGHT;
+        else {
+            float nv = max(dot(normal, eye_dir), 0.01);
+            float nl = dot(normal, ldir);
+            if (nl <= 0.01)
+                return ZERO_VALUE_LIGHT;
+            else {
+                float vh = max(dot(eye_dir, halfway), 0.01);
+
+                float a = UNITY_VALUE_LIGHT;
+                float b = (2.0 * nh * nv) / vh;
+                float c = (2.0 * nh * nl) / vh;
+
+                float g = min(min(a, b), c);
+
+                float p = sqrt(pow(refrac, 2.0) + pow(vh, 2.0) - UNITY_VALUE_LIGHT);
+                float f = pow(p - vh, 2.0) / pow(p + vh, 2.0) * (UNITY_VALUE_LIGHT 
+                        + pow(vh * (p + vh) - UNITY_VALUE_LIGHT, 2.0)/pow(vh * (p - vh) 
+                        + UNITY_VALUE_LIGHT, 2.0));
+                float ang = acos(nh);
+                return max(f * g * exp(-pow(ang, 2.0) / (2.0 * pow(hardness, 2.0))), 
+                        ZERO_VALUE_LIGHT);
+            }
+        }
+    }
+}
+#endif
+
 #if DIFFUSE_SHADER == DIFFUSE_OREN_NAYAR
-void shade_diffuse_oren_nayer(float nl, vec3 n, vec3 l, vec3 e, float rough, inout float is)
+float shade_diffuse_oren_nayer(float nl, vec3 n, vec3 l, vec3 e, float rough)
 {
     if (rough > ZERO_VALUE_LIGHT) {
         float nv = max(dot(n, e), ZERO_VALUE_LIGHT);
@@ -79,7 +123,7 @@ void shade_diffuse_oren_nayer(float nl, vec3 n, vec3 l, vec3 e, float rough, ino
                 abs(nl) > UNITY_VALUE_LIGHT || abs(nv) > UNITY_VALUE_LIGHT)
             // HACK: undefined result of normalize() for this vectors
             // remove t-multiplier for zero-length vectors
-            is = is * A;
+            return nl * A;
         else {
             float Lit_A = acos(nl);
             float View_A = acos(nv);
@@ -93,41 +137,82 @@ void shade_diffuse_oren_nayer(float nl, vec3 n, vec3 l, vec3 e, float rough, ino
 
             float t = max(dot(Lit_B, View_B), ZERO_VALUE_LIGHT);
             float B = 0.45 * (sigma_sq / (sigma_sq +  0.09));
-            is = is * (A + (B * t * sin(a) * tan(b)));
+            return nl * (A + (B * t * sin(a) * tan(b)));
         }
-    }
+    } else
+        return nl;
+}
+#endif
+
+#if DIFFUSE_SHADER == DIFFUSE_MINNAERT
+float shade_diffuse_minnaert(float nl, vec3 n, vec3 e, float darkness)
+{
+    float nv = max(dot(n, e), ZERO_VALUE_LIGHT);
+
+    if (darkness <= UNITY_VALUE_LIGHT)
+        return nl * pow(max(nv * nl, 0.1), darkness - UNITY_VALUE_LIGHT);
+    else
+        return nl * pow(1.0001 - nv, darkness - UNITY_VALUE_LIGHT);
+}
+#endif
+
+#if DIFFUSE_SHADER == DIFFUSE_TOON
+float shade_diffuse_toon(float nl, float size, float tsmooth)
+{
+    float ang = acos(nl);
+
+    if (ang < size)
+        return UNITY_VALUE_LIGHT;
+    else if (ang > (size + tsmooth) || tsmooth == ZERO_VALUE_LIGHT)
+            return ZERO_VALUE_LIGHT;
+        else
+            return UNITY_VALUE_LIGHT - ((ang - size)/tsmooth);
 }
 #endif
 
 #if DIFFUSE_SHADER == DIFFUSE_FRESNEL
-void shade_diffuse_fresnel(vec3 n, vec3 l, float fpower, float fblend_fac, out float is)
+float shade_diffuse_fresnel(float nl, float fpower, float fblend_fac)
 {
     float t;
 
-    if(fpower == ZERO_VALUE_LIGHT) {
-        is = UNITY_VALUE_LIGHT;
+    if (fpower == ZERO_VALUE_LIGHT) {
+        return UNITY_VALUE_LIGHT;
     } else {
-        t = UNITY_VALUE_LIGHT + abs(dot(l, n));
+        t = UNITY_VALUE_LIGHT + abs(nl);
         t = fblend_fac + (UNITY_VALUE_LIGHT - fblend_fac) * pow(t, fpower);
-        is = clamp(t, ZERO_VALUE_LIGHT, UNITY_VALUE_LIGHT);
+        return clamp(t, ZERO_VALUE_LIGHT, UNITY_VALUE_LIGHT);
     }
 }
 #endif
 
 void shade_diffuse(vec3 normal, vec3 ldir, vec3 eye_dir, vec2 diffuse_params,
                    const float norm_fac, out float lfactor) {
+    float dot_nl = (UNITY_VALUE_LIGHT - norm_fac) * dot(normal, ldir) + norm_fac;
+    // lambert
+    lfactor = dot_nl;
+    if (norm_fac == HALF_VALUE_LIGHT)
+        return;
+
 #if DIFFUSE_SHADER == DIFFUSE_FRESNEL
-        shade_diffuse_fresnel(normal, ldir, diffuse_params[0],
-                diffuse_params[1], lfactor);
+        lfactor = shade_diffuse_fresnel(dot_nl, diffuse_params[0],
+                diffuse_params[1]);
 #else
-        // diffuse factor
-        float dot_nl = max(dot(normal, ldir), ZERO_VALUE_LIGHT);
-        // lambert
-        lfactor = (UNITY_VALUE_LIGHT - norm_fac) * dot_nl + norm_fac;
+
 # if DIFFUSE_SHADER == DIFFUSE_OREN_NAYAR
-        shade_diffuse_oren_nayer(dot_nl, normal, ldir,
-                eye_dir, diffuse_params[0], lfactor);
+        lfactor = shade_diffuse_oren_nayer(dot_nl, normal, ldir,
+                eye_dir, diffuse_params[0]);
 # endif
+# if DIFFUSE_SHADER == DIFFUSE_MINNAERT
+        lfactor = shade_diffuse_minnaert(dot_nl, normal,
+                eye_dir, diffuse_params[0]);
+# endif
+# if DIFFUSE_SHADER == DIFFUSE_TOON
+        lfactor = shade_diffuse_toon(dot_nl,
+                diffuse_params[0], diffuse_params[1]);
+# endif
+    
+    lfactor = max(lfactor, ZERO_VALUE_LIGHT);
+
 #endif
 }
 
@@ -142,6 +227,9 @@ void shade_spec(vec3 ldir, vec3 eye_dir, vec3 normal, float norm_fac,
 # elif SPECULAR_SHADER == SPECULAR_TOON
         sfactor = spec_toon_shading(ldir, eye_dir, normal,
                                  specular_params[0], specular_params[1]);
+# elif SPECULAR_SHADER == SPECULAR_BLINN
+        sfactor = spec_blinn_shading(ldir, eye_dir, normal,
+                                 specular_params[0], specular_params[1], norm_fac);
 # else
         sfactor = ZERO_VALUE_LIGHT;
 # endif
@@ -153,6 +241,7 @@ void apply_lighting(vec3 eye_dir, vec3 ldir, vec3 normal, vec2 lfac,
                     vec2 diffuse_params, vec2 specular_params, float norm_fac) {
 
     float lfactor = ZERO_VALUE_LIGHT;
+
     if (lfac.r != ZERO_VALUE_LIGHT)
         shade_diffuse(normal, ldir, eye_dir, diffuse_params, norm_fac,
                       lfactor);

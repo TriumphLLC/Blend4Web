@@ -227,7 +227,7 @@ exports.detect_video_container = function(hint) {
 
 /**
  * Init and add speaker object to sfx
- * @param {Object} obj Object ID, must be of type "SPEAKER"
+ * @param {Object3D} obj Object 3D, must be of type "SPEAKER"
  */
 exports.append_object = function(obj, scene) {
 
@@ -317,7 +317,7 @@ function check_media_element_node() {
 
 /**
  * Returns audio source type for given object (AST_*)
- * @param {Object} obj Object ID
+ * @param {Object3D} obj Object 3D
  */
 exports.source_type = function(obj) {
     if (obj["type"] != "SPEAKER")
@@ -339,7 +339,7 @@ exports.source_type = function(obj) {
 
 /**
  * Updates speaker object with loaded sound data
- * @param {Object} obj Object ID
+ * @param {Object3D} obj Object 3D
  * @param {ArrayBuffer|<audio>} sound_data Sound Data
  */
 exports.update_spkobj = function(obj, sound_data) {
@@ -855,7 +855,7 @@ function stop_audio_element(obj) {
 exports.stop = stop;
 /**
  * Stop to play from given speaker
- * @param sobj Object ID
+ * @param sobj Object 3D
  * @methodOf sfx
  */
 function stop(sobj) {

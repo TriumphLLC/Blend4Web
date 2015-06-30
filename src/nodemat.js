@@ -88,13 +88,12 @@ function compose_nmat_graph(node_tree, graph_id, is_node_group, mat_name, is_glo
     if (is_glow_output) {
         var output_id = find_node_id(node_tree, graph, "B4W_GLOW_OUTPUT", "material", true);
     } else {
-        var output_id = find_node_id(node_tree, graph, "OUTPUT", "material");
+        var output_id = find_node_id(node_tree, graph, "OUTPUT", "material", false, true);
     }
     if (output_id == -1) {
-        _composed_node_graphs[graph_id] = null;
-        return null;
+        graph = create_default_graph();
+        output_id = 0;
     }
-
     nmat_cleanup_graph(graph);
     var graph_out = m_graph.subgraph_node_conn(graph, output_id, m_graph.BACKWARD_DIR);
 
@@ -107,6 +106,33 @@ function compose_nmat_graph(node_tree, graph_id, is_node_group, mat_name, is_glo
 
     _composed_node_graphs[graph_id] = graph_out;
     return graph_out;
+}
+
+function create_default_graph() {
+    var graph = m_graph.create();
+    var input_color = {
+        "default_value" : new Float32Array([0, 0, 0]),
+        "identifier": "Color",
+        "is_linked": false,
+        "name": "Color"
+    };
+    var input_alpha = {
+        "default_value" : 1,
+        "identifier": "Alpha",
+        "is_linked": false,
+        "name": "Alpha"
+    }
+    var node = {
+        data: null,
+        dirs: [],
+        params: [],
+        inputs: [input_color, input_alpha],
+        outputs: [],
+        type: "OUTPUT",
+        vparams: []
+    };
+    m_graph.append_node(graph, 0, node);
+    return graph;
 }
 
 function clean_sockets_linked_property(graph) {
@@ -316,15 +342,144 @@ function get_in_edge_by_input_num(graph, node, input_num) {
 function merge_nodes(graph) {
     merge_geometry(graph);
     merge_textures(graph);
+    merge_uvs(graph);
+    // console.log(m_graph.debug_dot(graph));
+}
+
+function merge_uvs(graph) {
+    var id_attr = [];
+    var uv_0 = "";
+    var uv_1 = "";
+    var uv_counter = {};
+    m_graph.traverse(graph, function(id, attr) {
+        if (attr.type == "GEOMETRY_UV" || attr.type == "UVMAP"
+                || attr.type == "TEX_COORD_UV") {
+            id_attr.push(id, attr);
+            var curr_uv_layer = attr.data.value;
+            if (!uv_0) {
+                uv_0 = curr_uv_layer;
+                uv_counter[uv_0] = 0;
+            } else if (uv_0 != curr_uv_layer && !uv_1) {
+                uv_1 = curr_uv_layer;
+                uv_counter[uv_1] = 0;
+            }
+            uv_counter[curr_uv_layer]++;
+        }
+    });
+    //NOTE: we do not need to merge single UV
+    for (var curr_uv_layer in uv_counter)
+        if (uv_counter[curr_uv_layer] < 2) {
+            for (var i = 0; i < id_attr.length; i = i + 2)
+                if (id_attr[i + 1].data.value == curr_uv_layer)
+                    id_attr.splice(i, 2);
+            delete uv_counter[curr_uv_layer];
+            if (uv_0 == curr_uv_layer) {
+                uv_0 = uv_1;
+                uv_1 = "";
+            }
+            if (uv_1 == curr_uv_layer)
+                uv_1 = "";
+        }
+
+    if (id_attr.length < 3)
+        return;
+
+    var node_name = "";
+    var UV_geom = {
+        "default_value": [0, 0, 0],
+        "identifier": "UV_geom",
+        "is_linked": false,
+        "name": "UV_geom"
+    };
+    var UV_cycles = {
+        "default_value": [0, 0, 0],
+        "identifier": "UV_cycles",
+        "is_linked": false,
+        "name": "UV_cycles"
+    };
+
+    var uv_0_node = init_bpy_node("merged_uv", "UV_MERGED", 
+                        [], [UV_geom, UV_cycles]);
+    uv_0_node["uv_layer"] = uv_0;
+    append_nmat_node(graph, uv_0_node, 0, null, "");
+    var uv_0_node_id = graph.nodes[graph.nodes.length - 2];
+    uv_0_node = graph.nodes[graph.nodes.length - 1];
+
+    if (uv_1) {
+        var uv_1_node = init_bpy_node("merged_uv", "UV_MERGED", 
+                            [], [UV_geom, UV_cycles]);
+        uv_1_node["uv_layer"] = uv_1;
+        append_nmat_node(graph, uv_1_node, 0, null, "");
+        var uv_1_node_id = graph.nodes[graph.nodes.length - 2];
+        uv_1_node = graph.nodes[graph.nodes.length - 1];
+    } else
+        var uv_1_node = null;
+
+    var unode_id = -1;
+    var unode = null;
+
+    for (var i = 0; i < id_attr.length; i+=2) {
+        var id_current = id_attr[i];
+        var attr_current = id_attr[i+1];
+
+        if (can_merge_nodes_uv(attr_current, id_attr[1])) {
+            unode_id = uv_0_node_id;
+            unode = uv_0_node;
+        } else if (uv_1_node) {
+            unode_id = uv_1_node_id;
+            unode = uv_1_node;
+        }
+
+        var removed_edges = [];
+        var out_num = m_graph.out_edge_count(graph, id_current);
+
+        var edges_out_counter = {};
+        for (k = 0; k < out_num; k++) {
+            
+            var out_id = m_graph.get_out_edge(graph, id_current, k);
+
+            if (!(out_id in edges_out_counter))
+                edges_out_counter[out_id] = 0;
+
+            var edge_attr = m_graph.get_edge_attr(graph, id_current, out_id,
+                    edges_out_counter[out_id]++);
+
+            
+
+            removed_edges.push(id_current, out_id, edge_attr);
+
+            var new_edge_attr = edge_attr.splice(0, edge_attr.length);
+
+            switch (attr_current.type) {
+                case "GEOMETRY_UV":
+                    new_edge_attr[0] = 0;
+                    unode.outputs[0].is_linked = true;
+                    break;
+                case "UVMAP":
+                case "TEX_COORD_UV":
+                    new_edge_attr[0] = 1;
+                    unode.outputs[1].is_linked = true;
+                    break;
+            }
+            m_graph.append_edge(graph, unode_id, out_id, new_edge_attr);
+        }
+
+        for (var k = 0; k < removed_edges.length; k += 3)
+            m_graph.remove_edge(graph, removed_edges[k],
+                    removed_edges[k + 1], 0);
+
+        m_graph.remove_node(graph, id_current);
+    }
 }
 
 function merge_geometry(graph) {
 
     var id_attr = [];
     m_graph.traverse(graph, function(id, attr) {
-        if (attr.type == "GEOMETRY_VC" || attr.type == "GEOMETRY_UV"
-                || attr.type == "GEOMETRY_NO" || attr.type == "GEOMETRY_FB"
-                || attr.type == "GEOMETRY_VW" || attr.type == "GEOMETRY_GL")
+        if (attr.type == "GEOMETRY_VC" || attr.type == "GEOMETRY_NO" 
+                || attr.type == "GEOMETRY_FB" || attr.type == "GEOMETRY_VW" 
+                || attr.type == "GEOMETRY_GL" || attr.type == "GEOMETRY_LO" 
+                || attr.type == "GEOMETRY_OR")
             id_attr.push(id, attr);
     });
 
@@ -564,12 +719,13 @@ function can_merge_nodes(attr1, attr2) {
 
     switch (attr1.type) {
     case "GEOMETRY_VC":
-    case "GEOMETRY_UV":
         return attr1.data.value == attr2.data.value;
     case "GEOMETRY_NO":
     case "GEOMETRY_FB":
     case "GEOMETRY_VW":
     case "GEOMETRY_GL":
+    case "GEOMETRY_LO":
+    case "GEOMETRY_OR":
         return true;
     case "TEXTURE_COLOR":
     case "TEXTURE_NORMAL":
@@ -577,6 +733,15 @@ function can_merge_nodes(attr1, attr2) {
     default:
         return false;
     }
+}
+
+function can_merge_nodes_uv(attr1, attr2) {
+
+    var permissible_types = ["GEOMETRY_UV", "TEX_COORD_UV", "UVMAP"];
+    if (permissible_types.indexOf(attr1.type) != -1 
+            && permissible_types.indexOf(attr2.type) != -1)
+        return attr1.data.value == attr2.data.value;
+    return false;
 }
 
 function optimize_geometry_vcol(graph) {
@@ -677,12 +842,13 @@ function optimize_geometry_vcol(graph) {
     }
 }
 
-function find_node_id(node_tree, graph, type, source_type, is_group_node) {
+function find_node_id(node_tree, graph, type, source_type, is_group_node, 
+        suppress_errors) {
     var bpy_nodes = node_tree["nodes"];
 
     // find last OUTPUT
     var last_output_node = null;
-
+    
     // search in original bpy_nodes
     for (var i = 0; i < bpy_nodes.length; i++) {
         var bpy_node = bpy_nodes[i];
@@ -697,7 +863,8 @@ function find_node_id(node_tree, graph, type, source_type, is_group_node) {
     }
 
     if (!last_output_node) {
-        m_print.error("No \"" + type + "\" node in node " + source_type);
+        if (!suppress_errors)
+            m_print.error("No \"" + type + "\" node in node " + source_type);
         return -1;
     }
 
@@ -725,7 +892,7 @@ function init_bpy_link(from_node, from_socket, to_node, to_socket) {
     return link;
 }
 
-function append_nmat_node(graph, bpy_node, geometry_output_num, anim_data,
+function append_nmat_node(graph, bpy_node, output_num, anim_data,
                           mat_name) {
     var name = bpy_node["name"];
     var type = bpy_node["type"];
@@ -740,6 +907,91 @@ function append_nmat_node(graph, bpy_node, geometry_output_num, anim_data,
     var dirs = [];
 
     switch(type) {
+    case "BSDF_ANISOTROPIC":
+    case "BSDF_DIFFUSE":
+    case "BSDF_GLOSSY":
+    case "BSDF_GLASS":
+    case "BSDF_HAIR":
+    case "BSDF_TRANSPARENT":
+    case "BSDF_TRANSLUCENT":
+    case "BSDF_REFRACTION":
+    case "BSDF_TOON":
+    case "BSDF_VELVET":
+    case "SUBSURFACE_SCATTERING":
+    case "EMISSION":
+    case "AMBIENT_OCCLUSION":
+    case "VOLUME_ABSORPTION":
+    case "VOLUME_SCATTER":
+    case "BUMP":
+    case "NORMAL_MAP":
+    case "VECT_TRANSFORM":
+    case "BLACKBODY":
+    case "WAVELENGTH":
+    case "SEPXYZ":
+    case "COMBXYZ":
+    case "LIGHT_FALLOFF":
+    case "TEX_IMAGE":
+    case "TEX_ENVIRONMENT":
+    case "TEX_SKY":
+    case "TEX_NOISE":
+    case "TEX_WAVE":
+    case "TEX_VORONOI":
+    case "TEX_MUSGRAVE":
+    case "TEX_GRADIENT":
+    case "TEX_MAGIC":
+    case "TEX_CHECKER":
+    case "TEX_BRICK":
+    case "WIREFRAME":
+    case "LAYER_WEIGHT":
+    case "TANGENT":
+    case "LIGHT_PATH":
+    case "ATTRIBUTE":
+    case "HOLDOUT":
+    case "PARTICLE_INFO":
+    case "HAIR_INFO":
+    case "OBJECT_INFO":
+    case "SCRIPT":
+        inputs = node_inputs_bpy_to_b4w(bpy_node);
+        outputs = node_outputs_bpy_to_b4w(bpy_node);
+        m_print.warn(type + " node is not fully supported.");
+        break;
+    case "BRIGHTCONTRAST":
+    case "ADD_SHADER":
+    case "MIX_SHADER":
+        inputs = node_inputs_bpy_to_b4w(bpy_node);
+        outputs = node_outputs_bpy_to_b4w(bpy_node);
+        break;
+    case "UVMAP":
+        var uv_name = shader_ident("param_" + type + "_a");
+        var uv_tra_name = shader_ident("param_" + type + "_v");
+
+        vparams.push(node_param(uv_name));
+        vparams.push(node_param(uv_tra_name));
+
+        outputs = node_outputs_bpy_to_b4w(bpy_node);
+        params.push(node_param(uv_tra_name));
+
+        data = {
+            name: uv_name,
+            value: bpy_node["uv_layer"]
+        }
+        break;
+    case "UV_MERGED":
+        var uv_name = shader_ident("param_UV_MERGED_a");
+        var uv_tra_name = shader_ident("param_UV_MERGED_v");
+
+        vparams.push(node_param(uv_name));
+        vparams.push(node_param(uv_tra_name));
+
+        outputs.push(node_output_by_ident(bpy_node, "UV_geom"));
+        outputs.push(node_output_by_ident(bpy_node, "UV_cycles"));
+        params.push(node_param(uv_tra_name));
+
+        data = {
+            name: uv_name,
+            value: bpy_node["uv_layer"]
+        }
+        break;
     case "CAMERA":
         inputs = [];
         outputs = node_outputs_bpy_to_b4w(bpy_node);
@@ -749,12 +1001,22 @@ function append_nmat_node(graph, bpy_node, geometry_output_num, anim_data,
         inputs = node_inputs_bpy_to_b4w(bpy_node);
         outputs = node_outputs_bpy_to_b4w(bpy_node);
         break;
+    case "CURVE_RGB":
+        inputs = node_inputs_bpy_to_b4w(bpy_node);
+        outputs = node_outputs_bpy_to_b4w(bpy_node);
+        m_print.warn("CURVE_RGB node is not fully supported.");
+        break;
+    case "CURVE_VEC":
+        inputs = node_inputs_bpy_to_b4w(bpy_node);
+        outputs = node_outputs_bpy_to_b4w(bpy_node);
+        m_print.warn("CURVE_VEC node is not fully supported.");
+        break;
     case "GEOMETRY":
 
-        if (!check_geometry_node_outputs(bpy_node))
+        if (!check_input_node_outputs(bpy_node))
             return true;
 
-        type = geometry_node_type(bpy_node, geometry_output_num);
+        type = geometry_node_type(bpy_node, output_num);
         if (!type) {
             m_print.error("Geometry output is not supported");
             return false;
@@ -762,7 +1024,7 @@ function append_nmat_node(graph, bpy_node, geometry_output_num, anim_data,
 
         switch (type) {
         case "GEOMETRY_UV":
-
+            // NOTE: check UV layers for compatibility
             if (!bpy_node["uv_layer"]) {
                 m_print.error("Missing uv layer in node \"", bpy_node["name"],"\"");
                 return false;
@@ -784,7 +1046,7 @@ function append_nmat_node(graph, bpy_node, geometry_output_num, anim_data,
             }
             break;
         case "GEOMETRY_VC":
-
+            // NOTE: check VC for compatibility
             if (!bpy_node["color_layer"]) {
                 m_print.error("Missing vertex color layer in node ", bpy_node["name"]);
                 return false;
@@ -816,6 +1078,72 @@ function append_nmat_node(graph, bpy_node, geometry_output_num, anim_data,
             break;
         case "GEOMETRY_GL":
             outputs.push(node_output_by_ident(bpy_node, "Global"));
+            break;
+        case "GEOMETRY_LO":
+            outputs.push(node_output_by_ident(bpy_node, "Local"));
+            break;
+        case "GEOMETRY_OR":
+            var or_tra_name = shader_ident("param_GEOMETRY_OR_v");
+            vparams.push(node_param(or_tra_name));
+
+            outputs.push(node_output_by_ident(bpy_node, "Orco"));
+            params.push(node_param(or_tra_name));
+            break;
+        }
+        break;
+    case "TEX_COORD":
+
+        if (!check_input_node_outputs(bpy_node))
+            return true;
+
+        type = tex_coord_node_type(bpy_node, output_num);
+        if (!type) {
+            m_print.error("Texture coordinate output is not supported");
+            return false;
+        }
+
+        switch (type) {
+        case "TEX_COORD_UV":
+
+            var uv_name = shader_ident("param_TEX_COORD_UV_a");
+            var uv_tra_name = shader_ident("param_TEX_COORD_UV_v");
+
+            vparams.push(node_param(uv_name));
+            vparams.push(node_param(uv_tra_name));
+
+            outputs.push(node_output_by_ident(bpy_node, "UV"));
+
+            params.push(node_param(uv_tra_name));
+
+            data = {
+                name: uv_name,
+                value: bpy_node["uv_layer"]
+            }
+            break;
+        case "TEX_COORD_NO":
+            outputs.push(node_output_by_ident(bpy_node, "Normal"));
+            break;
+        case "TEX_COORD_GE":
+            var ge_tra_name = shader_ident("param_TEX_COORD_GE_v");
+            vparams.push(node_param(ge_tra_name));
+
+            outputs.push(node_output_by_ident(bpy_node, "Generated"));
+            params.push(node_param(ge_tra_name));
+            break;
+        case "TEX_COORD_OB":
+            outputs.push(node_output_by_ident(bpy_node, "Object"));
+            m_print.warn("Output \"Object\" of node \"Texture Coordinate\" doesn't supported fully.")
+            break;
+        case "TEX_COORD_CA":
+            outputs.push(node_output_by_ident(bpy_node, "Camera"));
+            break;
+        case "TEX_COORD_WI":
+            outputs.push(node_output_by_ident(bpy_node, "Window"));
+            m_print.warn("Output \"Window\" of node \"Texture Coordinate\" doesn't supported fully.")
+            break;
+        case "TEX_COORD_RE":
+            outputs.push(node_output_by_ident(bpy_node, "Reflection"));
+            m_print.warn("Output \"Reflection\" of node \"Texture Coordinate\" doesn't supported fully.")
             break;
         }
         break;
@@ -1388,6 +1716,11 @@ function append_nmat_node(graph, bpy_node, geometry_output_num, anim_data,
         }
         
         break;
+    case "VALTORGB":
+        inputs = node_inputs_bpy_to_b4w(bpy_node);
+        outputs = node_outputs_bpy_to_b4w(bpy_node);
+        m_print.warn("VALTORGB node is not fully supported.");
+        break;
     case "VALUE":
 
         type = "VALUE";
@@ -1455,10 +1788,10 @@ function append_nmat_node(graph, bpy_node, geometry_output_num, anim_data,
 
     m_graph.append_node(graph, m_graph.gen_node_id(graph), attr);
 
-    // recursively split GEOMETRY node
-    if (bpy_node["type"] == "GEOMETRY" &&
-            geometry_check_next(bpy_node, geometry_output_num))
-        if (!append_nmat_node(graph, bpy_node, ++geometry_output_num, anim_data,
+    // recursively split GEOMETRY or TEX_COORD node
+    if ((bpy_node["type"] == "GEOMETRY" || bpy_node["type"] == "TEX_COORD") &&
+            node_output_check_next(bpy_node, output_num))
+        if (!append_nmat_node(graph, bpy_node, ++output_num, anim_data,
                               mat_name))
             return false;
 
@@ -1578,7 +1911,7 @@ function shader_ident(name_base) {
     return name;
 }
 
-function check_geometry_node_outputs(bpy_node) {
+function check_input_node_outputs(bpy_node) {
     var outputs = bpy_node["outputs"];
     for (var i = 0; i < outputs.length; i++) {
         var output = outputs[i];
@@ -1613,13 +1946,50 @@ function geometry_node_type(bpy_node, output_num) {
             return "GEOMETRY_VW";
         case "Global":
             return "GEOMETRY_GL";
+        case "Local":
+            return "GEOMETRY_LO";
+        case "Orco":
+            return "GEOMETRY_OR";
         default:
             return null;
         }
     }
 }
 
-function geometry_check_next(bpy_node, output_num) {
+function tex_coord_node_type(bpy_node, output_num) {
+    var outputs = bpy_node["outputs"];
+    var out_counter = 0;
+    for (var i = 0; i < outputs.length; i++) {
+        var output = outputs[i];
+
+        if (!output["is_linked"])
+            continue;
+
+        if ((out_counter++) < output_num)
+            continue;
+
+        switch (output["identifier"]) {
+        case "Camera":
+            return "TEX_COORD_CA";
+        case "Generated":
+            return "TEX_COORD_GE";
+        case "Normal":
+            return "TEX_COORD_NO";
+        case "Object":
+            return "TEX_COORD_OB";
+        case "Reflection":
+            return "TEX_COORD_RE";
+        case "UV":
+            return "TEX_COORD_UV";
+        case "Window":
+            return "TEX_COORD_WI";
+        default:
+            return null;
+        }
+    }
+}
+
+function node_output_check_next(bpy_node, output_num) {
     var outputs = bpy_node["outputs"];
     var out_counter = 0;
     for (var i = 0; i < outputs.length; i++) {

@@ -159,7 +159,7 @@ function load_main(bpy_data, thread, stage, cb_param, cb_finish,
 
         m_print.log("%cLOAD METADATA", "color: #616", path);
 
-        check_version(loaded_bpy_data);
+        check_format_version(loaded_bpy_data);
         
         // copy-link its properties to initial bpy_data
         for (var prop in loaded_bpy_data)
@@ -229,24 +229,38 @@ function load_binaries(bpy_data, thread, stage, cb_param, cb_finish,
             binary_cb, null, progress_cb);
 }
 
-function check_version(loaded_bpy_data) {
-    var ver_required = cfg_def.min_format_version.split(".").map(function(val){ return val | 0 });
-    var ver_loaded = loaded_bpy_data["b4w_format_version"].split(".").map(function(val){ return val | 0 });
+function check_format_version(loaded_bpy_data) {
 
-    if (ver_loaded[0] < ver_required[0])
-        m_util.panic("Incompatible file version: " 
-                + loaded_bpy_data["b4w_format_version"]
-                + ", required: " + cfg_def.min_format_version + ". "
-                + "Reexport scene with the latest B4W addon to fix it.");
+    var ver_loaded = m_util.str_to_version(loaded_bpy_data["b4w_format_version"]);
+    var cmp = m_util.version_cmp(ver_loaded, cfg_def.min_format_version);
 
-    if (ver_loaded[1] < ver_required[1])
-        m_print.warn("Version mismatch. File version: " + 
-                + loaded_bpy_data["b4w_format_version"] +
-                ", required: " + cfg_def.min_format_version 
-                + ". Some compatibility issues can occur. "
-                + "Reexport scene with the latest B4W addon to fix it.");
-
-    cfg_def.loaded_data_version = parseFloat(loaded_bpy_data["b4w_format_version"]);
+    switch (cmp) {
+    case -1:
+        if (ver_loaded[0] < cfg_def.min_format_version[0])
+            m_util.panic("JSON version is too old relative to B4W engine: " 
+                    + m_util.version_to_str(ver_loaded) + ", required: " 
+                    + m_util.version_to_str(cfg_def.min_format_version) + ". "
+                    + "Reexport scene with the latest B4W addon to fix it.");
+        else
+            m_print.warn("JSON version is a bit old relative to B4W engine: " + 
+                    + m_util.version_to_str(ver_loaded) + ", required: " 
+                    + m_util.version_to_str(cfg_def.min_format_version) 
+                    + ". Some compatibility issues can occur. "
+                    + "Reexport scene with the latest B4W addon to fix it.");
+        break;
+    case 1:
+        if (ver_loaded[0] > cfg_def.min_format_version[0])
+            m_util.panic("B4W engine version is too old relative to JSON. " 
+                    + "Can't load the scene. Update your " 
+                    + "engine version to fix it.");
+        else
+            m_print.warn("B4W engine version is a bit old relative to JSON. " 
+                    + "Some compatibility issues can occur. Update " 
+                    + "your engine version to fix it.");
+        break;
+    }
+    
+    cfg_def.loaded_data_version = ver_loaded;
 }
 
 /**
@@ -627,6 +641,12 @@ function prepare_root_scenes(bpy_data, thread, stage, cb_param, cb_finish,
     if (cfg_anim.framerate == -1)
         cfg_anim.framerate = primary_scene["fps"];
 
+    if (bpy_data["scenes"].length > 1) {
+        var index_of_main_scene = bpy_data["scenes"].indexOf(primary_scene);
+        bpy_data["scenes"].splice(index_of_main_scene, 1);
+        bpy_data["scenes"].unshift(primary_scene);
+    }
+
     for (var i = 0; i < bpy_data["scenes"].length; i++) {
 
         var scene = bpy_data["scenes"][i];
@@ -674,7 +694,6 @@ function prepare_root_scenes(bpy_data, thread, stage, cb_param, cb_finish,
 
         var metabatches = [];
         var meta_objects = [];
-
         m_batch.generate_main_batches(scene_graph, grid_size, scene_objects, primary_scene._render.world_light_set,
                                     primary_scene._render.sky_params, metabatches, meta_objects,
                                     primary_scene._render.lamps_number);
@@ -1423,10 +1442,6 @@ function load_textures(bpy_data, thread, stage, cb_param, cb_finish, cb_set_rate
             }
 
             if (tex_users[0]["b4w_shore_dist_map"])
-                continue;
-
-            if (image["source"] === "MOVIE" 
-                    && cfg_def.firefox_disable_html_video_tex_hack)
                 continue;
 
             var image_path = normpath_preserve_protocol(dir_path + 
@@ -3070,10 +3085,8 @@ function prepare_object_unloading(scene, obj, clean_buffs) {
     m_scenes.clear_outline_anim(obj);
 
     // physics cleanup
-    if (m_phy.has_physics(obj)) {
-        m_phy.disable_simulation(obj);
+    if (m_phy.has_physics(obj))
         m_phy.remove_bounding_object(obj);
-    }
 
     // controls cleanup
     if (m_ctl.check_sensor_manifold(obj))
